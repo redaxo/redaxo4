@@ -77,7 +77,7 @@ if ($REX[SETUP])
 	{
 		// addon check
 		$as = array_search($page,$REX[ADDON][page]);
-		if ($as === false)
+		if ($as === false || $page == "")
 		{
 			// addon not aktive or not found
 			$page_name = $I18N->msg("structure");
