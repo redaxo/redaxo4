@@ -244,8 +244,9 @@ class OOArticle {
 	 * $number_of_articles = how far to go back in history
 	 */ 
 	function getNewArticles($number_of_articles, $ignore_startpages = true, $ignore_offlines = true) {
+		global $REX;
 		$off = $ignore_offlines ? " and status = 1 " : "" ;
-		$nostart = $ignore_startpages ? " and startpage = 0 " : "";
+		$nostart = $ignore_startpages ? " and startpage = 0 and id != {$REX[STARTARTIKEL_ID]}" : "";
 		$limit = " LIMIT 0, {$number_of_articles} ";
 		$artlist = array();
 		$sql = new sql;
