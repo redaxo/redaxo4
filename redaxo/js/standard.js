@@ -158,3 +158,11 @@ function openREXMediaHTMLArea(area)
 {
         newWindow('rexmediapopup','index.php?page=medienpool&func=add&HTMLArea='+area,660,400,',status=yes,resizable=yes');
 }
+function openLinkMapHTMLArea(area)
+{
+        newWindow('linkmappopup','index.php?page=linkmap&HTMLArea='+area,660,400,',status=yes,resizable=yes');
+}
+function openLinkMap(id)
+{
+        newWindow('linkmappopup','index.php?page=linkmap&opener_input_field=REX_LINK_'+id,660,400,',status=yes,resizable=yes');
+}
