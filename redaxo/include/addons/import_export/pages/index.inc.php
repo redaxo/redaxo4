@@ -123,6 +123,7 @@ if ($function == "delete")
 	// ------------------------------ FUNC EXPORT	
 	
 	$exportfilename = strtolower($exportfilename);
+	$exportfilename = stripslashes($exportfilename);
 	$filename = ereg_replace("[^\.a-z0-9_\-]","",$exportfilename);
 	
 	
@@ -428,8 +429,8 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 			{
 				if($file != "redaxo")
 				{
-					if (array_key_exists($file,$EXPDIR) !== false) $checked = " checked";
-					else $checked = "";
+					$checked = "";
+					if (is_Array($EXPDIR)) if (array_key_exists($file,$EXPDIR) !== false) $checked = " checked";
 					echo "<tr>";
 					echo "<td class=lgrey width=30><input type=checkbox name=EXPDIR[$file] value=true $checked></td>";
 					echo "<td class=lgrey>$file</td>";
