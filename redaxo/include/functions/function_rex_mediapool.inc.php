@@ -6,12 +6,84 @@
 #
 ##################################################################
 
+class editor {
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYLE_SHEET='css/style.css',$STYLES='all',$LANG='de'){
+	var $id;
+    var $content;
+    var $width = '';
+    var $height = '';
+    var $stylesheet = '';
+    var $styles = '';
+    var $lang = '';
+    var $buttonrow1 = '';
+    var $buttonrow2 = '';
+    var $buttonrow3 = 'empty';
+    var $buttonrow4 = 'empty';
+
+    function show(){
+        MEDIA_HTMLAREA(
+        		$this->id,
+                $this->content,
+                $this->width,
+                $this->height,
+                $this->stylesheet,
+                $this->styles,
+                $this->lang,
+                $this->buttonrow1,
+                $this->buttonrow2,
+                $this->buttonrow3,
+                $this->buttonrow4
+        );
+    }
+
+}
+
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH,$HEIGHT,$STYLE_SHEET,$STYLES,$LANG,$BUTTONROW1,$BUTTONROW2,$BUTTONROW3,$BUTTONROW4){
 
         // lang = de oder en
 
         global $TINYMCE;
+
+        if($WIDTH =='') 		$WIDTH="100%";
+        if($HEIGHT =='') 		$HEIGHT="300px";
+        if($STYLE_SHEET =='') 	$STYLE_SHEET="css/style.css";
+        if($STYLES =='') 		$STYLES="all";
+        if($LANG =='') 			$LANG="de";
+
+        /*
+        theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+        theme_advanced_buttons2 : "separator,insertdate,inserttime,preview,zoom,separator,forecolor,backcolor",
+        theme_advanced_buttons2_add : "cut,copy,paste,separator,search,replace,separator",
+        theme_advanced_buttons3 : "tablecontrols,separator",
+        theme_advanced_buttons3_add : "emotions,iespell,flash,advhr,separator,print,separator,pasteRichtext,separator,insertEmail,separator,linkHack",
+        */
+
+		// All Functions
+        /*
+        editor functions:
+        bold, italic, underline, strikethrough, justifyleft, justifycenter, justifyright, justifyfull,
+        styleselect, bullist, numlist, outdent, indent, undo,redo, link, unlink, image,
+        cleanup, help, code, table, row_before, row_after, delete_row, separator, rowseparator,
+        col_before, col_after, delete_col, hr, removeformat, sub, sup, formatselect, fontselect,
+        fontsizeselect, forecolor, charmap, visualaid, spacer, cut, copy, paste,
+
+        redaxo functions:
+        linkHack,pasteRichtext,insertEmail
+        */
+
+        if($BUTTONROW1==""){
+        	$BUTTONROW1 = "styleselect,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent";
+        }
+        if($BUTTONROW2==""){
+        	$BUTTONROW2 = "link,linkHack,unlink,insertEmail,separator,image,separator,removeformat,pasteRichtext,code";
+        }
+        if($BUTTONROW3==""){
+        	$BUTTONROW3 = "tablecontrols, separator, visualaid";
+        }
+        if($BUTTONROW4==""){
+        	$BUTTONROW4 = "rowseparator,formatselect,fontselect,fontsizeselect,forecolor,charmap";
+        }
+
 
         // tiny mce init
         if($TINYMCE!="done"){
@@ -23,14 +95,12 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYL
 	                tinyMCE.init({
 	                    language : "'.$LANG.'",
 	                    mode : "specific_textareas",
+                        plugins : "redaxo,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print",
 	                    theme : "advanced",
-	                    plugins : "redaxo,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print",
-	                    theme_advanced_buttons1_add_before : "save,separator",
-	                    theme_advanced_buttons1_add : "fontselect,fontsizeselect",
-	                    theme_advanced_buttons2_add : "separator,insertdate,inserttime,preview,zoom,separator,forecolor,backcolor",
-	                    theme_advanced_buttons2_add_before: "cut,copy,paste,separator,search,replace,separator",
-	                    theme_advanced_buttons3_add_before : "tablecontrols,separator",
-	                    theme_advanced_buttons3_add : "emotions,iespell,flash,advhr,separator,print,separator,pasteRichtext,separator,insertEmail,separator,linkHack",
+                        theme_advanced_buttons1 : "'.$BUTTONROW1.'",
+                        theme_advanced_buttons2 : "'.$BUTTONROW2.'",
+                        theme_advanced_buttons3 : "'.$BUTTONROW3.'",
+                        theme_advanced_buttons3_add : "'.$BUTTONROW4.'",
 	                    theme_advanced_toolbar_location : "top",
 	                    theme_advanced_toolbar_align : "left",
 	                    theme_advanced_path_location : "bottom",
