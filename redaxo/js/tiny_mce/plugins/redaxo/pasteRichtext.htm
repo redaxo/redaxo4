@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>{$lang_redaxo_pasteRichtext_title}</title>
+<script language="javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+	function insertredaxo() {
+		if (window.opener) {
+			content = document.myform.formText.value;
+			var replaced = content.replace(/\n/gi,"<br>");
+			tinyMCE.execInstanceCommand(tinyMCE.getWindowArg("editor_id"), 'mceInsertContent', false, replaced);
+			window.close();
+		}
+	}
+</script>
+</head>
+<body onload="window.focus();window.resizeTo(600,400)">
+<form name=myform>
+<div align="left">
+<div class="title">{$lang_redaxo_pasteRichtext_desc}:<br /><br /></div>
+<textarea id="formText" name="formText" cols="60" rows="15" style="width:99%; height: 85%"></textarea>
+<br>
+<input type="button" name="Button" value="{$lang_redaxo_pasteRichtext_save}" onclick="insertredaxo();">
+</div>
+</form>
+</body>
+</html>
