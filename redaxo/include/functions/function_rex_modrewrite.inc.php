@@ -45,7 +45,7 @@ function replaceLinks($content){
         }
 
         // -- preg match redaxo://[ARTICLEID] --
-        preg_match_all("/redaxo:\/\/([0-9]*)/im",$content,$matches);
+        preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches);
         if($matches[0][0]!=''){
             for($m=0;$m<count($matches[0]);$m++){
                 $url = getURLbyID($matches[1][$m]);

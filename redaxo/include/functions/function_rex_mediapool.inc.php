@@ -31,7 +31,6 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
 	     <style>
 	     .separator {
 	     	width:2px;
-	     	background-color:#000000;
 	     }
 	     .toolbar {
 	     	background-color: #F0EFEB;
