@@ -558,7 +558,7 @@ class article
                 $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
 
 				// function in function_rex_modrewrite.inc.php
-				$slice_content = replaceLinks($slice_content);
+		if ($this->mode != "edit") $slice_content = replaceLinks($slice_content);
 
                 return $slice_content;
 
