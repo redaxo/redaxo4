@@ -34,14 +34,14 @@ if ($subpage == "newsletter")
 {
 	// ----------------- ÜBERSICHT
 
-	title("Community",$subnavi,"blue");
+	title("Community",$subnavi);
 
 	echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>";
 	echo "	<tr>
-			<th align=left colspan=2 class=dblue>".$I18N->msg('overview')."</th>
+			<th align=left colspan=2>".$I18N->msg('overview')."</th>
 		</tr>
 		<tr>
-			<td class=blue width=50% valign=top>
+			<td class=grey width=50% valign=top>
 			
 			<br><a href=index.php?page=community&subpage=user><b>".$I18N->msg('user_management')."</b></a>
 			<br>".$I18N->msg('user_management_info')."
@@ -61,7 +61,7 @@ if ($subpage == "newsletter")
 			//-->
 						
 			<br><br><br><br></td>
-			<td class=blue valign=top></td>
+			<td class=grey valign=top></td>
 		</tr>";	
 	echo "</table>";
 }

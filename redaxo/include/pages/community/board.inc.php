@@ -1,8 +1,8 @@
 <?
 
-title("<a href=index.php?page=community class=head>Community</a>: <a href=index.php?page=community&subpage=board class=head>Boardverwaltung</a>","","blue");
+title("<a href=index.php?page=community class=head>Community</a>: <a href=index.php?page=community&subpage=board class=head>Boardverwaltung</a>","");
 
-echo "<table border=0 cellpadding=0 cellspacing=0 width=770 ><tr><td class=blue><br>";
+echo "<table border=0 cellpadding=0 cellspacing=0 width=770 ><tr><td class=grey><br>";
 
 $boards = new sql;
 $boards->setQuery("select distinct board_id from rex__board");
@@ -11,14 +11,12 @@ if ($boards->getRows()>0)
 {
 
 	$currentboardname = "";
-	
-	
-	
+		
 	echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
 	for ($i=0;$i<$boards->getRows();$i++)
 	{
 		$boardname = $boards->getValue("board_id");
-		echo "<tr><td class=dblue><b><a href=index.php?page=community&subpage=board&FORM[boardname]=$boardname class=black>$boardname</a></b></td></tr>";
+		echo "<tr><td class=dgrey><b><a href=index.php?page=community&subpage=board&FORM[boardname]=$boardname class=black>$boardname</a></b></td></tr>";
 		if ($FORM[boardname] == $boardname) $currentboardname = $boardname;
 		$boards->next();
 	}
@@ -42,7 +40,7 @@ if ($boards->getRows()>0)
 
 }else
 {
-	echo "Kein Board wurde eingetragen !";	
+	echo "&nbsp;&nbsp;Kein Board wurde eingetragen !<br>";	
 }
 
 

@@ -1,6 +1,6 @@
 <?
 
-title("<a href=index.php?page=community class=head>Community</a>: <a href=index.php?page=community&subpage=newsletter class=head>Newsletter</a>","","blue");
+title("<a href=index.php?page=community class=head>Community</a>: <a href=index.php?page=community&subpage=newsletter class=head>Newsletter</a>","");
 
 $form_show = true;
 
@@ -72,13 +72,15 @@ if ($submit == 1)
 	}		
 }	
 
+if ($errmsg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td colspan=2 class=warning>$errmsg</td></tr></table><br>";
+
+
 echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
 	<form action=index.php method=post>
 	<input type=hidden name=page value=community>
 	<input type=hidden name=subpage value=newsletter>
 	<input type=hidden name=submit value=1>";
 
-if ($errmsg != "") echo "<tr><td colspan=2 class=warning>$errmsg</td></tr>";
 
 if ($form_show)
 {
@@ -89,20 +91,20 @@ if ($form_show)
 		
 	echo "
 		<tr>
-			<th class=dblue width=100 align=left>E-Mail from</th>
-			<td class=blue><input type=text name=from style='width:100%' size=20 value=\"".$from."\"></td>
+			<th class=dgrey width=100 align=left>E-Mail from</th>
+			<td class=grey><input type=text name=from style='width:100%' size=20 value=\"".$from."\"></td>
 		</tr>
 		<tr>
-			<th class=dblue width=100 align=left>Subject</th>
-			<td class=blue><input type=text name=subject style='width:100%' size=20 value=\"".$subject."\"></td>
+			<th class=dgrey width=100 align=left>Subject</th>
+			<td class=grey><input type=text name=subject style='width:100%' size=20 value=\"".$subject."\"></td>
 		</tr>
 		<tr>
-			<th class=dblue width=100 valign=top align=left>Body</th>
-			<td class=blue><textarea name=body cols=30 rows=10 style='width:100%; height:300;'>".$body."</textarea></td>
+			<th class=dgrey width=100 valign=top align=left>Body</th>
+			<td class=grey><textarea name=body cols=30 rows=10 style='width:100%; height:300;'>".$body."</textarea></td>
 		</tr>
 		<tr>
-			<th class=dblue>&nbsp;</th>
-			<td class=dblue><input type=submit value=abschicken></td>
+			<th class=dgrey>&nbsp;</th>
+			<td class=dgrey><input type=submit value=abschicken></td>
 		</tr>
 		</form>
 		";
