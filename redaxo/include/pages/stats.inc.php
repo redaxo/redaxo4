@@ -6,6 +6,9 @@ title($I18N->msg("stats_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=stats&
 // REACTING
 //
 
+if ($year == "") $year = date("Y");
+if ($month == "") $month = date("m");
+
 if ( $funktion == 'evaluate' )
 {
 	// no time limit
@@ -50,18 +53,19 @@ if (count($years)==0)
 }else
 {
 
-	$monname = Array ( "01" => $I18N->msg("jan"),
-										"02" => $I18N->msg("feb"),
-										"03" => $I18N->msg("mar"),
-										"04" => $I18N->msg("apr"),
-										"05" => $I18N->msg("may"),
-										"06" => $I18N->msg("jun"),
-										"07" => $I18N->msg("jul"),
-										"08" => $I18N->msg("aug"),
-										"09" => $I18N->msg("sep"),
-										"10" => $I18N->msg("oct"),
-										"11" => $I18N->msg("nov"),
-										"12" => $I18N->msg("dec"),
+	$monname = Array ( 
+			"01" => $I18N->msg("jan"),
+			"02" => $I18N->msg("feb"),
+			"03" => $I18N->msg("mar"),
+			"04" => $I18N->msg("apr"),
+			"05" => $I18N->msg("may"),
+			"06" => $I18N->msg("jun"),
+			"07" => $I18N->msg("jul"),
+			"08" => $I18N->msg("aug"),
+			"09" => $I18N->msg("sep"),
+			"10" => $I18N->msg("oct"),
+			"11" => $I18N->msg("nov"),
+			"12" => $I18N->msg("dec"),
 	);
 
 	$amon = Array();
