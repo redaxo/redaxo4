@@ -136,14 +136,14 @@ var winObjCounter = -1;
 
 function openREXMedialist(id)
 {
-        newWindow('rexmediapopup','index.php?page=medienpool&opener_input_field=REX_MEDIA_'+id,660,400,',status=yes,resizable=yes');
+        newWindow('rexmediapopup','index.php?page=medienpool&opener_input_field=REX_MEDIA_'+id,660,500,',status=yes,resizable=yes');
 }
 
 function openREXMedia(id)
 {
 	var mediaid = "REX_MEDIA_"+id;
 	
-        newWindow('rexmediapopup','index.php?page=medienpool&mode=detail&file_name='+document.getElementById(mediaid).value+'&opener_input_field=REX_MEDIA_'+id,660,400,',status=yes,resizable=yes');
+        newWindow('rexmediapopup','index.php?page=medienpool&mode=detail&file_name='+document.getElementById(mediaid).value+'&opener_input_field=REX_MEDIA_'+id,660,500,',status=yes,resizable=yes');
 }
 
 function deleteREXMedia(id)
@@ -154,20 +154,20 @@ function deleteREXMedia(id)
 
 function addREXMedia(id)
 {
-        newWindow('rexmediapopup','index.php?page=medienpool&mode=add&opener_input_field=REX_MEDIA_'+id,660,400,',status=yes,resizable=yes');
+        newWindow('rexmediapopup','index.php?page=medienpool&mode=add&opener_input_field=REX_MEDIA_'+id,660,500,',status=yes,resizable=yes');
 }
 
 function openREXMediaHTMLArea(area)
 {
-        newWindow('rexmediapopup','index.php?page=medienpool&func=add&HTMLArea='+area,660,400,',status=yes,resizable=yes');
+        newWindow('rexmediapopup','index.php?page=medienpool&func=add&HTMLArea='+area,660,500,',status=yes,resizable=yes');
 }
 function openLinkMapHTMLArea(area)
 {
-        newWindow('linkmappopup','index.php?page=linkmap&HTMLArea='+area,660,400,',status=yes,resizable=yes');
+        newWindow('linkmappopup','index.php?page=linkmap&HTMLArea='+area,660,500,',status=yes,resizable=yes');
 }
 function openLinkMap(id)
 {
-        newWindow('linkmappopup','index.php?page=linkmap&opener_input_field='+id+'',660,400,',status=yes,resizable=yes');
+        newWindow('linkmappopup','index.php?page=linkmap&opener_input_field='+id+'',660,500,',status=yes,resizable=yes');
 }
 function deleteREXLink(id)
 {
