@@ -572,6 +572,7 @@ if ($mode == "detail")
 		// HTMLAREA / INPUT FIELD CHECK / link setzen zum übernehmen
 	        if($_SESSION[myarea]==''){
 			$opener_link = "<a href=javascript:void(0) onClick=selectMedia('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+			$olinka = "<a href=javascript:void(0) onClick=selectMedia('".$fname."');>";
 	        } else {
 	           // GET HTML WRAP FROM CONFIG FILE
 	           $html_source = str_replace("###URL###",$REX[WWW_PATH]."/files/".$fname,$htmlarea['default']);
@@ -584,11 +585,17 @@ if ($mode == "detail")
 	                   }
 	           }
 	           $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
+	           $olinka = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">";
 	        }
-	        if ($opener_input_field == "REX_MEDIA_0") $opener_link = "";
-		
-		
-	
+	        if ($opener_input_field == "REX_MEDIA_0")
+	        {
+	        	$opener_link = "";
+	        	$olinka = "";
+	        	$olinke = "";
+	        }else
+	        {
+	        	$olinke = "</a>";
+	        }
 	
 		####### UPLOAD TABLE
 		print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
@@ -601,7 +608,7 @@ if ($mode == "detail")
 		print "<tr><td class=grey width=100>Titel:</td><td class=grey><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td>";
 		
 		
-		if ($ffiletype_ii) echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=../files/$fname width=$rfwidth></td>";
+		if ($ffiletype_ii) echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br>$olinka<img src=../files/$fname width=$rfwidth border=0>$olinke</td>";
 		
 		print "</tr>\n";
 		print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
@@ -640,9 +647,6 @@ if ($mode == "detail")
 		print "</form>";
 		print "</table>\n";
 		
-	        echo $opener_link;
-	        
-
 	}else
 	{
 		$msg = $I18N->msg('pool_file_not_found');
