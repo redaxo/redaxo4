@@ -207,7 +207,7 @@ if($REX_USER->isValueOf("rights","caching[]")){
 	if($REX[CACHING]) $cachingcheck = "selected"; else $cachingcheck_false = "selected";
 	echo "<tr><td>\$REX[CACHING]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching size=1><option $cachingcheck>TRUE</option><option $cachingcheck_false>FALSE</option></select></td></tr>";
 	if($REX[CACHING_DEBUG]) $cachingdebugcheck = "selected"; else $cachingdebugcheck_false = "selected";
-	echo "<tr><td>\$REX[CACHING]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching_debug size=1><option $cachingdebugcheck>TRUE</option><option $cachingdebugcheck_false>FALSE</option></select></td></tr>";
+	echo "<tr><td>\$REX[CACHING_DEBUG]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching_debug size=1><option $cachingdebugcheck>TRUE</option><option $cachingdebugcheck_false>FALSE</option></select></td></tr>";
  }
 echo "</select></td></tr>";
 echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=submit name=sendit value=".$I18N->msg("specials_update")."></td></tr>";
