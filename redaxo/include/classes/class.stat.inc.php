@@ -82,13 +82,13 @@ class stat
 
 		$this->debugpv++;
 
-		// ( für alle vorhanden gleichen ips )
+		// ( fuer alle vorhanden gleichen ips )
 		// suche key von IP wenn vorhanden $this->MAIN[''] = ;
 		$keys = array_keys($this->MAIN['ip'], $a[2]);
 
 		foreach ( $keys as $key )
 		{
-			// für alle gleichen useragents
+			// fuer alle gleichen useragents
 			if ( $a[4] == $this->MAIN['useragent'][$key] )
 			{
 				// check ob eintrag nicht mindestens einen tag alt ( 24h ) 86400 sekunden sind ein tag
@@ -119,6 +119,8 @@ class stat
 	// hier werden die Artikelseiten generiert und returned
 	function createArticle($from = 0, $to = -1)
 	{
+		global $I18N;
+		
 		//  rekursivly count article visits
 		$artcounter = Array();
 		foreach( $this->MAIN['pageviews'] as $upper )
@@ -147,7 +149,7 @@ class stat
 
 		// fill table
 		$out  = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$out .= "<tr><th>Artikelname</th><th>ArtikelID<th>PageViews</th><th>Anteil</th><th>&nbsp;</th></tr>";
+		$out .= "<tr><th>".$I18N->msg("article_name")."</th><th>".$I18N->msg("article_id")."<th>".$I18N->msg("page_views")."</th><th>".$I18N->msg("share")."</th><th>&nbsp;</th></tr>";
 		$i = 1;
 		foreach ( $artcounter as $k => $v )
 		{
@@ -174,6 +176,8 @@ class stat
 	// generiere tagesauswertung
 	function CreateDay($month,$year)
 	{
+		global $I18N;
+		
 		$days = Array();
 
 		$maxvisits = 0;
@@ -192,7 +196,7 @@ class stat
 		$daysinmonth = date("t", $this->MAIN['stamp'][0]);
 
 		$out  = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$out .= "<tr><th>Datum</th><th>PageViews</th><th>&nbsp;</th><th>Visits</th><th>&nbsp;</th><th>PageViews per Visit</th></tr>";
+		$out .= "<tr><th>".$I18N->msg("date")."</th><th>".$I18N->msg("page_views")."</th><th>&nbsp;</th><th>".$I18N->msg("visits")."</th><th>&nbsp;</th><th>".$I18N->msg("pageviews_per_visit")."</th></tr>";
 		for ($i=0; $i<=$daysinmonth ; $i++ ) 	// f�r jeden tag
 		{
 

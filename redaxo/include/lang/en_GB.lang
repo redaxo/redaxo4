@@ -300,6 +300,13 @@ all_browsers = All Browsers
 operating_systems = operating Systems
 browser = Browsers
 visitors = Visitors
+article_name = Article Name
+article_id = Article ID
+page_views = Page Views
+share = Share
+date = Date
+visits = Visits
+pageviews_per_visit = Page Views per Visit
 
 #redaxo\include\pages\stats\stat_template.inc.php
 page_views = Page Views
