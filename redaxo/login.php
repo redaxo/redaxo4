@@ -4,7 +4,7 @@ unset($REX);
 
 $REX[HTDOCS_PATH] = "../";
 $REX[GG] = false;
-$REX[BF] = false;
+$REX[BC] = false;
 
 include "./include/master.inc.php";
 
