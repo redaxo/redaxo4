@@ -50,21 +50,20 @@ if (!($checkmodus>0 && $checkmodus<10))
 {
 	setuptitle("SETUP: START");
 	
-	echo "<b>Willkommen bei der Installationsroutine von REDAXO.</b><br><br>
-	Diese Setup-Routine läuft unter bestimmten Umständen nicht einwandfrei unter Windowsservern. 
-	Bitte aktualisieren Sie in diesem Fall die master.inc.php manuell und setzen Lese- und Schreibrechte auf alle Dateien und Ordner.<br><br>
-	
-	<b>Bitte diesen <a href=setup.php>Link</a> für das deutsche Setup benutzen.<br><br></b>
-	
-	<div id=lizenz style='width:100%; height:300px; overflow:auto; background-color:#ffffff; text-align:left; font-size:9px;'>
+	echo "<b>Welcome to the installation routine for REDAXO.</b><br><br>
+Under somer circumstances this setup may not work correctly on Windows Servers. 
+In this case you will have to change the file redaxo/include/master.inc.php manually
+and set all necessary read and write permission in the file system.<br><br>
 
-<b>LIZENZBESTIMMUNGEN</b><br><br>Bevor Sie REDAXO für Ihre eigene Zwecke nutzen möchten, berücksichtigen Sie bitte 
-die folgenden lizenzrechtlichen Bestimmungen. Es handelt sich hierbei um eine 
-Open Source Lizenzvereinbarung, die als General Public License (GPL) in 
-englischer Sprache vorliegt.
+<b>Please use this <a href=setup.php>link</a> for the German setup.<br><br></b>
 
-<br><br>Folgenden Informationen müssen beim Einsatz von REDAXO im Impressum oder auf 
-der Kontaktseite aufgenommen werden.
+<div id=lizenz style='width:100%; height:300px; overflow:auto; background-color:#ffffff; text-align:left; font-size:9px;'>
+
+<b>TERMS OF LICENSE</b><br><br>
+Before using REDAXO for your own projects you have to read and accept the following TERMS OF LICENSE.
+It is essentially the open source license which is known as GPL (Gnu Public License)
+<br><br>Furthermore the following information has to be shown on any website which has
+been produced with REDAXO.
 
 <br><br>CMS: REDAXO - Open Source Content Management System
 <br>LINK: www.redaxo.de
@@ -270,8 +269,8 @@ THE POSSIBILITY OF SUCH DAMAGES.
 	
 	$register_globals = (int) ini_get('register_globals');
 	
-	if ($register_globals == 1) echo "<br><br><a href=setup_en.php?checkmodus=1>&raquo; Setup starten</a><br><br>";
-	else echo "<br><br><font class=error>Das Setup kann nicht gestartet werden. Bitte setzen sie register_globals = On [php.ini]</font><br><br>";
+	if ($register_globals == 1) echo "<br><br><a href=setup_en.php?checkmodus=1>&raquo; Start Setup</a><br><br>";
+	else echo "<br><br><font class=error>The setup cannot be started unless you set register_globals = On [php.ini]</font><br><br>";
 	
 	$checkmodus = 0;	
 }
@@ -286,7 +285,7 @@ if($checkmodus == 1)
 
 	if(version_compare(phpversion(), "4.1.0", "<") == 1)
 	{
-		$MSG[err] .= "Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version<br>";
+		$MSG[err] .= "Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version.<br>";
 	}
 
 	// -------------------------- SCHREIBRECHTE
@@ -306,17 +305,17 @@ if($checkmodus == 1)
 		{
 			if(!@is_writable($item."/."))
 			{
-				$MSG[err] .= "<font class=error>Fehler</font> | Das Verzeichniss <b>$item</b> ist nicht beschreib- oder ausführbar!<br>";
+				$MSG[err] .= "<font class=error>Error</font> | The directory <b>$item</b> is not writeable or executable!<br>";
 			}
 		}elseif(is_file($item))
 		{
 			if(!@is_writable($item))
 			{
-				$MSG[err] .= "<font class=error>Fehler</font> | Die Datei <b>$item</b> ist nicht beschreibbar!<br>";
+				$MSG[err] .= "<font class=error>Error</font> | The file <b>$item</b> is not writeble!<br>";
 			}
 		}else
 		{
-			$MSG[err] .= "<font class=error>Fehler</font> | Die Datei / Das Verzeichniss <b>$item</b> exisitert nicht, bitte erstellen Sie es. <br>";
+			$MSG[err] .= "<font class=error>Error</font> | The file or directory <b>$item</b> does not exist, please create it. <br>";
 		}
 	}
 }
@@ -324,22 +323,22 @@ if($checkmodus == 1)
 if ($MSG[err]=="" && $checkmodus == 1)
 {
 	
-	setuptitle("SETUP: SCHRITT 1 von 5");
+	setuptitle("SETUP: STEP 1 of 5");
 	
-	echo "<b>PHP-Versionscheck | Rechteüberprüfung</b>
+	echo "<b>Checking PHP Version and filesystem permissions</b>
 		<br><br><font class=ok>ok</font> | PHP Version
-		<br><font class=ok>ok</font> | Ordnerrechte
-		<br><br><a href=setup_en.php?checkmodus=2>&raquo; Weiter mit Schritt 2</a><br><br>";
+		<br><font class=ok>ok</font> | File Permissions
+		<br><br><a href=setup_en.php?checkmodus=2>&raquo; Go on to step 2</a><br><br>";
 		
 }elseif($MSG[err]!="")
 {
 	
-	setuptitle("SETUP: SCHRITT 1 von 5");
+	setuptitle("SETUP: STEP 1 of 5");
 	
-	echo "<b>PHP-Versionscheck | Rechteüberprüfung</b><br><br>".$MSG[err]."
+	echo "Checking PHP Version and filesystem permissions</b><br><br>".$MSG[err]."
 	
-	<br>Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.<br><br>
-	<a href=setup_en.php?checkmodus=1>&raquo; Schritt 1 erneut durchführen</a><br><br>";
+	<br>Please correct these problems and repeat the setup.<br><br>
+	<a href=setup_en.php?checkmodus=1>&raquo; Repeat step 1</a><br><br>";
 }
 
 
@@ -363,17 +362,17 @@ if ($checkmodus == 2 && $send == 1)
 	{
 	}else
 	{
-		$err_msg = "<b>include/master.inc.php</b> konnte nicht geschrieben werden. Fehler nicht erkennbar !";
+		$err_msg = "<b>include/master.inc.php</b> could not be written. Don't know what went wrong!";
 	}
 	
 	// -------------------------- DATENBANKZUGRIFF
 	$link = @mysql_connect($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass);
 	if(!$link)
 	{
-		$err_msg = "Es konnte keine Verbindung zur Datenbank hergestellte werden!";
+		$err_msg = "Connection to database failed!";
 	}elseif(!@mysql_select_db($dbname, $link))
 	{
-		$err_msg = "Die angegebene Datenbank konnte nicht geoeffnet werden!<br>";
+		$err_msg = "The database could not be opened!<br>";
 	}elseif($link)
 	{
 		$DB[1][NAME] = $dbname;
@@ -403,7 +402,7 @@ if ($checkmodus == 2 )
 
 	setuptitle("SETUP: SCHRITT 2 von 5");
 
-	echo "<b>Schreiben der 'include/master.inc.php'</b><br><br>
+	echo "<b>Creating 'include/master.inc.php'</b><br><br>
 		<table border=0 cellpadding=5 cellspacing=0 width=500>
 		<form action=setup_en.php method=post>
 		<input type=hidden name=checkmodus value=2>
@@ -413,16 +412,16 @@ if ($checkmodus == 2 )
 	if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg</td></tr><tr><td></td></tr>";
 	
 	echo "
-		<tr><td colspan=2>// ---- Allgemein Redaxo Einstellungen</td></tr>
-		<tr><td width=200>Serverdomain [optional]</td><td><input type=text name=serveraddress value='$serveraddress' class=inp100></td></tr>
-		<tr><td>Serverbezeichnung [optional]</td><td><input type=text name=serverbezeichnung value='$serverbezeichnung' class=inp100></td></tr>
-		<tr><td>Fehler E-Mailadresse [optional]</td><td><input type=text name=error_email value='$error_email' class=inp100></td></tr>
-		<tr><td colspan=2><br>// ---- Datenbankinformationen</td></tr>
-		<tr><td>Name der Datenbank</td><td><input type=text class=inp100 value='$dbname' name=dbname></td></tr>
+		<tr><td colspan=2>// ---- General REDAXO Options</td></tr>
+		<tr><td width=200>Server Domain [optional]</td><td><input type=text name=serveraddress value='$serveraddress' class=inp100></td></tr>
+		<tr><td>Server Description [optional]</td><td><input type=text name=serverbezeichnung value='$serverbezeichnung' class=inp100></td></tr>
+		<tr><td>Admin E-Mail [optional]</td><td><input type=text name=error_email value='$error_email' class=inp100></td></tr>
+		<tr><td colspan=2><br>// ---- Database Information</td></tr>
+		<tr><td>Database Name</td><td><input type=text class=inp100 value='$dbname' name=dbname></td></tr>
 		<tr><td>MySQL Host</td><td><input type=text name=mysql_host value='$mysql_host' class=inp100></td></tr>
 		<tr><td>Login</td><td><input type=text name=redaxo_db_user_login value='$redaxo_db_user_login' class=inp100></td></tr>
 		<tr><td>Passwort</td><td><input type=text name=redaxo_db_user_pass value='$redaxo_db_user_pass' class=inp100></td></tr>
-		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Weiter zu Schritt 3'></td></tr>
+		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Go on to step 3'></td></tr>
 		</table>";
 	
 	echo "<br>";
@@ -522,7 +521,7 @@ if ($checkmodus == 3 && $send == 1)
 		foreach($lines as $line)
 		if(!mysql_db_query($DB[1][NAME],$line,$link))
 		{
-			$err_msg .= "Folgender Fehler tauchte beim Update auf. MySQL: ".mysql_error()."<br>";
+			$err_msg .= "There was an error during the update process. MySQL: ".mysql_error()."<br>";
 		}
 		
 		
@@ -551,7 +550,7 @@ if ($checkmodus == 3 && $send == 1)
 		
 		for ($i=0;$i<count($TBLS);$i++)
 		{
-			if (current($TBLS)!=1) $err_msg .= "Tabelle ".key($TBLS)." wurde nicht gefunden !<br>";
+			if (current($TBLS)!=1) $err_msg .= "Could not find table ".key($TBLS)." !<br>";
 			next($TBLS);
 		}
 		
@@ -568,7 +567,7 @@ if ($checkmodus == 3 && $send == 1)
 		foreach($lines as $line)
 		if(!mysql_db_query($DB[1][NAME],$line,$link))
 		{
-			$err_msg .= "Die Tabellen konnten nicht erstellt werden. MySQL: ".mysql_error()."<br>";
+			$err_msg .= "Could not create tables. MySQL: ".mysql_error()."<br>";
 		}
 	}elseif($dbanlegen == 0)
 	{
@@ -582,7 +581,7 @@ if ($checkmodus == 3 && $send == 1)
 		foreach($lines as $line)
 		if(!mysql_db_query($DB[1][NAME],$line,$link))
 		{
-			$err_msg .= "Die Tabellen konnten nicht erstellt werden. MySQL: ".mysql_error()."<br>";
+			$err_msg .= "Could not create tables. MySQL: ".mysql_error()."<br>";
 		}
 	}
 
@@ -596,16 +595,16 @@ if ($checkmodus == 3 && $send == 1)
 if ($checkmodus == 3)
 {
 
-	setuptitle("SETUP: SCHRITT 3 von 5");
+	setuptitle("SETUP: STEP 3 of 5");
 	
-	echo "<b>Datenbank anlegen</b><br><br>
+	echo "<b>Create Database</b><br><br>
 		<table border=0 cellpadding=5 cellspacing=0 width=500>
 		<form action=setup_en.php method=post>
 		<input type=hidden name=checkmodus value=3>
 		<input type=hidden name=send value=1>
 		";
 	
-	if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg<br>Bitte legen Sie die Datenbank neu an.</td></tr><tr><td></td></tr>";
+	if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg<br>Please create the database.</td></tr><tr><td></td></tr>";
 	
 	if ($dbanlegen == 1) $dbchecked1 = " checked";
 	elseif ($dbanlegen == 2) $dbchecked2 = " checked";
@@ -617,29 +616,29 @@ if ($checkmodus == 3)
 	echo "
 		<tr>
 			<td width=50 align=right><input type=radio name=dbanlegen value=0 $dbchecked0></td>
-			<td>Datenbank anlegen</td>
+			<td>Create Database</td>
 		</tr>
 		<tr>	<td align=right><input type=radio name=dbanlegen value=1 $dbchecked1></td>
-			<td>Datenbank anlegen und überschreiben falls vorhanden <br>[Vorsicht - Alte Seite wird komplett gelöscht]</td>
+			<td>Create new Database or overwriting an existing one <br>[Caution - all data will be erased]</td>
 		</tr>
 		<tr>
 			<td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td>
-			<td>Datenbank existiert schon <br>[weiter ohne Datenbankimport]</td>
+			<td>Database already exists <br>[Skip Database Import]</td>
 		</tr>
 		<tr>
 			<td align=right><input type=radio name=dbanlegen value=3 $dbchecked3></td>
-			<td>Datenbankupdate von 2.6 auf 2.7 <br>[Vorsicht]</td>
+			<td>Update Database from 2.6 to 2.7 <br>[CAUTION!]</td>
 		</tr>
 		<tr>
 			<td align=right><input type=radio name=dbanlegen value=4 $dbchecked4></td>
-			<td>Fertige Community anlegen<br>[Vorsicht - Alte Seite wird komplett gelöscht]</td>
+			<td>Import Community Demo<br>[Caution - All data will be erased!]</td>
 		</tr>
 		<tr>
 			<td align=right><input type=radio name=dbanlegen value=5 $dbchecked5></td>
-			<td>Fertige Demo 2.0 anlegen<br>[Vorsicht - Alte Seite wird komplett gelöscht]</td>
+			<td>Import Demo 2.0<br>[Caution - All data will be erased!]</td>
 		</tr>
 
-		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Weiter zu Schritt 4'></td></tr>
+		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Go on to Step 4'></td></tr>
 		</table>";
 	
 	echo "<br>";
@@ -656,11 +655,11 @@ if ($checkmodus == 4 && $send == 1)
 	{
 		if ($redaxo_user_login == '')
 		{
-			$err_msg .= "Bitte geben Sie das Administratorlogin ein!<br>";
+			$err_msg .= "Please enter the Administrator Login!<br>";
 		}
 		if ($redaxo_user_pass == '')
 		{
-			$err_msg .= "Bitte geben Sie das Administratorpasswort ein!<br>";
+			$err_msg .= "Please enter the Administrator Password!<br>";
 		}
 		
 		if($err_msg == "")
@@ -670,14 +669,14 @@ if ($checkmodus == 4 && $send == 1)
 			
 			if ($ga->getRows()>0)
 			{
-				$err_msg = "Dieses Login existiert schon !";
+				$err_msg = "This login already exists !";
 			}else
 			{	
 				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','structure[all]\r\narticle[5]\r\ntemplate[]\r\nuser[]\r\nnewsletter[]\r\nmodule[php]\r\nmodule[html]\r\nmodule[]\r\nspecials[]\r\n\r\ncommunity[]\r\nimport[]\n\rexport[]\n\radvancedMode[]\n\rstats[]\n\rmediapool[]\n\raction[]\n\r')";
 				$link = @mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
 				if(!@mysql_db_query($DB[1][NAME],$insert,$link))
 				{
-					$err_msg .= "Der Administrator konnte nicht angelegt werden.<br>";
+					$err_msg .= "Could not create the admin account.<br>";
 				}
 			}
 		}
@@ -694,9 +693,9 @@ if ($checkmodus == 4 && $send == 1)
 if ($checkmodus == 4)
 {
 	
-	setuptitle("SETUP: SCHRITT 4 von 5");
+	setuptitle("SETUP: STEP 4 of 5");
 	
-	echo "<b>Administrator anlegen</b><br><br>
+	echo "<b>Create Administrator Account</b><br><br>
 		<table border=0 cellpadding=5 cellspacing=0 width=500>
 		<form action=setup_en.php method=post>
 		<input type=hidden name=checkmodus value=4>
@@ -712,9 +711,9 @@ if ($checkmodus == 4)
 	echo "
 		
 		<tr><td>Login:</td><td><input type=text class=inp100 value=\"$redaxo_user_login\" name=redaxo_user_login></td></tr>
-		<tr><td>Passwort:</td><td><input type=text class=inp100 value=\"$redaxo_user_pass\" name=redaxo_user_pass></td></tr>
-		<tr><td align=right><input type=checkbox name=noadmin value=1></td><td>Keinen User anlegen</td></tr>
-		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Weiter zu Schritt 5'></td></tr>
+		<tr><td>Password:</td><td><input type=text class=inp100 value=\"$redaxo_user_pass\" name=redaxo_user_pass></td></tr>
+		<tr><td align=right><input type=checkbox name=noadmin value=1></td><td>Do not create this user</td></tr>
+		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Go on to step 5'></td></tr>
 		</table>";
 	
 	echo "<br>";
@@ -727,22 +726,22 @@ if ($checkmodus == 4)
 if ($checkmodus == 5)
 {
 
-	setuptitle("SETUP: SCHRITT 5 von 5");
+	setuptitle("SETUP: STEP 5 of 5");
 
-	echo "<b>Herzlichen Glückwunsch zu Ihrem REDAXO! </b>
+	echo "<b>Congratulations, you have successfully installed REDAXO! </b>
 
-	<br><br>Bitte noch dieses beachten:
+	<br><br>Please note:
 
-	<br><br>1] <b>Einloggen unter <a href=../redaxo/index.php>/redaxo/index.php</A> und Zugang überprüfen</b>
+	<br><br>1] <b>You may login with this url <a href=../redaxo/index.php>/redaxo/index.php</A></b>
 	
-	<br><br>2] <b>Sofern Sie eine fertig Seite eingebunden haben - Community oder Demo - 
-	<br>&nbsp;&nbsp;&nbsp;gehen Sie bitte auf Spezielle Features und Regenerate article
+	<br><br>2] <b>If you have imported either the Community Demo or the Normal Demo 2.0 
+	<br>&nbsp;&nbsp;&nbsp;please go to the tab 'Special Features' and klick on 'Regenerate Articles'
 
-	<br><br>3] <b>Wenn alles geht, dann diese setup.php und setup_en.php löschen</b>
+	<br><br>3] <b>If all went well you should delete this file 'setup.php' and 'setup_en.php' for security reasons.</b>
 
-	<br><br><br>Viel Spass und Erfolg
+	<br><br><br>Have alot of fun
 
-	<br><br>Das REDAXO Team
+	<br><br>The REDAXO Team
 	
 	<br><br>";
 
