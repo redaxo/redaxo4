@@ -134,9 +134,16 @@ var winObjCounter = -1;
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function openREXMedia(id)
+function openREXMedialist(id)
 {
         newWindow('rexmediapopup','index.php?page=medienpool&opener_input_field=REX_MEDIA_'+id,660,400,',status=yes,resizable=yes');
+}
+
+function openREXMedia(id)
+{
+	var mediaid = "REX_MEDIA_"+id;
+	
+        newWindow('rexmediapopup','index.php?page=medienpool&mode=detail&file_name='+document.getElementById(mediaid).value+'&opener_input_field=REX_MEDIA_'+id,660,400,',status=yes,resizable=yes');
 }
 
 function deleteREXMedia(id)
