@@ -452,6 +452,7 @@ class article
         function editSlice($RE_CONTS,$RE_MODUL_IN)
         {
                 global $REX,$FORM,$I18N;
+
                 $slice_content .= "<a name=editslice></a>
                         <form ENCTYPE=multipart/form-data action=index.php#slice$RE_CONTS method=post name=REX_FORM>
                         <input type=hidden name=article_id value=$this->article_id>
@@ -463,6 +464,36 @@ class article
                         <input type=hidden name=update value=0>
                         $RE_MODUL_IN
                         <br><br><input type=submit value='".$I18N->msg('save_block')."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value='".$I18N->msg('update_block')."' onClick='REX_FORM.update.value=1'></form>";
+
+                // CRTL - S FOR UPDATE --> ALT - S FOR SAVE
+                $slice_content .= '
+				<script>
+	                if (navigator.appName=="Netscape")
+	                {
+	                  function processKeypresses(e)
+	                  {
+	                    var whichASC = e.which;
+	                    if (whichASC == \'115\' &&  e.ctrlKey == true){
+	                    	document.REX_FORM.update.value = 1;
+							document.REX_FORM.submit();
+							return false;
+	                    }
+	                    if (whichASC == \'115\' &&  e.altKey == true){
+	                    	document.REX_FORM.update = 0;
+							document.REX_FORM.submit();
+							return false;
+	                    }
+	                  }
+
+	                  if (document.captureEvents)
+	                  {
+	                    document.captureEvents(Event.KEYPRESS);
+	                  }
+	                  document.onkeypress = processKeypresses;
+	                }
+	            </script>
+                ';
+                
                 $slice_content = $this->sliceIn($slice_content);
                 return $slice_content;
         }
