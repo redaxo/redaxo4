@@ -495,7 +495,11 @@ echo '
 ';
 
 if($_GET[HTMLArea]!=''){
+		if($_GET[HTMLArea]=='TINY'){
+			print 'window.opener.tinyMCE.insertLink(link,"_self");';
+		} else {
 	        print 'window.opener.'.$_GET[HTMLArea].'.surroundHTML("<a href="+link+">","</a>");';
+	    }
 }
 if($_GET[opener_input_field]!=''){
 			print "linkid = link.replace('redaxo://','');\n";

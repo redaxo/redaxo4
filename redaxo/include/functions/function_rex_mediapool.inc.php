@@ -6,119 +6,67 @@
 #
 ##################################################################
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="",$STYLE="",$WIDTH="",$HEIGHT=""){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYLE_SHEET='css/style.css',$STYLES='all'){
 
-	if($BODYSTYLE=="")  $BODYSTYLE = "body { background-color: #fff; font-family: verdana; font-size: 11px }";
-	if($STYLE=="")      $STYLE = "css/style.css";
-	if($WIDTH=="")      $WIDTH = "550px";
-	if($HEIGHT=="")     $HEIGHT= "250px";
+	global $TINYMCE;
 
-	$BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
-		"separator", "insertunorderedlist", "separator", "createlink", "linkmap","email","separator",
-		"space","pasteclear","separator","justifyleft","justifycenter",
-		"justifyright","separator","separator","mediapool","separator","remove","undo", "redo","separator","htmlmode",
+	// tiny mce init
+	if($TINYMCE!="done"){
+
+		if(is_array($STYLES)){
+			$ADVANCED_STYLES = "theme_advanced_styles :\"";
+			foreach($STYLES as $key => $var){
+				$ADVANCED_STYLES.= "$key=$var;";
+			}
+			$ADVANCED_STYLES = substr($ADVANCED_STYLES,0,-1);
+			$ADVANCED_STYLES.="\",";
+		}
+
+		print '
+
+		<script language="javascript" type="text/javascript" src="js/tiny_mce/tiny_mce_src.js"></script>
+		<script language="javascript" type="text/javascript">
+	    tinyMCE.init({
+	        theme : "advanced",
+	        language : "de",
+	        mode : "specific_textareas",
+	    	insertlink_callback : "insertIntLink",
+	        insertimage_callback : "insertMediaPool",
+	        theme_advanced_source_editor_width : 600,
+	        theme_advanced_source_editor_height : 400,
+	        relative_urls : false,
+	        content_css : "'.$STYLE_SHEET.'",
+	        //extended_valid_elements : "a[href|target|name]",
+	        //invalid_elements : "a",
+	        '.$ADVANCED_STYLES.'
+	        debug : false
+	    });
+
+	    function insertMediaPool(src, alt, border, hspace, vspace, width, height, align){
+	    	window.open("index.php?page=medienpool&HTMLArea=TINY","pool","width=660,height=500,status=yes,resizable=yes");
+	    }
+
+	    function insertIntLink(href, target){
+	    	window.open("index.php?page=linkmap&HTMLArea=TINY","link","width=660,height=500,status=yes,resizable=yes");
+	    }
+
+	    function tinyMCEEmail(){
+	    	var email = prompt("Geben Sie eine Emailadresse ein","");
+	    	alert(tinyMCE.getContent());
+	    	tinyMCE.execCommand("mceInsertContent", false, "<a href=mailto:"+email+">"+email+"</a>");
+	    }
+
+		</script>
+	    ';
+
+	    $GLOBALS[TINYMCE] = 'done';
+	}
+
+	print '
+
+	<textarea id="VALUE['.$VALUE_ID.']" name="VALUE['.$VALUE_ID.']" style="width:'.$WIDTH.';height:'.$HEIGHT.'" rows="15" mce_editable="true">'.$CONTENT.'</textarea>
+
 	';
-
-         if($BUTTONS=="") $BUTTONS = $BUTTONS_DEFAULT;
-
-         print "
-
-	     <style>
-	     .separator {
-	     	width:2px;
-	     }
-	     .toolbar {
-	     	background-color: #F0EFEB;
-	     	height: 22px;
-	     	valign: middle;
-	     }
-	     </style>
-
-         <script type=\"text/javascript\" src=\"js/htmlarea/htmlarea.js\"></script>
-         <script type=\"text/javascript\" src=\"js/htmlarea/en.js\"></script>
-         <script type=\"text/javascript\" src=\"js/htmlarea/dialog.js\"></script>
-         <script type=\"text/javascript\" src=\"js/htmlarea/media.js\"></script>
-
-         <script type=\"text/javascript\">
-
-         var editor = null;
-
-         function initEditor()
-         {
-
-                var cfg = new HTMLArea.Config(); // this is the default configuration
-
-                cfg.toolbar = [
-                        [".$BUTTONS."]
-                        ];
-
-                cfg.registerButton(\"mediapool\", \"Medien Pool\", \"js/htmlarea/images/ed_mediapool.gif\", false,
-                    function(editor) {
-                             openREXMediaHTMLArea('myarea".$VALUE_ID."');
-                    }
-                );
-
-                cfg.registerButton(\"linkmap\", \"Linkmap\", \"js/htmlarea/images/ed_link_intern.gif\", false,
-                    function(editor) {
-                             openLinkMapHTMLArea('myarea".$VALUE_ID."');
-                    }
-                );
-
-                cfg.registerButton(\"email\", \"Email Adresse\", \"js/htmlarea/images/ed_email.gif\", false,
-                    function(editor) {
-                             var email = prompt('Email Adresse eingeben', '');
-                             if(editor.getSelectedHTML()==''){
-                             	editor.insertHTML('<a href=\"mailto:'+email+'\">'+email+'</a>');
-                             } else {
-                             	editor.surroundHTML('<a href=\"mailto:'+email+'\">', '</a>');
-                             }
-                    }
-                );
-
-                cfg.registerButton(\"pasteclear\", \"Paste Formatierten Text\", \"js/htmlarea/images/ed_word_paste.gif\", false,
-                    function(editor) {
-	                        var pastewin".$VALUE_ID." = window.open('', 'textwin".$VALUE_ID."', 'width=520,height=230,scrollbars=no'); // a window object
-	                            with (pastewin".$VALUE_ID.".document) {
-	                              open('text/html', 'replace');
-	                              write('<html><head><title>Text Einf&uuml;gen</title><link rel=stylesheet type=text/css href=".$REX[HTDOCS_PATH]."css/style.css></head>');
-	                              write('<body>');
-	                              write('<table border=0 cellpadding=5 cellspacing=0 width=500>');
-	                              write('<tr><td class=grey align=right><b>Formatierten Text einf&uuml;gen</b></td></tr>');
-	                              write('</table>');
-	                              write('<form name=textform onSubmit=\"javascript:window.opener.myarea".$VALUE_ID.".insertHTML(document.textform.content.value.replace(/\\\\n/g,\'<br>\'));self.close()\" style=display:inline>');
-	                              write('<textarea name=content style=width:500 rows=12></textarea><br>');
-	                              write('<input type=submit value=\"Text einf&uuml;gen\">');
-	                              write('</form>');
-	                              write('</body>');
-	                              write('</html>');
-	                              close();
-	                              pastewin".$VALUE_ID.".focus();
-	                            }
-	                }
-                );
-
-
-                cfg.registerButton(\"remove\", \"Formatierung löschen\", \"js/htmlarea/images/ed_clear_format.gif\", false,
-                    function(editor) {
-                             editor.removeF();
-                    }
-                );
-
-
-                cfg.pageStyle = '".$BODYSTYLE."';
-
-                ".$CONFIG."
-
-                myarea".$VALUE_ID." = new HTMLArea('area".$VALUE_ID."', cfg);
-                myarea".$VALUE_ID.".generate();
-         }
-
-         </script>
-         <body onLoad=\"initEditor()\">
-         <textarea id=\"area".$VALUE_ID."\" name=\"VALUE[".$VALUE_ID."]\" style=\"width:".$WIDTH.";height:".$HEIGHT.";".$BODYSTYLE."\" rows=\"20\" cols=\"80\">".$CONTENT."</textarea>
-         </body>
-         ";
-
 }
 
 
