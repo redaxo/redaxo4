@@ -37,6 +37,8 @@ include_once $REX[INCLUDE_PATH]."/functions/function_rex_mediapool.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_modrewrite.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_title.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_generate.inc.php";
+include_once $REX[INCLUDE_PATH]."/functions/function_string.inc.php";
+include_once $REX[INCLUDE_PATH]."/functions/function_folder.inc.php";
 include_once $REX[INCLUDE_PATH]."/addons.inc.php";
 
 // ----------------- REDAXO COMMUNITY
