@@ -179,55 +179,55 @@ echo "<br></td></tr></table>";
 
 
 
-// ------------------------------ ctypes definieren (sprachen/spalten)
+// ------------------------------ clang definieren (sprachen)
 
-echo "<a name=ctype></a>";
+echo "<a name=clang></a>";
 
-// ----- delete ctype
-if($delctype != "")
+// ----- delete clang
+if($delclang != "")
 {
-	if ($ctype_id>0)
+	if ($clang_id>0)
 	{
-		rex_deleteCType($ctype_id);
-		$message = "Ctype wurde gelöscht";
+		rex_deleteCLang($clang_id);
+		$message = "CLang wurde gelöscht";
 		unset($func);
-		unset($ctype_id);
+		unset($clang_id);
 	}
 }
 
-// ----- add ctype
-if ($func == "addctypesave")
+// ----- add clang
+if ($func == "addclangsave")
 {
-	if ($ctype_name != "")
+	if ($clang_name != "")
 	{
-		if (!($ctype_id>0 && $ctype_id<100)) $ctype_id = 0;
-		if(!array_key_exists($ctype_id,$REX[CTYPE]))
+		if (!($clang_id>0 && $clang_id<100)) $clang_id = 0;
+		if(!array_key_exists($clang_id,$REX[CLANG]))
 		{
-			$message = "CType wurde angelegt.";
-			rex_addCType($ctype_id,$ctype_name);
-			unset($ctype_id);
+			$message = "CLang wurde angelegt.";
+			rex_addCLang($clang_id,$clang_name);
+			unset($clang_id);
 			unset($func);
 		}else
 		{
 			$message = "ID existiert schon.";
-			$func = "addctype";
+			$func = "addclang";
 		}
 	}else{
 		$message = "Bitte einen Namen eingeben.";	
-		$func = "addctype";
+		$func = "addclang";
 	}
 	
-}elseif($func == "editctypesave")
+}elseif($func == "editclangsave")
 {
-	rex_editCType($ctype_id,$ctype_name);
-	$message = "CType wurde editiert.";
+	rex_editCLang($clang_id,$clang_name);
+	$message = "CLang wurde editiert.";
 	unset($func);
-	unset($ctype_id);
+	unset($clang_id);
 }
 
 // seltype
 $sel = new select;
-$sel->set_name("ctype_id");
+$sel->set_name("clang_id");
 $sel->set_size(1);
 $sel->add_option("1","1");
 $sel->add_option("2","2");
@@ -246,9 +246,9 @@ $sel->add_option("13","13");
 $sel->set_style("'; class='inp100'");
 
 echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
-		<th width=30><a href=index.php?page=specials&func=addctype#ctype>+</a></th>
+		<th width=30><a href=index.php?page=specials&func=addclang#clang>+</a></th>
 		<th align=left width=50>ID</th>
-		<th align=left width=250>CTYPE - Description</th>
+		<th align=left width=250>CLANG - Description</th>
 		<th align=left colspan=2>Delete</th></tr>";
 
 if ($message != "")
@@ -257,28 +257,28 @@ if ($message != "")
 	$message = "";
 }
 
-if ($func == "addctype")
+if ($func == "addclang")
 {
-	$sel->set_selected($ctype_id);
-	echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=func value=addctypesave>";
+	$sel->set_selected($clang_id);
+	echo "<tr><form action=index.php#clang method=post><input type=hidden name=page value=specials><input type=hidden name=func value=addclangsave>";
 	echo "<td class=grey>add</td>";
 	echo "<td class=grey>".$sel->out()."</td>";
-	echo "<td class=grey><input type=text size=10 class=inp100 name=ctype_name value='".htmlentities($ctype_name)."'></td>";
+	echo "<td class=grey><input type=text size=10 class=inp100 name=clang_name value='".htmlentities($clang_name)."'></td>";
 	echo "<td class=grey><input type=submit value=submit></td>";
 	echo "</form></tr>";
 }
 
-reset($REX[CTYPE]);
-for ($i=0;$i<count($REX[CTYPE]);$i++)
+reset($REX[CLANG]);
+for ($i=0;$i<count($REX[CLANG]);$i++)
 {
-	if ($ctype_id==key($REX[CTYPE]) and $ctype_id!="" and $func == "editctype")
+	if ($clang_id==key($REX[CLANG]) and $clang_id!="" and $func == "editclang")
 	{
-		echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=ctype_id value=$ctype_id><input type=hidden name=func value=editctypesave>";
+		echo "<tr><form action=index.php#clang method=post><input type=hidden name=page value=specials><input type=hidden name=clang_id value=$clang_id><input type=hidden name=func value=editclangsave>";
 		echo "<td class=grey>edit</td>";
-		echo "<td class=grey>".key($REX[CTYPE])."</td>";
-		echo "<td class=grey><input type=text size=10 class=inp100 name=ctype_name value='".htmlentities(current($REX[CTYPE]))."''></td>";
+		echo "<td class=grey>".key($REX[CLANG])."</td>";
+		echo "<td class=grey><input type=text size=10 class=inp100 name=clang_name value='".htmlentities(current($REX[CLANG]))."''></td>";
 		echo "<td class=grey><input type=submit name=edit value=editieren>";
-		if ($ctype_id>0) echo "<input type=submit name=delctype value=delete>";
+		if ($clang_id>0) echo "<input type=submit name=delclang value=delete>";
 		echo "</td>";
 		echo "</form></tr>";
 		
@@ -286,11 +286,11 @@ for ($i=0;$i<count($REX[CTYPE]);$i++)
 	{
 		echo "<tr>" .
 				"<td class=grey></td>" .
-				"<td class=grey>".key($REX[CTYPE])."</td>" .
-				"<td class=grey><a href=index.php?page=specials&func=editctype&ctype_id=".key($REX[CTYPE])."#ctype>".htmlentities(current($REX[CTYPE]))."</a></td>" .
+				"<td class=grey>".key($REX[CLANG])."</td>" .
+				"<td class=grey><a href=index.php?page=specials&func=editclang&clang_id=".key($REX[CLANG])."#clang>".htmlentities(current($REX[CLANG]))."</a></td>" .
 				"<td class=grey></td></tr>";
 	}
-	next($REX[CTYPE]);
+	next($REX[CLANG]);
 }
 echo "</table><br>";	
 

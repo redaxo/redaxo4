@@ -1,7 +1,7 @@
 <?
 
 $article = new sql;
-$article->setQuery("select * from rex_article where id='$article_id' and ctype=$ctype");
+$article->setQuery("select * from rex_article where id='$article_id' and clang=$clang");
 
 if ($article->getRows() == 1)
 {
@@ -16,14 +16,14 @@ if ($article->getRows() == 1)
 	// ----- Titel anzeigen
 	title("Artikel",$KATout);
 	$add = "";
-	if (count($REX[CTYPE])>1)
+	if (count($REX[CLANG])>1)
 	{
 		$add = "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
-		reset($REX[CTYPE]);
-		while( list($key,$val) = each($REX[CTYPE]) )
+		reset($REX[CLANG]);
+		while( list($key,$val) = each($REX[CLANG]) )
 		{
-			if ($key==$ctype) $add .= "$val | ";
-			else $add .= "<a href=index.php?page=content&ctype=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+			if ($key==$clang) $add .= "$val | ";
+			else $add .= "<a href=index.php?page=content&clang=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
 		}
 		$add .= "</td></tr></table><br>";
 		echo $add;
@@ -45,7 +45,7 @@ if ($article->getRows() == 1)
 
 			if ($function == "edit")
 			{
-				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and ctype=$ctype");
+				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
 				if ($CM->getRows()==1) $module_id = $CM->getValue("rex_article_slice.modultyp_id");
 			}else
 			{
@@ -75,7 +75,7 @@ if ($article->getRows() == 1)
 						$newsql->setValue("re_article_slice_id",$slice_id);
 						$newsql->setValue("article_id",$article_id);
 						$newsql->setValue("modultyp_id",$module_id);
-						$newsql->setValue("ctype",$ctype);
+						$newsql->setValue("clang",$clang);
 					}
 
 					for ($i=1;$i<11;$i++)
@@ -170,7 +170,7 @@ if ($article->getRows() == 1)
 					{
 						$newsql->insert();
 						$last_id = $newsql->last_insert_id;
-						$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and ctype=$ctype");
+						$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
 						$message .= $I18N->msg('block_added');
 					}
 
@@ -232,7 +232,7 @@ if ($article->getRows() == 1)
 			// --------------------- SLICE DELETE
 
 			$CM = new sql;
-			$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and ctype=$ctype");
+			$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
 
 			if ($CM->getRows()==1)
 			{
@@ -347,9 +347,9 @@ if ($article->getRows() == 1)
 
 		// --------------------------------------------------------------------- CONTENT HEAD MENUE
 
-		$menu = "<a href=../index.php?article_id=$article_id&ctype=$ctype class=blue target=_blank>".$I18N->msg('show')."</a>";
-		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&ctype=$ctype class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&ctype=$ctype class=blue>".$I18N->msg('metadata')."</a>";
-		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&ctype=$ctype class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&ctype=$ctype class=black>".$I18N->msg('metadata')."</a>";
+		$menu = "<a href=../index.php?article_id=$article_id&clang=$clang class=blue target=_blank>".$I18N->msg('show')."</a>";
+		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang class=blue>".$I18N->msg('metadata')."</a>";
+		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang class=black>".$I18N->msg('metadata')."</a>";
 		
 		echo "	<table border=0 cellpadding=0 cellspacing=1 width=770>
 				<tr>
@@ -375,7 +375,7 @@ if ($article->getRows() == 1)
 			$CONT->setArticleId($article_id);
 			$CONT->setSliceId($slice_id);
 			$CONT->setMode($mode);
-			$CONT->setCType($ctype);
+			$CONT->setCLang($clang);
 			$CONT->setEval(TRUE);
 			$CONT->setFunction($function);
 
@@ -410,7 +410,7 @@ if ($article->getRows() == 1)
 				$meta_sql = new sql;
 				$meta_sql->setTable("rex_article");
 				// $meta_sql->debugsql = 1;
-				$meta_sql->where("id='$article_id' and ctype=$ctype");
+				$meta_sql->where("id='$article_id' and clang=$clang");
 				$meta_sql->setValue("online_from",$jahr_von.$monat_von.$tag_von);
 				$meta_sql->setValue("online_to",$jahr_bis.$monat_bis.$tag_bis);
 				$meta_sql->setValue("keywords",$meta_keywords);
@@ -470,7 +470,7 @@ if ($article->getRows() == 1)
 				<input type=hidden name=article_id value='$article_id'>
 				<input type=hidden name=mode value='meta'>
 				<input type=hidden name=save value=1>
-				<input type=hidden name=ctype value=$ctype>
+				<input type=hidden name=clang value=$clang>
 				<tr>
 					<td colspan=2>".$I18N->msg("general")."</td>
 				</tr>";

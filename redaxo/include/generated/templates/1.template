@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html>
+<?
+
+setlocale(LC_ALL,"de_DE");
+
+?>
+<head>
+<title>Redaxo Demo 2.1 - CSS</title>
+<link rel=stylesheet type=text/css href=<? echo $REX[HTDOCS_PATH] ?>files/import.css>
+<script language=Javascript src=<? echo $REX[HTDOCS_PATH] ?>js/standard.js></script>
+<script language=Javascript src=<? echo $REX[HTDOCS_PATH] ?>js/flashdetect.js></script>
+
+
+</head>
+<body>
+<a name=top></a>
+<div class="Website">
+
+
+	<div class="LeftContainer">
+		<div class="Logo"><img src=<? echo $REX[HTDOCS_PATH] ?>files/logo.gif></div>
+		<div class="MenuContainer"><? include $REX[INCLUDE_PATH]."/generated/templates/2.template"; ?></div>
+	</div>		
+
+
+	<div class="RightContainer">
+		<div class="Banner"><? include $REX[INCLUDE_PATH]."/generated/templates/5.template"; ?></div>
+		<div class="ContentContainer"><? echo $this->getArticle(); ?></div>
+
+	<div class="Copyright">created 2004 by <a href=http://www.pergopa.de target=_blank>pergopa kristinus gbr</a> |  <a href=index.php?article_id=12>Impressum</a> | wcms: <a href=http://www.redaxo.de target=_blank>redaxo 2.7</a></div>
+	</div>
+
+	<br style="clear:both;" />
+</div>
+
+</body>
+</html>

@@ -41,6 +41,7 @@ include_once $REX[INCLUDE_PATH]."/functions/function_string.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_folder.inc.php";
 include_once $REX[INCLUDE_PATH]."/addons.inc.php";
 include_once $REX[INCLUDE_PATH]."/ctype.inc.php";
+include_once $REX[INCLUDE_PATH]."/clang.inc.php";
 
 // ----------------- REDAXO COMMUNITY
 include_once $REX[INCLUDE_PATH]."/classes/class.board.inc.php";

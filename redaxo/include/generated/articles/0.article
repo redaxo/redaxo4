@@ -1,0 +1,20 @@
+<?
+
+$REX[ART][0][name] = "";
+$REX[ART][0][description] = "";
+$REX[ART][0][keywords] = "";
+$REX[ART][0][re_id] = "";
+$REX[ART][0][article_id] = "0";
+$REX[ART][0][type_id] = "";
+$REX[ART][0][file] = "";
+$REX[ART][0][startpage] = "";
+$REX[ART][0][prio] = "";
+$REX[ART][0][path] = "";
+$REX[ART][0][online_from] = "";
+$REX[ART][0][online_to] = "";
+$REX[ART][0][createdate] = "";
+$REX[ART][0][last_update_stamp] = "1107293662";
+$REX[ART][0][template_id] = "";
+$REX[ART][0][status] = "";
+
+?>

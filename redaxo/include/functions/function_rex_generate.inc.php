@@ -1,7 +1,7 @@
 <?php
 
 /*
- * rex generate funktionen fuer artikel und ctype
+ * rex generate funktionen fuer artikel und clang
  */
 
 // ----------------------------------------- ARTICLE
@@ -502,24 +502,24 @@ function copyCategory($which,$to_cat)
 
 }
 
-// ----------------------------------------- CTYPE
+// ----------------------------------------- CLANG
 
-function rex_deleteCType($id)
+function rex_deleteCLang($id)
 {
 	global $REX;
 
 	$content = "// --- DYN\n\r";
-	reset($REX[CTYPE]);
-	for ($i=0;$i<count($REX[CTYPE]);$i++)
+	reset($REX[CLANG]);
+	for ($i=0;$i<count($REX[CLANG]);$i++)
 	{
-		$cur = key($REX[CTYPE]);
-		$val = current($REX[CTYPE]);
-		if ($cur != $id && $id != 0 ) $content .= "\n\r\$REX[CTYPE][$cur] = \"$val\";";
-		next($REX[CTYPE]);
+		$cur = key($REX[CLANG]);
+		$val = current($REX[CLANG]);
+		if ($cur != $id && $id != 0 ) $content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
+		next($REX[CLANG]);
 	}
 	$content .= "\n\r// --- /DYN";
 
-	$file = $REX[INCLUDE_PATH]."/ctype.inc.php";
+	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
 	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
@@ -528,27 +528,27 @@ function rex_deleteCType($id)
 	$h = fopen($file,"w+");
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
-	if ($id>0) unset($REX[CTYPE][$id]);
+	if ($id>0) unset($REX[CLANG][$id]);
 }
 
-function rex_addCType($id,$name)
+function rex_addCLang($id,$name)
 {
 	global $REX;
 	
-	$REX[CTYPE][$id] = $name;
+	$REX[CLANG][$id] = $name;
 	$content = "// --- DYN\n\r";
-	reset($REX[CTYPE]);
-	for ($i=0;$i<count($REX[CTYPE]);$i++)
+	reset($REX[CLANG]);
+	for ($i=0;$i<count($REX[CLANG]);$i++)
 	{
-		$cur = key($REX[CTYPE]);
-		$val = current($REX[CTYPE]);
+		$cur = key($REX[CLANG]);
+		$val = current($REX[CLANG]);
 		
-		$content .= "\n\r\$REX[CTYPE][$cur] = \"$val\";";
-		next($REX[CTYPE]);	
+		$content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
+		next($REX[CLANG]);
 	}
 	$content .= "\n\r// --- /DYN";
 
-	$file = $REX[INCLUDE_PATH]."/ctype.inc.php";
+	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
 	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
@@ -561,17 +561,17 @@ function rex_addCType($id,$name)
 	
 }
 
-function rex_editCType($id,$name)
+function rex_editCLang($id,$name)
 {
 	global $REX;
 	
-	$REX[CTYPE][$id] = $name;
-	$file = $REX[INCLUDE_PATH]."/ctype.inc.php";
+	$REX[CLANG][$id] = $name;
+	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
 	$h = fopen($file,"r");
 	$cont = fread($h,filesize($file));
-	$cont = ereg_replace("(REX\[CTYPE\]\[$id\].?\=.?)[^;]*","\\1\"".($name)."\"",$cont);
+	$cont = ereg_replace("(REX\[CLANG\]\[$id\].?\=.?)[^;]*","\\1\"".($name)."\"",$cont);
 	fclose($h);
-	$h = fopen($REX[INCLUDE_PATH]."/ctype.inc.php","w+");
+	$h = fopen($REX[INCLUDE_PATH]."/clang.inc.php","w+");
 	fwrite($h,$cont,strlen($cont));
 	fclose($h);
 	

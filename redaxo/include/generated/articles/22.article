@@ -1,0 +1,20 @@
+<?
+
+$REX[ART][22][name] = "products";
+$REX[ART][22][description] = "";
+$REX[ART][22][keywords] = "";
+$REX[ART][22][re_id] = "0";
+$REX[ART][22][article_id] = "22";
+$REX[ART][22][type_id] = "0";
+$REX[ART][22][file] = "";
+$REX[ART][22][startpage] = "1";
+$REX[ART][22][prio] = "";
+$REX[ART][22][path] = "|";
+$REX[ART][22][online_from] = "2147483647";
+$REX[ART][22][online_to] = "20100101";
+$REX[ART][22][createdate] = "20050209";
+$REX[ART][22][last_update_stamp] = "1107965473";
+$REX[ART][22][template_id] = "0";
+$REX[ART][22][status] = "1";
+
+?>

@@ -1,0 +1,9 @@
+<?php
+$REX[RE_CAT_ID][0][] = "21";
+$REX[RE_CAT_ID][0][] = "22";
+$REX[RE_CAT_ID][0][] = "22";
+$REX[RE_CAT_ID][0][] = "22";
+$REX[RE_CAT_ID][0][] = "21";
+$REX[RE_CAT_ID][0][] = "21";
+
+?>
