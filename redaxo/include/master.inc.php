@@ -22,7 +22,7 @@ $REX[INCLUDE_PATH] = $REX[DOC_ROOT].$REX[HTDOCS_PATH]."redaxo/include"; //
 $REX[MEDIAFOLDER] = $REX[HTDOCS_PATH]."files"; //
 $REX[BCONTENT] = false; //
 $REX[COMMUNITY] = false;
-$REX[CACHING] = true; // Caching
+$REX[CACHING] = false; // Caching
 $REX[CACHING_DEBUG] = false; // Shows debugmessage
 
 // ----------------- DB1
