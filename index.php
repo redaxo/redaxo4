@@ -77,6 +77,19 @@ include "./redaxo/include/master.inc.php";
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
 
+if ($category_id != "")
+{
+	// categoryarticle holen
+	
+	$category_id = str_replace("\\","",$category_id);
+	$category_id = str_replace("\/","",$category_id);
+	
+	if (@include $REX[INCLUDE_PATH]."/generated/categories/$category_id.category")
+	{
+		$article_id = $REX[CAT][$category_id][article_id];
+	}
+}
+
 if ($article_id == "") $article_id = $REX[STARTARTIKEL_ID];
 
 $REX_ARTICLE = new article;
