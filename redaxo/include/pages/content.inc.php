@@ -22,11 +22,19 @@ if ($article->getRows() == 1)
 		reset($REX[CLANG]);
 		while( list($key,$val) = each($REX[CLANG]) )
 		{
-			if ($key==$clang) $add .= "$val | ";
-			else $add .= "<a href=index.php?page=content&clang=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+			if ($key==$clang)
+			{
+				$add .= "$val | ";
+			}else
+			{
+				$add .= "<a href=index.php?page=content&clang=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+			}
 		}
 		$add .= "</td></tr></table><br>";
 		echo $add;
+	}else
+	{
+		$clang = 0;	
 	}
 
 
@@ -76,6 +84,7 @@ if ($article->getRows() == 1)
 						$newsql->setValue("article_id",$article_id);
 						$newsql->setValue("modultyp_id",$module_id);
 						$newsql->setValue("clang",$clang);
+						$newsql->setValue("ctype",$ctype);
 					}
 
 					for ($i=1;$i<11;$i++)
@@ -101,6 +110,8 @@ if ($article->getRows() == 1)
 						$iaction = $ga->getValue("rex_action.action");
 						$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
 						$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
+						$iaction = str_replace("REX_CTYPE",$ctype,$iaction);
+						$iaction = str_replace("REX_CLANG",$clang,$iaction);
 						$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
 						$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
 
@@ -187,6 +198,8 @@ if ($article->getRows() == 1)
 						$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
 						$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
 						$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+						$iaction = str_replace("REX_CTYPE",$ctype,$iaction);
+						$iaction = str_replace("REX_CLANG",$clang,$iaction);
 						$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
 						$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
 						for ($j=1;$j<11;$j++)
@@ -264,6 +277,8 @@ if ($article->getRows() == 1)
 							$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
 							$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
 							$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+							$iaction = str_replace("REX_CTYPE",$ctype,$iaction);
+							$iaction = str_replace("REX_CLANG",$clang,$iaction);
 							$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
 							$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
 							for ($j=1;$j<11;$j++)
@@ -304,6 +319,8 @@ if ($article->getRows() == 1)
 							$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
 							$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
 							$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+							$iaction = str_replace("REX_CTYPE",$ctype,$iaction);
+							$iaction = str_replace("REX_CLANG",$clang,$iaction);
 							$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
 							$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
 							for ($j=1;$j<11;$j++)
@@ -347,9 +364,26 @@ if ($article->getRows() == 1)
 
 		// --------------------------------------------------------------------- CONTENT HEAD MENUE
 
-		$menu = "<a href=../index.php?article_id=$article_id&clang=$clang class=blue target=_blank>".$I18N->msg('show')."</a>";
-		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang class=blue>".$I18N->msg('metadata')."</a>";
-		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang class=black>".$I18N->msg('metadata')."</a>";
+		reset($REX[CTYPE]);
+		if (count($REX[CTYPE])>1)
+		{
+			$tadd = "<b>Typen:</b> | ";
+			while( list($key,$val) = each($REX[CTYPE]) )
+			{
+				if ($key==$ctype) $tadd .= "$val | ";
+				else $tadd .= "<a href=index.php?page=content&clang=$clang&ctype=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+			}
+			$tadd .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		}else
+		{
+			$tadd = "";
+		}
+
+		$menu = $tadd." <a href=../index.php?article_id=$article_id&clang=$clang&ctype=$ctype class=blue target=_blank>".$I18N->msg('show')."</a>";
+		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=blue>".$I18N->msg('metadata')."</a>";
+		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=black>".$I18N->msg('metadata')."</a>";
+		$menu .= "";
+
 		
 		echo "	<table border=0 cellpadding=0 cellspacing=1 width=770>
 				<tr>
@@ -357,6 +391,9 @@ if ($article->getRows() == 1)
 					<td align=left class=grey>&nbsp;$menu</td>
 					<td align=left class=grey width=153><img src=pics/leer.gif width=153 height=20></td>
 				</tr>";
+
+
+
 
 		if ($message != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;$message</td><td class=lgrey>&nbsp;</td></tr>"; }
 
@@ -376,6 +413,7 @@ if ($article->getRows() == 1)
 			$CONT->setSliceId($slice_id);
 			$CONT->setMode($mode);
 			$CONT->setCLang($clang);
+			$CONT->setCType($ctype);
 			$CONT->setEval(TRUE);
 			$CONT->setFunction($function);
 
@@ -471,6 +509,7 @@ if ($article->getRows() == 1)
 				<input type=hidden name=mode value='meta'>
 				<input type=hidden name=save value=1>
 				<input type=hidden name=clang value=$clang>
+				<input type=hidden name=ctype value=$ctype>
 				<tr>
 					<td colspan=2>".$I18N->msg("general")."</td>
 				</tr>";
@@ -554,6 +593,8 @@ if ($article->getRows() == 1)
 					<input type=hidden name=page value=content>
 					<input type=hidden name=article_id value='$article_id'>
 					<input type=hidden name=mode value='meta'>
+					<input type=hidden name=clang value=$clang>
+					<input type=hidden name=ctype value=$ctype>
 					<tr>
 						<td colspan=2>".$I18N->msg("other_functions")."</td>
 					</tr>

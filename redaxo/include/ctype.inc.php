@@ -3,9 +3,10 @@
 // ----------------- CTYPES
 // --- DYN CTYPE
 
-$REX[CTYPE][0] = "Inhakt Hauptspalte";
-$REX[CTYPE][1] = "Linke Spalte";
-$REX[CTYPE][3] = "Block Oben";
+$REX[CTYPE][0] = 1;
+$REX[CTYPEN][0] = "Inhalt";
+$REX[CTYPEN][1] = "Content";
+$REX[CTYPEN][2] = "Texti";
 
 // --- /DYN
 

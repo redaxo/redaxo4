@@ -28,8 +28,6 @@ if ($LOGIN)
 	if ($REX_USER->isValueOf("rights","user[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 
 	if ($REX_USER->isValueOf("rights","addon[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
 	if ($REX_USER->isValueOf("rights","specials[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
-	// if ($REX_USER->isValueOf("rights","import[]")) echo " | <a href=index.php?page=import class=white>".$I18N->msg("import")."</a>"; 
-	if ($REX_USER->isValueOf("rights","community[]")) echo " | <a href=index.php?page=community class=white>".$I18N->msg("community")."</a>"; 
 	if ($REX_USER->isValueOf("rights","stats[]")) echo " | <a href=index.php?page=stats class=white>".$I18N->msg("statistics")."</a>"; 
 
 	reset($REX[ADDON][status]);

@@ -1,10 +1,143 @@
 <?
 
-##############################################################
-#                                                            #
-#  MEDIA POOL 1.0  - vscope new media design                 #
-#                                                            #
-##############################################################
+// FUNCTIONS
+
+function media_resize($FILE,$width,$height,$make_copy=false){
+	$REX = $GLOBALS[REX];
+	if ($REX[IMAGEMAGICK])
+	{
+		$magick = $REX[IMAGEMAGICK_PATH];
+		if($width>0){
+			$sizer = "-geometry ".$width;
+		}else if($height>0){
+			$sizer = "-geometry x".$height;
+		}else if($width>0 && $height!=""){
+			$sizer = "-geometry ".$width."x".$height."!";
+		}
+		$system = $magick." ".$FILE." ".$sizer." -colorspace rgb -density 72 ".$FILE;
+		system($system);
+	}else
+	{
+		return false;
+	}
+}
+
+function media_savefile($FILE,$rex_file_category,$FILEINFOS){
+	
+	$FILENAME = $FILE[name];
+	$FILESIZE = $FILE[size];
+	$FILETYPE = $FILE[type];
+	$NFILENAME = "";
+	$REX = $GLOBALS[REX];
+	
+	// generiere neuen dateinamen
+	for ($cn=0;$cn<strlen($FILENAME);$cn++)
+	{
+		$char = substr($FILENAME,$cn,1);
+		if ( preg_match("([_A-Za-z0-9\.-])",$char) ) $NFILENAME .= strtolower($char);
+		else if ($char == " ") $NFILENAME .= "_";
+	}
+	
+	
+	if (strrpos($NFILENAME,".") != "")
+	{
+		$NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
+		$NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
+	}else
+	{
+		$NFILE_NAME = $NFILENAME;
+		$NFILE_EXT  = "";
+	}
+	
+	if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".php5" || $NFILE_EXT == ".phtml" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
+	{
+		$NFILE_EXT .= ".txt";
+	}
+	
+	$NFILENAME = $NFILE_NAME.$NFILE_EXT;
+	
+	if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
+	{
+		// datei schon vorhanden ? wenn ja dann _1
+		for ($cf=0;$cf<1000;$cf++)
+		{
+			$NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
+			if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
+		}
+	}
+	
+	if(!move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+	{
+		if (!copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+		{
+			$message .= "move file $FILENAME failed | ";
+			$ok = 0;
+			$nocopy = true;
+		}
+	}
+	
+	if(!$nocopy)
+	{
+	
+		if ($REX[MEDIAFOLDERPERM] == "") $REX[MEDIAFOLDERPERM] = "0777";
+		chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
+		
+		// get widht height
+		$size = @getimagesize($REX[MEDIAFOLDER]."/$NFILENAME");
+		
+		$FILESQL = new sql;
+		//$FILESQL->debugsql=1;
+		$FILESQL->setTable("rex_file");
+		$FILESQL->setValue("filetype",$FILETYPE);
+		$FILESQL->setValue("title",$FILEINFOS[title]);
+		$FILESQL->setValue("description",$FILEINFOS[description]);
+		$FILESQL->setValue("copyright",$FILEINFOS[copyright]);
+		$FILESQL->setValue("filename",$NFILENAME);
+		$FILESQL->setValue("originalname",$FILENAME);
+		$FILESQL->setValue("filesize",$FILESIZE);
+		$FILESQL->setValue("width",$size[0]);
+		$FILESQL->setValue("height",$size[1]);
+		$FILESQL->setValue("category_id",$rex_file_category);
+		$FILESQL->setValue("stamp",time());
+		$FILESQL->insert();
+		
+		$ok = 1;
+	}
+	
+	$RETURN[msg] = $message;
+	$RETURN[ok] = $ok;
+	$RETURN[filename] = $NFILENAME;
+	
+	return $RETURN;
+}
+
+function getfilesize($size) {
+
+   // Setup some common file size measurements.
+   $kb = 1024;         // Kilobyte
+   $mb = 1024 * $kb;   // Megabyte
+   $gb = 1024 * $mb;   // Gigabyte
+   $tb = 1024 * $gb;   // Terabyte
+   // Get the file size in bytes.
+
+   // If it's less than a kb we just return the size, otherwise we keep going until
+   // the size is in the appropriate measurement range.
+   if($size < $kb) {
+       return $size." Bytes";
+   }
+   else if($size < $mb) {
+       return round($size/$kb,2)." KBytes";
+   }
+   else if($size < $gb) {
+       return round($size/$mb,2)." MBbytes";
+   }
+   else if($size < $tb) {
+       return round($size/$gb,2)." GBytes";
+   }
+   else {
+       return round($size/$tb,2)." TBbytes";
+   }
+}
 
 // ----- USER RECHTE FEHLEN NOCH
 // Jeder User darf seine eigenen Bilder editieren und austauschen
@@ -70,6 +203,14 @@ $cat_out .= "</select>\n";
 $cat_out .= "</td>\n";
 $cat_out .= "<td class=grey><input type=submit value='".$I18N->msg('pool_search')."'></td>";
 $cat_out .= "</tr><tr><td colspan=3></td></tr></form></table>";
+
+
+
+
+
+
+
+
 
 
 ##############################################################
@@ -162,6 +303,25 @@ function insertHTMLArea(html){
 
 }
 
+function fileListFunc(func)  {
+       document.rex_file_list.media_method.value=func;
+       document.rex_file_list.submit();
+}
+function SetAllCheckBoxes(FormName, FieldName, CheckValue)
+{
+	if(!document.forms[FormName])
+		return;
+	var objCheckBoxes = document.forms[FormName].elements[FieldName];
+	if(!objCheckBoxes)
+		return;
+	var countCheckBoxes = objCheckBoxes.length;
+	if(!countCheckBoxes)
+		objCheckBoxes.checked = CheckValue;
+	else
+		// set the check value for all check boxes
+		for(var i = 0; i < countCheckBoxes; i++)
+			objCheckBoxes[i].checked = CheckValue;
+}
 //-->
 </script>
 </head>
@@ -300,14 +460,18 @@ if($media_method=='add_file_cat')
         $db = new sql;
         $db->setTable('rex_file_category');
         $db->setValue('name',$cat_name);
+		$db->setValue('hide',$cat_hide); //pw anzeige thumbnails hide=1, thumbails werden in der übersicht der kategorie nicht angezeigt
         $db->insert();
         $msg = $I18N->msg('pool_kat_saved',$cat_name);
 }elseif($media_method=='edit_file_cat')
 {
+
         $db = new sql;
+		//$db->debugsql = true;
         $db->setTable('rex_file_category');
         $db->where("id='$cat_id'");
         $db->setValue('name',$cat_name);
+		$db->setValue('hide',$cat_hide); //pw anzeige thumbnails
         $db->update();
         $msg = $I18N->msg('pool_kat_updated',$cat_name);
         $cat_id = "";
@@ -326,6 +490,9 @@ if($media_method=='add_file_cat')
         }
 }
 
+
+
+
 if ($mode == "categories")
 {
 
@@ -341,7 +508,9 @@ if ($mode == "categories")
         $gc->setQuery("select * from rex_file_category order by name");
 
         echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
-        echo "<tr><th width=20><a href=index.php?page=medienpool&mode=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_name')."</th><th class=dgrey align=left>".$I18N->msg('pool_kat_function')."</th></tr>";
+
+		//pw anzeige thumbnails, label
+        echo "<tr><th width=20><a href=index.php?page=medienpool&mode=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_name')."</th><th class=dgrey align=left width=50>".$I18N->msg('pool_kat_hide')."</th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_function')."</th><th class=dgrey align=left></th></tr>";
 
         if ($function == "add_cat")
         {
@@ -352,7 +521,18 @@ if ($mode == "categories")
                 echo "<input type=hidden name=mode value=categories>";
                 echo "<td class=grey>&nbsp;</td>";
                 echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name></td>";
+
+				//pw anzeige eingabe
+				echo "<td class=grey>";
+				echo "<select name=cat_hide size=1>";
+		     	echo "<option value='0'>show</option>";
+                echo "<option value='1'>hide</option>";
+                echo "</select>";
+				echo "</td>";
+
+
                 echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_add')."\"></td>";
+				echo "<td class=grey>&nbsp;</td>";
                 echo "</form>";
                 echo "</tr>";
         }
@@ -362,6 +542,7 @@ if ($mode == "categories")
         {
                 $iid = $gc->getValue("id");
                 $iname = $gc->getValue("name");
+				$ihide = $gc->getValue("hide");
                 if ($iid == $cat_id)
                 {
                         echo "<tr>";
@@ -372,7 +553,21 @@ if ($mode == "categories")
                         echo "<input type=hidden name=cat_id value=$cat_id>";
                         echo "<td class=grey align=center>$iid</td>";
                         echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value='".htmlentities($iname)."'></td>";
-                        echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
+
+
+						//pw anzeige eingabe
+                        echo "<td class=grey>";
+				        echo "<select name=cat_hide size=1>";
+		     	        if ($ihide == "1") echo "<option value='1' selected>hide</option>";
+                		else echo "<option value='1'>hide</option>";
+                		if ($ihide == "0") echo "<option value='0' selected>show</option>";
+                		else echo "<option value='0'>show</option>";
+                		echo "</select>";
+						echo "</td>";
+
+
+						echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
+						echo "<td class=grey>&nbsp;</td>";
                         echo "</form>";
                         echo "</tr>";
 
@@ -380,9 +575,16 @@ if ($mode == "categories")
                 {
                         echo "<tr>";
                         echo "<td class=grey align=center>$iid</td>";
-                        echo "<td class=grey>".$gc->getValue("name")."&nbsp;</td>";
-                        echo "<td class=grey><a href=index.php?page=medienpool&mode=categories&cat_id=$iid>".$I18N->msg('pool_kat_edit')."</a> | <a href=index.php?page=medienpool&mode=categories&cat_id=$iid&media_method=delete_file_cat>".$I18N->msg('pool_kat_delete')."</a></td>";
-                        echo "</tr>";
+                        echo "<td class=grey>$iname &nbsp;</td>";
+
+                        //pw anzeige anzeige
+						if ($ihide == "0") echo "<td class=grey>show&nbsp;</td>";
+						else echo "<td class=grey>hide &nbsp;</td>";
+
+
+						echo "<td class=grey><a href=index.php?page=medienpool&mode=categories&cat_id=$iid>".$I18N->msg('pool_kat_edit')."</a> | <a href=index.php?page=medienpool&mode=categories&cat_id=$iid&media_method=delete_file_cat>".$I18N->msg('pool_kat_delete')."</a></td>";
+                        echo "<td class=grey>&nbsp;</td>";
+						echo "</tr>";
                 }
 
                 $gc->next();
@@ -398,7 +600,6 @@ if ($mode == "categories")
 // ------------------------------------- Dateidetails
 if($media_method=='delete_file')
 {
-
         $gf = new sql;
         $gf->setQuery("select * from rex_file where file_id='$file_id'");
         if ($gf->getRows()==1)
@@ -699,8 +900,8 @@ if(($mode=='import') && ($method=="do")){
                         $MEDIA[type] = mime_content_type($THIS_PATH);
                         $MEDIA[size] = filesize($THIS_PATH);
                         $MEDIA_CATEGORY = $_GET[importcategory];
-
-                        $RESULT = media_savefile($MEDIA,$MEDIA_CATEGORY,array());
+						//pw trägt dateinamen als title ein
+                        $RESULT = media_savefile($MEDIA,$MEDIA_CATEGORY,array(title=>$file));
 
                         $cnt++;
                     }
@@ -723,7 +924,7 @@ if($mode=='import'){
     print "<input type=hidden name=mode value=import>\n";
     print "<input type=hidden name=method value=do>\n";
 
-    echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>Import Folders:</b></td></tr><tr><td></td></tr></table>";
+    echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_import_list')."</td></tr><tr><td></td></tr></table>";
 
     if ($msg != "")
     {
@@ -732,6 +933,8 @@ if($mode=='import'){
     }
 
     print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+
+    print "<tr><th colspan=2 class=grey align=left>".$I18N->msg('pool_import_help')."</td></tr>";
 
     // Print Folders in Files Dir
     $FILE_PATH = $REX[MEDIAFOLDER]."/";
@@ -753,11 +956,12 @@ if($mode=='import'){
         }
         closedir($handle);
     }
-
+    print "<tr><td colspan=2><br></td></tr>";
     print "<tr><th colspan=2 class=grey align=left>";
-    print "<b>Select Category:</b>";
+    print "<b>".$I18N->msg('pool_import_target_info')."</b>";
     print "</th></tr>";
 
+	print "<tr><td colspan=2 class=grey><br></td></tr>";
     print "<tr><td colspan=2 class=grey>";
 
     print "<select name=importcategory>";
@@ -780,10 +984,128 @@ if($mode=='import'){
 
 }
 
+
+
+
+
 // ------------------------------------- Dateiliste
+
+//pw löscht files nach fileliste
+if($media_method=='updatecat_selectedmedia')
+{
+
+	 if(is_array($_GET[selectedmedia])){
+
+		foreach($_GET[selectedmedia] as $file_id){
+
+			 $db = new sql;
+		     //$db->debugsql = true;
+             $db->setTable('rex_file');
+             $db->where("file_id='$file_id'");
+             $db->setValue('category_id',$rex_newfile_category);
+             $db->update();
+
+			 $msg = $I18N->msg('pool_selectedmedia_error');
+		}
+
+     }else{
+	  	 $msg = $I18N->msg('pool_selectedmedia_error');
+	 }
+}
+
+
+
+//pw löscht files nach fileliste
+if($media_method=='delete_selectedmedia')
+{
+
+  if(is_array($_GET[selectedmedia])){
+
+        foreach($_GET[selectedmedia] as $file_id){
+
+		//kopiet von Dateidetails delete_file
+		$gf = new sql;
+        $gf->setQuery("select * from rex_file where file_id='$file_id'");
+        if ($gf->getRows()==1)
+        {
+                $file_name = $gf->getValue("filename");
+
+                // check if file is in an article slice
+                $file_search = '';
+                for($c=1;$c<11;$c++){
+                        $file_search.= "OR file$c='$file_name' ";
+                        $file_search.= "OR value$c LIKE '%$file_name%' ";
+                }
+                $file_search = substr($file_search,2);
+                $sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
+                // $db->setQuery($sql);
+                $res1 = $db->get_array($sql);
+
+                $sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
+                $res2= $db->get_array($sql);
+
+                if(!is_array($res1) and !is_array($res2)){
+
+                        $sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
+                        $db->query($sql);
+                        unlink($REX[MEDIAFOLDER]."/".$file_name);
+                        $msg = $I18N->msg('pool_file_deleted');
+                        $mode = "";
+                }else{
+
+                        $msg = $I18N->msg('pool_file_delete_error_1');
+                        $msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
+                        foreach($res1 as $var){
+                                $msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+                        }
+                        foreach($res2 as $var){
+                                $msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+                        }
+                        $msg .= " | ";
+                        $mode = "";
+                }
+        }else
+        {
+                $msg = $I18N->msg('pool_file_not_found');
+                $mode = "";
+        }
+
+		}
+  }else{
+	  	 $msg = $I18N->msg('pool_selectedmedia_error');
+	 }
+}
+
+
+
+
+
+
 
 if($mode == "")
 {
+
+	    //pw thumbnail in category hide?
+		$gc = new sql;
+        $gc->setQuery("select * from rex_file_category where id=".$rex_file_category."");
+		$cat_thumb_hide = $gc->getValue("hide");
+
+		if ($cat_thumb_hide) $thumbStatus = "(hide)";
+		else  $thumbStatus = "(show)";
+
+
+		$db = new sql();
+        $file_newcat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+
+        $newcat = "<select name=rex_newfile_category>\n";
+        if(is_array($file_newcat)){
+	       foreach($file_newcat as $var){
+                $newcat  .=  "<option value=$var[id]>$var[name]</option>\n";
+           }
+        }
+        $newcat .= "</select>\n";
+        //
+
 
         echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_file_list')."</b></td></tr><tr><td></td></tr></table>";
 
@@ -795,11 +1117,20 @@ if($mode == "")
                 $msg = "";
         }
 
+		//pw deletefilelist und cat change
+		print "<form name=rex_file_list action=index.php method=get ENCTYPE=multipart/form-data>\n";
+        print "<input type=hidden name=page value=medienpool>\n";
+		print "<input type=hidden name=rex_file_category value=$rex_file_category>\n";
+        print "<input type=hidden name=media_method value=''>\n";
 
-        ####### FILE LIST
+
+		####### FILE LIST
         print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+
+
         print "<tr>
-                <th align=left><b>".$I18N->msg('pool_file_thumbnail')."</th>
+				<th align=left></th>
+                <th align=left><b>".$I18N->msg('pool_file_thumbnail')."</b>$thumbStatus</th>
                 <th align=left><b>".$I18N->msg('pool_file_info')."</th>
                 <th align=left><b>".$I18N->msg('pool_file_description')."</th>
                 <th align=left><b>".$I18N->msg('pool_file_functions')."</th>
@@ -814,6 +1145,7 @@ if($mode == "")
 
                 $file_id =   $files->getValue("file_id");
                 $file_name = $files->getValue("filename");
+
                 $file_oname = $files->getValue("originalname");
                 $file_title = $files->getValue("title");
                 $file_description =   $files->getValue("description");
@@ -837,8 +1169,13 @@ if($mode == "")
                 // get file size
                 $file_size = getfilesize($file_size);
 
-                if ($file_type_ii) $thumbnail = "<img src=../files/$file_name width=80 border=0>";
-                else $thumbnail = "<img src=$icon_src width=80 height=80 align=left border=0><!-- ".$I18N->msg('pool_file_noshow')."-->";
+				//pw Thumbnail anzeigen, wenn hide = 0 (default)
+                if ($file_type_ii){
+				    if (!$cat_thumb_hide) $thumbnail = "<img src=../files/$file_name width=80 border=0>";
+					else $thumbnail = "";
+				}else{
+				    $thumbnail = "<img src=$icon_src width=80 height=80 align=left border=0><!-- ".$I18N->msg('pool_file_noshow')."-->";
+				}
 
                 if ($file_title == "") $file_title = "[".$I18N->msg('pool_file_notitle')."]";
                 if ($file_description == "") $file_description = "[".$I18N->msg('pool_file_nodescription')."]";
@@ -858,6 +1195,7 @@ if($mode == "")
                               $size = @getimagesize($REX[MEDIAFOLDER].'/'.$file_name);
                               $html_source = str_replace("###WIDTH###",$size[0],$html_source);
                               $html_source = str_replace("###HEIGHT###",$size[1],$html_source);
+                              $html_source = str_replace("###ALT###",htmlentities( $file_description),$html_source);
                            }
                    }
                    $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
@@ -867,6 +1205,9 @@ if($mode == "")
 
                 $ilink = "index.php?page=medienpool&mode=detail&file_id=$file_id&rex_file_category=$rex_file_category";
                 echo "<tr>";
+
+				//pw checkbox delete filelist
+				echo "<td class=grey width=30><input type=checkbox name=selectedmedia[] value='$file_id'></td>";
                 echo "<td valign=top class=grey width=100><a href=$ilink>$thumbnail</a></td>";
                 echo "<td valign=top class=grey width=200><b><a href=$ilink>$file_title</a></b><br><br>$file_name<br>$file_size<br><br>$file_stamp</td>";
                 echo "<td valign=top class=grey>".nl2br(htmlentities($file_description))."</td>";
@@ -874,7 +1215,16 @@ if($mode == "")
                 echo "</tr>";
                 $files->next();
         }
+
+          //pw funktionen
+        print "<tr><td colspan=5></td>";
+        print "<tr><td class=grey><a href=\"javascript:void(0)\" onClick=\"SetAllCheckBoxes('rex_file_list','selectedmedia[]',true)\"><b>".$I18N->msg('pool_select_all')."</b></a></td>";
+        print "<td class=grey colspan=4><b>".$I18N->msg('pool_selectedmedia')."</b>&nbsp;<a href=\"javascript:fileListFunc('updatecat_selectedmedia');\">".$I18N->msg('pool_changecat_selectedmedia')."</a>&nbsp;$newcat&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:fileListFunc('delete_selectedmedia');\">".$I18N->msg('pool_delete_selectedmedia')."</a></td></tr>";
         echo "</table>";
+
+
+		print "</form>";
+
 }
 
 echo "</body></html>";
