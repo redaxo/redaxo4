@@ -58,6 +58,7 @@ if ($article->getRows() == 1)
 					
 					// ------------------------------------------ slices edit/add
 					$newsql = new sql;
+					// $newsql->debugsql = 1;
 					$newsql->setTable("rex_article_slice");
 
 					if ($function == "edit")
@@ -117,7 +118,6 @@ if ($article->getRows() == 1)
 					for ($i=1;$i<11;$i++)
 					{
 						$newsql->setValue("value$i",$REX_ACTION[VALUE][$i]);
-						$newsql->setValue("link$i",$REX_ACTION[LINK][$i]);
 					}
 					
 					if ($REX_USER->isValueOf("rights","module[html]")) $newsql->setValue("html",$REX_ACTION[HTML]);
@@ -126,6 +126,15 @@ if ($article->getRows() == 1)
 					// ---------------------------- REX_MEDIA
 				        for ($fi=1;$fi<11;$fi++)
 					{
+						
+						if ($REX_ACTION[LINK][$fi]=="delete link" or $REX_ACTION[LINK][$fi]=="")
+						{
+							$newsql->setValue("link$fi","");
+						}else
+						{
+							$newsql->setValue("link$fi",$REX_ACTION[LINK][$fi]);
+						}
+						
 						$FILENAME = $REX_ACTION[FILE][$fi];
 						if (($FILENAME == "delete file" or $FILENAME == "") && $CHECK_FILE[$fi] != 1)
 						{

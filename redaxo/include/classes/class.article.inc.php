@@ -473,14 +473,14 @@ class article
 
                         // ----------------------------- REX_MEDIA
                         $media = "<table><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
-                        $media.= "<td><input type=text size=20 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
-                        $media.= "<td><a href=javascript:openREXMedialist($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
+                        $media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
+                        $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
                         $media.= "<td><a href=javascript:deleteREXMedia($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
                         $media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
-                        $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_show.gif width=16 height=16 title='medienpool' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
+                        $slice_content = str_replace("FILE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.file$i")),$slice_content);
 
                         // ----------------------------- REX_LINK_BUTTON
                         if($this->CONT->getValue("rex_article_slice.link$i")){
@@ -490,15 +490,14 @@ class article
                         	$link_name = $res[0][name];
                         }
                         $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
-                        $media.= "<td><input type=text size=40 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i]></td>";
+                        $media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
                         $media.= "<td><a href=javascript:openLinkMap($i);><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
                         $media.= "<td><a href=javascript:deleteREXLink($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
-
                         $slice_content = str_replace("REX_LINK[$i]",$this->generateLink($this->CONT->getValue("rex_article_slice.link$i")),$slice_content);
-                        $slice_content = str_replace("FILE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.file$i")),$slice_content);
+
 
                         // -- show:htmlentities -- edit:nl2br/htmlentities
                         $slice_content = str_replace("REX_VALUE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.value$i")),$slice_content);
@@ -575,22 +574,37 @@ class article
         {
                 for ($i=1;$i<11;$i++)
                 {
+                	// ----------------------------- REX_MEDIA_BUTTON
                         $media = "<table><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
-                        $media.= "<td><input type=text size=20 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
-                        $media.= "<td><a href=javascript:openREXMedialist($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
+                        $media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
+                        $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
                         $media.= "<td><a href=javascript:deleteREXMedia($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
                         $media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
-                        $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_show.gif width=16 height=16 title='medienpool' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
+                        $slice_content = str_replace("FILE[$i]","",$slice_content);
+
+
+			// ----------------------------- REX_LINK_BUTTON
+                        $link_name = "";
+                        $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
+                        $media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
+                        $media.= "<td><a href=javascript:openLinkMap($i);><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
+                        $media.= "<td><a href=javascript:deleteREXLink($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+                        $media.= "</tr></table>";
+                        $media = $this->stripPHP($media);
+                        $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
+                        $slice_content = str_replace("REX_LINK[$i]","",$slice_content);
 
                         $slice_content = str_replace("REX_VALUE[$i]","",$slice_content);
                         $slice_content = str_replace("REX_HTML_VALUE[$i]","",$slice_content);
                         $slice_content = str_replace("REX_PHP_VALUE[$i]","",$slice_content);
                         $slice_content = str_replace("REX_IS_VALUE[$i]","",$slice_content);
                         $slice_content = str_replace("REX_LINK[$i]","",$slice_content);
-                        $slice_content = str_replace("FILE[$i]","",$slice_content);
+
+
+
                 }
 
                 $slice_content = str_replace("REX_PHP","",$slice_content);
