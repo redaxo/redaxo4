@@ -220,6 +220,12 @@ class Textile
         $text = $this->incomingEntities($text);
         $text = $this->encodeEntities($text);
         
+        // sorry it's a hack, but it's needed for German Umlauts
+        // carsten 28.07.04
+        $text = str_replace(array("ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"), 
+                            array("&auml;", "&ouml;", "&uuml;", "&beta;", "&Auml;", "&Ouml;", "&Uuml;"), 
+                            $text);
+        
         if ($encode) {
 			$text = str_replace("x%x%", "&#38;", $text);
         	return $text;
