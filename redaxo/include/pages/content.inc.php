@@ -1,34 +1,40 @@
 <?
 
 $article = new sql;
-$article->setQuery("select * from rex_article where id='$article_id'");
+$article->setQuery("select * from rex_article where id='$article_id' and ctype=$ctype");
 
 if ($article->getRows() == 1)
 {
 
-	// --------------------------------------------- ARTIKEL WURDE GEFUNDEN
-	$category_id = $article->getValue("re_id");
-
-	// ----- permissions
-	$STRUCTURE_PERM = FALSE;
-	if ($REX_USER->isValueOf("rights","structure[all]")) $STRUCTURE_PERM = TRUE;
+	// --------------------------------------------- ARTIKEL WURDE GEFUNDEN - CATEGORY WAEHLEN
+	if ($article->getValue("startpage")==1) $category_id = $article->getValue("id");
+	else $category_id = $article->getValue("re_id");
 
 	// ----- category pfad und rechte
 	include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
-	title("Artikel",$KATout);
+
+	// ----- Titel anzeigen
+	$add = "";
+	if (count($REX[CTYPE])>1)
+	{
+		$add = "&nbsp;&nbsp;&nbsp;Sprachen: | ";
+		reset($REX[CTYPE]);
+		while( list($key,$val) = each($REX[CTYPE]) )
+		{
+			if ($key==$ctype) $add .= "$val | ";
+			else $add .= "<a href=index.php?page=content&ctype=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+		}
+		$add .= "<br>";
+	}
+
+	title("Artikel",$add.$KATout);
+
+	// ----- mode defs
+	if ($mode != "meta") $mode = "edit";
 
 	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE
-	if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","article[$article_id]") || $REX_USER->isValueOf("rights","article[all]"))
+	if (1==1)
 	{
-
-		// ------------------- SLICE VERSCHIEBEN NACH OBEN ODER UNTEN
-		if ($REX_USER->isValueOf("rights","advancedMode[]"))
-		{
-
-
-
-		}
-
 
 		// ------------------------------------------ SLICE EDIT / ADD / DELETE
 		if (($function == "add" or $function == "edit") and $save==1)
@@ -38,7 +44,7 @@ if ($article->getRows() == 1)
 
 			if ($function == "edit")
 			{
-				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id'");
+				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and ctype=$ctype");
 				if ($CM->getRows()==1) $module_id = $CM->getValue("rex_article_slice.modultyp_id");
 			}else
 			{
@@ -68,6 +74,7 @@ if ($article->getRows() == 1)
 						$newsql->setValue("re_article_slice_id",$slice_id);
 						$newsql->setValue("article_id",$article_id);
 						$newsql->setValue("modultyp_id",$module_id);
+						$newsql->setValue("ctype",$ctype);
 					}
 
 					for ($i=1;$i<11;$i++)
@@ -152,9 +159,6 @@ if ($article->getRows() == 1)
 						}
 					}
 
-
-
-
 					// ----- Function
 					if ($function == "edit")
 					{
@@ -165,7 +169,7 @@ if ($article->getRows() == 1)
 					{
 						$newsql->insert();
 						$last_id = $newsql->last_insert_id;
-						$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id'");
+						$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and ctype=$ctype");
 						$message .= $I18N->msg('block_added');
 					}
 
@@ -227,7 +231,7 @@ if ($article->getRows() == 1)
 			// --------------------- SLICE DELETE
 
 			$CM = new sql;
-			$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id'");
+			$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and ctype=$ctype");
 
 			if ($CM->getRows()==1)
 			{
@@ -340,15 +344,12 @@ if ($article->getRows() == 1)
 		}
 
 
-		// --------------------------------------------------------------------- SLICES AUSGABE
+		// --------------------------------------------------------------------- CONTENT HEAD MENUE
 
-		if ($mode=="") $menu = "<a href=index.php?page=content&article_id=$article_id&category_id=".$article->getValue("category_id")." class=black>".$I18N->msg('preview')."</a>";
-		else $menu = "<a href=index.php?page=content&article_id=$article_id&category_id=".$article->getValue("category_id")." class=blue>".$I18N->msg('preview')."</a>";
-		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")." class=black>".$I18N->msg('edit_mode')."</a>";
-		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")." class=blue>".$I18N->msg('edit_mode')."</a>";
-		if ($mode=="meta") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")." class=black>".$I18N->msg('metadata')."</a>";
-		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")." class=blue>".$I18N->msg('metadata')."</a>";
-
+		$menu = "<a href=../index.php?article_id=$article_id&ctype=$ctype class=blue target=_blank>".$I18N->msg('show')."</a>";
+		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&ctype=$ctype class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&ctype=$ctype class=blue>".$I18N->msg('metadata')."</a>";
+		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&ctype=$ctype class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&ctype=$ctype class=black>".$I18N->msg('metadata')."</a>";
+		
 		echo "	<table border=0 cellpadding=0 cellspacing=1 width=770>
 				<tr>
 					<td align=center class=grey width=50><img src=pics/document.gif width=16 height=16 border=0><br><img src=pics/leer.gif width=30 height=1></td>
@@ -363,10 +364,27 @@ if ($article->getRows() == 1)
 					<td valign=top class=lblue>";
 
 
-		// ---------------------------------------------------------------------- METADATEN
-
-		if ($mode == "meta")
+		if ($mode == "edit")
 		{
+			// -------------------------------------------- EDIT VIEW
+
+			// preview, add, edit, delete , module mode
+
+			$CONT = new article;
+			$CONT->setArticleId($article_id);
+			$CONT->setSliceId($slice_id);
+			$CONT->setMode($mode);
+			$CONT->setCType($ctype);
+			$CONT->setEval(TRUE);
+			$CONT->setFunction($function);
+
+			eval("?>".$CONT->getArticle());
+
+		}elseif ($mode == "meta")
+		{
+
+			// -------------------------------------------- META VIEW
+			
 			$extens = "";
 			$category_id = $article->getValue("category_id");
 
@@ -388,17 +406,17 @@ if ($article->getRows() == 1)
 
 			if ($save == "1")
 			{
-				#$debugsql = 1;
 				$meta_sql = new sql;
 				$meta_sql->setTable("rex_article");
-				$meta_sql->where("id='$article_id'");
+				// $meta_sql->debugsql = 1;
+				$meta_sql->where("id='$article_id' and ctype=$ctype");
 				$meta_sql->setValue("online_from",$jahr_von.$monat_von.$tag_von);
 				$meta_sql->setValue("online_to",$jahr_bis.$monat_bis.$tag_bis);
-				$meta_sql->setValue("keywords",$keywords);
-				$meta_sql->setValue("description",$description);
-				$meta_sql->setValue("name",$article_name);
+				$meta_sql->setValue("keywords",$meta_keywords);
+				$meta_sql->setValue("description",$meta_description);
+				$meta_sql->setValue("name",$meta_article_name);
 				$meta_sql->setValue("type_id",$type_id);
-				$meta_sql->setValue("checkbox01",$checkbox01);
+				$meta_sql->setValue("teaser",$meta_teaser);
 
 				// cache
 				$Cache = new Cache($article_id);
@@ -451,6 +469,7 @@ if ($article->getRows() == 1)
 				<input type=hidden name=article_id value='$article_id'>
 				<input type=hidden name=mode value='meta'>
 				<input type=hidden name=save value=1>
+				<input type=hidden name=ctype value=$ctype>
 				<tr>
 					<td colspan=2>".$I18N->msg("general")."</td>
 				</tr>";
@@ -468,15 +487,15 @@ if ($article->getRows() == 1)
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("name_description")."</td>
-					<td class=grey><input type=text name=article_name value=\"".htmlentities($article->getValue("name"))."\" size=30 style=\"width:100%;\"></td>
+					<td class=grey><input type=text name=meta_article_name value=\"".htmlentities($article->getValue("name"))."\" size=30 style=\"width:100%;\"></td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("description")."</td>
-					<td class=grey><textarea name=description cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("description"))."</textarea></td>
+					<td class=grey><textarea name=meta_description cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("description"))."</textarea></td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("keywords")."</td>
-					<td class=grey><textarea name=keywords cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("keywords"))."</textarea></td>
+					<td class=grey><textarea name=meta_keywords cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("keywords"))."</textarea></td>
 				</tr>";
 
 			echo "<tr><td class=grey>".$I18N->msg("metadata_image")."</td><td class=grey>";
@@ -492,11 +511,9 @@ if ($article->getRows() == 1)
 			echo "</td></tr>";
 
 			echo "<tr bgcolor=#eeeeee>";
-
-			if ($article->getValue("checkbox01")==1) echo "<td align=right class=grey><input type=checkbox name=checkbox01 checked value=1></td>";
-			else echo "<td align=right class=grey><input type=checkbox name=checkbox01 value=1></td>";
-
-			echo "	<td class=grey>".$I18N->msg("tease_on_startpage")."</td>
+			if ($article->getValue("teaser")==1) echo "<td align=right class=grey><input type=checkbox name=meta_teaser checked value=1></td>";
+			else echo "<td align=right class=grey><input type=checkbox name=meta_teaser value=1></td>";
+			echo "	<td class=grey>".$I18N->msg("teaser")."</td>
 				</tr>";
 
 			echo "	</tr>
@@ -572,18 +589,6 @@ if ($article->getRows() == 1)
 					</table>";
 			}
 
-		}else
-		{
-			// preview, add, edit, delete , module mode
-
-			$CONT = new article;
-			$CONT->setArticleId($article_id);
-			$CONT->setSliceId($slice_id);
-			$CONT->setMode($mode);
-			$CONT->setEval(TRUE);
-			$CONT->setFunction($function);
-
-			eval("?>".$CONT->getArticle());
 		}
 
 		echo "		</td>
@@ -594,7 +599,7 @@ if ($article->getRows() == 1)
 	}else
 	{
 	    	echo "<table border=1 cellpadding=6 cellspacing=0 width=770 bgcolor=#eeeeee>
-			<tr bgcolor='#eeeeee'><td class=warning>".$I18N->msg("no_rights_to_edit")."</td></tr></table>";
+			<tr bgcolor='#eeeeee'><td class=warning><br><br>&nbsp;&nbsp;".$I18N->msg("no_rights_to_edit")."<br><br><br></td></tr></table>";
 	}
 }
 

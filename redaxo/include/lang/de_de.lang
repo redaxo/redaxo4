@@ -98,13 +98,14 @@ description = Beschreibung
 keywords = Suchbegriffe
 metadata_image = Metafile/bild
 delete_file = File löschen
-tease_on_startpage = Auf die Startseite als Teaser nehmen
+teaser = Teaser
 update_metadata = Metadaten aktualisieren
 other_functions = Sonstige Funktionen
 category = Kategorie
 move_article = Artikel verschieben
 copy_article = Artikel kopieren
 no_rights_to_edit = Sie haben keine Editiererlaubnis !
+show = Anzeigen
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Artikeln genutzt wird:

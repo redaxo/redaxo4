@@ -1,4 +1,3 @@
-## Redaxo Database Dump Version 2.7 
 DROP TABLE IF EXISTS li_reisen;
 CREATE TABLE li_reisen ( id int(11) NOT NULL  auto_increment, name text NULL  , subline text NULL  , kurzbeschreibung text NULL  , langbeschreibung text NULL  , hoehepunkte text NULL  , leistungen text NULL  , nichtenthalten text NULL  , teilnehmerzahl text NULL  , sonstiges text NULL  , verlauf text NULL  , status tinyint(4) NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 INSERT INTO li_reisen VALUES ('1','Zarengold','','','','','','','','','','1');

@@ -17,119 +17,128 @@
 class article
 {
 
-        var $mediafolder;
-        var $mediafolder_www;
-        var $slice_id;
-        var $article_id;
-        var $mode;
-        var $article_content;
-        var $function;
-        var $eval;
-        var $category_id;
-        var $CONT;
-        var $template_id;
-        var $ViewSliceId;
-        var $contents;
-        var $setanker;
-        var $save;
+	var $mediafolder;
+	var $mediafolder_www;
+	var $slice_id;
+	var $article_id;
+	var $mode;
+	var $article_content;
+	var $function;
+	var $eval;
+	var $category_id;
+	var $CONT;
+	var $template_id;
+	var $ViewSliceId;
+	var $contents;
+	var $setanker;
+	var $save;
+	var $ctype;
 
-        function article()
-        {
+	function article()
+	{
+		$this->article_id = 0;
+		$this->template_id = 0;
+		$this->ctype = 0;
+		$this->slice_id = 0;
+		$this->mode = "view";
+		$this->article_content = "";
+		$this->eval = FALSE;
+		$this->setanker = true;
+		unset($save);
+	
+		// AUSNAHME: modul auswählen problem
+		if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
+	}
 
-                $this->article_id = 0;
-                $this->template_id = 0;
-                $this->slice_id = 0;
-                $this->mode = "view";
-                $this->article_content = "";
-                $this->eval = FALSE;
-                $this->setanker = true;
-                unset($save);
+	function setSliceId($value)
+	{
+		$this->slice_id = $value;
+	}
 
-                // AUSNAHME: modul auswählen problem
-                if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
-        }
+	function setCType($value)
+	{
+		$this->ctype = $value;
+	}
+	
+	function setArticleId($article_id)
+	{
+		global $REX;
+		
+		$article_id = $article_id+0;
+		$this->article_id = $article_id+0;
+		
+		if (!$REX[GG])
+		{
+		
+			// ---------- select article
+			$this->ARTICLE = new sql;
+			$this->ARTICLE->setQuery("select * from rex_article where rex_article.id='$article_id' and ctype='".$this->ctype."'");
+		
+			if ($this->ARTICLE->getRows() == 1)
+			{
+				$this->template_id = $this->ARTICLE->getValue("rex_article.template_id");
+				$this->category_id = $this->ARTICLE->getValue("rex_article.re_id");
+				return TRUE;
+			}else
+			{
+				$this->article_id = 0;
+				$this->template_id = 0;
+				$this->category_id = 0;
+				return FALSE;
+			}
+		}else
+		{
+			if (@include $REX[INCLUDE_PATH]."/generated/articles/".$article_id.".".$this->ctype.".article")
+			{
+				return TRUE;
+			}else
+			{
+				return FALSE;
+			}
+		}
+	}
 
-        function setSliceId($value)
-        {
-                $this->slice_id = $value;
-        }
+	function setMode($mode)
+	{
+		$this->mode = $mode;
+	}
+	
+	function setFunction($function)
+	{
+		$this->function = $function;
+	}
+	
+	function setEval($value)
+	{
+		if ($value) $this->eval = TRUE;
+		else $this->eval = FALSE;
+	}
+	
+	function getValue($value)
+	{
+		global $REX;
+		if ($REX[GG]) return $REX[ART][$this->article_id][$value];
+		else return $this->ARTICLE->getValue($value);
+	}
 
-        function setArticleId($article_id)
-        {
-                global $REX;
-
-                $article_id = $article_id+0;
-                $this->article_id = $article_id+0;
-
-                if (!$REX[GG])
-                {
-
-                        // ---------- select article
-                        $this->ARTICLE = new sql;
-                        $this->ARTICLE->setQuery("select * from rex_article where rex_article.id='$article_id'");
-
-                        if ($this->ARTICLE->getRows() == 1)
-                        {
-                                $this->template_id = $this->ARTICLE->getValue("rex_article.template_id");
-                                $this->category_id = $this->ARTICLE->getValue("rex_article.re_id");
-                                return TRUE;
-                        }else
-                        {
-                                $this->article_id = 0;
-                                $this->template_id = 0;
-                                $this->category_id = 0;
-                                return FALSE;
-                        }
-
-                }else
-                {
-                        if (@include $REX[INCLUDE_PATH]."/generated/articles/".$article_id.".article") return TRUE;
-                        else return FALSE;
-                }
-        }
-
-        function setMode($mode)
-        {
-                $this->mode = $mode;
-        }
-
-        function setFunction($function)
-        {
-                $this->function = $function;
-        }
-
-        function setEval($value)
-        {
-                if ($value) $this->eval = TRUE;
-                else $this->eval = FALSE;
-        }
-
-        function getValue($value)
-        {
-                global $REX;
-                if ($REX[GG]) return $REX[ART][$this->article_id][$value];
-                else return $this->ARTICLE->getValue($value);
-        }
-
-        function getArticle()
-        {
-                global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$I18N;
-
-                if ($REX[GG])
-                {
-                        if ($this->article_id != 0)
-                        {
-                                $this->contents = "";
-								$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".content";
-
-                                if ($fd = @fopen ($filename, "r"))
-                                {
-                                        $this->contents = fread ($fd, filesize ($filename));
-                                        fclose ($fd);
-                                        eval($this->contents);
-                                }
-                        }
-                }else
+	function getArticle()
+	{
+		global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$I18N;
+		
+		if ($REX[GG])
+		{
+			if ($this->article_id != 0)
+			{
+				$this->contents = "";
+				$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".".$this->ctype.".content";
+				if ($fd = @fopen ($filename, "r"))
+				{
+					$this->contents = fread ($fd, filesize ($filename));
+					fclose ($fd);
+					eval($this->contents);
+				}
+			}
+		}else
                         {
 
                         if ($this->article_id != 0)
@@ -142,7 +151,9 @@ class article
                                                         left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
                                                         left join rex_article on rex_article_slice.article_id=rex_article.id
                                                         where
-                                                                rex_article_slice.article_id='".$this->article_id."'
+                                                                rex_article_slice.article_id='".$this->article_id."' and 
+																rex_article_slice.ctype='".$this->ctype."' and 
+																rex_article.ctype='".$this->ctype."'
                                                         order by
                                                                 rex_article_slice.re_article_slice_id");
 
@@ -221,6 +232,7 @@ class article
                                                         <input type=hidden name=mode value=$this->mode>
                                                         <input type=hidden name=slice_id value=$I_ID>
                                                         <input type=hidden name=function value=add>
+                                                        <input type=hidden name=ctype value=".$this->ctype.">
                                                         <tr>
                                                         <td class=dblue>".$MODULESELECT->out()."</td>
                                                         </tr></form></table>";
@@ -230,8 +242,8 @@ class article
                                                         <table width=100% cellspacing=0 cellpadding=5 border=0>
                                                         <tr>
                                                         <td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
-                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
-                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete#slice$RE_CONTS[$I_ID] class=red12b><b>".$I18N->msg('delete')."</b></a></td>
+                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&ctype=$ctype#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
+                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&ctype=$ctype#slice$RE_CONTS[$I_ID] class=red12b><b>".$I18N->msg('delete')."</b></a></td>
                                                         </tr>
                                                         </table>";
 
@@ -316,6 +328,7 @@ class article
                                         <input type=hidden name=mode value=$this->mode>
                                         <input type=hidden name=slice_id value=$I_ID>
                                         <input type=hidden name=function value=add>
+                                        <input type=hidden name=ctype value=".$this->ctype.">
                                         <tr>
                                         <td class=dblue>".$MODULESELECT->out()."</td>
                                         </tr></form></table>";
@@ -415,6 +428,7 @@ class article
                                 <input type=hidden name=function value=add>
                                 <input type=hidden name=module_id value=$module_id>
                                 <input type=hidden name=save value=1>
+                                <input type=hidden name=ctype value=".$this->ctype.">
                                 ".$MOD->getValue("eingabe")."
                                 <br><input type=submit value='".$I18N->msg('add_block')."'></form>";
                         $slice_content = $this->sliceClear($slice_content);
@@ -426,25 +440,26 @@ class article
 
         }
 
-        function deleteSlice($RE_CONTS,$RE_MODUL_OUT,$PRE_ID)
-        {
-                global $REX,$FORM,$I18N;
-                $slice_content .= "<a name=deleteslice></a>$RE_MODUL_OUT
-                        <form ENCTYPE=multipart/form-data action=index.php#slice$PRE_ID method=post>
-                        <input type=hidden name=article_id value=$this->article_id>
-                        <input type=hidden name=page value=content>
-                        <input type=hidden name=mode value=$this->mode>
-                        <input type=hidden name=slice_id value=$RE_CONTS>
-                        <input type=hidden name=function value=delete>
-                        <table cellspacing=0 cellpadding=0 border=0 class=high>
-                        <tr>
-                        <td valign=middle><select name=save size=1><option value=2>".$I18N->msg('dont_delete_block')."</option><option value=1 selected>".$I18N->msg('delete_block')."</option></select></td>
-                                <td valign=middle><input type=submit value='".$I18N->msg('submit')."'></td>
-                        </tr></form>
-                        </table>";
-                $slice_content = $this->sliceIn($slice_content);
-                return $slice_content;
-        }
+		function deleteSlice($RE_CONTS,$RE_MODUL_OUT,$PRE_ID)
+		{
+			global $REX,$FORM,$I18N;
+			$slice_content .= "<a name=deleteslice></a>$RE_MODUL_OUT
+				<form ENCTYPE=multipart/form-data action=index.php#slice$PRE_ID method=post>
+				<input type=hidden name=article_id value=$this->article_id>
+				<input type=hidden name=page value=content>
+				<input type=hidden name=mode value=$this->mode>
+				<input type=hidden name=slice_id value=$RE_CONTS>
+				<input type=hidden name=function value=delete>
+				<input type=hidden name=ctype value=".$this->ctype.">
+				<table cellspacing=0 cellpadding=0 border=0 class=high>
+				<tr>
+				<td valign=middle><select name=save size=1><option value=2>".$I18N->msg('dont_delete_block')."</option><option value=1 selected>".$I18N->msg('delete_block')."</option></select></td>
+				<td valign=middle><input type=submit value='".$I18N->msg('submit')."'></td>
+				</tr></form>
+				</table>";
+			$slice_content = $this->sliceIn($slice_content);
+			return $slice_content;
+		}
 
         function editSlice($RE_CONTS,$RE_MODUL_IN)
         {
@@ -459,6 +474,7 @@ class article
                         <input type=hidden name=function value=edit>
                         <input type=hidden name=save value=1>
                         <input type=hidden name=update value=0>
+                        <input type=hidden name=ctype value=".$this->ctype.">
                         $RE_MODUL_IN
                         <br><br><input type=submit value='".$I18N->msg('save_block')."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value='".$I18N->msg('update_block')."' onClick='REX_FORM.update.value=1'></form>";
 
@@ -503,9 +519,9 @@ class article
                         // ----------------------------- REX_MEDIA
                         $media = "<table><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
                         $media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
-                        $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
-                        $media.= "<td><a href=javascript:deleteREXMedia($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
-                        $media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
+                        $media.= "<td><a href=javascript:openREXMedia($i,".$this->ctype.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
+                        $media.= "<td><a href=javascript:deleteREXMedia($i,".$this->ctype.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+                        $media.= "<td><a href=javascript:addREXMedia($i,".$this->ctype.")><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
@@ -514,7 +530,7 @@ class article
                         // ----------------------------- REX_LINK_BUTTON
                         if($this->CONT->getValue("rex_article_slice.link$i")){
                         	$db = new sql;
-                        	$sql = "SELECT name FROM rex_article WHERE id=".$this->CONT->getValue("rex_article_slice.link$i");
+                        	$sql = "SELECT name FROM rex_article WHERE id=".$this->CONT->getValue("rex_article_slice.link$i")." ctype=".$this->ctype;
                         	$res = $db->get_array($sql);
                         	$link_name = $res[0][name];
                         }else
@@ -523,8 +539,8 @@ class article
                         }
                         $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
                         $media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
-                        $media.= "<td><a href=javascript:openLinkMap($i);><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
-                        $media.= "<td><a href=javascript:deleteREXLink($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+                        $media.= "<td><a href=javascript:openLinkMap($i,".$this->ctype.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
+                        $media.= "<td><a href=javascript:deleteREXLink($i,".$this->ctype.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
@@ -609,9 +625,9 @@ class article
                 	// ----------------------------- REX_MEDIA_BUTTON
                         $media = "<table><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
                         $media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
-                        $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
-                        $media.= "<td><a href=javascript:deleteREXMedia($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
-                        $media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
+                        $media.= "<td><a href=javascript:openREXMedia($i,".$this->ctype.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
+                        $media.= "<td><a href=javascript:deleteREXMedia($i,".$this->ctype.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+                        $media.= "<td><a href=javascript:addREXMedia($i,".$this->ctype.")><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
@@ -622,8 +638,8 @@ class article
                         $link_name = "";
                         $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
                         $media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
-                        $media.= "<td><a href=javascript:openLinkMap($i);><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
-                        $media.= "<td><a href=javascript:deleteREXLink($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+                        $media.= "<td><a href=javascript:openLinkMap($i,".$this->ctype.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
+                        $media.= "<td><a href=javascript:deleteREXLink($i,".$this->ctype.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);

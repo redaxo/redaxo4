@@ -104,7 +104,7 @@ class sql
 		// $this->selectDB();
 		$back = @mysql_result($this->result,$this->counter,"$value");
 		return $back;
-        }
+	}
 
 	function getRows()
 	{
@@ -224,6 +224,19 @@ class sql
 	        unset($data);
 
 	}
+
+	function setNewId($field)
+	{
+		$result = mysql_query("select $field from $this->table order by $field desc LIMIT 1");
+		$id = mysql_result($result,0,"$field");
+		$id++;
+		$this->setValue($field,$id);
+		return $id;
+	}
+
+
+	// ------------------------- ORDER FUNKTIONEN
+
 
 	// Function zum DB Order change
 	//$db->order_down($order_id,"table_name","field_name_order_id");

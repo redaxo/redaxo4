@@ -1,23 +1,31 @@
-<?
+<?php
 
 /*
- * Object Helper Function:
- * Returns a url for linking to this article
- * This url respects the setting for mod_rewrite
- * support!
- *
- * If you pass an associative array for $params,
- * then these parameters will be attached to the URL.
- * e.g.:
- *   $param = array("order" => "123", "name" => "horst");
- *   $article->getUrl($param);
- * will return:
- *   index.php?article_id=1&order=123&name=horst
- * or if mod_rewrite support is activated:
- *   /1-The_Article_Name?order=123&name=horst
+ * rex generate funktionen fuer artikel und ctype
  */
- 
+
+// ----------------------------------------- ARTICLE
+
 function getUrl($id,$params = null) {
+	
+	/*
+	 * Object Helper Function:
+	 * Returns a url for linking to this article
+	 * This url respects the setting for mod_rewrite
+	 * support!
+	 *
+	 * If you pass an associative array for $params,
+	 * then these parameters will be attached to the URL.
+	 * e.g.:
+	 *   $param = array("order" => "123", "name" => "horst");
+	 *   $article->getUrl($param);
+	 * will return:
+	 *   index.php?article_id=1&order=123&name=horst
+	 * or if mod_rewrite support is activated:
+	 *   /1-The_Article_Name?order=123&name=horst
+	 */
+	
+	
 	global $REX;
 	$param_string = "";
 	if ($params && sizeof($params) > 0) {
@@ -31,8 +39,6 @@ function getUrl($id,$params = null) {
 	                           : "index.php?article_id=$id";
   return $REX['WWW_PATH']."{$url}{$param_string}";
 }
-
-// ---------------------------------------- GENERATE
 
 function generateArticle($id)
 {
@@ -108,8 +114,6 @@ function generateArticle($id)
 
 }
 
-// ---------------------------------------- DELETE ARTICLE
-
 function deleteArticle($id)
 {
 	global $REX, $I18N;
@@ -119,9 +123,9 @@ function deleteArticle($id)
 	}
 
 	$ART = new sql;
-	$ART->setQuery("select * from rex_article where id='$id' and startpage=0");
+	$ART->setQuery("select * from rex_article where id='$id'");
 
-	if ($ART->getRows()==1)
+	if ($ART->getRows()>0)
 	{
 		$re_id = $ART->getValue("re_id");
 
@@ -135,7 +139,7 @@ function deleteArticle($id)
 		$ART->query("delete from rex_article where id='$id'");
 		$ART->query("delete from rex_article_slice where article_id='$id'");
 		
-		generateArticleList($re_id);
+		// generateArticleList($re_id);
 		
 		$Cache = new Cache();
 		$Cache->removeAllCacheFiles();
@@ -148,8 +152,6 @@ function deleteArticle($id)
 	}
 
 }
-
-// ---------------------------------------- DELETE KATEHORIE
 
 function deleteCategory($id)
 {
@@ -185,7 +187,7 @@ function deleteCategory($id)
 		$KAT->query("delete from rex_article where id='$id'");
 		$KAT->query("delete from rex_article_slice where article_id='$id'");
 		
-		generateArticleList($re_id);
+		// generateArticleList($re_id);
 		
 		$Cache = new Cache();
 		$Cache->removeAllCacheFiles();
@@ -198,8 +200,6 @@ function deleteCategory($id)
 	}
 
 }
-
-
 
 function generateLists($re_id)
 {
@@ -239,9 +239,6 @@ function generateLists($re_id)
 	
 }
 
-
-
-
 function deleteDir($file,$what = 1)
 {
 	if (file_exists($file))
@@ -271,9 +268,6 @@ function deleteDir($file,$what = 1)
 	$Cache->removeAllCacheFiles();
 }
 
-// deleteDir ($mydir);
-
-// generate templates,articles,cache,categories
 function generateAll()
 {
 
@@ -303,26 +297,10 @@ function generateAll()
 		$gc->next();
 	}
 
-	// ----------------------------------------------------------- generiere categorien
-	deleteDir($REX[INCLUDE_PATH]."/generated/categories",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/categories",0664);
-	$gcc = new sql;
-	$gcc->setQuery("select * from rex_category");
-	for ($i=0;$i<$gcc->getRows();$i++)
-	{
-		generateCategory($gcc->getValue("id"));
-		$gcc->next();
-	}
-	// generateCategories();
-
 	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
 
 	return $MSG;
 }
-
-
-
-// ---------------------------------------- MOVE
 
 function moveArticle($id,$to_cat_id,$from_cat_id)
 {
@@ -362,10 +340,6 @@ function moveArticle($id,$to_cat_id,$from_cat_id)
 	return $return;
 
 }
-
-
-
-// ---------------------------------------- COPY
 
 function copyArticle($id,$to_cat_id)
 {
@@ -479,20 +453,6 @@ function copyArticle($id,$to_cat_id)
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ---------------------------------------------- KATEGORIE KOPIEREN
 function copyCategory($which,$to_cat)
 {
 
@@ -540,6 +500,81 @@ function copyCategory($which,$to_cat)
 	$Cache = new Cache();
 	$Cache->removeAllCacheFiles();
 
+}
+
+// ----------------------------------------- CTYPE
+
+function rex_deleteCType($id)
+{
+	global $REX;
+
+	$content = "// --- DYN\n\r";
+	reset($REX[CTYPE]);
+	for ($i=0;$i<count($REX[CTYPE]);$i++)
+	{
+		$cur = key($REX[CTYPE]);
+		$val = current($REX[CTYPE]);
+		if ($cur != $id && $id != 0 ) $content .= "\n\r\$REX[CTYPE][$cur] = \"$val\";";
+		next($REX[CTYPE]);
+	}
+	$content .= "\n\r// --- /DYN";
+
+	$file = $REX[INCLUDE_PATH]."/ctype.inc.php";
+	$h = fopen($file,"r");
+	$fcontent = fread($h,filesize($file));
+	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
+	fclose($h);
+
+	$h = fopen($file,"w+");
+	fwrite($h,$fcontent,strlen($fcontent));
+	fclose($h);
+	if ($id>0) unset($REX[CTYPE][$id]);
+}
+
+function rex_addCType($id,$name)
+{
+	global $REX;
+	
+	$REX[CTYPE][$id] = $name;
+	$content = "// --- DYN\n\r";
+	reset($REX[CTYPE]);
+	for ($i=0;$i<count($REX[CTYPE]);$i++)
+	{
+		$cur = key($REX[CTYPE]);
+		$val = current($REX[CTYPE]);
+		
+		$content .= "\n\r\$REX[CTYPE][$cur] = \"$val\";";
+		next($REX[CTYPE]);	
+	}
+	$content .= "\n\r// --- /DYN";
+
+	$file = $REX[INCLUDE_PATH]."/ctype.inc.php";
+	$h = fopen($file,"r");
+	$fcontent = fread($h,filesize($file));
+	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
+	fclose($h);
+
+	$h = fopen($file,"w+");
+	fwrite($h,$fcontent,strlen($fcontent));
+	fclose($h);
+	
+	
+}
+
+function rex_editCType($id,$name)
+{
+	global $REX;
+	
+	$REX[CTYPE][$id] = $name;
+	$file = $REX[INCLUDE_PATH]."/ctype.inc.php";
+	$h = fopen($file,"r");
+	$cont = fread($h,filesize($file));
+	$cont = ereg_replace("(REX\[CTYPE\]\[$id\].?\=.?)[^;]*","\\1\"".($name)."\"",$cont);
+	fclose($h);
+	$h = fopen($REX[INCLUDE_PATH]."/ctype.inc.php","w+");
+	fwrite($h,$cont,strlen($cont));
+	fclose($h);
+	
 }
 
 ?>

@@ -176,24 +176,37 @@ echo "</table>";
 echo "<br></td></tr></table>";
 
 
-// --------------- ctypes definieren (sprachen/spalten)
+
+
+
+// ------------------------------ ctypes definieren (sprachen/spalten)
 
 echo "<a name=ctype></a>";
 
-// addctype
-// schreibe in master.inc.php
+// ----- delete ctype
+if($delctype != "")
+{
+	if ($ctype_id>0)
+	{
+		rex_deleteCType($ctype_id);
+		$message = "Ctype wurde gelöscht";
+		unset($func);
+		unset($ctype_id);
+	}
+}
+
+// ----- add ctype
 if ($func == "addctypesave")
 {
 	if ($ctype_name != "")
 	{
-		if (!($ctypeid>0 && $ctypeid<100)) $ctypeid = 0;
-		if(!array_key_exists($ctypeid,$REX[CTYPE]))
+		if (!($ctype_id>0 && $ctype_id<100)) $ctype_id = 0;
+		if(!array_key_exists($ctype_id,$REX[CTYPE]))
 		{
 			$message = "CType wurde angelegt.";
-
-			// CTYPE ANLEGEN UND ARTICLE ANLEGEN
-			// addarticles - check bei generate/structure
-
+			rex_addCType($ctype_id,$ctype_name);
+			unset($ctype_id);
+			unset($func);
 		}else
 		{
 			$message = "ID existiert schon.";
@@ -206,21 +219,35 @@ if ($func == "addctypesave")
 	
 }elseif($func == "editctypesave")
 {
-	$REX[CTYPE][$ctypeid] = $ctype_name;
-	// in master schreiben
-	$h = fopen("include/master.inc.php","r");
-	$cont = fread($h,filesize("include/master.inc.php"));
-	$cont = ereg_replace("(REX\[CTYPE\]\[$ctypeid\].?\=.?)[^;]*","\\1\"".($ctype_name)."\"",$cont);
-	fclose($h);
-	$h = fopen("include/master.inc.php","w+");
-	fwrite($h,$cont,strlen($cont));
-	fclose($h);
+	rex_editCType($ctype_id,$ctype_name);
+	$message = "CType wurde editiert.";
+	unset($func);
+	unset($ctype_id);
 }
 
+// seltype
+$sel = new select;
+$sel->set_name("ctype_id");
+$sel->set_size(1);
+$sel->add_option("1","1");
+$sel->add_option("2","2");
+$sel->add_option("3","3");
+$sel->add_option("4","4");
+$sel->add_option("5","5");
+$sel->add_option("6","6");
+$sel->add_option("7","7");
+$sel->add_option("8","8");
+$sel->add_option("8","8");
+$sel->add_option("9","9");
+$sel->add_option("10","10");
+$sel->add_option("11","11");
+$sel->add_option("12","12");
+$sel->add_option("13","13");
+$sel->set_style("'; class='inp100'");
 
 echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 		<th width=30><a href=index.php?page=specials&func=addctype#ctype>+</a></th>
-		<th align=left width=30>ID</th>
+		<th align=left width=50>ID</th>
 		<th align=left width=250>CTYPE - Description</th>
 		<th align=left colspan=2>Delete</th></tr>";
 
@@ -232,9 +259,10 @@ if ($message != "")
 
 if ($func == "addctype")
 {
+	$sel->set_selected($ctype_id);
 	echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=func value=addctypesave>";
 	echo "<td class=grey>add</td>";
-	echo "<td class=grey><input type=text size=2 maxlength=2 class=inp100 name=ctypeid value='$ctypeid'></td>";
+	echo "<td class=grey>".$sel->out()."</td>";
 	echo "<td class=grey><input type=text size=10 class=inp100 name=ctype_name value='".htmlentities($ctype_name)."'></td>";
 	echo "<td class=grey><input type=submit value=submit></td>";
 	echo "</form></tr>";
@@ -243,14 +271,14 @@ if ($func == "addctype")
 reset($REX[CTYPE]);
 for ($i=0;$i<count($REX[CTYPE]);$i++)
 {
-	if ($ctypeid==key($REX[CTYPE]) and $ctypeid!="")
+	if ($ctype_id==key($REX[CTYPE]) and $ctype_id!="" and $func == "editctype")
 	{
-		echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=ctypeid value=$ctypeid><input type=hidden name=func value=editctypesave>";
+		echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=ctype_id value=$ctype_id><input type=hidden name=func value=editctypesave>";
 		echo "<td class=grey>edit</td>";
 		echo "<td class=grey>".key($REX[CTYPE])."</td>";
 		echo "<td class=grey><input type=text size=10 class=inp100 name=ctype_name value='".htmlentities(current($REX[CTYPE]))."''></td>";
-		echo "<td class=grey><input type=submit value=submit>";
-		if ($ctypeid>0) echo "<input type=submit name=delete value=1>";
+		echo "<td class=grey><input type=submit name=edit value=editieren>";
+		if ($ctype_id>0) echo "<input type=submit name=delctype value=delete>";
 		echo "</td>";
 		echo "</form></tr>";
 		
@@ -259,7 +287,7 @@ for ($i=0;$i<count($REX[CTYPE]);$i++)
 		echo "<tr>" .
 				"<td class=grey></td>" .
 				"<td class=grey>".key($REX[CTYPE])."</td>" .
-				"<td class=grey><a href=index.php?page=specials&ctypeid=".key($REX[CTYPE])."#ctype>".htmlentities(current($REX[CTYPE]))."</a></td>" .
+				"<td class=grey><a href=index.php?page=specials&func=editctype&ctype_id=".key($REX[CTYPE])."#ctype>".htmlentities(current($REX[CTYPE]))."</a></td>" .
 				"<td class=grey></td></tr>";
 	}
 	next($REX[CTYPE]);

@@ -43,7 +43,9 @@ if ($function == "delete")
 			$h = fopen($file_temp,"r");
 			$conts = fread($h,filesize($file_temp));
 			
-			if(!ereg("## Redaxo Database Dump Version ".$REX[version]." \n",$conts))
+			// ## Redaxo Database Dump Version 2.7
+			
+			if(ereg("## Redaxo Database Dump Version ".$REX[version]."\n",$conts))
 				$msg = $I18N_ADDON->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX[version]."] is missing<br>";
 			else {
 				$conts = str_replace("## Redaxo Database Dump Version ".$REX[version]." \n","",$conts);
