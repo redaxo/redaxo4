@@ -42,19 +42,5 @@ javascript - htmlArea - License (based on BSD license) - Copyright (c) 2002, int
 3. setup
 3. setup
 
-3.1. rufen sie www.servername.de/redaxo/setup.php auf und führen sie die dort angegebenen schritte durch
-3.1. to start the installation of the database... goto www.servername.de/redaxo/setup.php
-
-4. wenn alles erfolgreich abgeschlossen
-4. after all
-
-4.1. löschen sie /redaxo/setup.php und /redaxo/setup_en.php oder verschieben sie diese datei.
-4.2. delete the /redaxo/setup.php and /redaxo/setup_en.php
-
-// ---------------------- BENÖTIGTE EINSTELLUNGEN/PROGRAMME
-
-php.ini:
-register_globals = on
-
-optional:
-imagemagick
+3.1. rufen sie www.servername.de/redaxo/index.php auf und führen sie die dort angegebenen schritte durch
+3.1. to start the installation of the database... goto www.servername.de/redaxo/index.php
