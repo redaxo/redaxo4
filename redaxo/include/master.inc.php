@@ -8,15 +8,15 @@ if (!$REX[GG]) $REX[GG] = false;
 
 // ----------------- SERVER VARS
 
-$REX[SERVER] = "www.redaxo.de";
-$REX[SERVERNAME] = "servername [redaxo2.6]";
-$REX[error_emailaddress] = "test@servername.de";
+$REX[SERVER] = "redaxo.karoshi.com";
+$REX[SERVERNAME] = "Redaxo-Test";
+$REX[error_emailaddress] = "redaxo-test@circle42.com";
 $REX[version] = "2.6";
 $REX[STARTARTIKEL_ID] = 1;
 $REX[STATS] = 1;
 
 // für internationalisierung der Texte
-$REX[LANG] = de_DE;
+$REX[LANG] = en_GB;
 
 // Windows:
 // Pfade absolut eintragen
@@ -36,9 +36,9 @@ $REX[COMMUNITY] = false;
 // ----------------- DATENBANK
 
 $DB[1][HOST] = "localhost";
-$DB[1][LOGIN] = "vscopabr";
-$DB[1][PSW] = "hu34zi7";
-$DB[1][NAME] = "usrdb_vscopabr_redaxo3";
+$DB[1][LOGIN] = "redaxo";
+$DB[1][PSW] = "redaxo";
+$DB[1][NAME] = "redaxo";
 
 $DB[2][HOST] = "";
 $DB[2][LOGIN] = "";
