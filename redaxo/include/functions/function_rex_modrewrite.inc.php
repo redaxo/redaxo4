@@ -21,6 +21,7 @@ function ModRewriteName($article_name) {
 }
 
 function getURLbyID($ArticleID){
+	if(!$ArticleID) return '';
 	global $REX;
 	if($REX[MOD_REWRITE]){
 		$db = new sql;
