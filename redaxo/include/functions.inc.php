@@ -54,6 +54,7 @@ include_once $REX[INCLUDE_PATH]."/classes/class.mail_decode.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.form.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.list.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.oocategory.inc.php"; // OO Classes
+include_once $REX[INCLUDE_PATH]."/classes/class.oomedia.inc.php"; // OO Classes
 include_once $REX[INCLUDE_PATH]."/classes/class.textile.inc.php"; // Textile class
 include_once $REX[INCLUDE_PATH]."/functions/function_createimage.inc.php";
 
