@@ -10,7 +10,7 @@ if (!$REX[GG]) $REX[GG] = false;
 
 $REX[SERVER] = "redaxo.karoshi.com";
 $REX[SERVERNAME] = "Redaxo-Test";
-$REX[error_emailaddress] = "redaxo-test@circle42.com";
+$REX[error_emailaddress] = "";
 $REX[version] = "2.6";
 $REX[STARTARTIKEL_ID] = 1;
 $REX[STATS] = 1;
@@ -75,6 +75,9 @@ include $REX[INCLUDE_PATH]."/classes/class.mime_mail.inc.php";
 include $REX[INCLUDE_PATH]."/classes/class.mail_decode.inc.php";
 include $REX[INCLUDE_PATH]."/classes/class.tar.inc.php";
 include $REX[INCLUDE_PATH]."/classes/class.stat.inc.php";
+
+// OO Classes
+include_once $REX[INCLUDE_PATH]."/classes/class.oocategory.inc.php";
 
 // functions
 include $REX[INCLUDE_PATH]."/functions/function_datefrommydate.inc.php";
