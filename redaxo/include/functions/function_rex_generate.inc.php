@@ -194,6 +194,7 @@ function generateArticle($id)
 \$REX[ART][$id][online_von] = \"".addslashes($CONT->getValue("online_von"))."\";
 \$REX[ART][$id][online_bis] = \"".addslashes($CONT->getValue("online_bis"))."\";
 \$REX[ART][$id][erstelldatum] = \"".addslashes($CONT->getValue("erstelldatum"))."\";
+\$REX[ART][$id][last_update_stamp] = \"".time()."\";
 \$REX[ART][$id][template_id] = \"".addslashes($CONT->getValue("template_id"))."\";
 \$REX[ART][$id][status] = \"".addslashes($CONT->getValue("status"))."\";
 
