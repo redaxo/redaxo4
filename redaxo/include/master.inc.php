@@ -88,6 +88,7 @@ include $REX[INCLUDE_PATH]."/functions/function_selectdate.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_mail.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_createimage.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_rex_mediapool.inc.php";
+include $REX[INCLUDE_PATH]."/functions/function_rex_modrewrite.inc.php";
 
 // ------------------------------------------------------------ redaxo includes
 
