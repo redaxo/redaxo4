@@ -80,7 +80,7 @@ class OOArticle {
 		return null;
 	}
 
-	
+
 	/*
 	 * CLASS Function:
 	 * Return a list of articles which names match the
@@ -185,11 +185,12 @@ class OOArticle {
 	 * CLASS Function:
 	 * Return a list of articles for a certain category
 	 */
-	function getArticlesOfCategory($a_category_id, $ignore_offlines = false) {
+	function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $NoStartArticle = false) {
 		$off = $ignore_offlines ? " and status = 1 " : "" ;
+		$nostart = $NoStartArticle ? " and startpage = 0 " : "";
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = $a_category_id $off order by prior");
+		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = $a_category_id $off $nostart order by prior");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
 								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
@@ -242,7 +243,7 @@ class OOArticle {
 	 * Returns a list of articles of any category that have been
 	 * newly created.
 	 * $number_of_articles = how far to go back in history
-	 */ 
+	 */
 	function getNewArticles($number_of_articles, $ignore_startpages = true, $ignore_offlines = true) {
 		global $REX;
 		$off = $ignore_offlines ? " and status = 1 " : "" ;
@@ -403,8 +404,8 @@ class OOArticle {
 	function isStartPage() {
 		return $this->_startpage == 1;
 	}
-	
-	
+
+
 	/*
 	*  Accessor Method:
 	 * returns true if this Article is the Startpage for the entire site.
