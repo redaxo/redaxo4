@@ -2,6 +2,7 @@ yes = yes
 no = no
 month = Month
 year = Year
+general = General
 
 # redaxo/index.php
 start_article_not_selected = No start article selected
@@ -86,6 +87,22 @@ article_cannot_be_moved = This articel could not be moved
 start_article_has_to_stay_in_category = Start article have to stay in their respective category.
 article_copied = Article copied.
 file = Could not find file {0}.
+moving_file_error = File '{0}' could not be moved
+metadata_updated = Metadata updated
+online_from = Online From
+online_to = Online Until
+name_description = Name/Description
+description = Description
+keywords = Keywords
+metadata_image = Metafile/-Image
+delete_file = Delete File
+tease_on_startpage = Teaseer on Startpage
+update_metadata = Update Metadata
+other_functions = Other Functions
+category = Category
+move_article = Move Article
+copy_article = Copy Article
+no_rights_to_edit = You have no rights to edit this Article!
 
 # redaxo/include/pages/import.inc.php
 no_import_file_chosen_or_wrong_version = No import file selected or version is different.

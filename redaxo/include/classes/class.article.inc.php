@@ -185,7 +185,7 @@ class article
                                         $MODULESELECT->set_size(1);
                                         $MODULESELECT->set_style("width:100%;' onchange='this.form.submit();");
 
-                                        $MODULESELECT->add_option("----------------------------  Neues Modul hinzufügen",'');
+                                        $MODULESELECT->add_option("----------------------------  ".$I18N->msg("add_block"),'');
 
                                         for ($i=0;$i<$MODULE->getRows();$i++)
                                         {

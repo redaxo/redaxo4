@@ -2,6 +2,7 @@ yes = ja
 no = nein
 month = Monat
 year = Jahr
+general = Allgemein
 
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel selektiert
@@ -86,6 +87,22 @@ article_cannot_be_moved = Dieser Artikel kann nicht verschoben werden.
 start_article_has_to_stay_in_category = Startartikel m&uuml;ssen in Ihrer Kategorie bleiben !
 article_copied = Artikel wurde kopiert!
 file = Datei {0} konnte nicht gefunden werden.
+moving_file_error = Datei '{0}' verschieben fehlgeschlagen.
+metadata_updated = Metadaten wurden aktualisiert
+online_from = Online vom
+online_to = bis zum
+name_description = Name/Bezeichnung
+description = Beschreibung
+keywords = Suchbegriffe
+metadata_image = Metafile/bild
+delete_file = File löschen
+tease_on_startpage = Auf die Startseite als Teaser nehmen
+update_metadata = Metadaten aktualisieren
+other_functions = Sonstige Funktionen
+category = Kategorie
+move_article = Artikel verschieben
+copy_article = Artikel kopieren
+no_rights_to_edit = Sie haben keine Editiererlaubnis !
 
 # redaxo/include/pages/import.inc.php
 no_import_file_chosen_or_wrong_version = Sie haben keine Importdatei ausgew&auml;hlt, oder die Version stimmt nicht &uuml;berein

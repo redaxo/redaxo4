@@ -439,7 +439,7 @@ if ($article->getRows() == 1)
 	
 		        		if (!move_uploaded_file($$FILE,$REX[MEDIAFOLDER]."/$NFILENAME"))
 		        		{
-		        			$message = " - Datei '$fi' verschieben fehlgeschlagen | ";
+		        			$message = " - ".$I18N->msg("moving_file_error",$fi)." | ";
 		        		}else
 		        		{
 						$FILESQL = new sql;
@@ -462,7 +462,7 @@ if ($article->getRows() == 1)
 				$meta_sql->update();
 				
 				$article->setQuery("select * from rex_article where id='$article_id'");
-				$err_msg = "Metadaten wurden aktualisiert$message";
+				$err_msg = $I18N->msg("metadata_updated").$message;
 				
 				generateArticle($article_id);
 			}
@@ -483,7 +483,7 @@ if ($article->getRows() == 1)
 			$typesel->set_selected($article->getValue("type_id"));
 
 			if ($typesql->getRows()==1) $out = "<input type=hidden name=type_id value=1>";
-			else $out = "<tr><td class=grey>Artikeltyp</td><td class=grey>".$typesel->out()."</td></tr>";
+			else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
 
 
 			echo "	<table border=0 cellpadding=5 cellspacing=1 width=100%>
@@ -493,47 +493,47 @@ if ($article->getRows() == 1)
 				<input type=hidden name=mode value='meta'>
 				<input type=hidden name=save value=1>
 				<tr>
-					<td colspan=2>Allgemein</td>
+					<td colspan=2>".$I18N->msg("general")."</td>
 				</tr>";
 			
 			if ($err_msg != "") echo "<tr><td colspan=2 class=warning><font class=warning>$err_msg</font></td></tr>";
 			
 			echo "
 				<tr>
-					<td class=grey width=150>Online vom</td>
+					<td class=grey width=150>".$I18N->msg("online_from")."</td>
 					<td class=grey>".selectdate($article->getValue("online_von"),"_von")."</td>
 				</tr>
 				<tr>
-					<td class=grey>bis zum</td>
+					<td class=grey>".$I18N->msg("online_to")."</td>
 					<td class=grey>".selectdate($article->getValue("online_bis"),"_bis")."</td>
 				</tr>
 				<tr>
-					<td class=grey>Name/Bezeichnung</td>
+					<td class=grey>".$I18N->msg("name_description")."</td>
 					<td class=grey><input type=text name=article_name value=\"".htmlentities($article->getValue("name"))."\" size=30 style=\"width:100%;\"></td>
 				</tr>
 				<tr>
-					<td class=grey>Beschreibung</td>
+					<td class=grey>".$I18N->msg("description")."</td>
 					<td class=grey><textarea name=beschreibung cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("beschreibung"))."</textarea></td>
 				</tr>
 				<tr>
-					<td class=grey>Suchbegriffe</td>
+					<td class=grey>".$I18N->msg("keywords")."</td>
 					<td class=grey><textarea name=suchbegriffe cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("suchbegriffe"))."</textarea></td>
 				</tr>";
 			
 			if ($article->getValue("file")!="")
 			{
 				echo "<tr>
-					<td class=grey>Metafile/bild</td>
+					<td class=grey>".$I18N->msg("metadata_image")."</td>
 					<td class=grey><img src=../files/".$article->getValue("file")." width=250></td>
 				</tr>
 				<tr>
 					<td class=grey align=right><input type=checkbox name=METAFILEDEL></td>
-					<td class=grey>File löschen</td>
+					<td class=grey>".$I18N->msg("delete_file")."</td>
 				</tr>";
 			}else
 			{
 				echo "<tr>
-					<td class=grey>Artikelbild/-file</td>
+					<td class=grey>".$I18N->msg("metadata_image")."</td>
 					<td class=grey><INPUT NAME=METAFILE TYPE=file size=2></td>
 				</tr>";
 			}			
@@ -543,14 +543,14 @@ if ($article->getRows() == 1)
 			if ($article->getValue("checkbox01")==1) echo "<td align=right class=grey><input type=checkbox name=checkbox01 checked value=1></td>";
 			else echo "<td align=right class=grey><input type=checkbox name=checkbox01 value=1></td>";
 
-			echo "	<td class=grey>Auf die Startseite als Teaser nehmen</td>
+			echo "	<td class=grey>".$I18N->msg("tease_on_startpage")."</td>
 				</tr>";
 			
 			echo "	</tr>
 				$out
 				<tr>
 					<td class=grey>&nbsp;</td>
-					<td class=grey><input type=submit value='Metadaten aktualisieren' size=8></td>
+					<td class=grey><input type=submit value='".$I18N->msg("update_metadata")."' size=8></td>
 				</tr>
 				</form>
 				</table>";
@@ -564,11 +564,11 @@ if ($article->getRows() == 1)
 					<input type=hidden name=article_id value='$article_id'>
 					<input type=hidden name=mode value='meta'>
 					<tr>
-						<td colspan=2>Sonstige Funktionen</td>
+						<td colspan=2>".$I18N->msg("other_functions")."</td>
 					</tr>
 					<tr>
 						
-						<td class=grey width=150>Kategorie</td>
+						<td class=grey width=150>".$I18N->msg("category")."</td>
 						<td class=grey><select name=func_category_id size=1 style='width:100%;'>";
 				
 				$csql = new sql;
@@ -590,8 +590,8 @@ if ($article->getRows() == 1)
 					<tr>
 						<td class=grey>&nbsp;</td>
 						<td class=grey>";
-				if ($article->getValue("startpage")!=1) echo "<input type=submit name=FUNC_MOVE value=\"Artikel verschieben\" size=8>";
-				echo "<input type=submit name=FUNC_COPY value=\"Artikel kopieren\" size=8>";
+				if ($article->getValue("startpage")!=1) echo "<input type=submit name=FUNC_MOVE value=\"".$I18N->msg("move_article")."\" size=8>";
+				echo "<input type=submit name=FUNC_COPY value=\"".$I18N->msg("copy_article")."\" size=8>";
 				
 				echo "</td>
 					</tr>
@@ -621,7 +621,7 @@ if ($article->getRows() == 1)
 	}else
 	{
 	    	echo "<table border=1 cellpadding=6 cellspacing=0 width=770 bgcolor=#eeeeee>
-			<tr bgcolor=#eeeeee><td class=warning>Sie haben keine Editiererlaubnis !</td></tr></table>";
+			<tr bgcolor='#eeeeee'><td class=warning>".$I18N->msg("no_rights_to_edit")."</td></tr></table>";
 	}
 }
 
