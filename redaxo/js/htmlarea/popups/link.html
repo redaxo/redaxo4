@@ -1,0 +1,102 @@
+<html>
+
+<head>
+  <title>Externen Link einfügen</title>
+  <script type="text/javascript" src="popup.js"></script>
+  <script type="text/javascript">
+
+function Init() {
+  __dlg_init();
+  var param = window.dialogArguments;
+  f_href.focus();
+};
+
+function onOK() {
+  var required = {
+    "f_href": "Geben Sie eine Url ein"
+  };
+  for (var i in required) {
+    var el = document.getElementById(i);
+    if (!el.value) {
+      alert(required[i]);
+      el.focus();
+      return false;
+    }
+  }
+  // pass data back to the calling window
+  var fields = ["f_href", "f_title", "f_target" ];
+  var param = new Object();
+  for (var i in fields) {
+    var id = fields[i];
+    var el = document.getElementById(id);
+    param[id] = el.value;
+  }
+  __dlg_close(param);
+  //self.close();
+  return false;
+};
+
+function onCancel() {
+  __dlg_close(null);
+  return false;
+};
+
+</script>
+
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table {
+  font: 11px Tahoma,Verdana,sans-serif;
+}
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+button { width: 70px; }
+table .label { text-align: right; width: 8em; }
+
+.title { background: #AAB9A8; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px;
+border-bottom: 1px solid black; letter-spacing: 2px;
+}
+
+#buttons {
+      margin-top: 1em; border-top: 1px solid #999;
+      padding: 2px; text-align: right;
+}
+</style>
+
+</head>
+
+<body onload="window.resizeTo(400, 200);Init()">
+<div class="title">Externen Link einfügen</div>
+
+<table border="0" style="width: 100%;">
+  <tr>
+    <td class="label">URL (http://..):</td>
+    <td><input type="text" id="f_href" style="width: 100%" /></td>
+  </tr>
+  <tr>
+    <td class="label">Titel (optional):</td>
+    <td><input type="text" id="f_title" style="width: 100%" /></td>
+  </tr>
+  <tr>
+    <td class="label">Target:</td>
+    <td><select id="f_target">
+      <option value="_self">Selbes Fenster</option>
+      <option value="_blank">Neues Fenster</option>
+    </select>
+    </td>
+  </tr>
+</table>
+
+<div id="buttons">
+  <button type="button" name="ok" onclick="return onOK();">OK</button>
+  <button type="button" name="cancel" onclick="return onCancel();">Schliessen</button>
+</div>
+
+</body>
+</html>
