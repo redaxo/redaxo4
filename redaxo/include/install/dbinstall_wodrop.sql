@@ -416,4 +416,3 @@ CREATE TABLE rex_user (
 
 CREATE TABLE `rex_file_category` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL );
 ALTER TABLE `rex_article` ADD `linkname` VARCHAR(255) NOT NULL AFTER `name`;
-ALTER TABLE `rex__board` ADD `anonymous_user` VARCHAR(50) NOT NULL AFTER `status`;
