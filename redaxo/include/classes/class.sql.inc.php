@@ -26,6 +26,7 @@ class sql
 	var $debugsql;
 	var $identifier;
 	var $DBID;
+	var $insertID;
 
 	function sql($DBID=1)
 	{
@@ -58,6 +59,7 @@ class sql
 		$this->selectDB();
 		$this->result = @mysql_query("$select");
 		$this->rows   = @mysql_num_rows($this->result);
+		$this->insertID = @mysql_insert_id($this->result);
 
 		if ( $this->debugsql ) echo htmlentities($select)."<br>".$this->rows." found<br>";
 	}
@@ -337,19 +339,25 @@ class sql
 
 	}
 
-	// Function zum herausfinden der maximalen ORDER_ID
+	// Function zum anlegen der ORDER_ID
 	//$order_id = $db->new_order("test","order_id");
 	//$db->execute("INSERT INTO test (order_id) VALUES ('$order_id') ");
-	function new_order($table,$field_name,$where_name="",$where_value=""){
+	function new_order($table_name,$field_name,$where_name="",$where_value=""){
 
 		if($where_name != ""){
 			$add = "WHERE $where_name = '$where_value'";
 		}
 
-		$sql = "SELECT MAX($field_name) as MAX FROM $table $add";
-		$res = $this->get_array($sql);
-		return $res[0][MAX]+1;
+		$sql = "UPDATE $table_name SET $field_name=$field_name + 1 $add";
+		$this->setQuery($sql);
+		return 1;
 
+	}
+
+	//ORDER ENTRY TO POSITION
+	function order_position($postition,$value,$table_name,$field_name,$where_name="",$where_value=""){
+	         $res = $this->get_array("SELECT $field_name FROM $table_name $add ORDER BY $field_name ASC");
+	         print_r($res);
 	}
 
 }
