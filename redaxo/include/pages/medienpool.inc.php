@@ -585,7 +585,7 @@ if ($mode == "detail")
 		if ($ffiletype_ii) echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=../files/$fname width=$rfwidth></td>";
 		
 		print "</tr>\n";
-		print "<tr><td class=grey>".$I18N->msg('pool_category')."Kategorie:</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
+		print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
 		print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
 		print "<tr><td class=grey>".$I18N->msg('pool_copyright').":</td><td class=grey><input type=text size=20 name=fcopyright class=inp100 value='".(stripslashes($fcopyright))."'></td></tr>\n";
 		print "<tr><td class=grey>".$I18N->msg('pool_filename').":</td><td class=grey><a href=../files/$fname target=_blank>$fname</a></td></tr>\n";
@@ -690,7 +690,7 @@ if($mode == "")
 	        $file_size = getfilesize($file_size);
 	
 		if ($file_type_ii) $thumbnail = "<img src=../files/$file_name width=80 border=0>";
-		else $thumbnail = "<img src=pics/leer.gif width=1 height=80 align=left border=0>".$I18N->msg('pool_file_noshow');
+		else $thumbnail = "<img src=$icon_src width=80 height=80 align=left border=0><!-- ".$I18N->msg('pool_file_noshow')."-->";
 		
 		if ($file_title == "") $file_title = "[".$I18N->msg('pool_file_notitle')."]";
 		if ($file_description == "") $file_description = "[".$I18N->msg('pool_file_nodescription')."]";
