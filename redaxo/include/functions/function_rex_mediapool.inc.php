@@ -6,7 +6,9 @@
 #
 ##################################################################
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYLE_SHEET='css/style.css',$STYLES='all'){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYLE_SHEET='css/style.css',$STYLES='all',$LANG='de'){
+
+	// lang = de oder uk
 
 	global $TINYMCE;
 
@@ -28,7 +30,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYL
 		<script language="javascript" type="text/javascript">
 	    tinyMCE.init({
 	        theme : "advanced",
-	        language : "de",
+	        language : "'.$LANG.'",
 	        mode : "specific_textareas",
 	    	insertlink_callback : "insertIntLink",
 	        insertimage_callback : "insertMediaPool",
