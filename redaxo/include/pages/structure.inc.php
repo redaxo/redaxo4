@@ -53,14 +53,14 @@ title($I18N->msg("title_structure"),$KATout);
 
 // --------------------------------------------- category functions
 
-if ($function == "edit_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$edit_id]")) && $edit_id != "")
+if ($function == "edit_category" && $STRUCTURE_PERM && $edit_id != "")
 {
 	$message = $I18N->msg("category_updated");
 	$KAT->query("update rex_category set name='$kat_name' where id='$edit_id'");
 	generateCategory($edit_id);
 }
 
-if ($function == "delete_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$edit_id]")) && $edit_id != "")
+if ($function == "delete_category" && $STRUCTURE_PERM && $edit_id != "")
 {
 	$KAT->setQuery("select * from rex_category where re_category_id='$edit_id'");
 	if($KAT->getRows()==0)
@@ -84,7 +84,7 @@ if ($function == "delete_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("
 	}
 }
 
-if ($function == "status" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$edit_id]")) && $edit_id != "")
+if ($function == "status" && $STRUCTURE_PERM && $edit_id != "")
 {
 	$KAT->setQuery("select * from rex_category where id='$edit_id'");
 	if ($KAT->getRows() == 1)
@@ -251,7 +251,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 		$kat_status = $I18N->msg("status_online");
 	}
 
-	if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$i_category_id]"))
+	if ($STRUCTURE_PERM)
 	{
 		$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status><u><font color=$status_color>$kat_status</font></u></a>";
 	}else
@@ -259,7 +259,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 		$kat_status = "<font color=$status_color>$kat_status</font>";
 	}
 
-	if ($edit_id==$i_category_id and $function == "edit")
+	if ($edit_id==$i_category_id and $function == "edit" && $STRUCTURE_PERM)
 	{
 		$echo .= "
 			<tr>
@@ -273,7 +273,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 	}else
 	{
 
-		if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$i_category_id]")) $edit_txt = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit>".$I18N->msg("category_edit_delete")."&nbsp;</a>";
+		if ($STRUCTURE_PERM) $edit_txt = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit>".$I18N->msg("category_edit_delete")."&nbsp;</a>";
 		else $edit_txt = $I18N->msg("no_permission_to_edit");
 
 		$echo .= "
@@ -410,8 +410,7 @@ if($category_id > -1)
 			if ($REX_USER->isValueOf("rights","expertMode[]")) echo "[".$sql->getValue("id")."]";
 
 			echo "</td>
-				<td class=grey>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=top><img src=pics/pfeil_top.gif border=0 alt=top></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=bottom><img src=pics/pfeil_bottom.gif border=0 alt=bottom></a></td>
+				<td class=grey align=center><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=top><img src=pics/pfeil_top.gif border=0 alt=top></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=bottom><img src=pics/pfeil_bottom.gif border=0 alt=bottom></a></td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
@@ -431,8 +430,8 @@ if($category_id > -1)
 		}elseif($REX_USER->isValueOf("rights","article[".$sql->getValue("id")."]") || $REX_USER->isValueOf("rights","article[all]"))
 		{
 			echo "	<tr>
-				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id><img src=pics/$icon width=16 height=16 border=0></a></td>
-				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id>".$sql->getValue("name")."&nbsp;</a></td>
+				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
+				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a></td>
 				<td class=grey>".$sql->getValue("prior")."&nbsp;</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
