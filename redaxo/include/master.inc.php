@@ -35,10 +35,10 @@ $REX[COMMUNITY] = false;
 
 // ----------------- DATENBANK
 
-$DB[1][HOST] = "192.168.1.1";
-$DB[1][LOGIN] = "admin1";
-$DB[1][PSW] = "admin1";
-$DB[1][NAME] = "redaxo2_6_demo1";
+$DB[1][HOST] = "localhost";
+$DB[1][LOGIN] = "vscopabr";
+$DB[1][PSW] = "hu34zi7";
+$DB[1][NAME] = "usrdb_vscopabr_redaxo3";
 
 $DB[2][HOST] = "";
 $DB[2][LOGIN] = "";
