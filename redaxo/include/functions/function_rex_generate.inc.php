@@ -24,8 +24,7 @@ function getUrl($id,$params = null) {
 	 * or if mod_rewrite support is activated:
 	 *   /1-The_Article_Name?order=123&name=horst
 	 */
-	
-	
+	 
 	global $REX;
 	$param_string = "";
 	if ($params && sizeof($params) > 0) {

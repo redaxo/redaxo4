@@ -50,6 +50,7 @@ class article
 		unset($save);
 	
 		// AUSNAHME: modul auswählen problem
+		// action=index.php#1212 problem
 		if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
 	}
 
@@ -96,7 +97,7 @@ class article
 			}
 		}else
 		{
-			if (@include $REX[INCLUDE_PATH]."/generated/articles/".$article_id.".".$this->clang.".article")
+			if (@include $REX[INCLUDE_PATH]."/generated/articles/".$article_id.".".$this->clang.".".$this->ctype.".article")
 			{
 				return TRUE;
 			}else
@@ -138,7 +139,7 @@ class article
 			if ($this->article_id != 0)
 			{
 				$this->contents = "";
-				$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".".$this->lang.".content";
+				$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".".$this->lang.".".$this->type.".content";
 				if ($fd = @fopen ($filename, "r"))
 				{
 					$this->contents = fread ($fd, filesize ($filename));
@@ -161,7 +162,8 @@ class article
                                                         where
                                                                 rex_article_slice.article_id='".$this->article_id."' and 
 								rex_article_slice.clang='".$this->clang."' and 
-								rex_article.clang='".$this->clang."'
+								rex_article_slice.ctype='".$this->ctype."' and 
+								rex_article.clang='".$this->clang."' 
                                                         order by
                                                                 rex_article_slice.re_article_slice_id");
 
@@ -241,6 +243,7 @@ class article
                                                         <input type=hidden name=slice_id value=$I_ID>
                                                         <input type=hidden name=function value=add>
                                                         <input type=hidden name=clang value=".$this->clang.">
+                                                        <input type=hidden name=ctype value=".$this->ctype.">
                                                         <tr>
                                                         <td class=dblue>".$MODULESELECT->out()."</td>
                                                         </tr></form></table>";
@@ -250,8 +253,8 @@ class article
                                                         <table width=100% cellspacing=0 cellpadding=5 border=0>
                                                         <tr>
                                                         <td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
-                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=$clang#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
-                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=$clang#slice$RE_CONTS[$I_ID] class=red12b><b>".$I18N->msg('delete')."</b></a></td>
+                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
+                                                        <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=red12b><b>".$I18N->msg('delete')."</b></a></td>
                                                         </tr>
                                                         </table>";
 
@@ -337,6 +340,7 @@ class article
                                         <input type=hidden name=slice_id value=$I_ID>
                                         <input type=hidden name=function value=add>
                                         <input type=hidden name=clang value=".$this->clang.">
+                                        <input type=hidden name=ctype value=".$this->ctype.">
                                         <tr>
                                         <td class=dblue>".$MODULESELECT->out()."</td>
                                         </tr></form></table>";
