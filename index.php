@@ -4,6 +4,8 @@
 // advanced caching
 //////////////////////////////////////////////
 
+session_start();
+
 $REX[NOFUNCTIONS] = true;
 include('redaxo/include/master.inc.php');
 include('redaxo/include/functions/function_showmicrotime.inc.php');
