@@ -121,36 +121,36 @@ chdir("redaxo");
 ?>
 
 <table border=0 cellpadding=5 cellspacing=1 width=770>
-<form action=<?=$PHP_SELF?> method=post name=formu enctype="multipart/form-data">
+<form action=<? echo $PHP_SELF; ?> method=post name=formu enctype="multipart/form-data">
 <input type=hidden name=FORM[submit] value=true>
 
 <tr><th colspan=2 align=left>
-<?=$I18N->("db_import_export")?>
+<? echo $I18N->msg("db_import_export"); ?>
 </th></tr>
 
-<?=$err_msg?>
+<? echo $err_msg; ?>
 
 <tr><td class=dgrey>
-<?=$I18N->("db_import")?></td><td class=dgrey><input type=file name=FORM[importfile]>&nbsp;&nbsp;&nbsp;<input type=submit name=page value=<?=$I18N->("import")?>>
+<? echo $I18N->msg("db_import"); ?></td><td class=dgrey><input type=file name=FORM[importfile]>&nbsp;&nbsp;&nbsp;<input type=submit name=page value=<? echo $I18N->msg("import"); ?>>
 </td></tr>
 
 <tr><td class=dgrey>
-<?=$I18N->("db_export")?></td><td class=dgrey><input type=submit name=page value=<?=$I18N->("export")?>> 
+<? echo $I18N->msg("db_export"); ?></td><td class=dgrey><input type=submit name=page value=<? echo $I18N->msg("export"); ?>> 
 </td></form></tr>
 
 <tr>
-<form action=<?=$PHP_SELF?> method=post name=formu enctype="multipart/form-data">
+<form action=<? echo $PHP_SELF; ?> method=post name=formu enctype="multipart/form-data">
 <input type=hidden name=FORM[filesubmit] value=TRUE>
 <th colspan=2 align=left>
-<?=$I18N->("files_import_export")?>
+<? echo $I18N->msg("files_import_export"); ?>
 </th></tr>
 
 <tr><td class=dgrey>
-<?=$I18N->("files_import")?></td><td class=dgrey><input type=file name=FORM[importfile]>&nbsp;&nbsp;&nbsp;<input type=submit name=page value=<?=$I18N->("import")?>>
+<? echo $I18N->msg("files_import"); ?></td><td class=dgrey><input type=file name=FORM[importfile]>&nbsp;&nbsp;&nbsp;<input type=submit name=page value=<? echo $I18N->msg("import"); ?>>
 </td></tr>
 
 <tr><td class=dgrey>
-<?=$I18N->("files_export")?></td><td class=dgrey><input type=submit name=page value=<?=$I18N->("export")?>> &nbsp;&nbsp;<?=$dirstring?>
+<? echo $I18N->msg("files_export"); ?></td><td class=dgrey><input type=submit name=page value=<? echo $I18N->msg("export"); ?>> &nbsp;&nbsp;<? echo $dirstring; ?>
 </td></form></tr>
 
 
