@@ -172,7 +172,7 @@ CREATE TABLE rex_article (
   category_id int(11) NOT NULL default '0',
   type_id int(11) NOT NULL default '1',
   startpage tinyint(1) NOT NULL default '0',
-  prior char(3) NOT NULL default '',
+  prior int(10) NOT NULL default '',
   path varchar(255) NOT NULL default '',
   status tinyint(1) NOT NULL default '0',
   online_von varchar(8) NOT NULL default '0',
@@ -273,7 +273,7 @@ CREATE TABLE rex_category (
   description text NOT NULL,
   func text NOT NULL,
   re_category_id int(11) NOT NULL default '0',
-  prior char(3) NOT NULL default '0',
+  prior int(10) NOT NULL default '0',
   path varchar(255) NOT NULL default '',
   status tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (id,re_category_id,prior,path,status)
