@@ -17,7 +17,6 @@ if ($article->getRows() == 1)
 	include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
 	title("Artikel",$KATout);
 
-
 	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE
 	if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","article[$article_id]") || $REX_USER->isValueOf("rights","article[all]"))
 	{
@@ -442,7 +441,7 @@ if ($article->getRows() == 1)
 
 			$typesel->set_selected($article->getValue("type_id"));
 
-			if ($typesql->getRows()==1) $out = "<input type=hidden name=type_id value=1>";
+			if ($typesql->getRows()==0) $out = "<input type=hidden name=type_id value=0>";
 			else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
 
 
