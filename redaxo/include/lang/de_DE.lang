@@ -1,0 +1,220 @@
+yes = ja
+no = nein
+
+# redaxo/index.php
+start_article_not_selected = Kein Startartikel selektiert
+
+# redaxo/redaxo/index.php
+specials = Specials
+module = Module
+template = Templates
+user = Benutzer
+community = Community
+import = Im-/Export
+content = Artikel
+structure = Struktur
+statistics = Statistiken
+logout = ausloggen
+
+# redaxo/include/classes/class.login.inc.php
+login_name  =  Login Name 
+password  =  Passwort
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  nicht eingelogt
+
+# redaxo/include/classes/class.article.inc.php
+add_block  =  Block hinzuf&uuml;gen
+edit  =  Editieren
+delete  =  L&ouml;schen
+no_editing_rights = Keine Editiererlaubnis
+no_article_available  =  Kein Artikel vorhanden
+module_doesnt_exist =  Dieses Modul existiert nicht !
+add_block  =  Block hinzuf&uuml;gen
+dont_delete_block  =  Block nicht l&ouml;schen
+delete_block  =  Block sicher löschen
+submit  =  abschicken
+update_block = Block aktualisieren
+
+# redaxo/include/classes/class.form.inc.php
+submit_data  =  Daten absenden
+file_doesnt_exist  =  Die Datei existiert nicht.
+choose_another_one  =  Bitte w&auml;hlen sie eine andere.
+
+# redaxo/include/classes/class.mail_decode.inc.php
+download  =  Download
+clipboard  =  Clipboard
+
+# redaxo/include/functions/function_rex_generate.inc.php
+article_moved = Artikel wurde verschoben!
+article_deleted = Artikel wurde gelöscht!
+could_not_move_article = Artikel konnte nicht verschoben werden.
+article_could_not_be_generated  =  Artikel konnte nicht erstellt werden.
+check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
+category_deleted  =  Kategorie wurde gelöscht
+category_doesnt_exist  =  Kategorie existiert nicht !
+cant_delete_startarticle = Der Startartikel darf nicht gel&ouml;scht werden.
+
+# redaxo\include\pages\community.inc.php
+overview  =  &Uuml;bersicht
+user_management = Userverwaltung
+user_management_info = Hier können die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
+board_management = Boardverwaltung
+board_management_info = Forumeintr&auml;ge können hier gel&ouml;scht werden
+article_management = Artikelkommentarverwaltung
+article_management_info = Jeder Artikel kann mit Kommentaren von Usern versehen werden. Diese sind erstmal nicht zu sehen k&ouml;nnen aber freigeschaltet werden. Alte Kommentare k&ouml;nnen auch gel&ouml;scht werden.
+newsletter = Newsletter
+newsletter_info = Hier kann der Newsletter verschickt werden.
+evaluation = Auswertung
+evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
+			
+# redaxo\include\pages\content.inc.php
+block_updated = Block wurde aktualisiert !
+block added = Block wurde hinzugefügt
+no_rights_to_this_function = Sie haben keine Rechte für diese Funktion !
+module_not_found = FEHLER ! Modul wurde nicht gefunden !
+block_deleted = Block wurde gelöscht !
+block_not_deleted = Block wurde nicht gelöscht
+no_rights_to_this_module = Sie haben keine Rechte für dieses Modul !
+error = Ein Fehler ist aufgetreten !
+preview = Voransicht
+edit_mode = Editier Modus
+metadata = Metadaten/Sonstiges
+article_cannot_be_moved = Dieser Artikel kann nicht verschoben werden.
+start_article_has_to_stay_in_category = Startartikel müssen in Ihrer Kategorie bleiben !
+article_copied = Artikel wurde kopiert!
+file = Datei {0} konnte nicht gefunden werden.
+
+# redaxo/include/pages/import.inc.php
+no_import_file_chosen_or_wrong_version = Sie haben keine Importdatei ausgew&auml;hlt, oder die Version stimmt nicht &uuml;berein
+no_valid_import_file = Sie haben keine gültige Importdatei ausgewählt
+database_imported = Die Datei wurde erfolgreich in die Datenbank importiert
+entry_count = ({0} Eintr&auml;ge)
+go_to_special_features = Bitte gehen Sie auf Spezielle Features und Regenerieren Sie die Artikel
+file_could_not_be_uploaded = Die Datei konnte nicht hochgeladen werden.
+you_have_no_write_permission_in = Sie haben keine Schreibrechte im {0} Ordner.
+no_import_file_chosen = Sie haben keine Importdatei ausgewaehlt.
+imported_file_not_valid = Die zu Importierende Datei scheint keine g&uuml;ltige Exportdatei zu sein. Bitte beachten Sie, dass der Dateiname vom Export beibehalten werden muss.
+problem_when_extracting = Es ist ein Problem beim Extrahieren aufgetreten.
+create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und setzen Sie die Schreibrechte auf diese Ordner(&uuml;ber ftp).
+file_imported = Die Datei wurde erfolgreich importiert.
+check_install_php = Bitte überprüfen Sie mit der 'install.php' Ihre Konfiguration.
+db_import_export = Datenbank Importieren/Exportieren
+db_import = Datenbank importieren:
+db_export = Datenbank exportieren:
+import = Import
+export = Export
+files_import_export = Dateien Importieren/Exportieren
+files_import = Dateien importieren:
+files_export = Dateien exportieren:
+
+# redaxo\include\pages\module.inc.php
+module_cannot_be_deleted = Modul '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Artikeln genutzt wird:
+module_deleted = Modul wurde gel&ouml;scht!
+module_added = Modul wurde hinzugef&uuml;gt
+module_updated = Modul wurde aktualisiert
+articel_updated = Artikel wurden aktualisiert
+create_module = Neues Modul erstellen
+input = Eingabe
+output = Ausgabe
+module_name = Name
+accessible = Barrierefrei
+allowed_for_php = Zugelassen für PHP-Programmierer | Userrecht: module[php]
+allowed_for_html = Zugelassen für HTML-Programmierer | Userrecht: module[html]
+save_module_and_quit = Modul speichern
+save_module_and_continue = Modul &uuml;bernehmen
+module_description = Modulbezeichnung
+module_functions = Funktionen
+delete_module = Modul l&ouml;schen
+
+# redaxo\include\pages\profile.inc.php
+user_data_updated = Benutzerdaten wurden aktualisiert!
+user_deleted = Benutzer wurde gel&ouml;scht!
+user_added = Benutzer wurde hinzugef&uuml;gt!
+user_login_exists = Benutzerlogin existiert schon !
+login = Login
+name = Name
+permissions = Rechte
+add = hinzuf&uuml;gen
+update = aktualisieren
+
+# redaxo\include\pages\structure.inc.php
+title_structure = Strukturverwaltung
+no_such_category = Kategorie nicht vorhanden!
+category_updated = Kategorie wurde aktualisiert.
+category_could_not_be_deleted = Kategorie konnte nicht gel&ouml;scht werden, da sich noch Artikel in dieser Kategorie befinden !
+category_still_contains_articles = Die Kategory enth&auml;lt noch Artikel.
+category_still_contains_subcategories = Die Kategorie enth&auml;lt noch Unterkategorien.
+category_status_updated = Kategoriestatus wurde aktualisiert!
+category_added_and_startarticle_created = Kategory hinzugef&uuml;gt und Startartikel erstellt !
+category_edit_delete = Kategorie editieren/löschen
+article_status_updated = Artikelstatus wurde aktualisiert.
+article_updated = Artikel wurde aktualisiert.
+article_added = Artikel wurde hinzugef&uuml;gt.
+header_category = Kategorie
+header_edit_category = Kategorie editieren
+header_priority = Prio
+header_status = Status/Funktion
+add_category = Kategorie hinzuf&uuml;gen
+status_online = online
+status_offline = offline
+no_permission_to_edit = Keine Editiererlaubnis
+option_no_template = Kein Template
+template_default_name = KEIN TEMPLATE
+header_article_name = Artikelname
+header_template = Template
+header_date = Erstellt am
+change = &auml;ndern
+
+# redaxo\include\pages\template.inc.php
+title_templates = Templates
+cant_delete_default_template = Das ist das 'default' Template und kann nicht gelöscht werden !
+cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von verschiendenen Artikeln genutzt wird.
+template_deleted = Template wurde gel&ouml;scht.
+template_added = Template wurde hinzugef&uuml;gt
+template_updated = Template wurde aktualisiert
+edit_template = Template editieren
+create_template = Neues Template erstellen
+template_name = Name
+checkbox_template_active = Aktiv [Erscheint bei den Artikeln als Auswahl]
+save_template_and_quit = Templates speichern
+save_template_and_continue = Templates &uuml;bernehmen
+header_template = Template
+header_template_id = Id
+header_template_description = Templatebezeichnung
+header_template_active = Aktiv
+header_template_functions = Funktionen
+delete_template = Template l&ouml;schen
+
+# redaxo\include\functions\function_rex_category.inc.php
+article = Artikel
+start_article = Startartikel
+path = Pfad
+
+# redaxo\include\pages\user.inc.php
+title_user = Benutzer
+user_data_updated = Benutzerdaten wurden aktualisiert !
+user_deleted = Benutzer gel&ouml;scht!
+user_added = Benutzer wurde hinzugef&uuml;gt.
+create_user = Neuen Benutzer anlegen
+add_user = Benutzer hinzuf&uuml;gen
+edit_user = Benutzer bearbeiten
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,203 @@
+yes = yes
+no = no
+
+# redaxo/index.php
+start_article_not_selected = No start article selected
+
+# redaxo/redaxo/index.php
+specials = Specials
+module = Modules
+template = Templates
+user = Users
+community = Community
+import = Import, Export
+content = Edit article
+structure = Structure
+statistics = Stats
+logout = logout
+
+# redaxo/include/classes/class.login.inc.php
+login_name  =  Login
+password  =  Password
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  not logged in
+
+# redaxo/include/classes/class.article.inc.php
+add_block  =  Add block
+edit  =  Edit
+delete  =  Delete
+no_editing_rights = You have no editing permission
+no_article_available  =  No article available
+module_doesnt_exist =  This module doesn't exist
+add_block  =  Add block
+dont_delete_block  =  Don't delete block
+delete_block  =  Delete Block
+submit  =  submit
+update_block = Update Block
+
+# redaxo/include/classes/class.form.inc.php
+submit_data  =  Submit data
+file_doesnt_exist  =  This file doesn't exist
+choose_another_one  =  Please choose another file
+
+# redaxo/include/classes/class.mail_decode.inc.php
+download  =  Download
+clipboard  =  Clipboard
+
+# redaxo/include/functions/function_rex_generate.inc.php
+article_moved = Article moved
+article_deleted = Article deleted!
+could_not_move_article = Could not move article
+article_could_not_be_generated  =  Article could not be generated.
+check_rights_in_directory  =  Please check file permissions in directory
+category_deleted  =  Category deleted
+category_doesnt_exist  =  No such category!
+cant_delete_startarticle = You must not delete the start article.
+
+# redaxo\include\pages\community.inc.php
+overview  =  Overview
+user_management = User management
+user_management_info = Hier können die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
+board_management = Board management
+board_management_info = Forumeintr&auml;ge können hier gel&ouml;scht werden
+article_management = Article comments management
+article_management_info = Jeder Artikel kann mit Kommentaren von Usern versehen werden. Diese sind erstmal nicht zu sehen k&ouml;nnen aber freigeschaltet werden. Alte Kommentare k&ouml;nnen auch gel&ouml;scht werden.
+newsletter = Newsletter
+newsletter_info = Hier kann der Newsletter verschickt werden.
+evaluation = Evaluation
+evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
+			
+# redaxo\include\pages\content.inc.php
+block_updated = Block updated!
+block added = Block added
+no_rights_to_this_function = You don't have the permission for this function.
+module_not_found = Module not found.
+block_deleted = Block deleted!
+block_not_deleted = Block not deleted.
+no_rights_to_this_module = You don't have permission to use this module.
+error = Error!
+preview = Preview
+edit_mode = Edit mode
+metadata = Metadata
+article_cannot_be_moved = This articel could not be moved
+start_article_has_to_stay_in_category = Start article have to stay in their respective category.
+article_copied = Article copied.
+file = Could not find file {0}.
+
+# redaxo/include/pages/import.inc.php
+no_import_file_chosen_or_wrong_version = No import file selected or version is different.
+no_valid_import_file = This is not a valid import file.
+database_imported = Database file successfully imported
+entry_count = ({0} Entries)
+go_to_special_features = Please select 'special features' and re-generate the articles.
+file_could_not_be_uploaded = The file could not be uploaded.
+you_have_no_write_permission_in = You don't have write permissions in directory {0}.
+no_import_file_chosen = No import file selected.
+imported_file_not_valid = The import file is not a valid. The filename of the export must not be changed.
+problem_when_extracting = There was a problem during extracting.
+create_dirs_manually = Create these directories manually and set write permissions.
+file_imported = The file was successfully imported.
+check_install_php = Please check your configuration with 'install.php'.
+db_import_export = Import/Export Database
+db_import = Import database:
+db_export = Export database:
+import = Import
+export = Export
+files_import_export = Import/Export Files
+files_import = Import files:
+files_export = Export files:
+
+# redaxo\include\pages\module.inc.php
+module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:
+module_deleted = Modulw deleted!
+module_added = Modul added
+module_updated = Modul updated
+articel_updated = Articles updated
+create_module = Create new Module
+input = Input
+output = Output
+module_name = Name
+accessible = Accessible
+allowed_for_php = Allowed for PHP programmers | Permission: module[php]
+allowed_for_html = Allowed for HTML programmers | Permission: module[html]
+save_module_and_quit = Save module and quit
+save_module_and_continue = Save module
+module_description = Module description
+module_functions = Functions
+delete_module = Delete module
+
+# redaxo\include\pages\profile.inc.php
+user_data_updated = User data updated!
+user_deleted = User deleted!
+user_added = User added!
+user_login_exists = This login is already in use!
+login = Login
+name = Name
+permissions = Permissions
+add = add
+update = update
+
+# redaxo\include\pages\structure.inc.php
+title_structure = Structure Management
+no_such_category = No such category!
+category_updated = Category updated.
+category_could_not_be_deleted = Category could not be deleted!
+category_still_contains_articles = The category contains articles..
+category_still_contains_subcategories = The category contains sub-categories.
+category_status_updated = Status updated!
+category_added_and_startarticle_created = Category added and start article created!
+category_edit_delete = edit/delete category
+article_status_updated = Status updated.
+article_updated = Article updated.
+article_added = Article added.
+header_category = Category
+header_edit_category = Edit Category
+header_priority = Prio
+header_status = Status/Function
+add_category = Add Category
+status_online = online
+status_offline = offline
+no_permission_to_edit = No permission to edit
+option_no_template = no template
+template_default_name = NO TEMPLATE
+header_article_name = Article name
+header_template = Template
+header_date = Created
+change = change
+
+# redaxo\include\pages\template.inc.php
+title_templates = Templates
+cant_delete_default_template = The default template cannot be deleted!
+cant_delete_template_because_its_in_use = Template '{0}' cannot be deleted, because it is still in use.
+template_deleted = Template deleted.
+template_added = Template added.
+template_updated = Template updated.
+edit_template = Edit Template
+create_template = Create Template
+template_name = Name
+checkbox_template_active = Active [Can be selected for articles]
+save_template_and_quit = Save template and quit
+save_template_and_continue = Save template
+header_template = Template
+header_template_id = Id
+header_template_description = Description
+header_template_active = Active
+header_template_functions = Functions
+delete_template = Delete Template
+
+# redaxo\include\functions\function_rex_category.inc.php
+article = Article
+start_article = Start article
+path = Path
+
+# redaxo\include\pages\user.inc.php
+title_user = Users
+user_data_updated = User data updated.
+user_deleted = User deleted!
+user_added = User added.
+create_user = Create new user
+add_user = Add user
+edit_user = Edit user
+
+

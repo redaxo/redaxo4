@@ -1,0 +1,8 @@
+AuthUserFile ./user.psw
+AuthGroupFile /dev/null
+AuthName Zugriff auf IncludeDateien
+AuthType Basic
+
+<limit GET>
+require valid-user
+</limit>
