@@ -88,10 +88,9 @@ class mime_mail
 	function send()
 	{
 		$mail_content_a = explode("------".$this->boundary,$this->mime);
-		
 		// echo nl2br(htmlentities($this->mime));
-		
-		$mail_send = mail($this->to, $this->subject,"",$this->mime,"-f".$this->from);
+		// $mail_send = mail($this->to, $this->subject,"",$this->mime,"-f".$this->from);
+		$mail_send = mail($this->to, $this->subject,"",$this->mime);
 	}
 	
 };
