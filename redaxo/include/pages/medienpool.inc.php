@@ -290,23 +290,106 @@ if ($mode == "add")
 
 // ------------------------------------- Kategorienverwaltung
 // METHOD ADD FILE CAT
-if($_POST[media_method]=='add_file_cat'){
-        $db = new sql;
-        $db->setTable('rex_file_category');
-        $db->setValue('name',$_POST[rex_file_category_new]);
-        $db->insert();
-        $_GET[rex_file_category] = $db->last_insert_id;
-        $msg = $I18N->msg('pool_kat_saved',$_POST[rex_file_category_new]);
-        $msg.= "<br><br>";
+if($media_method=='add_file_cat')
+{
+	$db = new sql;
+	$db->setTable('rex_file_category');
+	$db->setValue('name',$cat_name);
+	$db->insert();
+	$msg = $I18N->msg('pool_kat_saved',$rex_file_category_new);
+}elseif($media_method=='edit_file_cat'){
+
+	$db = new sql;
+	$db->setTable('rex_file_category');
+	$db->where("id='$cat_id'");
+	$db->setValue('name',$cat_name);
+	$db->update();
+	$msg = "kategorie wurde aktualisiert !";
+
+}elseif($media_method=='delete_file_cat'){
+
+	$gf = new sql;
+	$gf->setQuery("select * from rex_file where category_id='$cat_id'");
+	
+	if ($gf->getRows()==0)
+	{
+		$gf->setQuery("delete from rex_file_category where id='$cat_id'");
+		$msg = "Kategorie wurde gelöscht !";	
+	}else
+	{
+		$cat_id = "";
+		$msg = "Kategorie kann nicht gelöscht werden da sich noch Dateien in dieser Kategory befinden!";	
+	}
+
+	
 }
 
 if ($mode == "categories")
 {
 	
+	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>Medien: Detailansicht</b></td></tr><tr><td></td></tr></table>";
+	
+	if ($msg != "")
+	{
+		print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+		$msg = "";
+	}
+	
+	$gc = new sql;
+	$gc->setQuery("select * from rex_file_category order by name");
+	
+	echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+	echo "<tr><th width=20><a href=index.php?page=medienpool&mode=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>Name</th><th class=dgrey align=left>Funktion</th></tr>";
+	
+	if ($function == "add_cat")
+	{
+		echo "<tr>";
+		echo "<form action=index.php method=post>";
+		echo "<input type=hidden name=page value=medienpool>\n";
+		echo "<input type=hidden name=media_method value=add_file_cat>\n";
+		echo "<input type=hidden name=mode value=categories>";
+		echo "<td class=grey>&nbsp;</td>";
+		echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name></td>";
+		echo "<td class=grey><input type=submit value=erstellen></td>";
+		echo "</form>";
+		echo "</tr>"; 	
+	}
+	
+	
+	for($i=0;$i<$gc->getRows();$i++)
+	{
+		$iid = $gc->getValue("id");
+		$iname = $gc->getValue("name");
+		if ($iid == $cat_id)
+		{
+			echo "<tr>";
+			echo "<form action=index.php method=post>";
+			echo "<input type=hidden name=page value=medienpool>\n";
+			echo "<input type=hidden name=media_method value=edit_file_cat>\n";
+			echo "<input type=hidden name=mode value=categories>";
+			echo "<input type=hidden name=cat_id value=$cat_id>";
+			echo "<td class=grey align=center>$iid</td>";
+			echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value='".htmlentities($iname)."'></td>";
+			echo "<td class=grey><input type=submit value=erstellen></td>";
+			echo "</form>";
+			echo "</tr>";
+			
+		}else
+		{
+			echo "<tr>";
+			echo "<td class=grey align=center>$iid</td>";
+			echo "<td class=grey>".$gc->getValue("name")."&nbsp;</td>";
+			echo "<td class=grey><a href=index.php?page=medienpool&mode=categories&cat_id=$iid>Edit</a> | <a href=index.php?page=medienpool&mode=categories&cat_id=$iid&media_method=delete_file_cat>Delete</a></td>";
+			echo "</tr>";
+		}
+	
+		$gc->next();	
+	}
+	echo "</table>";
 	
 	
 	
-	print "<input type=hidden name=media_method value=add_file_cat>\n";
+	// print "<input type=hidden name=media_method value=add_file_cat>\n";
 }
 
 
@@ -406,18 +489,22 @@ if($media_method=='edit_file'){
 			}
 		}
 		
+		$size = getimagesize($REX[INCLUDE_PATH]."/../../files/$filename");
+		$fwidth = $size[0];
+		$fheight = $size[1];
+		
 		$width = $width+0;
 		$height = $height+0;
 		
-		if ($width > 0 and $height > 0)
+		if ($width > 0 and $height > 0 and $fwidth!=$width and $fheight!=$height)
 		{
 			media_resize($REX[MEDIAFOLDER]."/$filename",$width,$height);
 			$msg .= "<br>".$I18N->msg('pool_file_is_resized');
-		}elseif($width > 0)
+		}elseif($width > 0 and $fwidth!=$width)
 		{
 			media_resize($REX[MEDIAFOLDER]."/$filename",$width,$height);
 			$msg .= "<br>".$I18N->msg('pool_file_is_resized');
-		}elseif($height > 0)
+		}elseif($height > 0 and $fheight!=$height)
 		{
 			media_resize($REX[MEDIAFOLDER]."/$filename",$width,$height);
 			$msg .= "<br>".$I18N->msg('pool_file_is_resized');
@@ -450,6 +537,16 @@ if ($mode == "detail")
 		$fname = $gf->getValue("filename");
 		$ffiletype = $gf->getValue("filetype");
 		$ffiletype_ii = in_array($ffiletype,$imagetype);
+		
+		if ($ffiletype_ii==1)
+		{
+			$size = getimagesize($REX[INCLUDE_PATH]."/../../files/$fname");
+			$fwidth = $size[0];
+			$fheight = $size[1];
+			if ($fwidth >199) $rfwidth = 200;
+			else $rfwidth = $fwidth;
+		}
+		
 		
 		$cats = new sql();
 		$cats->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC");
@@ -485,7 +582,7 @@ if ($mode == "detail")
 		print "<tr><td class=grey width=100>Titel:</td><td class=grey><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td>";
 		
 		
-		if ($ffiletype_ii) echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=../files/$fname width=200></td>";
+		if ($ffiletype_ii) echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=../files/$fname width=$rfwidth></td>";
 		
 		print "</tr>\n";
 		print "<tr><td class=grey>Kategorie:</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
@@ -497,10 +594,12 @@ if ($mode == "detail")
 		// hier noch überprüfen ob grafik oder nicht und dann erst ausgeben
 		if ($ffiletype_ii)
 		{
+			
+			
 			echo "<tr>
 				<td class=lgrey>".$I18N->msg('pool_img_width')." W</td>
 				<td class=lgrey>";
-			if ($REX[IMAGEMAGICK]) echo "<input type=field name=width size=5> px";
+			if ($REX[IMAGEMAGICK]) echo "<input type=field name=width size=5 value='$fwidth'> px";
 			else echo "-";
 			echo "</td>
 				</tr>";
@@ -508,7 +607,7 @@ if ($mode == "detail")
 			echo "<tr>
 				<td class=lgrey>".$I18N->msg('pool_img_height')." H</td>
 				<td class=lgrey>";
-			if ($REX[IMAGEMAGICK]) echo "<input type=field name=height size=5> px";
+			if ($REX[IMAGEMAGICK]) echo "<input type=field name=height size=5 value='$fheight'> px";
 			else echo "-";
 			echo "</td>
 				</tr>";
@@ -591,8 +690,8 @@ if($mode == "")
 	        // get file size
 	        $file_size = getfilesize($file_size);
 	
-		if ($file_type_ii) $thumbnail = "<img src=../files/$file_name width=80>";
-		else $thumbnail = "<img src=pics/leer.gif width=1 height=80 align=left>Keine Anzeige möglich";
+		if ($file_type_ii) $thumbnail = "<img src=../files/$file_name width=80 border=0>";
+		else $thumbnail = "<img src=pics/leer.gif width=1 height=80 align=left border=0>Keine Anzeige möglich";
 		
 		if ($file_title == "") $file_title = "[Kein Titel eingegeben]";
 		if ($file_description == "") $file_description = "[Keine Beschreibung eingegeben]";
@@ -613,10 +712,10 @@ if($mode == "")
 	           }
 	           $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
 	        }
-
+		$ilink = "index.php?page=medienpool&mode=detail&file_id=$file_id&rex_file_category=$rex_file_category";
 		echo "<tr>";
-		echo "<td valign=top class=grey width=100>$thumbnail</td>";
-		echo "<td valign=top class=grey width=200><b><a href=index.php?page=medienpool&mode=detail&file_id=$file_id&rex_file_category=$rex_file_category>$file_title</a></b><br><br>$file_name<br>$file_size<br><br>$file_stamp</td>";
+		echo "<td valign=top class=grey width=100><a href=$ilink>$thumbnail</a></td>";
+		echo "<td valign=top class=grey width=200><b><a href=$ilink>$file_title</a></b><br><br>$file_name<br>$file_size<br><br>$file_stamp</td>";
 		echo "<td valign=top class=grey>".nl2br(htmlentities($file_description))."</td>";
 		echo "<td valign=top class=grey>$opener_link</td>";
 		echo "</tr>";
