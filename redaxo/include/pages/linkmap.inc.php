@@ -395,31 +395,37 @@ function initArray()
 
     print "Note(0,-1,'','')\n";
 
-	foreach (OOCategory::getRootCategories(true) as $cat){
+	foreach (OOCategory::getRootCategories(false) as $cat){
 
         $parent = $cat->getId() * 9999;
-	    print "Note(".$parent.",0,'".ereg_replace("\n|\r|\"|'","",$cat->getName())."','')\n";
+        $color = $cat->_status!=1 ? "red" : "green";
+	    print "Note(".$parent.",0,'<font color=".$color.">".ereg_replace("\n|\r|\"|'","",$cat->getName())."</font>','')\n";
 
 	    foreach($cat->getArticles(false) as $art){
-	         print "Note(".$art->getId().",".$parent.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+	    	 $color = $art->_status!=1 ? "red" : "green";
+	         print "Note(".$art->getId().",".$parent.",'<font color=".$color.">".ereg_replace("\n|\r|\"|'","",$art->getName())."</font>','redaxo://".$art->getId()."')\n";
 	    }
 
-	    foreach ($cat->getChildren(true) as $sub1){
+	    foreach ($cat->getChildren(false) as $sub1){
 
         	$parent1 = $sub1->getId() * 9999;
-	        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
+			$color = $sub1->_status!=1 ? "red" : "green";
+	        print "Note(".$parent1.",".$parent.",'<font color=".$color.">".ereg_replace("\n|\r|\"|'","",$sub1->getName())."</font>','')\n";
 
 	        foreach($sub1->getArticles(false) as $art){
-	            print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+	            $color = $art->_status!=1 ? "red" : "green";
+	            print "Note(".$art->getId().",".$parent1.",'<font color=".$color.">".ereg_replace("\n|\r|\"|'","",$art->getName())."</font>','redaxo://".$art->getId()."')\n";
 	        }
 
-	        foreach ($sub1->getChildren(true) as $sub2){
+	        foreach ($sub1->getChildren(false) as $sub2){
 
                 $parent2 = $sub2->getId() * 9999;
-	            print "Note(".$parent2.",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$sub2->getName())."','')\n";
+                $color = $sub2->_status!=1 ? "red" : "green";
+	            print "Note(".$parent2.",".$parent1.",'<font color=".$color.">".ereg_replace("\n|\r|\"|'","",$sub2->getName())."</font>','')\n";
 
 	            foreach($sub2->getArticles(false) as $art){
-	                print "Note(".$art->getId().",".$parent2.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+	                $color = $art->_status!=1 ? "red" : "green";
+	                print "Note(".$art->getId().",".$parent2.",'<font color=".$color.">".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."</font>')\n";
 	            }
 
 	        }
@@ -478,7 +484,7 @@ if ( isDomNN )
 <?php
 
 echo '
-</head><body bgcolor=#ffffff onLoad="if (layerok) { preOpen(); showTree(); }">
+</head><body bgcolor=#ffffff onLoad="self.focus();if (layerok) { preOpen(); showTree(); }">
 <table border=0 cellpadding=5 cellspacing=0 width=100%>
 <tr><td colspan=3 class=grey align=right>'.$REX[SERVERNAME].'</td></tr>
 <tr><td class=greenwhite><b>Linkmap</b></td></tr></table>
