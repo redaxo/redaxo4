@@ -107,9 +107,13 @@ if ($FUPD != "")
 		if ($ushowinfo != "") $ushowinfo = 1;
 		else $ushowinfo = 0;
 		$adduser->setValue("showinfo",$ushowinfo);
+		
+		// unnoetig ?
+		/*
 		if ($usendmail != "") $usendmail = 1;
 		else $usendmail = 0;
 		$adduser->setValue("sendmail",$usendmail);
+		*/
 		
 		$adduser->insert();
 		$user_id = 0;
