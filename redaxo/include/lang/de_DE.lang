@@ -385,7 +385,7 @@ setup_headline1 = PHP-Versionscheck | Rechteüberprüfung
 
 setup_step2 = SETUP: SCHRITT 2 von 5
 setup_020 = <b>include/master.inc.php</b> konnte nicht geschrieben werden. 
-setup_021 = Es konnte keine Verbindung zur Datenbank hergestellte werden!
+setup_021 = Es konnte keine Verbindung zur Datenbank hergestellt werden!
 setup_022 = Die angegebene Datenbank konnte nicht geoeffnet werden!
 setup_023 = Schreiben der 'include/master.inc.php'
 setup_024 = Serverdomain [optional]
