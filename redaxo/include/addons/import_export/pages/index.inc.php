@@ -12,7 +12,7 @@ if ($impname != "")
 
 }
 
-if ($exportfilename == "") $exportfilename = "redaxo_".$REX[version]."_".date("Ymd");
+if ($exportfilename == "") $exportfilename = $REX[SERVERNAME] . '_rex' .$REX[version];
 
 
 if ($function == "delete")
@@ -149,10 +149,11 @@ if ($function == "delete")
 			
 			for($i=0;$i<$tabs->rows;$i++,$tabs->next())
 			{
-				if($tabs->getvalue("Tables_in_".$DB[1][NAME]) != "rex_user"){
+                $tab = $tabs->getvalue("Tables_in_".$DB[1][NAME]);
+				if( startsWith( $tab, $REX[TABLE_PREFIX]) && $tab != "rex_user"){
 					$cols = new sql;
-					$cols->setquery("SHOW COLUMNS FROM ".$tabs->getvalue("Tables_in_".$DB[1][NAME]));
-					$query = "DROP TABLE IF EXISTS ".$tabs->getvalue("Tables_in_".$DB[1][NAME]).";\nCREATE TABLE ".$tabs->getvalue("Tables_in_".$DB[1][NAME])." (";
+					$cols->setquery("SHOW COLUMNS FROM ". $tab);
+					$query = "DROP TABLE IF EXISTS ". $tab .";\nCREATE TABLE ". $tab ." (";
 					$key = array();
 					for($j=0;$j<$cols->rows;$j++,$cols->next()){
 						$colname = $cols->getvalue("Field");
@@ -178,13 +179,14 @@ if ($function == "delete")
 					$query .= ")TYPE=MyISAM;";
 					$dump .= $query."\n";
 					$cont = new sql;
-					$cont->setquery("SELECT * FROM ".$tabs->getvalue("Tables_in_".$DB[1][NAME]));
+					$cont->setquery("SELECT * FROM ". $tab);
 					for($j=0;$j<$cont->rows;$j++,$cont->next()){
-						$query = "INSERT INTO ".$tabs->getvalue("Tables_in_".$DB[1][NAME])." VALUES (";
+						$query = "INSERT INTO ". $tab ." VALUES (";
 						$cols->counter = 0;
 						for($k=0;$k<$cols->rows;$k++,$cols->next()){
-							if(is_numeric($cont->getvalue($cols->getvalue("Field")))) $query .= "'".$cont->getvalue($cols->getvalue("Field"))."'";
-							else $query .= "'".addslashes($cont->getvalue($cols->getvalue("Field")))."'";
+                            $con = $cont->getvalue($cols->getvalue("Field"));
+							if(is_numeric( $con)) $query .= "'". $con ."'";
+							else $query .= "'".addslashes( $con)."'";
 							if($k+1 != $cols->rows) $query .= ",";
 						}
 						$query .= ");";
@@ -335,23 +337,23 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	</form>
 	</table>";
 	
-	// DB IMPORT LIST
-	// all files in files with .sql als endung
-
-	$dir = $REX[INCLUDE_PATH]."/addons/$page/files";
-	$hdl = opendir($dir);
-	echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-	echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
-	while (false !== ($file = readdir($hdl)))
-	{
-		if(substr($file,-4,4) == ".sql")
-		{
-			echo "<tr>
-			<td class=lgrey>$file</td>
-			<td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
-			<td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
-		}
-	}
+    echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
+    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>".$I18N_ADDON->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    
+    // DB IMPORT LIST
+    // all files in files with .sql als endung
+    $dir = $REX[INCLUDE_PATH]."/addons/$page/files";
+    sort( $folder = readFilteredFolder( $dir, ".sql"));
+    
+    foreach( $folder as $file) 
+    {
+        $filec = date( "d.m.Y H:i", filectime( $dir .'/'.$file));
+        echo "<tr>
+        <td class=lgrey>$file</td>
+        <td class=lgrey>$filec</td>
+        <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
+    }
 	echo "</table>";
 
 	// FILE IMPORT
@@ -366,23 +368,25 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	</form>
 	</table>";
 
-	// FILE IMPORT LIST
-	// all files in files with .tar.gz als endung
-
-	$dir = $REX[INCLUDE_PATH]."/addons/$page/files";
-	$hdl = opendir($dir);
-	echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-	echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</th>";
-	while (false !== ($file = readdir($hdl)))
-	{
-		if(substr($file,-7,7) == ".tar.gz")
-		{
-			echo "<tr>
-			<td class=lgrey>$file</td>
-			<td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
-			<td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
-		}
-	}
+    echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
+    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>".$I18N_ADDON->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    
+    // FILE IMPORT LIST
+    // all files in files with .tar.gz als endung
+    
+    $dir = $REX[INCLUDE_PATH]."/addons/$page/files";
+    sort( $folder = readFilteredFolder( $dir, ".tar.gz"));
+    
+    foreach( $folder as $file)
+    {
+        $filec = date( "d.m.Y H:i", filectime( $dir .'/'.$file));
+        echo "<tr>
+        <td class=lgrey>$file</td>
+        <td class=lgrey>$filec</td>
+        <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
+    }
+    
 	echo "</table><br>";
 
 	// ----------------------------------------------------------------- /IMPORT
@@ -417,30 +421,28 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	echo "<td class=lgrey>".$I18N_ADDON->msg("file_export")."</td>";
 	echo "</tr>"; 
 	
-	// FILE EXPORT LIST
-	// all files in files with .tar.gz als endung
+    echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>";
+    // FILE EXPORT LIST
+    // all folders of the webpage except the cms dir
 
-	$dir = $REX[INCLUDE_PATH]."/../..";
-	$hdl = opendir($dir);
-	echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>";
-	while (false !== ($file = readdir($hdl)))
-	{
-		if($file != ".." AND $file != ".")
-		{
-			if(is_dir($dir."/".$file))
-			{
-				if($file != "redaxo")
-				{
-					$checked = "";
-					if (is_Array($EXPDIR)) if (array_key_exists($file,$EXPDIR) !== false) $checked = " checked";
-					echo "<tr>";
-					echo "<td class=lgrey width=30><input type=checkbox name=EXPDIR[$file] value=true $checked></td>";
-					echo "<td class=lgrey>$file</td>";
-					echo "</tr>";
-				}
-			}
-		}
-	}
+    $dir = $REX[INCLUDE_PATH]."/../..";
+    $folders = readSubFolders( $dir);
+    
+    foreach ( $folders as $file)
+    {
+        if ( $file == 'redaxo')
+        {
+            continue;
+        }
+        
+        $checked = "";
+        if (is_Array($EXPDIR)) if (array_key_exists($file,$EXPDIR) !== false) $checked = " checked";
+        echo "<tr>";
+        echo "<td class=lgrey width=30><input type=checkbox name=EXPDIR[$file] value=true $checked></td>";
+        echo "<td class=lgrey>$file</td>";
+        echo "</tr>";
+    }
+    
 	echo "</table></td></tr>";
 	
 	$checked0 = "";
