@@ -83,7 +83,7 @@ error = Error!
 preview = Preview
 edit_mode = Edit mode
 metadata = Metadata
-article_cannot_be_moved = This articel could not be moved
+article_cannot_be_moved = This article could not be moved
 start_article_has_to_stay_in_category = Start article have to stay in their respective category.
 article_copied = Article copied.
 file = Could not find file {0}.
@@ -96,7 +96,7 @@ description = Description
 keywords = Keywords
 metadata_image = Metafile/-Image
 delete_file = Delete File
-tease_on_startpage = Teaseer on Startpage
+tease_on_startpage = Teaser on Startpage
 update_metadata = Update Metadata
 other_functions = Other Functions
 category = Category
@@ -258,7 +258,7 @@ article_type_could_not_be_deleted = Article type with ID=1 must not be deleted.
 article_type_still_used = Article type could not be deleted, its still used by the following articles:
 article_type_added = Article type added!
 article_type_list_id = ID
-article_type_list_name = Articel Type
+article_type_list_name = Article Type
 article_type_list_description = Description
 
 update_button = Update
