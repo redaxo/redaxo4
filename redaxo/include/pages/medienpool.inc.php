@@ -6,15 +6,29 @@
 #                                                            #
 ##############################################################
 
-##############################################################
-## Configuration Media Pool Htmlarea                         #
-##############################################################
+// ----- USER RECHTE FEHLEN NOCH
+// Jeder User darf seine eigenen Bilder editieren und austauschen
 
-// DEFINE WHICH EXTENSIONS GETS WHICH HMTL WRAPPED IN HTMLARA
+// user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
+// user mit media[10] kann in kat 10 alles
+
+// user mit media_add[all] darf adden
+// user mit media_edit[all] darf editieren
+// user mit media_delete[all] darf löschen
+// user mit media_get[all] darf jedes bild selektieren
+
+// user mit media_add[10] darf in kat 10 adden
+// user mit media_edit[10] darf in kat 10 editieren
+// user mit media_delete[10] darf in kat 10 löschen
+// user mit media_get[10] darf in kat 10 jedes bild selektieren
+
+
+// ----- DEFINE WHICH EXTENSIONS GETS WHICH HMTL WRAPPED IN HTMLARA
 $htmlarea["default"] = "<a href=###URL### target=_blank>###FILE_NAME###</a>";
 $htmlarea[".gif|.jpg|.jpeg|.png"] = "<img src=###URL### width=100 height=100 vspacing=5 hspacing=5 align=left border=0>";
 
-// imagetypes
+
+// ----- Imagetypes
 $imagetype[] = "image/gif";
 $imagetype[] = "image/jpeg";
 $imagetype[] = "image/pjpeg";
@@ -22,7 +36,8 @@ $imagetype[] = "image/jpg";
 $imagetype[] = "image/png";
 
 
-$REX[IMAGEMAGICK] = true;
+// ----- Imagemagickpaths
+$REX[IMAGEMAGICK] = false;
 $REX[IMAGEMAGICK_PATH] = "/usr/bin/convert";
 
 
@@ -31,10 +46,10 @@ $gc = new sql;
 $gc->setQuery("select * from rex_file_category where id='$rex_file_category'");
 if ($gc->getRows()==0) $rex_file_category = 0;
 
+
 // ----- kategorie auswahl
 $db = new sql();
 $file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
-
 $cat_out = "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
 $cat_out .= "<form name=rex_file_cat action=index.php method=POST>\n";
 $cat_out .= "<input type=hidden name=page value=medienpool>";
@@ -56,21 +71,10 @@ $cat_out .= "<td class=grey><input type=submit value='".$I18N->msg('pool_search'
 $cat_out .= "</tr><tr><td colspan=3></td></tr></form></table>";
 
 
-
-
-
-
-
-
-
-
-
-
-
 ##############################################################
 ## IMAGE POPUP WINDOW                                        #
 ##############################################################
-
+/*
 // POPUP WINDOW SHOW IMAGE
 if($_GET[popimage]!=''){
         $size = getimagesize($REX[MEDIAFOLDER]."/".$_GET[popimage]);
@@ -79,6 +83,9 @@ if($_GET[popimage]!=''){
         print "</body>";
         exit;
 }
+*/
+
+
 
 ##############################################################
 ## MAIN METHODS                                              #
@@ -90,7 +97,8 @@ $DEFAULT_LINK  = "index.php?page=medienpool&opener_input_field=".$opener_input_f
 $DEFAULT_CAT_LINK  = "index.php?page=medienpool&rex_file_category=".$rex_file_category."&opener_input_field=".$opener_input_field;
 */
 
-// CHECK IF HTMLAREA OR FIELD
+
+// ----- CHECK IF HTMLAREA OR FIELD
 
 if($_GET[opener_input_field] != ''){
    $_SESSION[myarea] = '';
@@ -120,7 +128,7 @@ if($_SESSION[myarea] != ''){
 }
 
 
-// READ OUT FILE ICONS
+// ----- READ OUT FILE ICONS
 if ($handle = opendir('pics/pool_file_icons/')) {
     while (false !== ($file = readdir($handle))) {
         if ($file != "." && $file != "..") {
@@ -152,15 +160,19 @@ function insertHTMLArea(html){
         self.close();
 
 }
+
 //-->
 </script>
-</head><body bgcolor=#ffffff>
+</head>
+
+<body bgcolor=#ffffff>
+
 <table border=0 cellpadding=5 cellspacing=0 width=100%>
 <tr><td colspan=3 class=grey align=right><b>".$I18N->msg('pool_media')." ".$REX[SERVERNAME]."</b></td></tr>
 <tr><td class=greenwhite><b>
-	<a href=index.php?page=medienpool class=white>".$I18N->msg('pool_file_list')."</a> | 
+	<a href=index.php?page=medienpool&rex_file_category=$rex_file_category class=white>".$I18N->msg('pool_file_list')."</a> | 
 	<!-- <a href=index.php?page=medienpool&mode=search class=white>Mediensuche</a> |  -->
-	<a href=index.php?page=medienpool&mode=add class=white>".$I18N->msg('pool_file_insert')."</a> | 
+	<a href=index.php?page=medienpool&mode=add&rex_file_category=$rex_file_category class=white>".$I18N->msg('pool_file_insert')."</a> | 
 	<a href=index.php?page=medienpool&mode=categories class=white>".$I18N->msg('pool_cat_list')."</a>
 	
 	</b></td></tr>
@@ -168,9 +180,7 @@ function insertHTMLArea(html){
 </table>";
 
 
-
-
-####### MESSAGE
+// ----- MESSAGE
 if ($msg != "")
 {
 	print "<table border=0 cellpadding=5 cellspacing=0 width=100%><tr><td width=20><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr></table>";
@@ -178,16 +188,9 @@ if ($msg != "")
 }
 
 
-
-
-
-
-
-
-
 // ------------------------------------- Datei hinzufügen
 
-// METHOD ADD FILE
+// ----- METHOD ADD FILE
 if($media_method=='add_file'){
 	
 	// echo $_FILES[file_new][name];
@@ -277,7 +280,9 @@ if ($mode == "add")
 	print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
 	print "<tr><td class=grey>".$I18N->msg('pool_copyright').":</td><td class=grey><input type=text size=20 name=fcopyright class=inp100 value='".(stripslashes($fcopyright))."'></td></tr>\n";
 	print "<tr><td class=grey>Datei:</td><td class=grey><input type=file name=file_new size=30></td></tr>";
-	print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_upload')."\"><input type=submit name=saveandexit value=\"".$I18N->msg('pool_file_upload_get')."\"></td></tr>\n";
+	print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_upload')."\">";
+	if ($opener_input_field != "REX_MEDIA_0") echo "<input type=submit name=saveandexit value=\"".$I18N->msg('pool_file_upload_get')."\">";	
+	print "</td></tr>\n";
 	print "</form>\n";
 	print "</table>\n";
 	#######
@@ -286,7 +291,6 @@ if ($mode == "add")
 
 
 // ------------------------------------- Kategorienverwaltung
-// METHOD ADD FILE CAT
 if($media_method=='add_file_cat')
 {
 	$db = new sql;
@@ -294,8 +298,8 @@ if($media_method=='add_file_cat')
 	$db->setValue('name',$cat_name);
 	$db->insert();
 	$msg = $I18N->msg('pool_kat_saved',$cat_name);
-}elseif($media_method=='edit_file_cat'){
-
+}elseif($media_method=='edit_file_cat')
+{
 	$db = new sql;
 	$db->setTable('rex_file_category');
 	$db->where("id='$cat_id'");
@@ -303,12 +307,10 @@ if($media_method=='add_file_cat')
 	$db->update();
 	$msg = $I18N->msg('pool_kat_updated',$cat_name);
 	$cat_id = "";
-
-}elseif($media_method=='delete_file_cat'){
-
+}elseif($media_method=='delete_file_cat')
+{
 	$gf = new sql;
 	$gf->setQuery("select * from rex_file where category_id='$cat_id'");
-	
 	if ($gf->getRows()==0)
 	{
 		$gf->setQuery("delete from rex_file_category where id='$cat_id'");
@@ -318,8 +320,6 @@ if($media_method=='add_file_cat')
 		$cat_id = "";
 		$msg = $I18N->msg('pool_kat_not_deleted');
 	}
-
-	
 }
 
 if ($mode == "categories")
@@ -385,9 +385,6 @@ if ($mode == "categories")
 	}
 	echo "</table>";
 	
-	
-	
-	// print "<input type=hidden name=media_method value=add_file_cat>\n";
 }
 
 
@@ -395,8 +392,6 @@ if ($mode == "categories")
 
 
 // ------------------------------------- Dateidetails
-
-// METHOD DELETE FILE
 if($media_method=='delete_file')
 {
 
@@ -439,7 +434,6 @@ if($media_method=='delete_file')
 		$mode = "";
 	}
 }
-
 
 if($media_method=='edit_file'){
 
@@ -521,6 +515,10 @@ if($media_method=='edit_file'){
 if ($mode == "detail")
 {
 	$gf = new sql;
+
+	if ($file_name != "") $gf->setQuery("select * from rex_file where filename='$file_name'");
+	if ($gf->getRows()==1) $file_id = $gf->getValue("file_id");
+
 	$gf->setQuery("select * from rex_file where file_id='$file_id'");
 	if ($gf->getRows()==1)
 	{
@@ -554,7 +552,7 @@ if ($mode == "detail")
 		$cats_sel->set_size(1);
 		$cats_sel->set_style("' class='inp100");
 		
-		$cats_sel->add_option("Kein Kategorie","0");
+		$cats_sel->add_option($I18N->msg('pool_kats_no'),"0");
 		for ($i=0;$i<$cats->getRows();$i++)
 		{
 			$cats_sel->add_option($cats->getValue("name"),$cats->getValue("id"));
@@ -609,7 +607,6 @@ if ($mode == "detail")
 			echo "</td>
 				</tr>";
 		}
-
 
 		print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_update')."\"></td></tr>\n";
 		print "</form>\n";
@@ -709,6 +706,9 @@ if($mode == "")
 	           }
 	           $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
 	        }
+	        
+	        if ($opener_input_field == "REX_MEDIA_0") $opener_link = "-";
+	        
 		$ilink = "index.php?page=medienpool&mode=detail&file_id=$file_id&rex_file_category=$rex_file_category";
 		echo "<tr>";
 		echo "<td valign=top class=grey width=100><a href=$ilink>$thumbnail</a></td>";
