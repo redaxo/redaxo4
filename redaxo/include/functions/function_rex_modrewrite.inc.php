@@ -22,6 +22,7 @@ function ModRewriteName($article_name) {
 }
 
 function getURLbyID($ArticleID,$Nameonly = false){
+    	global $REX;
         if(!$ArticleID) return '';
         if($GLOBALS[REX][MOD_REWRITE]){
                 @include("redaxo/include/generated/articles/$ArticleID.article");
