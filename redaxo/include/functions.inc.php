@@ -3,13 +3,13 @@
 if (!ini_get('register_globals'))
 {
 	// register_globals = off;
-	extract($_COOKIE);
-	extract($_ENV);
-	extract($_FILES);
-	extract($_GET);
-	extract($_POST);
-	extract($_SERVER);
-	extract($_SESSION);
+	if ($_COOKIE) extract($_COOKIE);
+	if ($_ENV) extract($_ENV);
+	if ($_FILES) extract($_FILES);
+	if ($_GET) extract($_GET);
+	if ($_POST) extract($_POST);
+	if ($_SERVER) extract($_SERVER);
+	if ($_SESSION) extract($_SESSION);
 }else
 {
 	// register_globals = on;	
