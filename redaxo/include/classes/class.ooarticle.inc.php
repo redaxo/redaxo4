@@ -224,12 +224,11 @@ class OOArticle {
 	
 	/*
 	 * Object Function:
-	 * Return a list of all the slices of this article
-	 * in the order as they appear.
-	 * Returns an array of OOArticleSlice objects
+	 * Return the first slice of this article
+	 * Returns an OOArticleSlice objects
 	 */
-	function getSlices() {
-		return OOArticleSlice::getSlicesForArticle($this->_id);
+	function getFirstSlice() {
+		return OOArticleSlice::getFirstSliceForArticle($this->_id);
 	}
 	
 	/*
