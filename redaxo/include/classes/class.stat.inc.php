@@ -501,9 +501,11 @@ class stat
 		// unix timestamp , remote ip, hostname, user_agent, referrer
 		$filestring = date("U") . "\t" .$_SERVER['REMOTE_ADDR'] . "\t" . $this->gethost($_SERVER['REMOTE_ADDR']) . "\t" . $_SERVER["HTTP_USER_AGENT"] . "\t" . $ref . $this->getnewline();
 
-		$h = fopen($filename,"a");
-		fwrite($h, $filestring);
-		fclose($h);
+		if ($h = @fopen($filename,"a"))
+		{
+			fwrite($h, $filestring);
+			fclose($h);
+		}
 
 	}
 
