@@ -260,7 +260,6 @@ class sql
 		}
 
 		if($value!=""){
-			print "SELECT $field_name FROM $table_name $add ORDER BY $field_name DESC";
 			$res = $this->get_array("SELECT $field_name FROM $table_name $add ORDER BY $field_name DESC");
 			foreach($res as $key => $var){
 				if($var[$field_name] == $value){
