@@ -21,18 +21,30 @@ function ModRewriteName($article_name) {
     return $url;
 }
 
-function getURLbyID($ArticleID){
-	if(!$ArticleID) return '';
-	global $REX;
-	if($REX[MOD_REWRITE]){
-		$db = new sql;
-		$sql = "SELECT name FROM rex_article WHERE id='$ArticleID'";
-		$res = $db->get_array($sql);
-		$url = $ArticleID."-".ModRewriteName($res[0][name]);
-	} else {
-		$url = 'index.php?article_id='.$ArticleID;
-	}
-	return $url;
+function getURLbyID($ArticleID,$Nameonly = false){
+        if(!$ArticleID) return '';
+        if($GLOBALS[REX][MOD_REWRITE]){
+                @include("redaxo/include/generated/articles/$ArticleID.article");
+                $name = $REX[ART][$ArticleID][name];
+                $path = $REX[ART][$ArticleID][path];
+                $tmp = explode("-",$path);
+                foreach($tmp as $var){
+                    if($var != ""){
+                        @include("redaxo/include/generated/categories/$var.category");
+                        if($REX[CAT][$var][name]!=$name){
+                            $linkpath .= $REX[CAT][$var][name]."/";
+                        }
+                    }
+                }
+                $name = $linkpath.$name;
+                if($Nameonly){
+                    return str_replace('/',$Nameonly,$name);
+                }
+                $url = $ArticleID."-".ModRewriteName($name);
+        } else {
+                $url = 'index.php?article_id='.$ArticleID;
+        }
+        return $url;
 }
 
 function replaceLinks($content){
