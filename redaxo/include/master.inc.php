@@ -6,7 +6,7 @@ if (!$REX[GG]) $REX[GG] = false;
 
 // ----------------- SERVER VARS
 
-$REX[SETUP] = false; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
+$REX[SETUP] = true; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX[SERVER] = "redaxo.com";
 $REX[SERVERNAME] = "Redaxo-Demo";
 $REX[error_emailaddress] = "jan.kristinus@pergopa.de";
