@@ -91,7 +91,7 @@ if ($SHOWARTICLE)
 if ($REX[STATS]==1)
 {
 	$log = new stat;
-	$log->writeLog($article_id);
+	$log->writeLog(($article_id+0));
 }
 
 
