@@ -536,7 +536,7 @@ class stat
 			{
 				while (!feof($h)) 
 				{
-					$buffer = fgets($h);
+					$buffer = fgets($h, 1024); // careck 07.06.04 to make it work with php4.1 !
 					preg_match("/(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\n/",$buffer,$res);
 					// $res[1] == stamp // $res[2] == ip // $res[3] == hostname // $res[4] == useragent // $res[5] == referer
 					$this->computeLine($res,$article_id);	
