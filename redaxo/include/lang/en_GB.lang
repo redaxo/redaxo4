@@ -267,23 +267,60 @@ months = Months
 all_articles = All Articles
 
 # redaxo\include\pages\medienpool.inc.php
-pool_kat_saved = Category "{0}" has been created
-pool_file_saved = File has benn created
-pool_file_deleted = File has been removed
-pool_file_delete_error_1 = File "{0}" could not be removed
-pool_file_delete_error_2 = It is uses by the following articles
-pool_file_is_resized = File has been resized
-pool_media = Mediapool
 pool_kats = Categories
 pool_kats_no = No Category
-pool_kat_new = New Category
+pool_search = search
+pool_media = Mediapool
+pool_file_list = Media
 pool_file_insert = Add File
-pool_file_choose = Choose File
-pool_file_upload = Upload
-pool_file_list = File List
+pool_cat_list = Edit Categories
+pool_file_not_found = File not found
+pool_file_upload_error = Error during the upload
+pool_file_upload_errortype = This file cannot be user because it has a different type
+
+pool_file_title = Title
+pool_category = Category
+pool_description = Description
+pool_copyright = Copyright
+pool_file_upload = Create
+pool_file_upload_get = Create and get
+pool_file_get = Get
+
+pool_upload_get = Save and take
+pool_kat_saved = Category "{0}" has been created
+pool_kat_updated = Category "{0}" has been updated
+pool_kat_deleted = Category has been deleted
+pool_kat_not_deleted = This Category cannot be deleted. There are still Files.
+pool_kat_name = Name
+pool_kat_function = Function
+pool_kat_add = Created
+pool_kat_update = Update
+pool_kat_edit = Edit
+pool_kat_delete = Delete
+
+
+pool_file_detail = Media: Details
+pool_file_is_resized = File has been resized
+pool_filename = Filename
+pool_file_exchange = File <br>exchange
+pool_file_update = Update
+pool_file_delete = Delete
+
+pool_file_thumbnail = Thumbnail
+pool_file_info = Fileinfo
+pool_file_description = Description
+pool_file_functions = Functions
+
+pool_file_noshow = No Thumbnail available
+pool_file_notitle = No title entered
+pool_file_nodescription = No Description entered
+
 pool_img_width = Width
 pool_img_height = Height
-pool_img_resize = Resize
-pool_file_size = Size
+
 pool_file_ins = Insert
-pool_file_delete = Remove
+
+pool_file_deleted = File has been deleted
+pool_file_delete_error_1 = File "{0}" could not be removed
+pool_file_delete_error_2 = It is used by the following articles
+
