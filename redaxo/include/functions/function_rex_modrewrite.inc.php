@@ -7,7 +7,8 @@
 ##########################################################
 
 function ModRewriteName($article_name) {
-    $url = str_replace(" ","_",$article_name);
+    $url = str_replace(" ","-",$article_name);
+    $url = str_replace("_","-",$url);
     $url = str_replace("ä","ae",$url);
     $url = str_replace("ö","oe",$url);
     $url = str_replace("ü","ue",$url);
@@ -16,7 +17,7 @@ function ModRewriteName($article_name) {
     $url = str_replace("Ü","Ue",$url);
     $url = str_replace("/","-",$url);
     $url = str_replace("&","-",$url);
-    $url = urlencode($url);
+    $url = urlencode($url).".html";
     return $url;
 }
 
