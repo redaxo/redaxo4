@@ -244,12 +244,12 @@ class OOArticle {
 	 * newly created.
 	 * $number_of_articles = how far to go back in history
 	 */
-	function getNewArticles($number_of_articles, $ignore_startpages = true, $ignore_offlines = true, $category_id = 0) {
+	function getNewArticles($number_of_articles = 0, $ignore_startpages = true, $ignore_offlines = true, $category_id = 0) {
 		global $REX;
 		$category = $category_id ? " and category_id = {$category_id} " : "";
 		$off = $ignore_offlines ? " and status = 1 " : "" ;
 		$nostart = $ignore_startpages ? " and startpage = 0 and id != {$REX[STARTARTIKEL_ID]}" : "";
-		$limit = " LIMIT 0, {$number_of_articles} ";
+		$limit = $number_of_articles ? " LIMIT 0, {$number_of_articles} " : "";
 		$artlist = array();
 		$sql = new sql;
 		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where 1=1 $off $nostart $category order by erstelldatum desc $limit");

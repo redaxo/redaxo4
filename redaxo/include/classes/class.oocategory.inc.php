@@ -172,7 +172,7 @@ class OOCategory {
 	 * $ignore_startpage = ignore the category startpage
 	 * $ignore_offlines = ignore any articles that are offline
 	 */
-	function getNewArticles($number_of_articles, $ignore_startpage = true, $ignore_offlines = true) {
+	function getNewArticles($number_of_articles = 0, $ignore_startpage = true, $ignore_offlines = true) {
 		return OOArticle::getNewArticles($number_of_articles, $ignore_startpage, $ignore_offlines, $this->_id);
 	}
 	
