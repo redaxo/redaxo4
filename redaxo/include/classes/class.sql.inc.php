@@ -60,6 +60,7 @@ class sql
 		$this->result = @mysql_query("$select");
 		$this->rows   = @mysql_num_rows($this->result);
 		$this->insertID = @mysql_insert_id($this->result);
+		$this->error = @mysql_error($this->result);
 
 		if ( $this->debugsql ) echo htmlentities($select)."<br>".$this->rows." found<br>";
 	}
@@ -166,6 +167,7 @@ class sql
 		$this->selectDB();
 		$this->error = mysql_query("insert into $this->table ($sql1) VALUES ($sql2)");
 		$this->last_insert_id = mysql_insert_id($this->identifier);
+		$this->error = @mysql_error();
 		$this->message = "new event inserted<br>";
 		if ( $this->debugsql ) echo htmlentities("insert into $this->table ($sql1) VALUES ($sql2)");
 	}
@@ -355,9 +357,51 @@ class sql
 	}
 
 	//ORDER ENTRY TO POSITION
-	function order_position($postition,$value,$table_name,$field_name,$where_name="",$where_value=""){
-	         $res = $this->get_array("SELECT $field_name FROM $table_name $add ORDER BY $field_name ASC");
-	         print_r($res);
+	function order_position($position,$value,$value_field_name,$table_name,$field_name,$where_name="",$where_value=""){
+
+		if($where_name!=""){
+			$add  = "WHERE $where_name='$where_value'";
+			$add2 = "AND $where_name='$where_value'";
+		}
+
+		if($position!=""){
+
+			$sql = "SELECT $field_name,$value_field_name FROM $table_name $add ORDER BY $field_name ASC";
+			$res = $this->get_array($sql);
+			$last = count($res);
+
+			if($position > $last){
+				$position = $last;
+			}
+
+			if($position == $last){
+				$max_prior = $res[$last-1][$field_name];
+				$sql = "UPDATE $table_name SET $field_name = $max_prior + 1 WHERE $value_field_name = $value";
+				$this->setQuery($sql);
+			} else {
+
+				$c=0;
+				foreach($res as $var){
+					if($var[$value_field_name]==$value){
+						$old_pos = $c + 1;
+					}
+					$c++;
+				}
+				if($old_pos < $position){
+	            	$pos_prior = $res[$position][$field_name];
+	            } else {
+					$pos_prior = $res[$position-1][$field_name];
+				}
+
+	            if($pos_prior > 0){
+	                $sql = "UPDATE $table_name SET $field_name = $field_name + 1 WHERE $field_name >= $pos_prior $add2";
+	                $this->setQuery($sql);
+	                $sql = "UPDATE $table_name SET $field_name = $pos_prior WHERE $value_field_name = $value";
+	                $this->setQuery($sql);
+	            }
+	        }
+
+		}
 	}
 
 }
