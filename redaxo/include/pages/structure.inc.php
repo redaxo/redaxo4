@@ -409,7 +409,7 @@ if($category_id > -1)
 			<td class=grey>&nbsp;<input type=text name=Position_New_Article value=\"1\" style='width:30px'></td>
 			<td class=grey>".$TMPL_SEL->out()."</td>
 			<td class=grey>".date_from_mydate(date("YmdHis"),"")."&nbsp;</td>
-			<td class=grey><b>Artikel</b></td>
+			<td class=grey><b>".$I18N->msg("article")."</b></td>
 			<td class=grey colspan=3><input type=submit value='add_article'></td>
 			</form>
 			</tr>";

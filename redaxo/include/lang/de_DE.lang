@@ -33,7 +33,6 @@ delete  =  L&ouml;schen
 no_editing_rights = Keine Editiererlaubnis
 no_article_available  =  Kein Artikel vorhanden
 module_doesnt_exist =  Dieses Modul existiert nicht !
-add_block  =  Block hinzuf&uuml;gen
 dont_delete_block  =  Block nicht l&ouml;schen
 delete_block  =  Block sicher l&ouml;schen
 submit  =  abschicken
@@ -201,6 +200,7 @@ header_article_name = Artikelname
 header_template = Template
 header_date = Erstellt am
 change = &auml;ndern
+article = Artikel
 
 # redaxo\include\pages\template.inc.php
 title_templates = Templates
