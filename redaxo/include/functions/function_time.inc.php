@@ -1,8 +1,5 @@
 <?
 
-
-// Scripttime for debugging
-
 function showScripttime()
 {
 	global $scriptTimeStart;
@@ -17,12 +14,6 @@ function getCurrentTime()
 	return ($time[0]+$time[1]);
 } 
 
-function startScripttime()
-{
-	global $scriptTimeStart;
-	$scriptTimeStart = getCurrentTime();
-}
-
-startScripttime();
+$scriptTimeStart = getCurrentTime();
 
 ?>
