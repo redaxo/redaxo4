@@ -44,23 +44,17 @@ function setuptitle($title)
 	
 }
 
-
-
 // ---------------------------------- MODUS 0 | Start
 
 if (!($checkmodus>0 && $checkmodus<10))
 {
-	
-	
 	setuptitle("SETUP: START");
 	
-	echo "<b>Willkommen bei der Installationsroutine von REDAXO.</b><br><br>Sie werden nun durch verschiedene 
-	Testszenarien geleitet die Ihnen helfen sollen Einstellungen bei REDAXO vorzunehmen. Dabei werden Rechte 
-	überprüft und verschiedene Angaben abgefragt. Sobald Sie alle Schritte durchlaufen haben können Sie
-	REDAXO unter /redaxo/index.php aufrufen und benutzen. <br><br> Sollten Sie noch Fragen haben, so können 
-	Sie unter <a href=http://www.redaxo.de/ target=_blank>http://www.redaxo.de/</a> Ihre Kommentare und Fragen loswerden.
-	<br><br>Diese Setup-Routine läuft nicht einwandfrei unter Windowsservern. Bitte aktualisieren Sie in diesem Fall die 
-	master.inc.php manuell.<br><br>
+	echo "<b>Willkommen bei der Installationsroutine von REDAXO.</b><br><br>
+	Diese Setup-Routine läuft unter bestimmten Umständen nicht einwandfrei unter Windowsservern. 
+	Bitte aktualisieren Sie in diesem Fall die master.inc.php manuell und setzen Lese- und Schreibrechte auf alle Dateien und Ordner.<br><br>
+	
+	<b>Please use this <a href=setup_en.php>Link</a> for the englisch setup.<br><br></b>
 	
 	<div id=lizenz style='width:100%; height:300px; overflow:auto; background-color:#ffffff; text-align:left; font-size:9px;'>
 
@@ -304,8 +298,6 @@ if($checkmodus == 1)
 			   "include/generated/templates",
 			   "include/generated/logs",
 			   "include/install",
-			   "include/install/dbinstall_wdrop.sql",
-			   "include/install/dbinstall_wodrop.sql",
 			   "../files");
 
 	foreach($WRITEABLE as $item)
@@ -337,7 +329,6 @@ if ($MSG[err]=="" && $checkmodus == 1)
 	echo "<b>PHP-Versionscheck | Rechteüberprüfung</b>
 		<br><br><font class=ok>ok</font> | PHP Version
 		<br><font class=ok>ok</font> | Ordnerrechte
-		<br><br>Bitte fahren Sie mit dem Setup fort.
 		<br><br><a href=setup.php?checkmodus=2>&raquo; Weiter mit Schritt 2</a><br><br>";
 		
 }elseif($MSG[err]!="")
@@ -443,9 +434,87 @@ if ($checkmodus == 2 )
 if ($checkmodus == 3 && $send == 1)
 {
 
-	if ($dbanlegen == 3)
+	if($dbanlegen == 5)
 	{
-		// update
+		
+		// ----- demo2.0 anlegen
+		$REX[version] = "2.7";
+
+		// ----- db anlegen
+		$file_temp = "include/install/demo2.0_redaxo2.7.sql";
+		$h = fopen($file_temp,"r");
+		$conts = fread($h,filesize($file_temp));
+		$all = explode("\n",$conts);
+				
+		$add = new sql;
+		// $add->debugsql = 1;
+		foreach($all as $hier){
+			$add->setquery(Trim(str_replace("||||||+N+||||||","\n",$hier),";"));
+			$add->flush();
+		}
+		
+		// ----- dateien anlegen
+		$file_temp = $REX[INCLUDE_PATH]."/install/demo2.0_redaxo2.7.tar.gz";
+		$tar = new tar;
+		$tar->openTAR($file_temp);
+		if(!$tar->extractTar())
+		{
+			$err_msg = $I18N->msg("problem_when_extracting")."<br>";
+			if (count($tar->message) > 0)
+			{
+				$err_msg .= $I18N->msg("create_dirs_manually")."<br>";
+				reset($tar->message);
+				for ($fol=0;$fol<count($tar->message);$fol++)
+				{
+					$err_msg .= key($tar->message)."<br>";
+					next($tar->message);
+				}
+			}
+		}
+		
+		
+
+	}elseif($dbanlegen == 4)
+	{
+		
+		// ----- community0.5 anlegen
+		$REX[version] = "2.7";
+
+		// ----- db anlegen
+		$file_temp = "include/install/community0.5_redaxo2.7.sql";
+		$h = fopen($file_temp,"r");
+		$conts = fread($h,filesize($file_temp));
+		$all = explode("\n",$conts);
+		
+		$add = new sql;
+		// $add->debugsql = 1;
+		foreach($all as $hier){
+			$add->setquery(Trim(str_replace("||||||+N+||||||","\n",$hier),";"));
+			$add->flush();
+		}
+		
+		// ----- dateien anlegen
+		$file_temp = $REX[INCLUDE_PATH]."/install/community0.5_redaxo2.7.tar.gz";
+		$tar = new tar;
+		$tar->openTAR($file_temp);
+		if(!$tar->extractTar())
+		{
+			$err_msg = $I18N->msg("problem_when_extracting")."<br>";
+			if (count($tar->message) > 0)
+			{
+				$err_msg .= $I18N->msg("create_dirs_manually")."<br>";
+				reset($tar->message);
+				for ($fol=0;$fol<count($tar->message);$fol++)
+				{
+					$err_msg .= key($tar->message)."<br>";
+					next($tar->message);
+				}
+			}
+		}
+
+	}elseif ($dbanlegen == 3)
+	{
+		// ----- update
 		$fname = "include/install/update2_6-2_7.sql";
 		$h = fopen($fname,"r");
 		$create = fread($h,filesize($fname));
@@ -461,9 +530,10 @@ if ($checkmodus == 3 && $send == 1)
 		
 	}elseif ($dbanlegen == 2)
 	{
-		$TBLS = array("rex__article_comment" => 0,"rex__board" => 0,"rex__user" => 0,"rex__user_comment" => 0,
-		"rex__user_mail" => 0,"rex_article" => 0,"rex_article_slice" => 0,"rex_article_type" => 0,
-		"rex_category" => 0,"rex_email" => 0,"rex_file" => 0,"rex_modultyp" => 0,"rex_template" => 0,
+		// ----- Keine Datenbank anlegen
+		$TBLS = array("rex__article_comment" => 0,"rex__session" => 0,"rex__board" => 0,"rex__user" => 0,"rex__user_comment" => 0,
+		"rex__user_mail" => 0,"rex_action" => 0,"rex_article" => 0,"rex_article_slice" => 0,"rex_article_type" => 0,
+		"rex_category" => 0,"rex_email" => 0,"rex_file" => 0,"rex_file_category" => 0,"rex_modultyp" => 0,"rex_template" => 0,
 		"rex_user" => 0, "rex_file_category" => 0);
 		$gt = new sql;
 		// $gt->debugsql = 1;
@@ -489,6 +559,8 @@ if ($checkmodus == 3 && $send == 1)
 		
 	}elseif($dbanlegen == 1)
 	{
+		
+		// ----- leere Datenbank und alte DB löschen / drop
 		$fname = "include/install/dbinstall_wdrop.sql";
 		$h = fopen($fname,"r");
 		$create = fread($h,filesize($fname));
@@ -502,6 +574,7 @@ if ($checkmodus == 3 && $send == 1)
 		}
 	}elseif($dbanlegen == 0)
 	{
+		// ----- leere Datenbank und alte DB lassen
 		$fname = "include/install/dbinstall_wodrop.sql";
 		$h = fopen($fname,"r");
 		$create = fread($h,filesize($fname));
@@ -539,13 +612,35 @@ if ($checkmodus == 3)
 	if ($dbanlegen == 1) $dbchecked1 = " checked";
 	elseif ($dbanlegen == 2) $dbchecked2 = " checked";
 	elseif ($dbanlegen == 3) $dbchecked3 = " checked";
+	elseif ($dbanlegen == 4) $dbchecked4 = " checked";
+	elseif ($dbanlegen == 5) $dbchecked5 = " checked";
 	else $dbchecked0 = " checked";
 
 	echo "
-		<tr><td width=50 align=right><input type=radio name=dbanlegen value=0 $dbchecked0></td><td>Datenbank anlegen</td></tr>
-		<tr><td width=50 align=right><input type=radio name=dbanlegen value=1 $dbchecked1></td><td>Datenbank anlegen und überschreiben falls vorhanden [Vorsicht]</td></tr>
-		<tr><td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td><td>Datenbank existiert schon [weiter ohne Datenbankimport]</td></tr>
-		<tr><td width=50 align=right><input type=radio name=dbanlegen value=3 $dbchecked3></td><td>Datenbankupdate von 2.6 auf 2.7 [Vorsicht]</td></tr>
+		<tr>
+			<td width=50 align=right><input type=radio name=dbanlegen value=0 $dbchecked0></td>
+			<td>Datenbank anlegen</td>
+		</tr>
+		<tr>	<td align=right><input type=radio name=dbanlegen value=1 $dbchecked1></td>
+			<td>Datenbank anlegen und überschreiben falls vorhanden <br>[Vorsicht - Alte Seite wird komplett gelöscht]</td>
+		</tr>
+		<tr>
+			<td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td>
+			<td>Datenbank existiert schon <br>[weiter ohne Datenbankimport]</td>
+		</tr>
+		<tr>
+			<td align=right><input type=radio name=dbanlegen value=3 $dbchecked3></td>
+			<td>Datenbankupdate von 2.6 auf 2.7 <br>[Vorsicht]</td>
+		</tr>
+		<tr>
+			<td align=right><input type=radio name=dbanlegen value=4 $dbchecked4></td>
+			<td>Fertige Community anlegen<br>[Vorsicht - Alte Seite wird komplett gelöscht]</td>
+		</tr>
+		<tr>
+			<td align=right><input type=radio name=dbanlegen value=5 $dbchecked5></td>
+			<td>Fertige Demo 2.0 anlegen<br>[Vorsicht - Alte Seite wird komplett gelöscht]</td>
+		</tr>
+
 		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Weiter zu Schritt 4'></td></tr>
 		</table>";
 	
@@ -580,7 +675,7 @@ if ($checkmodus == 4 && $send == 1)
 				$err_msg = "Dieses Login existiert schon !";
 			}else
 			{	
-				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','structure[all]\r\narticle[5]\r\ntemplate[]\r\nuser[]\r\nnewsletter[]\r\nmodule[php]\r\nmodule[html]\r\nmodule[]\r\nspecials[]\r\n\r\ncommunity[]\r\nimport[]\n\rexport[]\n\radvancedMode[]\n\rstats[]')";
+				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','structure[all]\r\narticle[5]\r\ntemplate[]\r\nuser[]\r\nnewsletter[]\r\nmodule[php]\r\nmodule[html]\r\nmodule[]\r\nspecials[]\r\n\r\ncommunity[]\r\nimport[]\n\rexport[]\n\radvancedMode[]\n\rstats[]\n\rmediapool[]\n\raction[]\n\r')";
 				$link = @mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
 				if(!@mysql_db_query($DB[1][NAME],$insert,$link))
 				{
@@ -636,29 +731,20 @@ if ($checkmodus == 5)
 
 	setuptitle("SETUP: SCHRITT 5 von 5");
 
-	echo "<b>Herzlichen Glückwunsch zu Ihrem REDAXO! Bitte dennoch unbedingt unteren Text lesen !</b><br><br>
+	echo "<b>Herzlichen Glückwunsch zu Ihrem REDAXO! </b>
+
+	<br><br>Bitte noch dieses beachten:
+
+	<br><br>1] <b>Einloggen unter <a href=../redaxo/index.php>/redaxo/index.php</A> und Zugang überprüfen</b>
 	
-	Sie haben alle nötigen Einstellungen vorgenommen. Sollte der Zugang zu REDAXO dennoch nicht funktionieren so sollten Sie dieses 
-	Setup neu aufrufen und Ihre Eingaben überprüfen. 
+	<br><br>2] <b>Sofern Sie eine fertig Seite eingebunden haben - Community oder Demo - 
+	<br>&nbsp;&nbsp;&nbsp;gehen Sie bitte auf Spezielle Features und Regenerate article
 	
-	<br><br><b class=error>!!! Sie sind noch nicht ganz fertig:</b><br>
-	Wenn der Zugang zu REDAXO funktioniert dann löschen Sie bitte diese Setup datei [/redaxo/setup.php] damit keine anderen User 
-	in Versuchung geraten Ihre Daten abzuändern. 
-	
-	<br><br><i>Weitere Vorgehensweise:</i><br>
-	Sie haben im Moment eine REDAXO-Version ohne Beispielseiten oder fertigen Modulen/Templates. Um dies zu ändern können Sie auf 
-	fertige Exporte [Webseiten] aus anderen Projekten zugreifen und diese in Ihr REDAXO übernehmen/importieren und mit diesen weiterarbeiten. 
-	Sie finden diese Exporte auf der REDAXO [<a href=http://www.redaxo.de target=_blank>www.redaxo.de</a>] Webseite. Am besten Sie lesen 
-	sich zuerst die '<b>_getting_started.txt</b>' durch.
-	<br>Sie können sich aber auch erstmal in REDAXO einloggen und sich umsehen. 
-	
-	
-	<br><br>Wir wünschen in jedem Fall viel Spass und erhoffen uns ein Feedback von Ihnen.
-	
-	<br><br>Ihr REDAXO Team
-	
-	<br><br>&raquo; <a href=index.php>Zum REDAXO Login</a> | &raquo; <a href=http://www.redaxo.de>http://www.redaxo.de</a>
-	
+	<br><br>3] <b>Wenn alles geht, dann diese setup.php und setup_en.php löschen</b>
+
+	<br><br><br>Viel Spass und Erfolg
+
+	<br><br>Das REDAXO Team
 	
 	<br><br>";
 
