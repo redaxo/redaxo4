@@ -117,7 +117,7 @@ function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_st
 	            $ART[$SUCHE->getValue("rex_article.id")][NAME] = $SUCHE->getValue("rex_article.name");
 				$ART[$SUCHE->getValue("rex_article.id")][DESC] = $SUCHE->getValue("rex_article.beschreibung");
 				$ART[$SUCHE->getValue("rex_article.id")][COUNTWORD] = $SUCHE->getValue("COUNTWORD");
-				$ART[$SUCHE->getValue("rex_article.id")][URL] = $SUCHE->getValue("rex_article.id")."-".search_makeUrl($SUCHE->getValue("rex_article.name"));
+				$ART[$SUCHE->getValue("rex_article.id")][URL] = $SUCHE->getValue("rex_article.id")."-".ModRewriteName($SUCHE->getValue("rex_article.name"));
 
                 ###### CHECK OCURRENCE OF KEYWORD
                 for($val=1;$val<10;$val++){
@@ -149,18 +149,6 @@ function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_st
 
 	return $ART;
 
-}
-
-function search_makeUrl($article_name){
-		$url = str_replace(" ","_",$article_name);
-		$url = str_replace("ä","ae",$url);
-		$url = str_replace("ö","oe",$url);
-		$url = str_replace("ü","ue",$url);
-		$url = str_replace("Ä","Ae",$url);
-		$url = str_replace("Ö","Oe",$url);
-		$url = str_replace("Ü","Ue",$url);
-		$url = urlencode($url);
-		return $url;
 }
 
 ?>
