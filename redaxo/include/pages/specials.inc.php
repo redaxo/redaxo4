@@ -18,44 +18,10 @@ if ($func == "copyCategory")
 
 }elseif ($func == "generate")
 {
+	
+	// generate all articles,cats,templates,caches
+	$MSG = generateAll();
 
-	// ----------------------------------------------------------- generiere templates
-	deleteDir($REX[INCLUDE_PATH]."/generated/templates",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/templates",0664);
-	$gt = new sql;
-	$gt->setQuery("select * from rex_template");
-	for ($i=0;$i<$gt->getRows();$i++)
-	{
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
-		fputs($fp,$gt->getValue("rex_template.content"));
-		fclose($fp);
-		$gt->next();
-	}
-
-	// ----------------------------------------------------------- generiere artikel
-	deleteDir($REX[INCLUDE_PATH]."/generated/articles",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/articles",0664);
-	$gc = new sql;
-	$gc->setQuery("select * from rex_article");
-	for ($i=0;$i<$gc->getRows();$i++)
-	{
-		generateArticle($gc->getValue("id"));
-		$gc->next();
-	}
-
-	// ----------------------------------------------------------- generiere categorien
-	deleteDir($REX[INCLUDE_PATH]."/generated/categories",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/categories",0664);
-	$gcc = new sql;
-	$gcc->setQuery("select * from rex_category");
-	for ($i=0;$i<$gcc->getRows();$i++)
-	{
-		generateCategory($gcc->getValue("id"));
-		$gcc->next();
-	}
-	// generateCategories();
-
-	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
 
 }elseif($func == "linkchecker")
 {
@@ -210,8 +176,8 @@ if($REX_USER->isValueOf("rights","caching[]")){
 	echo "<tr><td>\$REX[CACHING]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching size=1><option $cachingcheck>TRUE</option><option $cachingcheck_false>FALSE</option></select></td></tr>";
 	if($REX[CACHING_DEBUG]) $cachingdebugcheck = "selected"; else $cachingdebugcheck_false = "selected";
 	echo "<tr><td>\$REX[CACHING_DEBUG]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching_debug size=1><option $cachingdebugcheck>TRUE</option><option $cachingdebugcheck_false>FALSE</option></select></td></tr>";
- }
-echo "</select></td></tr>";
+}
+echo "</td></tr>";
 echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=submit name=sendit value=".$I18N->msg("specials_update")."></td></tr>";
 echo "</form>";
 echo "</table>";
