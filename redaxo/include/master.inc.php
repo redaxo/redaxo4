@@ -51,6 +51,7 @@ $REX[CTYPE][0] = "default: deutsch";
 // -----------------
 if (!isset($category_id) or $category_id == "") $category_id = 0;
 if (!isset($ctype) or $ctype == "") $ctype = 0;
+if (!isset($clang) or $clang == "") $clang = 0;
 
 // ----------------- set to default
 $REX[NOFUNCTIONS] = false;

@@ -3,9 +3,9 @@
 // ----------------- CTYPES
 // --- DYN CTYPE
 
-$REX[CTYPE][0] = "deutsch";
-$REX[CTYPE][1] = "english";
-$REX[CTYPE][3] = "finnisch";
+$REX[CTYPE][0] = "Inhakt Hauptspalte";
+$REX[CTYPE][1] = "Linke Spalte";
+$REX[CTYPE][3] = "Block Oben";
 
 // --- /DYN
 
