@@ -148,12 +148,12 @@ if ($MSG[err]=="" && $checkmodus == 1)
 }elseif($MSG[err]!="")
 {
 
-	setuptitle("SETUP: SCHRITT 1 von 5");
+	setuptitle($I18N->msg("setup_step1"));
 
 	echo "<b>".$I18N->msg("setup_headline1")."</b><br><br>".$MSG[err]."
 
 	<br>".$I18N->msg("setup_018")."<br><br>
-	<a href=index.php?page=setup&checkmodus=1&lang=$lang>&raquo; ".$I18N->msg("setup_01")."</a><br><br>";
+	<a href=index.php?page=setup&checkmodus=1&lang=$lang>&raquo; ".$I18N->msg("setup_017")."</a><br><br>";
 }
 
 
