@@ -27,7 +27,7 @@ echo "<br><table border=1 cellpadding=5 cellspacing=0 width=770>
 	<td class=dgrey>
 		<table width=200 cellpadding=3 cellspacing=0 border=0>
 		<tr>
-			<td valign=middle><form action=index.php method=post>".$I18N->msg('login_name').":</td>
+			<td valign=middle><form action=index.php method=post><input type=hidden name=page value=structure>".$I18N->msg('login_name').":</td>
 			<td valign=middle><input type=text size=10 value='$REX_ULOGIN' name=REX_ULOGIN></td>
 			<td valign=middle>&nbsp;</td>
 		</tr>
