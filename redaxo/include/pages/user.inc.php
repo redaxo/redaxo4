@@ -69,7 +69,7 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 		<td class=grey>".$I18N->msg("password")."</td>
-		<td class=grey><input style='width:100%' type=text size=20 name=userpsw value=".htmlentities($userpsw)."></td>
+		<td class=grey><input style='width:100%' type=password size=20 name=userpsw value=".htmlentities($userpsw)."></td>
 		</tr>
 		<tr>
 		<td class=grey valign=top>".$I18N->msg("permissions")."</td>
@@ -108,7 +108,7 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 		<td class=grey>".$I18N->msg("password")."</td>
-		<td class=grey><input style='width:100%' type=text size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
+		<td class=grey><input style='width:100%' type=password size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
 		</tr>
 		<tr>
 		<td class=grey valign=top>".$I18N->msg("permissions")."</td>
