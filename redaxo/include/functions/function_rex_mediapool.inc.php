@@ -6,25 +6,20 @@
 #
 ##################################################################
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG="",$STYLE="",$WIDTH="",$HEIGHT=""){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="",$STYLE="",$WIDTH="",$HEIGHT=""){
 
-         if($BODYSTYLE=="")  $BODYSTYLE = "body { background-color: #fff; font-family: verdana,sans-serif; font-size: 10pt }";
-         if($STYLE=="")      $STYLE = "css/style.css";
-         if($WIDTH=="")      $WIDTH = "550px";
-         if($HEIGHT=="")     $HEIGHT= "250px";
+	if($BODYSTYLE=="")  $BODYSTYLE = "body { background-color: #fff; font-family: verdana,sans-serif; font-size: 10pt }";
+	if($STYLE=="")      $STYLE = "css/style.css";
+	if($WIDTH=="")      $WIDTH = "550px";
+	if($HEIGHT=="")     $HEIGHT= "250px";
 
-         $BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
-                    "separator", "insertunorderedlist", "separator", "createlink", "linkmap", "separator",
-                    "space", "undo", "redo","separator","justifyleft","justifycenter",
-                    "justifyright","separator","separator","mediapool","separator","htmlmode"
-                    ';
+	$BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
+		"separator", "insertunorderedlist", "separator", "createlink", "linkmap", "separator",
+		"space", "undo", "redo","separator","justifyleft","justifycenter",
+		"justifyright","separator","separator","mediapool","separator","htmlmode"
+	';
 
          if($BUTTONS=="") $BUTTONS = $BUTTONS_DEFAULT;
-
-         $db = new sql;
-         $sql = "SELECT value".$VALUE_ID." as slice_value FROM rex_article_slice WHERE id =".$SLICE_ID;
-         $res = $db->get_array($sql);
-         $CONTENT = $res[0][slice_value];
 
          print "
 
