@@ -16,7 +16,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
          $BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
                     "separator", "insertunorderedlist", "separator", "createlink",  "htmlmode", "separator",
                     "space", "undo", "redo","separator","justifyleft","justifycenter",
-                    "justifyright","separator","separator","mediapool"
+                    "justifyright","separator","separator","mediapool","linkmap"
                     ';
 
          if($BUTTONS=="") $BUTTONS = $BUTTONS_DEFAULT;
@@ -50,6 +50,20 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
                              openREXMediaHTMLArea('myarea".$VALUE_ID."');
                     }
                 );
+
+                cfg.registerButton(\"linkmap\", \"Linkmap\", \"js/htmlarea/images/ed_mediapool.gif\", false,
+                    function(editor) {
+                             openLinkMapHTMLArea('myarea".$VALUE_ID."');
+                    }
+                );
+
+				/*
+                cfg.registerButton(\"remove\", \"Formatierung löschen\", \"js/htmlarea/images/ed_remove_format.gif\", false,
+                    function(editor) {
+                             editor.removeF();
+                    }
+                );
+                */
 
                 cfg.pageStyle = '".$BODYSTYLE."';
 
