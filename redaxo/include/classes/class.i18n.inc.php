@@ -59,7 +59,7 @@
 		 * you can give up to 10 parameters for substitution.
 		 */
 		function msg($key, $p0='',$p1='',$p2='',$p3='',$p4='',$p5='',$p6='',$p7='',$p8='',$p9='') {
-			$msg = $this->text[$key];
+			$msg = substr($this->text[$key],0,-1);
 			$patterns = array('/\{0\}/','/\{1\}/','/\{2\}/','/\{3\}/','/\{4\}/','/\{5\}/','/\{6\}/','/\{7\}/','/\{8\}/','/\{9\}/');
 			$replacements = array($p0,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9);
 			return preg_replace($patterns, $replacements, $msg);
