@@ -15,8 +15,11 @@ $REX[version] = "2.6";
 $REX[STARTARTIKEL_ID] = 1;
 $REX[STATS] = 1;
 
-// für internationalisierung der Texte
+// select default language
 $REX[LANG] = en_GB;
+
+// activate mod_rewrite support
+$REX[MOD_REWRITE] = false;
 
 // Windows:
 // Pfade absolut eintragen
