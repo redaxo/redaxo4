@@ -17,6 +17,7 @@ if ($edit_id != "")
 // vscope order up/down script
 if($order!=''){
 	$sql = new sql;
+
 	if($re_category!=''){
 		$o_which = 're_category_id';
 		$o_cat = $re_category;
@@ -26,18 +27,30 @@ if($order!=''){
 		$o_cat = $category_id;
 		$o_table = 'rex_article';
 	}
-         if($order=='up'){
-                 $sql->order_up($order_id,$o_table,'prior',$o_which,$o_cat);
-         }
-         if($order=='down'){
-                 $sql->order_down($order_id,$o_table,'prior',$o_which,$o_cat);
-         }
-         if($order=='top'){
-                 $sql->order_top($order_id,$o_table,'prior',$o_which,$o_cat);
-         }
-         if($order=='bottom'){
-                 $sql->order_bottom($order_id,$o_table,'prior',$o_which,$o_cat);
-         }
+
+	if($order=='up'){
+		$sql->order_up($order_id,$o_table,'prior',$o_which,$o_cat);
+	}
+	if($order=='down'){
+		$sql->order_down($order_id,$o_table,'prior',$o_which,$o_cat);
+	}
+	if($order=='top'){
+		$sql->order_top($order_id,$o_table,'prior',$o_which,$o_cat);
+	}
+	if($order=='bottom'){
+		$sql->order_bottom($order_id,$o_table,'prior',$o_which,$o_cat);
+	}
+
+	// generate articles an cats
+	if($o_table == "rex_category"){
+		generateCategory($o_cat);
+		generateCategoryList($o_cat);
+	}
+	if($o_table == "rex_article"){
+		$res = $sql->get_array("SELECT id FROM rex_article WHERE category_id = $o_cat AND prior = $order_id");
+		generateArticle($res[0][id]);
+	}
+
 }
 
 $STRUCTURE_PERM = FALSE;
