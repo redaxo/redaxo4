@@ -262,6 +262,9 @@ for ($i=0;$i<$files->getRows();$i++)
         $file_name = $files->getValue("filename");
         $file_id =   $files->getValue("file_id");
 
+		// check if file exists
+		if(!file_exists($REX[MEDIAFOLDER]."/".$file_name)) continue;
+
         // get file icon
         $icon_src = "pics/pool_file_icons/file.gif";
         $file_ext = substr(strrchr($file_name,"."),1);
