@@ -6,13 +6,14 @@ echo "<html>
 <head>
 <title>".$REX[SERVERNAME]." - $page_name</title>
 <link rel=stylesheet type=text/css href=css/style.css>
+<script language=Javascript src=js/standard.js></script>
 <script language=Javascript>
 <!--
 var redaxo = true;
 //-->
 </script>
 </head>
-<body bgcolor=#ffffff>
+<body bgcolor=#ffffff onunload=closeAll();>
 <table border=0 cellpadding=5 cellspacing=0 width=770>
 <tr>
 	<td colspan=3 class=grey align=right>".$REX[SERVERNAME]."</td>

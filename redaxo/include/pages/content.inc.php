@@ -78,6 +78,8 @@ if ($article->getRows() == 1)
 					if ($REX_USER->isValueOf("rights","module[html]")) $newsql->setValue("html",$INPUT_HTML);
 					if ($REX_USER->isValueOf("rights","module[php]")) $newsql->setValue("php",$INPUT_PHP);
 					
+					
+					// ---------------------------- REX_FILE
 					for ($fi=1;$fi<11;$fi++)
 					{
 						$FILE	  = "FILE".$fi;
@@ -89,33 +91,33 @@ if ($article->getRows() == 1)
 							$FILESIZE = "FILE".$fi."_size";
 							$FILETYPE = "FILE".$fi."_type";
 							$FILESQL  = "FILESQL".$fi;
-				        	$NFILENAME = "";				        		
+				        		$NFILENAME = "";				        		
 				        		
-				        	// generiere neuen dateinamen
-				        	for ($cn=0;$cn<strlen($$FILENAME);$cn++)
+					        	// generiere neuen dateinamen
+					        	for ($cn=0;$cn<strlen($$FILENAME);$cn++)
 							{
 								$char = substr($$FILENAME,$cn,1);
 								if ( preg_match("([_A-Za-z0-9\.-])",$char) ) $NFILENAME .= strtolower($char);
 								else if ($char == " ") $NFILENAME .= "_";
 							}
-							
+								
 							if (strrpos($NFILENAME,".") != "")
-				        		{
-				        			$NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
-				        			$NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
-				        		}else
-				        		{
-				        			$NFILE_NAME = $NFILENAME;
-				        			$NFILE_EXT  = "";				        			
-				        		}
-							
-				        		if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
+					        	{
+					        		$NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
+					        		$NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
+					        	}else
+					        	{
+					        		$NFILE_NAME = $NFILENAME;
+					        		$NFILE_EXT  = "";				        			
+					        	}
+								
+				        		if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".php5" || $NFILE_EXT == ".phtml" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
 				        		{
 				        			$NFILE_EXT .= ".txt";	
 				        		}
-				        		
+			        		
 				        		$NFILENAME = $NFILE_NAME.$NFILE_EXT;
-
+	
 							if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
 							{
 					        		// datei schon vorhanden ? wenn ja dann _1
@@ -125,7 +127,7 @@ if ($article->getRows() == 1)
 					        			if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
 					        		}
 							}
-
+	
 				        		if (!move_uploaded_file($$FILE,$REX[MEDIAFOLDER]."/$NFILENAME"))
 				        		{
 				        			$message .= "move file $fi failed | ";
@@ -140,13 +142,40 @@ if ($article->getRows() == 1)
 								$$FILESQL->insert();
 					        		
 					        		$newsql->setValue("file".$fi,$NFILENAME);
+					        		$CHECK_FILE[$fi] = 1;
 							}				        		
+	
 				        	}elseif($$FILEDEL == "on")
 				        	{
 				        		$newsql->setValue("file".$fi,'');
+				        		$CHECK_FILE[$fi] = 1;
+				        		echo "del$fi";
 				        	}
-				        }		
-					
+				        }
+					        
+
+					// ---------------------------- REX_MEDIA
+				        for ($fi=1;$fi<11;$fi++)
+					{
+						$FILENAME = "REX_MEDIA_$fi";
+						if ($$FILENAME == "delete file" && $CHECK_FILE[$fi] != 1)
+						{
+							$newsql->setValue("file".$fi,"");
+						}elseif ($$FILENAME != "" && $CHECK_FILE[$fi] != 1)
+						{
+							$checkfile = new sql;
+							$checkfile->setQuery("select * from rex_file where filename='".$$FILENAME."'");
+							if ($checkfile->getRows()==1)
+							{
+								$newsql->setValue("file".$fi,$$FILENAME);
+							}else
+							{
+								$message .= $I18N->msg('file');
+							}
+						}
+					}
+										
+					// ---------------------------- Function
 					if ($function == "edit")
 					{
 						$newsql->update();
@@ -167,7 +196,7 @@ if ($article->getRows() == 1)
 					
 				}else
 				{
-					$message	= $I18N->msg('no_rights_to_this_function');
+					$message = $I18N->msg('no_rights_to_this_function');
 					$slice_id = "";
 					$function = "";
 					$module_id = "";
@@ -178,7 +207,7 @@ if ($article->getRows() == 1)
 			{
 				// ------------- MODUL IST NICHT VORHANDEN
 				
-				$message	= $I18N->msg('module_not_found');
+				$message = $I18N->msg('module_not_found');
 				$slice_id = "";
 				$function = "";
 				$module_id = "";

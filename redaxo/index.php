@@ -45,16 +45,37 @@ $dl = false;
 $page = strtolower($page);
 
 
-if ($page=="specials" && $REX_USER->isValueOf("rights","specials[]")) $page_name = $I18N->msg("specials");
-elseif ($page=="module" && $REX_USER->isValueOf("rights","module[]")) $page_name = $I18N->msg("module");
-elseif ($page=="template" && $REX_USER->isValueOf("rights","template[]")) $page_name = $I18N->msg("template");
-elseif ($page=="user" && $REX_USER->isValueOf("rights","user[]")) $page_name = $I18N->msg("user");
-elseif ($page=="community" && $REX_USER->isValueOf("rights","community[]")) $page_name = $I18N->msg("community");
-elseif ($page=="import" && $REX_USER->isValueOf("rights","import[]")) $page_name = $I18N->msg("import");
-elseif ($page=="stats" && $REX_USER->isValueOf("rights","stats[]")) $page_name = "Statistiken";
-elseif ($page=="export" && $REX_USER->isValueOf("rights","export[]")) $dl = true;
-elseif ($page=="content") $page_name = $I18N->msg("content");
-else
+if ($page=="specials" && $REX_USER->isValueOf("rights","specials[]"))
+{
+	$page_name = $I18N->msg("specials");
+}elseif ($page=="module" && $REX_USER->isValueOf("rights","module[]"))
+{
+	$page_name = $I18N->msg("module");
+}elseif ($page=="template" && $REX_USER->isValueOf("rights","template[]"))
+{
+	$page_name = $I18N->msg("template");
+}elseif ($page=="user" && $REX_USER->isValueOf("rights","user[]"))
+{
+	$page_name = $I18N->msg("user");
+}elseif ($page=="community" && $REX_USER->isValueOf("rights","community[]"))
+{
+	$page_name = $I18N->msg("community");
+}elseif ($page=="import" && $REX_USER->isValueOf("rights","import[]"))
+{
+	$page_name = $I18N->msg("import");
+}elseif ($page=="stats" && $REX_USER->isValueOf("rights","stats[]"))
+{
+	$page_name = "Statistiken";
+}elseif ($page=="export" && $REX_USER->isValueOf("rights","export[]"))
+{
+	$dl = true;
+}elseif ($page=="medienpool")
+{
+	$dl = true;
+}elseif ($page=="content")
+{
+	$page_name = $I18N->msg("content");
+}else
 {
 	$page_name = $I18N->msg("structure");
 	$page = "structure";
