@@ -483,6 +483,8 @@ echo '
 <tr><td colspan=3 class=grey align=right>'.$REX[SERVERNAME].'</td></tr>
 <tr><td class=greenwhite><b>Linkmap</b></td></tr></table>
 
+<table border=0 cellpadding=5 cellspacing=0 width=100%><tr><td class=lgrey>
+
 <SCRIPT language="JavaScript1.2">
 <!--
 
@@ -508,6 +510,8 @@ echo '
 
 //-->
 </SCRIPT>
+
+</td></tr></table>
 
 ';
 
