@@ -140,24 +140,31 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 	if (!move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
 	{
 	       $message .= "move file $FILENAME failed | ";
+	       $ok = 0;
 	}else
 	{
-	       $FILESQL = new sql;
-	       //$FILESQL->debugsql=1;
-	       $FILESQL->setTable("rex_file");
-	       $FILESQL->setValue("filetype",$FILETYPE);
-	       $FILESQL->setValue("title",$FILEINFOS[title]);
-	       $FILESQL->setValue("description",$FILEINFOS[description]);
-	       $FILESQL->setValue("copyright",$FILEINFOS[copyright]);
-	       $FILESQL->setValue("filename",$NFILENAME);
-	       $FILESQL->setValue("originalname",$FILENAME);
-	       $FILESQL->setValue("filesize",$FILESIZE);
-	       $FILESQL->setValue("category_id",$rex_file_category);
-	       $FILESQL->setValue("stamp",time());
-	       $FILESQL->insert();
+		$FILESQL = new sql;
+		//$FILESQL->debugsql=1;
+		$FILESQL->setTable("rex_file");
+		$FILESQL->setValue("filetype",$FILETYPE);
+		$FILESQL->setValue("title",$FILEINFOS[title]);
+		$FILESQL->setValue("description",$FILEINFOS[description]);
+		$FILESQL->setValue("copyright",$FILEINFOS[copyright]);
+		$FILESQL->setValue("filename",$NFILENAME);
+		$FILESQL->setValue("originalname",$FILENAME);
+		$FILESQL->setValue("filesize",$FILESIZE);
+		$FILESQL->setValue("category_id",$rex_file_category);
+		$FILESQL->setValue("stamp",time());
+		$FILESQL->insert();
+	       
+		$ok = 1;      
 	}
 
-	return $message;
+	$RETURN[msg] = $message;
+	$RETURN[ok] = $ok;
+	$RETURN[filename] = $NFILENAME;
+
+	return $RETURN;
 }
 
 function getfilesize($size) {
