@@ -465,10 +465,14 @@ class board
 				$mout .= "
 					<tr>
 						<td ".$this->layout[10]." valign=top><font color=#bbbbbb>".sprintf ("%03d",($i+1))."</font><br>".$this->username."<br>".date_from_mydate(date("YmdHis"),$this->text[150]).$this->text[155]."</td>
-						<td ".$this->layout[20]." valign=top>
-							<textarea cols=60 rows=5 name=FORM[message] style='width: 100%;'>".$FORM[message]."</textarea><br>
-							<input type=submit value='".$this->text[190]."'></td>
-					</tr></form>";
+						<td ".$this->layout[20]." valign=top><textarea cols=60 rows=5 name=FORM[message] style='width: 100%;'>".$FORM[message]."</textarea></td>
+					</tr>
+					
+					<tr>
+						<td ".$this->layout[20]." valign=top>&nbsp;</td>
+						<td ".$this->layout[20]." valign=top><input type=submit value='".$this->text[190]."'></td>
+					</tr>
+					</form>";
 			}
 			$mout .= "</table>";
 		}
