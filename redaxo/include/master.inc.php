@@ -1,6 +1,6 @@
 <?
 
-// ------------------------------------------------------------ 
+// ------------------------------------------------------------
 
 if (!$REX[GG]) $REX[GG] = false;
 
@@ -31,7 +31,7 @@ $REX[DOC_ROOT] = "";
 $REX[INCLUDE_PATH] = $REX[DOC_ROOT].$REX[HTDOCS_PATH]."redaxo/include";
 $REX[MEDIAFOLDER] = $REX[HTDOCS_PATH]."files";
 
-// 
+//
 
 $REX[BARRIEREFREI] = false;
 $REX[COMMUNITY] = false;
@@ -87,13 +87,14 @@ include $REX[INCLUDE_PATH]."/functions/function_datefrommydate.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_selectdate.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_mail.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_createimage.inc.php";
+include $REX[INCLUDE_PATH]."/functions/function_rex_mediapool.inc.php";
 
 // ------------------------------------------------------------ redaxo includes
 
 include $REX[INCLUDE_PATH]."/functions/function_rex_title.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_rex_generate.inc.php";
 
-if (!isset($category_id) or $category_id == "") $category_id = 0; 
+if (!isset($category_id) or $category_id == "") $category_id = 0;
 
 
 ?>
