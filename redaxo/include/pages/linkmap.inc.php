@@ -398,28 +398,28 @@ function initArray()
 	foreach (OOCategory::getRootCategories(true) as $cat){
 
         $parent = $cat->getId() * 9999;
-	    print "Note(".$parent.",0,'".addSlashes($cat->getName())."','')\n";
+	    print "Note(".$parent.",0,'".ereg_replace("\n|\r|\"|'","",$cat->getName())."','')\n";
 
 	    foreach($cat->getArticles(false) as $art){
-	         print "Note(".$art->getId().",".$parent.",'".addSlashes($art->getName())."','redaxo://".$art->getId()."')\n";
+	         print "Note(".$art->getId().",".$parent.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
 	    }
 
 	    foreach ($cat->getChildren(true) as $sub1){
 
         	$parent1 = $sub1->getId() * 9999;
-	        print "Note(".$parent1.",".$parent.",'".addSlashes($sub1->getName())."','')\n";
+	        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
 
 	        foreach($sub1->getArticles(false) as $art){
-	            print "Note(".$art->getId().",".$parent1.",'".addSlashes($art->getName())."','redaxo://".$art->getId()."')\n";
+	            print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
 	        }
 
 	        foreach ($sub1->getChildren(true) as $sub2){
 
                 $parent2 = $sub2->getId() * 9999;
-	            print "Note(".$parent2.",".$parent1.",'".addSlashes($sub2->getName())."','')\n";
+	            print "Note(".$parent2.",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$sub2->getName())."','')\n";
 
 	            foreach($sub2->getArticles(false) as $art){
-	                print "Note(".$art->getId().",".$parent2.",'".addSlashes($art->getName())."','redaxo://".$art->getId()."')\n";
+	                print "Note(".$art->getId().",".$parent2.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
 	            }
 
 	        }
