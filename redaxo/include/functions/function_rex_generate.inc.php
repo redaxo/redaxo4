@@ -16,31 +16,32 @@ function moveArticle($id,$to_cat_id,$from_cat_id)
 {
 	global $I18N;
 	// to katgorie vorhanden ?
-	
+
 	$gcat = new sql;
 	$gcat->setQuery("select * from rex_category where id='$to_cat_id'");
-	
+
 	if ($gcat->getRows()==1)
 	{
 		// article updaten
 		$path = $gcat->getValue("path")."-$to_cat_id";
-		$gcat->query("update rex_article set category_id='$to_cat_id',path='$path' where id='$id'");
+		$gcat->query("update rex_article set prior = prior + 1 where category_id='$to_cat_id'");
+		$gcat->query("update rex_article set category_id='$to_cat_id',path='$path',prior = 1 where id='$id'");
 		$return = $I18N->msg('article_moved');
 
 	}else
 	{
 		$return = $I18N->msg('could_not_move_article')." ".$I18N->msg('category_doesnt_exist');
 	}
-	
+
 	// article neu generieren
-	
+
 	generateArticle($id);
-	
+
 	// catgegoy neu generieren
 	generateCategory($to_cat_id);
-	
+
 	// category alt generieren
-	generateCategory($from_cat_id);	
+	generateCategory($from_cat_id);
 
 	return $return;
 
@@ -58,7 +59,7 @@ function copyArticle($id,$to_cat_id)
 	$get_parent_cat = new sql;
 	$get_parent_cat->setQuery("SELECT path FROM rex_category WHERE id=$to_cat_id");
 	$path = $get_parent_cat->getValue("path")."-".$to_cat_id;
-	
+
 	##
 	### check if article is firstarticle in the new category
 	##
@@ -66,21 +67,25 @@ function copyArticle($id,$to_cat_id)
 	$get_cat->setQuery("SELECT count(*) FROM rex_article WHERE category_id=$to_cat_id");
 	if($get_cat->getValue("count(*)") == 0) $startarticle = 1;
 	else $startarticle = 0;
-	
+
 	##
 	### copy article
 	##
 	$get_article = new sql;
 	$get_article->setQuery("SELECT * FROM rex_article WHERE id=$id");
-	
+
 	$get_article_fields = new sql;
 	$get_article_fields->setQuery("DESCRIBE rex_article");
-	
+
 	$add_article = new sql;
+	$order_id = $add_article->new_order("rex_article","prior","category_id",$to_cat_id);
 	$add_article->setTable("rex_article");
-	
+	$add_article->setValue('prior',$order_id);
+
 	for($i=0;$i<$get_article_fields->rows;$i++,$get_article_fields->next())
 	{
+		if($get_article_fields->getValue("Field")=='prior') continue;
+
 		if($get_article_fields->getValue("Field") == "category_id")
 			$add_article->setValue(category_id, $to_cat_id);
 		elseif($get_article_fields->getValue("Field") == "path")
@@ -90,20 +95,20 @@ function copyArticle($id,$to_cat_id)
 		elseif($get_article_fields->getValue("Field") != "id")
 			$add_article->setValue($get_article_fields->getValue("Field"),$get_article->getValue($get_article_fields->getValue("Field")));
 	}
-	// $add_article->debugsql=true;
+	//$add_article->debugsql=true;
 	$add_article->insert();
 	$last_id = $add_article->last_insert_id;
-	
+
 	##
 	### copy slices
 	##
-	
+
 	$get_slices = new sql;
 	$get_slices->setQuery("SELECT * FROM rex_article_slice WHERE article_id=$id ORDER BY re_article_slice_id");
-	
+
 	$get_slice_fields = new sql;
 	$get_slice_fields->setQuery("DESCRIBE rex_article_slice");
-	
+
 	$parent_slice = 0;
 	$preparent_slice = 0;
 
@@ -127,26 +132,26 @@ function copyArticle($id,$to_cat_id)
 		$add_new_slice->setTable("rex_article_slice");
 		for($j=0;$j<$get_slice_fields->rows;$j++,$get_slice_fields->next())
 		{
-			
+
 			if($get_slice_fields->getValue("Field") == "re_article_slice_id")
 				$add_new_slice->setValue(re_article_slice_id, $parent_slice);
 			elseif($get_slice_fields->getValue("Field") == "article_id")
 				$add_new_slice->setValue(article_id, $last_id);
 			elseif($get_slice_fields->getValue("Field") != "id")
 				$add_new_slice->setValue($get_slice_fields->getValue("Field"),$get_slices->getValue($get_slice_fields->getValue("Field")));
-				
+
 		}
-		
+
 		// $add_new_slice->debugsql=true;
 		$add_new_slice->insert();
 		$get_slice_fields->counter=0;
 		$parent_slice = $add_new_slice->last_insert_id;
-		
+
 	}
 
 	// article neu generieren
 	generateArticle($last_id);
-	
+
 	// catgegoy neu generieren
 	generateCategory($to_cat_id);
 
@@ -161,17 +166,17 @@ function generateArticle($id)
 
 	// --------------------------------------------------- generiere generated/articles/xx.article
 	$REX[RC] = true; // Generiere Content
-	
+
 	$CONT = new article;
 	$CONT->setArticleId($id);
-	
+
 	$REX[TEMP] = $REX[BF];
 	$REX[BF] = false;
 	$article_content = "?>".$CONT->getArticle();
 	$REX[BF] = true;
 	$article_bcontent = "?>".$CONT->getArticle();
-	$REX[BF] = $REX[TEMP];	
-	
+	$REX[BF] = $REX[TEMP];
+
 	$article = "<?
 
 \$REX[ART][$id][name] = \"".addslashes($CONT->getValue("name"))."\";
@@ -191,9 +196,9 @@ function generateArticle($id)
 \$REX[ART][$id][status] = \"".addslashes($CONT->getValue("status"))."\";
 
 ?>";
-	
+
 	// Artikelparameter speichern
-	
+
 	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".article", "w"))
 	{
 		fputs($fp,$article);
@@ -202,9 +207,9 @@ function generateArticle($id)
 	{
 		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
 	}
-	
+
 	// Artikelcontent speichern
-		
+
 	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".content", "w"))
 	{
 		fputs($fp,$article_content);
@@ -213,9 +218,9 @@ function generateArticle($id)
 	{
 		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
 	}
-	
+
 	// Artikel B content speichern [BARRIEREFREI]
-	
+
 	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".bcontent", "w"))
 	{
 		fputs($fp,$article_bcontent);
@@ -224,16 +229,16 @@ function generateArticle($id)
 	{
 		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."generated/articles/";
 	}
-	
+
 	if ($MSG != "")
 	{
 		echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
 			<tr><td class=warning>$MSG</td></tr>
 			</table>";
 	}
-	
+
 	$REX[RC] = false;
-	
+
 }
 
 // ---------------------------------------- DELETE ARTICLE
@@ -241,23 +246,23 @@ function generateArticle($id)
 function deleteArticle($id)
 {
 	global $REX, $I18N;
-	
+
 	// changed 4.4.04 careck@circle42.com
 	// guard against deleting the start article
 	if ($id == $REX[STARTARTIKEL_ID]) {
 		return $I18N->msg("cant_delete_startarticle");
 	}
-	
+
 	$ART = new sql;
-		
+
 	$ART->query("delete from rex_article where id='$id'");
 	$ART->query("delete from rex_article_slice where article_id='$id'");
 	@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".article");
 	@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".content");
 	@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".bcontent");
-	
+
 	$message = $I18N->msg('article_deleted');
-	
+
 	return $message;
 }
 
@@ -266,7 +271,7 @@ function deleteArticle($id)
 function deleteCategory($id)
 {
 	global $REX,$I18N;
-	
+
 	$KAT = new sql;
 	$KAT->setQuery("select * from rex_category where id='$id'");
 
@@ -281,10 +286,10 @@ function deleteCategory($id)
 			deleteArticle($KAT->getValue("id"));
 			$KAT->next();
 		}
-	
+
 		$KAT->query("delete from rex_article where category_id='$id'");
 		$KAT->query("delete from rex_category where id='$id'");
-	
+
 		@unlink($REX[INCLUDE_PATH]."/generated/categories/".$id.".category");
 		@unlink($REX[INCLUDE_PATH]."/generated/categories/".$id.".list.category");
 
@@ -295,9 +300,9 @@ function deleteCategory($id)
 	{
 		$message = $I18N->msg('category_doesnt_exist');
 	}
-	
+
 	return $message;
-	
+
 }
 
 // ---------------------------------------- GENERATE CATEGORY
@@ -305,19 +310,19 @@ function deleteCategory($id)
 function generateCategory($id)
 {
 	global $REX;
-	
+
 	$GC = new sql;
-	$GC->setQuery("select 
-		cat1.name,cat1.re_category_id,cat1.prior,cat1.path,cat1.status,rex_article.id 
-		from rex_category as cat1 
-		left join rex_category as cat2 on cat1.re_category_id=cat2.id 
-		left join rex_article on cat1.id=rex_article.category_id 
-		where 
-		cat1.id='$id' and 
-		cat1.id=rex_article.category_id and 
-		startpage=1 
+	$GC->setQuery("select
+		cat1.name,cat1.re_category_id,cat1.prior,cat1.path,cat1.status,rex_article.id
+		from rex_category as cat1
+		left join rex_category as cat2 on cat1.re_category_id=cat2.id
+		left join rex_article on cat1.id=rex_article.category_id
+		where
+		cat1.id='$id' and
+		cat1.id=rex_article.category_id and
+		startpage=1
 		LIMIT 1");
-	
+
 	if ($GC->getRows()==1)
 	{
 		$content = "<?
@@ -335,16 +340,16 @@ function generateCategory($id)
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/categories/".$id.".category", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		
+
 		// kategorienliste speichern
-		
+
 		$re_id = $GC->getValue("cat1.re_category_id");
-		
+
 		generateCategoryList($re_id);
-		
-		
+
+
 	}
-	
+
 	// generateCategories();
 }
 
@@ -355,17 +360,17 @@ function generateCategory($id)
 function generateCategories()
 {
 	global $REX;
-	
+
 	$GC = new sql;
-	$GC->setQuery("select * from rex_category as cat1 
-		left join rex_category as cat2 on cat1.re_category_id=cat2.id 
-		left join rex_article on cat1.id=rex_article.category_id 
+	$GC->setQuery("select * from rex_category as cat1
+		left join rex_category as cat2 on cat1.re_category_id=cat2.id
+		left join rex_article on cat1.id=rex_article.category_id
 		where cat1.id=rex_article.category_id and startpage=1 order by cat1.re_category_id,cat1.prior
 		");
-	
+
 	for ($i=0;$i<$GC->getRows();$i++)
 	{
-		
+
 		$id = $GC->getValue("cat1.id");
 		$content .= "
 \$REX[CAT][$id][name] = \"".addslashes($GC->getValue("cat1.name"))."\";
@@ -394,7 +399,7 @@ function generateCategories()
 function generateGLink($content)
 {
 	// REX_GLINK[] - global link ersetzen durch
-	
+
 	return $content;
 }
 
@@ -405,22 +410,22 @@ function generateCategoryList($re_id)
 	global $REX;
 
 	$GC = new sql;
-	$GC->setQuery("select * 
+	$GC->setQuery("select *
 			from rex_category as cat1
-			left join rex_article on cat1.id=rex_article.category_id 
-			where 
-			cat1.re_category_id='$re_id' and 
-			cat1.id=rex_article.category_id and 
+			left join rex_article on cat1.id=rex_article.category_id
+			where
+			cat1.re_category_id='$re_id' and
+			cat1.id=rex_article.category_id and
 			rex_article.startpage=1
 			order by cat1.prior,cat1.name");
 
 	$content = "<?";
-	
+
 	for ($i=0;$i<$GC->getRows();$i++)
 	{
-		
+
 		$id = $GC->getValue("cat1.id");
-		
+
 		$content .= "
 \$REX[RECAT][$re_id][] = \"".$GC->getValue("cat1.id")."\";
 
@@ -432,11 +437,11 @@ function generateCategoryList($re_id)
 \$REX[CAT][$id][status] = \"".addslashes($GC->getValue("cat1.status"))."\";
 \$REX[CAT][$id][article_id] = \"".addslashes($GC->getValue("rex_article.id"))."\";
 
-";		
+";
 		$GC->next();
 	}
 	$content .= "?>";
-	
+
 	$fp = fopen ($REX[INCLUDE_PATH]."/generated/categories/".$re_id.".list.category", "w");
 	fputs($fp,$content);
 	fclose($fp);
@@ -449,18 +454,18 @@ function generateArticleList($re_id)
 	global $REX;
 
 
-	
+
 }
 
 
 // ---------------------------------------------- KATEGORIE KOPIEREN
 function copyCategory($which,$to_cat)
 {
-	
+
 	## orginal selecten
 	$orig = new sql;
 	$orig->setQuery("SELECT * FROM rex_category WHERE id=$which");
-	
+
 	if($to_cat != 0)
 	{
 		## ziel selecten um den path zu bekomme
@@ -469,26 +474,26 @@ function copyCategory($which,$to_cat)
 		$zielpath = $ziel->getValue("path")."-".$to_cat;
 	}else
 	{
-		## ziel is top also path 
+		## ziel is top also path
 		$zielpath = "";
 	}
-	
+
 	## neue kategorie schreiben
 	$add = new sql;
 	$add->setTable("rex_category");
 	$add->setValue("name", $orig->getValue("name"));
 	$add->setValue("re_category_id", $to_cat);
 	$add->setValue("prior", $orig->getValue("prior"));
-	$add->setValue("path", $zielpath); 
+	$add->setValue("path", $zielpath);
 	$add->setvalue("status", $orig->getValue("status"));
 	$add->insert();
-	
+
 	## artikel kopieren order by !!! da sonst startartikel falsch
 	$articles = new sql;
 	$articles->setQuery("SELECT * FROM rex_article WHERE category_id=$which order by startpage desc");
 	for($i=0;$i<$articles->rows;$i++,$articles->next())
 		copyArticle($articles->getValue("id"),$add->last_insert_id);
-	
+
 	## suchen nach unterkategorien und diese dann natürlich mitkopieren
 	## "rekursier on" hier
 	$subcats = new sql;
