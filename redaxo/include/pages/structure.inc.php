@@ -228,7 +228,7 @@ if ($function == "add_article" and $STRUCTURE_PERM)
 	// now set right position
 	$sql = new sql;
 	$sql->order_position($Position_New_Article,$AART->last_insert_id,"id","rex_article","prior","category_id",$category_id);
-	generateArticle($aid);
+	generateArticle($AART->last_insert_id);
 }
 
 // --------------------------------------------- category pfad
