@@ -8,4 +8,5 @@ CREATE TABLE `rex_module_action` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 CREATE TABLE rex__session ( session varchar(50) NOT NULL default '', user_id int(11) NOT NULL default '0', name varchar(50) NOT NULL default '', stamp int(11) NOT NULL default '0', PRIMARY KEY  (session));
 ALTER TABLE `rex_file_category` ADD `re_id` INT NOT NULL, ADD `path` VARCHAR(255) NOT NULL;
 ALTER TABLE `rex_file` ADD `user_login` VARCHAR(255) NOT NULL;
+ALTER TABLE `rex_file` ADD `width` INT NOT NULL, ADD `height` INT NOT NULL, ADD `title` VARCHAR(255) NOT NULL, ADD `description` TEXT NOT NULL, ADD `copyright` VARCHAR(255) NOT NULL, ADD `stamp` INT NOT NULL;
 ALTER TABLE `rex_article` ADD `user_login` VARCHAR(255) NOT NULL;
