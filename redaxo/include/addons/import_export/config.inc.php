@@ -10,6 +10,9 @@ $REX[ADDON][page][$mypage] = "$mypage";			// pagename/foldername
 $REX[ADDON][name][$mypage] = "Import/Export";		// name
 $REX[ADDON][perm][$mypage] = "import[]"; 		// permission
 
+
+$REX[PERM][] = "import[]";
+
 // IF NECESSARY INCLUDE FUNC/CLASSES ETC
 // INCLUDE IN FRONTEND --- if ($REX[GG]) 
 // INCLUDE IN BACKEND --- if (!$REX[GG]) 
