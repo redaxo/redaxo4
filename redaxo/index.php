@@ -36,9 +36,9 @@ if (!$REX_LOGIN->checkLogin())
 {
 	$LOGIN = TRUE;
 	$REX_USER = $REX_LOGIN->USER;
-	
+
 	// echo "UID:".$REX_USER->getValue("rex_user.user_id");
-	
+
 }
 
 $dl = false;
@@ -70,6 +70,9 @@ if ($page=="specials" && $REX_USER->isValueOf("rights","specials[]"))
 {
 	$dl = true;
 }elseif ($page=="medienpool")
+{
+	$dl = true;
+}elseif ($page=="linkmap")
 {
 	$dl = true;
 }elseif ($page=="content")
