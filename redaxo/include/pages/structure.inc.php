@@ -277,8 +277,8 @@ for($i=0;$i<$KAT->getRows();$i++)
 		if ($REX_USER->isValueOf("rights","expertMode[]")) $echo .= "[$i_category_id]";
 		$echo .= "</td>
 				<td class=grey>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up>up</a>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down>down</a>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up><img src=pics/pfeil_up.gif width=16 height=16 border=0></a>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0></a>
 				</td>
 				<td class=grey>$edit_txt</td>
 				<td class=grey>$kat_status</td>
@@ -408,8 +408,8 @@ if($category_id > -1)
 
 			echo "</td>
 				<td class=grey>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up>up</a>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down>down</a>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif width=16 height=16 border=0></a>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0></a>
 				</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
