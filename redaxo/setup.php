@@ -268,10 +268,7 @@ THE POSSIBILITY OF SUCH DAMAGES.
 	
 	</div>";
 	
-	$register_globals = (int) ini_get('register_globals');
-	
-	if ($register_globals == 1) echo "<br><br><a href=setup.php?checkmodus=1>&raquo; Setup starten</a><br><br>";
-	else echo "<br><br><font class=error>Das Setup kann nicht gestartet werden. Bitte setzen sie register_globals = On [php.ini]</font><br><br>";
+	echo "<br><br><a href=setup.php?checkmodus=1>&raquo; Setup starten</a><br><br>";
 	
 	$checkmodus = 0;	
 }
