@@ -407,7 +407,8 @@ class OOArticle {
 	 * returns true if this Article is the Startpage for the entire site.
 	 */
 	function isSiteStartArticle() {
-	 return "{$this->_id}" == "{$REX[STARTARTIKEL_ID]}";
+	 global $REX;
+	 return $this->_id == $REX[STARTARTIKEL_ID];
 	}
 }
 ?>
