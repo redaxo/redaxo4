@@ -38,7 +38,7 @@ class editor {
 
 }
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH,$HEIGHT,$STYLE_SHEET,$STYLES,$LANG,$BUTTONROW1,$BUTTONROW2,$BUTTONROW3,$BUTTONROW4){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='',$STYLES='',$LANG='',$BUTTONROW1='',$BUTTONROW2='',$BUTTONROW3='empty',$BUTTONROW4='empty'){
 
         // lang = de oder en
 
@@ -50,25 +50,19 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH,$HEIGHT,$STYLE_SHEET,$STYLES
         if($STYLES =='') 		$STYLES="all";
         if($LANG =='') 			$LANG="de";
 
+		// All buttons
         /*
-        theme_advanced_buttons1_add : "fontselect,fontsizeselect",
-        theme_advanced_buttons2 : "separator,insertdate,inserttime,preview,zoom,separator,forecolor,backcolor",
-        theme_advanced_buttons2_add : "cut,copy,paste,separator,search,replace,separator",
-        theme_advanced_buttons3 : "tablecontrols,separator",
-        theme_advanced_buttons3_add : "emotions,iespell,flash,advhr,separator,print,separator,pasteRichtext,separator,insertEmail,separator,linkHack",
-        */
 
-		// All Functions
-        /*
-        editor functions:
+        editor buttons:
         bold, italic, underline, strikethrough, justifyleft, justifycenter, justifyright, justifyfull,
         styleselect, bullist, numlist, outdent, indent, undo,redo, link, unlink, image,
         cleanup, help, code, table, row_before, row_after, delete_row, separator, rowseparator,
         col_before, col_after, delete_col, hr, removeformat, sub, sup, formatselect, fontselect,
         fontsizeselect, forecolor, charmap, visualaid, spacer, cut, copy, paste,
 
-        redaxo functions:
+        redaxo buttons:
         linkHack,pasteRichtext,insertEmail
+
         */
 
         if($BUTTONROW1==""){
@@ -83,7 +77,6 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH,$HEIGHT,$STYLE_SHEET,$STYLES
         if($BUTTONROW4==""){
         	$BUTTONROW4 = "rowseparator,formatselect,fontselect,fontsizeselect,forecolor,charmap";
         }
-
 
         // tiny mce init
         if($TINYMCE!="done"){
