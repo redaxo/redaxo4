@@ -165,6 +165,19 @@ class OOCategory {
 	}
 	 
 	/*
+	 * OBJECT function
+	 * Returns a list of articles of this category that have been
+	 * newly created.
+	 * $number_of_articles = how far to go back in history
+	 * $ignore_startpage = ignore the category startpage
+	 * $ignore_offlines = ignore any articles that are offline
+	 */
+	function getNewArticles($number_of_articles, $ignore_startpage = true, $ignore_offlines = true) {
+		return OOArticle::getNewArticles($number_of_articles, $ignore_startpage, $ignore_offlines, $this->_id);
+	}
+	
+	 
+	/*
 	 * Object Function:
 	 * Return a list of articles that are online
 	 * only in a certain time frame.
