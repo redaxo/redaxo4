@@ -234,10 +234,7 @@ class OOCategory {
 	 */
 	function getUrl() {
 		$start = $this->getStartArticle();
-		if ($start)
-			return $REX[WWW_PATH]."index.php?article_id=".$start->getId();
-		else
-		 return "";
+		return $start ? $start->getUrl() : "";
 	}
 }
 ?>
