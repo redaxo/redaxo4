@@ -13,9 +13,8 @@ class stat
 	var $outtemplate = "include/pages/stats/stat_template.inc.php";
 	var $evalshows;
 	var $evalsnipps;
-
-
 	var $debugpv = 0;
+	var $ART;
 
 	function stat()
 	{
@@ -36,6 +35,15 @@ class stat
 
 		$this->evalshows = Array("REX_EVAL_DAY","REX_EVAL_MONTH","REX_EVAL_ALLARTICLE","REX_EVAL_TOP10ARTICLE","REX_EVAL_WORST10ARTICLE","REX_EVAL_LAENDER","REX_EVAL_SUCHMASCHINEN","REX_EVAL_REFERER","REX_EVAL_BROWSER","REX_EVAL_OPERATINGSYSTEM","REX_EVAL_SEARCHWORDS");
 		$this->evalsnipps = Array();
+		
+		$statartikel = new sql;
+		$statartikel->setQuery("SELECT id,name FROM rex_article");
+		
+		for ($i=0;$i<$statartikel->getRows();$i++)
+		{
+			$this->ART[$statartikel->getValue("id")] = $statartikel->getValue("name");
+			$statartikel->next();
+		}
 	}
 
 
@@ -144,25 +152,21 @@ class stat
 
 		}
 
-
-
-
 		// fill table
 		$out  = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
 		$out .= "<tr><th>".$I18N->msg("article_name")."</th><th>".$I18N->msg("article_id")."<th>".$I18N->msg("page_views")."</th><th>".$I18N->msg("share")."</th><th>&nbsp;</th></tr>";
 		$i = 1;
 		foreach ( $artcounter as $k => $v )
 		{
-			$name = new sql;
-			$name->setQuery("SELECT * FROM rex_article WHERE id=$k");
-
+			if (!$this->ART[$k]) $name = "[".$I18N->msg("stats_article_delete")."]";
+			else $name = $this->ART[$k];
 			$out .= "<tr>
-						<td class=grey align=right><a href=../index.php?article_id=$k target=_blank>".htmlspecialchars($name->getValue("name"),ENT_QUOTES)."</a></td>
-						<td class=grey align=right><a href=../index.php?article_id=$k target=_blank>$k</td></td>
-						<td class=grey align=right>$v</td>
-						<td class=grey align=right>".round(($v/$all*100))."%</td>
-						<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$all*100)))." height=10></td>
-					 </tr>";
+					<td class=grey align=right><a href=../index.php?article_id=$k target=_blank>".htmlspecialchars($name,ENT_QUOTES)."</a></td>
+					<td class=grey align=right><a href=../index.php?article_id=$k target=_blank>$k</td></td>
+					<td class=grey align=right>$v</td>
+					<td class=grey align=right>".round(($v/$all*100))."%</td>
+					<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$all*100)))." height=10></td>
+				 </tr>";
 			$i++;
 			// break if top 10 or worst 10
 			if ( $i >= $to ) break;
@@ -287,19 +291,19 @@ class stat
 
 		foreach ( array_reverse($this->BROWSER['type']) as $k => $v )
 			$browserout .= "<tr>
-							<td class=grey align=right>".base64_decode($k)."</td>
-							<td class=grey align=right>$v</td>
-							<td class=grey align=right>".round(($v/$alltype*100))."%</td>
-							<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$alltype*100)))." height=10></td>
-						 </tr>";
+						<td class=grey align=right>".base64_decode($k)."</td>
+						<td class=grey align=right>$v</td>
+						<td class=grey align=right>".round(($v/$alltype*100))."%</td>
+						<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$alltype*100)))." height=10></td>
+					 </tr>";
 
 		foreach ( array_reverse($this->BROWSER['os']) as $k => $v )
 			$osout .= "<tr>
-							<td class=grey align=right>".base64_decode($k)."</td>
-							<td class=grey align=right>$v</td>
-							<td class=grey align=right>".round(($v/$allos*100))."%</td>
-							<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$allos*100)))." height=10></td>
-						 </tr>";
+						<td class=grey align=right>".base64_decode($k)."</td>
+						<td class=grey align=right>$v</td>
+						<td class=grey align=right>".round(($v/$allos*100))."%</td>
+						<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$allos*100)))." height=10></td>
+					 </tr>";
 
 		$browserout .= "</table>";
 		$osout .= "</table>";
@@ -335,6 +339,12 @@ class stat
 		$pat[2] = "/query=(.*?)\&/";
 		$ser[3] = "fireball";
 		$pat[3] = "/q=(.*?)\&/";
+		$ser[3] = "fireball";
+		$pat[3] = "/q=(.*?)\&/";
+		$ser[4] = "msn";
+		$pat[4] = "/q=(.*?)\&/";
+		$ser[5] = "aol";
+		$pat[5] = "/q=(.*?)\&/";
 
 		// generiere Refererliste und gleichzeitig check
 		foreach( array_reverse($this->REFERER) as $k => $v)
@@ -416,11 +426,11 @@ class stat
 
 		foreach ( array_reverse($myar) as $k => $v )
 			$landout .= "<tr>
-							<td class=grey align=right>".base64_decode($k)."</td>
-							<td class=grey align=right>$v</td>
-							<td class=grey align=right>".round(($v/$all*100))."%</td>
-							<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$all*100)))." height=10></td>
-						 </tr>";
+						<td class=grey align=right>".base64_decode($k)."</td>
+						<td class=grey align=right>$v</td>
+						<td class=grey align=right>".round(($v/$all*100))."%</td>
+						<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$all*100)))." height=10></td>
+					 </tr>";
 		$landout .= "</table>";
 
 		$this->evalsnipps[5] = $landout;
@@ -532,7 +542,6 @@ class stat
 
 		$time[afterCollectFiles] = microtime();
 
-		//
 		// going through all files and write to Arrays
 		foreach($tfiles as $val)
 		{
