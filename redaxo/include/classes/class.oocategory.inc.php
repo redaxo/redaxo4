@@ -59,10 +59,11 @@ class OOCategory {
 	 *
 	 * Returns an array of OOCategory objects.
 	 */
-	function searchCategoriesByName($a_name) {
+	function searchCategoriesByName($a_name, $ignore_offlines = false) {
+		$off = $ignore_offlines ? "" : " and status = 1 ";
 		$catlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where name like '$a_name'");
+		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where name like '$a_name' $off order by name");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$catlist[] = new OOCategory($sql->getValue("id"),$sql->getValue("name"),
 										$sql->getValue("description"), $sql->getValue("func"),
@@ -84,9 +85,10 @@ class OOCategory {
 	 * excempt from this list!
 	 */
 	function getRootCategories($ignore_offlines = false) {
+		$off = $ignore_offlines ? "" : " and status = 1 ";
 		$catlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = 0");
+		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = 0 $off order by prior");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$catlist[] = new OOCategory($sql->getValue("id"),$sql->getValue("name"),
 										$sql->getValue("description"), $sql->getValue("func"),
@@ -107,9 +109,10 @@ class OOCategory {
 	 * excempt from this list!
 	 */
 	function getChildren($ignore_offlines = false) {
+		$off = $ignore_offlines ? "" : " and status = 1 ";
 		$catlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = {$this->_id}");
+		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = {$this->_id} $off order by prior");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$catlist[] = new OOCategory($sql->getValue("id"),$sql->getValue("name"),
 										$sql->getValue("description"), $sql->getValue("func"),
@@ -181,7 +184,7 @@ class OOCategory {
 	 * returns the id of the category
 	 */
 	function getId() {
-		return $_id;
+		return $this->_id;
 	}
 	
 	/*
@@ -189,7 +192,7 @@ class OOCategory {
 	 * returns the name of the category
 	 */
 	function getName() {
-		return $_name;
+		return $this->_name;
 	}
 	
 	/*
@@ -197,7 +200,7 @@ class OOCategory {
 	 * returns true if category is online.
 	 */
 	function isOnline() {
-		return $_status == 1 ? true : false;
+		return $this->_status == 1 ? true : false;
 	}
 	
 	/*
@@ -205,17 +208,36 @@ class OOCategory {
 	 * returns the category description.
 	 */
 	function getDescription() {
-		return $_description;
+		return $this->_description;
 	}
 	
-		/*
+	/*
 	 * Accessor Method:
 	 * returns the prioity of the category
 	 */
 	function getPriority() {
-		return $_prior;
+		return $this->_prior;
 	}
 
+	/*
+	 * Object Helper Function:
+	 * Returns a String representation of this object
+	 * for debugging purposes.
+	 */
+	function toString() {
+		return "Category: ".$this->_id.", ".$this->_name.", ".($this->isOnline() ? "online" : "offline");
+	}
 	
+	/*
+	 * Object Helper Function:
+	 * Returns a url for linking to this category
+	 */
+	function getUrl() {
+		$start = $this->getStartArticle();
+		if ($start)
+			return $REX[WWW_PATH]."index.php?article_id=".$start->getId();
+		else
+		 return "";
+	}
 }
 ?>
