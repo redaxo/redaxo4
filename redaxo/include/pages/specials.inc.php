@@ -5,14 +5,32 @@
 // ------------- generiere statische inhalte
 $ERRMSG = "";
 
-if ($func == "copyCategory")
+if ($func == "setup")
+{
+	// REACTIVATE SETUP
+	
+	$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","r");
+	$cont = fread($h,filesize($REX[INCLUDE_PATH]."/master.inc.php"));
+	$cont = ereg_replace("(REX\[SETUP\].?\=.?)[^;]*","\\1"."true",$cont);
+	fclose($h);
+	// echo nl2br(htmlentities($cont));
+	$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","w+");
+	if(fwrite($h,$cont,strlen($cont)) > 0)
+	{
+		$MSG = $I18N->msg("setup_error1");
+	}else
+	{
+		$MSG = $I18N->msg("setup_error2");
+	}
+	fclose($h);
+
+}elseif ($func == "copyCategory")
 {
 
 	// noch nicht fertig
 
-
 	// $which,$to_cat
-	// copyCategory(10,0);
+	// copyCategory(10,0); // copyCategory(von_category_id,nach_category_id); diese funktion ist schon fertig
 
 
 
@@ -60,7 +78,7 @@ if ($func == "copyCategory")
 	$h = fopen("include/master.inc.php","r");
 	$cont = fread($h,filesize("include/master.inc.php"));
 
-	$cont = ereg_replace("(REX\[BARRIEREFREI\].?\=.?)[^;]*","\\1".strtolower($neu_barriere),$cont);
+	// $cont = ereg_replace("(REX\[BCONTENT\].?\=.?)[^;]*","\\1".strtolower($neu_content),$cont);
 	// $cont = ereg_replace("(REX\[COMMUNITY\].?\=.?)[^;]*","\\1".strtolower($neu_community),$cont);
 	$cont = ereg_replace("(REX\[STARTARTIKEL_ID\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
 	$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
@@ -86,8 +104,8 @@ if ($func == "copyCategory")
 	fwrite($h,$cont,strlen($cont));
 	fclose($h);
 
-	if ($neu_barriere == "TRUE") $REX[BARRIEREFREI] = TRUE;
-	else $REX[BARRIEREFREI] = FALSE;
+	if ($neu_bcontent == "TRUE") $REX[BCONTENT] = TRUE;
+	else $REX[BCONTENT] = FALSE;
 
 	if ($neu_caching == "TRUE") $REX[CACHING] = TRUE;
 	else $REX[CACHING] = FALSE;
@@ -126,7 +144,8 @@ if ($MSG != "") echo "<tr><td class=warning colspan=2><b>$MSG</b></td></tr>";
 echo "<tr><td class=grey width=50% valign=top><br>";
 
 echo "<b><a href=index.php?page=specials&func=generate>".$I18N->msg("regenerate_article")."</a></b><br>".$I18N->msg("regeneration_message")."<br><br>";
-echo "<b><a href=index.php?page=specials&func=linkchecker>".$I18N->msg("link_checker")."</a></b><br>".$I18N->msg("check_links_text")."<br>";
+echo "<b><a href=index.php?page=specials&func=linkchecker>".$I18N->msg("link_checker")."</a></b><br>".$I18N->msg("check_links_text")."<br><br>";
+echo "<b><a href=index.php?page=specials&func=setup>".$I18N->msg("setup")."</a></b><br>".$I18N->msg("setup_text")."<br>";
 
 echo "<br></td><td class=grey valign=top><br>";
 
@@ -146,23 +165,24 @@ echo "<tr><td>\$DB[1][LOGIN]:</td><td><img src=pics/leer.gif width=10 height=20>
 echo "<tr><td>\$DB[1][PSW]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>-</td></tr>";
 echo "<tr><td>\$DB[1][NAME]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$DB[1][NAME]."\"</td></tr>";
 
+/*
 echo "<tr><td colspan=3><br><b>".$I18N->msg("db2_text")."</b></td></tr>";
-
 echo "<tr><td>\$DB[2][HOST]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_host value=\"".$DB[2][HOST]."\" class=inp100></td></tr>";
 echo "<tr><td>\$DB[2][LOGIN]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_login value=\"".$DB[2][LOGIN]."\" class=inp100></td></tr>";
 echo "<tr><td>\$DB[2][PSW]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_psw value=\"".$DB[2][PSW]."\" class=inp100></td></tr>";
 echo "<tr><td>\$DB[2][NAME]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_name value=\"".$DB[2][NAME]."\" class=inp100></td></tr>";
+*/
 
 echo "<tr><td colspan=3><br><b>".$I18N->msg("specials_others")."</b></td></tr>";
 
 echo "<tr><td>\$REX[WWW_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[WWW_PATH]."\"</td></tr>";
 echo "<tr><td>\$REX[INCLUDE_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[INCLUDE_PATH]."\"</td></tr>";
 
-if($REX[BARRIEREFREI]) $barricheck = "selected"; else $barricheck_false = "selected";
+// if($REX[BCONTENT]) $bcheck = "selected"; else $bcheck_false = "selected";
 // if($REX[COMMUNITY]) $communitycheck = "selected"; else $communitycheck_false = "selected";
 
 echo "<tr><td>\$REX[error_emailaddress]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_error_emailaddress value=\"".$REX[error_emailaddress]."\" class=inp100></td></tr>";
-echo "<tr><td>\$REX[BARRIEREFREI]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_barriere size=1><option $barricheck>TRUE</option><option $barricheck_false>FALSE</option></select></td></tr>";
+// echo "<tr><td>\$REX[BCONTENT]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_bcontent size=1><option $bcheck>TRUE</option><option $bcheck_false>FALSE</option></select></td></tr>";
 // echo "<tr><td>\$REX[COMMUNITY]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_community size=1><option $communitycheck>TRUE</option><option $communitycheck_false>FALSE</option></select></td></tr>";
 echo "<tr><td>\$REX[STARTARTIKEL_ID]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_startartikel value=\"".$REX[STARTARTIKEL_ID]."\"></td></tr>";
 echo "<tr><td>\$REX[LANG]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_lang size=1>";
