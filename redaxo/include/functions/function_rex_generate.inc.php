@@ -200,7 +200,7 @@ function generateArticle($id)
 		fclose($fp);
 	}else
 	{
-		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory')." includes/generated/articles/";
+		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
 	}
 	
 	// Artikelcontent speichern
@@ -211,7 +211,7 @@ function generateArticle($id)
 		fclose($fp);
 	}else
 	{
-		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory')." includes/generated/articles/";
+		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
 	}
 	
 	// Artikel B content speichern [BARRIEREFREI]
@@ -222,7 +222,7 @@ function generateArticle($id)
 		fclose($fp);
 	}else
 	{
-		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory')." includes/generated/articles/";
+		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."generated/articles/";
 	}
 	
 	if ($MSG != "")
