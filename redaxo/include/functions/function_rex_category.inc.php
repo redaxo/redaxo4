@@ -18,8 +18,10 @@ for ($ii=0;$ii<$KatMaxEbenen;$ii++)
 		if ($KATcategory_id == $KATs->getValue("id"))
 		{
 			if ($REX_USER->isValueOf("rights","structure[$KATcategory_id]")) $STRUCTURE_PERM = TRUE;
+			if ($REX_USER->isValueOf("rights","expertMode[]")) $add_on = " [".$KATs->getValue("id")."]";
+			else $add_on = "";
 			
-			$KATout = " : <a href=index.php?page=structure&category_id=".$KATs->getValue("id").">".$KATs->getValue("name")."</a>".$KATout;
+			$KATout = " : <a href=index.php?page=structure&category_id=".$KATs->getValue("id").">".$KATs->getValue("name")."</a>$add_on".$KATout;
 			
 			$KATSQLpath = "-".$KATs->getValue("id").$KATSQLpath;
 			
@@ -42,6 +44,7 @@ if ($article_id != "" and $page == "content")
 	if ($article->getValue("startpage")==1) $KATout .= " <br>&nbsp;&nbsp;&nbsp;".$I18N->msg("start_article")." : ";
 	else $KATout .= " <br>&nbsp;&nbsp;&nbsp;".$I18N->msg("article")." : ";
 	$KATout .= "<a href=index.php?page=content&article_id=$article_id&mode=edit>".str_replace(" ","&nbsp;",$article->getValue("name"))."</a>";
+	if ($REX_USER->isValueOf("rights","expertMode[]")) $KATout .= " [$article_id]";
 }
 
 ?>

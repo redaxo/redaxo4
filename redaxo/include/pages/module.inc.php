@@ -184,7 +184,11 @@ if ($OUT)
 	
 		echo "	<tr bgcolor=#eeeeee>
 				<td class=grey align=center><img src=pics/modul.gif width=16 height=16></td>
-				<td class=grey><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a></td>
+				<td class=grey><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
+		
+		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
+		
+		echo "</td>
 				<td class=grey><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=delete>".$I18N->msg("delete_module")."</a></td>
 				<td class=grey>";
 		if ($sql->getValue("php_enable")==1) echo $I18N->msg("yes");

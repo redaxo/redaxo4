@@ -249,7 +249,9 @@ for($i=0;$i<$KAT->getRows();$i++)
 		$echo .= "
 			<tr>
 				<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
-				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id>".$KAT->getValue("name")."&nbsp;</a></td>
+				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id>".$KAT->getValue("name")."&nbsp;</a>";
+		if ($REX_USER->isValueOf("rights","expertMode[]")) $echo .= "[$i_category_id]";
+		$echo .= "</td>
 				<td class=grey>".$KAT->getValue("prior")."&nbsp;</td>
 				<td class=grey>$edit_txt</td>
 				<td class=grey>$kat_status</td>
@@ -373,7 +375,11 @@ if($category_id > -1)
 		{
 			echo "	<tr>
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
-				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a></td>
+				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a>";
+			
+			if ($REX_USER->isValueOf("rights","expertMode[]")) echo "[".$sql->getValue("id")."]";
+			
+			echo "</td>
 				<td class=grey>".$sql->getValue("prior")."&nbsp;</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>

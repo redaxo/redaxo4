@@ -151,7 +151,6 @@ if ($OUT)
 	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
 			<th width=30><a href=index.php?page=template&function=add><img src=pics/template_plus.gif width=16 height=16 border=0></a></th>
-			<th align=left width=20>".$I18N->msg("header_template_id")."</th>
 			<th align=left width=300>".$I18N->msg("header_template_description")."</th>
 			<th align=left width=50>".$I18N->msg("header_template_active")."</th>
 			<th align=left>".$I18N->msg("header_template_functions")."</th>
@@ -160,7 +159,7 @@ if ($OUT)
 	
 	if ($message != "")
 	{
-		echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=4 class=warning>$message</td></tr>";
+		echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr>";
 	}
 	
 	$sql = new sql;
@@ -170,8 +169,11 @@ if ($OUT)
 	{
 		echo "	<tr>
 				<td class=grey align=center><img src=pics/template.gif width=16 height=16></td>
-				<td class=grey>".$sql->getValue("id")."</td>
-				<td class=grey><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a></td>
+				<td class=grey><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
+		
+		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
+			
+		echo "</td>
 				<td class=grey>";
 			
 		if ($sql->getValue("active")==1) echo "Ja";
