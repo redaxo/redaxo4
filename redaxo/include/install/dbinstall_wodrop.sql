@@ -45,6 +45,7 @@ CREATE TABLE rex__board (
   message text,
   stamp varchar(14) default NULL,
   status int(11) default '1',
+  anonymous_user varchar(50) default NULL,
   PRIMARY KEY  (message_id)
 ) TYPE=MyISAM;
 
@@ -415,3 +416,4 @@ CREATE TABLE rex_user (
 
 CREATE TABLE `rex_file_category` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL );
 ALTER TABLE `rex_article` ADD `linkname` VARCHAR(255) NOT NULL AFTER `name`;
+ALTER TABLE `rex__board` ADD `anonymous_user` VARCHAR(50) NOT NULL AFTER `status`;
