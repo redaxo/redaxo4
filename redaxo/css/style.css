@@ -1,0 +1,59 @@
+body,p,td,th,a,input,select,textarea { font-family: Verdana, Arial, sans-serif; color: #32353a; font-size: 10px; }
+
+th		{ background-color: #d7d6d3; }
+a		{ color: #f2353a; text-decoration: none; }
+a:hover		{ text-decoration: underline; }
+input   	{ color: #000000; font-size: }
+textarea	{ color: #000000; font-size: }
+select  	{ color: #000000; font-size: }
+
+td.grey		{ background-color: #f0efeb; }
+td.lgrey	{ background-color: #faf9f5; }
+td.dgrey	{ background-color: #eae9e5; }
+td.greenwhite	{ background-color: #aab9a8; color:#ffffff; }
+td.greenblack	{ background-color: #aab9a8; }
+th.grey		{ background-color: #d7d6d3; }
+
+.blue		{ color: #32353a; }
+.lblue		{ color: #32353a; }
+.dblue		{ color: #32353a; }
+td.blue		{ background-color: #ccd7dd; font-size: 12px; }
+td.lblue	{ background-color: #d6e1e4; }
+td.llblue	{ background-color: #E4EFF2; }
+td.dblue	{ background-color: #b0bdc3; }
+
+
+th.blue		{ background-color: #d7d6d3; }
+th.lblue	{ background-color: #d7d6d3; }
+th.dblue	{ background-color: #d7d6d3; }
+a.blue		{ color: #666699;  }
+
+
+a.white		{ color: #ffffff; }
+
+a.red		{ color: #ff9999; }
+a.red12b	{ color: #EA1144; font-size: 12px; }
+.red		{ color: #EA1144; line-height: 18px; }
+.red:link	{ color: #EA1144; line-height: 18px; }
+.red:visited	{ color: #EA1144; line-height: 18px; }
+.red:hover	{ color: #EA1144; line-height: 18px; }
+
+a.green		{ color: #478c44; }
+a.green12b	{ color: #478c44; font-size: 12px;  }
+th.greenwhite	{ color: #32353a; background-color: #d7d6d3; }
+th.greenblack	{ color: #32353a; background-color: #d7d6d3; }
+
+a.black		{ color: #000000; }
+
+.warning	{ color: #ea1144; background-color: #fae9e5; }
+.head		{ color: #32353a; font-size: 13px; }
+
+.content	{ background-color: #faf9f5; line-height: 18px; }
+.title		{ color: #EA1144; font-size: 10px; font-weight: bold; line-height: 18px; }
+.subtitle	{ font-weight: bold; line-height: 18px; }
+.articletitle	{ font-size: 13px; font-weight: bold; line-height: 20px; }
+.contentbg	{ background-color: #faf9f5; } 
+
+.inp100		{ width:100%; }
+.inpgrey	{ background-color: #f0efeb; }
+.inpgrey100	{ width:100%; background-color: #f0efeb; }
