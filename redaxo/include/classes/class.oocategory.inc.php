@@ -160,8 +160,20 @@ class OOCategory {
 	 * all articles with status 0 will be
 	 * excempt from this list!
 	 */
-	function getArticles($ignore_offlines = false) {
+	function getArticles($ignore_offlines = true) {
 		return OOArticle::getArticlesOfCategory($this->_id, $ignore_offlines);
+	}
+	 
+	/*
+	 * OBJECT Function:
+	 * Returns the number of articles in this Category
+	 * 
+	 * $ignore_offlines = count only Articles that are online
+	 * $ignore_startpage = do not count the startpage
+	 */
+	function countArticles($ignore_offlines = true, $ignore_startpage = true) {
+		// TODO
+		return 0;
 	}
 	 
 	/*
