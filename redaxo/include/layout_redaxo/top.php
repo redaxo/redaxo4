@@ -24,6 +24,7 @@ var redaxo = true;
 if ($LOGIN)
 {
 	echo "<a href=index.php?page=structure class=white>".$I18N->msg("structure")."</a> ";
+	if ($REX_USER->isValueOf("rights","mediapool[]")) echo " | <a href=# onclick=openREXMedialist(0); class=white>".$I18N->msg("pool_media")."</a>";
 	if ($REX_USER->isValueOf("rights","template[]")) echo " | <a href=index.php?page=template class=white>".$I18N->msg("template")."</a>";
 	if ($REX_USER->isValueOf("rights","module[]")) echo " | <a href=index.php?page=module class=white>".$I18N->msg("module")."</a>"; 
 	if ($REX_USER->isValueOf("rights","user[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 
