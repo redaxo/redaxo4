@@ -1,0 +1,182 @@
+
+Ersteller: Jan Kristinus
+Datum: 22.Februar 2004
+Titel: Get Started.. [deutsch]
+
+1. Allgemeines
+2. Struktur
+3. Kategorien
+4. Artikel
+5. Templates
+6. Module
+
+
+Hier ein paar Infos um mit REDAXO umgehen zu können. Das ganze ist noch 
+nicht so professionell aufgebaut - aber im Laufe der Zeit soll sich das Ganze 
+natürlich verbessern und erweitern. Dazu sind aber auch Sie gefragt.
+
+1. Allgemein gibt es erst mal ein paar Infos:
+Unser Ziel war und ist ein einfaches, schnell zu erlernendes Redaktionssystem, 
+welches dennoch einen hohen Grad an Flexibilität gewährleistet. Dabei setzen wir 
+nicht nur auf Templates, sondern auf eine Kombination von Templates und Modulen. 
+Die Templates definieren im Normalfall den Rahmen des dargestellten Inhaltes 
+(z.B. Popup-Fenster, Inhalte mit Navigation, ...) während sich der eigentliche 
+Inhalte über mehrere Module generiert (z.B. Headline, Fliesstext, Bild mit Text, 
+Links ...)  Dabei kann ein Inhalt aus theoretisch unendlich vielen Modulen, und 
+damit Texten und Grafiken, bestehen.
+
+
+2. Struktur:
+
+Bei REDAXO setzen wir eine hierarchische Struktur ein. D.h. Verschiedene 
+Kategorien (Ordner) enthalten verschiedene Artikel (Inhalte). Jede Kategorie hat 
+einen Startartikel (Startartikel sind Einstiegsseiten einer Kategorie- im Normalfall 
+Übersichtsseiten ). Jeder Artikel entspricht nachher einer Webseite. Jedem Artikel 
+muß auch ein Template zugewiesen werden, damit die Darstellungsform eindeutig ist.
+
+
+3. Kategorien:
+Kategorien benutzt man um Navigationsstrukturen abzubilden. Für die meisten Fälle gilt: 
+Was in der Struktur zu sehen ist sieht man auch auf der Sitemap und in der Navigation. 
+Die Priorität organisiert die Reihenfolge.
+
+
+4. Artikel:
+Es gibt Startartikel und "normale" Artikel. Ein Startartikel generiert sich automatisch 
+bei Erstellen einer Kategorie und kann nicht gelöscht werden - außer man löscht die 
+Kategorie. Normale Artikel können in beliebiger Anzahl erstellt werden. Einem Artikel 
+kann man ein Template zuweisen welches die Darstellungsform bestimmt. Ein Artikel 
+besteht aus mehreren Blöcken (Modulen) und repräsentiert den eigentlichen Inhalt. 
+Weiterhin hat der Artikel Metadaten die ihn allgemein beschreiben (z.B. Kurzbeschreibung, 
+Suchbegriff und Grafik).
+
+
+5. Templates:
+Sie sind die Basis der Darstellung. D.h. Hier wird definiert wie sich die Navigation/en 
+zusammenbaut und wie das Layout sich aufbaut. Es können Templates erstellt werden die in 
+den Artikeln selektiert werden sollen, oder welche die in andere Templates eingebunden 
+werden sollen.
+
+5.1. Wie erstelle ich Templates:
+
+Die einfachste Form eines Templates ist diese:
+
+<html><head>title</head><body><?
+echo $this->getArticle();
+?></body></html>
+
+Alle Parameter eines Artikels lassen sich über das $this Objekt abrufen. z.B. 
+Könnten man sich mit 
+
+echo $this->getValue("name");
+
+den Artikelnamen ausgeben lassen. 
+Weitere Parameter (Metadaten) sind: name, beschreibung, file, category_id, type_id, 
+startpage, prior, path, status, online_von, online_bis, suchbegriffe, template_id.
+
+
+6. Module:
+Die eigentlichen Inhalte werden aus Modulen zusammengebaut. Man könnte sie auch 
+Minitemplates nennen, wobei eine unendliche Anzahl von diesen in einem Artikel 
+möglich sind. Diese Module können sehr unterschiedlich sein. Mögliche Formen 
+eines Moduls sind z.B. Headline, Fliesstext, Grafiken hochladen und darstellen 
+oder dynamische Listen aus Datenbanken, dynamische Grafiken, Unternavigationen etc.
+
+6.1. Wie erstelle ich Module
+Bei Modulen gibt es 2 Einteilungen. Einerseits das Eingabeformular eines Moduls 
+für die Verwaltung und andererseits die Ausgabe der eingegebenen Informationen. 
+
+Die einfachste Form eines Modules ist diese:
+
+Eingabeformular:
+<input type=text size=20 name=VALUE[1] value="REX_VALUE[1]">
+
+Ausgabeformular:
+<font size=3>REX_VALUE[1]</font>
+
+Dieses Modul erfaßt einen Text welcher dann formatiert ausgegeben wird. Allgemein 
+werden bestimmte Platzhalter verwendet um unterschiedliche Texte, Grafiken etc. 
+dann dafür wieder einsetzen zu können. Hier wird im der Platzhalter REX_VALUE[1] 
+verwendet. 
+
+Ein weiteres Modul zum Bildupload mit Bildbeschreibung:
+
+Eingabeformular:
+<?
+
+echo "Bild: <br>";
+
+?>REX_MEDIA_BUTTON[1]<?
+
+if ("FILE[1]" != "")
+{
+  echo "<img src=../files/FILE[1] width=100><br>";
+}
+
+?><br><br>Bildunterschrift:<br>
+<input type=text size=50 name=VALUE[1] value="REX_VALUE[1]" class=inp100>
+<br><br>
+
+Ausgabeformular:
+<?
+if ("FILE[1]" != "") echo "<img src=/files/FILE[1]>";
+if ("REX_VALUE[1]" != "") echo "<br>REX_VALUE[1]";
+echo "<br><br>";
+?>
+
+In diesem Modul hat der Redakteur die Möglichkeit ein Bild hochzuladen und die 
+Bildunterschrift einzugeben. Dabei werden folgende Platzhalter verwendet. FILE[1], 
+REX_VALUE[1] sowie feste Formularwerte wie VALUE[1], FILE1, FILEDEL1.. In jedem 
+Modul kann php verwendet werden - und in den meisten Fällen macht es auch Sinn 
+und man sollte davon gebrauch machen. 
+
+Es gibt weitere Platzhalter die von Modul zu Modul Sinn machen könnten: 
+
+REX_VALUE[1]  .... REX_VALUE[10]
+Dabei wird der eingegebene Text als htmlcode eingesetzt. Z.B. wird aus ä -> &auml;
+Relevante feste Formularwerte: VALUE[1] ....
+
+REX_IS_VALUE[1]  ….  REX_IS_VALUE[10]
+Sollte ein Text in z.B. REX_VALUE[1] eingeben sein enthält REX_IS_VALUE[1] den Wert 1
+Relevante feste Formularwerte: VALUE[1] ....
+
+REX_HTML_VALUE[1] …. REX_HTML_VALUE[10]
+Der eingegeben Text wird genauso ausgegeben. Um zu sichern das kein php-code enthalten 
+ist wird <? Und ?> gelöscht.
+Relevante feste Formularwerte: VALUE[1] ....
+
+REX_HTML_BR_VALUE[1] …. REX_HTML_BR_VALUE[10]
+Der eingegeben Text wird genauso ausgegeben. Jeder Umbruch wird durch <br /> ersetzt. 
+Um zu sichern das kein php-code enthalten ist wird <? Und ?> gelöscht.
+Relevante feste Formularwerte: VALUE[1] ....
+
+REX_PHP_VALUE[1] …. REX_PHP_VALUE[10]
+Der eingegeben Text wird genauso ausgegeben. Sofern php code eingegeben wurde wird 
+dieser auch ausgeführt. 
+Relevante feste Formularwerte: VALUE[1] ....
+
+REX_LINK[1] …. REX_LINK[10]
+Einhält die ArtikelID eines Artikels im Eingabeformular und den kompletten Link im 
+Relevante feste Formularwerte: LINK[1] ....
+
+FILE[1] …. FILE[10]
+Enthält den Dateinamen der hochgeladenen Datei (jede Art von Datei - z.B. Photo )
+Relevante feste Formularwerte: FILEDEL1 FILE1 ....
+
+REX_ARTICLE_ID
+Hier wird die aktuelle Artikel ID eingesetzt.
+
+REX_CATEGORY_ID
+Hier wird die aktuelle Kategorie ID eingesetzt.
+
+REX_PHP
+Sofern PHP als Modul verwendet werden soll. Ist es am sinnvollsten dieses Platzhalter 
+zu verwenden. 
+Relevante feste Formularwerte: INPUT_PHP ....
+
+REX_MEDIA_BUTTON[1] ... REX_MEDIA_BUTTON[10]
+Erstellt Auswahlbuttons für die Selektion und zum Hinzufügen von dateien/Bilder [Mediapool]
+
+REX_MEDIA_LINK[1] ... REX_MEDIA_LINK[10]
+Erstellt Auswahlbuttons für die Selektion von Links
+
