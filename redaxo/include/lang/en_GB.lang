@@ -222,6 +222,7 @@ specials_update = Update
 article_type_updated = Article type updated.
 article_type_deleted = Article type deleted!
 article_type_could_not_be_deleted = Article type with ID=1 must not be deleted.
+article_type_still_used = Article type could not be deleted, its still used by the following articles:
 article_type_added = Article type added!
 article_type_list_id = ID
 article_type_list_name = Articel Type
@@ -323,4 +324,3 @@ pool_file_ins = Insert
 pool_file_deleted = File has been deleted
 pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
-
