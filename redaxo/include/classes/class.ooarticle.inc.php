@@ -365,8 +365,12 @@ class OOArticle {
 	  return $REX['WWW_PATH']."{$url}{$param_string}";
 	}
 
-	function isStartArticle() {
+	/*
+	 * returns true if this Article is the Startpage for the category.
+	 */
+	function isStartPage() {
 		return $this->_startpage == 1;
 	}
+	
 }
 ?>
