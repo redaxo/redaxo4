@@ -252,7 +252,7 @@ EOD;
 	}
 	
 	function getLink($index) {
-		return $this->_link['index'];
+		return $this->_link[$index];
 	}
 	
 	function getLinkUrl($index) {
@@ -260,7 +260,7 @@ EOD;
 	}
 
 	function getFile($index) {
-		return $this->_file['index'];
+		return $this->_file[$index];
 	}
 	
 	function getFileUrl($index) {
