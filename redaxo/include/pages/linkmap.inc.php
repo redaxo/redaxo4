@@ -401,7 +401,7 @@ function initArray()
 	    print "Note(".$parent.",0,'".$cat->getName()."','')\n";
 
 	    foreach($cat->getArticles(false) as $art){
-	         print "Note(".$art->getId().",".$parent.",'".$art->getName()."','".$art->getUrl('',false)."')\n";
+	         print "Note(".$art->getId().",".$parent.",'".$art->getName()."','redaxo://".$art->getId()."')\n";
 	    }
 
 	    foreach ($cat->getChildren(true) as $sub1){
@@ -410,7 +410,7 @@ function initArray()
 	        print "Note(".$parent1.",".$parent.",'".$sub1->getName()."','')\n";
 
 	        foreach($sub1->getArticles(false) as $art){
-	            print "Note(".$art->getId().",".$parent1.",'".$art->getName()."','".$art->getUrl('',false)."')\n";
+	            print "Note(".$art->getId().",".$parent1.",'".$art->getName()."','redaxo://".$art->getId()."')\n";
 	        }
 
 	        foreach ($sub1->getChildren(true) as $sub2){
@@ -419,7 +419,7 @@ function initArray()
 	            print "Note(".$parent2.",".$parent1.",'".$sub2->getName()."','')\n";
 
 	            foreach($sub2->getArticles(false) as $art){
-	                print "Note(".$art->getId().",".$parent2.",'".$art->getName()."','".$art->getUrl('',false)."')\n";
+	                print "Note(".$art->getId().",".$parent2.",'".$art->getName()."','redaxo://".$art->getId()."')\n";
 	            }
 
 	        }
