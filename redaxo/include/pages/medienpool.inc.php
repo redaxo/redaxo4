@@ -406,15 +406,19 @@ if($media_method=='delete_file')
 
 		// check if file is in an article slice
 		$file_search = '';
-		for($c=1;$c<=10;$c++){
+		for($c=1;$c<11;$c++){
 			$file_search.= "OR file$c='$file_name' ";
 			$file_search.= "OR value$c LIKE '%$file_name%' ";
 		}
 		$file_search = substr($file_search,2);
 		$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
-		$res = $db->get_array($sql);
+		// $db->setQuery($sql);
+		$res1 = $db->get_array($sql);
 
-		if(!is_array($res)){
+		$sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
+		$res2= $db->get_array($sql);
+
+		if(!is_array($res1) and !is_array($res2)){
 
 			$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
 			$db->query($sql);
@@ -425,7 +429,10 @@ if($media_method=='delete_file')
 
 			$msg = $I18N->msg('pool_file_delete_error_1');
 			$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
-			foreach($res as $var){
+			foreach($res1 as $var){
+				$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+			}
+			foreach($res2 as $var){
 				$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
 			}
 			$msg .= " | ";
