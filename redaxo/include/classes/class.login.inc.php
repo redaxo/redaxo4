@@ -101,7 +101,6 @@ class login{
 	
 	function checkLogin()
 	{
-		global $REX_SESSION;
 		
 		// wenn logout dann header schreiben und auf error seite verweisen
 		// message schreiben
@@ -110,10 +109,6 @@ class login{
 		
 		if (!$this->logout)
 		{
-			
-			// echo "|||| ".(($REX_SESSION[ST][$this->system_id]+$this->session_duration)-time())." ||||<br>";				
-			
-			$REX_SESSION = current($_SESSION);
 			
 			if ($this->usr_login != "")
 			{
@@ -133,20 +128,21 @@ class login{
 				if ($this->USER->getRows() == 1)
 				{
 					$ok = true;
-					$REX_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
+					$_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
 				}else
 				{
 					$this->message = $this->text[30];
-					$REX_SESSION[UID][$this->system_id] = "";
+					$_SESSION[UID][$this->system_id] = "";
 					// session_unregister("REX_SESSION");
 				}
-			}elseif($REX_SESSION[UID][$this->system_id]!="")
+								
+			}elseif($_SESSION[UID][$this->system_id]!="")
 			{
 				// wenn kein login und kein logout dann nach sessiontime checken
 				// message schreiben und falls falsch auf error verweisen
-				
+								
 				$this->USER = new sql($this->DB);
-				$query = str_replace("USR_UID",$REX_SESSION[UID][$this->system_id],$this->user_query);
+				$query = str_replace("USR_UID",$_SESSION[UID][$this->system_id],$this->user_query);
 				
 				// $this->USER->debugsql = 1;
 				
@@ -156,10 +152,10 @@ class login{
 					
 					// echo $REX_SESSION[ST][$this->system_id]." + ".$this->session_duration." > ".time();
 					
-					if (($REX_SESSION[ST][$this->system_id]+$this->session_duration)>time())
+					if (($_SESSION[ST][$this->system_id]+$this->session_duration)>time())
 					{
 						$ok = true;
-						$REX_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
+						$_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
 					}else
 					{
 						$this->message = $this->text[10];	
@@ -176,21 +172,25 @@ class login{
 		}else
 		{
 			$this->message = $this->text[50];
-			$REX_SESSION[UID][$this->system_id] = "";
+			$_SESSION[UID][$this->system_id] = "";
 			// session_unregister("REX_SESSION");
 		}
 		
 		if ($ok)
 		{
 			// wenn alles ok dann REX[UID][system_id) schreiben
-			$REX_SESSION[ST][$this->system_id] = time();
-			session_register("REX_SESSION");
+			$_SESSION[ST][$this->system_id] = time();
+			
+			//session_register("REX_SESSION");
+
+			// $_SESSION['REX_SESSION'] = $REX_SESSION;
+
 		}else
 		{
 			// wenn nicht, dann UID loeschen und error seite
 			
-			$REX_SESSION[ST][$this->system_id] = "";
-			$REX_SESSION[UID][$this->system_id] = "";
+			$_SESSION[ST][$this->system_id] = "";
+			$_SESSION[UID][$this->system_id] = "";
 			
 			// header("Location: $this->error_page"."&FORM[loginmessage]=".urlencode($this->message));
 			// echo $this->message;
