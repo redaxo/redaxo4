@@ -80,6 +80,7 @@ class OOArticle {
 		return null;
 	}
 
+	
 	/*
 	 * CLASS Function:
 	 * Return a list of articles which names match the
@@ -234,6 +235,33 @@ class OOArticle {
 	function getArticlesOfCategoryByDate($a_category_id, $day_from, $month_from, $year_from, $day_to, $month_to, $year_to) {
 		// TO BE DONE, 26.05.04
 		return null;
+	}
+
+	/*
+	 * CLASS function
+	 * Returns a list of articles of any category that have been
+	 * newly created.
+	 * $number_of_articles = how far to go back in history
+	 */ 
+	function getNewArticles($number_of_articles, $ignore_offlines = false) {
+		$off = $ignore_offlines ? " where status = 1 " : "" ;
+		$artlist = array();
+		$sql = new sql;
+		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article $off order by erstelldatum");
+		for ($i = 0; $i < $sql->getRows() && $i < $number_of_articles; $i++) {
+			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
+								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("file"),$sql->getValue("category_id"),
+								$sql->getValue("type_id"),$sql->getValue("startpage"),
+								$sql->getValue("prior"),$sql->getValue("path"),
+								$sql->getValue("status"),$sql->getValue("online_von"),
+								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
+								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
+								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
+			$sql->next();
+		}
+		return $artlist;
 	}
 
 	/*
