@@ -440,99 +440,105 @@ if($category_id > -1)
 
 		$pos++;
 
-		if ($function == "edit" and $sql->getValue("id") == $article_id and $STRUCTURE_PERM){
+		// hideArticle[id] Check
+		if(!$REX_USER->isValueOf("rights","hideArticle[".$sql->getValue("id")."]") ){
 
-			$TMPL_SEL->set_selected($sql->getValue("template_id"));
+	        if ($function == "edit" and $sql->getValue("id") == $article_id and $STRUCTURE_PERM){
 
-			echo "	<tr>
-				<form action=index.php method=post>
-				<input type=hidden name=page value=structure>
-				<input type=hidden name=category_id value=$category_id>
-				<input type=hidden name=article_id value=".$sql->getValue("id").">
-				<input type=hidden name=function value='edit_article'>
-				<input type=hidden name=aid value=".$sql->getValue("id").">
-				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id><img src=pics/$icon width=16 height=16 border=0></a></td>
-				<td class=grey><input type=text name=article_name value=\"".htmlentities($sql->getValue("name"))."\" size=20 style='width:100%'></td>
-				<td class=grey>&nbsp;<input type=text name=Position_Article value=\"$pos\" style='width:30px'></td>
-				<td class=grey>".$TMPL_SEL->out()."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
-				<td class=grey><b>$startpage</b></td>
-				<td class=grey colspan=3><input type=submit value='".$I18N->msg("edit")."'></td>
-				</form>
-				</tr>";
+	            $TMPL_SEL->set_selected($sql->getValue("template_id"));
 
-		}elseif($STRUCTURE_PERM)
-		{
-			echo "	<tr>
-				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
-				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a>";
+	            echo "  <tr>
+	                <form action=index.php method=post>
+	                <input type=hidden name=page value=structure>
+	                <input type=hidden name=category_id value=$category_id>
+	                <input type=hidden name=article_id value=".$sql->getValue("id").">
+	                <input type=hidden name=function value='edit_article'>
+	                <input type=hidden name=aid value=".$sql->getValue("id").">
+	                <td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id><img src=pics/$icon width=16 height=16 border=0></a></td>
+	                <td class=grey><input type=text name=article_name value=\"".htmlentities($sql->getValue("name"))."\" size=20 style='width:100%'></td>
+	                <td class=grey>&nbsp;<input type=text name=Position_Article value=\"$pos\" style='width:30px'></td>
+	                <td class=grey>".$TMPL_SEL->out()."</td>
+	                <td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
+	                <td class=grey><b>$startpage</b></td>
+	                <td class=grey colspan=3><input type=submit value='".$I18N->msg("edit")."'></td>
+	                </form>
+	                </tr>";
 
-			if ($REX_USER->isValueOf("rights","expertMode[]")) echo "[".$sql->getValue("id")."]";
+	        }elseif($STRUCTURE_PERM)
+	        {
+	            echo "  <tr>
+	                <td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
+	                <td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a>";
 
-			echo "</td>";
+	            if ($REX_USER->isValueOf("rights","expertMode[]")) echo "[".$sql->getValue("id")."]";
 
-			if ($REX_USER->isValueOf("rights","editPrio[]")){
-				echo "<td class=grey align=center width=75 valign=middle><form method=post action=index.php?page=structure&category_id=".$category_id."&aid=".$sql->getValue("id")." style=display:inline><input type=field name=Position_Article style=width:30px;height:16px value=$pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down align=absmiddle></a></td>";
-			} else {
-				echo "<td class=grey align=center width=10 valign=middle>$pos</td>\n";
-			}
+	            echo "</td>";
 
-			echo "
-				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
-				<td class=grey><b>$startpage</b></td>
-				<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=edit&category_id=$category_id>".$I18N->msg("change")."</a></td>";
+	            if ($REX_USER->isValueOf("rights","editPrio[]")){
+	                echo "<td class=grey align=center width=75 valign=middle><form method=post action=index.php?page=structure&category_id=".$category_id."&aid=".$sql->getValue("id")." style=display:inline><input type=field name=Position_Article style=width:30px;height:16px value=$pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down align=absmiddle></a></td>";
+	            } else {
+	                echo "<td class=grey align=center width=10 valign=middle>$pos</td>\n";
+	            }
 
-			if ($sql->getValue("startpage") == 1){
-				echo "	<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
-					<td class=grey><strike>online</strike></td>";
-			}else{
-				if ($sql->getValue("status") == 0){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; }
+	            echo "
+	                <td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
+	                <td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
+	                <td class=grey><b>$startpage</b></td>
+	                <td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=edit&category_id=$category_id>".$I18N->msg("change")."</a></td>";
 
-				echo "	<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id>".$I18N->msg("delete")."</a></td>
-					<td class=grey>$article_status</td>";
-			}
-			echo "</tr>";
+	            if ($sql->getValue("startpage") == 1){
+	                echo "  <td class=grey><strike>".$I18N->msg("delete")."</strike></td>
+	                    <td class=grey><strike>online</strike></td>";
+	            }else{
+	                if ($sql->getValue("status") == 0){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; }
 
-		}elseif($REX_USER->isValueOf("rights","article[".$sql->getValue("id")."]") || $REX_USER->isValueOf("rights","article[all]"))
-		{
-			echo "	<tr>
-				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
-				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a></td>
-				<td class=grey>$pos</td>
-				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
-				<td class=grey><b>$startpage</b></td>
-				<td class=grey><strike>".$I18N->msg("edit")."</strike></td>";
+	                echo "  <td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id>".$I18N->msg("delete")."</a></td>
+	                    <td class=grey>$article_status</td>";
+	            }
+	            echo "</tr>";
 
-			if ($sql->getValue("startpage") == 1){
-				echo "	<td class=grey><strike>delete</strike></td>
-					<td class=grey><strike>".$I18N->msg("status_online")."</strike></td>";
-			}else{
-				echo "	<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
-					<td class=grey><strike>";
-				if ($sql->getValue("status") == 0) echo "<font color=#dd0000>offline</font>";
-				else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
-				echo "	</strike></td>";
-			}
-			echo "</tr>";
-		}else
-		{
-			echo "	<tr>
-				<td class=grey align=center><img src=pics/$icon width=16 height=16 border=0 align=middle></td>
-				<td class=grey>".$sql->getValue("name")."</td>
-				<td class=grey>$pos</td>
-				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
-				<td class=grey><b>$startpage</b></td>
-				<td class=grey><strike>".$I18N->msg("change")."</strike></td>
-				<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
-				<td class=grey><strike>";
-			if ($sql->getValue("status") == 0) echo "<font color=#dd0000>".$I18N->msg("status_offline")."</font>";
-			else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
-			echo "	</strike></td>";
-			echo "</tr>";
-		}
+	        }elseif($REX_USER->isValueOf("rights","article[".$sql->getValue("id")."]") || $REX_USER->isValueOf("rights","article[all]"))
+	        {
+	            echo "  <tr>
+	                <td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
+	                <td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a></td>
+	                <td class=grey>$pos</td>
+	                <td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
+	                <td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
+	                <td class=grey><b>$startpage</b></td>
+	                <td class=grey><strike>".$I18N->msg("edit")."</strike></td>";
+
+	            if ($sql->getValue("startpage") == 1){
+	                echo "  <td class=grey><strike>delete</strike></td>
+	                    <td class=grey><strike>".$I18N->msg("status_online")."</strike></td>";
+	            }else{
+	                echo "  <td class=grey><strike>".$I18N->msg("delete")."</strike></td>
+	                    <td class=grey><strike>";
+	                if ($sql->getValue("status") == 0) echo "<font color=#dd0000>offline</font>";
+	                else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
+	                echo "  </strike></td>";
+	            }
+	            echo "</tr>";
+	        }else
+	        {
+	            echo "  <tr>
+	                <td class=grey align=center><img src=pics/$icon width=16 height=16 border=0 align=middle></td>
+	                <td class=grey>".$sql->getValue("name")."</td>
+	                <td class=grey>$pos</td>
+	                <td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
+	                <td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
+	                <td class=grey><b>$startpage</b></td>
+	                <td class=grey><strike>".$I18N->msg("change")."</strike></td>
+	                <td class=grey><strike>".$I18N->msg("delete")."</strike></td>
+	                <td class=grey><strike>";
+	            if ($sql->getValue("status") == 0) echo "<font color=#dd0000>".$I18N->msg("status_offline")."</font>";
+	            else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
+	            echo "  </strike></td>";
+	            echo "</tr>";
+	        }
+	        
+	    }
+
 		$sql->counter++;
 	}
 }
