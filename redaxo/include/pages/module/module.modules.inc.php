@@ -57,12 +57,12 @@ if ($function == "add" or $function == "edit")
 
 		if ($function == "add")
 		{
-			if ($REX[BARRIEREFREI]) $modultyp->query("insert into rex_modultyp (category_id,name,eingabe,ausgabe,bausgabe) VALUES ('$category_id','$name','$eingabe','$ausgabe','$bausgabe')");
-			else $modultyp->query("insert into rex_modultyp (category_id,name,eingabe,ausgabe) VALUES ('$category_id','$name','$eingabe','$ausgabe')");
+			if ($REX[BCONTENT]) $modultyp->query("insert into rex_modultyp (category_id,name,eingabe,ausgabe,bausgabe) VALUES ('$category_id','$mname','$eingabe','$ausgabe','$bausgabe')");
+			else $modultyp->query("insert into rex_modultyp (category_id,name,eingabe,ausgabe) VALUES ('$category_id','$mname','$eingabe','$ausgabe')");
 			$message = "<p class=warning>".$I18N->msg("module_added")."</p>";
 		}else{
-			if ($REX[BARRIEREFREI]) $modultyp->query("update rex_modultyp set name='$name',eingabe='$eingabe',ausgabe='$ausgabe',bausgabe='$bausgabe',php_enable='$php_enable',html_enable='$html_enable' where id='$modul_id'");
-			else $modultyp->query("update rex_modultyp set name='$name',eingabe='$eingabe',ausgabe='$ausgabe',php_enable='$php_enable',html_enable='$html_enable' where id='$modul_id'");
+			if ($REX[BCONTENT]) $modultyp->query("update rex_modultyp set name='$mname',eingabe='$eingabe',ausgabe='$ausgabe',bausgabe='$bausgabe',php_enable='$php_enable',html_enable='$html_enable' where id='$modul_id'");
+			else $modultyp->query("update rex_modultyp set name='$mname',eingabe='$eingabe',ausgabe='$ausgabe',php_enable='$php_enable',html_enable='$html_enable' where id='$modul_id'");
 			$message = "<p class=warning>".$I18N->msg("module_updated")." | ".$I18N->msg("articel_updated")."</font></p>";
 			
 			// article updaten
@@ -98,10 +98,10 @@ if ($function == "add" or $function == "edit")
 			$hole = new sql;
 			$hole->setQuery("select * from rex_modultyp where id='$modul_id'");
 			$category_id	= $hole->getValue("category_id");
-			$name		= $hole->getValue("name");
+			$mname		= $hole->getValue("name");
 			$include	= $hole->getValue("include");
 			$ausgabe	= $hole->getValue("ausgabe");
-			if ($REX[BARRIEREFREI]) $bausgabe = $hole->getValue("bausgabe");
+			if ($REX[BCONTENT]) $bausgabe = $hole->getValue("bausgabe");
 			$eingabe	= $hole->getValue("eingabe");
 			$html_on	= $hole->getValue("html_enable");
 			$php_on		= $hole->getValue("php_enable");
@@ -129,7 +129,7 @@ if ($function == "add" or $function == "edit")
 			<input type=hidden name=modul_id value=$modul_id>
 			<tr>
 				<td width=100 class=grey>".$I18N->msg("module_name")."</td>
-				<td class=grey colspan=2><input type=text size=10 name=name value=\"".htmlentities($name)."\" style='width:100%;'></td>
+				<td class=grey colspan=2><input type=text size=10 name=mname value=\"".htmlentities($mname)."\" style='width:100%;'></td>
 			</tr>
 			<tr>
 				<td valign=top class=grey>".$I18N->msg("input")."</td>
@@ -140,7 +140,7 @@ if ($function == "add" or $function == "edit")
 				<td class=grey colspan=2><textarea cols=20 rows=70 name=ausgabe style='width:100%; height: 150;'>".htmlentities($ausgabe)."</textarea></td>
 			</tr>";
 		
-		if ($REX[BARRIEREFREI])
+		if ($REX[BCONTENT])
 		{
 			echo "	<tr>
 				<td valign=top class=grey>".$I18N->msg("output")." <br>[".$I18N->msg("accessible")."]</td>
@@ -205,7 +205,6 @@ if ($function == "add" or $function == "edit")
 				$gaa_sel->set_size(1);
 				$gaa_sel->set_style("' class='inp100");
 				
-				
 				for ($i=0;$i<$gaa->getRows();$i++)
 				{
 					$gaa_sel->add_option($gaa->getValue("name")." [".$PREPOST[$gaa->getValue("prepost")]."|".$ASTATUS[$gaa->getValue("status")]."]",$gaa->getValue("id"));
@@ -226,7 +225,6 @@ if ($function == "add" or $function == "edit")
 				
 				echo "</form>";
 
-			
 			}
 
 		}
@@ -256,14 +254,13 @@ if ($OUT)
 		echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=5 class=warning>$message</td></tr>";
 	}
 	
-	
 	$sql = new sql;
 	$sql->setQuery("select * from rex_modultyp order by name");
 	
 	for($i=0;$i<$sql->getRows();$i++){
 	
 		echo "	<tr bgcolor=#eeeeee>
-				<td class=grey align=center><img src=pics/modul.gif width=16 height=16></td>
+				<td class=grey align=center><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
 				<td class=grey><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
 		
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";

@@ -1,5 +1,5 @@
 <?
-	
+
 $OUT = TRUE;
 
 if ($function == "delete")
@@ -34,10 +34,10 @@ if ($function == "add" or $function == "edit")
 
 		if ($function == "add")
 		{
-			$faction->query("insert into rex_action (name,action,prepost,status) VALUES ('$name','$actioninput','$prepost','$status')");
+			$faction->query("insert into rex_action (name,action,prepost,status) VALUES ('$mname','$actioninput','$prepost','$status')");
 			$message = "<p class=warning>".$I18N->msg("action_added")."</p>";
 		}else{
-			$faction->query("update rex_action set name='$name',action='$actioninput',prepost='$prepost',status='$status' where id='$action_id'");
+			$faction->query("update rex_action set name='$mname',action='$actioninput',prepost='$prepost',status='$status' where id='$action_id'");
 			$message = "<p class=warning>".$I18N->msg("action_updated")."</p>";
 		}
 		
@@ -61,7 +61,7 @@ if ($function == "add" or $function == "edit")
 
 			$hole = new sql;
 			$hole->setQuery("select * from rex_action where id='$action_id'");
-			$name		= $hole->getValue("name");
+			$mname		= $hole->getValue("name");
 			$actioninput	= $hole->getValue("action");
 			$prepost	= $hole->getValue("prepost");
 			$status		= $hole->getValue("status");
@@ -101,7 +101,7 @@ if ($function == "add" or $function == "edit")
 			<input type=hidden name=action_id value=$action_id>
 			<tr>
 				<td width=100 class=grey>".$I18N->msg("action_name")."</td>
-				<td class=grey colspan=2><input type=text size=10 name=name value=\"".htmlentities($name)."\" style='width:100%;'></td>
+				<td class=grey colspan=2><input type=text size=10 name=mname value=\"".htmlentities($mname)."\" style='width:100%;'></td>
 			</tr>
 			<tr>
 				<td valign=top class=grey>".$I18N->msg("input")."</td>
@@ -136,7 +136,7 @@ if ($function == "add" or $function == "edit")
 
 if ($OUT)
 {
-	// ausgabe modulliste !
+	// ausgabe actionsliste !
 	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
 			<th width=30><a href=index.php?page=module&subpage=actions&function=add><img src=pics/modul_plus.gif width=16 height=16 border=0></a></th>
@@ -150,15 +150,14 @@ if ($OUT)
 		echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=4 class=warning>$message</td></tr>";
 	}
 	
-	
 	$sql = new sql;
 	$sql->setQuery("select * from rex_action order by name");
 	
 	for($i=0;$i<$sql->getRows();$i++){
 	
 		echo "	<tr bgcolor=#eeeeee>
-				<td class=grey align=center><img src=pics/modul.gif width=16 height=16></td>
-				<td class=grey><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."&nbsp;</a>";
+				<td class=grey align=center><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
+				<td class=grey><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
 		echo " [".$PREPOST[$sql->getValue("prepost")]."|".$ASTATUS[$sql->getValue("status")]."]";
 		echo "</td>

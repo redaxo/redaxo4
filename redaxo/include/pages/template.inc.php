@@ -35,10 +35,10 @@ if ($function == "add" or $function == "edit"){
 		{
 			$ITPL = new sql;
 			$ITPL->setTable("rex_template");
-			$ITPL->setValue("name",$name);
+			$ITPL->setValue("name",$templatename);
 			$ITPL->setValue("active",$active);
 			$ITPL->setValue("content",$content);
-			if ($REX[BARRIEREFREI]) $ITPL->setValue("bcontent",$bcontent);
+			if ($REX[BCONTENT]) $ITPL->setValue("bcontent",$bcontent);
 			$ITPL->insert();
 			$template_id = $ITPL->last_insert_id;
 			$message = $I18N->msg("template_added");
@@ -46,10 +46,10 @@ if ($function == "add" or $function == "edit"){
 			$TMPL = new sql;
 			$TMPL->setTable("rex_template");
 			$TMPL->where("id='$template_id'");
-			$TMPL->setValue("name",$name);
+			$TMPL->setValue("name",$templatename);
 			$TMPL->setValue("content",$content);
 			$TMPL->setValue("active",$active);
-			if ($REX[BARRIEREFREI]) $TMPL->setValue("bcontent",$bcontent);
+			if ($REX[BCONTENT]) $TMPL->setValue("bcontent",$bcontent);
 			$TMPL->update();
 			$message = $I18N->msg("template_added");
 		}	
@@ -61,7 +61,7 @@ if ($function == "add" or $function == "edit"){
 		fputs($fp,$gt->getValue("content"));
 		fclose($fp);
 
-		if ($REX[BARRIEREFREI])
+		if ($REX[BCONTENT])
 		{
 			$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".btemplate", "w");
 			fputs($fp,$gt->getValue("bcontent"));
@@ -87,11 +87,11 @@ if ($function == "add" or $function == "edit"){
 
 			$hole = new sql;
 			$hole->setQuery("select * from rex_template where id='$template_id'");
-			$name		= $hole->getValue("name");
+			$templatename	= $hole->getValue("name");
 			$content	= $hole->getValue("content");
 			$active	= $hole->getValue("active");
 			
-			if ($REX[BARRIEREFREI]) $bcontent = $hole->getValue("bcontent");
+			if ($REX[BCONTENT]) $bcontent = $hole->getValue("bcontent");
 
 		}else{
 			echo "	<tr><th align=left colspan=3>".$I18N->msg("edit_template")."</th></tr>";
@@ -104,7 +104,7 @@ if ($function == "add" or $function == "edit"){
 			<input type=hidden name=template_id value=$template_id>
 			<tr>
 				<td width=100 class=grey>".$I18N->msg("template_name")."</td>
-				<td class=grey colspan=2><input type=text size=10 name=name value=\"".htmlentities($name)."\" style='width:100%;'></td>
+				<td class=grey colspan=2><input type=text size=10 name=templatename value=\"".htmlentities($templatename)."\" style='width:100%;'></td>
 			</tr>";
 		
 		echo "
@@ -128,7 +128,7 @@ if ($function == "add" or $function == "edit"){
 				<td class=grey colspan=2><textarea name=content cols=40 rows=5 style='width: 100%;height: 400px;'>".htmlspecialchars($content)."</textarea></td>
 			</tr>";
 		
-		if ($REX[BARRIEREFREI])
+		if ($REX[BCONTENT])
 		{
 			echo "<tr>
 				<td valign=top class=grey>".$I18N->msg("header_template")."<br>[".$I18N->msg("accessible")."]</td>
@@ -168,7 +168,7 @@ if ($OUT)
 	for($i=0;$i<$sql->getRows();$i++)
 	{
 		echo "	<tr>
-				<td class=grey align=center><img src=pics/template.gif width=16 height=16></td>
+				<td class=grey align=center><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit><img src=pics/template.gif width=16 height=16 border=0></a></td>
 				<td class=grey><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
 		
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";

@@ -42,6 +42,7 @@ if ($FUPD != "")
 	if ($usendmail != "") $usendmail = 1;
 	else $usendmail = 0;
 	// $updateuser->setValue("sendmail",$usendmail);
+	echo $usendmail;
 	$updateuser->update();
 	$user_id = 0;
 	$function = "";	
@@ -108,7 +109,7 @@ if ($FUPD != "")
 		$adduser->setValue("showinfo",$ushowinfo);
 		if ($usendmail != "") $usendmail = 1;
 		else $usendmail = 0;
-		// $adduser->setValue("sendmail",$usendmail);
+		$adduser->setValue("sendmail",$usendmail);
 		
 		$adduser->insert();
 		$user_id = 0;
