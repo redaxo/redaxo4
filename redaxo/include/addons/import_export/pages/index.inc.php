@@ -1,5 +1,8 @@
 <?php
 
+// for security reason
+if($REX[TABLE_PREFIX]=="") $REX[TABLE_PREFIX] = "rex_"; 
+
 // ------------------------------ FUNC
 $msg = "";
 
