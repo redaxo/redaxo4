@@ -8,10 +8,21 @@ if ($edit_id != "")
 	if ($thisCat->getRows()!=1)
 	{
 		unset($edit_id);
-	}	
+	}
 }else
 {
 	unset($edit_id);
+}
+
+// vscope order up/down script
+if($order!=''){
+	$sql = new sql;
+	if($order=='up'){
+		$sql->order_up($order_id,'rex_article','prior','category_id',$category_id);
+	}
+	if($order=='down'){
+		$sql->order_down($order_id,'rex_article','prior','category_id',$category_id);
+	}
 }
 
 $STRUCTURE_PERM = FALSE;
@@ -29,7 +40,7 @@ title($I18N->msg("title_structure"),$KATout);
 
 if ($function == "edit_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$edit_id]")) && $edit_id != "")
 {
-	$message = $I18N->msg("category_updated"); 
+	$message = $I18N->msg("category_updated");
 	$KAT->query("update rex_category set name='$kat_name',prior='$kat_prior' where id='$edit_id'");
 	generateCategory($edit_id);
 }
@@ -39,7 +50,7 @@ if ($function == "delete_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("
 	$KAT->setQuery("select * from rex_category where re_category_id='$edit_id'");
 	if($KAT->getRows()==0)
 	{
-		
+
 		$KAT->setQuery("select * from rex_article where category_id='$edit_id' and startpage=0");
 		if($KAT->getRows()==0)
 		{
@@ -49,12 +60,12 @@ if ($function == "delete_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("
 		{
 			$message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_articles");
 			$function = "edit";
-		}	
+		}
 	}else
 	{
 		$message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_subcategories");
 		$function = "edit";
-		
+
 	}
 }
 
@@ -66,9 +77,9 @@ if ($function == "status" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","
 		if ($KAT->getValue("status")==1) $KAT->query("update rex_category set status='0' where id='$edit_id'");
 		if ($KAT->getValue("status")==0) $KAT->query("update rex_category set status='1' where id='$edit_id'");
 		$message = $I18N->msg("category_status_updated");
-		
+
 		generateCategory($edit_id);
-		
+
 	}else
 	{
 		$message = $I18N->msg("no_such_category");
@@ -76,7 +87,7 @@ if ($function == "status" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","
 }
 
 if ($function == "add_category" && $STRUCTURE_PERM)
-{ 
+{
 	$message = $I18N->msg("category_added_and_startarticle_created");
 
 	$AKAT = new sql;
@@ -87,7 +98,7 @@ if ($function == "add_category" && $STRUCTURE_PERM)
 	$AKAT->setValue("path",$KATSQLpath);
 	$AKAT->setValue("status",0);
 	$AKAT->insert();
-	
+
 	$AART = new sql;
 	$AART->setTable("rex_article");
 	$AART->setValue("name","$category_name");
@@ -99,7 +110,7 @@ if ($function == "add_category" && $STRUCTURE_PERM)
 	$AART->setValue("online_von",date("YmdHis"));
 	$AART->setValue("online_bis","20100101");
 	$AART->setValue("erstelldatum",date("Ymd"));
-	
+
 	if ($category_id!="")
 	{
 		$sql = new sql;
@@ -110,11 +121,11 @@ if ($function == "add_category" && $STRUCTURE_PERM)
 	{
 		$AART->setValue("template_id",0);
 	}
-	
+
 	$AART->insert();
-	
+
 	generateCategory($AKAT->last_insert_id);
-	
+
 	generateArticle($AART->last_insert_id);
 }
 
@@ -138,7 +149,7 @@ if ($function == "online_article" && ($STRUCTURE_PERM))
 if ($function == "edit_article" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","article[$article_id]")))
 {
 	$amessage = $I18N->msg("article_updated");
-	$KAT->query("update rex_article set name='$article_name',prior='$article_prior',template_id='$template_id' where id='$article_id'");
+	$KAT->query("update rex_article set name='$article_name',template_id='$template_id' where id='$article_id'");
 	generateArticle($article_id);
 }
 
@@ -148,9 +159,11 @@ if ($function == "delete_article" && ($STRUCTURE_PERM))
 }
 
 if ($function == "add_article" and $STRUCTURE_PERM)
-{ 
+{
 	$amessage = $I18N->msg("article_added");
 	$AART = new sql;
+	// vscope prior script
+	$article_prior = $AART->new_order('rex_article','prior','category_id',$category_id);
 	$AART->setTable("rex_article");
 	$AART->setValue("name",$article_name);
 	$AART->setValue("category_id",$category_id);
@@ -175,7 +188,7 @@ if ($function == "add_article" and $STRUCTURE_PERM)
 // --------------------------------------------- category list
 
 if ($KATebene < $KatMaxEbenen && ($REX_USER->isValueOf("rights","structure[all]") || $STRUCTURE_PERM)) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat><img src=pics/folder_plus.gif width=16 height=16 border=0></a>";
-else $addc = "&nbsp;"; 
+else $addc = "&nbsp;";
 
 echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
 	<tr>
@@ -185,7 +198,7 @@ echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
 		<th width=300 align=left>".$I18N->msg("header_edit_category")."</th>
 		<th align=left width=153>".$I18N->msg("header_status")."</th>
 	</tr>";
-	
+
 if ($message != "") echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=4 class=warning><b>$message</b></td></tr>";
 if ($category_id != 0) echo "<tr><td class=grey>&nbsp;</td><td class=grey colspan=4><a href=index.php?page=structure&category_id=$re_category_id>..</a></td></tr>";
 
@@ -208,19 +221,19 @@ if ($function == "add_cat")
 $KAT->setQuery("select * from rex_category where re_category_id='$category_id' order by prior");
 for($i=0;$i<$KAT->getRows();$i++)
 {
-	
+
 	$i_category_id = $KAT->getValue("id");
 
 	if ($KAT->getValue("status") == 0)
-	{ 
+	{
 		$status_color="#aa0000";
 		$kat_status = $I18N->msg("status_offline");
 	}else
-	{ 
+	{
 		$status_color="#00aa00";
 		$kat_status = $I18N->msg("status_online");
 	}
-	
+
 	if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$i_category_id]"))
 	{
 		$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status><u><font color=$status_color>$kat_status</font></u></a>";
@@ -228,7 +241,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 	{
 		$kat_status = "<font color=$status_color>$kat_status</font>";
 	}
-	
+
 	if ($edit_id==$i_category_id and $function == "edit")
 	{
 		$echo .= "
@@ -242,10 +255,10 @@ for($i=0;$i<$KAT->getRows();$i++)
 			</tr>";
 	}else
 	{
-	
+
 		if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$i_category_id]")) $edit_txt = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit>".$I18N->msg("category_edit_delete")."&nbsp;</a>";
 		else $edit_txt = $I18N->msg("no_permission_to_edit");
-	
+
 		$echo .= "
 			<tr>
 				<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
@@ -276,7 +289,7 @@ if($category_id > -1)
 	$TMPL_SEL->set_size(1);
 	$TMPL_SEL->set_style("width:150");
 	$TMPL_SEL->add_option($I18N->msg("option_no_template"),"0");
-	
+
 	for ($i=0;$i<$TEMPLATES->getRows();$i++)
 	{
 		if ($TEMPLATES->getValue("active")==1)
@@ -286,16 +299,16 @@ if($category_id > -1)
 		$TEMPLATE_NAME[$TEMPLATES->getValue("id")] = $TEMPLATES->getValue("name");
 		$TEMPLATES->nextValue();
 	}
-	
+
 	$TEMPLATE_NAME[0] = $I18N->msg("template_default_name");
-	
+
 	echo "	<br><table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
 			<th width=30>";
-	
+
 	if ($STRUCTURE_PERM) echo "<a href=index.php?page=structure&category_id=$category_id&function=add_art><img src=pics/document_plus.gif width=16 height=16 border=0></a>";
 	else echo "&nbsp;";
-	
+
 	echo "</td>
 			<th align=left>".$I18N->msg("header_article_name")."</th>
 			<th align=left width=50>".$I18N->msg("header_priority")."</th>
@@ -304,28 +317,28 @@ if($category_id > -1)
 			<th align=left>&nbsp;</th>
 			<th align=left colspan=3>".$I18N->msg("header_status")."</th>
 		</tr>";
-	
+
 	if ($amessage != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=8 class=warning><b>$amessage</b></td></tr>"; }
-	
+
 	if ($function=="add_art")
 	{
-		
+
 		// ---------------- ARTIKEL ERSTELLEN FORM / DEFAULT TEMPLATE
-		
+
 		if ($template_id=="")
 		{
 			$sql = new sql;
 			$sql->setQuery("select template_id from rex_article where category_id=$category_id and startpage=1");
 			if ($sql->getRows()==1) $TMPL_SEL->set_selected($sql->getValue("template_id"));
 		}
-		
+
 		echo "	<tr>
 			<form action=index.php method=post>
 			<input type=hidden name=page value=structure>
 			<input type=hidden name=category_id value=$category_id>
 			<td class=grey align=center><img src=pics/document.gif width=16 height=16 border=0></td>
 			<td class=grey><input type=hidden name=function value='add_article'><input type=text name=article_name size=20></td>
-			<td class=grey><input type=text name=article_prior size=2></td>
+			<td class=grey></td>
 			<td class=grey>".$TMPL_SEL->out()."</td>
 			<td class=grey>".date_from_mydate(date("YmdHis"),"")."&nbsp;</td>
 			<td class=grey><b>Artikel</b></td>
@@ -333,14 +346,14 @@ if($category_id > -1)
 			</form>
 			</tr>";
 	}
-	
+
 	$sql = new sql;
 	$sql->setQuery("select * from rex_article where category_id='$category_id' order by prior,name");
-	
+
 	for($i=0;$i<$sql->getRows();$i++){
-	
+
 		if ($sql->getValue("startpage") == 1)
-		{ 
+		{
 			$startpage = "Startartikel";
 			$icon = "liste.gif";
 		}else
@@ -348,13 +361,13 @@ if($category_id > -1)
 			$startpage = "Artikel";
 			$icon = "document.gif";
 		}
-		
-		
-		
+
+
+
 		if ($function == "edit" and $sql->getValue("id") == $article_id and $STRUCTURE_PERM){
-	
+
 			$TMPL_SEL->set_selected($sql->getValue("template_id"));
-	
+
 			echo "	<tr>
 				<form action=index.php method=post>
 				<input type=hidden name=page value=structure>
@@ -370,33 +383,36 @@ if($category_id > -1)
 				<td class=grey colspan=3><input type=submit value='".$I18N->msg("edit")."'></td>
 				</form>
 				</tr>";
-		
+
 		}elseif($STRUCTURE_PERM)
 		{
 			echo "	<tr>
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
 				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a>";
-			
+
 			if ($REX_USER->isValueOf("rights","expertMode[]")) echo "[".$sql->getValue("id")."]";
-			
+
 			echo "</td>
-				<td class=grey>".$sql->getValue("prior")."&nbsp;</td>
+				<td class=grey>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up>up</a>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down>down</a>
+				</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
 				<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=edit&category_id=$category_id>".$I18N->msg("change")."</a></td>";
-				
+
 			if ($sql->getValue("startpage") == 1){
 				echo "	<td class=grey><strike>löschen</strike></td>
 					<td class=grey><strike>online</strike></td>";
 			}else{
 				if ($sql->getValue("status") == 0){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; }
-	
+
 				echo "	<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id>".$I18N->msg("delete")."</a></td>
 					<td class=grey>$article_status</td>";
 			}
 			echo "</tr>";
-		
+
 		}elseif($REX_USER->isValueOf("rights","article[".$sql->getValue("id")."]") || $REX_USER->isValueOf("rights","article[all]"))
 		{
 			echo "	<tr>
@@ -407,7 +423,7 @@ if($category_id > -1)
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
 				<td class=grey><strike>ändern</strike></td>";
-				
+
 			if ($sql->getValue("startpage") == 1){
 				echo "	<td class=grey><strike>delete</strike></td>
 					<td class=grey><strike>".$I18N->msg("status_online")."</strike></td>";
@@ -432,7 +448,7 @@ if($category_id > -1)
 				<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
 				<td class=grey><strike>";
 			if ($sql->getValue("status") == 0) echo "<font color=#dd0000>".$I18N->msg("status_offline")."</font>";
-			else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";		
+			else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
 			echo "	</strike></td>";
 			echo "</tr>";
 		}
