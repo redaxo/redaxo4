@@ -460,8 +460,9 @@ class article
                         <input type=hidden name=slice_id value=$RE_CONTS>
                         <input type=hidden name=function value=edit>
                         <input type=hidden name=save value=1>
+                        <input type=hidden name=update value=0>
                         $RE_MODUL_IN
-                        <br><br><input type=submit value='".$I18N->msg('update_block')."'></form>";
+                        <br><br><input type=submit value='".$I18N->msg('save_block')."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value='".$I18N->msg('update_block')."' onClick='REX_FORM.update.value=1'></form>";
                 $slice_content = $this->sliceIn($slice_content);
                 return $slice_content;
         }

@@ -37,7 +37,8 @@ add_block  =  Block hinzuf&uuml;gen
 dont_delete_block  =  Block nicht l&ouml;schen
 delete_block  =  Block sicher l&ouml;schen
 submit  =  abschicken
-update_block = Block aktualisieren
+update_block = Block übernehmen
+save_block = Block speichern
 
 # redaxo/include/classes/class.form.inc.php
 submit_data  =  Daten absenden

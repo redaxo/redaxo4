@@ -38,6 +38,7 @@ dont_delete_block  =  Don't delete block
 delete_block  =  Delete Block
 submit  =  submit
 update_block = Update Block
+save_block = Save Block
 
 # redaxo/include/classes/class.form.inc.php
 submit_data  =  Submit data
