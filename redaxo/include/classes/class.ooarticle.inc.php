@@ -112,9 +112,6 @@ class OOArticle {
 	/*
 	 * CLASS Function:
 	 * Return a list of articles which have a certain type.
-	 * For now the search string can be either
-	 * a simple name or a string containing SQL search placeholders
-	 * that you would insert into a 'LIKE '%...%' statement.
 	 *
 	 * Returns an array of OOArticle objects.
 	 */
@@ -163,7 +160,7 @@ class OOArticle {
 	 
 	/*
 	 * CLASS Function:
-	 * Return the site wide start article
+	 * Return start article for a certain category
 	 */
 	function getCategoryStartArticle($a_category_id) {
 		$sql = new sql;
@@ -259,6 +256,23 @@ class OOArticle {
 	
 	/*
 	 * Accessor Method:
+	 * returns the name transformed for
+	 * use with mod_rewrite in an url.
+	 */
+	function getModRewriteName() {
+		$url = str_replace(" ","_",$this->_name); 
+		$url = str_replace("ä","ae",$url); 
+		$url = str_replace("ö","oe",$url); 
+		$url = str_replace("ü","ue",$url); 
+		$url = str_replace("Ä","Ae",$url); 
+		$url = str_replace("Ö","Oe",$url); 
+		$url = str_replace("Ü","Ue",$url); 
+		$url = urlencode($url); 
+		return $url;
+	}
+
+	/*
+	 * Accessor Method:
 	 * returns true if article is online.
 	 */
 	function isOnline() {
@@ -284,10 +298,34 @@ class OOArticle {
 	
 	/*
 	 * Object Helper Function:
-	 * Returns a url for linking to this category
+	 * Returns a url for linking to this article
+	 * This url respects the setting for mod_rewrite
+	 * support!
+	 *
+	 * If you pass an associative array for $params,
+	 * then these parameters will be attached to the URL.
+	 * e.g.: 
+	 *   $param = array("order" => "123", "name" => "horst");
+	 *   $article->getUrl($param);
+	 * will return:
+	 *   index.php?article_id=1&order=123&name=horst
+	 * or if mod_rewrite support is activated:
+	 *   /1-The_Article_Name?order=123&name=horst
 	 */
-	function getUrl() {
-		return $REX[WWW_PATH]."index.php?article_id=".$this->_id;
+	function getUrl($params = null) {
+		global $REX;
+		$param_string = "";
+		if ($params && sizeof($params) > 0) {
+			$param_string = $REX['MOD_REWRITE'] ? "?" : "&";
+			foreach ($params as $key => $val) {
+				$param_string .= "{$key}={$val}&";
+			}
+		}
+		$param_string = substr($param_string,0,strlen($param_string)-1); // cut off the last '&'
+		$mr_name = $this->getModRewriteName();
+		$url = $REX['MOD_REWRITE'] ? "/{$this->_id}-{$mr_name}" 
+		                           : "index.php?article_id={$this->_id}";
+	  return $REX['WWW_PATH']."{$url}{$param_string}";
 	}
 
 }
