@@ -55,7 +55,7 @@ if ($func == "copyCategory")
 	}
 	// generateCategories();
 
-	$MSG = "Artikel und Templates wurden neu generiert ! [Alte Artikel und Templates wurden gelöscht]";
+	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
 	
 }elseif($func == "linkchecker")
 {
@@ -85,8 +85,8 @@ if ($func == "copyCategory")
 		next($LART);
 	}
 	
-	if (count($LART)==0) $MSG = "Alle Links sind ok !";
-	else $MSG = "<b>Folgende Links sind nicht ok:</b> ". $MSG. " |";
+	if (count($LART)==0) $MSG = $I18N->msg("links_ok");
+	else $MSG = "<b>".$I18N->msg("links_not_ok")."</b> ". $MSG. " |";
 	
 }elseif($func == 'updateinfos')
 {
@@ -133,23 +133,23 @@ if ($func == "copyCategory")
 	$DB[2][PSW] = $neu_db2_psw;
 	$DB[2][NAME] = $neu_db2_name;	
 	
-	$MSG = "Informationen wurden aktualisiert !";
+	$MSG = $I18N->msg("info_updated");
 
 }
 
-title("Spezielle Features","");
+title($I18N->msg("specials_title"),"");
 
 echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 	<tr>
-		<th align=left colspan=2>Features</th>
+		<th align=left colspan=2>".$I18N->msg("special_features")."</th>
 	</tr>";
 
 if ($MSG != "") echo "<tr><td class=warning colspan=2><b>$MSG</b></td></tr>";
 	
 echo "<tr><td class=grey width=50% valign=top><br>";
 
-echo "<b><a href=index.php?page=specials&func=generate>Regeneriere Artikel</a></b><br>Kategorien, Artikel und Templates werden neu generiert. Kann länger dauerrn. Bitte den Vorgang nicht abbrechen<br><br>";
-echo "<b><a href=index.php?page=specials&func=linkchecker>Linkchecker</a></b><br>Wenn sie überprüfen wollen ob alle Links [REX_LINK] funktionieren, dann klicken Sie bitte hier.<br>";
+echo "<b><a href=index.php?page=specials&func=generate>".$I18N->msg("regenerate_article")."</a></b><br>".$I18N->msg("regeneration_message")."<br><br>";
+echo "<b><a href=index.php?page=specials&func=linkchecker>".$I18N->msg("link_checker")."</a></b><br>".$I18N->msg("check_links_text")."<br>";
 
 echo "<br></td><td class=grey valign=top><br>";
 		
@@ -157,26 +157,26 @@ echo "<table width=100% cellpadding=0 cellspacing=1 border=0>";
 echo "<form action=index.php method=post>";
 echo "<input type=hidden name=page value=specials>";
 echo "<input type=hidden name=func value=updateinfos>";
-echo "<tr><td colspan=3><b>Allgemeine Informationen:</b></td></tr>";
+echo "<tr><td colspan=3><b>".$I18N->msg("general_info_header")."</b></td></tr>";
 echo "<tr><td width=170>\$REX[version]:</td><td width=10><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[version]."\"</td></tr>";
 echo "<tr><td>\$REX[SERVER]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_SERVER value=\"".$REX[SERVER]."\" class=inp100></td></tr>";
 echo "<tr><td>\$REX[SERVERNAME]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_SERVERNAME value=\"".$REX[SERVERNAME]."\" class=inp100></td></tr>";
 
-echo "<tr><td colspan=3><br><b>Datenbank[1] kann nur über das Setup geändert werden.</b></td></tr>";
+echo "<tr><td colspan=3><br><b>".$I18N->msg("db1_can_only_be_changed_by_setup")."</b></td></tr>";
 
 echo "<tr><td>\$DB[1][HOST]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$DB[1][HOST]."\"</td></tr>";
 echo "<tr><td>\$DB[1][LOGIN]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$DB[1][LOGIN]."\"</td></tr>";
 echo "<tr><td>\$DB[1][PSW]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>-</td></tr>";
 echo "<tr><td>\$DB[1][NAME]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$DB[1][NAME]."\"</td></tr>";
 
-echo "<tr><td colspan=3><br><b>Datenbank[2] - Nur nötig bei SQL Klasse mit 2 Datenbanken.</b></td></tr>";
+echo "<tr><td colspan=3><br><b>".$I18N->msg("db2_text")."</b></td></tr>";
 
 echo "<tr><td>\$DB[2][HOST]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_host value=\"".$DB[2][HOST]."\" class=inp100></td></tr>";
 echo "<tr><td>\$DB[2][LOGIN]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_login value=\"".$DB[2][LOGIN]."\" class=inp100></td></tr>";
 echo "<tr><td>\$DB[2][PSW]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_psw value=\"".$DB[2][PSW]."\" class=inp100></td></tr>";
 echo "<tr><td>\$DB[2][NAME]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_name value=\"".$DB[2][NAME]."\" class=inp100></td></tr>";
 
-echo "<tr><td colspan=3><br><b>Sonstiges</b></td></tr>";
+echo "<tr><td colspan=3><br><b>".$I18N->msg("specials_others")."</b></td></tr>";
 
 echo "<tr><td>\$REX[WWW_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[WWW_PATH]."\"</td></tr>";
 echo "<tr><td>\$REX[INCLUDE_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[INCLUDE_PATH]."\"</td></tr>";
@@ -194,7 +194,7 @@ foreach ($REX[LOCALES] as $l) {
 	echo "<option value='$l' $selected>$l</option>";
 }
 echo "</select></td></tr>";
-echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=submit name=sendit value=Ändern></td></tr>";
+echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=submit name=sendit value=".$I18N->msg("specials_update")."></td></tr>";
 echo "</form>";
 echo "</table>";
 	
@@ -214,7 +214,7 @@ if ($function == "update")
 	$update->update();
 	$type_id = 0;
 	$function = "";	
-	$message = "Artikeltyp wurden aktualisiert !";
+	$message = $I18N->msg("article_type_updated");
 }elseif($function == "delete")
 {
 	if ($type_id!=1)
@@ -222,10 +222,10 @@ if ($function == "update")
 		$delete = new sql;
 		$delete->query("delete from rex_article_type where type_id='$type_id'");
 		$delete->query("update rex_article set type_id='1' where type_id='$type_id'");
-		$message = "Artikeltyp gelöscht !";
+		$message = $I18N->msg("article_type_deleted");
 	}else
 	{
-		$message = "Artikeltyp konnte nicht gelöscht werden, da ID=1 immer vorhanden sein muss !";
+		$message = $I18N->msg("article_type_could_not_be_deleted");
 	}
 }elseif($function == "add" && $save == 1)
 {
@@ -237,7 +237,7 @@ if ($function == "update")
 	$add->insert();
 	$type_id = 0;
 	$function = "";	
-	$message = "Artikeltyp wurde hinzugef?gt !";
+	$message = $I18N->msg("article_type_added");
 }
 
 
@@ -245,9 +245,9 @@ if ($function == "update")
 echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
 	<tr>
 		<th width=30><a href=index.php?page=specials&function=add>+</a></th>
-		<th align=left width=30>ID</th>
-		<th align=left width=250>Artikeltyp</th>
-		<th align=left colspan=2>Beschreibung</th>
+		<th align=left width=30>".$I18N->msg("article_type_list_id")."</th>
+		<th align=left width=250>".$I18N->msg("article_type_list_name")."</th>
+		<th align=left colspan=2>".$I18N->msg("article_type_list_description")."</th>
 	</tr>
 	";
 
@@ -288,7 +288,7 @@ for($i=0;$i<$sql->getRows();$i++)
 			<td class=dgrey valign=middle>".htmlentities($sql->getValue("type_id"))."</td>
 			<td class=dgrey valign=top><input style='width:100%' type=text size=20 name=name value=\"".htmlentities($sql->getValue("name"))."\"></td>
 			<td class=dgrey><input style='width:100%' type=text size=20 name=description value=\"".htmlentities($sql->getValue("description"))."\"></td>
-			<td class=dgrey valign=top><input type=submit name=function value=update><input type=submit name=function value=delete></td>
+			<td class=dgrey valign=top><input type=submit name=function value=".$I18N->msg("update_button")."><input type=submit name=function value=".$I18N->msg("delete_button")."></td>
 			</form>
 			</tr>";		
 	}else

@@ -200,4 +200,31 @@ create_user = Create new user
 add_user = Add user
 edit_user = Edit user
 
+# redaxo\include\pages\special.inc.php
+articles_generated = Articles and templates regenerated! 
+old_articles_deleted = [old articles and templates have been deleted]
+links_ok = All links are ok.
+links_not_ok = The following links are broken:
+info_updated = Data updated!
+specials_title = Special Features
+special_features = Features
+regenerate_article = Regenerate article
+regeneration_message = Click here to regenerate all categories, articles and templates. This process can take a while, please don't interrupt it.
+check_links_text = Click here to check if all links [REX_LINK] are pointing to the right location.
+link_checker = Check links
+general_info_header = General Information:
+db1_can_only_be_changed_by_setup = Database[1] can only be changed by the setup script.
+db2_text = Database[2] - Only needed for scripts that access a second database.
+specials_others = Miscellany
+specials_update = Update
+article_type_updated = Article type updated.
+article_type_deleted = Article type deleted!
+article_type_could_not_be_deleted = Article type with ID=1 must not be deleted.
+article_type_added = Article type added!
+article_type_list_id = ID
+article_type_list_name = Articel Type
+article_type_list_description = Description
+
+update_button = Update
+delete_button = Delete
 

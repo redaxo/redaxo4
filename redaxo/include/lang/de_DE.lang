@@ -32,7 +32,7 @@ no_article_available  =  Kein Artikel vorhanden
 module_doesnt_exist =  Dieses Modul existiert nicht !
 add_block  =  Block hinzuf&uuml;gen
 dont_delete_block  =  Block nicht l&ouml;schen
-delete_block  =  Block sicher löschen
+delete_block  =  Block sicher l&ouml;schen
 submit  =  abschicken
 update_block = Block aktualisieren
 
@@ -47,20 +47,20 @@ clipboard  =  Clipboard
 
 # redaxo/include/functions/function_rex_generate.inc.php
 article_moved = Artikel wurde verschoben!
-article_deleted = Artikel wurde gelöscht!
+article_deleted = Artikel wurde gel&ouml;scht!
 could_not_move_article = Artikel konnte nicht verschoben werden.
 article_could_not_be_generated  =  Artikel konnte nicht erstellt werden.
-check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
-category_deleted  =  Kategorie wurde gelöscht
+check_rights_in_directory  =  Bitte &uuml;berpr&uuml;fen Sie die Rechte im Ordner
+category_deleted  =  Kategorie wurde gel&ouml;scht
 category_doesnt_exist  =  Kategorie existiert nicht !
 cant_delete_startarticle = Der Startartikel darf nicht gel&ouml;scht werden.
 
 # redaxo\include\pages\community.inc.php
 overview  =  &Uuml;bersicht
 user_management = Userverwaltung
-user_management_info = Hier können die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
+user_management_info = Hier k&ouml;nnen die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
 board_management = Boardverwaltung
-board_management_info = Forumeintr&auml;ge können hier gel&ouml;scht werden
+board_management_info = Forumeintr&auml;ge k&ouml;nnen hier gel&ouml;scht werden
 article_management = Artikelkommentarverwaltung
 article_management_info = Jeder Artikel kann mit Kommentaren von Usern versehen werden. Diese sind erstmal nicht zu sehen k&ouml;nnen aber freigeschaltet werden. Alte Kommentare k&ouml;nnen auch gel&ouml;scht werden.
 newsletter = Newsletter
@@ -70,24 +70,24 @@ evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Info
 			
 # redaxo\include\pages\content.inc.php
 block_updated = Block wurde aktualisiert !
-block added = Block wurde hinzugefügt
-no_rights_to_this_function = Sie haben keine Rechte für diese Funktion !
+block added = Block wurde hinzugef&uuml;gt
+no_rights_to_this_function = Sie haben keine Rechte f&uuml;r diese Funktion !
 module_not_found = FEHLER ! Modul wurde nicht gefunden !
-block_deleted = Block wurde gelöscht !
-block_not_deleted = Block wurde nicht gelöscht
-no_rights_to_this_module = Sie haben keine Rechte für dieses Modul !
+block_deleted = Block wurde gel&ouml;scht !
+block_not_deleted = Block wurde nicht gel&ouml;scht
+no_rights_to_this_module = Sie haben keine Rechte f&uuml;r dieses Modul !
 error = Ein Fehler ist aufgetreten !
 preview = Voransicht
 edit_mode = Editier Modus
 metadata = Metadaten/Sonstiges
 article_cannot_be_moved = Dieser Artikel kann nicht verschoben werden.
-start_article_has_to_stay_in_category = Startartikel müssen in Ihrer Kategorie bleiben !
+start_article_has_to_stay_in_category = Startartikel m&uuml;ssen in Ihrer Kategorie bleiben !
 article_copied = Artikel wurde kopiert!
 file = Datei {0} konnte nicht gefunden werden.
 
 # redaxo/include/pages/import.inc.php
 no_import_file_chosen_or_wrong_version = Sie haben keine Importdatei ausgew&auml;hlt, oder die Version stimmt nicht &uuml;berein
-no_valid_import_file = Sie haben keine gültige Importdatei ausgewählt
+no_valid_import_file = Sie haben keine g&uuml;ltige Importdatei ausgew&auml;hlt
 database_imported = Die Datei wurde erfolgreich in die Datenbank importiert
 entry_count = ({0} Eintr&auml;ge)
 go_to_special_features = Bitte gehen Sie auf Spezielle Features und Regenerieren Sie die Artikel
@@ -98,7 +98,7 @@ imported_file_not_valid = Die zu Importierende Datei scheint keine g&uuml;ltige 
 problem_when_extracting = Es ist ein Problem beim Extrahieren aufgetreten.
 create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und setzen Sie die Schreibrechte auf diese Ordner(&uuml;ber ftp).
 file_imported = Die Datei wurde erfolgreich importiert.
-check_install_php = Bitte überprüfen Sie mit der 'install.php' Ihre Konfiguration.
+check_install_php = Bitte &uuml;berpr&uuml;fen Sie mit der 'install.php' Ihre Konfiguration.
 db_import_export = Datenbank Importieren/Exportieren
 db_import = Datenbank importieren:
 db_export = Datenbank exportieren:
@@ -119,8 +119,8 @@ input = Eingabe
 output = Ausgabe
 module_name = Name
 accessible = Barrierefrei
-allowed_for_php = Zugelassen für PHP-Programmierer | Userrecht: module[php]
-allowed_for_html = Zugelassen für HTML-Programmierer | Userrecht: module[html]
+allowed_for_php = Zugelassen f&uuml;r PHP-Programmierer | Userrecht: module[php]
+allowed_for_html = Zugelassen f&uuml;r HTML-Programmierer | Userrecht: module[html]
 save_module_and_quit = Modul speichern
 save_module_and_continue = Modul &uuml;bernehmen
 module_description = Modulbezeichnung
@@ -147,7 +147,7 @@ category_still_contains_articles = Die Kategory enth&auml;lt noch Artikel.
 category_still_contains_subcategories = Die Kategorie enth&auml;lt noch Unterkategorien.
 category_status_updated = Kategoriestatus wurde aktualisiert!
 category_added_and_startarticle_created = Kategory hinzugef&uuml;gt und Startartikel erstellt !
-category_edit_delete = Kategorie editieren/löschen
+category_edit_delete = Kategorie editieren/l&ouml;schen
 article_status_updated = Artikelstatus wurde aktualisiert.
 article_updated = Artikel wurde aktualisiert.
 article_added = Artikel wurde hinzugef&uuml;gt.
@@ -168,8 +168,8 @@ change = &auml;ndern
 
 # redaxo\include\pages\template.inc.php
 title_templates = Templates
-cant_delete_default_template = Das ist das 'default' Template und kann nicht gelöscht werden !
-cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von verschiendenen Artikeln genutzt wird.
+cant_delete_default_template = Das ist das 'default' Template und kann nicht gel&ouml;scht werden !
+cant_delete_template_because_its_in_use = Template '{0}' kann nicht gel&ouml;scht werden, da es noch von verschiendenen Artikeln genutzt wird.
 template_deleted = Template wurde gel&ouml;scht.
 template_added = Template wurde hinzugef&uuml;gt
 template_updated = Template wurde aktualisiert
@@ -200,6 +200,33 @@ create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzuf&uuml;gen
 edit_user = Benutzer bearbeiten
 
+# redaxo\include\pages\special.inc.php
+articles_generated = Artikel und Templates wurden neu generiert! 
+old_articles_deleted = [Alte Artikel und Templates wurden gel&ouml;scht]
+links_ok = Alle Links sind ok.
+links_not_ok = Folgende Links sind nicht ok:
+info_updated = Informationen wurden aktualisiert!
+specials_title = Spezielle Features
+special_features = Features
+regenerate_article = Regeneriere Artikel
+regeneration_message = Kategorien, Artikel und Templates werden neu generiert. Kann l&auml;nger dauerrn. Bitte den Vorgang nicht abbrechen.
+check_links_text = Wenn sie &uuml;berpr&uuml;fen wollen ob alle Links [REX_LINK] funktionieren, dann klicken Sie bitte hier.
+link_checker = Linkchecker
+general_info_header = Allgemeine Informationen:
+db1_can_only_be_changed_by_setup = Datenbank[1] kann nur &uuml;ber das Setup ge&auml;ndert werden.
+db2_text = Datenbank[2] - Nur n&ouml;tig bei SQL Klasse mit 2 Datenbanken.
+specials_others = Sonstiges
+specials_update = &Auml;ndern
+article_type_updated = Artikeltyp wurden aktualisiert!
+article_type_deleted = Artikeltyp gel&ouml;scht!
+article_type_could_not_be_deleted = Artikeltyp konnte nicht gel&ouml;scht werden, da ID=1 immer vorhanden sein muss!
+article_type_added = Artikeltyp wurde hinzugef&uuml;gt!
+article_type_list_id = ID
+article_type_list_name = Artikeltyp
+article_type_list_description = Beschreibung
+
+update_button = &Auml;ndern
+delete_button = L&ouml;schen
 
 
 
