@@ -120,8 +120,7 @@ class article
                         if ($this->article_id != 0)
                         {
                                 $this->contents = "";
-                                if ($REX[BC]) $filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".bcontent";
-                                else $filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".content";
+								$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".content";
 
                                 if ($fd = @fopen ($filename, "r"))
                                 {
@@ -137,7 +136,6 @@ class article
                         {
                                 // ---------- select alle slices eines artikels
                                 $this->CONT = new sql;
-                                // $this->CONT->debugsql = 1;
                                 $this->CONT->setQuery("select rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.bausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
                                                         from
                                                                 rex_article_slice
@@ -152,8 +150,7 @@ class article
                                 for ($i=0;$i<$this->CONT->getRows();$i++)
                                 {
                                         $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.id");
-                                        if ($REX[BC]) $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.bausgabe");
-                                        else $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.ausgabe");
+                                        $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.ausgabe");
                                         $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.eingabe");
                                         $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.name");
                                         $RE_MODUL_PHP[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.php_enable");
@@ -359,8 +356,7 @@ class article
 
                 }elseif ($this->getValue("template_id") != 0 and $this->article_id != 0)
                 {
-                        if ($REX[BC]) $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".btemplate";
-                        else $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".template";
+                        $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".template";
 
                         if ($fd = @fopen ($template_name, "r"))
                         {

@@ -1,7 +1,326 @@
 <?
 
-// todos
-// generateArticleList($re_id);
+/*
+ * Object Helper Function:
+ * Returns a url for linking to this article
+ * This url respects the setting for mod_rewrite
+ * support!
+ *
+ * If you pass an associative array for $params,
+ * then these parameters will be attached to the URL.
+ * e.g.:
+ *   $param = array("order" => "123", "name" => "horst");
+ *   $article->getUrl($param);
+ * will return:
+ *   index.php?article_id=1&order=123&name=horst
+ * or if mod_rewrite support is activated:
+ *   /1-The_Article_Name?order=123&name=horst
+ */
+ 
+function getUrl($id,$params = null) {
+	global $REX;
+	$param_string = "";
+	if ($params && sizeof($params) > 0) {
+		$param_string = $REX['MOD_REWRITE'] ? "?" : "&amp;";
+		foreach ($params as $key => $val) {
+			$param_string .= "{$key}={$val}&amp;";
+		}
+	}
+	$param_string = substr($param_string,0,strlen($param_string)-5); // cut off the last '&'
+	$url = $REX['MOD_REWRITE'] ? "/$id-{$mr_name}"
+	                           : "index.php?article_id=$id";
+  return $REX['WWW_PATH']."{$url}{$param_string}";
+}
+
+// ---------------------------------------- GENERATE
+
+function generateArticle($id)
+{
+
+	global $PHP_SELF,$module_id,$FORM,$REX_USER,$REX,$I18N;
+
+	// --------------------------------------------------- generiere generated/articles/xx.article
+	$REX[RC] = true; // Generiere Content
+
+	$CONT = new article;
+	$CONT->setArticleId($id);
+
+	$article_content = "?>".$CONT->getArticle();
+
+	$article = "<?
+
+\$REX[ART][$id][name] = \"".addslashes($CONT->getValue("name"))."\";
+\$REX[ART][$id][description] = \"".addslashes($CONT->getValue("description"))."\";
+\$REX[ART][$id][keywords] = \"".addslashes($CONT->getValue("keywords"))."\";
+\$REX[ART][$id][re_id] = \"".addslashes($CONT->getValue("re_id"))."\";
+\$REX[ART][$id][article_id] = \"$id\";
+\$REX[ART][$id][type_id] = \"".addslashes($CONT->getValue("type_id"))."\";
+\$REX[ART][$id][file] = \"".addslashes($CONT->getValue("file"))."\";
+\$REX[ART][$id][startpage] = \"".addslashes($CONT->getValue("startpage"))."\";
+\$REX[ART][$id][prio] = \"".addslashes($CONT->getValue("prio"))."\";
+\$REX[ART][$id][path] = \"".addslashes($CONT->getValue("path"))."\";
+\$REX[ART][$id][online_from] = \"".addslashes($CONT->getValue("online_from"))."\";
+\$REX[ART][$id][online_to] = \"".addslashes($CONT->getValue("online_to"))."\";
+\$REX[ART][$id][createdate] = \"".addslashes($CONT->getValue("createdate"))."\";
+\$REX[ART][$id][last_update_stamp] = \"".time()."\";
+\$REX[ART][$id][template_id] = \"".addslashes($CONT->getValue("template_id"))."\";
+\$REX[ART][$id][status] = \"".addslashes($CONT->getValue("status"))."\";
+
+?>";
+
+	// Artikelparameter speichern
+
+	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".article", "w"))
+	{
+		fputs($fp,$article);
+		fclose($fp);
+	}else
+	{
+		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
+	}
+
+	// Artikelcontent speichern
+
+	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".content", "w"))
+	{
+		fputs($fp,$article_content);
+		fclose($fp);
+	}else
+	{
+		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
+	}
+
+	if ($MSG != "")
+	{
+		echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
+			<tr><td class=warning>$MSG</td></tr>
+			</table>";
+	}
+
+	$REX[RC] = false;
+
+	if ($CONT->getValue("startpage")==1) generateLists($id);
+	else generateLists($CONT->getValue("re_id"));
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+
+}
+
+// ---------------------------------------- DELETE ARTICLE
+
+function deleteArticle($id)
+{
+	global $REX, $I18N;
+
+	if ($id == $REX[STARTARTIKEL_ID]) {
+		return $I18N->msg("cant_delete_startarticle");
+	}
+
+	$ART = new sql;
+	$ART->setQuery("select * from rex_article where id='$id' and startpage=0");
+
+	if ($ART->getRows()==1)
+	{
+		$re_id = $ART->getValue("re_id");
+
+		$ART->query("delete from rex_article where id='$id' and startpage=0");
+		
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".article");
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".content");
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".alist");
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".clist");
+
+		$ART->query("delete from rex_article where id='$id'");
+		$ART->query("delete from rex_article_slice where article_id='$id'");
+		
+		generateArticleList($re_id);
+		
+		$Cache = new Cache();
+		$Cache->removeAllCacheFiles();
+
+		return $I18N->msg('category_deleted').$I18N->msg('article_deleted');
+		
+	}else
+	{
+		return $I18N->msg('category_doesnt_exist');
+	}
+
+}
+
+// ---------------------------------------- DELETE KATEHORIE
+
+function deleteCategory($id)
+{
+	global $REX, $I18N;
+
+	if ($id == $REX[STARTARTIKEL_ID]) {
+		return $I18N->msg("cant_delete_startarticle");
+	}
+
+	$ART = new sql;
+	$ART->setQuery("select * from rex_article where id='$id' and startpage=1");
+
+	if ($ART->getRows()==1)
+	{
+		$re_id = $ART->getValue("re_id");
+
+		$KAT = new sql;
+		$KAT->setQuery("select * from rex_article where re_id='$id' and startpage=0");
+		
+		for ($i=0;$i<$KAT->getRows();$i++)
+		{
+			$kid = $KAT->getValue("id");
+			deleteArticle($id);
+			$KAT->next();
+		}
+		$KAT->query("delete from rex_article where id='$id' and startpage=1");
+		
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".article");
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".content");
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".alist");
+		@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".clist");
+
+		$KAT->query("delete from rex_article where id='$id'");
+		$KAT->query("delete from rex_article_slice where article_id='$id'");
+		
+		generateArticleList($re_id);
+		
+		$Cache = new Cache();
+		$Cache->removeAllCacheFiles();
+
+		return $I18N->msg('category_deleted').$I18N->msg('article_deleted');
+		
+	}else
+	{
+		return $I18N->msg('category_doesnt_exist');
+	}
+
+}
+
+
+
+function generateLists($re_id)
+{
+	global $REX;
+	$GC = new sql;
+	
+	// --------------------------------------- ARTICLE LIST
+	$GC->debugsql = 1;
+	$GC->setQuery("select * from rex_article where re_id=$re_id and startpage=0 order by prior,name");
+	$content = "<?php\n";
+	for ($i=0;$i<$GC->getRows();$i++)
+	{
+		$id = $GC->getValue("id");
+		$content .= "\$REX[RE_ID][$re_id][] = \"".$GC->getValue("id")."\";\n";
+		$GC->next();
+	}
+	$content .= "\n?>";
+
+	$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/".$re_id.".alist", "w");
+	fputs($fp,$content);
+	fclose($fp);
+	
+	// --------------------------------------- CAT LIST
+	$GC->setQuery("select * from rex_article where re_id=$re_id and startpage=1 order by prior,name");
+	$content = "<?php\n";
+	for ($i=0;$i<$GC->getRows();$i++)
+	{
+		$id = $GC->getValue("id");
+		$content .= "\$REX[RE_CAT_ID][$re_id][] = \"".$GC->getValue("id")."\";\n";
+		$GC->next();
+	}
+	$content .= "\n?>";
+
+	$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/".$re_id.".clist", "w");
+	fputs($fp,$content);
+	fclose($fp);
+	
+}
+
+
+
+
+function deleteDir($file,$what = 1)
+{
+	if (file_exists($file))
+	{
+		// chmod($file,0775);
+		if (is_dir($file))
+		{
+			$handle = opendir($file);
+			while($filename = readdir($handle))
+			{
+				if ($filename != "." && $filename != "..")
+				{
+					deleteDir($file."/".$filename);
+				}
+			}
+			closedir($handle);
+			if ($what == 1) rmdir($file);
+			else echo ""; // do nothing;
+		}else
+		{
+			unlink($file);
+		}
+	}
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+}
+
+// deleteDir ($mydir);
+
+// generate templates,articles,cache,categories
+function generateAll()
+{
+
+	global $REX, $I18N;
+
+	// ----------------------------------------------------------- generiere templates
+	deleteDir($REX[INCLUDE_PATH]."/generated/templates",0);
+	// mkdir($REX[INCLUDE_PATH]."/generated/templates",0664);
+	$gt = new sql;
+	$gt->setQuery("select * from rex_template");
+	for ($i=0;$i<$gt->getRows();$i++)
+	{
+		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
+		fputs($fp,$gt->getValue("rex_template.content"));
+		fclose($fp);
+		$gt->next();
+	}
+
+	// ----------------------------------------------------------- generiere artikel
+	deleteDir($REX[INCLUDE_PATH]."/generated/articles",0);
+	// mkdir($REX[INCLUDE_PATH]."/generated/articles",0664);
+	$gc = new sql;
+	$gc->setQuery("select * from rex_article");
+	for ($i=0;$i<$gc->getRows();$i++)
+	{
+		generateArticle($gc->getValue("id"));
+		$gc->next();
+	}
+
+	// ----------------------------------------------------------- generiere categorien
+	deleteDir($REX[INCLUDE_PATH]."/generated/categories",0);
+	// mkdir($REX[INCLUDE_PATH]."/generated/categories",0664);
+	$gcc = new sql;
+	$gcc->setQuery("select * from rex_category");
+	for ($i=0;$i<$gcc->getRows();$i++)
+	{
+		generateCategory($gcc->getValue("id"));
+		$gcc->next();
+	}
+	// generateCategories();
+
+	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
+
+	return $MSG;
+}
+
+
 
 // ---------------------------------------- MOVE
 
@@ -43,6 +362,7 @@ function moveArticle($id,$to_cat_id,$from_cat_id)
 	return $return;
 
 }
+
 
 
 // ---------------------------------------- COPY
@@ -159,325 +479,17 @@ function copyArticle($id,$to_cat_id)
 
 }
 
-// ---------------------------------------- GENERATE
 
-function generateArticle($id)
-{
 
-	global $PHP_SELF,$module_id,$FORM,$REX_USER,$REX,$I18N;
 
-	// --------------------------------------------------- generiere generated/articles/xx.article
-	$REX[RC] = true; // Generiere Content
 
-	$CONT = new article;
-	$CONT->setArticleId($id);
 
-	$REX[TEMP] = $REX[BC];
-	$REX[BC] = false;
-	$article_content = "?>".$CONT->getArticle();
-	$REX[BC] = true;
-	$article_bcontent = "?>".$CONT->getArticle();
-	$REX[BC] = $REX[TEMP];
 
-	$article = "<?
 
-\$REX[ART][$id][name] = \"".addslashes($CONT->getValue("name"))."\";
-\$REX[ART][$id][beschreibung] = \"".addslashes($CONT->getValue("beschreibung"))."\";
-\$REX[ART][$id][suchbegriffe] = \"".addslashes($CONT->getValue("suchbegriffe"))."\";
-\$REX[ART][$id][category_id] = \"".addslashes($CONT->getValue("category_id"))."\";
-\$REX[ART][$id][article_id] = \"$id\";
-\$REX[ART][$id][type_id] = \"".addslashes($CONT->getValue("type_id"))."\";
-\$REX[ART][$id][file] = \"".addslashes($CONT->getValue("file"))."\";
-\$REX[ART][$id][startpage] = \"".addslashes($CONT->getValue("startpage"))."\";
-\$REX[ART][$id][prio] = \"".addslashes($CONT->getValue("prio"))."\";
-\$REX[ART][$id][path] = \"".addslashes($CONT->getValue("path"))."\";
-\$REX[ART][$id][online_von] = \"".addslashes($CONT->getValue("online_von"))."\";
-\$REX[ART][$id][online_bis] = \"".addslashes($CONT->getValue("online_bis"))."\";
-\$REX[ART][$id][erstelldatum] = \"".addslashes($CONT->getValue("erstelldatum"))."\";
-\$REX[ART][$id][last_update_stamp] = \"".time()."\";
-\$REX[ART][$id][template_id] = \"".addslashes($CONT->getValue("template_id"))."\";
-\$REX[ART][$id][status] = \"".addslashes($CONT->getValue("status"))."\";
 
-?>";
 
-	// Artikelparameter speichern
 
-	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".article", "w"))
-	{
-		fputs($fp,$article);
-		fclose($fp);
-	}else
-	{
-		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
-	}
 
-	// Artikelcontent speichern
-
-	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".content", "w"))
-	{
-		fputs($fp,$article_content);
-		fclose($fp);
-	}else
-	{
-		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
-	}
-
-	// Artikel B content speichern [BARRIEREFREI]
-
-	if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/".$id.".bcontent", "w"))
-	{
-		fputs($fp,$article_bcontent);
-		fclose($fp);
-	}else
-	{
-		$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
-	}
-
-	if ($MSG != "")
-	{
-		echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
-			<tr><td class=warning>$MSG</td></tr>
-			</table>";
-	}
-
-	$REX[RC] = false;
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-
-}
-
-// ---------------------------------------- DELETE ARTICLE
-
-function deleteArticle($id)
-{
-	global $REX, $I18N;
-
-	// changed 4.4.04 careck@circle42.com
-	// guard against deleting the start article
-	if ($id == $REX[STARTARTIKEL_ID]) {
-		return $I18N->msg("cant_delete_startarticle");
-	}
-
-	$ART = new sql;
-
-	$ART->query("delete from rex_article where id='$id'");
-	$ART->query("delete from rex_article_slice where article_id='$id'");
-	@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".article");
-	@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".content");
-	@unlink($REX[INCLUDE_PATH]."/generated/articles/".$id.".bcontent");
-
-	$message = $I18N->msg('article_deleted');
-
-	return $message;
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-}
-
-// ---------------------------------------- DELETE CATEGORY
-
-function deleteCategory($id)
-{
-	global $REX,$I18N;
-
-	$KAT = new sql;
-	$KAT->setQuery("select * from rex_category where id='$id'");
-
-	if ($KAT->getRows()==1)
-	{
-
-		$re_id = $KAT->getValue("re_category_id");
-
-		$KAT->setQuery("select * from rex_article where category_id='$id'");
-		for ($i=0;$i<$KAT->getRows();$i++)
-		{
-			deleteArticle($KAT->getValue("id"));
-			$KAT->next();
-		}
-
-		$KAT->query("delete from rex_article where category_id='$id'");
-		$KAT->query("delete from rex_category where id='$id'");
-
-		@unlink($REX[INCLUDE_PATH]."/generated/categories/".$id.".category");
-		@unlink($REX[INCLUDE_PATH]."/generated/categories/".$id.".list.category");
-
-		generateCategoryList($re_id);
-
-		$message = $I18N->msg('category_deleted');
-	}else
-	{
-		$message = $I18N->msg('category_doesnt_exist');
-	}
-
-	return $message;
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-
-}
-
-// ---------------------------------------- GENERATE CATEGORY
-
-function generateCategory($id)
-{
-	global $REX;
-
-	$GC = new sql;
-	$GC->setQuery("select
-		cat1.name,cat1.re_category_id,cat1.prior,cat1.path,cat1.status,rex_article.id
-		from rex_category as cat1
-		left join rex_category as cat2 on cat1.re_category_id=cat2.id
-		left join rex_article on cat1.id=rex_article.category_id
-		where
-		cat1.id='$id' and
-		cat1.id=rex_article.category_id and
-		startpage=1
-		LIMIT 1");
-
-	if ($GC->getRows()==1)
-	{
-		$content = "<?
-
-\$REX[CAT][$id][name] = \"".addslashes($GC->getValue("cat1.name"))."\";
-\$REX[CAT][$id][re_category_id] = \"".addslashes($GC->getValue("cat1.re_category_id"))."\";
-\$REX[CAT][$id][category_id] = \"$id\";
-\$REX[CAT][$id][prior] = \"".addslashes($GC->getValue("cat1.prior"))."\";
-\$REX[CAT][$id][path] = \"".addslashes($GC->getValue("cat1.path"))."\";
-\$REX[CAT][$id][status] = \"".addslashes($GC->getValue("cat1.status"))."\";
-\$REX[CAT][$id][article_id] = \"".addslashes($GC->getValue("rex_article.id"))."\";
-
-?>";
-
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/categories/".$id.".category", "w");
-		fputs($fp,$content);
-		fclose($fp);
-
-		// kategorienliste speichern
-
-		$re_id = $GC->getValue("cat1.re_category_id");
-
-		generateCategoryList($re_id);
-
-
-	}
-
-	// generateCategories();
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-}
-
-
-
-// ---------------------------------------- GENERATE CATEGORIES
-
-function generateCategories()
-{
-	global $REX;
-
-	$GC = new sql;
-	$GC->setQuery("select * from rex_category as cat1
-		left join rex_category as cat2 on cat1.re_category_id=cat2.id
-		left join rex_article on cat1.id=rex_article.category_id
-		where cat1.id=rex_article.category_id and startpage=1 order by cat1.re_category_id,cat1.prior
-		");
-
-	for ($i=0;$i<$GC->getRows();$i++)
-	{
-
-		$id = $GC->getValue("cat1.id");
-		$content .= "
-\$REX[CAT][$id][name] = \"".addslashes($GC->getValue("cat1.name"))."\";
-\$REX[CAT][$id][re_category_id] = \"".addslashes($GC->getValue("cat1.re_category_id"))."\";
-\$REX[CAT][$id][category_id] = \"$id\";
-\$REX[CAT][$id][prior] = \"".addslashes($GC->getValue("cat1.prior"))."\";
-\$REX[CAT][$id][path] = \"".addslashes($GC->getValue("cat1.path"))."\";
-\$REX[CAT][$id][status] = \"".addslashes($GC->getValue("cat1.status"))."\";
-\$REX[CAT][$id][article_id] = \"".addslashes($GC->getValue("rex_article.id"))."\";
-";
-		$GC->next();
-
-	}
-
-	$content = "<? $content ?>";
-
-	$fp = fopen ($REX[INCLUDE_PATH]."/generated/categories.php", "w");
-	fputs($fp,$content);
-	fclose($fp);
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-
-}
-
-// ---------------------------------------- GENERATEGLLINK
-
-function generateGLink($content)
-{
-	// REX_GLINK[] - global link ersetzen durch
-
-	return $content;
-}
-
-// ---------------------------------------- GENERATE CATEGORYLIST
-
-function generateCategoryList($re_id)
-{
-	global $REX;
-
-	$GC = new sql;
-	$GC->setQuery("select *
-			from rex_category as cat1
-			left join rex_article on cat1.id=rex_article.category_id
-			where
-			cat1.re_category_id='$re_id' and
-			cat1.id=rex_article.category_id and
-			rex_article.startpage=1
-			order by cat1.prior,cat1.name");
-
-	$content = "<?";
-
-	for ($i=0;$i<$GC->getRows();$i++)
-	{
-
-		$id = $GC->getValue("cat1.id");
-
-		$content .= "
-\$REX[RECAT][$re_id][] = \"".$GC->getValue("cat1.id")."\";
-
-\$REX[CAT][$id][name] = \"".addslashes($GC->getValue("cat1.name"))."\";
-\$REX[CAT][$id][re_category_id] = \"".addslashes($GC->getValue("cat1.re_category_id"))."\";
-\$REX[CAT][$id][category_id] = \"$id\";
-\$REX[CAT][$id][prior] = \"".addslashes($GC->getValue("cat1.prior"))."\";
-\$REX[CAT][$id][path] = \"".addslashes($GC->getValue("cat1.path"))."\";
-\$REX[CAT][$id][status] = \"".addslashes($GC->getValue("cat1.status"))."\";
-\$REX[CAT][$id][article_id] = \"".addslashes($GC->getValue("rex_article.id"))."\";
-
-";
-		$GC->next();
-	}
-	$content .= "?>";
-
-	$fp = fopen ($REX[INCLUDE_PATH]."/generated/categories/".$re_id.".list.category", "w");
-	fputs($fp,$content);
-	fclose($fp);
-}
-
-
-
-function generateArticleList($re_id)
-{
-	global $REX;
-
-
-
-}
 
 
 // ---------------------------------------------- KATEGORIE KOPIEREN
@@ -530,82 +542,4 @@ function copyCategory($which,$to_cat)
 
 }
 
-
-function deleteDir($file,$what = 1)
-{
-	if (file_exists($file))
-	{
-		// chmod($file,0775);
-		if (is_dir($file))
-		{
-			$handle = opendir($file);
-			while($filename = readdir($handle))
-			{
-				if ($filename != "." && $filename != "..")
-				{
-					deleteDir($file."/".$filename);
-				}
-			}
-			closedir($handle);
-			if ($what == 1) rmdir($file);
-			else echo ""; // do nothing;
-		}else
-		{
-			unlink($file);
-		}
-	}
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-}
-
-// deleteDir ($mydir);
-
-// generate templates,articles,cache,categories
-function generateAll()
-{
-
-	global $REX, $I18N;
-
-	// ----------------------------------------------------------- generiere templates
-	deleteDir($REX[INCLUDE_PATH]."/generated/templates",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/templates",0664);
-	$gt = new sql;
-	$gt->setQuery("select * from rex_template");
-	for ($i=0;$i<$gt->getRows();$i++)
-	{
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
-		fputs($fp,$gt->getValue("rex_template.content"));
-		fclose($fp);
-		$gt->next();
-	}
-
-	// ----------------------------------------------------------- generiere artikel
-	deleteDir($REX[INCLUDE_PATH]."/generated/articles",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/articles",0664);
-	$gc = new sql;
-	$gc->setQuery("select * from rex_article");
-	for ($i=0;$i<$gc->getRows();$i++)
-	{
-		generateArticle($gc->getValue("id"));
-		$gc->next();
-	}
-
-	// ----------------------------------------------------------- generiere categorien
-	deleteDir($REX[INCLUDE_PATH]."/generated/categories",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/categories",0664);
-	$gcc = new sql;
-	$gcc->setQuery("select * from rex_category");
-	for ($i=0;$i<$gcc->getRows();$i++)
-	{
-		generateCategory($gcc->getValue("id"));
-		$gcc->next();
-	}
-	// generateCategories();
-
-	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
-
-	return $MSG;
-}
 ?>

@@ -13,7 +13,7 @@ include_once $REX[INCLUDE_PATH]."/classes/class.oocategory.inc.php";
 class OOArticle {
   var $_id;
   var $_name;
-  var $_beschreibung;
+  var $_description;
   var $_attribute;
   var $_file;
   var $_category_id;
@@ -22,10 +22,10 @@ class OOArticle {
   var $_prior;
   var $_path;
   var $_status;
-  var $_online_von;
-  var $_online_bis;
-  var $_erstelldatum;
-  var $_suchbegriffe;
+  var $_online_from;
+  var $_online_to;
+  var $_createdate;
+  var $_keywords;
   var $_template_id;
   var $_checkbox01;
   var $_checkbox02;
@@ -35,10 +35,10 @@ class OOArticle {
 	/*
 	 * Constructor
 	 */
-	function OOArticle($id,$name,$beschreibung,$attribute,$file,$category_id,$type_id,$startpage,$prior,$path,$status,$online_von,$online_bis,$erstelldatum,$suchbegriffe,$template_id,$checkbox01,$checkbox02,$checkbox03,$checkbox04) {
+	function OOArticle($id,$name,$description,$attribute,$file,$category_id,$type_id,$startpage,$prior,$path,$status,$online_from,$online_to,$createdate,$keywords,$template_id,$checkbox01,$checkbox02,$checkbox03,$checkbox04) {
 		$this->_id = $id;
 		$this->_name = $name;
-		$this->_beschreibung = $beschreibung;
+		$this->_description = $description;
 		$this->_attribute = $attribute;
 		$this->_file = $file;
 		$this->_category_id = $category_id;
@@ -47,10 +47,10 @@ class OOArticle {
 		$this->_prior = $prior;
 		$this->_path = $path;
 		$this->_status = $status;
-		$this->_online_von = $online_von;
-		$this->_online_bis = $online_bis;
-		$this->_erstelldatum = $erstelldatum;
-		$this->_suchbegriffe = $suchbegriffe;
+		$this->_online_from = $online_from;
+		$this->_online_to = $online_to;
+		$this->_createdate = $createdate;
+		$this->_keywords = $keywords;
 		$this->_template_id = $template_id;
 		$this->_checkbox01 = $checkbox01;
 		$this->_checkbox02 = $checkbox02;
@@ -64,16 +64,16 @@ class OOArticle {
 	 */
 	function getArticleById($an_id) {
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where id = $an_id");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where id = $an_id");
 		if ($sql->getRows() == 1) {
 			return new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 		}
@@ -93,16 +93,16 @@ class OOArticle {
 	function searchArticlesByName($a_name) {
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where name like '$a_name'");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where name like '$a_name'");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 			$sql->next();
@@ -119,16 +119,16 @@ class OOArticle {
 	function getArticlesByType($a_type_id) {
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where type_id = $a_type_id");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where type_id = $a_type_id");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 			$sql->next();
@@ -143,16 +143,16 @@ class OOArticle {
 	 */
 	function getSiteStartArticle() {
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where id = {$REX[STARTARTIKEL_ID]}");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where id = {$REX[STARTARTIKEL_ID]}");
 		if ($sql->getRows() == 1) {
 			return new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 		}
@@ -165,16 +165,16 @@ class OOArticle {
 	 */
 	function getCategoryStartArticle($a_category_id) {
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where startpage = 1 and category_id = $a_category_id");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where startpage = 1 and category_id = $a_category_id");
 		if ($sql->getRows() == 1) {
 			return new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 		}
@@ -190,16 +190,16 @@ class OOArticle {
 		$nostart = $NoStartArticle ? " and startpage = 0 " : "";
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = $a_category_id $off $nostart order by prior");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = $a_category_id $off $nostart order by prior");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 			$sql->next();
@@ -215,16 +215,16 @@ class OOArticle {
 		$off = $ignore_offlines ? " and status = 1 " : "" ;
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = 0 $off order by prior");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = 0 $off order by prior");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 			$sql->next();
@@ -252,16 +252,16 @@ class OOArticle {
 		$limit = $number_of_articles ? " LIMIT 0, {$number_of_articles} " : "";
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where 1=1 $off $nostart $category order by erstelldatum desc $limit");
+		$sql->setQuery("select id,name,description,attribute,file,category_id,type_id,startpage,prior,path,status,online_from,online_to,createdate,keywords,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where 1=1 $off $nostart $category order by createdate desc $limit");
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
-								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
+								$sql->getValue("description"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
 								$sql->getValue("type_id"),$sql->getValue("startpage"),
 								$sql->getValue("prior"),$sql->getValue("path"),
-								$sql->getValue("status"),$sql->getValue("online_von"),
-								$sql->getValue("online_bis"),$sql->getValue("erstelldatum"),
-								$sql->getValue("suchbegriffe"),$sql->getValue("template_id"),
+								$sql->getValue("status"),$sql->getValue("online_from"),
+								$sql->getValue("online_to"),$sql->getValue("createdate"),
+								$sql->getValue("keywords"),$sql->getValue("template_id"),
 								$sql->getValue("checkbox01"),$sql->getValue("checkbox02"),
 								$sql->getValue("checkbox03"),$sql->getValue("checkbox04"));
 			$sql->next();
@@ -354,7 +354,7 @@ class OOArticle {
 	 * returns the article description.
 	 */
 	function getDescription() {
-		return $this->_beschreibung;
+		return $this->_description;
 	}
 
 	/*

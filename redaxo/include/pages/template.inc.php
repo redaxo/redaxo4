@@ -38,7 +38,6 @@ if ($function == "add" or $function == "edit"){
 			$ITPL->setValue("name",$templatename);
 			$ITPL->setValue("active",$active);
 			$ITPL->setValue("content",$content);
-			if ($REX[BCONTENT]) $ITPL->setValue("bcontent",$bcontent);
 			$ITPL->insert();
 			$template_id = $ITPL->last_insert_id;
 			$message = $I18N->msg("template_added");
@@ -49,7 +48,6 @@ if ($function == "add" or $function == "edit"){
 			$TMPL->setValue("name",$templatename);
 			$TMPL->setValue("content",$content);
 			$TMPL->setValue("active",$active);
-			if ($REX[BCONTENT]) $TMPL->setValue("bcontent",$bcontent);
 			$TMPL->update();
 			$message = $I18N->msg("template_added");
 		}	
@@ -60,13 +58,6 @@ if ($function == "add" or $function == "edit"){
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".template", "w");
 		fputs($fp,$gt->getValue("content"));
 		fclose($fp);
-
-		if ($REX[BCONTENT])
-		{
-			$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".btemplate", "w");
-			fputs($fp,$gt->getValue("bcontent"));
-			fclose($fp);
-		}
 
 		if ($goon != "")
 		{
@@ -91,8 +82,6 @@ if ($function == "add" or $function == "edit"){
 			$content	= $hole->getValue("content");
 			$active	= $hole->getValue("active");
 			
-			if ($REX[BCONTENT]) $bcontent = $hole->getValue("bcontent");
-
 		}else{
 			echo "	<tr><th align=left colspan=3>".$I18N->msg("edit_template")."</th></tr>";
 		}
@@ -127,15 +116,6 @@ if ($function == "add" or $function == "edit"){
 				<td valign=top class=grey>".$I18N->msg("header_template")."</td>
 				<td class=grey colspan=2><textarea name=content cols=40 rows=5 style='width: 100%;height: 400px;'>".htmlspecialchars($content)."</textarea></td>
 			</tr>";
-		
-		if ($REX[BCONTENT])
-		{
-			echo "<tr>
-				<td valign=top class=grey>".$I18N->msg("header_template")."<br>[".$I18N->msg("accessible")."]</td>
-				<td class=grey colspan=2><textarea name=bcontent cols=40 rows=5 style='width: 100%;height: 400px;'>".htmlspecialchars($bcontent)."</textarea></td>
-			</tr>";	
-		}
-		
 		
 		echo "	</form>";		
 		echo "</table>";

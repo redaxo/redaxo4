@@ -108,9 +108,9 @@ no_rights_to_edit = You have no rights to edit this Article!
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:
-module_deleted = Modulw deleted!
-module_added = Modul added
-module_updated = Modul updated
+module_deleted = Module deleted!
+module_added = Module added
+module_updated = Module updated
 articel_updated = Articles updated
 create_module = Create new Module
 input = Input

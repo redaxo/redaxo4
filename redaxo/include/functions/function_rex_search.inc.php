@@ -53,15 +53,15 @@ function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_st
 	        $sql = "
 	        SELECT
 
-	        rex_article.id,rex_article.name,rex_article.beschreibung,
+	        rex_article.id,rex_article.name,rex_article.description,
 
 			rex_article_slice.value1,rex_article_slice.value2,rex_article_slice.value3,
 			rex_article_slice.value4,rex_article_slice.value5,rex_article_slice.value6,
 			rex_article_slice.value7,rex_article_slice.value8,rex_article_slice.value9,
 
 	        (FIND_IN_SET('$KEYWORD',REPLACE(rex_article.name,' ',',')) * 10) +
-	        (FIND_IN_SET('$KEYWORD',REPLACE(rex_article.beschreibung,' ',',')) * 5) +
-	        (FIND_IN_SET('$KEYWORD',REPLACE(rex_article.suchbegriffe,' ',',')) * 5) +
+	        (FIND_IN_SET('$KEYWORD',REPLACE(rex_article.description,' ',',')) * 5) +
+	        (FIND_IN_SET('$KEYWORD',REPLACE(rex_article.keywords,' ',',')) * 5) +
 	        FIND_IN_SET('$KEYWORD',REPLACE(rex_article_slice.value1,' ',',')) +
 	        FIND_IN_SET('$KEYWORD',REPLACE(rex_article_slice.value2,' ',',')) +
 	        FIND_IN_SET('$KEYWORD',REPLACE(rex_article_slice.value3,' ',',')) +
@@ -81,8 +81,8 @@ function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_st
 
 	        (
 	        rex_article.name LIKE ('%$KEYWORD%') OR
-	        rex_article.beschreibung LIKE ('%$KEYWORD%') OR
-	        rex_article.suchbegriffe LIKE ('%$KEYWORD%') OR
+	        rex_article.description LIKE ('%$KEYWORD%') OR
+	        rex_article.keywords LIKE ('%$KEYWORD%') OR
 	        rex_article_slice.value1 LIKE ('%$KEYWORD%') OR
 	        rex_article_slice.value2 LIKE ('%$KEYWORD%') OR
 	        rex_article_slice.value3 LIKE ('%$KEYWORD%') OR
@@ -115,7 +115,7 @@ function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_st
 
 	            $ART[$SUCHE->getValue("rex_article.id")][ID] = $SUCHE->getValue("rex_article.id");
 	            $ART[$SUCHE->getValue("rex_article.id")][NAME] = $SUCHE->getValue("rex_article.name");
-				$ART[$SUCHE->getValue("rex_article.id")][DESC] = $SUCHE->getValue("rex_article.beschreibung");
+				$ART[$SUCHE->getValue("rex_article.id")][DESC] = $SUCHE->getValue("rex_article.description");
 				$ART[$SUCHE->getValue("rex_article.id")][COUNTWORD] = $SUCHE->getValue("COUNTWORD");
 				$ART[$SUCHE->getValue("rex_article.id")][URL] = $SUCHE->getValue("rex_article.id")."-".ModRewriteName($SUCHE->getValue("rex_article.name"));
 

@@ -104,9 +104,6 @@ if ($func == "setup")
 	fwrite($h,$cont,strlen($cont));
 	fclose($h);
 
-	if ($neu_bcontent == "TRUE") $REX[BCONTENT] = TRUE;
-	else $REX[BCONTENT] = FALSE;
-
 	if ($neu_caching == "TRUE") $REX[CACHING] = TRUE;
 	else $REX[CACHING] = FALSE;
 
@@ -178,11 +175,9 @@ echo "<tr><td colspan=3><br><b>".$I18N->msg("specials_others")."</b></td></tr>";
 echo "<tr><td>\$REX[WWW_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[WWW_PATH]."\"</td></tr>";
 echo "<tr><td>\$REX[INCLUDE_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[INCLUDE_PATH]."\"</td></tr>";
 
-// if($REX[BCONTENT]) $bcheck = "selected"; else $bcheck_false = "selected";
 // if($REX[COMMUNITY]) $communitycheck = "selected"; else $communitycheck_false = "selected";
 
 echo "<tr><td>\$REX[error_emailaddress]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_error_emailaddress value=\"".$REX[error_emailaddress]."\" class=inp100></td></tr>";
-// echo "<tr><td>\$REX[BCONTENT]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_bcontent size=1><option $bcheck>TRUE</option><option $bcheck_false>FALSE</option></select></td></tr>";
 // echo "<tr><td>\$REX[COMMUNITY]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_community size=1><option $communitycheck>TRUE</option><option $communitycheck_false>FALSE</option></select></td></tr>";
 echo "<tr><td>\$REX[STARTARTIKEL_ID]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_startartikel value=\"".$REX[STARTARTIKEL_ID]."\"></td></tr>";
 echo "<tr><td>\$REX[LANG]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_lang size=1>";

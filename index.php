@@ -16,14 +16,6 @@ $REX[y] = $y;
 
 $REX[REDAXO] = false;
 
-// B CONTENT Seiten wenn $REX[BC] = true;
-// Weiterhin um diese Seiten zu erstellen muss
-// in der redaxo/include/master.inc.php die
-// $REX[BCONTENT] = true; gesetzt werden.
-//
-
-$REX[BC] = false;
-
 // Wenn $REX[GG] = true; dann wird der
 // Content aus den redaxo/include/generated/
 // genommen
@@ -39,31 +31,14 @@ include "./redaxo/include/master.inc.php";
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
 
-if ($category_id != "")
-{
-	// categoryarticle holen
-	
-	$category_id = str_replace("\\","",$category_id);
-	$category_id = str_replace("\/","",$category_id);
-	
-	if (@include $REX[INCLUDE_PATH]."/generated/categories/$category_id.category")
-	{
-		$article_id = $REX[CAT][$category_id][article_id];
-	}
-}
-
 if ($article_id == "") $article_id = $REX[STARTARTIKEL_ID];
 
 $SHOWARTICLE = true;
 
 // If Caching is true start engine
-if($REX[CACHING]){
+if($REX[CACHING])
+{
 
-	
-	//////////////////////////////////////////////
-	// advanced caching
-	//////////////////////////////////////////////
-	
 	$Cache = new Cache($article_id);
 	if($Cache->isCacheConf())
 	{
@@ -79,8 +54,6 @@ if($REX[CACHING]){
 		}
 	}
 
-	//////////////////////////////////////////////
-
 }
 
 if ($SHOWARTICLE)
@@ -94,8 +67,8 @@ if ($SHOWARTICLE)
 		$REX_ARTICLE->getArticleTemplate();
 	}else
 	{
-		echo "Kein Startartikel selektiert";
-		#$REX[STATS] = 0;
+		echo "Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href=redaxo/index.php>redaxo</a>";
+		$REX[STATS] = 0;
 	}
 	//////////////////////////////////////////////
 	// advanced caching

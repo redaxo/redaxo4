@@ -72,7 +72,7 @@ echo $this->getValue("name");
 
 den Artikelnamen ausgeben lassen. 
 Weitere Parameter (Metadaten) sind: name, beschreibung, file, category_id, type_id, 
-startpage, prior, path, status, online_von, online_bis, suchbegriffe, template_id.
+startpage, prior, path, status, online_from, online_to, keywords, template_id.
 
 
 6. Module:

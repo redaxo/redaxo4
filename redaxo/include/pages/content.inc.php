@@ -392,10 +392,10 @@ if ($article->getRows() == 1)
 				$meta_sql = new sql;
 				$meta_sql->setTable("rex_article");
 				$meta_sql->where("id='$article_id'");
-				$meta_sql->setValue("online_von",$jahr_von.$monat_von.$tag_von);
-				$meta_sql->setValue("online_bis",$jahr_bis.$monat_bis.$tag_bis);
-				$meta_sql->setValue("suchbegriffe",$suchbegriffe);
-				$meta_sql->setValue("beschreibung",$beschreibung);
+				$meta_sql->setValue("online_from",$jahr_von.$monat_von.$tag_von);
+				$meta_sql->setValue("online_to",$jahr_bis.$monat_bis.$tag_bis);
+				$meta_sql->setValue("keywords",$keywords);
+				$meta_sql->setValue("description",$description);
 				$meta_sql->setValue("name",$article_name);
 				$meta_sql->setValue("type_id",$type_id);
 				$meta_sql->setValue("checkbox01",$checkbox01);
@@ -460,11 +460,11 @@ if ($article->getRows() == 1)
 			echo "
 				<tr>
 					<td class=grey width=150>".$I18N->msg("online_from")."</td>
-					<td class=grey>".selectdate($article->getValue("online_von"),"_von")."</td>
+					<td class=grey>".selectdate($article->getValue("online_from"),"_von")."</td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("online_to")."</td>
-					<td class=grey>".selectdate($article->getValue("online_bis"),"_bis")."</td>
+					<td class=grey>".selectdate($article->getValue("online_to"),"_bis")."</td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("name_description")."</td>
@@ -472,11 +472,11 @@ if ($article->getRows() == 1)
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("description")."</td>
-					<td class=grey><textarea name=beschreibung cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("beschreibung"))."</textarea></td>
+					<td class=grey><textarea name=description cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("description"))."</textarea></td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("keywords")."</td>
-					<td class=grey><textarea name=suchbegriffe cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("suchbegriffe"))."</textarea></td>
+					<td class=grey><textarea name=keywords cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("keywords"))."</textarea></td>
 				</tr>";
 
 			echo "<tr><td class=grey>".$I18N->msg("metadata_image")."</td><td class=grey>";
