@@ -133,6 +133,26 @@ class OOCategory {
 
 	/*
 	 * Object Function:
+	 * Returns TRUE if this category is the direct
+	 * parent of the other category.
+	 */
+	function isParent($other_cat) {
+		return $this->_id == $other_cat->_re_category_id;
+	}
+	
+	/*
+	 * Object Function:
+	 * Returns TRUE if this category is an ancestor
+	 * (parent, grandparent, greatgrandparent, etc)
+	 * of the other category.
+	 */
+	function isAncestor($other_cat) {
+		// TODO!
+		return false;
+	}
+	
+	/*
+	 * Object Function:
 	 * Return a list of articles in this category
 	 * Returns an array of OOArticle objects sorted by $prior.
 	 * 
