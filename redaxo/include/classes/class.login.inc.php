@@ -113,6 +113,8 @@ class login{
 			
 			// echo "|||| ".(($REX_SESSION[ST][$this->system_id]+$this->session_duration)-time())." ||||<br>";				
 			
+			$REX_SESSION = current($_SESSION);
+			
 			if ($this->usr_login != "")
 			{
 				// wenn login daten eingegeben dann checken
