@@ -497,7 +497,8 @@ if($_GET[HTMLArea]!=''){
 	        print 'window.opener.'.$_GET[HTMLArea].'.surroundHTML("<a href="+link+">","</a>");';
 }
 if($_GET[opener_input_field]!=''){
-	        print 'opener.document.REX_FORM.'.$_GET[opener_input_field].'.value = link';
+			print "linkid = link.replace('redaxo://','');\n";
+	        print 'opener.document.REX_FORM[\''.$_GET[opener_input_field].'\'].value = linkid';
 }
 
 echo '
