@@ -114,7 +114,9 @@ if($checkmodus == 1)
 			   $REX[INCLUDE_PATH]."/generated/cache/",
 			   $REX[INCLUDE_PATH]."/generated/cache/cache.php",
 			   $REX[INCLUDE_PATH]."/install",
+			   $REX[INCLUDE_PATH]."/addons/import_export/files",
 			   $REX[INCLUDE_PATH]."/../../files");
+			   
 
 	foreach($WRITEABLE as $item)
 	{
