@@ -39,7 +39,7 @@ $mypath = str_replace("/redaxo/index.php","",$_SERVER[SCRIPT_NAME]);
 
 // ----- DEFINE WHICH EXTENSIONS GETS WHICH HMTL WRAPPED IN HTMLARA
 $htmlarea["default"] = "<a href=".$mypath."###URL### target=_blank>###FILE_NAME###</a>";
-$htmlarea[".gif|.jpg|.jpeg|.png"] = "<img src=".$mypath."###URL### width=###WIDTH### height=###HEIGHT### vspacing=5 hspacing=5 align=left border=0>";
+$htmlarea[".gif|.jpg|.jpeg|.png"] = "<img src=".$mypath."###URL### width=###WIDTH### height=###HEIGHT### alt=###ALT### vspacing=5 hspacing=5 align=left border=0>";
 
 
 // ----- kategorie checken
@@ -858,6 +858,7 @@ if($mode == "")
                               $size = @getimagesize($REX[MEDIAFOLDER].'/'.$file_name);
                               $html_source = str_replace("###WIDTH###",$size[0],$html_source);
                               $html_source = str_replace("###HEIGHT###",$size[1],$html_source);
+                              $html_source = str_replace("###ALT###",$file_description,$html_source);
                            }
                    }
                    $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
