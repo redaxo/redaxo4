@@ -190,7 +190,7 @@ class board
 	function setUser($user_id,$username)
 	{
 		$this->user_id = $user_id;
-		$this->username = $username;
+		$this->username = htmlentities($username);
 	}
 
 	function addLink($name,$value)
@@ -245,13 +245,13 @@ class board
 		{
 			// vscope anonymous hack
 			if($this->anonymous == false){
-				return "<a href=".$this->linkuser."$id ".$this->layout[60].">$name</a>";
+				return "<a href=".$this->linkuser."$id ".$this->layout[60].">".htmlentities($name)."</a>";
 			} else {
-				return $name;
+				return htmlentities($name);
 			}
 		}else
 		{
-			return $name;
+			return htmlentities($name);
 		}
 	}
 
