@@ -489,6 +489,9 @@ class article
                         	$sql = "SELECT name FROM rex_article WHERE id=".$this->CONT->getValue("rex_article_slice.link$i");
                         	$res = $db->get_array($sql);
                         	$link_name = $res[0][name];
+                        }else
+                        {
+                        	$link_name = "";
                         }
                         $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
                         $media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
