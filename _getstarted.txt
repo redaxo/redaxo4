@@ -1,7 +1,7 @@
 
 Ersteller: Jan Kristinus
 Datum: 22.Februar 2004
-Titel: Get Started..
+Titel: Get Started.. [deutsch]
 
 1. Allgemeines
 2. Struktur
@@ -105,13 +105,12 @@ Eingabeformular:
 <?
 
 echo "Bild: <br>";
+
+?>REX_MEDIA_BUTTON[1]<?
+
 if ("FILE[1]" != "")
 {
   echo "<img src=../files/FILE[1] width=100><br>";
-  echo "<input type=checkbox name=FILEDEL1> delete";
-}else
-{
-  echo "<INPUT NAME=FILE1 TYPE=file size=2>";
 }
 
 ?><br><br>Bildunterschrift:<br>
@@ -175,4 +174,9 @@ Sofern PHP als Modul verwendet werden soll. Ist es am sinnvollsten dieses Platzh
 zu verwenden. 
 Relevante feste Formularwerte: INPUT_PHP ....
 
+REX_MEDIA_BUTTON[1] ... REX_MEDIA_BUTTON[10]
+Erstellt Auswahlbuttons für die Selektion und zum Hinzufügen von dateien/Bilder [Mediapool]
+
+REX_MEDIA_LINK[1] ... REX_MEDIA_LINK[10]
+Erstellt Auswahlbuttons für die Selektion von Links
 
