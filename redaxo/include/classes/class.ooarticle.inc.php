@@ -401,5 +401,13 @@ class OOArticle {
 		return $this->_startpage == 1;
 	}
 	
+	
+	/*
+	*  Accessor Method:
+	 * returns true if this Article is the Startpage for the entire site.
+	 */
+	function isSiteStartArticle() {
+	 return $this->_id == $REX[STARTARTIKEL_ID];
+	}
 }
 ?>
