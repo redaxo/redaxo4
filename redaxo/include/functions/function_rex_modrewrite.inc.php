@@ -27,7 +27,7 @@ function getURLbyID($ArticleID){
 		$res = $db->get_array($sql);
 		$url = $ArticleID."-".ModRewriteName($res[0][name]);
 	} else {
-		$url = '/?article_id='.$ArticleID;
+		$url = '?article_id='.$ArticleID;
 	}
 	return $url;
 }
