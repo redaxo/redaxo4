@@ -243,12 +243,14 @@ class OOArticle {
 	 * newly created.
 	 * $number_of_articles = how far to go back in history
 	 */ 
-	function getNewArticles($number_of_articles, $ignore_offlines = false) {
-		$off = $ignore_offlines ? " where status = 1 " : "" ;
+	function getNewArticles($number_of_articles, $ignore_startpages = true, $ignore_offlines = true) {
+		$off = $ignore_offlines ? " and status = 1 " : "" ;
+		$nostart = $ignore_startpages ? " and startpage = 0 " : "";
+		$limit = " LIMIT 0, {$number_of_articles} ";
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article $off order by erstelldatum desc");
-		for ($i = 0; $i < $sql->getRows() && $i < $number_of_articles; $i++) {
+		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where 1=1 $off $nostart order by erstelldatum desc $limit");
+		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
 								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
 								$sql->getValue("file"),$sql->getValue("category_id"),
