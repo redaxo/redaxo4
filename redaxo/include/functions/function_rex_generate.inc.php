@@ -1,14 +1,7 @@
 <?
 
 // todos
-
 // generateArticleList($re_id);
-
-// changed 02.04.04 Carsten Eckelmann <careck@circle42.com>
-//   * Internationalisation with $I18N class
-//   * to use internationalised messages just global $I18N and write $I18N->msg('message_key')
-//   * add the message to <language>.lang eg. submit = abschicken
-
 
 // ---------------------------------------- MOVE
 
@@ -179,12 +172,12 @@ function generateArticle($id)
 	$CONT = new article;
 	$CONT->setArticleId($id);
 
-	$REX[TEMP] = $REX[BF];
-	$REX[BF] = false;
+	$REX[TEMP] = $REX[BC];
+	$REX[BC] = false;
 	$article_content = "?>".$CONT->getArticle();
-	$REX[BF] = true;
+	$REX[BC] = true;
 	$article_bcontent = "?>".$CONT->getArticle();
-	$REX[BF] = $REX[TEMP];
+	$REX[BC] = $REX[TEMP];
 
 	$article = "<?
 
