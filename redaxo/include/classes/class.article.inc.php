@@ -41,7 +41,7 @@ class article
 		$this->article_id = 0;
 		$this->template_id = 0;
 		$this->clang = 0;
-		$this->ctype = 0;
+		$this->ctype = "";
 		$this->slice_id = 0;
 		$this->mode = "view";
 		$this->article_content = "";
@@ -73,7 +73,7 @@ class article
 	{
 		global $REX;
 		
-		$article_id = $article_id+0;
+		$article_id = $article_id + 0;
 		$this->article_id = $article_id+0;
 		
 		if (!$REX[GG])
@@ -97,7 +97,7 @@ class article
 			}
 		}else
 		{
-			if (@include $REX[INCLUDE_PATH]."/generated/articles/".$article_id.".".$this->clang.".".$this->ctype.".article")
+			if (@include $REX[INCLUDE_PATH]."/generated/articles/".$article_id.".".$this->clang.".article")
 			{
 				return TRUE;
 			}else
@@ -148,29 +148,33 @@ class article
 				}
 			}
 		}else
-                        {
+		{
 
                         if ($this->article_id != 0)
                         {
                                 // ---------- select alle slices eines artikels
+                                
+                                $sql = "select rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.bausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
+										from
+											rex_article_slice
+										left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
+										left join rex_article on rex_article_slice.article_id=rex_article.id
+										where
+											rex_article_slice.article_id='".$this->article_id."' and 
+											rex_article_slice.clang='".$this->clang."' and 
+											rex_article.clang='".$this->clang."' 
+										order by
+											rex_article_slice.re_article_slice_id";
+
+                                
                                 $this->CONT = new sql;
-                                $this->CONT->setQuery("select rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.bausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
-                                                        from
-                                                                rex_article_slice
-                                                        left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
-                                                        left join rex_article on rex_article_slice.article_id=rex_article.id
-                                                        where
-                                                                rex_article_slice.article_id='".$this->article_id."' and 
-								rex_article_slice.clang='".$this->clang."' and 
-								rex_article_slice.ctype='".$this->ctype."' and 
-								rex_article.clang='".$this->clang."' 
-                                                        order by
-                                                                rex_article_slice.re_article_slice_id");
+                                $this->CONT->setQuery($sql);
 
                                 // ---------- SLICE IDS/MODUL SETZEN
                                 for ($i=0;$i<$this->CONT->getRows();$i++)
                                 {
                                         $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.id");
+                                        $RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.ctype");
                                         $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.ausgabe");
                                         $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.eingabe");
                                         $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.name");
@@ -317,8 +321,9 @@ class article
 
                                         // --------------- ENDE EINZELNER SLICE
 
-                                        // ---------- slice in ausgabe speichern
-                                        $this->article_content .= $slice_content;
+                                        // ---------- slice in ausgabe speichern wenn ctype richtig 
+                                        
+                                        if ($this->ctype == "" or $this->ctype == $RE_CONTS_CTYPE[$I_ID]) $this->article_content .= $slice_content;
 
                                         // zum nachsten slice
                                         $I_ID = $RE_CONTS[$I_ID];
@@ -441,6 +446,7 @@ class article
                                 <input type=hidden name=module_id value=$module_id>
                                 <input type=hidden name=save value=1>
                                 <input type=hidden name=clang value=".$this->clang.">
+                                <input type=hidden name=ctype value=".$this->ctype.">
                                 ".$MOD->getValue("eingabe")."
                                 <br><input type=submit value='".$I18N->msg('add_block')."'></form>";
                         $slice_content = $this->sliceClear($slice_content);
@@ -572,7 +578,6 @@ class article
                         $slice_content = str_replace("REX_PHP_VALUE[$i]",$this->CONT->getValue("rex_article_slice.value$i"),$slice_content);
 
                         if ($this->CONT->getValue("rex_article_slice.value$i")!="") $slice_content = str_replace("REX_IS_VALUE[$i]","1",$slice_content);
-
 
                 }
 

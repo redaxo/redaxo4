@@ -49,7 +49,7 @@ function generateArticle($id)
 
 	$CONT = new article;
 	$CONT->setArticleId($id);
-
+	$CONT->setCLang($clang);
 	$article_content = "?>".$CONT->getArticle();
 
 	$article = "<?
