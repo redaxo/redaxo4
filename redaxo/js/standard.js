@@ -160,7 +160,7 @@ function openLinkMapHTMLArea(area)
 }
 function openLinkMap(id)
 {
-        newWindow('linkmappopup','index.php?page=linkmap&opener_input_field=LINK['+id+']',660,400,',status=yes,resizable=yes');
+        newWindow('linkmappopup','index.php?page=linkmap&opener_input_field='+id+'',660,400,',status=yes,resizable=yes');
 }
 function deleteREXLink(id)
 {

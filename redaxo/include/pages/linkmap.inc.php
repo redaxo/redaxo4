@@ -76,7 +76,7 @@ function initDiv ( )
   {
     // linked Name ?
     if ( treeUrl[i] != '' )
-      linkedName = '<a id="note_' + treeId[i] + '" class="notef' + (treeTyp[i]=='f'?1:0) + 'l1" href="javascript:void(0);" onClick="sitemapClick(' + treeId[i] + ',1);insertLink(\''+treeUrl[i]+'\')"' + onFocusTxt + '><img src="' + iconDir + '1w.gif" border="0" width="3">' + treeName[i] + '</a>';
+      linkedName = '<a id="note_' + treeId[i] + '" class="notef' + (treeTyp[i]=='f'?1:0) + 'l1" href="javascript:void(0);" onClick="sitemapClick(' + treeId[i] + ',1);insertLink(\''+treeUrl[i]+'\',\''+treeName[i]+'\')"' + onFocusTxt + '><img src="' + iconDir + '1w.gif" border="0" width="3">' + treeName[i] + '</a>';
     else
       if (treeTyp[i]=='f' && clickOnFolderName)
         linkedName =  '<a class="notef1l0" href="javascript:sitemapClick(' + treeId[i] + ',1)"' + onFocusTxt + '><img src="' + iconDir + '1w.gif" border="0" width="3">' + treeName[i] + '</a>'
@@ -428,7 +428,6 @@ function initArray()
 
 	}
 
-
 	?>
 
   treeTyp[0] = 'f'
@@ -490,7 +489,7 @@ echo '
   	initDiv();
   	hideLayer("sitemapinfo");
 
-	function insertLink(link){
+	function insertLink(link,name){
 ';
 
 if($_GET[HTMLArea]!=''){
@@ -498,7 +497,8 @@ if($_GET[HTMLArea]!=''){
 }
 if($_GET[opener_input_field]!=''){
 			print "linkid = link.replace('redaxo://','');\n";
-	        print 'opener.document.REX_FORM[\''.$_GET[opener_input_field].'\'].value = linkid';
+	        print "opener.document.REX_FORM['LINK[".$_GET[opener_input_field]."]'].value = linkid;\n";
+	        print "opener.document.REX_FORM['LINK_NAME[".$_GET[opener_input_field]."]'].value = name;\n";
 }
 
 echo '

@@ -482,8 +482,14 @@ class article
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
 
                         // ----------------------------- REX_LINK_BUTTON
-                        $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><tr>";
-                        $media.= "<td><input type=text size=20 name='LINK[$i]' value='REX_LINK[$i]' class=inpgrey id=LINK[$i]></td>";
+                        if($this->CONT->getValue("rex_article_slice.link$i")){
+                        	$db = new sql;
+                        	$sql = "SELECT name FROM rex_article WHERE id=".$this->CONT->getValue("rex_article_slice.link$i");
+                        	$res = $db->get_array($sql);
+                        	$link_name = $res[0][name];
+                        }
+                        $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
+                        $media.= "<td><input type=text size=40 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i]></td>";
                         $media.= "<td><a href=javascript:openLinkMap($i);><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
                         $media.= "<td><a href=javascript:deleteREXLink($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
                         $media.= "</tr></table>";
