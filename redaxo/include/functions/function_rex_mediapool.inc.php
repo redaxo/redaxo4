@@ -8,7 +8,7 @@
 
 function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="",$STYLE="",$WIDTH="",$HEIGHT=""){
 
-	if($BODYSTYLE=="")  $BODYSTYLE = "body { background-color: #fff; font-family: verdana,sans-serif; font-size: 10pt }";
+	if($BODYSTYLE=="")  $BODYSTYLE = "body { background-color: #fff; font-family: verdana; font-size: 11px }";
 	if($STYLE=="")      $STYLE = "css/style.css";
 	if($WIDTH=="")      $WIDTH = "550px";
 	if($HEIGHT=="")     $HEIGHT= "250px";
