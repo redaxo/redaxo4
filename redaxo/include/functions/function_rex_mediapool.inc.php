@@ -148,7 +148,7 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
         {
 
                 if ($REX[MEDIAFOLDERPERM] == "") $REX[MEDIAFOLDERPERM] = "0777";
-                chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
+                chmod($REX[MEDIAFOLDER]."/$NFILENAME", $REX[MEDIAFOLDERPERM]);
 
                 $FILESQL = new sql;
                 //$FILESQL->debugsql=1;
