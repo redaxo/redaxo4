@@ -149,6 +149,11 @@ function deleteREXMedia(id)
         a.obj.value = "delete file";
 }
 
+function addREXMedia(id)
+{
+        newWindow('rexmediapopup','index.php?page=medienpool&mode=add&opener_input_field=REX_MEDIA_'+id,660,400,',status=yes,resizable=yes');
+}
+
 function openREXMediaHTMLArea(area)
 {
         newWindow('rexmediapopup','index.php?page=medienpool&func=add&HTMLArea='+area,660,400,',status=yes,resizable=yes');

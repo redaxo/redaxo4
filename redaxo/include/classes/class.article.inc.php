@@ -473,7 +473,7 @@ class article
                         $media.= "<td><input type=text size=20 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
                         $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
                         $media.= "<td><a href=javascript:deleteREXMedia($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
-                        //$media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
+                        $media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
@@ -557,7 +557,7 @@ class article
                         $media.= "<td><input type=text size=20 name=REX_MEDIA_$i value='FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
                         $media.= "<td><a href=javascript:openREXMedia($i);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
                         $media.= "<td><a href=javascript:deleteREXMedia($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
-                        //$media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
+                        $media.= "<td><a href=javascript:addREXMedia($i)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
                         $media.= "</tr></table>";
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
