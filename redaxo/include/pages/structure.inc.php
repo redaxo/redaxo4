@@ -17,11 +17,20 @@ if ($edit_id != "")
 // vscope order up/down script
 if($order!=''){
 	$sql = new sql;
-	if($order=='up'){
-		$sql->order_up($order_id,'rex_article','prior','category_id',$category_id);
-	}
-	if($order=='down'){
-		$sql->order_down($order_id,'rex_article','prior','category_id',$category_id);
+	if($re_category==''){
+	         if($order=='up'){
+	                 $sql->order_up($order_id,'rex_article','prior','category_id',$category_id);
+	         }
+	         if($order=='down'){
+	                 $sql->order_down($order_id,'rex_article','prior','category_id',$category_id);
+	         }
+	} else {
+	         if($order=='up'){
+	                 $sql->order_up($order_id,'rex_category','prior','re_category_id',$re_category);
+	         }
+	         if($order=='down'){
+	                 $sql->order_down($order_id,'rex_category','prior','re_category_id',$re_category);
+	         }
 	}
 }
 
@@ -41,7 +50,7 @@ title($I18N->msg("title_structure"),$KATout);
 if ($function == "edit_category" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","structure[$edit_id]")) && $edit_id != "")
 {
 	$message = $I18N->msg("category_updated");
-	$KAT->query("update rex_category set name='$kat_name',prior='$kat_prior' where id='$edit_id'");
+	$KAT->query("update rex_category set name='$kat_name' where id='$edit_id'");
 	generateCategory($edit_id);
 }
 
@@ -91,6 +100,8 @@ if ($function == "add_category" && $STRUCTURE_PERM)
 	$message = $I18N->msg("category_added_and_startarticle_created");
 
 	$AKAT = new sql;
+	// vscope prior script
+	$category_prior = $AKAT->new_order('rex_category','prior','re_category_id',$category_id);
 	$AKAT->setTable("rex_category");
 	$AKAT->setValue("name",$category_name);
 	$AKAT->setValue("re_category_id",$category_id);
@@ -211,7 +222,7 @@ if ($function == "add_cat")
 			<input type=hidden name=function value='add_category'>
 			<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
 			<td class=dgrey><input type=text size=30 name=category_name></td>
-			<td class=dgrey><input type=text size=2 name=category_prior></td>
+			<td class=dgrey>&nbsp;</td>
 			<td class=dgrey><input type=submit value='".$I18N->msg("add_category")."'></td>
 			<td class=dgrey>&nbsp;</td>
 			</form>
@@ -249,7 +260,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 				<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
 				<form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id>
 				<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("name"))."\"></td>
-				<td class=dgrey><input type=text size=2 name=kat_prior value=\"".htmlentities($KAT->getValue("prior"))."\"></td>
+				<td class=dgrey>&nbsp;</td>
 				<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
 				<td class=dgrey>$kat_status</td></form>
 			</tr>";
@@ -265,7 +276,10 @@ for($i=0;$i<$KAT->getRows();$i++)
 				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id>".$KAT->getValue("name")."&nbsp;</a>";
 		if ($REX_USER->isValueOf("rights","expertMode[]")) $echo .= "[$i_category_id]";
 		$echo .= "</td>
-				<td class=grey>".$KAT->getValue("prior")."&nbsp;</td>
+				<td class=grey>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up>up</a>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down>down</a>
+				</td>
 				<td class=grey>$edit_txt</td>
 				<td class=grey>$kat_status</td>
 			</tr>";
