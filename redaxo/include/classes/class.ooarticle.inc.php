@@ -353,12 +353,12 @@ class OOArticle {
 		global $REX;
 		$param_string = "";
 		if ($params && sizeof($params) > 0) {
-			$param_string = $REX['MOD_REWRITE'] ? "?" : "&";
+			$param_string = $REX['MOD_REWRITE'] ? "?" : "&amp;";
 			foreach ($params as $key => $val) {
-				$param_string .= "{$key}={$val}&";
+				$param_string .= "{$key}={$val}&amp;";
 			}
 		}
-		$param_string = substr($param_string,0,strlen($param_string)-1); // cut off the last '&'
+		$param_string = substr($param_string,0,strlen($param_string)-5); // cut off the last '&'
 		$mr_name = $this->getModRewriteName();
 		$url = $REX['MOD_REWRITE'] ? "/{$this->_id}-{$mr_name}"
 		                           : "index.php?article_id={$this->_id}";
