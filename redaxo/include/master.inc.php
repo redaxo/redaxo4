@@ -8,10 +8,10 @@ if (!$REX[GG]) $REX[GG] = false;
 
 // ----------------- SERVER VARS
 
-$REX[SERVER] = "redaxo.de";
-$REX[SERVERNAME] = "Redaxo";
+$REX[SERVER] = "redaxo.com";
+$REX[SERVERNAME] = "Redaxo-Demo";
 $REX[error_emailaddress] = "";
-$REX[version] = "2.6";
+$REX[version] = "2.7";
 $REX[STARTARTIKEL_ID] = 1;
 $REX[STATS] = 1;
 
@@ -37,15 +37,15 @@ $REX[BARRIEREFREI] = false;
 $REX[COMMUNITY] = false;
 
 // Advanced Caching
-$REX[CACHING] = true;
-$REX[CACHING_DEBUG] = true;
+$REX[CACHING] = false;
+$REX[CACHING_DEBUG] = false;
 
 // ----------------- DATENBANK
 
 $DB[1][HOST] = "localhost";
-$DB[1][LOGIN] = "vscopabr";
-$DB[1][PSW] = "hu34zi7";
-$DB[1][NAME] = "usrdb_vscopabr_redaxonew";
+$DB[1][LOGIN] = "redaxo";
+$DB[1][PSW] = "redaxo";
+$DB[1][NAME] = "redaxo";
 
 $DB[2][HOST] = "";
 $DB[2][LOGIN] = "";
@@ -61,5 +61,7 @@ if(!$REX[NOFUNCTIONS]){
 
 if (!isset($category_id) or $category_id == "") $category_id = 0;
 
+// set to default
+$REX[NOFUNCTIONS] = false;
 
 ?>
