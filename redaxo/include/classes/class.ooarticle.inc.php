@@ -366,6 +366,7 @@ class OOArticle {
 	}
 
 	/*
+	*  Accessor Method:
 	 * returns true if this Article is the Startpage for the category.
 	 */
 	function isStartPage() {
