@@ -120,7 +120,7 @@ class article
                         if ($this->article_id != 0)
                         {
                                 $this->contents = "";
-                                if ($REX[BF]) $filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".bcontent";
+                                if ($REX[BC]) $filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".bcontent";
                                 else $filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".content";
 
                                 if ($fd = @fopen ($filename, "r"))
@@ -151,7 +151,7 @@ class article
                                 for ($i=0;$i<$this->CONT->getRows();$i++)
                                 {
                                         $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.id");
-                                        if ($REX[BF]) $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.bausgabe");
+                                        if ($REX[BC]) $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.bausgabe");
                                         else $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.ausgabe");
                                         $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.eingabe");
                                         $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.name");
@@ -358,7 +358,7 @@ class article
 
                 }elseif ($this->getValue("template_id") != 0 and $this->article_id != 0)
                 {
-                        if ($REX[BF]) $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".btemplate";
+                        if ($REX[BC]) $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".btemplate";
                         else $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".template";
 
                         if ($fd = @fopen ($template_name, "r"))
