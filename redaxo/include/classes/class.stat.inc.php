@@ -394,7 +394,7 @@ class stat
 
 		foreach ( $this->SEARCH['words'] as $k => $v )
 			$wordsout .= "<tr>
-							<td class=grey align=right>".addslashes(urldecode(base64_decode($k)))."</td>
+							<td class=grey align=right>".htmlentities(addslashes(urldecode(base64_decode($k))))."</td>
 							<td class=grey align=right>$v</td>
 						 </tr>";
 
