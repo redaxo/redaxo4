@@ -60,7 +60,7 @@ class OOCategory {
 	 * Returns an array of OOCategory objects.
 	 */
 	function searchCategoriesByName($a_name, $ignore_offlines = false) {
-		$off = $ignore_offlines ? "" : " and status = 1 ";
+		$off = $ignore_offlines ? " and status = 1 " : "" ;
 		$catlist = array();
 		$sql = new sql;
 		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where name like '$a_name' $off order by name");
@@ -85,7 +85,7 @@ class OOCategory {
 	 * excempt from this list!
 	 */
 	function getRootCategories($ignore_offlines = false) {
-		$off = $ignore_offlines ? "" : " and status = 1 ";
+		$off = $ignore_offlines ? " and status = 1 " : "";
 		$catlist = array();
 		$sql = new sql;
 		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = 0 $off order by prior");
@@ -109,7 +109,7 @@ class OOCategory {
 	 * excempt from this list!
 	 */
 	function getChildren($ignore_offlines = false) {
-		$off = $ignore_offlines ? "" : " and status = 1 ";
+		$off = $ignore_offlines ? " and status = 1 " : "";
 		$catlist = array();
 		$sql = new sql;
 		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = {$this->_id} $off order by prior");

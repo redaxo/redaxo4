@@ -185,7 +185,7 @@ class OOArticle {
 	 * Return a list of articles for a certain category
 	 */
 	function getArticlesOfCategory($a_category_id, $ignore_offlines = false) {
-		$off = $ignore_offlines ? "" : " and status = 1 ";
+		$off = $ignore_offlines ? " and status = 1 " : "" ;
 		$artlist = array();
 		$sql = new sql;
 		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = $a_category_id $off order by prior");
@@ -210,7 +210,7 @@ class OOArticle {
 	 * Return a list of top-level articles
 	 */
 	function getRootArticles($ignore_offlines = false) {
-		$off = $ignore_offlines ? "" : " and status = 1 ";
+		$off = $ignore_offlines ? " and status = 1 " : "" ;
 		$artlist = array();
 		$sql = new sql;
 		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where category_id = 0 $off order by prior");
@@ -365,5 +365,8 @@ class OOArticle {
 	  return $REX['WWW_PATH']."{$url}{$param_string}";
 	}
 
+	function isStartArticle() {
+		return $this->_startpage == 1;
+	}
 }
 ?>
