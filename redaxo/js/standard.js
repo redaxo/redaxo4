@@ -172,5 +172,9 @@ function openLinkMap(id)
 function deleteREXLink(id)
 {
         var a = new getObj("LINK["+id+"]");
-        a.obj.value = "delete link";
+        a.obj.value = "";
+
+        var a = new getObj("LINK_NAME["+id+"]");
+        a.obj.value = "";
+
 }
