@@ -87,8 +87,8 @@ if ($REX[SETUP])
 		{
 			// addon gefunden	
 			$perm = $REX[ADDON][perm][$as];
-			// right checken
-			if($REX_USER->isValueOf("rights",$perm) or $perm == "")
+			// right checken zurerst $perm damit kein fehler bei bei rights
+			if($perm == "" or $REX_USER->isValueOf("rights",$perm))
 			{
 				include $REX[INCLUDE_PATH]."/addons/$page/pages/index.inc.php";
 				exit;

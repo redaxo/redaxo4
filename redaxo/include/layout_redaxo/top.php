@@ -38,7 +38,7 @@ if ($LOGIN)
 		$apage = key($REX[ADDON][status]);
 		$perm = $REX[ADDON][perm][$apage];
 		$name = $REX[ADDON][name][$apage];
-		if (current($REX[ADDON][status]) == 1 && ($REX_USER->isValueOf("rights",$perm) or $perm == "") )
+		if (current($REX[ADDON][status]) == 1 && ($perm == ""  or  $REX_USER->isValueOf("rights",$perm)) )
 		{
 			echo " | <a href=index.php?page=$apage class=white>$name</a>";
 		}
