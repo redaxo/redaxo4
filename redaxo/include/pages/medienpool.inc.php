@@ -279,8 +279,34 @@ if($media_method=='add_file'){
 		$FILEINFOS[description] = $fdescription;
 		$FILEINFOS[copyright] = $fcopyright;
 		
-		$msg = media_savefile($_FILES[file_new],$rex_file_category,$FILEINFOS);
+		$return = media_savefile($_FILES[file_new],$rex_file_category,$FILEINFOS);
+		$msg = $return[msg];
 		$mode = "";
+		
+		if ($saveandexit != "" && $return[ok]==1) 
+		{
+			$file_name = $return[filename];
+		        if($_SESSION[myarea]==''){
+				$js = "selectMedia('".$file_name."');";
+		        } else {
+				$html_source = str_replace("###URL###",$REX[WWW_PATH]."/files/".$file_name,$htmlarea['default']);
+				$html_source = str_replace("###FILE_NAME###",$file_name,$html_source);
+				$file_ext = strrchr($file_name,".");
+				foreach($htmlarea as $key => $var){
+					if(eregi($file_ext,$key)){
+						$html_source = str_replace("###URL###",$REX[WWW_PATH]."/files/".$file_name,$htmlarea[$key]);
+						$html_source = str_replace("###FILE_NAME###",$file_name,$html_source);
+					}
+				}
+				$js = "insertHTMLArea('$html_source');";
+		        }
+			
+			echo "<script language=javascript>\n";
+			echo $js;
+			echo "\nself.close();\n";
+			echo "</script>";
+			exit;			
+		}
 		
         }else
         {
@@ -331,7 +357,7 @@ if ($mode == "add")
 	print "<tr><td class=grey valign=top>Beschreibung:</td><td class=grey><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
 	print "<tr><td class=grey>Copyright:</td><td class=grey><input type=text size=20 name=fcopyright class=inp100 value='".(stripslashes($fcopyright))."'></td></tr>\n";
 	print "<tr><td class=grey>Datei:</td><td class=grey><input type=file name=file_new size=30></td></tr>";
-	print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_upload')."\"></td></tr>\n";
+	print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_upload')."\"><input type=submit name=saveandexit value=\"Speichern und Übernehmen\"></td></tr>\n";
 	print "</form>\n";
 	print "</table>\n";
 	// print "<b>".$I18N->msg('pool_file_choose')."<br>";
@@ -545,8 +571,8 @@ if($mode == "")
 		</tr>\n";
 
 	$files = new sql;
-	//$files->debugsql = 1;
-	$files->setQuery("SELECT * FROM rex_file WHERE category_id =".$rex_file_category." ORDER BY filename");
+	// $files->debugsql = 1;
+	$files->setQuery("SELECT * FROM rex_file WHERE category_id=".$rex_file_category." ORDER BY stamp desc,title");
 	
 	for ($i=0;$i<$files->getRows();$i++)
 	{
@@ -559,12 +585,12 @@ if($mode == "")
 	        $file_copyright =   $files->getValue("copyright");
 	        $file_type = $files->getValue("filetype");
 	        $file_size = $files->getValue("filesize");
-	        $file_stamp = date("d-M-Y",$files->getValue("stamp"));
+	        $file_stamp = date("d-M-Y | H:i",$files->getValue("stamp"))."h";
 		$file_type_ii = in_array($file_type,$imagetype);
 
 		// check if file exists 
 		// was passiert wenn nicht da ?
-		if(!file_exists($REX[MEDIAFOLDER]."/".$file_name)) continue;
+		// if(!file_exists($REX[MEDIAFOLDER]."/".$file_name)) continue;
 	
 	        // get file icon
 	        $icon_src = "pics/pool_file_icons/file.gif";
