@@ -3,6 +3,8 @@ no = nein
 month = Monat
 year = Jahr
 general = Allgemein
+dateformat = %a %d. %B %Y
+setlocale = de_DE
 
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel selektiert
@@ -103,29 +105,6 @@ category = Kategorie
 move_article = Artikel verschieben
 copy_article = Artikel kopieren
 no_rights_to_edit = Sie haben keine Editiererlaubnis !
-
-# redaxo/include/pages/import.inc.php
-no_import_file_chosen_or_wrong_version = Sie haben keine Importdatei ausgew&auml;hlt, oder die Version stimmt nicht &uuml;berein
-no_valid_import_file = Sie haben keine g&uuml;ltige Importdatei ausgew&auml;hlt
-database_imported = Die Datei wurde erfolgreich in die Datenbank importiert
-entry_count = ({0} Eintr&auml;ge)
-go_to_special_features = Bitte gehen Sie auf Spezielle Features und Regenerieren Sie die Artikel
-file_could_not_be_uploaded = Die Datei konnte nicht hochgeladen werden.
-you_have_no_write_permission_in = Sie haben keine Schreibrechte im {0} Ordner.
-no_import_file_chosen = Sie haben keine Importdatei ausgewaehlt.
-imported_file_not_valid = Die zu Importierende Datei scheint keine g&uuml;ltige Exportdatei zu sein. Bitte beachten Sie, dass der Dateiname vom Export beibehalten werden muss.
-problem_when_extracting = Es ist ein Problem beim Extrahieren aufgetreten.
-create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und setzen Sie die Schreibrechte auf diese Ordner(&uuml;ber ftp).
-file_imported = Die Datei wurde erfolgreich importiert.
-check_install_php = Bitte &uuml;berpr&uuml;fen Sie mit der 'install.php' Ihre Konfiguration.
-db_import_export = Datenbank Importieren/Exportieren
-db_import = Datenbank importieren:
-db_export = Datenbank exportieren:
-import = Import
-export = Export
-files_import_export = Dateien Importieren/Exportieren
-files_import = Dateien importieren:
-files_export = Dateien exportieren:
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Artikeln genutzt wird:
@@ -309,6 +288,7 @@ share = Anteil
 date = Datum
 visits = Besuche
 pageviews_per_visit = Seitenaufrufe pro Besuch
+stats_article_delete = Artikel wurde gelöscht
 
 #redaxo\include\pages\stats\stat_template.inc.php
 page_views = Page Views
@@ -379,3 +359,92 @@ pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
 pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
 
 cache_remove = Cache löschen
+
+# redaxo/include/pages
+
+setup = Setup
+setup_text = Hier können Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umständen nicht nötig.
+
+setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf &gt;<a href=index.php>weiter</a>&lt; und führen das Setup aus.
+setup_error2 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte tragen Sie dort in der \"\$REX[SETUP] = true;\" ein
+
+setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<br><br>- Die Dateirechte werden überprüft<br>- Der Datenbankzugang wird überprüft und in die master.inc.php eingetragen<br>- Die Datenbank wird (neu) eingerichtet.<br>- Ein Adminzugang wird eingerichtet
+setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
+
+setup_step1 = SETUP: SCHRITT 1 von 5
+setup_010 = Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version
+setup_012 = <font class=error>Fehler</font> | Das Verzeichniss <b>{0}</b> ist nicht beschreib- oder ausführbar!
+setup_014 = <font class=error>Fehler</font> | Die Datei <b>{0}</b> ist nicht beschreibbar!
+setup_015 = <font class=error>Fehler</font> | Die Datei / Das Verzeichniss <b>{0}</b> exisitert nicht, bitte erstellen Sie es. 
+setup_016 = <b>PHP-Versionscheck | Rechteüberprüfung</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | Ordnerrechte
+setup_017 = Weiter mit Schritt 2
+setup_018 = Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.
+setup_019 = Schritt 1 erneut durchführen
+setup_headline1 = PHP-Versionscheck | Rechteüberprüfung
+
+
+setup_step2 = SETUP: SCHRITT 2 von 5
+setup_020 = <b>include/master.inc.php</b> konnte nicht geschrieben werden. 
+setup_021 = Es konnte keine Verbindung zur Datenbank hergestellte werden!
+setup_022 = Die angegebene Datenbank konnte nicht geoeffnet werden!
+setup_023 = Schreiben der 'include/master.inc.php'
+setup_024 = Serverdomain [optional]
+setup_025 = Serverbezeichnung [optional]
+setup_026 = Fehler E-Mailadresse [optional]
+setup_027 = Name der Datenbank
+setup_028 = Passwort
+setup_029 = Weiter zu Schritt 3
+setup_0201 = Allgemein Redaxo Einstellungen
+setup_0202 = Datenbankinformationen
+
+setup_step3 = SETUP: SCHRITT 3 von 5
+setup_030 = Folgender Fehler tauchte beim Update auf.
+setup_031 = Tabelle {0} wurde nicht gefunden !
+setup_032 = Die Tabellen konnten nicht erstellt werden.
+setup_033 = Bitte richten Sie die Datenbank erneut ein.
+setup_034 = Datenbank einrichten
+setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [<b>Vorsicht</b> - Alte Seite wird komplett gelöscht]
+setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
+setup_037 = Datenbankupdate von 2.6 auf 2.7
+setup_038 = Weiter zu Schritt 4
+
+setup_step4 = SETUP: SCHRITT 4 von 5
+setup_040 = Bitte geben Sie das Administratorlogin ein!
+setup_041 = Bitte geben Sie das Administratorpasswort ein!
+setup_042 = Dieses Login existiert schon!
+setup_043 = Der Administrator konnte nicht angelegt werden.
+setup_044 = Es existiert noch kein User. Bitte legen Sie einen an.
+setup_045 = Administrator anlegen
+setup_046 = Login
+setup_047 = Passwort
+setup_048 = Keinen User anlegen
+setup_049 = Weiter zu Schritt 5
+
+setup_step5 = SETUP: SCHRITT 5 von 5
+setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte ändern Sie die Datei manuel über FTP.
+setup_051 = Herzlichen Glückwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=index.php>login</a><br>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
+
+# redaxo\include\pages\addon.inc.php
+addon = AddOn
+addon_help = Hilfe für
+addon_no_help_file = Kein Hilfefile gefunden
+addon_back = zurück
+addon_install_not_found = Install File wurde nicht gefunden!
+addon_no_install = konnte aus folgendem Grund nicht installiert werden:
+addon_no_reason = Es wurde kein Grund angegeben.
+addon_installed = AddOn wurde installiert
+addon_no_activation "AddOn konnte nicht aktiviert werden, da es noch nicht installiert wurde!"
+addon_activated = "AddOn wurde aktiviert"
+addon_deactivated =  "AddOn wurde deaktiviert"
+addon_hname = Name
+addon_hinstall = installiert
+addon_hactive = aktiv
+addon_reinstall = Re-installieren
+addon_install = installieren
+addon_deactivate = deaktivieren
+addon_activate = aktivieren
+addon_yes = ja
+addon_no = nein
+
+
+

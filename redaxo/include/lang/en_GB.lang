@@ -3,6 +3,8 @@ no = no
 month = Month
 year = Year
 general = General
+dateformat = %B %d. %Y
+setlocale = en_GB
 
 # redaxo/index.php
 start_article_not_selected = No start article selected
@@ -103,29 +105,6 @@ category = Category
 move_article = Move Article
 copy_article = Copy Article
 no_rights_to_edit = You have no rights to edit this Article!
-
-# redaxo/include/pages/import.inc.php
-no_import_file_chosen_or_wrong_version = No import file selected or version is different.
-no_valid_import_file = This is not a valid import file.
-database_imported = Database file successfully imported
-entry_count = ({0} Entries)
-go_to_special_features = Please select 'special features' and re-generate the articles.
-file_could_not_be_uploaded = The file could not be uploaded.
-you_have_no_write_permission_in = You don't have write permissions in directory {0}.
-no_import_file_chosen = No import file selected.
-imported_file_not_valid = The import file is not a valid. The filename of the export must not be changed.
-problem_when_extracting = There was a problem during extracting.
-create_dirs_manually = Create these directories manually and set write permissions.
-file_imported = The file was successfully imported.
-check_install_php = Please check your configuration with 'install.php'.
-db_import_export = Import/Export Database
-db_import = Import database:
-db_export = Export database:
-import = Import
-export = Export
-files_import_export = Import/Export Files
-files_import = Import files:
-files_export = Export files:
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:
@@ -308,6 +287,7 @@ share = Share
 date = Date
 visits = Visits
 pageviews_per_visit = Page Views per Visit
+stats_article_delete = Artikel wurde gelöscht
 
 #redaxo\include\pages\stats\stat_template.inc.php
 page_views = Page Views
@@ -378,3 +358,89 @@ pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
 
 cache_remove = Clear cache
+
+# redaxo/include/pages
+
+setup = Setup
+setup_text = Here you can restart the setup. 
+
+setup_error1 = Setup activated. Please click &gt;<a href=index.php>here</a>&lt; to start the setup.
+setup_error2 = No permission to 'master.inc.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
+
+setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.inc.php<br>- Install Tables.<br>- Create adminaccount
+setup_006 = Start setup and accept License
+
+setup_step1 = SETUP: STEP 1 of 5
+setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
+setup_012 = <font class=error>Error</font> | The directory <b>{0}</b> is not writeable or executable!
+setup_014 = <font class=error>Error</font> | The file <b>{0}</b> is not writeble!
+setup_015 = <font class=error>Error</font> | The file or directory <b>{0}</b> does not exist, please create it. 
+setup_016 = <b>Checking PHP Version and filesystem permissions</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | File Permissions
+setup_017 = Go on to step 2
+setup_018 = Please correct these problems and repeat the setup.
+setup_019 = Repeat step 1
+setup_headline1 = Checking PHP Version and filesystem permissions
+
+
+setup_step2 = SETUP: STEP 2 of 5
+setup_020 = <b>include/master.inc.php</b> could not be written. could not be written. Don't know what went wrong!
+setup_021 = Connection to database failed!
+setup_022 = The database could not be opened!
+setup_023 = Creating 'include/master.inc.php'
+setup_024 = Server Domain [optional]
+setup_025 = Server Description [optional]
+setup_026 = Admin E-Mail [optional]
+setup_027 = Database Name
+setup_028 = Password
+setup_029 = Go on to step 3
+setup_0201 = Preferences
+setup_0202 = Databaseaccount
+
+setup_step3 = SETUP: STEP 3 of 5
+setup_030 = Following errors occured
+setup_031 = Table {0} not found !
+setup_032 = Could not create these tables.
+setup_033 = Please setup the database again
+setup_034 = Create database
+setup_035 = Create database and drop old tables [<b>Warning</b> - Old Site will be deleted]
+setup_036 = Database already exists [Go on with step4 and do nothing]
+setup_037 = Databaseupdate 2.6 -> 2.7
+setup_038 = Go on to step 4
+
+setup_step4 = SETUP: STEP 4 of 5
+setup_040 = Please enter the Administrator Login!
+setup_041 = Please enter the Administrator Password!
+setup_042 = This login already exists!
+setup_043 = Could not create the admin account.
+setup_044 = There is still no user in the database. Please create one.
+setup_045 = Create admin
+setup_046 = Login
+setup_047 = Password
+setup_048 = Dont create a user
+setup_049 = Go on to step 5
+
+setup_step5 = SETUP: STEP 5 of 5
+setup_050 = 'master.inc.php' could not be overwritten. Please edit the file manually via FTP.
+setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
+
+# redaxo\include\pages\addon.inc.php
+addon = AddOn
+addon_help = Help for
+addon_no_help_file = No Help File Found
+addon_back = back
+addon_install_not_found = Installfile not found!
+addon_no_install = could not be installed because:
+addon_no_reason = No reason given
+addon_installed = AddOn has been installed
+addon_no_activation = AddOn could not be activated. Please install it first.
+addon_activated = AddOn has been activated
+addon_deactivated = AddOn have been deactivated
+addon_hname = Name
+addon_hinstall = installed ?
+addon_hactive = active ? 
+addon_reinstall = Re-install
+addon_install = install
+addon_deactivate = deactivate
+addon_activate = activate
+addon_yes = yes
+addon_no = no
