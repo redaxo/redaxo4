@@ -62,6 +62,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 
         redaxo buttons:
         linkHack,pasteRichtext,insertEmail
+        
 
         */
 
@@ -88,7 +89,8 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                tinyMCE.init({
 	                    language : "'.$LANG.'",
 	                    mode : "specific_textareas",
-                        plugins : "redaxo,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print",
+                        plugins : "redaxo",
+                        // plugins : "redaxo,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print",
 	                    theme : "advanced",
                         theme_advanced_buttons1 : "'.$BUTTONROW1.'",
                         theme_advanced_buttons2 : "'.$BUTTONROW2.'",
