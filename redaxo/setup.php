@@ -294,6 +294,8 @@ if($checkmodus == 1)
 			   "include/generated/articles",
 			   "include/generated/templates",
 			   "include/generated/logs",
+			   "include/generated/cache/",
+			   "include/generated/cache/cache.php",
 			   "include/install",
 			   "../files");
 

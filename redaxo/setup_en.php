@@ -293,6 +293,8 @@ if($checkmodus == 1)
 			   "include/generated/articles",
 			   "include/generated/templates",
 			   "include/generated/logs",
+			   "include/generated/cache/",
+			   "include/generated/cache/cache.php",
 			   "include/install",
 			   "../files");
 
@@ -724,7 +726,7 @@ if ($checkmodus == 5)
 {
 	// generate all articles,cats,templates,caches
 	generateAll();
-	
+
 	setuptitle("SETUP: STEP 5 of 5");
 
 	echo "<b>Congratulations, you have successfully installed REDAXO! </b>
