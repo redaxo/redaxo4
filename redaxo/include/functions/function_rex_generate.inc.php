@@ -133,6 +133,7 @@ function copyArticle($id,$to_cat_id)
 		// $get_slices->  OBJ mit entsprechenden id
 
 		$add_new_slice = new sql;
+		// $add_new_slice->debugsql = 1;
 		$add_new_slice->setTable("rex_article_slice");
 		for($j=0;$j<$get_slice_fields->rows;$j++,$get_slice_fields->next())
 		{
@@ -142,7 +143,7 @@ function copyArticle($id,$to_cat_id)
 			elseif($get_slice_fields->getValue("Field") == "article_id")
 				$add_new_slice->setValue(article_id, $last_id);
 			elseif($get_slice_fields->getValue("Field") != "id")
-				$add_new_slice->setValue($get_slice_fields->getValue("Field"),$get_slices->getValue($get_slice_fields->getValue("Field")));
+				$add_new_slice->setValue($get_slice_fields->getValue("Field"),addslashes($get_slices->getValue($get_slice_fields->getValue("Field"))));
 
 		}
 
