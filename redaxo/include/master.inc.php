@@ -24,6 +24,7 @@ $REX[BCONTENT] = false; //
 $REX[COMMUNITY] = false;
 $REX[CACHING] = false; // Caching
 $REX[CACHING_DEBUG] = false; // Shows debugmessage
+$REX[TABLE_PREFIX] = "rex_";
 
 // ----------------- DB1
 $DB[1][HOST] = "localhost";
