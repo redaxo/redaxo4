@@ -79,7 +79,23 @@ class Cache {
 	}
 
 	function printCacheFile(){
-		readfile($this->cacheFile);
+
+		global $REX;
+
+	    $handle = fopen ($this->cacheFile, "r");
+	    $cacheContent = fread ($handle, filesize ($this->cacheFile));
+	    fclose ($handle);
+
+	    if(strstr($cacheContent,"<!--NOCACHE")){
+	        preg_match_all("/!--NOCACHE\"([a-z0-9\/.]*)\"\/\/-->(.*)!--\/NOCACHE\/\/-->/Uis",$cacheContent,$matches);
+	        for($c=0;$c<count($matches[0]);$c++){
+	        	$cacheContent = str_replace($matches[0][$c],'?php global $REX; include("redaxo/include/master.inc.php");  include("'.$matches[1][$c].'");?>',$cacheContent);
+	        }
+	        eval('?>'.$cacheContent.'<?');
+	    } else {
+			print $cacheContent;
+	    }
+
 	}
 
 	function insertCacheConf($article_id){
