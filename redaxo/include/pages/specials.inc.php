@@ -107,6 +107,9 @@ if ($func == "copyCategory")
 	$cont = ereg_replace("(DB\[2\]\[LOGIN\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[PSW\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[NAME\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
+	// Caching
+	$cont = ereg_replace("(REX\[CACHING\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
+	$cont = ereg_replace("(REX\[CACHING_DEBUG\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
 
 
 
@@ -117,6 +120,12 @@ if ($func == "copyCategory")
 
 	if ($neu_barriere == "TRUE") $REX[BARRIEREFREI] = TRUE;
 	else $REX[BARRIEREFREI] = FALSE;
+
+	if ($neu_caching == "TRUE") $REX[CACHING] = TRUE;
+	else $REX[CACHING] = FALSE;
+
+	if ($neu_caching_debug == "TRUE") $REX[CACHING_DEBUG] = TRUE;
+	else $REX[CACHING_DEBUG] = FALSE;
 
 	/*
 	if ($neu_community == "TRUE") $REX[COMMUNITY] = TRUE;
@@ -193,6 +202,13 @@ foreach ($REX[LOCALES] as $l) {
 	$selected = ($l == $REX[LANG] ? "selected" : "");
 	echo "<option value='$l' $selected>$l</option>";
 }
+echo "</select></td></tr>";
+if($REX_USER->isValueOf("rights","caching[]")){
+	if($REX[CACHING]) $cachingcheck = "selected"; else $cachingcheck_false = "selected";
+	echo "<tr><td>\$REX[CACHING]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching size=1><option $cachingcheck>TRUE</option><option $cachingcheck_false>FALSE</option></select></td></tr>";
+	if($REX[CACHING_DEBUG]) $cachingdebugcheck = "selected"; else $cachingdebugcheck_false = "selected";
+	echo "<tr><td>\$REX[CACHING]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching_debug size=1><option $cachingdebugcheck>TRUE</option><option $cachingdebugcheck_false>FALSE</option></select></td></tr>";
+ }
 echo "</select></td></tr>";
 echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=submit name=sendit value=".$I18N->msg("specials_update")."></td></tr>";
 echo "</form>";

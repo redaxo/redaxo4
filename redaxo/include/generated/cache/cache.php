@@ -1,0 +1,3 @@
+<?php
+$cache = explode('#','');
+?>

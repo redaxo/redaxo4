@@ -237,15 +237,15 @@ add_user = Add user
 edit_user = Edit user
 
 # redaxo\include\pages\special.inc.php
-articles_generated = Articles and templates regenerated!
+articles_generated = Articles and templates regenerated, cache removed!
 old_articles_deleted = [old articles and templates have been deleted]
 links_ok = All links are ok.
 links_not_ok = The following links are broken:
 info_updated = Data updated!
 specials_title = Special Features
 special_features = Features
-regenerate_article = Regenerate article
-regeneration_message = Click here to regenerate all categories, articles and templates. This process can take a while, please don't interrupt it.
+regenerate_article = Regenerate articles & cache
+regeneration_message = Click here to regenerate all categories, articles and templates. Cache will be removed. This process can take a while, please don't interrupt it.
 check_links_text = Click here to check if all links [REX_LINK] are pointing to the right location.
 link_checker = Check links
 general_info_header = General Information:
@@ -376,3 +376,5 @@ pool_file_ins = Insert
 pool_file_deleted = File has been deleted
 pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
+
+cache_remove = Clear cache

@@ -1,5 +1,41 @@
 <?
 
+//////////////////////////////////////////////
+// advanced caching
+//////////////////////////////////////////////
+
+$REX[NOFUNCTIONS] = true;
+include('redaxo/include/master.inc.php');
+include('redaxo/include/functions/function_showmicrotime.inc.php');
+
+// If Caching is true start engine
+if($REX[CACHING]){
+
+    include('redaxo/include/classes/class.cache.inc.php');
+    $Cache = new Cache($article_id);
+    if($Cache->isCacheConf()){
+        if($Cache->isCacheFile()){
+            // show cache content
+            $Cache->printCacheFile();
+            if ($REX[STATS]==1)
+            {
+                include $REX[INCLUDE_PATH]."/classes/class.stat.inc.php";
+                $log = new stat;
+                $log->writeLog($Cache->article_id);
+            }
+            if($REX[CACHING_DEBUG]) print "<br>CachedVersion<br>";
+            if($REX[CACHING_DEBUG]) print "Script time: ".showScripttime();
+            exit;
+        } else {
+            // start caching
+            $Cache->startCacheFile();
+        }
+    }
+
+}
+
+//////////////////////////////////////////////
+
 // --------------------------- globals
 
 unset($REX);
@@ -9,7 +45,7 @@ unset($REX);
 $REX[x] = $x;
 $REX[y] = $y;
 
-// Flag ob Inhalte mit Redaxo aufgerufen oder 
+// Flag ob Inhalte mit Redaxo aufgerufen oder
 // von der Webseite aus
 // Kann wichtig für die Darstellung sein
 // Sollte immer false bleiben
@@ -20,7 +56,7 @@ $REX[REDAXO] = false;
 // Weiterhin um diese Seiten zu erstellen muss
 // in der redaxo/include/master.inc.php die
 // $REX[BARRIEREFREI] = true; gesetzt werden.
-// 
+//
 
 $REX[BF] = false;
 
@@ -62,5 +98,20 @@ if ($REX[STATS]==1)
 	$log = new stat;
 	$log->writeLog($article_id);
 }
+
+
+//////////////////////////////////////////////
+// advanced caching
+//////////////////////////////////////////////
+
+if($Cache->makeCacheFile){
+	$Cache->writeCacheFile();
+	if($REX[CACHING_DEBUG]) print "<br>MadeCache<br>";
+} else {
+	if($REX[CACHING_DEBUG]) print "<br>Live<br>";
+}
+
+if($REX[CACHING_DEBUG]) print "Script time: ".showScripttime();
+//////////////////////////////////////////////
 
 ?>

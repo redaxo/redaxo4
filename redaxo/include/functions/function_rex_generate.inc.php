@@ -43,6 +43,10 @@ function moveArticle($id,$to_cat_id,$from_cat_id)
 	// category alt generieren
 	generateCategory($from_cat_id);
 
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+
 	return $return;
 
 }
@@ -155,6 +159,10 @@ function copyArticle($id,$to_cat_id)
 	// catgegoy neu generieren
 	generateCategory($to_cat_id);
 
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+
 }
 
 // ---------------------------------------- GENERATE
@@ -239,6 +247,10 @@ function generateArticle($id)
 
 	$REX[RC] = false;
 
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+
 }
 
 // ---------------------------------------- DELETE ARTICLE
@@ -264,6 +276,10 @@ function deleteArticle($id)
 	$message = $I18N->msg('article_deleted');
 
 	return $message;
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
 }
 
 // ---------------------------------------- DELETE CATEGORY
@@ -302,6 +318,10 @@ function deleteCategory($id)
 	}
 
 	return $message;
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
 
 }
 
@@ -351,6 +371,10 @@ function generateCategory($id)
 	}
 
 	// generateCategories();
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
 }
 
 
@@ -391,6 +415,9 @@ function generateCategories()
 	fputs($fp,$content);
 	fclose($fp);
 
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
 
 }
 
@@ -500,6 +527,12 @@ function copyCategory($which,$to_cat)
 	$subcats->setQuery("SELECT * FROM rex_category WHERE re_category_id=$which");
 	for($i=0;$i<$subcats->rows;$i++,$subcats->next())
 		copyCategory($subcats->getValue("id"),$add->last_insert_id);
+
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+
 }
 
 
@@ -526,6 +559,10 @@ function deleteDir($file,$what = 1)
 			unlink($file);
 		}
 	}
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
 }
 
 // deleteDir ($mydir);

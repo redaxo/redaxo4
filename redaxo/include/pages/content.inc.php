@@ -401,6 +401,18 @@ if ($article->getRows() == 1)
 				$meta_sql->setValue("type_id",$type_id);
 				$meta_sql->setValue("checkbox01",$checkbox01);
 
+				// cache
+	            $Cache = new Cache($article_id);
+	            if($caching!=1){
+	            	$Cache->removeCacheConf($article_id);
+	            } else {
+	            	$Cache->insertCacheConf($article_id);
+	            }
+	            if($recaching==1){
+	            	$Cache->removeCacheFiles($article_id);
+	            }
+
+
 				// -------------------------- FILE UPLOAD META BILD/FILE
 
 				$FILE	  = "METAFILE";
@@ -559,6 +571,25 @@ if ($article->getRows() == 1)
 
 			echo "	</tr>
 				$out
+				 ";
+
+            // advanced caching
+			if($REX_USER->isValueOf("rights","caching[]")){
+	            include_once("include/classes/class.cache.inc.php");
+	            $Cache = new Cache($article_id);
+	            if($Cache->isCacheConf()){
+	                $cacheCheck="checked";
+	            } else {
+	                $cacheCheck="";
+	            }
+	            echo "
+	                <tr>
+	                    <td class=grey width=150>Caching</td>
+	                    <td class=grey valign=middle><input type=checkbox name=caching value=1 ".$cacheCheck."> ".$I18N->msg("yes")." <input type=checkbox name=recaching value=1 > ".$I18N->msg("cache_remove")."</td>
+	                </tr>";
+			}
+
+			echo "
 				<tr>
 					<td class=grey>&nbsp;</td>
 					<td class=grey><input type=submit value='".$I18N->msg("update_metadata")."' size=8></td>
