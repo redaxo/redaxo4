@@ -13,6 +13,7 @@ function ModRewriteName($article_name) {
     $url = str_replace("Ö","Oe",$url);
     $url = str_replace("Ü","Ue",$url);
     $url = str_replace("/","-",$url);
+    $url = str_replace("&","-",$url);
     $url = urlencode($url);
     return $url;
 }
