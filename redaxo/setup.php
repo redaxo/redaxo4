@@ -1,5 +1,18 @@
 <?
 
+// setup.php
+// 
+// erstellt 01.01.2004
+// pergopa kristinus gbr
+// lange strasse 31
+// 60311 Frankfurt/M.
+// www.pergopa.de
+// ersteller: j.kristinus
+
+// update
+// 04.05.2004 - register_globals wird überprüft
+
+
 $REX[HTDOCS_PATH] = "../";
 include "include/master.inc.php";
 
@@ -38,6 +51,7 @@ function setuptitle($title)
 if (!($checkmodus>0 && $checkmodus<10))
 {
 	
+	
 	setuptitle("SETUP: START");
 	
 	echo "<b>Willkommen bei der Installationsroutine von REDAXO.</b><br><br>Sie werden nun durch verschiedene 
@@ -45,8 +59,7 @@ if (!($checkmodus>0 && $checkmodus<10))
 	überprüft und verschiedene Angaben abgefragt. Sobald Sie alle Schritte durchlaufen haben können Sie
 	REDAXO unter /redaxo/index.php aufrufen und benutzen. <br><br> Sollten Sie noch Fragen haben, so können 
 	Sie unter <a href=http://www.redaxo.de/ target=_blank>http://www.redaxo.de/</a> Ihre Kommentare und Fragen loswerden.
-	<br><br>Diese Setup-Routine läuft nicht einwandfrei unter Windowsservern. 
-	<br>Bitte aktualisieren Sie in diesem Fall die 
+	<br><br>Diese Setup-Routine läuft nicht einwandfrei unter Windowsservern. Bitte aktualisieren Sie in diesem Fall die 
 	master.inc.php manuell.<br><br>
 	
 	<div id=lizenz style='width:100%; height:300px; overflow:auto; background-color:#ffffff; text-align:left; font-size:9px;'>
@@ -259,11 +272,12 @@ THE POSSIBILITY OF SUCH DAMAGES.
 <br><br>END OF TERMS AND CONDITIONS<br><br>
 	
 	
-	</div>
+	</div>";
 	
+	$register_globals = (int) ini_get('register_globals');
 	
-	
-	<br><br><a href=setup.php?checkmodus=1>&raquo; Setup starten</a><br><br>";
+	if ($register_globals == 1) echo "<br><br><a href=setup.php?checkmodus=1>&raquo; Setup starten</a><br><br>";
+	else echo "<br><br><font class=error>Das Setup kann nicht gestartet werden. Bitte setzen sie register_globals = On [php.ini]</font><br><br>";
 	
 	$checkmodus = 0;	
 }
