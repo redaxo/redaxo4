@@ -166,14 +166,12 @@ if ($FUNC_UPDATE != "")
 
 }elseif($FUNC_DELETE != "")
 {
-	if ($REX_USER->getValue("user_id")!=$user_id)
+	if ($REX_UID!=$user_id)
 	{
-		$deleteuser = new sql;
-		$deleteuser->query("delete from rex_user where user_id='$user_id'");
+		echo $REX_UID;
+		// $deleteuser = new sql;
+		// $deleteuser->query("delete from rex_user where user_id='$user_id'");
 		$message = $I18N->msg("user_deleted");
-	}else
-	{
-		$message = "**** Sie können sich nicht selbst löschen!";	
 	}
 
 }elseif($FUNC_ADD != "" && $save == 1)
