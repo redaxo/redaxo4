@@ -124,94 +124,16 @@ if ($handle = opendir('pics/pool_file_icons/')) {
     closedir($handle);
 }
 
-// METHOD ADD FILE CAT
-if($_POST[media_method]=='add_file_cat'){
-        $db = new sql;
-        $db->setTable('rex_file_category');
-        $db->setValue('name',$_POST[rex_file_category_new]);
-        $db->insert();
-        $_GET[rex_file_category] = $db->last_insert_id;
-        $msg = $I18N->msg('pool_kat_saved',$_POST[rex_file_category_new]);
-        $msg.= "<br><br>";
-}
 
 
 
-// METHOD DELETE FILE
-if($_GET[file_delete]!=""){
-
-        $del = $_GET[file_delete];
-
-        // get file name
-        $db = new sql;
-        $sql = "SELECT filename FROM rex_file WHERE file_id='$del'";
-        $res = $db->get_array($sql);
-        $file_name = $res[0][filename];
-
-        // check if file is in an article slice
-        $file_search = '';
-        for($c=1;$c<=10;$c++){
-                $file_search.= "OR file$c='$file_name' ";
-                $file_search.= "OR value$c LIKE '%$file_name%' ";
-        }
-        $file_search = substr($file_search,2);
-        $sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
-        $res = $db->get_array($sql);
 
 
-        if(!is_array($res)){
-
-                $sql = "DELETE FROM rex_file WHERE file_id = '$del'";
-                $db->query($sql);
-                unlink($REX[MEDIAFOLDER]."/".$file_name);
-                $msg = $I18N->msg('pool_file_deleted');
-                $msg.= "<br>";
-
-        } else {
-
-                $msg = $I18N->msg('pool_file_delete_error_1');
-                $msg.= $I18N->msg('pool_file_delete_error_2')."<br><br>";
-                foreach($res as $var){
-                        $msg.=" - <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a><br>";
-                }
-                $msg.= "<br>";
-
-        }
-
-}
 
 
-// METHOD RESIZE IMAGE
-if($_POST[media_method]=='resize_image'){
 
-        $file_id = $_POST[file_id];
-        $width = $_POST[width];
-        $height = $_POST[height];
 
-        // get file name
-        $db = new sql;
-        $sql = "SELECT filename FROM rex_file WHERE file_id='$file_id'";
-        $res = $db->get_array($sql);
-        $file_name = $res[0][filename];
-
-        // get current image size
-        $size = getimagesize($REX[MEDIAFOLDER]."/".$file_name);
-
-        if($size[0]==$width) $width = '';
-        if($size[1]==$height) $height = '';
-
-        if(($width!= '') || ($height != '')){
-           media_resize($file_name,$width,$height);
-        }
-        $msg = $I18N->msg('pool_file_is_resized');
-        $msg.= "<br><br>";
-}
-
-##############################################################
-## SHOW MEDIA POOL                                           #
-##############################################################
-
-// HEADLINE
+// ----- SHOW MEDIA POOL
 echo "<html>
 <head>
 <title>".$REX[SERVERNAME]." - ".$I18N->msg('pool_media')."</title>
@@ -367,8 +289,23 @@ if ($mode == "add")
 
 
 // ------------------------------------- Kategorienverwaltung
+// METHOD ADD FILE CAT
+if($_POST[media_method]=='add_file_cat'){
+        $db = new sql;
+        $db->setTable('rex_file_category');
+        $db->setValue('name',$_POST[rex_file_category_new]);
+        $db->insert();
+        $_GET[rex_file_category] = $db->last_insert_id;
+        $msg = $I18N->msg('pool_kat_saved',$_POST[rex_file_category_new]);
+        $msg.= "<br><br>";
+}
+
 if ($mode == "categories")
 {
+	
+	
+	
+	
 	print "<input type=hidden name=media_method value=add_file_cat>\n";
 }
 
@@ -377,6 +314,51 @@ if ($mode == "categories")
 
 
 // ------------------------------------- Dateidetails
+
+// METHOD DELETE FILE
+if($media_method=='delete_file')
+{
+
+	$gf = new sql;
+	$gf->setQuery("select * from rex_file where file_id='$file_id'");
+	if ($gf->getRows()==1)
+	{
+		$file_name = $gf->getValue("filename");
+		
+		// check if file is in an article slice
+		$file_search = '';
+		for($c=1;$c<=10;$c++){
+			$file_search.= "OR file$c='$file_name' ";
+			$file_search.= "OR value$c LIKE '%$file_name%' ";
+		}
+		$file_search = substr($file_search,2);
+		$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
+		$res = $db->get_array($sql);
+		
+		if(!is_array($res)){
+		
+			$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
+			$db->query($sql);
+			unlink($REX[MEDIAFOLDER]."/".$file_name);
+			$msg = $I18N->msg('pool_file_deleted');
+			$mode = "";
+		}else{
+		
+			$msg = $I18N->msg('pool_file_delete_error_1');
+			$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
+			foreach($res as $var){
+				$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+			}
+			$msg .= " | ";
+			$mode = "detail";
+		}
+	}else
+	{
+		$msg = "File not found!";
+		$mode = "";
+	}
+}
+
 
 if($media_method=='edit_file'){
 
@@ -503,7 +485,7 @@ if ($mode == "detail")
 		print "<tr><td class=grey width=100>Titel:</td><td class=grey><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td>";
 		
 		
-		if ($ffiletype_ii) echo "<td rowspan=9 width=220 align=center class=lgrey valign=top><br><img src=../files/$fname width=200></td>";
+		if ($ffiletype_ii) echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=../files/$fname width=200></td>";
 		
 		print "</tr>\n";
 		print "<tr><td class=grey>Kategorie:</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
@@ -535,6 +517,13 @@ if ($mode == "detail")
 
 		print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"Aktualisieren\"></td></tr>\n";
 		print "</form>\n";
+		print "<form name=rex_file_cat action=index.php method=POST ENCTYPE=multipart/form-data>\n";
+		print "<input type=hidden name=page value=medienpool>\n";
+		print "<input type=hidden name=media_method value=delete_file>\n";
+		print "<input type=hidden name=mode value=detail>\n";
+		print "<input type=hidden name=file_id value=$file_id>\n";
+		print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"Datei löschen\"></td></tr>\n";
+		print "</form>";
 		print "</table>\n";
 
 	}else
