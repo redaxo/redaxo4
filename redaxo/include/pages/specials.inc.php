@@ -213,7 +213,7 @@ if ($function == "Update" or $function == "Ändern")
 	$update = new sql;
 	$update->setTable("rex_article_type");
 	$update->where("type_id='$type_id'");
-	$update->setValue("name",$name);
+	$update->setValue("name",$typname);
 	$update->setValue("description",$description);
 	$update->update();
 	$type_id = 0;
@@ -244,7 +244,7 @@ if ($function == "Update" or $function == "Ändern")
 {
 	$add = new sql;
 	$add->setTable("rex_article_type");
-	$add->setValue("name",$name);
+	$add->setValue("name",$typname);
 	$add->setValue("type_id",$type_id);
 	$add->setValue("description",$description);
 	$add->insert();
@@ -280,7 +280,7 @@ if ($function == "add")
 		<input type=hidden name=save value=1>
 		<td class=dgrey>&nbsp;</td>
 		<td class=dgrey valign=top><input style='width:20' type=text size=20 maxlength=2 name=type_id value=\"".htmlentities($type_id)."\"></td>
-		<td class=dgrey valign=top><input style='width:100%' type=text size=20 name=name value=\"".htmlentities($name)."\"></td>
+		<td class=dgrey valign=top><input style='width:100%' type=text size=20 name=typname value=\"".htmlentities($typname)."\"></td>
 		<td class=dgrey><input style='width:100%' type=text size=20 name=description value=\"".htmlentities($description)."\"></td>
 		<td class=dgrey valign=top><input type=submit name=function value=add></td>
 		</form>
@@ -299,7 +299,7 @@ for($i=0;$i<$sql->getRows();$i++)
 			<input type=hidden name=type_id value=$type_id>
 			<td class=dgrey>&nbsp;</td>
 			<td class=dgrey valign=middle>".htmlentities($sql->getValue("type_id"))."</td>
-			<td class=dgrey valign=top><input style='width:100%' type=text size=20 name=name value=\"".htmlentities($sql->getValue("name"))."\"></td>
+			<td class=dgrey valign=top><input style='width:100%' type=text size=20 name=typname value=\"".htmlentities($sql->getValue("name"))."\"></td>
 			<td class=dgrey><input style='width:100%' type=text size=20 name=description value=\"".htmlentities($sql->getValue("description"))."\"></td>
 			<td class=dgrey valign=top><input type=submit name=function value=".$I18N->msg("update_button")."><input type=submit name=function value=".$I18N->msg("delete_button")."></td>
 			</form>
@@ -309,7 +309,7 @@ for($i=0;$i<$sql->getRows();$i++)
 		echo "	<tr>
 			<td class=grey>&nbsp;</td>
 			<td class=grey>".htmlentities($sql->getValue("type_id"))."</td>
-			<td class=grey><a href=index.php?page=specials&type_id=".$sql->getValue("type_id").">".htmlentities($sql->getValue("name"))."</a></td>
+			<td class=grey><a href=index.php?page=specials&type_id=".$sql->getValue("type_id").">".htmlentities($sql->getValue("name"))."&nbsp;</a></td>
 			<td class=grey colspan=2>".nl2br($sql->getValue("description"))."&nbsp;</td>
 			</tr>";
 	}
