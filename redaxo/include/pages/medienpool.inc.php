@@ -523,6 +523,8 @@ if ($mode == "detail")
 	if ($gf->getRows()==1)
 	{
 		
+		
+		
 		echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_file_detail')."</b></td></tr><tr><td></td></tr></table>";
 		
 		echo $cat_out;
@@ -567,9 +569,30 @@ if ($mode == "detail")
 			$msg = "";
 		}
 	
+		// HTMLAREA / INPUT FIELD CHECK / link setzen zum übernehmen
+	        if($_SESSION[myarea]==''){
+			$opener_link = "<a href=javascript:void(0) onClick=selectMedia('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+	        } else {
+	           // GET HTML WRAP FROM CONFIG FILE
+	           $html_source = str_replace("###URL###",$REX[WWW_PATH]."/files/".$fname,$htmlarea['default']);
+	           $html_source = str_replace("###FILE_NAME###",$fname,$html_source);
+	           $file_ext = strrchr($fname,".");
+	           foreach($htmlarea as $key => $var){
+	                   if(eregi($file_ext,$key)){
+	                      $html_source = str_replace("###URL###",$REX[WWW_PATH]."/files/".$fname,$htmlarea[$key]);
+	                      $html_source = str_replace("###FILE_NAME###",$fname,$html_source);
+	                   }
+	           }
+	           $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
+	        }
+	        if ($opener_input_field == "REX_MEDIA_0") $opener_link = "";
+		
+		
+	
+	
 		####### UPLOAD TABLE
 		print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
-		print "<tr><th align=left colspan=3>Detailinformationen</th></tr>";
+		print "<tr><th align=left colspan=3>Detailinformationen | $opener_link</th></tr>";
 		print "<form name=rex_file_cat action=index.php method=POST ENCTYPE=multipart/form-data>\n";
 		print "<input type=hidden name=page value=medienpool>\n";
 		print "<input type=hidden name=media_method value=edit_file>\n";
@@ -590,8 +613,6 @@ if ($mode == "detail")
 		// hier noch überprüfen ob grafik oder nicht und dann erst ausgeben
 		if ($ffiletype_ii)
 		{
-			
-			
 			echo "<tr>
 				<td class=lgrey>".$I18N->msg('pool_img_width')." W</td>
 				<td class=lgrey>";
@@ -618,6 +639,9 @@ if ($mode == "detail")
 		print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_delete')."\"></td></tr>\n";
 		print "</form>";
 		print "</table>\n";
+		
+	        echo $opener_link;
+	        
 
 	}else
 	{
