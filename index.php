@@ -35,6 +35,13 @@ $REX[GG] = true;
 $REX[HTDOCS_PATH] = "./";
 include "./redaxo/include/master.inc.php";
 
+// Online / Offline Check
+if($REX[ONOFFCHECK]!=false){
+	include_once "./redaxo/include/classes/class.sql.inc.php";
+	include_once "./redaxo/include/functions/function_onoff.inc.php";
+	CHECKONOFFSTATUS();
+}
+
 // Starte einen neuen Artikel und setzte die aktuelle
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
@@ -42,10 +49,10 @@ include "./redaxo/include/master.inc.php";
 if ($category_id != "")
 {
 	// categoryarticle holen
-	
+
 	$category_id = str_replace("\\","",$category_id);
 	$category_id = str_replace("\/","",$category_id);
-	
+
 	if (@include $REX[INCLUDE_PATH]."/generated/categories/$category_id.category")
 	{
 		$article_id = $REX[CAT][$category_id][article_id];
@@ -59,11 +66,11 @@ $SHOWARTICLE = true;
 // If Caching is true start engine
 if($REX[CACHING]){
 
-	
+
 	//////////////////////////////////////////////
 	// advanced caching
 	//////////////////////////////////////////////
-	
+
 	$Cache = new Cache($article_id);
 	if($Cache->isCacheConf())
 	{
@@ -100,17 +107,17 @@ if ($SHOWARTICLE)
 	//////////////////////////////////////////////
 	// advanced caching
 	//////////////////////////////////////////////
-	
+
 	if($Cache->makeCacheFile){
 		$Cache->writeCacheFile();
 		if($REX[CACHING_DEBUG]) print "<br>MadeCache<br>";
 	} else {
 		if($REX[CACHING_DEBUG]) print "<br>Live<br>";
 	}
-	
+
 	if($REX[CACHING_DEBUG]) print "Script time: ".showScripttime();
-	
-	//////////////////////////////////////////////	
+
+	//////////////////////////////////////////////
 }
 
 // ------------------------------------------------------------ STATISTIK

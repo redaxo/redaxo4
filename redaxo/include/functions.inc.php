@@ -40,6 +40,7 @@ include_once $REX[INCLUDE_PATH]."/functions/function_rex_generate.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_string.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_folder.inc.php";
 include_once $REX[INCLUDE_PATH]."/addons.inc.php";
+include_once $REX[INCLUDE_PATH]."/functions/function_onoff.inc.php";
 
 // ----------------- REDAXO COMMUNITY
 include_once $REX[INCLUDE_PATH]."/classes/class.board.inc.php";

@@ -150,8 +150,8 @@ if ($function == "add_category" && $STRUCTURE_PERM)
 	$AART->setValue("path",$KATSQLpath."-".$AKAT->last_insert_id);
 	$AART->setValue("startpage",1);
 	$AART->setValue("status",1);
-	$AART->setValue("online_von",date("YmdHis"));
-	$AART->setValue("online_bis","20100101");
+	//$AART->setValue("online_von",date("YmdHis"));
+	//$AART->setValue("online_bis","20100101");
 	$AART->setValue("erstelldatum",date("Ymd"));
 
 	if ($category_id!="")

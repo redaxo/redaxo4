@@ -17,20 +17,21 @@ $REX[STATS] = 1; // STATS
 $REX[LANG] = de_DE; // select default language
 $REX[MOD_REWRITE] = false; // activate mod_rewrite support
 $REX[WWW_PATH] = ""; //
-$REX[DOC_ROOT] = ""; // 
-$REX[INCLUDE_PATH] = $REX[DOC_ROOT].$REX[HTDOCS_PATH]."redaxo/include"; // 
+$REX[DOC_ROOT] = ""; //
+$REX[INCLUDE_PATH] = $REX[DOC_ROOT].$REX[HTDOCS_PATH]."redaxo/include"; //
 $REX[MEDIAFOLDER] = $REX[HTDOCS_PATH]."files"; //
 $REX[BCONTENT] = false; //
 $REX[COMMUNITY] = false;
 $REX[CACHING] = false; // Caching
 $REX[CACHING_DEBUG] = false; // Shows debugmessage
 $REX[TABLE_PREFIX] = "rex_";
+$REX[ONOFFCHECK] = false;
 
 // ----------------- DB1
 $DB[1][HOST] = "localhost";
-$DB[1][LOGIN] = "admin";
-$DB[1][PSW] = "";
-$DB[1][NAME] = "redaxo2_7";
+$DB[1][LOGIN] = "username";
+$DB[1][PSW] = "password";
+$DB[1][NAME] = "databasename";
 
 // ----------------- DB2 - if necessary
 $DB[2][HOST] = "";
