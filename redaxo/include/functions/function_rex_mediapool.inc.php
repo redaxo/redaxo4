@@ -71,11 +71,11 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
 function media_resize($FILE,$width,$height,$make_copy=false){
 
         $REX = $GLOBALS[REX];
-        
+
         if ($REX[IMAGEMAGICK])
         {
 	        $magick = $REX[IMAGEMAGICK_PATH];
-	
+
 	        if($width>0){
 	                $sizer = "-geometry ".$width;
 	        }else if($height>0){
@@ -83,10 +83,9 @@ function media_resize($FILE,$width,$height,$make_copy=false){
 	        }else if($width>0 && $height!=""){
 	                $sizer = "-geometry ".$width."x".$height."!";
 	        }
-	
-	        $magick = $magick." ".$FILE." ".$sizer." -colorspace rgb -density 72 ".$path;
-		
-	        system($magick);
+
+	        $system = $magick." ".$FILE." ".$sizer." -colorspace rgb -density 72 ".$FILE;
+	        system($system);
 	}else
 	{
 		return false;
@@ -100,7 +99,7 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 	$FILETYPE = $FILE[type];
 	$NFILENAME = "";
 	$REX = $GLOBALS[REX];
-	
+
 	// generiere neuen dateinamen
 	for ($cn=0;$cn<strlen($FILENAME);$cn++)
 	{
@@ -108,8 +107,8 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 	       if ( preg_match("([_A-Za-z0-9\.-])",$char) ) $NFILENAME .= strtolower($char);
 	       else if ($char == " ") $NFILENAME .= "_";
 	}
-	
-	
+
+
 	if (strrpos($NFILENAME,".") != "")
 	{
 	       $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
@@ -119,14 +118,14 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 	       $NFILE_NAME = $NFILENAME;
 	       $NFILE_EXT  = "";
 	}
-	
+
 	if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".php5" || $NFILE_EXT == ".phtml" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
 	{
 	       $NFILE_EXT .= ".txt";
 	}
-	
+
 	$NFILENAME = $NFILE_NAME.$NFILE_EXT;
-	
+
 	if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
 	{
 	       // datei schon vorhanden ? wenn ja dann _1
@@ -136,7 +135,7 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 	               if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
 	       }
 	}
-	
+
 	if (!move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
 	{
 	       $message .= "move file $FILENAME failed | ";
@@ -156,8 +155,8 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 		$FILESQL->setValue("category_id",$rex_file_category);
 		$FILESQL->setValue("stamp",time());
 		$FILESQL->insert();
-	       
-		$ok = 1;      
+
+		$ok = 1;
 	}
 
 	$RETURN[msg] = $message;
