@@ -88,16 +88,12 @@ function resize()
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function changeImage(lay,img,srcs)
+function changeImage(obj,srcs)
 {
-	if (document.layers) {
-                document.layers[lay].document.images[img].src = srcs;
-        }else if(document.all) {
-                document.all(lay).document.images[img].src = srcs;
-        }else if(document.getElementById) {
-                document.images[img].src = srcs;
-        }
-
+	if(document.getElementById(obj))
+	{
+		document.getElementById(obj).src = srcs;
+	}
 }
 
 // -------------------------------------------------------------------------------------------------------------------
