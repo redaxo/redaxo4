@@ -147,7 +147,7 @@ class stat
 		
 		// fill table
 		$out  = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$out .= "<tr><th>Artikelname</th><th>ArtikelID<th>PageViews</th><th>Anteil</th></tr>"; 
+		$out .= "<tr><th>Artikelname</th><th>ArtikelID<th>PageViews</th><th>Anteil</th><th>&nbsp;</th></tr>"; 
 		$i = 1;
 		foreach ( $artcounter as $k => $v )
 		{
@@ -159,6 +159,7 @@ class stat
 						<td class=grey align=right><a href=../index.php?article_id=$k target=_blank>$k</td></td>
 						<td class=grey align=right>$v</td>
 						<td class=grey align=right>".round(($v/$all*100))."%</td>
+						<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$all*100)))." height=10></td>
 					 </tr>";
 			$i++;
 			// break if top 10 or worst 10
@@ -175,33 +176,57 @@ class stat
 	{
 		$days = Array();
 	
+		$maxvisits = 0;
+		$maxpageviews = 0;
+		
+		echo "count:".count($this->MAIN['stamp']);
+	
 		for  ( $i=0 ; $i < count($this->MAIN['stamp']) ; $i++ )
 		{
-				$days[date("d",$this->MAIN['stamp'][$i])][visits]++;
-				$days[date("d",$this->MAIN['stamp'][$i])][pageviews] += count( $this->MAIN['pageviews'][$i] );
+			$days[date("d",$this->MAIN['stamp'][$i])][visits]++;
+			if ($maxvisits<$days[date("d",$this->MAIN['stamp'][$i])][visits]) $maxvisits = $days[date("d",$this->MAIN['stamp'][$i])][visits];
+			
+			$days[date("d",$this->MAIN['stamp'][$i])][pageviews] += count( $this->MAIN['pageviews'][$i] );
+			if ($maxpageviews<$days[date("d",$this->MAIN['stamp'][$i])][pageviews]) $maxpageviews = $days[date("d",$this->MAIN['stamp'][$i])][pageviews];
+				
 		}
+		
+		echo "<br>maxvisits: $maxvisits";
+		echo "<br>maxpageviews: $maxpageviews";
 		
 		$daysinmonth = date("t", $this->MAIN['stamp'][0]);
 
 		$out  = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$out .= "<tr><th>Datum</th><th>PageViews</th><th>Visits</th><th>PageViews per Visit</th></tr>"; 
-		for ($i=0; $i<=$daysinmonth ; $i++ ) 	// fÃ¼r jeden tag
+		$out .= "<tr><th>Datum</th><th>PageViews</th><th>&nbsp;</th><th>Visits</th><th>&nbsp;</th><th>PageViews per Visit</th></tr>"; 
+		for ($i=0; $i<=$daysinmonth ; $i++ ) 	// für jeden tag
 		{
-			
+
 			$day = $i+1;
-			
 			if ( $day < 10 ) $day = "0".$day;
 			
-			$date = $day.".".$month.".".$year;
+			$daytime = mktime(0, 0, 0, $month, $day, $year);
+			$date = date("D",$daytime)." ".$day.".".$month.".".$year;
 			
 			if ( $days[$day][visits] > 0 ) $pvpv = round(($days[$day][pageviews]/$days[$day][visits]));
 			else $pvpv = 0;
 			
 			if ( $pvpv != 0 )
-				$out .= "<tr><td class=grey align=right>$date</td>
-						 <td class=grey align=right>".$days[$day][pageviews]."</td>
-						 <td class=grey align=right>".$days[$day][visits]."</td>
-						 <td class=grey align=right>$pvpv</td></tr>";
+			{
+				if (date("w",$daytime)==0 or date("w",$daytime)==6) $iclass = "dgrey";
+				else $iclass = "grey";
+				
+				$pprozent = round(($days[$day][pageviews]/$maxpageviews*50));
+				$vprozent = round(($days[$day][visits]/$maxvisits*50));
+				
+				$out .= "<tr>
+						<td class=$iclass align=right>$date</td>
+						<td class=$iclass align=right>".$days[$day][pageviews]."</td>
+						<td class=$iclass align=left><img src=pics/white.gif width=".(1+$pprozent)." height=10></td>
+						<td class=$iclass align=right>".$days[$day][visits]."</td>
+						<td class=$iclass align=left><img src=pics/white.gif width=".(1+$vprozent)." height=10></td>
+						<td class=$iclass align=right>$pvpv</td>
+					</tr>";
+			}
 		 }
 		 $out .= "</table>";
 		
@@ -254,10 +279,10 @@ class stat
 		
 		
 		$browserout  = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$browserout .= "<tr><th>Browser</th><th>Anzahl</th><th>Anteil</th></tr>"; 
+		$browserout .= "<tr><th>Browser</th><th>Anzahl</th><th>Anteil</th><th>&nbsp;</th></tr>"; 
 		
 		$osout = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$osout .= "<tr><th>Betriebsystem</th><th>Anzahl</th><th>Anteil</th></tr>"; 
+		$osout .= "<tr><th>Betriebsystem</th><th>Anzahl</th><th>Anteil</th><th>&nbsp;</th></tr>"; 
 		
 		
 		
@@ -266,6 +291,7 @@ class stat
 							<td class=grey align=right>".base64_decode($k)."</td>	
 							<td class=grey align=right>$v</td>
 							<td class=grey align=right>".round(($v/$alltype*100))."%</td>
+							<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$alltype*100)))." height=10></td>
 						 </tr>";				
 		
 		foreach ( array_reverse($this->BROWSER['os']) as $k => $v ) 
@@ -273,6 +299,7 @@ class stat
 							<td class=grey align=right>".base64_decode($k)."</td>	
 							<td class=grey align=right>$v</td>
 							<td class=grey align=right>".round(($v/$allos*100))."%</td>
+							<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$allos*100)))." height=10></td>
 						 </tr>";		
 		
 		$browserout .= "</table>";
@@ -381,7 +408,7 @@ class stat
 		asort($myar);
 		
 		$landout = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$landout .= "<tr><th>Land</th><th>Anzahl</th><th>Anteil</th></tr>"; 
+		$landout .= "<tr><th>Land</th><th>Anzahl</th><th>Anteil</th><th>&nbsp;</th></tr>"; 
 		
 		
 		$all = 0;
@@ -393,6 +420,7 @@ class stat
 							<td class=grey align=right>".base64_decode($k)."</td>	
 							<td class=grey align=right>$v</td>
 							<td class=grey align=right>".round(($v/$all*100))."%</td>
+							<td class=grey align=left><img src=pics/white.gif width=".(1+2*round(($v/$all*100)))." height=10></td>
 						 </tr>";	
 		$landout .= "</table>";
 	
@@ -573,3 +601,5 @@ class stat
 	
 	
 }
+
+?>
