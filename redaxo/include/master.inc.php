@@ -82,6 +82,9 @@ include $REX[INCLUDE_PATH]."/classes/class.stat.inc.php";
 // OO Classes
 include_once $REX[INCLUDE_PATH]."/classes/class.oocategory.inc.php";
 
+// Textile class
+include_once $REX[INCLUDE_PATH]."/classes/class.textile.inc.php";
+
 // functions
 include $REX[INCLUDE_PATH]."/functions/function_datefrommydate.inc.php";
 include $REX[INCLUDE_PATH]."/functions/function_selectdate.inc.php";
