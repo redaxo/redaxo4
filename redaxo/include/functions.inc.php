@@ -1,5 +1,21 @@
 <?php
 
+if (!ini_get('register_globals'))
+{
+	// register_globals = off;
+	extract($_COOKIE);
+	extract($_ENV);
+	extract($_FILES);
+	extract($_GET);
+	extract($_POST);
+	extract($_SERVER);
+	extract($_SESSION);
+}else
+{
+	// register_globals = on;	
+}
+
+
 include_once $REX[INCLUDE_PATH]."/functions/function_showmicrotime.inc.php";
 
 // ------------------------------------------------------------ wenn magic quotes off
