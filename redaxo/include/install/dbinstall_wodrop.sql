@@ -432,3 +432,11 @@ CREATE TABLE `rex_file_category` (
 
 ALTER TABLE `rex_article` ADD `linkname` VARCHAR(255) NOT NULL AFTER `name`;
 ALTER TABLE `rex_file` ADD `category_id` INT NOT NULL AFTER `re_file_id`;
+
+CREATE TABLE rex__session (
+  session varchar(50) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
+  name varchar(50) NOT NULL default '',
+  stamp int(11) NOT NULL default '0',
+  PRIMARY KEY  (session)
+) TYPE=MyISAM;

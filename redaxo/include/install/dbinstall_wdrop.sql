@@ -442,3 +442,12 @@ DROP TABLE IF EXISTS rex_file_category;
 CREATE TABLE `rex_file_category` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL );
 ALTER TABLE `rex_article` ADD `linkname` VARCHAR(255) NOT NULL AFTER `name`;
 ALTER TABLE `rex_file` ADD `category_id` INT NOT NULL AFTER `re_file_id`;
+
+DROP TABLE IF EXISTS rex__session;
+CREATE TABLE rex__session (
+  session varchar(50) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
+  name varchar(50) NOT NULL default '',
+  stamp int(11) NOT NULL default '0',
+  PRIMARY KEY  (session)
+) TYPE=MyISAM;
