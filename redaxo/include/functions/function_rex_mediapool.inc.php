@@ -14,9 +14,9 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
          if($HEIGHT=="")     $HEIGHT= "250px";
 
          $BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
-                    "separator", "insertunorderedlist", "separator", "createlink",  "htmlmode", "separator",
+                    "separator", "insertunorderedlist", "separator", "createlink", "linkmap", "separator",
                     "space", "undo", "redo","separator","justifyleft","justifycenter",
-                    "justifyright","separator","separator","mediapool","linkmap"
+                    "justifyright","separator","separator","mediapool","separator","htmlmode"
                     ';
 
          if($BUTTONS=="") $BUTTONS = $BUTTONS_DEFAULT;
@@ -27,6 +27,19 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
          $CONTENT = $res[0][slice_value];
 
          print "
+
+	     <style>
+	     .separator {
+	     	width:2px;
+	     	background-color:#000000;
+	     }
+	     .toolbar {
+	     	background-color: #F0EFEB;
+	     	height: 22px;
+	     	valign: middle;
+	     }
+	     </style>
+
          <script type=\"text/javascript\" src=\"js/htmlarea/htmlarea.js\"></script>
          <script type=\"text/javascript\" src=\"js/htmlarea/en.js\"></script>
          <script type=\"text/javascript\" src=\"js/htmlarea/dialog.js\"></script>
@@ -51,7 +64,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$SLICE_ID,$BUTTONS="",$BODYSTYLE="",$CONFIG=
                     }
                 );
 
-                cfg.registerButton(\"linkmap\", \"Linkmap\", \"js/htmlarea/images/ed_mediapool.gif\", false,
+                cfg.registerButton(\"linkmap\", \"Linkmap\", \"js/htmlarea/images/ed_link_intern.gif\", false,
                     function(editor) {
                              openLinkMapHTMLArea('myarea".$VALUE_ID."');
                     }
