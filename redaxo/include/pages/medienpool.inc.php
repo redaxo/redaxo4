@@ -91,6 +91,14 @@ $DEFAULT_CAT_LINK  = "index.php?page=medienpool&rex_file_category=".$rex_file_ca
 */
 
 // CHECK IF HTMLAREA OR FIELD
+
+if($_GET[opener_input_field] != ''){
+   $_SESSION[myarea] = '';
+   session_unregister('myarea');
+   $_SESSION[opener_input_field] = $opener_input_field;
+   $opener_input_field = $_GET[opener_input_field];
+}
+
 if ($_SESSION[opener_input_field] == "" and $opener_input_field != "")
 {
 	$_SESSION[opener_input_field] = $opener_input_field;
@@ -103,10 +111,7 @@ if ($_SESSION[opener_input_field] != "")
 if($_GET[HTMLArea] != ''){
    $_SESSION[myarea] = $HTMLArea;
 }
-if($_GET[opener_input_field] != ''){
-   $_SESSION[myarea] = '';
-   session_unregister('myarea');
-}
+
 if($_SESSION[myarea] != ''){
    $opener_input_field = 'none';
    $insert_area = $_SESSION[myarea];
@@ -124,14 +129,6 @@ if ($handle = opendir('pics/pool_file_icons/')) {
     }
     closedir($handle);
 }
-
-
-
-
-
-
-
-
 
 
 // ----- SHOW MEDIA POOL
