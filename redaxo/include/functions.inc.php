@@ -6,17 +6,17 @@ include_once $REX[INCLUDE_PATH]."/functions/function_showmicrotime.inc.php";
 // ----------------- REGISTER GLOBALS CHECK
 if (!ini_get('register_globals'))
 {
-	// register_globals = off;
-	if ($_COOKIE) extract($_COOKIE);
-	if ($_ENV) extract($_ENV);
-	if ($_FILES) extract($_FILES);
-	if ($_GET) extract($_GET);
-	if ($_POST) extract($_POST);
-	if ($_SERVER) extract($_SERVER);
-	if ($_SESSION) extract($_SESSION);
+        // register_globals = off;
+        if ($_COOKIE) extract($_COOKIE);
+        if ($_ENV) extract($_ENV);
+        if ($_FILES) extract($_FILES);
+        if ($_GET) extract($_GET);
+        if ($_POST) extract($_POST);
+        if ($_SERVER) extract($_SERVER);
+        if ($_SESSION) extract($_SESSION);
 }else
 {
-	// register_globals = on;	
+        // register_globals = on;
 }
 
 // ----------------- MAGIC QUOTES CHECK
@@ -58,10 +58,10 @@ include_once $REX[INCLUDE_PATH]."/functions/function_createimage.inc.php";
 if (!$REX[GG] && $lang == "de_DE") $REX[LANG] = $lang;
 elseif (!$REX[GG] && $lang == "en_GB") $REX[LANG] = $lang;
 
-$I18N = new i18n(strtolower($REX[LANG]),$REX[INCLUDE_PATH]."/lang/");
+$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
 $REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
 
-// ----------------- 
+// -----------------
 setlocale(LC_ALL,trim($I18N->msg("setlocale")));
 
 ?>
