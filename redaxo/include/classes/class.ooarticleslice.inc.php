@@ -200,7 +200,7 @@ SELECT
 	file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
 	link8,link9,link10,php,html,article_id,modultyp_id
 FROM rex_article_slice
-WHERE re_article_id = {$this->_id}
+WHERE re_article_slice_id = {$this->_id}
 EOD;
 		$sql->setQuery($query);
 		if ($sql->getRows() == 1) {
