@@ -858,7 +858,7 @@ if($mode == "")
                               $size = @getimagesize($REX[MEDIAFOLDER].'/'.$file_name);
                               $html_source = str_replace("###WIDTH###",$size[0],$html_source);
                               $html_source = str_replace("###HEIGHT###",$size[1],$html_source);
-                              $html_source = str_replace("###ALT###",$file_description,$html_source);
+                              $html_source = str_replace("###ALT###",htmlentities( $file_description),$html_source);
                            }
                    }
                    $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
