@@ -443,12 +443,28 @@ if ($checkmodus == 2 )
 if ($checkmodus == 3 && $send == 1)
 {
 
-	if ($dbanlegen == 2)
+	if ($dbanlegen == 3)
+	{
+		// update
+		$fname = "include/install/update2_6-2_7.sql";
+		$h = fopen($fname,"r");
+		$create = fread($h,filesize($fname));
+		$link = mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
+		$lines = explode(";",$create);
+		array_pop($lines);
+		foreach($lines as $line)
+		if(!mysql_db_query($DB[1][NAME],$line,$link))
+		{
+			$err_msg .= "Folgender Fehler tauchte beim Update auf. MySQL: ".mysql_error()."<br>";
+		}
+		
+		
+	}elseif ($dbanlegen == 2)
 	{
 		$TBLS = array("rex__article_comment" => 0,"rex__board" => 0,"rex__user" => 0,"rex__user_comment" => 0,
 		"rex__user_mail" => 0,"rex_article" => 0,"rex_article_slice" => 0,"rex_article_type" => 0,
 		"rex_category" => 0,"rex_email" => 0,"rex_file" => 0,"rex_modultyp" => 0,"rex_template" => 0,
-		"rex_user" => 0);
+		"rex_user" => 0, "rex_file_category" => 0);
 		$gt = new sql;
 		// $gt->debugsql = 1;
 		$gt->setQuery("show tables");
@@ -518,16 +534,18 @@ if ($checkmodus == 3)
 		<input type=hidden name=send value=1>
 		";
 	
-	if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg<br>Bitte legen Sie die Datenbank neu an</td></tr><tr><td></td></tr>";
+	if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg<br>Bitte legen Sie die Datenbank neu an.</td></tr><tr><td></td></tr>";
 	
 	if ($dbanlegen == 1) $dbchecked1 = " checked";
 	elseif ($dbanlegen == 2) $dbchecked2 = " checked";
+	elseif ($dbanlegen == 3) $dbchecked3 = " checked";
 	else $dbchecked0 = " checked";
 
 	echo "
 		<tr><td width=50 align=right><input type=radio name=dbanlegen value=0 $dbchecked0></td><td>Datenbank anlegen</td></tr>
 		<tr><td width=50 align=right><input type=radio name=dbanlegen value=1 $dbchecked1></td><td>Datenbank anlegen und überschreiben falls vorhanden [Vorsicht]</td></tr>
-		<tr><td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td><td>Datenbank existiert schon</td></tr>
+		<tr><td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td><td>Datenbank existiert schon [weiter ohne Datenbankimport]</td></tr>
+		<tr><td width=50 align=right><input type=radio name=dbanlegen value=3 $dbchecked3></td><td>Datenbankupdate von 2.6 auf 2.7 [Vorsicht]</td></tr>
 		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='Weiter zu Schritt 4'></td></tr>
 		</table>";
 	
@@ -623,7 +641,7 @@ if ($checkmodus == 5)
 	Sie haben alle nötigen Einstellungen vorgenommen. Sollte der Zugang zu REDAXO dennoch nicht funktionieren so sollten Sie dieses 
 	Setup neu aufrufen und Ihre Eingaben überprüfen. 
 	
-	<br><br><i>Sie sind noch nicht ganz fertig:</i><br>
+	<br><br><b class=error>!!! Sie sind noch nicht ganz fertig:</b><br>
 	Wenn der Zugang zu REDAXO funktioniert dann löschen Sie bitte diese Setup datei [/redaxo/setup.php] damit keine anderen User 
 	in Versuchung geraten Ihre Daten abzuändern. 
 	

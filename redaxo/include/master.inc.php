@@ -35,9 +35,9 @@ $REX[COMMUNITY] = false;
 
 // ----------------- DATENBANK
 
-$DB[1][HOST] = "localhost";
-$DB[1][LOGIN] = "admin";
-$DB[1][PSW] = "mikael";
+$DB[1][HOST] = "192.168.1.1";
+$DB[1][LOGIN] = "admin1";
+$DB[1][PSW] = "admin1";
 $DB[1][NAME] = "redaxo2_6_demo1";
 
 $DB[2][HOST] = "";

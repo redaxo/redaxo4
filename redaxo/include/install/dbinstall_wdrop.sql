@@ -425,4 +425,10 @@ CREATE TABLE rex_user (
 # Dumping data for table `rex_user`
 #
 
+## REDAXO 2.7
+
+DROP TABLE IF EXISTS rex_file_category;
+CREATE TABLE `rex_file_category` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL );
+ALTER TABLE `rex_article` ADD `linkname` VARCHAR(255) NOT NULL AFTER `name`;
+ALTER TABLE `rex_file` ADD `re_file_id` INT DEFAULT '0' NOT NULL AFTER `file_id`;
 
