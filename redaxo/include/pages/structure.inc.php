@@ -422,11 +422,11 @@ if($category_id > -1)
 
 		if ($sql->getValue("startpage") == 1)
 		{
-			$startpage = "Startartikel";
+			$startpage = $I18N->msg("start_article");
 			$icon = "liste.gif";
 		}else
 		{
-			$startpage = "Artikel";
+			$startpage = $I18N->msg("article");
 			$icon = "document.gif";
 		}
 

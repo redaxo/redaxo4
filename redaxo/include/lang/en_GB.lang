@@ -223,8 +223,7 @@ header_template_functions = Functions
 delete_template = Delete Template
 
 # redaxo\include\functions\function_rex_category.inc.php
-article = Article
-start_article = Start article
+start_article = Start Article
 path = Path
 
 # redaxo\include\pages\user.inc.php
