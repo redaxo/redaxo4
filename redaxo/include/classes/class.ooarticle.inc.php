@@ -247,7 +247,7 @@ class OOArticle {
 		$off = $ignore_offlines ? " where status = 1 " : "" ;
 		$artlist = array();
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article $off order by erstelldatum");
+		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article $off order by erstelldatum desc");
 		for ($i = 0; $i < $sql->getRows() && $i < $number_of_articles; $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
 								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
