@@ -6,7 +6,7 @@
 #
 ##################################################################
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYLE_SHEET='css/style.css',$STYLES='all',$LANG='de',$THEME='advanced'){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYLE_SHEET='css/style.css',$STYLES='all',$LANG='de'){
 
         // lang = de oder uk
 
@@ -29,7 +29,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH="100%",$HEIGHT='300px',$STYL
                 <script language="javascript" type="text/javascript" src="js/tiny_mce/tiny_mce_src.js"></script>
                 <script language="javascript" type="text/javascript">
             tinyMCE.init({
-                theme : "'.$THEME.'",
+                theme : "advanced",
                 language : "'.$LANG.'",
                 mode : "specific_textareas",
                     insertlink_callback : "insertIntLink",
@@ -140,15 +140,24 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
                }
         }
 
-        if (!move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+        if(!move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
         {
-               $message .= "move file $FILENAME failed | ";
-               $ok = 0;
-        }else
+            if (!copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+            {
+                   $message .= "move file $FILENAME failed | ";
+                   $ok = 0;
+                   $nocopy = true;
+            }
+        }
+
+        if(!$nocopy)
         {
 
                 if ($REX[MEDIAFOLDERPERM] == "") $REX[MEDIAFOLDERPERM] = "0777";
-                chmod($REX[MEDIAFOLDER]."/$NFILENAME", $REX[MEDIAFOLDERPERM]);
+                chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
+
+                // get widht height
+                $size = @getimagesize($REX[MEDIAFOLDER]."/$NFILENAME");
 
                 $FILESQL = new sql;
                 //$FILESQL->debugsql=1;
@@ -160,6 +169,8 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
                 $FILESQL->setValue("filename",$NFILENAME);
                 $FILESQL->setValue("originalname",$FILENAME);
                 $FILESQL->setValue("filesize",$FILESIZE);
+                $FILESQL->setValue("width",$size[0]);
+                $FILESQL->setValue("height",$size[1]);
                 $FILESQL->setValue("category_id",$rex_file_category);
                 $FILESQL->setValue("stamp",time());
                 $FILESQL->insert();
