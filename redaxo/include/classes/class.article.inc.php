@@ -369,14 +369,8 @@ class article
 
                         $return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
 
-	                    // -- preg match REX_LINK_INTERN[ARTICLEID] --
-	                    preg_match_all("/REX_LINK_INTERN\[([0-9]*)\]/im",$return,$matches);
-	                    if($matches[0][0]!=''){
-	                        for($m=0;$m<count($matches[0]);$m++){
-	                            $url = getURLbyID($matches[1][$m]);
-	                            $return = str_replace($matches[0][$m],$url,$return);
-	                        }
-	                    }
+						// function in function_rex_modrewrite.inc.php
+						$slice_content = replaceLinks($slice_content);
 
                         eval("?>".$return);
 
@@ -513,23 +507,8 @@ class article
                 $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
                 $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
 
-	            // -- preg match redaxo://[ARTICLEID] --
-	            preg_match_all("/redaxo:\/\/([0-9]*)/im",$slice_content,$matches);
-	            if($matches[0][0]!=''){
-	                for($m=0;$m<count($matches[0]);$m++){
-	                    $url = getURLbyID($matches[1][$m]);
-	                    $slice_content = str_replace($matches[0][$m],$url,$slice_content);
-	                }
-	            }
-
-	            // -- preg match REX_LINK_INTERN[ARTICLEID] --
-	            preg_match_all("/REX_LINK_INTERN\[([0-9]*)\]/im",$slice_content,$matches);
-	            if($matches[0][0]!=''){
-	                for($m=0;$m<count($matches[0]);$m++){
-	                    $url = getURLbyID($matches[1][$m]);
-	                    $slice_content = str_replace($matches[0][$m],$url,$slice_content);
-	                }
-	            }
+				// function in function_rex_modrewrite.inc.php
+				$slice_content = replaceLinks($slice_content);
 
                 return $slice_content;
 
