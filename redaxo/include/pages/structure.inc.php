@@ -417,7 +417,7 @@ if($category_id > -1)
 
 	// Check startArticle[] Permissons
 	$startSQL = "";
-	if($REX_USER->isValueOf("rights","startArticle[None]") ){
+	if($REX_USER->isValueOf("rights","startArticle[none]") ){
 		if(!$REX_USER->isValueOf("rights","startArticle[$category_id]")){
 	      	$startSQL = "AND startpage = 0";
 	    }
