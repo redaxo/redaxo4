@@ -10,9 +10,9 @@ $REX[SETUP] = false; 			// Setupservicestatus - if everything ok -> false; if pr
 $REX[SERVER] = "redaxo.com";
 $REX[SERVERNAME] = "Redaxo-Demo";
 $REX[error_emailaddress] = "jan.kristinus@pergopa.de";
-$REX[version] = "2.7";
-$REX[subversion] = "4";
-$REX[STARTARTIKEL_ID] = 1; // FIRTS ARTICLE
+$REX[version] = "3.0";
+$REX[subversion] = "1";
+$REX[STARTARTIKEL_ID] = 1; // FIRST ARTICLE
 $REX[STATS] = 1; // STATS
 $REX[LANG] = en_gb; // select default language
 $REX[MOD_REWRITE] = false; // activate mod_rewrite support
@@ -26,8 +26,8 @@ $REX[CACHING_DEBUG] = false; // Shows debugmessage
 $REX[MEDIAFOLDERPERM] = "0777"; // 774
 
 // ----------------- DB1
-$DB[1][HOST] = "192.168.1.1";
-$DB[1][LOGIN] = "admin";
+$DB[1][HOST] = "localhost";
+$DB[1][LOGIN] = "root";
 $DB[1][PSW] = "";
 $DB[1][NAME] = "redaxo3_0";
 
@@ -39,6 +39,13 @@ $DB[2][NAME] = "";
 
 // ----------------- INCLUDE FUNCTIONS
 if(!$REX[NOFUNCTIONS]) include_once ($REX[INCLUDE_PATH].'/functions.inc.php');
+
+// ----------------- CTYPES
+// --- DYN CTYPE
+
+$REX[CTYPE][0] = "default: deutsch";
+
+// --- /DYN
 
 // -----------------
 if (!isset($category_id) or $category_id == "") $category_id = 0;

@@ -207,7 +207,7 @@ function generateLists($re_id)
 	$GC = new sql;
 	
 	// --------------------------------------- ARTICLE LIST
-	$GC->debugsql = 1;
+	// $GC->debugsql = 1;
 	$GC->setQuery("select * from rex_article where re_id=$re_id and startpage=0 order by prior,name");
 	$content = "<?php\n";
 	for ($i=0;$i<$GC->getRows();$i++)

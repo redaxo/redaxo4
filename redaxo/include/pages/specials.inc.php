@@ -24,22 +24,11 @@ if ($func == "setup")
 	}
 	fclose($h);
 
-}elseif ($func == "copyCategory")
-{
-
-	// noch nicht fertig
-
-	// $which,$to_cat
-	// copyCategory(10,0); // copyCategory(von_category_id,nach_category_id); diese funktion ist schon fertig
-
-
-
 }elseif ($func == "generate")
 {
 	
 	// generate all articles,cats,templates,caches
 	$MSG = generateAll();
-
 
 }elseif($func == "linkchecker")
 {
@@ -78,15 +67,12 @@ if ($func == "setup")
 	$h = fopen("include/master.inc.php","r");
 	$cont = fread($h,filesize("include/master.inc.php"));
 
-	// $cont = ereg_replace("(REX\[BCONTENT\].?\=.?)[^;]*","\\1".strtolower($neu_content),$cont);
-	// $cont = ereg_replace("(REX\[COMMUNITY\].?\=.?)[^;]*","\\1".strtolower($neu_community),$cont);
 	$cont = ereg_replace("(REX\[STARTARTIKEL_ID\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
+	$cont = ereg_replace("(REX\[EMAIL\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
 	$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
 	$cont = ereg_replace("(REX\[LANG\].?\=.?)[^;]*","\\1".$neu_lang,$cont);
-
 	$cont = ereg_replace("(REX\[SERVER\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
 	$cont = ereg_replace("(REX\[SERVERNAME\].?\=.?)[^;]*","\\1\"".($neu_SERVERNAME)."\"",$cont);
-
 	$cont = ereg_replace("(DB\[2\]\[HOST\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[LOGIN\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[PSW\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
@@ -97,7 +83,6 @@ if ($func == "setup")
 		$cont = ereg_replace("(REX\[CACHING\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
 		$cont = ereg_replace("(REX\[CACHING_DEBUG\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
 	}
-
 
 	fclose($h);
 	$h = fopen("include/master.inc.php","w+");
@@ -110,12 +95,8 @@ if ($func == "setup")
 	if ($neu_caching_debug == "TRUE") $REX[CACHING_DEBUG] = TRUE;
 	else $REX[CACHING_DEBUG] = FALSE;
 
-	/*
-	if ($neu_community == "TRUE") $REX[COMMUNITY] = TRUE;
-	else $REX[COMMUNITY] = FALSE;
-	*/
-
 	$REX[STARTARTIKEL_ID] = $neu_startartikel;
+	$REX[EMAIL] = $neu_error_emailaddress;
 	$REX[error_emailaddress] = $neu_error_emailaddress;
 	$REX[SERVER] = $neu_SERVER;
 	$REX[SERVERNAME] = $neu_SERVERNAME;
@@ -171,14 +152,9 @@ echo "<tr><td>\$DB[2][NAME]:</td><td><img src=pics/leer.gif width=10 height=20><
 */
 
 echo "<tr><td colspan=3><br><b>".$I18N->msg("specials_others")."</b></td></tr>";
-
 echo "<tr><td>\$REX[WWW_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[WWW_PATH]."\"</td></tr>";
 echo "<tr><td>\$REX[INCLUDE_PATH]:</td><td><img src=pics/leer.gif width=10 height=20></td><td>\"".$REX[INCLUDE_PATH]."\"</td></tr>";
-
-// if($REX[COMMUNITY]) $communitycheck = "selected"; else $communitycheck_false = "selected";
-
 echo "<tr><td>\$REX[error_emailaddress]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_error_emailaddress value=\"".$REX[error_emailaddress]."\" class=inp100></td></tr>";
-// echo "<tr><td>\$REX[COMMUNITY]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_community size=1><option $communitycheck>TRUE</option><option $communitycheck_false>FALSE</option></select></td></tr>";
 echo "<tr><td>\$REX[STARTARTIKEL_ID]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_startartikel value=\"".$REX[STARTARTIKEL_ID]."\"></td></tr>";
 echo "<tr><td>\$REX[LANG]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_lang size=1>";
 foreach ($REX[LOCALES] as $l) {
@@ -197,9 +173,106 @@ echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input
 echo "</form>";
 echo "</table>";
 
-echo "<br></td>
-	</tr>
-	</table>";
+echo "<br></td></tr></table>";
+
+
+// --------------- ctypes definieren (sprachen/spalten)
+
+echo "<a name=ctype></a>";
+
+// addctype
+// schreibe in master.inc.php
+if ($func == "addctypesave")
+{
+	if ($ctype_name != "")
+	{
+		if (!($ctypeid>0 && $ctypeid<100)) $ctypeid = 0;
+		if(!array_key_exists($ctypeid,$REX[CTYPE]))
+		{
+			$message = "CType wurde angelegt.";
+
+			// CTYPE ANLEGEN UND ARTICLE ANLEGEN
+			// addarticles - check bei generate/structure
+
+		}else
+		{
+			$message = "ID existiert schon.";
+			$func = "addctype";
+		}
+	}else{
+		$message = "Bitte einen Namen eingeben.";	
+		$func = "addctype";
+	}
+	
+}elseif($func == "editctypesave")
+{
+	$REX[CTYPE][$ctypeid] = $ctype_name;
+	// in master schreiben
+	$h = fopen("include/master.inc.php","r");
+	$cont = fread($h,filesize("include/master.inc.php"));
+	$cont = ereg_replace("(REX\[CTYPE\]\[$ctypeid\].?\=.?)[^;]*","\\1\"".($ctype_name)."\"",$cont);
+	fclose($h);
+	$h = fopen("include/master.inc.php","w+");
+	fwrite($h,$cont,strlen($cont));
+	fclose($h);
+}
+
+
+echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
+		<th width=30><a href=index.php?page=specials&func=addctype#ctype>+</a></th>
+		<th align=left width=30>ID</th>
+		<th align=left width=250>CTYPE - Description</th>
+		<th align=left colspan=2>Delete</th></tr>";
+
+if ($message != "")
+{
+	echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=4 class=warning>$message</td></tr>";
+	$message = "";
+}
+
+if ($func == "addctype")
+{
+	echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=func value=addctypesave>";
+	echo "<td class=grey>add</td>";
+	echo "<td class=grey><input type=text size=2 maxlength=2 class=inp100 name=ctypeid value='$ctypeid'></td>";
+	echo "<td class=grey><input type=text size=10 class=inp100 name=ctype_name value='".htmlentities($ctype_name)."'></td>";
+	echo "<td class=grey><input type=submit value=submit></td>";
+	echo "</form></tr>";
+}
+
+reset($REX[CTYPE]);
+for ($i=0;$i<count($REX[CTYPE]);$i++)
+{
+	if ($ctypeid==key($REX[CTYPE]) and $ctypeid!="")
+	{
+		echo "<tr><form action=index.php#ctype method=post><input type=hidden name=page value=specials><input type=hidden name=ctypeid value=$ctypeid><input type=hidden name=func value=editctypesave>";
+		echo "<td class=grey>edit</td>";
+		echo "<td class=grey>".key($REX[CTYPE])."</td>";
+		echo "<td class=grey><input type=text size=10 class=inp100 name=ctype_name value='".htmlentities(current($REX[CTYPE]))."''></td>";
+		echo "<td class=grey><input type=submit value=submit>";
+		if ($ctypeid>0) echo "<input type=submit name=delete value=1>";
+		echo "</td>";
+		echo "</form></tr>";
+		
+	}else
+	{
+		echo "<tr>" .
+				"<td class=grey></td>" .
+				"<td class=grey>".key($REX[CTYPE])."</td>" .
+				"<td class=grey><a href=index.php?page=specials&ctypeid=".key($REX[CTYPE])."#ctype>".htmlentities(current($REX[CTYPE]))."</a></td>" .
+				"<td class=grey></td></tr>";
+	}
+	next($REX[CTYPE]);
+}
+echo "</table><br>";	
+
+
+
+
+
+
+
+// --------------- eigene typen definieren
 
 echo "<br>";
 
@@ -214,6 +287,7 @@ if ($function == "Update" or $function == "Ändern")
 	$type_id = 0;
 	$function = "";
 	$message = $I18N->msg("article_type_updated");
+
 }elseif($function == "Delete" or $function == "Löschen")
 {
 	if ($type_id!=1)

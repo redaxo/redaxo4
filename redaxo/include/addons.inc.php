@@ -6,17 +6,8 @@ unset($REX[ADDON][status]);
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN
 
-$REX[ADDON][install][CVS] = 0;
-$REX[ADDON][status][CVS] = 0;
-
 $REX[ADDON][install][import_export] = 1;
 $REX[ADDON][status][import_export] = 1;
-
-$REX[ADDON][install][reisen] = 1;
-$REX[ADDON][status][reisen] = 1;
-
-$REX[ADDON][install][seminare] = 1;
-$REX[ADDON][status][seminare] = 0;
 
 $REX[ADDON][install][shop] = 0;
 $REX[ADDON][status][shop] = 0;
