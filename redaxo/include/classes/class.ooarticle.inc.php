@@ -143,7 +143,7 @@ class OOArticle {
 	 */
 	function getSiteStartArticle() {
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where startpage = {$REX[STARTARTIKEL_ID]}");
+		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where id = {$REX[STARTARTIKEL_ID]}");
 		if ($sql->getRows() == 1) {
 			return new OOArticle($sql->getValue("id"),$sql->getValue("name"),
 								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
@@ -407,7 +407,7 @@ class OOArticle {
 	 * returns true if this Article is the Startpage for the entire site.
 	 */
 	function isSiteStartArticle() {
-	 return "${this->_id}" == "{$REX[STARTARTIKEL_ID]}";
+	 return "{$this->_id}" == "{$REX[STARTARTIKEL_ID]}";
 	}
 }
 ?>
