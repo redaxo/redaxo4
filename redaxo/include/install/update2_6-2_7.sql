@@ -10,3 +10,4 @@ ALTER TABLE `rex_file_category` ADD `re_id` INT NOT NULL, ADD `path` VARCHAR(255
 ALTER TABLE `rex_file` ADD `user_login` VARCHAR(255) NOT NULL;
 ALTER TABLE `rex_file` ADD `width` INT NOT NULL, ADD `height` INT NOT NULL, ADD `title` VARCHAR(255) NOT NULL, ADD `description` TEXT NOT NULL, ADD `copyright` VARCHAR(255) NOT NULL, ADD `stamp` INT NOT NULL;
 ALTER TABLE `rex_article` ADD `user_login` VARCHAR(255) NOT NULL;
+ALTER TABLE `rex_category` ADD `description` TEXT NOT NULL, ADD `func` TEXT NOT NULL;
