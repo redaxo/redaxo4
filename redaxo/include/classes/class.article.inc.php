@@ -481,6 +481,15 @@ class article
                         $media = $this->stripPHP($media);
                         $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
 
+                        // ----------------------------- REX_LINK_BUTTON
+                        $media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><tr>";
+                        $media.= "<td><input type=text size=20 name='LINK[$i]' value='REX_LINK[$i]' class=inpgrey id=LINK[$i]></td>";
+                        $media.= "<td><a href=javascript:openLinkMap($i);><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
+                        $media.= "<td><a href=javascript:deleteREXLink($i);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+                        $media.= "</tr></table>";
+                        $media = $this->stripPHP($media);
+                        $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
+
                         $slice_content = str_replace("REX_LINK[$i]",$this->generateLink($this->CONT->getValue("rex_article_slice.link$i")),$slice_content);
                         $slice_content = str_replace("FILE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.file$i")),$slice_content);
 
@@ -600,7 +609,7 @@ class article
                 }else
                 {
                         if ($REX[GG]) return "aid$id".".php";
-                        else return "index.php?article_id=$id";
+                        else return getURLbyID($id);
                 }
         }
 
