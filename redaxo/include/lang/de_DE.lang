@@ -72,7 +72,7 @@ evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Info
 
 # redaxo\include\pages\content.inc.php
 block_updated = Block wurde aktualisiert !
-block added = Block wurde hinzugef&uuml;gt
+block_added = Block wurde hinzugef&uuml;gt
 no_rights_to_this_function = Sie haben keine Rechte f&uuml;r diese Funktion !
 module_not_found = FEHLER ! Modul wurde nicht gefunden !
 block_deleted = Block wurde gel&ouml;scht !
