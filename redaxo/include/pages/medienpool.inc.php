@@ -17,6 +17,7 @@ $htmlarea[".gif|.jpg|.jpeg|.png"] = "<img src=###URL### width=100 height=100 vsp
 // imagetypes
 $imagetype[] = "image/gif";
 $imagetype[] = "image/jpeg";
+$imagetype[] = "image/pjpeg";
 $imagetype[] = "image/jpg";
 $imagetype[] = "image/png";
 
