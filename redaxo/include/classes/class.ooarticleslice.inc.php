@@ -256,7 +256,7 @@ EOD;
 	}
 	
 	function getLinkUrl($index) {
-		return $REX[WWW_PATH]."index.php?article_id=".$this->getLink($index);
+		return $REX['WWW_PATH']."index.php?article_id=".$this->getLink($index);
 	}
 
 	function getFile($index) {
@@ -264,7 +264,7 @@ EOD;
 	}
 	
 	function getFileUrl($index) {
-		return $REX[MEDIAFOLDER]."/".$this->getFile($index);
+		return $REX['MEDIAFOLDER']."/".$this->getFile($index);
 	}
 	
 	function getHtml() {
