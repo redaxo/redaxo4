@@ -178,8 +178,6 @@ class stat
 	
 		$maxvisits = 0;
 		$maxpageviews = 0;
-		
-		echo "count:".count($this->MAIN['stamp']);
 	
 		for  ( $i=0 ; $i < count($this->MAIN['stamp']) ; $i++ )
 		{
@@ -190,9 +188,6 @@ class stat
 			if ($maxpageviews<$days[date("d",$this->MAIN['stamp'][$i])][pageviews]) $maxpageviews = $days[date("d",$this->MAIN['stamp'][$i])][pageviews];
 				
 		}
-		
-		echo "<br>maxvisits: $maxvisits";
-		echo "<br>maxpageviews: $maxpageviews";
 		
 		$daysinmonth = date("t", $this->MAIN['stamp'][0]);
 
