@@ -58,7 +58,7 @@ include_once $REX[INCLUDE_PATH]."/functions/function_createimage.inc.php";
 if (!$REX[GG] && $lang == "de_DE") $REX[LANG] = $lang;
 elseif (!$REX[GG] && $lang == "en_GB") $REX[LANG] = $lang;
 
-$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
+$I18N = new i18n(strtolower($REX[LANG]),$REX[INCLUDE_PATH]."/lang/");
 $REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
 
 // ----------------- 

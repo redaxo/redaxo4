@@ -156,6 +156,8 @@ class liste
 	function showall($next)
 	{
 		
+		global $REX;
+		
 		// ------------- FALLS KEIN ROWSELECT ALLE DATENSAETZE HOLEN UND ANZAHL SETZEN
 		
 		if ($this->rows == "")
@@ -186,8 +188,8 @@ class liste
 		$next = $next+$this->list_amount;
 		if ($next>$this->rows) $next=$next-$this->list_amount;
 		if ($next<0) $next=0;
-		$echo .= "<a href=index.php?article_id=".$this->article_id."&FORM[next]=$before".$this->addonlink."><img src=/pics/p_objects/scroll_back.gif width=24 height=13 border=0></a> ";
-		$echo .= "<a href=index.php?article_id=".$this->article_id."&FORM[next]=$next".$this->addonlink."><img src=/pics/p_objects/scroll_forward.gif width=24 height=13 border=0></a>";
+		$echo .= "<a href=index.php?article_id=".$this->article_id."&FORM[next]=$before".$this->addonlink."><img src=$REX[HTDOCS_PATH]/pics/back.gif width=24 height=13 border=0></a> ";
+		$echo .= "<a href=index.php?article_id=".$this->article_id."&FORM[next]=$next".$this->addonlink."><img src=$REX[HTDOCS_PATH]/pics/forward.gif width=24 height=13 border=0></a>";
 		$echo .= " &nbsp; &nbsp; &nbsp; &nbsp; $list_start - $list_end of $this->rows ";
 		$echo .= "</b></td></tr>";
 
