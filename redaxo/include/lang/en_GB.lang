@@ -330,6 +330,7 @@ pool_kat_add = Created
 pool_kat_update = Update
 pool_kat_edit = Edit
 pool_kat_delete = Delete
+pool_kat_hide= Thumbnail
 
 
 pool_file_detail = Media: Details
@@ -357,12 +358,23 @@ pool_file_deleted = File has been deleted
 pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
 
+pool_import_list = Media-Import
+pool_import_help = Source folder for Media-Import
+pool_import_target_info = Select Category for File-Import
+
+pool_selectedmedia=Selected Media:
+pool_delete_selectedmedia= delete
+pool_changecat_selectedmedia= change category
+pool_selectedmedia_error= no media selected
+
+pool_select_all = All
+
 cache_remove = Clear cache
 
 # redaxo/include/pages
 
 setup = Setup
-setup_text = Here you can restart the setup. 
+setup_text = Here you can restart the setup.
 
 setup_error1 = Setup activated. Please click &gt;<a href=index.php>here</a>&lt; to start the setup.
 setup_error2 = No permission to 'master.inc.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
@@ -374,7 +386,7 @@ setup_step1 = SETUP: STEP 1 of 5
 setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
 setup_012 = <font class=error>Error</font> | The directory <b>{0}</b> is not writeable or executable!
 setup_014 = <font class=error>Error</font> | The file <b>{0}</b> is not writeble!
-setup_015 = <font class=error>Error</font> | The file or directory <b>{0}</b> does not exist, please create it. 
+setup_015 = <font class=error>Error</font> | The file or directory <b>{0}</b> does not exist, please create it.
 setup_016 = <b>Checking PHP Version and filesystem permissions</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | File Permissions
 setup_017 = Go on to step 2
 setup_018 = Please correct these problems and repeat the setup.
@@ -437,7 +449,7 @@ addon_activated = AddOn has been activated
 addon_deactivated = AddOn have been deactivated
 addon_hname = Name
 addon_hinstall = installed ?
-addon_hactive = active ? 
+addon_hactive = active ?
 addon_reinstall = Re-install
 addon_install = install
 addon_deactivate = deactivate
