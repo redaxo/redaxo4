@@ -232,9 +232,9 @@ class OOCategory {
 	 * Object Helper Function:
 	 * Returns a url for linking to this category
 	 */
-	function getUrl() {
+	function getUrl($params = null) {
 		$start = $this->getStartArticle();
-		return $start ? $start->getUrl() : "";
+		return $start ? $start->getUrl($params) : "";
 	}
 }
 ?>
