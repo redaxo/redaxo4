@@ -289,6 +289,17 @@ start_eval = Auswertungen erstellen
 start_eval_button = Auswerten
 statistics_header = Statistiken
 evaluation_header = Auswertung
+all_articles = Alle Artikel
+top_ten = Top 10
+worst_ten = Worst 10
+countries = L&auml;nder
+search_engines = Suchmaschinen
+search_words = Suchbegriffe
+referer = Referer
+all_browsers = Alle Browser
+operating_systems = Betriebsystem
+browser = Browser
+visitors = Besucher
 
 #redaxo\include\pages\stats\stat_template.inc.php
 page_views = Page Views

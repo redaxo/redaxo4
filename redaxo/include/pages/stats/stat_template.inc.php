@@ -75,37 +75,37 @@ echo "
 		</tr>
 		
 		<tr>
-			<td class=".isactive("allarticle")."><a href=index.php?page=stats&sub=stats&show=allarticle&year=$year&month=$month>Alle Artikel</a></td>
+			<td class=".isactive("allarticle")."><a href=index.php?page=stats&sub=stats&show=allarticle&year=$year&month=$month>".$I18N->msg("all_articles")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("top10article")."><a href=index.php?page=stats&sub=stats&show=top10article&year=$year&month=$month>Top 10</a></td>
+			<td class=".isactive("top10article")."><a href=index.php?page=stats&sub=stats&show=top10article&year=$year&month=$month>".$I18N->msg("top_ten")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("worst10article")."><a href=index.php?page=stats&sub=stats&show=worst10article&year=$year&month=$month>Worst 10</a></td>
+			<td class=".isactive("worst10article")."><a href=index.php?page=stats&sub=stats&show=worst10article&year=$year&month=$month>".$I18N->msg("worst_ten")."</a></td>
 		</tr>
 		<tr>
-			<td class=grey><b>Besucher</b></td>
+			<td class=grey><b>".$I18N->msg("visitors")."</b></td>
 		</tr>
 		<tr>
-			<td class=".isactive("laender")."><a href=index.php?page=stats&sub=stats&show=laender&year=$year&month=$month>Länder</a></td>
+			<td class=".isactive("laender")."><a href=index.php?page=stats&sub=stats&show=laender&year=$year&month=$month>".$I18N->msg("countries")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("suchmaschinen")."><a href=index.php?page=stats&sub=stats&show=suchmaschinen&year=$year&month=$month>Suchmaschinen</a></td>
+			<td class=".isactive("suchmaschinen")."><a href=index.php?page=stats&sub=stats&show=suchmaschinen&year=$year&month=$month>".$I18N->msg("search_engines")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("suchbegriffe")."><a href=index.php?page=stats&sub=stats&show=suchbegriffe&year=$year&month=$month>Suchbegriffe</a></td>
+			<td class=".isactive("suchbegriffe")."><a href=index.php?page=stats&sub=stats&show=suchbegriffe&year=$year&month=$month>".$I18N->msg("search_words")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("referer")."><a href=index.php?page=stats&sub=stats&show=referer&year=$year&month=$month>Referer</a></td>
+			<td class=".isactive("referer")."><a href=index.php?page=stats&sub=stats&show=referer&year=$year&month=$month>".$I18N->msg("referer")."</a></td>
 		</tr>
 		<tr>
-			<td class=grey><b>Browser</b></td>
+			<td class=grey><b>".$I18N->msg("browser")."</b></td>
 		</tr>
 		<tr>
-			<td class=".isactive("browser")."><a href=index.php?page=stats&sub=stats&show=browser&year=$year&month=$month>Alle Browser</a></td>
+			<td class=".isactive("browser")."><a href=index.php?page=stats&sub=stats&show=browser&year=$year&month=$month>".$I18N->msg("all_browsers")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("operatingsystem")."><a href=index.php?page=stats&sub=stats&show=operatingsystem&year=$year&month=$month>Betriebsystem</a></td>
+			<td class=".isactive("operatingsystem")."><a href=index.php?page=stats&sub=stats&show=operatingsystem&year=$year&month=$month>".$I18N->msg("operating_systems")."</a></td>
 		</tr>
 		
 	</table>

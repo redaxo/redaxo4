@@ -289,6 +289,17 @@ start_eval = Evaluate Logfiles
 start_eval_button = Evaluate
 statistics_header = Statistics
 evaluation_header = Evaluate
+all_articles = All Articles
+top_ten = Top 10
+worst_ten = Worst 10
+countries = Countries
+search_engines = Search Engines
+search_words = Search Words
+referer = Referer
+all_browsers = All Browsers
+operating_systems = operating Systems
+browser = Browsers
+visitors = Visitors
 
 #redaxo\include\pages\stats\stat_template.inc.php
 page_views = Page Views
