@@ -72,7 +72,7 @@ HTMLArea.Config = function () {
 		  "bold", "italic", "underline", "separator",
 		  "strikethrough", "subscript", "superscript", "separator",
 		  "copy", "cut", "paste", "space", "undo", "redo" ],
-		
+
 		[ "justifyleft", "justifycenter", "justifyright", "justifyfull", "separator",
 		  "insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
 		  "forecolor", "hilitecolor", "textindicator", "separator",
@@ -1043,6 +1043,14 @@ HTMLArea.prototype.surroundHTML = function(startTag, endTag) {
 	this.insertHTML(startTag + html + endTag);
 };
 
+HTMLArea.prototype.removeF = function() {
+	var html = this.getSelectedHTML();
+	html = html.replace(/<br\s\/>/gi, "##br##");
+	html = html.replace(/<[\!]*?[^<>]*?>/g, "");
+	html = html.replace(/##br##/g, "<br />");
+	this.insertHTML(html);
+};
+
 /// Retrieve the selected block
 HTMLArea.prototype.getSelectedHTML = function() {
 	var sel = this._getSelection();
@@ -1184,15 +1192,7 @@ HTMLArea.prototype.execCommand = function(cmdID, UI, param) {
 		}, HTMLArea._colorToRgb(this._doc.queryCommandValue(cmdID)));
 		break;
 	    case "createlink":
-		if (HTMLArea.is_ie || !UI) {
-			this._doc.execCommand(cmdID, UI, param);
-		} else {
-			// browser is Mozilla & wants UI
-			var param;
-			if ((param = prompt("Enter URL"))) {
-				this._doc.execCommand(cmdID, false, param);
-			}
-		}
+		this._createLink();
 		break;
 	    case "popupeditor":
 		if (HTMLArea.is_ie) {
@@ -1323,6 +1323,19 @@ HTMLArea.prototype.setHTML = function(html) {
 	    default	    : alert("Mode <" + mode + "> not defined!");
 	}
 	return false;
+};
+
+HTMLArea.prototype._createLink = function(link) {
+	var editor = this;
+	var outparam = null;
+	this._popupDialog("link.html", function(param) {
+		if (!param)
+			return false;
+		var start = "<a href="+param.f_href+" target="+param.f_target+" alt="+param.f_title+">";
+		editor.surroundHTML(start, '</a>');
+		//editor.selectNodeContents(a);
+		editor.updateToolbar();
+	}, outparam);
 };
 
 /***************************************************
