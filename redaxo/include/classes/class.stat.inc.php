@@ -187,9 +187,10 @@ class stat
 		$out .= "<tr><th>Datum</th><th>PageViews</th><th>Visits</th><th>PageViews per Visit</th></tr>"; 
 		for ($i=0; $i<=$daysinmonth ; $i++ ) 	// für jeden tag
 		{
-				
-			if ( $i < 11 ) $day = "0".($i+1);
-			else $day = ($i+1);
+			
+			$day = $i+1;
+			
+			if ( $day < 10 ) $day = "0".$day;
 			
 			$date = $day.".".$month.".".$year;
 			
