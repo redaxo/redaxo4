@@ -359,7 +359,7 @@ pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
 
 pool_import_list = Media-Import
-pool_import_help = Source folder for Media-Import
+pool_import_help = Source folder for Media-Import (folder in dir files)
 pool_import_target_info = Select Category for File-Import
 
 pool_selectedmedia=Selected Media:
