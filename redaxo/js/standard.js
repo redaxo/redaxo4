@@ -40,14 +40,10 @@ function getObj(name)
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function changeImage(lay,img,srcs)
+function changeImage(id,img)
 {
-        if (document.layers) {
-                document.layers[lay].document.images[img].src = srcs;
-        }else if(document.all) {
-                document.all(lay).document.images[img].src = srcs;
-        }else if(document.getElementById) {
-                document.images[img].src = srcs;
+        if(document.getElementById(id)) {
+                document.getElementById(id).src = img;
         }
 
 }
