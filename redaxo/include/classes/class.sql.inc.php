@@ -260,7 +260,7 @@ class sql
 		}
 
 		if($value!=""){
-
+			print "SELECT $field_name FROM $table_name $add ORDER BY $field_name DESC";
 			$res = $this->get_array("SELECT $field_name FROM $table_name $add ORDER BY $field_name DESC");
 			foreach($res as $key => $var){
 				if($var[$field_name] == $value){
@@ -279,6 +279,58 @@ class sql
 				$this->setQuery($sql);
 
 				$sql= "UPDATE $table_name SET $field_name='$next_id' WHERE $field_name='0' $add2";
+				$this->setQuery($sql);
+			}
+
+		}
+
+	}
+
+	function order_top($value="",$table_name,$field_name,$where_name="",$where_value=""){
+
+		if($where_name!=""){
+			$add  = "WHERE $where_name='$where_value'";
+			$add2 = "AND $where_name='$where_value'";
+		}
+
+		if($value!=""){
+
+			$res = $this->get_array("SELECT $field_name FROM $table_name $add ORDER BY $field_name ASC LIMIT 0,1");
+			$save_id = $res[0][$field_name];
+
+			if($save_id!=$value){
+
+				$sql= "UPDATE $table_name SET $field_name=0 WHERE $field_name=$value $add2";
+				$this->setQuery($sql);
+
+				$sql= "UPDATE $table_name SET $field_name=$field_name + 1 WHERE $field_name!=0 AND $field_name!=$save_id $add2";
+				$this->setQuery($sql);
+
+				$sql= "UPDATE $table_name SET $field_name = $field_name + 1 WHERE $field_name='$save_id' $add2";
+				$this->setQuery($sql);
+
+				$sql= "UPDATE $table_name SET $field_name='$save_id' WHERE $field_name='0' $add2";
+				$this->setQuery($sql);
+			}
+
+		}
+	}
+
+	function order_bottom($value="",$table_name,$field_name,$where_name="",$where_value=""){
+
+		if($where_name!=""){
+			$add  = "WHERE $where_name='$where_value'";
+			$add2 = "AND $where_name='$where_value'";
+		}
+
+		if($value!=""){
+
+			$res = $this->get_array("SELECT $field_name FROM $table_name $add ORDER BY $field_name DESC LIMIT 0,1");
+			$save_id = $res[0][$field_name];
+
+			if($save_id!=$value){
+
+				$sql= "UPDATE $table_name SET $field_name=$save_id + 1 WHERE $field_name=$value $add2";
 				$this->setQuery($sql);
 			}
 

@@ -17,21 +17,27 @@ if ($edit_id != "")
 // vscope order up/down script
 if($order!=''){
 	$sql = new sql;
-	if($re_category==''){
-	         if($order=='up'){
-	                 $sql->order_up($order_id,'rex_article','prior','category_id',$category_id);
-	         }
-	         if($order=='down'){
-	                 $sql->order_down($order_id,'rex_article','prior','category_id',$category_id);
-	         }
+	if($re_category!=''){
+		$o_which = 're_category_id';
+		$o_cat = $re_category;
+		$o_table = 'rex_category';
 	} else {
-	         if($order=='up'){
-	                 $sql->order_up($order_id,'rex_category','prior','re_category_id',$re_category);
-	         }
-	         if($order=='down'){
-	                 $sql->order_down($order_id,'rex_category','prior','re_category_id',$re_category);
-	         }
+		$o_which = 'category_id';
+		$o_cat = $category_id;
+		$o_table = 'rex_article';
 	}
+         if($order=='up'){
+                 $sql->order_up($order_id,$o_table,'prior',$o_which,$o_cat);
+         }
+         if($order=='down'){
+                 $sql->order_down($order_id,$o_table,'prior',$o_which,$o_cat);
+         }
+         if($order=='top'){
+                 $sql->order_top($order_id,$o_table,'prior',$o_which,$o_cat);
+         }
+         if($order=='bottom'){
+                 $sql->order_bottom($order_id,$o_table,'prior',$o_which,$o_cat);
+         }
 }
 
 $STRUCTURE_PERM = FALSE;
@@ -276,10 +282,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id>".$KAT->getValue("name")."&nbsp;</a>";
 		if ($REX_USER->isValueOf("rights","expertMode[]")) $echo .= "[$i_category_id]";
 		$echo .= "</td>
-				<td class=grey>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up><img src=pics/pfeil_up.gif width=16 height=16 border=0></a>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0></a>
-				</td>
+				<td class=grey><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=top><img src=pics/pfeil_top.gif width=11 height=13 border=0 alt=top></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up><img src=pics/pfeil_up.gif width=11 height=13 border=0 alt=up></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=11 height=13 border=0 alt=down></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=bottom><img src=pics/pfeil_bottom.gif width=11 height=13 border=0 alt=bottom></a></td>
 				<td class=grey>$edit_txt</td>
 				<td class=grey>$kat_status</td>
 			</tr>";
@@ -408,9 +411,7 @@ if($category_id > -1)
 
 			echo "</td>
 				<td class=grey>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif width=16 height=16 border=0></a>
-				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0></a>
-				</td>
+				<a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=top><img src=pics/pfeil_top.gif border=0 alt=top></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=bottom><img src=pics/pfeil_bottom.gif border=0 alt=bottom></a></td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
