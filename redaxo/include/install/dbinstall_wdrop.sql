@@ -451,3 +451,7 @@ CREATE TABLE rex__session (
   stamp int(11) NOT NULL default '0',
   PRIMARY KEY  (session)
 ) TYPE=MyISAM;
+
+ALTER TABLE `rex_file_category` ADD `re_id` INT NOT NULL, ADD `path` VARCHAR(255) NOT NULL;
+ALTER TABLE `rex_file` ADD `user_login` VARCHAR(255) NOT NULL;
+ALTER TABLE `rex_article` ADD `user_login` VARCHAR(255) NOT NULL;

@@ -6,3 +6,6 @@ ALTER TABLE `rex__board` ADD `anonymous_user` VARCHAR(50) NOT NULL AFTER `status
 CREATE TABLE `rex_action` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL, `action` TEXT NOT NULL, `prepost` TINYINT NOT NULL, `status` TINYINT NOT NULL );
 CREATE TABLE `rex_module_action` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `module_id` INT NOT NULL, `action_id` INT NOT NULL );
 CREATE TABLE rex__session ( session varchar(50) NOT NULL default '', user_id int(11) NOT NULL default '0', name varchar(50) NOT NULL default '', stamp int(11) NOT NULL default '0', PRIMARY KEY  (session));
+ALTER TABLE `rex_file_category` ADD `re_id` INT NOT NULL, ADD `path` VARCHAR(255) NOT NULL;
+ALTER TABLE `rex_file` ADD `user_login` VARCHAR(255) NOT NULL;
+ALTER TABLE `rex_article` ADD `user_login` VARCHAR(255) NOT NULL;
