@@ -145,7 +145,7 @@ class sql
 		for ($i=0;$i<$this->zaehler;$i++)
 		{
 			if ($sql!=""){ $sql .= ","; }
-			$sql .= $this->feld[$i]."='".$this->wert[$i]."'";
+			$sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
 		}
 
 		$this->selectDB();
@@ -163,7 +163,7 @@ class sql
 			if ($sql1!=""){ $sql1 .= ","; }
 			if ($sql2!=""){ $sql2 .= ","; }
 			$sql1 .= $this->feld[$i];
-			$sql2 .= "'".$this->wert[$i]."'";
+			$sql2 .= "'".addslashes( $this->wert[$i])."'";
 		}
 
 		$this->selectDB();
