@@ -484,7 +484,7 @@ if($category_id > -1)
 				<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=edit&category_id=$category_id>".$I18N->msg("change")."</a></td>";
 
 			if ($sql->getValue("startpage") == 1){
-				echo "	<td class=grey><strike>löschen</strike></td>
+				echo "	<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
 					<td class=grey><strike>online</strike></td>";
 			}else{
 				if ($sql->getValue("status") == 0){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; }
@@ -503,7 +503,7 @@ if($category_id > -1)
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
-				<td class=grey><strike>ändern</strike></td>";
+				<td class=grey><strike>".$I18N->msg("edit")."</strike></td>";
 
 			if ($sql->getValue("startpage") == 1){
 				echo "	<td class=grey><strike>delete</strike></td>
