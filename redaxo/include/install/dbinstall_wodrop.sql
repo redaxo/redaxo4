@@ -407,21 +407,28 @@ CREATE TABLE rex_user (
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table `rex_user`
-#
-
-
 # ACTIONS
 
-CREATE TABLE `rex_action` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL, `action` TEXT NOT NULL, `prepost` TINYINT NOT NULL, `status` TINYINT NOT NULL );
+CREATE TABLE `rex_action` ( 
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `name` VARCHAR(255) NOT NULL, 
+  `action` TEXT NOT NULL, 
+  `prepost` TINYINT NOT NULL, 
+  `status` TINYINT NOT NULL 
+);
 
-CREATE TABLE `rex_module_action` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `module_id` INT NOT NULL, `action_id` INT NOT NULL );
-
-
+CREATE TABLE `rex_module_action` ( 
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `module_id` INT NOT NULL, 
+  `action_id` INT NOT NULL 
+);
 
 ## REDAXO 2.7
 
-CREATE TABLE `rex_file_category` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(255) NOT NULL );
+CREATE TABLE `rex_file_category` ( 
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `name` VARCHAR(255) NOT NULL 
+);
+
 ALTER TABLE `rex_article` ADD `linkname` VARCHAR(255) NOT NULL AFTER `name`;
 ALTER TABLE `rex_file` ADD `category_id` INT NOT NULL AFTER `re_file_id`;
