@@ -238,7 +238,7 @@ if ($function == "add_article" and $STRUCTURE_PERM)
 
 // --------------------------------------------- category list
 
-if ($KATebene < $KatMaxEbenen && ($REX_USER->isValueOf("rights","structure[all]") || $STRUCTURE_PERM)) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat><img src=pics/folder_plus.gif width=16 height=16 border=0></a>";
+if ($KATebene < $KatMaxEbenen && ($REX_USER->isValueOf("rights","structure[all]") || $STRUCTURE_PERM)) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat><img src=pics/folder_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("add_category")."\"></a>";
 else $addc = "&nbsp;";
 
 echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
@@ -374,7 +374,7 @@ if($category_id > -1)
 		<tr>
 			<th width=30>";
 
-	if ($STRUCTURE_PERM) echo "<a href=index.php?page=structure&category_id=$category_id&function=add_art><img src=pics/document_plus.gif width=16 height=16 border=0></a>";
+	if ($STRUCTURE_PERM) echo "<a href=index.php?page=structure&category_id=$category_id&function=add_art><img src=pics/document_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("article_add")."\"></a>";
 	else echo "&nbsp;";
 
 	echo "</td>
