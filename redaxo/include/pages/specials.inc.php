@@ -1,5 +1,5 @@
 <?
-print_r($_POST);
+
 // ---------------------------------------------------------- func
 
 // ------------- generiere statische inhalte
@@ -220,9 +220,18 @@ if ($function == "Update" or $function == "Ändern")
 	if ($type_id!=1)
 	{
 		$delete = new sql;
-		$delete->query("delete from rex_article_type where type_id='$type_id'");
-		$delete->query("update rex_article set type_id='1' where type_id='$type_id'");
-		$message = $I18N->msg("article_type_deleted");
+		$result = $delete->get_array("SELECT name,id FROM rex_article WHERE type_id = $type_id");
+		if(is_array($result)){
+			$message = $I18N->msg("article_type_still_used")."<br>";
+			foreach($result as $var){
+				$message.= "<br><a href=index.php?page=content&article_id=".$var[id]."&mode=meta target=_blank>".$var[name]."</a>";
+			}
+			$message.="<br><br>";
+		} else {
+	        $delete->query("delete from rex_article_type where type_id='$type_id'");
+	        $delete->query("update rex_article set type_id='1' where type_id='$type_id'");
+	        $message = $I18N->msg("article_type_deleted");
+	    }
 	}else
 	{
 		$message = $I18N->msg("article_type_could_not_be_deleted");
