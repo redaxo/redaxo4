@@ -225,8 +225,8 @@ class mail_decode
 	
 	function __decodeString($s,$de)
 	{
-		if($de == 'base64') return base64_decode($s);
-		elseif($de == 'quoted-printable') return quoted_printable_decode($s);
+		if(strtolower($de) == 'base64') return base64_decode($s);
+		elseif(strtolower($de) == 'quoted-printable') return quoted_printable_decode($s);
 		else return $s;
 	}
 
