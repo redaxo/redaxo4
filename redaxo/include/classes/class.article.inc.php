@@ -504,6 +504,15 @@ class article
                 $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
                 $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
 
+	            // -- preg match redaxo://[ARTICLEID] --
+	            preg_match_all("/redaxo:\/\/([0-9]*)/im",$slice_content,$matches);
+	            if($matches[0][0]!=''){
+	                for($m=0;$m<count($matches[0]);$m++){
+	                    $url = getURLbyID($matches[1][$m]);
+	                    $slice_content = str_replace($matches[0][$m],$url,$slice_content);
+	                }
+	            }
+
                 return $slice_content;
 
         }
