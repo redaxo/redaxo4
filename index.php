@@ -34,6 +34,7 @@ $REX[GG] = true;
 
 $REX[HTDOCS_PATH] = "./";
 include "./redaxo/include/master.inc.php";
+include "./userlib.inc.php";
 
 // Online / Offline Check
 if($REX[ONOFFCHECK]!=false){
