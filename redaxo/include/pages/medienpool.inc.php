@@ -1,5 +1,28 @@
 <?
 
+// Alle Funktionen fuer medienpool nur hier einbauen
+
+// permissions einbauen über
+// $REX_USER->isValueOf("rights","catmedia[2]"); und je nach categorie
+// $REX_USER->isValueOf("rights","admin[]");
+// nur user mit $REX_USER->isValueOf("rights","admin[]"); koennen die ordnerverwaltung starten
+// sofern zugriff auf eine categorie dann auch zugriff auf die unterkategorien
+// keine speziellen filezugriffseinschraenkungen
+// mitspeichern von username $REX_USER->getValue("name") und utimestamp -> siehe datenbank
+// sprache beachten -> categorien mit gleichen ids aber unterschiedlichen clang
+
+// wegen der files in ordner verschieben oder loeschen geschichte wuerde ich gerne
+// alles über "echte" submit buttons abschicken lassen und auch die markierten reihen sollten
+// "eingefärbt" werden
+
+
+
+
+
+
+
+
+
 // FUNCTIONS
 
 function media_resize($FILE,$width,$height,$make_copy=false){
