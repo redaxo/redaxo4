@@ -134,8 +134,8 @@ class OOArticle {
 		}
 		return $artlist;
 	}
-	
-	
+
+
 	/*
 	 * CLASS Function:
 	 * Return the site wide start article
@@ -157,7 +157,7 @@ class OOArticle {
 		}
 		return null;
 	}
-	 
+
 	/*
 	 * CLASS Function:
 	 * Return start article for a certain category
@@ -229,13 +229,13 @@ class OOArticle {
 		}
 		return $artlist;
 	}
-	
-	
+
+
 	function getArticlesOfCategoryByDate($a_category_id, $day_from, $month_from, $year_from, $day_to, $month_to, $year_to) {
 		// TO BE DONE, 26.05.04
 		return null;
 	}
-	
+
 	/*
 	 * CLASS function:
 	 * Return a list of articles which slices contain the search string.
@@ -253,7 +253,7 @@ class OOArticle {
 		}
 		return $ret;
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Return the category of this article
@@ -262,7 +262,7 @@ class OOArticle {
 	function getCategory() {
 		return OOCategory::getCategoryById($this->_category_id);
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Return the first slice of this article
@@ -271,7 +271,7 @@ class OOArticle {
 	function getFirstSlice() {
 		return OOArticleSlice::getFirstSliceForArticle($this->_id);
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Return a list of all the slices of this article
@@ -289,7 +289,7 @@ class OOArticle {
 	function getId() {
 		return $this->_id;
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns the name of the article
@@ -297,21 +297,14 @@ class OOArticle {
 	function getName() {
 		return $this->_name;
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns the name transformed for
 	 * use with mod_rewrite in an url.
 	 */
 	function getModRewriteName() {
-		$url = str_replace(" ","_",$this->_name); 
-		$url = str_replace("ä","ae",$url); 
-		$url = str_replace("ö","oe",$url); 
-		$url = str_replace("ü","ue",$url); 
-		$url = str_replace("Ä","Ae",$url); 
-		$url = str_replace("Ö","Oe",$url); 
-		$url = str_replace("Ü","Ue",$url); 
-		$url = urlencode($url); 
+		$url = ModRewriteName($this->_name);
 		return $url;
 	}
 
@@ -322,7 +315,7 @@ class OOArticle {
 	function isOnline() {
 		return $this->_status == 1 ? true : false;
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns the article description.
@@ -339,7 +332,7 @@ class OOArticle {
 	function toString() {
 		return "Article: ".$this->_id.", ".$this->_name.", ".($this->isOnline() ? "online" : "offline");
 	}
-	
+
 	/*
 	 * Object Helper Function:
 	 * Returns a url for linking to this article
@@ -348,7 +341,7 @@ class OOArticle {
 	 *
 	 * If you pass an associative array for $params,
 	 * then these parameters will be attached to the URL.
-	 * e.g.: 
+	 * e.g.:
 	 *   $param = array("order" => "123", "name" => "horst");
 	 *   $article->getUrl($param);
 	 * will return:
@@ -367,7 +360,7 @@ class OOArticle {
 		}
 		$param_string = substr($param_string,0,strlen($param_string)-1); // cut off the last '&'
 		$mr_name = $this->getModRewriteName();
-		$url = $REX['MOD_REWRITE'] ? "/{$this->_id}-{$mr_name}" 
+		$url = $REX['MOD_REWRITE'] ? "/{$this->_id}-{$mr_name}"
 		                           : "index.php?article_id={$this->_id}";
 	  return $REX['WWW_PATH']."{$url}{$param_string}";
 	}
