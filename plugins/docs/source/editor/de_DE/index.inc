@@ -1,1 +1,1 @@
-[1||Test 1]
+[1||Redaxo für Redakteure]
