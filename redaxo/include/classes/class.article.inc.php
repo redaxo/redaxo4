@@ -369,6 +369,15 @@ class article
 
                         $return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
 
+	                    // -- preg match REX_LINK_INTERN[ARTICLEID] --
+	                    preg_match_all("/REX_LINK_INTERN\[([0-9]*)\]/im",$return,$matches);
+	                    if($matches[0][0]!=''){
+	                        for($m=0;$m<count($matches[0]);$m++){
+	                            $url = getURLbyID($matches[1][$m]);
+	                            $return = str_replace($matches[0][$m],$url,$return);
+	                        }
+	                    }
+
                         eval("?>".$return);
 
                         // echo htmlentities($return);
@@ -506,6 +515,15 @@ class article
 
 	            // -- preg match redaxo://[ARTICLEID] --
 	            preg_match_all("/redaxo:\/\/([0-9]*)/im",$slice_content,$matches);
+	            if($matches[0][0]!=''){
+	                for($m=0;$m<count($matches[0]);$m++){
+	                    $url = getURLbyID($matches[1][$m]);
+	                    $slice_content = str_replace($matches[0][$m],$url,$slice_content);
+	                }
+	            }
+
+	            // -- preg match REX_LINK_INTERN[ARTICLEID] --
+	            preg_match_all("/REX_LINK_INTERN\[([0-9]*)\]/im",$slice_content,$matches);
 	            if($matches[0][0]!=''){
 	                for($m=0;$m<count($matches[0]);$m++){
 	                    $url = getURLbyID($matches[1][$m]);
