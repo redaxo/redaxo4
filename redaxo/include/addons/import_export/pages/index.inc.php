@@ -12,7 +12,7 @@ if ($impname != "")
 
 }
 
-if ($exportfilename == "") $exportfilename = $REX[SERVERNAME] . '_' .date("Ymd");
+if ($exportfilename == "") $exportfilename = $REX[SERVERNAME] . '_rex' .$REX[version];
 
 
 if ($function == "delete")
@@ -336,7 +336,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	</table>";
 	
     echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>".$I18N_ADDON->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
     
     // DB IMPORT LIST
     // all files in files with .sql als endung
@@ -345,8 +345,10 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     
     foreach( $folder as $file) 
     {
+        $filec = date( "d.m.Y H:i", filectime( $dir .'/'.$file));
         echo "<tr>
         <td class=lgrey>$file</td>
+        <td class=lgrey>$filec</td>
         <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
         <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
     }
@@ -365,7 +367,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	</table>";
 
     echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</th>";
+    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>".$I18N_ADDON->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
     
     // FILE IMPORT LIST
     // all files in files with .tar.gz als endung
@@ -375,8 +377,10 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     
     foreach( $folder as $file)
     {
+        $filec = date( "d.m.Y H:i", filectime( $dir .'/'.$file));
         echo "<tr>
         <td class=lgrey>$file</td>
+        <td class=lgrey>$filec</td>
         <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
         <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
     }
@@ -417,7 +421,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	
     echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>";
     // FILE EXPORT LIST
-    // all files in files with .tar.gz als endung
+    // all folders of the webpage except the cms dir
 
     $dir = $REX[INCLUDE_PATH]."/../..";
     $folders = readSubFolders( $dir);
