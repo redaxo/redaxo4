@@ -107,10 +107,12 @@ if ($func == "copyCategory")
 	$cont = ereg_replace("(DB\[2\]\[LOGIN\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[PSW\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[NAME\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
-	// Caching
-	$cont = ereg_replace("(REX\[CACHING\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
-	$cont = ereg_replace("(REX\[CACHING_DEBUG\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
 
+	// Caching
+	if($REX_USER->isValueOf("rights","caching[]")){
+		$cont = ereg_replace("(REX\[CACHING\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
+		$cont = ereg_replace("(REX\[CACHING_DEBUG\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
+	}
 
 
 	fclose($h);
