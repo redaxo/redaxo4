@@ -12,7 +12,7 @@ if ($month == "") $month = date("m");
 if ( $funktion == 'evaluate' )
 {
 	// no time limit
-	set_time_limit(0);
+	// set_time_limit(0); // doesnt work in safe_mode
 	$a = new stat;
 	if ( $a->evaluate($year,$month) ) $err_msg = $I18N->msg("eval_ok")."<br>";
 	else $err_msg = $I18N->msg("eval_error")."<br>";
