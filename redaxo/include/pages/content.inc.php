@@ -402,83 +402,20 @@ if ($article->getRows() == 1)
 				$meta_sql->setValue("checkbox01",$checkbox01);
 
 				// cache
-	            $Cache = new Cache($article_id);
-	            if($caching!=1){
-	            	$Cache->removeCacheConf($article_id);
-	            } else {
-	            	$Cache->insertCacheConf($article_id);
-	            }
-	            if($recaching==1){
-	            	$Cache->removeCacheFiles($article_id);
-	            }
-
+				$Cache = new Cache($article_id);
+				if($caching!=1){
+					$Cache->removeCacheConf($article_id);
+				} else {
+					$Cache->insertCacheConf($article_id);
+				}
+				if($recaching==1){
+					$Cache->removeCacheFiles($article_id);
+				}
 
 				// -------------------------- FILE UPLOAD META BILD/FILE
 
-				$FILE	  = "METAFILE";
-				$FILEDEL  = "METAFILEDEL";
-
-			        if ($METAFILE != "" and $METAFILE != "none")
-		        	{
-		        		$FILENAME = "METAFILE_name";
-					$FILESIZE = "METAFILE_size";
-					$FILETYPE = "METAFILE_type";
-		        		$NFILENAME = "";
-
-		        		// generiere neuen dateinamen
-		        		for ($cn=0;$cn<strlen($$FILENAME);$cn++)
-					{
-						$char = substr($$FILENAME,$cn,1);
-						if ( preg_match("([_A-Za-z0-9\.-])",$char) ) $NFILENAME .= strtolower($char);
-						else if ($char == " ") $NFILENAME .= "_";
-					}
-
-					if (strrpos($NFILENAME,".") != "")
-		        		{
-		        			$NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
-		        			$NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
-		        		}else
-		        		{
-		        			$NFILE_NAME = $NFILENAME;
-		        			$NFILE_EXT  = "";
-		        		}
-
-		        		if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
-		        		{
-		        			$NFILE_EXT .= ".txt";
-		        		}
-
-		        		$NFILENAME = $NFILE_NAME.$NFILE_EXT;
-
-					if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
-					{
-			        		// datei schon vorhanden ? wenn ja dann _1
-			        		for ($cf=0;$cf<1000;$cf++)
-			        		{
-							$NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
-			        			if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
-			        		}
-					}
-
-		        		if (!move_uploaded_file($$FILE,$REX[MEDIAFOLDER]."/$NFILENAME"))
-		        		{
-		        			$message = " - ".$I18N->msg("moving_file_error",$fi)." | ";
-		        		}else
-		        		{
-						$FILESQL = new sql;
-						$FILESQL->setTable("rex_file");
-						$FILESQL->setValue("filetype",$$FILETYPE);
-						$FILESQL->setValue("filename",$NFILENAME);
-						$FILESQL->setValue("originalname",$$FILENAME);
-						$FILESQL->setValue("filesize",$$FILESIZE);
-						$FILESQL->insert();
-
-			        		$meta_sql->setValue("file",$NFILENAME);
-					}
-				}elseif($$FILEDEL == "on")
-				{
-					$meta_sql->setValue("file",'');
-				}
+				if ($REX_MEDIA_1 == "delete file") $REX_MEDIA_1 = "";
+				$meta_sql->setValue("file",$REX_MEDIA_1);
 
 				// ----------------------------- / FILE UPLOAD
 
@@ -510,7 +447,7 @@ if ($article->getRows() == 1)
 
 
 			echo "	<table border=0 cellpadding=5 cellspacing=1 width=100%>
-				<form action=index.php method=post ENCTYPE=multipart/form-data>
+				<form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM>
 				<input type=hidden name=page value=content>
 				<input type=hidden name=article_id value='$article_id'>
 				<input type=hidden name=mode value='meta'>
@@ -543,23 +480,17 @@ if ($article->getRows() == 1)
 					<td class=grey><textarea name=suchbegriffe cols=30 rows=5 style='width:100%;'>".htmlentities($article->getValue("suchbegriffe"))."</textarea></td>
 				</tr>";
 
-			if ($article->getValue("file")!="")
-			{
-				echo "<tr>
-					<td class=grey>".$I18N->msg("metadata_image")."</td>
-					<td class=grey><img src=../files/".$article->getValue("file")." width=250></td>
-				</tr>
+			echo "<tr><td class=grey>".$I18N->msg("metadata_image")."</td><td class=grey>";
+						
+			echo "	<table>
+				<input type=hidden name=REX_MEDIA_DELETE_1 value=0 id=REX_MEDIA_DELETE_1>
 				<tr>
-					<td class=grey align=right><input type=checkbox name=METAFILEDEL></td>
-					<td class=grey>".$I18N->msg("delete_file")."</td>
-				</tr>";
-			}else
-			{
-				echo "<tr>
-					<td class=grey>".$I18N->msg("metadata_image")."</td>
-					<td class=grey><INPUT NAME=METAFILE TYPE=file size=2></td>
-				</tr>";
-			}
+				<td><input type=text size=30 name=REX_MEDIA_1 value='".$article->getValue("file")."' id=REX_MEDIA_1 readonly=readonly></td>
+				<td><a href=javascript:openREXMedia(1);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>
+				<td><a href=javascript:deleteREXMedia(1);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>
+				<td><a href=javascript:addREXMedia(1)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>
+				</tr></table>";
+			echo "</td></tr>";
 
 			echo "<tr bgcolor=#eeeeee>";
 
@@ -573,20 +504,21 @@ if ($article->getRows() == 1)
 				$out
 				 ";
 
-            // advanced caching
+			// advanced caching
 			if($REX_USER->isValueOf("rights","caching[]")){
-	            include_once("include/classes/class.cache.inc.php");
-	            $Cache = new Cache($article_id);
-	            if($Cache->isCacheConf()){
-	                $cacheCheck="checked";
-	            } else {
-	                $cacheCheck="";
-	            }
-	            echo "
-	                <tr>
-	                    <td class=grey width=150>Caching</td>
-	                    <td class=grey valign=middle><input type=checkbox name=caching value=1 ".$cacheCheck."> ".$I18N->msg("yes")." <input type=checkbox name=recaching value=1 > ".$I18N->msg("cache_remove")."</td>
-	                </tr>";
+
+				include_once("include/classes/class.cache.inc.php");
+				$Cache = new Cache($article_id);
+				if($Cache->isCacheConf()){
+					$cacheCheck="checked";
+				} else {
+					$cacheCheck="";
+				}
+				echo "
+				<tr>
+					<td class=grey width=150>Caching</td>
+					<td class=grey valign=middle><input type=checkbox name=caching value=1 ".$cacheCheck."> ".$I18N->msg("yes")." <input type=checkbox name=recaching value=1 > ".$I18N->msg("cache_remove")."</td>
+				</tr>";
 			}
 
 			echo "
