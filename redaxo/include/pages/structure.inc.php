@@ -167,9 +167,12 @@ if ($function == "add_category" && $STRUCTURE_PERM)
 
 	$AART->insert();
 
-	generateCategory($AKAT->last_insert_id);
+	$sql = new sql;
+	$sql->order_position($Position_New_Category,$AKAT->last_insert_id,"id","rex_category","prior","re_category_id",$category_id);
 
+	generateCategory($AKAT->last_insert_id);
 	generateArticle($AART->last_insert_id);
+
 }
 
 
@@ -193,6 +196,7 @@ if ($function == "edit_article" && ($STRUCTURE_PERM || $REX_USER->isValueOf("rig
 {
 	$amessage = $I18N->msg("article_updated");
 	$KAT->query("update rex_article set name='$article_name',template_id='$template_id' where id='$article_id'");
+
 	generateArticle($article_id);
 }
 
@@ -205,6 +209,7 @@ if ($function == "add_article" and $STRUCTURE_PERM)
 {
 	$amessage = $I18N->msg("article_added");
 	$AART = new sql;
+
 	// vscope prior script
 	$article_prior = $AART->new_order('rex_article','prior','category_id',$category_id);
 	$AART->setTable("rex_article");
@@ -220,7 +225,10 @@ if ($function == "add_article" and $STRUCTURE_PERM)
 	$AART->setValue("template_id",$template_id);
 	$AART->insert();
 
-	generateArticle($AART->last_insert_id);
+	// now set right position
+	$sql = new sql;
+	$sql->order_position($Position_New_Article,$AART->last_insert_id,"id","rex_article","prior","category_id",$category_id);
+	generateArticle($aid);
 }
 
 // --------------------------------------------- category pfad
@@ -254,7 +262,7 @@ if ($function == "add_cat")
 			<input type=hidden name=function value='add_category'>
 			<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
 			<td class=dgrey><input type=text size=30 name=category_name></td>
-			<td class=dgrey>&nbsp;</td>
+			<td class=dgrey>&nbsp;<input type=text name=Position_New_Category value=\"1\" style='width:30px'></td>
 			<td class=dgrey><input type=submit value='".$I18N->msg("add_category")."'></td>
 			<td class=dgrey>&nbsp;</td>
 			</form>
@@ -292,9 +300,9 @@ for($i=0;$i<$KAT->getRows();$i++)
 		$echo .= "
 			<tr>
 				<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
-				<form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id>
+				<form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id").">
 				<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("name"))."\"></td>
-				<td class=dgrey>&nbsp;</td>
+				<td class=dgrey><input type=text name=Position_Category value=\"$cat_pos\" style='width:30px'></td>
 				<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
 				<td class=dgrey>$kat_status</td></form>
 			</tr>";
@@ -309,8 +317,23 @@ for($i=0;$i<$KAT->getRows();$i++)
 				<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
 				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id>".$KAT->getValue("name")."&nbsp;</a>";
 		if ($REX_USER->isValueOf("rights","expertMode[]")) $echo .= "[$i_category_id]";
-		$echo .= "</td>
-				<td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")." style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>
+		$echo .= "</td>";
+		if ($STRUCTURE_PERM){
+			if ($REX_USER->isValueOf("rights","editPrio[]")){
+	            $echo.= "
+	                <td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")." style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>
+	            ";
+	        } else {
+	            $echo.= "
+	                <td class=grey valign=middle width=20>$cat_pos</td>
+	            ";
+	        }
+		} else {
+	        $echo.= "
+	        	<td class=grey valign=middle width=20>$cat_pos</td>
+	        ";
+	    }
+		$echo.= "
 				<td class=grey>$edit_txt</td>
 				<td class=grey>$kat_status</td>
 			</tr>";
@@ -383,7 +406,7 @@ if($category_id > -1)
 			<input type=hidden name=category_id value=$category_id>
 			<td class=grey align=center><img src=pics/document.gif width=16 height=16 border=0></td>
 			<td class=grey><input type=hidden name=function value='add_article'><input type=text name=article_name size=20></td>
-			<td class=grey></td>
+			<td class=grey>&nbsp;<input type=text name=Position_New_Article value=\"1\" style='width:30px'></td>
 			<td class=grey>".$TMPL_SEL->out()."</td>
 			<td class=grey>".date_from_mydate(date("YmdHis"),"")."&nbsp;</td>
 			<td class=grey><b>Artikel</b></td>
@@ -419,9 +442,10 @@ if($category_id > -1)
 				<input type=hidden name=category_id value=$category_id>
 				<input type=hidden name=article_id value=".$sql->getValue("id").">
 				<input type=hidden name=function value='edit_article'>
+				<input type=hidden name=aid value=".$sql->getValue("id").">
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id><img src=pics/$icon width=16 height=16 border=0></a></td>
 				<td class=grey><input type=text name=article_name value=\"".htmlentities($sql->getValue("name"))."\" size=20 style='width:100%'></td>
-				<td class=grey>".$pos."&nbsp;</td>
+				<td class=grey>&nbsp;<input type=text name=Position_Article value=\"$pos\" style='width:30px'></td>
 				<td class=grey>".$TMPL_SEL->out()."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
@@ -437,8 +461,15 @@ if($category_id > -1)
 
 			if ($REX_USER->isValueOf("rights","expertMode[]")) echo "[".$sql->getValue("id")."]";
 
-			echo "</td>
-				<td class=grey align=center width=75 valign=middle><form method=post action=index.php?page=structure&category_id=".$category_id."&aid=".$sql->getValue("id")." style=display:inline><input type=field name=Position_Article style=width:30px;height:16px value=$pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down align=absmiddle></a></td>
+			echo "</td>";
+
+			if ($REX_USER->isValueOf("rights","editPrio[]")){
+				echo "<td class=grey align=center width=75 valign=middle><form method=post action=index.php?page=structure&category_id=".$category_id."&aid=".$sql->getValue("id")." style=display:inline><input type=field name=Position_Article style=width:30px;height:16px value=$pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down align=absmiddle></a></td>";
+			} else {
+				echo "<td class=grey align=center width=10 valign=middle>$pos</td>\n";
+			}
+
+			echo "
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
@@ -460,7 +491,7 @@ if($category_id > -1)
 			echo "	<tr>
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit><img src=pics/$icon width=16 height=16 border=0></a></td>
 				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit>".$sql->getValue("name")."&nbsp;</a></td>
-				<td class=grey>".$sql->getValue("prior")."&nbsp;</td>
+				<td class=grey>$pos</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
@@ -482,7 +513,7 @@ if($category_id > -1)
 			echo "	<tr>
 				<td class=grey align=center><img src=pics/$icon width=16 height=16 border=0 align=middle></td>
 				<td class=grey>".$sql->getValue("name")."</td>
-				<td class=grey>".$sql->getValue("prior")."&nbsp;</td>
+				<td class=grey>$pos</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".date_from_mydate($sql->getValue("erstelldatum"),"")."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
