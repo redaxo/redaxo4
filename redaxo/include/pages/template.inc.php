@@ -176,8 +176,8 @@ if ($OUT)
 		echo "</td>
 				<td class=grey>";
 			
-		if ($sql->getValue("active")==1) echo "Ja";
-		else echo "Nein";
+		if ($sql->getValue("active")==1) echo $I18N->msg("yes");
+		else echo $I18N->msg("no");
 
 		echo "</td>
 				<td class=grey><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=delete>".$I18N->msg("delete_template")."</a></td>
