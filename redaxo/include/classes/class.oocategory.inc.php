@@ -128,7 +128,7 @@ class OOCategory {
 	 * Returns the parent category
 	 */
 	function getParent() {
-		return $_re_category_id > 0 ? OOCategory::getCategoryById($this->_re_category_id) : null;
+		return $this->_re_category_id > 0 ? OOCategory::getCategoryById($this->_re_category_id) : null;
 	}
 
 	/*
