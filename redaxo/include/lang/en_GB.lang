@@ -128,6 +128,22 @@ save_module_and_continue = Save module
 module_description = Module description
 module_functions = Functions
 delete_module = Delete module
+module_edit = Update Module
+action_taken = Action taken
+action_deleted_from_modul = Action has been deleted
+actions = Actions
+action_cannot_be_deleted = Action '{0}' cannot be deleted, because it is still used by these modules:
+action_deleted = Actions deleted
+action_added = Action added
+action_updated = Action updated
+action_edit = Edit action
+action_create = Create action
+action_name = Actionname
+save_action_and_quit = Save action and quit
+save_action_and_continue = Save action
+action_functions = Function
+action_delete = Delete action
+action_add = Add action
 
 # redaxo\include\pages\profile.inc.php
 user_data_updated = User data updated!

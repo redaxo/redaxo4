@@ -128,6 +128,22 @@ save_module_and_continue = Modul &uuml;bernehmen
 module_description = Modulbezeichnung
 module_functions = Funktionen
 delete_module = Modul l&ouml;schen
+module_edit = Modul editieren
+action_taken = Aktion wurde übernommen
+action_deleted_from_modul = Aktion wurde aus dem Modul gelöscht!
+actions = Aktionen
+action_cannot_be_deleted = Aktion '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Modulen genutzt wird:
+action_deleted = Aktion wurde gel&ouml;scht
+action_added = Aktion wurde hinzugef&uuml;gt
+action_updated = Aktion wurde aktualisiert
+action_edit = Aktion editieren
+action_create = Aktion erstellen
+action_name = Aktionsname
+save_action_and_quit = Aktion speichern
+save_action_and_continue = Aktion &uuml;bernehmen
+action_functions = Funktionen
+action_delete = Aktion l&ouml;schen
+action_add = Aktion hinzufügen
 
 # redaxo\include\pages\profile.inc.php
 user_data_updated = Benutzerdaten wurden aktualisiert!

@@ -10,12 +10,12 @@ if ($REX_USER->isValueOf("rights","action[]"))
 	if ($function_action == "add")
 	{
 		$aa->query("insert into rex_module_action set module_id='$modul_id',action_id='$action_id'");
-		$message = "Aktion wurde übernommen";
+		$message = $I18N->msg("action_taken");
 		
 	}elseif($function_action == "delete")
 	{
 		$aa->query("delete from rex_module_action where module_id='$modul_id' and id='$iaction_id'");
-		$message = "Aktion wurde aus dem Modul gelöscht!";
+		$message = $I18N->msg("action_deleted_from_modul");
 	}	
 }
 
@@ -93,7 +93,7 @@ if ($function == "add" or $function == "edit")
 		echo "<a name=edit><table border=0 cellpadding=5 cellspacing=1 width=770>";
 	
 		if ($function == "edit"){
-			echo "	<tr><th colspan=3 align=left>Modul editieren</th></tr>";
+			echo "	<tr><th colspan=3 align=left>".$I18N->msg("module_edit")."</th></tr>";
 
 			$hole = new sql;
 			$hole->setQuery("select * from rex_modultyp where id='$modul_id'");
@@ -177,30 +177,26 @@ if ($function == "add" or $function == "edit")
 			if ($gaa->getRows()>0)
 			{			
 			
-				echo "<tr><td colspan=3></td></tr><tr><td colspan=3 align=left class=dgrey><a name=action></a><b>Aktionen</b></td></tr>";
+				echo "<tr><td colspan=3></td></tr><tr><td colspan=3 align=left class=dgrey><a name=action></a><b>".$I18N->msg("actions")."</b></td></tr>";
 	
 				$gma = new sql;
 				$gma->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$modul_id'");
 				for ($i=0;$i<$gma->getRows();$i++)
 				{
 					$iaction_id = $gma->getValue("rex_module_action.id");
+					$action_id = $gma->getValue("rex_module_action.action_id");
 
 					echo "<tr>
 						<td class=grey>&nbsp;</td>
 						<td class=grey>";
 					
-					echo $gma->getValue("name");
-					
-					// echo $gma->getValue("prepost");
-					// echo $gma->getValue("status");
-					
-					echo "<td class=grey><a href=index.php?page=module&modul_id=$modul_id&function_action=delete&function=edit&iaction_id=$iaction_id>Aktion löschen</a></td>";
-					
-					
-					
-					
-					echo "</td>
-						</tr>";
+					echo "<a href=index.php?page=module&subpage=actions&action_id=$action_id&function=edit>".$gma->getValue("name")."</a>";
+					echo " [";
+					echo $PREPOST[$gma->getValue("prepost")]."|";
+					echo $ASTATUS[$gma->getValue("status")];
+					echo "] </td>";
+					echo "<td class=grey><a href=index.php?page=module&modul_id=$modul_id&function_action=delete&function=edit&iaction_id=$iaction_id>".$I18N->msg("action_delete")."</a></td>";
+					echo "</tr>";
 					$gma->next();
 				}
 				
@@ -208,9 +204,11 @@ if ($function == "add" or $function == "edit")
 				$gaa_sel->set_name("action_id");
 				$gaa_sel->set_size(1);
 				$gaa_sel->set_style("' class='inp100");
+				
+				
 				for ($i=0;$i<$gaa->getRows();$i++)
 				{
-					$gaa_sel->add_option($gaa->getValue("name")." ".$gaa->getValue("prepost")." ".$gaa->getValue("status"),$gaa->getValue("id"));
+					$gaa_sel->add_option($gaa->getValue("name")." [".$PREPOST[$gaa->getValue("prepost")]."|".$ASTATUS[$gaa->getValue("status")]."]",$gaa->getValue("id"));
 					$gaa->next();
 				}
 
@@ -223,7 +221,7 @@ if ($function == "add" or $function == "edit")
 				echo "<tr><td colspan=3></td></tr><tr>
 					<td class=grey>&nbsp;</td>
 					<td class=grey>".$gaa_sel->out()."</td>
-					<td class=grey><input type=submit value='Aktion hinzufügen'></td>
+					<td class=grey><input type=submit value='".$I18N->msg("action_add")."'></td>
 					</tr>";
 				
 				echo "</form>";
