@@ -23,6 +23,7 @@ $REX[MEDIAFOLDER] = $REX[HTDOCS_PATH]."files"; //
 $REX[COMMUNITY] = false;
 $REX[CACHING] = false; // Caching
 $REX[CACHING_DEBUG] = false; // Shows debugmessage
+$REX[TABLE_PREFIX] = "rex_";
 $REX[MEDIAFOLDERPERM] = "0777"; // 774
 
 // ----------------- DB1
