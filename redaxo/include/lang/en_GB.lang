@@ -69,7 +69,7 @@ newsletter = Newsletter
 newsletter_info = Hier kann der Newsletter verschickt werden.
 evaluation = Evaluation
 evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
-			
+
 # redaxo\include\pages\content.inc.php
 block_updated = Block updated!
 block added = Block added
@@ -203,7 +203,7 @@ add_user = Add user
 edit_user = Edit user
 
 # redaxo\include\pages\special.inc.php
-articles_generated = Articles and templates regenerated! 
+articles_generated = Articles and templates regenerated!
 old_articles_deleted = [old articles and templates have been deleted]
 links_ok = All links are ok.
 links_not_ok = The following links are broken:
@@ -234,7 +234,7 @@ delete_button = Delete
 stats_title = Statistics
 eval_ok = Logfiles have been successfully avaluated.
 eval_error = There was an error while avaluating the logfiles
-error_no_dir = Error: {0} is not a directory. 
+error_no_dir = Error: {0} is not a directory.
 log_missing = Logfile missing!
 jan = January
 feb = February
@@ -266,3 +266,24 @@ days = Days
 months = Months
 all_articles = All Articles
 
+# redaxo\include\pages\medienpool.inc.php
+pool_kat_saved = Category "{0}" has been created
+pool_file_saved = File has benn created
+pool_file_deleted = File has been removed
+pool_file_delete_error_1 = File "{0}" could not be removed
+pool_file_delete_error_2 = It is uses by the following articles
+pool_file_is_resized = File has been resized
+pool_media = Mediapool
+pool_kats = Categories
+pool_kats_no = No Category
+pool_kat_new = New Category
+pool_file_insert = Add File
+pool_file_choose = Choose File
+pool_file_upload = Upload
+pool_file_list = File List
+pool_img_width = Width
+pool_img_height = Height
+pool_img_resize = Resize
+pool_file_size = Size
+pool_file_ins = Insert
+pool_file_delete = Remove

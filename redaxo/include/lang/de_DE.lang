@@ -19,7 +19,7 @@ statistics = Statistiken
 logout = ausloggen
 
 # redaxo/include/classes/class.login.inc.php
-login_name  =  Login Name 
+login_name  =  Login Name
 password  =  Passwort
 
 # redaxo/include/layout_redaxo/top.php
@@ -69,7 +69,7 @@ newsletter = Newsletter
 newsletter_info = Hier kann der Newsletter verschickt werden.
 evaluation = Auswertung
 evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
-			
+
 # redaxo\include\pages\content.inc.php
 block_updated = Block wurde aktualisiert !
 block added = Block wurde hinzugef&uuml;gt
@@ -203,7 +203,7 @@ add_user = Benutzer hinzuf&uuml;gen
 edit_user = Benutzer bearbeiten
 
 # redaxo\include\pages\special.inc.php
-articles_generated = Artikel und Templates wurden neu generiert! 
+articles_generated = Artikel und Templates wurden neu generiert!
 old_articles_deleted = [Alte Artikel und Templates wurden gel&ouml;scht]
 links_ok = Alle Links sind ok.
 links_not_ok = Folgende Links sind nicht ok:
@@ -234,7 +234,7 @@ delete_button = L&ouml;schen
 stats_title = Statistiken
 eval_ok = Die Auswertung wurde erfolgreich erstellt.
 eval_error = Fehler bei der Auswertung....
-error_no_dir = Fehler: Verzeichnis {0} existiert nicht. 
+error_no_dir = Fehler: Verzeichnis {0} existiert nicht.
 log_missing = Es existiert noch keine Logdatei !
 jan = Januar
 feb = Februar
@@ -265,6 +265,29 @@ time = Zeit
 days = Tage
 months = Monate
 all_articles = Alle Artikel
+
+# redaxo\include\pages\medienpool.inc.php
+pool_kat_saved = Kategorie "{0}" wurde anlegt
+pool_file_saved = Datei wurde anlegt
+pool_file_deleted = Datei wurde gelöscht
+pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
+pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
+pool_file_is_resized = File wurde resized
+pool_media = Medienpool
+pool_kats = Kategorien
+pool_kats_no = Keine Kategorie
+pool_kat_new = Neue Kategorie
+pool_file_insert = Datei hinzufügen
+pool_file_choose = Datei auswählen
+pool_file_upload = Uploaden
+pool_file_list = Datei Liste
+pool_img_width = Höhe
+pool_img_height = Breite
+pool_img_resize = Resize
+pool_file_size = Größe
+pool_file_ins = Einfügen
+pool_file_delete = Löschen
+
 
 
 
