@@ -223,6 +223,16 @@ EOD;
 	}
 	
 	/*
+	 * CLASS function:
+	 * Return all slices that match the search string
+	 * Returns an array of OOArticleSlice objects
+	 */
+	function fullTextSearch($searchstring) {
+		// TODO
+		return array();
+	}
+	
+	/*
 	 * Object Function:
 	 */
 	function getPreviousSlice() {

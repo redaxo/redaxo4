@@ -211,6 +211,24 @@ class OOArticle {
 	}
 	
 	/*
+	 * CLASS function:
+	 * Return a list of articles which slices contain the search string.
+	 * Returns an array of OOArticle objects.
+	 */
+	function fullTextSearch($searchstring) {
+		$slices = OOArticleSlice::fullTextSearch($searchstring);
+		$artlist = array();
+		$ret = array();
+		foreach ($slices as $slice) {
+			if (! isset($artlist[$slice->_article_id])){
+				$ret[]=$slice->getArticle();
+				$artlist[$slice->_article_id]=1;
+			}
+		}
+		return $ret;
+	}
+	
+	/*
 	 * Object Function:
 	 * Return the category of this article
 	 * Returns an OOCategory object.
