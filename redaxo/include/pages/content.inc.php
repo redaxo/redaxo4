@@ -5,27 +5,24 @@ $article->setQuery("select * from rex_article where id='$article_id'");
 
 if ($article->getRows() == 1)
 {
+	
+	// --------------------------------------------- ARTIKEL WURDE GEFUNDEN
 	$category_id = $article->getValue("category_id");
 
-	// --------------------------------------------- permissions
-	
+	// ----- permissions	
 	$STRUCTURE_PERM = FALSE;
 	if ($REX_USER->isValueOf("rights","structure[all]")) $STRUCTURE_PERM = TRUE;
 
-	
-	// --------------------------------------------- category pfad und rechte
-	
+	// ----- category pfad und rechte	
 	include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
 	title("Artikel",$KATout);
 
 
-	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE
-	
+	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE	
 	if ($STRUCTURE_PERM || $REX_USER->isValueOf("rights","article[$article_id]") || $REX_USER->isValueOf("rights","article[all]"))
 	{
 		
 		// ------------------- SLICE VERSCHIEBEN NACH OBEN ODER UNTEN
-		
 		if ($REX_USER->isValueOf("rights","advancedMode[]"))
 		{
 			
@@ -35,15 +32,19 @@ if ($article->getRows() == 1)
 	
 	
 		// ------------------------------------------ SLICE EDIT / ADD / DELETE
-
 		if (($function == "add" or $function == "edit") and $save==1)
 		{
 			// ------------------------------------------ check module
-
 			$CM = new sql;
 			
-			if ($function == "edit") $CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id'");
-			else $CM->setQuery("select * from rex_modultyp where id='$module_id'");
+			if ($function == "edit")
+			{
+				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id'");
+				if ($CM->getRows()==1) $module_id = $CM->getValue("rex_article_slice.modultyp_id");
+			}else
+			{
+				$CM->setQuery("select * from rex_modultyp where id='$module_id'");
+			}
 			
 			if ($CM->getRows()==1)
 			{
@@ -71,116 +72,87 @@ if ($article->getRows() == 1)
 					
 					for ($i=1;$i<11;$i++)
 					{
-						$newsql->setValue("value$i",$VALUE[$i]);
-						$newsql->setValue("link$i",$LINK[$i]);
+						$FILENAME = "REX_MEDIA_$i";
+						$REX_ACTION[VALUE][$i] = $VALUE[$i];
+						$REX_ACTION[LINK][$i] = $LINK[$i];
+						$REX_ACTION[FILE][$i] = $$FILENAME;
 					}
 					
-					if ($REX_USER->isValueOf("rights","module[html]")) $newsql->setValue("html",$INPUT_HTML);
-					if ($REX_USER->isValueOf("rights","module[php]")) $newsql->setValue("php",$INPUT_PHP);
-					
-					
-					// ---------------------------- REX_FILE
-					for ($fi=1;$fi<11;$fi++)
-					{
-						$FILE	  = "FILE".$fi;
-						$FILEDEL  = "FILEDEL".$fi;
-									
-						if ($$FILE != "" and $$FILE != "none")
-						{
-							$FILENAME = "FILE".$fi."_name";
-							$FILESIZE = "FILE".$fi."_size";
-							$FILETYPE = "FILE".$fi."_type";
-							$FILESQL  = "FILESQL".$fi;
-				        		$NFILENAME = "";				        		
-				        		
-					        	// generiere neuen dateinamen
-					        	for ($cn=0;$cn<strlen($$FILENAME);$cn++)
-							{
-								$char = substr($$FILENAME,$cn,1);
-								if ( preg_match("([_A-Za-z0-9\.-])",$char) ) $NFILENAME .= strtolower($char);
-								else if ($char == " ") $NFILENAME .= "_";
-							}
-								
-							if (strrpos($NFILENAME,".") != "")
-					        	{
-					        		$NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
-					        		$NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
-					        	}else
-					        	{
-					        		$NFILE_NAME = $NFILENAME;
-					        		$NFILE_EXT  = "";				        			
-					        	}
-								
-				        		if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".php5" || $NFILE_EXT == ".phtml" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
-				        		{
-				        			$NFILE_EXT .= ".txt";	
-				        		}
-			        		
-				        		$NFILENAME = $NFILE_NAME.$NFILE_EXT;
-	
-							if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
-							{
-					        		// datei schon vorhanden ? wenn ja dann _1
-					        		for ($cf=0;$cf<1000;$cf++)
-					        		{
-									$NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
-					        			if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
-					        		}
-							}
-	
-				        		if (!move_uploaded_file($$FILE,$REX[MEDIAFOLDER]."/$NFILENAME"))
-				        		{
-				        			$message .= "move file $fi failed | ";
-				        		}else
-				        		{
-								$$FILESQL = new sql;
-								$$FILESQL->setTable("rex_file");
-								$$FILESQL->setValue("filetype",$$FILETYPE);
-								$$FILESQL->setValue("filename",$NFILENAME);
-								$$FILESQL->setValue("originalname",$$FILENAME);
-								$$FILESQL->setValue("filesize",$$FILESIZE);
-								$$FILESQL->insert();
-					        		
-					        		$newsql->setValue("file".$fi,$NFILENAME);
-					        		$CHECK_FILE[$fi] = 1;
-							}				        		
-	
-				        	}elseif($$FILEDEL == "on")
-				        	{
-				        		$newsql->setValue("file".$fi,'');
-				        		$CHECK_FILE[$fi] = 1;
-				        		echo "del$fi";
-				        	}
-				        }
-					        
+					if ($REX_USER->isValueOf("rights","module[html]")) $REX_ACTION[HTML] = $INPUT_HTML;
+					if ($REX_USER->isValueOf("rights","module[php]")) $REX_ACTION[PHP] = $INPUT_PHP;
 
+					// ----- PRE ACTION [ADD UND EDIT]
+					
+					if ($function == "edit") $addsql = " and rex_action.prepost=0 and rex_action.status=1"; // pre-action and edit
+					else $addsql = " and rex_action.prepost=0 and rex_action.status=0"; // pre-action and add
+					$ga = new sql;
+					$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
+					
+					for ($i=0;$i<$ga->getRows();$i++)
+					{
+						$iaction = $ga->getValue("rex_action.action");
+						$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
+						$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
+						$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
+						$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+						
+						$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
+						$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
+						
+						for ($j=1;$j<11;$j++)
+						{
+							$iaction = str_replace("REX_VALUE[$j]",$REX_ACTION[VALUE][$j],$iaction);
+							$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
+							$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
+						}
+						
+						// echo "<br>".nl2br(htmlentities($iaction));
+						eval("?>".$iaction);
+						if ($REX_ACTION[MSG]!="") $message .= $REX_ACTION[MSG]." | ";
+						$ga->next();	
+					}
+					
+					// ----- / PRE ACTION
+					
+					for ($i=1;$i<11;$i++)
+					{
+						$newsql->setValue("value$i",$REX_ACTION[VALUE][$i]);
+						$newsql->setValue("link$i",$REX_ACTION[LINK][$i]);
+					}
+					
+					if ($REX_USER->isValueOf("rights","module[html]")) $newsql->setValue("html",$REX_ACTION[HTML]);
+					if ($REX_USER->isValueOf("rights","module[php]")) $newsql->setValue("php",$REX_ACTION[PHP]);
+					
 					// ---------------------------- REX_MEDIA
 				        for ($fi=1;$fi<11;$fi++)
 					{
-						$FILENAME = "REX_MEDIA_$fi";
-						if ($$FILENAME == "delete file" && $CHECK_FILE[$fi] != 1)
+						$FILENAME = $REX_ACTION[FILE][$fi];
+						if (($FILENAME == "delete file" or $FILENAME == "") && $CHECK_FILE[$fi] != 1)
 						{
 							$newsql->setValue("file".$fi,"");
-						}elseif ($$FILENAME != "" && $CHECK_FILE[$fi] != 1)
+						}elseif ($FILENAME != "" && $CHECK_FILE[$fi] != 1)
 						{
 							$checkfile = new sql;
-							$checkfile->setQuery("select * from rex_file where filename='".$$FILENAME."'");
+							$checkfile->setQuery("select * from rex_file where filename='".$FILENAME."'");
 							if ($checkfile->getRows()==1)
 							{
-								$newsql->setValue("file".$fi,$$FILENAME);
+								$newsql->setValue("file".$fi,$FILENAME);
 							}else
 							{
 								$message .= $I18N->msg('file');
 							}
 						}
 					}
+					
+					
+					
 										
-					// ---------------------------- Function
+					// ----- Function
 					if ($function == "edit")
 					{
 						$newsql->update();
 						$message .= $I18N->msg('block_updated');
-					}else
+					}elseif ($function == "add")
 					{
 						$newsql->insert();
 						$last_id = $newsql->last_insert_id;
@@ -188,10 +160,36 @@ if ($article->getRows() == 1)
 						$message .= $I18N->msg('block_added');
 					}
 
+					// ----- POST ACTION [ADD AND EDIT]
+					if ($function == "edit") $addsql = " and rex_action.prepost=1 and rex_action.status=1"; // post-action and edit
+					else $addsql = " and rex_action.prepost=1 and rex_action.status=0"; // post-action and add
+					$ga = new sql;
+					$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
+					
+					for ($i=0;$i<$ga->getRows();$i++)
+					{
+						$iaction = $ga->getValue("rex_action.action");
+						$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
+						$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
+						$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
+						$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+						$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
+						$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
+						for ($j=1;$j<11;$j++)
+						{
+							$iaction = str_replace("REX_VALUE[$j]",$REX_ACTION[VALUE][$j],$iaction);
+							$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
+							$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
+						}
+						eval("?>".$iaction);
+						if ($REX_ACTION[MSG]!="") $message .= " | ".$REX_ACTION[MSG];
+						$ga->next();	
+					}
+					// ----- / POST ACTION
+
 					$slice_id = "";
 					$function = "";
 					$save = "";
-					
 					generateArticle($article_id);
 					
 				}else
@@ -206,7 +204,6 @@ if ($article->getRows() == 1)
 			}else
 			{
 				// ------------- MODUL IST NICHT VORHANDEN
-				
 				$message = $I18N->msg('module_not_found');
 				$slice_id = "";
 				$function = "";
@@ -231,6 +228,42 @@ if ($article->getRows() == 1)
 					
 					if ($save == 1)
 					{
+						$module_id = $CM->getValue("rex_article_slice.modultyp_id");
+						$REX_ACTION[PHP] = $CM->getValue("rex_article_slice.php");
+						$REX_ACTION[HTML] = $CM->getValue("rex_article_slice.html");
+						for ($i=1;$i<11;$i++)
+						{
+							$REX_ACTION[VALUE][$i] = $CM->getValue("rex_article_slice.value$i");
+							$REX_ACTION[LINK][$i] = $CM->getValue("rex_article_slice.link$i");
+							$REX_ACTION[FILE][$i] = $CM->getValue("rex_article_slice.file$i");
+						}
+						
+						// ----- PRE ACTION [DELETE]
+						$addsql = " and rex_action.prepost=0 and rex_action.status=2"; // pre-action and delete
+						$ga = new sql;
+						$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
+						for ($i=0;$i<$ga->getRows();$i++)
+						{
+							$iaction = $ga->getValue("rex_action.action");
+							$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
+							$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
+							$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
+							$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+							$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
+							$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
+							for ($j=1;$j<11;$j++)
+							{
+								$iaction = str_replace("REX_VALUE[$j]",$REX_ACTION[VALUE][$j],$iaction);
+								$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
+								$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
+							}
+							eval("?>".$iaction);
+							if ($REX_ACTION[MSG]!="") $message .= " | ".$REX_ACTION[MSG];
+							$ga->next();	
+						}
+						// ----- / PRE ACTION
+						
+						
 						// sicher loeschen: ja
 						$re_id 	= $CM->getValue("rex_article_slice.re_article_slice_id");
 						
@@ -241,10 +274,34 @@ if ($article->getRows() == 1)
 							$newsql->query("update rex_article_slice set re_article_slice_id='$re_id' where id='".$newsql->getValue("id")."'");
 						}
 						$newsql->query("delete from rex_article_slice where id='$slice_id'");
-						
 						$message = $I18N->msg('block_deleted');
 						
 						generateArticle($article_id);
+						
+						// ----- POST ACTION [DELETE]
+						$addsql = " and rex_action.prepost=1 and rex_action.status=2"; // pre-action and delete
+						$ga = new sql;
+						$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
+						for ($i=0;$i<$ga->getRows();$i++)
+						{
+							$iaction = $ga->getValue("rex_action.action");
+							$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
+							$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
+							$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
+							$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
+							$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
+							$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
+							for ($j=1;$j<11;$j++)
+							{
+								$iaction = str_replace("REX_VALUE[$j]",$REX_ACTION[VALUE][$j],$iaction);
+								$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
+								$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
+							}
+							eval("?>".$iaction);
+							if ($REX_ACTION[MSG]!="") $message .= $REX_ACTION[MSG]." | ";
+							$ga->next();
+						}
+						// ----- / POST ACTION
 						
 					}elseif ($save == 2)
 					{
