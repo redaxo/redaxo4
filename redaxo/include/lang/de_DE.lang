@@ -200,6 +200,7 @@ header_article_name = Artikelname
 header_template = Template
 header_date = Erstellt am
 change = &auml;ndern
+article_add = Artikel hinzufügen!
 article = Artikel
 
 # redaxo\include\pages\template.inc.php
