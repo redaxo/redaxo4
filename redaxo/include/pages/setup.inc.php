@@ -208,7 +208,7 @@ if ($checkmodus == 2 && $send == 1)
 	$error_email = $REX[error_emailaddress];
 	$dbname = $DB[1][NAME];
 	$redaxo_db_user_login = $DB[1][LOGIN];
-	$redaxo_db_user_pass = $DB[1][PSW];
+	//$redaxo_db_user_pass = $DB[1][PSW];
 	$mysql_host = $DB[1][HOST];
 }
 
