@@ -14,8 +14,8 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="
 	if($HEIGHT=="")     $HEIGHT= "250px";
 
 	$BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
-		"separator", "insertunorderedlist", "separator", "createlink", "linkmap", "separator",
-		"space", "undo", "redo","separator","justifyleft","justifycenter",
+		"separator", "insertunorderedlist", "separator", "createlink", "linkmap","email","separator",
+		"space","pasteclear","undo", "redo","separator","justifyleft","justifycenter",
 		"justifyright","separator","separator","mediapool","separator","htmlmode"
 	';
 
@@ -62,6 +62,39 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="
                     function(editor) {
                              openLinkMapHTMLArea('myarea".$VALUE_ID."');
                     }
+                );
+
+                cfg.registerButton(\"email\", \"Email Adresse\", \"js/htmlarea/images/ed_email.gif\", false,
+                    function(editor) {
+                             var email = prompt('Email Adresse eingeben', '');
+                             if(editor.getSelectedHTML()==''){
+                             	editor.insertHTML('<a href=\"mailto:'+email+'\">'+email+'</a>');
+                             } else {
+                             	editor.surroundHTML('<a href=\"mailto:'+email+'\">', '</a>');
+                             }
+                    }
+                );
+
+                cfg.registerButton(\"pasteclear\", \"Paste Formatierten Text\", \"js/htmlarea/images/ed_word_paste.gif\", false,
+                    function(editor) {
+	                        var pastewin".$VALUE_ID." = window.open('', 'textwin".$VALUE_ID."', 'width=520,height=230,scrollbars=no'); // a window object
+	                            with (pastewin".$VALUE_ID.".document) {
+	                              open('text/html', 'replace');
+	                              write('<html><head><title>Text Einf&uuml;gen</title><link rel=stylesheet type=text/css href=".$REX[HTDOCS_PATH]."css/style.css></head>');
+	                              write('<body>');
+	                              write('<table border=0 cellpadding=5 cellspacing=0 width=500>');
+	                              write('<tr><td class=grey align=right><b>Formatierten Text einf&uuml;gen</b></td></tr>');
+	                              write('</table>');
+	                              write('<form name=textform onSubmit=\"javascript:window.opener.myarea".$VALUE_ID.".insertHTML(document.textform.content.value.replace(/\\\\n/g,\'<br>\'));self.close()\" style=display:inline>');
+	                              write('<textarea name=content style=width:500 rows=12></textarea><br>');
+	                              write('<input type=submit value=\"Text einf&uuml;gen\">');
+	                              write('</form>');
+	                              write('</body>');
+	                              write('</html>');
+	                              close();
+	                              pastewin".$VALUE_ID.".focus();
+	                            }
+	                }
                 );
 
 				/*
