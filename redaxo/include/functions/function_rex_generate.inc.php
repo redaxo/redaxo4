@@ -568,4 +568,50 @@ function deleteDir($file,$what = 1)
 
 // deleteDir ($mydir);
 
+// generate templates,articles,cache,categories
+function generateAll()
+{
+
+	global $REX, $I18N;
+
+	// ----------------------------------------------------------- generiere templates
+	deleteDir($REX[INCLUDE_PATH]."/generated/templates",0);
+	// mkdir($REX[INCLUDE_PATH]."/generated/templates",0664);
+	$gt = new sql;
+	$gt->setQuery("select * from rex_template");
+	for ($i=0;$i<$gt->getRows();$i++)
+	{
+		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
+		fputs($fp,$gt->getValue("rex_template.content"));
+		fclose($fp);
+		$gt->next();
+	}
+
+	// ----------------------------------------------------------- generiere artikel
+	deleteDir($REX[INCLUDE_PATH]."/generated/articles",0);
+	// mkdir($REX[INCLUDE_PATH]."/generated/articles",0664);
+	$gc = new sql;
+	$gc->setQuery("select * from rex_article");
+	for ($i=0;$i<$gc->getRows();$i++)
+	{
+		generateArticle($gc->getValue("id"));
+		$gc->next();
+	}
+
+	// ----------------------------------------------------------- generiere categorien
+	deleteDir($REX[INCLUDE_PATH]."/generated/categories",0);
+	// mkdir($REX[INCLUDE_PATH]."/generated/categories",0664);
+	$gcc = new sql;
+	$gcc->setQuery("select * from rex_category");
+	for ($i=0;$i<$gcc->getRows();$i++)
+	{
+		generateCategory($gcc->getValue("id"));
+		$gcc->next();
+	}
+	// generateCategories();
+
+	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
+
+	return $MSG;
+}
 ?>
