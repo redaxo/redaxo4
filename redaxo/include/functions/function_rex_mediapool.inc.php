@@ -146,6 +146,10 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 	       $ok = 0;
 	}else
 	{
+		
+		if ($REX[MEDIAFOLDERPERM] == "") $REX[MEDIAFOLDERPERM] = "0777";
+		chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
+		
 		$FILESQL = new sql;
 		//$FILESQL->debugsql=1;
 		$FILESQL->setTable("rex_file");
