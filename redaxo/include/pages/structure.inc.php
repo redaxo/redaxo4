@@ -415,8 +415,16 @@ if($category_id > -1)
 			</tr>";
 	}
 
+	// Check startArticle[] Permissons
+	$startSQL = "";
+	if($REX_USER->isValueOf("rights","startArticle[None]") ){
+		if(!$REX_USER->isValueOf("rights","startArticle[$category_id]")){
+	      	$startSQL = "AND startpage = 0";
+	    }
+	}
 	$sql = new sql;
-	$sql->setQuery("select * from rex_article where category_id='$category_id' order by prior,name");
+	$sql->setQuery("select * from rex_article where category_id='$category_id' $startSQL order by prior,name");
+
 
 	for($i=0;$i<$sql->getRows();$i++){
 
