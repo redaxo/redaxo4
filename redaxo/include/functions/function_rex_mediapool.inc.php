@@ -15,8 +15,8 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="
 
 	$BUTTONS_DEFAULT = '"fontsize","separator","separator","bold", "italic", "underline", "separator",
 		"separator", "insertunorderedlist", "separator", "createlink", "linkmap","email","separator",
-		"space","pasteclear","undo", "redo","separator","justifyleft","justifycenter",
-		"justifyright","separator","separator","mediapool","separator","htmlmode"
+		"space","pasteclear","separator","justifyleft","justifycenter",
+		"justifyright","separator","separator","mediapool","separator","remove","undo", "redo","separator","htmlmode",
 	';
 
          if($BUTTONS=="") $BUTTONS = $BUTTONS_DEFAULT;
@@ -97,13 +97,13 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$BUTTONS="",$BODYSTYLE="",$CONFIG="
 	                }
                 );
 
-				/*
-                cfg.registerButton(\"remove\", \"Formatierung löschen\", \"js/htmlarea/images/ed_remove_format.gif\", false,
+
+                cfg.registerButton(\"remove\", \"Formatierung löschen\", \"js/htmlarea/images/ed_clear_format.gif\", false,
                     function(editor) {
                              editor.removeF();
                     }
                 );
-                */
+
 
                 cfg.pageStyle = '".$BODYSTYLE."';
 

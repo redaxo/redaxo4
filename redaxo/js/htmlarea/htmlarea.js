@@ -652,7 +652,7 @@ HTMLArea.prototype.generate = function () {
 		html += "<head>\n";
 		html += "<style>" + editor.config.pageStyle + "</style>\n";
 		html += "</head>\n";
-		html += "<body>\n";
+		html += "<body class=htmlarea>\n";
 		html += editor._textArea.value;
 		html += "</body>\n";
 		html += "</html>";
@@ -1046,8 +1046,12 @@ HTMLArea.prototype.surroundHTML = function(startTag, endTag) {
 HTMLArea.prototype.removeF = function() {
 	var html = this.getSelectedHTML();
 	html = html.replace(/<br\s\/>/gi, "##br##");
-	html = html.replace(/<[\!]*?[^<>]*?>/g, "");
+	html = html.replace(/<p>/gi, "##p####p##");
+	html = html.replace(/<\/p>/gi, "##ep####ep##");
+	html = html.replace(/(<([^>]+)>)/ig, "");
 	html = html.replace(/##br##/g, "<br />");
+	html = html.replace(/##p##/g, "<p>");
+	html = html.replace(/##ep##/g, "<\/p>");
 	this.insertHTML(html);
 };
 
