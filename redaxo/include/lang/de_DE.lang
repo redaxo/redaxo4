@@ -1,5 +1,7 @@
 yes = ja
 no = nein
+month = Monat
+year = Jahr
 
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel selektiert
@@ -228,19 +230,41 @@ article_type_list_description = Beschreibung
 update_button = &Auml;ndern
 delete_button = L&ouml;schen
 
+# redaxo\include\pages\stats.inc.php
+stats_title = Statistiken
+eval_ok = Die Auswertung wurde erfolgreich erstellt.
+eval_error = Fehler bei der Auswertung....
+error_no_dir = Fehler: Verzeichnis {0} existiert nicht. 
+log_missing = Es existiert noch keine Logdatei !
+jan = Januar
+feb = Februar
+mar = M&auml;rz
+apr = April
+may = Mai
+jun = Juni
+jul = Juli
+aug = August
+sep = September
+oct = Oktober
+nov = November
+dec = Dezember
+eval_not_available = Diese Auswertung wurde noch nicht erstellt
+show_stats = Statistiken einsehen
+stat_show_button = Einsehen
+start_eval = Auswertungen erstellen
+start_eval_button = Auswerten
+statistics_header = Statistiken
+evaluation_header = Auswertung
 
-
-
-
-
-
-
-
-
-
-
-
-
+#redaxo\include\pages\stats\stat_template.inc.php
+page_views = Page Views
+visits = Visits
+page_views_per_visit = Page Views per Visit
+evaluation_for = Auswertung f&uuml;r
+time = Zeit
+days = Tage
+months = Monate
+all_articles = Alle Artikel
 
 
 

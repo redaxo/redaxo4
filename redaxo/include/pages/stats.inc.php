@@ -1,6 +1,6 @@
 <?
 
-title("Statistiken","&nbsp;&nbsp;&nbsp;<a href=index.php?page=stats&sub=stats>Statistiken</a> | <a href=index.php?page=stats&sub=auswertung>Auswertung</a>");
+title($I18N->msg("stats_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=stats&sub=stats>".$I18N->msg("statistics_header")."</a> | <a href=index.php?page=stats&sub=auswertung>".$I18N->msg("evaluation_header")."</a>");
 
 //
 // REACTING
@@ -10,8 +10,8 @@ if ( $funktion == 'evaluate' )
 {
 
 	$a = new stat;
-	if ( $a->evaluate($year,$month) ) $err_msg = "Die Auswertung wurde erfolgreich erstellt.<br>";
-	else $err_msg = "Fehler bei der Auswertung....<br>";
+	if ( $a->evaluate($year,$month) ) $err_msg = $I18N->msg("eval_ok")."<br>";
+	else $err_msg = $I18N->msg("eval_error")."<br>";
 	
 }
 
@@ -38,18 +38,30 @@ if (is_dir($pfad))
 	closedir($dh);
 } else 
 {
-	echo "error: ".$this->path." is no dir";
+	echo $I18N->msg(error_no_dir,$this->path);
 
 }
 
 if (count($years)==0)
 {
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>Es existiert noch keine Logdatei !</td></tr></table>";
+	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>".$I18N->msg("log_missing")."</td></tr></table>";
 
 }else
 {
 	
-	$monname = Array ( "01" => "Januar","02" => "Februar","03" => "Maerz", "04" => "April","05" => "Mai","06" => "Juni", "07" => "Juli","08" => "August","09" => "September", "10" => "Oktober","11" => "November","12" => "Dezember");
+	$monname = Array ( "01" => $I18N->msg("jan"),
+										"02" => $I18N->msg("feb"),
+										"03" => $I18N->msg("mar"),
+										"04" => $I18N->msg("apr"),
+										"05" => $I18N->msg("may"),
+										"06" => $I18N->msg("jun"),
+										"07" => $I18N->msg("jul"),
+										"08" => $I18N->msg("aug"),
+										"09" => $I18N->msg("sep"),
+										"10" => $I18N->msg("oct"),
+										"11" => $I18N->msg("nov"),
+										"12" => $I18N->msg("dec"),
+	);
 	
 	$amon = Array();
 	$ajahr = Array();
@@ -101,7 +113,7 @@ if (count($years)==0)
 		{
 			if ( !file_exists($REX[INCLUDE_PATH]."/generated/logs/".$year."_".$month.".php") )
 			{
-				$err_msg = "Diese Auswertung wurde noch nicht erstellt";
+				$err_msg = $I18N->msg("eval_not_available");
 			}
 		}
 		
@@ -110,19 +122,19 @@ if (count($years)==0)
 		
 		echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 			<tr>
-				<th align=left colspan=4>Statistiken einsehen</th>
+				<th align=left colspan=4>".$I18N->msg("show_stats")."</th>
 			</tr>
 			$err_msg
 			<tr>
 				<form action=index.php?page=stats&sub=stats method=post>
 				<input type=hidden name=funktion value=show>
-				<td class=grey>Monat:</td>
+				<td class=grey>".$I18N->msg("month").":</td>
 				<td class=grey>$msel</td>
-				<td class=grey>Jahr:</td>
+				<td class=grey>".$I18N->msg("year").":</td>
 				<td class=grey>$jsel</td>
 			</tr>
 			<tr>
-				<td class=grey colspan=4><input type=submit value=Einsehen></td>
+				<td class=grey colspan=4><input type=submit value=".$I18N->msg("stat_show_button")."></td>
 			</tr>
 			</form>
 		  </table>";
@@ -145,19 +157,19 @@ if (count($years)==0)
 		
 		echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 			<tr>
-				<th align=left colspan=4>Auswertungen erstellen</th>
+				<th align=left colspan=4>".$I18N->msg("start_eval")."</th>
 			</tr>
 			$err_msg
 			<tr>
 				<form action=index.php?page=stats&sub=auswertung method=post>
 				<input type=hidden name=funktion value=evaluate>
-				<td class=grey>Monat:</td>
+				<td class=grey>".$I18N->msg("month").":</td>
 				<td class=grey>$msel</td>
-				<td class=grey>Jahr:</td>
+				<td class=grey>".$I18N->msg("year").":</td>
 				<td class=grey>$jsel</td>
 			</tr>
 			<tr>
-				<td class=grey colspan=4><input type=submit value=Auswerten></td>
+				<td class=grey colspan=4><input type=submit value=".$I18N->msg("start_eval_button")."></td>
 			</tr>
 			</form>
 		  </table>

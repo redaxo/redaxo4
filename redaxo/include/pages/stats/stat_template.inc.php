@@ -20,7 +20,7 @@ if ( $show == "month" )
 	$pfad = "REX_EVAL_LOGPATH";
 	
 	$maincontent = "<table border=0 cellpadding=5 cellspacing=1 width=100%>
-					<tr><th>Monat</th><th>PageViews</th><th>Visits</th><th>PageViews per Visit</th></tr>";
+					<tr><th>".$I18N->msg("month")."</th><th>".$I18N->msg("page_views")."</th><th>".$I18N->msg("visits")."</th><th>".$I18N->msg("page_views_per_visit")."</th></tr>";
 
 	if (is_dir($pfad)) 
 	{
@@ -36,7 +36,7 @@ if ( $show == "month" )
 		}
 		closedir($dh);
 	} else 
-		echo "error: $pfad is no dir";
+		echo $I18N->msg("error_no_dir",$pfad);
 
 	$maincontent .= "</table>";
 
@@ -50,32 +50,28 @@ function isactive($what)
 	if ( $show == $what ) return "dgrey";
 	else return "grey";
 }
-
-
 echo "
-
-
 <table border=0 cellpadding=0 cellspacing=0 width=770>
 <tr><td colspan=2>
 <table border=0 cellpadding=5 cellspacing=0 width=100%>
-	<tr><th>Auswertung für REX_EVAL_DATE</th></tr>
+	<tr><th>".$I18N->msg("evaluation_for")." REX_EVAL_DATE</th></tr>
 </table>
 </td></tr>
 
 <tr><td valign=top class=dgrey>
 	<table border=0 cellpadding=5 cellspacing=1 width=200 >
 		<tr>
-			<td class=grey><b>Zeit</b></td>
+			<td class=grey><b>".$I18N->msg("time")."</b></td>
 		</tr>
 		
 		<tr>
-			<td class=".isactive("day")."><a href=index.php?page=stats&sub=stats&show=day&year=$year&month=$month>Tage</a></td>
+			<td class=".isactive("day")."><a href=index.php?page=stats&sub=stats&show=day&year=$year&month=$month>".$I18N->msg("days")."</a></td>
 		</tr>
 		<tr>
-			<td class=".isactive("month")."><a href=index.php?page=stats&sub=stats&show=month&year=$year&month=$month>Monate</a></td>
+			<td class=".isactive("month")."><a href=index.php?page=stats&sub=stats&show=month&year=$year&month=$month>".$I18N->msg("months")."</a></td>
 		</tr>
 		<tr>
-			<td class=grey><b>Artikel</b></td>
+			<td class=grey><b>".$I18N->msg("article")."</b></td>
 		</tr>
 		
 		<tr>
