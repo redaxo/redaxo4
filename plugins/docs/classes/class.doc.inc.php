@@ -162,9 +162,9 @@ class Doc {
 
         }
 /* Änderung durch Ronny Grabo (alias komma, email: komma@everymail.net) am 16.09.2004 
-SpecialTags {bold} und {italic} wurden hinzugefügt
+SpecialTags {newpage},{bold} und {italic} wurden hinzugefügt
 */
-        if(eregi("{bold}",$content)){
+      if(eregi("{bold}",$content)){
 
             preg_match_all("/{bold}(.*){\/bold}/Uism",$content,$match);
 
@@ -182,6 +182,16 @@ SpecialTags {bold} und {italic} wurden hinzugefügt
             $content = str_replace($match[0][$c],"<i>".$match[1][$c]."</i>",$content);
             }
         } 
+
+      if(eregi("{newpage}",$content)){
+
+            preg_match_all("/{newpage}/Uism",$content,$match);
+
+            for($c=0;$c<count($match[0]);$c++){
+            $content = str_replace($match[0][$c],"",$content);
+            }
+        } 
+
          
 /* ENDE : Änderung durch Ronny Grabo am 16.09.2004 */
 

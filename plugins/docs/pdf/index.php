@@ -194,7 +194,7 @@ foreach($Index as $K=>$I){
 
 	            }
 /* Änderung durch Ronny Grabo (alias komma, email: komma@everymail.net) am 16.09.2004 
-SpecialTags {bold} und {italic} wurden hinzugefügt
+SpecialTags {newpage},{bold} und {italic} wurden hinzugefügt
 */
               
              if(eregi("{bold}",$v)){
@@ -230,6 +230,16 @@ SpecialTags {bold} und {italic} wurden hinzugefügt
 
 	            }
 
+ if(eregi("{newpage}",$v)){
+
+	            	if($code === false){
+                preg_match_all("/{newpage}/Uism",$v,$match);
+                  for($c=0;$c<count($match[0]);$c++){
+                    $v = str_replace($match[0][$c],"",$v);
+	                    }
+                      $pdf -> ezNewPage();
+                    }
+	                }              
 /* ENDE : Änderung durch Ronny Grabo am 16.09.2004 */
 
 	            if(eregi("{ilink",$v)){
@@ -256,16 +266,15 @@ SpecialTags {bold} und {italic} wurden hinzugefügt
 
 	                    for($c=0;$c<count($match[0]);$c++){
 
-	                        $v = str_replace($match[0][$c],"<c:alink:".$match[1][$c]."><u>".$match[2][$c]."</u></c:alink>",$v);
+	                        $v = str_replace($match[0][$c],"<c:alink: ".$match[1][$c]."><u>".$match[2][$c]."</u></c:alink>",$v);
 
 	                    }
 
 	                }
 
 	            }
-
-
-
+              
+       
 				if($code === true){
 
 					$v = htmlentities($v);
