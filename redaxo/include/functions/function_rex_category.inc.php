@@ -33,8 +33,8 @@ $KATout = "&nbsp;&nbsp;&nbsp;".$I18N->msg("path")." : <a href=index.php?page=str
 
 if ($article_id > 0 and $page == "content")
 {
-	if ($article->getValue("startpage")==1) $KATout .= " <br>&nbsp;&nbsp;&nbsp;".$I18N->msg("start_article")." : ";
-	else $KATout .= " <br>&nbsp;&nbsp;&nbsp;".$I18N->msg("article")." : ";
+	if ($article->getValue("startpage")==1) $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("start_article")." : ";
+	else $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("article")." : ";
 	$KATout .= "<a href=index.php?page=content&article_id=$article_id&mode=edit&ctype=$ctype>".str_replace(" ","&nbsp;",$article->getValue("name"))."</a>";
 	// $KATout .= " [$article_id]";
 }

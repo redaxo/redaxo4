@@ -14,20 +14,21 @@ if ($article->getRows() == 1)
 	include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
 
 	// ----- Titel anzeigen
+	title("Artikel",$KATout);
 	$add = "";
 	if (count($REX[CTYPE])>1)
 	{
-		$add = "&nbsp;&nbsp;&nbsp;Sprachen: | ";
+		$add = "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
 		reset($REX[CTYPE]);
 		while( list($key,$val) = each($REX[CTYPE]) )
 		{
 			if ($key==$ctype) $add .= "$val | ";
 			else $add .= "<a href=index.php?page=content&ctype=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
 		}
-		$add .= "<br>";
+		$add .= "</td></tr></table><br>";
+		echo $add;
 	}
 
-	title("Artikel",$add.$KATout);
 
 	// ----- mode defs
 	if ($mode != "meta") $mode = "edit";
@@ -352,8 +353,8 @@ if ($article->getRows() == 1)
 		
 		echo "	<table border=0 cellpadding=0 cellspacing=1 width=770>
 				<tr>
-					<td align=center class=grey width=50><img src=pics/document.gif width=16 height=16 border=0><br><img src=pics/leer.gif width=30 height=1></td>
-					<td align=left class=grey>&nbsp;&nbsp;$menu</td>
+					<td align=center class=grey width=30><img src=pics/document.gif width=16 height=16 border=0 vspace=5 hspace=12></td>
+					<td align=left class=grey>&nbsp;$menu</td>
 					<td align=left class=grey width=153><img src=pics/leer.gif width=153 height=20></td>
 				</tr>";
 
