@@ -55,9 +55,6 @@ if ($REX[SETUP])
 	}elseif ($page=="user" && $REX_USER->isValueOf("rights","user[]"))
 	{
 		$page_name = $I18N->msg("user");
-	}elseif ($page=="community" && $REX_USER->isValueOf("rights","community[]"))
-	{
-		$page_name = $I18N->msg("community");
 	}elseif ($page=="stats" && $REX_USER->isValueOf("rights","stats[]"))
 	{
 		$page_name = "Statistiken";

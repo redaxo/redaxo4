@@ -58,7 +58,7 @@ article_could_not_be_generated  =  Article could not be generated.
 check_rights_in_directory  =  Please check file permissions in directory
 category_deleted  =  Category deleted
 category_doesnt_exist  =  No such category!
-cant_delete_startarticle = You must not delete the start article.
+cant_delete_startarticle = You cannot delete the start article.
 
 # redaxo\include\pages\community.inc.php
 overview  =  Overview
@@ -357,6 +357,16 @@ pool_file_ins = Insert
 pool_file_deleted = File has been deleted
 pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
+
+pool_import_list = Media-Import
+pool_import_help = Source folder for Media-Import (folder in directory files)
+pool_import_target_info = Select Category for File-Import
+
+pool_selectedmedia=Selected Media:
+pool_delete_selectedmedia= delete
+pool_changecat_selectedmedia= change category
+pool_selectedmedia_error= no media selected
+pool_select_all = All
 
 cache_remove = Clear cache
 

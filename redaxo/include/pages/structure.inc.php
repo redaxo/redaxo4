@@ -55,22 +55,22 @@ if ($function == "edit_category" && $edit_id != "")
 	// --------------------- KATEGORIE EDIT
 	$message = $I18N->msg("category_updated");
 	$KAT->query("update rex_article set name='$kat_name' where id='$edit_id' and startpage=1 and clang=$clang");
-	generateArticle($edit_id);
+	rex_generateArticle($edit_id);
 
 }elseif ($function == "delete_category" && $edit_id != "")
 {
 	// --------------------- KATEGORIE DELETE
 	$KAT = new sql;
-	$KAT->setQuery("select * from rex_article where re_id='$edit_id' and startpage=1");
+	$KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=1");
 	if($KAT->getRows()==0)
 	{
-		$KAT->setQuery("select * from rex_article where re_id='$edit_id' and startpage=0");
+		$KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=0");
 		if($KAT->getRows()==0)
 		{
-			$message = deleteCategory($edit_id);
+			$message = rex_deleteArticle($edit_id);
 		}else
 		{
-			$message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_articles");
+			$message = $I18N->msg("category_could_not_be_deleted")." ddd".$I18N->msg("category_still_contains_articles");
 			$function = "edit";
 		}
 	}else
@@ -91,7 +91,7 @@ if ($function == "edit_category" && $edit_id != "")
 		else $newstatus = 1;
 		$KAT->query("update rex_article set status='$newstatus' where id='$edit_id' and clang=$clang and startpage=1");
 		$message = $I18N->msg("category_status_updated");
-		generateArticle($edit_id);
+		rex_generateArticle($edit_id);
 	}else
 	{
 		$message = $I18N->msg("no_such_category");
@@ -115,7 +115,6 @@ if ($function == "edit_category" && $edit_id != "")
 	while(list($key,$val)=each($REX[CLANG]))
 	{
 		$AART = new sql;
-		// $AART->debugsql = 1;
 		$AART->setTable("rex_article");
 		if (!$id) $id = $AART->setNewId("id");
 		else $AART->setValue("id",$id);
@@ -133,7 +132,7 @@ if ($function == "edit_category" && $edit_id != "")
 		$AART->setValue("createdate",date("Ymd"));
 		$AART->insert();
 	}
-	generateArticle($id);
+	rex_generateArticle($id);
 }
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
@@ -146,7 +145,7 @@ if ($function == "offline_article")
 	$EA->where("id='$article_id' and clang=$clang and startpage=0");
 	$EA->setValue("status",0);
 	$EA->update();
-	generateArticle($article_id);
+	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
 }else if ($function == "online_article")
@@ -157,7 +156,7 @@ if ($function == "offline_article")
 	$EA->where("id='$article_id' and clang=$clang and startpage=0");
 	$EA->setValue("status",1);
 	$EA->update();
-	generateArticle($article_id);
+	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
 }else if ($function == "edit_article")
@@ -170,12 +169,12 @@ if ($function == "offline_article")
 	$EA->setValue("name",$article_name);
 	$EA->setValue("template_id",$template_id);
 	$EA->update();
-	generateArticle($article_id);
+	rex_generateArticle($article_id);
 
 }elseif ($function == "delete_article")
 {
 	// --------------------- ARTIKEL DELETE
-	$message = deleteArticle($article_id);
+	$message = rex_deleteArticle($article_id);
 
 }elseif ($function == "add_article")
 {
@@ -203,7 +202,7 @@ if ($function == "offline_article")
 		$AART->setValue("template_id",$template_id);
 		$AART->insert();
 	}
-	generateArticle($id);
+	rex_generateArticle($id);
 }
 
 // --------------------------------------------- KATEGORIE LISTE
