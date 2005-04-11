@@ -139,8 +139,14 @@ function rex_generateArticle($id,$refresh=0)
 	
 	
 		// --------------------------------------------------- Listen generieren
-		if ($CONT->getValue("startpage")==1) rex_generateLists($id);
-		else rex_generateLists($CONT->getValue("re_id"));
+		if ($CONT->getValue("startpage")==1)
+		{
+			rex_generateLists($id);
+			rex_generateLists($CONT->getValue("re_id"));
+		}else
+		{
+			rex_generateLists($CONT->getValue("re_id"));
+		}
 
 		next($CL);
 	
@@ -284,7 +290,16 @@ function rex_generateLists($re_id,$refresh=0)
 function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 {
 	global $I18N;
-	// to katgorie vorhanden ?
+	
+	// artikel verschieben
+	//
+	// noch nicht fertig ********************************
+	// sprachen beachten
+	// auslesen der felder
+	// pfad anpassen
+	// listen neu generieren
+	// - aus dem alten ordner
+	// - aus dem neuen ordner
 
 	$gcat = new sql;
 	$gcat->setQuery("select * from rex_category where id='$to_cat_id'");
@@ -322,6 +337,13 @@ function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 
 function rex_copyArticle($id,$to_cat_id)
 {
+
+	// artikel kopieren
+	// 
+	// 
+	// sprachen artikel beachten
+	// pfade anpassen
+	// slices ...
 
 	##
 	### make new path
@@ -481,6 +503,88 @@ function rex_copyCategory($which,$to_cat)
 
 }
 
+<<<<<<< function_rex_generate.inc.php
+
+
+
+
+// ----------------------------------------- CTYPE
+
+
+
+
+
+// ----------------------------------------- URL
+
+function rex_getUrl($id,$clang,$params = null) {
+	
+	/*
+	 * Object Helper Function:
+	 * Returns a url for linking to this article
+	 * This url respects the setting for mod_rewrite
+	 * support!
+	 *
+	 * If you pass an associative array for $params,
+	 * then these parameters will be attached to the URL.
+	 * e.g.:
+	 *   $param = array("order" => "123", "name" => "horst");
+	 *   $article->getUrl($param);
+	 * will return:
+	 *   index.php?article_id=1&order=123&name=horst
+	 * or if mod_rewrite support is activated:
+	 *   /1-The_Article_Name?order=123&name=horst
+	 */
+	 
+	global $REX;
+	$param_string = "";
+	if ($params && sizeof($params) > 0) {
+		$param_string = $REX['MOD_REWRITE'] ? "?" : "&amp;";
+		foreach ($params as $key => $val) {
+			$param_string .= "{$key}={$val}&amp;";
+		}
+	}
+	$param_string = substr($param_string,0,strlen($param_string)-5); // cut off the last '&'
+	$url = $REX['MOD_REWRITE'] ? "/$id-$clang-{$mr_name}"
+	                           : "index.php?article_id=$id&clang=$clang";
+	return $REX['WWW_PATH']."{$url}{$param_string}";
+}
+
+
+
+
+
+// ----------------------------------------- FILE
+
+function rex_deleteDir($file,$what = 1)
+{
+	if (file_exists($file))
+	{
+		// chmod($file,0775);
+		if (is_dir($file))
+		{
+			$handle = opendir($file);
+			while($filename = readdir($handle))
+			{
+				if ($filename != "." && $filename != "..")
+				{
+					rex_deleteDir($file."/".$filename);
+				}
+			}
+			closedir($handle);
+			if ($what == 1) rmdir($file);
+			else echo ""; // do nothing;
+		}else
+		{
+			unlink($file);
+		}
+	}
+
+    // recache all
+	$Cache = new Cache();
+	$Cache->removeAllCacheFiles();
+}
+
+=======
 
 
 
@@ -561,6 +665,7 @@ function rex_deleteDir($file,$what = 1)
 	$Cache->removeAllCacheFiles();
 }
 
+>>>>>>> 1.8
 // ----------------------------------------- CLANG
 
 function rex_deleteCLang($id)
