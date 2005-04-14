@@ -583,7 +583,9 @@ function rex_deleteDir($file,$what = 1)
 	$Cache->removeAllCacheFiles();
 }
 
->>>>>>> 1.8
+
+
+
 // ----------------------------------------- CLANG
 
 function rex_deleteCLang($id)
