@@ -249,7 +249,7 @@ function rex_generateLists($re_id,$refresh=0)
 		// --------------------------------------- ARTICLE LIST
 		
 		$GC = new sql;
-		$GC->debugsql = 1;
+		// $GC->debugsql = 1;
 		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang and startpage=0 order by prior,name");
 		$content = "<?php\n";
 		for ($i=0;$i<$GC->getRows();$i++)
@@ -344,6 +344,10 @@ function rex_copyArticle($id,$to_cat_id)
 	// sprachen artikel beachten
 	// pfade anpassen
 	// slices ...
+
+	return "";
+	
+	exit;
 
 	##
 	### make new path
@@ -457,6 +461,11 @@ function rex_copyArticle($id,$to_cat_id)
 function rex_copyCategory($which,$to_cat)
 {
 
+	return "";
+	
+	
+	exit;
+
 	## orginal selecten
 	$orig = new sql;
 	$orig->setQuery("SELECT * FROM rex_category WHERE id=$which");
@@ -515,7 +524,7 @@ function rex_copyCategory($which,$to_cat)
 
 // ----------------------------------------- URL
 
-function rex_getUrl($id,$params = null) {
+function rex_getUrl($id,$clang = "",$params = null) {
 	
 	/*
 	 * Object Helper Function:
@@ -535,6 +544,9 @@ function rex_getUrl($id,$params = null) {
 	 */
 	 
 	global $REX;
+	
+	if ($clang == "") $clang = $REX[CUR_CLANG];
+	
 	$param_string = "";
 	if ($params && sizeof($params) > 0) {
 		$param_string = $REX['MOD_REWRITE'] ? "?" : "&amp;";
@@ -543,9 +555,9 @@ function rex_getUrl($id,$params = null) {
 		}
 	}
 	$param_string = substr($param_string,0,strlen($param_string)-5); // cut off the last '&'
-	$url = $REX['MOD_REWRITE'] ? "/$id-{$mr_name}"
-	                           : "index.php?article_id=$id";
-  return $REX['WWW_PATH']."{$url}{$param_string}";
+	$url = $REX['MOD_REWRITE'] ? "/$id-$clang-{$mr_name}"
+	                           : "index.php?article_id=$id&clang=$clang";
+	return $REX['WWW_PATH']."{$url}{$param_string}";
 }
 
 

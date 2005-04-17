@@ -127,6 +127,7 @@ if ($FUNC_UPDATE != "")
 
 	$perm = "";
 	if ($useradmin == 1) $perm .= "admin[]";
+	if ($devadmin == 1) $perm .= "dev[]";
 
 	// userperm_all
 	for($i=0;$i<count($userperm_all);$i++)
@@ -166,12 +167,14 @@ if ($FUNC_UPDATE != "")
 
 }elseif($FUNC_DELETE != "")
 {
-	if ($REX_UID!=$user_id)
+	if ($REX_USER->getValue("user_id")!=$user_id)
 	{
-		echo $REX_UID;
-		// $deleteuser = new sql;
-		// $deleteuser->query("delete from rex_user where user_id='$user_id'");
+		$deleteuser = new sql;
+		$deleteuser->query("delete from rex_user where user_id='$user_id'");
 		$message = $I18N->msg("user_deleted");
+	}else
+	{
+		$message = "**** Sie können sich nicht selbst löschen!";	
 	}
 
 }elseif($FUNC_ADD != "" && $save == 1)
@@ -190,6 +193,7 @@ if ($FUNC_UPDATE != "")
 		
 		$perm = "";
 		if ($useradmin == 1) $perm .= "admin[]";
+		if ($devadmin == 1) $perm .= "dev[]";
 	
 		// userperm_all
 		for($i=0;$i<count($userperm_all);$i++)
@@ -304,7 +308,9 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey align=right><input type=checkbox name=useradmin value=1 $adminchecked></td>
-			<td class=grey colspan=3>Admin</td>
+			<td class=grey>Admin (Alle Kategorien/Alle Module/Alle Medien/User)</td>
+			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
+			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Allgemein</td>
@@ -344,6 +350,9 @@ if ($FUNC_ADD)
 		// ----- EINLESEN DER PERMS
 		if ($sql->isValueOf("rights","admin[]")) $adminchecked = "checked";
 		else $adminchecked = "";
+
+		if ($sql->isValueOf("rights","dev[]")) $devchecked = "checked";
+		else $devchecked = "";
 
 		// Allgemeine Permissions setzen
 		for($i=0;$i<count($REX[PERM]);$i++)
@@ -408,7 +417,9 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey align=right><input type=checkbox name=useradmin value=1 $adminchecked></td>
-			<td class=grey colspan=3>Admin</td>
+			<td class=grey>Admin (Alle Kategorien/Alle Module/Alle Medien/User)</td>
+			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
+			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Allgemein</td>

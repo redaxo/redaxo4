@@ -54,7 +54,7 @@ if ($function == "edit_category" && $edit_id != "")
 {
 	// --------------------- KATEGORIE EDIT
 	$message = $I18N->msg("category_updated");
-	$KAT->query("update rex_article set name='$kat_name' where id='$edit_id' and startpage=1 and clang=$clang");
+	$KAT->query("update rex_article set catname='$kat_name' where id='$edit_id' and startpage=1 and clang=$clang");
 	rex_generateArticle($edit_id);
 
 }elseif ($function == "delete_category" && $edit_id != "")
@@ -142,7 +142,7 @@ if ($function == "offline_article")
 	// --------------------- ARTIKEL OFFLINE
 	$EA = new sql;
 	$EA->setTable("rex_article");
-	$EA->where("id='$article_id' and clang=$clang and startpage=0");
+	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("status",0);
 	$EA->update();
 	rex_generateArticle($article_id);
@@ -153,7 +153,7 @@ if ($function == "offline_article")
 	// --------------------- ARTIKEL ONLINE
 	$EA = new sql;
 	$EA->setTable("rex_article");
-	$EA->where("id='$article_id' and clang=$clang and startpage=0");
+	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("status",1);
 	$EA->update();
 	rex_generateArticle($article_id);
@@ -165,7 +165,7 @@ if ($function == "offline_article")
 	$amessage = $I18N->msg("article_updated");
 	$EA = new sql;
 	$EA->setTable("rex_article");
-	$EA->where("id='$article_id' and clang=$clang and startpage=0");
+	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("name",$article_name);
 	$EA->setValue("template_id",$template_id);
 	$EA->update();
@@ -190,6 +190,7 @@ if ($function == "offline_article")
 		if (!$id) $id = $AART->setNewId("id");
 		else $AART->setValue("id",$id);
 		$AART->setValue("name",$article_name);
+		$AART->setValue("catname",$article_name);
 		$AART->setValue("clang",$key);
 		$AART->setValue("re_id",$category_id);
 		$AART->setValue("prior",$article_prior);
@@ -274,7 +275,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 				<input type=hidden name=category_id value=$category_id>
 				<input type=hidden name=cid value=".$KAT->getValue("id").">
 				<input type=hidden name=clang value=$clang>
-				<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("name"))."\"></td>
+				<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
 				<td class=dgrey><input type=text name=Position_Category value=\"$cat_pos\" style='width:30px'></td>
 				<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
 				<td class=dgrey>$kat_status</td></form>
@@ -288,7 +289,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 		$echo .= "
 			<tr>
 				<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
-				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("name")."&nbsp;</a>";
+				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a>";
 		// $echo .= "[$i_category_id]";
 		$echo .= "</td>";
 

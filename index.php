@@ -59,11 +59,12 @@ if($REX[CACHING])
 if ($SHOWARTICLE)
 {
 	$REX_ARTICLE = new article;
+	$REX_ARTICLE->setCLang($clang);
 	if ($REX_ARTICLE->setArticleId($article_id))
 	{
 		$REX_ARTICLE->getArticleTemplate();
 	}elseif($REX_ARTICLE->setArticleId($REX[STARTARTIKEL_ID]))
-	{
+	{		
 		$REX_ARTICLE->getArticleTemplate();
 	}else
 	{

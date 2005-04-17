@@ -145,7 +145,9 @@ class sql
 		for ($i=0;$i<$this->zaehler;$i++)
 		{
 			if ($sql!=""){ $sql .= ","; }
-			$sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
+			// $sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
+			$sql .= $this->feld[$i]."='".( $this->wert[$i])."'";
+			
 		}
 
 		$this->selectDB();
@@ -163,7 +165,8 @@ class sql
 			if ($sql1!=""){ $sql1 .= ","; }
 			if ($sql2!=""){ $sql2 .= ","; }
 			$sql1 .= $this->feld[$i];
-			$sql2 .= "'".addslashes( $this->wert[$i])."'";
+			// $sql2 .= "'".addslashes( $this->wert[$i])."'";
+			$sql2 .= "'".( $this->wert[$i])."'";
 		}
 
 		$this->selectDB();
@@ -228,11 +231,23 @@ class sql
 	function setNewId($field)
 	{
 		$result = mysql_query("select $field from $this->table order by $field desc LIMIT 1");
-		$id = mysql_result($result,0,"$field");
+		if (@mysql_num_rows($result)==0) $id = 0;
+		else $id = mysql_result($result,0,"$field");
 		$id++;
 		$this->setValue($field,$id);
 		return $id;
 	}
+
+	function getFieldnames()
+	{
+		$y = mysql_num_fields($this->result);
+		for ($x=0; $x<$y; $x++) {
+			$echo[] = mysql_field_name($this->result, $x);
+		}
+		return	$echo;
+	}
+
+
 
 
 	// ------------------------- ORDER FUNKTIONEN

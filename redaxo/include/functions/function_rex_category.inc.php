@@ -21,10 +21,10 @@ if ($KAT->getRows()==1)
 	{
 		$SKAT = new sql;
 		$SKAT->setQuery("select * from rex_article where id=".$KPATH[$ii]." and startpage=1 and clang=$clang");
-		$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("name")."</a>";
+		$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
 		$KATPATH .= $KPATH[$ii]."|";
 	}
-	$KATout .= " : <a href=index.php?page=structure&category_id=$category_id&clang=$clang>".$KAT->getValue("name")."</a>";
+	$KATout .= " : <a href=index.php?page=structure&category_id=$category_id&clang=$clang>".$KAT->getValue("catname")."</a>";
 	$KATPATH .= "$category_id|";
 }
 $KATout = "&nbsp;&nbsp;&nbsp;".$I18N->msg("path")." : <a href=index.php?page=structure&category_id=0&clang=$clang>Homepage</a>".$KATout;

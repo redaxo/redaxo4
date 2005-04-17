@@ -218,7 +218,7 @@ if ($article->getRows() == 1)
 	                    $function = "";
 	                }
 	                $save = "";
-					generateArticle($article_id);
+					rex_generateArticle($article_id);
 
 				}else
 				{

@@ -66,6 +66,8 @@ class article
 
 	function setCLang($value)
 	{
+		global $REX;
+		if ($REX[CLANG][$value] == "") $value = 0;
 		$this->clang = $value;
 	}
 	
@@ -126,7 +128,7 @@ class article
 	function getValue($value)
 	{
 		global $REX;
-		if ($REX[GG]) return $REX[ART][$this->article_id][$value];
+		if ($REX[GG]) return $REX[ART][$this->article_id][$value][$this->clang];
 		else return $this->ARTICLE->getValue($value);
 	}
 
@@ -139,7 +141,7 @@ class article
 			if ($this->article_id != 0)
 			{
 				$this->contents = "";
-				$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".".$this->lang.".".$this->type.".content";
+				$filename = $REX[INCLUDE_PATH]."/generated/articles/".$this->article_id.".".$this->clang.".content";
 				if ($fd = @fopen ($filename, "r"))
 				{
 					$this->contents = fread ($fd, filesize ($filename));
@@ -386,12 +388,16 @@ class article
 
                 }elseif ($this->getValue("template_id") != 0 and $this->article_id != 0)
                 {
+                	
                         $template_name = $REX[INCLUDE_PATH]."/generated/templates/".$this->getValue("template_id").".template";
 
-                        if ($fd = @fopen ($template_name, "r"))
+                        if ($fd = fopen ($template_name, "r"))
                         {
                                 $template_content = fread ($fd, filesize ($template_name));
                                 fclose ($fd);
+                        }else
+                        {
+                        	$template_content = $this->getValue("template_id")." not found";
                         }
 
                         $return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);

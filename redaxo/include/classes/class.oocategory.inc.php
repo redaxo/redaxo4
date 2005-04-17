@@ -1,4 +1,5 @@
 <?
+
 include_once $REX[INCLUDE_PATH]."/classes/class.ooarticle.inc.php";
 
 /*
@@ -7,22 +8,41 @@ include_once $REX[INCLUDE_PATH]."/classes/class.ooarticle.inc.php";
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
  *
- * Carsten Eckelmann <carsten@circle42.com>, May 2004
+ * Carsten Eckelmann <carsten@circle42.com>, May 2004^
+ *
+ *
+ * Jan: muss noch umgebaut werden auf generated und clang 
  */
 class OOCategory {
-  var $_id;
-  var $_name;
-  var $_description;
-  var $_func;
-  var $_re_category_id;
-  var $_prior;
-  var $_path;
-  var $_status; // online=1, offline=0
+  
+  var $_id = 0;
+  var $_clang;
+  // var $_name;
+  // var $_description;
+  // var $_func;
+  // var $_re_category_id;
+  // var $_prior;
+  // var $_path;
+  // var $_status; // category exist = 1
 	
 	/*
 	 * Constructor
 	 */
-	function OOCategory($id, $name, $description, $func, $re_category_id, $prior, $path, $status) {
+	function OOCategory($id,$clang=0) {
+
+		global $REX;
+		
+		$this->_id = $id;
+		$this->_clang = $clang;
+
+		include_once($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article");
+		
+		// if ($REX[ART][$id][article_id][$clang] == "$id") $this->_status = 1;
+		// else $this->_status = 0;
+		
+		// $name, $description, $func, $re_category_id, $prior, $path, $status
+		/*
+		$this->_clang = 0;
 		$this->_id = $id;
 		$this->_name = $name; 
 		$this->_description = $description; 
@@ -31,6 +51,19 @@ class OOCategory {
 		$this->_prior = $prior;
 		$this->_path = $path;
 		$this->_status = $status;
+		*/
+	}
+	
+	/*
+	 * Class Function:
+	 * Returns Value of Category
+	 */
+	 
+	function getValue($value) {
+	
+		global $REX;		
+		return $REX[ART][$this->_id][$value][$this->_clang];
+		
 	}
 	
 	/*
@@ -38,8 +71,12 @@ class OOCategory {
 	 * Return an OOCategory object based on an id
 	 */
 	function getCategoryById($an_id) {
+		
+		global $REX;
+				
 		$sql = new sql;
 		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where id = $an_id");
+		
 		if ($sql->getRows() == 1) {
 			return new OOCategory($sql->getValue("id"),$sql->getValue("name"),
 										$sql->getValue("description"), $sql->getValue("func"),
@@ -84,7 +121,24 @@ class OOCategory {
 	 * all categories with status 0 will be
 	 * excempt from this list!
 	 */
-	function getRootCategories($ignore_offlines = false) {
+	//function getRootCategories($ignore_offlines = false) {
+		
+	function getRootCategories($clang=0) {
+
+		global $REX;
+		
+		$this->_clang = $clang;
+		include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$this->_clang.".clist");
+		$CL = $REX[RE_CAT_ID][0];
+		@reset($CL);
+		for ($i = 0; $i < count($CL); $i++)
+		{
+			$catlist[] = new OOCategory(current($CL),$this->_clang);
+			next($CL);	
+		}
+		
+		
+		/*
 		$off = $ignore_offlines ? " and status = 1 " : "";
 		$catlist = array();
 		$sql = new sql;
@@ -96,6 +150,7 @@ class OOCategory {
 										$sql->getValue("path"), $sql->getValue("status"));
 			$sql->next();
 		}
+		*/
 		return $catlist;
 	}
 	 
@@ -108,7 +163,21 @@ class OOCategory {
 	 * all categories with status 0 will be
 	 * excempt from this list!
 	 */
-	function getChildren($ignore_offlines = false) {
+	function getChildren() {
+		
+		global $REX;
+		
+		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".clist");
+		$CL = $REX[RE_CAT_ID][$this->_id];
+		@reset($CL);
+		for ($i = 0; $i < count($CL); $i++)
+		{
+			$catlist[] = new OOCategory(current($CL),$this->_clang);
+			next($CL);	
+		}
+		// unset($catlist );
+		/*
+		
 		$off = $ignore_offlines ? " and status = 1 " : "";
 		$catlist = array();
 		$sql = new sql;
@@ -120,6 +189,7 @@ class OOCategory {
 										$sql->getValue("path"), $sql->getValue("status"));
 			$sql->next();
 		}
+		*/
 		return $catlist;
 	}
 	 
@@ -128,7 +198,7 @@ class OOCategory {
 	 * Returns the parent category
 	 */
 	function getParent() {
-		return $this->_re_category_id > 0 ? OOCategory::getCategoryById($this->_re_category_id) : null;
+		// return $this->_re_category_id > 0 ? OOCategory::getCategoryById($this->_re_category_id) : null;
 	}
 
 	/*
@@ -137,7 +207,7 @@ class OOCategory {
 	 * parent of the other category.
 	 */
 	function isParent($other_cat) {
-		return $this->_id == $other_cat->_re_category_id;
+		// return $this->_id == $other_cat->_re_category_id;
 	}
 	
 	/*
@@ -161,7 +231,7 @@ class OOCategory {
 	 * excempt from this list!
 	 */
 	function getArticles($ignore_offlines = true) {
-		return OOArticle::getArticlesOfCategory($this->_id, $ignore_offlines);
+		// return OOArticle::getArticlesOfCategory($this->_id, $ignore_offlines);
 	}
 	 
 	/*
@@ -185,7 +255,7 @@ class OOCategory {
 	 * $ignore_offlines = ignore any articles that are offline
 	 */
 	function getNewArticles($number_of_articles = 0, $ignore_startpage = true, $ignore_offlines = true) {
-		return OOArticle::getNewArticles($number_of_articles, $ignore_startpage, $ignore_offlines, $this->_id);
+		// return OOArticle::getNewArticles($number_of_articles, $ignore_startpage, $ignore_offlines, $this->_id);
 	}
 	
 	 
@@ -200,7 +270,7 @@ class OOCategory {
 	 * Year format: e.g. 2004
 	 */
 	function getArticlesByDate($day_from, $month_from, $year_from, $day_to, $month_to, $year_to) {
-		return OOArticle::getArticlesOfCategoryByDate($this->_id, $day_from, $month_from, $year_from, $day_to, $month_to, $year_to);
+		// return OOArticle::getArticlesOfCategoryByDate($this->_id, $day_from, $month_from, $year_from, $day_to, $month_to, $year_to);
 	}
 	
 	/*
@@ -208,7 +278,7 @@ class OOCategory {
 	 * Return the start article for this category
 	 */
 	function getStartArticle() {
-		return OOArticle::getCategoryStartArticle($this->_id);
+		// return OOArticle::getCategoryStartArticle($this->_id);
 	}
 	
 	/*
@@ -237,7 +307,8 @@ class OOCategory {
 	 * returns the name of the category
 	 */
 	function getName() {
-		return $this->_name;
+		global $REX;
+		return $REX[ART][$this->_id][catname][$this->_clang];
 	}
 	
 	/*
@@ -245,7 +316,8 @@ class OOCategory {
 	 * returns true if category is online.
 	 */
 	function isOnline() {
-		return $this->_status == 1 ? true : false;
+		global $REX;
+		return $REX[ART][$this->_id][status][$this->_clang];
 	}
 	
 	/*
@@ -253,7 +325,8 @@ class OOCategory {
 	 * returns the category description.
 	 */
 	function getDescription() {
-		return $this->_description;
+		global $REX;		
+		return $REX[ART][$this->_id][description][$this->_clang];
 	}
 	
 	/*
@@ -261,7 +334,8 @@ class OOCategory {
 	 * returns the prioity of the category
 	 */
 	function getPriority() {
-		return $this->_prior;
+		global $REX;		
+		return $REX[ART][$this->_id][prior][$this->_clang];
 	}
 
 	/*
