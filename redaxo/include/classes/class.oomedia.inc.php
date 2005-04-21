@@ -12,7 +12,7 @@ class OOMedia {
     var $_cat_name;
     // oomediacategory
     var $_cat;
-    
+
     // filename
     var $_name;
     // originalname
@@ -21,24 +21,27 @@ class OOMedia {
     var $_type;
     // filesize
     var $_size;
-    
+
     // filewidth
     var $_width;
     // fileheight
     var $_height;
-    
+
     // filetitle
     var $_title;
     // filedescription
     var $_description;
     // copyright
     var $_copyright;
-    
+
     // createstamp
     var $_createstamp;
     // creator
     var $_creator;
-    
+
+    // resizeextensions
+	var $_resizeextensions = array('jpeg','jpg','gif','png');
+
     /**
      * @access protected
      */
@@ -52,35 +55,36 @@ class OOMedia {
         }
         $result = $result[0];
 //        var_dump( $result);
-        
+
         $this->_id            = $result['file_id'];
         $this->_re_id         = $result['re_file_id'];
         $this->_cat_id        = $result['category_id'];
         $this->_cat_name      = $result['name'];
-        
+
         $this->_name          = $result['filename'];
         $this->_orgname       = $result['originalname'];
         $this->_type          = $result['filetype'];
         $this->_size          = $result['filesize'];
-        
+
         $this->_width         = $result['width'];
         $this->_height        = $result['height'];
 
         $this->_title         = $result['title'];
         $this->_description   = $result['description'];
         $this->_copyright     = $result['copyright'];
-        
+
         $this->_createstamp   = $result['stamp'];
         $this->_creator       = $result['user_login'];
     }
-    
+
     /**
      * @access protected
      */
     function getTableName() {
-        return 'rex_file';
+        global $REX;
+        return $REX[TABLE_PREFIX].'file';
     }
-    
+
     /**
      * @access protected
      */
@@ -89,14 +93,14 @@ class OOMedia {
         $cattable = OOMediaCategory::getTableName();
         return  $mediatable .' LEFT JOIN '. $cattable .' ON '. $mediatable . '.category_id = '. $cattable .'.id';
     }
-    
+
     /**
      * @access public
      */
     function getMediaById( $id) {
         return new OOMedia( $id);
     }
-    
+
     /**
      * @access public
      */
@@ -104,74 +108,74 @@ class OOMedia {
         $query = 'SELECT file_id FROM '. OOMedia::getTableName() .' WHERE filename = "'. addslashes( $name) .'"';
         $sql = new sql();
         $result = $sql->get_array( $query);
-        
+
         $media = array();
         foreach ( $result as $line) {
             $media[] = OOMedia::getMediaById( $line['file_id']);
         }
-        
+
         return $media;
     }
-    
+
     /**
      * @access public
      */
     function getId() {
         return $this->_id;
     }
-    
+
     /**
      * @access public
      */
     function getTitle() {
         return $this->_title;
     }
-    
+
     /**
      * @access public
      */
     function getCategory() {
         if ( $this->_cat === null) {
-            $this->_cat = & OOMediaCategory::getCategoryById( $this->getCategoryId()); 
+            $this->_cat = & OOMediaCategory::getCategoryById( $this->getCategoryId());
         }
         return $this->_cat;
     }
-    
+
     /**
      * @access public
      */
     function getCategoryName() {
         return $this->_cat_name;
     }
-    
+
     /**
      * @access public
      */
     function getCategoryId() {
         return $this->_cat_id;
     }
-    
+
     /**
      * @access public
      */
     function getDescription() {
         return $this->_description;
     }
-    
+
     /**
      * @access public
      */
     function getCopyright() {
         return $this->_copyright;
     }
-    
+
     /**
      * @access public
      */
     function getFileName() {
         return $this->_name;
     }
-    
+
     /**
      * @access public
      */
@@ -184,23 +188,23 @@ class OOMedia {
     function getWidth() {
         return $this->_width;
     }
-    
+
     /**
      * @access public
      */
     function getHeight() {
         return $this->_height;
     }
-    
+
     /**
      * @access public
      */
     function toHTML() {
         global $REX;
-        
+
         $file = $REX['HTDOCS_PATH'] .'files/'. $this->getFileName();
         $filetype = strrchr( $this->getFileName(), '.');
-        
+
         switch( $filetype) {
             case '.jpg'  :
             case '.jpeg' :
@@ -221,13 +225,88 @@ class OOMedia {
             default     :   return 'No html-equivalent available for type "'. $filetype .'"';
         }
     }
-    
+
     /**
      * @access public
      */
     function toString() {
         return 'OOMedia, "'. $this->getId() .'", "'. $this->getName() .'"'. "<br/>\n";
     }
+
+	// new functions by vscope
+
+    /**
+     * @access public
+     */
+    function deleteMedia(){
+
+        // delete Media by ID
+        $query = "DELETE FROM ".OOMedia::getTableName()." WHERE file_id='".$this->getId()."'";
+        $sql = new sql();
+        $result = $sql->query($query);
+
+        return true;
+    }
+
+    /**
+     * @access protected
+     */
+	function getExtension(){
+        return substr(strrchr($this->_name,"."),1);
+    }
+
+    /**
+     * @access public
+     */
+    function getIcon(){
+
+		global $REX;
+
+		$default_file_icon = "file";
+		$icons_folder = $REX['HTDOCS_PATH'].'redaxo/pics/pool_file_icons/';
+
+		// get File icons from dir redaxo/pics/pool_file_icons/
+        if(!$REX[MEDIA][ICONS]){
+	        if ($handle = opendir($icons_folder)) {
+	            while (false !== ($file = readdir($handle))) {
+	                if ($file != "." && $file != "..") {
+	                    $REX[MEDIA][ICONS][]=str_replace(".gif","",$file);
+	                }
+	            }
+	            closedir($handle);
+	        } else {
+	            trigger_error('File Icons Folder "'.$icons_folder.'" unavailable', E_USER_ERROR);
+	            return false;
+	        }
+	    }
+
+		// get File extension
+        $extension = $this->getExtension();
+
+        // get right Icon for Extension
+        if($key = array_search($extension,$REX[MEDIA][ICONS])){
+            $icon = $icons_folder.$REX[MEDIA][ICONS][$key].".gif";
+        } else {
+            $icon = $icons_folder.$default_file_icon.".gif";
+        }
+
+        return $icon;
+    }
+
+    function resizeImage($width='',$height='',$quality=90){
+		if(!$key = array_search($this->getExtension(),$this->_resizeextensions)){
+			return false;
+		} else {
+		    $resizeType = $this->_resizeextensions[$key];
+		    $imagePath = $REX['HTDOCS_PATH'].'/files'.$this->_name;
+	        switch( $resizeType) {
+	            case 'jpg'  :
+	            case 'jpeg' :
+	            $im = imagecreatefromjpeg ($imagePath);
+		}
+
+    }
+
 }
 
 ?>
