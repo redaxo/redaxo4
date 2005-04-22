@@ -12,7 +12,7 @@ if ($impname != "")
 
 }
 
-if ($exportfilename == "") $exportfilename = $REX[SERVERNAME] . '_rex' .$REX[version];
+if ($exportfilename == "") $exportfilename = 'rex_'.$REX[version].'_'.date("Ymd");
 
 
 if ($function == "delete")
@@ -68,7 +68,7 @@ if ($function == "delete")
 
 				$msg = $I18N_ADDON->msg("database_imported").". ".$I18N_ADDON->msg("entry_count",count($all))."<br>";
 				
-				$msg .= generateAll();
+				$msg .= rex_generateAll();
 				
 			}
 			if ($impname == "") @unlink($file_temp);
