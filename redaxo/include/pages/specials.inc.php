@@ -28,7 +28,7 @@ if ($func == "setup")
 {
 	
 	// generate all articles,cats,templates,caches
-	$MSG = generateAll();
+	$MSG = rex_generateAll();
 
 }elseif($func == "linkchecker")
 {
