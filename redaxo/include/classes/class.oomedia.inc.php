@@ -1,5 +1,4 @@
 <?php
-include_once $REX[INCLUDE_PATH]."/classes/class.oomediacategory.inc.php";
 
 class OOMedia {
     // id
@@ -303,10 +302,9 @@ class OOMedia {
 	            case 'jpg'  :
 	            case 'jpeg' :
 	            $im = imagecreatefromjpeg ($imagePath);
-		}
+		    }
+        }
 
     }
-
 }
-
 ?>

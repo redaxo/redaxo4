@@ -1,6 +1,4 @@
 <?
-include_once $REX[INCLUDE_PATH]."/classes/class.ooarticleslice.inc.php";
-include_once $REX[INCLUDE_PATH]."/classes/class.oocategory.inc.php";
 
 /*
  * The OOArticle class is an object wrapper over the database table rex_article.

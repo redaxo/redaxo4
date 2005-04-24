@@ -1,5 +1,4 @@
 <?
-include_once $REX[INCLUDE_PATH]."/classes/class.ooarticle.inc.php";
 
 /*
  * The OOArticleSlice class is an object wrapper over the database table rex_articel_slice.
