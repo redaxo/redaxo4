@@ -1,1 +1,0 @@
-<a href=http://www.redaxo.de><img src=<? echo $REX[HTDOCS_PATH]; ?>files/banner.jpg width=468 height=60 border=0></a>
