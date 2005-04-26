@@ -106,16 +106,17 @@ if($checkmodus == 1)
 
 	$WRITEABLE = array($REX[INCLUDE_PATH]."/master.inc.php",
 			   $REX[INCLUDE_PATH]."/addons.inc.php",
+			   $REX[INCLUDE_PATH]."/clang.inc.php",
+			   $REX[INCLUDE_PATH]."/ctype.inc.php",
 			   $REX[INCLUDE_PATH]."/generated",
 			   $REX[INCLUDE_PATH]."/generated/articles",
 			   $REX[INCLUDE_PATH]."/generated/templates",
 			   $REX[INCLUDE_PATH]."/generated/logs",
 			   $REX[INCLUDE_PATH]."/generated/cache/",
 			   $REX[INCLUDE_PATH]."/generated/cache/cache.php",
-			   $REX[INCLUDE_PATH]."/install",
+			   $REX[INCLUDE_PATH]."/generated/files/",
 			   $REX[INCLUDE_PATH]."/addons/import_export/files",
 			   $REX[INCLUDE_PATH]."/../../files");
-			   
 
 	foreach($WRITEABLE as $item)
 	{
@@ -248,6 +249,7 @@ if ($checkmodus == 2 )
 if ($checkmodus == 3 && $send == 1)
 {
 
+	/*
 	if ($dbanlegen == 3)
 	{
 		// ----- update
@@ -263,14 +265,16 @@ if ($checkmodus == 3 && $send == 1)
 			$err_msg .= $I18N->msg("setup_030")." MySQL: ".mysql_error()."<br>";
 		}
 
+	}else
+	*/
 
-	}elseif ($dbanlegen == 2)
+	if ($dbanlegen == 2)
 	{
 		// ----- Keine Datenbank anlegen
-		$TBLS = array("rex__article_comment" => 0,"rex__session" => 0,"rex__board" => 0,"rex__user" => 0,"rex__user_comment" => 0,
-		"rex__user_mail" => 0,"rex_action" => 0,"rex_article" => 0,"rex_article_slice" => 0,"rex_article_type" => 0,
-		"rex_category" => 0,"rex_email" => 0,"rex_file" => 0,"rex_file_category" => 0,"rex_modultyp" => 0,"rex_template" => 0,
-		"rex_user" => 0, "rex_file_category" => 0);
+		$TBLS = array("rex_action" => 0,"rex_action" => 0,"rex_article_slice" => 0,"rex_article_type" => 0,"rex_clang" => 0,
+		"rex_file" => 0,"rex_file_category" => 0,"rex_help" => 0,"rex_module_action" => 0,"rex_modultyp" => 0,
+		"rex_template" => 0,"rex_user" => 0);
+
 		$gt = new sql;
 		// $gt->debugsql = 1;
 		$gt->setQuery("show tables");
@@ -297,7 +301,7 @@ if ($checkmodus == 3 && $send == 1)
 	{
 
 		// ----- leere Datenbank und alte DB löschen / drop
-		$fname = $REX[INCLUDE_PATH]."/install/dbinstall_wdrop.sql";
+		$fname = $REX[INCLUDE_PATH]."/install/redaxo3_0_with_drop.sql";
 		$h = fopen($fname,"r");
 		$create = fread($h,filesize($fname));
 		$link = mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
@@ -311,7 +315,7 @@ if ($checkmodus == 3 && $send == 1)
 	}elseif($dbanlegen == 0)
 	{
 		// ----- leere Datenbank und alte DB lassen
-		$fname = $REX[INCLUDE_PATH]."/install/dbinstall_wodrop.sql";
+		$fname = $REX[INCLUDE_PATH]."/install/redaxo3_0_without_drop.sql";
 		$h = fopen($fname,"r");
 		$create = fread($h,filesize($fname));
 		$link = mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
@@ -363,11 +367,11 @@ if ($checkmodus == 3)
 		<tr>
 			<td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td>
 			<td>".$I18N->msg("setup_036")."</td>
-		</tr>
+		</tr><!--
 		<tr>
 			<td align=right><input type=radio name=dbanlegen value=3 $dbchecked3></td>
 			<td>".$I18N->msg("setup_037")."</td>
-		</tr>
+		</tr>-->
 		<tr>
 			<td>&nbsp;</td>
 			<td valign=middle><input type=submit value='".$I18N->msg("setup_038")."'></td>
@@ -403,7 +407,7 @@ if ($checkmodus == 4 && $send == 1)
 				$err_msg = $I18N->msg("setup_042");
 			}else
 			{
-				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','structure[all]\r\narticle[5]\r\ntemplate[]\r\nuser[]\r\nnewsletter[]\r\nmodule[php]\r\nmodule[html]\r\nmodule[]\r\nspecials[]\r\n\r\ncommunity[]\r\nimport[]\n\rexport[]\n\radvancedMode[]\n\rstats[]\n\rmediapool[]\n\raction[]\n\rcaching[]\n\raddon[]\n\r')";
+				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','admin[]dev[]')";
 				$link = @mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
 				if(!@mysql_db_query($DB[1][NAME],$insert,$link))
 				{
