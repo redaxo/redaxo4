@@ -40,6 +40,28 @@ function rex_generateAll()
 	}
 
 
+	// ----------------------------------------------------------- generiere clang
+	$lg = new sql();
+	$lg->setQuery("select * from rex_clang order by id");
+	$content = "// --- DYN\n\r";
+	for ($i=0;$i<$lg->getRows();$i++)
+	{
+		$id = $lg->getValue("id");
+		$name = $lg->getValue("name");
+		$content .= "\n\r\$REX[CLANG][$id] = \"$name\";";
+		$lg->next();
+	}
+	$content .= "\n\r// --- /DYN";	
+	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
+	$h = fopen($file,"r");
+	$fcontent = fread($h,filesize($file));
+	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
+	fclose($h);
+	$h = fopen($file,"w+");
+	fwrite($h,$fcontent,strlen($fcontent));
+	fclose($h);
+
+
 	// ----------------------------------------------------------- generiere filemetas ...
 	// **********************
 
@@ -49,7 +71,9 @@ function rex_generateAll()
 	$Cache->removeAllCacheFiles();
 
 
+	// ----------------------------------------------------------- message
 	$MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
+
 	return $MSG;
 }
 
@@ -603,7 +627,6 @@ function rex_deleteDir($file,$what = 1)
 function rex_deleteCLang($id)
 {
 	global $REX;
-
 	$content = "// --- DYN\n\r";
 	reset($REX[CLANG]);
 	for ($i=0;$i<count($REX[CLANG]);$i++)
@@ -614,17 +637,14 @@ function rex_deleteCLang($id)
 		next($REX[CLANG]);
 	}
 	$content .= "\n\r// --- /DYN";
-
 	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
 	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
 	fclose($h);
-
 	$h = fopen($file,"w+");
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
-
 	$del = new sql();
 	$del->setQuery("select * from rex_article where clang='$id'");
 	for($i=0;$i<$del->getRows();$i++)
@@ -633,17 +653,15 @@ function rex_deleteCLang($id)
 		$del->next();
 	}
 	$del->query("delete from rex_article_slice where clang='$id'");
-
 	rex_generateAll();
-
 	if ($id>0) unset($REX[CLANG][$id]);
-
+	$del = new sql();
+	$del->query("delete from rex_clang where id='$id'");
 }
 
 function rex_addCLang($id,$name)
 {
 	global $REX;
-	
 	$REX[CLANG][$id] = $name;
 	$content = "// --- DYN\n\r";
 	reset($REX[CLANG]);
@@ -686,7 +704,8 @@ function rex_addCLang($id,$name)
 
 		$add->next();
 	}
-	
+	$add = new sql();
+	$add->query("insert into rex_clang set id='$id',name='$name'");
 }
 
 function rex_editCLang($id,$name)
@@ -702,7 +721,8 @@ function rex_editCLang($id,$name)
 	$h = fopen($REX[INCLUDE_PATH]."/clang.inc.php","w+");
 	fwrite($h,$cont,strlen($cont));
 	fclose($h);
-	
+	$edit = new sql;
+	$edit->query("update rex_clang set name='$name' where id='$id'");
 }
 
 ?>

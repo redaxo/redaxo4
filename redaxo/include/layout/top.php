@@ -23,12 +23,12 @@ if ($LOGIN)
 {
 	echo "<a href=index.php?page=structure class=white>".$I18N->msg("structure")."</a> ";
 	if ($REX_USER->isValueOf("rights","mediapool[]")) echo " | <a href=# onclick=openREXMedialist(0); class=white>".$I18N->msg("pool_media")."</a>";
-	if ($REX_USER->isValueOf("rights","template[]")) echo " | <a href=index.php?page=template class=white>".$I18N->msg("template")."</a>";
-	if ($REX_USER->isValueOf("rights","module[]")) echo " | <a href=index.php?page=module class=white>".$I18N->msg("module")."</a>"; 
-	if ($REX_USER->isValueOf("rights","user[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 
-	if ($REX_USER->isValueOf("rights","addon[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
-	if ($REX_USER->isValueOf("rights","specials[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
-	if ($REX_USER->isValueOf("rights","stats[]")) echo " | <a href=index.php?page=stats class=white>".$I18N->msg("statistics")."</a>"; 
+	if ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=template class=white>".$I18N->msg("template")."</a>";
+	if ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=module class=white>".$I18N->msg("module")."</a>"; 
+	if ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 
+	if ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
+	if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
+	if ($REX_USER->isValueOf("rights","stats[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=stats class=white>".$I18N->msg("statistics")."</a>"; 
 
 	reset($REX[ADDON][status]);
 	for($i=0;$i<count($REX[ADDON][status]);$i++)

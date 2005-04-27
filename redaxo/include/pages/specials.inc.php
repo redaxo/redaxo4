@@ -70,7 +70,8 @@ if ($func == "setup")
 	$cont = ereg_replace("(REX\[STARTARTIKEL_ID\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
 	$cont = ereg_replace("(REX\[EMAIL\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
 	$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
-	$cont = ereg_replace("(REX\[LANG\].?\=.?)[^;]*","\\1".$neu_lang,$cont);
+	$cont = ereg_replace("(REX\[LANG\].?\=.?)[^;]*","\\1\"".$neu_lang."\"",$cont);
+	$REX[LANG] = $neu_lang;
 	$cont = ereg_replace("(REX\[SERVER\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
 	$cont = ereg_replace("(REX\[SERVERNAME\].?\=.?)[^;]*","\\1\"".($neu_SERVERNAME)."\"",$cont);
 	$cont = ereg_replace("(DB\[2\]\[HOST\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
