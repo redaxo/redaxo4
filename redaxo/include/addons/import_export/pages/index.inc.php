@@ -1,5 +1,7 @@
 <?php
 
+include_once $REX[INCLUDE_PATH]."/addons/$page/classes/class.tar.inc.php";
+
 // ------------------------------ FUNC
 $msg = "";
 
@@ -68,6 +70,16 @@ if ($function == "delete")
 
 				$msg = $I18N_ADDON->msg("database_imported").". ".$I18N_ADDON->msg("entry_count",count($all))."<br>";
 				
+				unset($REX[CLANG]);
+				$gl = new sql;
+				$gl->setQuery("select * from rex_clang");
+				for ($i=0;$i<$gl->getRows();$i++)
+				{
+					$id = $gl->getValue("id");
+					$name = $gl->getValue("name");
+					$REX[CLANG][$id] = $name;
+					$gl->next();
+				}
 				$msg .= rex_generateAll();
 				
 			}
@@ -238,7 +250,7 @@ if ($function == "delete")
 						}
 					}
 				}
-			
+				
 				$tar = new tar;
 				foreach($EXPDIR as $key => $item)
 					add_file_reku($REX[INCLUDE_PATH]."/../../",$key);

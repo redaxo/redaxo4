@@ -5,6 +5,7 @@ year = Year
 general = General
 dateformat = %B %d. %Y
 setlocale = en_GB
+adateformat = %d. %b. %Y
 
 # redaxo/index.php
 start_article_not_selected = No start article selected

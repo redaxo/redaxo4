@@ -171,6 +171,11 @@ if ($article->getRows() == 1)
 						}
 					}
 
+					
+					$newsql->setValue("updatedate",time());
+					$newsql->setValue("updateuser",$REX_USER->getValue("login"));
+
+
 					// ----- Function
 					if ($function == "edit")
 					{
@@ -179,6 +184,8 @@ if ($article->getRows() == 1)
 
 					}elseif ($function == "add")
 					{
+						$newsql->setValue("createdate",time());
+						$newsql->setValue("createuser",$REX_USER->getValue("login"));
 						$newsql->insert();
 						$last_id = $newsql->last_insert_id;
 						$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
@@ -218,6 +225,14 @@ if ($article->getRows() == 1)
 	                    $function = "";
 	                }
 	                $save = "";
+	                
+					$EA = new sql;
+					$EA->setTable("rex_article");
+					$EA->where("id='$article_id' and clang=$clang");
+					$EA->setValue("updatedate",time());
+					$EA->setValue("updateuser",$REX_USER->getValue("login"));
+	                $EA->update();
+	                
 					rex_generateArticle($article_id);
 
 				}else
@@ -306,7 +321,14 @@ if ($article->getRows() == 1)
 						$newsql->query("delete from rex_article_slice where id='$slice_id'");
 						$message = $I18N->msg('block_deleted');
 
-						generateArticle($article_id);
+						$EA = new sql;
+						$EA->setTable("rex_article");
+						$EA->where("id='$article_id' and clang=$clang");
+						$EA->setValue("updatedate",time());
+						$EA->setValue("updateuser",$REX_USER->getValue("login"));
+		                $EA->update();
+
+						rex_generateArticle($article_id);
 
 						// ----- POST ACTION [DELETE]
 						$addsql = " and rex_action.prepost=1 and rex_action.status=2"; // pre-action and delete
@@ -449,14 +471,16 @@ if ($article->getRows() == 1)
 				$meta_sql->setTable("rex_article");
 				// $meta_sql->debugsql = 1;
 				$meta_sql->where("id='$article_id' and clang=$clang");
-				$meta_sql->setValue("online_from",$jahr_von.$monat_von.$tag_von);
-				$meta_sql->setValue("online_to",$jahr_bis.$monat_bis.$tag_bis);
+				$meta_sql->setValue("online_from",mktime(0,0,0,$monat_von,$tag_von,$jahr_von));
+				$meta_sql->setValue("online_to",mktime(0,0,0,$monat_bis,$tag_bis,$jahr_bis));
 				$meta_sql->setValue("keywords",$meta_keywords);
 				$meta_sql->setValue("description",$meta_description);
 				$meta_sql->setValue("name",$meta_article_name);
 				$meta_sql->setValue("type_id",$type_id);
 				$meta_sql->setValue("teaser",$meta_teaser);
-
+				$meta_sql->setValue("updatedate",time());
+				$meta_sql->setValue("updateuser",$REX_USER->getValue("login"));
+		        
 				// cache
 				$Cache = new Cache($article_id);
 				if($caching!=1){
@@ -480,7 +504,7 @@ if ($article->getRows() == 1)
 				$article->setQuery("select * from rex_article where id='$article_id'");
 				$err_msg = $I18N->msg("metadata_updated").$message;
 
-				generateArticle($article_id);
+				rex_generateArticle($article_id);
 			}
 
 			$typesel = new select();
@@ -515,6 +539,35 @@ if ($article->getRows() == 1)
 				</tr>";
 
 			if ($err_msg != "") echo "<tr><td colspan=2 class=warning><font class=warning>$err_msg</font></td></tr>";
+
+			function selectdate($date,$extens){
+
+				$date = date("Ymd",$date);
+				$ausgabe = "<select name=jahr$extens size=1>\n";
+				for ($i=1999;$i<2011;$i++){
+					$ausgabe .= "<option value=\"$i\"";
+					if ($i == substr($date,0,4)){ $ausgabe .= " selected"; }
+					$ausgabe .= ">$i\n";	
+				}
+				$ausgabe .= "</select>";
+				$ausgabe .= "<select name=monat$extens size=1>\n";
+				for ($i=1;$i<13;$i++){
+					if ($i<10){ $ii = "0".$i; }else{ $ii = $i; }
+					$ausgabe .= "<option value=\"$ii\"";
+					if ($ii == substr($date,4,2)){ $ausgabe .= " selected"; }
+					$ausgabe .= ">$ii\n";	
+				}
+				$ausgabe .= "</select>";
+				$ausgabe .= "<select name=tag$extens size=1>\n";
+				for ($i=1;$i<32;$i++){
+					if ($i<10){ $ii = "0".$i; }else{ $ii = $i; }
+					$ausgabe .= "<option value=\"$ii\"";		
+					if ($ii == substr($date,6,2)){ $ausgabe .= " selected"; }
+					$ausgabe .= ">$ii\n";	
+				}
+				$ausgabe .= "</select>";	
+				return $ausgabe;
+			}
 
 			echo "
 				<tr>

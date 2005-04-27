@@ -43,7 +43,6 @@ include_once $REX[INCLUDE_PATH]."/classes/class.stat.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.cache.inc.php"; // Advanced Caching class
 include_once $REX[INCLUDE_PATH]."/classes/class.mime_mail.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.ooframework.inc.php"; // OO Classes
-include_once $REX[INCLUDE_PATH]."/functions/function_date.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_mail.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_mediapool.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_modrewrite.inc.php";

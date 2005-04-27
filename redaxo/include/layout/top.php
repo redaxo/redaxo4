@@ -22,7 +22,7 @@ echo "<html>
 if ($LOGIN)
 {
 	echo "<a href=index.php?page=structure class=white>".$I18N->msg("structure")."</a> ";
-	if ($REX_USER->isValueOf("rights","mediapool[]")) echo " | <a href=# onclick=openREXMedialist(0); class=white>".$I18N->msg("pool_media")."</a>";
+	if ($REX_USER->isValueOf("rights","mediapool[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=# onclick=openREXMedialist(0); class=white>".$I18N->msg("pool_media")."</a>";
 	if ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=template class=white>".$I18N->msg("template")."</a>";
 	if ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=module class=white>".$I18N->msg("module")."</a>"; 
 	if ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 

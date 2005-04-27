@@ -15,7 +15,7 @@
 // alles über "echte" submit buttons abschicken lassen und auch die markierten reihen sollten
 // "eingefärbt" werden
 
-
+// verschieben funktionen mit $REX_USER->isValueOf("rights","advancedMode[]");  schuetzen
 
 
 
@@ -46,6 +46,8 @@ function media_resize($FILE,$width,$height,$make_copy=false){
 }
 
 function media_savefile($FILE,$rex_file_category,$FILEINFOS){
+	
+	global $REX_USER;
 	
 	$FILENAME = $FILE[name];
 	$FILESIZE = $FILE[size];
@@ -122,6 +124,10 @@ function media_savefile($FILE,$rex_file_category,$FILEINFOS){
 		$FILESQL->setValue("height",$size[1]);
 		$FILESQL->setValue("category_id",$rex_file_category);
 		$FILESQL->setValue("stamp",time());
+		$FILESQL->setValue("createdate",time());
+		$FILESQL->setValue("createuser",$REX_USER->getValue("login"));
+		$FILESQL->setValue("updatedate",time());
+		$FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
 		$FILESQL->insert();
 		
 		$ok = 1;
@@ -484,6 +490,10 @@ if($media_method=='add_file_cat')
         $db->setTable('rex_file_category');
         $db->setValue('name',$cat_name);
 		$db->setValue('hide',$cat_hide); //pw anzeige thumbnails hide=1, thumbails werden in der übersicht der kategorie nicht angezeigt
+		$db->setValue("createdate",time());
+		$db->setValue("createuser",$REX_USER->getValue("login"));
+		$db->setValue("updatedate",time());
+		$db->setValue("updateuser",$REX_USER->getValue("login"));
         $db->insert();
         $msg = $I18N->msg('pool_kat_saved',$cat_name);
 }elseif($media_method=='edit_file_cat')
@@ -495,6 +505,8 @@ if($media_method=='add_file_cat')
         $db->where("id='$cat_id'");
         $db->setValue('name',$cat_name);
 		$db->setValue('hide',$cat_hide); //pw anzeige thumbnails
+		$db->setValue("updatedate",time());
+		$db->setValue("updateuser",$REX_USER->getValue("login"));
         $db->update();
         $msg = $I18N->msg('pool_kat_updated',$cat_name);
         $cat_id = "";
@@ -737,6 +749,8 @@ if($media_method=='edit_file'){
                         $msg .= "<br>".$I18N->msg('pool_file_is_resized');
                 }
 
+				$FILESQL->setValue("updatedate",time());
+				$FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
                 $FILESQL->update();
 
         }else
@@ -1016,24 +1030,24 @@ if($mode=='import'){
 //pw löscht files nach fileliste
 if($media_method=='updatecat_selectedmedia')
 {
-
-	 if(is_array($_GET[selectedmedia])){
-
+	if(is_array($_GET[selectedmedia]))
+	{
+	
 		foreach($_GET[selectedmedia] as $file_id){
-
-			 $db = new sql;
-		     //$db->debugsql = true;
-             $db->setTable('rex_file');
-             $db->where("file_id='$file_id'");
-             $db->setValue('category_id',$rex_newfile_category);
-             $db->update();
-
-			 $msg = $I18N->msg('pool_selectedmedia_error');
+			$db = new sql;
+			//$db->debugsql = true;
+			$db->setTable('rex_file');
+			$db->where("file_id='$file_id'");
+			$db->setValue('category_id',$rex_newfile_category);
+			$db->setValue("updatedate",time());
+			$db->setValue("updateuser",$REX_USER->getValue("login"));
+			$db->update();
+			$msg = $I18N->msg('pool_selectedmedia_error');
 		}
-
-     }else{
-	  	 $msg = $I18N->msg('pool_selectedmedia_error');
-	 }
+	
+	}else{
+		$msg = $I18N->msg('pool_selectedmedia_error');
+	}
 }
 
 

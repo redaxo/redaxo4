@@ -54,7 +54,7 @@ if ($function == "edit_category" && $edit_id != "")
 {
 	// --------------------- KATEGORIE EDIT
 	$message = $I18N->msg("category_updated");
-	$KAT->query("update rex_article set catname='$kat_name' where id='$edit_id' and startpage=1 and clang=$clang");
+	$KAT->query("update rex_article set catname='$kat_name',updatedate='".time()."',updateuser='".$REX_USER->getValue("login")."' where id='$edit_id' and startpage=1 and clang=$clang");
 	rex_generateArticle($edit_id);
 
 }elseif ($function == "delete_category" && $edit_id != "")
@@ -89,7 +89,7 @@ if ($function == "edit_category" && $edit_id != "")
 	{
 		if ($KAT->getValue("status")==1) $newstatus = 0;
 		else $newstatus = 1;
-		$KAT->query("update rex_article set status='$newstatus' where id='$edit_id' and clang=$clang and startpage=1");
+		$KAT->query("update rex_article set status='$newstatus',updatedate='".time()."',updateuser='".$REX_USER->getValue("login")."' where id='$edit_id' and clang=$clang and startpage=1");
 		$message = $I18N->msg("category_status_updated");
 		rex_generateArticle($edit_id);
 	}else
@@ -127,9 +127,12 @@ if ($function == "edit_category" && $edit_id != "")
 		$AART->setValue("path",$KATPATH);
 		$AART->setValue("startpage",1);
 		$AART->setValue("status",1);
-		$AART->setValue("online_from",date("YmdHis"));
-		$AART->setValue("online_to","20100101");
-		$AART->setValue("createdate",date("Ymd"));
+		$AART->setValue("online_from",time());
+		$AART->setValue("online_to",mktime(0, 0, 0, 1, 1, 2010));
+		$AART->setValue("createdate",time());
+		$AART->setValue("createuser",$REX_USER->getValue("login"));
+		$AART->setValue("updatedate",time());
+		$AART->setValue("updateuser",$REX_USER->getValue("login"));
 		$AART->insert();
 	}
 	rex_generateArticle($id);
@@ -144,6 +147,8 @@ if ($function == "offline_article")
 	$EA->setTable("rex_article");
 	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("status",0);
+	$EA->setValue("updatedate",time());
+	$EA->setValue("updateuser",$REX_USER->getValue("login"));
 	$EA->update();
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
@@ -155,6 +160,8 @@ if ($function == "offline_article")
 	$EA->setTable("rex_article");
 	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("status",1);
+	$EA->setValue("updatedate",time());
+	$EA->setValue("updateuser",$REX_USER->getValue("login"));
 	$EA->update();
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
@@ -168,6 +175,8 @@ if ($function == "offline_article")
 	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("name",$article_name);
 	$EA->setValue("template_id",$template_id);
+	$EA->setValue("updatedate",time());
+	$EA->setValue("updateuser",$REX_USER->getValue("login"));
 	$EA->update();
 	rex_generateArticle($article_id);
 
@@ -197,9 +206,12 @@ if ($function == "offline_article")
 		$AART->setValue("path",$KATPATH);
 		$AART->setValue("startpage",0);
 		$AART->setValue("status",0);
-		$AART->setValue("online_from",date("Ymd"));
-		$AART->setValue("online_to","20100101");
-		$AART->setValue("createdate",date("Ymd"));
+		$AART->setValue("online_from",time());
+		$AART->setValue("online_to",mktime(0, 0, 0, 1, 1, 2010));
+		$AART->setValue("createdate",time());
+		$AART->setValue("createuser",$REX_USER->getValue("login"));
+		$AART->setValue("updatedate",time());
+		$AART->setValue("updateuser",$REX_USER->getValue("login"));
 		$AART->setValue("template_id",$template_id);
 		$AART->insert();
 	}
@@ -380,7 +392,7 @@ if($category_id > -1)
 				<td class=grey><input type=text name=article_name size=20></td>
 				<td class=grey>&nbsp;<input type=text name=Position_New_Article value=\"1\" style='width:30px'></td>
 				<td class=grey>".$TMPL_SEL->out()."</td>
-				<td class=grey>".date_from_mydate(date("YmdHis"),"")."&nbsp;</td>
+				<td class=grey>".strftime($I18N->msg("adateformat"))."&nbsp;</td>
 				<td class=grey><b>".$I18N->msg("article")."</b></td>
 				<td class=grey colspan=3><input type=submit value='add_article'></td>
 				</form>
@@ -431,7 +443,7 @@ if($category_id > -1)
 				<td class=grey><input type=text name=article_name value=\"".htmlentities($sql->getValue("name"))."\" size=20 style='width:100%'></td>
 				<td class=grey>&nbsp;<input type=text name=Position_Article value=\"$pos\" style='width:30px'></td>
 				<td class=grey>".$TMPL_SEL->out()."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("createdate"),"")."&nbsp;</td>
+				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
 				<td class=grey colspan=3><input type=submit value='".$I18N->msg("edit")."'></td>
 				</form>
@@ -457,7 +469,7 @@ if($category_id > -1)
 
 			echo "
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("createdate"),"")."&nbsp;</td>
+				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
 				<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=edit&category_id=$category_id&clang=$clang>".$I18N->msg("change")."</a></td>";
 
@@ -482,7 +494,7 @@ if($category_id > -1)
 				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a></td>
 				<td class=grey>$pos</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("createdate"),"")."&nbsp;</td>
+				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
 				<td class=grey><strike>".$I18N->msg("edit")."</strike></td>";
 
@@ -508,7 +520,7 @@ if($category_id > -1)
 				<td class=grey>".$sql->getValue("name")."</td>
 				<td class=grey>$pos</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".date_from_mydate($sql->getValue("createdate"),"")."&nbsp;</td>
+				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
 				<td class=grey><strike>".$I18N->msg("change")."</strike></td>
 				<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
