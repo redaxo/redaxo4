@@ -40,22 +40,22 @@ if ($REX[SETUP])
 	$dl = false;
 	$page = strtolower($page);
 	
-	if ($page=="addon" && $REX_USER->isValueOf("rights","addon[]"))
+	if ($page=="addon" && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","dev[]")))
 	{
 		$page_name = $I18N->msg("addon");
-	}elseif ($page=="specials" && $REX_USER->isValueOf("rights","specials[]"))
+	}elseif ($page=="specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")))
 	{
 		$page_name = $I18N->msg("specials");
-	}elseif ($page=="module" && $REX_USER->isValueOf("rights","module[]"))
+	}elseif ($page=="module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","dev[]")))
 	{
 		$page_name = $I18N->msg("module");
-	}elseif ($page=="template" && $REX_USER->isValueOf("rights","template[]"))
+	}elseif ($page=="template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","dev[]")))
 	{
 		$page_name = $I18N->msg("template");
-	}elseif ($page=="user" && $REX_USER->isValueOf("rights","user[]"))
+	}elseif ($page=="user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
 	{
 		$page_name = $I18N->msg("user");
-	}elseif ($page=="stats" && $REX_USER->isValueOf("rights","stats[]"))
+	}elseif ($page=="stats" && ($REX_USER->isValueOf("rights","stats[]") || $REX_USER->isValueOf("rights","admin[]")))
 	{
 		$page_name = "Statistiken";
 	}elseif ($page=="medienpool")
@@ -84,7 +84,7 @@ if ($REX[SETUP])
 			// addon gefunden	
 			$perm = $REX[ADDON][perm][$as];
 			// right checken
-			if($REX_USER->isValueOf("rights",$perm) or $perm == "")
+			if($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]"))
 			{
 				include $REX[INCLUDE_PATH]."/addons/$page/pages/index.inc.php";
 				exit;
