@@ -81,25 +81,16 @@ class select{
 	
 	############### show select
 	function out(){
+        // evtl. leere select-box zurückliefern?
         if ( !is_array( $this->options)) {
             return "";
         }
 	
 		global $STYLE;
 		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->style."'>\n";
+        
         $ausgabe .= $this->out_group( '');
 
-//        $options = $this->options;
-//        foreach( $options as $groupname => $group) {
-//                    foreach( $subgroup as $suboption) {
-//                        $subname = $suboption[0] ;
-//                        $subvalue = $suboption[1];
-//                        $ausgabe .= $this->out_option( $subname, $subvalue);
-//                    }
-//                }
-//            }
-//        }
-        
 //		for ($i=0;$i<$this->counter;$i++){
 //		
 //			// if ($this->option_name[$i] != ""){
@@ -124,7 +115,7 @@ class select{
         $group = $this->get_group( $groupname);
         
         if ( $groupname != '') {
-            $ausgabe .= '  <optgroup label="&nbsp;&raquo;&nbsp;'. $groupname .'">'. "\n";
+            $ausgabe .= '  <optgroup>'. "\n";
         }
         
         foreach( $group as $option) {
