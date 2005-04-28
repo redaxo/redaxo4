@@ -69,14 +69,27 @@ $sel_cat->multiple(1);
 $sel_cat->set_style("width:100%;");
 $sel_cat->set_size(20);
 $sel_cat->set_name("userperm_cat[]");
-$sqlcat = new sql;
-$sqlcat->setQuery("select * from rex_article where clang=0 and startpage=1 order by path,prior");
-for ($i=0;$i<$sqlcat->getRows();$i++)
-{
-	$name = $sqlcat->getValue("catname");
-	// $c = substr_count($sql->getValue("path"),"|");	
-	$sel_cat->add_option($name,$sqlcat->getValue("id"));
-	$sqlcat->next();	
+
+$cat_ids = array();
+$rootCats = OOCategory::getRootCategories();
+foreach( $rootCats as $rootCat) {
+    add_cat_options( $sel_cat, $rootCat, $cat_ids);
+}
+
+function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '') {
+    if( empty( $cat)) {
+        return;
+    }
+    
+    $cat_ids[] = $cat->getId();
+    $select->add_option($cat->getName(),$cat->getId(), $groupName);
+    $childs = $cat->getChildren();
+  
+    if ( is_array( $childs)) {  
+        foreach ( $childs as $child) {
+            add_cat_options( $select, $child, $cat_ids, $cat->getName());
+        }
+    }
 }
 
 // zugriff auf mediacategorien
@@ -370,13 +383,10 @@ if ($FUNC_ADD)
 			next($REX[EXTPERM]);
 		}
 	
-		$sqlcat->resetCounter();
-		for ($i=0;$i<$sqlcat->getRows();$i++)
-		{
-			$name = "catstructure[".$sqlcat->getValue("id")."]";
-			if ($sql->isValueOf("rights",$name)) $sel_cat->set_selected($sqlcat->getValue("id"));
-			$sqlcat->next();	
-		}
+		foreach ( $cat_ids as $cat_id) {
+            $name = "catstructure[".$cat_id."]";
+            if ($sql->isValueOf("rights",$name)) $sel_cat->set_selected($cat_id);
+        }
 
 		$sqlmedia->resetCounter();
 		for ($i=0;$i<$sqlmedia->getRows();$i++)
