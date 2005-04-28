@@ -13,23 +13,17 @@
 class select{
 
 	var $select_name;		// 
-	var $counter;			// 
-	var $option_name;		// 
-	var $option_value;		//
+//	var $counter;			// 
+	var $options;		// 
 	var $option_selected;	//
-	var $option_anzahl;		//
+//	var $option_anzahl;		//
 	var $select_size;		// 
 	var $select_multiple;	//
 	var $style;
 
 	################ Konstruktor
 	function select(){
-		$this->counter		= 0;
-		$this->select_name	= "standard";
-		$this->select_size	= 5;
-		$this->mul			= "";
-		$this->option_selected = "";
-		$this->option_anzahl= 0;
+        $this->init();
 	}
 
 	############### multiple felder ? 
@@ -43,12 +37,12 @@ class select{
 
 	################ init 
 	function init(){
-		$this->counter		= 0;
+//		$this->counter		= 0;
 		$this->select_name	= "standard";
 		$this->select_size	= 5;
 		$this->select_multiple	= "";
-		unset($this->option_selected);
-		$this->option_anzahl= 0;
+        $this->option_selected = array();
+//		$this->option_anzahl= 0;
 		
 	}
 	
@@ -70,45 +64,106 @@ class select{
 	################ selected feld - option value uebergeben
 	function set_selected($selected){
 		$this->option_selected[]	= $selected;
-		$this->option_anzahl++;
+//		$this->option_anzahl++;
 	}
 	
 	function resetSelected()
 	{
-		unset($this->option_selected);
-		$this->option_anzahl= 0;
+//		unset($this->option_selected);
+//		$this->option_anzahl= 0;
 	}
 	
 	################ optionen hinzufuegen
-	function add_option($name,$value){
-		$this->option_name[$this->counter]	= $name;
-		$this->option_value[$this->counter]	= $value;
-		$this->counter++;
+	function add_option($name,$value, $group = ""){
+		$this->options[$group][] = array( $name, $value);
+//		$this->counter++;
 	}
 	
 	############### show select
 	function out(){
+        if ( !is_array( $this->options)) {
+            return "";
+        }
 	
 		global $STYLE;
-		$ausgabe = "<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->style."'>\n";
-		for ($i=0;$i<$this->counter;$i++){
-		
-			// if ($this->option_name[$i] != ""){
-				$ausgabe .= "<option value='".$this->option_value[$i]."'";
-				
-				for ($j=0;$j<$this->option_anzahl;$j++){			
-					if ($this->option_selected[$j] == $this->option_value[$i]){
-						$ausgabe .= " selected";
-						$j=1000;
-					}
-				}
-	
-				$ausgabe .= ">".$this->option_name[$i]."</option>\n";
-			// }		
-		}
-		$ausgabe .= "</select>";	
+		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->style."'>\n";
+        $ausgabe .= $this->out_group( '');
+
+//        $options = $this->options;
+//        foreach( $options as $groupname => $group) {
+//                    foreach( $subgroup as $suboption) {
+//                        $subname = $suboption[0] ;
+//                        $subvalue = $suboption[1];
+//                        $ausgabe .= $this->out_option( $subname, $subvalue);
+//                    }
+//                }
+//            }
+//        }
+        
+//		for ($i=0;$i<$this->counter;$i++){
+//		
+//			// if ($this->option_name[$i] != ""){
+//				$ausgabe .= "<option value='".$this->option_value[$i]."'";
+//				
+//				for ($j=0;$j<$this->option_anzahl;$j++){			
+//					if ($this->option_selected[$j] == $this->option_value[$i]){
+//						$ausgabe .= " selected";
+//						$j=1000;
+//					}
+//				}
+//	
+//				$ausgabe .= ">".$this->option_name[$i]."</option>\n";
+//			// }		
+//		}
+		$ausgabe .= "</select>\n";	
 		return $ausgabe;	
 	}
+    
+    function out_group( $groupname) {
+        $ausgabe = '';
+        $group = $this->get_group( $groupname);
+        
+        if ( $groupname != '') {
+            $ausgabe .= '  <optgroup label="&nbsp;&raquo;&nbsp;'. $groupname .'">'. "\n";
+        }
+        
+        foreach( $group as $option) {
+            $name = $option[0] ;
+            $value = $option[1];
+            $ausgabe .= $this->out_option( $name, $value);
+            
+            $subgroup = $this->get_group( $name, true);
+            if ( $subgroup !== false) {
+                $ausgabe .= $this->out_group( $name);
+            }
+        }
+        
+        if ( $groupname != '') {
+            $ausgabe .= '  </optgroup>'. "\n"; 
+        }
+        
+        return $ausgabe;   
+    }
+    
+    function out_option( $name, $value) {
+        $selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
+        $ausgabe .= '    <option value="'. $value .'"'. $selected .'>'. $name .'</option>'. "\n";
+        return $ausgabe;
+    }
+    
+    function get_group( $groupname, $ignore_main_group = false) {
+        if ( $ignore_main_group && $groupname == '') {
+            return false;
+        }
+        
+        foreach ( $this->options as $gname => $group) {
+            if ( $gname == $groupname) {
+                return $group;
+            }
+        }
+        
+        return false;
+    }
 }
 
 ?>
