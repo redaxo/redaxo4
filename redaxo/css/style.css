@@ -1,4 +1,4 @@
-body,p,td,th,a,input,select,textarea { font-family: Verdana, Arial, sans-serif; color: #32353a; font-size: 10px; }
+body,p,td,th,a,input,select,optgroup,potion,textarea { font-family: Verdana, Arial, sans-serif; color: #32353a; font-size: 10px; }
 
 th		{ background-color: #d7d6d3; }
 a		{ color: #f2353a; text-decoration: none; }
@@ -57,3 +57,6 @@ a.black		{ color: #000000; }
 .inp100		{ width:100%; }
 .inpgrey	{ background-color: #f0efeb; }
 .inpgrey100	{ width:100%; background-color: #f0efeb; }
+
+optgroup { font-weight: bold; font-style: normal;}
+optgroup option { padding-left: 10px;}
