@@ -110,7 +110,7 @@ class select{
 		return $ausgabe;	
 	}
     
-    function out_group( $groupname) {
+    function out_group( $groupname, $level = 0) {
         $ausgabe = '';
         $group = $this->get_group( $groupname);
         
@@ -121,11 +121,11 @@ class select{
         foreach( $group as $option) {
             $name = $option[0] ;
             $value = $option[1];
-            $ausgabe .= $this->out_option( $name, $value);
+            $ausgabe .= $this->out_option( $name, $value, $level);
             
             $subgroup = $this->get_group( $name, true);
             if ( $subgroup !== false) {
-                $ausgabe .= $this->out_group( $name);
+                $ausgabe .= $this->out_group( $name, $level + 1);
             }
         }
         
@@ -136,9 +136,10 @@ class select{
         return $ausgabe;   
     }
     
-    function out_option( $name, $value) {
+    function out_option( $name, $value, $level = 0) {
+        $style = ' style="padding-left:'. ( $level * 9 + 1) .'px;"';
         $selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
-        $ausgabe .= '    <option value="'. $value .'"'. $selected .'>'. $name .'</option>'. "\n";
+        $ausgabe .= '    <option value="'. $value .'"'. $style . $selected .'>'. $name .'</option>'. "\n";
         return $ausgabe;
     }
     
