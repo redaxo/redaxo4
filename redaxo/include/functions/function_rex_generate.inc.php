@@ -105,13 +105,12 @@ function rex_generateArticle($id,$refresh=0)
 	{
 		
 		$clang = key($CL);
-		$REX[RC] = true; // Generiere Content
-
+		$REX[RC] = true; // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
 		$CONT = new article;
-		$CONT->setArticleId($id);
 		$CONT->setCLang($clang);
+		$CONT->setArticleId($id);
 		$article_content = "?>".$CONT->getArticle();
-	
+
 		// --------------------------------------------------- Artikelparameter speichern
 		$article = "<?\n".
 					"\n\$REX[ART][$id][article_id][$clang] = \"$id\";".
@@ -279,7 +278,7 @@ function rex_generateLists($re_id,$refresh=0)
 		for ($i=0;$i<$GC->getRows();$i++)
 		{
 			$id = $GC->getValue("id");
-			$content .= "\$REX[RE_ID][$re_id][] = \"".$GC->getValue("id")."\";\n";
+			$content .= "\$REX[RE_ID][$re_id][$i] = \"".$GC->getValue("id")."\";\n";
 			$GC->next();
 		}
 		$content .= "\n?>";
@@ -295,7 +294,7 @@ function rex_generateLists($re_id,$refresh=0)
 		for ($i=0;$i<$GC->getRows();$i++)
 		{
 			$id = $GC->getValue("id");
-			$content .= "\$REX[RE_CAT_ID][$re_id][] = \"".$GC->getValue("id")."\";\n";
+			$content .= "\$REX[RE_CAT_ID][$re_id][$i] = \"".$GC->getValue("id")."\";\n";
 			$GC->next();
 		}
 		$content .= "\n?>";
@@ -317,13 +316,16 @@ function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 	
 	// artikel verschieben
 	//
-	// noch nicht fertig ********************************
+	// ******************************** noch nicht fertig ********************************
 	// sprachen beachten
 	// auslesen der felder
 	// pfad anpassen
 	// listen neu generieren
 	// - aus dem alten ordner
 	// - aus dem neuen ordner
+
+	return "";
+	exit;
 
 	$gcat = new sql;
 	$gcat->setQuery("select * from rex_category where id='$to_cat_id'");
@@ -364,6 +366,7 @@ function rex_copyArticle($id,$to_cat_id)
 
 	// artikel kopieren
 	// 
+	// ******************************** noch nicht fertig ********************************
 	// 
 	// sprachen artikel beachten
 	// pfade anpassen
@@ -489,6 +492,8 @@ function rex_copyCategory($which,$to_cat)
 	
 	
 	exit;
+
+	// ******************************** noch nicht fertig ********************************
 
 	## orginal selecten
 	$orig = new sql;

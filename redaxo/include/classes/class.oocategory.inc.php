@@ -14,7 +14,7 @@
 class OOCategory {
   
   var $_id = 0;
-  var $_clang;
+  var $_clang = 0;
   // var $_name;
   // var $_description;
   // var $_func;
@@ -26,7 +26,7 @@ class OOCategory {
 	/*
 	 * Constructor
 	 */
-	function OOCategory($id,$clang=0) {
+	function OOCategory($id=0,$clang=0) {
 
 		global $REX;
 		
@@ -128,10 +128,9 @@ class OOCategory {
 		$this->_clang = $clang;
 		include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$this->_clang.".clist");
 		$CL = $REX[RE_CAT_ID][0];
-		@reset($CL);
 		for ($i = 0; $i < count($CL); $i++)
 		{
-			$catlist[] = new OOCategory(current($CL),$this->_clang);
+			$catlist[$i] = new OOCategory(current($CL),$this->_clang);
 			next($CL);	
 		}
 		
@@ -167,10 +166,9 @@ class OOCategory {
 		
 		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".clist");
 		$CL = $REX[RE_CAT_ID][$this->_id];
-		@reset($CL);
 		for ($i = 0; $i < count($CL); $i++)
 		{
-			$catlist[] = new OOCategory(current($CL),$this->_clang);
+			$catlist[$i] = new OOCategory(current($CL),$this->_clang);
 			next($CL);	
 		}
 		// unset($catlist );
@@ -299,7 +297,26 @@ class OOCategory {
 	function getId() {
 		return $this->_id;
 	}
-	
+
+	/*
+	 * Accessor Method:
+	 * returns the clang of the category
+	 */
+	function getClang() {
+		return $this->_clang;
+	}
+
+	/*
+	 * Accessor Method:
+	 * set the id of the category
+	 */
+	function setClang($clang) {
+		global $REX;
+		$this->_clang = $clang;
+		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".article");
+	}
+
+
 	/*
 	 * Accessor Method:
 	 * returns the name of the category
@@ -349,9 +366,8 @@ class OOCategory {
 	 * Object Helper Function:
 	 * Returns a url for linking to this category
 	 */
-	function getUrl($params = null) {
-		$start = $this->getStartArticle();
-		return $start ? $start->getUrl($params) : "";
+	function getUrl() {
+		return rex_getUrl($this->getId(),$this->getClang());
 	}
 }
 ?>

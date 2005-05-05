@@ -77,12 +77,13 @@ class article
 		
 		$article_id = $article_id + 0;
 		$this->article_id = $article_id+0;
-		
+
 		if (!$REX[GG])
 		{
 		
 			// ---------- select article
 			$this->ARTICLE = new sql;
+			// $this->ARTICLE->debugsql = 1;
 			$this->ARTICLE->setQuery("select * from rex_article where rex_article.id='$article_id' and clang='".$this->clang."'");
 		
 			if ($this->ARTICLE->getRows() == 1)
@@ -128,6 +129,7 @@ class article
 	function getValue($value)
 	{
 		global $REX;
+				
 		if ($REX[GG]) return $REX[ART][$this->article_id][$value][$this->clang];
 		else return $this->ARTICLE->getValue($value);
 	}
@@ -591,6 +593,7 @@ class article
                 $slice_content = str_replace("REX_HTML",$this->convertString2($this->CONT->getValue("rex_article_slice.html"),FALSE),$slice_content);
 
                 $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
+                $slice_content = str_replace("REX_CUR_CLANG",$this->clang,$slice_content);
                 $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
 
 				// function in function_rex_modrewrite.inc.php
@@ -682,6 +685,7 @@ class article
                 $slice_content = str_replace("REX_HTML","",$slice_content);
 
                 $slice_content = str_replace("REX_ARTICLE_ID","",$slice_content);
+                $slice_content = str_replace("REX_CUR_CLANG","",$slice_content);
                 $slice_content = str_replace("REX_CATEGORY_ID","",$slice_content);
 
                 return $slice_content;
