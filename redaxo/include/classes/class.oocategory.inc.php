@@ -15,41 +15,19 @@ class OOCategory {
   
   var $_id = 0;
   var $_clang = 0;
-  // var $_name;
-  // var $_description;
-  // var $_func;
-  // var $_re_category_id;
-  // var $_prior;
-  // var $_path;
-  // var $_status; // category exist = 1
-	
+
 	/*
 	 * Constructor
 	 */
-	function OOCategory($id=0,$clang=0) {
+	function OOCategory($id=0,$clang="") {
 
 		global $REX;
 		
 		$this->_id = $id;
-		$this->_clang = $clang;
+		if ($clang != "" ) $this->_clang = $clang;
+		else $this->_clang = $REX[CUR_CLANG];
+		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".article");
 
-		include_once($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article");
-		
-		// if ($REX[ART][$id][article_id][$clang] == "$id") $this->_status = 1;
-		// else $this->_status = 0;
-		
-		// $name, $description, $func, $re_category_id, $prior, $path, $status
-		/*
-		$this->_clang = 0;
-		$this->_id = $id;
-		$this->_name = $name; 
-		$this->_description = $description; 
-		$this->_func = $func;
-		$this->_re_category_id = $re_category_id; 
-		$this->_prior = $prior;
-		$this->_path = $path;
-		$this->_status = $status;
-		*/
 	}
 	
 	/*
@@ -68,21 +46,20 @@ class OOCategory {
 	 * CLASS Function:
 	 * Return an OOCategory object based on an id
 	 */
-	function getCategoryById($an_id) {
+	function getCategoryById($an_id,$clang="") {
 		
 		global $REX;
-				
-		$sql = new sql;
-		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where id = $an_id");
 		
-		if ($sql->getRows() == 1) {
-			return new OOCategory($sql->getValue("id"),$sql->getValue("name"),
-										$sql->getValue("description"), $sql->getValue("func"),
-										$sql->getValue("re_category_id"), $sql->getValue("prior"),
-										$sql->getValue("path"), $sql->getValue("status"));
-			
+		if ($clang == "") $clang = $this->_clang;
+		
+		if (include_once($REX[INCLUDE_PATH]."/generated/articles/$an_id.$clang.article"))
+		{
+			return new OOCategory($an_id,$clang);
+		}else
+		{
+			return null;	
 		}
-		return null;
+		
 	}
 
 	/*
@@ -121,33 +98,22 @@ class OOCategory {
 	 */
 	//function getRootCategories($ignore_offlines = false) {
 		
-	function getRootCategories($clang=0) {
+	function getRootCategories($ignore_offlines = false, $clang = "") {
 
 		global $REX;
 		
-		$this->_clang = $clang;
+		if ($clang != "" ) $this->_clang = $clang;
+		else $this->_clang = $REX[CUR_CLANG];
+				
 		include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$this->_clang.".clist");
 		$CL = $REX[RE_CAT_ID][0];
 		for ($i = 0; $i < count($CL); $i++)
 		{
-			$catlist[$i] = new OOCategory(current($CL),$this->_clang);
+			
+			$temp = new OOCategory(current($CL),$this->_clang);
+			if ($temp->isOnline() || !$ignore_offlines) $catlist[] = $temp;
 			next($CL);	
 		}
-		
-		
-		/*
-		$off = $ignore_offlines ? " and status = 1 " : "";
-		$catlist = array();
-		$sql = new sql;
-		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = 0 $off order by prior");
-		for ($i = 0; $i < $sql->getRows(); $i++) {
-			$catlist[] = new OOCategory($sql->getValue("id"),$sql->getValue("name"),
-										$sql->getValue("description"), $sql->getValue("func"),
-										$sql->getValue("re_category_id"), $sql->getValue("prior"),
-										$sql->getValue("path"), $sql->getValue("status"));
-			$sql->next();
-		}
-		*/
 		return $catlist;
 	}
 	 
@@ -160,7 +126,7 @@ class OOCategory {
 	 * all categories with status 0 will be
 	 * excempt from this list!
 	 */
-	function getChildren() {
+	function getChildren($ignore_offlines = false) {
 		
 		global $REX;
 		
@@ -168,24 +134,10 @@ class OOCategory {
 		$CL = $REX[RE_CAT_ID][$this->_id];
 		for ($i = 0; $i < count($CL); $i++)
 		{
-			$catlist[$i] = new OOCategory(current($CL),$this->_clang);
+			$temp = new OOCategory(current($CL),$this->_clang);
+			if ($temp->isOnline() || !$ignore_offlines) $catlist[] = $temp;
 			next($CL);	
 		}
-		// unset($catlist );
-		/*
-		
-		$off = $ignore_offlines ? " and status = 1 " : "";
-		$catlist = array();
-		$sql = new sql;
-		$sql->setQuery("select id, name, description, func, re_category_id, prior, path, status from rex_category where re_category_id = {$this->_id} $off order by prior");
-		for ($i = 0; $i < $sql->getRows(); $i++) {
-			$catlist[] = new OOCategory($sql->getValue("id"),$sql->getValue("name"),
-										$sql->getValue("description"), $sql->getValue("func"),
-										$sql->getValue("re_category_id"), $sql->getValue("prior"),
-										$sql->getValue("path"), $sql->getValue("status"));
-			$sql->next();
-		}
-		*/
 		return $catlist;
 	}
 	 
@@ -194,7 +146,8 @@ class OOCategory {
 	 * Returns the parent category
 	 */
 	function getParent() {
-		// return $this->_re_category_id > 0 ? OOCategory::getCategoryById($this->_re_category_id) : null;
+		$re_id = $REX[ART][$this->_id][re_id][$this->_clang];
+		return $re_id > 0 ? OOCategory::getCategoryById($re_id,$this->_clang) : null;
 	}
 
 	/*
@@ -203,6 +156,7 @@ class OOCategory {
 	 * parent of the other category.
 	 */
 	function isParent($other_cat) {
+		
 		// return $this->_id == $other_cat->_re_category_id;
 	}
 	
@@ -310,7 +264,7 @@ class OOCategory {
 	 * Accessor Method:
 	 * set the id of the category
 	 */
-	function setClang($clang) {
+	function setClang($clang="") {
 		global $REX;
 		$this->_clang = $clang;
 		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".article");
