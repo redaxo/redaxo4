@@ -9,10 +9,10 @@
  * Carsten Eckelmann <carsten@circle42.com>, May 2004^
  *
  *
- * Jan: muss noch umgebaut werden auf generated und clang 
+ * Jan: muss noch umgebaut werden auf generated und clang
  */
 class OOCategory {
-  
+
   var $_id = 0;
   var $_clang = 0;
 
@@ -22,44 +22,44 @@ class OOCategory {
 	function OOCategory($id=0,$clang="") {
 
 		global $REX;
-		
+
 		$this->_id = $id;
 		if ($clang != "" ) $this->_clang = $clang;
 		else $this->_clang = $REX[CUR_CLANG];
 		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".article");
 
 	}
-	
+
 	/*
 	 * Class Function:
 	 * Returns Value of Category
 	 */
-	 
+
 	function getValue($value) {
-	
-		global $REX;		
+
+		global $REX;
 		return $REX[ART][$this->_id][$value][$this->_clang];
-		
+
 	}
-	
+
 	/*
 	 * CLASS Function:
 	 * Return an OOCategory object based on an id
 	 */
 	function getCategoryById($an_id,$clang="") {
-		
+
 		global $REX;
-		
+
 		if ($clang == "") $clang = $this->_clang;
-		
+
 		if (include_once($REX[INCLUDE_PATH]."/generated/articles/$an_id.$clang.article"))
 		{
 			return new OOCategory($an_id,$clang);
 		}else
 		{
-			return null;	
+			return null;
 		}
-		
+
 	}
 
 	/*
@@ -85,62 +85,61 @@ class OOCategory {
 		}
 		return $catlist;
 	}
-	
+
 	/*
 	 * CLASS Function:
 	 * Return a list of top level categories, ie.
 	 * categories that have no parent.
 	 * Returns an array of OOCategory objects sorted by $prior.
-	 * 
-	 * If $ignore_offlines is set to TRUE, 
+	 *
+	 * If $ignore_offlines is set to TRUE,
 	 * all categories with status 0 will be
 	 * excempt from this list!
 	 */
 	//function getRootCategories($ignore_offlines = false) {
-		
+
 	function getRootCategories($ignore_offlines = false, $clang = "") {
 
 		global $REX;
-		
-		if ($clang != "" ) $this->_clang = $clang;
-		else $this->_clang = $REX[CUR_CLANG];
-				
-		include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$this->_clang.".clist");
+
+		if ($clang == "" ) $clang = $REX[CUR_CLANG];
+
+		include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$clang.".clist");
 		$CL = $REX[RE_CAT_ID][0];
 		for ($i = 0; $i < count($CL); $i++)
 		{
-			
-			$temp = new OOCategory(current($CL),$this->_clang);
+
+			$temp = new OOCategory(current($CL),$clang);
 			if ($temp->isOnline() || !$ignore_offlines) $catlist[] = $temp;
-			next($CL);	
+			next($CL);
 		}
 		return $catlist;
 	}
-	 
+
 	/*
 	 * Object Function:
 	 * Return a list of all subcategories.
 	 * Returns an array of OOCategory objects sorted by $prior.
-	 * 
-	 * If $ignore_offlines is set to TRUE, 
+	 *
+	 * If $ignore_offlines is set to TRUE,
 	 * all categories with status 0 will be
 	 * excempt from this list!
 	 */
 	function getChildren($ignore_offlines = false) {
-		
+
 		global $REX;
-		
+
 		include_once($REX[INCLUDE_PATH]."/generated/articles/".$this->_id.".".$this->_clang.".clist");
 		$CL = $REX[RE_CAT_ID][$this->_id];
 		for ($i = 0; $i < count($CL); $i++)
 		{
 			$temp = new OOCategory(current($CL),$this->_clang);
 			if ($temp->isOnline() || !$ignore_offlines) $catlist[] = $temp;
-			next($CL);	
+			next($CL);
 		}
 		return $catlist;
 	}
-	 
+
 	/*
 	 * Object Function:
 	 * Returns the parent category
@@ -156,10 +155,10 @@ class OOCategory {
 	 * parent of the other category.
 	 */
 	function isParent($other_cat) {
-		
+
 		// return $this->_id == $other_cat->_re_category_id;
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Returns TRUE if this category is an ancestor
@@ -170,24 +169,24 @@ class OOCategory {
 		// TODO!
 		return false;
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Return a list of articles in this category
 	 * Returns an array of OOArticle objects sorted by $prior.
-	 * 
-	 * If $ignore_offlines is set to TRUE, 
+	 *
+	 * If $ignore_offlines is set to TRUE,
 	 * all articles with status 0 will be
 	 * excempt from this list!
 	 */
 	function getArticles($ignore_offlines = true) {
 		// return OOArticle::getArticlesOfCategory($this->_id, $ignore_offlines);
 	}
-	 
+
 	/*
 	 * OBJECT Function:
 	 * Returns the number of articles in this Category
-	 * 
+	 *
 	 * $ignore_offlines = count only Articles that are online
 	 * $ignore_startpage = do not count the startpage
 	 */
@@ -195,7 +194,7 @@ class OOCategory {
 		// TODO
 		return 0;
 	}
-	 
+
 	/*
 	 * OBJECT function
 	 * Returns a list of articles of this category that have been
@@ -207,8 +206,8 @@ class OOCategory {
 	function getNewArticles($number_of_articles = 0, $ignore_startpage = true, $ignore_offlines = true) {
 		// return OOArticle::getNewArticles($number_of_articles, $ignore_startpage, $ignore_offlines, $this->_id);
 	}
-	
-	 
+
+
 	/*
 	 * Object Function:
 	 * Return a list of articles that are online
@@ -222,7 +221,7 @@ class OOCategory {
 	function getArticlesByDate($day_from, $month_from, $year_from, $day_to, $month_to, $year_to) {
 		// return OOArticle::getArticlesOfCategoryByDate($this->_id, $day_from, $month_from, $year_from, $day_to, $month_to, $year_to);
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Return the start article for this category
@@ -230,7 +229,7 @@ class OOCategory {
 	function getStartArticle() {
 		// return OOArticle::getCategoryStartArticle($this->_id);
 	}
-	
+
 	/*
 	 * Object Function:
 	 * Return a list of Ancestor Categories forming the path
@@ -243,7 +242,7 @@ class OOCategory {
 		// TO BE DONE!! 26.05.04
 		return null;
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns the id of the category
@@ -279,7 +278,7 @@ class OOCategory {
 		global $REX;
 		return $REX[ART][$this->_id][catname][$this->_clang];
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns true if category is online.
@@ -288,22 +287,22 @@ class OOCategory {
 		global $REX;
 		return $REX[ART][$this->_id][status][$this->_clang];
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns the category description.
 	 */
 	function getDescription() {
-		global $REX;		
+		global $REX;
 		return $REX[ART][$this->_id][description][$this->_clang];
 	}
-	
+
 	/*
 	 * Accessor Method:
 	 * returns the prioity of the category
 	 */
 	function getPriority() {
-		global $REX;		
+		global $REX;
 		return $REX[ART][$this->_id][prior][$this->_clang];
 	}
 
@@ -315,7 +314,7 @@ class OOCategory {
 	function toString() {
 		return "Category: ".$this->_id.", ".$this->_name.", ".($this->isOnline() ? "online" : "offline");
 	}
-	
+
 	/*
 	 * Object Helper Function:
 	 * Returns a url for linking to this category
