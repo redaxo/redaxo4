@@ -45,7 +45,7 @@ include_once $REX[INCLUDE_PATH]."/classes/class.mime_mail.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.ooframework.inc.php"; // OO Classes
 include_once $REX[INCLUDE_PATH]."/classes/class.textile.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_mail.inc.php";
-include_once $REX[INCLUDE_PATH]."/functions/function_rex_mediapool.inc.php";
+include_once $REX[INCLUDE_PATH]."/functions/function_rex_wysiwyg.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_modrewrite.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_title.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_generate.inc.php";
@@ -56,11 +56,9 @@ include_once $REX[INCLUDE_PATH]."/addons.inc.php";
 include_once $REX[INCLUDE_PATH]."/ctype.inc.php";
 include_once $REX[INCLUDE_PATH]."/clang.inc.php";
 
-
 // ----------------- SET CLANG
 if ($REX[CLANG][$clang]=="") $REX[CUR_CLANG] = 0;
 else $REX[CUR_CLANG] = $clang;
-
 
 // ----------------- CREATE LANG OBJ
 if (!$REX[GG])
