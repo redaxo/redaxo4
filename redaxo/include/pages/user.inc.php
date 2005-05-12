@@ -71,9 +71,11 @@ $sel_cat->set_size(20);
 $sel_cat->set_name("userperm_cat[]");
 
 $cat_ids = array();
-$rootCats = OOCategory::getRootCategories();
-foreach( $rootCats as $rootCat) {
-    add_cat_options( $sel_cat, $rootCat, $cat_ids);
+if ($rootCats = OOCategory::getRootCategories())
+{
+	foreach( $rootCats as $rootCat) {
+	    add_cat_options( $sel_cat, $rootCat, $cat_ids);
+	}
 }
 
 function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '') {
