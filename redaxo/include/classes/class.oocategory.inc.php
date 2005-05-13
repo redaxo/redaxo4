@@ -104,7 +104,7 @@ class OOCategory {
 
 		if ($clang == "" ) $clang = $REX[CUR_CLANG];
 
-		include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$clang.".clist");
+		@include_once($REX[INCLUDE_PATH]."/generated/articles/0.".$clang.".clist");
 		$CL = $REX[RE_CAT_ID][0];
 		for ($i = 0; $i < count($CL); $i++)
 		{
