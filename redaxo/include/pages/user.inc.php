@@ -143,6 +143,8 @@ if ($FUNC_UPDATE != "")
 	$perm = "";
 	if ($useradmin == 1) $perm .= "admin[]";
 	if ($devadmin == 1) $perm .= "dev[]";
+	if ($allcats == 1) $perm .= "catstructure[all]";
+	if ($allmcats == 1) $perm .= "catmedia[all]";
 
 	// userperm_all
 	for($i=0;$i<count($userperm_all);$i++)
@@ -209,6 +211,8 @@ if ($FUNC_UPDATE != "")
 		$perm = "";
 		if ($useradmin == 1) $perm .= "admin[]";
 		if ($devadmin == 1) $perm .= "dev[]";
+		if ($allcats == 1) $perm .= "catstructure[all]";
+		if ($allmcats == 1) $perm .= "catmedia[all]";
 	
 		// userperm_all
 		for($i=0;$i<count($userperm_all);$i++)
@@ -248,6 +252,12 @@ if ($FUNC_UPDATE != "")
 		$message = $I18N->msg("user_added");
 	}else
 	{
+		
+		if ($useradmin == 1) $adminchecked = " checked";
+		if ($devadmin == 1) $devchecked = " checked";
+		if ($allcats == 1) $allcatschecked = " checked";
+		if ($allmcats == 1) $allmcatschecked = " checked";
+		
 		
 		// userperm_all
 		for($i=0;$i<count($userperm_all);$i++)
@@ -334,6 +344,12 @@ if ($FUNC_ADD)
 			<td class=grey>".$sel_ext->out()."</td>
 		</tr>
 		<tr>
+			<td class=grey align=right><input type=checkbox name=allcats value=1 $allcatschecked></td>
+			<td class=grey>Alle Kategorien)</td>
+			<td class=grey align=right><input type=checkbox name=allmcats value=1 $allmcatschecked></td>
+			<td class=grey>Alle Medienkategorien</td>
+		</tr>
+		<tr>
 			<td class=grey valign=top>Kategorien</td>
 			<td class=grey>".$sel_cat->out()."</td>
 			<td class=grey valign=top>Medienordner</td>
@@ -368,6 +384,12 @@ if ($FUNC_ADD)
 
 		if ($sql->isValueOf("rights","dev[]")) $devchecked = "checked";
 		else $devchecked = "";
+
+		if ($sql->isValueOf("rights","catstructure[all]")) $allcatschecked = "checked";
+		else $allcatschecked = "";
+		
+		if ($sql->isValueOf("rights","catmedia[all]")) $allmcatschecked = "checked";
+		else $allmcatschecked = "";
 
 		// Allgemeine Permissions setzen
 		for($i=0;$i<count($REX[PERM]);$i++)
@@ -438,6 +460,12 @@ if ($FUNC_ADD)
 			<td class=grey>".$sel_all->out()."</td>
 			<td class=grey valign=top>Optionen</td>
 			<td class=grey>".$sel_ext->out()."</td>
+		</tr>
+		<tr>
+			<td class=grey align=right><input type=checkbox name=allcats value=1 $allcatschecked></td>
+			<td class=grey>Alle Kategorien</td>
+			<td class=grey align=right><input type=checkbox name=allmcats value=1 $allmcatschecked></td>
+			<td class=grey>Alle Medienordner</td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Kategorien</td>

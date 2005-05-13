@@ -42,7 +42,7 @@ if ($article->getRows() == 1)
 	if ($mode != "meta") $mode = "edit";
 
 	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE
-	if ($REX_USER->isValueOf("rights","article[$article_id]") || $REX_USER->isValueOf("rights","catstructure[$category_id]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+	if ($REX_USER->isValueOf("rights","article[$article_id]") || $REX_USER->isValueOf("rights","catstructure[$category_id]") || $REX_USER->isValueOf("rights","catstructure[all]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
 	{
 
 		// ------------------------------------------ SLICE EDIT / ADD / DELETE
