@@ -65,7 +65,7 @@ if ($article->getRows() == 1)
 
 				// ------------------- modul ist vorhanden
 
-				if (($CM->getValue("php_enable")==0 or $REX_USER->isValueOf("rights","module[php]")) and ($CM->getValue("html_enable")==0 or $REX_USER->isValueOf("rights","module[html]")))
+				if (($CM->getValue("php_enable")==0 || $REX_USER->isValueOf("rights","module[php]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","developer[]")) and ($CM->getValue("html_enable")==0 or $REX_USER->isValueOf("rights","module[html]")))
 				{
 
 					$message = "";
@@ -95,8 +95,8 @@ if ($article->getRows() == 1)
 						$REX_ACTION[FILE][$i] = $$FILENAME;
 					}
 
-					if ($REX_USER->isValueOf("rights","module[html]")) $REX_ACTION[HTML] = $INPUT_HTML;
-					if ($REX_USER->isValueOf("rights","module[php]")) $REX_ACTION[PHP] = $INPUT_PHP;
+					if ($REX_USER->isValueOf("rights","module[html]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $REX_ACTION[HTML] = $INPUT_HTML;
+					if ($REX_USER->isValueOf("rights","module[php]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $REX_ACTION[PHP] = $INPUT_PHP;
 
 					// ----- PRE ACTION [ADD UND EDIT]
 
@@ -138,8 +138,8 @@ if ($article->getRows() == 1)
 						$newsql->setValue("value$i",$REX_ACTION[VALUE][$i]);
 					}
 
-					if ($REX_USER->isValueOf("rights","module[html]")) $newsql->setValue("html",$REX_ACTION[HTML]);
-					if ($REX_USER->isValueOf("rights","module[php]")) $newsql->setValue("php",$REX_ACTION[PHP]);
+					if ($REX_USER->isValueOf("rights","module[html]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $newsql->setValue("html",$REX_ACTION[HTML]);
+					if ($REX_USER->isValueOf("rights","module[php]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $newsql->setValue("php",$REX_ACTION[PHP]);
 
 					// ---------------------------- REX_MEDIA
 				        for ($fi=1;$fi<11;$fi++)
@@ -264,7 +264,7 @@ if ($article->getRows() == 1)
 
 			if ($CM->getRows()==1)
 			{
-				if (($CM->getValue("php_enable")==0 or $REX_USER->isValueOf("rights","module[php]")) and ($CM->getValue("html_enable")==0 or $REX_USER->isValueOf("rights","module[html]")))
+				if (($CM->getValue("php_enable")==0 or $REX_USER->isValueOf("rights","module[php]")  || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) and ($CM->getValue("html_enable")==0 or $REX_USER->isValueOf("rights","module[html]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")))
 				{
 
 					// ------------------------------------------ SLICE DELETE
