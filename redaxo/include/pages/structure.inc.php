@@ -261,57 +261,61 @@ for($i=0;$i<$KAT->getRows();$i++)
 {
 	$i_category_id = $KAT->getValue("id");
 
-	if ($KAT->getValue("status") == 0)
+	if ($REX_USER->isValueOf("rights","catstructure[$i_category_id]") || $REX_USER->isValueOf("rights","catstructure[all]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
 	{
-		$status_color="#aa0000";
-		$kat_status = $I18N->msg("status_offline");
-	}else
-	{
-		$status_color="#00aa00";
-		$kat_status = $I18N->msg("status_online");
-	}
-
-	$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status&clang=$clang><u><font color=$status_color>$kat_status</font></u></a>";
-	$cat_pos++;
-
-	if ($edit_id==$i_category_id and $function == "edit")
-	{
-
-		// --------------------- KATEGORIE EDIT FORM
-
-		$echo .= "
-			<tr>
-				<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
-				<form action=index.php><input type=hidden name=page value=structure>
-				<input type=hidden name=edit_id value=$edit_id>
-				<input type=hidden name=category_id value=$category_id>
-				<input type=hidden name=cid value=".$KAT->getValue("id").">
-				<input type=hidden name=clang value=$clang>
-				<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
-				<td class=dgrey><input type=text name=Position_Category value=\"$cat_pos\" style='width:30px'></td>
-				<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
-				<td class=dgrey>$kat_status</td></form>
-			</tr>";
-	}else
-	{
-
-		$edit_txt = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit&clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a>";
-		// $edit_txt = $I18N->msg("no_permission_to_edit");
-
-		$echo .= "
-			<tr>
-				<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
-				<td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a>";
-		// $echo .= "[$i_category_id]";
-		$echo .= "</td>";
-
-		// $echo .= "<td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")."&clang=$clang style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up&clang=$clang><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>";
-		$echo .= "<td class=grey valign=middle width=20>$cat_pos</td>";
-			
-		$echo .= "
-				<td class=grey>$edit_txt</td>
-				<td class=grey>$kat_status</td>
-			</tr>";
+	
+		if ($KAT->getValue("status") == 0)
+		{
+			$status_color="#aa0000";
+			$kat_status = $I18N->msg("status_offline");
+		}else
+		{
+			$status_color="#00aa00";
+			$kat_status = $I18N->msg("status_online");
+		}
+	
+		$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status&clang=$clang><u><font color=$status_color>$kat_status</font></u></a>";
+		$cat_pos++;
+	
+		if ($edit_id==$i_category_id and $function == "edit")
+		{
+	
+			// --------------------- KATEGORIE EDIT FORM
+	
+			$echo .= "
+				<tr>
+					<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
+					<form action=index.php><input type=hidden name=page value=structure>
+					<input type=hidden name=edit_id value=$edit_id>
+					<input type=hidden name=category_id value=$category_id>
+					<input type=hidden name=cid value=".$KAT->getValue("id").">
+					<input type=hidden name=clang value=$clang>
+					<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
+					<td class=dgrey><input type=text name=Position_Category value=\"$cat_pos\" style='width:30px'></td>
+					<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
+					<td class=dgrey>$kat_status</td></form>
+				</tr>";
+		}else
+		{
+	
+			$edit_txt = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit&clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a>";
+			// $edit_txt = $I18N->msg("no_permission_to_edit");
+	
+			$echo .= "
+				<tr>
+					<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
+					<td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a>";
+			// $echo .= "[$i_category_id]";
+			$echo .= "</td>";
+	
+			// $echo .= "<td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")."&clang=$clang style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up&clang=$clang><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>";
+			$echo .= "<td class=grey valign=middle width=20>$cat_pos</td>";
+				
+			$echo .= "
+					<td class=grey>$edit_txt</td>
+					<td class=grey>$kat_status</td>
+				</tr>";
+		}
 	}
 	$KAT->next();
 }

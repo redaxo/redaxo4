@@ -4,7 +4,11 @@
 
 ----------------------------- todos
 
-* admin / alles machen
+
+sprachen zugriff
+englisch / deutsch / ...
+
+
 
 allgemeine zugriffe (array + addons)
 	mediapool[]templates[] ...

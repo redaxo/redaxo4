@@ -7,7 +7,7 @@
 **/
 
 $KATebene = 0; // aktuelle Ebene: default
-$KatMaxEbenen = 6; // Maximale Unterebenen
+$KatMaxEbenen = 10; // Maximale Unterebenen
 $KATPATH = "|"; // Standard für path eintragungen in db
 
 $KAT = new sql;
@@ -21,11 +21,24 @@ if ($KAT->getRows()==1)
 	{
 		$SKAT = new sql;
 		$SKAT->setQuery("select * from rex_article where id=".$KPATH[$ii]." and startpage=1 and clang=$clang");
-		$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
-		$KATPATH .= $KPATH[$ii]."|";
+		if ($SKAT->getRows()==1)
+		{
+			if ($REX_USER->isValueOf("rights","catstructure[".$SKAT->getValue("id")."]") || $REX_USER->isValueOf("rights","catstructure[all]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+			{
+				$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
+				$KATPATH .= $KPATH[$ii]."|";
+			}
+		}
 	}
-	$KATout .= " : <a href=index.php?page=structure&category_id=$category_id&clang=$clang>".$KAT->getValue("catname")."</a>";
-	$KATPATH .= "$category_id|";
+	if ($REX_USER->isValueOf("rights","catstructure[$category_id]") || $REX_USER->isValueOf("rights","catstructure[all]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+	{
+		$KATout .= " : <a href=index.php?page=structure&category_id=$category_id&clang=$clang>".$KAT->getValue("catname")."</a>";
+		$KATPATH .= "$category_id|";
+	}else
+	{
+		$category_id = 0;	
+		$article_id = 0;
+	}
 }
 $KATout = "&nbsp;&nbsp;&nbsp;".$I18N->msg("path")." : <a href=index.php?page=structure&category_id=0&clang=$clang>Homepage</a>".$KATout;
 

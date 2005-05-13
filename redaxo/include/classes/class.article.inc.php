@@ -191,19 +191,6 @@ class article
                                 // ---------- moduleselect
                                 if($this->mode=="edit")
                                 {
-                                        // auslesen ob php/html rechte
-                                        $add_sql = "";
-
-                                        $MODULE_PERM[php] = $REX_USER->isValueOf("rights","module[php]");
-                                        $MODULE_PERM[html]= $REX_USER->isValueOf("rights","module[html]");
-
-                                        if (!$MODULE_PERM[php]) $add_sql = "where php_enable='0'";
-                                        if (!$MODULE_PERM[html])
-                                        {
-                                                if ($add_sql != "") $add_sql .= " and html_enable='0'";
-                                                else $add_sql = "where html_enable='0'";
-                                        }
-
                                         $MODULE = new sql;
                                         $MODULE->setQuery("select * from rex_modultyp $add_sql order by name");
 
@@ -211,13 +198,14 @@ class article
                                         $MODULESELECT->set_name("module_id");
                                         $MODULESELECT->set_size(1);
                                         $MODULESELECT->set_style("width:100%;' onchange='this.form.submit();");
-
                                         $MODULESELECT->add_option("----------------------------  ".$I18N->msg("add_block"),'');
 
-                                        for ($i=0;$i<$MODULE->getRows();$i++)
-                                        {
-                                                $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
-                                                $MODULE->next();
+										for ($i=0;$i<$MODULE->getRows();$i++)
+										{
+											if ($MODULE->getValue("php_enable")==1 && $REX_USER->isValueOf("rights","module[php]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+											elseif ($MODULE->getValue("html_enable")==1 && $REX_USER->isValueOf("rights","module[html]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+											elseif ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+											$MODULE->next();
                                         }
                                 }
 
