@@ -202,7 +202,7 @@ if ($function == "delete")
 							if($k+1 != $cols->rows) $query .= ",";
 						}
 						$query .= ");";
-						$dump .= str_replace("\n","||||||+N+||||||",$query)."\n";	// <<<---- schrecklich aber zweckmäßig --- workaround??
+						$dump .= str_replace(array( "\r\n", "\n"),'\r\n',$query)."\n";
 					}
 				}
 								
