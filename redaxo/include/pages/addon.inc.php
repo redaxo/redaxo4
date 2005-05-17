@@ -42,16 +42,21 @@ if (array_search($addonname,$ADDONS) !== false)
 			$errmsg = $I18N->msg("addon_install_not_found");
 		}else
 		{
-			if ($REX[ADDON][install]["import_export"] != 1)
+			if ($REX[ADDON][install][$addonname] != 1)
 			{
 				$errmsg = "'$addonname' ".$I18N->msg("addon_no_install")." ";
-				if ($REX[ADDON][installmsg]["import_export"] == "") $errmsg .= $I18N->msg("addon_no_reason");
-				else $errmsg .= $REX[ADDON][installmsg]["import_export"];
+				if ($REX[ADDON][installmsg][$addonname] == "") $errmsg .= $I18N->msg("addon_no_reason");
+				else $errmsg .= $REX[ADDON][installmsg][$addonname];
 			}else
 			{
 				// include config.
 				// if config is broken installation prozess will be terminated -> no install -> no errors in redaxo
-				include $REX[INCLUDE_PATH]."/addons/$addonname/config.inc.php";
+				
+				// skip config if it is a reinstall !
+				if($REX[ADDON][status][$addonname]!=1){
+					include $REX[INCLUDE_PATH]."/addons/$addonname/config.inc.php";
+				}
+				$errmsg = $addonname." ".$I18N->msg("addon_installed");
 				$REX[ADDON][install][$addonname] = 1;
 				$errmsg = $I18N->msg("addon_installed");
 				$WA = true;
