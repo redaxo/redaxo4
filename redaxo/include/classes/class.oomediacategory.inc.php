@@ -175,6 +175,25 @@ class OOMediaCategory {
     /**
      * @access public
      */
+    function getChildren() {
+        $childs = array();
+        $qry = 'SELECT id FROM '. $this->_getTableName() .' WHERE re_id = '. $this->getId();
+        
+        $sql = new sql();
+        $sql->setQuery( $qry);
+        $result = $sql->get_array();
+        
+        foreach ( $result as $row ) {
+            $id = $row['id'];
+            $childs[] = OOMediaCateogry::getCategoryById( $id);
+        } 
+        
+        return $childs;
+    }
+    
+    /**
+     * @access public
+     */
     function isHidden() {
         return $this->_hide;
     }
