@@ -10,9 +10,6 @@ class OOMediaCategory {
     var $_name;
     // path
     var $_path;
-    
-    // clang
-    var $_clang;
     // hide
     var $_hide;
     
@@ -30,7 +27,7 @@ class OOMediaCategory {
      * @access protected
      */
     function OOMediaCategory( $id) {
-        $query = 'SELECT * FROM '. OOMediaCategory::getTableName() .' WHERE id = '. $id;
+        $query = 'SELECT * FROM '. OOMediaCategory::_getTableName() .' WHERE id = '. $id;
         
         $sql = new sql();
 //        $sql->debugsql = true;
@@ -40,15 +37,12 @@ class OOMediaCategory {
         if ( count( $result) == 0 ) {
             trigger_error( 'No OOMediaCategory found with id "'. $id .'"', E_USER_ERROR);
         }
-//        var_dump( $result);
         
         $this->_id    = $result['id'];
         $this->_parent_id = $result['re_id'];
         
         $this->_name  = $result['name'];
         $this->_path  = $result['path'];
-        
-        $this->_clang  = $result['clang'];
         $this->_hide  = $result['hide'];
         
         $this->_createdate  = $result['createdate'];
@@ -62,9 +56,9 @@ class OOMediaCategory {
     /**
      * @access protected
      */
-    function getTableName() {
+    function _getTableName() {
         global $REX;
-        return $REX[TABLE_PREFIX].'file_category';
+        return $REX['TABLE_PREFIX'].'file_category';
     }
     
     /**
@@ -78,7 +72,7 @@ class OOMediaCategory {
      * @access public
      */
     function getRootCategories( $ignore_offlines, $clang = '') {
-        $qry = 'SELECT id FROM '. $this->getTableName() . ' WHERE re_id = 0';
+        $qry = 'SELECT id FROM '. $this->_getTableName() . ' WHERE re_id = 0';
         $sql = new sql();
         $sql->setQuery( $qry);
         $result = $sql->get_array();
@@ -96,7 +90,7 @@ class OOMediaCategory {
      * @access public
      */
     function searchCategoryByName( $name) {
-        $query = 'SELECT id FROM '. OOMedia::getTableName() .' WHERE name = "'. addslashes( $name) .'"';
+        $query = 'SELECT id FROM '. OOMedia::_getTableName() .' WHERE name = "'. addslashes( $name) .'"';
         $sql = new sql();
         $result = $sql->get_array( $query);
         
@@ -196,6 +190,78 @@ class OOMediaCategory {
             return $this->getParentId() == $mediaCat->getId();
         }
         return null;
+    }
+    
+    /**
+     * @access protected
+     */
+    function _getSQLSetString() {
+        $set = ' SET'.
+               '  re_id = '. $this->getParentId() .
+               ', name = "'. $this->getName() .'"'.
+               ', path = "'. $this->getPath() .'"'.
+               ', hide = '. $this->isHidden() .
+               ', updatedate = '. $this->getUpdateDate() .
+               ', createdate = '. $this->getCreateDate() .
+               ', updateuser = "'. $this->getUpdateUser() .'"'.
+               ', createuser = "'. $this->getCreateUser() .'"';
+               
+        return $set;
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _insert() {
+        $qry = 'INSERT INTO '. $this->_getTableName();
+        $qry .= $this->_getSQLSetString();
+        
+        $sql = new sql();
+        $sql->debugsql = true;
+        $sql->query( $qry);
+        
+        return $sql->getError();
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _update() {
+        $qry = 'UPDATE '. $this->_getTableName();
+        $qry .= $this->_getSQLSetString();
+        $qry .= ' LIMIT 1';
+        
+        $sql = new sql();
+        $sql->debugsql = true;
+        $sql->query( $qry);
+        
+        return $sql->getError();
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _save() {
+        if ( $this->getId() !== null ) {
+            return $this->_update();
+        } else {
+            return $this->insert();
+        }
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _delete() {
+        $qry = 'DELETE FROM '. $this->_getTableName() . ' WHERE id = '. $this->getId() . ' LIMIT 1';
+        $sql = new sql();
+        $sql->debugsql = true;
+        $sql->query( $qry);
+        return $sql->getError();
     }
 }
 ?>
