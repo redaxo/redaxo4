@@ -4,7 +4,7 @@ class OOMediaCategory {
     // id
     var $_id;
     // re_id
-    var $_parent;
+    var $_parent_id;
     
     // name
     var $_name;
@@ -43,7 +43,7 @@ class OOMediaCategory {
 //        var_dump( $result);
         
         $this->_id    = $result['id'];
-        $this->_parent = $result['re_id'];
+        $this->_parent_id = $result['re_id'];
         
         $this->_name  = $result['name'];
         $this->_path  = $result['path'];
@@ -150,7 +150,7 @@ class OOMediaCategory {
      * @access public
      */
     function getParentId() {
-        return $this->_parent;
+        return $this->_parent_id;
     }
     
     /**
