@@ -230,6 +230,10 @@ class sql
 	        unset($data);
 
 	}
+    
+    function getError() {
+        return $this->error;
+    }
 
 	function setNewId($field)
 	{
