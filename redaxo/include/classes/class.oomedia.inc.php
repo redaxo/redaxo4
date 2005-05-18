@@ -3,10 +3,11 @@
 class OOMedia {
     // id
     var $_id;
-    // reid
-    var $_re_id;
+    // parent (FOR FUTURE USE!) 
+    var $_parent_id;
     // categoryid
     var $_cat_id;
+    
     // categoryname
     var $_cat_name;
     // oomediacategory
@@ -20,6 +21,8 @@ class OOMedia {
     var $_type;
     // filesize
     var $_size;
+    // ctype
+    var $_ctype;
 
     // filewidth
     var $_width;
@@ -33,10 +36,15 @@ class OOMedia {
     // copyright
     var $_copyright;
 
-    // createstamp
-    var $_createstamp;
-    // creator
-    var $_creator;
+    // updatedate
+    var $_updatedate;
+    // createdate
+    var $_createdate;
+
+    // updateuser
+    var $_updateuser;
+    // createuser
+    var $_createuser;
 
     // resizeextensions
 	var $_resizeextensions = array('jpeg','jpg','gif','png');
@@ -56,7 +64,7 @@ class OOMedia {
 //        var_dump( $result);
 
         $this->_id            = $result['file_id'];
-        $this->_re_id         = $result['re_file_id'];
+        $this->_parent_id     = $result['re_file_id'];
         $this->_cat_id        = $result['category_id'];
         $this->_cat_name      = $result['name'];
 
@@ -72,8 +80,11 @@ class OOMedia {
         $this->_description   = $result['description'];
         $this->_copyright     = $result['copyright'];
 
-        $this->_createstamp   = $result['stamp'];
-        $this->_creator       = $result['user_login'];
+        $this->_updatedate    = $result['updatedate'];
+        $this->_updateuser    = $result['updateuser'];
+        
+        $this->_createdate    = $result['createdate'];
+        $this->_createuser    = $result['createuser'];
     }
 
     /**
@@ -126,13 +137,6 @@ class OOMedia {
     /**
      * @access public
      */
-    function getTitle() {
-        return $this->_title;
-    }
-
-    /**
-     * @access public
-     */
     function getCategory() {
         if ( $this->_cat === null) {
             $this->_cat = & OOMediaCategory::getCategoryById( $this->getCategoryId());
@@ -152,6 +156,20 @@ class OOMedia {
      */
     function getCategoryId() {
         return $this->_cat_id;
+    }
+
+    /**
+     * @access public
+     */
+    function getParentId() {
+        return $this->_parent_id;
+    }
+    
+    /**
+     * @access public
+     */
+    function getTitle() {
+        return $this->_title;
     }
 
     /**
@@ -198,6 +216,34 @@ class OOMedia {
     /**
      * @access public
      */
+    function getUpdateUser() {
+        return $this->_updateuser;
+    }
+    
+    /**
+     * @access public
+     */
+    function getUpdateDate() {
+        return $this->_updatedate;
+    }
+    
+    /**
+     * @access public
+     */
+    function getCreateUser() {
+        return $this->_createuser;
+    }
+
+    /**
+     * @access public
+     */
+    function getCreateDate() {
+        return $this->_createdate;
+    }
+    
+    /**
+     * @access public
+     */
     function toHTML() {
         global $REX;
 
@@ -237,7 +283,7 @@ class OOMedia {
     /**
      * @access public
      */
-    function deleteMedia(){
+    function deleteMedia() {
 
         // delete Media by ID
         $query = "DELETE FROM ".OOMedia::getTableName()." WHERE file_id='".$this->getId()."'";
@@ -250,15 +296,14 @@ class OOMedia {
     /**
      * @access protected
      */
-	function getExtension(){
+	function getExtension() {
         return substr(strrchr($this->_name,"."),1);
     }
 
     /**
      * @access public
      */
-    function getIcon(){
-
+    function getIcon() {
 		global $REX;
 
 		$default_file_icon = "file";
