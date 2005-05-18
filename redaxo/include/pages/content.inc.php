@@ -309,6 +309,9 @@ if ($article->getRows() == 1)
 						}
 
 						// ----- PRE ACTION [DELETE]
+						
+						$REX_ACTION[SAVE] = true;
+						
 						$addsql = " and rex_action.prepost=0 and rex_action.sdelete=1"; // pre-action and delete
 						$ga = new sql;
 						$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
