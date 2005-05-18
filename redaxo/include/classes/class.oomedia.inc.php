@@ -21,8 +21,6 @@ class OOMedia {
     var $_type;
     // filesize
     var $_size;
-    // ctype
-    var $_ctype;
 
     // filewidth
     var $_width;
@@ -53,7 +51,7 @@ class OOMedia {
      * @access protected
      */
     function OOMedia( $id) {
-        $query = 'SELECT * FROM '. OOMedia::getTableJoin() .' WHERE file_id = '. $id;
+        $query = 'SELECT '. $this->_getTableName() .'.*,'. OOMediaCategory::_getTableName() .'.name catname  FROM '. OOMedia::_getTableJoin() .' WHERE file_id = '. $id;
         $sql = new sql();
 //        $sql->debugsql = true;
         $result = $sql->get_array( $query);
@@ -66,7 +64,7 @@ class OOMedia {
         $this->_id            = $result['file_id'];
         $this->_parent_id     = $result['re_file_id'];
         $this->_cat_id        = $result['category_id'];
-        $this->_cat_name      = $result['name'];
+        $this->_cat_name      = $result['catname'];
 
         $this->_name          = $result['filename'];
         $this->_orgname       = $result['originalname'];
@@ -90,17 +88,17 @@ class OOMedia {
     /**
      * @access protected
      */
-    function getTableName() {
+    function _getTableName() {
         global $REX;
-        return $REX[TABLE_PREFIX].'file';
+        return $REX['TABLE_PREFIX'].'file';
     }
 
     /**
      * @access protected
      */
-    function getTableJoin() {
-        $mediatable = OOMedia::getTableName();
-        $cattable = OOMediaCategory::getTableName();
+    function _getTableJoin() {
+        $mediatable = OOMedia::_getTableName();
+        $cattable = OOMediaCategory::_getTableName();
         return  $mediatable .' LEFT JOIN '. $cattable .' ON '. $mediatable . '.category_id = '. $cattable .'.id';
     }
 
@@ -115,7 +113,7 @@ class OOMedia {
      * @access public
      */
     function searchMediaByFileName( $name) {
-        $query = 'SELECT file_id FROM '. OOMedia::getTableName() .' WHERE filename = "'. addslashes( $name) .'"';
+        $query = 'SELECT file_id FROM '. OOMedia::_getTableName() .' WHERE filename = "'. addslashes( $name) .'"';
         $sql = new sql();
         $result = $sql->get_array( $query);
 
@@ -216,6 +214,20 @@ class OOMedia {
     /**
      * @access public
      */
+    function getType() {
+        return $this->_type;
+    }
+    
+    /**
+     * @access public
+     */
+    function getSize() {
+        return $this->_size;
+    }
+    
+    /**
+     * @access public
+     */
     function getUpdateUser() {
         return $this->_updateuser;
     }
@@ -279,20 +291,6 @@ class OOMedia {
     }
 
 	// new functions by vscope
-
-    /**
-     * @access public
-     */
-    function deleteMedia() {
-
-        // delete Media by ID
-        $query = "DELETE FROM ".OOMedia::getTableName()." WHERE file_id='".$this->getId()."'";
-        $sql = new sql();
-        $result = $sql->query($query);
-
-        return true;
-    }
-
     /**
      * @access protected
      */
@@ -337,6 +335,9 @@ class OOMedia {
         return $icon;
     }
 
+    /**
+     * @access public
+     */
     function resizeImage($width='',$height='',$quality=90){
 		if(!$key = array_search($this->getExtension(),$this->_resizeextensions)){
 			return false;
@@ -350,6 +351,86 @@ class OOMedia {
 		    }
         }
 
+    }
+    
+    
+    /**
+     * @access protected
+     */
+    function _getSQLSetString() {
+        $set = ' SET'.
+               '  re_file_id = '. $this->getParentId() .
+               ', category_id = '. $this->getCategoryId() .
+               ', filetype = "'. $this->getType() .'"'.
+               ', filename = "'. $this->getFileName() .'"'.
+               ', originalname = "'. $this->getOrgFileName() .'"'.
+               ', filesize = "'. $this->getSize() .'"'.
+               ', width = '. $this->getWidth() .
+               ', height = '. $this->getHeight() .
+               ', title = "'. $this->getTitle() .'"'.
+               ', description = "'. $this->getDescription() .'"'.
+               ', copyright = "'. $this->getCopyright() .'"'.
+               ', updatedate = '. $this->getUpdateDate() .
+               ', createdate = '. $this->getCreateDate() .
+               ', updateuser = "'. $this->getUpdateUser() .'"'.
+               ', createuser = "'. $this->getCreateUser() .'"';
+               
+        return $set;
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _insert() {
+        $qry = 'INSERT INTO '. $this->_getTableName();
+        $qry .= $this->_getSQLSetString();
+        
+        $sql = new sql();
+//        $sql->debugsql = true;
+        $sql->query( $qry);
+        
+        return $sql->getError();
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _update() {
+        $qry = 'UPDATE '. $this->_getTableName();
+        $qry .= $this->_getSQLSetString();
+        $qry .= ' LIMIT 1';
+        
+//        $sql = new sql();
+        $sql->debugsql = true;
+        $sql->query( $qry);
+        
+        return $sql->getError();
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _save() {
+        if ( $this->getId() !== null ) {
+            return $this->_update();
+        } else {
+            return $this->insert();
+        }
+    }
+    
+    /**
+     * @access protected
+     * @return Returns <code>true</code> on success or <code>false</code> on error
+     */
+    function _delete() {
+        $qry = 'DELETE FROM '. $this->_getTableName() . ' WHERE file_id = '. $this->getId() . ' LIMIT 1';
+        $sql = new sql();
+//        $sql->debugsql = true;
+        $sql->query( $qry);
+        return $sql->getError();
     }
 }
 ?>
