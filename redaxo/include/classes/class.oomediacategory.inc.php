@@ -77,6 +77,24 @@ class OOMediaCategory {
     /**
      * @access public
      */
+    function getRootCategories( $ignore_offlines, $clang = '') {
+        $qry = 'SELECT id FROM '. $this->getTableName() . ' WHERE re_id = 0';
+        $sql = new sql();
+        $sql->setQuery( $qry);
+        $result = $sql->get_array();
+        
+        $rootCats = array();
+        foreach ( $result as $row) {
+            $id = $row[0];
+            $rootCats[] = OOMediaCategory::getCategoryById($id);
+        }
+        
+        return $rootCats;
+    } 
+     
+    /**
+     * @access public
+     */
     function searchCategoryByName( $name) {
         $query = 'SELECT id FROM '. OOMedia::getTableName() .' WHERE name = "'. addslashes( $name) .'"';
         $sql = new sql();
