@@ -4,11 +4,27 @@ class OOMediaCategory {
     // id
     var $_id;
     // re_id
-    var $re_id;
+    var $_parent;
+    
     // name
     var $_name;
     // path
     var $_path;
+    
+    // clang
+    var $_clang;
+    // hide
+    var $_hide;
+    
+    // createdate
+    var $_createdate;
+    // updatedate
+    var $_updatedate;
+    
+    // createuser
+    var $_createuser;
+    // updateuser
+    var $_updateuser;
     
     /**
      * @access protected
@@ -27,9 +43,19 @@ class OOMediaCategory {
 //        var_dump( $result);
         
         $this->_id    = $result['id'];
-        $this->_re_id = $result['re_id'];
+        $this->_parent = $result['re_id'];
+        
         $this->_name  = $result['name'];
         $this->_path  = $result['path'];
+        
+        $this->_clang  = $result['clang'];
+        $this->_hide  = $result['hide'];
+        
+        $this->_createdate  = $result['createdate'];
+        $this->_updatedate  = $result['updatedate'];
+        
+        $this->_createuser  = $result['createuser'];
+        $this->_updateuser  = $result['updateuser'];
     }
     
     
@@ -37,7 +63,8 @@ class OOMediaCategory {
      * @access protected
      */
     function getTableName() {
-        return 'rex_file_category';
+        global $REX;
+        return $REX[TABLE_PREFIX].'file_category';
     }
     
     /**
@@ -66,6 +93,13 @@ class OOMediaCategory {
     /**
      * @access public
      */
+    function toString() {
+        return 'OOMediaCategory, "'. $this->getId() .'", "'. $this->getName() .'"'. "<br/>\n";
+    }
+    
+    /**
+     * @access public
+     */
     function getId() {
         return $this->_id;
     }
@@ -80,8 +114,70 @@ class OOMediaCategory {
     /**
      * @access public
      */
-    function toString() {
-        return 'OOMediaCategory, "'. $this->getId() .'", "'. $this->getName() .'"'. "<br/>\n";
+    function getPath() {
+        return $this->_path;
+    }
+    
+    /**
+     * @access public
+     */
+    function getUpdateUser() {
+        return $this->_updateuser;
+    }
+    
+    /**
+     * @access public
+     */
+    function getUpdateDate() {
+        return $this->_updatedate;
+    }
+     
+    /**
+     * @access public
+     */
+    function getCreateUser() {
+        return $this->_createuser;
+    }
+    
+    /**
+     * @access public
+     */
+    function getCreateDate() {
+        return $this->_createdate;
+    }
+    
+    /**
+     * @access public
+     */
+    function getParentId() {
+        return $this->_parent;
+    }
+    
+    /**
+     * @access public
+     */
+    function getParent() {
+        return OOMediaCateogry::getCategoryById( $this->getParentId());
+    }
+    
+    /**
+     * @access public
+     */
+    function isHidden() {
+        return $this->_hide;
+    }
+    
+    /**
+     * @access public
+     */
+    function isParent( $mediaCat) {
+        if ( is_int( $mediaCat)) {
+            return $mediaCatId == $this->getParentId(); 
+        } else if ( is_object( $mediaCat) && 
+                    is_a( $mediaCat, 'oomediacategory')) {
+            return $this->getParentId() == $mediaCat->getId();
+        }
+        return null;
     }
 }
 ?>
