@@ -235,7 +235,10 @@ class OOMedia {
     /**
      * @access public
      */
-    function getUpdateDate() {
+    function getUpdateDate( $format = null) {
+        if ( $format !== null) {
+            return date( $format, $this->_updatedate);
+        }
         return $this->_updatedate;
     }
     
@@ -249,9 +252,19 @@ class OOMedia {
     /**
      * @access public
      */
-    function getCreateDate() {
+    function getCreateDate( $format = null) {
+        if ( $format !== null) {
+            return date( $format, $this->_createdate);
+        }
         return $this->_createdate;
     }
+    
+    /**
+     * @access public
+     */
+    function isValid( $media) {
+        return is_object( $media) && is_a( $media, 'oomedia');
+    }    
     
     /**
      * @access public

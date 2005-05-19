@@ -23,7 +23,12 @@ class OOMediaCategory {
     // updateuser
     var $_updateuser;
     
-    /**
+    // child categories
+    var $_children;
+    // files (media)
+    var $_files;
+    
+     /**
      * @access protected
      */
     function OOMediaCategory( $id) {
@@ -50,6 +55,9 @@ class OOMediaCategory {
         
         $this->_createuser  = $result['createuser'];
         $this->_updateuser  = $result['updateuser'];
+        
+        $this->_children = null;
+        $this->_files = null;
     }
     
     
@@ -71,15 +79,15 @@ class OOMediaCategory {
     /**
      * @access public
      */
-    function getRootCategories( $ignore_offlines, $clang = '') {
-        $qry = 'SELECT id FROM '. $this->_getTableName() . ' WHERE re_id = 0';
+    function getRootCategories( $ignore_offlines = true) {
+        $qry = 'SELECT id FROM '. OOMediaCategory::_getTableName() . ' WHERE re_id = 0';
         $sql = new sql();
         $sql->setQuery( $qry);
         $result = $sql->get_array();
         
         $rootCats = array();
         foreach ( $result as $row) {
-            $id = $row[0];
+            $id = $row['id'];
             $rootCats[] = OOMediaCategory::getCategoryById($id);
         }
         
@@ -176,19 +184,62 @@ class OOMediaCategory {
      * @access public
      */
     function getChildren() {
-        $childs = array();
-        $qry = 'SELECT id FROM '. $this->_getTableName() .' WHERE re_id = '. $this->getId();
+        if( $this->_children === null) {
+            $this->_children = array();
+            
+            $qry = 'SELECT id FROM '. OOMediaCategory::_getTableName() .' WHERE re_id = '. $this->getId();
+            
+            $sql = new sql();
+            $sql->setQuery( $qry);
+            $result = $sql->get_array();
+            
+            if ( is_array( $result)) {
+                foreach ( $result as $row ) {
+                    $id = $row['id'];
+                    $this->_children[] = &OOMediaCateogry::getCategoryById( $id);
+                }
+            } 
+        }
         
-        $sql = new sql();
-        $sql->setQuery( $qry);
-        $result = $sql->get_array();
+        return $this->_children;
+    }
+    
+    /**
+     * @access public
+     */
+    function countChildren() {
+        return count( $this->getChildren());
+    }
+    
+    /**
+     * @access public
+     */
+    function getFiles() {
+        if( $this->_files === null) {
+            $this->_files = array();
+            
+            $qry = 'SELECT file_id FROM '. OOMedia::_getTableName() .' WHERE category_id = '. $this->getId();
+            
+            $sql = new sql();
+            $sql->setQuery( $qry);
+            $result = $sql->get_array();
+            
+            if ( is_array( $result)) {
+                foreach ( $result as $row ) {
+                    $id = $row['file_id'];
+                    $this->_files[] = &OOMedia::getMediaById( $id);
+                }
+            } 
+        }
         
-        foreach ( $result as $row ) {
-            $id = $row['id'];
-            $childs[] = OOMediaCateogry::getCategoryById( $id);
-        } 
-        
-        return $childs;
+        return $this->_files;
+    }
+    
+    /**
+     * @access public
+     */
+    function countFiles() {
+        return count( $this->getFiles());
     }
     
     /**
@@ -204,11 +255,17 @@ class OOMediaCategory {
     function isParent( $mediaCat) {
         if ( is_int( $mediaCat)) {
             return $mediaCatId == $this->getParentId(); 
-        } else if ( is_object( $mediaCat) && 
-                    is_a( $mediaCat, 'oomediacategory')) {
+        } else if ( OOMediaCategory::isValid( $mediaCat)) {
             return $this->getParentId() == $mediaCat->getId();
         }
         return null;
+    }
+    
+    /**
+     * @access public
+     */
+    function isValid( $mediaCat) {
+        return is_object( $mediaCat) && is_a( $mediaCat, 'oomediacategory');
     }
     
     /**
