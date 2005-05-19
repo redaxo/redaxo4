@@ -59,6 +59,11 @@ a.black		{ color: #000000; }
 
 optgroup { font-weight: bold; font-style: normal;}
 
+/* Links auf Bildern ohne Rahmen */
+a img {
+	border: 0px;
+}
+
 /* Seiten-Layout - START */
 table.rexHeader {
    width: 770px;

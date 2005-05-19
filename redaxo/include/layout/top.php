@@ -51,7 +51,7 @@ if ($LOGIN)
               <span class="logout" style="font-weight: normal;">[<a href="index.php?FORM[logout]=1" class="white" style="font-weight: bold;"><?php echo $I18N->msg('logout'); ?></a>]</span>
            </td>
 <?php else: ?> 
-           <td valign="top"><?php echo $I18N->msg('logged_out') ?></td>
+           <td valign="top" style="text-align: right"><?php echo $I18N->msg('logged_out') ?></td>
 <?php endif; ?> 
 
         </tr>
