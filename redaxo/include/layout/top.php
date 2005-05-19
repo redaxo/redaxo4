@@ -9,13 +9,13 @@
 	//-->
 	</script>
 </head>
-<body bgcolor=#ffffff onunload=closeAll();>
-	<table border=0 cellpadding=5 cellspacing=0 width=770>
-	<tr>
-		<td colspan=2 class=grey align=right><?php echo $REX[SERVERNAME]; ?></td>
-	</tr>
-	<tr>
-		<td class=greenwhite width=550><b>
+<body onunload=closeAll();>
+	<table class="rexHeader" cellpadding="5" cellspacing="0">
+       <tr>
+	      <th colspan="2"><?php echo $REX[SERVERNAME]; ?></th>
+	   </tr>
+	   <tr>
+		   <td>
 <?php
 if ($LOGIN)
 {
@@ -42,13 +42,17 @@ if ($LOGIN)
 	}
 
 }
-
-echo "</b></td>";
-
-if ($LOGIN) echo "<td align=right class=greenblack valign=top>".$I18N->msg("name").": <b>".$REX_USER->getValue("name")."</b> [<a href=index.php?FORM[logout]=1 class=white><b>".$I18N->msg("logout")."</b></a>]</td>";
-else echo "<td align=right class=greenblack valign=top><b>".$I18N->msg("logged_out")."</b></td>";
-
-echo "</tr>
-</table>";
-
 ?>
+           </td>
+<?php if ($LOGIN): ?> 
+           <td class="logstatus" valign="top">
+              <span class="label"><?php echo $I18N->msg('name'); ?> : </span>
+              <span class="username"><?php echo $REX_USER->getValue('name'); ?></span>
+              <span class="logout" style="font-weight: normal;">[<a href="index.php?FORM[logout]=1" class="white" style="font-weight: bold;"><?php echo $I18N->msg('logout'); ?></a>]</span>
+           </td>
+<?php else: ?> 
+           <td valign="top"><?php echo $I18N->msg('logged_out') ?></td>
+<?php endif; ?> 
+
+        </tr>
+</table>
