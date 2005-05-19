@@ -1,8 +1,6 @@
-<?
-
-echo "<html>
+<html>
 <head>
-	<title>".$REX[SERVERNAME]." - $page_name</title>
+	<title><?php echo $REX[SERVERNAME].' - '. $page_name; ?></title>
 	<link rel=stylesheet type=text/css href=css/style.css>
 	<script language=Javascript src=js/standard.js></script>
 	<script language=Javascript>
@@ -14,11 +12,11 @@ echo "<html>
 <body bgcolor=#ffffff onunload=closeAll();>
 	<table border=0 cellpadding=5 cellspacing=0 width=770>
 	<tr>
-		<td colspan=2 class=grey align=right>".$REX[SERVERNAME]."</td>
+		<td colspan=2 class=grey align=right><?php echo $REX[SERVERNAME]; ?></td>
 	</tr>
 	<tr>
-		<td class=greenwhite width=550><b>";
-
+		<td class=greenwhite width=550><b>
+<?php
 if ($LOGIN)
 {
 	echo "<a href=index.php?page=structure class=white>".$I18N->msg("structure")."</a> ";
