@@ -22,7 +22,6 @@ td.lblue	{ background-color: #d6e1e4; }
 td.llblue	{ background-color: #E4EFF2; }
 td.dblue	{ background-color: #b0bdc3; }
 
-
 th.blue		{ background-color: #d7d6d3; }
 th.lblue	{ background-color: #d7d6d3; }
 th.dblue	{ background-color: #d7d6d3; }
@@ -60,9 +59,59 @@ a.black		{ color: #000000; }
 
 optgroup { font-weight: bold; font-style: normal;}
 
+/* Seiten-Layout - START */
+table.rexHeader {
+   width: 770px;
+   margin-bottom: 10px;
+}
+
+table.rexHeader tr th {
+   text-align: right;
+   font-weight: normal;
+   background-color: #f0efeb;
+}
+
+table.rexHeader tr td {
+   color: white;
+   font-weight: bold;
+   background-color: #aab9a8;
+}
+
+table.rexHeader tr td.logstatus {
+   color: black;
+   font-weight: bold;
+   background-color: #aab9a8;
+}
+
+td.logstatus {
+   text-align: right;
+}
+
+td.logstatus .label {
+   font-weight: normal;
+}
+
+table.rexFooter {
+   width: 770px;
+}
+
+table.rexFooter tr th {
+   font-weight: normal;
+   background-color: #aab9a8;
+   color: white;
+}
+
+table.rexFooter tr td {
+   text-align: left;
+   color: black;
+   background-color: #f0efeb;
+}
+/* Seiten-Layout - ENDE */
+
 /* Allgemeines Tabellen-Layout - START */
 table.rex {
    width: 100%;
+   margin-bottom: 10px;
 }
 
 table.rex tr th {
