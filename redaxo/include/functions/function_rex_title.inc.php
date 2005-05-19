@@ -1,21 +1,28 @@
 <?
 
-function title($head,$subline,$styleclass="grey")
+function title($head,$subline = '',$styleclass="grey", $width = '770px')
 {
+?>
+	<br>
 	
-	echo "<br>";
-	
-	echo "<table width=770 cellpadding=0 cellspacing=0 border=0>";
-	echo "<tr>
-		<td class=$styleclass>&nbsp;&nbsp;<b class=head>$head</b></td><td><img src=pics/leer.gif width=1 height=30></td>
-		<td rowspan=3><img src=pics/logo.gif width=153 height=61></td></tr>";
-	echo "<tr>
-		<td><img src=pics/leer.gif width=616 height=1></td>
-		<td><img src=pics/leer.gif width=1 height=1></td></tr>";
-	echo "<tr>
-		<td class=$styleclass><b style='line-height:18px;'>$subline</b></td>
-		<td><img src=pics/leer.gif width=1 height=30></td></tr>";
-	echo "</table><br>";
+	<table width="<?php echo $width ?>" cellpadding="0" cellspacing="0">
+    
+    <tr>
+		<td class=<?php echo $styleclass ?>>&nbsp;&nbsp;<b class="head"><?php echo $head ?></b></td>
+		<td rowspan="3" width="153px"><img src=pics/logo.gif width="153px" height="61px"></td>
+    </tr>
+    
+    <tr style="height: 1px">
+        <td colspan="2"></td>
+    </tr>
+    
+	<tr style="height: 18px;">
+		<td class=<?php echo $styleclass ?> ><b style='line-height:18px'><?php echo $subline ?></b></td>
+    </tr>
+    
+	</table>
+    
+    <br>
+<?php
 }
-
 ?>
