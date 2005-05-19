@@ -6,7 +6,7 @@
 #
 ##################################################################
 
-class editor {
+class rex_wysiwyg_editor {
 
 	var $id;
     var $content;
