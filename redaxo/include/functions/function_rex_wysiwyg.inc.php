@@ -21,7 +21,7 @@ class editor {
     var $buttonrow4 = 'empty';
 
     function show(){
-        MEDIA_HTMLAREA(
+        echo MEDIA_HTMLAREA(
         		$this->id,
                 $this->content,
                 $this->width,
@@ -82,7 +82,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
         // tiny mce init
         if($TINYMCE!="done"){
 
-				print '
+				$print .= '
 	            <!-- tinyMCE -->
 	            <script language="javascript" type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
 	            <script language="javascript" type="text/javascript">
@@ -140,11 +140,13 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
         }
 
 
-        print '
+        $print .= '
 
         <textarea id="VALUE['.$VALUE_ID.']" name="VALUE['.$VALUE_ID.']" style="width:'.$WIDTH.';height:'.$HEIGHT.'" rows="15" mce_editable="true">'.$CONTENT.'</textarea>
 
         ';
+
+		return $print;
 
 }
 
