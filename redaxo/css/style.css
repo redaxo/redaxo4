@@ -3,9 +3,9 @@ body,p,td,th,a,input,select,optgroup,potion,textarea { font-family: Verdana, Ari
 th		{ background-color: #d7d6d3; }
 a		{ color: #f2353a; text-decoration: none; }
 a:hover		{ text-decoration: underline; }
-input   	{ color: #000000; font-size: }
-textarea	{ color: #000000; font-size: }
-select  	{ color: #000000; font-size: }
+input   	{ color: #000000; }
+textarea	{ color: #000000; }
+select  	{ color: #000000; }
 
 td.grey		{ background-color: #f0efeb; }
 td.lgrey	{ background-color: #faf9f5; }
@@ -59,3 +59,22 @@ a.black		{ color: #000000; }
 .inpgrey100	{ width:100%; background-color: #f0efeb; }
 
 optgroup { font-weight: bold; font-style: normal;}
+
+/* Allgemeines Tabellen-Layout - START */
+table.rex {
+   width: 100%;
+}
+
+table.rex tr th {
+   background-color: #d7d6d3;
+   text-align: left;
+}
+
+table.rex tr td {
+   background-color: #f0efeb;
+}
+
+table.rex tr.selected td {
+   background-color: #eae9e5;
+}
+/* Allgemeines Tabellen-Layout - ENDE */
