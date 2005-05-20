@@ -9,7 +9,9 @@
  * verzeiht ;)
  * 
  * jan
- * 
+ *
+ * ### erstelle neue prioliste wenn noetig
+ *
  */
 
 
@@ -53,8 +55,24 @@ if (count($REX[CLANG])>1)
 if ($function == "edit_category" && $edit_id != "")
 {
 	// --------------------- KATEGORIE EDIT
-	$message = $I18N->msg("category_updated");
-	$KAT->query("update rex_article set catname='$kat_name',updatedate='".time()."',updateuser='".$REX_USER->getValue("login")."' where id='$edit_id' and startpage=1 and clang=$clang");
+	
+	$old_prio = $thisCat->getValue("prior");
+	$new_prio = $Position_Category+0;
+	$re_id = $thisCat->getValue("re_id");
+
+	// ### erstelle neue prioliste wenn noetig
+
+	$EKAT = new sql;
+	$EKAT->setTable("rex_article");
+	$EKAT->where("id='$edit_id' and startpage=1 and clang=$clang");
+	$EKAT->setValue("catname","$kat_name");
+	$EKAT->setValue("prior","$Position_Category");	
+	$EKAT->setValue("updatedate",time());
+	$EKAT->setValue("updateuser",$REX_USER->getValue("login"));
+	$EKAT->update();
+
+	$message = $I18N->msg("category_status_updated");
+
 	rex_generateArticle($edit_id);
 
 }elseif ($function == "delete_category" && $edit_id != "")
@@ -67,7 +85,10 @@ if ($function == "edit_category" && $edit_id != "")
 		$KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=0");
 		if($KAT->getRows()==0)
 		{
+			// ### erstelle neue prioliste wenn noetig
+			
 			$message = rex_deleteArticle($edit_id);
+
 		}else
 		{
 			$message = $I18N->msg("category_could_not_be_deleted")." ddd".$I18N->msg("category_still_contains_articles");
@@ -77,7 +98,6 @@ if ($function == "edit_category" && $edit_id != "")
 	{
 		$message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_subcategories");
 		$function = "edit";
-
 	}
 
 
@@ -89,7 +109,15 @@ if ($function == "edit_category" && $edit_id != "")
 	{
 		if ($KAT->getValue("status")==1) $newstatus = 0;
 		else $newstatus = 1;
-		$KAT->query("update rex_article set status='$newstatus',updatedate='".time()."',updateuser='".$REX_USER->getValue("login")."' where id='$edit_id' and clang=$clang and startpage=1");
+		
+		$EKAT = new sql;
+		$EKAT->setTable("rex_article");
+		$EKAT->where("id='$edit_id' and clang=$clang and startpage=1");
+		$EKAT->setValue("status","$newstatus");	
+		$EKAT->setValue("updatedate",time());
+		$EKAT->setValue("updateuser",$REX_USER->getValue("login"));
+		$EKAT->update();
+				
 		$message = $I18N->msg("category_status_updated");
 		rex_generateArticle($edit_id);
 	}else
@@ -114,6 +142,9 @@ if ($function == "edit_category" && $edit_id != "")
 	reset($REX[CLANG]);
 	while(list($key,$val)=each($REX[CLANG]))
 	{
+		
+		// ### erstelle neue prioliste wenn noetig	
+		
 		$AART = new sql;
 		$AART->setTable("rex_article");
 		if (!$id) $id = $AART->setNewId("id");
@@ -135,6 +166,8 @@ if ($function == "edit_category" && $edit_id != "")
 		$AART->setValue("updateuser",$REX_USER->getValue("login"));
 		$AART->insert();
 	}
+
+
 	rex_generateArticle($id);
 }
 
@@ -177,12 +210,19 @@ if ($function == "offline_article")
 	$EA->setValue("template_id",$template_id);
 	$EA->setValue("updatedate",time());
 	$EA->setValue("updateuser",$REX_USER->getValue("login"));
+	$EA->setValue("prior",$Position_Article);
 	$EA->update();
+	
+	// ### erstelle neue prioliste wenn noetig
+	
 	rex_generateArticle($article_id);
 
 }elseif ($function == "delete_article")
 {
 	// --------------------- ARTIKEL DELETE
+	
+	// ### erstelle neue prioliste wenn noetig
+	
 	$message = rex_deleteArticle($article_id);
 
 }elseif ($function == "add_article")
@@ -193,6 +233,9 @@ if ($function == "offline_article")
 	reset($REX[CLANG]);
 	while(list($key,$val)=each($REX[CLANG]))
 	{
+		
+		// ### erstelle neue prioliste wenn noetig
+		
 		$AART = new sql;
 		// $AART->debugsql = 1;
 		$AART->setTable("rex_article");
@@ -202,7 +245,7 @@ if ($function == "offline_article")
 		$AART->setValue("catname",$article_name);
 		$AART->setValue("clang",$key);
 		$AART->setValue("re_id",$category_id);
-		$AART->setValue("prior",$article_prior);
+		$AART->setValue("prior",$Position_New_Article);
 		$AART->setValue("path",$KATPATH);
 		$AART->setValue("startpage",0);
 		$AART->setValue("status",0);
@@ -215,6 +258,7 @@ if ($function == "offline_article")
 		$AART->setValue("template_id",$template_id);
 		$AART->insert();
 	}
+	
 	rex_generateArticle($id);
 }
 
@@ -291,7 +335,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 					<input type=hidden name=cid value=".$KAT->getValue("id").">
 					<input type=hidden name=clang value=$clang>
 					<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
-					<td class=dgrey><input type=text name=Position_Category value=\"$cat_pos\" style='width:30px'></td>
+					<td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("prior"))."\" style='width:30px'></td>
 					<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
 					<td class=dgrey>$kat_status</td></form>
 				</tr>";
@@ -309,7 +353,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 			$echo .= "</td>";
 	
 			// $echo .= "<td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")."&clang=$clang style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up&clang=$clang><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>";
-			$echo .= "<td class=grey valign=middle width=20>$cat_pos</td>";
+			$echo .= "<td class=grey valign=middle width=20>".htmlentities($KAT->getValue("prior"))."</td>";
 				
 			$echo .= "
 					<td class=grey>$edit_txt</td>
@@ -445,7 +489,7 @@ if($category_id > -1)
 				<input type=hidden name=clang value=$clang>
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>
 				<td class=grey><input type=text name=article_name value=\"".htmlentities($sql->getValue("name"))."\" size=20 style='width:100%'></td>
-				<td class=grey>&nbsp;<input type=text name=Position_Article value=\"$pos\" style='width:30px'></td>
+				<td class=grey>&nbsp;<input type=text name=Position_Article value=\"".htmlentities($sql->getValue("prior"))."\" style='width:30px'></td>
 				<td class=grey>".$TMPL_SEL->out()."</td>
 				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
@@ -469,7 +513,7 @@ if($category_id > -1)
 			echo "</td>";
 
 			// echo "<td class=grey align=center width=75 valign=middle><form method=post action=index.php?page=structure&category_id=".$category_id."&aid=".$sql->getValue("id")." style=display:inline><input type=field name=Position_Article style=width:30px;height:16px value=$pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down align=absmiddle></a></td>";
-			echo "<td class=grey align=center width=10 valign=middle>$pos</td>\n";
+			echo "<td class=grey align=center width=10 valign=middle>".htmlentities($sql->getValue("prior"))."</td>\n";
 
 			echo "
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
@@ -496,7 +540,7 @@ if($category_id > -1)
 			echo "	<tr>
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>
 				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a></td>
-				<td class=grey>$pos</td>
+				<td class=grey>".htmlentities($sql->getValue("prior"))."</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
@@ -521,8 +565,8 @@ if($category_id > -1)
 			
 			echo "	<tr>
 				<td class=grey align=center><img src=pics/$icon width=16 height=16 border=0 align=middle></td>
-				<td class=grey>".$sql->getValue("name")."</td>
-				<td class=grey>$pos</td>
+				<td class=grey>".htmlentities($sql->getValue("name"))."</td>
+				<td class=grey>".htmlentities($sql->getValue("prior"))."</td>
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td class=grey><b>$startpage</b></td>
