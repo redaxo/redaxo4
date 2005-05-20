@@ -298,7 +298,12 @@ class OOMedia {
             $file = $this->getFileName();
         }
         
-        return '<img src="'. $path . $file .'" '.implode( ' ', $params) .'/>';
+        $additional = '';
+        foreach( $params as $name => $value) {
+            $additional .= $name.'="'. $value . '" ';
+        }
+        
+        return '<img src="'. $path . $file .'" '. $additional .'/>';
     }
     
     /**
