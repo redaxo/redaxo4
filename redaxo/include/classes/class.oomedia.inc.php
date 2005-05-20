@@ -266,9 +266,15 @@ class OOMedia {
     /**
      * @access public
      */
-    function toImage( $path = '', $params = array()) {
-        
+    function toImage( $params = array()) {
+        $path = '';
         $resize = false;
+        
+        if ( isset( $params['path'])) {
+            $path = $params['path'];
+            unset( $params['path']);
+        }
+        
         if ( isset( $params['resize']) && $params['resize']) {
             unset( $params['resize']);
             if ( isset( $REX['ADDON']['status']['image_resize']) && 
@@ -291,10 +297,12 @@ class OOMedia {
         }
         
         if ( !$this->isImage()) {
+            $path = $path .'pics/';
             $file = 'file_dummy.gif';
         } elseif ( $resize) {
             $file = 'index.php?rex_resize='. $resizeParam . $resizeMode . '__' . $this->getFileName();
         } else {
+            $path = $path .'files/';
             $file = $this->getFileName();
         }
         
