@@ -267,6 +267,8 @@ class OOMedia {
      * @access public
      */
     function toImage( $params = array()) {
+        global $REX;
+        
         $path = '';
         $resize = false;
         
@@ -293,6 +295,7 @@ class OOMedia {
                     $resizeMode = 'a';
                     $resizeParam = 0;
                 }
+                $resizeParam = str_replace( array( 'px', 'pt', '%', 'em'), '', $resizeParam);
             }
         }
         
@@ -331,7 +334,6 @@ class OOMedia {
         if ( !isset( $imageExtensions)) {
             $imageExtensions = array('gif', 'jpeg', 'jpg', 'png', 'bmp');
         }
-        
         return in_array( $this->getExtension(), $imageExtensions);
     }
         
@@ -342,22 +344,22 @@ class OOMedia {
         global $REX;
 
         $file = $REX['HTDOCS_PATH'] .'files/'. $this->getFileName();
-        $filetype = strrchr( $this->getFileName(), '.');
+        $filetype = $this->getExtension();
 
         switch( $filetype) {
-            case '.jpg'  :
-            case '.jpeg' :
-            case '.png'  :
-            case '.gif'  :
-            case '.bmp'  :
+            case 'jpg'  :
+            case 'jpeg' :
+            case 'png'  :
+            case 'gif'  :
+            case 'bmp'  :
                         {
                             return '<img src="'. $file .'" alt="'. htmlentities( $this->getDescription()) .'" width="'. $this->getWidth() .'px" height="'. $this->getHeight() .'px"/>';
                         }
-            case '.js'   :
+            case 'js'   :
                         {
                             return '<script type="text/javascript" src="'. $file .'"></script>';
                         }
-            case '.css'     :
+            case 'css'     :
                         {
                             return '<link href="'. $file .'" rel="stylesheet" type="text/css">';
                         }
