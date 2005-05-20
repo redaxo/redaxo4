@@ -196,7 +196,7 @@ class OOMediaCategory {
             if ( is_array( $result)) {
                 foreach ( $result as $row ) {
                     $id = $row['id'];
-                    $this->_children[] = &OOMediaCateogry::getCategoryById( $id);
+                    $this->_children[] = &OOMediaCategory::getCategoryById( $id);
                 }
             } 
         }
