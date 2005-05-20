@@ -261,11 +261,25 @@ class OOMedia {
     
     /**
      * @access public
+     * @static
      */
     function isValid( $media) {
         return is_object( $media) && is_a( $media, 'oomedia');
     }    
     
+    /**
+     * @access public
+     */
+    function isImage() {
+        static $imageExtensions;
+        
+        if ( !isset( $imageExtensions)) {
+            $imageExtensions = array('gif', 'jpeg', 'jpg', 'png', 'bmp');
+        }
+        
+        return in_array( $this->getFileExtension(), $imageExtensions);
+    }
+        
     /**
      * @access public
      */
