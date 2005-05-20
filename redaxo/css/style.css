@@ -117,6 +117,7 @@ table.rexFooter tr td {
 table.rex {
    width: 100%;
    margin-bottom: 10px;
+   table-layout: fixed;
 }
 
 table.rex tr th {
