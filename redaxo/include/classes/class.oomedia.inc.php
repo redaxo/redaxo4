@@ -235,8 +235,12 @@ class OOMedia {
     /**
      * @access public
      */
-    function getUpdateDate( $format = null) {
+    function getUpdateDate( $format = '') {
+        global $I18N;
         if ( $format !== null) {
+            if ( $format == '') {
+                $format = $I18N->msg('dateformat');
+            }
             return date( $format, $this->_updatedate);
         }
         return $this->_updatedate;
@@ -277,7 +281,7 @@ class OOMedia {
             $imageExtensions = array('gif', 'jpeg', 'jpg', 'png', 'bmp');
         }
         
-        return in_array( $this->getFileExtension(), $imageExtensions);
+        return in_array( $this->getExtension(), $imageExtensions);
     }
         
     /**
