@@ -39,7 +39,7 @@ $mypath = str_replace("/redaxo/index.php","",$_SERVER[SCRIPT_NAME]);
 
 // ----- DEFINE WHICH EXTENSIONS GETS WHICH HMTL WRAPPED IN HTMLARA
 $htmlarea["default"] = "<a href=".$mypath."###URL### target=_blank>###FILE_NAME###</a>";
-$htmlarea[".gif|.jpg|.jpeg|.png"] = "<img src=".$mypath."###URL### width=###WIDTH### height=###HEIGHT### vspacing=5 hspacing=5 align=left border=0>";
+$htmlarea[".gif|.jpg|.jpeg|.png"] = "<img src=".$mypath."###URL### alt=###ALT### width=###WIDTH### height=###HEIGHT### vspacing=5 hspacing=5 align=left border=0>";
 
 
 // ----- kategorie checken
@@ -247,6 +247,7 @@ if($media_method=='add_file'){
                                         if(eregi($file_ext,$key)){
                                                 $html_source = str_replace("###URL###",$REX[WWW_PATH]."/files/".$file_name,$htmlarea[$key]);
                                                 $html_source = str_replace("###FILE_NAME###",$file_name,$html_source);
+                                                $html_source = str_replace("###ALT###",trim( str_replace( " ", "&nbsp;", htmlentities( $fdescription))),$html_source);
                                                 $size = @getimagesize($REX[MEDIAFOLDER].'/'.$file_name);
                                                 $html_source = str_replace("###WIDTH###",$size[0],$html_source);
                                                 $html_source = str_replace("###HEIGHT###",$size[1],$html_source);
