@@ -328,7 +328,6 @@ if($media_method=='add_file_cat')
         $db = new sql;
         $db->setTable('rex_file_category');
         $db->setValue('name',$cat_name);
-		$db->setValue('hide',$cat_hide); //pw anzeige thumbnails hide=1, thumbails werden in der übersicht der kategorie nicht angezeigt
         $db->insert();
         $msg = $I18N->msg('pool_kat_saved',$cat_name);
 }elseif($media_method=='edit_file_cat')
@@ -339,7 +338,6 @@ if($media_method=='add_file_cat')
         $db->setTable('rex_file_category');
         $db->where("id='$cat_id'");
         $db->setValue('name',$cat_name);
-		$db->setValue('hide',$cat_hide); //pw anzeige thumbnails
         $db->update();
         $msg = $I18N->msg('pool_kat_updated',$cat_name);
         $cat_id = "";
@@ -377,8 +375,7 @@ if ($mode == "categories")
 
         echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
 
-		//pw anzeige thumbnails, label
-        echo "<tr><th width=20><a href=index.php?page=medienpool&mode=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_name')."</th><th class=dgrey align=left width=50>".$I18N->msg('pool_kat_hide')."</th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_function')."</th><th class=dgrey align=left></th></tr>";
+        echo "<tr><th width=20><a href=index.php?page=medienpool&mode=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_name')."</th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_function')."</th><th class=dgrey align=left></th></tr>";
 
         if ($function == "add_cat")
         {
@@ -389,16 +386,6 @@ if ($mode == "categories")
                 echo "<input type=hidden name=mode value=categories>";
                 echo "<td class=grey>&nbsp;</td>";
                 echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name></td>";
-
-				//pw anzeige eingabe
-				echo "<td class=grey>";
-				echo "<select name=cat_hide size=1>";
-		     	echo "<option value='0'>show</option>";
-                echo "<option value='1'>hide</option>";
-                echo "</select>";
-				echo "</td>";
-
-
                 echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_add')."\"></td>";
 				echo "<td class=grey>&nbsp;</td>";
                 echo "</form>";
@@ -421,19 +408,6 @@ if ($mode == "categories")
                         echo "<input type=hidden name=cat_id value=$cat_id>";
                         echo "<td class=grey align=center>$iid</td>";
                         echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value='".htmlentities($iname)."'></td>";
-
-
-						//pw anzeige eingabe
-                        echo "<td class=grey>";
-				        echo "<select name=cat_hide size=1>";
-		     	        if ($ihide == "1") echo "<option value='1' selected>hide</option>";
-                		else echo "<option value='1'>hide</option>";
-                		if ($ihide == "0") echo "<option value='0' selected>show</option>";
-                		else echo "<option value='0'>show</option>";
-                		echo "</select>";
-						echo "</td>";
-
-
 						echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
 						echo "<td class=grey>&nbsp;</td>";
                         echo "</form>";
@@ -444,12 +418,6 @@ if ($mode == "categories")
                         echo "<tr>";
                         echo "<td class=grey align=center>$iid</td>";
                         echo "<td class=grey>$iname &nbsp;</td>";
-
-                        //pw anzeige anzeige
-						if ($ihide == "0") echo "<td class=grey>show&nbsp;</td>";
-						else echo "<td class=grey>hide &nbsp;</td>";
-
-
 						echo "<td class=grey><a href=index.php?page=medienpool&mode=categories&cat_id=$iid>".$I18N->msg('pool_kat_edit')."</a> | <a href=index.php?page=medienpool&mode=categories&cat_id=$iid&media_method=delete_file_cat>".$I18N->msg('pool_kat_delete')."</a></td>";
                         echo "<td class=grey>&nbsp;</td>";
 						echo "</tr>";
@@ -769,7 +737,7 @@ if(($mode=='import') && ($method=="do")){
                         $MEDIA[type] = mime_content_type($THIS_PATH);
                         $MEDIA[size] = filesize($THIS_PATH);
                         $MEDIA_CATEGORY = $_GET[importcategory];
-						//pw trägt dateinamen als title ein
+						//trägt dateinamen als title ein
                         $RESULT = media_savefile($MEDIA,$MEDIA_CATEGORY,array(title=>$file));
 
                         $cnt++;
@@ -859,7 +827,7 @@ if($mode=='import'){
 
 // ------------------------------------- Dateiliste
 
-//pw löscht files nach fileliste
+//öscht files nach fileliste
 if($media_method=='updatecat_selectedmedia')
 {
 
@@ -884,7 +852,7 @@ if($media_method=='updatecat_selectedmedia')
 
 
 
-//pw löscht files nach fileliste
+//löscht files nach fileliste
 if($media_method=='delete_selectedmedia')
 {
 
@@ -954,13 +922,6 @@ if($media_method=='delete_selectedmedia')
 if($mode == "")
 {
 
-	    //pw thumbnail in category hide?
-		$gc = new sql;
-        $gc->setQuery("select * from rex_file_category where id=".$rex_file_category."");
-		$cat_thumb_hide = $gc->getValue("hide");
-
-		if ($cat_thumb_hide) $thumbStatus = "(hide)";
-		else  $thumbStatus = "(show)";
 
 
 		$db = new sql();
@@ -986,7 +947,7 @@ if($mode == "")
                 $msg = "";
         }
 
-		//pw deletefilelist und cat change
+		//deletefilelist und cat change
 		print "<form name=rex_file_list action=index.php method=get ENCTYPE=multipart/form-data>\n";
         print "<input type=hidden name=page value=medienpool>\n";
 		print "<input type=hidden name=rex_file_category value=$rex_file_category>\n";
@@ -999,7 +960,7 @@ if($mode == "")
 
         print "<tr>
 				<th align=left></th>
-                <th align=left><b>".$I18N->msg('pool_file_thumbnail')."</b>$thumbStatus</th>
+                <th align=left><b>".$I18N->msg('pool_file_thumbnail')."</b></th>
                 <th align=left><b>".$I18N->msg('pool_file_info')."</th>
                 <th align=left><b>".$I18N->msg('pool_file_description')."</th>
                 <th align=left><b>".$I18N->msg('pool_file_functions')."</th>
@@ -1038,10 +999,9 @@ if($mode == "")
                 // get file size
                 $file_size = getfilesize($file_size);
 
-				//pw Thumbnail anzeigen, wenn hide = 0 (default)
+				
                 if ($file_type_ii){
-				    if (!$cat_thumb_hide) $thumbnail = "<img src=../files/$file_name width=80 border=0>";
-					else $thumbnail = "";
+				    $thumbnail = "<img src=../files/$file_name width=80 border=0>";
 				}else{
 				    $thumbnail = "<img src=$icon_src width=80 height=80 align=left border=0><!-- ".$I18N->msg('pool_file_noshow')."-->";
 				}
@@ -1075,7 +1035,7 @@ if($mode == "")
                 $ilink = "index.php?page=medienpool&mode=detail&file_id=$file_id&rex_file_category=$rex_file_category";
                 echo "<tr>";
 
-				//pw checkbox delete filelist
+				//checkbox delete filelist
 				echo "<td class=grey width=30><input type=checkbox name=selectedmedia[] value='$file_id'></td>";
                 echo "<td valign=top class=grey width=100><a href=$ilink>$thumbnail</a></td>";
                 echo "<td valign=top class=grey width=200><b><a href=$ilink>$file_title</a></b><br><br>$file_name<br>$file_size<br><br>$file_stamp</td>";
@@ -1088,8 +1048,15 @@ if($mode == "")
           //pw funktionen
         print "<tr><td colspan=5></td>";
         print "<tr><td class=grey><a href=\"javascript:void(0)\" onClick=\"SetAllCheckBoxes('rex_file_list','selectedmedia[]',true)\"><b>".$I18N->msg('pool_select_all')."</b></a></td>";
-        print "<td class=grey colspan=4><b>".$I18N->msg('pool_selectedmedia')."</b>&nbsp;<a href=\"javascript:fileListFunc('updatecat_selectedmedia');\">".$I18N->msg('pool_changecat_selectedmedia')."</a>&nbsp;$newcat&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:fileListFunc('delete_selectedmedia');\">".$I18N->msg('pool_delete_selectedmedia')."</a></td></tr>";
-        echo "</table>";
+        
+		
+		//moveto nur anzeigen wenn category vorhanden
+		$filecat = new sql();
+        $filecat->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC");
+		if ($filecat->getRows() > 0) print "<td class=grey colspan=4><b>".$I18N->msg('pool_selectedmedia')."</b>&nbsp;<a href=\"javascript:fileListFunc('delete_selectedmedia');\">".$I18N->msg('pool_delete_selectedmedia')."</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:fileListFunc('updatecat_selectedmedia');\">".$I18N->msg('pool_changecat_selectedmedia')."</a>&nbsp;$newcat</td></tr>";
+        else print "<td class=grey colspan=4><b>".$I18N->msg('pool_selectedmedia')."</b>&nbsp;<a href=\"javascript:fileListFunc('delete_selectedmedia');\">".$I18N->msg('pool_delete_selectedmedia')."</a></td></tr>";
+		
+		echo "</table>";
 
 
 		print "</form>";
