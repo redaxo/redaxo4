@@ -55,9 +55,6 @@ if ($REX[SETUP])
 	}elseif ($page=="user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
 	{
 		$page_name = $I18N->msg("user");
-	}elseif ($page=="stats" && ($REX_USER->isValueOf("rights","stats[]") || $REX_USER->isValueOf("rights","admin[]")))
-	{
-		$page_name = "Statistiken";
 	}elseif ($page=="medienpool")
 	{
 		$dl = true;
