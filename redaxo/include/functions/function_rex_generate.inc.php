@@ -289,7 +289,7 @@ function rex_generateLists($re_id,$refresh=0)
 		// --------------------------------------- CAT LIST
 		
 		$GC = new sql;
-		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang and startpage=1 order by prior,name");
+		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang and startpage=1 order by catprior,name");
 		$content = "<?php\n";
 		for ($i=0;$i<$GC->getRows();$i++)
 		{

@@ -158,7 +158,7 @@ class article
                         {
                                 // ---------- select alle slices eines artikels
                                 
-                                $sql = "select rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.bausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
+                                $sql = "select rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
 										from
 											rex_article_slice
 										left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
