@@ -66,7 +66,7 @@ if ($function == "edit_category" && $edit_id != "")
 	$EKAT->setTable("rex_article");
 	$EKAT->where("id='$edit_id' and startpage=1 and clang=$clang");
 	$EKAT->setValue("catname","$kat_name");
-	$EKAT->setValue("prior","$Position_Category");	
+	$EKAT->setValue("catprior","$Position_Category");
 	$EKAT->setValue("updatedate",time());
 	$EKAT->setValue("updateuser",$REX_USER->getValue("login"));
 	$EKAT->update();
@@ -153,6 +153,7 @@ if ($function == "edit_category" && $edit_id != "")
 		$AART->setValue("template_id",$template_id);
 		$AART->setValue("name","$category_name");
 		$AART->setValue("catname","$category_name");
+		$AART->setValue("catprior",$Position_New_Category);
 		$AART->setValue("re_id",$category_id);
 		$AART->setValue("prior",1);
 		$AART->setValue("path",$KATPATH);
@@ -300,7 +301,7 @@ if ($function == "add_cat")
 // --------------------- KATEGORIE LIST
 
 $KAT = new sql;
-$KAT->setQuery("select * from rex_article where re_id='$category_id' and startpage=1 and clang=$clang order by prior");
+$KAT->setQuery("select * from rex_article where re_id='$category_id' and startpage=1 and clang=$clang order by catprior");
 for($i=0;$i<$KAT->getRows();$i++)
 {
 	$i_category_id = $KAT->getValue("id");
@@ -335,7 +336,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 					<input type=hidden name=cid value=".$KAT->getValue("id").">
 					<input type=hidden name=clang value=$clang>
 					<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
-					<td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("prior"))."\" style='width:30px'></td>
+					<td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td>
 					<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
 					<td class=dgrey>$kat_status</td></form>
 				</tr>";
@@ -353,7 +354,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 			$echo .= "</td>";
 	
 			// $echo .= "<td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")."&clang=$clang style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up&clang=$clang><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>";
-			$echo .= "<td class=grey valign=middle width=20>".htmlentities($KAT->getValue("prior"))."</td>";
+			$echo .= "<td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td>";
 				
 			$echo .= "
 					<td class=grey>$edit_txt</td>
