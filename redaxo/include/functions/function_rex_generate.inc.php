@@ -550,49 +550,6 @@ function rex_copyCategory($which,$to_cat)
 
 
 
-
-// ----------------------------------------- URL
-
-function rex_getUrl($id,$clang = "",$params = null) {
-	
-	/*
-	 * Object Helper Function:
-	 * Returns a url for linking to this article
-	 * This url respects the setting for mod_rewrite
-	 * support!
-	 *
-	 * If you pass an associative array for $params,
-	 * then these parameters will be attached to the URL.
-	 * e.g.:
-	 *   $param = array("order" => "123", "name" => "horst");
-	 *   $article->getUrl($param);
-	 * will return:
-	 *   index.php?article_id=1&order=123&name=horst
-	 * or if mod_rewrite support is activated:
-	 *   /1-The_Article_Name?order=123&name=horst
-	 */
-	 
-	global $REX;
-	
-	if ($clang == "") $clang = $REX[CUR_CLANG];
-	
-	$param_string = "";
-	if ($params && sizeof($params) > 0) {
-		$param_string = $REX['MOD_REWRITE'] ? "?" : "&amp;";
-		foreach ($params as $key => $val) {
-			$param_string .= "{$key}={$val}&amp;";
-		}
-	}
-	$param_string = substr($param_string,0,strlen($param_string)-5); // cut off the last '&'
-	$url = $REX['MOD_REWRITE'] ? "/$id-$clang-{$mr_name}"
-	                           : "index.php?article_id=$id&clang=$clang";
-	return $REX['WWW_PATH']."{$url}{$param_string}";
-}
-
-
-
-
-
 // ----------------------------------------- FILE
 
 function rex_deleteDir($file,$what = 1)
