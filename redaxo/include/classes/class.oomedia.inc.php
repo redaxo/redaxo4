@@ -50,8 +50,12 @@ class OOMedia
 	/**
 	 * @access protected
 	 */
-	function OOMedia($id)
+	function OOMedia( $id = null)
 	{
+        if ( $id === null) {
+            return;
+        }
+        
 		$query = 'SELECT '.$this->_getTableName().'.*,'.OOMediaCategory :: _getTableName().'.name catname  FROM '.OOMedia :: _getTableJoin().' WHERE file_id = '.$id;
 		$sql = new sql();
 		//        $sql->debugsql = true;
