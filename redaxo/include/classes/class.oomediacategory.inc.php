@@ -31,7 +31,11 @@ class OOMediaCategory {
      /**
      * @access protected
      */
-    function OOMediaCategory( $id) {
+    function OOMediaCategory( $id = null) {
+        if ( $id === null) { 
+            return;
+        }
+        
         $query = 'SELECT * FROM '. OOMediaCategory::_getTableName() .' WHERE id = '. $id;
         
         $sql = new sql();
@@ -177,7 +181,7 @@ class OOMediaCategory {
      * @access public
      */
     function getParent() {
-        return OOMediaCateogry::getCategoryById( $this->getParentId());
+        return OOMediaCategory::getCategoryById( $this->getParentId());
     }
     
     /**
@@ -280,14 +284,14 @@ class OOMediaCategory {
      */
     function _getSQLSetString() {
         $set = ' SET'.
-               '  re_id = '. $this->getParentId() .
-               ', name = "'. $this->getName() .'"'.
-               ', path = "'. $this->getPath() .'"'.
-               ', hide = '. $this->isHidden() .
-               ', updatedate = '. $this->getUpdateDate() .
-               ', createdate = '. $this->getCreateDate() .
-               ', updateuser = "'. $this->getUpdateUser() .'"'.
-               ', createuser = "'. $this->getCreateUser() .'"';
+               '  re_id = "'. sql::escape( $this->getParentId()) .'"'.
+               ', name = "'. sql::escape( $this->getName()) .'"'.
+               ', path = "'. sql::escape( $this->getPath()) .'"'.
+               ', hide = "'. sql::escape( $this->isHidden()) .'"'.
+               ', updatedate = "'. sql::escape( $this->getUpdateDate()) .'"'.
+               ', createdate = "'. sql::escape( $this->getCreateDate()) .'"'.
+               ', updateuser = "'. sql::escape( $this->getUpdateUser()) .'"'.
+               ', createuser = "'. sql::escape( $this->getCreateUser()) .'"';
                
         return $set;
     }
@@ -301,7 +305,9 @@ class OOMediaCategory {
         $qry .= $this->_getSQLSetString();
         
         $sql = new sql();
-        $sql->debugsql = true;
+//        $sql->debugsql = true;
+//        echo $qry;
+//        return;
         $sql->query( $qry);
         
         return $sql->getError();
@@ -314,10 +320,12 @@ class OOMediaCategory {
     function _update() {
         $qry = 'UPDATE '. $this->_getTableName();
         $qry .= $this->_getSQLSetString();
-        $qry .= ' LIMIT 1';
+        $qry .= ' WHERE id = "'. $this->getId() .'" LIMIT 1';
         
         $sql = new sql();
-        $sql->debugsql = true;
+//        $sql->debugsql = true;
+//        echo $qry;
+//        return;
         $sql->query( $qry);
         
         return $sql->getError();
@@ -331,7 +339,7 @@ class OOMediaCategory {
         if ( $this->getId() !== null ) {
             return $this->_update();
         } else {
-            return $this->insert();
+            return $this->_insert();
         }
     }
     

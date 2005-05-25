@@ -553,7 +553,22 @@ class OOMedia
 	 */
 	function _getSQLSetString()
 	{
-		$set = ' SET'.'  re_file_id = '.$this->getParentId().', category_id = '.$this->getCategoryId().', filetype = "'.$this->getType().'"'.', filename = "'.$this->getFileName().'"'.', originalname = "'.$this->getOrgFileName().'"'.', filesize = "'.$this->getSize().'"'.', width = '.$this->getWidth().', height = '.$this->getHeight().', title = "'.$this->getTitle().'"'.', description = "'.$this->getDescription().'"'.', copyright = "'.$this->getCopyright().'"'.', updatedate = '.$this->getUpdateDate().', createdate = '.$this->getCreateDate().', updateuser = "'.$this->getUpdateUser().'"'.', createuser = "'.$this->getCreateUser().'"';
+		$set = ' SET'
+              .'  re_file_id = "'. sql::escape( $this->getParentId()) .'"'
+              .', category_id = "'. sql::escape( $this->getCategoryId()) .'"'
+              .', filetype = "'. sql::escape( $this->getType()).'"'
+              .', filename = "'. sql::escape( $this->getFileName()).'"'
+              .', originalname = "'. sql::escape( $this->getOrgFileName()).'"'
+              .', filesize = "'. sql::escape( $this->getSize()).'"'
+              .', width = "'. sql::escape( $this->getWidth()) .'"'
+              .', height = "'. sql::escape( $this->getHeight()) .'"'
+              .', title = "'. sql::escape( $this->getTitle()).'"'
+              .', description = "'. sql::escape( $this->getDescription()).'"'
+              .', copyright = "'. sql::escape( $this->getCopyright()).'"'
+              .', updatedate = "'. sql::escape( $this->getUpdateDate()) .'"'
+              .', createdate = "'. sql::escape( $this->getCreateDate()) .'"'
+              .', updateuser = "'. sql::escape( $this->getUpdateUser()).'"'
+              .', createuser = "'. sql::escape( $this->getCreateUser()).'"';
 
 		return $set;
 	}
@@ -582,7 +597,7 @@ class OOMedia
 	{
 		$qry = 'UPDATE '.$this->_getTableName();
 		$qry .= $this->_getSQLSetString();
-		$qry .= ' LIMIT 1';
+		$qry .= ' WHERE file_id = "'. $this->getId() .'" LIMIT 1';
 
 		//        $sql = new sql();
 		$sql->debugsql = true;
