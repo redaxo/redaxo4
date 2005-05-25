@@ -337,7 +337,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 					<input type=hidden name=clang value=$clang>
 					<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
 					<td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td>
-					<td class=dgrey><input type=submit name=function value='edit_category'><input type=submit name=function value=delete_category></td>
+					<td class=dgrey><input type=submit name=function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=function value='". $I18N->msg( 'delete_category') ."'></td>
 					<td class=dgrey>$kat_status</td></form>
 				</tr>";
 		}else
