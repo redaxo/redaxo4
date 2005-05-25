@@ -204,6 +204,10 @@ class sql
 		$this->error = @mysql_error($this->result);
 		if ( $this->debugsql ) echo $sql."<br>";
 	}
+    
+    function escape( $string) {
+        return mysql_escape_string( $string);
+    }
 
 	function next()
 	{
