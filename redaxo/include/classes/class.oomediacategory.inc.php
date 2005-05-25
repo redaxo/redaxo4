@@ -280,6 +280,20 @@ class OOMediaCategory {
     }
     
     /**
+     * @access public
+     */
+    function hasChildren() {
+        return count( $this->getChildren()) > 0;
+    }
+    
+    /**
+     * @access public
+     */
+    function hasFiles() {
+        return count( $this->getFiles()) > 0;
+    }
+    
+    /**
      * @access protected
      */
     function _getSQLSetString() {
@@ -347,10 +361,32 @@ class OOMediaCategory {
      * @access protected
      * @return Returns <code>true</code> on success or <code>false</code> on error
      */
-    function _delete() {
+    function _delete( $recurse = false) {
+        // Rekursiv löschen?
+        if ( $recurse) {
+            if ( $this->hasChildren()) {
+                $childs = $this->getChildren();
+                
+                foreach ( $childs as $child) {
+                    $child->_delete( $recurse);
+                }
+            }
+        }
+        
+        // Alle Dateien löschen
+        if ( $this->hasFiles()) {
+            $files = $this->getFiles();
+            
+            foreach ( $files as $file) {
+                $file->_delete();
+            }
+        }
+        
         $qry = 'DELETE FROM '. $this->_getTableName() . ' WHERE id = '. $this->getId() . ' LIMIT 1';
         $sql = new sql();
-        $sql->debugsql = true;
+//        $sql->debugsql = true;
+//        echo $qry;
+//        return;
         $sql->query( $qry);
         return $sql->getError();
     }
