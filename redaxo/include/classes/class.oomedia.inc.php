@@ -402,7 +402,7 @@ class OOMedia
 			$attrs .= ' '.$attrName.'="'.$attrValue.'"';
 		}
 
-		return '<img src="'.$icon.'"'.$attrs.'>';
+		return '<img src="'.$icon.'"'.$attrs.' style="width: 44px; height: 38px">';
 	}
 
 	/**
