@@ -269,6 +269,13 @@ class OOMediaCategory {
     }
     
     /**
+     * @access public
+     */
+    function hasParent() {
+        return $this->getParentId() != 0;
+    }
+    
+    /**
      * @access protected
      */
     function _getSQLSetString() {
