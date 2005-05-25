@@ -138,7 +138,11 @@ class select{
     
     function out_option( $name, $value, $level = 0) {
         $style = ' style="padding-left:'. ( $level * 9 + 1) .'px;"';
-        $selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
+        
+        if ( $this->option_selected !== null) {
+            $selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
+        }
+        
         $ausgabe .= '    <option value="'. $value .'"'. $style . $selected .'>'. $name .'</option>'. "\n";
         return $ausgabe;
     }
