@@ -251,6 +251,8 @@ update_button = &Auml;ndern
 delete_button = L&ouml;schen
 
 # redaxo\include\pages\medienpool.inc.php
+
+# ALTE
 pool_kats = Kategorien
 pool_kats_no = Keine Kategorie
 pool_search = suchen
@@ -309,6 +311,31 @@ pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
 pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
 
 cache_remove = Cache löschen
+
+# NEUE
+pool_name = Medienpool
+pool_error = Fehler:
+pool_status = Status:
+
+pool_file_list = Medien
+pool_file_upload = Medium hinzufügen
+pool_file_search = Suchen
+
+pool_default_cat = Startkategorie
+
+pool_media_title = Titel
+pool_media_category = Kategorie
+pool_media_description = Beschreibung
+pool_media_copyright = Urheberrecht / Copyright
+pool_media_location = Datei
+
+pool_upload_file = Datei hinzufügen
+pool_upload_archive = Archiv hinzufügen
+pool_upload_button = Hinzufügen
+
+pool_valid_archives = Unterstützte Formate
+pool_media_uploaded = Datei erfolgreich hinzugefügt!
+pool_archive_uploaded = Archiv erfolgreich hinzugefügt!
 
 # redaxo/include/pages
 

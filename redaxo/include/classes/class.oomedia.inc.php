@@ -265,22 +265,38 @@ class OOMedia
 	{
 		return $this->_updateuser;
 	}
+    
+    /**
+     * Formats a datestamp with the given format.
+     * 
+     * If format is <code>null</code> the datestamp is returned.
+     *  
+     * If format is <code>''</code> the datestamp is formated 
+     * with the default <code>dateformat</code> (lang-files). 
+     * 
+     * @access public
+     * @static
+     */
+    function _getDate( $date, $format = '') {
+        if ($format !== null)
+        {
+            if ($format == '')
+            {
+                global $I18N;
+                $format = $I18N->msg('dateformat');
+            }
+            return date($format, $date);
+        }
+        return $date;
+    }
 
 	/**
 	 * @access public
+     * @see #_getDate
 	 */
 	function getUpdateDate($format = '')
 	{
-		global $I18N;
-		if ($format !== null)
-		{
-			if ($format == '')
-			{
-				$format = $I18N->msg('dateformat');
-			}
-			return date($format, $this->_updatedate);
-		}
-		return $this->_updatedate;
+        return $this->_getDate( $this->updatedate, $format);
 	}
 
 	/**
@@ -293,14 +309,11 @@ class OOMedia
 
 	/**
 	 * @access public
+     * @see #_getDate
 	 */
-	function getCreateDate($format = null)
+	function getCreateDate($format = '')
 	{
-		if ($format !== null)
-		{
-			return date($format, $this->_createdate);
-		}
-		return $this->_createdate;
+        return $this->_getDate( $this->_createdate, $format);
 	}
 
 	/**
@@ -423,15 +436,24 @@ class OOMedia
 	 */
 	function isImage()
 	{
-		static $imageExtensions;
-
-		if (!isset ($imageExtensions))
-		{
-			$imageExtensions = array ('gif', 'jpeg', 'jpg', 'png', 'bmp');
-		}
-		return in_array($this->getExtension(), $imageExtensions);
+        return $this->_isImage( $this->getExtension());
 	}
 
+    /**
+     * @access public
+     * @static
+     */
+    function _isImage( $filename)
+    {
+        static $imageExtensions;
+
+        if (!isset ($imageExtensions))
+        {
+            $imageExtensions = array ('gif', 'jpeg', 'jpg', 'png', 'bmp');
+        }
+        
+        return in_array(OOMedia::_getExtension( $filename), $imageExtensions);
+    }
 	/**
 	 * @access public
 	 */
@@ -475,13 +497,22 @@ class OOMedia
 
 	// new functions by vscope
 	/**
-	 * @access protected
+     * @access public
 	 */
 	function getExtension()
 	{
-		return substr(strrchr($this->_name, "."), 1);
+		return $this->_getExtension( $this->_name);
 	}
 
+    /**
+     * @access public
+     * @static
+     */
+    function _getExtension( $filename)
+    {
+        return substr(strrchr($filename, "."), 1);
+    }
+    
 	/**
 	 * @access public
 	 */
@@ -569,8 +600,8 @@ class OOMedia
               .', title = "'. sql::escape( $this->getTitle()).'"'
               .', description = "'. sql::escape( $this->getDescription()).'"'
               .', copyright = "'. sql::escape( $this->getCopyright()).'"'
-              .', updatedate = "'. sql::escape( $this->getUpdateDate()) .'"'
-              .', createdate = "'. sql::escape( $this->getCreateDate()) .'"'
+              .', updatedate = "'. sql::escape( $this->getUpdateDate( null)) .'"'
+              .', createdate = "'. sql::escape( $this->getCreateDate( null)) .'"'
               .', updateuser = "'. sql::escape( $this->getUpdateUser()).'"'
               .', createuser = "'. sql::escape( $this->getCreateUser()).'"';
 
@@ -586,8 +617,11 @@ class OOMedia
 		$qry = 'INSERT INTO '.$this->_getTableName();
 		$qry .= $this->_getSQLSetString();
 
+//        echo $qry;
+//        return;
+        
 		$sql = new sql();
-		//        $sql->debugsql = true;
+//		$sql->debugsql = true;
 		$sql->query($qry);
 
 		return $sql->getError();
@@ -603,8 +637,11 @@ class OOMedia
 		$qry .= $this->_getSQLSetString();
 		$qry .= ' WHERE file_id = "'. $this->getId() .'" LIMIT 1';
 
-		//        $sql = new sql();
-		$sql->debugsql = true;
+//        echo $qry;
+//        return;
+        
+        $sql = new sql();
+//		$sql->debugsql = true;
 		$sql->query($qry);
 
 		return $sql->getError();
@@ -622,7 +659,7 @@ class OOMedia
 		}
 		else
 		{
-			return $this->insert();
+			return $this->_insert();
 		}
 	}
 
