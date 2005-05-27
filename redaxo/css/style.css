@@ -1,4 +1,4 @@
-body,p,td,th,a,input,select,optgroup,potion,textarea { font-family: Verdana, Arial, sans-serif; color: #32353a; font-size: 10px; }
+body,p,td,th,a,input,select,optgroup,option,textarea { font-family: Verdana, Arial, sans-serif; color: #32353a; font-size: 10px; }
 
 th		{ background-color: #d7d6d3; }
 a		{ color: #f2353a; text-decoration: none; }
