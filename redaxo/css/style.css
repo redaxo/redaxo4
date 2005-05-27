@@ -129,6 +129,16 @@ table.rex tr td {
    background-color: #f0efeb;
 }
 
+table.rex tr.warning td {
+   color: #ea1144; 
+   background-color: #fae9e5;
+}
+
+table.rex tr.status td {
+   color: #107c2c; 
+   background-color: #d2efd9;
+}
+
 table.rex tr.selected td {
    background-color: #eae9e5;
 }
