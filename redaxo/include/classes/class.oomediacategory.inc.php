@@ -90,9 +90,11 @@ class OOMediaCategory {
         $result = $sql->get_array();
         
         $rootCats = array();
-        foreach ( $result as $row) {
-            $id = $row['id'];
-            $rootCats[] = OOMediaCategory::getCategoryById($id);
+        if ( is_array( $result)) {
+            foreach ( $result as $row) {
+                $id = $row['id'];
+                $rootCats[] = OOMediaCategory::getCategoryById($id);
+            }
         }
         
         return $rootCats;
