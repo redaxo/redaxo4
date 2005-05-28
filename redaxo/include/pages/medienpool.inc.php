@@ -9,7 +9,6 @@
 rexPool::handlePosts();
 
 rexPool::_header();
-
 switch ( rexPoolParam::action()) {
     case 'cat_details'   : rexPool::catDetails();   break;
     case 'media_details' : rexPool::mediaDetails(); break;
@@ -36,7 +35,8 @@ class rexPool {
         
         // Liste der anzuzeigenden Kategorien
         $catId = rexPoolParam::catId();
-        if( $catId != 0) {
+        
+        if( $catId !== '') {
             $currentCat = OOMediaCategory::getCategoryById( $catId);
             $catList = $currentCat->getChildren(); 
         } else {
@@ -99,18 +99,15 @@ class rexPool {
             return;
         }
         
-        $action = rexPoolParam::action();
-        
         // Kategorie anlegen/speichern
-        if (isset( $_POST['saveCatButton']))
+        if ( isset( $_POST['saveCatButton']))
         {
-            var_dump('jo');
             // Id der Kategorie in der sich die zu editieren de Kategorie befindet (ParentId)
             $catId = rexPoolParam::catId();
             // Id der zu editierenden Kategorie
             $catModId = rexPoolParam::catModId();
             
-            if( $catModId != 0) {
+            if( $catModId !== '') {
                 $cat = OOMediaCategory::getCategoryById( $catModId);
             } else {
                 $cat = new OOMediaCategory();
@@ -129,6 +126,7 @@ class rexPool {
             $cat->_updatedate = time();
             $cat->_updateuser = $REX_USER->getValue('login');
             $cat->_name = $_POST['catName'];
+            
             $cat->_save();
             
             // Speicher freigeben
@@ -145,7 +143,6 @@ class rexPool {
             
             // Speicher freigeben
             unset( $cat);
-        // Media Upload
         }
     }
     
@@ -520,24 +517,24 @@ class rexPool {
 
 
 class rexPoolParam {
-    function catId( $default = 0) {
-        return isset( $_REQUEST['cat_id']) ? (int) $_REQUEST['cat_id'] : $default;
+    function catId( $default = '') {
+        return !empty( $_REQUEST['cat_id']) ? (int) $_REQUEST['cat_id'] : $default;
     }
     
-    function catModId( $default = 0) {
-        return isset( $_REQUEST['cat_modid']) ? (int) $_REQUEST['cat_modid'] : $default;
+    function catModId( $default = '') {
+        return !empty( $_REQUEST['cat_modid']) ? (int) $_REQUEST['cat_modid'] : $default;
     }
     
-    function mediaId( $default = 0) {
-        return isset( $_REQUEST['media_id']) ? (int) $_REQUEST['media_id'] : $default;
+    function mediaId( $default = '') {
+        return !empty( $_REQUEST['media_id']) ? (int) $_REQUEST['media_id'] : $default;
     }
     
     function action( $default = '') {
-        return isset( $_REQUEST['action']) ? $_REQUEST['action'] : $default;
+        return !empty( $_REQUEST['action']) ? $_REQUEST['action'] : $default;
     }
     
     function mode( $default = '') {
-        return isset( $_REQUEST['mode']) ? $_REQUEST['mode'] : $default;
+        return !empty( $_REQUEST['mode']) ? $_REQUEST['mode'] : $default;
     }
     
     function miss( $paramName) {
@@ -651,7 +648,7 @@ class rexMediaCategory {
         $cat = null;
         $catId = rexPoolParam::catId();
         
-        if ( $catId !== 0) {
+        if ( $catId !== '') {
             $cat = OOMediaCategory::getCategoryById( $catId);
         }
         
@@ -688,7 +685,7 @@ class rexMediaCategory {
             }
             $catId = $cat->getParentId();
         } else {
-            $catId = 0;
+            $catId = '';
         }
         
         $formatCategoryParent = ' 
@@ -754,8 +751,11 @@ class rexMediaCategory {
         $s = "\n".
              '       <table class="rex" cellpadding="5" cellspacing="1">
              '. rexMediaCategory::_formatColGroup()
-              . rexMediaCategory::_formatHeader()
-              . rexMediaCategory::_formatParent( $catList);
+              . rexMediaCategory::_formatHeader();
+              
+        if ( rexPoolParam::catId() !== '') {
+            $s .= rexMediaCategory::_formatParent( $catList);;
+        }
               
         $action = rexPoolParam::action();
         
@@ -785,12 +785,12 @@ class rexMediaCategory {
         return $s;
     }
     
-    function formatForm( $catId = 0) {
+    function formatForm( $catId = '') {
         $cat = null;
         $catName = '';
         
         // ggf. defaultwerte für Kategorie laden
-        if ( $catId !== 0 ) {
+        if ( $catId !== '' ) {
             $cat = OOMediaCategory::getCategoryById( $catId);
             $catName = $cat->getName();
         }
@@ -1014,7 +1014,7 @@ class rexMedia {
         
         $cat = null;
         $catId = rexPoolParam::catId();
-        if ( $catId !== 0) { 
+        if ( $catId !== '') { 
             $cat = OOMediaCategory::getCategoryById( $catId);
         }
         
@@ -1155,100 +1155,6 @@ function media_resize($FILE,$width,$height,$make_copy=false){
     {
         return false;
     }
-}
-
-function media_savefile($FILE,$rex_file_category,$FILEINFOS){
-    
-    global $REX_USER, $REX;
-    
-    $FILENAME = $FILE[name];
-    $FILESIZE = $FILE[size];
-    $FILETYPE = $FILE[type];
-    $NFILENAME = "";
-    
-    // generiere neuen dateinamen
-    for ($cn=0;$cn<strlen($FILENAME);$cn++)
-    {
-        $char = substr($FILENAME,$cn,1);
-        if ( preg_match("([_A-Za-z0-9\.-])",$char) ) $NFILENAME .= strtolower($char);
-        else if ($char == " ") $NFILENAME .= "_";
-    }
-    
-    
-    if (strrpos($NFILENAME,".") != "")
-    {
-        $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
-        $NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
-    }else
-    {
-        $NFILE_NAME = $NFILENAME;
-        $NFILE_EXT  = "";
-    }
-    
-    if ( $NFILE_EXT == ".php" || $NFILE_EXT == ".php3" || $NFILE_EXT == ".php4" || $NFILE_EXT == ".php5" || $NFILE_EXT == ".phtml" || $NFILE_EXT == ".pl" || $NFILE_EXT == ".asp"|| $NFILE_EXT == ".aspx"|| $NFILE_EXT == ".cfm" )
-    {
-        $NFILE_EXT .= ".txt";
-    }
-    
-    $NFILENAME = $NFILE_NAME.$NFILE_EXT;
-    
-    if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
-    {
-        // datei schon vorhanden ? wenn ja dann _1
-        for ($cf=0;$cf<1000;$cf++)
-        {
-            $NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
-            if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
-        }
-    }
-    
-    if(!move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
-    {
-        if (!copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
-        {
-            $message .= "move file $FILENAME failed | ";
-            $ok = 0;
-            $nocopy = true;
-        }
-    }
-    
-    if(!$nocopy)
-    {
-    
-        if ($REX[MEDIAFOLDERPERM] == "") $REX[MEDIAFOLDERPERM] = "0777";
-        chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
-        
-        // get widht height
-        $size = @getimagesize($REX[MEDIAFOLDER]."/$NFILENAME");
-        
-        $FILESQL = new sql;
-        //$FILESQL->debugsql=1;
-        $FILESQL->setTable("rex_file");
-        $FILESQL->setValue("filetype",$FILETYPE);
-        $FILESQL->setValue("title",$FILEINFOS[title]);
-        $FILESQL->setValue("description",$FILEINFOS[description]);
-        $FILESQL->setValue("copyright",$FILEINFOS[copyright]);
-        $FILESQL->setValue("filename",$NFILENAME);
-        $FILESQL->setValue("originalname",$FILENAME);
-        $FILESQL->setValue("filesize",$FILESIZE);
-        $FILESQL->setValue("width",$size[0]);
-        $FILESQL->setValue("height",$size[1]);
-        $FILESQL->setValue("category_id",$rex_file_category);
-        $FILESQL->setValue("stamp",time());
-        $FILESQL->setValue("createdate",time());
-        $FILESQL->setValue("createuser",$REX_USER->getValue("login"));
-        $FILESQL->setValue("updatedate",time());
-        $FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
-        $FILESQL->insert();
-        
-        $ok = 1;
-    }
-    
-    $RETURN[msg] = $message;
-    $RETURN[ok] = $ok;
-    $RETURN[filename] = $NFILENAME;
-    
-    return $RETURN;
 }
 
 function getfilesize($size) {
