@@ -24,7 +24,9 @@
 // Evtl. Formular Posts verarbeiten
 rexPool::handlePosts();
 
+// Ausgabe des Seitenkopfes
 rexPool::_header();
+
 switch ( rexPoolParam::action()) {
     case 'cat_details'   : rexPool::catDetails();   break;
     case 'media_details' : rexPool::mediaDetails(); break;
@@ -33,13 +35,13 @@ switch ( rexPoolParam::action()) {
     default              : rexPool::mediaList();
 }
 
+// Ausgabe des Seitenfuﬂes
 rexPool::_footer();
 
 /**
  * Main-Class
  * All Methods are static!
  */
- 
 class rexPool {
     
     function rexPool() {
@@ -533,9 +535,13 @@ class rexPool {
 
 /**
  * Class which provides getter functions for all needed pool-parameters
+ * All Methods are static!
  */
-
 class rexPoolParam {
+    function rexPoolParam() {
+        die( 'class-instantiation not allowed for class "' .__CLASS__ .'"');
+    }
+    
     function catId( $default = '') {
         return !empty( $_REQUEST['cat_id']) ? (int) $_REQUEST['cat_id'] : $default;
     }
@@ -576,9 +582,13 @@ class rexPoolParam {
 
 /**
  * Class which provides all functions for permission purposes
+ * All Methods are static!
  */
- 
 class rexPoolPerm {
+    function rexPoolPerm() {
+        die( 'class-instantiation not allowed for class "' .__CLASS__ .'"');
+    }
+    
     function hasPerm( $perm) {
 //        var_dump( $perm);
         global $REX_USER;
