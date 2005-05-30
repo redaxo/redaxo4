@@ -333,7 +333,7 @@ class OOMedia
 		// Ist das Media ein Bild?        
 		if (!$this->isImage())
 		{
-			$path = 'pics/';
+			$path .= 'pics/';
 			$file = 'file_dummy.gif';
 		}
 		else
@@ -436,7 +436,7 @@ class OOMedia
 	 */
 	function isImage()
 	{
-        return $this->_isImage( $this->getExtension());
+        return $this->_isImage( $this->getFileName());
 	}
 
     /**
