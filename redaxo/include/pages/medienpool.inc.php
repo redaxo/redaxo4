@@ -1,5 +1,21 @@
 <?
 
+// TODO
+
+// Alle Funktionen fuer medienpool nur hier einbauen
+
+// permissions einbauen über
+// nur user mit $REX_USER->isValueOf("rights","admin[]"); koennen die ordnerverwaltung starten
+// sofern zugriff auf eine categorie dann auch zugriff auf die unterkategorien
+// keine speziellen filezugriffseinschraenkungen
+
+// wegen der files in ordner verschieben oder loeschen geschichte wuerde ich gerne
+// alles über "echte" submit buttons abschicken lassen und auch die markierten reihen sollten
+// "eingefärbt" werden
+
+// verschieben funktionen mit $REX_USER->isValueOf("rights","advancedMode[]");  schuetzen
+
+
 /**
  * Redaxo - Mediapool v3
  * @author Markus Staab http://www.public-4u.de
@@ -515,6 +531,9 @@ class rexPool {
     }
 } 
 
+/**
+ * Class which provides getter functions for all needed pool-parameters
+ */
 
 class rexPoolParam {
     function catId( $default = '') {
@@ -555,6 +574,10 @@ class rexPoolParam {
 // user mit media_delete[10] darf in kat 10 löschen
 // user mit media_get[10] darf in kat 10 jedes bild selektieren
 
+/**
+ * Class which provides all functions for permission purposes
+ */
+ 
 class rexPoolPerm {
     function hasPerm( $perm) {
 //        var_dump( $perm);
@@ -1131,6 +1154,43 @@ class rexMedia {
 
 
 /**
+ * HTML-Selectbox which shows all categories
+ */
+class rexMediaCatSelect extends select {
+    function rexMediaCatSelect( $cat = null) {
+        $selectCats = null;
+        if ( is_int( $cat)) {
+            $selectCats = array( OOMediaCategory::getCategoryById( $cat));
+        } else if ( OOMediaCategory::isValid( $cat)) {
+            $selectCats = array( $cat);
+        } else {
+            $selectCats = OOMediaCategory::getRootCategories();
+        }
+        
+        foreach ( $selectCats as $selectCat) {
+            $this->add_cat_option( $selectCat);
+        }
+    }
+    
+    function add_cat_option( &$cat, $groupName = '') {
+        if( empty( $cat)) {
+            return;
+        }
+        
+        $this->add_option($cat->getName(), $cat->getId(), $groupName);
+        
+        if ( $cat->hasChildren()) {
+            $childs = $cat->getChildren();
+      
+            foreach ( $childs as $child) {
+                $this->add_cat_option( $child, $cat->getName());
+            }
+        }
+    }
+}
+
+/**
+ * Not in use!
  * mediapool-v2-functions
  * @author vscope
  */
@@ -1183,77 +1243,6 @@ function getfilesize($size) {
    else {
        return round($size/$tb,2)." TBytes";
    }
-}
-
-// TODO
-
-// Alle Funktionen fuer medienpool nur hier einbauen
-
-// permissions einbauen über
-// $REX_USER->isValueOf("rights","catmedia[2]"); und je nach categorie
-// $REX_USER->isValueOf("rights","admin[]");
-// nur user mit $REX_USER->isValueOf("rights","admin[]"); koennen die ordnerverwaltung starten
-// sofern zugriff auf eine categorie dann auch zugriff auf die unterkategorien
-// keine speziellen filezugriffseinschraenkungen
-// mitspeichern von username $REX_USER->getValue("name") und utimestamp -> siehe datenbank
-// sprache beachten -> categorien mit gleichen ids aber unterschiedlichen clang
-
-// wegen der files in ordner verschieben oder loeschen geschichte wuerde ich gerne
-// alles über "echte" submit buttons abschicken lassen und auch die markierten reihen sollten
-// "eingefärbt" werden
-
-// verschieben funktionen mit $REX_USER->isValueOf("rights","advancedMode[]");  schuetzen
-
-
-
-
-// ----- USER RECHTE FEHLEN NOCH
-// Jeder User darf seine eigenen Bilder editieren und austauschen
-
-// user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
-// user mit media[10] kann in kat 10 alles
-
-// user mit media_add[all] darf adden
-// user mit media_edit[all] darf editieren
-// user mit media_delete[all] darf löschen
-// user mit media_get[all] darf jedes bild selektieren
-
-// user mit media_add[10] darf in kat 10 adden
-// user mit media_edit[10] darf in kat 10 editieren
-// user mit media_delete[10] darf in kat 10 löschen
-// user mit media_get[10] darf in kat 10 jedes bild selektieren
-
-class rexMediaCatSelect extends select {
-    function rexMediaCatSelect( $cat = null) {
-        $selectCats = null;
-        if ( is_int( $cat)) {
-            $selectCats = array( OOMediaCategory::getCategoryById( $cat));
-        } else if ( OOMediaCategory::isValid( $cat)) {
-            $selectCats = array( $cat);
-        } else {
-            $selectCats = OOMediaCategory::getRootCategories();
-        }
-        
-        foreach ( $selectCats as $selectCat) {
-            $this->add_cat_option( $selectCat);
-        }
-    }
-    
-    function add_cat_option( &$cat, $groupName = '') {
-        if( empty( $cat)) {
-            return;
-        }
-        
-        $this->add_option($cat->getName(), $cat->getId(), $groupName);
-        
-        if ( $cat->hasChildren()) {
-            $childs = $cat->getChildren();
-      
-            foreach ( $childs as $child) {
-                $this->add_cat_option( $child, $cat->getName());
-            }
-        }
-    }
 }
 
 ?>
