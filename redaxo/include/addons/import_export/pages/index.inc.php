@@ -359,7 +359,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     
     foreach( $folder as $file) 
     {
-        $filec = date( "d.m.Y H:i", filectime( $dir .'/'.$file));
+        $filec = date( "d.m.Y H:i", filemtime( $dir .'/'.$file));
         echo "<tr>
         <td class=lgrey>$file</td>
         <td class=lgrey>$filec</td>
@@ -391,7 +391,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     
     foreach( $folder as $file)
     {
-        $filec = date( "d.m.Y H:i", filectime( $dir .'/'.$file));
+        $filec = date( "d.m.Y H:i", filemtime( $dir .'/'.$file));
         echo "<tr>
         <td class=lgrey>$file</td>
         <td class=lgrey>$filec</td>
