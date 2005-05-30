@@ -258,6 +258,44 @@ class OOMedia
 		return $this->_size;
 	}
 
+    /**
+     * @access public
+     */
+    function getFormattedSize() {
+        return $this->_getFormattedSize( $this->getSize());
+    }
+    
+    /**
+     * @access protected
+     */
+    function _getFormattedSize( $size) {
+    
+       // Setup some common file size measurements.
+       $kb = 1024;         // Kilobyte
+       $mb = 1024 * $kb;   // Megabyte
+       $gb = 1024 * $mb;   // Gigabyte
+       $tb = 1024 * $gb;   // Terabyte
+       // Get the file size in bytes.
+    
+       // If it's less than a kb we just return the size, otherwise we keep going until
+       // the size is in the appropriate measurement range.
+       if($size < $kb) {
+           return $size." Bytes";
+       }
+       else if($size < $mb) {
+           return round($size/$kb,2)." KBytes";
+       }
+       else if($size < $gb) {
+           return round($size/$mb,2)." MBytes";
+       }
+       else if($size < $tb) {
+           return round($size/$gb,2)." GBytes";
+       }
+       else {
+           return round($size/$tb,2)." TBytes";
+       }
+    }
+
 	/**
 	 * @access public
 	 */
