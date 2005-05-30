@@ -499,6 +499,8 @@ class rexPool {
           <input type="hidden" name="mode" value="<?php echo rexPoolParam::mode() ?>"/>
           <input type="hidden" name="cat_id" value="<?php echo rexPoolParam::catId() ?>"/>
           <input type="hidden" name="cat_modid" value="<?php echo rexPoolParam::catModId() ?>"/>
+          <input type="hidden" name="opener_input_field" value="<?php echo rexPoolParam::editorName() ?>"/>
+          
     <?php
     }
     
@@ -566,6 +568,14 @@ class rexPoolParam {
     function miss( $paramName) {
         global $I18N;
         exit( '<p>'. $I18N->msg('pool_error_miss_param', $paramName) .'</p>');
+    }
+    
+    function editorName( $default = '') {
+        return !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : $default;
+    }
+    
+    function isEditorMode() {
+        return rexPoolParam::editorName() != '';
     }
 }
 
@@ -882,15 +892,19 @@ class rexMedia {
         static $formatMediaColGroup;
         
         if ( !isset( $formatMediaColGroup)) {
-        $formatMediaColGroup = ' 
+            $formatMediaColGroup = ' 
               <colgroup>
                  <col width="50px"/>
                  <col width="30px"/>
                  <col width="90px"/>
                  <col width="130px"/>
-                 <col width="*"/>
-                 <col width="80px"/>
-              </colgroup>'. "\n";
+                 <col width="*"/>';
+                 
+            if ( rexPoolParam::isEditorMode()) {
+                $formatMediaColGroup .= '<col width="80px"/>'. "\n";
+            }
+            
+            $formatMediaColGroup .= '</colgroup>'. "\n";
         }
         
         return $formatMediaColGroup;
@@ -901,15 +915,18 @@ class rexMedia {
         static $formatMediaHeader;
         
         if ( !isset( $formatMediaHeader)) {
-        $formatMediaHeader = ' 
+            $formatMediaHeader = ' 
               <tr>
                  <th>Typ</th>
                  <th><input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/></th>
                  <th>'. $I18N->msg('pool_colhead_preview') .'</th>
                  <th>'. $I18N->msg('pool_colhead_filedetails') .'</th>
-                 <th>'. $I18N->msg('pool_colhead_description') .'</th>
-                 <th>'. $I18N->msg('pool_colhead_functions') .'</th>
-              </tr>'. "\n";
+                 <th>'. $I18N->msg('pool_colhead_description') .'</th>';
+            if ( rexPoolParam::isEditorMode()) {
+                $formatMediaHeader .= '<th>'. $I18N->msg('pool_colhead_functions') .'</th>';
+            }
+                 
+            $formatMediaHeader .= '</tr>'. "\n";
         }
                   
         return $formatMediaHeader;
@@ -944,10 +961,11 @@ class rexMedia {
             $date .= $I18N->msg('pool_colhead_updated') .':<br/>' . $updatedate . '<br/>';
         }
         $date .= $I18N->msg('pool_colhead_created') .':<br/>' . $createdate;
+        
         $s = rexPool::_link( $media->getTitle(), 'action=media_details&media_id='. $media->getId())
              .'<br/><br/>'
              .$media->getFileName() .'<br/>'
-             .getfilesize( $media->getSize()).'<br/><br/>'
+             .$media->getFormattedSize().'<br/><br/>'
              .$date;
         
         return $s;
@@ -977,9 +995,12 @@ class rexMedia {
                  <td><input type="checkbox" name="media_id[]" value="'. $media->getId() .'"/></td>
                  <td>'. rexMedia::_formatPreview( $media) .'</td>
                  <td>'. rexMedia::_formatDetails( $media) .'</td>
-                 <td>'. rexMedia::_formatDescription( $media) .'</td>
-                 <td>'. rexMedia::_formatActions( $media) .'</td>
-              </tr>'. "\n";
+                 <td>'. rexMedia::_formatDescription( $media) .'</td>';
+        if ( rexPoolParam::isEditorMode()) {
+            $s .=  '<td>'. rexMedia::_formatActions( $media) .'</td>';
+        }
+                 
+        $s .= '</tr>'. "\n";
               
         return $s;
     }
@@ -1245,33 +1266,4 @@ function media_resize($FILE,$width,$height,$make_copy=false){
         return false;
     }
 }
-
-function getfilesize($size) {
-
-   // Setup some common file size measurements.
-   $kb = 1024;         // Kilobyte
-   $mb = 1024 * $kb;   // Megabyte
-   $gb = 1024 * $mb;   // Gigabyte
-   $tb = 1024 * $gb;   // Terabyte
-   // Get the file size in bytes.
-
-   // If it's less than a kb we just return the size, otherwise we keep going until
-   // the size is in the appropriate measurement range.
-   if($size < $kb) {
-       return $size." Bytes";
-   }
-   else if($size < $mb) {
-       return round($size/$kb,2)." KBytes";
-   }
-   else if($size < $gb) {
-       return round($size/$mb,2)." MBytes";
-   }
-   else if($size < $tb) {
-       return round($size/$gb,2)." GBytes";
-   }
-   else {
-       return round($size/$tb,2)." TBytes";
-   }
-}
-
 ?>
