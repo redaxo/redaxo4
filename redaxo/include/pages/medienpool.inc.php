@@ -241,7 +241,8 @@ class rexPool {
     }
     
     function _title( $title = '') {
-        title("Mediapool", '&nbsp;&nbsp;&nbsp;'.$title, 'grey', '100%');
+        global $I18N;
+        title($I18N->msg('pool_name'), '&nbsp;&nbsp;&nbsp;'.$title, 'grey', '100%');
     }
     
     function _uploadTitle() {
@@ -302,7 +303,7 @@ class rexPool {
     }
     
     function &_handleUpload( &$file, $register = true) {
-        global $REX, $REX_USER;
+        global $REX, $REX_USER, $I18N;
         
         $newFilename = basename( strtolower( str_replace( ' ', '_', $file['name'])));
         
@@ -330,7 +331,7 @@ class rexPool {
             $fname = substr( $newFilename, 0, strrpos( $newFilename, '.'));
             $extension  = OOMedia::_getExtension( $newFilename);
             
-            $illegals = array( 'php', 'php3', 'php4', 'php5', 'phtml', 'pl', 'asp', 'aspx', 'php3', 'cfm', 'sh');
+            $illegals = array( 'php', 'php3', 'php4', 'php5', 'phtml', 'pl', 'asp', 'aspx', 'cfm', 'sh');
             if ( in_array( $extension, $illegals))
             {
                 $extension .= ".txt";
@@ -350,7 +351,7 @@ class rexPool {
             } 
             else
             {
-                $result['error'] .= 'move file "'. $result['orgname'] .'" failed!<br/>'; 
+                $result['error'] .= $I18N->msg('pool_error_move_failed', $result['orgname']); 
             }
             
             if ( OOMedia::_isImage( $absFile)) {
@@ -362,7 +363,7 @@ class rexPool {
         }
         else
         {
-            $result['error'] .= 'missing file-extension for file "'. $result['orgname'] .'"!<br/>'; 
+            $result['error'] .= $I18N->msg('pool_error_miss_file_ext', $result['orgname']);
         }
         
 //        var_dump( $absFile);
@@ -419,7 +420,7 @@ class rexPool {
     ?>
     <html>
        <head>
-          <title><?php echo $REX[SERVERNAME] .' - '. $I18N->msg('pool_name'); ?></title>
+          <title><?php echo $REX['SERVERNAME'] .' - '. $I18N->msg('pool_name'); ?></title>
           <link rel=stylesheet type=text/css href=css/style.css>
           <script language=Javascript>
           <!--
@@ -478,7 +479,7 @@ class rexPool {
        <table class="rexHeader" style="width: 100%;" cellpadding="5" cellspacing="0">
        
           <tr>
-             <th colspan="3"><?php echo $I18N->msg('pool_media') .' '. $REX[SERVERNAME]; ?></th>
+             <th colspan="3"><?php echo $I18N->msg('pool_media') .' '. $REX['SERVERNAME']; ?></th>
           </tr>
     
           <tr>
@@ -563,7 +564,8 @@ class rexPoolParam {
     }
     
     function miss( $paramName) {
-        exit( '<p>Missing Parameter "'. $paramName .'"</p>');
+        global $I18N;
+        exit( '<p>'. $I18N->msg('pool_error_miss_param', $paramName) .'</p>');
     }
 }
 
@@ -618,6 +620,10 @@ class rexPoolPerm {
     function isOwner( &$cat) {
         global $REX_USER;
         return $REX_USER->isValueOf( 'user_id', $cat->getCreateUser());
+    }
+    
+    function isAdvanced() {
+        return rexPoolPerm::hasPerm( 'advancedMode[]');
     }
     
     function isAdmin() {
@@ -677,6 +683,7 @@ class rexMediaCategory {
     }
     
     function _formatAddLink() {
+        global $I18N;
         $s = '';
         $cat = null;
         $catId = rexPoolParam::catId();
@@ -686,20 +693,21 @@ class rexMediaCategory {
         }
         
         if ( $cat === null || rexPoolPerm::hasAddPerm( $cat)) {
-            $s .=  rexPool::_link( '<img src="pics/folder_plus.gif" style="width: 16px; height:16px">' , 'action=cat_add&cat_id='. $catId);
+            $s .=  rexPool::_link( '<img src="pics/folder_plus.gif" style="width: 16px; height:16px" alt="'. $I18N->msg('pool_add_category') .'">' , 'action=cat_add&cat_id='. $catId);
         }
         
         return $s;
     }
     
     function _formatHeader() {
+        global $I18N;
         $formatCategoryHeader = ' 
               <tr>
                  <th>'. rexMediaCategory::_formatAddLink() .'</th>
                  <th><input type="checkbox" onchange="checkBoxes( \'poolForm\', \'cat_id[]\', this.checked)"/></th>
-                 <th>Category</th>
-                 <th>Details</th>
-                 <th>Edit Category</th>
+                 <th>'. $I18N->msg('pool_colhead_category') .'</th>
+                 <th>'. $I18N->msg('pool_colhead_details') .'</th>
+                 <th>'. $I18N->msg('pool_colhead_edit') .'</th>
               </tr>'. "\n";
         
         return $formatCategoryHeader;
@@ -749,7 +757,7 @@ class rexMediaCategory {
         
         $name = rexPool::_link( $cat->getName(), 'cat_id='. $cat->getId());
         
-        if ( $REX_USER->isValueOf("rights","advancedMode[]")) {
+        if ( rexPoolPerm::isAdvanced()) {
             $name .= ' ['. $cat->getId() .']';
         } 
         
@@ -758,19 +766,23 @@ class rexMediaCategory {
     
     // Call by reference to improve performance
     function _formatActions( &$cat) {
+        global $I18N;
         $catId = $cat->getId();
         
         if ( !rexPoolPerm::hasDelPerm( $cat) && !rexPoolPerm::hasEditPerm( $cat)) {
             return '';
         }
         
-        return rexPool::_link( 'edit / delete category', 'cat_id='. rexPoolParam::catId() .'&cat_modid='. $catId);;
+        
+        return rexPool::_link( $I18N->msg('pool_cat_action'), 'cat_id='. rexPoolParam::catId() .'&cat_modid='. $catId);;
     }
     
     // Call by reference to improve performance
     function _formatDetails( &$cat) {
-        $s = 'Subcategories: '. $cat->countChildren() . ' | '.
-             'Files: '. $cat->countFiles();
+        global $I18N;
+        
+        $s = $I18N->msg('pool_subcats').': '. $cat->countChildren() . '<br/>'.
+             $I18N->msg('pool_files').': '. $cat->countFiles();
         
         return $s;
     }
@@ -885,6 +897,7 @@ class rexMedia {
     }
     
     function _formatHeader() {
+        global $I18N;
         static $formatMediaHeader;
         
         if ( !isset( $formatMediaHeader)) {
@@ -892,10 +905,10 @@ class rexMedia {
               <tr>
                  <th>Typ</th>
                  <th><input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/></th>
-                 <th>Vorschau</th>
-                 <th>Dateiinformationen</th>
-                 <th>Beschreibung</th>
-                 <th>Funktionen</th>
+                 <th>'. $I18N->msg('pool_colhead_preview') .'</th>
+                 <th>'. $I18N->msg('pool_colhead_filedetails') .'</th>
+                 <th>'. $I18N->msg('pool_colhead_description') .'</th>
+                 <th>'. $I18N->msg('pool_colhead_functions') .'</th>
               </tr>'. "\n";
         }
                   
@@ -918,6 +931,8 @@ class rexMedia {
     
     // Call by reference to improve performance
     function _formatDetails( &$media) {
+        global $I18N;
+        
         $s = '';
         $date = '';
         $dateFormat = rexPool::_dateFormat();
@@ -926,9 +941,9 @@ class rexMedia {
         $createdate = $media->getCreateDate( $dateFormat);
         
         if ( $updatedate != $createdate) {
-            $date .= 'Updated:<br/>' . $updatedate . '<br/>';
+            $date .= $I18N->msg('pool_colhead_updated') .':<br/>' . $updatedate . '<br/>';
         }
-        $date .= 'Created:<br/>' . $createdate;
+        $date .= $I18N->msg('pool_colhead_created') .':<br/>' . $createdate;
         $s = rexPool::_link( $media->getTitle(), 'action=media_details&media_id='. $media->getId())
              .'<br/><br/>'
              .$media->getFileName() .'<br/>'
@@ -971,6 +986,8 @@ class rexMedia {
     
     // Call by reference to improve performance
     function formatDetailed( &$media) {
+        global $I18N;
+        
         $isImage = $media->isImage();
         $dateFormat = rexPool::_dateFormat();
         $rowspan = 7;
@@ -982,57 +999,57 @@ class rexMedia {
         
         $s = '
               <tr>
-                 <th colspan="3">Information</th>
+                 <th colspan="3">'. $I18N->msg('pool_headline_mediadetails') .'</th>
               </tr>
 
               <tr>
-                 <td>Title</td>
+                 <td>'. $I18N->msg('pool_colhead_title') .'</td>
                  <td>'. $media->getTitle() .'</td>
                  <td style="text-align: center" rowspan="'. $rowspan .'">'. $media->toImage( array( 'path' => '../')) .'</td>
               </tr>
 
               <tr>
-                 <td>Category</td>
+                 <td>'. $I18N->msg('pool_colhead_category') .'</td>
                  <td>'. $media->getCategoryName() .'</td>
               </tr>
 
               <tr>
-                 <td>Description</td>
+                 <td>'. $I18N->msg('pool_colhead_description') .'</td>
                  <td>'. $media->getDescription() .'</td>
               </tr>
 
 
               <tr>
-                 <td>Copyright</td>
+                 <td>'. $I18N->msg('pool_colhead_copyright') .'</td>
                  <td>'. $media->getCopyright() .'</td>
               </tr>
 
               <tr>
-                 <td>Filename</td>
+                 <td>'. $I18N->msg('pool_colhead_filename') .'</td>
                  <td>'. $media->getFileName() .'</td>
               </tr>'. "\n";
               
           if ( $isImage) {
                 $s .= '
               <tr>
-                 <td>Width</td>
+                 <td>'. $I18N->msg('pool_colhead_width') .'</td>
                  <td>'. $media->getWidth() .'</td>
               </tr>
 
               <tr>
-                 <td>Height</td>
+                 <td>'. $I18N->msg('pool_colhead_height') .'</td>
                  <td>'. $media->getHeight() .'</td>
               </tr>'. "\n";
           }
               
               $s .='
               <tr>
-                 <td>Updated on</td>
+                 <td>'. $I18N->msg('pool_colhead_updated') .'</td>
                  <td>'. $media->getUpdateDate( $dateFormat) .'</td>
               </tr>
 
               <tr>
-                 <td>Created on</td>
+                 <td>'. $I18N->msg('pool_colhead_created') .'</td>
                  <td>'. $media->getCreateDate( $dateFormat) .'</td>
               </tr>
               '. "\n";
@@ -1078,6 +1095,8 @@ class rexMedia {
         $catSelect->set_style( 'width:100%;');
         $catSelect->set_name( 'mediaCatId');
         
+        $titleKey = rexPoolParam::mode() == 'archive' ?  'pool_headline_mediaarchiveupload' : 'pool_headline_mediaupload';
+        
         $s = '
            <table class="rex" cellpadding="5" cellspacing="1">
 
@@ -1088,7 +1107,7 @@ class rexMedia {
               </colgroup>
 
               <tr>
-                 <th colspan="3">Medium</th>
+                 <th colspan="3">'. $I18N->msg( $titleKey) .'</th>
               </tr>'. "\n";
               
         if( rexPoolParam::mode() == 'archive') {
