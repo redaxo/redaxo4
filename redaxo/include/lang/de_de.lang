@@ -321,7 +321,32 @@ pool_file_list = Medien
 pool_file_upload = Medium hinzufügen
 pool_file_search = Suchen
 
+pool_add_category = Kategorie hinzufügen
+
 pool_default_cat = Startkategorie
+
+pool_cat_action = Kategorie editieren / löschen
+pool_subcats = Unterkategorien
+pool_files = Dateien
+
+pool_headline_mediadetails = Informationen
+pool_headline_mediaupload = Medium
+pool_headline_mediaarchiveupload = Medienarchiv
+
+pool_colhead_category = Kategorie
+pool_colhead_title = Titel
+pool_colhead_details = Details
+pool_colhead_edit = Kategorie editieren
+pool_colhead_preview = Vorschau
+pool_colhead_filedetails = Dateiinformationen
+pool_colhead_description = Beschreibung
+pool_colhead_copyright = Urheberrecht / Copyright
+pool_colhead_functions = Funktionen
+pool_colhead_filename = Dateiname
+pool_colhead_width = Breite
+pool_colhead_height = Höhe
+pool_colhead_updated = Bearbeitet am
+pool_colhead_created = Erstellt am
 
 pool_media_title = Titel
 pool_media_category = Kategorie
@@ -336,6 +361,10 @@ pool_upload_button = Hinzufügen
 pool_valid_archives = Unterstützte Formate
 pool_media_uploaded = Datei erfolgreich hinzugefügt!
 pool_archive_uploaded = Archiv erfolgreich hinzugefügt!
+
+pool_error_miss_file_ext = Endung der Datei "{0}" fehlerhaft!
+pool_error_move_failed = Die Datei "{0}" konnte nicht kopiert werden!
+pool_error_miss_param = Fehlender Parameter "{0}"!
 
 # redaxo/include/pages
 
