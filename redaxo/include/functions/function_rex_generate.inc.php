@@ -653,11 +653,13 @@ function rex_addCLang($id,$name)
 	for($i=0;$i<$add->getRows();$i++)
 	{
 		$adda = new sql;
+		$adda->debugsql = 1;
 		$adda->setTable("rex_article");
 		reset($fields);
 		while (list($key, $value) = each($fields)) {
 			
-			if ($value == "clang") $adda->setValue("clang",$id);
+			if ($value == "pid") echo ""; // nix passiert
+			else if ($value == "clang") $adda->setValue("clang",$id);
 			else $adda->setValue($value,$add->getValue("$value"));
 			//	createuser	
 			//	updateuser
