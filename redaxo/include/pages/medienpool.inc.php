@@ -21,22 +21,31 @@
  * @author Markus Staab http://www.public-4u.de
  */
 
-// Evtl. Formular Posts verarbeiten
-rexPool::handlePosts();
-
-// Ausgabe des Seitenkopfes
-rexPool::_header();
-
-switch ( rexPoolParam::action()) {
-    case 'cat_details'   : rexPool::catDetails();   break;
-    case 'media_details' : rexPool::mediaDetails(); break;
-    case 'media_upload'  : rexPool::mediaUpload(); break;
-//    case 'media_search'  : rexPool::mediaDetails(); break;
-    default              : rexPool::mediaList();
+// Funktionen nur ausführen wenn der als Page aufgrufen wird.
+// 
+// Falls dieser nur als include in einem anderen Addon dient,
+// => NICHTS anzeigen 
+// => NUR Klassen zur Verfüung stellen 
+if ( $_GET['page'] == rexPoolParam::page()) {
+    
+    // Evtl. Formular Posts verarbeiten
+    rexPool::handlePosts();
+    
+    // Ausgabe des Seitenkopfes
+    rexPool::_header();
+    
+    switch ( rexPoolParam::action()) {
+        case 'cat_details'   : rexPool::catDetails();   break;
+        case 'media_details' : rexPool::mediaDetails(); break;
+        case 'media_upload'  : rexPool::mediaUpload(); break;
+    //    case 'media_search'  : rexPool::mediaDetails(); break;
+        default              : rexPool::mediaList();
+    }
+    
+    // Ausgabe des Seitenfußes
+    rexPool::_footer();
+    
 }
-
-// Ausgabe des Seitenfußes
-rexPool::_footer();
 
 /**
  * Main-Class
@@ -245,15 +254,16 @@ class rexPool {
         title($I18N->msg('pool_name'), '&nbsp;&nbsp;&nbsp;'.$title, 'grey', '100%');
     }
     
-    function _uploadTitle() {
+    function _uploadTitle( $modes = array( 'file' => 'pool_upload_file')) {
         global $I18N;
         
         $subtitle = '';
-        $modes = array( 'file' => $I18N->msg( 'pool_upload_file'), 'archive' => $I18N->msg( 'pool_upload_archive'));
         $actMode = rexPoolParam::mode( 'file');
         
         $first = true;
-        foreach( $modes as $modeName => $modeLabel) {
+        foreach( $modes as $modeName => $modeLabelKey) {
+            $modeLabel = $I18N->msg( $modeLabelKey);
+            
             if ( $first) {
                 $first = false;
             } else {
@@ -289,7 +299,7 @@ class rexPool {
             }
             $params = htmlentities( $params);
         }
-        return '<a href="?page=medienpool'. $params .'"'. $add .'>'. $label .'</a>';
+        return '<a href="?page='. rexPoolParam::page() . $params .'"'. $add .'>'. $label .'</a>';
     }
     
     function _imageSrc( $media) {
@@ -543,6 +553,10 @@ class rexPool {
 class rexPoolParam {
     function rexPoolParam() {
         die( 'class-instantiation not allowed for class "' .__CLASS__ .'"');
+    }
+    
+    function page() {
+        return 'medienpool';
     }
     
     function catId( $default = '') {
@@ -1131,14 +1145,6 @@ class rexMedia {
                  <th colspan="3">'. $I18N->msg( $titleKey) .'</th>
               </tr>'. "\n";
               
-        if( rexPoolParam::mode() == 'archive') {
-        $s .= '
-              <tr>
-                 <td>'.$I18N->msg("pool_valid_archives").'</td>
-                 <td colspan="2">tar, zip, gz, tgz, tbz, bz2, bzip2, ar, deb</td>
-              </tr>'. "\n";
-        }
-        
         if ( $message != '') {
             // Fehler
             if ( $messageLevel > 0) {
@@ -1161,26 +1167,22 @@ class rexMedia {
             }
         }
         
-        if( rexPoolParam::mode() == 'file') {
         $s .= '
               <tr>
                  <td>'.$I18N->msg("pool_media_title").'</td>
                  <td colspan="2"><input type="text" name="mediaTitle" class="inp100"/></td>
               </tr>'. "\n";
-        }
         $s .= '
               <tr>
                  <td>'.$I18N->msg("pool_media_category").'</td>
                  <td colspan="2">'. $catSelect->out() .'</td>
               </tr>'. "\n";
 
-        if( rexPoolParam::mode() == 'file') {
         $s .= '
               <tr>
                  <td>'.$I18N->msg("pool_media_description").'</td>
                  <td colspan="2"><textarea class="inp100" name="mediaDescription"></textarea></td>
               </tr>'. "\n";
-        }
 
         $s .= '
               <tr>
