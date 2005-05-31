@@ -8,8 +8,6 @@
 sprachen zugriff
 englisch / deutsch / ...
 
-
-
 allgemeine zugriffe (array + addons)
 	mediapool[]templates[] ...
 
@@ -17,7 +15,8 @@ optionen
 	advancedMode[]expertMode[]
 
 zugriff auf folgende categorien
-	catstructure[2]
+	csw[2] write 
+	csr[2] read
 
 mulselect zugriff auf mediapool
 	catmedia[2]
@@ -82,20 +81,21 @@ if ($rootCats = OOCategory::getRootCategories())
 	}
 }
 
-function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '') {
-    if( empty( $cat)) {
-        return;
-    }
-    
-    $cat_ids[] = $cat->getId();
-    $select->add_option($cat->getName(),$cat->getId(), $groupName);
-    $childs = $cat->getChildren();
-  
-    if ( is_array( $childs)) {  
-        foreach ( $childs as $child) {
-            add_cat_options( $select, $child, $cat_ids, $cat->getName());
-        }
-    }
+function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
+{
+	if(empty($cat))
+	{
+		return;
+	}
+	$cat_ids[] = $cat->getId();
+	$select->add_option($cat->getName(),$cat->getId(), $groupName);
+	$childs = $cat->getChildren();
+	if (is_array($childs))
+	{
+		foreach ( $childs as $child) {
+			add_cat_options( $select, $child, $cat_ids, $cat->getName());
+		}
+	}
 }
 
 // zugriff auf mediacategorien
@@ -147,7 +147,7 @@ if ($FUNC_UPDATE != "")
 	$perm = "";
 	if ($useradmin == 1) $perm .= "admin[]";
 	if ($devadmin == 1) $perm .= "dev[]";
-	if ($allcats == 1) $perm .= "catstructure[all]";
+	if ($allcats == 1) $perm .= "csw[0]";
 	if ($allmcats == 1) $perm .= "catmedia[all]";
 
 	// userperm_all
@@ -165,9 +165,27 @@ if ($FUNC_UPDATE != "")
 	// userperm_cat
 	for($i=0;$i<count($userperm_cat);$i++)
 	{
-		$perm .= "catstructure[".current($userperm_cat)."]";
+		$ccat = current($userperm_cat);
+		$gp = new sql;
+		$gp->setQuery("select * from rex_article where id='$ccat' and clang=0");
+		if ($gp->getRows()==1)
+		{
+			foreach ( explode("|",$gp->getValue("path")) as $a)
+			{
+				if ($a!="")$userperm_cat_read[$a] = $a;	
+			}
+		}
+		$perm .= "csw[$ccat]";
 		next($userperm_cat);
 	}
+	
+	for ($i=0;$i<count($userperm_cat_read);$i++)
+	{
+		$ccat = current($userperm_cat_read);
+		$perm .= "csr[$ccat]";
+		next($userperm_cat_read);
+	}
+	
 	// userperm_media
 	for($i=0;$i<count($userperm_media);$i++)
 	{
@@ -215,7 +233,7 @@ if ($FUNC_UPDATE != "")
 		$perm = "";
 		if ($useradmin == 1) $perm .= "admin[]";
 		if ($devadmin == 1) $perm .= "dev[]";
-		if ($allcats == 1) $perm .= "catstructure[all]";
+		if ($allcats == 1) $perm .= "csw[0]";
 		if ($allmcats == 1) $perm .= "catmedia[all]";
 	
 		// userperm_all
@@ -233,7 +251,7 @@ if ($FUNC_UPDATE != "")
 		// userperm_cat
 		for($i=0;$i<count($userperm_cat);$i++)
 		{
-			$perm .= "catstructure[".current($userperm_cat)."]";
+			$perm .= "csw[".current($userperm_cat)."]";
 			next($userperm_cat);
 		}
 		// userperm_media
@@ -389,7 +407,7 @@ if ($FUNC_ADD)
 		if ($sql->isValueOf("rights","dev[]")) $devchecked = "checked";
 		else $devchecked = "";
 
-		if ($sql->isValueOf("rights","catstructure[all]")) $allcatschecked = "checked";
+		if ($sql->isValueOf("rights","csw[0]")) $allcatschecked = "checked";
 		else $allcatschecked = "";
 		
 		if ($sql->isValueOf("rights","catmedia[all]")) $allmcatschecked = "checked";
@@ -412,7 +430,7 @@ if ($FUNC_ADD)
 		}
 	
 		foreach ( $cat_ids as $cat_id) {
-            $name = "catstructure[".$cat_id."]";
+            $name = "csw[".$cat_id."]";
             if ($sql->isValueOf("rights",$name)) $sel_cat->set_selected($cat_id);
         }
 

@@ -4,11 +4,8 @@
  * Todos: alle >> order << geschichten von vscope neu einbauen da nun mehrere
  * artikel mit gleichen id existieren und unterschiedliche clang haben
  * 
- * Alle Rechte sind jetzt gelöscht und müsste neu überlegt werden.....
- * 
- * verzeiht ;)
- * 
- * jan
+ * - rechte
+ * - prior geschichten
  *
  * ### erstelle neue prioliste wenn noetig
  *
@@ -52,7 +49,7 @@ if (count($REX[CLANG])>1)
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
 
-if ($function == "edit_category" && $edit_id != "")
+if ($catedit_function != "" && $edit_id != "")
 {
 	// --------------------- KATEGORIE EDIT
 	
@@ -75,7 +72,7 @@ if ($function == "edit_category" && $edit_id != "")
 
 	rex_generateArticle($edit_id);
 
-}elseif ($function == "delete_category" && $edit_id != "")
+}elseif ($catdelete_function != "" && $edit_id != "")
 {
 	// --------------------- KATEGORIE DELETE
 	$KAT = new sql;
@@ -131,11 +128,16 @@ if ($function == "edit_category" && $edit_id != "")
 	// --------------------- KATEGORIE ADD
 	$message = $I18N->msg("category_added_and_startarticle_created");
 	$template_id = 0;
+	unset($TMP);
 	if ($category_id!="")
 	{
 		$sql = new sql;
-		$sql->setQuery("select template_id from rex_article where id=$category_id and startpage=1 and clang=$clang");
-		if ($sql->getRows()==1) $template_id = $sql->getValue("template_id");
+		$sql->debugsql = 1;
+		$sql->setQuery("select clang,template_id from rex_article where id=$category_id and startpage=1");
+		for ($i=0;$i<$sql->getRows();$i++,$sql->next())
+		{
+			$TMP[$sql->getValue("clang")] = $sql->getValue("template_id");
+		}
 	}
 
 	unset($id);
@@ -145,7 +147,11 @@ if ($function == "edit_category" && $edit_id != "")
 		
 		// ### erstelle neue prioliste wenn noetig	
 		
+		$template_id = 0;
+		if ($TMP[$key]!="") $template_id = $TMP[$key];
+				
 		$AART = new sql;
+		$AART->debugsql = 1;
 		$AART->setTable("rex_article");
 		if (!$id) $id = $AART->setNewId("id");
 		else $AART->setValue("id",$id);
@@ -200,7 +206,7 @@ if ($function == "offline_article")
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "edit_article")
+}else if ($function == "edit_article" && $article_id != "")
 {
 	// --------------------- ARTIKEL EDIT
 	$amessage = $I18N->msg("article_updated");
@@ -218,7 +224,7 @@ if ($function == "offline_article")
 	
 	rex_generateArticle($article_id);
 
-}elseif ($function == "delete_article")
+}elseif ($function == "delete_article" && $article_id != "")
 {
 	// --------------------- ARTIKEL DELETE
 	
@@ -265,7 +271,7 @@ if ($function == "offline_article")
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if ($KATebene < $KatMaxEbenen) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat&clang=$clang><img src=pics/folder_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("add_category")."\"></a>";
+if (($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat&clang=$clang><img src=pics/folder_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("add_category")."\"></a>";
 else $addc = "&nbsp;";
 
 echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
@@ -280,7 +286,7 @@ echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
 if ($message != "") echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=4 class=warning><b>$message</b></td></tr>";
 if ($category_id != 0) echo "<tr><td class=grey>&nbsp;</td><td class=grey colspan=4>..</td></tr>";
 
-if ($function == "add_cat")
+if ($function == "add_cat" && ($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")))
 {
 	// --------------------- KATEGORIE ADD FORM
 	$echo .= "
@@ -305,63 +311,42 @@ $KAT->setQuery("select * from rex_article where re_id='$category_id' and startpa
 for($i=0;$i<$KAT->getRows();$i++)
 {
 	$i_category_id = $KAT->getValue("id");
-
-	if ($REX_USER->isValueOf("rights","catstructure[$i_category_id]") || $REX_USER->isValueOf("rights","catstructure[all]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+	if ($KAT->getValue("status") == 0)
 	{
-	
-		if ($KAT->getValue("status") == 0)
-		{
-			$status_color="#aa0000";
-			$kat_status = $I18N->msg("status_offline");
-		}else
-		{
-			$status_color="#00aa00";
-			$kat_status = $I18N->msg("status_online");
-		}
-	
-		$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status&clang=$clang><u><font color=$status_color>$kat_status</font></u></a>";
+		$status_color="#aa0000";
+		$kat_status = $I18N->msg("status_offline");
+	}else
+	{
+		$status_color="#00aa00";
+		$kat_status = $I18N->msg("status_online");
+	}
+	$kat_status = "<font color=$status_color>$kat_status</font>";
+
+	if ($REX_USER->isValueOf("rights","csw[$i_category_id]") || $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+	{
+		// schreibzugriff
+		
+		$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status&clang=$clang><u>$kat_status</u></a>";
 		$cat_pos++;
-	
+
 		if ($edit_id==$i_category_id and $function == "edit")
 		{
-	
 			// --------------------- KATEGORIE EDIT FORM
-	
-			$echo .= "
-				<tr>
-					<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>
-					<form action=index.php><input type=hidden name=page value=structure>
-					<input type=hidden name=edit_id value=$edit_id>
-					<input type=hidden name=category_id value=$category_id>
-					<input type=hidden name=cid value=".$KAT->getValue("id").">
-					<input type=hidden name=clang value=$clang>
-					<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
-					<td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td>
-					<td class=dgrey><input type=submit name=function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=function value='". $I18N->msg( 'delete_category') ."'></td>
-					<td class=dgrey>$kat_status</td></form>
-				</tr>";
+			$echo .= "<tr><td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td><form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang><td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td><td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td><td class=dgrey><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."'></td><td class=dgrey>$kat_status</td></form></tr>";
 		}else
 		{
-	
-			$edit_txt = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit&clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a>";
-			// $edit_txt = $I18N->msg("no_permission_to_edit");
-	
-			$echo .= "
-				<tr>
-					<td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td>
-					<td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a>";
+			// --------------------- KATEGORIE WITH WRITE
+			$echo .= "<tr><td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td><td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a>";
 			// $echo .= "[$i_category_id]";
-			$echo .= "</td>";
-	
-			// $echo .= "<td class=grey valign=middle width=75><form method=post action=index.php?page=structure&category_id=".$category_id."&cid=".$KAT->getValue("id")."&clang=$clang style=display:inline><input type=field name=Position_Category style=width:30px;height:16px value=$cat_pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=up&clang=$clang><img src=pics/pfeil_up.gif width=16 height=16 border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$KAT->getValue("prior")."&re_category=".$KAT->getValue("re_category_id")."&order=down><img src=pics/pfeil_down.gif width=16 height=16 border=0 alt=down align=absmiddle></a></td>";
-			$echo .= "<td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td>";
-				
-			$echo .= "
-					<td class=grey>$edit_txt</td>
-					<td class=grey>$kat_status</td>
-				</tr>";
+			$echo .= "</td><td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td><td class=grey><a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit&clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a></td><td class=grey>$kat_status</td></tr>";
 		}
+		
+	}elseif($REX_USER->isValueOf("rights","csr[$i_category_id]"))
+	{
+		// --------------------- KATEGORIE WITH READ
+		$echo .= "<tr><td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td><td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a></td><td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td><td class=grey>".$I18N->msg("no_permission_to_edit")."</td><td class=grey>$kat_status</td></tr>";
 	}
+	
 	$KAT->next();
 }
 echo $echo;
@@ -525,40 +510,16 @@ if($category_id > -1)
 			if ($sql->getValue("startpage") == 1){
 				echo "	<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
 						<td class=grey><strike>online</strike></td>";
-			}else{
-				if ($sql->getValue("status") == 0){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id&clang=$clang><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id&clang=$clang><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; }
-				echo "	<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id&clang=$clang>".$I18N->msg("delete")."</a></td>
-						<td class=grey>$article_status</td>";
+			}else
+			{
+				if ($sql->getValue("status") == 0)
+				{ 
+					$article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id&clang=$clang><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id&clang=$clang><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; 
+				}
+				echo "	<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id&clang=$clang>".$I18N->msg("delete")."</a></td><td class=grey>$article_status</td>";
 			}
 			echo "</tr>";
-		
 
-		}elseif(1==0)
-		{
-			
-			// --------------------- ARTIKEL NORMAL VIEW | NO EDIT ONLY ENTER
-			
-			echo "	<tr>
-				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>
-				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a></td>
-				<td class=grey>".htmlentities($sql->getValue("prior"))."</td>
-				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
-				<td class=grey><b>$startpage</b></td>
-				<td class=grey><strike>".$I18N->msg("edit")."</strike></td>";
-
-			if ($sql->getValue("startpage") == 1){
-				echo "	<td class=grey><strike>delete</strike></td>
-					<td class=grey><strike>".$I18N->msg("status_online")."</strike></td>";
-			}else{
-				echo "	<td class=grey><strike>".$I18N->msg("delete")."</strike></td>
-					<td class=grey><strike>";
-				if ($sql->getValue("status") == 0) echo "<font color=#dd0000>offline</font>";
-				else echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
-				echo "	</strike></td>";
-			}
-			echo "</tr>";
-			
 		}else
 		{
 			

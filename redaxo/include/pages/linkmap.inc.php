@@ -400,31 +400,44 @@ function initArray()
         $parent = $cat->getId() * 9999;
 	    print "Note(".$parent.",0,'".ereg_replace("\n|\r|\"|'","",$cat->getName())."','')\n";
 
+	    /*
 	    foreach($cat->getArticles(false) as $art){
 	         print "Note(".$art->getId().",".$parent.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
 	    }
-
-	    foreach ($cat->getChildren(true) as $sub1){
-
-        	$parent1 = $sub1->getId() * 9999;
-	        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
-
-	        foreach($sub1->getArticles(false) as $art){
-	            print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
-	        }
-
-	        foreach ($sub1->getChildren(true) as $sub2){
-
-                $parent2 = $sub2->getId() * 9999;
-	            print "Note(".$parent2.",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$sub2->getName())."','')\n";
-
-	            foreach($sub2->getArticles(false) as $art){
-	                print "Note(".$art->getId().",".$parent2.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
-	            }
-
-	        }
-
-	    }
+		*/
+		
+	    $catsize = sizeof($cat->getChildren());
+	    
+	    if ($catsize != "0"):
+	    
+		    foreach ($cat->getChildren(true) as $sub1){
+	
+	        	$parent1 = $sub1->getId() * 9999;
+		        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
+	
+		        /*
+		        foreach($sub1->getArticles(false) as $art){
+		            print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+		        }
+		        */
+	
+				$sub1size = sizeof($sub1->getChildren());
+				if ($sub1size != "0"):
+			        foreach ($sub1->getChildren(true) as $sub2){
+		
+		                $parent2 = $sub2->getId() * 9999;
+			            print "Note(".$parent2.",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$sub2->getName())."','')\n";
+		
+			            /*
+			            foreach($sub2->getArticles(false) as $art){
+			                print "Note(".$art->getId().",".$parent2.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+			            }
+			            */
+		
+			        }
+				endif;	
+			}
+		endif;
 
 	}
 
