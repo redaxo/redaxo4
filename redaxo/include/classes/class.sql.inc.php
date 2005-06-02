@@ -225,14 +225,14 @@ class sql
 		if($sql!=""){
 			$this->setQuery($sql);
 		}
+        
+        $data = null;
 
 		while ($row = @mysql_fetch_assoc($this->result)) {
 	            $data[] = $row;
-	        }
+        }
 
-	        return $data;
-	        unset($data);
-
+        return $data;
 	}
     
     function getError() {
