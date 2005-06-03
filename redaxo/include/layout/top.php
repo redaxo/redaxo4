@@ -12,7 +12,7 @@
 <body onunload=closeAll();>
 	<table class="rexHeader" cellpadding="5" cellspacing="0">
        <tr>
-	      <th colspan="2"><?php echo $REX[SERVERNAME]; ?></th>
+	      <th colspan="2"><?php echo $REX['SERVERNAME']; ?></th>
 	   </tr>
 	   <tr>
 		   <td>
@@ -28,17 +28,17 @@ if ($LOGIN)
 	if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
 	if ($REX_USER->isValueOf("rights","stats[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=stats class=white>".$I18N->msg("statistics")."</a>"; 
 
-	reset($REX[ADDON][status]);
-	for($i=0;$i<count($REX[ADDON][status]);$i++)
+	reset($REX['ADDON']['status']);
+	for($i=0;$i<count($REX['ADDON']['status']);$i++)
 	{
-		$apage = key($REX[ADDON][status]);
-		$perm = $REX[ADDON][perm][$apage];
-		$name = $REX[ADDON][name][$apage];
-		if (current($REX[ADDON][status]) == 1 && ($REX_USER->isValueOf("rights",$perm) or $perm == "") )
+		$apage = key($REX['ADDON']['status']);
+		$perm = $REX['ADDON']['perm'][$apage];
+		$name = $REX['ADDON']['name'][$apage];
+		if (current($REX['ADDON']['status']) == 1 && ($REX_USER->isValueOf("rights",$perm) or $perm == "") )
 		{
 			echo " | <a href=index.php?page=$apage class=white>$name</a>";
 		}
-		next($REX[ADDON][status]);
+		next($REX['ADDON']['status']);
 	}
 
 }
