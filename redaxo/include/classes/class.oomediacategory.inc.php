@@ -76,14 +76,14 @@ class OOMediaCategory {
     /**
      * @access public
      */
-    function getCategoryById( $id) {
+    function &getCategoryById( $id) {
         return new OOMediaCategory( $id);
     }
     
     /**
      * @access public
      */
-    function getRootCategories( $ignore_offlines = true) {
+    function &getRootCategories( $ignore_offlines = true) {
         $qry = 'SELECT id FROM '. OOMediaCategory::_getTableName() . ' WHERE re_id = 0';
         $sql = new sql();
         $sql->setQuery( $qry);
@@ -93,7 +93,7 @@ class OOMediaCategory {
         if ( is_array( $result)) {
             foreach ( $result as $row) {
                 $id = $row['id'];
-                $rootCats[] = OOMediaCategory::getCategoryById($id);
+                $rootCats[] =& new OOMediaCategory( $id);
             }
         }
         
