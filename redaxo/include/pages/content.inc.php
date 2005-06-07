@@ -8,14 +8,13 @@
 		
 */
 
-
 $article = new sql;
 $article->setQuery("select * from rex_article where id='$article_id' and clang=$clang");
 
 if ($article->getRows() == 1)
 {
 
-	// --------------------------------------------- ARTIKEL WURDE GEFUNDEN - CATEGORY WAEHLEN
+	// --------------------------------------------- Artikel wurde gefunden - Kategorie holen
 	if ($article->getValue("startpage")==1) $category_id = $article->getValue("id");
 	else $category_id = $article->getValue("re_id");
 
@@ -24,78 +23,109 @@ if ($article->getRows() == 1)
 
 	// ----- Titel anzeigen
 	title("Artikel",$KATout);
-	$add = "";
+
+	// ----- Sprachenblock
 	if (count($REX[CLANG])>1)
 	{
-		$add = "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
+		$cadd = "";
+		$cadd = "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
 		reset($REX[CLANG]);
 		while( list($key,$val) = each($REX[CLANG]) )
 		{
 			if ($key==$clang)
 			{
-				$add .= "$val | ";
+				$cadd .= "$val | ";
 			}else
 			{
-				$add .= "<a href=index.php?page=content&clang=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+				$cadd .= "<a href=index.php?page=content&clang=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
 			}
 		}
-		$add .= "</td></tr></table><br>";
-		echo $add;
+		$cadd .= "</td></tr></table><br>";
+		echo $cadd;
 	}else
 	{
 		$clang = 0;	
 	}
 
-
 	// ----- mode defs
 	if ($mode != "meta") $mode = "edit";
 
-	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE
-	if ($REX_USER->isValueOf("rights","article[$article_id]") || $REX_USER->isValueOf("rights","csw[$category_id]") || $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
+	if (
+			!( 
+				$REX_USER->isValueOf("rights","article[$article_id]") || 
+				$REX_USER->isValueOf("rights","csw[$category_id]") || 
+				$REX_USER->isValueOf("rights","csw[0]") || 
+				$REX_USER->isValueOf("rights","admin[]") || 
+				$REX_USER->isValueOf("rights","dev[]")
+			)
+		)
 	{
+		// ----- hat keine rechte an diesem artikel
+    	echo "<table border=1 cellpadding=6 cellspacing=0 width=770 bgcolor=#eeeeee><tr bgcolor='#eeeeee'><td class=warning><br><br>&nbsp;&nbsp;".$I18N->msg("no_rights_to_edit")."<br><br><br></td></tr></table>";
 
-		// ------------------------------------------ SLICE EDIT / ADD / DELETE
-		if (($function == "add" or $function == "edit") and $save==1)
-		{
-			// ------------------------------------------ check module
+	}else
+	{
+		// ----- hat rechte an diesem artikel
+
+		// ------------------------------------------ Slice add/edit/delete
+		if (
+				(
+					$function == "add" or 
+					$function == "edit" or 
+					$function == "delete" 
+				) and 
+				$save==1
+			)
+		{			
+			
+			// ----- check module
+
 			$CM = new sql;
-
-			if ($function == "edit")
+			if ($function == "edit" || $function == "delete")
 			{
+				// edit/ delete
 				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
 				if ($CM->getRows()==1) $module_id = $CM->getValue("rex_article_slice.modultyp_id");
 			}else
 			{
+				// add
 				$CM->setQuery("select * from rex_modultyp where id='$module_id'");
 			}
 
-			if ($CM->getRows()==1 && ($REX_USER->isValueOf("rights","module[$module_id]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")))
+			if ($CM->getRows()!=1)
+			{
+				// ------------- START: MODUL IST NICHT VORHANDEN
+				$message = $I18N->msg('module_not_found');
+				$slice_id = "";
+				$function = "";
+				$module_id = "";
+				$save = "";
+				// ------------- END: MODUL IST NICHT VORHANDEN
+
+			}else
 			{
 
-				// ------------------- modul ist vorhanden
+				// ------------- MODUL IST VORHANDEN
 
-				if (($CM->getValue("php_enable")==0 || $REX_USER->isValueOf("rights","module[php]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","developer[]")) and ($CM->getValue("html_enable")==0 or $REX_USER->isValueOf("rights","module[html]")))
+				// ----- RECHTE AM MODUL ?
+				if ( !($REX_USER->isValueOf("rights","admin[]") || 
+						$REX_USER->isValueOf("rights","developer[]") || 
+						$REX_USER->isValueOf("rights","module[$module_id]") || 
+						$REX_USER->isValueOf("rights","module[0]"))
+					)
 				{
+					// ----- RECHTE AM MODUL: NEIN
+					$message = $I18N->msg('no_rights_to_this_function');
+					$slice_id = "";
+					$function = "";
+					$module_id = "";
+					$save = "";
 
+				}else
+				{
+					// ----- RECHTE AM MODUL: JA
 					$message = "";
-
-					// ------------------------------------------ slices edit/add
-					$newsql = new sql;
-					// $newsql->debugsql = 1;
-					$newsql->setTable("rex_article_slice");
-
-					if ($function == "edit")
-					{
-						$newsql->where("id='$slice_id'");
-					}else
-					{
-						$newsql->setValue("re_article_slice_id",$slice_id);
-						$newsql->setValue("article_id",$article_id);
-						$newsql->setValue("modultyp_id",$module_id);
-						$newsql->setValue("clang",$clang);
-						$newsql->setValue("ctype",$ctype);
-					}
-
 					for ($i=1;$i<11;$i++)
 					{
 						$FILENAME = "REX_MEDIA_$i";
@@ -104,15 +134,17 @@ if ($article->getRows() == 1)
 						$REX_ACTION[FILE][$i] = $$FILENAME;
 					}
 
-					if ($REX_USER->isValueOf("rights","module[html]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $REX_ACTION[HTML] = $INPUT_HTML;
-					if ($REX_USER->isValueOf("rights","module[php]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $REX_ACTION[PHP] = $INPUT_PHP;
+					$REX_ACTION[HTML] = $INPUT_HTML;
+					$REX_ACTION[PHP] = $INPUT_PHP;
 
-					// ----- PRE ACTION [ADD UND EDIT]
+					// ----- PRE ACTION [ADD/EDIT/DELETE]
 
 					$REX_ACTION[SAVE] = true;
 
 					if ($function == "edit") $addsql = " and rex_action.prepost=0 and rex_action.sedit=1"; // pre-action and edit
+					elseif($function == "delete") $addsql = " and rex_action.prepost=0 and rex_action.sdelete=1"; // pre-action and delete
 					else $addsql = " and rex_action.prepost=0 and rex_action.sadd=1"; // pre-action and add
+
 					$ga = new sql;
 					$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
 
@@ -125,7 +157,6 @@ if ($article->getRows() == 1)
 						$iaction = str_replace("REX_CLANG",$clang,$iaction);
 						$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
 						$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
-
 						$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
 						$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
 
@@ -136,7 +167,6 @@ if ($article->getRows() == 1)
 							$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
 						}
 
-						// echo "<br>".nl2br(htmlentities($iaction));
 						eval("?>".$iaction);
 						if ($REX_ACTION[MSG]!="") $message .= $REX_ACTION[MSG]." | ";
 						$ga->next();
@@ -150,75 +180,108 @@ if ($article->getRows() == 1)
 						// ----- DOWN SAVE/UPDATE SLICE
 					
 						if ($REX_ACTION[MSG]!="") $message = $REX_ACTION[MSG];
+						elseif ($function == "delete") $message = "Block konnte nicht gelöscht werden.";
 						else $message = "Eingaben wurde nicht übernommen";
 					
 					}else
 					{
 	
 						// ----- SAVE/UPDATE SLICE
-	
-						for ($i=1;$i<11;$i++)
+						
+						if ($function == "add" || $function == "edit")
 						{
-							$newsql->setValue("value$i",$REX_ACTION[VALUE][$i]);
-						}
-	
-						if ($REX_USER->isValueOf("rights","module[html]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $newsql->setValue("html",$REX_ACTION[HTML]);
-						if ($REX_USER->isValueOf("rights","module[php]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $newsql->setValue("php",$REX_ACTION[PHP]);
-	
-						// ---------------------------- REX_MEDIA
-						for ($fi=1;$fi<11;$fi++)
-						{
-	
-							if ($REX_ACTION[LINK][$fi]=="delete link" or $REX_ACTION[LINK][$fi]=="")
+							
+							$newsql = new sql;
+							// $newsql->debugsql = 1;
+							$newsql->setTable("rex_article_slice");
+		
+							if ($function == "edit")
 							{
-								$newsql->setValue("link$fi","");
-							}else
+								// edit
+								$newsql->where("id='$slice_id'");
+							}elseif($function == "add")
 							{
-								$newsql->setValue("link$fi",$REX_ACTION[LINK][$fi]);
+								// add
+								$newsql->setValue("re_article_slice_id",$slice_id);
+								$newsql->setValue("article_id",$article_id);
+								$newsql->setValue("modultyp_id",$module_id);
+								$newsql->setValue("clang",$clang);
+								$newsql->setValue("ctype",$ctype);
 							}
-	
-							$FILENAME = $REX_ACTION[FILE][$fi];
-							if (($FILENAME == "delete file" or $FILENAME == "") && $CHECK_FILE[$fi] != 1)
+							
+							for ($i=1;$i<11;$i++)
 							{
-								$newsql->setValue("file".$fi,"");
-							}elseif ($FILENAME != "" && $CHECK_FILE[$fi] != 1)
+								$newsql->setValue("value$i",$REX_ACTION[VALUE][$i]);
+							}
+		
+							$newsql->setValue("html",$REX_ACTION[HTML]);
+							$newsql->setValue("php",$REX_ACTION[PHP]);
+		
+							// ---------------------------- REX_MEDIA
+							for ($fi=1;$fi<11;$fi++)
 							{
-								$checkfile = new sql;
-								$checkfile->setQuery("select * from rex_file where filename='".$FILENAME."'");
-								if ($checkfile->getRows()==1)
+		
+								if ($REX_ACTION[LINK][$fi]=="delete link" or $REX_ACTION[LINK][$fi]=="")
 								{
-									$newsql->setValue("file".$fi,$FILENAME);
+									$newsql->setValue("link$fi","");
 								}else
 								{
-									$message .= $I18N->msg('file');
+									$newsql->setValue("link$fi",$REX_ACTION[LINK][$fi]);
+								}
+		
+								$FILENAME = $REX_ACTION[FILE][$fi];
+								if (($FILENAME == "delete file" or $FILENAME == "") && $CHECK_FILE[$fi] != 1)
+								{
+									$newsql->setValue("file".$fi,"");
+								}elseif ($FILENAME != "" && $CHECK_FILE[$fi] != 1)
+								{
+									$checkfile = new sql;
+									$checkfile->setQuery("select * from rex_file where filename='".$FILENAME."'");
+									if ($checkfile->getRows()==1)
+									{
+										$newsql->setValue("file".$fi,$FILENAME);
+									}else
+									{
+										$message .= $I18N->msg('file');
+									}
 								}
 							}
-						}
-	
-						$newsql->setValue("updatedate",time());
-						$newsql->setValue("updateuser",$REX_USER->getValue("login"));
-	
-						// ----- Function
-						if ($function == "edit")
+		
+							$newsql->setValue("updatedate",time());
+							$newsql->setValue("updateuser",$REX_USER->getValue("login"));
+							if ($function == "edit")
+							{
+								$newsql->update();
+								$message .= $I18N->msg('block_updated');
+		
+							}elseif ($function == "add")
+							{
+								$newsql->setValue("createdate",time());
+								$newsql->setValue("createuser",$REX_USER->getValue("login"));
+								$newsql->insert();
+								$last_id = $newsql->last_insert_id;
+								$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
+								$message .= $I18N->msg('block_added');
+							}
+						}else
 						{
-							$newsql->update();
-							$message .= $I18N->msg('block_updated');
-	
-						}elseif ($function == "add")
-						{
-							$newsql->setValue("createdate",time());
-							$newsql->setValue("createuser",$REX_USER->getValue("login"));
-							$newsql->insert();
-							$last_id = $newsql->last_insert_id;
-							$newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
-							$message .= $I18N->msg('block_added');
-						}
-	
+							// make delete
+							$re_id 	= $CM->getValue("rex_article_slice.re_article_slice_id");
+							$newsql	= new sql;
+							$newsql->setQuery("select * from rex_article_slice where re_article_slice_id='$slice_id'");
+							if ($newsql->getRows()>0)
+							{
+								$newsql->query("update rex_article_slice set re_article_slice_id='$re_id' where id='".$newsql->getValue("id")."'");
+							}
+							$newsql->query("delete from rex_article_slice where id='$slice_id'");
+							$message = $I18N->msg('block_deleted');
+						}	
 						// ----- / SAVE SLICE
 	
 	
 						// ----- POST ACTION [ADD AND EDIT]
 						if ($function == "edit") $addsql = " and rex_action.prepost=1 and rex_action.status=1"; // post-action and edit
+						elseif ($function == "delete") $addsql = " and rex_action.prepost=1 and rex_action.status=2"; // post-action and delete
 						else $addsql = " and rex_action.prepost=1 and rex_action.status=0"; // post-action and add
 						$ga = new sql;
 						$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
@@ -259,174 +322,18 @@ if ($article->getRows() == 1)
 		                $EA->update();
 		                
 						rex_generateArticle($article_id);
-						
+
 					}
-
-				}else
-				{
-					$message = $I18N->msg('no_rights_to_this_function');
-					$slice_id = "";
-					$function = "";
-					$module_id = "";
-					$save = "";
 				}
-
-			}else
-			{
-				// ------------- MODUL IST NICHT VORHANDEN
-				$message = $I18N->msg('module_not_found');
-				$slice_id = "";
-				$function = "";
-				$module_id = "";
-				$save = "";
 			}
-
-		}elseif($function=="delete")
-		{
-
-			// --------------------- SLICE DELETE
-
-			$CM = new sql;
-			$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
-
-			if ($CM->getRows()==1)
-			{
-				if (($CM->getValue("php_enable")==0 or $REX_USER->isValueOf("rights","module[php]")  || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) and ($CM->getValue("html_enable")==0 or $REX_USER->isValueOf("rights","module[html]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")))
-				{
-
-					// ------------------------------------------ SLICE DELETE
-
-					if ($save == 1)
-					{
-						$module_id = $CM->getValue("rex_article_slice.modultyp_id");
-						$REX_ACTION[PHP] = $CM->getValue("rex_article_slice.php");
-						$REX_ACTION[HTML] = $CM->getValue("rex_article_slice.html");
-						for ($i=1;$i<11;$i++)
-						{
-							$REX_ACTION[VALUE][$i] = $CM->getValue("rex_article_slice.value$i");
-							$REX_ACTION[LINK][$i] = $CM->getValue("rex_article_slice.link$i");
-							$REX_ACTION[FILE][$i] = $CM->getValue("rex_article_slice.file$i");
-						}
-
-						// ----- PRE ACTION [DELETE]
-						
-						$REX_ACTION[SAVE] = true;
-						
-						$addsql = " and rex_action.prepost=0 and rex_action.sdelete=1"; // pre-action and delete
-						$ga = new sql;
-						$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
-						for ($i=0;$i<$ga->getRows();$i++)
-						{
-							$iaction = $ga->getValue("rex_action.action");
-							$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
-							$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
-							$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
-							$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
-							$iaction = str_replace("REX_CTYPE",$ctype,$iaction);
-							$iaction = str_replace("REX_CLANG",$clang,$iaction);
-							$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
-							$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
-							for ($j=1;$j<11;$j++)
-							{
-								$iaction = str_replace("REX_VALUE[$j]",$REX_ACTION[VALUE][$j],$iaction);
-								$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
-								$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
-							}
-							eval("?>".$iaction);
-							if ($REX_ACTION[MSG]!="") $message .= " | ".$REX_ACTION[MSG];
-							$ga->next();
-						}
-						// ----- / PRE ACTION
-
-						if (!$REX_ACTION[SAVE])
-						{
-							// ----- DOWN SAVE/UPDATE SLICE
-						
-							if ($REX_ACTION[MSG]!="") $message = $REX_ACTION[MSG];
-							else $message = "Block konnte nicht gelöscht werden.";
-						
-						}else
-						{
-
-							// sicher loeschen: ja
-							$re_id 	= $CM->getValue("rex_article_slice.re_article_slice_id");
-	
-							$newsql	= new sql;
-							$newsql->setQuery("select * from rex_article_slice where re_article_slice_id='$slice_id'");
-							if ($newsql->getRows()>0)
-							{
-								$newsql->query("update rex_article_slice set re_article_slice_id='$re_id' where id='".$newsql->getValue("id")."'");
-							}
-							$newsql->query("delete from rex_article_slice where id='$slice_id'");
-							$message = $I18N->msg('block_deleted');
-	
-							$EA = new sql;
-							$EA->setTable("rex_article");
-							$EA->where("id='$article_id' and clang=$clang");
-							$EA->setValue("updatedate",time());
-							$EA->setValue("updateuser",$REX_USER->getValue("login"));
-			                $EA->update();
-	
-							rex_generateArticle($article_id);
-	
-							// ----- POST ACTION [DELETE]
-							$addsql = " and rex_action.prepost=1 and rex_action.status=2"; // pre-action and delete
-							$ga = new sql;
-							$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
-							for ($i=0;$i<$ga->getRows();$i++)
-							{
-								$iaction = $ga->getValue("rex_action.action");
-								$iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
-								$iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
-								$iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
-								$iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
-								$iaction = str_replace("REX_CTYPE",$ctype,$iaction);
-								$iaction = str_replace("REX_CLANG",$clang,$iaction);
-								$iaction = str_replace("REX_PHP",$REX_ACTION[PHP],$iaction);
-								$iaction = str_replace("REX_HTML",$REX_ACTION[HTML],$iaction);
-								for ($j=1;$j<11;$j++)
-								{
-									$iaction = str_replace("REX_VALUE[$j]",$REX_ACTION[VALUE][$j],$iaction);
-									$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
-									$iaction = str_replace("FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
-								}
-								eval("?>".$iaction);
-								if ($REX_ACTION[MSG]!="") $message .= $REX_ACTION[MSG]." | ";
-								$ga->next();
-							}
-							// ----- / POST ACTION
-						}
-
-					}elseif ($save == 2)
-					{
-						// sicher loesche: nein
-						$function = "";
-						$slice_id = "";
-					}else
-					{
-						// sicher loeschen ?
-					}
-
-				}else
-				{
-					$message = $I18N->msg('block_not_deleted').". ".$I18N->msg('no_rights_to_this_module');
-					$function = "";
-					$slice_id = "";
-				}
-			}else
-			{
-					$message = $I18N->msg('block_not_deleted').". ".$I18N->msg('error');
-					$function = "";
-					$slice_id = "";
-			}
-
-
 		}
+		// ------------------------------------------ END: Slice add/edit/delete
 
 
-		// --------------------------------------------------------------------- CONTENT HEAD MENUE
 
+		// ------------------------------------------ START: CONTENT HEAD MENUE
 		reset($REX[CTYPE]);
+		$tadd = "";
 		if (count($REX[CTYPE])>1)
 		{
 			$tadd = "<b>Typen:</b> | ";
@@ -436,27 +343,21 @@ if ($article->getRows() == 1)
 				else $tadd .= "<a href=index.php?page=content&clang=$clang&ctype=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
 			}
 			$tadd .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		}else
-		{
-			$tadd = "";
 		}
-
 		$menu = $tadd." <a href=../index.php?article_id=$article_id&clang=$clang&ctype=$ctype class=blue target=_blank>".$I18N->msg('show')."</a>";
 		if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=blue>".$I18N->msg('metadata')."</a>";
 		else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=black>".$I18N->msg('metadata')."</a>";
-		$menu .= "";
-
+		// ------------------------------------------ END: CONTENT HEAD MENUE
 		
+
+		// ------------------------------------------ START: AUSGABE
 		echo "	<table border=0 cellpadding=0 cellspacing=1 width=770>
 				<tr>
 					<td align=center class=grey width=30><img src=pics/document.gif width=16 height=16 border=0 vspace=5 hspace=12></td>
 					<td align=left class=grey>&nbsp;$menu</td>
 					<td align=left class=grey width=153><img src=pics/leer.gif width=153 height=20></td>
 				</tr>";
-
-
-
-
+		// ------------------------------------------ WARNING				
 		if ($message != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;$message</td><td class=lgrey>&nbsp;</td></tr>"; }
 
 		echo "	<tr>
@@ -466,10 +367,7 @@ if ($article->getRows() == 1)
 
 		if ($mode == "edit")
 		{
-			// -------------------------------------------- EDIT VIEW
-
-			// preview, add, edit, delete , module mode
-
+			// ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
 			$CONT = new article;
 			$CONT->setArticleId($article_id);
 			$CONT->setSliceId($slice_id);
@@ -478,17 +376,14 @@ if ($article->getRows() == 1)
 			$CONT->setCType($ctype);
 			$CONT->setEval(TRUE);
 			$CONT->setFunction($function);
-
 			eval("?>".$CONT->getArticle());
+			// ------------------------------------------ END: MODULE EDITIEREN/ADDEN ETC.
 
 		}elseif ($mode == "meta")
 		{
-
-			// -------------------------------------------- META VIEW
-			
+			// ------------------------------------------ START: META VIEW
 			$extens = "";
 			$category_id = $article->getValue("category_id");
-
 			if ($FUNC_MOVE != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
 			{
 				if ($article->getValue("startpage")==1)
@@ -504,7 +399,6 @@ if ($article->getRows() == 1)
 				copyArticle($article_id,$func_category_id);
 				$err_msg = $I18N->msg('article_copied');
 			}
-
 			if ($save == "1")
 			{
 				$meta_sql = new sql;
@@ -723,6 +617,7 @@ if ($article->getRows() == 1)
 					</form>
 					</table>";
 			}
+			// ------------------------------------------ END: META VIEW
 
 		}
 
@@ -731,10 +626,8 @@ if ($article->getRows() == 1)
 				</tr>
 				</table>";
 
-	}else
-	{
-	    	echo "<table border=1 cellpadding=6 cellspacing=0 width=770 bgcolor=#eeeeee>
-			<tr bgcolor='#eeeeee'><td class=warning><br><br>&nbsp;&nbsp;".$I18N->msg("no_rights_to_edit")."<br><br><br></td></tr></table>";
+		// ------------------------------------------ END: AUSGABE
+
 	}
 }
 

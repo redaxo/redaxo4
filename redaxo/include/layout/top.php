@@ -26,7 +26,6 @@ if ($LOGIN)
 	if ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 
 	if ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
 	if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
-	if ($REX_USER->isValueOf("rights","stats[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=stats class=white>".$I18N->msg("statistics")."</a>"; 
 
 	reset($REX['ADDON']['status']);
 	for($i=0;$i<count($REX['ADDON']['status']);$i++)
