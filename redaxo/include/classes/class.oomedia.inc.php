@@ -334,7 +334,7 @@ class OOMedia
 	 */
 	function getUpdateDate($format = '')
 	{
-        return $this->_getDate( $this->updatedate, $format);
+        return $this->_getDate( $this->_updatedate, $format);
 	}
 
 	/**
@@ -371,7 +371,7 @@ class OOMedia
 		// Ist das Media ein Bild?        
 		if (!$this->isImage())
 		{
-			$path .= 'pics/';
+			$path = 'pics/';
 			$file = 'file_dummy.gif';
 		}
 		else
