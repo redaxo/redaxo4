@@ -347,6 +347,7 @@ pool_colhead_width = Breite
 pool_colhead_height = Höhe
 pool_colhead_updated = Bearbeitet am
 pool_colhead_created = Erstellt am
+pool_colhead_type = Typ
 
 pool_media_title = Titel
 pool_media_category = Kategorie
