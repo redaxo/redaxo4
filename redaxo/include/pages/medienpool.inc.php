@@ -84,6 +84,41 @@ class rexPoolComponent {
     function _indent( $level, $indentStr = '   ') {
         return str_repeat( $indentStr, $level);
     }
+    
+    function _message( $stateColspan = 0, $messageColspan = 2) {
+        global $I18N;
+        
+        $s = '';
+        $message = $this->params->message;
+        
+        if ( $message != '') {
+            // Fehler
+            if ( $this->params->messageLevel > 0) {
+          $s .= '
+              <tr class="warning">
+                 <td colspan="'. $stateColspan .'">
+                    '. $I18N->msg( 'pool_error') .'
+                 </td>
+                 <td colspan="'. $messageColspan .'">
+                    '. $message .'
+                 </td>
+              </tr>'. "\n";
+            } else {
+            // Statusmeldung
+          $s .= '
+              <tr class="status">
+                 <td colspan="'. $stateColspan .'">
+                    '. $I18N->msg( 'pool_status') .'
+                 </td>
+                 <td colspan="'. $messageColspan .'">
+                    '. $message .'
+                 </td>
+              </tr>'. "\n";
+            }
+        }
+        
+        return $s;
+    }
 }
 
 class rexPoolComponentList extends rexPoolComponent {
@@ -201,7 +236,11 @@ class rexPoolUpload extends rexPoolComponent {
         
         $result['error'] = '';
             
-        if (strrpos($newFilename,'.') != '')
+        if ( $file[ 'name'] == '') {
+            $result['error'] .= $I18N->msg('pool_error_miss_file');
+        }
+        
+        if ( $result['error'] == '' && strrpos($newFilename,'.') != '')
         {
             $fname = substr( $newFilename, 0, strrpos( $newFilename, '.'));
             $extension  = OOMedia::_getExtension( $newFilename);
@@ -236,7 +275,7 @@ class rexPoolUpload extends rexPoolComponent {
                 }
             }
         }
-        else
+        else if ( $result['error'] == '')
         {
             $result['error'] .= $I18N->msg('pool_error_miss_file_ext', $result['orgname']);
         }
@@ -300,17 +339,17 @@ class rexPool extends rexPoolComponent {
     /**  Die aktuell angezeigte Kategorie */
     var $cat;
     
-    /**  Die Kind-Kategorien der aktuellen Kategorie*/
+    /**  Die Kind-Kategorien der aktuellen Kategorie */
     var $catList;
     
-    /**  Die Medien der aktuellen Kategorie*/
+    /**  Die Medien der aktuellen Kategorie */
     var $mediaList;
     
     function rexPool( &$params) {
         parent::rexPoolComponent( $params);
         
         // Evtl. Formular Posts verarbeiten
-        $this->handlePosts();
+        $this->handlePosts( $params);
         
         // Liste der anzuzeigenden Kategorien
         $catId = $params->catId;
@@ -406,7 +445,7 @@ class rexPool extends rexPoolComponent {
         switch ( $this->params->action) {
             case 'cat_details'   : $this->catDetails();   break;
             case 'media_details' : $this->mediaDetails(); break;
-            case 'media_upload'  : $this->mediaUpload(); break;
+            case 'media_upload'  : $this->uploadMedia(); break;
         //    case 'media_search'  : rexPool::mediaDetails(); break;
             default              : $this->listMedia();
         }
@@ -415,20 +454,23 @@ class rexPool extends rexPoolComponent {
         $this->_footer();
     }
     
-    function handlePosts() {
-        global $REX_USER;
+    function handlePosts( &$params) {
+        global $REX_USER, $I18N;
         
         if ( !isset ( $_POST)) {
             return;
         }
         
         // Kategorie anlegen/speichern
-        if ( isset( $_POST['saveCatButton']))
+        if ( isset( $_POST['saveCatButton']) || isset( $_POST['addCatButton']))
         {
             // Id der Kategorie in der sich die zu editieren de Kategorie befindet (ParentId)
             $catId = $this->params->catId;
             // Id der zu editierenden Kategorie
             $catModId = $this->params->catModId;
+            
+            // Action parameter resetten, damit nach Anlegen das Formular ausgeblendet ist             
+            $this->params->action = '';
             
             if( $catModId !== '') {
                 $cat = OOMediaCategory::getCategoryById( $catModId);
@@ -450,7 +492,19 @@ class rexPool extends rexPoolComponent {
             $cat->_updateuser = $REX_USER->getValue('login');
             $cat->_name = $_POST['catName'];
             
-            $cat->_save();
+            $error = $cat->_save();
+            
+            // Fehlerbehandlung
+            if ( $error != '')
+            {
+                if( strpos( $error, 'Duplicate entry') !== false) {
+                    $message = $I18N->msg( 'pool_error_categoryname_exists');
+                } else {
+                    $message = $I18N->msg( 'pool_error_external', $error);
+                } 
+                $this->params->message = $message;
+                $this->params->messageLevel = 1;
+            }
             
             // Speicher freigeben
             unset( $cat);
@@ -459,17 +513,23 @@ class rexPool extends rexPoolComponent {
         else if ( isset( $_POST['deleteCatButton'])) 
         {
             // Id der zu löschenden Kategorie
-            $catModId = rexPoolParam::catModId();
+            $catModId = $this->params->catModId;
+            
+            // Kategorie holen
             $cat = OOMediaCategory::getCategoryById( $catModId);
             
+            // Kategorie löschen
             $cat->_delete();
             
             // Speicher freigeben
             unset( $cat);
         }
+        
+        // Fehler/Statusmeldung zurückgeben
+        return $message;
     }
     
-    function mediaUpload() {
+    function uploadMedia() {
         global $REX,$I18N;
         
         $message = '';
@@ -486,13 +546,14 @@ class rexPool extends rexPoolComponent {
             
             foreach( $_FILES as $file) {
                 if (( $result = $upload->handle( $file)) !== true) {
-                    $message = $result;
+                    $this->params->message = $result;
+                    $this->params->messageLevel = 1;
                     break;
                 }
             }
         }
         
-        echo rexMedia::formatForm( $message);
+        echo rexMedia::formatForm();
     }
     
     function _header() {
@@ -635,6 +696,10 @@ class rexPoolParams {
     
     var $editorName;
     var $isEditorMode;
+    
+    /**  Fehler/Statusmeldung */
+    var $message;
+    var $messageLevel;
     
     function rexPoolParams() {
         $this->page = 'medienpool';
@@ -821,6 +886,13 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         $s .= $this->formatTableHead();
         $catModId = $this->params->catModId;
         
+        //Evtl Fehlerausgabe      
+        $s .= $this->_message( 2, 3);
+        
+        if( $this->params->action == 'cat_add') {
+            $s .= rexMediaCategory::formatForm();
+        }
+        
         if ( $this->cats === null) {
             return $s;
         }
@@ -950,13 +1022,18 @@ class rexMediaCategory extends rexPoolComponent {
 //    }
     
     function formatForm() {
-        $catId = '';
-        $catName = '';
+        global $I18N;
         
-        // ggf. defaultwerte für Kategorie laden
-        if ( isset( $this)) {
-            $catId = $this->ooCat->getId();
-            $catName = $this->ooCat->getName();
+        // Defaultwerte für Kategorie laden, wenn nicht-statisch aufgerufen!
+        if ( is_a($this, 'rexMediaCategory')) {
+            $ooCat = $this->_getOOCat();
+            $catId = $ooCat->getId();
+            $catName = $ooCat->getName();
+            $buttons = $this->_formatFormButtons();
+        } else {
+            $catId = '';
+            $catName = '';
+            $buttons = '<input type="submit" name="addCatButton" value="'. $I18N->msg( 'add_category') .'"/>'; 
         }
         
         $s = '
@@ -964,7 +1041,7 @@ class rexMediaCategory extends rexPoolComponent {
                  <td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>
                  <td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>
                  <td><input type="text" name="catName" value="'. $catName .'" style="width: 100%"/></td>
-                 <td colspan="2">'. $this->_formatFormButtons() .'</td>
+                 <td colspan="2">'. $buttons .'</td>
               </tr>'. "\n";
               
         return $s;
@@ -1238,7 +1315,7 @@ class rexMedia extends rexPoolComponent {
 //        return $s;
 //    }
     
-    function formatForm( $message = '', $messageLevel = 0) {
+    function formatForm() {
         global $I18N;
         
         $catSelect = new rexMediaCatSelect();
@@ -1259,29 +1336,10 @@ class rexMedia extends rexPoolComponent {
               <tr>
                  <th colspan="3">'. $I18N->msg( $titleKey) .'</th>
               </tr>'. "\n";
-              
-        if ( $message != '') {
-            // Fehler
-            if ( $messageLevel > 0) {
-          $s .= '
-              <tr class="warning">
-                 <td>'. $I18N->msg( 'pool_error') .'</td>
-                 <td colspan="2">
-                    '. $message .'
-                 </td>
-              </tr>'. "\n";
-            } else {
-            // Statusmeldung
-          $s .= '
-              <tr class="status">
-                 <td>'. $I18N->msg( 'pool_status') .'</td>
-                 <td colspan="2">
-                    '. $message .'
-                 </td>
-              </tr>'. "\n";
-            }
-        }
         
+        //Evtl Fehlerausgabe      
+        $s .= $this->_message();
+                
         $s .= '
               <tr>
                  <td>'.$I18N->msg("pool_media_title").'</td>
