@@ -399,6 +399,7 @@ if ($article->getRows() == 1)
 				copyArticle($article_id,$func_category_id);
 				$err_msg = $I18N->msg('article_copied');
 			}
+
 			if ($save == "1")
 			{
 				$meta_sql = new sql;
