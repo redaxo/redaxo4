@@ -363,9 +363,12 @@ pool_valid_archives = Unterstützte Formate
 pool_media_uploaded = Datei erfolgreich hinzugefügt!
 pool_archive_uploaded = Archiv erfolgreich hinzugefügt!
 
+pool_error_miss_file = Es wurde keine Datei angegeben!
 pool_error_miss_file_ext = Endung der Datei "{0}" fehlerhaft!
 pool_error_move_failed = Die Datei "{0}" konnte nicht kopiert werden!
 pool_error_miss_param = Fehlender Parameter "{0}"!
+pool_error_categoryname_exists = Eine Kategorie mit diesem Namen existiert bereits!
+pool_error_external = Folgender fehler ist aufgetreten "{0}"!
 
 # redaxo/include/pages
 
