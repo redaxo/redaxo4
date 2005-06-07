@@ -60,7 +60,7 @@ class sql
 		$this->result = @mysql_query("$select");
 		$this->rows   = @mysql_num_rows($this->result);
 		$this->insertID = @mysql_insert_id($this->result);
-		$this->error = @mysql_error($this->result);
+		$this->error = @mysql_error();
 
 		if ( $this->debugsql ) echo htmlentities($select)."<br>".$this->rows." found<br>";
 	}
@@ -152,7 +152,7 @@ class sql
 
 		$this->selectDB();
 		$this->result = mysql_query("update $this->table set $sql $this->wherevar");
-		$this->error = @mysql_error($this->result);
+		$this->error = @mysql_error();
 		$this->message = "event updated<br>";
 		if ( $this->debugsql ) echo "update $this->table set $sql $this->wherevar";
 	}
@@ -173,7 +173,7 @@ class sql
 		$this->selectDB();
 		$this->result = @mysql_query("insert into $this->table ($sql1) VALUES ($sql2)");
 		$this->last_insert_id = @mysql_insert_id($this->identifier);
-		$this->error = @mysql_error($this->result);
+		$this->error = @mysql_error();
 		$this->message = "new event inserted<br>";
 		if ( $this->debugsql ) echo htmlentities("insert into $this->table ($sql1) VALUES ($sql2)");
 	}
@@ -182,7 +182,7 @@ class sql
 	{
 		$this->selectDB();
 		$this->result = mysql_query("delete from $this->table $this->wherevar");
-		$this->error = @mysql_error($this->result);
+		$this->error = @mysql_error();
 	}
 
 	function flush()
@@ -201,7 +201,7 @@ class sql
 	{
 		$this->selectDB();
 		$this->result = mysql_query("$sql");
-		$this->error = @mysql_error($this->result);
+		$this->error = @mysql_error();
 		if ( $this->debugsql ) echo $sql."<br>";
 	}
     
