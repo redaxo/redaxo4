@@ -136,7 +136,7 @@ class rexPoolComponentList extends rexPoolComponent {
             $colgroup .= $this->_indent( $indent + 1) .'<col width="'. $columnWidth .'"/>'. "\n";
         }
         
-        $colgroup .= $this->_indent( $indent) .'</colgroup>'. "\n";
+        $colgroup .= $this->_indent( $indent) .'</colgroup>'. "\n\n";
         
         return $colgroup;
     }
@@ -502,9 +502,11 @@ class rexPool extends rexPoolComponent {
                 } else {
                     $message = $I18N->msg( 'pool_error_external', $error);
                 } 
-                $this->params->message = $message;
-                $this->params->messageLevel = 1;
+                $this->params->error( $message);
+            } else {
+                $this->params->message( $I18N->msg( 'pool_category_created', $_POST['catName']));
             }
+            
             
             // Speicher freigeben
             unset( $cat);
@@ -518,15 +520,17 @@ class rexPool extends rexPoolComponent {
             // Kategorie holen
             $cat = OOMediaCategory::getCategoryById( $catModId);
             
-            // Kategorie löschen
-            $cat->_delete();
+            if ( $cat->countChildren() > 0) {
+                $this->params->error( $I18N->msg( 'pool_category_not_deleted_childs', $cat->getName()));
+            } else {
+                $this->params->error( $I18N->msg( 'pool_category_deleted', $cat->getName()));
+                // Kategorie löschen
+                $cat->_delete();
+            }
             
             // Speicher freigeben
             unset( $cat);
         }
-        
-        // Fehler/Statusmeldung zurückgeben
-        return $message;
     }
     
     function uploadMedia() {
@@ -546,8 +550,7 @@ class rexPool extends rexPoolComponent {
             
             foreach( $_FILES as $file) {
                 if (( $result = $upload->handle( $file)) !== true) {
-                    $this->params->message = $result;
-                    $this->params->messageLevel = 1;
+                    $this->params->error( $result);
                     break;
                 }
             }
@@ -720,6 +723,30 @@ class rexPoolParams {
         global $I18N;
         exit( '<p>'. $I18N->msg('pool_error_miss_param', $paramName) .'</p>');
     }
+    
+    function error( $errormsg, $append = false, $overwrite = false) {
+        $this->_message( $errormsg, 1, $append, $overwrite);
+    }
+    
+    function message( $message, $append = false, $overwrite = false) {
+        $this->_message( $message, 0, $append, $overwrite);
+    }
+    
+    function _message( $message, $msgLevel, $append = false, $overwrite = false) {
+        
+        if ( $this->message != '' && !($append || $overwrite)) {
+            return;
+        }
+        
+        
+        if ( $append) {
+            $this->message .= $message;
+        } else if( $this->message == '' || $overwrite) {
+            $this->message = $message;
+        }
+        
+        $this->messageLevel = $msgLevel;
+    }
 }
 
 // user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
@@ -863,21 +890,18 @@ class rexMediaCategoryList extends rexPoolComponentList  {
     }
     
     function _formatParent() {
-        if ( $this->cat === null || !$this->cat->hasParent()) {
+        // In den RootCategories kein ParentLink anzeigen
+        if ( $this->cat === null) {
             return;
         }
         
         $formatCategoryParent = ' 
               <tr>
                  <td></td>
-                 <td colspan="4">'. $this->_link( '..', 'cat_id='. $this->cat->getId()) .'</td>
+                 <td colspan="4">'. $this->_link( '..', 'cat_id='. $this->cat->getParentId()) .'</td>
               </tr>'. "\n";
               
         return $formatCategoryParent;
-    }
-    
-    function formatTableHead() {
-        return parent::formatTableHead() . $this->_formatParent();
     }
     
     function format() {
@@ -888,6 +912,8 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         
         //Evtl Fehlerausgabe      
         $s .= $this->_message( 2, 3);
+        
+        $s .= $this->_formatParent();
         
         if( $this->params->action == 'cat_add') {
             $s .= rexMediaCategory::formatForm();
@@ -910,6 +936,8 @@ class rexMediaCategoryList extends rexPoolComponentList  {
                 $s .= $rexCat->format();
             }
         }
+        
+        $s .= $this->formatTableEnd();
         
         return $s;
     }
@@ -1123,6 +1151,8 @@ class rexMediaList extends rexPoolComponentList {
         foreach( $this->medias as $rexMedia) {
             $s .= $rexMedia->formatListed();
         }
+        
+        $s .= $this->formatTableEnd();
         
         return $s;
     }
