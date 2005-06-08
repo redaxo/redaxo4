@@ -258,6 +258,13 @@ class OOMediaCategory {
     /**
      * @access public
      */
+    function isRootCategory() {
+        return $this->hasParent() === false;
+    }
+    
+    /**
+     * @access public
+     */
     function isParent( $mediaCat) {
         if ( is_int( $mediaCat)) {
             return $mediaCatId == $this->getParentId(); 
