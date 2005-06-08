@@ -355,6 +355,10 @@ pool_media_description = Beschreibung
 pool_media_copyright = Urheberrecht / Copyright
 pool_media_location = Datei
 
+pool_category_created = Kategorie "{0}" wurde erfolgreich angelegt!
+pool_category_deleted = Kategorie "{0}" wurde erfolgreich gelöscht!
+pool_category_not_deleted_childs = Kategorie "{0}" konnte nicht gelöscht werden, da sie noch Unterkategorien enthält!
+
 pool_upload_file = Datei hinzufügen
 pool_upload_archive = Archiv hinzufügen
 pool_upload_button = Hinzufügen
