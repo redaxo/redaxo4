@@ -132,7 +132,7 @@ if ($catedit_function != "" && $edit_id != "")
 	if ($category_id!="")
 	{
 		$sql = new sql;
-		$sql->debugsql = 1;
+		// $sql->debugsql = 1;
 		$sql->setQuery("select clang,template_id from rex_article where id=$category_id and startpage=1");
 		for ($i=0;$i<$sql->getRows();$i++,$sql->next())
 		{
@@ -151,7 +151,7 @@ if ($catedit_function != "" && $edit_id != "")
 		if ($TMP[$key]!="") $template_id = $TMP[$key];
 				
 		$AART = new sql;
-		$AART->debugsql = 1;
+		// $AART->debugsql = 1;
 		$AART->setTable("rex_article");
 		if (!$id) $id = $AART->setNewId("id");
 		else $AART->setValue("id",$id);
