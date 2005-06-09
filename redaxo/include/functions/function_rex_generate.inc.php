@@ -51,7 +51,7 @@ function rex_generateAll()
 		$content .= "\n\r\$REX[CLANG][$id] = \"$name\";";
 		$lg->next();
 	}
-	$content .= "\n\r// --- /DYN";	
+	$content .= "\n\r// --- /DYN";
 	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
@@ -86,13 +86,13 @@ function rex_generateArticle($id,$refresh=0)
 {
 	global $PHP_SELF,$module_id,$FORM,$REX_USER,$REX,$I18N;
 
-	// artikel generieren 
+	// artikel generieren
 	// vorraussetzung: articel steht schon in der datenbank
 	//
-	// -> infos schreiben -> abhaengig von clang 
+	// -> infos schreiben -> abhaengig von clang
 	// --> artikel infos / einzelartikel metadaten
 	// --> artikel content / einzelartikel content
-	// --> listen generieren // wenn startpage = 1 
+	// --> listen generieren // wenn startpage = 1
 	// ---> artikel liste
 	// ---> category liste
 	// --> cache loeschen
@@ -103,7 +103,7 @@ function rex_generateArticle($id,$refresh=0)
 	reset($CL);
 	for ($i=0;$i<count($CL);$i++)
 	{
-		
+
 		$clang = key($CL);
 		$REX[RC] = true; // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
 		$CONT = new article;
@@ -139,7 +139,7 @@ function rex_generateArticle($id,$refresh=0)
 					"\n\$REX[ART][$id][last_update_stamp][$clang] = \"".time()."\";".
 					"\n?>";
 		if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article", "w"))
-		{			
+		{
 			fputs($fp,$article);
 			fclose($fp);
 		}else
@@ -159,8 +159,8 @@ function rex_generateArticle($id,$refresh=0)
 		}
 		if ($MSG != "")	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$MSG</td></tr></table>";
 		$REX[RC] = false;
-	
-	
+
+
 		// --------------------------------------------------- Listen generieren
 		if ($CONT->getValue("startpage")==1)
 		{
@@ -172,7 +172,7 @@ function rex_generateArticle($id,$refresh=0)
 		}
 
 		next($CL);
-	
+
 	}
 
     // --------------------------------------------------- recache all
@@ -186,7 +186,7 @@ function rex_deleteArticle($id,$ebene=0)
 	global $REX, $I18N;
 
 	// artikel loeschen
-	// 
+	//
 	// kontrolle ob erlaubnis nicht hier.. muss vorher geschehen
 	//
 	// -> startpage = 0
@@ -237,12 +237,12 @@ function rex_deleteArticle($id,$ebene=0)
 		// --------------------------------------------------- Listen generieren
 		rex_generateLists($re_id);
 
-		
+
 		// --------------------------------------------------- recache all
 		$Cache = new Cache();
 		$Cache->removeAllCacheFiles();
 		return $I18N->msg('category_deleted').$I18N->msg('article_deleted');
-		
+
 	}else
 	{
 		return $I18N->msg('category_doesnt_exist');
@@ -253,10 +253,10 @@ function rex_deleteArticle($id,$ebene=0)
 function rex_generateLists($re_id,$refresh=0)
 {
 	global $REX;
-	
+
 	// generiere listen
 	//
-	// 
+	//
 	// -> je nach clang
 	// --> artikel listen
 	// --> catgorie listen
@@ -266,14 +266,14 @@ function rex_generateLists($re_id,$refresh=0)
 	reset($CL);
 	for ($j=0;$j<count($CL);$j++)
 	{
-		
+
 		$clang = key($CL);
-		
+
 		// --------------------------------------- ARTICLE LIST
-		
+
 		$GC = new sql;
 		// $GC->debugsql = 1;
-		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang order by prior,name");
+		$GC->setQuery("select * from rex_article where (re_id=$re_id and clang=$clang and startpage=0) OR (id=$re_id and clang=$clang and startpage=1) order by prior,name");
 		$content = "<?php\n";
 		for ($i=0;$i<$GC->getRows();$i++)
 		{
@@ -285,9 +285,9 @@ function rex_generateLists($re_id,$refresh=0)
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.alist", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		
+
 		// --------------------------------------- CAT LIST
-		
+
 		$GC = new sql;
 		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang and startpage=1 order by catprior,name");
 		$content = "<?php\n";
@@ -301,10 +301,10 @@ function rex_generateLists($re_id,$refresh=0)
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.clist", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		
+
 		next($CL);
 	}
-	
+
 }
 
 
@@ -313,7 +313,7 @@ function rex_generateLists($re_id,$refresh=0)
 function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 {
 	global $I18N;
-	
+
 	// artikel verschieben
 	//
 	// ******************************** noch nicht fertig ********************************
@@ -365,15 +365,15 @@ function rex_copyArticle($id,$to_cat_id)
 {
 
 	// artikel kopieren
-	// 
+	//
 	// ******************************** noch nicht fertig ********************************
-	// 
+	//
 	// sprachen artikel beachten
 	// pfade anpassen
 	// slices ...
 
 	return "";
-	
+
 	exit;
 
 	##
@@ -489,8 +489,8 @@ function rex_copyCategory($which,$to_cat)
 {
 
 	return "";
-	
-	
+
+
 	exit;
 
 	// ******************************** noch nicht fertig ********************************
@@ -631,7 +631,7 @@ function rex_addCLang($id,$name)
 	{
 		$cur = key($REX[CLANG]);
 		$val = current($REX[CLANG]);
-		
+
 		$content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
 		next($REX[CLANG]);
 	}
@@ -646,7 +646,7 @@ function rex_addCLang($id,$name)
 	$h = fopen($file,"w+");
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
-	
+
 	$add = new sql();
 	$add->setQuery("select * from rex_article where clang='0'");
 	$fields = $add->getFieldnames();
@@ -657,11 +657,11 @@ function rex_addCLang($id,$name)
 		$adda->setTable("rex_article");
 		reset($fields);
 		while (list($key, $value) = each($fields)) {
-			
+
 			if ($value == "pid") echo ""; // nix passiert
 			else if ($value == "clang") $adda->setValue("clang",$id);
 			else $adda->setValue($value,$add->getValue("$value"));
-			//	createuser	
+			//	createuser
 			//	updateuser
 		}
 		$adda->insert();
@@ -675,7 +675,7 @@ function rex_addCLang($id,$name)
 function rex_editCLang($id,$name)
 {
 	global $REX;
-	
+
 	$REX[CLANG][$id] = $name;
 	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
 	$h = fopen($file,"r");
