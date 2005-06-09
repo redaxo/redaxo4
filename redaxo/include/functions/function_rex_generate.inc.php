@@ -273,7 +273,7 @@ function rex_generateLists($re_id,$refresh=0)
 		
 		$GC = new sql;
 		// $GC->debugsql = 1;
-		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang and startpage=0 order by prior,name");
+		$GC->setQuery("select * from rex_article where re_id=$re_id and clang=$clang order by prior,name");
 		$content = "<?php\n";
 		for ($i=0;$i<$GC->getRows();$i++)
 		{
