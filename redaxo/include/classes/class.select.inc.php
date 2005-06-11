@@ -81,15 +81,12 @@ class select{
 	
 	############### show select
 	function out(){
-        // evtl. leere select-box zurückliefern?
-        if ( !is_array( $this->options)) {
-            return "";
-        }
-	
-		global $STYLE;
-		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->style."'>\n";
         
-        $ausgabe .= $this->out_group( '');
+		global $STYLE;
+
+		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->style."'>\n";
+
+        if ( is_array( $this->options)) $ausgabe .= $this->out_group( '');
 
 //		for ($i=0;$i<$this->counter;$i++){
 //		
