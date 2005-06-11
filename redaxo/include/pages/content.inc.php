@@ -25,27 +25,9 @@ if ($article->getRows() == 1)
 	title("Artikel",$KATout);
 
 	// ----- Sprachenblock
-	if (count($REX[CLANG])>1)
-	{
-		$cadd = "";
-		$cadd = "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
-		reset($REX[CLANG]);
-		while( list($key,$val) = each($REX[CLANG]) )
-		{
-			if ($key==$clang)
-			{
-				$cadd .= "$val | ";
-			}else
-			{
-				$cadd .= "<a href=index.php?page=content&clang=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
-			}
-		}
-		$cadd .= "</td></tr></table><br>";
-		echo $cadd;
-	}else
-	{
-		$clang = 0;	
-	}
+	$sprachen_add = "&category_id=$category_id&article_id=$article_id";
+	include $REX[INCLUDE_PATH]."/functions/function_rex_sprachen.inc.php";
+
 
 	// ----- mode defs
 	if ($mode != "meta") $mode = "edit";
@@ -399,7 +381,6 @@ if ($article->getRows() == 1)
 				copyArticle($article_id,$func_category_id);
 				$err_msg = $I18N->msg('article_copied');
 			}
-
 			if ($save == "1")
 			{
 				$meta_sql = new sql;

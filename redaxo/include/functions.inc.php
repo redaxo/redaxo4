@@ -64,8 +64,11 @@ include_once $REX[INCLUDE_PATH]."/ctype.inc.php";
 include_once $REX[INCLUDE_PATH]."/clang.inc.php";
 
 // ----------------- SET CLANG
-if ($REX[CLANG][$clang]=="") $REX[CUR_CLANG] = 0;
-else $REX[CUR_CLANG] = $clang;
+if ($REX[CLANG][$clang]=="")
+{
+	$REX[CUR_CLANG] = 0;
+	$clang = 0;
+}else $REX[CUR_CLANG] = $clang;
 
 // ----------------- CREATE LANG OBJ
 if (!$REX[GG])

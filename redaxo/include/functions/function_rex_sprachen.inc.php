@@ -29,7 +29,7 @@ if (count($REX[CLANG])>1)
 	echo "</b></td></tr></table><br>";
 	if ($stop)
 	{
-		echo "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=warning><img src=pics/warning.gif width=16 height=16 vspace=5 hspace=12></td><td class=warning>&nbsp;&nbsp;You have no permission to do this</td></tr></table>";
+		echo "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=warning><img src=pics/warning.gif width=16 height=16 vspace=5 hspace=12></td><td class=warning>&nbsp;&nbsp;You have no permission to this area</td></tr></table>";
 		include $REX[INCLUDE_PATH]."/layout_redaxo/bottom.php"; 
 		exit;	
 	}

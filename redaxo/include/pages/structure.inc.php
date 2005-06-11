@@ -32,19 +32,9 @@ include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
 
 title($I18N->msg("title_structure"),"$KATout");
 
-$add = "";
-reset($REX[CLANG]);
-if (count($REX[CLANG])>1)
-{
-	$add = "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
-	while( list($key,$val) = each($REX[CLANG]) )
-	{
-		if ($key==$clang) $add .= "$val | ";
-		else $add .= "<a href=index.php?page=structure&clang=$key&category_id=$category_id>$val</a> | "; 
-	}
-	$add .= "</b></td></tr></table><br>";
-	echo $add;
-}
+
+$sprachen_add = "&category_id=$category_id";
+include $REX[INCLUDE_PATH]."/functions/function_rex_sprachen.inc.php";
 
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
