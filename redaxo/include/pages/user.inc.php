@@ -4,9 +4,9 @@
 
 ----------------------------- todos
 
-
 sprachen zugriff
 englisch / deutsch / ...
+clang
 
 allgemeine zugriffe (array + addons)
 	mediapool[]templates[] ...
@@ -39,7 +39,7 @@ if ($user_id != "")
 // Allgemeine Permissions setzen
 $sel_all = new select;
 $sel_all->multiple(1);
-$sel_all->set_style("width:100%;");
+$sel_all->set_style("width:250px;");
 $sel_all->set_size(10);
 $sel_all->set_name("userperm_all[]");
 for($i=0;$i<count($REX[PERM]);$i++)
@@ -56,7 +56,7 @@ $REX[EXTPERM][] = "module[php]";
 $REX[EXTPERM][] = "module[html]";
 $sel_ext = new select;
 $sel_ext->multiple(1);
-$sel_ext->set_style("width:100%;");
+$sel_ext->set_style("width:250px;");
 $sel_ext->set_size(10);
 $sel_ext->set_name("userperm_ext[]");
 for($i=0;$i<count($REX[EXTPERM]);$i++)
@@ -69,7 +69,7 @@ for($i=0;$i<count($REX[EXTPERM]);$i++)
 // zugriff auf categorien
 $sel_cat = new select;
 $sel_cat->multiple(1);
-$sel_cat->set_style("width:100%;");
+$sel_cat->set_style("width:250px;");
 $sel_cat->set_size(20);
 $sel_cat->set_name("userperm_cat[]");
 
@@ -101,11 +101,11 @@ function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
 // zugriff auf mediacategorien
 $sel_media = new select;
 $sel_media->multiple(1);
-$sel_media->set_style("width:100%;");
+$sel_media->set_style("width:250px;");
 $sel_media->set_size(20);
 $sel_media->set_name("userperm_media[]");
 $sqlmedia = new sql;
-$sqlmedia->setQuery("select * from rex_file_category where clang=0");
+$sqlmedia->setQuery("select * from rex_file_category");
 for ($i=0;$i<$sqlmedia->getRows();$i++)
 {
 	$name = $sqlmedia->getValue("name");
@@ -114,10 +114,27 @@ for ($i=0;$i<$sqlmedia->getRows();$i++)
 	$sqlmedia->next();	
 }
 
+// zugriff auf sprachen
+$sel_sprachen = new select;
+$sel_sprachen->multiple(1);
+$sel_sprachen->set_style("width:250px;");
+$sel_sprachen->set_size(3);
+$sel_sprachen->set_name("userperm_sprachen[]");
+$sqlsprachen = new sql;
+$sqlsprachen->setQuery("select * from rex_clang order by id");
+for ($i=0;$i<$sqlsprachen->getRows();$i++)
+{
+	$name = $sqlsprachen->getValue("name");
+	// $c = substr_count($sql->getValue("path"),"|");	
+	$sel_sprachen->add_option($name,$sqlsprachen->getValue("id"));
+	$sqlsprachen->next();
+}
+
+
 // zugriff auf module
 $sel_module = new select;
 $sel_module->multiple(1);
-$sel_module->set_style("width:100%;");
+$sel_module->set_style("width:250px;");
 $sel_module->set_size(10);
 $sel_module->set_name("userperm_module[]");
 $sqlmodule = new sql;
@@ -129,7 +146,20 @@ for ($i=0;$i<$sqlmodule->getRows();$i++)
 	$sqlmodule->next();
 }
 
+// extrarechte - von den addons übergeben
+$sel_extra = new select;
+$sel_extra->multiple(1);
+$sel_extra->set_style("width:250px;");
+$sel_extra->set_size(10);
+$sel_extra->set_name("userperm_extra[]");
+for($i=0;$i<count($REX[EXTRAPERM]);$i++)
+{
+	if($i==0) reset($REX[EXTRAPERM]);
+	$sel_extra->add_option(current($REX[EXTRAPERM]),current($REX[EXTRAPERM]));
+	next($REX[EXTRAPERM]);
+}
 
+// --------------------------------- Title
 
 title($I18N->msg("title_user"),"");
 
@@ -162,6 +192,13 @@ if ($FUNC_UPDATE != "")
 		$perm .= current($userperm_ext);
 		next($userperm_ext);
 	}
+	// userperm_extra
+	for($i=0;$i<count($userperm_extra);$i++)
+	{
+		$perm .= current($userperm_extra);
+		next($userperm_extra);
+	}
+	
 	// userperm_cat
 	for($i=0;$i<count($userperm_cat);$i++)
 	{
@@ -192,6 +229,12 @@ if ($FUNC_UPDATE != "")
 		$perm .= "catmedia[".current($userperm_media)."]";
 		next($userperm_media);
 	}
+	// userperm_sprachen
+	for($i=0;$i<count($userperm_sprachen);$i++)
+	{
+		$perm .= "clang[".current($userperm_sprachen)."]";
+		next($userperm_sprachen);
+	}
 	// userperm_module
 	for($i=0;$i<count($userperm_module);$i++)
 	{
@@ -216,6 +259,10 @@ if ($FUNC_UPDATE != "")
 		$message = "**** Sie können sich nicht selbst löschen!";	
 	}
 
+}elseif ($FUNC_ADD != "" && $save == "")
+{
+	// bei add default selected
+	$sel_sprachen->set_selected("0");
 }elseif($FUNC_ADD != "" && $save == 1)
 {
 	$adduser = new sql;
@@ -247,6 +294,18 @@ if ($FUNC_UPDATE != "")
 		{
 			$perm .= current($userperm_ext);
 			next($userperm_ext);
+		}
+		// userperm_sprachen
+		for($i=0;$i<count($userperm_sprachen);$i++)
+		{
+			$perm .= current($userperm_sprachen);
+			next($userperm_sprachen);
+		}
+		// userperm_extra
+		for($i=0;$i<count($userperm_extra);$i++)
+		{
+			$perm .= current($userperm_extra);
+			next($userperm_extra);
 		}
 		// userperm_cat
 		for($i=0;$i<count($userperm_cat);$i++)
@@ -292,6 +351,18 @@ if ($FUNC_UPDATE != "")
 		{
 			$sel_ext->set_selected(current($userperm_ext));
 			next($userperm_ext);
+		}
+		// userperm_extra
+		for($i=0;$i<count($userperm_extra);$i++)
+		{
+			$sel_extra->set_selected(current($userperm_extra));
+			next($userperm_extra);
+		}
+		// userperm_sprachen
+		for($i=0;$i<count($userperm_sprachen);$i++)
+		{
+			$sel_sprachen->set_selected(current($userperm_sprachen));
+			next($userperm_sprachen);
 		}
 		// userperm_cat
 		for($i=0;$i<count($userperm_cat);$i++)
@@ -360,6 +431,10 @@ if ($FUNC_ADD)
 			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
 		</tr>
 		<tr>
+			<td class=grey>Sprachenzugriff</td>
+			<td class=grey colspan=3>".$sel_sprachen->out()."</td>
+		</tr>
+		<tr>
 			<td class=grey valign=top>Allgemein</td>
 			<td class=grey>".$sel_all->out()."</td>
 			<td class=grey valign=top>Optionen</td>
@@ -380,7 +455,8 @@ if ($FUNC_ADD)
 		<tr>
 			<td class=grey valign=top>Module</td>
 			<td class=grey>".$sel_module->out()."</td>
-			<td class=grey valign=top colspan=2>&nbsp;</td>
+			<td class=grey valign=top>Extras</td>
+			<td class=grey>".$sel_extra->out()."</td>
 		</tr>
 		
 		<tr>
@@ -428,6 +504,14 @@ if ($FUNC_ADD)
 			if ($sql->isValueOf("rights",current($REX[EXTPERM]))) $sel_ext->set_selected(current($REX[EXTPERM]));
 			next($REX[EXTPERM]);
 		}
+		
+		// optionen
+		for($i=0;$i<count($REX[EXTRAPERM]);$i++)
+		{
+			if($i==0) reset($REX[EXTRAPERM]);
+			if ($sql->isValueOf("rights",current($REX[EXTRAPERM]))) $sel_extra->set_selected(current($REX[EXTRAPERM]));
+			next($REX[EXTRAPERM]);
+		}
 	
 		foreach ( $cat_ids as $cat_id) {
             $name = "csw[".$cat_id."]";
@@ -448,6 +532,14 @@ if ($FUNC_ADD)
 			$name = "module[".$sqlmodule->getValue("id")."]";
 			if ($sql->isValueOf("rights",$name)) $sel_module->set_selected($sqlmodule->getValue("id"));
 			$sqlmodule->next();
+		}
+
+		$sqlsprachen->resetCounter();
+		for ($i=0;$i<$sqlsprachen->getRows();$i++)
+		{
+			$name = "clang[".$sqlsprachen->getValue("id")."]";
+			if ($sql->isValueOf("rights",$name)) $sel_sprachen->set_selected($sqlsprachen->getValue("id"));
+			$sqlsprachen->next();
 		}
 
 		// ----- FORM UPDATE AUSGABE
@@ -478,6 +570,10 @@ if ($FUNC_ADD)
 			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
 		</tr>
 		<tr>
+			<td class=grey>Sprachenzugriff</td>
+			<td class=grey colspan=3>".$sel_sprachen->out()."</td>
+		</tr>
+		<tr>
 			<td class=grey valign=top>Allgemein</td>
 			<td class=grey>".$sel_all->out()."</td>
 			<td class=grey valign=top>Optionen</td>
@@ -498,8 +594,8 @@ if ($FUNC_ADD)
 		<tr>
 			<td class=grey valign=top>Module</td>
 			<td class=grey>".$sel_module->out()."</td>
-			<td class=grey valign=top>&nbsp;</td>
-			<td class=grey>&nbsp;</td>
+			<td class=grey valign=top>Extras</td>
+			<td class=grey>".$sel_extra->out()."</td>
 		</tr>
 
 		<tr>
