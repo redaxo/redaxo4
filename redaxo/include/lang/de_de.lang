@@ -251,68 +251,6 @@ update_button = &Auml;ndern
 delete_button = L&ouml;schen
 
 # redaxo\include\pages\medienpool.inc.php
-
-# ALTE
-pool_kats = Kategorien
-pool_kats_no = Keine Kategorie
-pool_search = suchen
-pool_media = Medienpool
-pool_file_list = Medien
-pool_file_insert = Datei hinzufügen
-pool_cat_list = Kategorien verwalten
-pool_file_not_found = Datei wurde nicht gefunden
-pool_file_upload_error = Fehler beim Upload der Datei
-pool_file_upload_errortype = Diese Datei kann nicht zum Austausch benutzt werden, da sie von einem anderen Dateityp ist
-
-pool_file_title = Titel
-pool_category = Kategorie
-pool_description = Beschreibung
-pool_copyright = Copyright
-pool_file_upload = Hinzufügen
-pool_file_upload_get = Hinzufügen und Übernehmen
-pool_file_get = Übernehmen
-
-pool_upload_get = Speichern und Übernehmen
-pool_kat_saved = Kategorie "{0}" wurde anlegt
-pool_kat_updated = Kategorie "{0}" wurde aktualisiert
-pool_kat_deleted = Kategorie wurde gelöscht
-pool_kat_not_deleted = Kategorie kann nicht gelöscht werden da sich noch Dateien in dieser Kategory befinden!
-pool_kat_name = Name
-pool_kat_function = Funktion
-pool_kat_add = Erstellen
-pool_kat_update = Aktualisieren
-pool_kat_edit = Editieren
-pool_kat_delete = Löschen
-
-
-pool_file_detail = Medien: Detailansicht
-pool_file_is_resized = File wurde resized
-pool_filename = Dateiname
-pool_file_exchange = Datei <br>austauschen
-pool_file_update = Aktualisieren
-pool_file_delete = Löschen
-
-pool_file_thumbnail = Thumbnail
-pool_file_info = Dateiinfo
-pool_file_description = Beschreibung
-pool_file_functions = Funktionen
-
-pool_file_noshow = Keine Anzeige möglich
-pool_file_notitle = Kein Titel eingegeben
-pool_file_nodescription = Keine Beschreibung eingegeben
-
-pool_img_width = Breite
-pool_img_height = Höhe
-
-pool_file_ins = Einfügen
-
-pool_file_deleted = Datei wurde gelöscht
-pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
-pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
-
-cache_remove = Cache löschen
-
-# NEUE
 pool_name = Medienpool
 pool_error = Fehler:
 pool_status = Status:
@@ -350,10 +288,13 @@ pool_colhead_created = Erstellt am
 pool_colhead_type = Typ
 
 pool_media_title = Titel
+pool_media_detail_title = Detailansicht
 pool_media_category = Kategorie
 pool_media_description = Beschreibung
 pool_media_copyright = Urheberrecht / Copyright
 pool_media_location = Datei
+pool_media_delete = Medium löschen
+pool_media_deleted = Medium "{0}" wurde erfolgreich gelöscht!
 
 pool_category_created = Kategorie "{0}" wurde erfolgreich angelegt!
 pool_category_deleted = Kategorie "{0}" wurde erfolgreich gelöscht!
