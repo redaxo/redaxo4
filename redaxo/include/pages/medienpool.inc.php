@@ -71,9 +71,9 @@ class rexPoolComponent {
         return '<a href="'. $params .'"'. $add .'>'. $label .'</a>';
     }
     
-    function _title( $title = '') {
+    function _title( $subtitle = '', $titleAppendix = '') {
         global $I18N;
-        title($I18N->msg('pool_name'), '&nbsp;&nbsp;&nbsp;'.$title, 'grey', '100%');
+        title($I18N->msg('pool_name') . $titleAppendix, '&nbsp;&nbsp;&nbsp;'.$subtitle, 'grey', '100%');
     }
     
     function _imageSrc( $media) {
@@ -384,13 +384,16 @@ class rexPool extends rexPoolComponent {
         return $this->mediaList;
     }
     
-    function listMedia() {
+    function _getPath() {
         global $I18N;
         
         $currentCat =& $this->_getCat();
         
         // Pfad der aktuellen Kategorie anzeigen
         $path = 'Pfad: '. rexPool::_link( $I18N->msg('pool_default_cat'), '');
+        
+//        var_dump( $currentCat);
+        
         if( $currentCat != null) {
             $currentOOCat =& $currentCat->_getOOCat();
             
@@ -410,7 +413,14 @@ class rexPool extends rexPoolComponent {
             $path .= ' : '. $this->_link( $currentOOCat->getName(), 'cat_id='. $currentOOCat->getId());
         }
         
-        $this->_title( $path);
+        return $path;
+    }
+    
+    function listMedia() {
+        global $I18N;
+        
+        $currentCat =& $this->_getCat();
+        $this->_title( $this->_getPath());
         
         $catList =& $this->_getCatList();
         if ( $catList !== null) {
@@ -429,10 +439,10 @@ class rexPool extends rexPoolComponent {
     function mediaDetails() {
         global $I18N;
         
-        rexPool::_title( $I18N->msg('pool_file_detail'));
+        rexPool::_title( $this->_getPath(), ' - '. $I18N->msg('pool_media_detail_title'));
         
         if ( !isset( $_GET['media_id'])) {
-            rexParam::miss( 'media_id');
+            $this->params->miss( 'media_id');
         }
         
         $mediaId = $_GET['media_id'];
@@ -527,15 +537,45 @@ class rexPool extends rexPoolComponent {
             $cat = OOMediaCategory::getCategoryById( $catModId);
             
             if ( $cat->countChildren() > 0) {
+                // Fehlermeldung ausgeben            
                 $this->params->error( $I18N->msg( 'pool_category_not_deleted_childs', $cat->getName()));
             } else {
-                $this->params->error( $I18N->msg( 'pool_category_deleted', $cat->getName()));
+                // Statusmeldung ausgeben            
+                $this->params->message( $I18N->msg( 'pool_category_deleted', $cat->getName()));
                 // Kategorie löschen
                 $cat->_delete();
             }
             
             // Speicher freigeben
             unset( $cat);
+        } 
+        // Medium löschen
+        else if ( isset( $_POST['deleteMediaButton'])) 
+        {
+            // Id des zu löschenden Mediums
+            $mediaId = $this->params->mediaId;
+            
+            // Hier die action resetten, damit die Kategorie des gelöschten Mediums angezeigt wird
+            $this->params->action = '';
+            
+            // Medium holen
+            $media = OOMedia::getMediaById( $mediaId);
+
+            /// Medium löschen
+            $error = $media->_delete();
+            
+            // Fehlerbehandlung
+            if ( $error != '')
+            {
+                // Fehlermeldung ausgeben            
+                $this->params->error( $I18N->msg( 'pool_error_external', $error));
+            } else {
+                // Statusmeldung ausgeben            
+                $this->params->message( $I18N->msg( 'pool_media_deleted', $media->getFileName()));
+            }
+            
+            // Speicher freigeben
+            unset( $media);
         }
     }
     
@@ -628,7 +668,7 @@ class rexPool extends rexPoolComponent {
        <table class="rexHeader" style="width: 100%;" cellpadding="5" cellspacing="0">
        
           <tr>
-             <th colspan="3"><?php echo $I18N->msg('pool_media') .' '. $REX['SERVERNAME']; ?></th>
+             <th colspan="3"><?php echo $I18N->msg('pool_name') .' '. $REX['SERVERNAME']; ?></th>
           </tr>
     
           <tr>
@@ -648,6 +688,7 @@ class rexPool extends rexPoolComponent {
           <input type="hidden" name="mode" value="<?php echo $this->params->mode ?>"/>
           <input type="hidden" name="cat_id" value="<?php echo $this->params->catId ?>"/>
           <input type="hidden" name="cat_modid" value="<?php echo $this->params->catModId ?>"/>
+          <input type="hidden" name="media_id" value="<?php echo $this->params->mediaId ?>"/>
           <input type="hidden" name="opener_input_field" value="<?php echo $this->params->editorName ?>"/>
           
     <?php
@@ -1143,7 +1184,7 @@ class rexMedia extends rexPoolComponent {
         );
         
         return $this->_link( $this->ooMedia->toImage( $params),
-                             'action=media_details&media_id='. $this->ooMedia->getId());
+                             'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $this->ooMedia->getId());
     }
     
     function _formatDetailedView() {
@@ -1177,7 +1218,7 @@ class rexMedia extends rexPoolComponent {
         }
         $date .= $I18N->msg('pool_colhead_created') .':<br/>' . $createdate;
         
-        $s = $this->_link( $media->getTitle(), 'action=media_details&media_id='. $media->getId())
+        $s = $this->_link( $media->getTitle(), 'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $media->getId())
              .'<br/><br/>'
              .$media->getFileName() .'<br/>'
              .$media->getFormattedSize().'<br/><br/>'
@@ -1272,12 +1313,12 @@ class rexMedia extends rexPoolComponent {
                 $s .= '
               <tr>
                  <td>'. $I18N->msg('pool_colhead_width') .'</td>
-                 <td>'. $media->getWidth() .'</td>
+                 <td>'. $media->getWidth() .'px</td>
               </tr>
 
               <tr>
                  <td>'. $I18N->msg('pool_colhead_height') .'</td>
-                 <td>'. $media->getHeight() .'</td>
+                 <td>'. $media->getHeight() .'px</td>
               </tr>'. "\n";
           }
               
@@ -1290,6 +1331,12 @@ class rexMedia extends rexPoolComponent {
               <tr>
                  <td>'. $I18N->msg('pool_colhead_created') .'</td>
                  <td>'. $media->getCreateDate( $dateFormat) .'</td>
+              </tr>
+
+              <tr>
+                 <td colspan="3" style="text-align: right;">
+                    <input type="submit" name="deleteMediaButton" value="'. $I18N->msg('pool_media_delete') .'"/>
+                 </td>
               </tr>
               '. "\n";
               
