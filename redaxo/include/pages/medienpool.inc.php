@@ -48,7 +48,7 @@ class rexPoolComponent {
         return 'd-M-Y | H:i';
     }
     
-    function _link( $label, $params = '', $additional = array()) {
+    function _link( $label, $params = '', $additional = array(), $inlineLink = true) {
         $add = '';
         if ( is_array( $additional)) {
             foreach( $additional as $addName => $addValue) 
@@ -58,12 +58,17 @@ class rexPoolComponent {
         }
         
         if ( $params != '') { 
-            if ( $params[0] != '&') {
+            if ( $params[0] != '&' && $inlineLink) {
                 $params = '&' . $params;
             }
             $params = htmlentities( $params);
         }
-        return '<a href="?page='. $this->params->page . $params .'"'. $add .'>'. $label .'</a>';
+        
+        if ( $inlineLink) {
+            $params = '?page=' .$this->params->page . $params;
+        }
+        
+        return '<a href="'. $params .'"'. $add .'>'. $label .'</a>';
     }
     
     function _title( $title = '') {
@@ -130,19 +135,19 @@ class rexPoolComponentList extends rexPoolComponent {
     } 
     
     function _getColGroup( $indent = 3) {
-        $colgroup = $this->_indent( $indent) .'<colgroup>'. "\n";
+        $colgroup = "\n". $this->_indent( $indent) .'<colgroup>'. "\n";
         
         foreach ( $this->columns as $columnName => $columnWidth) {
             $colgroup .= $this->_indent( $indent + 1) .'<col width="'. $columnWidth .'"/>'. "\n";
         }
         
-        $colgroup .= $this->_indent( $indent) .'</colgroup>'. "\n\n";
+        $colgroup .= $this->_indent( $indent) .'</colgroup>'. "\n";
         
         return $colgroup;
     }
     
     function _getColLabels( $indent = 3) {
-        $collabels = $this->_indent( $indent) .'<tr>'. "\n";
+        $collabels = "\n". $this->_indent( $indent) .'<tr>'. "\n";
         
         foreach ( $this->columns as $columnName => $columnWidth) {
             $collabels .= $this->_indent( $indent + 1) .'<th>'. $columnName .'</th>'. "\n";
@@ -154,11 +159,11 @@ class rexPoolComponentList extends rexPoolComponent {
     }
     
     function _getTable( $indent = 2) {
-        return $this->_indent( $indent) .'<table class="rex" cellpadding="5" cellspacing="1">'. "\n";
+        return "\n". $this->_indent( $indent) .'<table class="rex" cellpadding="5" cellspacing="1">'. "\n";
     }
     
     function _getTableEnd( $indent = 2) {
-        return $this->_indent( $indent) .'</table>'. "\n";
+        return "\n". $this->_indent( $indent) .'</table>'. "\n";
     }
     
     function formatTableHead( $labels = true, $groups = true) {
@@ -431,10 +436,11 @@ class rexPool extends rexPoolComponent {
         }
         
         $mediaId = $_GET['media_id'];
-        $media = OOMedia::getMediaById( $mediaId);
+        $ooMedia = OOMedia::getMediaById( $mediaId);
+        $rexMedia = new rexMedia( $this->params, $ooMedia);
         
         echo '       <table class="rex" cellpadding="5" cellspacing="1">
-             '. rexMedia::formatDetailed( $media) .'
+             '. $rexMedia->formatDetailed() .'
                      </table>';
     }
     
@@ -536,8 +542,6 @@ class rexPool extends rexPoolComponent {
     function uploadMedia() {
         global $REX,$I18N;
         
-        $message = '';
-        
         $upload = new rexPoolUpload( $this->params);
         
         echo $upload->_title();
@@ -545,12 +549,11 @@ class rexPool extends rexPoolComponent {
         // handle file upload(s)
         if( !empty($_POST)) {
             
-            $message = $I18N->msg( 'pool_media_uploaded');
-            
+            $this->params->message = $I18N->msg( 'pool_media_uploaded');
             
             foreach( $_FILES as $file) {
                 if (( $result = $upload->handle( $file)) !== true) {
-                    $this->params->error( $result);
+                    $this->params->error( $result, false, true);
                     break;
                 }
             }
@@ -889,22 +892,22 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         return $s;
     }
     
-    function _formatParent() {
+    function _formatParent( $indent = 3) {
         // In den RootCategories kein ParentLink anzeigen
         if ( $this->cat === null) {
             return;
         }
         
-        $formatCategoryParent = ' 
-              <tr>
-                 <td></td>
-                 <td colspan="4">'. $this->_link( '..', 'cat_id='. $this->cat->getParentId()) .'</td>
-              </tr>'. "\n";
+        $formatCategoryParent = "\n";
+        $formatCategoryParent .= $this->_indent( $indent) . '<tr>'. "\n";
+        $formatCategoryParent .= $this->_indent( $indent + 1) . '<td></td>'. "\n"; 
+        $formatCategoryParent .= $this->_indent( $indent + 1) . '<td colspan="4">'. $this->_link( '..', 'cat_id='. $this->cat->getParentId()) .'</td>'. "\n"; 
+        $formatCategoryParent .= $this->_indent( $indent) . '</tr>'. "\n";
               
         return $formatCategoryParent;
     }
     
-    function format() {
+    function format( $indent = 3) {
         $s = '';
         
         $s .= $this->formatTableHead();
@@ -931,9 +934,9 @@ class rexMediaCategoryList extends rexPoolComponentList  {
             }
             
             if( empty( $_POST) && $ooCat->getId() == $catModId) {
-                $s .= $rexCat->formatForm();
+                $s .= $rexCat->formatForm( $indent);
             } else {
-                $s .= $rexCat->format();
+                $s .= $rexCat->format( $indent);
             }
         }
         
@@ -956,17 +959,18 @@ class rexMediaCategory extends rexPoolComponent {
         $this->ooCat =& $ooCat;
     }
     
-    function format() {
+    function format( $indent) {
         $cat =& $this->_getOOCat();
-        $s = '
-              <tr>
-                 <td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>
-                 <td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>
-                 <td>'. $this->_formatName() .'</td>
-                 <td>'. $this->_formatDetails() .'</td>
-                 <td>'. $this->_formatActions() .'</td>
-              </tr>'. "\n";
-              
+        
+        $s = "\n";
+        $s .= $this->_indent( $indent) .'<tr>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatName() .'</td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatDetails() .'</td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatActions() .'</td>'. "\n";
+        $s .= $this->_indent( $indent) .'</tr>'. "\n";
+                 
         return $s;
     }
     
@@ -1007,49 +1011,7 @@ class rexMediaCategory extends rexPoolComponent {
         return $s;
     }
     
-//    function formatList( &$catList) {
-//        if ( !is_array( $catList)) {
-//            return '';
-//        }
-//        
-//        $s = "\n".
-//             '       <table class="rex" cellpadding="5" cellspacing="1">
-//             '. rexMediaCategory::_formatColGroup()
-//              . rexMediaCategory::_formatHeader();
-//              
-//        if ( $this->params->catId !== '') {
-//            $s .= rexMediaCategory::_formatParent( $catList);;
-//        }
-//              
-//        $action = $this->params->action;
-//        
-//        // Eingabeformular für neu anlegen von Kategorien 
-//        if ( $action == 'cat_add') {
-//            $s .= rexMediaCategory::formatForm();
-//        }
-//        
-//        $catModId = $this->params->catModId;
-//        
-//        foreach( $catList as $cat) {
-//            if ( !rexPoolPerm::hasCatPerm( $cat)) {
-//                continue;
-//            }
-//            
-//            if( empty( $_POST) && $cat->getId() == $catModId) {
-//                $s .= rexMediaCategory::formatForm( $catModId);
-//            } else {
-//                $s .= rexMediaCategory::format( $cat);
-//            }
-//        }
-//        
-//        $s .= "\n".
-//              '       </table>'.
-//              "\n";
-//        
-//        return $s;
-//    }
-    
-    function formatForm() {
+    function formatForm( $indent) {
         global $I18N;
         
         // Defaultwerte für Kategorie laden, wenn nicht-statisch aufgerufen!
@@ -1064,13 +1026,13 @@ class rexMediaCategory extends rexPoolComponent {
             $buttons = '<input type="submit" name="addCatButton" value="'. $I18N->msg( 'add_category') .'"/>'; 
         }
         
-        $s = '
-              <tr>
-                 <td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>
-                 <td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>
-                 <td><input type="text" name="catName" value="'. $catName .'" style="width: 100%"/></td>
-                 <td colspan="2">'. $buttons .'</td>
-              </tr>'. "\n";
+        $s = "\n";
+        $s .= $this->_indent( $indent) .'<tr>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td><input type="text" name="catName" value="'. $catName .'" style="width: 100%"/></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td colspan="2">'. $buttons .'</td>'. "\n";
+        $s .= $this->_indent( $indent) .'</tr>'. "\n";
               
         return $s;
     }
@@ -1184,6 +1146,20 @@ class rexMedia extends rexPoolComponent {
                              'action=media_details&media_id='. $this->ooMedia->getId());
     }
     
+    function _formatDetailedView() {
+        $params = array(
+            'resize' => true,
+            'width'  => '250px',
+            'class'  => 'detailed',
+            'path'   => '../'
+        );
+        
+        return $this->_link( $this->ooMedia->toImage( $params),
+                             '../files/'. $this->ooMedia->getFileName(),
+                             array( 'target' => '_blank'),
+                             false);
+    }
+    
     function _formatDetails() {
         global $I18N;
         
@@ -1226,17 +1202,17 @@ class rexMedia extends rexPoolComponent {
         $media =& $this->ooMedia;
         
         $s = '
-              <tr>
-                 <td>'. $this->_formatIcon() .'</td>
-                 <td><input type="checkbox" name="media_id[]" value="'. $media->getId() .'"/></td>
-                 <td>'. $this->_formatPreview() .'</td>
-                 <td>'. $this->_formatDetails() .'</td>
-                 <td>'. $this->_formatDescription() .'</td>';
+         <tr>
+            <td>'. $this->_formatIcon() .'</td>
+            <td><input type="checkbox" name="media_id[]" value="'. $media->getId() .'"/></td>
+            <td>'. $this->_formatPreview() .'</td>
+            <td>'. $this->_formatDetails() .'</td>
+            <td>'. $this->_formatDescription() .'</td>'. "\n";
         if ( $this->params->isEditorMode) {
-            $s .=  '<td>'. $this->_formatActions() .'</td>';
+            $s .=  '<td>'. $this->_formatActions() .'</td>'. "\n";
         }
                  
-        $s .= '</tr>'. "\n";
+        $s .= '         </tr>'. "\n";
               
         return $s;
     }
@@ -1255,6 +1231,12 @@ class rexMedia extends rexPoolComponent {
         }
         
         $s = '
+              <colgroup>
+                 <col width="150px"/>
+                 <col width="150px"/>
+                 <col width="*"/>
+              </colgroup>
+
               <tr>
                  <th colspan="3">'. $I18N->msg('pool_headline_mediadetails') .'</th>
               </tr>
@@ -1262,7 +1244,7 @@ class rexMedia extends rexPoolComponent {
               <tr>
                  <td>'. $I18N->msg('pool_colhead_title') .'</td>
                  <td>'. $media->getTitle() .'</td>
-                 <td style="text-align: center" rowspan="'. $rowspan .'">'. $media->toImage( array( 'path' => '../')) .'</td>
+                 <td style="text-align: center" rowspan="'. $rowspan .'">'. $this->_formatDetailedView() .'</td>
               </tr>
 
               <tr>
@@ -1313,37 +1295,6 @@ class rexMedia extends rexPoolComponent {
               
         return $s;
     }
-    
-//    function formatList( $mediaList) {
-//        if ( !is_array( $mediaList)) {
-//            return '';
-//        }
-//        
-//        $cat = null;
-//        $catId = rexPoolParam::catId();
-//        if ( $catId !== '') { 
-//            $cat = OOMediaCategory::getCategoryById( $catId);
-//        }
-//        
-//        $s = "\n".
-//             '       <table class="rex" cellpadding="5" cellspacing="1">
-//             '. rexMedia::_formatColGroup()
-//              . rexMedia::_formatHeader();
-//        
-//        foreach( $mediaList as $media) {
-//            if ( $cat === null || !rexPoolPerm::hasGetPerm( $cat)) {
-//                continue;
-//            }
-//            
-//            $s .= rexMedia::formatListed( $media);
-//        }
-//        
-//        $s .= "\n".
-//              '       </table>'.
-//              "\n";
-//        
-//        return $s;
-//    }
     
     function formatForm() {
         global $I18N;
