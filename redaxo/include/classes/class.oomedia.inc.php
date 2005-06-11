@@ -373,6 +373,16 @@ class OOMedia
 		{
 			$path = 'pics/';
 			$file = 'file_dummy.gif';
+            
+            // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
+            // werden muss, da es sehr lange dauert
+            static $dummyFileSize;
+            
+            if ( empty( $dummyFileSize)) {
+                $dummyFileSize = getimagesize( $path . $file);
+            }
+            $params['width']  = $dummyFileSize[0];
+            $params['height'] = $dummyFileSize[1];
 		}
 		else
 		{
@@ -411,11 +421,11 @@ class OOMedia
 			// Bild resizen?
 			if ($resize)
 			{
-				$file = 'index.php?rex_resize='.$resizeParam.$resizeMode.'__'.$this->getFileName();
-				// Bild 1:1 anzeigen
+				$file = 'index.php?rex_resize='. $resizeParam . $resizeMode .'__'. $this->getFileName();
 			}
 			else
 			{
+                // Bild 1:1 anzeigen
 				$path .= 'files/';
 				$file = $this->getFileName();
 			}
@@ -425,10 +435,10 @@ class OOMedia
 		$additional = '';
 		foreach ($params as $name => $value)
 		{
-			$additional .= $name.'="'.$value.'" ';
+			$additional .= $name .'="'. $value .'" ';
 		}
 
-		return '<img src="'.$path.$file.'" '.$additional.'/>';
+		return '<img src="'. $path . $file .'" '. $additional .'/>';
 	}
 
 	/**
