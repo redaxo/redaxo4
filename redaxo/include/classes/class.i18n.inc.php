@@ -47,7 +47,7 @@
 				while (!feof($f)) {
 					$buffer = fgets($f, 4096);
 					if (preg_match("/^(\w*)\s*=\s*(.*)$/", $buffer, $matches)) {
-						$this->text[$matches[1]] = $matches[2];
+						$this->text[$matches[1]] = trim($matches[2]);
 					}
 				}
 				fclose ($f);
