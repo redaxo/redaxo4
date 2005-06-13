@@ -293,6 +293,8 @@ pool_media_category = Kategorie
 pool_media_description = Beschreibung
 pool_media_copyright = Urheberrecht / Copyright
 pool_media_location = Datei
+pool_media_apply = Übernehmen
+pool_media_changed = Medium "{0}" wurde erfolgreich bearbeitet!
 pool_media_delete = Medium löschen
 pool_media_deleted = Medium "{0}" wurde erfolgreich gelöscht!
 
