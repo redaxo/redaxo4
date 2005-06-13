@@ -577,6 +577,49 @@ class rexPool extends rexPoolComponent {
             // Speicher freigeben
             unset( $media);
         }
+        // Medium bearbeiten
+        else if ( isset( $_POST['saveMediaButton'])) 
+        {
+            // Id des zu löschenden Mediums
+            $mediaId = $this->params->mediaId;
+            
+            // Hier die action resetten, damit die Kategorie des gelöschten Mediums angezeigt wird
+            $this->params->action = '';
+            
+            // Medium holen
+            $media = OOMedia::getMediaById( $mediaId);
+            
+            $result = array();
+            $result['title']       = isset( $_POST['mediaTitle']) ? $_POST['mediaTitle'] : '';
+            $result['description'] = isset( $_POST['mediaDescription']) ? $_POST['mediaDescription'] : '';
+            $result['copyright']   = isset( $_POST['mediaCopyright']) ? $_POST['mediaCopyright']: '';
+            $result['cat_id']      = isset( $_POST['mediaCatId']) ? $_POST['mediaCatId'] : '';
+            
+            $result['updatedate'] = time();
+            $result['updateuser'] = $REX_USER->getValue('login');
+            
+            // Attribute zuweisen
+            foreach ( $result as $detail => $value) {
+                $detail = '_'. $detail;
+                $media->$detail = $value;
+            }
+            
+            // Speichern
+            $error = $media->_update();
+            
+            // Fehlerbehandlung
+            if ( $error != '')
+            {
+                // Fehlermeldung ausgeben            
+                $this->params->error( $I18N->msg( 'pool_error_external', $error));
+            } else {
+                // Statusmeldung ausgeben            
+                $this->params->message( $I18N->msg( 'pool_media_changed', $media->getFileName()));
+            }
+            
+            // Speicher freigeben
+            unset( $media);
+        }
     }
     
     function uploadMedia() {
@@ -605,7 +648,6 @@ class rexPool extends rexPoolComponent {
     function _header() {
         global $I18N, $REX;
         // TODO HIER NOCH FÜLLEN
-        $opener_input_field = 'IRGENDWAS';
     ?>
     <html>
        <head>
@@ -617,7 +659,7 @@ class rexPool extends rexPoolComponent {
           
           function selectMedia(filename)
           {
-             opener.document.REX_FORM.<?php echo $opener_input_field ?>.value = filename;
+             opener.document.REX_FORM.<?php echo $this->params->openerFieldName ?>.value = filename;
              self.close();
           }
           
@@ -741,7 +783,7 @@ class rexPoolParams {
     var $action;
     var $mode;
     
-    var $editorName;
+    var $openerFieldName;
     var $isEditorMode;
     
     /**  Fehler/Statusmeldung */
@@ -759,8 +801,8 @@ class rexPoolParams {
         $this->action = !empty( $_REQUEST['action']) ? $_REQUEST['action'] : '';
         $this->mode = !empty( $_REQUEST['mode']) ? $_REQUEST['mode'] : '';
         
-        $this->editorName = !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : '';
-        $this->isEditorMode = $this->editorName != '';  
+        $this->openerFieldName = !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : '';
+        $this->isEditorMode = $this->openerFieldName != '';  
     }
     
     function miss( $paramName) {
@@ -1266,6 +1308,11 @@ class rexMedia extends rexPoolComponent {
         $dateFormat = rexPool::_dateFormat();
         $rowspan = 7;
         
+        $catSelect = new rexMediaCatSelect();
+        $catSelect->set_style( 'width:100%;');
+        $catSelect->set_name( 'mediaCatId');
+        $catSelect->set_selected( $media->getCategoryId());
+        
         if ( $isImage) {
             // 2 Zeilen zusätzlich
             $rowspan += 2;
@@ -1284,24 +1331,24 @@ class rexMedia extends rexPoolComponent {
 
               <tr>
                  <td>'. $I18N->msg('pool_colhead_title') .'</td>
-                 <td>'. $media->getTitle() .'</td>
+                 <td><input class="inp100" type="text" name="mediaTitle" value="'. $media->getTitle() .'"/></td>
                  <td style="text-align: center" rowspan="'. $rowspan .'">'. $this->_formatDetailedView() .'</td>
               </tr>
 
               <tr>
                  <td>'. $I18N->msg('pool_colhead_category') .'</td>
-                 <td>'. $media->getCategoryName() .'</td>
+                 <td>'. $catSelect->out() .'</td>
               </tr>
 
               <tr>
                  <td>'. $I18N->msg('pool_colhead_description') .'</td>
-                 <td>'. $media->getDescription() .'</td>
+                 <td><input class="inp100" type="text" name="mediaDescription" value="'. $media->getDescription() .'"/></td>
               </tr>
 
 
               <tr>
                  <td>'. $I18N->msg('pool_colhead_copyright') .'</td>
-                 <td>'. $media->getCopyright() .'</td>
+                 <td><input class="inp100" type="text" name="mediaCopyright" value="'. $media->getCopyright() .'"/></td>
               </tr>
 
               <tr>
@@ -1334,7 +1381,10 @@ class rexMedia extends rexPoolComponent {
               </tr>
 
               <tr>
-                 <td colspan="3" style="text-align: right;">
+                 <td colspan="2" style="text-align: right;">
+                    <input type="submit" name="saveMediaButton" value="'. $I18N->msg('pool_media_apply') .'"/>
+                 </td>
+                 <td style="text-align: right;">
                     <input type="submit" name="deleteMediaButton" value="'. $I18N->msg('pool_media_delete') .'"/>
                  </td>
               </tr>
