@@ -319,7 +319,6 @@ pool_error_categoryname_exists = Eine Kategorie mit diesem Namen existiert berei
 pool_error_external = Folgender fehler ist aufgetreten "{0}"!
 
 # redaxo/include/pages
-
 setup = Setup
 setup_text = Hier können Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umständen nicht nötig.
 
