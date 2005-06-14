@@ -647,7 +647,6 @@ class rexPool extends rexPoolComponent {
     
     function _header() {
         global $I18N, $REX;
-        // TODO HIER NOCH FÜLLEN
     ?>
     <html>
        <head>
@@ -663,20 +662,17 @@ class rexPool extends rexPoolComponent {
              self.close();
           }
           
-          function openImage(image){
-             window.open('index.php?page=medienpool&amp;popimage='+image,'popview','width=123,height=111');
+          function insertImage(src, alt, width, height)
+          {
+             var image = '<img src="'+ src +'" alt="'+ alt +'" width="'+ width +'"' height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
+             insertHTML( image);
           }
           
-          function insertHTMLArea(html){
+          function insertHTML(html){
              window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
              self.close();
           }
     
-          function fileListFunc(func)  {
-             document.rex_file_list.media_method.value=func;
-             document.rex_file_list.submit();
-          }
-          
           function checkBoxes(FormName, FieldName, CheckValue)
           {
              // alert( 'Checkvalue ' + CheckValue);
@@ -731,7 +727,7 @@ class rexPool extends rexPoolComponent {
           <input type="hidden" name="cat_id" value="<?php echo $this->params->catId ?>"/>
           <input type="hidden" name="cat_modid" value="<?php echo $this->params->catModId ?>"/>
           <input type="hidden" name="media_id" value="<?php echo $this->params->mediaId ?>"/>
-          <input type="hidden" name="opener_input_field" value="<?php echo $this->params->editorName ?>"/>
+          <input type="hidden" name="opener_input_field" value="<?php echo $this->params->openerFieldName ?>"/>
           
     <?php
     }
@@ -802,6 +798,7 @@ class rexPoolParams {
         $this->mode = !empty( $_REQUEST['mode']) ? $_REQUEST['mode'] : '';
         
         $this->openerFieldName = !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : '';
+        // TODO
         $this->isEditorMode = $this->openerFieldName != '';  
     }
     
@@ -992,34 +989,34 @@ class rexMediaCategoryList extends rexPoolComponentList  {
     
     function format( $indent = 3) {
         $s = '';
+        $catModId = $this->params->catModId;
         
         $s .= $this->formatTableHead();
-        $catModId = $this->params->catModId;
         
         //Evtl Fehlerausgabe      
         $s .= $this->_message( 2, 3);
-        
+
+        // Link zur Parent-Kat        
         $s .= $this->_formatParent();
         
+        // Evtl. eingabe Formular
         if( $this->params->action == 'cat_add') {
             $s .= rexMediaCategory::formatForm();
         }
         
-        if ( $this->cats === null) {
-            return $s;
-        }
+        if ( $this->cats !== null) {
+            foreach( $this->cats as $rexCat) {
+                $ooCat =& $rexCat->_getOOCat();
                 
-        foreach( $this->cats as $rexCat) {
-            $ooCat =& $rexCat->_getOOCat();
-            
-            if ( !rexPoolPerm::hasCatPerm( $ooCat)) {
-                continue;
-            }
-            
-            if( empty( $_POST) && $ooCat->getId() == $catModId) {
-                $s .= $rexCat->formatForm( $indent);
-            } else {
-                $s .= $rexCat->format( $indent);
+                if ( !rexPoolPerm::hasCatPerm( $ooCat)) {
+                    continue;
+                }
+                
+                if( empty( $_POST) && $ooCat->getId() == $catModId) {
+                    $s .= $rexCat->formatForm( $indent);
+                } else {
+                    $s .= $rexCat->format( $indent);
+                }
             }
         }
         
@@ -1274,7 +1271,9 @@ class rexMedia extends rexPoolComponent {
     }
     
     function _formatActions() {
-        return '';
+        $ooMedia = $this->_getOOMedia();
+        
+        return $ooMedia->toInsertLink();
     }
     
     function _formatIcon() {

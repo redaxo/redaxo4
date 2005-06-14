@@ -519,22 +519,57 @@ class OOMedia
 			case 'png' :
 			case 'gif' :
 			case 'bmp' :
-				{
-					return '<img src="'.$file.'" alt="'.htmlentities($this->getDescription()).'" width="'.$this->getWidth().'px" height="'.$this->getHeight().'px"/>';
-				}
+			{
+				return '<img src="'.$file.'" alt="'.htmlentities($this->getDescription()).'" width="'.$this->getWidth().'px" height="'.$this->getHeight().'px"/>';
+			}
 			case 'js' :
-				{
-					return '<script type="text/javascript" src="'.$file.'"></script>';
-				}
+			{
+				return '<script type="text/javascript" src="'.$file.'"></script>';
+			}
 			case 'css' :
-				{
-					return '<link href="'.$file.'" rel="stylesheet" type="text/css">';
-				}
+			{
+				return '<link href="'.$file.'" rel="stylesheet" type="text/css">';
+			}
 			default :
+            {
 				return 'No html-equivalent available for type "'.$filetype.'"';
+            }
 		}
 	}
 
+    /**
+     * @access public
+     */
+    function toInsertLink()
+    {
+        global $I18N;
+        
+        $href = '';
+        $additional = '';
+        if ( $this->isImage()) {
+            $href =   sprintf( 'insertImage(\'%s\', \'%s\', \'%s\', \'%s\');',
+                      $this->getFileName(),
+                      $this->getDescription(),
+                      $this->getWidth(),
+                      $this->getHeight());
+        } else  {
+            
+            switch( $this->getExtension()) {
+                case 'pdf' :
+                {
+                }
+                default :
+                {
+                    $href = 'insertHTML( \'test\')';
+                }
+            }
+        }
+                            
+        $link = sprintf( '<a href="javascript:%s"%s>%s</a>', $href, $additional, $I18N->msg('pool_media_insert'));
+        
+        return $link;
+    }
+    
 	/**
 	 * @access public
 	 */
