@@ -140,5 +140,14 @@ class OOCategory extends OORedaxo {
 		return OOArticle::getCategoryStartArticle($this->_id);
 	}
 
+	/*
+	 * Accessor Method:
+	 * returns the name of the article
+	 */
+	function getName() {
+		return $this->_catname;
+	}
+
+
 }
 ?>
