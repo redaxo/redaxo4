@@ -164,8 +164,12 @@ function selectMedia(filename)
 function openImage(image){
          window.open('index.php?page=medienpool&popimage='+image,'popview','width=123,height=111');
 }
-function insertHTMLArea(html){
-        window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
+function insertHTMLArea(html,filename){
+		selection = window.opener.tinyMCE.getContent();
+    	if(selection!=''){
+			html = '<a href=\"/files/'+filename+'\">'+selection+'</a>';
+		}
+		window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
         self.close();
 
 }
@@ -253,7 +257,7 @@ if($media_method=='add_file'){
                                                 $html_source = str_replace("###HEIGHT###",$size[1],$html_source);
                                         }
                                 }
-                                $js = "insertHTMLArea('$html_source');";
+                                $js = "insertHTMLArea('$html_source',$file_name);";
                         }
 
                         echo "<script language=javascript>\n";
@@ -636,8 +640,8 @@ if ($mode == "detail")
                               $html_source = str_replace("###HEIGHT###",$size[1],$html_source);
                            }
                    }
-                   $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
-                   $olinka = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">";
+                   $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source',$fname);\">".$I18N->msg('pool_file_ins')."</a>";
+                   $olinka = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source',$fname);\">";
                 }
                 if ($opener_input_field == "REX_MEDIA_0")
                 {
@@ -1027,7 +1031,7 @@ if($mode == "")
                               $html_source = str_replace("###ALT###",htmlentities( $file_description),$html_source);
                            }
                    }
-                   $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source');\">".$I18N->msg('pool_file_ins')."</a>";
+                   $opener_link = "<a href=javascript:void(0) onClick=\"insertHTMLArea('$html_source',$file_name);\">".$I18N->msg('pool_file_ins')."</a>";
                 }
 
                 if ($opener_input_field == "REX_MEDIA_0") $opener_link = "-";
