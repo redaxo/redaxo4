@@ -655,16 +655,17 @@ class rexPool extends rexPoolComponent {
           <script language=Javascript>
           <!--
           var redaxo = true;
-          
+          <?php if ( $this->params->openerFieldName != '') : ?>
           function selectMedia(filename)
           {
              opener.document.REX_FORM.<?php echo $this->params->openerFieldName ?>.value = filename;
              self.close();
           }
+          <?php endif; ?>
           
           function insertImage(src, alt, width, height)
           {
-             var image = '<img src="'+ src +'" alt="'+ alt +'" width="'+ width +'"' height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
+             var image = '<img src="'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
              insertHTML( image);
           }
           
