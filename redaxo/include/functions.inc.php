@@ -38,6 +38,7 @@ include_once $REX[INCLUDE_PATH]."/classes/class.article.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.login.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.cache.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.mime_mail.inc.php";
+include_once $REX[INCLUDE_PATH]."/classes/class.redaxo.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.oocategory.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.ooarticle.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.ooarticleslice.inc.php";
@@ -72,7 +73,7 @@ if ($REX[CLANG][$clang]=="")
 
 // ----------------- CREATE LANG OBJ
 if (!$REX[GG])
-{ 
+{
 	// if ($lang != "de_de") $lang = "en_gb";
 	// $REX[LANG] = $lang;
 
