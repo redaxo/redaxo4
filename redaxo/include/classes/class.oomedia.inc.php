@@ -118,6 +118,23 @@ class OOMedia
 		return new OOMedia($id);
 	}
 
+    /**
+     * @access public
+     */
+    function getMediaByName($filename)
+    {
+        $query = 'SELECT file_id FROM '. OOMedia::_getTableName() .' WHERE filename = "'. mysql_escape_string( $filename) .'"';
+        $sql = new sql();
+//        $sql->debugsql = true;
+        $result = $sql->get_array($query);
+        
+        if ( count( $result) == 0) {
+            return null;
+        }
+
+        return new OOMedia($result[0]['file_id']);
+    }
+    
 	/**
 	 * @access public
 	 */
@@ -540,13 +557,16 @@ class OOMedia
     /**
      * @access public
      */
-    function toInsertLink()
+    function toInsertLink( $mediaButtonMode = false)
     {
         global $I18N;
         
         $href = '';
         $additional = '';
-        if ( $this->isImage()) {
+        
+        if ( $mediaButtonMode) {
+            $href = 'selectMedia(\''. $this->getFileName() .'\');';
+        } elseif ( $this->isImage()) {
             $href =   sprintf( 'insertImage(\'%s\', \'%s\', \'%s\', \'%s\');',
                       $this->getFileName(),
                       $this->getDescription(),

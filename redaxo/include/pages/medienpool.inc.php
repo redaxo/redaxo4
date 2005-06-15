@@ -57,6 +57,14 @@ class rexPoolComponent {
             }
         }
         
+        $remindGlobals = array( 'opener_input_field');
+        foreach( $remindGlobals as $var) {
+            if ( isset( $_GET[$var])) {
+                $params .= '&'. $var .'='. $_GET[$var];
+                
+            }
+        }
+        
         if ( $params != '') { 
             if ( $params[0] != '&' && $inlineLink) {
                 $params = '&' . $params;
@@ -347,6 +355,9 @@ class rexPool extends rexPoolComponent {
     /**  Die Kind-Kategorien der aktuellen Kategorie */
     var $catList;
     
+    /**  Das aktuell angezeigte Medium */
+    var $media;
+    
     /**  Die Medien der aktuellen Kategorie */
     var $mediaList;
     
@@ -376,6 +387,25 @@ class rexPool extends rexPoolComponent {
         return $this->cat;
     }
     
+    function &_getMedia() {
+        if ( $this->media !== null) {
+            return $this->media;
+        }
+        
+        if ( !isset( $_GET['media_id'])) {
+            if ( !isset( $_GET['file_name'])) {
+            } else {
+                $mediaName = $_GET['file_name'];
+                $this->media = OOMedia::getMediaByName( $mediaName);
+            }
+        } else {
+            $mediaId = $_GET['media_id'];
+            $this->media = OOMedia::getMediaById( $mediaId);
+        }
+        
+        return $this->media;
+    }
+    
     function &_getCatList() {
         return $this->catList;
     }
@@ -388,6 +418,14 @@ class rexPool extends rexPoolComponent {
         global $I18N;
         
         $currentCat =& $this->_getCat();
+        
+        // cat wurde nicht übergeben, dann vom aktuellen media holen
+        if ( $currentCat == null) {
+            $ooMedia = $this->_getMedia();
+            if ( $ooMedia !== null) {
+                $currentCat = new rexMediaCategory( $this->params, $ooMedia->getCategory());
+            }
+        }
         
         // Pfad der aktuellen Kategorie anzeigen
         $path = 'Pfad: '. rexPool::_link( $I18N->msg('pool_default_cat'), '');
@@ -441,12 +479,11 @@ class rexPool extends rexPoolComponent {
         
         rexPool::_title( $this->_getPath(), ' - '. $I18N->msg('pool_media_detail_title'));
         
-        if ( !isset( $_GET['media_id'])) {
-            $this->params->miss( 'media_id');
+        $ooMedia = $this->_getMedia();
+        if ( $ooMedia === null) {
+            $this->params->miss( 'media_id or file_name');
         }
         
-        $mediaId = $_GET['media_id'];
-        $ooMedia = OOMedia::getMediaById( $mediaId);
         $rexMedia = new rexMedia( $this->params, $ooMedia);
         
         echo '       <table class="rex" cellpadding="5" cellspacing="1">
@@ -805,7 +842,7 @@ class rexPoolParams {
     
     function miss( $paramName) {
         global $I18N;
-        exit( '<p>'. $I18N->msg('pool_error_miss_param', $paramName) .'</p>');
+        trigger_error( '<p>'. $I18N->msg('pool_error_miss_param', $paramName) .'</p>', E_USER_ERROR);
     }
     
     function error( $errormsg, $append = false, $overwrite = false) {
@@ -1274,7 +1311,7 @@ class rexMedia extends rexPoolComponent {
     function _formatActions() {
         $ooMedia = $this->_getOOMedia();
         
-        return $ooMedia->toInsertLink();
+        return $ooMedia->toInsertLink( $this->params->isEditorMode);
     }
     
     function _formatIcon() {

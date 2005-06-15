@@ -134,16 +134,28 @@ var winObjCounter = -1;
 
 // -------------------------------------------------------------------------------------------------------------------
 
+function newPoolWindow( link) 
+{
+    newWindow( 'rexmediapopup', link, 660,500,',status=yes,resizable=yes');
+}
+
 function openREXMedialist(id)
 {
-        newWindow('rexmediapopup','index.php?page=medienpool&opener_input_field=REX_MEDIA_'+id,660,500,',status=yes,resizable=yes');
+    newPoolWindow('index.php?page=medienpool&opener_input_field=REX_MEDIA_'+id);
 }
 
 function openREXMedia(id)
 {
-	var mediaid = "REX_MEDIA_"+id;
+	var mediaid = 'REX_MEDIA_'+id;
+	var defValue = 'delete file';
+	var value = document.getElementById(mediaid).value;
+	var param = '';
 	
-        newWindow('rexmediapopup','index.php?page=medienpool&mode=detail&file_name='+document.getElementById(mediaid).value+'&opener_input_field=REX_MEDIA_'+id,660,500,',status=yes,resizable=yes');
+	if ( value != defValue) {
+	   param = '&action=media_details&file_name='+ value;
+	}
+
+    newPoolWindow('index.php?page=medienpool'+ param +'&opener_input_field='+ mediaid);
 }
 
 function deleteREXMedia(id)
@@ -154,17 +166,10 @@ function deleteREXMedia(id)
 
 function addREXMedia(id)
 {
-        newWindow('rexmediapopup','index.php?page=medienpool&mode=add&opener_input_field=REX_MEDIA_'+id,660,500,',status=yes,resizable=yes');
+        newPoolWindow('index.php?page=medienpool&mode=media_button_add&opener_input_field=REX_MEDIA_'+id);
+        
 }
 
-function openREXMediaHTMLArea(area)
-{
-        newWindow('rexmediapopup','index.php?page=medienpool&func=add&HTMLArea='+area,660,500,',status=yes,resizable=yes');
-}
-function openLinkMapHTMLArea(area)
-{
-        newWindow('linkmappopup','index.php?page=linkmap&HTMLArea='+area,660,500,',status=yes,resizable=yes');
-}
 function openLinkMap(id)
 {
         newWindow('linkmappopup','index.php?page=linkmap&opener_input_field='+id+'',660,500,',status=yes,resizable=yes');
