@@ -151,7 +151,7 @@ function openREXMedia(id)
 	var value = document.getElementById(mediaid).value;
 	var param = '';
 	
-	if ( value != defValue) {
+	if ( value != '' && value != defValue) {
 	   param = '&action=media_details&file_name='+ value;
 	}
 
