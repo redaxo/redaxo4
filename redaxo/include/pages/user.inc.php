@@ -298,7 +298,7 @@ if ($FUNC_UPDATE != "")
 		// userperm_sprachen
 		for($i=0;$i<count($userperm_sprachen);$i++)
 		{
-			$perm .= current($userperm_sprachen);
+			$perm .= "clang[".current($userperm_sprachen)."]";
 			next($userperm_sprachen);
 		}
 		// userperm_extra
