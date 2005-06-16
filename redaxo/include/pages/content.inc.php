@@ -20,6 +20,15 @@ if ($article->getRows() == 1)
 
 	// ----- category pfad und rechte
 	include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
+	// $KATout kommt aus dem include
+	// $KATPERM
+	if ($page == "content" && $article_id > 0)
+	{
+		if ($article->getValue("startpage")==1) $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("start_article")." : ";
+		else $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("article")." : ";
+		$KATout .= "<a href=index.php?page=content&article_id=$article_id&mode=edit&clang=$clang>".str_replace(" ","&nbsp;",$article->getValue("name"))."</a>";
+		// $KATout .= " [$article_id]";
+	}
 
 	// ----- Titel anzeigen
 	title("Artikel",$KATout);
@@ -33,15 +42,7 @@ if ($article->getRows() == 1)
 	if ($mode != "meta") $mode = "edit";
 
 	// ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
-	if (
-			!( 
-				$REX_USER->isValueOf("rights","article[$article_id]") || 
-				$REX_USER->isValueOf("rights","csw[$category_id]") || 
-				$REX_USER->isValueOf("rights","csw[0]") || 
-				$REX_USER->isValueOf("rights","admin[]") || 
-				$REX_USER->isValueOf("rights","dev[]")
-			)
-		)
+	if ( !( $KATPERM || $REX_USER->isValueOf("rights","article[$article_id]") ) )
 	{
 		// ----- hat keine rechte an diesem artikel
     	echo "<table border=1 cellpadding=6 cellspacing=0 width=770 bgcolor=#eeeeee><tr bgcolor='#eeeeee'><td class=warning><br><br>&nbsp;&nbsp;".$I18N->msg("no_rights_to_edit")."<br><br><br></td></tr></table>";

@@ -32,14 +32,12 @@ include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
 
 title($I18N->msg("title_structure"),"$KATout");
 
-
 $sprachen_add = "&category_id=$category_id";
 include $REX[INCLUDE_PATH]."/functions/function_rex_sprachen.inc.php";
 
-
 // --------------------------------------------- KATEGORIE FUNKTIONEN
 
-if ($catedit_function != "" && $edit_id != "")
+if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 {
 	// --------------------- KATEGORIE EDIT
 	
@@ -62,7 +60,7 @@ if ($catedit_function != "" && $edit_id != "")
 
 	rex_generateArticle($edit_id);
 
-}elseif ($catdelete_function != "" && $edit_id != "")
+}elseif ($catdelete_function != "" && $edit_id != "" && $KATPERM)
 {
 	// --------------------- KATEGORIE DELETE
 	$KAT = new sql;
@@ -88,7 +86,7 @@ if ($catedit_function != "" && $edit_id != "")
 	}
 
 
-}elseif ($function == "status" && $edit_id != "")
+}elseif ($function == "status" && $edit_id != "" && $KATPERM)
 {
 	// --------------------- KATEGORIE STATUS
 	$KAT->setQuery("select * from rex_article where id='$edit_id' and clang=$clang and startpage=1");
@@ -113,7 +111,7 @@ if ($catedit_function != "" && $edit_id != "")
 	}
 	
 
-}elseif ($function == "add_category")
+}elseif ($function == "add_category" && $KATPERM)
 {
 	// --------------------- KATEGORIE ADD
 	$message = $I18N->msg("category_added_and_startarticle_created");
@@ -154,7 +152,7 @@ if ($catedit_function != "" && $edit_id != "")
 		$AART->setValue("prior",1);
 		$AART->setValue("path",$KATPATH);
 		$AART->setValue("startpage",1);
-		$AART->setValue("status",1);
+		$AART->setValue("status",0);
 		$AART->setValue("online_from",time());
 		$AART->setValue("online_to",mktime(0, 0, 0, 1, 1, 2010));
 		$AART->setValue("createdate",time());
@@ -170,7 +168,7 @@ if ($catedit_function != "" && $edit_id != "")
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if ($function == "offline_article")
+if ($function == "offline_article" && $KATPERM)
 {
 	// --------------------- ARTIKEL OFFLINE
 	$EA = new sql;
@@ -183,7 +181,7 @@ if ($function == "offline_article")
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "online_article")
+}else if ($function == "online_article" && $KATPERM)
 {
 	// --------------------- ARTIKEL ONLINE
 	$EA = new sql;
@@ -196,7 +194,7 @@ if ($function == "offline_article")
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "edit_article" && $article_id != "")
+}else if ($function == "edit_article" && $article_id != "" && $KATPERM)
 {
 	// --------------------- ARTIKEL EDIT
 	$amessage = $I18N->msg("article_updated");
@@ -214,7 +212,7 @@ if ($function == "offline_article")
 	
 	rex_generateArticle($article_id);
 
-}elseif ($function == "delete_article" && $article_id != "")
+}elseif ($function == "delete_article" && $article_id != "" && $KATPERM)
 {
 	// --------------------- ARTIKEL DELETE
 	
@@ -222,7 +220,7 @@ if ($function == "offline_article")
 	
 	$message = rex_deleteArticle($article_id);
 
-}elseif ($function == "add_article")
+}elseif ($function == "add_article" && $KATPERM)
 {
 	// --------------------- ARTIKEL ADD
 	$amessage = $I18N->msg("article_added");
@@ -261,7 +259,7 @@ if ($function == "offline_article")
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if (($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat&clang=$clang><img src=pics/folder_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("add_category")."\"></a>";
+if ($KATPERM) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat&clang=$clang><img src=pics/folder_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("add_category")."\"></a>";
 else $addc = "&nbsp;";
 
 echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
@@ -276,7 +274,7 @@ echo	"<table border=0 cellpadding=5 cellspacing=1 width=770>
 if ($message != "") echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=4 class=warning><b>$message</b></td></tr>";
 if ($category_id != 0) echo "<tr><td class=grey>&nbsp;</td><td class=grey colspan=4>..</td></tr>";
 
-if ($function == "add_cat" && ($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")))
+if ($function == "add_cat" && $KATPERM)
 {
 	// --------------------- KATEGORIE ADD FORM
 	$echo .= "
@@ -312,35 +310,39 @@ for($i=0;$i<$KAT->getRows();$i++)
 	}
 	$kat_status = "<font color=$status_color>$kat_status</font>";
 
-	if ($REX_USER->isValueOf("rights","csw[$i_category_id]") || $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+	if ($KATPERM)
 	{
 		// schreibzugriff
 		
 		$kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status&clang=$clang><u>$kat_status</u></a>";
+		$kat_link = "index.php?page=structure&category_id=$i_category_id&clang=$clang";
 		$cat_pos++;
+
 
 		if ($edit_id==$i_category_id and $function == "edit")
 		{
 			// --------------------- KATEGORIE EDIT FORM
-			$echo .= "<tr><td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td><form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang><td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td><td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td><td class=dgrey><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."'></td><td class=dgrey>$kat_status</td></form></tr>";
+			$echo .= "<tr><td class=dgrey align=center><a href=$kat_link><img src=pics/folder.gif width=16 height=16 border=0></a></td><form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang><td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td><td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td><td class=dgrey><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."'></td><td class=dgrey>$kat_status</td></form></tr>";
 		}else
 		{
 			// --------------------- KATEGORIE WITH WRITE
-			$echo .= "<tr><td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td><td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a>";
+			$echo .= "<tr><td class=grey align=center><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td><td class=grey><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a>";
 			// $echo .= "[$i_category_id]";
 			$echo .= "</td><td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td><td class=grey><a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit&clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a></td><td class=grey>$kat_status</td></tr>";
 		}
 		
-	}elseif($REX_USER->isValueOf("rights","csr[$i_category_id]"))
+	}else if( $REX_USER->isValueOf("rights","csr[$i_category_id]") || $REX_USER->isValueOf("rights","csw[$i_category_id]") )
 	{
 		// --------------------- KATEGORIE WITH READ
-		$echo .= "<tr><td class=grey align=center><img src=pics/folder.gif border=0 width=16 height=16 align=middle></td><td class=grey><a href=index.php?page=structure&category_id=$i_category_id&clang=$clang>".$KAT->getValue("catname")."&nbsp;</a></td><td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td><td class=grey>".$I18N->msg("no_permission_to_edit")."</td><td class=grey>$kat_status</td></tr>";
+		$kat_link = "index.php?page=structure&category_id=$i_category_id&clang=$clang";
+		$echo .= "<tr><td class=grey align=center><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td><td class=grey><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td><td class=grey valign=middle width=20>".htmlentities($KAT->getValue("catprior"))."</td><td class=grey>".$I18N->msg("no_permission_to_edit")."</td><td class=grey>$kat_status</td></tr>";
 	}
 	
 	$KAT->next();
 }
 echo $echo;
 echo "</table>";
+
 
 
 
@@ -398,7 +400,7 @@ if($category_id > -1)
 
 	// --------------------- ARTIKEL ADD FORM
 
-	if ($function=="add_art")
+	if ($function=="add_art" && $KATPERM)
 	{
 		if ($template_id=="")
 		{
@@ -451,7 +453,7 @@ if($category_id > -1)
 
 		// --------------------- ARTIKEL EDIT FORM
 
-		if ($function == "edit" and $sql->getValue("id") == $article_id){
+		if ($function == "edit" && $sql->getValue("id") == $article_id && $KATPERM){
 
 			$TMPL_SEL->set_selected($sql->getValue("template_id"));
 
@@ -475,7 +477,7 @@ if($category_id > -1)
 
 		// --------------------- ARTIKEL PERMISSION TO ENTER
 
-		}elseif(1==1)
+		}elseif($KATPERM)
 		{
 
 			// --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
@@ -483,14 +485,10 @@ if($category_id > -1)
 			echo "	<tr>
 				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>
 				<td class=grey><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a>";
-
 			// echo "[".$sql->getValue("id")."]";
-
 			echo "</td>";
-
 			// echo "<td class=grey align=center width=75 valign=middle><form method=post action=index.php?page=structure&category_id=".$category_id."&aid=".$sql->getValue("id")." style=display:inline><input type=field name=Position_Article style=width:30px;height:16px value=$pos></form> <a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=up><img src=pics/pfeil_up.gif border=0 alt=up align=absmiddle></a><a href=index.php?page=structure&category_id=$category_id&order_id=".$sql->getValue("prior")."&order=down><img src=pics/pfeil_down.gif border=0 alt=down align=absmiddle></a></td>";
 			echo "<td class=grey align=center width=10 valign=middle>".htmlentities($sql->getValue("prior"))."</td>\n";
-
 			echo "
 				<td class=grey>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td class=grey>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
