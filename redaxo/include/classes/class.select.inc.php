@@ -12,14 +12,15 @@
 ################ Class SQL
 class select{
 
-	var $select_name;		// 
+	var $select_name;		//
+    var $select_id; 
 //	var $counter;			// 
 	var $options;		// 
 	var $option_selected;	//
 //	var $option_anzahl;		//
 	var $select_size;		// 
 	var $select_multiple;	//
-	var $style;
+	var $select_style;
 
 	################ Konstruktor
 	function select(){
@@ -51,9 +52,14 @@ class select{
 		$this->select_name	= $name;
 	}
 
-	################ select name
+    ################ select id
+    function set_id($id){
+        $this->select_id  = $id;
+    }
+    
+	################ select style
 	function set_style($style){
-		$this->style	= $style;
+		$this->select_style	= $style;
 	}
 	
 	################ select size
@@ -84,7 +90,7 @@ class select{
         
 		global $STYLE;
 
-		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->style."'>\n";
+		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
 
         if ( is_array( $this->options)) $ausgabe .= $this->out_group( '');
 
