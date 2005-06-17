@@ -61,6 +61,12 @@ function init()
 // Vorraussetzung ist, das zuvor eine height per CSS gesetzt wurde!
 function alter_box_height(boxid, pixelvalue)
 {
+    if ( typeof( boxid) == "object") {
+       for (var i = 0; i < boxid.length; i++) {
+          alter_box_height(boxid[i], pixelvalue);
+       }
+       return false;
+    }
 	var box = new getObj( boxid);
 	var boxheight = parseInt(box.style.height);
 	var newheight = boxheight + pixelvalue;
@@ -93,7 +99,7 @@ function makeWinObj(name,url,posx,posy,width,height,extra)
 
 function closeAll()
 {
-        for(i=0;i<=winObjCounter;i++)
+        for( var i=0;i<=winObjCounter;i++)
         {
                 if(winObj[i]) winObj[i].obj.close();
         }
@@ -139,7 +145,7 @@ function newWindow(name,link,width,height,type)
         winObj[winObjCounter]=new makeWinObj(name,link,posx,posy,width,height,extra);
 }
 
-winObj=new Array();
+var winObj = new Array();
 
 var winObjCounter = -1;
 
@@ -193,7 +199,7 @@ function deleteREXLink(id)
         var a = new getObj("LINK["+id+"]");
         a.obj.value = "";
 
-        var a = new getObj("LINK_NAME["+id+"]");
+        a = new getObj("LINK_NAME["+id+"]");
         a.obj.value = "";
 
 }
