@@ -1,11 +1,14 @@
+---------------------------------------------------------------------------------
 Todo:
 ---------------------------------------------------------------------------------
 
 
+---------------------------------------------------------------------------------
 Known Bugs:
 ---------------------------------------------------------------------------------
 
 
+---------------------------------------------------------------------------------
 Changes
 ---------------------------------------------------------------------------------
 
@@ -13,9 +16,9 @@ Changes
  
   * 2005-06-17
    * Medienpool redesign (Markus)
-   * new OOF Classes (OOMedia, OOMediaCategory, OOTemplate) (Markus)
-   * new UserRights: (Markus)
+   * Added new OOF Classes (OOMedia, OOMediaCategory, OOTemplate) (Markus)
    * First unstable commit of Mediamanager-Addon (Markus)
+   * Added new UserRights: (Markus)
 
 	// user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
 	// user mit media[10] kann in kat 10 alles
