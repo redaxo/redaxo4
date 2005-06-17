@@ -139,9 +139,9 @@ function newPoolWindow( link)
     newWindow( 'rexmediapopup', link, 660,500,',status=yes,resizable=yes');
 }
 
-function openREXMedialist(id)
+function openMediaPool(id)
 {
-    newPoolWindow('index.php?page=medienpool&opener_input_field=REX_MEDIA_'+id);
+    newPoolWindow('index.php?page=medienpool');
 }
 
 function openREXMedia(id)

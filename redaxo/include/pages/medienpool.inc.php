@@ -836,8 +836,7 @@ class rexPoolParams {
         $this->mode = !empty( $_REQUEST['mode']) ? $_REQUEST['mode'] : '';
         
         $this->openerFieldName = !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : '';
-        // TODO
-        $this->isEditorMode = $this->openerFieldName != '';  
+        $this->isEditorMode = $this->openerFieldName != '';
     }
     
     function miss( $paramName) {
