@@ -15,6 +15,7 @@ Changes:
  # 1st Release Candidate 2005-06-19
  
   * 2005-06-17
+   * Added Scale-Up/Scale-Down functionality to all Textarea's (Markus)
    * Medienpool redesign (Markus)
    * Added new OOF Classes (OOMedia, OOMediaCategory, OOTemplate) (Markus)
    * First unstable commit of Mediamanager-Addon (Markus)

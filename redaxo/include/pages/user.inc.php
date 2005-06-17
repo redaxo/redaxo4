@@ -39,9 +39,11 @@ if ($user_id != "")
 // Allgemeine Permissions setzen
 $sel_all = new select;
 $sel_all->multiple(1);
-$sel_all->set_style("width:250px;");
+$sel_all->set_style("width:250px; height: 130px;");
 $sel_all->set_size(10);
 $sel_all->set_name("userperm_all[]");
+$sel_all->set_id("userperm_all");
+
 for($i=0;$i<count($REX[PERM]);$i++)
 {
 	if($i==0) reset($REX[PERM]);
@@ -56,9 +58,11 @@ $REX[EXTPERM][] = "module[php]";
 $REX[EXTPERM][] = "module[html]";
 $sel_ext = new select;
 $sel_ext->multiple(1);
-$sel_ext->set_style("width:250px;");
+$sel_ext->set_style("width:250px; height: 130px;");
 $sel_ext->set_size(10);
 $sel_ext->set_name("userperm_ext[]");
+$sel_ext->set_id("userperm_ext");
+
 for($i=0;$i<count($REX[EXTPERM]);$i++)
 {
 	if($i==0) reset($REX[EXTPERM]);
@@ -69,9 +73,10 @@ for($i=0;$i<count($REX[EXTPERM]);$i++)
 // zugriff auf categorien
 $sel_cat = new select;
 $sel_cat->multiple(1);
-$sel_cat->set_style("width:250px;");
+$sel_cat->set_style("width:250px; height: 200px;");
 $sel_cat->set_size(20);
 $sel_cat->set_name("userperm_cat[]");
+$sel_cat->set_id("userperm_cat");
 
 $cat_ids = array();
 if ($rootCats = OOCategory::getRootCategories())
@@ -101,11 +106,14 @@ function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
 // zugriff auf mediacategorien
 $sel_media = new select;
 $sel_media->multiple(1);
-$sel_media->set_style("width:250px;");
+$sel_media->set_style("width:250px; height: 200px;");
 $sel_media->set_size(20);
 $sel_media->set_name("userperm_media[]");
+$sel_media->set_id("userperm_media");
+
 $sqlmedia = new sql;
 $sqlmedia->setQuery("select * from rex_file_category");
+
 for ($i=0;$i<$sqlmedia->getRows();$i++)
 {
 	$name = $sqlmedia->getValue("name");
@@ -117,11 +125,14 @@ for ($i=0;$i<$sqlmedia->getRows();$i++)
 // zugriff auf sprachen
 $sel_sprachen = new select;
 $sel_sprachen->multiple(1);
-$sel_sprachen->set_style("width:250px;");
+$sel_sprachen->set_style("width:250px; height: 50px;");
 $sel_sprachen->set_size(3);
 $sel_sprachen->set_name("userperm_sprachen[]");
+$sel_sprachen->set_id("userperm_sprachen");
+
 $sqlsprachen = new sql;
 $sqlsprachen->setQuery("select * from rex_clang order by id");
+
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
 	$name = $sqlsprachen->getValue("name");
@@ -134,11 +145,14 @@ for ($i=0;$i<$sqlsprachen->getRows();$i++)
 // zugriff auf module
 $sel_module = new select;
 $sel_module->multiple(1);
-$sel_module->set_style("width:250px;");
+$sel_module->set_style("width:250px; height: 150px;");
 $sel_module->set_size(10);
 $sel_module->set_name("userperm_module[]");
+$sel_module->set_id("userperm_module");
+
 $sqlmodule = new sql;
 $sqlmodule->setQuery("select * from rex_modultyp order by name");
+
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
 	$name = $sqlmodule->getValue("name");	
@@ -149,9 +163,11 @@ for ($i=0;$i<$sqlmodule->getRows();$i++)
 // extrarechte - von den addons übergeben
 $sel_extra = new select;
 $sel_extra->multiple(1);
-$sel_extra->set_style("width:250px;");
+$sel_extra->set_style("width:250px; height: 150px;");
 $sel_extra->set_size(10);
 $sel_extra->set_name("userperm_extra[]");
+$sel_extra->set_id("userperm_extra");
+
 for($i=0;$i<count($REX[EXTRAPERM]);$i++)
 {
 	if($i==0) reset($REX[EXTRAPERM]);
@@ -426,19 +442,32 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey align=right><input type=checkbox name=useradmin value=1 $adminchecked></td>
-			<td class=grey>Admin (Alle Kategorien/Alle Module/Alle Medien/User)</td>
+			<td class=grey>Admin (Alle Kategorien/Module/Medien/User)</td>
 			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
 			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
 		</tr>
 		<tr>
 			<td class=grey>Sprachenzugriff</td>
-			<td class=grey colspan=3>".$sel_sprachen->out()."</td>
+			<td class=grey colspan=3>
+              ".$sel_sprachen->out()."
+              <br/>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Allgemein</td>
-			<td class=grey>".$sel_all->out()."</td>
+			<td class=grey>
+              ".$sel_all->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_all', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_all', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 			<td class=grey valign=top>Optionen</td>
-			<td class=grey>".$sel_ext->out()."</td>
+			<td class=grey>
+              ".$sel_ext->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_ext', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_ext', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		<tr>
 			<td class=grey align=right><input type=checkbox name=allcats value=1 $allcatschecked></td>
@@ -448,15 +477,31 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey valign=top>Kategorien</td>
-			<td class=grey>".$sel_cat->out()."</td>
+			<td class=grey>
+              ".$sel_cat->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_cat', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_cat', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 			<td class=grey valign=top>Medienordner</td>
-			<td class=grey>".$sel_media->out()."</td>
+			<td class=grey>
+              ".$sel_media->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_media', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_media', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Module</td>
-			<td class=grey>".$sel_module->out()."</td>
+			<td class=grey>
+              ".$sel_module->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_module', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_module', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 			<td class=grey valign=top>Extras</td>
-			<td class=grey>".$sel_extra->out()."</td>
+			<td class=grey>
+              ".$sel_extra->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_extra', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_extra', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		
 		<tr>
@@ -565,19 +610,32 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey align=right><input type=checkbox name=useradmin value=1 $adminchecked></td>
-			<td class=grey>Admin (Alle Kategorien/Alle Module/Alle Medien/User)</td>
+			<td class=grey>Admin (Alle Kategorien/Module/Medien/User)</td>
 			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
 			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
 		</tr>
 		<tr>
 			<td class=grey>Sprachenzugriff</td>
-			<td class=grey colspan=3>".$sel_sprachen->out()."</td>
+            <td class=grey colspan=3>
+              ".$sel_sprachen->out()."
+              <br/>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		<tr>
-			<td class=grey valign=top>Allgemein</td>
-			<td class=grey>".$sel_all->out()."</td>
-			<td class=grey valign=top>Optionen</td>
-			<td class=grey>".$sel_ext->out()."</td>
+            <td class=grey valign=top>Allgemein</td>
+            <td class=grey>
+              ".$sel_all->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_all', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_all', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
+            <td class=grey valign=top>Optionen</td>
+            <td class=grey>
+              ".$sel_ext->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_ext', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_ext', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		<tr>
 			<td class=grey align=right><input type=checkbox name=allcats value=1 $allcatschecked></td>
@@ -586,16 +644,32 @@ if ($FUNC_ADD)
 			<td class=grey>Alle Medienordner</td>
 		</tr>
 		<tr>
-			<td class=grey valign=top>Kategorien</td>
-			<td class=grey>".$sel_cat->out()."</td>
-			<td class=grey valign=top>Medienordner</td>
-			<td class=grey>".$sel_media->out()."</td>
+            <td class=grey valign=top>Kategorien</td>
+            <td class=grey>
+              ".$sel_cat->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_cat', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_cat', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
+            <td class=grey valign=top>Medienordner</td>
+            <td class=grey>
+              ".$sel_media->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_media', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_media', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 		<tr>
-			<td class=grey valign=top>Module</td>
-			<td class=grey>".$sel_module->out()."</td>
-			<td class=grey valign=top>Extras</td>
-			<td class=grey>".$sel_extra->out()."</td>
+            <td class=grey valign=top>Module</td>
+            <td class=grey>
+              ".$sel_module->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_module', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_module', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
+            <td class=grey valign=top>Extras</td>
+            <td class=grey>
+              ".$sel_extra->out()."
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_extra', 100)\">".$I18N->msg("increase")."</a>
+              <a href=\"#\" onclick=\"return alter_box_height('userperm_extra', -100)\">".$I18N->msg("reduce")."</a>
+            </td>
 		</tr>
 
 		<tr>

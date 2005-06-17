@@ -6,6 +6,9 @@ general = Allgemein
 dateformat = %a %d. %B %Y
 setlocale = de_DE
 adateformat = %d. %b. %Y
+increase = Vergrößern
+reduce = Verkleinern
+
 
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel selektiert

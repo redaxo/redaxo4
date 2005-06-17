@@ -58,6 +58,20 @@ function init()
 }
 
 // -------------------------------------------------------------------------------------------------------------------
+// Vorraussetzung ist, das zuvor eine height per CSS gesetzt wurde!
+function alter_box_height(boxid, pixelvalue)
+{
+	var box = new getObj( boxid);
+	var boxheight = parseInt(box.style.height);
+	var newheight = boxheight + pixelvalue;
+	if (newheight > 0)
+	{
+		box.style.height = newheight + "px";
+	}
+	return false;
+}
+
+// -------------------------------------------------------------------------------------------------------------------
 
 function makeWinObj(name,url,posx,posy,width,height,extra)
 {
