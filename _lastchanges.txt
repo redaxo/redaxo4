@@ -1,77 +1,58 @@
-
-// lastchanges
-
-
+Todo:
+---------------------------------------------------------------------------------
 
 
+Known Bugs:
+---------------------------------------------------------------------------------
 
 
+Changes
+---------------------------------------------------------------------------------
 
+ # 1st Release Candidate 2005-06-19
+ 
+  * 2005-06-17
+   * Medienpool redesign (Markus)
+   * new OOF Classes (OOMedia, OOMediaCategory, OOTemplate) (Markus)
+   * new UserRights: (Markus)
+   * First unstable commit of Mediamanager-Addon (Markus)
 
-
-
-
-// -------------------------- 20040404 - careck
-
-Änderungen an Redaxo Sourcecode
-===============================
-Carsten Eckelman <careck@circle42.com>
-
-1. Ich habe vor allem ein Internationalisierungskonzept eingeführt (i18n).
-Dafür gibt es jetzt eine neue Klasse in include/classes/class.i18n.inc.php.
-Die Klasse i18n kann anhand eines locale Kürzels (z.B. de_DE) und eines Schlüssels
-(z.B. user_added) eine lokalisierte Nachricht generieren. 
-
-Dazu habe ich ebenfalls eine neue $REX[LANG] Konstante eingeführt, die auch im 
-'Special Features' Tab geändert werden kann (include/pages/special.inc.php).
-
-Anhand dieser Konstante wird ein globales $I18N Objekt erzeugt:
-
-	// hier wird die i18n sprachklasse erzeugt
-	include_once $REX[INCLUDE_PATH]."/classes/class.i18n.inc.php";
-	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
-
-Dabei wird im Verzeichnis lang/ nach einer Datei mit dem Namen <locale>.lang (z.B. de_DE.lang)
-gesucht. Diese Datei enthält Schlüssel und Werte, z.B.:
-
-	# redaxo\include\pages\user.inc.php
-	title_user = Benutzer
-	user_data_updated = Benutzerdaten wurden aktualisiert !
-	user_deleted = Benutzer gel&ouml;scht!
-	user_added = Benutzer wurde hinzugef&uuml;gt.
-	create_user = Neuen Benutzer anlegen
-	add_user = Benutzer hinzuf&uuml;gen
-	edit_user = Benutzer bearbeiten
-
-Wenn nun eine lokalisierte Nachricht irgendwo ausgeben werden soll, dann geschieht das durch
-Aufruf der Methode $I18N->msg('key'), z.B.:
-
-	<a href=index.php?page=module>".$I18N->msg("delete_module")."</a>
-
-Die msg Methode kann auch mit bis zu 10 Ersetzungsparametern bestückt werden, um komplizierte
-Satzstellungen zu berücksichtigen, z.B.
-
-	$I18N->msg("file_not_found","foo.txt")
-
-mit der Definition: 
-
-	file_not_found = Die Datei {0} konnte nicht gefunden werden.
-
-wird zu
-
-	Die Datei foo.txt konnte nicht gefunden werden.
-
-Dabei können die Ersetzungszeichen {0} bis {9} in der Definition verwendet werden.
-
-2. Die Datei include/function_rex_category.inc habe ich mit der zusätzlichen Endung .php versehen
-einfach der Einheitlichkeit halber. Alle includes sind dementsprechend angepasst.
-
-3. Es war möglich den Homepage/Startartikel zu löschen, was mich bereits zweimal erwischt hat (ich
-spiele halt zuviel rum ;), das habe ich durch eine einfache Abfrage in function_rex_generate.inc.php
-in der Funktion deleteArticle() verhindert:
-
-	if ($id == $REX[STARTARTIKEL_ID]) {
-		return $I18N->msg("cant_delete_startarticle");
-	}
-
-
+	// user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
+	// user mit media[10] kann in kat 10 alles
+	
+	// user mit media_add[all] darf adden
+	// user mit media_edit[all] darf editieren
+	// user mit media_delete[all] darf löschen
+	// user mit media_get[all] darf jedes bild selektieren
+	
+	// user mit media_add[10] darf in kat 10 adden
+	// user mit media_edit[10] darf in kat 10 editieren
+	// user mit media_delete[10] darf in kat 10 löschen
+	// user mit media_get[10] darf in kat 10 jedes bild selektieren
+	
+  * 2005-06-14
+   * Added Glossar-Addon to CVS (Markus)
+   * Added new OOF Class OORedaxo (Wolfgang)
+   * Redesigned OOArticle & OOCategory (Wolfgang)
+	
+  * 2005-06-13
+   * Userrights redesign (Jan)
+   
+  * 2005-06-12
+   * Converted Resize-Plugin to Image-Resize-Addon (Wolfgang)
+	
+  * 2005-06-11
+   * Added Guestbook-Addon to CVS (Markus)
+   
+  * 2005-06-16
+   * Added Explorer-Addon to CVS (Goldfisch)
+   
+  * 2005-06-04
+   * Added Simple-Shop-Addon to CVS (Jan)
+   * Added Shop-Addon to CVS (Jan)
+   * Converted Stats-Page to Stats-Addon (Jan)
+   
+  * 2005-06-02
+   * Added Live-System-Addon to CVS (Wolfgang)
+   
+	
