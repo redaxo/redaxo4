@@ -20,7 +20,7 @@ if ($REX[SETUP])
 {
 	$REX_LOGIN = new login();
 	$REX_LOGIN->setSqlDb(1);
-	$REX_LOGIN->setSysID("redaxo");	// fuer redaxo
+	$REX_LOGIN->setSysID($REX[INSTNAME]);	// fuer redaxo
 	$REX_LOGIN->setSessiontime(3000); // 3600 sekunden = 60 min
 	$REX_LOGIN->setLogin($REX_ULOGIN,$REX_UPSW);
 	if ($FORM[logout] == 1) $REX_LOGIN->setLogout(true);

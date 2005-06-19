@@ -14,7 +14,7 @@ $REX[version] = "3.0";
 $REX[subversion] = "1";
 $REX[STARTARTIKEL_ID] = 1; // FIRST ARTICLE
 $REX[STATS] = 1; // STATS
-$REX[LANG] = en_gb; // select default language
+$REX[LANG] = "de_de"; // select default language
 $REX[MOD_REWRITE] = false; // activate mod_rewrite support
 $REX[WWW_PATH] = ""; //
 $REX[DOC_ROOT] = ""; // 
@@ -25,6 +25,9 @@ $REX[CACHING] = false; // Caching
 $REX[CACHING_DEBUG] = false; // Shows debugmessage
 $REX[TABLE_PREFIX] = "rex_";
 $REX[MEDIAFOLDERPERM] = "0777"; // 774
+$REX[FILEPERM] = "0777";
+$REX[INSTNAME] = "rex20050619161609";
+
 
 // ----------------- DB1
 $DB[1][HOST] = "localhost";
@@ -41,17 +44,10 @@ $DB[2][NAME] = "";
 // ----------------- INCLUDE FUNCTIONS
 if(!$REX[NOFUNCTIONS]) include_once ($REX[INCLUDE_PATH].'/functions.inc.php');
 
-// ----------------- CTYPES
-// --- DYN CTYPE
-
-$REX[CTYPE][0] = "default: deutsch";
-
-// --- /DYN
-
 // -----------------
 if (!isset($category_id) or $category_id == "") $category_id = 0;
 if (!isset($ctype) or $ctype == "") $ctype = 0;
-if (!isset($clang) or $clang == "") $clang = 0;
+
 
 // ----------------- set to default
 $REX[NOFUNCTIONS] = false;

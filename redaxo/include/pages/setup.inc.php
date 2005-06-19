@@ -165,11 +165,13 @@ if ($checkmodus == 2 && $send == 1)
 	$cont = fread($h,filesize("include/master.inc.php"));
 	$cont = ereg_replace("(REX\[SERVER\].?\=.?\")[^\"]*","\\1".$serveraddress,$cont);
 	$cont = ereg_replace("(REX\[SERVERNAME\].?\=.?\")[^\"]*","\\1".$serverbezeichnung,$cont);
+	$cont = ereg_replace("(REX\[INSTNAME\].?\=.?\")[^\"]*","\\1"."rex".date("YmdHis"),$cont);
 	$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?\")[^\"]*","\\1".$error_email,$cont);
 	$cont = ereg_replace("(DB\[1\]\[HOST\].?\=.?\")[^\"]*","\\1".$mysql_host,$cont);
 	$cont = ereg_replace("(DB\[1\]\[LOGIN\].?\=.?\")[^\"]*","\\1".$redaxo_db_user_login,$cont);
 	$cont = ereg_replace("(DB\[1\]\[PSW\].?\=.?\")[^\"]*","\\1".$redaxo_db_user_pass,$cont);
 	$cont = ereg_replace("(DB\[1\]\[NAME\].?\=.?\")[^\"]*","\\1".$dbname,$cont);
+	
 	fclose($h);
 
 	$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","w+");
@@ -271,9 +273,19 @@ if ($checkmodus == 3 && $send == 1)
 	if ($dbanlegen == 2)
 	{
 		// ----- Keine Datenbank anlegen
-		$TBLS = array("rex_action" => 0,"rex_action" => 0,"rex_article_slice" => 0,"rex_article_type" => 0,"rex_clang" => 0,
-		"rex_file" => 0,"rex_file_category" => 0,"rex_help" => 0,"rex_module_action" => 0,"rex_modultyp" => 0,
-		"rex_template" => 0,"rex_user" => 0);
+		$TBLS = array(
+		"rex_action" => 0,
+		"rex_article" => 0,
+		"rex_article_slice" => 0,
+		"rex_article_type" => 0,
+		"rex_clang" => 0,
+		"rex_file" => 0,
+		"rex_file_category" => 0,
+		"rex_help" => 0,
+		"rex_module_action" => 0,
+		"rex_modultyp" => 0,
+		"rex_template" => 0,
+		"rex_user" => 0);
 
 		$gt = new sql;
 		// $gt->debugsql = 1;
@@ -407,7 +419,7 @@ if ($checkmodus == 4 && $send == 1)
 				$err_msg = $I18N->msg("setup_042");
 			}else
 			{
-				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','admin[]dev[]')";
+				$insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','admin[]dev[]import[]stats[]')";
 				$link = @mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
 				if(!@mysql_db_query($DB[1][NAME],$insert,$link))
 				{
