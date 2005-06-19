@@ -171,8 +171,7 @@ if ($function == "delete")
 						$colname = $cols->getvalue("Field");
 						$coltype = $cols->getvalue("Type");
 						if($cols->getvalue("Null") == 'YES') $colnull = "NULL"; 
-						elseif($cols->getvalue("Null") == 'NO') $colnull = "NOT NULL";
-						else $colnull = "";
+						else $colnull = "NOT NULL";
 						if($cols->getvalue("Default") != '') $coldef = "DEFAULT ".$cols->getvalue("Default")." ";
 						else $coldef = "";
 						$colextra = $cols->getvalue("Extra");
