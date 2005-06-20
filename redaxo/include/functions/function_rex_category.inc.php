@@ -24,6 +24,7 @@ if ($KAT->getRows()!=1)
 	// kategorie existiert
 	
 	$KPATH = explode("|",$KAT->getValue("path"));
+		
 	$KATebene = count($KPATH)-1;
 	for ($ii=1;$ii<$KATebene;$ii++)
 	{
@@ -34,14 +35,14 @@ if ($KAT->getRows()!=1)
 		if ($SKAT->getRows()==1)
 		{
 
-			if ($REX_USER->isValueOf("rights","csw[".$SKAT->getValue("id")."]"))
+			if ($KATPERM || $REX_USER->isValueOf("rights","csw[".$SKAT->getValue("id")."]"))
 			{
 
 				$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
 				$KATPATH .= $KPATH[$ii]."|";
 				$KATPERM = true;
 
-			}else if ($REX_USER->isValueOf("rights","csr[".$SKAT->getValue("id")."]"))
+			}else if ($KATPERM || $REX_USER->isValueOf("rights","csr[".$SKAT->getValue("id")."]"))
 			{
 
 				$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
