@@ -1128,7 +1128,7 @@ class rexMediaCategory extends rexPoolComponent {
         return $s;
     }
     
-    function formatForm( $indent) {
+    function formatForm( $indent = 3) {
         global $I18N;
         
         // Defaultwerte für Kategorie laden, wenn nicht-statisch aufgerufen!
