@@ -52,6 +52,7 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 	$EKAT->where("id='$edit_id' and startpage=1 and clang=$clang");
 	$EKAT->setValue("catname","$kat_name");
 	$EKAT->setValue("catprior","$Position_Category");
+	$EKAT->setValue("path",$KATPATH);
 	$EKAT->setValue("updatedate",time());
 	$EKAT->setValue("updateuser",$REX_USER->getValue("login"));
 	$EKAT->update();
@@ -203,6 +204,7 @@ if ($function == "offline_article" && $KATPERM)
 	$EA->where("id='$article_id' and clang=$clang");
 	$EA->setValue("name",$article_name);
 	$EA->setValue("template_id",$template_id);
+	$EA->setValue("path",$KATPATH);
 	$EA->setValue("updatedate",time());
 	$EA->setValue("updateuser",$REX_USER->getValue("login"));
 	$EA->setValue("prior",$Position_Article);
