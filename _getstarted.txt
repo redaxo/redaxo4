@@ -1,6 +1,7 @@
 
+Redaxo Version: 3.0
 Ersteller: Jan Kristinus
-Datum: 22.Februar 2004
+Datum: Juni 2005
 Titel: Get Started.. [deutsch]
 
 1. Allgemeines
@@ -108,9 +109,9 @@ echo "Bild: <br>";
 
 ?>REX_MEDIA_BUTTON[1]<?
 
-if ("FILE[1]" != "")
+if ("REX_FILE[1]" != "")
 {
-  echo "<img src=../files/FILE[1] width=100><br>";
+  echo "<img src=../files/REX_FILE[1] width=100><br>";
 }
 
 ?><br><br>Bildunterschrift:<br>
@@ -119,7 +120,7 @@ if ("FILE[1]" != "")
 
 Ausgabeformular:
 <?
-if ("FILE[1]" != "") echo "<img src=/files/FILE[1]>";
+if ("REX_FILE[1]" != "") echo "<img src=/files/REX_FILE[1]>";
 if ("REX_VALUE[1]" != "") echo "<br>REX_VALUE[1]";
 echo "<br><br>";
 ?>
@@ -177,6 +178,6 @@ Relevante feste Formularwerte: INPUT_PHP ....
 REX_MEDIA_BUTTON[1] ... REX_MEDIA_BUTTON[10]
 Erstellt Auswahlbuttons für die Selektion und zum Hinzufügen von dateien/Bilder [Mediapool]
 
-REX_MEDIA_LINK[1] ... REX_MEDIA_LINK[10]
+REX_LINK_BUTTON[1] ... REX_LINK_BUTTON[10]
 Erstellt Auswahlbuttons für die Selektion von Links
 
