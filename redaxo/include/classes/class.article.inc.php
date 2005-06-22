@@ -657,7 +657,7 @@ class article
 		}else
 		{
 			if ($REX[GG]) return "aid$id".".php";
-			else return getURLbyID($id);
+			else return rex_getURL($id);
 		}
 	}
 
