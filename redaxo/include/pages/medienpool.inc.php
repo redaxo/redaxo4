@@ -272,9 +272,7 @@ class rexPoolUpload extends rexPoolComponent {
                 }
 
 					// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
-					// wenn chmod aktiv
-					// bei rechteproblem mit chmod probieren
-					// chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+					chmod( $absFile, $REX['MEDIAFOLDERPERM']);
             } 
             else
             {
@@ -665,7 +663,7 @@ class rexPool extends rexPoolComponent {
 					// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
 					// wenn chmod aktiv
 					// bei rechteproblem mit chmod probieren
-					// chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+					chmod( $absFile, $REX['MEDIAFOLDERPERM']);
 
 					if ( move_uploaded_file( $file['tmp_name'], $absFile) || copy( $file['tmp_name'], $absFile) )
 					{
@@ -673,7 +671,7 @@ class rexPool extends rexPoolComponent {
 						// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
 						// wenn chmod aktiv
 						// bei rechteproblem mit chmod probieren
-						// chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+						chmod( $absFile, $REX['MEDIAFOLDERPERM']);
 
 						$result['orgname'] = $file['name'];
 						$result['size']    = $file['size'];
