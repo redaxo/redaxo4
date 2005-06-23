@@ -284,6 +284,7 @@ pool_colhead_description = Beschreibung
 pool_colhead_copyright = Urheberrecht / Copyright
 pool_colhead_functions = Funktionen
 pool_colhead_filename = Dateiname
+pool_colhead_newfile = Datei ersetzen
 pool_colhead_width = Breite
 pool_colhead_height = Höhe
 pool_colhead_updated = Bearbeitet am
@@ -300,6 +301,7 @@ pool_media_apply = Übernehmen
 pool_media_changed = Medium "{0}" wurde erfolgreich bearbeitet!
 pool_media_delete = Medium löschen
 pool_media_deleted = Medium "{0}" wurde erfolgreich gelöscht!
+pool_media_not_deleted = Medium konnte nicht gelöscht werden, da noch Artikel mit diesem Medium existieren
 pool_media_insert = Einfügen
 
 pool_category_created = Kategorie "{0}" wurde erfolgreich angelegt!

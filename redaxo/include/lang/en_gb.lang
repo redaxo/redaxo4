@@ -285,6 +285,7 @@ pool_colhead_functions = functions
 pool_colhead_filename = filename
 pool_colhead_width = width
 pool_colhead_height = height
+pool_colhead_newfile = replace file
 pool_colhead_updated = edited on
 pool_colhead_created = created on
 pool_colhead_type = type
@@ -299,6 +300,7 @@ pool_media_apply = apply
 pool_media_changed = media "{0}" successfully edited!
 pool_media_delete = delete media
 pool_media_deleted = media "{0}" successfully deleted!
+pool_media_not_deleted = media could not be deleted because there are still artikels with it
 pool_media_insert = insert
 
 pool_category_created = category "{0}" successfully created!
