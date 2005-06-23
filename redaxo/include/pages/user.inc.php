@@ -594,7 +594,17 @@ if ($FUNC_ADD)
 			<td class=grey><input style='width:100%' type=text size=20 name=userdesc value=\"".htmlentities($sql->getValue("rex_user.description"))."\"></td>
 		</tr>
 		<tr>
-			<td class=grey align=right><input type=checkbox name=useradmin value=1 $adminchecked></td>
+			<td class=grey align=right>";
+			
+		if ($REX_USER->getValue("login") == $sql->getValue("rex_user.login") && $adminchecked != "")
+		{
+			echo "<input type=hidden name=useradmin value=1><b>X</b>";
+		}else
+		{
+			echo "<input type=checkbox name=useradmin value=1 $adminchecked>";
+		}
+			
+		echo "</td>
 			<td class=grey>Admin (Alle Kategorien/Module/Medien/User)</td>
 			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
 			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
