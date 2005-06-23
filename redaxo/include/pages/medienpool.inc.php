@@ -1038,11 +1038,11 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         
 //            var_dump( $this->cats);
         $columns = array( 
-            $this->_formatAddLink() => '30px',
+            $this->_formatAddLink() => '50px',
 //            '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'cat_id[]\', this.checked)"/>' => '30px',
-            $I18N->msg('pool_colhead_category') => '*', 
-            $I18N->msg('pool_colhead_details') => '190px',
-            $I18N->msg('pool_colhead_edit') => '190px'
+            $I18N->msg('pool_colhead_category') => '200', 
+            $I18N->msg('pool_colhead_details') => '200px',
+            $I18N->msg('pool_colhead_edit') => '*'
         );
         
         parent::rexPoolComponentList( $params, $columns);
@@ -1137,7 +1137,7 @@ class rexMediaCategory extends rexPoolComponent {
         
         $s = "\n";
         $s .= $this->_indent( $indent) .'<tr>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td align=center><img src="pics/folder.gif" width=16 height=16></td>'. "\n";
         // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatName() .'</td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatDetails() .'</td>'. "\n";
@@ -1247,8 +1247,8 @@ class rexMediaList extends rexPoolComponentList {
         $columns = array( 
             $I18N->msg('pool_colhead_type') => '50px',
 //          '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/>' => '30px',
-            $I18N->msg('pool_colhead_preview') => '90px',
-            $I18N->msg('pool_colhead_filedetails') => '130px',
+            $I18N->msg('pool_colhead_preview') => '200px',
+            $I18N->msg('pool_colhead_filedetails') => '200px',
             $I18N->msg('pool_colhead_description')=> '*'
         );
         
