@@ -264,17 +264,14 @@ class rexPoolUpload extends rexPoolComponent {
             $result['name'] = $this->_genFileName( $fname .'.'. $extension);
             $absFile = $REX['MEDIAFOLDER'] . '/'. $result['name'];
             
-            if ( move_uploaded_file( $file['tmp_name'], $absFile) || 
-                 copy( $file['tmp_name'], $absFile))
+            if ( move_uploaded_file( $file['tmp_name'], $absFile))
             {
-                if ( $REX['MEDIAFOLDERPERM'] == '') {
-                     $REX['MEDIAFOLDERPERM'] = '0777';
-                }
-
-					// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
-					chmod( $absFile, $REX['MEDIAFOLDERPERM']);
-            } 
-            else
+            	
+            	//  || copy( $file['tmp_name'], $absFile)
+				// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
+                if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = 0777;
+				chmod( $absFile, 0777);
+            }else
             {
                 $result['error'] .= $I18N->msg('pool_error_move_failed', $result['orgname']); 
             }
@@ -658,20 +655,13 @@ class rexPool extends rexPoolComponent {
 					// Datei ersetzen !
 					$absFile = $REX['MEDIAFOLDER'] . '/'. $media->getFileName();
 
-					if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = '0777';
 
-					// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
-					// wenn chmod aktiv
-					// bei rechteproblem mit chmod probieren
-					chmod( $absFile, $REX['MEDIAFOLDERPERM']);
-
-					if ( move_uploaded_file( $file['tmp_name'], $absFile) || copy( $file['tmp_name'], $absFile) )
+					if ( move_uploaded_file( $file['tmp_name'], $absFile) )
 					{
-
+						// || copy( $file['tmp_name'], $absFile)
 						// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
-						// wenn chmod aktiv
-						// bei rechteproblem mit chmod probieren
-						chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+						if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = 0777;
+						chmod( $absFile, 0777);
 
 						$result['orgname'] = $file['name'];
 						$result['size']    = $file['size'];
