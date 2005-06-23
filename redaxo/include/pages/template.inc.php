@@ -116,8 +116,6 @@ if ($function == "add" or $function == "edit"){
 				<td valign=top class=grey>".$I18N->msg("header_template")."</td>
 				<td class=grey colspan=2>
                   <textarea name=content id=content cols=40 rows=5 style='width: 100%;height: 400px;'>".htmlspecialchars($content)."</textarea>
-                  <a href=\"#\" onclick=\"return alter_box_height('content', 100)\">".$I18N->msg("increase")."</a>
-                  <a href=\"#\" onclick=\"return alter_box_height('content', -100)\">".$I18N->msg("reduce")."</a>
                 </td>
 			</tr>";
 		

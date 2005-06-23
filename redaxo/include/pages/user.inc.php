@@ -450,23 +450,16 @@ if ($FUNC_ADD)
 			<td class=grey>Sprachenzugriff</td>
 			<td class=grey colspan=3>
               ".$sel_sprachen->out()."
-              <br/>
-              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Allgemein</td>
 			<td class=grey>
               ".$sel_all->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 			<td class=grey valign=top>Optionen</td>
 			<td class=grey>
               ".$sel_ext->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		<tr>
@@ -479,28 +472,20 @@ if ($FUNC_ADD)
 			<td class=grey valign=top>Kategorien</td>
 			<td class=grey>
               ".$sel_cat->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 			<td class=grey valign=top>Medienordner</td>
 			<td class=grey>
               ".$sel_media->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Module</td>
 			<td class=grey>
               ".$sel_module->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 			<td class=grey valign=top>Extras</td>
 			<td class=grey>
               ".$sel_extra->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		
@@ -618,23 +603,16 @@ if ($FUNC_ADD)
 			<td class=grey>Sprachenzugriff</td>
             <td class=grey colspan=3>
               ".$sel_sprachen->out()."
-              <br/>
-              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height('userperm_sprachen', -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		<tr>
             <td class=grey valign=top>Allgemein</td>
             <td class=grey>
               ".$sel_all->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), -100)\">".$I18N->msg("reduce")."</a>
            </td>
             <td class=grey valign=top>Optionen</td>
             <td class=grey>
               ".$sel_ext->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_all', 'userperm_ext'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		<tr>
@@ -647,28 +625,20 @@ if ($FUNC_ADD)
             <td class=grey valign=top>Kategorien</td>
             <td class=grey>
               ".$sel_cat->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), -100)\">".$I18N->msg("reduce")."</a>
            </td>
             <td class=grey valign=top>Medienordner</td>
             <td class=grey>
               ".$sel_media->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_cat', 'userperm_media'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
 		</tr>
 		<tr>
             <td class=grey valign=top>Module</td>
             <td class=grey>
               ".$sel_module->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), -100)\">".$I18N->msg("reduce")."</a>
             </td>
             <td class=grey valign=top>Extras</td>
             <td class=grey>
               ".$sel_extra->out()."
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), 100)\">".$I18N->msg("increase")."</a>
-              <a href=\"#\" onclick=\"return alter_box_height( new Array('userperm_module', 'userperm_extra'), -100)\">".$I18N->msg("reduce")."</a>
           </td>
 		</tr>
 

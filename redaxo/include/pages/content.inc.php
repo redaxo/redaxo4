@@ -519,17 +519,13 @@ if ($article->getRows() == 1)
 				<tr>
 					<td class=grey>".$I18N->msg("description")."</td>
 					<td class=grey>
-                      <textarea name=meta_description id=meta_description =cols=30 rows=5 style='width:100%; height: 80px;'>".htmlentities($article->getValue("description"))."</textarea>
-                      <a href=\"#\" onclick=\"return alter_box_height('meta_description', 100)\">".$I18N->msg("increase")."</a>
-                      <a href=\"#\" onclick=\"return alter_box_height('meta_description', -100)\">".$I18N->msg("reduce")."</a>
+                      <textarea name=meta_description id=meta_description cols=30 rows=5 style='width:100%; height: 80px;'>".htmlentities($article->getValue("description"))."</textarea>
                     </td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("keywords")."</td>
 					<td class=grey>
                       <textarea name=meta_keywords id=meta_keywords cols=30 rows=5 style='width:100%; height: 80px;'>".htmlentities($article->getValue("keywords"))."</textarea>
-                      <a href=\"#\" onclick=\"return alter_box_height('meta_keywords', 100)\">".$I18N->msg("increase")."</a>
-                      <a href=\"#\" onclick=\"return alter_box_height('meta_keywords', -100)\">".$I18N->msg("reduce")."</a>
                     </td>
 				</tr>";
 
