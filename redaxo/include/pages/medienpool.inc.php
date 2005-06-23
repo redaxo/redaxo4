@@ -1,6 +1,6 @@
 <?
 
-//error_reporting( E_ALL);
+// error_reporting( E_ALL);
 
 // TODO
 
@@ -98,36 +98,33 @@ class rexPoolComponent {
         return str_repeat( $indentStr, $level);
     }
     
-    function _message( $stateColspan = 0, $messageColspan = 2) {
+    function _message( $stateColspan = 1, $messageColspan = 2) {
         global $I18N;
         
         $s = '';
         $message = $this->params->message;
         
         if ( $message != '') {
-            // Fehler
-            if ( $this->params->messageLevel > 0) {
-          $s .= '
-              <tr class="warning">
-                 <td colspan="'. $stateColspan .'">
-                    '. $I18N->msg( 'pool_error') .'
-                 </td>
-                 <td colspan="'. $messageColspan .'">
-                    '. $message .'
-                 </td>
-              </tr>'. "\n";
-            } else {
-            // Statusmeldung
-          $s .= '
-              <tr class="status">
-                 <td colspan="'. $stateColspan .'">
-                    '. $I18N->msg( 'pool_status') .'
-                 </td>
-                 <td colspan="'. $messageColspan .'">
-                    '. $message .'
-                 </td>
-              </tr>'. "\n";
-            }
+			if ( $this->params->messageLevel > 0) {
+			
+	            // Fehler
+				$s .= '
+				<tr class="warning">
+					<td><img src=pics/warning.gif width=16 height=16></td>
+					<td colspan="'. ($stateColspan+$messageColspan) .'">
+						'. $I18N->msg( 'pool_error') .' '. $message .'</td>
+				</tr>'. "\n";
+
+			} else {
+
+				// Statusmeldung
+				$s .= '
+				<tr class="warning">
+					<td><img src=pics/warning.gif width=16 height=16></td>
+					<td colspan="'. ($stateColspan+$messageColspan) .'">
+						'. $I18N->msg( 'pool_status') .' '. $message .'</td>
+				</tr>'. "\n";
+			}
         }
         
         return $s;
@@ -273,8 +270,11 @@ class rexPoolUpload extends rexPoolComponent {
                 if ( $REX['MEDIAFOLDERPERM'] == '') {
                      $REX['MEDIAFOLDERPERM'] = '0777';
                 }
-                
-                chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+
+					// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
+					// wenn chmod aktiv
+					// bei rechteproblem mit chmod probieren
+					// chmod( $absFile, $REX['MEDIAFOLDERPERM']);
             } 
             else
             {
@@ -508,7 +508,7 @@ class rexPool extends rexPoolComponent {
     }
     
     function handlePosts( &$params) {
-        global $REX_USER, $I18N;
+        global $REX, $REX_USER, $I18N;
         
         if ( !isset ( $_POST)) {
             return;
@@ -598,18 +598,27 @@ class rexPool extends rexPoolComponent {
             // Medium holen
             $media = OOMedia::getMediaById( $mediaId);
 
-            /// Medium löschen
-            $error = $media->_delete();
+            // Medium löschen
+            if ($media->isInUse())
+			{
+				$error = $I18N->msg( 'pool_media_not_deleted', $error);
+				$this->params->error( $I18N->msg( 'pool_error_external', $error));
+			}else
+			{
+				$error = $media->_delete();
+
+	            // Fehlerbehandlung
+	            if ( $error != '')
+	            {
+	                // Fehlermeldung ausgeben            
+	                // $this->params->error( $I18N->msg( 'pool_error_external', $error));
+	                
+	            } else {
+	                // Statusmeldung ausgeben            
+	                $this->params->message( $I18N->msg( 'pool_media_deleted', $media->getFileName()));
+	            }
+			}
             
-            // Fehlerbehandlung
-            if ( $error != '')
-            {
-                // Fehlermeldung ausgeben            
-                $this->params->error( $I18N->msg( 'pool_error_external', $error));
-            } else {
-                // Statusmeldung ausgeben            
-                $this->params->message( $I18N->msg( 'pool_media_deleted', $media->getFileName()));
-            }
             
             // Speicher freigeben
             unset( $media);
@@ -635,6 +644,53 @@ class rexPool extends rexPoolComponent {
             $result['updatedate'] = time();
             $result['updateuser'] = $REX_USER->getValue('login');
             
+            // Medium ersetzen
+			if ($_FILES["mediaFile"]["name"] != "")
+			{
+				$file = $_FILES["mediaFile"];
+				$newFilename = basename( strtolower( str_replace( ' ', '_', $file['name'])));
+				$newExtension = OOMedia::_getExtension( $newFilename);
+				$oldExtension = $media->getExtension();
+				
+				if ($newExtension != $oldExtension)
+				{
+					$error = "Die Dateiendungen muessen identisch sein, damit das Medium ersetzt werden kann";					
+				}else
+				{
+					// Datei ersetzen !
+					$absFile = $REX['MEDIAFOLDER'] . '/'. $media->getFileName();
+
+					if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = '0777';
+
+					// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
+					// wenn chmod aktiv
+					// bei rechteproblem mit chmod probieren
+					// chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+
+					if ( move_uploaded_file( $file['tmp_name'], $absFile) || copy( $file['tmp_name'], $absFile) )
+					{
+
+						// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
+						// wenn chmod aktiv
+						// bei rechteproblem mit chmod probieren
+						// chmod( $absFile, $REX['MEDIAFOLDERPERM']);
+
+						$result['orgname'] = $file['name'];
+						$result['size']    = $file['size'];
+
+						if ( OOMedia::_isImage( $absFile)) {
+			                if( $size = @getimagesize( $absFile)) {
+			                    $result['width'] = $size[0];
+			                    $result['height'] = $size[1];
+			                }
+			            }
+					}else
+					{
+						$error .= $I18N->msg('pool_error_move_failed', $result['orgname']); 
+					}
+				}
+			}
+            
             // Attribute zuweisen
             foreach ( $result as $detail => $value) {
                 $detail = '_'. $detail;
@@ -642,7 +698,7 @@ class rexPool extends rexPoolComponent {
             }
             
             // Speichern
-            $error = $media->_update();
+            $error = $media->_update().$error;
             
             // Fehlerbehandlung
             if ( $error != '')
@@ -750,8 +806,8 @@ class rexPool extends rexPoolComponent {
           <tr>
              <td>
                <?php echo rexPool::_link( $I18N->msg('pool_file_list'), '', array( 'class' => 'white')) ?> |
-               <?php echo rexPool::_link( $I18N->msg('pool_file_upload'), 'action=media_upload&mode=file', array( 'class' => 'white')) ?> |
-               <?php echo rexPool::_link( $I18N->msg('pool_file_search'), 'action=media_search', array( 'class' => 'white')) ?>
+               <?php echo rexPool::_link( $I18N->msg('pool_file_upload'), 'action=media_upload&mode=file', array( 'class' => 'white')) ?>
+               <!-- <?php echo " | ".rexPool::_link( $I18N->msg('pool_file_search'), 'action=media_search', array( 'class' => 'white')) ?> -->
              </td>
           </tr>
           
@@ -983,7 +1039,7 @@ class rexMediaCategoryList extends rexPoolComponentList  {
 //            var_dump( $this->cats);
         $columns = array( 
             $this->_formatAddLink() => '30px',
-            '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'cat_id[]\', this.checked)"/>' => '30px',
+//            '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'cat_id[]\', this.checked)"/>' => '30px',
             $I18N->msg('pool_colhead_category') => '*', 
             $I18N->msg('pool_colhead_details') => '190px',
             $I18N->msg('pool_colhead_edit') => '190px'
@@ -1082,7 +1138,7 @@ class rexMediaCategory extends rexPoolComponent {
         $s = "\n";
         $s .= $this->_indent( $indent) .'<tr>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>'. "\n";
+        // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatName() .'</td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatDetails() .'</td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatActions() .'</td>'. "\n";
@@ -1146,7 +1202,7 @@ class rexMediaCategory extends rexPoolComponent {
         $s = "\n";
         $s .= $this->_indent( $indent) .'<tr>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>'. "\n";
+        // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td><input type="text" name="catName" value="'. $catName .'" style="width: 100%"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td colspan="2">'. $buttons .'</td>'. "\n";
         $s .= $this->_indent( $indent) .'</tr>'. "\n";
@@ -1190,7 +1246,7 @@ class rexMediaList extends rexPoolComponentList {
         
         $columns = array( 
             $I18N->msg('pool_colhead_type') => '50px',
-            '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/>' => '30px',
+//          '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/>' => '30px',
             $I18N->msg('pool_colhead_preview') => '90px',
             $I18N->msg('pool_colhead_filedetails') => '130px',
             $I18N->msg('pool_colhead_description')=> '*'
@@ -1323,7 +1379,7 @@ class rexMedia extends rexPoolComponent {
         $s = '
          <tr>
             <td>'. $this->_formatIcon() .'</td>
-            <td><input type="checkbox" name="media_id[]" value="'. $media->getId() .'"/></td>
+<!--            <td><input type="checkbox" name="media_id[]" value="'. $media->getId() .'"/></td> -->
             <td>'. $this->_formatPreview() .'</td>
             <td>'. $this->_formatDetails() .'</td>
             <td>'. $this->_formatDescription() .'</td>'. "\n";
@@ -1381,7 +1437,6 @@ class rexMedia extends rexPoolComponent {
                  <td><input class="inp100" type="text" name="mediaDescription" value="'. $media->getDescription() .'"/></td>
               </tr>
 
-
               <tr>
                  <td>'. $I18N->msg('pool_colhead_copyright') .'</td>
                  <td><input class="inp100" type="text" name="mediaCopyright" value="'. $media->getCopyright() .'"/></td>
@@ -1404,7 +1459,7 @@ class rexMedia extends rexPoolComponent {
                  <td>'. $media->getHeight() .'px</td>
               </tr>'. "\n";
           }
-              
+
               $s .='
               <tr>
                  <td>'. $I18N->msg('pool_colhead_updated') .'</td>
@@ -1414,6 +1469,11 @@ class rexMedia extends rexPoolComponent {
               <tr>
                  <td>'. $I18N->msg('pool_colhead_created') .'</td>
                  <td>'. $media->getCreateDate( $dateFormat) .'</td>
+              </tr>
+              
+              <tr>
+                 <td>'. $I18N->msg('pool_colhead_newfile') .'</td>
+                 <td colspan=2><input type="file"  name="mediaFile"  /></td>
               </tr>
 
               <tr>

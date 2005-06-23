@@ -519,6 +519,38 @@ class OOMedia
         
         return in_array(OOMedia::_getExtension( $filename), $imageExtensions);
     }
+
+	/**
+	 * @access public
+	 */
+	function isInUse()
+	{
+		$sql = new sql();
+		//        $sql->debugsql = true;
+		$query_file = '';
+		$query_filelist = '';
+		for ($i=1;$i<11;$i++)
+		{
+			if ($i>1) $query_file .= ' or ';
+			if ($i>1) $query_filelist .= ' or ';
+			$query_file .= ' file'.$i.'="'.$this->getFileName().'"';
+			$query_filelist .= ' file'.$i.' like "%|'.$this->getFileName().'|%"';
+		}
+		$query_file = '('.$query_file.')';
+		$query_filelist = '('.$query_filelist.')';
+		$query = 'select * from rex_article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
+		
+		$sql->setQuery($query);
+		if ($sql->getRows() > 0)
+		{
+			return true;
+		}else
+		{
+			return false;	
+		}
+		
+	}
+
 	/**
 	 * @access public
 	 */
@@ -772,10 +804,17 @@ class OOMedia
 	 */
 	function _delete()
 	{
+		global $REX;
+		
 		$qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
 		$sql = new sql();
 		//        $sql->debugsql = true;
 		$sql->query($qry);
+		
+		### todo - loeschen des files
+		unlink($REX[INCLUDE_PATH]."/../../files/".$this->getFileName());
+		
+		
 		return $sql->getError();
 	}
 }
