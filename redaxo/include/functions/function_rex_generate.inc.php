@@ -420,6 +420,11 @@ function rex_deleteDir($file,$what = 1)
 function rex_deleteCLang($id)
 {
 	global $REX;
+	
+	if ($id==0) return "";
+	
+	echo "zu loeschende sprache:$id";
+	
 	$content = "// --- DYN\n\r";
 	
 	reset($REX[CLANG]);
@@ -427,7 +432,7 @@ function rex_deleteCLang($id)
 	{
 		$cur = key($REX[CLANG]);
 		$val = current($REX[CLANG]);
-		if ($cur != $id && $id != 0 ) $content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
+		if ($cur != $id) $content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
 		next($REX[CLANG]);
 	}
 	$content .= "\n\r// --- /DYN";
@@ -458,12 +463,11 @@ function rex_deleteCLang($id)
 	$del->query("delete from rex_article where clang='$id'");
 	$del->query("delete from rex_article_slice where clang='$id'");
 
-	rex_generateAll();
-
-	if ($id>0) unset($REX[CLANG][$id]);
+	unset($REX[CLANG][$id]);
 	$del = new sql();
 	$del->query("delete from rex_clang where id='$id'");
 	
+	rex_generateAll();
 }
 
 function rex_addCLang($id,$name)
@@ -506,7 +510,7 @@ function rex_addCLang($id,$name)
 
 			if ($value == "pid") echo ""; // nix passiert
 			else if ($value == "clang") $adda->setValue("clang",$id);
-			else $adda->setValue($value,$add->getValue("$value"));
+			else $adda->setValue($value,addslashes($add->getValue("$value")));
 			//	createuser
 			//	updateuser
 		}
