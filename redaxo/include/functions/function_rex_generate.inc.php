@@ -313,241 +313,66 @@ function rex_generateLists($re_id,$refresh=0)
 
 }
 
+function rex_newCatPrio($re_id,$clang,$new_prio,$old_prio)
+{
+	if ($new_prio != $old_prio)
+	{
+		if ($new_prio < $old_prio) $addsql = "desc";
+		else $addsql = "asc";
+		
+		$gu = new sql;
+		$gr = new sql;
+		$gr->setQuery("select * from rex_article where re_id='$re_id' and clang='$clang' order by catprior,updatedate $addsql");
+		for ($i=0;$i<$gr->getRows();$i++)
+		{
+			$ipid = $gr->getValue("pid");
+			$iprior = $i+1;
+			$gu->query("update rex_article set catprior=$iprior where pid='$ipid' and clang='$clang'");
+			$gr->next();
+		}
+		rex_generateLists($re_id);
+	}
 
+}
+
+function rex_newArtPrio($re_id,$clang,$new_prio,$old_prio)
+{
+	if ($new_prio != $old_prio)
+	{
+		if ($new_prio < $old_prio) $addsql = "desc";
+		else $addsql = "asc";
+		
+		$gu = new sql;
+		$gr = new sql;
+		$gr->setQuery("select * from rex_article where re_id='$re_id' and clang='$clang' order by prior,updatedate $addsql");
+		for ($i=0;$i<$gr->getRows();$i++)
+		{
+			$ipid = $gr->getValue("pid");
+			$iprior = $i+1;
+			$gu->query("update rex_article set catprior=$iprior where pid='$ipid' and clang='$clang'");
+			$gr->next();
+		}
+		rex_generateLists($re_id);
+	}
+
+}
 
 
 function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 {
-	global $I18N;
-
-	// artikel verschieben
-	//
-	// ******************************** noch nicht fertig ********************************
-	// sprachen beachten
-	// auslesen der felder
-	// pfad anpassen
-	// listen neu generieren
-	// - aus dem alten ordner
-	// - aus dem neuen ordner
-
-	return "";
-	exit;
-
-	$gcat = new sql;
-	$gcat->setQuery("select * from rex_category where id='$to_cat_id'");
-
-	if ($gcat->getRows()==1)
-	{
-		// article updaten
-		$path = $gcat->getValue("path")."-$to_cat_id";
-		$gcat->query("update rex_article set prior = prior + 1 where category_id='$to_cat_id'");
-		$gcat->query("update rex_article set category_id='$to_cat_id',path='$path',prior = 1 where id='$id'");
-		$return = $I18N->msg('article_moved');
-
-	}else
-	{
-		$return = $I18N->msg('could_not_move_article')." ".$I18N->msg('category_doesnt_exist');
-	}
-
-	// article neu generieren
-
-	generateArticle($id);
-
-	// catgegoy neu generieren
-	generateCategory($to_cat_id);
-
-	// category alt generieren
-	generateCategory($from_cat_id);
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-
-	return $return;
 
 }
 
 function rex_copyArticle($id,$to_cat_id)
 {
 
-	// artikel kopieren
-	//
-	// ******************************** noch nicht fertig ********************************
-	//
-	// sprachen artikel beachten
-	// pfade anpassen
-	// slices ...
-
-	return "";
-
-	exit;
-
-	##
-	### make new path
-	##
-	$get_parent_cat = new sql;
-	$get_parent_cat->setQuery("SELECT path FROM rex_category WHERE id=$to_cat_id");
-	$path = $get_parent_cat->getValue("path")."-".$to_cat_id;
-
-	##
-	### check if article is firstarticle in the new category
-	##
-	$get_cat = new sql;
-	$get_cat->setQuery("SELECT count(*) FROM rex_article WHERE category_id=$to_cat_id");
-	if($get_cat->getValue("count(*)") == 0) $startarticle = 1;
-	else $startarticle = 0;
-
-	##
-	### copy article
-	##
-	$get_article = new sql;
-	$get_article->setQuery("SELECT * FROM rex_article WHERE id=$id");
-
-	$get_article_fields = new sql;
-	$get_article_fields->setQuery("DESCRIBE rex_article");
-
-	$add_article = new sql;
-	$order_id = $add_article->new_order("rex_article","prior","category_id",$to_cat_id);
-	$add_article->setTable("rex_article");
-	$add_article->setValue('prior',$order_id);
-
-	for($i=0;$i<$get_article_fields->rows;$i++,$get_article_fields->next())
-	{
-		if($get_article_fields->getValue("Field")=='prior') continue;
-
-		if($get_article_fields->getValue("Field") == "category_id")
-			$add_article->setValue(category_id, $to_cat_id);
-		elseif($get_article_fields->getValue("Field") == "path")
-			$add_article->setValue(path,$path);
-		elseif($get_article_fields->getValue("Field") == "startpage")
-			$add_article->setValue(startpage, $startarticle);
-		elseif($get_article_fields->getValue("Field") != "id")
-			$add_article->setValue($get_article_fields->getValue("Field"),$get_article->getValue($get_article_fields->getValue("Field")));
-	}
-	//$add_article->debugsql=true;
-	$add_article->insert();
-	$last_id = $add_article->last_insert_id;
-
-	##
-	### copy slices
-	##
-
-	$get_slices = new sql;
-	$get_slices->setQuery("SELECT * FROM rex_article_slice WHERE article_id=$id ORDER BY re_article_slice_id");
-
-	$get_slice_fields = new sql;
-	$get_slice_fields->setQuery("DESCRIBE rex_article_slice");
-
-	$parent_slice = 0;
-	$preparent_slice = 0;
-
-	// hack: max 100 slices pro article -- noch zu verbessern
-
-	for($k=0;$k<100;$k++)
-	{
-		$get_slices->counter=0;
-		for($i=0;$i<$get_slices->getRows();$i++,$get_slices->next())
-		{
-			if ($preparent_slice == $get_slices->getValue("re_article_slice_id")) break;
-		}
-
-		if($i>=$get_slices->rows) break;
-
-		$preparent_slice = $get_slices->getValue("id");
-
-		// $get_slices->  OBJ mit entsprechenden id
-
-		$add_new_slice = new sql;
-		// $add_new_slice->debugsql = 1;
-		$add_new_slice->setTable("rex_article_slice");
-		for($j=0;$j<$get_slice_fields->rows;$j++,$get_slice_fields->next())
-		{
-
-			if($get_slice_fields->getValue("Field") == "re_article_slice_id")
-				$add_new_slice->setValue(re_article_slice_id, $parent_slice);
-			elseif($get_slice_fields->getValue("Field") == "article_id")
-				$add_new_slice->setValue(article_id, $last_id);
-			elseif($get_slice_fields->getValue("Field") != "id")
-				$add_new_slice->setValue($get_slice_fields->getValue("Field"),addslashes($get_slices->getValue($get_slice_fields->getValue("Field"))));
-
-		}
-
-		// $add_new_slice->debugsql=true;
-		$add_new_slice->insert();
-		$get_slice_fields->counter=0;
-		$parent_slice = $add_new_slice->last_insert_id;
-
-	}
-
-	// article neu generieren
-	rex_generateArticle($last_id);
-
-	// catgegoy neu generieren
-	rex_generateCategory($to_cat_id);
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
-
 }
 
 function rex_copyCategory($which,$to_cat)
 {
 
-	return "";
-
-
-	exit;
-
-	// ******************************** noch nicht fertig ********************************
-
-	## orginal selecten
-	$orig = new sql;
-	$orig->setQuery("SELECT * FROM rex_category WHERE id=$which");
-
-	if($to_cat != 0)
-	{
-		## ziel selecten um den path zu bekomme
-		$ziel = new sql;
-		$ziel->setQuery("SELECT * FROM rex_category WHERE id=$to_cat");
-		$zielpath = $ziel->getValue("path")."-".$to_cat;
-	}else
-	{
-		## ziel is top also path
-		$zielpath = "";
-	}
-
-	## neue kategorie schreiben
-	$add = new sql;
-	$add->setTable("rex_category");
-	$add->setValue("name", $orig->getValue("name"));
-	$add->setValue("re_category_id", $to_cat);
-	$add->setValue("prior", $orig->getValue("prior"));
-	$add->setValue("path", $zielpath);
-	$add->setvalue("status", $orig->getValue("status"));
-	$add->insert();
-
-	## artikel kopieren order by !!! da sonst startartikel falsch
-	$articles = new sql;
-	$articles->setQuery("SELECT * FROM rex_article WHERE category_id=$which order by startpage desc");
-	for($i=0;$i<$articles->rows;$i++,$articles->next())
-		copyArticle($articles->getValue("id"),$add->last_insert_id);
-
-	## suchen nach unterkategorien und diese dann natürlich mitkopieren
-	## "rekursier on" hier
-	$subcats = new sql;
-	$subcats->setQuery("SELECT * FROM rex_category WHERE re_category_id=$which");
-	for($i=0;$i<$subcats->rows;$i++,$subcats->next())
-		copyCategory($subcats->getValue("id"),$add->last_insert_id);
-
-
-    // recache all
-	$Cache = new Cache();
-	$Cache->removeAllCacheFiles();
 
 }
-
-
 
 
 

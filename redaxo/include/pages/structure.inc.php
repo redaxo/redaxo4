@@ -1,11 +1,8 @@
 <?
 
 /*
- * Todos: alle >> order << geschichten von vscope neu einbauen da nun mehrere
- * artikel mit gleichen id existieren und unterschiedliche clang haben
  * 
- * - rechte
- * - prior geschichten
+ * Todos: prio geschichten
  *
  * ### erstelle neue prioliste wenn noetig
  *
@@ -41,21 +38,22 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 {
 	// --------------------- KATEGORIE EDIT
 	
-	$old_prio = $thisCat->getValue("prior");
+	$old_prio = $thisCat->getValue("catprior");
 	$new_prio = $Position_Category+0;
 	$re_id = $thisCat->getValue("re_id");
-
-	// ### erstelle neue prioliste wenn noetig
 
 	$EKAT = new sql;
 	$EKAT->setTable("rex_article");
 	$EKAT->where("id='$edit_id' and startpage=1 and clang=$clang");
 	$EKAT->setValue("catname","$kat_name");
-	$EKAT->setValue("catprior","$Position_Category");
+	$EKAT->setValue("catprior","$new_prio");
 	$EKAT->setValue("path",$KATPATH);
 	$EKAT->setValue("updatedate",time());
 	$EKAT->setValue("updateuser",$REX_USER->getValue("login"));
 	$EKAT->update();
+
+	// ----- PRIOR
+	rex_newCatPrio($re_id,$clang,$new_prio,$old_prio);
 
 	$message = $I18N->msg("category_status_updated");
 
@@ -71,10 +69,18 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 		$KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=0");
 		if($KAT->getRows()==0)
 		{
-			// ### erstelle neue prioliste wenn noetig
-			
+			$re_id = $thisCat->getValue("re_id");
 			$message = rex_deleteArticle($edit_id);
-
+			
+			// ----- PRIOR
+			$CL = $REX[CLANG];
+			reset($CL);
+			for ($j=0;$j<count($CL);$j++)
+			{
+				$mlang = key($CL);
+				rex_newCatPrio($re_id,$mlang,0,1);
+				next($CL);
+			}
 		}else
 		{
 			$message = $I18N->msg("category_could_not_be_deleted")." ddd".$I18N->msg("category_still_contains_articles");
@@ -161,8 +167,10 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 		$AART->setValue("updatedate",time());
 		$AART->setValue("updateuser",$REX_USER->getValue("login"));
 		$AART->insert();
-	}
 
+		// ----- PRIOR
+		rex_newCatPrio($category_id,$key,0,$Position_New_Category);
+	}
 
 	rex_generateArticle($id);
 }
