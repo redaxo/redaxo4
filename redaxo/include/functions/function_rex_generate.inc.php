@@ -322,12 +322,12 @@ function rex_newCatPrio($re_id,$clang,$new_prio,$old_prio)
 		
 		$gu = new sql;
 		$gr = new sql;
-		$gr->setQuery("select * from rex_article where re_id='$re_id' and clang='$clang' order by catprior,updatedate $addsql");
+		$gr->setQuery("select * from rex_article where re_id='$re_id' and clang='$clang' and startpage=1 order by catprior,updatedate $addsql");
 		for ($i=0;$i<$gr->getRows();$i++)
 		{
 			$ipid = $gr->getValue("pid");
 			$iprior = $i+1;
-			$gu->query("update rex_article set catprior=$iprior where pid='$ipid' and clang='$clang'");
+			$gu->query("update rex_article set catprior=$iprior where pid='$ipid'");
 			$gr->next();
 		}
 		rex_generateLists($re_id);
@@ -337,6 +337,7 @@ function rex_newCatPrio($re_id,$clang,$new_prio,$old_prio)
 
 function rex_newArtPrio($re_id,$clang,$new_prio,$old_prio)
 {
+	
 	if ($new_prio != $old_prio)
 	{
 		if ($new_prio < $old_prio) $addsql = "desc";
@@ -344,19 +345,18 @@ function rex_newArtPrio($re_id,$clang,$new_prio,$old_prio)
 		
 		$gu = new sql;
 		$gr = new sql;
-		$gr->setQuery("select * from rex_article where re_id='$re_id' and clang='$clang' order by prior,updatedate $addsql");
+		$gr->setQuery("select * from rex_article where clang='$clang' and ((startpage<>1 and re_id='$re_id') or (startpage=1 and id=$re_id))order by prior,updatedate $addsql");
 		for ($i=0;$i<$gr->getRows();$i++)
 		{
+			// echo "<br>".$gr->getValue("pid")." ".$gr->getValue("id")." ".$gr->getValue("name");
 			$ipid = $gr->getValue("pid");
 			$iprior = $i+1;
-			$gu->query("update rex_article set catprior=$iprior where pid='$ipid' and clang='$clang'");
+			$gu->query("update rex_article set prior=$iprior where pid='$ipid'");
 			$gr->next();
 		}
 		rex_generateLists($re_id);
 	}
-
 }
-
 
 function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 {

@@ -20,6 +20,17 @@ if ($edit_id != "")
 	unset($edit_id);
 }
 
+if ($article_id != "")
+{
+	$thisArt = new sql;
+	$thisArt->setQuery("select * from rex_article where id='".$article_id."' and clang=$clang");
+	if ($thisArt->getRows()!=1) unset($article_id);
+}else
+{
+	unset($article_id);
+}
+
+
 // --------------------------------------------- KATEGORIE PFAD UND RECHTE WERDEN ÜBERPRÜFT
 
 include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
@@ -40,6 +51,7 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 	
 	$old_prio = $thisCat->getValue("catprior");
 	$new_prio = $Position_Category+0;
+	if ($new_prio==0) $new_prio = 1;
 	$re_id = $thisCat->getValue("re_id");
 
 	$EKAT = new sql;
@@ -135,6 +147,9 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 		}
 	}
 
+	$Position_New_Category = $Position_New_Category+0;
+	if ($Position_New_Category==0) $Position_New_Category = 1;
+
 	unset($id);
 	reset($REX[CLANG]);
 	while(list($key,$val)=each($REX[CLANG]))
@@ -177,7 +192,7 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if ($function == "offline_article" && $KATPERM)
+if ($function == "offline_article" && $article_id != "" && $KATPERM)
 {
 	// --------------------- ARTIKEL OFFLINE
 	$EA = new sql;
@@ -190,7 +205,7 @@ if ($function == "offline_article" && $KATPERM)
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "online_article" && $KATPERM)
+}else if ($function == "online_article" && $article_id != "" && $KATPERM)
 {
 	// --------------------- ARTIKEL ONLINE
 	$EA = new sql;
@@ -206,6 +221,9 @@ if ($function == "offline_article" && $KATPERM)
 }else if ($function == "edit_article" && $article_id != "" && $KATPERM)
 {
 	// --------------------- ARTIKEL EDIT
+	$Position_Article = $Position_Article+0;
+	if ($Position_Article==0) $Position_Article = 1;
+	
 	$amessage = $I18N->msg("article_updated");
 	$EA = new sql;
 	$EA->setTable("rex_article");
@@ -218,7 +236,8 @@ if ($function == "offline_article" && $KATPERM)
 	$EA->setValue("prior",$Position_Article);
 	$EA->update();
 	
-	// ### erstelle neue prioliste wenn noetig
+	// ----- PRIOR
+	rex_newArtPrio($thisArt->getValue("re_id"),$clang,$Position_Article,$thisArt->getValue("prior"));
 	
 	rex_generateArticle($article_id);
 
@@ -226,14 +245,28 @@ if ($function == "offline_article" && $KATPERM)
 {
 	// --------------------- ARTIKEL DELETE
 	
-	// ### erstelle neue prioliste wenn noetig
-	
 	$message = rex_deleteArticle($article_id);
+	$re_id = $thisArt->getValue("re_id");
+
+	// ----- PRIO
+	$CL = $REX[CLANG];
+	reset($CL);
+	for ($j=0;$j<count($CL);$j++)
+	{
+		$mlang = key($CL);
+		rex_newArtPrio($thisArt->getValue("re_id"),$mlang,0,1);
+		next($CL);
+	}
+
 
 }elseif ($function == "add_article" && $KATPERM)
 {
 	// --------------------- ARTIKEL ADD
+	$Position_New_Article = $Position_New_Article+0;
+	if ($Position_New_Article==0) $Position_New_Article = 1;
+	
 	$amessage = $I18N->msg("article_added");
+	
 	unset($id);
 	reset($REX[CLANG]);
 	while(list($key,$val)=each($REX[CLANG]))
@@ -262,6 +295,9 @@ if ($function == "offline_article" && $KATPERM)
 		$AART->setValue("updateuser",$REX_USER->getValue("login"));
 		$AART->setValue("template_id",$template_id);
 		$AART->insert();
+		
+		// ----- PRIOR
+		rex_newArtPrio($category_id,$key,0,$Position_New_Article);
 	}
 	
 	rex_generateArticle($id);
