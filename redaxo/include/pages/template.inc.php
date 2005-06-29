@@ -83,7 +83,7 @@ if ($function == "add" or $function == "edit"){
 			$active	= $hole->getValue("active");
 			
 		}else{
-			echo "	<tr><th align=left colspan=3>".$I18N->msg("edit_template")."</th></tr>";
+			echo "	<tr><th align=left colspan=3>".$I18N->msg("create_template")."</th></tr>";
 		}
 
 		echo "	<form action=index.php method=post>
@@ -132,7 +132,7 @@ if ($OUT)
 	// ausgabe templateliste !
 	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
-			<th width=30><a href=index.php?page=template&function=add><img src=pics/template_plus.gif width=16 height=16 border=0></a></th>
+			<th width=30><a href=index.php?page=template&function=add><img src=pics/template_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_template")."\" title=\"".$I18N->msg("create_template")."\"></a></th>
 			<th align=left width=30 align=center>ID</th>
 			<th align=left width=300>".$I18N->msg("header_template_description")."</th>
 			<th align=left width=50>".$I18N->msg("header_template_active")."</th>

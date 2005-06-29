@@ -691,7 +691,7 @@ if ($SHOW)
 
 	echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
-			<th width=30><a href=index.php?page=user&FUNC_ADD=1><img src=pics/user_plus.gif width=16 height=16 border=0></a></th>
+			<th width=30><a href=index.php?page=user&FUNC_ADD=1><img src=pics/user_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_user")."\" title=\"".$I18N->msg("create_user")."\"></a></th>
 			<th align=left width=300>Name</th>
 			<th align=left>Login</th>
 			<th align=left>Letzter Login</th>
