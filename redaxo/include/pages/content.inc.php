@@ -435,7 +435,7 @@ if ($article->getRows() == 1)
 
 				$meta_sql->update();
 
-				$article->setQuery("select * from rex_article where id='$article_id'");
+				$article->setQuery("select * from rex_article where id='$article_id' and clang='$clang'");
 				$err_msg = $I18N->msg("metadata_updated").$message;
 
 				rex_generateArticle($article_id);
@@ -478,7 +478,7 @@ if ($article->getRows() == 1)
 
 				$date = date("Ymd",$date);
 				$ausgabe = "<select name=jahr$extens size=1>\n";
-				for ($i=1999;$i<2011;$i++){
+				for ($i=2005;$i<2011;$i++){
 					$ausgabe .= "<option value=\"$i\"";
 					if ($i == substr($date,0,4)){ $ausgabe .= " selected"; }
 					$ausgabe .= ">$i\n";	
