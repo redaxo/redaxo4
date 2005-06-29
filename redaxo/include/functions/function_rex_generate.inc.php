@@ -116,28 +116,28 @@ function rex_generateArticle($id,$refresh=0)
 		// --------------------------------------------------- Artikelparameter speichern
 		$article = "<?\n".
 					"\n\$REX[ART][$id][article_id][$clang] = \"$id\";".
-					"\n\$REX[ART][$id][re_id][$clang] = \"".addslashes($CONT->getValue("re_id"))."\";".
-					"\n\$REX[ART][$id][name][$clang] = \"".addslashes($CONT->getValue("name"))."\";".
-					"\n\$REX[ART][$id][catname][$clang] = \"".addslashes($CONT->getValue("catname"))."\";".
-					"\n\$REX[ART][$id][cattype][$clang] = \"".addslashes($CONT->getValue("name"))."\";".
-					"\n\$REX[ART][$id][alias][$clang] = \"".addslashes($CONT->getValue("name"))."\";".
-					"\n\$REX[ART][$id][description][$clang] = \"".addslashes($CONT->getValue("description"))."\";".
-					"\n\$REX[ART][$id][attribute][$clang] = \"".addslashes($CONT->getValue("attribute"))."\";".
-					"\n\$REX[ART][$id][file][$clang] = \"".addslashes($CONT->getValue("file"))."\";".
-					"\n\$REX[ART][$id][type_id][$clang] = \"".addslashes($CONT->getValue("type_id"))."\";".
-					"\n\$REX[ART][$id][teaser][$clang] = \"".addslashes($CONT->getValue("teaser"))."\";".
-					"\n\$REX[ART][$id][startpage][$clang] = \"".addslashes($CONT->getValue("startpage"))."\";".
-					"\n\$REX[ART][$id][prior][$clang] = \"".addslashes($CONT->getValue("prior"))."\";".
-					"\n\$REX[ART][$id][path][$clang] = \"".addslashes($CONT->getValue("path"))."\";".
-					"\n\$REX[ART][$id][status][$clang] = \"".addslashes($CONT->getValue("status"))."\";".
-					"\n\$REX[ART][$id][online_from][$clang] = \"".addslashes($CONT->getValue("online_from"))."\";".
-					"\n\$REX[ART][$id][online_to][$clang] = \"".addslashes($CONT->getValue("online_to"))."\";".
-					"\n\$REX[ART][$id][createdate][$clang] = \"".addslashes($CONT->getValue("createdate"))."\";".
-					"\n\$REX[ART][$id][updatedate][$clang] = \"".addslashes($CONT->getValue("updatedate"))."\";".
-					"\n\$REX[ART][$id][keywords][$clang] = \"".addslashes($CONT->getValue("keywords"))."\";".
-					"\n\$REX[ART][$id][template_id][$clang] = \"".addslashes($CONT->getValue("template_id"))."\";".
-					"\n\$REX[ART][$id][createuser][$clang] = \"".addslashes($CONT->getValue("createuser"))."\";".
-					"\n\$REX[ART][$id][updateuser][$clang] = \"".addslashes($CONT->getValue("updateuser"))."\";".
+					"\n\$REX[ART][$id][re_id][$clang] = \"".rex_addslashes($CONT->getValue("re_id"))."\";".
+					"\n\$REX[ART][$id][name][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".
+					"\n\$REX[ART][$id][catname][$clang] = \"".rex_addslashes($CONT->getValue("catname"))."\";".
+					"\n\$REX[ART][$id][cattype][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".
+					"\n\$REX[ART][$id][alias][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".
+					"\n\$REX[ART][$id][description][$clang] = \"".rex_addslashes($CONT->getValue("description"))."\";".
+					"\n\$REX[ART][$id][attribute][$clang] = \"".rex_addslashes($CONT->getValue("attribute"))."\";".
+					"\n\$REX[ART][$id][file][$clang] = \"".rex_addslashes($CONT->getValue("file"))."\";".
+					"\n\$REX[ART][$id][type_id][$clang] = \"".rex_addslashes($CONT->getValue("type_id"))."\";".
+					"\n\$REX[ART][$id][teaser][$clang] = \"".rex_addslashes($CONT->getValue("teaser"))."\";".
+					"\n\$REX[ART][$id][startpage][$clang] = \"".rex_addslashes($CONT->getValue("startpage"))."\";".
+					"\n\$REX[ART][$id][prior][$clang] = \"".rex_addslashes($CONT->getValue("prior"))."\";".
+					"\n\$REX[ART][$id][path][$clang] = \"".rex_addslashes($CONT->getValue("path"))."\";".
+					"\n\$REX[ART][$id][status][$clang] = \"".rex_addslashes($CONT->getValue("status"))."\";".
+					"\n\$REX[ART][$id][online_from][$clang] = \"".rex_addslashes($CONT->getValue("online_from"))."\";".
+					"\n\$REX[ART][$id][online_to][$clang] = \"".rex_addslashes($CONT->getValue("online_to"))."\";".
+					"\n\$REX[ART][$id][createdate][$clang] = \"".rex_addslashes($CONT->getValue("createdate"))."\";".
+					"\n\$REX[ART][$id][updatedate][$clang] = \"".rex_addslashes($CONT->getValue("updatedate"))."\";".
+					"\n\$REX[ART][$id][keywords][$clang] = \"".rex_addslashes($CONT->getValue("keywords"))."\";".
+					"\n\$REX[ART][$id][template_id][$clang] = \"".rex_addslashes($CONT->getValue("template_id"))."\";".
+					"\n\$REX[ART][$id][createuser][$clang] = \"".rex_addslashes($CONT->getValue("createuser"))."\";".
+					"\n\$REX[ART][$id][updateuser][$clang] = \"".rex_addslashes($CONT->getValue("updateuser"))."\";".
 					"\n\$REX[ART][$id][last_update_stamp][$clang] = \"".time()."\";".
 					"\n?>";
 		if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article", "w"))
@@ -510,7 +510,7 @@ function rex_addCLang($id,$name)
 
 			if ($value == "pid") echo ""; // nix passiert
 			else if ($value == "clang") $adda->setValue("clang",$id);
-			else $adda->setValue($value,addslashes($add->getValue("$value")));
+			else $adda->setValue($value,rex_addslashes($add->getValue("$value")));
 			//	createuser
 			//	updateuser
 		}
@@ -539,5 +539,20 @@ function rex_editCLang($id,$name)
 	$edit = new sql;
 	$edit->query("update rex_clang set name='$name' where id='$id'");
 }
+
+
+// ----------------------------------------- generate helpers
+
+function rex_addslashes($string)
+{
+
+	$string = str_replace("\\","\\\\",$string);
+	$string = str_replace("\"","\\\"",$string);
+	
+	return $string;
+	
+}
+
+
 
 ?>
