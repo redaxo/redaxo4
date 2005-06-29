@@ -452,7 +452,10 @@ if($category_id > -1)
 
 	echo "	<br><table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
-			<th width=30><a href=index.php?page=structure&category_id=$category_id&function=add_art&clang=$clang><img src=pics/document_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("article_add")."\" title=\"".$I18N->msg("article_add")."\"></a></th>";
+			<th width=30>";
+	if ($KATPERM) echo "<a href=index.php?page=structure&category_id=$category_id&function=add_art&clang=$clang><img src=pics/document_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("article_add")."\" title=\"".$I18N->msg("article_add")."\"></a>";
+	else echo "&nbsp;";
+	echo "</th>";
 	if ($REX_USER->isValueOf("rights","advancedMode[]")) echo "<th>ID</th>";
 	echo "
 			<th align=left>".$I18N->msg("header_article_name")."</th>
