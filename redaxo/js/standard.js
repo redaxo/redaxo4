@@ -167,7 +167,7 @@ function openMediaPool(id)
 function openREXMedia(id)
 {
 	var mediaid = 'REX_MEDIA_'+id;
-	var defValue = 'delete file';
+	var defValue = '';
 	var value = document.getElementById(mediaid).value;
 	var param = '';
 	
@@ -181,7 +181,7 @@ function openREXMedia(id)
 function deleteREXMedia(id)
 {
         var a = new getObj("REX_MEDIA_"+id);
-        a.obj.value = "delete file";
+        a.obj.value = "";
 }
 
 function addREXMedia(id)
