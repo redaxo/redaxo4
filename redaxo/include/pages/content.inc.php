@@ -224,7 +224,7 @@ if ($article->getRows() == 1)
 		
 								// ----- file
 								$FILENAME = $REX_ACTION[FILE][$fi];
-								if (($FILENAME == "delete file" or $FILENAME == "") && $CHECK_FILE[$fi] != 1)
+								if ($FILENAME == "" && $CHECK_FILE[$fi] != 1)
 								{
 									$newsql->setValue("file".$fi,"");
 								}elseif ($FILENAME != "" && $CHECK_FILE[$fi] != 1)
@@ -435,7 +435,6 @@ if ($article->getRows() == 1)
 
 				// -------------------------- FILE UPLOAD META BILD/FILE
 
-				if ($REX_MEDIA_1 == "delete file") $REX_MEDIA_1 = "";
 				$meta_sql->setValue("file",$REX_MEDIA_1);
 
 				// ----------------------------- / FILE UPLOAD
