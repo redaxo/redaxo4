@@ -43,7 +43,6 @@ $sel_all->set_style("width:250px; height: 130px;");
 $sel_all->set_size(10);
 $sel_all->set_name("userperm_all[]");
 $sel_all->set_id("userperm_all");
-
 for($i=0;$i<count($REX[PERM]);$i++)
 {
 	if($i==0) reset($REX[PERM]);
@@ -62,7 +61,6 @@ $sel_ext->set_style("width:250px; height: 130px;");
 $sel_ext->set_size(10);
 $sel_ext->set_name("userperm_ext[]");
 $sel_ext->set_id("userperm_ext");
-
 for($i=0;$i<count($REX[EXTPERM]);$i++)
 {
 	if($i==0) reset($REX[EXTPERM]);
@@ -77,7 +75,6 @@ $sel_cat->set_style("width:250px; height: 200px;");
 $sel_cat->set_size(20);
 $sel_cat->set_name("userperm_cat[]");
 $sel_cat->set_id("userperm_cat");
-
 $cat_ids = array();
 if ($rootCats = OOCategory::getRootCategories())
 {
@@ -110,10 +107,8 @@ $sel_media->set_style("width:250px; height: 200px;");
 $sel_media->set_size(20);
 $sel_media->set_name("userperm_media[]");
 $sel_media->set_id("userperm_media");
-
 $sqlmedia = new sql;
 $sqlmedia->setQuery("select * from rex_file_category");
-
 for ($i=0;$i<$sqlmedia->getRows();$i++)
 {
 	$name = $sqlmedia->getValue("name");
@@ -129,10 +124,8 @@ $sel_sprachen->set_style("width:250px; height: 50px;");
 $sel_sprachen->set_size(3);
 $sel_sprachen->set_name("userperm_sprachen[]");
 $sel_sprachen->set_id("userperm_sprachen");
-
 $sqlsprachen = new sql;
 $sqlsprachen->setQuery("select * from rex_clang order by id");
-
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
 	$name = $sqlsprachen->getValue("name");
@@ -140,6 +133,16 @@ for ($i=0;$i<$sqlsprachen->getRows();$i++)
 	$sel_sprachen->add_option($name,$sqlsprachen->getValue("id"));
 	$sqlsprachen->next();
 }
+
+// eigene sprache
+$sel_mylang = new select;
+$sel_mylang->set_style("width:250px;");
+$sel_mylang->set_size(1);
+$sel_mylang->set_name("userperm_mylang");
+$sel_mylang->set_id("userperm_mylang");
+$sel_mylang->add_option("default","be_lang[default]");
+$sel_mylang->add_option("de_de","be_lang[de_de]");
+$sel_mylang->add_option("en_gb","be_lang[en_gb]");
 
 
 // zugriff auf module
@@ -245,12 +248,18 @@ if ($FUNC_UPDATE != "")
 		$perm .= "catmedia[".current($userperm_media)."]";
 		next($userperm_media);
 	}
+	
 	// userperm_sprachen
 	for($i=0;$i<count($userperm_sprachen);$i++)
 	{
 		$perm .= "clang[".current($userperm_sprachen)."]";
 		next($userperm_sprachen);
 	}
+	
+	// userperm mylang
+	if ($userperm_mylang == "") $userperm_mylang = "be_lang[default]";
+	$perm .= "$userperm_mylang";
+	
 	// userperm_module
 	for($i=0;$i<count($userperm_module);$i++)
 	{
@@ -317,6 +326,10 @@ if ($FUNC_UPDATE != "")
 			$perm .= "clang[".current($userperm_sprachen)."]";
 			next($userperm_sprachen);
 		}
+		// userperm mylang
+		if ($userperm_mylang == "") $userperm_mylang = "be_lang[default]";
+		$perm .= "$userperm_mylang";
+
 		// userperm_extra
 		for($i=0;$i<count($userperm_extra);$i++)
 		{
@@ -380,6 +393,10 @@ if ($FUNC_UPDATE != "")
 			$sel_sprachen->set_selected(current($userperm_sprachen));
 			next($userperm_sprachen);
 		}
+
+		if ($userperm_mylang=="") $userperm_mylang = "be_lang[default]";
+		$sel_mylang->set_selected($userperm_mylang);
+
 		// userperm_cat
 		for($i=0;$i<count($userperm_cat);$i++)
 		{
@@ -448,9 +465,9 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey>Sprachenzugriff</td>
-			<td class=grey colspan=3>
-              ".$sel_sprachen->out()."
-            </td>
+			<td class=grey>".$sel_sprachen->out()."</td>
+			<td class=grey>Meine Backendsprache</td>
+			<td class=grey>".$sel_mylang->out()."</td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Allgemein</td>
@@ -571,6 +588,11 @@ if ($FUNC_ADD)
 			if ($sql->isValueOf("rights",$name)) $sel_sprachen->set_selected($sqlsprachen->getValue("id"));
 			$sqlsprachen->next();
 		}
+		
+		if ($sql->isValueOf("rights","be_lang[de_de]")) $userperm_mylang = "be_lang[de_de]";
+		else if ($sql->isValueOf("rights","be_lang[en_gb]")) $userperm_mylang = "be_lang[en_gb]";
+		else $userperm_mylang = "be_lang[default]";
+		$sel_mylang->set_selected($userperm_mylang);
 
 		// ----- FORM UPDATE AUSGABE
 
@@ -611,9 +633,9 @@ if ($FUNC_ADD)
 		</tr>
 		<tr>
 			<td class=grey>Sprachenzugriff</td>
-            <td class=grey colspan=3>
-              ".$sel_sprachen->out()."
-            </td>
+			<td class=grey>".$sel_sprachen->out()."</td>
+			<td class=grey>Meine Backendsprache</td>
+			<td class=grey>".$sel_mylang->out()."</td>
 		</tr>
 		<tr>
             <td class=grey valign=top>Allgemein</td>

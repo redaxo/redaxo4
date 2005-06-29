@@ -69,17 +69,9 @@ if ($REX[CLANG][$clang]=="")
 {
 	$REX[CUR_CLANG] = 0;
 	$clang = 0;
-}else $REX[CUR_CLANG] = $clang;
-
-// ----------------- CREATE LANG OBJ
-if (!$REX[GG])
+}else
 {
-	// if ($lang != "de_de") $lang = "en_gb";
-	// $REX[LANG] = $lang;
-
-	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
-	$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
-	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+	$REX[CUR_CLANG] = $clang;
 }
 
 ?>

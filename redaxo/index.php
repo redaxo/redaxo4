@@ -13,14 +13,23 @@ session_start();
 // ----------------- auth
 if ($REX[SETUP])
 {
+	if ($lang != "en_gb" & $lang != "de_de" ) $lang = "en_gb";
+	$REX[LANG] = $lang;
+	
+	// ----------------- CREATE LANG OBJ
+	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
+	$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
+	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+	
 	$page_name = $I18N->msg("setup");
 	$page = "setup";
 	$dl = false;
+	
 }else
 {
 	$REX_LOGIN = new login();
 	$REX_LOGIN->setSqlDb(1);
-	$REX_LOGIN->setSysID($REX[INSTNAME]);	// fuer redaxo
+	$REX_LOGIN->setSysID($REX[INSTNAME]); // fuer redaxo
 	$REX_LOGIN->setSessiontime(3000); // 3600 sekunden = 60 min
 	$REX_LOGIN->setLogin($REX_ULOGIN,$REX_UPSW);
 	if ($FORM[logout] == 1) $REX_LOGIN->setLogout(true);
@@ -37,6 +46,15 @@ if ($REX[SETUP])
 		$LOGIN = TRUE;
 		$REX_USER = $REX_LOGIN->USER;
 	}
+	
+	// ----------------- CREATE LANG OBJ
+	if ($REX_USER->isValueOf("rights","be_lang[de_de]")) $REX[LANG] = "de_de";
+	else if ($REX_USER->isValueOf("rights","be_lang[en_gb]")) $REX[LANG] = "en_gb";
+	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
+	$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
+	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+
+	
 	$dl = false;
 	$page = strtolower($page);
 	

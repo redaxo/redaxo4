@@ -7,6 +7,11 @@ $REX[GG] = false;
 
 include "./include/master.inc.php";
 
+// ----------------- CREATE LANG OBJ
+$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
+$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
+setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+
 $LOGIN = FALSE;
 
 include $REX[INCLUDE_PATH]."/layout_redaxo/top.php";

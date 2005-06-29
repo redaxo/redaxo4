@@ -20,6 +20,10 @@ function setuptitle($title)
 
 }
 
+
+
+
+
 // ---------------------------------- MODUS 0 | Start
 
 if (!($checkmodus>0 && $checkmodus<10))
@@ -27,8 +31,8 @@ if (!($checkmodus>0 && $checkmodus<10))
 	setuptitle("SETUP: SELECT LANGUAGE");
 
 	echo "<center><table><tr><td>";
-	echo "<br><b><a href=index.php?checkmodus=0.5&lang=en_GB class=head>&gt;&nbsp;ENGLISH</a></b>";
-	echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=de_DE class=head>&gt;&nbsp;DEUTSCH</a></b>";
+	echo "<br><b><a href=index.php?checkmodus=0.5&lang=en_gb class=head>&gt;&nbsp;ENGLISH</a></b>";
+	echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=de_de class=head>&gt;&nbsp;DEUTSCH</a></b>";
 	echo "<br><br>";
 	echo "</td></tr></table></center>";
 }
@@ -166,6 +170,7 @@ if ($checkmodus == 2 && $send == 1)
 	$cont = fread($h,filesize("include/master.inc.php"));
 	$cont = ereg_replace("(REX\[SERVER\].?\=.?\")[^\"]*","\\1".$serveraddress,$cont);
 	$cont = ereg_replace("(REX\[SERVERNAME\].?\=.?\")[^\"]*","\\1".$serverbezeichnung,$cont);
+	$cont = ereg_replace("(REX\[LANG\].?\=.?\")[^\"]*","\\1".$lang,$cont);
 	$cont = ereg_replace("(REX\[INSTNAME\].?\=.?\")[^\"]*","\\1"."rex".date("YmdHis"),$cont);
 	$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?\")[^\"]*","\\1".$error_email,$cont);
 	$cont = ereg_replace("(DB\[1\]\[HOST\].?\=.?\")[^\"]*","\\1".$mysql_host,$cont);
