@@ -386,6 +386,7 @@ if ($article->getRows() == 1)
 			$category_id = $article->getValue("category_id");
 			if ($FUNC_MOVE != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
 			{
+				/*
 				if ($article->getValue("startpage")==1)
 				{
 					$err_msg = $I18N->msg('article_cannot_be_moved')." ".$I18N->msg('start_article_has_to_stay_in_category');
@@ -394,10 +395,13 @@ if ($article->getRows() == 1)
 					$err_msg = moveArticle($article_id,$func_category_id,$category_id);
 					$category_id = $func_category_id;
 				}
+				*/
 			}elseif ($FUNC_COPY != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
 			{
+				/*
 				copyArticle($article_id,$func_category_id);
 				$err_msg = $I18N->msg('article_copied');
+				*/
 			}
 			if ($save == "1")
 			{
@@ -578,7 +582,7 @@ if ($article->getRows() == 1)
 
 			if($REX_USER->isValueOf("rights","advancedMode[]"))
 			{
-
+				/*
 				echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
 					<form action=index.php method=get>
 					<input type=hidden name=page value=content>
@@ -620,6 +624,8 @@ if ($article->getRows() == 1)
 					</tr>
 					</form>
 					</table>";
+				*/
+
 			}
 			// ------------------------------------------ END: META VIEW
 
