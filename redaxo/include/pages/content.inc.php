@@ -8,6 +8,8 @@
 		
 */
 
+unset($REX_ACTION);
+
 $article = new sql;
 $article->setQuery("select * from rex_article where id='$article_id' and clang=$clang");
 
@@ -170,7 +172,7 @@ if ($article->getRows() == 1)
 					
 						if ($REX_ACTION[MSG]!="") $message = $REX_ACTION[MSG];
 						elseif ($function == "delete") $message = "Block konnte nicht gelöscht werden.";
-						else $message = "Eingaben wurde nicht übernommen";
+						else $message = "Eingaben wurde nicht übernommen.";
 					
 					}else
 					{
@@ -305,6 +307,7 @@ if ($article->getRows() == 1)
 							}
 							eval("?>".$iaction);
 							if ($REX_ACTION[MSG]!="") $message .= " | ".$REX_ACTION[MSG];
+							$REX_ACTION[MSG] = "";
 							$ga->next();
 						}
 						// ----- / POST ACTION
