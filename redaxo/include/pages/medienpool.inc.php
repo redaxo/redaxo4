@@ -1491,7 +1491,7 @@ class rexMedia extends rexPoolComponent {
         
         $catSelect = new rexMediaCatSelect();
         $catSelect->set_style( 'width:100%;');
-        $catSelect->set_name( 'mediaCatId');
+        $catSelect->set_name( 'cat_id');
         $catSelect->set_selected( $this->params->catId);
         
         $titleKey = $this->params->mode == 'archive' ?  'pool_headline_mediaarchiveupload' : 'pool_headline_mediaupload';
