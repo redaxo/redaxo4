@@ -1,19 +1,5 @@
 <?
 
-// class article 1.0 [redaxo]
-//
-// erstellt 01.12.2003
-// pergopa kristinus gbr
-// lange strasse 31
-// 60311 Frankfurt/M.
-// www.pergopa.de
-// ersteller: j.kristinus
-
-// changed 02.04.04 Carsten Eckelman <careck@circle42.com>
-//   * Internationalisation with $I18N hash
-//   * to use internationalised messages just global $I18N and write $I18N->msg('message_key')
-//   * add the message to text_<language>.inc.php eg. $I18N->msg('submit') = "abschicken";
-
 class article
 {
 
@@ -129,7 +115,13 @@ class article
 	function getValue($value)
 	{
 		global $REX;
-				
+		
+		if ($value == "category_id")
+		{
+			if ($this->getValue("startpage")!=1) $value = "re_id";
+			else $value = "article_id";
+		}
+		
 		if ($REX[GG]) return $REX[ART][$this->article_id][$value][$this->clang];
 		else return $this->ARTICLE->getValue($value);
 	}
