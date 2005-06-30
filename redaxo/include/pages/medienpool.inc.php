@@ -239,7 +239,7 @@ class rexPoolUpload extends rexPoolComponent {
         $result['title']       = isset( $_POST['mediaTitle']) ? $_POST['mediaTitle'] : '';
         $result['description'] = isset( $_POST['mediaDescription']) ? $_POST['mediaDescription'] : '';
         $result['copyright']   = isset( $_POST['mediaCopyright']) ? $_POST['mediaCopyright']: '';
-        $result['cat_id']      = isset( $_POST['mediaCatId']) ? $_POST['mediaCatId'] : '';
+        $result['cat_id']      = isset( $_POST['cat_id']) ? $_POST['cat_id'] : '';
         
         $result['orgname'] = $file['name'];
         $result['size']    = $file['size'];
@@ -643,7 +643,7 @@ class rexPool extends rexPoolComponent {
             $result['title']       = isset( $_POST['mediaTitle']) ? $_POST['mediaTitle'] : '';
             $result['description'] = isset( $_POST['mediaDescription']) ? $_POST['mediaDescription'] : '';
             $result['copyright']   = isset( $_POST['mediaCopyright']) ? $_POST['mediaCopyright']: '';
-            $result['cat_id']      = isset( $_POST['mediaCatId']) ? $_POST['mediaCatId'] : '';
+            $result['cat_id']      = isset( $_POST['cat_id']) ? $_POST['cat_id'] : '';
             
             $result['updatedate'] = time();
             $result['updateuser'] = $REX_USER->getValue('login');
