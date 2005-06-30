@@ -75,7 +75,7 @@ class article
 			if ($this->ARTICLE->getRows() == 1)
 			{
 				$this->template_id = $this->ARTICLE->getValue("rex_article.template_id");
-				$this->category_id = $this->ARTICLE->getValue("rex_article.re_id");
+				$this->category_id = $this->getValue("category_id");
 				return TRUE;
 			}else
 			{
@@ -119,7 +119,8 @@ class article
 		if ($value == "category_id")
 		{
 			if ($this->getValue("startpage")!=1) $value = "re_id";
-			else $value = "article_id";
+			else if($REX[GG]) $value = "article_id";
+			else $value = "id";
 		}
 		
 		if ($REX[GG]) return $REX[ART][$this->article_id][$value][$this->clang];
@@ -174,8 +175,6 @@ class article
 					$RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.eingabe");
 					$RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.id");
 					$RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.name");
-					$RE_MODUL_PHP[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.php_enable");
-					$RE_MODUL_HTML[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.html_enable");
 					$RE_C[$this->CONT->getValue("re_article_slice_id")] = $i;
 					$this->CONT->nextValue();
 				}
@@ -269,9 +268,6 @@ class article
 							if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
 							{
 								$slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID]);
-							}elseif($this->function=="delete" && $this->slice_id == $RE_CONTS[$I_ID])
-							{
-								$slice_content .= $this->deleteSlice($RE_CONTS[$I_ID],$RE_MODUL_OUT[$I_ID],$PRE_ID);
 							}else
 							{
 								$slice_content .= $RE_MODUL_OUT[$I_ID];
@@ -421,30 +417,6 @@ class article
 	}
 
 
-
-	function deleteSlice($RE_CONTS,$RE_MODUL_OUT,$PRE_ID)
-	{
-		global $REX,$FORM,$I18N;
-		$slice_content .= "<a name=deleteslice></a>$RE_MODUL_OUT
-			<form ENCTYPE=multipart/form-data action=index.php#slice$PRE_ID method=post>
-			<input type=hidden name=article_id value=$this->article_id>
-			<input type=hidden name=page value=content>
-			<input type=hidden name=mode value=$this->mode>
-			<input type=hidden name=slice_id value=$RE_CONTS>
-			<input type=hidden name=function value=delete>
-			<input type=hidden name=clang value=".$this->clang.">
-			<table cellspacing=0 cellpadding=0 border=0 class=high>
-			<tr>
-			<td valign=middle><select name=save size=1><option value=2>".$I18N->msg('dont_delete_block')."</option><option value=1 selected>".$I18N->msg('delete_block')."</option></select></td>
-			<td valign=middle><input type=submit value='".$I18N->msg('submit')."'></td>
-			</tr></form>
-			</table>";
-		$slice_content = $this->sliceIn($slice_content);
-		return $slice_content;
-	}
-
-
-
 	function editSlice($RE_CONTS,$RE_MODUL_IN)
 	{
 		global $REX,$REX_ACTION,$FORM,$I18N;
@@ -468,8 +440,6 @@ class article
 
 		return $slice_content;
 	}
-
-
 
 	function sliceIn($slice_content)
 	{
