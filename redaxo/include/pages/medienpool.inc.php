@@ -196,10 +196,14 @@ class rexPoolUpload extends rexPoolComponent {
         parent::rexPoolComponent( $params);
     }
     
-    function _title( $modes = array( 'file' => 'pool_upload_file')) {
-        global $I18N;
+    function _getModes() {
+        return $modes = array( 'file' => 'pool_upload_file');
+    }
+    
+    function _title( $subtitle = '') {
+        global $I18N, $pool;
         
-        $subtitle = '';
+        $modes = $this->_getModes();
         $actMode = $this->params->mode;
         
         $first = true;
@@ -219,7 +223,11 @@ class rexPoolUpload extends rexPoolComponent {
             } 
         }
         
-        parent::_title( $subtitle);        
+        if ( $subtitle != '') {
+            $subtitle = ' - '. $subtitle;
+        }
+        
+        parent::_title( $pool->_getPath(), $subtitle);        
     }
     
     function &handle( &$file, $register = true) {
@@ -472,7 +480,7 @@ class rexPool extends rexPoolComponent {
     function mediaDetails() {
         global $I18N;
         
-        rexPool::_title( $this->_getPath(), ' - '. $I18N->msg('pool_media_detail_title'));
+        $this->_title( $this->_getPath(), ' - '. $I18N->msg('pool_media_detail_title'));
         
         $ooMedia = $this->_getMedia();
         if ( $ooMedia === null) {
@@ -793,8 +801,8 @@ class rexPool extends rexPoolComponent {
     
           <tr>
              <td>
-               <?php echo rexPool::_link( $I18N->msg('pool_file_list'), '', array( 'class' => 'white')) ?> |
-               <?php echo rexPool::_link( $I18N->msg('pool_file_upload'), 'action=media_upload&mode=file', array( 'class' => 'white')) ?>
+               <?php echo rexPool::_link( $I18N->msg('pool_file_list'), 'cat_id='. $this->params->catId, array( 'class' => 'white')) ?> |
+               <?php echo rexPool::_link( $I18N->msg('pool_file_upload'), 'action=media_upload&mode=file&cat_id='. $this->params->catId, array( 'class' => 'white')) ?>
                <!-- <?php echo " | ".rexPool::_link( $I18N->msg('pool_file_search'), 'action=media_search', array( 'class' => 'white')) ?> -->
              </td>
           </tr>
@@ -1483,6 +1491,7 @@ class rexMedia extends rexPoolComponent {
         $catSelect = new rexMediaCatSelect();
         $catSelect->set_style( 'width:100%;');
         $catSelect->set_name( 'mediaCatId');
+        $catSelect->set_selected( $this->params->catId);
         
         $titleKey = $this->params->mode == 'archive' ?  'pool_headline_mediaarchiveupload' : 'pool_headline_mediaupload';
         
