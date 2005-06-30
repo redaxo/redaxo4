@@ -631,6 +631,7 @@ class rexPool extends rexPoolComponent {
         {
             // Id des zu löschenden Mediums
             $mediaId = $this->params->mediaId;
+            $this->params->catId = $_POST['mediaCatId'];
             
             // Hier die action resetten, damit die Kategorie des gelöschten Mediums angezeigt wird
             $this->params->action = '';
