@@ -291,7 +291,7 @@ if ($spage == "standard")
 			echo "<td class=grey>".key($REX[CLANG])."</td>";
 			echo "<td class=grey><input type=text size=10 class=inp100 name=clang_name value='".htmlentities(current($REX[CLANG]))."''></td>";
 			echo "<td class=grey><input type=submit name=edit value=editieren>";
-			if ($clang_id>0) echo "<input type=submit name=delclang value=delete>";
+			if ($clang_id>0) echo "<input type=submit name=delclang value=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
 			echo "</td>";
 			echo "</form></tr>";
 			

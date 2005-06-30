@@ -1218,7 +1218,7 @@ class rexMediaCategory extends rexPoolComponent {
         }
         
         if ( $cat === null || rexPoolPerm::hasDelPerm( $cat)) {
-            $s .= '<input type="submit" name="deleteCatButton" value="'. $I18N->msg( 'delete_category') .'"/>';
+            $s .= '<input type="submit" name="deleteCatButton" value="'. $I18N->msg( 'delete_category') .'"/  onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';
         } 
         
         return $s;
@@ -1478,7 +1478,7 @@ class rexMedia extends rexPoolComponent {
                     <input type="submit" name="saveMediaButton" value="'. $I18N->msg('pool_media_apply') .'"/>
                  </td>
                  <td style="text-align: right;">
-                    <input type="submit" name="deleteMediaButton" value="'. $I18N->msg('pool_media_delete') .'"/>
+                    <input type="submit" name="deleteMediaButton" value="'. $I18N->msg('pool_media_delete') .'"  onclick="return confirm(\''.$I18N->msg('delete').' ?\')" />
                  </td>
               </tr>
               '. "\n";

@@ -378,7 +378,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 			$echo .= "
 				<td class=dgrey><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
 				<td class=dgrey><input type=text name=Position_Category value=\"".htmlentities($KAT->getValue("catprior"))."\" style='width:30px'></td>
-				<td class=dgrey><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."'></td>
+				<td class=dgrey><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'></td>
 				<td class=dgrey>$kat_status</td></form></tr>";
 		}else
 		{
@@ -575,7 +575,7 @@ if($category_id > -1)
 				{ 
 					$article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id&clang=$clang><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id&clang=$clang><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; 
 				}
-				echo "	<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id&clang=$clang>".$I18N->msg("delete")."</a></td><td class=grey>$article_status</td>";
+				echo "	<td class=grey><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id&clang=$clang onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("delete")."</a></td><td class=grey>$article_status</td>";
 			}
 			echo "</tr>";
 
