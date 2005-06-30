@@ -957,10 +957,11 @@ class rexPoolPerm {
         }
         $catId = $cat->getId();
         
-        if( rexPoolPerm::isAdmin() ||
-            rexPoolPerm::isPoolAdmin() ||
-            rexPoolPerm::isOwner( $cat->getCreateUser()) ||
-            rexPoolPerm::hasCatPerm( $catId)) 
+        if( rexPoolPerm::isAdmin() 
+            || rexPoolPerm::isPoolAdmin() 
+            || rexPoolPerm::isOwner( $cat->getCreateUser()) 
+          //  || rexPoolPerm::hasCatPerm( $catId) # Endlosschleife
+          ) 
         {
             return true;
         }
