@@ -60,7 +60,8 @@ class OORedaxo {
 	 */
 	function getValue($value) {
 
-		return $this->$$value;
+		if(substr($value,0,1)!='_'){ $value = "_".$value; }
+		return $this->$value;
 
 	}
 
