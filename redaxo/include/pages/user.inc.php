@@ -678,7 +678,9 @@ if ($FUNC_ADD)
 			<td class=grey>&nbsp;</td>
 			<td class=grey><input type=submit name=FUNC_UPDATE value='".$I18N->msg("update")."'></td>
 			<td class=grey colspan=2>";
-		if ($REX_UID!=$user_id) echo "<input type=submit name=FUNC_DELETE value='".$I18N->msg("delete")."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
+
+		if ($REX_USER->getValue("user_id") != $user_id) echo "<input type=submit name=FUNC_DELETE value='".$I18N->msg("delete")."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
+
 		else echo "&nbsp;";
 		echo "</td></tr>
 		</form>
