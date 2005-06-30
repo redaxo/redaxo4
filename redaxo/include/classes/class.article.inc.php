@@ -157,7 +157,7 @@ class article
 			{
 				// ---------- select alle slices eines artikels
 				
-				$sql = "select rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
+				$sql = "select rex_modultyp.id, rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
 					from
 						rex_article_slice
 					left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
@@ -180,6 +180,7 @@ class article
 					$RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.ctype");
 					$RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.ausgabe");
 					$RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.eingabe");
+					$RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.id");
 					$RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.name");
 					$RE_MODUL_PHP[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.php_enable");
 					$RE_MODUL_HTML[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.html_enable");
@@ -201,9 +202,7 @@ class article
 					
 					for ($i=0;$i<$MODULE->getRows();$i++)
 					{
-						if ($MODULE->getValue("php_enable")==1 && $REX_USER->isValueOf("rights","module[php]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
-						elseif ($MODULE->getValue("html_enable")==1 && $REX_USER->isValueOf("rights","module[html]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
-						elseif ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+						if ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
 						$MODULE->next();
 					}
 				}
@@ -213,7 +212,9 @@ class article
 				$PRE_ID = 0;
 				$this->article_content = "";
 				$this->CONT->resetCounter();
-		
+				$tbl_head = "<table width=100% cellspacing=0 cellpadding=5 border=0><tr><td class=lblue>";
+				$tbl_bott = "</td></tr></table>";
+
 				for ($i=0;$i<$this->CONT->getRows();$i++)
 				{
 				
@@ -225,7 +226,6 @@ class article
 					if($this->mode=="edit")
 					{
 		
-						
 						$this->ViewSliceId = $RE_CONTS[$I_ID];
 						
 						$amodule = "
@@ -244,28 +244,10 @@ class article
 						<td class=dblue>".$MODULESELECT->out()."</td>
 						</tr></form></table>";
 						
-						$fmenue  = "
-						<a name=slice$RE_CONTS[$I_ID]></a>
-						<table width=100% cellspacing=0 cellpadding=5 border=0>
-						<tr>
-						<td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
-						<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
-						<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=red12b><b>".$I18N->msg('delete')."</b></a></td>
-						</tr></table>";
-		
-						$p_menue = "
-						<table width=100% cellspacing=0 cellpadding=5 border=0>
-						<tr>
-						<td class=blue> MODUL: <b>$RE_MODUL_NAME[$I_ID]</b> | <b>".$I18N->msg('no_editing_rights')."</b></td>
-						</tr>
-						</table>";
 						
-						$tbl_head = "<table width=100% cellspacing=0 cellpadding=5 border=0><tr><td class=lblue>";
-						$tbl_bott = "</td></tr></table>";
 						
-						// && ( $RE_MODUL_PHP[$module_id] == 0 || $MODULE_PERM[php] ) && ( $RE_MODUL_HTML[$module_id] == 0 || $MODULE_PERM[html] )
+						// ----- add select box einbauen
 						
-		
 						if($this->function=="add" && $this->slice_id == $I_ID)
 						{
 							$slice_content = $this->addSlice($I_ID,$module_id);
@@ -273,34 +255,58 @@ class article
 						{
 							$slice_content .= $amodule;
 						}
-		
-						if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID] && ($RE_MODUL_PHP[$I_ID]==0 || $MODULE_PERM[php]) && ($RE_MODUL_HTML[$I_ID]==0 || $MODULE_PERM[html]) )
+						
+						
+						// ----- edit / delete 
+						
+						if($REX_USER->isValueOf("rights","module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
 						{
-							$slice_content .= $fmenue.$tbl_head.$this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID]).$tbl_bott;
-						}elseif($this->function=="delete" && $this->slice_id == $RE_CONTS[$I_ID])
-						{
-							$slice_content .= $fmenue.$tbl_head.$this->deleteSlice($RE_CONTS[$I_ID],$RE_MODUL_OUT[$I_ID],$PRE_ID).$tbl_bott;
-						}else
-						{
-		
-							if (!$MODULE_PERM[html] && $RE_MODUL_HTML[$I_ID])
+							
+							// hat rechte zum edit und delete	
+							
+							$mne  = "
+								<a name=slice$RE_CONTS[$I_ID]></a>
+								<table width=100% cellspacing=0 cellpadding=5 border=0>
+								<tr>
+								<td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
+								<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
+								<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."&save=1#slice$RE_CONTS[$I_ID] class=red12b onclick='return confirm(\"".$I18N->msg('delete')." ?\")'><b>".$I18N->msg('delete')."</b></a></td>
+								</tr></table>";
+							
+							$slice_content .= $mne.$tbl_head;
+							if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
 							{
-								$this->mode="";
-								$slice_content .= $p_menue.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
-								$slice_content = $this->sliceIn($slice_content);
-								// $slice_content .= "**";
-								$this->mode="edit";
+								$slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID]);
+							}elseif($this->function=="delete" && $this->slice_id == $RE_CONTS[$I_ID])
+							{
+								$slice_content .= $this->deleteSlice($RE_CONTS[$I_ID],$RE_MODUL_OUT[$I_ID],$PRE_ID);
 							}else
 							{
-								if ( ($RE_MODUL_PHP[$I_ID]==0 || $MODULE_PERM[php]) && ($RE_MODUL_HTML[$I_ID]==0 || $MODULE_PERM[html]) ) $slice_content .= $fmenue.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
-								else $slice_content .= $p_menue.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
-								$slice_content = $this->sliceIn($slice_content);
+								$slice_content .= $RE_MODUL_OUT[$I_ID];
 							}
+							$slice_content .= $tbl_bott;
+							$slice_content = $this->sliceIn($slice_content);
+							
+						}else
+						{
+
+							// hat keine rechte an diesem modul	
+
+							$mne = "
+								<table width=100% cellspacing=0 cellpadding=5 border=0>
+								<tr>
+								<td class=blue> MODUL: <b>$RE_MODUL_NAME[$I_ID]</b> | <b>".$I18N->msg('no_editing_rights')."</b></td>
+								</tr>
+								</table>";
+							$slice_content .= $mne.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
+							$slice_content = $this->sliceIn($slice_content);
 						}
+						
 		
 					}else
 					{
-					// wenn mode nicht edit
+
+						// wenn mode nicht edit
 		
 						$slice_content .= $RE_MODUL_OUT[$I_ID];
 						$slice_content = $this->sliceIn($slice_content);
