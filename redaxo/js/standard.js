@@ -164,18 +164,17 @@ function openMediaPool(id)
     newPoolWindow('index.php?page=medienpool');
 }
 
-function openREXMedia(id,cat_id)
+function openREXMedia(id)
 {
 	var mediaid = 'REX_MEDIA_'+id;
-	var defValue = '';
 	var value = document.getElementById(mediaid).value;
 	var param = '';
 	
-	if ( value != '' && value != defValue) {
-	   param = '&file_name='+ value;
+	if ( value != '') {
+	   param = '&action=media_details&file_name='+ value;
 	}
 
-    newPoolWindow('index.php?page=medienpool&cat_id='+ cat_id + param +'&opener_input_field='+ mediaid);
+    newPoolWindow('index.php?page=medienpool'+ param +'&opener_input_field='+ mediaid);
 
 }
 

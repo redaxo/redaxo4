@@ -945,7 +945,6 @@ class rexPoolPerm {
     }
     
     function hasPerm( $perm) {
-//        var_dump( $perm);
         global $REX_USER;
         return $REX_USER->isValueOf( 'rights', $perm);
     }
@@ -960,7 +959,6 @@ class rexPoolPerm {
         if( rexPoolPerm::isAdmin() 
             || rexPoolPerm::isPoolAdmin() 
             || rexPoolPerm::isOwner( $cat->getCreateUser()) 
-          //  || rexPoolPerm::hasCatPerm( $catId) # Endlosschleife
           ) 
         {
             return true;
@@ -1270,7 +1268,7 @@ class rexMediaList extends rexPoolComponentList {
         $s = '';
         
         // Berechtigung prüfen, ob medien selektiert werden dürfen        
-        if ( !rexPoolPerm::hasGetPerm( $this->cat)) {
+        if ( $this->cat !== null && !rexPoolPerm::hasGetPerm( $this->cat)) {
             return $s;
         }
 
