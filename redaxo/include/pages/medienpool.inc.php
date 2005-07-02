@@ -1243,8 +1243,8 @@ class rexMediaList extends rexPoolComponentList {
         $columns = array( 
             $I18N->msg('pool_colhead_type') => '50px',
 //          '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/>' => '30px',
-            $I18N->msg('pool_colhead_preview') => '200px',
-            $I18N->msg('pool_colhead_filedetails') => '200px',
+            $I18N->msg('pool_colhead_preview') => '90px',
+            $I18N->msg('pool_colhead_filedetails') => '150px',
             $I18N->msg('pool_colhead_description')=> '*'
         );
         
