@@ -727,11 +727,18 @@ if ($SHOW)
 
 	for($i=0;$i<$sql->getRows();$i++)
 	{
+        $lasttrydate = $sql->getValue("rex_user.lasttrydate");
+        $last_login = '-';
+        
+        if ( $lasttrydate != 0) {
+            $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue("rex_user.lasttrydate"));
+        }
+        
 		echo "	<tr>
 			<td class=grey align=center><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
 			<td class=grey><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlentities($sql->getValue("rex_user.name"))."</a></td>
 			<td class=grey>".$sql->getValue("rex_user.login")."</td>
-			<td class=grey>".$sql->getValue("rex_user.lasttrydate")."</td>
+			<td class=grey>".$last_login."</td>
 			</tr>";
 		$sql->counter++;
 	}
