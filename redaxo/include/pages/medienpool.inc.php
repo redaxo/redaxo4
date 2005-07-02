@@ -1346,11 +1346,17 @@ class rexMedia extends rexPoolComponent {
         }
         $date .= $I18N->msg('pool_colhead_created') .':<br/>' . $createdate;
         
-        $s = $this->_link( $media->getTitle(), 'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $media->getId())
-             .'<br/><br/>'
-             .$media->getFileName() .'<br/>'
-             .$media->getFormattedSize().'<br/><br/>'
-             .$date;
+        $s = $this->_link( $media->getTitle(), 'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $media->getId());
+        
+        // Im AdvancedMode IDs der Medien anzeigen
+        if ( rexPoolPerm::isAdvanced()) {
+            $s .= ' ['. $media->getId() .']';
+        } 
+        
+        $s .= '<br/><br/>'
+              .$media->getFileName() .'<br/>'
+              .$media->getFormattedSize().'<br/><br/>'
+              .$date;
         
         return $s;
     }
