@@ -122,13 +122,17 @@ class login{
 				$query = str_replace("USR_LOGIN",$this->usr_login,$this->login_query);
 				$query = str_replace("USR_PSW",$this->usr_psw,$query);
 				
-				// $this->USER->debugsql = 1;
+//				 $this->USER->debugsql = 1;
 				
 				$this->USER->setQuery($query);
 				if ($this->USER->getRows() == 1)
 				{
 					$ok = true;
 					$_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
+                    
+                    // Erfolgreicher Login in der DB vermerken
+                    $sql = new sql();
+                    $sql->setQuery( 'UPDATE rex_user SET lasttrydate ="'. time() .'" WHERE login ="'. $this->usr_login .'"');
 				}else
 				{
 					$this->message = $this->text[30];
