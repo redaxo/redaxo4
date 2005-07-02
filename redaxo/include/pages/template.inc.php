@@ -133,7 +133,7 @@ if ($OUT)
 	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
 		<tr>
 			<th width=30><a href=index.php?page=template&function=add><img src=pics/template_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_template")."\" title=\"".$I18N->msg("create_template")."\"></a></th>
-			<th align=left width=30 align=center>ID</th>
+			<th align=center width=30>ID</th>
 			<th align=left width=300>".$I18N->msg("header_template_description")."</th>
 			<th align=left width=50>".$I18N->msg("header_template_active")."</th>
 			<th align=left>".$I18N->msg("header_template_functions")."</th>
