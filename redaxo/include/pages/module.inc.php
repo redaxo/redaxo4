@@ -9,11 +9,11 @@ $ASTATUS[2] = "DELETE";
 if ($subpage == "actions")
 {
 	title("Module: Actions","&nbsp;&nbsp;&nbsp;<a href=index.php?page=module&subpage=modules>Modules</a> | <a href=index.php?page=module&subpage=actions>Actions</a> ");
-	include $REX[INCLUDE_PATH]."/pages/module/module.action.inc.php";
+	include $REX[INCLUDE_PATH]."/pages/module.action.inc.php";
 }else
 {
 	title("Module","&nbsp;&nbsp;&nbsp;<a href=index.php?page=module&subpage=modules>Modules</a> | <a href=index.php?page=module&subpage=actions>Actions</a> ");
-	include $REX[INCLUDE_PATH]."/pages/module/module.modules.inc.php";
+	include $REX[INCLUDE_PATH]."/pages/module.modules.inc.php";
 }
 
 ?>
