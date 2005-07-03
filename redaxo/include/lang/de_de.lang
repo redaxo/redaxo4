@@ -256,6 +256,7 @@ delete_button = L&ouml;schen
 pool_name = Medienpool
 pool_error = Fehler:
 pool_status = Status:
+pool_no_permission = keine Berechtigung
 
 pool_file_list = Medien
 pool_file_upload = Medium hinzufügen
@@ -270,6 +271,7 @@ pool_subcats = Unterkategorien
 pool_files = Dateien
 
 pool_headline_mediadetails = Informationen
+pool_headline_mediaextras = Extras
 pool_headline_mediaupload = Medium
 pool_headline_mediaarchiveupload = Medienarchiv
 
@@ -296,7 +298,8 @@ pool_media_category = Kategorie
 pool_media_description = Beschreibung
 pool_media_copyright = Urheberrecht / Copyright
 pool_media_location = Datei
-pool_media_apply = Übernehmen
+pool_media_apply = Änderungen übernehmen
+pool_media_replace = Medium Ersetzen
 pool_media_changed = Medium "{0}" wurde erfolgreich bearbeitet!
 pool_media_delete = Medium löschen
 pool_media_deleted = Medium "{0}" wurde erfolgreich gelöscht!

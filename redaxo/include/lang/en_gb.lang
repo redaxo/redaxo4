@@ -255,6 +255,7 @@ delete_button = Delete
 pool_name = Mediapool
 pool_error = srror:
 pool_status = status:
+pool_no_permission = no permissions
 
 pool_file_list = media
 pool_file_upload = add media
@@ -269,6 +270,7 @@ pool_subcats = subcategories
 pool_files = files
 
 pool_headline_mediadetails = information
+pool_headline_mediaextras = extras
 pool_headline_mediaupload = media
 pool_headline_mediaarchiveupload = mediaarchive
 
@@ -282,9 +284,9 @@ pool_colhead_description = description
 pool_colhead_copyright = copyrights
 pool_colhead_functions = functions
 pool_colhead_filename = filename
+pool_colhead_newfile = replace file
 pool_colhead_width = width
 pool_colhead_height = height
-pool_colhead_newfile = replace file
 pool_colhead_updated = edited on
 pool_colhead_created = created on
 pool_colhead_type = type
@@ -295,7 +297,8 @@ pool_media_category = category
 pool_media_description = description
 pool_media_copyright = copyright
 pool_media_location = file
-pool_media_apply = apply
+pool_media_apply = apply changes
+pool_media_replace = replace media
 pool_media_changed = media "{0}" successfully edited!
 pool_media_delete = delete media
 pool_media_deleted = media "{0}" successfully deleted!
