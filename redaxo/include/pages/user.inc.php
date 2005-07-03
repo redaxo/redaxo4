@@ -76,6 +76,7 @@ $sel_cat->set_size(20);
 $sel_cat->set_name("userperm_cat[]");
 $sel_cat->set_id("userperm_cat");
 $cat_ids = array();
+
 if ($rootCats = OOCategory::getRootCategories())
 {
 	foreach( $rootCats as $rootCat) {
@@ -107,14 +108,30 @@ $sel_media->set_style("width:250px; height: 200px;");
 $sel_media->set_size(20);
 $sel_media->set_name("userperm_media[]");
 $sel_media->set_id("userperm_media");
-$sqlmedia = new sql;
-$sqlmedia->setQuery("select * from rex_file_category");
-for ($i=0;$i<$sqlmedia->getRows();$i++)
+$mediacat_ids = array();
+
+if ($rootCats = OOMediaCategory::getRootCategories())
 {
-	$name = $sqlmedia->getValue("name");
-	// $c = substr_count($sql->getValue("path"),"|");	
-	$sel_media->add_option($name,$sqlmedia->getValue("id"));
-	$sqlmedia->next();	
+    foreach( $rootCats as $rootCat) {
+        add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
+    }
+}
+
+function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
+{
+    if(empty($mediacat))
+    {
+        return;
+    }
+    $mediacat_ids[] = $mediacat->getId();
+    $select->add_option($mediacat->getName(),$mediacat->getId(), $groupName);
+    $childs = $mediacat->getChildren();
+    if (is_array($childs))
+    {
+        foreach ( $childs as $child) {
+            add_cat_options( $select, $child, $mediacat_ids, $mediacat->getName());
+        }
+    }
 }
 
 // zugriff auf sprachen
@@ -560,17 +577,16 @@ if ($FUNC_ADD)
 			next($REX[EXTRAPERM]);
 		}
 	
-		foreach ( $cat_ids as $cat_id) {
+		foreach ( $cat_ids as $cat_id) 
+        {
             $name = "csw[".$cat_id."]";
             if ($sql->isValueOf("rights",$name)) $sel_cat->set_selected($cat_id);
         }
 
-		$sqlmedia->resetCounter();
-		for ($i=0;$i<$sqlmedia->getRows();$i++)
-		{
-			$name = "media[".$sqlmedia->getValue("id")."]";
-			if ($sql->isValueOf("rights",$name)) $sel_media->set_selected($sqlmedia->getValue("id"));
-			$sqlmedia->next();	
+        foreach ( $mediacat_ids as $cat_id) 
+        {
+			$name = "media[".$cat_id."]";
+			if ($sql->isValueOf("rights",$name)) $sel_media->set_selected( $cat_id);
 		}
 		
 		$sqlmodule->resetCounter();
