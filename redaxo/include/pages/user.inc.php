@@ -19,7 +19,7 @@ zugriff auf folgende categorien
 	csr[2] read
 
 mulselect zugriff auf mediapool
-	catmedia[2]
+	media[2]
 
 mulselect module
 - liste der module
@@ -197,7 +197,7 @@ if ($FUNC_UPDATE != "")
 	if ($useradmin == 1) $perm .= "admin[]";
 	if ($devadmin == 1) $perm .= "dev[]";
 	if ($allcats == 1) $perm .= "csw[0]";
-	if ($allmcats == 1) $perm .= "catmedia[all]";
+	if ($allmcats == 1) $perm .= "media[0]";
 
 	// userperm_all
 	for($i=0;$i<count($userperm_all);$i++)
@@ -245,7 +245,7 @@ if ($FUNC_UPDATE != "")
 	// userperm_media
 	for($i=0;$i<count($userperm_media);$i++)
 	{
-		$perm .= "catmedia[".current($userperm_media)."]";
+		$perm .= "media[".current($userperm_media)."]";
 		next($userperm_media);
 	}
 	
@@ -306,7 +306,7 @@ if ($FUNC_UPDATE != "")
 		if ($useradmin == 1) $perm .= "admin[]";
 		if ($devadmin == 1) $perm .= "dev[]";
 		if ($allcats == 1) $perm .= "csw[0]";
-		if ($allmcats == 1) $perm .= "catmedia[all]";
+		if ($allmcats == 1) $perm .= "media[0]";
 	
 		// userperm_all
 		for($i=0;$i<count($userperm_all);$i++)
@@ -345,7 +345,7 @@ if ($FUNC_UPDATE != "")
 		// userperm_media
 		for($i=0;$i<count($userperm_media);$i++)
 		{
-			$perm .= "catmedia[".current($userperm_media)."]";
+			$perm .= "media[".current($userperm_media)."]";
 			next($userperm_media);
 		}
 		// userperm_module
@@ -533,7 +533,7 @@ if ($FUNC_ADD)
 		if ($sql->isValueOf("rights","csw[0]")) $allcatschecked = "checked";
 		else $allcatschecked = "";
 		
-		if ($sql->isValueOf("rights","catmedia[all]")) $allmcatschecked = "checked";
+		if ($sql->isValueOf("rights","media[0]")) $allmcatschecked = "checked";
 		else $allmcatschecked = "";
 
 		// Allgemeine Permissions setzen
@@ -568,7 +568,7 @@ if ($FUNC_ADD)
 		$sqlmedia->resetCounter();
 		for ($i=0;$i<$sqlmedia->getRows();$i++)
 		{
-			$name = "catmedia[".$sqlmedia->getValue("id")."]";
+			$name = "media[".$sqlmedia->getValue("id")."]";
 			if ($sql->isValueOf("rights",$name)) $sel_media->set_selected($sqlmedia->getValue("id"));
 			$sqlmedia->next();	
 		}
