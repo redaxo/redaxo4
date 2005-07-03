@@ -964,13 +964,14 @@ class rexPoolPerm {
             return true;
         }
         
-        return rexPoolPerm::hasPerm( 'media'. $sub .'[all]') ||
+        return rexPoolPerm::hasPerm( 'media['. $catId .']') ||
+               rexPoolPerm::hasPerm( 'media'. $sub .'[0]') ||
                rexPoolPerm::hasPerm( 'media'. $sub .'['. $catId .']');
     }
     
     function isOwner( $userId) {
         global $REX_USER;
-        return $REX_USER->isValueOf( 'user_id', $userId);
+        return $REX_USER->isValueOf( 'login', $userId);
     }
     
     function isAdvanced() {
@@ -982,7 +983,7 @@ class rexPoolPerm {
     }
 
     function isPoolAdmin() {
-        return rexPoolPerm::hasPerm( 'media[all]');
+        return rexPoolPerm::hasPerm( 'media[0]');
     }
     
     function hasCatPerm( &$cat) {
@@ -1097,9 +1098,9 @@ class rexMediaCategoryList extends rexPoolComponentList  {
             foreach( $this->cats as $rexCat) {
                 $ooCat =& $rexCat->_getOOCat();
                 
-                if ( !rexPoolPerm::hasCatPerm( $ooCat)) {
-                    continue;
-                }
+//                if ( !rexPoolPerm::hasCatPerm( $ooCat)) {
+//                    continue;
+//                }
                 
                 if( empty( $_POST) && $ooCat->getId() == $catModId) {
                     $s .= $rexCat->formatForm( $indent);
@@ -1133,7 +1134,7 @@ class rexMediaCategory extends rexPoolComponent {
         
         $s = "\n";
         $s .= $this->_indent( $indent) .'<tr>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td align=center><img src="pics/folder.gif" width=16 height=16></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td align="center"><img src="pics/folder.gif" width=16 height=16></td>'. "\n";
         // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatName() .'</td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatDetails() .'</td>'. "\n";
@@ -1164,7 +1165,7 @@ class rexMediaCategory extends rexPoolComponent {
         
         // Prüfen der Berechtigungen
         if ( !rexPoolPerm::hasDelPerm( $OOCat) && !rexPoolPerm::hasEditPerm( $OOCat)) {
-            return '';
+            return $I18N->msg( 'pool_no_permission');
         }
         
         return rexPool::_link( $I18N->msg('pool_cat_action'), 'cat_id='. $this->params->catId .'&cat_modid='. $OOCatId);;
@@ -1197,7 +1198,7 @@ class rexMediaCategory extends rexPoolComponent {
         
         $s = "\n";
         $s .= $this->_indent( $indent) .'<tr>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
+        $s .= $this->_indent( $indent + 1) .'<td align="center"><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
         // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td><input type="text" name="catName" value="'. $catName .'" style="width: 100%"/></td>'. "\n";
         $s .= $this->_indent( $indent + 1) .'<td colspan="2">'. $buttons .'</td>'. "\n";
@@ -1268,9 +1269,9 @@ class rexMediaList extends rexPoolComponentList {
         $s = '';
         
         // Berechtigung prüfen, ob medien selektiert werden dürfen        
-        if ( $this->cat !== null && !rexPoolPerm::hasGetPerm( $this->cat)) {
-            return $s;
-        }
+//        if ( $this->cat !== null && !rexPoolPerm::hasGetPerm( $this->cat)) {
+//            return $s;
+//        }
 
         if ( $this->medias === null) {
             return $s;
@@ -1472,11 +1473,6 @@ class rexMedia extends rexPoolComponent {
                  <td>'. $I18N->msg('pool_colhead_created') .'</td>
                  <td>'. $media->getCreateDate( $dateFormat) .'</td>
               </tr>
-              
-              <tr>
-                 <td>'. $I18N->msg('pool_colhead_newfile') .'</td>
-                 <td colspan=2><input type="file"  name="mediaFile"  /></td>
-              </tr>
 
               <tr>
                  <td colspan="2" style="text-align: right;">
@@ -1486,6 +1482,28 @@ class rexMedia extends rexPoolComponent {
                     <input type="submit" name="deleteMediaButton" value="'. $I18N->msg('pool_media_delete') .'"  onclick="return confirm(\''.$I18N->msg('delete').' ?\')" />
                  </td>
               </tr>
+
+              <tr>
+                 <td colspan="3" style="background-color: white;"></td>
+              </tr>
+
+              <tr>
+                 <th colspan="3">'. $I18N->msg('pool_headline_mediaextras') .'</th>
+              </tr>
+
+              <tr>
+                 <td>'. $I18N->msg('pool_colhead_newfile') .'</td>
+                 <td colspan="2">
+                    <input type="file" name="mediaFile"/>
+                 </td>
+              </tr>
+
+              <tr>
+                 <td colspan="3" style="text-align: right">
+                    <input type="submit" name="saveMediaButton" value="'. $I18N->msg('pool_media_replace') .'"/>
+                 </td>
+              </tr>
+
               '. "\n";
               
         return $s;
