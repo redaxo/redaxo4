@@ -127,6 +127,14 @@ class OORedaxo {
 
 	/*
 	 * Accessor Method:
+	 * returns the name of the article
+	 */
+	function getFile() {
+		return $this->_file;
+	}
+
+	/*
+	 * Accessor Method:
 	 * returns the Type ID of the article
 	 */
 	function getTypeId() {
