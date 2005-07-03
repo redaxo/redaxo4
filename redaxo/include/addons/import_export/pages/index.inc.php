@@ -314,7 +314,7 @@ if ($function == "delete")
 
 
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/top.php";
+include $REX[INCLUDE_PATH]."/layout/top.php";
 title($I18N_ADDON->msg("importexport"),"");
 if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
 
@@ -497,6 +497,6 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 
 <?
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/bottom.php";
+include $REX[INCLUDE_PATH]."/layout/bottom.php";
 
 ?>
