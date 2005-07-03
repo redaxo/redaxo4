@@ -110,7 +110,7 @@ class rexPoolComponent {
 	            // Fehler
 				$s .= '
 				<tr class="warning">
-					<td><img src=pics/warning.gif width=16 height=16></td>
+					<td><img src="pics/warning.gif" width="16" height="16"></td>
 					<td colspan="'. ($stateColspan+$messageColspan) .'">
 						'. $I18N->msg( 'pool_error') .' '. $message .'</td>
 				</tr>'. "\n";
@@ -579,6 +579,9 @@ class rexPool extends rexPoolComponent {
             if ( $cat->countChildren() > 0) {
                 // Fehlermeldung ausgeben            
                 $this->params->error( $I18N->msg( 'pool_category_not_deleted_childs', $cat->getName()));
+            } else if ( $cat->countFiles() > 0) {
+                // Fehlermeldung ausgeben            
+                $this->params->error( $I18N->msg( 'pool_category_not_deleted_files', $cat->getName()));
             } else {
                 // Statusmeldung ausgeben            
                 $this->params->message( $I18N->msg( 'pool_category_deleted', $cat->getName()));
@@ -956,8 +959,7 @@ class rexPoolPerm {
         }
         $catId = $cat->getId();
         
-        if( rexPoolPerm::isAdmin() 
-            || rexPoolPerm::isPoolAdmin() 
+        if( rexPoolPerm::isSuperUser() 
             || rexPoolPerm::isOwner( $cat->getCreateUser()) 
           ) 
         {
@@ -976,6 +978,16 @@ class rexPoolPerm {
     
     function isAdvanced() {
         return rexPoolPerm::hasPerm( 'advancedMode[]');
+    }
+    
+    function isSuperUser() {
+        return rexPoolPerm::isAdmin()
+               || rexPoolPerm::isPoolAdmin()
+               || rexPoolPerm::isDeveloper();
+    }
+    
+    function isDeveloper() {
+        return rexPoolPerm::hasPerm( 'admin[]');
     }
     
     function isAdmin() {
@@ -999,7 +1011,7 @@ class rexPoolPerm {
     }
     
     function hasDelPerm( &$cat) {
-        return rexPoolPerm::hasMediaPerm( '_delete', $cat);
+        return rexPoolPerm::isSuperUser() || rexPoolPerm::isOwner( $cat->getCreateUser());
     }
     
     function hasGetPerm( &$cat) {
@@ -1033,11 +1045,10 @@ class rexMediaCategoryList extends rexPoolComponentList  {
             $this->cats[] =& new rexMediaCategory( $params, $ooCat); 
         }
         
-//            var_dump( $this->cats);
         $columns = array( 
             $this->_formatAddLink() => '50px',
 //            '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'cat_id[]\', this.checked)"/>' => '30px',
-            $I18N->msg('pool_colhead_category') => '200', 
+            $I18N->msg('pool_colhead_category') => '200px', 
             $I18N->msg('pool_colhead_details') => '200px',
             $I18N->msg('pool_colhead_edit') => '*'
         );
@@ -1054,8 +1065,9 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         if ( $catId !== '') {
             $cat = OOMediaCategory::getCategoryById( $catId);
         }
-        
-        if ( $cat === null || rexPoolPerm::hasAddPerm( $cat)) {
+        // cat === null => RootCat => nur SuperUser dürfen RootCats hinzufügen
+        if ( $cat === null && (rexPoolPerm::isSuperUser()) ||
+             $cat !== null && rexPoolPerm::hasAddPerm( $cat)) {
             $s .=  $this->_link( '<img src="pics/folder_plus.gif" style="width: 16px; height:16px" alt="'. $I18N->msg('pool_add_category') .'">' , 'action=cat_add&cat_id='. $catId);
         }
         
@@ -1071,7 +1083,7 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         $formatCategoryParent = "\n";
         $formatCategoryParent .= $this->_indent( $indent) . '<tr>'. "\n";
         $formatCategoryParent .= $this->_indent( $indent + 1) . '<td></td>'. "\n"; 
-        $formatCategoryParent .= $this->_indent( $indent + 1) . '<td colspan="4">'. $this->_link( '..', 'cat_id='. $this->cat->getParentId()) .'</td>'. "\n"; 
+        $formatCategoryParent .= $this->_indent( $indent + 1) . '<td colspan="3">'. $this->_link( '..', 'cat_id='. $this->cat->getParentId()) .'</td>'. "\n"; 
         $formatCategoryParent .= $this->_indent( $indent) . '</tr>'. "\n";
               
         return $formatCategoryParent;
@@ -1084,7 +1096,7 @@ class rexMediaCategoryList extends rexPoolComponentList  {
         $s .= $this->formatTableHead();
         
         //Evtl Fehlerausgabe      
-        $s .= $this->_message( 2, 3);
+        $s .= $this->_message( 1, 2);
 
         // Link zur Parent-Kat        
         $s .= $this->_formatParent();
@@ -1163,7 +1175,10 @@ class rexMediaCategory extends rexPoolComponent {
         $OOCat =& $this->_getOOCat();
         $OOCatId = $OOCat->getId();
         
-        // Prüfen der Berechtigungen
+        // Prüfen der Berechtigungen TODO
+//        var_dump( $OOCatId);
+//        var_dump( rexPoolPerm::hasDelPerm( $OOCat));
+//        var_dump( !rexPoolPerm::hasEditPerm( $OOCat));
         if ( !rexPoolPerm::hasDelPerm( $OOCat) && !rexPoolPerm::hasEditPerm( $OOCat)) {
             return $I18N->msg( 'pool_no_permission');
         }
@@ -1213,11 +1228,11 @@ class rexMediaCategory extends rexPoolComponent {
         $cat =& $this->_getOOCat();
         $s = '';
         
-        if ( $cat === null || rexPoolPerm::hasEditPerm( $cat)) {
+        if ( $cat !== null && rexPoolPerm::hasEditPerm( $cat)) {
             $s .= '<input type="submit" name="saveCatButton" value="'. $I18N->msg( 'save_category') .'"/>';
         }
         
-        if ( $cat === null || rexPoolPerm::hasDelPerm( $cat)) {
+        if ( $cat !== null && rexPoolPerm::hasDelPerm( $cat)) {
             $s .= '<input type="submit" name="deleteCatButton" value="'. $I18N->msg( 'delete_category') .'"/  onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';
         } 
         
