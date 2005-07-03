@@ -14,7 +14,7 @@ setlocale(LC_ALL,trim($I18N->msg("setlocale")));
 
 $LOGIN = FALSE;
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/top.php";
+include $REX[INCLUDE_PATH]."/layout/top.php";
 
 title("Login","");
 
@@ -46,6 +46,6 @@ echo "<br><table border=1 cellpadding=5 cellspacing=0 width=770>
 </table>
 ";
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/bottom.php";
+include $REX[INCLUDE_PATH]."/layout/bottom.php";
 
 ?>

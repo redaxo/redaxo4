@@ -113,8 +113,8 @@ if ($REX[SETUP])
 	}
 }
 
-if (!$dl) include $REX[INCLUDE_PATH]."/layout_redaxo/top.php";
+if (!$dl) include $REX[INCLUDE_PATH]."/layout/top.php";
 include $REX[INCLUDE_PATH]."/pages/$page.inc.php";
-if (!$dl) include $REX[INCLUDE_PATH]."/layout_redaxo/bottom.php";
+if (!$dl) include $REX[INCLUDE_PATH]."/layout/bottom.php";
 
 ?>
