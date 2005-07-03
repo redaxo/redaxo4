@@ -1,6 +1,6 @@
 <?php
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/top.php";
+include $REX[INCLUDE_PATH]."/layout/top.php";
 
 if($function == "clear_cache"){
 		$c=0;
@@ -45,6 +45,6 @@ important: gif files are cached as jpegs<br><br>
 
 <?php
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/bottom.php";
+include $REX[INCLUDE_PATH]."/layout/bottom.php";
 
 ?>

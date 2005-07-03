@@ -1,6 +1,6 @@
 <?php
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/top.php";
+include $REX[INCLUDE_PATH]."/layout/top.php";
 
 title($I18N_STATS->msg("stats_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=stats&sub=stats>".$I18N_STATS->msg("statistics_header")."</a> | <a href=index.php?page=stats&sub=auswertung>".$I18N_STATS->msg("evaluation_header")."</a>");
 
@@ -185,6 +185,6 @@ if (count($years)==0)
 	}
 }
 
-include $REX[INCLUDE_PATH]."/layout_redaxo/bottom.php";
+include $REX[INCLUDE_PATH]."/layout/bottom.php";
 
 ?>
