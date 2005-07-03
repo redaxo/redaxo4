@@ -307,7 +307,9 @@ pool_media_insert = insert
 
 pool_category_created = category "{0}" successfully created!
 pool_category_deleted = media "{0}" successfully deleted!
-pool_category_not_deleted_childs = could not delete category "{0}", because of existing subcategories!
+pool_category_not_deleted_childs = could not delete category "{0}", cause of existing subcategories!
+pool_category_not_deleted_files = could not delete category "{0}", cause of existing files!
+
 
 pool_upload_file = add file
 pool_upload_archive = add archive
