@@ -7,4 +7,6 @@ tinyMCELang['lang_redaxo_pasteRichtext_save'] = 'Einfügen';
 tinyMCELang['lang_redaxo_pasteRichtext_cancel'] = 'Abbrechen';
 tinyMCELang['lang_redaxo_insertEmail_title'] = 'Redaxo Email Adresse einfügen';
 tinyMCELang['lang_redaxo_insertEmail_desc'] = 'Email Adresse einfügen';
+tinyMCELang['lang_redaxo_insertLink_title'] = 'Redaxo Hyperlink einfügen';
+tinyMCELang['lang_redaxo_insertLink_desc'] = 'Link einfügen';
 

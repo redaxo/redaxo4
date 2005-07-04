@@ -13,7 +13,7 @@ function TinyMCE_redaxo_getControlHTML(control_name) {
 	}
 	switch (control_name) {
 		case "linkHack":
-			return '<img id="{$editor_id}_linkHack" src="{$pluginurl}/images/link.gif" title="{$lang_redaxo_insertEmail_desc}" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" onclick="tinyMCE.settings[\'insertlink_callback\']=false;tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceLink\');tinyMCE.settings[\'insertlink_callback\']=\'insertIntLink\';">';
+			return '<img id="{$editor_id}_linkHack" src="{$pluginurl}/images/link.gif" title="{$lang_redaxo_insertLink_desc}" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" onclick="tinyMCE.settings[\'insertlink_callback\']=false;tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceLink\');tinyMCE.settings[\'insertlink_callback\']=\'insertIntLink\';">';
 	}
 
 	return "";
