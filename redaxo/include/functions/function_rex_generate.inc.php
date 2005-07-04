@@ -423,8 +423,6 @@ function rex_deleteCLang($id)
 	
 	if ($id==0) return "";
 	
-	echo "zu loeschende sprache:$id";
-	
 	$content = "// --- DYN\n\r";
 	
 	reset($REX[CLANG]);
