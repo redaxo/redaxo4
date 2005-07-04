@@ -166,10 +166,12 @@ function openImage(image){
 }
 function insertHTMLArea(html,filename){
 		selection = window.opener.tinyMCE.getContent();
+        // Falls Text markiert, auf diesen verlinken
     	if(selection!=''){
-			html = '<a href=\"/files/'+filename+'\">'+selection+'</a>';
-		}
-		window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
+            window.opener.tinyMCE.insertLink( '". $REX[WWW_PATH]."/files/'+ filename);
+		} else {
+		    window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
+        }
         self.close();
 
 }
