@@ -520,6 +520,8 @@ function rex_addCLang($id,$name)
 	}
 	$add = new sql();
 	$add->query("insert into rex_clang set id='$id',name='$name'");
+
+	rex_generateAll();
 }
 
 function rex_editCLang($id,$name)
