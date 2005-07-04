@@ -24,7 +24,7 @@ function rex_generateAll()
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
 		fputs($fp,$gt->getValue("rex_template.content"));
 		fclose($fp);
-		chmod($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template",0777);
+		@chmod($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template",0777);
 		$gt->next();
 	}
 
@@ -61,7 +61,7 @@ function rex_generateAll()
 	$h = fopen($file,"w+");
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
-	chmod($file,0777);
+	@chmod($file,0777);
 
 
 	// ----------------------------------------------------------- generiere filemetas ...
@@ -144,7 +144,7 @@ function rex_generateArticle($id,$refresh=0)
 		{
 			fputs($fp,$article);
 			fclose($fp);
-			chmod($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article",0777);
+			@chmod($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article",0777);
 		}else
 		{
 			$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
@@ -156,7 +156,7 @@ function rex_generateArticle($id,$refresh=0)
 		{
 			fputs($fp,$article_content);
 			fclose($fp);
-			chmod($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.content",0777);
+			@chmod($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.content",0777);
 		}else
 		{
 			$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
@@ -289,7 +289,7 @@ function rex_generateLists($re_id,$refresh=0)
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.alist", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		chmod($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.alist",0777);
+		@chmod($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.alist",0777);
 
 		// --------------------------------------- CAT LIST
 
@@ -306,7 +306,7 @@ function rex_generateLists($re_id,$refresh=0)
 		$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.clist", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		chmod($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.clist",0777);
+		@chmod($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.clist",0777);
 
 		next($CL);
 	}
@@ -387,7 +387,7 @@ function rex_deleteDir($file,$what = 1)
 {
 	if (file_exists($file))
 	{
-		// chmod($file,0775);
+		// @chmod($file,0775);
 		if (is_dir($file))
 		{
 			$handle = opendir($file);
@@ -443,7 +443,7 @@ function rex_deleteCLang($id)
 	$h = fopen($file,"w+");
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
-	chmod($file,0777);
+	@chmod($file,0777);
 	
 	$del = new sql();
 	$del->setQuery("select * from rex_article where clang='$id'");
@@ -493,7 +493,7 @@ function rex_addCLang($id,$name)
 	$h = fopen($file,"w+");
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
-	chmod($file,0777);
+	@chmod($file,0777);
 
 	$add = new sql();
 	$add->setQuery("select * from rex_article where clang='0'");
@@ -535,7 +535,7 @@ function rex_editCLang($id,$name)
 	$h = fopen($REX[INCLUDE_PATH]."/clang.inc.php","w+");
 	fwrite($h,$cont,strlen($cont));
 	fclose($h);
-	chmod($REX[INCLUDE_PATH]."/clang.inc.php",0777);
+	@chmod($REX[INCLUDE_PATH]."/clang.inc.php",0777);
 	$edit = new sql;
 	$edit->query("update rex_clang set name='$name' where id='$id'");
 }

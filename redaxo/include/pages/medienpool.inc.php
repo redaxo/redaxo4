@@ -278,7 +278,7 @@ class rexPoolUpload extends rexPoolComponent {
             	//  || copy( $file['tmp_name'], $absFile)
 				// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
                 if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = 0777;
-				chmod( $absFile, 0777);
+				@chmod( $absFile, 0777);
             }else
             {
                 $result['error'] .= $I18N->msg('pool_error_move_failed', $result['orgname']); 
@@ -673,7 +673,7 @@ class rexPool extends rexPoolComponent {
 						// || copy( $file['tmp_name'], $absFile)
 						// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
 						if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = 0777;
-						chmod( $absFile, 0777);
+						@chmod( $absFile, 0777);
 
 						$result['orgname'] = $file['name'];
 						$result['size']    = $file['size'];
