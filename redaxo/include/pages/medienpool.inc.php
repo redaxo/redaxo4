@@ -740,6 +740,7 @@ class rexPool extends rexPoolComponent {
     
     function _header() {
         global $I18N, $REX;
+        $relRexRoot = str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) . $REX['WWW_PATH'];
     ?>
     <html>
        <head>
@@ -748,21 +749,25 @@ class rexPool extends rexPoolComponent {
           <script language=Javascript>
           <!--
           var redaxo = true;
-          <?php if ( $this->params->openerFieldName != '') : ?>
+          
           function selectMedia(filename)
           {
              opener.document.REX_FORM.<?php echo $this->params->openerFieldName ?>.value = filename;
              self.close();
           }
-          <?php endif; ?>
           
           function insertImage(src, alt, width, height)
           {
-             var image = '<img src="'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
+             var image = '<img src="<?php echo $relRexRoot  ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
              insertHTML( image);
           }
           
-          function insertHTML(html){
+          function insertLink(link){
+             window.opener.tinyMCE.insertLink( "<?php echo $relRexRoot ?>/files/" + link,"_self");
+             self.close();
+          }
+          
+          function insertHTML(html) {
              window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
              self.close();
           }
@@ -874,7 +879,6 @@ class rexPoolParams {
     var $mode;
     
     var $openerFieldName;
-    var $isEditorMode;
     
     /**  Fehler/Statusmeldung */
     var $message;
@@ -892,7 +896,19 @@ class rexPoolParams {
         $this->mode = !empty( $_REQUEST['mode']) ? $_REQUEST['mode'] : '';
         
         $this->openerFieldName = !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : '';
-        $this->isEditorMode = $this->openerFieldName != '';
+        
+    }
+    
+    function showFunctions() {
+        return $this->isMediaButtonMode() || $this->isEditorMode();
+    }    
+    
+    function isMediaButtonMode() {
+        return !$this->isEditorMode() && $this->openerFieldName != ''; 
+    }
+    
+    function isEditorMode() {
+        return $this->openerFieldName == 'TINY';
     }
     
     function miss( $paramName) {
@@ -1264,7 +1280,7 @@ class rexMediaList extends rexPoolComponentList {
             $I18N->msg('pool_colhead_description')=> '*'
         );
         
-        if ( $params->isEditorMode) {
+        if ( $params->showFunctions()) {
             $columns[$I18N->msg('pool_colhead_functions')] = '80px';
         }
         
@@ -1318,15 +1334,19 @@ class rexMedia extends rexPoolComponent {
         $this->ooMedia =& $ooMedia;
     }
     
-    function _formatPreview() {
-        
-        $params = array(
+    function _previewParams() {
+        static $params = array(
             'resize' => true,
             'width'  => '80px',
             'class'  => 'preview',
             'path'   => '../'
         );
         
+        return $params;
+    }
+    
+    function _formatPreview() {
+        $params = $this->_previewParams();
         return $this->_link( $this->ooMedia->toImage( $params),
                              'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $this->ooMedia->getId());
     }
@@ -1384,7 +1404,7 @@ class rexMedia extends rexPoolComponent {
     function _formatActions() {
         $ooMedia = $this->_getOOMedia();
         
-        return $ooMedia->toInsertLink( $this->params->isEditorMode);
+        return $ooMedia->toInsertLink( $this->params);
     }
     
     function _formatIcon() {
@@ -1401,7 +1421,7 @@ class rexMedia extends rexPoolComponent {
             <td>'. $this->_formatPreview() .'</td>
             <td>'. $this->_formatDetails() .'</td>
             <td>'. $this->_formatDescription() .'</td>'. "\n";
-        if ( $this->params->isEditorMode) {
+        if ( $this->params->showFunctions()) {
             $s .=  '<td>'. $this->_formatActions() .'</td>'. "\n";
         }
                  

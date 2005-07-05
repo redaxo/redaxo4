@@ -409,6 +409,7 @@ class OOMedia
 			if (isset ($params['resize']) && $params['resize'])
 			{
 				unset ($params['resize']);
+                // Resize Addon installiert?
 				if (isset ($REX['ADDON']['status']['image_resize']) && $REX['ADDON']['status']['image_resize'] == 1)
 				{
 					$resize = true;
@@ -585,39 +586,41 @@ class OOMedia
             }
 		}
 	}
+    
+    function _getJsLink( $javascript, $label, $additional = '') {
+        return sprintf( '<a href="javascript:%s"%s>%s</a>', $javascript, $additional, $label);
+    }
 
     /**
      * @access public
      */
-    function toInsertLink( $mediaButtonMode = false)
+    function toInsertLink( &$poolParmas)
     {
         global $I18N;
         
-        $href = '';
-        $additional = '';
+        $insertLabel = $I18N->msg('pool_media_insert');
+        $linkLabel = $I18N->msg('pool_media_link');
+        $link = '';
         
-        if ( $mediaButtonMode) {
-            $href = 'selectMedia(\''. $this->getFileName() .'\');';
-        } elseif ( $this->isImage()) {
-            $href =   sprintf( 'insertImage(\'%s\', \'%s\', \'%s\', \'%s\');',
-                      $this->getFileName(),
-                      $this->getDescription(),
-                      $this->getWidth(),
-                      $this->getHeight());
-        } else  {
-            
-            switch( $this->getExtension()) {
-                case 'pdf' :
-                {
-                }
-                default :
-                {
-                    $href = 'insertHTML( \'test\')';
-                }
+        if ( $poolParmas->isMediaButtonMode()) 
+        {
+            $link = $this->_getJSLink( 'selectMedia(\''. $this->getFileName() .'\');', $insertLabel);
+        } 
+        else 
+        {
+            if ( $this->isImage()) 
+            {
+               $javascript = sprintf( 'insertImage(\'%s\', \'%s\', \'%s\', \'%s\');',
+                             $this->getFileName(),
+                             $this->getDescription(),
+                             $this->getWidth(),
+                             $this->getHeight());
+               $link .= $this->_getJSLink( $javascript, $insertLabel) .'<br/><br/>';
             }
+            
+            $javascript = sprintf( 'insertLink( \'%s\')', $this->getFileName());
+            $link .= $this->_getJSLink( $javascript, $linkLabel);
         }
-                            
-        $link = sprintf( '<a href="javascript:%s"%s>%s</a>', $href, $additional, $I18N->msg('pool_media_insert'));
         
         return $link;
     }
