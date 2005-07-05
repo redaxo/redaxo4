@@ -14,20 +14,23 @@
 	            if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
 	                //JPEG
 	                $this->img["format"]="JPEG";
-	                $this->img["src"] = ImageCreateFromJPEG ($imgfile);
+	                $this->img["src"] = @ImageCreateFromJPEG ($imgfile);
 	            } elseif ($this->img["format"]=="PNG") {
 	                //PNG
 	                $this->img["format"]="PNG";
-	                $this->img["src"] = ImageCreateFromPNG ($imgfile);
+	                var_dump(
+                    $this->img["src"] = @ImageCreateFromPNG ($imgfile)
+                    );
+                    exit();
 	            } elseif ($this->img["format"]=="GIF") {
 	                //GIF
 	                $this->img["format"]="GIF";
-	                $this->img["src"] = ImageCreateFromGIF ($imgfile);
+	                $this->img["src"] = @ImageCreateFromGIF ($imgfile);
 
 	            } elseif ($this->img["format"]=="WBMP") {
 	                //WBMP
 	                $this->img["format"]="WBMP";
-	                $this->img["src"] = ImageCreateFromWBMP ($imgfile);
+	                $this->img["src"] = @ImageCreateFromWBMP ($imgfile);
 	            } else {
 	                //DEFAULT
 	                echo "Not Supported File";
@@ -38,6 +41,10 @@
 	            //default quality jpeg
 	            $this->img["quality"]=75;
 	        }
+            
+            if ( !$this->img["src"]) {
+                $this->_error( $imgfile);
+            }
 	    }
 
 	    function size_height($size=100)
@@ -75,53 +82,73 @@
 	    function show()
 	    {
 	        //show thumb
-	        @Header("Content-Type: image/".$this->img["format"]);
-
-	        /* change ImageCreateTrueColor to ImageCreate if GD2 not supported ImageCreateTrueColor function*/
-	        if(function_exists(ImageCreateTrueColor)){
-	            $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
-	        } else {
-	            $this->img["des"] = ImageCreate($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
-	        }
+	        @header("Content-Type: image/".$this->img["format"]);
+            
+            $this->_createImage();
 
 	        @imagecopyresized ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
 
-	        if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
-	            //JPEG
-	            imageJPEG($this->img["des"],"",$this->img["quality"]);
-	        } elseif ($this->img["format"]=="PNG") {
-	            //PNG
-	            imagePNG($this->img["des"]);
-	        } elseif ($this->img["format"]=="GIF") {
-	            //GIF
-	            imageJPEG($this->img["des"]);
-	        } elseif ($this->img["format"]=="WBMP") {
-	            //WBMP
-	            imageWBMP($this->img["des"]);
-	        }
+            $this->_sendImage();
 	    }
 
 	    function save($save="")
 	    {
 	        //save thumb
-	        if (empty($save)) $save=strtolower("./thumb.".$this->img["format"]);
-	        /* change ImageCreateTrueColor to ImageCreate if your GD not supported ImageCreateTrueColor function*/
-	        $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
-	            @imagecopyresized ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
-
-	        if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
-	            //JPEG
-	            imageJPEG($this->img["des"],"$save",$this->img["quality"]);
-	        } elseif ($this->img["format"]=="PNG") {
-	            //PNG
-	            imagePNG($this->img["des"],"$save");
-	        } elseif ($this->img["format"]=="GIF") {
-	            //GIF
-	            imageJPEG($this->img["des"],"$save");
-	        } elseif ($this->img["format"]=="WBMP") {
-	            //WBMP
-	            imageWBMP($this->img["des"],"$save");
-	        }
+	        if (empty($save)) $save="./thumb." .strtolower($this->img["format"]);
+            
+            $this->_createImage();
+            
+	        @imagecopyresized ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
+                
+            $this->_sendImage();
 	    }
+        
+        function _sendImage() {
+            if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
+                //JPEG
+                imageJPEG($this->img["des"],"",$this->img["quality"]);
+            } elseif ($this->img["format"]=="PNG") {
+                //PNG
+                imagePNG($this->img["des"]);
+            } elseif ($this->img["format"]=="GIF") {
+                //GIF
+                // support ist nur mit den neusten GD-LIBS möglich
+                if (function_exists("imagegif")) {
+                    imageGIF($this->img["des"]);
+                } else {
+                    imageJPEG($this->img["des"]);
+                } 
+            } elseif ($this->img["format"]=="WBMP") {
+                //WBMP
+                imageWBMP($this->img["des"]);
+            }
+        }
+        
+        function _createImage() {
+            /* change ImageCreateTrueColor to ImageCreate if GD2 not supported ImageCreateTrueColor function*/
+            if(function_exists( "ImageCreateTrueColor")){
+                $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
+            } else {
+                $this->img["des"] = ImageCreate($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
+            }
+        }
+        
+        function _error( $imgfile) {
+            header("Content-Type: image/png");
+            
+            $this->img["des"] = imagecreate (150,35); /* Create a blank image */
+             
+            $bgc = imagecolorallocate ($this->img["des"], 255, 255, 255); 
+            $tc  = imagecolorallocate ($this->img["des"], 0, 0, 0);
+             
+            imagefilledrectangle ($this->img["des"], 0, 0, 150, 30, $bgc); 
+            /* Output an errmsg */ 
+            imagestring ($this->img["des"], 1, 5, 5, "Error loading", $tc);
+            imagestring ($this->img["des"], 1, 5, 20, $imgfile, $tc);
+            
+            imagepng( $this->img["des"]);
+            imagedestroy( $this->img["des"]);
+            exit();
+       }
 	}
 ?>
