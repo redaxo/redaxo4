@@ -216,7 +216,7 @@ if ($spage == "standard")
 			if (!($clang_id>0 && $clang_id<100)) $clang_id = 0;
 			if(!array_key_exists($clang_id,$REX[CLANG]))
 			{
-				$message = "CLang wurde angelegt.";
+				$message = "Sprache wurde angelegt.";
 				rex_addCLang($clang_id,$clang_name);
 				unset($clang_id);
 				unset($func);
