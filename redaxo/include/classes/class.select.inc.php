@@ -118,7 +118,7 @@ class select{
         $group = $this->get_group( $groupname);
         
         if ( $groupname != '') {
-            $ausgabe .= '  <optgroup>'. "\n";
+            // $ausgabe .= '  <optgroup>'. "\n";
         }
         
         foreach( $group as $option) {
@@ -133,21 +133,21 @@ class select{
         }
         
         if ( $groupname != '') {
-            $ausgabe .= '  </optgroup>'. "\n"; 
+            // $ausgabe .= '  </optgroup>'. "\n"; 
         }
         
         return $ausgabe;   
     }
     
     function out_option( $name, $value, $level = 0) {
-        $style = ' style="padding-left:'. ( $level * 9 + 1) .'px;"';
-        
+        // $style = ' style="padding-top:'. ( $level * 9 + 1) .'px;"';
+        for ($i=0;$i<$level;$i++) $bsps .= "&nbsp;&nbsp;&nbsp;";
         $selected = '';
         if ( $this->option_selected !== null) {
             $selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
         }
         
-        return '    <option value="'. $value .'"'. $style . $selected .'>'. $name .'</option>'. "\n";
+        return '    <option value="'. $value .'"'. $style . $selected .'>'. $bsps.$name .'</option>'. "\n";
     }
     
     function get_group( $groupname, $ignore_main_group = false) {
