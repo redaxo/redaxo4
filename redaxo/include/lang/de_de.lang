@@ -304,7 +304,9 @@ pool_media_changed = Medium "{0}" wurde erfolgreich bearbeitet!
 pool_media_delete = Medium löschen
 pool_media_deleted = Medium "{0}" wurde erfolgreich gelöscht!
 pool_media_not_deleted = Medium konnte nicht gelöscht werden, da noch Artikel mit diesem Medium existieren
+
 pool_media_insert = Einfügen
+pool_media_link = Verknüpfen
 
 pool_category_created = Kategorie "{0}" wurde erfolgreich angelegt!
 pool_category_deleted = Kategorie "{0}" wurde erfolgreich gelöscht!

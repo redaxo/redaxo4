@@ -303,7 +303,9 @@ pool_media_changed = media "{0}" successfully edited!
 pool_media_delete = delete media
 pool_media_deleted = media "{0}" successfully deleted!
 pool_media_not_deleted = media could not be deleted because there are still artikels with it
+
 pool_media_insert = insert
+pool_media_link = link
 
 pool_category_created = category "{0}" successfully created!
 pool_category_deleted = media "{0}" successfully deleted!
