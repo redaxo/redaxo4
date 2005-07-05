@@ -118,7 +118,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 
 					// custom redaxo callback functions
 	                function insertMediaPool(src, alt, border, hspace, vspace, width, height, align){
-	                	window.open("index.php?page=medienpool&HTMLArea=TINY","pool","width=660,height=500,status=yes,resizable=yes,scrollbars=yes");
+	                	window.open("index.php?page=medienpool&opener_input_field=TINY","pool","width=660,height=500,status=yes,resizable=yes,scrollbars=yes");
 	                }
 
 	                function insertIntLink(href, target){
