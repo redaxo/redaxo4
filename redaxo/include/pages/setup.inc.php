@@ -121,25 +121,25 @@ if($checkmodus == 1)
 			   $REX[INCLUDE_PATH]."/generated/files/",
 			   $REX[INCLUDE_PATH]."/addons/import_export/files",
 			   $REX[INCLUDE_PATH]."/addons/stats/logs",
-			   $REX[INCLUDE_PATH]."/../../files");
-
+			   $REX[INCLUDE_PATH]."/../../files/");
+               
 	foreach($WRITEABLE as $item)
 	{
 		if(is_dir($item))
 		{
 			if(!@is_writable($item."/."))
 			{
-				$MSG[err] .= $I18N->msg("setup_012",$item)."<br>";
+				$MSG[err] .= $I18N->msg("setup_012",absPath( $item))."<br>";
 			}
 		}elseif(is_file($item))
 		{
 			if(!@is_writable($item))
 			{
-				$MSG[err] .= $I18N->msg("setup_014",$item)."<br>";
+				$MSG[err] .= $I18N->msg("setup_014",absPath( $item))."<br>";
 			}
 		}else
 		{
-			$MSG[err] .= $I18N->msg("setup_015",$item)."<br>";
+			$MSG[err] .= $I18N->msg("setup_015",absPath( $item))."<br>";
 		}
 	}
 }
@@ -508,5 +508,21 @@ if ($checkmodus == 5)
 }
 
 echo "</font></td></tr></table>";
+
+function absPath( $rel_path) {
+    $path = realpath( '.');
+    $stack = explode(DIRECTORY_SEPARATOR, $path);
+    
+    foreach( explode( '/',$rel_path) as $dir) {
+        if ( $dir == '..') {
+            array_pop( $stack);
+        } else {
+            array_push( $stack, $dir);
+        }
+    }
+    
+    
+    return implode('/',$stack);
+}
 
 ?>
