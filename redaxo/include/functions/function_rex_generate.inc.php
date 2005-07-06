@@ -508,6 +508,7 @@ function rex_addCLang($id,$name)
 
 			if ($value == "pid") echo ""; // nix passiert
 			else if ($value == "clang") $adda->setValue("clang",$id);
+            else if ($value == "status") $adda->setValue("status", "0"); // Alle neuen Artikel offline 
 			else $adda->setValue($value,rex_addslashes($add->getValue("$value")));
 			//	createuser
 			//	updateuser
