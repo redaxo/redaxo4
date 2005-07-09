@@ -1441,6 +1441,7 @@ class rexMedia extends rexPoolComponent {
         $catSelect = new rexMediaCatSelect();
         $catSelect->set_style( 'width:100%;');
         $catSelect->set_name( 'mediaCatId');
+        $catSelect->set_id( 'mediaCatId');
         $catSelect->set_selected( $media->getCategoryId());
         
         if ( $isImage) {
@@ -1460,24 +1461,24 @@ class rexMedia extends rexPoolComponent {
               </tr>
 
               <tr>
-                 <td>'. $I18N->msg('pool_colhead_title') .'</td>
-                 <td><input class="inp100" type="text" name="mediaTitle" value="'. $media->getTitle() .'"/></td>
+                 <td><label for="mediaTitle">'. $I18N->msg('pool_colhead_title') .'</label></td>
+                 <td><input class="inp100" type="text" id="mediaTitle" name="mediaTitle" value="'. $media->getTitle() .'"/></td>
                  <td style="text-align: center" rowspan="'. $rowspan .'">'. $this->_formatDetailedView() .'</td>
               </tr>
 
               <tr>
-                 <td>'. $I18N->msg('pool_colhead_category') .'</td>
+                 <td><label for="mediaCatId">'. $I18N->msg('pool_colhead_category') .'</label></td>
                  <td>'. $catSelect->out() .'</td>
               </tr>
 
               <tr>
-                 <td>'. $I18N->msg('pool_colhead_description') .'</td>
-                 <td><input class="inp100" type="text" name="mediaDescription" value="'. $media->getDescription() .'"/></td>
+                 <td><label for="mediaDescription">'. $I18N->msg('pool_colhead_description') .'</label></td>
+                 <td><input class="inp100" type="text" id="mediaDescription" name="mediaDescription" value="'. $media->getDescription() .'"/></td>
               </tr>
 
               <tr>
-                 <td>'. $I18N->msg('pool_colhead_copyright') .'</td>
-                 <td><input class="inp100" type="text" name="mediaCopyright" value="'. $media->getCopyright() .'"/></td>
+                 <td><label for="mediaCopyright">'. $I18N->msg('pool_colhead_copyright') .'</label></td>
+                 <td><input class="inp100" type="text" id="mediaCopyright" name="mediaCopyright" value="'. $media->getCopyright() .'"/></td>
               </tr>
 
               <tr>
@@ -1527,9 +1528,9 @@ class rexMedia extends rexPoolComponent {
               </tr>
 
               <tr>
-                 <td>'. $I18N->msg('pool_colhead_newfile') .'</td>
+                 <td><label for="mediaFile">'. $I18N->msg('pool_colhead_newfile') .'</label></td>
                  <td colspan="2">
-                    <input type="file" name="mediaFile"/>
+                    <input type="file" id="mediaFile" name="mediaFile"/>
                  </td>
               </tr>
 
@@ -1550,6 +1551,7 @@ class rexMedia extends rexPoolComponent {
         $catSelect = new rexMediaCatSelect();
         $catSelect->set_style( 'width:100%;');
         $catSelect->set_name( 'cat_id');
+        $catSelect->set_id( 'cat_id');
         $catSelect->set_selected( $this->params->catId);
         
         $titleKey = $this->params->mode == 'archive' ?  'pool_headline_mediaarchiveupload' : 'pool_headline_mediaupload';
@@ -1572,31 +1574,31 @@ class rexMedia extends rexPoolComponent {
                 
         $s .= '
               <tr>
-                 <td>'.$I18N->msg("pool_media_title").'</td>
-                 <td colspan="2"><input type="text" name="mediaTitle" class="inp100"/></td>
+                 <td><label for="mediaTitle">'.$I18N->msg("pool_media_title").'</label</td>
+                 <td colspan="2"><input type="text" id="mediaTitle" name="mediaTitle" class="inp100"/></td>
               </tr>'. "\n";
         $s .= '
               <tr>
-                 <td>'.$I18N->msg("pool_media_category").'</td>
+                 <td><label for="cat_id">'.$I18N->msg("pool_media_category").'</label></td>
                  <td colspan="2">'. $catSelect->out() .'</td>
               </tr>'. "\n";
 
         $s .= '
               <tr>
-                 <td>'.$I18N->msg("pool_media_description").'</td>
-                 <td colspan="2"><textarea class="inp100" name="mediaDescription"></textarea></td>
+                 <td><label for="mediaDescription">'.$I18N->msg("pool_media_description").'</label></td>
+                 <td colspan="2"><textarea class="inp100" id="mediaDescription" name="mediaDescription"></textarea></td>
               </tr>'. "\n";
 
         $s .= '
               <tr>
-                 <td>'.$I18N->msg("pool_media_copyright").'</td>
-                 <td colspan="2"><input type="text" class="inp100" name="mediaCopyright"/></td>
+                 <td><label for="mediaCopyright">'.$I18N->msg("pool_media_copyright").'</label></td>
+                 <td colspan="2"><input type="text" class="inp100" id="mediaCopyright" name="mediaCopyright"/></td>
               </tr>'. "\n";
               
         $s .= '
               <tr>
-                 <td>'.$I18N->msg("pool_media_location").'</td>
-                 <td><input type="file"  name="mediaFile"/></td>
+                 <td><label for="mediaFile">'.$I18N->msg("pool_media_location").'</label></td>
+                 <td><input type="file" id="mediaFile" name="mediaFile"/></td>
                  <td><input type="submit" name="uploadMediaButton" value="'.$I18N->msg("pool_upload_button").'" class="inp100"/></td>
               </tr>' ."\n";
            
