@@ -442,7 +442,7 @@ if ($FUNC_UPDATE != "")
 
 if ($message != "")
 {
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td align=center class=warning width=20><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr></table><br>";
+	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1><tr class=warning><td align=center width=20><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr></table><br>";
 }
 
 
@@ -454,78 +454,78 @@ if ($FUNC_ADD)
 {
 	$SHOW = false;
 
-	echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
+	echo "	<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<form action=index.php method=post>
 		<input type=hidden name=page value=user>
 		<input type=hidden name=save value=1>
 		<input type=hidden name=FUNC_ADD value=1>
-		<tr><th align=left colspan=4><b>".$I18N->msg("create_user")."</b></th></tr>
+		<tr><th colspan=4><b>".$I18N->msg("create_user")."</b></th></tr>
 		
 		<tr>
-			<td class=grey width=100>".$I18N->msg("login_name")."</td>
-			<td class=grey width=250><input style='width:100%' type=text size=20 name=userlogin value=\"".stripslashes(htmlentities($userlogin))."\"></td>
-			<td class=grey width=100>".$I18N->msg("password")."</td>
-			<td class=grey><input style='width:100%' type=text size=20 name=userpsw value=\"".stripslashes(htmlentities($userpsw))."\"></td>
+			<td width=100>".$I18N->msg("login_name")."</td>
+			<td width=250><input style='width:100%' type=text size=20 name=userlogin value=\"".stripslashes(htmlentities($userlogin))."\"></td>
+			<td width=100>".$I18N->msg("password")."</td>
+			<td ><input style='width:100%' type=text size=20 name=userpsw value=\"".stripslashes(htmlentities($userpsw))."\"></td>
 		</tr>
 
 		<tr>
-			<td class=grey>".$I18N->msg("name")."</td>
-			<td class=grey><input style='width:100%' type=text size=20 name=username value=\"".stripslashes(htmlentities($username))."\"></td>
-			<td class=grey>".$I18N->msg("description")."</td>
-			<td class=grey><input style='width:100%' type=text size=20 name=userdesc value=\"".stripslashes(htmlentities($userdesc))."\"></td>
+			<td>".$I18N->msg("name")."</td>
+			<td><input style='width:100%' type=text size=20 name=username value=\"".stripslashes(htmlentities($username))."\"></td>
+			<td>".$I18N->msg("description")."</td>
+			<td><input style='width:100%' type=text size=20 name=userdesc value=\"".stripslashes(htmlentities($userdesc))."\"></td>
 		</tr>
 		<tr>
-			<td class=grey align=right><input type=checkbox id=useradmin name=useradmin value=1 $adminchecked></td>
-            <td class=grey><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
-            <td class=grey align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
-            <td class=grey><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
+			<td align=right><input type=checkbox id=useradmin name=useradmin value=1 $adminchecked></td>
+            <td><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
+            <td align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
+            <td><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
 		</tr>
 		<tr>
-			<td class=grey>Sprachenzugriff</td>
-			<td class=grey>".$sel_sprachen->out()."</td>
-			<td class=grey>Meine Backendsprache</td>
-			<td class=grey>".$sel_mylang->out()."</td>
+			<td>Sprachenzugriff</td>
+			<td>".$sel_sprachen->out()."</td>
+			<td>Meine Backendsprache</td>
+			<td>".$sel_mylang->out()."</td>
 		</tr>
 		<tr>
-			<td class=grey valign=top>Allgemein</td>
-			<td class=grey>
+			<td valign=top>Allgemein</td>
+			<td>
               ".$sel_all->out()."
             </td>
-			<td class=grey valign=top>Optionen</td>
-			<td class=grey>
+			<td valign=top>Optionen</td>
+			<td>
               ".$sel_ext->out()."
             </td>
 		</tr>
 		<tr>
-            <td class=grey align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
-            <td class=grey><label for=allcats>Alle Kategorien</label></td>
-            <td class=grey align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
-            <td class=grey><label for=allmcats>Alle Medienordner</label></td>
+            <td align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
+            <td><label for=allcats>Alle Kategorien</label></td>
+            <td align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
+            <td><label for=allmcats>Alle Medienordner</label></td>
 		</tr>
 		<tr>
-			<td class=grey valign=top>Kategorien</td>
-			<td class=grey>
+			<td valign=top>Kategorien</td>
+			<td>
               ".$sel_cat->out()."
             </td>
-			<td class=grey valign=top>Medienordner</td>
-			<td class=grey>
+			<td valign=top>Medienordner</td>
+			<td>
               ".$sel_media->out()."
             </td>
 		</tr>
 		<tr>
-			<td class=grey valign=top>Module</td>
-			<td class=grey>
+			<td valign=top>Module</td>
+			<td>
               ".$sel_module->out()."
             </td>
-			<td class=grey valign=top>Extras</td>
-			<td class=grey>
+			<td valign=top>Extras</td>
+			<td>
               ".$sel_extra->out()."
             </td>
 		</tr>
 		
 		<tr>
-			<td class=grey>&nbsp;</td>
-			<td class=grey colspan=3><input type=submit name=function value='".$I18N->msg("add_user")."'></td>
+			<td>&nbsp;</td>
+			<td colspan=3><input type=submit name=function value='".$I18N->msg("add_user")."'></td>
 		</tr>
 		</form>
 		</table>";
@@ -613,26 +613,26 @@ if ($FUNC_ADD)
 		// ----- FORM UPDATE AUSGABE
 
 		echo "
-		<table border=0 cellpadding=5 cellspacing=1 width=770>
+		<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<form action=index.php method=post>
 		<input type=hidden name=page value=user>
 		<input type=hidden name=user_id value=$user_id>
-		<tr><th align=left colspan=4><b>".$I18N->msg("edit_user")."</b></th></tr>
+		<tr><th colspan=4><b>".$I18N->msg("edit_user")."</b></th></tr>
 		<tr>
-			<td class=grey width=100>".$I18N->msg("login_name")."</td>
-			<td class=grey width=250><b>".htmlentities($sql->getValue("rex_user.login"))."</b></td>
-			<td class=grey width=100>".$I18N->msg("password")."</td>
-			<td class=grey><input style='width:100%' type=text size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
+			<td width=100>".$I18N->msg("login_name")."</td>
+			<td width=250><b>".htmlentities($sql->getValue("rex_user.login"))."</b></td>
+			<td width=100>".$I18N->msg("password")."</td>
+			<td><input style='width:100%' type=text size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
 		</tr>
 
 		<tr>
-			<td class=grey>".$I18N->msg("name")."</td>
-			<td class=grey><input style='width:100%' type=text size=20 name=username value=\"".htmlentities($sql->getValue("rex_user.name"))."\"></td>
-			<td class=grey>".$I18N->msg("description")."</td>
-			<td class=grey><input style='width:100%' type=text size=20 name=userdesc value=\"".htmlentities($sql->getValue("rex_user.description"))."\"></td>
+			<td>".$I18N->msg("name")."</td>
+			<td><input style='width:100%' type=text size=20 name=username value=\"".htmlentities($sql->getValue("rex_user.name"))."\"></td>
+			<td>".$I18N->msg("description")."</td>
+			<td><input style='width:100%' type=text size=20 name=userdesc value=\"".htmlentities($sql->getValue("rex_user.description"))."\"></td>
 		</tr>
 		<tr>
-			<td class=grey align=right>";
+			<td align=right>";
 			
 		if ($REX_USER->getValue("login") == $sql->getValue("rex_user.login") && $adminchecked != "")
 		{
@@ -643,57 +643,57 @@ if ($FUNC_ADD)
 		}
 			
 		echo "</td>
-			<td class=grey><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
-			<td class=grey align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
-			<td class=grey><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
+			<td><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
+			<td align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
+			<td><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
 		</tr>
 		<tr>
-			<td class=grey>Sprachenzugriff</td>
-			<td class=grey>".$sel_sprachen->out()."</td>
-			<td class=grey>Meine Backendsprache</td>
-			<td class=grey>".$sel_mylang->out()."</td>
+			<td>Sprachenzugriff</td>
+			<td>".$sel_sprachen->out()."</td>
+			<td>Meine Backendsprache</td>
+			<td>".$sel_mylang->out()."</td>
 		</tr>
 		<tr>
-            <td class=grey valign=top>Allgemein</td>
-            <td class=grey>
+            <td valign=top>Allgemein</td>
+            <td>
               ".$sel_all->out()."
            </td>
-            <td class=grey valign=top>Optionen</td>
-            <td class=grey>
+            <td valign=top>Optionen</td>
+            <td>
               ".$sel_ext->out()."
             </td>
 		</tr>
 		<tr>
-			<td class=grey align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
-			<td class=grey><label for=allcats>Alle Kategorien</label></td>
-			<td class=grey align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
-			<td class=grey><label for=allmcats>Alle Medienordner</label></td>
+			<td align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
+			<td><label for=allcats>Alle Kategorien</label></td>
+			<td align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
+			<td><label for=allmcats>Alle Medienordner</label></td>
 		</tr>
 		<tr>
-            <td class=grey valign=top>Kategorien</td>
-            <td class=grey>
+            <td valign=top>Kategorien</td>
+            <td>
               ".$sel_cat->out()."
            </td>
-            <td class=grey valign=top>Medienordner</td>
-            <td class=grey>
+            <td valign=top>Medienordner</td>
+            <td>
               ".$sel_media->out()."
             </td>
 		</tr>
 		<tr>
-            <td class=grey valign=top>Module</td>
-            <td class=grey>
+            <td valign=top>Module</td>
+            <td>
               ".$sel_module->out()."
             </td>
-            <td class=grey valign=top>Extras</td>
-            <td class=grey>
+            <td valign=top>Extras</td>
+            <td>
               ".$sel_extra->out()."
           </td>
 		</tr>
 
 		<tr>
-			<td class=grey>&nbsp;</td>
-			<td class=grey><input type=submit name=FUNC_UPDATE value='".$I18N->msg("update")."'></td>
-			<td class=grey colspan=2>";
+			<td>&nbsp;</td>
+			<td><input type=submit name=FUNC_UPDATE value='".$I18N->msg("update")."'></td>
+			<td colspan=2>";
 
 		if ($REX_USER->getValue("user_id") != $user_id) echo "<input type=submit name=FUNC_DELETE value='".$I18N->msg("delete")."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
 
@@ -719,22 +719,17 @@ if ($FUNC_ADD)
 
 
 
-
-
-
-
-
 // ---------------------------------- Userliste
 
 if ($SHOW)
 {
 
-	echo "	<table border=0 cellpadding=5 cellspacing=1 width=770>
+	echo "	<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
 			<th width=30><a href=index.php?page=user&FUNC_ADD=1><img src=pics/user_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_user")."\" title=\"".$I18N->msg("create_user")."\"></a></th>
-			<th align=left width=300>Name</th>
-			<th align=left>Login</th>
-			<th align=left>Letzter Login</th>
+			<th width=300>Name</th>
+			<th>Login</th>
+			<th>Letzter Login</th>
 
 		</tr>";
 
@@ -751,10 +746,10 @@ if ($SHOW)
         }
         
 		echo "	<tr>
-			<td class=grey align=center><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
-			<td class=grey><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlentities($sql->getValue("rex_user.name"))."</a></td>
-			<td class=grey>".$sql->getValue("rex_user.login")."</td>
-			<td class=grey>".$last_login."</td>
+			<td align=center><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
+			<td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlentities($sql->getValue("rex_user.name"))."</a></td>
+			<td>".$sql->getValue("rex_user.login")."</td>
+			<td>".$last_login."</td>
 			</tr>";
 		$sql->counter++;
 	}

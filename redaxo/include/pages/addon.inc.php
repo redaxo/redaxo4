@@ -20,12 +20,12 @@ $WA = false;	// WRITE ADDONS TO FILE: include/addons.inc.php
 // ----------------- HELPPAGE
 if ($spage=="help" && array_search($addonname,$ADDONS) !== false)
 {
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>";
-	echo "<tr><th align=left>".$I18N->msg("addon_help")." $addonname</th></tr>";
-	echo "<tr><td class=grey>";
+	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>";
+	echo "<tr><th>".$I18N->msg("addon_help")." $addonname</th></tr>";
+	echo "<tr><td>";
 	if (!@include $REX[INCLUDE_PATH]."/addons/$addonname/help.inc.php") echo $I18N->msg("addon_no_help_file");
 	echo "&nbsp;</td></tr>";
-	echo "<tr><td class=grey><a href=index.php?page=addon>".$I18N->msg("addon_back")."</a></td></tr>";
+	echo "<tr><td><a href=index.php?page=addon>".$I18N->msg("addon_back")."</a></td></tr>";
 	echo "</table>";
 	$SP = false;
 }
@@ -120,15 +120,15 @@ if ($SP)
 
 	if ($errmsg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$errmsg</td></tr></table><br>";
 	
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
+	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<form action=index.php method=post>
 		<input type=hidden name=page value=user>
 		<input type=hidden name=user_id value=$user_id>
 		<tr>
-			<th align=left>".$I18N->msg("addon_hname")."</th>
-			<th align=left>".$I18N->msg("addon_hinstall")."</th>
-			<th align=left>".$I18N->msg("addon_hactive")."</th>
-			<th align=left><b></b></th>
+			<th>".$I18N->msg("addon_hname")."</th>
+			<th>".$I18N->msg("addon_hinstall")."</th>
+			<th>".$I18N->msg("addon_hactive")."</th>
+			<th><b></b></th>
 		</tr>";
 	
 	reset($ADDONS);
@@ -141,10 +141,10 @@ if ($SP)
 		else $status = $I18N->msg("addon_no")." - <a href=index.php?page=addon&addonname=$cur&activate=1>".$I18N->msg("addon_activate")."</a>";
 	
 		echo "<tr>
-			<td class=grey width=100>$cur [<a href=index.php?page=addon&spage=help&addonname=$cur>?</a>]</td>
-			<td class=grey width=100>$install</td>
-			<td class=grey width=100>$status</td>
-			<td class=grey width=100></td>
+			<td width=100>$cur [<a href=index.php?page=addon&spage=help&addonname=$cur>?</a>]</td>
+			<td width=100>$install</td>
+			<td width=100>$status</td>
+			<td width=100></td>
 			</tr>";
 			
 		next($ADDONS);	
