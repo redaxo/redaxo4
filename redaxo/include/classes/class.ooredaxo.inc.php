@@ -160,8 +160,11 @@ class OORedaxo {
     /*
      * Accessor Method:
      * Returns a link to this article
+     * 
+     * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
+     * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
      */
-    function toLink( $attributes = null) {
+    function toLink( $attributes = null, $sorround_tag = null) {
         $attr = '';
         
         if ( $attributes !== null && is_array( $attributes)) 
@@ -171,8 +174,14 @@ class OORedaxo {
                $attr .= ' '. $name .'="'. $value .'"'; 
             }
         }
+        
+        $link = '<a href="'. $this->getUrl() .'"'. $attr .'>'. $this->getName() .'</a>';
+        
+        if ( $sorround_tag !== null && is_string( $sorround_tag)) {
+            $link = '<'. $sorround_tag .'>'. $link .'</'. $sorround_tag .'>';
+        }
          
-        return '<a href="'. $this->getUrl() .'"'. $attr .'>'. $this->getName() .'</a>';
+        return $link;
     }
     
 	/*
