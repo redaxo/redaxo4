@@ -62,10 +62,10 @@ if ($function == "add" or $function == "edit")
 
 	if ($save != "ja")
 	{
-		echo "<a name=edit><table border=0 cellpadding=5 cellspacing=1 width=770>";
+		echo "<a name=edit><table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>";
 	
 		if ($function == "edit"){
-			echo "	<tr><th colspan=3 align=left>".$I18N->msg("action_edit")." [ID=$action_id]</th></tr>";
+			echo "	<tr><th colspan=3>".$I18N->msg("action_edit")." [ID=$action_id]</th></tr>";
 
 			$hole = new sql;
 			$hole->setQuery("select * from rex_action where id='$action_id'");
@@ -77,7 +77,7 @@ if ($function == "add" or $function == "edit")
 			$sdelete = $hole->getValue("sdelete");
 						
 		}else{
-			echo "	<tr><th colspan=3 align=left>".$I18N->msg("action_create")."</th></tr>";
+			echo "	<tr><th colspan=3>".$I18N->msg("action_create")."</th></tr>";
 			$prepost	= 0; // 0=pre / 1=post
 			$sadd = 0;
 			$sedit = 0;
@@ -86,7 +86,7 @@ if ($function == "add" or $function == "edit")
 
 		if ($message != "")
 		{
-			echo "<tr><td colspan=3 class=warning>$message</td></tr>";
+			echo "<tr class=warning><td colspan=3>$message</td></tr>";
 		}
 
 		$sel_prepost = new select();
@@ -118,29 +118,29 @@ if ($function == "add" or $function == "edit")
 			<input type=hidden name=save value=ja>
 			<input type=hidden name=action_id value=$action_id>
 			<tr>
-				<td width=100 class=grey>".$I18N->msg("action_name")."</td>
+				<td width=100>".$I18N->msg("action_name")."</td>
 				<td class=grey colspan=2><input type=text size=10 name=mname value=\"".htmlentities($mname)."\" style='width:100%;'></td>
 			</tr>
 			<tr>
-				<td valign=top class=grey>".$I18N->msg("input")."</td>
-				<td class=grey colspan=2>
+				<td valign=top>".$I18N->msg("input")."</td>
+				<td colspan=2>
                   <textarea cols=20 rows=70 name=actioninput id=actioninput style='width:100%; height: 150;'>".htmlentities($actioninput)."</textarea>
                 </td>
 			</tr>";
 			
 		echo "
 			<tr>
-				<td align=right valign=middle class=grey>$PREPOST[0]/$PREPOST[1]</td>
+				<td align=right valign=middle>$PREPOST[0]/$PREPOST[1]</td>
 				<td valign=middle class=grey colspan=2>".$sel_prepost->out()."</td>
 			</tr>
 			<tr>
-				<td align=right valign=middle class=grey>STATUS</td>
-				<td valign=middle class=grey colspan=2>".$sel_status->out()."</td>
+				<td align=right valign=middle>STATUS</td>
+				<td valign=middle colspan=2>".$sel_status->out()."</td>
 			</tr>			
 			<tr>
-				<td class=grey>&nbsp;</td>
-				<td class=grey width=200><input type=submit value='".$I18N->msg("save_action_and_quit")."'></td>
-				<td class=grey>";
+				<td>&nbsp;</td>
+				<td width=200><input type=submit value='".$I18N->msg("save_action_and_quit")."'></td>
+				<td>";
 		
 		if ($function != "add") echo "<input type=submit name=goon value='".$I18N->msg("save_action_and_continue")."'>";
 		
@@ -157,22 +157,22 @@ if ($function == "add" or $function == "edit")
 if ($OUT)
 {
 	// ausgabe actionsliste !
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
+	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
 			<th width=30><a href=index.php?page=module&subpage=actions&function=add><img src=pics/modul_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("action_create")."\" title=\"".$I18N->msg("action_create")."\"></a></th>
-			<th width=30>ID</th>
-			<th align=left width=200>".$I18N->msg("action_name")."</th>
-			<th align=left>".$I18N->msg("action_add")."</th>
-			<th align=left>".$I18N->msg("action_edit")."</th>
-			<th align=left>".$I18N->msg("action_delete")."</th>
-			<th align=left>".$I18N->msg("action_functions")."</th>
+			<th width=30 style=text-align:center>ID</th>
+			<th width=200>".$I18N->msg("action_name")."</th>
+			<th>".$I18N->msg("action_add")."</th>
+			<th>".$I18N->msg("action_edit")."</th>
+			<th>".$I18N->msg("action_delete")."</th>
+			<th>".$I18N->msg("action_functions")."</th>
 		</tr>
 		";
 	
 	if ($message != "")
 	{
-		echo "<tr>
-			<td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=6 class=warning>$message</td></tr>";
+		echo "<tr class=warning>
+			<td align=center><img src=pics/warning.gif width=16 height=16></td><td colspan=6>$message</td></tr>";
 	}
 	
 	$sql = new sql;
@@ -181,17 +181,17 @@ if ($OUT)
 	for($i=0;$i<$sql->getRows();$i++){
 	
 		echo "	<tr bgcolor=#eeeeee>
-				<td class=grey align=center><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
-				<td class=grey align=center>".$sql->getValue("id")."</td>
-				<td class=grey><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a> "." [".$PREPOST[$sql->getValue("prepost")]."]</td>
-				<td class=grey>";
+				<td align=center><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
+				<td align=center>".$sql->getValue("id")."</td>
+				<td ><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a> "." [".$PREPOST[$sql->getValue("prepost")]."]</td>
+				<td>";
 		if ($sql->getValue("sadd")==1) echo "X";
-		echo "</td><td class=grey>";
+		echo "</td><td>";
 		if ($sql->getValue("sedit")==1) echo "X";
-		echo "</td><td class=grey>";
+		echo "</td><td>";
 		if ($sql->getValue("sdelete")==1) echo "X";
 		echo "</td>
-				<td class=grey><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("action_delete")."</a></td>
+				<td><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("action_delete")."</a></td>
 			</tr>";
 		$sql->counter++;
 	}

@@ -86,7 +86,7 @@ if ($function == "add" or $function == "edit")
 
 	if ($save != "ja")
 	{
-		echo "<a name=edit><table border=0 cellpadding=5 cellspacing=1 width=770>";
+		echo "<a name=edit><table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>";
 	
 		if ($function == "edit"){
 
@@ -98,15 +98,15 @@ if ($function == "add" or $function == "edit")
 			$ausgabe	= $hole->getValue("ausgabe");
 			$eingabe	= $hole->getValue("eingabe");
 						
-			echo "	<tr><th colspan=3 align=left>".$I18N->msg("module_edit")." [ID=$modul_id]</th></tr>";
+			echo "	<tr><th colspan=3>".$I18N->msg("module_edit")." [ID=$modul_id]</th></tr>";
 
 		}else{
-			echo "	<tr><th colspan=3 align=left>".$I18N->msg("create_module")."</th></tr>";
+			echo "	<tr><th colspan=3>".$I18N->msg("create_module")."</th></tr>";
 		}
 
 		if ($message != "")
 		{
-			echo "<tr><td colspan=3 class=warning>$message</td></tr>";
+			echo "<tr class=warning><td colspan=3>$message</td></tr>";
 		}
 
 		echo "	
@@ -117,27 +117,27 @@ if ($function == "add" or $function == "edit")
 			<input type=hidden name=category_id value=0>
 			<input type=hidden name=modul_id value=$modul_id>
 			<tr>
-				<td width=100 class=grey>".$I18N->msg("module_name")."</td>
-				<td class=grey colspan=2><input type=text size=10 name=mname value=\"".htmlentities($mname)."\" style='width:100%;'></td>
+				<td width=100>".$I18N->msg("module_name")."</td>
+				<td colspan=2><input type=text size=10 name=mname value=\"".htmlentities($mname)."\" style='width:100%;'></td>
 			</tr>
 			<tr>
-				<td valign=top class=grey>".$I18N->msg("input")."</td>
-				<td class=grey colspan=2>
+				<td valign=top>".$I18N->msg("input")."</td>
+				<td colspan=2>
                   <textarea cols=20 rows=70 name=eingabe id=eingabe style='width:100%; height: 150;'>".htmlentities($eingabe)."</textarea>
                 </td>
 			</tr>
 			<tr>
-				<td valign=top class=grey>".$I18N->msg("output")."</td>
-				<td class=grey colspan=2>
+				<td valign=top>".$I18N->msg("output")."</td>
+				<td colspan=2>
                   <textarea cols=20 rows=70 name=ausgabe id=ausgabe style='width:100%; height: 150;'>".htmlentities($ausgabe)."</textarea>
                 </td>
 			</tr>";
 			
 		echo "
 			<tr>
-				<td class=grey>&nbsp;</td>
-				<td class=grey width=200><input type=submit value='".$I18N->msg("save_module_and_quit")."'></td>
-				<td class=grey>";
+				<td>&nbsp;</td>
+				<tdwidth=200><input type=submit value='".$I18N->msg("save_module_and_quit")."'></td>
+				<td>";
 		
 		if ($function != "add") echo "<input type=submit name=goon value='".$I18N->msg("save_module_and_continue")."'>";
 		
@@ -154,7 +154,7 @@ if ($function == "add" or $function == "edit")
 			if ($gaa->getRows()>0)
 			{			
 			
-				echo "<tr><td colspan=3></td></tr><tr><td colspan=3 align=left class=dgrey><a name=action></a><b>".$I18N->msg("actions")."</b></td></tr>";
+				echo "<tr><td colspan=3></td></tr><tr><td colspan=3 align=left><a name=action></a><b>".$I18N->msg("actions")."</b></td></tr>";
 	
 				$gma = new sql;
 				$gma->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$modul_id'");
@@ -164,8 +164,8 @@ if ($function == "add" or $function == "edit")
 					$action_id = $gma->getValue("rex_module_action.action_id");
 
 					echo "<tr>
-						<td class=grey>&nbsp;</td>
-						<td class=grey>";
+						<td>&nbsp;</td>
+						<td>";
 					
 					echo "<a href=index.php?page=module&subpage=actions&action_id=$action_id&function=edit>".$gma->getValue("name")."</a>";
 					echo " [";
@@ -176,7 +176,7 @@ if ($function == "add" or $function == "edit")
 					if ($gma->getValue("sdelete")==1) echo "|".$ASTATUS[2];
 					
 					echo "] </td>";
-					echo "<td class=grey><a href=index.php?page=module&modul_id=$modul_id&function_action=delete&function=edit&iaction_id=$iaction_id onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("action_delete")."</a></td>";
+					echo "<td><a href=index.php?page=module&modul_id=$modul_id&function_action=delete&function=edit&iaction_id=$iaction_id onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("action_delete")."</a></td>";
 					echo "</tr>";
 					$gma->next();
 				}
@@ -204,9 +204,9 @@ if ($function == "add" or $function == "edit")
 				echo "<input type=hidden name=function_action value=add>";
 				
 				echo "<tr><td colspan=3></td></tr><tr>
-					<td class=grey>&nbsp;</td>
-					<td class=grey>".$gaa_sel->out()."</td>
-					<td class=grey><input type=submit value='".$I18N->msg("action_add")."'></td>
+					<td>&nbsp;</td>
+					<td>".$gaa_sel->out()."</td>
+					<td><input type=submit value='".$I18N->msg("action_add")."'></td>
 					</tr>";
 				
 				echo "</form>";
@@ -225,18 +225,18 @@ if ($function == "add" or $function == "edit")
 if ($OUT)
 {
 	// ausgabe modulliste !
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
+	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
 			<th width=30><a href=index.php?page=module&function=add><img src=pics/modul_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_module")."\" title=\"".$I18N->msg("create_module")."\"></a></th>
-			<th width=30>ID</th>
-			<th align=left width=300>".$I18N->msg("module_description")."</th>
-			<th align=left>".$I18N->msg("module_functions")."</th>
+			<th style=text-align:center; width=30>ID</th>
+			<th width=300>".$I18N->msg("module_description")."</th>
+			<th>".$I18N->msg("module_functions")."</th>
 		</tr>
 		";
 	
 	if ($message != "")
 	{
-		echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr>";
+		echo "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td colspan=3>$message</td></tr>";
 	}
 	
 	$sql = new sql;
@@ -244,15 +244,15 @@ if ($OUT)
 	
 	for($i=0;$i<$sql->getRows();$i++){
 	
-		echo "	<tr bgcolor=#eeeeee>
-				<td class=grey align=center><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
-				<td class=grey align=center>".$sql->getValue("id")."</td>
-				<td class=grey><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
+		echo "	<tr>
+				<td align=center><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
+				<td align=center>".$sql->getValue("id")."</td>
+				<td><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
 		
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
 		
 		echo "</td>
-				<td class=grey><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("delete_module")."</a></td>
+				<td><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("delete_module")."</a></td>
 			</tr>";
 		$sql->counter++;
 	}
