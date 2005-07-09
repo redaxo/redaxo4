@@ -109,6 +109,7 @@ move_article = Artikel verschieben
 copy_article = Artikel kopieren
 no_rights_to_edit = Sie haben keine Editiererlaubnis !
 show = Anzeigen
+cache_remove = Cache löschen
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Artikeln genutzt wird:

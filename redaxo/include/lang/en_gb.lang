@@ -108,6 +108,7 @@ move_article = Move Article
 copy_article = Copy Article
 no_rights_to_edit = You have no rights to edit this Article!
 show = Show
+cache_remove = Clear cache
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:
