@@ -157,6 +157,24 @@ class OORedaxo {
 		return $this->_status == 1 ? true : false;
 	}
 
+    /*
+     * Accessor Method:
+     * Returns a link to this article
+     */
+    function toLink( $attributes = null) {
+        $attr = '';
+        
+        if ( $attributes !== null && is_array( $attributes)) 
+        {
+            foreach ( $attributes as $name => $value) 
+            {
+               $attr .= ' '. $name .'="'. $value .'"'; 
+            }
+        }
+         
+        return '<a href="'. $this->getUrl() .'"'. $attr .'>'. $this->getName() .'</a>';
+    }
+    
 	/*
 	 * Object Helper Function:
 	 * Returns a String representation of this object
