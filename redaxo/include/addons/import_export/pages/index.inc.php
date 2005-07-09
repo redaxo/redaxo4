@@ -423,13 +423,13 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	else $checkedsql = " checked";
 	
 	echo "<tr>";
-	echo "<td class=lgrey width=30><input type=radio name=exporttype value=sql $checkedsql></td>";
-	echo "<td class=lgrey>".$I18N_ADDON->msg("database_export")."</td>";
+	echo "<td class=lgrey width=30><input type=radio id=exporttype[sql] name=exporttype value=sql $checkedsql></td>";
+	echo "<td class=lgrey><label for=exporttype[sql]>".$I18N_ADDON->msg("database_export")."</label></td>";
 	echo "</tr>"; 
 	
 	echo "<tr>";
-	echo "<td class=lgrey><input type=radio name=exporttype value=files $checkedfiles></td>";
-	echo "<td class=lgrey>".$I18N_ADDON->msg("file_export")."</td>";
+	echo "<td class=lgrey><input type=radio id=exporttype[files] name=exporttype value=files $checkedfiles></td>";
+	echo "<td class=lgrey><label for=exporttype[files]>".$I18N_ADDON->msg("file_export")."</label></td>";
 	echo "</tr>"; 
 	
     echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>";
@@ -449,8 +449,8 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         $checked = "";
         if (is_Array($EXPDIR)) if (array_key_exists($file,$EXPDIR) !== false) $checked = " checked";
         echo "<tr>";
-        echo "<td class=lgrey width=30><input type=checkbox name=EXPDIR[$file] value=true $checked></td>";
-        echo "<td class=lgrey>$file</td>";
+        echo "<td class=lgrey width=30><input type=checkbox id=EXPDIR[$file] name=EXPDIR[$file] value=true $checked></td>";
+        echo "<td class=lgrey><label for=EXPDIR[$file]>$file</label></td>";
         echo "</tr>";
     }
     
@@ -463,12 +463,12 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	else $checked0 = " checked";
 	
 	echo "<tr>";
-	echo "<td class=lgrey><input type=radio name=exportdl value=0 $checked0></td>";
-	echo "<td class=lgrey>".$I18N_ADDON->msg("save_on_server")."</td>";
+	echo "<td class=lgrey><input type=radio id=exportdl[server] name=exportdl value=0 $checked0></td>";
+	echo "<td class=lgrey><label for=exportdl[server]>".$I18N_ADDON->msg("save_on_server")."</label></td>";
 	echo "</tr>"; 
 	echo "<tr>";
-	echo "<td class=lgrey><input type=radio name=exportdl value=1 $checked1></td>";
-	echo "<td class=lgrey>".$I18N_ADDON->msg("download_as_file")."</td>";
+	echo "<td class=lgrey><input type=radio id=exportdl[download] name=exportdl value=1 $checked1></td>";
+	echo "<td class=lgrey><label for=exportdl[download]>".$I18N_ADDON->msg("download_as_file")."</label></td>";
 	echo "</tr>"; 
 	echo "<tr>";
 	echo "<td class=lgrey></td>";

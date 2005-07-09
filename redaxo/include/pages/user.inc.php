@@ -475,10 +475,10 @@ if ($FUNC_ADD)
 			<td class=grey><input style='width:100%' type=text size=20 name=userdesc value=\"".stripslashes(htmlentities($userdesc))."\"></td>
 		</tr>
 		<tr>
-			<td class=grey align=right><input type=checkbox name=useradmin value=1 $adminchecked></td>
-			<td class=grey>Admin (Alle Kategorien/Module/Medien/User)</td>
-			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
-			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
+			<td class=grey align=right><input type=checkbox id=useradmin name=useradmin value=1 $adminchecked></td>
+            <td class=grey><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
+            <td class=grey align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
+            <td class=grey><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
 		</tr>
 		<tr>
 			<td class=grey>Sprachenzugriff</td>
@@ -497,10 +497,10 @@ if ($FUNC_ADD)
             </td>
 		</tr>
 		<tr>
-			<td class=grey align=right><input type=checkbox name=allcats value=1 $allcatschecked></td>
-			<td class=grey>Alle Kategorien)</td>
-			<td class=grey align=right><input type=checkbox name=allmcats value=1 $allmcatschecked></td>
-			<td class=grey>Alle Medienkategorien</td>
+            <td class=grey align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
+            <td class=grey><label for=allcats>Alle Kategorien</label></td>
+            <td class=grey align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
+            <td class=grey><label for=allmcats>Alle Medienordner</label></td>
 		</tr>
 		<tr>
 			<td class=grey valign=top>Kategorien</td>
@@ -639,13 +639,13 @@ if ($FUNC_ADD)
 			echo "<input type=hidden name=useradmin value=1><b>X</b>";
 		}else
 		{
-			echo "<input type=checkbox name=useradmin value=1 $adminchecked>";
+			echo "<input type=checkbox id=useradmin name=useradmin value=1 $adminchecked>";
 		}
 			
 		echo "</td>
-			<td class=grey>Admin (Alle Kategorien/Module/Medien/User)</td>
-			<td class=grey align=right><input type=checkbox name=devadmin value=1 $devchecked></td>
-			<td class=grey>Developer (Templates/Moduledit/AddOn)</td>
+			<td class=grey><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
+			<td class=grey align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
+			<td class=grey><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
 		</tr>
 		<tr>
 			<td class=grey>Sprachenzugriff</td>
@@ -664,10 +664,10 @@ if ($FUNC_ADD)
             </td>
 		</tr>
 		<tr>
-			<td class=grey align=right><input type=checkbox name=allcats value=1 $allcatschecked></td>
-			<td class=grey>Alle Kategorien</td>
-			<td class=grey align=right><input type=checkbox name=allmcats value=1 $allmcatschecked></td>
-			<td class=grey>Alle Medienordner</td>
+			<td class=grey align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
+			<td class=grey><label for=allcats>Alle Kategorien</label></td>
+			<td class=grey align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
+			<td class=grey><label for=allmcats>Alle Medienordner</label></td>
 		</tr>
 		<tr>
             <td class=grey valign=top>Kategorien</td>

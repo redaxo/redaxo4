@@ -98,10 +98,10 @@ if ($function == "add" or $function == "edit"){
 		
 		echo "
 			<tr>
-				<td width=100 class=grey align=right><input type=checkbox name=active value=1";
+				<td width=100 class=grey align=right><input type=checkbox id=active name=active value=1";
 		if ($active==1) echo " checked";
 		echo "></td>
-				<td class=grey colspan=2>".$I18N->msg("checkbox_template_active")."</td>
+				<td class=grey colspan=2><label for=active>".$I18N->msg("checkbox_template_active")."</label></td>
 			</tr>";
 		
 		echo "

@@ -549,8 +549,8 @@ if ($article->getRows() == 1)
 
 			echo "<tr bgcolor=#eeeeee>";
 			if ($article->getValue("teaser")==1) echo "<td align=right class=grey><input type=checkbox name=meta_teaser checked value=1></td>";
-			else echo "<td align=right class=grey><input type=checkbox name=meta_teaser value=1></td>";
-			echo "	<td class=grey>".$I18N->msg("teaser")."</td>
+			else echo "<td align=right class=grey><input type=checkbox id=meta_teaser name=meta_teaser value=1></td>";
+			echo "	<td class=grey><label for=meta_teaser>".$I18N->msg("teaser")."</label></td>
 				</tr>";
 
 			echo "	</tr>
@@ -570,7 +570,7 @@ if ($article->getRows() == 1)
 				echo "
 				<tr>
 					<td class=grey width=150>Caching</td>
-					<td class=grey valign=middle><input type=checkbox name=caching value=1 ".$cacheCheck."> ".$I18N->msg("yes")." <input type=checkbox name=recaching value=1 > ".$I18N->msg("cache_remove")."</td>
+					<td class=grey valign=middle><input type=checkbox id=caching name=caching value=1 ".$cacheCheck."><label for=caching> ".$I18N->msg("yes")." </label><input type=checkbox id=recaching name=recaching value=1 ><label for=recaching> ".$I18N->msg("cache_remove")." </label></td>
 				</tr>";
 			}
 
