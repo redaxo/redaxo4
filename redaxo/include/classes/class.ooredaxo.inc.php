@@ -164,7 +164,18 @@ class OORedaxo {
      * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
      * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
      */
-    function toLink( $attributes = null, $sorround_tag = null) {
+    function toLink( $attributes = null, $sorround_tag = null, $sorround_attributes = null) {
+        
+        $link = '<a href="'. $this->getUrl() .'"'. $this->_toAttributeString( $attributes) .'>'. $this->getName() .'</a>';
+        
+        if ( $sorround_tag !== null && is_string( $sorround_tag)) {
+            $link = '<'. $sorround_tag . $this->_toAttributeString( $sorround_attributes) .'>'. $link .'</'. $sorround_tag .'>';
+        }
+         
+        return $link;
+    }
+    
+    function _toAttributeString( $attributes) {
         $attr = '';
         
         if ( $attributes !== null && is_array( $attributes)) 
@@ -175,13 +186,7 @@ class OORedaxo {
             }
         }
         
-        $link = '<a href="'. $this->getUrl() .'"'. $attr .'>'. $this->getName() .'</a>';
-        
-        if ( $sorround_tag !== null && is_string( $sorround_tag)) {
-            $link = '<'. $sorround_tag .'>'. $link .'</'. $sorround_tag .'>';
-        }
-         
-        return $link;
+        return $attr;
     }
     
 	/*
