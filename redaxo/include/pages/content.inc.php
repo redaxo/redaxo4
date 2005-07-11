@@ -280,9 +280,10 @@ if ($article->getRows() == 1)
 	
 	
 						// ----- POST ACTION [ADD AND EDIT]
-						if ($function == "edit") $addsql = " and rex_action.prepost=1 and rex_action.status=1"; // post-action and edit
-						elseif ($function == "delete") $addsql = " and rex_action.prepost=1 and rex_action.status=2"; // post-action and delete
-						else $addsql = " and rex_action.prepost=1 and rex_action.status=0"; // post-action and add
+						if ($function == "edit") $addsql = " and rex_action.prepost=1 and rex_action.sedit=1"; // post-action and edit
+						elseif ($function == "delete") $addsql = " and rex_action.prepost=1 and rex_action.sdelete=1"; // post-action and delete
+						else $addsql = " and rex_action.prepost=1 and rex_action.sadd=1"; // post-action and add
+
 						$ga = new sql;
 						$ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
 	
