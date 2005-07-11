@@ -298,7 +298,7 @@ if ($FUNC_UPDATE != "")
 		$message = $I18N->msg("user_deleted");
 	}else
 	{
-		$message = "**** Sie können sich nicht selbst löschen!";	
+		$message = $I18N->msg("user_notdeleteself");
 	}
 
 }elseif ($FUNC_ADD != "" && $save == "")
@@ -442,7 +442,7 @@ if ($FUNC_UPDATE != "")
 
 if ($message != "")
 {
-	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1><tr class=warning><td align=center width=20><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr></table><br>";
+	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1><tr class=warning><td class=icon><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr></table><br>";
 }
 
 
@@ -463,63 +463,63 @@ if ($FUNC_ADD)
 		
 		<tr>
 			<td width=100>".$I18N->msg("login_name")."</td>
-			<td width=250><input style='width:100%' type=text size=20 name=userlogin value=\"".stripslashes(htmlentities($userlogin))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userlogin value=\"".stripslashes(htmlentities($userlogin))."\"></td>
 			<td width=100>".$I18N->msg("password")."</td>
-			<td ><input style='width:100%' type=text size=20 name=userpsw value=\"".stripslashes(htmlentities($userpsw))."\"></td>
+			<td ><input class=inp100 type=text size=20 name=userpsw value=\"".stripslashes(htmlentities($userpsw))."\"></td>
 		</tr>
 
 		<tr>
 			<td>".$I18N->msg("name")."</td>
-			<td><input style='width:100%' type=text size=20 name=username value=\"".stripslashes(htmlentities($username))."\"></td>
+			<td><input class=inp100 type=text size=20 name=username value=\"".stripslashes(htmlentities($username))."\"></td>
 			<td>".$I18N->msg("description")."</td>
-			<td><input style='width:100%' type=text size=20 name=userdesc value=\"".stripslashes(htmlentities($userdesc))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userdesc value=\"".stripslashes(htmlentities($userdesc))."\"></td>
 		</tr>
 		<tr>
 			<td align=right><input type=checkbox id=useradmin name=useradmin value=1 $adminchecked></td>
-            <td><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
+            <td><label for=useradmin>".$I18N->msg("user_admin")."</label></td>
             <td align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
-            <td><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
+            <td><label for=devadmin>".$I18N->msg("user_developer")."</label></td>
 		</tr>
 		<tr>
-			<td>Sprachenzugriff</td>
-			<td>".$sel_sprachen->out()."</td>
-			<td>Meine Backendsprache</td>
-			<td>".$sel_mylang->out()."</td>
+			<td>".$I18N->msg("user_lang_xs")."</td>
+			<td>".$sel_sprachen->out()."<br>".$I18N->msg("ctrl")."</td>
+			<td><!-- Meine Backendsprache -->&nbsp;</td>
+			<td><!-- ".$sel_mylang->out()." -->&nbsp;</td>
 		</tr>
 		<tr>
-			<td valign=top>Allgemein</td>
+			<td valign=top>".$I18N->msg("user_all")."</td>
 			<td>
-              ".$sel_all->out()."
+              ".$sel_all->out()."<br>".$I18N->msg("ctrl")."
             </td>
-			<td valign=top>Optionen</td>
+			<td valign=top>".$I18N->msg("user_options")."</td>
 			<td>
-              ".$sel_ext->out()."
+              ".$sel_ext->out()."<br>".$I18N->msg("ctrl")."
             </td>
 		</tr>
 		<tr>
             <td align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
-            <td><label for=allcats>Alle Kategorien</label></td>
+            <td><label for=allcats>".$I18N->msg("all_categories")."</label></td>
             <td align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
-            <td><label for=allmcats>Alle Medienordner</label></td>
+            <td><label for=allmcats>".$I18N->msg("all_mediafolder")."</label></td>
 		</tr>
 		<tr>
-			<td valign=top>Kategorien</td>
+			<td valign=top>".$I18N->msg("categories")."</td>
 			<td>
-              ".$sel_cat->out()."
+              ".$sel_cat->out()."<br>".$I18N->msg("ctrl")."
             </td>
-			<td valign=top>Medienordner</td>
+			<td valign=top>".$I18N->msg("mediafolder")."</td>
 			<td>
-              ".$sel_media->out()."
+              ".$sel_media->out()."<br>".$I18N->msg("ctrl")."
             </td>
 		</tr>
 		<tr>
-			<td valign=top>Module</td>
+			<td valign=top>".$I18N->msg("modules")."</td>
 			<td>
-              ".$sel_module->out()."
+              ".$sel_module->out()."<br>".$I18N->msg("ctrl")."
             </td>
-			<td valign=top>Extras</td>
+			<td valign=top>".$I18N->msg("extras")."</td>
 			<td>
-              ".$sel_extra->out()."
+              ".$sel_extra->out()."<br>".$I18N->msg("ctrl")."
             </td>
 		</tr>
 		
@@ -622,14 +622,14 @@ if ($FUNC_ADD)
 			<td width=100>".$I18N->msg("login_name")."</td>
 			<td width=250><b>".htmlentities($sql->getValue("rex_user.login"))."</b></td>
 			<td width=100>".$I18N->msg("password")."</td>
-			<td><input style='width:100%' type=text size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
 		</tr>
 
 		<tr>
 			<td>".$I18N->msg("name")."</td>
-			<td><input style='width:100%' type=text size=20 name=username value=\"".htmlentities($sql->getValue("rex_user.name"))."\"></td>
+			<td><input class=inp100 type=text size=20 name=username value=\"".htmlentities($sql->getValue("rex_user.name"))."\"></td>
 			<td>".$I18N->msg("description")."</td>
-			<td><input style='width:100%' type=text size=20 name=userdesc value=\"".htmlentities($sql->getValue("rex_user.description"))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userdesc value=\"".htmlentities($sql->getValue("rex_user.description"))."\"></td>
 		</tr>
 		<tr>
 			<td align=right>";
@@ -643,50 +643,50 @@ if ($FUNC_ADD)
 		}
 			
 		echo "</td>
-			<td><label for=useradmin>Admin (Alle Kategorien/Module/Medien/User)</label></td>
+			<td><label for=useradmin>".$I18N->msg("user_admin")."</label></td>
 			<td align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
-			<td><label for=devadmin>Developer (Templates/Moduledit/AddOn)</label></td>
+			<td><label for=devadmin>".$I18N->msg("user_developer")."</label></td>
 		</tr>
 		<tr>
-			<td>Sprachenzugriff</td>
-			<td>".$sel_sprachen->out()."</td>
-			<td>Meine Backendsprache</td>
-			<td>".$sel_mylang->out()."</td>
+			<td>".$I18N->msg("user_lang_xs")."</td>
+			<td>".$sel_sprachen->out()."<br>".$I18N->msg("ctrl")."</td>
+			<td><!-- Meine Backendsprache -->&nbsp;</td>
+			<td><!-- ".$sel_mylang->out()." -->&nbsp;</td>
 		</tr>
 		<tr>
-            <td valign=top>Allgemein</td>
+            <td valign=top>".$I18N->msg("user_all")."</td>
             <td>
-              ".$sel_all->out()."
+              ".$sel_all->out()."<br>".$I18N->msg("ctrl")."
            </td>
-            <td valign=top>Optionen</td>
+            <td valign=top>".$I18N->msg("user_options")."</td>
             <td>
-              ".$sel_ext->out()."
+              ".$sel_ext->out()."<br>".$I18N->msg("ctrl")."
             </td>
 		</tr>
 		<tr>
 			<td align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
-			<td><label for=allcats>Alle Kategorien</label></td>
+			<td><label for=allcats>".$I18N->msg("all_categories")."</label></td>
 			<td align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
-			<td><label for=allmcats>Alle Medienordner</label></td>
+			<td><label for=allmcats>".$I18N->msg("all_mediafolder")."</label></td>
 		</tr>
 		<tr>
-            <td valign=top>Kategorien</td>
+            <td valign=top>".$I18N->msg("categories")."</td>
             <td>
-              ".$sel_cat->out()."
+              ".$sel_cat->out()."<br>".$I18N->msg("ctrl")."
            </td>
-            <td valign=top>Medienordner</td>
+            <td valign=top>".$I18N->msg("mediafolder")."</td>
             <td>
-              ".$sel_media->out()."
+              ".$sel_media->out()."<br>".$I18N->msg("ctrl")."
             </td>
 		</tr>
 		<tr>
-            <td valign=top>Module</td>
+            <td valign=top>".$I18N->msg("modules")."</td>
             <td>
-              ".$sel_module->out()."
+              ".$sel_module->out()."<br>".$I18N->msg("ctrl")."
             </td>
-            <td valign=top>Extras</td>
+            <td valign=top>".$I18N->msg("extras")."</td>
             <td>
-              ".$sel_extra->out()."
+              ".$sel_extra->out()."<br>".$I18N->msg("ctrl")."
           </td>
 		</tr>
 
@@ -726,10 +726,10 @@ if ($SHOW)
 
 	echo "	<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
-			<th width=30><a href=index.php?page=user&FUNC_ADD=1><img src=pics/user_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_user")."\" title=\"".$I18N->msg("create_user")."\"></a></th>
-			<th width=300>Name</th>
-			<th>Login</th>
-			<th>Letzter Login</th>
+			<th class=icon><a href=index.php?page=user&FUNC_ADD=1><img src=pics/user_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_user")."\" title=\"".$I18N->msg("create_user")."\"></a></th>
+			<th width=300>".$I18N->msg("name")."</th>
+			<th>".$I18N->msg("login")."</th>
+			<th>".$I18N->msg("last_login")."</th>
 
 		</tr>";
 
