@@ -310,7 +310,7 @@ else $addc = "&nbsp;";
 
 echo	"<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
-			<th width=30>$addc</th>";
+			<th class=icon>$addc</th>";
 if ($REX_USER->isValueOf("rights","advancedMode[]")) echo "<th width=30>ID</th>";
 echo "		<th>".$I18N->msg("header_category")."</th>
 			<th width=50>".$I18N->msg("header_priority")."</th>
@@ -452,7 +452,7 @@ if($category_id > -1)
 
 	echo "	<br><table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
-			<th width=30>";
+			<th class=icon>";
 	if ($KATPERM) echo "<a href=index.php?page=structure&category_id=$category_id&function=add_art&clang=$clang><img src=pics/document_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("article_add")."\" title=\"".$I18N->msg("article_add")."\"></a>";
 	else echo "&nbsp;";
 	echo "</th>";
