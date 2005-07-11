@@ -125,6 +125,11 @@ table.rex tr th {
    text-align: left;
 }
 
+table.rex .icon {
+	width:30px;
+	text-align: center;
+}
+
 table.rex tr td {
    background-color: #f0efeb;
 }
