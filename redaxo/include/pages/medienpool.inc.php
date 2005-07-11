@@ -164,7 +164,7 @@ class rexPoolComponentList extends rexPoolComponent {
     }
     
     function _getTable( $indent = 2) {
-        return "\n". $this->_indent( $indent) .'<table class="rex" cellpadding="5" cellspacing="1">'. "\n";
+        return "\n". $this->_indent( $indent) .'<table class="rex" style="width:100%;" cellpadding="5" cellspacing="1">'. "\n";
     }
     
     function _getTableEnd( $indent = 2) {
@@ -489,7 +489,7 @@ class rexPool extends rexPoolComponent {
         
         $rexMedia = new rexMedia( $this->params, $ooMedia);
         
-        echo '       <table class="rex" cellpadding="5" cellspacing="1">
+        echo '       <table class="rex" style="width:100%;" cellpadding="5" cellspacing="1">
              '. $rexMedia->formatDetailed() .'
                      </table>';
     }
@@ -1557,7 +1557,7 @@ class rexMedia extends rexPoolComponent {
         $titleKey = $this->params->mode == 'archive' ?  'pool_headline_mediaarchiveupload' : 'pool_headline_mediaupload';
         
         $s = '
-           <table class="rex" cellpadding="5" cellspacing="1">
+           <table class="rex" style="width:100%;" cellpadding="5" cellspacing="1">
 
               <colgroup>
                  <col width="150px"/>
