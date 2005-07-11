@@ -218,48 +218,7 @@ if ($function == "offline_article" && $article_id != "" && $KATPERM)
 	rex_generateArticle($article_id);
 	$amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "edit_article" && $article_id != "" && $KATPERM)
-{
-	// --------------------- ARTIKEL EDIT
-	$Position_Article = $Position_Article+0;
-	if ($Position_Article==0) $Position_Article = 1;
-	
-	$amessage = $I18N->msg("article_updated");
-	$EA = new sql;
-	$EA->setTable("rex_article");
-	$EA->where("id='$article_id' and clang=$clang");
-	$EA->setValue("name",$article_name);
-	$EA->setValue("template_id",$template_id);
-	$EA->setValue("path",$KATPATH);
-	$EA->setValue("updatedate",time());
-	$EA->setValue("updateuser",$REX_USER->getValue("login"));
-	$EA->setValue("prior",$Position_Article);
-	$EA->update();
-	
-	// ----- PRIOR
-	rex_newArtPrio($thisArt->getValue("re_id"),$clang,$Position_Article,$thisArt->getValue("prior"));
-	
-	rex_generateArticle($article_id);
-
-}elseif ($function == "delete_article" && $article_id != "" && $KATPERM)
-{
-	// --------------------- ARTIKEL DELETE
-	
-	$message = rex_deleteArticle($article_id);
-	$re_id = $thisArt->getValue("re_id");
-
-	// ----- PRIO
-	$CL = $REX[CLANG];
-	reset($CL);
-	for ($j=0;$j<count($CL);$j++)
-	{
-		$mlang = key($CL);
-		rex_newArtPrio($thisArt->getValue("re_id"),$mlang,0,1);
-		next($CL);
-	}
-
-
-}elseif ($function == "add_article" && $KATPERM)
+}else if ($function == "add_article" && $KATPERM)
 {
 	// --------------------- ARTIKEL ADD
 	$Position_New_Article = $Position_New_Article+0;
@@ -301,6 +260,47 @@ if ($function == "offline_article" && $article_id != "" && $KATPERM)
 	}
 	
 	rex_generateArticle($id);
+	
+}else if ($function == "edit_article" && $article_id != "" && $KATPERM)
+{
+	// --------------------- ARTIKEL EDIT
+	$Position_Article = $Position_Article+0;
+	if ($Position_Article==0) $Position_Article = 1;
+	
+	$amessage = $I18N->msg("article_updated");
+	$EA = new sql;
+	$EA->setTable("rex_article");
+	$EA->where("id='$article_id' and clang=$clang");
+	$EA->setValue("name",$article_name);
+	$EA->setValue("template_id",$template_id);
+	// $EA->setValue("path",$KATPATH);
+	$EA->setValue("updatedate",time());
+	$EA->setValue("updateuser",$REX_USER->getValue("login"));
+	$EA->setValue("prior",$Position_Article);
+	$EA->update();
+	
+	// ----- PRIOR
+	rex_newArtPrio($category_id,$clang,$Position_Article,$thisArt->getValue("prior"));
+	rex_generateArticle($article_id);
+
+}elseif ($function == "delete_article" && $article_id != "" && $KATPERM)
+{
+	// --------------------- ARTIKEL DELETE
+	
+	$message = rex_deleteArticle($article_id);
+	$re_id = $thisArt->getValue("re_id");
+
+	// ----- PRIO
+	$CL = $REX[CLANG];
+	reset($CL);
+	for ($j=0;$j<count($CL);$j++)
+	{
+		$mlang = key($CL);
+		rex_newArtPrio($thisArt->getValue("re_id"),$mlang,0,1);
+		next($CL);
+	}
+
+
 }
 
 // --------------------------------------------- KATEGORIE LISTE
