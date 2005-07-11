@@ -136,7 +136,7 @@ if ($function == "add" or $function == "edit")
 		echo "
 			<tr>
 				<td>&nbsp;</td>
-				<tdwidth=200><input type=submit value='".$I18N->msg("save_module_and_quit")."'></td>
+				<td width=200><input type=submit value='".$I18N->msg("save_module_and_quit")."'></td>
 				<td>";
 		
 		if ($function != "add") echo "<input type=submit name=goon value='".$I18N->msg("save_module_and_continue")."'>";
