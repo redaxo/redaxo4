@@ -13,7 +13,7 @@ session_start();
 // ----------------- auth
 if ($REX[SETUP])
 {
-	if ($lang != "en_gb" & $lang != "de_de" ) $lang = "en_gb";
+	if ($lang != "en_gb" & $lang != "de_de" ) $lang = "de_de";
 	$REX[LANG] = $lang;
 	
 	// ----------------- CREATE LANG OBJ
@@ -48,8 +48,10 @@ if ($REX[SETUP])
 	}
 	
 	// ----------------- CREATE LANG OBJ
+	/*
 	if ($REX_USER->isValueOf("rights","be_lang[de_de]")) $REX[LANG] = "de_de";
 	else if ($REX_USER->isValueOf("rights","be_lang[en_gb]")) $REX[LANG] = "en_gb";
+	*/
 	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
 	$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
 	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
