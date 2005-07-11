@@ -488,6 +488,7 @@ class article
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
 			$slice_content = str_replace("REX_LINK[$i]",$this->generateLink($this->CONT->getValue("rex_article_slice.link$i")),$slice_content);
+			$slice_content = str_replace("REX_LINK_ID[$i]",$this->CONT->getValue("rex_article_slice.link$i"),$slice_content);
 			
 			// -- show:htmlentities -- edit:nl2br/htmlentities
 			$slice_content = str_replace("REX_VALUE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.value$i")),$slice_content);
@@ -570,6 +571,8 @@ class article
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
 			$slice_content = str_replace("REX_LINK[$i]",$REX_ACTION[LINK][$i],$slice_content);
+			$slice_content = str_replace("REX_LINK_ID[$i]",$REX_ACTION[LINK][$i],$slice_content);
+			
 			
 			// ----------------------------- REX_ OTHER
 			$slice_content = str_replace("REX_VALUE[$i]",htmlentities(stripslashes($REX_ACTION[VALUE][$i])),$slice_content);
