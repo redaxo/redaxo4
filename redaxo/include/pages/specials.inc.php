@@ -5,14 +5,14 @@ $ERRMSG = "";
 switch($spage)
 {
 	case("type"):
-		title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=specials&spage=standard>Allgemeine Einstellungen</a> | <a href=index.php?page=specials&spage=lang>Sprachen</a> | Typen");
+		title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=specials&spage=standard>".$I18N->msg("main_preferences")."</a> | <a href=index.php?page=specials&spage=lang>".$I18N->msg("languages")."</a> | ".$I18N->msg("types")."");
 		break;
 	case("lang"):
-		title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=specials&spage=standard>Allgemeine Einstellungen</a> | Sprachen | <a href=index.php?page=specials&spage=type>Typen</a>");
+		title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=specials&spage=standard>".$I18N->msg("main_preferences")."</a> | ".$I18N->msg("languages")." | <a href=index.php?page=specials&spage=type>".$I18N->msg("types")."</a>");
 		break;
 	default:
 		$spage = "standard";
-		title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;Allgemeine Einstellungen | <a href=index.php?page=specials&spage=lang>Sprachen</a> | <a href=index.php?page=specials&spage=type>Typen</a>");
+		title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;".$I18N->msg("main_preferences")." | <a href=index.php?page=specials&spage=lang>".$I18N->msg("languages")."</a> | <a href=index.php?page=specials&spage=type>".$I18N->msg("types")."</a>");
 }
 
 
@@ -202,7 +202,7 @@ if ($spage == "standard")
 		if ($clang_id>0)
 		{
 			rex_deleteCLang($clang_id);
-			$message = "CLang wurde gelöscht";
+			$message = $I18N->msg("clang_deleted");
 			unset($func);
 			unset($clang_id);
 		}
@@ -216,24 +216,24 @@ if ($spage == "standard")
 			if (!($clang_id>0 && $clang_id<100)) $clang_id = 0;
 			if(!array_key_exists($clang_id,$REX[CLANG]))
 			{
-				$message = "Sprache wurde angelegt.";
+				$message = $I18N->msg("clang_created");
 				rex_addCLang($clang_id,$clang_name);
 				unset($clang_id);
 				unset($func);
 			}else
 			{
-				$message = "ID existiert schon.";
+				$message = $I18N->msg("id_exists");
 				$func = "addclang";
 			}
 		}else{
-			$message = "Bitte einen Namen eingeben.";	
+			$message = $I18N->msg("enter_name");
 			$func = "addclang";
 		}
 		
 	}elseif($func == "editclangsave")
 	{
 		rex_editCLang($clang_id,$clang_name);
-		$message = "CLang wurde editiert.";
+		$message = $I18N->msg("clang_edited");
 		unset($func);
 		unset($clang_id);
 	}
@@ -256,18 +256,18 @@ if ($spage == "standard")
 	$sel->add_option("11","11");
 	$sel->add_option("12","12");
 	$sel->add_option("13","13");
-	$sel->set_style("'; class='inp100'");
+	$sel->set_style("width:40px");
 	
 	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
            <tr>
-			<th style=text-align:center; width=30><a href=index.php?page=specials&spage=lang&func=addclang#clang>+</a></th>
-			<th style=text-align:center; width=50>ID</th>
-			<th width=250>CLANG - Description</th>
-			<th colspan=2>Delete</th></tr>";
+			<th class=icon><a href=index.php?page=specials&spage=lang&func=addclang#clang>+</a></th>
+			<th style='width:40px; text-align:center;'>ID</th>
+			<th width=250>".$I18N->msg("clang_desc")."</th>
+			<th colspan=2>-</th></tr>";
 	
 	if ($message != "")
 	{
-		echo "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td colspan=4>$message</td></tr>";
+		echo "<tr class=warning><td class=icon><img src=pics/warning.gif width=16 height=16></td><td colspan=4>$message</td></tr>";
 		$message = "";
 	}
 	
@@ -291,7 +291,7 @@ if ($spage == "standard")
 			echo "<td>edit</td>";
 			echo "<td align=center class=grey>".key($REX[CLANG])."</td>";
 			echo "<td><input type=text size=10 class=inp100 name=clang_name value='".htmlentities(current($REX[CLANG]))."''></td>";
-			echo "<td><input type=submit name=edit value=editieren>";
+			echo "<td><input type=submit name=edit value=".$I18N->msg('edit').">";
 			if ($clang_id>0) echo "<input type=submit name=delclang value=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
 			echo "</td>";
 			echo "</form></tr>";
@@ -364,8 +364,8 @@ if ($spage == "standard")
 	
 	echo "	<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
-			<th style=text-align:center width=30><a href=index.php?page=specials&spage=type&function=add>+</a></th>
-			<th style=text-align:center width=30>".$I18N->msg("article_type_list_id")."</th>
+			<th class=icon><a href=index.php?page=specials&spage=type&function=add>+</a></th>
+			<th class=icon>".$I18N->msg("article_type_list_id")."</th>
 			<th width=250>".$I18N->msg("article_type_list_name")."</th>
 			<th colspan=2>".$I18N->msg("article_type_list_description")."</th>
 		</tr>
@@ -373,7 +373,7 @@ if ($spage == "standard")
 	
 	if ($message != "")
 	{
-		echo "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td colspan=5>$message</td></tr>";
+		echo "<tr class=warning><td class=icon><img src=pics/warning.gif width=16 height=16></td><td colspan=5>$message</td></tr>";
 	}
 	
 	$sql = new sql;
@@ -387,8 +387,8 @@ if ($spage == "standard")
 			<input type=hidden name=spage value=type>
 			<input type=hidden name=save value=1>
 			<td>&nbsp;</td>
-			<td valign=top><input style='width:20' type=text size=20 maxlength=2 name=type_id value=\"".htmlentities($type_id)."\"></td>
-			<td valign=top><input style='width:100%' type=text size=20 name=typname value=\"".htmlentities($typname)."\"></td>
+			<td valign=top><input style='width:30px;' type=text size=5 maxlength=2 name=type_id value=\"".htmlentities($type_id)."\"></td>
+			<td valign=top><input class=inp100 type=text size=20 name=typname value=\"".htmlentities($typname)."\"></td>
 			<td><input style='width:100%' type=text size=20 name=description value=\"".htmlentities($description)."\"></td>
 			<td valign=top><input type=submit name=function value=add></td>
 			</form>
@@ -408,8 +408,8 @@ if ($spage == "standard")
 				<input type=hidden name=type_id value=$type_id>
 				<td>&nbsp;</td>
 				<td valign=middle align=center>".htmlentities($sql->getValue("type_id"))."</td>
-				<td valign=top><input style='width:100%' type=text size=20 name=typname value=\"".htmlentities($sql->getValue("name"))."\"></td>
-				<td><input style='width:100%' type=text size=20 name=description value=\"".htmlentities($sql->getValue("description"))."\"></td>
+				<td valign=top><input class=inp100 type=text size=20 name=typname value=\"".htmlentities($sql->getValue("name"))."\"></td>
+				<td><input class=inp100 type=text size=20 name=description value=\"".htmlentities($sql->getValue("description"))."\"></td>
 				<td valign=top><input type=submit name=function value=".$I18N->msg("update_button")."><input type=submit name=function value=".$I18N->msg("delete_button")."></td>
 				</form>
 				</tr>";
