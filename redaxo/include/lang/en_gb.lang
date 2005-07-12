@@ -7,6 +7,7 @@ dateformat = %B %d. %Y
 setlocale = en_GB
 adateformat = %d. %b. %Y
 datetimeformat = %d. %b. %Y - %H:%M
+ctrl = Please press Ctrl while you change this
 
 # redaxo/index.php
 start_article_not_selected = No start article selected
@@ -61,19 +62,6 @@ check_rights_in_directory  =  Please check file permissions in directory
 category_deleted  =  Category deleted
 category_doesnt_exist  =  No such category!
 cant_delete_startarticle = You cannot delete the start article.
-
-# redaxo\include\pages\community.inc.php
-overview  =  Overview
-user_management = User management
-user_management_info = Hier können die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
-board_management = Board management
-board_management_info = Forumeintr&auml;ge können hier gel&ouml;scht werden
-article_management = Article comments management
-article_management_info = Jeder Artikel kann mit Kommentaren von Usern versehen werden. Diese sind erstmal nicht zu sehen k&ouml;nnen aber freigeschaltet werden. Alte Kommentare k&ouml;nnen auch gel&ouml;scht werden.
-newsletter = Newsletter
-newsletter_info = Hier kann der Newsletter verschickt werden.
-evaluation = Evaluation
-evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
 
 # redaxo\include\pages\content.inc.php
 block_updated = Block updated!
@@ -223,6 +211,22 @@ create_user = Create new user
 add_user = Add user
 edit_user = Edit user
 
+user_admin = admin (all categories/ modules/ mediafolder/ user)
+user_developer = developer (all templates/ modules/ addOns)
+user_notdeleteself = ***** you cannot delete yourself
+user_lang_xs = language xs
+user_all = -
+user_options = options
+all_categories = all categories
+all_mediafolder = all mediafolder
+categories = categories
+mediafolder = mediafolder
+modules = modules
+extras = extras
+last_login = Last login
+
+
+
 # redaxo\include\pages\special.inc.php
 articles_generated = Articles and templates regenerated, cache removed!
 old_articles_deleted = [old articles and templates have been deleted]
@@ -248,33 +252,35 @@ article_type_added = Article type added!
 article_type_list_id = ID
 article_type_list_name = Article Type
 article_type_list_description = Description
-
 update_button = Update
 delete_button = Delete
+main_preferences = Main Preferences
+languages = Languages
+types = Types
+clang_created = Language has been created.
+id_exists = ID already exists
+enter_name = Please enter a name.
+clang_edited = Language edited
+clang_deleted = Language has been deleted
+clang_desc = Description/Name
 
 # redaxo\include\pages\medienpool.inc.php
 pool_name = Mediapool
 pool_error = srror:
 pool_status = status:
 pool_no_permission = no permissions
-
 pool_file_list = media
 pool_file_upload = add media
 pool_file_search = search media
-
 pool_add_category = add category
-
 pool_default_cat = home category
-
 pool_cat_action = edit / delete category
 pool_subcats = subcategories
 pool_files = files
-
 pool_headline_mediadetails = information
 pool_headline_mediaextras = extras
 pool_headline_mediaupload = media
 pool_headline_mediaarchiveupload = mediaarchive
-
 pool_colhead_category = category
 pool_colhead_title = title
 pool_colhead_details = details
@@ -291,7 +297,6 @@ pool_colhead_height = height
 pool_colhead_updated = edited on
 pool_colhead_created = created on
 pool_colhead_type = type
-
 pool_media_title = title
 pool_media_detail_title = detailview
 pool_media_category = category
@@ -304,24 +309,18 @@ pool_media_changed = media "{0}" successfully edited!
 pool_media_delete = delete media
 pool_media_deleted = media "{0}" successfully deleted!
 pool_media_not_deleted = media could not be deleted because there are still artikels with it
-
 pool_media_insert = insert
 pool_media_link = link
-
 pool_category_created = category "{0}" successfully created!
 pool_category_deleted = media "{0}" successfully deleted!
 pool_category_not_deleted_childs = could not delete category "{0}", cause of existing subcategories!
 pool_category_not_deleted_files = could not delete category "{0}", cause of existing files!
-
-
 pool_upload_file = add file
 pool_upload_archive = add archive
 pool_upload_button = insert
-
 pool_valid_archives = valid formats
 pool_media_uploaded = file successfully uploaded!
 pool_archive_uploaded = archive successfully uploaded!
-
 pool_error_miss_file = no input-file was specified!
 pool_error_miss_file_ext = invalid filetyp "{0}"!
 pool_error_move_failed = error while copying file "{0}"!
@@ -332,13 +331,10 @@ pool_error_external = following error occoured "{0}"!
 # redaxo/include/pages
 setup = Setup
 setup_text = Here you can restart the setup. 
-
 setup_error1 = Setup activated. Please click &gt;<a href=index.php>here</a>&lt; to start the setup.
 setup_error2 = No permission to 'master.inc.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
-
 setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.inc.php<br>- Install Tables.<br>- Create adminaccount
 setup_006 = Start setup and accept License
-
 setup_step1 = SETUP: STEP 1 of 5
 setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
 setup_012 = <font class=error>Error</font> | The directory <b>{0}</b> is not writeable or executable!
@@ -349,8 +345,6 @@ setup_017 = Go on to step 2
 setup_018 = Please correct these problems and repeat the setup.
 setup_019 = Repeat step 1
 setup_headline1 = Checking PHP Version and filesystem permissions
-
-
 setup_step2 = SETUP: STEP 2 of 5
 setup_020 = <b>include/master.inc.php</b> could not be written. could not be written. Don't know what went wrong!
 setup_021 = Connection to database failed!
@@ -364,7 +358,6 @@ setup_028 = Password
 setup_029 = Go on to step 3
 setup_0201 = Preferences
 setup_0202 = Databaseaccount
-
 setup_step3 = SETUP: STEP 3 of 5
 setup_030 = Following errors occured
 setup_031 = Table {0} not found !
@@ -375,7 +368,6 @@ setup_035 = Create database and drop old tables [<b>Warning</b> - Old Site will 
 setup_036 = Database already exists [Go on with step4 and do nothing]
 setup_037 = Databaseupdate 2.6 -> 2.7
 setup_038 = Go on to step 4
-
 setup_step4 = SETUP: STEP 4 of 5
 setup_040 = Please enter the Administrator Login!
 setup_041 = Please enter the Administrator Password!
@@ -387,7 +379,6 @@ setup_046 = Login
 setup_047 = Password
 setup_048 = Dont create a user
 setup_049 = Go on to step 5
-
 setup_step5 = SETUP: STEP 5 of 5
 setup_050 = 'master.inc.php' could not be overwritten. Please edit the file manually via FTP.
 setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>

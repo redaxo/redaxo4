@@ -7,7 +7,7 @@ dateformat = %a %d. %B %Y
 setlocale = de_DE
 adateformat = %d. %b. %Y
 datetimeformat = %d. %b. %Y - %H:%M
-
+ctrl = Bitte Strg drücken bei Änderungen
 
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel selektiert
@@ -62,19 +62,6 @@ check_rights_in_directory  =  Bitte &uuml;berpr&uuml;fen Sie die Rechte im Ordne
 category_deleted  =  Kategorie wurde gel&ouml;scht
 category_doesnt_exist  =  Kategorie existiert nicht !
 cant_delete_startarticle = Der Startartikel darf nicht gel&ouml;scht werden.
-
-# redaxo\include\pages\community.inc.php
-overview  =  &Uuml;bersicht
-user_management = Userverwaltung
-user_management_info = Hier k&ouml;nnen die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
-board_management = Boardverwaltung
-board_management_info = Forumeintr&auml;ge k&ouml;nnen hier gel&ouml;scht werden
-article_management = Artikelkommentarverwaltung
-article_management_info = Jeder Artikel kann mit Kommentaren von Usern versehen werden. Diese sind erstmal nicht zu sehen k&ouml;nnen aber freigeschaltet werden. Alte Kommentare k&ouml;nnen auch gel&ouml;scht werden.
-newsletter = Newsletter
-newsletter_info = Hier kann der Newsletter verschickt werden.
-evaluation = Auswertung
-evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
 
 # redaxo\include\pages\content.inc.php
 block_updated = Block wurde aktualisiert !
@@ -224,6 +211,23 @@ create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzuf&uuml;gen
 edit_user = Benutzer bearbeiten
 
+user_admin = Admin (Alle Kategorien/Module/Medien/User)
+user_developer = Developer (Templates/Moduledit/AddOn)
+user_notdeleteself = ***** Sie können sich nicht selbst löschen!
+user_lang_xs = Sprachenzugriff
+user_all = Allgemein
+user_options = Optionen
+all_categories = Alle Kategorien
+all_mediafolder = Alle Medienordner
+categories = Kategorien
+mediafolder = Medienordner
+modules = Module
+extras = Extras
+last_login = Letzter Login
+
+
+
+
 # redaxo\include\pages\special.inc.php
 articles_generated = Artikel und Templates wurden neu generiert, Cache gelöscht!
 old_articles_deleted = [Alte Artikel und Templates wurden gel&ouml;scht]
@@ -249,33 +253,35 @@ article_type_added = Artikeltyp wurde hinzugef&uuml;gt!
 article_type_list_id = ID
 article_type_list_name = Artikeltyp
 article_type_list_description = Beschreibung
-
 update_button = &Auml;ndern
 delete_button = L&ouml;schen
+main_preferences = Main Preferences
+languages = Sprachen
+types = Typen
+clang_created = Sprache wurde angelegt.
+id_exists = ID existiert schon.
+enter_name = Bitte einen Namen eingeben.
+clang_edited = Sprache wurde editiert
+clang_deleted = Sprache wurde gelöscht
+clang_desc = Beschreibung/Name
 
 # redaxo\include\pages\medienpool.inc.php
 pool_name = Medienpool
 pool_error = Fehler:
 pool_status = Status:
 pool_no_permission = keine Berechtigung
-
 pool_file_list = Medien
 pool_file_upload = Medium hinzufügen
 pool_file_search = Suchen
-
 pool_add_category = Kategorie hinzufügen
-
 pool_default_cat = Startkategorie
-
 pool_cat_action = Kategorie editieren / löschen
 pool_subcats = Unterkategorien
 pool_files = Dateien
-
 pool_headline_mediadetails = Informationen
 pool_headline_mediaextras = Extras
 pool_headline_mediaupload = Medium
 pool_headline_mediaarchiveupload = Medienarchiv
-
 pool_colhead_category = Kategorie
 pool_colhead_title = Titel
 pool_colhead_details = Details
@@ -292,7 +298,6 @@ pool_colhead_height = Höhe
 pool_colhead_updated = Bearbeitet am
 pool_colhead_created = Erstellt am
 pool_colhead_type = Typ
-
 pool_media_title = Titel
 pool_media_detail_title = Detailansicht
 pool_media_category = Kategorie
@@ -305,23 +310,18 @@ pool_media_changed = Medium "{0}" wurde erfolgreich bearbeitet!
 pool_media_delete = Medium löschen
 pool_media_deleted = Medium "{0}" wurde erfolgreich gelöscht!
 pool_media_not_deleted = Medium konnte nicht gelöscht werden, da noch Artikel mit diesem Medium existieren
-
 pool_media_insert = Einfügen
 pool_media_link = Verknüpfen
-
 pool_category_created = Kategorie "{0}" wurde erfolgreich angelegt!
 pool_category_deleted = Kategorie "{0}" wurde erfolgreich gelöscht!
 pool_category_not_deleted_childs = Kategorie "{0}" konnte nicht gelöscht werden, da sie noch Unterkategorien enthält!
 pool_category_not_deleted_files = Kategorie "{0}" konnte nicht gelöscht werden, da sie noch Dateien enthält!
-
 pool_upload_file = Datei hinzufügen
 pool_upload_archive = Archiv hinzufügen
 pool_upload_button = Hinzufügen
-
 pool_valid_archives = Unterstützte Formate
 pool_media_uploaded = Datei erfolgreich hinzugefügt!
 pool_archive_uploaded = Archiv erfolgreich hinzugefügt!
-
 pool_error_miss_file = Es wurde keine Datei angegeben!
 pool_error_miss_file_ext = Endung der Datei "{0}" fehlerhaft!
 pool_error_move_failed = Die Datei "{0}" konnte nicht kopiert werden!
@@ -332,13 +332,10 @@ pool_error_external = Folgender fehler ist aufgetreten "{0}"!
 # redaxo/include/pages
 setup = Setup
 setup_text = Hier können Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umständen nicht nötig.
-
 setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf &gt;<a href=index.php>weiter</a>&lt; und führen das Setup aus.
 setup_error2 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte tragen Sie dort in der \"\$REX[SETUP] = true;\" ein
-
 setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<br><br>- Die Dateirechte werden überprüft<br>- Der Datenbankzugang wird überprüft und in die master.inc.php eingetragen<br>- Die Datenbank wird (neu) eingerichtet.<br>- Ein Adminzugang wird eingerichtet
 setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
-
 setup_step1 = SETUP: SCHRITT 1 von 5
 setup_010 = Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version
 setup_012 = <font class=error>Fehler</font> | Das Verzeichniss <b>{0}</b> ist nicht beschreib- oder ausführbar!
@@ -349,8 +346,6 @@ setup_017 = Weiter mit Schritt 2
 setup_018 = Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.
 setup_019 = Schritt 1 erneut durchführen
 setup_headline1 = PHP-Versionscheck | Rechteüberprüfung
-
-
 setup_step2 = SETUP: SCHRITT 2 von 5
 setup_020 = <b>include/master.inc.php</b> konnte nicht geschrieben werden. 
 setup_021 = Es konnte keine Verbindung zur Datenbank hergestellt werden!
@@ -364,7 +359,6 @@ setup_028 = Passwort
 setup_029 = Weiter zu Schritt 3
 setup_0201 = Allgemein Redaxo Einstellungen
 setup_0202 = Datenbankinformationen
-
 setup_step3 = SETUP: SCHRITT 3 von 5
 setup_030 = Folgender Fehler tauchte beim Update auf.
 setup_031 = Tabelle {0} wurde nicht gefunden !
@@ -375,7 +369,6 @@ setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [<b>Vors
 setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
 setup_037 = Datenbankupdate von 2.6 auf 2.7
 setup_038 = Weiter zu Schritt 4
-
 setup_step4 = SETUP: SCHRITT 4 von 5
 setup_040 = Bitte geben Sie das Administratorlogin ein!
 setup_041 = Bitte geben Sie das Administratorpasswort ein!
@@ -387,7 +380,6 @@ setup_046 = Login
 setup_047 = Passwort
 setup_048 = Keinen User anlegen
 setup_049 = Weiter zu Schritt 5
-
 setup_step5 = SETUP: SCHRITT 5 von 5
 setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte ändern Sie die Datei manuel über FTP.
 setup_051 = Herzlichen Glückwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=index.php>login</a><br>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
@@ -413,6 +405,3 @@ addon_deactivate = deaktivieren
 addon_activate = aktivieren
 addon_yes = ja
 addon_no = nein
-
-
-
