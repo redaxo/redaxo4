@@ -90,10 +90,43 @@ class OOArticle {
 	 *
 	 * Returns an array of OOArticle objects.
 	 */
-	function searchArticlesByName($a_name) {
+	function searchArticlesByName($a_name, $category_id = null) {
 		$artlist = array();
+
+        $qry = "select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where name like '$a_name'";
+        
+        if ( $category_id !== null ) 
+        {
+            if( is_numeric( $category_id))
+            {
+                $qry .= " AND category_id = '".$category_id ."'";
+            }
+            else if (is_array( $category_id)) 
+            {
+                $first = true;
+                foreach ( $category_id as $cat_id)
+                {
+                    if ( !is_numeric( $cat_id))
+                    {
+                        continue;
+                    }
+                    
+                    if ( $first)
+                    {
+                        $qry .= " AND ( category_id = '".$cat_id ."'";
+                        $first = false;
+                    }
+                    else 
+                    {
+                        $qry .= " OR category_id = '".$cat_id ."'";
+                    }
+                }
+                $qry .= " ) ";
+            }
+        }
+
 		$sql = new sql;
-		$sql->setQuery("select id,name,beschreibung,attribute,file,category_id,type_id,startpage,prior,path,status,online_von,online_bis,erstelldatum,suchbegriffe,template_id,checkbox01,checkbox02,checkbox03,checkbox04 from rex_article where name like '$a_name'");
+		$sql->setQuery( $qry);
 		for ($i = 0; $i < $sql->getRows(); $i++) {
 			$artlist[] = new OOArticle($sql->getValue("id"),$sql->getValue("name"),
 								$sql->getValue("beschreibung"),$sql->getValue("attribute"),
