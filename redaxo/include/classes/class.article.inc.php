@@ -383,6 +383,9 @@ class article
 		}
 	}
 	
+	// ----- ADD Slice
+	// altem inhalt loeschen - sliceClear
+	
 	function addSlice($I_ID,$module_id)
 	{
 		global $REX,$REX_ACTION,$FORM,$I18N;
@@ -441,6 +444,7 @@ class article
 		return $slice_content;
 	}
 
+	// ----- allgemeines suchen und ersetzen
 	function sliceIn($slice_content)
 	{
 		for ($i=1;$i<11;$i++)
@@ -506,8 +510,8 @@ class article
 		
 		}
 		
-		$slice_content = str_replace("REX_PHP",$this->convertString2($this->CONT->getValue("rex_article_slice.php"),TRUE),$slice_content);
-		$slice_content = str_replace("REX_HTML",$this->convertString2($this->CONT->getValue("rex_article_slice.html"),FALSE),$slice_content);
+		$slice_content = str_replace("REX_PHP",$this->convertString2($this->CONT->getValue("rex_article_slice.php")),$slice_content);
+		$slice_content = str_replace("REX_HTML",$this->convertString2($this->stripPHP($this->CONT->getValue("rex_article_slice.html"))),$slice_content);
 		
 		$slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
 		$slice_content = str_replace("REX_CUR_CLANG",$this->clang,$slice_content);
@@ -598,17 +602,13 @@ class article
 
 	function stripPHP($content)
 	{
-		$content = str_replace("<?","",$content);
-		$content = str_replace("?>","",$content);
+		$content = str_replace("<?","< ?",$content);
+		$content = str_replace("?>","? >",$content);
 		return $content;
 	}
 
-	function convertString2($content,$php)
+	function convertString2($content)
 	{
-		if (!$php)
-		{
-			$content = $this->stripPHP($content);
-		}
 		
 		if ($this->mode == "edit" && $this->slice_id == $this->ViewSliceId && $this->function=="edit")
 		{
@@ -624,12 +624,14 @@ class article
 
 	function convertString($content)
 	{
+		$content = str_replace("$","&#36;",htmlentities($content));
 		if ($this->mode == "edit" && $this->slice_id == $this->ViewSliceId && $this->function=="edit")
 		{
-			return htmlentities($content);
+			return $content;
 		}else
 		{
-			return nl2br(htmlentities($content));
+			
+			return nl2br($content);
 		}
 	}
 
