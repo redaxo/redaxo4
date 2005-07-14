@@ -509,14 +509,23 @@ if ($checkmodus == 5)
 
 echo "</font></td></tr></table>";
 
-function absPath( $rel_path) {
+function absPath( $rel_path) 
+{
     $path = realpath( '.');
     $stack = explode(DIRECTORY_SEPARATOR, $path);
     
-    foreach( explode( '/',$rel_path) as $dir) {
-        if ( $dir == '..') {
+    foreach( explode( '/',$rel_path) as $dir) 
+    {
+        if ( $dir == '.') {
+            continue;
+        }
+        
+        if ( $dir == '..') 
+        {
             array_pop( $stack);
-        } else {
+        } 
+        else
+        {
             array_push( $stack, $dir);
         }
     }
