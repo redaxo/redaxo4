@@ -29,7 +29,7 @@ login_name  =  Login Name
 password  =  Passwort
 
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  nicht eingelogt
+logged_out  =  nicht eingeloggt
 
 # redaxo/include/classes/class.article.inc.php
 add_block  =  Block hinzuf&uuml;gen
@@ -224,7 +224,6 @@ mediafolder = Medienordner
 modules = Module
 extras = Extras
 last_login = Letzter Login
-
 
 
 
