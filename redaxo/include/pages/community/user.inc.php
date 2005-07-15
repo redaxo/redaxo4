@@ -41,7 +41,9 @@ if ($FUPD != "")
 	$updateuser->setValue("showinfo",$ushowinfo);
 	if ($usendmail != "") $usendmail = 1;
 	else $usendmail = 0;
-	// $updateuser->setValue("sendmail",$usendmail);
+    
+    // Markus => http://forum.redaxo.de/viewtopic.php?t=235
+    $updateuser->setValue("sendmail",$usendmail);
 	echo $usendmail;
 	$updateuser->update();
 	$user_id = 0;
@@ -114,6 +116,8 @@ if ($FUPD != "")
 		else $usendmail = 0;
 		$adduser->setValue("sendmail",$usendmail);
 		*/
+        // Markus => http://forum.redaxo.de/viewtopic.php?t=235
+        $adduser->setValue("sendmail",$usendmail);
 		
 		$adduser->insert();
 		$user_id = 0;
