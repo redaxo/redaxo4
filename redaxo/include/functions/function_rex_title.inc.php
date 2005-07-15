@@ -2,6 +2,44 @@
 
 function title($head,$subline = '',$styleclass="grey", $width = '770px')
 {
+    $subtitle = $subline;
+    if( is_array( $subline)) 
+    {
+        $subtitle = '&nbsp;&nbsp;&nbsp;';
+        $numPages = count( $subline);
+        $i = 0;
+        
+        foreach ( $subline as $subpage)
+        {
+            $link = $subpage[0];
+            $label = $subpage[1];
+            $active = (empty( $_REQUEST['subpage']) && $link == '') || (!empty( $_REQUEST['subpage'])&& $_REQUEST['subpage'] == $link);
+
+            // Auf der Aktiven seite den Link nicht anzeigen            
+            if( $active) 
+            {
+                $format = '%s';
+                $subtitle .= sprintf( $format, $label); 
+            }
+            else if ( $link == '')
+            {
+                $format = '<a href="?page='. $_REQUEST['page'] .'">%s</a>';
+                $subtitle .= sprintf( $format, $label); 
+            }
+            else
+            {
+                $format = '<a href="?page='. $_REQUEST['page'] .'&subpage=%s">%s</a>';
+                $subtitle .= sprintf( $format, $link, $label); 
+            }
+            
+            if ( $i != ($numPages - 1))
+            {
+                $subtitle .= ' | ';
+            }
+            
+            $i++; 
+        }
+    }
 ?>
 	<br>
 	
@@ -19,7 +57,7 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
         <tr style="height: 30px">
             <td class="<?php echo $styleclass ?>" >
                 <b style='line-height:18px'>
-                   <?php echo $subline. "\n" // \n aus Quellcode formatierungsgründen ?>
+                   <?php echo $subtitle. "\n" // \n aus Quellcode formatierungsgründen ?>
                 </b>
             </td>
         </tr>
