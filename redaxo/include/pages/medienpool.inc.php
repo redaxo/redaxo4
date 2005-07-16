@@ -753,7 +753,7 @@ class rexPool extends rexPoolComponent {
           function selectMedia(filename)
           {
              opener.document.REX_FORM.<?php echo $this->params->openerFieldName ?>.value = filename;
-             self.close();
+//             self.close();
           }
           
           function insertImage(src, alt, width, height)
@@ -764,12 +764,12 @@ class rexPool extends rexPoolComponent {
           
           function insertLink(link){
              window.opener.tinyMCE.insertLink( "<?php echo $relRexRoot ?>/files/" + link,"_self");
-             self.close();
+//             self.close();
           }
           
           function insertHTML(html) {
              window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
-             self.close();
+//             self.close();
           }
     
           function checkBoxes(FormName, FieldName, CheckValue)
