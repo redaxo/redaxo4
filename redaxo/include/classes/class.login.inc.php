@@ -38,11 +38,11 @@ class login{
 	{
 		if ($lang == "de")
 		{
-			$this->text[10] = "Ihre Session wurde beendet !";
-			$this->text[20] = "Ihre User ID wurde nicht gefunden !";
-			$this->text[30] = "Sie haben sich falsch eingeloggt !";
-			$this->text[40] = "Bitte einloggen !";
-			$this->text[50] = "Sie haben sich ausgeloggt !";
+			$this->text[10] = "Session beendet.";
+			$this->text[20] = "ID nicht gefunden.";
+			$this->text[30] = "Fehler beim Login.";
+			$this->text[40] = "Bitte einloggen.";
+			$this->text[50] = "Ausgeloggt.";
 		}else
 		{
 			$this->text[10] = "your session is expired !";
