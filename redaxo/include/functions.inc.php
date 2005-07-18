@@ -43,7 +43,6 @@ include_once $REX[INCLUDE_PATH]."/classes/class.ooarticle.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.ooarticleslice.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.oomediacategory.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.oomedia.inc.php";
-include_once $REX[INCLUDE_PATH]."/classes/class.textile.inc.php";
 
 if (!$REX[GG])
 {
@@ -51,13 +50,21 @@ if (!$REX[GG])
 	include_once $REX[INCLUDE_PATH]."/functions/function_rex_generate.inc.php";
 }
 
-include_once $REX[INCLUDE_PATH]."/functions/function_mail.inc.php";
-include_once $REX[INCLUDE_PATH]."/functions/function_rex_wysiwyg.inc.php";
+// ----- EXTRA CLASSES
+include_once $REX[INCLUDE_PATH]."/classes/class.textile.inc.php";
+include_once $REX[INCLUDE_PATH]."/classes/class.phpmailer.inc.php";
+
+// ----- FUNCTIONS
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_modrewrite.inc.php";
+
+// ----- EXTRA FUNCTIONS
+include_once $REX[INCLUDE_PATH]."/functions/function_rex_wysiwyg.inc.php";
+include_once $REX[INCLUDE_PATH]."/functions/function_image.inc.php";
+include_once $REX[INCLUDE_PATH]."/functions/function_mail.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_string.inc.php";
 include_once $REX[INCLUDE_PATH]."/functions/function_folder.inc.php";
-include_once $REX[INCLUDE_PATH]."/functions/function_image.inc.php";
 
+// ----- CONFIG FILES
 include_once $REX[INCLUDE_PATH]."/addons.inc.php";
 include_once $REX[INCLUDE_PATH]."/ctype.inc.php";
 include_once $REX[INCLUDE_PATH]."/clang.inc.php";
