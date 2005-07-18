@@ -167,7 +167,7 @@ if ($function == "delete")
 			for($i=0;$i<$tabs->rows;$i++,$tabs->next())
 			{
                 $tab = $tabs->getvalue("Tables_in_".$DB[1][NAME]);
-				if( startsWith( $tab, $REX[TABLE_PREFIX]) && $tab != "rex_user"){
+				if( strstr($tab, $REX[TABLE_PREFIX]) == $tab && $tab != "rex_user"){
 					$cols = new sql;
 					$cols->setquery("SHOW COLUMNS FROM ". $tab);
 					$query = "DROP TABLE IF EXISTS ". $tab .";\nCREATE TABLE ". $tab ." (";
