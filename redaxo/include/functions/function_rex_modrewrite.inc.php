@@ -85,17 +85,33 @@ function rex_getUrl($id,$clang = "",$params = null) {
 	
 	if ($clang == "") $clang = $REX[CUR_CLANG];
 	
+	// ----- get Name
+	$id = $id+0;
+	if ($id==0)
+	{
+		$name = "NoName";
+	}else {
+		$ooa = OOArticle::getArticleById($id);
+		$name = urlencode($ooa->getName());
+	}
+	
+	// ----- get params
 	$param_string = "";
 	if ($params && sizeof($params) > 0) {
-		$param_string = $REX['MOD_REWRITE'] ? "?" : "&amp;";
+		$params = explode("&",$params);
 		foreach ($params as $key => $val) {
-			$param_string .= "{$key}={$val}&amp;";
+			$var = explode("=",$val);
+			$param_string .= $var[0]."=".$var[1]."&";
 		}
+		$param_string = substr($param_string,0,strlen($param_string)-1); // cut off the last '&'
 	}
-	$param_string = substr($param_string,0,strlen($param_string)-5); // cut off the last '&'
-	$url = $REX['MOD_REWRITE'] ? "/$id-$clang-{$mr_name}"
-	                           : "index.php?article_id=$id&clang=$clang";
-	return $REX['WWW_PATH']."{$url}{$param_string}";
+
+	if ($REX['MOD_REWRITE']) $param_string = "?".$param_string;
+
+	// ----- create url
+	$url = $REX['MOD_REWRITE'] ? "$id-$clang-$name.html"  : "index.php?article_id=$id&clang=$clang";
+
+	return $REX['WWW_PATH']."$url"."$param_string";
 }
 
 
