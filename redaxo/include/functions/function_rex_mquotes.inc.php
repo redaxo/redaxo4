@@ -19,18 +19,25 @@ function addSlashesOnArray(&$theArray)
 	}
 }
 
-addSlashesOnArray($HTTP_GET_VARS);
+addSlashesOnArray($_GET);
 
-while(list($Akey,$AVal)=each($HTTP_GET_VARS))
+if (is_array($_GET))
 {
-	$$Akey = $AVal;
+	while(list($Akey,$AVal)=each($_GET))
+	{
+		$$Akey = $AVal;
+	}
 }
 
-addSlashesOnArray($HTTP_POST_VARS);
 
-while(list($Akey,$AVal)=each($HTTP_POST_VARS))
+addSlashesOnArray($_HTTP);
+
+if (is_array($_HTTP))
 {
-	$$Akey = $AVal;
+	while(list($Akey,$AVal)=each($_HTTP))
+	{
+		$$Akey = $AVal;
+	}
 }
 
 ?>
