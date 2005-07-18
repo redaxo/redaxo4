@@ -99,6 +99,7 @@ if ($function == "delete")
 
 	// ------------------------------ FUNC FILEIMPORT
 
+
 	if($_FILES['FORM']['size']['importfile'] < 1 && $impname == ""){
 		$msg = $I18N_ADDON->msg("no_import_file_chosen")."<br>";
 	}else {
@@ -376,8 +377,9 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	<tr><td align=left colspan=2 class=lgrey>".$I18N_ADDON->msg("files")."</td>
 	<form action=index.php method=post enctype='multipart/form-data'>
 	<input type=hidden name=page value=$page>
+	<input type=hidden name=function value=fileimport>
 	<tr>
-		<td class=lgrey><input type=file name=FORM[fileimport]></td>
+		<td class=lgrey><input type=file name=FORM[importfile]></td>
 		<td class=lgrey width=130><input type=submit value='".$I18N_ADDON->msg("db_import")."'></td>
 	</tr>
 	</form>
