@@ -78,6 +78,7 @@ if ($spage == "standard")
 	}elseif($func == 'updateinfos')
 	{
 	
+	
 		$h = fopen("include/master.inc.php","r");
 		$cont = fread($h,filesize("include/master.inc.php"));
 	
@@ -98,17 +99,23 @@ if ($spage == "standard")
 			$cont = ereg_replace("(REX\[CACHING\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
 			$cont = ereg_replace("(REX\[CACHING_DEBUG\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
 		}
+
+		$cont = ereg_replace("(REX\[MOD_REWRITE\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
 	
 		fclose($h);
 		$h = fopen("include/master.inc.php","w+");
 		fwrite($h,$cont,strlen($cont));
 		fclose($h);
 	
-		if ($neu_caching == "TRUE") $REX[CACHING] = TRUE;
-		else $REX[CACHING] = FALSE;
+		if ($neu_caching != "TRUE") $REX[CACHING] = false;
+		else $REX[CACHING] = true;
+		
+		if ($neu_caching_debug != "TRUE") $REX[CACHING_DEBUG] = false;
+		else $REX[CACHING_DEBUG] = true;
+		
+		if ($neu_modrewrite != "TRUE") $REX[MOD_REWRITE] = false;
+		else $REX[MOD_REWRITE] = true;
 	
-		if ($neu_caching_debug == "TRUE") $REX[CACHING_DEBUG] = TRUE;
-		else $REX[CACHING_DEBUG] = FALSE;
 	
 		$REX[STARTARTIKEL_ID] = $neu_startartikel;
 		$REX[EMAIL] = $neu_error_emailaddress;
@@ -175,6 +182,11 @@ if ($spage == "standard")
 		echo "<option value='$l' $selected>$l</option>";
 	}
 	echo "</select></td></tr>";
+
+	if($REX[MOD_REWRITE]) $modcheck = "selected"; else $modcheck_false = "selected";
+	echo "<tr><td>\$REX[MOD_REWRITE]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_modrewrite size=1><option $modcheck>TRUE</option><option $modcheck_false>FALSE</option></select></td></tr>";
+
+
 	if($REX_USER->isValueOf("rights","caching[]")){
 		if($REX[CACHING]) $cachingcheck = "selected"; else $cachingcheck_false = "selected";
 		echo "<tr><td>\$REX[CACHING]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching size=1><option $cachingcheck>TRUE</option><option $cachingcheck_false>FALSE</option></select></td></tr>";
@@ -182,6 +194,9 @@ if ($spage == "standard")
 		echo "<tr><td>\$REX[CACHING_DEBUG]:</td><td><img src=pics/leer.gif width=10 height=20></td><td><select name=neu_caching_debug size=1><option $cachingdebugcheck>TRUE</option><option $cachingdebugcheck_false>FALSE</option></select></td></tr>";
 	}
 	echo "</td></tr>";
+	
+	
+	
 	echo "<tr><td></td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=submit name=sendit value=".$I18N->msg("specials_update")."></td></tr>";
 	echo "</form>";
 	echo "</table>";
