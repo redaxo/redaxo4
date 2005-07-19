@@ -22,7 +22,7 @@ if ($function == "delete")
 		$del->query("delete from rex_template where id='$template_id'");
 		$message = $I18N->msg("template_deleted");
 
-		rex_deleteDir($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".template");
+		rex_deleteDir($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".template",0);
 	}
 }
 
