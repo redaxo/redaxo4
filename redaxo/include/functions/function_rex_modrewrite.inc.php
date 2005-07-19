@@ -9,14 +9,15 @@
 function ModRewriteName($article_name) {
     $url = str_replace(" ","-",$article_name);
     $url = str_replace("_","-",$url);
+    $url = str_replace("/","-",$url);
+    $url = str_replace("&","-",$url);
     $url = str_replace("ä","ae",$url);
     $url = str_replace("ö","oe",$url);
     $url = str_replace("ü","ue",$url);
     $url = str_replace("Ä","Ae",$url);
     $url = str_replace("Ö","Oe",$url);
     $url = str_replace("Ü","Ue",$url);
-    $url = str_replace("/","-",$url);
-    $url = str_replace("&","-",$url);
+    $url = str_replace("ß","ss",$url);
     $url = urlencode($url).".html";
     return $url;
 }
@@ -62,7 +63,7 @@ function replaceLinks($content){
 
 // ----------------------------------------- URL
 
-function rex_getUrl($id,$clang = "",$params = null) {
+function rex_getUrl($id,$clang = "",$params = "") {
 	
 	/*
 	 * Object Helper Function:
@@ -97,19 +98,32 @@ function rex_getUrl($id,$clang = "",$params = null) {
 	
 	// ----- get params
 	$param_string = "";
-	if ($params && sizeof($params) > 0) {
-		$params = explode("&",$params);
-		foreach ($params as $key => $val) {
-			$var = explode("=",$val);
-			$param_string .= $var[0]."=".$var[1]."&";
-		}
-		$param_string = substr($param_string,0,strlen($param_string)-1); // cut off the last '&'
-	}
+    if ( is_array( $params)) 
+    {
+        $first = true;
+        foreach ( $params as $key => $value) 
+        {
+            // Nur Wenn MOD_REWRITE aktiv ist, das erste "&amp;" entfernen. 
+            if ( $first && $REX['MOD_REWRITE'])
+            {
+                $first = false;
+            }
+            else
+            {
+                $param_string .= '&amp;';
+            }
+            $param_string .= $key . '=' . $value; 
+        }
+    }
+    else if ( $params != "")
+    {
+        $param_string = str_replace( '&', '&amp;', $params);
+    }
 
 	if ($REX['MOD_REWRITE']) $param_string = "?".$param_string;
 
 	// ----- create url
-	$url = $REX['MOD_REWRITE'] ? "$id-$clang-$name.html"  : "index.php?article_id=$id&clang=$clang";
+	$url = $REX['MOD_REWRITE'] ? "$id-$clang-$name.html"  : "index.php?article_id=$id&amp;clang=$clang";
 
 	return $REX['WWW_PATH']."$url"."$param_string";
 }
