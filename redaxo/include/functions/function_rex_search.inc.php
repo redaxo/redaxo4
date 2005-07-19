@@ -12,6 +12,8 @@
 
 function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_start="<b>",$surround_tag_end="</b>"){
 
+	global $REX;
+
     ###### CHECK WHICH PATHES SHOULD BE SEARCHED
     if(!is_array($categories)){
         $ADD_AREA.= "AND rex_article.path like '%-%'";
@@ -117,7 +119,8 @@ function REX_SEARCH($searchtxt,$surroundchars=20,$categories="",$surround_tag_st
 	            $ART[$SUCHE->getValue("rex_article.id")][NAME] = $SUCHE->getValue("rex_article.name");
 				$ART[$SUCHE->getValue("rex_article.id")][DESC] = $SUCHE->getValue("rex_article.description");
 				$ART[$SUCHE->getValue("rex_article.id")][COUNTWORD] = $SUCHE->getValue("COUNTWORD");
-				$ART[$SUCHE->getValue("rex_article.id")][URL] = $SUCHE->getValue("rex_article.id")."-".ModRewriteName($SUCHE->getValue("rex_article.name"));
+				if ($REX['MOD_REWRITE']) $ART[$SUCHE->getValue("rex_article.id")][URL] = rex_getUrl($SUCHE->getValue("rex_article.id"));
+				else $ART[$SUCHE->getValue("rex_article.id")][URL] = "index.php?article_id=".$SUCHE->getValue("rex_article.id")."&clang=".$REX["CUR_CLANG"];
 
                 ###### CHECK OCURRENCE OF KEYWORD
                 for($val=1;$val<10;$val++){
