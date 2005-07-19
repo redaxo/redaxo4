@@ -602,8 +602,9 @@ class article
 
 	function stripPHP($content)
 	{
-		$content = str_replace("<?","< ?",$content);
-		$content = str_replace("?>","? >",$content);
+		$content = str_replace("<?","&lt;?",$content);
+		$content = str_replace("?>","?&gt;",$content);
+		
 		return $content;
 	}
 
