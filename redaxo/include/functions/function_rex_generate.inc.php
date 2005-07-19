@@ -383,7 +383,7 @@ function rex_copyCategory($which,$to_cat)
 
 // ----------------------------------------- FILE
 
-function rex_deleteDir($file,$what = 1)
+function rex_deleteDir($file,$what = 0)
 {
 	if (file_exists($file))
 	{
