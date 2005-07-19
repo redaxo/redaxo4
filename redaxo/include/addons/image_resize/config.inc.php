@@ -68,6 +68,8 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 	    if($cachetime < $filetime){
 	        include($REX[HTDOCS_PATH]."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
 	        $thumb = new thumbnail($cachepath);
+	        
+	        echo $thumb->img["format"];
 	        @Header("Content-Type: image/".$thumb->img["format"]);
 	        readfile($cachepath);
 	        exit;
@@ -98,6 +100,7 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 
     // start thumb class
     $thumb = new thumbnail($imagepath);
+	@Header("Content-Type: image/".$thumb->img["format"]);
 
     // check method
     if($mode=="w"){
