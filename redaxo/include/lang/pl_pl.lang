@@ -1,0 +1,416 @@
+htmllang = pl
+htmlcharset = iso-8859-2
+yes = tak
+no = nie
+month = Miesi±c
+year = Rok
+general = Ogólnie
+dateformat = %a %d. %B %Y
+setlocale = pl_PL
+adateformat = %d. %b. %Y
+datetimeformat = %d. %b. %Y - %H:%M
+ctrl =
+
+# redaxo/index.php
+start_article_not_selected = Nie wybrano artyku³u startowego
+
+# redaxo/redaxo/index.php
+specials = Funkcje specjalne
+module = Modu³y
+template = Szablony
+user = U¿ytkownik
+community = Spo³eczno¶æ
+import = Im-/Eksport
+content = Artyku³
+structure = Struktura
+statistics = Statystyki
+logout = wyloguj
+
+# redaxo/include/classes/class.login.inc.php
+login_name  =  Login
+password  =  Has³o
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  niezalogowany
+
+# redaxo/include/classes/class.article.inc.php
+add_block  =  Dodaj blok
+edit  =  Edycja
+delete  =  Usuñ
+no_editing_rights = Brak uprawnieñ do edycji
+no_article_available  =  Brak artyku³u
+module_doesnt_exist =  Nie ma takiego modu³u !
+dont_delete_block  =  Nie usuwaj bloku
+delete_block  =  Usuñ blok
+submit  =  wy¶lij
+update_block = Zatwierd¼ zmiany
+save_block = Zapisz blok
+
+# redaxo/include/classes/class.form.inc.php
+submit_data  =  Wy¶lij plik
+file_doesnt_exist  =  Nie ma takiego pliku.
+choose_another_one  =  Proszê wybraæ inne.
+
+# redaxo/include/classes/class.mail_decode.inc.php
+download  =  Download
+clipboard  =  Schowek
+
+# redaxo/include/functions/function_rex_generate.inc.php
+article_moved = Artyku³ zosta³ przeniesiony!
+article_deleted = Artyku³ zosta³ usuniêty!
+could_not_move_article = Nie da³o siê przenie¶æ artyku³u.
+article_could_not_be_generated  =  Nie uda³o siê utworzyæ artyku³u.
+check_rights_in_directory  =  Proszê sprawdziæ prawa dostêpu w/do katalogu
+category_deleted  =  Kategoria zosta³a usuniêta
+category_doesnt_exist  =  Nie ma takiej kategorii !
+cant_delete_startarticle = Nie mo¿na usun±æ artyku³u startowego.
+
+# redaxo\include\pages\community.inc.php
+overview  =  Przegl±d
+user_management = Zarz±dzanie u¿ytkownikami
+user_management_info = Tu mo¿na zmieniæ dane u¿ytkownika (Profil ze zdjêciem), zmieniæ komentarze u¿ytkowników, ich maile oraz has³a.
+board_management = Zarz±dzanie forum
+board_management_info = Tu mo¿na usun±æ wpisy z forum
+article_management = Zarz±dzanie komentarzami artyku³ów
+article_management_info = Ka¿dy artyku³ mo¿e byæ skomentowany przez u¿ytkowników. Komentarze s± na pocz±tku niewidoczne ale w tym miejscu mo¿na je w³±czyæ. Mo¿na równie¿ usun±æ ka¿dy z nich.
+newsletter = Nowinki
+newsletter_info = St±d mo¿na wysy³aæ nowinki
+evaluation = Sprawdzanie
+evaluation_info = Tutaj sprawdza siê tematy i odpowiedzi oraz przydzia³y dla poszczególnych u¿ytkowników.
+
+# redaxo\include\pages\content.inc.php
+block_updated = Blok zosta³ zaktualizowany !
+block_added = Blok zosta³ dodany
+no_rights_to_this_function = Nie posiadasz uprawnieñ do tej funkcji !
+module_not_found = B£¡D ! Nie znaleziono takiego modu³u !
+block_deleted = Blok zosta³ usuniêty !
+block_not_deleted = Blok nie zosta³ usuniêty
+no_rights_to_this_module = Nie posiadasz uprawnieñ do tego modu³u!
+error = Wyst±pi³ b³±d !
+preview = Podgl±d
+edit_mode = Edycja
+metadata = Metadane/Inne
+article_cannot_be_moved = Nie mo¿na przesun±æ tego artyku³u
+start_article_has_to_stay_in_category = Artyku³y startowe musz± pozostaæ w swoich kategoriach !
+article_copied = Artyku³ zosta³ skopiowany!
+file = Nie mo¿na odnale¼æ pliku {0}.
+moving_file_error = Nie mo¿na przenie¶æ pliku '{0}'.
+metadata_updated = Metadane zosta³y zaktualizowane
+online_from = Online od
+online_to = do
+name_description = Nazwa
+description = Opis
+keywords = Kryteria wyszukiwania
+metadata_image = Metaplik/obrazek
+delete_file = usuñ plik
+teaser = Zajawka
+update_metadata = Zaktualizuj metadane
+other_functions = Inne funkcje
+category = Kategorie
+move_article = Przesuñ artyku³
+copy_article = Skopiuj artyku³
+no_rights_to_edit = Nie posiadasz uprawnieñ do edycji !
+show = Poka¿
+
+# redaxo\include\pages\module.inc.php
+module_cannot_be_deleted = Nie mo¿na usun±æ modu³u '{0}', poniewa¿ jest u¿ywany przez nastêpuj±cy artyku³:
+module_deleted = Modul zosta³ usuniêty!
+module_added = Modu³ zosta³ dodany
+module_updated = Modu³ zosta³ zaktualizowany
+articel_updated = Artyku³ zosta³ zaktualizowany
+create_module = Stwórz nowy modu³
+input = Wej¶cie
+output = Wyj¶cie
+module_name = Nazwa
+accessible = Dostêpny
+allowed_for_php = Dozwolony dla programistów PHP | Prawa dla: modu³y[php]
+allowed_for_html = Dozwolony dla programistów HTML | Prawa dla: modu³y[html]
+save_module_and_quit = Zapisz modu³
+save_module_and_continue = Zatwierd¼ zmiany
+module_description = Nazwa modu³u
+module_functions = Funkcje
+delete_module = Usuñ modu³
+module_edit = Edytuj modu³
+action_taken = Akcje zosta³y zatwierdzone
+action_deleted_from_modul = Akcja zosta³a usuniêta z modu³u!
+actions = Akcje
+action_cannot_be_deleted = Nie mo¿na usun±æ akcji '{0}', poniewa¿ jest jeszcze wykorzystywana przez nastêpuj±ce modu³y:
+action_deleted = Akcja zosta³a usuniêta
+action_added = Akcja zosta³a dodana
+action_updated = Akcja zosta³a zaktualizowana
+action_edit = Edycja
+action_create = Tworzenie
+action_name = Nazwa
+save_action_and_quit = Zapis
+save_action_and_continue = Zatwierdzenie
+action_functions = Funkcje
+action_delete = Usuwanie
+action_add = Dodawanie
+
+# redaxo\include\pages\profile.inc.php
+user_data_updated = Dane u¿ytkownika zosta³y zaktualizowane!
+user_deleted = U¿ytkownik zosta³ usuniêty!
+user_added = U¿ytkownik zosta³ dodany!
+user_login_exists = Taki login ju¿ istnieje !
+login = Login
+name = U¿ytkownik
+permissions = Prawa
+add = dodaj
+update = aktualizuj
+
+# redaxo\include\pages\structure.inc.php
+title_structure = Zarz±dzanie struktur±
+no_such_category = Kategoria nie istnieje!
+category_updated = Kategoria zosta³a zaktualizowana.
+category_could_not_be_deleted = Nie da³o siê usun±æ kategorii, poniewa¿ dalej u¿ywa jej jaki¶ artyku³ !
+category_still_contains_articles = Kategoria zawiera jeszcze artyku³y.
+category_still_contains_subcategories = Kategoria zawiera jeszcze kategorie podrzêdne.
+category_status_updated = Zaktualizowano stan kategorii!
+category_added_and_startarticle_created = Kategoria zosta³a dodana, utworzono równie¿ artyku³ startowy !
+category_edit_delete = edycja/usuniêcie
+article_status_updated = Zaktualizowano stan artyku³u.
+article_updated = Artyku³ zosta³ zaktualizowany.
+article_added = Dodano artyku³.
+header_category = Kategorie
+header_edit_category = Edycja kategorii
+header_priority = Priorytet
+header_status = Stan/Funkcja
+add_category = Dodaj kategoriê
+edit_category = Zatwierd¼
+delete_category = Usuñ
+save_category = Zatwierd¼
+status_online = opublikowano
+status_offline = nie opublikowano
+no_permission_to_edit = Brak praw do edycji
+option_no_template = Brak szablonu
+template_default_name = Standardowy szablon
+header_article_name = Tytu³ artyku³u
+header_template = Szablon
+header_date = Stworzono
+change = Zmiana
+article_add = Dodaj artyku³!
+article = Artyku³
+
+# redaxo\include\pages\template.inc.php
+title_templates = Szablony
+cant_delete_default_template = To jest szablon standardowy i nie mo¿na go usun±æ !
+cant_delete_template_because_its_in_use = Nie mo¿na usun±æ szablonu '{0}', poniewa¿ u¿ywany jest przez ró¿ne artyku³y.
+template_deleted = Szablon zosta³ usuniêty.
+template_added = Dodano nowy szablon
+template_updated = Szablon zosta³ uaktualniony
+edit_template = Edycja szablonu
+create_template = Stwórz nowy szablon
+template_name = Nazwa
+checkbox_template_active = Aktywny [Mo¿liwo¶æ wyboru w sekcji artyku³ów]
+save_template_and_quit = Zapisz szablon
+save_template_and_continue = Zatwierd¼ zmiany
+header_template = Szablon
+header_template_id = Id
+header_template_description = Opis szablonu
+header_template_active = Aktywny
+header_template_functions = Funkcje
+delete_template = Usuñ szablon
+
+# redaxo\include\functions\function_rex_category.inc.php
+article = Artyku³
+start_article = Artyku³ startowy
+path = ¦cie¿ka
+
+# redaxo\include\pages\user.inc.php
+title_user = U¿ytkownik
+user_data_updated = Dane u¿ytkownika zosta³y zaktualizowane !
+user_deleted = Usuniêto u¿ytkownika!
+user_added = Dodano nowego u¿ytkownika.
+create_user = Zak³adanie konta
+add_user = Dodawanie u¿ytkownika
+edit_user = Edycja konta u¿ytkownika
+
+# redaxo\include\pages\special.inc.php
+articles_generated = Artyku³y oraz Szablony zosta³y wygenerowane na nowo. Cache zosta³a wyczyszczona!
+old_articles_deleted = [Stare artyku³y oraz szablony zosta³y usuniête]
+links_ok = Wszystkie odno¶niki poprawne.
+links_not_ok = Nastêpuj±ce dono¶niki s± b³êdne:
+info_updated = Informacje zosta³y uaktualnione!
+specials_title = Funkcje specjalne
+special_features = Wybór funkcji
+regenerate_article = Regeneracja Artyku³ów i Cache
+regeneration_message = Kategorie, artyku³y i szablony zostan± wygenerowane na nowo cache zostanie wyczyszczony. Mo¿e to trochê potrwaæ. Proszê nie przerywaæ tego procesu.
+check_links_text = Je¶li chcesz sprawdziæ czy wszystkie odno¶niki [REX_LINK] dzia³aj± poprawnie, kliknij tutaj.
+link_checker = Sprawdzanie odno¶ników
+general_info_header = Informacje ogólne:
+db1_can_only_be_changed_by_setup = Bazê danych[1] Mo¿na zmieniæ tylko podczas ponownej instalacji.
+db2_text = Datenbank[2] - Potrzebne tylko gdy posiadamy 2 bazy danych.
+specials_others = Inne
+specials_update = Zaktualizuj
+article_type_updated = Zaktualizowano typ artyku³u!
+article_type_deleted = Typ artyku³u zosta³ usuniêty!
+article_type_could_not_be_deleted = Nie mo¿na by³o usun±æ tego typu artyku³u, gdy¿ ID=1 musi zawsze istnieæ!
+article_type_still_used = Nie mo¿na by³o usun±æ tego typu artyku³u, gdy¿ u¿ywaj± go nastêpuj±ce artyku³y:
+article_type_added = Dodano nowy typ artyku³u!
+article_type_list_id = ID
+article_type_list_name = Typ artyku³u
+article_type_list_description = Opis
+
+update_button = Zatwierd¼ zmiany
+delete_button = Usuñ
+
+# redaxo\include\pages\medienpool.inc.php
+pool_name = Biblioteka mediów
+pool_error = B³±d
+pool_status = Stan:
+pool_no_permission = Brak uprawnieñ
+
+pool_file_list = Pliki
+pool_file_upload = Dodaj plik
+pool_file_search = Wyszukiwanie
+
+pool_add_category = Tworzenie kategorii
+
+pool_default_cat = Kategoria startowa
+
+pool_cat_action = edytuj/usuñ
+pool_subcats = Kategorie podrzêdne
+pool_files = Pliki
+
+pool_headline_mediadetails = Informacje
+pool_headline_mediaextras = Funkcje specjalne
+pool_headline_mediaupload = Plik
+pool_headline_mediaarchiveupload = Archiwum mediów
+
+pool_colhead_category = Kategoria
+pool_colhead_title = Tytu³
+pool_colhead_details = Szczegó³y
+pool_colhead_edit = Edycja kategorii
+pool_colhead_preview = Podgl±d
+pool_colhead_filedetails = Informacje o pliku
+pool_colhead_description = Opis
+pool_colhead_copyright = Prawa autorskie
+pool_colhead_functions = Funkcje
+pool_colhead_filename = Nazwa pliku
+pool_colhead_newfile = Podmiana pliku
+pool_colhead_width = Szeroko¶æ
+pool_colhead_height = Wysoko¶æ
+pool_colhead_updated = Zmieniono
+pool_colhead_created = Stworzono
+pool_colhead_type = Typ
+
+pool_media_title = Tytu³
+pool_media_detail_title = Podgl±d szczegó³owy
+pool_media_category = Kategoria
+pool_media_description = Opis
+pool_media_copyright = Prawa autorskie
+pool_media_location = Plik na dysku
+pool_media_apply = Zatwierd¼ zmiany
+pool_media_replace = Nadpisz plik
+pool_media_changed = Plik "{0}" zosta³ nadpisany!
+pool_media_delete = Usuñ plik
+pool_media_deleted = Plik "{0}" zosta³ usuniêty!
+pool_media_not_deleted = Nie mo¿na by³o skasowaæ pliku, poniewa¿ jest u¿ywany w jakim¶ artykule
+pool_media_insert = Wstaw
+
+pool_category_created = Kategoria "{0}" zosta³a stworzona!
+pool_category_deleted = Kategoria "{0}" zosta³a usuniêta!
+pool_category_not_deleted_childs = Nie mo¿na by³o usun±æ kategorii "{0}", poniewa¿ zawiera jeszcze kategorie podrzêdne!
+pool_category_not_deleted_files = Nie mo¿na by³o usun±æ kategorii "{0}", poniewa¿ zawiera jeszcze pliki!
+
+pool_upload_file = za³aduj plik
+pool_upload_archive = za³aduj archiwum
+pool_upload_button = Wczytaj
+
+pool_valid_archives = Obs³ugiwane formaty
+pool_media_uploaded = Plik zosta³ wczytany!
+pool_archive_uploaded = Archiwum zosta³o wczytane!
+
+pool_error_miss_file = Nie wskazano ¿adnego pliku!
+pool_error_miss_file_ext = B³êdna koñcówka pliku "{0}" !
+pool_error_move_failed = Nie mo¿na by³o przenie¶æ pliku "{0}" !
+pool_error_miss_param = B³êdne parametry "{0}"!
+pool_error_categoryname_exists = Kategoria o takiej nazwie ju¿ istnieje!
+pool_error_external = Wyst±pi³ nastêpuj±cy b³±d "{0}"!
+
+# redaxo/include/pages
+setup = Instalacja
+setup_text = Mo¿esz ponownie wystartowaæ procedurê instalacyjn±. Nie powinno siê tego normalnie robiæ, chyba ¿e co¶ powa¿nego stanie siê z systemem.
+
+setup_error1 = Aktywacja instalacji. Proszê klikn±æ na ><a href=index.php>dalej</a>< i wykonaæ instalacjê ponownie.
+setup_error2 = Nie uda³o siê zapisaæ pliku master.inc.php. Proszê ustawiæ w \"\$REX[SETUP] = true;\"
+
+setup_005 = <b>Witamy w procedurze instalacyjnej REDAXO.</b><br><br>Co dalej:<br><br>- Pliki zostan± sprawdzone<br>- Zostanie sprawdzony dostêp do bazy danych i wpisany do pliku master.inc.php<br>- Zostanie utworzona baza danych (na nowo).<br>- Zostanie stworzone konto administratora
+setup_006 =Start instalacji i akceptacja warunków licencyjnych
+
+setup_step1 = INSTALACJA: KROK 1 z 5
+setup_010 = Wersja PHP na twoim serwerze jest za stara (poni¿ej 4.1.0), proszê uaktualniæ do najnowszej wersji
+setup_012 = <font class=error>B³±d</font> | Brak praw zapisu/odczytu w folderze <b>{0}</b>!
+setup_014 = <font class=error>B³±d</font> | Brak praw zapisu pliku <b>{0}</b> !
+setup_015 = <font class=error>B³±d</font> | Brak pliku lub katalogu <b>{0}</b> proszê go stworzyæ.
+setup_016 = <b>Sprawdzanie wersji PHP | Sprawdzanie praw dostêpu</b><br><br><font class=ok>ok</font> | Wersja PHP<br><font class=ok>ok</font> | Prawa dostêpu
+setup_017 = Do kroku 2
+setup_018 = Proszê usun±æ wszystkie wyszczególnione b³êdy i wystartowaæ instalacjê ponownie.
+setup_019 = Ponowny start kroku 1
+setup_headline1 = Sprawdzanie wersji PHP | Sprawdzanie praw dostêpu
+
+
+setup_step2 = INSTALACJA: KROK 2 z 5
+setup_020 = nie mo¿na by³o zapisaæ w pliku<b>include/master.inc.php</b>.
+setup_021 = Nie uda³o siê po³±czyæ z baz±!
+setup_022 = Nie uda³o siê otworzyæ podanej bazy danych!
+setup_023 = Zapis w 'include/master.inc.php'
+setup_024 = Domena [opcjonalnie]
+setup_025 = Serwer [opcjonalnie]
+setup_026 = B³±d w adresie e-mail [opcjonalnie]
+setup_027 = Baza danych
+setup_028 = Has³o
+setup_029 = Do kroku 3
+setup_0201 = Ogólne ustawienia Redaxo
+setup_0202 = Informacje o bazie danych
+
+setup_step3 = INSTALACJA: KROK 3 z 5
+setup_030 = Podczas aktualizacji wyst±pi³ nastêpuj±cy b³±d.
+setup_031 = Nie znaleziono tabeli {0} !
+setup_032 = Nie mo¿na by³o utworzyæ tabeli.
+setup_033 = Proszê na nowo utworzyæ bazê danych.
+setup_034 = Tworzenie bazy danych
+setup_035 = Tworzenie bazy danych i usuniêcie starej (je¶li istnieje) [<b>Uwaga</b> - Stara strona zostanie kompletnie usuniêta]
+setup_036 = Baza danych ju¿ istnieje [Dalej bez importu bazy danych]
+setup_037 = Aktualizacja z 2.6 do 2.7
+setup_038 = Do kroku 4
+
+setup_step4 = INSTALACJA: KROK 4 z 5
+setup_040 = Proszê podaæ login administratora!
+setup_041 = Proszê podaæ has³o administratora!
+setup_042 = Taki login ju¿ istnieje!
+setup_043 = Nie mo¿na by³o utworzyæ konta administratora.
+setup_044 = Nie wprowadzono jeszcze ¿adnego konta u¿ytkownika. Proszê stworzyæ takie konto.
+setup_045 = Utwórz konto administratora
+setup_046 = Login
+setup_047 = Has³o
+setup_048 = Nie twórz konta u¿ytkownika
+setup_049 = Do kroku 5
+
+setup_step5 = INSTALACJA: KROK 5 z 5
+setup_050 = Niestety nie mo¿na by³o zapisaæ zmian w pliku master.inc.php. Proszê wprowadziæ zmiany manualnie na koncie FTP.
+setup_051 = Witamy w twoim REDAXO! <br><br>A teraz:<br><br><b>1. Zaloguj siê na za³o¿one konto <a href=index.php>login</a><br>2. Zaimportuj demo poprzez [po zalogowaniu]: Import/Eksport a tam zainstaluj odpowiedni± bazê danych i pliki.</b><br><br><br>Dobrej zabawy <br><br>¿yczy Team REDAXO <br><br>
+
+# redaxo\include\pages\addon.inc.php
+addon = Dodatki
+addon_help = Pomoc dla
+addon_no_help_file = Nie znaleziono pliku pomocy
+addon_back = powrót
+addon_install_not_found = Nie znaleziono pliku instalacyjnego!
+addon_no_install = Nie mo¿na by³o zainstalowaæ z nastêpuj±cego powodu:
+addon_no_reason = Brak powodu.
+addon_installed = Dodatek zosta³ zainstalowany
+addon_no_activation "Nie uda³o siê uaktywniæ dodatku, poniewa¿ nie zosta³ zainstalowany!"
+addon_activated = "Dodatek zosta³ aktywowany"
+addon_deactivated =  "Dodatek zosta³ dezaktywowany"
+addon_hname = Nazwa
+addon_hinstall = Zainstalowany
+addon_hactive = Aktywny
+addon_reinstall = ponowna instalacja
+addon_install = instalacja
+addon_deactivate = dezaktywacja
+addon_activate = aktywacja
+addon_yes = tak
+addon_no = nie
+
+
