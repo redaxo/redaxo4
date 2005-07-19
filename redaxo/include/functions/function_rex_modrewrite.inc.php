@@ -23,16 +23,18 @@ function rex_getUrl($id,$clang = "",$params = "") {
 	 
 	global $REX;
 	
+	// ----- definiere sprache
 	if ($clang == "") $clang = $REX[CUR_CLANG];
 	
-	// ----- get Name
+	// ----- get article Name
 	$id = $id+0;
 	if ($id==0)
 	{
 		$name = "NoName";
 	}else {
 		$ooa = OOArticle::getArticleById($id);
-		$name = urlencode($ooa->getName());
+		$name = strtolower($ooa->getName());
+		$name = preg_replace("/[^a-zA-Z]/","",$name);
 	}
 	
 	// ----- get params
@@ -53,13 +55,12 @@ function rex_getUrl($id,$clang = "",$params = "") {
             }
             $param_string .= $key . '=' . $value; 
         }
-    }
-    else if ( $params != "")
+    }else if ( $params != "")
     {
         $param_string = str_replace( '&', '&amp;', $params);
     }
 
-	if ($REX['MOD_REWRITE']) $param_string = "?".$param_string;
+	if ($REX['MOD_REWRITE'] && $param_string != "") $param_string = "?".$param_string;
 
 	// ----- create url
 	$url = $REX['MOD_REWRITE'] ? "$id-$clang-$name.html"  : "index.php?article_id=$id&amp;clang=$clang";
