@@ -33,7 +33,7 @@ function rex_getUrl($id,$clang = "",$params = "") {
 		$name = "NoName";
 	}else {
 		$ooa = OOArticle::getArticleById($id);
-		$name = strtolower($ooa->getName());
+		if ($ooa) $name = strtolower($ooa->getName());
 		$name = preg_replace("/[^a-zA-Z]/","",$name);
 	}
 	
