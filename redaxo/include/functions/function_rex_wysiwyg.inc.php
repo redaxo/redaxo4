@@ -117,13 +117,12 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                }
 
 					// custom redaxo callback functions
-	                function insertMediaPool(src, alt, border, hspace, vspace, width, height, align){
-	                	window.open("index.php?page=medienpool&opener_input_field=TINY","pool","width=660,height=500,status=yes,resizable=yes,scrollbars=yes");
-	                }
-
-	                function insertIntLink(href, target){
-	                        window.open("index.php?page=linkmap&HTMLArea=TINY","link","width=660,height=500,status=yes,resizable=yes,scrollbars=yes");
-	                }
+					function insertMediaPool(src, alt, border, hspace, vspace, width, height, align){
+						newWindow( "rexmediapopup", "index.php?page=medienpool&opener_input_field=TINY", 660,500,",status=yes,resizable=yes");
+					}
+					function insertIntLink(href, target){
+						newWindow( "rexlinkpopup", "index.php?page=linkmap&HTMLArea=TINY", 660,500,",status=yes,resizable=yes");
+					}
 
 	                function tinyMCEEmail(){
 	                        var email = prompt("Geben Sie eine Emailadresse ein","");
