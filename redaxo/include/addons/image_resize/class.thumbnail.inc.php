@@ -126,6 +126,12 @@
         
         function _createImage() {
             /* change ImageCreateTrueColor to ImageCreate if GD2 not supported ImageCreateTrueColor function*/
+            
+            $this->img["lebar_thumb"] = intval($this->img["lebar_thumb"]);
+            $this->img["tinggi_thumb"] = intval($this->img["tinggi_thumb"]);
+            if ($this->img["lebar_thumb"] == 0) $this->img["lebar_thumb"] = 1;
+            if ($this->img["tinggi_thumb"] == 0) $this->img["tinggi_thumb"] = 1;
+            
             if(function_exists( "ImageCreateTrueColor")){
                 $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
             } else {
