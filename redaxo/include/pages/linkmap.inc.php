@@ -1,10 +1,19 @@
-<?php
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="<?php echo $I18N->msg("htmllang"); ?>">
+<head>
+	<title><?php echo $REX[SERVERNAME].' - '. $page_name .' Linkmap'; ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
+	<meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
+	<link rel=stylesheet type=text/css href=css/style.css />
+	<script language=Javascript src=js/standard.js></script>
+	<script language=Javascript>
+	<!--
+	var redaxo = true;
+	//-->
+	</script>
+</head><?php
 
 // error_reporting( E_ALL );
-
-echo "<html><head><title>".$REX[SERVERNAME]." - LinkMap</title>
-<link rel=stylesheet type=text/css href=css/style.css>
-";
 
 ?>
 
@@ -399,18 +408,20 @@ function rex_linkFolder($cat,$parent,$faktor)
     if ($catsize != "0"):
 		foreach ($cat as $sub1){
 
-        	$parent1 = $sub1->getId() * $faktor;
-	        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
-
-			$myart = $sub1->getArticles(false);
-		    if (sizeof($myart)>0):
-		    foreach($myart as $art){
-		         print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
-		    }
-		    endif;
-
-			rex_linkFolder($sub1->getChildren(),$parent1,($faktor*10));
-
+        	if ($sub1)
+        	{
+        		$parent1 = $sub1->getId() * $faktor;
+		        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
+	
+				$myart = $sub1->getArticles(false);
+			    if (sizeof($myart)>0):
+			    foreach($myart as $art){
+			         print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+			    }
+			    endif;
+	
+				rex_linkFolder($sub1->getChildren(),$parent1,($faktor*10));
+			}
 		}
 		
 	endif;
