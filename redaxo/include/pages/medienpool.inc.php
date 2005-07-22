@@ -1,1680 +1,1198 @@
-<?
+<?php
 
-// error_reporting( E_ALL);
-
-// TODO
-
-// Alle Funktionen fuer medienpool nur hier einbauen
-
-// permissions einbauen über
-// nur user mit $REX_USER->isValueOf("rights","admin[]"); koennen die ordnerverwaltung starten
-// sofern zugriff auf eine categorie dann auch zugriff auf die unterkategorien
-// keine speziellen filezugriffseinschraenkungen
-
-// wegen der files in ordner verschieben oder loeschen geschichte wuerde ich gerne
-// alles über "echte" submit buttons abschicken lassen und auch die markierten reihen sollten
-// "eingefärbt" werden
-
-// verschieben funktionen mit $REX_USER->isValueOf("rights","advancedMode[]");  schuetzen
+// TODOS
+// - thumbnails - einstellbar über specials
+// - mediensuche
+// - rechte einbauen
+// - wysiwyg image pfade anschauen und kontrollieren
+// - import checken
 
 
-/**
- * Redaxo - Mediapool v3
- * @author Markus Staab http://www.public-4u.de
- */
+// KOMMT NOCH
+// - only types einbauen (only .gif/.pdf/.xxx ..)
+// - direkt katjump von modulen aus
 
-// Funktionen nur ausführen wenn der Medienpool als Page aufgerufen wird.
-// 
-// Falls dieser nur als include in einem anderen Addon dient,
-// => NICHTS anzeigen 
-// => NUR Klassen zur Verfüung stellen
-$params = new rexPoolParams();
- 
-if ( $_REQUEST['page'] == $params->page) {
-    $pool = new rexPool( $params);
-    
-    // Action verarbeiten
-    $pool->handleAction();
+
+
+// *************************************** WENN HTMLAREA ODER INPUT FELD.. SAVE
+
+// ----- opener_input_field setzen
+if(isset($_GET["opener_input_field"])) $_SESSION["media[opener_input_field]"] = $_GET["opener_input_field"];
+
+
+// *************************************** PERMS
+$PERMALL = false;
+if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","dev[]") or $REX_USER->isValueOf("rights","media[0]")) $PERMALL = true;
+
+
+
+// *************************************** CONFIG
+
+$mypath = str_replace("/redaxo/index.php","",$_SERVER[SCRIPT_NAME]);
+$doctypes = array ("bmp","css","doc","gif","gz","jpg","mov","mp3","ogg","pdf","png","ppt","rar","rtf","swf","tar","tif","txt","wma","xls","zip");
+$imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png");
+$thumbs = true;
+$thumbsresize = true;
+if (!isset($REX['ADDON']['status']['image_resize']) || $REX['ADDON']['status']['image_resize'] != 1) $thumbsresize = false;
+
+
+// *************************************** HEADER
+
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="<?php echo $I18N->msg("htmllang"); ?>">
+<head>
+	<title><?php echo $REX[SERVERNAME].' - '.$I18N->msg('pool_media'); ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
+	<meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
+	<link rel=stylesheet type=text/css href=css/style.css />
+	<script language=Javascript src=js/standard.js />
+<script language=Javascript>
+<!--
+
+var redaxo = true;
+
+function selectMedia(filename)
+{
+	<?php if ($_SESSION["media[opener_input_field]"]!="") echo "opener.document.REX_FORM.".$_SESSION["media[opener_input_field]"].".value = filename;"; ?>
+	self.close();
 }
 
-class rexPoolComponent {
-    var $params;
-    
-    function rexPoolComponent( &$params) {
-        $this->params =& $params;
-    }
-    
-    function _dateFormat() {
-        return 'd-M-Y | H:i';
-    }
-    
-    function _link( $label, $params = '', $additional = array(), $inlineLink = true) {
-        $add = '';
-        if ( is_array( $additional)) {
-            foreach( $additional as $addName => $addValue) 
-            {
-                $add .= ' '. $addName . '="'. $addValue . '"';
-            }
-        }
-        
-        $remindGlobals = array( 'opener_input_field');
-        foreach( $remindGlobals as $var) {
-            if ( isset( $_GET[$var])) {
-                $params .= '&'. $var .'='. $_GET[$var];
-                
-            }
-        }
-        
-        if ( $params != '') { 
-            if ( $params[0] != '&' && $inlineLink) {
-                $params = '&' . $params;
-            }
-            $params = htmlentities( $params);
-        }
-        
-        if ( $inlineLink) {
-            $params = '?page=' .$this->params->page . $params;
-        }
-        
-        return '<a href="'. $params .'"'. $add .'>'. $label .'</a>';
-    }
-    
-    function _title( $subtitle = '', $titleAppendix = '') {
-        global $I18N;
-        title($I18N->msg('pool_name') . $titleAppendix, '&nbsp;&nbsp;&nbsp;'.$subtitle, 'grey', '100%');
-    }
-    
-    function _imageSrc( $media) {
-        global $REX;
-        if ( empty( $REX['ABS_REX_ROOT'])) {
-            $REX['ABS_REX_ROOT'] = str_replace( "/redaxo/index.php", "",$_SERVER['SCRIPT_NAME']); 
-        }
-        $src = $REX['ABS_REX_ROOT'] . $REX['WWW_PATH'] .'/files/'. $filename;
-        
-        return $src;
-    }
-    
-    function _indent( $level, $indentStr = '   ') {
-        return str_repeat( $indentStr, $level);
-    }
-    
-    function _message( $stateColspan = 1, $messageColspan = 2) {
-        global $I18N;
-        
-        $s = '';
-        $message = $this->params->message;
-        
-        if ( $message != '') {
-			if ( $this->params->messageLevel > 0) {
-			
-	            // Fehler
-				$s .= '
-				<tr class="warning">
-					<td><img src="pics/warning.gif" width="16" height="16"></td>
-					<td colspan="'. ($stateColspan+$messageColspan) .'">
-						'. $I18N->msg( 'pool_error') .' '. $message .'</td>
-				</tr>'. "\n";
-
-			} else {
-
-				// Statusmeldung
-				$s .= '
-				<tr class="warning">
-					<td><img src=pics/warning.gif width=16 height=16></td>
-					<td colspan="'. ($stateColspan+$messageColspan) .'">
-						'. $I18N->msg( 'pool_status') .' '. $message .'</td>
-				</tr>'. "\n";
-			}
-        }
-        
-        return $s;
-    }
+function insertLink(link){
+	window.opener.tinyMCE.insertLink( "/files/" + link,"_self");
+	self.close();
 }
 
-class rexPoolComponentList extends rexPoolComponent {
-    var $columns;
-    
-    function rexPoolComponentList( &$params, &$columns) {
-        parent::rexPoolComponent( $params);
-        $this->columns =& $columns;
-    } 
-    
-    function _getColGroup( $indent = 3) {
-        $colgroup = "\n". $this->_indent( $indent) .'<colgroup>'. "\n";
-        
-        foreach ( $this->columns as $columnName => $columnWidth) {
-            $colgroup .= $this->_indent( $indent + 1) .'<col width="'. $columnWidth .'"/>'. "\n";
-        }
-        
-        $colgroup .= $this->_indent( $indent) .'</colgroup>'. "\n";
-        
-        return $colgroup;
-    }
-    
-    function _getColLabels( $indent = 3) {
-        $collabels = "\n". $this->_indent( $indent) .'<tr>'. "\n";
-        
-        foreach ( $this->columns as $columnName => $columnWidth) {
-            $collabels .= $this->_indent( $indent + 1) .'<th>'. $columnName .'</th>'. "\n";
-        }
-        
-        $collabels .= $this->_indent( $indent) .'</tr>'. "\n";
-        
-        return $collabels;
-    }
-    
-    function _getTable( $indent = 2) {
-        return "\n". $this->_indent( $indent) .'<table class="rex" style="width:100%;" cellpadding="5" cellspacing="1">'. "\n";
-    }
-    
-    function _getTableEnd( $indent = 2) {
-        return "\n". $this->_indent( $indent) .'</table>'. "\n";
-    }
-    
-    function formatTableHead( $labels = true, $groups = true) {
-        $s = $this->_getTable();
-        
-        if ( $groups) {
-            $s .= $this->_getColGroup();
-        }
-        
-        if ( $labels) {
-            $s .= $this->_getColLabels();
-        }
-        
-        return $s;
-    }
-    
-    function formatTableEnd() {
-        return $this->_getTableEnd();
-    }
+function insertImage(src, alt, width, height)
+{
+	var image = '<img src="/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
+	insertHTML( image);
+}
+
+function insertHTML(html) {
+	window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
+	self.close();
+}
+
+function SetAllCheckBoxes(FormName, FieldName, mthis)
+{
+	CheckValue = true;
+	
+	if (mthis.checked) CheckValue=true;
+	else CheckValue=false;
+	
+	if(!document.forms[FormName])
+		return;
+	var objCheckBoxes = document.forms[FormName].elements[FieldName];
+	if(!objCheckBoxes) return;
+
+	var countCheckBoxes = objCheckBoxes.length;
+	if(!countCheckBoxes) objCheckBoxes.checked = CheckValue;
+	else
+		// set the check value for all check boxes
+		for(var i = 0; i < countCheckBoxes; i++)
+			objCheckBoxes[i].checked = CheckValue;
+}
+
+// ----- old functions
+
+function openImage(image){
+	window.open('index.php?page=medienpool&popimage='+image,'popview','width=123,height=111');
+}
+
+function insertHTMLArea(html,filename){
+	selection = window.opener.tinyMCE.getContent();
+	if(selection!=''){
+		html = '<a href=\"/files/'+filename+'\">'+selection+'</a>';
+	}
+	window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
+	self.close();
 }
 
 
-class rexPoolUpload extends rexPoolComponent {
-    function rexPoolUpload( $params) {
-        parent::rexPoolComponent( $params);
-    }
-    
-    function _getModes() {
-        return $modes = array( 'file' => 'pool_upload_file');
-    }
-    
-    function _title( $subtitle = '') {
-        global $I18N, $pool;
-        
-        $modes = $this->_getModes();
-        $actMode = $this->params->mode;
-        
-        $first = true;
-        foreach( $modes as $modeName => $modeLabelKey) {
-            $modeLabel = $I18N->msg( $modeLabelKey);
-            
-            if ( $first) {
-                $first = false;
-            } else {
-                $subtitle .= ' : ';
-            }
-            
-            if( $modeName != $actMode) {
-                $subtitle .= rexPool::_link( $modeLabel, 'action=media_upload&mode='. $modeName);
-            } else {
-                $subtitle .= $modeLabel;
-            } 
-        }
-        
-        if ( $subtitle != '') {
-            $subtitle = ' - '. $subtitle;
-        }
-        
-        parent::_title( $pool->_getPath(), $subtitle);        
-    }
-    
-    function &handle( &$file, $register = true) {
-        global $REX, $REX_USER, $I18N;
-        
-        $newFilename = basename( strtolower( str_replace( ' ', '_', $file['name'])));
-        
-        $result = array();
-        $result['title']       = isset( $_POST['mediaTitle']) ? $_POST['mediaTitle'] : '';
-        $result['description'] = isset( $_POST['mediaDescription']) ? $_POST['mediaDescription'] : '';
-        $result['copyright']   = isset( $_POST['mediaCopyright']) ? $_POST['mediaCopyright']: '';
-        $result['cat_id']      = isset( $_POST['cat_id']) ? $_POST['cat_id'] : '';
-        
-        $result['orgname'] = $file['name'];
-        $result['size']    = $file['size'];
-        $result['type']    = $file['type'];
-        $result['width']   = '';
-        $result['height']  = '';
 
-        $result['createdate'] = time();
-        $result['createuser'] = $REX_USER->getValue('login');
-        $result['updatedate'] = time();
-        $result['updateuser'] = $REX_USER->getValue('login');
-        
-        $result['error'] = '';
-            
-        if ( $file[ 'name'] == '') {
-            $result['error'] .= $I18N->msg('pool_error_miss_file');
-        }
-        
-        if ( $result['error'] == '' && strrpos($newFilename,'.') != '')
-        {
-            $fname = substr( $newFilename, 0, strrpos( $newFilename, '.'));
-            $extension  = OOMedia::_getExtension( $newFilename);
-            
-            $illegals = array( 'php', 'php3', 'php4', 'php5', 'phtml', 'pl', 'asp', 'aspx', 'cfm', 'sh');
-            if ( in_array( $extension, $illegals))
-            {
-                $extension .= ".txt";
-            }
+//-->
+</script>
+</head>
 
-            $result['name'] = $this->_genFileName( $fname .'.'. $extension);
-            $absFile = $REX['MEDIAFOLDER'] . '/'. $result['name'];
-            
-            if ( move_uploaded_file( $file['tmp_name'], $absFile))
-            {
-            	
-            	//  || copy( $file['tmp_name'], $absFile)
-				// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
-                if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = 0777;
-				@chmod( $absFile, 0777);
-            }else
-            {
-                $result['error'] .= $I18N->msg('pool_error_move_failed', $result['orgname']); 
-            }
-            
-            if ( OOMedia::_isImage( $absFile)) {
-                if( $size = @getimagesize( $absFile)) {
-                    $result['width'] = $size[0];
-                    $result['height'] = $size[1];
-                }
-            }
-        }
-        else if ( $result['error'] == '')
-        {
-            $result['error'] .= $I18N->msg('pool_error_miss_file_ext', $result['orgname']);
-        }
-        
-//        var_dump( $absFile);
-//        var_dump( $newFilename);
-        
-//        var_dump( $result);
-        
-        // Bei Fehlern ist hier schluss
-        if( $result['error'] != '') {
-            return $result['error'];
-        }
-        
-        // Dateien die nur hochgeladen werden sollen, aber nicht in der DB registriert
-        if( !$register) {
-            return true;
-        }
-        
-        // Objekt anlegen
-        $media = new OOMedia();
-        unset( $result['error']);
-        
-        // Attribute zuweisen
-        foreach ( $result as $detail => $value) {
-            $detail = '_'. $detail;
-            $media->$detail = $value;
-        }
-        
-        // Speichern
-        $media->_insert();
-        
-        return true;
-    }
-    
-    function _genFileName( $filename) {
-        global $REX;
-        
-        $fname = substr( $filename, 0, strrpos( $filename, '.'));
-        $extension  = OOMedia::_getExtension( $filename);
-        
-        // datei schon vorhanden ? wenn ja dann _1
-        $t = 1;
-        while( file_exists($absFile = $REX['MEDIAFOLDER'] .'/'. $filename))
-        {
-            $filename = $fname .'_'. $t .'.'. $extension;
-            $t++;
-        }
-        
-        return $filename;
-    }
-} 
+<body bgcolor=#ffffff>
 
-/**
- * Main-Class
- */
-class rexPool extends rexPoolComponent {
-    /**  Parameter des Medienpools */
-    var $params;
-    
-    /**  Die aktuell angezeigte Kategorie */
-    var $cat;
-    
-    /**  Die Kind-Kategorien der aktuellen Kategorie */
-    var $catList;
-    
-    /**  Das aktuell angezeigte Medium */
-    var $media;
-    
-    /**  Die Medien der aktuellen Kategorie */
-    var $mediaList;
-    
-    function rexPool( &$params) {
-        parent::rexPoolComponent( $params);
-        
-        // Evtl. Formular Posts verarbeiten
-        $this->handlePosts( $params);
-        
-        // Liste der anzuzeigenden Kategorien
-        $catId = $params->catId;
-        
-        if( $catId !== '') {
-            $ooCurrentCat = OOMediaCategory::getCategoryById( $catId);
-            $currentCat = new rexMediaCategory( $params, $ooCurrentCat);
-        } else {
-            $currentCat = null;
-            $ooMediaList = null;
-        }
-        
-        $this->cat =& $currentCat;
-        $this->catList =& new rexMediaCategoryList( $params, $ooCurrentCat);
-        $this->mediaList =& new rexMediaList( $params, $ooCurrentCat); 
-    }
-    
-    function &_getCat() {
-        return $this->cat;
-    }
-    
-    function &_getMedia() {
-        if ( $this->media !== null) {
-            return $this->media;
-        }
-        
-        if ( !isset( $_GET['media_id'])) {
-            if ( !isset( $_GET['file_name'])) {
-            } else {
-                $mediaName = $_GET['file_name'];
-                $this->media = OOMedia::getMediaByName( $mediaName);
-            }
-        } else {
-            $mediaId = $_GET['media_id'];
-            $this->media = OOMedia::getMediaById( $mediaId);
-        }
-        
-        return $this->media;
-    }
-    
-    function &_getCatList() {
-        return $this->catList;
-    }
-    
-    function &_getMediaList() {
-        return $this->mediaList;
-    }
-    
-    function _getPath() {
-        global $I18N;
-        
-        $currentCat =& $this->_getCat();
-        
-        // cat wurde nicht übergeben, dann vom aktuellen media holen
-        if ( $currentCat == null) {
-            $ooMedia = $this->_getMedia();
-            if ( $ooMedia !== null) {
-                $currentCat = new rexMediaCategory( $this->params, $ooMedia->getCategory());
-            }
-        }
-        
-        // Pfad der aktuellen Kategorie anzeigen
-        $path = 'Pfad: '. rexPool::_link( $I18N->msg('pool_default_cat'), '');
-        
-//        var_dump( $currentCat);
-        
-        if( $currentCat != null) {
-            $currentOOCat =& $currentCat->_getOOCat();
-            
-            $pathList = explode( '|', $currentOOCat->getPath());
-            
-            // Pfad zur aktuellen Kategorie
-            foreach ( $pathList as $pathCatId) {
-                if( $pathCatId == '') {
-                    continue;
-                }
-                
-                $pathCat = OOMediaCategory::getCategoryById( $pathCatId);
-                $path .= ' : '.$this->_link( $pathCat->getName(), 'cat_id='. $pathCat->getId());
-            }
-            
-            // Aktuelle Kategorie
-            $path .= ' : '. $this->_link( $currentOOCat->getName(), 'cat_id='. $currentOOCat->getId());
-        }
-        
-        return $path;
-    }
-    
-    function listMedia() {
-        global $I18N;
-        
-        $currentCat =& $this->_getCat();
-        $this->_title( $this->_getPath());
-        
-        $catList =& $this->_getCatList();
-        if ( $catList !== null) {
-            echo $catList->format();
-        }
+<table border=0 cellpadding=5 cellspacing=0 width=100% class=rex2>
+<tr>
+	<td colspan=3 class=grey align=right><b><?php echo $I18N->msg('pool_media')." ".$REX[SERVERNAME]; ?></b></td>
+</tr>
+<tr>
+	<td class=greenwhite><b>
+<?php 
 
-        // In der Root-Kategorie keine Medias anzeigen        
-        if( $currentCat != null) {
-            $mediaList =& $this->_getMediaList();
-            if ( $mediaList !== null) {
-                echo $mediaList->format();
-            }
-        }
-    }
-    
-    function mediaDetails() {
-        global $I18N;
-        
-        $this->_title( $this->_getPath(), ' - '. $I18N->msg('pool_media_detail_title'));
-        
-        $ooMedia = $this->_getMedia();
-        if ( $ooMedia === null) {
-            $this->params->miss( 'media_id or file_name');
-        }
-        
-        $rexMedia = new rexMedia( $this->params, $ooMedia);
-        
-        echo '       <table class="rex" style="width:100%;" cellpadding="5" cellspacing="1">
-             '. $rexMedia->formatDetailed() .'
-                     </table>';
-    }
-    
-    function handleAction() {
-        // Ausgabe des Seitenkopfes
-        $this->_header();
-        
-        switch ( $this->params->action) {
-            case 'cat_details'   : $this->catDetails();   break;
-            case 'media_details' : $this->mediaDetails(); break;
-            case 'media_upload'  : $this->uploadMedia(); break;
-        //    case 'media_search'  : rexPool::mediaDetails(); break;
-            default              : $this->listMedia();
-        }
-        
-        // Ausgabe des Seitenfußes
-        $this->_footer();
-    }
-    
-    function handlePosts( &$params) {
-        global $REX, $REX_USER, $I18N;
-        
-        if ( !isset ( $_POST)) {
-            return;
-        }
-        
-        // Kategorie anlegen/speichern
-        if ( isset( $_POST['saveCatButton']) || isset( $_POST['addCatButton']))
-        {
-            // Id der Kategorie in der sich die zu editieren de Kategorie befindet (ParentId)
-            $catId = $this->params->catId;
-            // Id der zu editierenden Kategorie
-            $catModId = $this->params->catModId;
-            
-            // Action parameter resetten, damit nach Anlegen das Formular ausgeblendet ist             
-            $this->params->action = '';
-            
-            if( $catModId !== '') {
-                $cat = OOMediaCategory::getCategoryById( $catModId);
-            } else {
-                $cat = new OOMediaCategory();
-                $cat->_parent_id = $catId;
-                $cat->_createdate = time();
-                $cat->_createuser = $REX_USER->getValue('login');
-                
-                if ( $cat->hasParent()) {
-                    $parent = $cat->getParent();
-                    $cat->_path = $parent->getPath() . $parent->getId() . '|';
-                } else {
-                    $cat->_path = '|'; 
-                }
-            }
-            
-            $cat->_updatedate = time();
-            $cat->_updateuser = $REX_USER->getValue('login');
-            $cat->_name = $_POST['catName'];
-            
-            $error = $cat->_save();
-            
-            // Fehlerbehandlung
-            if ( $error != '')
-            {
-                if( strpos( $error, 'Duplicate entry') !== false) {
-                    $message = $I18N->msg( 'pool_error_categoryname_exists');
-                } else {
-                    $message = $I18N->msg( 'pool_error_external', $error);
-                } 
-                $this->params->error( $message);
-            } else {
-                $this->params->message( $I18N->msg( 'pool_category_created', $_POST['catName']));
-            }
-            
-            
-            // Speicher freigeben
-            unset( $cat);
-        }
-        // Kategorie löschen
-        else if ( isset( $_POST['deleteCatButton'])) 
-        {
-            // Id der zu löschenden Kategorie
-            $catModId = $this->params->catModId;
-            
-            // Kategorie holen
-            $cat = OOMediaCategory::getCategoryById( $catModId);
-            
-            if ( $cat->countChildren() > 0) {
-                // Fehlermeldung ausgeben            
-                $this->params->error( $I18N->msg( 'pool_category_not_deleted_childs', $cat->getName()));
-            } else if ( $cat->countFiles() > 0) {
-                // Fehlermeldung ausgeben            
-                $this->params->error( $I18N->msg( 'pool_category_not_deleted_files', $cat->getName()));
-            } else {
-                // Statusmeldung ausgeben            
-                $this->params->message( $I18N->msg( 'pool_category_deleted', $cat->getName()));
-                // Kategorie löschen
-                $cat->_delete();
-            }
-            
-            // Speicher freigeben
-            unset( $cat);
-        } 
-        // Medium löschen
-        else if ( isset( $_POST['deleteMediaButton'])) 
-        {
-            // Id des zu löschenden Mediums
-            $mediaId = $this->params->mediaId;
-            
-            // Hier die action resetten, damit die Kategorie des gelöschten Mediums angezeigt wird
-            $this->params->action = '';
-            
-            // Medium holen
-            $media = OOMedia::getMediaById( $mediaId);
+echo "<a href=index.php?page=medienpool&rex_file_category=$rex_file_category class=white>".$I18N->msg('pool_file_list')."</a>";
+echo " | <a href=index.php?page=medienpool&subpage=add_file&rex_file_category=$rex_file_category class=white>".$I18N->msg('pool_file_insert')."</a>";
+// if ($PERMALL) echo " | <a href=index.php?page=medienpool&subpage=search class=white>Mediensuche</a>";
+if ($PERMALL) echo " | <a href=index.php?page=medienpool&subpage=categories class=white>".$I18N->msg('pool_cat_list')."</a>";
+// if ($PERMALL) echo " | <a href=index.php?page=medienpool&subpage=import class=white>Import</a>";
 
-            // Medium löschen
-            if ($media->isInUse())
-			{
-				$error = $I18N->msg( 'pool_media_not_deleted', $error);
-				$this->params->error( $I18N->msg( 'pool_error_external', $error));
-			}else
-			{
-				$error = $media->_delete();
+?>
+	</b></td>
+</tr>
+<tr>
+	<td colspan=3></td>
+</tr>
+</table><?php
 
-	            // Fehlerbehandlung
-	            if ( $error != '')
-	            {
-	                // Fehlermeldung ausgeben            
-	                // $this->params->error( $I18N->msg( 'pool_error_external', $error));
-	                
-	            } else {
-	                // Statusmeldung ausgeben            
-	                $this->params->message( $I18N->msg( 'pool_media_deleted', $media->getFileName()));
-	            }
-			}
-            
-            
-            // Speicher freigeben
-            unset( $media);
+// *************************************** MESSAGES
+if ($msg != "")
+{
+	print "<table border=0 cellpadding=5 cellspacing=0 width=100%><tr><td width=20><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr></table>";
+	$msg = "";
+}
+
+
+// *************************************** SUBPAGE: KATEGORIEN
+if ($PERMALL && $subpage == "categories")
+{
+	
+	if($media_method=='add_file_cat')
+	{
+		$db = new sql;
+		$db->setTable('rex_file_category');
+		$db->setValue('name',$cat_name);
+		$db->insert();
+		$msg = $I18N->msg('pool_kat_saved',$cat_name);
+	}elseif($media_method=='edit_file_cat')
+	{
+		$db = new sql;
+		$db->setTable('rex_file_category');
+		$db->where("id='$cat_id'");
+		$db->setValue('name',$cat_name);
+		$db->update();
+		$msg = $I18N->msg('pool_kat_updated',$cat_name);
+		$cat_id = "";
+	}elseif($media_method=='delete_file_cat')
+	{
+		$gf = new sql;
+		$gf->setQuery("select * from rex_file where category_id='$cat_id'");
+		$gd = new sql;
+		$gd->setQuery("select * from rex_file_category where re_id='$cat_id'");
+		if ($gf->getRows()==0 && $gd->getRows()==0)
+		{
+			$gf->setQuery("delete from rex_file_category where id='$cat_id'");
+			$msg = $I18N->msg('pool_kat_deleted');
+		}else
+		{
+			$cat_id = "";
+			$msg = $I18N->msg('pool_kat_not_deleted');
+		}
+	}
+	
+	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_kats')."</b></td></tr><tr><td></td></tr></table>";
+	
+	$gc = new sql;
+	$gc->setQuery("select * from rex_file_category order by name");
+	
+	echo "<table border=0 cellpadding=5 cellspacing=1 width=100% class=rex style='width:100%'>\n";
+	echo "<tr><th class=icon><a href=index.php?page=medienpool&subpage=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_name')."</th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_function')."</th><th class=dgrey align=left></th></tr>";
+
+	if ($msg != "")
+	{
+		print "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td class=warning colspan=3>".stripslashes($msg)."</td></tr>";
+		$msg = "";
+	}
+
+	if ($function == "add_cat")
+	{
+		echo "<tr>";
+		echo "<form action=index.php method=post>";
+		echo "<input type=hidden name=page value=medienpool>\n";
+		echo "<input type=hidden name=media_method value=add_file_cat>\n";
+		echo "<input type=hidden name=subpage value=categories>";
+		echo "<td>&nbsp;</td>";
+		echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name></td>";
+		echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_add')."\"></td>";
+		echo "<td class=grey>&nbsp;</td>";
+		echo "</form>";
+		echo "</tr>";
+	}
+	
+	for($i=0;$i<$gc->getRows();$i++)
+	{
+		$iid = $gc->getValue("id");
+		$iname = $gc->getValue("name");
+		$ihide = $gc->getValue("hide");
+		if ($iid == $cat_id)
+		{
+			echo "<tr>";
+			echo "<form action=index.php method=post>";
+			echo "<input type=hidden name=page value=medienpool>\n";
+			echo "<input type=hidden name=media_method value=edit_file_cat>\n";
+			echo "<input type=hidden name=subpage value=categories>";
+			echo "<input type=hidden name=cat_id value=$cat_id>";
+			echo "<td>$iid</td>";
+			echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value=\"".htmlentities($iname)."\"></td>";
+			echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
+			echo "<td class=grey>&nbsp;</td>";
+			echo "</form>";
+			echo "</tr>";
+		
+		}else
+		{
+			echo "<tr>";
+			echo "<td align=center>$iid</td>";
+			echo "<td class=grey>$iname &nbsp;</td>";
+			echo "<td class=grey><a href=index.php?page=medienpool&subpage=categories&cat_id=$iid>".$I18N->msg('pool_kat_edit')."</a> | <a href=index.php?page=medienpool&subpage=categories&cat_id=$iid&media_method=delete_file_cat onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg('pool_kat_delete')."</a></td>";
+			echo "<td class=grey>&nbsp;</td>";
+			echo "</tr>";
+		}
+		
+		$gc->next();
+	}
+	echo "</table>";
+}
+
+
+
+
+
+
+
+
+
+
+// *************************************** KATEGORIEN CHECK UND AUSWAHL
+
+// ***** kategorie checken
+$gc = new sql;
+$gc->setQuery("select * from rex_file_category where id='$rex_file_category'");
+if ($gc->getRows()==0) $rex_file_category = 0;
+
+// ***** kategorie auswahl
+$db = new sql();
+$file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+$cat_out = "<table border=0 cellpadding=5 cellspacing=1 width=100% class=rex style='width:100%'>\n";
+$cat_out .= "<form name=rex_file_cat action=index.php method=POST>\n";
+$cat_out .= "<input type=hidden name=page value=medienpool>";
+$cat_out .= "<tr>
+		<td class=icon></td>
+        <td width=80 class=grey><b>".$I18N->msg('pool_kats')."</td>
+        <td class=grey><select class=inp100 name=rex_file_category onChange=\"location.href='index.php?page=medienpool&rex_file_category='+this[this.selectedIndex].value;\">\n";
+if(is_array($file_cat)){
+        $cat_out .=  "<option value=0>".$I18N->msg('pool_kats_no')."</option>\n";
+        foreach($file_cat as $var){
+                if($var[id] == $rex_file_category): $select="selected"; else: $select=""; endif;
+                $cat_out .=  "<option value=$var[id] $select>$var[name]</option>\n";
         }
-        // Medium bearbeiten
-        else if ( isset( $_POST['saveMediaButton'])) 
-        {
-            // Id des zu löschenden Mediums
-            $mediaId = $this->params->mediaId;
-            $this->params->catId = $_POST['mediaCatId'];
-            
-            // Hier die action resetten, damit die Kategorie des gelöschten Mediums angezeigt wird
-            $this->params->action = '';
-            
-            // Medium holen
-            $media = OOMedia::getMediaById( $mediaId);
-            
-            $result = array();
-            $result['title']       = isset( $_POST['mediaTitle']) ? $_POST['mediaTitle'] : '';
-            $result['description'] = isset( $_POST['mediaDescription']) ? $_POST['mediaDescription'] : '';
-            $result['copyright']   = isset( $_POST['mediaCopyright']) ? $_POST['mediaCopyright']: '';
-            $result['cat_id']      = isset( $_POST['cat_id']) ? $_POST['cat_id'] : '';
-            
-            $result['updatedate'] = time();
-            $result['updateuser'] = $REX_USER->getValue('login');
-            
-            // Medium ersetzen
-			if ($_FILES["mediaFile"]["name"] != "")
-			{
-				$file = $_FILES["mediaFile"];
-				$newFilename = basename( strtolower( str_replace( ' ', '_', $file['name'])));
-				$newExtension = OOMedia::_getExtension( $newFilename);
-				$oldExtension = $media->getExtension();
+} else {
+        $cat_out .=  "<option value=0>".$I18N->msg('pool_kats_no')."</option>\n";
+}
+$cat_out .= "</select>\n";
+$cat_out .= "</td>\n";
+$cat_out .= "<td class=grey width=150><input type=submit value='".$I18N->msg('pool_search')."'></td>";
+$cat_out .= "</tr></form></table>";
+
+
+
+
+
+
+
+
+
+
+// *************************************** SUBPAGE: MEDIENSUCHE
+
+
+
+
+
+
+
+
+
+
+// *************************************** FUNCTIONS
+
+function saveMedia($FILE,$rex_file_category,$FILEINFOS){
+
+	global $REX,$REX_USER;
+	
+	$FILENAME = $FILE[name];
+	$FILESIZE = $FILE[size];
+	$FILETYPE = $FILE[type];
+	$NFILENAME = "";
+	
+	// ----- neuer filename und extension holen
+	$NFILENAME = strtolower(preg_replace("/[^a-zA-Z0-9.]/","_",$FILENAME));
+	if (strrpos($NFILENAME,".") != "")
+	{
+		$NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
+		$NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
+	}else
+	{
+		$NFILE_NAME = $NFILENAME;
+		$NFILE_EXT  = "";
+	}
+
+	// ---- ext checken
+	$ERROR_EXT = array("php","php3","php4","php5","phtml","pl","asp","aspx","cfm");
+	if (in_array($NFILE_EXT,$ERROR_EXT))
+	{
+		$NFILE_NAME .= $NFILE_EXT;
+		$NFILE_EXT = ".txt";
+	}
+	
+	$NFILENAME = $NFILE_NAME.$NFILE_EXT;
+	
+	// ----- datei schon vorhanden -> namen aendern -> _1 ..
+	if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
+	{
+		for ($cf=1;$cf<1000;$cf++)
+		{
+			$NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
+			if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
+		}
+	}
+	
+	// ----- dateiupload
+	$upload = true;
+	if(!@move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME") )
+	{
+		if (!@copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+		{
+			$message .= "move file $FILENAME failed | ";
+			$ok = 0;
+			$upload = false;
+		}
+	}
+	
+	if($upload)
+	{
+	
+		chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
+	
+		// get widht height
+		$size = @getimagesize($REX[MEDIAFOLDER]."/$NFILENAME");
+	
+		$FILESQL = new sql;
+		// $FILESQL->debugsql=1;
+		$FILESQL->setTable("rex_file");
+		$FILESQL->setValue("filetype",$FILETYPE);
+		$FILESQL->setValue("title",$FILEINFOS[title]);
+		$FILESQL->setValue("description",$FILEINFOS[description]);
+		$FILESQL->setValue("copyright",$FILEINFOS[copyright]);
+		$FILESQL->setValue("filename",$NFILENAME);
+		$FILESQL->setValue("originalname",$FILENAME);
+		$FILESQL->setValue("filesize",$FILESIZE);
+		$FILESQL->setValue("width",$size[0]);
+		$FILESQL->setValue("height",$size[1]);
+		$FILESQL->setValue("category_id",$rex_file_category);
+		$FILESQL->setValue("createdate",time());
+		$FILESQL->setValue("createuser",$REX_USER->getValue("login"));
+		$FILESQL->setValue("updatedate",time());
+		$FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
+		$FILESQL->insert();
+		$ok = 1;
+	}
+	
+	$RETURN[title] = $FILEINFOS[title];
+	$RETURN[width] = $size[0];
+	$RETURN[height] = $size[1];
+	$RETURN[type] = $FILETYPE;
+	$RETURN[msg] = $message;
+	$RETURN[ok] = $ok;
+	$RETURN[filename] = $NFILENAME;
+	
+	return $RETURN;
+}
+
+
+
+
+
+
+
+
+
+
+
+// *************************************** Subpage: ADD FILE
+
+// ----- METHOD ADD FILE
+if($subpage == "add_file" && $media_method == 'add_file'){
+	
+	// echo $_FILES[file_new][name];
+	
+	// function in function.rex_medienpool.inc.php
+	if ($_FILES[file_new][name] != "" and $_FILES[file_new][name] != "none")
+	{
+		
+		$FILEINFOS[title] = $ftitle;
+		$FILEINFOS[description] = $fdescription;
+		$FILEINFOS[copyright] = $fcopyright;
+		
+		if (!$PERMALL && !$REX_USER->isValueOf("rights","media[$rex_file_category]")) $rex_file_category = 0;
+		
+		$return = saveMedia($_FILES[file_new],$rex_file_category,$FILEINFOS);
+		$msg = $return[msg];
+		$subpage = "";
 				
-				if ($newExtension != $oldExtension)
+		if ($saveandexit != "" && $return[ok]==1)
+		{
+			$file_name = $return[filename];
+			$ffiletype = $return[type];
+			$width = $return[width];
+			$height = $return[height];
+
+			if($_SESSION["media[opener_input_field]"] == 'TINY')
+			{
+				if (in_array($ffiletype,$imgtypes))
 				{
-					$error = "Die Dateiendungen muessen identisch sein, damit das Medium ersetzt werden kann";					
+					$js = "insertImage('$file_name','$file_name','$width','$height');";
 				}else
 				{
-					// Datei ersetzen !
-					$absFile = $REX['MEDIAFOLDER'] . '/'. $media->getFileName();
+					$js = "insertLink('".$file_name."');";
+				}
+
+			}elseif($_SESSION["media[opener_input_field]"] != '')
+			{
+				$js = "selectMedia('".$file_name."');";
+			}
+					
+			echo "<script language=javascript>\n";
+			echo $js;
+			echo "\nself.close();\n";
+			echo "</script>";
+			exit;
+		}
+	
+	}else
+	{
+		// $msg = ;
+		$msg = $I18N->msg('pool_file_not_found');
+	}
+}
+
+// ----- METHOD ADD FORM
+if ($subpage == "add_file")
+{
+
+        $cats = new sql();
+        $cats->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC");
+
+        $cats_sel = new select;
+        $cats_sel->set_name("rex_file_category");
+        $cats_sel->set_size(1);
+        $cats_sel->set_style("' class='inp100");
+
+        $cats_sel->add_option($I18N->msg('pool_kats_no'),"0");
+        for ($i=0;$i<$cats->getRows();$i++)
+        {
+                if ($PERMALL || $REX_USER->isValueOf("rights","media[".$cats->getValue("id")."]")) $cats_sel->add_option($cats->getValue("name"),$cats->getValue("id"));
+                $cats->next();
+        }
+
+        $cats_sel->set_selected($rex_file_category);
+
+        echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_file_insert')."</b></td></tr><tr><td></td></tr></table>";
+
+        if ($msg != "")
+        {
+                print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+                $msg = "";
+        }
+
+        print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+        print "<form name=rex_file_cat action=index.php method=POST ENCTYPE=multipart/form-data>\n";
+        print "<input type=hidden name=page value=medienpool>\n";
+        print "<input type=hidden name=media_method value=add_file>\n";
+        print "<input type=hidden name=subpage value=add_file>\n";
+        print "<tr><td class=grey width=100>".$I18N->msg('pool_file_title').":</td><td class=grey><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td></tr>\n";
+        print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
+        print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
+        print "<tr><td class=grey>".$I18N->msg('pool_copyright').":</td><td class=grey><input type=text size=20 name=fcopyright class=inp100 value='".(stripslashes($fcopyright))."'></td></tr>\n";
+        print "<tr><td class=grey>Datei:</td><td class=grey><input type=file name=file_new size=30></td></tr>";
+        print "<tr><td class=grey>&nbsp;</td><td class=grey><input type=submit value=\"".$I18N->msg('pool_file_upload')."\">";
+        if ($_SESSION["media[opener_input_field]"] != "") echo "<input type=submit name=saveandexit value=\"".$I18N->msg('pool_file_upload_get')."\">";
+        print "</td></tr>\n";
+        print "</form>\n";
+        print "</table>\n";
+
+}
 
 
-					if ( move_uploaded_file( $file['tmp_name'], $absFile) )
+
+
+
+
+
+
+
+
+// *************************************** Subpage: Detail
+
+if($subpage=="detail" && $media_method=='delete_file')
+{
+	$gf = new sql;
+	$gf->setQuery("select * from rex_file where file_id='$file_id'");
+	
+	if ($gf->getRows()==1)
+	{
+		if ($PERMALL || $REX_USER->isValueOf("rights","media[".$gf->getValue("category_id")."]"))
+		{
+	
+			$file_name = $gf->getValue("filename");
+		
+			// check if file is in an article slice
+			$file_search = '';
+	
+			for($c=1;$c<11;$c++){
+				$file_search.= "OR file$c='$file_name' ";
+				$file_search.= "OR value$c LIKE '%$file_name%' ";
+			}
+			
+			$file_search = substr($file_search,2);
+			$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
+			// $db->setQuery($sql);
+			$res1 = $db->get_array($sql);
+			
+			$sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
+			$res2= $db->get_array($sql);
+		
+			if(!is_array($res1) and !is_array($res2)){
+			
+				$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
+				$db->query($sql);
+				unlink($REX[MEDIAFOLDER]."/".$file_name);
+				$msg = $I18N->msg('pool_file_deleted');
+				$subpage = "";
+			}else{
+			
+				$msg = $I18N->msg('pool_file_delete_error_1');
+				$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
+				foreach($res1 as $var){
+					$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+				}
+				foreach($res2 as $var){
+					$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+				}
+				$msg .= " | ";
+				$subpage = "";
+			
+			}
+		}else
+		{
+			$msg = $I18N->msg('no_permission');
+		}
+	}else
+	{
+		$msg = $I18N->msg('pool_file_not_found');
+		$subpage = "";
+	}
+}
+
+if($subpage=="detail" && $media_method=='edit_file'){
+	
+	$gf = new sql;
+	$gf->setQuery("select * from rex_file where file_id='$file_id'");
+	if ($gf->getRows()==1)
+	{
+		
+		if ($PERMALL || ( $REX_USER->isValueOf("rights","media[".$gf->getValue("category_id")."]") &&  $REX_USER->isValueOf("rights","media[$rex_file_category]") ) )
+		{
+			
+			$FILESQL = new sql;
+			$FILESQL->setTable("rex_file");
+			$FILESQL->where("file_id='$file_id'");
+			$FILESQL->setValue("title",$ftitle);
+			$FILESQL->setValue("description",$fdescription);
+			$FILESQL->setValue("copyright",$fcopyright);
+			$FILESQL->setValue("category_id",$rex_file_category);
+			
+			$msg = "Dateiinformationen wurden aktualisiert!";
+			$filename = $gf->getValue("filename");
+			$filetype = $gf->getValue("filetype");
+		
+			if ($_FILES[file_new][name] != "" and $_FILES[file_new][name] != "none")
+			{
+				
+				$ffilename = $_FILES[file_new][tmp_name];
+				$ffiletype = $_FILES[file_new][type];
+				$ffilesize = $_FILES[file_new][size];
+		
+				if ($ffiletype == $filetype)
+				{
+					unlink($REX[MEDIAFOLDER]."/".$filename);
+					if (!move_uploaded_file($ffilename,$REX[MEDIAFOLDER]."/$filename"))
 					{
-						// || copy( $file['tmp_name'], $absFile)
-						// unter windows werden die rechte zerstoert und eventuell schreibgeschuetzt gesetzt
-						if ( $REX['MEDIAFOLDERPERM'] == '') $REX['MEDIAFOLDERPERM'] = 0777;
-						@chmod( $absFile, 0777);
-
-						$result['orgname'] = $file['name'];
-						$result['size']    = $file['size'];
-
-						if ( OOMedia::_isImage( $absFile)) {
-			                if( $size = @getimagesize( $absFile)) {
-			                    $result['width'] = $size[0];
-			                    $result['height'] = $size[1];
-			                }
-			            }
+						if (!@copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+						{
+							$msg .= "<br>".$I18N->msg('pool_file_upload_error');
+						}else
+						{
+							$FILESQL->setValue("filetype",$ffiletype);
+							$FILESQL->setValue("originalname",$ffilename);
+							$FILESQL->setValue("filesize",$ffilesize);
+							$msg .= "<br>Die Datei wurde ausgetauscht!";
+						}
 					}else
 					{
-						$error .= $I18N->msg('pool_error_move_failed', $result['orgname']); 
+						$FILESQL->setValue("filetype",$ffiletype);
+						$FILESQL->setValue("originalname",$ffilename);
+						$FILESQL->setValue("filesize",$ffilesize);
+						$msg .= "<br>Die Datei wurde ausgetauscht!";
 					}
+				}else
+				{
+					$msg .= "<br>".$I18N->msg('pool_file_upload_errortype');
 				}
 			}
-            
-            // Attribute zuweisen
-            foreach ( $result as $detail => $value) {
-                $detail = '_'. $detail;
-                $media->$detail = $value;
-            }
-            
-            // Speichern
-            $error = $media->_update().$error;
-            
-            // Fehlerbehandlung
-            if ( $error != '')
-            {
-                // Fehlermeldung ausgeben            
-                $this->params->error( $I18N->msg( 'pool_error_external', $error));
-            } else {
-                // Statusmeldung ausgeben            
-                $this->params->message( $I18N->msg( 'pool_media_changed', $media->getFileName()));
-            }
-            
-            // Speicher freigeben
-            unset( $media);
-        }
-    }
-    
-    function uploadMedia() {
-        global $REX,$I18N;
-        
-        $upload = new rexPoolUpload( $this->params);
-        
-        echo $upload->_title();
-        
-        // handle file upload(s)
-        if( !empty($_POST)) {
-            
-            $this->params->message = $I18N->msg( 'pool_media_uploaded');
-            
-            foreach( $_FILES as $file) {
-                if (( $result = $upload->handle( $file)) !== true) {
-                    $this->params->error( $result, false, true);
-                    break;
-                }
-            }
-        }
-        
-        echo rexMedia::formatForm();
-    }
-    
-    function _header() {
-        global $I18N, $REX;
-        $relRexRoot = str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) . $REX['WWW_PATH'];
-    ?>
-    <html>
-       <head>
-          <title><?php echo $REX['SERVERNAME'] .' - '. $I18N->msg('pool_name'); ?></title>
-          <link rel=stylesheet type=text/css href=css/style.css>
-          <script language=Javascript>
-          <!--
-          var redaxo = true;
-          
-          function selectMedia(filename)
-          {
-             opener.document.REX_FORM.<?php echo $this->params->openerFieldName ?>.value = filename;
-//             self.close();
-          }
-          
-          function insertImage(src, alt, width, height)
-          {
-             var image = '<img src="<?php echo $relRexRoot  ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
-             insertHTML( image);
-          }
-          
-          function insertLink(link){
-             window.opener.tinyMCE.insertLink( "<?php echo $relRexRoot ?>/files/" + link,"_self");
-//             self.close();
-          }
-          
-          function insertHTML(html) {
-             window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
-//             self.close();
-          }
-    
-          function checkBoxes(FormName, FieldName, CheckValue)
-          {
-             // alert( 'Checkvalue ' + CheckValue);
-             if(!document.forms[FormName]) {
-                // alert( 'Form gibts nicht');
-                return;
-             }
-             
-             var objCheckBoxes = document.forms[FormName].elements[FieldName];
-             
-             if(!objCheckBoxes) {
-                // alert( 'Boxen gibts nicht');
-                return;
-             }
-             
-             var countCheckBoxes = objCheckBoxes.length;
-             if(!countCheckBoxes) {
-                objCheckBoxes.checked = CheckValue;
-             } else {
-                // set the check value for all check boxes
-                for(var i = 0; i < countCheckBoxes; i++) {
-                   objCheckBoxes[i].checked = CheckValue;
-                }
-             }
-          }
-          //-->
-          </script>
-       </head>
-    <body>
-    
-       <table class="rexHeader" style="width: 100%;" cellpadding="5" cellspacing="0">
-       
-          <tr>
-             <th colspan="3"><?php echo $I18N->msg('pool_name') .' '. $REX['SERVERNAME']; ?></th>
-          </tr>
-    
-          <tr>
-             <td>
-               <?php echo rexPool::_link( $I18N->msg('pool_file_list'), 'cat_id='. $this->params->catId, array( 'class' => 'white')) ?> |
-               <?php echo rexPool::_link( $I18N->msg('pool_file_upload'), 'action=media_upload&mode=file&cat_id='. $this->params->catId, array( 'class' => 'white')) ?>
-               <!-- <?php echo " | ".rexPool::_link( $I18N->msg('pool_file_search'), 'action=media_search', array( 'class' => 'white')) ?> -->
-             </td>
-          </tr>
-          
-       </table>
-       
-       <form name="poolForm" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" style="display: inline;" enctype="multipart/form-data">
-       
-          <input type="hidden" name="page" value="medienpool"/>
-          <input type="hidden" name="action" value="<?php echo $this->params->action ?>"/>
-          <input type="hidden" name="mode" value="<?php echo $this->params->mode ?>"/>
-          <input type="hidden" name="cat_id" value="<?php echo $this->params->catId ?>"/>
-          <input type="hidden" name="cat_modid" value="<?php echo $this->params->catModId ?>"/>
-          <input type="hidden" name="media_id" value="<?php echo $this->params->mediaId ?>"/>
-          <input type="hidden" name="opener_input_field" value="<?php echo $this->params->openerFieldName ?>"/>
-          
-    <?php
-    }
-    
-    function _footer() {
-        global $I18N;
-    ?>
-       </form>
-       
-       <a name="bottom"></a>
-       <br/>
-       <table class="rexFooter" style="width: 100%" cellpadding="5" cellspacing="0">
-       
-          <tr>
-             <th colspan="2">&nbsp;</th>
-          </tr>
-          
-          <tr>
-             <td>
-                <a href="http://www.pergopa.de" target="_blank" class="black">pergopa kristinus gbr</a> |
-                <a href="http://www.redaxo.de" target="_blank" class="black">redaxo.de</a> |
-                <a href="http://forum.redaxo.de">?</a>
-             </td>
-             <td style="text-align: right;">
-                <?php echo showScripttime() ?> sec | <?php echo strftime($I18N->msg("dateformat"))?>
-             </td>
-          </tr>
-             
-          </table>
-    
-       </body>
-    </html>
-    <?php
-    }
-} 
+			$size = @getimagesize($REX[INCLUDE_PATH]."/../../files/$filename");
+			
+			$FILESQL->setValue("updatedate",time());
+			$FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
+			$FILESQL->update();
+		}else
+		{
+			$msg = $I18N->msg('no_permission');
+		}
+	}else
+	{
+		$msg = $I18N->msg('pool_file_not_found');
+		$subpage = "";
+	}
 
-/**
- * Class which provides getter functions for all needed pool-parameters
- * All Methods are static!
- */
-class rexPoolParams {
-    var $page;
-    
-    var $catId;
-    var $catModId;
-    
-    var $mediaId;
-    
-    var $action;
-    var $mode;
-    
-    var $openerFieldName;
-    
-    /**  Fehler/Statusmeldung */
-    var $message;
-    var $messageLevel;
-    
-    function rexPoolParams() {
-        $this->page = 'medienpool';
-         
-        $this->catId = !empty( $_REQUEST['cat_id']) ? (int) $_REQUEST['cat_id'] : '';
-        $this->catModId = !empty( $_REQUEST['cat_modid']) ? (int) $_REQUEST['cat_modid'] : '';
-        
-        $this->mediaId = !empty( $_REQUEST['media_id']) ? (int) $_REQUEST['media_id'] : '';
-        
-        $this->action = !empty( $_REQUEST['action']) ? $_REQUEST['action'] : '';
-        $this->mode = !empty( $_REQUEST['mode']) ? $_REQUEST['mode'] : '';
-        
-        $this->openerFieldName = !empty( $_REQUEST['opener_input_field']) ? $_REQUEST['opener_input_field'] : '';
-        
-    }
-    
-    function showFunctions() {
-        return $this->isMediaButtonMode() || $this->isEditorMode();
-    }    
-    
-    function isMediaButtonMode() {
-        return !$this->isEditorMode() && $this->openerFieldName != ''; 
-    }
-    
-    function isEditorMode() {
-        return $this->openerFieldName == 'TINY';
-    }
-    
-    function miss( $paramName) {
-        global $I18N;
-        trigger_error( '<p>'. $I18N->msg('pool_error_miss_param', $paramName) .'</p>', E_USER_ERROR);
-    }
-    
-    function error( $errormsg, $append = false, $overwrite = false) {
-        $this->_message( $errormsg, 1, $append, $overwrite);
-    }
-    
-    function message( $message, $append = false, $overwrite = false) {
-        $this->_message( $message, 0, $append, $overwrite);
-    }
-    
-    function _message( $message, $msgLevel, $append = false, $overwrite = false) {
-        
-        if ( $this->message != '' && !($append || $overwrite)) {
-            return;
-        }
-        
-        
-        if ( $append) {
-            $this->message .= $message;
-        } else if( $this->message == '' || $overwrite) {
-            $this->message = $message;
-        }
-        
-        $this->messageLevel = $msgLevel;
-    }
 }
 
-// user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
-// user mit media[10] kann in kat 10 alles
+if ($subpage == "detail")
+	{
+	$gf = new sql;
+	
+	if ($file_name != "") $gf->setQuery("select * from rex_file where filename='$file_name'");
+	if ($gf->getRows()==1) $file_id = $gf->getValue("file_id");
+	
+	$gf->setQuery("select * from rex_file where file_id='$file_id'");
+	if ($gf->getRows()==1)
+	{
 
-// user mit media_add[all] darf adden
-// user mit media_edit[all] darf editieren
-// user mit media_delete[all] darf löschen
-// user mit media_get[all] darf jedes bild selektieren
+		$TPERM = false;
+		if ($PERMALL || $REX_USER->isValueOf("rights","media[".$gf->getValue("category_id")."]")) $TPERM = true;
 
-// user mit media_add[10] darf in kat 10 adden
-// user mit media_edit[10] darf in kat 10 editieren
-// user mit media_delete[10] darf in kat 10 löschen
-// user mit media_get[10] darf in kat 10 jedes bild selektieren
+		echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_file_detail')."</b></td></tr><tr><td></td></tr></table>";
+		echo $cat_out;
+		
+		$ftitle = $gf->getValue("title");
+		$fdescription = $gf->getValue("description");
+		$fcopyright = $gf->getValue("copyright");
+		$fname = $gf->getValue("filename");
+		$ffiletype = $gf->getValue("filetype");
 
-/**
- * Class which provides all functions for permission purposes
- * All Methods are static!
- */
-class rexPoolPerm {
-    function rexPoolPerm() {
-        die( 'class-instantiation not allowed for class "' .__CLASS__ .'"');
-    }
-    
-    function hasPerm( $perm) {
-        global $REX_USER;
-        return $REX_USER->isValueOf( 'rights', $perm);
-    }
+		$cats = new sql();
+		$cats->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC");
+		
+		$cats_sel = new select;
+		$cats_sel->set_name("rex_file_category");
+		$cats_sel->set_size(1);
+		$cats_sel->set_style("' class='inp100");
+		
+		$cats_sel->add_option($I18N->msg('pool_kats_no'),"0");
+		for ($i=0;$i<$cats->getRows();$i++)
+		{
+			if ($PERMALL || $REX_USER->isValueOf("rights","media[".$cats->getValue("id")."]")) $cats_sel->add_option($cats->getValue("name"),$cats->getValue("id"));
+			if ($rex_file_category == $cats->getValue("id")) $rex_file_category_name = $cats->getValue("name");
+			$cats->next();
+		}
+		
+		$cats_sel->set_selected($rex_file_category);
+		
+		$file_ext = substr(strrchr($file_name,"."),1);
+		$icon_src = "pics/mime_icons/mime-default.gif";
+		if (in_array($file_ext,$doctypes))
+		{
+			$icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
+		}
+		$thumbnail = "<img src=$icon_src align=left border=0>";
+		
+		$ffiletype_ii = in_array($ffiletype,$imgtypes);
+		
+		if ($ffiletype_ii==1)
+		{
+			$size = getimagesize($REX[INCLUDE_PATH]."/../../files/$fname");
+			$fwidth = $size[0];
+			$fheight = $size[1];
+			if ($fwidth >199) $rfwidth = 200;
+			else $rfwidth = $fwidth;
+		}
 
-    function hasMediaPerm( $sub, &$cat) {
-        $valids = array( '', '_add', '_edit', '_delete', '_get');
-        if ( !in_array( $sub, $valids)) {
-            return false;
-        }
-        $catId = $cat->getId();
-        
-        if( rexPoolPerm::isSuperUser() 
-            || rexPoolPerm::isOwner( $cat->getCreateUser()) 
-          ) 
+        if ($msg != "")
         {
-            return true;
+                print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+                $msg = "";
         }
-        
-        return rexPoolPerm::hasPerm( 'media['. $catId .']') ||
-               rexPoolPerm::hasPerm( 'media'. $sub .'[0]') ||
-               rexPoolPerm::hasPerm( 'media'. $sub .'['. $catId .']');
-    }
-    
-    function isOwner( $userId) {
-        global $REX_USER;
-        return $REX_USER->isValueOf( 'login', $userId);
-    }
-    
-    function isAdvanced() {
-        return rexPoolPerm::hasPerm( 'advancedMode[]');
-    }
-    
-    function isSuperUser() {
-        return rexPoolPerm::isAdmin()
-               || rexPoolPerm::isPoolAdmin()
-               || rexPoolPerm::isDeveloper();
-    }
-    
-    function isDeveloper() {
-        return rexPoolPerm::hasPerm( 'admin[]');
-    }
-    
-    function isAdmin() {
-        return rexPoolPerm::hasPerm( 'admin[]');
-    }
 
-    function isPoolAdmin() {
-        return rexPoolPerm::hasPerm( 'media[0]');
-    }
-    
-    function hasCatPerm( &$cat) {
-        return rexPoolPerm::hasMediaPerm( '', $cat);
-    }
+		if($_SESSION["media[opener_input_field]"] == 'TINY'){
+			
+			// -> insertImage(name,alt,width,height); // nur beim images
+			$opener_link = "";
+			if (in_array($ffiletype,$imgtypes))
+			{
+				$opener_link .= "<a href=javascript:insertImage('$fname','$fname','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
+			}
+			$opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
 
-    function hasAddPerm( &$cat) {
-        return rexPoolPerm::hasMediaPerm( '_add', $cat);
-    }
+		}elseif($_SESSION["media[opener_input_field]"] != '')
+		{
+			$opener_link = "<a href=javascript:selectMedia('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+		}
+		
+		if ($TPERM)
+		{
 
-    function hasEditPerm( &$cat) {
-        return rexPoolPerm::hasMediaPerm( '_edit', $cat);
-    }
-    
-    function hasDelPerm( &$cat) {
-        return rexPoolPerm::isSuperUser() || rexPoolPerm::isOwner( $cat->getCreateUser());
-    }
-    
-    function hasGetPerm( &$cat) {
-        return rexPoolPerm::hasMediaPerm( '_get', $cat);
-    }
+			print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+			print "<tr><th align=left colspan=4>Detailinformationen | $opener_link</th></tr>";
+			print "<form name=rex_file_cat action=index.php method=POST ENCTYPE=multipart/form-data>\n";
+			print "<input type=hidden name=page value=medienpool>\n";
+			print "<input type=hidden name=media_method value=edit_file>\n";
+			print "<input type=hidden name=subpage value=detail>\n";
+			print "<input type=hidden name=file_id value=$file_id>\n";
+			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td>";
+	
+			if ($ffiletype_ii)
+			{
+				$imgn = "../files/$fname width=$rfwidth"; 
+				if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname";
+				echo "<td rowspan=12 width=220 align=center class=lgrey valign=top><br><img src=$imgn  border=0></td>";
+			}
+	
+			print "</tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey colspan=2>".$cats_sel->out()."</td></tr>\n";
+			print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey colspan=2><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_copyright').":</td><td class=grey colspan=2><input type=text size=20 name=fcopyright class=inp100 value='".(stripslashes($fcopyright))."'></td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_filename').":</td><td class=grey colspan=2><a href=../files/$fname target=_blank>$fname</a></td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_last_update').":</td><td class=grey colspan=2>".strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate"))." [".$gf->getValue("updateuser")."]</td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_created').":</td><td class=grey colspan=2>".strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate"))." [".$gf->getValue("createuser")."]</td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_file_exchange').":</td><td class=grey colspan=2><input type=file name=file_new size=30></td></tr>";
+			print "<tr><td class=grey>&nbsp;</td><td class=grey width=120><input type=submit value=\"".$I18N->msg('pool_file_update')."\"></td>\n";
+			print "</form>\n";
+			print "<form name=rex_file_cat action=index.php method=POST ENCTYPE=multipart/form-data>\n";
+			print "<input type=hidden name=page value=medienpool>\n";
+			print "<input type=hidden name=media_method value=delete_file>\n";
+			print "<input type=hidden name=subpage value=detail>\n";
+			print "<input type=hidden name=file_id value=$file_id>\n";
+			print "<input type=hidden name=rex_file_category value=$rex_file_category>\n";
+			print "<td class=grey><input type=submit value=\"".$I18N->msg('pool_file_delete')."\"  onclick='return confirm(\"".$I18N->msg('delete')." ?\")'></td></tr>\n";
+			print "</form>";
+			print "</table>\n";
+
+		}else
+		{
+			print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+			print "<tr><th align=left colspan=4>Detailinformationen | $opener_link</th></tr>";
+			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2>".htmlentities(stripslashes($ftitle))."</td>";
+	
+			if ($ffiletype_ii)
+			{
+				$imgn = "../files/$fname width=$rfwidth"; 
+				if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname";
+				echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=$imgn  border=0></td>";
+			}
+	
+			print "</tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey colspan=2>$rex_file_category_name</td></tr>\n";
+			print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey colspan=2>".(stripslashes($fdescription))."</td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_copyright').":</td><td class=grey colspan=2>".(stripslashes($fcopyright))."</td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_filename').":</td><td class=grey colspan=2><a href=../files/$fname target=_blank>$fname</a></td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_last_update').":</td><td class=grey colspan=2>".strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate"))." [".$gf->getValue("updateuser")."]</td></tr>\n";
+			print "<tr><td class=grey>".$I18N->msg('pool_created').":</td><td class=grey colspan=2>".strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate"))." [".$gf->getValue("createuser")."]</td></tr>\n";
+			print "</table>\n";
+		}
+	
+	}else
+	{
+		$msg = $I18N->msg('pool_file_not_found');
+		$subpage = "";
+	}
 }
 
-class rexMediaCategoryList extends rexPoolComponentList  {
-    
-    var $cat;
-    var $cats;
-    
-    function rexMediaCategoryList( &$params, &$ooCat) {
-        global $I18N;
-        
-        $this->cat =& $ooCat;
-        // Parameter hier schon als klassen-variable setzten,
-        // da diese unten schon vorm parent-konstruktor aufruf 
-        // gebraucht werden (_formatAddLink())
-        $this->params =& $params;
-        
-        if ( $ooCat === null) {
-            $ooCatList =& OOMediaCategory::getRootCategories();
-        } else {
-            $ooCatList =& $ooCat->getChildren();
-        }
-        
-        // hier darf kein foreach stehen wegen problemem mit den referenzen!
-        for( $i = 0; $i < count( $ooCatList); $i++) {
-            $ooCat =& $ooCatList[ $i];
-            $this->cats[] =& new rexMediaCategory( $params, $ooCat); 
-        }
-        
-        $columns = array( 
-            $this->_formatAddLink() => '50px',
-//            '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'cat_id[]\', this.checked)"/>' => '30px',
-            $I18N->msg('pool_colhead_category') => '200px', 
-            $I18N->msg('pool_colhead_details') => '200px',
-            $I18N->msg('pool_colhead_edit') => '*'
-        );
-        
-        parent::rexPoolComponentList( $params, $columns);
-    } 
-    
-    function _formatAddLink() {
-        global $I18N;
-        $s = '';
-        $cat = null;
-        $catId = $this->params->catId;
-        
-        if ( $catId !== '') {
-            $cat = OOMediaCategory::getCategoryById( $catId);
-        }
-        // cat === null => RootCat => nur SuperUser dürfen RootCats hinzufügen
-        if ( $cat === null && (rexPoolPerm::isSuperUser()) ||
-             $cat !== null && rexPoolPerm::hasAddPerm( $cat)) {
-            $s .=  $this->_link( '<img src="pics/folder_plus.gif" style="width: 16px; height:16px" alt="'. $I18N->msg('pool_add_category') .'">' , 'action=cat_add&cat_id='. $catId);
-        }
-        
-        return $s;
-    }
-    
-    function _formatParent( $indent = 3) {
-        // In den RootCategories kein ParentLink anzeigen
-        if ( $this->cat === null) {
-            return;
-        }
-        
-        $formatCategoryParent = "\n";
-        $formatCategoryParent .= $this->_indent( $indent) . '<tr>'. "\n";
-        $formatCategoryParent .= $this->_indent( $indent + 1) . '<td></td>'. "\n"; 
-        $formatCategoryParent .= $this->_indent( $indent + 1) . '<td colspan="3">'. $this->_link( '..', 'cat_id='. $this->cat->getParentId()) .'</td>'. "\n"; 
-        $formatCategoryParent .= $this->_indent( $indent) . '</tr>'. "\n";
-              
-        return $formatCategoryParent;
-    }
-    
-    function format( $indent = 3) {
-        $s = '';
-        $catModId = $this->params->catModId;
-        
-        $s .= $this->formatTableHead();
-        
-        //Evtl Fehlerausgabe      
-        $s .= $this->_message( 1, 2);
 
-        // Link zur Parent-Kat        
-        $s .= $this->_formatParent();
-        
-        // Evtl. eingabe Formular
-        if( $this->params->action == 'cat_add') {
-            $s .= rexMediaCategory::formatForm();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----- METHOD IMPORT IMPORT DIR
+if($PERMALL && ($subpage=='import') && ($method=="do")){
+
+    $FILE_PATH = $REX[MEDIAFOLDER]."/";
+
+    $db = new sql;
+
+    if (!function_exists('mime_content_type')) {
+       function mime_content_type($f) {
+           $f = escapeshellarg($f);
+           return trim( `file -bi $f` );
+       }
+    }
+
+    if(is_array($_POST[importfolder])){
+        foreach($_POST[importfolder] as $var){
+            if ($handle = opendir($FILE_PATH.$var)) {
+                while (false !== ($file = readdir($handle))) {
+                    if ($file != "." && $file != "..") {
+
+                        unset($MEDIA);
+
+                        $THIS_PATH = $FILE_PATH.$var."/".$file;
+
+                        // prepare data for saveMedia();
+                        $MEDIA[name] = $file;
+                        $MEDIA[tmp_name] = $THIS_PATH;
+                        $MEDIA[type] = mime_content_type($THIS_PATH);
+                        $MEDIA[size] = filesize($THIS_PATH);
+                        $MEDIA_CATEGORY = $_POST[importcategory];
+						//trägt dateinamen als title ein
+                        $RESULT = saveMedia($MEDIA,$MEDIA_CATEGORY,array(title=>$file));
+
+                        $cnt++;
+                    }
+                }
+                closedir($handle);
+            }
         }
-        
-        if ( $this->cats !== null) {
-            foreach( $this->cats as $rexCat) {
-                $ooCat =& $rexCat->_getOOCat();
-                
-//                if ( !rexPoolPerm::hasCatPerm( $ooCat)) {
-//                    continue;
-//                }
-                
-                if( empty( $_POST) && $ooCat->getId() == $catModId) {
-                    $s .= $rexCat->formatForm( $indent);
-                } else {
-                    $s .= $rexCat->format( $indent);
+    }
+
+
+    $msg = $cnt." File wurden erfolgreich importiert";
+
+}
+
+// ----- METHOD IMPORT LIST DIRS
+if($PERMALL && $subpage=='import'){
+
+    print "<form name=rex_file_import action=index.php method=post>\n";
+    print "<input type=hidden name=page value=medienpool>\n";
+    print "<input type=hidden name=subpage value=import>\n";
+    print "<input type=hidden name=method value=do>\n";
+
+    echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_import_list')."</td></tr><tr><td></td></tr></table>";
+
+    if ($msg != "")
+    {
+            print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+            $msg = "";
+    }
+
+    print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+
+    print "<tr><th colspan=2 class=grey align=left>".$I18N->msg('pool_import_help')."</td></tr>";
+
+    // Print Folders in Files Dir
+    $FILE_PATH = $REX[MEDIAFOLDER]."/";
+    if ($handle = opendir($FILE_PATH)) {
+        while (false !== ($file = readdir($handle))) {
+            if ($file != "." && $file != "..") {
+                if(is_dir($FILE_PATH.$file)){
+                    print "<tr>";
+                    print "<td width=20 class=grey>";
+                    print "<input type=checkbox name=importfolder[] value='$file'>";
+                    print "</td>";
+                    print "<td class=grey>";
+                    print "&nbsp;";
+                    print $file;
+                    print "</td>";
+                    print "</tr>";
                 }
             }
         }
-        
-        $s .= $this->formatTableEnd();
-        
-        return $s;
+        closedir($handle);
     }
-}
- 
-/**
- * Category-Class
- * All Methods are static!
- */
-class rexMediaCategory extends rexPoolComponent {
-    
-    var $ooCat;
-    
-    function rexMediaCategory( &$params, &$ooCat) {
-        parent::rexPoolComponent( $params);
-        $this->ooCat =& $ooCat;
-    }
-    
-    function format( $indent) {
-        $cat =& $this->_getOOCat();
-        
-        $s = "\n";
-        $s .= $this->_indent( $indent) .'<tr>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td align="center"><img src="pics/folder.gif" width=16 height=16></td>'. "\n";
-        // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $cat->getId() .'"/></td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatName() .'</td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatDetails() .'</td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td>'. $this->_formatActions() .'</td>'. "\n";
-        $s .= $this->_indent( $indent) .'</tr>'. "\n";
-                 
-        return $s;
-    }
-    
-    function _formatName() {
-        global $REX_USER;
-        $cat =& $this->_getOOCat();
-        
-        $name = rexPool::_link( $cat->getName(), 'cat_id='. $cat->getId());
-        
-        // Im AdvancedMode IDs der Kategorien anzeigen
-        if ( rexPoolPerm::isAdvanced()) {
-            $name .= ' ['. $cat->getId() .']';
-        } 
-        
-        return $name;        
-    }
-    
-    function _formatActions() {
-        global $I18N;
-        $OOCat =& $this->_getOOCat();
-        $OOCatId = $OOCat->getId();
-        
-        // Prüfen der Berechtigungen TODO
-//        var_dump( $OOCatId);
-//        var_dump( rexPoolPerm::hasDelPerm( $OOCat));
-//        var_dump( !rexPoolPerm::hasEditPerm( $OOCat));
-        if ( !rexPoolPerm::hasDelPerm( $OOCat) && !rexPoolPerm::hasEditPerm( $OOCat)) {
-            return $I18N->msg( 'pool_no_permission');
-        }
-        
-        return rexPool::_link( $I18N->msg('pool_cat_action'), 'cat_id='. $this->params->catId .'&cat_modid='. $OOCatId);;
-    }
-    
-    function _formatDetails() {
-        global $I18N;
-        $cat =& $this->_getOOCat();
-        
-        $s = $I18N->msg('pool_subcats').': '. $cat->countChildren() . '<br/>'.
-             $I18N->msg('pool_files').': '. $cat->countFiles();
-        
-        return $s;
-    }
-    
-    function formatForm( $indent = 3) {
-        global $I18N;
-        
-        // Defaultwerte für Kategorie laden, wenn nicht-statisch aufgerufen!
-        if ( is_a($this, 'rexMediaCategory')) {
-            $ooCat = $this->_getOOCat();
-            $catId = $ooCat->getId();
-            $catName = $ooCat->getName();
-            $buttons = $this->_formatFormButtons();
-        } else {
-            $catId = '';
-            $catName = '';
-            $buttons = '<input type="submit" name="addCatButton" value="'. $I18N->msg( 'add_category') .'"/>'; 
-        }
-        
-        $s = "\n";
-        $s .= $this->_indent( $indent) .'<tr>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td align="center"><img src="pics/folder.gif" style="width: 16px; height:16px; margin: auto;"></td>'. "\n";
-        // $s .= $this->_indent( $indent + 1) .'<td><input type="checkbox" name="cat_id[]" value="'. $catId .'"/></td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td><input type="text" name="catName" value="'. $catName .'" style="width: 100%"/></td>'. "\n";
-        $s .= $this->_indent( $indent + 1) .'<td colspan="2">'. $buttons .'</td>'. "\n";
-        $s .= $this->_indent( $indent) .'</tr>'. "\n";
-              
-        return $s;
-    }
-    
-    function _formatFormButtons() {
-        global $I18N;
-        
-        $cat =& $this->_getOOCat();
-        $s = '';
-        
-        if ( $cat !== null && rexPoolPerm::hasEditPerm( $cat)) {
-            $s .= '<input type="submit" name="saveCatButton" value="'. $I18N->msg( 'save_category') .'"/>';
-        }
-        
-        if ( $cat !== null && rexPoolPerm::hasDelPerm( $cat)) {
-            $s .= '<input type="submit" name="deleteCatButton" value="'. $I18N->msg( 'delete_category') .'"/  onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';
-        } 
-        
-        return $s;
-    }
-    
-    function &_getOOCat() {
-        return $this->ooCat;
-    }
-}
+    print "<tr><td colspan=2><br></td></tr>";
+    print "<tr><th colspan=2 class=grey align=left>";
+    print "<b>".$I18N->msg('pool_import_target_info')."</b>";
+    print "</th></tr>";
+	print "<tr><td colspan=2 class=grey><br></td></tr>";
+    print "<tr><td colspan=2 class=grey>";
 
-class rexMediaList extends rexPoolComponentList {
-    var $medias;
-    /** current OOCat */
-    var $cat;
-    
-    function rexMediaList( &$params, &$ooCat) {
-        global $I18N;
-        
-        if ( $ooCat === null) {
-            return;
-        }
-        
-        $columns = array( 
-            $I18N->msg('pool_colhead_type') => '50px',
-//          '<input type="checkbox" onchange="checkBoxes( \'poolForm\', \'media_id[]\', this.checked)"/>' => '30px',
-            $I18N->msg('pool_colhead_preview') => '90px',
-            $I18N->msg('pool_colhead_filedetails') => '150px',
-            $I18N->msg('pool_colhead_description')=> '*'
-        );
-        
-        if ( $params->showFunctions()) {
-            $columns[$I18N->msg('pool_colhead_functions')] = '80px';
-        }
-        
-        parent::rexPoolComponentList( $params, $columns);
-        
-        $ooMedias = $ooCat->getFiles();
-        // hier darf kein foreach stehen wegen problemem mit den referenzen!
-        for( $i = 0; $i < count( $ooMedias); $i++) {
-            $ooMedia =& $ooMedias[ $i];
-            $this->medias[] = new rexMedia( $params, $ooMedia); 
-        }
-        
-        $this->cat =& $ooCat;
+    print "<select name=importcategory>";
+    $db = new sql();
+    $db->debugsql = true;
+    $file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+    foreach($file_cat as $var){
+            print "<option value=$var[id]>$var[name]</option>\n";
     }
-    
-    function format() {
-        $s = '';
-        
-        // Berechtigung prüfen, ob medien selektiert werden dürfen        
-//        if ( $this->cat !== null && !rexPoolPerm::hasGetPerm( $this->cat)) {
-//            return $s;
-//        }
+    print "</select>";
+    print "<br><br><input type=submit value='Import Folder'>";
+    print "</td></tr>";
+    print "</table>";
+    print "</form>";
 
-        if ( $this->medias === null) {
-            return $s;
-        }
-        
-        // Kopf nur anzeigen, wenn auch Medien da sind
-        $s .= $this->formatTableHead();
-        
-        foreach( $this->medias as $rexMedia) {
-            $s .= $rexMedia->formatListed();
-        }
-        
-        $s .= $this->formatTableEnd();
-        
-        return $s;
-    }
-}
-
-/**
- * Media-Class
- * All Methods are static!
- */
-class rexMedia extends rexPoolComponent {
-    
-    var $ooMedia;
-    
-    function rexMedia( &$params, &$ooMedia) {
-        parent::rexPoolComponent( $params);
-        $this->ooMedia =& $ooMedia;
-    }
-    
-    function _previewParams() {
-        static $params = array(
-            'resize' => true,
-            'width'  => '80px',
-            'class'  => 'preview',
-            'path'   => '../'
-        );
-        
-        return $params;
-    }
-    
-    function _formatPreview() {
-        $params = $this->_previewParams();
-        return $this->_link( $this->ooMedia->toImage( $params),
-                             'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $this->ooMedia->getId());
-    }
-    
-    function _formatDetailedView() {
-        $params = array(
-            'resize' => true,
-            'width'  => '250px',
-            'class'  => 'detailed',
-            'path'   => '../'
-        );
-        
-        return $this->_link( $this->ooMedia->toImage( $params),
-                             '../files/'. $this->ooMedia->getFileName(),
-                             array( 'target' => '_blank'),
-                             false);
-    }
-    
-    function _formatDetails() {
-        global $I18N;
-        
-        $media =& $this->ooMedia;
-        
-        $s = '';
-        $date = '';
-        $dateFormat = $this->_dateFormat();
-        
-        $updatedate = $media->getUpdateDate( $dateFormat);
-        $createdate = $media->getCreateDate( $dateFormat);
-        
-        if ( $updatedate != $createdate) {
-            $date .= $I18N->msg('pool_colhead_updated') .':<br/>' . $updatedate . '<br/>';
-        }
-        $date .= $I18N->msg('pool_colhead_created') .':<br/>' . $createdate;
-        
-        $s = $this->_link( $media->getTitle(), 'action=media_details&cat_id='. $this->ooMedia->getCategoryId() .'&media_id='. $media->getId());
-        
-        // Im AdvancedMode IDs der Medien anzeigen
-        if ( rexPoolPerm::isAdvanced()) {
-            $s .= ' ['. $media->getId() .']';
-        } 
-        
-        $s .= '<br/><br/>'
-              .$media->getFileName() .'<br/>'
-              .$media->getFormattedSize().'<br/><br/>'
-              .$date;
-        
-        return $s;
-    }
-    
-    function _formatDescription() {
-        return nl2br( $this->ooMedia->getDescription());
-    }
-    
-    function _formatActions() {
-        $ooMedia = $this->_getOOMedia();
-        
-        return $ooMedia->toInsertLink( $this->params);
-    }
-    
-    function _formatIcon() {
-        return $this->ooMedia->toIcon();
-    }
-    
-    function formatListed() {
-        $media =& $this->ooMedia;
-        
-        $s = '
-         <tr>
-            <td>'. $this->_formatIcon() .'</td>
-<!--            <td><input type="checkbox" name="media_id[]" value="'. $media->getId() .'"/></td> -->
-            <td>'. $this->_formatPreview() .'</td>
-            <td>'. $this->_formatDetails() .'</td>
-            <td>'. $this->_formatDescription() .'</td>'. "\n";
-        if ( $this->params->showFunctions()) {
-            $s .=  '<td>'. $this->_formatActions() .'</td>'. "\n";
-        }
-                 
-        $s .= '         </tr>'. "\n";
-              
-        return $s;
-    }
-    
-    function formatDetailed() {
-        global $I18N;
-        
-        $media =& $this->ooMedia;
-        $isImage = $media->isImage();
-        $dateFormat = rexPool::_dateFormat();
-        $rowspan = 7;
-        
-        $catSelect = new rexMediaCatSelect();
-        $catSelect->set_style( 'width:100%;');
-        $catSelect->set_name( 'mediaCatId');
-        $catSelect->set_id( 'mediaCatId');
-        $catSelect->set_selected( $media->getCategoryId());
-        
-        if ( $isImage) {
-            // 2 Zeilen zusätzlich
-            $rowspan += 2;
-        }
-        
-        $s = '
-              <colgroup>
-                 <col width="150px"/>
-                 <col width="150px"/>
-                 <col width="*"/>
-              </colgroup>
-
-              <tr>
-                 <th colspan="3">'. $I18N->msg('pool_headline_mediadetails') .'</th>
-              </tr>
-
-              <tr>
-                 <td><label for="mediaTitle">'. $I18N->msg('pool_colhead_title') .'</label></td>
-                 <td><input class="inp100" type="text" id="mediaTitle" name="mediaTitle" value="'. $media->getTitle() .'"/></td>
-                 <td style="text-align: center" rowspan="'. $rowspan .'">'. $this->_formatDetailedView() .'</td>
-              </tr>
-
-              <tr>
-                 <td><label for="mediaCatId">'. $I18N->msg('pool_colhead_category') .'</label></td>
-                 <td>'. $catSelect->out() .'</td>
-              </tr>
-
-              <tr>
-                 <td><label for="mediaDescription">'. $I18N->msg('pool_colhead_description') .'</label></td>
-                 <td><input class="inp100" type="text" id="mediaDescription" name="mediaDescription" value="'. $media->getDescription() .'"/></td>
-              </tr>
-
-              <tr>
-                 <td><label for="mediaCopyright">'. $I18N->msg('pool_colhead_copyright') .'</label></td>
-                 <td><input class="inp100" type="text" id="mediaCopyright" name="mediaCopyright" value="'. $media->getCopyright() .'"/></td>
-              </tr>
-
-              <tr>
-                 <td>'. $I18N->msg('pool_colhead_filename') .'</td>
-                 <td>'. $media->getFileName() .'</td>
-              </tr>'. "\n";
-              
-          if ( $isImage) {
-                $s .= '
-              <tr>
-                 <td>'. $I18N->msg('pool_colhead_width') .'</td>
-                 <td>'. $media->getWidth() .'px</td>
-              </tr>
-
-              <tr>
-                 <td>'. $I18N->msg('pool_colhead_height') .'</td>
-                 <td>'. $media->getHeight() .'px</td>
-              </tr>'. "\n";
-          }
-
-              $s .='
-              <tr>
-                 <td>'. $I18N->msg('pool_colhead_updated') .'</td>
-                 <td>'. $media->getUpdateDate( $dateFormat) .'</td>
-              </tr>
-
-              <tr>
-                 <td>'. $I18N->msg('pool_colhead_created') .'</td>
-                 <td>'. $media->getCreateDate( $dateFormat) .'</td>
-              </tr>
-
-              <tr>
-                 <td colspan="2" style="text-align: right;">
-                    <input type="submit" name="saveMediaButton" value="'. $I18N->msg('pool_media_apply') .'"/>
-                 </td>
-                 <td style="text-align: right;">
-                    <input type="submit" name="deleteMediaButton" value="'. $I18N->msg('pool_media_delete') .'"  onclick="return confirm(\''.$I18N->msg('delete').' ?\')" />
-                 </td>
-              </tr>
-
-              <tr>
-                 <td colspan="3" style="background-color: white;"></td>
-              </tr>
-
-              <tr>
-                 <th colspan="3">'. $I18N->msg('pool_headline_mediaextras') .'</th>
-              </tr>
-
-              <tr>
-                 <td><label for="mediaFile">'. $I18N->msg('pool_colhead_newfile') .'</label></td>
-                 <td colspan="2">
-                    <input type="file" id="mediaFile" name="mediaFile"/>
-                 </td>
-              </tr>
-
-              <tr>
-                 <td colspan="3" style="text-align: right">
-                    <input type="submit" name="saveMediaButton" value="'. $I18N->msg('pool_media_replace') .'"/>
-                 </td>
-              </tr>
-
-              '. "\n";
-              
-        return $s;
-    }
-    
-    function formatForm() {
-        global $I18N;
-        
-        $catSelect = new rexMediaCatSelect();
-        $catSelect->set_style( 'width:100%;');
-        $catSelect->set_name( 'cat_id');
-        $catSelect->set_id( 'cat_id');
-        $catSelect->set_selected( $this->params->catId);
-        
-        $titleKey = $this->params->mode == 'archive' ?  'pool_headline_mediaarchiveupload' : 'pool_headline_mediaupload';
-        
-        $s = '
-           <table class="rex" style="width:100%;" cellpadding="5" cellspacing="1">
-
-              <colgroup>
-                 <col width="150px"/>
-                 <col width="*"/>
-                 <col width="100px"/>
-              </colgroup>
-
-              <tr>
-                 <th colspan="3">'. $I18N->msg( $titleKey) .'</th>
-              </tr>'. "\n";
-        
-        //Evtl Fehlerausgabe      
-        $s .= $this->_message();
-                
-        $s .= '
-              <tr>
-                 <td><label for="mediaTitle">'.$I18N->msg("pool_media_title").'</label</td>
-                 <td colspan="2"><input type="text" id="mediaTitle" name="mediaTitle" class="inp100"/></td>
-              </tr>'. "\n";
-        $s .= '
-              <tr>
-                 <td><label for="cat_id">'.$I18N->msg("pool_media_category").'</label></td>
-                 <td colspan="2">'. $catSelect->out() .'</td>
-              </tr>'. "\n";
-
-        $s .= '
-              <tr>
-                 <td><label for="mediaDescription">'.$I18N->msg("pool_media_description").'</label></td>
-                 <td colspan="2"><textarea class="inp100" id="mediaDescription" name="mediaDescription"></textarea></td>
-              </tr>'. "\n";
-
-        $s .= '
-              <tr>
-                 <td><label for="mediaCopyright">'.$I18N->msg("pool_media_copyright").'</label></td>
-                 <td colspan="2"><input type="text" class="inp100" id="mediaCopyright" name="mediaCopyright"/></td>
-              </tr>'. "\n";
-              
-        $s .= '
-              <tr>
-                 <td><label for="mediaFile">'.$I18N->msg("pool_media_location").'</label></td>
-                 <td><input type="file" id="mediaFile" name="mediaFile"/></td>
-                 <td><input type="submit" name="uploadMediaButton" value="'.$I18N->msg("pool_upload_button").'" class="inp100"/></td>
-              </tr>' ."\n";
-           
-        $s .= '
-           </table>'. "\n";
-           
-        return $s;
-    }
-    
-    function &_getOOMedia() {
-        return $this->ooMedia;
-    }
 }
 
 
-/**
- * HTML-Selectbox which shows all categories
- */
-class rexMediaCatSelect extends select {
-    function rexMediaCatSelect( $cat = null) {
-        $selectCats = null;
-        if ( is_int( $cat)) {
-            $selectCats = array( OOMediaCategory::getCategoryById( $cat));
-        } else if ( OOMediaCategory::isValid( $cat)) {
-            $selectCats = array( $cat);
-        } else {
-            $selectCats = OOMediaCategory::getRootCategories();
-        }
-        
-        foreach ( $selectCats as $selectCat) {
-            $this->add_cat_option( $selectCat);
-        }
-    }
-    
-    function add_cat_option( &$cat, $groupName = '') {
-        if( empty( $cat)) {
-            return;
-        }
-        
-        $this->add_option($cat->getName(), $cat->getId(), $groupName);
-        
-        if ( $cat->hasChildren()) {
-            $childs = $cat->getChildren();
-      
-            foreach ( $childs as $child) {
-                $this->add_cat_option( $child, $cat->getName());
-            }
-        }
-    }
+
+
+
+
+
+
+
+
+// *************************************** EXTRA FUNCTIONS
+
+if($PERMALL && $media_method=='updatecat_selectedmedia')
+{
+	if(is_array($_POST[selectedmedia])){
+
+		foreach($_POST[selectedmedia] as $file_id){
+		
+			$db = new sql;
+			//$db->debugsql = true;
+			$db->setTable('rex_file');
+			$db->where("file_id='$file_id'");
+			$db->setValue('category_id',$rex_newfile_category);
+			$db->setValue("updatedate",time());
+			$db->setValue("updateuser",$REX_USER->getValue("login"));
+			$db->update();
+		
+			$msg = $I18N->msg('pool_selectedmedia_moved');
+		}
+	}else{
+		$msg = $I18N->msg('pool_selectedmedia_error');
+	}
 }
 
-/**
- * Not in use!
- * mediapool-v2-functions
- * @author vscope
- */
-
-function media_resize($FILE,$width,$height,$make_copy=false){
-    global $REX;
-    
-    if ($REX[IMAGEMAGICK])
-    {
-        $magick = $REX[IMAGEMAGICK_PATH];
-        $sizer = '';
-        if($width>0){
-            $sizer = "-geometry ".$width;
-        }else if($height>0){
-            $sizer = "-geometry x".$height;
-        }else if($width>0 && $height!=""){
-            $sizer = "-geometry ".$width."x".$height."!";
-        }
-        $system = $magick." ".$FILE." ".$sizer." -colorspace rgb -density 72 ".$FILE;
-        system($system);
-    }else
-    {
-        return false;
-    }
+if($PERMALL && $media_method=='delete_selectedmedia')
+{
+	
+	if(is_array($_POST["selectedmedia"]))
+	{
+		
+		foreach($_POST["selectedmedia"] as $file_id){
+			
+			//kopiet von Dateidetails delete_file
+			$gf = new sql;
+			$gf->setQuery("select * from rex_file where file_id='$file_id'");
+			if ($gf->getRows()==1)
+			{
+				$file_name = $gf->getValue("filename");
+			
+				// check if file is in an article slice
+				$file_search = '';
+				
+				for($c=1;$c<11;$c++){
+					$file_search.= "OR file$c='$file_name' ";
+					$file_search.= "OR value$c LIKE '%$file_name%' ";
+				}
+				
+				$file_search = substr($file_search,2);
+				$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
+				// $db->setQuery($sql);
+				$res1 = $db->get_array($sql);
+			
+				$sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
+				$res2 = $db->get_array($sql);
+			
+				if(!is_array($res1) and !is_array($res2)){
+			
+					$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
+					$db->query($sql);
+					unlink($REX[MEDIAFOLDER]."/".$file_name);
+					$msg = $I18N->msg('pool_file_deleted');
+					$subpage = "";
+				}else{
+					$msg = $I18N->msg('pool_file_delete_error_1');
+					$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
+					foreach($res1 as $var){
+						$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+					}
+					foreach($res2 as $var){
+						$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+					}
+					$msg .= " | ";
+					$subpage = "";
+				}
+			}else
+			{
+				$msg = $I18N->msg('pool_file_not_found');
+				$subpage = "";
+			}
+		}
+	}else{
+		$msg = $I18N->msg('pool_selectedmedia_error');
+	}
 }
+
+
+
+
+
+
+
+
+
+
+// *************************************** SUBPAGE: "" -> MEDIEN ANZEIGEN
+
+if($subpage == "")
+{
+	
+	$db = new sql();
+	$file_newcat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+	
+	$newcat = "<select name=rex_newfile_category class=inp100>\n";
+	if(is_array($file_newcat)){
+		foreach($file_newcat as $var){
+			if ($PERMALL || $REX_USER->isValueOf("rights","media[".$var[id]."]")) $newcat  .=  "<option value=$var[id]>$var[name]</option>\n";
+		}
+	}
+	$newcat .= "</select>\n";
+
+	echo "<table width=100% cellpadding=5 cellspacing=1 border=0 ><tr><td class=grey><b class=head>".$I18N->msg('pool_file_list')."</b></td></tr><tr><td></td></tr></table>";
+	echo $cat_out;
+	print "<table class=rex border=0 cellpadding=5 cellspacing=1 style='width:100%'>\n";
+	print "<tr>
+		<th align=left class=icon></th>
+		<th align=left width=80><b>".$I18N->msg('pool_file_thumbnail')."</b></th>
+		<th align=left><b>".$I18N->msg('pool_file_info')."/ ".$I18N->msg('pool_file_description')."</b></th>
+		<th align=left width=150><b>".$I18N->msg('pool_file_functions')."</b></th>
+		</tr>\n";
+
+	if ($msg != "")
+	{
+		print "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td class=warning colspan=3>$msg</td></tr>";
+		$msg = "";
+	}
+	
+	//deletefilelist und cat change
+	print "<form name=rex_file_list action=index.php method=post ENCTYPE=multipart/form-data>\n";
+	print "<input type=hidden name=page value=medienpool>\n";
+	print "<input type=hidden name=rex_file_category value=$rex_file_category>\n";
+	print "<input type=hidden name=media_method value=''>\n";
+	
+	$files = new sql;
+	// $files->debugsql = 1;
+	$files->setQuery("SELECT * FROM rex_file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc");
+	
+	for ($i=0;$i<$files->getRows();$i++)
+	{
+	
+		$file_id =   $files->getValue("file_id");
+		$file_name = $files->getValue("filename");
+		$file_oname = $files->getValue("originalname");
+		$file_title = $files->getValue("title");
+		$file_description = $files->getValue("description");
+		$file_copyright = $files->getValue("copyright");
+		$file_type = $files->getValue("filetype");
+		$file_size = $files->getValue("filesize");
+		$file_stamp = date("d-M-Y | H:i",$files->getValue("updatedate"))."h";
+		$file_updateuser = $files->getValue("updateuser");
+
+		// check if file exists
+		// was passiert wenn nicht da ?
+		// if(!file_exists($REX[MEDIAFOLDER]."/".$file_name)) continue;
+	
+		$file_ext = substr(strrchr($file_name,"."),1);
+		$icon_src = "pics/mime_icons/mime-default.gif";
+		if (in_array($file_ext,$doctypes))
+		{
+			$icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
+		}
+		$thumbnail = "<img src=$icon_src align=left border=0>";
+		if (in_array($file_type,$imgtypes) && $thumbs)
+		{
+			$thumbnail = "<img src=../files/$file_name width=80 border=0>";
+			if ($thumbsresize) $thumbnail = "<img src=../index.php?rex_resize=80w__$file_name width=80 border=0>";
+		}
+
+		// ----- get file size
+		$size = $file_size;
+		$kb = 1024;         // Kilobyte
+		$mb = 1024 * $kb;   // Megabyte
+		$gb = 1024 * $mb;   // Gigabyte
+		$tb = 1024 * $gb;   // Terabyte
+		if($size < $kb)	$file_size = $size." Bytes";
+		else if($size < $mb) $file_size = round($size/$kb,2)." KBytes";
+		else if($size < $gb) $file_size = round($size/$mb,2)." MBbytes";
+		else if($size < $tb) $file_size = round($size/$gb,2)." GBytes";
+		else $file_size = round($size/$tb,2)." TBbytes";
+	
+		if ($file_title == "") $file_title = "[".$I18N->msg('pool_file_notitle')."]";
+		if ($file_description == "") $file_description = "[".$I18N->msg('pool_file_nodescription')."]";
+	
+		// ----- opener
+		if($_SESSION["media[opener_input_field]"] == 'TINY')
+		{
+			$opener_link = "";
+			if (in_array($file_type,$imgtypes))
+			{
+				$opener_link .= "<a href=javascript:insertImage('$file_name','$file_name','".$files->getValue("width")."','".$files->getValue("height")."');>".$I18N->msg('pool_image_get')."</a><br>";
+			}
+			$opener_link .= "<a href=javascript:insertLink('".$file_name."');>".$I18N->msg('pool_link_get')."</a>";
+
+		}elseif($_SESSION["media[opener_input_field]"] != '')
+		{
+			$opener_link = "<a href=javascript:selectMedia('".$file_name."');>".$I18N->msg('pool_file_get')."</a>";
+		}
+			
+		$ilink = "index.php?page=medienpool&subpage=detail&file_id=$file_id&rex_file_category=$rex_file_category";
+		echo "<tr>";
+	
+		if ($PERMALL) echo "<td class=icon><input type=checkbox name=selectedmedia[] value='$file_id'></td>";
+		else echo "<td class=icon>&nbsp;</td>";
+		
+		echo "<td class=grey align=center><a href=$ilink>$thumbnail</a></td>";
+		echo "<td valign=top class=grey><b><a href=$ilink>$file_title</a></b><br><br><b>$file_name [$file_size]</b><br>".nl2br(htmlentities($file_description))."<br><br>$file_stamp | $file_updateuser</td>";
+		echo "<td valign=top class=grey>$opener_link</td>";
+		echo "</tr>";
+		$files->next();
+	}
+	
+	if ($files->getRows()==0)
+	{
+		
+		// ----- no items found
+		// print "<tr><td colspan=5>&nbsp;</td>";
+		print "<tr>
+			<td class=grey align=center>&nbsp;</td>
+			<td class=grey colspan=3>".$I18N->msg('pool_nomediafound')."</td>
+			</tr>";
+	}elseif($PERMALL)
+	{
+		print "</table>";
+		
+		print "<table class=rex border=0 cellpadding=5 cellspacing=1 style='width:100%'>\n";
+		// ----- move and delete selected items
+		print "<tr>
+			<td align=center class=icon><!-- ".$I18N->msg('pool_select_all')." --><input type=checkbox name=checkie value=0 onClick=\"SetAllCheckBoxes('rex_file_list','selectedmedia[]',this)\"></td>";
+		
+		$filecat = new sql();
+		$filecat->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC LIMIT 1");
+		if ($filecat->getRows() > 0)
+		{	
+			print "
+			<!-- <td class=grey><b>".$I18N->msg('pool_selectedmedia')."</b>&nbsp;</td>-->
+			<td class=grey>$newcat</td>
+			<td class=grey><input type=submit value=\"".$I18N->msg('pool_changecat_selectedmedia')."\" onclick=\"document.rex_file_list.media_method.value='updatecat_selectedmedia';\"></td>
+			<td class=grey width=150><input type=submit value=\"".$I18N->msg('pool_delete_selectedmedia')."\" onclick=\"document.rex_file_list.media_method.value='delete_selectedmedia';return confirm('".$I18N->msg('delete')." ?');\"></td>
+			";
+		}else
+		{
+			print "
+			<td class=grey>&nbsp;</td>
+			<td class=grey width=150><input type=submit value=\"".$I18N->msg('pool_delete_selectedmedia')."\" onclick=\"document.rex_file_list.media_method.value='delete_selectedmedia';return confirm('".$I18N->msg('delete')." ?');\" ></td>
+			";
+		}
+		print "</tr>";
+	}
+	print "</form>";
+	print "</table>";
+}
+
+echo "</body></html>";
+
 ?>

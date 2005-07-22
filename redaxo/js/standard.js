@@ -186,7 +186,7 @@ function deleteREXMedia(id)
 
 function addREXMedia(id,cat_id)
 {
-        newPoolWindow('	index.php?page=medienpool&action=media_upload&mode=file&cat_id='+cat_id+'&opener_input_field=REX_MEDIA_'+id);
+        newPoolWindow('	index.php?page=medienpool&action=media_upload&subpage=add_file&cat_id='+cat_id+'&opener_input_field=REX_MEDIA_'+id);
 }
 
 function openLinkMap(id)
