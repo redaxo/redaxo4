@@ -1044,7 +1044,7 @@ if($subpage == "")
 	$db = new sql();
 	$file_newcat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
 	
-	$newcat = "<select name=rex_newfile_category class=inp100>\n";
+	$newcat = "<select name=rex_newfile_category style='width:150px;'>\n";
 	if(is_array($file_newcat)){
 		foreach($file_newcat as $var){
 			if ($PERMALL || $REX_USER->isValueOf("rights","media[".$var[id]."]")) $newcat  .=  "<option value=$var[id]>$var[name]</option>\n";
