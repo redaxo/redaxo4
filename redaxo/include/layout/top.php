@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
 	<meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
 	<link rel=stylesheet type=text/css href=css/style.css />
-	<script language=Javascript src=js/standard.js />
+	<script language=Javascript src=js/standard.js></script>
 	<script language=Javascript>
 	<!--
 	var redaxo = true;
