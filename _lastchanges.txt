@@ -12,6 +12,9 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * 2005-07-22
+   * fixed Texttile Bug with accents
+   
  # 1st Release Candidate 2005-06-19
  
   * 2005-06-17
