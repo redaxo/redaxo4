@@ -116,8 +116,6 @@ table.rexFooter tr td {
 /* Allgemeines Tabellen-Layout - START */
 table.rex {
    width: 770px;
-   margin-bottom: 10px;
-   table-layout: fixed;
 }
 
 table.rex tr th {
