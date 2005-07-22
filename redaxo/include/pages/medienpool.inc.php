@@ -1102,7 +1102,7 @@ if($subpage == "")
 		{
 			$icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
 		}
-		$thumbnail = "<img src=$icon_src align=left border=0>";
+		$thumbnail = "<img src=$icon_src width=44 height=38 border=0>";
 		if (in_array($file_type,$imgtypes) && $thumbs)
 		{
 			$thumbnail = "<img src=../files/$file_name width=80 border=0>";
@@ -1145,7 +1145,7 @@ if($subpage == "")
 		if ($PERMALL) echo "<td class=icon><input type=checkbox name=selectedmedia[] value='$file_id'></td>";
 		else echo "<td class=icon>&nbsp;</td>";
 		
-		echo "<td class=grey align=center><a href=$ilink>$thumbnail</a></td>";
+		echo "<td style='background-color:#e6e6e6; text-align:center; vertical-align:middle;'><a href=$ilink>$thumbnail</a></td>";
 		echo "<td valign=top class=grey><b><a href=$ilink>$file_title</a></b><br><br><b>$file_name [$file_size]</b><br>".nl2br(htmlentities($file_description))."<br><br>$file_stamp | $file_updateuser</td>";
 		echo "<td valign=top class=grey>$opener_link</td>";
 		echo "</tr>";
