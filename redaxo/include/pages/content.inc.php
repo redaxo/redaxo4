@@ -119,8 +119,8 @@ if ($article->getRows() == 1)
 						$REX_ACTION[FILE][$i] = $$FILENAME;
 						$LINKLIST = "REX_LINKLIST_$i";
 						$REX_ACTION[LINKLIST][$i] = $$LINKLIST;
-						$FILELIST = "REX_FILELIST_$i";
-						$REX_ACTION[FILELIST][$i] = $$FILELIST;
+						$MEDIALIST = "REX_MEDIALIST_$i";
+						$REX_ACTION[MEDIALIST][$i] = $$MEDIALIST;
 					}
 
 					$REX_ACTION[HTML] = $INPUT_HTML;
@@ -155,7 +155,7 @@ if ($article->getRows() == 1)
 							$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
 							$iaction = str_replace("REX_FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
 							$iaction = str_replace("REX_LINKLIST[$j]",$REX_ACTION[LINKLIST][$j],$iaction);
-							$iaction = str_replace("REX_FILELIST[$j]",$REX_ACTION[FILELIST][$j],$iaction);
+							$iaction = str_replace("REX_MEDIALIST[$j]",$REX_ACTION[MEDIALIST][$j],$iaction);
 						}
 
 						eval("?>".$iaction);
@@ -243,8 +243,8 @@ if ($article->getRows() == 1)
 								// ----- linklist
 								$newsql->setValue("linklist$fi",$REX_ACTION[LINKLIST][$fi]);
 
-								// ----- filelist
-								$newsql->setValue("filelist$fi",$REX_ACTION[FILELIST][$fi]);
+								// ----- medialist
+								$newsql->setValue("filelist$fi",$REX_ACTION[MEDIALIST][$fi]);
 							}
 		
 							$newsql->setValue("updatedate",time());
@@ -304,7 +304,7 @@ if ($article->getRows() == 1)
 								$iaction = str_replace("REX_LINK[$j]",$REX_ACTION[LINK][$j],$iaction);
 								$iaction = str_replace("REX_LINKLIST[$j]",$REX_ACTION[LINKLIST][$j],$iaction);
 								$iaction = str_replace("REX_FILE[$j]",$REX_ACTION[FILE][$j],$iaction);
-								$iaction = str_replace("REX_FILELIST[$j]",$REX_ACTION[FILELIST][$j],$iaction);
+								$iaction = str_replace("REX_MEDIALIST[$j]",$REX_ACTION[MEDIALIST][$j],$iaction);
 							}
 							eval("?>".$iaction);
 							if ($REX_ACTION[MSG]!="") $message .= " | ".$REX_ACTION[MSG];

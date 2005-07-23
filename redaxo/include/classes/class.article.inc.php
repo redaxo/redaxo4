@@ -451,10 +451,35 @@ class article
 		{
 			// ----------------------------- LIST BUTTONS
 			// REX_FILELIST_BUTTON
-			$media = "<input type=text size=30 name=REX_FILELIST_$i value='REX_FILELIST[$i]' class=inpgrey id=REX_FILELIST_$i read2only=read2only>";
-			$media = $this->stripPHP($media);
-			$slice_content = str_replace("REX_FILELIST_BUTTON[$i]",$media,$slice_content);
-			$slice_content = str_replace("REX_FILELIST[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.filelist$i")),$slice_content);
+
+			$medialistvalue = $this->stripPHP($this->convertString($this->CONT->getValue("rex_article_slice.filelist$i")));
+
+			$media = "<table class=rexbutton><tr>";
+			$media .= "<td valign=top><select name=REX_MEDIALIST_SELECT_$i id=REX_MEDIALIST_SELECT_$i size=8 class=inpgrey100>";
+			$medialistarray = explode(",",$medialistvalue);
+			if (is_array($medialistarray))
+			{
+				for($j=0;$j<count($medialistarray);$j++)
+				{
+					$media .= "<option value='".current($medialistarray)."'>".current($medialistarray)."</option>\n";
+					next($medialistarray);
+				}
+			}
+			$media .= "</select></td>";
+			$media .= "<td class=inpicon>".
+			"<a href=javascript:moveREXMedialist($i,'top');><img src=pics/file_top.gif width=16 height=16 vspace=2 title='^^' border=0></a>".
+			"<br><a href=javascript:moveREXMedialist($i,'up');><img src=pics/file_up.gif width=16 height=16 vspace=2 title='^' border=0></a>".
+			"<br><a href=javascript:moveREXMedialist($i,'down');><img src=pics/file_down.gif width=16 height=16 vspace=2 title='v' border=0></a>".
+			"<br><a href=javascript:moveREXMedialist($i,'bottom');><img src=pics/file_bottom.gif width=16 height=16 vspace=2 title='vv' border=0></a></td>";
+			$media .= "<td class=inpicon>".
+			"<a href=javascript:openREXMedialist($i);><img src=pics/file_add.gif width=16 height=16 vspace=2 title='+' border=0></a>".
+			"<br><a href=javascript:deleteREXMedialist($i);><img src=pics/file_del.gif width=16 height=16 vspace=2 title='-' border=0></a></td>";
+			$media .= "</tr>";
+			$media .= "<input type=hidden name=REX_MEDIALIST_$i value='REX_MEDIALIST[$i]' id=REX_MEDIALIST_$i >";
+			$media .= "</table><br><br>";
+			$slice_content = str_replace("REX_MEDIALIST_BUTTON[$i]",$media,$slice_content);
+			$slice_content = str_replace("REX_MEDIALIST[$i]",$medialistvalue,$slice_content);
+
 			// REX_LINKLIST_BUTTON
 			$media = "<input type=text size=30 name=REX_LINKLIST_$i value='REX_LINKLIST[$i]' class=inpgrey id=REX_LINKLIST_$i reado2nly=read2only>";
 			$media = $this->stripPHP($media);
@@ -462,11 +487,11 @@ class article
 			$slice_content = str_replace("REX_LINKLIST[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.linklist$i")),$slice_content);
 				
 			// ----------------------------- REX_MEDIA
-			$media = "<table><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
-			$media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
-			$media.= "<td><a href=javascript:openREXMedia($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
-			$media.= "<td><a href=javascript:deleteREXMedia($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
-			$media.= "<td><a href=javascript:addREXMedia($i,".$this->clang.")><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
+			$media = "<table class=rexbutton><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
+			$media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey100 id=REX_MEDIA_$i readonly=readonly></td>";
+			$media.= "<td class=inpicon><a href=javascript:openREXMedia($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
+			$media.= "<td class=inpicon><a href=javascript:deleteREXMedia($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+			$media.= "<td class=inpicon><a href=javascript:addREXMedia($i,".$this->clang.")><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
 			$media.= "</tr></table>";
 			$media = $this->stripPHP($media);
 
@@ -484,10 +509,10 @@ class article
 			{
 				$link_name = "";
 			}
-			$media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
-			$media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
-			$media.= "<td><a href=javascript:openLinkMap($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
-			$media.= "<td><a href=javascript:deleteREXLink($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+			$media = "<table class=rexbutton><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
+			$media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey100 id=LINK_NAME[$i] readonly=readonly></td>";
+			$media.= "<td class=inpicon><a href=javascript:openLinkMap($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
+			$media.= "<td class=inpicon><a href=javascript:deleteREXLink($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
 			$media.= "</tr></table>";
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
@@ -535,22 +560,44 @@ class article
 		{
 			// ----------------------------- LIST BUTTONS
 			// REX_FILELIST_BUTTON
-			$media = "<input type=text size=30 name=REX_FILELIST_$i value='REX_FILELIST[$i]' class=inpgrey id=REX_FILELIST_$i read2only=reado2nly>";
-			$media = $this->stripPHP($media);
-			$slice_content = str_replace("REX_FILELIST_BUTTON[$i]",$media,$slice_content);
-			$slice_content = str_replace("REX_FILELIST[$i]","",$slice_content);
+			$media = "<table class=rexbutton><tr>";
+			$media .= "<td valign=top><select name=REX_MEDIALIST_SELECT_$i id=REX_MEDIALIST_SELECT_$i size=8 class=inpgrey100>";
+			$medialistarray = explode(",",$REX_ACTION[MEDIALIST][$i]);
+			if (is_array($medialistarray))
+			{
+				for($j=0;$j<count($medialistarray);$j++)
+				{
+					if (current($medialistarray)!="") $media .= "<option value='".current($medialistarray)."'>".current($medialistarray)."</option>\n";
+					next($medialistarray);
+				}
+			}
+			$media .= "</select></td>";
+			$media .= "<td class=inpicon>".
+			"<a href=javascript:moveREXMedialist($i,'top');><img src=pics/file_top.gif width=16 height=16 vspace=2 title='^^' border=0></a>".
+			"<br><a href=javascript:moveREXMedialist($i,'up');><img src=pics/file_up.gif width=16 height=16 vspace=2 title='^' border=0></a>".
+			"<br><a href=javascript:moveREXMedialist($i,'down');><img src=pics/file_down.gif width=16 height=16 vspace=2 title='v' border=0></a>".
+			"<br><a href=javascript:moveREXMedialist($i,'bottom');><img src=pics/file_bottom.gif width=16 height=16 vspace=2 title='vv' border=0></a></td>";
+			$media .= "<td class=inpicon>".
+			"<a href=javascript:openREXMedialist($i);><img src=pics/file_add.gif width=16 height=16 vspace=2 title='+' border=0></a>".
+			"<br><a href=javascript:deleteREXMedialist($i);><img src=pics/file_del.gif width=16 height=16 vspace=2 title='-' border=0></a></td>";
+			$media .= "</tr>";
+			$media .= "<input type=hidden name=REX_MEDIALIST_$i value='REX_MEDIALIST[$i]' id=REX_MEDIALIST_$i >";
+			$media .= "</table><br><br>";
+			$slice_content = str_replace("REX_MEDIALIST_BUTTON[$i]",$media,$slice_content);
+			$slice_content = str_replace("REX_MEDIALIST[$i]",$REX_ACTION[MEDIALIST][$i],$slice_content);
+
 			// REX_LINKLIST_BUTTON
-			$media = "<input type=text size=30 name=REX_LINKLIST_$i value='REX_LINKLIST[$i]' class=inpgrey id=REX_LINKLIST_$i read2only=read2only>";
+			$media = "<input type=text size=30 name=REX_LINKLIST_$i value='REX_LINKLIST[$i]' class=inpgrey id=REX_LINKLIST_$i read2only=readonly>";
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_LINKLIST_BUTTON[$i]",$media,$slice_content);
 			$slice_content = str_replace("REX_LINKLIST[$i]","",$slice_content);
 			
 			// ----------------------------- REX_MEDIA_BUTTON
-			$media = "<table><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
-			$media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey id=REX_MEDIA_$i readonly=readonly></td>";
-			$media.= "<td><a href=javascript:openREXMedia($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
-			$media.= "<td><a href=javascript:deleteREXMedia($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
-			$media.= "<td><a href=javascript:addREXMedia($i,".$this->clang.")><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
+			$media = "<table class=rexbutton><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
+			$media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey100 id=REX_MEDIA_$i readonly=readonly></td>";
+			$media.= "<td class=inpicon><a href=javascript:openREXMedia($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
+			$media.= "<td class=inpicon><a href=javascript:deleteREXMedia($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+			$media.= "<td class=inpicon><a href=javascript:addREXMedia($i,".$this->clang.")><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>";
 			$media.= "</tr></table>";
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
@@ -567,10 +614,10 @@ class article
 				$link_name = $res[0][name];
 			}
 			
-			$media = "<table><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
-			$media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey id=LINK_NAME[$i] readonly=readonly></td>";
-			$media.= "<td><a href=javascript:openLinkMap($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
-			$media.= "<td><a href=javascript:deleteREXLink($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
+			$media = "<table class=rexbutton><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
+			$media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey100 id=LINK_NAME[$i] readonly=readonly></td>";
+			$media.= "<td class=inpicon><a href=javascript:openLinkMap($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
+			$media.= "<td class=inpicon><a href=javascript:deleteREXLink($i,".$this->clang.");><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>";
 			$media.= "</tr></table>";
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);

@@ -53,9 +53,12 @@ a.black		{ color: #000000; }
 .articletitle	{ font-size: 13px; font-weight: bold; line-height: 20px; }
 .contentbg	{ background-color: #faf9f5; } 
 
-.inp100		{ width:100%; }
+.inp100		{ width: 100%; }
 .inpgrey	{ background-color: #f0efeb; }
-.inpgrey100	{ width:100%; background-color: #f0efeb; }
+.inpgrey100	{ width: 100%; background-color: #f0efeb; }
+.inpicon	{ width: 20px; text-align:center;}
+.rexbutton	{ width: 250px; background-color:#ffffff; border:1px solid #999999; padding:2px;}
+
 
 optgroup { font-weight: bold; font-style: normal;}
 

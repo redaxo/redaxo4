@@ -11,7 +11,7 @@
 // KOMMT NOCH
 // - only types einbauen (only .gif/.pdf/.xxx ..)
 // - direkt katjump von modulen aus
-
+// - direktjump bei &action=media_details&file_name=xysd.jpg
 
 
 // *************************************** WENN HTMLAREA ODER INPUT FELD.. SAVE
@@ -55,6 +55,17 @@ function selectMedia(filename)
 {
 	<?php if ($_SESSION["media[opener_input_field]"]!="") echo "opener.document.REX_FORM.".$_SESSION["media[opener_input_field]"].".value = filename;"; ?>
 	self.close();
+}
+
+function addMedialist(filename)
+{
+	<?php 
+		if (substr($_SESSION["media[opener_input_field]"],0,14) == "REX_MEDIALIST_")
+		{
+			$id = substr($_SESSION["media[opener_input_field]"],14,strlen($_SESSION["media[opener_input_field]"]));
+			echo "opener.addREXMedialist($id,filename);";
+		}
+	?>
 }
 
 function insertLink(link){
@@ -439,7 +450,7 @@ if($subpage == "add_file" && $media_method == 'add_file'){
 			$ffiletype = $return[type];
 			$width = $return[width];
 			$height = $return[height];
-
+	
 			if($_SESSION["media[opener_input_field]"] == 'TINY')
 			{
 				if (in_array($ffiletype,$imgtypes))
@@ -453,6 +464,10 @@ if($subpage == "add_file" && $media_method == 'add_file'){
 			}elseif($_SESSION["media[opener_input_field]"] != '')
 			{
 				$js = "selectMedia('".$file_name."');";
+				if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
+				{
+					$js = "addMedialist('".$file_name."');";
+				}
 			}
 					
 			echo "<script language=javascript>\n";
@@ -739,6 +754,10 @@ if ($subpage == "detail")
 		}elseif($_SESSION["media[opener_input_field]"] != '')
 		{
 			$opener_link = "<a href=javascript:selectMedia('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+			if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
+			{
+				$opener_link = "<a href=javascript:addMedialist('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+			}
 		}
 		
 		if ($TPERM)
@@ -1137,6 +1156,10 @@ if($subpage == "")
 		}elseif($_SESSION["media[opener_input_field]"] != '')
 		{
 			$opener_link = "<a href=javascript:selectMedia('".$file_name."');>".$I18N->msg('pool_file_get')."</a>";
+			if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
+			{
+				$opener_link = "<a href=javascript:addMedialist('".$file_name."');>".$I18N->msg('pool_file_get')."</a>";
+			}
 		}
 			
 		$ilink = "index.php?page=medienpool&subpage=detail&file_id=$file_id&rex_file_category=$rex_file_category";

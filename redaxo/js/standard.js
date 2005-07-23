@@ -197,8 +197,177 @@ function deleteREXLink(id)
 {
         var a = new getObj("LINK["+id+"]");
         a.obj.value = "";
-
         a = new getObj("LINK_NAME["+id+"]");
         a.obj.value = "";
+}
 
+function openREXMedialist(id)
+{
+	var medialist = 'REX_MEDIALIST_'+id;
+	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
+	var source = document.getElementById(mediaselect);
+	var sourcelength = source.options.length;
+	var param= "";
+	for (ii = 0; ii < sourcelength; ii++) {
+		if (source.options[ii].selected) {
+			param = '&action=media_details&file_name='+ source.options[ii].value;
+		}
+	}
+	
+    newPoolWindow('index.php?page=medienpool'+ param +'&opener_input_field='+ medialist);
+}
+
+function addREXMedialist(id,file_id)
+{
+	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
+	var source = document.getElementById(mediaselect);
+	var sourcelength = source.options.length;
+	
+	NewOption = new Option(file_id,file_id,true,true);
+	source.options[sourcelength] = NewOption;
+	writeREXMedialist(id);
+}
+
+function deleteREXMedialist(id)
+{
+	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
+	var source = document.getElementById(mediaselect);
+	var sourcelength = source.options.length;
+	var position = "";
+	for (ii = 0; ii < sourcelength; ii++) {
+		if (source.options[ii].selected) {
+			position = ii;
+		}
+	}
+	source.options[position] = null;
+	writeREXMedialist(id);
+}
+
+function moveREXMedialist(id,direction)
+{
+	// move top
+	// move bottom
+	// move up
+	// move down	
+	
+	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
+	var source = document.getElementById(mediaselect);
+	var sourcelength = source.options.length;
+	
+	var elements = new Array();
+	var was_selected = new Array();
+	for (ii = 0; ii < sourcelength; ii++) {
+		elements[ii] = new Array();
+		elements[ii]['value'] = source.options[ii].value; 
+		elements[ii]['title'] = source.options[ii].text; 
+		was_selected[ii] = false;
+	}
+	
+	var inserted = 0;
+	var was_moved = new Array();
+	was_moved[-1] = true;
+	was_moved[sourcelength] = true;
+	
+	if (direction == 'top') {
+		for (ii = 0; ii < sourcelength; ii++) {
+			if (source.options[ii].selected) {
+				elements = moveItem(elements, ii, inserted);
+				was_selected[inserted] = true;
+				inserted++;
+			}
+		}
+	}
+	
+	if (direction == 'up') {
+		for (ii = 0; ii < sourcelength; ii++) {
+			was_moved[ii] = false;
+			if (source.options[ii].selected) {
+				to = ii-1;
+				if (was_moved[to]) {
+					to = ii;
+				}
+				elements = moveItem(elements, ii, to);
+				was_selected[to] = true;
+				was_moved[to] = true;
+			}
+		}
+	}
+	
+	if (direction == 'down') {
+		for (ii = sourcelength-1; ii >= 0; ii--) {
+			was_moved[ii] = false;
+			if (source.options[ii].selected) {
+				to = ii+1;
+				if (was_moved[to]) {
+					to = ii;
+				}
+				elements = moveItem(elements, ii, to);
+				was_selected[to] = true;
+				was_moved[to] = true;
+			}
+		}
+	}
+	
+	if (direction == 'bottom') {
+		inserted = 0;
+		for (ii = sourcelength-1; ii >= 0; ii--) {
+			if (source.options[ii].selected) {
+				to = sourcelength - inserted-1;
+				if (to > sourcelength) {
+					to = sourcelength;
+				}
+				elements = moveItem(elements, ii, to);
+				was_selected[to] = true;
+				inserted++;
+			}
+		}
+	}
+	
+	for (ii = 0; ii < sourcelength; ii++) {
+		source.options[ii] = new Option(elements[ii]['title'], elements[ii]['value']);
+		source.options[ii].selected = was_selected[ii];
+	}
+
+	writeREXMedialist(id);
+
+}
+
+function writeREXMedialist(id)
+{
+	var medialist = 'REX_MEDIALIST_'+id;
+	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
+	
+	var source = document.getElementById(mediaselect);
+	var sourcelength = source.options.length;
+
+	var target = document.getElementById(medialist);
+
+	target.value = "";
+	for (i=0; i < sourcelength; i++) {
+		target.value += (source[i].value);
+		if (sourcelength > (i+1))  target.value += ',';
+	}
+
+}
+
+function moveItem(arr, from, to)
+{
+	if (from == to || to < 0)
+	{
+		return arr;
+	}
+	
+	tmp = arr[from];
+	if (from > to)
+	{
+		for (index = from; index > to; index--) {
+			arr[index] = arr[index-1];
+		}
+	} else {
+		for (index = from; index < to; index++) {
+			arr[index] = arr[index+1];
+		}
+	}
+	arr[to] = tmp;
+	return arr;
 }
