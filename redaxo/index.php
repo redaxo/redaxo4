@@ -20,6 +20,7 @@ if ($REX[SETUP])
 	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
 	$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
 	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+	header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 	
 	$page_name = $I18N->msg("setup");
 	$page = "setup";
@@ -39,6 +40,7 @@ if ($REX[SETUP])
 	if (!$REX_LOGIN->checkLogin())
 	{
 		header("Location: login.php?"."&FORM[loginmessage]=".urlencode($REX_LOGIN->message));
+		header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 		$LOGIN = FALSE;
 		exit;
 	}else
@@ -55,6 +57,7 @@ if ($REX[SETUP])
 	$I18N = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/lang/");
 	$REX[LOCALES] = i18n::getLocales($REX[INCLUDE_PATH]."/lang/");
 	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+	header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 
 	
 	$dl = false;
