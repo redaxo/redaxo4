@@ -61,17 +61,17 @@ category_doesnt_exist  =  No such category!
 cant_delete_startarticle = You must not delete the start article.
 
 # redaxo\include\pages\community.inc.php
-overview  =  Overview
+overview = Overview
 user_management = User management
-user_management_info = Hier können die Userdaten (Profil mit Bild) ver&auml;ndert werden. Weiterhin k&ouml;nnen hier die Userkommentare die Usermails und das Passwort abge&auml;ndert werden.
+user_management_info = Personal data (user profile with picture) can be changed here. This includes your comments, mails and password.
 board_management = Board management
-board_management_info = Forumeintr&auml;ge können hier gel&ouml;scht werden
+board_management_info = Entries into the topic board can be deleted here.
 article_management = Article comments management
-article_management_info = Jeder Artikel kann mit Kommentaren von Usern versehen werden. Diese sind erstmal nicht zu sehen k&ouml;nnen aber freigeschaltet werden. Alte Kommentare k&ouml;nnen auch gel&ouml;scht werden.
+article_management_info = Each article can be commented by the users. These comments are not to see right away, but can be unlocked. Old comments can be delted here also.
 newsletter = Newsletter
-newsletter_info = Hier kann der Newsletter verschickt werden.
+newsletter_info = Newsletter can be send here.
 evaluation = Evaluation
-evaluation_info = Hier werden vorhandene Themen und Antworten sowie weitere Informationen ausgewertet und den Usern zugewiesen.
+evaluation_info = Here themes, answers and other information is evaluated and allocated to users.
 
 # redaxo\include\pages\content.inc.php
 block_updated = Block updated!
