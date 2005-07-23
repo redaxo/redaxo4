@@ -31,14 +31,14 @@ a.blue		{ color: #666699;  }
 a.white		{ color: #ffffff; }
 
 a.red		{ color: #ff9999; }
-a.red12b	{ color: #EA1144; font-size: 12px; }
+a.red12b	{ color: #EA1144; font-size: 12px; font-weight:bold; }
 .red		{ color: #EA1144; line-height: 18px; }
 .red:link	{ color: #EA1144; line-height: 18px; }
 .red:visited	{ color: #EA1144; line-height: 18px; }
 .red:hover	{ color: #EA1144; line-height: 18px; }
 
 a.green		{ color: #478c44; }
-a.green12b	{ color: #478c44; font-size: 12px;  }
+a.green12b	{ color: #478c44; font-size: 12px; font-weight:bold; }
 th.greenwhite	{ color: #32353a; background-color: #d7d6d3; }
 th.greenblack	{ color: #32353a; background-color: #d7d6d3; }
 

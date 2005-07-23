@@ -23,12 +23,19 @@ if (!ini_get('register_globals'))
 if (!get_magic_quotes_gpc()) include $REX[INCLUDE_PATH]."/functions/function_rex_mquotes.inc.php";
 
 // ----------------- REX PERMS
+
+// ----- allgemein
 $REX[PERM][] = "addon[]";
 $REX[PERM][] = "specials[]";
 $REX[PERM][] = "mediapool[]";
 $REX[PERM][] = "module[]";
 $REX[PERM][] = "template[]";
 $REX[PERM][] = "user[]";
+
+// ----- optionen
+$REX[EXTPERM][] = "advancedMode[]";
+$REX[EXTPERM][] = "caching[]";
+$REX[EXTPERM][] = "moveslice[]";
 
 // ----------------- REDAXO INCLUDES
 include_once $REX[INCLUDE_PATH]."/classes/class.i18n.inc.php";
