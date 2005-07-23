@@ -1,11 +1,8 @@
 <?
-
 /*
-
-	- alles vereinfachen
-	- wenn in action $REX_ACTION[SAVE] = false -> dann wird nicht erstellt
-		-> werte übernehmen fehlt noch
-		
+// TODOS:
+// - alles vereinfachen
+// - <? ?> $ Problematik bei REX_ACTION
 */
 
 unset($REX_ACTION);
@@ -333,6 +330,104 @@ if ($article->getRows() == 1)
 		}
 		// ------------------------------------------ END: Slice add/edit/delete
 
+
+		// ------------------------------------------ START: Slice move up/down
+		if ($function == "moveup" || $function == "movedown")
+		{
+			if ($REX_USER->isValueOf("rights","moveslice[]"))
+			{
+				// modul und rechte vorhanden ?
+				
+				$CM = new sql;
+				$CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
+				if ($CM->getRows()!=1)
+				{
+					// ------------- START: MODUL IST NICHT VORHANDEN
+					$message = $I18N->msg('module_not_found');
+					$slice_id = "";
+					$function = "";
+					$module_id = "";
+					$save = "";
+					// ------------- END: MODUL IST NICHT VORHANDEN
+
+				}else
+				{
+
+					// ------------- MODUL IST VORHANDEN
+					$module_id = $CM->getValue("rex_article_slice.modultyp_id");
+
+					// ----- RECHTE AM MODUL ?
+					if ( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]") || $REX_USER->isValueOf("rights","module[$module_id]") || $REX_USER->isValueOf("rights","module[0]") )
+					{
+						// rechte sind vorhanden
+						// ctype beachten
+						// verschieben / vertauschen
+						// article regenerieren.
+						
+						$slice_id = $CM->getValue("rex_article_slice.id");
+						$slice_article_id = $CM->getValue("article_id");
+						$re_slice_id = $CM->getValue("rex_article_slice.re_article_slice_id");
+						$slice_ctype = $CM->getValue("rex_article_slice.ctype");
+
+						$gs = new sql;
+						// $gs->debugsql = 1;
+						$gs->setQuery("select * from rex_article_slice where article_id='$slice_article_id'");
+						for ($i=0;$i<$gs->getRows();$i++)
+						{
+							$SID[$gs->getValue("re_article_slice_id")] = $gs->getValue("id");
+							$SREID[$gs->getValue("id")] = $gs->getValue("re_article_slice_id");
+							$SCTYPE[$gs->getValue("id")] = $gs->getValue("ctype");
+							$gs->next();	
+						}
+
+
+						$message = $I18N->msg('slice_moved_error');
+						// ------ moveup
+						if ($function == "moveup")
+						{
+							if ($SREID[$slice_id] > 0)
+							{
+								if ($SCTYPE[$SREID[$slice_id]] == $slice_ctype)	
+								{
+									$gs->query("update rex_article_slice set re_article_slice_id='".$SREID[$SREID[$slice_id]]."' where id='".$slice_id."'");
+									$gs->query("update rex_article_slice set re_article_slice_id='".$slice_id."' where id='".$SREID[$slice_id]."'");
+									if ($SID[$slice_id]>0) $gs->query("update rex_article_slice set re_article_slice_id='".$SREID[$slice_id]."' where id='".$SID[$slice_id]."'");
+									$message = $I18N->msg('slice_moved');
+									rex_generateArticle($slice_article_id);
+								}
+							}
+						}
+
+						// ------ movedown
+						if ($function == "movedown")
+						{
+							if ($SID[$slice_id] > 0)
+							{
+								if ($SCTYPE[$SID[$slice_id]] == $slice_ctype)	
+								{
+									$gs->query("update rex_article_slice set re_article_slice_id='".$SREID[$slice_id]."' where id='".$SID[$slice_id]."'");
+									$gs->query("update rex_article_slice set re_article_slice_id='".$SID[$slice_id]."' where id='".$slice_id."'");
+									if ($SID[$SID[$slice_id]]>0) $gs->query("update rex_article_slice set re_article_slice_id='".$slice_id."' where id='".$SID[$SID[$slice_id]]."'");
+									$message = $I18N->msg('slice_moved');
+									rex_generateArticle($slice_article_id);
+								}
+							}
+						}
+				
+					}else
+					{
+						$message = $I18N->msg('no_rights_to_this_function');
+					}
+				}	
+				
+			}else
+			{
+				$message = $I18N->msg('no_rights_to_this_function');
+			}
+			
+			
+		}
+		// ------------------------------------------ END: Slice move up/down
 
 
 		// ------------------------------------------ START: CONTENT HEAD MENUE

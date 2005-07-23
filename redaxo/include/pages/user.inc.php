@@ -50,11 +50,6 @@ for($i=0;$i<count($REX[PERM]);$i++)
 	next($REX[PERM]);
 }
 
-// optionen
-$REX[EXTPERM][] = "advancedMode[]";
-$REX[EXTPERM][] = "caching[]";
-$REX[EXTPERM][] = "module[php]";
-$REX[EXTPERM][] = "module[html]";
 $sel_ext = new select;
 $sel_ext->multiple(1);
 $sel_ext->set_style("width:250px; height: 130px;");
