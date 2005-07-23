@@ -99,6 +99,8 @@ copy_article = Artikel kopieren
 no_rights_to_edit = Sie haben keine Editiererlaubnis !
 show = Anzeigen
 cache_remove = Cache löschen
+slice_moved = Block wurde verschoben
+slice_moved_error = Block konnte nicht verschoben werden
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Artikeln genutzt wird:

@@ -99,6 +99,8 @@ copy_article = Copy Article
 no_rights_to_edit = You have no rights to edit this Article!
 show = Show
 cache_remove = Clear cache
+slice_moved = slice has been moved
+slice_moved_error = slice could not be moved
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:

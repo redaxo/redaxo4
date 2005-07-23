@@ -260,9 +260,13 @@ class article
 								<table width=100% cellspacing=0 cellpadding=5 border=0>
 								<tr>
 								<td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
-								<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b><b>".$I18N->msg('edit')."</b></a></td>
-								<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."&save=1#slice$RE_CONTS[$I_ID] class=red12b onclick='return confirm(\"".$I18N->msg('delete')." ?\")'><b>".$I18N->msg('delete')."</b></a></td>
-								</tr></table>";
+								<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b>".$I18N->msg('edit')."</a></td>
+								<td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."&save=1#slice$RE_CONTS[$I_ID] class=red12b onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg('delete')."</a></td>";
+							if ($REX_USER->isValueOf("rights","moveslice[]"))
+							{
+								$mne  .= "<td class=llblue><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=moveup&clang=".$this->clang."&ctype=".$this->ctype." class=green12b><img src=pics/file_up.gif width=16 height=16 border=0 hspace=5></a><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=movedown&clang=".$this->clang."&ctype=".$this->ctype." class=green12b><img src=pics/file_down.gif width=16 height=16 border=0></a></td>";
+							}
+							$mne .= "</tr></table>";
 							
 							$slice_content .= $mne.$tbl_head;
 							if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
@@ -283,7 +287,7 @@ class article
 							$mne = "
 								<table width=100% cellspacing=0 cellpadding=5 border=0>
 								<tr>
-								<td class=blue> MODUL: <b>$RE_MODUL_NAME[$I_ID]</b> | <b>".$I18N->msg('no_editing_rights')."</b></td>
+								<td class=blue><b>$RE_MODUL_NAME[$I_ID]</b> | <b>".$I18N->msg('no_editing_rights')."</b></td>
 								</tr>
 								</table>";
 							$slice_content .= $mne.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
