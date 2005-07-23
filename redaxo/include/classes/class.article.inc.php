@@ -461,7 +461,7 @@ class article
 			{
 				for($j=0;$j<count($medialistarray);$j++)
 				{
-					$media .= "<option value='".current($medialistarray)."'>".current($medialistarray)."</option>\n";
+					if (current($medialistarray)!="") $media .= "<option value='".current($medialistarray)."'>".current($medialistarray)."</option>\n";
 					next($medialistarray);
 				}
 			}
