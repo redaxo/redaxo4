@@ -330,7 +330,7 @@ if ($function == "add_cat" && $KATPERM)
 			<input type=hidden name=category_id value=$category_id>
 			<input type=hidden name=function value='add_category'>
 			<input type=hidden name=clang value='$clang'>
-			<td class=dgrey align=center><img src=pics/folder.gif width=16 height=16></td>";
+			<td class=icon><img src=pics/folder.gif width=16 height=16></td>";
 	if ($REX_USER->isValueOf("rights","advancedMode[]")) $echo .= "<td class=dgrey align=center>-</td>";
 	$echo .= "
 			<td><input type=text size=30 name=category_name></td>
@@ -373,7 +373,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 			// --------------------- KATEGORIE EDIT FORM
 			$echo .= "<tr>
 				<form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang>
-				<td align=center><a href=$kat_link><img src=pics/folder.gif width=16 height=16 border=0></a></td>";
+				<td class=icon><a href=$kat_link><img src=pics/folder.gif width=16 height=16 border=0></a></td>";
 			if ($REX_USER->isValueOf("rights","advancedMode[]")) $echo .= "<td class=grey align=center>$i_category_id</td>";
 			$echo .= "
 				<td><input type=text size=30 name=kat_name value=\"".htmlentities($KAT->getValue("catname"))."\"></td>
@@ -384,7 +384,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 		{
 			// --------------------- KATEGORIE WITH WRITE
 			$echo .= "<tr>
-					<td align=center><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
+					<td class=icon><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
 			if ($REX_USER->isValueOf("rights","advancedMode[]")) $echo .= "<td class=grey align=center>$i_category_id</td>";
 			$echo .= "
 					<td><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td>
@@ -399,7 +399,7 @@ for($i=0;$i<$KAT->getRows();$i++)
 		// --------------------- KATEGORIE WITH READ
 		$kat_link = "index.php?page=structure&category_id=$i_category_id&clang=$clang";
 		$echo .= "<tr>
-			<td align=center><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
+			<td class=icon><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
 		if ($REX_USER->isValueOf("rights","advancedMode[]")) $echo .= "<td class=grey align=center>$i_category_id</td>";
 		$echo .= "
 			<td><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td>
@@ -484,7 +484,7 @@ if($category_id > -1)
 				<input type=hidden name=category_id value=$category_id>
 				<input type=hidden name=clang value=$clang>
 				<input type=hidden name=function value='add_article'>
-				<td class=grey align=center><img src=pics/document.gif width=16 height=16 border=0></td>";
+				<td class=icon><img src=pics/document.gif width=16 height=16 border=0></td>";
 		if ($REX_USER->isValueOf("rights","advancedMode[]")) echo "<td class=grey>&nbsp;</td>";
 		echo "				
 				<td><input type=text name=article_name size=20></td>
@@ -537,7 +537,7 @@ if($category_id > -1)
 				<input type=hidden name=function value='edit_article'>
 				<input type=hidden name=aid value=".$sql->getValue("id").">
 				<input type=hidden name=clang value=$clang>
-				<td class=grey align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>";
+				<td class=icon><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>";
 			if ($REX_USER->isValueOf("rights","advancedMode[]")) echo "<td class=grey>".$sql->getValue("id")."</td>";
 			echo "
 				<td><input type=text name=article_name value=\"".htmlentities($sql->getValue("name"))."\" size=20 style='width:100%'></td>
@@ -557,10 +557,11 @@ if($category_id > -1)
 			// --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
 			echo "	<tr>
-				<td align=center><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>";
+				<td class=icon><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>";
 			if ($REX_USER->isValueOf("rights","advancedMode[]")) echo "<td class=grey align=center>".$sql->getValue("id")."</td>";
 			echo "
-				<td><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a></td><td class=grey align=center width=10 valign=middle>".htmlentities($sql->getValue("prior"))."</td>
+				<td><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a></td>
+				<td class=grey align=center width=10 valign=middle>".htmlentities($sql->getValue("prior"))."</td>
 				<td>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
 				<td>".strftime($I18N->msg("adateformat"),$sql->getValue("createdate"))."&nbsp;</td>
 				<td><b>$startpage</b></td>
@@ -585,7 +586,7 @@ if($category_id > -1)
 			// --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 			
 			echo "	<tr>
-				<td align=center><img src=pics/$icon width=16 height=16 border=0 align=middle></td>";
+				<td class=icon><img src=pics/$icon width=16 height=16 border=0></td>";
 			if ($REX_USER->isValueOf("rights","advancedMode[]")) echo "<td>".$sql->getValue("id")."</td>";
 			echo "
 				<td>".htmlentities($sql->getValue("name"))."</td>

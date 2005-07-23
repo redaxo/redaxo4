@@ -746,7 +746,7 @@ if ($SHOW)
         }
         
 		echo "	<tr>
-			<td align=center><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
+			<td class=icon><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
 			<td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlentities($sql->getValue("rex_user.name"))."</a></td>
 			<td>".$sql->getValue("rex_user.login")."</td>
 			<td>".$last_login."</td>

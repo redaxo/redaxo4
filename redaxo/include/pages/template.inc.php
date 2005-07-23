@@ -132,8 +132,8 @@ if ($OUT)
 	// ausgabe templateliste !
 	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
-			<th width=30><a href=index.php?page=template&function=add><img src=pics/template_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_template")."\" title=\"".$I18N->msg("create_template")."\"></a></th>
-			<th align=center width=30>ID</th>
+			<th class=icon><a href=index.php?page=template&function=add><img src=pics/template_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_template")."\" title=\"".$I18N->msg("create_template")."\"></a></th>
+			<th class=icon>ID</th>
 			<th width=300>".$I18N->msg("header_template_description")."</th>
 			<th width=50>".$I18N->msg("header_template_active")."</th>
 			<th >".$I18N->msg("header_template_functions")."</th>
@@ -151,8 +151,8 @@ if ($OUT)
 	for($i=0;$i<$sql->getRows();$i++)
 	{
 		echo "	<tr>
-				<td align=center><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit><img src=pics/template.gif width=16 height=16 border=0></a></td>
-				<td align=center>".$sql->getValue("id")."</td>
+				<td class=icon><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit><img src=pics/template.gif width=16 height=16 border=0></a></td>
+				<td class=icon>".$sql->getValue("id")."</td>
 				<td><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
 		
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";

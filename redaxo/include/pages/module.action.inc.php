@@ -159,8 +159,8 @@ if ($OUT)
 	// ausgabe actionsliste !
 	echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
 		<tr>
-			<th width=30><a href=index.php?page=module&subpage=actions&function=add><img src=pics/modul_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("action_create")."\" title=\"".$I18N->msg("action_create")."\"></a></th>
-			<th width=30 style=text-align:center>ID</th>
+			<th class=icon><a href=index.php?page=module&subpage=actions&function=add><img src=pics/modul_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("action_create")."\" title=\"".$I18N->msg("action_create")."\"></a></th>
+			<th class=icon>ID</th>
 			<th width=200>".$I18N->msg("action_name")."</th>
 			<th>".$I18N->msg("action_add")."</th>
 			<th>".$I18N->msg("action_edit")."</th>
@@ -181,8 +181,8 @@ if ($OUT)
 	for($i=0;$i<$sql->getRows();$i++){
 	
 		echo "	<tr bgcolor=#eeeeee>
-				<td align=center><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
-				<td align=center>".$sql->getValue("id")."</td>
+				<td class=icon><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
+				<td class=icon>".$sql->getValue("id")."</td>
 				<td ><a href=index.php?page=module&subpage=actions&action_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a> "." [".$PREPOST[$sql->getValue("prepost")]."]</td>
 				<td>";
 		if ($sql->getValue("sadd")==1) echo "X";
