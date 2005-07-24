@@ -9,7 +9,7 @@ dateformat = %a %d. %B %Y
 setlocale = pl_PL
 adateformat = %d. %b. %Y
 datetimeformat = %d. %b. %Y - %H:%M
-ctrl =
+ctrl =  Wci¶nij Ctrl je¶li chcesz zaznaczyæ wiêcej ni¿ jedn± pozycjê
 
 # redaxo/index.php
 start_article_not_selected = Nie wybrano artyku³u startowego
@@ -65,19 +65,6 @@ category_deleted  =  Kategoria zosta³a usuniêta
 category_doesnt_exist  =  Nie ma takiej kategorii !
 cant_delete_startarticle = Nie mo¿na usun±æ artyku³u startowego.
 
-# redaxo\include\pages\community.inc.php
-overview  =  Przegl±d
-user_management = Zarz±dzanie u¿ytkownikami
-user_management_info = Tu mo¿na zmieniæ dane u¿ytkownika (Profil ze zdjêciem), zmieniæ komentarze u¿ytkowników, ich maile oraz has³a.
-board_management = Zarz±dzanie forum
-board_management_info = Tu mo¿na usun±æ wpisy z forum
-article_management = Zarz±dzanie komentarzami artyku³ów
-article_management_info = Ka¿dy artyku³ mo¿e byæ skomentowany przez u¿ytkowników. Komentarze s± na pocz±tku niewidoczne ale w tym miejscu mo¿na je w³±czyæ. Mo¿na równie¿ usun±æ ka¿dy z nich.
-newsletter = Nowinki
-newsletter_info = St±d mo¿na wysy³aæ nowinki
-evaluation = Sprawdzanie
-evaluation_info = Tutaj sprawdza siê tematy i odpowiedzi oraz przydzia³y dla poszczególnych u¿ytkowników.
-
 # redaxo\include\pages\content.inc.php
 block_updated = Blok zosta³ zaktualizowany !
 block_added = Blok zosta³ dodany
@@ -111,6 +98,9 @@ move_article = Przesuñ artyku³
 copy_article = Skopiuj artyku³
 no_rights_to_edit = Nie posiadasz uprawnieñ do edycji !
 show = Poka¿
+cache_remove = Usuñ cache
+slice_moved = Blok zosta³ przsuniêty
+slice_moved_error = Nie mo¿na by³o przesun±æ bloku
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Nie mo¿na usun±æ modu³u '{0}', poniewa¿ jest u¿ywany przez nastêpuj±cy artyku³:
@@ -123,8 +113,8 @@ input = Wej¶cie
 output = Wyj¶cie
 module_name = Nazwa
 accessible = Dostêpny
-allowed_for_php = Dozwolony dla programistów PHP | Prawa dla: modu³y[php]
-allowed_for_html = Dozwolony dla programistów HTML | Prawa dla: modu³y[html]
+allowed_for_php = Dozwolony dla programistów PHP | Uprawnienia: modu³y[php]
+allowed_for_html = Dozwolony dla programistów HTML | Uprawnienia: modu³y[html]
 save_module_and_quit = Zapisz modu³
 save_module_and_continue = Zatwierd¼ zmiany
 module_description = Nazwa modu³u
@@ -154,7 +144,7 @@ user_added = U¿ytkownik zosta³ dodany!
 user_login_exists = Taki login ju¿ istnieje !
 login = Login
 name = U¿ytkownik
-permissions = Prawa
+permissions = Uprawnienia
 add = dodaj
 update = aktualizuj
 
@@ -181,7 +171,7 @@ delete_category = Usuñ
 save_category = Zatwierd¼
 status_online = opublikowano
 status_offline = nie opublikowano
-no_permission_to_edit = Brak praw do edycji
+no_permission_to_edit = Brak uprawnieñ do edycji
 option_no_template = Brak szablonu
 template_default_name = Standardowy szablon
 header_article_name = Tytu³ artyku³u
@@ -225,6 +215,20 @@ create_user = Zak³adanie konta
 add_user = Dodawanie u¿ytkownika
 edit_user = Edycja konta u¿ytkownika
 
+user_admin = Administrator (wszystkie kategorie/modu³y/pliki medialne/u¿ytkownicy)
+user_developer = Programista (szablony/edycja modu³ów/dodatków))
+user_notdeleteself = ***** nie mo¿esz usun±æ siebie samego!
+user_lang_xs = Dostêpne jêzyki
+user_all = Ogólnie
+user_options = Opcje
+all_categories = Wszystkie kategorie
+all_mediafolder = Wszystkie foldery
+categories = Kategorie
+mediafolder = Foldery
+modules = Modu³y
+extras = Elementy dodatkowe
+last_login = Ostatnio zalogowany
+
 # redaxo\include\pages\special.inc.php
 articles_generated = Artyku³y oraz Szablony zosta³y wygenerowane na nowo. Cache zosta³a wyczyszczona!
 old_articles_deleted = [Stare artyku³y oraz szablony zosta³y usuniête]
@@ -234,8 +238,8 @@ info_updated = Informacje zosta³y uaktualnione!
 specials_title = Funkcje specjalne
 special_features = Wybór funkcji
 regenerate_article = Regeneracja Artyku³ów i Cache
-regeneration_message = Kategorie, artyku³y i szablony zostan± wygenerowane na nowo cache zostanie wyczyszczony. Mo¿e to trochê potrwaæ. Proszê nie przerywaæ tego procesu.
-check_links_text = Je¶li chcesz sprawdziæ czy wszystkie odno¶niki [REX_LINK] dzia³aj± poprawnie, kliknij tutaj.
+regeneration_message = Kategorie, artyku³y oraz szablony zostan± wygenerowane na nowo a cache zostanie wyczyszczony. Mo¿e to trochê potrwaæ. Proszê nie przerywaæ tego procesu.
+check_links_text = U¿yj tej funkcji by sprawdziæ czy wszystkie odno¶niki [REX_LINK] dzia³aj± poprawnie.
 link_checker = Sprawdzanie odno¶ników
 general_info_header = Informacje ogólne:
 db1_can_only_be_changed_by_setup = Bazê danych[1] Mo¿na zmieniæ tylko podczas ponownej instalacji.
@@ -250,106 +254,100 @@ article_type_added = Dodano nowy typ artyku³u!
 article_type_list_id = ID
 article_type_list_name = Typ artyku³u
 article_type_list_description = Opis
-
 update_button = Zatwierd¼ zmiany
 delete_button = Usuñ
+main_preferences = Preferencje
+languages = Jêzyki
+types = Rodzaje
+clang_created = Stworzono nowy plik jêzykowy.
+id_exists = Taki ID ju¿ istnieje.
+enter_name = Proszê wpisaæ nazwê.
+clang_edited = Plik jêzykowy zosta³ zapisany
+clang_deleted = Plik jêzykowy zosta³ usuniêty
+clang_desc = Opis/Nazwa
 
 # redaxo\include\pages\medienpool.inc.php
 pool_name = Biblioteka mediów
-pool_error = B³±d
-pool_status = Stan:
-pool_no_permission = Brak uprawnieñ
-
+pool_kats = Kategorie
+pool_kats_no = Brak kategorii
+pool_search = wyszukiwanie
+pool_media = Biblioteka mediów
 pool_file_list = Pliki
-pool_file_upload = Dodaj plik
-pool_file_search = Wyszukiwanie
-
-pool_add_category = Tworzenie kategorii
-
-pool_default_cat = Kategoria startowa
-
-pool_cat_action = edytuj/usuñ
-pool_subcats = Kategorie podrzêdne
-pool_files = Pliki
-
-pool_headline_mediadetails = Informacje
-pool_headline_mediaextras = Funkcje specjalne
-pool_headline_mediaupload = Plik
-pool_headline_mediaarchiveupload = Archiwum mediów
-
-pool_colhead_category = Kategoria
-pool_colhead_title = Tytu³
-pool_colhead_details = Szczegó³y
-pool_colhead_edit = Edycja kategorii
-pool_colhead_preview = Podgl±d
-pool_colhead_filedetails = Informacje o pliku
-pool_colhead_description = Opis
-pool_colhead_copyright = Prawa autorskie
-pool_colhead_functions = Funkcje
-pool_colhead_filename = Nazwa pliku
-pool_colhead_newfile = Podmiana pliku
-pool_colhead_width = Szeroko¶æ
-pool_colhead_height = Wysoko¶æ
-pool_colhead_updated = Zmieniono
-pool_colhead_created = Stworzono
-pool_colhead_type = Typ
-
-pool_media_title = Tytu³
-pool_media_detail_title = Podgl±d szczegó³owy
-pool_media_category = Kategoria
-pool_media_description = Opis
-pool_media_copyright = Prawa autorskie
-pool_media_location = Plik na dysku
-pool_media_apply = Zatwierd¼ zmiany
-pool_media_replace = Nadpisz plik
-pool_media_changed = Plik "{0}" zosta³ nadpisany!
-pool_media_delete = Usuñ plik
-pool_media_deleted = Plik "{0}" zosta³ usuniêty!
-pool_media_not_deleted = Nie mo¿na by³o skasowaæ pliku, poniewa¿ jest u¿ywany w jakim¶ artykule
-pool_media_insert = Wstaw
-
-pool_category_created = Kategoria "{0}" zosta³a stworzona!
-pool_category_deleted = Kategoria "{0}" zosta³a usuniêta!
-pool_category_not_deleted_childs = Nie mo¿na by³o usun±æ kategorii "{0}", poniewa¿ zawiera jeszcze kategorie podrzêdne!
-pool_category_not_deleted_files = Nie mo¿na by³o usun±æ kategorii "{0}", poniewa¿ zawiera jeszcze pliki!
-
-pool_upload_file = za³aduj plik
-pool_upload_archive = za³aduj archiwum
-pool_upload_button = Wczytaj
-
-pool_valid_archives = Obs³ugiwane formaty
-pool_media_uploaded = Plik zosta³ wczytany!
-pool_archive_uploaded = Archiwum zosta³o wczytane!
-
-pool_error_miss_file = Nie wskazano ¿adnego pliku!
-pool_error_miss_file_ext = B³êdna koñcówka pliku "{0}" !
-pool_error_move_failed = Nie mo¿na by³o przenie¶æ pliku "{0}" !
-pool_error_miss_param = B³êdne parametry "{0}"!
-pool_error_categoryname_exists = Kategoria o takiej nazwie ju¿ istnieje!
-pool_error_external = Wyst±pi³ nastêpuj±cy b³±d "{0}"!
+pool_file_insert = Dodaj plik
+pool_cat_list = Zarz±dzanie kategoriami
+pool_file_not_found = Nie znaleziono takiego pliku
+pool_file_upload_error = Wyst±pi³ b³±d w czasie uploadu
+pool_file_upload_errortype = Nie mo¿na podmieniæ pliku, poniewa¿ wczytywany plik jest innego typu
+pool_file_title = Tytu³
+pool_category = Kategoria
+pool_description = Opis
+pool_copyright = Prawa autorskie
+pool_file_upload = Wczytaj
+pool_file_upload_get = Wczytaj i zatwierd¼
+pool_upload_get = Zapisz i zatwierd¼
+pool_kat_saved = Kategoria "{0}" zosta³a za³o¿ona
+pool_kat_updated = Kategoria "{0}" zosta³a zaktualizowana
+pool_kat_deleted = Kategoria zosta³a usuniêta 
+pool_kat_not_deleted = Nie mo¿na by³o usun±æ kategorii, poniewa¿ zawiera jeszcze pliki!
+pool_kat_name = Nazwa
+pool_kat_function = Funkcja
+pool_kat_add = Stwórz
+pool_kat_update = Zatwierd¼
+pool_kat_edit = Edytuj
+pool_kat_delete = Usuñ
+pool_kat_hide= Miniaturka
+pool_file_detail = Pliki: widok szczegó³owy
+pool_file_is_resized = Rozmiar zosta³ zmieniony
+pool_filename = Nazwa pliku
+pool_file_exchange = Podmiana pliku
+pool_file_update = Aktualizacja
+pool_file_delete = Usuñ
+pool_file_thumbnail = Miniaturka
+pool_file_info = Informacja o pliku
+pool_file_description = Opis
+pool_file_functions = Funkcje
+pool_file_noshow = Brak podgl±du
+pool_file_notitle = Nie wpisano tytu³u
+pool_file_nodescription = Nie wpisano opisu
+pool_img_width = Szeroko¶æ
+pool_img_height = Wysoko¶æ
+pool_file_ins = Wstaw
+pool_file_deleted = Plik zosta³ usuniêty
+pool_file_delete_error_1 = Nie mo¿na usun±æ pliku "{0}"
+pool_file_delete_error_2 = Jest aktualnie u¿ywany w nastêpuj±cym artykule
+pool_import_list = Import plików
+pool_import_help = Folder ¼ród³owy dla plików medialnych (w  folderze Files)
+pool_import_target_info = Wybór kategorii docelowej
+pool_selectedmedia = Wybrane pliki:
+pool_delete_selectedmedia = usuñ
+pool_changecat_selectedmedia = przenie¶ do kategorii
+pool_selectedmedia_error = Nie wybrano ¿adnych plików
+pool_selectedmedia_moved = Zaznaczone pliki zosta³y przeniesione
+pool_select_all = Wszystkie
+pool_nomediafound = Nie znaleziono ¿adnych plików w tej kategorii
+pool_image_get = Wstaw grafikê
+pool_link_get = Wstaw odno¶nik
+pool_file_get = Zatwierd¼
+pool_last_update = Ostatnia aktualizacja
+pool_created = Stworzono
 
 # redaxo/include/pages
 setup = Instalacja
 setup_text = Mo¿esz ponownie wystartowaæ procedurê instalacyjn±. Nie powinno siê tego normalnie robiæ, chyba ¿e co¶ powa¿nego stanie siê z systemem.
-
 setup_error1 = Aktywacja instalacji. Proszê klikn±æ na ><a href=index.php>dalej</a>< i wykonaæ instalacjê ponownie.
 setup_error2 = Nie uda³o siê zapisaæ pliku master.inc.php. Proszê ustawiæ w \"\$REX[SETUP] = true;\"
-
 setup_005 = <b>Witamy w procedurze instalacyjnej REDAXO.</b><br><br>Co dalej:<br><br>- Pliki zostan± sprawdzone<br>- Zostanie sprawdzony dostêp do bazy danych i wpisany do pliku master.inc.php<br>- Zostanie utworzona baza danych (na nowo).<br>- Zostanie stworzone konto administratora
 setup_006 =Start instalacji i akceptacja warunków licencyjnych
-
 setup_step1 = INSTALACJA: KROK 1 z 5
 setup_010 = Wersja PHP na twoim serwerze jest za stara (poni¿ej 4.1.0), proszê uaktualniæ do najnowszej wersji
-setup_012 = <font class=error>B³±d</font> | Brak praw zapisu/odczytu w folderze <b>{0}</b>!
-setup_014 = <font class=error>B³±d</font> | Brak praw zapisu pliku <b>{0}</b> !
+setup_012 = <font class=error>B³±d</font> | Brak uprawnieñ do zapisu/odczytu w folderze <b>{0}</b>!
+setup_014 = <font class=error>B³±d</font> | Brak uprawnieñ do zapisu pliku <b>{0}</b> !
 setup_015 = <font class=error>B³±d</font> | Brak pliku lub katalogu <b>{0}</b> proszê go stworzyæ.
 setup_016 = <b>Sprawdzanie wersji PHP | Sprawdzanie praw dostêpu</b><br><br><font class=ok>ok</font> | Wersja PHP<br><font class=ok>ok</font> | Prawa dostêpu
 setup_017 = Do kroku 2
 setup_018 = Proszê usun±æ wszystkie wyszczególnione b³êdy i wystartowaæ instalacjê ponownie.
 setup_019 = Ponowny start kroku 1
 setup_headline1 = Sprawdzanie wersji PHP | Sprawdzanie praw dostêpu
-
-
 setup_step2 = INSTALACJA: KROK 2 z 5
 setup_020 = nie mo¿na by³o zapisaæ w pliku<b>include/master.inc.php</b>.
 setup_021 = Nie uda³o siê po³±czyæ z baz±!
@@ -363,7 +361,6 @@ setup_028 = Has³o
 setup_029 = Do kroku 3
 setup_0201 = Ogólne ustawienia Redaxo
 setup_0202 = Informacje o bazie danych
-
 setup_step3 = INSTALACJA: KROK 3 z 5
 setup_030 = Podczas aktualizacji wyst±pi³ nastêpuj±cy b³±d.
 setup_031 = Nie znaleziono tabeli {0} !
@@ -374,7 +371,6 @@ setup_035 = Tworzenie bazy danych i usuniêcie starej (je¶li istnieje) [<b>Uwaga<
 setup_036 = Baza danych ju¿ istnieje [Dalej bez importu bazy danych]
 setup_037 = Aktualizacja z 2.6 do 2.7
 setup_038 = Do kroku 4
-
 setup_step4 = INSTALACJA: KROK 4 z 5
 setup_040 = Proszê podaæ login administratora!
 setup_041 = Proszê podaæ has³o administratora!
@@ -386,7 +382,6 @@ setup_046 = Login
 setup_047 = Has³o
 setup_048 = Nie twórz konta u¿ytkownika
 setup_049 = Do kroku 5
-
 setup_step5 = INSTALACJA: KROK 5 z 5
 setup_050 = Niestety nie mo¿na by³o zapisaæ zmian w pliku master.inc.php. Proszê wprowadziæ zmiany manualnie na koncie FTP.
 setup_051 = Witamy w twoim REDAXO! <br><br>A teraz:<br><br><b>1. Zaloguj siê na za³o¿one konto <a href=index.php>login</a><br>2. Zaimportuj demo poprzez [po zalogowaniu]: Import/Eksport a tam zainstaluj odpowiedni± bazê danych i pliki.</b><br><br><br>Dobrej zabawy <br><br>¿yczy Team REDAXO <br><br>
@@ -412,5 +407,3 @@ addon_deactivate = dezaktywacja
 addon_activate = aktywacja
 addon_yes = tak
 addon_no = nie
-
-
