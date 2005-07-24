@@ -8,8 +8,6 @@
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
 
-
-
 // KOMMT NOCH
 // - only types einbauen (only .gif/.pdf/.xxx ..)
 // - direkt katjump von modulen aus
@@ -22,9 +20,14 @@
 if(isset($_GET["opener_input_field"])) $_SESSION["media[opener_input_field]"] = $_GET["opener_input_field"];
 
 
+
+
+
 // *************************************** PERMS
 $PERMALL = false;
 if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","dev[]") or $REX_USER->isValueOf("rights","media[0]")) $PERMALL = true;
+
+
 
 
 
@@ -36,6 +39,9 @@ $imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png");
 $thumbs = true;
 $thumbsresize = true;
 if (!isset($REX['ADDON']['status']['image_resize']) || $REX['ADDON']['status']['image_resize'] != 1) $thumbsresize = false;
+
+
+
 
 
 // *************************************** HEADER
@@ -243,7 +249,6 @@ if ($PERMALL && $subpage == "categories")
 		$catpath = $OOCat->getPath()."$cat_id|";
 	}
 
-
 	echo "<table border=0 cellpadding=5 cellspacing=1 width=100% class=rex style='width:100%'>\n";
 	echo "<tr><td class=grey><b>Pfad : $textpath</b></td></tr>";
 	echo "</table><br>";
@@ -307,74 +312,6 @@ if ($PERMALL && $subpage == "categories")
 	}
 	echo "</table>";
 
-
-
-
-
-
-
-	/*
-	$gc = new sql;
-	$gc->setQuery("select * from rex_file_category order by name");
-	
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=100% class=rex style='width:100%'>\n";
-	echo "<tr><th class=icon><a href=index.php?page=medienpool&subpage=categories&function=add_cat>+</a></th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_name')."</th><th class=dgrey align=left width=200>".$I18N->msg('pool_kat_function')."</th><th class=dgrey align=left></th></tr>";
-
-	if ($msg != "")
-	{
-		print "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td class=warning colspan=3>".stripslashes($msg)."</td></tr>";
-		$msg = "";
-	}
-
-	if ($function == "add_cat")
-	{
-		echo "<tr>";
-		echo "<form action=index.php method=post>";
-		echo "<input type=hidden name=page value=medienpool>\n";
-		echo "<input type=hidden name=media_method value=add_file_cat>\n";
-		echo "<input type=hidden name=subpage value=categories>";
-		echo "<td>&nbsp;</td>";
-		echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name></td>";
-		echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_add')."\"></td>";
-		echo "<td class=grey>&nbsp;</td>";
-		echo "</form>";
-		echo "</tr>";
-	}
-	
-	for($i=0;$i<$gc->getRows();$i++)
-	{
-		$iid = $gc->getValue("id");
-		$iname = $gc->getValue("name");
-		$ihide = $gc->getValue("hide");
-		if ($iid == $cat_id)
-		{
-			echo "<tr>";
-			echo "<form action=index.php method=post>";
-			echo "<input type=hidden name=page value=medienpool>\n";
-			echo "<input type=hidden name=media_method value=edit_file_cat>\n";
-			echo "<input type=hidden name=subpage value=categories>";
-			echo "<input type=hidden name=cat_id value=$cat_id>";
-			echo "<td>$iid</td>";
-			echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value=\"".htmlentities($iname)."\"></td>";
-			echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
-			echo "<td class=grey>&nbsp;</td>";
-			echo "</form>";
-			echo "</tr>";
-		
-		}else
-		{
-			echo "<tr>";
-			echo "<td align=center>$iid</td>";
-			echo "<td class=grey>$iname &nbsp;</td>";
-			echo "<td class=grey><a href=index.php?page=medienpool&subpage=categories&cat_id=$iid>".$I18N->msg('pool_kat_edit')."</a> | <a href=index.php?page=medienpool&subpage=categories&cat_id=$iid&media_method=delete_file_cat onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg('pool_kat_delete')."</a></td>";
-			echo "<td class=grey>&nbsp;</td>";
-			echo "</tr>";
-		}
-		
-		$gc->next();
-	}
-	echo "</table>";
-	*/
 }
 
 
@@ -650,9 +587,9 @@ if ($subpage == "add_file")
 	$rootCat = 0;
 	if ($rootCats = OOMediaCategory::getRootCategories())
 	{
-	    foreach( $rootCats as $rootCat) {
-	        add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
-	    }
+		foreach( $rootCats as $rootCat) {
+			add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
+		}
 	}
 	$cats_sel->set_selected($rex_file_category);
 
@@ -865,11 +802,11 @@ if ($subpage == "detail")
 			else $rfwidth = $fwidth;
 		}
 
-        if ($msg != "")
-        {
-                print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
-                $msg = "";
-        }
+		if ($msg != "")
+		{
+			print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+			$msg = "";
+		}
 
 		if($_SESSION["media[opener_input_field]"] == 'TINY')
 		{
@@ -991,44 +928,44 @@ if ($subpage == "detail")
 
 // ----- METHOD IMPORT IMPORT DIR
 if($PERMALL && ($subpage=='import') && ($method=="do")){
+	
+	$FILE_PATH = $REX[MEDIAFOLDER]."/";
+	
+	$db = new sql;
+	
+	if (!function_exists('mime_content_type')) {
+		function mime_content_type($f) {
+			$f = escapeshellarg($f);
+			return trim( `file -bi $f` );
+		}
+	}
 
-    $FILE_PATH = $REX[MEDIAFOLDER]."/";
-
-    $db = new sql;
-
-    if (!function_exists('mime_content_type')) {
-       function mime_content_type($f) {
-           $f = escapeshellarg($f);
-           return trim( `file -bi $f` );
-       }
-    }
-
-    if(is_array($_POST[importfolder])){
-        foreach($_POST[importfolder] as $var){
-            if ($handle = opendir($FILE_PATH.$var)) {
-                while (false !== ($file = readdir($handle))) {
-                    if ($file != "." && $file != "..") {
-
-                        unset($MEDIA);
-
-                        $THIS_PATH = $FILE_PATH.$var."/".$file;
-
-                        // prepare data for saveMedia();
-                        $MEDIA[name] = $file;
-                        $MEDIA[tmp_name] = $THIS_PATH;
-                        $MEDIA[type] = mime_content_type($THIS_PATH);
-                        $MEDIA[size] = filesize($THIS_PATH);
-                        $MEDIA_CATEGORY = $_POST[importcategory];
+	if(is_array($_POST[importfolder])){
+		foreach($_POST[importfolder] as $var){
+			if ($handle = opendir($FILE_PATH.$var)) {
+				while (false !== ($file = readdir($handle))) {
+					if ($file != "." && $file != "..") {
+					
+						unset($MEDIA);
+						
+						$THIS_PATH = $FILE_PATH.$var."/".$file;
+						
+						// prepare data for saveMedia();
+						$MEDIA[name] = $file;
+						$MEDIA[tmp_name] = $THIS_PATH;
+						$MEDIA[type] = mime_content_type($THIS_PATH);
+						$MEDIA[size] = filesize($THIS_PATH);
+						$MEDIA_CATEGORY = $_POST[importcategory];
 						//trägt dateinamen als title ein
-                        $RESULT = saveMedia($MEDIA,$MEDIA_CATEGORY,array(title=>$file));
-
-                        $cnt++;
-                    }
-                }
-                closedir($handle);
-            }
-        }
-    }
+						$RESULT = saveMedia($MEDIA,$MEDIA_CATEGORY,array(title=>$file));
+						
+						$cnt++;
+					}
+				}
+				closedir($handle);
+			}
+		}
+	}
 
 
     $msg = $cnt." File wurden erfolgreich importiert";
@@ -1038,62 +975,62 @@ if($PERMALL && ($subpage=='import') && ($method=="do")){
 // ----- METHOD IMPORT LIST DIRS
 if($PERMALL && $subpage=='import'){
 
-    print "<form name=rex_file_import action=index.php method=post>\n";
-    print "<input type=hidden name=page value=medienpool>\n";
-    print "<input type=hidden name=subpage value=import>\n";
-    print "<input type=hidden name=method value=do>\n";
+	print "<form name=rex_file_import action=index.php method=post>\n";
+	print "<input type=hidden name=page value=medienpool>\n";
+	print "<input type=hidden name=subpage value=import>\n";
+	print "<input type=hidden name=method value=do>\n";
+	
+	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_import_list')."</td></tr><tr><td></td></tr></table>";
 
-    echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_import_list')."</td></tr><tr><td></td></tr></table>";
+	if ($msg != "")
+	{
+		print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+		$msg = "";
+	}
 
-    if ($msg != "")
-    {
-            print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
-            $msg = "";
-    }
+	print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
+	
+	print "<tr><th colspan=2 class=grey align=left>".$I18N->msg('pool_import_help')."</td></tr>";
 
-    print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
-
-    print "<tr><th colspan=2 class=grey align=left>".$I18N->msg('pool_import_help')."</td></tr>";
-
-    // Print Folders in Files Dir
-    $FILE_PATH = $REX[MEDIAFOLDER]."/";
-    if ($handle = opendir($FILE_PATH)) {
-        while (false !== ($file = readdir($handle))) {
-            if ($file != "." && $file != "..") {
-                if(is_dir($FILE_PATH.$file)){
-                    print "<tr>";
-                    print "<td width=20 class=grey>";
-                    print "<input type=checkbox name=importfolder[] value='$file'>";
-                    print "</td>";
-                    print "<td class=grey>";
-                    print "&nbsp;";
-                    print $file;
-                    print "</td>";
-                    print "</tr>";
-                }
-            }
-        }
-        closedir($handle);
-    }
-    print "<tr><td colspan=2><br></td></tr>";
-    print "<tr><th colspan=2 class=grey align=left>";
-    print "<b>".$I18N->msg('pool_import_target_info')."</b>";
-    print "</th></tr>";
+	// Print Folders in Files Dir
+	$FILE_PATH = $REX[MEDIAFOLDER]."/";
+	if ($handle = opendir($FILE_PATH)) {
+		while (false !== ($file = readdir($handle))) {
+			if ($file != "." && $file != "..") {
+				if(is_dir($FILE_PATH.$file)){
+					print "<tr>";
+					print "<td width=20 class=grey>";
+					print "<input type=checkbox name=importfolder[] value='$file'>";
+					print "</td>";
+					print "<td class=grey>";
+					print "&nbsp;";
+					print $file;
+					print "</td>";
+					print "</tr>";
+				}
+			}
+		}
+		closedir($handle);
+	}
+	print "<tr><td colspan=2><br></td></tr>";
+	print "<tr><th colspan=2 class=grey align=left>";
+	print "<b>".$I18N->msg('pool_import_target_info')."</b>";
+	print "</th></tr>";
 	print "<tr><td colspan=2 class=grey><br></td></tr>";
-    print "<tr><td colspan=2 class=grey>";
+	print "<tr><td colspan=2 class=grey>";
 
-    print "<select name=importcategory>";
-    $db = new sql();
-    $db->debugsql = true;
-    $file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
-    foreach($file_cat as $var){
-            print "<option value=$var[id]>$var[name]</option>\n";
-    }
-    print "</select>";
-    print "<br><br><input type=submit value='Import Folder'>";
-    print "</td></tr>";
-    print "</table>";
-    print "</form>";
+	print "<select name=importcategory>";
+	$db = new sql();
+	$db->debugsql = true;
+	$file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+	foreach($file_cat as $var){
+		print "<option value=$var[id]>$var[name]</option>\n";
+	}
+	print "</select>";
+	print "<br><br><input type=submit value='Import Folder'>";
+	print "</td></tr>";
+	print "</table>";
+	print "</form>";
 
 }
 
@@ -1204,19 +1141,6 @@ if($PERMALL && $media_method=='delete_selectedmedia')
 
 if($subpage == "")
 {
-	/*
-	$db = new sql();
-	$file_newcat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
-	
-	$newcat = "<select name=rex_newfile_category style='width:150px;'>\n";
-	if(is_array($file_newcat)){
-		foreach($file_newcat as $var){
-			if ($PERMALL || $REX_USER->isValueOf("rights","media[".$var[id]."]")) $newcat  .=  "<option value=$var[id]>$var[name]</option>\n";
-		}
-	}
-	$newcat .= "</select>\n";
-	*/
-
 	$cats_sel = new select;
 	$cats_sel->set_style("width:150px;");
 	$cats_sel->set_size(1);
