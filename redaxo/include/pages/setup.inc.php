@@ -238,14 +238,14 @@ if ($checkmodus == 2 )
 
 	echo "
 		<tr><td colspan=2>// ---- ".$I18N->msg("setup_0201")."</td></tr>
-		<tr><td width=200>".$I18N->msg("setup_024")."</td><td><input type=text name=serveraddress value='$serveraddress' class=inp100></td></tr>
-		<tr><td>".$I18N->msg("setup_025")."</td><td><input type=text name=serverbezeichnung value='$serverbezeichnung' class=inp100></td></tr>
-		<tr><td>".$I18N->msg("setup_026")."</td><td><input type=text name=error_email value='$error_email' class=inp100></td></tr>
+		<tr><td width=200><label for='serveraddress'>".$I18N->msg("setup_024")."</label></td><td><input type=text id=serveraddress name=serveraddress value='$serveraddress' class=inp100></td></tr>
+		<tr><td><label for='serverbezeichnung'>".$I18N->msg("setup_025")."</label></td><td><input type=text id=serverbezeichnung name=serverbezeichnung value='$serverbezeichnung' class=inp100></td></tr>
+		<tr><td><label for='error_email'>".$I18N->msg("setup_026")."</label></td><td><input type=text id=error_email name=error_email value='$error_email' class=inp100></td></tr>
 		<tr><td colspan=2><br>// ---- ".$I18N->msg("setup_0202")."</td></tr>
-		<tr><td>".$I18N->msg("setup_027")."</td><td><input type=text class=inp100 value='$dbname' name=dbname></td></tr>
-		<tr><td>MySQL Host</td><td><input type=text name=mysql_host value='$mysql_host' class=inp100></td></tr>
-		<tr><td>Login</td><td><input type=text name=redaxo_db_user_login value='$redaxo_db_user_login' class=inp100></td></tr>
-		<tr><td>".$I18N->msg("setup_028")."</td><td><input type=text name=redaxo_db_user_pass value='$redaxo_db_user_pass' class=inp100></td></tr>
+		<tr><td><label for='dbname'>".$I18N->msg("setup_027")."</label></td><td><input type=text class=inp100 value='$dbname' id=dbname name=dbname></td></tr>
+		<tr><td><label for='mysql_host'>MySQL Host</label></td><td><input type=text id=mysql_host name=mysql_host value='$mysql_host' class=inp100></td></tr>
+		<tr><td><label for='redaxo_db_user_login'>Login</label></td><td><input type=text id=redaxo_db_user_login name=redaxo_db_user_login value='$redaxo_db_user_login' class=inp100></td></tr>
+		<tr><td><label for='redaxo_db_user_pass'>".$I18N->msg("setup_028")."</label></td><td><input type=text id=redaxo_db_user_pass name=redaxo_db_user_pass value='$redaxo_db_user_pass' class=inp100></td></tr>
 		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='".$I18N->msg("setup_029")."'></td></tr>
 		</table>";
 	echo "<br>";
@@ -376,19 +376,19 @@ if ($checkmodus == 3)
 
 	echo "
 		<tr>
-			<td width=50 align=right><input type=radio name=dbanlegen value=0 $dbchecked0></td>
-			<td>".$I18N->msg("setup_034")."</td>
+			<td width=50 align=right><input type=radio id=dbanlegen[0] name=dbanlegen value=0 $dbchecked0></td>
+			<td><label for='dbanlegen[0]'>".$I18N->msg("setup_034")."</label></td>
 		</tr>
-		<tr>	<td align=right><input type=radio name=dbanlegen value=1 $dbchecked1></td>
-			<td>".$I18N->msg("setup_035")."</td>
+		<tr>	<td align=right><input type=radio id=dbanlegen[1] name=dbanlegen value=1 $dbchecked1></td>
+			<td><label for='dbanlegen[1]'>".$I18N->msg("setup_035")."</label></td>
 		</tr>
 		<tr>
-			<td align=right><input type=radio name=dbanlegen value=2 $dbchecked2></td>
-			<td>".$I18N->msg("setup_036")."</td>
+			<td align=right><input type=radio id=dbanlegen[2] name=dbanlegen value=2 $dbchecked2></td>
+			<td><label for='dbanlegen[2]'>".$I18N->msg("setup_036")."</label></td>
 		</tr><!--
 		<tr>
-			<td align=right><input type=radio name=dbanlegen value=3 $dbchecked3></td>
-			<td>".$I18N->msg("setup_037")."</td>
+			<td align=right><input type=radio id=dbanlegen[3] name=dbanlegen value=3 $dbchecked3></td>
+			<td><label for='dbanlegen[3]'>".$I18N->msg("setup_037")."</label></td>
 		</tr>-->
 		<tr>
 			<td>&nbsp;</td>
@@ -471,9 +471,9 @@ if ($checkmodus == 4)
 
 	echo "
 
-		<tr><td>".$I18N->msg("setup_046").":</td><td><input type=text class=inp100 value=\"$redaxo_user_login\" name=redaxo_user_login></td></tr>
-		<tr><td>".$I18N->msg("setup_047").":</td><td><input type=text class=inp100 value=\"$redaxo_user_pass\" name=redaxo_user_pass></td></tr>
-		<tr><td align=right><input type=checkbox name=noadmin value=1></td><td>".$I18N->msg("setup_048")."</td></tr>
+		<tr><td><label for='redaxo_user_login'>".$I18N->msg("setup_046").":</label></td><td><input type=text class=inp100 value=\"$redaxo_user_login\" id=redaxo_user_login name=redaxo_user_login></td></tr>
+		<tr><td><label for='redaxo_user_pass'>".$I18N->msg("setup_047").":</label></td><td><input type=text class=inp100 value=\"$redaxo_user_pass\" id=redaxo_user_pass name=redaxo_user_pass></td></tr>
+		<tr><td align=right><input type=checkbox id=noadmin name=noadmin value=1></td><td><label for='noadmin'>".$I18N->msg("setup_048")."</label></td></tr>
 		<tr><td>&nbsp;</td><td valign=middle><input type=submit value='".$I18N->msg("setup_049")."'></td></tr>
 		</table>";
 
