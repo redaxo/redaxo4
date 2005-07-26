@@ -222,7 +222,12 @@ class Textile
         //$text = str_replace(array("ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"), 
         //                    array("&auml;", "&ouml;", "&uuml;", "&beta;", "&Auml;", "&Ouml;", "&Uuml;"), 
         //                    $text);
-        $text = htmlentities($text, ENT_NOQUOTES);
+        
+        $trans = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES);
+        // Ausnahmen die dennoch nicht ersetzt werden sollen
+        unset( $trans['<']);
+        unset( $trans['>']);
+        $text = strtr($text, $trans);
 
         $text = $this->incomingEntities($text);
         $text = $this->encodeEntities($text);
