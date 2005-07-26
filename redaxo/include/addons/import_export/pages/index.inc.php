@@ -119,7 +119,7 @@ if ($function == "delete")
 					reset($tar->message);
 					for ($fol=0;$fol<count($tar->message);$fol++)
 					{
-						$msg .= key($tar->message)."<br>";
+						$msg .= absPath( str_replace( "'", "", key( $tar->message)))."<br>";
 						
 						next($tar->message);
 					}
