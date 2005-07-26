@@ -95,7 +95,7 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 			}
 		}else
 		{
-			$message = $I18N->msg("category_could_not_be_deleted")." ddd".$I18N->msg("category_still_contains_articles");
+			$message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_articles");
 			$function = "edit";
 		}
 	}else
