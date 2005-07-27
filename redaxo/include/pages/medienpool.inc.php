@@ -1047,15 +1047,15 @@ if($PERMALL && $subpage=='import'){
 
 if($PERMALL && $media_method=='updatecat_selectedmedia')
 {
-	if(is_array($_POST[selectedmedia])){
+	if(is_array($_POST["selectedmedia"])){
 
-		foreach($_POST[selectedmedia] as $file_id){
+		foreach($_POST["selectedmedia"] as $file_id){
 		
 			$db = new sql;
-			//$db->debugsql = true;
+			// $db->debugsql = true;
 			$db->setTable('rex_file');
 			$db->where("file_id='$file_id'");
-			$db->setValue('category_id',$rex_newfile_category);
+			$db->setValue('category_id',$rex_file_category);
 			$db->setValue("updatedate",time());
 			$db->setValue("updateuser",$REX_USER->getValue("login"));
 			$db->update();
