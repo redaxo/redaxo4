@@ -86,7 +86,7 @@ function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
 		return;
 	}
 	$cat_ids[] = $cat->getId();
-	$select->add_option($cat->getName(),$cat->getId(), $groupName);
+	$select->add_option($cat->getName(),$cat->getId(), $cat->getId(),$cat->getParentId());
 	$childs = $cat->getChildren();
 	if (is_array($childs))
 	{
@@ -119,7 +119,7 @@ function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName 
         return;
     }
     $mediacat_ids[] = $mediacat->getId();
-    $select->add_option($mediacat->getName(),$mediacat->getId(), $groupName);
+    $select->add_option($mediacat->getName(),$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
     $childs = $mediacat->getChildren();
     if (is_array($childs))
     {

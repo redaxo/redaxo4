@@ -478,9 +478,9 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
 	if(empty($mediacat)) return;
-	$mname = $mediacat->getName(). " [".$mediacat->getId()."]";
+	$mname = $mediacat->getName();
 	$mediacat_ids[] = $mediacat->getId();
-	$select->add_option($mname,$mediacat->getId(), $groupName);
+	$select->add_option($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
 	$childs = $mediacat->getChildren();
 	if (is_array($childs))
 	{
@@ -494,9 +494,9 @@ function add_mediacat_options_wperm( &$select, &$mediacat, &$mediacat_ids, $grou
 {
 	global $PERMALL, $REX_USER;
     if(empty($mediacat)) return;
-    $mname = $mediacat->getName(). " [".$mediacat->getId()."]";
+    $mname = $mediacat->getName();
 	$mediacat_ids[] = $mediacat->getId();
-	if ($PERMALL || $REX_USER->isValueOf("rights","media[".$mediacat->getId()."]")) $select->add_option($mname,$mediacat->getId(), $groupName);
+	if ($PERMALL || $REX_USER->isValueOf("rights","media[".$mediacat->getId()."]")) $select->add_option($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
 	$childs = $mediacat->getChildren();
 	if (is_array($childs))
 	{
