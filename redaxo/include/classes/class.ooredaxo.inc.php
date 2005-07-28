@@ -156,6 +156,14 @@ class OORedaxo {
 	function getDescription() {
 		return $this->_description;
 	}
+    
+    /*
+     * Accessor Method:
+     * returns the article priority
+     */
+    function getPriority() {
+        return $this->_prior;
+    }
 
 	/*
 	 * Accessor Method:
