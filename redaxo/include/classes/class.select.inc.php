@@ -80,8 +80,8 @@ class select{
 	}
 	
 	################ optionen hinzufuegen
-	function add_option($name,$value, $group = ""){
-		$this->options[$group][] = array( $name, $value);
+	function add_option($name,$value, $id = 0, $re_id = 0){
+		$this->options[$re_id][] = array( $name, $value, $id);
 //		$this->counter++;
 	}
 	
@@ -89,80 +89,63 @@ class select{
 	function out(){
         
 		global $STYLE;
-
 		$ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
-
-        if ( is_array( $this->options)) $ausgabe .= $this->out_group( '');
-
-//		for ($i=0;$i<$this->counter;$i++){
-//		
-//			// if ($this->option_name[$i] != ""){
-//				$ausgabe .= "<option value='".$this->option_value[$i]."'";
-//				
-//				for ($j=0;$j<$this->option_anzahl;$j++){			
-//					if ($this->option_selected[$j] == $this->option_value[$i]){
-//						$ausgabe .= " selected";
-//						$j=1000;
-//					}
-//				}
-//	
-//				$ausgabe .= ">".$this->option_name[$i]."</option>\n";
-//			// }		
-//		}
+        if ( is_array( $this->options)) $ausgabe .= $this->out_group( 0);
 		$ausgabe .= "</select>\n";	
 		return $ausgabe;	
 	}
     
-    function out_group( $groupname, $level = 0) {
-        $ausgabe = '';
-        $group = $this->get_group( $groupname);
-        
-        if ( $groupname != '') {
-            // $ausgabe .= '  <optgroup>'. "\n";
-        }
-        
-        foreach( $group as $option) {
-            $name = $option[0] ;
-            $value = $option[1];
-            $ausgabe .= $this->out_option( $name, $value, $level);
-            
-            $subgroup = $this->get_group( $name, true);
-            if ( $subgroup !== false) {
-                $ausgabe .= $this->out_group( $name, $level + 1);
-            }
-        }
-        
-        if ( $groupname != '') {
-            // $ausgabe .= '  </optgroup>'. "\n"; 
-        }
-        
-        return $ausgabe;   
-    }
+    function out_group( $re_id, $level = 0) {
+
+		if ($level > 100)
+		{
+			// nur mal so zu sicherheit .. man weiss nie ;)
+			echo "select->out_group overflow ($groupname)";
+			exit; 
+		}
+	
+		$ausgabe = '';
+		$group = $this->get_group( $re_id);
+		foreach( $group as $option) {
+			$name = $option[0] ;
+			$value = $option[1];
+			$id = $option[2];
+			$ausgabe .= $this->out_option( $name, $value, $level);
+			
+			$subgroup = $this->get_group( $id, true);
+			if ( $subgroup !== false) {
+				$ausgabe .= $this->out_group( $id, $level + 1);
+			}
+		}
+		return $ausgabe;   
+	}
+
+	function out_option( $name, $value, $level = 0) 
+	{
+	
+		for ($i=0;$i<$level;$i++) $bsps .= "&nbsp;&nbsp;&nbsp;";
+		$selected = '';
+		if ( $this->option_selected !== null) {
+			$selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
+		}
+		return '    <option value="'. $value .'"'. $style . $selected .'>'. $bsps.$name .'</option>'. "\n";
+	}
     
-    function out_option( $name, $value, $level = 0) {
-        // $style = ' style="padding-top:'. ( $level * 9 + 1) .'px;"';
-        for ($i=0;$i<$level;$i++) $bsps .= "&nbsp;&nbsp;&nbsp;";
-        $selected = '';
-        if ( $this->option_selected !== null) {
-            $selected = in_array( $value, $this->option_selected) ? ' selected="selected"' : '';
-        }
-        
-        return '    <option value="'. $value .'"'. $style . $selected .'>'. $bsps.$name .'</option>'. "\n";
-    }
-    
-    function get_group( $groupname, $ignore_main_group = false) {
-        if ( $ignore_main_group && $groupname == '') {
-            return false;
-        }
-        
-        foreach ( $this->options as $gname => $group) {
-            if ( $gname == $groupname) {
-                return $group;
-            }
-        }
-        
-        return false;
-    }
+	function get_group( $re_id, $ignore_main_group = false) 
+	{
+
+		if ( $ignore_main_group && $re_id == 0) {
+			return false;
+		}
+
+		foreach ( $this->options as $gname => $group) {
+			if ( $gname == $re_id) {
+				return $group;
+			}
+		}
+
+		return false;
+	}
 }
 
 ?>
