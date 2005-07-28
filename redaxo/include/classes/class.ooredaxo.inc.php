@@ -119,6 +119,14 @@ class OORedaxo {
 
 	/*
 	 * Accessor Method:
+	 * returns the id of the article
+	 */
+	function getParentId() {
+		return $this->_re_id;
+	}
+
+	/*
+	 * Accessor Method:
 	 * returns the name of the article
 	 */
 	function getName() {
