@@ -28,3 +28,7 @@ file_export = Dateiexport
 save_on_server = Auf dem Server speichern
 download_as_file = Als Datei herunterladen
 createdate = Erstellt am
+
+import_file = Datei importieren
+delete_file = Datei l&ouml;schen
+download_file = Datei herunterladen

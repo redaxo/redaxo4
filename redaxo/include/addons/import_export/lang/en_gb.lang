@@ -28,3 +28,7 @@ file_export = Filexport
 save_on_server = Save on Server
 download_as_file = Download as file
 createdate = Created on
+
+import_file = import file
+delete_file = delete file
+download_file = download file

@@ -367,10 +367,10 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         $filepath = $dir .'/'.$file;
         $filec = date( "d.m.Y H:i", filemtime( $filepath));
         echo "<tr>
-        <td class=lgrey><a href='". $filepath ."'>$file</a></td>
+        <td class=lgrey><a href='". $filepath ."' title='". $I18N_ADDON->msg( 'download_file') ."'>$file</a></td>
         <td class=lgrey>$filec</td>
-        <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
-        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
+        <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file title='". $I18N_ADDON->msg( 'import_file') ."'>".$I18N_ADDON->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_ADDON->msg( 'delete_file') ."'>".$I18N_ADDON->msg("delete")."</a></td></tr>";
     }
 	echo "</table>";
 
@@ -401,10 +401,10 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         $filepath = $dir .'/'.$file;
         $filec = date( "d.m.Y H:i", filemtime( $filepath));
         echo "<tr>
-        <td class=lgrey><a href='". $filepath ."'>$file</a></td>
+        <td class=lgrey><a href='". $filepath ."' title='". $I18N_ADDON->msg( 'download_file') ."'>$file</a></td>
         <td class=lgrey>$filec</td>
-        <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
-        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
+        <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file title='". $I18N_ADDON->msg( 'import_file') ."'>".$I18N_ADDON->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_ADDON->msg( 'delete_file') ."'>".$I18N_ADDON->msg("delete")."</a></td></tr>";
     }
     
 	echo "</table><br>";
