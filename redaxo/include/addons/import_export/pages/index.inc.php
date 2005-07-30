@@ -4,7 +4,8 @@
 
 @ini_set('memory_limit', '32M');
 
-include_once $REX[INCLUDE_PATH]."/addons/$page/classes/class.tar.inc.php";
+include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/classes/class.tar.inc.php';
+include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_folder.inc.php';
 
 // ------------------------------ FUNC
 $msg = "";
@@ -358,14 +359,15 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     
     // DB IMPORT LIST
     // all files in files with .sql als endung
-    $dir = $REX[INCLUDE_PATH]."/addons/$page/files";
-    sort( $folder = readFilteredFolder( $dir, ".sql"));
+    $dir = getImportDir();
+    $folder = readImportFolder( ".sql");
     
     foreach( $folder as $file) 
     {
-        $filec = date( "d.m.Y H:i", filemtime( $dir .'/'.$file));
+        $filepath = $dir .'/'.$file;
+        $filec = date( "d.m.Y H:i", filemtime( $filepath));
         echo "<tr>
-        <td class=lgrey>$file</td>
+        <td class=lgrey><a href='". $filepath ."'>$file</a></td>
         <td class=lgrey>$filec</td>
         <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
         <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
@@ -391,14 +393,15 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     // FILE IMPORT LIST
     // all files in files with .tar.gz als endung
     
-    $dir = $REX[INCLUDE_PATH]."/addons/$page/files";
-    sort( $folder = readFilteredFolder( $dir, ".tar.gz"));
+    $dir = getImportDir();
+    sort( $folder = readImportFolder( ".tar.gz"));
     
     foreach( $folder as $file)
     {
-        $filec = date( "d.m.Y H:i", filemtime( $dir .'/'.$file));
+        $filepath = $dir .'/'.$file;
+        $filec = date( "d.m.Y H:i", filemtime( $filepath));
         echo "<tr>
-        <td class=lgrey>$file</td>
+        <td class=lgrey><a href='". $filepath ."'>$file</a></td>
         <td class=lgrey>$filec</td>
         <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file>".$I18N_ADDON->msg("import")."</a></td>
         <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file>".$I18N_ADDON->msg("delete")."</a></td></tr>";
