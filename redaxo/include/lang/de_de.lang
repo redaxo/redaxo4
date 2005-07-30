@@ -216,7 +216,7 @@ add_user = Benutzer hinzuf&uuml;gen
 edit_user = Benutzer bearbeiten
 
 user_admin = Admin (Alle Kategorien/Module/Medien/User)
-user_developer = Developer (Templates/Moduledit/AddOn)
+user_developer = Developer (Templates/Module/AddOns)
 user_notdeleteself = ***** Sie können sich nicht selbst löschen!
 user_lang_xs = Sprachenzugriff
 user_all = Allgemein
