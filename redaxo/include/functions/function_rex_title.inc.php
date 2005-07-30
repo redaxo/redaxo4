@@ -1,5 +1,14 @@
 <?
 
+/**
+ * @example
+ * 
+ * $subpages = array(
+ *  array( '', 'Index'),
+ *  array( 'lang', 'Sprachen'),
+ * );
+ * title( 'Headline', $subpages)
+ */
 function title($head,$subline = '',$styleclass="grey", $width = '770px')
 {
     $subtitle = $subline;
@@ -11,6 +20,10 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
         
         foreach ( $subline as $subpage)
         {
+            if ( !is_array( $subpage)) {
+                continue;
+            }
+            
             $link = $subpage[0];
             $label = $subpage[1];
             $active = (empty( $_REQUEST['subpage']) && $link == '') || (!empty( $_REQUEST['subpage'])&& $_REQUEST['subpage'] == $link);
