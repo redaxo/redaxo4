@@ -121,9 +121,9 @@ function printFormFields($shortcut = '', $description = '', $language = '', $cas
 ?>
     <tr>
         <td class="dgrey"></td>
-        <td class="dgrey"><input style="width:100%" type="text" size="20" maxlength="255" name="form_short" value="<?php echo htmlentities($shortcut) ?>"></td>
+        <td class="dgrey"><input style="width:100%" type="text" size="20" maxlength="255" name="form_short" value="<?php echo $shortcut ?>"></td>
         <td class="dgrey"><?php echo $oLangSelect->out() ?></td>
-        <td class="dgrey"><input style="width:100%" type="text" size="20" maxlength="255" name="form_desc" value="<?php echo htmlentities($description) ?>"></td>
+        <td class="dgrey"><input style="width:100%" type="text" size="20" maxlength="255" name="form_desc" value="<?php echo $description ?>"></td>
         <td class="dgrey"><?php echo $oCaseSelect->out() ?></td>
         <td class="dgrey">
             <input type="submit" name="function" value="<?php echo $I18N->msg( $mode) ?>">
@@ -141,9 +141,10 @@ function doAction($short_id, $shortcut, $description, $language, $casesense, $mo
     global $I18N, $I18N_GLOSSAR;
 
     // Validierung der Modi
+    $mode = trim( $mode);
     if ($mode != trim($I18N->msg('add')) && $mode != trim($I18N->msg('update')) && $mode != trim($I18N->msg('delete')))
     {
-        return $I18N_GLOSSAR->msg('invalid_action').'"$mode"';
+        return $I18N_GLOSSAR->msg('invalid_action'). $mode;
     }
 
     $sql = new sql();
