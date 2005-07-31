@@ -1,0 +1,25 @@
+# addon:glosar de_DE
+glossar = Glossar
+shortcut = Abk&uuml;rzung
+language = Sprache
+description = Beschreibung
+casesensitivity = Groß-/Kleinschreibung
+
+lang_de_id = 0
+lang_de = Deutsch
+lang_de_short = dt
+lang_en_id = 1
+lang_en = Englisch
+lang_en_short = en
+lang_fr_id = 2
+lang_fr = Französisch
+lang_fr_short = fr
+
+caseless = nicht beachten
+casesense = beachten
+
+updated = Abk&uuml;rzung erfolgreich aktualisiert!
+inserted = Abk&uuml;rzung erfolgreich eingef&uuml;t!
+deleted = Abk&uuml;rzung erfolgreich entfernt!
+invalid_input = Fehler: Alle Felder müssen gefüllt werden!
+invalid_action = Fehler: Eine unbekannte Aktion wurde aufgerufen!

@@ -1,0 +1,26 @@
+# addon:glosar en_GB
+glossar = Glossar
+shortcut = shortcut
+language = language
+description = description
+casesensitivity = casesensitivity
+
+lang_de_id = 0
+lang_de = german
+lang_de_short = ger
+lang_en_id = 1
+lang_en = english
+lang_en_short = en
+lang_fr_id = 2
+lang_fr = france
+lang_fr_short = fr
+
+caseless = ignore
+casesense = use
+
+updated = shortcut successfully updated!
+inserted = shortcut successfully added!
+deleted = shortcut successfully deleted!
+invalid_input = error: all fields mustn`t be empty!
+invalid_action = error: an unexpected action was called!
+
