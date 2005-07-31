@@ -90,12 +90,12 @@ if ($WA)
 	for ($i=0;$i<count($ADDONS);$i++)
 	{
 		$cur = current($ADDONS);
-		if ($REX[ADDON][install][$cur]!=1) $REX[ADDON][install][$cur] = 0;
-		if ($REX[ADDON][status][$cur]!=1) $REX[ADDON][status][$cur] = 0;
+		if ($REX['ADDON']['install'][$cur]!=1) $REX['ADDON']['install'][$cur] = 0;
+		if ($REX['ADDON']['status'][$cur]!=1) $REX['ADDON']['status'][$cur] = 0;
 		
 		$content .= "
-\$REX[ADDON][install][$cur] = ".$REX[ADDON][install][$cur].";
-\$REX[ADDON][status][$cur] = ".$REX[ADDON][status][$cur].";
+\$REX['ADDON']['install']['$cur'] = ".$REX['ADDON']['install'][$cur].";
+\$REX['ADDON']['status']['$cur'] = ".$REX['ADDON']['status'][$cur].";
 ";
 		next($ADDONS);	
 	}
