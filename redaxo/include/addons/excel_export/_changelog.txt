@@ -1,0 +1,7 @@
+<b>Changelog:</b>
+
+ * RC1 * 20.06.2005
+ 
+- Exportfunktion für MySQL Tabellen
+
+- Inkrementielle Exports
