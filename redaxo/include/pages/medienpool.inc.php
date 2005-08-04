@@ -83,7 +83,7 @@ function insertLink(link){
 
 function insertImage(src, alt, width, height)
 {
-	var image = '<img src="/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
+	var image = '<img src="<?php echo str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
 	insertHTML( image);
 }
 
@@ -547,7 +547,7 @@ if($subpage == "add_file" && $media_method == 'add_file'){
 			{
 				if (in_array($ffiletype,$imgtypes))
 				{
-					$js = "insertImage('$file_name','$file_name','$width','$height');";
+					$js = "insertImage('$file_name','$fdescription','$width','$height');";
 				}else
 				{
 					$js = "insertLink('".$file_name."');";
@@ -815,7 +815,7 @@ if ($subpage == "detail")
 			$opener_link = "";
 			if (in_array($ffiletype,$imgtypes))
 			{
-				$opener_link .= "<a href=javascript:insertImage('$fname','$fname','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
+				$opener_link .= "<a href=javascript:insertImage('$fname','$fdescription','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
 			}
 			$opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
 		}elseif($_SESSION["media[opener_input_field]"] != '')
@@ -1236,7 +1236,7 @@ if($subpage == "")
 			$opener_link = "";
 			if (in_array($file_type,$imgtypes))
 			{
-				$opener_link .= "<a href=javascript:insertImage('$file_name','$file_name','".$files->getValue("width")."','".$files->getValue("height")."');>".$I18N->msg('pool_image_get')."</a><br>";
+				$opener_link .= "<a href=javascript:insertImage('$file_name','$file_description','".$files->getValue("width")."','".$files->getValue("height")."');>".$I18N->msg('pool_image_get')."</a><br>";
 			}
 			$opener_link .= "<a href=javascript:insertLink('".$file_name."');>".$I18N->msg('pool_link_get')."</a>";
 
