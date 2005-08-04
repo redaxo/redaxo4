@@ -3,6 +3,8 @@
 class ExportTable {
     /* Name der Tabelle */
     var $name;
+    /* Primary Key */
+    var $pk;
     
     var $sql;
     
@@ -85,10 +87,8 @@ class ExportTable {
     }
     
     function getNew() {
-//        echo 'SELECT * FROM '. $this->name .' LIMIT '. $this->numNew() .', 9999999999';
-//        return null;
         if ( $this->dataNew === null) {
-            $this->dataNew =& $this->_getResult( 'SELECT * FROM '. $this->name .' LIMIT '. $this->numNew() .', 9999999999');
+            $this->dataNew =& $this->_getResult( 'SELECT * FROM '. $this->name .' ORDER BY '. $this->pk .' DESC LIMIT '. $this->numNew());
         }
         
         return $this->dataNew;

@@ -13,7 +13,7 @@ $XLS_TABLES = array(
 
 $XLS_MODES = array( 
   'all' => 'Alle Exportieren', 
-  'new' => 'Neue Exportieren',
+//  'new' => 'Neue Exportieren',
 );
 
 ?>
