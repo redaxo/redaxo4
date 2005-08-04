@@ -34,7 +34,7 @@ if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","d
 // *************************************** CONFIG
 
 $doctypes = array ("bmp","css","doc","gif","gz","jpg","mov","mp3","ogg","pdf","png","ppt","rar","rtf","swf","tar","tif","txt","wma","xls","zip");
-$imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png");
+$imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png","image/pjpeg","image/bmp");
 $thumbs = true;
 $thumbsresize = true;
 if (!isset($REX['ADDON']['status']['image_resize']) || $REX['ADDON']['status']['image_resize'] != 1) $thumbsresize = false;
