@@ -33,7 +33,6 @@ if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","d
 
 // *************************************** CONFIG
 
-$mypath = str_replace("/redaxo/index.php","",$_SERVER[SCRIPT_NAME]);
 $doctypes = array ("bmp","css","doc","gif","gz","jpg","mov","mp3","ogg","pdf","png","ppt","rar","rtf","swf","tar","tif","txt","wma","xls","zip");
 $imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png");
 $thumbs = true;
@@ -547,7 +546,7 @@ if($subpage == "add_file" && $media_method == 'add_file'){
 			{
 				if (in_array($ffiletype,$imgtypes))
 				{
-					$js = "insertImage('$file_name','$fdescription','$width','$height');";
+					$js = "insertImage('$file_name','". converDescription( $fdescription) ."','$width','$height');";
 				}else
 				{
 					$js = "insertLink('".$file_name."');";
@@ -815,7 +814,7 @@ if ($subpage == "detail")
 			$opener_link = "";
 			if (in_array($ffiletype,$imgtypes))
 			{
-				$opener_link .= "<a href=javascript:insertImage('$fname','$fdescription','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
+				$opener_link .= "<a href=javascript:insertImage('$fname','". converDescription( $fdescription) ."','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
 			}
 			$opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
 		}elseif($_SESSION["media[opener_input_field]"] != '')
@@ -1236,7 +1235,7 @@ if($subpage == "")
 			$opener_link = "";
 			if (in_array($file_type,$imgtypes))
 			{
-				$opener_link .= "<a href=javascript:insertImage('$file_name','$file_description','".$files->getValue("width")."','".$files->getValue("height")."');>".$I18N->msg('pool_image_get')."</a><br>";
+				$opener_link .= "<a href=javascript:insertImage('$file_name','". str_replace( " ", "&nbsp;", converDescription( $file_description)) ."','".$files->getValue("width")."','".$files->getValue("height")."');>".$I18N->msg('pool_image_get')."</a><br>";
 			}
 			$opener_link .= "<a href=javascript:insertLink('".$file_name."');>".$I18N->msg('pool_link_get')."</a>";
 
@@ -1304,5 +1303,9 @@ if($subpage == "")
 }
 
 echo "</body></html>";
+
+function converDescription( $description) {
+    return htmlentities( $description);
+}
 
 ?>

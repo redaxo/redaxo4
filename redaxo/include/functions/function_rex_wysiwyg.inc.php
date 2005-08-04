@@ -60,8 +60,16 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	            <!-- tinyMCE -->
 	            <script language="javascript" type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
 	            <script language="javascript" type="text/javascript">
+                    var sDocumentBase = "'. $_SERVER['HTTP_HOST'] .'";
+                    if (navigator.appName == "Microsoft Internet Explorer") {
+                       sDocumentBase += "/";
+                    }
+
 	                tinyMCE.init({
+                        document_base_url: sDocumentBase,
 	                    language : "'.$LANG.'",
+                        auto_focus : "VALUE['.$VALUE_ID.']",
+//                        relative_urls : false,
 	                    mode : "specific_textareas",
                         plugins : "'. $PLUGINS .'",
 	                    theme : "advanced",
@@ -76,11 +84,12 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                    plugin_insertdate_dateFormat : "%d.%m.%Y",
 	                    plugin_insertdate_timeFormat : "%H:%M:%S",
 	                    extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-	                    external_link_list_url : "example_link_list.js",
-	                    external_image_list_url : "example_image_list.js",
-	                    flash_external_list_url : "example_flash_list.js",
+	                    //external_link_list_url : "example_link_list.js",
+	                    //external_image_list_url : "example_image_list.js",
+	                    //flash_external_list_url : "example_flash_list.js",
 	                    insertimage_callback : "insertMediaPool",
-	                    insertlink_callback : "insertIntLink"
+	                    insertlink_callback : "insertIntLink",
+                        urlconverter_callback : "rexURLConverter"
 	                    //file_browser_callback : "fileBrowserCallBack"
 	                });
 
@@ -96,6 +105,11 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 					function insertIntLink(href, target){
 						newWindow( "rexlinkpopup", "index.php?page=linkmap&HTMLArea=TINY", 660,500,",status=yes,resizable=yes");
 					}
+
+                    function rexURLConverter(url, node, on_save) {
+                        // nichts tun
+                        return url;
+                    }
 
 	                function tinyMCEEmail(){
 	                        var email = prompt("Geben Sie eine Emailadresse ein","");
