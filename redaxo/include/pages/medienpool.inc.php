@@ -652,10 +652,13 @@ if($subpage=="detail" && $media_method=='delete_file')
 			}
 			
 			$file_search = substr($file_search,2);
+			
+			// in rex_values ?
 			$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
 			// $db->setQuery($sql);
 			$res1 = $db->get_array($sql);
 			
+			// in article metafile ?
 			$sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
 			$res2= $db->get_array($sql);
 		
@@ -668,13 +671,19 @@ if($subpage=="detail" && $media_method=='delete_file')
 				$subpage = "";
 			}else{
 			
-				$msg = $I18N->msg('pool_file_delete_error_1');
+				$msg = $I18N->msg('pool_file_delete_error_1',"$file_name")." ";
 				$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
-				foreach($res1 as $var){
-					$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+				if(is_array($res1))
+				{
+					foreach($res1 as $var){
+						$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+					}
 				}
-				foreach($res2 as $var){
-					$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+				if(is_array($res2))
+				{
+					foreach($res2 as $var){
+						$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+					}
 				}
 				$msg .= " | ";
 				$subpage = "";
@@ -1073,10 +1082,11 @@ if($PERMALL && $media_method=='delete_selectedmedia')
 	
 	if(is_array($_POST["selectedmedia"]))
 	{
-		
+		$msg = "";
 		foreach($_POST["selectedmedia"] as $file_id){
 			
 			//kopiet von Dateidetails delete_file
+			
 			$gf = new sql;
 			$gf->setQuery("select * from rex_file where file_id='$file_id'");
 			if ($gf->getRows()==1)
@@ -1104,25 +1114,32 @@ if($PERMALL && $media_method=='delete_selectedmedia')
 					$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
 					$db->query($sql);
 					unlink($REX[MEDIAFOLDER]."/".$file_name);
-					$msg = $I18N->msg('pool_file_deleted');
+					$msg .= "\"$file_name\" ".$I18N->msg('pool_file_deleted');
 					$subpage = "";
 				}else{
-					$msg = $I18N->msg('pool_file_delete_error_1');
-					$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
-					foreach($res1 as $var){
-						$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+					$msg .= $I18N->msg('pool_file_delete_error_1',$file_name)." ";
+					$msg .= $I18N->msg('pool_file_delete_error_2')."<br>";
+					if(is_array($res1))
+					{
+						foreach($res1 as $var){
+							$msg .=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+						}
 					}
-					foreach($res2 as $var){
-						$msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+					if(is_array($res2))
+					{
+						foreach($res2 as $var){
+							$msg .=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
+						}
 					}
 					$msg .= " | ";
 					$subpage = "";
 				}
 			}else
 			{
-				$msg = $I18N->msg('pool_file_not_found');
+				$msg .= $I18N->msg('pool_file_not_found');
 				$subpage = "";
 			}
+			$msg .= "<br>";
 		}
 	}else{
 		$msg = $I18N->msg('pool_selectedmedia_error');
