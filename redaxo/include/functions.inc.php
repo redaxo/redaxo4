@@ -60,6 +60,7 @@ if (!$REX[GG])
 // ----- EXTRA CLASSES
 include_once $REX[INCLUDE_PATH]."/classes/class.textile.inc.php";
 include_once $REX[INCLUDE_PATH]."/classes/class.phpmailer.inc.php";
+include_once $REX[INCLUDE_PATH]."/classes/class.wysiwyg.inc.php";
 
 // ----- FUNCTIONS
 include_once $REX[INCLUDE_PATH]."/functions/function_rex_modrewrite.inc.php";
