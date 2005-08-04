@@ -18,10 +18,7 @@
 	            } elseif ($this->img["format"]=="PNG") {
 	                //PNG
 	                $this->img["format"]="PNG";
-	                var_dump(
-                    $this->img["src"] = @ImageCreateFromPNG ($imgfile)
-                    );
-                    exit();
+	                $this->img["src"] = @ImageCreateFromPNG ($imgfile);
 	            } elseif ($this->img["format"]=="GIF") {
 	                //GIF
 	                $this->img["format"]="GIF";
