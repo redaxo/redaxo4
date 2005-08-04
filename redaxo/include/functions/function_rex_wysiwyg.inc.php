@@ -6,39 +6,7 @@
 #
 ##################################################################
 
-class rex_wysiwyg_editor {
-
-	var $id;
-    var $content;
-    var $width = '';
-    var $height = '';
-    var $stylesheet = '';
-    var $styles = '';
-    var $lang = '';
-    var $buttonrow1 = '';
-    var $buttonrow2 = '';
-    var $buttonrow3 = 'empty';
-    var $buttonrow4 = 'empty';
-
-    function show(){
-        echo MEDIA_HTMLAREA(
-        		$this->id,
-                $this->content,
-                $this->width,
-                $this->height,
-                $this->stylesheet,
-                $this->styles,
-                $this->lang,
-                $this->buttonrow1,
-                $this->buttonrow2,
-                $this->buttonrow3,
-                $this->buttonrow4
-        );
-    }
-
-}
-
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='',$STYLES='',$LANG='',$BUTTONROW1='',$BUTTONROW2='',$BUTTONROW3='empty',$BUTTONROW4='empty'){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='',$STYLES='',$LANG='',$BUTTONROW1='',$BUTTONROW2='',$BUTTONROW3='empty',$BUTTONROW4='empty', $PLUGINS = ''){
 
         // lang = de oder en
 
@@ -65,6 +33,12 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
         
 
         */
+        
+        if ($PLUGINS=="redaxo_default"){
+            $PLUGINS = "redaxo,table,emotions,preview";
+        } else if ( $PLUGINS==""){
+            $PLUGINS = "redaxo,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print";
+        }
 
         if($BUTTONROW1==""){
         	$BUTTONROW1 = "styleselect,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent";
@@ -89,8 +63,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                tinyMCE.init({
 	                    language : "'.$LANG.'",
 	                    mode : "specific_textareas",
-                        plugins : "redaxo,table,emotions,preview",
-                        // plugins : "redaxo,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print",
+                        plugins : "'. $PLUGINS .'",
 	                    theme : "advanced",
                         theme_advanced_buttons1 : "'.$BUTTONROW1.'",
                         theme_advanced_buttons2 : "'.$BUTTONROW2.'",
