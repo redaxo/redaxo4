@@ -35,9 +35,12 @@
 				$apage = key($REX['ADDON']['status']);
 				$perm = $REX['ADDON']['perm'][$apage];
 				$name = $REX['ADDON']['name'][$apage];
+				$popup = $REX['ADDON']['popup'][$apage];
 				if (current($REX['ADDON']['status']) == 1 && ($REX_USER->isValueOf("rights",$perm) or $perm == "") )
 				{
-					echo " | <a href=index.php?page=$apage class=white>$name</a>";
+					if ($popup == 1) echo " | <a href=javascript:newPoolWindow('index.php?page=$apage'); class=white>$name</a>";
+					else if ($popup == "" or $popup == 0) echo " | <a href=index.php?page=$apage class=white>$name</a>";
+					else echo " | <a href=\"javascript:$popup\" class=white>$name</a>";
 				}
 				next($REX['ADDON']['status']);
 			}
