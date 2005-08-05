@@ -6,9 +6,11 @@
     20.06.2005
     Version RC1
 */
+
+error_reporting( E_ALL ^E_NOTICE);
  
 $Basedir = dirname( __FILE__);
-require_once $Basedir .'/include/functions/compat.inc.php';
+require_once $Basedir .'/functions/function_compat.inc.php';
  
 // CREATE/UPDATE DATABASE AND CREATE/UPDATE MODULES
 $sql = new CompatSql();
