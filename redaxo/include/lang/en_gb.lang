@@ -215,7 +215,7 @@ create_user = Create new user
 add_user = Add user
 edit_user = Edit user
 
-user_admin = admin (all categories/ modules/ mediafolder/ user)
+user_admin = admin (all permissions)
 user_developer = developer (all templates/ modules/ addOns)
 user_notdeleteself = ***** you cannot delete yourself
 user_lang_xs = language xs
