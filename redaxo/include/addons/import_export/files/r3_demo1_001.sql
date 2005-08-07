@@ -1,29 +1,4 @@
 ## Redaxo Database Dump Version 3.0 
-DROP TABLE IF EXISTS rex_2_group;
-CREATE TABLE rex_2_group ( id int(11) NOT NULL  auto_increment, name varchar(255) NOT NULL  , extras text NOT NULL  , PRIMARY KEY(id))TYPE=MyISAM;
-DROP TABLE IF EXISTS rex_2_u_g;
-CREATE TABLE rex_2_u_g ( id int(11) NOT NULL  auto_increment, user_id int(11) NOT NULL DEFAULT 0  , group_id int(11) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
-DROP TABLE IF EXISTS rex_2_user;
-CREATE TABLE rex_2_user ( id int(11) NOT NULL  auto_increment, user_login varchar(255) NOT NULL  , user_password varchar(255) NOT NULL  , user_name varchar(255) NOT NULL  , user_firstname varchar(255) NOT NULL  , user_gender char(1) NOT NULL  , user_birthdate varchar(255) NOT NULL  , user_eyecolor varchar(255) NOT NULL  , user_haircolor varchar(255) NOT NULL  , user_street varchar(255) NOT NULL  , user_plz varchar(255) NOT NULL  , user_town varchar(255) NOT NULL  , user_phone varchar(255) NOT NULL  , user_mobile varchar(255) NOT NULL  , user_email varchar(255) NOT NULL  , user_icq varchar(255) NOT NULL  , user_aim varchar(255) NOT NULL  , user_msn varchar(255) NOT NULL  , user_skype varchar(255) NOT NULL  , user_private_data_public int(11) NOT NULL DEFAULT 0  , company_name varchar(255) NOT NULL  , company_department varchar(255) NOT NULL  , company_operating_field varchar(255) NOT NULL  , company_street varchar(255) NOT NULL  , company_plz varchar(255) NOT NULL  , company_town varchar(255) NOT NULL  , company_phone varchar(255) NOT NULL  , company_mobile varchar(255) NOT NULL  , company_email varchar(255) NOT NULL  , company_data_public int(11) NOT NULL DEFAULT 0  , personally_positive_characteristics text NOT NULL  , personally_negaitve_characteristics text NOT NULL  , personally_hobby text NOT NULL  , personally_favorite_place text NOT NULL  , personally_slogan text NOT NULL  , personally_data_public int(11) NOT NULL DEFAULT 0  , info_newsletter int(11) NOT NULL DEFAULT 0  , info_mail int(11) NOT NULL DEFAULT 0  , user_status int(11) NOT NULL DEFAULT 0  , user_typ int(11) NOT NULL DEFAULT 0  , user_file1 varchar(255) NOT NULL  , user_file2 varchar(255) NOT NULL  , login_activation int(11) NOT NULL DEFAULT 0  , activation_key varchar(255) NOT NULL  , PRIMARY KEY(id))TYPE=MyISAM;
-DROP TABLE IF EXISTS rex_4_article;
-CREATE TABLE rex_4_article ( id int(11) NULL DEFAULT 0  , clang int(11) NULL DEFAULT 0  , path varchar(255) NULL  , name varchar(255) NULL  , category varchar(255) NULL DEFAULT 0  , description text NULL  , artnr varchar(255) NULL  , mwst float NULL DEFAULT 0  , price float NULL DEFAULT 0  , detaildesc text NULL  , thumbnail varchar(255) NULL  , picture varchar(255) NULL  , prio int(11) NULL DEFAULT 0  , status int(11) NULL DEFAULT 0  )TYPE=MyISAM;
-DROP TABLE IF EXISTS rex_4_order_product;
-CREATE TABLE rex_4_order_product ( id int(11) NOT NULL  auto_increment, product_name varchar(255) NOT NULL  , order_id int(11) NOT NULL DEFAULT 0  , product_id int(11) NOT NULL DEFAULT 0  , amount int(11) NOT NULL DEFAULT 0  , price float NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
-INSERT INTO rex_4_order_product VALUES ('1','Acer TravelMate 4601WLMi','1','3','1','1299');
-INSERT INTO rex_4_order_product VALUES ('2','Acer TravelMate 4601WLMi','2','3','1','1299');
-INSERT INTO rex_4_order_product VALUES ('3','Acer TravelMate 3202 XMi','2','2','1','1488');
-INSERT INTO rex_4_order_product VALUES ('4','ACER Travelmate 4101 LMI','3','5','2','999');
-INSERT INTO rex_4_order_product VALUES ('5','Acer TravelMate 2304WLMi','1','18','4','799');
-INSERT INTO rex_4_order_product VALUES ('6','Acer TravelMate 4101LMi','1','5','2','999');
-INSERT INTO rex_4_order_product VALUES ('7','ASUS M6743NALP','1','24','1','1669');
-INSERT INTO rex_4_order_product VALUES ('8','Joybook R22.G11','1','27','2','799');
-DROP TABLE IF EXISTS rex_8_newsletter;
-CREATE TABLE rex_8_newsletter ( id int(11) NOT NULL  auto_increment, email varchar(255) NOT NULL  , firstname varchar(255) NOT NULL  , name varchar(255) NOT NULL  , bounce varchar(255) NOT NULL  , last_nlid varchar(255) NOT NULL  , code varchar(255) NOT NULL  , status int(11) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
-INSERT INTO rex_8_newsletter VALUES ('1','jan@kristinus.de','Jan','Kristinus','','','','1');
-INSERT INTO rex_8_newsletter VALUES ('2','kai@kristinus.de','Kai','Kristinus','','','','0');
-INSERT INTO rex_8_newsletter VALUES ('3','lpauck@hotmail.com','Lisa','Pauck','','','','0');
-DROP TABLE IF EXISTS rex__gbook;
-CREATE TABLE rex__gbook ( id int(10) unsigned NOT NULL  auto_increment, author varchar(255) NULL  , message text NULL  , url varchar(255) NULL  , email varchar(255) NULL  , created timestamp(14) NULL  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_action;
 CREATE TABLE rex_action ( id int(11) NOT NULL  auto_increment, name varchar(255) NOT NULL  , action text NOT NULL  , prepost tinyint(4) NOT NULL DEFAULT 0  , sadd tinyint(4) NOT NULL DEFAULT 0  , sedit tinyint(4) NOT NULL DEFAULT 0  , sdelete tinyint(4) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_article;
@@ -69,8 +44,6 @@ INSERT INTO rex_file_category VALUES ('1','CSS','0','|','0','1119548943','111954
 INSERT INTO rex_file_category VALUES ('2','Images','0','|','0','1120169419','1120169419','thomas','thomas');
 DROP TABLE IF EXISTS rex_help;
 CREATE TABLE rex_help ( id int(11) NOT NULL  auto_increment, page varchar(255) NOT NULL  , name varchar(255) NOT NULL  , description text NOT NULL  , comment text NOT NULL  , lang varchar(255) NOT NULL  , PRIMARY KEY(id))TYPE=MyISAM;
-DROP TABLE IF EXISTS rex_kalender;
-CREATE TABLE rex_kalender ( id int(4) NOT NULL  auto_increment, kalender_nid char(1) NOT NULL  , kalender_id varchar(10) NOT NULL  , titel varchar(100) NOT NULL  , text text NOT NULL  , optionen_1 varchar(50) NOT NULL  , optionen_2 varchar(50) NOT NULL  , link varchar(50) NOT NULL  , status tinyint(1) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_module_action;
 CREATE TABLE rex_module_action ( id int(11) NOT NULL  auto_increment, module_id int(11) NOT NULL DEFAULT 0  , action_id int(11) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_modultyp;
