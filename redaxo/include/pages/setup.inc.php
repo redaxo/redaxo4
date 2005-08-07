@@ -257,26 +257,44 @@ if ($checkmodus == 2 )
 if ($checkmodus == 3 && $send == 1)
 {
 
-	/*
 	if ($dbanlegen == 3)
 	{
-		// ----- update
-		$fname = $REX[INCLUDE_PATH]."/install/update2_6-2_7.sql";
-		$h = fopen($fname,"r");
-		$create = fread($h,filesize($fname));
-		$link = mysql_connect($DB[1][HOST],$DB[1][LOGIN],$DB[1][PSW]);
-		$lines = explode(";",$create);
-		array_pop($lines);
-		foreach($lines as $line)
-		if(!mysql_db_query($DB[1][NAME],$line,$link))
+		// ----- Demo installieren
+		// ----- db
+		$file_temp = $REX[INCLUDE_PATH]."/install/redaxo3_0_simple_demo.sql";
+		$h = fopen($file_temp,"r");
+		$conts = fread($h,filesize($file_temp));
+		$conts = str_replace("## Redaxo Database Dump Version ".$REX[version]." \n","",$conts);
+		$all = explode("\n",$conts);
+		$add = new sql;
+		foreach($all as $hier){
+			$add->setquery(Trim(str_replace("||||||+N+||||||","\n",$hier),";"));
+			$add->flush();
+		}
+		$msg = $I18N_ADDON->msg("database_imported").". ".$I18N_ADDON->msg("entry_count",count($all))."<br>";
+		unset($REX[CLANG]);
+		$gl = new sql;
+		$gl->setQuery("select * from rex_clang");
+		for ($i=0;$i<$gl->getRows();$i++)
 		{
-			$err_msg .= $I18N->msg("setup_030")." MySQL: ".mysql_error()."<br>";
+			$id = $gl->getValue("id");
+			$name = $gl->getValue("name");
+			$REX[CLANG][$id] = $name;
+			$gl->next();
+		}
+		$msg .= rex_generateAll();
+		// ----- files
+		include_once $REX['INCLUDE_PATH']. '/addons/import_export/classes/class.tar.inc.php';
+		include_once $REX['INCLUDE_PATH']. '/addons/import_export/functions/function_folder.inc.php';
+		$tar = new tar;
+		$file_temp = $REX[INCLUDE_PATH]."/install/redaxo3_0_simple_demo.tar.gz";
+		$tar->openTAR($file_temp);
+		if(!$tar->extractTar())
+		{
+			$err_msg .= "error";
 		}
 
-	}else
-	*/
-
-	if ($dbanlegen == 2)
+	}else if ($dbanlegen == 2)
 	{
 		// ----- Keine Datenbank anlegen
 		$TBLS = array(
@@ -385,11 +403,11 @@ if ($checkmodus == 3)
 		<tr>
 			<td align=right><input type=radio id=dbanlegen[2] name=dbanlegen value=2 $dbchecked2></td>
 			<td><label for='dbanlegen[2]'>".$I18N->msg("setup_036")."</label></td>
-		</tr><!--
+		</tr>
 		<tr>
 			<td align=right><input type=radio id=dbanlegen[3] name=dbanlegen value=3 $dbchecked3></td>
 			<td><label for='dbanlegen[3]'>".$I18N->msg("setup_037")."</label></td>
-		</tr>-->
+		</tr>
 		<tr>
 			<td>&nbsp;</td>
 			<td valign=middle><input type=submit value='".$I18N->msg("setup_038")."'></td>
