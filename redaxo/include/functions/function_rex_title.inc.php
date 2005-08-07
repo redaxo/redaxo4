@@ -41,7 +41,7 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
             }
             else
             {
-                $format = '<a href="?page='. $_REQUEST['page'] .'&subpage=%s">%s</a>';
+                $format = '<a href="?page='. $_REQUEST['page'] .'&amp;subpage=%s">%s</a>';
                 $subtitle .= sprintf( $format, $link, $label); 
             }
             
@@ -56,11 +56,11 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
 ?>
 	<br>
 	
-	<table width="<?php echo $width ?>" cellpadding="0" cellspacing="0">
+	<table style="width: <?php echo $width ?>" cellpadding="0" cellspacing="0">
     
         <tr style="height: 30px">
             <td class=<?php echo $styleclass ?>>&nbsp;&nbsp;<b class="head"><?php echo $head ?></b></td>
-            <td rowspan="3" width="153px"><img src=pics/logo.gif width="153px" height="61px"></td>
+            <td rowspan="3" style="width: 153px"><img src="pics/logo.gif" style="width: 153px; height: 61px;"/></td>
         </tr>
         
         <tr style="height: 1px">

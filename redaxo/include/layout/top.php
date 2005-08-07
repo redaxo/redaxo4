@@ -4,15 +4,15 @@
 	<title><?php echo $REX[SERVERNAME].' - '. $page_name; ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
 	<meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
-	<link rel=stylesheet type=text/css href=css/style.css />
-	<script language=Javascript src=js/standard.js></script>
-	<script language=Javascript>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script src="js/standard.js" type="text/javascript"></script>
+	<script type="text/javascript">
 	<!--
 	var redaxo = true;
 	//-->
 	</script>
 </head>
-<body onunload=closeAll();>
+<body onunload="closeAll();">
 <table class="rexHeader" cellpadding="5" cellspacing="0">
 	<tr>
 		<th colspan="2"><?php echo $REX['SERVERNAME']; ?></th>
