@@ -214,7 +214,7 @@ if ($PERMALL && $subpage == "categories")
 		$db->setValue("updatedate",time());
 		$db->setValue("updateuser",$REX_USER->getValue("login"));
 		$db->insert();
-		$msg = $I18N->msg('pool_kat_saved',$cat_name);
+		$msg = $I18N->msg('pool_kat_saved',$_REQUEST["catname"]);
 	}
 	
 	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_kats')."</b></td></tr><tr><td></td></tr></table>";
