@@ -410,17 +410,21 @@ function rex_linkFolder($cat,$parent,$faktor)
 
         	if ($sub1)
         	{
-        		$parent1 = $sub1->getId() * $faktor;
+        		
+        		// knoten
+        		$parent1 = $sub1->getId();
 		        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
 	
+				// hat artikel ?!?
 				$myart = $sub1->getArticles(false);
 			    if (sizeof($myart)>0):
 			    foreach($myart as $art){
-			         print "Note(".$art->getId().",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
+			         print "Note(".(100000+$art->getId()).",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
 			    }
 			    endif;
 	
-				rex_linkFolder($sub1->getChildren(),$parent1,($faktor*10));
+				// ist knoten und hat unterartikel ?
+				rex_linkFolder($sub1->getChildren(),$parent1,($faktor+1));
 			}
 		}
 		
