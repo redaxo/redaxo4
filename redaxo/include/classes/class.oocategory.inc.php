@@ -95,7 +95,7 @@ class OOCategory extends OORedaxo {
 	 * Returns the parent category
 	 */
 	function getParent() {
-		return OOCategory::getCategoryById($this->re_id);
+		return OOCategory::getCategoryById($this->_re_id);
 	}
 
 	/*
