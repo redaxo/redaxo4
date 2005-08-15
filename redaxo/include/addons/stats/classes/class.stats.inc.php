@@ -320,13 +320,52 @@ class stats
 	{
 
 		foreach ( $this->MAIN['referer'] as $v )
+		{
 			foreach ( $v as $var )
+			{
+				if ($var!="")
+				{
+					preg_match("/^(http?:\/\/)?([^\/]+)/i",$var, $treffer);
+					$host = $treffer[2];
+					// die letzten beiden Segmente aus Hostnamen holen
+					// preg_match("/[^\.\/]+\.[^\.\/]+$/", $host, $treffer);
+					// echo "<br>$var | ".$treffer[0];
+					$this->REF[$treffer[0]][$var]++;
+					$var = $treffer[0];
+				}
+				
+				
 				$this->REFERER[base64_encode($var)]++;
+			}
+		}
+
 
 		asort( $this->REFERER );
 
-		$refout = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
-		$refout .= "<tr><th>Referer</th><th>Anzahl</th></tr>";
+		$refout = "<table class=rex border=0 cellpadding=5 cellspacing=1 width=100% style='width:100%;'>";
+		$refout .= "<tr><th class=icon>&nbsp;</th><th>Referer</th><th width=100>Anzahl</th></tr>";
+		$refout .= "</table>";
+
+		$refout .= "<script language=Javascript>
+		<!--
+		
+		function showRest(id)
+		{
+			obj = document.getElementById(id).style;
+			
+			if (obj.display == 'none')
+			{
+				obj.display = '';
+			}else
+			{
+				obj.display = 'none';
+			}
+			
+		}
+		
+		-->
+		</script>
+		";
 
 		// searchengine array: $ser = enginename and domainsearchpattern,
 		//					   $pat = pattern to determine searchwords
@@ -346,34 +385,54 @@ class stats
 		$ser[5] = "aol";
 		$pat[5] = "/q=(.*?)\&/";
 
+		$id_k = 0;
+
 		// generiere Refererliste und gleichzeitig check
 		foreach( array_reverse($this->REFERER) as $k => $v)
 		{
-			for ( $i = 0; $i < count($ser) ; $i++ )
-			{
-				if ( preg_match("/".$ser[$i]."/",base64_decode($k) ) )
-				{
-					$this->SEARCH['engine'][base64_encode($ser[$i])] += $v;
-					if ( preg_match($pat[$i],base64_decode($k),$res ) )
-						$this->SEARCH['words'][base64_encode($res[1])] += $v;
-				}
-			}
-
+			$id_k++; // javascript layer id
 			if ( base64_decode($k) == "" ) $k = base64_encode("(direkt)");
-
 			if ( base64_decode($k) != "(direkt)" ) $link = base64_decode($k);
 			else $link = "#";
 
-			if ( strlen(base64_decode($k)) > 60 ) $das = substr(base64_decode($k),0,60)."...";
+			if ( strlen(base64_decode($k)) > 60 ) $das = substr(base64_decode($k),0,60)." ...";
 			else $das = base64_decode($k);
 
+			$refout .= "<a name=astats$id_k></a>";
+			$refout .= "<table class=rex border=0 cellpadding=5 cellspacing=1 width=100% style='width:100%;'>";
+			// <th class=icon><a href=#astats$id_k onclick=showRest('stats$id_k');><img src=pics/folder.gif width=16 height=16 border=0></a></th>
 			$refout .= "<tr>
-							<td class=grey align=right><a href=$link target=_blank>$das</a></td>
-							<td class=grey align=right>$v</td>
+							<th class=icon><a href=javascript:showRest('stats$id_k');><img src=pics/folder.gif width=16 height=16 border=0></a></th>
+							<th align=left><a href=$link target=_blank>$das</a></th>
+							<th align=right width=100>$v</th>
 						 </tr>";
+			$refout .= "</table>";
+			
+			$refout .= "<table class=rex border=0 cellpadding=5 cellspacing=1 width=100% id=stats$id_k style='width:100%;display:none'>";
+			if ($das != "(direkt)")
+			{
+				foreach ( $this->REF[$das] as $o => $p)
+				{
+					if ( strlen($o) > 60 ) $q = substr($o,0,60)." ...";
+					else $q = $o;
+					
+					$refout .= "<tr><td class=icon>&nbsp;</td><td class=lgrey><a href=$o target=_blank>$q</a></td><td width=100 align=right>$p</td></tr>";
+					
+					for ( $i = 0; $i < count($ser) ; $i++ )
+					{
+						if ( preg_match("/".$ser[$i]."/",($o) ) )
+						{
+							$this->SEARCH['engine'][base64_encode($ser[$i])] += $p;
+							if ( preg_match($pat[$i],($o),$res ) )
+								$this->SEARCH['words'][base64_encode($res[1])] += $p;
+						}
+					}
+					
+				}
+			}
+			$refout .= "</table>";
 		}
 
-		$refout .= "</table>";
 
 		$searchout = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
 		$searchout .= "<tr><th>Suchmaschine</th><th>Anzahl</th></tr>";
@@ -381,8 +440,8 @@ class stats
 		$wordsout = "<table border=0 cellpadding=5 cellspacing=1 width=100%>";
 		$wordsout .= "<tr><th>Suchwort</th><th>Anzahl</th></tr>";
 
-		asort($this->SEARCH['engine']);
-		asort($this->SEARCH['words']);
+		arsort($this->SEARCH['engine']);
+		arsort($this->SEARCH['words']);
 
 		// generiere searchout und wordsout
 
