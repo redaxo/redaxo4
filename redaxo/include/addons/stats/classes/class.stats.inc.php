@@ -384,6 +384,10 @@ class stats
 		$pat[4] = "/q=(.*?)\&/";
 		$ser[5] = "aol";
 		$pat[5] = "/q=(.*?)\&/";
+		$ser[6] = "alltheweb";
+		$pat[6] = "/q=(.*?)\&/";
+		$ser[6] = "arcor";
+		$pat[6] = "/Keywords=(.*?)\&/";
 
 		$id_k = 0;
 
