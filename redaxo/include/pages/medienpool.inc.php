@@ -732,6 +732,7 @@ if($subpage=="detail" && $media_method=='edit_file'){
 				if ($ffiletype == $filetype)
 				{
 					unlink($REX[MEDIAFOLDER]."/".$filename);
+					$upload = false;
 					if (!move_uploaded_file($ffilename,$REX[MEDIAFOLDER]."/$filename"))
 					{
 						if (!@copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
@@ -742,14 +743,20 @@ if($subpage=="detail" && $media_method=='edit_file'){
 							$FILESQL->setValue("filetype",$ffiletype);
 							$FILESQL->setValue("originalname",$ffilename);
 							$FILESQL->setValue("filesize",$ffilesize);
-							$msg .= "<br>Die Datei wurde ausgetauscht!";
+							$uploaded = true;
 						}
 					}else
 					{
 						$FILESQL->setValue("filetype",$ffiletype);
 						$FILESQL->setValue("originalname",$ffilename);
 						$FILESQL->setValue("filesize",$ffilesize);
-						$msg .= "<br>Die Datei wurde ausgetauscht!";
+						$uploaded = true;
+					}
+					
+					if ($uploaded)
+					{
+						$msg .= "<br>".$I18N->msg('pool_file_changed');;
+						chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
 					}
 				}else
 				{
