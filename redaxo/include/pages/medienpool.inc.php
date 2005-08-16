@@ -731,11 +731,11 @@ if($subpage=="detail" && $media_method=='edit_file'){
 		
 				if ($ffiletype == $filetype)
 				{
-					unlink($REX[MEDIAFOLDER]."/".$filename);
+					// unlink($REX[MEDIAFOLDER]."/".$filename);
 					$upload = false;
 					if (!move_uploaded_file($ffilename,$REX[MEDIAFOLDER]."/$filename"))
 					{
-						if (!@copy($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME"))
+						if (!@copy($ffilename,$REX[MEDIAFOLDER]."/$filename"))
 						{
 							$msg .= "<br>".$I18N->msg('pool_file_upload_error');
 						}else
@@ -756,7 +756,7 @@ if($subpage=="detail" && $media_method=='edit_file'){
 					if ($uploaded)
 					{
 						$msg .= "<br>".$I18N->msg('pool_file_changed');;
-						chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
+						chmod($REX[MEDIAFOLDER]."/$filename", 0777);
 					}
 				}else
 				{
