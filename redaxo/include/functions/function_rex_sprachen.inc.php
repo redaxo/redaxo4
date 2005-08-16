@@ -1,4 +1,4 @@
-<?
+<?php
 
 // rechte einbauen
 // admin[]

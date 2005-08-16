@@ -1,4 +1,7 @@
-<?
+<?php
+
+
+// Scripttime for debugging
 
 function showScripttime()
 {
@@ -14,6 +17,12 @@ function getCurrentTime()
 	return ($time[0]+$time[1]);
 } 
 
-$scriptTimeStart = getCurrentTime();
+function startScripttime()
+{
+	global $scriptTimeStart;
+	$scriptTimeStart = getCurrentTime();
+}
+
+startScripttime();
 
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 	// class.i18n.inc.php
 	// 
 	// created 03.04.04 by Carsten Eckelmann, <careck@circle42.com>

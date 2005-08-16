@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 // class sql 1.0

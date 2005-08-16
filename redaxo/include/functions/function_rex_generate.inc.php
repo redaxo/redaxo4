@@ -114,7 +114,7 @@ function rex_generateArticle($id,$refresh=0)
 		$article_content = "?>".$CONT->getArticle();
 
 		// --------------------------------------------------- Artikelparameter speichern
-		$article = "<?\n".
+		$article = "<?php\n".
 					"\n\$REX[ART][$id][article_id][$clang] = \"$id\";".
 					"\n\$REX[ART][$id][re_id][$clang] = \"".rex_addslashes($CONT->getValue("re_id"))."\";".
 					"\n\$REX[ART][$id][name][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".

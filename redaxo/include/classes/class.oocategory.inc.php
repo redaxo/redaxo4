@@ -1,4 +1,5 @@
-<?
+<?php
+
 class OOCategory extends OORedaxo {
 
 	function OOCategory($params = false,$clang=false){

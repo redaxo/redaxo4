@@ -1,4 +1,4 @@
-<?
+<?php
 
 function createImage($text,$ttfpath,$imagepath,$fontsize,$wordwrap,$height,$width,$posy=22,$bgcolor='white',$fontcolor='grey',$posx=0)
 {

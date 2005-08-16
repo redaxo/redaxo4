@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
  * The OOArticleSlice class is an object wrapper over the database table rex_articel_slice.

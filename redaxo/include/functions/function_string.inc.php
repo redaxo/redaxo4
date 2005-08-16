@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Returns true if $string starts with $start
  * 

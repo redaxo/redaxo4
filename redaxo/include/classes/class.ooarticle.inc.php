@@ -1,4 +1,5 @@
-<?
+<?php
+
 class OOArticle extends OORedaxo {
 
 	function OOArticle($params = false,$clang=false){

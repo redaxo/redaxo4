@@ -1,4 +1,4 @@
-<?
+<?php
 
 echo "
 <style type=text/css>

@@ -1,4 +1,4 @@
-<?
+<?php
 
 // class select 1.0 [redaxo]
 // 
