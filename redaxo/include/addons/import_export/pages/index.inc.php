@@ -335,7 +335,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 
 
 <tr>
-	<td class=dgrey valign=top><?
+	<td class=dgrey valign=top><?php
 	
 	// ----------------------------------------------------------------- IMPORT
 	
@@ -411,7 +411,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 
 	// ----------------------------------------------------------------- /IMPORT
 
-	?></td><td class=dgrey valign=top><?
+	?></td><td class=dgrey valign=top><?php
 	
 	// ----------------------------------------------------------------- EXPORT
 	
@@ -504,7 +504,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 
 
 
-<?
+<?php
 
 include $REX[INCLUDE_PATH]."/layout/bottom.php";
 
