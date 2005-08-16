@@ -1,4 +1,4 @@
-<?
+<?php
 
 class stats
 {
@@ -516,7 +516,7 @@ class stats
 
 		$month = $month.".".$year;
 
-		$line = "<?
+		$line = "<?php
 				\$maincontent .= \"<tr>
 					<td class=grey align=right>$month</td>
 					<td class=grey align=right>$pv</td>

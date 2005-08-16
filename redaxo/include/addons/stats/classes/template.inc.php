@@ -1,5 +1,5 @@
 
-<?
+<?php
 
 
 if ( $show == "day" ) $maincontent = "REX_EVAL_DAY";
