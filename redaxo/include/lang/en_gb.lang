@@ -315,6 +315,7 @@ pool_file_ins = Insert
 pool_file_deleted = File has been deleted
 pool_file_delete_error_1 = File "{0}" could not be removed
 pool_file_delete_error_2 = It is used by the following articles
+pool_file_changed = File has been updated
 pool_import_list = Media-Import
 pool_import_help = Source folder for Media-Import (folder in directory files)
 pool_import_target_info = Select Category for File-Import
