@@ -115,9 +115,19 @@ class OOCategory extends OORedaxo {
 	 * (parent, grandparent, greatgrandparent, etc)
 	 * of the other category.
 	 */
-	function isAncestor($other_cat) {
-		// TODO!
-		return false;
+	function isAncestor($other_cat_id) {
+
+		$category = OOCategory::getCategoryByID($other_cat_id);
+		$expl = explode('|',$category->_path);
+		if($expl[1]!=""){
+	        if(in_array($this->_id,$expl)){
+	            return true;
+	        }
+	    }
+
+	    if($this->_id == $other_cat_id) return true;
+
+	    return false;
 	}
 
 	/*
