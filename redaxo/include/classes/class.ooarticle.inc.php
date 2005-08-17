@@ -138,6 +138,34 @@ class OOArticle extends OORedaxo {
 	}
 
 	/*
+	 * Object Function:
+	 * Return a array of all parentCategories for an Breadcrumb for instance
+	 * Returns an array of OORedaxo objects sorted by $prior.
+	 *
+	 * If $ignore_offlines is set to TRUE,
+	 * all categories with status 0 will be
+	 * excempt from this list!
+	 */
+	function getParentTree(){
+
+		if($this->_path){
+		    $explode = explode('|',$this->_path);
+		    if(is_array($explode)){
+		        foreach($explode as $var){
+		            if($var != ''){
+		                $return[] = OOCategory::getCategoryById($var,$this->_clang);
+		            }
+		        }
+		    }
+		    if($this->_startpage){
+				 $return[] = OOCategory::getCategoryById($this->_id,$this->_clang);
+			}
+
+			return $return;
+		}
+	}
+
+	/*
 	*  Accessor Method:
 	 * returns true if this Article is the Startpage for the category.
 	 */
