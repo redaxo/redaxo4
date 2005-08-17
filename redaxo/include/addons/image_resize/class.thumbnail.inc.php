@@ -70,7 +70,7 @@
 	        }
 	    }
 
-	    function jpeg_quality($quality=75)
+	    function jpeg_quality($quality=85)
 	    {
 	        //jpeg quality
 	        $this->img["quality"]=$quality;
