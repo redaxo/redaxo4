@@ -66,7 +66,7 @@ function selectMedia(filename)
 
 function addMedialist(filename)
 {
-	<?php 
+	<?php
 		if (substr($_SESSION["media[opener_input_field]"],0,14) == "REX_MEDIALIST_")
 		{
 			$id = substr($_SESSION["media[opener_input_field]"],14,strlen($_SESSION["media[opener_input_field]"]));
@@ -82,7 +82,7 @@ function insertLink(link){
 
 function insertImage(src, alt, width, height)
 {
-	var image = '<img src="<?php echo str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/>';
+	var image = '<img src="<?php echo str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/ title="wysiwyg">';
 	insertHTML( image);
 }
 
@@ -94,10 +94,10 @@ function insertHTML(html) {
 function SetAllCheckBoxes(FormName, FieldName, mthis)
 {
 	CheckValue = true;
-	
+
 	if (mthis.checked) CheckValue=true;
 	else CheckValue=false;
-	
+
 	if(!document.forms[FormName])
 		return;
 	var objCheckBoxes = document.forms[FormName].elements[FieldName];
@@ -140,7 +140,7 @@ function insertHTMLArea(html,filename){
 </tr>
 <tr>
 	<td class=greenwhite><b>
-<?php 
+<?php
 
 echo "<a href=index.php?page=medienpool&rex_file_category=$rex_file_category class=white>".$I18N->msg('pool_file_list')."</a>";
 echo " | <a href=index.php?page=medienpool&subpage=add_file&rex_file_category=$rex_file_category class=white>".$I18N->msg('pool_file_insert')."</a>";
@@ -175,7 +175,7 @@ if ($msg != "")
 // *************************************** SUBPAGE: KATEGORIEN
 if ($PERMALL && $subpage == "categories")
 {
-	
+
 	$msg = "";
 	if($_REQUEST["media_method"] == 'edit_file_cat')
 	{
@@ -187,7 +187,7 @@ if ($PERMALL && $subpage == "categories")
 		$db->setValue("updateuser",$REX_USER->getValue("login"));
 		$db->update();
 		$msg = $I18N->msg('pool_kat_updated',$cat_name);
-		
+
 	}elseif($_REQUEST["media_method"] == 'delete_file_cat')
 	{
 		$gf = new sql;
@@ -216,7 +216,7 @@ if ($PERMALL && $subpage == "categories")
 		$db->insert();
 		$msg = $I18N->msg('pool_kat_saved',$_REQUEST["catname"]);
 	}
-	
+
 	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_kats')."</b></td></tr><tr><td></td></tr></table>";
 
 	$link = "index.php?page=medienpool&subpage=categories&cat_id=";
@@ -231,9 +231,9 @@ if ($PERMALL && $subpage == "categories")
 	}else
 	{
 		$OOCats = $OOCat->getChildren();
-		
+
 		$paths = explode("|",$OOCat->getPath());
-		
+
 		for ($i=1;$i<count($paths);$i++)
 		{
 			$iid = current($paths);
@@ -276,14 +276,14 @@ if ($PERMALL && $subpage == "categories")
 			echo "<td class=grey><input type=text size=10 class=inp100 name=catname value=\"".htmlentities("")."\"></td>";
 			echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
 			echo "</form>";
-			echo "</tr>";	
+			echo "</tr>";
 	}
 
 	foreach( $OOCats as $OOCat) {
-		
+
 		$iid = $OOCat->getId();
 		$iname = $OOCat->getName();
-		
+
 		if($_REQUEST["media_method"] == "update_file_cat" && $edit_id==$iid)
 		{
 			echo "<tr>";
@@ -384,12 +384,12 @@ $cat_out .= "</tr></form></table>";
 function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 
 	global $REX,$REX_USER;
-	
+
 	$FILENAME = $FILE[name];
 	$FILESIZE = $FILE[size];
 	$FILETYPE = $FILE[type];
 	$NFILENAME = "";
-	
+
 	// ----- neuer filename und extension holen
 	$NFILENAME = strtolower(preg_replace("/[^a-zA-Z0-9.]/","_",$FILENAME));
 	if (strrpos($NFILENAME,".") != "")
@@ -409,9 +409,9 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 		$NFILE_NAME .= $NFILE_EXT;
 		$NFILE_EXT = ".txt";
 	}
-	
+
 	$NFILENAME = $NFILE_NAME.$NFILE_EXT;
-	
+
 	// ----- datei schon vorhanden -> namen aendern -> _1 ..
 	if (file_exists($REX[MEDIAFOLDER]."/$NFILENAME"))
 	{
@@ -421,7 +421,7 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 			if (!file_exists($REX[MEDIAFOLDER]."/$NFILENAME")) break;
 		}
 	}
-	
+
 	// ----- dateiupload
 	$upload = true;
 	if(!@move_uploaded_file($FILE[tmp_name],$REX[MEDIAFOLDER]."/$NFILENAME") )
@@ -433,15 +433,15 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 			$upload = false;
 		}
 	}
-	
+
 	if($upload)
 	{
-	
+
 		chmod($REX[MEDIAFOLDER]."/$NFILENAME", 0777);
-	
+
 		// get widht height
 		$size = @getimagesize($REX[MEDIAFOLDER]."/$NFILENAME");
-	
+
 		$FILESQL = new sql;
 		// $FILESQL->debugsql=1;
 		$FILESQL->setTable("rex_file");
@@ -462,7 +462,7 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 		$FILESQL->insert();
 		$ok = 1;
 	}
-	
+
 	$RETURN[title] = $FILEINFOS[title];
 	$RETURN[width] = $size[0];
 	$RETURN[height] = $size[1];
@@ -470,7 +470,7 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 	$RETURN[msg] = $message;
 	$RETURN[ok] = $ok;
 	$RETURN[filename] = $NFILENAME;
-	
+
 	return $RETURN;
 }
 
@@ -518,30 +518,30 @@ function add_mediacat_options_wperm( &$select, &$mediacat, &$mediacat_ids, $grou
 
 // ----- METHOD ADD FILE
 if($subpage == "add_file" && $media_method == 'add_file'){
-	
+
 	// echo $_FILES[file_new][name];
-	
+
 	// function in function.rex_medienpool.inc.php
 	if ($_FILES[file_new][name] != "" and $_FILES[file_new][name] != "none")
 	{
-		
+
 		$FILEINFOS[title] = $ftitle;
 		$FILEINFOS[description] = $fdescription;
 		$FILEINFOS[copyright] = $fcopyright;
-		
+
 		if (!$PERMALL && !$REX_USER->isValueOf("rights","media[$rex_file_category]")) $rex_file_category = 0;
-		
+
 		$return = saveMedia($_FILES[file_new],$rex_file_category,$FILEINFOS);
 		$msg = $return[msg];
 		$subpage = "";
-				
+
 		if ($saveandexit != "" && $return[ok]==1)
 		{
 			$file_name = $return[filename];
 			$ffiletype = $return[type];
 			$width = $return[width];
 			$height = $return[height];
-	
+
 			if($_SESSION["media[opener_input_field]"] == 'TINY')
 			{
 				if (in_array($ffiletype,$imgtypes))
@@ -560,14 +560,14 @@ if($subpage == "add_file" && $media_method == 'add_file'){
 					$js = "addMedialist('".$file_name."');";
 				}
 			}
-					
+
 			echo "<script language=javascript>\n";
 			echo $js;
 			echo "\nself.close();\n";
 			echo "</script>";
 			exit;
 		}
-	
+
 	}else
 	{
 		// $msg = ;
@@ -595,13 +595,13 @@ if ($subpage == "add_file")
 	$cats_sel->set_selected($rex_file_category);
 
 	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_file_insert')."</b></td></tr><tr><td></td></tr></table>";
-	
+
 	if ($msg != "")
 	{
 		print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
 		$msg = "";
 	}
-	
+
 	print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
 	print "<form name=rex_file_cat action=index.php method=POST ENCTYPE=multipart/form-data>\n";
 	print "<input type=hidden name=page value=medienpool>\n";
@@ -635,42 +635,42 @@ if($subpage=="detail" && $media_method=='delete_file')
 {
 	$gf = new sql;
 	$gf->setQuery("select * from rex_file where file_id='$file_id'");
-	
+
 	if ($gf->getRows()==1)
 	{
 		if ($PERMALL || $REX_USER->isValueOf("rights","media[".$gf->getValue("category_id")."]"))
 		{
-	
+
 			$file_name = $gf->getValue("filename");
-		
+
 			// check if file is in an article slice
 			$file_search = '';
-	
+
 			for($c=1;$c<11;$c++){
 				$file_search.= "OR file$c='$file_name' ";
 				$file_search.= "OR value$c LIKE '%$file_name%' ";
 			}
-			
+
 			$file_search = substr($file_search,2);
-			
+
 			// in rex_values ?
 			$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
 			// $db->setQuery($sql);
 			$res1 = $db->get_array($sql);
-			
+
 			// in article metafile ?
 			$sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
 			$res2= $db->get_array($sql);
-		
+
 			if(!is_array($res1) and !is_array($res2)){
-			
+
 				$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
 				$db->query($sql);
 				unlink($REX[MEDIAFOLDER]."/".$file_name);
 				$msg = $I18N->msg('pool_file_deleted');
 				$subpage = "";
 			}else{
-			
+
 				$msg = $I18N->msg('pool_file_delete_error_1',"$file_name")." ";
 				$msg.= $I18N->msg('pool_file_delete_error_2')."<br>";
 				if(is_array($res1))
@@ -687,7 +687,7 @@ if($subpage=="detail" && $media_method=='delete_file')
 				}
 				$msg .= " | ";
 				$subpage = "";
-			
+
 			}
 		}else
 		{
@@ -701,15 +701,15 @@ if($subpage=="detail" && $media_method=='delete_file')
 }
 
 if($subpage=="detail" && $media_method=='edit_file'){
-	
+
 	$gf = new sql;
 	$gf->setQuery("select * from rex_file where file_id='$file_id'");
 	if ($gf->getRows()==1)
 	{
-		
+
 		if ($PERMALL || ( $REX_USER->isValueOf("rights","media[".$gf->getValue("category_id")."]") &&  $REX_USER->isValueOf("rights","media[$rex_file_category]") ) )
 		{
-			
+
 			$FILESQL = new sql;
 			$FILESQL->setTable("rex_file");
 			$FILESQL->where("file_id='$file_id'");
@@ -717,18 +717,18 @@ if($subpage=="detail" && $media_method=='edit_file'){
 			$FILESQL->setValue("description",$fdescription);
 			$FILESQL->setValue("copyright",$fcopyright);
 			$FILESQL->setValue("category_id",$rex_file_category);
-			
+
 			$msg = "Dateiinformationen wurden aktualisiert!";
 			$filename = $gf->getValue("filename");
 			$filetype = $gf->getValue("filetype");
-		
+
 			if ($_FILES[file_new][name] != "" and $_FILES[file_new][name] != "none")
 			{
-				
+
 				$ffilename = $_FILES[file_new][tmp_name];
 				$ffiletype = $_FILES[file_new][type];
 				$ffilesize = $_FILES[file_new][size];
-		
+
 				if ($ffiletype == $filetype)
 				{
 					// unlink($REX[MEDIAFOLDER]."/".$filename);
@@ -752,7 +752,7 @@ if($subpage=="detail" && $media_method=='edit_file'){
 						$FILESQL->setValue("filesize",$ffilesize);
 						$uploaded = true;
 					}
-					
+
 					if ($uploaded)
 					{
 						$msg .= "<br>".$I18N->msg('pool_file_changed');;
@@ -764,7 +764,7 @@ if($subpage=="detail" && $media_method=='edit_file'){
 				}
 			}
 			$size = @getimagesize($REX[INCLUDE_PATH]."/../../files/$filename");
-			
+
 			$FILESQL->setValue("updatedate",time());
 			$FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
 			$FILESQL->update();
@@ -783,10 +783,10 @@ if($subpage=="detail" && $media_method=='edit_file'){
 if ($subpage == "detail")
 {
 	$gf = new sql;
-	
+
 	if ($file_name != "") $gf->setQuery("select * from rex_file where filename='$file_name'");
 	if ($gf->getRows()==1) $file_id = $gf->getValue("file_id");
-	
+
 	$gf->setQuery("select * from rex_file where file_id='$file_id'");
 	if ($gf->getRows()==1)
 	{
@@ -796,19 +796,19 @@ if ($subpage == "detail")
 
 		echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_file_detail')."</b></td></tr><tr><td></td></tr></table>";
 		echo $cat_out;
-		
+
 		$ftitle = $gf->getValue("title");
 		$fdescription = $gf->getValue("description");
 		$fcopyright = $gf->getValue("copyright");
 		$fname = $gf->getValue("filename");
 		$ffiletype = $gf->getValue("filetype");
 		$rex_category_id = $gf->getValue("category_id");
-		
+
 		$file_ext = substr(strrchr($file_name,"."),1);
 		$icon_src = "pics/mime_icons/mime-default.gif";
 		if (in_array($file_ext,$doctypes)) $icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
 		$thumbnail = "<img src=$icon_src align=left border=0>";
-		
+
 		$ffiletype_ii = in_array($ffiletype,$imgtypes);
 		if ($ffiletype_ii==1)
 		{
@@ -841,7 +841,7 @@ if ($subpage == "detail")
 				$opener_link = "<a href=javascript:addMedialist('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
 			}
 		}
-		
+
 		if ($TPERM)
 		{
 
@@ -868,14 +868,14 @@ if ($subpage == "detail")
 			print "<input type=hidden name=subpage value=detail>\n";
 			print "<input type=hidden name=file_id value=$file_id>\n";
 			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td>";
-	
+
 			if ($ffiletype_ii)
 			{
-				$imgn = "../files/$fname width=$rfwidth"; 
+				$imgn = "../files/$fname width=$rfwidth";
 				if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname";
 				echo "<td rowspan=12 width=220 align=center class=lgrey valign=top><br><img src=$imgn  border=0></td>";
 			}
-	
+
 			print "</tr>\n";
 			print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey colspan=2>".$cats_sel->out()."</td></tr>\n";
 			print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey colspan=2><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
@@ -899,18 +899,18 @@ if ($subpage == "detail")
 		}else
 		{
 			$Cat = OOMediaCategory::getCategoryById($rex_file_category);
-			
+
 			print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
 			print "<tr><th align=left colspan=4>Detailinformationen | $opener_link</th></tr>";
 			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2>".htmlentities(stripslashes($ftitle))."</td>";
-	
+
 			if ($ffiletype_ii)
 			{
-				$imgn = "../files/$fname width=$rfwidth"; 
+				$imgn = "../files/$fname width=$rfwidth";
 				if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname";
 				echo "<td rowspan=10 width=220 align=center class=lgrey valign=top><br><img src=$imgn  border=0></td>";
 			}
-	
+
 			print "</tr>\n";
 			print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey colspan=2>".$Cat->getName()."</td></tr>\n";
 			print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey colspan=2>".(stripslashes($fdescription))."</td></tr>\n";
@@ -920,7 +920,7 @@ if ($subpage == "detail")
 			print "<tr><td class=grey>".$I18N->msg('pool_created').":</td><td class=grey colspan=2>".strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate"))." [".$gf->getValue("createuser")."]</td></tr>\n";
 			print "</table>\n";
 		}
-	
+
 	}else
 	{
 		$msg = $I18N->msg('pool_file_not_found');
@@ -945,11 +945,11 @@ if ($subpage == "detail")
 
 // ----- METHOD IMPORT IMPORT DIR
 if($PERMALL && ($subpage=='import') && ($method=="do")){
-	
+
 	$FILE_PATH = $REX[MEDIAFOLDER]."/";
-	
+
 	$db = new sql;
-	
+
 	if (!function_exists('mime_content_type')) {
 		function mime_content_type($f) {
 			$f = escapeshellarg($f);
@@ -962,11 +962,11 @@ if($PERMALL && ($subpage=='import') && ($method=="do")){
 			if ($handle = opendir($FILE_PATH.$var)) {
 				while (false !== ($file = readdir($handle))) {
 					if ($file != "." && $file != "..") {
-					
+
 						unset($MEDIA);
-						
+
 						$THIS_PATH = $FILE_PATH.$var."/".$file;
-						
+
 						// prepare data for saveMedia();
 						$MEDIA[name] = $file;
 						$MEDIA[tmp_name] = $THIS_PATH;
@@ -975,7 +975,7 @@ if($PERMALL && ($subpage=='import') && ($method=="do")){
 						$MEDIA_CATEGORY = $_POST[importcategory];
 						//trägt dateinamen als title ein
 						$RESULT = saveMedia($MEDIA,$MEDIA_CATEGORY,array(title=>$file));
-						
+
 						$cnt++;
 					}
 				}
@@ -996,7 +996,7 @@ if($PERMALL && $subpage=='import'){
 	print "<input type=hidden name=page value=medienpool>\n";
 	print "<input type=hidden name=subpage value=import>\n";
 	print "<input type=hidden name=method value=do>\n";
-	
+
 	echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>".$I18N->msg('pool_import_list')."</td></tr><tr><td></td></tr></table>";
 
 	if ($msg != "")
@@ -1006,7 +1006,7 @@ if($PERMALL && $subpage=='import'){
 	}
 
 	print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
-	
+
 	print "<tr><th colspan=2 class=grey align=left>".$I18N->msg('pool_import_help')."</td></tr>";
 
 	// Print Folders in Files Dir
@@ -1067,7 +1067,7 @@ if($PERMALL && $media_method=='updatecat_selectedmedia')
 	if(is_array($_POST["selectedmedia"])){
 
 		foreach($_POST["selectedmedia"] as $file_id){
-		
+
 			$db = new sql;
 			// $db->debugsql = true;
 			$db->setTable('rex_file');
@@ -1076,7 +1076,7 @@ if($PERMALL && $media_method=='updatecat_selectedmedia')
 			$db->setValue("updatedate",time());
 			$db->setValue("updateuser",$REX_USER->getValue("login"));
 			$db->update();
-		
+
 			$msg = $I18N->msg('pool_selectedmedia_moved');
 		}
 	}else{
@@ -1086,38 +1086,38 @@ if($PERMALL && $media_method=='updatecat_selectedmedia')
 
 if($PERMALL && $media_method=='delete_selectedmedia')
 {
-	
+
 	if(is_array($_POST["selectedmedia"]))
 	{
 		$msg = "";
 		foreach($_POST["selectedmedia"] as $file_id){
-			
+
 			//kopiet von Dateidetails delete_file
-			
+
 			$gf = new sql;
 			$gf->setQuery("select * from rex_file where file_id='$file_id'");
 			if ($gf->getRows()==1)
 			{
 				$file_name = $gf->getValue("filename");
-			
+
 				// check if file is in an article slice
 				$file_search = '';
-				
+
 				for($c=1;$c<11;$c++){
 					$file_search.= "OR file$c='$file_name' ";
 					$file_search.= "OR value$c LIKE '%$file_name%' ";
 				}
-				
+
 				$file_search = substr($file_search,2);
 				$sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
 				// $db->setQuery($sql);
 				$res1 = $db->get_array($sql);
-			
+
 				$sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
 				$res2 = $db->get_array($sql);
-			
+
 				if(!is_array($res1) and !is_array($res2)){
-			
+
 					$sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
 					$db->query($sql);
 					unlink($REX[MEDIAFOLDER]."/".$file_name);
@@ -1196,20 +1196,20 @@ if($subpage == "")
 		print "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td class=warning colspan=3>$msg</td></tr>";
 		$msg = "";
 	}
-	
+
 	//deletefilelist und cat change
 	print "<form name=rex_file_list action=index.php method=post ENCTYPE=multipart/form-data>\n";
 	print "<input type=hidden name=page value=medienpool>\n";
 	print "<input type=hidden name=rex_file_category value=$rex_file_category>\n";
 	print "<input type=hidden name=media_method value=''>\n";
-	
+
 	$files = new sql;
 	// $files->debugsql = 1;
 	$files->setQuery("SELECT * FROM rex_file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc");
-	
+
 	for ($i=0;$i<$files->getRows();$i++)
 	{
-	
+
 		$file_id =   $files->getValue("file_id");
 		$file_name = $files->getValue("filename");
 		$file_oname = $files->getValue("originalname");
@@ -1224,7 +1224,7 @@ if($subpage == "")
 		// check if file exists
 		// was passiert wenn nicht da ?
 		// if(!file_exists($REX[MEDIAFOLDER]."/".$file_name)) continue;
-	
+
 		$file_ext = substr(strrchr($file_name,"."),1);
 		$icon_src = "pics/mime_icons/mime-default.gif";
 		if (in_array($file_ext,$doctypes))
@@ -1249,10 +1249,10 @@ if($subpage == "")
 		else if($size < $gb) $file_size = round($size/$mb,2)." MBbytes";
 		else if($size < $tb) $file_size = round($size/$gb,2)." GBytes";
 		else $file_size = round($size/$tb,2)." TBbytes";
-	
+
 		if ($file_title == "") $file_title = "[".$I18N->msg('pool_file_notitle')."]";
 		if ($file_description == "") $file_description = "[".$I18N->msg('pool_file_nodescription')."]";
-	
+
 		// ----- opener
 		if($_SESSION["media[opener_input_field]"] == 'TINY')
 		{
@@ -1271,23 +1271,23 @@ if($subpage == "")
 				$opener_link = "<a href=javascript:addMedialist('".$file_name."');>".$I18N->msg('pool_file_get')."</a>";
 			}
 		}
-			
+
 		$ilink = "index.php?page=medienpool&subpage=detail&file_id=$file_id&rex_file_category=$rex_file_category";
 		echo "<tr>";
-	
+
 		if ($PERMALL) echo "<td class=icon><input type=checkbox name=selectedmedia[] value='$file_id'></td>";
 		else echo "<td class=icon>&nbsp;</td>";
-		
+
 		echo "<td style='background-color:#e6e6e6; text-align:center; vertical-align:middle;'><a href=$ilink>$thumbnail</a></td>";
 		echo "<td valign=top class=grey><b><a href=$ilink>$file_title</a></b><br><br><b>$file_name [$file_size]</b><br>".nl2br(htmlentities($file_description))."<br><br>$file_stamp | $file_updateuser</td>";
 		echo "<td valign=top class=grey>$opener_link</td>";
 		echo "</tr>";
 		$files->next();
 	}
-	
+
 	if ($files->getRows()==0)
 	{
-		
+
 		// ----- no items found
 		// print "<tr><td colspan=5>&nbsp;</td>";
 		print "<tr>
@@ -1297,16 +1297,16 @@ if($subpage == "")
 	}elseif($PERMALL)
 	{
 		print "</table>";
-		
+
 		print "<table class=rex border=0 cellpadding=5 cellspacing=1 style='width:100%'>\n";
 		// ----- move and delete selected items
 		print "<tr>
 			<td align=center class=icon><!-- ".$I18N->msg('pool_select_all')." --><input type=checkbox name=checkie value=0 onClick=\"SetAllCheckBoxes('rex_file_list','selectedmedia[]',this)\"></td>";
-		
+
 		$filecat = new sql();
 		$filecat->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC LIMIT 1");
 		if ($filecat->getRows() > 0)
-		{	
+		{
 			print "
 			<!-- <td class=grey><b>".$I18N->msg('pool_selectedmedia')."</b>&nbsp;</td>-->
 			<td class=grey>".$cats_sel->out()."</td>
