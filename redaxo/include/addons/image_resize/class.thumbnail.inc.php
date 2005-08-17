@@ -107,7 +107,7 @@
 	        if (empty($save)) $save=strtolower("./thumb.".$this->img["format"]);
 	        /* change ImageCreateTrueColor to ImageCreate if your GD not supported ImageCreateTrueColor function*/
 	        $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
-	            @imagecopyresized ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
+	            @imagecopyresampled ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
 
 	        if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
 	            //JPEG

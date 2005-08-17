@@ -65,7 +65,7 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 	    }
 
 	    // cache is newer? - show cache
-	    if($cachetime < $filetime){
+	    if($cachetime > $filetime){
 	        include($REX[HTDOCS_PATH]."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
 	        $thumb = new thumbnail($cachepath);
 			@Header("Content-Type: image/".$thumb->img["format"]);
