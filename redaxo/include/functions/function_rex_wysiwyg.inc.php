@@ -89,7 +89,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                    //flash_external_list_url : "example_flash_list.js",
 	                    insertimage_callback : "insertMediaPool",
 	                    insertlink_callback : "insertIntLink",
-                        urlconverter_callback : "rexURLConverter"
+                        urlconverter_callback : "rexURLConverter",
 	                    valid_elements : ""
 	                    +"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
 	                      +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
