@@ -36,7 +36,7 @@
 	            @$this->img["lebar"] = imagesx($this->img["src"]);
 	            @$this->img["tinggi"] = imagesy($this->img["src"]);
 	            //default quality jpeg
-	            $this->img["quality"]=75;
+	            $this->img["quality"]=85;
 	        }
 
             if ( !$this->img["src"]) {
