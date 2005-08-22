@@ -700,7 +700,7 @@ class article
 		}else
 		{
 			if ($REX[GG]) return "aid$id".".php";
-			else return rex_getURL($id);
+			else return rex_getURL($id,$this->clang);
 		}
 	}
 
@@ -710,7 +710,7 @@ class article
         preg_match_all("/REX_LINK_INTERN\[([0-9]*)\]/im",$content,$matches);
         if($matches[0][0]!=''){
             for($m=0;$m<count($matches[0]);$m++){
-                $url = rex_getURL($matches[1][$m]);
+                $url = rex_getURL($matches[1][$m],$this->clang);
                 $content = str_replace($matches[0][$m],$url,$content);
             }
         }
@@ -719,7 +719,7 @@ class article
         preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches);
         if($matches[0][0]!=''){
             for($m=0;$m<count($matches[0]);$m++){
-                $url = rex_getURL($matches[1][$m]);
+                $url = rex_getURL($matches[1][$m],$this->clang);
                 $content = str_replace($matches[0][$m],$url,$content);
             }
         }
