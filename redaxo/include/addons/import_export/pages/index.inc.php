@@ -394,7 +394,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
     // all files in files with .tar.gz als endung
     
     $dir = getImportDir();
-    sort( $folder = readImportFolder( ".tar.gz"));
+    $folder = readImportFolder( ".tar.gz");
     
     foreach( $folder as $file)
     {
