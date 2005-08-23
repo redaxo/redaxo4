@@ -28,7 +28,7 @@ if ($function == "delete")
 	// ------------------------------ FUNC DELETE
 	
 	if (unlink($REX[INCLUDE_PATH]."/addons/$page/files/$impname"));
-	$msg = $I18N_ADDON->msg("file_deleted");
+	$msg = $I18N_IM_EXPORT->msg("file_deleted");
 
 }elseif ($function == "dbimport")
 {
@@ -39,7 +39,7 @@ if ($function == "delete")
 	// install/temp.sql aendern
 		
 	if($_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
-		$msg = $I18N_ADDON->msg("no_import_file_chosen_or_wrong_version")."<br>";
+		$msg = $I18N_IM_EXPORT->msg("no_import_file_chosen_or_wrong_version")."<br>";
 	else {
 		if ($impname != "") $file_temp = $REX[INCLUDE_PATH]."/addons/$page/files/$impname";
 		else $file_temp = $REX[INCLUDE_PATH]."/addons/$page/files/sql.temp";
@@ -53,7 +53,7 @@ if ($function == "delete")
 			// ## Redaxo Database Dump Version x.x
 			
 			if(ereg("## Redaxo Database Dump Version ".$REX[version]."\n",$conts))
-				$msg = $I18N_ADDON->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX[version]."] is missing<br>";
+				$msg = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX[version]."] is missing<br>";
 			else {
 				$conts = str_replace("## Redaxo Database Dump Version ".$REX[version]." \n","",$conts);
 				$all = explode("\n",$conts);
@@ -73,7 +73,7 @@ if ($function == "delete")
 					$add->flush();
 				}
 
-				$msg = $I18N_ADDON->msg("database_imported").". ".$I18N_ADDON->msg("entry_count",count($all))."<br>";
+				$msg = $I18N_IM_EXPORT->msg("database_imported").". ".$I18N_IM_EXPORT->msg("entry_count",count($all))."<br>";
 				
 				unset($REX[CLANG]);
 				$gl = new sql;
@@ -91,7 +91,7 @@ if ($function == "delete")
 			if ($impname == "") @unlink($file_temp);
 		}else
 		{
-			$msg = $I18N_ADDON->msg("file_could_not_be_uploaded")." ".$I18N_ADDON->msg("you_have_no_write_permission_in","addons/$page/files/")." <br>";
+			$msg = $I18N_IM_EXPORT->msg("file_could_not_be_uploaded")." ".$I18N_IM_EXPORT->msg("you_have_no_write_permission_in","addons/$page/files/")." <br>";
 		}		
 	}
 
@@ -102,7 +102,7 @@ if ($function == "delete")
 
 
 	if($_FILES['FORM']['size']['importfile'] < 1 && $impname == ""){
-		$msg = $I18N_ADDON->msg("no_import_file_chosen")."<br>";
+		$msg = $I18N_IM_EXPORT->msg("no_import_file_chosen")."<br>";
 	}else {
 		if ($impname != "") $file_temp = $REX[INCLUDE_PATH]."/addons/$page/files/$impname";
 		else $file_temp = $REX[INCLUDE_PATH]."/addons/$page/files/tar.temp";
@@ -113,10 +113,10 @@ if ($function == "delete")
 			$tar->openTAR($file_temp);
 			if(!$tar->extractTar())
 			{
-				$msg = $I18N_ADDON->msg("problem_when_extracting")."<br>";
+				$msg = $I18N_IM_EXPORT->msg("problem_when_extracting")."<br>";
 				if (count($tar->message) > 0)
 				{
-					$msg .= $I18N_ADDON->msg("create_dirs_manually")."<br>";
+					$msg .= $I18N_IM_EXPORT->msg("create_dirs_manually")."<br>";
 					reset($tar->message);
 					for ($fol=0;$fol<count($tar->message);$fol++)
 					{
@@ -126,11 +126,11 @@ if ($function == "delete")
 					}
 				}
 			}
-			else $msg = $I18N_ADDON->msg("file_imported")."<br>";
+			else $msg = $I18N_IM_EXPORT->msg("file_imported")."<br>";
 			if ($impname == "") @unlink($file_temp);
 		}else
 		{
-			$msg = $I18N_ADDON->msg("file_could_not_be_uploaded")." ".$I18N_ADDON->msg("you_have_no_write_permission_in","addons/$page/files/")." <br>";
+			$msg = $I18N_IM_EXPORT->msg("file_could_not_be_uploaded")." ".$I18N_IM_EXPORT->msg("you_have_no_write_permission_in","addons/$page/files/")." <br>";
 		}
 	}
 
@@ -149,7 +149,7 @@ if ($function == "delete")
 	
 	if ($filename != $exportfilename)
 	{
-		$msg = $I18N_ADDON->msg("filename_updated");
+		$msg = $I18N_IM_EXPORT->msg("filename_updated");
 		$exportfilename = $filename;
 	}else
 	{
@@ -228,7 +228,7 @@ if ($function == "delete")
 
 			if ($EXPDIR == "")
 			{
-				$msg = $I18N_ADDON->msg("please_choose_folder");
+				$msg = $I18N_IM_EXPORT->msg("please_choose_folder");
 			}else
 			{
 			
@@ -321,7 +321,7 @@ if ($function == "delete")
 
 
 include $REX[INCLUDE_PATH]."/layout/top.php";
-title($I18N_ADDON->msg("importexport"),"");
+title($I18N_IM_EXPORT->msg("importexport"),"");
 if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
 
 ?>
@@ -329,8 +329,8 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 <table border=0 cellpadding=5 cellspacing=1 width=770>
 
 <tr>
-	<th align=left width=50%><?php echo $I18N_ADDON->msg('import'); ?></th>
-	<th align=left><?php echo $I18N_ADDON->msg('export'); ?></th>
+	<th align=left width=50%><?php echo $I18N_IM_EXPORT->msg('import'); ?></th>
+	<th align=left><?php echo $I18N_IM_EXPORT->msg('export'); ?></th>
 </tr>
 
 
@@ -340,22 +340,22 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	// ----------------------------------------------------------------- IMPORT
 	
 	// DB IMPORT
-	echo "<br>".$I18N_ADDON->msg("intro_import")."	
+	echo "<br>".$I18N_IM_EXPORT->msg("intro_import")."	
 	
 	<br><br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
-	<tr><td align=left colspan=2 class=lgrey>".$I18N_ADDON->msg("database")."</td>
+	<tr><td align=left colspan=2 class=lgrey>".$I18N_IM_EXPORT->msg("database")."</td>
 	<form action=index.php method=post enctype='multipart/form-data'>
 	<input type=hidden name=page value=$page>
 	<input type=hidden name=function value=dbimport>
 	<tr>
 		<td class=lgrey><input type=file name=FORM[importfile]></td>
-		<td class=lgrey width=129><input type=submit value='".$I18N_ADDON->msg("db_import")."'></td>
+		<td class=lgrey width=129><input type=submit value='".$I18N_IM_EXPORT->msg("db_import")."'></td>
 	</tr>
 	</form>
 	</table>";
 	
     echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>".$I18N_ADDON->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    echo "<tr><td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td><td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
     
     // DB IMPORT LIST
     // all files in files with .sql als endung
@@ -369,26 +369,26 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         echo "<tr>
         <td class=lgrey><b>$file</b></td>
         <td class=lgrey>$filec</td>
-        <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file title='". $I18N_ADDON->msg( 'import_file') ."'>".$I18N_ADDON->msg("import")."</a></td>
-        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_ADDON->msg( 'delete_file') ."'>".$I18N_ADDON->msg("delete")."</a></td></tr>";
+        <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file title='". $I18N_IM_EXPORT->msg( 'import_file') ."'>".$I18N_IM_EXPORT->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."'>".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
     }
 	echo "</table>";
 
 	// FILE IMPORT
 	echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
-	<tr><td align=left colspan=2 class=lgrey>".$I18N_ADDON->msg("files")."</td>
+	<tr><td align=left colspan=2 class=lgrey>".$I18N_IM_EXPORT->msg("files")."</td>
 	<form action=index.php method=post enctype='multipart/form-data'>
 	<input type=hidden name=page value=$page>
 	<input type=hidden name=function value=fileimport>
 	<tr>
 		<td class=lgrey><input type=file name=FORM[importfile]></td>
-		<td class=lgrey width=130><input type=submit value='".$I18N_ADDON->msg("db_import")."'></td>
+		<td class=lgrey width=130><input type=submit value='".$I18N_IM_EXPORT->msg("db_import")."'></td>
 	</tr>
 	</form>
 	</table>";
 
     echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-    echo "<tr><td align=left class=lgrey>".$I18N_ADDON->msg("filename")."</td><td width=60 class=lgrey>".$I18N_ADDON->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    echo "<tr><td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td><td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
     
     // FILE IMPORT LIST
     // all files in files with .tar.gz als endung
@@ -403,8 +403,8 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         echo "<tr>
         <td class=lgrey><b>$file</b></td>
         <td class=lgrey>$filec</td>
-        <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file title='". $I18N_ADDON->msg( 'import_file') ."'>".$I18N_ADDON->msg("import")."</a></td>
-        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_ADDON->msg( 'delete_file') ."'>".$I18N_ADDON->msg("delete")."</a></td></tr>";
+        <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file title='". $I18N_IM_EXPORT->msg( 'import_file') ."'>".$I18N_IM_EXPORT->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."'>".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
     }
     
 	echo "</table><br>";
@@ -415,7 +415,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	
 	// ----------------------------------------------------------------- EXPORT
 	
-	echo "<br>".$I18N_ADDON->msg("intro_export")."<br><br>";
+	echo "<br>".$I18N_IM_EXPORT->msg("intro_export")."<br><br>";
 	
 	echo "<table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
 	
@@ -433,12 +433,12 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	
 	echo "<tr>";
 	echo "<td class=lgrey width=30><input type=radio id=exporttype[sql] name=exporttype value=sql $checkedsql></td>";
-	echo "<td class=lgrey><label for=exporttype[sql]>".$I18N_ADDON->msg("database_export")."</label></td>";
+	echo "<td class=lgrey><label for=exporttype[sql]>".$I18N_IM_EXPORT->msg("database_export")."</label></td>";
 	echo "</tr>"; 
 	
 	echo "<tr>";
 	echo "<td class=lgrey><input type=radio id=exporttype[files] name=exporttype value=files $checkedfiles></td>";
-	echo "<td class=lgrey><label for=exporttype[files]>".$I18N_ADDON->msg("file_export")."</label></td>";
+	echo "<td class=lgrey><label for=exporttype[files]>".$I18N_IM_EXPORT->msg("file_export")."</label></td>";
 	echo "</tr>"; 
 	
     echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>";
@@ -473,11 +473,11 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	
 	echo "<tr>";
 	echo "<td class=lgrey><input type=radio id=exportdl[server] name=exportdl value=0 $checked0></td>";
-	echo "<td class=lgrey><label for=exportdl[server]>".$I18N_ADDON->msg("save_on_server")."</label></td>";
+	echo "<td class=lgrey><label for=exportdl[server]>".$I18N_IM_EXPORT->msg("save_on_server")."</label></td>";
 	echo "</tr>"; 
 	echo "<tr>";
 	echo "<td class=lgrey><input type=radio id=exportdl[download] name=exportdl value=1 $checked1></td>";
-	echo "<td class=lgrey><label for=exportdl[download]>".$I18N_ADDON->msg("download_as_file")."</label></td>";
+	echo "<td class=lgrey><label for=exportdl[download]>".$I18N_IM_EXPORT->msg("download_as_file")."</label></td>";
 	echo "</tr>"; 
 	echo "<tr>";
 	echo "<td class=lgrey></td>";
@@ -486,7 +486,7 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
 	
 	echo "<tr>";
 	echo "<td class=lgrey></td>";
-	echo "<td class=lgrey><input type=submit value='".$I18N_ADDON->msg("db_export")."'></td>";
+	echo "<td class=lgrey><input type=submit value='".$I18N_IM_EXPORT->msg("db_export")."'></td>";
 	echo "</tr>";
 	
 	echo "</form>";

@@ -2,7 +2,7 @@
 
 $mypage = "import_export"; 				// only for this file
 
-if (!$REX[GG]) $I18N_ADDON = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/addons/$mypage/lang/"); 	// CREATE LANG OBJ FOR THIS ADDON
+if (!$REX[GG]) $I18N_IM_EXPORT = new i18n($REX[LANG],$REX[INCLUDE_PATH]."/addons/$mypage/lang/"); 	// CREATE LANG OBJ FOR THIS ADDON
 
 $REX[ADDON][rxid][$mypage] = "REX_001";			// unique id /
 // $REX[ADDON][nsid][$mypage] = "REX002,REX003";	// necessary rxid; - not yet included
