@@ -41,13 +41,13 @@ class sql
       $this->counter = 0;
 
       // MySQL Version bestimmen
-      if ($REX['mysql_version'] == '')
+      if ($REX['MYSQL_VERSION'] == '')
       {
          $this->setQuery( 'SELECT VERSION() as VERSION');
          $res = $this->get_array();
          $arr = array();
          preg_match('/([0-9]+\.([0-9\.])+)/',$res[0]['VERSION'], $arr);
-         $REX['mysql_version'] = $arr[1];
+         $REX['MYSQL_VERSION'] = $arr[1];
       }
    }
 
