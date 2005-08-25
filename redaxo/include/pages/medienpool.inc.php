@@ -159,7 +159,7 @@ if ($PERMALL) echo " | <a href=index.php?page=medienpool&subpage=categories clas
 // *************************************** MESSAGES
 if ($msg != "")
 {
-	print "<table border=0 cellpadding=5 cellspacing=0 width=100%><tr><td width=20><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr></table>";
+	print "<table border=0 cellpadding=5 cellspacing=1 width=100%><tr><td width=20><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr></table>";
 	$msg = "";
 }
 
@@ -821,7 +821,7 @@ if ($subpage == "detail")
 
 		if ($msg != "")
 		{
-			print "<table border=0 cellpadding=3 cellspacing=0 width=100%><tr><td width=20 class=warning><img src=pics/warning.gif width=16 height=16></td><td class=warning>$msg</td></tr><tr><td colspan=2></td></tr></table>";
+			print "<table border=0 cellpadding=5 cellspacing=1 class=rex style='width:100%'><tr class=warning><td width=20 class=icon><img src=pics/warning.gif width=16 height=16></td><td>$msg</td></tr><tr><td colspan=2></td></tr></table>";
 			$msg = "";
 		}
 
