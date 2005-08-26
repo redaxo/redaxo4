@@ -9,7 +9,7 @@ dateformat = %a %d. %B %Y
 setlocale = de_SA
 adateformat = %d. %b. %Y
 datetimeformat = %d. %b. %Y - %H:%M
-ctrl = Muschd Strg drüggn bee Änderungen
+ctrl = Muschd Strg drüggn bee Änderungn
 
 # redaxo/index.php
 start_article_not_selected = Geen Schdardardiggel selechdierd
@@ -334,7 +334,7 @@ pool_created = Erschdelld am
 
 # redaxo/include/pages
 setup = Seddab
-setup_text = Hier gannschde das Seddab erneud schdardn. Horsche ma, mach diss nur im Nodfall. Eeschendlisch brochschd desch nisch.<br><br><strong>Gespräch in einem sächsischem Gemüseladen:</strong><br><br><table><tr><td><strong>Moorchn.</strong>&nbsp;&nbsp;&nbsp;</td><td>Kunde: </td><td>Guten Morgen</td></tr><tr><td><strong>Moorchn.</strong></td><td>Verkäufer: </td><td>Guten Morgen</td></tr><tr><td><strong>Morchln?</strong></td><td>Kunde: </td><td>Gibt es Morcheln?</td></tr><tr><td><strong>Morchln?</strong></td><td>Verkäufer: </td><td>Sie wollen Morcheln?</td></tr><tr><td><strong>Morchln.</strong></td><td>Kunde: </td><td>Ja, Morcheln.</td></tr><tr><td><strong>Morchn.</strong></td><td>Verkäufer: </td><td>Die gibt es morgen.</td></tr><tr><td><strong>Morchn?</strong></td><td>Kunde: </td><td>Erst morgen?</td></tr><tr><td><strong>Morchn.</strong></td><td>Verkäufer: </td><td>Ja, erst morgen.</td></tr><tr><td><strong>Moorchn.<strong></td><td>Kunde: </td><td>Bis morgen</td></tr><tr><td><strong>Moorchn.</strong></td><td>Verkäufer: </td><td>Bis morgen</td></tr></table><br><br>Verbesserungen / Vorschläge / Ihr sprecht dialekdisch?<br>Dann bitte per ICQ 297742283 melden.<br>Thomas Blum - <a href="http://blumbeet.com">www.blumbeet.com</a>
+setup_text = Hier gannschde das Seddab erneud schdardn. Horsche ma, mach diss nur im Nodfall. Eeschendlisch brochschd desch nisch.<br><br><strong>Gespräch in einem sächsischem Gemüseladen:</strong><br><br><table><tr><td><strong>Gespräch</strong></td><td colspan="2"><strong>Übersetzung für Nichtsachsen</strong></td></tr><tr><td><strong>Moorchn.</strong>&nbsp;&nbsp;&nbsp;</td><td>Kunde: </td><td>Guten Morgen</td></tr><tr><td><strong>Moorchn.</strong></td><td>Verkäufer: </td><td>Guten Morgen</td></tr><tr><td><strong>Morchln?</strong></td><td>Kunde: </td><td>Gibt es Morcheln?</td></tr><tr><td><strong>Morchln?</strong></td><td>Verkäufer: </td><td>Sie wollen Morcheln?</td></tr><tr><td><strong>Morchln.</strong></td><td>Kunde: </td><td>Ja, Morcheln.</td></tr><tr><td><strong>Morchn.</strong></td><td>Verkäufer: </td><td>Die gibt es morgen.</td></tr><tr><td><strong>Morchn?</strong></td><td>Kunde: </td><td>Erst morgen?</td></tr><tr><td><strong>Morchn.</strong></td><td>Verkäufer: </td><td>Ja, erst morgen.</td></tr><tr><td><strong>Moorchn.<strong></td><td>Kunde: </td><td>Bis morgen</td></tr><tr><td><strong>Moorchn.</strong></td><td>Verkäufer: </td><td>Bis morgen</td></tr></table><br><br>Verbesserungen / Vorschläge / Ihr sprecht dialekdisch?<br>Dann bitte per ICQ 297742283 melden.<br>Thomas Blum - <a href="http://blumbeet.com">www.blumbeet.com</a>
 setup_error1 = Seddab aggdivierd. Bidde gligg uff &gt;<a href=index.php>weidor</a>&lt; und führche das Seddab aus.
 setup_error2 = Leidor gonnde die maschdor.inc.bhb nischd beschriebn werdn. Bidde drache dord in der \"\$REX[SETUP] = true;\" een
 setup_005 = <b>Willgommn beem SEDDAB von REDAGGSO.</b><br><br>Was bassierd jedsd:<br><br>- Die Daddeereschde werdn üborbrüfd<br>- Der Dadnbangzugang wird üborbrüfd und in die maschdor.inc.bhb eengedrachn<br>- Die Dadnbang wird (neu) eengerischded.<br>- Een Adminzugang wird uch eengerischded
