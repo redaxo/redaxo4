@@ -25,7 +25,7 @@ if ($spage == "standard")
 		
 		$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","r");
 		$cont = fread($h,filesize($REX[INCLUDE_PATH]."/master.inc.php"));
-		$cont = ereg_replace("(REX\[SETUP\].?\=.?)[^;]*","\\1"."true",$cont);
+		$cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*","\\1"."true",$cont);
 		fclose($h);
 		// echo nl2br(htmlentities($cont));
 		$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","w+");
@@ -82,25 +82,27 @@ if ($spage == "standard")
 		$h = fopen("include/master.inc.php","r");
 		$cont = fread($h,filesize("include/master.inc.php"));
 	
-		$cont = ereg_replace("(REX\[STARTARTIKEL_ID\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
-		$cont = ereg_replace("(REX\[EMAIL\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
-		$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
-		$cont = ereg_replace("(REX\[LANG\].?\=.?)[^;]*","\\1\"".$neu_lang."\"",$cont);
+		$cont = ereg_replace("(REX\['STARTARTIKEL_ID'\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
+		$cont = ereg_replace("(REX\['EMAIL'\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
+		$cont = ereg_replace("(REX\['error_emailaddress'\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
+		$cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*","\\1\"".$neu_lang."\"",$cont);
 		$REX[LANG] = $neu_lang;
-		$cont = ereg_replace("(REX\[SERVER\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
-		$cont = ereg_replace("(REX\[SERVERNAME\].?\=.?)[^;]*","\\1\"".($neu_SERVERNAME)."\"",$cont);
-		$cont = ereg_replace("(DB\[2\]\[HOST\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
-		$cont = ereg_replace("(DB\[2\]\[LOGIN\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
-		$cont = ereg_replace("(DB\[2\]\[PSW\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
-		$cont = ereg_replace("(DB\[2\]\[NAME\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
+		$cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
+		$cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*","\\1\"".($neu_SERVERNAME)."\"",$cont);
+		$cont = ereg_replace("(DB\['2'\]\['HOST'\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
+		$cont = ereg_replace("(DB\['2'\]\['LOGIN'\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
+		$cont = ereg_replace("(DB\['2'\]\['PSW'\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
+		$cont = ereg_replace("(DB\['2'\]\['NAME'\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
 	
 		// Caching
 		if($REX_USER->isValueOf("rights","caching[]")){
-			$cont = ereg_replace("(REX\[CACHING\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
-			$cont = ereg_replace("(REX\[CACHING_DEBUG\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
+			$cont = ereg_replace("(REX\['CACHING'\].?\=.?)[^;]*","\\1".strtolower($neu_caching),$cont);
+			$cont = ereg_replace("(REX\['CACHING_DEBUG'\].?\=.?)[^;]*","\\1".strtolower($neu_caching_debug),$cont);
 		}
 
-		$cont = ereg_replace("(REX\[MOD_REWRITE\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+		$cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+      
+//      var_dump( $cont);
 	
 		fclose($h);
 		$h = fopen("include/master.inc.php","w+");
