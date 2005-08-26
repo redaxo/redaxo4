@@ -16,7 +16,7 @@ if ($function == "delete")
 		$message = $I18N->msg("cant_delete_default_template");
 	}else if ($del->getRows() >0)
 	{
-		$message = $I18N->msg("cant_delete_template_because_its_in_use",htmlentities($del->getValue("rex_template.name")));
+		$message = $I18N->msg("cant_delete_template_because_its_in_use",htmlspecialchars($del->getValue("rex_template.name")));
 	}else
 	{
 		$del->query("delete from rex_template where id='$template_id'");
@@ -93,7 +93,7 @@ if ($function == "add" or $function == "edit"){
 			<input type=hidden name=template_id value=$template_id>
 			<tr>
 				<td width=100>".$I18N->msg("template_name")."</td>
-				<td colspan=2><input type=text size=10 name=templatename value=\"".htmlentities($templatename)."\" style='width:100%;'></td>
+				<td colspan=2><input type=text size=10 name=templatename value=\"".htmlspecialchars($templatename)."\" style='width:100%;'></td>
 			</tr>";
 		
 		echo "
@@ -153,7 +153,7 @@ if ($OUT)
 		echo "	<tr>
 				<td class=icon><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit><img src=pics/template.gif width=16 height=16 border=0></a></td>
 				<td class=icon>".$sql->getValue("id")."</td>
-				<td><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
+				<td><a href=index.php?page=template&template_id=".$sql->getValue("id")."&function=edit>".htmlspecialchars($sql->getValue("name"))."</a>";
 		
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
 			

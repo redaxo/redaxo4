@@ -458,16 +458,16 @@ if ($FUNC_ADD)
 		
 		<tr>
 			<td width=100>".$I18N->msg("login_name")."</td>
-			<td><input class=inp100 type=text size=20 name=userlogin value=\"".stripslashes(htmlentities($userlogin))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userlogin value=\"".stripslashes(htmlspecialchars($userlogin))."\"></td>
 			<td width=100>".$I18N->msg("password")."</td>
-			<td ><input class=inp100 type=text size=20 name=userpsw value=\"".stripslashes(htmlentities($userpsw))."\"></td>
+			<td ><input class=inp100 type=text size=20 name=userpsw value=\"".stripslashes(htmlspecialchars($userpsw))."\"></td>
 		</tr>
 
 		<tr>
 			<td>".$I18N->msg("name")."</td>
-			<td><input class=inp100 type=text size=20 name=username value=\"".stripslashes(htmlentities($username))."\"></td>
+			<td><input class=inp100 type=text size=20 name=username value=\"".stripslashes(htmlspecialchars($username))."\"></td>
 			<td>".$I18N->msg("description")."</td>
-			<td><input class=inp100 type=text size=20 name=userdesc value=\"".stripslashes(htmlentities($userdesc))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userdesc value=\"".stripslashes(htmlspecialchars($userdesc))."\"></td>
 		</tr>
 		<tr>
 			<td align=right><input type=checkbox id=useradmin name=useradmin value=1 $adminchecked></td>
@@ -615,16 +615,16 @@ if ($FUNC_ADD)
 		<tr><th colspan=4><b>".$I18N->msg("edit_user")."</b></th></tr>
 		<tr>
 			<td width=100>".$I18N->msg("login_name")."</td>
-			<td width=250><b>".htmlentities($sql->getValue("rex_user.login"))."</b></td>
+			<td width=250><b>".htmlspecialchars($sql->getValue("rex_user.login"))."</b></td>
 			<td width=100>".$I18N->msg("password")."</td>
-			<td><input class=inp100 type=text size=20 name=userpsw value=\"".htmlentities($sql->getValue("rex_user.psw"))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userpsw value=\"".htmlspecialchars($sql->getValue("rex_user.psw"))."\"></td>
 		</tr>
 
 		<tr>
 			<td>".$I18N->msg("name")."</td>
-			<td><input class=inp100 type=text size=20 name=username value=\"".htmlentities($sql->getValue("rex_user.name"))."\"></td>
+			<td><input class=inp100 type=text size=20 name=username value=\"".htmlspecialchars($sql->getValue("rex_user.name"))."\"></td>
 			<td>".$I18N->msg("description")."</td>
-			<td><input class=inp100 type=text size=20 name=userdesc value=\"".htmlentities($sql->getValue("rex_user.description"))."\"></td>
+			<td><input class=inp100 type=text size=20 name=userdesc value=\"".htmlspecialchars($sql->getValue("rex_user.description"))."\"></td>
 		</tr>
 		<tr>
 			<td align=right>";
@@ -742,7 +742,7 @@ if ($SHOW)
         
 		echo "	<tr>
 			<td class=icon><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
-			<td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlentities($sql->getValue("rex_user.name"))."</a></td>
+			<td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlspecialchars($sql->getValue("rex_user.name"))."</a></td>
 			<td>".$sql->getValue("rex_user.login")."</td>
 			<td>".$last_login."</td>
 			</tr>";
