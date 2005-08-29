@@ -570,7 +570,7 @@ class OOMedia
 			case 'gif' :
 			case 'bmp' :
 			{
-				return '<img src="'.$file.'" alt="'.htmlentities($this->getDescription()).'" width="'.$this->getWidth().'px" height="'.$this->getHeight().'px"/>';
+				return '<img src="'.$file.'" alt="'.htmlentities($this->getDescription()).'" title="'.htmlentities($this->getDescription()).'" width="'.$this->getWidth().'px" height="'.$this->getHeight().'px"/>';
 			}
 			case 'js' :
 			{
