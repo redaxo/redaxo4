@@ -167,15 +167,15 @@ if ($checkmodus == 2 && $send == 1)
 {
 	$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","r");
 	$cont = fread($h,filesize("include/master.inc.php"));
-	$cont = ereg_replace("(REX\[SERVER\].?\=.?\")[^\"]*","\\1".$serveraddress,$cont);
-	$cont = ereg_replace("(REX\[SERVERNAME\].?\=.?\")[^\"]*","\\1".$serverbezeichnung,$cont);
-	$cont = ereg_replace("(REX\[LANG\].?\=.?\")[^\"]*","\\1".$lang,$cont);
-	$cont = ereg_replace("(REX\[INSTNAME\].?\=.?\")[^\"]*","\\1"."rex".date("YmdHis"),$cont);
-	$cont = ereg_replace("(REX\[error_emailaddress\].?\=.?\")[^\"]*","\\1".$error_email,$cont);
-	$cont = ereg_replace("(DB\[1\]\[HOST\].?\=.?\")[^\"]*","\\1".$mysql_host,$cont);
-	$cont = ereg_replace("(DB\[1\]\[LOGIN\].?\=.?\")[^\"]*","\\1".$redaxo_db_user_login,$cont);
-	$cont = ereg_replace("(DB\[1\]\[PSW\].?\=.?\")[^\"]*","\\1".$redaxo_db_user_pass,$cont);
-	$cont = ereg_replace("(DB\[1\]\[NAME\].?\=.?\")[^\"]*","\\1".$dbname,$cont);
+	$cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*","\\1".$serveraddress,$cont);
+	$cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*","\\1".$serverbezeichnung,$cont);
+	$cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*","\\1".$lang,$cont);
+	$cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*","\\1"."rex".date("YmdHis"),$cont);
+	$cont = ereg_replace("(REX\['error_emailaddress'\].?\=.?\")[^\"]*","\\1".$error_email,$cont);
+	$cont = ereg_replace("(DB\['1'\]\['HOST'\].?\=.?\")[^\"]*","\\1".$mysql_host,$cont);
+	$cont = ereg_replace("(DB\['1'\]\['LOGIN'\].?\=.?\")[^\"]*","\\1".$redaxo_db_user_login,$cont);
+	$cont = ereg_replace("(DB\['1'\]\['PSW'\].?\=.?\")[^\"]*","\\1".$redaxo_db_user_pass,$cont);
+	$cont = ereg_replace("(DB\['1'\]\['NAME'\].?\=.?\")[^\"]*","\\1".$dbname,$cont);
 	
 	fclose($h);
 
