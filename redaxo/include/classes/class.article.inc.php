@@ -22,7 +22,7 @@ class article
 	var $clang;
 
 
-	function article()
+	function article( $article_id = null)
 	{
 		$this->article_id = 0;
 		$this->template_id = 0;
@@ -33,11 +33,14 @@ class article
 		$this->article_content = "";
 		$this->eval = FALSE;
 		$this->setanker = true;
-		unset($save);
-	
+      
 		// AUSNAHME: modul auswählen problem
 		// action=index.php#1212 problem
 		if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
+      
+        if ( $article_id !== null) {
+           $this->setArticleId( $article_id);
+        }
 	}
 
 	function setSliceId($value)
