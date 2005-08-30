@@ -45,17 +45,28 @@ class OOArticle extends OORedaxo
     *
     * Returns an array of OORedaxo objects.
     */
-   function searchArticlesByName($article_name, $ignore_offlines = false, $clang = false, $category = false)
+   function searchArticlesByName($article_name, $ignore_offlines = false, $clang = false, $categories = false)
    {
       global $REX;
       if ($clang === false)
          $clang = $REX[CUR_CLANG];
       $offline = $ignore_offlines ? " and status = 1 " : "";
-      $oocat = $category ? " and startpage = 1 " : "";
+      $cats = '';
+      if (is_array($categories))
+      {
+         $cats = " and re_id in (".implode(',', $categories).") ";
+      }
+      elseif (is_string($categories))
+      {
+         $cats = " and re_id = $categories ";
+      }elseif ( $categories === true) {
+         $cats = " and startpage = 1 ";
+      }
+
       $artlist = array ();
       $sql = new sql;
-      //        $sql->debugsql = true;
-      $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." from rex_article where name like '$article_name' AND clang='$clang' $offline $oocat");
+//              $sql->debugsql = true;
+      $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." from rex_article where name like '$article_name' AND clang='$clang' $offline $cats");
       for ($i = 0; $i < $sql->getRows(); $i ++)
       {
          foreach (OORedaxo :: getClassVars() as $var)
