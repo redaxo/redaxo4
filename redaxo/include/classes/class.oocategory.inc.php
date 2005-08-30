@@ -28,7 +28,6 @@ class OOCategory extends OORedaxo
       if ($clang === false)
          $clang = $GLOBALS[REX][CUR_CLANG];
       $categorylist = $REX[HTDOCS_PATH]."redaxo/include/generated/articles/".$cat_parent_id.".".$clang.".clist";
-      // TODO testen!
       $catlist = array ();
       if (file_exists($categorylist))
       {
