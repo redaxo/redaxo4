@@ -506,7 +506,7 @@ if ($checkmodus == 5)
 
 	$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","r");
 	$cont = fread($h,filesize($REX[INCLUDE_PATH]."/master.inc.php"));
-	$cont = ereg_replace("(REX\[SETUP\].?\=.?)[^;]*","\\1"."false",$cont);
+	$cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*","\\1"."false",$cont);
 	fclose($h);
 	$h = @fopen($REX[INCLUDE_PATH]."/master.inc.php","w+");
 	if(fwrite($h,$cont,strlen($cont)) > 0)
