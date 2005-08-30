@@ -68,7 +68,6 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_modrewrite.inc.php";
 // ----- EXTRA FUNCTIONS
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_wysiwyg.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_image.inc.php";
-include_once $REX['INCLUDE_PATH']."/functions/function_string.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_folder.inc.php";
 
 // ----- CONFIG FILES
