@@ -740,9 +740,14 @@ if ($SHOW)
             $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue("rex_user.lasttrydate"));
         }
         
+        $username = htmlspecialchars($sql->getValue("rex_user.name"));
+        if ( $username == '') {
+            $username = htmlspecialchars($sql->getValue("rex_user.login"));
+        }
+        
 		echo "	<tr>
 			<td class=icon><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
-			<td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".htmlspecialchars($sql->getValue("rex_user.name"))."</a></td>
+			<td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".$username."</a></td>
 			<td>".$sql->getValue("rex_user.login")."</td>
 			<td>".$last_login."</td>
 			</tr>";
