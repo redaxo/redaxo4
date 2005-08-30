@@ -39,12 +39,20 @@ class OORedaxo {
 	 * Constructor
 	 */
 	function OORedaxo($params = false,$clang=false) {
-		//var_dump($params);
-		if($params){
-		    foreach(OORedaxo::getClassVars() as $key=>$var){
-		        $this->$key = $params[$key];
+//		var_dump($params);
+		if($params !== false){
+		    foreach(OORedaxo::getClassVars() as $var){
+                $class_var = '_'. $var;
+		        $this->$class_var = $params[$var];
 		    }
 		}
+      
+        if ( $clang === false && isset( $params['clang'])) {
+            $clang = $params['clang'];
+        }
+        if ( $clang !== false) {
+            $this->clang = $clang;
+        }
 	}
 
 	/*
@@ -71,13 +79,20 @@ class OORedaxo {
 	 * Returns an Array containing article field names
 	 */
 	function getClassVars(){
-			$class_vars = get_class_vars('OORedaxo');
-			foreach($class_vars as $key=>$var){
-			    if(substr($key,1)=='_'){
-			    	$class_vars[$key] = substr($key,1);
-			    }
-			}
-			return $class_vars;
+        static $vars = array();
+        
+        if ( empty( $vars)) {
+            $class_vars = get_class_vars('OORedaxo');
+            
+  			foreach($class_vars as $name=>$value){
+                // 1. Zeichen == '_'
+  			    if($name{0}=='_'){
+  			    	$vars[] = substr($name,1);
+  			    }
+  			}
+        }
+        
+		return $vars;
 	}
 
     /*
@@ -85,10 +100,10 @@ class OORedaxo {
     * Converts Genernated Array to OOBase Format Array
     */
     function convertGeneratedArray($generatedArray,$clang){
-		$OORedaxoArray['_id'] = $generatedArray['article_id'][$clang];
-		$OORedaxoArray['_clang'] = $clang;
+		$OORedaxoArray['id'] = $generatedArray['article_id'][$clang];
+		$OORedaxoArray['clang'] = $clang;
         foreach($generatedArray as $key=>$var){
-            $OORedaxoArray['_'.$key]=$var[$clang];
+            $OORedaxoArray[$key]=$var[$clang];
         }
 		unset($OORedaxoArray['_article_id']);
         return $OORedaxoArray;
@@ -166,6 +181,43 @@ class OORedaxo {
         return $this->_prior;
     }
 
+    /*
+     * Accessor Method:
+     * returns the last update user
+     */
+   function getUpdateUser()
+   {
+      return $this->_updateuser;
+   }
+    
+    
+    /*
+     * Accessor Method:
+     * returns the last update date
+     */
+   function getUpdateDate($format = null)
+   {
+        return OOMedia::_getDate( $this->_updatedate, $format);
+   }
+
+    /*
+     * Accessor Method:
+     * returns the creator
+     */
+   function getCreateUser()
+   {
+      return $this->_createuser;
+   }
+
+    /*
+     * Accessor Method:
+     * returns the creation date
+     */
+   function getCreateDate($format = null)
+   {
+        return OOMedia::_getDate( $this->_createdate, $format);
+   }
+   
 	/*
 	 * Accessor Method:
 	 * returns true if article is online.
