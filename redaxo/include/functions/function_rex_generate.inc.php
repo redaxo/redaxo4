@@ -15,23 +15,23 @@ function rex_generateAll()
 
 
 	// ----------------------------------------------------------- generiere templates
-	rex_deleteDir($REX[INCLUDE_PATH]."/generated/templates",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/templates",$REX[FILEPERM]);
+	rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates",0);
+	// mkdir($REX['INCLUDE_PATH']."/generated/templates",$REX['FILEPERM']);
 	$gt = new sql;
 	$gt->setQuery("select * from rex_template");
 	for ($i=0;$i<$gt->getRows();$i++)
 	{
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
+		$fp = fopen ($REX['INCLUDE_PATH']."/generated/templates/".$gt->getValue("rex_template.id").".template", "w");
 		fputs($fp,$gt->getValue("rex_template.content"));
 		fclose($fp);
-		@chmod($REX[INCLUDE_PATH]."/generated/templates/".$gt->getValue("rex_template.id").".template",0777);
+		@chmod($REX['INCLUDE_PATH']."/generated/templates/".$gt->getValue("rex_template.id").".template",0777);
 		$gt->next();
 	}
 
 
 	// ----------------------------------------------------------- generiere artikel
-	rex_deleteDir($REX[INCLUDE_PATH]."/generated/articles",0);
-	// mkdir($REX[INCLUDE_PATH]."/generated/articles",$REX[FILEPERM]);
+	rex_deleteDir($REX['INCLUDE_PATH']."/generated/articles",0);
+	// mkdir($REX['INCLUDE_PATH']."/generated/articles",$REX['FILEPERM']);
 	$gc = new sql;
 	$gc->setQuery("select distinct id from rex_article");
 	for ($i=0;$i<$gc->getRows();$i++)
@@ -49,11 +49,11 @@ function rex_generateAll()
 	{
 		$id = $lg->getValue("id");
 		$name = $lg->getValue("name");
-		$content .= "\n\r\$REX[CLANG][$id] = \"$name\";";
+		$content .= "\n\r\$REX['CLANG']['$id'] = \"$name\";";
 		$lg->next();
 	}
 	$content .= "\n\r// --- /DYN";
-	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
+	$file = $REX['INCLUDE_PATH']."/clang.inc.php";
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
 	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
@@ -101,7 +101,7 @@ function rex_generateArticle($id,$refresh=0)
 
 	// --------------------------------------------------- generiere generated/articles/xx.article
 
-	$CL = $REX[CLANG];
+	$CL = $REX['CLANG'];
 	reset($CL);
 	for ($i=0;$i<count($CL);$i++)
 	{
@@ -115,54 +115,54 @@ function rex_generateArticle($id,$refresh=0)
 
 		// --------------------------------------------------- Artikelparameter speichern
 		$article = "<?php\n".
-					"\n\$REX[ART][$id][article_id][$clang] = \"$id\";".
-					"\n\$REX[ART][$id][re_id][$clang] = \"".rex_addslashes($CONT->getValue("re_id"))."\";".
-					"\n\$REX[ART][$id][name][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".
-					"\n\$REX[ART][$id][catname][$clang] = \"".rex_addslashes($CONT->getValue("catname"))."\";".
-					"\n\$REX[ART][$id][cattype][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".
-					"\n\$REX[ART][$id][alias][$clang] = \"".rex_addslashes($CONT->getValue("name"))."\";".
-					"\n\$REX[ART][$id][description][$clang] = \"".rex_addslashes($CONT->getValue("description"))."\";".
-					"\n\$REX[ART][$id][attribute][$clang] = \"".rex_addslashes($CONT->getValue("attribute"))."\";".
-					"\n\$REX[ART][$id][file][$clang] = \"".rex_addslashes($CONT->getValue("file"))."\";".
-					"\n\$REX[ART][$id][type_id][$clang] = \"".rex_addslashes($CONT->getValue("type_id"))."\";".
-					"\n\$REX[ART][$id][teaser][$clang] = \"".rex_addslashes($CONT->getValue("teaser"))."\";".
-					"\n\$REX[ART][$id][startpage][$clang] = \"".rex_addslashes($CONT->getValue("startpage"))."\";".
-					"\n\$REX[ART][$id][prior][$clang] = \"".rex_addslashes($CONT->getValue("prior"))."\";".
-					"\n\$REX[ART][$id][path][$clang] = \"".rex_addslashes($CONT->getValue("path"))."\";".
-					"\n\$REX[ART][$id][status][$clang] = \"".rex_addslashes($CONT->getValue("status"))."\";".
-					"\n\$REX[ART][$id][online_from][$clang] = \"".rex_addslashes($CONT->getValue("online_from"))."\";".
-					"\n\$REX[ART][$id][online_to][$clang] = \"".rex_addslashes($CONT->getValue("online_to"))."\";".
-					"\n\$REX[ART][$id][createdate][$clang] = \"".rex_addslashes($CONT->getValue("createdate"))."\";".
-					"\n\$REX[ART][$id][updatedate][$clang] = \"".rex_addslashes($CONT->getValue("updatedate"))."\";".
-					"\n\$REX[ART][$id][keywords][$clang] = \"".rex_addslashes($CONT->getValue("keywords"))."\";".
-					"\n\$REX[ART][$id][template_id][$clang] = \"".rex_addslashes($CONT->getValue("template_id"))."\";".
-					"\n\$REX[ART][$id][createuser][$clang] = \"".rex_addslashes($CONT->getValue("createuser"))."\";".
-					"\n\$REX[ART][$id][updateuser][$clang] = \"".rex_addslashes($CONT->getValue("updateuser"))."\";".
-					"\n\$REX[ART][$id][last_update_stamp][$clang] = \"".time()."\";".
+					"\n\$REX['ART']['$id']['article_id']['$clang'] = \"$id\";".
+					"\n\$REX['ART']['$id']['re_id']['$clang'] = \"".rex_addslashes($CONT->getValue("re_id"))."\";".
+					"\n\$REX['ART']['$id']['name']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";".
+					"\n\$REX['ART']['$id']['catname']['$clang'] = \"".rex_addslashes($CONT->getValue("catname"))."\";".
+					"\n\$REX['ART']['$id']['cattype']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";".
+					"\n\$REX['ART']['$id']['alias']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";".
+					"\n\$REX['ART']['$id']['description']['$clang'] = \"".rex_addslashes($CONT->getValue("description"))."\";".
+					"\n\$REX['ART']['$id']['attribute']['$clang'] = \"".rex_addslashes($CONT->getValue("attribute"))."\";".
+					"\n\$REX['ART']['$id']['file']['$clang'] = \"".rex_addslashes($CONT->getValue("file"))."\";".
+					"\n\$REX['ART']['$id']['type_id']['$clang'] = \"".rex_addslashes($CONT->getValue("type_id"))."\";".
+					"\n\$REX['ART']['$id']['teaser']['$clang'] = \"".rex_addslashes($CONT->getValue("teaser"))."\";".
+					"\n\$REX['ART']['$id']['startpage']['$clang'] = \"".rex_addslashes($CONT->getValue("startpage"))."\";".
+					"\n\$REX['ART']['$id']['prior']['$clang'] = \"".rex_addslashes($CONT->getValue("prior"))."\";".
+					"\n\$REX['ART']['$id']['path']['$clang'] = \"".rex_addslashes($CONT->getValue("path"))."\";".
+					"\n\$REX['ART']['$id']['status']['$clang'] = \"".rex_addslashes($CONT->getValue("status"))."\";".
+					"\n\$REX['ART']['$id']['online_from']['$clang'] = \"".rex_addslashes($CONT->getValue("online_from"))."\";".
+					"\n\$REX['ART']['$id']['online_to']['$clang'] = \"".rex_addslashes($CONT->getValue("online_to"))."\";".
+					"\n\$REX['ART']['$id']['createdate']['$clang'] = \"".rex_addslashes($CONT->getValue("createdate"))."\";".
+					"\n\$REX['ART']['$id']['updatedate']['$clang'] = \"".rex_addslashes($CONT->getValue("updatedate"))."\";".
+					"\n\$REX['ART']['$id']['keywords']['$clang'] = \"".rex_addslashes($CONT->getValue("keywords"))."\";".
+					"\n\$REX['ART']['$id']['template_id']['$clang'] = \"".rex_addslashes($CONT->getValue("template_id"))."\";".
+					"\n\$REX['ART']['$id']['createuser']['$clang'] = \"".rex_addslashes($CONT->getValue("createuser"))."\";".
+					"\n\$REX['ART']['$id']['updateuser']['$clang'] = \"".rex_addslashes($CONT->getValue("updateuser"))."\";".
+					"\n\$REX['ART']['$id']['last_update_stamp']['$clang'] = \"".time()."\";".
 					"\n?>";
-		if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article", "w"))
+		if ($fp = @fopen ($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
 		{
 			fputs($fp,$article);
 			fclose($fp);
-			@chmod($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article",0777);
+			@chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article",0777);
 		}else
 		{
-			$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
+			$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
 		}
 
 
 		// --------------------------------------------------- Artikelcontent speichern
-		if ($fp = @fopen ($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.content", "w"))
+		if ($fp = @fopen ($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", "w"))
 		{
 			fputs($fp,$article_content);
 			fclose($fp);
-			@chmod($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.content",0777);
+			@chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content",0777);
 		}else
 		{
-			$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX[INCLUDE_PATH]."/generated/articles/";
+			$MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
 		}
 		if ($MSG != "")	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$MSG</td></tr></table>";
-		$REX[RC] = false;
+		$REX['RC'] = false;
 
 
 		// --------------------------------------------------- Listen generieren
@@ -202,7 +202,7 @@ function rex_deleteArticle($id,$ebene=0)
 	// -> startpage = 1
 	// --> rekursiv aufrufen
 
-	if ($id == $REX[STARTARTIKEL_ID]) {
+	if ($id == $REX['STARTARTIKEL_ID']) {
 		return $I18N->msg("cant_delete_startarticle");
 	}
 
@@ -223,15 +223,15 @@ function rex_deleteArticle($id,$ebene=0)
 			}
 		}
 
-		$CL = $REX[CLANG];
+		$CL = $REX['CLANG'];
 		reset($CL);
 		for ($i=0;$i<count($CL);$i++)
 		{
 			$clang = key($CL);
-			@unlink($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.article");
-			@unlink($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.content");
-			@unlink($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.alist");
-			@unlink($REX[INCLUDE_PATH]."/generated/articles/$id.$clang.clist");
+			@unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article");
+			@unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content");
+			@unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.alist");
+			@unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.clist");
 			$ART->query("delete from rex_article where id='$id'");
 			$ART->query("delete from rex_article_slice where article_id='$id'");
 			next($CL);
@@ -266,7 +266,7 @@ function rex_generateLists($re_id,$refresh=0)
 	// --> catgorie listen
 	//
 
-	$CL = $REX[CLANG];
+	$CL = $REX['CLANG'];
 	reset($CL);
 	for ($j=0;$j<count($CL);$j++)
 	{
@@ -282,14 +282,14 @@ function rex_generateLists($re_id,$refresh=0)
 		for ($i=0;$i<$GC->getRows();$i++)
 		{
 			$id = $GC->getValue("id");
-			$content .= "\$REX[RE_ID][$re_id][$i] = \"".$GC->getValue("id")."\";\n";
+			$content .= "\$REX['RE_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
 			$GC->next();
 		}
 		$content .= "\n?>";
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.alist", "w");
+		$fp = fopen ($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.alist", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		@chmod($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.alist",0777);
+		@chmod($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.alist",0777);
 
 		// --------------------------------------- CAT LIST
 
@@ -299,14 +299,14 @@ function rex_generateLists($re_id,$refresh=0)
 		for ($i=0;$i<$GC->getRows();$i++)
 		{
 			$id = $GC->getValue("id");
-			$content .= "\$REX[RE_CAT_ID][$re_id][$i] = \"".$GC->getValue("id")."\";\n";
+			$content .= "\$REX['RE_CAT_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
 			$GC->next();
 		}
 		$content .= "\n?>";
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.clist", "w");
+		$fp = fopen ($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist", "w");
 		fputs($fp,$content);
 		fclose($fp);
-		@chmod($REX[INCLUDE_PATH]."/generated/articles/$re_id.$clang.clist",0777);
+		@chmod($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist",0777);
 
 		next($CL);
 	}
@@ -360,18 +360,17 @@ function rex_newArtPrio($re_id,$clang,$new_prio,$old_prio)
 
 function rex_moveArticle($id,$to_cat_id,$from_cat_id)
 {
-
+ // TODO
 }
 
 function rex_copyArticle($id,$to_cat_id)
 {
-
+ // TODO
 }
 
 function rex_copyCategory($which,$to_cat)
 {
-
-
+ // TODO
 }
 
 
@@ -425,16 +424,16 @@ function rex_deleteCLang($id)
 	
 	$content = "// --- DYN\n\r";
 	
-	reset($REX[CLANG]);
-	for ($i=0;$i<count($REX[CLANG]);$i++)
+	reset($REX['CLANG']);
+	for ($i=0;$i<count($REX['CLANG']);$i++)
 	{
-		$cur = key($REX[CLANG]);
-		$val = current($REX[CLANG]);
-		if ($cur != $id) $content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
-		next($REX[CLANG]);
+		$cur = key($REX['CLANG']);
+		$val = current($REX['CLANG']);
+		if ($cur != $id) $content .= "\n\r\$REX['CLANG']['$cur'] = \"$val\";";
+		next($REX['CLANG']);
 	}
 	$content .= "\n\r// --- /DYN";
-	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
+	$file = $REX['INCLUDE_PATH']."/clang.inc.php";
 	
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
@@ -451,17 +450,17 @@ function rex_deleteCLang($id)
 	{
 		$aid = $del->getValue("id");
 		// rex_deleteArticle($del->getValue("id"),$id,0);
-		@unlink($REX[INCLUDE_PATH]."/generated/articles/$aid.$id.article");
-		@unlink($REX[INCLUDE_PATH]."/generated/articles/$aid.$id.content");
-		@unlink($REX[INCLUDE_PATH]."/generated/articles/$aid.$id.alist");
-		@unlink($REX[INCLUDE_PATH]."/generated/articles/$aid.$id.clist");
+		@unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.article");
+		@unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.content");
+		@unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.alist");
+		@unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.clist");
 		$del->next();
 	}
 	
 	$del->query("delete from rex_article where clang='$id'");
 	$del->query("delete from rex_article_slice where clang='$id'");
 
-	unset($REX[CLANG][$id]);
+	unset($REX['CLANG'][$id]);
 	$del = new sql();
 	$del->query("delete from rex_clang where id='$id'");
 	
@@ -471,20 +470,20 @@ function rex_deleteCLang($id)
 function rex_addCLang($id,$name)
 {
 	global $REX;
-	$REX[CLANG][$id] = $name;
+	$REX['CLANG'][$id] = $name;
 	$content = "// --- DYN\n\r";
-	reset($REX[CLANG]);
-	for ($i=0;$i<count($REX[CLANG]);$i++)
+	reset($REX['CLANG']);
+	for ($i=0;$i<count($REX['CLANG']);$i++)
 	{
-		$cur = key($REX[CLANG]);
-		$val = current($REX[CLANG]);
+		$cur = key($REX['CLANG']);
+		$val = current($REX['CLANG']);
 
-		$content .= "\n\r\$REX[CLANG][$cur] = \"$val\";";
-		next($REX[CLANG]);
+		$content .= "\n\r\$REX['CLANG']['$cur'] = \"$val\";";
+		next($REX['CLANG']);
 	}
 	$content .= "\n\r// --- /DYN";
 
-	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
+	$file = $REX['INCLUDE_PATH']."/clang.inc.php";
 	$h = fopen($file,"r");
 	$fcontent = fread($h,filesize($file));
 	$fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)",$content,$fcontent);
@@ -527,16 +526,16 @@ function rex_editCLang($id,$name)
 {
 	global $REX;
 
-	$REX[CLANG][$id] = $name;
-	$file = $REX[INCLUDE_PATH]."/clang.inc.php";
+	$REX['CLANG'][$id] = $name;
+	$file = $REX['INCLUDE_PATH']."/clang.inc.php";
 	$h = fopen($file,"r");
 	$cont = fread($h,filesize($file));
-	$cont = ereg_replace("(REX\[CLANG\]\[$id\].?\=.?)[^;]*","\\1\"".($name)."\"",$cont);
+	$cont = ereg_replace("(REX\['CLANG'\]\['$id\'].?\=.?)[^;]*","\\1\"".($name)."\"",$cont);
 	fclose($h);
-	$h = fopen($REX[INCLUDE_PATH]."/clang.inc.php","w+");
+	$h = fopen($REX['INCLUDE_PATH']."/clang.inc.php","w+");
 	fwrite($h,$cont,strlen($cont));
 	fclose($h);
-	@chmod($REX[INCLUDE_PATH]."/clang.inc.php",0777);
+	@chmod($REX['INCLUDE_PATH']."/clang.inc.php",0777);
 	$edit = new sql;
 	$edit->query("update rex_clang set name='$name' where id='$id'");
 }
