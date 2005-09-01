@@ -245,7 +245,7 @@ function rex_deleteArticle($id,$ebene=0)
 		// --------------------------------------------------- recache all
 		$Cache = new Cache();
 		$Cache->removeAllCacheFiles();
-		return $I18N->msg('category_deleted').$I18N->msg('article_deleted');
+		return $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted');
 
 	}else
 	{
