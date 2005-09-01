@@ -72,56 +72,35 @@
 	        $this->img["quality"]=$quality;
 	    }
 
-	    function show()
-	    {
-	        //show thumb
-	        @Header("Content-Type: image/".$this->img["format"]);
-
-	        /* change ImageCreateTrueColor to ImageCreate if GD2 not supported ImageCreateTrueColor function*/
+		function resampleImage(){
 	        if(function_exists(ImageCreateTrueColor)){
 	            $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
 	        } else {
 	            $this->img["des"] = ImageCreate($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
 	        }
-
-	        @imagecopyresampled ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
-
-	        if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
-	            //JPEG
-	            imageJPEG($this->img["des"],"",$this->img["quality"]);
-	        } elseif ($this->img["format"]=="PNG") {
-	            //PNG
-	            imagePNG($this->img["des"]);
-	        } elseif ($this->img["format"]=="GIF") {
-	            //GIF
-	            imageJPEG($this->img["des"]);
-	        } elseif ($this->img["format"]=="WBMP") {
-	            //WBMP
-	            imageWBMP($this->img["des"]);
-	        }
+			imagecopyresampled($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
 	    }
 
-	    function save($save="")
+	    function generateImage($save='',$show=true)
 	    {
-	        //save thumb
-	        if (empty($save)) $save=strtolower("./thumb.".$this->img["format"]);
-	        /* change ImageCreateTrueColor to ImageCreate if your GD not supported ImageCreateTrueColor function*/
-	        $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
-	            @imagecopyresampled ($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
+
+			$this->resampleImage();
 
 	        if ($this->img["format"]=="JPG" || $this->img["format"]=="JPEG") {
-	            //JPEG
-	            imageJPEG($this->img["des"],"$save",$this->img["quality"]);
+	            imageJPEG($this->img["des"],$save,$this->img["quality"]);
 	        } elseif ($this->img["format"]=="PNG") {
-	            //PNG
-	            imagePNG($this->img["des"],"$save");
+	            imagePNG($this->img["des"],$save);
 	        } elseif ($this->img["format"]=="GIF") {
-	            //GIF
-	            imageJPEG($this->img["des"],"$save");
+	            imageJPEG($this->img["des"],$save);
 	        } elseif ($this->img["format"]=="WBMP") {
-	            //WBMP
-	            imageWBMP($this->img["des"],"$save");
+	            imageWBMP($this->img["des"],$save);
+	        }
+
+	        if($show){
+	            Header("Content-Type: image/".$this->img["format"]);
+	            readfile($save);
 	        }
 	    }
+
 	}
 ?>

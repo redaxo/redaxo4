@@ -1,4 +1,4 @@
-<?php
+<?
 ################################################################################
 #
 #	imageResize Addon 0.2
@@ -98,7 +98,6 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 
     // start thumb class
     $thumb = new thumbnail($imagepath);
-	@Header("Content-Type: image/".$thumb->img["format"]);
 
     // check method
     if($mode=="w"){
@@ -115,11 +114,9 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
     $thumb->jpeg_quality($REX[ADDON][jpeg_quality][$mypage]);
 
     // save cache
-    $thumb->save($cachepath);
+    $thumb->generateImage($cachepath);
 
-    // show file
-    $thumb->show();
-    exit;
+    exit();
 
 }
 ?>
