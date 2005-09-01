@@ -77,9 +77,9 @@ class OOMedia
    /**
     * @access public
     */
-   function getMediaById($id)
+   function & getMediaById($id)
    {
-      $id = (int)$id;
+      $id = (int) $id;
       if (!is_numeric($id))
       {
          return null;
@@ -128,11 +128,11 @@ class OOMedia
    /**
     * @access public
     */
-   function getMediaByName($filename)
+   function & getMediaByName($filename)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql::escape($filename).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql :: escape($filename).'"';
       $sql = new sql();
-      $sql->debugsql = true;
+      //$sql->debugsql = true;
       $result = $sql->get_array($query);
 
       if (count($result) == 0)
@@ -140,14 +140,14 @@ class OOMedia
          return null;
       }
 
-      return new OOMedia($result[0]['file_id']);
+      return OOMedia::getMediaById($result[0]['file_id']);
    }
 
    /**
     * @access public
     * @see #getMediaByExtension
     */
-   function searchMediaByExtension($extension)
+   function & searchMediaByExtension($extension)
    {
       return OOMedia :: getMediaByExtension($extension);
    }
@@ -155,9 +155,9 @@ class OOMedia
    /**
     * @access public
     */
-   function getMediaByExtension($extension)
+   function & getMediaByExtension($extension)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.sql::escape($extension).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.sql :: escape($extension).'"';
       $sql = new sql();
       //              $sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -168,7 +168,7 @@ class OOMedia
       {
          foreach ($result as $row)
          {
-            $media[] = new OOMedia($row['file_id']);
+            $media[] = & OOMedia::getMediaById($row['file_id']);
          }
       }
 
@@ -179,7 +179,7 @@ class OOMedia
     * @access public
     * @see #getMediaByFileName
     */
-   function searchMediaByFileName($name)
+   function & searchMediaByFileName($name)
    {
       return OOMedia :: getMediaByFileName($name);
    }
@@ -187,9 +187,9 @@ class OOMedia
    /**
     * @access public
     */
-   function getMediaByFileName($name)
+   function & getMediaByFileName($name)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql::escape($name).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql :: escape($name).'"';
       $sql = new sql();
       $result = $sql->get_array($query);
 
@@ -198,7 +198,7 @@ class OOMedia
       {
          foreach ($result as $line)
          {
-            $media[] = OOMedia :: getMediaById($line['file_id']);
+            $media[] = & OOMedia :: getMediaById($line['file_id']);
          }
       }
 

@@ -239,10 +239,9 @@ class OOMediaCategory
          $result = $sql->get_array();
          if (is_array($result))
          {
-            foreach ($result as $row)
+            foreach ($result as $line)
             {
-               $id = $row['file_id'];
-               $this->_files[] = & OOMedia :: getMediaById($id);
+               $this->_files[] = & OOMedia :: getMediaById($line['file_id']);
             }
          }
       }
