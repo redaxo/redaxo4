@@ -33,38 +33,7 @@ class OOMediaCategory
    */
    function OOMediaCategory($id = null)
    {
-      if ($id === null)
-      {
-         return;
-      }
-
-      $query = 'SELECT * FROM '.OOMediaCategory :: _getTableName().' WHERE id = '.$id;
-
-      $sql = new sql();
-      //        $sql->debugsql = true;
-      $result = $sql->get_array($query);
-      $result = $result[0];
-
-      if (count($result) == 0)
-      {
-         trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_ERROR);
-      }
-
-      $this->_id = $result['id'];
-      $this->_parent_id = $result['re_id'];
-
-      $this->_name = $result['name'];
-      $this->_path = $result['path'];
-      $this->_hide = $result['hide'];
-
-      $this->_createdate = $result['createdate'];
-      $this->_updatedate = $result['updatedate'];
-
-      $this->_createuser = $result['createuser'];
-      $this->_updateuser = $result['updateuser'];
-
-      $this->_children = null;
-      $this->_files = null;
+      $this->getCategoryById( $id);
    }
 
    /**
@@ -81,7 +50,43 @@ class OOMediaCategory
     */
    function & getCategoryById($id)
    {
-      return new OOMediaCategory($id);
+      if (!is_int( $id))
+      {
+         return null;
+      }
+
+      $query = 'SELECT * FROM '.OOMediaCategory :: _getTableName().' WHERE id = '.$id;
+
+      $sql = new sql();
+      //        $sql->debugsql = true;
+      $result = $sql->get_array($query);
+      $result = $result[0];
+
+      if (count($result) == 0)
+      {
+         //trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_ERROR);
+         return null;
+      }
+
+      $cat = new OOMediaCategory();
+      
+      $cat->_id = $result['id'];
+      $cat->_parent_id = $result['re_id'];
+
+      $cat->_name = $result['name'];
+      $cat->_path = $result['path'];
+      $cat->_hide = $result['hide'];
+
+      $cat->_createdate = $result['createdate'];
+      $cat->_updatedate = $result['updatedate'];
+
+      $cat->_createuser = $result['createuser'];
+      $cat->_updateuser = $result['updateuser'];
+
+      $cat->_children = null;
+      $cat->_files = null;
+      
+      return $cat;
    }
 
    /**
@@ -115,8 +120,9 @@ class OOMediaCategory
     */
    function & getCategoryByName($name)
    {
-      $query = 'SELECT id FROM '.OOMedia :: _getTableName().' WHERE name = "'.addslashes($name).'"';
+      $query = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE name = "'.addslashes($name).'"';
       $sql = new sql();
+      $sql->debugsql = true;
       $result = $sql->get_array($query);
 
       $media = array ();
