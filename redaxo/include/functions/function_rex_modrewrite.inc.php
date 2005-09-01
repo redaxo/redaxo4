@@ -1,9 +1,25 @@
 <?php
 
+// ----------------------------------------- Redaxo 2.* Function
+function getUrlByid($id,$clang = "",$params = ""){
+	return rex_getUrl($id,$clang,$params);
+}
+
+// ----------------------------------------- Parse Article Name for Url
+function rex_parseArticleName($name){
+    $name = strtolower($name);
+    $name = str_replace(' ','-',$name);
+    $name = str_replace('ä','ae',$name);
+    $name = str_replace('ö','oe',$name);
+    $name = str_replace('ü','ue',$name);
+    $name = preg_replace("/[^a-zA-Z\-]/","",$name);
+    return $name;
+}
+
 // ----------------------------------------- URL
 
 function rex_getUrl($id,$clang = "",$params = "") {
-	
+
 	/*
 	 * Object Helper Function:
 	 * Returns a url for linking to this article
@@ -20,12 +36,12 @@ function rex_getUrl($id,$clang = "",$params = "") {
 	 * or if mod_rewrite support is activated:
 	 *   /1-The_Article_Name?order=123&name=horst
 	 */
-	 
+
 	global $REX;
-	
+
 	// ----- definiere sprache
 	if ($clang == "") $clang = $REX[CUR_CLANG];
-	
+
 	// ----- get article Name
 	$id = $id+0;
 	if ($id==0)
@@ -33,18 +49,17 @@ function rex_getUrl($id,$clang = "",$params = "") {
 		$name = "NoName";
 	}else {
 		$ooa = OOArticle::getArticleById($id);
-		if ($ooa) $name = strtolower($ooa->getName());
-		$name = preg_replace("/[^a-zA-Z]/","",$name);
+		if ($ooa) $name = rex_parseArticleName($ooa->getName());
 	}
-	
+
 	// ----- get params
 	$param_string = "";
-    if ( is_array( $params)) 
+    if ( is_array( $params))
     {
         $first = true;
-        foreach ( $params as $key => $value) 
+        foreach ( $params as $key => $value)
         {
-            // Nur Wenn MOD_REWRITE aktiv ist, das erste "&amp;" entfernen. 
+            // Nur Wenn MOD_REWRITE aktiv ist, das erste "&amp;" entfernen.
             if ( $first && $REX['MOD_REWRITE'])
             {
                 $first = false;
@@ -53,7 +68,7 @@ function rex_getUrl($id,$clang = "",$params = "") {
             {
                 $param_string .= '&amp;';
             }
-            $param_string .= $key . '=' . $value; 
+            $param_string .= $key . '=' . $value;
         }
     }else if ( $params != "")
     {
@@ -67,7 +82,5 @@ function rex_getUrl($id,$clang = "",$params = "") {
 
 	return $REX['WWW_PATH']."$url"."$param_string";
 }
-
-
 
 ?>
