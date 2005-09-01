@@ -56,18 +56,18 @@ download  =  Download
 clipboard  =  Glibboord
 
 # redaxo/include/functions/function_rex_generate.inc.php
-article_moved = Ardiggl haschde verschobn!
-article_deleted = Na doll. Ardiggl haschde gelöschd!
+article_moved = Ardiggl haschde verschobn !
+article_deleted = Na doll. Ardiggl haschde gelöschd !
 could_not_move_article = Ardiggl gonnde nischd verschoben werdn.
 article_could_not_be_generated  =  Ardiggl gonnde nischd erschdelld werdn.
-check_rights_in_directory  =  Bidde üborbrüfe die Reschde im Ordnor
+check_rights_in_directory  =  Bidde üborbrüfe die Reschde im Ordnor.
 category_deleted  =  Gaddegorie wurde gelöschd. Na doll.
 category_doesnt_exist  =  Gaddegorie eggsisdierd nischd !
 cant_delete_startarticle = Der Schdardardiggl darf nischd gelöschd werdn.
 
 # redaxo\include\pages\content.inc.php
 block_updated = Blogg wurde aggdualisierd !
-block_added = Blogg wurde hinzuchefüchd
+block_added = Blogg wurde hinzuchefüchd !
 no_rights_to_this_function = Hasd geene Reschde für diese Fungdsjon !
 module_not_found = FEHLOR ! Moodul wurde nisch gefundn !
 block_deleted = Blogg wurde gelöschd !

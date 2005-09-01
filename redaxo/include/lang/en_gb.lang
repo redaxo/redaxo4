@@ -56,12 +56,12 @@ download  =  Download
 clipboard  =  Clipboard
 
 # redaxo/include/functions/function_rex_generate.inc.php
-article_moved = Article moved
+article_moved = Article moved !
 article_deleted = Article deleted!
-could_not_move_article = Could not move article
+could_not_move_article = Could not move article !
 article_could_not_be_generated  =  Article could not be generated.
-check_rights_in_directory  =  Please check file permissions in directory
-category_deleted  =  Category deleted
+check_rights_in_directory  =  Please check file permissions in directory.
+category_deleted  =  Category deleted !
 category_doesnt_exist  =  No such category!
 cant_delete_startarticle = You cannot delete the start article.
 

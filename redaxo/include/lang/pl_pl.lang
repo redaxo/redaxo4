@@ -56,12 +56,12 @@ download  =  Download
 clipboard  =  Schowek
 
 # redaxo/include/functions/function_rex_generate.inc.php
-article_moved = Artyku³ zosta³ przeniesiony!
-article_deleted = Artyku³ zosta³ usuniêty!
+article_moved = Artyku³ zosta³ przeniesiony !
+article_deleted = Artyku³ zosta³ usuniêty !
 could_not_move_article = Nie da³o siê przenie¶æ artyku³u.
 article_could_not_be_generated  =  Nie uda³o siê utworzyæ artyku³u.
 check_rights_in_directory  =  Proszê sprawdziæ prawa dostêpu w/do katalogu
-category_deleted  =  Kategoria zosta³a usuniêta
+category_deleted  =  Kategoria zosta³a usuniêta !
 category_doesnt_exist  =  Nie ma takiej kategorii !
 cant_delete_startarticle = Nie mo¿na usun±æ artyku³u startowego.
 
