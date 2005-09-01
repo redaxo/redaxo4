@@ -6,6 +6,8 @@
 
 include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/classes/class.tar.inc.php';
 include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_folder.inc.php';
+include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_import_folder.inc.php';
+include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_string.inc.php';
 
 // ------------------------------ FUNC
 $msg = "";
