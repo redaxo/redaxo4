@@ -33,7 +33,7 @@ class OOMediaCategory
    */
    function OOMediaCategory($id = null)
    {
-      $this->getCategoryById( $id);
+      $this->getCategoryById($id);
    }
 
    /**
@@ -50,7 +50,8 @@ class OOMediaCategory
     */
    function & getCategoryById($id)
    {
-      if (!is_int( $id))
+      $id = (int) $id;
+      if (!is_numeric($id))
       {
          return null;
       }
@@ -69,7 +70,7 @@ class OOMediaCategory
       }
 
       $cat = new OOMediaCategory();
-      
+
       $cat->_id = $result['id'];
       $cat->_parent_id = $result['re_id'];
 
@@ -85,7 +86,7 @@ class OOMediaCategory
 
       $cat->_children = null;
       $cat->_files = null;
-      
+
       return $cat;
    }
 
@@ -113,14 +114,14 @@ class OOMediaCategory
 
    function & searchCategoryByName($name)
    {
-      return OOMediaCategory::getCategoryByName($name);
+      return OOMediaCategory :: getCategoryByName($name);
    }
    /**
     * @access public
     */
    function & getCategoryByName($name)
    {
-      $query = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE name = "'.addslashes($name).'"';
+      $query = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE name = "'.sql :: escape($name).'"';
       $sql = new sql();
       $sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -130,108 +131,86 @@ class OOMediaCategory
       {
          foreach ($result as $line)
          {
-            $media[] = & OOMediaCategory :: getCategoryById($line['id']);
+            if (($med = & OOMediaCategory :: getCategoryById($line['id'])) !== null)
+            {
+               $media[] = & $med;
+            }
          }
       }
 
       return $media;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function toString()
    {
       return 'OOMediaCategory, "'.$this->getId().'", "'.$this->getName().'"'."<br/>\n";
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getId()
    {
       return $this->_id;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getName()
    {
       return $this->_name;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getPath()
    {
       return $this->_path;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getUpdateUser()
    {
       return $this->_updateuser;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getUpdateDate()
    {
       return $this->_updatedate;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getCreateUser()
    {
       return $this->_createuser;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getCreateDate()
    {
       return $this->_createdate;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getParentId()
    {
       return $this->_parent_id;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getParent()
    {
       return OOMediaCategory :: getCategoryById($this->getParentId());
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getChildren()
    {
       if ($this->_children === null)
       {
          $this->_children = array ();
-
          $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = '.$this->getId();
-
          $sql = new sql();
          $sql->setQuery($qry);
          $result = $sql->get_array();
-
          if (is_array($result))
          {
             foreach ($result as $row)
@@ -243,31 +222,24 @@ class OOMediaCategory
       }
 
       return $this->_children;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function countChildren()
    {
       return count($this->getChildren());
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function getFiles()
    {
       if ($this->_files === null)
       {
          $this->_files = array ();
-
          $qry = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE category_id = '.$this->getId();
-
          $sql = new sql();
          $sql->setQuery($qry);
          $result = $sql->get_array();
-
          if (is_array($result))
          {
             foreach ($result as $row)
@@ -279,132 +251,100 @@ class OOMediaCategory
       }
 
       return $this->_files;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function countFiles()
    {
       return count($this->getFiles());
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function isHidden()
    {
       return $this->_hide;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function isRootCategory()
    {
       return $this->hasParent() === false;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function isParent($mediaCat)
    {
       if (is_int($mediaCat))
       {
-         return $mediaCatId == $this->getParentId();
+         return $mediaCat == $this->getParentId();
       }
-      else
-         if (OOMediaCategory :: isValid($mediaCat))
-         {
-            return $this->getParentId() == $mediaCat->getId();
-         }
+      elseif (OOMediaCategory :: isValid($mediaCat))
+      {
+         return $this->getParentId() == $mediaCat->getId();
+      }
       return null;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function isValid($mediaCat)
    {
       return is_object($mediaCat) && is_a($mediaCat, 'oomediacategory');
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function hasParent()
    {
       return $this->getParentId() != 0;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function hasChildren()
    {
       return count($this->getChildren()) > 0;
-   }
-
-   /**
-    * @access public
-    */
+   } /**
+         * @access public
+         */
    function hasFiles()
    {
       return count($this->getFiles()) > 0;
-   }
-
-   /**
-    * @access protected
-    */
+   } /**
+         * @access protected
+         */
    function _getSQLSetString()
    {
       $set = ' SET'.'  re_id = "'.sql :: escape($this->getParentId()).'"'.', name = "'.sql :: escape($this->getName()).'"'.', path = "'.sql :: escape($this->getPath()).'"'.', hide = "'.sql :: escape($this->isHidden()).'"'.', updatedate = "'.sql :: escape($this->getUpdateDate()).'"'.', createdate = "'.sql :: escape($this->getCreateDate()).'"'.', updateuser = "'.sql :: escape($this->getUpdateUser()).'"'.', createuser = "'.sql :: escape($this->getCreateUser()).'"';
-
       return $set;
-   }
-
-   /**
-    * @access protected
-    * @return Returns <code>true</code> on success or <code>false</code> on error
-    */
+   } /**
+         * @access protected
+         * @return Returns <code>true</code> on success or <code>false</code> on error
+         */
    function _insert()
    {
       $qry = 'INSERT INTO '.$this->_getTableName();
       $qry .= $this->_getSQLSetString();
-
-      $sql = new sql();
-      //        $sql->debugsql = true;
+      $sql = new sql(); //        $sql->debugsql = true;
       //        echo $qry;
       //        return;
       $sql->query($qry);
-
       return $sql->getError();
-   }
-
-   /**
-    * @access protected
-    * @return Returns <code>true</code> on success or <code>false</code> on error
-    */
+   } /**
+         * @access protected
+         * @return Returns <code>true</code> on success or <code>false</code> on error
+         */
    function _update()
    {
       $qry = 'UPDATE '.$this->_getTableName();
       $qry .= $this->_getSQLSetString();
       $qry .= ' WHERE id = "'.$this->getId().'" LIMIT 1';
-
-      $sql = new sql();
-      //        $sql->debugsql = true;
+      $sql = new sql(); //        $sql->debugsql = true;
       //        echo $qry;
       //        return;
       $sql->query($qry);
-
       return $sql->getError();
-   }
-
-   /**
-    * @access protected
-    * @return Returns <code>true</code> on success or <code>false</code> on error
-    */
+   } /**
+         * @access protected
+         * @return Returns <code>true</code> on success or <code>false</code> on error
+         */
    function _save()
    {
       if ($this->getId() !== null)
@@ -415,12 +355,10 @@ class OOMediaCategory
       {
          return $this->_insert();
       }
-   }
-
-   /**
-    * @access protected
-    * @return Returns <code>true</code> on success or <code>false</code> on error
-    */
+   } /**
+      * @access protected
+      * @return Returns <code>true</code> on success or <code>false</code> on error
+      */
    function _delete($recurse = false)
    {
          // Rekursiv löschen?
@@ -429,19 +367,15 @@ class OOMediaCategory
          if ($this->hasChildren())
          {
             $childs = $this->getChildren();
-
             foreach ($childs as $child)
             {
                $child->_delete($recurse);
             }
          }
-      }
-
-      // Alle Dateien löschen
+      } // Alle Dateien löschen
       if ($this->hasFiles())
       {
          $files = $this->getFiles();
-
          foreach ($files as $file)
          {
             $file->_delete();
@@ -449,8 +383,7 @@ class OOMediaCategory
       }
 
       $qry = 'DELETE FROM '.$this->_getTableName().' WHERE id = '.$this->getId().' LIMIT 1';
-      $sql = new sql();
-      //        $sql->debugsql = true;
+      $sql = new sql(); //        $sql->debugsql = true;
       //        echo $qry;
       //        return;
       $sql->query($qry);

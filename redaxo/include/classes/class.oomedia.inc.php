@@ -79,7 +79,8 @@ class OOMedia
     */
    function getMediaById($id)
    {
-      if ($id === null)
+      $id = (int)$id;
+      if (!is_numeric($id))
       {
          return null;
       }
@@ -131,7 +132,7 @@ class OOMedia
    {
       $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql::escape($filename).'"';
       $sql = new sql();
-      //$sql->debugsql = true;
+      $sql->debugsql = true;
       $result = $sql->get_array($query);
 
       if (count($result) == 0)
