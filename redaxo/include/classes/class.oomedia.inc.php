@@ -52,44 +52,7 @@ class OOMedia
     */
    function OOMedia($id = null)
    {
-      if ($id === null)
-      {
-         return;
-      }
-
-      $query = 'SELECT '.$this->_getTableName().'.*,'.OOMediaCategory :: _getTableName().'.name catname  FROM '.OOMedia :: _getTableJoin().' WHERE file_id = '.$id;
-      $sql = new sql();
-      //        $sql->debugsql = true;
-      $result = $sql->get_array($query);
-      if (count($result) == 0)
-      {
-         trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_ERROR);
-      }
-      $result = $result[0];
-      //        var_dump( $result);
-
-      $this->_id = $result['file_id'];
-      $this->_parent_id = $result['re_file_id'];
-      $this->_cat_id = $result['category_id'];
-      $this->_cat_name = $result['catname'];
-
-      $this->_name = $result['filename'];
-      $this->_orgname = $result['originalname'];
-      $this->_type = $result['filetype'];
-      $this->_size = $result['filesize'];
-
-      $this->_width = $result['width'];
-      $this->_height = $result['height'];
-
-      $this->_title = $result['title'];
-      $this->_description = $result['description'];
-      $this->_copyright = $result['copyright'];
-
-      $this->_updatedate = $result['updatedate'];
-      $this->_updateuser = $result['updateuser'];
-
-      $this->_createdate = $result['createdate'];
-      $this->_createuser = $result['createuser'];
+      $this->getMediaById($id);
    }
 
    /**
@@ -116,7 +79,49 @@ class OOMedia
     */
    function getMediaById($id)
    {
-      return new OOMedia($id);
+      if ($id === null)
+      {
+         return null;
+      }
+
+      $query = 'SELECT '.OOMedia :: _getTableName().'.*, '.OOMediaCategory :: _getTableName().'.name catname  FROM '.OOMedia :: _getTableJoin().' WHERE file_id = '.$id;
+      $sql = new sql();
+      //        $sql->debugsql = true;
+      $result = $sql->get_array($query);
+      if (count($result) == 0)
+      {
+         //trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_NOTICE);
+         return null;
+      }
+
+      $result = $result[0];
+      //        var_dump( $result);
+
+      $media = new OOMedia();
+      $media->_id = $result['file_id'];
+      $media->_parent_id = $result['re_file_id'];
+      $media->_cat_id = $result['category_id'];
+      $media->_cat_name = $result['catname'];
+
+      $media->_name = $result['filename'];
+      $media->_orgname = $result['originalname'];
+      $media->_type = $result['filetype'];
+      $media->_size = $result['filesize'];
+
+      $media->_width = $result['width'];
+      $media->_height = $result['height'];
+
+      $media->_title = $result['title'];
+      $media->_description = $result['description'];
+      $media->_copyright = $result['copyright'];
+
+      $media->_updatedate = $result['updatedate'];
+      $media->_updateuser = $result['updateuser'];
+
+      $media->_createdate = $result['createdate'];
+      $media->_createuser = $result['createuser'];
+
+      return $media;
    }
 
    /**
@@ -126,7 +131,7 @@ class OOMedia
    {
       $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.mysql_escape_string($filename).'"';
       $sql = new sql();
-      //        $sql->debugsql = true;
+      //$sql->debugsql = true;
       $result = $sql->get_array($query);
 
       if (count($result) == 0)
@@ -139,17 +144,61 @@ class OOMedia
 
    /**
     * @access public
+    * @see #getMediaByExtension
+    */
+   function searchMediaByExtension($extension)
+   {
+      return OOMedia :: getMediaByExtension($extension);
+   }
+
+   /**
+    * @access public
+    */
+   function getMediaByExtension($extension)
+   {
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.mysql_escape_string($extension).'"';
+      $sql = new sql();
+      //              $sql->debugsql = true;
+      $result = $sql->get_array($query);
+
+      $media = array ();
+
+      if (is_array($result))
+      {
+         foreach ($result as $row)
+         {
+            $media[] = new OOMedia($row['file_id']);
+         }
+      }
+
+      return $media;
+   }
+
+   /**
+    * @access public
+    * @see #getMediaByFileName
     */
    function searchMediaByFileName($name)
+   {
+      return OOMedia :: getMediaByFileName($name);
+   }
+
+   /**
+    * @access public
+    */
+   function getMediaByFileName($name)
    {
       $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.addslashes($name).'"';
       $sql = new sql();
       $result = $sql->get_array($query);
 
       $media = array ();
-      foreach ($result as $line)
+      if (is_array($result))
       {
-         $media[] = OOMedia :: getMediaById($line['file_id']);
+         foreach ($result as $line)
+         {
+            $media[] = OOMedia :: getMediaById($line['file_id']);
+         }
       }
 
       return $media;
@@ -722,7 +771,7 @@ class OOMedia
          }
          else
          {
-            trigger_error('File Icons Folder "'.$icons_folder.'" unavailable', E_USER_ERROR);
+            trigger_error('File Icons Folder "'.$icons_folder.'" unavailable!', E_USER_ERROR);
             return false;
          }
       }
@@ -745,7 +794,9 @@ class OOMedia
 
    /**
     * @access public
+    * TODO
     */
+   /*
    function resizeImage($width = '', $height = '', $quality = 90)
    {
       if (!$key = array_search($this->getExtension(), $this->_resizeextensions))
@@ -761,10 +812,11 @@ class OOMedia
             case 'jpg' :
             case 'jpeg' :
                $im = imagecreatefromjpeg($imagePath);
+               break;
          }
       }
-
-   }
+   
+   }*/
 
    /**
     * @access protected
