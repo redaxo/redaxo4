@@ -129,7 +129,7 @@ class OOMedia
     */
    function getMediaByName($filename)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.mysql_escape_string($filename).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql::escape($filename).'"';
       $sql = new sql();
       //$sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -156,7 +156,7 @@ class OOMedia
     */
    function getMediaByExtension($extension)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.mysql_escape_string($extension).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.sql::escape($extension).'"';
       $sql = new sql();
       //              $sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -188,7 +188,7 @@ class OOMedia
     */
    function getMediaByFileName($name)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.addslashes($name).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql::escape($name).'"';
       $sql = new sql();
       $result = $sql->get_array($query);
 
@@ -632,18 +632,10 @@ class OOMedia
       }
       $query_file = '('.$query_file.')';
       $query_filelist = '('.$query_filelist.')';
-      $query = 'select * from rex_article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
+      $query = 'select id from rex_article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
 
       $sql->setQuery($query);
-      if ($sql->getRows() > 0)
-      {
-         return true;
-      }
-      else
-      {
-         return false;
-      }
-
+      return $sql->getRows() > 0;
    }
 
    /**
