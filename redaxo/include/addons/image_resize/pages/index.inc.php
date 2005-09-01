@@ -2,6 +2,8 @@
 
 include $REX[INCLUDE_PATH]."/layout/top.php";
 
+include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_folder.inc.php';
+
 if($function == "clear_cache"){
 		$c=0;
 		$files = readFolderFiles($REX[HTDOCS_PATH]."files/");
