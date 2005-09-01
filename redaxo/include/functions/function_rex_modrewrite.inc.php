@@ -8,8 +8,13 @@ function getUrlByid($id,$clang = "",$params = ""){
 // ----------------------------------------- Parse Article Name for Url
 function rex_parseArticleName($name){
     $name = strtolower($name);
+    $name = str_replace(' - ','-',$name);
+    $name = str_replace(' – ','-',$name);
     $name = str_replace(' ','-',$name);
     $name = str_replace('.','-',$name);
+    $name = str_replace('Ä','ae',$name);
+    $name = str_replace('Ö','oe',$name);
+    $name = str_replace('Ü','ue',$name);
     $name = str_replace('ä','ae',$name);
     $name = str_replace('ö','oe',$name);
     $name = str_replace('ü','ue',$name);
