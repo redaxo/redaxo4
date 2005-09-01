@@ -12,6 +12,7 @@ function rex_parseArticleName($name){
     $name = str_replace('ä','ae',$name);
     $name = str_replace('ö','oe',$name);
     $name = str_replace('ü','ue',$name);
+    $name = str_replace('ß','ss',$name);
     $name = preg_replace("/[^a-zA-Z\-]/","",$name);
     return $name;
 }
