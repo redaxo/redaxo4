@@ -154,6 +154,9 @@ class OOMedia
 
    /**
     * @access public
+    * 
+    * @example OOMedia::getMediaByExtension('css');
+    * @example OOMedia::getMediaByExtension('gif');
     */
    function & getMediaByExtension($extension)
    {
