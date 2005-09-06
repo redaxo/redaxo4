@@ -9,12 +9,11 @@ function getUrlByid($id,$clang = "",$params = ""){
 function rex_parseArticleName($name){
     $name = strtolower($name);
     $name = str_replace(' - ','-',$name);
-    $name = str_replace(' – ','-',$name);
     $name = str_replace(' ','-',$name);
     $name = str_replace('.','-',$name);
-    $name = str_replace('Ä','ae',$name);
-    $name = str_replace('Ö','oe',$name);
-    $name = str_replace('Ü','ue',$name);
+    $name = str_replace('Ä','Ae',$name);
+    $name = str_replace('Ö','Oe',$name);
+    $name = str_replace('Ü','Ue',$name);
     $name = str_replace('ä','ae',$name);
     $name = str_replace('ö','oe',$name);
     $name = str_replace('ü','ue',$name);
