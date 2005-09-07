@@ -183,6 +183,15 @@ class OORedaxo
 
    /*
     * Accessor Method:
+    * returns the name of the article
+    */
+   function getFileMedia()
+   {
+      return OOMedia::getMediaByFileName( $this->_file);
+   }
+   
+   /*
+    * Accessor Method:
     * returns the Type ID of the article
     */
    function getTypeId()
@@ -244,6 +253,14 @@ class OORedaxo
       return OOMedia :: _getDate($this->_createdate, $format);
    }
 
+   /*
+    * Accessor Method:
+    * returns the category id
+    */
+   function getCategoryId() {
+      return $this->isStartPage() ? $this->getId() : $this->getParentId(); 
+   }
+   
    /*
     * Accessor Method:
     * returns true if article is online.
