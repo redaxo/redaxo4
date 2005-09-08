@@ -95,7 +95,7 @@ function rex_getUrl($id, $clang = "", $params = "")
    {
       $rewrite_fn = 'rexrewrite_apache_rewrite';
    }
-   
+
    if (is_string($REX['MOD_REWRITE']) && $REX['MOD_REWRITE'] != '')
    {
       if (strpos($REX['MOD_REWRITE'], '::') !== false)
@@ -107,7 +107,7 @@ function rex_getUrl($id, $clang = "", $params = "")
 
          if (is_callable(array ($_object_name, $_method_name)))
          {
-            $rewrite_fn = $REX['MOD_REWRITE'];
+            $rewrite_fn = array ($_object_name, $_method_name);
          }
       }
       elseif (function_exists($REX['MOD_REWRITE']))
@@ -123,11 +123,11 @@ function rex_getUrl($id, $clang = "", $params = "")
       $_method_name = 'rewrite';
       if (method_exists($REX['MOD_REWRITE'], $_method_name))
       {
-         return $REX['MOD_REWRITE']-> $_method_name ($id, $name, $clang, $params);
+         $rewrite_fn = array ($REX['MOD_REWRITE'], $_method_name);
       }
    }
 
-   return $rewrite_fn ($id, $name, $clang, $params);
+   return call_user_func($rewrite_fn, $id, $name, $clang, $params);
 }
 
 // ----------------------------------------- Rewrite functions
