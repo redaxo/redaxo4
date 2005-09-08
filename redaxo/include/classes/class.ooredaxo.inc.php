@@ -255,14 +255,6 @@ class OORedaxo
 
    /*
     * Accessor Method:
-    * returns the category id
-    */
-   function getCategoryId() {
-      return $this->isStartPage() ? $this->getId() : $this->getParentId(); 
-   }
-   
-   /*
-    * Accessor Method:
     * returns true if article is online.
     */
    function isOnline()

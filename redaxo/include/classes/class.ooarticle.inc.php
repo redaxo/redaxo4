@@ -213,6 +213,14 @@ class OOArticle extends OORedaxo
    }
 
    /*
+    * Accessor Method:
+    * returns the category id
+    */
+   function getCategoryId() {
+      return $this->isStartPage() ? $this->getId() : $this->getParentId(); 
+   }
+   
+   /*
    *  Accessor Method:
     * returns true if this Article is the Startpage for the category.
     */
