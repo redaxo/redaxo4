@@ -543,7 +543,7 @@ class OOMedia
          $additional .= $name.'="'.$value.'" ';
       }
 
-      return '<img src="'.$path.$file.'" '.$additional.'/>';
+      return '<img src="'.$path.$file.'" '.$additional.' />';
    }
 
    /**
@@ -556,7 +556,7 @@ class OOMedia
    /**
     * @access public
     */
-   function toIcon($iconAttributes = array ())
+   function toIcon($iconAttributes = array (), $iconPath = '')
    {
       static $icon_src;
 
@@ -565,7 +565,7 @@ class OOMedia
          $icon_src = "pics/mime_icons/";
       }
 
-      $icon = $icon_src.'mime-'.$this->getExtension().'.gif';
+      $icon = $iconPath . $icon_src.'mime-'.$this->getExtension().'.gif';
 
       // Dateityp für den kein Icon vorhanden ist
       if (!file_exists($icon))
@@ -579,7 +579,7 @@ class OOMedia
          $attrs .= ' '.$attrName.'="'.$attrValue.'"';
       }
 
-      return '<img src="'.$icon.'"'.$attrs.' style="width: 44px; height: 38px">';
+      return '<img src="'.$icon.'"'.$attrs.' style="width: 44px; height: 38px" />';
    }
 
    /**
