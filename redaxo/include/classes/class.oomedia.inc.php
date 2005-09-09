@@ -669,7 +669,7 @@ class OOMedia
             }
          case 'css' :
             {
-               sprintf('<link href="%s" rel="stylesheet" type="text/css"%s>', $file, $attributes);
+               return sprintf('<link href="%s" rel="stylesheet" type="text/css"%s>', $file, $attributes);
             }
          default :
             {
