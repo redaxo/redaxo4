@@ -45,8 +45,11 @@ function rex_parseArticleName($name)
  * or if mod_rewrite support is activated:
  *   /1-The_Article_Name?order=123&name=horst
  * 
+ * // ----------------------------- Update
  * 
- * Since rexdaxo > 3.0 you can set $REX['MOD_REWRITE'] to any function name, 
+ * Since rexdaxo > 3.0 
+ * 
+ * You can set $REX['MOD_REWRITE'] to any function name, 
  * which is called for rewriting the url.
  * The function is called with the following parameters:
  *   param1: $id - the article id (int)
