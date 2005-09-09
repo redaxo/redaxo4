@@ -451,13 +451,23 @@ class article
 		return $slice_content;
 	}
 
+    function getArticleContent()
+    {
+        ob_start();
+        $this->getArticle();
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }
+   
 	// ----- allgemeines suchen und ersetzen
 	function sliceIn($slice_content)
 	{
 		for ($i=1;$i<11;$i++)
 		{
 			// ----------------------------- LIST BUTTONS
-			// REX_FILELIST_BUTTON
+         
+			// ------------- REX_FILELIST_BUTTON
 
 			$medialistvalue = $this->stripPHP($this->convertString($this->CONT->getValue("rex_article_slice.filelist$i")));
 
@@ -487,13 +497,13 @@ class article
 			$slice_content = str_replace("REX_MEDIALIST_BUTTON[$i]",$media,$slice_content);
 			$slice_content = str_replace("REX_MEDIALIST[$i]",$medialistvalue,$slice_content);
 
-			// REX_LINKLIST_BUTTON
+			// ------------- REX_LINKLIST_BUTTON
 			$media = "<input type=text size=30 name=REX_LINKLIST_$i value='REX_LINKLIST[$i]' class=inpgrey id=REX_LINKLIST_$i reado2nly=read2only>";
 			$media = $this->stripPHP($media);
 			$slice_content = str_replace("REX_LINKLIST_BUTTON[$i]",$media,$slice_content);
 			$slice_content = str_replace("REX_LINKLIST[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.linklist$i")),$slice_content);
 				
-			// ----------------------------- REX_MEDIA
+			// ------------- REX_MEDIA
 			$media = "<table class=rexbutton><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
 			$media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey100 id=REX_MEDIA_$i readonly=readonly></td>";
 			$media.= "<td class=inpicon><a href=javascript:openREXMedia($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>";
@@ -505,7 +515,7 @@ class article
 			$slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
 			$slice_content = str_replace("REX_FILE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.file$i")),$slice_content);
 
-			// ----------------------------- REX_LINK_BUTTON
+			// ------------- REX_LINK_BUTTON
 			if($this->CONT->getValue("rex_article_slice.link$i"))
 			{
 				$db = new sql;
