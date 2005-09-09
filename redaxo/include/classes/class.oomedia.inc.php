@@ -196,16 +196,15 @@ class OOMedia
       $sql = new sql();
       $result = $sql->get_array($query);
 
-      $media = array ();
       if (is_array($result))
       {
          foreach ($result as $line)
          {
-            $media[] = & OOMedia :: getMediaById($line['file_id']);
+            return OOMedia :: getMediaById($line['file_id']);
          }
       }
 
-      return $media;
+      return null;
    }
 
    /**
