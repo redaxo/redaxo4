@@ -74,9 +74,23 @@ function rex_getUrl($id, $clang = "", $params = "")
       $clang = $REX['CUR_CLANG'];
    }
 
+   // ----- get params
+   $param_string = '';
+   if (is_array($params))
+   {
+      foreach ($params as $key => $value)
+      {
+         $param_string .= '&amp;'.$key.'='.$value;
+      }
+   }
+   elseif ($params != '')
+   {
+      $param_string = str_replace('&', '&amp;', $params);
+   }
+   
    // ----- get article name
    $id = (int) $id;
-
+   
    if ($id != 0)
    {
       $ooa = OOArticle :: getArticleById($id);
@@ -130,62 +144,26 @@ function rex_getUrl($id, $clang = "", $params = "")
       }
    }
 
-   return call_user_func($rewrite_fn, $id, $name, $clang, $params);
+   return call_user_func($rewrite_fn, $id, $name, $clang, $param_string);
 }
 
 // ----------------------------------------- Rewrite functions
 
 // Kein Rewrite wird durchgeführt
-function rexrewrite_no_rewrite($id, $name, $clang, $params)
+function rexrewrite_no_rewrite($id, $name, $clang, $param_string)
 {
-   // ----- get params
-   $param_string = '';
-   if (is_array($params))
-   {
-      foreach ($params as $key => $value)
-      {
-         $param_string .= '&amp;'.$key.'='.$value;
-      }
-   }
-   elseif ($params != '')
-   {
-      $param_string = str_replace('&', '&amp;', $params);
-   }
-
    return $REX['WWW_PATH'].'index.php?article_id='.$id.'&amp;clang='.$clang.$param_string;
 }
 
 // Rewrite für mod_rewrite
 function rexrewrite_apache_rewrite($id, $name, $clang, $params)
 {
-   // ----- get params
-   $param_string = '';
-   if (is_array($params))
+   if ($params != '')
    {
-      $first = true;
-      foreach ($params as $key => $value)
-      {
-         if ($first)
-         {
-            $first = false;
-         }
-         else
-         {
-            $param_string .= '&amp;';
-         }
-         $param_string .= $key.'='.$value;
-      }
-   }
-   elseif ($params != '')
-   {
-      $param_string = str_replace('&', '&amp;', $params);
+      // strip first "&amp;"
+      $params = '?'.substr( $params, strpos( $params, '&amp;') + 5);
    }
 
-   if ($param_string != '')
-   {
-      $param_string = '?'.$param_string;
-   }
-
-   return $REX['WWW_PATH'].$id.'-'.$clang.'-'.$name.'.html'.$param_string;
+   return $REX['WWW_PATH'].$id.'-'.$clang.'-'.$name.'.html'.$params;
 }
 ?>
