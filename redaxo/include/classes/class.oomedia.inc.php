@@ -313,7 +313,7 @@ class OOMedia
     */
    function getFullPath()
    {
-      return $this->getPath().'/'.$this->getOrgFileName();
+      return $this->getPath().'/'.$this->getFileName();
    }
 
    /**
