@@ -140,9 +140,9 @@ class OORedaxo
     * Object Helper Function:
     * Returns a url for linking to this article
     */
-   function getUrl()
+   function getUrl( $params = '')
    {
-      return rex_getUrl($this->getId(), $this->getClang());
+      return rex_getUrl($this->getId(), $this->getClang(), $params);
    }
 
    /*
