@@ -17,7 +17,6 @@ class sql
    var $wert; // array der feldwerte die gesetzt werden sollen
    var $zaehler; // wieviele felder existieren
    var $table; // Tabelle setzen
-   var $error; // error wert
    var $wherevar; // where ...
    var $select; // select:
    var $counter; // select: welcher datensatz ist dran
@@ -29,6 +28,9 @@ class sql
    var $DBID;
    var $insertID;
 
+   var $error; // Fehlertext
+   var $errno; // Fehlernummer
+   
    function sql($DBID = 1)
    {
       global $DB, $REX;
@@ -43,10 +45,10 @@ class sql
       // MySQL Version bestimmen
       if ($REX['MYSQL_VERSION'] == '')
       {
-         $this->setQuery( 'SELECT VERSION() as VERSION');
+         $this->setQuery('SELECT VERSION() as VERSION');
          $res = $this->get_array();
-         $arr = array();
-         preg_match('/([0-9]+\.([0-9\.])+)/',$res[0]['VERSION'], $arr);
+         $arr = array ();
+         preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $arr);
          $REX['MYSQL_VERSION'] = $arr[1];
       }
    }
@@ -72,9 +74,22 @@ class sql
       $this->rows = @ mysql_num_rows($this->result);
       $this->insertID = @ mysql_insert_id($this->result);
       $this->error = @ mysql_error();
+      $this->errno = @ mysql_errno();
 
       if ($this->debugsql)
-         echo htmlentities($select)."<br>".$this->rows." found<br>";
+      {
+         echo '<hr>';
+         echo 'Query: '.htmlentities($select).'<br/>';
+         
+         if ( $this->getRows() != '') {
+            echo 'Affected Rows: '. $this->getRows().'<br/>';
+         }
+         if ($this->getError() != '')
+         {
+            echo 'Error Message: '.htmlentities( $this->getError()).'<br/>';
+            echo 'Error Code: '. $this->getErrno().'<br/>';
+         }
+      }
    }
 
    function setTable($table)
@@ -266,6 +281,11 @@ class sql
       return $data;
    }
 
+   function getErrno()
+   {
+      return $this->errno;
+   }
+   
    function getError()
    {
       return $this->error;
