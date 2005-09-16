@@ -64,12 +64,12 @@ function rex_parseArticleName($name)
  * The variable $REX['MOD_REWRITE'] can also be set for a static class call.
  * e.g. 'myClass::myMethod'
  */
-function rex_getUrl($id, $clang = "", $params = "")
+function rex_getUrl($id, $clang = '', $params = '')
 {
    global $REX;
 
    // ----- get clang
-   if ($clang == '')
+   if (!is_int( $clang))
    {
       $clang = $REX['CUR_CLANG'];
    }
