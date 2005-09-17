@@ -79,14 +79,14 @@ class sql
       if ($this->debugsql)
       {
          echo '<hr>';
-         echo 'Query: '.htmlentities($select).'<br/>';
+         echo 'Query: '.htmlspecialchars($select).'<br/>';
          
          if ( $this->getRows() != '') {
             echo 'Affected Rows: '. $this->getRows().'<br/>';
          }
          if ($this->getError() != '')
          {
-            echo 'Error Message: '.htmlentities( $this->getError()).'<br/>';
+            echo 'Error Message: '.htmlspecialchars( $this->getError()).'<br/>';
             echo 'Error Code: '. $this->getErrno().'<br/>';
          }
       }
@@ -216,7 +216,7 @@ class sql
       $this->error = @ mysql_error();
       $this->message = "new event inserted<br>";
       if ($this->debugsql)
-         echo htmlentities("insert into $this->table ($sql1) VALUES ($sql2)");
+         echo htmlspecialchars("insert into $this->table ($sql1) VALUES ($sql2)");
    }
 
    function delete()

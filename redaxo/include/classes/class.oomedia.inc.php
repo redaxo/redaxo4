@@ -659,7 +659,7 @@ class OOMedia
          case 'gif' :
          case 'bmp' :
             {
-               $desc = htmlentities($this->getDescription());
+               $desc = htmlspecialchars($this->getDescription());
                return sprintf('<img src="%s" alt="%s" title="%s" style="width: %spx; height: %spx"%s/>', $file, $desc, $desc, $this->getWidth(), $this->getHeight(), $attributes);
             }
          case 'js' :

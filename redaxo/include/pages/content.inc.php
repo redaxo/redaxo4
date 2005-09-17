@@ -616,18 +616,18 @@ if ($article->getRows() == 1)
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("name_description")."</td>
-					<td class=grey><input type=text name=meta_article_name value=\"".htmlentities($article->getValue("name"))."\" size=30 style=\"width:100%;\"></td>
+					<td class=grey><input type=text name=meta_article_name value=\"".htmlspecialchars($article->getValue("name"))."\" size=30 style=\"width:100%;\"></td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("description")."</td>
 					<td class=grey>
-                      <textarea name=meta_description id=meta_description cols=30 rows=5 style='width:100%; height: 80px;'>".htmlentities($article->getValue("description"))."</textarea>
+                      <textarea name=meta_description id=meta_description cols=30 rows=5 style='width:100%; height: 80px;'>".htmlspecialchars($article->getValue("description"))."</textarea>
                     </td>
 				</tr>
 				<tr>
 					<td class=grey>".$I18N->msg("keywords")."</td>
 					<td class=grey>
-                      <textarea name=meta_keywords id=meta_keywords cols=30 rows=5 style='width:100%; height: 80px;'>".htmlentities($article->getValue("keywords"))."</textarea>
+                      <textarea name=meta_keywords id=meta_keywords cols=30 rows=5 style='width:100%; height: 80px;'>".htmlspecialchars($article->getValue("keywords"))."</textarea>
                     </td>
 				</tr>";
 

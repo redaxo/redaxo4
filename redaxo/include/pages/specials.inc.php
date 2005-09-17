@@ -27,7 +27,7 @@ if ($spage == "standard")
 		$cont = fread($h,filesize($REX['INCLUDE_PATH']."/master.inc.php"));
 		$cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*","\\1"."true",$cont);
 		fclose($h);
-		// echo nl2br(htmlentities($cont));
+		// echo nl2br(htmlspecialchars($cont));
 		$h = @fopen($REX['INCLUDE_PATH']."/master.inc.php","w+");
 		if(fwrite($h,$cont,strlen($cont)) > 0)
 		{
@@ -296,7 +296,7 @@ if ($spage == "standard")
 		echo "<tr><form action=index.php#clang method=post><input type=hidden name=page value=specials><input type=hidden name=spage value=lang><input type=hidden name=func value=addclangsave>";
 		echo "<td>add</td>";
 		echo "<td>".$sel->out()."</td>";
-		echo "<td><input type=text size=10 class=inp100 name=clang_name value='".htmlentities($clang_name)."'></td>";
+		echo "<td><input type=text size=10 class=inp100 name=clang_name value='".htmlspecialchars($clang_name)."'></td>";
 		echo "<td><input type=submit value=submit></td>";
 		echo "</form></tr>";
 	}
@@ -309,7 +309,7 @@ if ($spage == "standard")
 			echo "<tr><form action=index.php#clang method=post><input type=hidden name=page value=specials><input type=hidden name=spage value=lang><input type=hidden name=clang_id value=$clang_id><input type=hidden name=func value=editclangsave>";
 			echo "<td>edit</td>";
 			echo "<td align=center class=grey>".key($REX['CLANG'])."</td>";
-			echo "<td><input type=text size=10 class=inp100 name=clang_name value='".htmlentities(current($REX['CLANG']))."''></td>";
+			echo "<td><input type=text size=10 class=inp100 name=clang_name value='".htmlspecialchars(current($REX['CLANG']))."''></td>";
 			echo "<td><input type=submit name=edit value=".$I18N->msg('edit').">";
 			if ($clang_id>0) echo "<input type=submit name=delclang value=delete onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
 			echo "</td>";
@@ -320,7 +320,7 @@ if ($spage == "standard")
 			echo "<tr>" .
 					"<td></td>" .
 					"<td align=center>".key($REX['CLANG'])."</td>" .
-					"<td><a href=index.php?page=specials&spage=lang&func=editclang&clang_id=".key($REX['CLANG'])."#clang>".htmlentities(current($REX['CLANG']))."</a></td>" .
+					"<td><a href=index.php?page=specials&spage=lang&func=editclang&clang_id=".key($REX['CLANG'])."#clang>".htmlspecialchars(current($REX['CLANG']))."</a></td>" .
 					"<td></td></tr>";
 		}
 		next($REX['CLANG']);
@@ -406,9 +406,9 @@ if ($spage == "standard")
 			<input type=hidden name=spage value=type>
 			<input type=hidden name=save value=1>
 			<td>&nbsp;</td>
-			<td valign=top><input style='width:30px;' type=text size=5 maxlength=2 name=type_id value=\"".htmlentities($type_id)."\"></td>
-			<td valign=top><input class=inp100 type=text size=20 name=typname value=\"".htmlentities($typname)."\"></td>
-			<td><input style='width:100%' type=text size=20 name=description value=\"".htmlentities($description)."\"></td>
+			<td valign=top><input style='width:30px;' type=text size=5 maxlength=2 name=type_id value=\"".htmlspecialchars($type_id)."\"></td>
+			<td valign=top><input class=inp100 type=text size=20 name=typname value=\"".htmlspecialchars($typname)."\"></td>
+			<td><input style='width:100%' type=text size=20 name=description value=\"".htmlspecialchars($description)."\"></td>
 			<td valign=top><input type=submit name=function value=add></td>
 			</form>
 			</tr>";
@@ -426,9 +426,9 @@ if ($spage == "standard")
 				<input type=hidden name=spage value=type>
 				<input type=hidden name=type_id value=$type_id>
 				<td>&nbsp;</td>
-				<td valign=middle align=center>".htmlentities($sql->getValue("type_id"))."</td>
-				<td valign=top><input class=inp100 type=text size=20 name=typname value=\"".htmlentities($sql->getValue("name"))."\"></td>
-				<td><input class=inp100 type=text size=20 name=description value=\"".htmlentities($sql->getValue("description"))."\"></td>
+				<td valign=middle align=center>".htmlspecialchars($sql->getValue("type_id"))."</td>
+				<td valign=top><input class=inp100 type=text size=20 name=typname value=\"".htmlspecialchars($sql->getValue("name"))."\"></td>
+				<td><input class=inp100 type=text size=20 name=description value=\"".htmlspecialchars($sql->getValue("description"))."\"></td>
 				<td valign=top><input type=submit name=function value=".$I18N->msg("update_button")."><input type=submit name=function value=".$I18N->msg("delete_button")."></td>
 				</form>
 				</tr>";
@@ -436,8 +436,8 @@ if ($spage == "standard")
 		{
 			echo "	<tr>
 				<td>&nbsp;</td>
-				<td align=center>".htmlentities($sql->getValue("type_id"))."</td>
-				<td><a href=index.php?page=specials&spage=type&type_id=".$sql->getValue("type_id").">".htmlentities($sql->getValue("name"))."&nbsp;</a></td>
+				<td align=center>".htmlspecialchars($sql->getValue("type_id"))."</td>
+				<td><a href=index.php?page=specials&spage=type&type_id=".$sql->getValue("type_id").">".htmlspecialchars($sql->getValue("name"))."&nbsp;</a></td>
 				<td colspan=2>".nl2br($sql->getValue("description"))."&nbsp;</td>
 				</tr>";
 		}

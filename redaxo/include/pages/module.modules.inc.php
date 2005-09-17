@@ -31,7 +31,7 @@ if ($function == "delete")
 	if ($del->getRows() >0)
 	{
 		$module = "<font class=black>|</font> ";
-		$modulname = htmlentities($del->getValue("rex_modultyp.name"));
+		$modulname = htmlspecialchars($del->getValue("rex_modultyp.name"));
 		for ($i=0;$i<$del->getRows();$i++)
 		{
 		 $module .= "<a href=index.php?page=content&article_id=".$del->getValue("rex_article_slice.article_id").">".$del->getValue("rex_article_slice.article_id")."</a> <font class=black>|</font> ";
@@ -118,18 +118,18 @@ if ($function == "add" or $function == "edit")
 			<input type=hidden name=modul_id value=$modul_id>
 			<tr>
 				<td width=100>".$I18N->msg("module_name")."</td>
-				<td colspan=2><input type=text size=10 name=mname value=\"".htmlentities($mname)."\" style='width:100%;'></td>
+				<td colspan=2><input type=text size=10 name=mname value=\"".htmlspecialchars($mname)."\" style='width:100%;'></td>
 			</tr>
 			<tr>
 				<td valign=top>".$I18N->msg("input")."</td>
 				<td colspan=2>
-                  <textarea cols=20 rows=70 name=eingabe id=eingabe style='width:100%; height: 150;'>".htmlentities($eingabe)."</textarea>
+                  <textarea cols=20 rows=70 name=eingabe id=eingabe style='width:100%; height: 150;'>".htmlspecialchars($eingabe)."</textarea>
                 </td>
 			</tr>
 			<tr>
 				<td valign=top>".$I18N->msg("output")."</td>
 				<td colspan=2>
-                  <textarea cols=20 rows=70 name=ausgabe id=ausgabe style='width:100%; height: 150;'>".htmlentities($ausgabe)."</textarea>
+                  <textarea cols=20 rows=70 name=ausgabe id=ausgabe style='width:100%; height: 150;'>".htmlspecialchars($ausgabe)."</textarea>
                 </td>
 			</tr>";
 			
@@ -247,7 +247,7 @@ if ($OUT)
 		echo "	<tr>
 				<td class=icon><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit><img src=pics/modul.gif width=16 height=16 border=0></a></td>
 				<td class=icon>".$sql->getValue("id")."</td>
-				<td><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlentities($sql->getValue("name"))."</a>";
+				<td><a href=index.php?page=module&modul_id=".$sql->getValue("id")."&function=edit>".htmlspecialchars($sql->getValue("name"))."</a>";
 		
 		if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
 		

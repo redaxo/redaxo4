@@ -111,7 +111,7 @@ if ($WA)
 	fwrite($h,$fcontent,strlen($fcontent));
 	fclose($h);
 
-	// echo nl2br(htmlentities($fcontent));
+	// echo nl2br(htmlspecialchars($fcontent));
 }
 
 // ----------------- OUT

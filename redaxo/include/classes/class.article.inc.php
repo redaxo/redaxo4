@@ -383,7 +383,7 @@ class article
 			// function in function_rex_modrewrite.inc.php
 			$slice_content = $this->replaceLinks($slice_content);
 			eval("?>".$return);
-			// echo htmlentities($return);
+			// echo htmlspecialchars($return);
 		}else
 		{
 			return "no template";
@@ -643,15 +643,15 @@ class article
 			
 			
 			// ----------------------------- REX_ OTHER
-			$slice_content = str_replace("REX_VALUE[$i]",htmlentities(stripslashes($REX_ACTION[VALUE][$i])),$slice_content);
+			$slice_content = str_replace("REX_VALUE[$i]",htmlspecialchars(stripslashes($REX_ACTION[VALUE][$i])),$slice_content);
 			$slice_content = str_replace("REX_HTML_VALUE[$i]","",$slice_content);
 			$slice_content = str_replace("REX_PHP_VALUE[$i]","",$slice_content);
 			$slice_content = str_replace("REX_IS_VALUE[$i]","",$slice_content);
 		
 		}
 		
-		$slice_content = str_replace("REX_PHP",htmlentities(stripslashes($REX_ACTION[PHP])),$slice_content);
-		$slice_content = str_replace("REX_HTML",htmlentities(stripslashes($REX_ACTION[HTML])),$slice_content);
+		$slice_content = str_replace("REX_PHP",htmlspecialchars(stripslashes($REX_ACTION[PHP])),$slice_content);
+		$slice_content = str_replace("REX_HTML",htmlspecialchars(stripslashes($REX_ACTION[HTML])),$slice_content);
 		
 		$slice_content = str_replace("REX_ARTICLE_ID","",$slice_content);
 		$slice_content = str_replace("REX_CUR_CLANG","",$slice_content);
@@ -677,10 +677,10 @@ class article
 		
 		if ($this->mode == "edit" && $this->slice_id == $this->ViewSliceId && $this->function=="edit")
 		{
-			return htmlentities($content);
+			return htmlspecialchars($content);
 		}elseif ($this->mode == "edit")
 		{
-			return nl2br(htmlentities($content));
+			return nl2br(htmlspecialchars($content));
 		}else
 		{
 			return $content;
@@ -689,7 +689,7 @@ class article
 
 	function convertString($content)
 	{
-		$content = str_replace("$","&#36;",htmlentities($content));
+		$content = str_replace("$","&#36;",htmlspecialchars($content));
 		if ($this->mode == "edit" && $this->slice_id == $this->ViewSliceId && $this->function=="edit")
 		{
 			return $content;

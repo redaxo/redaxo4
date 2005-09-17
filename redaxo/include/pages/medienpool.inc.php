@@ -273,7 +273,7 @@ if ($PERMALL && $subpage == "categories")
 			echo "<input type=hidden name=catpath value='$catpath'>";
 			echo "<td class=icon><img src=pics/folder.gif></td>";
 			echo "<td class=icon>&nbsp;</td>";
-			echo "<td class=grey><input type=text size=10 class=inp100 name=catname value=\"".htmlentities("")."\"></td>";
+			echo "<td class=grey><input type=text size=10 class=inp100 name=catname value=\"".htmlspecialchars("")."\"></td>";
 			echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
 			echo "</form>";
 			echo "</tr>";
@@ -295,7 +295,7 @@ if ($PERMALL && $subpage == "categories")
 			echo "<input type=hidden name=edit_id value=$iid>";
 			echo "<td class=icon><a href=$link$iid><img src=pics/folder.gif></a></td>";
 			echo "<td class=icon>$iid</td>";
-			echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value=\"".htmlentities($iname)."\"></td>";
+			echo "<td class=grey><input type=text size=10 class=inp100 name=cat_name value=\"".htmlspecialchars($iname)."\"></td>";
 			echo "<td class=grey><input type=submit value=\"".$I18N->msg('pool_kat_update')."\"></td>";
 			echo "</form>";
 			echo "</tr>";
@@ -607,7 +607,7 @@ if ($subpage == "add_file")
 	print "<input type=hidden name=page value=medienpool>\n";
 	print "<input type=hidden name=media_method value=add_file>\n";
 	print "<input type=hidden name=subpage value=add_file>\n";
-	print "<tr><td class=grey width=100>".$I18N->msg('pool_file_title').":</td><td class=grey><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td></tr>\n";
+	print "<tr><td class=grey width=100>".$I18N->msg('pool_file_title').":</td><td class=grey><input type=text size=20 name=ftitle class=inp100 value='".htmlspecialchars(stripslashes($ftitle))."'></td></tr>\n";
 	print "<tr><td class=grey>".$I18N->msg('pool_category').":</td><td class=grey>".$cats_sel->out()."</td></tr>\n";
 	print "<tr><td class=grey valign=top>".$I18N->msg('pool_description').":</td><td class=grey><textarea cols=30 rows=3 name=fdescription class=inp100>".(stripslashes($fdescription))."</textarea></td></tr>\n";
 	print "<tr><td class=grey>".$I18N->msg('pool_copyright').":</td><td class=grey><input type=text size=20 name=fcopyright class=inp100 value='".(stripslashes($fcopyright))."'></td></tr>\n";
@@ -867,7 +867,7 @@ if ($subpage == "detail")
 			print "<input type=hidden name=media_method value=edit_file>\n";
 			print "<input type=hidden name=subpage value=detail>\n";
 			print "<input type=hidden name=file_id value=$file_id>\n";
-			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2><input type=text size=20 name=ftitle class=inp100 value='".htmlentities(stripslashes($ftitle))."'></td>";
+			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2><input type=text size=20 name=ftitle class=inp100 value='".htmlspecialchars(stripslashes($ftitle))."'></td>";
 
 			if ($ffiletype_ii)
 			{
@@ -902,7 +902,7 @@ if ($subpage == "detail")
 
 			print "<table border=0 cellpadding=5 cellspacing=1 width=100%>\n";
 			print "<tr><th align=left colspan=4>Detailinformationen | $opener_link</th></tr>";
-			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2>".htmlentities(stripslashes($ftitle))."</td>";
+			print "<tr><td class=grey width=120>Titel:</td><td class=grey colspan=2>".htmlspecialchars(stripslashes($ftitle))."</td>";
 
 			if ($ffiletype_ii)
 			{
@@ -1279,7 +1279,7 @@ if($subpage == "")
 		else echo "<td class=icon>&nbsp;</td>";
 
 		echo "<td style='background-color:#e6e6e6; text-align:center; vertical-align:middle;'><a href=$ilink>$thumbnail</a></td>";
-		echo "<td valign=top class=grey><b><a href=$ilink>$file_title</a></b><br><br><b>$file_name [$file_size]</b><br>".nl2br(htmlentities($file_description))."<br><br>$file_stamp | $file_updateuser</td>";
+		echo "<td valign=top class=grey><b><a href=$ilink>$file_title</a></b><br><br><b>$file_name [$file_size]</b><br>".nl2br(htmlspecialchars($file_description))."<br><br>$file_stamp | $file_updateuser</td>";
 		echo "<td valign=top class=grey>$opener_link</td>";
 		echo "</tr>";
 		$files->next();
@@ -1329,7 +1329,7 @@ if($subpage == "")
 echo "</body></html>";
 
 function converDescription( $description) {
-    return htmlentities( $description);
+    return htmlspecialchars( $description);
 }
 
 ?>
