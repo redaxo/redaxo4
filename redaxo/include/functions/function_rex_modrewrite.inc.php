@@ -69,7 +69,7 @@ function rex_getUrl($id, $clang = '', $params = '')
    global $REX;
 
    // ----- get clang
-   if (!is_int( $clang))
+   if (strlen($clang) == 0)
    {
       $clang = $REX['CUR_CLANG'];
    }
