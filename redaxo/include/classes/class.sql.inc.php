@@ -26,16 +26,15 @@ class sql
    var $debugsql;
    var $identifier;
    var $DBID;
-   var $insertID;
 
    var $error; // Fehlertext
    var $errno; // Fehlernummer
-   
+
    function sql($DBID = 1)
    {
       global $DB, $REX;
 
-      $this->identifier = @ mysql_pconnect($DB[$DBID][HOST], $DB[$DBID][LOGIN], $DB[$DBID][PSW]);
+      $this->identifier = @ mysql_pconnect($DB[$DBID]['HOST'], $DB[$DBID]['LOGIN'], $DB[$DBID]['PSW']);
       $this->debugsql = false;
       $this->DBID = $DBID;
       $this->selectDB();
@@ -59,7 +58,7 @@ class sql
 
       if (!@ mysql_select_db($DB[$this->DBID][NAME]))
       {
-         echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:".$REX[error_emailaddress].">".$REX[error_emailaddress]."</a>\n | Thank you!\n</font>";
+         echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:".$REX['error_emailaddress].">".$REX[error_emailaddress']."</a>\n | Thank you!\n</font>";
          exit;
       }
    }
@@ -72,7 +71,7 @@ class sql
       $this->selectDB();
       $this->result = @ mysql_query("$select");
       $this->rows = @ mysql_num_rows($this->result);
-      $this->insertID = @ mysql_insert_id($this->result);
+      $this->last_insert_id = @ mysql_insert_id($this->result);
       $this->error = @ mysql_error();
       $this->errno = @ mysql_errno();
 
@@ -80,14 +79,15 @@ class sql
       {
          echo '<hr>';
          echo 'Query: '.htmlspecialchars($select).'<br/>';
-         
-         if ( $this->getRows() != '') {
-            echo 'Affected Rows: '. $this->getRows().'<br/>';
+
+         if ($this->getRows() != '')
+         {
+            echo 'Affected Rows: '.$this->getRows().'<br/>';
          }
          if ($this->getError() != '')
          {
-            echo 'Error Message: '.htmlspecialchars( $this->getError()).'<br/>';
-            echo 'Error Code: '. $this->getErrno().'<br/>';
+            echo 'Error Message: '.htmlspecialchars($this->getError()).'<br/>';
+            echo 'Error Code: '.$this->getErrno().'<br/>';
          }
       }
    }
@@ -247,9 +247,14 @@ class sql
          echo $sql."<br>";
    }
 
-   function escape($string)
+   function escape($value)
    {
-      return mysql_escape_string($string);
+      // Quote if not integer
+      if (!is_numeric($value))
+      {
+         $value = mysql_real_escape_string($value);
+      }
+      return $value;
    }
 
    function next()
@@ -285,7 +290,7 @@ class sql
    {
       return $this->errno;
    }
-   
+
    function getError()
    {
       return $this->error;
