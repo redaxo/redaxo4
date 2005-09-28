@@ -6,7 +6,7 @@
  * 
  * @param $dir Path to the folder
  * @return Array Content of the folder or false on error
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readFolder'))
 {
@@ -35,7 +35,7 @@ if (!function_exists('readFolder'))
  * @param $dir Path to the folder
  * @param $fileprefix Fileprefix to filter
  * @return Array Filtered-content of the folder or false on error
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 
 if (!function_exists('readFilteredFolder'))
@@ -67,7 +67,7 @@ if (!function_exists('readFilteredFolder'))
  * 
  * @param $dir Path to the folder
  * @return Array Files of the folder or false on error
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readFolderFiles'))
 {
@@ -99,7 +99,7 @@ if (!function_exists('readFolderFiles'))
  * @param $dir Path to the folder
  * @param $ignore_dots True if the system-folders "." and ".." should be ignored
  * @return Array Subfolders of the folder or false on error
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readSubFolders'))
 {

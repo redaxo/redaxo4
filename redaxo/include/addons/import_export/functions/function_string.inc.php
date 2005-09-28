@@ -5,7 +5,7 @@
  * 
  * @param $string String Searchstring
  * @param $start String Prefix to search for
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('startsWith'))
 {
@@ -20,7 +20,7 @@ if (!function_exists('startsWith'))
  * 
  * @param $string String Searchstring
  * @param $start String Suffix to search for
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('endsWith'))
 {
@@ -35,7 +35,7 @@ if (!function_exists('endsWith'))
  * 
  * @param $string String Searchstring
  * @param $start String Suffix to search for
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('truncate'))
 {
@@ -210,7 +210,7 @@ if (!function_exists('PMA_splitSqlFile'))
  * Reads a file and split all statements in it.
  * 
  * @param $file String Path to the SQL-dump-file
- * @author Markus Staab <kills@t-online.de>
+ * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readSqlDump'))
 {
