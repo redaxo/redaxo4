@@ -1,5 +1,8 @@
 <?php
 
+// ----- caching start für output filter
+
+ob_start();
 
 // --------------------------- ini settings
 
@@ -94,5 +97,39 @@ if ($SHOWARTICLE)
 	
 	//////////////////////////////////////////////	
 }
+
+
+// ----- caching end für output filter
+
+$CONTENT = ob_get_contents();
+ob_end_clean();
+
+
+// ---- user functions vorhanden ? wenn ja ausführen
+
+if (is_array($REX['OUT_F']))
+{
+	reset ($REX['OUT_F']);
+	for ($i=0;$i<count($REX['OUT_F']);$i++)
+	{
+		$CONTENT = call_user_func(current($REX['OUT_F']), $CONTENT);
+	}
+}
+
+// ---- caching functions vorhanden ? wenn ja ausführen
+
+if (is_array($REX['CACHE_F']))
+{
+	reset ($REX['CACHE_F']);
+	for ($i=0;$i<count($REX['CACHE_F']);$i++)
+	{
+		call_user_func(current($REX['CACHE_F']), $CONTENT);
+	}
+}
+
+
+// ----- inhalt endgueltig ausgeben
+
+
 
 ?>
