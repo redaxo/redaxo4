@@ -1,5 +1,6 @@
 <?php
 
+
 // class.i18n.inc.php
 // 
 // created 03.04.04 by Carsten Eckelmann, <careck@circle42.com>
@@ -80,9 +81,9 @@ class i18n
          // fallbackobjekt ggf anlegen
          if ($REX['LANG_FALLBACK_OBJ'] == '')
          {
-            rex_create_lang($REX['LANG_FALLBACK'], true);
+            rex_create_lang($REX['LANG_FALLBACK'], true, $this->searchpath);
          }
-         
+
          // suchen des keys in der fallbacksprache
          return $REX['LANG_FALLBACK_OBJ']->msg($key, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
       }
@@ -93,7 +94,7 @@ class i18n
    }
 
    /* 
-    * class function: find all defined locales in a searchpath
+    * find all defined locales in a searchpath
     * the language files must be of the form: <locale>.lang
     * e.g. de_de.lang or en_gb.lang
     */
@@ -117,26 +118,32 @@ class i18n
          closedir($handle);
 
       }
-      
+
       return $this->locales;
    }
 
 }
 
 // Funktion zum Anlegen eines Sprache-Objekts
-function rex_create_lang($locale, $use_as_fallback = false)
+function rex_create_lang($locale, $use_as_fallback = false, $searchpath = '')
 {
    global $REX, $I18N;
 
+   if ($searchpath == '')
+   {
+      $searchpath = $REX['INCLUDE_PATH']."/lang/";
+   }
+
    if ($use_as_fallback)
    {
-      $REX['LANG_FALLBACK_OBJ'] = new i18n($locale, $REX['INCLUDE_PATH']."/lang/");
+      $REX['LANG_FALLBACK_OBJ'] = new i18n($locale, $searchpath);
    }
    else
    {
-      $REX['LANG_OBJ'] = $I18N = new i18n($locale, $REX['INCLUDE_PATH']."/lang/");
-      $REX['LOCALES'] = i18n :: getLocales($REX['INCLUDE_PATH']."/lang/");
+      $REX['LANG_OBJ'] = $I18N = new i18n($locale, $searchpath);
+      $REX['LOCALES'] = $I18N->getLocales($searchpath);
    }
 }
 ?>
+
 
