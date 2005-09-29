@@ -142,7 +142,6 @@ if (is_array($REX['OUT_F']))
 	reset ($REX['OUT_F']);
 	for ($i=0;$i<count($REX['OUT_F']);$i++)
 	{
-		echo current($REX['OUT_F']);
 		$CONTENT = call_user_func(current($REX['OUT_F']), $CONTENT);
 	}
 }
@@ -154,7 +153,7 @@ if (is_array($REX['CACHE_F']))
 	reset ($REX['CACHE_F']);
 	for ($i=0;$i<count($REX['CACHE_F']);$i++)
 	{
-		$CONTENT = call_user_func(current($REX['CACHE_F']), $CONTENT);
+		call_user_func(current($REX['CACHE_F']), $CONTENT);
 	}
 }
 
