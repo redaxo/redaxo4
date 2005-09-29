@@ -10,6 +10,7 @@ include "./include/master.inc.php";
 // ----------------- CREATE LANG OBJ
 rex_create_lang( $REX['LANG']);
 setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 
 $LOGIN = FALSE;
 
