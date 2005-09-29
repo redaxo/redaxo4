@@ -1,8 +1,5 @@
 <?php
 
-// ----- caching start für output filter
-
-ob_start();
 
 // --------------------------- ini settings
 
@@ -42,56 +39,60 @@ include "./redaxo/include/master.inc.php";
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
 
-$article_id = $article_id + 0; // article_id -> int
-if ($article_id == 0) $article_id = $REX['STARTARTIKEL_ID'];
+if ($article_id == "") $article_id = $REX['STARTARTIKEL_ID'];
 
+$SHOWARTICLE = true;
 
-// sprache setzen
-// Article ausgeben
-
-$REX_ARTICLE = new article;
-$REX_ARTICLE->setCLang($clang);
-if ($REX_ARTICLE->setArticleId($article_id))
+// If Caching is true start engine
+if($REX['CACHING'])
 {
-	$REX_ARTICLE->getArticleTemplate();
-}else
-{
-	echo "Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href=redaxo/index.php>redaxo</a>";
-	$REX['STATS'] = 0;
-}
 
-
-// ----- caching end für output filter
-
-$CONTENT = ob_get_contents();
-ob_end_clean();
-
-
-// ---- user functions vorhanden ? wenn ja ausführen
-
-if (is_array($REX['OUT_F']))
-{
-	reset ($REX['OUT_F']);
-	for ($i=0;$i<count($REX['OUT_F']);$i++)
+	$Cache = new Cache($article_id);
+	if($Cache->isCacheConf())
 	{
-		$CONTENT = call_user_func(current($REX['OUT_F']), $CONTENT);
+		if($Cache->isCacheFile())
+		{
+			$Cache->printCacheFile();
+			if($REX['CACHING_DEBUG']) print "<br>CachedVersion<br>";
+			if($REX['CACHING_DEBUG']) print "Script time: ".showScripttime();
+			$SHOWARTICLE = false;
+		} else {
+			// start caching
+			$Cache->startCacheFile();
+		}
 	}
+
 }
 
-// ---- caching functions vorhanden ? wenn ja ausführen
-
-if (is_array($REX['CACHE_F']))
+if ($SHOWARTICLE)
 {
-	reset ($REX['CACHE_F']);
-	for ($i=0;$i<count($REX['CACHE_F']);$i++)
+	$REX_ARTICLE = new article;
+	$REX_ARTICLE->setCLang($clang);
+	if ($REX_ARTICLE->setArticleId($article_id))
 	{
-		call_user_func(current($REX['CACHE_F']), $CONTENT);
+		$REX_ARTICLE->getArticleTemplate();
+	}elseif($REX_ARTICLE->setArticleId($REX['STARTARTIKEL_ID']))
+	{		
+		$REX_ARTICLE->getArticleTemplate();
+	}else
+	{
+		echo "Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href=redaxo/index.php>redaxo</a>";
+		$REX['STATS'] = 0;
 	}
+	//////////////////////////////////////////////
+	// advanced caching
+	//////////////////////////////////////////////
+	
+	if($Cache->makeCacheFile){
+		$Cache->writeCacheFile();
+		if($REX['CACHING_DEBUG']) print "<br>MadeCache<br>";
+	} else {
+		if($REX['CACHING_DEBUG']) print "<br>Live<br>";
+	}
+	
+	if($REX['CACHING_DEBUG']) print "Script time: ".showScripttime();
+	
+	//////////////////////////////////////////////	
 }
-
-
-// ----- inhalt endgueltig ausgeben
-
-echo $CONTENT;
 
 ?>
