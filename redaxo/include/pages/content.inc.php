@@ -34,7 +34,7 @@ if ($article->getRows() == 1)
 
 	// ----- Sprachenblock
 	$sprachen_add = "&category_id=$category_id&article_id=$article_id";
-	include $REX[INCLUDE_PATH]."/functions/function_rex_sprachen.inc.php";
+	include $REX[INCLUDE_PATH]."/functions/function_rex_languages.inc.php";
 
 
 	// ----- mode defs

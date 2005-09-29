@@ -41,7 +41,7 @@ include $REX[INCLUDE_PATH]."/functions/function_rex_category.inc.php";
 title($I18N->msg("title_structure"),"$KATout");
 
 $sprachen_add = "&category_id=$category_id";
-include $REX[INCLUDE_PATH]."/functions/function_rex_sprachen.inc.php";
+include $REX[INCLUDE_PATH]."/functions/function_rex_languages.inc.php";
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
 
