@@ -130,6 +130,6 @@ if (is_array($REX['CACHE_F']))
 
 // ----- inhalt endgueltig ausgeben
 
-
+echo $CONTENT;
 
 ?>
