@@ -145,5 +145,3 @@ function rex_create_lang($locale, $use_as_fallback = false, $searchpath = '')
    }
 }
 ?>
-
-
