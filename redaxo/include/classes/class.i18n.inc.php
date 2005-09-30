@@ -81,7 +81,7 @@ class i18n
          // fallbackobjekt ggf anlegen
          if ($REX['LANG_FALLBACK_OBJ'] == '')
          {
-            rex_create_lang($REX['LANG_FALLBACK'], true, $this->searchpath);
+            rex_create_lang($REX['LANG_FALLBACK'], $this->searchpath, true);
          }
 
          // suchen des keys in der fallbacksprache
@@ -125,7 +125,7 @@ class i18n
 }
 
 // Funktion zum Anlegen eines Sprache-Objekts
-function rex_create_lang($locale, $use_as_fallback = false, $searchpath = '')
+function rex_create_lang($locale, $searchpath = '', $use_as_fallback = false)
 {
    global $REX, $I18N;
 
