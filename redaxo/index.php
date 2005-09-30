@@ -16,6 +16,9 @@ include "include/master.inc.php";
 
 session_start();
 
+// ----- addon/normal page path
+$REX['PAGEPATH'] = "";
+
 // ----------------- AUTH
 if ($REX['SETUP'])
 {
@@ -64,7 +67,6 @@ if ($REX['SETUP'])
 	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
 	header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 
-	
 	$dl = false;
 	$page = strtolower($page);
 	
@@ -97,25 +99,27 @@ if ($REX['SETUP'])
 		$page_name = $I18N->msg("structure");
 	}else
 	{
-		// addon check
+		
+		// --- keine page gefunden
+		// --- addon check
 		$as = array_search($page,$REX['ADDON']['page']);
 		if ($as === false || $page == "")
 		{
-			// addon not aktive or not found
+			// --- kein addon gefunden -> structure
 			$page_name = $I18N->msg("structure");
 			$page = "structure";
 		}else
 		{
-			// addon gefunden	
+			// --- addon gefunden	
 			$perm = $REX['ADDON']['perm'][$as];
-			// right checken
+			// --- right checken
 			if($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]"))
 			{
-				include $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
-				exit;
+				$dl = true;
+				$REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
 			}else
 			{
-				// no perms to this addon
+				// --- no perms to this addon
 				$page_name = $I18N->msg("structure");
 				$page = "structure";
 			}
@@ -123,19 +127,23 @@ if ($REX['SETUP'])
 	}
 }
 
+
+// ----- kein pagepath -> kein addon -> path setzen
+if ($REX['PAGEPATH'] == "") $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/pages/$page.inc.php";
+
+
+// ----- ausgabe des includes
 if (!$dl) include $REX['INCLUDE_PATH']."/layout/top.php";
-include $REX['INCLUDE_PATH']."/pages/$page.inc.php";
+include $REX['PAGEPATH'];
 if (!$dl) include $REX['INCLUDE_PATH']."/layout/bottom.php";
 
 
 // ----- caching end für output filter
-
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
 
 // ---- user functions vorhanden ? wenn ja ausführen
-
 if (is_array($REX['OUTPUT_FILTER']))
 {
 	reset ($REX['OUTPUT_FILTER']);
@@ -147,7 +155,6 @@ if (is_array($REX['OUTPUT_FILTER']))
 
 
 // ---- caching functions vorhanden ? wenn ja ausführen
-
 if (is_array($REX['OUTPUT_FILTER_CACHE']))
 {
 	reset ($REX['OUTPUT_FILTER_CACHE']);
@@ -158,8 +165,6 @@ if (is_array($REX['OUTPUT_FILTER_CACHE']))
 }
 
 // ----- inhalt endgueltig ausgeben
-
 echo $CONTENT;
-
 
 ?>
