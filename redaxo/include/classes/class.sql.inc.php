@@ -77,17 +77,17 @@ class sql
 
       if ($this->debugsql)
       {
-         echo '<hr>';
-         echo 'Query: '.htmlspecialchars($select).'<br/>';
+         echo '<hr>'. "\n";
+         echo 'Query: '.htmlspecialchars($select)."<br/>\n";
 
-         if ($this->getRows() != '')
+         if (strlen( $this->getRows()) > 0)
          {
-            echo 'Affected Rows: '.$this->getRows().'<br/>';
+            echo 'Affected Rows: '.$this->getRows()."<br/>\n";
          }
-         if ($this->getError() != '')
+         if (strlen( $this->getError()) > 0)
          {
-            echo 'Error Message: '.htmlspecialchars($this->getError()).'<br/>';
-            echo 'Error Code: '.$this->getErrno().'<br/>';
+            echo 'Error Message: '.htmlspecialchars($this->getError())."<br/>\n";
+            echo 'Error Code: '.$this->getErrno()."<br/>\n";
          }
       }
    }
