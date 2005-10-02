@@ -268,7 +268,7 @@ class sql
    }
 
    // GET ARRAY RESULT
-   function get_array($sql = "")
+   function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
    {
 
       if ($sql != "")
@@ -278,7 +278,7 @@ class sql
 
       $data = null;
 
-      while ($row = @ mysql_fetch_assoc($this->result))
+      while ($row = @ mysql_fetch_array($this->result, $fetch_type))
       {
          $data[] = $row;
       }
