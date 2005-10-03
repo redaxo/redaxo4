@@ -82,7 +82,7 @@ function insertLink(link){
 
 function insertImage(src, alt, width, height)
 {
-	var image = '<img src="<?php echo str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/ title="wysiwyg">';
+	var image = '<img src="<?php echo str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0"/ redaxowysiwyg="true">';
 	insertHTML( image);
 }
 
