@@ -36,15 +36,55 @@ $REX[ADDON][jpeg_quality][$mypage] = 75;
 
 $REX[PERM][] = "image_resize[]";
 
+
+if ($REX['GG'])
+{
+	$REX['OUTPUT_FILTER'][] = "output_resize_wysiwyg";
+
+	// Resize WYSIWYG Editor Images
+	function output_resize_wysiwyg($content){
+
+	    preg_match_all('/<img.*ismap="rex_resize".*>/imsU',$content,$matches);
+
+	    if(is_array($matches[0])){
+	        foreach($matches[0] as $var){
+	            preg_match('/width="(.*)"/imsU',$var,$width);
+	            if(!$width){
+	                preg_match('/width: (.*)px/imsU',$var,$width);
+	            }
+	            preg_match('/height="(.*)"/imsU',$var,$height);
+	            if(!$height){
+	                preg_match('/height: (.*)px/imsU',$var,$height);
+	            }
+	            if($width){
+	                preg_match('/src="(.*files\/(.*))"/imsU',$var,$src);
+	                if(file_exists($REX[HTDOCS_PATH].'files/'.$src[2])){
+	                    $realsize = getimagesize($REX[HTDOCS_PATH].'files/'.$src[2]);
+	                    if(($realsize[0] != $width[1]) or ($realsize[1] != $height[1])){
+	                        $newsrc = "index.php?rex_resize=".$width[1]."w__".$height[1]."h__".$src[2];
+	                        $newimage = str_replace($src[1],$newsrc,$var);
+	                        $content  = str_replace($var,$newimage,$content);
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return $content;
+	}
+
+}
+
 // Resize Script für das Frontend
 if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 
 	// get params
-	ereg("^([0-9]*)([awh])__(.*)",$rex_resize,$resize);
+	ereg("^([0-9]*)([awh])__(([0-9]*)h__)?(.*)",$rex_resize,$resize);
+
 
 	$size = $resize[1];
 	$mode = $resize[2];
-	$imagefile = $resize[3];
+	$hmode = $resize[4];
+	$imagefile = $resize[5];
 
 	$cachepath = $REX[HTDOCS_PATH].'files/cache_resize___'.$rex_resize;
 	$imagepath = $REX[HTDOCS_PATH].'files/'.$imagefile;
@@ -106,6 +146,9 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
     if($mode=="h"){
         $thumb->size_height($size);
     }
+	if($hmode != ''){
+		$thumb->size_height($hmode);
+	}
     if($mode=="a"){
         $thumb->size_auto($size);
     }

@@ -83,14 +83,13 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                    content_css : "'.$STYLE_SHEET.'",
 	                    plugin_insertdate_dateFormat : "%d.%m.%Y",
 	                    plugin_insertdate_timeFormat : "%H:%M:%S",
-	                    extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 	                    //external_link_list_url : "example_link_list.js",
 	                    //external_image_list_url : "example_image_list.js",
 	                    //flash_external_list_url : "example_flash_list.js",
 	                    insertimage_callback : "insertMediaPool",
 	                    insertlink_callback : "insertIntLink",
                         urlconverter_callback : "rexURLConverter",
-	                    valid_elements : ""
+	                    extended_valid_elements : ""
 	                    +"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
 	                      +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
 	                      +"|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev"
@@ -207,7 +206,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	                      +"|longdesc|marginheight|marginwidth|name|scrolling<auto?no?yes|src|style"
 	                      +"|title|width],"
 	                    +"img[align<bottom?left?middle?right?top|alt|border|class|dir<ltr?rtl|height"
-	                      +"|hspace|id|ismap<ismap|lang|longdesc|name|onclick|ondblclick|onkeydown"
+	                      +"|hspace|id|ismap|lang|longdesc|name|onclick|ondblclick|onkeydown"
 	                      +"|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover"
 	                      +"|onmouseup|src|style|title|usemap|vspace|width],"
 	                    +"input[accept|accesskey|align<bottom?left?middle?right?top|alt"

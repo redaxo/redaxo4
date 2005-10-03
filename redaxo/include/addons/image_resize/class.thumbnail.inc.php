@@ -33,8 +33,8 @@
 	                echo "Not Supported File";
 	                exit();
 	            }
-	            @$this->img["lebar"] = imagesx($this->img["src"]);
-	            @$this->img["tinggi"] = imagesy($this->img["src"]);
+	            @$this->img["width"] = imagesx($this->img["src"]);
+	            @$this->img["height"] = imagesy($this->img["src"]);
 	            //default quality jpeg
 	            $this->img["quality"]=75;
 	        }
@@ -43,26 +43,28 @@
 	    function size_height($size=100)
 	    {
 	        //height
-	        $this->img["tinggi_thumb"]=$size;
-	        @$this->img["lebar_thumb"] = ($this->img["tinggi_thumb"]/$this->img["tinggi"])*$this->img["lebar"];
+	        $this->img["height_thumb"]=$size;
+	        if($this->img["width_thumb"]==''){
+	        	@$this->img["width_thumb"] = ($this->img["height_thumb"]/$this->img["height"])*$this->img["width"];
+	        }
 	    }
 
 	    function size_width($size=100)
 	    {
 	        //width
-	        $this->img["lebar_thumb"]=$size;
-	        @$this->img["tinggi_thumb"] = ($this->img["lebar_thumb"]/$this->img["lebar"])*$this->img["tinggi"];
+	        $this->img["width_thumb"]=$size;
+	        @$this->img["height_thumb"] = ($this->img["width_thumb"]/$this->img["width"])*$this->img["height"];
 	    }
 
 	    function size_auto($size=100)
 	    {
 	        //size
-	        if ($this->img["lebar"]>=$this->img["tinggi"]) {
-	            $this->img["lebar_thumb"]=$size;
-	            @$this->img["tinggi_thumb"] = ($this->img["lebar_thumb"]/$this->img["lebar"])*$this->img["tinggi"];
+	        if ($this->img["width"]>=$this->img["height"]) {
+	            $this->img["width_thumb"]=$size;
+	            @$this->img["height_thumb"] = ($this->img["width_thumb"]/$this->img["width"])*$this->img["height"];
 	        } else {
-	            $this->img["tinggi_thumb"]=$size;
-	            @$this->img["lebar_thumb"] = ($this->img["tinggi_thumb"]/$this->img["tinggi"])*$this->img["lebar"];
+	            $this->img["height_thumb"]=$size;
+	            @$this->img["width_thumb"] = ($this->img["height_thumb"]/$this->img["height"])*$this->img["width"];
 	        }
 	    }
 
@@ -74,11 +76,11 @@
 
 		function resampleImage(){
 	        if(function_exists(ImageCreateTrueColor)){
-	            $this->img["des"] = ImageCreateTrueColor($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
+	            $this->img["des"] = ImageCreateTrueColor($this->img["width_thumb"],$this->img["height_thumb"]);
 	        } else {
-	            $this->img["des"] = ImageCreate($this->img["lebar_thumb"],$this->img["tinggi_thumb"]);
+	            $this->img["des"] = ImageCreate($this->img["width_thumb"],$this->img["height_thumb"]);
 	        }
-			imagecopyresampled($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["lebar_thumb"], $this->img["tinggi_thumb"], $this->img["lebar"], $this->img["tinggi"]);
+			imagecopyresampled($this->img["des"], $this->img["src"], 0, 0, 0, 0, $this->img["width_thumb"], $this->img["height_thumb"], $this->img["width"], $this->img["height"]);
 	    }
 
 	    function generateImage($save='',$show=true)
