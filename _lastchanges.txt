@@ -9,7 +9,7 @@ Todos (Nach Prio sortiert):
 ---------------------------------------------------------------------------------
 
 	* AddOns 
-		- löschbar machen
+		* löschbar machen
 	* JS Linkmap umbauen 
 		* Artikel suchbar machen
 		* Struktur anzeigen und Artikel im Extra Bereich
@@ -29,6 +29,7 @@ Todos (Nach Prio sortiert):
 	* Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
 	* Beim Import JS Warnhinweis. "Alte Webseite geht verloren"
 	* <? -> <?php
+	* $REX[VAR]<? -> $REX['VAR'] (Bei allen Arrays)
 	* Permissions: 
 		* Developer raus
 		* "Online stellen verbieten" rein
