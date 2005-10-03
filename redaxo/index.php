@@ -102,7 +102,8 @@ if ($REX['SETUP'])
 		
 		// --- keine page gefunden
 		// --- addon check
-		$as = array_search($page,$REX['ADDON']['page']);
+		$as = false;
+		if (is_Array($REX['ADDON']['page'])) $as = array_search($page,$REX['ADDON']['page']);
 		if ($as === false || $page == "")
 		{
 			// --- kein addon gefunden -> structure
