@@ -1,65 +1,69 @@
+Diese Datei ist nur für den REDAXO Kern gedacht inkl. den 
+AddOns: stats / import_export / image_resize
+
+Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
+angehandelt.
+
 ---------------------------------------------------------------------------------
-Todo:
+Todos (Nach Prio sortiert):
 ---------------------------------------------------------------------------------
 
+	* AddOns 
+		- löschbar machen
+	* JS Linkmap umbauen 
+		* Artikel suchbar machen
+		* Struktur anzeigen und Artikel im Extra Bereich
+		* JS System ändern da bei viele Artikel alles ein wenig langsam wird.
+	* Templatehandling in den Kategorien
+		* Template fest zu Kategorien zuweisen können
+		* Default Templates festlegbar machen
+	* CTypes ins Frontend übernehmbar machen
+	* Mehrsprachigkeit / Charset System überdenken / utf-8 ..
+		* auch im setup testen
+		* htmlentities -> htmlspecialchars
+	* Umbau des Statistiktools. 
+		* Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
+		* Fehler bei URLs mit $ z.b. $_POST .. Referer ..
+	* Artikel verschieben (System überlegen)
+	* Kategorien verschieben (System überlegen)
+	* Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
+	* Beim Import JS Warnhinweis. "Alte Webseite geht verloren"
+	* <? -> <?php
+	* Permissions: 
+		* Developer raus
+		* "Online stellen verbieten" rein
+	* Tiny MCE bereinigen und unnötiges raus.
+	* Warnings/Notices entfernen
 
+---------------------------------------------------------------------------------
+Planung / Irgendwann:
+---------------------------------------------------------------------------------
+
+	* Historie mit Rollback
+	* Objektorientierterer Umbau. REX_.. werden Objekte und sind dann erweiterbar
+	* Komplette Platzhalter für Artikel. 
+		* REX_ARTICLE[2]
+		* REX_TEMPLATE[5]
+		* REX_ARTICLE_VARS['beschreibung'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
+	* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
+	
 ---------------------------------------------------------------------------------
 Known Bugs:
 ---------------------------------------------------------------------------------
+
+	* Umbau des Statistiktools. Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
+	* Import/Export klappt nicht auf jedem. Verschiedene System austesten und Liste der Fehler hier auflisten.
+	* Mac/Safari
+		* Medienpool "+" Problem
+		* EditierModul "hoch runter" verrutscht
+	* OOKlassen rückgabewerte wenn leer falsch
+		http://forum.redaxo.de/viewtopic.php?t=720
 
 
 ---------------------------------------------------------------------------------
 Changes:
 ---------------------------------------------------------------------------------
 
-  * 2005-07-22
-   * fixed Texttile Bug with accents
-   
- # 1st Release Candidate 2005-06-19
- 
-  * 2005-06-17
-   * Added Scale-Up/Scale-Down functionality to all Textarea's (Markus)
-   * Medienpool redesign (Markus)
-   * Added new OOF Classes (OOMedia, OOMediaCategory, OOTemplate) (Markus)
-   * First unstable commit of Mediamanager-Addon (Markus)
-   * Added new UserRights: (Markus)
 
-	// user mit media[all] kann alle ordner sehen und bearbeiten + kategorien erstellen/bearbeiten ...
-	// user mit media[10] kann in kat 10 alles
-	
-	// user mit media_add[all] darf adden
-	// user mit media_edit[all] darf editieren
-	// user mit media_delete[all] darf löschen
-	// user mit media_get[all] darf jedes bild selektieren
-	
-	// user mit media_add[10] darf in kat 10 adden
-	// user mit media_edit[10] darf in kat 10 editieren
-	// user mit media_delete[10] darf in kat 10 löschen
-	// user mit media_get[10] darf in kat 10 jedes bild selektieren
-	
-  * 2005-06-14
-   * Added Glossar-Addon to CVS (Markus)
-   * Added new OOF Class OORedaxo (Wolfgang)
-   * Redesigned OOArticle & OOCategory (Wolfgang)
-	
-  * 2005-06-13
-   * Userrights redesign (Jan)
-   
-  * 2005-06-12
-   * Converted Resize-Plugin to Image-Resize-Addon (Wolfgang)
-	
-  * 2005-06-11
-   * Added Guestbook-Addon to CVS (Markus)
-   
-  * 2005-06-16
-   * Added Explorer-Addon to CVS (Goldfisch)
-   
-  * 2005-06-04
-   * Added Simple-Shop-Addon to CVS (Jan)
-   * Added Shop-Addon to CVS (Jan)
-   * Converted Stats-Page to Stats-Addon (Jan)
-   
-  * 2005-06-02
-   * Added Live-System-Addon to CVS (Wolfgang)
    
 	
