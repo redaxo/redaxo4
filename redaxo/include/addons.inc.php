@@ -1,7 +1,9 @@
 <?php
 
 // ----------------- addons
-unset($REX['ADDON']['status']);
+if (isset($REX['ADDON']['status'])) {
+  unset($REX['ADDON']['status']);
+}
 
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN

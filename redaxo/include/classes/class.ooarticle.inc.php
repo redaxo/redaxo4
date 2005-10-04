@@ -15,8 +15,8 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $REX[CUR_CLANG];
-      $article_path = $REX[HTDOCS_PATH]."redaxo/include/generated/articles/".$article_id.".".$clang.".article";
+         $clang = $REX['CUR_CLANG'];
+      $article_path = $REX['HTDOCS_PATH']."redaxo/include/generated/articles/".$article_id.".".$clang.".article";
       if (file_exists($article_path))
       {
          include ($article_path);
@@ -27,11 +27,11 @@ class OOArticle extends OORedaxo
       }
       if ($OOCategory)
       {
-         return new OOCategory(OORedaxo :: convertGeneratedArray($REX[ART][$article_id], $clang));
+         return new OOCategory(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
       }
       else
       {
-         return new OOArticle(OORedaxo :: convertGeneratedArray($REX[ART][$article_id], $clang));
+         return new OOArticle(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
       }
 
    }
@@ -49,7 +49,7 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $REX[CUR_CLANG];
+         $clang = $REX['CUR_CLANG'];
       $offline = $ignore_offlines ? " and status = 1 " : "";
       $cats = '';
       if (is_array($categories))
@@ -89,7 +89,7 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $REX[CUR_CLANG];
+         $clang = $REX['CUR_CLANG'];
       $offline = $ignore_offlines ? " and status = 1 " : "";
       $artlist = array ();
       $sql = new sql;
@@ -114,7 +114,7 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $REX[CUR_CLANG];
+         $clang = $REX['CUR_CLANG'];
       return OOArticle :: getArticleById($REX['STARTARTIKEL_ID'], $clang);
    }
 
@@ -126,7 +126,7 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
       return OOArticle :: getArticleById($a_category_id, $clang);
    }
 
@@ -138,15 +138,15 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
-      $articlelist = $REX[HTDOCS_PATH]."redaxo/include/generated/articles/".$a_category_id.".".$clang.".alist";
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
+      $articlelist = $REX['HTDOCS_PATH']."redaxo/include/generated/articles/".$a_category_id.".".$clang.".alist";
       $artlist = array ();
       if (file_exists($articlelist))
       {
          include ($articlelist);
-         if (is_array($REX[RE_ID][$a_category_id]))
+         if (is_array($REX['RE_ID'][$a_category_id]))
          {
-            foreach ($REX[RE_ID][$a_category_id] as $var)
+            foreach ($REX['RE_ID'][$a_category_id] as $var)
             {
                $article = OOArticle :: getArticleById($var, $clang);
                if ($ignore_offlines)
@@ -174,7 +174,7 @@ class OOArticle extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
       return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
    }
 
@@ -236,7 +236,7 @@ class OOArticle extends OORedaxo
    function isSiteStartArticle()
    {
       global $REX;
-      return $this->_id == $REX[STARTARTIKEL_ID];
+      return $this->_id == $REX['STARTARTIKEL_ID'];
    }
 
 }

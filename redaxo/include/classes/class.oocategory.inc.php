@@ -14,7 +14,7 @@ class OOCategory extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
       return OOArticle :: getArticleById($category_id, $clang, true);
    }
 
@@ -26,13 +26,13 @@ class OOCategory extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
-      $categorylist = $REX[HTDOCS_PATH]."redaxo/include/generated/articles/".$cat_parent_id.".".$clang.".clist";
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
+      $categorylist = $REX['HTDOCS_PATH']."redaxo/include/generated/articles/".$cat_parent_id.".".$clang.".clist";
       $catlist = array ();
       if (file_exists($categorylist))
       {
          include ($categorylist);
-         if (is_array($REX['RE_CAT_ID'][$cat_parent_id]))
+         if (isset($REX['RE_CAT_ID'][$cat_parent_id]) and is_array($REX['RE_CAT_ID'][$cat_parent_id]))
          {
             foreach ($REX['RE_CAT_ID'][$cat_parent_id] as $var)
             {
@@ -84,7 +84,7 @@ class OOCategory extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
       return OOCategory :: getChildrenById(0, $ignore_offlines, $clang);
    }
 
@@ -101,7 +101,7 @@ class OOCategory extends OORedaxo
    {
       global $REX;
       if ($clang === false)
-         $clang = $GLOBALS[REX][CUR_CLANG];
+         $clang = $GLOBALS['REX']['CUR_CLANG'];
       return OOCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
    }
 

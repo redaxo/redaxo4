@@ -377,7 +377,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 	            <!-- /tinyMCE -->
 	            ';
 
-				$GLOBALS[TINYMCE] = 'done';
+        $GLOBALS['TINYMCE'] = 'done';
 
         }
 

@@ -1,16 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="<?php echo $I18N->msg("htmllang"); ?>">
 <head>
-	<title><?php echo $REX[SERVERNAME].' - '. $page_name; ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
-	<meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<script src="js/standard.js" type="text/javascript"></script>
-	<script type="text/javascript">
-	<!--
-	var redaxo = true;
-	//-->
-	</script>
+  <title><?php echo $REX['SERVERNAME'].' - '. $page_name; ?></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
+  <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script src="js/standard.js" type="text/javascript"></script>
+  <script type="text/javascript">
+  <!--
+  var redaxo = true;
+  //-->
+  </script>
 </head>
 <body onunload="closeAll();">
 <table class="rexHeader" cellpadding="5" cellspacing="0">

@@ -7,13 +7,13 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_time.inc.php";
 if (!ini_get('register_globals'))
 {
         // register_globals = off;
-        if ($_COOKIE) extract($_COOKIE);
-        if ($_ENV) extract($_ENV);
-        if ($_FILES) extract($_FILES);
-        if ($_GET) extract($_GET);
-        if ($_POST) extract($_POST);
-        if ($_SERVER) extract($_SERVER);
-        if ($_SESSION) extract($_SESSION);
+        if (isset($_COOKIE) and $_COOKIE) extract($_COOKIE);
+        if (isset($_ENV) and $_ENV) extract($_ENV);
+        if (isset($_FILES) and $_FILES) extract($_FILES);
+        if (isset($_GET) and $_GET) extract($_GET);
+        if (isset($_POST) and $_POST) extract($_POST);
+        if (isset($_SERVER) and $_SERVER) extract($_SERVER);
+        if (isset($_SESSION) and $_SESSION) extract($_SESSION);
 }else
 {
         // register_globals = on;
@@ -76,7 +76,8 @@ include_once $REX['INCLUDE_PATH']."/ctype.inc.php";
 include_once $REX['INCLUDE_PATH']."/clang.inc.php";
 
 // ----------------- SET CLANG
-if ($REX['CLANG'][$clang]=="")
+if (!isset($clang)) $clang = '';
+if (!isset($REX['CLANG'][$clang]) or $REX['CLANG'][$clang] == '')
 {
 	$REX['CUR_CLANG'] = 0;
 	$clang = 0;

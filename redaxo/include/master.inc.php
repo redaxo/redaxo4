@@ -46,7 +46,7 @@ $DB['2']['PSW'] = "";
 $DB['2']['NAME'] = "";
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
+if(!isset($REX['NOFUNCTIONS']) or !$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
 
 // -----------------
 if (!isset($category_id) or $category_id == "") $category_id = 0;

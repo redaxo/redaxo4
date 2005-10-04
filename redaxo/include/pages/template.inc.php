@@ -22,8 +22,8 @@ if ($function == "delete")
 		$del->query("delete from rex_template where id='$template_id'");
 		$message = $I18N->msg("template_deleted");
 
-		rex_deleteDir($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".template",0);
-	}
+    rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template",0);
+  }
 }
 
 if ($function == "add" or $function == "edit"){
@@ -55,9 +55,9 @@ if ($function == "add" or $function == "edit"){
 		$gt = new sql;
 		$gt->setQuery("select * from rex_template where id='$template_id'");
 
-		$fp = fopen ($REX[INCLUDE_PATH]."/generated/templates/".$template_id.".template", "w");
-		fputs($fp,$gt->getValue("content"));
-		fclose($fp);
+    $fp = fopen ($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w");
+    fputs($fp,$gt->getValue("content"));
+    fclose($fp);
 
 		if ($goon != "")
 		{

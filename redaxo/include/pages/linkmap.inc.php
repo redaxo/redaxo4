@@ -1,16 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="<?php echo $I18N->msg("htmllang"); ?>">
 <head>
-	<title><?php echo $REX[SERVERNAME].' - '. $page_name .' Linkmap'; ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
-	<meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
-	<link rel=stylesheet type=text/css href=css/style.css />
-	<script language=Javascript src=js/standard.js></script>
-	<script language=Javascript>
-	<!--
-	var redaxo = true;
-	//-->
-	</script>
+  <title><?php echo $REX['SERVERNAME'].' - '. $page_name .' Linkmap'; ?></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
+  <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
+  <link rel=stylesheet type=text/css href=css/style.css />
+  <script language=Javascript src=js/standard.js></script>
+  <script language=Javascript>
+  <!--
+  var redaxo = true;
+  //-->
+  </script>
 </head><?php
 
 // error_reporting( E_ALL );
@@ -501,12 +501,12 @@ echo '
 	function insertLink(link,name){
 ';
 
-if($_GET[HTMLArea]!=''){
-		if($_GET[HTMLArea]=='TINY'){
-			print 'window.opener.tinyMCE.insertLink(link,"_self");';
-		} else {
-	        print 'window.opener.'.$_GET[HTMLArea].'.surroundHTML("<a href="+link+">","</a>");';
-	    }
+if($_GET['HTMLArea']!=''){
+    if($_GET['HTMLArea']=='TINY'){
+      print 'window.opener.tinyMCE.insertLink(link,"_self");';
+    } else {
+          print 'window.opener.'.$_GET['HTMLArea'].'.surroundHTML("<a href="+link+">","</a>");';
+      }
 }
 if($_GET[opener_input_field]!=''){
 			print "linkid = link.replace('redaxo://','');\n";

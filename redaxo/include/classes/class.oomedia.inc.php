@@ -751,7 +751,7 @@ class OOMedia
       $icons_folder = $REX['HTDOCS_PATH'].'redaxo/pics/pool_file_icons/';
 
       // get File icons from dir redaxo/pics/pool_file_icons/
-      if (!$REX[MEDIA][ICONS])
+      if (!$REX['MEDIA']['ICONS'])
       {
          if ($handle = opendir($icons_folder))
          {
@@ -759,7 +759,7 @@ class OOMedia
             {
                if ($file != "." && $file != "..")
                {
-                  $REX[MEDIA][ICONS][] = str_replace(".gif", "", $file);
+                  $REX['MEDIA']['ICONS'][] = str_replace(".gif", "", $file);
                }
             }
             closedir($handle);
@@ -775,9 +775,9 @@ class OOMedia
       $extension = $this->getExtension();
 
       // get right Icon for Extension
-      if ($key = array_search($extension, $REX[MEDIA][ICONS]))
+      if ($key = array_search($extension, $REX['MEDIA']['ICONS']))
       {
-         $icon = $icons_folder.$REX[MEDIA][ICONS][$key].".gif";
+         $icon = $icons_folder.$REX['MEDIA']['ICONS'][$key].".gif";
       }
       else
       {
@@ -836,7 +836,7 @@ class OOMedia
       //        return;
 
       $sql = new sql();
-      //		$sql->debugsql = true;
+      //    $sql->debugsql = true;
       $sql->query($qry);
 
       return $sql->getError();
@@ -856,7 +856,7 @@ class OOMedia
       //        return;
 
       $sql = new sql();
-      //		$sql->debugsql = true;
+      //    $sql->debugsql = true;
       $sql->query($qry);
 
       return $sql->getError();
@@ -892,7 +892,7 @@ class OOMedia
       $sql->query($qry);
 
       ### todo - loeschen des files
-      unlink($REX[INCLUDE_PATH]."/../../files/".$this->getFileName());
+      unlink($REX['INCLUDE_PATH']."/../../files/".$this->getFileName());
 
       return $sql->getError();
    }

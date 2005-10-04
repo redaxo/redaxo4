@@ -133,81 +133,81 @@ class login{
                     // Erfolgreicher Login in der DB vermerken
                     $sql = new sql();
                     $sql->setQuery( 'UPDATE rex_user SET lasttrydate ="'. time() .'" WHERE login ="'. $this->usr_login .'"');
-				}else
-				{
-					$this->message = $this->text[30];
-					$_SESSION[UID][$this->system_id] = "";
-					// session_unregister("REX_SESSION");
-				}
-								
-			}elseif($_SESSION[UID][$this->system_id]!="")
-			{
-				// wenn kein login und kein logout dann nach sessiontime checken
-				// message schreiben und falls falsch auf error verweisen
-								
-				$this->USER = new sql($this->DB);
-				$query = str_replace("USR_UID",$_SESSION[UID][$this->system_id],$this->user_query);
-				
-				// $this->USER->debugsql = 1;
-				
-				$this->USER->setQuery($query);
-				if ($this->USER->getRows() == 1)
-				{
-					
-					// echo $REX_SESSION[ST][$this->system_id]." + ".$this->session_duration." > ".time();
-					
-					if (($_SESSION[ST][$this->system_id]+$this->session_duration)>time())
-					{
-						$ok = true;
-						$_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
-					}else
-					{
-						$this->message = $this->text[10];	
-					}					
-				}else
-				{
-					$this->message = $this->text[20];
-				}
-			}else
-			{
-				$this->message = $this->text[40];
-				$ok = false;
-			}
-		}else
-		{
-			$this->message = $this->text[50];
-			$_SESSION[UID][$this->system_id] = "";
-			// session_unregister("REX_SESSION");
-		}
-		
-		if ($ok)
-		{
-			// wenn alles ok dann REX[UID][system_id) schreiben
-			$_SESSION[ST][$this->system_id] = time();
-			
-			//session_register("REX_SESSION");
+        }else
+        {
+          $this->message = $this->text[30];
+          $_SESSION['UID'][$this->system_id] = "";
+          // session_unregister("REX_SESSION");
+        }
+                
+      }elseif($_SESSION['UID'][$this->system_id]!="")
+      {
+        // wenn kein login und kein logout dann nach sessiontime checken
+        // message schreiben und falls falsch auf error verweisen
+                
+        $this->USER = new sql($this->DB);
+        $query = str_replace("USR_UID",$_SESSION['UID'][$this->system_id],$this->user_query);
+        
+        // $this->USER->debugsql = 1;
+        
+        $this->USER->setQuery($query);
+        if ($this->USER->getRows() == 1)
+        {
+          
+          // echo $REX_SESSION['ST'][$this->system_id]." + ".$this->session_duration." > ".time();
+          
+          if (($_SESSION['ST'][$this->system_id]+$this->session_duration)>time())
+          {
+            $ok = true;
+            $_SESSION['UID'][$this->system_id] = $this->USER->getValue($this->uid);
+          }else
+          {
+            $this->message = $this->text[10]; 
+          }         
+        }else
+        {
+          $this->message = $this->text[20];
+        }
+      }else
+      {
+        $this->message = $this->text[40];
+        $ok = false;
+      }
+    }else
+    {
+      $this->message = $this->text[50];
+      $_SESSION['UID'][$this->system_id] = "";
+      // session_unregister("REX_SESSION");
+    }
+    
+    if ($ok)
+    {
+      // wenn alles ok dann REX[UID][system_id) schreiben
+      $_SESSION['ST'][$this->system_id] = time();
+      
+      //session_register("REX_SESSION");
 
 			// $_SESSION['REX_SESSION'] = $REX_SESSION;
 
-		}else
-		{
-			// wenn nicht, dann UID loeschen und error seite
-			
-			$_SESSION[ST][$this->system_id] = "";
-			$_SESSION[UID][$this->system_id] = "";
-			
-			// header("Location: $this->error_page"."&FORM[loginmessage]=".urlencode($this->message));
-			// echo $this->message;
-			
-		}
-		
-		return $ok;				
-	}
-	
-	function getValue($value)
-	{
-		return $this->USER->getValue($value);
-	}
+    }else
+    {
+      // wenn nicht, dann UID loeschen und error seite
+      
+      $_SESSION['ST'][$this->system_id] = "";
+      $_SESSION['UID'][$this->system_id] = "";
+      
+      // header("Location: $this->error_page"."&FORM[loginmessage]=".urlencode($this->message));
+      // echo $this->message;
+      
+    }
+    
+    return $ok;       
+  }
+  
+  function getValue($value)
+  {
+    return $this->USER->getValue($value);
+  }
 }
 
 ?>

@@ -56,7 +56,7 @@ class sql
    {
       global $DB, $REX;
 
-      if (!@ mysql_select_db($DB[$this->DBID][NAME]))
+      if (!@ mysql_select_db($DB[$this->DBID]['NAME']))
       {
          echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:".$REX['error_emailaddress'].">".$REX['error_emailaddress']."</a>\n | Thank you!\n</font>";
          exit;
