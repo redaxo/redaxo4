@@ -75,65 +75,65 @@ if ($REX['GG'])
 }
 
 // Resize Script für das Frontend
-if (($REX['REDAXO'] === false) && (isset($_GET['rex_resize']) and $_GET['rex_resize'] != '')){
+if ((isset($REX['REDAXO']) and $REX['REDAXO'] === false) && (isset($_GET['rex_resize']) and $_GET['rex_resize'] != '')){
     $rex_resize = $_GET['rex_resize'];
 
   // get params
   ereg("^([0-9]*)([awh])__(([0-9]*)h__)?(.*)",$rex_resize,$resize);
 
 
-	$size = $resize[1];
-	$mode = $resize[2];
-	$hmode = $resize[4];
-	$imagefile = $resize[5];
+  $size = $resize[1];
+  $mode = $resize[2];
+  $hmode = $resize[4];
+  $imagefile = $resize[5];
 
-	$cachepath = $REX['HTDOCS_PATH'].'files/cache_resize___'.$rex_resize;
-	$imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
+  $cachepath = $REX['HTDOCS_PATH'].'files/cache_resize___'.$rex_resize;
+  $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
-	// check for cache file
-	if(file_exists($cachepath)){
+  // check for cache file
+  if(file_exists($cachepath)){
 
-	    // time of cache
-	    $cachetime = filectime($cachepath);
+      // time of cache
+      $cachetime = filectime($cachepath);
 
-	    // file exists?
-	    if(file_exists($imagepath)){
-	        $filetime = filectime($imagepath);
-	    } else {
-	        // image file not exists
-	        print "Error: Imagefile does not exist - $imagefile";
-	        exit;
-	    }
+      // file exists?
+      if(file_exists($imagepath)){
+          $filetime = filectime($imagepath);
+      } else {
+          // image file not exists
+          print "Error: Imagefile does not exist - $imagefile";
+          exit;
+      }
 
-	    // cache is newer? - show cache
-	    if($cachetime > $filetime){
-	        include($REX['HTDOCS_PATH']."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
-	        $thumb = new thumbnail($cachepath);
-			@header("Content-Type: image/".$thumb->img["format"]);
-			readfile($cachepath);
-			exit;
-	    }
+      // cache is newer? - show cache
+      if($cachetime > $filetime){
+          include($REX['HTDOCS_PATH']."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
+          $thumb = new thumbnail($cachepath);
+      @header("Content-Type: image/".$thumb->img["format"]);
+      readfile($cachepath);
+      exit;
+      }
 
-	}
+  }
 
-	// check params
-	if(!file_exists($imagepath)){
-	    print "Error: Imagefile does not exist - $imagefile";
-	    exit;
-	}
+  // check params
+  if(!file_exists($imagepath)){
+      print "Error: Imagefile does not exist - $imagefile";
+      exit;
+  }
 
-	if(($mode!='w') and ($mode!='h') and ($mode!='a')){
-	    print "Error wrong mode - only h,w,a";
-	    exit;
-	}
-	if($size==''){
-	    print "Error size is no INTEGER";
-	    exit;
-	}
-	if($size > $REX['ADDON']['max_size'][$mypage]){
-	    print "Error size to big: max ".$REX['ADDON']['max_size'][$mypage]." px";
-	    exit;
-	}
+  if(($mode!='w') and ($mode!='h') and ($mode!='a')){
+      print "Error wrong mode - only h,w,a";
+      exit;
+  }
+  if($size==''){
+      print "Error size is no INTEGER";
+      exit;
+  }
+  if($size > $REX['ADDON']['max_size'][$mypage]){
+      print "Error size to big: max ".$REX['ADDON']['max_size'][$mypage]." px";
+      exit;
+  }
 
     include($REX['HTDOCS_PATH']."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
 
@@ -147,9 +147,9 @@ if (($REX['REDAXO'] === false) && (isset($_GET['rex_resize']) and $_GET['rex_res
     if($mode=="h"){
         $thumb->size_height($size);
     }
-	if($hmode != ''){
-		$thumb->size_height($hmode);
-	}
+  if($hmode != ''){
+    $thumb->size_height($hmode);
+  }
     if($mode=="a"){
         $thumb->size_auto($size);
     }
