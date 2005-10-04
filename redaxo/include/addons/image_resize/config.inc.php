@@ -27,22 +27,22 @@
 
 $mypage = "image_resize";
 
-$REX[ADDON][rxid][$mypage] = "REX_IMAGE_RESIZE";
-$REX[ADDON][page][$mypage] = "$mypage";
-$REX[ADDON][name][$mypage] = "Image Resize Addon";
-$REX[ADDON][perm][$mypage] = "image_resize[]";
-$REX[ADDON][max_size][$mypage] = 1000;
-$REX[ADDON][jpeg_quality][$mypage] = 75;
+$REX['ADDON']['rxid'][$mypage] = "REX_IMAGE_RESIZE";
+$REX['ADDON']['page'][$mypage] = "$mypage";
+$REX['ADDON']['name'][$mypage] = "Image Resize Addon";
+$REX['ADDON']['perm'][$mypage] = "image_resize[]";
+$REX['ADDON']['max_size'][$mypage] = 1000;
+$REX['ADDON']['jpeg_quality'][$mypage] = 75;
 
-$REX[PERM][] = "image_resize[]";
+$REX['perm'][] = "image_resize[]";
 
 
 if ($REX['GG'])
 {
-	$REX['OUTPUT_FILTER'][] = "output_resize_wysiwyg";
+	$REX['OUTPUT_FILTER'][] = "rex_resize_wysiwyg_output";
 
 	// Resize WYSIWYG Editor Images
-	function output_resize_wysiwyg($content){
+	function rex_resize_wysiwyg_output($content){
 
 	    preg_match_all('/<img.*ismap="rex_resize".*>/imsU',$content,$matches);
 
@@ -58,8 +58,8 @@ if ($REX['GG'])
 	            }
 	            if($width){
 	                preg_match('/src="(.*files\/(.*))"/imsU',$var,$src);
-	                if(file_exists($REX[HTDOCS_PATH].'files/'.$src[2])){
-	                    $realsize = getimagesize($REX[HTDOCS_PATH].'files/'.$src[2]);
+	                if(file_exists($REX['HTDOCS_PATH'].'files/'.$src[2])){
+	                    $realsize = getimagesize($REX['HTDOCS_PATH'].'files/'.$src[2]);
 	                    if(($realsize[0] != $width[1]) or ($realsize[1] != $height[1])){
 	                        $newsrc = "index.php?rex_resize=".$width[1]."w__".$height[1]."h__".$src[2];
 	                        $newimage = str_replace($src[1],$newsrc,$var);
@@ -75,7 +75,8 @@ if ($REX['GG'])
 }
 
 // Resize Script für das Frontend
-if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
+if(($REX['REDAXO'] === false) && ($_GET['rex_resize']!="")){
+    $rex_resize = $_GET['rex_resize'];
 
 	// get params
 	ereg("^([0-9]*)([awh])__(([0-9]*)h__)?(.*)",$rex_resize,$resize);
@@ -86,8 +87,8 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 	$hmode = $resize[4];
 	$imagefile = $resize[5];
 
-	$cachepath = $REX[HTDOCS_PATH].'files/cache_resize___'.$rex_resize;
-	$imagepath = $REX[HTDOCS_PATH].'files/'.$imagefile;
+	$cachepath = $REX['HTDOCS_PATH'].'files/cache_resize___'.$rex_resize;
+	$imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
 	// check for cache file
 	if(file_exists($cachepath)){
@@ -106,9 +107,9 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 
 	    // cache is newer? - show cache
 	    if($cachetime > $filetime){
-	        include($REX[HTDOCS_PATH]."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
+	        include($REX['HTDOCS_PATH']."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
 	        $thumb = new thumbnail($cachepath);
-			@Header("Content-Type: image/".$thumb->img["format"]);
+			@header("Content-Type: image/".$thumb->img["format"]);
 			readfile($cachepath);
 			exit;
 	    }
@@ -129,12 +130,12 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
 	    print "Error size is no INTEGER";
 	    exit;
 	}
-	if($size > $REX[ADDON][max_size][$mypage]){
-	    print "Error size to big: max ".$REX[ADDON][max_size][$mypage]." px";
+	if($size > $REX['ADDON']['max_size'][$mypage]){
+	    print "Error size to big: max ".$REX['ADDON']['max_size'][$mypage]." px";
 	    exit;
 	}
 
-    include($REX[HTDOCS_PATH]."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
+    include($REX['HTDOCS_PATH']."redaxo/include/addons/image_resize/class.thumbnail.inc.php");
 
     // start thumb class
     $thumb = new thumbnail($imagepath);
@@ -154,7 +155,7 @@ if(($REX[REDAXO] === false) && ($_GET[rex_resize]!="")){
     }
 
     // jpeg quality
-    $thumb->jpeg_quality($REX[ADDON][jpeg_quality][$mypage]);
+    $thumb->jpeg_quality($REX['ADDON']['jpeg_quality'][$mypage]);
 
     // save cache
     $thumb->generateImage($cachepath);
