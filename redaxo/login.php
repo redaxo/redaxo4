@@ -18,7 +18,7 @@ include $REX['INCLUDE_PATH']."/layout/top.php";
 
 title("Login","");
 
-if ($FORM['loginmessage'] != "")
+if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
 {
   echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
   <tr><td align=center class=warning width=40><img src=pics/warning.gif width=16 height=16></td>
