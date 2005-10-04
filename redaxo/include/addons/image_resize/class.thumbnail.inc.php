@@ -93,7 +93,7 @@
 	        } elseif ($this->img["format"]=="PNG") {
 	            imagePNG($this->img["des"],$save);
 	        } elseif ($this->img["format"]=="GIF") {
-	            imageJPEG($this->img["des"],$save);
+	            imageGIF($this->img["des"],$save);
 	        } elseif ($this->img["format"]=="WBMP") {
 	            imageWBMP($this->img["des"],$save);
 	        }
