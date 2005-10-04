@@ -64,12 +64,18 @@ function rex_parseArticleName($name)
  * The variable $REX['MOD_REWRITE'] can also be set for a static class call.
  * e.g. 'myClass::myMethod'
  */
-function rex_getUrl($id, $clang = '', $params = '')
+function rex_getUrl($id = '', $clang = '', $params = '')
 {
-   global $REX;
+   global $REX, $article_id;
+
+   // ----- get id
+   if (strlen($id) == 0)
+   {
+      $id = $article_id;
+   }
 
    // ----- get clang
-   if (strlen($clang) == 0)
+   if (strlen($clang) == 0 && count($REX['CLANG']) > 1)
    {
       $clang = $REX['CUR_CLANG'];
    }
@@ -87,10 +93,10 @@ function rex_getUrl($id, $clang = '', $params = '')
    {
       $param_string = str_replace('&', '&amp;', $params);
    }
-   
+
    // ----- get article name
    $id = (int) $id;
-   
+
    if ($id != 0)
    {
       $ooa = OOArticle :: getArticleById($id);
@@ -152,16 +158,25 @@ function rex_getUrl($id, $clang = '', $params = '')
 // Kein Rewrite wird durchgeführt
 function rexrewrite_no_rewrite($id, $name, $clang, $param_string)
 {
-   return $REX['WWW_PATH'].'index.php?article_id='.$id.'&amp;clang='.$clang.$param_string;
+   global $REX;
+   $url = 'index.php?article_id='.$id;
+
+   if (count($REX['CLANG']) > 1)
+   {
+      $url .= '&amp;clang='.$clang;
+   }
+
+   return $REX['WWW_PATH'].$url.$param_string;
 }
 
 // Rewrite für mod_rewrite
 function rexrewrite_apache_rewrite($id, $name, $clang, $params)
 {
+   global $REX;
    if ($params != '')
    {
       // strip first "&amp;"
-      $params = '?'.substr( $params, strpos( $params, '&amp;') + 5);
+      $params = '?'.substr($params, strpos($params, '&amp;') + 5);
    }
 
    return $REX['WWW_PATH'].$id.'-'.$clang.'-'.$name.'.html'.$params;
