@@ -20,28 +20,29 @@ title("Login","");
 
 if ($FORM['loginmessage'] != "")
 {
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
-	<tr><td align=center class=warning width=40><img src=pics/warning.gif width=16 height=16></td>
-	<td class=warning>".$FORM['loginmessage']."</td></tr>
-	</table>";
+  echo "<table border=0 cellpadding=5 cellspacing=1 width=770>
+  <tr><td align=center class=warning width=40><img src=pics/warning.gif width=16 height=16></td>
+  <td class=warning>".$FORM['loginmessage']."</td></tr>
+  </table>";
 }
 
+if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
 echo "<br><table border=1 cellpadding=5 cellspacing=0 width=770>
 <tr>
-	<td class=dgrey>
-		<table width=200 cellpadding=3 cellspacing=0 border=0>
-		<tr>
-			<td valign=middle><form action=index.php method=post><input type=hidden name=page value=structure>".$I18N->msg('login_name').":</td>
-			<td valign=middle><input type=text size=10 value='$REX_ULOGIN' name=REX_ULOGIN></td>
-			<td valign=middle>&nbsp;</td>
-		</tr>
-		<tr>
-			<td valign=middle>".$I18N->msg('password').":</td>
-			<td valign=middle><input type=password size=10 name=REX_UPSW></td>
-			<td valign=middle><input type=submit value=".$I18N->msg('login')."></td>
-		</tr></form>
-		</table>
-	</td>
+  <td class=dgrey>
+    <table width=200 cellpadding=3 cellspacing=0 border=0>
+    <tr>
+      <td valign=middle><form action=index.php method=post><input type=hidden name=page value=structure>".$I18N->msg('login_name').":</td>
+      <td valign=middle><input type=text size=10 value='$REX_ULOGIN' name=REX_ULOGIN></td>
+      <td valign=middle>&nbsp;</td>
+    </tr>
+    <tr>
+      <td valign=middle>".$I18N->msg('password').":</td>
+      <td valign=middle><input type=password size=10 name=REX_UPSW></td>
+      <td valign=middle><input type=submit value=".$I18N->msg('login')."></td>
+    </tr></form>
+    </table>
+  </td>
 </tr>
 </table>
 ";
