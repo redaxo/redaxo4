@@ -381,7 +381,7 @@ class article
 			}
 			$return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
 			// function in function_rex_modrewrite.inc.php
-			$slice_content = $this->replaceLinks($slice_content);
+			$template_content = $this->replaceLinks($template_content);
 			eval("?>".$return);
 			// echo htmlspecialchars($return);
 		}else
