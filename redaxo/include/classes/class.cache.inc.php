@@ -1,14 +1,14 @@
 <?php
 class Cache {
 
-	var $cache;
-	var $article_id;
-	var $cacheFile;
-	var $makeCacheFile = false;
+  var $cache;
+  var $article_id;
+  var $cacheFile;
+  var $makeCacheFile = false;
 
-	function Cache($article_id=''){
+  function Cache($article_id=''){
 
-		global $REX;
+    global $REX;
 
       if ( file_exists($REX['HTDOCS_PATH'].'redaxo/include/generated/articles/'.$article_id.'.article') ) {
         $this->article_id = $article_id;
@@ -20,119 +20,120 @@ class Cache {
     $this->cache = $cache;
 
     // UPDATE CACHE with REX_CACHE_UPDATE[]
-    if($_POST['REX_CACHE_UPDATE'] or $_GET['REX_CACHE_UPDATE']){
+    if (isset($_POST['REX_CACHE_UPDATE']) or isset($_GET['REX_CACHE_UPDATE'])){
 
-      if (is_array($_POST['REX_CACHE_UPDATE'])){
+      if (isset($_POST['REX_CACHE_UPDATE']) and is_array($_POST['REX_CACHE_UPDATE'])){
         foreach($_POST['REX_CACHE_UPDATE'] as $key => $var){
           $this->removeCacheFiles($key);
         }
       }
 
-      if (is_array($_GET['REX_CACHE_UPDATE'])) {
+      if (isset($_GET['REX_CACHE_UPDATE']) and is_array($_GET['REX_CACHE_UPDATE'])) {
         foreach($_GET['REX_CACHE_UPDATE'] as $key=>$var){
           $this->removeCacheFiles($key);
         }
       }
     }
 
-	    if(is_array($_POST)){
-	        foreach($_POST as $key=>$var){
-	            $POSTSTRING.=$key.$var;
-	        }
-	    }
+    if (is_array($_POST)) {
+      $POSTSTRING = '';
+      foreach($_POST as $key => $var){
+        $POSTSTRING .= $key.$var;
+      }
+    }
 
     $this->cacheFile = 'redaxo/include/generated/cache/'.$article_id.'.'.md5($_SERVER['REQUEST_URI'].$_SERVER['PHP_SELF'].$POSTSTRING).'.cache';
 
-	}
+  }
 
-	function isCacheConf(){
-		if(in_array($this->article_id,$this->cache)){
-			return true;
-		} else {
-			return false;
-		}
-	}
+  function isCacheConf(){
+    if(in_array($this->article_id,$this->cache)){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-	function isCacheFile(){
-		if(file_exists($this->cacheFile)){
-			return true;
-		} else {
-			return false;
-		}
-	}
+  function isCacheFile(){
+    if(file_exists($this->cacheFile)){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-	function startCacheFile(){
-		ob_start();
-		$this->makeCacheFile = true;
-	}
+  function startCacheFile(){
+    ob_start();
+    $this->makeCacheFile = true;
+  }
 
-	function writeCacheFile(){
-	    $ob_content = ob_get_contents();
-	    if($ob_content!=''){
-	        $handle = fopen($this->cacheFile, 'w');
-	        fwrite($handle, $ob_content);
-	        fclose($handle);
-	        return true;
-	    } else {
-	    	return false;
-	    }
-	}
+  function writeCacheFile(){
+      $ob_content = ob_get_contents();
+      if($ob_content!=''){
+          $handle = fopen($this->cacheFile, 'w');
+          fwrite($handle, $ob_content);
+          fclose($handle);
+          return true;
+      } else {
+        return false;
+      }
+  }
 
-	function printCacheFile(){
+  function printCacheFile(){
 
-		global $REX;
+    global $REX;
 
-	    $handle = fopen ($this->cacheFile, "r");
-	    $cacheContent = fread ($handle, filesize ($this->cacheFile));
-	    fclose ($handle);
+      $handle = fopen ($this->cacheFile, "r");
+      $cacheContent = fread ($handle, filesize ($this->cacheFile));
+      fclose ($handle);
 
-	    if(strstr($cacheContent,"<!--NOCACHE")){
-	        preg_match_all("/!--NOCACHE\"([a-z0-9\/.]*)\"\/\/-->(.*)!--\/NOCACHE\/\/-->/Uis",$cacheContent,$matches);
-	        for($c=0;$c<count($matches[0]);$c++){
-	        	$cacheContent = str_replace($matches[0][$c],'?php global $REX; include("redaxo/include/master.inc.php");  include("'.$matches[1][$c].'");?>',$cacheContent);
-	        }
-	        eval('?>'.$cacheContent.'<?');
-	    } else {
-			print $cacheContent;
-	    }
+      if(strstr($cacheContent,"<!--NOCACHE")){
+          preg_match_all("/!--NOCACHE\"([a-z0-9\/.]*)\"\/\/-->(.*)!--\/NOCACHE\/\/-->/Uis",$cacheContent,$matches);
+          for($c=0;$c<count($matches[0]);$c++){
+            $cacheContent = str_replace($matches[0][$c],'?php global $REX; include("redaxo/include/master.inc.php");  include("'.$matches[1][$c].'");?>',$cacheContent);
+          }
+          eval('?>'.$cacheContent.'<?');
+      } else {
+      print $cacheContent;
+      }
 
-	}
+  }
 
-	function insertCacheConf($article_id){
-		$key = array_search($article_id,$this->cache);
-		if($key){
-			return false;
-		} else {
-			$tmp_cache = $this->cache;
-			$tmp_cache[] = $article_id;
-			$this->writeCacheConf($tmp_cache,$this->recache);
-			return true;
-		}
-	}
+  function insertCacheConf($article_id){
+    $key = array_search($article_id,$this->cache);
+    if($key){
+      return false;
+    } else {
+      $tmp_cache = $this->cache;
+      $tmp_cache[] = $article_id;
+      $this->writeCacheConf($tmp_cache,$this->recache);
+      return true;
+    }
+  }
 
-	function removeCacheConf($article_id){
-		$key = array_search($article_id,$this->cache);
-		$tmp_cache = $this->cache;
-		unset($tmp_cache[$key]);
-		$this->writeCacheConf($tmp_cache,$this->cache);
-	}
+  function removeCacheConf($article_id){
+    $key = array_search($article_id,$this->cache);
+    $tmp_cache = $this->cache;
+    unset($tmp_cache[$key]);
+    $this->writeCacheConf($tmp_cache,$this->cache);
+  }
 
-	function writeCacheConf($cache,$recache){
+  function writeCacheConf($cache,$recache){
 
-			global $REX;
+      global $REX;
 
             $string = '<?php'."\n";
             $string.= '$cache = explode(\'#\',\''.implode('#',$cache).'\');'."\n";
-    		$string.= '?>';
+        $string.= '?>';
 
             $handle = fopen($REX['HTDOCS_PATH'].'redaxo/include/generated/cache/cache.php','w');
       fwrite($handle, $string);
       fclose($handle);
   }
 
-	function removeCacheFiles($article_id){
+  function removeCacheFiles($article_id){
 
-			global $REX;
+      global $REX;
 
             if ($handle = opendir($REX['HTDOCS_PATH'].'redaxo/include/generated/cache/')) {
                 while (false !== ($file = readdir($handle))) {
@@ -144,11 +145,11 @@ class Cache {
             }
 
 
-	}
+  }
 
-	function removeAllCacheFiles(){
+  function removeAllCacheFiles(){
 
-			global $REX;
+      global $REX;
 
             if ($handle = opendir($REX['HTDOCS_PATH'].'redaxo/include/generated/cache/')) {
                 while (false !== ($file = readdir($handle))) {
@@ -158,7 +159,7 @@ class Cache {
                 }
                 closedir($handle);
             }
-	}
+  }
 
 
 }

@@ -712,7 +712,7 @@ class article
       return $id;
     }else
     {
-      if ($REX[GG]) return "aid$id".".php";
+      if ($REX['GG']) return "aid$id".".php";
       else return rex_getURL($id,$this->clang);
     }
   }
