@@ -82,7 +82,7 @@ if ($SHOWARTICLE)
     $REX_ARTICLE->getArticleTemplate();
   }else
   {
-    echo "Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href=redaxo/index.php>redaxo</a>";
+    echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
     $REX['STATS'] = 0;
   }
   //////////////////////////////////////////////
@@ -118,7 +118,7 @@ if (is_array($REX['OUTPUT_FILTER']))
 
 
 // ---- caching functions vorhanden ? wenn ja ausführen
-if (is_array($REX['OUTPUT_FILTER_CACHE']))
+if (isset($REX['OUTPUT_FILTER_CACHE']) and is_array($REX['OUTPUT_FILTER_CACHE']))
 {
    foreach ($REX['OUTPUT_FILTER_CACHE'] as $output_cache) {
       call_user_func($output_cache, $CONTENT);
