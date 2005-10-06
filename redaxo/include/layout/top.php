@@ -31,12 +31,12 @@
       if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
       
       if (is_Array($REX['ADDON']['status'])) reset($REX['ADDON']['status']);
-      for($i=0;$i<count($REX['ADDON']['status']);$i++)
+      for ($i=0; $i < count($REX['ADDON']['status']); $i++)
       {
         $apage = key($REX['ADDON']['status']);
-        $perm = $REX['ADDON']['perm'][$apage];
-        $name = $REX['ADDON']['name'][$apage];
-        $popup = $REX['ADDON']['popup'][$apage];
+        if (isset($REX['ADDON']['perm'][$apage])) { $perm = $REX['ADDON']['perm'][$apage]; } else { $perm = ''; }
+        if (isset($REX['ADDON']['name'][$apage])) { $name = $REX['ADDON']['name'][$apage]; } else { $name = ''; }
+        if (isset($REX['ADDON']['popup'][$apage])) { $popup = $REX['ADDON']['popup'][$apage]; } else { $popup = ''; }
         if (current($REX['ADDON']['status']) == 1 && $REX['ADDON']['name'][$apage] != '' && ($REX_USER->isValueOf("rights",$perm) || $perm == "" || $REX_USER->isValueOf("rights","admin[]")) )
         {
           if ($popup == 1) echo " | <a href=javascript:newPoolWindow('index.php?page=$apage'); class=white>$name</a>";
