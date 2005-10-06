@@ -8,24 +8,25 @@
  *
  */
 
+$echo = ''; // Variable definiert
 
 // --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
-if ($edit_id != "")
+if (isset($edit_id) and $edit_id != '')
 {
   $thisCat = new sql;
-  $thisCat->setQuery("select * from rex_article where id='".$edit_id."' and clang=$clang");
-  if ($thisCat->getRows()!=1) unset($edit_id);
-}else
+  $thisCat->setQuery("SELECT * FROM rex_article WHERE id = '".$edit_id."' and clang = '".$clang."'");
+  if ($thisCat->getRows() != 1) unset($edit_id);
+} else
 {
   unset($edit_id);
 }
 
-if ($article_id != "")
+if (isset($article_id) and $article_id != '')
 {
   $thisArt = new sql;
   $thisArt->setQuery("select * from rex_article where id='".$article_id."' and clang=$clang");
   if ($thisArt->getRows()!=1) unset($article_id);
-}else
+} else
 {
   unset($article_id);
 }
@@ -45,7 +46,7 @@ include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
 
-if ($catedit_function != "" && $edit_id != "" && $KATPERM)
+if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $KATPERM)
 {
   // --------------------- KATEGORIE EDIT
   
@@ -71,15 +72,15 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 
   rex_generateArticle($edit_id);
 
-}elseif ($catdelete_function != "" && $edit_id != "" && $KATPERM)
+} elseif (isset($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM)
 {
   // --------------------- KATEGORIE DELETE
   $KAT = new sql;
   $KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=1");
-  if($KAT->getRows()==0)
+  if ($KAT->getRows()==0)
   {
     $KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=0");
-    if($KAT->getRows()==0)
+    if ($KAT->getRows() == 0)
     {
       $re_id = $thisCat->getValue("re_id");
       $message = rex_deleteArticle($edit_id);
@@ -93,19 +94,19 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
         rex_newCatPrio($re_id,$mlang,0,1);
         next($CL);
       }
-    }else
+    } else
     {
       $message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_articles");
       $function = "edit";
     }
-  }else
+  } else
   {
     $message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_subcategories");
     $function = "edit";
   }
 
 
-}elseif ($function == "status" && $edit_id != "" && $KATPERM)
+} elseif (isset($function) and $function == "status" && $edit_id != "" && $KATPERM)
 {
   // --------------------- KATEGORIE STATUS
   $KAT->setQuery("select * from rex_article where id='$edit_id' and clang=$clang and startpage=1");
@@ -124,13 +125,13 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
         
     $message = $I18N->msg("category_status_updated");
     rex_generateArticle($edit_id);
-  }else
+  } else
   {
     $message = $I18N->msg("no_such_category");
   }
   
 
-}elseif ($function == "add_category" && $KATPERM)
+} elseif (isset($function) and $function == "add_category" && $KATPERM)
 {
   // --------------------- KATEGORIE ADD
   $message = $I18N->msg("category_added_and_startarticle_created");
@@ -192,7 +193,7 @@ if ($catedit_function != "" && $edit_id != "" && $KATPERM)
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if ($function == "offline_article" && $article_id != "" && $KATPERM)
+if (isset($function) and $function == "offline_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL OFFLINE
   $EA = new sql;
@@ -205,7 +206,7 @@ if ($function == "offline_article" && $article_id != "" && $KATPERM)
   rex_generateArticle($article_id);
   $amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "online_article" && $article_id != "" && $KATPERM)
+}else if (isset($function) and $function == "online_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL ONLINE
   $EA = new sql;
@@ -218,7 +219,7 @@ if ($function == "offline_article" && $article_id != "" && $KATPERM)
   rex_generateArticle($article_id);
   $amessage = $I18N->msg("article_status_updated");
 
-}else if ($function == "add_article" && $KATPERM)
+}else if (isset($function) and $function == "add_article" && $KATPERM)
 {
   // --------------------- ARTIKEL ADD
   $Position_New_Article = $Position_New_Article+0;
@@ -261,7 +262,7 @@ if ($function == "offline_article" && $article_id != "" && $KATPERM)
   
   rex_generateArticle($id);
   
-}else if ($function == "edit_article" && $article_id != "" && $KATPERM)
+}else if (isset($function) and $function == "edit_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL EDIT
   $Position_Article = $Position_Article+0;
@@ -283,7 +284,7 @@ if ($function == "offline_article" && $article_id != "" && $KATPERM)
   rex_newArtPrio($category_id,$clang,$Position_Article,$thisArt->getValue("prior"));
   rex_generateArticle($article_id);
 
-}elseif ($function == "delete_article" && $article_id != "" && $KATPERM)
+}elseif (isset($function) and $function == "delete_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL DELETE
   
@@ -318,10 +319,10 @@ echo "    <th>".$I18N->msg("header_category")."</th>
       <th width=153>".$I18N->msg("header_status")."</th>
     </tr>";
 
-if ($message != "") echo "<tr class=warning><td align=center ><img src=pics/warning.gif width=16 height=16></td><td colspan=5><b>$message</b></td></tr>";
-if ($category_id != 0) echo "<tr><td>&nbsp;</td><td colspan=5>..</td></tr>";
+if (isset($message) and $message != "") echo "<tr class=warning><td align=center ><img src=pics/warning.gif width=16 height=16></td><td colspan=5><b>$message</b></td></tr>";
+if (isset($category_id) and $category_id != 0) echo "<tr><td>&nbsp;</td><td colspan=5>..</td></tr>";
 
-if ($function == "add_cat" && $KATPERM)
+if (isset($function) and $function == "add_cat" && $KATPERM)
 {
   // --------------------- KATEGORIE ADD FORM
   $echo .= "
@@ -345,7 +346,9 @@ if ($function == "add_cat" && $KATPERM)
 
 $KAT = new sql;
 $KAT->setQuery("select * from rex_article where re_id='$category_id' and startpage=1 and clang=$clang order by catprior");
-for($i=0;$i<$KAT->getRows();$i++)
+$cat_pos = 0; // Variable definiert und vorbelegt
+
+for ($i=0; $i < $KAT->getRows(); $i++)
 {
   $i_category_id = $KAT->getValue("id");
   if ($KAT->getValue("status") == 0)
@@ -368,7 +371,7 @@ for($i=0;$i<$KAT->getRows();$i++)
     $cat_pos++;
 
 
-    if ($edit_id==$i_category_id and $function == "edit")
+    if (isset($edit_id)and $edit_id == $i_category_id and $function == "edit")
     {
       // --------------------- KATEGORIE EDIT FORM
       $echo .= "<tr>
@@ -466,11 +469,11 @@ if($category_id > -1)
       <th colspan=3>".$I18N->msg("header_status")."</th>
     </tr>";
 
-  if ($amessage != ""){ echo "<tr class=warning><td align=center><img src=pics/warning.gif width=16 height=16></td><td colspan=9><b>$amessage</b></td></tr>"; }
+  if (isset($amessage) and $amessage != ""){ echo '<tr class="warning"><td align="center"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="9"><b>'.$amessage.'</b></td></tr>'; }
 
   // --------------------- ARTIKEL ADD FORM
 
-  if ($function=="add_art" && $KATPERM)
+  if (isset($function) and $function == "add_art" && $KATPERM)
   {
     if ($template_id=="")
     {
