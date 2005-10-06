@@ -71,65 +71,68 @@ if ($REX['SETUP'])
   setlocale(LC_ALL,trim($I18N->msg("setlocale")));
   header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 
-	$dl = false;
-	$page = strtolower($page);
-	
-	if ($page=="addon" && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","dev[]")))
-	{
-		$page_name = $I18N->msg("addon");
-	}elseif ($page=="specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")))
-	{
-		$page_name = $I18N->msg("specials");
-	}elseif ($page=="module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","dev[]")))
-	{
-		$page_name = $I18N->msg("module");
-	}elseif ($page=="template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","dev[]")))
-	{
-		$page_name = $I18N->msg("template");
-	}elseif ($page=="user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
-	{
-		$page_name = $I18N->msg("user");
-	}elseif ($page=="medienpool")
-	{
-		$dl = true;
-	}elseif ($page=="linkmap")
-	{
-		$dl = true;
-	}elseif ($page=="content")
-	{
-		$page_name = $I18N->msg("content");
-	}elseif ($page=="structure")
-	{
-		$page_name = $I18N->msg("structure");
-	}else
-	{
-		
-		// --- keine page gefunden
-		// --- addon check
-		$as = false;
-		if (is_Array($REX['ADDON']['page'])) $as = array_search($page,$REX['ADDON']['page']);
-		if ($as === false || $page == "")
-		{
-			// --- kein addon gefunden -> structure
-			$page_name = $I18N->msg("structure");
-			$page = "structure";
-		}else
-		{
-			// --- addon gefunden	
-			$perm = $REX['ADDON']['perm'][$as];
-			// --- right checken
-			if($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]"))
-			{
-				$dl = true;
-				$REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
-			}else
-			{
-				// --- no perms to this addon
-				$page_name = $I18N->msg("structure");
-				$page = "structure";
-			}
-		}
-	}
+  $dl = false;
+  if (isset($page)) { 
+    $page = strtolower($page); 
+  } else {
+    $page = '';
+  }
+  
+  if ($page == 'addon' && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","dev[]")))
+  {
+    $page_name = $I18N->msg("addon");
+  }elseif ($page == "specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")))
+  {
+    $page_name = $I18N->msg("specials");
+  }elseif ($page == "module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","dev[]")))
+  {
+    $page_name = $I18N->msg("module");
+  }elseif ($page == "template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","dev[]")))
+  {
+    $page_name = $I18N->msg("template");
+  }elseif ($page == "user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
+  {
+    $page_name = $I18N->msg("user");
+  }elseif ($page == "medienpool")
+  {
+    $dl = true;
+  }elseif ($page == "linkmap")
+  {
+    $dl = true;
+  }elseif ($page == "content")
+  {
+    $page_name = $I18N->msg("content");
+  }elseif ($page == "structure")
+  {
+    $page_name = $I18N->msg("structure");
+  }else
+  {
+    
+    // --- keine page gefunden
+    // --- addon check
+    $as = array_search($page,$REX['ADDON']['page']);
+    if ($as === false || $page == "")
+    {
+      // --- kein addon gefunden -> structure
+      $page_name = $I18N->msg("structure");
+      $page = "structure";
+    }else
+    {
+      // --- addon gefunden 
+      $perm = $REX['ADDON']['perm'][$as];
+      // --- right checken
+      if($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]"))
+      {
+        $dl = true;
+        $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
+      }else
+      {
+        // --- no perms to this addon
+        $page_name = $I18N->msg("structure");
+        $page = "structure";
+      }
+    }
+  }
 }
 
 
@@ -149,7 +152,7 @@ ob_end_clean();
 
 
 // ---- user functions vorhanden ? wenn ja ausführen
-if (is_array($REX['OUTPUT_FILTER']))
+if (isset($REX['OUTPUT_FILTER']) and is_array($REX['OUTPUT_FILTER']))
 {
    foreach ($REX['OUTPUT_FILTER'] as $output_filter) {
       $CONTENT = call_user_func($output_filter, $CONTENT);
@@ -158,7 +161,7 @@ if (is_array($REX['OUTPUT_FILTER']))
 
 
 // ---- caching functions vorhanden ? wenn ja ausführen
-if (is_array($REX['OUTPUT_FILTER_CACHE']))
+if (isset($REX['OUTPUT_FILTER_CACHE']) and is_array($REX['OUTPUT_FILTER_CACHE']))
 {
    foreach ($REX['OUTPUT_FILTER_CACHE'] as $output_cache) {
       call_user_func($output_cache, $CONTENT);
