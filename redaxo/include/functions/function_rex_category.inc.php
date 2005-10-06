@@ -7,7 +7,8 @@
 **/
 
 $KATebene = 0; // aktuelle Ebene: default
-$KATPATH = "|"; // Standard für path eintragungen in db
+$KATPATH = "|"; // Standard für path Eintragungen in DB
+if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 
 $KATPERM = false;
 if ($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $KATPERM = true;

@@ -106,7 +106,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
       }
    }
 
-   if ($name == '')
+   if (!isset($name) or $name == '')
    {
       $name = 'NoName';
    }
