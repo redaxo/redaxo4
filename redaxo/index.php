@@ -147,22 +147,18 @@ ob_end_clean();
 // ---- user functions vorhanden ? wenn ja ausführen
 if (is_array($REX['OUTPUT_FILTER']))
 {
-	reset ($REX['OUTPUT_FILTER']);
-	for ($i=0;$i<count($REX['OUTPUT_FILTER']);$i++)
-	{
-		$CONTENT = call_user_func(current($REX['OUTPUT_FILTER']), $CONTENT);
-	}
+   foreach ($REX['OUTPUT_FILTER'] as $output_filter) {
+      $CONTENT = call_user_func($output_filter, $CONTENT);
+   }
 }
 
 
 // ---- caching functions vorhanden ? wenn ja ausführen
 if (is_array($REX['OUTPUT_FILTER_CACHE']))
 {
-	reset ($REX['OUTPUT_FILTER_CACHE']);
-	for ($i=0;$i<count($REX['OUTPUT_FILTER_CACHE']);$i++)
-	{
-		call_user_func(current($REX['OUTPUT_FILTER_CACHE']), $CONTENT);
-	}
+   foreach ($REX['OUTPUT_FILTER_CACHE'] as $output_cache) {
+      call_user_func($output_cache, $CONTENT);
+   }
 }
 
 // ----- inhalt endgueltig ausgeben
