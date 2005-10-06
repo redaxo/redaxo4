@@ -69,6 +69,7 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_modrewrite.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_wysiwyg.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_image.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_path.inc.php";
+include_once $REX['INCLUDE_PATH']."/functions/function_debug.inc.php";
 
 // ----- CONFIG FILES
 include_once $REX['INCLUDE_PATH']."/addons.inc.php";
@@ -86,4 +87,3 @@ if (!isset($REX['CLANG'][$clang]) or $REX['CLANG'][$clang] == '')
 	$REX['CUR_CLANG'] = $clang;
 }
 
-?>
