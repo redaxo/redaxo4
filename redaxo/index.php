@@ -23,49 +23,53 @@ $REX['PAGEPATH'] = "";
 if ($REX['SETUP'])
 {
    // ----------------- SET SETUP LANG
-	if ($lang != "en_gb" & $lang != "de_de" ) $lang = "de_de";
-	$REX['LANG'] = $lang;
-	
-	// ----------------- CREATE LANG OBJ
-    rex_create_lang( $REX['LANG']);
-	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
-	header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
-	
-	$page_name = $I18N->msg("setup");
-	$page = "setup";
-	$dl = false;
-	
-}else
+  if ($lang != "en_gb" && $lang != "de_de" ) $lang = "de_de";
+  $REX['LANG'] = $lang;
+  
+  // ----------------- CREATE LANG OBJ
+  rex_create_lang( $REX['LANG']);
+  setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+  header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
+  
+  $page_name = $I18N->msg("setup");
+  $page = "setup";
+  $dl = false;
+  
+} else
 {
-	$REX_LOGIN = new login();
-	$REX_LOGIN->setSqlDb(1);
-	$REX_LOGIN->setSysID($REX['INSTNAME']); // fuer redaxo
-	$REX_LOGIN->setSessiontime(3000); // 3600 sekunden = 60 min
-	$REX_LOGIN->setLogin($REX_ULOGIN,$REX_UPSW);
-	if ($FORM['logout'] == 1) $REX_LOGIN->setLogout(true);
-	$REX_LOGIN->setUserID("rex_user.user_id");
-	$REX_LOGIN->setUserquery("select * from rex_user where user_id='USR_UID'");
-	$REX_LOGIN->setLoginquery("select * from rex_user where login='USR_LOGIN' and psw='USR_PSW'");
-	if (!$REX_LOGIN->checkLogin())
-	{
-		header("Location: login.php?"."&FORM[loginmessage]=".urlencode($REX_LOGIN->message));
-		header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
-		$LOGIN = FALSE;
-		exit;
-	}else
-	{
-		$LOGIN = TRUE;
-		$REX_USER = $REX_LOGIN->USER;
-	}
-	
-	// ----------------- CREATE LANG OBJ
-	/*
-	if ($REX_USER->isValueOf("rights","be_lang[de_de]")) $REX[LANG] = "de_de";
-	else if ($REX_USER->isValueOf("rights","be_lang[en_gb]")) $REX[LANG] = "en_gb";
-	*/
-    rex_create_lang( $REX['LANG']);
-	setlocale(LC_ALL,trim($I18N->msg("setlocale")));
-	header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
+  // ----------------- CREATE LANG OBJ
+  rex_create_lang( $REX['LANG']);
+  if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
+  if (!isset($REX_UPSW)) { $REX_UPSW = ''; }
+  $REX_LOGIN = new login();
+  $REX_LOGIN->setSqlDb(1);
+  $REX_LOGIN->setSysID($REX['INSTNAME']); // fuer redaxo
+  $REX_LOGIN->setSessiontime(3000); // 3600 sekunden = 60 min
+  $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
+  if (isset($FORM['logout']) and $FORM['logout'] == 1) $REX_LOGIN->setLogout(true);
+  $REX_LOGIN->setUserID("rex_user.user_id");
+  $REX_LOGIN->setUserquery("SELECT * FROM rex_user WHERE user_id = 'USR_UID'");
+  $REX_LOGIN->setLoginquery("SELECT * FROM rex_user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW'");
+  if (!$REX_LOGIN->checkLogin())
+  {
+    header("Location: login.php?FORM[loginmessage]=".urlencode($REX_LOGIN->message));
+    header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
+    $LOGIN = FALSE;
+    exit;
+  }else
+  {
+    $LOGIN = TRUE;
+    $REX_USER = $REX_LOGIN->USER;
+  }
+  
+  // ----------------- CREATE LANG OBJ
+  /*
+  if ($REX_USER->isValueOf("rights","be_lang[de_de]")) $REX[LANG] = "de_de";
+  else if ($REX_USER->isValueOf("rights","be_lang[en_gb]")) $REX[LANG] = "en_gb";
+  */
+  rex_create_lang( $REX['LANG']);
+  setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+  header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
 
 	$dl = false;
 	$page = strtolower($page);
@@ -130,7 +134,7 @@ if ($REX['SETUP'])
 
 
 // ----- kein pagepath -> kein addon -> path setzen
-if ($REX['PAGEPATH'] == "") $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/pages/$page.inc.php";
+if ($REX['PAGEPATH'] == '') $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/pages/$page.inc.php";
 
 
 // ----- ausgabe des includes
