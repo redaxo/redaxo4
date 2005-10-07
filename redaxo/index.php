@@ -38,7 +38,6 @@ if ($REX['SETUP'])
 } else
 {
   // ----------------- CREATE LANG OBJ
-  rex_create_lang( $REX['LANG']);
   if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
   if (!isset($REX_UPSW)) { $REX_UPSW = ''; }
   $REX_LOGIN = new login();
@@ -53,10 +52,9 @@ if ($REX['SETUP'])
   if (!$REX_LOGIN->checkLogin())
   {
     header("Location: login.php?FORM[loginmessage]=".urlencode($REX_LOGIN->message));
-    header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
     $LOGIN = FALSE;
     exit;
-  }else
+  } else
   {
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
