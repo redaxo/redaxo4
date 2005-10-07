@@ -46,6 +46,7 @@ Planung / Irgendwann:
 		* REX_ARTICLE[2]
 		* REX_TEMPLATE[5]
 		* REX_ARTICLE_VARS['beschreibung'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
+    * REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
 	* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
 	* Backend Redesign auf 100% Scaling
 	* Slice verschieben (System überlegen)
@@ -68,3 +69,8 @@ Changes:
 ---------------------------------------------------------------------------------
 
 	* wysiwyg resizer als ouput filter [image_resize] (Wolfgang)
+	
+	* OutputFilterCache (Jan)	
+	* OutputFilter (Jan)	
+	
+	* Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind
