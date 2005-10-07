@@ -186,7 +186,7 @@ class article
         if($this->mode=="edit")
         {
           $MODULE = new sql;
-          $MODULE->setQuery("select * from rex_modultyp $add_sql order by name");
+          $MODULE->setQuery("select * from rex_modultyp order by name");
           
           $MODULESELECT = new select;
           $MODULESELECT->set_name("module_id");
@@ -352,7 +352,7 @@ class article
     
         // -------------------------- schreibe content
         
-        if ($REX['RC']) return $this->article_content;
+        if (isset($REX['RC']) and $REX['RC']) return $this->article_content;
         else eval("?>".$this->article_content);
         
       }else
@@ -623,7 +623,7 @@ class article
       // ----------------------------- REX_LINK_BUTTON
       $link_name = "";
       
-      if ($REX_ACTION[LINK][$i]>0)
+      if ($REX_ACTION['LINK'][$i]>0)
       {
         $db = new sql;
         $sql = "SELECT name FROM rex_article WHERE id=".$REX_ACTION[LINK][$i]." and clang=".$this->clang;

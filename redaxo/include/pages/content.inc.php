@@ -51,7 +51,7 @@ if ($article->getRows() == 1)
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if (
+    if ( isset ($function) and 
         (
           $function == "add" or 
           $function == "edit" or 
@@ -332,7 +332,7 @@ if ($article->getRows() == 1)
 
 
     // ------------------------------------------ START: Slice move up/down
-    if ($function == "moveup" || $function == "movedown")
+    if (isset($function) and $function == "moveup" || $function == "movedown")
     {
       if ($REX_USER->isValueOf("rights","moveslice[]"))
       {
@@ -457,7 +457,7 @@ if ($article->getRows() == 1)
           <td align=left class=grey width=153><img src=pics/leer.gif width=153 height=20></td>
         </tr>";
     // ------------------------------------------ WARNING       
-    if ($message != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;$message</td><td class=lgrey>&nbsp;</td></tr>"; }
+    if (isset($message) and $message != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;$message</td><td class=lgrey>&nbsp;</td></tr>"; }
 
     echo "  <tr>
           <td class=lgrey>&nbsp;</td>
@@ -466,6 +466,9 @@ if ($article->getRows() == 1)
 
     if ($mode == "edit")
     {
+      if (!isset($slice_id)) $slice_id = '';
+      if (!isset($function)) $function = '';
+      
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
       $CONT = new article;
       $CONT->setArticleId($article_id);

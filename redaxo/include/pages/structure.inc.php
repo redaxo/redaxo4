@@ -306,7 +306,7 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if ($KATPERM) $addc = "<a href=index.php?page=structure&category_id=$category_id&function=add_cat&clang=$clang><img src=pics/folder_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("add_category")."\" title=\"".$I18N->msg("add_category")."\"></a>";
+if ($KATPERM) $addc = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'"></a>';
 else $addc = "&nbsp;";
 
 echo  "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
@@ -366,12 +366,12 @@ for ($i=0; $i < $KAT->getRows(); $i++)
   {
     // schreibzugriff
     
-    $kat_status = "<a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=status&clang=$clang><u>$kat_status</u></a>";
-    $kat_link = "index.php?page=structure&category_id=$i_category_id&clang=$clang";
+    $kat_status = "<a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=status&amp;clang=$clang><u>$kat_status</u></a>";
+    $kat_link = "index.php?page=structure&amp;category_id=$i_category_id&amp;clang=$clang";
     $cat_pos++;
 
 
-    if (isset($edit_id)and $edit_id == $i_category_id and $function == "edit")
+    if (isset($edit_id)and $edit_id == $i_category_id and isset($function) and $function == "edit")
     {
       // --------------------- KATEGORIE EDIT FORM
       $echo .= "<tr>
@@ -392,7 +392,7 @@ for ($i=0; $i < $KAT->getRows(); $i++)
       $echo .= "
           <td><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td>
           <td valign=middle width=20>".htmlspecialchars($KAT->getValue("catprior"))."</td>
-          <td><a href=index.php?page=structure&category_id=$category_id&edit_id=$i_category_id&function=edit&clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a></td>
+          <td><a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=edit&amp;clang=$clang>".$I18N->msg("category_edit_delete")."&nbsp;</a></td>
           <td>$kat_status</td>
           </tr>";
     }
@@ -400,7 +400,7 @@ for ($i=0; $i < $KAT->getRows(); $i++)
   }else if( $REX_USER->isValueOf("rights","csr[$i_category_id]") || $REX_USER->isValueOf("rights","csw[$i_category_id]") )
   {
     // --------------------- KATEGORIE WITH READ
-    $kat_link = "index.php?page=structure&category_id=$i_category_id&clang=$clang";
+    $kat_link = "index.php?page=structure&amp;category_id=$i_category_id&amp;clang=$clang";
     $echo .= "<tr>
       <td class=icon><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
     if ($REX_USER->isValueOf("rights","advancedMode[]")) $echo .= "<td class=grey align=center>$i_category_id</td>";
@@ -512,7 +512,7 @@ if($category_id > -1)
       order by 
         prior,name");
 
-  for($i=0;$i<$sql->getRows();$i++){
+  for ($i=0; $i<$sql->getRows(); $i++){
 
     if ($sql->getValue("startpage") == 1)
     {
@@ -524,11 +524,11 @@ if($category_id > -1)
       $icon = "document.gif";
     }
 
-    $pos++;
+//    $pos++; // wird das noch gebraucht?
 
     // --------------------- ARTIKEL EDIT FORM
 
-    if ($function == "edit" && $sql->getValue("id") == $article_id && $KATPERM){
+    if (isset($function) and $function == "edit" && $sql->getValue("id") == $article_id && $KATPERM){
 
       $TMPL_SEL->set_selected($sql->getValue("template_id"));
 

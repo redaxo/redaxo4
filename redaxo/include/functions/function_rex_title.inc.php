@@ -12,15 +12,15 @@
 function title($head,$subline = '',$styleclass="grey", $width = '770px')
 {
     $subtitle = $subline;
-    if( is_array( $subline)) 
+    if (is_array( $subline)) 
     {
         $subtitle = '&nbsp;&nbsp;&nbsp;';
-        $numPages = count( $subline);
+        $numPages = count ($subline);
         $i = 0;
         
-        foreach ( $subline as $subpage)
+        foreach ($subline as $subpage)
         {
-            if ( !is_array( $subpage)) {
+            if (!is_array( $subpage)) {
                 continue;
             }
             
@@ -28,13 +28,13 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
             $label = $subpage[1];
             $active = (empty( $_REQUEST['subpage']) && $link == '') || (!empty( $_REQUEST['subpage'])&& $_REQUEST['subpage'] == $link);
 
-            // Auf der Aktiven seite den Link nicht anzeigen            
-            if( $active) 
+            // Auf der aktiven Seite den Link nicht anzeigen            
+            if ($active) 
             {
                 $format = '%s';
                 $subtitle .= sprintf( $format, $label); 
             }
-            else if ( $link == '')
+            else if ($link == '')
             {
                 $format = '<a href="?page='. $_REQUEST['page'] .'">%s</a>';
                 $subtitle .= sprintf( $format, $label); 
@@ -54,12 +54,12 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
         }
     }
 ?>
-	<br>
-	
-	<table style="width: <?php echo $width ?>" cellpadding="0" cellspacing="0">
+  <br />
+  
+  <table style="width: <?php echo $width ?>" cellpadding="0" cellspacing="0">
     
         <tr style="height: 30px">
-            <td class=<?php echo $styleclass ?>>&nbsp;&nbsp;<b class="head"><?php echo $head ?></b></td>
+            <td class="<?php echo $styleclass ?>">&nbsp;&nbsp;<b class="head"><?php echo $head ?></b></td>
             <td rowspan="3" style="width: 153px"><img src="pics/logo.gif" style="width: 153px; height: 61px;"/></td>
         </tr>
         
@@ -69,15 +69,15 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
         
         <tr style="height: 30px">
             <td class="<?php echo $styleclass ?>" >
-                <b style='line-height:18px'>
-                   <?php echo $subtitle. "\n" // \n aus Quellcode formatierungsgründen ?>
+                <b style="line-height:18px">
+                   <?php echo $subtitle."\n" /* \n aus Quellcode formatierungsgründen */ ?>
                 </b>
             </td>
         </tr>
     
-	</table>
+  </table>
     
-    <br>
+  <br />
 <?php
 }
 ?>
