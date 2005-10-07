@@ -71,7 +71,7 @@ class sql
       $this->selectDB();
       $this->result = @ mysql_query("$select");
       $this->rows = @ mysql_num_rows($this->result);
-      $this->last_insert_id = @ mysql_insert_id($this->result);
+      $this->last_insert_id = @ mysql_insert_id();
       $this->error = @ mysql_error();
       $this->errno = @ mysql_errno();
 
