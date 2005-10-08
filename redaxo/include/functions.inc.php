@@ -86,4 +86,4 @@ if (!isset($REX['CLANG'][$clang]) or $REX['CLANG'][$clang] == '')
 {
 	$REX['CUR_CLANG'] = $clang;
 }
-
+?>
