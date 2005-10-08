@@ -24,14 +24,14 @@ import = Im-/Export
 content = Artikel
 structure = Struktur
 statistics = Statistiken
-logout = ausloggen
+logout = abmelden
 
 # redaxo/include/classes/class.login.inc.php
-login_name  =  Login Name
+login_name  =  Benutzername
 password  =  Passwort
 
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  nicht eingeloggt
+logged_out  =  nicht angemeldet
 
 # redaxo/include/classes/class.article.inc.php
 add_block  =  Block hinzuf&uuml;gen
