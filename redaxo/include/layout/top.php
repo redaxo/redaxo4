@@ -37,7 +37,7 @@ if ( $page_name != '') {
       if ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
       if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
       
-      if (is_Array($REX['ADDON']['status'])) reset($REX['ADDON']['status']);
+      if (is_array($REX['ADDON']['status'])) reset($REX['ADDON']['status']);
       for ($i=0; $i < count($REX['ADDON']['status']); $i++)
       {
         $apage = key($REX['ADDON']['status']);
