@@ -1,8 +1,15 @@
+<?php 
+if (!isset($page_name)) $page_name = ''; 
+
+$page_title = $REX['SERVERNAME'];
+if ( $page_name != '') {
+   $page_title .= ' - '. $page_name;
+} 
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="<?php echo $I18N->msg("htmllang"); ?>">
 <head>
-  <?php if (!isset($page_name)) $page_name = ''; ?>
-  <title><?php echo $REX['SERVERNAME'].' - '. $page_name; ?></title>
+  <title><?php echo $page_title ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
