@@ -427,22 +427,22 @@ class article
   }
 
 
-  function editSlice($RE_CONTS,$RE_MODUL_IN)
+  function editSlice($RE_CONTS, $RE_MODUL_IN)
   {
-    global $REX,$REX_ACTION,$FORM,$I18N;
-    $slice_content .= "<a name=editslice></a>
-      <form ENCTYPE=multipart/form-data action=index.php#slice$RE_CONTS method=post name=REX_FORM>
-      <input type=hidden name=article_id value=$this->article_id>
-      <input type=hidden name=page value=content>
-      <input type=hidden name=mode value=$this->mode>
-      <input type=hidden name=slice_id value=$RE_CONTS>
-      <input type=hidden name=function value=edit>
-      <input type=hidden name=save value=1>
-      <input type=hidden name=update value=0>
-      <input type=hidden name=clang value=".$this->clang.">
-      $RE_MODUL_IN
-      <br><br><input type=submit value='".$I18N->msg('save_block')."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value='".$I18N->msg('update_block')."' onClick='REX_FORM.update.value=1'></form>";
-
+    global $REX, $REX_ACTION, $FORM, $I18N;
+    $slice_content = '<a name="editslice"></a>
+      <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" name="REX_FORM">
+      <input type="hidden" name="article_id" value="'.$this->article_id.'">
+      <input type="hidden" name="page" value="content">
+      <input type="hidden" name="mode" value="'.$this->mode.'">
+      <input type="hidden" name="slice_id" value="'.$RE_CONTS.'">
+      <input type="hidden" name="function" value="edit">
+      <input type="hidden" name="save" value="1">
+      <input type="hidden" name="update" value="0">
+      <input type="hidden" name="clang" value="'.$this->clang.'">
+      '.$RE_MODUL_IN.'
+      <br /><br /><input type="submit" value="'.$I18N->msg('save_block').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="'.$I18N->msg('update_block').'" onClick="REX_FORM.update.value=1"></form>';
+    
     // werte das erst mal aufgerufen / noch nicht gespeichert / gepspeichert und neu
     if (!isset($REX_ACTION['SAVE'])) $slice_content = $this->sliceIn($slice_content);
     if (!$REX_ACTION['SAVE']) $slice_content = $this->sliceClear($slice_content);
@@ -695,7 +695,6 @@ class article
       return $content;
     }else
     {
-      
       return nl2br($content);
     }
   }
