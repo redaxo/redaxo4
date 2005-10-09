@@ -51,13 +51,13 @@ if ($article->getRows() == 1)
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if ( isset ($function) and 
+    if ( isset ($function) and isset ($save) and
         (
           $function == "add" or 
           $function == "edit" or 
           $function == "delete" 
         ) and 
-        $save==1
+        $save == 1
       )
     {     
       
@@ -104,22 +104,32 @@ if ($article->getRows() == 1)
           $module_id = "";
           $save = "";
 
-        }else
+        } else
         {
           // ----- RECHTE AM MODUL: JA
           $message = "";
-          for ($i=1;$i<11;$i++)
+          
+          for ($i=1; $i<11; $i++)
           {
+            // pruefe Vorhandensein der Variablen
+            if (!isset($VALUE[$i])) $VALUE[$i] = '';
+            if (!isset($LINK[$i])) $LINK[$i] = '';
+            
             $REX_ACTION['VALUE'][$i] = $VALUE[$i];
             $REX_ACTION['LINK'][$i] = $LINK[$i];
             $FILENAME = "REX_MEDIA_$i";
+            if (!isset($$FILENAME)) $$FILENAME = '';
             $REX_ACTION['FILE'][$i] = $$FILENAME;
             $LINKLIST = "REX_LINKLIST_$i";
+            if (!isset($$LINKLIST)) $$LINKLIST = '';
             $REX_ACTION['LINKLIST'][$i] = $$LINKLIST;
             $MEDIALIST = "REX_MEDIALIST_$i";
+            if (!isset($$MEDIALIST)) $$MEDIALIST = '';
             $REX_ACTION['MEDIALIST'][$i] = $$MEDIALIST;
           }
 
+          if (!isset($INPUT_HTML)) $INPUT_HTML = '';
+          if (!isset($INPUT_PHP)) $INPUT_PHP = '';
           $REX_ACTION['HTML'] = $INPUT_HTML;
           $REX_ACTION['PHP'] = $INPUT_PHP;
 
@@ -221,7 +231,7 @@ if ($article->getRows() == 1)
     
                 // ----- file
                 $FILENAME = $REX_ACTION['FILE'][$fi];
-                if ($FILENAME == "" && $CHECK_FILE[$fi] != 1)
+                if (isset($CHECK_FILE[$fi]) and $FILENAME == "" && $CHECK_FILE[$fi] != 1)
                 {
                   $newsql->setValue("file".$fi,"");
                 }elseif ($FILENAME != "" && $CHECK_FILE[$fi] != 1)
@@ -486,7 +496,7 @@ if ($article->getRows() == 1)
       // ------------------------------------------ START: META VIEW
       $extens = "";
       $category_id = $article->getValue("category_id");
-      if ($FUNC_MOVE != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
+      if (isset($FUNC_MOVE) and $FUNC_MOVE != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
       {
         /*
         if ($article->getValue("startpage")==1)
@@ -498,14 +508,14 @@ if ($article->getRows() == 1)
           $category_id = $func_category_id;
         }
         */
-      }elseif ($FUNC_COPY != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
+      } elseif (isset($FUNC_COPY) and $FUNC_COPY != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
       {
         /*
         copyArticle($article_id,$func_category_id);
         $err_msg = $I18N->msg('article_copied');
         */
       }
-      if ($save == "1")
+      if (isset($save) and $save == "1")
       {
         $meta_sql = new sql;
         $meta_sql->setTable("rex_article");
@@ -577,7 +587,7 @@ if ($article->getRows() == 1)
           <td colspan=2>".$I18N->msg("general")."</td>
         </tr>";
 
-      if ($err_msg != "") echo "<tr><td colspan=2 class=warning><font class=warning>$err_msg</font></td></tr>";
+      if (isset($err_msg) and $err_msg != "") echo '<tr><td colspan="2" class="warning"><font class="warning">'.$err_msg.'</font></td></tr>';
 
       function selectdate($date,$extens){
 
