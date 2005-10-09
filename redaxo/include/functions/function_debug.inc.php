@@ -11,33 +11,41 @@
 */
 function Debug_Out($input, $spezial = '') {
   //echo '<br />';
+  $return = '';
   switch ($spezial) {
     case 'sql': 
       if ($spezial == 'sql') {
-        echo "\n".nl2br($input)."<br /><br />\n";
+        $return .= "\n".nl2br($input)."<br /><br />\n";
       }
       break;
     case 'obj': 
-      echo '<pre>'; print_r($input); echo '</pre>';
+      $return .= '<pre>'; print_r($input); echo '</pre>';
       break;
     default:  
   
     if (is_array($input)) {
-      foreach($input as $key => $wert) {
-        echo $key.' => '.$wert.'<br />';
+      foreach ($input as $key => $wert) {
+        $return .= $key.' => '.$wert.'<br />';
       }
     }
     if (is_object($input)) {
-      echo '<pre>'; print_r($input); echo '</pre>';
+      $return .= '<pre>'; $return .= print_r($input, true); $return .= '</pre>';
     }
     if (!is_array($input)) {
-      echo $input.'<br />';
+      $return .= $input.'<br />';
     }
     break;
   } // switch ($spezial)
   flush();
+  
+  // setze vor die Ausgabe einen deutlichen Hinweis auf die Debug-Ausgabe
+  $return = '<span style="font-weight: bold;">DEBUGOUT: </span>'.$return;
+  // gib die Debuginfos aus
+  echo $return;
+
+  return true;
 }
-    
+
 
 /**
 * DebugOut
