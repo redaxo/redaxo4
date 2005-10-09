@@ -12,11 +12,11 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 
         global $TINYMCE;
 
-        if($WIDTH =='') 		$WIDTH="100%";
-        if($HEIGHT =='') 		$HEIGHT="300px";
-        if($STYLE_SHEET =='') 	$STYLE_SHEET="css/style.css";
-        if($STYLES =='') 		$STYLES="all";
-        if($LANG =='') 			$LANG="de";
+        if($WIDTH =='')     $WIDTH="100%";
+        if($HEIGHT =='')    $HEIGHT="300px";
+        if($STYLE_SHEET =='')   $STYLE_SHEET="css/style.css";
+        if($STYLES =='')    $STYLES="all";
+        if($LANG =='')      $LANG="de";
 
 		// All buttons
         /*
@@ -56,10 +56,10 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
         // tiny mce init
         if($TINYMCE!="done"){
 
-				$print .= '
-	            <!-- tinyMCE -->
-	            <script language="javascript" type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
-	            <script language="javascript" type="text/javascript">
+        $print = '
+              <!-- tinyMCE -->
+              <script language="javascript" type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
+              <script language="javascript" type="text/javascript">
                     var sDocumentBase = "'. $_SERVER['HTTP_HOST'] .'";
                     if (navigator.appName == "Microsoft Internet Explorer") {
                        sDocumentBase += "/";
