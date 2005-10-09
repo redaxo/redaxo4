@@ -1,8 +1,6 @@
 <?php
 /**
 * $Id$
-* $Date$
-* $Revision$
 */
 
 // ----- caching start für output filter
