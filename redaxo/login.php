@@ -27,24 +27,32 @@ if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
 }
 
 if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
-echo '<br /><table border="1" cellpadding="5" cellspacing="0" width="770">
-<tr>
-  <td class="dgrey">
-    <table width="200" cellpadding="3" cellspacing="0" border="0">
-    <tr>
-      <td valign="middle"><form action="index.php" method="post"><input type="hidden" name="page" value="structure">'.$I18N->msg('login_name').':</td>
-      <td valign="middle"><input type="text" size="10" value="'.$REX_ULOGIN.'" name="REX_ULOGIN"></td>
-      <td valign="middle">&nbsp;</td>
-    </tr>
-    <tr>
-      <td valign="middle">'.$I18N->msg('password').':</td>
-      <td valign="middle"><input type="password" size="10" name="REX_UPSW"></td>
-      <td valign="middle"><input type="submit" value="'.$I18N->msg('login').'"></td>
-    </tr></form>
-    </table>
-  </td>
-</tr>
+echo '<br /><form action="index.php" method="post" name="loginformular">
+<table border="1" cellpadding="5" cellspacing="0" width="770">
+  <tr>
+    <td class="dgrey">
+      <table width="200" cellpadding="3" cellspacing="0" border="0">
+        <tr>
+          <td valign="middle"><input type="hidden" name="page" value="structure">'.$I18N->msg('login_name').':</td>
+          <td valign="middle"><input type="text" size="10" value="'.$REX_ULOGIN.'" name="REX_ULOGIN"></td>
+          <td valign="middle">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="middle">'.$I18N->msg('password').':</td>
+          <td valign="middle"><input type="password" size="10" name="REX_UPSW"></td>
+          <td valign="middle"><input type="submit" value="'.$I18N->msg('login').'"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 </table>
+</form>'."\n";
+
+echo '<script type="text/javascript"> 
+   <!-- 
+   document.loginformular.REX_ULOGIN.focus(); 
+   //--> 
+</script>
 '."\n";
 
 include $REX['INCLUDE_PATH']."/layout/bottom.php";
