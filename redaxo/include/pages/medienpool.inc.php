@@ -37,8 +37,8 @@ $doctypes = array ("bmp","css","doc","gif","gz","jpg","mov","mp3","ogg","pdf","p
 $imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png","image/pjpeg","image/bmp");
 $thumbs = true;
 $thumbsresize = true;
+$backend_mediafolder = str_replace('/redaxo/index.php','',$_SERVER['SCRIPT_NAME']). '/files/';
 if (!isset($REX['ADDON']['status']['image_resize']) || $REX['ADDON']['status']['image_resize'] != 1) $thumbsresize = false;
-
 
 
 
@@ -76,13 +76,13 @@ function addMedialist(filename)
 }
 
 function insertLink(link){
-  window.opener.tinyMCE.insertLink( "/files/" + link,"_self");
+  window.opener.tinyMCE.insertLink( "<?php echo $backend_mediafolder ?>" + link,"_self");
   self.close();
 }
 
 function insertImage(src, alt, width, height)
 {
-  var image = '<img src="<?php echo str_replace("/redaxo/index.php","",$_SERVER['SCRIPT_NAME']) ?>/files/'+ src +'" alt="'+ alt +'" width="'+ width +'" height="'+ height +'" vspacing="5" hspacing="5" align="left" border="0" ismap="rex_resize" />';
+  var image = '<img src="<?php echo $backend_mediafolder ?>'+ src +'" alt="'+ alt +'" style="width: '+ width +'; height:'+ height +'" class="rex_image" ismap="rex_resize" />';
   insertHTML( image);
 }
 
