@@ -2,7 +2,9 @@
 
 // -----------------
 
+if (!$REX) $REX = array();
 if (!$REX['GG']) $REX['GG'] = false;
+if (!isset($page)) $page = '';
 
 // ----------------- SERVER VARS
 
