@@ -219,9 +219,15 @@ class Textile
 
         // sorry it's a hack, but it's needed for German Umlauts
         // carsten 28.07.04
-        $text = str_replace(array("ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"), 
-                            array("&auml;", "&ouml;", "&uuml;", "&beta;", "&Auml;", "&Ouml;", "&Uuml;"), 
-                            $text);
+        //$text = str_replace(array("ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"), 
+        //                    array("&auml;", "&ouml;", "&uuml;", "&beta;", "&Auml;", "&Ouml;", "&Uuml;"), 
+        //                    $text);
+        
+        $trans = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES);
+        // Ausnahmen die dennoch nicht ersetzt werden sollen
+        unset( $trans['<']);
+        unset( $trans['>']);
+        $text = strtr($text, $trans);
 
         $text = $this->incomingEntities($text);
         $text = $this->encodeEntities($text);
