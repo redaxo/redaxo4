@@ -31,7 +31,7 @@ if ($user_id != "")
 {
   $sql = new sql;
   $sql->setQuery("select * from rex_user where user_id='$user_id'");
-  if ($sql->getRows()!=1) uset($user_id);
+  if ($sql->getRows()!=1) unset($user_id);
 }
 
 
