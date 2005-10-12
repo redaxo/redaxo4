@@ -40,6 +40,7 @@ Todos (Nach Prio sortiert):
 Planung / Irgendwann:
 ---------------------------------------------------------------------------------
 
+	* Caching als Addon auslagern
 	* Historie mit Rollback
 	* Objektorientierterer Umbau. REX_.. werden Objekte und sind dann erweiterbar
 	* Komplette Platzhalter für Artikel. 
