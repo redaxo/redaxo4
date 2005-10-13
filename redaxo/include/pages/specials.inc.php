@@ -89,10 +89,14 @@ if ($spage == "standard")
     $REX['LANG'] = $neu_lang;
     $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
     $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*","\\1\"".($neu_SERVERNAME)."\"",$cont);
-    $cont = ereg_replace("(DB\['2'\]\['HOST'\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
-    $cont = ereg_replace("(DB\['2'\]\['LOGIN'\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
-    $cont = ereg_replace("(DB\['2'\]\['PSW'\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
-    $cont = ereg_replace("(DB\['2'\]\['NAME'\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
+    
+    // DB2 nur updaten, wenn das Formular unten aktiviert ist
+    if ( isset( $neu_db2_host) && $neu_db2_host != '') {
+      $cont = ereg_replace("(DB\['2'\]\['HOST'\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
+      $cont = ereg_replace("(DB\['2'\]\['LOGIN'\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
+      $cont = ereg_replace("(DB\['2'\]\['PSW'\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
+      $cont = ereg_replace("(DB\['2'\]\['NAME'\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
+    }
   
     // Caching
     if($REX_USER->isValueOf("rights","caching[]")){
