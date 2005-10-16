@@ -1,7 +1,12 @@
 <?php
-/**
-* $Id$
-*/
+/** 
+ * <Beschreibung> 
+ * @author REDAXO-Group 
+ * @author $Author$ 
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
+
 
 // ----- caching start für output filter
 
