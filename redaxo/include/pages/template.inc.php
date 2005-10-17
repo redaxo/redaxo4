@@ -68,8 +68,10 @@ if (isset($function) and ($function == "add" or $function == "edit")){
     {
       $function = "";
     }
-  } else {
+  }
   
+  if ( $save != "ja") 
+  {
     echo '<a name="edit"><table class="rex" style="table-layout:auto"; cellpadding="5" cellspacing="1">';
   
     if ($function == "edit"){
