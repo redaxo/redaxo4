@@ -380,10 +380,8 @@ class article
         $template_content = $this->getValue("template_id")." not found";
       }
       $return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
-      // function in function_rex_modrewrite.inc.php
-      $template_content = $this->replaceLinks($template_content);
+      $return = $this->replaceLinks($return);
       eval("?>".$return);
-      // echo htmlspecialchars($return);
     }else
     {
       return "no template";
