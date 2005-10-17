@@ -35,6 +35,7 @@ Todos (Nach Prio sortiert):
 		* "Online stellen verbieten" rein
 	* Tiny MCE bereinigen und unnötiges raus.
 	* Warnings/Notices entfernen
+	* Einheitliche FileHeaders
 
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
@@ -51,7 +52,7 @@ Planung / Irgendwann:
 	* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
 	* Backend Redesign auf 100% Scaling
 	* Backend auf CSS Layout umstellen
-	* Slice verschieben (System überlegen)
+	* rexExtensions
 	
 ---------------------------------------------------------------------------------
 Known Bugs:
@@ -70,9 +71,13 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-	* wysiwyg resizer als ouput filter [image_resize] (Wolfgang)
+	* wysiwyg resizer als ouput filter [image_resize] (vscope)
 	
 	* OutputFilterCache (Jan)	
 	* OutputFilter (Jan)	
 	
-	* Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind
+	* Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind (kills)
+	
+	* Slice verschieben (System überlegen) (Jan)
+
+Version 3.0 (2005-08-07)
