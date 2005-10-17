@@ -4,6 +4,7 @@ unset($REX);
 
 $REX['HTDOCS_PATH'] = "../";
 $REX['GG'] = false;
+$REX['REDAXO'] = true;
 
 include "./include/master.inc.php";
 
