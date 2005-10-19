@@ -1,4 +1,9 @@
-<?
+<?php
+/** 
+ *  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 /*
 
@@ -27,11 +32,11 @@ mulselect module
 
 */
 
-if ($user_id != "")
+if (isset($user_id) and $user_id != '')
 {
   $sql = new sql;
-  $sql->setQuery("select * from rex_user where user_id='$user_id'");
-  if ($sql->getRows()!=1) unset($user_id);
+  $sql->setQuery("SELECT * FROM rex_user WHERE user_id = '$user_id'");
+  if ($sql->getRows()!= 1) unset($user_id);
 }
 
 
@@ -43,9 +48,9 @@ $sel_all->set_style("width:250px; height: 130px;");
 $sel_all->set_size(10);
 $sel_all->set_name("userperm_all[]");
 $sel_all->set_id("userperm_all");
-for($i=0;$i<count($REX['PERM']);$i++)
+for ($i=0;$i<count($REX['PERM']);$i++)
 {
-  if($i==0) reset($REX['PERM']);
+  if ($i==0) reset($REX['PERM']);
   $sel_all->add_option(current($REX['PERM']),current($REX['PERM']));
   next($REX['PERM']);
 }
@@ -56,9 +61,9 @@ $sel_ext->set_style("width:250px; height: 130px;");
 $sel_ext->set_size(10);
 $sel_ext->set_name("userperm_ext[]");
 $sel_ext->set_id("userperm_ext");
-for($i=0;$i<count($REX['EXTPERM']);$i++)
+for ($i=0;$i<count($REX['EXTPERM']);$i++)
 {
-  if($i==0) reset($REX['EXTPERM']);
+  if ($i==0) reset($REX['EXTPERM']);
   $sel_ext->add_option(current($REX['EXTPERM']),current($REX['EXTPERM']));
   next($REX['EXTPERM']);
 }
@@ -81,7 +86,7 @@ if ($rootCats = OOCategory::getRootCategories())
 
 function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
 {
-  if(empty($cat))
+  if (empty($cat))
   {
     return;
   }
@@ -107,14 +112,14 @@ $mediacat_ids = array();
 
 if ($rootCats = OOMediaCategory::getRootCategories())
 {
-    foreach( $rootCats as $rootCat) {
+    foreach ( $rootCats as $rootCat) {
         add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
     }
 }
 
 function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
-    if(empty($mediacat))
+    if (empty($mediacat))
     {
         return;
     }
@@ -183,11 +188,13 @@ $sel_extra->set_size(10);
 $sel_extra->set_name("userperm_extra[]");
 $sel_extra->set_id("userperm_extra");
 
-for($i=0;$i<count($REX['EXTRAPERM']);$i++)
-{
-  if($i==0) reset($REX['EXTRAPERM']);
-  $sel_extra->add_option(current($REX['EXTRAPERM']),current($REX['EXTRAPERM']));
-  next($REX['EXTRAPERM']);
+if (isset($REX['EXTRAPERM'])) {
+  for ($i = 0; $i < count($REX['EXTRAPERM']); $i++)
+  {
+    if ($i==0) reset($REX['EXTRAPERM']);
+    $sel_extra->add_option(current($REX['EXTRAPERM']), current($REX['EXTRAPERM']));
+    next ($REX['EXTRAPERM']);
+  }
 }
 
 // --------------------------------- Title
@@ -196,7 +203,7 @@ title($I18N->msg("title_user"),"");
 
 // --------------------------------- FUNCTIONS
 
-if ($FUNC_UPDATE != "")
+if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
 {
   $updateuser = new sql;
   $updateuser->setTable("rex_user");
@@ -206,77 +213,93 @@ if ($FUNC_UPDATE != "")
   $updateuser->setValue("description",$userdesc);
 
   $perm = "";
-  if ($useradmin == 1) $perm .= "admin[]";
-  if ($devadmin == 1) $perm .= "dev[]";
-  if ($allcats == 1) $perm .= "csw[0]";
-  if ($allmcats == 1) $perm .= "media[0]";
+  if (isset($useradmin) and $useradmin == 1) $perm .= "admin[]";
+  if (isset($devadmin) and $devadmin == 1)   $perm .= "dev[]";
+  if (isset($allcats) and $allcats == 1)     $perm .= "csw[0]";
+  if (isset($allmcats) and $allmcats == 1)   $perm .= "media[0]";
 
   // userperm_all
-  for($i=0;$i<count($userperm_all);$i++)
-  {
-    $perm .= current($userperm_all);
-    next($userperm_all);
+  if (isset($userperm_all)) {
+    for ($i=0;$i<count($userperm_all);$i++)
+    {
+      $perm .= current($userperm_all);
+      next($userperm_all);
+    }
   }
   // userperm_ext
-  for($i=0;$i<count($userperm_ext);$i++)
-  {
-    $perm .= current($userperm_ext);
-    next($userperm_ext);
+  if (isset($userperm_ext)) {
+    for ($i=0;$i<count($userperm_ext);$i++)
+    {
+      $perm .= current($userperm_ext);
+      next($userperm_ext);
+    }
   }
   // userperm_extra
-  for($i=0;$i<count($userperm_extra);$i++)
-  {
-    $perm .= current($userperm_extra);
-    next($userperm_extra);
-  }
+  if (isset($userperm_extra)) {
+    for ($i=0;$i<count($userperm_extra);$i++)
+    {
+      $perm .= current($userperm_extra);
+      next($userperm_extra);
+    }
+  }  
   
   // userperm_cat
-  for($i=0;$i<count($userperm_cat);$i++)
-  {
-    $ccat = current($userperm_cat);
-    $gp = new sql;
-    $gp->setQuery("select * from rex_article where id='$ccat' and clang=0");
-    if ($gp->getRows()==1)
+  if (isset($userperm_cat)) {
+    for ($i=0;$i<count($userperm_cat);$i++)
     {
-      foreach ( explode("|",$gp->getValue("path")) as $a)
+      $ccat = current($userperm_cat);
+      $gp = new sql;
+      $gp->setQuery("select * from rex_article where id='$ccat' and clang=0");
+      if ($gp->getRows()==1)
       {
-        if ($a!="")$userperm_cat_read[$a] = $a; 
+        foreach ( explode("|",$gp->getValue("path")) as $a)
+        {
+          if ($a!="")$userperm_cat_read[$a] = $a; 
+        }
       }
+      $perm .= "csw[$ccat]";
+      next($userperm_cat);
     }
-    $perm .= "csw[$ccat]";
-    next($userperm_cat);
   }
-  
-  for ($i=0;$i<count($userperm_cat_read);$i++)
-  {
-    $ccat = current($userperm_cat_read);
-    $perm .= "csr[$ccat]";
-    next($userperm_cat_read);
+      
+  if (isset($userperm_cat_read)) {
+    for ($i=0;$i<count($userperm_cat_read);$i++)
+    {
+      $ccat = current($userperm_cat_read);
+      $perm .= "csr[$ccat]";
+      next($userperm_cat_read);
+    }
   }
   
   // userperm_media
-  for($i=0;$i<count($userperm_media);$i++)
-  {
-    $perm .= "media[".current($userperm_media)."]";
-    next($userperm_media);
+  if (isset($userperm_media)) {
+    for ($i=0;$i<count($userperm_media);$i++)
+    {
+      $perm .= "media[".current($userperm_media)."]";
+      next($userperm_media);
+    }
   }
-  
+      
   // userperm_sprachen
-  for($i=0;$i<count($userperm_sprachen);$i++)
-  {
-    $perm .= "clang[".current($userperm_sprachen)."]";
-    next($userperm_sprachen);
+  if (isset($userperm_sprachen)) {
+    for ($i=0;$i<count($userperm_sprachen);$i++)
+    {
+      $perm .= "clang[".current($userperm_sprachen)."]";
+      next($userperm_sprachen);
+    }
   }
   
   // userperm mylang
-  if ($userperm_mylang == "") $userperm_mylang = "be_lang[default]";
+  if (!isset($userperm_mylang) or $userperm_mylang == "") $userperm_mylang = 'be_lang[default]';
   $perm .= "$userperm_mylang";
   
   // userperm_module
-  for($i=0;$i<count($userperm_module);$i++)
-  {
-    $perm .= "module[".current($userperm_module)."]";
-    next($userperm_module);
+  if (isset($userperm_module)) {
+    for ($i=0;$i<count($userperm_module);$i++)
+    {
+      $perm .= "module[".current($userperm_module)."]";
+      next($userperm_module);
+    }
   }
   $updateuser->setValue("rights",$perm);
   $updateuser->update();
@@ -284,26 +307,26 @@ if ($FUNC_UPDATE != "")
   unset($FUNC_UPDATE);
   $message = $I18N->msg("user_data_updated");
 
-}elseif($FUNC_DELETE != "")
+} elseif (isset($FUNC_DELETE) and $FUNC_DELETE != '')
 {
   if ($REX_USER->getValue("user_id")!=$user_id)
   {
     $deleteuser = new sql;
-    $deleteuser->query("delete from rex_user where user_id='$user_id'");
+    $deleteuser->query("DELETE FROM rex_user WHERE user_id = '$user_id' LIMIT 1");
     $message = $I18N->msg("user_deleted");
   }else
   {
     $message = $I18N->msg("user_notdeleteself");
   }
 
-}elseif ($FUNC_ADD != "" && $save == "")
+} elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == ''))
 {
   // bei add default selected
   $sel_sprachen->set_selected("0");
-}elseif($FUNC_ADD != "" && $save == 1)
+} elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == 1))
 {
   $adduser = new sql;
-  $adduser->setQuery("select * from rex_user where login='$userlogin'");
+  $adduser->setQuery("SELECT * FROM rex_user WHERE login = '$userlogin'");
 
   if ($adduser->getRows()==0 and $userlogin != "")
   {
@@ -315,64 +338,78 @@ if ($FUNC_UPDATE != "")
     $adduser->setValue("description",$userdesc);
     
     $perm = "";
-    if ($useradmin == 1) $perm .= "admin[]";
-    if ($devadmin == 1) $perm .= "dev[]";
-    if ($allcats == 1) $perm .= "csw[0]";
-    if ($allmcats == 1) $perm .= "media[0]";
+    if (isset($useradmin) and $useradmin == 1) $perm .= "admin[]";
+    if (isset($devadmin) and $devadmin == 1)   $perm .= "dev[]";
+    if (isset($allcats) and $allcats == 1)     $perm .= "csw[0]";
+    if (isset($allmcats) and $allmcats == 1)   $perm .= "media[0]";
   
     // userperm_all
-    for($i=0;$i<count($userperm_all);$i++)
-    {
-      $perm .= current($userperm_all);
-      next($userperm_all);
+    if (isset($userperm_all)) {
+      for($i=0;$i<count($userperm_all);$i++)
+      {
+        $perm .= current($userperm_all);
+        next($userperm_all);
+      }
     }
     // userperm_ext
-    for($i=0;$i<count($userperm_ext);$i++)
-    {
-      $perm .= current($userperm_ext);
-      next($userperm_ext);
+    if (isset($userperm_ext)) {
+      for($i=0;$i<count($userperm_ext);$i++)
+      {
+        $perm .= current($userperm_ext);
+        next($userperm_ext);
+      }
     }
     // userperm_sprachen
-    for($i=0;$i<count($userperm_sprachen);$i++)
-    {
-      $perm .= "clang[".current($userperm_sprachen)."]";
-      next($userperm_sprachen);
+    if (isset($userperm_sprachen)) {
+      for($i=0;$i<count($userperm_sprachen);$i++)
+      {
+        $perm .= "clang[".current($userperm_sprachen)."]";
+        next($userperm_sprachen);
+      }
     }
     // userperm mylang
-    if ($userperm_mylang == "") $userperm_mylang = "be_lang[default]";
-    $perm .= "$userperm_mylang";
+    if (!isset($userperm_mylang) or $userperm_mylang == '') $userperm_mylang = "be_lang[default]";
+    $perm .= $userperm_mylang;
 
     // userperm_extra
-    for($i=0;$i<count($userperm_extra);$i++)
-    {
-      $perm .= current($userperm_extra);
-      next($userperm_extra);
+    if (isset($userperm_extra)) {
+      for($i=0;$i<count($userperm_extra);$i++)
+      {
+        $perm .= current($userperm_extra);
+        next($userperm_extra);
+      }
     }
     // userperm_cat
-    for($i=0;$i<count($userperm_cat);$i++)
-    {
-      $perm .= "csw[".current($userperm_cat)."]";
-      next($userperm_cat);
+    if (isset($userperm_cat)) {
+      for($i=0;$i<count($userperm_cat);$i++)
+      {
+        $perm .= "csw[".current($userperm_cat)."]";
+        next($userperm_cat);
+      }
     }
     // userperm_media
-    for($i=0;$i<count($userperm_media);$i++)
-    {
-      $perm .= "media[".current($userperm_media)."]";
-      next($userperm_media);
+    if (isset($userperm_media)) {
+      for($i=0;$i<count($userperm_media);$i++)
+      {
+        $perm .= "media[".current($userperm_media)."]";
+        next($userperm_media);
+      }
     }
     // userperm_module
-    for($i=0;$i<count($userperm_module);$i++)
-    {
-      $perm .= "module[".current($userperm_module)."]";
-      next($userperm_module);
+    if (isset($userperm_module)) {
+      for($i=0;$i<count($userperm_module);$i++)
+      {
+        $perm .= "module[".current($userperm_module)."]";
+        next($userperm_module);
+      }
     }
-    
+          
     $adduser->setValue("rights",$perm);
     $adduser->insert();
     $user_id = 0;
     unset($FUNC_ADD);
     $message = $I18N->msg("user_added");
-  }else
+  } else
   {
     
     if ($useradmin == 1) $adminchecked = " checked";
@@ -394,13 +431,13 @@ if ($FUNC_UPDATE != "")
       next($userperm_ext);
     }
     // userperm_extra
-    for($i=0;$i<count($userperm_extra);$i++)
+    for ($i=0;$i<count($userperm_extra);$i++)
     {
       $sel_extra->set_selected(current($userperm_extra));
       next($userperm_extra);
     }
     // userperm_sprachen
-    for($i=0;$i<count($userperm_sprachen);$i++)
+    for ($i=0;$i<count($userperm_sprachen);$i++)
     {
       $sel_sprachen->set_selected(current($userperm_sprachen));
       next($userperm_sprachen);
@@ -416,13 +453,13 @@ if ($FUNC_UPDATE != "")
       next($userperm_cat);
     }
     // userperm_media
-    for($i=0;$i<count($userperm_media);$i++)
+    for ($i=0;$i<count($userperm_media);$i++)
     {
       $sel_media->set_selected(current($userperm_media));
       next($userperm_media);
     }
     // userperm_module
-    for($i=0;$i<count($userperm_module);$i++)
+    for ($i=0;$i<count($userperm_module);$i++)
     {
       $sel_module->set_selected(current($userperm_module));
       next($userperm_module);
@@ -435,9 +472,9 @@ if ($FUNC_UPDATE != "")
 
 // ---------------------------------- ERR MSG
 
-if ($message != "")
+if (isset($message) and $message != '')
 {
-  echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1><tr class=warning><td class=icon><img src=pics/warning.gif width=16 height=16></td><td colspan=3 class=warning>$message</td></tr></table><br>";
+  echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1"><tr class="warning"><td class="icon"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="3" class="warning">'.$message.'</td></tr></table><br />';
 }
 
 
@@ -445,88 +482,95 @@ if ($message != "")
 
 $SHOW = true;
 
-if ($FUNC_ADD)
+if (isset($FUNC_ADD) and $FUNC_ADD)
 {
   $SHOW = false;
 
-  echo "  <table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
-    <form action=index.php method=post>
-    <input type=hidden name=page value=user>
-    <input type=hidden name=save value=1>
-    <input type=hidden name=FUNC_ADD value=1>
-    <tr><th colspan=4><b>".$I18N->msg("create_user")."</b></th></tr>
-    
-    <tr>
-      <td width=100>".$I18N->msg("login_name")."</td>
-      <td><input class=inp100 type=text size=20 name=userlogin value=\"".stripslashes(htmlspecialchars($userlogin))."\"></td>
-      <td width=100>".$I18N->msg("password")."</td>
-      <td ><input class=inp100 type=text size=20 name=userpsw value=\"".stripslashes(htmlspecialchars($userpsw))."\"></td>
+  if (!isset($userlogin)) { $userlogin = ''; }
+  if (!isset($userpsw)) { $userpsw = ''; }
+  if (!isset($username)) { $username = ''; }
+  if (!isset($userdesc)) { $userdesc = ''; }
+  if (!isset($adminchecked)) { $adminchecked = ''; }
+  if (!isset($devchecked)) { $devchecked = ''; }
+  if (!isset($ALLCATSCHECKED)) { $ALLCATSCHECKED = ''; }
+  if (!isset($ALLMCATSCHECKED)) { $ALLMCATSCHECKED = ''; }
+  
+  echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
+    <form action="index.php" method="post">
+    <input type="hidden" name="page" value="user">
+    <input type="hidden" name="save" value="1">
+    <input type="hidden" name="FUNC_ADD" value="1">
+    <tr><th colspan="4"><b>'.$I18N->msg("create_user").'</b></th></tr>'."\n";
+  echo '  <tr>
+      <td width="100">'.$I18N->msg("login_name").'</td>
+      <td><input class="inp100" type="text" size="20" name="userlogin" value="'.stripslashes(htmlspecialchars($userlogin)).'"></td>
+      <td width="100">'.$I18N->msg("password").'</td>
+      <td ><input class="inp100" type="text" size="20" name="userpsw" value="'.stripslashes(htmlspecialchars($userpsw)).'"></td>
+    </tr>'."\n";
+  echo '  <tr>
+      <td>'.$I18N->msg("name").'</td>
+      <td><input class="inp100" type="text" size="20" name="username" value="'.stripslashes(htmlspecialchars($username)).'"></td>
+      <td>'.$I18N->msg("description").'</td>
+      <td><input class="inp100" type="text" size="20" name="userdesc" value="'.stripslashes(htmlspecialchars($userdesc)).'"></td>
     </tr>
-
     <tr>
-      <td>".$I18N->msg("name")."</td>
-      <td><input class=inp100 type=text size=20 name=username value=\"".stripslashes(htmlspecialchars($username))."\"></td>
-      <td>".$I18N->msg("description")."</td>
-      <td><input class=inp100 type=text size=20 name=userdesc value=\"".stripslashes(htmlspecialchars($userdesc))."\"></td>
-    </tr>
-    <tr>
-      <td align=right><input type=checkbox id=useradmin name=useradmin value=1 $adminchecked></td>
-            <td><label for=useradmin>".$I18N->msg("user_admin")."</label></td>
-            <td align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
-            <td><label for=devadmin>".$I18N->msg("user_developer")."</label></td>
-    </tr>
-    <tr>
-      <td>".$I18N->msg("user_lang_xs")."</td>
-      <td>".$sel_sprachen->out()."<br>".$I18N->msg("ctrl")."</td>
+      <td align="right"><input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.'></td>
+            <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
+            <td align="right"><input type="checkbox" id="devadmin" name="devadmin" value="1" '.$devchecked.'></td>
+            <td><label for="devadmin">'.$I18N->msg("user_developer").'</label></td>
+    </tr>'."\n";
+  echo '  <tr>
+      <td>'.$I18N->msg("user_lang_xs").'</td>
+      <td>'.$sel_sprachen->out().'<br />'.$I18N->msg("ctrl").'</td>
       <td><!-- Meine Backendsprache -->&nbsp;</td>
-      <td><!-- ".$sel_mylang->out()." -->&nbsp;</td>
+      <td><!-- '.$sel_mylang->out().' -->&nbsp;</td>
     </tr>
     <tr>
-      <td valign=top>".$I18N->msg("user_all")."</td>
+      <td valign="top">'.$I18N->msg("user_all").'</td>
       <td>
-              ".$sel_all->out()."<br>".$I18N->msg("ctrl")."
-            </td>
-      <td valign=top>".$I18N->msg("user_options")."</td>
+        '.$sel_all->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+      <td valign="top">'.$I18N->msg("user_options").'</td>
       <td>
-              ".$sel_ext->out()."<br>".$I18N->msg("ctrl")."
-            </td>
+        '.$sel_ext->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+    </tr>'."\n";
+  echo '  <tr>
+      <TD ALIGN="RIGHT"><INPUT TYPE="CHECKBOX" ID="ALLCATS" NAME="ALLCATS" VALUE="1" '.$ALLCATSCHECKED.'></TD>
+      <TD><LABEL FOR="ALLCATS">'.$I18N->MSG("all_categories").'</LABEL></TD>
+      <TD ALIGN="RIGHT"><INPUT TYPE="CHECKBOX" ID="ALLMCATS" NAME="ALLMCATS" VALUE="1" '.$ALLMCATSCHECKED.'></TD>
+      <TD><LABEL FOR="ALLMCATS">'.$I18N->MSG("all_mediafolder").'</LABEL></TD>
     </tr>
     <tr>
-            <td align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
-            <td><label for=allcats>".$I18N->msg("all_categories")."</label></td>
-            <td align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
-            <td><label for=allmcats>".$I18N->msg("all_mediafolder")."</label></td>
+      <td valign="top">'.$I18N->msg("categories").'</td>
+      <td>
+        '.$sel_cat->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+      <td valign="top">'.$I18N->msg("mediafolder").'</td>
+      <td>
+        '.$sel_media->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
     </tr>
     <tr>
-      <td valign=top>".$I18N->msg("categories")."</td>
+      <td valign="top">'.$I18N->msg("modules").'</td>
       <td>
-              ".$sel_cat->out()."<br>".$I18N->msg("ctrl")."
-            </td>
-      <td valign=top>".$I18N->msg("mediafolder")."</td>
+        '.$sel_module->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+      <td valign="top">'.$I18N->msg("extras").'</td>
       <td>
-              ".$sel_media->out()."<br>".$I18N->msg("ctrl")."
-            </td>
-    </tr>
-    <tr>
-      <td valign=top>".$I18N->msg("modules")."</td>
-      <td>
-              ".$sel_module->out()."<br>".$I18N->msg("ctrl")."
-            </td>
-      <td valign=top>".$I18N->msg("extras")."</td>
-      <td>
-              ".$sel_extra->out()."<br>".$I18N->msg("ctrl")."
-            </td>
+        '.$sel_extra->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
     </tr>
     
     <tr>
       <td>&nbsp;</td>
-      <td colspan=3><input type=submit name=function value='".$I18N->msg("add_user")."'></td>
+      <td colspan="3"><input type="submit" name="function" value="'.$I18N->msg("add_user").'"></td>
     </tr>
     </form>
-    </table>";
+    </table>'."\n";
 
 
-}elseif($user_id != "")
+} elseif (isset($user_id) and $user_id != '')
 {
 
   $sql = new sql;
@@ -565,21 +609,23 @@ if ($FUNC_ADD)
     }
     
     // optionen
-    for($i=0;$i<count($REX['EXTRAPERM']);$i++)
-    {
-      if($i==0) reset($REX['EXTRAPERM']);
-      if ($sql->isValueOf("rights",current($REX['EXTRAPERM']))) $sel_extra->set_selected(current($REX['EXTRAPERM']));
-      next($REX['EXTRAPERM']);
+    if (isset($REX['EXTRAPERM'])) {
+      for ($i=0; $i < count($REX['EXTRAPERM']); $i++)
+      {
+        if ($i == 0) reset($REX['EXTRAPERM']);
+        if ($sql->isValueOf("rights",current($REX['EXTRAPERM']))) $sel_extra->set_selected(current($REX['EXTRAPERM']));
+        next($REX['EXTRAPERM']);
+      }
     }
   
     foreach ( $cat_ids as $cat_id) 
-        {
-            $name = "csw[".$cat_id."]";
-            if ($sql->isValueOf("rights",$name)) $sel_cat->set_selected($cat_id);
-        }
+    {
+      $name = "csw[".$cat_id."]";
+      if ($sql->isValueOf("rights",$name)) $sel_cat->set_selected($cat_id);
+    }
 
-        foreach ( $mediacat_ids as $cat_id) 
-        {
+    foreach ( $mediacat_ids as $cat_id) 
+    {
       $name = "media[".$cat_id."]";
       if ($sql->isValueOf("rights",$name)) $sel_media->set_selected( $cat_id);
     }
@@ -607,95 +653,95 @@ if ($FUNC_ADD)
 
     // ----- FORM UPDATE AUSGABE
 
-    echo "
-    <table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
-    <form action=index.php method=post>
-    <input type=hidden name=page value=user>
-    <input type=hidden name=user_id value=$user_id>
-    <tr><th colspan=4><b>".$I18N->msg("edit_user")."</b></th></tr>
+    echo '
+    <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
+    <form action="index.php" method="post">
+    <input type="hidden" name="page" value="user">
+    <input type="hidden" name="user_id" value="'.$user_id.'">
+    <tr><th colspan="4"><b>'.$I18N->msg("edit_user").'</b></th></tr>
     <tr>
-      <td width=100>".$I18N->msg("login_name")."</td>
-      <td width=250><b>".htmlspecialchars($sql->getValue("rex_user.login"))."</b></td>
-      <td width=100>".$I18N->msg("password")."</td>
-      <td><input class=inp100 type=text size=20 name=userpsw value=\"".htmlspecialchars($sql->getValue("rex_user.psw"))."\"></td>
+      <td width="100">'.$I18N->msg("login_name").'</td>
+      <td width="250"><b>'.htmlspecialchars($sql->getValue("rex_user.login")).'</b></td>
+      <td width="100">'.$I18N->msg("password").'</td>
+      <td><input class="inp100" type="text" size="20" name="userpsw" value="'.htmlspecialchars($sql->getValue("rex_user.psw")).'"></td>
     </tr>
 
     <tr>
-      <td>".$I18N->msg("name")."</td>
-      <td><input class=inp100 type=text size=20 name=username value=\"".htmlspecialchars($sql->getValue("rex_user.name"))."\"></td>
-      <td>".$I18N->msg("description")."</td>
-      <td><input class=inp100 type=text size=20 name=userdesc value=\"".htmlspecialchars($sql->getValue("rex_user.description"))."\"></td>
+      <td>'.$I18N->msg("name").'</td>
+      <td><input class="inp100" type="text" size="20" name="username" value="'.htmlspecialchars($sql->getValue("rex_user.name")).'"></td>
+      <td>'.$I18N->msg("description").'</td>
+      <td><input class="inp100" type="text" size="20" name="userdesc" value="'.htmlspecialchars($sql->getValue("rex_user.description")).'"></td>
     </tr>
     <tr>
-      <td align=right>";
+      <td align="right">'."\n";
       
     if ($REX_USER->getValue("login") == $sql->getValue("rex_user.login") && $adminchecked != "")
     {
-      echo "<input type=hidden name=useradmin value=1><b>X</b>";
-    }else
+      echo '<input type="hidden" name="useradmin" value="1"><b>X</b>';
+    } else
     {
-      echo "<input type=checkbox id=useradmin name=useradmin value=1 $adminchecked>";
+      echo '<input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.'>';
     }
       
-    echo "</td>
-      <td><label for=useradmin>".$I18N->msg("user_admin")."</label></td>
-      <td align=right><input type=checkbox id=devadmin name=devadmin value=1 $devchecked></td>
-      <td><label for=devadmin>".$I18N->msg("user_developer")."</label></td>
+    echo '</td>
+      <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
+      <td align="right"><input type="checkbox" id="devadmin" name="devadmin" value="1" '.$devchecked.'></td>
+      <td><label for="devadmin">'.$I18N->msg("user_developer").'</label></td>
     </tr>
     <tr>
-      <td>".$I18N->msg("user_lang_xs")."</td>
-      <td>".$sel_sprachen->out()."<br>".$I18N->msg("ctrl")."</td>
+      <td>'.$I18N->msg("user_lang_xs").'</td>
+      <td>'.$sel_sprachen->out().'<br />'.$I18N->msg("ctrl").'</td>
       <td><!-- Meine Backendsprache -->&nbsp;</td>
-      <td><!-- ".$sel_mylang->out()." -->&nbsp;</td>
+      <td><!-- '.$sel_mylang->out().' -->&nbsp;</td>
     </tr>
     <tr>
-            <td valign=top>".$I18N->msg("user_all")."</td>
-            <td>
-              ".$sel_all->out()."<br>".$I18N->msg("ctrl")."
-           </td>
-            <td valign=top>".$I18N->msg("user_options")."</td>
-            <td>
-              ".$sel_ext->out()."<br>".$I18N->msg("ctrl")."
-            </td>
+      <td valign="top">'.$I18N->msg("user_all").'</td>
+      <td>
+        '.$sel_all->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+      <td valign="top">'.$I18N->msg("user_options").'</td>
+      <td>
+        '.$sel_ext->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
     </tr>
     <tr>
-      <td align=right><input type=checkbox id=allcats name=allcats value=1 $allcatschecked></td>
-      <td><label for=allcats>".$I18N->msg("all_categories")."</label></td>
-      <td align=right><input type=checkbox id=allmcats name=allmcats value=1 $allmcatschecked></td>
-      <td><label for=allmcats>".$I18N->msg("all_mediafolder")."</label></td>
+      <td align="right"><input type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.'></td>
+      <td><label for="allcats">'.$I18N->msg("all_categories").'</label></td>
+      <td align="right"><input type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.'></td>
+      <td><label for="allmcats">'.$I18N->msg("all_mediafolder").'</label></td>
     </tr>
     <tr>
-            <td valign=top>".$I18N->msg("categories")."</td>
-            <td>
-              ".$sel_cat->out()."<br>".$I18N->msg("ctrl")."
-           </td>
-            <td valign=top>".$I18N->msg("mediafolder")."</td>
-            <td>
-              ".$sel_media->out()."<br>".$I18N->msg("ctrl")."
-            </td>
+      <td valign="top">'.$I18N->msg("categories").'</td>
+      <td>
+        '.$sel_cat->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+      <td valign="top">'.$I18N->msg("mediafolder").'</td>
+      <td>
+        '.$sel_media->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
     </tr>
     <tr>
-            <td valign=top>".$I18N->msg("modules")."</td>
-            <td>
-              ".$sel_module->out()."<br>".$I18N->msg("ctrl")."
-            </td>
-            <td valign=top>".$I18N->msg("extras")."</td>
-            <td>
-              ".$sel_extra->out()."<br>".$I18N->msg("ctrl")."
-          </td>
+      <td valign="top">'.$I18N->msg("modules").'</td>
+      <td>
+        '.$sel_module->out().'<br />'.$I18N->msg("ctrl").'
+      </td>
+      <td valign="top">'.$I18N->msg("extras").'</td>
+      <td>
+        '.$sel_extra->out().'<br />'.$I18N->msg("ctrl").'
+    </td>
     </tr>
 
     <tr>
       <td>&nbsp;</td>
-      <td><input type=submit name=FUNC_UPDATE value='".$I18N->msg("update")."'></td>
-      <td colspan=2>";
+      <td><input type="submit" name="FUNC_UPDATE" value="'.$I18N->msg("update").'"></td>
+      <td colspan="2">'."\n";
 
-    if ($REX_USER->getValue("user_id") != $user_id) echo "<input type=submit name=FUNC_DELETE value='".$I18N->msg("delete")."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
-
-    else echo "&nbsp;";
-    echo "</td></tr>
+    if ($REX_USER->getValue("user_id") != $user_id) {
+      echo '<input type="submit" name="FUNC_DELETE" value="'.$I18N->msg("delete").'" onclick="return confirm("'.$I18N->msg('delete').' ?")">';    
+    } else { echo '&nbsp;'; }
+    echo '</td></tr>
     </form>
-    </table>";
+    </table>';
 
     $SHOW = false;
   }
@@ -716,44 +762,43 @@ if ($FUNC_ADD)
 
 // ---------------------------------- Userliste
 
-if ($SHOW)
+if (isset($SHOW) and $SHOW)
 {
 
-  echo "  <table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
+  echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
     <tr>
-      <th class=icon><a href=index.php?page=user&FUNC_ADD=1><img src=pics/user_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("create_user")."\" title=\"".$I18N->msg("create_user")."\"></a></th>
-      <th width=300>".$I18N->msg("name")."</th>
-      <th>".$I18N->msg("login")."</th>
-      <th>".$I18N->msg("last_login")."</th>
-
-    </tr>";
+      <th class="icon"><a href="index.php?page=user&amp;FUNC_ADD=1"><img src="pics/user_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("create_user").'" title="'.$I18N->msg("create_user").'"></a></th>
+      <th width="300">'.$I18N->msg("name").'</th>
+      <th>'.$I18N->msg("login").'</th>
+      <th>'.$I18N->msg("last_login").'</th>
+    </tr>';
 
   $sql = new sql;
-  $sql->setQuery("select * from rex_user order by rex_user.name");
+  $sql->setQuery("SELECT * FROM rex_user ORDER BY rex_user.name");
 
-  for($i=0;$i<$sql->getRows();$i++)
+  for ($i=0; $i<$sql->getRows(); $i++)
   {
-        $lasttrydate = $sql->getValue("rex_user.lasttrydate");
-        $last_login = '-';
+    $lasttrydate = $sql->getValue("rex_user.lasttrydate");
+    $last_login = '-';
+    
+    if ( $lasttrydate != 0) {
+        $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue("rex_user.lasttrydate"));
+    }
+    
+    $username = htmlspecialchars($sql->getValue("rex_user.name"));
+    if ( $username == '') {
+        $username = htmlspecialchars($sql->getValue("rex_user.login"));
+    }
         
-        if ( $lasttrydate != 0) {
-            $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue("rex_user.lasttrydate"));
-        }
-        
-        $username = htmlspecialchars($sql->getValue("rex_user.name"));
-        if ( $username == '') {
-            $username = htmlspecialchars($sql->getValue("rex_user.login"));
-        }
-        
-    echo "  <tr>
-      <td class=icon><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id")."><img src=pics/user.gif width=16 height=16 border=0></a></td>
-      <td><a href=index.php?page=user&user_id=".$sql->getValue("rex_user.user_id").">".$username."</a></td>
-      <td>".$sql->getValue("rex_user.login")."</td>
-      <td>".$last_login."</td>
-      </tr>";
+    echo '  <tr>
+      <td class="icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("rex_user.user_id").'"><img src="pics/user.gif" width="16" height="16" border="0"></a></td>
+      <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("rex_user.user_id").'">'.$username.'</a></td>
+      <td>'.$sql->getValue("rex_user.login").'</td>
+      <td>'.$last_login.'</td>
+      </tr>';
     $sql->counter++;
   }
-  echo "</table>";
+  echo '</table>';
 
 }
 
