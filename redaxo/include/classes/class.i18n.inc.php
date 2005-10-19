@@ -1,4 +1,9 @@
 <?php
+/** 
+ *  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 
 // class.i18n.inc.php
@@ -73,7 +78,11 @@ class i18n
    function msg($key, $p0 = '', $p1 = '', $p2 = '', $p3 = '', $p4 = '', $p5 = '', $p6 = '', $p7 = '', $p8 = '', $p9 = '')
    {
       global $REX;
-      $msg = $this->text[$key];
+      if (isset($this->text[$key])) {
+        $msg = $this->text[$key];
+      } else {
+        $msg = '';
+      }
 
       // falls der key nicht gefunden wurde, auf die fallbacksprache switchen
       if ($msg == '' && $this != $REX['LANG_FALLBACK_OBJ'])
