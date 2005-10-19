@@ -53,6 +53,7 @@ Planung / Irgendwann:
 	* Backend Redesign auf 100% Scaling
 	* Backend auf CSS Layout umstellen
 	* rexExtensions
+	* gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
 	
 ---------------------------------------------------------------------------------
 Known Bugs:
