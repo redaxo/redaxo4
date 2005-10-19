@@ -9,7 +9,7 @@ dateformat = %a %d. %B %Y
 setlocale = de_DE
 adateformat = %d. %b. %Y
 datetimeformat = %d. %b. %Y - %H:%M
-ctrl = Bitte Strg drücken bei Änderungen
+ctrl = Bitte Strg dr&#252;cken bei &#196;nderungen
 
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel selektiert
@@ -43,7 +43,7 @@ module_doesnt_exist =  Dieses Modul existiert nicht !
 dont_delete_block  =  Block nicht l&ouml;schen
 delete_block  =  Block sicher l&ouml;schen
 submit  =  abschicken
-update_block = Block übernehmen
+update_block = Block &#252;bernehmen
 save_block = Block speichern
 
 # redaxo/include/classes/class.form.inc.php
@@ -89,7 +89,7 @@ name_description = Name/Bezeichnung
 description = Beschreibung
 keywords = Suchbegriffe
 metadata_image = Metafile/Bild
-delete_file = File löschen
+delete_file = File l&#246;schen
 teaser = Teaser
 update_metadata = Metadaten aktualisieren
 other_functions = Sonstige Funktionen
@@ -98,7 +98,7 @@ move_article = Artikel verschieben
 copy_article = Artikel kopieren
 no_rights_to_edit = Sie haben keine Editiererlaubnis !
 show = Anzeigen
-cache_remove = Cache löschen
+cache_remove = Cache l&#246;schen
 slice_moved = Block wurde verschoben
 slice_moved_error = Block konnte nicht verschoben werden
 
@@ -121,8 +121,8 @@ module_description = Modulbezeichnung
 module_functions = Funktionen
 delete_module = Modul l&ouml;schen
 module_edit = Modul editieren
-action_taken = Aktion wurde übernommen
-action_deleted_from_modul = Aktion wurde aus dem Modul gelöscht!
+action_taken = Aktion wurde &#252;bernommen
+action_deleted_from_modul = Aktion wurde aus dem Modul gel&#246;scht!
 actions = Aktionen
 action_cannot_be_deleted = Aktion '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Modulen genutzt wird:
 action_deleted = Aktion wurde gel&ouml;scht
@@ -135,7 +135,7 @@ save_action_and_quit = Aktion speichern
 save_action_and_continue = Aktion &uuml;bernehmen
 action_functions = Funktionen
 action_delete = Aktion l&ouml;schen
-action_add = Aktion hinzufügen
+action_add = Aktion hinzuf&#252;gen
 
 # redaxo\include\pages\profile.inc.php
 user_data_updated = Benutzerdaten wurden aktualisiert!
@@ -167,7 +167,7 @@ header_priority = Prio
 header_status = Status/Funktion
 add_category = Kategorie hinzuf&uuml;gen
 edit_category = Kategorie bearbeiten
-delete_category = Kategorie löschen
+delete_category = Kategorie l&#246;schen
 save_category = Kategorie speichern
 status_online = online
 status_offline = offline
@@ -178,7 +178,7 @@ header_article_name = Artikelname
 header_template = Template
 header_date = Erstellt am
 change = &auml;ndern
-article_add = Artikel hinzufügen!
+article_add = Artikel hinzuf&#252;gen!
 article = Artikel
 
 # redaxo\include\pages\template.inc.php
@@ -217,7 +217,7 @@ edit_user = Benutzer bearbeiten
 
 user_admin = Admin (Alle Rechte/ Alles sichtbar)
 user_developer = Developer (Templates/Module/AddOns)
-user_notdeleteself = ***** Sie können sich nicht selbst löschen!
+user_notdeleteself = ***** Sie k&#246;nnen sich nicht selbst l&#246;schen!
 user_lang_xs = Sprachenzugriff
 user_all = Allgemein
 user_options = Optionen
@@ -230,7 +230,7 @@ extras = Extras
 last_login = Letzter Login
 
 # redaxo\include\pages\special.inc.php
-articles_generated = Artikel und Templates wurden neu generiert, Cache gelöscht!
+articles_generated = Artikel und Templates wurden neu generiert, Cache gel&#246;scht!
 old_articles_deleted = [Alte Artikel und Templates wurden gel&ouml;scht]
 links_ok = Alle Links sind ok.
 links_not_ok = Folgende Links sind nicht ok:
@@ -238,7 +238,7 @@ info_updated = Informationen wurden aktualisiert!
 specials_title = Spezielle Features
 special_features = Features
 regenerate_article = Regeneriere Artikel & Cache
-regeneration_message = Kategorien, Artikel und Templates werden neu generiert. Der gesamte Cache wird gelöscht. Kann l&auml;nger dauerrn. Bitte den Vorgang nicht abbrechen.
+regeneration_message = Kategorien, Artikel und Templates werden neu generiert. Der gesamte Cache wird gel&#246;scht. Kann l&auml;nger dauerrn. Bitte den Vorgang nicht abbrechen.
 check_links_text = Wenn sie &uuml;berpr&uuml;fen wollen ob alle Links [REX_LINK] funktionieren, dann klicken Sie bitte hier.
 link_checker = Linkchecker
 general_info_header = Allgemeine Informationen:
@@ -263,7 +263,7 @@ clang_created = Sprache wurde angelegt.
 id_exists = ID existiert schon.
 enter_name = Bitte einen Namen eingeben.
 clang_edited = Sprache wurde editiert
-clang_deleted = Sprache wurde gelöscht
+clang_deleted = Sprache wurde gel&#246;scht
 clang_desc = Beschreibung/Name
 
 # redaxo\include\pages\medienpool.inc.php
@@ -273,7 +273,7 @@ pool_kats_no = Keine Kategorie
 pool_search = suchen
 pool_media = Medienpool
 pool_file_list = Medien
-pool_file_insert = Datei hinzufügen
+pool_file_insert = Datei hinzuf&#252;gen
 pool_cat_list = Kategorien verwalten
 pool_file_not_found = Datei wurde nicht gefunden
 pool_file_upload_error = Fehler beim Upload der Datei
@@ -282,73 +282,73 @@ pool_file_title = Titel
 pool_category = Kategorie
 pool_description = Beschreibung
 pool_copyright = Copyright
-pool_file_upload = Hinzufügen
-pool_file_upload_get = Hinzufügen und Übernehmen
-pool_upload_get = Speichern und Übernehmen
+pool_file_upload = Hinzuf&#252;gen
+pool_file_upload_get = Hinzuf&#252;gen und &#220;bernehmen
+pool_upload_get = Speichern und &#220;bernehmen
 pool_kat_saved = Kategorie "{0}" wurde angelegt
 pool_kat_updated = Kategorie "{0}" wurde aktualisiert
-pool_kat_deleted = Kategorie wurde gelöscht
-pool_kat_not_deleted = Kategorie kann nicht gelöscht werden da sich noch Dateien in dieser Kategory befinden!
+pool_kat_deleted = Kategorie wurde gel&#246;scht
+pool_kat_not_deleted = Kategorie kann nicht gel&#246;scht werden da sich noch Dateien in dieser Kategory befinden!
 pool_kat_name = Name
 pool_kat_function = Funktion
 pool_kat_add = Erstellen
 pool_kat_update = Aktualisieren
 pool_kat_edit = Editieren
-pool_kat_delete = Löschen
+pool_kat_delete = L&#246;schen
 pool_kat_hide= Thumbnail
 pool_file_detail = Medien: Detailansicht
 pool_file_is_resized = File wurde resized
 pool_filename = Dateiname
 pool_file_exchange = Datei <br>austauschen
 pool_file_update = Aktualisieren
-pool_file_delete = Löschen
+pool_file_delete = L&#246;schen
 pool_file_thumbnail = Thumbnail
 pool_file_info = Dateiinfo
 pool_file_description = Beschreibung
 pool_file_functions = Funktionen
-pool_file_noshow = Keine Anzeige möglich
+pool_file_noshow = Keine Anzeige m&#246;glich
 pool_file_notitle = Kein Titel eingegeben
 pool_file_nodescription = Keine Beschreibung eingegeben
 pool_img_width = Breite
-pool_img_height = Höhe
-pool_file_ins = Einfügen
-pool_file_deleted = Datei wurde gelöscht
-pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
+pool_img_height = H&#246;he
+pool_file_ins = Einf&#252;gen
+pool_file_deleted = Datei wurde gel&#246;scht
+pool_file_delete_error_1 = Die Datei "{0}" kann nicht gel&#246;scht werden
 pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
 pool_file_changed = Die Datei wurde ausgetauscht!
 pool_import_list = Media-Import
-pool_import_help = Quell-Ordner für Medien Import (Folder im Verzeichniss Files)
-pool_import_target_info = Ziel-Kategorie für den Import auswählen
-pool_selectedmedia=Ausgewählte Medien:
-pool_delete_selectedmedia = löschen
+pool_import_help = Quell-Ordner f&#252;r Medien Import (Folder im Verzeichniss Files)
+pool_import_target_info = Ziel-Kategorie f&#252;r den Import ausw&#228;hlen
+pool_selectedmedia=Ausgew&#228;hlte Medien:
+pool_delete_selectedmedia = l&#246;schen
 pool_changecat_selectedmedia = in Kategorie verschieben
-pool_selectedmedia_error = Keine Medien ausgewählt
+pool_selectedmedia_error = Keine Medien ausgew&#228;hlt
 pool_selectedmedia_moved = Selektierte Medien sind verschoben worden
 pool_select_all = Alle
 pool_nomediafound = Keine Dateien in dieser Kategorie gefunden
-pool_image_get = Bild einfügen
+pool_image_get = Bild einf&#252;gen
 pool_link_get = Link einsetzen
-pool_file_get = Datei übernehmen
+pool_file_get = Datei &#252;bernehmen
 pool_last_update = Letzter Update
 pool_created = Erstellt am
 
 # redaxo/include/pages
 setup = Setup
-setup_text = Hier können Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umständen nicht nötig.
-setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf &gt;<a href=index.php>weiter</a>&lt; und führen das Setup aus.
+setup_text = Hier k&#246;nnen Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umst&#228;nden nicht n&#246;tig.
+setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf &gt;<a href=index.php>weiter</a>&lt; und f&#252;hren das Setup aus.
 setup_error2 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte tragen Sie dort in der \"\$REX[SETUP] = true;\" ein
-setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<br><br>- Die Dateirechte werden überprüft<br>- Der Datenbankzugang wird überprüft und in die master.inc.php eingetragen<br>- Die Datenbank wird (neu) eingerichtet.<br>- Ein Adminzugang wird eingerichtet
+setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<br><br>- Die Dateirechte werden &#252;berpr&#252;ft<br>- Der Datenbankzugang wird &#252;berpr&#252;ft und in die master.inc.php eingetragen<br>- Die Datenbank wird (neu) eingerichtet.<br>- Ein Adminzugang wird eingerichtet
 setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
 setup_step1 = SETUP: SCHRITT 1 von 5
 setup_010 = Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version
-setup_012 = <font class=error>Fehler</font> | Das Verzeichniss <b>{0}</b> ist nicht beschreib- oder ausführbar!
+setup_012 = <font class=error>Fehler</font> | Das Verzeichniss <b>{0}</b> ist nicht beschreib- oder ausf&#252;hrbar!
 setup_014 = <font class=error>Fehler</font> | Die Datei <b>{0}</b> ist nicht beschreibbar!
 setup_015 = <font class=error>Fehler</font> | Die Datei / Das Verzeichniss <b>{0}</b> exisitert nicht, bitte erstellen Sie es. 
-setup_016 = <b>PHP-Versionscheck | Rechteüberprüfung</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | Ordnerrechte
+setup_016 = <b>PHP-Versionscheck | Rechte&#252;berpr&#252;fung</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | Ordnerrechte
 setup_017 = Weiter mit Schritt 2
 setup_018 = Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.
-setup_019 = Schritt 1 erneut durchführen
-setup_headline1 = PHP-Versionscheck | Rechteüberprüfung
+setup_019 = Schritt 1 erneut durchf&#252;hren
+setup_headline1 = PHP-Versionscheck | Rechte&#252;berpr&#252;fung
 setup_step2 = SETUP: SCHRITT 2 von 5
 setup_020 = <b>include/master.inc.php</b> konnte nicht geschrieben werden. 
 setup_021 = Es konnte keine Verbindung zur Datenbank hergestellt werden!
@@ -368,7 +368,7 @@ setup_031 = Tabelle {0} wurde nicht gefunden !
 setup_032 = Die Tabellen konnten nicht erstellt werden.
 setup_033 = Bitte richten Sie die Datenbank erneut ein.
 setup_034 = Datenbank einrichten
-setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [<b>Vorsicht</b> - Alte Seite wird komplett gelöscht]
+setup_035 = Datenbank einrichten und alte &#252;berschreiben falls vorhanden [<b>Vorsicht</b> - Alte Seite wird komplett gel&#246;scht]
 setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
 setup_037 = Kleine Demo installieren
 setup_038 = Weiter zu Schritt 4
@@ -384,14 +384,14 @@ setup_047 = Passwort
 setup_048 = Keinen User anlegen
 setup_049 = Weiter zu Schritt 5
 setup_step5 = SETUP: SCHRITT 5 von 5
-setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte ändern Sie die Datei manuel über FTP.
-setup_051 = Herzlichen Glückwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=login.php>login</a><br>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
+setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte &#228;ndern Sie die Datei manuel &#252;ber FTP.
+setup_051 = Herzlichen Gl&#252;ckwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=login.php>login</a><br>2. Importieren einer Demo &#252;ber [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
 
 # redaxo\include\pages\addon.inc.php
 addon = AddOn
-addon_help = Hilfe für
+addon_help = Hilfe f&#252;r
 addon_no_help_file = Kein Hilfefile gefunden
-addon_back = zurück
+addon_back = zur&#252;ck
 addon_install_not_found = Install File wurde nicht gefunden!
 addon_no_install = konnte aus folgendem Grund nicht installiert werden:
 addon_no_reason = Es wurde kein Grund angegeben.
