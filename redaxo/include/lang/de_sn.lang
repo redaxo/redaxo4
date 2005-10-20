@@ -396,7 +396,7 @@ addon_install_not_found = Inschdall File wurde nischd gefundn!
 addon_no_install = gonnde aus folchendem Grund nischd inschdallierd werdn:
 addon_no_reason = Es wurde geen Grund angegäbn. Na doll. Was solln diss?
 addon_installed = EddOn wurde insschdallierd
-addon_no_activation "EddOn gonnde nischd aggdivierd werdn, da es noch nischd inschdallierd wurde!"
+addon_no_activation = "EddOn gonnde nischd aggdivierd werdn, da es noch nischd inschdallierd wurde!"
 addon_activated = "EddOn wurde aggdivierd"
 addon_deactivated =  "EddOn wurde deaggdivierd"
 addon_hname = Name
