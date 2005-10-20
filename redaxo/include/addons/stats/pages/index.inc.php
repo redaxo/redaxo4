@@ -1,6 +1,6 @@
 <?php
 
-include $REX[INCLUDE_PATH]."/layout/top.php";
+include $REX['INCLUDE_PATH']."/layout/top.php";
 
 title($I18N_STATS->msg("stats_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=stats&sub=stats>".$I18N_STATS->msg("statistics_header")."</a> | <a href=index.php?page=stats&sub=auswertung>".$I18N_STATS->msg("evaluation_header")."</a>");
 
@@ -23,10 +23,10 @@ if ( $funktion == 'evaluate' )
 
 //
 // suche monate und jahre für die wir logs haben
-$pfad = $REX[INCLUDE_PATH]."/addons/stats/logs/";
+$pfad = $REX['INCLUDE_PATH']."/addons/stats/logs/";
 
-$months = Array();
-$years = Array();
+$months = array();
+$years = array();
 
 if (is_dir($pfad))
 {
@@ -44,7 +44,7 @@ if (is_dir($pfad))
 	closedir($dh);
 } else
 {
-	echo $I18N_STATS->msg(error_no_dir,$this->path);
+	echo $I18N_STATS->msg('error_no_dir',$this->path);
 
 }
 
@@ -70,8 +70,8 @@ if (count($years)==0)
 			"12" => $I18N_STATS->msg("dec"),
 	);
 
-	$amon = Array();
-	$ajahr = Array();
+	$amon = array();
+	$ajahr = array();
 	foreach ( $months as $k => $v )
 	{
 		$amon[] = $k;
@@ -185,6 +185,6 @@ if (count($years)==0)
 	}
 }
 
-include $REX[INCLUDE_PATH]."/layout/bottom.php";
+include $REX['INCLUDE_PATH']."/layout/bottom.php";
 
 ?>

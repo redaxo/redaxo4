@@ -33,8 +33,8 @@ class stats
 		$this->SEARCH['engine'] = Array();
 		$this->SEARCH['words'] = Array();
 
-		$this->evalshows = Array("REX_EVAL_DAY","REX_EVAL_MONTH","REX_EVAL_ALLARTICLE","REX_EVAL_TOP10ARTICLE","REX_EVAL_WORST10ARTICLE","REX_EVAL_LAENDER","REX_EVAL_SUCHMASCHINEN","REX_EVAL_REFERER","REX_EVAL_BROWSER","REX_EVAL_OPERATINGSYSTEM","REX_EVAL_SEARCHWORDS");
-		$this->evalsnipps = Array();
+		$this->evalshows = array("REX_EVAL_DAY","REX_EVAL_MONTH","REX_EVAL_ALLARTICLE","REX_EVAL_TOP10ARTICLE","REX_EVAL_WORST10ARTICLE","REX_EVAL_LAENDER","REX_EVAL_SUCHMASCHINEN","REX_EVAL_REFERER","REX_EVAL_BROWSER","REX_EVAL_OPERATINGSYSTEM","REX_EVAL_SEARCHWORDS");
+		$this->evalsnipps = array();
 		
 		$statartikel = new sql;
 		$statartikel->setQuery("SELECT id,name FROM rex_article");
@@ -189,11 +189,11 @@ class stats
 
 		for  ( $i=0 ; $i < count($this->MAIN['stamp']) ; $i++ )
 		{			
-			$days[date("d",$this->MAIN['stamp'][$i])][visits]++;
-			if ($maxvisits<$days[date("d",$this->MAIN['stamp'][$i])][visits]) $maxvisits = $days[date("d",$this->MAIN['stamp'][$i])][visits];
+			$days[date("d",$this->MAIN['stamp'][$i])]['visits']++;
+			if ($maxvisits<$days[date("d",$this->MAIN['stamp'][$i])]['visits']) $maxvisits = $days[date("d",$this->MAIN['stamp'][$i])]['visits'];
 
-			$days[date("d",$this->MAIN['stamp'][$i])][pageviews] += count( $this->MAIN['pageviews'][$i] );
-			if ($maxpageviews<$days[date("d",$this->MAIN['stamp'][$i])][pageviews]) $maxpageviews = $days[date("d",$this->MAIN['stamp'][$i])][pageviews];
+			$days[date("d",$this->MAIN['stamp'][$i])]['pageviews'] += count( $this->MAIN['pageviews'][$i] );
+			if ($maxpageviews<$days[date("d",$this->MAIN['stamp'][$i])]['pageviews']) $maxpageviews = $days[date("d",$this->MAIN['stamp'][$i])]['pageviews'];
 
 		}
 
@@ -210,7 +210,7 @@ class stats
 			$daytime = mktime(0, 0, 0, $month, $day, $year);
 			$date = date("D",$daytime)." ".$day.".".$month.".".$year;
 
-			if ( $days[$day][visits] > 0 ) $pvpv = round(($days[$day][pageviews]/$days[$day][visits]));
+			if ( $days[$day]['visits'] > 0 ) $pvpv = round(($days[$day]['pageviews']/$days[$day]['visits']));
 			else $pvpv = 0;
 
 			if ( $pvpv != 0 )
@@ -218,14 +218,14 @@ class stats
 				if (date("w",$daytime)==0 or date("w",$daytime)==6) $iclass = "dgrey";
 				else $iclass = "grey";
 
-				$pprozent = round(($days[$day][pageviews]/$maxpageviews*50));
-				$vprozent = round(($days[$day][visits]/$maxvisits*50));
+				$pprozent = round(($days[$day]['pageviews']/$maxpageviews*50));
+				$vprozent = round(($days[$day]['visits']/$maxvisits*50));
 
 				$out .= "<tr>
 						<td class=$iclass align=right>$date</td>
-						<td class=$iclass align=right>".$days[$day][pageviews]."</td>
+						<td class=$iclass align=right>".$days[$day]['pageviews']."</td>
 						<td class=$iclass align=left><img src=pics/white.gif width=".(1+$pprozent)." height=10></td>
-						<td class=$iclass align=right>".$days[$day][visits]."</td>
+						<td class=$iclass align=right>".$days[$day]['visits']."</td>
 						<td class=$iclass align=left><img src=pics/white.gif width=".(1+$vprozent)." height=10></td>
 						<td class=$iclass align=right>$pvpv</td>
 					</tr>";
@@ -248,11 +248,11 @@ class stats
 
 			// hier wieder einmal IE und moz diffs augleichen
 
-			if ( preg_match("/(.*?) \((.*)\) (.*)/", $v, $res) ) $jo = TRUE;
+			if ( preg_match("/(.*?) \((.*)\) (.*)/", $v, $res = array()) ) $jo = TRUE;
 			else
 				preg_match("/(.*?) \((.*)\)/", $v, $res);
 
-			if ( preg_match("/(.*);(.*);(.*);(.*);(.*)/", $res[2], $os ) ) $jo = TRUE;
+			if ( preg_match("/(.*);(.*);(.*);(.*);(.*)/", $res[2], $os = array()) ) $jo = TRUE;
 			else
 				preg_match("/(.*);(.*);(.*)/", $res[2], $os );
 
@@ -325,7 +325,7 @@ class stats
 			{
 				if ($var!="")
 				{
-					preg_match("/^(http?:\/\/)?([^\/]+)/i",$var, $treffer);
+					preg_match("/^(http?:\/\/)?([^\/]+)/i",$var, $treffer = array());
 					$host = $treffer[2];
 					// die letzten beiden Segmente aus Hostnamen holen
 					// preg_match("/[^\.\/]+\.[^\.\/]+$/", $host, $treffer);
@@ -369,25 +369,26 @@ class stats
 
 		// searchengine array: $ser = enginename and domainsearchpattern,
 		//					   $pat = pattern to determine searchwords
+    
+        $ser = array();
+        $pat = array();
 
-		$ser[0] = "google";
-		$pat[0] = "/q=(.*?)\&/";
-		$ser[1] = "yahoo";
-		$pat[1] = "/p=(.*)\&/";
-		$ser[2] = "lycos";
-		$pat[2] = "/query=(.*?)\&/";
-		$ser[3] = "fireball";
-		$pat[3] = "/q=(.*?)\&/";
-		$ser[3] = "fireball";
-		$pat[3] = "/q=(.*?)\&/";
-		$ser[4] = "msn";
-		$pat[4] = "/q=(.*?)\&/";
-		$ser[5] = "aol";
-		$pat[5] = "/q=(.*?)\&/";
-		$ser[6] = "alltheweb";
-		$pat[6] = "/q=(.*?)\&/";
-		$ser[6] = "arcor";
-		$pat[6] = "/Keywords=(.*?)\&/";
+		$ser[] = "google";
+		$pat[] = "/q=(.*?)\&/";
+		$ser[] = "yahoo";
+		$pat[] = "/p=(.*)\&/";
+		$ser[] = "lycos";
+		$pat[] = "/query=(.*?)\&/";
+		$ser[] = "fireball";
+		$pat[] = "/q=(.*?)\&/";
+		$ser[] = "msn";
+		$pat[] = "/q=(.*?)\&/";
+		$ser[] = "aol";
+		$pat[] = "/q=(.*?)\&/";
+		$ser[] = "alltheweb";
+		$pat[] = "/q=(.*?)\&/";
+		$ser[] = "arcor";
+		$pat[] = "/Keywords=(.*?)\&/";
 
 		$id_k = 0;
 
@@ -427,7 +428,7 @@ class stats
 						if ( preg_match("/".$ser[$i]."/",($o) ) )
 						{
 							$this->SEARCH['engine'][base64_encode($ser[$i])] += $p;
-							if ( preg_match($pat[$i],($o),$res ) )
+							if ( preg_match($pat[$i],($o),$res = array()) )
 								$this->SEARCH['words'][base64_encode($res[1])] += $p;
 						}
 					}
@@ -590,7 +591,7 @@ class stats
 	// auswertung hier ( die funktion wird gestartet und die auswertung zu starten )
 	function evaluate($year, $month)
 	{
-		$time[start] = microtime();
+		$time['start'] = microtime();
 		//
 		// grab target files
 		$tfiles = Array();
@@ -607,7 +608,7 @@ class stats
 		} else
 			echo "error: ".$this->path." is no dir";
 
-		$time[afterCollectFiles] = microtime();
+		$time['afterCollectFiles'] = microtime();
 
 		// going through all files and write to Arrays
 		foreach($tfiles as $val)
@@ -619,7 +620,7 @@ class stats
 				while (!feof($h))
 				{
 					$buffer = fgets($h, 1024); // careck 07.06.04 to make it work with php4.1 !
-					preg_match("/(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\n/",$buffer,$res);
+					preg_match("/(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\n/",$buffer,$res = array());
 					// $res[1] == stamp // $res[2] == ip // $res[3] == hostname // $res[4] == useragent // $res[5] == referer
 					$this->computeLine($res,$article_id);
 
@@ -632,37 +633,37 @@ class stats
 			}
 		}	// foreach end
 
-		$time[parsedFiles] = microtime();
+		$time['parsedFiles'] = microtime();
 
 		$this->createDay($month,$year);
 
-		$time[afterDays] = microtime();
+		$time['afterDays'] = microtime();
 
 		$this->evalsnipps[2] = $this->createArticle();
 		$this->evalsnipps[3] = $this->createArticle(0,11);
 		$this->evalsnipps[4] = $this->createArticle(0,-11);
 
-		$time[afterArticles] = microtime();
+		$time['afterArticles'] = microtime();
 
 		$this->createBrowser();
 
-		$time[afterBrowser] = microtime();
+		$time['afterBrowser'] = microtime();
 
 		$this->createReferer();
 
-		$time[afterReferer] = microtime();
+		$time['afterReferer'] = microtime();
 
 		$this->createLaender();
 
-		$time[afterLaender] = microtime();
+		$time['afterLaender'] = microtime();
 
 		$this->createMonth($year,$month);
 
-		$time[afterMonth] = microtime();
+		$time['afterMonth'] = microtime();
 
 		$this->writeFile($year, $month);
 
-		$time[afterWriteFile] = microtime();
+		$time['afterWriteFile'] = microtime();
 
 		#echo "visitcount : ".$this->visitcount."<br>";
 		#echo "ppv count : ".$this->debugpv."<br>";
