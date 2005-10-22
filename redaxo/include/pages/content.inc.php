@@ -1,4 +1,12 @@
-<?
+<?php
+
+/** 
+ * Verwaltung der Inhalte. EditierModul / Metadaten ... 
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
+
+
 /*
 // TODOS:
 // - alles vereinfachen
@@ -13,8 +21,10 @@ $article->setQuery("select * from rex_article where id='$article_id' and clang=$
 if ($article->getRows() == 1)
 {
 
-  // --------------------------------------------- Artikel wurde gefunden - Kategorie holen
-  if ($article->getValue("startpage")==1) $category_id = $article->getValue("id");
+  // ----- ctype wird in der functions überprüft.
+
+  // ----- Artikel wurde gefunden - Kategorie holen
+  if ($article->getValue("startpage") == 1) $category_id = $article->getValue("id");
   else $category_id = $article->getValue("re_id");
 
   // ----- category pfad und rechte
