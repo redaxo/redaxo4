@@ -212,7 +212,7 @@ class sql
 
       $this->selectDB();
       $this->result = @ mysql_query("insert into $this->table ($sql1) VALUES ($sql2)");
-      $this->last_insert_id = @ mysql_insert_id($this->identifier);
+      $this->last_insert_id = @ mysql_insert_id();
       $this->error = @ mysql_error();
       $this->message = "new event inserted<br>";
       if ($this->debugsql)
