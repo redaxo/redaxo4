@@ -17,7 +17,6 @@ Todos (Nach Prio sortiert):
 	* Templatehandling in den Kategorien
 		* Template fest zu Kategorien zuweisen können
 		* Default Templates festlegbar machen
-	* CTypes ins Frontend übernehmbar machen
 	* Mehrsprachigkeit / Charset System überdenken / utf-8 ..
 		* auch im setup testen
 		* htmlentities -> htmlspecialchars
@@ -72,13 +71,13 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar (jan)
+	* userverwaltung. developer rausgenommen. (jan)
+	* ob caching der artikel und templates.. ausgabe nun nur über echo moeglich. speichern in variablen moeglich (jan)
 	* wysiwyg resizer als ouput filter [image_resize] (vscope)
-	
 	* OutputFilterCache (Jan)	
 	* OutputFilter (Jan)	
-	
 	* Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind (kills)
-	
 	* Slice verschieben (System überlegen) (Jan)
 
 Version 3.0 (2005-08-07)
