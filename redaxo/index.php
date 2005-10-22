@@ -76,16 +76,16 @@ if ($REX['SETUP'])
     $page = '';
   }
   
-  if ($page == 'addon' && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","dev[]")))
+  if ($page == 'addon' && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","admin[]")))
   {
     $page_name = $I18N->msg("addon");
-  }elseif ($page == "specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","dev[]")))
+  }elseif ($page == "specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]")))
   {
     $page_name = $I18N->msg("specials");
-  }elseif ($page == "module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","dev[]")))
+  }elseif ($page == "module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","admin[]")))
   {
     $page_name = $I18N->msg("module");
-  }elseif ($page == "template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","dev[]")))
+  }elseif ($page == "template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","admin[]")))
   {
     $page_name = $I18N->msg("template");
   }elseif ($page == "user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
