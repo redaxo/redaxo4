@@ -25,21 +25,24 @@ class article
   var $setanker;
   var $save;
   var $ctype;
+  var $ctype_var;
   var $clang;
 
-
+  // ----- Konstruktor
   function article( $article_id = null)
   {
     $this->article_id = 0;
     $this->template_id = 0;
     $this->clang = 0;
-    $this->ctype = "";
+    $this->ctype = -1; // zeigt alles an
+    $this->ctype_var = "rex_ctype"; // var fuer die ctype unterscheidung in den generated dateien
     $this->slice_id = 0;
     $this->mode = "view";
     $this->article_content = "";
     $this->eval = FALSE;
     $this->setanker = true;
-      
+    
+    
     // AUSNAHME: modul auswählen problem
     // action=index.php#1212 problem
     if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
@@ -49,11 +52,13 @@ class article
     }
   }
 
+  // ----- Slice Id setzen für Editiermodus
   function setSliceId($value)
   {
     $this->slice_id = $value;
   }
 
+  // ----- CType setzen
   function setCType($value)
   {
     $this->ctype = $value;
@@ -136,9 +141,13 @@ class article
     else return $this->ARTICLE->getValue($value);
   }
 
-  function getArticle()
+  function getArticle($curctype = -1)
   {
     global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$REX_ACTION,$I18N;
+
+	// ctype var festlegung komischer umweg 
+	$a = $this->ctype_var;
+	$$a = $curctype;
 
     // ----- start: article caching
     ob_start();
@@ -160,8 +169,8 @@ class article
     {
       if ($this->article_id != 0)
       {
-        // ---------- select alle slices eines artikels
-        
+      	
+        // ---------- alle teile/slices eines artikels auswaehlen
         $sql = "select rex_modultyp.id, rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
           from
             rex_article_slice
@@ -178,7 +187,8 @@ class article
         $this->CONT = new sql;
         $this->CONT->setQuery($sql);
 
-        // ---------- SLICE IDS/MODUL SETZEN
+
+        // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
           $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.id");
@@ -191,7 +201,7 @@ class article
           $this->CONT->nextValue();
         }
 
-        // ---------- moduleselect
+        // ---------- moduleselect: nur module nehmen auf die der user rechte hat
         if($this->mode=="edit")
         {
           $MODULE = new sql;
@@ -205,10 +215,13 @@ class article
           
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
-            if ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+            if ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
             $MODULE->next();
           }
         }
+
+
+
 
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
         $I_ID = 0;
@@ -218,9 +231,13 @@ class article
         $tbl_head = "<table width=100% cellspacing=0 cellpadding=5 border=0><tr><td class=lblue>";
         $tbl_bott = "</td></tr></table>";
 
+
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
         
+		  // ----- ctype unterscheidung
+		  if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || \$".$this->ctype_var." == '-1') { ?>";
+
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
           $slice_content = "";
@@ -250,7 +267,6 @@ class article
             
             
             // ----- add select box einbauen
-            
             if($this->function=="add" && $this->slice_id == $I_ID)
             {
               $slice_content = $this->addSlice($I_ID,$module_id);
@@ -262,7 +278,7 @@ class article
             
             // ----- edit / delete 
             
-            if($REX_USER->isValueOf("rights","module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]"))
+            if($REX_USER->isValueOf("rights","module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->isValueOf("rights","admin[]"))
             {
               
               // hat rechte zum edit und delete 
@@ -283,7 +299,7 @@ class article
               $slice_content .= $mne.$tbl_head;
               if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
               {
-                $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID]);
+                $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID]);
               }else
               {
                 $slice_content .= $RE_MODUL_OUT[$I_ID];
@@ -294,7 +310,7 @@ class article
             }else
             {
 
-              // hat keine rechte an diesem modul 
+              // ----- hat keine rechte an diesem modul 
 
               $mne = "
                 <table width=100% cellspacing=0 cellpadding=5 border=0>
@@ -306,29 +322,39 @@ class article
               $slice_content = $this->sliceIn($slice_content);
             }
             
-    
           }else
           {
 
-            // wenn mode nicht edit
-    
+            // ----- wenn mode nicht edit
             $slice_content .= $RE_MODUL_OUT[$I_ID];
             $slice_content = $this->sliceIn($slice_content);
-    
           }
-    
           // --------------- ENDE EINZELNER SLICE
           
           // ---------- slice in ausgabe speichern wenn ctype richtig 
-          
-          if ($this->ctype == "" or $this->ctype == $RE_CONTS_CTYPE[$I_ID]) $this->article_content .= $slice_content;
+          if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
+          {
+          	$this->article_content .= $slice_content;
+          }
+
+          // ----- zwischenstand: ctype .. wenn ctype neu dann if
+          if ($this->mode != "edit" && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
+          {
+          	$this->article_content .= "<?php } if(\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$".$this->ctype_var." == '-1'){ ?>";
+          }
+
+
           
           // zum nachsten slice
           $I_ID = $RE_CONTS[$I_ID];
           $PRE_ID = $I_ID;
 
         }
+        
+        // ----- end: ctype unterscheidung
+        if ($this->mode != "edit" && $i>0) $this->article_content .= "<?php } ?>";
           
+		// ----- add module im edit mode
         if ($this->mode == "edit")
         {
           $amodule = "
@@ -354,10 +380,11 @@ class article
           {
             $slice_content = $amodule;
           }
-    
           $this->article_content .= $slice_content;
-    
         }
+    
+    	
+    
     
         // -------------------------- schreibe content
         
@@ -453,7 +480,7 @@ class article
   }
 
 
-  function editSlice($RE_CONTS, $RE_MODUL_IN)
+  function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE)
   {
     global $REX, $REX_ACTION, $FORM, $I18N;
     $slice_content = '<a name="editslice"></a>
@@ -462,6 +489,7 @@ class article
       <input type="hidden" name="page" value="content">
       <input type="hidden" name="mode" value="'.$this->mode.'">
       <input type="hidden" name="slice_id" value="'.$RE_CONTS.'">
+      <input type="hidden" name="ctype" value="'.$RE_CTYPE.'">
       <input type="hidden" name="function" value="edit">
       <input type="hidden" name="save" value="1">
       <input type="hidden" name="update" value="0">
@@ -477,14 +505,15 @@ class article
     return $slice_content;
   }
 
-    function getArticleContent()
-    {
-        ob_start();
-        $this->getArticle();
-        $content = ob_get_contents();
-        ob_end_clean();
-        return $content;
-    }
+
+  function getArticleContent()
+  {
+    ob_start();
+    $this->getArticle();
+    $content = ob_get_contents();
+    ob_end_clean();
+    return $content;
+  }
    
   // ----- allgemeines suchen und ersetzen
   function sliceIn($slice_content)
