@@ -38,9 +38,9 @@ class article
     // action=index.php#1212 problem
     if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
       
-        if ( $article_id !== null) {
-           $this->setArticleId( $article_id);
-        }
+    if ( $article_id !== null) {
+      $this->setArticleId( $article_id);
+    }
   }
 
   function setSliceId($value)
@@ -133,6 +133,9 @@ class article
   function getArticle()
   {
     global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$REX_ACTION,$I18N;
+
+    // ----- start: article caching
+    ob_start();
 
     if ($REX['GG'])
     {
@@ -352,22 +355,33 @@ class article
     
         // -------------------------- schreibe content
         
-        if (isset($REX['RC']) and $REX['RC']) return $this->article_content;
+        if (isset($REX['RC']) and $REX['RC']) echo $this->article_content;
         else eval("?>".$this->article_content);
         
       }else
       {
-        return $I18N->msg('no_article_available');
+        echo $I18N->msg('no_article_available');
       }
     }
+    
+    // ----- end: article caching
+    $CONTENT = ob_get_contents();
+    ob_end_clean();
+    
+    return $CONTENT;
+    
   }
 
   function getArticleTemplate()
   {
     global $FORM,$REX;
+
+    // ----- start: template caching
+    ob_start();
+    
     if ($this->getValue("template_id") == 0 and $this->article_id != 0)
     {
-      return $this->getArticle();
+      echo $this->getArticle();
     }elseif ($this->getValue("template_id") != 0 and $this->article_id != 0)
     {
       $template_name = $REX['INCLUDE_PATH']."/generated/templates/".$this->getValue("template_id").".template";
@@ -382,10 +396,18 @@ class article
       $return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
       $return = $this->replaceLinks($return);
       eval("?>".$return);
+
     }else
     {
-      return "no template";
+      echo "no template";
     }
+    
+    // ----- end: template caching
+    $CONTENT = ob_get_contents();
+    ob_end_clean();
+    
+    return $CONTENT;
+    
   }
   
   // ----- ADD Slice
