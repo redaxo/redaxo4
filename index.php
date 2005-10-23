@@ -1,8 +1,6 @@
 <?php
 /** 
- * <Beschreibung> 
- * @author REDAXO-Group 
- * @author $Author$ 
+ * 
  * @package redaxo3 
  * @version $Id$ 
  */ 
