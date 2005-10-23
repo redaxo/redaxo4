@@ -1,4 +1,9 @@
 <?php
+/** 
+ * 
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 // ----------------- TIMER
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_time.inc.php";
@@ -87,7 +92,11 @@ if (!isset($REX['CLANG'][$clang]) or $REX['CLANG'][$clang] == '')
 }
 
 // ----- SET CTYPE
-$ctype = $ctype + 0;
+if (!isset($ctype)) {
+  $ctype = 0; 
+} else {
+  $ctype = $ctype + 0;
+}
 if (!isset($REX['CTYPE'][$ctype])) $ctype = 0;
 
 
