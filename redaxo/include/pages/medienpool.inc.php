@@ -1,4 +1,9 @@
 <?php
+/** 
+ *  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 // TODOS
 // - thumbnails - einstellbar über specials
@@ -390,7 +395,8 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
   $FILESIZE = $FILE['size'];
   $FILETYPE = $FILE['type'];
   $NFILENAME = "";
-
+  $message = '';
+  
   // ----- neuer filename und extension holen
   $NFILENAME = strtolower(preg_replace("/[^a-zA-Z0-9.]/","_",$FILENAME));
   if (strrpos($NFILENAME,".") != "")
@@ -536,7 +542,7 @@ if (isset($subpage) && $subpage == "add_file" && isset($media_method) && $media_
     $msg = $return['msg'];
     $subpage = "";
 
-    if ($saveandexit != "" && $return[ok]==1)
+    if (isset($saveandexit) and $saveandexit != "" && $return['ok'] == 1)
     {
       $file_name = $return['filename'];
       $ffiletype = $return['type'];
