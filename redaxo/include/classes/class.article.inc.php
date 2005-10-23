@@ -1,5 +1,4 @@
 <?php
-
 /** 
  * Artikel Objekt. Zuständig für die Ausgabe eines Artikel mit/ohne Template 
  * @package redaxo3 
@@ -145,9 +144,9 @@ class article
   {
     global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$REX_ACTION,$I18N;
 
-	// ctype var festlegung komischer umweg 
-	$a = $this->ctype_var;
-	$$a = $curctype;
+  // ctype var festlegung komischer umweg 
+  $a = $this->ctype_var;
+  $$a = $curctype;
 
     // ----- start: article caching
     ob_start();
@@ -169,7 +168,7 @@ class article
     {
       if ($this->article_id != 0)
       {
-      	
+        
         // ---------- alle teile/slices eines artikels auswaehlen
         $sql = "select rex_modultyp.id, rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
           from
@@ -235,8 +234,8 @@ class article
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
         
-		  // ----- ctype unterscheidung
-		  if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || \$".$this->ctype_var." == '-1') { ?>";
+      // ----- ctype unterscheidung
+      if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || \$".$this->ctype_var." == '-1') { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
@@ -334,13 +333,13 @@ class article
           // ---------- slice in ausgabe speichern wenn ctype richtig 
           if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
           {
-          	$this->article_content .= $slice_content;
+            $this->article_content .= $slice_content;
           }
 
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
-          if ($this->mode != "edit" && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
+          if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
           {
-          	$this->article_content .= "<?php } if(\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$".$this->ctype_var." == '-1'){ ?>";
+            $this->article_content .= "<?php } if(\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$".$this->ctype_var." == '-1'){ ?>";
           }
 
 
@@ -354,7 +353,7 @@ class article
         // ----- end: ctype unterscheidung
         if ($this->mode != "edit" && $i>0) $this->article_content .= "<?php } ?>";
           
-		// ----- add module im edit mode
+    // ----- add module im edit mode
         if ($this->mode == "edit")
         {
           $amodule = "
@@ -383,7 +382,7 @@ class article
           $this->article_content .= $slice_content;
         }
     
-    	
+      
     
     
         // -------------------------- schreibe content
