@@ -87,14 +87,20 @@ class i18n
       // falls der key nicht gefunden wurde, auf die fallbacksprache switchen
       if ($msg == '' && $this != $REX['LANG_FALLBACK_OBJ'])
       {
-         // fallbackobjekt ggf anlegen
-         if ($REX['LANG_FALLBACK_OBJ'] == '')
-         {
-            rex_create_lang($REX['LANG_FALLBACK'], $this->searchpath, true);
-         }
+        // fallbackobjekt ggf anlegen
+        if ($REX['LANG_FALLBACK_OBJ'] == '')
+        {
+          rex_create_lang($REX['LANG_FALLBACK'], $this->searchpath, true);
+        }
 
-         // suchen des keys in der fallbacksprache
-         return $REX['LANG_FALLBACK_OBJ']->msg($key, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
+        // suchen des keys in der fallbacksprache
+        $msg = $REX['LANG_FALLBACK_OBJ']->msg($key, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
+        if (isset($msg) and $msg != '') {
+          return $msg;
+        } else {
+          trigger_error('Schluessel "'.$key.'" konnte in der Datei: "'.$this->filename .'" nicht gefunden werden!', E_USER_ERROR);
+        }
+        //return $REX['LANG_FALLBACK_OBJ']->msg($key, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
       }
 
       $patterns = array ('/\{0\}/', '/\{1\}/', '/\{2\}/', '/\{3\}/', '/\{4\}/', '/\{5\}/', '/\{6\}/', '/\{7\}/', '/\{8\}/', '/\{9\}/');
