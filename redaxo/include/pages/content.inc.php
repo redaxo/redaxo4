@@ -1,4 +1,5 @@
 <?php
+
 /** 
  * Verwaltung der Inhalte. EditierModul / Metadaten ... 
  * @package redaxo3 
@@ -328,11 +329,11 @@ if ($article->getRows() == 1)
               $ga->next();
             }
             // ----- / POST ACTION
-            if (isset($update) and $update != 1){
-              $slice_id = "";
-              $function = "";
-            }
-            $save = "";
+            if($update!=1){
+                        $slice_id = "";
+                        $function = "";
+                    }
+                    $save = "";
                     
             $EA = new sql;
             $EA->setTable("rex_article");
@@ -526,7 +527,6 @@ if ($article->getRows() == 1)
       }
       if (isset($save) and $save == "1")
       {
-        if (!isset($meta_teaser)) { $meta_teaser = ''; }
         $meta_sql = new sql;
         $meta_sql->setTable("rex_article");
         // $meta_sql->debugsql = 1;
@@ -543,12 +543,12 @@ if ($article->getRows() == 1)
             
         // cache
         $Cache = new Cache($article_id);
-        if (isset($caching) and $caching != 1){
+        if($caching!=1){
           $Cache->removeCacheConf($article_id);
         } else {
           $Cache->insertCacheConf($article_id);
         }
-        if (isset($recaching) and $recaching == 1){
+        if($recaching==1){
           $Cache->removeCacheFiles($article_id);
         }
 
@@ -561,7 +561,6 @@ if ($article->getRows() == 1)
         $meta_sql->update();
 
         $article->setQuery("select * from rex_article where id='$article_id' and clang='$clang'");
-        if (!isset($message)) $message = '';
         $err_msg = $I18N->msg("metadata_updated").$message;
 
         rex_generateArticle($article_id);
