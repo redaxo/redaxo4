@@ -101,6 +101,8 @@ class article
     {
       if (@include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
       {
+        $this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
+        $this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
         return TRUE;
       }else
       {
@@ -425,9 +427,12 @@ class article
       {
         $template_content = $this->getValue("template_id")." not found";
       }
-      $return = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
-      $return = $this->replaceLinks($return);
-      eval("?>".$return);
+      
+//      $template_content = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
+      $template_content = $this->replaceCommonVars( $template_content);
+      $template_content = $this->replaceLinks($template_content);
+      
+      eval("?>".$template_content);
 
     }else
     {
@@ -609,9 +614,10 @@ class article
     $slice_content = str_replace("REX_PHP",$this->convertString2($this->CONT->getValue("rex_article_slice.php")),$slice_content);
     $slice_content = str_replace("REX_HTML",$this->convertString2($this->stripPHP($this->CONT->getValue("rex_article_slice.html"))),$slice_content);
     
-    $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
-    $slice_content = str_replace("REX_CUR_CLANG",$this->clang,$slice_content);
-    $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
+//    $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
+//    $slice_content = str_replace("REX_CUR_CLANG",$this->clang,$slice_content);
+//    $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
+    $slice_content = $this->replaceCommonVars( $slice_content);
     
     // function in function_rex_modrewrite.inc.php
     if ($this->mode != "edit") $slice_content = $this->replaceLinks($slice_content);
@@ -707,9 +713,10 @@ class article
     $slice_content = str_replace("REX_PHP",htmlspecialchars(stripslashes($REX_ACTION['PHP'])),$slice_content);
     $slice_content = str_replace("REX_HTML",htmlspecialchars(stripslashes($REX_ACTION['HTML'])),$slice_content);
     
-    $slice_content = str_replace("REX_ARTICLE_ID","",$slice_content);
-    $slice_content = str_replace("REX_CUR_CLANG","",$slice_content);
-    $slice_content = str_replace("REX_CATEGORY_ID","",$slice_content);
+//    $slice_content = str_replace("REX_ARTICLE_ID","",$slice_content);
+//    $slice_content = str_replace("REX_CUR_CLANG","",$slice_content);
+//    $slice_content = str_replace("REX_CATEGORY_ID","",$slice_content);
+    $slice_content = $this->replaceCommonVars( $slice_content);
     
     return $slice_content;
   
@@ -791,6 +798,22 @@ class article
         }
 
         return $content;
+  }
+  
+  function replaceCommonVars($content) {
+    static $search = array(
+       'REX_ARTICLE_ID',
+       'REX_CATEGORY_ID',
+       'REX_CUR_CLANG',
+    );
+    
+    $replace = array(
+      $this->article_id,
+      $this->category_id,
+      $this->clang,
+    );
+        
+    return str_replace($search, $replace,$content);
   }
 
 }

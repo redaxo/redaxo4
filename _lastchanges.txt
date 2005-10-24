@@ -71,6 +71,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich (kills)
 	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar (jan)
 	* userverwaltung. developer rausgenommen. (jan)
 	* ob caching der artikel und templates.. ausgabe nun nur über echo moeglich. speichern in variablen moeglich (jan)
