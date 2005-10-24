@@ -71,6 +71,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* OOF erweitert: neue OOAddon Klasse
 	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich (kills)
 	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar (jan)
 	* userverwaltung. developer rausgenommen. (jan)
