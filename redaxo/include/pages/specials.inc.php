@@ -7,22 +7,17 @@
 
 $ERRMSG = "";
 
-if (!isset($spage)) $spage = '';
-switch($spage)
-{
-  case ("type"):
-    title($I18N->msg("specials_title"),'&nbsp;&nbsp;&nbsp;<a href="index.php?page=specials&amp;spage=standard">'.$I18N->msg("main_preferences").'</a> | <a href="index.php?page=specials&amp;spage=lang">'.$I18N->msg("languages").'</a> | '.$I18N->msg("types"));
-    break;
-  case ("lang"):
-    title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=specials&amp;spage=standard>".$I18N->msg("main_preferences")."</a> | ".$I18N->msg("languages")." | <a href=index.php?page=specials&amp;spage=type>".$I18N->msg("types")."</a>");
-    break;
-  default:
-    $spage = 'standard';
-    title($I18N->msg("specials_title"),"&nbsp;&nbsp;&nbsp;".$I18N->msg("main_preferences").' | <a href="index.php?page=specials&amp;spage=lang">'.$I18N->msg("languages").'</a> | <a href="index.php?page=specials&amp;spage=type">'.$I18N->msg("types").'</a>');
-}
+if (!isset($subpage)) $subpage = '';
+
+$subline = array( 
+  array( '', $I18N->msg("main_preferences")),
+  array( 'lang', $I18N->msg("languages")),
+  array( 'type', $I18N->msg("types")),
+);
+title($I18N->msg("specials_title"),$subline);
 
 
-if ($spage == "standard")
+if ($subpage == '')
 {
   
   if (isset($func) and $func == "setup")
@@ -240,7 +235,7 @@ if ($spage == "standard")
   echo '<br /></td></tr></table>';
 
 
-} elseif ($spage == "lang")
+} elseif ($subpage == "lang")
 {
   
   // ------------------------------ clang definieren (sprachen)
@@ -311,7 +306,7 @@ if ($spage == "standard")
   
   echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
            <tr>
-      <th class="icon"><a href="index.php?page=specials&amp;spage=lang&amp;func=addclang#clang">+</a></th>
+      <th class="icon"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang">+</a></th>
       <th style="width:40px; text-align:center;">ID</th>
       <th width="250">'.$I18N->msg("clang_desc").'</th>
       <th colspan="2">-</th></tr>';
@@ -329,7 +324,7 @@ if ($spage == "standard")
     $sel->set_selected($clang_id);
     echo '<tr><form action="index.php#clang" method="post">
           <input type="hidden" name="page" value="specials">
-          <input type="hidden" name="spage" value="lang">
+          <input type="hidden" name="subpage" value="lang">
           <input type="hidden" name="func" value="addclangsave">';
     echo '<td>add</td>';
     echo '<td>'.$sel->out().'</td>';
@@ -345,14 +340,14 @@ if ($spage == "standard")
     {
       echo '<tr><form action="index.php#clang" method="post">
               <input type="hidden" name="page" value="specials">
-              <input type="hidden" name="spage" value="lang">
+              <input type="hidden" name="subpage" value="lang">
               <input type="hidden" name="clang_id" value="'.$clang_id.'">
               <input type="hidden" name="func" value="editclangsave">';
       echo '<td>edit</td>';
       echo '<td align="center" class="grey">'.key($REX['CLANG']).'</td>';
       echo '<td><input type="text" size="10" class="inp100" name="clang_name" value="'.htmlspecialchars(current($REX['CLANG'])).'"></td>';
       echo '<td><input type="submit" name="edit" value="'.$I18N->msg('edit').'">';
-      if ($clang_id > 0) echo '<input type="submit" name="delclang" value="delete" onclick="return confirm("'.$I18N->msg('delete').' ?")">';
+      if ($clang_id > 0) echo '<input type="submit" name="delclang" value="'.$I18N->msg("delete_button").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';
       echo '</td>';
       echo '</form></tr>';
       
@@ -361,7 +356,7 @@ if ($spage == "standard")
       echo '<tr>
           <td>&#160;</td>
           <td align="center">'.key($REX['CLANG']).'</td>
-          <td><a href="index.php?page=specials&amp;spage=lang&amp;func=editclang&amp;clang_id='.key($REX['CLANG']).'#clang">'.htmlspecialchars(current($REX['CLANG'])).'</a></td>
+          <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.key($REX['CLANG']).'#clang">'.htmlspecialchars(current($REX['CLANG'])).'</a></td>
           <td>&#160;</td></tr>';
     }
     next($REX['CLANG']);
@@ -424,7 +419,7 @@ if ($spage == "standard")
   
   echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
     <tr>
-      <th class="icon"><a href="index.php?page=specials&amp;spage=type&amp;function=add">+</a></th>
+      <th class="icon"><a href="index.php?page=specials&amp;subpage=type&amp;function=add">+</a></th>
       <th class="icon">'.$I18N->msg("article_type_list_id").'</th>
       <th width="250">'.$I18N->msg("article_type_list_name").'</th>
       <th colspan="2">'.$I18N->msg("article_type_list_description").'</th>
@@ -444,7 +439,7 @@ if ($spage == "standard")
     echo '  <tr>
         <form action="index.php" method="post">
         <input type="hidden" name="page" value="specials">
-        <input type="hidden" name="spage" value="type">
+        <input type="hidden" name="subpage" value="type">
         <input type="hidden" name="save" value="1">
         <td>&nbsp;</td>
         <td valign="top"><input style="width:30px;" type="text" size="5" maxlength="2" name="type_id" value=""></td>
@@ -463,14 +458,14 @@ if ($spage == "standard")
       echo '  <tr>
           <form action="index.php" method="post">
           <input type="hidden" name="page" value="specials">
-          <input type="hidden" name="spage" value="type">
+          <input type="hidden" name="subpage" value="type">
           <input type="hidden" name="type_id" value="'.$type_id.'">
           <td>&nbsp;</td>
           <td valign="middle" align="center">'.htmlspecialchars($sql->getValue("type_id")).'</td>
           <td valign="top"><input class="inp100" type="text" size="20" name="typname" value="'.htmlspecialchars($sql->getValue("name")).'"></td>
           <td><input class="inp100" type="text" size="20" name="description" value="'.htmlspecialchars($sql->getValue("description")).'"></td>
           <td valign="top"><input type="submit" name="function" value="'.$I18N->msg("update_button").'">
-            <input type="submit" name="function" value="'.$I18N->msg("delete_button").'"></td>
+            <input type="submit" name="function" value="'.$I18N->msg("delete_button").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')"></td>
           </form>
         </tr>';
     } else
@@ -478,7 +473,7 @@ if ($spage == "standard")
       echo '  <tr>
           <td>&nbsp;</td>
           <td align="center">'.htmlspecialchars($sql->getValue("type_id")).'</td>
-          <td><a href="index.php?page=specials&amp;spage=type&amp;type_id='.$sql->getValue("type_id").'">'.htmlspecialchars($sql->getValue("name")).'&nbsp;</a></td>
+          <td><a href="index.php?page=specials&amp;subpage=type&amp;type_id='.$sql->getValue("type_id").'">'.htmlspecialchars($sql->getValue("name")).'&nbsp;</a></td>
           <td colspan="2">'.nl2br($sql->getValue("description")).'&nbsp;</td>
         </tr>';
     }
