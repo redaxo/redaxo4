@@ -326,7 +326,7 @@ if ($subpage == '')
           <input type="hidden" name="page" value="specials">
           <input type="hidden" name="subpage" value="lang">
           <input type="hidden" name="func" value="addclangsave">';
-    echo '<td>add</td>';
+    echo '<td></td>';
     echo '<td>'.$sel->out().'</td>';
     echo '<td><input type="text" size="10" class="inp100" name="clang_name" value="'.htmlspecialchars($clang_name).'"></td>';
     echo '<td><input type="submit" value="submit"></td>';
