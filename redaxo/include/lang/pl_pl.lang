@@ -392,10 +392,10 @@ addon_help = Pomoc dla
 addon_no_help_file = Nie znaleziono pliku pomocy
 addon_back = powrót
 addon_install_not_found = Nie znaleziono pliku instalacyjnego!
-addon_no_install = Nie mo¿na by³o zainstalowaæ z nastêpuj±cego powodu:
+addon_no_install = <b>Nie</b> mo¿na by³o zainstalowaæ z nastêpuj±cego powodu:
 addon_no_reason = Brak powodu.
 addon_installed = Dodatek zosta³ zainstalowany
-addon_no_activation "Nie uda³o siê uaktywniæ dodatku, poniewa¿ nie zosta³ zainstalowany!"
+addon_no_activation "<b>Nie</b> uda³o siê uaktywniæ dodatku, poniewa¿ nie zosta³ zainstalowany!"
 addon_activated = "Dodatek zosta³ aktywowany"
 addon_deactivated =  "Dodatek zosta³ dezaktywowany"
 addon_hname = Nazwa
