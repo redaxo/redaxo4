@@ -18,9 +18,8 @@ if (isset($function) and $function == "clear_cache"){
     $msg = "Cache cleared - $c cachefiles removed";
 }
 
-title('Image Resize Addon ','
-&nbsp;&nbsp;&nbsp;
-<a href="index.php?page=image_resize&amp;function=clear_cache" onClick="return confirm(\'Resize Cache wirklich löschen?\')">Resize Cache löschen</a>');
+title('Image Resize Addon ','&nbsp;&nbsp;&nbsp;<a href="index.php?page=image_resize&amp;function=clear_cache" onClick="return confirm(\'Resize Cache wirklich löschen?\')">Resize Cache löschen</a>');
+
 if (isset($msg) and $msg != "") echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">'.$msg.'</td></tr></table><br />';
 
 ?>
