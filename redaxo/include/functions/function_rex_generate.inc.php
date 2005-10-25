@@ -18,7 +18,6 @@ function rex_generateAll()
   // -> generiere templates
   // -> generiere article und listen
   // -> generiere file meta
-  // -> loesche cache
 
 
   // ----------------------------------------------------------- generiere templates
@@ -75,10 +74,6 @@ function rex_generateAll()
   // **********************
 
 
-  // ----------------------------------------------------------- delete cache
-  $Cache = new Cache();
-  $Cache->removeAllCacheFiles();
-
 
   // ----------------------------------------------------------- message
   $MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
@@ -104,7 +99,6 @@ function rex_generateArticle($id,$refresh=0)
   // --> listen generieren // wenn startpage = 1
   // ---> artikel liste
   // ---> category liste
-  // --> cache loeschen
 
   // --------------------------------------------------- generiere generated/articles/xx.article
 
@@ -186,10 +180,6 @@ function rex_generateArticle($id,$refresh=0)
 
   }
 
-    // --------------------------------------------------- recache all
-  $Cache = new Cache();
-  $Cache->removeAllCacheFiles();
-
 }
 
 function rex_deleteArticle($id,$ebene=0)
@@ -249,9 +239,6 @@ function rex_deleteArticle($id,$ebene=0)
     rex_generateLists($re_id);
 
 
-    // --------------------------------------------------- recache all
-    $Cache = new Cache();
-    $Cache->removeAllCacheFiles();
     return $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted');
 
   }else
@@ -413,9 +400,6 @@ function rex_deleteDir($file,$what = 0)
     }
   }
 
-    // recache all
-  $Cache = new Cache();
-  $Cache->removeAllCacheFiles();
 }
 
 

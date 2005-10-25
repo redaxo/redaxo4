@@ -48,7 +48,6 @@ include_once $REX['INCLUDE_PATH']."/classes/class.sql.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.select.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.article.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.login.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.cache.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.ooredaxo.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.oocategory.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.ooarticle.inc.php";
