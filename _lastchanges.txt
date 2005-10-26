@@ -9,11 +9,12 @@ Todos (Nach Prio sortiert):
 ---------------------------------------------------------------------------------
 
 	* AddOns 
-		* löschbar machen
+	* löschbar machen
 	* JS Linkmap umbauen 
 		* Artikel suchbar machen
 		* Struktur anzeigen und Artikel im Extra Bereich
 		* JS System ändern da bei viele Artikel alles ein wenig langsam wird.
+		* Root Artikel werden nicht angezeigt
 	* Templatehandling in den Kategorien
 		* Template fest zu Kategorien zuweisen können
 		* Default Templates festlegbar machen
@@ -35,12 +36,11 @@ Todos (Nach Prio sortiert):
 	* Tiny MCE bereinigen und unnötiges raus.
 	* Warnings/Notices entfernen
 	* Einheitliche FileHeaders
-
+	
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
 ---------------------------------------------------------------------------------
 
-  * Rechtesystem für Root-Artikel
 	* Caching als Addon auslagern
 	* Historie mit Rollback
 	* Objektorientierterer Umbau. REX_.. werden Objekte und sind dann erweiterbar
@@ -48,8 +48,8 @@ Planung / Irgendwann:
 		* REX_ARTICLE[2]
 		* REX_TEMPLATE[5]
 		* REX_ARTICLE_VARS['beschreibung'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
-    * REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
-	* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
+		* REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
+		* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
 	* Backend Redesign auf 100% Scaling
 	* Backend auf CSS Layout umstellen
 	* rexExtensions
@@ -72,7 +72,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-	* OOF erweitert: neue OOAddon Klasse
+	* OOF erweitert: neue OOAddon Klasse (kills)
 	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich (kills)
 	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar (jan)
 	* userverwaltung. developer rausgenommen. (jan)
