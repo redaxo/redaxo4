@@ -1,3 +1,11 @@
+<?php 
+if (!isset($page_name)) $page_name = ''; 
+
+$page_title = $REX['SERVERNAME'];
+if ( $page_name != '') {
+   $page_title .= ' - '. $page_name;
+} 
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="<?php echo $I18N->msg("htmllang"); ?>">
 <head>
@@ -487,7 +495,7 @@ if ( isDomNN )
 echo '
 </head><body bgcolor=#ffffff onLoad="if (layerok) { preOpen(); showTree(); }">
 <table border=0 cellpadding=5 cellspacing=0 width=100%>
-<tr><td colspan=3 class=grey align=right>'.$REX[SERVERNAME].'</td></tr>
+<tr><td colspan=3 class=grey align=right>'.$REX['SERVERNAME'].'</td></tr>
 <tr><td class=greenwhite><b>Linkmap</b></td></tr></table>
 
 <table border=0 cellpadding=5 cellspacing=0 width=100%><tr><td class=lgrey>
@@ -508,10 +516,10 @@ if($_GET['HTMLArea']!=''){
           print 'window.opener.'.$_GET['HTMLArea'].'.surroundHTML("<a href="+link+">","</a>");';
       }
 }
-if($_GET[opener_input_field]!=''){
+if(isset($_GET['opener_input_field']) && $_GET['opener_input_field']!=''){
 			print "linkid = link.replace('redaxo://','');\n";
-	        print "opener.document.REX_FORM['LINK[".$_GET[opener_input_field]."]'].value = linkid;\n";
-	        print "opener.document.REX_FORM['LINK_NAME[".$_GET[opener_input_field]."]'].value = name;\n";
+	        print "opener.document.REX_FORM['LINK[".$_GET['opener_input_field']."]'].value = linkid;\n";
+	        print "opener.document.REX_FORM['LINK_NAME[".$_GET['opener_input_field']."]'].value = name;\n";
 }
 
 echo '
