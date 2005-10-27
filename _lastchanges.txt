@@ -72,6 +72,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* class article: setTemplateId und getTemplateId eingebaut..
 	* OOF erweitert: neue OOAddon Klasse (kills)
 	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich (kills)
 	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar (jan)

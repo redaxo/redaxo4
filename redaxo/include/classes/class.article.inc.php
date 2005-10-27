@@ -111,6 +111,16 @@ class article
     }
   }
 
+  function setTemplateId($template_id)
+  {
+    $this->template_id = $template_id;
+  }
+
+  function getTemplateId()
+  {
+    return $this->template_id;
+  }
+  
   function setMode($mode)
   {
     $this->mode = $mode;
@@ -413,22 +423,21 @@ class article
     // ----- start: template caching
     ob_start();
     
-    if ($this->getValue("template_id") == 0 and $this->article_id != 0)
+    if ($this->getTemplateId() == 0 and $this->article_id != 0)
     {
       echo $this->getArticle();
-    }elseif ($this->getValue("template_id") != 0 and $this->article_id != 0)
+    }elseif ($this->getTemplateId() != 0 and $this->article_id != 0)
     {
-      $template_name = $REX['INCLUDE_PATH']."/generated/templates/".$this->getValue("template_id").".template";
+      $template_name = $REX['INCLUDE_PATH']."/generated/templates/".$this->getTemplateId().".template";
       if ($fd = fopen ($template_name, "r"))
       {
         $template_content = fread ($fd, filesize ($template_name));
         fclose ($fd);
       }else
       {
-        $template_content = $this->getValue("template_id")." not found";
+        $template_content = $this->getTemplateId()." not found";
       }
       
-//      $template_content = str_replace("REX_ARTICLE_ID",$this->article_id,$template_content);
       $template_content = $this->replaceCommonVars( $template_content);
       $template_content = $this->replaceLinks($template_content);
       
