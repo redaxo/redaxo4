@@ -101,6 +101,12 @@ show = Anzeechn
 cache_remove = Geesch löschn
 slice_moved = Blogg wurde verschobn
 slice_moved_error = Blogg gonnde nischd verschobn werdn
+content_contentcopy = Inhalt wurde kopiert.
+content_errorcopy = Sie können Inhalte nicht in die gleiche Sprache kopieren.
+content_copy = Inhalte kopieren
+content_contentoflang = Inhalte von Sprache:
+content_to = nach
+content_submitcopycontent = Inhalte kopieren
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Moodul '{0}' gann nischd gelöschd werdn. Een Ardiggl nudsd das noch:

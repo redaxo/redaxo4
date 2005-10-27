@@ -101,6 +101,12 @@ show = Anzeigen
 cache_remove = Cache l&#246;schen
 slice_moved = Block wurde verschoben
 slice_moved_error = Block konnte nicht verschoben werden
+content_contentcopy = Inhalt wurde kopiert.
+content_errorcopy = Sie können Inhalte nicht in die gleiche Sprache kopieren.
+content_copy = Inhalte kopieren
+content_contentoflang = Inhalte von Sprache:
+content_to = nach
+content_submitcopycontent = Inhalte kopieren
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gel&ouml;scht werden, da es noch von folgenden Artikeln genutzt wird:
