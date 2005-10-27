@@ -362,11 +362,70 @@ function rex_copyArticle($id,$to_cat_id)
  // TODO
 }
 
-function rex_copyCategory($which,$to_cat)
+function rex_copyCategory($which_id,$to_cat)
 {
  // TODO
 }
 
+function rex_copyContent($from_id,$to_id,$from_clang = 0,$to_clang = 0,$from_re_sliceid = 0)
+{
+	global $REX,$REX_USER;
+	
+	if ($from_id == $to_id && $from_clang == $to_clang) return false;
+	
+	$gc = new sql;
+	$gc->setQuery("select * from rex_article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$from_id' and clang='$from_clang'");
+	
+	if ($gc->getRows()==1)
+	{
+		
+		// letzt slice_id des ziels holen ..
+		$glid = new sql;
+		$glid->setQuery("select 
+			r1.id, r1.re_article_slice_id
+		from 
+			rex_article_slice as r1 
+		left join 
+			rex_article_slice as r2 on r1.id=r2.re_article_slice_id 
+		where 
+			r1.article_id=$to_id 
+			and r1.clang=$to_clang 
+			and r2.id is NULL;");
+		if ($glid->getRows() == 1) $to_last_slice_id = $glid->getValue("r1.id");
+		else $to_last_slice_id = 0;
+
+		$ins = new sql;
+		// $ins->debugsql = 1;
+		$ins->setTable("rex_article_slice");
+		
+		$cols = new sql;
+		// $cols->debugsql = 1;
+		$cols->setquery("SHOW COLUMNS FROM rex_article_slice");
+		for($j=0;$j<$cols->rows;$j++,$cols->next())
+		{
+			$colname = $cols->getvalue("Field");
+			if ($colname == "clang") $value = $to_clang;
+			elseif ($colname == "re_article_slice_id") $value = $to_last_slice_id;
+			elseif ($colname == "article_id") $value = $to_id;
+			elseif ($colname == "createdate") $value = time();
+			elseif ($colname == "updatedate") $value = time();
+			elseif ($colname == "createuser") $value = $REX_USER->getValue("login");
+			elseif ($colname == "updateuser") $value = $REX_USER->getValue("login");
+			else $value = addslashes($gc->getValue("$colname"));
+
+			if ($colname != "id") $ins->setValue($colname,$value);
+		}
+		$ins->insert();
+
+		// id holen und als re setzen und weitermachen..
+		rex_copyContent($from_id,$to_id,$from_clang,$to_clang,$gc->getValue("id"));
+		return true;
+	}
+
+	rex_generateArticle($to_id);
+		
+	return true;
+}
 
 
 // ----------------------------------------- CTYPE

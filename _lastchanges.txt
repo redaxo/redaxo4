@@ -72,6 +72,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar..
 	* class article: setTemplateId und getTemplateId eingebaut..
 	* OOF erweitert: neue OOAddon Klasse (kills)
 	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich (kills)

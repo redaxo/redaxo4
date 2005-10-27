@@ -433,21 +433,34 @@ if ($article->getRows() == 1)
                 }
               }
             }
-        
           }else
           {
             $message = $I18N->msg('no_rights_to_this_function');
           }
         } 
-        
       }else
       {
         $message = $I18N->msg('no_rights_to_this_function');
       }
-      
-      
     }
     // ------------------------------------------ END: Slice move up/down
+
+	// ------------------------------------------ START: COPY LANG CONTENT
+	if (isset($function) and $function == "copycontent")
+	{
+		if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+        {
+			if (rex_copyContent($article_id,$article_id,$clang_a,$clang_b))
+			{
+				$message = $I18N->msg('content_contentcopy');
+			}else
+			{
+				$message = $I18N->msg('content_errorcopy');
+			}
+		}
+	}
+	// ------------------------------------------ END: COPY LANG CONTENT
+	
 
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
@@ -584,7 +597,6 @@ if ($article->getRows() == 1)
       if ($typesql->getRows()==0) $out = "<input type=hidden name=type_id value=0>";
       else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
 
-
       echo "  <table border=0 cellpadding=5 cellspacing=1 width=100%>
         <form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM>
         <input type=hidden name=page value=content>
@@ -676,23 +688,6 @@ if ($article->getRows() == 1)
         $out
          ";
 
-      // advanced caching
-      if($REX_USER->isValueOf("rights","caching[]")){
-
-        include_once("include/classes/class.cache.inc.php");
-        $Cache = new Cache($article_id);
-        if($Cache->isCacheConf()){
-          $cacheCheck="checked";
-        } else {
-          $cacheCheck="";
-        }
-        echo "
-        <tr>
-          <td class=grey width=150>Caching</td>
-          <td class=grey valign=middle><input type=checkbox id=caching name=caching value=1 ".$cacheCheck."><label for=caching> ".$I18N->msg("yes")." </label><input type=checkbox id=recaching name=recaching value=1 ><label for=recaching> ".$I18N->msg("cache_remove")." </label></td>
-        </tr>";
-      }
-
       echo "
         <tr>
           <td class=grey>&nbsp;</td>
@@ -700,6 +695,58 @@ if ($article->getRows() == 1)
         </tr>
         </form>
         </table>";
+        
+        
+        if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+        {
+        	echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
+          <form action=index.php method=get>
+          <input type=hidden name=page value=content>
+          <input type=hidden name=article_id value='$article_id'>
+          <input type=hidden name=mode value='meta'>
+          <input type=hidden name=clang value=$clang>
+          <input type=hidden name=ctype value=$ctype>
+          <input type=hidden name=function value=copycontent>
+          <tr>
+            <td colspan=2>".$I18N->msg("content_copy")."</td>
+          </tr>";
+
+			$lang_a = new select;
+			$lang_a->set_name("clang_a");
+			$lang_a->set_style("width:100px;");
+			$lang_a->set_size(1);
+
+			if (count($REX['CLANG'])>1)
+			{
+				foreach($REX['CLANG'] as $val => $key)
+				{
+					$lang_a->add_option($key,$val);
+				}
+			}
+			
+			$lang_b = $lang_a;
+        	$lang_b->set_name("clang_b");
+        	$lang_a->set_selected($_REQUEST["clang_a"]);
+        	$lang_b->set_selected($_REQUEST["clang_b"]);
+        	
+        	echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()."</td></tr>";
+        
+        	echo "<tr>
+					<td class=grey>&nbsp;</td>
+					<td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
+				</tr>";
+        
+        
+        	echo "</form></table>";
+        }
+
+
+
+
+
+
+
+
 
       if($REX_USER->isValueOf("rights","advancedMode[]"))
       {
