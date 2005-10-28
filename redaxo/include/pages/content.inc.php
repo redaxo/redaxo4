@@ -715,8 +715,8 @@ if ($article->getRows() == 1)
 			
 			$lang_b = $lang_a;
         	$lang_b->set_name("clang_b");
-        	$lang_a->set_selected($_REQUEST["clang_a"]);
-        	$lang_b->set_selected($_REQUEST["clang_b"]);
+        	if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
+        	if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
         	
         	echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()."</td></tr>";
         
