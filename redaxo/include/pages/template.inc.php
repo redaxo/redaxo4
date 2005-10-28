@@ -165,7 +165,7 @@ if ($OUT)
     else echo $I18N->msg("no");
 
     echo '</td>
-        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm("'.$I18N->msg('delete').' ?")">'.$I18N->msg("delete_template").'</a></td>
+        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_template").'</a></td>
       </tr>';
     $sql->counter++;
   }

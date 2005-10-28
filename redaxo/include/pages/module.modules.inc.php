@@ -180,7 +180,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
           if ($gma->getValue("sdelete")==1) echo "|".$ASTATUS[2];
           
           echo '] </td>';
-          echo '<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm("'.$I18N->msg('delete').' ?")">'.$I18N->msg("action_delete").'</a></td>';
+          echo '<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a></td>';
           echo '</tr>';
           $gma->next();
         }
@@ -256,7 +256,7 @@ if ($OUT)
     if ($REX_USER->isValueOf("rights","expertMode[]")) echo ' ['.$sql->getValue("id").']';
     
     echo '</td>
-        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm("'.$I18N->msg('delete').' ?")">'.$I18N->msg("delete_module").'</a></td>
+        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_module").'</a></td>
       </tr>'."\n";
     $sql->counter++;
   }
