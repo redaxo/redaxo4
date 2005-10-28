@@ -34,7 +34,7 @@ $REX['ADDON']['perm'][$mypage] = "image_resize[]";
 $REX['ADDON']['max_size'][$mypage] = 1000;
 $REX['ADDON']['jpeg_quality'][$mypage] = 75;
 
-$REX['perm'][] = "image_resize[]";
+$REX['PERM'][] = "image_resize[]";
 
 
 if ($REX['GG'])
