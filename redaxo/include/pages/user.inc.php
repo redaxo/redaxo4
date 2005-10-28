@@ -492,8 +492,8 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
   if (!isset($userdesc)) { $userdesc = ''; }
   if (!isset($adminchecked)) { $adminchecked = ''; }
   if (!isset($devchecked)) { $devchecked = ''; }
-  if (!isset($ALLCATSCHECKED)) { $ALLCATSCHECKED = ''; }
-  if (!isset($ALLMCATSCHECKED)) { $ALLMCATSCHECKED = ''; }
+  if (!isset($allcatschecked)) { $allcatschecked = ''; }
+  if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
   
   echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
     <form action="index.php" method="post">
@@ -536,10 +536,10 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       </td>
     </tr>'."\n";
   echo '  <tr>
-      <TD ALIGN="RIGHT"><INPUT TYPE="CHECKBOX" ID="ALLCATS" NAME="ALLCATS" VALUE="1" '.$ALLCATSCHECKED.'></TD>
-      <TD><LABEL FOR="ALLCATS">'.$I18N->MSG("all_categories").'</LABEL></TD>
-      <TD ALIGN="RIGHT"><INPUT TYPE="CHECKBOX" ID="ALLMCATS" NAME="ALLMCATS" VALUE="1" '.$ALLMCATSCHECKED.'></TD>
-      <TD><LABEL FOR="ALLMCATS">'.$I18N->MSG("all_mediafolder").'</LABEL></TD>
+      <td align="right"><input type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.'></td>
+      <td><label for="allcats">'.$I18N->msg("all_categories").'</label></td>
+      <td align="right"><input type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.'></td>
+      <td><label for="allmcats">'.$I18N->msg("all_mediafolder").'</label></td>
     </tr>
     <tr>
       <td valign="top">'.$I18N->msg("categories").'</td>
@@ -737,7 +737,7 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       <td colspan="2">'."\n";
 
     if ($REX_USER->getValue("user_id") != $user_id) {
-      echo '<input type="submit" name="FUNC_DELETE" value="'.$I18N->msg("delete").'" onclick="return confirm("'.$I18N->msg('delete').' ?")">';    
+      echo '<input type="submit" name="FUNC_DELETE" value="'.$I18N->msg("delete").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';    
     } else { echo '&nbsp;'; }
     echo '</td></tr>
     </form>
