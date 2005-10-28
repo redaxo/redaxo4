@@ -392,6 +392,8 @@ setup_049 = Weiter zu Schritt 5
 setup_step5 = SETUP: SCHRITT 5 von 5
 setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte &#228;ndern Sie die Datei manuel &#252;ber FTP.
 setup_051 = Herzlichen Gl&#252;ckwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=login.php>login</a><br>2. Importieren einer Demo &#252;ber [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
+database_imported = Datenbank wurde importiert. 
+entry_count = {0} Eintr&auml;ge
 
 # redaxo\include\pages\addon.inc.php
 addon = AddOn

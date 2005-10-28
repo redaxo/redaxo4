@@ -392,6 +392,8 @@ setup_049 = Weidor zu Schridd 5
 setup_step5 = SEDDAB: SCHRIDD 5 von 5
 setup_050 = Leidor gonnde die maschdor.inc.bhb nischd beschriebn werdn. Bidde änder die Daddee manuell übor FTB.
 setup_051 = Herzlischn Glüggwunsch zu Ihrem REDAGGSO! <br><br>Bidde noch dieses beachden:<br><br><b>1. Mid dem eengerichdedem Zugang eenloggen <a href=login.php>login</a><br>2. Imbordiern eenor Demo übor [wenn eengeloggd]: Imbord/Eggsbord und dord jeweils die Dadnbang und Files inschdalliern.</b><br><br><br>Viel Schbass und Erfolg <br><br>Das REDAGGSO Diem <br><br>
+database_imported = Datenbank wurde importiert. 
+entry_count = {0} Eintr&auml;ge
 
 # redaxo\include\pages\addon.inc.php
 addon = EddOn
