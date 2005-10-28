@@ -398,7 +398,7 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
   $message = '';
   
   // ----- neuer filename und extension holen
-  $NFILENAME = strtolower(preg_replace("/[^a-zA-Z0-9.-]/","_",$FILENAME));
+  $NFILENAME = strtolower(preg_replace("/[^a-zA-Z0-9.\-\$\+]/","_",$FILENAME));
   if (strrpos($NFILENAME,".") != "")
   {
     $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
