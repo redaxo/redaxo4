@@ -270,7 +270,7 @@ if ($checkmodus == 3 && $send == 1)
       $add->setquery(Trim(str_replace("||||||+N+||||||","\n",$hier),";"));
       $add->flush();
     }
-    $msg = $I18N_ADDON->msg("database_imported").". ".$I18N_ADDON->msg("entry_count",count($all))."<br>";
+    $msg = $I18N->msg("database_imported").". ".$I18N->msg("entry_count",count($all))."<br>";
     unset($REX[CLANG]);
     $gl = new sql;
     $gl->setQuery("select * from rex_clang");
