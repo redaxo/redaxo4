@@ -46,6 +46,9 @@ if ($article->getRows() == 1)
   $sprachen_add = "&category_id=$category_id&article_id=$article_id";
   include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";
 
+  if (isset($_REQUEST["mode"])) $mode = $_REQUEST["mode"];
+  else $mode = "";
+
 
   // ----- mode defs
   if ($mode != "meta") $mode = "edit";
