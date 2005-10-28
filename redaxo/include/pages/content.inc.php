@@ -332,11 +332,11 @@ if ($article->getRows() == 1)
               $ga->next();
             }
             // ----- / POST ACTION
-            if($update!=1){
-                        $slice_id = "";
-                        $function = "";
-                    }
-                    $save = "";
+            if (isset($update) and $update != 1){
+              $slice_id = "";
+              $function = "";
+            }
+            $save = "";
                     
             $EA = new sql;
             $EA->setTable("rex_article");
@@ -448,22 +448,22 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice move up/down
 
-	// ------------------------------------------ START: COPY LANG CONTENT
-	if (isset($function) and $function == "copycontent")
-	{
-		if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+  // ------------------------------------------ START: COPY LANG CONTENT
+  if (isset($function) and $function == "copycontent")
+  {
+    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
         {
-			if (rex_copyContent($article_id,$article_id,$clang_a,$clang_b))
-			{
-				$message = $I18N->msg('content_contentcopy');
-			}else
-			{
-				$message = $I18N->msg('content_errorcopy');
-			}
-		}
-	}
-	// ------------------------------------------ END: COPY LANG CONTENT
-	
+      if (rex_copyContent($article_id,$article_id,$clang_a,$clang_b))
+      {
+        $message = $I18N->msg('content_contentcopy');
+      }else
+      {
+        $message = $I18N->msg('content_errorcopy');
+      }
+    }
+  }
+  // ------------------------------------------ END: COPY LANG CONTENT
+  
 
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
@@ -691,7 +691,7 @@ if ($article->getRows() == 1)
         
         if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
         {
-        	echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
+          echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
           <form action=index.php method=get>
           <input type=hidden name=page value=content>
           <input type=hidden name=article_id value='$article_id'>
@@ -703,33 +703,33 @@ if ($article->getRows() == 1)
             <td colspan=2>".$I18N->msg("content_copy")."</td>
           </tr>";
 
-			$lang_a = new select;
-			$lang_a->set_name("clang_a");
-			$lang_a->set_style("width:100px;");
-			$lang_a->set_size(1);
+      $lang_a = new select;
+      $lang_a->set_name("clang_a");
+      $lang_a->set_style("width:100px;");
+      $lang_a->set_size(1);
 
-			if (count($REX['CLANG'])>1)
-			{
-				foreach($REX['CLANG'] as $val => $key)
-				{
-					$lang_a->add_option($key,$val);
-				}
-			}
-			
-			$lang_b = $lang_a;
-        	$lang_b->set_name("clang_b");
-        	if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
-        	if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
-        	
-        	echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()."</td></tr>";
+      if (count($REX['CLANG'])>1)
+      {
+        foreach($REX['CLANG'] as $val => $key)
+        {
+          $lang_a->add_option($key,$val);
+        }
+      }
+      
+      $lang_b = $lang_a;
+          $lang_b->set_name("clang_b");
+          if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
+          if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
+          
+          echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()."</td></tr>";
         
-        	echo "<tr>
-					<td class=grey>&nbsp;</td>
-					<td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
-				</tr>";
+          echo "<tr>
+          <td class=grey>&nbsp;</td>
+          <td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
+        </tr>";
         
         
-        	echo "</form></table>";
+          echo "</form></table>";
         }
 
 
