@@ -553,17 +553,6 @@ if ($article->getRows() == 1)
         $meta_sql->setValue("teaser",$meta_teaser);
         $meta_sql->setValue("updatedate",time());
         $meta_sql->setValue("updateuser",$REX_USER->getValue("login"));
-            
-        // cache
-        $Cache = new Cache($article_id);
-        if($caching!=1){
-          $Cache->removeCacheConf($article_id);
-        } else {
-          $Cache->insertCacheConf($article_id);
-        }
-        if($recaching==1){
-          $Cache->removeCacheFiles($article_id);
-        }
 
         // -------------------------- FILE UPLOAD META BILD/FILE
 
