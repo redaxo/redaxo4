@@ -1,4 +1,9 @@
 <?php
+/** 
+ *  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 // class select 1.0 [redaxo]
 // 
@@ -89,10 +94,11 @@ class select{
   function out(){
         
     global $STYLE;
-    $ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
-        if ( is_array( $this->options)) $ausgabe .= $this->out_group( 0);
-    $ausgabe .= "</select>\n";  
-    return $ausgabe;  
+//    $ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
+    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" style="'.$this->select_style.'" id="'.$this->select_id.'">'."\n";
+    if (is_array ($this->options)) $ausgabe .= $this->out_group(0);
+    $ausgabe .= "</select>\n";
+    return $ausgabe;
   }
     
     function out_group( $re_id, $level = 0) {
