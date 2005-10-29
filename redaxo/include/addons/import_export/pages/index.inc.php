@@ -1,4 +1,9 @@
 <?php
+/** 
+ *  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 // Für größere Exports den Speicher für PHP erhöhen.
 
@@ -12,7 +17,7 @@ include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_strin
 // ------------------------------ FUNC
 $msg = "";
 
-if ($impname != "")
+if (isset($impname) and $impname != '')
 {
   $impname = str_replace("/","",$impname);
 
@@ -21,10 +26,10 @@ if ($impname != "")
 
 }
 
-if ($exportfilename == "") $exportfilename = 'rex_'.$REX['version'].'_'.date("Ymd");
+if (!isset($exportfilename) or $exportfilename == '') $exportfilename = 'rex_'.$REX['version'].'_'.date("Ymd");
 
 
-if ($function == "delete")
+if (isset($function) and $function == "delete")
 {
   
   // ------------------------------ FUNC DELETE
@@ -32,7 +37,7 @@ if ($function == "delete")
   if (unlink($REX['INCLUDE_PATH']."/addons/$page/files/$impname"));
   $msg = $I18N_IM_EXPORT->msg("file_deleted");
 
-}elseif ($function == "dbimport")
+} elseif (isset($function) and $function == "dbimport")
 {
   
   // ------------------------------ FUNC DBIMPORT
@@ -97,7 +102,7 @@ if ($function == "delete")
     }   
   }
 
-}elseif($function == "fileimport")
+} elseif (isset($function) and $function == "fileimport")
 {
 
   // ------------------------------ FUNC FILEIMPORT
@@ -139,7 +144,7 @@ if ($function == "delete")
 
 
   
-}elseif($function == "export")
+} elseif (isset($function) and $function == "export")
 {
   
   // ------------------------------ FUNC EXPORT 
@@ -153,7 +158,7 @@ if ($function == "delete")
   {
     $msg = $I18N_IM_EXPORT->msg("filename_updated");
     $exportfilename = $filename;
-  }else
+  } else
   {
     $content = "";
     if ($exporttype == "sql")
@@ -196,7 +201,7 @@ if ($function == "delete")
             $query .= ")";
           }
           $query .= ")TYPE=MyISAM;";
-          $dump .= $query."\n";
+          $dump = $query."\n";
           $cont = new sql;
           $cont->setquery("SELECT * FROM ". $tab);
           for($j=0;$j<$cont->rows;$j++,$cont->next()){
@@ -220,7 +225,7 @@ if ($function == "delete")
 
       // ------------------------------ /FUNC EXPORT SQL    
       
-    }elseif ($exporttype == "files")
+    } elseif ($exporttype == "files")
     {
     
       // ------------------------------ FUNC FILES
@@ -278,13 +283,14 @@ if ($function == "delete")
       echo $content;
       exit;
     
-    }elseif ($content != "")
+    } elseif ($content != "")
     {
       // check filename ob vorhanden
       // aendern filename
       // speicher content in files
-      
-      $filename = $REX['INCLUDE_PATH']."/addons/$page/files/$filename";
+     
+      $dir_filename = $REX['INCLUDE_PATH']."/addons/$page/files/";
+      $filename = $dir_filename.$filename;
       
       if (file_exists($filename.$ext))
       {
@@ -296,18 +302,19 @@ if ($function == "delete")
             break;
           }
         }
-      }else
+      } else
       {
         $filename .= $ext;
       }
-            
-      if ($fp = @fopen($filename, "w"))
+      
+      if (is_writable ($dir_filename) and $fp = fopen ($filename, "w"))
       {
-        fputs($fp,$content);
-        fclose($fp);
-      }else
+        fputs ($fp,$content);
+        fclose ($fp);
+        $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.$filename;
+      } else
       {
-        $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/addons/$page/files";
+        $msg = $I18N_IM_EXPORT->msg('file_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').' '.$REX['INCLUDE_PATH']."/addons/$page/files";
       }
       
       // echo $content;
@@ -324,25 +331,25 @@ if ($function == "delete")
 
 include $REX['INCLUDE_PATH']."/layout/top.php";
 title($I18N_IM_EXPORT->msg("importexport"),"");
-if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
+if ($msg != '') echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
 
 ?>
 
-<table border=0 cellpadding=5 cellspacing=1 width=770>
+<table width="770" cellspacing="1" border="0" cellpadding="5">
 
 <tr>
-  <th align=left width=50%><?php echo $I18N_IM_EXPORT->msg('import'); ?></th>
-  <th align=left><?php echo $I18N_IM_EXPORT->msg('export'); ?></th>
+  <th width="50%" align="left"><?php echo $I18N_IM_EXPORT->msg('import'); ?></th>
+  <th align="left"><?php echo $I18N_IM_EXPORT->msg('export'); ?></th>
 </tr>
 
 
 <tr>
-  <td class=dgrey valign=top><?php
+  <td valign="top" class="dgrey"><?php
   
   // ----------------------------------------------------------------- IMPORT
   
   // DB IMPORT
-  echo "<br>".$I18N_IM_EXPORT->msg("intro_import")."  
+  echo "<br />".$I18N_IM_EXPORT->msg("intro_import")."  
   
   <br><br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
   <tr><td align=left colspan=2 class=lgrey>".$I18N_IM_EXPORT->msg("database")."</td>
@@ -357,7 +364,11 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
   </table>";
   
     echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-    echo "<tr><td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td><td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    echo "<tr>
+      <td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td>
+      <td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td>
+      <td width=60 class=lgrey>&nbsp;</td>
+      <td width=60 class=lgrey>&nbsp;</td>";
     
     // DB IMPORT LIST
     // all files in files with .sql als endung
@@ -371,8 +382,8 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         echo "<tr>
         <td class=lgrey><b>$file</b></td>
         <td class=lgrey>$filec</td>
-        <td class=lgrey><a href=index.php?page=$page&function=dbimport&impname=$file title='". $I18N_IM_EXPORT->msg( 'import_file') ."'>".$I18N_IM_EXPORT->msg("import")."</a></td>
-        <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."'>".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
+        <td class=lgrey><a href=index.php?page=$page&amp;function=dbimport&amp;impname=$file title='". $I18N_IM_EXPORT->msg( 'import_file') ."'>".$I18N_IM_EXPORT->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&amp;function=delete&amp;impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."'>".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
     }
   echo "</table>";
 
@@ -389,8 +400,12 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
   </form>
   </table>";
 
-    echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-    echo "<tr><td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td><td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td><td width=60 class=lgrey>&nbsp;</td><td width=60 class=lgrey>&nbsp;</td>";
+    echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>"."\n";
+    echo "<tr>
+      <td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td>
+      <td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td>
+      <td width=60 class=lgrey>&nbsp;</td>
+      <td width=60 class=lgrey>&nbsp;</td>"."\n";
     
     // FILE IMPORT LIST
     // all files in files with .tar.gz als endung
@@ -409,41 +424,40 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."'>".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
     }
     
-  echo "</table><br>";
+  echo "</table><br />"."\n";
 
   // ----------------------------------------------------------------- /IMPORT
 
-  ?></td><td class=dgrey valign=top><?php
+  ?></td><td valign="top" class="dgrey"><?php
   
   // ----------------------------------------------------------------- EXPORT
   
-  echo "<br>".$I18N_IM_EXPORT->msg("intro_export")."<br><br>";
+  echo "<br />".$I18N_IM_EXPORT->msg("intro_export")."<br /><br />"."\n";
   
   echo "<table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
   
   <form action=index.php method=post enctype='multipart/form-data'>
   <input type=hidden name=page value=$page>
   <input type=hidden name=function value=export>  
-  
-  ";
+  "."\n";
   
   $checkedsql = "";
   $checkedfiles = "";
   
-  if ($exporttype == "files") $checkedfiles = " checked";
+  if (isset($exporttype) and $exporttype == "files") $checkedfiles = " checked";
   else $checkedsql = " checked";
   
-  echo "<tr>";
-  echo "<td class=lgrey width=30><input type=radio id=exporttype[sql] name=exporttype value=sql $checkedsql></td>";
-  echo "<td class=lgrey><label for=exporttype[sql]>".$I18N_IM_EXPORT->msg("database_export")."</label></td>";
-  echo "</tr>"; 
+  echo "<tr>"."\n";
+  echo "  <td class=lgrey width=30><input type=radio id=exporttype[sql] name=exporttype value=sql $checkedsql></td>"."\n";
+  echo "  <td class=lgrey><label for=exporttype[sql]>".$I18N_IM_EXPORT->msg("database_export")."</label></td>"."\n";
+  echo "</tr>"."\n";
   
-  echo "<tr>";
-  echo "<td class=lgrey><input type=radio id=exporttype[files] name=exporttype value=files $checkedfiles></td>";
-  echo "<td class=lgrey><label for=exporttype[files]>".$I18N_IM_EXPORT->msg("file_export")."</label></td>";
-  echo "</tr>"; 
+  echo "<tr>"."\n";
+  echo "  <td class=lgrey><input type=radio id=exporttype[files] name=exporttype value=files $checkedfiles></td>"."\n";
+  echo "  <td class=lgrey><label for=exporttype[files]>".$I18N_IM_EXPORT->msg("file_export")."</label></td>"."\n";
+  echo "</tr>"."\n";
   
-    echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>";
+    echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>"."\n";
     // FILE EXPORT LIST
     // all folders of the webpage except the cms dir
 
@@ -458,11 +472,11 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         }
         
         $checked = "";
-        if (is_Array($EXPDIR)) if (array_key_exists($file,$EXPDIR) !== false) $checked = " checked";
-        echo "<tr>";
-        echo "<td class=lgrey width=30><input type=checkbox id=EXPDIR[$file] name=EXPDIR[$file] value=true $checked></td>";
-        echo "<td class=lgrey><label for=EXPDIR[$file]>$file</label></td>";
-        echo "</tr>";
+        if (isset($EXPDIR) and is_Array($EXPDIR)) if (array_key_exists ($file, $EXPDIR) !== false) $checked = " checked";
+        echo "<tr>"."\n";
+        echo "  <td class=lgrey width=30><input type=checkbox id=EXPDIR[$file] name=EXPDIR[$file] value=true $checked></td>"."\n";
+        echo "  <td class=lgrey><label for=EXPDIR[$file]>$file</label></td>"."\n";
+        echo "</tr>"."\n";
     }
     
   echo "</table></td></tr>";
@@ -470,29 +484,29 @@ if ($msg != "") echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
   $checked0 = "";
   $checked1 = "";
   
-  if ($exportdl == 1) $checked1 = " checked";
+  if (isset($exportdl) and $exportdl == 1) $checked1 = " checked";
   else $checked0 = " checked";
   
-  echo "<tr>";
-  echo "<td class=lgrey><input type=radio id=exportdl[server] name=exportdl value=0 $checked0></td>";
-  echo "<td class=lgrey><label for=exportdl[server]>".$I18N_IM_EXPORT->msg("save_on_server")."</label></td>";
-  echo "</tr>"; 
-  echo "<tr>";
-  echo "<td class=lgrey><input type=radio id=exportdl[download] name=exportdl value=1 $checked1></td>";
-  echo "<td class=lgrey><label for=exportdl[download]>".$I18N_IM_EXPORT->msg("download_as_file")."</label></td>";
-  echo "</tr>"; 
-  echo "<tr>";
-  echo "<td class=lgrey></td>";
-  echo "<td class=lgrey><input type=text size=20 name=exportfilename class=inp100 value='$exportfilename'></td>";
-  echo "</tr>"; 
+  echo "<tr>"."\n";
+  echo "  <td class=lgrey><input type=radio id=exportdl[server] name=exportdl value=0 $checked0></td>"."\n";
+  echo "  <td class=lgrey><label for=exportdl[server]>".$I18N_IM_EXPORT->msg("save_on_server")."</label></td>"."\n";
+  echo "</tr>"."\n";
+  echo "<tr>"."\n";
+  echo "  <td class=lgrey><input type=radio id=exportdl[download] name=exportdl value=1 $checked1></td>"."\n";
+  echo "  <td class=lgrey><label for=exportdl[download]>".$I18N_IM_EXPORT->msg("download_as_file")."</label></td>"."\n";
+  echo "</tr>"."\n";
+  echo "<tr>"."\n";
+  echo "  <td class=lgrey></td>"."\n";
+  echo "  <td class=lgrey><input type=text size=20 name=exportfilename class=inp100 value='$exportfilename'></td>"."\n";
+  echo "</tr>"."\n";
   
-  echo "<tr>";
-  echo "<td class=lgrey></td>";
-  echo "<td class=lgrey><input type=submit value='".$I18N_IM_EXPORT->msg("db_export")."'></td>";
-  echo "</tr>";
+  echo "<tr>"."\n";
+  echo "  <td class=lgrey></td>"."\n";
+  echo "  <td class=lgrey><input type=submit value='".$I18N_IM_EXPORT->msg("db_export")."'></td>"."\n";
+  echo "</tr>"."\n";
   
-  echo "</form>";
-  echo "</table><br>";
+  echo "</form>"."\n";
+  echo "</table><br />"."\n";
 
   
 
