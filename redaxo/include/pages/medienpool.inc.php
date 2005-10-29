@@ -347,7 +347,7 @@ $cat_out .= "<tr>
       <td class=grey>";
 
 $sel_media = new select;
-$sel_media->set_style("'; onChange=\"location.href='index.php?page=medienpool&rex_file_category='+this[this.selectedIndex].value;\" class='inp100");
+$sel_media->set_style('" onChange="location.href=\'index.php?page=medienpool&amp;rex_file_category=\'+this[this.selectedIndex].value;" class="inp100');
 $sel_media->set_size(1);
 $sel_media->set_name("rex_file_category");
 $sel_media->add_option($I18N->msg('pool_kats_no'),"0");
