@@ -332,12 +332,12 @@ if ($article->getRows() == 1)
               $ga->next();
             }
             // ----- / POST ACTION
-            if (isset($update) and $update != 1){
+            if (!(isset($update) and $update == 1)){
               $slice_id = "";
               $function = "";
             }
             $save = "";
-                    
+            
             $EA = new sql;
             $EA->setTable("rex_article");
             $EA->where("id='$article_id' and clang=$clang");
