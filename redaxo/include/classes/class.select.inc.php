@@ -26,6 +26,7 @@ class select{
   var $select_size;   // 
   var $select_multiple; //
   var $select_style;
+  var $select_extra;
 
   ################ Konstruktor
   function select(){
@@ -55,6 +56,11 @@ class select{
   ################ select name
   function set_name($name){
     $this->select_name  = $name;
+  }
+
+  ################ select name
+  function set_selectextra($extra){
+    $this->select_extra  = $extra;
   }
 
     ################ select id
@@ -95,7 +101,7 @@ class select{
         
     global $STYLE;
 //    $ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
-    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" style="'.$this->select_style.'" id="'.$this->select_id.'">'."\n";
+    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" style="'.$this->select_style.'" id="'.$this->select_id.'" '.$this->select_extra.'>'."\n";
     if (is_array ($this->options)) $ausgabe .= $this->out_group(0);
     $ausgabe .= "</select>\n";
     return $ausgabe;
