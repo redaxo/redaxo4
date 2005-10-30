@@ -1,4 +1,9 @@
-<?
+<?php
+/** 
+ *  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 /*
  * 
@@ -45,7 +50,6 @@ $sprachen_add = "&category_id=$category_id";
 include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
-
 if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $KATPERM)
 {
   // --------------------- KATEGORIE EDIT
@@ -237,7 +241,7 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
     $AART = new sql;
     // $AART->debugsql = 1;
     $AART->setTable("rex_article");
-    if (!$id) $id = $AART->setNewId("id");
+    if (!isset($id) or !$id) $id = $AART->setNewId("id");
     else $AART->setValue("id",$id);
     $AART->setValue("name",$article_name);
     $AART->setValue("catname",$article_name);
@@ -475,11 +479,12 @@ if($category_id > -1)
 
   if (isset($function) and $function == "add_art" && $KATPERM)
   {
-    if ($template_id=="")
+    if (!isset($template_id) or $template_id == '')
     {
+      if (!isset($re_id)) $re_id = '';
       $sql = new sql;
-      $sql->setQuery("select template_id from rex_article where re_id=$re_id and clang=$clang and startpage=1");
-      if ($sql->getRows()==1) $TMPL_SEL->set_selected($sql->getValue("template_id"));
+      $sql->setQuery("SELECT template_id FROM rex_article WHERE re_id=$re_id and clang=$clang and startpage=1");
+      if ($sql->getRows() == 1) $TMPL_SEL->set_selected($sql->getValue("template_id"));
     }
     echo "<tr>
         <form action=index.php method=post>
@@ -503,14 +508,14 @@ if($category_id > -1)
   // --------------------- ARTIKEL LIST
   
   $sql = new sql;
-  $sql->setQuery("select * 
-      from 
+  $sql->setQuery("SELECT * 
+      FROM 
         rex_article 
-      where 
+      WHERE 
         ((re_id='$category_id' and startpage=0) or (id='$category_id' and startpage=1)) 
         and clang=$clang  
-      order by 
-        prior,name");
+      ORDER BY 
+        prior, name");
 
   for ($i=0; $i<$sql->getRows(); $i++){
 
@@ -518,7 +523,7 @@ if($category_id > -1)
     {
       $startpage = $I18N->msg("start_article");
       $icon = "liste.gif";
-    }else
+    } else
     {
       $startpage = $I18N->msg("article");
       $icon = "document.gif";
@@ -608,6 +613,6 @@ if($category_id > -1)
     $sql->counter++;
   }
 }
-echo "</table>";
+echo '</table>';
 
 ?>
