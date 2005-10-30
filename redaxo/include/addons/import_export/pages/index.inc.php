@@ -382,8 +382,8 @@ if ($msg != '') echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr>
         echo "<tr>
         <td class=lgrey><b>$file</b></td>
         <td class=lgrey>$filec</td>
-        <td class=lgrey><a href=index.php?page=$page&amp;function=dbimport&amp;impname=$file title='". $I18N_IM_EXPORT->msg( 'import_file') ."'>".$I18N_IM_EXPORT->msg("import")."</a></td>
-        <td class=lgrey><a href=index.php?page=$page&amp;function=delete&amp;impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."'>".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
+        <td class=lgrey><a href=index.php?page=$page&amp;function=dbimport&amp;impname=$file title='". $I18N_IM_EXPORT->msg( 'import_file') ."' onclick=\"return confirm('". $I18N_IM_EXPORT->msg('proceed_import'). "')\">".$I18N_IM_EXPORT->msg("import")."</a></td>
+        <td class=lgrey><a href=index.php?page=$page&amp;function=delete&amp;impname=$file title='". $I18N_IM_EXPORT->msg( 'delete_file') ."' onclick=\"return confirm('". $I18N->msg('delete'). " ?')\">".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
     }
   echo "</table>";
 

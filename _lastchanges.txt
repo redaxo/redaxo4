@@ -8,8 +8,7 @@ angehandelt.
 Todos (Nach Prio sortiert):
 ---------------------------------------------------------------------------------
 
-	* AddOns 
-	* löschbar machen
+	* AddOns löschbar machen
 	* JS Linkmap umbauen 
 		* Artikel suchbar machen
 		* Struktur anzeigen und Artikel im Extra Bereich
@@ -72,8 +71,9 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-	* rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar..
-	* class article: setTemplateId und getTemplateId eingebaut..
+  * Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] (kills)
+	* rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar.. (jan)
+	* class article: setTemplateId und getTemplateId eingebaut.. (jan)
 	* OOF erweitert: neue OOAddon Klasse (kills)
 	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich (kills)
 	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar (jan)
