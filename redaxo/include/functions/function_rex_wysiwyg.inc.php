@@ -6,7 +6,7 @@
 #
 ##################################################################
 
-function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='',$STYLES='',$LANG='',$BUTTONROW1='',$BUTTONROW2='',$BUTTONROW3='empty',$BUTTONROW4='empty', $PLUGINS = ''){
+function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='',$STYLES='',$LANG='',$BUTTONROW1='',$BUTTONROW2='',$BUTTONROW3='empty',$BUTTONROW4='empty', $PLUGINS = '', $THEME = ''){
 
         // lang = de oder en
 
@@ -17,6 +17,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
         if($STYLE_SHEET =='')   $STYLE_SHEET="css/style.css";
         if($STYLES =='')    $STYLES="all";
         if($LANG =='')      $LANG="de";
+        if($THEME == '')    $THEME ="advanced";
 
 		// All buttons
         /*
@@ -72,7 +73,7 @@ function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='
 //                        relative_urls : false,
 	                    mode : "specific_textareas",
                         plugins : "'. $PLUGINS .'",
-	                    theme : "advanced",
+	                    theme : "'. $THEME .'",
                         theme_advanced_buttons1 : "'.$BUTTONROW1.'",
                         theme_advanced_buttons2 : "'.$BUTTONROW2.'",
                         theme_advanced_buttons3 : "'.$BUTTONROW3.'",

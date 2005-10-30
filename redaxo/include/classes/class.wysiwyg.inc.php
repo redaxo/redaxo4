@@ -9,6 +9,7 @@ class rex_wysiwyg_editor {
     var $styles = '';
     var $lang = '';
     var $plugins = 'redaxo_default';
+    var $theme = '';
     var $buttonrow1 = '';
     var $buttonrow2 = '';
     var $buttonrow3 = 'empty';
@@ -27,7 +28,8 @@ class rex_wysiwyg_editor {
                 $this->buttonrow2,
                 $this->buttonrow3,
                 $this->buttonrow4,
-                $this->plugins
+                $this->plugins,
+                $this->theme
         );
     }
 
