@@ -27,7 +27,8 @@ class select{
   var $select_multiple; //
   var $select_style;
   var $select_extra;
-
+  var $select_style_class;
+  
   ################ Konstruktor
   function select(){
         $this->init();
@@ -68,9 +69,21 @@ class select{
     $this->select_id  = $id;
   }
     
-  ################ select style
+  /**
+  * select style
+  * Es ist moeglich sowohl eine Styleklasse als auch einen Style zu uebergeben.
+  *
+  * Aufrufbeispiel:
+  * $sel_media->set_style('class="inp100"');
+  * und/oder
+  * $sel_media->set_style("width:150px;");
+  */ 
   function set_style($style){
-    $this->select_style = $style;
+    if (ereg("class=", $style)) {
+      $this->select_style_class = $style;
+    } else {
+      $this->select_style = 'style="'.$style.'"';
+    }
   }
   
   ################ select size
@@ -101,7 +114,8 @@ class select{
         
     global $STYLE;
 //    $ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
-    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" style="'.$this->select_style.'" id="'.$this->select_id.'" '.$this->select_extra.'>'."\n";
+//    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" style="'.$this->select_style.'" id="'.$this->select_id.'" '.$this->select_extra.'>'."\n";
+    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" '.$this->select_style_class.' '.$this->select_style.' id="'.$this->select_id.'" '.$this->select_extra.'>'."\n";
     if (is_array ($this->options)) $ausgabe .= $this->out_group(0);
     $ausgabe .= "</select>\n";
     return $ausgabe;
