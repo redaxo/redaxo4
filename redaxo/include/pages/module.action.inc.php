@@ -194,7 +194,7 @@ if ($OUT)
     echo '</td><td>';
     if ($sql->getValue("sdelete") == 1) echo 'X';
     echo '</td>
-        <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm("'.$I18N->msg('delete').' ?")">'.$I18N->msg("action_delete").'</a></td>
+        <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a></td>
       </tr>'."\n";
     $sql->counter++;
   }
