@@ -18,7 +18,7 @@
 class select{
 
   var $select_name;   //
-    var $select_id; 
+  var $select_id; 
 //  var $counter;     // 
   var $options;   // 
   var $option_selected; //
@@ -48,7 +48,7 @@ class select{
     $this->select_name  = "standard";
     $this->select_size  = 5;
     $this->select_multiple  = "";
-        $this->option_selected = array();
+    $this->option_selected = array();
 //    $this->option_anzahl= 0;
     
   }
@@ -58,15 +58,15 @@ class select{
     $this->select_name  = $name;
   }
 
-  ################ select name
+  ################ select extra
   function set_selectextra($extra){
     $this->select_extra  = $extra;
   }
 
-    ################ select id
-    function set_id($id){
-        $this->select_id  = $id;
-    }
+  ################ select id
+  function set_id($id){
+    $this->select_id  = $id;
+  }
     
   ################ select style
   function set_style($style){
