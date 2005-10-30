@@ -221,7 +221,8 @@ class article
           $MODULESELECT = new select;
           $MODULESELECT->set_name("module_id");
           $MODULESELECT->set_size(1);
-          $MODULESELECT->set_style("width:100%;' onchange='this.form.submit();");
+          $MODULESELECT->set_style("width:100%;");
+          $MODULESELECT->set_selectextra("onchange='this.form.submit();'");
           $MODULESELECT->add_option("----------------------------  ".$I18N->msg("add_block"),'');
           
           for ($i=0;$i<$MODULE->getRows();$i++)
