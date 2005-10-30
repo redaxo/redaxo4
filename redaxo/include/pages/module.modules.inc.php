@@ -1,5 +1,10 @@
 <?php
-  
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */
+
 $OUT = TRUE;
 
 // ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
@@ -188,7 +193,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         $gaa_sel = new select();
         $gaa_sel->set_name("action_id");
         $gaa_sel->set_size(1);
-        $gaa_sel->set_style("' class='inp100");
+        $gaa_sel->set_style('class="inp100"');
         
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
