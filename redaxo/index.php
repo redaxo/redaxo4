@@ -1,4 +1,9 @@
 <?php
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
 
 // ----- caching start für output filter
 
@@ -23,7 +28,7 @@ $REX['PAGEPATH'] = "";
 if ($REX['SETUP'])
 {
    // ----------------- SET SETUP LANG
-  if ($lang != "en_gb" && $lang != "de_de" ) $lang = "de_de";
+  if (!isset ($lang) or ($lang != "en_gb" && $lang != "de_de" )) $lang = "de_de";
   $REX['LANG'] = $lang;
   
   // ----------------- CREATE LANG OBJ
