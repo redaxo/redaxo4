@@ -1,13 +1,12 @@
 <?php
-
 /**
- * Zur Ausgabe des redaxo Headers im Backend
- * 
- * @package redaxo3 
+ * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
+ * @package redaxo3
  * @version $Id$
- *  
+ */ 
+ 
+/**
  * @example
- * 
  * $subpages = array(
  *  array( '', 'Index'),
  *  array( 'lang', 'Sprachen'),
@@ -16,57 +15,9 @@
  * 
  * title( 'Headline', $subpages)
  */
-function title($head,$subline = '',$styleclass="grey", $width = '770px')
+function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
-    $subtitle = $subline;
-    if (is_array( $subline)) 
-    {
-        $subtitle = '&nbsp;&nbsp;&nbsp;';
-        $numPages = count ($subline);
-        $i = 0;
-        
-        foreach ($subline as $subpage)
-        {
-            if (!is_array( $subpage)) {
-                continue;
-            }
-            
-            $link = $subpage[0];
-            $label = $subpage[1];
-            
-            // Falls im Link parameter enthalten sind, diese Abschneiden
-            if (($pos = strpos( $link, '&')) !== false) 
-            {
-              $link = substr( $link, 0, $pos);
-            }
-            
-            $active = (empty( $_REQUEST['subpage']) && $link == '') || (!empty( $_REQUEST['subpage'])&& $_REQUEST['subpage'] == $link);
-
-            // Auf der aktiven Seite den Link nicht anzeigen            
-            if ($active) 
-            {
-                $format = '%s';
-                $subtitle .= sprintf( $format, $label); 
-            }
-            else if ($link == '')
-            {
-                $format = '<a href="?page='. $_REQUEST['page'] .'">%s</a>';
-                $subtitle .= sprintf( $format, $label); 
-            }
-            else
-            {
-                $format = '<a href="?page='. $_REQUEST['page'] .'&amp;subpage=%s">%s</a>';
-                $subtitle .= sprintf( $format, $link, $label); 
-            }
-            
-            if ( $i != ($numPages - 1))
-            {
-                $subtitle .= ' | ';
-            }
-            
-            $i++; 
-        }
-    }
+  $subtitle = rex_get_subtitle( $subtitle);
 ?>
   <br />
   
@@ -84,7 +35,7 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
         <tr style="height: 30px">
             <td class="<?php echo $styleclass ?>" >
                 <b style="line-height:18px">
-                   <?php echo $subtitle."\n" /* \n aus Quellcode formatierungsgründen */ ?>
+                   <?php echo $subtitle ?>
                 </b>
             </td>
         </tr>
@@ -94,4 +45,95 @@ function title($head,$subline = '',$styleclass="grey", $width = '770px')
   <br />
 <?php
 }
+
+/**
+ * @example
+ * $subpages = array(
+ *  array( '', 'Index'),
+ *  array( 'lang', 'Sprachen'),
+ *  array( 'groups', 'Gruppen')
+ * );
+ * 
+ * title( 'Headline', $subpages)
+ */
+function small_title($title, $subtitle) {
+  $subtitle = rex_get_subtitle( $subtitle, ' class="white"');
 ?>
+  <table border="0" cellpadding="5" cellspacing="1" width="100%">
+    <tr>
+      <td colspan="3" class="grey" align="right"><?php echo $title ?></td>
+    </tr>
+    <tr>
+      <td class="greenwhite">
+        <b><?php echo $subtitle ?></b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3"></td>
+    </tr>
+  </table>
+<?php  
+}
+
+/**
+ * Helper function
+ */
+function rex_get_subtitle($subline, $attr = '')
+{
+  $subtitle = $subline;
+  if (is_array($subline))
+  {
+    $subtitle = '&nbsp;&nbsp;&nbsp;';
+    $numPages = count($subline);
+    $i = 0;
+
+    foreach ($subline as $subpage)
+    {
+      if (!is_array($subpage))
+      {
+        continue;
+      }
+
+      $link = $subpage[0];
+      $label = $subpage[1];
+
+      // Falls im Link parameter enthalten sind, diese Abschneiden
+      if (($pos = strpos($link, '&')) !== false)
+      {
+        $link = substr($link, 0, $pos);
+      }
+
+      $active = (empty ($_REQUEST['subpage']) && $link == '') || (!empty ($_REQUEST['subpage']) && $_REQUEST['subpage'] == $link);
+
+      // Auf der aktiven Seite den Link nicht anzeigen            
+      if ($active)
+      {
+        $format = '%s';
+        $subtitle .= sprintf($format, $label);
+      }
+      else
+        if ($link == '')
+        {
+          $format = '<a href="?page='.$_REQUEST['page'].'"%s>%s</a>';
+          $subtitle .= sprintf($format, $attr, $label);
+        }
+        else
+        {
+          $format = '<a href="?page='.$_REQUEST['page'].'&amp;subpage=%s"%s>%s</a>';
+          $subtitle .= sprintf($format, $link, $attr, $label);
+        }
+
+      if ($i != ($numPages -1))
+      {
+        $subtitle .= ' | ';
+      }
+
+      $i ++;
+    }
+  }
+  // \n aus Quellcode formatierungsgründen
+  return $subtitle."\n" ;
+}
+?>
+
+
