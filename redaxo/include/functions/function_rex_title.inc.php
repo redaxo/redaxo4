@@ -135,5 +135,3 @@ function rex_get_subtitle($subline, $attr = '')
   return $subtitle."\n" ;
 }
 ?>
-
-
