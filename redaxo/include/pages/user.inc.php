@@ -35,7 +35,7 @@ mulselect module
 if (isset($user_id) and $user_id != '')
 {
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_user WHERE user_id = '$user_id'");
+  $sql->setQuery("SELECT * FROM rex_user WHERE user_id = '$user_id' LIMIT 2");
   if ($sql->getRows()!= 1) unset($user_id);
 }
 
