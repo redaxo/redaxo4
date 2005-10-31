@@ -45,7 +45,7 @@ if (isset($function) and $function == "delete")
   // noch checken das nicht alle tabellen geloescht werden
   // install/temp.sql aendern
     
-  if($_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
+  if (isset($_FILES['FORM']) and $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
     $msg = $I18N_IM_EXPORT->msg("no_import_file_chosen_or_wrong_version")."<br>";
   else {
     if ($impname != "") $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/$impname";
