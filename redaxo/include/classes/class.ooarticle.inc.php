@@ -179,40 +179,6 @@ class OOArticle extends OORedaxo
    }
 
    /*
-    * Object Function:
-    * Return a array of all parentCategories for an Breadcrumb for instance
-    * Returns an array of OORedaxo objects sorted by $prior.
-    *
-    * If $ignore_offlines is set to TRUE,
-    * all categories with status 0 will be
-    * excempt from this list!
-    */
-   function getParentTree()
-   {
-
-      if ($this->_path)
-      {
-         $explode = explode('|', $this->_path);
-         if (is_array($explode))
-         {
-            foreach ($explode as $var)
-            {
-               if ($var != '')
-               {
-                  $return[] = OOCategory :: getCategoryById($var, $this->_clang);
-               }
-            }
-         }
-         if ($this->_startpage)
-         {
-            $return[] = OOCategory :: getCategoryById($this->_id, $this->_clang);
-         }
-
-         return $return;
-      }
-   }
-
-   /*
     * Accessor Method:
     * returns the category id
     */
@@ -238,6 +204,10 @@ class OOArticle extends OORedaxo
       global $REX;
       return $this->_id == $REX['STARTARTIKEL_ID'];
    }
-
+   
+   function isValid($article)
+   {
+      return is_object($article) && is_a($article, 'ooarticle');
+   }
 }
 ?>
