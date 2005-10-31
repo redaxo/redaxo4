@@ -266,13 +266,15 @@ class OORedaxo
     * Accessor Method:
     * Returns a link to this article
     * 
+    * @param [$params] Parameter für den Link
     * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
     * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
+    * @param [sorround_attributes] array Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
     */
-   function toLink($attributes = null, $sorround_tag = null, $sorround_attributes = null)
+   function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
    {
 
-      $link = '<a href="'.$this->getUrl().'"'.$this->_toAttributeString($attributes).' title="'.htmlspecialchars($this->getName()).'">'.$this->getName().'</a>';
+      $link = '<a href="'.$this->getUrl($params).'"'.$this->_toAttributeString($attributes).' title="'.htmlspecialchars($this->getName()).'">'.$this->getName().'</a>';
 
       if ($sorround_tag !== null && is_string($sorround_tag))
       {
@@ -296,6 +298,41 @@ class OORedaxo
 
       return $attr;
    }
+   
+   /*
+    * Object Function:
+    * Return a array of all parentCategories for an Breadcrumb for instance
+    * Returns an array of OORedaxo objects sorted by $prior.
+    *
+    * If $ignore_offlines is set to TRUE,
+    * all categories with status 0 will be
+    * excempt from this list!
+    */
+   function getParentTree()
+   {
+      $return = array();
+      
+      if ($this->_path)
+      {
+         $explode = explode('|', $this->_path);
+         if (is_array($explode))
+         {
+            foreach ($explode as $var)
+            {
+               if ($var != '')
+               {
+                  $return[] = OOCategory :: getCategoryById($var, $this->_clang);
+               }
+            }
+         }
+         if ($this->_startpage)
+         {
+            $return[] = OOCategory :: getCategoryById($this->_id, $this->_clang);
+         }
+      }
+      
+      return $return;
+   }   
 
    /*
     * Object Helper Function:
