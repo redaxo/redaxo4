@@ -128,7 +128,7 @@ class login{
 				if ($this->USER->getRows() == 1)
 				{
 					$ok = true;
-					$_SESSION[UID][$this->system_id] = $this->USER->getValue($this->uid);
+					$_SESSION['UID'][$this->system_id] = $this->USER->getValue($this->uid);
                     
                     // Erfolgreicher Login in der DB vermerken
                     $sql = new sql();
