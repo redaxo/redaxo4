@@ -26,6 +26,11 @@ if ( $page_name != '') {
   //-->
   </script>
 </head>
+<?php
+if ( isset( $open_header_only) && $open_header_only == true) {
+  return;
+}
+?>
 <body onunload="closeAll();">
 <table class="rexHeader" cellpadding="5" cellspacing="0">
   <tr>

@@ -1,3 +1,6 @@
+<?php
+if (!(isset( $open_header_only) && $open_header_only == true)):
+?>
    <a name="bottom"></a>
    <br/>
    <table class="rexFooter" cellpadding="5" cellspacing="0">
@@ -18,6 +21,8 @@
       </tr>
          
       </table>
-
+<?php
+endif;
+?>
    </body>
 </html>
