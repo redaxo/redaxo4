@@ -1,4 +1,10 @@
 <?php 
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
+
 if (!isset($page_name)) $page_name = ''; 
 
 $page_title = $REX['SERVERNAME'];
@@ -27,7 +33,7 @@ if ( $page_name != '') {
   </tr>
   <tr>
     <td><?php
-    if ($LOGIN)
+    if (isset($LOGIN) and $LOGIN)
     {
       echo "<a href=index.php?page=structure class=white>".$I18N->msg("structure")."</a> ";
       echo " | <a href=# onclick=openMediaPool(); class=white>".$I18N->msg("pool_name")."</a>";
@@ -54,7 +60,7 @@ if ( $page_name != '') {
       }
     }
     ?></td>
-    <?php if ($LOGIN): ?><td class="logstatus" valign="top">
+    <?php if (isset ($LOGIN) and $LOGIN): ?><td class="logstatus" valign="top">
       <span class="label"><?php echo $I18N->msg('name'); ?> : </span>
     <span class="username"><?php echo $REX_USER->getValue('name'); ?></span>
     <span class="logout" style="font-weight: normal;">[<a href="index.php?FORM[logout]=1" class="white" style="font-weight: bold;"><?php echo $I18N->msg('logout'); ?></a>]</span>
