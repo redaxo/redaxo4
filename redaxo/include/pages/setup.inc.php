@@ -1,4 +1,9 @@
 <?php
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
 
 echo "
 <style type=text/css>
@@ -12,7 +17,7 @@ $MSG['good'] = "";
 
 function setuptitle($title)
 {
-  title("$title","");
+  title($title,"");
 
   echo "
   <table border=0 cellpadding=5 cellspacing=1 width=770>
@@ -22,10 +27,13 @@ function setuptitle($title)
 
 
 
+if (!isset ($checkmodus)) $checkmodus = '';
+if (!isset ($send)) $send = '';
+if (!isset ($dbanlegen)) $dbanlegen = '';
+if (!isset ($noadmin)) $noadmin = '';
 
 
 // ---------------------------------- MODUS 0 | Start
-
 if (!($checkmodus>0 && $checkmodus<10))
 {
   setuptitle("SETUP: SELECT LANGUAGE");
@@ -233,7 +241,7 @@ if ($checkmodus == 2 )
     <input type=hidden name=lang value=$lang>
     ";
 
-  if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg</td></tr><tr><td></td></tr>";
+  if(isset($err_msg) and $err_msg != '') echo "<tr><td class=warning colspan=2>$err_msg</td></tr><tr><td></td></tr>";
 
   echo "
     <tr><td colspan=2>// ---- ".$I18N->msg("setup_0201")."</td></tr>
@@ -255,7 +263,7 @@ if ($checkmodus == 2 )
 
 if ($checkmodus == 3 && $send == 1)
 {
-
+  $err_msg = '';
   if ($dbanlegen == 3)
   {
     // ----- Demo installieren
@@ -263,7 +271,7 @@ if ($checkmodus == 3 && $send == 1)
     $file_temp = $REX['INCLUDE_PATH']."/install/redaxo3_0_simple_demo.sql";
     $h = fopen($file_temp,"r");
     $conts = fread($h,filesize($file_temp));
-    $conts = str_replace("## Redaxo Database Dump Version ".$REX[version]." \n","",$conts);
+    $conts = str_replace("## Redaxo Database Dump Version ".$REX['version']." \n","",$conts);
     $all = explode("\n",$conts);
     $add = new sql;
     foreach($all as $hier){
@@ -271,14 +279,14 @@ if ($checkmodus == 3 && $send == 1)
       $add->flush();
     }
     $msg = $I18N->msg("database_imported").". ".$I18N->msg("entry_count",count($all))."<br>";
-    unset($REX[CLANG]);
+    unset($REX['CLANG']);
     $gl = new sql;
     $gl->setQuery("select * from rex_clang");
     for ($i=0;$i<$gl->getRows();$i++)
     {
       $id = $gl->getValue("id");
       $name = $gl->getValue("name");
-      $REX[CLANG][$id] = $name;
+      $REX['CLANG'][$id] = $name;
       $gl->next();
     }
     $msg .= rex_generateAll();
@@ -384,12 +392,22 @@ if ($checkmodus == 3)
     <input type=hidden name=lang value=$lang>
     ";
 
-  if($err_msg!="") echo "<tr><td class=warning colspan=2>$err_msg<br>".$I18N->msg("setup_033")."</td></tr><tr><td></td></tr>";
+  if (isset($err_msg) and $err_msg != '') echo "<tr><td class=warning colspan=2>$err_msg<br>".$I18N->msg("setup_033")."</td></tr><tr><td></td></tr>";
 
-  if ($dbanlegen == 1) $dbchecked1 = " checked";
+  if (!isset ($dbchecked0)) $dbchecked0 = '';
+  if (!isset ($dbchecked1)) $dbchecked1 = '';
+  if (!isset ($dbchecked2)) $dbchecked2 = '';
+  if (!isset ($dbchecked3)) $dbchecked3 = '';
+  switch ($dbanlegen) {
+    case 1: $dbchecked1 = " checked"; break;
+    case 2: $dbchecked2 = " checked"; break;
+    case 3: $dbchecked3 = " checked"; break;
+    default: $dbchecked0 = " checked";
+  }
+/*  if ($dbanlegen == 1) $dbchecked1 = " checked";
   elseif ($dbanlegen == 2) $dbchecked2 = " checked";
   elseif ($dbanlegen == 3) $dbchecked3 = " checked";
-  else $dbchecked0 = " checked";
+  else $dbchecked0 = " checked"; */
 
   echo "
     <tr>
@@ -486,6 +504,8 @@ if ($checkmodus == 4)
   elseif ($dbanlegen == 2) $dbchecked2 = " checked";
   else $dbchecked0 = " checked";
 
+  if (!isset ($redaxo_user_login)) $redaxo_user_login = '';
+  if (!isset ($redaxo_user_pass)) $redaxo_user_pass = '';
   echo "
 
     <tr><td><label for='redaxo_user_login'>".$I18N->msg("setup_046").":</label></td><td><input type=text class=inp100 value=\"$redaxo_user_login\" id=redaxo_user_login name=redaxo_user_login></td></tr>
