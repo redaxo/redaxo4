@@ -35,7 +35,7 @@ echo '<br /><form action="index.php" method="post" name="loginformular">
       <table width="200" cellpadding="3" cellspacing="0" border="0">
         <tr>
           <td valign="middle"><input type="hidden" name="page" value="structure">'.$I18N->msg('login_name').':</td>
-          <td valign="middle"><input type="text" size="10" value="'.$REX_ULOGIN.'" name="REX_ULOGIN"></td>
+          <td valign="middle"><input type="text" size="10" value="'.$REX_ULOGIN.'" name="REX_ULOGIN" autocomplete="off"></td>
           <td valign="middle">&nbsp;</td>
         </tr>
         <tr>
