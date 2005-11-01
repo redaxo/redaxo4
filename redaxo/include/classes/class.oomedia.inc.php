@@ -130,7 +130,7 @@ class OOMedia
     */
    function & getMediaByName($filename)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql :: escape($filename).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'. $filename .'"';
       $sql = new sql();
       //$sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -160,7 +160,7 @@ class OOMedia
     */
    function & getMediaByExtension($extension)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.sql :: escape($extension).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'. $extension .'"';
       $sql = new sql();
       //              $sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -192,7 +192,7 @@ class OOMedia
     */
    function & getMediaByFileName($name)
    {
-      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.sql :: escape($name).'"';
+      $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'. $name .'"';
       $sql = new sql();
       $result = $sql->get_array($query);
 
@@ -818,7 +818,7 @@ class OOMedia
     */
    function _getSQLSetString()
    {
-      $set = ' SET'.'  re_file_id = "'.sql :: escape($this->getParentId()).'"'.', category_id = "'.sql :: escape($this->getCategoryId()).'"'.', filetype = "'.sql :: escape($this->getType()).'"'.', filename = "'.sql :: escape($this->getFileName()).'"'.', originalname = "'.sql :: escape($this->getOrgFileName()).'"'.', filesize = "'.sql :: escape($this->getSize()).'"'.', width = "'.sql :: escape($this->getWidth()).'"'.', height = "'.sql :: escape($this->getHeight()).'"'.', title = "'.sql :: escape($this->getTitle()).'"'.', description = "'.sql :: escape($this->getDescription()).'"'.', copyright = "'.sql :: escape($this->getCopyright()).'"'.', updatedate = "'.sql :: escape($this->getUpdateDate(null)).'"'.', createdate = "'.sql :: escape($this->getCreateDate(null)).'"'.', updateuser = "'.sql :: escape($this->getUpdateUser()).'"'.', createuser = "'.sql :: escape($this->getCreateUser()).'"';
+      $set = ' SET'.'  re_file_id = "'. $this->getParentId() .'"'.', category_id = "'.sql :: escape($this->getCategoryId()).'"'.', filetype = "'.sql :: escape($this->getType()).'"'.', filename = "'.sql :: escape($this->getFileName()).'"'.', originalname = "'.sql :: escape($this->getOrgFileName()).'"'.', filesize = "'.sql :: escape($this->getSize()).'"'.', width = "'.sql :: escape($this->getWidth()).'"'.', height = "'.sql :: escape($this->getHeight()).'"'.', title = "'.sql :: escape($this->getTitle()).'"'.', description = "'.sql :: escape($this->getDescription()).'"'.', copyright = "'.sql :: escape($this->getCopyright()).'"'.', updatedate = "'.sql :: escape($this->getUpdateDate(null)).'"'.', createdate = "'.sql :: escape($this->getCreateDate(null)).'"'.', updateuser = "'.sql :: escape($this->getUpdateUser()).'"'.', createuser = "'.sql :: escape($this->getCreateUser()).'"';
 
       return $set;
    }

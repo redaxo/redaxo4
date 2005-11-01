@@ -71,6 +71,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * sql::escape() entfernt (unnötig) (kills)
   * OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) (kills)
   * Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] (kills)
 	* rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar.. (jan)

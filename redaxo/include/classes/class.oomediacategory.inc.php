@@ -121,7 +121,7 @@ class OOMediaCategory
     */
    function & getCategoryByName($name)
    {
-      $query = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE name = "'.sql :: escape($name).'"';
+      $query = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE name = "'. $name .'"';
       $sql = new sql();
       //$sql->debugsql = true;
       $result = $sql->get_array($query);
@@ -308,7 +308,7 @@ class OOMediaCategory
            */
    function _getSQLSetString()
    {
-      $set = ' SET'.'  re_id = "'.sql :: escape($this->getParentId()).'"'.', name = "'.sql :: escape($this->getName()).'"'.', path = "'.sql :: escape($this->getPath()).'"'.', hide = "'.sql :: escape($this->isHidden()).'"'.', updatedate = "'.sql :: escape($this->getUpdateDate()).'"'.', createdate = "'.sql :: escape($this->getCreateDate()).'"'.', updateuser = "'.sql :: escape($this->getUpdateUser()).'"'.', createuser = "'.sql :: escape($this->getCreateUser()).'"';
+      $set = ' SET'.'  re_id = "'. $this->getParentId() .'"'.', name = "'. $this->getName() .'"'.', path = "'. $this->getPath() .'"'.', hide = "'.sql :: escape($this->isHidden()).'"'.', updatedate = "'.sql :: escape($this->getUpdateDate()).'"'.', createdate = "'.sql :: escape($this->getCreateDate()).'"'.', updateuser = "'.sql :: escape($this->getUpdateUser()).'"'.', createuser = "'.sql :: escape($this->getCreateUser()).'"';
       return $set;
    } /**
            * @access protected
