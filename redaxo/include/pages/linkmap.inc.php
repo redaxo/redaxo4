@@ -1,31 +1,4 @@
-<?php 
-if (!isset($page_name)) $page_name = ''; 
-
-$page_title = $REX['SERVERNAME'];
-if ( $page_name != '') {
-   $page_title .= ' - '. $page_name;
-} 
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="<?php echo $I18N->msg("htmllang"); ?>">
-<head>
-  <title><?php echo $REX['SERVERNAME'].' - '. $page_name .' Linkmap'; ?></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
-  <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
-  <link rel=stylesheet type=text/css href=css/style.css />
-  <script language=Javascript src=js/standard.js></script>
-  <script language=Javascript>
-  <!--
-  var redaxo = true;
-  //-->
-  </script>
-</head><?php
-
-// error_reporting( E_ALL );
-
-?>
-
-<script>
+<script language="JavaScript" type="text/javascript">
 
 var deltaY = 20
 var x0 = 20
@@ -410,39 +383,39 @@ function initArray()
 
 print "Note(0,-1,'','')\n";
 
-function rex_linkFolder($cat,$parent,$faktor)
+function rex_linkFolder($cat, $parent, $faktor)
 {
-	$catsize = sizeof($cat);
-    if ($catsize != "0"):
-		foreach ($cat as $sub1){
+  $catsize = sizeof($cat);
+  if ($catsize != "0")
+    : foreach ($cat as $sub1)
+    {
 
-        	if ($sub1)
-        	{
-        		
-        		// knoten
-        		$parent1 = $sub1->getId();
-		        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'","",$sub1->getName())."','')\n";
-	
-				// hat artikel ?!?
-				$myart = $sub1->getArticles(false);
-			    if (sizeof($myart)>0):
-			    foreach($myart as $art){
-			         print "Note(".(100000+$art->getId()).",".$parent1.",'".ereg_replace("\n|\r|\"|'","",$art->getName())."','redaxo://".$art->getId()."')\n";
-			    }
-			    endif;
-	
-				// ist knoten und hat unterartikel ?
-				rex_linkFolder($sub1->getChildren(),$parent1,($faktor+1));
-			}
-		}
-		
-	endif;
-		
+      if ($sub1)
+      {
+
+        // knoten
+        $parent1 = $sub1->getId();
+        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'", "", $sub1->getName())."','')\n";
+
+        // hat artikel ?!?
+        $myart = $sub1->getArticles(false);
+        if (sizeof($myart) > 0)
+          : foreach ($myart as $art)
+          {
+            print "Note(". (100000 + $art->getId()).",".$parent1.",'".ereg_replace("\n|\r|\"|'", "", $art->getName())."','redaxo://".$art->getId()."')\n";
+          }
+        endif;
+
+        // ist knoten und hat unterartikel ?
+        rex_linkFolder($sub1->getChildren(), $parent1, ($faktor +1));
+      }
+    }
+
+  endif;
+
 }
 
-rex_linkFolder(OOCategory::getRootCategories(false),0,100);
-
-
+rex_linkFolder(OOCategory :: getRootCategories(false), 0, 100);
 ?>
 
   treeTyp[0] = 'f'
@@ -461,12 +434,12 @@ function preOpen()
     for ( i=0; i<a_id.length; i++ )
     {
       id=a_id[i]
-  		while ( id )
+      while ( id )
       {
         treeIsOn[id2treeIndex[id]] = true
         treeWasOn[id2treeIndex[id]] = true
         treeIsShown[id2treeIndex[id]] = true
-			    if (treeTyp[id2treeIndex[id]] == 'f') gif_on(id)
+          if (treeTyp[id2treeIndex[id]] == 'f') gif_on(id)
         id=treeP_id[id2treeIndex[id]]
       }
     }
@@ -492,48 +465,46 @@ if ( isDomNN )
 
 <?php
 
-echo '
-</head><body bgcolor=#ffffff onLoad="if (layerok) { preOpen(); showTree(); }">
-<table border=0 cellpadding=5 cellspacing=0 width=100%>
-<tr><td colspan=3 class=grey align=right>'.$REX['SERVERNAME'].'</td></tr>
-<tr><td class=greenwhite><b>Linkmap</b></td></tr></table>
 
-<table border=0 cellpadding=5 cellspacing=0 width=100%><tr><td class=lgrey>
+small_title($REX['SERVERNAME'], 'Linkmap');
 
-<SCRIPT language="JavaScript1.2">
-<!--
-
-  	initDiv();
-  	hideLayer("sitemapinfo");
-
-	function insertLink(link,name){
-';
-
-if($_GET['HTMLArea']!=''){
-    if($_GET['HTMLArea']=='TINY'){
-      print 'window.opener.tinyMCE.insertLink(link,"_self");';
-    } else {
-          print 'window.opener.'.$_GET['HTMLArea'].'.surroundHTML("<a href="+link+">","</a>");';
-      }
+$func_body = '';
+if (!isset ($HTMLArea))
+  $HTMLArea = '';
+if (!isset ($opener_input_field))
+  $opener_input_field = '';
+if ($HTMLArea != '')
+{
+  if ($HTMLArea == 'TINY')
+  {
+    $func_body = 'window.opener.tinyMCE.insertLink(link);';
+  }
+  else
+  {
+    $func_body = 'window.opener.'.$HTMLArea.'.surroundHTML("<a href="+link+">","</a>");';
+  }
 }
-if(isset($_GET['opener_input_field']) && $_GET['opener_input_field']!=''){
-			print "linkid = link.replace('redaxo://','');\n";
-	        print "opener.document.REX_FORM['LINK[".$_GET['opener_input_field']."]'].value = linkid;\n";
-	        print "opener.document.REX_FORM['LINK_NAME[".$_GET['opener_input_field']."]'].value = name;\n";
+if ($opener_input_field != '')
+{
+  $func_body .= "linkid = link.replace('redaxo://','');\n";
+  $func_body .= "opener.document.REX_FORM['LINK[".$_GET['opener_input_field']."]'].value = linkid;\n";
+  $func_body .= "opener.document.REX_FORM['LINK_NAME[".$_GET['opener_input_field']."]'].value = name;\n";
 }
-
-echo '
-	        self.close();
-
-	}
-
-//-->
-</SCRIPT>
-
-</td></tr></table>
-
-';
-
-
-
 ?>
+
+<script language="JavaScript" type="text/javascript">
+  initDiv();
+  hideLayer("sitemapinfo");
+  
+  if (layerok) 
+  { 
+    preOpen();
+    showTree();
+  }
+  
+  function insertLink(link,name){
+    <?php echo $func_body. "\n" ?>
+    self.close();
+
+  }
+</script>

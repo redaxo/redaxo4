@@ -101,7 +101,7 @@ if ($REX['SETUP'])
     $dl = true;
   }elseif ($page == "linkmap")
   {
-    $dl = true;
+    $open_header_only = true;
   }elseif ($page == "content")
   {
     $page_name = $I18N->msg("content");
