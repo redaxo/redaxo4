@@ -1,4 +1,9 @@
 <?php
+/**
+ * Klasse zur Abbiludung der Struktur
+ * @package redaxo3 
+ * @version $Id$
+ */
 class OOStructure
 {
   /*
