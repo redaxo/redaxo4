@@ -59,8 +59,8 @@ a.black		{ color: #000000; }
 .inpicon	{ width: 20px; text-align:center;}
 .rexbutton	{ width: 250px; background-color:#ffffff; border:1px solid #999999; padding:2px;}
 
-
-optgroup { font-weight: bold; font-style: normal;}
+.online {	color: #00aa00; }
+.offline { color: #aa0000; }
 
 /* Links auf Bildern ohne Rahmen */
 a img {
