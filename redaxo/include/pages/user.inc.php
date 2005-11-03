@@ -214,7 +214,6 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
 
   $perm = "";
   if (isset($useradmin) and $useradmin == 1) $perm .= "admin[]";
-  if (isset($devadmin) and $devadmin == 1)   $perm .= "dev[]";
   if (isset($allcats) and $allcats == 1)     $perm .= "csw[0]";
   if (isset($allmcats) and $allmcats == 1)   $perm .= "media[0]";
 
@@ -339,7 +338,6 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     
     $perm = "";
     if (isset($useradmin) and $useradmin == 1) $perm .= "admin[]";
-    if (isset($devadmin) and $devadmin == 1)   $perm .= "dev[]";
     if (isset($allcats) and $allcats == 1)     $perm .= "csw[0]";
     if (isset($allmcats) and $allmcats == 1)   $perm .= "media[0]";
   
@@ -413,7 +411,6 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
   {
     
     if ($useradmin == 1) $adminchecked = " checked";
-    if ($devadmin == 1) $devchecked = " checked";
     if ($allcats == 1) $allcatschecked = " checked";
     if ($allmcats == 1) $allmcatschecked = " checked";
     
@@ -491,7 +488,6 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
   if (!isset($username)) { $username = ''; }
   if (!isset($userdesc)) { $userdesc = ''; }
   if (!isset($adminchecked)) { $adminchecked = ''; }
-  if (!isset($devchecked)) { $devchecked = ''; }
   if (!isset($allcatschecked)) { $allcatschecked = ''; }
   if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
   
@@ -516,8 +512,8 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
     <tr>
       <td align="right"><input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.'></td>
             <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
-            <td align="right"><input type="checkbox" id="devadmin" name="devadmin" value="1" '.$devchecked.'></td>
-            <td><label for="devadmin">'.$I18N->msg("user_developer").'</label></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
     </tr>'."\n";
   echo '  <tr>
       <td>'.$I18N->msg("user_lang_xs").'</td>
@@ -582,9 +578,6 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
     // ----- EINLESEN DER PERMS
     if ($sql->isValueOf("rights","admin[]")) $adminchecked = "checked";
     else $adminchecked = "";
-
-    if ($sql->isValueOf("rights","dev[]")) $devchecked = "checked";
-    else $devchecked = "";
 
     if ($sql->isValueOf("rights","csw[0]")) $allcatschecked = "checked";
     else $allcatschecked = "";
@@ -685,8 +678,8 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       
     echo '</td>
       <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
-      <td align="right"><input type="checkbox" id="devadmin" name="devadmin" value="1" '.$devchecked.'></td>
-      <td><label for="devadmin">'.$I18N->msg("user_developer").'</label></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
       <td>'.$I18N->msg("user_lang_xs").'</td>
