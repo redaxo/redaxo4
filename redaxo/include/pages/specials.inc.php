@@ -114,15 +114,8 @@ if ($subpage == '')
     fwrite($h,$cont,strlen($cont));
     fclose($h);
   
-    if ($neu_caching != "TRUE") $REX['CACHING'] = false;
-    else $REX['CACHING'] = true;
-    
-    if ($neu_caching_debug != "TRUE") $REX['CACHING_DEBUG'] = false;
-    else $REX['CACHING_DEBUG'] = true;
-    
     if ($neu_modrewrite != "TRUE") $REX['MOD_REWRITE'] = false;
     else $REX['MOD_REWRITE'] = true;
-  
   
     $REX['STARTARTIKEL_ID'] = $neu_startartikel;
     $REX['EMAIL'] = $neu_error_emailaddress;
