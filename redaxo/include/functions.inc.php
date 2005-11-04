@@ -71,6 +71,7 @@ include_once $REX['INCLUDE_PATH']."/classes/class.wysiwyg.inc.php";
 
 // ----- FUNCTIONS
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_modrewrite.inc.php";
+include_once $REX['INCLUDE_PATH']."/functions/function_rex_extension.inc.php";
 
 // ----- EXTRA FUNCTIONS
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_wysiwyg.inc.php";
