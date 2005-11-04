@@ -153,23 +153,11 @@ if (!$dl) include $REX['INCLUDE_PATH']."/layout/bottom.php";
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
-
 // ---- user functions vorhanden ? wenn ja ausführen
-if (isset($REX['OUTPUT_FILTER']) and is_array($REX['OUTPUT_FILTER']))
-{
-   foreach ($REX['OUTPUT_FILTER'] as $output_filter) {
-      $CONTENT = call_user_func($output_filter, $CONTENT);
-   }
-}
-
+$CONTENT = rex_register_extension_point( 'OUTPUT_FILTER', $CONTENT);
 
 // ---- caching functions vorhanden ? wenn ja ausführen
-if (isset($REX['OUTPUT_FILTER_CACHE']) and is_array($REX['OUTPUT_FILTER_CACHE']))
-{
-   foreach ($REX['OUTPUT_FILTER_CACHE'] as $output_cache) {
-      call_user_func($output_cache, $CONTENT);
-   }
-}
+rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT);
 
 // ----- inhalt endgueltig ausgeben
 echo $CONTENT;
