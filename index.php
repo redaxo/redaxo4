@@ -9,6 +9,7 @@
 
 // ----- ob caching start für output filter
 
+session_start();
 ob_start();
 
 // --------------------------- ini settings
@@ -72,35 +73,17 @@ if ($REX_ARTICLE->setArticleId($article_id))
   $REX['STATS'] = 0;
 }
 
-
-
 // ----- caching end für output filter
-
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
-
 // ---- user functions vorhanden ? wenn ja ausführen
-if (isset($REX['OUTPUT_FILTER']) and is_array($REX['OUTPUT_FILTER']))
-{
-  foreach ($REX['OUTPUT_FILTER'] as $output_filter) {
-    $CONTENT = call_user_func($output_filter, $CONTENT);
-  }
-}
-
+$CONTENT = rex_register_extension_point( 'OUTPUT_FILTER', $CONTENT);
 
 // ---- caching functions vorhanden ? wenn ja ausführen
-
-if (isset($REX['OUTPUT_FILTER_CACHE']) and is_array($REX['OUTPUT_FILTER_CACHE']))
-{
-  foreach ($REX['OUTPUT_FILTER_CACHE'] as $output_cache) {
-    call_user_func($output_cache, $CONTENT);
-  }
-}
-
+rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT);
 
 // ----- inhalt endgueltig ausgeben
-
 echo $CONTENT;
 
 ?>

@@ -51,7 +51,6 @@ Planung / Irgendwann:
 		* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
 	* Backend Redesign auf 100% Scaling
 	* Backend auf CSS Layout umstellen
-	* rexExtensions
 	* gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
 	
 ---------------------------------------------------------------------------------
@@ -71,6 +70,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * rexExtensions eingebaut [kills]
   * sql::escape() entfernt (unnötig) (kills)
   * OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) (kills)
   * Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] (kills)
