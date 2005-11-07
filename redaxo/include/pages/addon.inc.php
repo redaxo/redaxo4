@@ -108,19 +108,15 @@ if ($SP)
 {
 
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in include/addons.inc.php
-  // Wenn ein Addon in der Datei fehlt, ergaenze es.
-  foreach ($ADDONS as $value) {
-    if (!in_array ($value, $REX['ADDON']['install']) or $REX['ADDON']['install'][$value] === '') {
-      $WA = true;
-    }
-  }
-  if ($WA) {
+  // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
+  if (count (array_diff (array_keys (array_flip ($ADDONS)), array_keys ($REX['ADDON']['install']))) > 0 or
+      count (array_diff (array_keys ($REX['ADDON']['install']), array_keys (array_flip ($ADDONS)))) > 0) {
     $wAF_msg = write_AddonFile($ADDONS);
     if ($wAF_msg !== true) {
       echo $I18N->msg($wAF_msg);
-    };
+    }
   }
-
+  
   if (isset($errmsg) and $errmsg != "") echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">'.$errmsg.'</td></tr></table><br />';
   
   if (!isset($user_id)) { $user_id = ''; }
@@ -191,22 +187,22 @@ function write_AddonFile($ADDONS) {
 
   $file = $REX['INCLUDE_PATH']."/addons.inc.php";
   // Sichergehen, dass die Datei existiert und beschreibbar ist
-  if (is_writable($file)) {
+  if (is_writable ($file)) {
   
-    if (!$h = fopen($file, "r")) {
+    if (!$h = fopen ($file, "r")) {
       if ($fehler_check) { echo 'Konnte Datei nicht lesen.'."\n"; }
       return 'Konnte Datei nicht lesen.';
     }
-    $fcontent = fread($h,filesize($file));
-    $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
-    fclose($h);
+    $fcontent = fread ($h, filesize($file));
+    $fcontent = ereg_replace ("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
+    fclose ($h);
   
-    if (!$h = fopen($file, "w+")) {
+    if (!$h = fopen ($file, "w+")) {
       if ($fehler_check) { echo 'Konnte Datei nicht zum schreiben oeffnen.'."\n"; }
       return 'addon_schreibrecht';
     }
     //if (!fwrite($h, $fcontent, strlen($fcontent))) {
-    if (!fwrite($h, trim($fcontent))) {
+    if (!fwrite ($h, $fcontent, strlen($fcontent))) {
       if ($fehler_check) { echo 'Konnte Inhalt nicht in Datei schreiben.'."\n"; }
       return 'addon_schreibrecht';
     }
