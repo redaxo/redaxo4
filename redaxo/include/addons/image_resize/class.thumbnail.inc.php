@@ -93,7 +93,15 @@
           } elseif ($this->img["format"]=="PNG") {
               imagePNG($this->img["des"],$save);
           } elseif ($this->img["format"]=="GIF") {
-              imageGIF($this->img["des"],$save);
+          	  if (function_exists(imageGIF))
+          	  {
+          	    imageGIF($this->img["des"],$save);
+          	  }else
+          	  {
+          		$this->img["format"] = "PNG";
+          	    imagePNG($this->img["des"],$save);
+          	  }
+          	  
           } elseif ($this->img["format"]=="WBMP") {
               imageWBMP($this->img["des"],$save);
           }
