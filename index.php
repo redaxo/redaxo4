@@ -77,11 +77,11 @@ if ($REX_ARTICLE->setArticleId($article_id))
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
-// ---- user functions vorhanden ? wenn ja ausführen
+// ----- EXTENSION POINT
 $CONTENT = rex_register_extension_point( 'OUTPUT_FILTER', $CONTENT);
 
-// ---- caching functions vorhanden ? wenn ja ausführen
-rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT);
+// ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
+rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT, '', true);
 
 // ----- inhalt endgueltig ausgeben
 echo $CONTENT;
