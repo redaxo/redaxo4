@@ -76,6 +76,9 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
 
   rex_generateArticle($edit_id);
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('CAT_UPDATED','',array ("id" => $edit_id, "clang" => $clang, "name" => $kat_name, "prio" => $new_prio, "path" => $KATPATH));
+
 } elseif (isset($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM)
 {
   // --------------------- KATEGORIE DELETE
@@ -98,6 +101,10 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
         rex_newCatPrio($re_id,$mlang,0,1);
         next($CL);
       }
+      
+      // ----- EXTENSION POINT
+      rex_register_extension_point('CAT_DELETED','',array ("id" => $edit_id));
+            
     } else
     {
       $message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_articles");
@@ -129,6 +136,10 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
         
     $message = $I18N->msg("category_status_updated");
     rex_generateArticle($edit_id);
+    
+    // ----- EXTENSION POINT
+    rex_register_extension_point('CAT_STATUS','',array ("id" => $edit_id, "clang" => $clang, "status" => $newstatus));
+    
   } else
   {
     $message = $I18N->msg("no_such_category");
@@ -190,9 +201,15 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
 
     // ----- PRIOR
     rex_newCatPrio($category_id,$key,0,$Position_New_Category);
+
   }
 
   rex_generateArticle($id);
+  
+  // ----- EXTENSION POINT
+  rex_register_extension_point('CAT_ADDED','',array ("id" => $edit_id, "name" => $category_name, "prio" => $Position_New_Category, "path" => $KATPATH));
+
+ 
 }
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
@@ -210,6 +227,9 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
   rex_generateArticle($article_id);
   $amessage = $I18N->msg("article_status_updated");
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('ART_OFFLINE','',array ("id" => $article_id, "status" => 0, "clang" => $clang));
+
 }else if (isset($function) and $function == "online_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL ONLINE
@@ -222,6 +242,9 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
   $EA->update();
   rex_generateArticle($article_id);
   $amessage = $I18N->msg("article_status_updated");
+
+  // ----- EXTENSION POINT
+  rex_register_extension_point('ART_ONLINE','',array ("id" => $article_id, "status" => 1, "clang" => $clang));
 
 }else if (isset($function) and $function == "add_article" && $KATPERM)
 {
@@ -266,6 +289,10 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
   
   rex_generateArticle($id);
   
+  // ----- EXTENSION POINT
+  rex_register_extension_point('ART_ADDED','',array ("id" => $id, "status" => 0, "name" => $article_name, "re_id" => $category_id, "prior" => $Position_New_Article, "path" => $KATPATH, "template_id" => $template_id));
+ 
+  
 }else if (isset($function) and $function == "edit_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL EDIT
@@ -288,6 +315,11 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
   rex_newArtPrio($category_id,$clang,$Position_Article,$thisArt->getValue("prior"));
   rex_generateArticle($article_id);
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('ART_UPDATED','',array ("id" => $id, "name" => $article_name, "prior" => $Position_Article, "path" => $KATPATH));
+
+
+
 }elseif (isset($function) and $function == "delete_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL DELETE
@@ -305,6 +337,8 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
     next($CL);
   }
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('ART_DELETED','',array ("id" => $article_id));
 
 }
 
