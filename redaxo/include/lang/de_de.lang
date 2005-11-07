@@ -416,3 +416,4 @@ addon_deactivate = deaktivieren
 addon_activate = aktivieren
 addon_yes = ja
 addon_no = nein
+addon_schreibrecht = &#220;berpr&#252;fe die Schreibrechte der Datei include/addons.inc.php

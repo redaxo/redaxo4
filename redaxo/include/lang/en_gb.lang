@@ -416,3 +416,4 @@ addon_deactivate = deactivate
 addon_activate = activate
 addon_yes = yes
 addon_no = no
+addon_schreibrecht = check write permissions of include/addons.inc.php
