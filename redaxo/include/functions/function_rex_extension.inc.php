@@ -14,7 +14,7 @@
 * @param $subject Objekt/Variable die beeinflusst werden soll
 * @param $params Parameter für die Callback-Funktion
 */
-function rex_register_extension_point($extension, $subject, $params = array ())
+function rex_register_extension_point($extension, $subject = NULL, $params = array ())
 {
   global $REX;
   $result = $subject;
