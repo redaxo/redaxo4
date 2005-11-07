@@ -144,9 +144,6 @@ class OOCategory extends OORedaxo
       }
     }
 
-    if ($this->_id == $other_cat_id)
-      return true;
-
     return false;
   }
 
