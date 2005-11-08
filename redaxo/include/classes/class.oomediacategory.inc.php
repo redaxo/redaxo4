@@ -95,7 +95,7 @@ class OOMediaCategory
     */
    function & getRootCategories($ignore_offlines = true)
    {
-      $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = 0';
+      $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = 0 order by name';
       $sql = new sql();
       $sql->setQuery($qry);
       $result = $sql->get_array();
@@ -204,7 +204,7 @@ class OOMediaCategory
       if ($this->_children === null)
       {
          $this->_children = array ();
-         $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = '.$this->getId();
+         $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = '.$this->getId().' ORDER BY name ';
          $sql = new sql();
          $sql->setQuery($qry);
          $result = $sql->get_array();
