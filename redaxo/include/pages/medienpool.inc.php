@@ -884,7 +884,9 @@ if (isset($subpage) and $subpage == "detail")
       if ($ffiletype_ii)
       {
         $imgn = "../files/$fname width=$rfwidth";
-        if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname";
+        
+        if ($thumbs && $thumbsresize && $ffiletype == "image/gif" && $rfwidth>199 && !function_exists(imageGIF)) $imgn = "../files/$fname width=200";
+        else if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname ";
         echo "<td rowspan=12 width=220 align=center class=lgrey valign=top><br><img src=$imgn  border=0></td>";
       }
 
