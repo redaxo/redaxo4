@@ -788,32 +788,6 @@ class OOMedia
    }
 
    /**
-    * @access public
-    * TODO
-    */
-   /*
-   function resizeImage($width = '', $height = '', $quality = 90)
-   {
-      if (!$key = array_search($this->getExtension(), $this->_resizeextensions))
-      {
-         return false;
-      }
-      else
-      {
-         $resizeType = $this->_resizeextensions[$key];
-         $imagePath = $REX['HTDOCS_PATH'].'/files'.$this->_name;
-         switch ($resizeType)
-         {
-            case 'jpg' :
-            case 'jpeg' :
-               $im = imagecreatefromjpeg($imagePath);
-               break;
-         }
-      }
-   
-   }*/
-
-   /**
     * @access protected
     */
    function _getSQLSetString()
