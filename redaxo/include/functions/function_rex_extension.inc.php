@@ -63,6 +63,16 @@ function rex_register_extension($extension, $function)
  *
  * @param $function Name der Callback-Funktion
  * @param $params Parameter für die Funktion
+ * 
+ * @example 
+ *   rex_call_func( 'myFunction', array( 'Param1' => 'ab', 'Param2' => 12))
+ * @example 
+ *   rex_call_func( 'myObject::myMethod', array( 'Param1' => 'ab', 'Param2' => 12))
+ * @example 
+ *   rex_call_func( array('myObject', 'myMethod'), array( 'Param1' => 'ab', 'Param2' => 12))
+ * @example 
+ *   $myObject = new myObject();
+ *   rex_call_func( array($myObject, 'myMethod'), array( 'Param1' => 'ab', 'Param2' => 12))
  */
 function rex_call_func($function, $params)
 {
@@ -70,33 +80,65 @@ function rex_call_func($function, $params)
 
   if (is_string($function) && strlen($function) > 0)
   {
+    // static class method
     if (strpos($function, '::') !== false)
     {
-      // static method
       preg_match('!(\w+)::(\w+)!', $function, $_match = array ());
-      $_object_name = $_match[1];
+      $_class_name = $_match[1];
       $_method_name = $_match[2];
 
-      if (is_callable(array ($_object_name, $_method_name)))
-      {
-        $func = array ($_object_name, $_method_name);
-      }
+      rex_check_callable($func = array ($_class_name, $_method_name));
     }
+    // function call
     elseif (function_exists($function))
     {
-      // function call
       $func = $function;
     }
+    else
+    {
+      trigger_error('rexExtension: Function "'.$function.'" not found!');
+    }
   }
+  // object method call
   elseif (is_array($function))
   {
-    $func = $function;
+    $_object = $function[0];
+    $_method_name = $function[1];
+
+    rex_check_callable($func = array ($_object, $_method_name));
   }
   else
   {
-    trigger_error('rexExtension: Using of an unexpected function var "'.$function.'"');
+    trigger_error('rexExtension: Using of an unexpected function var "'.$function.'"!');
   }
 
   return call_user_func($func, $params);
+}
+
+function rex_check_callable($_callable)
+{
+  if (is_callable($_callable))
+  {
+    return true;
+  }
+  else
+  {
+    if (!is_array($_callable))
+    {
+      trigger_error('rexExtension: Unexpected vartype for $_callable given! Expecting Array!', E_USER_ERROR);
+    }
+    $_object = $_callable[0];
+    $_method_name = $_callable[1];
+
+    if (!is_object($_object))
+    {
+      $_class_name = $_object;
+      if (!class_exists($_class_name))
+      {
+        trigger_error('rexExtension: Class "'.$_class_name.'" not found!', E_USER_ERROR);
+      }
+    }
+    trigger_error('rexExtension: No such method "'.$_method_name.'" in class "'.get_class($_object).'"!', E_USER_ERROR);
+  }
 }
 ?>
