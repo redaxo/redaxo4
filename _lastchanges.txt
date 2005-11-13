@@ -70,6 +70,12 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * Prüfung ob die gd-lib verfügbar ist, bei der installation[image_resize] (kills)
+  * rexExtensionPoints erstellt [kills]
+    - ALL_GENERATED, URL_REWRITE
+  * rexExtensionPoints erstellt [jan]
+    - CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS
+    - ART_ADDED, ART_UPDATED, ART_DELETED, ART_ONLINE, ART_OFFLINE
   * rexExtensions eingebaut [kills]
   * sql::escape() entfernt (unnötig) (kills)
   * OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) (kills)
