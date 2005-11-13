@@ -316,7 +316,7 @@ if (isset($function) and $function == "offline_article" && $article_id != "" && 
   rex_generateArticle($article_id);
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('ART_UPDATED','',array ("id" => $id, "name" => $article_name, "prior" => $Position_Article, "path" => $KATPATH));
+  rex_register_extension_point('ART_UPDATED','',array ("id" => $article_id, "name" => $article_name, "prior" => $Position_Article, "path" => $KATPATH));
 
 
 
