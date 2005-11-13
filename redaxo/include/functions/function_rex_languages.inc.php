@@ -1,5 +1,11 @@
 <?php
 
+/** 
+ * Dient zur Ausgabe des Sprachen-blocks  
+ * @package redaxo3 
+ * @version $Id$ 
+ */
+  
 // rechte einbauen
 // admin[]
 // developer[]

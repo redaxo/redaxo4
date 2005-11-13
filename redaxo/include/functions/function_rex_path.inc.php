@@ -1,4 +1,10 @@
 <?php
+/** 
+ * Pfad Funktionen  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
+ 
 /**
  * Berechnet aus einem Relativen Pfad einen Absoluten 
  */

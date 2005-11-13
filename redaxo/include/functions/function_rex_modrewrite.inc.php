@@ -1,5 +1,10 @@
 <?php
 
+/** 
+ * URL Funktionen  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 // ----------------------------------------- Redaxo 2.* functions
 

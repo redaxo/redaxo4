@@ -1,10 +1,10 @@
 <?php
 
-##################################################################
-#
-#      Medienpool Functions - vscope new media design
-#
-##################################################################
+/** 
+ * WYSIWYG Funktionen  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 function MEDIA_HTMLAREA($VALUE_ID=1,$CONTENT,$WIDTH='',$HEIGHT='',$STYLE_SHEET='',$STYLES='',$LANG='',$BUTTONROW1='',$BUTTONROW2='',$BUTTONROW3='empty',$BUTTONROW4='empty', $PLUGINS = '', $THEME = ''){
 

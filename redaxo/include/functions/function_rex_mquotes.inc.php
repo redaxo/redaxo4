@@ -1,5 +1,11 @@
 <?php
 
+/** 
+ * Funktionen zum handeln von magic_quotes=off  
+ * @package redaxo3 
+ * @version $Id$ 
+ */
+  
 function addSlashesOnArray(&$theArray)
 {
 	if (is_array($theArray))

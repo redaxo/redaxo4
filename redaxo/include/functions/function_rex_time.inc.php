@@ -1,7 +1,10 @@
 <?php
 
-
-// Scripttime for debugging
+/** 
+ * Zeit Funktionen  
+ * @package redaxo3 
+ * @version $Id$ 
+ */ 
 
 function showScripttime()
 {
