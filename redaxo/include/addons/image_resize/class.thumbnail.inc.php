@@ -10,12 +10,12 @@ class thumbnail
   
   function thumbnail($imgfile)
   {
-	// ----- imagepfad speichern
+  // ----- imagepfad speichern
     $this->imgfile = $imgfile;
     
     // ----- gif support ?
     $this->gifsupport = false;
-    if (function_exists(imageGIF)) $this->gifsupport = true;
+    if (function_exists('imageGIF')) $this->gifsupport = true;
         
     // ----- detect image format
     $this->img["format"]=ereg_replace(".*\.(.*)$","\\1",$imgfile);
