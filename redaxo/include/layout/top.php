@@ -55,7 +55,7 @@ if ( isset( $open_header_only) && $open_header_only == true) {
         if (isset($REX['ADDON']['perm'][$apage])) { $perm = $REX['ADDON']['perm'][$apage]; } else { $perm = ''; }
         if (isset($REX['ADDON']['name'][$apage])) { $name = $REX['ADDON']['name'][$apage]; } else { $name = ''; }
         if (isset($REX['ADDON']['popup'][$apage])) { $popup = $REX['ADDON']['popup'][$apage]; } else { $popup = ''; }
-        if (current($REX['ADDON']['status']) == 1 && $REX['ADDON']['name'][$apage] != '' && ($REX_USER->isValueOf("rights",$perm) || $perm == "" || $REX_USER->isValueOf("rights","admin[]")) )
+        if (current($REX['ADDON']['status']) == 1 && $name != '' && ($REX_USER->isValueOf("rights",$perm) || $perm == "" || $REX_USER->isValueOf("rights","admin[]")) )
         {
           if ($popup == 1) echo " | <a href=javascript:newPoolWindow('index.php?page=$apage'); class=white>$name</a>";
           else if ($popup == "" or $popup == 0) echo " | <a href=index.php?page=$apage class=white>$name</a>";
