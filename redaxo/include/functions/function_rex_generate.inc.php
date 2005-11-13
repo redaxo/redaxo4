@@ -78,6 +78,9 @@ function rex_generateAll()
   // ----------------------------------------------------------- message
   $MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
 
+  // ----- EXTENSION POINT
+  $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);
+  
   return $MSG;
 }
 
@@ -445,6 +448,8 @@ function rex_deleteDir($file,$what = 0)
       $handle = opendir($file);
       while($filename = readdir($handle))
       {
+        if ( $filename == '_readme.txt' || $filename == '.cvsignore') return;
+        
         if ($filename != "." && $filename != "..")
         {
           rex_deleteDir($file."/".$filename);
