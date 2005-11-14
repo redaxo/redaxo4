@@ -214,37 +214,34 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if (isset($function) and $function == "offline_article" && $article_id != "" && $KATPERM)
+if (isset($function) and $function == "status_article" && $article_id != "" && $KATPERM)
 {
-  // --------------------- ARTIKEL OFFLINE
-  $EA = new sql;
-  $EA->setTable("rex_article");
-  $EA->where("id='$article_id' and clang=$clang");
-  $EA->setValue("status",0);
-  $EA->setValue("updatedate",time());
-  $EA->setValue("updateuser",$REX_USER->getValue("login"));
-  $EA->update();
-  rex_generateArticle($article_id);
-  $amessage = $I18N->msg("article_status_updated");
-
-  // ----- EXTENSION POINT
-  rex_register_extension_point('ART_OFFLINE','',array ("id" => $article_id, "status" => 0, "clang" => $clang));
-
-}else if (isset($function) and $function == "online_article" && $article_id != "" && $KATPERM)
-{
-  // --------------------- ARTIKEL ONLINE
-  $EA = new sql;
-  $EA->setTable("rex_article");
-  $EA->where("id='$article_id' and clang=$clang");
-  $EA->setValue("status",1);
-  $EA->setValue("updatedate",time());
-  $EA->setValue("updateuser",$REX_USER->getValue("login"));
-  $EA->update();
-  rex_generateArticle($article_id);
-  $amessage = $I18N->msg("article_status_updated");
-
-  // ----- EXTENSION POINT
-  rex_register_extension_point('ART_ONLINE','',array ("id" => $article_id, "status" => 1, "clang" => $clang));
+  // --------------------- ARTICLE STATUS
+  $GA = new sql;
+  $GA->setQuery("select * from rex_article where id='$article_id' and clang=$clang");
+  if ($GA->getRows() == 1)
+  {
+    if ($GA->getValue("status")==1) $newstatus = 0;
+    else $newstatus = 1;
+    
+    $EA = new sql;
+    $EA->setTable("rex_article");
+    $EA->where("id='$article_id' and clang=$clang");
+    $EA->setValue("status","$newstatus"); 
+    $EA->setValue("updatedate",time());
+    $EA->setValue("updateuser",$REX_USER->getValue("login"));
+    $EA->update();
+        
+    $message = $I18N->msg("article_status_updated");
+    rex_generateArticle($article_id);
+    
+    // ----- EXTENSION POINT
+    rex_register_extension_point('ART_STATUS','',array ("id" => $article_id, "clang" => $clang, "status" => $newstatus));
+    
+  } else
+  {
+    $message = $I18N->msg("no_such_category");
+  }
 
 }else if (isset($function) and $function == "add_article" && $KATPERM)
 {
@@ -616,7 +613,7 @@ if($category_id > -1)
       {
         if ($sql->getValue("status") == 0)
         { 
-          $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=online_article&category_id=$category_id&clang=$clang><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=offline_article&category_id=$category_id&clang=$clang><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; 
+          $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=status_article&category_id=$category_id&clang=$clang><font color=#dd0000>".$I18N->msg("status_offline")."</font></a>"; }elseif( $sql->getValue("status") == 1){ $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=status_article&category_id=$category_id&clang=$clang><font color=#00dd00>".$I18N->msg("status_online")."</font></a>"; 
         }
         echo "  <td><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id&clang=$clang onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("delete")."</a></td><td class=grey>$article_status</td>";
       }
