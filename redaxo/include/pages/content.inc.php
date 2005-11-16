@@ -244,10 +244,10 @@ if ($article->getRows() == 1)
     
                 // ----- file
                 $FILENAME = $REX_ACTION['FILE'][$fi];
-                if (isset($CHECK_FILE[$fi]) and $FILENAME == "" && $CHECK_FILE[$fi] != 1)
+                if ($FILENAME == "")
                 {
                   $newsql->setValue("file".$fi,"");
-                }elseif ($FILENAME != "" && $CHECK_FILE[$fi] != 1)
+                }else
                 {
                   $checkfile = new sql;
                   $checkfile->setQuery("select * from rex_file where filename='".$FILENAME."'");
