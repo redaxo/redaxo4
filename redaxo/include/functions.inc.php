@@ -56,7 +56,6 @@ include_once $REX['INCLUDE_PATH']."/classes/class.ooarticleslice.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.oomediacategory.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.oomedia.inc.php";
 include_once $REX['INCLUDE_PATH']."/classes/class.ooaddon.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.oostructure.inc.php";
 
 if (!$REX['GG'])
 {
