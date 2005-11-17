@@ -17,7 +17,7 @@ allgemeine zugriffe (array + addons)
   mediapool[]templates[] ...
 
 optionen
-  advancedMode[]expertMode[]
+  advancedMode[]
 
 zugriff auf folgende categorien
   csw[2] write 
