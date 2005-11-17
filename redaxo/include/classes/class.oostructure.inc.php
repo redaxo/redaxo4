@@ -1,8 +1,12 @@
 <?php
 /**
- * Klasse zur Abbiludung der Struktur
+ * Klasse zur Abbiludung von Artikel/Kategorie Strukturen
  * @package redaxo3 
  * @version $Id$
+ */
+ 
+/**
+ * UL-LI Strukturen
  */
 class OOStructure
 {
@@ -160,7 +164,7 @@ class OOStructure
     return $s;
   }
 
-  function getStructure()
+  function get()
   {
     $s = '';
     $this->_depth = 0;
@@ -235,12 +239,15 @@ class OOStructure
     }
   }
 
-  function printStructure()
+  function show()
   {
-    echo $this->getStructure();
+    echo $this->get();
   }
 }
 
+/**
+ * DIV Strukturen
+ */
 class OODivStructure extends OOStructure
 {
   function OODivStructure()
