@@ -42,11 +42,11 @@ if ( isset( $open_header_only) && $open_header_only == true) {
     {
       echo "<a href=index.php?page=structure class=white>".$I18N->msg("structure")."</a> ";
       echo " | <a href=# onclick=openMediaPool(); class=white>".$I18N->msg("pool_name")."</a>";
-      if ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=template class=white>".$I18N->msg("template")."</a>";
-      if ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=module class=white>".$I18N->msg("module")."</a>"; 
+      if ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=template class=white>".$I18N->msg("template")."</a>";
+      if ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=module class=white>".$I18N->msg("module")."</a>"; 
       if ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=user class=white>".$I18N->msg("user")."</a>"; 
-      if ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
-      if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
+      if ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=addon class=white>".$I18N->msg("addon")."</a>"; 
+      if ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]")) echo " | <a href=index.php?page=specials class=white>".$I18N->msg("specials")."</a>"; 
       
       if (is_array($REX['ADDON']['status'])) reset($REX['ADDON']['status']);
       for ($i=0; $i < count($REX['ADDON']['status']); $i++)
