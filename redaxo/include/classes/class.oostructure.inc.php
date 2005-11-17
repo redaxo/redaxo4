@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Klasse zur Abbiludung von Artikel/Kategorie Strukturen
  * @package redaxo3 
  * @version $Id$
  */
- 
+
 /**
  * UL-LI Strukturen
  */
@@ -88,7 +89,7 @@ class OOStructure
     return $node->toLink();
   }
 
-  function _formatNode($node)
+  function _formatNode(& $node)
   {
     $name = $node->getName();
 
@@ -110,12 +111,12 @@ class OOStructure
     }
 
     $s = '';
+    $s_self = '';
+    $s_child = '';
     // Kategorien ingorieren?
     if (OOCategory :: isValid($node) && !$this->ignore_categories || OOArticle :: isValid($node) && !($this->ignore_startarticles && $node->isStartPage()))
     {
-
-      $s .= '<'.$this->child_tag.$this->child_attr.'>';
-      $s .= $this->_formatNodeValue($name, $node);
+      $s_self .= $this->_formatNodeValue($name, $node);
 
       if (OOCategory :: isValid($node))
       {
@@ -125,13 +126,12 @@ class OOStructure
         if (is_array($childs) && count($childs) > 0 || is_array($articles) && count($articles) > 0 && !$this->ignore_articles)
         {
           $this->_depth++;
-          $s .= '<'.$this->parent_tag.$this->parent_attr.'>';
 
           if (is_array($childs))
           {
             foreach ($childs as $child)
             {
-              $s .= $this->_formatNode($child);
+              $s_child .= $this->_formatNode($child);
             }
           }
 
@@ -142,24 +142,36 @@ class OOStructure
             {
               foreach ($articles as $article)
               {
-//                if ($article->isStartPage())
-//                {
-//                  continue;
-//                }
+                //                if ($article->isStartPage())
+                //                {
+                //                  continue;
+                //                }
 
-                $s .= '<'.$this->child_tag.$this->child_attr.'>';
-                $s .= $this->_formatNodeValue($article->getName(), $article);
-                $s .= '</'.$this->child_tag.'>';
+                $s_child .= '<'.$this->child_tag.$this->child_attr.'>';
+                $s_child .= $this->_formatNodeValue($article->getName(), $article);
+                $s_child .= '</'.$this->child_tag.'>';
               }
             }
           }
 
-          $s .= '</'.$this->parent_tag.'>';
+          // Parent Tag nur erstellen, wenn auch Childs vorhanden sind
+          if ($s_child != '')
+          {
+            $s_self .= '<'.$this->parent_tag.$this->parent_attr.'>';
+            $s_self .= $s_child;
+            $s_self .= '</'.$this->parent_tag.'>';
+          }
+
           $this->_depth--;
         }
       }
-
-      $s .= '</'.$this->child_tag.'>';
+      
+      // Parent Tag nur erstellen, wenn auch Childs vorhanden sind
+      if ( $s_self != '') {
+        $s .= '<'.$this->child_tag.$this->child_attr.'>';
+        $s .= $s_self;
+        $s .= '</'.$this->child_tag.'>';
+      }
     }
     return $s;
   }
@@ -167,6 +179,7 @@ class OOStructure
   function get()
   {
     $s = '';
+    $s_self = '';
     $this->_depth = 0;
 
     if ($this->root_category === null)
@@ -202,14 +215,17 @@ class OOStructure
 
     if (is_array($root_nodes))
     {
-      $s .= '<'.$this->main_tag.$this->main_attr.'>';
-
       foreach ($root_nodes as $node)
       {
-        $s .= $this->_formatNode($node);
+        $s_self .= $this->_formatNode($node);
       }
 
-      $s .= '</'.$this->main_tag.'>';
+      // Parent Tag nur erstellen, wenn auch Childs vorhanden sind
+      if ( $s_self != '') {
+        $s .= '<'.$this->main_tag.$this->main_attr.'>';
+        $s .= $s_self;
+        $s .= '</'.$this->main_tag.'>';
+      }
     }
 
     return $s;
