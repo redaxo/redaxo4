@@ -59,6 +59,17 @@ function rex_register_extension($extension, $function)
 }
 
 /**
+ * Prüft ob eine extension für den angegebenen Extension point definiert ist
+ *
+ * @param $extension Name der Extension
+ */
+function rex_extension_is_registered($extension)
+{
+  global $REX;
+  return !empty ($REX['EXTENSIONS'][$extension]);
+}
+
+/**
  * Aufruf einer Funtion (Class-Member oder statische Funktion)
  *
  * @param $function Name der Callback-Funktion

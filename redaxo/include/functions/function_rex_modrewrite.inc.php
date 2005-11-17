@@ -61,7 +61,9 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   }
 
   // ----- get clang
-  if (strlen($clang) == 0 && count($REX['CLANG']) > 1)
+  // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
+  // Die rexExtension muss selbst entscheiden was sie damit macht 
+  if (strlen($clang) == 0 && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
   {
     $clang = $REX['CUR_CLANG'];
   }
