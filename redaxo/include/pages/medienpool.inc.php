@@ -30,7 +30,7 @@ if(isset($_GET["opener_input_field"])) $_SESSION["media[opener_input_field]"] = 
 
 // *************************************** PERMS
 $PERMALL = false;
-if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","dev[]") or $REX_USER->isValueOf("rights","media[0]")) $PERMALL = true;
+if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","media[0]")) $PERMALL = true;
 
 
 
