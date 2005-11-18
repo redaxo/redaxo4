@@ -28,26 +28,28 @@ if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
 }
 
 if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
-echo '<br /><form action="index.php" method="post" name="loginformular">
-<table border="1" cellpadding="5" cellspacing="0" width="770">
+echo '<br />
+<table border="0" cellpadding="5" cellspacing="0" width="770" class=rex style="border:1px solid #dddddd;">
+<form action="index.php" method="post" name="loginformular">
   <tr>
     <td class="dgrey">
-      <table width="200" cellpadding="3" cellspacing="0" border="0">
+      <table width="250" cellpadding="3" cellspacing="0" border="0">
         <tr>
-          <td valign="middle"><input type="hidden" name="page" value="structure">'.$I18N->msg('login_name').':</td>
-          <td valign="middle"><input type="text" size="10" value="'.$REX_ULOGIN.'" name="REX_ULOGIN" autocomplete="off"></td>
+          <td valign="middle"><input type="hidden" name="page" value="structure" class=inp100>'.$I18N->msg('login_name').':</td>
+          <td valign="middle"><input type="text" size="15" value="'.$REX_ULOGIN.'" name="REX_ULOGIN" autocomplete="off"></td>
           <td valign="middle">&nbsp;</td>
         </tr>
         <tr>
           <td valign="middle">'.$I18N->msg('password').':</td>
-          <td valign="middle"><input type="password" size="10" name="REX_UPSW"></td>
+          <td valign="middle"><input type="password" size="15" name="REX_UPSW"></td>
           <td valign="middle"><input type="submit" value="'.$I18N->msg('login').'"></td>
         </tr>
       </table>
     </td>
   </tr>
+  </form>
 </table>
-</form>'."\n";
+'."\n";
 
 echo '<script type="text/javascript"> 
    <!-- 
