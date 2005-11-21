@@ -20,18 +20,16 @@ class i18n
    var $text;
    var $searchpath;
    var $filename;
-   var $fallback;
 
    /*
     * Constructor
     * the locale must of the common form, eg. de_DE, en_US or just plain en, de.
     * the searchpath is where the language files are located
     */
-   function i18n($locale, $searchpath, $fallback = false)
+   function i18n($locale, $searchpath)
    {
       global $REX;
       $this->text = array ();
-      $this->fallback = $fallback;
       $this->locale = $locale;
       $this->searchpath = $searchpath;
       $this->filename = $searchpath."/".$locale.".lang";
@@ -92,13 +90,8 @@ class i18n
         // fallbackobjekt ggf anlegen
         if ($REX['LANG_FALLBACK_OBJ'] == '')
         {
-          // rex_create_lang($REX['LANG_FALLBACK'], $this->searchpath, true);
-          if ($this->fallback) return;
-          $this->i18n($REX['LANG_FALLBACK'], $this->searchpath, true);
-          return $this->msg($key, $p0 = '', $p1 = '', $p2 = '', $p3 = '', $p4 = '', $p5 = '', $p6 = '', $p7 = '', $p8 = '', $p9 = '');
+          rex_create_lang($REX['LANG_FALLBACK'], $this->searchpath, true);
         }
-
-		echo $REX['LANG_FALLBACK'].$this->searchpath;
 
         // suchen des keys in der fallbacksprache
         $msg = $REX['LANG_FALLBACK_OBJ']->msg($key, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
