@@ -9,13 +9,13 @@ if (!$REX['GG'])
 	// only backend
 
  	// CREATE LANG OBJ FOR THIS ADDON
-	$I18N_STATS = new i18n($REX['LANG'],$REX['INCLUDE_PATH']."/addons/$mypage/lang/");
+	$I18N_STATS = new i18n($REX['LANG'],$REX['INCLUDE_PATH']."/addons/$mypage/lang");
 
 	$REX['ADDON']['rxid'][$mypage] = "7"; // unique redaxo addon id
 	$REX['ADDON']['page'][$mypage] = $mypage;
 	$REX['ADDON']['name'][$mypage] = $I18N_STATS->msg("stats_title");
 	$REX['ADDON']['perm'][$mypage] = "stats[]";
-	$REX['PERM'][''] = "stats[]";
+	$REX['PERM'][] = "stats[]";
 
 }else
 {
