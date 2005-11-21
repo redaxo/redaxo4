@@ -689,7 +689,7 @@ if ($article->getRows() == 1)
         </table>";
         
         
-        if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+        if(($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]")) && count($REX['CLANG']) > 1)
         {
           echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
           <form action=index.php method=get>
@@ -708,12 +708,9 @@ if ($article->getRows() == 1)
       $lang_a->set_style("width:100px;");
       $lang_a->set_size(1);
 
-      if (count($REX['CLANG'])>1)
+      foreach($REX['CLANG'] as $val => $key)
       {
-        foreach($REX['CLANG'] as $val => $key)
-        {
-          $lang_a->add_option($key,$val);
-        }
+        $lang_a->add_option($key,$val);
       }
       
       $lang_b = $lang_a;
