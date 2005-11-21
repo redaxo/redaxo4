@@ -12,6 +12,50 @@ If you use REDAXO you have to add these informations in your imprint or contact 
 CMS: REDAXO - Open Source Content Management System
 LINK: www.redaxo.de
 
+
+// ----- class.phpmailer.inc.php
+
+PHPMailer - PHP email class
+Class for sending email using either
+sendmail, PHP mail(), or SMTP.  Methods are
+based upon the standard AspEmail(tm) classes.
+Copyright (C) 2001 - 2003  Brent R. Matzelle
+License: LGPL, see LICENSE
+mehr zu dieser Lizenz in class.phpmailer.inc.php
+
+
+// ----- class.smtp.inc.php
+
+SMTP - PHP SMTP class
+Version 1.02
+Define an SMTP class that can be used to connect
+and communicate with any SMTP server. It implements
+all the SMTP functions defined in RFC821 except TURN.
+Author: Chris Ryan
+License: LGPL, see LICENSE
+mehr zu dieser Lizenz in class.smtp.inc.php
+
+
+// ----- tinymce siehe redaxo/js folder.
+Moxiecode
+copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+License: LGPL, see LICENSE
+mehr zu dieser Lizenz unter http://tinymce.moxiecode.com/
+
+
+// ----- class.textile.inc.php
+
+A Humane Web Text Generator
+Version 2.0 beta
+Copyright (c) 2003-2004, Dean Allen <dean@textism.com>
+All rights reserved.
+Thanks to Carlo Zottmann <carlo@g-blog.net> for refactoring 
+Textile's procedural code into a class framework
+- mehr zu dieser lizenz in class.textile.inc.php
+
+
+// ----- redaxo gpl lizenz
+
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
 0. This License applies to any program or other work which contains a notice 
