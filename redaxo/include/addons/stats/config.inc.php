@@ -19,8 +19,20 @@ if (!$REX['GG'])
 
 }else
 {
-	$log = new stats;
-	$log->writeLog(($article_id+0));
+	function rex_addStatEntry($params)
+	{
+		global $REX,$REX_ARTICLE;
+		$content = $params['subject'];
+		$aid = (int) $REX_ARTICLE->getValue("article_id");
+		if ($REX['STATS']==1)
+		{
+			$log = new stats;
+			$log->writeLog($aid);
+		}
+		return $content;
+	}
+	rex_register_extension('OUTPUT_FILTER', 'rex_addStatEntry');
+
 }
 
 // backend and frontend
