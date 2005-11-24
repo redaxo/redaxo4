@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -13,8 +12,6 @@ if ( $show == "browser" ) $maincontent = "REX_EVAL_BROWSER";
 if ( $show == "operatingsystem" ) $maincontent = "REX_EVAL_OPERATINGSYSTEM";
 if ( $show == "keywords" ) $maincontent = "REX_EVAL_SEARCHWORDS";
 
-
-
 if ( $show == "month" )
 {
 	$pfad = "REX_EVAL_LOGPATH";
@@ -26,13 +23,21 @@ if ( $show == "month" )
 	{
 		if ($dh = opendir($pfad) )
 		{
+			$mfile = array();
 			while (($file = readdir($dh)) !== false)
 			{
 				if ( substr($file, 7, 4) == "_mon" ) 
 					if ( substr($file,0,4) == "REX_EVAL_YEAR" )
 						if ( strstr($file,".php") == ".php" ) 
-							include($file);
-			}  	
+							$mfile[] = $file;
+							// include($file);
+			}
+			rsort($mfile);
+			foreach($mfile as $key => $value)
+			{
+				
+				include($value);
+			}
 		}
 		closedir($dh);
 	} else 
