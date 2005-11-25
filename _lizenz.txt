@@ -54,7 +54,17 @@ Textile's procedural code into a class framework
 - mehr zu dieser lizenz in class.textile.inc.php
 
 
-// ----- redaxo gpl lizenz
+// ----- addons/import_export/classes/class.tar.inc.php
+
+TAR File Manager
+Base name: 	tarmanager
+Copyright (C) 2002  Josh Barger
+License: GNU Lesser General Public License (LGPL)
+Description: A PHP Implementation of the TAR Format manager.
+Author Josh Barger <joshb@npt.com>
+
+
+// ----- redaxo GPL General Public License lizenz
 
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
