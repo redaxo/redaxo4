@@ -330,6 +330,16 @@ if ($PERMALL && isset($subpage) and $subpage == "categories")
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
+// ***** cat in session speichern
+
+if (isset($_REQUEST["rex_file_category"]))
+{
+	$rex_file_category = (int) $_REQUEST["rex_file_category"];
+}else
+{
+	if (isset($_SESSION["rex_file_category"])) $rex_file_category = $_SESSION["rex_file_category"];
+}
+
 // ***** kategorie checken
 $gc = new sql;
 $gc->setQuery("select * from rex_file_category where id='$rex_file_category'");
@@ -366,7 +376,7 @@ $cat_out .= "</td>\n";
 $cat_out .= "<td class=grey width=150><input type=submit value='".$I18N->msg('pool_search')."'></td>";
 $cat_out .= "</tr></form></table>";
 
-
+$_SESSION["rex_file_category"] = $rex_file_category;
 
 
 
