@@ -445,7 +445,7 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
   if($upload)
   {
 
-    chmod($REX['MEDIAFOLDER']."/$NFILENAME", 0777);
+    chmod($REX['MEDIAFOLDER']."/$NFILENAME", $REX['FILEPERM']);
 
     // get widht height
     $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");
@@ -767,7 +767,7 @@ if (isset($subpage) and $subpage=="detail" && isset($media_method) && $media_met
           if (isset($uploaded) and $uploaded)
           {
             $msg .= "<br>".$I18N->msg('pool_file_changed');;
-            chmod($REX['MEDIAFOLDER']."/$filename", 0777);
+            chmod($REX['MEDIAFOLDER']."/$filename", $REX['FILEPERM']);
           }
         }else
         {
