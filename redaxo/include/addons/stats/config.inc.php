@@ -19,12 +19,14 @@ if (!$REX['GG'])
 
 }else
 {
+	$REX['STATS'] = 1;
+	
 	function rex_addStatEntry($params)
 	{
 		global $REX,$REX_ARTICLE;
 		$content = $params['subject'];
 		$aid = (int) $REX_ARTICLE->getValue("article_id");
-		if ($REX['STATS']==1)
+		if ($REX['STATS'] == 1)
 		{
 			$log = new stats;
 			$log->writeLog($aid);
