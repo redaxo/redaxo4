@@ -466,7 +466,7 @@ echo "</table>";
 if($category_id > -1)
 {
   $TEMPLATES = new sql;
-  $TEMPLATES->setQuery("select * from rex_template");
+  $TEMPLATES->setQuery("select * from rex_template order by name");
   $TMPL_SEL = new select;
   $TMPL_SEL->set_name("template_id");
   $TMPL_SEL->set_size(1);
