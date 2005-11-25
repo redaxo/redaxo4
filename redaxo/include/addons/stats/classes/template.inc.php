@@ -10,7 +10,7 @@ if ( $show == "suchmaschinen" ) $maincontent = "REX_EVAL_SUCHMASCHINEN";
 if ( $show == "referer" ) $maincontent = "REX_EVAL_REFERER";
 if ( $show == "browser" ) $maincontent = "REX_EVAL_BROWSER";
 if ( $show == "operatingsystem" ) $maincontent = "REX_EVAL_OPERATINGSYSTEM";
-if ( $show == "keywords" ) $maincontent = "REX_EVAL_SEARCHWORDS";
+if ( $show == "keywords" ) $maincontent = 'REX_EVAL_SEARCHWORDS';
 
 if ( $show == "month" )
 {

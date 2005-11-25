@@ -457,10 +457,10 @@ class stats
 						 </tr>";
 
 		foreach ( $this->SEARCH['words'] as $k => $v )
-			$wordsout .= "<tr>
-							<td class=grey align=right>".htmlspecialchars(addslashes(urldecode(base64_decode($k))))."</td>
-							<td class=grey align=right>$v</td>
-						 </tr>";
+			$wordsout .= '<tr>
+							<td class=grey align=right>'.htmlspecialchars(urldecode(base64_decode($k)),ENT_QUOTES).'</td>
+							<td class=grey align=right>'.$v.'</td>
+						 </tr>';
 
 		$wordsout .= "</table>";
 		$searchout .= "</table>";
