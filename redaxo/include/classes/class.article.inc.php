@@ -519,12 +519,6 @@ class article
     return $slice_content;
   }
 
-
-  function getArticleContent()
-  {
-    return $this->getArticle();
-  }
-   
   // ----- allgemeines suchen und ersetzen
   function sliceIn($slice_content)
   {
