@@ -370,6 +370,43 @@ function rex_copyCategory($which_id,$to_cat)
  // TODO
 }
 
+function rex_copyMeta($from_id,$to_id,$from_clang = 0, $to_clang = 0,$params)
+{
+	global $REX,$REX_USER;
+	
+	$from_clang = (int)	$from_clang;
+	$to_clang = (int) $to_clang;
+	$from_id = (int) $from_id;
+	$to_id = (int) $to_id;
+
+	if ($from_id == $to_id && $from_clang == $to_clang) return false;
+
+	$gc = new sql;
+	$gc->setQuery("select * from rex_article where clang='$from_clang' and id='$from_id'");
+
+	if ($gc->getRows()==1)
+	{
+		$uc = new sql;
+		// $uc->debugsql = 1;
+		$uc->setTable("rex_article");
+		$uc->where("clang='$to_clang' and id='$to_id'");
+		$uc->setValue("updatedate",time());
+		$uc->setValue("updateuser",addslashes($REX_USER->getValue("login")));
+		
+		reset($params);
+		foreach($params as $key => $value)
+		{
+			$var = $gc->getValue("$value");
+			$uc->setValue("$value",$var);			
+		}
+		
+		$uc->update();
+		
+		rex_generateArticle($to_id);
+	}
+
+}
+
 function rex_copyContent($from_id,$to_id,$from_clang = 0,$to_clang = 0,$from_re_sliceid = 0)
 {
 	global $REX,$REX_USER;
