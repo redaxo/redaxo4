@@ -26,7 +26,6 @@ Todos (Nach Prio sortiert):
 	* Artikel verschieben (System überlegen)
 	* Kategorien verschieben (System überlegen)
 	* Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
-	* Beim Import JS Warnhinweis. "Alte Webseite geht verloren"
 	* <? -> <?php
 	* $REX[VAR]<? -> $REX['VAR'] (Bei allen Arrays)
 	* Permissions: 
@@ -46,7 +45,7 @@ Planung / Irgendwann:
 	* Komplette Platzhalter für Artikel. 
 		* REX_ARTICLE[2]
 		* REX_TEMPLATE[5]
-		* REX_ARTICLE_VARS['beschreibung'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
+		* REX_ARTICLE_VARS['description'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
 		* REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
 		* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
 	* Backend Redesign auf 100% Scaling
@@ -70,17 +69,18 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-  * copyContent erscheint nur, wenn mehr als eine Sprache angelegt ist (kills)
-  * Prüfung ob die gd-lib verfügbar ist, bei der installation [image_resize] (kills)
-  * rexExtensionPoints erstellt [kills]
-    - ALL_GENERATED, URL_REWRITE
-  * rexExtensionPoints erstellt [jan]
-    - CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS
-    - ART_ADDED, ART_UPDATED, ART_DELETED, ART_STATUS
-  * rexExtensions eingebaut [kills]
-  * sql::escape() entfernt (unnötig) (kills)
-  * OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) (kills)
-  * Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] (kills)
+	* copyContent erscheint nur, wenn mehr als eine Sprache angelegt ist (kills)
+	* Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [import_export] (kills)
+	* Prüfung ob die gd-lib verfügbar ist, bei der installation [image_resize] (kills)
+	* rexExtensionPoints erstellt [kills]
+		- ALL_GENERATED, URL_REWRITE
+	* rexExtensionPoints erstellt [jan]
+		- CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS
+		- ART_ADDED, ART_UPDATED, ART_DELETED, ART_STATUS
+	* rexExtensions eingebaut [kills]
+	* sql::escape() entfernt (unnötig) (kills)
+	* OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) (kills)
+	* Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] (kills)
 	* rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar.. (jan)
 	* class article: setTemplateId und getTemplateId eingebaut.. (jan)
 	* OOF erweitert: neue OOAddon Klasse (kills)
