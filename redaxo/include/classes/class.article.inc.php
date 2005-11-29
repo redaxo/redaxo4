@@ -8,8 +8,6 @@
 class article
 {
 
-  var $mediafolder;
-  var $mediafolder_www;
   var $slice_id;
   var $article_id;
   var $mode;
