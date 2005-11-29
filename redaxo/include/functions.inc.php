@@ -39,7 +39,6 @@ $REX['PERM'][] = "user[]";
 
 // ----- optionen
 $REX['EXTPERM'][] = "advancedMode[]";
-$REX['EXTPERM'][] = "caching[]";
 $REX['EXTPERM'][] = "moveslice[]";
 $REX['EXTPERM'][] = "copyContent[]";
 
