@@ -1,5 +1,11 @@
 <?php
 
+/** 
+ * 
+ * @package redaxo3 
+ * @version $Id$ 
+ */
+
 // -----------------
 
 if (!$REX) $REX = array();
