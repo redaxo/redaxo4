@@ -553,6 +553,10 @@ if (isset($subpage) && $subpage == "add_file" && isset($media_method) && $media_
     $msg = $return['msg'];
     $subpage = "";
 
+    // ----- EXTENSION POINT
+    if ($return['ok'] == 1) 
+    rex_register_extension_point('MEDIA_ADDED','',$return);
+
     if (isset($saveandexit) and $saveandexit != "" && $return['ok'] == 1)
     {
       $file_name = $return['filename'];
@@ -778,6 +782,10 @@ if (isset($subpage) and $subpage=="detail" && isset($media_method) && $media_met
           {
             $msg .= "<br>".$I18N->msg('pool_file_changed');;
             chmod($REX['MEDIAFOLDER']."/$filename", $REX['FILEPERM']);
+            
+            // ----- EXTENSION POINT
+            rex_register_extension_point('MEDIA_UPDATED','',array("id" => $file_id, "type" => $ffiletype, "filename" => $filename ));
+            
           }
         }else
         {
