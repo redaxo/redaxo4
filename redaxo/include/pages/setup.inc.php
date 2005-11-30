@@ -124,8 +124,6 @@ if($checkmodus == 1)
          $REX['INCLUDE_PATH']."/generated/articles",
          $REX['INCLUDE_PATH']."/generated/templates",
          $REX['INCLUDE_PATH']."/addons/stats/logs",
-         $REX['INCLUDE_PATH']."/generated/cache/",
-         $REX['INCLUDE_PATH']."/generated/cache/cache.php",
          $REX['INCLUDE_PATH']."/generated/files/",
          $REX['INCLUDE_PATH']."/addons/import_export/files",
          $REX['INCLUDE_PATH']."/../../files/");
