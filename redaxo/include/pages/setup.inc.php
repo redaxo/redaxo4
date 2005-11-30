@@ -268,7 +268,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- Demo installieren
     // ----- db
-    $file_temp = $REX['INCLUDE_PATH']."/install/redaxo3_0_simple_demo.sql";
+    $file_temp = $REX['INCLUDE_PATH']."/install/rex_3.1_simple_demo.sql";
     $h = fopen($file_temp,"r");
     $conts = fread($h,filesize($file_temp));
     $conts = str_replace("## Redaxo Database Dump Version ".$REX['version']." \n","",$conts);
@@ -294,7 +294,7 @@ if ($checkmodus == 3 && $send == 1)
     include_once $REX['INCLUDE_PATH']. '/addons/import_export/classes/class.tar.inc.php';
     include_once $REX['INCLUDE_PATH']. '/addons/import_export/functions/function_folder.inc.php';
     $tar = new tar;
-    $file_temp = $REX['INCLUDE_PATH']."/install/redaxo3_0_simple_demo.tar.gz";
+    $file_temp = $REX['INCLUDE_PATH']."/install/rex_3.1_simple_demo.tar.gz";
     $tar->openTAR($file_temp);
     if(!$tar->extractTar())
     {
