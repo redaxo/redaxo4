@@ -69,6 +69,8 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* rexExtensionsPoints erstellt [jan]
+		- MEDIA_ADDED, MEDIA_UPDATED
 	* copyContent erscheint nur, wenn mehr als eine Sprache angelegt ist (kills)
 	* Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [import_export] (kills)
 	* Prüfung ob die gd-lib verfügbar ist, bei der installation [image_resize] (kills)
