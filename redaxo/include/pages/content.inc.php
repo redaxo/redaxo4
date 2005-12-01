@@ -480,8 +480,15 @@ if ($article->getRows() == 1)
       $tadd .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     }
     $menu = $tadd." <a href=../index.php?article_id=$article_id&clang=$clang&ctype=$ctype class=blue target=_blank>".$I18N->msg('show')."</a>";
-    if ($mode=="edit") $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=black>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=blue>".$I18N->msg('metadata')."</a>";
-    else $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=blue>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&category_id=".$article->getValue("category_id")."&clang=$clang&ctype=$ctype class=black>".$I18N->msg('metadata')."</a>";
+    
+    $edit_mode_css_class = 'blue';    
+    $meta_css_class = 'black';
+    if ($mode=="edit") 
+    {
+      $edit_mode_css_class = 'black';    
+      $meta_css_class = 'blue';    
+    }
+    $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&clang=$clang&ctype=$ctype class=$edit_mode_css_class>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&clang=$clang&ctype=$ctype class=$meta_css_class>".$I18N->msg('metadata')."</a>";
     // ------------------------------------------ END: CONTENT HEAD MENUE
     
 
@@ -521,7 +528,6 @@ if ($article->getRows() == 1)
     {
       // ------------------------------------------ START: META VIEW
       $extens = "";
-      $category_id = $article->getValue("category_id");
       if (isset($FUNC_MOVE) and $FUNC_MOVE != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
       {
         /*
@@ -585,8 +591,8 @@ if ($article->getRows() == 1)
       }
 
       $typesel->set_selected($article->getValue("type_id"));
-
-      if ($typesql->getRows()==0) $out = "<input type=hidden name=type_id value=0>";
+      // Artikeltyp-Auswahl nur anzeigen, wenn mehr als ein Typ vorhanden ist
+      if ($typesql->getRows() <=1 ) $out = "<input type=hidden name=type_id value=0>";
       else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
 
       echo "  <table border=0 cellpadding=5 cellspacing=1 width=100%>
@@ -789,7 +795,6 @@ if ($article->getRows() == 1)
     }
 
     echo "    </td>
-          <td class=lgrey>&nbsp;</td>
         </tr>
         </table>";
 
