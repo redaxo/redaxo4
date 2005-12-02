@@ -400,6 +400,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
       $art_sql->setTable("rex_article");
       $art_sql->setValue("re_id", $to_sql->getValue("id"));
       $art_sql->setValue("path", $to_sql->getValue("path").$to_sql->getValue("id").'|');
+      $art_sql->setValue("catname", $to_sql->getValue("name"));
       // Artikel als letzten Artikel in die neue Kat einfügen
       $art_sql->setValue("prior", "99999");
       // Kopierter Artikel offline setzen
@@ -451,7 +452,80 @@ function rex_moveCategory($from_cat, $to_cat)
  */
 function rex_copyArticle($id, $from_cat_id, $to_cat_id)
 {
-  // TODO
+  global $REX, $REX_USER;
+
+  $id = (int) $id;
+  $to_cat_id = (int) $to_cat_id;
+  $from_cat_id = (int) $from_cat_id;
+
+  if ($from_cat_id == $to_cat_id)
+    return false;
+
+  // validierung der id & from_cat_id
+  $from_sql = new sql;
+  //$from_sql->debugsql = 1;
+  $from_sql->setQuery("select * from rex_article where clang='".$REX['CUR_CLANG']."' and startpage<>1 and id='$id' and re_id='$from_cat_id'");
+
+  if ($from_sql->getRows() == 1)
+  {
+    // validierung der to_cat_id
+    $to_sql = new sql;
+    //$to_sql->debugsql = 1;
+    $to_sql->setQuery("select * from rex_article where clang='".$REX['CUR_CLANG']."' and startpage=1 and id='$to_cat_id'");
+
+    if ($to_sql->getRows() == 1)
+    {
+      $art_sql = new sql;
+      //$art_sql->debugsql = 1;
+
+      $art_sql->setTable("rex_article");
+      // neuen article-id erzwingen
+      $art_sql->setNewId("id");
+      // neuen auto_incrment erzwingen 
+      $art_sql->setValue("pid", 0);
+      $art_sql->setValue("re_id", $to_sql->getValue("id"));
+      $art_sql->setValue("path", $to_sql->getValue("path").$to_sql->getValue("id").'|');
+      $art_sql->setValue("catname", $to_sql->getValue("name"));
+      // Artikel als letzten Artikel in die neue Kat einfügen
+      $art_sql->setValue("prior", 99999);
+      // Kopierter Artikel offline setzen
+      $art_sql->setValue("status", 0);
+      $art_sql->setValue("createdate", time());
+      $art_sql->setValue("createuser", addslashes($REX_USER->getValue("login")));
+      
+      // schon gesetzte Felder nicht wieder überschreiben
+      $dont_copy = array( 'id', 'pid', 're_id', 'catname', 'path', 'prior', 'status', 'createdate', 'createuser');
+      foreach ( array_diff( $to_sql->getFieldnames(), $dont_copy) as $fld_name) 
+      {
+        $art_sql->setValue( $fld_name, $from_sql->getValue( $fld_name));
+      }
+      
+      // Artikel in jeder Sprache verschieben
+      foreach ($REX['CLANG'] as $clang => $clang_name)
+      {
+        $art_sql->setValue("clang", $clang);
+        $art_sql->insert();
+        $new_id = $art_sql->getLastID();
+        
+        // ArticleSlices kopieren
+        rex_copyContent($id, $new_id, $clang, $clang);
+
+        // Prios neu berechnen
+        rex_newArtPrio($to_cat_id, $clang, 1, 0);
+        rex_newArtPrio($from_cat_id, $clang, 1, 0);
+
+        // Generated des Artikels neu erzeugen
+        rex_generateArticle($id);
+      }
+
+      // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
+      rex_generateArticle($from_cat_id);
+      rex_generateArticle($to_cat_id);
+
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
