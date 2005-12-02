@@ -12,10 +12,8 @@
 
 class sql
 {
-
-  var $feld; // array der feldnamen die gesetzt werden
-  var $wert; // array der feldwerte die gesetzt werden sollen
-  var $zaehler; // wieviele felder existieren
+  var $values; // Werte von setValue
+  
   var $table; // Tabelle setzen
   var $wherevar; // where ...
   var $select; // select:
@@ -65,7 +63,6 @@ class sql
 
   function setQuery($select)
   {
-    $this->zaehler = 0;
     $this->counter = 0;
     $this->select = $select;
     $this->selectDB();
@@ -86,30 +83,21 @@ class sql
     $this->table = $table;
   }
 
-  function setValue($feldname, $wertigkeit)
+  function setValue($feldname, $wert)
   {
-    $this->feld[$this->zaehler] = $feldname;
-    $this->wert[$this->zaehler] = $wertigkeit;
-    $this->zaehler++;
+    $this->values[$feldname] = $wert;
   }
 
   function isValueOf($feld, $prop)
   {
-
-    $value = @ mysql_result($this->result, $this->counter, "$feld");
     if ($prop == "")
     {
       return TRUE;
     }
-    else
-      if (strstr($value, $prop))
-      {
-        return TRUE;
-      }
-      else
-      {
-        return FALSE;
-      }
+    else 
+    {
+      return strpos($this->getValue( $feld), $prop) !== false;
+    }
   }
 
   function where($where)
@@ -117,11 +105,17 @@ class sql
     $this->wherevar = "where $where";
   }
 
-  function getValue($value)
+  function getValue($value, $row = null)
   {
     // wenn db verwechslungen, dann hier aktiv setzen
     // $this->selectDB();
-    $back = @ mysql_result($this->result, $this->counter, "$value");
+    $_row = $this->counter;
+    if ( is_int( $row)) {
+      $_row = $row;
+    } 
+    
+    $back = @ mysql_result($this->result, $_row, $value);
+    
     return $back;
   }
 
@@ -146,9 +140,9 @@ class sql
 
     for ($i = 0; $i < $this->getRows(); $i ++)
     {
-      for ($j = 0; $j < $this->zaehler; $j ++)
+      foreach ( $this->values as $value)
       {
-        $back .= $this->getValue($this->feld[$j])." \n";
+        $back .= $value." \n";
       }
 
       $back .= "<br>";
@@ -161,14 +155,14 @@ class sql
   function update()
   {
     $sql = "";
-    for ($i = 0; $i < $this->zaehler; $i ++)
+    foreach ( $this->values as $fld_name => $value)
     {
       if ($sql != "")
       {
         $sql .= ",";
       }
       // $sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
-      $sql .= $this->feld[$i]."='". ($this->wert[$i])."'";
+      $sql .= $fld_name."='". $value."'";
 
     }
 
@@ -184,7 +178,7 @@ class sql
   {
     $sql1 = "";
     $sql2 = "";
-    for ($i = 0; $i < $this->zaehler; $i ++)
+    foreach ( $this->values as $fld_name => $value)
     {
       if ($sql1 != "")
       {
@@ -194,9 +188,9 @@ class sql
       {
         $sql2 .= ",";
       }
-      $sql1 .= $this->feld[$i];
+      $sql1 .= $fld_name;
       // $sql2 .= "'".addslashes( $this->wert[$i])."'";
-      $sql2 .= "'". ($this->wert[$i])."'";
+      $sql2 .= "'". $value ."'";
     }
 
     $this->selectDB();
@@ -217,7 +211,6 @@ class sql
 
   function flush()
   {
-    $this->zaehler = 0;
     $this->table = "";
     $this->error = "";
     $this->wherevar = "";
