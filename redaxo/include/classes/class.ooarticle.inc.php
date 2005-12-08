@@ -7,7 +7,7 @@ class OOArticle extends OORedaxo
       parent :: OORedaxo($params, $clang);
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return an OORedaxo object based on an id
     */
@@ -36,7 +36,7 @@ class OOArticle extends OORedaxo
 
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return a list of articles which names match the
     * search string. For now the search string can be either
@@ -79,7 +79,7 @@ class OOArticle extends OORedaxo
       return $artlist;
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return a list of articles which have a certain type.
     *
@@ -106,7 +106,7 @@ class OOArticle extends OORedaxo
       return $artlist;
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return the site wide start article
     */
@@ -118,7 +118,7 @@ class OOArticle extends OORedaxo
       return OOArticle :: getArticleById($REX['STARTARTIKEL_ID'], $clang);
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return start article for a certain category
     */
@@ -130,7 +130,7 @@ class OOArticle extends OORedaxo
       return OOArticle :: getArticleById($a_category_id, $clang);
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return a list of articles for a certain category
     */
@@ -166,7 +166,7 @@ class OOArticle extends OORedaxo
       return $artlist;
    }
 
-   /*
+   /**
     * CLASS Function:
     * Return a list of top-level articles
     */
@@ -178,7 +178,7 @@ class OOArticle extends OORedaxo
       return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
    }
 
-   /*
+   /**
     * Accessor Method:
     * returns the category id
     */
@@ -186,17 +186,27 @@ class OOArticle extends OORedaxo
       return $this->isStartPage() ? $this->getId() : $this->getParentId(); 
    }
    
-   /*
-   *  Accessor Method:
+   /**
+    *  Accessor Method:
     * returns true if this Article is the Startpage for the category.
+    * @deprecated
     */
    function isStartPage()
    {
-      return $this->_startpage;
+      return $this->isStartArticle();
    }
 
-   /*
-   *  Accessor Method:
+   /**
+    *  Accessor Method:
+    * returns true if this Article is the Startpage for the category.
+    */
+   function isStartArticle()
+   {
+      return $this->_startpage;
+   }
+   
+   /**
+    *  Accessor Method:
     * returns true if this Article is the Startpage for the entire site.
     */
    function isSiteStartArticle()
