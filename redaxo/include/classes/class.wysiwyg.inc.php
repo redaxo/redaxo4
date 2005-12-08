@@ -15,8 +15,8 @@ class rex_wysiwyg_editor {
     var $buttonrow3 = 'empty';
     var $buttonrow4 = 'empty';
 
-    function show(){
-        echo MEDIA_HTMLAREA(
+    function get(){
+        return MEDIA_HTMLAREA(
                 $this->id,
                 $this->content,
                 $this->width,
@@ -31,6 +31,10 @@ class rex_wysiwyg_editor {
                 $this->plugins,
                 $this->theme
         );
+    }
+
+    function show(){
+        echo $this->get();
     }
 
 }
