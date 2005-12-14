@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* Textile Klasse upgedated [jan]
 	* moveArticle/copyArticle implementiert [kills]
 	* Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
 	
