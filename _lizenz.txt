@@ -4,10 +4,10 @@ die folgenden lizenzrechtlichen Bestimmungen. Es handelt sich hierbei um eine
 Open Source Lizenzvereinbarung, die als General Public License (GPL) in 
 englischer Sprache vorliegt.
 
-Folgenden Informationen müssen beim Einsatz von REDAXO im Impressum oder auf 
+Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf 
 der Kontaktseite aufgenommen werden.
 
-If you use REDAXO you have to add these informations in your imprint or contact page
+If you use REDAXO you can add these informations in your imprint or contact page
 
 CMS: REDAXO - Open Source Content Management System
 LINK: www.redaxo.de
