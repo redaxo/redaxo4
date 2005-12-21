@@ -570,7 +570,7 @@ class Textile
 
         $parts = parse_url($url);
         if (empty($parts['host']) and preg_match('/^\w/', @$parts['path']))
-            $url = hu.$url;
+            $url = $url; // hu.$url 
 
         $out = $pre . '<a href="' . $url . $slash . '"' . $atts . $this->rel . '>' . $text . '</a>' . $post;
 
@@ -587,7 +587,7 @@ class Textile
     }
     // -------------------------------------------------------------
 
-function refs($m)
+	function refs($m)
     {
         list(, $flag, $url) = $m;
         $this->urlrefs[$flag] = $url;
@@ -633,7 +633,7 @@ function refs($m)
 
         $parts = parse_url($url);
         if (empty($parts['host']) and preg_match('/^\w/', @$parts['path']))
-            $url = hu.$url;
+            $url = $url; // hu.$url 
 
         $out = array(
             ($href) ? '<a href="' . $href . '">' : '',
