@@ -179,7 +179,7 @@ if ($article->getRows() == 1)
             }
 
             eval("?>".$iaction);
-            if ($REX_ACTION['MSG']!="") $message .= $REX_ACTION['MSG']." | ";
+            if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "" ) $message .= $REX_ACTION['MSG']." | ";
             $ga->next();
           }
 
@@ -327,7 +327,7 @@ if ($article->getRows() == 1)
                 $iaction = str_replace("REX_MEDIALIST[$j]",$REX_ACTION['MEDIALIST'][$j],$iaction);
               }
               eval("?>".$iaction);
-              if ($REX_ACTION['MSG']!="") $message .= " | ".$REX_ACTION['MSG'];
+              if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "") $message .= " | ".$REX_ACTION['MSG'];
               $REX_ACTION['MSG'] = "";
               $ga->next();
             }
