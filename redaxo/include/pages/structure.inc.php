@@ -207,6 +207,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   rex_generateArticle($id);
   
   // ----- EXTENSION POINT
+  if (!isset ($edit_id)) $edit_id = 0;
   rex_register_extension_point('CAT_ADDED','',array ("id" => $edit_id, "name" => $category_name, "prio" => $Position_New_Category, "path" => $KATPATH));
 
  
