@@ -38,6 +38,8 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $ITPL->setValue("name",$templatename);
       $ITPL->setValue("active",$active);
       $ITPL->setValue("content",$content);
+      $ITPL->setValue("createdate",time());
+      $ITPL->setValue("createuser",$REX_USER->getValue("login"));
       $ITPL->insert();
       $template_id = $ITPL->last_insert_id;
       $message = $I18N->msg("template_added");
@@ -49,6 +51,8 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $TMPL->setValue("name",$templatename);
       $TMPL->setValue("content",$content);
       $TMPL->setValue("active",$active);
+      $TMPL->setValue("updatedate",time());
+      $TMPL->setValue("updateuser",$REX_USER->getValue("login"));
       $TMPL->update();
       $message = $I18N->msg("template_added");
     } 
