@@ -18,6 +18,10 @@
 function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
   $subtitle = rex_get_subtitle( $subtitle);
+  if ( $subtitle != '')
+  {
+    $subtitle = '<b style="line-height:18px">'. $subtitle .'</b>';
+  }
 ?>
   <br />
   
@@ -34,9 +38,7 @@ function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
         
         <tr style="height: 30px">
             <td class="<?php echo $styleclass ?>" >
-                <b style="line-height:18px">
-                   <?php echo $subtitle ?>
-                </b>
+                 <?php echo $subtitle ?>
             </td>
         </tr>
     
@@ -80,6 +82,11 @@ function small_title($title, $subtitle) {
  */
 function rex_get_subtitle($subline, $attr = '')
 {
+  if (empty($subline))
+  {
+    return  '';
+  }
+  
   $subtitle = $subline;
   if (is_array($subline))
   {
