@@ -58,7 +58,7 @@ if ($checkmodus=="0.5")
   echo "<br><br><div id=lizenz style='width:500px; height:200px; overflow:auto; background-color:#ffffff; text-align:left; font-size:9px;'>
 
 <b>LIZENZBESTIMMUNGEN</b><br><br>Bevor Sie REDAXO für Ihre eigene Zwecke nutzen möchten, berücksichtigen Sie bitte die folgenden lizenzrechtlichen Bestimmungen. Es handelt sich hierbei um eine Open Source Lizenzvereinbarung, die als General Public License (GPL) in englischer Sprache vorliegt.
-<br><br>Folgenden Informationen müssen beim Einsatz von REDAXO im Impressum oder auf der Kontaktseite aufgenommen werden.
+<br><br>Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf der Kontaktseite aufgenommen werden.
 <br><br>CMS: REDAXO - Open Source Content Management System
 <br>LINK: http://www.redaxo.de
 <br><br>TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
