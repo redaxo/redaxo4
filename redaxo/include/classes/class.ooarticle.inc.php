@@ -186,6 +186,15 @@ class OOArticle extends OORedaxo
       return $this->isStartPage() ? $this->getId() : $this->getParentId(); 
    }
    
+   /*
+    * Object Function:
+    * Returns the parent category
+    */
+   function getCategory()
+   {
+      return OOCategory :: getCategoryById($this->getCategoryId());
+   }
+   
    /**
     *  Accessor Method:
     * returns true if this Article is the Startpage for the category.
