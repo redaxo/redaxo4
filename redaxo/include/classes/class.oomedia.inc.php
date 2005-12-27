@@ -1,48 +1,55 @@
 <?php
+
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
+ 
 class OOMedia
 {
    // id
-   var $_id;
+   var $_id = "";
    // parent (FOR FUTURE USE!) 
-   var $_parent_id;
+   var $_parent_id = "";
    // categoryid
-   var $_cat_id;
+   var $_cat_id = "";
 
    // categoryname
-   var $_cat_name;
+   var $_cat_name = "";
    // oomediacategory
-   var $_cat;
+   var $_cat = "";
 
    // filename
-   var $_name;
+   var $_name = "";
    // originalname
-   var $_orgname;
+   var $_orgname = "";
    // filetype
-   var $_type;
+   var $_type = "";
    // filesize
-   var $_size;
+   var $_size = "";
 
    // filewidth
-   var $_width;
+   var $_width = "";
    // fileheight
-   var $_height;
+   var $_height = "";
 
    // filetitle
-   var $_title;
+   var $_title = "";
    // filedescription
-   var $_description;
+   var $_description = "";
    // copyright
-   var $_copyright;
+   var $_copyright = "";
 
    // updatedate
-   var $_updatedate;
+   var $_updatedate = "";
    // createdate
-   var $_createdate;
+   var $_createdate = "";
 
    // updateuser
-   var $_updateuser;
+   var $_updateuser = "";
    // createuser
-   var $_createuser;
+   var $_createuser = "";
 
    // resizeextensions
    var $_resizeextensions = array ('jpeg', 'jpg', 'gif', 'png');

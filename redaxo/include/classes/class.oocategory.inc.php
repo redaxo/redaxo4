@@ -1,4 +1,11 @@
 <?php
+
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
+ 
 class OOCategory extends OORedaxo
 {
 
@@ -6,6 +13,7 @@ class OOCategory extends OORedaxo
   {
     parent :: OORedaxo($params, $clang);
   }
+  
   /*
    * CLASS Function:
    * Return an OORedaxo object based on an id

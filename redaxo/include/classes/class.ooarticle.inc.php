@@ -1,4 +1,11 @@
 <?php
+
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
+ 
 class OOArticle extends OORedaxo
 {
 

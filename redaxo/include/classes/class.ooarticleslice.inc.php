@@ -1,25 +1,27 @@
 <?php
 
-/*
+/** 
+ *  
  * The OOArticleSlice class is an object wrapper over the database table rex_articel_slice.
  * Together with OOArticle and OOCategory it provides an object oriented
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
  *
- * Carsten Eckelmann <carsten@circle42.com>, May 2004
- */
+ * @package redaxo3
+ * @version $Id$
+ */  
+ 
 class OOArticleSlice {
-  var $_id;
-  var $_re_article_slice_id;
-  var $_value;
-  var $_file;
-  var $_link;
-  var $_php;
-  var $_html;
-  var $_article_id;
-  var $_modultyp_id;
 
-  
+  var $_id = "";
+  var $_re_article_slice_id = "";
+  var $_value = "";
+  var $_file = "";
+  var $_link = "";
+  var $_php = "";
+  var $_html = "";
+  var $_article_id = "";
+  var $_modultyp_id = "";
   
   /*
    * Constructor

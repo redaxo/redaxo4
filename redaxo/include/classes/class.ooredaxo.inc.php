@@ -1,39 +1,46 @@
 <?php
+
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
+
 class OORedaxo
 {
 
    /*
     *  class vars
     */
-   var $clang;
+   var $clang = "";
 
    /*
     * this vars get read out
     */
-   var $_id;
-   var $_re_id;
-   var $_name;
-   var $_catname;
-   var $_cattype;
-   var $_alias;
-   var $_description;
-   var $_attribute;
-   var $_file;
-   var $_type_id;
-   var $_teaser;
-   var $_startpage;
-   var $_prior;
-   var $_path;
-   var $_status;
-   var $_online_from;
-   var $_online_to;
-   var $_createdate;
-   var $_updatedate;
-   var $_keywords;
-   var $_template_id;
-   var $_clang;
-   var $_createuser;
-   var $_updateuser;
+   var $_id = "";
+   var $_re_id = "";
+   var $_name = "";
+   var $_catname = "";
+   var $_cattype = "";
+   var $_alias = "";
+   var $_description = "";
+   var $_attribute = "";
+   var $_file = "";
+   var $_type_id = "";
+   var $_teaser = "";
+   var $_startpage = "";
+   var $_prior = "";
+   var $_path = "";
+   var $_status = "";
+   var $_online_from = "";
+   var $_online_to = "";
+   var $_createdate = "";
+   var $_updatedate = "";
+   var $_keywords = "";
+   var $_template_id = "";
+   var $_clang = "";
+   var $_createuser = "";
+   var $_updateuser = "";
 
    /*
     * Constructor
@@ -41,8 +48,8 @@ class OORedaxo
    function OORedaxo($params = false, $clang = false)
    {
          //		var_dump($params);
-   if ($params !== false)
-      {
+     if ($params !== false)
+     {
          foreach (OORedaxo :: getClassVars() as $var)
          {
             $class_var = '_'.$var;

@@ -1,32 +1,39 @@
 <?php
+
+/** 
+ *  
+ * @package redaxo3
+ * @version $Id$
+ */ 
+ 
 class OOMediaCategory
 {
    // id
-   var $_id;
+   var $_id = "";
    // re_id
-   var $_parent_id;
+   var $_parent_id = "";
 
    // name
-   var $_name;
+   var $_name = "";
    // path
-   var $_path;
+   var $_path = "";
    // hide
-   var $_hide;
+   var $_hide = "";
 
    // createdate
-   var $_createdate;
+   var $_createdate = "";
    // updatedate
-   var $_updatedate;
+   var $_updatedate = "";
 
    // createuser
-   var $_createuser;
+   var $_createuser = "";
    // updateuser
-   var $_updateuser;
+   var $_updateuser = "";
 
    // child categories
-   var $_children;
+   var $_children = "";
    // files (media)
-   var $_files;
+   var $_files = "";
 
    /**
    * @access protected
