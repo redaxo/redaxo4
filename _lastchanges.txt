@@ -67,6 +67,10 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* Lizenzdatei aus SETUP ausgelagert [kills]
+	* Sprachfiles in UTF-8 konvertiert [kills]
+	* Addon de-installation u. löschen eingebaut [kills]
+	* OOArticle->getCategory eingebaut [jan]
 	* Textile Klasse upgedated [jan]
 	* moveArticle/copyArticle implementiert [kills]
 	* Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
