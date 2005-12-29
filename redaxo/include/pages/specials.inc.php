@@ -252,20 +252,10 @@ if ($subpage == '')
   $sel = new select;
   $sel->set_name("clang_id");
   $sel->set_size(1);
-  $sel->add_option("1","1");
-  $sel->add_option("2","2");
-  $sel->add_option("3","3");
-  $sel->add_option("4","4");
-  $sel->add_option("5","5");
-  $sel->add_option("6","6");
-  $sel->add_option("7","7");
-  $sel->add_option("8","8");
-  $sel->add_option("8","8");
-  $sel->add_option("9","9");
-  $sel->add_option("10","10");
-  $sel->add_option("11","11");
-  $sel->add_option("12","12");
-  $sel->add_option("13","13");
+  foreach ( array_diff( range( 0,14), array_keys( $REX['CLANG'])) as $clang) 
+  {
+    $sel->add_option($clang,$clang);
+  }
   $sel->set_style("width:40px");
   
   echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
