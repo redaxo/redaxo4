@@ -1,0 +1,427 @@
+htmllang = de
+htmlcharset = utf-8
+yes = ja
+no = nein
+month = Monat
+year = Jahr
+general = Allgemein
+dateformat = %a %d. %B %Y
+setlocale = de_DE
+adateformat = %d. %b. %Y
+datetimeformat = %d. %b. %Y - %H:%M
+ctrl = Bitte Strg drücken bei Änderungen
+
+# redaxo/index.php
+start_article_not_selected = Kein Startartikel selektiert
+
+# redaxo/redaxo/index.php
+specials = Specials
+module = Module
+template = Templates
+user = Benutzer
+community = Community
+import = Im-/Export
+content = Artikel
+structure = Struktur
+statistics = Statistiken
+logout = abmelden
+
+# redaxo/include/classes/class.login.inc.php
+login_name  =  Benutzername
+password  =  Passwort
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  nicht angemeldet
+
+# redaxo/include/classes/class.article.inc.php
+add_block  =  Block hinzufügen
+edit  =  Editieren
+delete  =  Löschen
+no_editing_rights = Keine Editiererlaubnis
+no_article_available  =  Kein Artikel vorhanden
+module_doesnt_exist =  Dieses Modul existiert nicht !
+dont_delete_block  =  Block nicht löschen
+delete_block  =  Block sicher löschen
+submit  =  abschicken
+update_block = Block übernehmen
+save_block = Block speichern
+
+# redaxo/include/classes/class.form.inc.php
+submit_data  =  Daten absenden
+file_doesnt_exist  =  Die Datei existiert nicht.
+choose_another_one  =  Bitte wählen sie eine andere.
+
+# redaxo/include/classes/class.mail_decode.inc.php
+download  =  Download
+clipboard  =  Clipboard
+
+# redaxo/include/functions/function_rex_generate.inc.php
+article_moved = Artikel wurde verschoben!
+article_deleted = Artikel wurde gelöscht!
+could_not_move_article = Artikel konnte nicht verschoben werden.
+article_could_not_be_generated  =  Artikel konnte nicht erstellt werden.
+check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
+category_deleted  =  Kategorie wurde gelöscht!
+category_doesnt_exist  =  Kategorie existiert nicht !
+cant_delete_startarticle = Der Startartikel darf nicht gelöscht werden.
+
+# redaxo\include\pages\content.inc.php
+block_updated = Block wurde aktualisiert !
+block_added = Block wurde hinzugefügt
+no_rights_to_this_function = Sie haben keine Rechte für diese Funktion !
+module_not_found = FEHLER ! Modul wurde nicht gefunden !
+block_deleted = Block wurde gelöscht !
+block_not_deleted = Block wurde nicht gelöscht
+no_rights_to_this_module = Sie haben keine Rechte für dieses Modul !
+error = Ein Fehler ist aufgetreten !
+preview = Voransicht
+edit_mode = Editier Modus
+metadata = Metadaten/Sonstiges
+article_cannot_be_moved = Dieser Artikel kann nicht verschoben werden.
+start_article_has_to_stay_in_category = Startartikel müssen in Ihrer Kategorie bleiben !
+article_copied = Artikel wurde kopiert!
+file = Datei {0} konnte nicht gefunden werden.
+moving_file_error = Datei '{0}' verschieben fehlgeschlagen.
+metadata_updated = Metadaten wurden aktualisiert
+online_from = Online vom
+online_to = bis zum
+name_description = Name/Bezeichnung
+description = Beschreibung
+keywords = Suchbegriffe
+metadata_image = Metafile/Bild
+delete_file = File löschen
+teaser = Teaser
+update_metadata = Metadaten aktualisieren
+other_functions = Sonstige Funktionen
+category = Kategorie
+move_article = Artikel verschieben
+copy_article = Artikel kopieren
+no_rights_to_edit = Sie haben keine Editiererlaubnis !
+show = Anzeigen
+cache_remove = Cache löschen
+slice_moved = Block wurde verschoben
+slice_moved_error = Block konnte nicht verschoben werden
+content_contentcopy = Inhalt wurde kopiert.
+content_errorcopy = Sie können Inhalte nicht in die gleiche Sprache kopieren.
+content_copy = Inhalte kopieren
+content_contentoflang = Inhalte von Sprache:
+content_to = nach
+content_submitcopycontent = Inhalte kopieren
+
+# redaxo\include\pages\module.inc.php
+module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
+module_deleted = Modul wurde gelöscht!
+module_added = Modul wurde hinzugefügt
+module_updated = Modul wurde aktualisiert
+articel_updated = Artikel wurden aktualisiert
+create_module = Neues Modul erstellen
+input = Eingabe
+output = Ausgabe
+module_name = Name
+accessible = Barrierefrei
+allowed_for_php = Zugelassen für PHP-Programmierer | Userrecht: module[php]
+allowed_for_html = Zugelassen für HTML-Programmierer | Userrecht: module[html]
+save_module_and_quit = Modul speichern
+save_module_and_continue = Modul übernehmen
+module_description = Modulbezeichnung
+module_functions = Funktionen
+delete_module = Modul löschen
+module_edit = Modul editieren
+action_taken = Aktion wurde übernommen
+action_deleted_from_modul = Aktion wurde aus dem Modul gelöscht!
+actions = Aktionen
+action_cannot_be_deleted = Aktion '{0}' kann nicht gelöscht werden, da es noch von folgenden Modulen genutzt wird:
+action_deleted = Aktion wurde gelöscht
+action_added = Aktion wurde hinzugefügt
+action_updated = Aktion wurde aktualisiert
+action_edit = Aktion editieren
+action_create = Aktion erstellen
+action_name = Aktionsname
+save_action_and_quit = Aktion speichern
+save_action_and_continue = Aktion übernehmen
+action_functions = Funktionen
+action_delete = Aktion löschen
+action_add = Aktion hinzufügen
+
+# redaxo\include\pages\profile.inc.php
+user_data_updated = Benutzerdaten wurden aktualisiert!
+user_deleted = Benutzer wurde gelöscht!
+user_added = Benutzer wurde hinzugefügt!
+user_login_exists = Benutzerlogin existiert schon !
+login = Login
+name = Name
+permissions = Rechte
+add = hinzufügen
+update = aktualisieren
+
+# redaxo\include\pages\structure.inc.php
+title_structure = Strukturverwaltung
+no_such_category = Kategorie nicht vorhanden!
+category_updated = Kategorie wurde aktualisiert.
+category_could_not_be_deleted = Kategorie konnte nicht gelöscht werden, da sich noch Artikel in dieser Kategorie befinden !
+category_still_contains_articles = Die Kategory enthält noch Artikel.
+category_still_contains_subcategories = Die Kategorie enthält noch Unterkategorien.
+category_status_updated = Kategoriestatus wurde aktualisiert!
+category_added_and_startarticle_created = Kategory hinzugefügt und Startartikel erstellt !
+category_edit_delete = Kategorie editieren/löschen
+article_status_updated = Artikelstatus wurde aktualisiert.
+article_updated = Artikel wurde aktualisiert.
+article_added = Artikel wurde hinzugefügt.
+header_category = Kategorie
+header_edit_category = Kategorie editieren
+header_priority = Prio
+header_status = Status/Funktion
+add_category = Kategorie hinzufügen
+edit_category = Kategorie bearbeiten
+delete_category = Kategorie löschen
+save_category = Kategorie speichern
+status_online = online
+status_offline = offline
+no_permission_to_edit = Keine Editiererlaubnis
+option_no_template = Kein Template
+template_default_name = KEIN TEMPLATE
+header_article_name = Artikelname
+header_template = Template
+header_date = Erstellt am
+change = ändern
+article_add = Artikel hinzufügen!
+article = Artikel
+
+# redaxo\include\pages\template.inc.php
+title_templates = Templates
+cant_delete_default_template = Das ist das 'default' Template und kann nicht gelöscht werden !
+cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von verschiendenen Artikeln genutzt wird.
+template_deleted = Template wurde gelöscht.
+template_added = Template wurde hinzugefügt
+template_updated = Template wurde aktualisiert
+edit_template = Template editieren
+create_template = Neues Template erstellen
+template_name = Name
+checkbox_template_active = Aktiv [Erscheint bei den Artikeln als Auswahl]
+save_template_and_quit = Templates speichern
+save_template_and_continue = Templates übernehmen
+header_template = Template
+header_template_id = Id
+header_template_description = Templatebezeichnung
+header_template_active = Aktiv
+header_template_functions = Funktionen
+delete_template = Template löschen
+
+# redaxo\include\functions\function_rex_category.inc.php
+article = Artikel
+start_article = Startartikel
+path = Pfad
+
+# redaxo\include\pages\user.inc.php
+title_user = Benutzer
+user_data_updated = Benutzerdaten wurden aktualisiert !
+user_deleted = Benutzer gelöscht!
+user_added = Benutzer wurde hinzugefügt.
+create_user = Neuen Benutzer anlegen
+add_user = Benutzer hinzufügen
+edit_user = Benutzer bearbeiten
+
+user_admin = Admin (Alle Rechte/ Alles sichtbar)
+user_developer = Developer (Templates/Module/AddOns)
+user_notdeleteself = ***** Sie können sich nicht selbst löschen!
+user_lang_xs = Sprachenzugriff
+user_all = Allgemein
+user_options = Optionen
+all_categories = Alle Kategorien
+all_mediafolder = Alle Medienordner
+categories = Kategorien
+mediafolder = Medienordner
+modules = Module
+extras = Extras
+last_login = Letzter Login
+
+# redaxo\include\pages\special.inc.php
+articles_generated = Artikel und Templates wurden neu generiert, Cache gelöscht!
+old_articles_deleted = [Alte Artikel und Templates wurden gelöscht]
+links_ok = Alle Links sind ok.
+links_not_ok = Folgende Links sind nicht ok:
+info_updated = Informationen wurden aktualisiert!
+specials_title = Spezielle Features
+special_features = Features
+regenerate_article = Regeneriere Artikel & Cache
+regeneration_message = Kategorien, Artikel und Templates werden neu generiert. Der gesamte Cache wird gelöscht. Kann länger dauerrn. Bitte den Vorgang nicht abbrechen.
+check_links_text = Wenn sie überprüfen wollen ob alle Links [REX_LINK] funktionieren, dann klicken Sie bitte hier.
+link_checker = Linkchecker
+general_info_header = Allgemeine Informationen:
+db1_can_only_be_changed_by_setup = Datenbank[1] kann nur über das Setup geändert werden.
+db2_text = Datenbank[2] - Nur nötig bei SQL Klasse mit 2 Datenbanken.
+specials_others = Sonstiges
+specials_update = ändern
+article_type_updated = Artikeltyp wurden aktualisiert!
+article_type_deleted = Artikeltyp gelöscht!
+article_type_could_not_be_deleted = Artikeltyp konnte nicht gelöscht werden, da ID=1 immer vorhanden sein muss!
+article_type_still_used = Artikeltyp konnte nicht gelöscht werden, da er bei folgenden Artikeln in Verwendung ist:
+article_type_added = Artikeltyp wurde hinzugefügt!
+article_type_list_id = ID
+article_type_list_name = Artikeltyp
+article_type_list_description = Beschreibung
+update_button = ändern
+delete_button = Löschen
+main_preferences = Einstellungen
+languages = Sprachen
+types = Typen
+clang_created = Sprache wurde angelegt.
+id_exists = ID existiert schon.
+enter_name = Bitte einen Namen eingeben.
+clang_edited = Sprache wurde editiert
+clang_deleted = Sprache wurde gelöscht
+clang_desc = Beschreibung/Name
+
+# redaxo\include\pages\medienpool.inc.php
+pool_name = Medienpool
+pool_kats = Kategorien
+pool_kats_no = Keine Kategorie
+pool_search = suchen
+pool_media = Medienpool
+pool_file_list = Medien
+pool_file_insert = Datei hinzufügen
+pool_cat_list = Kategorien verwalten
+pool_file_not_found = Datei wurde nicht gefunden
+pool_file_upload_error = Fehler beim Upload der Datei
+pool_file_upload_errortype = Diese Datei kann nicht zum Austausch benutzt werden, da sie von einem anderen Dateityp ist
+pool_file_title = Titel
+pool_category = Kategorie
+pool_description = Beschreibung
+pool_copyright = Copyright
+pool_file_upload = Hinzufügen
+pool_file_upload_get = Hinzufügen und übernehmen
+pool_upload_get = Speichern und übernehmen
+pool_kat_saved = Kategorie "{0}" wurde angelegt
+pool_kat_updated = Kategorie "{0}" wurde aktualisiert
+pool_kat_deleted = Kategorie wurde gelöscht
+pool_kat_not_deleted = Kategorie kann nicht gelöscht werden da sich noch Dateien in dieser Kategory befinden!
+pool_kat_name = Name
+pool_kat_function = Funktion
+pool_kat_add = Erstellen
+pool_kat_update = Aktualisieren
+pool_kat_edit = Editieren
+pool_kat_delete = Löschen
+pool_kat_hide= Thumbnail
+pool_file_detail = Medien: Detailansicht
+pool_file_is_resized = File wurde resized
+pool_filename = Dateiname
+pool_file_exchange = Datei <br>austauschen
+pool_file_update = Aktualisieren
+pool_file_delete = Löschen
+pool_file_thumbnail = Thumbnail
+pool_file_info = Dateiinfo
+pool_file_description = Beschreibung
+pool_file_functions = Funktionen
+pool_file_noshow = Keine Anzeige möglich
+pool_file_notitle = Kein Titel eingegeben
+pool_file_nodescription = Keine Beschreibung eingegeben
+pool_img_width = Breite
+pool_img_height = Höhe
+pool_file_ins = Einfügen
+pool_file_deleted = Datei wurde gelöscht
+pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
+pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
+pool_file_changed = Die Datei wurde ausgetauscht!
+pool_import_list = Media-Import
+pool_import_help = Quell-Ordner für Medien Import (Folder im Verzeichniss Files)
+pool_import_target_info = Ziel-Kategorie für den Import auswählen
+pool_selectedmedia = Ausgewählte Medien:
+pool_delete_selectedmedia = löschen
+pool_changecat_selectedmedia = in Kategorie verschieben
+pool_selectedmedia_error = Keine Medien ausgewählt
+pool_selectedmedia_moved = Selektierte Medien sind verschoben worden
+pool_select_all = Alle
+pool_nomediafound = Keine Dateien in dieser Kategorie gefunden
+pool_image_get = Bild einfügen
+pool_link_get = Link einsetzen
+pool_file_get = Datei übernehmen
+pool_last_update = Letzter Update
+pool_created = Erstellt am
+
+# redaxo/include/pages
+setup = Setup
+setup_text = Hier können Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umständen nicht nötig.
+setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf &gt;<a href=index.php>weiter</a>&lt; und führen das Setup aus.
+setup_error2 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte tragen Sie dort in der \"\$REX[SETUP] = true;\" ein
+setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<br><br>- Die Dateirechte werden Überprüft<br>- Der Datenbankzugang wird Überprüft und in die master.inc.php eingetragen<br>- Die Datenbank wird (neu) eingerichtet.<br>- Ein Adminzugang wird eingerichtet
+setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
+setup_step1 = SETUP: SCHRITT 1 von 5
+setup_010 = Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version
+setup_012 = <font class=error>Fehler</font> | Das Verzeichniss <b>{0}</b> ist nicht beschreib- oder ausführbar!
+setup_014 = <font class=error>Fehler</font> | Die Datei <b>{0}</b> ist nicht beschreibbar!
+setup_015 = <font class=error>Fehler</font> | Die Datei / Das Verzeichniss <b>{0}</b> exisitert nicht, bitte erstellen Sie es. 
+setup_016 = <b>PHP-Versionscheck | RechteÜberprüfung</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | Ordnerrechte
+setup_017 = Weiter mit Schritt 2
+setup_018 = Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.
+setup_019 = Schritt 1 erneut durchführen
+setup_headline1 = PHP-Versionscheck | Rechte Überprüfung
+setup_step2 = SETUP: SCHRITT 2 von 5
+setup_020 = <b>include/master.inc.php</b> konnte nicht geschrieben werden. 
+setup_021 = Es konnte keine Verbindung zur Datenbank hergestellt werden!
+setup_022 = Die angegebene Datenbank konnte nicht geoeffnet werden!
+setup_023 = Schreiben der 'include/master.inc.php'
+setup_024 = Serverdomain [optional]
+setup_025 = Serverbezeichnung [optional]
+setup_026 = Fehler E-Mailadresse [optional]
+setup_027 = Name der Datenbank
+setup_028 = Passwort
+setup_029 = Weiter zu Schritt 3
+setup_0201 = Allgemein Redaxo Einstellungen
+setup_0202 = Datenbankinformationen
+setup_step3 = SETUP: SCHRITT 3 von 5
+setup_030 = Folgender Fehler tauchte beim Update auf.
+setup_031 = Tabelle {0} wurde nicht gefunden !
+setup_032 = Die Tabellen konnten nicht erstellt werden.
+setup_033 = Bitte richten Sie die Datenbank erneut ein.
+setup_034 = Datenbank einrichten
+setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [<b>Vorsicht</b> - Alte Seite wird komplett gelöscht]
+setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
+setup_037 = Demo installieren [Beispielmodule und -templates]
+setup_038 = Weiter zu Schritt 4
+setup_step4 = SETUP: SCHRITT 4 von 5
+setup_040 = Bitte geben Sie das Administratorlogin ein!
+setup_041 = Bitte geben Sie das Administratorpasswort ein!
+setup_042 = Dieses Login existiert schon!
+setup_043 = Der Administrator konnte nicht angelegt werden.
+setup_044 = Es existiert noch kein User. Bitte legen Sie einen an.
+setup_045 = Administrator anlegen
+setup_046 = Login
+setup_047 = Passwort
+setup_048 = Keinen User anlegen
+setup_049 = Weiter zu Schritt 5
+setup_step5 = SETUP: SCHRITT 5 von 5
+setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte ändern Sie die Datei manuel über FTP.
+setup_051 = Herzlichen Glückwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=login.php>login</a><br>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
+database_imported = Datenbank wurde importiert. 
+entry_count = {0} Einträge
+
+# redaxo\include\pages\addon.inc.php
+addon = AddOn
+addon_help = Hilfe für
+addon_no_help_file = Keine Hilfedatei gefunden
+addon_back = zurück
+addon_install_not_found = Installationsdatei wurde nicht gefunden (install.inc.php)!
+addon_uninstall_not_found = Deinstallationsdatei wurde nicht gefunden (uninstall.inc.php)!
+addon_config_not_found = Konfigurationsdatei wurde nicht gefunden (config.inc.php)!
+addon_no_install = AddOn "{0}" konnte aus folgendem Grund <b>nicht</b> installiert werden:
+addon_no_uninstall = AddOn "{0}" konnte aus folgendem Grund <b>nicht</b> deinstalliert werden:
+addon_no_reason = Es wurde kein Grund angegeben.
+addon_no_activation = AddOn "{0}" konnte <b>nicht</b> aktiviert werden, da es noch nicht installiert wurde!
+addon_installed = AddOn "{0}" wurde installiert
+addon_activated = AddOn "{0}" wurde aktiviert
+addon_deactivated =  AddOn "{0}" wurde deaktiviert
+addon_uninstalled = AddOn "{0}" wurde deinstalliert
+addon_deleted = AddOn "{0}" wurde gelöscht
+addon_hname = Name
+addon_hinstall = Installiert
+addon_hactive = Aktiviert
+addon_hdelete = Entfernen
+addon_reinstall = re-installieren
+addon_install = installieren
+addon_notinstalled = nicht installiert
+addon_uninstall = de-installieren
+addon_delete = löschen
+addon_deactivate = deaktivieren
+addon_activate = aktivieren
+addon_yes = ja
+addon_no = nein
