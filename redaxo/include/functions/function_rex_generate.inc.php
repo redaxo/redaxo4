@@ -685,6 +685,8 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  */
 function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
 {
+  $state = true;
+    
   if (file_exists($file))
   {
     // Fehler unterdrücken, falls keine Berechtigung
