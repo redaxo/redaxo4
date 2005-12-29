@@ -1,6 +1,6 @@
 <?php
 /** 
- * 
+ * Bindet nötige Klassen/Funktionen ein
  * @package redaxo3 
  * @version $Id$ 
  */ 
@@ -74,7 +74,6 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_extension.inc.php";
 // ----- EXTRA FUNCTIONS
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_wysiwyg.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_image.inc.php";
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_path.inc.php";
 
 // ----- CONFIG FILES
 include_once $REX['INCLUDE_PATH']."/addons.inc.php";
