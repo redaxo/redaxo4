@@ -428,14 +428,14 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
       return false;
     }
   }
-  
+
   // Generated des Artikels neu erzeugen
   rex_generateArticle($id);
 
   // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
   rex_generateArticle($from_cat_id);
   rex_generateArticle($to_cat_id);
-  
+
   return true;
 }
 
@@ -538,7 +538,7 @@ function rex_copyArticle($id, $from_cat_id, $to_cat_id)
   // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
   rex_generateArticle($from_cat_id);
   rex_generateArticle($to_cat_id);
-  
+
   return true;
 }
 
@@ -627,16 +627,10 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
 
     // letzt slice_id des ziels holen ..
     $glid = new sql;
-    $glid->setQuery("select 
-                        			r1.id, r1.re_article_slice_id
-                        		from 
-                        			rex_article_slice as r1 
-                        		left join 
-                        			rex_article_slice as r2 on r1.id=r2.re_article_slice_id 
-                        		where 
-                        			r1.article_id=$to_id 
-                        			and r1.clang=$to_clang 
-                        			and r2.id is NULL;");
+    $glid->setQuery("select r1.id, r1.re_article_slice_id
+                     from rex_article_slice as r1 
+                     left join rex_article_slice as r2 on r1.id=r2.re_article_slice_id 
+                     where r1.article_id=$to_id and r1.clang=$to_clang and r2.id is NULL;");
     if ($glid->getRows() == 1)
       $to_last_slice_id = $glid->getValue("r1.id");
     else
@@ -683,41 +677,71 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
 // ----------------------------------------- FILE
 
 /**
- * Löscht einen Ordner/Datei
+ * Löscht einen Ordner/Datei mit Unterordnern
  * 
  * @param $file Zu löschender Ordner/Datei 
- * @param $what Den Ordner selbst auch löschen? 0 => nein, 1 => ja 
+ * @param $delete_folders Ordner auch löschen? false => nein, true => ja 
+ * @param $exceptions Lösche auch '_readme.txt' und '.cvsignore' Dateien? false => nein, true => ja
  */
-function rex_deleteDir($file, $what = 0)
+function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
 {
   if (file_exists($file))
   {
-    // @chmod($file,0775);
-    if (is_dir($file))
+    // Fehler unterdrücken, falls keine Berechtigung
+    if (@ is_dir($file))
     {
       $handle = opendir($file);
+      if (!$handle)
+      {
+        return false;
+      }
+
       while ($filename = readdir($handle))
       {
-        if ($filename == '_readme.txt' || $filename == '.cvsignore')
-          return;
-
-        if ($filename != "." && $filename != "..")
+        if ($filename == '.' || $filename == '..' ||
+            $exceptions && ($filename == '_readme.txt' || $filename == '.cvsignore'))
         {
-          rex_deleteDir($file."/".$filename);
+          continue;
+        }
+
+        if (($state = rex_deleteDir($file."/".$filename, $delete_folders, $exceptions)) !== true)
+        {
+          // Schleife abbrechen, dir_hanlde schließen und danach erst false zurückgeben
+          break;
         }
       }
       closedir($handle);
-      if ($what == 1)
-        rmdir($file);
-      else
-        echo ""; // do nothing;
+
+      if ($state !== true)
+      {
+        return false;
+      }
+
+      // Den Ordner selbst auch löschen?
+      if ($delete_folders)
+      {
+        // Fehler unterdrücken, falls keine Berechtigung
+        if (!@ rmdir($file))
+        {
+          return false;
+        }
+      }
     }
     else
     {
-      unlink($file);
+      // Fehler unterdrücken, falls keine Berechtigung
+      if (!@ unlink($file))
+      {
+        return false;
+      }
     }
   }
+  else
+  {
+    return false;
+  }
 
+  return true;
 }
 
 // ----------------------------------------- CLANG
@@ -870,6 +894,64 @@ function rex_editCLang($id, $name)
   @ chmod($REX['INCLUDE_PATH']."/clang.inc.php", 0777);
   $edit = new sql;
   $edit->query("update rex_clang set name='$name' where id='$id'");
+}
+
+/**
+* Schreibt Addoneigenschaften in die Datei include/addons.inc.php
+* @param array Array mit den Namen der Addons aus dem Verzeichnis addons/
+*/
+function rex_generateAddons($ADDONS, $debug = false)
+{
+  global $REX;
+  natsort($ADDONS);
+
+  $content = "// --- DYN\n\n";
+  foreach ($ADDONS as $cur)
+  {
+    if (!OOAddon :: isInstalled($cur))
+    {
+      $REX['ADDON']['install'][$cur] = 0;
+    }
+    if (!OOAddon :: isActivated($cur))
+    {
+      $REX['ADDON']['status'][$cur] = 0;
+    }
+
+    $content .= "\$REX['ADDON']['install']['$cur'] = ".$REX['ADDON']['install'][$cur].";\n"."\$REX['ADDON']['status']['$cur'] = ".$REX['ADDON']['status'][$cur].";\n\n";
+  }
+  $content .= "// --- /DYN";
+
+  $file = $REX['INCLUDE_PATH']."/addons.inc.php";
+  // Sichergehen, dass die Datei existiert und beschreibbar ist
+  if (is_writable($file))
+  {
+
+    if (!$h = fopen($file, "r"))
+    {
+      return 'Konnte Datei "'.$file.'" nicht lesen';
+    }
+    $fcontent = fread($h, filesize($file));
+    $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
+    fclose($h);
+
+    if (!$h = fopen($file, "w+"))
+    {
+      return 'Konnte Datei "'.$file.'" nicht zum schreiben oeffnen';
+    }
+    //if (!fwrite($h, $fcontent, strlen($fcontent))) {
+    if (!fwrite($h, $fcontent, strlen($fcontent)))
+    {
+      return 'Konnte Inhalt nicht in Datei "'.$file.'" schreiben';
+    }
+    fclose($h);
+
+    // alles ist gut gegangen
+    return true;
+  }
+  else
+  {
+    return 'Datei "'.$file.'" hat keine Schreibrechte';
+  }
 }
 
 // ----------------------------------------- generate helpers
