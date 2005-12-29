@@ -72,6 +72,8 @@ Changes:
 	* Lizenzdatei aus SETUP ausgelagert [kills]
 	* Sprachfiles in UTF-8 konvertiert [kills]
 	* Addon de-installation u. löschen eingebaut [kills]
+	* rexExtensionPoint erstellt [jan]
+		- ADDONS_INCLUDED
 	* OOArticle->getCategory eingebaut [jan]
 	* Textile Klasse upgedated [jan]
 	* moveArticle/copyArticle implementiert [kills]
