@@ -1,4 +1,3 @@
-
 Bevor Sie REDAXO für Ihre eigene Zwecke nutzen möchten, berücksichtigen Sie bitte 
 die folgenden lizenzrechtlichen Bestimmungen. Es handelt sich hierbei um eine 
 Open Source Lizenzvereinbarung, die als General Public License (GPL) in 
@@ -7,7 +6,7 @@ englischer Sprache vorliegt.
 Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf 
 der Kontaktseite aufgenommen werden.
 
-If you use REDAXO you can add these informations in your imprint or contact page
+If you use REDAXO you may add these informations in your imprint or contact page
 
 CMS: REDAXO - Open Source Content Management System
 LINK: www.redaxo.de
@@ -36,7 +35,8 @@ License: LGPL, see LICENSE
 mehr zu dieser Lizenz in class.smtp.inc.php
 
 
-// ----- tinymce siehe redaxo/js folder.
+// ----- tinymce siehe redaxo/js Ordner
+
 Moxiecode
 copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
 License: LGPL, see LICENSE
@@ -64,7 +64,7 @@ Description: A PHP Implementation of the TAR Format manager.
 Author Josh Barger <joshb@npt.com>
 
 
-// ----- redaxo GPL General Public License lizenz
+// ----- redaxo GPL - General Public License
 
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
