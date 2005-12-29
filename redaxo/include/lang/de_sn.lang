@@ -393,7 +393,7 @@ setup_step5 = SEDDAB: SCHRIDD 5 von 5
 setup_050 = Leidor gonnde die maschdor.inc.bhb nischd beschriebn werdn. Bidde änder die Daddee manuell übor FTB.
 setup_051 = Herzlischn Glüggwunsch zu Ihrem REDAGGSO! <br><br>Bidde noch dieses beachden:<br><br><b>1. Mid dem eengerichdedem Zugang eenloggen <a href=login.php>login</a><br>2. Imbordiern eenor Demo übor [wenn eengeloggd]: Imbord/Eggsbord und dord jeweils die Dadnbang und Files inschdalliern.</b><br><br><br>Viel Schbass und Erfolg <br><br>Das REDAGGSO Diem <br><br>
 database_imported = Datenbank wurde importiert. 
-entry_count = {0} Eintr&auml;ge
+entry_count = {0} Einträge
 
 # redaxo\include\pages\addon.inc.php
 addon = EddOn
@@ -401,17 +401,26 @@ addon_help = Hilfe für
 addon_no_help_file = Geen Hilfefeil gefundn
 addon_back = zurügg
 addon_install_not_found = Inschdall File wurde nischd gefundn!
+addon_uninstall_not_found = Deinstallationsdatei wurde nicht gefunden (uninstall.inc.php)!
+addon_config_not_found = Konfigurationsdatei wurde nicht gefunden (config.inc.php)!
 addon_no_install = gonnde aus folchendem Grund <b>nischd</b> inschdallierd werdn:
 addon_no_reason = Es wurde geen Grund angegäbn. Na doll. Was solln diss?
+addon_no_activation = AddOn "{0}" konnte <b>nicht</b> aktiviert werden, da es noch nicht installiert wurde!
 addon_installed = EddOn wurde insschdallierd
 addon_no_activation = "EddOn gonnde <b>nischd</b> aggdivierd werdn, da es noch nischd inschdallierd wurde!"
 addon_activated = "EddOn wurde aggdivierd"
 addon_deactivated =  "EddOn wurde deaggdivierd"
+addon_uninstalled = AddOn "{0}" wurde deinstalliert
+addon_deleted = AddOn "{0}" wurde gelöscht
 addon_hname = Name
 addon_hinstall = inschdallierd
 addon_hactive = aggdiv
+addon_hdelete = Entfernen
 addon_reinstall = Noch ma inschdalliern
 addon_install = inschdalliern
+addon_notinstalled = nicht installiert
+addon_uninstall = de-installieren
+addon_delete = löschen
 addon_deactivate = deaggdiviern
 addon_activate = aggdiviern
 addon_yes = nu
