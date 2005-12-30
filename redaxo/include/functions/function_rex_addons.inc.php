@@ -157,7 +157,7 @@ function rex_delete_addon($addons, $addonname)
   if ($state === true)
   {
     // bei erfolg, komplett löschen
-    rex_deleteDir($REX['INCLUDE_PATH']."/addons/$addonname", true, false);
+    rex_deleteDir($REX['INCLUDE_PATH']."/addons/$addonname", true);
     // regenerate Addons file
     $state = rex_generateAddons($addons);
   }

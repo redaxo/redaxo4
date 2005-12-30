@@ -683,7 +683,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  * @param $delete_folders Ordner auch löschen? false => nein, true => ja 
  * @param $exceptions Lösche auch '_readme.txt' und '.cvsignore' Dateien? false => nein, true => ja
  */
-function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
+function rex_deleteDir($file, $delete_folders = false)
 {
   $state = true;
     
@@ -700,13 +700,12 @@ function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
 
       while ($filename = readdir($handle))
       {
-        if ($filename == '.' || $filename == '..' ||
-            $exceptions && ($filename == '_readme.txt' || $filename == '.cvsignore'))
+        if ($filename == '.' || $filename == '..')
         {
           continue;
         }
 
-        if (($state = rex_deleteDir($file."/".$filename, $delete_folders, $exceptions)) !== true)
+        if (($state = rex_deleteDir($file."/".$filename, $delete_folders)) !== true)
         {
           // Schleife abbrechen, dir_hanlde schließen und danach erst false zurückgeben
           break;
@@ -719,7 +718,7 @@ function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
         return false;
       }
 
-      // Den Ordner selbst auch löschen?
+      // Ordner auch löschen?
       if ($delete_folders)
       {
         // Fehler unterdrücken, falls keine Berechtigung
@@ -731,6 +730,7 @@ function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
     }
     else
     {
+      // Datei löschen
       // Fehler unterdrücken, falls keine Berechtigung
       if (!@ unlink($file))
       {
@@ -740,6 +740,7 @@ function rex_deleteDir($file, $delete_folders = false, $exceptions = true)
   }
   else
   {
+    // Datei/Ordner existiert nicht
     return false;
   }
 
