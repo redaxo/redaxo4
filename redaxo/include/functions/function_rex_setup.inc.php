@@ -20,7 +20,7 @@ function rex_is_writable($item)
   {
     if (!@ is_writable($item."/."))
     {
-      $state = $I18N->msg("setup_012", absPath($item));
+      $state = $I18N->msg("setup_012", rex_absPath($item));
     }
   }
   // Fehler unterdrücken, falls keine Berechtigung
@@ -28,12 +28,12 @@ function rex_is_writable($item)
   {
     if (!@ is_writable($item))
     {
-      $state = $I18N->msg("setup_014", absPath($item));
+      $state = $I18N->msg("setup_014", rex_absPath($item));
     }
   }
   else
   {
-    $state = $I18N->msg("setup_015", absPath($item));
+    $state = $I18N->msg("setup_015", rex_absPath($item));
   }
   
   return $state;
