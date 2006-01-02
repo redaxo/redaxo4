@@ -471,8 +471,13 @@ small_title($REX['SERVERNAME'], 'Linkmap');
 $func_body = '';
 if (!isset ($HTMLArea))
   $HTMLArea = '';
+if (!isset ($form))
+  $form = 'REX_FORM';
 if (!isset ($opener_input_field))
   $opener_input_field = '';
+if (!isset ($opener_input_field_name))
+  $opener_input_field_name = '';
+  
 if ($HTMLArea != '')
 {
   if ($HTMLArea == 'TINY')
@@ -484,12 +489,21 @@ if ($HTMLArea != '')
     $func_body = 'window.opener.'.$HTMLArea.'.surroundHTML("<a href="+link+">","</a>");';
   }
 }
-if ($opener_input_field != '')
+
+if ($opener_input_field_name != '')
 {
-  $func_body .= "linkid = link.replace('redaxo://','');\n";
-  $func_body .= "opener.document.REX_FORM['LINK[".$_GET['opener_input_field']."]'].value = linkid;\n";
-  $func_body .= "opener.document.REX_FORM['LINK_NAME[".$_GET['opener_input_field']."]'].value = name;\n";
+  $link_id_field = $opener_input_field_name;
+  $link_name_field = $opener_input_field_name .'_NAME';
+} 
+elseif ( $opener_input_field != '')
+{
+  $link_id_field = "LINK[". $opener_input_field ."]";
+  $link_name_field = "LINK_NAME[". $opener_input_field ."]";
 }
+
+$func_body .= "linkid = link.replace('redaxo://','');\n";
+$func_body .= "opener.document.". $form ."['". $link_id_field ."'].value = linkid;\n";
+$func_body .= "opener.document.". $form ."['". $link_name_field ."'].value = name;\n";
 ?>
 
 <script language="JavaScript" type="text/javascript">
@@ -505,6 +519,5 @@ if ($opener_input_field != '')
   function insertLink(link,name){
     <?php echo $func_body. "\n" ?>
     self.close();
-
   }
 </script>
