@@ -56,10 +56,11 @@ function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
  *  array( 'groups', 'Gruppen')
  * );
  * 
- * title( 'Headline', $subpages)
+ * small_title( 'Headline', $subpages)
  */
 function small_title($title, $subtitle) {
   $subtitle = rex_get_subtitle( $subtitle, ' class="white"');
+  $subtitle = $subtitle != '' ? '<b>'. $subtitle .'</b>' : ''; 
 ?>
   <table border="0" cellpadding="5" cellspacing="1" width="100%">
     <tr>
@@ -67,7 +68,7 @@ function small_title($title, $subtitle) {
     </tr>
     <tr>
       <td class="greenwhite">
-        <b><?php echo $subtitle ?></b>
+        <?php echo $subtitle ?>
       </td>
     </tr>
     <tr>
