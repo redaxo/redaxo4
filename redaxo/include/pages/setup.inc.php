@@ -48,7 +48,8 @@ if ($checkmodus=="0.5")
   echo "<br><br>";
   echo "<div id=lizenz style='width:500px; height:200px; overflow:auto; background-color:#ffffff; text-align:left; font-size:9px;'>";
   
-  $license_file = $REX['HTDOCS_PATH'] .'/_lizenz.txt';
+  $Basedir = dirname( __FILE__);
+  $license_file = $Basedir .'/../../../_lizenz.txt';
   $hdl = fopen( $license_file, 'r');
   $license = nl2br( fread ( $hdl, filesize( $license_file)));
   fclose( $hdl);
