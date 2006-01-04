@@ -137,17 +137,7 @@ class OOMedia
    */
   function & getMediaByName($filename)
   {
-    $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.$filename.'"';
-    $sql = new sql();
-    //$sql->debugsql = true;
-    $result = $sql->get_array($query);
-
-    if (count($result) == 0)
-    {
-      return null;
-    }
-
-    return OOMedia :: getMediaById($result[0]['file_id']);
+    return OOMedia::getMediaByFileName($filename);
   }
 
   /**
