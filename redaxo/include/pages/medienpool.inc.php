@@ -23,8 +23,15 @@
 
 // ----- opener_input_field setzen
 if(isset($_GET["opener_input_field"])) $_SESSION["media[opener_input_field]"] = $_GET["opener_input_field"];
-
-
+// ----- opener_form setzen
+if(isset($_GET["opener_form"])) 
+{
+  $_SESSION["media[opener_form]"] = $_GET["opener_form"];
+}
+else
+{
+  $_SESSION["media[opener_form]"] = 'REX_FORM';
+}
 
 
 
@@ -65,7 +72,7 @@ var redaxo = true;
 
 function selectMedia(filename)
 {
-  <?php if ($_SESSION["media[opener_input_field]"]!="") echo "opener.document.REX_FORM.".$_SESSION["media[opener_input_field]"].".value = filename;"; ?>
+  <?php if ($_SESSION["media[opener_input_field]"]!="") echo "opener.document.". $_SESSION["media[opener_form]"] ."['".$_SESSION["media[opener_input_field]"]."'].value = filename;\n"; ?>
   self.close();
 }
 
