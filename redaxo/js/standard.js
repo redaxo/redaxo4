@@ -197,6 +197,13 @@ function openLinkMap(id)
 {
         newWindow('linkmappopup','index.php?page=linkmap&opener_input_field='+id+'',660,500,',status=yes,resizable=yes');
 }
+
+function setValue(id,value)
+{
+	var field = new getObj(id);
+	field.obj.value = value;
+}
+
 function deleteREXLink(id)
 {
         var a = new getObj("LINK["+id+"]");
