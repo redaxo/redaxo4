@@ -55,6 +55,8 @@ if ( isset( $open_header_only) && $open_header_only == true) {
         if (isset($REX['ADDON']['perm'][$apage])) { $perm = $REX['ADDON']['perm'][$apage]; } else { $perm = ''; }
         if (isset($REX['ADDON']['name'][$apage])) { $name = $REX['ADDON']['name'][$apage]; } else { $name = ''; }
         if (isset($REX['ADDON']['popup'][$apage])) { $popup = $REX['ADDON']['popup'][$apage]; } else { $popup = ''; }
+        // Leerzeichen durch &nbsp; ersetzen, damit Addonnamen immer in einer Zeile stehen
+        $name = str_replace( ' ', '&nbsp;', $name);
         if (current($REX['ADDON']['status']) == 1 && $name != '' && ($REX_USER->isValueOf("rights",$perm) || $perm == "" || $REX_USER->isValueOf("rights","admin[]")) )
         {
           if ($popup == 1) echo " | <a href=javascript:newPoolWindow('index.php?page=$apage'); class=white>$name</a>";
