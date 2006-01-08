@@ -341,10 +341,10 @@ if ($PERMALL && isset($subpage) and $subpage == "categories")
 
 if (isset($_REQUEST["rex_file_category"]))
 {
-	$rex_file_category = (int) $_REQUEST["rex_file_category"];
+  $rex_file_category = (int) $_REQUEST["rex_file_category"];
 }else
 {
-	if (isset($_SESSION["rex_file_category"])) $rex_file_category = $_SESSION["rex_file_category"];
+  if (isset($_SESSION["rex_file_category"])) $rex_file_category = $_SESSION["rex_file_category"];
 }
 
 // ***** kategorie checken
@@ -861,9 +861,9 @@ if (isset($subpage) and $subpage == "detail")
       $msg = "";
     }
 
+    if (!isset($opener_link)) $opener_link = '';
     if($_SESSION["media[opener_input_field]"] == 'TINY')
     {
-      $opener_link = "";
       if (in_array($ffiletype,$imgtypes))
       {
         $opener_link .= "<a href=javascript:insertImage('$fname','". converDescription( $fdescription) ."','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
@@ -896,7 +896,6 @@ if (isset($subpage) and $subpage == "detail")
       }
       $cats_sel->set_selected($rex_file_category);
     
-      if (!isset($opener_link)) $opener_link = '';
       print '<table border="0" cellpadding="5" cellspacing="1" width="100%">'."\n";
       print '<tr><th align="left" colspan="4">Detailinformationen | '.$opener_link.'</th></tr>';
       print '<form name="rex_file_cat" action="index.php" method="POST" ENCTYPE="multipart/form-data">'."\n";
