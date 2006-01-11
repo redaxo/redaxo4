@@ -72,8 +72,9 @@ class OOMediaCategory
 
     if (count($result) == 0)
     {
-      //trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_ERROR);
-      return null;
+      // Zuerst einer Variable zuweisen, da RETURN BY REFERENCE
+      $return = null;
+      return $return;
     }
 
     $cat = & new OOMediaCategory();
