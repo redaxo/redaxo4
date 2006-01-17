@@ -681,7 +681,6 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  * 
  * @param $file Zu löschender Ordner/Datei 
  * @param $delete_folders Ordner auch löschen? false => nein, true => ja 
- * @param $exceptions Lösche auch '_readme.txt' und '.cvsignore' Dateien? false => nein, true => ja
  */
 function rex_deleteDir($file, $delete_folders = false)
 {
