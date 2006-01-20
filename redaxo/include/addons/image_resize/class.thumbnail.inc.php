@@ -101,7 +101,7 @@ class thumbnail
 
   function generateImage($save='',$show=true)
   {
-    if ($this->img["format"]=="GIF" && !$gifsupport)
+    if ($this->img["format"]=="GIF" && !$this->gifsupport)
     {
       // --- kein caching -> gif ausgeben
       Header("Content-Type: image/".$this->img["format"]);
