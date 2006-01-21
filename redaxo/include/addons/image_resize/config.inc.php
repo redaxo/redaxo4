@@ -44,6 +44,8 @@ if ($REX['GG'])
   // Resize WYSIWYG Editor Images
   function rex_resize_wysiwyg_output($params)
   {
+    global $REX;
+    
     $content = $params['subject'];
 
     preg_match_all('/<img.*ismap="rex_resize".*>/imsU', $content, $matches);
@@ -181,8 +183,6 @@ if ((isset ($REX['REDAXO']) and $REX['REDAXO'] === false) && (isset ($_GET['rex_
 
   // save cache
   $thumb->generateImage($cachepath);
-
   exit ();
-
 }
 ?>
