@@ -51,9 +51,6 @@ class OOMedia
   // createuser
   var $_createuser = "";
 
-  // resizeextensions
-  var $_resizeextensions = array ('jpeg', 'jpg', 'gif', 'png');
-
   /**
    * @access protected
    */
@@ -866,6 +863,18 @@ class OOMedia
     unlink($REX['INCLUDE_PATH']."/../../files/".$this->getFileName());
 
     return $sql->getError();
+  }
+  
+  // allowed filetypes
+  function getAllowedDocTypes()
+  {
+    return array ('bmp','css','doc','gif','gz','jpg','mov','mp3','ogg','pdf','png','ppt','rar','rtf','swf','tar','tif','txt','wma','xls','zip'); 
+  }
+  
+  // allowed image upload types 
+  function getAllowedImageTypes()
+  {
+    return array ('gif','jpg','jpeg','png','pjpeg','bmp');
   }
 }
 ?>
