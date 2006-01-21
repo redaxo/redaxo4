@@ -165,7 +165,11 @@ function newPoolWindow( link)
 
 function openMediaPool(id)
 {
-    newPoolWindow('index.php?page=medienpool&opener_input_field='+ id);
+	if ( typeof(id) == 'undefined')
+	{
+		id = '';	
+	}
+  newPoolWindow('index.php?page=medienpool&opener_input_field='+ id);
 }
 
 function openREXMedia(id)
