@@ -45,8 +45,8 @@ if ($REX_USER->isValueOf("rights","admin[]") or $REX_USER->isValueOf("rights","m
 
 // *************************************** CONFIG
 
-$doctypes = array ("bmp","css","doc","gif","gz","jpg","mov","mp3","ogg","pdf","png","ppt","rar","rtf","swf","tar","tif","txt","wma","xls","zip");
-$imgtypes = array ("image/gif","image/jpg","image/jpeg","image/png","image/pjpeg","image/bmp");
+$doctypes = OOMedia::getDocTypes();
+$imgtypes = OOMedia::getImageTypes();
 $thumbs = true;
 $thumbsresize = true;
 $backend_mediafolder = str_replace('/redaxo/index.php','',$_SERVER['SCRIPT_NAME']). '/files/';
@@ -132,7 +132,7 @@ function openImage(image){
 function insertHTMLArea(html,filename){
   selection = window.opener.tinyMCE.getContent();
   if(selection!=''){
-    html = '<a href=\"/files/'+filename+'\">'+selection+'</a>';
+    html = '<a href=\"/files/'+filename+'\">'+selection+'<\/a>';
   }
   window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
   self.close();
@@ -573,7 +573,7 @@ if (isset($subpage) && $subpage == "add_file" && isset($media_method) && $media_
 
       if($_SESSION["media[opener_input_field]"] == 'TINY')
       {
-        if (in_array($ffiletype,$imgtypes))
+        if (OOMedia::isImageType($ffiletype))
         {
           $js = "insertImage('$file_name','". converDescription( $fdescription) ."','$width','$height');";
         }else
@@ -842,10 +842,10 @@ if (isset($subpage) and $subpage == "detail")
 
     $file_ext = substr(strrchr($fname, "."),1);
     $icon_src = "pics/mime_icons/mime-default.gif";
-    if (in_array($file_ext,$doctypes)) $icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
+    if (OOMedia::isDocType($file_ext)) $icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
     $thumbnail = "<img src=$icon_src align=left border=0>";
 
-    $ffiletype_ii = in_array($ffiletype,$imgtypes);
+    $ffiletype_ii = OOMedia::isImageType($ffiletype);
     if ($ffiletype_ii==1)
     {
       $size = getimagesize($REX['INCLUDE_PATH']."/../../files/$fname");
@@ -864,7 +864,7 @@ if (isset($subpage) and $subpage == "detail")
     if (!isset($opener_link)) $opener_link = '';
     if($_SESSION["media[opener_input_field]"] == 'TINY')
     {
-      if (in_array($ffiletype,$imgtypes))
+      if (OOMedia::isImageType($ffiletype))
       {
         $opener_link .= "<a href=javascript:insertImage('$fname','". converDescription( $fdescription) ."','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
       }
@@ -1265,12 +1265,13 @@ if (!isset($subpage) or $subpage == '')
 
     $file_ext = substr(strrchr($file_name,"."),1);
     $icon_src = "pics/mime_icons/mime-default.gif";
-    if (in_array($file_ext,$doctypes))
+    if (OOMedia::isDocType($file_ext))
     {
       $icon_src = "pics/mime_icons/mime-".$file_ext.".gif";
     }
     $thumbnail = "<img src=$icon_src width=44 height=38 border=0>";
-    if (in_array($file_type,$imgtypes) && $thumbs)
+    
+    if (OOMedia::isImageType($file_type) && $thumbs)
     {
       $thumbnail = '<img src="../files/'.$file_name.'" width="80" border="0">';
       if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80w__'.$file_name.'" width="80" border="0">';
@@ -1295,18 +1296,18 @@ if (!isset($subpage) or $subpage == '')
     if ($_SESSION["media[opener_input_field]"] == 'TINY')
     {
       $opener_link = '';
-      if (in_array($file_type, $imgtypes))
+      if (OOMedia::isImageType($file_type))
       {
-        $opener_link .= "<a href=javascript:insertImage('$file_name','". str_replace( " ", "&nbsp;", converDescription( $file_description)) ."','".$files->getValue("width")."','".$files->getValue("height")."');>".$I18N->msg('pool_image_get')."</a><br>";
+        $opener_link .= "<a href=\"javascript:insertImage('$file_name','". str_replace( " ", "&nbsp;", converDescription( $file_description)) ."','".$files->getValue("width")."','".$files->getValue("height")."');\">".$I18N->msg('pool_image_get')."</a><br>";
       }
-      $opener_link .= "<a href=javascript:insertLink('".$file_name."');>".$I18N->msg('pool_link_get')."</a>";
+      $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
 
     } elseif ($_SESSION["media[opener_input_field]"] != '')
     {
-      $opener_link = "<a href=javascript:selectMedia('".$file_name."');>".$I18N->msg('pool_file_get')."</a>";
+      $opener_link = "<a href=\"javascript:selectMedia('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = "<a href=javascript:addMedialist('".$file_name."');>".$I18N->msg('pool_file_get')."</a>";
+        $opener_link = "<a href=\"javascript:addMedialist('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       }
     }
 
