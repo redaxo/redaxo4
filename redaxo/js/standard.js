@@ -163,6 +163,15 @@ function newPoolWindow( link)
     newWindow( 'rexmediapopup', link, 660,500,',status=yes,resizable=yes');
 }
 
+function openMediaDetails(id, file_id, file_category_id)
+{
+	if ( typeof(id) == 'undefined')
+	{
+		id = '';	
+	}
+  newPoolWindow('index.php?page=medienpool&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
+}
+
 function openMediaPool(id)
 {
 	if ( typeof(id) == 'undefined')
