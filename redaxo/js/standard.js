@@ -169,7 +169,7 @@ function openMediaDetails(id, file_id, file_category_id)
 	{
 		id = '';	
 	}
-  newPoolWindow('index.php?page=medienpool&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
+  newPoolWindow('index.php?page=medienpool&subpage=detail&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
 }
 
 function openMediaPool(id)
