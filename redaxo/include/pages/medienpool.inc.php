@@ -24,11 +24,10 @@
 // ----- opener_input_field setzen
 if(isset($_GET["opener_input_field"])) $_SESSION["media[opener_input_field]"] = $_GET["opener_input_field"];
 // ----- opener_form setzen
-if(isset($_GET["opener_form"])) 
-{
-  $_SESSION["media[opener_form]"] = $_GET["opener_form"];
-}
-else
+if(isset($_GET["opener_form"])) $_SESSION["media[opener_form]"] = $_GET["opener_form"];
+
+// default value setzen, falls nicht übergeben
+if (empty( $_SESSION["media[opener_form]"]))
 {
   $_SESSION["media[opener_form]"] = 'REX_FORM';
 }
