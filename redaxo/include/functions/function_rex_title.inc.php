@@ -6,7 +6,11 @@
  */ 
  
 /**
- * @example
+ * Ausgabe des Seitentitels
+ * 
+ * Beispiel für einen Seitentitel
+ *
+ * <code>  
  * $subpages = array(
  *  array( '', 'Index'),
  *  array( 'lang', 'Sprachen'),
@@ -14,8 +18,21 @@
  * );
  * 
  * title( 'Headline', $subpages)
+ * </code>
+ * 
+ * Beispiel für einen Seitentitel mit Rechteprüfung
+ *
+ * <code>  
+ * $subpages = array(
+ *  array( '', 'Index', 'index_perm'),
+ *  array( 'lang', 'lang_perm'),
+ *  array( 'groups', 'group_perm')
+ * );
+ * 
+ * title( 'Headline', $subpages)
+ * </code>
  */
-function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
+function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
   $subtitle = rex_get_subtitle( $subtitle);
   if ( $subtitle != '')
@@ -49,7 +66,11 @@ function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 }
 
 /**
- * @example
+ * Ausgabe des Seitentitels für PopUps
+ * 
+ * Beispiel für einen Seitentitel
+ *
+ * <code>  
  * $subpages = array(
  *  array( '', 'Index'),
  *  array( 'lang', 'Sprachen'),
@@ -57,8 +78,21 @@ function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
  * );
  * 
  * small_title( 'Headline', $subpages)
+ * </code>
+ * 
+ * Beispiel für einen Seitentitel mit Rechteprüfung
+ *
+ * <code>  
+ * $subpages = array(
+ *  array( '', 'Index', 'index_perm'),
+ *  array( 'lang', 'lang_perm'),
+ *  array( 'groups', 'group_perm')
+ * );
+ * 
+ * small_title( 'Headline', $subpages)
+ * </code>
  */
-function small_title($title, $subtitle) {
+function rex_small_title($title, $subtitle) {
   $subtitle = rex_get_subtitle( $subtitle, ' class="white"');
   $subtitle = $subtitle != '' ? '<b>'. $subtitle .'</b>' : ''; 
 ?>
@@ -79,16 +113,21 @@ function small_title($title, $subtitle) {
 }
 
 /**
- * Helper function
+ * Helper function, die den Subtitle generiert
  */
 function rex_get_subtitle($subline, $attr = '')
 {
+  global $REX_USER;
+  
   if (empty($subline))
   {
     return  '';
   }
   
   $subtitle = $subline;
+  $cur_subpage = empty($_REQUEST['subpage']) ? '' : $_REQUEST['subpage'];
+  $cur_page    = empty($_REQUEST['page']) ? '' : $_REQUEST['page'];
+  
   if (is_array($subline))
   {
     $subtitle = '&nbsp;&nbsp;&nbsp;';
@@ -104,6 +143,24 @@ function rex_get_subtitle($subline, $attr = '')
 
       $link = $subpage[0];
       $label = $subpage[1];
+      // Berechtigung prüfen
+      if (!empty( $subpage[2]))
+      {
+        // Hat der User das Recht für die aktuelle Subpage?
+        if (!$REX_USER->isValueOf('rights', $subpage[2]))
+        {
+          // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
+          if ($cur_subpage == $link)
+          {
+            exit ('You have no permission to this area!');
+          }
+          // Den Punkt aus der Navi entfernen
+          else
+          {
+            continue;
+          }
+        }
+      }
 
       // Falls im Link parameter enthalten sind, diese Abschneiden
       if (($pos = strpos($link, '&')) !== false)
@@ -111,7 +168,7 @@ function rex_get_subtitle($subline, $attr = '')
         $link = substr($link, 0, $pos);
       }
 
-      $active = (empty ($_REQUEST['subpage']) && $link == '') || (!empty ($_REQUEST['subpage']) && $_REQUEST['subpage'] == $link);
+      $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
 
       // Auf der aktiven Seite den Link nicht anzeigen            
       if ($active)
@@ -122,12 +179,12 @@ function rex_get_subtitle($subline, $attr = '')
       else
         if ($link == '')
         {
-          $format = '<a href="?page='.$_REQUEST['page'].'"%s>%s</a>';
+          $format = '<a href="?page='. $cur_page .'"%s>%s</a>';
           $subtitle .= sprintf($format, $attr, $label);
         }
         else
         {
-          $format = '<a href="?page='.$_REQUEST['page'].'&amp;subpage=%s"%s>%s</a>';
+          $format = '<a href="?page='. $cur_page .'&amp;subpage=%s"%s>%s</a>';
           $subtitle .= sprintf($format, $link, $attr, $label);
         }
 

@@ -334,7 +334,7 @@ if (isset($function) and $function == "delete")
 
 
 include $REX['INCLUDE_PATH']."/layout/top.php";
-title($I18N_IM_EXPORT->msg("importexport"),"");
+rex_title($I18N_IM_EXPORT->msg("importexport"),"");
 if ($msg != '') echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
 
 ?>

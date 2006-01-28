@@ -40,7 +40,7 @@ if ($article->getRows() == 1)
   }
 
   // ----- Titel anzeigen
-  title("Artikel",$KATout);
+  rex_title("Artikel",$KATout);
 
   // ----- Sprachenblock
   $sprachen_add = "&category_id=$category_id&article_id=$article_id";

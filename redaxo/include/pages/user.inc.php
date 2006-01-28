@@ -199,7 +199,7 @@ if (isset($REX['EXTRAPERM'])) {
 
 // --------------------------------- Title
 
-title($I18N->msg("title_user"),"");
+rex_title($I18N->msg("title_user"),"");
 
 // --------------------------------- FUNCTIONS
 

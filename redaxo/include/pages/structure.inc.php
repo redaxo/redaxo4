@@ -44,7 +44,7 @@ include $REX['INCLUDE_PATH']."/functions/function_rex_category.inc.php";
 
 // --------------------------------------------- TITLE
 
-title($I18N->msg("title_structure"),"$KATout");
+rex_title($I18N->msg("title_structure"),"$KATout");
 
 $sprachen_add = "&category_id=$category_id";
 include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";

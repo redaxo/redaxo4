@@ -14,7 +14,7 @@ $subline = array(
   array( 'lang', $I18N->msg("languages")),
   array( 'type', $I18N->msg("types")),
 );
-title($I18N->msg("specials_title"),$subline);
+rex_title($I18N->msg("specials_title"),$subline);
 
 
 if ($subpage == '')

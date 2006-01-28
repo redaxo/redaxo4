@@ -26,6 +26,6 @@ switch ($subpage)
     }
 }
 
-title($title, array (array ('', 'Modules'), array ('actions', 'Actions')));
+rex_title($title, array (array ('', 'Modules'), array ('actions', 'Actions')));
 include $REX['INCLUDE_PATH'].'/pages/'.$file;
 ?>

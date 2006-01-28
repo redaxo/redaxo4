@@ -5,7 +5,7 @@
  * @version $Id$ 
  */
 
-title($I18N->msg("title_templates"),"");
+rex_title($I18N->msg("title_templates"),"");
 
 $OUT = TRUE;
 
