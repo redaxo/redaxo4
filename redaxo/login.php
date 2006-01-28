@@ -17,7 +17,7 @@ $LOGIN = FALSE;
 
 include $REX['INCLUDE_PATH']."/layout/top.php";
 
-title("Login","");
+rex_title("Login","");
 
 if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
 {
