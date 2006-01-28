@@ -67,6 +67,8 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
+  * title() in rex_title() umbenannt [kills]
 	* Bereits verwendete Clangs werden nicht mehr im Add-Formular angezeigt [kills]
 	* 15 Clangs jetzt möglich [kills]
 	* Lizenzdatei aus SETUP ausgelagert [kills]
