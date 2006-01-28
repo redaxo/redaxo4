@@ -128,11 +128,10 @@ function rex_get_subtitle($subline, $attr = '')
   $cur_subpage = empty($_REQUEST['subpage']) ? '' : $_REQUEST['subpage'];
   $cur_page    = empty($_REQUEST['page']) ? '' : $_REQUEST['page'];
   
-  if (is_array($subline))
+  if (is_array($subline) && count( $subline) > 0)
   {
-    $subtitle = '&nbsp;&nbsp;&nbsp;';
+    $subtitle = array();
     $numPages = count($subline);
-    $i = 0;
 
     foreach ($subline as $subpage)
     {
@@ -174,27 +173,21 @@ function rex_get_subtitle($subline, $attr = '')
       if ($active)
       {
         $format = '%s';
-        $subtitle .= sprintf($format, $label);
+        $subtitle[] = sprintf($format, $label);
+      }
+      elseif ($link == '')
+      {
+        $format = '<a href="?page='. $cur_page .'"%s>%s</a>';
+        $subtitle[] = sprintf($format, $attr, $label);
       }
       else
-        if ($link == '')
-        {
-          $format = '<a href="?page='. $cur_page .'"%s>%s</a>';
-          $subtitle .= sprintf($format, $attr, $label);
-        }
-        else
-        {
-          $format = '<a href="?page='. $cur_page .'&amp;subpage=%s"%s>%s</a>';
-          $subtitle .= sprintf($format, $link, $attr, $label);
-        }
-
-      if ($i != ($numPages -1))
       {
-        $subtitle .= ' | ';
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s"%s>%s</a>';
+        $subtitle[] = sprintf($format, $link, $attr, $label);
       }
-
-      $i ++;
     }
+    
+    $subtitle = '&nbsp;&nbsp;&nbsp;' . implode( ' | ', $subtitle);
   }
   // \n aus Quellcode formatierungsgründen
   return $subtitle."\n" ;
