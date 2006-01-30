@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
 	* rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
   * title() in rex_title() umbenannt [kills]
 	* Bereits verwendete Clangs werden nicht mehr im Add-Formular angezeigt [kills]
