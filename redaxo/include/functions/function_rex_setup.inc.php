@@ -44,7 +44,7 @@ function rex_is_writable($item)
  */
 function rex_setuptitle($title)
 {
-  title($title,"");
+  rex_title($title,"");
 
   echo "
   <table border=0 cellpadding=5 cellspacing=1 width=770>
