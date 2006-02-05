@@ -233,7 +233,8 @@ class tar
 	{
 		// Clear any data currently in $this->tar_file
 		unset($this->tar_file);
-
+    $header = '';
+    
 		// Generate Records for each directory, if we have directories
 		if($this->numDirectories > 0) {
 			foreach($this->directories as $key => $information) {
@@ -461,7 +462,7 @@ class tar
 		$activeDir["time"]	= $file_information["time"];
 		$activeDir["user_id"]	= $file_information["uid"];
 		$activeDir["group_id"]	= $file_information["gid"];
-		$activeDir["checksum"]	= $checksum;
+		$activeDir["checksum"]	= isset($checksum) ? $checksum : '';
 
 		return true;
 	}
