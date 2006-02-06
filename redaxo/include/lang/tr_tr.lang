@@ -1,0 +1,435 @@
+# Please check this file, if you've found anything, write in the forums.
+# (Lütfen dosyayi inceleyin ve hata bulursaniz, Redaxo Forumuna yaziniz.)
+# Last modify/Son degistirilen tarih: 01.02.06
+#
+# 1. Bu dosyayi /redaxo/include/lang/ nin icine koyunuz.
+#
+# 2. Setupta türkce yoksa, olmasi icin /redaxo/index.php'yi aciniz ve sunu arayiniz: (Satir 31 olmasi gerek)
+# 
+# if (!isset ($lang) or ($lang != "en_gb" && $lang != "de_de")) $lang = "de_de";
+# 
+# Silip bunu yaziniz:
+# 
+# if (!isset ($lang) or ($lang != "en_gb" && $lang != "de_de" && $lang != "tr_tr" )) $lang = "de_de";
+#
+# Son olarak Setup acildiginda Almanca seciniz. Sayfa acildiginda yukarda &clang=de_de -> &clang=tr_tr ye degistiriniz.
+
+htmllang = tr
+htmlcharset = iso-8859-9
+yes = evet
+no = hayýr
+month = Ay
+year = Yýl
+general = Genel
+dateformat = %a %d. %B %Y
+setlocale = tr_TR
+adateformat = %d. %b. %Y
+datetimeformat = %d. %b. %Y - %H:%M
+ctrl = Deðiþtirmek için lütfen Ctrl basýk tutup seçin
+
+# redaxo/index.php
+start_article_not_selected = Baþlangýç yazýsý seçilmemiþ
+
+# redaxo/redaxo/index.php
+specials = Specials
+module = Modüller
+template = Þablonlar
+user = Kullanýcýlar
+community = Community
+import = Im-/Export
+content = Yazý
+structure = Yapý
+statistics = Ýstatistikler
+logout = Çýkýþ
+
+# redaxo/include/classes/class.login.inc.php
+login_name  =  Kullanýcý Adý
+password  =  Þifre
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  çýkýlmýþ
+
+# redaxo/include/classes/class.article.inc.php
+add_block  =  Blok ekle
+edit  =  Deðiþtir
+delete  =  Sil
+no_editing_rights = Yönetme hakký yok
+no_article_available  =  Yazý yok
+module_doesnt_exist =  Bu Modül yok!
+dont_delete_block  =  Bloku silme
+delete_block  =  Bloku emin þekilde sil
+submit  =  yolla
+update_block = Bloku güncelleþtir
+save_block = Bloku kaydet
+
+# redaxo/include/classes/class.form.inc.php
+submit_data  =  Bilgileri yolla
+file_doesnt_exist  =  Dosya bulunamadý.
+choose_another_one  =  Lütfen baþka seçin.
+
+# redaxo/include/classes/class.mail_decode.inc.php
+download  =  Ýndir
+clipboard  =  Not Panosu
+
+# redaxo/include/functions/function_rex_generate.inc.php
+article_moved = Yazý taþýndý!
+article_deleted = Yazý silindi!
+could_not_move_article = Yazý taþýnamadý!
+article_could_not_be_generated  =  Yazý eklenemedi!
+check_rights_in_directory  =  Lütfen dosya haklarýný kontrol edin.
+category_deleted  =  Kategori silindi!
+category_doesnt_exist  =  Kategorie bulunamadý!
+cant_delete_startarticle = Baþlangýç yazýsý silinemiyor.
+
+# redaxo\include\pages\content.inc.php
+block_updated = Blok güncelleþtirildi!
+block_added = Blok eklendý
+no_rights_to_this_function = Bu funksiyon için Hakkýnýz yok!
+module_not_found = HATA ! Modül bulunamadý!
+block_deleted = Blok silindi!
+block_not_deleted = Block silinmedi!
+no_rights_to_this_module = Bu modül için Hakkýnýz yok !
+error = Bir hata oluþtu !
+preview = Öngör
+edit_mode = Deðiþtir
+metadata = Metabilgi/Diðer
+article_cannot_be_moved = Bu Yazý taþýnamýyor.
+start_article_has_to_stay_in_category = Baþlangýç Yazýlarý bulunduklarý Kategoride kalmalarý gerekiyor!
+article_copied = Yazý kopyalandý!
+file = Dosya {0} bulunamadý.
+moving_file_error = Dosya '{0}' taþýma hatasý.
+metadata_updated = Metabilgileri güncellendi
+online_from = Yayýnla Zamaný:
+online_to = den
+name_description = Adý/Tarif
+description = Tarif
+keywords = Arama kelimeleri
+metadata_image = Metadosya/Resim
+delete_file = Dosyayý sil
+teaser = Teaser
+update_metadata = Metabilgileri güncelle
+other_functions = Diðer Funksiyonlar
+category = Kategori
+move_article = Yazýyý taþý
+copy_article = Yazýyý kopyala
+no_rights_to_edit = Deðiþtirme hakkýnýz yok!
+show = Göster
+cache_remove = Cache'i boþalt
+slice_moved = Blok taþýndý
+slice_moved_error = Blok taþýnamadý
+content_contentcopy = Ýçerikler kopyalandý.
+content_errorcopy = Ýçerikleri ayný dile kopyalayamazsýnýz.
+content_copy = Ýçerikleri kopyala
+content_contentoflang = Þu dil'den:
+content_to = þu dil'e
+content_submitcopycontent = Ýçerikleri kopyala
+
+# redaxo\include\pages\module.inc.php
+module_cannot_be_deleted = Modül '{0}' silinemez, çünkü þu Yazýlarda kullanýlýyor:
+module_deleted = Modül silindi!
+module_added = Modül eklendi
+module_updated = Modül güncellendi
+articel_updated = Yazýlar güncellendi
+create_module = Yeni Modül ekle
+input = Giriþ
+output = Çýkýþ
+module_name = Ýsim
+accessible = Ulaþýlabilir
+allowed_for_php = PHP-Proðgramcýlar'a izin | Kullanýcý Hakký: module[php]
+allowed_for_html = HTML-Proðgramcýlar'a izin | Kullanýcý Hakký: module[html]
+save_module_and_quit = Modülü kaydet
+save_module_and_continue = Modülü güncelle
+module_description = Modül tarifi
+module_functions = Funksiyonlar
+delete_module = Modülü sil
+module_edit = Modülü deðiþtir
+action_taken = Aksiyon kaydedildi
+action_deleted_from_modul = Aksiyon Modülden silindi!
+actions = Aksiyonlar
+action_cannot_be_deleted = Aksiyon '{0}' silinemez, çünkü þu Yazýlardan kullanýlýyor:
+action_deleted = Aksiyon silindi
+action_added = Aksiyon eklendi
+action_updated = Aksiyon güncellendi
+action_edit = Aksiyonu deðiþtir
+action_create = Aksiyonu ekle
+action_name = Aksiyon Ýsmi
+save_action_and_quit = Aksiyonu kaydet
+save_action_and_continue = Aksiyonu güncelle
+action_functions = Funksiyonlar
+action_delete = Aksiyonu sil
+action_add = Aksiyon ekle
+
+# redaxo\include\pages\profile.inc.php
+user_data_updated = Kullanýcý bilgileri güncellendi!
+user_deleted = Kullanýcý silindi!
+user_added = Kullanýcý eklendi!
+user_login_exists = Kullanýcý Adý kullanýlýyor!
+login = Giriþ Adý
+name = Ýsmi
+permissions = Haklarý
+add = ekle
+update = güncelle
+
+# redaxo\include\pages\structure.inc.php
+title_structure = Yapý yönetimi
+no_such_category = Kategori bulunamadý!
+category_updated = Kategori güncellendi.
+category_could_not_be_deleted = Kategori silinemez, çünkü içinde daha yazýlar var !
+category_still_contains_articles = Bu Kategori'de daha yazýlar var.
+category_still_contains_subcategories = Bu Kategori'de daha Altkategoriler var.
+category_status_updated = Kategori konumu güncellendi!
+category_added_and_startarticle_created = Kategori ve baþlangýç Yazýsý eklendi!
+category_edit_delete = Kategori deðiþtir/sil
+article_status_updated = Yazý konumu güncellendi.
+article_updated = Yazý güncellendi.
+article_added = Yazý eklendi.
+header_category = Kategori
+header_edit_category = Kategori deðiþtir
+header_priority = Sýra
+header_status = Konum/Funksiyon
+add_category = Kategori ekle
+edit_category = Kategoriyi deðiþtir
+delete_category = Kategoriyi sil
+save_category = Kategoriyi kaydet
+status_online = yayýnlandý
+status_offline = yayýnlanmadý
+no_permission_to_edit = Deðiþtirme hakký yok
+option_no_template = Þablonsuz
+template_default_name = ÞABLONSUZ
+header_article_name = Yazý Adý
+header_template = Þablon
+header_date = Eklendi:
+change = deðiþtir
+article_add = Yazý ekle!
+article = Yazý
+
+# redaxo\include\pages\template.inc.php
+title_templates = Þablonlar
+cant_delete_default_template = Bu olaðan ('default') Þablon ve silinemez !
+cant_delete_template_because_its_in_use = Þablon '{0}' silinemez, çünkü daha bazý yazýlardan kullanýlýyor.
+template_deleted = Þablon silindi.
+template_added = Þablon eklendi.
+template_updated = Þablon güncellendi.
+edit_template = Þablonu deðiþtir
+create_template = Yeni Þablon üret
+template_name = Adý
+checkbox_template_active = Aktif [Yazýlarda seçilebilir]
+save_template_and_quit = Þablonu kaydet
+save_template_and_continue = Þablonu güncelle
+header_template = Þablon
+header_template_id = Id
+header_template_description = Þablon tarifi
+header_template_active = Aktif
+header_template_functions = Funksiyonlar
+delete_template = Þablonu sil
+
+# redaxo\include\functions\function_rex_category.inc.php
+article = Yazý
+start_article = Baþlangýç yazýsý
+path = Yörünge
+
+# redaxo\include\pages\user.inc.php
+title_user = Kullanýcý
+user_data_updated = Kullanýcý bilgileri güncellendi !
+user_deleted = Kullanýcý silindi!
+user_added = Kullanýcý eklendi.
+create_user = Yeni Kullanýcý kur
+add_user = Kullanýcý ekle
+edit_user = Kullanýcýyý deðiþtir
+
+user_admin = Admin (Bütün haklar / Herþeyi görebilir)
+user_developer = Programcý (Þablon/Modül/Eklenti)
+user_notdeleteself = ***** Kendinizi silemezsiniz!
+user_lang_xs = Dil Eriþimi
+user_all = Genel
+user_options = Seçenekler
+all_categories = Bütün Kategoriler
+all_mediafolder = Bütün Medya Dosyalarý
+categories = Kategoriler
+mediafolder = Medya Dosyalarý
+modules = Modül
+extras = Ekstralar
+last_login = Son Giriþ
+
+# redaxo\include\pages\special.inc.php
+articles_generated = Yazý ve Þablonlar yeniden oluþturuldu, Cache boþaltýldý!
+old_articles_deleted = [Eski Yazý ve Þablonlar silindi.]
+links_ok = Bütün Linkler OK.
+links_not_ok = Þu Linkler hatalý:
+info_updated = Bilgiler güncellendi!
+specials_title = Özel Öznitelikler
+special_features = Öznitelikler
+regenerate_article = Yazý ve Cache'i yeniden oluþtur
+regeneration_message = Kategoriler, Yazýlar ve Þablonlar yeniden oluþturuluyor. Bütün Cache boþaltýlýyor. Uzun sürebilir. Lütfen Ýþlemeyi iptal etmeyin.
+check_links_text = Bütün Linklerin [REX_LINK] çalýþtýðýna dair kontrol etmek istiyorsanýz, buraya týklayýn.
+link_checker = Link denetleyici
+general_info_header = Genel Bilgiler:
+db1_can_only_be_changed_by_setup = Veritabaný[1] tek Setup ile deðiþtirilebiliyor..
+db2_text = Veritabaný[2] - Tek 2 Veritabanlý SQL Class için gerekir.
+specials_others = Diðer
+specials_update = Deðiþtir
+article_type_updated = Yazý türü güncellendi!
+article_type_deleted = Yazý türü silindi!
+article_type_could_not_be_deleted = Yazý türü silinemedi, çünkü ID=1 her zaman bulunmasý gerekiyor!
+article_type_still_used = Yazý türü silinemedi, çünkü þu yazýlardan kullanýlýyor:
+article_type_added = Yazý türü eklendi!
+article_type_list_id = ID
+article_type_list_name = Yazý türü
+article_type_list_description = Tarif
+update_button = Deðiþtir
+delete_button = Sil
+main_preferences = Ayarlar
+languages = Diller
+types = Türler
+clang_created = Dil kuruldu.
+id_exists = ID kullanýmda bile.
+enter_name = Lütfen bir Ýsim yazýnýz.
+clang_edited = Dil güncellendi.
+clang_deleted = Dil silindi.
+clang_desc = Tarif/Ýsim
+
+# redaxo\include\pages\medienpool.inc.php
+pool_name = Medyapot
+pool_kats = Kategoriler
+pool_kats_no = Kategorý seç
+pool_search = bul
+pool_media = Medyapot
+pool_file_list = Medya
+pool_file_insert = Dosya ekle
+pool_cat_list = Kategorileri yönet
+pool_file_not_found = Dosya bulunamadý
+pool_file_upload_error = Dosya yüklerken hata çýktý
+pool_file_upload_errortype = Bu dosya baþka Dosya türünden olduðu için aktarýma kullanýlamýyor Diese Datei kann nicht zum Austausch benutzt werden, da sie von einem anderen Dateityp ist
+pool_file_title = Baþlýk
+pool_category = Kategori
+pool_description = Tarif
+pool_copyright = Copyright
+pool_file_upload = Ekle
+pool_file_upload_get = Ekle ve güncelle
+pool_upload_get = Kaydet ve güncelle
+pool_kat_saved = Kategori "{0}" kuruldu
+pool_kat_updated = Kategori "{0}" güncellendi
+pool_kat_deleted = Kategori silindi
+pool_kat_not_deleted = Kategori silinemez, çünkü içinde daha dosyalar var!
+pool_kat_name = Adý
+pool_kat_function = Funksiyon
+pool_kat_add = Ekle
+pool_kat_update = Güncelle
+pool_kat_edit = Deðiþtir
+pool_kat_delete = Sil
+pool_kat_hide= Öngörü Resmi
+pool_file_detail = Medya: Detaylý Görüþ
+pool_file_is_resized = Dosya yeniden boyutlandý
+pool_filename = Dosyaadý
+pool_file_exchange = Dosya <br />aktarma
+pool_file_update = Güncelle
+pool_file_delete = Sil
+pool_file_thumbnail = Öngörü resim
+pool_file_info = Dosyabilgi
+pool_file_description = Tarif
+pool_file_functions = Funksiyon
+pool_file_noshow = Görüntü imkaný yok
+pool_file_notitle = Baþlýk yazýlmamýþ
+pool_file_nodescription = Tarif yazýlmamýþ
+pool_img_width = Geniþlik
+pool_img_height = Yükseklik
+pool_file_ins = Ekle
+pool_file_deleted = Dosya silindi
+pool_file_delete_error_1 = Dosya "{0}" silinemedi
+pool_file_delete_error_2 = Þu yazýlarda kullanýlmaktadýr:
+pool_file_changed = Dosya aktarýldý
+pool_import_list = Medya-Ýmport
+pool_import_help = Medya-Ýmport için Kaynak-Dosya (files endeksinde Dosya/Klasör)
+pool_import_target_info = Ýmport için Hedef-Kategori
+pool_selectedmedia = Seçilmiþ Medya:
+pool_delete_selectedmedia = sil
+pool_changecat_selectedmedia = Kategoriye taþý
+pool_selectedmedia_error = Medya seçilmemiþ
+pool_selectedmedia_moved = Seçilmiþ Medyalar taþýndý
+pool_select_all = Hepsi
+pool_nomediafound = Kategoride Dosya bulunamadý
+pool_image_get = Resim yükle
+pool_link_get = Linkten yükle
+pool_file_get = Dosyayý yükle
+pool_last_update = Son Güncelleme
+pool_created = Eklendi
+
+# redaxo/include/pages
+setup = Setup/Düzenleme
+setup_text = Burda Setup/Düzenleme yi yeniden baþlatabilirsiniz. Sadece acil durumlarda kullanýnýz. Normalde gerek yok.
+setup_error1 = Setup/Düzenleme aktif hale getirilmiþtir. Lütfen &gt;<a href=index.php>devama</a>&lt; týklayýn ve Setup/Düzenlemeye baþlayýn.
+setup_error2 = Maalesef master.inc.php yazýlamadý. Lütfen dosyanýn içine \"\"$REX[SETUP] = true;\" yazýnýz.
+setup_005 = <b>REDAXO SETUP'a hoþgeldin</b><br /><br />Þimdi ne olacak:<br /><br /> - Dosya Haklarý kontrol edilecek<br />- Veritabaný baðlantýsý kontrol edilecek ve master.inc.php nin içine yazýlacak<br />- Veritabaný (yeni) kurulacak.<br />- Bir Admin Kullanýcý kurulacak
+setup_006 = Setup'ý baþlat ve Lisans Sözleþmasini onayla
+setup_step1 = SETUP: ADIM 1 / 5
+setup_010 = Server'in PHP versiyonu fazla eski (4.1.0 dan aþaðýda), lütfen yeni Versiyonu yükleyiniz.
+setup_012 = <font class=error>Hata</font> | <b>{0}</b> endeksinin yazýlma ve çalýþtýrýlma hakký yok.
+setup_014 = <font class=error>Hata</font> | <b>{0}</b> endeksinin yazýlma hakký yok.
+setup_015 = <font class=error>Hata</font> | Þu <b>{0}</b> Dosya/Endeksi yok, lütfen kurunuz.
+setup_016 = <b>PHP-Versiyon-Kontrol | Haklar</b><br /><br /><font class=ok>ok</font> | PHP Versiyon<br /><font class=ok>ok</font> | Endeks/Dosya Haklarý
+setup_017 = 2. Adým ile devam et
+setup_018 = Lütfen sýralanmýþ hatalarý gideriniz ve Setup'ý yeniden baþlatýnýz.
+setup_019 = 1. Basamaðý tekrarla
+setup_headline1 = PHP-Versiyon Kontrol | Haklar
+setup_step2 = SETUP: ADIM 2 / 5
+setup_020 = <b>include/master.inc.php</b> yazýlamadý. 
+setup_021 = Veritabaný ile baðlanamadý!
+setup_022 = Verilen Veritabaný açýlamadý!
+setup_023 = 'include/master.inc.php' nýn Yazýlýþý
+setup_024 = Serverdomain [opsiyonlu]
+setup_025 = Server/Site Adý [opsiyonlu]
+setup_026 = Hata E-Mail-Adresi [opsiyonlu]
+setup_027 = Veritabaný Adý
+setup_028 = Þifre
+setup_029 = 3. Adým ile devam et
+setup_0201 = Genel Redaxo Ayarlarý
+setup_0202 = Veritabaný Bilgileri
+setup_step3 = SETUP: ADIM 3 / 5
+setup_030 = Yüklerken þu hata çýktý.
+setup_031 = Tablo {0} bulunamadý !
+setup_032 = Tablolar kurulamadý.
+setup_033 = Lütfen Veritabanýný yeniden kurunuz.
+setup_034 = Veritabanýný kur
+setup_035 = Veritabanýný kur ve varsa eskileri temliket [<b>Dikkat</b> - Eski Site komple siliniyor]
+setup_036 = Veritabaný kurulu bile [Veritabaný kurmadan devam et]
+setup_037 = Demo bilgileri zükle [Örnek modül ve þablonlar]
+setup_038 = 4. Adým ile devam et
+setup_step4 = SETUP: ADIM 4 / 5
+setup_040 = Lütfen Yönetici þifreyi yazýnýz!
+setup_041 = Lütfen Yönetici þifreyi yazýnýz!
+setup_042 = Bu Kullanýcý Adý kullanýlýyor!
+setup_043 = Yönetici kurulamadý.
+setup_044 = Yönetici daha kurulmamýþ. Lütfen kurunuz.
+setup_045 = Yönetici kurma
+setup_046 = Kullanýcý Adý
+setup_047 = Þifre
+setup_048 = Yönetici ekleme
+setup_049 = 5. Adým ile devam et.
+setup_step5 = SETUP: ADIM 5 von 5
+setup_050 = Maalesef master.inc.php yazýlamadý. Lütfen bu dosyayý kendiniz FTP ile deðiþtiriniz.
+setup_051 = Yeni REDAXO nuz için tebrik ederiz!<br /><br />Lütfen þunlara dikkat ediniz:<br /><br /><b>1. Kurduðunuz Yönetimci ile giriþ yapýnýz <a href=login.php>login</a><br />2. Örnek bilgileri import etmek istiyorsanýz: Giriþ yapýnýz, Import/Export týklayýnýz ve Veritabaný ile Dosyalarý import ediniz.</b><br /><br /><br />Baþarýlar dileriz.<br /><br />REDAXO Timi<br /><br />
+database_imported = Veritabaný import edildi.
+entry_count = {0} Kayýtlar
+
+# redaxo\include\pages\addon.inc.php
+addon = Öznitelikler
+addon_help = Yardým:
+addon_no_help_file = Yardýmdosyasý bulunamadý
+addon_back = geri
+addon_install_not_found = Kurma Dosyasý bulunamadý !
+addon_no_install = Þu nedenden dolayý <b>yüklenemedi</b>:
+addon_no_reason = Herhangi bir neden verilmedi.
+addon_installed = Öznitelik yüklendi!
+addon_no_activation = "Öznitelik <b>etkinleþtirilemedi</b>, çünkü daha yüklenmedi!"
+addon_activated = "Öznitelik etkinleþtirildi"
+addon_deactivated =  "Öznitelik etkisizleþtirildi"
+addon_hname = Adý
+addon_hinstall = yüklü
+addon_hactive = aktif
+addon_reinstall = Yeniden yükle
+addon_install = yükle
+addon_deactivate = devre dýþý býrak
+addon_activate = etkinleþtir
+addon_yes = evet
+addon_no = hayýr
+addon_schreibrecht = include/addons.inc.php Dosyasýnýn Yazýhaklarýný kontrol et
