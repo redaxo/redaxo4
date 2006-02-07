@@ -118,7 +118,7 @@ class i18n
       }
       else
       {
-        trigger_error('Schluessel "'.$key.'" konnte weder in der ausgew&auml;lten noch in der Fallbacksprache gefunden werden!', E_USER_ERROR);
+        trigger_error('Schl&uuml;ssel "'.$key.'" konnte weder in der ausgew&auml;hlten noch in der Fallbacksprache gefunden werden!', E_USER_ERROR);
       }
     }
 
