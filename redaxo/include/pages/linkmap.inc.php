@@ -466,7 +466,7 @@ if ( isDomNN )
 <?php
 
 
-small_title($REX['SERVERNAME'], 'Linkmap');
+rex_small_title($REX['SERVERNAME'], 'Linkmap');
 
 $func_body = '';
 if (!isset ($HTMLArea))
