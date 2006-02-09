@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden.
   * Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
 	* rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
   * title() in rex_title() umbenannt [kills]
