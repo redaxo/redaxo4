@@ -562,25 +562,6 @@ if ($article->getRows() == 1)
     {
       // ------------------------------------------ START: META VIEW
       $extens = "";
-      if (isset($FUNC_MOVE) and $FUNC_MOVE != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
-      {
-        /*
-        if ($article->getValue("startpage")==1)
-        {
-          $err_msg = $I18N->msg('article_cannot_be_moved')." ".$I18N->msg('start_article_has_to_stay_in_category');
-        }else
-        {
-          $err_msg = moveArticle($article_id,$func_category_id,$category_id);
-          $category_id = $func_category_id;
-        }
-        */
-      } elseif (isset($FUNC_COPY) and $FUNC_COPY != "" && $func_category_id > 0 && $REX_USER->isValueOf("rights","advancedMode[]"))
-      {
-        /*
-        copyArticle($article_id,$func_category_id);
-        $err_msg = $I18N->msg('article_copied');
-        */
-      }
       if (isset($save) and $save == "1")
       {
         $meta_sql = new sql;
@@ -731,50 +712,6 @@ if ($article->getRows() == 1)
         </table>";
         
         
-        if(($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]")) && count($REX['CLANG']) > 1)
-        {
-          echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
-          <form action=index.php method=get>
-          <input type=hidden name=page value=content>
-          <input type=hidden name=article_id value='$article_id'>
-          <input type=hidden name=mode value='meta'>
-          <input type=hidden name=clang value=$clang>
-          <input type=hidden name=ctype value=$ctype>
-          <input type=hidden name=function value=copycontent>
-          <tr>
-            <td colspan=2>".$I18N->msg("content_copy")."</td>
-          </tr>";
-
-      $lang_a = new select;
-      $lang_a->set_name("clang_a");
-      $lang_a->set_style("width:100px;");
-      $lang_a->set_size(1);
-
-      foreach($REX['CLANG'] as $val => $key)
-      {
-        $lang_a->add_option($key,$val);
-      }
-      
-      $lang_b = $lang_a;
-          $lang_b->set_name("clang_b");
-          if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
-          if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
-          
-          echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()."</td></tr>";
-        
-          echo "<tr>
-          <td class=grey>&nbsp;</td>
-          <td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
-        </tr>";
-        
-        
-          echo "</form></table>";
-        }
-        
-		
-		
-		
-
 // START - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  	
 		function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '') {
 			global $REX_USER;
@@ -797,14 +734,54 @@ if ($article->getRows() == 1)
 
 
 // SONSTIGES START -------------------------------------------------------------    
-        if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]"))
+        if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]") || ($REX_USER->isValueOf("rights","copyContent[]") && count($REX['CLANG']) > 1))
         {
           echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
           <tr>
             <td colspan=3>".$I18N->msg("other_functions")."</td>
           </tr>";
 		  
-	// ARTIKEL VERSCHIEBEN START ---------------------------------------------------
+          // INHALTE KOPIEREN START ---------------------------------------------------
+        if(($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]")) && count($REX['CLANG']) > 1)
+        {
+          echo "
+          <form action=index.php method=get>
+          <input type=hidden name=page value=content>
+          <input type=hidden name=article_id value='$article_id'>
+          <input type=hidden name=mode value='meta'>
+          <input type=hidden name=clang value=$clang>
+          <input type=hidden name=ctype value=$ctype>
+          <input type=hidden name=function value=copycontent>";
+
+      $lang_a = new select;
+      $lang_a->set_name("clang_a");
+      $lang_a->set_style("width:100px;");
+      $lang_a->set_size(1);
+
+      foreach($REX['CLANG'] as $val => $key)
+      {
+        $lang_a->add_option($key,$val);
+      }
+      
+      $lang_b = $lang_a;
+          $lang_b->set_name("clang_b");
+          if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
+          if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
+          
+          echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()." ". $I18N->msg("content_copy")."</td></tr>";
+        
+          echo "<tr>
+          <td class=grey>&nbsp;</td>
+          <td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
+        </tr>";
+        
+        
+          echo "</form>";
+        }
+        
+          // INHALTE KOPIEREN ENDE ---------------------------------------------------
+        
+        	// ARTIKEL VERSCHIEBEN START ---------------------------------------------------
 			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) {
 				print "<form action=index.php method=get>
 						<input type=hidden name=page value=content>
@@ -891,11 +868,6 @@ if ($article->getRows() == 1)
 // SONSTIGES ENDE ------------------------------------------------------------- 
 
 
-
-      if($REX_USER->isValueOf("rights","advancedMode[]"))
-      {
-
-      }
       // ------------------------------------------ END: META VIEW
 
     }
