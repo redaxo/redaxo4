@@ -41,6 +41,8 @@ $REX['PERM'][] = "user[]";
 $REX['EXTPERM'][] = "advancedMode[]";
 $REX['EXTPERM'][] = "moveslice[]";
 $REX['EXTPERM'][] = "copyContent[]";
+// $REX['EXTPERM'][] = "moveArticle[]";
+// $REX['EXTPERM'][] = "copyArticle[]";
 
 // ----------------- REDAXO INCLUDES
 include_once $REX['INCLUDE_PATH']."/classes/class.i18n.inc.php";
