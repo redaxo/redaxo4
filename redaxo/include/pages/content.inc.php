@@ -357,7 +357,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: Slice move up/down
     if (isset($function) and $function == "moveup" || $function == "movedown")
     {
-      if ($REX_USER->isValueOf("rights","moveslice[]"))
+      if ($REX_USER->isValueOf("rights","moveSlice[]"))
       {
         // modul und rechte vorhanden ?
         

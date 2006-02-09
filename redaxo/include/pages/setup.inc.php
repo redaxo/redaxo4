@@ -408,7 +408,7 @@ if ($checkmodus == 4 && $send == 1)
         $err_msg = $I18N->msg("setup_042");
       }else
       {
-        $insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','admin[]dev[]import[]stats[]moveslice[]')";
+        $insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','admin[]dev[]import[]stats[]moveSlice[]')";
         $link = @mysql_connect($DB[1]['HOST'],$DB[1]['LOGIN'],$DB[1]['PSW']);
         if(!@mysql_db_query($DB[1]['NAME'],$insert,$link))
         {
