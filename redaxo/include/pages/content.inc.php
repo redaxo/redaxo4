@@ -894,49 +894,6 @@ if ($article->getRows() == 1)
 
       if($REX_USER->isValueOf("rights","advancedMode[]"))
       {
-        /*
-        echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
-          <form action=index.php method=get>
-          <input type=hidden name=page value=content>
-          <input type=hidden name=article_id value='$article_id'>
-          <input type=hidden name=mode value='meta'>
-          <input type=hidden name=clang value=$clang>
-          <input type=hidden name=ctype value=$ctype>
-          <tr>
-            <td colspan=2>".$I18N->msg("other_functions")."</td>
-          </tr>
-          <tr>
-
-            <td class=grey width=150>".$I18N->msg("category")."</td>
-            <td class=grey><select name=func_category_id size=1 style='width:100%;'>";
-
-        $csql = new sql;
-        $csql->setQuery("select * from rex_category order by re_category_id");
-
-        for ($i=0;$i<$csql->getRows();$i++)
-        {
-          echo "<option value=".$csql->getValue("id");
-          if ($category_id==$csql->getValue("id")) echo " selected";
-          echo ">".
-               $csql->getValue("name")." [".$csql->getValue("id")."]".
-               "</option>";
-
-          $csql->next();
-        }
-
-        echo "</select></td>
-          </tr>
-          <tr>
-            <td class=grey>&nbsp;</td>
-            <td class=grey>";
-        if ($article->getValue("startpage")!=1) echo "<input type=submit name=FUNC_MOVE value=\"".$I18N->msg("move_article")."\" size=8>";
-        echo "<input type=submit name=FUNC_COPY value=\"".$I18N->msg("copy_article")."\" size=8>";
-
-        echo "</td>
-          </tr>
-          </form>
-          </table>";
-        */
 
       }
       // ------------------------------------------ END: META VIEW
