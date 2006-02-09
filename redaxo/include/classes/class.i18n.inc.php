@@ -1,6 +1,5 @@
 <?php
 
-
 /** 
  *  
  * @package redaxo3 
@@ -10,36 +9,44 @@
 // class.i18n.inc.php
 // 
 // created 03.04.04 by Carsten Eckelmann, <careck@circle42.com>
-// 
-// Mission: to supply messages for different language environments
+// updated 08.02.06 by Jan Kristinus
+// -- System vereinfacht und Fehlermeldungen vermeiden. 
+//    lang file fehlt -> fallback
+//    msg nicht da -> [translate:key]
 
 class i18n
 {
 
-  var $locale;
   var $locales;
-  var $text;
   var $searchpath;
+
+  var $locale;
+  var $text;
   var $filename;
 
   var $fallback_locale;
-  var $fallback;
+  var $fallback_text;
+  var $fallback_filename;
+  
   /*
    * Constructor
    * the locale must of the common form, eg. de_DE, en_US or just plain en, de.
    * the searchpath is where the language files are located
    */
-  function i18n($locale, $searchpath, $fallback_local = 'de_de')
+  function i18n($locale, $searchpath, $fallback_locale = 'de_de')
   {
-    global $REX;
+    $this->searchpath = $searchpath;
+	
     $this->text = array ();
     $this->locale = $locale;
-    $this->searchpath = $searchpath;
     $this->filename = $searchpath."/".$locale.".lang";
-    $this->fallback_locale = $fallback_local;
-    $this->fallback = null;
-    $this->loadTexts();
-    // Locale Cache
+    
+	$this->fallback_text = array();
+    $this->fallback_locale = $fallback_locale;
+    $this->fallback_filename = $searchpath."/".$fallback_locale.".lang";
+
+	$this->loadTexts();
+
     $this->locales = array ();
   }
 
@@ -61,11 +68,17 @@ class i18n
    */
   function loadTexts()
   {
-    global $I18N;
-    
-    if (is_readable($this->filename))
+
+	// sprache nicht vorhanden -> fallback einsetzen
+	$filename = $this->filename;
+    if (!is_readable($filename))
     {
-      $f = fopen($this->filename, "r");
+    	$filename = $this->fallback_filename;
+    }
+
+    if (is_readable($filename))
+    {
+      $f = fopen($filename, "r");
       while (!feof($f))
       {
         $buffer = fgets($f, 4096);
@@ -75,14 +88,10 @@ class i18n
         }
       }
       fclose($f);
-    }
-    elseif(file_exists( $this->filename))
+    }else
     {
-      trigger_error( $I18N->msg('lang_file_not_readable', $this->filename), E_USER_ERROR);
-    }
-    else
-    {
-      trigger_error( $I18N->msg('lang_file_not_found', $this->filename), E_USER_ERROR);
+		// sprache und fallbacksprache nicht gefunden
+
     }
   }
 
@@ -93,33 +102,13 @@ class i18n
   function msg($key, $p0 = '', $p1 = '', $p2 = '', $p3 = '', $p4 = '', $p5 = '', $p6 = '', $p7 = '', $p8 = '', $p9 = '')
   {
     global $REX;
+
     if (isset ($this->text[$key]))
     {
       $msg = $this->text[$key];
-    }
-    else
+    }else
     {
-      $msg = '';
-    }
-
-    // falls der key nicht gefunden wurde, auf die fallbacksprache switchen
-    if ($msg == '')
-    {
-      if (!$this->isFallback())
-      {
-        // fallbackobjekt ggf anlegen
-        if (!$this->isFallback() && $this->fallback == null)
-        {
-          $this->fallback = rex_create_lang($this->fallback_locale, $this->searchpath);
-        }
-
-        // suchen des keys in der fallbacksprache
-        return $this->fallback->msg($key, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
-      }
-      else
-      {
-        trigger_error('Schlüssel "'.$key.'" konnte weder in der ausgewählten noch in der Fallbacksprache gefunden werden!', E_USER_ERROR);
-      }
+      $msg = "[translate:$key]";
     }
 
     $patterns = array ('/\{0\}/', '/\{1\}/', '/\{2\}/', '/\{3\}/', '/\{4\}/', '/\{5\}/', '/\{6\}/', '/\{7\}/', '/\{8\}/', '/\{9\}/');
@@ -156,11 +145,6 @@ class i18n
     return $this->locales;
   }
 
-  function isFallback()
-  {
-    return $this->locale == $this->fallback_locale;
-  }
-
 }
 
 // Funktion zum Anlegen eines Sprache-Objekts
@@ -184,15 +168,6 @@ function rex_create_lang($locale, $searchpath = '')
 
   return $lang_object;
 
-  /*
-  if ($use_as_fallback)
-  {
-     $REX['LANG_FALLBACK_OBJ'] = 
-  }
-  else
-  {
-     $REX['LANG_OBJ'] = $I18N = new i18n($locale, $searchpath);
-  }
-  */
 }
+
 ?>
