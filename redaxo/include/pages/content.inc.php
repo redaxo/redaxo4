@@ -819,7 +819,7 @@ if ($article->getRows() == 1)
 		  		if ($article->getValue("startpage") == 0) {
 					$move_a = new select;
 					$move_a->set_name("category_id_new");
-					$move_a->set_style("width:200px;");
+					$move_a->set_style("width:100%;");
 					$move_a->set_size(1);
 			
 					if ($cats = OOCategory::getRootCategories()) {
@@ -833,7 +833,7 @@ if ($article->getRows() == 1)
 							<td class=grey>".$move_a->out()."</td>
 						  </tr>
 						  <tr>
-						    <td class=gey>&nbsp;</td>
+						    <td class=grey>&nbsp;</td>
 							<td class=grey><input type=submit value='".$I18N->msg("content_submitmovearticle")."' size=8></td>
 						</tr>";
 				}
@@ -944,6 +944,7 @@ if ($article->getRows() == 1)
     }
 
     echo "    </td>
+    	<td class=lgrey>&nbsp;</td>
         </tr>
         </table>";
 
