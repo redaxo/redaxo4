@@ -103,8 +103,8 @@ slice_moved = Blogg wurde verschobn
 slice_moved_error = Blogg gonnde nischd verschobn werdn
 content_contentcopy = Inhalt wurde kopiert.
 content_errorcopy = Sie können Inhalte nicht in die gleiche Sprache kopieren.
-content_copy = Inhalte kopieren
-content_contentoflang = Inhalte von Sprache:
+content_copy = kopieren
+content_contentoflang = Inhalte von Sprache
 content_to = nach
 content_submitcopycontent = Inhalte kopieren
 
