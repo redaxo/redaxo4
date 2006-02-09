@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* Benutzerrecht umbenannt: moveslice[] -> moveSlice[] [kills]
   * move und copy article im content/meta eingebaut -- danke thomas :) [jan]
   * i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [jan]
   * Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
