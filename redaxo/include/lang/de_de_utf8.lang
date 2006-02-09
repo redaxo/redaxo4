@@ -107,6 +107,16 @@ content_copy = Inhalte kopieren
 content_contentoflang = Inhalte von Sprache:
 content_to = nach
 content_submitcopycontent = Inhalte kopieren
+content_movearticle = Artikel verschieben
+content_submitmovearticle = Artikel verschieben
+content_errormovearticle = Artikel konnte nicht verschoben werden.
+content_articlemoved = Artikel wurde verschoben
+content_choose_new_category = Neue Kategorie w�hlen
+content_movearticle_no_startpage = Ein Verschieben von Startartikeln ist nicht möglich
+content_copyarticle = Artikel kopieren
+content_submitcopyarticle = Artikel kopieren
+content_articlecopied = Artikel wurde kopiert
+content_errorcopyarticle = Artikel konnte nicht kopiert werden.
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:

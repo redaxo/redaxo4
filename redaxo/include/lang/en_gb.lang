@@ -107,6 +107,16 @@ content_copy = Copy content
 content_contentoflang = Content of language:
 content_to = to
 content_submitcopycontent = copy
+content_movearticle = Move article
+content_submitmovearticle = Move article
+content_errormovearticle = Article could not be moved.
+content_articlemoved = Article has been moved
+content_choose_new_category = Choose category
+content_movearticle_no_startpage = Startarticle can not me moved
+content_copyarticle = Copy article
+content_submitcopyarticle = Copy article
+content_articlecopied = Article has been copied
+content_errorcopyarticle = Article has not been copied
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:
