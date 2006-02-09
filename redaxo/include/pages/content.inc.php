@@ -465,6 +465,40 @@ if ($article->getRows() == 1)
   // ------------------------------------------ END: COPY LANG CONTENT
   
 
+  // ------------------------------------------ START: MOVE ARTICLE
+  if (isset($function) and $function == "movearticle")
+  {
+    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]"))
+        {
+      if (rex_moveArticle($article_id, $category_id_old, $category_id_new))
+      {
+        $message = $I18N->msg('content_articlemoved');
+      }else
+      {
+        $message = $I18N->msg('content_errormovearticle');
+      }
+    }
+  }
+  // ------------------------------------------ END: MOVE ARTICLE
+  
+
+  // ------------------------------------------ START: COPY ARTICLE
+  if (isset($function) and $function == "copyarticle")
+  {
+    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]"))
+        {
+      if (rex_copyArticle($article_id, $category_copy_id_old, $category_copy_id_new))
+      {
+        $message = $I18N->msg('content_articlecopied');
+      }else
+      {
+        $message = $I18N->msg('content_errorcopyarticle');
+      }
+    }
+  }
+  // ------------------------------------------ END: COPY ARTICLE
+  
+
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
     reset($REX['CTYPE']);
@@ -736,12 +770,125 @@ if ($article->getRows() == 1)
         
           echo "</form></table>";
         }
+        
+		
+		
+		
+
+// START - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  	
+		function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '') {
+			global $REX_USER;
+			if (empty($cat)) {
+				return;
+			}
+			$cat_ids[] = $cat->getId();
+			if( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","csr[".$cat->getId()."]") || $REX_USER->isValueOf("rights","csw[".$cat->getId()."]") ) {
+				$select->add_option($nbsp.$cat->getName(),$cat->getId());
+				$childs = $cat->getChildren();
+				if (is_array($childs)) {
+					$nbsp = $nbsp.'&nbsp;&nbsp;&nbsp;';
+					foreach ( $childs as $child) {
+						add_cat_options( $select, $child, $cat_ids, $cat->getName(), $nbsp);
+					}
+				}
+			}
+		}
+// ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  
 
 
+// SONSTIGES START -------------------------------------------------------------    
+        if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]"))
+        {
+          echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
+          <tr>
+            <td colspan=3>".$I18N->msg("other_functions")."</td>
+          </tr>";
+		  
+	// ARTIKEL VERSCHIEBEN START ---------------------------------------------------
+			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) {
+				print "<form action=index.php method=get>
+						<input type=hidden name=page value=content>
+						<input type=hidden name=article_id value='$article_id'>
+						<input type=hidden name=category_id_old value='$category_id'>
+						<input type=hidden name=mode value='meta'>
+						<input type=hidden name=clang value=$clang>
+						<input type=hidden name=ctype value=$ctype>
+						<input type=hidden name=function value=movearticle>";
 
+				// Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
+		  		if ($article->getValue("startpage") == 0) {
+					$move_a = new select;
+					$move_a->set_name("category_id_new");
+					$move_a->set_style("width:200px;");
+					$move_a->set_size(1);
+			
+					if ($cats = OOCategory::getRootCategories()) {
+						foreach( $cats as $cat) {
+							add_cat_options( $move_a, $cat, $cat_ids);
+						}
+					}
+				
+					echo "<tr>
+							<td class=grey width=150>".$I18N->msg("move_article")."</td>
+							<td class=grey>".$move_a->out()."</td>
+						  </tr>
+						  <tr>
+						    <td class=gey>&nbsp;</td>
+							<td class=grey><input type=submit value='".$I18N->msg("content_submitmovearticle")."' size=8></td>
+						</tr>";
+				}
+				// ...Hinweis ausgeben, das der Artikel ein Startartikel ist 
+				// und nicht verschoben werden kann.
+				else {
+					echo "<tr>
+							<td class=grey width=150>".$I18N->msg("move_article")."</td>
+							<td class=grey>".$I18N->msg("content_movearticle_no_startpage")."</td>
+						</tr>";
+				}
+				print '</form>';
+			}   
 
+	// ARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
+			
+			
+			
+	// ARTIKEL KOPIEREN START --------------------------------------------------
+			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]")) {
+				print "<form action=index.php method=get>
+						<input type=hidden name=page value=content>
+						<input type=hidden name=article_id value='$article_id'>
+						<input type=hidden name=category_copy_id_old value='$category_id'>
+						<input type=hidden name=mode value='meta'>
+						<input type=hidden name=clang value=$clang>
+						<input type=hidden name=ctype value=$ctype>
+						<input type=hidden name=function value=copyarticle>";
 
-
+				$move_a = new select;
+				$move_a->set_name("category_copy_id_new");
+				$move_a->set_style("width:100%;");
+				$move_a->set_size(1);
+			
+				if ($cats = OOCategory::getRootCategories()) {
+					foreach( $cats as $cat) {
+						add_cat_options( $move_a, $cat, $cat_ids);
+					}
+				}
+				
+				echo "<tr>
+						<td class=grey width=150>".$I18N->msg("copy_article")."</td>
+						<td class=grey>".$move_a->out()."</td>
+					</tr>
+					<tr>
+						<td class=grey>&nbsp;</td>
+						<td class=grey><input type=submit value='".$I18N->msg("content_submitcopyarticle")."' size=8></td>
+					</tr>";
+				
+				print '</form>';
+			}
+	// ARTIKEL KOPIEREN ENDE ---------------------------------------------------
+        echo "</table>";
+        }
+// SONSTIGES ENDE ------------------------------------------------------------- 
 
 
 
