@@ -1,9 +1,9 @@
 <?php
-/** 
- * Artikel Objekt. Zuständig für die Ausgabe eines Artikel mit/ohne Template 
- * @package redaxo3 
- * @version $Id$ 
- */ 
+/**
+ * Artikel Objekt. Zuständig für die Ausgabe eines Artikel mit/ohne Template
+ * @package redaxo3
+ * @version $Id$
+ */
 
 class article
 {
@@ -24,6 +24,7 @@ class article
   var $ctype;
   var $ctype_var;
   var $clang;
+  var $getSlice;
 
   // ----- Konstruktor
   function article( $article_id = null)
@@ -38,12 +39,12 @@ class article
     $this->article_content = "";
     $this->eval = FALSE;
     $this->setanker = true;
-    
-    
+
+
     // AUSNAHME: modul auswählen problem
     // action=index.php#1212 problem
     if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
-      
+
     if ( $article_id !== null) {
       $this->setArticleId( $article_id);
     }
@@ -67,22 +68,22 @@ class article
     if ($REX['CLANG'][$value] == "") $value = 0;
     $this->clang = $value;
   }
-  
+
   function setArticleId($article_id)
   {
     global $REX;
-    
+
     $article_id = $article_id + 0;
     $this->article_id = $article_id+0;
 
     if (!$REX['GG'])
     {
-    
+
       // ---------- select article
       $this->ARTICLE = new sql;
       // $this->ARTICLE->debugsql = 1;
       $this->ARTICLE->setQuery("select * from rex_article where rex_article.id='$article_id' and clang='".$this->clang."'");
-    
+
       if ($this->ARTICLE->getRows() == 1)
       {
         $this->template_id = $this->ARTICLE->getValue("rex_article.template_id");
@@ -118,34 +119,34 @@ class article
   {
     return $this->template_id;
   }
-  
+
   function setMode($mode)
   {
     $this->mode = $mode;
   }
-  
+
   function setFunction($function)
   {
     $this->function = $function;
   }
-  
+
   function setEval($value)
   {
     if ($value) $this->eval = TRUE;
     else $this->eval = FALSE;
   }
-  
+
   function getValue($value)
   {
     global $REX;
-    
+
     if ($value == "category_id")
     {
       if ($this->getValue("startpage")!=1) $value = "re_id";
       else if($REX['GG']) $value = "article_id";
       else $value = "id";
     }
-    
+
     if ($REX['GG']) return $REX['ART'][$this->article_id][$value][$this->clang];
     else return $this->ARTICLE->getValue($value);
   }
@@ -154,14 +155,17 @@ class article
   {
     global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$REX_ACTION,$I18N;
 
-  // ctype var festlegung komischer umweg 
+  // ctype var festlegung komischer umweg
   $a = $this->ctype_var;
   $$a = $curctype;
-
+  	if($this->getSlice){
+	    //$REX['GG'] = 0;
+	    $sliceLimit = " and rex_article_slice.id = '" . $this->getSlice . "' ";
+	}
     // ----- start: article caching
     ob_start();
 
-    if ($REX['GG'])
+    if ($REX['GG'] && !$this->getSlice)
     {
       if ($this->article_id != 0)
       {
@@ -178,7 +182,6 @@ class article
     {
       if ($this->article_id != 0)
       {
-        
         // ---------- alle teile/slices eines artikels auswaehlen
         $sql = "select rex_modultyp.id, rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
           from
@@ -186,17 +189,18 @@ class article
           left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
           left join rex_article on rex_article_slice.article_id=rex_article.id
           where
-            rex_article_slice.article_id='".$this->article_id."' and 
-            rex_article_slice.clang='".$this->clang."' and 
-            rex_article.clang='".$this->clang."' 
-          order by
+            rex_article_slice.article_id='".$this->article_id."' and
+            rex_article_slice.clang='".$this->clang."' and
+            rex_article.clang='".$this->clang."'";
+				$sql .= $sliceLimit;
+        $sql .= "order by
             rex_article_slice.re_article_slice_id";
-        
-        
+		
+		//print $sql;
+
         $this->CONT = new sql;
         $this->CONT->setQuery($sql);
-
-
+				
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
@@ -215,14 +219,14 @@ class article
         {
           $MODULE = new sql;
           $MODULE->setQuery("select * from rex_modultyp order by name");
-          
+
           $MODULESELECT = new select;
           $MODULESELECT->set_name("module_id");
           $MODULESELECT->set_size(1);
           $MODULESELECT->set_style("width:100%;");
           $MODULESELECT->set_selectextra("onchange='this.form.submit();'");
           $MODULESELECT->add_option("----------------------------  ".$I18N->msg("add_block"),'');
-          
+
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
             if ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
@@ -244,20 +248,20 @@ class article
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
-        
+
       // ----- ctype unterscheidung
-      if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || \$".$this->ctype_var." == '-1') { ?>";
+      if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$".$this->ctype_var." == '-1' && !\$REX['SLICEMODE']) || \$REX['SLICEMODE']) { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
           $slice_content = "";
           $SLICE_SHOW = TRUE;
-          
+
           if($this->mode=="edit")
           {
-    
+
             $this->ViewSliceId = $RE_CONTS[$I_ID];
-            
+
             $amodule = "
             <table cellspacing=0 cellpadding=5 border=0 width=100%>
             <form action=index.php";
@@ -273,9 +277,9 @@ class article
             <tr>
             <td class=dblue>".$MODULESELECT->out()."</td>
             </tr></form></table>";
-            
-            
-            
+
+
+
             // ----- add select box einbauen
             if($this->function=="add" && $this->slice_id == $I_ID)
             {
@@ -284,15 +288,15 @@ class article
             {
               $slice_content .= $amodule;
             }
-            
-            
-            // ----- edit / delete 
-            
+
+
+            // ----- edit / delete
+
             if($REX_USER->isValueOf("rights","module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->isValueOf("rights","admin[]"))
             {
-              
-              // hat rechte zum edit und delete 
-              
+
+              // hat rechte zum edit und delete
+
               $mne  = "
                 <a name=slice$RE_CONTS[$I_ID]></a>
                 <table width=100% cellspacing=0 cellpadding=5 border=0>
@@ -300,12 +304,12 @@ class article
                 <td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
                 <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b>".$I18N->msg('edit')."</a></td>
                 <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."&save=1#slice$RE_CONTS[$I_ID] class=red12b onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg('delete')."</a></td>";
-              if ($REX_USER->isValueOf("rights","moveSlice[]"))
+              if ($REX_USER->isValueOf("rights","moveslice[]"))
               {
                 $mne  .= "<td class=llblue><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=moveup&clang=".$this->clang."&ctype=".$this->ctype."&upd=".time()."#slice$RE_CONTS[$I_ID] class=green12b><img src=pics/file_up.gif width=16 height=16 border=0 hspace=5></a><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=movedown&clang=".$this->clang."&ctype=".$this->ctype."&upd=".time()."#slice$RE_CONTS[$I_ID] class=green12b><img src=pics/file_down.gif width=16 height=16 border=0></a></td>";
               }
               $mne .= "</tr></table>";
-              
+
               $slice_content .= $mne.$tbl_head;
               if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
               {
@@ -316,11 +320,11 @@ class article
               }
               $slice_content .= $tbl_bott;
               $slice_content = $this->sliceIn($slice_content);
-              
+
             }else
             {
 
-              // ----- hat keine rechte an diesem modul 
+              // ----- hat keine rechte an diesem modul
 
               $mne = "
                 <table width=100% cellspacing=0 cellpadding=5 border=0>
@@ -331,21 +335,26 @@ class article
               $slice_content .= $mne.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
               $slice_content = $this->sliceIn($slice_content);
             }
-            
+
           }else
           {
 
             // ----- wenn mode nicht edit
+            if($this->getSlice){
+            		while(list($k, $v) = each($RE_CONTS))
+            			$I_ID = $k;
+            }
+            
             $slice_content .= $RE_MODUL_OUT[$I_ID];
             $slice_content = $this->sliceIn($slice_content);
           }
           // --------------- ENDE EINZELNER SLICE
-          
-          // ---------- slice in ausgabe speichern wenn ctype richtig 
-          if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
-          {
-            $this->article_content .= $slice_content;
-          }
+
+          // ---------- slice in ausgabe speichern wenn ctype richtig
+          	if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
+          	{
+            	$this->article_content .= $slice_content;
+          	}
 
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
           if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
@@ -354,16 +363,16 @@ class article
           }
 
 
-          
+
           // zum nachsten slice
           $I_ID = $RE_CONTS[$I_ID];
           $PRE_ID = $I_ID;
 
         }
-        
+
         // ----- end: ctype unterscheidung
         if ($this->mode != "edit" && $i>0) $this->article_content .= "<?php } ?>";
-          
+
     // ----- add module im edit mode
         if ($this->mode == "edit")
         {
@@ -382,7 +391,7 @@ class article
           <tr>
           <td class=dblue>".$MODULESELECT->out()."</td>
           </tr></form></table>";
-          
+
           if($this->function=="add" && $this->slice_id == $I_ID)
           {
             $slice_content = $this->addSlice($I_ID,$module_id);
@@ -392,27 +401,26 @@ class article
           }
           $this->article_content .= $slice_content;
         }
-    
-      
-    
-    
+
+
+
+
         // -------------------------- schreibe content
-        
         if (isset($REX['RC']) and $REX['RC']) echo $this->article_content;
         else eval("?>".$this->article_content);
-        
+
       }else
       {
         echo $I18N->msg('no_article_available');
       }
     }
-    
+
     // ----- end: article caching
     $CONTENT = ob_get_contents();
     ob_end_clean();
-    
+
     return $CONTENT;
-    
+
   }
 
   function getArticleTemplate()
@@ -421,7 +429,7 @@ class article
 
     // ----- start: template caching
     ob_start();
-    
+
     if ($this->getTemplateId() == 0 and $this->article_id != 0)
     {
       echo $this->getArticle();
@@ -430,34 +438,34 @@ class article
       $template_name = $REX['INCLUDE_PATH']."/generated/templates/".$this->getTemplateId().".template";
       if ($fd = fopen ($template_name, "r"))
       {
-        $template_content = @fread ($fd, filesize ($template_name));
+        $template_content = fread ($fd, filesize ($template_name));
         fclose ($fd);
       }else
       {
         $template_content = $this->getTemplateId()." not found";
       }
-      
+
       $template_content = $this->replaceCommonVars( $template_content);
       $template_content = $this->replaceLinks($template_content);
-      
+
       eval("?>".$template_content);
 
     }else
     {
       echo "no template";
     }
-    
+
     // ----- end: template caching
     $CONTENT = ob_get_contents();
     ob_end_clean();
-    
+
     return $CONTENT;
-    
+
   }
-  
+
   // ----- ADD Slice
   // altem inhalt loeschen - sliceClear
-  
+
   function addSlice($I_ID,$module_id)
   {
     global $REX,$REX_ACTION,$FORM,$I18N;
@@ -508,7 +516,7 @@ class article
       <input type="hidden" name="clang" value="'.$this->clang.'">
       '.$RE_MODUL_IN.'
       <br /><br /><input type="submit" value="'.$I18N->msg('save_block').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="'.$I18N->msg('update_block').'" onClick="REX_FORM.update.value=1"></form>';
-    
+
     // werte das erst mal aufgerufen / noch nicht gespeichert / gepspeichert und neu
     if (!isset($REX_ACTION['SAVE'])) $slice_content = $this->sliceIn($slice_content);
     if (!$REX_ACTION['SAVE']) $slice_content = $this->sliceClear($slice_content);
@@ -523,7 +531,7 @@ class article
     for ($i=1;$i<11;$i++)
     {
       // ----------------------------- LIST BUTTONS
-         
+
       // ------------- REX_FILELIST_BUTTON
 
       $medialistvalue = $this->stripPHP($this->convertString($this->CONT->getValue("rex_article_slice.filelist$i")));
@@ -559,7 +567,7 @@ class article
       $media = $this->stripPHP($media);
       $slice_content = str_replace("REX_LINKLIST_BUTTON[$i]",$media,$slice_content);
       $slice_content = str_replace("REX_LINKLIST[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.linklist$i")),$slice_content);
-        
+
       // ------------- REX_MEDIA
       $media = "<table class=rexbutton><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
       $media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey100 id=REX_MEDIA_$i readonly=readonly></td>";
@@ -592,45 +600,45 @@ class article
       $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
       $slice_content = str_replace("REX_LINK[$i]",$this->generateLink($this->CONT->getValue("rex_article_slice.link$i")),$slice_content);
       $slice_content = str_replace("REX_LINK_ID[$i]",$this->CONT->getValue("rex_article_slice.link$i"),$slice_content);
-      
+
       // -- show:htmlentities -- edit:nl2br/htmlentities
       $slice_content = str_replace("REX_VALUE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.value$i")),$slice_content);
-      
+
       // -- show:stripphp -- edit:stripphp
       $slice_content = str_replace("REX_HTML_VALUE[$i]",$this->stripPHP($this->CONT->getValue("rex_article_slice.value$i")),$slice_content);
-      
+
       // -- show:stripphp -- edit:stripphp --
       $slice_content = str_replace("REX_HTML_BR_VALUE[$i]",nl2br($this->stripPHP($this->CONT->getValue("rex_article_slice.value$i"))),$slice_content);
-      
+
       // -- show:- -- edit:-
       $slice_content = str_replace("REX_PHP_VALUE[$i]",$this->CONT->getValue("rex_article_slice.value$i"),$slice_content);
-      
+
       if ($this->CONT->getValue("rex_article_slice.value$i")!="") $slice_content = str_replace("REX_IS_VALUE[$i]","1",$slice_content);
-    
+
     }
-    
+
     $slice_content = str_replace("REX_PHP",$this->convertString2($this->CONT->getValue("rex_article_slice.php")),$slice_content);
     $slice_content = str_replace("REX_HTML",$this->convertString2($this->stripPHP($this->CONT->getValue("rex_article_slice.html"))),$slice_content);
-    
+
 //    $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
 //    $slice_content = str_replace("REX_CUR_CLANG",$this->clang,$slice_content);
 //    $slice_content = str_replace("REX_CATEGORY_ID",$this->category_id,$slice_content);
     $slice_content = $this->replaceCommonVars( $slice_content);
-    
+
     // function in function_rex_modrewrite.inc.php
     if ($this->mode != "edit") $slice_content = $this->replaceLinks($slice_content);
-    
+
     return $slice_content;
 
-  } 
+  }
 
 
   // ----- Slice loeschen damit Werte in den nächsten Slice nicht übernommen werden
   function sliceClear($slice_content)
   {
-    
+
     global $REX_ACTION;
-        
+
     for ($i=1;$i<11;$i++)
     {
       // ----------------------------- LIST BUTTONS
@@ -666,7 +674,7 @@ class article
       $media = $this->stripPHP($media);
       $slice_content = str_replace("REX_LINKLIST_BUTTON[$i]",$media,$slice_content);
       $slice_content = str_replace("REX_LINKLIST[$i]","",$slice_content);
-      
+
       // ----------------------------- REX_MEDIA_BUTTON
       $media = "<table class=rexbutton><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
       $media.= "<td><input type=text size=30 name=REX_MEDIA_$i value='REX_FILE[$i]' class=inpgrey100 id=REX_MEDIA_$i readonly=readonly></td>";
@@ -677,10 +685,10 @@ class article
       $media = $this->stripPHP($media);
       $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
       $slice_content = str_replace("REX_FILE[$i]",$REX_ACTION['FILE'][$i],$slice_content);
-      
+
       // ----------------------------- REX_LINK_BUTTON
       $link_name = "";
-      
+
       if ($REX_ACTION['LINK'][$i]>0)
       {
         $db = new sql;
@@ -688,7 +696,7 @@ class article
         $res = $db->get_array($sql);
         $link_name = $res[0]['name'];
       }
-      
+
       $media = "<table class=rexbutton><input type=hidden name=REX_LINK_DELETE_$i value=0 id=REX_LINK_DELETE_$i><input type=hidden name='LINK[$i]' value='REX_LINK[$i]' id=LINK[$i]><tr>";
       $media.= "<td><input type=text size=30 name='LINK_NAME[$i]' value='$link_name' class=inpgrey100 id=LINK_NAME[$i] readonly=readonly></td>";
       $media.= "<td class=inpicon><a href=javascript:openLinkMap($i,".$this->clang.");><img src=pics/file_open.gif width=16 height=16 title='Linkmap' border=0></a></td>";
@@ -698,26 +706,26 @@ class article
       $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
       $slice_content = str_replace("REX_LINK[$i]",$REX_ACTION['LINK'][$i],$slice_content);
       $slice_content = str_replace("REX_LINK_ID[$i]",$REX_ACTION['LINK'][$i],$slice_content);
-      
-      
+
+
       // ----------------------------- REX_ OTHER
       $slice_content = str_replace("REX_VALUE[$i]",htmlspecialchars(stripslashes($REX_ACTION['VALUE'][$i])),$slice_content);
       $slice_content = str_replace("REX_HTML_VALUE[$i]","",$slice_content);
       $slice_content = str_replace("REX_PHP_VALUE[$i]","",$slice_content);
       $slice_content = str_replace("REX_IS_VALUE[$i]","",$slice_content);
-    
+
     }
-    
+
     $slice_content = str_replace("REX_PHP",htmlspecialchars(stripslashes($REX_ACTION['PHP'])),$slice_content);
     $slice_content = str_replace("REX_HTML",htmlspecialchars(stripslashes($REX_ACTION['HTML'])),$slice_content);
-    
+
 //    $slice_content = str_replace("REX_ARTICLE_ID","",$slice_content);
 //    $slice_content = str_replace("REX_CUR_CLANG","",$slice_content);
 //    $slice_content = str_replace("REX_CATEGORY_ID","",$slice_content);
     $slice_content = $this->replaceCommonVars( $slice_content);
-    
+
     return $slice_content;
-  
+
   }
 
 
@@ -727,13 +735,13 @@ class article
   {
     $content = str_replace("<?","&lt;?",$content);
     $content = str_replace("?>","?&gt;",$content);
-    
+
     return $content;
   }
 
   function convertString2($content)
   {
-    
+
     if ($this->mode == "edit" && $this->slice_id == $this->ViewSliceId && $this->function=="edit")
     {
       return htmlspecialchars($content);
@@ -764,7 +772,7 @@ class article
   function generateLink($id)
   {
     global $REX;
-    
+
     if ($this->mode == "edit")
     {
       return $id;
@@ -797,20 +805,20 @@ class article
 
         return $content;
   }
-  
+
   function replaceCommonVars($content) {
     static $search = array(
        'REX_ARTICLE_ID',
        'REX_CATEGORY_ID',
        'REX_CUR_CLANG',
     );
-    
+
     $replace = array(
       $this->article_id,
       $this->category_id,
       $this->clang,
     );
-        
+
     return str_replace($search, $replace,$content);
   }
 
