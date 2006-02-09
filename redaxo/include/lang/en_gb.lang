@@ -435,7 +435,3 @@ addon_deactivate = deactivate
 addon_activate = activate
 addon_yes = yes
 addon_no = no
-
-# redaxo/include/classes/class.i18n.inc.php
-lang_file_not_readable = Languagefile "{0}" is not readable!
-lang_file_not_found = Languagefile "{0}" not found!
