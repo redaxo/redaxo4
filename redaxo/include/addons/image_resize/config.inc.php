@@ -45,10 +45,10 @@ if ($REX['GG'])
   function rex_resize_wysiwyg_output($params)
   {
     global $REX;
-    
+
     $content = $params['subject'];
 
-    preg_match_all('/<img.*ismap="rex_resize".*>/imsU', $content, $matches);
+    preg_match_all('/<img[^>]*ismap="rex_resize"[^>]*>/imsU', $content, $matches);
 
     if (is_array($matches[0]))
     {
