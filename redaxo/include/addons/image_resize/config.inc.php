@@ -48,7 +48,7 @@ if ($REX['GG'])
 
     $content = $params['subject'];
 
-    preg_match_all('/<img[^>]*ismap="rex_resize"[^>]*>/imsU', $content, $matches);
+    preg_match_all('/<img[^>]*ismap="ismap"[^>]*>/imsU', $content, $matches);
 
     if (is_array($matches[0]))
     {

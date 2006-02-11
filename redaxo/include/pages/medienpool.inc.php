@@ -110,7 +110,7 @@ function insertLink(link){
 
 function insertImage(src, alt, width, height)
 {
-  var image = '<img src="<?php echo $backend_mediafolder ?>'+ src +'" alt="'+ alt +'" style="width: '+ width +'; height:'+ height +'" class="rex_image" ismap="rex_resize" />';
+  var image = '<img src="<?php echo $backend_mediafolder ?>'+ src +'" alt="'+ alt +'" style="width: '+ width +'; height:'+ height +'" class="rex_image" ismap="ismap" />';
   insertHTML( image);
 }
 
