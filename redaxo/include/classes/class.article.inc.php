@@ -158,10 +158,11 @@ class article
   // ctype var festlegung komischer umweg
   $a = $this->ctype_var;
   $$a = $curctype;
-  	if($this->getSlice){
-	    //$REX['GG'] = 0;
-	    $sliceLimit = " and rex_article_slice.id = '" . $this->getSlice . "' ";
-	}
+  $sliceLimit = '';
+  if ($this->getSlice){
+    //$REX['GG'] = 0;
+    $sliceLimit = " and rex_article_slice.id = '" . $this->getSlice . "' ";
+  }
     // ----- start: article caching
     ob_start();
 
@@ -192,15 +193,15 @@ class article
             rex_article_slice.article_id='".$this->article_id."' and
             rex_article_slice.clang='".$this->clang."' and
             rex_article.clang='".$this->clang."'";
-				$sql .= $sliceLimit;
+        $sql .= $sliceLimit;
         $sql .= "order by
             rex_article_slice.re_article_slice_id";
-		
-		//print $sql;
+    
+    //print $sql;
 
         $this->CONT = new sql;
         $this->CONT->setQuery($sql);
-				
+        
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
@@ -341,8 +342,8 @@ class article
 
             // ----- wenn mode nicht edit
             if($this->getSlice){
-            		while(list($k, $v) = each($RE_CONTS))
-            			$I_ID = $k;
+                while(list($k, $v) = each($RE_CONTS))
+                  $I_ID = $k;
             }
             
             $slice_content .= $RE_MODUL_OUT[$I_ID];
@@ -351,10 +352,10 @@ class article
           // --------------- ENDE EINZELNER SLICE
 
           // ---------- slice in ausgabe speichern wenn ctype richtig
-          	if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
-          	{
-            	$this->article_content .= $slice_content;
-          	}
+            if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
+            {
+              $this->article_content .= $slice_content;
+            }
 
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
           if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
