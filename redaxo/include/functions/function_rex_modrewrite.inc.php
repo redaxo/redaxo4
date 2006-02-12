@@ -42,10 +42,17 @@ function rex_parseArticleName($name)
  *
  * If you pass an associative array for $params,
  * then these parameters will be attached to the URL.
- * e.g.:
+ * 
+ * 
+ * USAGE:
  *   $param = array("order" => "123", "name" => "horst");
- *   $article->getUrl($param);
- * will return:
+ *   $url = $article->getUrl($param);
+ * 
+ *   - OR -
+ *  
+ *   $url = $article->getUrl("order=123&name=horst");
+ * 
+ * RETURNS:
  *   index.php?article_id=1&order=123&name=horst
  * or if mod_rewrite support is activated:
  *   /1-The_Article_Name?order=123&name=horst
