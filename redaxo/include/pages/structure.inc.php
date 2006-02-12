@@ -77,7 +77,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   rex_generateArticle($edit_id);
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('CAT_UPDATED','',array ("id" => $edit_id, "clang" => $clang, "name" => $kat_name, "prio" => $new_prio, "path" => $KATPATH));
+  rex_register_extension_point('CAT_UPDATED','',array ("id" => $edit_id, "re_id" => $re_id, "clang" => $clang, "name" => $kat_name, "prior" => $new_prio, "path" => $KATPATH, "status" => $thisCat->getValue('status')));
 
 } elseif (isset($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM)
 {
@@ -103,7 +103,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
       }
       
       // ----- EXTENSION POINT
-      rex_register_extension_point('CAT_DELETED','',array ("id" => $edit_id));
+      rex_register_extension_point('CAT_DELETED','',array ("id" => $edit_id, "re_id" => $re_id));
             
     } else
     {
@@ -208,7 +208,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   
   // ----- EXTENSION POINT
   if (!isset ($edit_id)) $edit_id = 0;
-  rex_register_extension_point('CAT_ADDED','',array ("id" => $edit_id, "name" => $category_name, "prio" => $Position_New_Category, "path" => $KATPATH));
+  rex_register_extension_point('CAT_ADDED','',array ("id" => $edit_id, "re_id" => $category_id, "status" => 0, "name" => $category_name, "prior" => $Position_New_Category, "path" => $KATPATH));
 
  
 }
@@ -314,7 +314,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
   rex_generateArticle($article_id);
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('ART_UPDATED','',array ("id" => $article_id, "name" => $article_name, "prior" => $Position_Article, "path" => $KATPATH));
+  rex_register_extension_point('ART_UPDATED','',array ("id" => $article_id, "status" => $thisArt->getValue("status"), "name" => $article_name, "re_id" => $category_id, "prior" => $Position_Article, "path" => $KATPATH, "template_id" => $template_id));
 
 
 
@@ -336,7 +336,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
   }
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('ART_DELETED','',array ("id" => $article_id));
+  rex_register_extension_point('ART_DELETED','',array ("id" => $article_id, "re_id" => $re_id));
 
 }
 
