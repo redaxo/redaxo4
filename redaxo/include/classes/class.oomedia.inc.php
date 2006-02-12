@@ -494,7 +494,7 @@ class OOMedia
         if (isset ($REX['ADDON']['status']['image_resize']) && $REX['ADDON']['status']['image_resize'] == 1)
         {
           $resize = true;
-          if (isset ($params['width']))
+          if (isset($params['width']))
           {
             $resizeMode = 'w';
             $resizeParam = $params['width'];
@@ -532,12 +532,31 @@ class OOMedia
 
     // Evtl. Zusatzatrribute anfügen 
     $additional = '';
-    foreach ($params as $name => $value)
+    
+    // Alternativtext hinzufügen    
+    if (empty($params['alt']))
     {
-      $additional .= $name.'="'.$value.'" ';
+      if(($desc = $this->getDescription()) != '')
+      {
+        $additional .= ' alt="'. htmlspecialchars($desc) .'"';;
+      }
+    }
+    // Titel hinzufügen    
+    if (empty($params['title']))
+    {
+      if(($desc = $this->getDescription()) != '')
+      {
+        $additional .= ' title="'. htmlspecialchars($desc) .'"';;
+      }
     }
 
-    return '<img src="'.$path.$file.'"'.$additional.' />';
+    // Zusatzatrribute anfügen 
+    foreach ($params as $name => $value)
+    {
+      $additional .= ' '. $name.'="'.$value.'"';
+    }
+
+    return sprintf('<img src="%s"%s />', $file, $additional);
   }
 
   /**
@@ -653,8 +672,7 @@ class OOMedia
       case 'gif' :
       case 'bmp' :
         {
-          $desc = htmlspecialchars($this->getDescription());
-          return sprintf('<img src="%s" alt="%s" title="%s" style="width: %spx; height: %spx"%s/>', $file, $desc, $desc, $this->getWidth(), $this->getHeight(), $attributes);
+          return $this->toImage($attributes);
         }
       case 'js' :
         {
