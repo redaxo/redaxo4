@@ -77,7 +77,17 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   rex_generateArticle($edit_id);
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('CAT_UPDATED','',array ("id" => $edit_id, "re_id" => $re_id, "clang" => $clang, "name" => $kat_name, "prior" => $new_prio, "path" => $KATPATH, "status" => $thisCat->getValue('status')));
+  rex_register_extension_point('CAT_UPDATED','',
+  	array (
+  		"id" => $edit_id, 
+  		"re_id" => $re_id, 
+  		"clang" => $clang, 
+  		"name" => $kat_name, 
+  		"prior" => $new_prio, 
+  		"path" => $KATPATH, 
+  		"status" => $thisCat->getValue('status')
+  		)
+  	);
 
 } elseif (isset($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM)
 {
@@ -103,7 +113,12 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
       }
       
       // ----- EXTENSION POINT
-      rex_register_extension_point('CAT_DELETED','',array ("id" => $edit_id, "re_id" => $re_id));
+      rex_register_extension_point('CAT_DELETED','',
+      	array (
+      		"id" => $edit_id, 
+      		"re_id" => $re_id
+      		)
+      	);
             
     } else
     {
@@ -138,7 +153,13 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
     rex_generateArticle($edit_id);
     
     // ----- EXTENSION POINT
-    rex_register_extension_point('CAT_STATUS','',array ("id" => $edit_id, "clang" => $clang, "status" => $newstatus));
+    rex_register_extension_point('CAT_STATUS','',
+    	array (
+    		"id" => $edit_id, 
+    		"clang" => $clang, 
+    		"status" => $newstatus
+    		)
+    	);
     
   } else
   {
@@ -202,15 +223,23 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
     // ----- PRIOR
     rex_newCatPrio($category_id,$key,0,$Position_New_Category);
 
+    // ----- EXTENSION POINT
+    rex_register_extension_point('CAT_ADDED','',
+	  	array (
+	  			"id" => $id, 
+	  			"re_id" => $category_id, 
+	  			"clang" => $key, 
+	  			"name" => $category_name, 
+	  			"prior" => $Position_New_Category, 
+	  			"path" => $KATPATH,
+	  			"status" => 0
+	  			)
+	  		);
+
   }
 
   rex_generateArticle($id);
   
-  // ----- EXTENSION POINT
-  if (!isset ($edit_id)) $edit_id = 0;
-  rex_register_extension_point('CAT_ADDED','',array ("id" => $edit_id, "re_id" => $category_id, "status" => 0, "name" => $category_name, "prior" => $Position_New_Category, "path" => $KATPATH));
-
- 
 }
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
