@@ -341,6 +341,35 @@ class OORedaxo
     return $return;
   }
 
+  /**
+   *  Accessor Method:
+   * returns true if this Article is the Startpage for the category.
+   * @deprecated
+   */
+  function isStartPage()
+  {
+    return $this->isStartArticle();
+  }
+
+  /**
+   *  Accessor Method:
+   * returns true if this Article is the Startpage for the category.
+   */
+  function isStartArticle()
+  {
+    return $this->_startpage;
+  }
+
+  /**
+   *  Accessor Method:
+   * returns true if this Article is the Startpage for the entire site.
+   */
+  function isSiteStartArticle()
+  {
+    global $REX;
+    return $this->_id == $REX['STARTARTIKEL_ID'];
+  }
+  
   /*
    * Object Helper Function:
    * Returns a String representation of this object
