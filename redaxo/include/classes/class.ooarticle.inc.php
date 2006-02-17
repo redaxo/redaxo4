@@ -205,35 +205,6 @@ class OOArticle extends OORedaxo
     return OOCategory :: getCategoryById($this->getCategoryId());
   }
 
-  /**
-   *  Accessor Method:
-   * returns true if this Article is the Startpage for the category.
-   * @deprecated
-   */
-  function isStartPage()
-  {
-    return $this->isStartArticle();
-  }
-
-  /**
-   *  Accessor Method:
-   * returns true if this Article is the Startpage for the category.
-   */
-  function isStartArticle()
-  {
-    return $this->_startpage;
-  }
-
-  /**
-   *  Accessor Method:
-   * returns true if this Article is the Startpage for the entire site.
-   */
-  function isSiteStartArticle()
-  {
-    global $REX;
-    return $this->_id == $REX['STARTARTIKEL_ID'];
-  }
-
   function isValid($article)
   {
     return is_object($article) && is_a($article, 'ooarticle');
