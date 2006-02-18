@@ -504,7 +504,7 @@ function rex_copyArticle($id, $from_cat_id, $to_cat_id)
 
         $art_sql->setTable('rex_article');
         // neuen article-id erzwingen
-        $art_sql->setNewId('id');
+        $new_id = $art_sql->setNewId('id');
         // neuen auto_incrment erzwingen 
         $art_sql->setValue('pid', 0);
         $art_sql->setValue('re_id', $to_sql->getValue('id'));
@@ -534,7 +534,6 @@ function rex_copyArticle($id, $from_cat_id, $to_cat_id)
 
         $art_sql->setValue("clang", $clang);
         $art_sql->insert();
-        $new_id = $art_sql->getLastID();
 
         // ArticleSlices kopieren
         rex_copyContent($id, $new_id, $clang, $clang);
