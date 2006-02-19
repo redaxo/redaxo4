@@ -17,7 +17,7 @@
  *  array( 'groups', 'Gruppen')
  * );
  * 
- * title( 'Headline', $subpages)
+ * rex_title( 'Headline', $subpages)
  * </code>
  * 
  * Beispiel für einen Seitentitel mit Rechteprüfung
@@ -25,11 +25,11 @@
  * <code>  
  * $subpages = array(
  *  array( '', 'Index', 'index_perm'),
- *  array( 'lang', 'lang_perm'),
- *  array( 'groups', 'group_perm')
+ *  array( 'lang', 'Sprachen', 'lang_perm'),
+ *  array( 'groups', 'Gruppen', 'group_perm')
  * );
  * 
- * title( 'Headline', $subpages)
+ * rex_title( 'Headline', $subpages)
  * </code>
  */
 function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
