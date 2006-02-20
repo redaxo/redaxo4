@@ -484,12 +484,11 @@ function rex_moveCategory($from_cat, $to_cat)
 			{
 				// zielkategorie ist in quellkategorie -> nicht verschiebbar
 				return false;
-				exit;
 			}
 		}
 		
 		// ----- folgende cats regenerate
-		unset($RC);
+		$RC = array();
 		$RC[$fcat->getValue("re_id")] = 1;
 		$RC[$from_cat] = 1;
 		$RC[$to_cat] = 1;
