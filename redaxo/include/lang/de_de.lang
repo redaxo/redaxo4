@@ -117,6 +117,9 @@ content_copyarticle = Artikel kopieren
 content_submitcopyarticle = Artikel kopieren
 content_articlecopied = Artikel wurde kopiert
 content_errorcopyarticle = Artikel konnte nicht kopiert werden.
+content_error_movecategory = Kategorie konnte nicht verschoben werden
+content_submitmovecategory = Kategorie verschieben
+move_category = Kategorie verschieben
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:

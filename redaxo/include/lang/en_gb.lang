@@ -112,11 +112,14 @@ content_submitmovearticle = Move article
 content_errormovearticle = Article could not be moved.
 content_articlemoved = Article has been moved
 content_choose_new_category = Choose category
-content_movearticle_no_startpage = Startarticle can not me moved
+content_movearticle_no_startpage = Startarticle can not be moved
 content_copyarticle = Copy article
 content_submitcopyarticle = Copy article
 content_articlecopied = Article has been copied
 content_errorcopyarticle = Article has not been copied
+content_error_movecategory = Category can not be moved
+content_submitmovecategory = Move category
+move_category = Move category
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Module '{0}' cannot be deleted, because it is still used by these articles:
