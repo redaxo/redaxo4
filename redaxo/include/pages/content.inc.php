@@ -871,7 +871,8 @@ if ($article->getRows() == 1)
 				$move_a->set_name("category_copy_id_new");
 				$move_a->set_style("width:100%;");
 				$move_a->set_size(1);
-			
+                $move_a->set_selected($article_id);
+      
 				if ($cats = OOCategory::getRootCategories()) {
 					foreach( $cats as $cat) {
 						add_cat_options( $move_a, $cat, $cat_ids);
@@ -909,6 +910,7 @@ if ($article->getRows() == 1)
 				$move_a->set_name("category_id_new");
 				$move_a->set_style("width:100%;");
 				$move_a->set_size(1);
+                $move_a->set_selected($article_id);
 		
 				if ($cats = OOCategory::getRootCategories()) {
 					foreach( $cats as $cat) {
