@@ -810,7 +810,7 @@ if ($article->getRows() == 1)
           // INHALTE KOPIEREN ENDE ---------------------------------------------------
 
         	// ARTIKEL VERSCHIEBEN START ---------------------------------------------------
-			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) {
+			if ($article->getValue("startpage") == 0 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) ) {
 				print "<form action=index.php method=get>
 						<input type=hidden name=page value=content>
 						<input type=hidden name=article_id value='$article_id'>
@@ -821,7 +821,6 @@ if ($article->getRows() == 1)
 						<input type=hidden name=function value=movearticle>";
 
 				// Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-		  		if ($article->getValue("startpage") == 0) {
 					$move_a = new select;
 					$move_a->set_name("category_id_new");
 					$move_a->set_style("width:100%;");
@@ -841,15 +840,6 @@ if ($article->getRows() == 1)
 						    <td class=grey>&nbsp;</td>
 							<td class=grey><input type=submit value='".$I18N->msg("content_submitmovearticle")."' size=8></td>
 						</tr>";
-				}
-				// ...Hinweis ausgeben, das der Artikel ein Startartikel ist 
-				// und nicht verschoben werden kann.
-				else {
-					echo "<tr>
-							<td class=grey width=150>".$I18N->msg("move_article")."</td>
-							<td class=grey>".$I18N->msg("content_movearticle_no_startpage")."</td>
-						</tr>";
-				}
 				print '</form>';
 			}   
 			// ARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
@@ -895,7 +885,7 @@ if ($article->getRows() == 1)
 
 
 			// KATEGORIE/STARTARTIKEL VERSCHIEBEN START ---------------------------------------------------
-			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]") && $article->getValue("startpage") == 1)
+			if ($article->getValue("startpage") == 1 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]")))
 			{
 				
 				print "<form action=index.php method=get>
@@ -911,10 +901,12 @@ if ($article->getRows() == 1)
 				$move_a->set_style("width:100%;");
 				$move_a->set_size(1);
                 $move_a->set_selected($article_id);
+
+				$move_a->add_option("---",0);
 		
 				if ($cats = OOCategory::getRootCategories()) {
 					foreach( $cats as $cat) {
-						add_cat_options( $move_a, $cat, $cat_ids);
+						add_cat_options( $move_a, $cat, $cat_ids, "", "&nbsp;&nbsp;");
 					}
 				}
 			

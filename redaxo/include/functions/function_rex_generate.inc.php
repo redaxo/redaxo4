@@ -471,18 +471,21 @@ function rex_moveCategory($from_cat, $to_cat)
   	$tcat = new sql;
   	$tcat->setQuery("select * from rex_article where startpage=1 and id=$to_cat and clang=0");
 
-	if ($fcat->getRows()!=1 or $tcat->getRows()!=1)
+	if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
 	{
 		// eine der kategorien existiert nicht
 		return false;
 	}else
 	{
-		$tcats = explode("|",$tcat->getValue("path"));
-		if (in_array($from_cat,$tcats))
+		if ($to_cat>0)
 		{
-			// zielkategorie ist in quellkategorie -> nicht verschiebbar
-			return false;
-			exit;
+			$tcats = explode("|",$tcat->getValue("path"));
+			if (in_array($from_cat,$tcats))
+			{
+				// zielkategorie ist in quellkategorie -> nicht verschiebbar
+				return false;
+				exit;
+			}
 		}
 		
 		// ----- folgende cats regenerate
@@ -491,9 +494,17 @@ function rex_moveCategory($from_cat, $to_cat)
 		$RC[$from_cat] = 1;
 		$RC[$to_cat] = 1;
 
-		$to_path = $tcat->getValue("path").$to_cat."|";
+		if ($to_cat>0)
+		{
+			$to_path = $tcat->getValue("path").$to_cat."|";
+			$to_re_id = $tcat->getValue("re_id");
+		}else
+		{
+			$to_path = "|";
+			$to_re_id = 0;	
+		}
+
 		$from_path = $fcat->getValue("path").$from_cat."|";
-		$to_re_id = $tcat->getValue("re_id");
 
 		$gcats = new sql;
 		$gcats->debugsql = 1;
