@@ -469,7 +469,7 @@ if ($article->getRows() == 1)
   if (isset($function) and $function == "movearticle")
   {
     if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]"))
-        {
+    {
       if (rex_moveArticle($article_id, $category_id_old, $category_id_new))
       {
         $message = $I18N->msg('content_articlemoved');
@@ -486,7 +486,7 @@ if ($article->getRows() == 1)
   if (isset($function) and $function == "copyarticle")
   {
     if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]"))
-        {
+    {
       if (rex_copyArticle($article_id, $category_copy_id_old, $category_copy_id_new))
       {
         $message = $I18N->msg('content_articlecopied');
@@ -498,6 +498,33 @@ if ($article->getRows() == 1)
   }
   // ------------------------------------------ END: COPY ARTICLE
   
+
+  // ------------------------------------------ START: MOVE CATEGORY
+  if (isset($function) and $function == "movecategory")
+  {
+    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]"))
+    {
+      $category_id_new = (int) $category_id_new;
+      if (rex_moveCategory($category_id, $category_id_new))
+      {
+        $message = $I18N->msg('content_category_moved');
+        // ausgabe stoppen
+        // header neu setzen
+        // in gemoved category springen..
+        
+        ob_end_clean();
+
+		header("Location: index.php?page=content&article_id=".$category_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
+		exit;
+        
+      }else
+      {
+        $message = $I18N->msg('content_error_movecategory');
+      }
+    }
+  }
+  // ------------------------------------------ END: MOVE CATEGORY
+
 
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
@@ -712,28 +739,31 @@ if ($article->getRows() == 1)
         </table>";
         
         
-// START - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  	
-		function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '') {
-			global $REX_USER;
-			if (empty($cat)) {
-				return;
-			}
-			$cat_ids[] = $cat->getId();
-			if( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","csr[".$cat->getId()."]") || $REX_USER->isValueOf("rights","csw[".$cat->getId()."]") ) {
-				$select->add_option($nbsp.$cat->getName(),$cat->getId());
-				$childs = $cat->getChildren();
-				if (is_array($childs)) {
-					$nbsp = $nbsp.'&nbsp;&nbsp;&nbsp;';
-					foreach ( $childs as $child) {
-						add_cat_options( $select, $child, $cat_ids, $cat->getName(), $nbsp);
-					}
-				}
-			}
-		}
-// ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  
+      // START - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  	
+      function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '')
+      {
+
+      	global $REX_USER;
+      	if (empty($cat)) {
+      		return;
+      	}
+
+      	$cat_ids[] = $cat->getId();
+      	if( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","csr[".$cat->getId()."]") || $REX_USER->isValueOf("rights","csw[".$cat->getId()."]") ) {
+      		$select->add_option($nbsp.$cat->getName(),$cat->getId());
+      		$childs = $cat->getChildren();
+      		if (is_array($childs)) {
+      			$nbsp = $nbsp.'&nbsp;&nbsp;&nbsp;';
+      			foreach ( $childs as $child) {
+      				add_cat_options( $select, $child, $cat_ids, $cat->getName(), $nbsp);
+      			}
+      		}
+      	}
+      }
+      // ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  
 
 
-// SONSTIGES START -------------------------------------------------------------    
+      // SONSTIGES START -------------------------------------------------------------    
         if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]") || ($REX_USER->isValueOf("rights","copyContent[]") && count($REX['CLANG']) > 1))
         {
           echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
@@ -753,34 +783,32 @@ if ($article->getRows() == 1)
           <input type=hidden name=ctype value=$ctype>
           <input type=hidden name=function value=copycontent>";
 
-      $lang_a = new select;
-      $lang_a->set_name("clang_a");
-      $lang_a->set_style("width:100px;");
-      $lang_a->set_size(1);
+        $lang_a = new select;
+        $lang_a->set_name("clang_a");
+        $lang_a->set_style("width:100px;");
+        $lang_a->set_size(1);
 
-      foreach($REX['CLANG'] as $val => $key)
-      {
-        $lang_a->add_option($key,$val);
-      }
+        foreach($REX['CLANG'] as $val => $key)
+        {
+          $lang_a->add_option($key,$val);
+        }
       
-      $lang_b = $lang_a;
-          $lang_b->set_name("clang_b");
-          if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
-          if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
+        $lang_b = $lang_a;
+        $lang_b->set_name("clang_b");
+        if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
+        if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
           
-          echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()." ". $I18N->msg("content_copy")."</td></tr>";
+        echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()." ". $I18N->msg("content_copy")."</td></tr>";
         
-          echo "<tr>
+        echo "<tr>
           <td class=grey>&nbsp;</td>
           <td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
-        </tr>";
-        
-        
-          echo "</form>";
+          </tr>";
+        echo "</form>";
         }
         
           // INHALTE KOPIEREN ENDE ---------------------------------------------------
-        
+
         	// ARTIKEL VERSCHIEBEN START ---------------------------------------------------
 			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) {
 				print "<form action=index.php method=get>
@@ -824,12 +852,11 @@ if ($article->getRows() == 1)
 				}
 				print '</form>';
 			}   
-
-	// ARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
+			// ARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
 			
 			
 			
-	// ARTIKEL KOPIEREN START --------------------------------------------------
+			// ARTIKEL KOPIEREN START --------------------------------------------------
 			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]")) {
 				print "<form action=index.php method=get>
 						<input type=hidden name=page value=content>
@@ -862,7 +889,56 @@ if ($article->getRows() == 1)
 				
 				print '</form>';
 			}
-	// ARTIKEL KOPIEREN ENDE ---------------------------------------------------
+			// ARTIKEL KOPIEREN ENDE ---------------------------------------------------
+
+
+
+			// KATEGORIE/STARTARTIKEL VERSCHIEBEN START ---------------------------------------------------
+			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]") && $article->getValue("startpage") == 1)
+			{
+				
+				print "<form action=index.php method=get>
+						<input type=hidden name=page value=content>
+						<input type=hidden name=article_id value='$article_id'>
+						<input type=hidden name=mode value='meta'>
+						<input type=hidden name=clang value=$clang>
+						<input type=hidden name=ctype value=$ctype>
+						<input type=hidden name=function value=movecategory>";
+
+				$move_a = new select;
+				$move_a->set_name("category_id_new");
+				$move_a->set_style("width:100%;");
+				$move_a->set_size(1);
+		
+				if ($cats = OOCategory::getRootCategories()) {
+					foreach( $cats as $cat) {
+						add_cat_options( $move_a, $cat, $cat_ids);
+					}
+				}
+			
+				echo "<tr>
+						<td class=grey width=150>".$I18N->msg("move_category")."</td>
+						<td class=grey>".$move_a->out()."</td>
+					  </tr>
+					  <tr>
+					    <td class=grey>&nbsp;</td>
+						<td class=grey><input type=submit value='".$I18N->msg("content_submitmovecategory")."' size=8></td>
+					</tr>";
+
+				print '</form>';
+			}
+			// KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
         echo "</table>";
         }
 // SONSTIGES ENDE ------------------------------------------------------------- 

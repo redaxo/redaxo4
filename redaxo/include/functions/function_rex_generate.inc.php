@@ -87,8 +87,9 @@ function rex_generateAll()
  * Generiert alle *.article u. *.content Dateien eines Artikels/einer Kategorie
  * 
  * @param $id ArtikelId des Artikels, der generiert werden soll 
+ * @param $refreshall Bolean Bei True wird der Inhalte auch komplett neu generiert, bei False nur die Metainfos
  */
-function rex_generateArticle($id, $refresh = 0)
+function rex_generateArticle($id, $refreshall = true)
 {
   global $PHP_SELF, $module_id, $FORM, $REX_USER, $REX, $I18N;
 
@@ -114,7 +115,6 @@ function rex_generateArticle($id, $refresh = 0)
     $CONT = new article;
     $CONT->setCLang($clang);
     $CONT->setArticleId($id);
-    $article_content = "?>".$CONT->getArticle();
 
     // --------------------------------------------------- Artikelparameter speichern
     $article = "<?php\n"."\n\$REX['ART']['$id']['article_id']['$clang'] = \"$id\";"."\n\$REX['ART']['$id']['re_id']['$clang'] = \"".rex_addslashes($CONT->getValue("re_id"))."\";"."\n\$REX['ART']['$id']['name']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";"."\n\$REX['ART']['$id']['catname']['$clang'] = \"".rex_addslashes($CONT->getValue("catname"))."\";"."\n\$REX['ART']['$id']['cattype']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";"."\n\$REX['ART']['$id']['alias']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";"."\n\$REX['ART']['$id']['description']['$clang'] = \"".rex_addslashes($CONT->getValue("description"))."\";"."\n\$REX['ART']['$id']['attribute']['$clang'] = \"".rex_addslashes($CONT->getValue("attribute"))."\";"."\n\$REX['ART']['$id']['file']['$clang'] = \"".rex_addslashes($CONT->getValue("file"))."\";"."\n\$REX['ART']['$id']['type_id']['$clang'] = \"".rex_addslashes($CONT->getValue("type_id"))."\";"."\n\$REX['ART']['$id']['teaser']['$clang'] = \"".rex_addslashes($CONT->getValue("teaser"))."\";"."\n\$REX['ART']['$id']['startpage']['$clang'] = \"".rex_addslashes($CONT->getValue("startpage"))."\";"."\n\$REX['ART']['$id']['prior']['$clang'] = \"".rex_addslashes($CONT->getValue("prior"))."\";"."\n\$REX['ART']['$id']['path']['$clang'] = \"".rex_addslashes($CONT->getValue("path"))."\";"."\n\$REX['ART']['$id']['status']['$clang'] = \"".rex_addslashes($CONT->getValue("status"))."\";"."\n\$REX['ART']['$id']['online_from']['$clang'] = \"".rex_addslashes($CONT->getValue("online_from"))."\";"."\n\$REX['ART']['$id']['online_to']['$clang'] = \"".rex_addslashes($CONT->getValue("online_to"))."\";"."\n\$REX['ART']['$id']['createdate']['$clang'] = \"".rex_addslashes($CONT->getValue("createdate"))."\";"."\n\$REX['ART']['$id']['updatedate']['$clang'] = \"".rex_addslashes($CONT->getValue("updatedate"))."\";"."\n\$REX['ART']['$id']['keywords']['$clang'] = \"".rex_addslashes($CONT->getValue("keywords"))."\";"."\n\$REX['ART']['$id']['template_id']['$clang'] = \"".rex_addslashes($CONT->getValue("template_id"))."\";"."\n\$REX['ART']['$id']['createuser']['$clang'] = \"".rex_addslashes($CONT->getValue("createuser"))."\";"."\n\$REX['ART']['$id']['updateuser']['$clang'] = \"".rex_addslashes($CONT->getValue("updateuser"))."\";"."\n\$REX['ART']['$id']['last_update_stamp']['$clang'] = \"".time()."\";"."\n?>";
@@ -130,16 +130,21 @@ function rex_generateArticle($id, $refresh = 0)
     }
 
     // --------------------------------------------------- Artikelcontent speichern
-    if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", "w"))
-    {
-      fputs($fp, $article_content);
-      fclose($fp);
-      @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", 0777);
-    }
-    else
-    {
-      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
-    }
+	if ($refreshall)
+	{
+	    if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", "w"))
+	    {
+	      $article_content = "?>".$CONT->getArticle();
+	      fputs($fp, $article_content);
+	      fclose($fp);
+	      @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", 0777);
+	    }
+	    else
+	    {
+	      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+	    }
+	}
+	
     if (isset ($MSG) and $MSG != "")
       echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$MSG</td></tr></table>";
     $REX['RC'] = false;
@@ -447,7 +452,101 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
-  // TODO
+  
+  global $REX;
+  
+  $from_cat = (int) $from_cat;
+  $to_cat = (int) $to_cat;
+    
+  if ($from_cat == $to_cat)
+  {
+  	// kann nicht in gleiche kategroie kopiert werden
+	return false;
+  }else
+  {
+	// kategorien vorhanden ?
+  	// ist die zielkategorie im pfad der quellkategeorie ?
+  	$fcat = new sql;
+  	$fcat->setQuery("select * from rex_article where startpage=1 and id=$from_cat and clang=0");
+
+  	$tcat = new sql;
+  	$tcat->setQuery("select * from rex_article where startpage=1 and id=$to_cat and clang=0");
+
+	if ($fcat->getRows()!=1 or $tcat->getRows()!=1)
+	{
+		// eine der kategorien existiert nicht
+		return false;
+	}else
+	{
+		$tcats = explode("|",$tcat->getValue("path"));
+		if (in_array($from_cat,$tcats))
+		{
+			// zielkategorie ist in quellkategorie -> nicht verschiebbar
+			return false;
+			exit;
+		}
+		
+		// ----- folgende cats regenerate
+		unset($RC);
+		$RC[$fcat->getValue("re_id")] = 1;
+		$RC[$from_cat] = 1;
+		$RC[$to_cat] = 1;
+
+		$to_path = $tcat->getValue("path").$to_cat."|";
+		$from_path = $fcat->getValue("path").$from_cat."|";
+		$to_re_id = $tcat->getValue("re_id");
+
+		$gcats = new sql;
+		$gcats->debugsql = 1;
+		$gcats->setQuery("select * from rex_article where path like '".$from_path."%' and clang=0");
+
+		for($i=0;$i<$gcats->getRows();$i++)
+		{
+			// make update
+			$new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
+			$icid = $gcats->getValue("id");
+			$irecid = $gcats->getValue("re_id");
+			
+			// path aendern und speichern
+			$up = new sql;
+			$up->setTable("rex_article");
+			$up->where("id=$icid");
+			$up->setValue("path",$new_path);
+			$up->update();
+			
+			// cat in gen eintragen			
+			$RC[$icid] = 1;
+			
+			$gcats->next();
+		}		
+
+		// ----- clang holen, max carprio holen und entsprechen updaten
+		$CL = $REX['CLANG'];
+		reset($CL);
+		for ($i = 0; $i < count($CL); $i ++)
+		{
+			$clang = key($CL);
+			$gmax = new sql;
+			$gmax->setQuery("select max(catprior) from rex_article where re_id=$to_cat and clang=$clang");
+			$catprior = (int) $gmax->getValue("max(catprior)");
+			$up = new sql;
+			$up->setTable("rex_article");
+			$up->where("id=$from_cat and clang=$clang ");
+			$up->setValue("path",$to_path);
+			$up->setValue("re_id",$to_cat);
+			$up->setValue("catprior",($catprior+1));
+			$up->update();
+		}
+
+		// ----- generiere artikel neu - ohne neue inhaltsgenerierung
+		foreach($RC as $id => $key)
+		{
+			rex_generateArticle($id,false);
+		}
+		
+		return true;
+	}
+  }
 }
 
 /**
