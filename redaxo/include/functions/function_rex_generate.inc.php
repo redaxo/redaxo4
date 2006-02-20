@@ -87,7 +87,7 @@ function rex_generateAll()
  * Generiert alle *.article u. *.content Dateien eines Artikels/einer Kategorie
  * 
  * @param $id ArtikelId des Artikels, der generiert werden soll 
- * @param $refreshall Bolean Bei True wird der Inhalte auch komplett neu generiert, bei False nur die Metainfos
+ * @param $refreshall Boolean Bei True wird der Inhalte auch komplett neu generiert, bei False nur die Metainfos
  */
 function rex_generateArticle($id, $refreshall = true)
 {
@@ -241,9 +241,8 @@ function rex_deleteArticle($id, $ebene = 0)
  * Generiert alle *.alist u. *.clist Dateien einer Kategorie/eines Artikels
  * 
  * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
- * @param $refresh NOT IN USE
  */
-function rex_generateLists($re_id, $refresh = 0)
+function rex_generateLists($re_id)
 {
   global $REX;
 
@@ -435,11 +434,11 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
   }
 
   // Generated des Artikels neu erzeugen
-  rex_generateArticle($id);
+  rex_generateArticle($id,false);
 
   // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
-  rex_generateArticle($from_cat_id);
-  rex_generateArticle($to_cat_id);
+  rex_generateArticle($from_cat_id,false);
+  rex_generateArticle($to_cat_id,false);
 
   return true;
 }
@@ -653,11 +652,11 @@ function rex_copyArticle($id, $from_cat_id, $to_cat_id)
   }
 
   // Generated des Artikels neu erzeugen
-  rex_generateArticle($id);
+  rex_generateArticle($id,false);
 
   // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
-  rex_generateArticle($from_cat_id);
-  rex_generateArticle($to_cat_id);
+  rex_generateArticle($from_cat_id,false);
+  rex_generateArticle($to_cat_id,false);
 
   return true;
 }
@@ -716,7 +715,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     $uc->update();
 
-    rex_generateArticle($to_id);
+    rex_generateArticle($to_id,false);
     return true;
   }
   return false;
