@@ -67,7 +67,8 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-  * moveCategory eingebaut. mit eigenem Recht moveCategory .. Über Metadaten des Startartikel zu erreichen [jan]
+	* Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
+  * moveCategory mit eigenem Recht moveCategory[] eingebaut. Über Metadaten des Startartikel zu erreichen [jan]
   * ExtensionPoints vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
 	* Benutzerrecht umbenannt: moveslice[] -> moveSlice[] [kills]
   * move und copy article im content/meta eingebaut -- danke thomas :) [jan]
