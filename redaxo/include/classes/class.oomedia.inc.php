@@ -139,15 +139,6 @@ class OOMedia
 
   /**
    * @access public
-   * @see #getMediaByExtension
-   */
-  function & searchMediaByExtension($extension)
-  {
-    return OOMedia :: getMediaByExtension($extension);
-  }
-
-  /**
-   * @access public
    * 
    * @example OOMedia::getMediaByExtension('css');
    * @example OOMedia::getMediaByExtension('gif');
@@ -170,15 +161,6 @@ class OOMedia
     }
 
     return $media;
-  }
-
-  /**
-   * @access public
-   * @see #getMediaByFileName
-   */
-  function & searchMediaByFileName($name)
-  {
-    return OOMedia :: getMediaByFileName($name);
   }
 
   /**
