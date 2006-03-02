@@ -43,7 +43,6 @@ function rex_register_extension_point($extension, $subject = '', $params = array
         // damit $params['subject'] nicht verfälscht wird 
         if($temp !== null)
         {
-        var_dump($temp);
           $result = $temp; 
           $params['subject'] = $result;
         }
