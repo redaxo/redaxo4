@@ -67,6 +67,9 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* rexExtensionPoint erstellt [kills]
+		- CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED
+	* Sprachdateien überarbeitet [kills]
 	* Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
   * moveCategory mit eigenem Recht moveCategory[] eingebaut. Über Metadaten des Startartikel zu erreichen [jan]
   * ExtensionPoints vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
