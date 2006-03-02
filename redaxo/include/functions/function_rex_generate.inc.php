@@ -932,6 +932,9 @@ function rex_deleteCLang($id)
   $del = new sql();
   $del->query("delete from rex_clang where id='$id'");
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('CLANG_DELETED','',array ('id' => $id));
+  
   rex_generateAll();
 }
 
@@ -1000,6 +1003,9 @@ function rex_addCLang($id, $name)
   $add = new sql();
   $add->query("insert into rex_clang set id='$id',name='$name'");
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
+  
   rex_generateAll();
 }
 
@@ -1025,6 +1031,9 @@ function rex_editCLang($id, $name)
   @ chmod($REX['INCLUDE_PATH']."/clang.inc.php", 0777);
   $edit = new sql;
   $edit->query("update rex_clang set name='$name' where id='$id'");
+  
+  // ----- EXTENSION POINT
+  rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
 }
 
 /**
