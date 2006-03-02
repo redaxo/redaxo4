@@ -77,7 +77,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   rex_generateArticle($edit_id);
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('CAT_UPDATED','',
+  $message = rex_register_extension_point('CAT_UPDATED',$message,
   	array (
   		"id" => $edit_id, 
   		"re_id" => $re_id, 
@@ -113,7 +113,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
       }
       
       // ----- EXTENSION POINT
-      rex_register_extension_point('CAT_DELETED','',
+      $message = rex_register_extension_point('CAT_DELETED',$message,
       	array (
       		"id" => $edit_id, 
       		"re_id" => $re_id
@@ -153,7 +153,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
     rex_generateArticle($edit_id);
     
     // ----- EXTENSION POINT
-    rex_register_extension_point('CAT_STATUS','',
+    $message =  rex_register_extension_point('CAT_STATUS',$message,
     	array (
     		"id" => $edit_id, 
     		"clang" => $clang, 
@@ -224,7 +224,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
     rex_newCatPrio($category_id,$key,0,$Position_New_Category);
 
     // ----- EXTENSION POINT
-    rex_register_extension_point('CAT_ADDED','',
+    $message = rex_register_extension_point('CAT_ADDED',$message,
 	  	array (
 	  			"id" => $id, 
 	  			"re_id" => $category_id, 
@@ -266,7 +266,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
     rex_generateArticle($article_id);
     
     // ----- EXTENSION POINT
-    rex_register_extension_point('ART_STATUS','',array ("id" => $article_id, "clang" => $clang, "status" => $newstatus));
+    $message = rex_register_extension_point('ART_STATUS',$message,array ("id" => $article_id, "clang" => $clang, "status" => $newstatus));
     
   } else
   {
@@ -317,7 +317,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
   rex_generateArticle($id);
   
   // ----- EXTENSION POINT
-  rex_register_extension_point('ART_ADDED','',array ("id" => $id, "status" => 0, "name" => $article_name, "re_id" => $category_id, "prior" => $Position_New_Article, "path" => $KATPATH, "template_id" => $template_id));
+  $message = rex_register_extension_point('ART_ADDED',$message,array ("id" => $id, "status" => 0, "name" => $article_name, "re_id" => $category_id, "prior" => $Position_New_Article, "path" => $KATPATH, "template_id" => $template_id));
  
   
 }else if (isset($function) and $function == "edit_article" && $article_id != "" && $KATPERM)
@@ -343,7 +343,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
   rex_generateArticle($article_id);
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('ART_UPDATED','',array ("id" => $article_id, "status" => $thisArt->getValue("status"), "name" => $article_name, "re_id" => $category_id, "prior" => $Position_Article, "path" => $KATPATH, "template_id" => $template_id));
+  $message = rex_register_extension_point('ART_UPDATED',$message,array ("id" => $article_id, "status" => $thisArt->getValue("status"), "name" => $article_name, "re_id" => $category_id, "prior" => $Position_Article, "path" => $KATPATH, "template_id" => $template_id));
 
 
 
@@ -365,7 +365,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
   }
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('ART_DELETED','',array ("id" => $article_id, "re_id" => $re_id));
+  $message = rex_register_extension_point('ART_DELETED',$message,array ("id" => $article_id, "re_id" => $re_id));
 
 }
 
