@@ -38,8 +38,15 @@ function rex_register_extension_point($extension, $subject = '', $params = array
     {
       foreach ($REX['EXTENSIONS'][$extension] as $ext)
       {
-        $result = rex_call_func($ext, $params);
-        $params['subject'] = $result;
+        $temp = rex_call_func($ext, $params);
+        // RÜckgabewert nur auswerten wenn auch einer vorhanden ist
+        // damit $params['subject'] nicht verfälscht wird 
+        if($temp !== null)
+        {
+        var_dump($temp);
+          $result = $temp; 
+          $params['subject'] = $result;
+        }
       }
     }
   }
