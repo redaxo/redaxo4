@@ -6,7 +6,7 @@
  * @version $Id$ 
  */
 
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_setup.inc.php";
+include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 rex_title($I18N->msg("addon"), "");
