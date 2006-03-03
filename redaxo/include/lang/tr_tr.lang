@@ -407,7 +407,7 @@ setup_048 = Yönetici ekleme
 setup_049 = 5. Adým ile devam et.
 setup_step5 = SETUP: ADIM 5 von 5
 setup_050 = Maalesef master.inc.php yazýlamadý. Lütfen bu dosyayý kendiniz FTP ile deðiþtiriniz.
-setup_051 = Yeni REDAXO nuz için tebrik ederiz!<br /><br />Lütfen þunlara dikkat ediniz:<br /><br /><b>1. Kurduðunuz Yönetimci ile giriþ yapýnýz <a href=login.php>login</a><br />2. Örnek bilgileri import etmek istiyorsanýz: Giriþ yapýnýz, Import/Export týklayýnýz ve Veritabaný ile Dosyalarý import ediniz.</b><br /><br /><br />Baþarýlar dileriz.<br /><br />REDAXO Timi<br /><br />
+setup_051 = Yeni REDAXO nuz için tebrik ederiz!<br /><br />Lütfen þunlara dikkat ediniz:<br /><br /><b>1. Kurduðunuz Yönetimci ile giriþ yapýnýz <a href=index.php>login</a><br />2. Örnek bilgileri import etmek istiyorsanýz: Giriþ yapýnýz, Import/Export týklayýnýz ve Veritabaný ile Dosyalarý import ediniz.</b><br /><br /><br />Baþarýlar dileriz.<br /><br />REDAXO Timi<br /><br />
 database_imported = Veritabaný import edildi.
 entry_count = {0} Kayýtlar
 

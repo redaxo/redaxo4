@@ -384,7 +384,7 @@ setup_048 = Nie twórz konta u¿ytkownika
 setup_049 = Do kroku 5
 setup_step5 = INSTALACJA: KROK 5 z 5
 setup_050 = Niestety nie mo¿na by³o zapisaæ zmian w pliku master.inc.php. Proszê wprowadziæ zmiany manualnie na koncie FTP.
-setup_051 = Witamy w twoim REDAXO! <br><br>A teraz:<br><br><b>1. Zaloguj siê na za³o¿one konto <a href=login.php>login</a><br>2. Zaimportuj demo poprzez [po zalogowaniu]: Import/Eksport a tam zainstaluj odpowiedni± bazê danych i pliki.</b><br><br><br>Dobrej zabawy <br><br>¿yczy Team REDAXO <br><br>
+setup_051 = Witamy w twoim REDAXO! <br><br>A teraz:<br><br><b>1. Zaloguj siê na za³o¿one konto <a href=index.php>login</a><br>2. Zaimportuj demo poprzez [po zalogowaniu]: Import/Eksport a tam zainstaluj odpowiedni± bazê danych i pliki.</b><br><br><br>Dobrej zabawy <br><br>¿yczy Team REDAXO <br><br>
 
 # redaxo\include\pages\addon.inc.php
 addon = Dodatki

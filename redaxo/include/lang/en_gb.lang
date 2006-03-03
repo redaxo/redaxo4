@@ -404,7 +404,7 @@ setup_048 = Dont create a user
 setup_049 = Go on to step 5
 setup_step5 = SETUP: STEP 5 of 5
 setup_050 = 'master.inc.php' could not be overwritten. Please edit the file manually via FTP.
-setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=login.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
+setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
 database_imported = database imported. 
 entry_count = {0} eintries
 

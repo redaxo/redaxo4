@@ -408,7 +408,7 @@ setup_048 = No cree un usuario
 setup_049 = Ir al paso 5
 setup_step5 = INSTALACION: PASO 5 de 5
 setup_050 = 'master.inc.php' no pudo reescribirse. Por favor, edítelo manulamente via FTP.
-setup_051 = Felicidades, ha instalado exitosamente REDAXO! <br><br>Lea esto por favor:<br><br><b>1. Login con los datos de su cuenta <a href=login.php>login</a><br>2. Importar una demo: Vaya a 'Importar/Exportar' y elija una base de datos Y un paquete para importar.</b><br><br><br>Disfrute de REDAXO<br><br>El equipo de REDAXO<br><br>
+setup_051 = Felicidades, ha instalado exitosamente REDAXO! <br><br>Lea esto por favor:<br><br><b>1. Login con los datos de su cuenta <a href=index.php>login</a><br>2. Importar una demo: Vaya a 'Importar/Exportar' y elija una base de datos Y un paquete para importar.</b><br><br><br>Disfrute de REDAXO<br><br>El equipo de REDAXO<br><br>
 database_imported = database imported.
 entry_count = {0} eintries
 
