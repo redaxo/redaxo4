@@ -67,18 +67,20 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+
+	* versionscheck auf 4.2.0. im setup erhoeht [jan]
 	* rexExtensionPoint erstellt [kills]
 		- CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED
 	* Sprachdateien überarbeitet [kills]
 	* Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
-  * moveCategory mit eigenem Recht moveCategory[] eingebaut. Über Metadaten des Startartikel zu erreichen [jan]
-  * ExtensionPoints vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
+	* moveCategory mit eigenem Recht moveCategory[] eingebaut. Über Metadaten des Startartikel zu erreichen [jan]
+	* ExtensionPoints vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
 	* Benutzerrecht umbenannt: moveslice[] -> moveSlice[] [kills]
-  * move und copy article im content/meta eingebaut -- danke thomas :) [jan]
-  * i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [jan]
-  * Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
+	* move und copy article im content/meta eingebaut -- danke thomas :) [jan]
+	* i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [jan]
+	* Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
 	* rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
-  * title() in rex_title() umbenannt [kills]
+	* title() in rex_title() umbenannt [kills]
 	* Bereits verwendete Clangs werden nicht mehr im Add-Formular angezeigt [kills]
 	* 15 Clangs jetzt möglich [kills]
 	* Lizenzdatei aus SETUP ausgelagert [kills]
