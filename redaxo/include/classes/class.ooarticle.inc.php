@@ -205,9 +205,25 @@ class OOArticle extends OORedaxo
     return OOCategory :: getCategoryById($this->getCategoryId());
   }
 
+  /*
+   * Object Function:
+   * Returns boolean if is article
+   */
   function isValid($article)
   {
     return is_object($article) && is_a($article, 'ooarticle');
   }
+
+
+  /*
+   * Object Function:
+   * Returns boolean if teaser
+   */
+  function isTeaser()
+  {
+    if ($this->_teaser == 1) return true;
+    else return false;
+  }
+
 }
 ?>
