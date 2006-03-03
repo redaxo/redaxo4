@@ -67,7 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-
+	* OOArticle>isTeaser() eingebaut [jan]
 	* versionscheck auf 4.2.0. im setup erhoeht [jan]
 	* rexExtensionPoint erstellt [kills]
 		- CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED
