@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
 	* OOArticle>isTeaser() eingebaut [jan]
 	* versionscheck auf 4.2.0. im setup erhoeht [jan]
 	* rexExtensionPoint erstellt [kills]
