@@ -1,4 +1,5 @@
 <?php
+
 /** 
  *  
  * @package redaxo3
@@ -56,11 +57,13 @@ if ($REX['SETUP'])
   $REX_LOGIN->setLoginquery("SELECT * FROM rex_user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW'");
   if (!$REX_LOGIN->checkLogin())
   {
-    header("Location: login.php?FORM[loginmessage]=".urlencode($REX_LOGIN->message));
-    $LOGIN = FALSE;
+  	// login failed
+    $FORM["loginmessage"]= $REX_LOGIN->message;
+    include $REX['INCLUDE_PATH']."/pages/login.inc.php";
     exit;
   } else
   {
+  	// login ok 
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
   }
