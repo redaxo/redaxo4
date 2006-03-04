@@ -28,12 +28,17 @@ $REX['PAGEPATH'] = "";
 // ----------------- AUTH
 if ($REX['SETUP'])
 {
-   // ----------------- SET SETUP LANG
-  if (!isset ($lang) or ($lang != "en_gb" && $lang != "de_de" )) $lang = "de_de";
-  $REX['LANG'] = $lang;
-  
-  // ----------------- CREATE LANG OBJ
+  // ----------------- SET SETUP LANG
+  $REX['LANG'] = "en_gb";
   $I18N = rex_create_lang( $REX['LANG']);
+  foreach ($REX['LOCALES'] as $l) {
+    if (isset($_REQUEST["lang"]) && $_REQUEST["lang"] == $l) 
+    {
+      $REX['LANG'] = $l;
+      $I18N = rex_create_lang( $REX['LANG']);
+    }
+  }
+
   setlocale(LC_ALL,trim($I18N->msg("setlocale")));
   header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
   
