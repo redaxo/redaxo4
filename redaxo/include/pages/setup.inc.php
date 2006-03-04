@@ -78,8 +78,11 @@ if (!($checkmodus>0 && $checkmodus<10))
   rex_setuptitle("SETUP: SELECT LANGUAGE");
 
   echo "<center><table><tr><td>";
-  echo "<br><b><a href=index.php?checkmodus=0.5&lang=en_gb class=head>&gt;&nbsp;ENGLISH</a></b>";
   echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=de_de class=head>&gt;&nbsp;DEUTSCH</a></b>";
+  echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=en_gb class=head>&gt;&nbsp;ENGLISH</a></b>";
+  echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=es_es class=head>&gt;&nbsp;ESPANIOL</a></b>";
+  echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=pl_pl class=head>&gt;&nbsp;POLSKI</a></b>";
+  echo "<br><br><b><a href=index.php?checkmodus=0.5&lang=tr_tr class=head>&gt;&nbsp;TURKYE</a></b>";
   echo "<br><br>";
   echo "</td></tr></table></center>";
 }
