@@ -12,19 +12,19 @@ $OUT = TRUE;
 if (isset($function) and $function == "delete")
 {
   $del = new sql;
-  $del->setQuery("SELECT rex_article.id,rex_template.name FROM rex_article 
-      LEFT JOIN rex_template ON rex_article.template_id=rex_template.id 
-      WHERE rex_article.template_id='$template_id' LIMIT 0,10");  
+  $del->setQuery("SELECT ".$REX['TABLE_PREFIX']."article.id,".$REX['TABLE_PREFIX']."template.name FROM ".$REX['TABLE_PREFIX']."article 
+      LEFT JOIN ".$REX['TABLE_PREFIX']."template ON ".$REX['TABLE_PREFIX']."article.template_id=".$REX['TABLE_PREFIX']."template.id 
+      WHERE ".$REX['TABLE_PREFIX']."article.template_id='$template_id' LIMIT 0,10");  
   
   if ($template_id == 1)
   {
     $message = $I18N->msg("cant_delete_default_template");
   } else if ($del->getRows() > 0)
   {
-    $message = $I18N->msg("cant_delete_template_because_its_in_use",htmlspecialchars($del->getValue("rex_template.name")));
+    $message = $I18N->msg("cant_delete_template_because_its_in_use",htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."template.name")));
   } else
   {
-    $del->query("DELETE FROM rex_template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
+    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
     $message = $I18N->msg("template_deleted");
 
     rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template",0);
@@ -39,7 +39,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
     if ($function == "add")
     {
       $ITPL = new sql;
-      $ITPL->setTable("rex_template");
+      $ITPL->setTable($REX['TABLE_PREFIX']."template");
       $ITPL->setValue("name",$templatename);
       $ITPL->setValue("active",$active);
       $ITPL->setValue("content",$content);
@@ -51,7 +51,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
     }else{
       if (!isset($active)) $active = 0;
       $TMPL = new sql;
-      $TMPL->setTable("rex_template");
+      $TMPL->setTable($REX['TABLE_PREFIX']."template");
       $TMPL->where("id='$template_id'");
       $TMPL->setValue("name",$templatename);
       $TMPL->setValue("content",$content);
@@ -63,7 +63,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
     } 
 
     $gt = new sql;
-    $gt->setQuery("SELECT * FROM rex_template WHERE id = '$template_id'");
+    $gt->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template WHERE id = '$template_id'");
 
     $fp = fopen ($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w");
     fputs($fp,$gt->getValue("content"));
@@ -87,7 +87,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       echo '  <tr><th colspan="3"><b>'.$I18N->msg("edit_template").' [ID='.$template_id.']</b></th></tr>';
 
       $hole = new sql;
-      $hole->setQuery("SELECT * FROM rex_template WHERE id = '$template_id'");
+      $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template WHERE id = '$template_id'");
       $templatename = $hole->getValue("name");
       $content  = $hole->getValue("content");
       $active = $hole->getValue("active");
@@ -156,7 +156,7 @@ if ($OUT)
   }
   
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_template ORDER BY name");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template ORDER BY name");
   
   for ($i=0; $i<$sql->getRows(); $i++)
   {

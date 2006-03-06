@@ -67,9 +67,9 @@ if ($REX['SETUP'])
   if ($REX['PSWFUNC'] != "") $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
   if (isset($FORM['logout']) and $FORM['logout'] == 1) $REX_LOGIN->setLogout(true);
-  $REX_LOGIN->setUserID("rex_user.user_id");
-  $REX_LOGIN->setUserquery("SELECT * FROM rex_user WHERE user_id = 'USR_UID'");
-  $REX_LOGIN->setLoginquery("SELECT * FROM rex_user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW'");
+  $REX_LOGIN->setUserID($REX['TABLE_PREFIX']."user.user_id");
+  $REX_LOGIN->setUserquery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = 'USR_UID'");
+  $REX_LOGIN->setLoginquery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW'");
 
   if (!$REX_LOGIN->checkLogin())
   {

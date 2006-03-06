@@ -53,14 +53,14 @@ if ($subpage == '')
     {
       $LC = new sql;
       // $LC->debugsql = 1;
-      $LC->setQuery("SELECT rex_article_slice.article_id,rex_article_slice.id FROM rex_article_slice
-          LEFT JOIN rex_article ON rex_article_slice.link$j=rex_article.id
+      $LC->setQuery("SELECT ".$REX['TABLE_PREFIX']."article_slice.article_id,".$REX['TABLE_PREFIX']."article_slice.id FROM ".$REX['TABLE_PREFIX']."article_slice
+          LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.link$j=".$REX['TABLE_PREFIX']."article.id
           WHERE
-          rex_article_slice.link$j>0 and rex_article.id IS NULL");
+          ".$REX['TABLE_PREFIX']."article_slice.link$j>0 and ".$REX['TABLE_PREFIX']."article.id IS NULL");
       for ($i=0; $i<$LC->getRows(); $i++)
       {
-        $LART[$LC->getValue("rex_article_slice.article_id")] = 1;
-        $LSLI[$LC->getValue("rex_article_slice.article_id")] = $LC->getValue("rex_article_slice.id");
+        $LART[$LC->getValue($REX['TABLE_PREFIX']."article_slice.article_id")] = 1;
+        $LSLI[$LC->getValue($REX['TABLE_PREFIX']."article_slice.article_id")] = $LC->getValue($REX['TABLE_PREFIX']."article_slice.id");
         $LC->next();
       }
     }
@@ -326,7 +326,7 @@ if ($subpage == '')
   if (isset($function) and ($function == "Update" or $function == "Ändern"))
   {
     $update = new sql;
-    $update->setTable("rex_article_type");
+    $update->setTable($REX['TABLE_PREFIX']."article_type");
     $update->where("type_id='$type_id'");
     $update->setValue("name",$typname);
     $update->setValue("description",$description);
@@ -340,7 +340,7 @@ if ($subpage == '')
     if ($type_id!=1)
     {
       $delete = new sql;
-      $result = $delete->get_array("SELECT name,id FROM rex_article WHERE type_id = $type_id");
+      $result = $delete->get_array("SELECT name,id FROM ".$REX['TABLE_PREFIX']."article WHERE type_id = $type_id");
       if (is_array($result)){
         $message = $I18N->msg("article_type_still_used")."<br>";
         foreach ($result as $var){
@@ -348,8 +348,8 @@ if ($subpage == '')
         }
         $message .= '<br /><br />';
       } else {
-        $delete->query("DELETE FROM rex_article_type WHERE type_id = '$type_id' LIMIT 1");
-        $delete->query("UPDATE rex_article SET type_id = '1' WHERE type_id = '$type_id'");
+        $delete->query("DELETE FROM ".$REX['TABLE_PREFIX']."article_type WHERE type_id = '$type_id' LIMIT 1");
+        $delete->query("UPDATE ".$REX['TABLE_PREFIX']."article SET type_id = '1' WHERE type_id = '$type_id'");
         $message = $I18N->msg("article_type_deleted");
       }
     } else
@@ -359,7 +359,7 @@ if ($subpage == '')
   } elseif (isset($function) and $function == "add" && isset($save) and $save == 1)
   {
     $add = new sql;
-    $add->setTable("rex_article_type");
+    $add->setTable($REX['TABLE_PREFIX']."article_type");
     $add->setValue("name",$typname);
     $add->setValue("type_id",$type_id);
     $add->setValue("description",$description);
@@ -386,7 +386,7 @@ if ($subpage == '')
   }
   
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_article_type ORDER BY type_id");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article_type ORDER BY type_id");
   
   if (isset($function) and $function == "add")
   {

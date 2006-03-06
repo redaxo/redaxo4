@@ -64,7 +64,7 @@ if (isset($_REQUEST["rex_file_category"]))
   $rex_file_category = (int) $_REQUEST["rex_file_category"];
 }else
 {
-  if (isset($_SESSION["rex_file_category"])) $rex_file_category = $_SESSION["rex_file_category"];
+  if (isset($_SESSION["rex_file_category"])) $rex_file_category = $_SESSION[$REX['TABLE_PREFIX']."file_category"];
 }
 
 
@@ -208,7 +208,7 @@ if ($PERMALL && isset($subpage) and $subpage == "categories")
   if (isset($_REQUEST["media_method"]) and $_REQUEST["media_method"] == 'edit_file_cat')
   {
     $db = new sql;
-    $db->setTable('rex_file_category');
+    $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->where("id='$edit_id'");
     $db->setValue('name',$cat_name);
     $db->setValue("updatedate",time());
@@ -219,12 +219,12 @@ if ($PERMALL && isset($subpage) and $subpage == "categories")
   } elseif (isset($_REQUEST["media_method"]) and $_REQUEST["media_method"] == 'delete_file_cat')
   {
     $gf = new sql;
-    $gf->setQuery("select * from rex_file where category_id='$edit_id'");
+    $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where category_id='$edit_id'");
     $gd = new sql;
-    $gd->setQuery("select * from rex_file_category where re_id='$edit_id'");
+    $gd->setQuery("select * from ".$REX['TABLE_PREFIX']."file_category where re_id='$edit_id'");
     if ($gf->getRows()==0 && $gd->getRows()==0)
     {
-      $gf->setQuery("delete from rex_file_category where id='$edit_id'");
+      $gf->setQuery("delete from ".$REX['TABLE_PREFIX']."file_category where id='$edit_id'");
       $msg = $I18N->msg('pool_kat_deleted');
     }else
     {
@@ -233,7 +233,7 @@ if ($PERMALL && isset($subpage) and $subpage == "categories")
   } elseif (isset($_REQUEST["media_method"]) and $_REQUEST["media_method"] == 'add_file_cat')
   {
     $db = new sql;
-    $db->setTable('rex_file_category');
+    $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->setValue('name',$_REQUEST["catname"]);
     $db->setValue('re_id',$_REQUEST["cat_id"]);
     $db->setValue('path',$_REQUEST["catpath"]);
@@ -355,12 +355,12 @@ if ($PERMALL && isset($subpage) and $subpage == "categories")
 
 // ***** kategorie checken
 $gc = new sql;
-$gc->setQuery("select * from rex_file_category where id='$rex_file_category'");
+$gc->setQuery("select * from ".$REX['TABLE_PREFIX']."file_category where id='$rex_file_category'");
 if ($gc->getRows() == 0) $rex_file_category = 0;
 
 // ***** kategorie auswahl
 $db = new sql();
-$file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+$file_cat = $db->get_array("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC");
 $cat_out = "<table border=0 cellpadding=5 cellspacing=1 width=100% class=rex style='width:100%'>\n";
 $cat_out .= "<form name=rex_file_cat action=index.php method=POST>\n";
 $cat_out .= "<input type=hidden name=page value=medienpool>";
@@ -475,7 +475,7 @@ function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 
     $FILESQL = new sql;
     // $FILESQL->debugsql=1;
-    $FILESQL->setTable("rex_file");
+    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
     $FILESQL->setValue("filetype",$FILETYPE);
     $FILESQL->setValue("title",$FILEINFOS['title']);
     $FILESQL->setValue("description",$FILEINFOS['description']);
@@ -672,7 +672,7 @@ if (isset($subpage) and $subpage == "add_file")
 if (isset($subpage) && $subpage=="detail" && isset($media_method) && $media_method == 'delete_file')
 {
   $gf = new sql;
-  $gf->setQuery("select * from rex_file where file_id='$file_id'");
+  $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
 
   if ($gf->getRows()==1)
   {
@@ -692,17 +692,17 @@ if (isset($subpage) && $subpage=="detail" && isset($media_method) && $media_meth
       $file_search = substr($file_search,2);
 
       // in rex_values ?
-      $sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
+      $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
       // $db->setQuery($sql);
       $res1 = $db->get_array($sql);
 
       // in article metafile ?
-      $sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
+      $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
       $res2= $db->get_array($sql);
 
       if(!is_array($res1) and !is_array($res2)){
 
-        $sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
+        $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
         $db->query($sql);
         unlink($REX['MEDIAFOLDER']."/".$file_name);
         $msg = $I18N->msg('pool_file_deleted');
@@ -741,7 +741,7 @@ if (isset($subpage) && $subpage=="detail" && isset($media_method) && $media_meth
 if (isset($subpage) and $subpage=="detail" && isset($media_method) && $media_method == 'edit_file'){
 
   $gf = new sql;
-  $gf->setQuery("select * from rex_file where file_id='$file_id'");
+  $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
 
@@ -749,7 +749,7 @@ if (isset($subpage) and $subpage=="detail" && isset($media_method) && $media_met
     {
 
       $FILESQL = new sql;
-      $FILESQL->setTable("rex_file");
+      $FILESQL->setTable($REX['TABLE_PREFIX']."file");
       $FILESQL->where("file_id='$file_id'");
       $FILESQL->setValue("title",$ftitle);
       $FILESQL->setValue("description",$fdescription);
@@ -826,10 +826,10 @@ if (isset($subpage) and $subpage == "detail")
 {
   $gf = new sql;
 
-  if (isset($file_name) and $file_name != "") $gf->setQuery("select * from rex_file where filename='$file_name'");
+  if (isset($file_name) and $file_name != "") $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='$file_name'");
   if ($gf->getRows()==1) $file_id = $gf->getValue("file_id");
 
-  $gf->setQuery("select * from rex_file where file_id='$file_id'");
+  $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
 
@@ -1085,7 +1085,7 @@ if($PERMALL && isset($subpage) and $subpage == 'import'){
   print "<select name=importcategory>";
   $db = new sql();
   $db->debugsql = true;
-  $file_cat = $db->get_array("SELECT * FROM rex_file_category ORDER BY name ASC");
+  $file_cat = $db->get_array("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC");
   foreach($file_cat as $var){
     print "<option value=$var[id]>$var[name]</option>\n";
   }
@@ -1116,7 +1116,7 @@ if($PERMALL && isset($media_method) and $media_method == 'updatecat_selectedmedi
 
       $db = new sql;
       // $db->debugsql = true;
-      $db->setTable('rex_file');
+      $db->setTable($REX['TABLE_PREFIX'].'file');
       $db->where("file_id='$file_id'");
       $db->setValue('category_id',$rex_file_category);
       $db->setValue("updatedate",time());
@@ -1141,7 +1141,7 @@ if($PERMALL && isset($media_method) and $media_method == 'delete_selectedmedia')
       //kopiet von Dateidetails delete_file
 
       $gf = new sql;
-      $gf->setQuery("select * from rex_file where file_id='$file_id'");
+      $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
       if ($gf->getRows()==1)
       {
         $file_name = $gf->getValue("filename");
@@ -1155,16 +1155,16 @@ if($PERMALL && isset($media_method) and $media_method == 'delete_selectedmedia')
         }
 
         $file_search = substr($file_search,2);
-        $sql = "SELECT rex_article.name,rex_article.id FROM rex_article_slice LEFT JOIN rex_article on rex_article_slice.article_id=rex_article.id WHERE ".$file_search." AND rex_article_slice.article_id=rex_article.id";
+        $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
         // $db->setQuery($sql);
         $res1 = $db->get_array($sql);
 
-        $sql = "SELECT rex_article.name,rex_article.id FROM rex_article where file='$file_name'";
+        $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
         $res2 = $db->get_array($sql);
 
         if(!is_array($res1) and !is_array($res2)){
 
-          $sql = "DELETE FROM rex_file WHERE file_id = '$file_id'";
+          $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
           $db->query($sql);
           unlink($REX['MEDIAFOLDER']."/".$file_name);
           $msg .= "\"$file_name\" ".$I18N->msg('pool_file_deleted');
@@ -1251,7 +1251,7 @@ if (!isset($subpage) or $subpage == '')
 
   $files = new sql;
   // $files->debugsql = 1;
-  $files->setQuery("SELECT * FROM rex_file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc");
+  $files->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc");
 
   for ($i=0;$i<$files->getRows();$i++)
   {
@@ -1353,7 +1353,7 @@ if (!isset($subpage) or $subpage == '')
       <td align=center class=icon><!-- ".$I18N->msg('pool_select_all')." --><input type=checkbox name=checkie value=0 onClick=\"SetAllCheckBoxes('rex_file_list','selectedmedia[]',this)\"></td>";
 
     $filecat = new sql();
-    $filecat->setQuery("SELECT * FROM rex_file_category ORDER BY name ASC LIMIT 1");
+    $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
     if ($filecat->getRows() > 0)
     {
       print "

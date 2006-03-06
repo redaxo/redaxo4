@@ -8,22 +8,22 @@ $type['del']  = 4;
 if (isset($function) and $function == "delete")
 {
   $del = new sql;
-  $del->setQuery("SELECT * FROM rex_module_action WHERE action_id='$action_id'"); // module mit dieser aktion vorhanden ?
+  $del->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action WHERE action_id='$action_id'"); // module mit dieser aktion vorhanden ?
   
   if ($del->getRows()>0)
   {
     $module = '<font class="black">|</font> ';
-    $modulname = htmlspecialchars($del->getValue("rex_module_action.module_id"));
+    $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module_action.module_id"));
     for ($i=0;$i<$del->getRows();$i++)
     {
-     $module .= '<a href="index.php?page=module&amp;function=edit&amp;modul_id='.$del->getValue("rex_module_action.module_id").'">'.$del->getValue("rex_module_action.module_id").'</a> <font class="black">|</font> ';
+     $module .= '<a href="index.php?page=module&amp;function=edit&amp;modul_id='.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'">'.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'</a> <font class="black">|</font> ';
      $del->next();
     }
     
     $message = '<b>'.$I18N->msg("action_cannot_be_deleted",$action_id).'</b><br /> '.$module;
   } else
   {
-    $del->query("DELETE FROM rex_action WHERE id='$action_id' LIMIT 1");
+    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."action WHERE id='$action_id' LIMIT 1");
     $message = $I18N->msg("action_deleted");
   }
 }
@@ -44,10 +44,10 @@ if (isset($function) and ($function == "add" or $function == "edit"))
 
     if ($function == "add")
     {
-      $faction->query("insert into rex_action (name,action,prepost,sadd,sedit,sdelete) VALUES ('$mname','$actioninput','$prepost','$sadd','$sedit','$sdelete')");
+      $faction->query("insert into ".$REX['TABLE_PREFIX']."action (name,action,prepost,sadd,sedit,sdelete) VALUES ('$mname','$actioninput','$prepost','$sadd','$sedit','$sdelete')");
       $message = '<p class="warning">'.$I18N->msg("action_added").'</p>';
     }else{
-      $faction->query("update rex_action set name='$mname',action='$actioninput',prepost='$prepost',sadd='$sadd',sedit='$sedit',sdelete='$sdelete' where id='$action_id'");
+      $faction->query("update ".$REX['TABLE_PREFIX']."action set name='$mname',action='$actioninput',prepost='$prepost',sadd='$sadd',sedit='$sedit',sdelete='$sdelete' where id='$action_id'");
       $message = '<p class="warning">'.$I18N->msg("action_updated").'</p>';
     }
     
@@ -68,7 +68,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
       echo '  <tr><th colspan="3">'.$I18N->msg("action_edit").' [ID='.$action_id.']</th></tr>';
 
       $hole = new sql;
-      $hole->setQuery("SELECT * FROM rex_action WHERE id='$action_id'");
+      $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action WHERE id='$action_id'");
       $mname = $hole->getValue("name");
       $actioninput = $hole->getValue("action");
       $prepost = $hole->getValue("prepost");
@@ -179,7 +179,7 @@ if ($OUT)
   }
   
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_action ORDER BY name");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action ORDER BY name");
   
   for ($i=0; $i<$sql->getRows(); $i++) {
   

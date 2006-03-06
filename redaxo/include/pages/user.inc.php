@@ -35,7 +35,7 @@ mulselect module
 if (isset($user_id) and $user_id != '')
 {
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_user WHERE user_id = '$user_id' LIMIT 2");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 2");
   if ($sql->getRows()!= 1) unset($user_id);
 }
 
@@ -142,7 +142,7 @@ $sel_sprachen->set_size(3);
 $sel_sprachen->set_name("userperm_sprachen[]");
 $sel_sprachen->set_id("userperm_sprachen");
 $sqlsprachen = new sql;
-$sqlsprachen->setQuery("select * from rex_clang order by id");
+$sqlsprachen->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
   $name = $sqlsprachen->getValue("name");
@@ -171,7 +171,7 @@ $sel_module->set_name("userperm_module[]");
 $sel_module->set_id("userperm_module");
 
 $sqlmodule = new sql;
-$sqlmodule->setQuery("select * from rex_modultyp order by name");
+$sqlmodule->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
 
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
@@ -206,10 +206,10 @@ rex_title($I18N->msg("title_user"),"");
 if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
 {
   $updateuser = new sql;
-  $updateuser->setTable("rex_user");
+  $updateuser->setTable($REX['TABLE_PREFIX']."user");
   $updateuser->where("user_id='$user_id'");
   $updateuser->setValue("name",$username);
-  if ($REX['PSWFUNC']!="" && $userpsw != $sql->getValue("rex_user.psw")) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+  if ($REX['PSWFUNC']!="" && $userpsw != $sql->getValue($REX['TABLE_PREFIX']."user.psw")) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue("psw",$userpsw);
   $updateuser->setValue("description",$userdesc);
 
@@ -249,7 +249,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     {
       $ccat = current($userperm_cat);
       $gp = new sql;
-      $gp->setQuery("select * from rex_article where id='$ccat' and clang=0");
+      $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
       if ($gp->getRows()==1)
       {
         foreach ( explode("|",$gp->getValue("path")) as $a)
@@ -312,7 +312,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
   if ($REX_USER->getValue("user_id")!=$user_id)
   {
     $deleteuser = new sql;
-    $deleteuser->query("DELETE FROM rex_user WHERE user_id = '$user_id' LIMIT 1");
+    $deleteuser->query("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
     $message = $I18N->msg("user_deleted");
   }else
   {
@@ -326,12 +326,12 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
 } elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == 1))
 {
   $adduser = new sql;
-  $adduser->setQuery("SELECT * FROM rex_user WHERE login = '$userlogin'");
+  $adduser->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = '$userlogin'");
 
   if ($adduser->getRows()==0 and $userlogin != "")
   {
     $adduser = new sql;
-    $adduser->setTable("rex_user");
+    $adduser->setTable($REX['TABLE_PREFIX']."user");
     $adduser->setValue("name",$username);
     if ($REX['PSWFUNC']!="") $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
     $adduser->setValue("psw",$userpsw);
@@ -572,7 +572,7 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
 {
 
   $sql = new sql;
-  $sql->setQuery("select * from rex_user where user_id='$user_id'");
+  $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."user where user_id='$user_id'");
 
   if ($sql->getRows()==1)
   {
@@ -656,23 +656,23 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
     <tr><th colspan="4"><b>'.$I18N->msg("edit_user").'</b></th></tr>
     <tr>
       <td width="100">'.$I18N->msg("login_name").'</td>
-      <td width="250"><b>'.htmlspecialchars($sql->getValue("rex_user.login")).'</b></td>
+      <td width="250"><b>'.htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.login")).'</b></td>
       <td width="100">'.$I18N->msg("password").'</td>
-      <td><input class="inp100" type="text" size="20" name="userpsw" value="'.htmlspecialchars($sql->getValue("rex_user.psw")).'"><br />';
+      <td><input class="inp100" type="text" size="20" name="userpsw" value="'.htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.psw")).'"><br />';
     if ($REX['PSWFUNC']!="") echo $I18N->msg("psw_encrypted");
     echo '</td>
     </tr>
 
     <tr>
       <td>'.$I18N->msg("name").'</td>
-      <td><input class="inp100" type="text" size="20" name="username" value="'.htmlspecialchars($sql->getValue("rex_user.name")).'"></td>
+      <td><input class="inp100" type="text" size="20" name="username" value="'.htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.name")).'"></td>
       <td>'.$I18N->msg("description").'</td>
-      <td><input class="inp100" type="text" size="20" name="userdesc" value="'.htmlspecialchars($sql->getValue("rex_user.description")).'"></td>
+      <td><input class="inp100" type="text" size="20" name="userdesc" value="'.htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.description")).'"></td>
     </tr>
     <tr>
       <td align="right">'."\n";
       
-    if ($REX_USER->getValue("login") == $sql->getValue("rex_user.login") && $adminchecked != "")
+    if ($REX_USER->getValue("login") == $sql->getValue($REX['TABLE_PREFIX']."user.login") && $adminchecked != "")
     {
       echo '<input type="hidden" name="useradmin" value="1"><b>X</b>';
     } else
@@ -771,26 +771,26 @@ if (isset($SHOW) and $SHOW)
     </tr>';
 
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_user ORDER BY rex_user.name");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."user ORDER BY ".$REX['TABLE_PREFIX']."user.name");
 
   for ($i=0; $i<$sql->getRows(); $i++)
   {
-    $lasttrydate = $sql->getValue("rex_user.lasttrydate");
+    $lasttrydate = $sql->getValue($REX['TABLE_PREFIX']."user.lasttrydate");
     $last_login = '-';
     
     if ( $lasttrydate != 0) {
-        $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue("rex_user.lasttrydate"));
+        $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue($REX['TABLE_PREFIX']."user.lasttrydate"));
     }
     
-    $username = htmlspecialchars($sql->getValue("rex_user.name"));
+    $username = htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.name"));
     if ( $username == '') {
-        $username = htmlspecialchars($sql->getValue("rex_user.login"));
+        $username = htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.login"));
     }
         
     echo '  <tr>
-      <td class="icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("rex_user.user_id").'"><img src="pics/user.gif" width="16" height="16" border="0"></a></td>
-      <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("rex_user.user_id").'">'.$username.'</a></td>
-      <td>'.$sql->getValue("rex_user.login").'</td>
+      <td class="icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue($REX['TABLE_PREFIX']."user.user_id").'"><img src="pics/user.gif" width="16" height="16" border="0"></a></td>
+      <td><a href="index.php?page=user&amp;user_id='.$sql->getValue($REX['TABLE_PREFIX']."user.user_id").'">'.$username.'</a></td>
+      <td>'.$sql->getValue($REX['TABLE_PREFIX']."user.login").'</td>
       <td>'.$last_login.'</td>
       </tr>';
     $sql->counter++;

@@ -16,7 +16,7 @@
 unset($REX_ACTION);
 
 $article = new sql;
-$article->setQuery("select * from rex_article where id='$article_id' and clang=$clang");
+$article->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
 
 if ($article->getRows() == 1)
 {
@@ -80,12 +80,12 @@ if ($article->getRows() == 1)
       if ($function == "edit" || $function == "delete")
       {
         // edit/ delete
-        $CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
-        if ($CM->getRows()==1) $module_id = $CM->getValue("rex_article_slice.modultyp_id");
+        $CM->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice left join ".$REX['TABLE_PREFIX']."modultyp on ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id where ".$REX['TABLE_PREFIX']."article_slice.id='$slice_id' and clang=$clang");
+        if ($CM->getRows()==1) $module_id = $CM->getValue("".$REX['TABLE_PREFIX']."article_slice.modultyp_id");
       }else
       {
         // add
-        $CM->setQuery("select * from rex_modultyp where id='$module_id'");
+        $CM->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id='$module_id'");
       }
 
       if ($CM->getRows()!=1)
@@ -150,16 +150,16 @@ if ($article->getRows() == 1)
 
           $REX_ACTION['SAVE'] = true;
 
-          if ($function == "edit") $addsql = " and rex_action.prepost=0 and rex_action.sedit=1"; // pre-action and edit
-          elseif($function == "delete") $addsql = " and rex_action.prepost=0 and rex_action.sdelete=1"; // pre-action and delete
-          else $addsql = " and rex_action.prepost=0 and rex_action.sadd=1"; // pre-action and add
+          if ($function == "edit") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sedit=1"; // pre-action and edit
+          elseif($function == "delete") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sdelete=1"; // pre-action and delete
+          else $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sadd=1"; // pre-action and add
 
           $ga = new sql;
-          $ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
+          $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."module_action,".$REX['TABLE_PREFIX']."action where ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$module_id' $addsql");
 
           for ($i=0;$i<$ga->getRows();$i++)
           {
-            $iaction = $ga->getValue("rex_action.action");
+            $iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
             $iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
             $iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
             $iaction = str_replace("REX_CTYPE",$ctype,$iaction);
@@ -204,7 +204,7 @@ if ($article->getRows() == 1)
               
               $newsql = new sql;
               // $newsql->debugsql = 1;
-              $newsql->setTable("rex_article_slice");
+              $newsql->setTable($REX['TABLE_PREFIX']."article_slice");
     
               if ($function == "edit")
               {
@@ -250,7 +250,7 @@ if ($article->getRows() == 1)
                 }else
                 {
                   $checkfile = new sql;
-                  $checkfile->setQuery("select * from rex_file where filename='".$FILENAME."'");
+                  $checkfile->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='".$FILENAME."'");
                   if ($checkfile->getRows()==1)
                   {
                     $newsql->setValue("file".$fi,$FILENAME);
@@ -280,36 +280,36 @@ if ($article->getRows() == 1)
                 $newsql->setValue("createuser",$REX_USER->getValue("login"));
                 $newsql->insert();
                 $last_id = $newsql->last_insert_id;
-                $newsql->query("update rex_article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
+                $newsql->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
                 $message .= $I18N->msg('block_added');
               }
             }else
             {
               // make delete
-              $re_id  = $CM->getValue("rex_article_slice.re_article_slice_id");
+              $re_id  = $CM->getValue($REX['TABLE_PREFIX']."article_slice.re_article_slice_id");
               $newsql = new sql;
-              $newsql->setQuery("select * from rex_article_slice where re_article_slice_id='$slice_id'");
+              $newsql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$slice_id'");
               if ($newsql->getRows()>0)
               {
-                $newsql->query("update rex_article_slice set re_article_slice_id='$re_id' where id='".$newsql->getValue("id")."'");
+                $newsql->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='$re_id' where id='".$newsql->getValue("id")."'");
               }
-              $newsql->query("delete from rex_article_slice where id='$slice_id'");
+              $newsql->query("delete from ".$REX['TABLE_PREFIX']."article_slice where id='$slice_id'");
               $message = $I18N->msg('block_deleted');
             } 
             // ----- / SAVE SLICE
   
   
             // ----- POST ACTION [ADD AND EDIT]
-            if ($function == "edit") $addsql = " and rex_action.prepost=1 and rex_action.sedit=1"; // post-action and edit
-            elseif ($function == "delete") $addsql = " and rex_action.prepost=1 and rex_action.sdelete=1"; // post-action and delete
-            else $addsql = " and rex_action.prepost=1 and rex_action.sadd=1"; // post-action and add
+            if ($function == "edit") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sedit=1"; // post-action and edit
+            elseif ($function == "delete") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sdelete=1"; // post-action and delete
+            else $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sadd=1"; // post-action and add
 
             $ga = new sql;
-            $ga->setQuery("select * from rex_module_action,rex_action where rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$module_id' $addsql");
+            $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."module_action,".$REX['TABLE_PREFIX']."action where ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$module_id' $addsql");
   
             for ($i=0;$i<$ga->getRows();$i++)
             {
-              $iaction = $ga->getValue("rex_action.action");
+              $iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
               $iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
               $iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
               $iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
@@ -339,7 +339,7 @@ if ($article->getRows() == 1)
             $save = "";
             
             $EA = new sql;
-            $EA->setTable("rex_article");
+            $EA->setTable($REX['TABLE_PREFIX']."article");
             $EA->where("id='$article_id' and clang=$clang");
             $EA->setValue("updatedate",time());
             $EA->setValue("updateuser",$REX_USER->getValue("login"));
@@ -362,7 +362,7 @@ if ($article->getRows() == 1)
         // modul und rechte vorhanden ?
         
         $CM = new sql;
-        $CM->setQuery("select * from rex_article_slice left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id where rex_article_slice.id='$slice_id' and clang=$clang");
+        $CM->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice left join ".$REX['TABLE_PREFIX']."modultyp on ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id where ".$REX['TABLE_PREFIX']."article_slice.id='$slice_id' and clang=$clang");
         if ($CM->getRows()!=1)
         {
           // ------------- START: MODUL IST NICHT VORHANDEN
@@ -377,7 +377,7 @@ if ($article->getRows() == 1)
         {
 
           // ------------- MODUL IST VORHANDEN
-          $module_id = $CM->getValue("rex_article_slice.modultyp_id");
+          $module_id = $CM->getValue($REX['TABLE_PREFIX']."article_slice.modultyp_id");
 
           // ----- RECHTE AM MODUL ?
           if ( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]") || $REX_USER->isValueOf("rights","module[$module_id]") || $REX_USER->isValueOf("rights","module[0]") )
@@ -387,14 +387,14 @@ if ($article->getRows() == 1)
             // verschieben / vertauschen
             // article regenerieren.
             
-            $slice_id = $CM->getValue("rex_article_slice.id");
+            $slice_id = $CM->getValue($REX['TABLE_PREFIX']."article_slice.id");
             $slice_article_id = $CM->getValue("article_id");
-            $re_slice_id = $CM->getValue("rex_article_slice.re_article_slice_id");
-            $slice_ctype = $CM->getValue("rex_article_slice.ctype");
+            $re_slice_id = $CM->getValue($REX['TABLE_PREFIX']."article_slice.re_article_slice_id");
+            $slice_ctype = $CM->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
 
             $gs = new sql;
             // $gs->debugsql = 1;
-            $gs->setQuery("select * from rex_article_slice where article_id='$slice_article_id'");
+            $gs->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where article_id='$slice_article_id'");
             for ($i=0;$i<$gs->getRows();$i++)
             {
               $SID[$gs->getValue("re_article_slice_id")] = $gs->getValue("id");
@@ -412,9 +412,9 @@ if ($article->getRows() == 1)
               {
                 if ($SCTYPE[$SREID[$slice_id]] == $slice_ctype) 
                 {
-                  $gs->query("update rex_article_slice set re_article_slice_id='".$SREID[$SREID[$slice_id]]."' where id='".$slice_id."'");
-                  $gs->query("update rex_article_slice set re_article_slice_id='".$slice_id."' where id='".$SREID[$slice_id]."'");
-                  if ($SID[$slice_id]>0) $gs->query("update rex_article_slice set re_article_slice_id='".$SREID[$slice_id]."' where id='".$SID[$slice_id]."'");
+                  $gs->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='".$SREID[$SREID[$slice_id]]."' where id='".$slice_id."'");
+                  $gs->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='".$slice_id."' where id='".$SREID[$slice_id]."'");
+                  if ($SID[$slice_id]>0) $gs->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='".$SREID[$slice_id]."' where id='".$SID[$slice_id]."'");
                   $message = $I18N->msg('slice_moved');
                   rex_generateArticle($slice_article_id);
                 }
@@ -428,9 +428,9 @@ if ($article->getRows() == 1)
               {
                 if ($SCTYPE[$SID[$slice_id]] == $slice_ctype) 
                 {
-                  $gs->query("update rex_article_slice set re_article_slice_id='".$SREID[$slice_id]."' where id='".$SID[$slice_id]."'");
-                  $gs->query("update rex_article_slice set re_article_slice_id='".$SID[$slice_id]."' where id='".$slice_id."'");
-                  if ($SID[$SID[$slice_id]]>0) $gs->query("update rex_article_slice set re_article_slice_id='".$slice_id."' where id='".$SID[$SID[$slice_id]]."'");
+                  $gs->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='".$SREID[$slice_id]."' where id='".$SID[$slice_id]."'");
+                  $gs->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='".$SID[$slice_id]."' where id='".$slice_id."'");
+                  if ($SID[$SID[$slice_id]]>0) $gs->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='".$slice_id."' where id='".$SID[$SID[$slice_id]]."'");
                   $message = $I18N->msg('slice_moved');
                   rex_generateArticle($slice_article_id);
                 }
@@ -592,7 +592,7 @@ if ($article->getRows() == 1)
       if (isset($save) and $save == "1")
       {
         $meta_sql = new sql;
-        $meta_sql->setTable("rex_article");
+        $meta_sql->setTable($REX['TABLE_PREFIX']."article");
         // $meta_sql->debugsql = 1;
         $meta_sql->where("id='$article_id' and clang=$clang");
         $meta_sql->setValue("online_from",mktime(0,0,0,$monat_von,$tag_von,$jahr_von));
@@ -614,7 +614,7 @@ if ($article->getRows() == 1)
 
         $meta_sql->update();
 
-        $article->setQuery("select * from rex_article where id='$article_id' and clang='$clang'");
+        $article->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang='$clang'");
         if (!isset ($message)) $message = '';
         $err_msg = $I18N->msg("metadata_updated").$message;
 
@@ -626,7 +626,7 @@ if ($article->getRows() == 1)
       $typesel->set_style("width:100%;");
       $typesel->set_size(1);
       $typesql = new sql();
-      $typesql->setQuery("select * from rex_article_type order by name");
+      $typesql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_type order by name");
 
       for ($i=0;$i<$typesql->getRows();$i++)
       {

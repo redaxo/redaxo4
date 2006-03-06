@@ -19,7 +19,7 @@ $echo = ''; // Variable definiert
 if (isset($edit_id) and $edit_id != '')
 {
   $thisCat = new sql;
-  $thisCat->setQuery("SELECT * FROM rex_article WHERE id = '".$edit_id."' and clang = '".$clang."'");
+  $thisCat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id = '".$edit_id."' and clang = '".$clang."'");
   if ($thisCat->getRows() != 1) unset($edit_id);
 } else
 {
@@ -29,7 +29,7 @@ if (isset($edit_id) and $edit_id != '')
 if (isset($article_id) and $article_id != '')
 {
   $thisArt = new sql;
-  $thisArt->setQuery("select * from rex_article where id='".$article_id."' and clang=$clang");
+  $thisArt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='".$article_id."' and clang=$clang");
   if ($thisArt->getRows()!=1) unset($article_id);
 } else
 {
@@ -60,7 +60,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   $re_id = $thisCat->getValue("re_id");
 
   $EKAT = new sql;
-  $EKAT->setTable("rex_article");
+  $EKAT->setTable($REX['TABLE_PREFIX']."article");
   $EKAT->where("id='$edit_id' and startpage=1 and clang=$clang");
   $EKAT->setValue("catname","$kat_name");
   $EKAT->setValue("catprior","$new_prio");
@@ -93,10 +93,10 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
 {
   // --------------------- KATEGORIE DELETE
   $KAT = new sql;
-  $KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=1");
+  $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=1");
   if ($KAT->getRows()==0)
   {
-    $KAT->setQuery("select * from rex_article where re_id='$edit_id' and clang='$clang' and startpage=0");
+    $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=0");
     if ($KAT->getRows() == 0)
     {
       $re_id = $thisCat->getValue("re_id");
@@ -135,14 +135,14 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
 } elseif (isset($function) and $function == "status" && $edit_id != "" && $KATPERM)
 {
   // --------------------- KATEGORIE STATUS
-  $KAT->setQuery("select * from rex_article where id='$edit_id' and clang=$clang and startpage=1");
+  $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
   if ($KAT->getRows() == 1)
   {
     if ($KAT->getValue("status")==1) $newstatus = 0;
     else $newstatus = 1;
     
     $EKAT = new sql;
-    $EKAT->setTable("rex_article");
+    $EKAT->setTable($REX['TABLE_PREFIX']."article");
     $EKAT->where("id='$edit_id' and clang=$clang and startpage=1");
     $EKAT->setValue("status","$newstatus"); 
     $EKAT->setValue("updatedate",time());
@@ -177,7 +177,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   {
     $sql = new sql;
     // $sql->debugsql = 1;
-    $sql->setQuery("select clang,template_id from rex_article where id=$category_id and startpage=1");
+    $sql->setQuery("select clang,template_id from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1");
     for ($i=0;$i<$sql->getRows();$i++,$sql->next())
     {
       $TMP[$sql->getValue("clang")] = $sql->getValue("template_id");
@@ -199,7 +199,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
         
     $AART = new sql;
     // $AART->debugsql = 1;
-    $AART->setTable("rex_article");
+    $AART->setTable($REX['TABLE_PREFIX']."article");
     if (!isset($id) or !$id) $id = $AART->setNewId("id");
     else $AART->setValue("id",$id);
     $AART->setValue("clang",$key);
@@ -248,14 +248,14 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
 {
   // --------------------- ARTICLE STATUS
   $GA = new sql;
-  $GA->setQuery("select * from rex_article where id='$article_id' and clang=$clang");
+  $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
   if ($GA->getRows() == 1)
   {
     if ($GA->getValue("status")==1) $newstatus = 0;
     else $newstatus = 1;
     
     $EA = new sql;
-    $EA->setTable("rex_article");
+    $EA->setTable($REX['TABLE_PREFIX']."article");
     $EA->where("id='$article_id' and clang=$clang");
     $EA->setValue("status","$newstatus"); 
     $EA->setValue("updatedate",time());
@@ -290,7 +290,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
     
     $AART = new sql;
     // $AART->debugsql = 1;
-    $AART->setTable("rex_article");
+    $AART->setTable($REX['TABLE_PREFIX']."article");
     if (!isset($id) or !$id) $id = $AART->setNewId("id");
     else $AART->setValue("id",$id);
     $AART->setValue("name",$article_name);
@@ -328,7 +328,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
   
   $amessage = $I18N->msg("article_updated");
   $EA = new sql;
-  $EA->setTable("rex_article");
+  $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->where("id='$article_id' and clang=$clang");
   $EA->setValue("name",$article_name);
   $EA->setValue("template_id",$template_id);
@@ -410,7 +410,7 @@ if (isset($function) and $function == "add_cat" && $KATPERM)
 // --------------------- KATEGORIE LIST
 
 $KAT = new sql;
-$KAT->setQuery("select * from rex_article where re_id='$category_id' and startpage=1 and clang=$clang order by catprior");
+$KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$category_id' and startpage=1 and clang=$clang order by catprior");
 $cat_pos = 0; // Variable definiert und vorbelegt
 
 for ($i=0; $i < $KAT->getRows(); $i++)
@@ -496,7 +496,7 @@ echo "</table>";
 if($category_id > -1)
 {
   $TEMPLATES = new sql;
-  $TEMPLATES->setQuery("select * from rex_template order by name");
+  $TEMPLATES->setQuery("select * from ".$REX['TABLE_PREFIX']."template order by name");
   $TMPL_SEL = new select;
   $TMPL_SEL->set_name("template_id");
   $TMPL_SEL->set_size(1);
@@ -544,7 +544,7 @@ if($category_id > -1)
     {
       if (!isset($re_id)) $re_id = '';
       $sql = new sql;
-      $sql->setQuery("SELECT template_id FROM rex_article WHERE re_id=$re_id and clang=$clang and startpage=1");
+      $sql->setQuery("SELECT template_id FROM ".$REX['TABLE_PREFIX']."article WHERE re_id=$re_id and clang=$clang and startpage=1");
       if ($sql->getRows() == 1) $TMPL_SEL->set_selected($sql->getValue("template_id"));
     }
     echo "<tr>
@@ -571,7 +571,7 @@ if($category_id > -1)
   $sql = new sql;
   $sql->setQuery("SELECT * 
       FROM 
-        rex_article 
+        ".$REX['TABLE_PREFIX']."article 
       WHERE 
         ((re_id='$category_id' and startpage=0) or (id='$category_id' and startpage=1)) 
         and clang=$clang  

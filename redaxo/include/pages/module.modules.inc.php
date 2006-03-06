@@ -12,13 +12,13 @@ $OUT = TRUE;
 if (isset($function_action) and $function_action == 'add')
 {
   $aa = new sql;
-  $aa->query("INSERT INTO rex_module_action SET module_id='$modul_id', action_id='$action_id'");
+  $aa->query("INSERT INTO ".$REX['TABLE_PREFIX']."module_action SET module_id='$modul_id', action_id='$action_id'");
   $message = $I18N->msg("action_taken");
   
 } elseif (isset($function_action) and $function_action == 'delete')
 {
   $aa = new sql;
-  $aa->query("DELETE FROM rex_module_action WHERE module_id='$modul_id' and id='$iaction_id' LIMIT 1");
+  $aa->query("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id' and id='$iaction_id' LIMIT 1");
   $message = $I18N->msg("action_deleted_from_modul");
 } 
 
@@ -29,24 +29,24 @@ if (isset($function_action) and $function_action == 'add')
 if (isset($function) and $function == 'delete')
 {
   $del = new sql;
-  $del->setQuery("SELECT DISTINCT rex_article_slice.article_id, rex_modultyp.name FROM rex_article_slice 
-      LEFT JOIN rex_modultyp ON rex_article_slice.modultyp_id=rex_modultyp.id 
-      WHERE rex_article_slice.modultyp_id='$modul_id'");
+  $del->setQuery("SELECT DISTINCT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."modultyp.name FROM ".$REX['TABLE_PREFIX']."article_slice 
+      LEFT JOIN ".$REX['TABLE_PREFIX']."modultyp ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id 
+      WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
   
   if ($del->getRows() >0)
   {
     $module = '<font class="black">|</font> ';
-    $modulname = htmlspecialchars($del->getValue("rex_modultyp.name"));
+    $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."modultyp.name"));
     for ($i=0; $i<$del->getRows(); $i++)
     {
-     $module .= '<a href="index.php?page=content&amp;article_id='.$del->getValue("rex_article_slice.article_id").'">'.$del->getValue("rex_article_slice.article_id").'</a> <font class="black">|</font> ';
+     $module .= '<a href="index.php?page=content&amp;article_id='.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'">'.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'</a> <font class="black">|</font> ';
      $del->next();
     }
     
     $message = '<b>'.$I18N->msg("module_cannot_be_deleted",$modulname).'</b><br /> '.$module;
   } else
   {
-    $del->query("DELETE FROM rex_modultyp WHERE id='$modul_id'");
+    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
     $message = $I18N->msg("module_deleted");
   }
 }
@@ -60,20 +60,20 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
 
     if ($function == 'add')
     {
-      $modultyp->query("INSERT INTO rex_modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
+      $modultyp->query("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
       $message = '<p class="warning">'.$I18N->msg("module_added").'</p>';
     } else {
-      $modultyp->query("UPDATE rex_modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+      $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
       $message = '<p class="warning">'.$I18N->msg("module_updated").' | '.$I18N->msg("articel_updated").'</font></p>';
       
       // article updaten
       $gc = new sql;
-      $gc->setQuery("SELECT DISTINCT(rex_article.id) FROM rex_article 
-          LEFT JOIN rex_article_slice ON rex_article.id=rex_article_slice.article_id 
-          WHERE rex_article_slice.modultyp_id='$modul_id'");
+      $gc->setQuery("SELECT DISTINCT(".$REX['TABLE_PREFIX']."article.id) FROM ".$REX['TABLE_PREFIX']."article 
+          LEFT JOIN ".$REX['TABLE_PREFIX']."article_slice ON ".$REX['TABLE_PREFIX']."article.id=".$REX['TABLE_PREFIX']."article_slice.article_id 
+          WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
       for ($i=0; $i<$gc->getRows(); $i++)
       {
-        rex_generateArticle($gc->getValue("rex_article.id"));
+        rex_generateArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
         $gc->next();
       }
     }
@@ -96,7 +96,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
     if ($function == 'edit'){
 
       $hole = new sql;
-      $hole->setQuery("SELECT * FROM rex_modultyp WHERE id='$modul_id'");
+      $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
       $category_id  = $hole->getValue("category_id");
       $mname    = $hole->getValue("name");
       $include  = $hole->getValue("include");
@@ -158,7 +158,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
     {
       
       $gaa = new sql;
-      $gaa->setQuery("SELECT * FROM rex_action ORDER BY name");
+      $gaa->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action ORDER BY name");
 
       if ($gaa->getRows()>0)
       {     
@@ -166,11 +166,11 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         echo '<tr><td colspan="3"></td></tr><tr><td colspan="3" align="left"><a name="action"></a><b>'.$I18N->msg("actions").'</b></td></tr>';
   
         $gma = new sql;
-        $gma->setQuery("SELECT * FROM rex_module_action, rex_action WHERE rex_module_action.action_id=rex_action.id and rex_module_action.module_id='$modul_id'");
+        $gma->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action, ".$REX['TABLE_PREFIX']."action WHERE ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$modul_id'");
         for ($i=0; $i<$gma->getRows(); $i++)
         {
-          $iaction_id = $gma->getValue("rex_module_action.id");
-          $action_id = $gma->getValue("rex_module_action.action_id");
+          $iaction_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.id");
+          $action_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.action_id");
 
           echo '<tr>
             <td>&nbsp;</td>
@@ -249,7 +249,7 @@ if ($OUT)
   }
   
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM rex_modultyp ORDER BY name");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp ORDER BY name");
   
   for($i=0; $i<$sql->getRows(); $i++){
   
