@@ -529,6 +529,7 @@ class article
   // ----- allgemeines suchen und ersetzen
   function sliceIn($slice_content)
   {
+  	global $REX;
     for ($i=1;$i<11;$i++)
     {
       // ----------------------------- LIST BUTTONS
@@ -638,7 +639,7 @@ class article
   function sliceClear($slice_content)
   {
 
-    global $REX_ACTION;
+    global $REX, $REX_ACTION;
 
     for ($i=1;$i<11;$i++)
     {
