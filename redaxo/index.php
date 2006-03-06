@@ -25,10 +25,14 @@ session_start();
 // ----- addon/normal page path
 $REX['PAGEPATH'] = "";
 
-// ----------------- AUTH
+// ----- header einbauen
+$withheader = true;
+
+// ----------------- SETUP
 if ($REX['SETUP'])
 {
   // ----------------- SET SETUP LANG
+  $LOGIN = FALSE;
   $REX['LANG'] = "en_gb";
   $I18N = rex_create_lang( $REX['LANG']);
   foreach ($REX['LOCALES'] as $l) {
@@ -44,10 +48,15 @@ if ($REX['SETUP'])
   
   $page_name = $I18N->msg("setup");
   $page = "setup";
-  $dl = false;
   
 } else
 {
+
+  // ----------------- CREATE LANG OBJ
+  $I18N = rex_create_lang( $REX['LANG']);
+  setlocale(LC_ALL,trim($I18N->msg("setlocale")));
+  header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
+
   // ----------------- CREATE LANG OBJ
   if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
   if (!isset($REX_UPSW)) { $REX_UPSW = ''; }
@@ -60,102 +69,79 @@ if ($REX['SETUP'])
   $REX_LOGIN->setUserID("rex_user.user_id");
   $REX_LOGIN->setUserquery("SELECT * FROM rex_user WHERE user_id = 'USR_UID'");
   $REX_LOGIN->setLoginquery("SELECT * FROM rex_user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW'");
+
   if (!$REX_LOGIN->checkLogin())
   {
   	// login failed
     $FORM["loginmessage"]= $REX_LOGIN->message;
-    include $REX['INCLUDE_PATH']."/pages/login.inc.php";
-    exit;
+    $LOGIN = FALSE;
+    $page = "login";
   } else
   {
   	// login ok 
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
-  }
   
-  // ----------------- CREATE LANG OBJ
-  /*
-  if ($REX_USER->isValueOf("rights","be_lang[de_de]")) $REX[LANG] = "de_de";
-  else if ($REX_USER->isValueOf("rights","be_lang[en_gb]")) $REX[LANG] = "en_gb";
-  */
-  $I18N = rex_create_lang( $REX['LANG']);
-  setlocale(LC_ALL,trim($I18N->msg("setlocale")));
-  header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
-
-  $dl = false;
-  if (isset($page)) { 
-    $page = strtolower($page); 
-  } else {
-    $page = '';
-  }
-  
-  if ($page == 'addon' && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","admin[]")))
-  {
-    $page_name = $I18N->msg("addon");
-  }elseif ($page == "specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]")))
-  {
-    $page_name = $I18N->msg("specials");
-  }elseif ($page == "module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","admin[]")))
-  {
-    $page_name = $I18N->msg("module");
-  }elseif ($page == "template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","admin[]")))
-  {
-    $page_name = $I18N->msg("template");
-  }elseif ($page == "user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
-  {
-    $page_name = $I18N->msg("user");
-  }elseif ($page == "medienpool")
-  {
-    $dl = true;
-  }elseif ($page == "linkmap")
-  {
-    $open_header_only = true;
-  }elseif ($page == "content")
-  {
-    $page_name = $I18N->msg("content");
-  }elseif ($page == "structure")
-  {
-    $page_name = $I18N->msg("structure");
-  }else
-  {
+    if (isset($page)) { 
+      $page = strtolower($page); 
+    } else {
+      $page = '';
+    }
     
-    // --- keine page gefunden
-    // --- addon check
+    // --- addon page check
     $as = array_search($page,$REX['ADDON']['page']);
-    if ($as === false || $page == "")
-    {
-      // --- kein addon gefunden -> structure
-      $page_name = $I18N->msg("structure");
-      $page = "structure";
-    }else
+    if ($as !== false)
     {
       // --- addon gefunden 
       $perm = $REX['ADDON']['perm'][$as];
-      // --- right checken
       if($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]"))
       {
-        $dl = true;
+        $withheader = false;
         $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
-      }else
-      {
-        // --- no perms to this addon
-        $page_name = $I18N->msg("structure");
-        $page = "structure";
       }
     }
+    
+    // ----- standard pages    
+    if ($REX['PAGEPATH'] == '' && $page == 'addon' && ($REX_USER->isValueOf("rights","addon[]") || $REX_USER->isValueOf("rights","admin[]")))
+    {
+      $page_name = $I18N->msg("addon");
+    }elseif ($REX['PAGEPATH'] == '' && $page == "specials" && ($REX_USER->isValueOf("rights","specials[]") || $REX_USER->isValueOf("rights","admin[]")))
+    {
+      $page_name = $I18N->msg("specials");
+    }elseif ($REX['PAGEPATH'] == '' && $page == "module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","admin[]")))
+    {
+      $page_name = $I18N->msg("module");
+    }elseif ($REX['PAGEPATH'] == '' && $page == "template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","admin[]")))
+    {
+      $page_name = $I18N->msg("template");
+    }elseif ($REX['PAGEPATH'] == '' && $page == "user" && ($REX_USER->isValueOf("rights","user[]") || $REX_USER->isValueOf("rights","admin[]")))
+    {
+      $page_name = $I18N->msg("user");
+    }elseif ($REX['PAGEPATH'] == '' && $page == "medienpool")
+    {
+      $withheader = false;
+    }elseif ($REX['PAGEPATH'] == '' && $page == "linkmap")
+    {
+      $open_header_only = true;
+    }elseif ($REX['PAGEPATH'] == '' && $page == "content")
+    {
+      $page_name = $I18N->msg("content");
+    }elseif($REX['PAGEPATH'] == '')
+    {
+      $page = "structure";
+      $page_name = $I18N->msg("structure");
+    }
+  
   }
 }
-
 
 // ----- kein pagepath -> kein addon -> path setzen
 if ($REX['PAGEPATH'] == '') $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/pages/$page.inc.php";
 
-
 // ----- ausgabe des includes
-if (!$dl) include $REX['INCLUDE_PATH']."/layout/top.php";
+if ($withheader) include $REX['INCLUDE_PATH']."/layout/top.php";
 include $REX['PAGEPATH'];
-if (!$dl) include $REX['INCLUDE_PATH']."/layout/bottom.php";
-
+if ($withheader) include $REX['INCLUDE_PATH']."/layout/bottom.php";
 
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();
