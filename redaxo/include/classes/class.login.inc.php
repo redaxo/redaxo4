@@ -29,6 +29,7 @@ class login{
   var $uid;
   var $USER;
   var $text;
+  var $passwordfunction;
   
   function login()
   {
@@ -36,7 +37,9 @@ class login{
     $this->logout = false;
     $this->message = "";
     $this->system_id = "default";
+    $this->cryptFunction = false;
     $this->setLanguage();
+    
   }
   
   function setLanguage($lang = "en")
@@ -76,7 +79,7 @@ class login{
   function setLogin($usr_login,$usr_psw)
   {
     $this->usr_login = $usr_login;
-    $this->usr_psw = $usr_psw;
+    $this->usr_psw = $this->encryptPassword($usr_psw);
   }
   
   function setLogout($logout)
@@ -127,17 +130,16 @@ class login{
         $query = str_replace("USR_LOGIN",$this->usr_login,$this->login_query);
         $query = str_replace("USR_PSW",$this->usr_psw,$query);
         
-//         $this->USER->debugsql = 1;
-        
         $this->USER->setQuery($query);
         if ($this->USER->getRows() == 1)
         {
           $ok = true;
           $_SESSION['UID'][$this->system_id] = $this->USER->getValue($this->uid);
                     
-                    // Erfolgreicher Login in der DB vermerken
-                    $sql = new sql();
-                    $sql->setQuery( 'UPDATE rex_user SET lasttrydate ="'. time() .'" WHERE login ="'. $this->usr_login .'"');
+          // Erfolgreicher Login in der DB vermerken
+          $sql = new sql();
+          $sql->setQuery( 'UPDATE rex_user SET lasttrydate ="'. time() .'", login_tries=0 WHERE login ="'. $this->usr_login .'"');
+
         }else
         {
           $this->message = $this->text[30];
@@ -153,14 +155,9 @@ class login{
         $this->USER = new sql($this->DB);
         $query = str_replace("USR_UID",$_SESSION['UID'][$this->system_id],$this->user_query);
         
-        // $this->USER->debugsql = 1;
-        
         $this->USER->setQuery($query);
         if ($this->USER->getRows() == 1)
         {
-          
-          // echo $REX_SESSION['ST'][$this->system_id]." + ".$this->session_duration." > ".time();
-          
           if (($_SESSION['ST'][$this->system_id]+$this->session_duration)>time())
           {
             $ok = true;
@@ -189,23 +186,13 @@ class login{
     {
       // wenn alles ok dann REX[UID][system_id) schreiben
       $_SESSION['ST'][$this->system_id] = time();
-      
-      //session_register("REX_SESSION");
-
-      // $_SESSION['REX_SESSION'] = $REX_SESSION;
 
     }else
     {
       // wenn nicht, dann UID loeschen und error seite
-      
       $_SESSION['ST'][$this->system_id] = "";
       $_SESSION['UID'][$this->system_id] = "";
-      
-      // header("Location: $this->error_page"."&FORM[loginmessage]=".urlencode($this->message));
-      // echo $this->message;
-      
     }
-    
     return $ok;       
   }
   
@@ -213,6 +200,18 @@ class login{
   {
     return $this->USER->getValue($value);
   }
+
+  function setPasswordFunction($pswfunc)
+  {
+  	$this->passwordfunction = $pswfunc;
+  }
+
+  function encryptPassword($psw)
+  {
+  	if ($this->passwordfunction == "") return $psw;
+  	return call_user_func($this->passwordfunction,$psw);
+  }
+  
 }
 
 ?>

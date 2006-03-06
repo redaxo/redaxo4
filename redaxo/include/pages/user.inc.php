@@ -209,6 +209,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
   $updateuser->setTable("rex_user");
   $updateuser->where("user_id='$user_id'");
   $updateuser->setValue("name",$username);
+  if ($REX['PSWFUNC']!="" && $userpsw != $sql->getValue("rex_user.psw")) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue("psw",$userpsw);
   $updateuser->setValue("description",$userdesc);
 
@@ -332,6 +333,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     $adduser = new sql;
     $adduser->setTable("rex_user");
     $adduser->setValue("name",$username);
+    if ($REX['PSWFUNC']!="") $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
     $adduser->setValue("psw",$userpsw);
     $adduser->setValue("login",$userlogin);
     $adduser->setValue("description",$userdesc);
@@ -656,7 +658,9 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       <td width="100">'.$I18N->msg("login_name").'</td>
       <td width="250"><b>'.htmlspecialchars($sql->getValue("rex_user.login")).'</b></td>
       <td width="100">'.$I18N->msg("password").'</td>
-      <td><input class="inp100" type="text" size="20" name="userpsw" value="'.htmlspecialchars($sql->getValue("rex_user.psw")).'"></td>
+      <td><input class="inp100" type="text" size="20" name="userpsw" value="'.htmlspecialchars($sql->getValue("rex_user.psw")).'"><br />';
+    if ($REX['PSWFUNC']!="") echo $I18N->msg("psw_encrypted");
+    echo '</td>
     </tr>
 
     <tr>
