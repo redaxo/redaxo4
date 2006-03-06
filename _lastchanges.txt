@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* redaxo/index.php angepasst.. aufgeräumt und nun auch addons wie linkmap moeglich. dadurch interne pages austauschbar [jan]
 	* php version angepasst. auf mindestens 4.2.0. gilt fuer alle 3.x versionen [jan]
 	* Vereinheitlicht - login.php verschoben in pages und den rest dazu angepasst - setup functions in setup page übernommen [jan]
 	* function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
