@@ -6,15 +6,6 @@
  * @version $Id$
  */ 
 
-// ----------------- CREATE LANG OBJ
-$I18N = rex_create_lang( $REX['LANG']);
-setlocale(LC_ALL,trim($I18N->msg("setlocale")));
-header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
-
-$LOGIN = FALSE;
-
-include $REX['INCLUDE_PATH']."/layout/top.php";
-
 rex_title("Login","");
 
 if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
@@ -55,7 +46,5 @@ echo '<script type="text/javascript">
    //--> 
 </script>
 '."\n";
-
-include $REX['INCLUDE_PATH']."/layout/bottom.php";
 
 ?>
