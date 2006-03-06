@@ -14,12 +14,12 @@ if (!isset($page)) $page = '';
 
 // ----------------- SERVER VARS
 
-$REX['SETUP'] = false; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
+$REX['SETUP'] = true; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['error_emailaddress'] = "jan.kristinus@pergopa.de";
-$REX['version'] = "3.1";
-$REX['subversion'] = "1";
+$REX['version'] = "3";
+$REX['subversion'] = "2";
 $REX['MYSQL_VERSION'] = ""; // Is set first time SQL Object ist initialised
 $REX['STARTARTIKEL_ID'] = 1; // FIRST ARTICLE
 $REX['LANG'] = "de_de"; // select default language
@@ -30,7 +30,8 @@ $REX['INCLUDE_PATH'] = $REX['DOC_ROOT'].$REX['HTDOCS_PATH']."redaxo/include"; //
 $REX['MEDIAFOLDER'] = $REX['HTDOCS_PATH']."files"; //
 $REX['TABLE_PREFIX'] = "rex_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20050619161609";
+$REX['INSTNAME'] = "rex20060101010101";
+$REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
 
 // ----------------- DB1
 $DB['1']['HOST'] = "localhost";
