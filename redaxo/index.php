@@ -62,8 +62,9 @@ if ($REX['SETUP'])
   if (!isset($REX_UPSW)) { $REX_UPSW = ''; }
   $REX_LOGIN = new login();
   $REX_LOGIN->setSqlDb(1);
-  $REX_LOGIN->setSysID($REX['INSTNAME']); // fuer redaxo
-  $REX_LOGIN->setSessiontime(3000); // 3600 sekunden = 60 min
+  $REX_LOGIN->setSysID($REX['INSTNAME']);
+  $REX_LOGIN->setSessiontime(3000);
+  if ($REX['PSWFUNC'] != "") $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
   if (isset($FORM['logout']) and $FORM['logout'] == 1) $REX_LOGIN->setLogout(true);
   $REX_LOGIN->setUserID("rex_user.user_id");
