@@ -244,6 +244,7 @@ mediafolder = mediafolder
 modules = modules
 extras = extras
 last_login = Last login
+psw_encrypted = Password is encrypted - if you want to set a new password just enter it
 
 # redaxo\include\pages\special.inc.php
 articles_generated = Articles and templates regenerated, cache removed!
