@@ -82,11 +82,11 @@ class article
       // ---------- select article
       $this->ARTICLE = new sql;
       // $this->ARTICLE->debugsql = 1;
-      $this->ARTICLE->setQuery("select * from rex_article where rex_article.id='$article_id' and clang='".$this->clang."'");
+      $this->ARTICLE->setQuery("select * from ".$REX['TABLE_PREFIX']."article where ".$REX['TABLE_PREFIX']."article.id='$article_id' and clang='".$this->clang."'");
 
       if ($this->ARTICLE->getRows() == 1)
       {
-        $this->template_id = $this->ARTICLE->getValue("rex_article.template_id");
+        $this->template_id = $this->ARTICLE->getValue($REX['TABLE_PREFIX']."article.template_id");
         $this->category_id = $this->getValue("category_id");
         return TRUE;
       }else
@@ -161,7 +161,7 @@ class article
   $sliceLimit = '';
   if ($this->getSlice){
     //$REX['GG'] = 0;
-    $sliceLimit = " and rex_article_slice.id = '" . $this->getSlice . "' ";
+    $sliceLimit = " and ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
   }
     // ----- start: article caching
     ob_start();
@@ -184,18 +184,18 @@ class article
       if ($this->article_id != 0)
       {
         // ---------- alle teile/slices eines artikels auswaehlen
-        $sql = "select rex_modultyp.id, rex_modultyp.name, rex_modultyp.ausgabe, rex_modultyp.eingabe, rex_modultyp.php_enable, rex_modultyp.html_enable, rex_article_slice.*, rex_article.re_id
+        $sql = "select ".$REX['TABLE_PREFIX']."modultyp.id, ".$REX['TABLE_PREFIX']."modultyp.name, ".$REX['TABLE_PREFIX']."modultyp.ausgabe, ".$REX['TABLE_PREFIX']."modultyp.eingabe, ".$REX['TABLE_PREFIX']."modultyp.php_enable, ".$REX['TABLE_PREFIX']."modultyp.html_enable, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
           from
-            rex_article_slice
-          left join rex_modultyp on rex_article_slice.modultyp_id=rex_modultyp.id
-          left join rex_article on rex_article_slice.article_id=rex_article.id
+            ".$REX['TABLE_PREFIX']."article_slice
+          left join ".$REX['TABLE_PREFIX']."modultyp on ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id
+          left join ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
           where
-            rex_article_slice.article_id='".$this->article_id."' and
-            rex_article_slice.clang='".$this->clang."' and
-            rex_article.clang='".$this->clang."'";
+            ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' and
+            ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' and
+            ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."'";
         $sql .= $sliceLimit;
         $sql .= "order by
-            rex_article_slice.re_article_slice_id";
+            ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
     
     //print $sql;
 
@@ -205,12 +205,12 @@ class article
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
-          $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.id");
-          $RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_article_slice.ctype");
-          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.ausgabe");
-          $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.eingabe");
-          $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.id");
-          $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue("rex_modultyp.name");
+          $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.id");
+          $RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
+          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.ausgabe");
+          $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.eingabe");
+          $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.id");
+          $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.name");
           $RE_C[$this->CONT->getValue("re_article_slice_id")] = $i;
           $this->CONT->nextValue();
         }
@@ -219,7 +219,7 @@ class article
         if($this->mode=="edit")
         {
           $MODULE = new sql;
-          $MODULE->setQuery("select * from rex_modultyp order by name");
+          $MODULE->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
 
           $MODULESELECT = new select;
           $MODULESELECT->set_name("module_id");
@@ -471,7 +471,7 @@ class article
   {
     global $REX,$REX_ACTION,$FORM,$I18N;
     $MOD = new sql;
-    $MOD->setQuery("select * from rex_modultyp where id=$module_id");
+    $MOD->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id=$module_id");
     if ($MOD->getRows() != 1)
     {
       $slice_content = "<table width=100% cellspacing=0 cellpadding=5 border=0><tr><td class=dblue>".$I18N->msg('module_doesnt_exist')."</td></tr></table>";
@@ -535,7 +535,7 @@ class article
 
       // ------------- REX_FILELIST_BUTTON
 
-      $medialistvalue = $this->stripPHP($this->convertString($this->CONT->getValue("rex_article_slice.filelist$i")));
+      $medialistvalue = $this->stripPHP($this->convertString($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.filelist$i")));
 
       $media = "<table class=rexbutton><tr>";
       $media .= "<td valign=top><select name=REX_MEDIALIST_SELECT_$i id=REX_MEDIALIST_SELECT_$i size=8 class=inpgrey100>";
@@ -567,7 +567,7 @@ class article
       $media = "<input type=text size=30 name=REX_LINKLIST_$i value='REX_LINKLIST[$i]' class=inpgrey id=REX_LINKLIST_$i reado2nly=read2only>";
       $media = $this->stripPHP($media);
       $slice_content = str_replace("REX_LINKLIST_BUTTON[$i]",$media,$slice_content);
-      $slice_content = str_replace("REX_LINKLIST[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.linklist$i")),$slice_content);
+      $slice_content = str_replace("REX_LINKLIST[$i]",$this->convertString($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.linklist$i")),$slice_content);
 
       // ------------- REX_MEDIA
       $media = "<table class=rexbutton><input type=hidden name=REX_MEDIA_DELETE_$i value=0 id=REX_MEDIA_DELETE_$i><tr>";
@@ -579,13 +579,13 @@ class article
       $media = $this->stripPHP($media);
 
       $slice_content = str_replace("REX_MEDIA_BUTTON[$i]",$media,$slice_content);
-      $slice_content = str_replace("REX_FILE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.file$i")),$slice_content);
+      $slice_content = str_replace("REX_FILE[$i]",$this->convertString($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.file$i")),$slice_content);
 
       // ------------- REX_LINK_BUTTON
-      if($this->CONT->getValue("rex_article_slice.link$i"))
+      if($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.link$i"))
       {
         $db = new sql;
-        $sql = "SELECT name FROM rex_article WHERE id=".$this->CONT->getValue("rex_article_slice.link$i")." and clang=".$this->clang;
+        $sql = "SELECT name FROM ".$REX['TABLE_PREFIX']."article WHERE id=".$this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.link$i")." and clang=".$this->clang;
         $res = $db->get_array($sql);
         $link_name = $res[0]['name'];
       }else
@@ -599,27 +599,27 @@ class article
       $media.= "</tr></table>";
       $media = $this->stripPHP($media);
       $slice_content = str_replace("REX_LINK_BUTTON[$i]",$media,$slice_content);
-      $slice_content = str_replace("REX_LINK[$i]",$this->generateLink($this->CONT->getValue("rex_article_slice.link$i")),$slice_content);
-      $slice_content = str_replace("REX_LINK_ID[$i]",$this->CONT->getValue("rex_article_slice.link$i"),$slice_content);
+      $slice_content = str_replace("REX_LINK[$i]",$this->generateLink($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.link$i")),$slice_content);
+      $slice_content = str_replace("REX_LINK_ID[$i]",$this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.link$i"),$slice_content);
 
       // -- show:htmlentities -- edit:nl2br/htmlentities
-      $slice_content = str_replace("REX_VALUE[$i]",$this->convertString($this->CONT->getValue("rex_article_slice.value$i")),$slice_content);
+      $slice_content = str_replace("REX_VALUE[$i]",$this->convertString($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.value$i")),$slice_content);
 
       // -- show:stripphp -- edit:stripphp
-      $slice_content = str_replace("REX_HTML_VALUE[$i]",$this->stripPHP($this->CONT->getValue("rex_article_slice.value$i")),$slice_content);
+      $slice_content = str_replace("REX_HTML_VALUE[$i]",$this->stripPHP($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.value$i")),$slice_content);
 
       // -- show:stripphp -- edit:stripphp --
-      $slice_content = str_replace("REX_HTML_BR_VALUE[$i]",nl2br($this->stripPHP($this->CONT->getValue("rex_article_slice.value$i"))),$slice_content);
+      $slice_content = str_replace("REX_HTML_BR_VALUE[$i]",nl2br($this->stripPHP($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.value$i"))),$slice_content);
 
       // -- show:- -- edit:-
-      $slice_content = str_replace("REX_PHP_VALUE[$i]",$this->CONT->getValue("rex_article_slice.value$i"),$slice_content);
+      $slice_content = str_replace("REX_PHP_VALUE[$i]",$this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.value$i"),$slice_content);
 
-      if ($this->CONT->getValue("rex_article_slice.value$i")!="") $slice_content = str_replace("REX_IS_VALUE[$i]","1",$slice_content);
+      if ($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.value$i")!="") $slice_content = str_replace("REX_IS_VALUE[$i]","1",$slice_content);
 
     }
 
-    $slice_content = str_replace("REX_PHP",$this->convertString2($this->CONT->getValue("rex_article_slice.php")),$slice_content);
-    $slice_content = str_replace("REX_HTML",$this->convertString2($this->stripPHP($this->CONT->getValue("rex_article_slice.html"))),$slice_content);
+    $slice_content = str_replace("REX_PHP",$this->convertString2($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.php")),$slice_content);
+    $slice_content = str_replace("REX_HTML",$this->convertString2($this->stripPHP($this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.html"))),$slice_content);
 
 //    $slice_content = str_replace("REX_ARTICLE_ID",$this->article_id,$slice_content);
 //    $slice_content = str_replace("REX_CUR_CLANG",$this->clang,$slice_content);
@@ -693,7 +693,7 @@ class article
       if ($REX_ACTION['LINK'][$i]>0)
       {
         $db = new sql;
-        $sql = "SELECT name FROM rex_article WHERE id=".$REX_ACTION[LINK][$i]." and clang=".$this->clang;
+        $sql = "SELECT name FROM ".$REX['TABLE_PREFIX']."article WHERE id=".$REX_ACTION[LINK][$i]." and clang=".$this->clang;
         $res = $db->get_array($sql);
         $link_name = $res[0]['name'];
       }
