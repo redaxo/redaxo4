@@ -208,7 +208,7 @@ class login{
 
   function encryptPassword($psw)
   {
-  	if ($this->passwordfunction == "") return $psw;
+  	if (!$this->passwordfunction) return $psw;
   	return call_user_func($this->passwordfunction,$psw);
   }
   
