@@ -15,7 +15,7 @@ $KATPERM = false;
 if ($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]")) $KATPERM = true;
 
 $KAT = new sql;
-$KAT->setQuery("select * from rex_article where id=$category_id and startpage=1 and clang=$clang");
+$KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1 and clang=$clang");
 
 if ($KAT->getRows()!=1)
 {
@@ -32,7 +32,7 @@ if ($KAT->getRows()!=1)
 	{
 		
 		$SKAT = new sql;
-		$SKAT->setQuery("select * from rex_article where id=".$KPATH[$ii]." and startpage=1 and clang=$clang");
+		$SKAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=".$KPATH[$ii]." and startpage=1 and clang=$clang");
 
 		if ($SKAT->getRows()==1)
 		{

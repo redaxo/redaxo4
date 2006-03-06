@@ -615,6 +615,7 @@ class OOMedia
    */
   function isInUse()
   {
+  	global $REX;
     $sql = new sql();
     //        $sql->debugsql = true;
     $query_file = '';
@@ -630,7 +631,7 @@ class OOMedia
     }
     $query_file = '('.$query_file.')';
     $query_filelist = '('.$query_filelist.')';
-    $query = 'select id from rex_article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
+    $query = 'select id from '.$REX['TABLE_PREFIX'].'article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
 
     $sql->setQuery($query);
     return $sql->getRows() > 0;

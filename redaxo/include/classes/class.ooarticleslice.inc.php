@@ -79,6 +79,9 @@ class OOArticleSlice {
    * Returns an OOArticleSlice object
    */
   function getArticleSliceById($an_id) {
+  	global $REX;
+  	$table = '';
+  	$table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
     $query = <<<EOD
 SELECT
@@ -86,7 +89,7 @@ SELECT
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
   file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
   link8,link9,link10,php,html,article_id,modultyp_id
-FROM rex_article_slice
+FROM $table
 WHERE id = $an_id
 EOD;
     $sql->setQuery($query);
@@ -118,6 +121,9 @@ EOD;
    * Returns an OOArticleSlice object
    */
   function getFirstSliceForArticle($an_article_id) {
+  	global $REX;
+  	$table = '';
+  	$table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
     $query = <<<EOD
 SELECT
@@ -125,7 +131,7 @@ SELECT
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
   file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
   link8,link9,link10,php,html,article_id,modultyp_id
-FROM rex_article_slice
+FROM $table
 WHERE article_id = $an_article_id AND re_article_slice_id = 0
 EOD;
     $sql->setQuery($query);
@@ -155,6 +161,9 @@ EOD;
    * Returns an array of OOArticleSlice objects
    */
   function getSlicesForArticleOfType($an_article_id, $a_type_id) {
+  	global $REX;
+  	$table = '';
+  	$table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
     $query = <<<EOD
 SELECT
@@ -162,7 +171,7 @@ SELECT
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
   file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
   link8,link9,link10,php,html,article_id,modultyp_id
-FROM rex_article_slice
+FROM $table
 WHERE article_id = $an_article_id AND modultyp_id = $a_type_id
 EOD;
     $sql->setQuery($query);
@@ -193,6 +202,9 @@ EOD;
    * Returns an OOArticleSlice object.
    */
   function getNextSlice() {
+  	global $REX;
+  	$table = '';
+  	$table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
     $query = <<<EOD
 SELECT
@@ -200,7 +212,7 @@ SELECT
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
   file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
   link8,link9,link10,php,html,article_id,modultyp_id
-FROM rex_article_slice
+FROM $table
 WHERE re_article_slice_id = {$this->_id}
 EOD;
     $sql->setQuery($query);

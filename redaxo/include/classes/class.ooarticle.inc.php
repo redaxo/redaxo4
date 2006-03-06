@@ -75,7 +75,7 @@ class OOArticle extends OORedaxo
     $artlist = array ();
     $sql = new sql;
     //              $sql->debugsql = true;
-    $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." from rex_article where name like '$article_name' AND clang='$clang' $offline $cats");
+    $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." from ".$REX['TABLE_PREFIX']."article where name like '$article_name' AND clang='$clang' $offline $cats");
     for ($i = 0; $i < $sql->getRows(); $i ++)
     {
       foreach (OORedaxo :: getClassVars() as $var)
@@ -102,7 +102,7 @@ class OOArticle extends OORedaxo
     $offline = $ignore_offlines ? " and status = 1 " : "";
     $artlist = array ();
     $sql = new sql;
-    $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." FROM rex_article WHERE type_id = '$article_type_id' AND clang='$clang' $offline");
+    $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." FROM ".$REX['TABLE_PREFIX']."article WHERE type_id = '$article_type_id' AND clang='$clang' $offline");
     for ($i = 0; $i < $sql->getRows(); $i ++)
     {
       foreach (OORedaxo :: getClassVars() as $var)
