@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* session_start() aus der index.php rausgenommen . was hat die da gemacht ? [jan]
 	* passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
 	* redaxo/index.php angepasst.. aufgeräumt und nun auch addons wie linkmap moeglich. dadurch interne pages austauschbar [jan]
 	* php version angepasst. auf mindestens 4.2.0. gilt fuer alle 3.x versionen [jan]

@@ -8,8 +8,6 @@
 
 
 // ----- ob caching start für output filter
-
-session_start();
 ob_start();
 
 // --------------------------- ini settings
