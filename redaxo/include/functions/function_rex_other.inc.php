@@ -33,4 +33,37 @@ function rex_absPath( $rel_path)
     return implode('/',$stack);
 }
 
+/**
+ * Prüfen ob ein/e Datei/Ordner beschreibbar ist 
+ */
+function rex_is_writable($item)
+{
+  global $I18N;
+  
+  $state = true;
+  
+  // Fehler unterdrücken, falls keine Berechtigung
+  if (@is_dir($item))
+  {
+    if (!@ is_writable($item."/."))
+    {
+      $state = $I18N->msg("setup_012", rex_absPath($item));
+    }
+  }
+  // Fehler unterdrücken, falls keine Berechtigung
+  elseif (@is_file($item))
+  {
+    if (!@ is_writable($item))
+    {
+      $state = $I18N->msg("setup_014", rex_absPath($item));
+    }
+  }
+  else
+  {
+    $state = $I18N->msg("setup_015", rex_absPath($item));
+  }
+  
+  return $state;
+}
+
 ?>
