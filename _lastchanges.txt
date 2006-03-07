@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
 	* onlyCatEdit[] - Recht um Strukturveränderungen zu verbieten [jan]
 	* session_start() aus der index.php rausgenommen . was hat die da gemacht ? [jan]
 	* passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
