@@ -89,7 +89,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   		)
   	);
 
-} elseif (isset($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM)
+} elseif (isset($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM && !$REX_USER->isValueOf("rights","onlyCatEdit[]"))
 {
   // --------------------- KATEGORIE DELETE
   $KAT = new sql;
@@ -132,7 +132,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   }
 
 
-} elseif (isset($function) and $function == "status" && $edit_id != "" && $KATPERM)
+} elseif (isset($function) and $function == "status" && $edit_id != "" && $KATPERM && !$REX_USER->isValueOf("rights","onlyCatEdit[]"))
 {
   // --------------------- KATEGORIE STATUS
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
@@ -167,7 +167,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   }
   
 
-} elseif (isset($function) and $function == "add_category" && $KATPERM)
+} elseif (isset($function) and $function == "add_category" && $KATPERM && !$REX_USER->isValueOf("rights","onlyCatEdit[]"))
 {
   // --------------------- KATEGORIE ADD
   $message = $I18N->msg("category_added_and_startarticle_created");
@@ -371,7 +371,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if ($KATPERM) $addc = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'"></a>';
+if ($KATPERM && !$REX_USER->isValueOf("rights","onlyCatEdit[]")) $addc = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'"></a>';
 else $addc = "&nbsp;";
 
 echo  "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
@@ -387,7 +387,7 @@ echo "    <th>".$I18N->msg("header_category")."</th>
 if (isset($message) and $message != "") echo "<tr class=warning><td align=center ><img src=pics/warning.gif width=16 height=16></td><td colspan=5><b>$message</b></td></tr>";
 if (isset($category_id) and $category_id != 0) echo "<tr><td>&nbsp;</td><td colspan=5>..</td></tr>";
 
-if (isset($function) and $function == "add_cat" && $KATPERM)
+if (isset($function) and $function == "add_cat" && $KATPERM && !$REX_USER->isValueOf("rights","onlyCatEdit[]"))
 {
   // --------------------- KATEGORIE ADD FORM
   $echo .= "
@@ -431,7 +431,9 @@ for ($i=0; $i < $KAT->getRows(); $i++)
   {
     // schreibzugriff
     
-    $kat_status = "<a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=status&amp;clang=$clang><u>$kat_status</u></a>";
+	if ($REX_USER->isValueOf("rights","onlyCatEdit[]")) $kat_status = "$kat_status";
+	else $kat_status = "<a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=status&amp;clang=$clang><u>$kat_status</u></a>";
+
     $kat_link = "index.php?page=structure&amp;category_id=$i_category_id&amp;clang=$clang";
     $cat_pos++;
 
@@ -446,7 +448,9 @@ for ($i=0; $i < $KAT->getRows(); $i++)
       $echo .= "
         <td><input type=text size=30 name=kat_name value=\"".htmlspecialchars($KAT->getValue("catname"))."\"></td>
         <td><input type=text name=Position_Category value=\"".htmlspecialchars($KAT->getValue("catprior"))."\" style='width:30px'></td>
-        <td><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'><input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'></td>
+        <td><input type=submit name=catedit_function value='". $I18N->msg( 'edit_category') ."'>";
+      if (!$REX_USER->isValueOf("rights","onlyCatEdit[]")) $echo .= "<input type=submit name=catdelete_function value='". $I18N->msg( 'delete_category') ."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
+      $echo .= "</td>
         <td>$kat_status</td></form></tr>";
     }else
     {

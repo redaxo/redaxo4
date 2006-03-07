@@ -44,6 +44,7 @@ $REX['EXTPERM'][] = "copyContent[]";
 $REX['EXTPERM'][] = "moveArticle[]";
 $REX['EXTPERM'][] = "copyArticle[]";
 $REX['EXTPERM'][] = "moveCategory[]";
+$REX['EXTPERM'][] = "onlyCatEdit[]";
 
 
 // ----------------- REDAXO INCLUDES
