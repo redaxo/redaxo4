@@ -56,6 +56,8 @@ if ($REX['SETUP'])
   $I18N = rex_create_lang( $REX['LANG']);
   setlocale(LC_ALL,trim($I18N->msg("setlocale")));
   header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
+  header("Cache-Control: no-cache");
+  header("Pragma: no-cache");
 
   // ----------------- CREATE LANG OBJ
   if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
