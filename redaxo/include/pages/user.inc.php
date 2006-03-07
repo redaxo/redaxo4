@@ -39,8 +39,6 @@ if (isset($user_id) and $user_id != '')
   if ($sql->getRows()!= 1) unset($user_id);
 }
 
-
-
 // Allgemeine Permissions setzen
 $sel_all = new select;
 $sel_all->multiple(1);
@@ -80,7 +78,7 @@ $cat_ids = array();
 if ($rootCats = OOCategory::getRootCategories())
 {
   foreach( $rootCats as $rootCat) {
-      add_cat_options( $sel_cat, $rootCat, $cat_ids);
+    add_cat_options( $sel_cat, $rootCat, $cat_ids);
   }
 }
 
@@ -112,26 +110,26 @@ $mediacat_ids = array();
 
 if ($rootCats = OOMediaCategory::getRootCategories())
 {
-    foreach ( $rootCats as $rootCat) {
-        add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
-    }
+  foreach ( $rootCats as $rootCat) {
+    add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
+  }
 }
 
 function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
-    if (empty($mediacat))
-    {
-        return;
+  if (empty($mediacat))
+  {
+      return;
+  }
+  $mediacat_ids[] = $mediacat->getId();
+  $select->add_option($mediacat->getName(),$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+  $childs = $mediacat->getChildren();
+  if (is_array($childs))
+  {
+    foreach ( $childs as $child) {
+      add_cat_options( $select, $child, $mediacat_ids, $mediacat->getName());
     }
-    $mediacat_ids[] = $mediacat->getId();
-    $select->add_option($mediacat->getName(),$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
-    $childs = $mediacat->getChildren();
-    if (is_array($childs))
-    {
-        foreach ( $childs as $child) {
-            add_cat_options( $select, $child, $mediacat_ids, $mediacat->getName());
-        }
-    }
+  }
 }
 
 // zugriff auf sprachen
@@ -197,6 +195,15 @@ if (isset($REX['EXTRAPERM'])) {
   }
 }
 
+$sel_logintries = new select;
+$sel_logintries->set_size(1);
+$sel_logintries->set_name("userlogintries");
+for ($i = 0; $i < ($REX['MAXLOGINS']+11); $i++)
+{
+  $sel_logintries->add_option($i,$i);
+}
+
+
 // --------------------------------- Title
 
 rex_title($I18N->msg("title_user"),"");
@@ -212,7 +219,8 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
   if ($REX['PSWFUNC']!="" && $userpsw != $sql->getValue($REX['TABLE_PREFIX']."user.psw")) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue("psw",$userpsw);
   $updateuser->setValue("description",$userdesc);
-
+  $updateuser->setValue("login_tries",$userlogintries);
+  
   $perm = "";
   if (isset($useradmin) and $useradmin == 1) $perm .= "admin[]";
   if (isset($allcats) and $allcats == 1)     $perm .= "csw[0]";
@@ -577,6 +585,8 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
   if ($sql->getRows()==1)
   {
 
+    $sel_logintries->set_selected($sql->getValue("login_tries"));
+
     // ----- EINLESEN DER PERMS
     if ($sql->isValueOf("rights","admin[]")) $adminchecked = "checked";
     else $adminchecked = "";
@@ -646,6 +656,9 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
     else $userperm_mylang = "be_lang[default]";
     $sel_mylang->set_selected($userperm_mylang);
 
+    
+
+
     // ----- FORM UPDATE AUSGABE
 
     echo '
@@ -682,8 +695,8 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       
     echo '</td>
       <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>'.$I18N->msg("user_logintries").'</td>
+      <td>'.$sel_logintries->out().'&nbsp; [MAX='.$REX['MAXLOGINS'].']</td>
     </tr>
     <tr>
       <td>'.$I18N->msg("user_lang_xs").'</td>

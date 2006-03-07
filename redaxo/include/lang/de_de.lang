@@ -233,7 +233,7 @@ user_added = Benutzer wurde hinzugefügt.
 create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzufügen
 edit_user = Benutzer bearbeiten
-
+user_logintries = Loginversuche
 user_admin = Admin (Alle Rechte/ Alles sichtbar)
 user_developer = Developer (Templates/Module/AddOns)
 user_notdeleteself = ***** Sie können sich nicht selbst löschen!
