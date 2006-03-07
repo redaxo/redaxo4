@@ -530,7 +530,7 @@ function rex_moveCategory($from_cat, $to_cat)
 			$gcats->next();
 		}		
 
-		// ----- clang holen, max carprio holen und entsprechen updaten
+		// ----- clang holen, max catprio holen und entsprechen updaten
 		$CL = $REX['CLANG'];
 		reset($CL);
 		for ($i = 0; $i < count($CL); $i ++)
@@ -552,6 +552,15 @@ function rex_moveCategory($from_cat, $to_cat)
 		foreach($RC as $id => $key)
 		{
 			rex_generateArticle($id,false);
+		}
+		
+		$CL = $REX['CLANG'];
+		reset($CL);
+		for ($j=0;$j<count($CL);$j++)
+		{
+			$mlang = key($CL);
+			rex_newCatPrio($fcat->getValue("re_id"),$mlang,0,1);
+			next($CL);
 		}
 		
 		return true;
