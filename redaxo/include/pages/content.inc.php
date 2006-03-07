@@ -473,6 +473,12 @@ if ($article->getRows() == 1)
       if (rex_moveArticle($article_id, $category_id_old, $category_id_new))
       {
         $message = $I18N->msg('content_articlemoved');
+        
+        ob_end_clean();
+
+		header("Location: index.php?page=content&article_id=".$article_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
+		exit;
+        
       }else
       {
         $message = $I18N->msg('content_errormovearticle');
