@@ -14,7 +14,7 @@ if (!isset($page)) $page = '';
 
 // ----------------- SERVER VARS
 
-$REX['SETUP'] = true; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
+$REX['SETUP'] = false; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['error_emailaddress'] = "jan.kristinus@pergopa.de";
