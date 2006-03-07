@@ -67,6 +67,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
 	* fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
 	* onlyCatEdit[] - Recht um Strukturveränderungen zu verbieten [jan]
 	* session_start() aus der index.php rausgenommen . was hat die da gemacht ? [jan]
