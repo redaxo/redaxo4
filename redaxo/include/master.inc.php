@@ -32,6 +32,7 @@ $REX['TABLE_PREFIX'] = "rex_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20060101010101";
 $REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
+$REX['MAXLOGINS'] = 20; // maximale loginversuche
 
 // ----------------- DB1
 $DB['1']['HOST'] = "localhost";
