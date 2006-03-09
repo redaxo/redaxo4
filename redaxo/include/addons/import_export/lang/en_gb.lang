@@ -34,4 +34,5 @@ delete_file = delete file
 download_file = download file
 file_could_not_be_generated  = File could not be generated.
 file_generated_in  = Data saved in 
-proceed_import = Existing data (articles,templates,modules,...) will be deleted. Proceed ?
+proceed_db_import = Existing data (articles,templates,modules,...) will be deleted. Proceed ?
+proceed_file_import = Existing files will be deleted. Proceed ?
