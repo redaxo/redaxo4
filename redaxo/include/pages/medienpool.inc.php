@@ -6,9 +6,7 @@
  */ 
 
 // TODOS
-// - thumbnails - einstellbar über specials
 // - mediensuche
-// - rechte einbauen
 // - wysiwyg image pfade anschauen und kontrollieren
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
@@ -767,7 +765,7 @@ if (isset($subpage) and $subpage=="detail" && isset($media_method) && $media_met
         $ffiletype = $_FILES['file_new']['type'];
         $ffilesize = $_FILES['file_new']['size'];
 
-        if ($ffiletype == $filetype)
+        if ($ffiletype == $filetype || OOMedia::compareImageTypes($ffiletype,$filetype))
         {
           // unlink($REX['MEDIAFOLDER']."/".$filename);
           $upload = false;
