@@ -354,6 +354,14 @@ if ($article->getRows() == 1)
     // ------------------------------------------ END: Slice add/edit/delete
 
 
+
+
+
+
+
+
+
+
     // ------------------------------------------ START: Slice move up/down
     if (isset($function) and $function == "moveup" || $function == "movedown")
     {
@@ -448,88 +456,139 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice move up/down
 
-  // ------------------------------------------ START: COPY LANG CONTENT
-  if (isset($function) and $function == "copycontent")
-  {
-    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+
+
+
+
+
+
+
+
+
+    // ------------------------------------------ START: COPY LANG CONTENT
+    if (isset($function) and $function == "copycontent")
+    {
+      if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+      {
+        if (rex_copyContent($article_id,$article_id,$clang_a,$clang_b))
         {
-      if (rex_copyContent($article_id,$article_id,$clang_a,$clang_b))
-      {
-        $message = $I18N->msg('content_contentcopy');
-      }else
-      {
-        $message = $I18N->msg('content_errorcopy');
+          $message = $I18N->msg('content_contentcopy');
+        }else
+        {
+          $message = $I18N->msg('content_errorcopy');
+        }
       }
     }
-  }
-  // ------------------------------------------ END: COPY LANG CONTENT
-  
+    // ------------------------------------------ END: COPY LANG CONTENT
 
-  // ------------------------------------------ START: MOVE ARTICLE
-  if (isset($function) and $function == "movearticle")
-  {
-    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]"))
+
+
+
+
+
+
+
+
+
+    // ------------------------------------------ START: MOVE ARTICLE
+    if (isset($function) and $function == "movearticle")
     {
-      if (rex_moveArticle($article_id, $category_id_old, $category_id_new))
+      if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]"))
       {
-        $message = $I18N->msg('content_articlemoved');
-        
-        ob_end_clean();
-
-		header("Location: index.php?page=content&article_id=".$article_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
-		exit;
-        
-      }else
-      {
-        $message = $I18N->msg('content_errormovearticle');
+        if (rex_moveArticle($article_id, $category_id_old, $category_id_new))
+        {
+          $message = $I18N->msg('content_articlemoved');
+          
+          ob_end_clean();
+          
+          header("Location: index.php?page=content&article_id=".$article_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
+          exit;
+          
+        }else
+        {
+          $message = $I18N->msg('content_errormovearticle');
+        }
       }
     }
-  }
-  // ------------------------------------------ END: MOVE ARTICLE
-  
+    // ------------------------------------------ END: MOVE ARTICLE
 
-  // ------------------------------------------ START: COPY ARTICLE
-  if (isset($function) and $function == "copyarticle")
-  {
-    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]"))
+
+
+
+
+
+
+
+
+
+    // ------------------------------------------ START: COPY ARTICLE
+    if (isset($function) and $function == "copyarticle")
     {
-      if (rex_copyArticle($article_id, $category_copy_id_old, $category_copy_id_new))
+      if( $REX_USER->isValueOf("rights","admin[]") || 
+      		(
+      			$REX_USER->isValueOf("rights","copyArticle[]") && 
+      			($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_copy_id_new."]"))
+      		) 
+      	)
       {
-        $message = $I18N->msg('content_articlecopied');
+        if ($new_id = rex_copyArticle($article_id, $category_copy_id_new))
+        {
+          $message = $I18N->msg('content_articlecopied');
+          ob_end_clean();
+          header("Location: index.php?page=content&article_id=".$new_id."&mode=meta&clang=".$clang."&ctype=".$ctype."&msg=".urlencode($message));
+          exit;
+        }else
+        {
+          $message = $I18N->msg('content_errorcopyarticle');
+        }
       }else
       {
-        $message = $I18N->msg('content_errorcopyarticle');
+        $message = $I18N->msg('no_rights_to_this_function');
       }
     }
-  }
-  // ------------------------------------------ END: COPY ARTICLE
-  
+    // ------------------------------------------ END: COPY ARTICLE
 
-  // ------------------------------------------ START: MOVE CATEGORY
-  if (isset($function) and $function == "movecategory")
-  {
-    if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]"))
+
+
+
+
+
+
+
+
+
+    // ------------------------------------------ START: MOVE CATEGORY
+    if (isset($function) and $function == "movecategory")
     {
-      $category_id_new = (int) $category_id_new;
-      if (rex_moveCategory($category_id, $category_id_new))
+      if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]"))
       {
-        $message = $I18N->msg('content_category_moved');
-        // ausgabe stoppen
-        // header neu setzen
-        // in gemoved category springen..
-        
-        ob_end_clean();
-
-		header("Location: index.php?page=content&article_id=".$category_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
-		exit;
-        
-      }else
-      {
-        $message = $I18N->msg('content_error_movecategory');
+        $category_id_new = (int) $category_id_new;
+        if (rex_moveCategory($category_id, $category_id_new))
+        {
+          $message = $I18N->msg('content_category_moved');
+          // ausgabe stoppen
+          // header neu setzen
+          // in gemoved category springen..
+          
+          ob_end_clean();
+          
+          header("Location: index.php?page=content&article_id=".$category_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
+          exit;
+          
+        }else
+        {
+          $message = $I18N->msg('content_error_movecategory');
+        }
       }
     }
-  }
-  // ------------------------------------------ END: MOVE CATEGORY
+    // ------------------------------------------ END: MOVE CATEGORY
+
+
+
+
+
+
+
 
 
 
@@ -857,7 +916,6 @@ if ($article->getRows() == 1)
 				print "<form action=index.php method=get>
 						<input type=hidden name=page value=content>
 						<input type=hidden name=article_id value='$article_id'>
-						<input type=hidden name=category_copy_id_old value='$category_id'>
 						<input type=hidden name=mode value='meta'>
 						<input type=hidden name=clang value=$clang>
 						<input type=hidden name=ctype value=$ctype>
