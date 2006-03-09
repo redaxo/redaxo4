@@ -60,6 +60,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * aus dem Setup heraus können un schon vorhandene Exports direkt importiert werden [kills]
 	* $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
 	* rechte eingebaut in die copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
 	* login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
