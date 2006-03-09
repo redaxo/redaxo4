@@ -21,15 +21,6 @@ ob_start();
 
 unset($REX);
 
-// Übernahme von FormularImagePosition
-
-if (!isset($x)) $x = '';
-if (!isset($y)) $y = '';
-
-$REX['x'] = $x;
-$REX['y'] = $y;
-
-
 // Flag ob Inhalte mit Redaxo aufgerufen oder
 // von der Webseite aus
 // Kann wichtig für die Darstellung sein
