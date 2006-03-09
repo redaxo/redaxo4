@@ -507,7 +507,7 @@ function rex_moveCategory($from_cat, $to_cat)
 		$from_path = $fcat->getValue("path").$from_cat."|";
 
 		$gcats = new sql;
-		$gcats->debugsql = 1;
+		// $gcats->debugsql = 1;
 		$gcats->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '".$from_path."%' and clang=0");
 
 		for($i=0;$i<$gcats->getRows();$i++)
@@ -519,6 +519,7 @@ function rex_moveCategory($from_cat, $to_cat)
 			
 			// path aendern und speichern
 			$up = new sql;
+			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->where("id=$icid");
 			$up->setValue("path",$new_path);
@@ -540,12 +541,14 @@ function rex_moveCategory($from_cat, $to_cat)
 			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=$clang");
 			$catprior = (int) $gmax->getValue("max(catprior)");
 			$up = new sql;
+			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->where("id=$from_cat and clang=$clang ");
 			$up->setValue("path",$to_path);
 			$up->setValue("re_id",$to_cat);
 			$up->setValue("catprior",($catprior+1));
 			$up->update();
+			next($CL);
 		}
 
 		// ----- generiere artikel neu - ohne neue inhaltsgenerierung
