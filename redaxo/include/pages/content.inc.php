@@ -163,7 +163,7 @@ if ($article->getRows() == 1)
             $iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
             $iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
             $iaction = str_replace("REX_CTYPE",$ctype,$iaction);
-            $iaction = str_replace("REX_CLANG",$clang,$iaction);
+            $iaction = str_replace("REX_CLANG_ID",$clang,$iaction);
             $iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
             $iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
             $iaction = str_replace("REX_PHP",$REX_ACTION['PHP'],$iaction);
@@ -315,7 +315,7 @@ if ($article->getRows() == 1)
               $iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
               $iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
               $iaction = str_replace("REX_CTYPE",$ctype,$iaction);
-              $iaction = str_replace("REX_CLANG",$clang,$iaction);
+              $iaction = str_replace("REX_CLANG_ID",$clang,$iaction);
               $iaction = str_replace("REX_PHP",$REX_ACTION['PHP'],$iaction);
               $iaction = str_replace("REX_HTML",$REX_ACTION['HTML'],$iaction);
               for ($j=1;$j<11;$j++)
