@@ -63,18 +63,29 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       $modultyp->query("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
       $message = '<p class="warning">'.$I18N->msg("module_added").'</p>';
     } else {
-      $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
-      $message = '<p class="warning">'.$I18N->msg("module_updated").' | '.$I18N->msg("articel_updated").'</font></p>';
-      
-      // article updaten
-      $gc = new sql;
-      $gc->setQuery("SELECT DISTINCT(".$REX['TABLE_PREFIX']."article.id) FROM ".$REX['TABLE_PREFIX']."article 
-          LEFT JOIN ".$REX['TABLE_PREFIX']."article_slice ON ".$REX['TABLE_PREFIX']."article.id=".$REX['TABLE_PREFIX']."article_slice.article_id 
-          WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
-      for ($i=0; $i<$gc->getRows(); $i++)
+      $modultyp->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id='$modul_id'");
+      if ($modultyp->getRows()==1)
       {
-        rex_generateArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
-        $gc->next();
+        $old_ausgabe = $modultyp->getValue("ausgabe");
+    
+        $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+        $message = '<p class="warning">'.$I18N->msg("module_updated").' | '.$I18N->msg("articel_updated").'</font></p>';
+
+        $new_ausgabe = stripslashes($ausgabe);
+
+		if ($old_ausgabe != $new_ausgabe)
+		{
+          // article updaten - nur wenn ausgabe sich veraendert hat
+          $gc = new sql;
+          $gc->setQuery("SELECT DISTINCT(".$REX['TABLE_PREFIX']."article.id) FROM ".$REX['TABLE_PREFIX']."article 
+              LEFT JOIN ".$REX['TABLE_PREFIX']."article_slice ON ".$REX['TABLE_PREFIX']."article.id=".$REX['TABLE_PREFIX']."article_slice.article_id 
+              WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
+          for ($i=0; $i<$gc->getRows(); $i++)
+          {
+            rex_generateArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
+            $gc->next();
+          }
+        }
       }
     }
     
