@@ -147,7 +147,7 @@ class login{
           // session_unregister("REX_SESSION");
         }
                 
-      } elseif (isset($_SESSION['UID']) and $_SESSION['UID'][$this->system_id] != '')
+      } elseif (isset($_SESSION['UID']) && isset($_SESSION['UID'][$this->system_id]) && $_SESSION['UID'][$this->system_id] != '')
       {
         // wenn kein login und kein logout dann nach sessiontime checken
         // message schreiben und falls falsch auf error verweisen
