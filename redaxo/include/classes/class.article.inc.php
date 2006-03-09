@@ -812,7 +812,7 @@ class article
     static $search = array(
        'REX_ARTICLE_ID',
        'REX_CATEGORY_ID',
-       'REX_CUR_CLANG',
+       'REX_CLANG_ID',
     );
 
     $replace = array(
