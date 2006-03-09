@@ -887,5 +887,12 @@ class OOMedia
   {
     return in_array( $type, OOMedia::getImageTypes());
   }
+  
+  function compareImageTypes($type1, $type2)
+  {
+  	$jpg = array('image/jpg','image/jpeg','image/pjpeg');
+  	if (in_array($type1,$jpg) && in_array($type2,$jpg)) return true;
+  	return false;
+  }
 }
 ?>
