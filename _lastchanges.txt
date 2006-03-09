@@ -60,6 +60,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* rechte eingebaut in die copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
 	* login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
 	* fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
 	* onlyCatEdit[] - Recht um Strukturveränderungen zu verbieten [jan]

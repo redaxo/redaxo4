@@ -357,11 +357,6 @@ if ($article->getRows() == 1)
 
 
 
-
-
-
-
-
     // ------------------------------------------ START: Slice move up/down
     if (isset($function) and $function == "moveup" || $function == "movedown")
     {
@@ -460,11 +455,6 @@ if ($article->getRows() == 1)
 
 
 
-
-
-
-
-
     // ------------------------------------------ START: COPY LANG CONTENT
     if (isset($function) and $function == "copycontent")
     {
@@ -485,29 +475,30 @@ if ($article->getRows() == 1)
 
 
 
-
-
-
-
-
     // ------------------------------------------ START: MOVE ARTICLE
-    if (isset($function) and $function == "movearticle")
+    if (isset($function) and $function == "movearticle" and $category_id != $article_id)
     {
-      if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]"))
+      $category_id_new = (int) $category_id_new;
+      if(  $REX_USER->isValueOf("rights","admin[]") || 
+      		(
+      			$REX_USER->isValueOf("rights","moveArticle[]") && 
+      			($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_id_new."]"))
+      		)
+      	)
       {
-        if (rex_moveArticle($article_id, $category_id_old, $category_id_new))
+        if (rex_moveArticle($article_id, $category_id, $category_id_new))
         {
           $message = $I18N->msg('content_articlemoved');
-          
           ob_end_clean();
-          
-          header("Location: index.php?page=content&article_id=".$article_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
+          header("Location: index.php?page=content&article_id=".$article_id."&mode=meta&clang=".$clang."&ctype=".$ctype."&msg=".urlencode($message));
           exit;
-          
         }else
         {
           $message = $I18N->msg('content_errormovearticle');
         }
+      }else
+      {
+      	$message = $I18N->msg('no_rights_to_this_function');
       }
     }
     // ------------------------------------------ END: MOVE ARTICLE
@@ -516,14 +507,10 @@ if ($article->getRows() == 1)
 
 
 
-
-
-
-
-
     // ------------------------------------------ START: COPY ARTICLE
     if (isset($function) and $function == "copyarticle")
     {
+      $category_copy_id_new = (int) $category_copy_id_new;
       if( $REX_USER->isValueOf("rights","admin[]") || 
       		(
       			$REX_USER->isValueOf("rights","copyArticle[]") && 
@@ -552,41 +539,36 @@ if ($article->getRows() == 1)
 
 
 
-
-
-
-
-
     // ------------------------------------------ START: MOVE CATEGORY
     if (isset($function) and $function == "movecategory")
     {
-      if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]"))
+      $category_id_new = (int) $category_id_new;
+      if(  $REX_USER->isValueOf("rights","admin[]") || 
+      		(
+      			$REX_USER->isValueOf("rights","moveCategory[]") && 
+      			(
+      				( $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_id."]") ) && 
+      				( $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_id_new."]") ) 
+      			)
+      		)
+      	)
       {
-        $category_id_new = (int) $category_id_new;
-        if (rex_moveCategory($category_id, $category_id_new))
+        if ($category_id != $category_id_new && rex_moveCategory($category_id, $category_id_new))
         {
-          $message = $I18N->msg('content_category_moved');
-          // ausgabe stoppen
-          // header neu setzen
-          // in gemoved category springen..
-          
+          $message = $I18N->msg('category_moved');
           ob_end_clean();
-          
-          header("Location: index.php?page=content&article_id=".$category_id."&mode=meta&clang=".$clang."&ctype=".$ctype);
+          header("Location: index.php?page=content&article_id=".$category_id."&mode=meta&clang=".$clang."&ctype=".$ctype."&msg=".urlencode($message));
           exit;
-          
         }else
         {
           $message = $I18N->msg('content_error_movecategory');
         }
+      }else
+      {
+        $message = $I18N->msg('no_rights_to_this_function');
       }
     }
     // ------------------------------------------ END: MOVE CATEGORY
-
-
-
-
-
 
 
 
@@ -616,7 +598,10 @@ if ($article->getRows() == 1)
     }
     $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&clang=$clang&ctype=$ctype class=$edit_mode_css_class>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&clang=$clang&ctype=$ctype class=$meta_css_class>".$I18N->msg('metadata')."</a>";
     // ------------------------------------------ END: CONTENT HEAD MENUE
-    
+
+
+
+
 
     // ------------------------------------------ START: AUSGABE
     echo "  <table border=0 cellpadding=0 cellspacing=1 width=770>
@@ -627,11 +612,11 @@ if ($article->getRows() == 1)
         </tr>";
     // ------------------------------------------ WARNING       
     if (isset($message) and $message != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;$message</td><td class=lgrey>&nbsp;</td></tr>"; }
+    if (isset($_REQUEST["msg"]) and $_REQUEST["msg"] != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;".$_REQUEST["msg"]."</td><td class=lgrey>&nbsp;</td></tr>"; }
 
     echo "  <tr>
           <td class=lgrey>&nbsp;</td>
           <td valign=top class=lblue>";
-
 
     if ($mode == "edit")
     {
@@ -804,7 +789,7 @@ if ($article->getRows() == 1)
         </table>";
         
         
-      // START - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  	
+      // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN  	
       function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '')
       {
 
@@ -825,10 +810,10 @@ if ($article->getRows() == 1)
       		}
       	}
       }
-      // ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN ---------------------------------------------------  
+      // --------------------------------------------------- ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN  
 
 
-      // SONSTIGES START -------------------------------------------------------------    
+      // ------------------------------------------------------------- SONSTIGES START    
         if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]") || ($REX_USER->isValueOf("rights","copyContent[]") && count($REX['CLANG']) > 1))
         {
           echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
@@ -836,7 +821,7 @@ if ($article->getRows() == 1)
             <td colspan=3>".$I18N->msg("other_functions")."</td>
           </tr>";
 		  
-          // INHALTE KOPIEREN START ---------------------------------------------------
+          // --------------------------------------------------- INHALTE KOPIEREN START
         if(($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]")) && count($REX['CLANG']) > 1)
         {
           echo "
@@ -872,9 +857,9 @@ if ($article->getRows() == 1)
         echo "</form>";
         }
         
-          // INHALTE KOPIEREN ENDE ---------------------------------------------------
+          // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
-        	// ARTIKEL VERSCHIEBEN START ---------------------------------------------------
+        	// --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 			if ($article->getValue("startpage") == 0 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) ) {
 				print "<form action=index.php method=get>
 						<input type=hidden name=page value=content>
@@ -907,11 +892,13 @@ if ($article->getRows() == 1)
 						</tr>";
 				print '</form>';
 			}   
-			// ARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
-			
-			
-			
-			// ARTIKEL KOPIEREN START --------------------------------------------------
+			// ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
+
+
+
+
+
+			// -------------------------------------------------- ARTIKEL KOPIEREN START
 			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]")) {
 				print "<form action=index.php method=get>
 						<input type=hidden name=page value=content>
@@ -944,11 +931,13 @@ if ($article->getRows() == 1)
 				
 				print '</form>';
 			}
-			// ARTIKEL KOPIEREN ENDE ---------------------------------------------------
+			// --------------------------------------------------- ARTIKEL KOPIEREN ENDE 
 
 
 
-			// KATEGORIE/STARTARTIKEL VERSCHIEBEN START ---------------------------------------------------
+
+
+			// --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START 
 			if ($article->getValue("startpage") == 1 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]")))
 			{
 				
@@ -985,13 +974,7 @@ if ($article->getRows() == 1)
 
 				print '</form>';
 			}
-			// KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE ------------------------------------------------
-
-
-
-
-
-
+			// ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE 
 
 
 
@@ -999,7 +982,7 @@ if ($article->getRows() == 1)
 
         echo "</table>";
         }
-// SONSTIGES ENDE ------------------------------------------------------------- 
+        // ------------------------------------------------------------- SONSTIGES ENDE  
 
 
       // ------------------------------------------ END: META VIEW
