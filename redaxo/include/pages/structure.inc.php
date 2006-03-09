@@ -55,7 +55,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
   // --------------------- KATEGORIE EDIT
   
   $old_prio = $thisCat->getValue("catprior");
-  $new_prio = $Position_Category+0;
+  $new_prio = (int) $Position_Category;
   if ($new_prio==0) $new_prio = 1;
   $re_id = $thisCat->getValue("re_id");
 
@@ -184,7 +184,7 @@ if (isset($catedit_function) and $catedit_function != "" && $edit_id != "" && $K
     }
   }
 
-  $Position_New_Category = $Position_New_Category+0;
+  $Position_New_Category = (int) $Position_New_Category;
   if ($Position_New_Category==0) $Position_New_Category = 1;
 
   unset($id);
@@ -276,7 +276,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
 }else if (isset($function) and $function == "add_article" && $KATPERM)
 {
   // --------------------- ARTIKEL ADD
-  $Position_New_Article = $Position_New_Article+0;
+  $Position_New_Article = (int) $Position_New_Article;
   if ($Position_New_Article==0) $Position_New_Article = 1;
   
   $amessage = $I18N->msg("article_added");
@@ -323,7 +323,7 @@ if (isset($function) and $function == "status_article" && $article_id != "" && $
 }else if (isset($function) and $function == "edit_article" && $article_id != "" && $KATPERM)
 {
   // --------------------- ARTIKEL EDIT
-  $Position_Article = $Position_Article+0;
+  $Position_Article = (int) $Position_Article;
   if ($Position_Article==0) $Position_Article = 1;
   
   $amessage = $I18N->msg("article_updated");
