@@ -269,8 +269,7 @@ EOD;
   }
   
   function getLinkUrl($index) {
-    global $REX;
-    return $REX['WWW_PATH']."index.php?article_id=".$this->getLink($index);
+    return "index.php?article_id=".$this->getLink($index);
   }
 
   function getFile($index) {

@@ -171,7 +171,6 @@ if ($subpage == '')
   */
   
   echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("specials_others").'</b></td></tr>';
-  echo '<tr><td>$REX[\'WWW_PATH\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['WWW_PATH'].'"</td></tr>';
   echo '<tr><td>$REX[\'INCLUDE_PATH\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['INCLUDE_PATH'].'"</td></tr>';
   echo '<tr><td>$REX[\'error_emailaddress\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_error_emailaddress" value="'.$REX['error_emailaddress'].'" class="inp100"></td></tr>';
   echo '<tr><td>$REX[\'STARTARTIKEL_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_startartikel" value="'.$REX['STARTARTIKEL_ID'].'"></td></tr>';

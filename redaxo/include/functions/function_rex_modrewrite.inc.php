@@ -141,19 +141,18 @@ function rexrewrite_no_rewrite($id, $name, $clang, $param_string)
     $url .= '&amp;clang='.$clang;
   }
 
-  return $REX['WWW_PATH'].$url.$param_string;
+  return $url.$param_string;
 }
 
 // Rewrite für mod_rewrite
 function rexrewrite_apache_rewrite($id, $name, $clang, $params)
 {
-  global $REX;
   if ($params != '')
   {
     // strip first "&amp;"
     $params = '?'.substr($params, strpos($params, '&amp;') + 5);
   }
 
-  return $REX['WWW_PATH'].$id.'-'.$clang.'-'.$name.'.html'.$params;
+  return $id.'-'.$clang.'-'.$name.'.html'.$params;
 }
 ?>
