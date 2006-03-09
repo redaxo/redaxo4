@@ -5,10 +5,9 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
 angehandelt.
 
 ---------------------------------------------------------------------------------
-Todos (Nach Prio sortiert):
+Todos:
 ---------------------------------------------------------------------------------
 
-	* AddOns löschbar machen
 	* JS Linkmap umbauen 
 		* Artikel suchbar machen
 		* Struktur anzeigen und Artikel im Extra Bereich
@@ -17,21 +16,15 @@ Todos (Nach Prio sortiert):
 	* Templatehandling in den Kategorien
 		* Template fest zu Kategorien zuweisen können
 		* Default Templates festlegbar machen
-	* Mehrsprachigkeit / Charset System überdenken / utf-8 ..
-		* auch im setup testen
-		* htmlentities -> htmlspecialchars
+		* ctypes zu template zuweisen koennen
 	* Umbau des Statistiktools. 
 		* Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
 		* Fehler bei URLs mit $ z.b. $_POST .. Referer ..
-	* Kategorien verschieben (System überlegen)
 	* Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
-	* <? -> <?php
-	* $REX[VAR]<? -> $REX['VAR'] (Bei allen Arrays)
 	* Permissions: 
 		* "Online stellen verbieten" rein
 	* Tiny MCE bereinigen und unnötiges raus.
 	* Warnings/Notices entfernen
-	* Einheitliche FileHeaders
 	
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
@@ -134,3 +127,13 @@ Version 3.1 (2005-11-30)
 	* Slice verschieben (System überlegen) (Jan)
 
 Version 3.0 (2005-08-07)
+
+---------------------------------------------------------------------------------
+hinweise: bei anpassungen beachten !
+---------------------------------------------------------------------------------
+
+	* anstatt htmlentities -> htmlspecialchars verwenden
+	* <? -> <?php
+	* $REX[VAR] -> $REX['VAR'] (Bei allen Arrays)
+	* Einheitliche Dateiheader verwenden
+	* keine tabular - ein tab = 2 leerzeichen
