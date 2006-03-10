@@ -8,10 +8,16 @@
 // ----------------- TIMER
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_time.inc.php";
 
+$REX_TEMP = $REX;
+
+// ----------------- MAGIC QUOTES CHECK
+if (!get_magic_quotes_gpc()) include $REX['INCLUDE_PATH']."/functions/function_rex_mquotes.inc.php";
+
 // ----------------- REGISTER GLOBALS CHECK
 if (!ini_get('register_globals'))
 {
         // register_globals = off;
+        
         if (isset($_COOKIE) and $_COOKIE) extract($_COOKIE);
         if (isset($_ENV) and $_ENV) extract($_ENV);
         if (isset($_FILES) and $_FILES) extract($_FILES);
@@ -22,10 +28,10 @@ if (!ini_get('register_globals'))
 }else
 {
         // register_globals = on;
+        
 }
 
-// ----------------- MAGIC QUOTES CHECK
-if (!get_magic_quotes_gpc()) include $REX['INCLUDE_PATH']."/functions/function_rex_mquotes.inc.php";
+$REX = $REX_TEMP;
 
 // ----------------- REX PERMS
 
