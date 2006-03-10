@@ -136,7 +136,7 @@ elseif (isset ($catdelete_function) and $catdelete_function != "" && $edit_id !=
 
 }
 elseif (isset ($function) and $function == "status" && $edit_id != "" 
-       && (($REX_USER->isValueOf("rights", "admin[]") || $REX_USER->isValueOf("rights", "publishArticle[]"))))
+       && ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishArticle[]")))
 {
   // --------------------- KATEGORIE STATUS
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
@@ -252,7 +252,7 @@ elseif (isset ($function) and $function == "add_category" && $KATPERM && !$REX_U
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
 if (isset ($function) && $function == "status_article" && $article_id != "" 
-    && ($REX_USER->isValueOf("rights", "admin[]") || $REX_USER->isValueOf("rights", "publishArticle[]")))
+    && ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishArticle[]")))
 {
   // --------------------- ARTICLE STATUS
   $GA = new sql;
@@ -471,7 +471,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-    if ($REX_USER->isValueOf("rights", "admin[]") || $REX_USER->isValueOf("rights", "publishCategory[]"))
+    if ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishCategory[]"))
     {
       $kat_status = "<a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=status&amp;clang=$clang><u>$kat_status</u></a>";
     }
@@ -714,7 +714,7 @@ if ($category_id > -1)
           $article_status = "<font color=#00aa00>".$I18N->msg("status_online")."</font>";
         }
         
-        if ($REX_USER->isValueOf("rights", "admin[]") || $REX_USER->isValueOf("rights", "publishArticle[]"))
+        if ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishArticle[]"))
         {
             $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=status_article&category_id=$category_id&clang=$clang><u>$article_status</u></a>";
         }
@@ -743,10 +743,14 @@ if ($category_id > -1)
               <td><strike>".$I18N->msg("delete")."</strike></td>
               <td><strike>";
       if ($sql->getValue("status") == 0)
-        echo "<font color=#dd0000>".$I18N->msg("status_offline")."</font>";
+      {
+        echo $I18N->msg("status_offline");
+      }
       else
-        echo "<font color=#00dd00>".$I18N->msg("status_online")."</font>";
-      echo "  </strike></td>";
+      {
+        echo $I18N->msg("status_online");
+      }
+      echo "</strike></td>";
       echo "</tr>";
     }
     $sql->counter++;
