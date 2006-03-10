@@ -58,8 +58,9 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
 	* Rechte "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
-  * aus dem Setup heraus können un schon vorhandene Exports direkt importiert werden [kills]
+	* aus dem Setup heraus können un schon vorhandene Exports direkt importiert werden [kills]
 	* $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
 	* Rechte eingebaut in die copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
 	* login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
