@@ -93,10 +93,10 @@ if ($subpage == '')
     
     // DB2 nur updaten, wenn das Formular unten aktiviert ist
     if ( isset( $neu_db2_host) && $neu_db2_host != '') {
-      $cont = ereg_replace("(DB\['2'\]\['HOST'\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
-      $cont = ereg_replace("(DB\['2'\]\['LOGIN'\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
-      $cont = ereg_replace("(DB\['2'\]\['PSW'\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
-      $cont = ereg_replace("(DB\['2'\]\['NAME'\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
+      $cont = ereg_replace("(REX\['DB'\]\['2'\]\['HOST'\].?\=.?)[^;]*","\\1\"".($neu_db2_host)."\"",$cont);
+      $cont = ereg_replace("(REX\['DB'\]\['2'\]\['LOGIN'\].?\=.?)[^;]*","\\1\"".($neu_db2_login)."\"",$cont);
+      $cont = ereg_replace("(REX\['DB'\]\['2'\]\['PSW'\].?\=.?)[^;]*","\\1\"".($neu_db2_psw)."\"",$cont);
+      $cont = ereg_replace("(REX\['DB'\]\['2'\]\['NAME'\].?\=.?)[^;]*","\\1\"".($neu_db2_name)."\"",$cont);
     }
   
     // Mod-Rewrite
@@ -122,10 +122,10 @@ if ($subpage == '')
     if (!isset ($neu_db2_login)) $neu_db2_login = '';
     if (!isset ($neu_db2_psw))   $neu_db2_psw = '';
     if (!isset ($neu_db2_name))  $neu_db2_name = '';
-    $DB['2']['HOST'] = $neu_db2_host;
-    $DB['2']['LOGIN'] = $neu_db2_login;
-    $DB['2']['PSW'] = $neu_db2_psw;
-    $DB['2']['NAME'] = $neu_db2_name;
+    $REX['DB']['2']['HOST'] = $neu_db2_host;
+    $REX['DB']['2']['LOGIN'] = $neu_db2_login;
+    $REX['DB']['2']['PSW'] = $neu_db2_psw;
+    $REX['DB']['2']['NAME'] = $neu_db2_name;
   
     $MSG = $I18N->msg("info_updated");
   
@@ -157,10 +157,10 @@ if ($subpage == '')
   
   echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("db1_can_only_be_changed_by_setup").'</b></td></tr>';
   
-  echo '<tr><td>$DB[\'1\'][\'HOST\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$DB['1']['HOST'].'"</td></tr>';
-  echo '<tr><td>$DB[\'1\'][\'LOGIN\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$DB['1']['LOGIN'].'"</td></tr>';
-  echo '<tr><td>$DB[\'1\'][\'PSW\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>-</td></tr>';
-  echo '<tr><td>$DB[\'1\'][\'NAME\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$DB['1']['NAME'].'"</td></tr>';
+  echo '<tr><td>$REX[\'DB\'][\'1\'][\'HOST\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['HOST'].'"</td></tr>';
+  echo '<tr><td>$REX[\'DB\'][\'1\'][\'LOGIN\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['LOGIN'].'"</td></tr>';
+  echo '<tr><td>$REX[\'DB\'][\'1\'][\'PSW\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>-</td></tr>';
+  echo '<tr><td>$REX[\'DB\'][\'1\'][\'NAME\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['NAME'].'"</td></tr>';
   
   /*
   echo "<tr><td colspan=3><br><b>".$I18N->msg("db2_text")."</b></td></tr>";
