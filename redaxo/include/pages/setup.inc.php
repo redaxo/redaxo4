@@ -195,10 +195,10 @@ if ($checkmodus == 2 && $send == 1)
   $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
   $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("YmdHis"), $cont);
   $cont = ereg_replace("(REX\['error_emailaddress'\].?\=.?\")[^\"]*", "\\1".$error_email, $cont);
-  $cont = ereg_replace("(DB\['1'\]\['HOST'\].?\=.?\")[^\"]*", "\\1".$mysql_host, $cont);
-  $cont = ereg_replace("(DB\['1'\]\['LOGIN'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_login, $cont);
-  $cont = ereg_replace("(DB\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
-  $cont = ereg_replace("(DB\['1'\]\['NAME'\].?\=.?\")[^\"]*", "\\1".$dbname, $cont);
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*", "\\1".$mysql_host, $cont);
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_login, $cont);
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*", "\\1".$dbname, $cont);
 
   fclose($h);
 
@@ -224,10 +224,10 @@ if ($checkmodus == 2 && $send == 1)
   }
   elseif ($link)
   {
-    $DB[1]['NAME'] = $dbname;
-    $DB[1]['LOGIN'] = $redaxo_db_user_login;
-    $DB[1]['PSW'] = $redaxo_db_user_pass;
-    $DB[1]['HOST'] = $mysql_host;
+    $REX['DB'][1]['NAME'] = $dbname;
+    $REX['DB'][1]['LOGIN'] = $redaxo_db_user_login;
+    $REX['DB'][1]['PSW'] = $redaxo_db_user_pass;
+    $REX['DB'][1]['HOST'] = $mysql_host;
 
     $err_msg = "";
     $checkmodus = 3;
@@ -241,10 +241,10 @@ else
   $serveraddress = $REX['SERVER'];
   $serverbezeichnung = $REX['SERVERNAME'];
   $error_email = $REX['error_emailaddress'];
-  $dbname = $DB[1]['NAME'];
-  $redaxo_db_user_login = $DB[1]['LOGIN'];
-  $redaxo_db_user_pass = $DB[1]['PSW'];
-  $mysql_host = $DB[1]['HOST'];
+  $dbname = $REX['DB'][1]['NAME'];
+  $redaxo_db_user_login = $REX['DB'][1]['LOGIN'];
+  $redaxo_db_user_pass = $REX['DB'][1]['PSW'];
+  $mysql_host = $REX['DB'][1]['HOST'];
 }
 
 if ($checkmodus == 2)
@@ -321,7 +321,7 @@ if ($checkmodus == 3 && $send == 1)
     $gt->setQuery("show tables");
     for ($i = 0; $i < $gt->getRows(); $i++, $gt->next())
     {
-      $tblname = $gt->getValue("Tables_in_".$DB[1]['NAME']);
+      $tblname = $gt->getValue("Tables_in_".$REX['DB'][1]['NAME']);
       if (substr($tblname, 0, 4) == "rex_")
       {
         // echo $tblname."<br>";
@@ -518,8 +518,8 @@ if ($checkmodus == 4 && $send == 1)
           $redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
         $insert = "INSERT INTO rex_user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','admin[]dev[]import[]stats[]moveSlice[]')";
-        $link = @ mysql_connect($DB[1]['HOST'], $DB[1]['LOGIN'], $DB[1]['PSW']);
-        if (!@ mysql_db_query($DB[1]['NAME'], $insert, $link))
+        $link = @ mysql_connect($REX['DB'][1]['HOST'], $REX['DB'][1]['LOGIN'], $REX['DB'][1]['PSW']);
+        if (!@ mysql_db_query($REX['DB'][1]['NAME'], $insert, $link))
         {
           $err_msg .= $I18N->msg("setup_043")."<br>";
         }
