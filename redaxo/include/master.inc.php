@@ -33,16 +33,16 @@ $REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
 $REX['MAXLOGINS'] = 20; // maximale loginversuche
 
 // ----------------- DB1
-$DB['1']['HOST'] = "localhost";
-$DB['1']['LOGIN'] = "root";
-$DB['1']['PSW'] = "";
-$DB['1']['NAME'] = "redaxo3_0";
+$REX['DB']['1']['HOST'] = "localhost";
+$REX['DB']['1']['LOGIN'] = "root";
+$REX['DB']['1']['PSW'] = "";
+$REX['DB']['1']['NAME'] = "redaxo3_0";
 
 // ----------------- DB2 - if necessary
-$DB['2']['HOST'] = "";
-$DB['2']['LOGIN'] = "";
-$DB['2']['PSW'] = "";
-$DB['2']['NAME'] = "";
+$REX['DB']['2']['HOST'] = "";
+$REX['DB']['2']['LOGIN'] = "";
+$REX['DB']['2']['PSW'] = "";
+$REX['DB']['2']['NAME'] = "";
 
 // ----------------- INCLUDE FUNCTIONS
 if(!isset($REX['NOFUNCTIONS']) or !$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');

@@ -34,9 +34,9 @@ class sql
 
   function sql($DBID = 1)
   {
-    global $DB, $REX;
+    global $REX;
 
-    $this->identifier = @ mysql_pconnect($DB[$DBID]['HOST'], $DB[$DBID]['LOGIN'], $DB[$DBID]['PSW']);
+    $this->identifier = @ mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
     $this->debugsql = false;
     $this->DBID = $DBID;
     $this->selectDB();
@@ -59,9 +59,9 @@ class sql
    */
   function selectDB()
   {
-    global $DB, $REX;
+    global $REX;
 
-    if (!@ mysql_select_db($DB[$this->DBID]['NAME']))
+    if (!@ mysql_select_db($REX['DB'][$this->DBID]['NAME']))
     {
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:".$REX['error_emailaddress'].">".$REX['error_emailaddress']."</a>\n | Thank you!\n</font>";
       exit;
