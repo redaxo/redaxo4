@@ -36,7 +36,7 @@ $REX['MAXLOGINS'] = 20; // maximale loginversuche
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo3_0";
+$REX['DB']['1']['NAME'] = "redaxo3_2";
 
 // ----------------- DB2 - if necessary
 $REX['DB']['2']['HOST'] = "";
