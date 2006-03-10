@@ -59,13 +59,16 @@ Changes:
 ---------------------------------------------------------------------------------
 
 	* REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
-	* Rechte "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
+	* Rechte 
+	  - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
+	  - "contentEditor[]" eingebaut - User mit diesem Recht, dürfen keine Änderungen an der Struktur selbst machen(nur Inhalte) [jan,kills]
+	  - "moveCategory[]" eingebaut
+	  - "moveslice[]" umbenannt: -> "moveSlice[]" [kills]
+	  - copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
 	* aus dem Setup heraus können un schon vorhandene Exports direkt importiert werden [kills]
 	* $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
-	* Rechte eingebaut in die copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
 	* login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
 	* fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
-	* onlyCatEdit[] - Recht um Strukturveränderungen zu verbieten [jan]
 	* session_start() aus der index.php rausgenommen . was hat die da gemacht ? [jan]
 	* passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
 	* standard redaxo pages(struktur,user,templates,..) können jetzt via Addon ersetzt werden [jan]
@@ -75,14 +78,9 @@ Changes:
 	* function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
 	* OOArticle>isTeaser() eingebaut [jan]
 	* versionscheck auf 4.2.0. im setup erhoeht [jan]
-	* rexExtensionPoint erstellt [kills]
-		- CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED
 	* Sprachdateien überarbeitet [kills]
 	* Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
-	* moveCategory mit eigenem Recht moveCategory[] eingebaut. Über Metadaten des Startartikel zu erreichen [jan]
-	* ExtensionPoints vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
-	* Benutzerrecht umbenannt: moveslice[] -> moveSlice[] [kills]
-	* move und copy article im content/meta eingebaut -- danke thomas :) [jan]
+	* move und copy article im content/meta eingebaut -- danke thomas :) [tab,jan]
 	* i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [jan]
 	* Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
 	* rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
@@ -94,8 +92,11 @@ Changes:
 	* Addon de-installation u. löschen eingebaut [kills]
 	* rexExtensionPoint erstellt [jan]
 		- ADDONS_INCLUDED
+		- CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED [kills]
+		- vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
 	* OOArticle->getCategory eingebaut [jan]
 	* Textile Klasse upgedated [jan]
+	* moveCategory implementiert [jan]
 	* moveArticle/copyArticle implementiert [kills]
 	* Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
 	
