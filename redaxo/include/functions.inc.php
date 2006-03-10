@@ -50,7 +50,7 @@ $REX['EXTPERM'][] = "copyContent[]";
 $REX['EXTPERM'][] = "moveArticle[]";
 $REX['EXTPERM'][] = "copyArticle[]";
 $REX['EXTPERM'][] = "moveCategory[]";
-$REX['EXTPERM'][] = "onlyCatEdit[]";
+$REX['EXTPERM'][] = "contentEditor[]";
 $REX['EXTPERM'][] = "publishArticle[]";
 $REX['EXTPERM'][] = "publishCategory[]";
 
