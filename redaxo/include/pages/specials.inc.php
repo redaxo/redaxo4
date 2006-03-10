@@ -164,10 +164,10 @@ if ($subpage == '')
   
   /*
   echo "<tr><td colspan=3><br><b>".$I18N->msg("db2_text")."</b></td></tr>";
-  echo "<tr><td>\$DB['2']['HOST']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_host value=\"".$DB['2']['HOST']."\" class=inp100></td></tr>";
-  echo "<tr><td>\$DB['2']['LOGIN']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_login value=\"".$DB['2']['LOGIN']."\" class=inp100></td></tr>";
-  echo "<tr><td>\$DB['2']['PSW']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_psw value=\"".$DB['2']['PSW']."\" class=inp100></td></tr>";
-  echo "<tr><td>\$DB['2']['NAME']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_name value=\"".$DB['2']['NAME']."\" class=inp100></td></tr>";
+  echo "<tr><td>\$REX['DB']['2']['HOST']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_host value=\"".$REX['DB']['2']['HOST']."\" class=inp100></td></tr>";
+  echo "<tr><td>\$REX['DB']['2']['LOGIN']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_login value=\"".$REX['DB']['2']['LOGIN']."\" class=inp100></td></tr>";
+  echo "<tr><td>\$REX['DB']['2']['PSW']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_psw value=\"".$REX['DB']['2']['PSW']."\" class=inp100></td></tr>";
+  echo "<tr><td>\$REX['DB']['2']['NAME']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_name value=\"".$REX['DB']['2']['NAME']."\" class=inp100></td></tr>";
   */
   
   echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("specials_others").'</b></td></tr>';
