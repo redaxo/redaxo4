@@ -6,25 +6,14 @@
  * @version $Id$ 
  */
 
-// class select 1.0 [redaxo]
-// 
-// erstellt 01.12.2001
-// pergopa kristinus gbr
-// lange strasse 31
-// 60311 Frankfurt/M.
-// www.pergopa.de
-// ersteller: j.kristinus
-
-################ Class SQL
+################ Class Select
 class select
 {
 
   var $select_name; //
   var $select_id;
-  //  var $counter;     // 
   var $options; // 
   var $option_selected; //
-  //  var $option_anzahl;   //
   var $select_size; // 
   var $select_multiple; //
   var $select_style;
@@ -58,7 +47,6 @@ class select
     $this->select_size = 5;
     $this->select_multiple = "";
     $this->option_selected = array ();
-    //    $this->option_anzahl= 0;
 
   }
 
@@ -111,20 +99,17 @@ class select
   function set_selected($selected)
   {
     $this->option_selected[] = $selected;
-    //    $this->option_anzahl++;
   }
 
-  function resetSelected()
+  function reset_selected()
   {
-    //    unset($this->option_selected);
-    //    $this->option_anzahl= 0;
+    $this->option_selected = array ();
   }
 
   ################ optionen hinzufuegen
   function add_option($name, $value, $id = 0, $re_id = 0)
   {
     $this->options[$re_id][] = array ($name, $value, $id);
-    //    $this->counter++;
   }
 
   ############### show select
@@ -132,8 +117,6 @@ class select
   {
 
     global $STYLE;
-    //    $ausgabe = "\n<select $STYLE ".$this->select_multiple." name='".$this->select_name."' size='".$this->select_size."' style='".$this->select_style."' id='".$this->select_id."'>\n";
-    //    $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" style="'.$this->select_style.'" id="'.$this->select_id.'" '.$this->select_extra.'>'."\n";
     $ausgabe = "\n".'<select '.$STYLE.' '.$this->select_multiple.' name="'.$this->select_name.'" size="'.$this->select_size.'" '.$this->select_style_class.' '.$this->select_style.' id="'.$this->select_id.'" '.$this->select_extra.'>'."\n";
     if (is_array($this->options))
       $ausgabe .= $this->out_group(0);
