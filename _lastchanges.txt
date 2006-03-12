@@ -95,6 +95,7 @@ Version 3.2 (2006-03-XX)
     - "Datei-Leichen" werden vor jedem import entfernt [kills]
     - Bei der auswahl eines Exportordners, wird autom. die Option "Dateiexport" aktiviert [kills]
     - Prefix wird mit in die Export files geschrieben, damit dies beim import später validiert werden kann [kills]
+  * Mod_Rewrite berücksichtigt jetzt auch die Clang beim erstellen der Links
   * select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
   * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
   * $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
