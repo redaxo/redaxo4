@@ -94,7 +94,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
 
   if ($id != 0)
   {
-    $ooa = OOArticle :: getArticleById($id);
+    $ooa = OOArticle :: getArticleById($id, $clang);
     if ($ooa)
     {
       $name = rex_parseArticleName($ooa->getName());
