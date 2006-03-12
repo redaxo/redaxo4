@@ -407,6 +407,7 @@ if ($checkmodus == 3)
   $sel_export = new select();
   $sel_export->set_name('import_name');
   $sel_export->set_style('width: 300px;');
+  $sel_export->set_selectextra('onchange="checkInput(\'dbanlegen[3]\')"');
   $export_dir = $export_addon_dir. '/files';
   $exports_found = false;
 
