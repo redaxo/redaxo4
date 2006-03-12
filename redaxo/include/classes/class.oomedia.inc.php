@@ -538,7 +538,7 @@ class OOMedia
       $additional .= ' '. $name.'="'.$value.'"';
     }
 
-    return sprintf('<img src="%s"%s />', $file, $additional);
+    return sprintf('<img src="%s"%s />', $path.$file, $additional);
   }
 
   /**
