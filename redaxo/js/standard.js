@@ -399,3 +399,31 @@ function moveItem(arr, from, to)
 	arr[to] = tmp;
 	return arr;
 }
+
+// Checkbox mit der ID <id> anhaken
+function checkInput(id)
+{
+  if(id)
+  {
+    var result = new getObj(id);
+    var input = result.obj;
+    if(input != null)
+    {
+      input.checked = 'checked'; 
+    }
+  }
+}
+
+// Inputfield (Checkbox/Radio) mit der ID <id> Haken entfernen
+function uncheckInput(id)
+{
+  if(id)
+  {
+    var result = new getObj(id);
+    var input = result.obj;
+    if(input != null)
+    {
+      input.checked = ''; 
+    }
+  }
+}

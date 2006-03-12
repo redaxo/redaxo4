@@ -1,3 +1,9 @@
+// ersteller: jan.kristinus@pergopa.de
+// datum: 07.09.2002
+// bei weiterverwendung bitte kurze nachricht an mich.
+
+// -------------------------------------------------------------------------------------------------------------------
+
 var OSname = 'WIN';
 if (navigator.appVersion.indexOf("Win") > 0) OSname = "WIN";
 if (navigator.appVersion.indexOf("Mac") > 0) OSname = "MAC";
