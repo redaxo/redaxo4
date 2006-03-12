@@ -8,50 +8,50 @@ angehandelt.
 Todos:
 ---------------------------------------------------------------------------------
 
-	* JS Linkmap umbauen 
-		* Artikel suchbar machen
-		* Struktur anzeigen und Artikel im Extra Bereich
-		* JS System ändern da bei viele Artikel alles ein wenig langsam wird.
-		* Root Artikel werden nicht angezeigt
-	* Templatehandling in den Kategorien
-		* Template fest zu Kategorien zuweisen können
-		* Default Templates festlegbar machen
-		* ctypes zu template zuweisen koennen
-	* Umbau des Statistiktools. 
-		* Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
-		* Fehler bei URLs mit $ z.b. $_POST .. Referer ..
-	* Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
-	* Tiny MCE bereinigen und unnötiges raus.
-	* Warnings/Notices entfernen
-	
+  * JS Linkmap umbauen 
+    * Artikel suchbar machen
+    * Struktur anzeigen und Artikel im Extra Bereich
+    * JS System ändern da bei viele Artikel alles ein wenig langsam wird.
+    * Root Artikel werden nicht angezeigt
+  * Templatehandling in den Kategorien
+    * Template fest zu Kategorien zuweisen können
+    * Default Templates festlegbar machen
+    * ctypes zu template zuweisen koennen
+  * Umbau des Statistiktools. 
+    * Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
+    * Fehler bei URLs mit $ z.b. $_POST .. Referer ..
+  * Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
+  * Tiny MCE bereinigen und unnötiges raus.
+  * Warnings/Notices entfernen
+  
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
 ---------------------------------------------------------------------------------
 
-	* Caching als Addon auslagern
-	* Historie mit Rollback
-	* Objektorientierterer Umbau. REX_.. werden Objekte und sind dann erweiterbar
-	* Komplette Platzhalter für Artikel. 
-		* REX_ARTICLE[2]
-		* REX_TEMPLATE[5]
-		* REX_ARTICLE_VARS['description'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
-		* REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
-		* REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
-	* Backend Redesign auf 100% Scaling
-	* Backend auf CSS Layout umstellen
-	* gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
-	
+  * Caching als Addon auslagern
+  * Historie mit Rollback
+  * Objektorientierterer Umbau. REX_.. werden Objekte und sind dann erweiterbar
+  * Komplette Platzhalter für Artikel. 
+    * REX_ARTICLE[2]
+    * REX_TEMPLATE[5]
+    * REX_ARTICLE_VARS['description'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
+    * REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
+    * REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
+  * Backend Redesign auf 100% Scaling
+  * Backend auf CSS Layout umstellen
+  * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
+  
 ---------------------------------------------------------------------------------
 Known Bugs:
 ---------------------------------------------------------------------------------
 
-	* Umbau des Statistiktools. Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
-	* Import/Export klappt nicht auf jedem. Verschiedene System austesten und Liste der Fehler hier auflisten.
-	* Mac/Safari
-		* Medienpool "+" Problem
-		* EditierModul "hoch runter" verrutscht
-	* OOKlassen rückgabewerte wenn leer falsch
-		http://forum.redaxo.de/viewtopic.php?t=720
+  * Umbau des Statistiktools. Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
+  * Import/Export klappt nicht auf jedem. Verschiedene System austesten und Liste der Fehler hier auflisten.
+  * Mac/Safari
+    * Medienpool "+" Problem
+    * EditierModul "hoch runter" verrutscht
+  * OOKlassen rückgabewerte wenn leer falsch
+    http://forum.redaxo.de/viewtopic.php?t=720
 
 
 ---------------------------------------------------------------------------------
@@ -60,90 +60,90 @@ Changes:
 
 Version 3.2 (2006-03-XX)
 
-	* Setup:
-		- bei Auswahl eines vorhandenen Exports wird automatisch die entsprechende Option gewählt (JS) [kills]
-		- vorhandene Exports können direkt importiert werden [kills]
-		- phpversionscheck version angepasst. auf mindestens 4.2.0. gilt fuer alle 3.x versionen [jan]
-		- Lizenzdatei aus SETUP ausgelagert [kills]
-	* Javascript:
-		- neue Funktionen: uncheckInput(), checkInput() um Radio/Checkboxen zu aktivieren/deaktivieren [kills]
-	* Rechte 
-	  - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
-	  - "contentEditor[]" eingebaut - User mit diesem Recht, dürfen keine Änderungen an der Struktur selbst machen(nur Inhalte) [jan,kills]
-	  - "moveCategory[]" eingebaut
-	  - "moveslice[]" umbenannt: -> "moveSlice[]" [kills]
-	  - copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
-	* Mehrsprachigkeit:
-		- Sprachdateien überarbeitet [kills]
-		- Sprachfiles in UTF-8 konvertiert [kills]
-		- 15 Clangs jetzt möglich [kills]
-		- i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [jan]
-		- Bereits verwendete Clangs werden nicht mehr im Add-Formular angezeigt [kills]
-	* Object Oriented Framework:
-		- OOArticle>isTeaser() eingebaut [jan]
-		- OOArticle->getCategory eingebaut [jan]
-		- Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
+  * Setup:
+    - bei Auswahl eines vorhandenen Exports wird automatisch die entsprechende Option gewählt (JS) [kills]
+    - vorhandene Exports können direkt importiert werden [kills]
+    - phpversionscheck version angepasst. auf mindestens 4.2.0. gilt fuer alle 3.x versionen [jan]
+    - Lizenzdatei aus SETUP ausgelagert [kills]
+  * Javascript:
+    - neue Funktionen: uncheckInput(), checkInput() um Radio/Checkboxen zu aktivieren/deaktivieren [kills]
+  * Rechte 
+    - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
+    - "contentEditor[]" eingebaut - User mit diesem Recht, dürfen keine Änderungen an der Struktur selbst machen(nur Inhalte) [jan,kills]
+    - "moveCategory[]" eingebaut
+    - "moveslice[]" umbenannt: -> "moveSlice[]" [kills]
+    - copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [jan]
+  * Mehrsprachigkeit:
+    - Sprachdateien überarbeitet [kills]
+    - Sprachfiles in UTF-8 konvertiert [kills]
+    - 15 Clangs jetzt möglich [kills]
+    - i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [jan]
+    - Bereits verwendete Clangs werden nicht mehr im Add-Formular angezeigt [kills]
+  * Object Oriented Framework:
+    - OOArticle>isTeaser() eingebaut [jan]
+    - OOArticle->getCategory eingebaut [jan]
+    - Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
   * Meta Funktionen:
-		- moveCategory implementiert [jan]
-		- moveArticle/copyArticle implementiert [kills]
-		- move und copy article im content/meta eingebaut [tab,jan]
+    - moveCategory implementiert [jan]
+    - moveArticle/copyArticle implementiert [kills]
+    - move und copy article im content/meta eingebaut [tab,jan]
   * Addon Interface:
-		- Addon de-installation u. löschen eingebaut [kills]
-		- standard redaxo pages(struktur,user,templates,..) können jetzt via Addon ersetzt werden [jan]
+    - Addon de-installation u. löschen eingebaut [kills]
+    - standard redaxo pages(struktur,user,templates,..) können jetzt via Addon ersetzt werden [jan]
   * Import Export:
     - Handling in Funktionen ausgelagert (neue API) [kills]
     - "Datei-Leichen" werden vor jedem import entfernt [kills]
     - Bei der auswahl eines Exportordners, wird autom. die Option "Dateiexport" aktiviert [kills]
     - Prefix wird mit in die Export files geschrieben, damit dies beim import später validiert werden kann [kills]
-	* select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
-	* REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
-	* $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
-	* login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
-	* fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
-	* session_start() aus der index.php rausgenommen . was hat die da gemacht ? [jan]
-	* passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
-	* redaxo/index.php angepasst/aufgeräumt [jan]
-	* Vereinheitlicht - login.php verschoben in pages und den rest dazu angepasst - setup functions in setup page übernommen [jan]
-	* function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
-	* Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
-	* rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
-	* title() in rex_title() umbenannt [kills]
-	* rexExtensionPoint erstellt [jan]
-		- ADDONS_INCLUDED
-		- CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED [kills]
-		- vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
-	* Textile Klasse upgedated [jan]
-	* Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
-	
+  * select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
+  * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
+  * $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
+  * login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
+  * fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
+  * session_start() aus der index.php rausgenommen . was hat die da gemacht ? [jan]
+  * passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
+  * redaxo/index.php angepasst/aufgeräumt [jan]
+  * Vereinheitlicht - login.php verschoben in pages und den rest dazu angepasst - setup functions in setup page übernommen [jan]
+  * function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
+  * Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
+  * rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
+  * title() in rex_title() umbenannt [kills]
+  * rexExtensionPoint erstellt [jan]
+    - ADDONS_INCLUDED
+    - CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED [kills]
+    - vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
+  * Textile Klasse upgedated [jan]
+  * Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
+  
 Version 3.1 (2005-11-30)
 
-	* Permissions: Developer raus [jan]
-	* copyContent erscheint nur, wenn mehr als eine Sprache angelegt ist [kills]
-	*	import_export:
-		- Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [] [kills]
-	* rexExtensionPoints erstellt 
-		- MEDIA_ADDED, MEDIA_UPDATED [jan]
-		- ALL_GENERATED, URL_REWRITE [kills]
-		- CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS [jan]
-		- ART_ADDED, ART_UPDATED, ART_DELETED, ART_STATUS [jan]
-	* rexExtensions/rexExtensionPoint API implementiert [kills]
-	* sql::escape() entfernt (unnötig) [kills]
-	* OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) [kills]
-	* Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] [kills]
-	* rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar.. [jan]
-	* class article: setTemplateId und getTemplateId eingebaut.. [jan]
-	* OOF erweitert: neue OOAddon Klasse [kills]
-	* REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich [kills]
-	* ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar [jan]
-	* userverwaltung. developer rausgenommen. [jan]
-	* ob caching der artikel und templates.. ausgabe nun nur über echo moeglich. speichern in variablen moeglich [jan]
-	* image_resize:
-	  - wysiwyg resizer als ouput filter [vscope]
-		- Prüfung ob die gd-lib verfügbar ist, bei der installation [image_resize] [kills]
-	* OutputFilterCache [jan]	
-	* OutputFilter [jan]	
-	* Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind [kills]
-	* Slice verschieben (System überlegen) [jan]
+  * Permissions: Developer raus [jan]
+  * copyContent erscheint nur, wenn mehr als eine Sprache angelegt ist [kills]
+  *  import_export:
+    - Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [] [kills]
+  * rexExtensionPoints erstellt 
+    - MEDIA_ADDED, MEDIA_UPDATED [jan]
+    - ALL_GENERATED, URL_REWRITE [kills]
+    - CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS [jan]
+    - ART_ADDED, ART_UPDATED, ART_DELETED, ART_STATUS [jan]
+  * rexExtensions/rexExtensionPoint API implementiert [kills]
+  * sql::escape() entfernt (unnötig) [kills]
+  * OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) [kills]
+  * Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] [kills]
+  * rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar.. [jan]
+  * class article: setTemplateId und getTemplateId eingebaut.. [jan]
+  * OOF erweitert: neue OOAddon Klasse [kills]
+  * REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich [kills]
+  * ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar [jan]
+  * userverwaltung. developer rausgenommen. [jan]
+  * ob caching der artikel und templates.. ausgabe nun nur über echo moeglich. speichern in variablen moeglich [jan]
+  * image_resize:
+    - wysiwyg resizer als ouput filter [vscope]
+    - Prüfung ob die gd-lib verfügbar ist, bei der installation [image_resize] [kills]
+  * OutputFilterCache [jan]  
+  * OutputFilter [jan]  
+  * Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind [kills]
+  * Slice verschieben (System überlegen) [jan]
 
 Version 3.0 (2005-08-07)
 
@@ -151,8 +151,8 @@ Version 3.0 (2005-08-07)
 hinweise: bei anpassungen beachten !
 ---------------------------------------------------------------------------------
 
-	* anstatt htmlentities -> htmlspecialchars verwenden
-	* <? -> <?php
-	* $REX[VAR] -> $REX['VAR'] (Bei allen Arrays)
-	* Einheitliche Dateiheader verwenden
-	* keine tabular - ein tab = 2 leerzeichen
+  * anstatt htmlentities -> htmlspecialchars verwenden
+  * <? -> <?php
+  * $REX[VAR] -> $REX['VAR'] (Bei allen Arrays)
+  * Einheitliche Dateiheader verwenden
+  * keine tabular - ein tab = 2 leerzeichen
