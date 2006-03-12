@@ -220,23 +220,6 @@ if ($msg != '')
   echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
 ?>
 
-<script type="text/javascript">
-<!--
-function checkBox(boxid)
-{
-  if(boxid)
-  {
-    var result = new getObj(boxid);
-    var box = result.obj;
-    if(box != null)
-    {
-      box.checked = 'checked'; 
-    }
-  }
-}
-//-->
-</script>
-
 <table width="770" cellspacing="1" border="0" cellpadding="5">
 
 <tr>
@@ -381,7 +364,7 @@ foreach ($folders as $file)
     if (array_key_exists($file, $EXPDIR) !== false)
       $checked = " checked";
   echo "<tr>"."\n";
-  echo "  <td class=lgrey width=30><input type=checkbox onchange=\"checkBox('exporttype[files]');\" id=EXPDIR[$file] name=EXPDIR[$file] value=true $checked></td>"."\n";
+  echo "  <td class=lgrey width=30><input type=checkbox onchange=\"checkInput('exporttype[files]');\" id=EXPDIR[$file] name=EXPDIR[$file] value=true $checked></td>"."\n";
   echo "  <td class=lgrey><label for=EXPDIR[$file]>$file</label></td>"."\n";
   echo "</tr>"."\n";
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Importiert den SQL Dump $filename in die Datenbank
  * 
@@ -14,10 +15,14 @@ function rex_a1_import_db($filename)
 
   $return = array ();
   $return['state'] = false;
+  $return['message'] = '';
+  
+  $msg = '';
+  $error = '';
 
   if ($filename == '')
   {
-    $return['message'] = $I18N_IM_EXPORT->msg("no_import_file_chosen_or_wrong_version")."<br>";
+    $return['message'] = $I18N_IM_EXPORT->msg('no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
   }
 
@@ -27,14 +32,28 @@ function rex_a1_import_db($filename)
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
-  if (ereg("## Redaxo Database Dump Version ".$REX['version']."\n", $conts))
+  if (!ereg("## Redaxo Database Dump Version ".$REX['version']."\n", $conts))
   {
     $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['version']."] is missing<br>";
     return $return;
   }
+  elseif (!ereg("## Prefix ". $REX['TABLE_PREFIX'] ."\n", $conts))
+  {
+    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Prefix ". $REX['TABLE_PREFIX'] ."] does not match config in master.inc.php<br>";
+    return $return;
+  }
   else
   {
+    // Ordner /generated komplett leeren
+    rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
+    rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
+    rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
+    
+    // Versionsstempel entfernen
     $conts = str_replace("## Redaxo Database Dump Version ".$REX['version']." \n", "", $conts);
+    $conts = str_replace("## Prefix ". $REX['TABLE_PREFIX'] ."\n", "", $conts);
+    
+    // Datei aufteilen
     $lines = explode("\n", $conts);
 
     $add = new sql;
@@ -44,23 +63,72 @@ function rex_a1_import_db($filename)
       $add->flush();
     }
 
-    $msg = $I18N_IM_EXPORT->msg("database_imported").". ".$I18N_IM_EXPORT->msg("entry_count", count($lines))."<br>";
+    $msg .= $I18N_IM_EXPORT->msg("database_imported").". ".$I18N_IM_EXPORT->msg("entry_count", count($lines))."<br>";
 
     // CLANG Array aktualisieren
     unset ($REX['CLANG']);
-    $gl = new sql;
-    $gl->setQuery("select * from rex_clang");
-    for ($i = 0; $i < $gl->getRows(); $i++)
+    $db = new sql;
+    $db->setQuery("select * from rex_clang");
+    for ($i = 0; $i < $db->getRows(); $i++)
     {
-      $id = $gl->getValue("id");
-      $name = $gl->getValue("name");
+      $id = $db->getValue("id");
+      $name = $db->getValue("name");
       $REX['CLANG'][$id] = $name;
-      $gl->next();
+      $db->next();
     }
-    $msg .= rex_generateAll();
 
-    $return['state'] = true;
+    // prüfen, ob eine user tabelle angelegt wurde
+    $result = $db->get_array('SHOW TABLES');
+    $user_table_found = false;
+    foreach ($result as $row)
+    {
+      if (in_array($REX['TABLE_PREFIX'].'user', $row))
+      {
+        $user_table_found = true;
+        break;
+      }
+    }
+
+    if (!$user_table_found)
+    {
+      $create_user_table = '
+      CREATE TABLE rex_user
+       ( 
+         user_id int(11) NOT NULL  auto_increment,
+         name varchar(255) NOT NULL,
+         description text NOT NULL,
+         login varchar(50) NOT NULL,
+         psw varchar(50) NOT NULL,
+         status varchar(5) NOT NULL,
+         rights text NOT NULL,
+         login_tries tinyint(4) NOT NULL DEFAULT 0,
+         createuser varchar(255) NOT NULL,
+         updateuser varchar(255) NOT NULL,
+         createdate int(11) NOT NULL DEFAULT 0,
+         updatedate int(11) NOT NULL DEFAULT 0,
+         lasttrydate int(11) NOT NULL DEFAULT 0,
+         session_id varchar(255) NOT NULL,
+         PRIMARY KEY(user_id)
+       ) TYPE=MyISAM;';
+      $db->setQuery($create_user_table);
+      $error = $db->getError();
+      if($error != '')
+      {
+        // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
+        $msg = '';
+        $msg .= $error;
+      }
+    }
+
+    // generated neu erstellen, wenn kein Fehler aufgetreten ist
+    if($error == '')
+    {
+      $msg .= rex_generateAll();
+      $return['state'] = true;
+    }
+    
     $return['message'] = $msg;
+    
     return $return;
   }
 }
@@ -86,10 +154,10 @@ function rex_a1_import_files($filename)
     $return['message'] = $I18N_IM_EXPORT->msg("no_import_file_chosen")."<br>";
     return $return;
   }
-  
+
   // Ordner /files komplett leeren
   rex_deleteDir($REX['INCLUDE_PATH']."/../../files");
-  
+
   $tar = new tar;
   $tar->openTAR($filename);
   if (!$tar->extractTar())
@@ -122,7 +190,7 @@ function rex_a1_import_files($filename)
  */
 function rex_a1_export_db()
 {
-  global $REX, $DB;
+  global $REX;
 
   $tabs = new sql;
   $tabs->setquery("SHOW TABLES");
@@ -130,7 +198,7 @@ function rex_a1_export_db()
 
   for ($i = 0; $i < $tabs->rows; $i++, $tabs->next())
   {
-    $tab = $tabs->getvalue("Tables_in_".$DB[1]['NAME']);
+    $tab = $tabs->getValue("Tables_in_".$REX['DB']['1']['NAME']);
     if (strstr($tab, $REX['TABLE_PREFIX']) == $tab && $tab != $REX['TABLE_PREFIX'].'user')
     {
       $cols = new sql;
@@ -141,11 +209,11 @@ function rex_a1_export_db()
       // Spalten auswerten
       for ($j = 0; $j < $cols->rows; $j++, $cols->next())
       {
-        $colname = $cols->getvalue("Field");
-        $coltype = $cols->getvalue("Type");
+        $colname = $cols->getValue("Field");
+        $coltype = $cols->getValue("Type");
 
         // Null Werte
-        if ($cols->getvalue("Null") == 'YES')
+        if ($cols->getValue("Null") == 'YES')
         {
           $colnull = "NULL";
         }
@@ -155,9 +223,9 @@ function rex_a1_export_db()
         }
 
         // Default Werte
-        if ($cols->getvalue("Default") != '')
+        if ($cols->getValue("Default") != '')
         {
-          $coldef = "DEFAULT ".$cols->getvalue("Default")." ";
+          $coldef = "DEFAULT ".$cols->getValue("Default")." ";
         }
         else
         {
@@ -165,8 +233,8 @@ function rex_a1_export_db()
         }
 
         // Spezial Werte
-        $colextra = $cols->getvalue("Extra");
-        if ($cols->getvalue("Key") != '')
+        $colextra = $cols->getValue("Extra");
+        if ($cols->getValue("Key") != '')
         {
           $key[] = $colname;
           $colnull = "NOT NULL";
@@ -204,7 +272,7 @@ function rex_a1_export_db()
         $cols->counter = 0;
         for ($k = 0; $k < $cols->rows; $k++, $cols->next())
         {
-          $con = $cont->getvalue($cols->getvalue("Field"));
+          $con = $cont->getValue($cols->getValue("Field"));
 
           if (is_numeric($con))
           {
@@ -230,7 +298,7 @@ function rex_a1_export_db()
   }
 
   // Versionsstempel hinzufügen
-  $content = "## Redaxo Database Dump Version ".$REX['version']." \n".str_replace("\r", "", $dump);
+  $content = "## Redaxo Database Dump Version ".$REX['version']."\n## Prefix ". $REX['TABLE_PREFIX'] ."\n".str_replace("\r", "", $dump);
 
   return $content;
 }
@@ -262,7 +330,7 @@ function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
  * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu 
  * @access protected
  */
-function _rex_a1_add_folder_to_tar(&$tar, $path, $dir)
+function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 {
   $handle = opendir($path.$dir);
   $array_indx = 0;
