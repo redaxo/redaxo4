@@ -47,7 +47,7 @@ function rex_setupimport($import_sql, $import_archiv = null)
       }
       
       // Archiv optional importieren
-      if ($import_archiv !== null)
+      if ($state_db['state'] === true && $import_archiv !== null)
       {
         $state_archiv = rex_a1_import_files($import_archiv);
         if ($state_archiv['state'] === false)
@@ -224,10 +224,10 @@ if ($checkmodus == 2 && $send == 1)
   }
   elseif ($link)
   {
-    $REX['DB'][1]['NAME'] = $dbname;
-    $REX['DB'][1]['LOGIN'] = $redaxo_db_user_login;
-    $REX['DB'][1]['PSW'] = $redaxo_db_user_pass;
-    $REX['DB'][1]['HOST'] = $mysql_host;
+    $REX['DB']['1']['NAME'] = $dbname;
+    $REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
+    $REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
+    $REX['DB']['1']['HOST'] = $mysql_host;
 
     $err_msg = "";
     $checkmodus = 3;
@@ -241,10 +241,10 @@ else
   $serveraddress = $REX['SERVER'];
   $serverbezeichnung = $REX['SERVERNAME'];
   $error_email = $REX['error_emailaddress'];
-  $dbname = $REX['DB'][1]['NAME'];
-  $redaxo_db_user_login = $REX['DB'][1]['LOGIN'];
-  $redaxo_db_user_pass = $REX['DB'][1]['PSW'];
-  $mysql_host = $REX['DB'][1]['HOST'];
+  $dbname = $REX['DB']['1']['NAME'];
+  $redaxo_db_user_login = $REX['DB']['1']['LOGIN'];
+  $redaxo_db_user_pass = $REX['DB']['1']['PSW'];
+  $mysql_host = $REX['DB']['1']['HOST'];
 }
 
 if ($checkmodus == 2)
@@ -284,8 +284,43 @@ if ($checkmodus == 2)
 if ($checkmodus == 3 && $send == 1)
 {
   $err_msg = '';
+  
+  // Benötigte Tabellen
+  $TBLS = array (
+    $REX['TABLE_PREFIX'] ."action" => 0,
+    $REX['TABLE_PREFIX'] ."article" => 0,
+    $REX['TABLE_PREFIX'] ."article_slice" => 0,
+    $REX['TABLE_PREFIX'] ."article_type" => 0,
+    $REX['TABLE_PREFIX'] ."clang" => 0,
+    $REX['TABLE_PREFIX'] ."file" => 0,
+    $REX['TABLE_PREFIX'] ."file_category" => 0,
+    $REX['TABLE_PREFIX'] ."help" => 0,
+    $REX['TABLE_PREFIX'] ."module_action" => 0,
+    $REX['TABLE_PREFIX'] ."modultyp" => 0,
+    $REX['TABLE_PREFIX'] ."template" => 0,
+    $REX['TABLE_PREFIX'] ."user" => 0
+  );
+
+  // Prüfen, welche Tabellen bereits vorhanden sind
+  $db = new sql;
+  $db->setQuery("show tables");
+  
+  for ($i = 0; $i < $db->getRows(); $i++, $db->next())
+  {
+    $tblname = $db->getValue("Tables_in_".$REX['DB']['1']['NAME']);
+    if (substr($tblname, 0, strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX'])
+    {
+      // echo $tblname."<br>";
+      if (array_key_exists($tblname, $TBLS))
+      {
+        $TBLS[$tblname] = 1;
+      }
+    }
+  }
+  
   if ($dbanlegen == 3)
   {
+    // ----- vorhandenen Export importieren
     if(empty($import_name)) 
     {
       $err_msg .= $I18N->msg("setup_03701")."<br>";
@@ -294,64 +329,31 @@ if ($checkmodus == 3 && $send == 1)
     {
       $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
       $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
-  
       $err_msg .= rex_setupimport($import_sql, $import_archiv);
     }
   }
   elseif ($dbanlegen == 2)
   {
     // ----- Keine Datenbank anlegen
-    $TBLS = array (
-      "rex_action" => 0,
-      "rex_article" => 0,
-      "rex_article_slice" => 0,
-      "rex_article_type" => 0,
-      "rex_clang" => 0,
-      "rex_file" => 0,
-      "rex_file_category" => 0,
-      "rex_help" => 0,
-      "rex_module_action" => 0,
-      "rex_modultyp" => 0,
-      "rex_template" => 0,
-      "rex_user" => 0
-    );
-
-    $gt = new sql;
-    // $gt->debugsql = 1;
-    $gt->setQuery("show tables");
-    for ($i = 0; $i < $gt->getRows(); $i++, $gt->next())
-    {
-      $tblname = $gt->getValue("Tables_in_".$REX['DB'][1]['NAME']);
-      if (substr($tblname, 0, 4) == "rex_")
-      {
-        // echo $tblname."<br>";
-        if (array_key_exists("$tblname", $TBLS))
-        {
-          $TBLS["$tblname"] = 1;
-        }
-      }
-    }
-
     for ($i = 0; $i < count($TBLS); $i++)
     {
       if (current($TBLS) != 1)
+      {
         $err_msg .= $I18N->msg("setup_031", key($TBLS))."<br>";
+      }
       next($TBLS);
     }
-
   }
   elseif ($dbanlegen == 1)
   {
     // ----- leere Datenbank und alte DB löschen / drop
     $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_with_drop.sql";
-
     $err_msg .= rex_setupimport($import_sql);
   }
   elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank und alte DB lassen
     $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_without_drop.sql";
-    
     $err_msg .= rex_setupimport($import_sql);
   }
   
