@@ -1,4 +1,5 @@
-## Redaxo Database Dump Version 3.0 
+## Redaxo Database Dump Version 3
+## Prefix rex_
 DROP TABLE IF EXISTS rex_action;
 CREATE TABLE rex_action ( id int(11) NOT NULL  auto_increment, name varchar(255) NOT NULL  , action text NOT NULL  , prepost tinyint(4) NOT NULL DEFAULT 0  , sadd tinyint(4) NOT NULL DEFAULT 0  , sedit tinyint(4) NOT NULL DEFAULT 0  , sdelete tinyint(4) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_article;
