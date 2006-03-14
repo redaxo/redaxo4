@@ -32,105 +32,110 @@ function rex_a1_import_db($filename)
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
-  if (!ereg("## Redaxo Database Dump Version ".$REX['version']."\n", $conts))
+  if(strpos($conts, "## Redaxo Database Dump Version ".$REX['version']) === 0)
   {
-    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['version']."] is missing<br>";
-    return $return;
-  }
-  elseif (!ereg("## Prefix ". $REX['TABLE_PREFIX'] ."\n", $conts))
-  {
-    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Prefix ". $REX['TABLE_PREFIX'] ."] does not match config in master.inc.php<br>";
-    return $return;
+    // Versionsstempel entfernen
+    $conts = trim(str_replace("## Redaxo Database Dump Version ".$REX['version'], "", $conts));
   }
   else
   {
-    // Ordner /generated komplett leeren
-    rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
-    rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
-    rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
-    
-    // Versionsstempel entfernen
-    $conts = str_replace("## Redaxo Database Dump Version ".$REX['version']." \n", "", $conts);
-    $conts = str_replace("## Prefix ". $REX['TABLE_PREFIX'] ."\n", "", $conts);
-    
-    // Datei aufteilen
-    $lines = explode("\n", $conts);
-
-    $add = new sql;
-    foreach ($lines as $line)
-    {
-      $add->setquery(trim($line, ";"));
-      $add->flush();
-    }
-
-    $msg .= $I18N_IM_EXPORT->msg("database_imported").". ".$I18N_IM_EXPORT->msg("entry_count", count($lines))."<br>";
-
-    // CLANG Array aktualisieren
-    unset ($REX['CLANG']);
-    $db = new sql;
-    $db->setQuery("select * from rex_clang");
-    for ($i = 0; $i < $db->getRows(); $i++)
-    {
-      $id = $db->getValue("id");
-      $name = $db->getValue("name");
-      $REX['CLANG'][$id] = $name;
-      $db->next();
-    }
-
-    // prüfen, ob eine user tabelle angelegt wurde
-    $result = $db->get_array('SHOW TABLES');
-    $user_table_found = false;
-    foreach ($result as $row)
-    {
-      if (in_array($REX['TABLE_PREFIX'].'user', $row))
-      {
-        $user_table_found = true;
-        break;
-      }
-    }
-
-    if (!$user_table_found)
-    {
-      $create_user_table = '
-      CREATE TABLE rex_user
-       ( 
-         user_id int(11) NOT NULL  auto_increment,
-         name varchar(255) NOT NULL,
-         description text NOT NULL,
-         login varchar(50) NOT NULL,
-         psw varchar(50) NOT NULL,
-         status varchar(5) NOT NULL,
-         rights text NOT NULL,
-         login_tries tinyint(4) NOT NULL DEFAULT 0,
-         createuser varchar(255) NOT NULL,
-         updateuser varchar(255) NOT NULL,
-         createdate int(11) NOT NULL DEFAULT 0,
-         updatedate int(11) NOT NULL DEFAULT 0,
-         lasttrydate int(11) NOT NULL DEFAULT 0,
-         session_id varchar(255) NOT NULL,
-         PRIMARY KEY(user_id)
-       ) TYPE=MyISAM;';
-      $db->setQuery($create_user_table);
-      $error = $db->getError();
-      if($error != '')
-      {
-        // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
-        $msg = '';
-        $msg .= $error;
-      }
-    }
-
-    // generated neu erstellen, wenn kein Fehler aufgetreten ist
-    if($error == '')
-    {
-      $msg .= rex_generateAll();
-      $return['state'] = true;
-    }
-    
-    $return['message'] = $msg;
-    
+    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['version']."] is missing";
     return $return;
   }
+  
+  if(strpos($conts, "## Prefix ". $REX['TABLE_PREFIX']) === 0)
+  {
+    // Prefix entfernen
+    $conts = trim(str_replace("## Prefix ". $REX['TABLE_PREFIX'], "", $conts));
+  }
+  else
+  {
+    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Prefix ". $REX['TABLE_PREFIX'] ."] does not match config in master.inc.php";
+    return $return;
+  }
+  
+  // Ordner /generated komplett leeren
+  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
+  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
+  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
+  
+  // Datei aufteilen
+  $lines = explode("\n", $conts);
+
+  $add = new sql;
+  foreach ($lines as $line)
+  {
+    $add->setquery(trim($line, ";"));
+    $add->flush();
+  }
+
+  $msg .= $I18N_IM_EXPORT->msg("database_imported").". ".$I18N_IM_EXPORT->msg("entry_count", count($lines))."<br>";
+
+  // CLANG Array aktualisieren
+  unset ($REX['CLANG']);
+  $db = new sql;
+  $db->setQuery("select * from ". $REX['TABLE_PREFIX'] ."clang");
+  for ($i = 0; $i < $db->getRows(); $i++)
+  {
+    $id = $db->getValue("id");
+    $name = $db->getValue("name");
+    $REX['CLANG'][$id] = $name;
+    $db->next();
+  }
+
+  // prüfen, ob eine user tabelle angelegt wurde
+  $result = $db->get_array('SHOW TABLES');
+  $user_table_found = false;
+  foreach ($result as $row)
+  {
+    if (in_array($REX['TABLE_PREFIX'].'user', $row))
+    {
+      $user_table_found = true;
+      break;
+    }
+  }
+
+  if (!$user_table_found)
+  {
+    $create_user_table = '
+    CREATE TABLE '. $REX['TABLE_PREFIX'] .'user
+     ( 
+       user_id int(11) NOT NULL auto_increment,
+       name varchar(255) NOT NULL,
+       description text NOT NULL,
+       login varchar(50) NOT NULL,
+       psw varchar(50) NOT NULL,
+       status varchar(5) NOT NULL,
+       rights text NOT NULL,
+       login_tries tinyint(4) NOT NULL DEFAULT 0,
+       createuser varchar(255) NOT NULL,
+       updateuser varchar(255) NOT NULL,
+       createdate int(11) NOT NULL DEFAULT 0,
+       updatedate int(11) NOT NULL DEFAULT 0,
+       lasttrydate int(11) NOT NULL DEFAULT 0,
+       session_id varchar(255) NOT NULL,
+       PRIMARY KEY(user_id)
+     ) TYPE=MyISAM;';
+    $db->setQuery($create_user_table);
+    $error = $db->getError();
+    if($error != '')
+    {
+      // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
+      $msg = '';
+      $msg .= $error;
+    }
+  }
+
+  // generated neu erstellen, wenn kein Fehler aufgetreten ist
+  if($error == '')
+  {
+    $msg .= rex_generateAll();
+    $return['state'] = true;
+  }
+  
+  $return['message'] = $msg;
+  
+  return $return;
 }
 
 /**
@@ -298,9 +303,11 @@ function rex_a1_export_db()
   }
 
   // Versionsstempel hinzufügen
-  $content = "## Redaxo Database Dump Version ".$REX['version']."\n## Prefix ". $REX['TABLE_PREFIX'] ."\n".str_replace("\r", "", $dump);
+  $dump = str_replace("\r", "", $dump);
+  $header = "## Redaxo Database Dump Version ".$REX['version']."\n";
+  $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
 
-  return $content;
+  return $header . $dump;
 }
 
 /**
