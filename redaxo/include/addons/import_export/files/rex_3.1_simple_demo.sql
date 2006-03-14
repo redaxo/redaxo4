@@ -1,4 +1,5 @@
-## Redaxo Database Dump Version 3.1 
+## Redaxo Database Dump Version 3
+## Prefix rex_
 DROP TABLE IF EXISTS rex_action;
 CREATE TABLE rex_action ( id int(11) NOT NULL  auto_increment, name varchar(255) NOT NULL  , action text NOT NULL  , prepost tinyint(4) NOT NULL DEFAULT 0  , sadd tinyint(4) NOT NULL DEFAULT 0  , sedit tinyint(4) NOT NULL DEFAULT 0  , sdelete tinyint(4) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 INSERT INTO rex_action VALUES ('1','rexname','<?\r\n\r\n$newname = \"\";\r\nfor ($c=0;$c<99;$c++) {\r\n	$newname .= $rexname[$c].\"~~\";\r\n}\r\n\r\nif ($REX_ACTION[VALUE][1] != \"\") {\r\n	$rexname = split(\"~~\",$REX_ACTION[VALUE][1]);\r\n}\r\nelse {\r\n	$REX_ACTION[VALUE][1] = $newname;\r\n}\r\n\r\n?>','0','1','1','0');

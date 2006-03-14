@@ -1,4 +1,5 @@
-## Redaxo Database Dump Version 3.1 
+## Redaxo Database Dump Version 3
+## Prefix rex_
 DROP TABLE IF EXISTS rex_2_group;
 CREATE TABLE rex_2_group ( id int(11) NOT NULL  auto_increment, name varchar(255) NOT NULL  , extras text NOT NULL  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_2_u_g;
