@@ -106,7 +106,9 @@ Version 3.2 (2006-03-XX)
   * redaxo/index.php angepasst/aufgeräumt [jan]
   * Vereinheitlicht - login.php verschoben in pages und den rest dazu angepasst - setup functions in setup page übernommen [jan]
   * function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
-  * Medienpool: Error bei filedetail wenn in keiner categorie beseitigt [jan]
+  * Medienpool: 
+    - Error bei filedetail wenn in keiner categorie beseitigt [jan]
+    - OOMedia::compareImageTypes($ffiletype,$filetype) eingeführt -> jpg, jpeg [jan]
   * rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
   * title() in rex_title() umbenannt [kills]
   * rexExtensionPoint erstellt [jan]
