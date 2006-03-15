@@ -95,6 +95,9 @@ Version 3.2 (2006-03-XX)
     - "Datei-Leichen" werden vor jedem import entfernt [kills]
     - Bei der auswahl eines Exportordners, wird autom. die Option "Dateiexport" aktiviert [kills]
     - Prefix wird mit in die Export files geschrieben, damit dies beim import später validiert werden kann [kills]
+  * Medienpool:
+    - Error bei filedetail wenn in keiner categorie beseitigt [jan]
+    - OOMedia::compareImageTypes($ffiletype,$filetype) eingeführt -> jpg, jpeg [jan]
   * Mod_Rewrite berücksichtigt jetzt auch die Clang beim erstellen der Links
   * select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
   * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
@@ -106,9 +109,6 @@ Version 3.2 (2006-03-XX)
   * redaxo/index.php angepasst/aufgeräumt [jan]
   * Vereinheitlicht - login.php verschoben in pages und den rest dazu angepasst - setup functions in setup page übernommen [jan]
   * function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [jan]
-  * Medienpool: 
-    - Error bei filedetail wenn in keiner categorie beseitigt [jan]
-    - OOMedia::compareImageTypes($ffiletype,$filetype) eingeführt -> jpg, jpeg [jan]
   * rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
   * title() in rex_title() umbenannt [kills]
   * rexExtensionPoint erstellt [jan]
