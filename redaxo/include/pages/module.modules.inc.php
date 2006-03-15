@@ -163,7 +163,8 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
     
     echo '</td>
       </tr>
-      </form>';
+      </form>
+      </table>';
 
     if ($function == 'edit')
     {
@@ -174,7 +175,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       if ($gaa->getRows()>0)
       {     
       
-        echo '<tr><td colspan="3"></td></tr><tr><td colspan="3" align="left"><a name="action"></a><b>'.$I18N->msg("actions").'</b></td></tr>';
+        echo '<br /><table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1"><tr><th colspan="3" align="left"><a name="action"></a><b>'.$I18N->msg("actions").'</b></th></tr>';
   
         $gma = new sql;
         $gma->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action, ".$REX['TABLE_PREFIX']."action WHERE ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$modul_id'");
@@ -223,8 +224,8 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         echo '<input type="hidden" name="function" value="edit">';
         echo '<input type="hidden" name="function_action" value="add">';
         
-        echo '<tr><td colspan="3"></td></tr><tr>
-          <td>&nbsp;</td>
+        echo '<tr>
+          <td width=100>&nbsp;</td>
           <td>'.$gaa_sel->out().'</td>
           <td><input type="submit" value="'.$I18N->msg("action_add").'"></td>
           </tr>'."\n";
