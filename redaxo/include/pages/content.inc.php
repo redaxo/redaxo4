@@ -297,6 +297,16 @@ if ($article->getRows() == 1)
               $message = $I18N->msg('block_deleted');
             } 
             // ----- / SAVE SLICE
+            
+            
+            // ----- artikel neu generieren
+            $EA = new sql;
+            $EA->setTable($REX['TABLE_PREFIX']."article");
+            $EA->where("id='$article_id' and clang=$clang");
+            $EA->setValue("updatedate",time());
+            $EA->setValue("updateuser",$REX_USER->getValue("login"));
+            $EA->update();
+            rex_generateArticle($article_id);
   
   
             // ----- POST ACTION [ADD AND EDIT]
@@ -332,20 +342,12 @@ if ($article->getRows() == 1)
               $ga->next();
             }
             // ----- / POST ACTION
+            
             if (!(isset($update) and $update == 1)){
               $slice_id = "";
               $function = "";
             }
             $save = "";
-            
-            $EA = new sql;
-            $EA->setTable($REX['TABLE_PREFIX']."article");
-            $EA->where("id='$article_id' and clang=$clang");
-            $EA->setValue("updatedate",time());
-            $EA->setValue("updateuser",$REX_USER->getValue("login"));
-                    $EA->update();
-                    
-            rex_generateArticle($article_id);
 
           }
         }
