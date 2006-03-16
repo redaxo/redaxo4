@@ -610,7 +610,7 @@ if ($category_id > -1)
             <input type=hidden name=function value='add_article'>
             <td class=icon><img src=pics/document.gif width=16 height=16 border=0></td>";
     if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-      echo "<td class=grey>&nbsp;</td>";
+      echo "<td class=grey align=center>-</td>";
     echo "        
             <td><input type=text name=article_name size=20></td>
             <td>&nbsp;<input type=text name=Position_New_Article value=\"100\" style='width:30px'></td>
