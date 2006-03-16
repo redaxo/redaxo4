@@ -47,6 +47,8 @@ if (isset($function) and $function == 'delete')
   } else
   {
     $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
+    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id'");
+  
     $message = $I18N->msg("module_deleted");
   }
 }
