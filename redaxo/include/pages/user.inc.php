@@ -347,15 +347,15 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     $adduser->setValue("description",$userdesc);
     
     $perm = "";
-    if (isset($useradmin) and $useradmin == 1) $perm .= "admin[]";
-    if (isset($allcats) and $allcats == 1)     $perm .= "csw[0]";
-    if (isset($allmcats) and $allmcats == 1)   $perm .= "media[0]";
+    if (isset($useradmin) and $useradmin == 1) $perm .= "#"."admin[]";
+    if (isset($allcats) and $allcats == 1)     $perm .= "#"."csw[0]";
+    if (isset($allmcats) and $allmcats == 1)   $perm .= "#"."media[0]";
   
     // userperm_all
     if (isset($userperm_all)) {
       for($i=0;$i<count($userperm_all);$i++)
       {
-        $perm .= current($userperm_all);
+        $perm .= "#".current($userperm_all);
         next($userperm_all);
       }
     }
@@ -363,7 +363,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     if (isset($userperm_ext)) {
       for($i=0;$i<count($userperm_ext);$i++)
       {
-        $perm .= current($userperm_ext);
+        $perm .= "#".current($userperm_ext);
         next($userperm_ext);
       }
     }
@@ -371,7 +371,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     if (isset($userperm_sprachen)) {
       for($i=0;$i<count($userperm_sprachen);$i++)
       {
-        $perm .= "clang[".current($userperm_sprachen)."]";
+        $perm .= "#"."clang[".current($userperm_sprachen)."]";
         next($userperm_sprachen);
       }
     }
@@ -383,7 +383,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     if (isset($userperm_extra)) {
       for($i=0;$i<count($userperm_extra);$i++)
       {
-        $perm .= current($userperm_extra);
+        $perm .= "#".current($userperm_extra);
         next($userperm_extra);
       }
     }
@@ -391,7 +391,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     if (isset($userperm_cat)) {
       for($i=0;$i<count($userperm_cat);$i++)
       {
-        $perm .= "csw[".current($userperm_cat)."]";
+        $perm .= "#"."csw[".current($userperm_cat)."]";
         next($userperm_cat);
       }
     }
@@ -399,7 +399,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     if (isset($userperm_media)) {
       for($i=0;$i<count($userperm_media);$i++)
       {
-        $perm .= "media[".current($userperm_media)."]";
+        $perm .= "#"."media[".current($userperm_media)."]";
         next($userperm_media);
       }
     }
@@ -407,7 +407,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
     if (isset($userperm_module)) {
       for($i=0;$i<count($userperm_module);$i++)
       {
-        $perm .= "module[".current($userperm_module)."]";
+        $perm .= "#"."module[".current($userperm_module)."]";
         next($userperm_module);
       }
     }
@@ -579,7 +579,7 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
 } elseif (isset($user_id) and $user_id != '')
 {
 
-  $sql = new sql;
+  $sql = new rex_login_sql;
   $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."user where user_id='$user_id'");
 
   if ($sql->getRows()==1)
