@@ -14,7 +14,22 @@
 // www.pergopa.de
 // ersteller: j.kristinus
 
-class login{
+class rex_login_sql extends sql{
+
+  function isValueOf($feld, $prop)
+  {
+    if ($prop == "")
+    {
+      return TRUE;
+    }
+    else 
+    {
+      return strpos($this->getValue( $feld), "#".$prop) !== false;
+    }
+  }
+}
+
+class rex_login{
 
   var $DB;
   var $error_page;
@@ -31,7 +46,7 @@ class login{
   var $text;
   var $passwordfunction;
   
-  function login()
+  function rex_login()
   {
     $this->DB = 1;
     $this->logout = false;
@@ -123,7 +138,7 @@ class login{
         // wenn login daten eingegeben dann checken
         // auf error seite verweisen und message schreiben
         
-        $this->USER = new sql($this->DB);
+        $this->USER = new rex_login_sql($this->DB);
         $USR_LOGIN = $this->usr_login;
         $USR_PSW = $this->usr_psw;
 
@@ -152,7 +167,7 @@ class login{
         // wenn kein login und kein logout dann nach sessiontime checken
         // message schreiben und falls falsch auf error verweisen
                 
-        $this->USER = new sql($this->DB);
+        $this->USER = new rex_login_sql($this->DB);
         $query = str_replace("USR_UID",$_SESSION['UID'][$this->system_id],$this->user_query);
         
         $this->USER->setQuery($query);
