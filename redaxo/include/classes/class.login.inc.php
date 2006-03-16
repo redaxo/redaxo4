@@ -27,6 +27,11 @@ class rex_login_sql extends sql{
       return strpos($this->getValue( $feld), "#".$prop) !== false;
     }
   }
+  
+  function hasPerm($perm)
+  {
+    return $this->isValueOf("rights",$perm);
+  }
 }
 
 class rex_login{
