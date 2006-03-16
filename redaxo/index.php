@@ -62,7 +62,7 @@ if ($REX['SETUP'])
   // ----------------- CREATE LANG OBJ
   if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
   if (!isset($REX_UPSW)) { $REX_UPSW = ''; }
-  $REX_LOGIN = new login();
+  $REX_LOGIN = new rex_login();
   $REX_LOGIN->setSqlDb(1);
   $REX_LOGIN->setSysID($REX['INSTNAME']);
   $REX_LOGIN->setSessiontime(3000);
