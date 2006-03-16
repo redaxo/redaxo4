@@ -255,7 +255,7 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
   if (isset($userperm_cat)) {
     for ($i=0;$i<count($userperm_cat);$i++)
     {
-      $ccat = "#".current($userperm_cat);
+      $ccat = current($userperm_cat);
       $gp = new sql;
       $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
       if ($gp->getRows()==1)
