@@ -432,7 +432,7 @@ if (isset ($function) and $function == "add_cat" && $KATPERM && !$REX_USER->isVa
   // --------------------- KATEGORIE ADD FORM
   $echo .= "
       <tr>
-        <form action=index.php><input type=hidden name=page value=structure>
+        <form action=index.php name=cat_add_form><input type=hidden name=page value=structure>
         <input type=hidden name=category_id value=$category_id>
         <input type=hidden name=function value='add_category'>
         <input type=hidden name=clang value='$clang'>
@@ -445,6 +445,11 @@ if (isset ($function) and $function == "add_cat" && $KATPERM && !$REX_USER->isVa
         <td><input type=submit value='".$I18N->msg("add_category")."'></td>
         <td>&nbsp;</td>
         </form>
+        <script type='text/javascript'> 
+           <!-- 
+           document.cat_add_form.category_name.focus(); 
+           //--> 
+        </script>
       </tr>";
 }
 
@@ -488,7 +493,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     {
       // --------------------- KATEGORIE EDIT FORM
       $echo .= "<tr>
-              <form action=index.php><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang>
+              <form action=index.php name=cat_edit_form><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang>
               <td class=icon><a href=$kat_link><img src=pics/folder.gif width=16 height=16 border=0></a></td>";
       if ($REX_USER->isValueOf("rights", "advancedMode[]"))
         $echo .= "<td class=grey align=center>$i_category_id</td>";
@@ -499,7 +504,13 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       if (!$REX_USER->isValueOf("rights", "contentEditor[]"))
         $echo .= "<input type=submit name=catdelete_function value='".$I18N->msg('delete_category')."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
       $echo .= "</td>
-              <td>$kat_status</td></form></tr>";
+              <td>$kat_status</td></form>
+              <script type='text/javascript'> 
+                 <!-- 
+                 document.cat_edit_form.kat_name.focus(); 
+                 //--> 
+              </script>
+              </tr>";
     }
     else
     {
@@ -603,7 +614,7 @@ if ($category_id > -1)
         $TMPL_SEL->set_selected($sql->getValue("template_id"));
     }
     echo "<tr>
-            <form action=index.php method=post>
+            <form action=index.php method=post name=art_add_form>
             <input type=hidden name=page value=structure>
             <input type=hidden name=category_id value=$category_id>
             <input type=hidden name=clang value=$clang>
@@ -619,6 +630,11 @@ if ($category_id > -1)
             <td><b>".$I18N->msg("article")."</b></td>
             <td colspan=3><input type=submit value='add_article'></td>
             </form>
+            <script type='text/javascript'> 
+               <!-- 
+               document.art_add_form.article_name.focus(); 
+               //--> 
+            </script>
             </tr>";
   }
 
@@ -658,7 +674,7 @@ if ($category_id > -1)
       $TMPL_SEL->set_selected($sql->getValue("template_id"));
 
       echo "  <tr>
-              <form action=index.php method=post>
+              <form action=index.php method=post name=art_edit_form>
               <input type=hidden name=page value=structure>
               <input type=hidden name=category_id value=$category_id>
               <input type=hidden name=article_id value=".$sql->getValue("id").">
@@ -676,6 +692,11 @@ if ($category_id > -1)
               <td><b>$startpage</b></td>
               <td colspan=3><input type=submit value='".$I18N->msg("edit")."'></td>
               </form>
+              <script type='text/javascript'> 
+                 <!-- 
+                 document.art_edit_form.article_name.focus(); 
+                 //--> 
+              </script>
               </tr>";
 
       // --------------------- ARTIKEL PERMISSION TO ENTER
