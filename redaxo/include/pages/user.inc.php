@@ -210,7 +210,7 @@ rex_title($I18N->msg("title_user"),"");
 
 // --------------------------------- FUNCTIONS
 
-if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
+if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC_APPLY != ''))
 {
   $updateuser = new sql;
   $updateuser->setTable($REX['TABLE_PREFIX']."user");
@@ -309,10 +309,16 @@ if (isset($FUNC_UPDATE) and $FUNC_UPDATE != '')
       next($userperm_module);
     }
   }
+  
   $updateuser->setValue("rights",$perm."#");
   $updateuser->update();
-  unset($user_id);
-  unset($FUNC_UPDATE);
+  
+  if(isset($FUNC_UPDATE) && $FUNC_UPDATE != '')
+  {
+    unset($user_id);
+    unset($FUNC_UPDATE);
+  }
+  
   $message = $I18N->msg("user_data_updated");
 
 } elseif (isset($FUNC_DELETE) and $FUNC_DELETE != '')
@@ -743,13 +749,10 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
 
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="FUNC_UPDATE" value="'.$I18N->msg("update").'"></td>
-      <td colspan="2">'."\n";
+      <td><input type="submit" name="FUNC_UPDATE" value="'.$I18N->msg("user_save").'"></td>
+      <td colspan="2"><input type="submit" name="FUNC_APPLY" value="'.$I18N->msg("user_apply").'"></td>
+    </tr>
 
-    if ($REX_USER->getValue("user_id") != $user_id) {
-      echo '<input type="submit" name="FUNC_DELETE" value="'.$I18N->msg("delete").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';    
-    } else { echo '&nbsp;'; }
-    echo '</td></tr>
     </form>
     </table>';
 
@@ -777,10 +780,16 @@ if (isset($SHOW) and $SHOW)
 
   echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
     <tr>
-      <th class="icon"><a href="index.php?page=user&amp;FUNC_ADD=1"><img src="pics/user_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("create_user").'" title="'.$I18N->msg("create_user").'"></a></th>
-      <th width="300">'.$I18N->msg("name").'</th>
+      <th class="icon"><a href="index.php?page=user&amp;FUNC_ADD=1"><img src="pics/user_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("create_user").'" title="'.$I18N->msg("create_user").'"></a></th>';
+      if ($REX_USER->isValueOf("rights","advancedMode[]"))
+      {
+        echo '<th class="icon">ID</th>';
+      }
+      
+  echo '<th width="300">'.$I18N->msg("name").'</th>
       <th>'.$I18N->msg("login").'</th>
       <th>'.$I18N->msg("last_login").'</th>
+      <th>'.$I18N->msg("user_functions").'</th>
     </tr>';
 
   $sql = new sql;
@@ -788,23 +797,28 @@ if (isset($SHOW) and $SHOW)
 
   for ($i=0; $i<$sql->getRows(); $i++)
   {
-    $lasttrydate = $sql->getValue($REX['TABLE_PREFIX']."user.lasttrydate");
+    $lasttrydate = $sql->getValue("lasttrydate");
     $last_login = '-';
     
     if ( $lasttrydate != 0) {
-        $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue($REX['TABLE_PREFIX']."user.lasttrydate"));
+        $last_login = strftime( $I18N->msg("datetimeformat"), $sql->getValue("lasttrydate"));
     }
     
-    $username = htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.name"));
+    $username = htmlspecialchars($sql->getValue("name"));
     if ( $username == '') {
-        $username = htmlspecialchars($sql->getValue($REX['TABLE_PREFIX']."user.login"));
+        $username = htmlspecialchars($sql->getValue("login"));
     }
         
     echo '  <tr>
-      <td class="icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue($REX['TABLE_PREFIX']."user.user_id").'"><img src="pics/user.gif" width="16" height="16" border="0"></a></td>
-      <td><a href="index.php?page=user&amp;user_id='.$sql->getValue($REX['TABLE_PREFIX']."user.user_id").'">'.$username.'</a></td>
-      <td>'.$sql->getValue($REX['TABLE_PREFIX']."user.login").'</td>
+      <td class="icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="pics/user.gif" width="16" height="16" border="0"></a></td>';
+      if ($REX_USER->isValueOf("rights","advancedMode[]"))
+      {
+        echo '<td class="icon">'.$sql->getValue("user_id").'</td>';
+      }
+      echo '<td><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'">'.$username.'</a></td>
+      <td>'.$sql->getValue("login").'</td>
       <td>'.$last_login.'</td>
+      <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'&amp;FUNC_DELETE=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("user_delete").'</a></td>
       </tr>';
     $sql->counter++;
   }

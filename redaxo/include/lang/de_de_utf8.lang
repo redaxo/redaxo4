@@ -157,17 +157,6 @@ action_functions = Funktionen
 action_delete = Aktion löschen
 action_add = Aktion hinzufügen
 
-# redaxo\include\pages\profile.inc.php
-user_data_updated = Benutzerdaten wurden aktualisiert!
-user_deleted = Benutzer wurde gelöscht!
-user_added = Benutzer wurde hinzugefügt!
-user_login_exists = Benutzerlogin existiert schon !
-login = Login
-name = Name
-permissions = Rechte
-add = hinzufügen
-update = aktualisieren
-
 # redaxo\include\pages\structure.inc.php
 title_structure = Strukturverwaltung
 no_such_category = Kategorie nicht vorhanden!
@@ -230,16 +219,21 @@ path = Pfad
 title_user = Benutzer
 user_data_updated = Benutzerdaten wurden aktualisiert !
 user_deleted = Benutzer gelöscht!
-user_added = Benutzer wurde hinzugefügt.
+user_added = Benutzer wurde hinzugefügt!
 create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzufügen
 edit_user = Benutzer bearbeiten
 user_logintries = Loginversuche
+user_login_exists = Benutzerlogin existiert schon !
 user_admin = Admin (Alle Rechte/ Alles sichtbar)
 user_developer = Developer (Templates/Module/AddOns)
 user_notdeleteself = ***** Sie können sich nicht selbst löschen!
 user_lang_xs = Sprachenzugriff
 user_all = Allgemein
+user_save = Benutzer speichern
+user_apply = Benutzer übernehmen
+user_delete = Benutzer löschen
+user_functions = Funktionen
 user_options = Optionen
 all_categories = Alle Kategorien
 all_mediafolder = Alle Medienordner
@@ -248,6 +242,11 @@ mediafolder = Medienordner
 modules = Module
 extras = Extras
 last_login = Letzter Login
+login = Login
+name = Name
+permissions = Rechte
+add = hinzufügen
+update = aktualisieren
 psw_encrypted = Dieses Passwort ist verschlüsselt - bei änderungen einfach neues Passwort eingeben
 
 # redaxo\include\pages\special.inc.php
