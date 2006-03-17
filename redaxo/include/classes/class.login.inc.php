@@ -24,7 +24,8 @@ class rex_login_sql extends sql{
     }
     else 
     {
-      return strpos($this->getValue( $feld), "#".$prop) !== false;
+      if ($feld == "rights") return strpos($this->getValue( $feld), "#".$prop."#") !== false;
+      else return strpos($this->getValue( $feld), $prop) !== false;
     }
   }
   
