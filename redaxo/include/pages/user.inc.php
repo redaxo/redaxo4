@@ -701,9 +701,15 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       
     echo '</td>
       <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
-      <td>'.$I18N->msg("user_logintries").'</td>
-      <td>'.$sel_logintries->out().'&nbsp; [MAX='.$REX['MAXLOGINS'].']</td>
-    </tr>
+      <td align=right>'.$sel_logintries->out().'</td>
+      <td';
+    if ($REX['MAXLOGINS'] < $sql->getValue("login_tries")) echo ' class=warning';
+    echo '>'.$I18N->msg("user_logintries", $REX['MAXLOGINS']);
+    if ($REX['MAXLOGINS'] < $sql->getValue("login_tries")) echo ' '.$I18N->msg("user_no_login_possible");
+    echo '</td>
+    </tr>';
+    
+    echo '
     <tr>
       <td>'.$I18N->msg("user_lang_xs").'</td>
       <td>'.$sel_sprachen->out().'<br />'.$I18N->msg("ctrl").'</td>
