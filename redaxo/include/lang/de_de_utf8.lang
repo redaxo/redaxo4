@@ -218,12 +218,13 @@ path = Pfad
 # redaxo\include\pages\user.inc.php
 title_user = Benutzer
 user_data_updated = Benutzerdaten wurden aktualisiert !
-user_deleted = Benutzer gelöscht!
+user_deleted = Benutzer wurde gelöscht!
 user_added = Benutzer wurde hinzugefügt!
 create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzufügen
 edit_user = Benutzer bearbeiten
-user_logintries = Loginversuche
+user_logintries = Fehlversuche von maximal {0} erlaubten Versuchen.
+user_no_login_possible = Ein Login ist nun nicht mehr möglich.
 user_login_exists = Benutzerlogin existiert schon !
 user_admin = Admin (Alle Rechte/ Alles sichtbar)
 user_developer = Developer (Templates/Module/AddOns)
