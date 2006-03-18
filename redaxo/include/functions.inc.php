@@ -54,7 +54,7 @@ $REX['EXTPERM'][] = "publishArticle[]";
 $REX['EXTPERM'][] = "publishCategory[]";
 
 // ----- extras
-$REX['EXTRAPERM'][] = "contentEditor[]";
+$REX['EXTRAPERM'][] = "contentEditorOnly[]";
 
 // ----------------- REDAXO INCLUDES
 include_once $REX['INCLUDE_PATH']."/classes/class.i18n.inc.php";
