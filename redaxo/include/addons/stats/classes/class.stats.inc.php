@@ -539,11 +539,19 @@ class stats
   {
     $visits = count($this->MAIN['ip']);
 
+    // pageviews
     $pv = 0;
+    // pageviews per visit
+    $pvpv = 0;
     foreach ($this->MAIN['pageviews'] as $v)
+    {
       $pv += count($v);
-
-    $pvpv = round($pv / $visits);
+    }
+    
+    if($visits != 0)
+    {
+      $pvpv = round($pv / $visits);
+    }
 
     $oldmonth = $month;
 
