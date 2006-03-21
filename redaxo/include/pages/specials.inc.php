@@ -161,20 +161,13 @@ if ($subpage == '')
   echo '<tr><td>$REX[\'DB\'][\'1\'][\'LOGIN\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['LOGIN'].'"</td></tr>';
   echo '<tr><td>$REX[\'DB\'][\'1\'][\'PSW\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>-</td></tr>';
   echo '<tr><td>$REX[\'DB\'][\'1\'][\'NAME\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['NAME'].'"</td></tr>';
-  
-  /*
-  echo "<tr><td colspan=3><br><b>".$I18N->msg("db2_text")."</b></td></tr>";
-  echo "<tr><td>\$REX['DB']['2']['HOST']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_host value=\"".$REX['DB']['2']['HOST']."\" class=inp100></td></tr>";
-  echo "<tr><td>\$REX['DB']['2']['LOGIN']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_login value=\"".$REX['DB']['2']['LOGIN']."\" class=inp100></td></tr>";
-  echo "<tr><td>\$REX['DB']['2']['PSW']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_psw value=\"".$REX['DB']['2']['PSW']."\" class=inp100></td></tr>";
-  echo "<tr><td>\$REX['DB']['2']['NAME']:</td><td><img src=pics/leer.gif width=10 height=20></td><td><input type=text size=5 name=neu_db2_name value=\"".$REX['DB']['2']['NAME']."\" class=inp100></td></tr>";
-  */
-  
+
   echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("specials_others").'</b></td></tr>';
   echo '<tr><td>$REX[\'INCLUDE_PATH\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['INCLUDE_PATH'].'"</td></tr>';
   echo '<tr><td>$REX[\'error_emailaddress\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_error_emailaddress" value="'.$REX['error_emailaddress'].'" class="inp100"></td></tr>';
   echo '<tr><td>$REX[\'STARTARTIKEL_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_startartikel" value="'.$REX['STARTARTIKEL_ID'].'"></td></tr>';
   echo '<tr><td>$REX[\'LANG\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><select name="neu_lang" size="1">';
+
   foreach ($REX['LOCALES'] as $l) {
     $selected = ($l == $REX['LANG'] ? "selected" : "");
     echo '<option value="'.$l.'" '.$selected.'>'.$l.'</option>';
@@ -322,7 +315,7 @@ if ($subpage == '')
   
   // ----- eigene typen definieren
     
-  if (isset($function) and ($function == "Update" or $function == "Ändern"))
+  if (isset($function) and $function == $I18N->msg("update_button"))
   {
     $update = new sql;
     $update->setTable($REX['TABLE_PREFIX']."article_type");
@@ -334,7 +327,7 @@ if ($subpage == '')
     $function = "";
     $message = $I18N->msg("article_type_updated");
   
-  } elseif (isset($function) and ($function == "Delete" or $function == "Löschen"))
+  } elseif (isset($function) and $function == $I18N->msg("delete_button"))
   {
     if ($type_id!=1)
     {
@@ -367,8 +360,6 @@ if ($subpage == '')
     $function = "";
     $message = $I18N->msg("article_type_added");
   }
-  
-  
   
   echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
     <tr>
