@@ -60,7 +60,8 @@ Changes:
 
 Version 3.2 (2006-03-XX)
 
-  * Rechte
+  * Rechte/User
+    - wenn maximale Fehlloginanzahl erreicht gibt es die Möglichkeit den Account wieder zu aktivieren [jan]
     - userverwaltung angepasst mit trennzeichen "#" eingebaut.. [jan]
     - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
     - "contentEditorOnly[]" eingebaut - User mit diesem Recht, dürfen keine Änderungen an der Struktur selbst machen(nur Inhalte) [jan,kills]
@@ -103,16 +104,20 @@ Version 3.2 (2006-03-XX)
     - vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
   * Javascript:
     - neue Funktionen: uncheckInput(), checkInput() um Radio/Checkboxen zu aktivieren/deaktivieren [kills]
-  * Angeleichungen:
+  * Angleichungen:
+    - $REX['error_emailaddress'] -> $REX['ERROR_EMAIL'] [jan]
+    - $REX[STARTARTIKEL_ID] -> $REX['START_ARTICLE_ID'] [jan]
     - title() in rex_title() umbenannt [kills]
     - login in rex_login geaendert [jan]
     - select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
   * Security:
+    - login delay eingeführt - mehrmaliges einloggen nur mit x sekunden verzoegung moeglich [jan]
     - login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
     - passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
   * Import/Export Addon:
     - Auf $REX['TABLE_PREFIX'] angepasst [kills]
   
+  * $REX['NOTFOUND_ARTICLE_ID']
   * Mod_Rewrite berücksichtigt jetzt auch die Clang beim erstellen der Links
   * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
   * $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
