@@ -53,8 +53,8 @@ $REX_ARTICLE->setCLang($clang);
 if ($REX_ARTICLE->setArticleId($article_id))
 {
   echo $REX_ARTICLE->getArticleTemplate();
-}elseif($REX_ARTICLE->setArticleId($REX['START_ARTICLE_ID']))
-{   
+}elseif($REX_ARTICLE->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
+{
   echo $REX_ARTICLE->getArticleTemplate();
 }else
 {
