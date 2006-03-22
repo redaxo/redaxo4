@@ -70,15 +70,15 @@ class rex_login{
     {
       $this->text[10] = "Session beendet.";
       $this->text[20] = "ID nicht gefunden.";
-      $this->text[30] = "Fehler beim Login. Bitte noch ".$REX['RELOGINDELAY']." Sekunden vor dem nächsten Version warten.";
+      $this->text[30] = "Fehler beim Login. Bitte vor dem nächsten Versuch ".$REX['RELOGINDELAY']." Sekunden warten.";
       $this->text[40] = "Bitte einloggen.";
       $this->text[50] = "Ausgeloggt.";
     }else
     {
-      $this->text[10] = "your session is expired !";
-      $this->text[20] = "uid not found";
+      $this->text[10] = "your session is expired!";
+      $this->text[20] = "uid not found!";
       $this->text[30] = "login wrong. please wait ".$REX['RELOGINDELAY']." seconds before you try again.";
-      $this->text[40] = "login please";
+      $this->text[40] = "login please.";
       $this->text[50] = "You logged out.";
     }   
   }
