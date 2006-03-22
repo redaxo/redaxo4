@@ -32,26 +32,30 @@ function rex_a1_import_db($filename)
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
-  if(strpos($conts, "## Redaxo Database Dump Version ".$REX['version']) === 0)
-  {
-    // Versionsstempel entfernen
-    $conts = trim(str_replace("## Redaxo Database Dump Version ".$REX['version'], "", $conts));
-  }
-  else
+  $rex_version = strpos($conts, "## Redaxo Database Dump Version ".$REX['version']);
+  if($rex_version === FALSE)
   {
     $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['version']."] is missing";
     return $return;
   }
-  
-  if(strpos($conts, "## Prefix ". $REX['TABLE_PREFIX']) === 0)
-  {
-    // Prefix entfernen
-    $conts = trim(str_replace("## Prefix ". $REX['TABLE_PREFIX'], "", $conts));
-  }
   else
+  {
+    // Versionsstempel entfernen
+    $conts = trim(str_replace("## Redaxo Database Dump Version ".$REX['version'], "", $conts));
+  }
+
+  // Prefix prüfen
+  // ## Prefix rex_
+  $rex_prefix = strpos($conts, "## Prefix ". $REX['TABLE_PREFIX']);
+  if($rex_prefix === FALSE)
   {
     $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Prefix ". $REX['TABLE_PREFIX'] ."] does not match config in master.inc.php";
     return $return;
+  }
+  else
+  {
+    // Prefix entfernen
+    $conts = trim(str_replace("## Prefix ". $REX['TABLE_PREFIX'], "", $conts));
   }
   
   // Ordner /generated komplett leeren
