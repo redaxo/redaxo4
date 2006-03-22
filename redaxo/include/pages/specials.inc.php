@@ -83,9 +83,9 @@ if ($subpage == '')
     $h = fopen("include/master.inc.php","r");
     $cont = fread($h,filesize("include/master.inc.php"));
   
-    $cont = ereg_replace("(REX\['STARTARTIKEL_ID'\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
-    $cont = ereg_replace("(REX\['EMAIL'\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
-    $cont = ereg_replace("(REX\['error_emailaddress'\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
+    $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*","\\1".strtolower($neu_startartikel),$cont);
+    $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*","\\1".strtolower($neu_notfoundartikel),$cont);
+    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
     $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*","\\1\"".$neu_lang."\"",$cont);
     $REX['LANG'] = $neu_lang;
     $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
@@ -112,9 +112,10 @@ if ($subpage == '')
     if ($neu_modrewrite != "TRUE") $REX['MOD_REWRITE'] = false;
     else $REX['MOD_REWRITE'] = true;
   
-    $REX['STARTARTIKEL_ID'] = $neu_startartikel;
+    $REX['START_ARTICLE_ID'] = $neu_startartikel;
+    $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
     $REX['EMAIL'] = $neu_error_emailaddress;
-    $REX['error_emailaddress'] = $neu_error_emailaddress;
+    $REX['ERROR_EMAIL'] = $neu_error_emailaddress;
     $REX['SERVER'] = $neu_SERVER;
     $REX['SERVERNAME'] = $neu_SERVERNAME;
   
@@ -164,8 +165,9 @@ if ($subpage == '')
 
   echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("specials_others").'</b></td></tr>';
   echo '<tr><td>$REX[\'INCLUDE_PATH\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['INCLUDE_PATH'].'"</td></tr>';
-  echo '<tr><td>$REX[\'error_emailaddress\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_error_emailaddress" value="'.$REX['error_emailaddress'].'" class="inp100"></td></tr>';
-  echo '<tr><td>$REX[\'STARTARTIKEL_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_startartikel" value="'.$REX['STARTARTIKEL_ID'].'"></td></tr>';
+  echo '<tr><td>$REX[\'ERROR_EMAIL\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_error_emailaddress" value="'.$REX['ERROR_EMAIL'].'" class="inp100"></td></tr>';
+  echo '<tr><td>$REX[\'START_ARTICLE_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_startartikel" value="'.$REX['START_ARTICLE_ID'].'"></td></tr>';
+  echo '<tr><td>$REX[\'NOTFOUND_ARTICLE_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_notfoundartikel" value="'.$REX['NOTFOUND_ARTICLE_ID'].'"></td></tr>';
   echo '<tr><td>$REX[\'LANG\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><select name="neu_lang" size="1">';
 
   foreach ($REX['LOCALES'] as $l) {

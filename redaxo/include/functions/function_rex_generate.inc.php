@@ -188,7 +188,7 @@ function rex_deleteArticle($id, $ebene = 0)
   // -> startpage = 1
   // --> rekursiv aufrufen
 
-  if ($id == $REX['STARTARTIKEL_ID'])
+  if ($id == $REX['START_ARTICLE_ID'])
   {
     return $I18N->msg("cant_delete_startarticle");
   }

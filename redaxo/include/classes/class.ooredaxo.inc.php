@@ -367,7 +367,7 @@ class OORedaxo
   function isSiteStartArticle()
   {
     global $REX;
-    return $this->_id == $REX['STARTARTIKEL_ID'];
+    return $this->_id == $REX['START_ARTICLE_ID'];
   }
   
   /*

@@ -17,11 +17,12 @@ if (!isset($page)) $page = '';
 $REX['SETUP'] = false; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
-$REX['error_emailaddress'] = "jan.kristinus@pergopa.de";
+$REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
 $REX['version'] = "3";
 $REX['subversion'] = "2";
 $REX['MYSQL_VERSION'] = ""; // Is set first time SQL Object ist initialised
-$REX['STARTARTIKEL_ID'] = 1; // FIRST ARTICLE
+$REX['START_ARTICLE_ID'] = 1; // FIRST ARTICLE
+$REX['NOTFOUND_ARTICLE_ID'] = 1; // if there is no article -> change to this article
 $REX['LANG'] = "de_de"; // select default language
 $REX['MOD_REWRITE'] = false; // activate mod_rewrite support
 $REX['INCLUDE_PATH'] = $REX['HTDOCS_PATH']."redaxo/include"; // 
@@ -30,7 +31,8 @@ $REX['TABLE_PREFIX'] = "rex_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20060101010101";
 $REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
-$REX['MAXLOGINS'] = 20; // maximale loginversuche
+$REX['RELOGINDELAY'] = 5; // bei fehllogin 5 sekunden kein relogin moeglich
+$REX['MAXLOGINS'] = 50; // maximal erlaubte versuche
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";

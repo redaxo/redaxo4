@@ -195,14 +195,6 @@ if (isset($REX['EXTRAPERM'])) {
   }
 }
 
-$sel_logintries = new select;
-$sel_logintries->set_size(1);
-$sel_logintries->set_name("userlogintries");
-for ($i = 0; $i < ($REX['MAXLOGINS']+11); $i++)
-{
-  $sel_logintries->add_option($i,$i);
-}
-
 
 // --------------------------------- Title
 
@@ -216,10 +208,12 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   $updateuser->setTable($REX['TABLE_PREFIX']."user");
   $updateuser->where("user_id='$user_id'");
   $updateuser->setValue("name",$username);
+  $updateuser->setValue("updatedate",time());
+  $updateuser->setValue("updateuser",$REX_USER->getValue("login"));
   if ($REX['PSWFUNC']!="" && $userpsw != $sql->getValue($REX['TABLE_PREFIX']."user.psw")) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue("psw",$userpsw);
   $updateuser->setValue("description",$userdesc);
-  $updateuser->setValue("login_tries",$userlogintries);
+  if (isset($_REQUEST["logintriesreset"]) && $_REQUEST["logintriesreset"] == 1) $updateuser->setValue("login_tries","0");
   
   $perm = "";
   if (isset($useradmin) and $useradmin == 1) $perm .= "#admin[]";
@@ -351,6 +345,8 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     $adduser->setValue("psw",$userpsw);
     $adduser->setValue("login",$userlogin);
     $adduser->setValue("description",$userdesc);
+    $adduser->setValue("createdate",time());
+    $adduser->setValue("createuser",$REX_USER->getValue("login"));
     
     $perm = "";
     if (isset($useradmin) and $useradmin == 1) $perm .= "#"."admin[]";
@@ -591,8 +587,6 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
   if ($sql->getRows()==1)
   {
 
-    $sel_logintries->set_selected($sql->getValue("login_tries"));
-
     // ----- EINLESEN DER PERMS
     if ($sql->isValueOf("rights","admin[]")) $adminchecked = "checked";
     else $adminchecked = "";
@@ -701,12 +695,18 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       
     echo '</td>
       <td><label for="useradmin">'.$I18N->msg("user_admin").'</label></td>
-      <td align=right>'.$sel_logintries->out().'</td>
-      <td';
-    if ($REX['MAXLOGINS'] < $sql->getValue("login_tries")) echo ' class=warning';
-    echo '>'.$I18N->msg("user_logintries", $REX['MAXLOGINS']);
-    if ($REX['MAXLOGINS'] < $sql->getValue("login_tries")) echo ' '.$I18N->msg("user_no_login_possible");
-    echo '</td>
+      ';
+    if ($REX['MAXLOGINS'] < $sql->getValue("login_tries"))
+    {
+      echo '<td align=right><input type=checkbox name=logintriesreset value=1></td><td class=warning>';
+      echo $I18N->msg("user_reset_tries",$REX['MAXLOGINS']);
+	  echo '</td>';
+    }else
+    {
+      echo "<td colspan=2>&nbsp;</td>";
+    	
+    }
+    echo '
     </tr>';
     
     echo '
