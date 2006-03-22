@@ -71,7 +71,7 @@ if ($REX['SETUP'])
   if (isset($FORM['logout']) and $FORM['logout'] == 1) $REX_LOGIN->setLogout(true);
   $REX_LOGIN->setUserID($REX['TABLE_PREFIX']."user.user_id");
   $REX_LOGIN->setUserquery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = 'USR_UID'");
-  $REX_LOGIN->setLoginquery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW' and login_tries<='".$REX['MAXLOGINS']."'");
+  $REX_LOGIN->setLoginquery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = 'USR_LOGIN' and psw = 'USR_PSW' and lasttrydate <'".(time()-$REX['RELOGINDELAY'])."'");
 
   if (!$REX_LOGIN->checkLogin())
   {
@@ -84,8 +84,8 @@ if ($REX['SETUP'])
     if ($REX_ULOGIN != "")
     {
         $fvs = new sql;
-        $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=login_tries+1 where login='".$REX_ULOGIN."'");
-    }    
+        $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=login_tries+1,lasttrydate='".time()."' where login='".$REX_ULOGIN."'");
+    }
     
   } else
   {
@@ -94,7 +94,7 @@ if ($REX['SETUP'])
     if ($REX_ULOGIN != "")
     {
         $fvs = new sql;
-        $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=0 where login='".$REX_ULOGIN."'");
+        $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=0,lasttrydate='".time()."' where login='".$REX_ULOGIN."'");
     }
     	
   	// login ok 
