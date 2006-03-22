@@ -9,7 +9,7 @@
  *               'state' => boolean (Status ob fehler aufgetreten sind)
  *               'message' => Evtl. Status/Fehlermeldung  
  */
-function rex_a1_import_db($filename)
+function rex_a1_import_db($filename,$replace_rex = false)
 {
   global $REX, $I18N_IM_EXPORT;
 
@@ -47,7 +47,12 @@ function rex_a1_import_db($filename)
   // Prefix prüfen
   // ## Prefix rex_
   $rex_prefix = strpos($conts, "## Prefix ". $REX['TABLE_PREFIX']);
-  if($rex_prefix === FALSE)
+  if($replace_rex)
+  {
+  	$conts = trim(str_replace("## Prefix rex_", "", $conts)); 
+  	$conts = str_replace("rex_",$REX['TABLE_PREFIX'],$conts);
+  	
+  }elseif($rex_prefix === FALSE)
   {
     $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Prefix ". $REX['TABLE_PREFIX'] ."] does not match config in master.inc.php";
     return $return;
