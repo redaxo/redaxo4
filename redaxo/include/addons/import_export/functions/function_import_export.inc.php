@@ -49,8 +49,11 @@ function rex_a1_import_db($filename,$replace_rex = false)
   $rex_prefix = strpos($conts, "## Prefix ". $REX['TABLE_PREFIX']);
   if($replace_rex)
   {
-  	$conts = trim(str_replace("## Prefix rex_", "", $conts)); 
-  	$conts = str_replace("rex_",$REX['TABLE_PREFIX'],$conts);
+  	$conts = trim(str_replace("## Prefix rex_", "", $conts));
+  	
+  	$conts = str_replace("TABLE rex_","TABLE ".$REX['TABLE_PREFIX'],$conts);
+  	$conts = str_replace("INTO rex_","INTO ".$REX['TABLE_PREFIX'],$conts);
+  	$conts = str_replace("EXISTS rex_","EXISTS ".$REX['TABLE_PREFIX'],$conts);
   	
   }elseif($rex_prefix === FALSE)
   {
