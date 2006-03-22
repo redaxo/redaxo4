@@ -698,8 +698,8 @@ if (isset($FUNC_ADD) and $FUNC_ADD)
       ';
     if ($REX['MAXLOGINS'] < $sql->getValue("login_tries"))
     {
-      echo '<td align=right><input type=checkbox name=logintriesreset value=1></td><td class=warning>';
-      echo $I18N->msg("user_reset_tries",$REX['MAXLOGINS']);
+      echo '<td align=right><input type=checkbox name=logintriesreset id=logintriesreset value=1></td><td class=warning>';
+      echo '<label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>';
 	  echo '</td>';
     }else
     {
