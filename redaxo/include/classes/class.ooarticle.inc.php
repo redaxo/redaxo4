@@ -124,7 +124,7 @@ class OOArticle extends OORedaxo
     global $REX;
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
-    return OOArticle :: getArticleById($REX['STARTARTIKEL_ID'], $clang);
+    return OOArticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
