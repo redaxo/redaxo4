@@ -21,7 +21,7 @@ function rex_setuptitle($title)
                 <tr><td class=lgrey><font class=content>";
 }
 
-function rex_setupimport($import_sql, $import_archiv = null, $replace_rex = false)
+function rex_setupimport($import_sql, $import_archiv = null)
 {
   global $REX, $I18N, $export_addon_dir;
 
@@ -40,6 +40,8 @@ function rex_setupimport($import_sql, $import_archiv = null, $replace_rex = fals
       require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 
       // DB Import
+      $replace_rex = false;
+      if ($REX['TABLE_PREFIX'] != "rex_") $replace_rex = true;
       $state_db = rex_a1_import_db($import_sql,$replace_rex);
       if ($state_db['state'] === false)
       {
@@ -321,12 +323,12 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- leere Datenbank und alte DB löschen / drop
     $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_with_drop.sql";
-    $err_msg .= rex_setupimport($import_sql,NULL,true); // true = replace rex_ durch defaul prefix
+    $err_msg .= rex_setupimport($import_sql);
   }elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank und alte DB lassen
     $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_without_drop.sql";
-    $err_msg .= rex_setupimport($import_sql,NULL,true); // true = replace rex_ durch defaul prefix
+    $err_msg .= rex_setupimport($import_sql);
   }
   
   // Prüfen, welche Tabellen bereits vorhanden sind
