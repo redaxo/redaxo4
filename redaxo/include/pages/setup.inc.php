@@ -301,6 +301,34 @@ if ($checkmodus == 3 && $send == 1)
     $REX['TABLE_PREFIX'] ."user" => 0
   );
 
+  if ($dbanlegen == 3)
+  {
+    // ----- vorhandenen Export importieren
+    if(empty($import_name)) 
+    {
+      $err_msg .= $I18N->msg("setup_03701")."<br>";
+    }
+    else
+    {
+      $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
+      $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
+      $err_msg .= rex_setupimport($import_sql, $import_archiv);
+    }
+  }elseif ($dbanlegen == 2)
+  {
+    // db schon vorhanden
+  }elseif ($dbanlegen == 1)
+  {
+    // ----- leere Datenbank und alte DB löschen / drop
+    $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_with_drop.sql";
+    $err_msg .= rex_setupimport($import_sql);
+  }elseif ($dbanlegen == 0)
+  {
+    // ----- leere Datenbank und alte DB lassen
+    $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_without_drop.sql";
+    $err_msg .= rex_setupimport($import_sql);
+  }
+  
   // Prüfen, welche Tabellen bereits vorhanden sind
   $db = new sql;
   $db->setQuery("show tables");
@@ -317,24 +345,10 @@ if ($checkmodus == 3 && $send == 1)
       }
     }
   }
-  
-  if ($dbanlegen == 3)
+
+  // ----- Keine Datenbank anlegen
+  if (isset($dbanlegen) && $err_msg == "")
   {
-    // ----- vorhandenen Export importieren
-    if(empty($import_name)) 
-    {
-      $err_msg .= $I18N->msg("setup_03701")."<br>";
-    }
-    else
-    {
-      $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
-      $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
-      $err_msg .= rex_setupimport($import_sql, $import_archiv);
-    }
-  }
-  elseif ($dbanlegen == 2)
-  {
-    // ----- Keine Datenbank anlegen
     for ($i = 0; $i < count($TBLS); $i++)
     {
       if (current($TBLS) != 1)
@@ -343,18 +357,6 @@ if ($checkmodus == 3 && $send == 1)
       }
       next($TBLS);
     }
-  }
-  elseif ($dbanlegen == 1)
-  {
-    // ----- leere Datenbank und alte DB löschen / drop
-    $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_with_drop.sql";
-    $err_msg .= rex_setupimport($import_sql);
-  }
-  elseif ($dbanlegen == 0)
-  {
-    // ----- leere Datenbank und alte DB lassen
-    $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_without_drop.sql";
-    $err_msg .= rex_setupimport($import_sql);
   }
   
   if ($err_msg == "")
