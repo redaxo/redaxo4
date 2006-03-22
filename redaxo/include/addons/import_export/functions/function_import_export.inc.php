@@ -32,16 +32,16 @@ function rex_a1_import_db($filename,$replace_rex = false)
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
-  $rex_version = strpos($conts, "## Redaxo Database Dump Version ".$REX['version']);
+  $rex_version = strpos($conts, "## Redaxo Database Dump Version ".$REX['VERSION']);
   if($rex_version === FALSE)
   {
-    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['version']."] is missing";
+    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['VERSION']."] is missing";
     return $return;
   }
   else
   {
     // Versionsstempel entfernen
-    $conts = trim(str_replace("## Redaxo Database Dump Version ".$REX['version'], "", $conts));
+    $conts = trim(str_replace("## Redaxo Database Dump Version ".$REX['VERSION'], "", $conts));
   }
 
   // Prefix prüfen
@@ -316,7 +316,7 @@ function rex_a1_export_db()
 
   // Versionsstempel hinzufügen
   $dump = str_replace("\r", "", $dump);
-  $header = "## Redaxo Database Dump Version ".$REX['version']."\n";
+  $header = "## Redaxo Database Dump Version ".$REX['VERSION']."\n";
   $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
 
   return $header . $dump;

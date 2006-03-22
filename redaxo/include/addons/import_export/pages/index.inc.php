@@ -32,7 +32,7 @@ if (isset ($impname) && $impname != '')
 }
 
 if (!isset ($exportfilename) || $exportfilename == '')
-  $exportfilename = 'rex_'.$REX['version'].'_'.date("Ymd");
+  $exportfilename = 'rex_'.$REX['VERSION'].'_'.date("Ymd");
 
 if (isset ($function) && $function == "delete")
 {

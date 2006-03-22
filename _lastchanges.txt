@@ -60,6 +60,14 @@ Changes:
 
 Version 3.2 (2006-03-XX)
 
+  * Angleichungen (keine Rückwärtskompatibilität!):
+    - $REX['version'] -> $REX['VERSION'] [kills]
+    - $REX['subversion'] -> $REX['SUBVERSION'] [kills]
+    - $REX['error_emailaddress'] -> $REX['ERROR_EMAIL'] [jan]
+    - $REX[STARTARTIKEL_ID] -> $REX['START_ARTICLE_ID'] [jan]
+    - title() in rex_title() umbenannt [kills]
+    - login in rex_login geaendert [jan]
+    - select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
   * Rechte/User
     - wenn maximale Fehlloginanzahl erreicht gibt es die Möglichkeit den Account wieder zu aktivieren [jan]
     - userverwaltung angepasst mit trennzeichen "#" eingebaut.. [jan]
@@ -104,12 +112,6 @@ Version 3.2 (2006-03-XX)
     - vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [kills]
   * Javascript:
     - neue Funktionen: uncheckInput(), checkInput() um Radio/Checkboxen zu aktivieren/deaktivieren [kills]
-  * Angleichungen:
-    - $REX['error_emailaddress'] -> $REX['ERROR_EMAIL'] [jan]
-    - $REX[STARTARTIKEL_ID] -> $REX['START_ARTICLE_ID'] [jan]
-    - title() in rex_title() umbenannt [kills]
-    - login in rex_login geaendert [jan]
-    - select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
   * Security:
     - login delay eingeführt - mehrmaliges einloggen nur mit x sekunden verzoegung moeglich [jan]
     - login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [jan]
@@ -133,7 +135,7 @@ Version 3.2 (2006-03-XX)
 Version 3.1 (2005-11-30)
 
   * Import/Export:
-    - Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [] [kills]
+    - Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [kills]
   * rexExtensionPoints erstellt 
     - MEDIA_ADDED, MEDIA_UPDATED [jan]
     - ALL_GENERATED, URL_REWRITE [kills]

@@ -152,7 +152,8 @@ if ($subpage == '')
   echo '<input type="hidden" name="page" value="specials">';
   echo '<input type="hidden" name="func" value="updateinfos">';
   echo '<tr><td colspan="3"><b>'.$I18N->msg("general_info_header").'</b></td></tr>';
-  echo '<tr><td width="170">$REX[\'version\']:</td><td width="10"><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['version'].'"</td></tr>';
+  echo '<tr><td width="170">$REX[\'VERSION\']:</td><td width="10"><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['VERSION'].'"</td></tr>';
+  echo '<tr><td width="170">$REX[\'SUBVERSION\']:</td><td width="10"><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['SUBVERSION'].'"</td></tr>';
   echo '<tr><td>$REX[\'SERVER\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_SERVER" value="'.$REX['SERVER'].'" class="inp100"></td></tr>';
   echo '<tr><td>$REX[\'SERVERNAME\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_SERVERNAME" value="'.$REX['SERVERNAME'].'" class="inp100"></td></tr>';
   
