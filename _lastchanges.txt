@@ -68,7 +68,7 @@ Version 3.2 (2006-03-XX)
     - title() in rex_title() umbenannt [kills]
     - login in rex_login geaendert [jan]
     - select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
-  * Rechte/User
+  * Rechte/User:
     - wenn maximale Fehlloginanzahl erreicht gibt es die Möglichkeit den Account wieder zu aktivieren [jan]
     - userverwaltung angepasst mit trennzeichen "#" eingebaut.. [jan]
     - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
@@ -119,7 +119,7 @@ Version 3.2 (2006-03-XX)
   * Import/Export Addon:
     - Auf $REX['TABLE_PREFIX'] angepasst [kills]
   
-  * $REX['NOTFOUND_ARTICLE_ID']
+  * $REX['NOTFOUND_ARTICLE_ID'] => auf diesen Artikel wird weitergeleitet, wenn eine ungültige article_id übergeben wurde [jan]
   * Mod_Rewrite berücksichtigt jetzt auch die Clang beim erstellen der Links
   * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
   * $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [jan]
