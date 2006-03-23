@@ -69,6 +69,7 @@ Version 3.2 (2006-03-XX)
     - login in rex_login geaendert [jan]
     - select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [kills]
   * Rechte/User:
+    - contentEditorOnly[] -> editContentOnly[] [tab]
     - wenn maximale Fehlloginanzahl erreicht gibt es die Möglichkeit den Account wieder zu aktivieren [jan]
     - userverwaltung angepasst mit trennzeichen "#" eingebaut.. [jan]
     - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [kills]
