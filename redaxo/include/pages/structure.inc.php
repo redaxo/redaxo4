@@ -92,7 +92,7 @@ if (isset ($catedit_function) and $catedit_function != "" && $edit_id != "" && $
   )));
 
 }
-elseif (isset ($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM && !$REX_USER->isValueOf("rights", "contentEditorOnly[]"))
+elseif (isset ($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
 {
   // --------------------- KATEGORIE DELETE
   $KAT = new sql;
@@ -172,7 +172,7 @@ elseif (isset ($function) and $function == "status" && $edit_id != ""
   }
 
 }
-elseif (isset ($function) and $function == "add_category" && $KATPERM && !$REX_USER->isValueOf("rights", "contentEditorOnly[]"))
+elseif (isset ($function) and $function == "add_category" && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
 {
   // --------------------- KATEGORIE ADD
   $message = $I18N->msg("category_added_and_startarticle_created");
@@ -406,7 +406,7 @@ elseif (isset ($function) and $function == "delete_article" && $article_id != ""
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if ($KATPERM && !$REX_USER->isValueOf("rights", "contentEditorOnly[]"))
+if ($KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
   $addc = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'"></a>';
 else
   $addc = "&nbsp;";
@@ -427,7 +427,7 @@ if (isset ($message) and $message != "")
 if (isset ($category_id) and $category_id != 0)
   echo "<tr><td>&nbsp;</td><td colspan=5>..</td></tr>";
 
-if (isset ($function) and $function == "add_cat" && $KATPERM && !$REX_USER->isValueOf("rights", "contentEditorOnly[]"))
+if (isset ($function) and $function == "add_cat" && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
 {
   // --------------------- KATEGORIE ADD FORM
   $echo .= "
@@ -501,7 +501,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
               <td><input type=text size=30 name=kat_name value=\"".htmlspecialchars($KAT->getValue("catname"))."\"></td>
               <td><input type=text name=Position_Category value=\"".htmlspecialchars($KAT->getValue("catprior"))."\" style='width:30px'></td>
               <td><input type=submit name=catedit_function value='".$I18N->msg('edit_category')."'>";
-      if (!$REX_USER->isValueOf("rights", "contentEditorOnly[]"))
+      if (!$REX_USER->isValueOf("rights", "editContentOnly[]"))
         $echo .= "<input type=submit name=catdelete_function value='".$I18N->msg('delete_category')."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
       $echo .= "</td>
               <td>$kat_status</td></form>
@@ -523,7 +523,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
                 <td><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td>
                 <td valign=middle width=20>".htmlspecialchars($KAT->getValue("catprior"))."</td>
                 <td><a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=edit&amp;clang=$clang>";
-      if ($REX_USER->isValueOf("rights", "contentEditorOnly[]")) $echo .= $I18N->msg('edit_category');
+      if ($REX_USER->isValueOf("rights", "editContentOnly[]")) $echo .= $I18N->msg('edit_category');
       else $echo .= $I18N->msg("category_edit_delete");
       $echo .= "&nbsp;</a></td>
                 <td>$kat_status</td>
