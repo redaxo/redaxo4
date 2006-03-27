@@ -585,11 +585,11 @@ if ($article->getRows() == 1)
       while( list($key,$val) = each($REX['CTYPE']) )
       {
         if ($key==$ctype) $tadd .= "$val | ";
-        else $tadd .= "<a href=index.php?page=content&clang=$clang&ctype=$key&category_id=$category_id&article_id=$article_id>$val</a> | ";
+        else $tadd .= "<a href='index.php?page=content&clang=$clang&ctype=$key&category_id=$category_id&article_id=$article_id'>$val</a> | ";
       }
       $tadd .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     }
-    $menu = $tadd." <a href=../index.php?article_id=$article_id&clang=$clang&ctype=$ctype class=blue target=_blank>".$I18N->msg('show')."</a>";
+    $menu = $tadd." <a href='../index.php?article_id=$article_id&clang=$clang' class='blue' target='_blank'>".$I18N->msg('show')."</a>";
     
     $edit_mode_css_class = 'blue';    
     $meta_css_class = 'black';
