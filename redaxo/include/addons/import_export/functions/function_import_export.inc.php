@@ -378,4 +378,4 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
     }
   }
 }
-?> 
+?>
