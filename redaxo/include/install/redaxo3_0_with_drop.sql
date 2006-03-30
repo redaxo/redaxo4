@@ -16,8 +16,6 @@ DROP TABLE IF EXISTS rex_file
 CREATE TABLE rex_file ( file_id int(11) NOT NULL  auto_increment, re_file_id int(11) NOT NULL DEFAULT 0  , category_id int(11) NOT NULL DEFAULT 0  , filetype varchar(255) NOT NULL  , filename varchar(255) NOT NULL  , originalname varchar(255) NOT NULL  , filesize varchar(255) NOT NULL  , width int(11) NOT NULL DEFAULT 0  , height int(11) NOT NULL DEFAULT 0  , title varchar(255) NOT NULL  , description text NOT NULL  , copyright varchar(255) NOT NULL  , createdate int(11) NOT NULL DEFAULT 0  , updatedate int(11) NOT NULL DEFAULT 0  , createuser varchar(255) NOT NULL  , updateuser varchar(255) NOT NULL  , PRIMARY KEY(file_id))TYPE=MyISAM
 DROP TABLE IF EXISTS rex_file_category
 CREATE TABLE rex_file_category ( id int(11) NOT NULL  auto_increment, name varchar(255) NOT NULL  , re_id int(11) NOT NULL DEFAULT 0  , path varchar(255) NOT NULL  , hide tinyint(4) NOT NULL DEFAULT 0  , createdate int(11) NOT NULL DEFAULT 0  , updatedate int(11) NOT NULL DEFAULT 0  , createuser varchar(255) NOT NULL  , updateuser varchar(255) NOT NULL  , PRIMARY KEY(id,name))TYPE=MyISAM
-DROP TABLE IF EXISTS rex_help
-CREATE TABLE rex_help ( id int(11) NOT NULL  auto_increment, page varchar(255) NOT NULL  , name varchar(255) NOT NULL  , description text NOT NULL  , comment text NOT NULL  , lang varchar(255) NOT NULL  , PRIMARY KEY(id))TYPE=MyISAM
 DROP TABLE IF EXISTS rex_module_action
 CREATE TABLE rex_module_action ( id int(11) NOT NULL  auto_increment, module_id int(11) NOT NULL DEFAULT 0  , action_id int(11) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM
 DROP TABLE IF EXISTS rex_modultyp
