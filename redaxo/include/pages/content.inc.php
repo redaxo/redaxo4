@@ -282,6 +282,7 @@ if ($article->getRows() == 1)
                 $last_id = $newsql->last_insert_id;
                 $newsql->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
                 $message .= $I18N->msg('block_added');
+                $slice_id = $last_id;
               }
             }else
             {
