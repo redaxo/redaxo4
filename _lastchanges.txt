@@ -120,6 +120,7 @@ Version 3.2 (2006-03-XX)
   * Import/Export Addon:
     - Auf $REX['TABLE_PREFIX'] angepasst [kills]
   
+  * rex_help tabellen aus setup und install sqls entfernt weil nie benutzt [jan]
   * $REX['NOTFOUND_ARTICLE_ID'] => auf diesen Artikel wird weitergeleitet, wenn eine ungültige article_id übergeben wurde [jan]
   * Mod_Rewrite berücksichtigt jetzt auch die Clang beim erstellen der Links
   * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [jan]
