@@ -95,6 +95,8 @@ if ($REX['SETUP'])
     {
         $fvs = new sql;
         $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=0,lasttrydate='".time()."' where login='".$REX_ULOGIN."'");
+  		header("Location:index.php?page=structure");
+  		exit;
     }
     	
   	// login ok 
