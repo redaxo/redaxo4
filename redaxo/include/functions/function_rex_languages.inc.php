@@ -30,7 +30,7 @@ if (count($REX['CLANG'])>1)
 			echo "<strike>$val</strike> | ";
 			if ($clang == $key)	$stop = true;
 		}elseif ($key==$clang) echo "$val | ";
-		else echo "<a href=index.php?page=$page&clang=$key$sprachen_add>$val</a> | "; 
+		else echo "<a href=index.php?page=$page&clang=$key$sprachen_add&ctype=$ctype>$val</a> | "; 
 	}
 	echo "</b></td></tr></table><br>";
 	if ($stop)
