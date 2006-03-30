@@ -75,9 +75,12 @@ function rex_a1_import_db($filename,$replace_rex = false)
   $lines = explode("\n", $conts);
 
   $add = new sql;
+  // $add->debugsql = 1;
   foreach ($lines as $line)
   {
-    $add->setquery(trim($line, ";"));
+  	$line = trim($line,"\r"); // Windows spezifische extras
+  	$line = trim($line, ";"); // mysql 3.x 
+    $add->setquery($line);
     $add->flush();
   }
 
