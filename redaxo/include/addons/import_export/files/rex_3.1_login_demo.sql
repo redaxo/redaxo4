@@ -101,8 +101,6 @@ CREATE TABLE rex_file_category ( id int(11) NOT NULL  auto_increment, name varch
 INSERT INTO rex_file_category VALUES ('1','CSS','0','|','0','1133266929','1133314323','thomas','thomas');
 INSERT INTO rex_file_category VALUES ('2','Fotos','0','|','0','1133314329','1133314329','thomas','thomas');
 INSERT INTO rex_file_category VALUES ('3','PDFs','0','|','0','1133314337','1133314337','thomas','thomas');
-DROP TABLE IF EXISTS rex_help;
-CREATE TABLE rex_help ( id int(11) NOT NULL  auto_increment, page varchar(255) NOT NULL  , name varchar(255) NOT NULL  , description text NOT NULL  , comment text NOT NULL  , lang varchar(255) NOT NULL  , PRIMARY KEY(id))TYPE=MyISAM;
 DROP TABLE IF EXISTS rex_module_action;
 CREATE TABLE rex_module_action ( id int(11) NOT NULL  auto_increment, module_id int(11) NOT NULL DEFAULT 0  , action_id int(11) NOT NULL DEFAULT 0  , PRIMARY KEY(id))TYPE=MyISAM;
 INSERT INTO rex_module_action VALUES ('1','12','1');
