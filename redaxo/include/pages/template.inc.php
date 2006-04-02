@@ -36,6 +36,10 @@ if (isset($function) and ($function == "add" or $function == "edit")){
   if (isset($save) and $save == "ja")
   {
     
+    if (!isset($active)) $active = 0;
+    if (!isset($templatename)) $templatename = '';
+    if (!isset($content)) $content = '';
+
     if ($function == "add")
     {
       $ITPL = new sql;
@@ -49,7 +53,6 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $template_id = $ITPL->last_insert_id;
       $message = $I18N->msg("template_added");
     }else{
-      if (!isset($active)) $active = 0;
       $TMPL = new sql;
       $TMPL->setTable($REX['TABLE_PREFIX']."template");
       $TMPL->where("id='$template_id'");
@@ -92,7 +95,11 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $content  = $hole->getValue("content");
       $active = $hole->getValue("active");
       
-    }else{
+    } else {
+      $templatename = '';
+      $content  = '';
+      $active = '';
+      $template_id = '';
       echo '  <tr><th colspan="3">'.$I18N->msg("create_template").'</th></tr>';
     }
 
