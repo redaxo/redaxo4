@@ -337,7 +337,7 @@ pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden
 pool_file_delete_error_2 = Sie wird derzeit von folgenden Artikeln verwendet
 pool_file_changed = Die Datei wurde ausgetauscht!
 pool_import_list = Media-Import
-pool_import_help = Quell-Ordner für Medien Import (Folder im Verzeichniss Files)
+pool_import_help = Quell-Ordner für Medien Import (Folder im Verzeichnis Files)
 pool_import_target_info = Ziel-Kategorie für den Import auswählen
 pool_selectedmedia = Ausgewählte Medien:
 pool_delete_selectedmedia = löschen
@@ -361,9 +361,9 @@ setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<
 setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
 setup_step1 = SETUP: SCHRITT 1 von 5
 setup_010 = Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version
-setup_012 = <font class=error>Fehler</font> | Das Verzeichniss <b>{0}</b> ist nicht beschreib- oder ausführbar!
+setup_012 = <font class=error>Fehler</font> | Das Verzeichnis <b>{0}</b> ist nicht beschreib- oder ausführbar!
 setup_014 = <font class=error>Fehler</font> | Die Datei <b>{0}</b> ist nicht beschreibbar!
-setup_015 = <font class=error>Fehler</font> | Die Datei / Das Verzeichniss <b>{0}</b> exisitert nicht, bitte erstellen Sie es. 
+setup_015 = <font class=error>Fehler</font> | Die Datei / Das Verzeichnis <b>{0}</b> exisitert nicht, bitte erstellen Sie es. 
 setup_016 = <b>PHP-Versionscheck | Rechte Überprüfung</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | Ordnerrechte
 setup_017 = Weiter mit Schritt 2
 setup_018 = Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.
