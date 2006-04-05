@@ -349,7 +349,7 @@ echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>"."\n";
 // FILE EXPORT LIST
 // all folders of the webpage except the cms dir
 
-$dir = $REX['INCLUDE_PATH']."/../..";
+$dir = $REX['INCLUDE_PATH']."/../../";
 $folders = readSubFolders($dir);
 
 foreach ($folders as $file)
