@@ -278,7 +278,7 @@ if ($subpage == '')
     echo '<td></td>';
     echo '<td>'.$sel->out().'</td>';
     echo '<td><input type="text" size="10" class="inp100" name="clang_name" value="'.htmlspecialchars($clang_name).'"></td>';
-    echo '<td><input type="submit" value="submit"></td>';
+    echo '<td><input type="submit" value="'.$I18N->msg('add').'"></td>';
     echo '</form></tr>';
   }
   
@@ -295,7 +295,7 @@ if ($subpage == '')
       echo '<td>edit</td>';
       echo '<td align="center" class="grey">'.key($REX['CLANG']).'</td>';
       echo '<td><input type="text" size="10" class="inp100" name="clang_name" value="'.htmlspecialchars(current($REX['CLANG'])).'"></td>';
-      echo '<td><input type="submit" name="edit" value="'.$I18N->msg('edit').'">';
+      echo '<td><input type="submit" name="edit" value="'.$I18N->msg('update_button').'">';
       if ($clang_id > 0) echo '<input type="submit" name="delclang" value="'.$I18N->msg("delete_button").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';
       echo '</td>';
       echo '</form></tr>';
@@ -351,7 +351,7 @@ if ($subpage == '')
     {
       $message = $I18N->msg("article_type_could_not_be_deleted");
     }
-  } elseif (isset($function) and $function == "add" && isset($save) and $save == 1)
+  } elseif (isset($function) and $function == $I18N->msg('add') && isset($save) and $save == 1)
   {
     $add = new sql;
     $add->setTable($REX['TABLE_PREFIX']."article_type");
@@ -392,7 +392,7 @@ if ($subpage == '')
         <td valign="top"><input style="width:30px;" type="text" size="5" maxlength="2" name="type_id" value=""></td>
         <td valign="top"><input class="inp100" type="text" size="20" name="typname" value=""></td>
         <td><input style="width:100%" type="text" size="20" name="description" value=""></td>
-        <td valign="top"><input type="submit" name="function" value="add"></td>
+        <td valign="top"><input type="submit" name="function" value="'.$I18N->msg('add').'"></td>
         </form>
       </tr>';
   }
