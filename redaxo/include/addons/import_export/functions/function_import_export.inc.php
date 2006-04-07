@@ -359,8 +359,11 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   #$tar->addFile($path.$dir."/",TRUE);
   while (false !== ($file = readdir($handle)))
   {
-    $dir_array[$array_indx] = $file;
-    $array_indx++;
+    if(substr($file, 0, 4) != 'tmp_')
+    {
+      $dir_array[$array_indx] = $file;
+      $array_indx++;
+    }
   }
   foreach ($dir_array as $n)
   {
