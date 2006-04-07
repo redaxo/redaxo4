@@ -802,7 +802,7 @@ if ($article->getRows() == 1)
       	}
 
       	$cat_ids[] = $cat->getId();
-      	if( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","csr[".$cat->getId()."]") || $REX_USER->isValueOf("rights","csw[".$cat->getId()."]") ) {
+      	if( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csr[".$cat->getId()."]") || $REX_USER->isValueOf("rights","csw[".$cat->getId()."]") ) {
       		$select->add_option($nbsp.$cat->getName(),$cat->getId());
       		$childs = $cat->getChildren();
       		if (is_array($childs)) {
