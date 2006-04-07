@@ -110,15 +110,18 @@ if ($REX['SETUP'])
     }
     
     // --- addon page check
-    $as = array_search($page,$REX['ADDON']['page']);
-    if ($as !== false)
+    if (is_array($REX['ADDON']['page']))
     {
-      // --- addon gefunden 
-      $perm = $REX['ADDON']['perm'][$as];
-      if($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]"))
+      $as = array_search($page,$REX['ADDON']['page']);
+      if ($as !== false)
       {
-        $withheader = false;
-        $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
+        // --- addon gefunden 
+        $perm = $REX['ADDON']['perm'][$as];
+        if($REX['ADDON']['status'][$page] == 1 && ($REX_USER->isValueOf("rights",$perm) or $perm == "" or $REX_USER->isValueOf("rights","admin[]")))
+        {
+          $withheader = false;
+          $REX['PAGEPATH'] = $REX['INCLUDE_PATH']."/addons/$page/pages/index.inc.php";
+        }
       }
     }
     
