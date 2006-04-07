@@ -379,7 +379,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     }
     // userperm mylang
     if (!isset($userperm_mylang) or $userperm_mylang == '') $userperm_mylang = "be_lang[default]";
-    $perm .= $userperm_mylang;
+    $perm .= "#".$userperm_mylang;
 
     // userperm_extra
     if (isset($userperm_extra)) {
@@ -413,8 +413,8 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
         next($userperm_module);
       }
     }
-          
-    $adduser->setValue("rights",$perm);
+
+    $adduser->setValue("rights",$perm."#");
     $adduser->insert();
     $user_id = 0;
     unset($FUNC_ADD);
