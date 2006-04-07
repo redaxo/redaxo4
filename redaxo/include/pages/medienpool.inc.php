@@ -853,7 +853,7 @@ if (isset($subpage) and $subpage == "detail")
     $ffiletype_ii = OOMedia::isImageType($ffiletype);
     if ($ffiletype_ii==1)
     {
-      $size = getimagesize($REX['INCLUDE_PATH']."/../../files/$fname");
+      $size = @getimagesize($REX['INCLUDE_PATH']."/../../files/$fname");
       $fwidth = $size[0];
       $fheight = $size[1];
       if ($fwidth >199) $rfwidth = 200;
@@ -914,8 +914,10 @@ if (isset($subpage) and $subpage == "detail")
       {
         $imgn = "../files/$fname width=$rfwidth";
         
-        if ($thumbs && $thumbsresize && $ffiletype == "image/gif" && $rfwidth>199 && !function_exists(imageGIF)) $imgn = "../files/$fname width=200";
+		if (!file_exists($REX["INCLUDE_PATH"]."/../../files/$fname")) $imgn = "pics/mime_icons/mime-error.gif";
+        elseif ($thumbs && $thumbsresize && $ffiletype == "image/gif" && $rfwidth>199 && !function_exists(imageGIF)) $imgn = "../files/$fname width=200";
         else if ($thumbs && $thumbsresize && $rfwidth>199) $imgn = "../index.php?rex_resize=200w__$fname ";
+        
         echo "<td rowspan=12 width=220 align=center class=lgrey valign=top><br><img src=$imgn  border=0></td>";
       }
 
@@ -1325,6 +1327,13 @@ if (!isset($subpage) or $subpage == '')
     else echo '  <td class="icon">&nbsp;</td>'."\n";
 
     if (!isset($opener_link)) $opener_link = '';
+
+	// wenn datei fehlt
+	if (!file_exists($REX["INCLUDE_PATH"]."/../../files/$file_name"))
+	{
+		$thumbnail = "<img src=pics/mime_icons/mime-error.gif width=44 height=38 border=0>";
+	}
+
     echo '  <td style="background-color:#e6e6e6; text-align:center; vertical-align:middle;"><a href="'.$ilink.'">'.$thumbnail.'</a></td>'."\n";
     echo '  <td valign="top" class="grey"><b><a href="'.$ilink.'">'.$file_title.'</a></b><br /><br /><b>'.$file_name.' ['.$file_size.']</b>';
     echo '<br />'.nl2br(htmlspecialchars($file_description)).'<br /><br />'.$file_stamp .'|'. $file_updateuser.'</td>'."\n";
