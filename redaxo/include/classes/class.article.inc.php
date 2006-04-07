@@ -251,7 +251,7 @@ class article
         {
 
       // ----- ctype unterscheidung
-      if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$".$this->ctype_var." == '-1' && !\$REX['SLICEMODE']) || \$REX['SLICEMODE']) { ?>";
+      if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$".$this->ctype_var." == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$".$this->ctype_var." == '-1')) { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
