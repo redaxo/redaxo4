@@ -98,7 +98,7 @@ if ((isset ($REX['REDAXO']) and $REX['REDAXO'] === false) && (isset ($_GET['rex_
   $hmode = $resize[4];
   $imagefile = $resize[5];
 
-  $cachepath = $REX['HTDOCS_PATH'].'files/cache_resize___'.$rex_resize;
+  $cachepath = $REX['HTDOCS_PATH'].'files/tmp_cache_resize___'.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
   // check for cache file

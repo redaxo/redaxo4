@@ -9,7 +9,7 @@ if (isset($function) and $function == "clear_cache"){
     $files = readFolderFiles($REX['HTDOCS_PATH']."files/");
     if(is_array($files)){
           foreach($files as $var){
-              if(eregi("^cache_resize___",$var)){
+              if(eregi("^tmp_cache_resize___",$var)){
                   unlink($REX['HTDOCS_PATH']."files/".$var);
                   $c++;
               }
