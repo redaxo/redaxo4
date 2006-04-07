@@ -58,7 +58,9 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-Version 3.2 (2006-03-XX)
+  * Fileprefix für Tempdateien implementiert ("tmp_") [kills]
+
+Version 3.2 (2006-04-06)
 
   * Angleichungen (keine Rückwärtskompatibilität!):
     - $REX['version'] -> $REX['VERSION'] [kills]
