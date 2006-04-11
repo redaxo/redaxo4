@@ -280,8 +280,8 @@ class OORedaxo
    */
   function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
   {
-
-    $link = '<a href="'.$this->getUrl($params).'"'.$this->_toAttributeString($attributes).' title="'.htmlspecialchars($this->getName()).'">'.$this->getName().'</a>';
+    $name = htmlspecialchars($this->getName());
+    $link = '<a href="'.$this->getUrl($params).'"'.$this->_toAttributeString($attributes).' title="'.$name.'">'.$name.'</a>';
 
     if ($sorround_tag !== null && is_string($sorround_tag))
     {
