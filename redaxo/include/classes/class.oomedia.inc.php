@@ -1,5 +1,6 @@
 <?php
 
+
 /** 
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
  * @package redaxo3
@@ -134,7 +135,7 @@ class OOMedia
    */
   function & getMediaByName($filename)
   {
-    return OOMedia::getMediaByFileName($filename);
+    return OOMedia :: getMediaByFileName($filename);
   }
 
   /**
@@ -351,25 +352,22 @@ class OOMedia
     {
       return $size." Bytes";
     }
+    elseif ($size < $mb)
+    {
+      return round($size / $kb, 2)." KBytes";
+    }
+    elseif ($size < $gb)
+    {
+      return round($size / $mb, 2)." MBytes";
+    }
+    elseif ($size < $tb)
+    {
+      return round($size / $gb, 2)." GBytes";
+    }
     else
-      if ($size < $mb)
-      {
-        return round($size / $kb, 2)." KBytes";
-      }
-      else
-        if ($size < $gb)
-        {
-          return round($size / $mb, 2)." MBytes";
-        }
-        else
-          if ($size < $tb)
-          {
-            return round($size / $gb, 2)." GBytes";
-          }
-          else
-          {
-            return round($size / $tb, 2)." TBytes";
-          }
+    {
+      return round($size / $tb, 2)." TBytes";
+    }
   }
 
   /**
@@ -476,7 +474,7 @@ class OOMedia
         if (isset ($REX['ADDON']['status']['image_resize']) && $REX['ADDON']['status']['image_resize'] == 1)
         {
           $resize = true;
-          if (isset($params['width']))
+          if (isset ($params['width']))
           {
             $resizeMode = 'w';
             $resizeParam = $params['width'];
@@ -495,7 +493,12 @@ class OOMedia
           }
 
           // Evtl. Größeneinheiten entfernen
-          $resizeParam = str_replace(array ('px', 'pt', '%', 'em'), '', $resizeParam);
+          $resizeParam = str_replace(array (
+            'px',
+            'pt',
+            '%',
+            'em'
+          ), '', $resizeParam);
         }
       }
 
@@ -514,28 +517,28 @@ class OOMedia
 
     // Evtl. Zusatzatrribute anfügen 
     $additional = '';
-    
+
     // Alternativtext hinzufügen    
-    if (empty($params['alt']))
+    if (empty ($params['alt']))
     {
-      if(($desc = $this->getDescription()) != '')
+      if (($desc = $this->getDescription()) != '')
       {
-        $additional .= ' alt="'. htmlspecialchars($desc) .'"';;
+        $additional .= ' alt="'.htmlspecialchars($desc).'"';
       }
     }
     // Titel hinzufügen    
-    if (empty($params['title']))
+    if (empty ($params['title']))
     {
-      if(($desc = $this->getDescription()) != '')
+      if (($desc = $this->getDescription()) != '')
       {
-        $additional .= ' title="'. htmlspecialchars($desc) .'"';;
+        $additional .= ' title="'.htmlspecialchars($desc).'"';
       }
     }
 
     // Zusatzatrribute anfügen 
     foreach ($params as $name => $value)
     {
-      $additional .= ' '. $name.'="'.$value.'"';
+      $additional .= ' '.$name.'="'.$value.'"';
     }
 
     return sprintf('<img src="%s"%s />', $path.$file, $additional);
@@ -604,7 +607,13 @@ class OOMedia
 
     if (!isset ($imageExtensions))
     {
-      $imageExtensions = array ('gif', 'jpeg', 'jpg', 'png', 'bmp');
+      $imageExtensions = array (
+        'gif',
+        'jpeg',
+        'jpg',
+        'png',
+        'bmp'
+      );
     }
 
     return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
@@ -615,12 +624,12 @@ class OOMedia
    */
   function isInUse()
   {
-  	global $REX;
+    global $REX;
     $sql = new sql();
     //        $sql->debugsql = true;
     $query_file = '';
     $query_filelist = '';
-    for ($i = 1; $i < 11; $i ++)
+    for ($i = 1; $i < 11; $i++)
     {
       if ($i > 1)
         $query_file .= ' or ';
@@ -801,11 +810,7 @@ class OOMedia
     $qry = 'INSERT INTO '.$this->_getTableName();
     $qry .= $this->_getSQLSetString();
 
-    //        echo $qry;
-    //        return;
-
     $sql = new sql();
-    //    $sql->debugsql = true;
     $sql->query($qry);
 
     return $sql->getError();
@@ -821,11 +826,7 @@ class OOMedia
     $qry .= $this->_getSQLSetString();
     $qry .= ' WHERE file_id = "'.$this->getId().'" LIMIT 1';
 
-    //        echo $qry;
-    //        return;
-
     $sql = new sql();
-    //    $sql->debugsql = true;
     $sql->query($qry);
 
     return $sql->getError();
@@ -865,34 +866,69 @@ class OOMedia
 
     return $sql->getError();
   }
-  
+
   // allowed filetypes
   function getDocTypes()
   {
-    return array ('bmp','css','doc','gif','gz','jpg','mov','mp3','ogg','pdf','png','ppt','rar','rtf','swf','tar','tif','txt','wma','xls','zip'); 
+    static $docTypes = array (
+      'bmp',
+      'css',
+      'doc',
+      'gif',
+      'gz',
+      'jpg',
+      'mov',
+      'mp3',
+      'ogg',
+      'pdf',
+      'png',
+      'ppt',
+      'rar',
+      'rtf',
+      'swf',
+      'tar',
+      'tif',
+      'txt',
+      'wma',
+      'xls',
+      'zip'
+    );
+    return $docTypes;
   }
-  
-  function isDocType( $type)
+
+  function isDocType($type)
   {
-    return in_array( $type, OOMedia::getDocTypes());
+    return in_array($type, OOMedia :: getDocTypes());
   }
-  
+
   // allowed image upload types 
   function getImageTypes()
   {
-    return array ('image/gif','image/jpg','image/jpeg','image/png','image/pjpeg','image/bmp');
+    static $imageTypes = array (
+      'image/gif',
+      'image/jpg',
+      'image/jpeg',
+      'image/png',
+      'image/pjpeg',
+      'image/bmp'
+    );
+    return $imageTypes;
   }
-  
-  function isImageType( $type)
+
+  function isImageType($type)
   {
-    return in_array( $type, OOMedia::getImageTypes());
+    return in_array($type, OOMedia :: getImageTypes());
   }
-  
+
   function compareImageTypes($type1, $type2)
   {
-  	$jpg = array('image/jpg','image/jpeg','image/pjpeg');
-  	if (in_array($type1,$jpg) && in_array($type2,$jpg)) return true;
-  	return false;
+    static $jpg = array (
+      'image/jpg',
+      'image/jpeg',
+      'image/pjpeg'
+    );
+    
+    return in_array($type1, $jpg) && in_array($type2, $jpg);
   }
 }
 ?>
