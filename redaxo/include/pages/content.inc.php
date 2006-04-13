@@ -105,7 +105,6 @@ if ($article->getRows() == 1)
 
         // ----- RECHTE AM MODUL ?
         if ( !($REX_USER->isValueOf("rights","admin[]") || 
-            $REX_USER->isValueOf("rights","dev[]") || 
             $REX_USER->isValueOf("rights","module[$module_id]") || 
             $REX_USER->isValueOf("rights","module[0]"))
           )
