@@ -515,27 +515,25 @@ class OOMedia
       }
     }
 
-    // Evtl. Zusatzatrribute anfügen 
-    $additional = '';
-
     // Alternativtext hinzufügen    
-    if (empty ($params['alt']))
+    if (!isset($params['alt']))
     {
       if (($desc = $this->getDescription()) != '')
       {
-        $additional .= ' alt="'.htmlspecialchars($desc).'"';
+        $params['alt'] = htmlspecialchars($desc);
       }
     }
     // Titel hinzufügen    
-    if (empty ($params['title']))
+    if (!isset($params['title']))
     {
       if (($desc = $this->getDescription()) != '')
       {
-        $additional .= ' title="'.htmlspecialchars($desc).'"';
+        $params['title'] = htmlspecialchars($desc);
       }
     }
 
-    // Zusatzatrribute anfügen 
+    // Evtl. Zusatzatrribute anfügen 
+    $additional = '';
     foreach ($params as $name => $value)
     {
       $additional .= ' '.$name.'="'.$value.'"';
@@ -556,28 +554,51 @@ class OOMedia
    */
   function toIcon($iconAttributes = array (), $iconPath = '')
   {
+    global $REX;
+    
     static $icon_src;
 
     if (!isset ($icon_src))
     {
-      $icon_src = "pics/mime_icons/";
+      $icon_src = 'pics/mime_icons/';
+    }
+    
+    if(!$REX['REDAXO'])
+    {
+      $iconPath .= 'redaxo/';
     }
 
-    $icon = $iconPath.$icon_src.'mime-'.$this->getExtension().'.gif';
+    $ext = $this->getExtension();
+    $icon = $iconPath.$icon_src.'mime-'.$ext.'.gif';
 
     // Dateityp für den kein Icon vorhanden ist
     if (!file_exists($icon))
     {
-      $icon = $icon_src.'mime-txt.gif';
+      $icon = $icon_src.'mime-error.gif';
     }
 
+    if(!isset($iconAttributes['alt']))
+    {
+      $iconAttributes['alt'] = '&quot;'. $ext .'&quot;-Symbol';
+    }
+    
+    if(!isset($iconAttributes['title']))
+    {
+      $iconAttributes['title'] = $iconAttributes['alt']; 
+    }
+    
+    if(!isset($iconAttributes['style']))
+    {
+      $iconAttributes['style'] = 'width: 44px; height: 38px';
+    }
+    
     $attrs = '';
     foreach ($iconAttributes as $attrName => $attrValue)
     {
       $attrs .= ' '.$attrName.'="'.$attrValue.'"';
     }
 
-    return '<img src="'.$icon.'"'.$attrs.' style="width: 44px; height: 38px" />';
+    return '<img src="'.$icon.'"'.$attrs.' />';
   }
 
   /**
