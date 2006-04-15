@@ -41,7 +41,6 @@ if (isset($msg) and $msg != "") echo '<table border="0" cellpadding="5" cellspac
     call an image that way <b>index.php?rex_resize=100w__imagefile</b><br />
     to resize the imagefile to width = 100<br />
     other methods: w = width h=height a=automatic<br />
-    important: gif files are cached as jpegs<br /><br />
     </td>
   </tr>
 </tbody>
