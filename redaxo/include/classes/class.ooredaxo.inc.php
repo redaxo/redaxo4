@@ -163,13 +163,22 @@ class OORedaxo
 
   /*
    * Accessor Method:
-   * returns the id of the article
+   * returns the parent_id of the article
    */
   function getParentId()
   {
     return $this->_re_id;
   }
 
+  /*
+   * Accessor Method:
+   * returns the parent object of the article
+   */
+  function getParent()
+  {
+    return OOArticle::getArticleById($this->_re_id);
+  }
+  
   /*
    * Accessor Method:
    * returns the name of the article
