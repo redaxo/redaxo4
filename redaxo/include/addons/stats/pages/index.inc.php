@@ -2,7 +2,13 @@
 
 include $REX['INCLUDE_PATH']."/layout/top.php";
 
-rex_title($I18N_STATS->msg("stats_title"),"&nbsp;&nbsp;&nbsp;<a href=index.php?page=stats&sub=stats>".$I18N_STATS->msg("statistics_header")."</a> | <a href=index.php?page=stats&sub=auswertung>".$I18N_STATS->msg("evaluation_header")."</a>");
+
+$subpagetitle = array(
+  array('', $I18N_STATS->msg("statistics_header")),
+  array('auswertung', $I18N_STATS->msg("evaluation_header"))
+);
+
+rex_title($I18N_STATS->msg("stats_title"),$subpagetitle);
 
 //
 // REACTING
@@ -27,6 +33,7 @@ $pfad = $REX['INCLUDE_PATH']."/addons/stats/logs/";
 
 $months = array();
 $years = array();
+$error = '';
 
 if (is_dir($pfad))
 {
@@ -44,15 +51,21 @@ if (is_dir($pfad))
 	closedir($dh);
 } else
 {
-	echo $I18N_STATS->msg('error_no_dir',$this->path);
+	$error .= $I18N_STATS->msg('error_no_dir',$pfad);
 
 }
 
 if (count($years)==0)
 {
-	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>".$I18N_STATS->msg("log_missing")."</td></tr></table>";
+   $error .= $I18N_STATS->msg("log_missing");
+}
 
-}else
+   
+if($error != '')
+{
+	echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>".$error."</td></tr></table>";
+}
+else
 {
 
 	$monname = Array ( 
@@ -72,6 +85,7 @@ if (count($years)==0)
 
 	$amon = array();
 	$ajahr = array();
+    ksort($months);
 	foreach ( $months as $k => $v )
 	{
 		$amon[] = $k;
@@ -106,7 +120,7 @@ if (count($years)==0)
 	// ACTING
 	//
 
-	if ( $sub == 'stats' OR !isset($sub) )
+	if ( $subpage == 'stats' OR !isset($subpage) )
 	{
 		if ( !isset($show) && isset($year) && isset($month)) $show = "day";
 
@@ -157,7 +171,7 @@ if (count($years)==0)
 	}
 
 
-	if ($sub == 'auswertung' )
+	if ($subpage == 'auswertung' )
 	{
 
 		if ( isset($err_msg) ) $err_msg = "<tr><td colspan=4 class=warning>$err_msg</td></tr>";
