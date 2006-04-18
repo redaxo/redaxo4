@@ -316,20 +316,28 @@ class stats
     $osout .= "<tr><th>Betriebsystem</th><th>Anzahl</th><th>Anteil</th><th>&nbsp;</th></tr>";
 
     foreach (array_reverse($this->BROWSER['type']) as $k => $v)
+    {
+      $k = base64_decode($k);
+      $k = str_replace('"', '', $k);
       $browserout .= "<tr>
-      						<td class=grey align=right>".base64_decode($k)."</td>
+      						<td class=grey align=right>".$k."</td>
       						<td class=grey align=right>$v</td>
       						<td class=grey align=right>".round(($v / $alltype * 100))."%</td>
       						<td class=grey align=left><img src=pics/white.gif width=". (1 + 2 * round(($v / $alltype * 100)))." height=10></td>
       					 </tr>";
+    }
 
     foreach (array_reverse($this->BROWSER['os']) as $k => $v)
+    {
+      $k = base64_decode($k);
+      $k = str_replace('"', '', $k);
       $osout .= "<tr>
-      						<td class=grey align=right>".base64_decode($k)."</td>
+      						<td class=grey align=right>".$k."</td>
       						<td class=grey align=right>$v</td>
       						<td class=grey align=right>".round(($v / $allos * 100))."%</td>
       						<td class=grey align=left><img src=pics/white.gif width=". (1 + 2 * round(($v / $allos * 100)))." height=10></td>
       					 </tr>";
+    }
 
     $browserout .= "</table>";
     $osout .= "</table>";
