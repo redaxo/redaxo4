@@ -210,23 +210,26 @@ class sql
   function update()
   {
     $sql = "";
-    foreach ( $this->values as $fld_name => $value)
-    {
-      if ($sql != "")
+	if (is_array($this->values))
+	{
+      foreach ( $this->values as $fld_name => $value)
       {
-        $sql .= ",";
+        if ($sql != "")
+        {
+          $sql .= ",";
+        }
+        // $sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
+        $sql .= $fld_name."='". $value."'";
+
       }
-      // $sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
-      $sql .= $fld_name."='". $value."'";
 
+      $this->selectDB();
+      $this->result = mysql_query("update $this->table set $sql $this->wherevar");
+      $this->error = @ mysql_error();
+      $this->message = "event updated<br>";
+      if ($this->debugsql)
+        echo "update $this->table set $sql $this->wherevar";
     }
-
-    $this->selectDB();
-    $this->result = mysql_query("update $this->table set $sql $this->wherevar");
-    $this->error = @ mysql_error();
-    $this->message = "event updated<br>";
-    if ($this->debugsql)
-      echo "update $this->table set $sql $this->wherevar";
   }
 
   /**
@@ -240,28 +243,31 @@ class sql
   {
     $sql1 = "";
     $sql2 = "";
-    foreach ( $this->values as $fld_name => $value)
-    {
-      if ($sql1 != "")
+	if (is_array($this->values))
+	{
+      foreach ( $this->values as $fld_name => $value)
       {
-        $sql1 .= ",";
+        if ($sql1 != "")
+        {
+          $sql1 .= ",";
+        }
+        if ($sql2 != "")
+        {
+          $sql2 .= ",";
+        }
+        $sql1 .= $fld_name;
+        // $sql2 .= "'".addslashes( $this->wert[$i])."'";
+        $sql2 .= "'". $value ."'";
       }
-      if ($sql2 != "")
-      {
-        $sql2 .= ",";
-      }
-      $sql1 .= $fld_name;
-      // $sql2 .= "'".addslashes( $this->wert[$i])."'";
-      $sql2 .= "'". $value ."'";
-    }
 
-    $this->selectDB();
-    $this->result = @ mysql_query("insert into $this->table ($sql1) VALUES ($sql2)");
-    $this->last_insert_id = @ mysql_insert_id();
-    $this->error = @ mysql_error();
-    $this->message = "new event inserted<br>";
-    if ($this->debugsql)
-      echo htmlspecialchars("insert into $this->table ($sql1) VALUES ($sql2)");
+      $this->selectDB();
+      $this->result = @ mysql_query("insert into $this->table ($sql1) VALUES ($sql2)");
+      $this->last_insert_id = @ mysql_insert_id();
+      $this->error = @ mysql_error();
+      $this->message = "new event inserted<br>";
+      if ($this->debugsql)
+        echo htmlspecialchars("insert into $this->table ($sql1) VALUES ($sql2)");
+    }
   }
 
   /**
