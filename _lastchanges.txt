@@ -63,6 +63,9 @@ Changes:
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
   * Fileprefix für Tempdateien implementiert ("tmp_") [kills]
+    - Dateien mit diesem Prefix werden ...
+      + .. NICHT vom Import/Export-Addon exportiert
+      + .. NICHT vom Medienpool Sync Tool als neue registriert
 
 Version 3.2 (2006-04-06)
 
