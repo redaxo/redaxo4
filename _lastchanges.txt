@@ -58,6 +58,10 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * Medienpool:
+  	- Synchronisation zwischen DB und /files implementiert [kills]
+  * Sprachen:
+    - Übersetzungen aktualisiert [jurand,jan]
   * Fileprefix für Tempdateien implementiert ("tmp_") [kills]
 
 Version 3.2 (2006-04-06)
