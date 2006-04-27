@@ -17,6 +17,7 @@ class stats
 
   function stats()
   {
+  	global $REX;
 
     $this->MAIN['stamp'] = Array ();
     $this->MAIN['ip'] = Array ();
@@ -48,7 +49,7 @@ class stats
     $this->evalsnipps = array ();
 
     $statartikel = new sql;
-    $statartikel->setQuery("SELECT id,name FROM rex_article");
+    $statartikel->setQuery('SELECT id,name FROM '.$REX['TABLE_PREFIX'].'article');
 
     for ($i = 0; $i < $statartikel->getRows(); $i++)
     {
