@@ -1,5 +1,6 @@
 <?php
 
+
 /** 
  *  
  * The OOArticleSlice class is an object wrapper over the database table rex_articel_slice.
@@ -9,9 +10,10 @@
  *
  * @package redaxo3
  * @version $Id$
- */  
- 
-class OOArticleSlice {
+ */
+
+class OOArticleSlice
+{
 
   var $_id = "";
   var $_re_article_slice_id = "";
@@ -22,19 +24,15 @@ class OOArticleSlice {
   var $_html = "";
   var $_article_id = "";
   var $_modultyp_id = "";
-  
+
   /*
    * Constructor
    */
-  function OOArticleSlice($id,$re_article_slice_id,$value1,$value2,
-    $value3,$value4,$value5,$value6,$value7,$value8,$value9,$value10,
-    $file1,$file2,$file3,$file4,$file5,$file6,$file7,$file8,$file9,
-    $file10,$link1,$link2,$link3,$link4,$link5,$link6,$link7,$link8,
-    $link9,$link10,$php,$html,$article_id,$modultyp_id) 
+  function OOArticleSlice($id, $re_article_slice_id, $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $file1, $file2, $file3, $file4, $file5, $file6, $file7, $file8, $file9, $file10, $link1, $link2, $link3, $link4, $link5, $link6, $link7, $link8, $link9, $link10, $php, $html, $article_id, $modultyp_id)
   {
     $this->_id = $id;
     $this->_re_article_slice_id = $re_article_slice_id;
-    $this->_value = array();
+    $this->_value = array ();
     $this->_value[1] = $value1;
     $this->_value[2] = $value2;
     $this->_value[3] = $value3;
@@ -45,7 +43,7 @@ class OOArticleSlice {
     $this->_value[8] = $value8;
     $this->_value[9] = $value9;
     $this->_value[10] = $value10;
-    $this->_file = array();
+    $this->_file = array ();
     $this->_file[1] = $file1;
     $this->_file[2] = $file2;
     $this->_file[3] = $file3;
@@ -56,7 +54,7 @@ class OOArticleSlice {
     $this->_file[8] = $file8;
     $this->_file[9] = $file9;
     $this->_file[10] = $file10;
-    $this->_link = array();
+    $this->_link = array ();
     $this->_link[1] = $link1;
     $this->_link[2] = $link2;
     $this->_link[3] = $link3;
@@ -72,18 +70,19 @@ class OOArticleSlice {
     $this->_article_id = $article_id;
     $this->_modultyp_id = $modultyp_id;
   }
-  
+
   /*
    * CLASS Function:
    * Return an ArticleSlice by its id
    * Returns an OOArticleSlice object
    */
-  function getArticleSliceById($an_id) {
-  	global $REX;
-  	$table = '';
-  	$table = $REX['TABLE_PREFIX']."article_slice";
+  function getArticleSliceById($an_id)
+  {
+    global $REX;
+    $table = '';
+    $table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
-    $query = <<<EOD
+    $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
@@ -93,25 +92,13 @@ FROM $table
 WHERE id = $an_id
 EOD;
     $sql->setQuery($query);
-    if ($sql->getRows() == 1) {
-      return new OOArticleSlice(
-              $sql->getValue("id"),$sql->getValue("re_article_slice_id"),$sql->getValue("value1"),
-              $sql->getValue("value2"),$sql->getValue("value3"),$sql->getValue("value4"),
-              $sql->getValue("value5"),$sql->getValue("value6"),$sql->getValue("value7"),
-              $sql->getValue("value8"),$sql->getValue("value9"),$sql->getValue("value10"),
-              $sql->getValue("file1"),$sql->getValue("file2"),$sql->getValue("file3"),
-              $sql->getValue("file4"),$sql->getValue("file5"),$sql->getValue("file6"),
-              $sql->getValue("file7"),$sql->getValue("file8"),$sql->getValue("file9"),
-              $sql->getValue("file10"),$sql->getValue("link1"),$sql->getValue("link2"),
-              $sql->getValue("link3"),$sql->getValue("link4"),$sql->getValue("link5"),
-              $sql->getValue("link6"),$sql->getValue("link7"),$sql->getValue("link8"),
-              $sql->getValue("link9"),$sql->getValue("link10"),$sql->getValue("php"),
-              $sql->getValue("html"),$sql->getValue("article_id"),$sql->getValue("modultyp_id")
-            );
+    if ($sql->getRows() == 1)
+    {
+      return new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"));
     }
     return null;
   }
-  
+
   /*
    * CLASS Function:
    * Return the first slice for an article.
@@ -120,12 +107,13 @@ EOD;
    * getNextSlice() function.
    * Returns an OOArticleSlice object
    */
-  function getFirstSliceForArticle($an_article_id) {
-  	global $REX;
-  	$table = '';
-  	$table = $REX['TABLE_PREFIX']."article_slice";
+  function getFirstSliceForArticle($an_article_id)
+  {
+    global $REX;
+    $table = '';
+    $table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
-    $query = <<<EOD
+    $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
@@ -135,37 +123,26 @@ FROM $table
 WHERE article_id = $an_article_id AND re_article_slice_id = 0
 EOD;
     $sql->setQuery($query);
-    if ($sql->getRows() == 1) {
-      return new OOArticleSlice(
-              $sql->getValue("id"),$sql->getValue("re_article_slice_id"),$sql->getValue("value1"),
-              $sql->getValue("value2"),$sql->getValue("value3"),$sql->getValue("value4"),
-              $sql->getValue("value5"),$sql->getValue("value6"),$sql->getValue("value7"),
-              $sql->getValue("value8"),$sql->getValue("value9"),$sql->getValue("value10"),
-              $sql->getValue("file1"),$sql->getValue("file2"),$sql->getValue("file3"),
-              $sql->getValue("file4"),$sql->getValue("file5"),$sql->getValue("file6"),
-              $sql->getValue("file7"),$sql->getValue("file8"),$sql->getValue("file9"),
-              $sql->getValue("file10"),$sql->getValue("link1"),$sql->getValue("link2"),
-              $sql->getValue("link3"),$sql->getValue("link4"),$sql->getValue("link5"),
-              $sql->getValue("link6"),$sql->getValue("link7"),$sql->getValue("link8"),
-              $sql->getValue("link9"),$sql->getValue("link10"),$sql->getValue("php"),
-              $sql->getValue("html"),$sql->getValue("article_id"),$sql->getValue("modultyp_id")
-            );
+    if ($sql->getRows() == 1)
+    {
+      return new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"));
     }
     return null;
   }
-  
+
   /*
    * CLASS Function:
    * Return all slices for an article that have a certain
    * module type.
    * Returns an array of OOArticleSlice objects
    */
-  function getSlicesForArticleOfType($an_article_id, $a_type_id) {
-  	global $REX;
-  	$table = '';
-  	$table = $REX['TABLE_PREFIX']."article_slice";
+  function getSlicesForArticleOfType($an_article_id, $a_type_id)
+  {
+    global $REX;
+    $table = '';
+    $table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
-    $query = <<<EOD
+    $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
@@ -175,38 +152,27 @@ FROM $table
 WHERE article_id = $an_article_id AND modultyp_id = $a_type_id
 EOD;
     $sql->setQuery($query);
-    $slices = array();
-    for ($i = 0; $i < $sql->getRows(); $i++) {
-      $slices[] = new OOArticleSlice(
-              $sql->getValue("id"),$sql->getValue("re_article_slice_id"),$sql->getValue("value1"),
-              $sql->getValue("value2"),$sql->getValue("value3"),$sql->getValue("value4"),
-              $sql->getValue("value5"),$sql->getValue("value6"),$sql->getValue("value7"),
-              $sql->getValue("value8"),$sql->getValue("value9"),$sql->getValue("value10"),
-              $sql->getValue("file1"),$sql->getValue("file2"),$sql->getValue("file3"),
-              $sql->getValue("file4"),$sql->getValue("file5"),$sql->getValue("file6"),
-              $sql->getValue("file7"),$sql->getValue("file8"),$sql->getValue("file9"),
-              $sql->getValue("file10"),$sql->getValue("link1"),$sql->getValue("link2"),
-              $sql->getValue("link3"),$sql->getValue("link4"),$sql->getValue("link5"),
-              $sql->getValue("link6"),$sql->getValue("link7"),$sql->getValue("link8"),
-              $sql->getValue("link9"),$sql->getValue("link10"),$sql->getValue("php"),
-              $sql->getValue("html"),$sql->getValue("article_id"),$sql->getValue("modultyp_id")
-            );
+    $slices = array ();
+    for ($i = 0; $i < $sql->getRows(); $i++)
+    {
+      $slices[] = new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"));
       $sql->next();
     }
     return $slices;
   }
-  
+
   /*
    * Object Function:
    * Return the next slice for this article
    * Returns an OOArticleSlice object.
    */
-  function getNextSlice() {
-  	global $REX;
-  	$table = '';
-  	$table = $REX['TABLE_PREFIX']."article_slice";
+  function getNextSlice()
+  {
+    global $REX;
+    $table = '';
+    $table = $REX['TABLE_PREFIX']."article_slice";
     $sql = new sql;
-    $query = <<<EOD
+    $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
   value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
@@ -216,78 +182,91 @@ FROM $table
 WHERE re_article_slice_id = {$this->_id}
 EOD;
     $sql->setQuery($query);
-    if ($sql->getRows() == 1) {
-      return new OOArticleSlice(
-              $sql->getValue("id"),$sql->getValue("re_article_slice_id"),$sql->getValue("value1"),
-              $sql->getValue("value2"),$sql->getValue("value3"),$sql->getValue("value4"),
-              $sql->getValue("value5"),$sql->getValue("value6"),$sql->getValue("value7"),
-              $sql->getValue("value8"),$sql->getValue("value9"),$sql->getValue("value10"),
-              $sql->getValue("file1"),$sql->getValue("file2"),$sql->getValue("file3"),
-              $sql->getValue("file4"),$sql->getValue("file5"),$sql->getValue("file6"),
-              $sql->getValue("file7"),$sql->getValue("file8"),$sql->getValue("file9"),
-              $sql->getValue("file10"),$sql->getValue("link1"),$sql->getValue("link2"),
-              $sql->getValue("link3"),$sql->getValue("link4"),$sql->getValue("link5"),
-              $sql->getValue("link6"),$sql->getValue("link7"),$sql->getValue("link8"),
-              $sql->getValue("link9"),$sql->getValue("link10"),$sql->getValue("php"),
-              $sql->getValue("html"),$sql->getValue("article_id"),$sql->getValue("modultyp_id")
-            );
+    if ($sql->getRows() == 1)
+    {
+      return new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"));
     }
     return null;
   }
-  
+
   /*
    * CLASS function:
    * Return all slices that match the search string
    * Returns an array of OOArticleSlice objects
    */
-  function fullTextSearch($searchstring) {
+  function fullTextSearch($searchstring)
+  {
     // TODO
-    return array();
+    return array ();
   }
-  
+
   /*
    * Object Function:
    */
-  function getPreviousSlice() {
-    return OOArticleSlice::getArticleSliceById($this->_re_article_slice_id);
+  function getPreviousSlice()
+  {
+    return OOArticleSlice :: getArticleSliceById($this->_re_article_slice_id);
   }
-  
-  function getArticle() {
-    return OOArticle::getArticleById($this->_article_id);
+
+  function getArticle()
+  {
+    return OOArticle :: getArticleById($this->getArticleId());
   }
-  
-  function getId() {
+
+  function getArticleId()
+  {
+    return $this->_article_id;
+  }
+
+  function getModulTyp()
+  {
+    return $this->_modultyp_id;
+  }
+
+  function getId()
+  {
     return $this->_id;
   }
-  
-  function getValue($index) {
+
+  function getValue($index)
+  {
     return $this->_value[$index];
   }
-  
-  function getLink($index) {
+
+  function getUrl()
+  {
+    return rex_getUrl($this->getArticleId());
+  }
+
+  function getLink($index)
+  {
     return $this->_link[$index];
   }
-  
-  function getLinkUrl($index) {
+
+  function getLinkUrl($index)
+  {
     return "index.php?article_id=".$this->getLink($index);
   }
 
-  function getFile($index) {
+  function getFile($index)
+  {
     return $this->_file[$index];
   }
-  
-  function getFileUrl($index) {
+
+  function getFileUrl($index)
+  {
     global $REX;
     return $REX['MEDIAFOLDER']."/".$this->getFile($index);
   }
-  
-  function getHtml() {
+
+  function getHtml()
+  {
     return $this->_html;
   }
 
-  function getPhp() {
+  function getPhp()
+  {
     return $this->_php;
   }
 }
-
 ?>
