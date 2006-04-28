@@ -85,8 +85,8 @@ if ($REX['GG'])
 
 }
 
-// Resize Script für das Frontend
-if ((isset ($REX['REDAXO']) and $REX['REDAXO'] === false) && (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != ''))
+// Resize Script
+if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
 {
   $rex_resize = $_GET['rex_resize'];
 
