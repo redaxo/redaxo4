@@ -647,8 +647,10 @@ if ($article->getRows() == 1)
         $meta_sql->setTable($REX['TABLE_PREFIX']."article");
         // $meta_sql->debugsql = 1;
         $meta_sql->where("id='$article_id' and clang=$clang");
-        $meta_sql->setValue("online_from",mktime(0,0,0,$monat_von,$tag_von,$jahr_von));
-        $meta_sql->setValue("online_to",mktime(0,0,0,$monat_bis,$tag_bis,$jahr_bis));
+        $online_from = mktime(0,0,0,$monat_von,$tag_von,$jahr_von);
+        $online_to = mktime(0,0,0,$monat_bis,$tag_bis,$jahr_bis);
+        $meta_sql->setValue("online_from",$online_from);
+        $meta_sql->setValue("online_to",$online_to);
         $meta_sql->setValue("keywords",$meta_keywords);
         $meta_sql->setValue("description",$meta_description);
         $meta_sql->setValue("name",$meta_article_name);
@@ -671,6 +673,19 @@ if ($article->getRows() == 1)
         $err_msg = $I18N->msg("metadata_updated").$message;
 
         rex_generateArticle($article_id);
+
+        // ----- EXTENSION POINT
+        $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
+          "id" => $article_id,
+          "clang" => $clang,
+          "online_from" => $online_from,
+          "online_to" => $online_to,
+          "keywords" => $meta_keywords,
+          "description" => $meta_description,
+          "name" => $meta_article_name,
+          "type_id" => $type_id,
+          "teaser" => $meta_teaser
+        ));
       }
 
       $typesel = new select();
@@ -786,8 +801,12 @@ if ($article->getRows() == 1)
         <tr>
           <td class=grey>&nbsp;</td>
           <td class=grey><input type=submit value='".$I18N->msg("update_metadata")."' size=8></td>
-        </tr>
-        </form>
+        </tr>";
+        
+        // ----- EXTENSION POINT
+        echo rex_register_extension_point('ART_META_FORM');
+        
+        echo "</form>
         </table>";
         
         
