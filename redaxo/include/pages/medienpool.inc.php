@@ -119,11 +119,11 @@ function insertHTML(html) {
 
 function SetAllCheckBoxes(FormName, FieldName, mthis)
 {
-  CheckValue = true;
-
+  var CheckValue;
+  
   if (mthis.checked) CheckValue=true;
   else CheckValue=false;
-
+  
   if(!document.forms[FormName])
     return;
   var objCheckBoxes = document.forms[FormName].elements[FieldName];
@@ -373,6 +373,7 @@ $sel_media->set_style('class="inp100"');
 $sel_media->set_selectextra('onchange="location.href=\'index.php?page=medienpool&amp;rex_file_category=\'+this[this.selectedIndex].value;"');
 $sel_media->set_size(1);
 $sel_media->set_name("rex_file_category");
+$sel_media->set_id("rex_file_category");
 $sel_media->add_option($I18N->msg('pool_kats_no'),"0");
 $mediacat_ids = array();
 if ($rootCats = OOMediaCategory::getRootCategories())
@@ -973,6 +974,7 @@ if (isset($subpage) and $subpage == "detail")
       $cats_sel->set_style('class="inp100"');
       $cats_sel->set_size(1);
       $cats_sel->set_name("rex_file_category");
+      $cats_sel->set_id("rex_file_category");
       $cats_sel->add_option($I18N->msg('pool_kats_no'),"0");
       $mediacat_ids = array();
       $rootCat = 0;
@@ -1286,14 +1288,15 @@ if (!isset($subpage) or $subpage == '')
   }
   $cats_sel->set_selected($rex_file_category);
 
+  echo "<table width=100% cellpadding=5 cellspacing=1 border=0 ><tr><td class=grey><b class=head>".$I18N->msg('pool_file_list')."</b></td></tr><tr><td></td></tr></table>";
+  echo $cat_out;
+  
   //deletefilelist und cat change
   print "<form name=rex_file_list action=index.php method=post ENCTYPE=multipart/form-data>\n";
   print "<input type=hidden name=page value=medienpool>\n";
   print "<input type=hidden name=rex_file_category value=$rex_file_category>\n";
   print "<input type=hidden name=media_method value=''>\n";
   
-  echo "<table width=100% cellpadding=5 cellspacing=1 border=0 ><tr><td class=grey><b class=head>".$I18N->msg('pool_file_list')."</b></td></tr><tr><td></td></tr></table>";
-  echo $cat_out;
   print "<table class=rex border=0 cellpadding=5 cellspacing=1 style='width:100%'>\n";
   print "<tr>
     <th align=left class=icon></th>
