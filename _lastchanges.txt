@@ -58,6 +58,8 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+	* Struktur
+	  - Angelegte Artikel haben das gleiche Template wie die Kategorie in der sie sich befinden [kills]
 	* rexExtensionPoint erstellt:
 	  - ART_META_UPDATED,ART_META_FORM [kills]
   * Medienpool:
