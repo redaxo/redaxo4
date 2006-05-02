@@ -6,12 +6,25 @@
  * @version $Id$
  */
 
+// rex_replace_variables als Extension anfügen
+rex_register_extension('OUTPUT_FILTER', 'rex_replace_variables');
+
+/**
+ * Registriert für die Variable $variable die Callback-Funktion $function
+ * @param $variable Name der zur ersetzenden Variable
+ * @param $function Name der Callback-Funktion
+ * @access public
+ */
 function rex_register_variable($variable, $function)
 {
   global $REX;
   return $REX['VARIABLES'][$variable] = $function;
 }
 
+/**
+ * Gibt alle registrierten Variablen als Array zurück
+ * @access protected
+ */
 function rex_get_registered_variables()
 {
   global $REX;
@@ -22,7 +35,10 @@ function rex_get_registered_variables()
   return array ();
 }
 
-rex_register_extension('OUTPUT_FILTER', 'rex_replace_variables');
+/**
+ * Sucht alle Variablen in der Ausgabe und ersetzt diese durch die Rückgabewerte der Callback-Funktionen
+ * @access private
+ */
 function rex_replace_variables($params)
 {
   $content = $params['subject'];
@@ -42,16 +58,12 @@ function rex_replace_variables($params)
   }
   return $content;
 }
-// 4 "av c" 'de f' ghi
-// a=4 b="av c" y='de f' z=ghi
-//$var =<<<EOD
-//   a=4 b="av c" y='de f' z=ghi  
-//EOD;
-//var_dump(rex_split_variable_string($var));
+
 /**
  * Trennt einen String an Leerzeichen auf.
  * Abschnitte die in "" oder '' stehen, werden als ganzes behandelt und
  * darin befindliche Leerzeichen nicht getrennt.
+ * @access protected
  */
 function rex_split_variable_string($string)
 {
