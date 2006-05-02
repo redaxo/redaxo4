@@ -70,6 +70,7 @@ Changes:
     - Dateien mit diesem Prefix werden ...
       + .. NICHT vom Import/Export-Addon exportiert
       + .. NICHT vom Medienpool Sync Tool als neue registriert
+  * rexVariables API implementiert [kills]
   * Image-Resize-Addon:
     - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
 

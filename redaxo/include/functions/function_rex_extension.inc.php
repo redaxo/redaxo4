@@ -10,11 +10,11 @@
 /**
 * Definiert einen Extension Point
 *
-* @param $extension Name der Extension
+* @param $extensionPoint Name des ExtensionPoints
 * @param $subject Objekt/Variable die beeinflusst werden soll
 * @param $params Parameter für die Callback-Funktion
 */
-function rex_register_extension_point($extension, $subject = '', $params = array (), $read_only = false)
+function rex_register_extension_point($extensionPoint, $subject = '', $params = array (), $read_only = false)
 {
   global $REX;
   $result = $subject;
@@ -24,19 +24,19 @@ function rex_register_extension_point($extension, $subject = '', $params = array
     $params = array ();
   }
 
-  if (isset ($REX['EXTENSIONS'][$extension]) && is_array($REX['EXTENSIONS'][$extension]))
+  if (isset ($REX['EXTENSIONS'][$extensionPoint]) && is_array($REX['EXTENSIONS'][$extensionPoint]))
   {
     $params['subject'] = $subject;
     if ($read_only)
     {
-      foreach ($REX['EXTENSIONS'][$extension] as $ext)
+      foreach ($REX['EXTENSIONS'][$extensionPoint] as $ext)
       {
         rex_call_func($ext, $params);
       }
     }
     else
     {
-      foreach ($REX['EXTENSIONS'][$extension] as $ext)
+      foreach ($REX['EXTENSIONS'][$extensionPoint] as $ext)
       {
         $temp = rex_call_func($ext, $params);
         // RÜckgabewert nur auswerten wenn auch einer vorhanden ist
@@ -65,14 +65,29 @@ function rex_register_extension($extension, $function)
 }
 
 /**
- * Prüft ob eine extension für den angegebenen Extension point definiert ist
+ * Prüft ob eine extension für den angegebenen Extension Point definiert ist
  *
- * @param $extension Name der Extension
+ * @param $extensionPoint Name des ExtensionPoints
  */
-function rex_extension_is_registered($extension)
+function rex_extension_is_registered($extensionPoint)
 {
   global $REX;
-  return !empty ($REX['EXTENSIONS'][$extension]);
+  return !empty ($REX['EXTENSIONS'][$extensionPoint]);
+}
+
+/**
+ * Gibt ein Array mit Namen von Extensions zurück, die am angegebenen Extension Point definiert wurden
+ * 
+ * @param $extensionPoint Name des ExtensionPoints
+ */
+function rex_get_registered_extensions($extensionPoint)
+{
+  if(rex_extension_is_registered($extensionPoint))
+  {
+    global $REX;
+    return $REX['EXTENSIONS'][$extensionPoint];
+  }
+  return array();
 }
 
 /**
