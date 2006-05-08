@@ -459,6 +459,9 @@ class stats
             $q = substr($o, 0, 60)." ...";
           else
             $q = $o;
+            
+          $q = htmlspecialchars($q);
+          $o = htmlspecialchars($o);
 
           $refout .= "<tr><td class=icon>&nbsp;</td><td class=lgrey><a href=$o target=_blank>$q</a></td><td width=100 align=right>$p</td></tr>";
 
