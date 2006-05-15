@@ -32,6 +32,8 @@ mulselect module
 
 */
 
+$user_id = (int) $_REQUEST["user_id"];
+
 if (isset($user_id) and $user_id != '')
 {
   $sql = new sql;
