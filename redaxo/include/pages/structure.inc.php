@@ -337,7 +337,7 @@ else
     rex_generateArticle($id);
 
     // ----- EXTENSION POINT
-    $message = rex_register_extension_point('ART_ADDED', $message, array (
+    $amessage = rex_register_extension_point('ART_ADDED', $amessage, array (
       "id" => $id,
       "status" => 0,
       "name" => $article_name,
@@ -373,7 +373,7 @@ else
       rex_generateArticle($article_id);
 
       // ----- EXTENSION POINT
-      $message = rex_register_extension_point('ART_UPDATED', $message, array (
+      $amessage = rex_register_extension_point('ART_UPDATED', $amessage, array (
         "id" => $article_id,
         "status" => $thisArt->getValue("status"
       ), "name" => $article_name, "re_id" => $category_id, "prior" => $Position_Article, "path" => $KATPATH, "template_id" => $template_id));
