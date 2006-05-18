@@ -526,9 +526,9 @@ class OOMedia
     // Titel hinzufügen    
     if (!isset($params['title']))
     {
-      if (($desc = $this->getDescription()) != '')
+      if (($title = $this->getTitle()) != '')
       {
-        $params['title'] = htmlspecialchars($desc);
+        $params['title'] = htmlspecialchars($title);
       }
     }
 
