@@ -787,11 +787,13 @@ if ($article->getRows() == 1)
         </tr></table>";
       echo "</td></tr>";
 
-      echo "<tr bgcolor=#eeeeee>";
-      if ($article->getValue("teaser")==1) echo "<td align=right class=grey><input type=checkbox name=meta_teaser checked value=1></td>";
-      else echo "<td align=right class=grey><input type=checkbox id=meta_teaser name=meta_teaser value=1></td>";
-      echo "  <td class=grey><label for=meta_teaser>".$I18N->msg("teaser")."</label></td>
-        </tr>";
+      $teaser_checked = $article->getValue("teaser")==1 ? ' checked=checked' : '';
+      
+      echo "<tr bgcolor=#eeeeee>
+              <td class=grey><label for=meta_teaser>".$I18N->msg("teaser")."</label></td>
+              <td class=grey><input type=checkbox name=meta_teaser value=1". $teaser_checked .">
+              </td>
+          </tr>";
 
       echo "  </tr>
         $out
