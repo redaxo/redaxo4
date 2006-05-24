@@ -63,15 +63,34 @@ if (isset ($catedit_function) and $catedit_function != "" && $edit_id != "" && $
     $new_prio = 1;
   $re_id = $thisCat->getValue("re_id");
 
+  // --- Kategorie selbst updaten 
   $EKAT = new sql;
   $EKAT->setTable($REX['TABLE_PREFIX']."article");
-  $EKAT->where("id='$edit_id' and startpage=1 and clang=$clang");
+  $EKAT->where("id=$edit_id AND startpage=1 AND clang=$clang");
   $EKAT->setValue("catname", "$kat_name");
   $EKAT->setValue("catprior", "$new_prio");
   $EKAT->setValue("path", $KATPATH);
   $EKAT->setValue("updatedate", time());
   $EKAT->setValue("updateuser", $REX_USER->getValue("login"));
   $EKAT->update();
+  
+  // --- Kategorie Kindelemente updaten 
+  $ArtSql = new sql();
+  $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$edit_id .' AND startpage=0 AND clang='.$clang);
+  
+  for($i = 0; $i < $ArtSql->getRows(); $i++)
+  {
+    $EART = new sql();
+    $EART->setTable($REX['TABLE_PREFIX']."article");
+    $EART->where('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
+    $EART->setValue("catname", "$kat_name");
+    $EART->setValue("updatedate", time());
+    $EART->setValue("updateuser", $REX_USER->getValue("login"));
+    $EART->update();
+    
+    rex_generateArticle($ArtSql->getValue('id'));
+    $ArtSql->next();
+  }
 
   // ----- PRIOR
   rex_newCatPrio($re_id, $clang, $new_prio, $old_prio);
