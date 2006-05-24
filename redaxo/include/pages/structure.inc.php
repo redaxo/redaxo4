@@ -296,6 +296,16 @@ else
     $Position_New_Article = (int) $Position_New_Article;
     if ($Position_New_Article == 0)
       $Position_New_Article = 1;
+      
+    // ------- Kategorienamen holen
+    $sql = new sql();
+    $sql->setQuery('SELECT catname FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' and startpage=1 and clang='. $clang);
+    
+    $category_name = '';
+    if($sql->getRows() == 1)
+    {
+      $category_name = $sql->getValue('catname');
+    }
 
     $amessage = $I18N->msg("article_added");
 
@@ -314,7 +324,7 @@ else
       else
         $AART->setValue("id", $id);
       $AART->setValue("name", $article_name);
-      $AART->setValue("catname", $article_name);
+      $AART->setValue("catname", $category_name);
       $AART->setValue("clang", $key);
       $AART->setValue("re_id", $category_id);
       $AART->setValue("prior", $Position_New_Article);

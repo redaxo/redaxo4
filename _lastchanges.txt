@@ -76,6 +76,8 @@ Changes:
   * OOF:
     - OOMedia -> toImage - title Attribut bekommt nun den MediaTitle zugewiesen und nicht mehr die Description [tab]
   * Beiliegender PHPMailer aktualisiert [kills]
+  * Bugfixes:
+    - Artikel anlegen: Kategoriename wird jetzt richtig eingetragen [kills]
 
 Version 3.2 (2006-04-06)
 
