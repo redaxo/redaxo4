@@ -706,14 +706,18 @@ if ($article->getRows() == 1)
       if ($typesql->getRows() <=1 ) $out = "<input type=hidden name=type_id value=0>";
       else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
 
-      echo "  <table border=0 cellpadding=5 cellspacing=1 width=100%>
-        <form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM>
+      echo "<form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM>
         <input type=hidden name=page value=content>
         <input type=hidden name=article_id value='$article_id'>
         <input type=hidden name=mode value='meta'>
         <input type=hidden name=save value=1>
         <input type=hidden name=clang value=$clang>
         <input type=hidden name=ctype value=$ctype>
+        <table border=0 cellpadding=5 cellspacing=1 width=100%>
+        <colgroup>
+          <col width=30% />
+          <col width=70% />
+        </colgroup>
         <tr>
           <td colspan=2>".$I18N->msg("general")."</td>
         </tr>";
@@ -808,8 +812,11 @@ if ($article->getRows() == 1)
           <td class=grey><input type=submit value='".$I18N->msg("update_metadata")."' size=8></td>
         </tr>";
         
-        echo "</form>
-        </table>";
+        // ----- EXTENSION POINT
+        echo rex_register_extension_point('ART_META_FORM_SECTION');
+        
+        echo "</table>
+          </form>";
         
         
       // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN  	
