@@ -46,14 +46,14 @@ $REX['DB']['2']['LOGIN'] = "";
 $REX['DB']['2']['PSW'] = "";
 $REX['DB']['2']['NAME'] = "";
 
+// ----------------- default values
+if (!isset($article_id) or $article_id == '') $article_id = $REX['START_ARTICLE_ID'];
+if (!isset($category_id) or $category_id == '') $category_id = '0';
+if (!isset($ctype) or $ctype == '') $ctype = '0';
+if (!isset($clang) or $clang =='') $clang = '0';
+if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
+
 // ----------------- INCLUDE FUNCTIONS
-if(!isset($REX['NOFUNCTIONS']) or !$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
-
-// -----------------
-if (!isset($category_id) or $category_id == "") $category_id = 0;
-if (!isset($ctype) or $ctype == "") $ctype = 0;
-
-// ----------------- set to default
-$REX['NOFUNCTIONS'] = false;
+if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
 
 ?>
