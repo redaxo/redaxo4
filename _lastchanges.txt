@@ -62,6 +62,7 @@ Changes:
 	  - Angelegte Artikel haben das gleiche Template wie die Kategorie in der sie sich befinden [kills]
 	* rexExtensionPoint erstellt:
 	  - ART_META_UPDATED,ART_META_FORM [kills]
+	  - ART_META_FORM_SECTION [kills]
   * Medienpool:
   	- Synchronisation zwischen DB und /files implementiert [kills]
   * Sprachen:
