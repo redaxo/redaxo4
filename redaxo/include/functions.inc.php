@@ -91,7 +91,6 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_wysiwyg.inc.php";
 
 // ----- CONFIG FILES
-include_once $REX['INCLUDE_PATH']."/addons.inc.php";
 include_once $REX['INCLUDE_PATH']."/ctype.inc.php";
 include_once $REX['INCLUDE_PATH']."/clang.inc.php";
 
@@ -113,5 +112,8 @@ if (!isset($ctype)) {
   $ctype = $ctype + 0;
 }
 if (!isset($REX['CTYPE'][$ctype])) $ctype = 0;
+
+// ----- INCLUDE ADDONS
+include_once $REX['INCLUDE_PATH']."/addons.inc.php";
 
 ?>
