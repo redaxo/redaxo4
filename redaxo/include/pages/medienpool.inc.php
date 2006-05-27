@@ -586,7 +586,7 @@ function rex_mpool_add_mediacat_options_wperm( &$select, &$mediacat, &$mediacat_
   }
 }
 
-function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $file_chooser)
+function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
   global $I18N, $subpage, $ftitle, $fdescription, $fcopyright;
   
@@ -643,7 +643,12 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
   
   $s .= '</td></tr>'."\n";
   $s .= '</table>'."\n";
-  $s .= '</form>'."\n";
+  
+  if($close_form)
+  {
+    $s .= '</form>'."\n";
+  }
+  
   
   return $s;
 }
@@ -652,14 +657,14 @@ function rex_mpool_upload_form($rex_file_category)
 {
   global $I18N;
   
-  return rex_mpool_media_form($I18N->msg('pool_file_insert'), $I18N->msg('pool_file_upload'), $rex_file_category, true);
+  return rex_mpool_media_form($I18N->msg('pool_file_insert'), $I18N->msg('pool_file_upload'), $rex_file_category, true, true);
 }
 
 function rex_mpool_sync_form($rex_file_category)
 {
   global $I18N;
   
-  return rex_mpool_media_form($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false);
+  return rex_mpool_media_form($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false, false);
 }
 
 
@@ -1111,12 +1116,15 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   $diff_count = count($diff_files);
 //  $diff_files = array();
 
-  if(!empty($_POST['save']))
+  if(!empty($_POST['save']) && !empty($_POST['sync_files']))
   {
     if($diff_count > 0)
     {
-      foreach($diff_files as $key => $file)
+      foreach($_POST['sync_files'] as $file)
       {
+        // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
+        if(!is_int($key = array_search($file, $diff_files))) continue;
+        
         if(rex_mpool_register_file($file,$file,$file,$rex_file_category,$ftitle,$fdescription,$fcopyright,'',''))
         {
           unset($diff_files[$key]);
@@ -1134,7 +1142,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   {
     $title .= ' ('. $diff_count .')';
   }
-  echo "<table width=100% cellpadding=5 cellspacing=1 border=0><tr><td class=grey><b class=head>". $title ."</b></td></tr><tr><td></td></tr></table>";
+  echo "<table width=100% cellpadding=5 cellspacing=1 border=0 style='margin-top:10px'><tr><td class=grey><b class=head>". $title ."</b></td></tr><tr><td></td></tr></table>";
   
   echo '<table border="0" cellpadding="5" cellspacing="1" width="100%">'."\n";
   echo '<tr><td class="grey" width="100">';
@@ -1144,9 +1152,18 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     echo '<ul>';
     foreach($diff_files as $file)
     {
-      echo '<li>'. $file .'</li>';
+      echo '<li>';
+      echo '<input type="checkbox" id="sync_file_'. $file .'" name="sync_files[]" value="'. $file .'" />';
+      echo '<label for="sync_file_'. $file .'">'. $file .'</label>';
+      echo '</li>';
     }
     echo '</ul>';
+    
+    echo '</td></tr>';
+    echo '<tr><td align=left class="grey">';
+    echo '<input type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'rex_file_cat\',\'sync_files[]\',this)"/>';
+    echo '<label for="checkie">'. $I18N->msg('pool_select_all') .'</label>';
+    
   }
   else
   {
@@ -1155,7 +1172,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   
   echo '</td></tr>'."\n";
   echo '</table>';
-//  var_dump($diff_files);
+  echo '</form>';
 }
 
 
@@ -1227,7 +1244,8 @@ if($PERMALL && isset($media_method) and $media_method == 'delete_selectedmedia')
 
           $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
           $db->query($sql);
-          unlink($REX['MEDIAFOLDER']."/".$file_name);
+          // fehler unterdrücken, falls die Datei nicht mehr vorhanden ist
+          @unlink($REX['MEDIAFOLDER']."/".$file_name);
           $msg .= "\"$file_name\" ".$I18N->msg('pool_file_deleted');
           $subpage = "";
         }else{

@@ -65,6 +65,7 @@ Changes:
 	  - ART_META_FORM_SECTION [kills]
   * Medienpool:
   	- Synchronisation zwischen DB und /files implementiert [kills]
+  	- Synchronisation jetzt auch auf Selection möglich [kills]
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
   * Fileprefix für Tempdateien implementiert ("tmp_") [kills]

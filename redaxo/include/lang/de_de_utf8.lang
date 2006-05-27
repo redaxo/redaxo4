@@ -351,6 +351,7 @@ pool_link_get = Link einsetzen
 pool_file_get = Datei übernehmen
 pool_last_update = Letzter Update
 pool_created = Erstellt am
+pool_select_all = Alle markieren
 
 # redaxo/include/pages
 setup = Setup

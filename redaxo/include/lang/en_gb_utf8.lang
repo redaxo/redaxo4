@@ -350,8 +350,9 @@ pool_nomediafound = no media found in this category
 pool_image_get = insert image
 pool_link_get = insert link
 pool_file_get = get file
-pool_last_update = Letzter Update
-pool_created = Erstellt am
+pool_last_update = Last update
+pool_created = Created on
+pool_select_all = check all
 
 # redaxo/include/pages
 setup = Setup
