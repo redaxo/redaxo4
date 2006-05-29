@@ -35,7 +35,7 @@ if ($article->getRows() == 1)
   {
     if ($article->getValue("startpage")==1) $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("start_article")." : ";
     else $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("article")." : ";
-    $KATout .= "<a href=index.php?page=content&article_id=$article_id&mode=edit&clang=$clang>".str_replace(" ","&nbsp;",$article->getValue("name"))."</a>";
+    $KATout .= "<a href=index.php?page=content&amp;article_id=$article_id&amp;mode=edit&amp;clang=$clang>".str_replace(" ","&nbsp;",$article->getValue("name"))."</a>";
     // $KATout .= " [$article_id]";
   }
 
@@ -43,7 +43,7 @@ if ($article->getRows() == 1)
   rex_title("Artikel",$KATout);
 
   // ----- Sprachenblock
-  $sprachen_add = "&category_id=$category_id&article_id=$article_id";
+  $sprachen_add = "&amp;category_id=$category_id&amp;article_id=$article_id";
   include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";
 
   if (isset($_REQUEST["mode"])) $mode = $_REQUEST["mode"];
@@ -478,7 +478,7 @@ if ($article->getRows() == 1)
 
 
     // ------------------------------------------ START: MOVE ARTICLE
-    if (isset($function) and $function == "movearticle" and $category_id != $article_id)
+    if (!empty($_POST['movearticle']) and $category_id != $article_id)
     {
       $category_id_new = (int) $category_id_new;
       if(  $REX_USER->isValueOf("rights","admin[]") || 
@@ -510,7 +510,7 @@ if ($article->getRows() == 1)
 
 
     // ------------------------------------------ START: COPY ARTICLE
-    if (isset($function) and $function == "copyarticle")
+    if (!empty($_POST['copyarticle']))
     {
       $category_copy_id_new = (int) $category_copy_id_new;
       if( $REX_USER->isValueOf("rights","admin[]") || 
@@ -542,7 +542,7 @@ if ($article->getRows() == 1)
 
 
     // ------------------------------------------ START: MOVE CATEGORY
-    if (isset($function) and $function == "movecategory")
+    if (!empty($_POST['movecategory']))
     {
       $category_id_new = (int) $category_id_new;
       if(  $REX_USER->isValueOf("rights","admin[]") || 
@@ -706,7 +706,7 @@ if ($article->getRows() == 1)
       if ($typesql->getRows() <=1 ) $out = "<input type=hidden name=type_id value=0>";
       else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
 
-      echo "<form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM>
+      echo "<form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM style=display:inline>
         <input type=hidden name=page value=content>
         <input type=hidden name=article_id value='$article_id'>
         <input type=hidden name=mode value='meta'>
@@ -799,7 +799,7 @@ if ($article->getRows() == 1)
               </td>
           </tr>";
 
-      echo "  </tr>
+      echo "
         $out
          ";
 
@@ -815,8 +815,7 @@ if ($article->getRows() == 1)
         // ----- EXTENSION POINT
         echo rex_register_extension_point('ART_META_FORM_SECTION');
         
-        echo "</table>
-          </form>";
+//        echo "</table>";
         
         
       // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN  	
@@ -846,23 +845,13 @@ if ($article->getRows() == 1)
       // ------------------------------------------------------------- SONSTIGES START    
         if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]") || ($REX_USER->isValueOf("rights","copyContent[]") && count($REX['CLANG']) > 1))
         {
-          echo "<table border=0 cellpadding=5 cellspacing=1 width=100%>
-          <tr>
-            <td colspan=3>".$I18N->msg("other_functions")."</td>
+          echo "<tr>
+            <td colspan=2>".$I18N->msg("other_functions")."</td>
           </tr>";
 		  
           // --------------------------------------------------- INHALTE KOPIEREN START
         if(($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]")) && count($REX['CLANG']) > 1)
         {
-          echo "
-          <form action=index.php method=get>
-          <input type=hidden name=page value=content>
-          <input type=hidden name=article_id value='$article_id'>
-          <input type=hidden name=mode value='meta'>
-          <input type=hidden name=clang value=$clang>
-          <input type=hidden name=ctype value=$ctype>
-          <input type=hidden name=function value=copycontent>";
-
         $lang_a = new select;
         $lang_a->set_name("clang_a");
         $lang_a->set_style("width:100px;");
@@ -882,23 +871,14 @@ if ($article->getRows() == 1)
         
         echo "<tr>
           <td class=grey>&nbsp;</td>
-          <td class=grey><input type=submit value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
+          <td class=grey><input type=submit name=copycontent value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
           </tr>";
-        echo "</form>";
         }
         
           // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
         	// --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 			if ($article->getValue("startpage") == 0 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) ) {
-				print "<form action=index.php method=get>
-						<input type=hidden name=page value=content>
-						<input type=hidden name=article_id value='$article_id'>
-						<input type=hidden name=category_id_old value='$category_id'>
-						<input type=hidden name=mode value='meta'>
-						<input type=hidden name=clang value=$clang>
-						<input type=hidden name=ctype value=$ctype>
-						<input type=hidden name=function value=movearticle>";
 
 				// Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
 					$move_a = new select;
@@ -918,9 +898,8 @@ if ($article->getRows() == 1)
 						  </tr>
 						  <tr>
 						    <td class=grey>&nbsp;</td>
-							<td class=grey><input type=submit value='".$I18N->msg("content_submitmovearticle")."' size=8></td>
+							<td class=grey><input type=submit name=movearticle value='".$I18N->msg("content_submitmovearticle")."' size=8></td>
 						</tr>";
-				print '</form>';
 			}   
 			// ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
 
@@ -930,14 +909,6 @@ if ($article->getRows() == 1)
 
 			// -------------------------------------------------- ARTIKEL KOPIEREN START
 			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]")) {
-				print "<form action=index.php method=get>
-						<input type=hidden name=page value=content>
-						<input type=hidden name=article_id value='$article_id'>
-						<input type=hidden name=mode value='meta'>
-						<input type=hidden name=clang value=$clang>
-						<input type=hidden name=ctype value=$ctype>
-						<input type=hidden name=function value=copyarticle>";
-
 				$move_a = new select;
 				$move_a->set_name("category_copy_id_new");
 				$move_a->set_style("width:100%;");
@@ -956,10 +927,8 @@ if ($article->getRows() == 1)
 					</tr>
 					<tr>
 						<td class=grey>&nbsp;</td>
-						<td class=grey><input type=submit value='".$I18N->msg("content_submitcopyarticle")."' size=8></td>
+						<td class=grey><input type=submit name=copyarticle value='".$I18N->msg("content_submitcopyarticle")."' size=8></td>
 					</tr>";
-				
-				print '</form>';
 			}
 			// --------------------------------------------------- ARTIKEL KOPIEREN ENDE 
 
@@ -970,15 +939,6 @@ if ($article->getRows() == 1)
 			// --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START 
 			if ($article->getValue("startpage") == 1 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]")))
 			{
-				
-				print "<form action=index.php method=get>
-						<input type=hidden name=page value=content>
-						<input type=hidden name=article_id value='$article_id'>
-						<input type=hidden name=mode value='meta'>
-						<input type=hidden name=clang value=$clang>
-						<input type=hidden name=ctype value=$ctype>
-						<input type=hidden name=function value=movecategory>";
-
 				$move_a = new select;
 				$move_a->set_name("category_id_new");
 				$move_a->set_style("width:100%;");
@@ -999,31 +959,26 @@ if ($article->getRows() == 1)
 					  </tr>
 					  <tr>
 					    <td class=grey>&nbsp;</td>
-						<td class=grey><input type=submit value='".$I18N->msg("content_submitmovecategory")."' size=8></td>
+						<td class=grey><input type=submit name=movecategory value='".$I18N->msg("content_submitmovecategory")."' size=8></td>
 					</tr>";
-
-				print '</form>';
 			}
 			// ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE 
 
 
 
-
-
-        echo "</table>";
         }
         // ------------------------------------------------------------- SONSTIGES ENDE  
 
 
+      echo "</table></form>";
+    
       // ------------------------------------------ END: META VIEW
 
     }
 
-    echo "    </td>
-    	<td class=lgrey>&nbsp;</td>
-        </tr>
-        </table>";
-
+      echo "</td>";
+      echo "<td class=lgrey>&nbsp;</td>";
+      echo "</tr></table>";
     // ------------------------------------------ END: AUSGABE
 
   }
