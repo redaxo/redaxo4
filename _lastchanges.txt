@@ -63,6 +63,7 @@ Changes:
 	* rexExtensionPoint erstellt:
 	  - ART_META_UPDATED,ART_META_FORM [kills]
 	  - ART_META_FORM_SECTION [kills]
+	  - LOGIN_REDIRECT_URL [kills]
   * Medienpool:
   	- Synchronisation zwischen DB und /files implementiert [kills]
   	- Synchronisation jetzt auch auf Selection möglich [kills]
