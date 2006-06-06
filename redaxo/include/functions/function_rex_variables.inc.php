@@ -28,7 +28,7 @@ function rex_register_variable($variable, $function)
 function rex_get_registered_variables()
 {
   global $REX;
-  if (is_array($REX['VARIABLES']))
+  if (isset($REX['VARIABLES']) && is_array($REX['VARIABLES']))
   {
     return $REX['VARIABLES'];
   }
