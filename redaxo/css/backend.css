@@ -1,0 +1,564 @@
+@import 'linkmap.css';
+@import 'form-search.css';
+
+*, 
+.rex-nospace {
+	margin:0;
+	padding:0;
+}
+
+fieldset, img {
+	border:0;
+}
+
+img {
+	vertical-align:bottom;
+}
+
+a {
+	color:#f2353a;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+li {
+	list-style-type:none;
+}
+
+div, p {
+	background-repeat:no-repeat;
+}
+
+
+
+
+.rex-clearer { 
+	display: block;
+	clear: both;
+	line-height: 0em;
+	height: 1px;
+	font-size: 0;
+	visibility: hidden;
+}
+
+.rex-clear { 
+	clear: both;
+}
+
+.rex-hide { 
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	overflow: hidden !important;
+	width: 1px !important;
+	height: 1px !important;
+}
+
+.rex-flLeft {
+	float:left;
+	margin-right:10px;
+}
+.rex-flRight {
+	float:right;
+	margin-left:10px;
+}
+
+.rex-strike {
+	text-decoration:line-through;
+}
+
+
+div#rex-output .rex-warning {
+	margin:10px 0;
+	padding:8px 50px;
+	padding-left:50px;
+	background:#fae9e5 url(../pics/warning.gif) 2% 50% no-repeat;
+	color:#ea1144;
+}
+
+table .rex-warning {
+	margin:0;
+}
+
+
+
+/*	Font Metrics
+*******************************************************************************/
+div.rex-lgn-loginform input, 
+div.rex-cnt-cols input, 
+div.rex-cnt-cols select, 
+div.rex-cnt-metaform input, 
+div.rex-cnt-metaform select, 
+div.rex-cnt-metaform textarea, 
+div.rex-mdl-moduleform input, 
+div.rex-mdl-moduleform select, 
+div.rex-mdl-moduleform textarea {
+	font-size:1em;
+}
+
+div.rex-cnt-editmode p.rex-flLeft, 
+div.rex-cnt-editmode ul.rex-flRight li {
+	font-size:1.2em;
+}
+
+div#rex-title ul, 
+div#rex-title p, 
+div#rex-clang ul, 
+div.rex-cnt-hdr ul, 
+div.rex-cnt-editmode-slc {
+	line-height:3em;
+}
+
+div#rex-title h1 {
+	line-height:2.3em;
+}
+
+
+
+/*	Color Properties
+*******************************************************************************/
+.rex-clr-grn {
+	color:#478c44;
+}
+.rex-clr-red {
+	color:#ea1144;
+}
+
+div#rex-clang, 
+div.rex-cnt-hdr, 
+div.rex-cnt-cols, 
+form#rex-tmp-editmode p {
+	background-color:#f0efeb;
+}
+div.rex-cnt-bdy {
+	background-color:#faf9f5;
+}
+
+
+
+/*	Inmages
+*******************************************************************************/
+div.rex-cnt-editmode ul.rex-flRight li img {
+	vertical-align:middle;
+}
+
+
+/*	General
+*******************************************************************************/
+
+body {
+	margin:10px;
+	color:#32353a;
+}
+
+body {
+	font-family:verdana, arial, sans-serif; 
+	font-size:62.5%;
+}
+
+/*	Header / Footer
+*******************************************************************************/
+div#rex-hdr, 
+div#rex-ftr {
+	float:left;
+	width:770px;
+}
+
+div#rex-ftr {
+	padding:5px 0;
+	background:#f0efeb;
+	border-top:20px solid #aab9a8;
+}
+
+div#rex-hdr p.rex-hdr-top {
+	padding:5px;
+	background:#f0efeb;
+	text-align:right;
+}
+
+div#rex-hdr div {
+	float:left;
+	width:100%;
+	padding:5px 0;
+	background:#aab9a8;
+}
+
+div#rex-hdr div ul, 
+div#rex-ftr ul {
+	float:left;
+	display:inline;
+	width:70%;
+	margin:0 5px;
+}
+
+div#rex-hdr div li, 
+div#rex-ftr li {
+	display:inline;
+	color:#fff;
+}
+div#rex-ftr li {
+	color:#000;
+}
+
+div#rex-hdr div li a {
+	color:#fff;
+	font-weight:bold;
+}
+
+div#rex-ftr li a {
+	color:#000;
+}
+
+div#rex-hdr div p, 
+div#rex-ftr p {
+	float:right;
+	display:inline;
+	margin:0 5px;
+}
+
+div#rex-hdr div p a {
+	color:#fff;
+	font-weight:bold;
+}
+
+
+
+
+/*	Content
+*******************************************************************************/
+div#rex-wrapper {
+	position:relative;
+	float:left;
+	clear:both;
+	width:770px;
+	margin-bottom:10px;
+}
+
+div#rex-output {
+	margin-top:10px;
+}
+
+div#rex-output p.rex-hdl {
+	background:#d7d6d3;
+	font-weight:bold;
+}
+
+div#rex-output p, 
+div#rex-output div.rex-cnt {
+	padding:5px;
+}
+
+div#rex-output div.rex-cnt-editmode-slc p {
+	padding:0;
+	padding-left:5px;
+	font-weight:bold;
+}
+
+div#rex-output div.rex-cnt-moduleout p {
+	padding:0;
+}
+
+div.rex-cnt-moduleout {
+	clear:both;
+	padding:10px;
+}
+
+div.rex-cnt-editmode-slc {
+	float:left;
+	width:100%;
+	background:#ccd7dd;
+}
+
+div.rex-cnt-cols {
+	float:left;
+	width:100%;
+}
+
+div.rex-cnt-col2 {
+	float:left;
+	width:49.9%;
+}
+
+
+
+/*	Title
+*******************************************************************************/
+div#rex-title {
+	margin-top:10px;
+	height:61px;
+	background:#f0efeb url(../pics/logo.gif) 100% 0% no-repeat;
+}
+
+html>body div#rex-title {
+	height:auto;
+	min-height:61px;
+}
+
+div#rex-title h1, 
+div#rex-title ul, 
+div#rex-title p {
+	padding-left:5px;
+	width:617px;
+	border-bottom:1px solid #fff;
+	color:#32353a;
+}
+
+div#rex-title h1 {
+	font-size:1.3em;
+}
+
+div.rex-cnt-bdy {
+	clear:both;
+	padding:1px 150px 0 31px;
+}
+
+
+/*	Listen
+*******************************************************************************/
+/* 
+	div#rex-title ul weiter oben noch def. 
+*/
+div#rex-clang, 
+div.rex-cnt-hdr {
+	padding-left:30px;
+	margin-bottom:10px;
+}
+div.rex-cnt-hdr {
+	float:left;
+	margin:0;
+	background-image:url(../pics/document.gif);
+	background-position:5px 50%;
+	width:740px;
+	
+}
+div#rex-clang ul {
+	padding-left:5px;
+	border-left:1px solid #fff;
+}
+div.rex-cnt-hdr ul {
+	float:left;
+	margin-right:50px;
+}
+
+div.rex-cnt-editmode ul.rex-flRight {
+	padding:0 10px;
+	background:#e4eff2;
+}
+
+div#rex-title ul li, 
+div#rex-clang ul li, 
+div.rex-cnt-hdr ul li, 
+div.rex-cnt-editmode ul.rex-flRight li {
+	display:inline;
+	font-weight:bold;
+}
+
+div#rex-title ul li, 
+div#rex-clang ul li, 
+div.rex-cnt-hdr ul li, 
+div#rex-title p {
+	font-weight:bold;
+}
+div.rex-cnt-hdr ul li a {
+	font-weight:normal;
+}
+
+
+/*	Form
+*******************************************************************************/
+div.rex-form {
+	padding:5px 0;
+	background:#eae9e5;
+	border:1px solid #ddd;
+}
+
+div.rex-form legend {
+	display:none;
+}
+
+div.rex-form p {
+	padding:5px 10px;
+}
+
+div.rex-form label {
+	display:block;
+	float:left;
+	width:120px;
+}
+
+div.rex-form input {
+	padding:1px;
+	font-size:1em;
+}
+
+div.rex-form input.fsubmit {
+}
+
+
+
+
+
+div.rex-cnt-editmode, 
+div.rex-cnt-metaform {
+	background-color:#d6e1e4;
+}
+div.rex-lgn-loginform {
+   background-color: #f0efeb;
+   border: 1px solid #eae9e5;
+}
+
+div.rex-mdl-moduleform, 
+form#rex-tmp-editmode {
+	background-color:#d7d6d3;
+}
+
+div.rex-cnt-editmode form {
+	background-color:#b0bdc3;
+}
+
+
+div.rex-lgn-loginform legend, 
+div.rex-cnt-cols legend, 
+div.rex-cnt-editmode legend, 
+div.rex-cnt-metaform legend, 
+form#rex-tmp-editmode legend, 
+div.rex-mdl-moduleform legend {
+	padding:5px;
+	font-weight:bold;
+}
+
+div.rex-cnt-metaform p, 
+div.rex-mdl-moduleform p {
+	margin-bottom:1px;
+	background:#f0efeb;
+}
+
+div.rex-lgn-loginform label, 
+div.rex-cnt-cols label, 
+div.rex-cnt-metaform label, 
+form#rex-tmp-editmode label, 
+div.rex-mdl-moduleform label {
+	clear:left;
+	display:block;
+	float:left;
+	width:150px;
+}
+div.rex-cnt-cols label {
+	width:190px;
+}
+
+/* 	Specials */
+div.rex-cnt-cols input, 
+div.rex-cnt-cols select  {
+	width:40%;
+}
+
+div.rex-lgn-loginform input, 
+div.rex-cnt-metaform input, 
+div.rex-cnt-metaform select, 
+div.rex-cnt-metaform textarea, 
+div.rex-mdl-moduleform input, 
+div.rex-mdl-moduleform select, 
+div.rex-mdl-moduleform textarea {
+	width:300px;
+}
+
+div.rex-mdl-moduleform input, 
+div.rex-mdl-moduleform select, 
+div.rex-mdl-moduleform textarea, 
+form#rex-tmp-editmode input, 
+form#rex-tmp-editmode textarea {
+	width:500px;
+}
+
+div.rex-cnt-editmode select {
+	width:100%;
+}
+
+textarea.rex-ftxtr-cd {
+	height:150px;
+	font:normal 1em/1.6 courier;
+}
+form#rex-tmp-editmode textarea.rex-ftxtr-cd {
+	height:400px;
+}  
+
+div.rex-lgn-loginform input.rex-fsubmit,
+div.rex-cnt-metaform input.rex-fchckbx, 
+div.rex-cnt-metaform input.rex-fsubmit, 
+div.rex-mdl-moduleform input.rex-fsubmit, 
+form#rex-tmp-editmode input.rex-fchckbx, 
+form#rex-tmp-editmode input.rex-fsubmit {
+	width:auto;
+}
+
+div.rex-lgn-loginform input.rex-fsubmit, 
+div.rex-cnt-metaform input.rex-fsubmit, 
+div.rex-mdl-moduleform input.rex-fsubmit, 
+form#rex-tmp-editmode input.rex-fsubmit {
+	padding:2px 10px;
+	margin-left:150px;
+	/*
+	background:#d6e1e4;
+	border:1px solid #91ADB6;
+	border-top-color:#BED0D4;
+	border-left-color:#BED0D4;
+	*/
+}
+div.rex-cnt-cols input.rex-fsubmit {
+	margin-left:190px;
+}
+
+div.rex-cnt-metaform select.rex-fdatey {
+	width:100px;
+}
+
+div.rex-cnt-metaform select.rex-fdate {
+	width:60px;
+}
+
+
+/*	Table
+*******************************************************************************/
+table.rex-table {
+	width:100%;
+	background:#f0efeb;
+	border-collapse:collapse;
+	border-spacing:1px;
+}
+
+table.rex-table caption, 
+table.rex-table th, 
+table.rex-table td {
+	padding:5px;
+	border:1px solid #fff;
+}
+
+table.rex-table caption {
+	background:#c7c6c2;
+	background:#cac8c4;
+	border-left:0;
+	font-weight:bold;
+	text-align:left;
+}
+
+table.rex-table tr.rex-trow-actv td {
+	background:#b0bdc3;
+}
+
+table.rex-table th {
+	background:#d7d6d3;
+	text-align:left;
+}
+
+table.rex-table th.rex-icon {
+	width:30px;
+	text-align:center;
+}
+
+table.rex-table th.rex-colz {
+	width:143px;
+}

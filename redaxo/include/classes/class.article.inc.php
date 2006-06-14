@@ -155,14 +155,15 @@ class article
   {
     global $module_id,$FORM,$REX_USER,$REX,$REX_SESSION,$REX_ACTION,$I18N;
 
-  // ctype var festlegung komischer umweg
-  $a = $this->ctype_var;
-  $$a = $curctype;
-  $sliceLimit = '';
-  if ($this->getSlice){
-    //$REX['GG'] = 0;
-    $sliceLimit = " and ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
-  }
+    // ctype var festlegung komischer umweg
+    $a = $this->ctype_var;
+    $$a = $curctype;
+    $sliceLimit = '';
+    if ($this->getSlice){
+      //$REX['GG'] = 0;
+      $sliceLimit = " and ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
+    }
+    
     // ----- start: article caching
     ob_start();
 
@@ -179,7 +180,8 @@ class article
           eval($this->contents);
         }
       }
-    }else
+    }
+    else
     {
       if ($this->article_id != 0)
       {
@@ -223,14 +225,15 @@ class article
 
           $MODULESELECT = new select;
           $MODULESELECT->set_name("module_id");
-          $MODULESELECT->set_size(1);
-          $MODULESELECT->set_style("width:100%;");
+          $MODULESELECT->set_id("module_id");
+//          $MODULESELECT->set_style("width:100%;");
+          $MODULESELECT->set_size("1");
           $MODULESELECT->set_selectextra("onchange='this.form.submit();'");
           $MODULESELECT->add_option("----------------------------  ".$I18N->msg("add_block"),'');
 
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
-            if ($REX_USER->isValueOf("rights","module[".$MODULE->getValue("id")."]") || $REX_USER->isValueOf("rights","admin[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+            if ($REX_USER->hasPerm("module[".$MODULE->getValue("id")."]") || $REX_USER->hasPerm("admin[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
             $MODULE->next();
           }
         }
@@ -243,9 +246,6 @@ class article
         $PRE_ID = 0;
         $this->article_content = "";
         $this->CONT->resetCounter();
-        $tbl_head = "<table width=100% cellspacing=0 cellpadding=5 border=0><tr><td class=lblue>";
-        $tbl_bott = "</td></tr></table>";
-
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
@@ -260,26 +260,31 @@ class article
 
           if($this->mode=="edit")
           {
+            $form_url = 'index.php';
+            if ($this->setanker) $form_url .= '#addslice';
 
             $this->ViewSliceId = $RE_CONTS[$I_ID];
+            
+            $amodule = '
+            <form action="'. $form_url .'" method="get">
+              <fieldset>
+                <legend><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+                <input type="hidden" name="article_id" value="'. $this->article_id .'" />
+                <input type="hidden" name="page" value="content" />
+                <input type="hidden" name="mode" value="'. $this->mode .'" />
+                <input type="hidden" name="slice_id" value="'. $I_ID .'" />
+                <input type="hidden" name="function" value="add" />
+                <input type="hidden" name="clang" value="'.$this->clang.'" />
+                <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
-            $amodule = "
-            <table cellspacing=0 cellpadding=5 border=0 width=100%>
-            <form action=index.php";
-            if ($this->setanker) $amodule .= "#addslice";
-            $amodule.= " method=get>
-            <input type=hidden name=article_id value=$this->article_id>
-            <input type=hidden name=page value=content>
-            <input type=hidden name=mode value=$this->mode>
-            <input type=hidden name=slice_id value=$I_ID>
-            <input type=hidden name=function value=add>
-            <input type=hidden name=clang value=".$this->clang.">
-            <input type=hidden name=ctype value=".$this->ctype.">
-            <tr>
-            <td class=dblue>".$MODULESELECT->out()."</td>
-            </tr></form></table>";
+                <p>
+                  '. $MODULESELECT->out() .'
+                  <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                </p>
 
-
+              </fieldset>
+            </form>
+            ';
 
             // ----- add select box einbauen
             if($this->function=="add" && $this->slice_id == $I_ID)
@@ -293,47 +298,62 @@ class article
 
             // ----- edit / delete
 
-            if($REX_USER->isValueOf("rights","module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->isValueOf("rights","admin[]"))
+            if($REX_USER->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->hasPerm("admin[]"))
             {
 
               // hat rechte zum edit und delete
+              
+              $mne = '
+			       	<div class="rex-cnt-editmode-slc">
+                <p class="rex-flLeft" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</p>
+                <ul class="rex-flRight">
+                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=edit&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-grn">'. $I18N->msg('edit') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
+                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=delete&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;save=1#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-red" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
+              ';
 
-              $mne  = "
-                <a name=slice$RE_CONTS[$I_ID]></a>
-                <table width=100% cellspacing=0 cellpadding=5 border=0>
-                <tr>
-                <td class=blue width=380><b>$RE_MODUL_NAME[$I_ID]</b></td>
-                <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=edit&clang=".$this->clang."&ctype=".$this->ctype."#slice$RE_CONTS[$I_ID] class=green12b>".$I18N->msg('edit')."</a></td>
-                <td class=llblue align=center><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=delete&clang=".$this->clang."&ctype=".$this->ctype."&save=1#slice$RE_CONTS[$I_ID] class=red12b onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg('delete')."</a></td>";
-              if ($REX_USER->isValueOf("rights","moveSlice[]"))
+              if ($REX_USER->hasPerm('moveSlice[]'))
               {
-                $mne  .= "<td class=llblue><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=moveup&clang=".$this->clang."&ctype=".$this->ctype."&upd=".time()."#slice$RE_CONTS[$I_ID] class=green12b><img src=pics/file_up.gif width=16 height=16 border=0 hspace=5></a><a href=index.php?page=content&article_id=$this->article_id&mode=edit&slice_id=$RE_CONTS[$I_ID]&function=movedown&clang=".$this->clang."&ctype=".$this->ctype."&upd=".time()."#slice$RE_CONTS[$I_ID] class=green12b><img src=pics/file_down.gif width=16 height=16 border=0></a></td>";
+                $mne  .= '
+                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=moveup&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_up.gif" width="16" height="16" alt="move up" title="move up" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
+                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=movedown&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_down.gif" width="16" height="16" alt="move down" title="move down" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>';
               }
-              $mne .= "</tr></table>";
+              
+              $mne .= '</ul></div>';
 
-              $slice_content .= $mne.$tbl_head;
+              $slice_content .= $mne;
               if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
               {
                 $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID]);
               }else
               {
+                $slice_content .= '
+                <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
+                <div class="rex-cnt-moduleout">';
+                
                 $slice_content .= $RE_MODUL_OUT[$I_ID];
+                
+                $slice_content .= '
+                </div>
+                <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
+                ';
               }
-              $slice_content .= $tbl_bott;
               $slice_content = $this->sliceIn($slice_content);
 
-            }else
+            }
+            else
             {
 
               // ----- hat keine rechte an diesem modul
 
-              $mne = "
-                <table width=100% cellspacing=0 cellpadding=5 border=0>
-                <tr>
-                <td class=blue><b>$RE_MODUL_NAME[$I_ID]</b> | <b>".$I18N->msg('no_editing_rights')."</b></td>
-                </tr>
-                </table>";
-              $slice_content .= $mne.$tbl_head.$RE_MODUL_OUT[$I_ID].$tbl_bott;
+              $mne = '
+			  	<div class="rex-cnt-editmode-slc">
+                <p class="rex-flLeft" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</p>
+                <ul class="rex-flRight">
+                  <li>'. $I18N->msg('no_editing_rights') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></li>
+                </ul>
+				  </div>';
+                
+              $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
               $slice_content = $this->sliceIn($slice_content);
             }
 
@@ -374,24 +394,32 @@ class article
         // ----- end: ctype unterscheidung
         if ($this->mode != "edit" && $i>0) $this->article_content .= "<?php } ?>";
 
-    // ----- add module im edit mode
+        // ----- add module im edit mode
         if ($this->mode == "edit")
         {
-          $amodule = "
-          <table cellspacing=0 cellpadding=5 border=0 width=100%>
-          <form action=index.php";
-          if ($this->setanker) $amodule .= "#addslice";
-          $amodule.= " method=get>
-          <input type=hidden name=article_id value=$this->article_id>
-          <input type=hidden name=page value=content>
-          <input type=hidden name=mode value=$this->mode>
-          <input type=hidden name=slice_id value=$I_ID>
-          <input type=hidden name=function value=add>
-          <input type=hidden name=clang value=".$this->clang.">
-          <input type=hidden name=ctype value=".$this->ctype.">
-          <tr>
-          <td class=dblue>".$MODULESELECT->out()."</td>
-          </tr></form></table>";
+          $form_url = 'index.php';
+          if ($this->setanker) $form_url .= '#addslice';
+          
+          $amodule = '
+            <form action="'. $form_url .'" method="get">
+              <fieldset>
+                <legend><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+                <input type="hidden" name="article_id" value="'. $this->article_id .'" />
+                <input type="hidden" name="page" value="content" />
+                <input type="hidden" name="mode" value="'. $this->mode .'" />
+                <input type="hidden" name="slice_id" value="'. $I_ID .'" />
+                <input type="hidden" name="function" value="add" />
+                <input type="hidden" name="clang" value="'.$this->clang.'" />
+                <input type="hidden" name="ctype" value="'.$this->ctype.'" />
+
+                <p>
+                  '. $MODULESELECT->out() .'
+                  <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                </p>
+
+              </fieldset>
+            </form>
+          ';
 
           if($this->function=="add" && $this->slice_id == $I_ID)
           {
@@ -474,28 +502,38 @@ class article
     $MOD->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id=$module_id");
     if ($MOD->getRows() != 1)
     {
-      $slice_content = "<table width=100% cellspacing=0 cellpadding=5 border=0><tr><td class=dblue>".$I18N->msg('module_doesnt_exist')."</td></tr></table>";
+      $slice_content = '<p class="rex-warning>'. $I18N->msg('module_doesnt_exist'). '</p>';
     }else
     {
-      $slice_content = "<a name=addslice></a><table width=100% cellspacing=0 cellpadding=5 border=0>
-      <tr><td class=dblue><b>".$I18N->msg('add_block')."</b></td></tr>
-      <tr><td class=blue>Modul: <b>".$MOD->getValue("name")."</b></td></tr>
-      <tr>
-      <td class=lblue>
-      <form ENCTYPE=multipart/form-data action=index.php#slice$I_ID method=post name=REX_FORM>
-      <input type=hidden name=article_id value=$this->article_id>
-      <input type=hidden name=page value=content>
-      <input type=hidden name=mode value=$this->mode>
-      <input type=hidden name=slice_id value=$I_ID>
-      <input type=hidden name=function value=add>
-      <input type=hidden name=module_id value=$module_id>
-      <input type=hidden name=save value=1>
-      <input type=hidden name=clang value=".$this->clang.">
-      <input type=hidden name=ctype value=".$this->ctype.">
-      ".$MOD->getValue("eingabe")."
-      <br><input type=submit value='".$I18N->msg('add_block')."'></form>";
+      $slice_content = '
+        <a name="addslice"></a>
+        <form action="index.php#slice'. $I_ID .'" method="post" id="REX_FORM" enctype="multipart/form-data">
+          <fieldset>
+            <legend>'. $I18N->msg('add_block').'</legend>
+            <input type="hidden" name="article_id" value="'. $this->article_id .'" />
+            <input type="hidden" name="page" value="content" />
+            <input type="hidden" name="mode" value="'. $this->mode .'" />
+            <input type="hidden" name="slice_id" value="'. $I_ID .'" />
+            <input type="hidden" name="function" value="add" />
+            <input type="hidden" name="module_id" value="'. $module_id .'" />
+            <input type="hidden" name="save" value="1" />
+            <input type="hidden" name="clang" value="'. $this->clang.'" />
+            <input type="hidden" name="ctype" value="'.$this->ctype .'" />
+            <h2>'. $I18N->msg('add_block').'</h2>
+            <p>
+              Modul: '. $MOD->getValue("name") .'
+            </p>
+            <div class="rex-mdl-inp">
+              '. $MOD->getValue("eingabe") .'
+            </div>
+            <p>
+              <input type="submit" value="'. $I18N->msg('add_block') .'" />
+            </p> 
+          </fieldset>
+        </form>
+      ';
+      
       $slice_content = $this->sliceClear($slice_content);
-      $slice_content .= "</td></tr></table>";
     }
     return $slice_content;
   }
@@ -504,19 +542,28 @@ class article
   function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE)
   {
     global $REX, $REX_ACTION, $FORM, $I18N;
-    $slice_content = '<a name="editslice"></a>
-      <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" name="REX_FORM">
-      <input type="hidden" name="article_id" value="'.$this->article_id.'">
-      <input type="hidden" name="page" value="content">
-      <input type="hidden" name="mode" value="'.$this->mode.'">
-      <input type="hidden" name="slice_id" value="'.$RE_CONTS.'">
-      <input type="hidden" name="ctype" value="'.$RE_CTYPE.'">
-      <input type="hidden" name="function" value="edit">
-      <input type="hidden" name="save" value="1">
-      <input type="hidden" name="update" value="0">
-      <input type="hidden" name="clang" value="'.$this->clang.'">
-      '.$RE_MODUL_IN.'
-      <br /><br /><input type="submit" value="'.$I18N->msg('save_block').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="'.$I18N->msg('update_block').'" onClick="REX_FORM.update.value=1"></form>';
+    
+    $slice_content = '
+      <a name="editslice"></a>
+      <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
+        <fieldset>
+          <legend>Block bearbeiten</legend>
+          <input type="hidden" name="article_id" value="'.$this->article_id.'" />
+          <input type="hidden" name="page" value="content" />
+          <input type="hidden" name="mode" value="'.$this->mode.'" />
+          <input type="hidden" name="slice_id" value="'.$RE_CONTS.'" />
+          <input type="hidden" name="ctype" value="'.$RE_CTYPE.'" />
+          <input type="hidden" name="function" value="edit" />
+          <input type="hidden" name="save" value="1" />
+          <input type="hidden" name="update" value="0" />
+          <input type="hidden" name="clang" value="'.$this->clang.'" />
+          '.$RE_MODUL_IN.'
+          <p>
+            <input type="submit" value="'.$I18N->msg('save_block').'" />
+            <input type="submit" value="'.$I18N->msg('update_block').'" onClick="REX_FORM.update.value=1" />
+          </p>
+        </fieldset>
+      </form>';
 
     // werte das erst mal aufgerufen / noch nicht gespeichert / gepspeichert und neu
     if (!isset($REX_ACTION['SAVE'])) $slice_content = $this->sliceIn($slice_content);
