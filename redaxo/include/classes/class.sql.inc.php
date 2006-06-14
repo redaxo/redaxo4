@@ -53,21 +53,6 @@ class sql
       $REX['MYSQL_VERSION'] = $arr[1];
     }
   }
-  /**
-   * Statische Funktion zur Abfrage der Serverversion
-   */
-  function getServerVersion()
-  {
-    global $REX;
-    
-    if(empty($REX['MYSQL_VERSION']))
-    {
-      // Die Version wird im Konstrukor abgefragt
-      $tmp = new sql();
-    }
-    
-    return $REX['MYSQL_VERSION'];
-  }
 
   /**
    * Stellt die Verbindung zur Datenbank her
