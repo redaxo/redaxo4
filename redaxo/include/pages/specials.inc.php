@@ -5,17 +5,24 @@
  * @version $Id$ 
  */ 
 
-$ERRMSG = "";
+// -------------- Defaults
 
-if (!isset($subpage)) $subpage = '';
+if(!isset($subpage)) $subpage = '';
+if(!isset($func)) $func = '';
+if(!isset($message)) $message = '';
+
+// -------------- Header
 
 $subline = array( 
   array( '', $I18N->msg("main_preferences")),
   array( 'lang', $I18N->msg("languages")),
   array( 'type', $I18N->msg("types")),
 );
+
 rex_title($I18N->msg("specials_title"),$subline);
 
+
+// -------------- SubPages
 
 if ($subpage == '')
 {
@@ -69,16 +76,17 @@ if ($subpage == '')
   
     for ($i=0; $i<count($LART); $i++)
     {
-      $MSG .= ' | <a href="index.php?page=content&amp;article_id='.key($LART).'&amp;mode=edit&amp;slice_id='.$LSLI[key($LART)].'&amp;function=edit#editslice">'.key($LART).'</a>';
+      $message .= ' | <a href="index.php?page=content&amp;article_id='.key($LART).'&amp;mode=edit&amp;slice_id='.$LSLI[key($LART)].'&amp;function=edit#editslice">'.key($LART).'</a>';
       next($LART);
     }
   
-    if (count($LART)==0) $MSG = $I18N->msg("links_ok");
-    else $MSG = "<b>".$I18N->msg("links_not_ok")."</b> ". $MSG. " |";
+    if (count($LART)==0) $message = $I18N->msg("links_ok");
+    else $message = $I18N->msg("links_not_ok")."<br /> ". $message. " |";
   
   } elseif (isset($func) and $func == 'updateinfos')
   {
   
+    $REX['LANG'] = $neu_lang;
   
     $h = fopen("include/master.inc.php","r");
     $cont = fread($h,filesize("include/master.inc.php"));
@@ -87,7 +95,6 @@ if ($subpage == '')
     $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*","\\1".strtolower($neu_notfoundartikel),$cont);
     $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*","\\1\"".strtolower($neu_error_emailaddress)."\"",$cont);
     $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*","\\1\"".$neu_lang."\"",$cont);
-    $REX['LANG'] = $neu_lang;
     $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*","\\1\"".($neu_SERVER)."\"",$cont);
     $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*","\\1\"".($neu_SERVERNAME)."\"",$cont);
     
@@ -128,73 +135,141 @@ if ($subpage == '')
     $REX['DB']['2']['PSW'] = $neu_db2_psw;
     $REX['DB']['2']['NAME'] = $neu_db2_name;
   
-    $MSG = $I18N->msg("info_updated");
+    $message = $I18N->msg("info_updated");
   
   }
   
-  echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
-    <tr>
-      <th colspan="2">'.$I18N->msg("special_features").'</th>
-    </tr>';
-  
-  if (isset($MSG) and $MSG != "") echo '<tr class="warning"><td colspan="2"><b>'.$MSG.'</b></td></tr>';
-  
-  echo '<tr><td width="50%" valign="top"><br>';
-  
-  echo '<b><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("regenerate_article").'</a></b><br />'.$I18N->msg("regeneration_message").'<br /><br />';
-  echo '<b><a href="index.php?page=specials&amp;func=linkchecker">'.$I18N->msg("link_checker").'</a></b><br />'.$I18N->msg("check_links_text").'<br /><br />';
-  echo '<b><a href="index.php?page=specials&amp;func=setup">'.$I18N->msg("setup").'</a></b><br />'.$I18N->msg("setup_text").'<br />';
-  
-  echo '<br /></td><td valign="top"><br />';
-  
-  echo '<table width="100%" cellpadding="0" cellspacing="1">';
-  echo '<form action="index.php" method="post">';
-  echo '<input type="hidden" name="page" value="specials">';
-  echo '<input type="hidden" name="func" value="updateinfos">';
-  echo '<tr><td colspan="3"><b>'.$I18N->msg("general_info_header").'</b></td></tr>';
-  echo '<tr><td width="170">$REX[\'VERSION\']:</td><td width="10"><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['VERSION'].'"</td></tr>';
-  echo '<tr><td width="170">$REX[\'SUBVERSION\']:</td><td width="10"><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['SUBVERSION'].'"</td></tr>';
-  echo '<tr><td>$REX[\'SERVER\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_SERVER" value="'.$REX['SERVER'].'" class="inp100"></td></tr>';
-  echo '<tr><td>$REX[\'SERVERNAME\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_SERVERNAME" value="'.$REX['SERVERNAME'].'" class="inp100"></td></tr>';
-  
-  echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("db1_can_only_be_changed_by_setup").'</b></td></tr>';
-  
-  echo '<tr><td>$REX[\'DB\'][\'1\'][\'HOST\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['HOST'].'"</td></tr>';
-  echo '<tr><td>$REX[\'DB\'][\'1\'][\'LOGIN\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['LOGIN'].'"</td></tr>';
-  echo '<tr><td>$REX[\'DB\'][\'1\'][\'PSW\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>-</td></tr>';
-  echo '<tr><td>$REX[\'DB\'][\'1\'][\'NAME\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['DB']['1']['NAME'].'"</td></tr>';
+  if (isset($message) and $message != "") echo '<p class="rex-warning">'.$message.'</p>';
+ 
+/*
+<div class="rex-cnt-col2">
+  <p class="rex-hdl">Hilfe für import_export</p>
+  <div class="rex-cnt">Seite 1</div>
+</div>
 
-  echo '<tr><td colspan="3"><br /><b>'.$I18N->msg("specials_others").'</b></td></tr>';
-  echo '<tr><td>$REX[\'INCLUDE_PATH\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td>"'.$REX['INCLUDE_PATH'].'"</td></tr>';
-  echo '<tr><td>$REX[\'ERROR_EMAIL\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_error_emailaddress" value="'.$REX['ERROR_EMAIL'].'" class="inp100"></td></tr>';
-  echo '<tr><td>$REX[\'START_ARTICLE_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_startartikel" value="'.$REX['START_ARTICLE_ID'].'"></td></tr>';
-  echo '<tr><td>$REX[\'NOTFOUND_ARTICLE_ID\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><input type="text" size="5" name="neu_notfoundartikel" value="'.$REX['NOTFOUND_ARTICLE_ID'].'"></td></tr>';
-  echo '<tr><td>$REX[\'LANG\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><select name="neu_lang" size="1">';
-
+<div class="rex-cnt-col2">
+  <p class="rex-hdl">Hilfe für import_export</p>
+  <div class="rex-cnt">Seite 2</div>
+</div>
+*/
+  $sel_lang = new select();
+  $sel_lang->set_name('neu_lang');
+  $sel_lang->set_id('rex_lang');
+  $sel_lang->set_size(1);
+  $sel_lang->set_selected($REX['LANG']);
+  
   foreach ($REX['LOCALES'] as $l) {
-    $selected = ($l == $REX['LANG'] ? "selected" : "");
-    echo '<option value="'.$l.'" '.$selected.'>'.$l.'</option>';
-  }
-  echo '</select></td></tr>';
-
-  if ($REX['MOD_REWRITE'] === false) {
-    $modcheck = '';
-    $modcheck_false = 'selected';
-  } else {
-    $modcheck = 'selected'; 
-    $modcheck_false = '';
+    $sel_lang->add_option($l, $l);
   }
   
-  echo '<tr><td>$REX[\'MOD_REWRITE\']:</td><td><img src="pics/leer.gif" width="10" height="20"></td><td><select name="neu_modrewrite" size="1"><option '.$modcheck.'>TRUE</option><option '.$modcheck_false.'>FALSE</option></select></td></tr>';
-
-  echo '<tr><td></td><td><img src="pics/leer.gif" width="10" height="20"></td><td><br /><input type="submit" name="sendit" value="'.$I18N->msg("specials_update").'"></td></tr>';
-  echo '</form>
-        </table>';
+  $sel_mod_rewrite = new select();
+  $sel_mod_rewrite->set_name('neu_modrewrite');
+  $sel_mod_rewrite->set_id('rex_mod_rewrite');
+  $sel_mod_rewrite->set_size(1);
+  $sel_mod_rewrite->set_selected($REX['MOD_REWRITE']);
   
-  echo '<br /></td></tr></table>';
+  $sel_mod_rewrite->add_option('TRUE', '1');
+  $sel_mod_rewrite->add_option('FALSE', '0');
 
+  echo '
+  <form action="index.php" method="post">
+    <input type="hidden" name="page" value="specials" />
+    <input type="hidden" name="func" value="updateinfos" />
 
-} elseif ($subpage == "lang")
+    <div class="rex-cnt-cols">
+    <div class="rex-cnt-col2">
+      <p class="rex-hdl">'.$I18N->msg("specials_features").'</p>
+      <div class="rex-cnt">
+        <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("regenerate_article").'</a></p>
+        <p>'.$I18N->msg("regeneration_message").'</p>
+  
+        <p><a href="index.php?page=specials&amp;func=linkchecker">'.$I18N->msg("link_checker").'</a></p>
+        <p>'.$I18N->msg("check_links_text").'</p>
+        
+        <p><a href="index.php?page=specials&amp;func=setup">'.$I18N->msg("setup").'</a></p>
+        <p>'.$I18N->msg("setup_text").'</p>
+      </div>
+    </div>
+    
+    <div class="rex-cnt-col2">
+      <p class="rex-hdl">'.$I18N->msg("specials_settings").'</p>
+      <div class="rex-cnt">
+        <fieldset>  
+          <legend>'.$I18N->msg("general_info_header").'</legend>
+          <p>
+            <label for="rex_version">$REX[\'VERSION\']</label>
+            <span id="rex_version">&quot;'.$REX['VERSION'].'&quot;</span>
+          </p>
+          <p>
+            <label for="rex_subversion">$REX[\'SUBVERSION\']</label>
+            <span id="rex_subversion">&quot;'.$REX['SUBVERSION'].'&quot;</span>
+          </p>
+          <p>
+            <label for="rex_server">$REX[\'SERVER\']</label>
+            <input type="text" id="rex_server" name="neu_SERVER" value="'.$REX['SERVER'].'" />
+          </p>
+          <p>
+            <label for="rex_servername">$REX[\'SERVERNAME\']</label>
+            <input type="text" id="rex_servername" name="neu_SERVERNAME" value="'.$REX['SERVERNAME'].'" />
+          </p>
+        </fieldset>
+        <fieldset>
+          <legend>'.$I18N->msg("db1_can_only_be_changed_by_setup").'</legend>
+          <p>
+            <label for="rex_db_host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
+            <span id="rex_db_host">&quot;'.$REX['DB']['1']['HOST'].'&quot;</span>
+          </p>
+          <p>
+            <label for="rex_db_login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
+            <span id="rex_db_login">&quot;'.$REX['DB']['1']['LOGIN'].'&quot;</span>
+          </p>
+          <p>
+            <label for="rex_db_psw">$REX[\'DB\'][\'1\'][\'PSW\']</label>
+            <span id="rex_db_psw">&quot;****&quot;</span>
+          </p>
+          <p>
+            <label for="rex_db_name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
+            <span id="rex_db_name">&quot;'.$REX['DB']['1']['NAME'].'&quot;</span>
+          </p>
+        </fieldset>
+        <fieldset>
+          <legend>'.$I18N->msg("specials_others").'</legend>
+          <p>
+            <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
+            <span id="rex_include_path">&quot;'.$REX['INCLUDE_PATH'].'&quot;</span>
+          </p>
+          <p>
+            <label for="rex_error_email">$REX[\'ERROR_EMAIL\']</label>
+            <input type="text" id="rex_error_email" name="neu_error_emailaddress" value="'.$REX['ERROR_EMAIL'].'" />
+          </p>
+          <p>
+            <label for="rex_startarticle_id">$REX[\'START_ARTICLE_ID\']</label>
+            <input type="text" id="rex_startarticle_id" name="neu_startartikel" value="'.$REX['START_ARTICLE_ID'].'" />
+          </p>
+          <p>
+            <label for="rex_notfound_article_id">$REX[\'NOTFOUND_ARTICLE_ID\']</label>
+            <input type="text" id="rex_notfound_article_id" name="neu_notfoundartikel" value="'.$REX['NOTFOUND_ARTICLE_ID'].'" />
+          </p>
+          <p>
+            <label for="rex_lang">$REX[\'LANG\']</label>
+            '. $sel_lang->out() .'
+          </p>
+          <p>
+            <label for="rex_mod_rewrite">$REX[\'MOD_REWRITE\']</label>
+            '. $sel_mod_rewrite->out() .'
+          </p>
+          <p>
+            <input type="submit" class="rex-fsubmit" name="sendit" value="'.$I18N->msg("specials_update").'" />
+          </p>
+        </fieldset>
+      </div>
+    </div>
+	</div>
+  </form>
+  ';
+  
+}
+elseif ($subpage == "lang")
 {
   
   // ------------------------------ clang definieren (sprachen)
@@ -202,135 +277,185 @@ if ($subpage == '')
   echo '<a name="clang"></a>';
   
   // ----- delete clang
-  if (isset($delclang) and $delclang != "")
+  if (!empty($del_clang_save))
   {
     if ($clang_id>0)
     {
       rex_deleteCLang($clang_id);
-      $message = $I18N->msg("clang_deleted");
+      $message = $I18N->msg('clang_deleted');
       unset($func);
       unset($clang_id);
     }
   }
   
   // ----- add clang
-  if (isset($func) and $func == "addclangsave")
+  if (!empty($add_clang_save))
   {
-    if ($clang_name != "")
+    if ($clang_name != '' && $clang_id>0)
     {
-      if (!($clang_id>0 && $clang_id<100)) $clang_id = 0;
       if (!array_key_exists($clang_id,$REX['CLANG']))
       {
-        $message = $I18N->msg("clang_created");
+        $message = $I18N->msg('clang_created');
         rex_addCLang($clang_id,$clang_name);
         unset($clang_id);
         unset($func);
       } else
       {
-        $message = $I18N->msg("id_exists");
-        $func = "addclang";
+        $message = $I18N->msg('id_exists');
+        $func = 'addclang';
       }
     } else {
-      $message = $I18N->msg("enter_name");
-      $func = "addclang";
+      $message = $I18N->msg('enter_name');
+      $func = 'addclang';
     }
     
-  } elseif (isset($func) and $func == "editclangsave")
+  } elseif (!empty($edit_clang_save))
   {
-    rex_editCLang($clang_id,$clang_name);
-    $message = $I18N->msg("clang_edited");
-    unset($func);
-    unset($clang_id);
+    if ($clang_id>0)
+    {
+      rex_editCLang($clang_id,$clang_name);
+      $message = $I18N->msg('clang_edited');
+      unset($func);
+      unset($clang_id);
+    }
   }
   
   // seltype
   $sel = new select;
-  $sel->set_name("clang_id");
+  $sel->set_name('clang_id');
+  $sel->set_id('clang_id');
   $sel->set_size(1);
   foreach ( array_diff( range( 0,14), array_keys( $REX['CLANG'])) as $clang) 
   {
     $sel->add_option($clang,$clang);
   }
-  $sel->set_style("width:40px");
   
-  echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
-           <tr>
-      <th class="icon"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang">+</a></th>
-      <th style="width:40px; text-align:center;">ID</th>
-      <th width="250">'.$I18N->msg("clang_desc").'</th>
-      <th colspan="2">-</th></tr>';
-  
-  if (isset($message) and $message != "")
+  if (isset($message) and $message != '')
   {
-    echo '<tr class="warning"><td class="icon"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="4">'.$message.'</td></tr>';
+    echo '<p class="rex-warning">'.$message.'</td></tr>';
     $message = "";
   }
   
-  if (isset($func) and $func == "addclang")
+  if (!isset($clang_id)) $clang_id = '';
+  if (!isset($clang_name)) $clang_name = '';
+  if (!isset($func)) $func = '';
+  
+  if($func == 'addclang' || $func == 'editclang')
   {
-    if (!isset($clang_id)) $clang_id = '';
-    if (!isset($clang_name)) $clang_name = '';
-    $sel->set_selected($clang_id);
-    echo '<tr><form action="index.php#clang" method="post">
-          <input type="hidden" name="page" value="specials">
-          <input type="hidden" name="subpage" value="lang">
-          <input type="hidden" name="func" value="addclangsave">';
-    echo '<td></td>';
-    echo '<td>'.$sel->out().'</td>';
-    echo '<td><input type="text" size="10" class="inp100" name="clang_name" value="'.htmlspecialchars($clang_name).'"></td>';
-    echo '<td><input type="submit" value="'.$I18N->msg('add').'"></td>';
-    echo '</form></tr>';
+    $legend = $func == 'add_clang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');  
+    echo '
+    <form action="index.php#clang" method="post">
+      <fieldset>
+        <legend><span class="rex-hide">'. $legend .'</span></legend>
+        <input type="hidden" name="page" value="specials" />
+        <input type="hidden" name="subpage" value="lang" />
+        <input type="hidden" name="clang_id" value="'.$clang_id.'" />
+    ';
   }
   
-  reset($REX['CLANG']);
-  for ($i=0; $i<count($REX['CLANG']); $i++)
+  echo '
+    <table class="rex-table" summary="'.$I18N->msg('clang_summary').'">
+      <caption>'.$I18N->msg('clang_caption').'</caption>
+      <colgroup>
+        <col width="5%" />
+        <col width="6%" />
+        <col width="*" />
+        <col width="40%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang" title="'.$I18N->msg('clang_add').'">+</a></th>
+          <th>ID</th>
+          <th>'.$I18N->msg('clang_name').'</th>
+          <th colspan="2">'.$I18N->msg('clang_function').'</th>
+        </tr>
+      </thead>
+      <tbody>
+  ';
+  
+  // Add form
+  if ($func == 'addclang')
   {
-    if (isset($clang_id) and $clang_id == key($REX['CLANG']) and $clang_id != "" and $func == "editclang")
+    echo '
+      <tr class="rex-trow-actv">
+        <td></td>
+        <td>'.$sel->out().'</td>
+        <td><input type="text" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
+        <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'" /></td>
+      </tr>
+    ';
+  }
+  
+  foreach($REX['CLANG'] as $lang_id => $lang)
+  {
+    // Edit form
+    if ($func == "editclang" && $clang_id == $lang_id)
     {
-      echo '<tr><form action="index.php#clang" method="post">
-              <input type="hidden" name="page" value="specials">
-              <input type="hidden" name="subpage" value="lang">
-              <input type="hidden" name="clang_id" value="'.$clang_id.'">
-              <input type="hidden" name="func" value="editclangsave">';
-      echo '<td>edit</td>';
-      echo '<td align="center" class="grey">'.key($REX['CLANG']).'</td>';
-      echo '<td><input type="text" size="10" class="inp100" name="clang_name" value="'.htmlspecialchars(current($REX['CLANG'])).'"></td>';
-      echo '<td><input type="submit" name="edit" value="'.$I18N->msg('update_button').'">';
-      if ($clang_id > 0) echo '<input type="submit" name="delclang" value="'.$I18N->msg("delete_button").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">';
-      echo '</td>';
-      echo '</form></tr>';
+      echo '
+      <tr class="rex-trow-actv">
+        <td></td>
+        <td align="center" class="grey">'.$lang_id.'</td>
+        <td><input type="text" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
+        <td>
+          <input type="submit" class="rex-fsubmit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'" />
+          <input type="submit" class="rex-fsubmit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'" onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
+        </td>
+      </tr>';
       
-    } else
-    {
-      echo '<tr>
-          <td>&#160;</td>
-          <td align="center">'.key($REX['CLANG']).'</td>
-          <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.key($REX['CLANG']).'#clang">'.htmlspecialchars(current($REX['CLANG'])).'</a></td>
-          <td>&#160;</td></tr>';
     }
-    next($REX['CLANG']);
+    else
+    {
+      echo '
+      <tr>
+        <td></td>
+        <td align="center">'.$lang_id.'</td>
+        <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
+        <td></td>
+      </tr>';
+    }
   }
-  echo "</table>";  
   
-  
-} else
-{
-  
-  // ----- eigene typen definieren
+  echo '
+    </tbody>
+  </table>';
     
-  if (isset($function) and $function == $I18N->msg("update_button"))
+  if($func == 'addclang' || $func == 'editclang')
   {
-    $update = new sql;
-    $update->setTable($REX['TABLE_PREFIX']."article_type");
-    $update->where("type_id='$type_id'");
-    $update->setValue("name",$typname);
-    $update->setValue("description",$description);
-    $update->update();
-    $type_id = 0;
-    $function = "";
-    $message = $I18N->msg("article_type_updated");
+    echo '
+      </fieldset>
+    </form>';
+  }
   
-  } elseif (isset($function) and $function == $I18N->msg("delete_button"))
+  
+}
+else
+{
+  // ----- eigene typen definieren
+  
+  if(!isset($type_id)) $type_id = '';
+  if(!isset($typname)) $typname = '';
+  if(!isset($description)) $description = '';
+    
+  if (!empty($edit_article_type))
+  {
+    if($type_id != '' && $typname != '')
+    {
+      $update = new sql;
+      $update->setTable($REX['TABLE_PREFIX']."article_type");
+      $update->where("type_id='$type_id'");
+      $update->setValue("name",$typname);
+      $update->setValue("description",$description);
+      $update->update();
+      $type_id = 0;
+      $message = $I18N->msg("article_type_updated");
+    }
+    else
+    {
+      $func = 'edit';
+      $message = '';
+    }
+  }
+  elseif (!empty($delete_article_type))
   {
     if ($type_id!=1)
     {
@@ -339,7 +464,7 @@ if ($subpage == '')
       if (is_array($result)){
         $message = $I18N->msg("article_type_still_used")."<br>";
         foreach ($result as $var){
-          $message .= '<br /><a href="index.php?page=content&amp;article_id='.$var['id'].'&amp;mode="meta" target="_blank">'.$var['name'].'</a>';
+          $message .= '<br /><a href="index.php?page=content&amp;article_id='.$var['id'].'&amp;mode=meta">'.$var['name'].'</a>';
         }
         $message .= '<br /><br />';
       } else {
@@ -351,83 +476,132 @@ if ($subpage == '')
     {
       $message = $I18N->msg("article_type_could_not_be_deleted");
     }
-  } elseif (isset($function) and $function == $I18N->msg('add') && isset($save) and $save == 1)
+  }
+  elseif (!empty($add_article_type))
   {
-    $add = new sql;
-    $add->setTable($REX['TABLE_PREFIX']."article_type");
-    $add->setValue("name",$typname);
-    $add->setValue("type_id",$type_id);
-    $add->setValue("description",$description);
-    $add->insert();
-    $type_id = 0;
-    $function = "";
-    $message = $I18N->msg("article_type_added");
+    if($type_id != '' && $typname != '')
+    {
+      $add = new sql;
+      $add->setTable($REX['TABLE_PREFIX']."article_type");
+      $add->setValue("name",$typname);
+      $add->setValue("type_id",$type_id);
+      $add->setValue("description",$description);
+      $add->insert();
+      $type_id = 0;
+      $message = $I18N->msg("article_type_added");
+    }
+    else
+    {
+      // Add form wieder anzeigen
+      $func = 'add';
+      $message = array();
+      if($type_id == '')
+      {
+        $message[] = $I18N->msg('article_type_miss_id');
+      }
+      if($typname == '')
+      {
+        $message[] = $I18N->msg('article_type_miss_name');
+      }
+      $message = implode('<br />', $message);
+    }
   }
   
-  echo '  <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
-    <tr>
-      <th class="icon"><a href="index.php?page=specials&amp;subpage=type&amp;function=add">+</a></th>
-      <th class="icon">'.$I18N->msg("article_type_list_id").'</th>
-      <th width="250">'.$I18N->msg("article_type_list_name").'</th>
-      <th colspan="2">'.$I18N->msg("article_type_list_description").'</th>
-    </tr>
+  if ($message != "")
+  {
+    echo '<p class="rex-warning">'.$message.'</p>';
+  }
+  
+  if($func == 'add' || $func == 'edit')
+  {
+    $legend = $func == 'add' ? $I18N->msg('article_type_add') : $I18N->msg('article_type_edit');
+    
+    echo '
+    <form action="index.php" method="post">
+      <fieldset>
+        <legend><span class="rex-hide">'.$legend.'</span></legend>
+        <input type="hidden" name="page" value="specials" />
+        <input type="hidden" name="subpage" value="type" />
+        <input type="hidden" name="type_id" value="'.$type_id.'" />
+        ';
+  }
+  
+  echo '<table class="rex-table" summary="'.$I18N->msg('article_type_summary').'">
+        <caption>'.$I18N->msg('article_type_caption').'</caption>
+        <colgroup>
+          <col width="5%" />
+          <col width="6%" />
+          <col width="20%" />
+          <col width="*" />
+          <col width="40%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th><a href="index.php?page=specials&amp;subpage=type&amp;func=add">+</a></th>
+            <th>'.$I18N->msg("article_type_id").'</th>
+            <th>'.$I18N->msg("article_type_name").'</th>
+            <th>'.$I18N->msg("article_type_description").'</th>
+            <th>'.$I18N->msg("article_type_functions").'</th>
+          </tr>
+        </thead>
+        <tbody>
     ';
-  
-  if (isset($message) and $message != "")
-  {
-    echo '<tr class="warning"><td class="icon"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="5">'.$message.'</td></tr>';
-  }
   
   $sql = new sql;
   $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article_type ORDER BY type_id");
   
-  if (isset($function) and $function == "add")
+  if ($func == 'add')
   {
-    echo '  <tr>
-        <form action="index.php" method="post">
-        <input type="hidden" name="page" value="specials">
-        <input type="hidden" name="subpage" value="type">
-        <input type="hidden" name="save" value="1">
+    echo '
+      <tr class="rex-trow-actv">
         <td>&nbsp;</td>
-        <td valign="top"><input style="width:30px;" type="text" size="5" maxlength="2" name="type_id" value=""></td>
-        <td valign="top"><input class="inp100" type="text" size="20" name="typname" value=""></td>
-        <td><input style="width:100%" type="text" size="20" name="description" value=""></td>
-        <td valign="top"><input type="submit" name="function" value="'.$I18N->msg('add').'"></td>
-        </form>
+        <td><input type="text" maxlength="2" name="type_id" value="'. $type_id .'" /></td>
+        <td><input type="text" name="typname" value="'. $typname .'" /></td>
+        <td><input type="text" name="description" value="'. $description .'" /></td>
+        <td><input type="submit" class="rex-fsubmit" name="add_article_type" value="'.$I18N->msg('article_type_add').'" /></td>
       </tr>';
   }
   
   
   for ($i=0;$i<$sql->getRows();$i++)
   {
-    if (isset($type_id) and $type_id == $sql->getValue("type_id"))
+    if ($func == 'edit' && $type_id == $sql->getValue("type_id"))
     {
-      echo '  <tr>
-          <form action="index.php" method="post">
-          <input type="hidden" name="page" value="specials">
-          <input type="hidden" name="subpage" value="type">
-          <input type="hidden" name="type_id" value="'.$type_id.'">
+      echo '
+        <tr class="rex-trow-actv">
           <td>&nbsp;</td>
-          <td valign="middle" align="center">'.htmlspecialchars($sql->getValue("type_id")).'</td>
-          <td valign="top"><input class="inp100" type="text" size="20" name="typname" value="'.htmlspecialchars($sql->getValue("name")).'"></td>
-          <td><input class="inp100" type="text" size="20" name="description" value="'.htmlspecialchars($sql->getValue("description")).'"></td>
-          <td valign="top"><input type="submit" name="function" value="'.$I18N->msg("update_button").'">
-            <input type="submit" name="function" value="'.$I18N->msg("delete_button").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')"></td>
-          </form>
+          <td>'.htmlspecialchars($sql->getValue("type_id")).'</td>
+          <td><input type="text" name="typname" value="'.htmlspecialchars($sql->getValue("name")).'" /></td>
+          <td><input type="text" name="description" value="'.htmlspecialchars($sql->getValue("description")).'" /></td>
+          <td>
+            <input type="submit" class="rex-fsubmit" name="edit_article_type" value="'.$I18N->msg("article_type_update").'"/>
+            <input type="submit" class="rex-fsubmit" name="delete_article_type" value="'.$I18N->msg("article_type_delete").'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')" />
+          </td>
         </tr>';
-    } else
+    }
+    else
     {
-      echo '  <tr>
+      echo '
+        <tr>
           <td>&nbsp;</td>
-          <td align="center">'.htmlspecialchars($sql->getValue("type_id")).'</td>
-          <td><a href="index.php?page=specials&amp;subpage=type&amp;type_id='.$sql->getValue("type_id").'">'.htmlspecialchars($sql->getValue("name")).'&nbsp;</a></td>
+          <td>'.htmlspecialchars($sql->getValue("type_id")).'</td>
+          <td><a href="index.php?page=specials&amp;subpage=type&amp;func=edit&amp;type_id='.$sql->getValue("type_id").'">'.htmlspecialchars($sql->getValue("name")).'&nbsp;</a></td>
           <td colspan="2">'.nl2br($sql->getValue("description")).'&nbsp;</td>
         </tr>';
     }
     $sql->counter++;
   }
   
-  echo '</table>';
+  echo '
+        </tbody>
+      </table>';
+      
+  if($func == 'add' || $func == 'edit')
+  {
+      echo '
+      </fieldset>
+    </form>';
+  }
 }
 
 

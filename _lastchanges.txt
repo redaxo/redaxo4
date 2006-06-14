@@ -58,6 +58,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
   * Struktur:
     - Angelegte Artikel haben das gleiche Template wie die Kategorie in der sie sich befinden [kills]
@@ -65,11 +66,14 @@ Changes:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
     - LOGIN_REDIRECT_URL [kills]
+  * Sql-Klasse:
+  	- getServerVersion() implementiert [kills]
   * Medienpool:
   	- Synchronisation zwischen DB und /files implementiert [kills]
   	- Synchronisation jetzt auch auf Selection möglich [kills]
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
+    - I18N Klasse codiert jetzt alle Langkeys mit htmlspecialchars() [kills]
   * Fileprefix für Tempdateien implementiert ("tmp_") [kills]
     - Dateien mit diesem Prefix werden ...
       + .. NICHT vom Import/Export-Addon exportiert

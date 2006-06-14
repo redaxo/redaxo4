@@ -10,41 +10,44 @@ rex_title("Login","");
 
 if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
 {
-  echo '<table border="0" cellpadding="5" cellspacing="1" width="770">
-  <tr><td align="center" class="warning" width="40"><img src="pics/warning.gif" width="16" height="16"></td>
-  <td class="warning">'.$FORM['loginmessage'].'</td></tr>
-  </table>'."\n";
+  echo '<p class="rex-warning">'.$FORM['loginmessage'].'</p>'."\n";
 }
 
-if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
-echo '<br />
-<table border="0" cellpadding="5" cellspacing="0" width="770" class=rex style="border:1px solid #dddddd;">
-<form action="index.php" method="post" name="loginformular">
-  <tr>
-    <td class="dgrey">
-      <table width="250" cellpadding="3" cellspacing="0" border="0">
-        <tr>
-          <td valign="middle"><input type="hidden" name="page" value="structure" class=inp100>'.$I18N->msg('login_name').':</td>
-          <td valign="middle"><input type="text" size="15" value="'.$REX_ULOGIN.'" name="REX_ULOGIN" autocomplete="off"></td>
-          <td valign="middle">&nbsp;</td>
-        </tr>
-        <tr>
-          <td valign="middle">'.$I18N->msg('password').':</td>
-          <td valign="middle"><input type="password" size="15" name="REX_UPSW"></td>
-          <td valign="middle"><input type="submit" value="'.$I18N->msg('login').'"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  </form>
-</table>
-'."\n";
+if (!isset($REX_ULOGIN)) 
+{ 
+  $REX_ULOGIN = ''; 
+}
 
-echo '<script type="text/javascript"> 
+echo '
+
+<!-- *** OUTPUT OF LOGIN-FORM - START *** -->
+<div class="rex-lgn-loginform">
+<form action="index.php" method="post" id="loginformular">
+  <fieldset>
+    <legend>Login</legend>
+    <input type="hidden" name="page" value="structure" />
+    <p>
+      <label for="REX_ULOGIN">'.$I18N->msg('login_name').':</label>
+      <input type="text" value="'.$REX_ULOGIN.'" id="REX_ULOGIN" name="REX_ULOGIN" />
+    </p>
+    <p>
+      <label for="REX_UPSW">'.$I18N->msg('password').':</label>
+      <input type="password" name="REX_UPSW" id="REX_UPSW" />
+    </p>
+    <p>
+      <input class="rex-fsubmit" type="submit" value="'.$I18N->msg('login').'" />
+    </p>
+  </fieldset>
+</form>
+</div>
+<script type="text/javascript"> 
    <!-- 
-   document.loginformular.REX_ULOGIN.focus(); 
+   var needle = new getObj("REX_ULOGIN");
+   needle.obj.focus();
    //--> 
 </script>
-'."\n";
+<!-- *** OUTPUT OF LOGIN-FORM - END *** -->
+
+';
 
 ?>

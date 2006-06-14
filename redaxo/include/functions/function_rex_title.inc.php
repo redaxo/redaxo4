@@ -35,34 +35,16 @@
 function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
   $subtitle = rex_get_subtitle( $subtitle);
-  if ( $subtitle != '')
-  {
-    $subtitle = '<b style="line-height:18px">'. $subtitle .'</b>';
-  }
-?>
-  <br />
   
-  <table style="width: <?php echo $width ?>" cellpadding="0" cellspacing="0">
-    
-        <tr style="height: 30px">
-            <td class="<?php echo $styleclass ?>">&nbsp;&nbsp;<b class="head"><?php echo $head ?></b></td>
-            <td rowspan="3" style="width: 153px"><img src="pics/logo.gif" alt="Das REDAXO Logo" title="REDAXO" style="width: 153px; height: 61px;"/></td>
-        </tr>
-        
-        <tr style="height: 1px">
-            <td></td>
-        </tr>
-        
-        <tr style="height: 30px">
-            <td class="<?php echo $styleclass ?>" >
-                 <?php echo $subtitle ?>
-            </td>
-        </tr>
-    
-  </table>
-    
-  <br />
-<?php
+  print '  
+	<div id="rex-title">
+  		<h1>'.$head.'</h1>
+  		'.$subtitle.'
+	</div>
+	
+<!-- *** OUTPUT OF CONTENT - START *** -->
+	<div id="rex-output">
+	';
 }
 
 /**
@@ -124,6 +106,7 @@ function rex_get_subtitle($subline, $attr = '')
     return  '';
   }
   
+  $subtitle_str = $subline;
   $subtitle = $subline;
   $cur_subpage = empty($_REQUEST['subpage']) ? '' : $_REQUEST['subpage'];
   $cur_page    = empty($_REQUEST['page']) ? '' : $_REQUEST['page'];
@@ -187,9 +170,30 @@ function rex_get_subtitle($subline, $attr = '')
       }
     }
     
-    $subtitle = '&nbsp;&nbsp;&nbsp;' . implode( ' | ', $subtitle);
+    
+    if(!empty($subtitle))
+    {
+      $items = '';
+      $num_parts = count($subtitle);
+      $i = 1;
+      foreach($subtitle as $part)
+      {
+        if($i != $num_parts)
+        {
+          $part .= ' | ';
+        }
+        $items .= '<li>'. $part .'</li>
+        ';
+        $i++;
+      }
+      $subtitle_str = '
+      <ul>
+        '. $items .'        
+      </ul>
+      ';
+    }
   }
   // \n aus Quellcode formatierungsgründen
-  return $subtitle."\n" ;
+  return $subtitle_str;
 }
 ?>

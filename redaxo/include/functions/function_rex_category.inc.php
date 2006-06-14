@@ -12,16 +12,16 @@ $KATPATH = "|"; // Standard für path Eintragungen in DB
 if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 
 $KATPERM = false;
-if ($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","admin[]")) $KATPERM = true;
+if ($REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("admin[]")) $KATPERM = true;
 
 $KAT = new sql;
-$KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1 and clang=$clang");
+$KAT->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id=$category_id AND startpage=1 AND clang=$clang");
 
 if ($KAT->getRows()!=1)
 {
 	// kategorie existiert nicht
-	
-}else
+}
+else
 {
 	// kategorie existiert
 	
@@ -30,47 +30,55 @@ if ($KAT->getRows()!=1)
 	$KATebene = count($KPATH)-1;
 	for ($ii=1;$ii<$KATebene;$ii++)
 	{
-		
 		$SKAT = new sql;
-		$SKAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=".$KPATH[$ii]." and startpage=1 and clang=$clang");
+		$SKAT->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. $KPATH[$ii] .' AND startpage=1 AND clang='. $clang);
+      
+      $catname = str_replace(' ', '&nbsp;', $SKAT->getValue("catname"));
+      $catid = $SKAT->getValue('id');
 
 		if ($SKAT->getRows()==1)
 		{
 
-			if ($KATPERM || $REX_USER->isValueOf("rights","csw[".$SKAT->getValue("id")."]"))
+			if ($KATPERM || $REX_USER->hasPerm("csw[".$catid."]") || $REX_USER->hasPerm("csr[".$catid."]"))
 			{
-
-				$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
+				$KATout .= '<li>: <a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'">' .$catname. '</a> </li>';
 				$KATPATH .= $KPATH[$ii]."|";
-				$KATPERM = true;
-
-			}else if ($KATPERM || $REX_USER->isValueOf("rights","csr[".$SKAT->getValue("id")."]"))
-			{
-
-				$KATout .= " : <a href=index.php?page=structure&category_id=".$SKAT->getValue("id")."&clang=$clang>".$SKAT->getValue("catname")."</a>";
-				$KATPATH .= $KPATH[$ii]."|";
-
+            
+            if($REX_USER->hasPerm("csw[".$catid."]"))
+            {
+               $KATPERM = true;
+            }
 			}
-
 		}
-
 	}
 	
-	if ($KATPERM || $REX_USER->isValueOf("rights","csr[$category_id]") || $REX_USER->isValueOf("rights","csw[$category_id]"))
+	if ($KATPERM || $REX_USER->hasPerm("csw[". $category_id ."]") || $REX_USER->hasPerm("csr[". $category_id ."]"))
 	{
-
-		$KATout .= " : <a href=index.php?page=structure&category_id=$category_id&clang=$clang>".$KAT->getValue("catname")."</a>";
-		$KATPATH .= "$category_id|";
-		if ($REX_USER->isValueOf("rights","csw[$category_id]")) $KATPERM = true;
-
-	}else
+      $catname = str_replace(' ', '&nbsp;', $KAT->getValue("catname"));
+      
+		$KATout .= '<li>: <a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'">'.$catname.'</a> </li>';
+		$KATPATH .= $category_id .'|';
+      
+		if ($REX_USER->hasPerm("csw[". $category_id ."]")) 
+      {
+         $KATPERM = true;
+      }
+	}
+   else
 	{
 		$category_id = 0;	
 		$article_id = 0;
 	}
-
 }
 
-$KATout = "&nbsp;&nbsp;&nbsp;".$I18N->msg("path")." : <a href=index.php?page=structure&category_id=0&clang=$clang>Homepage</a>".$KATout;
+$KATout = '
+<!-- *** OUTPUT OF CATEGORY-TOOLBAR - START *** -->
+  <ul>
+    <li>'.$I18N->msg('path').' </li>
+    <li>: <a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'">Homepage</a> </li>
+    '. $KATout .'
+  </ul>
+<!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->
+';
 
 ?>

@@ -1,472 +1,296 @@
-<script language="JavaScript" type="text/javascript">
-
-var deltaY = 20
-var x0 = 20
-var y0 = 60
-var defaultTarget = 'examplemain'
-var onlyOneOpenFolderProPanel=true
-var rememberKnotStatus=true
-var resetPanelOnBookmarkClick=false
-var clickOnFolderName=false
-var clickOnFolderIcon=false
-var showFileIcon=0
-var iconDir='pics/linkmap_icons/'
-
-window.onError=null
-
-var idx=0
-var treeId = new Array()
-var treeP_id = new Array()
-var treeIsOn = new Array()
-var treeTyp = new Array()
-var treeName = new Array()
-var treeUrl = new Array()
-var treeWasOn = new Array()
-var treeDeep = new Array()
-var treeLastY = new Array()
-var treeIsShown = new Array()
-var treeTarget = new Array()
-
-function Note( id,p_id,name,url ) {
-  treeId[ idx ] = id
-  treeP_id[ idx ] = p_id
-  treeIsOn[ idx ] = false
-  treeTyp[ idx ] = 'f'
-  treeName[ idx ] = name
-  treeUrl[ idx ] = url
-  treeWasOn[ idx ] = false
-  treeDeep[ idx ] = 0
-  treeLastY[ idx ] = 0
-  treeIsShown[ idx ] = false
-  treeTarget[ idx ] = (Note.arguments.length>4?Note.arguments[4]:defaultTarget)
-  idx++
-}
-
-function initDiv ( )
-{
-  if ( isDOM || isDomIE )
-  {
-    divPrefix='<div class="sitemap" style="position:absolute; left:'+x0+'px; top:0; visibility:hidden;" id="sitemap'
-    divInfo='<div class="sitemap" style="position:absolute; visibility:visible; left:'+x0+'px; top:0;" id="sitemap'
-  }
-  else
-  {
-    divPrefix='<div class="sitemap" id="sitemap'
-    divInfo='<div class="sitemap" id="sitemap'
-  }
-  document.writeln( divInfo +  'info">Bitte haben Sie etwas Geduld.<br>&nbsp;<br>Es werden die Eintr&auml;ge aus<br>&nbsp;<br>der Datenbank initialisiert.</div> ' )
-
-
-  onFocusTxt=' onFocus="if(this.blur) this.blur()"'
-
-  for ( var i=1; i<idx; i++ )
-  {
-    // linked Name ?
-    if ( treeUrl[i] != '' )
-      linkedName = '<a id="note_' + treeId[i] + '" class="notef' + (treeTyp[i]=='f'?1:0) + 'l1" href="javascript:void(0);" onClick="sitemapClick(' + treeId[i] + ',1);insertLink(\''+treeUrl[i]+'\',\''+treeName[i]+'\')"' + onFocusTxt + '><img src="' + iconDir + '1w.gif" border="0" width="3">' + treeName[i] + '</a>';
-    else
-      if (treeTyp[i]=='f' && clickOnFolderName)
-        linkedName =  '<a class="notef1l0" href="javascript:sitemapClick(' + treeId[i] + ',1)"' + onFocusTxt + '><img src="' + iconDir + '1w.gif" border="0" width="3">' + treeName[i] + '</a>'
-      else
-        linkedName =  '<img src="' + iconDir + '1w.gif" border="0" width="3">' + '<font class="notef' + (treeTyp[i]=='f'?1:0) + 'l0">' + treeName[i] + '</font>'
-
-    // folder or bookmark
-    if ( treeTyp[i] == 'b' )
-    {
-      folderImg = ''
-      if (showFileIcon==0)
-        folderImg = '<img align="bottom" src="' + iconDir + '1w.gif" border="0" height="16" width="1" hspace="0">'
-      if (showFileIcon==1 || (showFileIcon==2 && !treeDeep[ i ]))
-        folderImg = '<img align="bottom" src="' + iconDir + '1w.gif" border="0" height="16" width="14" hspace="0"><img align="bottom" src="' + iconDir + 'file_icon.gif" border="0" height="16" width="16" hspace="0">'
-      if (showFileIcon==2 && treeDeep[ i ])
-        folderImg = '<img align="bottom" src="' + iconDir + 'file_icon.gif" border="0" height="16" width="16" hspace="0">'
-    }
-    else
-      if (clickOnFolderIcon && treeUrl[i] != '' )
-        folderImg = '<a href="' + treeUrl[i] + '" target="' + treeTarget[i] + '" onClick="sitemapClick(' + treeId[i] + ')" onFocus="if(this.blur) this.blur()"><img align="bottom" src="' + iconDir +'folder_off.gif" border="0" name="folder' + treeId[i] + '" height="16" width="30" hspace="0"></a>'
-      else
-        folderImg = '<a href="javascript:sitemapClick(' + treeId[i] + ')" onFocus="if(this.blur) this.blur()"><img align="bottom" src="' + iconDir +'folder_off.gif" border="0" name="folder' + treeId[i] + '" height="16" width="30" hspace="0"></a>'
-
-    // which type of file icon should be displayed?
-    if ( treeP_id[i] != 0 )
-      if ( lastEntryInFolder( treeId[i] ) )
-        fileImg = '<img align="bottom" src="' + iconDir + 'file_last.gif" border="0" name="file' + treeId[i] + '" height="16" width="30" hspace="0">'
-      else
-        fileImg = '<img align="bottom" src="' + iconDir + 'file.gif" border="0" name="file' + treeId[i] + '" height="16" width="30" hspace="0">'
-    else
-      fileImg = ''
-
-    // travel parents up to root and show vertical lines if parent is not the last entry on this panel
-    verticales = ''
-    for( var act_id=treeId[i] ; treeDeep[ id2treeIndex[ act_id ] ] > 1;  )
-    {
-      act_id = treeP_id[ id2treeIndex[ act_id ]]
-      if ( lastEntryInFolder( act_id ) )
-        verticales = '<img align="bottom" src="' + iconDir + 'file_empty.gif" border="0" height="16" width="30" hspace="0">' + verticales
-      else
-        verticales = '<img align="bottom" src="' + iconDir + 'file_vert.gif" border="0" height="16" width="30" hspace="0">' + verticales
-    }
-
-    document.writeln( divPrefix + treeId[i] + '"><table border="0" cellspacing="0" cellpadding="0"><tr><td nowrap>' + verticales + fileImg + folderImg + "</td><td nowrap>" + linkedName + '</td></tr></table></div><br>'
-    )
-  }
-}
-
-function initStyles ( )
-{
-  document.writeln( '<style type="text/css">' + "\n" + '<!--' )
-  for ( var i=1,y=y0; i<idx; i++ )
-  {
-    document.writeln( '#sitemap' + treeId[i] + ' {POSITION: absolute; VISIBILITY: hidden; LEFT: '+x0+'px; TOP: '+y0+'px}' )
-    if ( treeIsOn[ id2treeIndex[ treeP_id[i] ] ] )
-      y += deltaY
-  }
-  document.writeln( '#sitemapinfo {POSITION: absolute; VISIBILITY: visible; LEFT: '+x0+'px; TOP: '+y0+'px}' )
-  document.writeln( '//-->' + "\n" + '</style>' )
-}
-
-
-function marActiveKnote(id) {
-  if ( isDOM ) {
-    if ( lastActiveId && lastActiveId != id  )
-      document.getElementById( 'note_' + lastActiveId ).style.fontWeight="normal"
-    document.getElementById( 'note_' + id ).style.fontWeight="bold"
-  } else if ( isDomIE ) {
-    if ( lastActiveId && lastActiveId != id  )
-      document.all[ 'note_' + lastActiveId ].style.fontWeight="normal"
-    document.all[ 'note_' + id ].style.fontWeight="bold"
-  }
-  lastActiveId = id
-}
-
-
-function sitemapClick( id )
-{
-  var from = 0
-  var i = id2treeIndex[ id ]
-
-  if (sitemapClick.arguments.length==2)
-    from = sitemapClick.arguments[1]
-
-  if (treeUrl[i]!='' && (from==1 || from==0 && clickOnFolderIcon ) )
-    marActiveKnote( id )
-
-  if ( resetPanelOnBookmarkClick && treeTyp[i]=='b' ) {
-    closeFolderOnPanel( id, false )
-    return
-  }
-
-  if ( resetPanelOnBookmarkClick && treeTyp[i]=='f' && ( from==1 && clickOnFolderName && treeUrl[i]!='' || from==0 && clickOnFolderIcon && treeUrl[i]!='' ) ) {
-    closeFolderOnPanel( id, true )
-  }
-
-  if ( treeTyp[i]=='f' && from==1 && !clickOnFolderName )
-    return
-
-  if ( treeTyp[i]=='b')
-    return
-
-  if ( treeIsOn[ i ] )
-  // close directory
-  {
-    // mark node as invisible
-    treeIsOn[ i ]=false
-    // mark all sons as invisible
-    actDeep = treeDeep[ i ]
-    for( var j=i+1; j<idx && treeDeep[j] > actDeep; j++ )
-    {
-      if (rememberKnotStatus)
-        treeWasOn[ j ] = treeIsOn[ j ]
-      else
-      {
-        if (treeIsOn[j] )
-          gif_off( treeId[j] )
-        treeWasOn[ j ] = false
-      }
-      treeIsOn[ j ]=false
-    }
-    gif_off( id )
-  }
-  else
-  // open directory
-  {
-    treeIsOn[ i ]=true
-    // remember and restore old status
-    actDeep = treeDeep[ i ]
-    for( var j=i+1; j<idx && treeDeep[j] > actDeep; j++ )
-    {
-      treeIsOn[ j ] = treeWasOn[ j ]
-    }
-    gif_on( id )
-    if ( onlyOneOpenFolderProPanel )
-      closeFolderOnPanel( id, true )
-  }
-  showTree()
-}
-
-function knotDeep( id )
-{
-  var deep=0
-  while ( true )
-    if ( treeP_id[ id2treeIndex[id] ] == 0 )
-      return deep
-    else
-    {
-      ++deep
-      id = treeP_id[ id2treeIndex[id] ]
-    }
-  return deep
-}
-
-function lastEntryInFolder( id )
-{
-  var i = id2treeIndex[id]
-  if ( i == idx-1 )
-    return true
-  if ( treeTyp[i] == 'b' )
-  {
-    if ( treeP_id[i+1] != treeP_id[i] )
-      return true
-    else
-      return false
-  }
-  else
-  {
-    var actDeep = treeDeep[i]
-    for( var j=i+1; j<idx && treeDeep[j] > actDeep ; j++ )
-    ;
-    if ( j<idx && treeDeep[j] == actDeep )
-      return false
-    else
-      return true
-  }
-}
-
-function closeFolderOnPanel( id , skip_id )
-{
-  var i = id2treeIndex[id]
-  var p_id = treeP_id[ i ]
-  var deep=treeDeep[ i ]
-
-  for( var j=(skip_id?i-1:i); j>0 && treeDeep[j]>=deep; j-- )
-    if ( treeP_id[ j ] == p_id && treeIsOn[ j ] )
-      sitemapClick( treeId[j], 2 )
-  for( var j=i+1; j<idx && treeDeep[j]>=deep; j++ )
-    if ( treeP_id[ j ] == p_id && treeIsOn[ j ] )
-      sitemapClick( treeId[j], 2 )
-}
-
-function showTree()
-{
-  for( var i=1, y=y0, x=x0; i<idx; i++ )
-  {
-    if ( treeIsOn[ id2treeIndex[ treeP_id[i] ] ] )
-    {
-      // show current node
-      if ( !(y == treeLastY[i] && treeIsShown[i] ) )
-      {
-        showLayer( "sitemap"+ treeId[i] )
-        setyLayer( "sitemap"+ treeId[i], y )
-        treeIsShown[i] = true
-      }
-      treeLastY[i] = y
-      y += deltaY
-    }
-    else
-    {
-      // hide current node and all sons
-      if ( treeIsShown[ i ] )
-      {
-        hideLayer( "sitemap"+ treeId[i] )
-        treeIsShown[i] = false
-      }
-    }
-  }
-}
-
-function initIndex() {
-  for( var i=0; i<idx; i++ )
-    id2treeIndex[ treeId[i] ] = i
-}
-
-function gif_name (name, width, height) {
-  this.on = new Image (width, height)
-  this.on.src = iconDir + name + "_on.gif"
-  this.off = new Image (width, height)
-  this.off.src = iconDir + name + "_off.gif"
-}
-
-function load_gif (name, width, height) {
-  gif_name [name] = new gif_name (name,width,height)
-}
-
-function load_all () {
-  load_gif ('folder',30,16)
-  file_last = new Image( 30,16 )
-  file_last.src = iconDir + "file_last.gif"
-  file_middle = new Image( 30,16 )
-  file_middle.src = iconDir + "file.gif"
-  file_vert = new Image( 30,16 )
-  file_vert.src = iconDir + "file_vert.gif"
-  file_empty = new Image( 30,16 )
-  file_empty = iconDir + "file_empty.gif"
-}
-
-function gif_on ( id ) {
-  eval("document['folder" + id + "'].src = gif_name['folder'].on.src")
-}
-
-function gif_off ( id ) {
-  eval("document['folder" + id + "'].src = gif_name['folder'].off.src")
-}
-
-var browserName = navigator.appName
-var browserVersion = parseInt(navigator.appVersion)
-var isIE = false
-var isNN = false
-var isDOM = false
-var isDomIE = false
-var isDomNN = false
-var layerok = false
-
-var isIE = browserName.indexOf("Microsoft Internet Explorer" )==-1?false:true
-var isNN = browserName.indexOf("Netscape")==-1?false:true
-var isOpera = browserName.indexOf("Opera")==-1?false:true
-var isDOM = document.getElementById?true:false
-var isDomNN = document.layers?true:false
-var isDomIE = document.all?true:false
-
-if ( isNN && browserVersion>=4 ) layerok=true
-if ( isIE && browserVersion>=4 ) layerok=true
-if ( isOpera && browserVersion>=5 ) layerok=true
-
-var lastActiveId=0
-
-
-function hideLayer(layerName) {
-  if (isDOM)
-    document.getElementById(layerName).style.visibility="hidden"
-  else if (isDomIE)
-    document.all[layerName].style.visibility="hidden"
-  else if (isDomNN)
-    document.layers[layerName].visibility="hidden"
-}
-
-function showLayer(layerName) {
-  if (isDOM)
-    document.getElementById(layerName).style.visibility="visible"
-  else if (isDomIE)
-    document.all[layerName].style.visibility="visible"
-  else if (isDomNN)
-    document.layers[layerName].visibility="visible"
-}
-
-function setyLayer(layerName, y) {
-  if (isDOM)
-    document.getElementById(layerName).style.top=y
-  else if (isDomIE)
-    document.all[layerName].style.top=y
-  else if (isDomNN)
-    document.layers[layerName].top=y
-}
-
-var id2treeIndex = new Array()
-
-
-function initArray()
-{
-
 <?php
 
 
-###################### FILL THE LINKMAP ARRAY #########################################
+// ------------------------ Class Definitions
 
-print "Note(0,-1,'','')\n";
-
-function rex_linkFolder($cat, $parent, $faktor)
+class rex_map
 {
-  $catsize = sizeof($cat);
-  if ($catsize != "0")
-    : foreach ($cat as $sub1)
-    {
+  var $title;
+  var $current_node_id;
+  var $ignore_offlines;
 
-      if ($sub1)
-      {
+  var $link_params;
 
-        // knoten
-        $parent1 = $sub1->getId();
-        print "Note(".$parent1.",".$parent.",'".ereg_replace("\n|\r|\"|'", "", $sub1->getName())."','')\n";
-
-        // hat artikel ?!?
-        $myart = $sub1->getArticles(false);
-        if (sizeof($myart) > 0)
-          : foreach ($myart as $art)
-          {
-            print "Note(". (100000 + $art->getId()).",".$parent1.",'".ereg_replace("\n|\r|\"|'", "", $art->getName())."','redaxo://".$art->getId()."')\n";
-          }
-        endif;
-
-        // ist knoten und hat unterartikel ?
-        rex_linkFolder($sub1->getChildren(), $parent1, ($faktor +1));
-      }
-    }
-
-  endif;
-
-}
-
-rex_linkFolder(OOCategory :: getRootCategories(false), 0, 100);
-?>
-
-  treeTyp[0] = 'f'
-  treeIsOn[0] = true
-  treeWasOn[0] = true
-}
-
-function preOpen()
-{
-  var self_url=location.href
-  var rexep = /[&?]id=(\d+(,\d+)*)/
-  if (rexep.test(self_url))
+  function rex_map($title, $current_node_id, $ignore_offlines = false)
   {
-    rexep.exec(self_url)
-    var a_id=RegExp.$1.split(',')
-    for ( i=0; i<a_id.length; i++ )
+    $this->title = $title;
+    $this->current_node_id = $current_node_id;
+    $this->ignore_offlines = $ignore_offlines;
+  }
+
+  function addLinkParam($name, $value)
+  {
+    $this->link_params[$name] = $value;
+  }
+
+  function getLinkParams()
+  {
+    return $this->link_params;
+  }
+
+  function getCurrentNodeId()
+  {
+    return $this->current_node_id;
+  }
+
+  function getChildNodes($node)
+  {
+    return array ();
+  }
+
+  function getNodeLink($node)
+  {
+    return '';
+  }
+
+  function getNodeValue($node)
+  {
+    return $node->getName();
+  }
+
+  function formatHref($node, $attr = false)
+  {
+    $_attr = '';
+    $attr = is_array($attr) ? $attr : array ();
+
+    if ($node->getId() == $this->getCurrentNodeId())
     {
-      id=a_id[i]
-      while ( id )
+      $attr['id'] = 'map-current';
+    }
+
+    if (count($attr) > 0)
+    {
+      foreach ($attr as $name => $value)
       {
-        treeIsOn[id2treeIndex[id]] = true
-        treeWasOn[id2treeIndex[id]] = true
-        treeIsShown[id2treeIndex[id]] = true
-          if (treeTyp[id2treeIndex[id]] == 'f') gif_on(id)
-        id=treeP_id[id2treeIndex[id]]
+        $_attr = ' '.$name.'="'.$value.'"';
       }
     }
+
+    $s = '';
+    $s .= '<a href="'.$this->getNodeLink($node).'"'.$_attr.'>';
+    $s .= $this->getNodeValue($node);
+    $s .= '</a>';
+
+    return $s;
+  }
+
+  function formatNode($node)
+  {
+    global $REX_USER;
+
+    if ($node == null)
+    {
+      return '';
+    }
+
+    $s = '';
+    $linkClass = $node->isOnline() ? 'online' : 'offline';
+
+    $liClass = '';
+    if ($node->isStartPage() == 1)
+    {
+      $liClass = ' class="map-startpage"';
+    }
+
+    $liId = '';
+    if ($node->getId() == $this->getCurrentNodeId())
+    {
+      $liId = ' id="map-active"';
+    }
+    $s .= '<li'.$liClass.$liId.'>';
+
+    $s .= $this->formatHref($node, array (
+      'class' => $linkClass
+    ));
+
+    // Im Advanced Mode, ID anzeigen
+    if ($REX_USER->isValueOf('rights', 'advancedMode[]'))
+    {
+      $s .= ' ['.$node->getId().']';
+    }
+
+    $childs = $this->getChildNodes($node);
+    $s .= $this->formatNodes($childs);
+
+    $s .= '</li>';
+
+    return $s;
+  }
+
+  function formatNodes($nodes)
+  {
+    $s = '';
+
+    if (is_array($nodes) && count($nodes) > 0)
+    {
+      $s .= '<ul>';
+      foreach ($nodes as $node)
+      {
+        $s .= $this->formatNode($node);
+      }
+      $s .= '</ul>'."\n";
+    }
+
+    return $s;
+  }
+
+  function get($nodes)
+  {
+    $s = '';
+
+    if (!empty ($this->title))
+    {
+      $s .= '<h1>'.$this->title.'</h1>';
+    }
+
+    $s .= $this->formatNodes($nodes);
+
+    return $s;
+  }
+
+  function show()
+  {
+    echo $this->get();
   }
 }
 
-
-var idx=0
-initArray()
-initIndex()
-load_all()
-for( i=1; i<idx; i++ )
+class rex_category_map extends rex_map
 {
-  treeDeep[i] = knotDeep( treeId[i] )
-  treeTyp[i] = (i==idx-1||treeP_id[i+1]!=treeId[i]?'b':'f')
-  if ( treeDeep[i] == 0 )
-    treeIsShown[i] = true
+  function rex_category_map($title, $category_id, $ignore_offlines = false)
+  {
+    $this->rex_map($title, $category_id, $ignore_offlines);
+  }
+
+  function getChildNodes($node)
+  {
+    return $node->getChildren($this->ignore_offlines);
+  }
+
+  function getNodeLink($node)
+  {
+    $url = '';
+    $params = $this->getLinkParams();
+    if (is_array($params) && count($params) > 0)
+    {
+      foreach ($params as $name => $value)
+      {
+        $url .= '&'.$name.'='.$value;
+      }
+    }
+
+    return htmlspecialchars('index.php?page=linkmap&category_id='.$node->getId().$url);
+  }
+
+  function get()
+  {
+    $s = '';
+
+    $root_categories = OOCategory :: getRootCategories($this->ignore_offlines);
+    $s .= parent :: get($root_categories);
+
+    return $s;
+  }
 }
-if ( isDomNN )
-  initStyles()
 
-</script>
+class rex_article_map extends rex_map
+{
+  function rex_article_map($title, $category_id, $ignore_offlines = false)
+  {
+    $this->rex_map($title, $category_id, $ignore_offlines);
+  }
 
-<?php
+  function getNodeLink($node)
+  {
+    return rex_linkmap_link($node->getId(), $node->getName());
+  }
 
+  function getArticles()
+  {
+    $articles = array ();
+    $category_id = $this->getCurrentNodeId();
+
+    if (empty ($category_id))
+    {
+      $articles = OOArticle :: getRootArticles($this->ignore_offlines);
+    }
+    else
+    {
+      $articles = OOArticle :: getArticlesOfCategory($category_id, $this->ignore_offlines);
+    }
+
+    return $articles;
+  }
+
+  function get()
+  {
+    return parent :: get($this->getArticles());
+  }
+}
+
+/**
+ * Klasse zur Darstellung eines Suchergebnisses
+ */
+class rex_article_search_map extends rex_article_map
+{
+  var $qry;
+
+  function rex_article_search_map($title, $qry, $ignore_offlines = false)
+  {
+    $this->qry = $qry;
+    // Kategorie ID unwichtig => Dummy Value 
+    $this->rex_article_map($title, 0, $ignore_offlines = false);
+  }
+
+  function getArticles()
+  {
+    $sql = new sql();
+    $sql->setQuery($this->qry);
+
+    $articles = array ();
+    for ($i = 0; $i < $sql->getRows(); $i++)
+    {
+      $articles[] = OOArticle :: getArticleById($sql->getValue('id'));
+      $sql->next();
+    }
+
+    usort($articles, array('rex_article_search_map','rex_sortArticleByName'));
+
+    return $articles;
+  }
+  
+  // Funktion zur Sortierung 
+  function rex_sortArticleByName($articleA, $articleB)
+  {
+    $nameA = $articleA->getName();
+    $nameB = $articleB->getName();
+
+    if ($nameA == $nameB)
+    {
+      return 0;
+    }
+
+    $arr = array (
+      $nameA,
+      $nameB
+    );
+
+    sort($arr, SORT_STRING);
+
+    return $arr[0] == $nameA ? -1 : 1;
+  }
+}
+
+// ------------------------ Functions
+
+function rex_linkmap_link($id, $name)
+{
+  return 'javascript:insertLink(\'redaxo://'.$id.'\',\''.$name.'\')';
+}
+// ------------------------ Ouput
 
 rex_small_title($REX['SERVERNAME'], 'Linkmap');
+
+// ------- Default Values
 
 $func_body = '';
 if (!isset ($HTMLArea))
@@ -477,7 +301,14 @@ if (!isset ($opener_input_field))
   $opener_input_field = '';
 if (!isset ($opener_input_field_name))
   $opener_input_field_name = '';
-  
+if (!isset ($category_id))
+  $category_id = 0;
+
+$search = empty ($search) ? '' : $search;
+$search = empty ($search_close) ? $search : '';
+
+// ------- Build JS Functions
+
 if ($HTMLArea != '')
 {
   if ($HTMLArea == 'TINY')
@@ -493,31 +324,111 @@ if ($HTMLArea != '')
 if ($opener_input_field_name != '')
 {
   $link_id_field = $opener_input_field_name;
-  $link_name_field = $opener_input_field_name .'_NAME';
-} 
-elseif ( $opener_input_field != '')
+  $link_name_field = $opener_input_field_name.'_NAME';
+}
+elseif ($opener_input_field != '')
 {
-  $link_id_field = "LINK[". $opener_input_field ."]";
-  $link_name_field = "LINK_NAME[". $opener_input_field ."]";
+  $link_id_field = "LINK[".$opener_input_field."]";
+  $link_name_field = "LINK_NAME[".$opener_input_field."]";
 }
 
 $func_body .= "linkid = link.replace('redaxo://','');\n";
-$func_body .= "opener.document.". $form ."['". $link_id_field ."'].value = linkid;\n";
-$func_body .= "opener.document.". $form ."['". $link_name_field ."'].value = name;\n";
-?>
+$func_body .= "opener.document.".$form."['".$link_id_field."'].value = linkid;\n";
+$func_body .= "opener.document.".$form."['".$link_name_field."'].value = name;\n";
 
+// ------------------------ Print JS Functions
+?>
 <script language="JavaScript" type="text/javascript">
-  initDiv();
-  hideLayer("sitemapinfo");
-  
-  if (layerok) 
-  { 
-    preOpen();
-    showTree();
-  }
-  
   function insertLink(link,name){
     <?php echo $func_body. "\n" ?>
     self.close();
   }
 </script>
+<?php
+
+
+// ------------------------ Print CSS
+?>
+
+<div class="searchbar">
+  <?php
+
+
+if (count($REX['CLANG']) > 1)
+{
+  echo '<ul>';
+  echo '<li>Sprachen:';
+
+  echo '<ul>';
+  foreach ($REX['CLANG'] as $clang_id => $clang_name)
+  {
+    $active = $clang_id == $REX['CUR_CLANG'] ? ' class="aktiv"' : '';
+    $url = 'index.php?page='.$page.'&amp;clang='.$clang_id.'&amp;search='.$search.'&amp;HTMLArea='.$HTMLArea.'&amp;form='.$form.'&amp;opener_input_field='.$opener_input_field.'&amp;opener_input_field_name='.$opener_input_field_name;
+    echo '<li><a href="'.$url.'"'.$active.'>'.$clang_name.'</a></li>';
+  }
+  echo '</ul>';
+
+  echo '</li>';
+  echo '</ul>';
+}
+?>
+  <form action="index.php" method="post">
+  <fieldset>
+    <input type="hidden" name="page" value="<?php echo $page ?>" />
+    <input type="hidden" name="clang" value="<?php echo $clang ?>" />
+    <input type="hidden" name="HTMLArea" value="<?php echo $HTMLArea ?>" />
+    <input type="hidden" name="form" value="<?php echo $form ?>" />
+    <input type="hidden" name="opener_input_field" value="<?php echo $opener_input_field ?>" />
+    <input type="hidden" name="opener_input_field_name" value="<?php echo $opener_input_field_name?>" />
+    <input type="text" name="search" value="<?php echo $search ?>" />
+    <input type="submit" name="search_button" value="Suchen" />
+<?php
+
+if ($search != '')
+{
+  echo '<input type="submit" name="search_close" value="Suche Aufheben" />';
+}
+?>
+	</fieldset>
+  </form>
+</div>
+<?php
+
+
+$map_categories = '';
+$map_articles = '';
+
+// ------------------------ Category Tree
+
+$cat_map = new rex_category_map('Kategorien', $category_id);
+$cat_map->addLinkParam('HTMLArea', $HTMLArea);
+$cat_map->addLinkParam('form', $form);
+$cat_map->addLinkParam('opener_input_field', $opener_input_field);
+$cat_map->addLinkParam('opener_input_field_name', $opener_input_field_name);
+$map_categories = $cat_map->get();
+
+if ($search != '')
+{
+  // ------------------------ Article Search Tree
+
+  $qry = 'SELECT id FROM rex_article WHERE (name LIKE "%'.$search.'%" or keywords LIKE "%'.$search.'%" or description LIKE "%'.$search.'%" ) AND clang='.$REX['CUR_CLANG'].' LIMIT 40';
+  $art_map = new rex_article_search_map('Gefundene Artikel:', $qry);
+  $map_articles = $art_map->get();
+}
+else
+{
+  // ------------------------ Article Tree
+
+  $art_map = new rex_article_map('Artikel', $category_id);
+  $map_articles = $art_map->get();
+}
+?>
+<div id="rex-linkmap">
+  <div class="rex-map-categories">
+    <?php echo $map_categories ?>
+  </div>
+  <div class="rex-map-articles">
+    <?php echo $map_articles ?>
+  </div>
+  <div class="rex-clearer"> </div>
+</div>

@@ -8,14 +8,14 @@
 $OUT = TRUE;
 
 // ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
-
-if (isset($function_action) and $function_action == 'add')
+if (!empty($add_action))
 {
   $aa = new sql;
   $aa->query("INSERT INTO ".$REX['TABLE_PREFIX']."module_action SET module_id='$modul_id', action_id='$action_id'");
   $message = $I18N->msg("action_taken");
-  
-} elseif (isset($function_action) and $function_action == 'delete')
+  $goon = 'ja';
+}
+elseif (isset($function_action) and $function_action == 'delete')
 {
   $aa = new sql;
   $aa->query("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id' and id='$iaction_id' LIMIT 1");
@@ -35,15 +35,20 @@ if (isset($function) and $function == 'delete')
   
   if ($del->getRows() >0)
   {
-    $module = '<font class="black">|</font> ';
+    $module = '';
     $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."modultyp.name"));
     for ($i=0; $i<$del->getRows(); $i++)
     {
-     $module .= '<a href="index.php?page=content&amp;article_id='.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'">'.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'</a> <font class="black">|</font> ';
+     $module .= '<li><a href="index.php?page=content&amp;article_id='.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'">'.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'</a></li>';
      $del->next();
     }
     
-    $message = '<b>'.$I18N->msg("module_cannot_be_deleted",$modulname).'</b><br /> '.$module;
+    if($module != '')
+    {
+      $module = '<ul>'. $module .'</ul>';
+    }
+    
+    $message = $I18N->msg("module_cannot_be_deleted",$modulname).'<br /> '.$module;
   } else
   {
     $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
@@ -63,7 +68,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
     if ($function == 'add')
     {
       $modultyp->query("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
-      $message = '<p class="warning">'.$I18N->msg("module_added").'</p>';
+      $message = $I18N->msg("module_added");
     } else {
       $modultyp->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id='$modul_id'");
       if ($modultyp->getRows()==1)
@@ -71,7 +76,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         $old_ausgabe = $modultyp->getValue("ausgabe");
     
         $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
-        $message = '<p class="warning">'.$I18N->msg("module_updated").' | '.$I18N->msg("articel_updated").'</font></p>';
+        $message = $I18N->msg("module_updated").' | '.$I18N->msg("articel_updated");
 
         $new_ausgabe = stripslashes($ausgabe);
 
@@ -104,9 +109,14 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
 
   if (!isset($save) or $save != 'ja')
   {
-    echo '<a name="edit"><table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">';
-  
-    if ($function == 'edit'){
+    if (!isset($modul_id)) $modul_id = '';
+    if (!isset($mname)) $mname = '';
+    if (!isset($eingabe)) $eingabe = '';
+    if (!isset($ausgabe)) $ausgabe = '';
+    
+    if ($function == 'edit')
+    {
+      $legend = $I18N->msg("module_edit").' [ID='.$modul_id.']';
 
       $hole = new sql;
       $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
@@ -116,96 +126,96 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       $ausgabe  = $hole->getValue("ausgabe");
       $eingabe  = $hole->getValue("eingabe");
             
-      echo '  <tr><th colspan="3">'.$I18N->msg("module_edit").' [ID='.$modul_id.']</th></tr>';
-
-    } else {
-      echo '  <tr><th colspan="3">'.$I18N->msg("create_module").'</th></tr>';
     }
-
+    else
+    {
+      $legend = $I18N->msg("create_module");
+    }
+    
+    $btn_update = '';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-fsubmit" name="goon" value="'.$I18N->msg("save_module_and_continue").'" />';
+    
     if (isset($message) and $message != '')
     {
-      echo '<tr class="warning"><td colspan="3">'.$message.'</td></tr>';
+      echo '<p class="rex-warning">'.$message.'</p';
     }
 
-    if (!isset($modul_id)) $modul_id = '';
-    if (!isset($mname)) $mname = '';
-    if (!isset($eingabe)) $eingabe = '';
-    if (!isset($ausgabe)) $ausgabe = '';
     echo '  
+		<div class="rex-mdl-moduleform">
       <form action="index.php" method="post">
-      <input type="hidden" name="page" value="module">
-      <input type="hidden" name="function" value="'.$function.'">
-      <input type="hidden" name="save" value="ja">
-      <input type="hidden" name="category_id" value="0">
-      <input type="hidden" name="modul_id" value="'.$modul_id.'">
-      <tr>
-        <td width="100">'.$I18N->msg("module_name").'</td>
-        <td colspan="2"><input type="text" size="10" name="mname" value="'.htmlspecialchars($mname).'" style="width:100%;"></td>
-      </tr>
-      <tr>
-        <td valign="top">'.$I18N->msg("input").'</td>
-        <td colspan="2">
-          <textarea cols="20" rows="70" name="eingabe" id="eingabe" style="width:100%; height: 150;">'.htmlspecialchars($eingabe).'</textarea>
-        </td>
-      </tr>
-      <tr>
-        <td valign="top">'.$I18N->msg("output").'</td>
-        <td colspan="2">
-          <textarea cols="20" rows="70" name="ausgabe" id="ausgabe" style="width:100%; height: 150;">'.htmlspecialchars($ausgabe).'</textarea>
-        </td>
-      </tr>'."\n";
-      
-    echo '
-      <tr>
-        <td>&nbsp;</td>
-        <td width="200"><input type="submit" value="'.$I18N->msg("save_module_and_quit").'"></td>
-        <td>'."\n";
-    
-    if ($function != 'add') echo '<input type="submit" name="goon" value="'.$I18N->msg("save_module_and_continue").'">';
-    
-    echo '</td>
-      </tr>
-      </form>
-      </table>';
+        <fieldset>
+          <legend id="module">'. $legend .'</legend>
+          <input type="hidden" name="page" value="module" />
+          <input type="hidden" name="function" value="'.$function.'" />
+          <input type="hidden" name="save" value="ja" />
+          <input type="hidden" name="category_id" value="0" />
+          <input type="hidden" name="modul_id" value="'.$modul_id.'" />
+          <p>
+            <label for="mname">'.$I18N->msg("module_name").'</label>
+            <input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
+          </p>
+          <p>
+            <label for="eingabe">'.$I18N->msg("input").'</label>
+            <textarea cols="50" rows="6" name="eingabe" id="eingabe" class="rex-ftxtr-cd">'.htmlspecialchars($eingabe).'</textarea>
+          </p>
+          <p>
+            <label for="ausgabe">'.$I18N->msg("output").'</label>
+            <textarea cols="50" rows="6" name="ausgabe" id="ausgabe" class="rex-ftxtr-cd">'.htmlspecialchars($ausgabe).'</textarea>
+          </p>
+          <p>
+            <input type="submit" class="rex-fsubmit" value="'.$I18N->msg("save_module_and_quit").'" />
+            '. $btn_update .'
+          </p>
+        </fieldset>
+    ';
 
     if ($function == 'edit')
     {
+      // Im Edit Mode Aktionen bearbeiten
       
       $gaa = new sql;
       $gaa->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action ORDER BY name");
 
       if ($gaa->getRows()>0)
       {     
-      
-        echo '<br /><table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1"><tr><th colspan="3" align="left"><a name="action"></a><b>'.$I18N->msg("actions").'</b></th></tr>';
-  
         $gma = new sql;
         $gma->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action, ".$REX['TABLE_PREFIX']."action WHERE ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$modul_id'");
+        $actions = '';
+        
         for ($i=0; $i<$gma->getRows(); $i++)
         {
           $iaction_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.id");
           $action_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.action_id");
-
-          echo '<tr>
-            <td>&nbsp;</td>
-            <td>';
           
-          echo '<a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit">'.$gma->getValue("name").'</a>';
-          echo ' [';
-          echo $PREPOST[$gma->getValue("prepost")];
+          $actions .= '
+          <li>
+            <a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit">'.$gma->getValue("name").'</a>
+            [ '. $PREPOST[$gma->getValue("prepost")];
           
-          if ($gma->getValue("sadd")==1) echo "|".$ASTATUS[0];
-          if ($gma->getValue("sedit")==1) echo "|".$ASTATUS[1];
-          if ($gma->getValue("sdelete")==1) echo "|".$ASTATUS[2];
+          if ($gma->getValue("sadd")==1) $actions .= "|".$ASTATUS[0];
+          if ($gma->getValue("sedit")==1) $actions .= "|".$ASTATUS[1];
+          if ($gma->getValue("sdelete")==1) $actions .= "|".$ASTATUS[2];
           
-          echo '] </td>';
-          echo '<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a></td>';
-          echo '</tr>';
+          $actions .= '
+            ] 
+            <a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a>
+          </li>';
+          
           $gma->next();
+        }
+        
+        if($actions !='')
+        {
+          $actions = '
+            <ul>
+              '. $actions .'
+            </ul>
+          ';
         }
         
         $gaa_sel = new select();
         $gaa_sel->set_name("action_id");
+        $gaa_sel->set_id("action_id");
         $gaa_sel->set_size(1);
         $gaa_sel->set_style('class="inp100"');
         
@@ -220,65 +230,76 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
           $gaa->next();
         }
 
-        echo '<form action="index.php#action" method="post">';
-        echo '<input type="hidden" name="page" value="module">';
-        echo '<input type="hidden" name="modul_id" value="'.$modul_id.'">';
-        echo '<input type="hidden" name="function" value="edit">';
-        echo '<input type="hidden" name="function_action" value="add">';
-        
-        echo '<tr>
-          <td width=100>&nbsp;</td>
-          <td>'.$gaa_sel->out().'</td>
-          <td><input type="submit" value="'.$I18N->msg("action_add").'"></td>
-          </tr>'."\n";
-        
-        echo '</form>';
-
+        echo '
+        <fieldset>
+          <legend id="action">'.$I18N->msg("action_add").'</legend>
+          '. $actions .'
+          <p>
+            <label for="action_id">'.$I18N->msg("action").'</label>
+            '.$gaa_sel->out().'
+          </p>
+          <p>
+            <input type="submit" class="rex-fsubmit" value="'.$I18N->msg("action_add").'" name="add_action" />
+          </p>
+        </fieldset>';
       }
-
     }
-  
-    echo '</table>';
-  
+    
+    echo '
+    </form></div>
+    ';
+    
     $OUT = false;
-
   }
 }
 
 if ($OUT)
 {
-  // ausgabe modulliste !
-  echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
-    <tr>
-      <th class="icon"><a href="index.php?page=module&amp;function=add"><img src="pics/modul_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'"></a></th>
-      <th class="icon">ID</th>
-      <th width="300">'.$I18N->msg("module_description").'</th>
-      <th>'.$I18N->msg("module_functions").'</th>
-    </tr>
-    '."\n";
-  
   if (isset($message) and $message != '')
   {
-    echo '<tr class="warning"><td align="center"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="3">'.$message.'</td></tr>';
+    echo '<p class="rex-warning">'.$message.'</p>';
   }
+  
+  // ausgabe modulliste !
+  echo '
+  <table class="rex-table" summary="'.$I18N->msg("module_summary").'">
+  	<caption>'.$I18N->msg("module_caption").'</caption>
+    <colgroup>
+      <col width="5%" />
+      <col width="5%" />
+      <col width="*" />
+      <col width="17%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th><a href="index.php?page=module&amp;function=add"><img src="pics/modul_plus.gif" width="16" height="16" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'" /></a></th>
+        <th>ID</th>
+        <th>'.$I18N->msg("module_description").'</th>
+        <th>'.$I18N->msg("module_functions").'</th>
+      </tr>
+    </thead>
+    <tbody>
+  ';
+  
   
   $sql = new sql;
   $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp ORDER BY name");
   
   for($i=0; $i<$sql->getRows(); $i++){
   
-    echo '  <tr>
-        <td class="icon"><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="pics/modul.gif" width="16" height="16" border="0"></a></td>
-        <td class="icon">'.$sql->getValue("id").'</td>
-        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a>'."\n";
-    
-    echo '</td>
+    echo '
+      <tr>
+        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="pics/modul.gif" width="16" height="16" alt="'. $sql->getValue("name") .'" title="'. $sql->getValue("name") .'"/></a></td>
+        <td>'.$sql->getValue("id").'</td>
+        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a></td>
         <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_module").'</a></td>
       </tr>'."\n";
     $sql->counter++;
   }
   
-  echo '</table>';
+  echo '
+    </tbody>
+  </table>';
 }
 
 ?>

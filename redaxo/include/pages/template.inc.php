@@ -84,10 +84,10 @@ if (isset($function) and ($function == "add" or $function == "edit")){
   
   if (!isset($save) or $save != "ja")
   {
-    echo '<a name="edit"><table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">';
+    echo '<a name="edit"></a>';
   
     if ($function == "edit"){
-      echo '  <tr><th colspan="3"><b>'.$I18N->msg("edit_template").' [ID='.$template_id.']</b></th></tr>';
+      $legend = $I18N->msg("edit_template").' [ID='.$template_id.']';
 
       $hole = new sql;
       $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template WHERE id = '$template_id'");
@@ -100,93 +100,100 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $content  = '';
       $active = '';
       $template_id = '';
-      echo '  <tr><th colspan="3">'.$I18N->msg("create_template").'</th></tr>';
+      $legend = $I18N->msg("create_template");
     }
+    
+    $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
-    echo '  <form action="index.php" method="post">
-      <input type="hidden" name="page" value="template">
-      <input type="hidden" name="function" value="'.$function.'">
-      <input type="hidden" name="save" value="ja">
-      <input type="hidden" name="template_id" value="'.$template_id.'">
-      <tr>
-        <td width="100">'.$I18N->msg("template_name").'</td>
-        <td colspan="2"><input type="text" size="10" name="templatename" value="'.htmlspecialchars($templatename).'" style="width:100%;"></td>
-      </tr>';
-    
     echo '
-      <tr>
-        <td width="100" align="right"><input type="checkbox" id="active" name="active" value="1"';
-    if ($active == 1) echo ' checked';
-    echo '></td>
-        <td colspan="2"><label for="active">'.$I18N->msg("checkbox_template_active").'</label></td>
-      </tr>';
-    
-    echo '
-      <tr>
-        <td>&nbsp;</td>
-        <td width="200"><input type="submit" value="'.$I18N->msg("save_template_and_quit").'"></td>
-        <td><input type="submit" name="goon" value="'.$I18N->msg("save_template_and_continue").'"></td>
-      </tr>';
-    
-    echo '
-      <tr>
-        <td valign="top">'.$I18N->msg("header_template").'</td>
-        <td colspan="2">
-                  <textarea name="content" id="content" cols="40" rows="5" style="width: 100%;height: 400px;">'.htmlspecialchars($content).'</textarea>
-                </td>
-      </tr>';
-    
-    echo '  </form>';
-    echo '</table>';
+    <form action="index.php" method="post" id="rex-tmp-editmode">
+  		<fieldset>
+    		<legend>'.$legend.'</legend>
+        <input type="hidden" name="page" value="template" />
+        <input type="hidden" name="function" value="'.$function.'" />
+        <input type="hidden" name="save" value="ja" />
+        <input type="hidden" name="template_id" value="'.$template_id.'" />
+
+        <p>
+          <label for="ltemplatename">'.$I18N->msg("template_name").'</label>
+          <input type="text" size="10" id="ltemplatename" name="templatename" value="'.htmlspecialchars($templatename).'" />
+        </p>
+
+        <p>
+    	    <label for="active">'.$I18N->msg("checkbox_template_active").' <span class="rex-hide"> '.$I18N->msg("checkbox_template_active_info").'</span></label>
+          <input class="rex-fchckbx" type="checkbox" id="active" name="active" value="1"'. $tmpl_active_checked .'/>
+          <span class="rex-au-none">'.$I18N->msg("checkbox_template_active_info").'</span>
+        </p>
+
+        <p>
+          <label for="content">'.$I18N->msg("header_template").'</label>
+          <textarea class="rex-ftxtr-cd" name="content" id="content" cols="50" rows="6">'.htmlspecialchars($content).'</textarea>
+    	  </p>
+
+        <p>
+          <input class="rex-fsubmit" type="submit" value="'.$I18N->msg("save_template_and_quit").'" />
+          <input class="rex-fsubmit" type="submit" name="goon" value="'.$I18N->msg("save_template_and_continue").'" />
+        </p>
+
+      </fieldset>
+    </form>';
 
     $OUT = false;
-
   }
 }
 
 if ($OUT)
 {
-  // ausgabe templateliste !
-  echo '<table class="rex" style="table-layout:auto"; cellpadding="5" cellspacing="1">
-    <tr>
-      <th class="icon"><a href="index.php?page=template&amp;function=add"><img src="pics/template_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("create_template").'" title="'.$I18N->msg("create_template").'"></a></th>
-      <th class="icon">ID</th>
-      <th width="300">'.$I18N->msg("header_template_description").'</th>
-      <th width="50">'.$I18N->msg("header_template_active").'</th>
-      <th >'.$I18N->msg("header_template_functions").'</th>
-    </tr>
-    ';
-  
   if (isset($message) and $message != "")
   {
-    echo '<tr class="warning"><td align="center"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="4">'.$message.'</td></tr>';
+    echo '<p class="rex-warning">'.$message.'</p>';
   }
   
+  // ausgabe templateliste !
+  echo '
+  <table class="rex-table" summary="'.$I18N->msg("header_template_summary").'">
+  	<caption>'.$I18N->msg("header_template_caption").'</caption>
+  	<colgroup>
+      <col width="5%" />
+      <col width="6%" />
+      <col width="*" />
+      <col width="7%" />
+      <col width="40%" />
+  	</colgroup>
+  	<thead>
+      <tr>
+        <th><a href="index.php?page=template&amp;function=add"><img src="pics/template_plus.gif" width="16" height="16" alt="'.$I18N->msg("create_template").'" title="'.$I18N->msg("create_template").'" /></a></th>
+        <th>'.$I18N->msg("header_template_id").'</th>
+        <th>'.$I18N->msg("header_template_description").'</th>
+        <th>'.$I18N->msg("header_template_active").'</th>
+        <th >'.$I18N->msg("header_template_functions").'</th>
+      </tr>
+  	</thead>
+  	<tbody>';
+  
+  
   $sql = new sql;
-  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template ORDER BY name");
+  $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
   
   for ($i=0; $i<$sql->getRows(); $i++)
   {
-    echo '  <tr>
-        <td class="icon"><a href="index.php?page=template&amp;template_id='.$sql->getValue("id").'&amp;function=edit"><img src="pics/template.gif" width="16" height="16" border="0"></a></td>
-        <td class="icon">'.$sql->getValue("id").'</td>
-        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a>';
+    $active = $sql->getValue('active') == 1 ? $I18N->msg('yes') : $I18N->msg('no');
     
-    if ($REX_USER->isValueOf("rights","expertMode[]")) echo " [".$sql->getValue("id")."]";
-      
-    echo '</td>
-        <td>';
-      
-    if ($sql->getValue("active") == 1) echo $I18N->msg("yes");
-    else echo $I18N->msg("no");
-
-    echo '</td>
-        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_template").'</a></td>
+    echo '
+      <tr>
+        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue('id').'&amp;function=edit"><img src="pics/template.gif" alt="'.htmlspecialchars($sql->getValue('name')).'" title="'.htmlspecialchars($sql->getValue('name')).'" width="16" height="16" /></a></td>
+        <td>'.$sql->getValue('id').'</td>
+        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue('id').'&amp;function=edit">'.htmlspecialchars($sql->getValue('name')) . '<span class="rex-hide"> ['.$I18N->msg('header_template_id').' '.$sql->getValue('id').']</span></a></td>
+        <td>'. $active .'</td>
+        <td><a href="index.php?page=template&amp;template_id='.$sql->getValue('id').'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete_template').'</a></td>
       </tr>';
+      
     $sql->counter++;
   }
   
-  echo '</table>';
+  echo '
+    </tbody>
+  </table>';
 }
 
 ?>

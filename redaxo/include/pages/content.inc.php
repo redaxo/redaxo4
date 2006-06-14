@@ -16,7 +16,7 @@
 unset($REX_ACTION);
 
 $article = new sql;
-$article->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
+$article->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id='$article_id' AND clang=$clang");
 
 if ($article->getRows() == 1)
 {
@@ -31,19 +31,26 @@ if ($article->getRows() == 1)
   include $REX['INCLUDE_PATH']."/functions/function_rex_category.inc.php";
   // $KATout kommt aus dem include
   // $KATPERM
+  
   if ($page == "content" && $article_id > 0)
   {
-    if ($article->getValue("startpage")==1) $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("start_article")." : ";
-    else $KATout .= " &nbsp;&nbsp;&nbsp;".$I18N->msg("article")." : ";
-    $KATout .= "<a href=index.php?page=content&amp;article_id=$article_id&amp;mode=edit&amp;clang=$clang>".str_replace(" ","&nbsp;",$article->getValue("name"))."</a>";
+    $KATout .= "\n".'<p>';
+    
+    if ($article->getValue("startpage")==1) $KATout .= $I18N->msg("start_article")." : ";
+    else $KATout .= $I18N->msg("article")." : ";
+    
+    $catname = str_replace(" ","&nbsp;",$article->getValue("name")); 
+    
+    $KATout .= '<a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=edit&amp;clang='. $clang .'">'. $catname .'</a>';
     // $KATout .= " [$article_id]";
+    $KATout .= '</p>';
   }
 
   // ----- Titel anzeigen
   rex_title("Artikel",$KATout);
 
   // ----- Sprachenblock
-  $sprachen_add = "&amp;category_id=$category_id&amp;article_id=$article_id";
+  $sprachen_add = '&amp;category_id='. $category_id .'&amp;article_id='. $article_id;
   include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";
 
   if (isset($_REQUEST["mode"])) $mode = $_REQUEST["mode"];
@@ -54,10 +61,10 @@ if ($article->getRows() == 1)
   if ($mode != "meta") $mode = "edit";
 
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
-  if ( !( $KATPERM || $REX_USER->isValueOf("rights","article[$article_id]") ) )
+  if ( !( $KATPERM || $REX_USER->hasPerm('article['. $article_id .']') ) )
   {
     // ----- hat keine rechte an diesem artikel
-      echo "<table border=1 cellpadding=6 cellspacing=0 width=770 bgcolor=#eeeeee><tr bgcolor='#eeeeee'><td class=warning><br><br>&nbsp;&nbsp;".$I18N->msg("no_rights_to_edit")."<br><br><br></td></tr></table>";
+      echo '<p class="rex-warning">'.$I18N->msg('no_rights_to_edit').'</p>';
 
   }else
   {
@@ -104,9 +111,9 @@ if ($article->getRows() == 1)
         // ------------- MODUL IST VORHANDEN
 
         // ----- RECHTE AM MODUL ?
-        if ( !($REX_USER->isValueOf("rights","admin[]") || 
-            $REX_USER->isValueOf("rights","module[$module_id]") || 
-            $REX_USER->isValueOf("rights","module[0]"))
+        if ( !($REX_USER->hasPerm("admin[]") || 
+            $REX_USER->hasPerm("module[". $module_id ."]") || 
+            $REX_USER->hasPerm("module[0]"))
           )
         {
           // ----- RECHTE AM MODUL: NEIN
@@ -362,7 +369,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: Slice move up/down
     if (isset($function) and $function == "moveup" || $function == "movedown")
     {
-      if ($REX_USER->isValueOf("rights","moveSlice[]"))
+      if ($REX_USER->hasPerm("moveSlice[]"))
       {
         // modul und rechte vorhanden ?
         
@@ -385,7 +392,7 @@ if ($article->getRows() == 1)
           $module_id = $CM->getValue($REX['TABLE_PREFIX']."article_slice.modultyp_id");
 
           // ----- RECHTE AM MODUL ?
-          if ( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","dev[]") || $REX_USER->isValueOf("rights","module[$module_id]") || $REX_USER->isValueOf("rights","module[0]") )
+          if ( $REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("dev[]") || $REX_USER->hasPerm("module[$module_id]") || $REX_USER->hasPerm("module[0]") )
           {
             // rechte sind vorhanden
             // ctype beachten
@@ -460,7 +467,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: COPY LANG CONTENT
     if (isset($function) and $function == "copycontent")
     {
-      if($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]"))
+      if($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyContent[]"))
       {
         if (rex_copyContent($article_id,$article_id,$clang_a,$clang_b))
         {
@@ -481,10 +488,10 @@ if ($article->getRows() == 1)
     if (!empty($_POST['movearticle']) and $category_id != $article_id)
     {
       $category_id_new = (int) $category_id_new;
-      if(  $REX_USER->isValueOf("rights","admin[]") || 
+      if(  $REX_USER->hasPerm("admin[]") || 
       		(
-      			$REX_USER->isValueOf("rights","moveArticle[]") && 
-      			($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_id_new."]"))
+      			$REX_USER->hasPerm("moveArticle[]") && 
+      			($REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csw[".$category_id_new."]"))
       		)
       	)
       {
@@ -513,10 +520,10 @@ if ($article->getRows() == 1)
     if (!empty($_POST['copyarticle']))
     {
       $category_copy_id_new = (int) $category_copy_id_new;
-      if( $REX_USER->isValueOf("rights","admin[]") || 
+      if( $REX_USER->hasPerm("admin[]") || 
       		(
-      			$REX_USER->isValueOf("rights","copyArticle[]") && 
-      			($REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_copy_id_new."]"))
+      			$REX_USER->hasPerm("copyArticle[]") && 
+      			($REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csw[".$category_copy_id_new."]"))
       		) 
       	)
       {
@@ -545,12 +552,12 @@ if ($article->getRows() == 1)
     if (!empty($_POST['movecategory']))
     {
       $category_id_new = (int) $category_id_new;
-      if(  $REX_USER->isValueOf("rights","admin[]") || 
+      if(  $REX_USER->hasPerm("admin[]") || 
       		(
-      			$REX_USER->isValueOf("rights","moveCategory[]") && 
+      			$REX_USER->hasPerm("moveCategory[]") && 
       			(
-      				( $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_id."]") ) && 
-      				( $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csw[".$category_id_new."]") ) 
+      				( $REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csw[".$category_id."]") ) && 
+      				( $REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csw[".$category_id_new."]") ) 
       			)
       		)
       	)
@@ -577,28 +584,45 @@ if ($article->getRows() == 1)
 
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
-    reset($REX['CTYPE']);
+    $num_ctypes = count($REX['CTYPE']);
     $tadd = "";
-    if (count($REX['CTYPE'])>1)
+    if ($num_ctypes>1)
     {
-      $tadd = "<b>Typen:</b> | ";
-      while( list($key,$val) = each($REX['CTYPE']) )
+      $tadd = '
+      <ul>
+        <li>Typen : </li>';
+      $i = 1;
+      foreach($REX['CTYPE'] as $key => $val) 
       {
-        if ($key==$ctype) $tadd .= "$val | ";
-        else $tadd .= "<a href='index.php?page=content&clang=$clang&ctype=$key&category_id=$category_id&article_id=$article_id'>$val</a> | ";
+        $tadd .= '
+        <li>';
+        if ($key==$ctype) 
+        {
+           $tadd .= $val;
+        }
+        else
+        {
+           $tadd .= '<a href="index.php?page=content&amp;clang='. $clang .'&amp;ctype='. $key .'&amp;category_id='. $category_id .'&amp;article_id='. $article_id .'">'. $val .'</a>';
+        }
+        if($num_ctypes != $i)
+        {
+           $tadd .= ' | ';
+        }
+        $tadd .= '</li>';
+        $i++;
       }
-      $tadd .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+      $tadd .= '
+      </ul>';
     }
-    $menu = $tadd." <a href='../index.php?article_id=$article_id&clang=$clang' class='blue' target='_blank'>".$I18N->msg('show')."</a>";
     
-    $edit_mode_css_class = 'blue';    
-    $meta_css_class = 'black';
-    if ($mode=="edit") 
-    {
-      $edit_mode_css_class = 'black';    
-      $meta_css_class = 'blue';    
-    }
-    $menu.= " | <a href=index.php?page=content&article_id=$article_id&mode=edit&clang=$clang&ctype=$ctype class=$edit_mode_css_class>".$I18N->msg('edit_mode')."</a> | <a href=index.php?page=content&article_id=$article_id&mode=meta&clang=$clang&ctype=$ctype class=$meta_css_class>".$I18N->msg('metadata')."</a>";
+    $menu = $tadd;
+    
+    $menu.= '
+    <ul>
+      <li><a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=edit&amp;clang='. $clang .'&amp;ctype='. $ctype .'">'.$I18N->msg('edit_mode').'</a> | </li>
+      <li><a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=meta&amp;clang='. $clang .'&amp;ctype='. $ctype .'">'.$I18N->msg('metadata').'</a> | </li>
+      <li><a href="../index.php?article_id='. $article_id .'&amp;clang='. $clang .'">'.$I18N->msg('show').'</a></li>
+    </ul>';
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
 
@@ -606,26 +630,38 @@ if ($article->getRows() == 1)
 
 
     // ------------------------------------------ START: AUSGABE
-    echo "  <table border=0 cellpadding=0 cellspacing=1 width=770>
-        <tr>
-          <td align=center class=grey width=30><img src=pics/document.gif width=16 height=16 border=0 vspace=5 hspace=12></td>
-          <td align=left class=grey>&nbsp;$menu</td>
-          <td align=left class=grey width=153><img src=pics/leer.gif width=153 height=20></td>
-        </tr>";
+    echo '
+    <!-- *** OUTPUT OF ARTICLE-CONTENT - START *** -->
+    <div class="rex-cnt-hdr">
+      '. $menu .'
+    </div>
+    ';
+    
     // ------------------------------------------ WARNING       
-    if (isset($message) and $message != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;$message</td><td class=lgrey>&nbsp;</td></tr>"; }
-    if (isset($_REQUEST["msg"]) and $_REQUEST["msg"] != ""){ echo "<tr><td align=center class=warning><img src=pics/warning.gif width=16 height=16 vspace=4></td><td class=warning>&nbsp;&nbsp;".$_REQUEST["msg"]."</td><td class=lgrey>&nbsp;</td></tr>"; }
-
-    echo "  <tr>
-          <td class=lgrey>&nbsp;</td>
-          <td valign=top class=lblue>";
-
+    if (isset($message) and $message != "")
+    {
+       echo '<p class="rex-warning">'. $message .'</p>';
+    }
+    if (isset($_REQUEST["msg"]) and $_REQUEST["msg"] != "")
+    {
+       echo '<p class="rex-warning">'. $_REQUEST["msg"] .'</p>';
+    }
+    
+    echo'
+    <div class="rex-cnt-bdy">
+    ';
+    
     if ($mode == "edit")
     {
       if (!isset($slice_id)) $slice_id = '';
       if (!isset($function)) $function = '';
       
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
+      echo'
+      <!-- *** OUTPUT OF ARTICLE-CONTENT-EDIT-MODE - START *** -->
+      <div class="rex-cnt-editmode">
+      ';
+      
       $CONT = new article;
       $CONT->setArticleId($article_id);
       $CONT->setSliceId($slice_id);
@@ -635,6 +671,11 @@ if ($article->getRows() == 1)
       $CONT->setEval(TRUE);
       $CONT->setFunction($function);
       eval("?>".$CONT->getArticle());
+      
+      echo'
+      </div>
+      <!-- *** OUTPUT OF ARTICLE-CONTENT-EDIT-MODE - END *** -->
+      ';
       // ------------------------------------------ END: MODULE EDITIEREN/ADDEN ETC.
 
     }elseif ($mode == "meta")
@@ -690,8 +731,9 @@ if ($article->getRows() == 1)
 
       $typesel = new select();
       $typesel->set_name("type_id");
-      $typesel->set_style("width:100%;");
-      $typesel->set_size(1);
+      $typesel->set_id("type_id");
+      $typesel->set_size("1");
+      
       $typesql = new sql();
       $typesql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_type order by name");
 
@@ -703,120 +745,130 @@ if ($article->getRows() == 1)
 
       $typesel->set_selected($article->getValue("type_id"));
       // Artikeltyp-Auswahl nur anzeigen, wenn mehr als ein Typ vorhanden ist
-      if ($typesql->getRows() <=1 ) $out = "<input type=hidden name=type_id value=0>";
-      else $out = "<tr><td class=grey>".$I18N->msg("article_type_list_name")."</td><td class=grey>".$typesel->out()."</td></tr>";
+      if ($typesql->getRows() <=1 ) 
+      {
+        $out = '<input type="hidden" name="type_id" value="0" />';
+      }
+      else
+      {
+        $out = '
+        <p>
+          <label for="type_id">'. $I18N->msg('article_type_list_name') .'</label>
+          '. $typesel->out() .'
+        </p>';
+      }
 
-      echo "<form action=index.php method=post ENCTYPE=multipart/form-data name=REX_FORM style=display:inline>
-        <input type=hidden name=page value=content>
-        <input type=hidden name=article_id value='$article_id'>
-        <input type=hidden name=mode value='meta'>
-        <input type=hidden name=save value=1>
-        <input type=hidden name=clang value=$clang>
-        <input type=hidden name=ctype value=$ctype>
-        <table border=0 cellpadding=5 cellspacing=1 width=100%>
-        <colgroup>
-          <col width=30% />
-          <col width=70% />
-        </colgroup>
-        <tr>
-          <td colspan=2>".$I18N->msg("general")."</td>
-        </tr>";
+      echo '
+	  <div class="rex-cnt-metaform">
+      <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+        <fieldset>
+          <legend>'.$I18N->msg('general').'</legend>
+          <input type="hidden" name="page" value="content" />
+          <input type="hidden" name="article_id" value="'. $article_id .'" />
+          <input type="hidden" name="mode" value="meta" />
+          <input type="hidden" name="save" value="1" />
+          <input type="hidden" name="clang" value="'. $clang .'" />
+          <input type="hidden" name="ctype" value="'. $ctype .'" />
+        ';
 
-      if (isset($err_msg) and $err_msg != "") echo '<tr><td colspan="2" class="warning"><font class="warning">'.$err_msg.'</font></td></tr>';
+      if (isset($err_msg) and $err_msg != '') echo '<p class="rex-warning">'.$err_msg.'</p>';
 
       function selectdate($date,$extens){
 
-        $date = date("Ymd",$date);
-        $ausgabe = "<select name=jahr$extens size=1>\n";
-        for ($i=2005;$i<2011;$i++){
-          $ausgabe .= "<option value=\"$i\"";
-          if ($i == substr($date,0,4)){ $ausgabe .= " selected"; }
-          $ausgabe .= ">$i\n";  
+        $date = date('Ymd',$date);
+        $ausgabe = '
+          <select class="rex-fdatey" name="jahr'. $extens .'" id="jahr'. $extens .'">
+        ';
+        for ($i=2005;$i<2011;$i++)
+        {
+          $ausgabe .= '<option value="'. $i .'"';
+          if ($i == substr($date,0,4)){ $ausgabe .= ' selected="selected"'; }
+          $ausgabe .= '>'. $i .'</option>
+          ';  
         }
-        $ausgabe .= "</select>";
-        $ausgabe .= "<select name=monat$extens size=1>\n";
-        for ($i=1;$i<13;$i++){
+        
+        $ausgabe .= '
+          </select>
+          <select class="rex-fdate" name="monat'. $extens .'">';
+        
+        for ($i=1;$i<13;$i++)
+        {
           if ($i<10){ $ii = "0".$i; }else{ $ii = $i; }
-          $ausgabe .= "<option value=\"$ii\"";
-          if ($ii == substr($date,4,2)){ $ausgabe .= " selected"; }
-          $ausgabe .= ">$ii\n"; 
+          
+          $ausgabe .= '<option value="'. $ii .'"';
+          if ($ii == substr($date,4,2)){ $ausgabe .= ' selected="selected"'; }
+          $ausgabe .= '>'. $ii .'</option>
+          ';  
         }
-        $ausgabe .= "</select>";
-        $ausgabe .= "<select name=tag$extens size=1>\n";
-        for ($i=1;$i<32;$i++){
+        
+        $ausgabe .= '
+          </select>
+          <select class="rex-fdate" name="tag'. $extens .'">';
+        
+        for ($i=1;$i<32;$i++)
+        {
           if ($i<10){ $ii = "0".$i; }else{ $ii = $i; }
-          $ausgabe .= "<option value=\"$ii\"";    
-          if ($ii == substr($date,6,2)){ $ausgabe .= " selected"; }
-          $ausgabe .= ">$ii\n"; 
+          $ausgabe .= '<option value="'. $ii .'"';
+          if ($ii == substr($date,6,2)){ $ausgabe .= ' selected="selected"'; }
+          $ausgabe .= '>'. $ii .'</option>
+          '; 
         }
-        $ausgabe .= "</select>";  
+        
+        $ausgabe .= '</select>';
+        
         return $ausgabe;
       }
 
-      echo "
-        <tr>
-          <td class=grey width=150>".$I18N->msg("online_from")."</td>
-          <td class=grey>".selectdate($article->getValue("online_from"),"_von")."</td>
-        </tr>
-        <tr>
-          <td class=grey>".$I18N->msg("online_to")."</td>
-          <td class=grey>".selectdate($article->getValue("online_to"),"_bis")."</td>
-        </tr>
-        <tr>
-          <td class=grey>".$I18N->msg("name_description")."</td>
-          <td class=grey><input type=text name=meta_article_name value=\"".htmlspecialchars($article->getValue("name"))."\" size=30 style=\"width:100%;\"></td>
-        </tr>
-        <tr>
-          <td class=grey>".$I18N->msg("description")."</td>
-          <td class=grey>
-                      <textarea name=meta_description id=meta_description cols=30 rows=5 style='width:100%; height: 80px;'>".htmlspecialchars($article->getValue("description"))."</textarea>
-                    </td>
-        </tr>
-        <tr>
-          <td class=grey>".$I18N->msg("keywords")."</td>
-          <td class=grey>
-                      <textarea name=meta_keywords id=meta_keywords cols=30 rows=5 style='width:100%; height: 80px;'>".htmlspecialchars($article->getValue("keywords"))."</textarea>
-                    </td>
-        </tr>";
-
-      echo "<tr><td class=grey>".$I18N->msg("metadata_image")."</td><td class=grey>";
-            
-      echo "  <table>
-        <input type=hidden name=REX_MEDIA_DELETE_1 value=0 id=REX_MEDIA_DELETE_1>
-        <tr>
-        <td><input type=text size=30 name=REX_MEDIA_1 value='".$article->getValue("file")."' id=REX_MEDIA_1 readonly=readonly></td>
-        <td><a href=javascript:openREXMedia(1);><img src=pics/file_open.gif width=16 height=16 title='medienpool' border=0></a></td>
-        <td><a href=javascript:deleteREXMedia(1);><img src=pics/file_del.gif width=16 height=16 title='-' border=0></a></td>
-        <td><a href=javascript:addREXMedia(1)><img src=pics/file_add.gif width=16 height=16 title='+' border=0></a></td>
-        </tr></table>";
-      echo "</td></tr>";
-
       $teaser_checked = $article->getValue("teaser")==1 ? ' checked=checked' : '';
       
-      echo "<tr bgcolor=#eeeeee>
-              <td class=grey><label for=meta_teaser>".$I18N->msg("teaser")."</label></td>
-              <td class=grey><input type=checkbox name=meta_teaser value=1". $teaser_checked .">
-              </td>
-          </tr>";
+      echo '
+        <p>
+          <label for="jahr_von">'. $I18N->msg("online_from").'</label>
+          '. selectdate($article->getValue("online_from"),"_von") .'
+        </p>
+        <p>
+          <label for="jahr_bis">'. $I18N->msg("online_to") .'</label>
+          '. selectdate($article->getValue("online_to"),"_bis") .'
+        </p>
+        <p>
+          <label for="meta_article_name">'. $I18N->msg("name_description"). '</label>
+          <input type="text" id="meta_article_name" name="meta_article_name" value="'. htmlspecialchars($article->getValue("name")) .'" size="30" />
+        </p>
+        <p>
+          <label for="meta_description">'. $I18N->msg("description") .'</label>
+          <textarea name="meta_description" id="meta_description" cols="50" rows="6" >'. htmlspecialchars($article->getValue("description")) .'</textarea>
+        </p>
+        <p>
+          <label for="meta_keywords">'. $I18N->msg("keywords") .'</label>
+          <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6">'. htmlspecialchars($article->getValue("keywords")) .'</textarea>
+        </p>
+        <p>
+          <label for="REX_MEDIA_1">'. $I18N->msg("metadata_image"). '</label>
+          <input type="hidden" name="REX_MEDIA_DELETE_1" value="0" id="REX_MEDIA_DELETE_1" />
+          <input type="text" size="30" name="REX_MEDIA_1" value="'. $article->getValue("file") .'" id="REX_MEDIA_1" readonly="readonly" />
+          
+		       <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
+          <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
+          <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
+        </p>
+        <p>
+          <label for="meta_teaser">'. $I18N->msg("teaser") .'</label>
+          <input class="rex-fchckbx" type="checkbox" name="meta_teaser" id="meta_teaser" value="1"'. $teaser_checked .' />
+        </p>
+        
+        '. $out;
 
-      echo "
-        $out
-         ";
-
-        // ----- EXTENSION POINT
-        echo rex_register_extension_point('ART_META_FORM');
+     // ----- EXTENSION POINT
+     echo rex_register_extension_point('ART_META_FORM');
         
-      echo "
-        <tr>
-          <td class=grey>&nbsp;</td>
-          <td class=grey><input type=submit value='".$I18N->msg("update_metadata")."' size=8></td>
-        </tr>";
+     echo '
+        <p>
+          <input class="rex-fsubmit" type="submit" value="'.$I18N->msg("update_metadata").'" />
+        </p>
+     </fieldset>';
         
-        // ----- EXTENSION POINT
-        echo rex_register_extension_point('ART_META_FORM_SECTION');
-        
-//        echo "</table>";
-        
+     // ----- EXTENSION POINT
+     echo rex_register_extension_point('ART_META_FORM_SECTION');
         
       // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN  	
       function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '')
@@ -828,7 +880,7 @@ if ($article->getRows() == 1)
       	}
 
       	$cat_ids[] = $cat->getId();
-      	if( $REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","csw[0]") || $REX_USER->isValueOf("rights","csr[".$cat->getId()."]") || $REX_USER->isValueOf("rights","csw[".$cat->getId()."]") ) {
+      	if( $REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csr[".$cat->getId()."]") || $REX_USER->hasPerm("csw[".$cat->getId()."]") ) {
       		$select->add_option($nbsp.$cat->getName(),$cat->getId());
       		$childs = $cat->getChildren();
       		if (is_array($childs)) {
@@ -843,142 +895,161 @@ if ($article->getRows() == 1)
 
 
       // ------------------------------------------------------------- SONSTIGES START    
-        if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]") || $REX_USER->isValueOf("rights","copyArticle[]") || ($REX_USER->isValueOf("rights","copyContent[]") && count($REX['CLANG']) > 1))
+        if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveArticle[]") || $REX_USER->hasPerm("copyArticle[]") || ($REX_USER->hasPerm("copyContent[]") && count($REX['CLANG']) > 1))
         {
-          echo "<tr>
-            <td colspan=2>".$I18N->msg("other_functions")."</td>
-          </tr>";
-		  
           // --------------------------------------------------- INHALTE KOPIEREN START
-        if(($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyContent[]")) && count($REX['CLANG']) > 1)
-        {
-        $lang_a = new select;
-        $lang_a->set_name("clang_a");
-        $lang_a->set_style("width:100px;");
-        $lang_a->set_size(1);
-
-        foreach($REX['CLANG'] as $val => $key)
-        {
-          $lang_a->add_option($key,$val);
-        }
-      
-        $lang_b = $lang_a;
-        $lang_b->set_name("clang_b");
-        if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
-        if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
+          if(($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyContent[]")) && count($REX['CLANG']) > 1)
+          {
+            $lang_a = new select;
+            $lang_a->set_id("clang_a");
+            $lang_a->set_name("clang_a");
+      		$lang_a->set_size("1");
+    
+            foreach($REX['CLANG'] as $val => $key)
+            {
+              $lang_a->add_option($key,$val);
+            }
           
-        echo "<tr><td class=grey width=150>".$I18N->msg("content_contentoflang")."</td><td class=grey>".$lang_a->out()." ".$I18N->msg("content_to")." ".$lang_b->out()." ". $I18N->msg("content_copy")."</td></tr>";
-        
-        echo "<tr>
-          <td class=grey>&nbsp;</td>
-          <td class=grey><input type=submit name=copycontent value='".$I18N->msg("content_submitcopycontent")."' size=8></td>
-          </tr>";
-        }
-        
+            $lang_b = $lang_a;
+            $lang_b->set_id("clang_b");
+            $lang_b->set_name("clang_b");
+            if (isset($_REQUEST["clang_a"])) $lang_a->set_selected($_REQUEST["clang_a"]);
+            if (isset($_REQUEST["clang_b"])) $lang_b->set_selected($_REQUEST["clang_b"]);
+              
+            echo '
+            <fieldset>
+              <legend>' . $I18N->msg("content_submitcopycontent") .'</legend>
+              <p>
+                <label for="clang_a">'. $I18N->msg("content_contentoflang") .'</label>
+                '. $lang_a->out() .'
+                <label for="clang_b">'. $I18N->msg("content_to") .'</label> '. $lang_b->out() .'
+              </p>
+              <p>
+                <input class="rex-fsubmit" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") .'" />
+              </p>
+            </fieldset>';
+          
+          }
           // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
         	// --------------------------------------------------- ARTIKEL VERSCHIEBEN START
-			if ($article->getValue("startpage") == 0 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveArticle[]")) ) {
-
-				// Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-					$move_a = new select;
-					$move_a->set_name("category_id_new");
-					$move_a->set_style("width:100%;");
-					$move_a->set_size(1);
-			
-					if ($cats = OOCategory::getRootCategories()) {
-						foreach( $cats as $cat) {
-							add_cat_options( $move_a, $cat, $cat_ids);
-						}
-					}
-				
-					echo "<tr>
-							<td class=grey width=150>".$I18N->msg("move_article")."</td>
-							<td class=grey>".$move_a->out()."</td>
-						  </tr>
-						  <tr>
-						    <td class=grey>&nbsp;</td>
-							<td class=grey><input type=submit name=movearticle value='".$I18N->msg("content_submitmovearticle")."' size=8></td>
-						</tr>";
-			}   
-			// ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
-
-
-
-
-
-			// -------------------------------------------------- ARTIKEL KOPIEREN START
-			if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","copyArticle[]")) {
-				$move_a = new select;
-				$move_a->set_name("category_copy_id_new");
-				$move_a->set_style("width:100%;");
-				$move_a->set_size(1);
-                $move_a->set_selected($article_id);
-      
-				if ($cats = OOCategory::getRootCategories()) {
-					foreach( $cats as $cat) {
-						add_cat_options( $move_a, $cat, $cat_ids);
-					}
-				}
-				
-				echo "<tr>
-						<td class=grey width=150>".$I18N->msg("copy_article")."</td>
-						<td class=grey>".$move_a->out()."</td>
-					</tr>
-					<tr>
-						<td class=grey>&nbsp;</td>
-						<td class=grey><input type=submit name=copyarticle value='".$I18N->msg("content_submitcopyarticle")."' size=8></td>
-					</tr>";
-			}
-			// --------------------------------------------------- ARTIKEL KOPIEREN ENDE 
+          if ($article->getValue("startpage") == 0 && ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveArticle[]")) )
+          {
+    
+            // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
+            $move_a = new select;
+            $move_a->set_id("category_id_new");
+            $move_a->set_name("category_id_new");
+      		  $move_a->set_size("1");
+          
+            if ($cats = OOCategory::getRootCategories()) {
+              foreach( $cats as $cat) {
+                add_cat_options( $move_a, $cat, $cat_ids);
+              }
+            }
+            
+            echo '
+            <fieldset>
+              <legend>'. $I18N->msg("content_submitmovearticle") .'</legend>
+              <p>
+                <label for="category_id_new">'. $I18N->msg("move_article") .'</label>
+                '. $move_a->out().'
+              </p>
+              <p>
+                <input class="rex-fsubmit" type="submit" name="movearticle" value="'. $I18N->msg("content_submitmovearticle") .'" />
+              </p>
+            </fieldset>
+            ';
+            
+          }   
+          // ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
 
 
 
 
 
-			// --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START 
-			if ($article->getValue("startpage") == 1 && ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","moveCategory[]")))
-			{
-				$move_a = new select;
-				$move_a->set_name("category_id_new");
-				$move_a->set_style("width:100%;");
-				$move_a->set_size(1);
-                $move_a->set_selected($article_id);
+          // -------------------------------------------------- ARTIKEL KOPIEREN START
+          if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyArticle[]")) 
+          {
+            $move_a = new select;
+            $move_a->set_name("category_copy_id_new");
+            $move_a->set_id("category_copy_id_new");
+            $move_a->set_size("1");
+            $move_a->set_selected($article_id);
+          
+            if ($cats = OOCategory::getRootCategories()) {
+              foreach( $cats as $cat) {
+                add_cat_options( $move_a, $cat, $cat_ids);
+              }
+            }
+            
+            echo '
+            <fieldset>
+              <legend>'. $I18N->msg("content_submitcopyarticle") .'</legend>
+              <p>
+                <label for="category_copy_id_new">'. $I18N->msg("copy_article") .'</label>
+                '. $move_a->out() .'
+              </p>
+              <p>
+                <input class="rex-fsubmit" type="submit" name="copyarticle" value="'. $I18N->msg("content_submitcopyarticle").'" />
+              </p>
+            </fieldset>
+            ';
+            
+          }
+          // --------------------------------------------------- ARTIKEL KOPIEREN ENDE 
 
-				$move_a->add_option("---",0);
-		
-				if ($cats = OOCategory::getRootCategories()) {
-					foreach( $cats as $cat) {
-						add_cat_options( $move_a, $cat, $cat_ids, "", "&nbsp;&nbsp;");
-					}
-				}
-			
-				echo "<tr>
-						<td class=grey width=150>".$I18N->msg("move_category")."</td>
-						<td class=grey>".$move_a->out()."</td>
-					  </tr>
-					  <tr>
-					    <td class=grey>&nbsp;</td>
-						<td class=grey><input type=submit name=movecategory value='".$I18N->msg("content_submitmovecategory")."' size=8></td>
-					</tr>";
-			}
-			// ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE 
 
+
+
+
+          // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START 
+          if ($article->getValue("startpage") == 1 && ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveCategory[]")))
+          {
+            $move_a = new select;
+            $move_a->set_id("category_id_new");
+            $move_a->set_name("category_id_new");
+            $move_a->set_size("1");
+            $move_a->set_selected($article_id);
+        
+            if ($cats = OOCategory::getRootCategories()) {
+              foreach( $cats as $cat) {
+                add_cat_options( $move_a, $cat, $cat_ids, "", "&nbsp;&nbsp;");
+              }
+            }
+            echo '
+            <fieldset>
+              <legend>'. $I18N->msg("content_submitmovecategory") .'</legend>
+              <p>
+                <label for="category_id_new">'. $I18N->msg("move_category") .'</label>
+                '. $move_a->out() .'
+              </p>
+              <p>
+                <input class="rex-fsubmit" type="submit" name="movecategory" value="'. $I18N->msg("content_submitmovecategory") .'" />
+              </p>
+            </fieldset>';
+          
+          }
+          // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE 
 
 
         }
         // ------------------------------------------------------------- SONSTIGES ENDE  
 
 
-      echo "</table></form>";
+      echo '
+      </form>
+	  </div>';
     
       // ------------------------------------------ END: META VIEW
 
     }
 
-      echo "</td>";
-      echo "<td class=lgrey>&nbsp;</td>";
-      echo "</tr></table>";
+    echo '
+    </div>
+    <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
+    ';
+    
     // ------------------------------------------ END: AUSGABE
 
   }

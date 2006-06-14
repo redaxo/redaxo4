@@ -14,46 +14,55 @@
  *
  */
 
-$echo = ''; // Variable definiert
 
-// --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
+// --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
 if (isset ($edit_id) and $edit_id != '')
 {
   $thisCat = new sql;
-  $thisCat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id = '".$edit_id."' and clang = '".$clang."'");
+  $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id ='.$edit_id.' and clang ='.$clang);
+  
   if ($thisCat->getRows() != 1)
-    unset ($edit_id);
+  {
+    unset ($edit_id, $thisCat);
+  }
 }
 else
 {
   unset ($edit_id);
 }
 
+// --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
 if (isset ($article_id) and $article_id != '')
 {
   $thisArt = new sql;
-  $thisArt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='".$article_id."' and clang=$clang");
+  $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
+  
   if ($thisArt->getRows() != 1)
-    unset ($article_id);
+  {
+    unset ($article_id, $thisArt);
+  }
 }
 else
 {
   unset ($article_id);
 }
 
+if(!isset($function)) $function = '';
+if(!isset($category_id)) $category_id = 0;
+
 // --------------------------------------------- KATEGORIE PFAD UND RECHTE WERDEN ÜBERPRÜFT
 
-include $REX['INCLUDE_PATH']."/functions/function_rex_category.inc.php";
+include $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
 
 // --------------------------------------------- TITLE
 
-rex_title($I18N->msg("title_structure"), "$KATout");
+rex_title($I18N->msg('title_structure'), $KATout);
 
-$sprachen_add = "&category_id=$category_id";
-include $REX['INCLUDE_PATH']."/functions/function_rex_languages.inc.php";
+$sprachen_add = '&amp;category_id='. $category_id;
+include $REX['INCLUDE_PATH'].'/functions/function_rex_languages.inc.php';
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
-if (isset ($catedit_function) and $catedit_function != "" && $edit_id != "" && $KATPERM)
+if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
 {
   // --------------------- KATEGORIE EDIT
 
@@ -95,7 +104,7 @@ if (isset ($catedit_function) and $catedit_function != "" && $edit_id != "" && $
   // ----- PRIOR
   rex_newCatPrio($re_id, $clang, $new_prio, $old_prio);
 
-  $message = $I18N->msg("category_status_updated");
+  $message = $I18N->msg("category_updated");
 
   rex_generateArticle($edit_id);
 
@@ -111,9 +120,10 @@ if (isset ($catedit_function) and $catedit_function != "" && $edit_id != "" && $
   )));
 
 }
-elseif (isset ($catdelete_function) and $catdelete_function != "" && $edit_id != "" && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm("editContentOnly[]"))
 {
   // --------------------- KATEGORIE DELETE
+  
   $KAT = new sql;
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=1");
   if ($KAT->getRows() == 0)
@@ -154,10 +164,11 @@ elseif (isset ($catdelete_function) and $catdelete_function != "" && $edit_id !=
   }
 
 }
-elseif (isset ($function) and $function == "status" && $edit_id != "" 
-       && ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishArticle[]")))
+elseif ($function == "status" && $edit_id != "" 
+       && ($REX_USER->hasPerm("admin[]") || $KATPERM && $REX_USER->hasPerm("publishArticle[]")))
 {
   // --------------------- KATEGORIE STATUS
+  
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
   if ($KAT->getRows() == 1)
   {
@@ -191,9 +202,10 @@ elseif (isset ($function) and $function == "status" && $edit_id != ""
   }
 
 }
-elseif (isset ($function) and $function == "add_category" && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContentOnly[]"))
 {
   // --------------------- KATEGORIE ADD
+  
   $message = $I18N->msg("category_added_and_startarticle_created");
   $template_id = 0;
   unset ($TMP);
@@ -270,8 +282,8 @@ elseif (isset ($function) and $function == "add_category" && $KATPERM && !$REX_U
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if (isset ($function) && $function == "status_article" && $article_id != "" 
-    && ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishArticle[]")))
+if ($function == "status_article" && $article_id != "" 
+    && ($REX_USER->hasPerm("admin[]") || $KATPERM && $REX_USER->hasPerm("publishArticle[]")))
 {
   // --------------------- ARTICLE STATUS
   $GA = new sql;
@@ -308,107 +320,105 @@ if (isset ($function) && $function == "status_article" && $article_id != ""
   }
 
 }
-else
-  if (isset ($function) and $function == "add_article" && $KATPERM)
-  {
-    // --------------------- ARTIKEL ADD
-    $Position_New_Article = (int) $Position_New_Article;
-    if ($Position_New_Article == 0)
-      $Position_New_Article = 1;
-      
-    // ------- Kategorienamen holen
-    $sql = new sql();
-    $sql->setQuery('SELECT catname FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' and startpage=1 and clang='. $clang);
+elseif (!empty($artadd_function) && $category_id != '' && $KATPERM)
+{
+  // --------------------- ARTIKEL ADD
+  $Position_New_Article = (int) $Position_New_Article;
+  if ($Position_New_Article == 0)
+    $Position_New_Article = 1;
     
-    $category_name = '';
-    if($sql->getRows() == 1)
-    {
-      $category_name = $sql->getValue('catname');
-    }
-
-    $amessage = $I18N->msg("article_added");
-
-    unset ($id);
-    reset($REX['CLANG']);
-    while (list ($key, $val) = each($REX['CLANG']))
-    {
-
-      // ### erstelle neue prioliste wenn noetig
-
-      $AART = new sql;
-      // $AART->debugsql = 1;
-      $AART->setTable($REX['TABLE_PREFIX']."article");
-      if (!isset ($id) or !$id)
-        $id = $AART->setNewId("id");
-      else
-        $AART->setValue("id", $id);
-      $AART->setValue("name", $article_name);
-      $AART->setValue("catname", $category_name);
-      $AART->setValue("clang", $key);
-      $AART->setValue("re_id", $category_id);
-      $AART->setValue("prior", $Position_New_Article);
-      $AART->setValue("path", $KATPATH);
-      $AART->setValue("startpage", 0);
-      $AART->setValue("status", 0);
-      $AART->setValue("online_from", time());
-      $AART->setValue("online_to", mktime(0, 0, 0, 1, 1, 2010));
-      $AART->setValue("createdate", time());
-      $AART->setValue("createuser", $REX_USER->getValue("login"));
-      $AART->setValue("updatedate", time());
-      $AART->setValue("updateuser", $REX_USER->getValue("login"));
-      $AART->setValue("template_id", $template_id);
-      $AART->insert();
-
-      // ----- PRIOR
-      rex_newArtPrio($category_id, $key, 0, $Position_New_Article);
-    }
-
-    rex_generateArticle($id);
-
-    // ----- EXTENSION POINT
-    $amessage = rex_register_extension_point('ART_ADDED', $amessage, array (
-      "id" => $id,
-      "status" => 0,
-      "name" => $article_name,
-      "re_id" => $category_id,
-      "prior" => $Position_New_Article,
-      "path" => $KATPATH,
-      "template_id" => $template_id
-    ));
-
+  // ------- Kategorienamen holen
+  $sql = new sql();
+  $sql->setQuery('SELECT catname FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' and startpage=1 and clang='. $clang);
+  
+  $category_name = '';
+  if($sql->getRows() == 1)
+  {
+    $category_name = $sql->getValue('catname');
   }
-  else
-    if (isset ($function) and $function == "edit_article" && $article_id != "" && $KATPERM)
-    {
-      // --------------------- ARTIKEL EDIT
-      $Position_Article = (int) $Position_Article;
-      if ($Position_Article == 0)
-        $Position_Article = 1;
 
-      $amessage = $I18N->msg("article_updated");
-      $EA = new sql;
-      $EA->setTable($REX['TABLE_PREFIX']."article");
-      $EA->where("id='$article_id' and clang=$clang");
-      $EA->setValue("name", $article_name);
-      $EA->setValue("template_id", $template_id);
-      // $EA->setValue("path",$KATPATH);
-      $EA->setValue("updatedate", time());
-      $EA->setValue("updateuser", $REX_USER->getValue("login"));
-      $EA->setValue("prior", $Position_Article);
-      $EA->update();
+  $amessage = $I18N->msg("article_added");
 
-      // ----- PRIOR
-      rex_newArtPrio($category_id, $clang, $Position_Article, $thisArt->getValue("prior"));
-      rex_generateArticle($article_id);
+  unset ($id);
+  reset($REX['CLANG']);
+  while (list ($key, $val) = each($REX['CLANG']))
+  {
 
-      // ----- EXTENSION POINT
-      $amessage = rex_register_extension_point('ART_UPDATED', $amessage, array (
-        "id" => $article_id,
-        "status" => $thisArt->getValue("status"
-      ), "name" => $article_name, "re_id" => $category_id, "prior" => $Position_Article, "path" => $KATPATH, "template_id" => $template_id));
+    // ### erstelle neue prioliste wenn noetig
 
-    }
-elseif (isset ($function) and $function == "delete_article" && $article_id != "" && $KATPERM)
+    $AART = new sql;
+    // $AART->debugsql = 1;
+    $AART->setTable($REX['TABLE_PREFIX']."article");
+    if (!isset ($id) or !$id)
+      $id = $AART->setNewId("id");
+    else
+      $AART->setValue("id", $id);
+    $AART->setValue("name", $article_name);
+    $AART->setValue("catname", $category_name);
+    $AART->setValue("clang", $key);
+    $AART->setValue("re_id", $category_id);
+    $AART->setValue("prior", $Position_New_Article);
+    $AART->setValue("path", $KATPATH);
+    $AART->setValue("startpage", 0);
+    $AART->setValue("status", 0);
+    $AART->setValue("online_from", time());
+    $AART->setValue("online_to", mktime(0, 0, 0, 1, 1, 2010));
+    $AART->setValue("createdate", time());
+    $AART->setValue("createuser", $REX_USER->getValue("login"));
+    $AART->setValue("updatedate", time());
+    $AART->setValue("updateuser", $REX_USER->getValue("login"));
+    $AART->setValue("template_id", $template_id);
+    $AART->insert();
+
+    // ----- PRIOR
+    rex_newArtPrio($category_id, $key, 0, $Position_New_Article);
+  }
+
+  rex_generateArticle($id);
+
+  // ----- EXTENSION POINT
+  $amessage = rex_register_extension_point('ART_ADDED', $amessage, array (
+    "id" => $id,
+    "status" => 0,
+    "name" => $article_name,
+    "re_id" => $category_id,
+    "prior" => $Position_New_Article,
+    "path" => $KATPATH,
+    "template_id" => $template_id
+  ));
+
+}
+elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
+{
+  // --------------------- ARTIKEL EDIT
+  $Position_Article = (int) $Position_Article;
+  if ($Position_Article == 0)
+    $Position_Article = 1;
+
+  $amessage = $I18N->msg("article_updated");
+  $EA = new sql;
+  $EA->setTable($REX['TABLE_PREFIX']."article");
+  $EA->where("id='$article_id' and clang=$clang");
+  $EA->setValue("name", $article_name);
+  $EA->setValue("template_id", $template_id);
+  // $EA->setValue("path",$KATPATH);
+  $EA->setValue("updatedate", time());
+  $EA->setValue("updateuser", $REX_USER->getValue("login"));
+  $EA->setValue("prior", $Position_Article);
+  $EA->update();
+
+  // ----- PRIOR
+  rex_newArtPrio($category_id, $clang, $Position_Article, $thisArt->getValue("prior"));
+  rex_generateArticle($article_id);
+
+  // ----- EXTENSION POINT
+  $amessage = rex_register_extension_point('ART_UPDATED', $amessage, array (
+    "id" => $article_id,
+    "status" => $thisArt->getValue("status"
+  ), "name" => $article_name, "re_id" => $category_id, "prior" => $Position_Article, "path" => $KATPATH, "template_id" => $template_id));
+
+}
+elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM)
 {
   // --------------------- ARTIKEL DELETE
 
@@ -435,153 +445,237 @@ elseif (isset ($function) and $function == "delete_article" && $article_id != ""
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if ($KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
-  $addc = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" border="0" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'"></a>';
-else
-  $addc = "&nbsp;";
-
-echo "<table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
-    <tr>
-      <th class=icon>$addc</th>";
-if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-  echo "<th width=30>ID</th>";
-echo "    <th>".$I18N->msg("header_category")."</th>
-      <th width=50>".$I18N->msg("header_priority")."</th>
-      <th width=300>".$I18N->msg("header_edit_category")."</th>
-      <th width=153>".$I18N->msg("header_status")."</th>
-    </tr>";
-
 if (isset ($message) and $message != "")
-  echo "<tr class=warning><td align=center ><img src=pics/warning.gif width=16 height=16></td><td colspan=5><b>$message</b></td></tr>";
-if (isset ($category_id) and $category_id != 0)
-  echo "<tr><td>&nbsp;</td><td colspan=5>..</td></tr>";
-
-if (isset ($function) and $function == "add_cat" && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+  echo '<p class="rex-warning">'. $message .'</p>';
+  
+$cat_name = 'Homepage';
+if($category_id != '')
 {
-  // --------------------- KATEGORIE ADD FORM
-  $echo .= "
-      <tr>
-        <form action=index.php name=cat_add_form><input type=hidden name=page value=structure>
-        <input type=hidden name=category_id value=$category_id>
-        <input type=hidden name=function value='add_category'>
-        <input type=hidden name=clang value='$clang'>
-        <td class=icon><img src=pics/folder.gif width=16 height=16></td>";
-  if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-    $echo .= "<td class=dgrey align=center>-</td>";
-  $echo .= "
-        <td><input type=text size=30 name=category_name></td>
-        <td>&nbsp;<input type=text name=Position_New_Category value=\"100\" style='width:30px'></td>
-        <td><input type=submit value='".$I18N->msg("add_category")."'></td>
-        <td>&nbsp;</td>
-        </form>
-        <script type='text/javascript'> 
-           <!-- 
-           document.cat_add_form.category_name.focus(); 
-           //--> 
-        </script>
-      </tr>";
+  $sql = new sql();
+//  $sql->debugsql = true;
+  $sql->setQuery('SELECT catname FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
+  
+  if($sql->getRows() == 1)
+  {
+    $cat_name = $sql->getValue('catname');
+  }
+}
+  
+$add_category = '';
+if ($KATPERM && !$REX_USER->hasPerm("editContentOnly[]"))
+{
+  $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'" /></a>';
+}
+
+$add_header = '';
+$add_col = '';
+$data_colspan = 4;
+if ($REX_USER->hasPerm('advancedMode[]'))
+{
+  $add_header = '<th>'.$I18N->msg('header_id').'</th>';
+  $add_col = '<col width="5%" />';
+  $data_colspan = 5;
+}
+
+echo '
+<!-- *** OUTPUT CATEGORIES - START *** -->';
+
+if($function == 'add_cat' || $function == 'edit_cat')
+{
+  echo '
+  <form action="index.php" method="post">
+    <fieldset>
+      <legend><span class="rex-hide">'.$I18N->msg('add_category') .'</span></legend>
+      <input type="hidden" name="page" value="structure" />
+      <input type="hidden" name="edit_id" value="'. $edit_id .'" />
+      <input type="hidden" name="category_id" value="'. $category_id .'" />
+      <input type="hidden" name="clang" value="'. $clang .'" />';
+}
+
+echo '
+      <table class="rex-table" summary="'. $I18N->msg('structure_categories_summary', $cat_name) .'">
+        <caption>'.$I18N->msg('structure_categories_caption', $cat_name).'</caption>
+        <colgroup>
+          <col width="5%" />
+          '. $add_col .'
+          <col width="*" />
+          <col width="7%" />
+          <col width="40%" />
+          <col width="20%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>'. $add_category .'</th>
+            '. $add_header .'
+            <th>'.$I18N->msg('header_category').'</th>
+            <th>'.$I18N->msg('header_priority').'</th>
+            <th>'.$I18N->msg('header_edit_category').'</th>
+            <th>'.$I18N->msg('header_status').'</th>
+          </tr>
+        </thead>
+        <tbody>';
+
+if ($category_id != 0)
+{
+  echo '<tr>
+          <td></td>
+          <td colspan="'. $data_colspan .'">..</td>
+        </tr>';
+}
+
+// --------------------- KATEGORIE ADD FORM
+
+if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+{
+  $add_td = '';
+  if ($REX_USER->hasPerm('advancedMode[]'))
+  {
+    $add_td = '<td>-</td>';
+  }
+  echo '
+        <tr class="rex-trow-actv">
+          <td><img src="pics/folder.gif" width="16px" height="16px" title="'. $I18N->msg('add_category') .'" alt="'. $I18N->msg('add_category') .'" /></td>
+          '. $add_td .'
+          <td><input type="text" id="category_name" name="category_name" /></td>
+          <td><input type="text" id="Position_New_Category" name="Position_New_Category" value="100" /></td>
+          <td colspan="2"><input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'" /></td>
+        </tr>';
 }
 
 // --------------------- KATEGORIE LIST
 
 $KAT = new sql;
-$KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$category_id' and startpage=1 and clang=$clang order by catprior");
-$cat_pos = 0; // Variable definiert und vorbelegt
+//$KAT->debugsql = true;
+$KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 
 for ($i = 0; $i < $KAT->getRows(); $i++)
 {
-  $i_category_id = $KAT->getValue("id");
-  if ($KAT->getValue("status") == 0)
-  {
-    $status_color = "#aa0000";
-    $kat_status = $I18N->msg("status_offline");
-  }
-  else
-  {
-    $status_color = "#00aa00";
-    $kat_status = $I18N->msg("status_online");
-  }
-  $kat_status = "<font color=$status_color>$kat_status</font>";
-
+  $i_category_id = $KAT->getValue('id');
+  $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
+  $kat_icon_td = '<td><a href='. $kat_link .'><img src="pics/folder.gif" width="16" height="16" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
+    
   if ($KATPERM)
   {
-    if ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishCategory[]"))
+    if ($KAT->getValue('status') == 0)
     {
-      $kat_status = "<a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=status&amp;clang=$clang><u>$kat_status</u></a>";
+      $status_class = 'rex-offline';
+      $kat_status = $I18N->msg('status_offline');
     }
     else
     {
-      $kat_status = "$kat_status";
+      $status_class = 'rex-online';
+      $kat_status = $I18N->msg('status_online');
     }
-      
 
-    $kat_link = "index.php?page=structure&amp;category_id=$i_category_id&amp;clang=$clang";
-    $cat_pos++;
+    if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishCategory[]'))
+    {
+      $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
+    }
 
-    if (isset ($edit_id) and $edit_id == $i_category_id and isset ($function) and $function == "edit")
+    if (isset ($edit_id) and $edit_id == $i_category_id and $function == 'edit_cat')
     {
       // --------------------- KATEGORIE EDIT FORM
-      $echo .= "<tr>
-              <form action=index.php name=cat_edit_form><input type=hidden name=page value=structure><input type=hidden name=edit_id value=$edit_id><input type=hidden name=category_id value=$category_id><input type=hidden name=cid value=".$KAT->getValue("id")."><input type=hidden name=clang value=$clang>
-              <td class=icon><a href=$kat_link><img src=pics/folder.gif width=16 height=16 border=0></a></td>";
-      if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-        $echo .= "<td class=grey align=center>$i_category_id</td>";
-      $echo .= "
-              <td><input type=text size=30 name=kat_name value=\"".htmlspecialchars($KAT->getValue("catname"))."\"></td>
-              <td><input type=text name=Position_Category value=\"".htmlspecialchars($KAT->getValue("catprior"))."\" style='width:30px'></td>
-              <td><input type=submit name=catedit_function value='".$I18N->msg('edit_category')."'>";
-      if (!$REX_USER->isValueOf("rights", "editContentOnly[]"))
-        $echo .= "<input type=submit name=catdelete_function value='".$I18N->msg('delete_category')."' onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>";
-      $echo .= "</td>
-              <td>$kat_status</td></form>
-              <script type='text/javascript'> 
-                 <!-- 
-                 document.cat_edit_form.kat_name.focus(); 
-                 //--> 
-              </script>
-              </tr>";
+      
+      $add_td = '';
+      if ($REX_USER->hasPerm("advancedMode[]"))
+      {
+        $add_td = '<td>'. $i_category_id .'</td>';
+      }
+      
+      $add_buttons = '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
+      if (!$REX_USER->hasPerm("editContentOnly[]"))
+      {
+        $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
+      }
+      
+      echo '
+        <tr class="rex-trow-actv">
+          '. $kat_icon_td .'
+          '. $add_td .'
+          <td><input type="text" id="kat_name" name="kat_name" value="'. htmlspecialchars($KAT->getValue("catname")). '" /></td>
+          <td><input type="text" id="Position_Category" name="Position_Category" value="'. htmlspecialchars($KAT->getValue("catprior")) .'" /></td>
+          <td>'. $add_buttons .'</td>
+          <td>'. $kat_status .'</td>
+        </tr>';
     }
     else
     {
       // --------------------- KATEGORIE WITH WRITE
-      $echo .= "<tr>
-                <td class=icon><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
-      if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-        $echo .= "<td class=grey align=center>$i_category_id</td>";
-      $echo .= "
-                <td><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td>
-                <td valign=middle width=20>".htmlspecialchars($KAT->getValue("catprior"))."</td>
-                <td><a href=index.php?page=structure&amp;category_id=$category_id&amp;edit_id=$i_category_id&amp;function=edit&amp;clang=$clang>";
-      if ($REX_USER->isValueOf("rights", "editContentOnly[]")) $echo .= $I18N->msg('edit_category');
-      else $echo .= $I18N->msg("category_edit_delete");
-      $echo .= "&nbsp;</a></td>
-                <td>$kat_status</td>
-                </tr>";
+      
+      $add_td = '';
+      if ($REX_USER->hasPerm("advancedMode[]"))
+      {
+        $add_td = '<td>'. $i_category_id .'</td>';
+      }
+
+      $add_text = $I18N->msg("category_edit_delete");
+      if ($REX_USER->hasPerm("editContentOnly[]")) 
+      {
+        $add_text = $I18N->msg('edit_category');
+      }
+
+      echo '
+        <tr>
+          '. $kat_icon_td .'
+          '. $add_td .'
+          <td><a href="'. $kat_link .'">'. $KAT->getValue("catname") .'</a></td>
+          <td>'. htmlspecialchars($KAT->getValue("catprior")) .'</td>
+          <td><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=edit_cat&amp;clang='. $clang .'">'. $add_text .'</a></td>
+          <td>'. $kat_status .'</td>
+        </tr>';
     }
 
   }
-  else
-    if ($REX_USER->isValueOf("rights", "csr[$i_category_id]") || $REX_USER->isValueOf("rights", "csw[$i_category_id]"))
-    {
+  elseif ($REX_USER->hasPerm("csr[$i_category_id]") || $REX_USER->hasPerm("csw[$i_category_id]"))
+  {
       // --------------------- KATEGORIE WITH READ
-      $kat_link = "index.php?page=structure&amp;category_id=$i_category_id&amp;clang=$clang";
-      $echo .= "<tr>
-            <td class=icon><a href=$kat_link><img src=pics/folder.gif border=0 width=16 height=16 align=middle></a></td>";
-      if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-        $echo .= "<td class=grey align=center>$i_category_id</td>";
-      $echo .= "
-            <td><a href=$kat_link>".$KAT->getValue("catname")."&nbsp;</a></td>
-            <td valign=middle width=20>".htmlspecialchars($KAT->getValue("catprior"))."</td>
-            <td>".$I18N->msg("no_permission_to_edit")."</td><td class=grey>$kat_status</td>
-            </tr>";
-    }
+      $add_td = '';
+      if ($REX_USER->hasPerm("advancedMode[]"))
+      {
+        $add_td = '<td>'. $i_category_id .'</td>';
+      }
+      
+      echo '
+        <tr>
+          '. $kat_icon_td .'
+          '. $add_td .'
+          <td><a href="'. $kat_link .'">'.$KAT->getValue("catname").'</a></td>
+          <td>'.htmlspecialchars($KAT->getValue("catprior")).'</td>
+          <td>'.$I18N->msg("no_permission_to_edit").'</td>
+          <td>'. $kat_status .'</td>
+        </tr>';
+  }
 
   $KAT->next();
 }
-echo $echo;
-echo "</table>";
+
+echo '
+      </tbody>
+    </table>';
+
+if($function == 'add_cat' || $function == 'edit_cat')
+{
+  $fieldId = $function == 'add_cat' ? 'category_name' :  'kat_name';
+  echo '
+    <script type="text/javascript"> 
+       <!-- 
+       var needle = new getObj("'. $fieldId .'");
+       needle.obj.focus();
+       //--> 
+    </script>
+  </fieldset>
+</form>';
+}
+
+echo '
+<!-- *** OUTPUT CATEGORIES - END *** -->
+';
+
 
 // --------------------------------------------- ARTIKEL LISTE
+
+echo '
+<!-- *** OUTPUT ARTICLES - START *** -->';
 
 // --------------------- READ TEMPLATES
 
@@ -591,8 +685,8 @@ if ($category_id > -1)
   $TEMPLATES->setQuery("select * from ".$REX['TABLE_PREFIX']."template order by name");
   $TMPL_SEL = new select;
   $TMPL_SEL->set_name("template_id");
+  $TMPL_SEL->set_id("template_id");
   $TMPL_SEL->set_size(1);
-  $TMPL_SEL->set_style("width:150");
   $TMPL_SEL->add_option($I18N->msg("option_no_template"), "0");
 
   for ($i = 0; $i < $TEMPLATES->getRows(); $i++)
@@ -608,207 +702,259 @@ if ($category_id > -1)
 
   // --------------------- ARTIKEL LIST
 
-  echo "  <br><table class=rex style=table-layout:auto; cellpadding=5 cellspacing=1>
-      <tr>
-        <th class=icon>";
-  if ($KATPERM)
-    echo "<a href=index.php?page=structure&category_id=$category_id&function=add_art&clang=$clang><img src=pics/document_plus.gif width=16 height=16 border=0 alt=\"".$I18N->msg("article_add")."\" title=\"".$I18N->msg("article_add")."\"></a>";
-  else
-    echo "&nbsp;";
-  echo "</th>";
-  if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-    echo "<th>ID</th>";
-  echo "
-        <th>".$I18N->msg("header_article_name")."</th>
-        <th width=50>".$I18N->msg("header_priority")."</th>
-        <th width=150>".$I18N->msg("header_template")."</th>
-        <th width=100>".$I18N->msg("header_date")."</th>
-        <th>&nbsp;</th>
-        <th colspan=3>".$I18N->msg("header_status")."</th>
-      </tr>";
-
   if (isset ($amessage) and $amessage != "")
   {
-    echo '<tr class="warning"><td align="center"><img src="pics/warning.gif" width="16" height="16"></td><td colspan="9"><b>'.$amessage.'</b></td></tr>';
+    echo '<p class="rex-warning">'. $amessage .'</p>';
   }
+  
+  $art_add_link = '';
+  if ($KATPERM)
+  {
+    $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"><img src="pics/document_plus.gif" width="16" height="16" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
+  }
+    
+  $add_head = '';
+  $add_col  = '';
+  if ($REX_USER->hasPerm('advancedMode[]'))
+  {
+    $add_head = '<th>'. $I18N->msg('header_id') .'</th>';
+    $add_col  = '<col width="5%" />';
+  }
+  
+  if($function == 'add_art' || $function == 'edit_art')
+  {
+    echo '
+    <form action="index.php" method="post">
+      <fieldset>
+        <legend><span class="rex-hide">'.$I18N->msg('article_add') .'</span></legend>
+        <input type="hidden" name="page" value="structure" />
+        <input type="hidden" name="category_id" value="'. $category_id .'" />
+        <input type="hidden" name="article_id" value="'. $article_id .'" />
+        <input type="hidden" name="clang" value="'. $clang .'" />';
+  }
+  
+  echo '  
+      <table class="rex-table" summary="'. $I18N->msg('structure_articles_summary', $cat_name) .'">
+        <caption>'.$I18N->msg('structure_articles_caption', $cat_name).'</caption>
+        <colgroup>
+          <col width="5%" />
+          '. $add_col .'
+          <col width="*" />
+          <col width="7%" />
+          <col width="40%" />
+          <col width="20%" />
+          <col width="10%" span="3"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>'. $art_add_link .'</th>
+            '. $add_head .'
+            <th>'.$I18N->msg('header_article_name').'</th>
+            <th>'.$I18N->msg('header_priority').'</th>
+            <th>'.$I18N->msg('header_template').'</th>
+            <th>'.$I18N->msg('header_date').'</th>
+            <th>'.$I18N->msg('header_article_type').'</th>
+            <th colspan="3">'.$I18N->msg('header_status').'</th>
+          </tr>
+        </thead>
+        <tbody>
+        ';
+
 
   // --------------------- ARTIKEL ADD FORM
 
-  if (isset ($function) and $function == "add_art" && $KATPERM)
+  if ($function == 'add_art' && $KATPERM)
   {
-    if (!isset ($template_id) or $template_id == '')
+    if (empty($template_id))
     {
       $sql = new sql;
       // $sql->debugsql = true;
-      $sql->setQuery("SELECT template_id FROM ".$REX['TABLE_PREFIX']."article WHERE id=$category_id and clang=$clang and startpage=1");
+      $sql->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
       if ($sql->getRows() == 1)
       {
-        $TMPL_SEL->set_selected($sql->getValue("template_id"));
+        $TMPL_SEL->set_selected($sql->getValue('template_id'));
       }
     }
-    echo "<tr>
-            <form action=index.php method=post name=art_add_form>
-            <input type=hidden name=page value=structure>
-            <input type=hidden name=category_id value=$category_id>
-            <input type=hidden name=clang value=$clang>
-            <input type=hidden name=function value='add_article'>
-            <td class=icon><img src=pics/document.gif width=16 height=16 border=0></td>";
-    if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-      echo "<td class=grey align=center>-</td>";
-    echo "        
-            <td><input type=text name=article_name size=20></td>
-            <td>&nbsp;<input type=text name=Position_New_Article value=\"100\" style='width:30px'></td>
-            <td>".$TMPL_SEL->out()."</td>
-            <td>".strftime($I18N->msg("adateformat"))."&nbsp;</td>
-            <td><b>".$I18N->msg("article")."</b></td>
-            <td colspan=3><input type=submit value='add_article'></td>
-            </form>
-            <script type='text/javascript'> 
-               <!-- 
-               document.art_add_form.article_name.focus(); 
-               //--> 
-            </script>
-            </tr>";
+    
+    $add_td = '';
+    if ($REX_USER->hasPerm('advancedMode[]'))
+    {
+      $add_td = '<td>-</td>';
+    }
+    
+    echo '<tr>
+            <td><img src="pics/document.gif" width="16" height="16" alt="'.$I18N->msg('article_add') .'" title="'.$I18N->msg('article_add') .'" /></td>
+            '. $add_td .'
+            <td><input type="text" id="article_name" name="article_name" /></td>
+            <td><input type="text" id="Position_New_Article" name="Position_New_Article" value="100" /></td>
+            <td>'. $TMPL_SEL->out() .'</td>
+            <td>'. strftime($I18N->msg("adateformat")) .'</td>
+            <td>'. $I18N->msg("article") .'</td>
+            <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'" /></td>
+          </tr>';
   }
 
   // --------------------- ARTIKEL LIST
 
   $sql = new sql;
-  $sql->setQuery("SELECT * 
+//  $sql->debugsql = true;
+  $sql->setQuery('SELECT * 
         FROM 
-          ".$REX['TABLE_PREFIX']."article 
+          '.$REX['TABLE_PREFIX'].'article 
         WHERE 
-          ((re_id='$category_id' and startpage=0) or (id='$category_id' and startpage=1)) 
-          and clang=$clang  
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1)) 
+          AND clang='. $clang .'  
         ORDER BY 
-          prior, name");
+          prior, name');
 
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
 
-    if ($sql->getValue("startpage") == 1)
+    if ($sql->getValue('startpage') == 1)
     {
-      $startpage = $I18N->msg("start_article");
-      $icon = "liste.gif";
+      $startpage = $I18N->msg('start_article');
+      $icon = 'liste.gif';
     }
     else
     {
-      $startpage = $I18N->msg("article");
-      $icon = "document.gif";
+      $startpage = $I18N->msg('article');
+      $icon = 'document.gif';
     }
-
-    //    $pos++; // wird das noch gebraucht?
 
     // --------------------- ARTIKEL EDIT FORM
 
-    if (isset ($function) and $function == "edit" && isset ($article_id) && $sql->getValue("id") == $article_id && $KATPERM)
+    if ($function == 'edit_art' && isset ($article_id) && $sql->getValue('id') == $article_id && $KATPERM)
     {
-
-      $TMPL_SEL->set_selected($sql->getValue("template_id"));
-
-      echo "  <tr>
-              <form action=index.php method=post name=art_edit_form>
-              <input type=hidden name=page value=structure>
-              <input type=hidden name=category_id value=$category_id>
-              <input type=hidden name=article_id value=".$sql->getValue("id").">
-              <input type=hidden name=function value='edit_article'>
-              <input type=hidden name=aid value=".$sql->getValue("id").">
-              <input type=hidden name=clang value=$clang>
-              <td class=icon><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>";
-      if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-        echo "<td class=grey>".$sql->getValue("id")."</td>";
-      echo "
-              <td><input type=text name=article_name value=\"".htmlspecialchars($sql->getValue("name"))."\" size=20 style='width:100%'></td>
-              <td>&nbsp;<input type=text name=Position_Article value=\"".htmlspecialchars($sql->getValue("prior"))."\" style='width:30px'></td>
-              <td>".$TMPL_SEL->out()."</td>
-              <td>".strftime($I18N->msg("adateformat"), $sql->getValue("createdate"))."&nbsp;</td>
-              <td><b>$startpage</b></td>
-              <td colspan=3><input type=submit value='".$I18N->msg("edit")."'></td>
-              </form>
-              <script type='text/javascript'> 
-                 <!-- 
-                 document.art_edit_form.article_name.focus(); 
-                 //--> 
-              </script>
-              </tr>";
-
-      // --------------------- ARTIKEL PERMISSION TO ENTER
+      $add_td = '';
+      if ($REX_USER->hasPerm("advancedMode[]"))
+      {
+        $add_td = '<td>'. $sql->getValue("id") .'</td>';
+      }
+      
+      $TMPL_SEL->set_selected($sql->getValue('template_id'));
+      
+      echo '<tr>
+              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
+              '. $add_td .'
+              <td><input type="text" id="article_name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
+              <td><input type="text" id="Position_Article" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
+              <td>'. $TMPL_SEL->out() .'</td>
+              <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')) .'</td>
+              <td>'. $startpage .'</td>
+              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('edit_article') .'" /></td>
+            </tr>';
 
     }
     elseif ($KATPERM)
     {
-
       // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
-
-      echo "  <tr>
-              <td class=icon><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang><img src=pics/$icon width=16 height=16 border=0></a></td>";
-      if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-        echo "<td class=grey align=center>".$sql->getValue("id")."</td>";
-      echo "
-              <td><a href=index.php?page=content&article_id=".$sql->getValue("id")."&category_id=$category_id&mode=edit&clang=$clang>".$sql->getValue("name")."&nbsp;</a></td>
-              <td class=grey align=center width=10 valign=middle>".htmlspecialchars($sql->getValue("prior"))."</td>
-              <td>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-              <td>".strftime($I18N->msg("adateformat"), $sql->getValue("createdate"))."&nbsp;</td>
-              <td><b>$startpage</b></td>
-              <td><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=edit&category_id=$category_id&clang=$clang>".$I18N->msg("change")."</a></td>";
-
-      if ($sql->getValue("startpage") == 1)
+      
+      $add_td = '';
+      if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        echo "  <td><strike>".$I18N->msg("delete")."</strike></td>
-                    <td><strike>online</strike></td>";
+        $add_td = '<td>'. $sql->getValue('id') .'</td>';
+      }
+  
+      $add_extra = '';
+      if ($sql->getValue('startpage') == 1)
+      {
+        $add_extra = '<td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
+                      <td class="rex-online"><span class="rex-strike">online</span></td>';
       }
       else
       {
-        if ($sql->getValue("status") == 0)
+        $article_class = '';
+        if ($sql->getValue('status') == 0)
         {
-          $article_status = "<font color=#aa0000>".$I18N->msg("status_offline")."</font>";
+          $article_status = $I18N->msg('status_offline');
+          $article_class = 'rex-offline';
         }
-        elseif ($sql->getValue("status") == 1)
+        elseif ($sql->getValue('status') == 1)
         {
-          $article_status = "<font color=#00aa00>".$I18N->msg("status_online")."</font>";
-        }
-        
-        if ($REX_USER->isValueOf("rights", "admin[]") || $KATPERM && $REX_USER->isValueOf("rights", "publishArticle[]"))
-        {
-            $article_status = "<a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=status_article&category_id=$category_id&clang=$clang><u>$article_status</u></a>";
+          $article_status = $I18N->msg('status_online');
+          $article_class = 'rex-online';
         }
         
-        echo "  <td><a href=index.php?page=structure&article_id=".$sql->getValue("id")."&function=delete_article&category_id=$category_id&clang=$clang onclick='return confirm(\"".$I18N->msg('delete')." ?\")'>".$I18N->msg("delete")."</a></td><td class=grey>$article_status</td>";
+        if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]'))
+        {
+            $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="'. $article_class .'">'. $article_status .'</a>';
+        }
+        
+        $add_extra = '<td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a></td>
+                      <td>'. $article_status .'</td>';
       }
-      echo "</tr>";
+
+      echo '<tr>
+              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></a></td>
+              '. $add_td .'
+              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. $sql->getValue('name'). '</a></td>
+              <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
+              <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')] .'</td>
+              <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')) .'</td>
+              <td>'. $startpage .'</td>
+              <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
+              '. $add_extra .'
+            </tr>';
 
     }
     else
     {
-
       // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
-      echo "  <tr>
-              <td class=icon><img src=pics/$icon width=16 height=16 border=0></td>";
-      if ($REX_USER->isValueOf("rights", "advancedMode[]"))
-        echo "<td>".$sql->getValue("id")."</td>";
-      echo "
-              <td>".htmlspecialchars($sql->getValue("name"))."</td>
-              <td>".htmlspecialchars($sql->getValue("prior"))."</td>
-              <td>".$TEMPLATE_NAME[$sql->getValue("template_id")]."</td>
-              <td>".strftime($I18N->msg("adateformat"), $sql->getValue("createdate"))."&nbsp;</td>
-              <td ><b>$startpage</b></td>
-              <td><strike>".$I18N->msg("change")."</strike></td>
-              <td><strike>".$I18N->msg("delete")."</strike></td>
-              <td><strike>";
-      if ($sql->getValue("status") == 0)
+      $add_td = '';
+      if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        echo $I18N->msg("status_offline");
+        $add_td = '<td>'. $sql->getValue('id') .'</td>';
+      }
+
+      $art_status       = '';
+      $art_status_class = '';        
+      if ($sql->getValue('status') == 0)
+      {
+        $art_status = $I18N->msg('status_offline');
+        $art_status_class = 'rex-offline';        
       }
       else
       {
-        echo $I18N->msg("status_online");
+        $art_status = $I18N->msg('status_online');
+        $art_status_class = 'rex-online';        
       }
-      echo "</strike></td>";
-      echo "</tr>";
+      echo '<tr>
+              <td><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></td>
+              '. $add_td .'
+              <td>'. htmlspecialchars($sql->getValue('name')).'</td>
+              <td>'. htmlspecialchars($sql->getValue('prior')).'</td>
+              <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')].'</td>
+              <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')).'</td>
+              <td>'. $startpage .'</td>
+              <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
+              <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>
+              <td class="'. $art_status_class .'"><span class="rex- ">'. $art_status .'</span></td>
+            </tr>';
     }
+    
     $sql->counter++;
   }
+  echo '
+        </tbody>
+      </table>';
+  
+  if($function == 'add_art' || $function == 'edit_art')
+  {
+    echo '
+      <script type="text/javascript"> 
+         <!-- 
+         var needle = new getObj("article_name");
+         needle.obj.focus();
+         //--> 
+      </script>
+    </fieldset>
+  </form>';
+  }
 }
-echo '</table>';
+
+
+echo '
+<!-- *** OUTPUT ARTICLES - END *** -->
+';
 ?>

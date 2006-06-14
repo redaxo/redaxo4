@@ -18,9 +18,8 @@ $SP = true; // SHOW PAGE ADDON LIST
 // ----------------- HELPPAGE
 if (isset ($spage) && $spage == 'help' && $addonname != '')
 {
-  echo '<table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">';
-  echo '<tr><th>'.$I18N->msg("addon_help").' '.$addonname.'</th></tr>';
-  echo '<tr><td>';
+  echo '<p class="rex-hdl">'.$I18N->msg("addon_help").' '.$addonname.'</p>
+  		<div class="rex-cnt">';
   if (!is_file($REX['INCLUDE_PATH']."/addons/$addonname/help.inc.php"))
   {
     echo $I18N->msg("addon_no_help_file");
@@ -29,9 +28,8 @@ if (isset ($spage) && $spage == 'help' && $addonname != '')
   {
     include $REX['INCLUDE_PATH']."/addons/$addonname/help.inc.php";
   }
-  echo '&nbsp;</td></tr>';
-  echo '<tr><td><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></td></tr>';
-  echo '</table>';
+  echo '</div>
+  		<p><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>';
   $SP = false;
 }
 
@@ -95,30 +93,31 @@ if ($SP)
   }
 
   if (isset ($errmsg) and $errmsg != "")
-    echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">'.$errmsg.'</td></tr></table><br />';
+    echo '<p class="rex-warning">'.$errmsg.'</p>';
 
   if (!isset ($user_id))
   {
     $user_id = '';
   }
-  echo '<form action="index.php" method="post">
-      <input type="hidden" name="page" value="user">
-      <input type="hidden" name="user_id" value="'.$user_id.'">
-  
-      <table class="rex" style="table-layout:auto;" cellpadding="5" cellspacing="1">
+  echo '
+      <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
+      <caption>'.$I18N->msg("addon_caption").'</caption>
       <colgroup>
         <col width="*"/>
-        <col width="150px"/>
-        <col width="150px"/>
-        <col width="120px"/>
-        <col width="120px"/>
+        <col width="19%" />
+        <col width="19%" />
+        <col width="15%" />
+        <col width="15%" />
       </colgroup>
-      <tr>
-        <th>'.$I18N->msg("addon_hname").'</th>
-        <th style="text-align: center;">'.$I18N->msg("addon_hinstall").'</th>
-        <th style="text-align: center;">'.$I18N->msg("addon_hactive").'</th>
-        <th colspan="2" style="text-align: center;">'.$I18N->msg("addon_hdelete").'</th>
-      </tr>';
+  	  <thead>
+        <tr>
+          <th>'.$I18N->msg("addon_hname").'</th>
+          <th>'.$I18N->msg("addon_hinstall").'</th>
+          <th>'.$I18N->msg("addon_hactive").'</th>
+          <th colspan="2">'.$I18N->msg("addon_hdelete").'</th>
+        </tr>
+  	  </thead>
+  	  <tbody>';
 
   foreach ($ADDONS as $cur)
   {
@@ -148,7 +147,8 @@ if ($SP)
       $status = $I18N->msg("addon_notinstalled");
     }
 
-    echo ' <tr>
+    echo '
+        <tr>
           <td>'.$cur.' [<a href="index.php?page=addon&amp;spage=help&amp;addonname='.$cur.'">?</a>]</td>
           <td>'.$install.'</td>
           <td>'.$status.'</td>
@@ -157,7 +157,7 @@ if ($SP)
         </tr>'."\n   ";
   }
 
-  echo '</table>';
-  echo '</form>';
+  echo '</tbody>
+  		</table>';
 }
 ?>

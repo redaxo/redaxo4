@@ -8,38 +8,67 @@
   
 // rechte einbauen
 // admin[]
-// developer[]
 // clang[xx], clang[0]
 // $REX_USER->isValueOf("rights","csw[0]")
 
 reset($REX['CLANG']);
+$num_clang = count($REX['CLANG']);
 
-
-if (count($REX['CLANG'])>1)
+if ($num_clang>1)
 {
-	echo "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=dgrey><img src=pics/leer.gif width=16 height=16 vspace=5 hspace=12></td><td class=dgrey>&nbsp;<b>Sprachen:</b> | ";
+   echo '
+<!-- *** OUTPUT OF CLANG-TOOLBAR - START *** -->
+   <div id="rex-clang">
+     <ul>
+       <li>Sprachen : </li>';
+       
 	$stop = false;
-	while( list($key,$val) = each($REX['CLANG']) )
-	{
-		if (!$REX_USER->isValueOf("rights","admin[]")
-		 && !$REX_USER->isValueOf("rights","developer[]") 
-		 && !$REX_USER->isValueOf("rights","clang[all]") 
-		 && !$REX_USER->isValueOf("rights","clang[$key]") 
-		)
+   $i = 1;
+   foreach($REX['CLANG'] as $key => $val)
+   {
+      echo '<li>';
+		if (!$REX_USER->hasPerm("admin[]") && !$REX_USER->hasPerm("clang[all]") && !$REX_USER->hasPerm("clang[". $key ."]"))
 		{
-			echo "<strike>$val</strike> | ";
-			if ($clang == $key)	$stop = true;
-		}elseif ($key==$clang) echo "$val | ";
-		else echo "<a href=index.php?page=$page&clang=$key$sprachen_add&ctype=$ctype>$val</a> | "; 
+			echo '<span class="rex-strike">'. $val .'</span>';
+         
+			if ($clang == $key) $stop = true;
+		}
+      elseif ($key==$clang) 
+      {
+         echo $val;
+      }
+		else
+      {
+         echo '<a href="index.php?page='. $page .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype .'">'. $val .'</a>';
+      }
+      if($i != $num_clang)
+      {
+         echo ' | ';
+      }
+         
+      echo '</li>';
+      
+      $i++;
 	}
-	echo "</b></td></tr></table><br>";
+   
+	echo '
+     </ul>
+   </div>
+<!-- *** OUTPUT OF CLANG-TOOLBAR - END *** -->
+';
+   
 	if ($stop)
 	{
-		echo "<table width=770 cellpadding=0 cellspacing=1 border=0><tr><td width=30 class=warning><img src=pics/warning.gif width=16 height=16 vspace=5 hspace=12></td><td class=warning>&nbsp;&nbsp;You have no permission to this area</td></tr></table>";
+		echo '
+<!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
+      <p class="rex-warning">You have no permission to this area</p>
+<!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
+';
 		include $REX['INCLUDE_PATH']."/layout/bottom.php"; 
 		exit;	
 	}
-}else
+}
+else
 {
 	$clang = 0;	
 }
