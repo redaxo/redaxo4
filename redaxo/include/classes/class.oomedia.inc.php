@@ -437,6 +437,11 @@ class OOMedia
   function toImage($params = array ())
   {
     global $REX;
+    
+    if(!is_array($params))
+    {
+      $params = array();
+    }
 
     $path = $REX['HTDOCS_PATH'];
     if (isset ($params['path']))
