@@ -270,6 +270,9 @@ permissions = Rechte
 add = hinzufügen
 update = aktualisieren
 psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues Passwort eingeben
+user_caption = Liste der angelegten Benutzer
+user_summary = Auflistung aller angelegten Benutzer
+
 
 # redaxo\include\pages\special.inc.php
 articles_generated = Artikel und Templates wurden neu generiert, Cache gelöscht!
