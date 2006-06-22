@@ -150,11 +150,7 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-
 var winObjCounter = -1;
-
-// <body onload=self.focus(); onunload=closeAll();>
-
 
 // -------------------------------------------------------------------------------------------------------------------
 
@@ -169,8 +165,7 @@ function openMediaDetails(id, file_id, file_category_id)
 	{
 		id = '';	
 	}
-	// Opener form = "" uebergeben, damit im Medienpool das ganze resettet wird
-  newPoolWindow('index.php?page=medienpool&subpage=detail&opener_form&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
+  newPoolWindow('index.php?page=medienpool&subpage=detail&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
 }
 
 function openMediaPool(id)
@@ -179,8 +174,7 @@ function openMediaPool(id)
 	{
 		id = '';	
 	}
-	// Opener form = "" uebergeben, damit im Medienpool das ganze resettet wird
-  newPoolWindow('index.php?page=medienpool&opener_form=&opener_input_field='+ id);
+  newPoolWindow('index.php?page=medienpool&opener_input_field='+ id);
 }
 
 function openREXMedia(id)
@@ -193,8 +187,7 @@ function openREXMedia(id)
 	   param = '&action=media_details&file_name='+ value;
 	}
 
-	// Opener form = "" uebergeben, damit im Medienpool das ganze resettet wird
-  newPoolWindow('index.php?page=medienpool'+ param +'&opener_form=&opener_input_field='+ mediaid);
+  newPoolWindow('index.php?page=medienpool'+ param +'&opener_input_field='+ mediaid);
 }
 
 function deleteREXMedia(id)
@@ -205,8 +198,7 @@ function deleteREXMedia(id)
 
 function addREXMedia(id,cat_id)
 {
-	// Opener form = "" uebergeben, damit im Medienpool das ganze resettet wird
-        newPoolWindow('index.php?page=medienpool&action=media_upload&subpage=add_file&cat_id='+cat_id+'&opener_form=&opener_input_field=REX_MEDIA_'+id);
+        newPoolWindow('index.php?page=medienpool&action=media_upload&subpage=add_file&cat_id='+cat_id+'&opener_input_field=REX_MEDIA_'+id);
 }
 
 function openLinkMap(id)
@@ -241,8 +233,7 @@ function openREXMedialist(id)
 		}
 	}
 	
-	// Opener form = "" uebergeben, damit im Medienpool das ganze resettet wird
-  newPoolWindow('index.php?page=medienpool'+ param +'&opener_form=&opener_input_field='+ medialist);
+  newPoolWindow('index.php?page=medienpool'+ param +'&opener_input_field='+ medialist);
 }
 
 function addREXMedialist(id,file_id)
