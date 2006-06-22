@@ -67,8 +67,8 @@ function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px'
  * <code>  
  * $subpages = array(
  *  array( '', 'Index', 'index_perm'),
- *  array( 'lang', 'lang_perm'),
- *  array( 'groups', 'group_perm')
+ *  array( 'lang', 'Sprachen verwalten', 'lang_perm'),
+ *  array( 'groups', 'Gruppen verwalten', 'group_perm')
  * );
  * 
  * small_title( 'Headline', $subpages)
