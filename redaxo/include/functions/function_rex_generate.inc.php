@@ -109,7 +109,7 @@ function rex_generateArticle($id, $refreshall = true)
   reset($CL);
   for ($i = 0; $i < count($CL); $i ++)
   {
-
+    $MSG = '';
     $clang = key($CL);
     $REX['RC'] = true; // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
     $CONT = new article;
@@ -117,9 +117,40 @@ function rex_generateArticle($id, $refreshall = true)
     $CONT->setArticleId($id);
 
     // --------------------------------------------------- Artikelparameter speichern
-    $article = "<?php\n"."\n\$REX['ART']['$id']['article_id']['$clang'] = \"$id\";"."\n\$REX['ART']['$id']['re_id']['$clang'] = \"".rex_addslashes($CONT->getValue("re_id"))."\";"."\n\$REX['ART']['$id']['name']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";"."\n\$REX['ART']['$id']['catname']['$clang'] = \"".rex_addslashes($CONT->getValue("catname"))."\";"."\n\$REX['ART']['$id']['cattype']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";"."\n\$REX['ART']['$id']['alias']['$clang'] = \"".rex_addslashes($CONT->getValue("name"))."\";"."\n\$REX['ART']['$id']['description']['$clang'] = \"".rex_addslashes($CONT->getValue("description"))."\";"."\n\$REX['ART']['$id']['attribute']['$clang'] = \"".rex_addslashes($CONT->getValue("attribute"))."\";"."\n\$REX['ART']['$id']['file']['$clang'] = \"".rex_addslashes($CONT->getValue("file"))."\";"."\n\$REX['ART']['$id']['type_id']['$clang'] = \"".rex_addslashes($CONT->getValue("type_id"))."\";"."\n\$REX['ART']['$id']['teaser']['$clang'] = \"".rex_addslashes($CONT->getValue("teaser"))."\";"."\n\$REX['ART']['$id']['startpage']['$clang'] = \"".rex_addslashes($CONT->getValue("startpage"))."\";"."\n\$REX['ART']['$id']['prior']['$clang'] = \"".rex_addslashes($CONT->getValue("prior"))."\";"."\n\$REX['ART']['$id']['path']['$clang'] = \"".rex_addslashes($CONT->getValue("path"))."\";"."\n\$REX['ART']['$id']['status']['$clang'] = \"".rex_addslashes($CONT->getValue("status"))."\";"."\n\$REX['ART']['$id']['online_from']['$clang'] = \"".rex_addslashes($CONT->getValue("online_from"))."\";"."\n\$REX['ART']['$id']['online_to']['$clang'] = \"".rex_addslashes($CONT->getValue("online_to"))."\";"."\n\$REX['ART']['$id']['createdate']['$clang'] = \"".rex_addslashes($CONT->getValue("createdate"))."\";"."\n\$REX['ART']['$id']['updatedate']['$clang'] = \"".rex_addslashes($CONT->getValue("updatedate"))."\";"."\n\$REX['ART']['$id']['keywords']['$clang'] = \"".rex_addslashes($CONT->getValue("keywords"))."\";"."\n\$REX['ART']['$id']['template_id']['$clang'] = \"".rex_addslashes($CONT->getValue("template_id"))."\";"."\n\$REX['ART']['$id']['createuser']['$clang'] = \"".rex_addslashes($CONT->getValue("createuser"))."\";"."\n\$REX['ART']['$id']['updateuser']['$clang'] = \"".rex_addslashes($CONT->getValue("updateuser"))."\";"."\n\$REX['ART']['$id']['last_update_stamp']['$clang'] = \"".time()."\";"."\n?>";
+    
+    $article = 
+"<?php
+\$REX['ART']['$id']['article_id']['$clang'] = '". $id ."';
+\$REX['ART']['$id']['re_id']['$clang'] = '". rex_addslashes($CONT->getValue("re_id")) ."';
+\$REX['ART']['$id']['name']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
+\$REX['ART']['$id']['catname']['$clang'] = '". rex_addslashes($CONT->getValue("catname")) ."';
+\$REX['ART']['$id']['cattype']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
+\$REX['ART']['$id']['alias']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
+\$REX['ART']['$id']['description']['$clang'] = '". rex_addslashes($CONT->getValue("description")) ."';
+\$REX['ART']['$id']['attribute']['$clang'] = '". rex_addslashes($CONT->getValue("attribute")) ."';
+\$REX['ART']['$id']['file']['$clang'] = '". rex_addslashes($CONT->getValue("file")) ."';
+\$REX['ART']['$id']['type_id']['$clang'] = '". rex_addslashes($CONT->getValue("type_id")) ."';
+\$REX['ART']['$id']['teaser']['$clang'] = '". rex_addslashes($CONT->getValue("teaser")) ."';
+\$REX['ART']['$id']['startpage']['$clang'] = '". rex_addslashes($CONT->getValue("startpage")) ."';
+\$REX['ART']['$id']['prior']['$clang'] = '". rex_addslashes($CONT->getValue("prior")) ."';
+\$REX['ART']['$id']['path']['$clang'] = '". rex_addslashes($CONT->getValue("path")) ."';
+\$REX['ART']['$id']['status']['$clang'] = '". rex_addslashes($CONT->getValue("status")) ."';
+\$REX['ART']['$id']['online_from']['$clang'] = '". rex_addslashes($CONT->getValue("online_from")) ."';
+\$REX['ART']['$id']['online_to']['$clang'] = '". rex_addslashes($CONT->getValue("online_to")) ."';
+\$REX['ART']['$id']['createdate']['$clang'] = '". rex_addslashes($CONT->getValue("createdate")) ."';
+\$REX['ART']['$id']['updatedate']['$clang'] = '". rex_addslashes($CONT->getValue("updatedate")) ."';
+\$REX['ART']['$id']['keywords']['$clang'] = '". rex_addslashes($CONT->getValue("keywords")) ."';
+\$REX['ART']['$id']['template_id']['$clang'] = '". rex_addslashes($CONT->getValue("template_id")) ."';
+\$REX['ART']['$id']['createuser']['$clang'] = '". rex_addslashes($CONT->getValue("createuser")) ."';
+\$REX['ART']['$id']['updateuser']['$clang'] = '". rex_addslashes($CONT->getValue("updateuser")) ."';
+\$REX['ART']['$id']['last_update_stamp']['$clang'] = '". time() ."';
+?>";
+                
     if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
     {
+      // ----- EXTENSION POINT
+      $article = rex_register_extension_point('GENERATE_FILTER', $article, array ('id' => $id, 'clang' => $clang));
+      
       fputs($fp, $article);
       fclose($fp);
       @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", 0777);
@@ -145,8 +176,9 @@ function rex_generateArticle($id, $refreshall = true)
 	    }
 	}
 	
-    if (isset ($MSG) and $MSG != "")
-      echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$MSG</td></tr></table>";
+    if ($MSG != '')
+      echo '<p class="rex-warning">'. $MSG .'</p>';
+      
     $REX['RC'] = false;
 
     // --------------------------------------------------- Listen generieren

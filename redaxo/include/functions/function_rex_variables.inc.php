@@ -7,7 +7,7 @@
  */
 
 // rex_replace_variables als Extension anfügen
-rex_register_extension('OUTPUT_FILTER', 'rex_replace_variables');
+rex_register_extension('GENERATE_FILTER', 'rex_replace_variables');
 
 /**
  * Registriert für die Variable $variable die Callback-Funktion $function
