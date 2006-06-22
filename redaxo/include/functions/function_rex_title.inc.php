@@ -59,7 +59,7 @@ function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px'
  *  array( 'groups', 'Gruppen')
  * );
  * 
- * small_title( 'Headline', $subpages)
+ * rex_small_title( 'Headline', $subpages)
  * </code>
  * 
  * Beispiel für einen Seitentitel mit Rechteprüfung
@@ -71,7 +71,7 @@ function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px'
  *  array( 'groups', 'Gruppen verwalten', 'group_perm')
  * );
  * 
- * small_title( 'Headline', $subpages)
+ * rex_small_title( 'Headline', $subpages)
  * </code>
  */
 function rex_small_title($title, $subtitle) {
