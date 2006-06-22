@@ -328,14 +328,16 @@ if ($opener_input_field_name != '')
 }
 elseif ($opener_input_field != '')
 {
-  $link_id_field = "LINK[".$opener_input_field."]";
-  $link_name_field = "LINK_NAME[".$opener_input_field."]";
+  $link_id_field = 'LINK['. $opener_input_field .']';
+  $link_name_field = 'LINK_NAME['. $opener_input_field .']';
 }
 
-$func_body .= "linkid = link.replace('redaxo://','');\n";
-$func_body .= "opener.document.".$form."['".$link_id_field."'].value = linkid;\n";
-$func_body .= "opener.document.".$form."['".$link_name_field."'].value = name;\n";
-
+$func_body .= 'var linkid = link.replace("redaxo://","");
+               var needle = new opener.getObj("'. $link_id_field .'");
+               needle.obj.value = linkid;
+               var needle = new opener.getObj("'. $link_name_field .'");
+               needle.obj.value = name;';
+              
 // ------------------------ Print JS Functions
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -356,20 +358,18 @@ $func_body .= "opener.document.".$form."['".$link_name_field."'].value = name;\n
 
 if (count($REX['CLANG']) > 1)
 {
-  echo '<ul>';
-  echo '<li>Sprachen:';
-
-  echo '<ul>';
+  echo '<ul>
+          <li>Sprachen:
+            <ul>';
   foreach ($REX['CLANG'] as $clang_id => $clang_name)
   {
     $active = $clang_id == $REX['CUR_CLANG'] ? ' class="aktiv"' : '';
     $url = 'index.php?page='.$page.'&amp;clang='.$clang_id.'&amp;search='.$search.'&amp;HTMLArea='.$HTMLArea.'&amp;form='.$form.'&amp;opener_input_field='.$opener_input_field.'&amp;opener_input_field_name='.$opener_input_field_name;
     echo '<li><a href="'.$url.'"'.$active.'>'.$clang_name.'</a></li>';
   }
-  echo '</ul>';
-
-  echo '</li>';
-  echo '</ul>';
+  echo '    </ul>
+          </li>
+        </ul>';
 }
 ?>
   <form action="index.php" method="post">
