@@ -295,8 +295,6 @@ rex_small_title($REX['SERVERNAME'], 'Linkmap');
 $func_body = '';
 if (!isset ($HTMLArea))
   $HTMLArea = '';
-if (!isset ($form))
-  $form = 'REX_FORM';
 if (!isset ($opener_input_field))
   $opener_input_field = '';
 if (!isset ($opener_input_field_name))
@@ -364,7 +362,7 @@ if (count($REX['CLANG']) > 1)
   foreach ($REX['CLANG'] as $clang_id => $clang_name)
   {
     $active = $clang_id == $REX['CUR_CLANG'] ? ' class="aktiv"' : '';
-    $url = 'index.php?page='.$page.'&amp;clang='.$clang_id.'&amp;search='.$search.'&amp;HTMLArea='.$HTMLArea.'&amp;form='.$form.'&amp;opener_input_field='.$opener_input_field.'&amp;opener_input_field_name='.$opener_input_field_name;
+    $url = 'index.php?page='.$page.'&amp;clang='.$clang_id.'&amp;search='.$search.'&amp;HTMLArea='.$HTMLArea.'&amp;opener_input_field='.$opener_input_field.'&amp;opener_input_field_name='.$opener_input_field_name;
     echo '<li><a href="'.$url.'"'.$active.'>'.$clang_name.'</a></li>';
   }
   echo '    </ul>
@@ -377,7 +375,6 @@ if (count($REX['CLANG']) > 1)
     <input type="hidden" name="page" value="<?php echo $page ?>" />
     <input type="hidden" name="clang" value="<?php echo $clang ?>" />
     <input type="hidden" name="HTMLArea" value="<?php echo $HTMLArea ?>" />
-    <input type="hidden" name="form" value="<?php echo $form ?>" />
     <input type="hidden" name="opener_input_field" value="<?php echo $opener_input_field ?>" />
     <input type="hidden" name="opener_input_field_name" value="<?php echo $opener_input_field_name?>" />
     <input type="text" name="search" value="<?php echo $search ?>" />
@@ -402,7 +399,6 @@ $map_articles = '';
 
 $cat_map = new rex_category_map('Kategorien', $category_id);
 $cat_map->addLinkParam('HTMLArea', $HTMLArea);
-$cat_map->addLinkParam('form', $form);
 $cat_map->addLinkParam('opener_input_field', $opener_input_field);
 $cat_map->addLinkParam('opener_input_field_name', $opener_input_field_name);
 $map_categories = $cat_map->get();
