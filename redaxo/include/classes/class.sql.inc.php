@@ -370,17 +370,17 @@ class sql
    */
   function printError($select)
   {
-    echo '<hr>'."\n";
-    echo 'Query: '.htmlspecialchars($select)."<br/>\n";
+    echo '<hr />'."\n";
+    echo 'Query: '.htmlspecialchars($select)."<br />\n";
 
     if (strlen($this->getRows()) > 0)
     {
-      echo 'Affected Rows: '.$this->getRows()."<br/>\n";
+      echo 'Affected Rows: '.$this->getRows()."<br />\n";
     }
     if (strlen($this->getError()) > 0)
     {
-      echo 'Error Message: '.htmlspecialchars($this->getError())."<br/>\n";
-      echo 'Error Code: '.$this->getErrno()."<br/>\n";
+      echo 'Error Message: '.htmlspecialchars($this->getError())."<br />\n";
+      echo 'Error Code: '.$this->getErrno()."<br />\n";
     }
   }
   
