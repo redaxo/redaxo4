@@ -168,6 +168,7 @@ div#rex-ftr {
 }
 
 div#rex-ftr {
+	clear:both;
 	padding:5px 0;
 	background:#f0efeb;
 	border-top:20px solid #aab9a8;
