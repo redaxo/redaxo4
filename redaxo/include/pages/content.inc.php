@@ -667,10 +667,9 @@ if ($article->getRows() == 1)
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
       $CONT->setCLang($clang);
-      $CONT->setCType($ctype);
       $CONT->setEval(TRUE);
       $CONT->setFunction($function);
-      eval("?>".$CONT->getArticle());
+      eval("?>".$CONT->getArticle($ctype));
       
       echo'
       </div>

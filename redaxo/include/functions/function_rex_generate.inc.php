@@ -111,9 +111,9 @@ function rex_generateArticle($id, $refreshall = true)
   {
     $MSG = '';
     $clang = key($CL);
-    $REX['RC'] = true; // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
     $CONT = new article;
     $CONT->setCLang($clang);
+    $CONT->setMode("generate"); // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
     $CONT->setArticleId($id);
 
     // --------------------------------------------------- Artikelparameter speichern
@@ -178,8 +178,6 @@ function rex_generateArticle($id, $refreshall = true)
 	
     if ($MSG != '')
       echo '<p class="rex-warning">'. $MSG .'</p>';
-      
-    $REX['RC'] = false;
 
     // --------------------------------------------------- Listen generieren
     if ($CONT->getValue("startpage") == 1)
