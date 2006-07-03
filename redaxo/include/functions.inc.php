@@ -36,74 +36,74 @@ $REX = $REX_TEMP;
 // ----------------- REX PERMS
 
 // ----- allgemein
-$REX['PERM'][] = "addon[]";
-$REX['PERM'][] = "specials[]";
-$REX['PERM'][] = "mediapool[]";
-$REX['PERM'][] = "module[]";
-$REX['PERM'][] = "template[]";
-$REX['PERM'][] = "user[]";
+$REX['PERM'][] = 'addon[]';
+$REX['PERM'][] = 'specials[]';
+$REX['PERM'][] = 'mediapool[]';
+$REX['PERM'][] = 'module[]';
+$REX['PERM'][] = 'template[]';
+$REX['PERM'][] = 'user[]';
 
 // ----- optionen
-$REX['EXTPERM'][] = "advancedMode[]";
-$REX['EXTPERM'][] = "moveSlice[]";
-$REX['EXTPERM'][] = "copyContent[]";
-$REX['EXTPERM'][] = "moveArticle[]";
-$REX['EXTPERM'][] = "copyArticle[]";
-$REX['EXTPERM'][] = "moveCategory[]";
-$REX['EXTPERM'][] = "publishArticle[]";
-$REX['EXTPERM'][] = "publishCategory[]";
+$REX['EXTPERM'][] = 'advancedMode[]';
+$REX['EXTPERM'][] = 'moveSlice[]';
+$REX['EXTPERM'][] = 'copyContent[]';
+$REX['EXTPERM'][] = 'moveArticle[]';
+$REX['EXTPERM'][] = 'copyArticle[]';
+$REX['EXTPERM'][] = 'moveCategory[]';
+$REX['EXTPERM'][] = 'publishArticle[]';
+$REX['EXTPERM'][] = 'publishCategory[]';
 
 // ----- extras
-$REX['EXTRAPERM'][] = "editContentOnly[]";
+$REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- standard variables
-$REX["VARIABLES"][] = "rex_var_globals";
-$REX["VARIABLES"][] = "rex_var_value";
-$REX["VARIABLES"][] = "rex_var_link";
-$REX["VARIABLES"][] = "rex_var_media";
+$REX['VARIABLES'][] = 'rex_var_globals';
+$REX['VARIABLES'][] = 'rex_var_value';
+$REX['VARIABLES'][] = 'rex_var_link';
+$REX['VARIABLES'][] = 'rex_var_media';
 
 // ----------------- REDAXO INCLUDES
-include_once $REX['INCLUDE_PATH']."/classes/class.i18n.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.sql.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.select.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.article.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.login.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.ooredaxo.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.oocategory.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.ooarticle.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.ooarticleslice.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.oomediacategory.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.oomedia.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.ooaddon.inc.php";
+include_once $REX['INCLUDE_PATH'].'/classes/class.i18n.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.sql.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.select.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.article.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.login.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.ooredaxo.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.oocategory.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.ooarticle.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.ooarticleslice.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.oomediacategory.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.oomedia.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.ooaddon.inc.php';
 
 if (!$REX['GG'])
 {
-  include_once $REX['INCLUDE_PATH']."/functions/function_rex_title.inc.php";
-  include_once $REX['INCLUDE_PATH']."/functions/function_rex_generate.inc.php";
-  include_once $REX['INCLUDE_PATH']."/classes/class.rex_var.inc.php";
-  foreach($REX["VARIABLES"] as $key => $value)
+  include_once $REX['INCLUDE_PATH'].'/functions/function_rex_title.inc.php';
+  include_once $REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php';
+  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
+  foreach($REX['VARIABLES'] as $key => $value)
   {
     require_once ($REX['INCLUDE_PATH'].'/classes/variables/class.'.$value.'.inc.php');
   }
 }
 
 // ----- EXTRA CLASSES
-include_once $REX['INCLUDE_PATH']."/classes/class.textile.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.phpmailer.inc.php";
-include_once $REX['INCLUDE_PATH']."/classes/class.wysiwyg.inc.php";
+include_once $REX['INCLUDE_PATH'].'/classes/class.textile.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.phpmailer.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.wysiwyg.inc.php';
 
 // ----- FUNCTIONS
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_globals.inc.php";
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_modrewrite.inc.php";
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_extension.inc.php";
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_globals.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_modrewrite.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 
 // ----- EXTRA FUNCTIONS
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_wysiwyg.inc.php";
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_wysiwyg.inc.php';
 
 // ----- CONFIG FILES
-include_once $REX['INCLUDE_PATH']."/ctype.inc.php";
-include_once $REX['INCLUDE_PATH']."/clang.inc.php";
+include_once $REX['INCLUDE_PATH'].'/ctype.inc.php';
+include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
 
 // ----- SET CLANG
 if (!isset($clang)) $clang = '';
