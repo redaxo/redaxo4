@@ -76,21 +76,16 @@ function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px'
  */
 function rex_small_title($title, $subtitle) {
   $subtitle = rex_get_subtitle( $subtitle, ' class="white"');
-  $subtitle = $subtitle != '' ? '<b>'. $subtitle .'</b>' : ''; 
 ?>
-  <table border="0" cellpadding="5" cellspacing="1" width="100%">
-    <tr>
-      <td colspan="3" class="grey" align="right"><?php echo $title ?></td>
-    </tr>
-    <tr>
-      <td class="greenwhite">
-        <?php echo $subtitle ?>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3"></td>
-    </tr>
-  </table>
+<div id="rex-hdr">
+
+  <p class="rex-hdr-top"><?php echo $title ?></p>
+  
+  <div>
+    <?php echo $subtitle ?>
+  </div>
+</div>
+
 <?php  
 }
 

@@ -148,7 +148,8 @@ else
       $page_name = $I18N->msg("user");
     }elseif ($REX['PAGEPATH'] == '' && $page == "medienpool")
     {
-      $withheader = false;
+      $page_name = $I18N->msg('pool_media');
+      $open_header_only = true;
     }elseif ($REX['PAGEPATH'] == '' && $page == "linkmap")
     {
       $open_header_only = true;
