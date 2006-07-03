@@ -59,13 +59,21 @@ Changes:
 ---------------------------------------------------------------------------------
 
   * Backend XHTML [tbaddade, kills]
-  * class.ooarticle.inc.php - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
+  * class.ooarticle.inc.php 
+    - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
+    - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
   * Struktur:
     - Angelegte Artikel haben das gleiche Template wie die Kategorie in der sie sich befinden [kills]
   * rexExtensionPoint erstellt:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
     - LOGIN_REDIRECT_URL [kills]
+  * rexVars API implementiert (Modularisiert) [jan,kills]
+  * rexVars erstellt:
+    - REX_MODULE_ID [jan,kills]
+    - REX_SLICE_ID [jan,kills]
+    - REX_CTYPE_ID [jan,kills]
+    - REX_TEMPLATE_ID [jan,kills]
   * Sql-Klasse:
   	- getServerVersion() implementiert [kills]
   * Medienpool:
@@ -83,11 +91,12 @@ Changes:
   * Image-Resize-Addon:
     - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
   * OOF:
-    - OOMedia -> toImage - title Attribut bekommt nun den MediaTitle zugewiesen und nicht mehr die Description [tab]
+    - OOMedia::toImage -> title Attribut bekommt nun den MediaTitle zugewiesen und nicht mehr die Description [tab]
   * Beiliegender PHPMailer aktualisiert [kills]
   * Internes Handling:
     - Default Systemvariablen werden alle in der master.inc.php gesetzt [kills]
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
+	- generateTemplate() implementiert [kills]
   * Bugfixes:
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
 		- Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
