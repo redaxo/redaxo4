@@ -437,15 +437,33 @@ div.rex-mdl-moduleform p {
 	background:#f0efeb;
 }
 
+form#rex-usr p {
+	margin-bottom:1em;
+}
+form#rex-usr span {
+	display:block;
+	margin-left:150px;
+}
 div.rex-lgn-loginform label, 
 div.rex-cnt-cols label, 
 div.rex-cnt-metaform label, 
 form#rex-tmp-editmode label, 
-div.rex-mdl-moduleform label {
+div.rex-mdl-moduleform label, 
+form#rex-usr label {
 	clear:left;
 	display:block;
 	float:left;
 	width:150px;
+}
+
+form#rex-usr label {
+	font-weight:bold;
+}
+form#rex-usr label.rex-lbl-right {
+	clear:none;
+	display:inline;
+	float:left;
+	width:200px;
 }
 div.rex-cnt-cols label {
 	width:190px;
@@ -457,6 +475,11 @@ div.rex-cnt-cols select  {
 	width:40%;
 }
 
+form#rex-usr input,  
+form#rex-usr select,  
+form#rex-usr textarea {
+	width:200px;
+}
 div.rex-lgn-loginform input, 
 div.rex-cnt-metaform input, 
 div.rex-cnt-metaform select, 
@@ -492,8 +515,16 @@ div.rex-cnt-metaform input.rex-fchckbx,
 div.rex-cnt-metaform input.rex-fsubmit, 
 div.rex-mdl-moduleform input.rex-fsubmit, 
 form#rex-tmp-editmode input.rex-fchckbx, 
-form#rex-tmp-editmode input.rex-fsubmit {
+form#rex-tmp-editmode input.rex-fsubmit, 
+form#rex-usr input.rex-fchckbx, 
+form#rex-usr input.rex-fsubmit {
 	width:auto;
+}
+
+form#rex-usr input.rex-fchckbx {
+	clear:both;
+	float:left;
+	margin:0 5px 0 135px;
 }
 
 div.rex-lgn-loginform input.rex-fsubmit, 
