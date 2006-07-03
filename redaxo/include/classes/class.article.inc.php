@@ -55,12 +55,6 @@ class article
     $this->slice_id = $value;
   }
 
-  // ----- CType setzen
-  function setCType($value)
-  {
-    $this->ctype = $value;
-  }
-
   function setCLang($value)
   {
     global $REX;
@@ -555,23 +549,35 @@ class article
   function replaceVars(&$sql,$content)
   {
   	global $REX;
-  	foreach($REX["VARIABLES"] as $key => $value)
+    
+    $tmp = '';
+  	foreach($REX['VARIABLES'] as $key => $value)
   	{
   		$var = new $value();
-  		if ($this->mode == "edit")
+  		if ($this->mode == 'edit')
   		{
-  		  if ($this->function == "add" || ($this->function == "edit" && $sql->getValue($REX['TABLE_PREFIX']."article_slice.id")==$this->slice_id))
+  		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '') || ($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
   		  {
-  		  	$content = $var->getBEInput($sql,$content);
+  		  	$tmp = $var->getBEInput($sql,$content);
   		  }else
   		  {
-  		  	$content = $var->getBEOutput($sql,$content);
+  		  	$tmp = $var->getBEOutput($sql,$content);
   		  }
-  		}else{
-  			$content = $var->getFEOutput($sql,$content);
+  		}else
+      {
+  			$tmp = $var->getFEOutput($sql,$content);
   		}
+      
+      // hier mit TMP Variable arbeiten, 
+      // falls in einer der Vars kein RETURN Value gesetzt wurde,
+      // damit nicht die Ausgabe davon beschädigt wird.
+      if($tmp != '')
+      {
+        $content = $tmp;
+      }
   	}
-	return $content;
+    
+	  return $content;
   }
 
   function replaceCommonVars($content) {
@@ -607,6 +613,9 @@ class article
 
 }
 
+/**
+ * @access private
+ */
 class rex_dummy_sql extends sql
 {
 	var $dummyvalues = array();
