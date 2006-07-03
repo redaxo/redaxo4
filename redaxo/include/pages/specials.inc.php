@@ -39,10 +39,10 @@ if ($subpage == '')
     $h = @fopen($REX['INCLUDE_PATH']."/master.inc.php","w+");
     if (fwrite($h,$cont,strlen($cont)) > 0)
     {
-      $MSG = $I18N->msg("setup_error1");
+      $message = $I18N->msg("setup_error1");
     }else
     {
-      $MSG = $I18N->msg("setup_error2");
+      $message = $I18N->msg("setup_error2");
     }
     fclose($h);
   
@@ -50,7 +50,7 @@ if ($subpage == '')
   {
     
     // generate all articles,cats,templates,caches
-    $MSG = rex_generateAll();
+    $message = rex_generateAll();
   
   } elseif (isset($func) and $func == "linkchecker")
   {

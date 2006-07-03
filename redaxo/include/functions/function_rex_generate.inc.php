@@ -24,21 +24,16 @@ function rex_generateAll()
 
   // ----------------------------------------------------------- generiere templates
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates", 0);
-  // mkdir($REX['INCLUDE_PATH']."/generated/templates",$REX['FILEPERM']);
   $gt = new sql;
   $gt->setQuery("select * from ".$REX['TABLE_PREFIX']."template");
   for ($i = 0; $i < $gt->getRows(); $i ++)
   {
-    $fp = fopen($REX['INCLUDE_PATH']."/generated/templates/".$gt->getValue($REX['TABLE_PREFIX']."template.id").".template", "w");
-    fputs($fp, $gt->getValue($REX['TABLE_PREFIX']."template.content"));
-    fclose($fp);
-    @ chmod($REX['INCLUDE_PATH']."/generated/templates/".$gt->getValue($REX['TABLE_PREFIX']."template.id").".template", 0777);
+    rex_generateTemplate($gt->getValue("id"));
     $gt->next();
   }
 
   // ----------------------------------------------------------- generiere artikel
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/articles", 0);
-  // mkdir($REX['INCLUDE_PATH']."/generated/articles",$REX['FILEPERM']);
   $gc = new sql;
   $gc->setQuery("select distinct id from ".$REX['TABLE_PREFIX']."article");
   for ($i = 0; $i < $gc->getRows(); $i ++)
@@ -67,7 +62,7 @@ function rex_generateAll()
   $h = fopen($file, "w+");
   fwrite($h, $fcontent, strlen($fcontent));
   fclose($h);
-  @ chmod($file, 0777);
+  @ chmod($file, $REX['FILEPERM']);
 
   // ----------------------------------------------------------- generiere filemetas ...
   // **********************
@@ -148,9 +143,6 @@ function rex_generateArticle($id, $refreshall = true)
                 
     if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
     {
-      // ----- EXTENSION POINT
-      $article = rex_register_extension_point('GENERATE_FILTER', $article, array ('id' => $id, 'clang' => $clang));
-      
       fputs($fp, $article);
       fclose($fp);
       @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", 0777);
@@ -613,6 +605,7 @@ function rex_copyArticle($id, $to_cat_id)
 
   $id = (int) $id;
   $to_cat_id = (int) $to_cat_id;
+  $new_id = '';
 
   // Artikel in jeder Sprache kopieren
   foreach ($REX['CLANG'] as $clang => $clang_name)
@@ -1101,6 +1094,27 @@ function rex_generateAddons($ADDONS, $debug = false)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
+}
+
+function rex_generateTemplate($template_id)
+{
+  global $REX;
+  
+  $sql = new sql();
+  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX']  .'template WHERE id = '.$template_id;
+  $sql->setQuery($qry);
+  
+  if($sql->getRows() == 1)
+  {
+    if($fp = fopen($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w"))
+    {
+      fputs($fp, $sql->getValue('content'));
+      fclose($fp);
+      @ chmod($REX['INCLUDE_PATH']."/generated/templates/". $template_id .".template", $REX['FILEPERM']);
+      return true;
+    }
+  }
+  return false;
 }
 
 // ----------------------------------------- generate helpers

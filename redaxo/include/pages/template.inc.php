@@ -52,7 +52,9 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $ITPL->insert();
       $template_id = $ITPL->last_insert_id;
       $message = $I18N->msg("template_added");
-    }else{
+    }
+    else
+    {
       $TMPL = new sql;
       $TMPL->setTable($REX['TABLE_PREFIX']."template");
       $TMPL->where("id='$template_id'");
@@ -63,14 +65,8 @@ if (isset($function) and ($function == "add" or $function == "edit")){
       $TMPL->setValue("updateuser",$REX_USER->getValue("login"));
       $TMPL->update();
       $message = $I18N->msg("template_added");
-    } 
-
-    $gt = new sql;
-    $gt->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template WHERE id = '$template_id'");
-
-    $fp = fopen ($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w");
-    fputs($fp,$gt->getValue("content"));
-    fclose($fp);
+    }
+    rex_generateTemplate($template_id); 
 
     if (isset($goon) and $goon != "")
     {
