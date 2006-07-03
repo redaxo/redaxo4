@@ -425,9 +425,9 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   } else
   {
     
-    if ($useradmin == 1) $adminchecked = " checked";
-    if ($allcats == 1) $allcatschecked = " checked";
-    if ($allmcats == 1) $allmcatschecked = " checked";
+    if ($useradmin == 1) $adminchecked = ' checked="checked"';
+    if ($allcats == 1) $allcatschecked = ' checked="checked"';
+    if ($allmcats == 1) $allmcatschecked = ' checked="checked"';
     
     
     // userperm_all
@@ -599,11 +599,11 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
       // Der Benutzer kann sich selbst die Rechte nicht entziehen 
       if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $adminchecked != '')
       {
-        $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
+        $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-fchckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
       }
       else
       {
-        $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
+        $add_admin_chkbox = '<input class="rex-fchckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
       }
       
       // Account gesperrt?
@@ -611,7 +611,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
       {
         $add_login_reset_chkbox = '
         <p class="rex-warning">
-          <input type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
+          <input class="rex-fchckbx" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
           <label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
         </p>';
       }
@@ -624,12 +624,13 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
     $form_label = $I18N->msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<input type="submit" class="rex-fsubmit" name="function" value="'.$I18N->msg("add_user").'" />';
-    $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
+    $add_admin_chkbox = '<input class="rex-fchckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
     $add_user_login = '<input type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
   
   echo '
-  <form action="index.php" method="post">
+  <div class="rex-cnt-cols">
+  <form id="rex-usr" action="index.php" method="post">
     <fieldset>
       <legend>'. $form_label .'</legend>
       <input type="hidden" name="page" value="user" />
@@ -638,7 +639,6 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
 
       '. $add_login_reset_chkbox .'
 
-      <div class="rex-cnt-cols">
 
         <div class="rex-cnt-col2">
           <p>
@@ -651,7 +651,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
           </p>
           <p>
             '. $add_admin_chkbox .'
-            <label for="useradmin">'.$I18N->msg('user_admin').'</label>
+            <label class="rex-lbl-right" for="useradmin">'.$I18N->msg('user_admin').'</label>
           </p>
           <p>
             <label for="userperm_sprachen">'.$I18N->msg('user_lang_xs').'</label>
@@ -664,8 +664,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
           <p>
-            <input type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
-            <label for="allcats">'.$I18N->msg('all_categories').'</label>
+            <input class="rex-fchckbx" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
+            <label class="rex-lbl-right" for="allcats">'.$I18N->msg('all_categories').'</label>
           </p>
           <p>
             <label for="userperm_cat">'.$I18N->msg('categories').'</label>
@@ -703,8 +703,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
           <p>
-            <input type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
-            <label for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
+            <input class="rex-fchckbx" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
+            <label class="rex-lbl-right" for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
           </p>
           <p>
             <label for="userperm_media">'.$I18N->msg('mediafolder').'</label>
@@ -718,12 +718,12 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
           </p>
         </div>
 
-      </div>
       <p>
         '. $add_submit .'
       </p>
     </fieldset>
   </form>
+  </div>
 ';
 
 }
