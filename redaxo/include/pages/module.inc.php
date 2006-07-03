@@ -14,18 +14,18 @@ switch ($subpage)
 {
   case 'actions' :
     {
-      $title = 'Module: Actions';
+      $title = $I18N->msg("modules").': '.$I18N->msg("actions");
       $file = 'module.action.inc.php';
       break;
     }
   default :
     {
-      $title = 'Module';
+      $title = $I18N->msg("modules");
       $file = 'module.modules.inc.php';
       break;
     }
 }
 
-rex_title($title, array (array ('', 'Modules'), array ('actions', 'Actions')));
+rex_title($title, array (array ('', $I18N->msg('modules')), array ('actions', $I18N->msg('actions'))));
 include $REX['INCLUDE_PATH'].'/pages/'.$file;
 ?>
