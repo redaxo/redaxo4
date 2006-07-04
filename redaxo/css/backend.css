@@ -139,7 +139,7 @@ div.rex-cnt-bdy {
 
 
 
-/*	Inmages
+/*	Images
 *******************************************************************************/
 div.rex-cnt-editmode ul.rex-flRight li img {
 	vertical-align:middle;
@@ -278,7 +278,8 @@ div.rex-cnt-cols {
 	width:100%;
 }
 
-div.rex-cnt-col2 {
+div.rex-cnt-col2, 
+p.rex-cnt-col2 {
 	float:left;
 	width:49.9%;
 }
@@ -403,7 +404,8 @@ div.rex-form input.fsubmit {
 
 
 div.rex-cnt-editmode, 
-div.rex-cnt-metaform {
+div.rex-cnt-metaform, 
+form#rex-usr {
 	background-color:#d6e1e4;
 }
 div.rex-lgn-loginform {
@@ -437,12 +439,24 @@ div.rex-mdl-moduleform p {
 	background:#f0efeb;
 }
 
+form#rex-usr div {
+	clear:both;
+	float:left;
+	width:100%;
+	padding:5px 0;
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+form#rex-usr legend {
+	background-color:#;
+}
 form#rex-usr p {
-	margin-bottom:1em;
+	margin:0;
+	padding:0;
 }
 form#rex-usr span {
 	display:block;
-	margin-left:150px;
+	margin-left:155px;
 }
 div.rex-lgn-loginform label, 
 div.rex-cnt-cols label, 
@@ -457,6 +471,7 @@ form#rex-usr label {
 }
 
 form#rex-usr label {
+	padding-left:5px;
 	font-weight:bold;
 }
 form#rex-usr label.rex-lbl-right {
@@ -543,7 +558,9 @@ form#rex-tmp-editmode input.rex-fsubmit {
 div.rex-cnt-cols input.rex-fsubmit {
 	margin-left:190px;
 }
-
+div.rex-cnt-cols form#rex-usr input.rex-fsubmit {
+	margin-left:155px;
+}
 div.rex-cnt-metaform select.rex-fdatey {
 	width:100px;
 }
