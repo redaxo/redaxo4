@@ -263,7 +263,7 @@ if ($OUT)
   // ausgabe modulliste !
   echo '
   <table class="rex-table" summary="'.$I18N->msg("module_summary").'">
-  	<caption>'.$I18N->msg("module_caption").'</caption>
+  	<caption class="rex-hide">'.$I18N->msg("module_caption").'</caption>
     <colgroup>
       <col width="5%" />
       <col width="5%" />

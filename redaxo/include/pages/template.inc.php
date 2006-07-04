@@ -148,7 +148,7 @@ if ($OUT)
   // ausgabe templateliste !
   echo '
   <table class="rex-table" summary="'.$I18N->msg("header_template_summary").'">
-  	<caption>'.$I18N->msg("header_template_caption").'</caption>
+  	<caption class="rex-hide">'.$I18N->msg("header_template_caption").'</caption>
   	<colgroup>
       <col width="5%" />
       <col width="6%" />

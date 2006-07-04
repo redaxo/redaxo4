@@ -101,7 +101,7 @@ if ($SP)
   }
   echo '
       <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
-      <caption>'.$I18N->msg("addon_caption").'</caption>
+      <caption class="rex-hide">'.$I18N->msg("addon_caption").'</caption>
       <colgroup>
         <col width="*"/>
         <col width="19%" />

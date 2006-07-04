@@ -355,7 +355,7 @@ elseif ($subpage == "lang")
   
   echo '
     <table class="rex-table" summary="'.$I18N->msg('clang_summary').'">
-      <caption>'.$I18N->msg('clang_caption').'</caption>
+      <caption class="rex-hide">'.$I18N->msg('clang_caption').'</caption>
       <colgroup>
         <col width="5%" />
         <col width="6%" />
@@ -527,7 +527,7 @@ else
   }
   
   echo '<table class="rex-table" summary="'.$I18N->msg('article_type_summary').'">
-        <caption>'.$I18N->msg('article_type_caption').'</caption>
+        <caption class="rex-hide">'.$I18N->msg('article_type_caption').'</caption>
         <colgroup>
           <col width="5%" />
           <col width="6%" />
