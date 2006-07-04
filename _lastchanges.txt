@@ -69,6 +69,9 @@ Changes:
     - ART_META_FORM_SECTION [kills]
     - LOGIN_REDIRECT_URL [kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
+    - Neue Variablen Sytax jetzt möglich (alte funktioniert weiter), z.b:
+    ->  REX_VALUE[id=3]
+    ->  REX_MEDIA_BUTTON[id=4 category=3]
   * rexVars erstellt:
     - REX_MODULE_ID [jan,kills]
     - REX_SLICE_ID [jan,kills]
