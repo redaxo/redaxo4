@@ -24,16 +24,16 @@ class rex_var_value extends rex_var
     return $content;
   }
 
-  function getFEOutput(& $sql, $content)
-  {
-    $content = $this->getOutput($sql, $content, true);
-    $content = str_replace('REX_PHP', $sql->getValue('php'), $content);
-    return $content;
-  }
-
   function getBEInput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
+    $content = str_replace('REX_PHP', $this->stripPHP($sql->getValue('php')), $content);
+    return $content;
+  }
+  
+  function getFEOutput(& $sql, $content)
+  {
+    $content = $this->getOutput($sql, $content, true);
     $content = str_replace('REX_PHP', $sql->getValue('php'), $content);
     return $content;
   }
