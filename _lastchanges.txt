@@ -80,6 +80,7 @@ Changes:
     - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0
   * Sql-Klasse:
   	- getServerVersion() implementiert [kills]
+  	- insert(),update() => Spaltennamen werden nun von ` Umschlossen, damit dort auch Sonderzeichen vorkommen dürfen [kills]
   * Medienpool:
   	- Synchronisation zwischen DB und /files implementiert [kills]
   	- Synchronisation jetzt auch auf Selection möglich [kills]
