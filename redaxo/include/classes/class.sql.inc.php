@@ -17,7 +17,7 @@
 class sql
 {
   var $values; // Werte von setValue
-  
+
   var $table; // Tabelle setzen
   var $wherevar; // WHERE Bediengung
   var $select; // letzter Query String
@@ -119,9 +119,9 @@ class sql
     {
       return TRUE;
     }
-    else 
+    else
     {
-      return strpos($this->getValue( $feld), $prop) !== false;
+      return strpos($this->getValue($feld), $prop) !== false;
     }
   }
 
@@ -140,15 +140,16 @@ class sql
    */
   function getValue($value, $row = null)
   {
-    // wenn db verwechslungen, dann hier aktiv setzen
+      // wenn db verwechslungen, dann hier aktiv setzen
     // $this->selectDB();
-    $_row = $this->counter;
-    if ( is_int( $row)) {
+  $_row = $this->counter;
+    if (is_int($row))
+    {
       $_row = $row;
-    } 
-    
+    }
+
     $back = @ mysql_result($this->result, $_row, $value);
-    
+
     return $back;
   }
 
@@ -185,9 +186,9 @@ class sql
   {
     $back = "";
 
-    for ($i = 0; $i < $this->getRows(); $i ++)
+    for ($i = 0; $i < $this->getRows(); $i++)
     {
-      foreach ( $this->values as $value)
+      foreach ($this->values as $value)
       {
         $back .= $value." \n";
       }
@@ -210,21 +211,20 @@ class sql
   function update()
   {
     $sql = "";
-	if (is_array($this->values))
-	{
-      foreach ( $this->values as $fld_name => $value)
+    if (is_array($this->values))
+    {
+      foreach ($this->values as $fld_name => $value)
       {
         if ($sql != "")
         {
           $sql .= ",";
         }
-        // $sql .= $this->feld[$i]."='".addslashes( $this->wert[$i])."'";
-        $sql .= $fld_name."='". $value."'";
+        $sql .= "`".$fld_name."`='".$value."'";
 
       }
 
       $this->selectDB();
-      $this->result = mysql_query("update $this->table set $sql $this->wherevar");
+      $this->result = mysql_query("update `$this->table` set $sql $this->wherevar");
       $this->error = @ mysql_error();
       $this->message = "event updated<br>";
       if ($this->debugsql)
@@ -243,9 +243,9 @@ class sql
   {
     $sql1 = "";
     $sql2 = "";
-	if (is_array($this->values))
-	{
-      foreach ( $this->values as $fld_name => $value)
+    if (is_array($this->values))
+    {
+      foreach ($this->values as $fld_name => $value)
       {
         if ($sql1 != "")
         {
@@ -255,9 +255,8 @@ class sql
         {
           $sql2 .= ",";
         }
-        $sql1 .= $fld_name;
-        // $sql2 .= "'".addslashes( $this->wert[$i])."'";
-        $sql2 .= "'". $value ."'";
+        $sql1 .= "`".$fld_name."`";
+        $sql2 .= "'".$value."'";
       }
 
       $this->selectDB();
@@ -383,7 +382,7 @@ class sql
       echo 'Error Code: '.$this->getErrno()."<br />\n";
     }
   }
-  
+
   /**
    * Setzt eine Spalte auf den nächst möglich auto_increment Wert
    * @param $field Name der Spalte 
@@ -395,7 +394,7 @@ class sql
       $id = 0;
     else
       $id = mysql_result($result, 0, "$field");
-    $id ++;
+    $id++;
     $this->setValue($field, $id);
     return $id;
   }
@@ -407,7 +406,7 @@ class sql
   {
     $fields = array ();
     $numFields = mysql_num_fields($this->result);
-    for ($i = 0; $i < $numFields; $i ++)
+    for ($i = 0; $i < $numFields; $i++)
     {
       $fields[] = mysql_field_name($this->result, $i);
     }
