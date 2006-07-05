@@ -159,7 +159,7 @@ class OOArticle extends OORedaxo
         foreach ($REX['RE_ID'][$a_category_id] as $var)
         {
           $article = OOArticle :: getArticleById($var, $clang);
-          if (!$ignore_offlines)
+          if ($ignore_offlines)
           {
             if ($article->isOnline())
             {
