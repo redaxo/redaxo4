@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab
  * @package redaxo3
  * @version $Id$
@@ -159,7 +159,7 @@ class OOArticle extends OORedaxo
         foreach ($REX['RE_ID'][$a_category_id] as $var)
         {
           $article = OOArticle :: getArticleById($var, $clang);
-          if ($ignore_offlines)
+          if (!$ignore_offlines)
           {
             if ($article->isOnline())
             {
