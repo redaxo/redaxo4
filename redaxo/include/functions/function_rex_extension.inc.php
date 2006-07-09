@@ -131,7 +131,7 @@ function rex_call_func($function, $params)
       trigger_error('rexExtension: Function "'.$function.'" not found!');
     }
   }
-  // object method call
+  // object->method call
   elseif (is_array($function))
   {
     $_object = $function[0];
