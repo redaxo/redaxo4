@@ -58,6 +58,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
   * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php 
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
