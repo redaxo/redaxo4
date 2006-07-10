@@ -97,10 +97,7 @@ else
     {
       $fvs = new sql;
       $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=0,lasttrydate='".time()."' where login='".$REX_ULOGIN."'");
-        
-      $login_redirect_url = "index.php?page=structure";
-      $login_redirect_url = rex_register_extension_point('LOGIN_REDIRECT_URL', $login_redirect_url);
-  		header("Location:". $login_redirect_url);
+  		header("Location: index.php?page=structure");
   		exit;
     }
     	
