@@ -58,27 +58,27 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-  * zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
   * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php 
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
+	  - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
     - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
   * Struktur:
-    - Angelegte Artikel haben das gleiche Template wie die Kategorie in der sie sich befinden [kills]
+    - Beim angelegen haben Artikel das gleiche Template wie die Kategorie in der sie sich befinden [kills]
   * rexExtensionPoint erstellt:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
-    - LOGIN_REDIRECT_URL [kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
     - Neue Variablen Sytax jetzt möglich (alte funktioniert weiter), z.b: [kills]
     ->  REX_VALUE[id=3]
     ->  REX_MEDIA_BUTTON[id=4 category=3]
-  * rexVars erstellt:
-    - REX_MODULE_ID [jan,kills]
-    - REX_SLICE_ID [jan,kills]
-    - REX_CTYPE_ID [jan,kills]
-    - REX_TEMPLATE_ID [jan,kills]
-    - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0
+  * rexVars API implementiert: [jan,kills]
+    - neue rexVars:
+	    + REX_MODULE_ID [jan,kills]
+	    + REX_SLICE_ID [jan,kills]
+	    + REX_CTYPE_ID [jan,kills]
+	    + REX_TEMPLATE_ID [jan,kills]
+    - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0 [kills]
   * Sql-Klasse:
   	- getServerVersion() implementiert [kills]
   	- insert(),update() => Spaltennamen werden nun von ` Umschlossen, damit dort auch Sonderzeichen vorkommen dürfen [kills]
@@ -92,8 +92,8 @@ Changes:
     - Dateien mit diesem Prefix werden ...
       + .. NICHT vom Import/Export-Addon exportiert
       + .. NICHT vom Medienpool Sync Tool als neue registriert
-  * rexVariables API implementiert [kills]
   * rexGlobales API implementiert [kills]
+    - Ab sofort nur noch mit rex_get(), rex_post(), .. arbeiten!
   * Image-Resize-Addon:
     - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
   * OOF:
