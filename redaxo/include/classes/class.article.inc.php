@@ -408,7 +408,7 @@ class article
         }
 
         // -------------------------- schreibe content
-        if ($this->mode == "generate") echo $this->article_content;
+        if ($this->mode == "generate") echo $this->replaceLinks($this->article_content);
         else eval("?>".$this->article_content);
 
       }else
@@ -444,7 +444,6 @@ class article
         $template_content = $this->getTemplateId()." not found";
       }
       $template_content = $this->replaceCommonVars( $template_content);
-      $template_content = $this->replaceLinks($template_content);
       eval("?>".$template_content);
     }else
     {
@@ -536,11 +535,10 @@ class article
     return $slice_content;
   }
 
-  // ----- Modulvarianblen werden ersetzt
+  // ----- Modulvariablen werden ersetzt
   function sliceIn($content)
   {
     $content = $this->replaceVars($this->CONT,$content);
-    $content = $this->replaceLinks($content);
     $content = $this->replaceCommonVars($content);
     return $content;
   }
@@ -599,16 +597,29 @@ class article
 
   function replaceLinks($content)
   {
-      // -- preg match redaxo://[ARTICLEID] --
-      preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches);
-      if ( isset ($matches[0][0]) and $matches[0][0] != ''){
-          for ($m = 0; $m < count($matches[0]); $m++){
-              $url = rex_getURL($matches[1][$m]);
-              $content = str_replace($matches[0][$m],$url,$content);
-          }
-      }
-  
-      return $content;
+    global $REX;
+    
+    // -- preg match redaxo://[ARTICLEID]-[CLANG] --
+    preg_match_all("/redaxo:\/\/([0-9]*)\-([0-9]*)\/?/im",$content,$matches=array(),PREG_SET_ORDER);
+    foreach($matches as $match)
+    {
+      if(empty($match)) continue;
+      
+      $url = rex_getURL($match[1], $match[2]);
+      $content = str_replace($match[0],$url,$content);
+    }
+    
+    // -- preg match redaxo://[ARTICLEID] --
+    preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches=array(),PREG_SET_ORDER);
+    foreach($matches as $match)
+    {
+      if(empty($match)) continue;
+      
+      $url = rex_getURL($match[1]);
+      $content = str_replace($match[0],$url,$content);
+    }
+
+    return $content;
   }
 
 }
