@@ -84,9 +84,15 @@ table .rex-warning {
 }
 
 
+h2 {
+	margin-bottom:1.2em;
+}
 
 /*	Font Metrics
 *******************************************************************************/
+
+h2, 
+div#rex-setup, 
 div.rex-lgn-loginform input, 
 div.rex-cnt-cols input, 
 div.rex-cnt-cols select, 
@@ -98,10 +104,13 @@ div.rex-mdl-moduleform select,
 div.rex-mdl-moduleform textarea {
 	font-size:1em;
 }
-
 div.rex-cnt-editmode p.rex-flLeft, 
 div.rex-cnt-editmode ul.rex-flRight li {
 	font-size:1.2em;
+}
+
+div#rex-title h1 {
+	font-size:1.3em;
 }
 
 div#rex-title ul, 
@@ -308,10 +317,6 @@ div#rex-title p {
 	color:#32353a;
 }
 
-div#rex-title h1 {
-	font-size:1.3em;
-}
-
 div.rex-cnt-bdy {
 	clear:both;
 	padding:1px 150px 0 31px;
@@ -428,7 +433,8 @@ div.rex-cnt-cols legend,
 div.rex-cnt-editmode legend, 
 div.rex-cnt-metaform legend, 
 form#rex-tmp-editmode legend, 
-div.rex-mdl-moduleform legend {
+div.rex-mdl-moduleform legend,  
+div#rex-setup legend {
 	padding:5px;
 	font-weight:bold;
 }
@@ -454,6 +460,10 @@ form#rex-usr p {
 	margin:0;
 	padding:0;
 }
+div#rex-setup p {
+	float:left;
+	width:100%;
+}
 form#rex-usr span {
 	display:block;
 	margin-left:155px;
@@ -463,18 +473,28 @@ div.rex-cnt-cols label,
 div.rex-cnt-metaform label, 
 form#rex-tmp-editmode label, 
 div.rex-mdl-moduleform label, 
-form#rex-usr label {
+form#rex-usr label, 
+div#rex-setup label {
 	clear:left;
 	display:block;
 	float:left;
 	width:150px;
 }
-
+ 
+div#rex-setup label {
+	width:200px;
+}
+ 
+div#rex-setup form#rex-stp-database label {
+	margin-bottom:1em;
+	width:450px;
+}
 form#rex-usr label {
 	padding-left:5px;
 	font-weight:bold;
 }
-form#rex-usr label.rex-lbl-right {
+form#rex-usr label.rex-lbl-right, 
+div#rex-setup label.rex-lbl-right {
 	clear:none;
 	display:inline;
 	float:left;
@@ -501,7 +521,10 @@ div.rex-cnt-metaform select,
 div.rex-cnt-metaform textarea, 
 div.rex-mdl-moduleform input, 
 div.rex-mdl-moduleform select, 
-div.rex-mdl-moduleform textarea {
+div.rex-mdl-moduleform textarea, 
+div#rex-setup input, 
+div#rex-setup select, 
+div#rex-setup textarea {
 	width:300px;
 }
 
@@ -515,6 +538,12 @@ form#rex-tmp-editmode textarea {
 
 div.rex-cnt-editmode select {
 	width:100%;
+}
+
+div#rex-setup select.rex-fslct {
+	clear:both;
+	float:none;
+	margin-left:50px;
 }
 
 textarea.rex-ftxtr-cd {
@@ -532,14 +561,25 @@ div.rex-mdl-moduleform input.rex-fsubmit,
 form#rex-tmp-editmode input.rex-fchckbx, 
 form#rex-tmp-editmode input.rex-fsubmit, 
 form#rex-usr input.rex-fchckbx, 
-form#rex-usr input.rex-fsubmit {
+form#rex-usr input.rex-fsubmit, 
+div#rex-setup input.rex-fsubmit, 
+div#rex-setup input.rex-fchckbx {
 	width:auto;
 }
 
-form#rex-usr input.rex-fchckbx {
+form#rex-usr input.rex-fchckbx, 
+div#rex-setup input.rex-fchckbx {
 	clear:both;
 	float:left;
 	margin:0 5px 0 135px;
+}
+
+div#rex-setup input.rex-fchckbx {
+	margin-left:30px;
+}
+
+div#rex-setup form#rex-stp-admin input.rex-fchckbx {
+	margin-left:180px;
 }
 
 div.rex-lgn-loginform input.rex-fsubmit, 
@@ -554,6 +594,9 @@ form#rex-tmp-editmode input.rex-fsubmit {
 	border-top-color:#BED0D4;
 	border-left-color:#BED0D4;
 	*/
+}
+div#rex-setup input.rex-fsubmit {
+	margin-left:200px;
 }
 div.rex-cnt-cols input.rex-fsubmit {
 	margin-left:190px;
@@ -610,4 +653,47 @@ table.rex-table th.rex-icon {
 
 table.rex-table th.rex-colz {
 	width:143px;
+}
+
+
+
+div#rex-setup {
+	padding:20px 5px;
+	background-color:#faf9f5;
+}
+
+div#rex-setup p {
+	padding-left:0;
+}
+
+div#rex-setup ul.language {
+	font-weight:bold;
+	text-align:center;
+}
+div#rex-setup ul li {
+	display:block;
+	padding:5px 0;
+}
+div#rex-setup ul li a {
+	color:#000;
+}
+div#rex-lizenz {
+	margin:30px 0;
+	width:500px; 
+	height:200px; 
+	overflow:auto; 
+	background-color:#fff; 
+	font-size:.85em;
+}
+
+.rex-ok {
+	color:#3ec94a;
+}
+
+.rex-nice {
+	color:#3a3;
+}
+
+.rex-error {
+	color:#c33;
 }
