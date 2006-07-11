@@ -255,7 +255,7 @@ if ($checkmodus == 2)
           <input type="hidden" name="send" value="1" />
           <input type="hidden" name="lang" value="'.$lang.'" />';
 		if (isset ($err_msg) and $err_msg != '') {
-	    echo '<p class="warning">'.$err_msg.'</p>';
+	    echo '<p class="rex-warning">'.$err_msg.'</p>';
 		}
 
  
@@ -410,7 +410,7 @@ if ($checkmodus == 3)
         ';
 
   if (isset ($err_msg) and $err_msg != '')
-    echo '<p class="warning">'.$err_msg.'<br />'.$I18N->msg("setup_033").'</p>';
+    echo '<p class="rex-warning">'.$err_msg.'<br />'.$I18N->msg("setup_033").'</p>';
 
   if (!isset ($dbchecked0))
     $dbchecked0 = '';
@@ -592,7 +592,7 @@ if ($checkmodus == 4)
 									';
 
   if ($err_msg != "")
-    echo '<p class="warning">'.$err_msg.'</p>';
+    echo '<p class="rex-warning">'.$err_msg.'</p>';
 
   if ($dbanlegen == 1)
     $dbchecked1 = ' checked="checked"';
