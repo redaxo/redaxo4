@@ -499,13 +499,13 @@ echo '
           <col width="5%" />
           '. $add_col .'
           <col width="*" />
-          <col width="7%" />
-          <col width="40%" />
-          <col width="20%" />
+          <col width="5%" />
+          <col width="39%" />
+          <col width="24%" />
         </colgroup>
         <thead>
           <tr>
-            <th>'. $add_category .'</th>
+            <th class="rex-icon">'. $add_category .'</th>
             '. $add_header .'
             <th>'.$I18N->msg('header_category').'</th>
             <th>'.$I18N->msg('header_priority').'</th>
@@ -534,7 +534,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
   }
   echo '
         <tr class="rex-trow-actv">
-          <td><img src="pics/folder.gif" width="16px" height="16px" title="'. $I18N->msg('add_category') .'" alt="'. $I18N->msg('add_category') .'" /></td>
+          <td class="rex-icon"><img src="pics/folder.gif" width="16px" height="16px" title="'. $I18N->msg('add_category') .'" alt="'. $I18N->msg('add_category') .'" /></td>
           '. $add_td .'
           <td><input type="text" id="category_name" name="category_name" /></td>
           <td><input type="text" id="Position_New_Category" name="Position_New_Category" value="100" /></td>
@@ -552,7 +552,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 {
   $i_category_id = $KAT->getValue('id');
   $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
-  $kat_icon_td = '<td><a href='. $kat_link .'><img src="pics/folder.gif" width="16" height="16" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
+  $kat_icon_td = '<td class="rex-icon"><a href='. $kat_link .'><img src="pics/folder.gif" width="16" height="16" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
     
   if ($KATPERM)
   {
@@ -740,14 +740,16 @@ if ($category_id > -1)
           <col width="5%" />
           '. $add_col .'
           <col width="*" />
-          <col width="7%" />
-          <col width="40%" />
-          <col width="20%" />
-          <col width="10%" span="3"/>
+          <col width="5%" />
+          <col width="13%" />
+          <col width="13%" />
+          <col width="13%" />
+          <col width="8%" span="3" />
+					
         </colgroup>
         <thead>
           <tr>
-            <th>'. $art_add_link .'</th>
+            <th class="rex-icon">'. $art_add_link .'</th>
             '. $add_head .'
             <th>'.$I18N->msg('header_article_name').'</th>
             <th>'.$I18N->msg('header_priority').'</th>
@@ -783,7 +785,7 @@ if ($category_id > -1)
     }
     
     echo '<tr>
-            <td><img src="pics/document.gif" width="16" height="16" alt="'.$I18N->msg('article_add') .'" title="'.$I18N->msg('article_add') .'" /></td>
+            <td class="rex-icon"><img src="pics/document.gif" width="16" height="16" alt="'.$I18N->msg('article_add') .'" title="'.$I18N->msg('article_add') .'" /></td>
             '. $add_td .'
             <td><input type="text" id="article_name" name="article_name" /></td>
             <td><input type="text" id="Position_New_Article" name="Position_New_Article" value="100" /></td>
@@ -834,7 +836,7 @@ if ($category_id > -1)
       $TMPL_SEL->set_selected($sql->getValue('template_id'));
       
       echo '<tr>
-              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
+              <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
               '. $add_td .'
               <td><input type="text" id="article_name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
               <td><input type="text" id="Position_Article" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
@@ -885,7 +887,7 @@ if ($category_id > -1)
       }
 
       echo '<tr>
-              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></a></td>
+              <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></a></td>
               '. $add_td .'
               <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. $sql->getValue('name'). '</a></td>
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
@@ -920,7 +922,7 @@ if ($category_id > -1)
         $art_status_class = 'rex-online';        
       }
       echo '<tr>
-              <td><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></td>
+              <td class="rex-icon"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></td>
               '. $add_td .'
               <td>'. htmlspecialchars($sql->getValue('name')).'</td>
               <td>'. htmlspecialchars($sql->getValue('prior')).'</td>

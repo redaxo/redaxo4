@@ -72,9 +72,10 @@ div, p {
 
 
 div#rex-output .rex-warning {
+	float:left;
+	width:670px;
 	margin:10px 0;
 	padding:8px 50px;
-	padding-left:50px;
 	background:#fae9e5 url(../pics/warning.gif) 2% 50% no-repeat;
 	color:#ea1144;
 }
@@ -92,7 +93,11 @@ h2 {
 *******************************************************************************/
 
 h2, 
-div#rex-setup, 
+input, 
+select, 
+textarea, 
+div#rex-setup
+/*, 
 div.rex-lgn-loginform input, 
 div.rex-cnt-cols input, 
 div.rex-cnt-cols select, 
@@ -101,7 +106,7 @@ div.rex-cnt-metaform select,
 div.rex-cnt-metaform textarea, 
 div.rex-mdl-moduleform input, 
 div.rex-mdl-moduleform select, 
-div.rex-mdl-moduleform textarea {
+div.rex-mdl-moduleform textarea */ {
 	font-size:1em;
 }
 div.rex-cnt-editmode p.rex-flLeft, 
@@ -129,6 +134,19 @@ div#rex-title h1 {
 
 /*	Color Properties
 *******************************************************************************/
+.rex-ok, 
+.rex-online {
+	color:#3ec94a;
+}
+
+.rex-nice {
+	color:#3a3;
+}
+
+.rex-error {
+	color:#c33;
+}
+
 .rex-clr-grn {
 	color:#478c44;
 }
@@ -250,7 +268,6 @@ div#rex-wrapper {
 div#rex-output {
 	margin-top:10px;
 }
-
 div#rex-output p.rex-hdl {
 	background:#d7d6d3;
 	font-weight:bold;
@@ -414,8 +431,9 @@ form#rex-usr {
 	background-color:#d6e1e4;
 }
 div.rex-lgn-loginform {
-   background-color: #f0efeb;
-   border: 1px solid #eae9e5;
+	clear:both;
+	background-color: #f0efeb;
+	border: 1px solid #eae9e5;
 }
 
 div.rex-mdl-moduleform, 
@@ -452,9 +470,6 @@ form#rex-usr div {
 	padding:5px 0;
 	background:#f0efeb;
 	border-bottom:1px solid #fff;
-}
-form#rex-usr legend {
-	background-color:#;
 }
 form#rex-usr p {
 	margin:0;
@@ -616,6 +631,8 @@ div.rex-cnt-metaform select.rex-fdate {
 /*	Table
 *******************************************************************************/
 table.rex-table {
+	clear:both;
+	margin-bottom:10px;
 	width:100%;
 	background:#f0efeb;
 	border-collapse:collapse;
@@ -646,7 +663,8 @@ table.rex-table th {
 	text-align:left;
 }
 
-table.rex-table th.rex-icon {
+table.rex-table th.rex-icon, 
+table.rex-table td.rex-icon {
 	width:30px;
 	text-align:center;
 }
@@ -684,16 +702,4 @@ div#rex-lizenz {
 	overflow:auto; 
 	background-color:#fff; 
 	font-size:.85em;
-}
-
-.rex-ok {
-	color:#3ec94a;
-}
-
-.rex-nice {
-	color:#3a3;
-}
-
-.rex-error {
-	color:#c33;
 }
