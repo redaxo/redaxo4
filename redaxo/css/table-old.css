@@ -1,33 +1,35 @@
 /* Allgemeines Tabellen-Layout - START */
-table.rex {
-   width: 770px;
+table {
+   
 }
 
-table.rex tr th {
+table tr th {
    background-color: #d7d6d3;
    text-align: left;
+   padding:5px;
 }
 
-table.rex .icon {
-	width:30px;
-	text-align: center;
+table .icon {
+   width:30px;
+   text-align: center;
 }
 
-table.rex tr td {
+table tr td {
    background-color: #f0efeb;
+   padding:5px;
 }
 
-table.rex tr.warning td {
+table tr.warning td {
    color: #ea1144; 
    background-color: #fae9e5;
 }
 
-table.rex tr.status td {
+table tr.status td {
    color: #107c2c; 
    background-color: #d2efd9;
 }
 
-table.rex tr.selected td {
+table tr.selected td {
    background-color: #eae9e5;
 }
 /* Allgemeines Tabellen-Layout - ENDE */
