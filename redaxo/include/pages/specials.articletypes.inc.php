@@ -138,7 +138,7 @@ if ($func == 'add')
   echo '
         <tr class="rex-trow-actv">
           <td>&nbsp;</td>
-          <td><input type="text" maxlength="2" name="type_id" value="'.$type_id.'" /></td>
+          <td><input type="text" maxlength="2" id="type_id" name="type_id" value="'.$type_id.'" /></td>
           <td><input type="text" name="typname" value="'.$typname.'" /></td>
           <td><input type="text" name="description" value="'.$description.'" /></td>
           <td><input type="submit" class="rex-fsubmit" name="add_article_type" value="'.$I18N->msg('article_type_add').'" /></td>
@@ -156,7 +156,7 @@ for ($i = 0; $i < $sql->getRows(); $i++)
             <tr class="rex-trow-actv">
               <td>&nbsp;</td>
               <td>'.htmlspecialchars($sql->getValue("type_id")).'</td>
-              <td><input type="text" name="typname" value="'.htmlspecialchars($sql->getValue("name")).'" /></td>
+              <td><input type="text" id="typname" name="typname" value="'.htmlspecialchars($sql->getValue("name")).'" /></td>
               <td><input type="text" name="description" value="'.htmlspecialchars($sql->getValue("description")).'" /></td>
               <td>
                 <input type="submit" class="rex-fsubmit" name="edit_article_type" value="'.$I18N->msg("article_type_update").'"/>
@@ -183,7 +183,14 @@ echo '
 
 if ($func == 'add' || $func == 'edit')
 {
+  $fieldId = $func == 'add' ? 'type_id' :  'typname';
   echo '
+          <script type="text/javascript"> 
+             <!-- 
+             var needle = new getObj("'. $fieldId .'");
+             needle.obj.focus();
+             //--> 
+          </script>
         </fieldset>
       </form>';
 }

@@ -120,7 +120,7 @@ if ($func == 'addclang')
         <tr class="rex-trow-actv">
           <td></td>
           <td>'.$sel->out().'</td>
-          <td><input type="text" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
+          <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
           <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'" /></td>
         </tr>
       ';
@@ -135,7 +135,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
           <tr class="rex-trow-actv">
             <td></td>
             <td align="center" class="grey">'.$lang_id.'</td>
-            <td><input type="text" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
+            <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
             <td>
               <input type="submit" class="rex-fsubmit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'" />
               <input type="submit" class="rex-fsubmit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'" onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
@@ -162,6 +162,12 @@ echo '
 if ($func == 'addclang' || $func == 'editclang')
 {
   echo '
+          <script type="text/javascript"> 
+             <!-- 
+             var needle = new getObj("clang_name");
+             needle.obj.focus();
+             //--> 
+          </script>
         </fieldset>
       </form>';
 }
