@@ -105,6 +105,7 @@ Changes:
   * Bugfixes:
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
 		- Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
+		- Startartikel wurden immer online angezeigt
 
 Version 3.2 (2006-04-06)
 
