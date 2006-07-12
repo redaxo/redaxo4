@@ -42,6 +42,11 @@ function getObj(name)
         }
 }
 
+function getObjArray(name)
+{
+	return document.getElementsByName(name);
+}
+
 // -------------------------------------------------------------------------------------------------------------------
 
 function changeImage(id,img)

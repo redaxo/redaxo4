@@ -120,16 +120,14 @@ function insertHTML(html) {
   self.close();
 }
 
-function SetAllCheckBoxes(FormName, FieldName, mthis)
+function SetAllCheckBoxes(FieldName, mthis)
 {
   var CheckValue;
   
   if (mthis.checked) CheckValue=true;
   else CheckValue=false;
   
-  if(!document.forms[FormName])
-    return;
-  var objCheckBoxes = document.forms[FormName].elements[FieldName];
+  var objCheckBoxes = new getObjArray(FieldName);
   if(!objCheckBoxes) return;
 
   var countCheckBoxes = objCheckBoxes.length;
@@ -1244,11 +1242,8 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   {
     $title .= ' ('. $diff_count .')';
   }
-  echo "<table width=100% cellpadding=5 cellspacing=1 border=0 style='margin-top:10px'><tr><td class=grey><b class=head>". $title ."</b></td></tr><tr><td></td></tr></table>";
+  echo '<p>'. $title .'</p>';
   
-  echo '<table border="0" cellpadding="5" cellspacing="1" width="100%">'."\n";
-  echo '<tr><td class="grey" width="100">';
-
   if($diff_count > 0)
   {
     echo '<ul>';
@@ -1261,9 +1256,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     }
     echo '</ul>';
     
-    echo '</td></tr>';
-    echo '<tr><td align=left class="grey">';
-    echo '<input class="rex-fchckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'rex_file_cat\',\'sync_files[]\',this)"/>';
+    echo '<input class="rex-fchckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'sync_files[]\',this)"/>';
     echo '<label for="checkie">'. $I18N->msg('pool_select_all') .'</label>';
     
   }
@@ -1272,8 +1265,6 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     echo '<b>'. $I18N->msg('pool_sync_no_diffs') .'</b>';
   }
   
-  echo '</td></tr>'."\n";
-  echo '</table>';
   echo '</form>';
 }
 
@@ -1552,7 +1543,7 @@ if ($subpage == '')
     echo '
       <div id="rex-mpool-ftr">
         <span class="rex-hide"><label for="checkie">'.$I18N->msg('pool_select_all').'</label></span>
-        <input class="rex-fchckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'rex_file_list\',\'selectedmedia[]\',this)" />
+        <input class="rex-fchckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'selectedmedia[]\',this)" />
         '. $add_input .'
       </div>';
   }
