@@ -857,26 +857,26 @@ if ($category_id > -1)
         $add_td = '<td>'. $sql->getValue('id') .'</td>';
       }
   
+      $article_class = '';
+      if ($sql->getValue('status') == 0)
+      {
+        $article_status = $I18N->msg('status_offline');
+        $article_class = 'rex-offline';
+      }
+      elseif ($sql->getValue('status') == 1)
+      {
+        $article_status = $I18N->msg('status_online');
+        $article_class = 'rex-online';
+      }
+      
       $add_extra = '';
       if ($sql->getValue('startpage') == 1)
       {
         $add_extra = '<td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
-                      <td class="rex-online"><span class="rex-strike">online</span></td>';
+                      <td class="'. $article_class .'"><span class="rex-strike">'. $article_status .'</span></td>';
       }
       else
       {
-        $article_class = '';
-        if ($sql->getValue('status') == 0)
-        {
-          $article_status = $I18N->msg('status_offline');
-          $article_class = 'rex-offline';
-        }
-        elseif ($sql->getValue('status') == 1)
-        {
-          $article_status = $I18N->msg('status_online');
-          $article_class = 'rex-online';
-        }
-        
         if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]'))
         {
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="'. $article_class .'">'. $article_status .'</a>';
