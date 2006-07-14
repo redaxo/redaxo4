@@ -33,9 +33,7 @@ echo '
     <p>
       <label for="REX_UPSW">'.$I18N->msg('password').':</label>
       <input type="password" name="REX_UPSW" id="REX_UPSW" />
-    </p>
-    <p>
-      <input class="rex-fsubmit" type="submit" value="'.$I18N->msg('login').'" />
+			<input class="rex-fsubmit" type="submit" value="'.$I18N->msg('login').'" />
     </p>
   </fieldset>
 </form>

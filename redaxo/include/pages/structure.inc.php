@@ -3,7 +3,11 @@
 /** 
  *  
  * @package redaxo3 
+<<<<<<< structure.inc.php
  * @version $Id$ 
+=======
+ * @version $Id$ 
+>>>>>>> 1.64
  */
 
 /*
@@ -784,7 +788,7 @@ if ($category_id > -1)
       $add_td = '<td>-</td>';
     }
     
-    echo '<tr>
+    echo '<tr class="rex-trow-actv">
             <td class="rex-icon"><img src="pics/document.gif" width="16" height="16" alt="'.$I18N->msg('article_add') .'" title="'.$I18N->msg('article_add') .'" /></td>
             '. $add_td .'
             <td><input type="text" id="article_name" name="article_name" /></td>
@@ -835,7 +839,7 @@ if ($category_id > -1)
       
       $TMPL_SEL->set_selected($sql->getValue('template_id'));
       
-      echo '<tr>
+      echo '<tr class="rex-trow-actv">
               <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
               '. $add_td .'
               <td><input type="text" id="article_name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
