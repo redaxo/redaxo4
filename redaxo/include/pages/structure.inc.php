@@ -3,11 +3,7 @@
 /** 
  *  
  * @package redaxo3 
-<<<<<<< structure.inc.php
  * @version $Id$ 
-=======
- * @version $Id$ 
->>>>>>> 1.64
  */
 
 /*
