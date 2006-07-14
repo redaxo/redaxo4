@@ -759,9 +759,13 @@ if ($category_id > -1)
             <th colspan="3">'.$I18N->msg('header_status').'</th>
           </tr>
         </thead>
-        <tbody>
         ';
-
+  // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
+  if($sql->getRows() > 0 || $function == 'add_art')
+  {
+    echo '<tbody>
+          ';
+  }
 
   // --------------------- ARTIKEL ADD FORM
 
@@ -793,7 +797,8 @@ if ($category_id > -1)
             <td>'. strftime($I18N->msg("adateformat")) .'</td>
             <td>'. $I18N->msg("article") .'</td>
             <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'" /></td>
-          </tr>';
+          </tr>
+          ';
   }
 
   // --------------------- ARTIKEL LIST
@@ -844,7 +849,8 @@ if ($category_id > -1)
               <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')) .'</td>
               <td>'. $startpage .'</td>
               <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('edit_article') .'" /></td>
-            </tr>';
+            </tr>
+            ';
 
     }
     elseif ($KATPERM)
@@ -896,7 +902,8 @@ if ($category_id > -1)
               <td>'. $startpage .'</td>
               <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
               '. $add_extra .'
-            </tr>';
+            </tr>
+            ';
 
     }
     else
@@ -932,13 +939,21 @@ if ($category_id > -1)
               <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
               <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>
               <td class="'. $art_status_class .'"><span class="rex- ">'. $art_status .'</span></td>
-            </tr>';
+            </tr>
+            ';
     }
     
     $sql->counter++;
   }
+  
+  // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
+  if($sql->getRows() > 0 || $function == 'add_art')
+  {
+    echo '
+        </tbody>';
+  }
+  
   echo '
-        </tbody>
       </table>';
   
   if($function == 'add_art' || $function == 'edit_art')
