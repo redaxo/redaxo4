@@ -617,10 +617,19 @@ if ($article->getRows() == 1)
     
     $menu = $tadd;
     
+		if ($mode == 'edit') {
+			$menu_edit = '<span>'.$I18N->msg('edit_mode').'</span>';
+			$menu_meta = '<a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=meta&amp;clang='. $clang .'&amp;ctype='. $ctype .'">'.$I18N->msg('metadata').'</a>';
+		}
+		else {
+			$menu_edit = '<a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=edit&amp;clang='. $clang .'&amp;ctype='. $ctype .'">'.$I18N->msg('edit_mode').'</a>';
+			$menu_meta = '<span>'.$I18N->msg('metadata').'</span>';
+		}
+		
     $menu.= '
     <ul>
-      <li><a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=edit&amp;clang='. $clang .'&amp;ctype='. $ctype .'">'.$I18N->msg('edit_mode').'</a> | </li>
-      <li><a href="index.php?page=content&amp;article_id='. $article_id .'&amp;mode=meta&amp;clang='. $clang .'&amp;ctype='. $ctype .'">'.$I18N->msg('metadata').'</a> | </li>
+      <li>'.$menu_edit.' | </li>
+      <li>'.$menu_meta.' | </li>
       <li><a href="../index.php?article_id='. $article_id .'&amp;clang='. $clang .'">'.$I18N->msg('show').'</a></li>
     </ul>';
     // ------------------------------------------ END: CONTENT HEAD MENUE
