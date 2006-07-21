@@ -98,7 +98,7 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
   $hmode = $resize[4];
   $imagefile = $resize[5];
 
-  $cachepath = $REX['HTDOCS_PATH'].'files/tmp_cache_resize___'.$rex_resize;
+  $cachepath = $REX['HTDOCS_PATH'].'files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
   // check for cache file

@@ -87,10 +87,12 @@ Changes:
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
     - I18N Klasse codiert jetzt alle Langkeys mit htmlspecialchars() [kills]
-  * Fileprefix für Tempdateien implementiert ("tmp_") [kills]
+  * $REX['TEMP_PREFIX'] implementiert (Für Dateien und Tabellen) [kills]
     - Dateien mit diesem Prefix werden ...
       + .. NICHT vom Import/Export-Addon exportiert
       + .. NICHT vom Medienpool Sync Tool als neue registriert
+    - Tabellen mit diesem Prefix werden ... (-> TABLE_PREFIX + TEMP_PREFIX!)
+      + .. NICHT vom Import/Export-Addon exportiert
   * rexGlobales API implementiert [kills]
     - Ab sofort nur noch mit rex_get(), rex_post(), .. arbeiten!
   * Image-Resize-Addon:

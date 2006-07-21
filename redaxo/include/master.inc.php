@@ -28,6 +28,7 @@ $REX['MOD_REWRITE'] = false; // activate mod_rewrite support
 $REX['INCLUDE_PATH'] = $REX['HTDOCS_PATH']."redaxo/include"; // 
 $REX['MEDIAFOLDER'] = $REX['HTDOCS_PATH']."files"; //
 $REX['TABLE_PREFIX'] = "rex_";
+$REX['TEMP_PREFIX'] = "tmp_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20060101010101";
 $REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
