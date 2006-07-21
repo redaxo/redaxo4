@@ -9,7 +9,7 @@
 
 // Für größere Exports den Speicher für PHP erhöhen.
 
-@ ini_set('memory_limit', '32M');
+@ini_set('memory_limit', '32M');
 
 // ------- Addon Includes
 include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/classes/class.tar.inc.php';
@@ -89,22 +89,21 @@ elseif (isset ($function) && $function == "fileimport")
 
   // ------------------------------ FUNC FILEIMPORT
 
-  if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
+  if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
     $msg = $I18N_IM_EXPORT->msg("no_import_file_chosen")."<br>";
   }
   else
   {
-    if ($impname != "")
-    {
-      $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/$impname";
-    }
-    else
+    if ($impname == "")
     {
       $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/tar.temp";
     }
-
-    if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
+    else
+    {
+      $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/$impname";
+    }
+    if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $state = rex_a1_import_files($file_temp);
       $msg = $state['message'];
@@ -215,197 +214,222 @@ elseif (isset ($function) && $function == "export")
 }
 
 include $REX['INCLUDE_PATH']."/layout/top.php";
+
 rex_title($I18N_IM_EXPORT->msg("importexport"), "");
+
 if ($msg != '')
-  echo "<table border=0 cellpadding=5 cellspacing=1 width=770><tr><td class=warning>$msg</td></tr></table><br>";
+{
+  echo '<p class="rex-warning">'. $msg .'</p>';
+}
+
 ?>
+<div class="rex-cnt-cols">
 
-<table width="770" cellspacing="1" border="0" cellpadding="5">
-
-<tr>
-  <th width="50%" align="left"><?php echo $I18N_IM_EXPORT->msg('import'); ?></th>
-  <th align="left"><?php echo $I18N_IM_EXPORT->msg('export'); ?></th>
-</tr>
-
-
-<tr>
-  <td valign="top" class="dgrey"><?php
-
-
-// ----------------------------------------------------------------- IMPORT
-
-// DB IMPORT
-echo "<br />".$I18N_IM_EXPORT->msg("intro_import")."  
+  <!-- Linker Abschnitt -->
+  <div class="rex-cnt-col2">
+    <p class="rex-hdl"><?php echo $I18N_IM_EXPORT->msg('import'); ?></p>
+    <div class="rex-cnt">
+      <p><?php echo $I18N_IM_EXPORT->msg('intro_import') ?></p>
+      
+      <!-- DB IMPORT LIST -->
+      <form action="index.php" enctype="multipart/form-data" method="post" >
+        <fieldset>
+          <legend><?php echo $I18N_IM_EXPORT->msg('import'); ?></legend>
+          <input type="hidden" name="page" value="<?php echo $page ?>" />
+          <input type="hidden" name="function" value="dbimport" />
+          <p>
+            <label for="importdbfile"><?php echo $I18N_IM_EXPORT->msg('database'); ?></label>
+            <input type="file" id="importdbfile" name="FORM[importfile]" />
+          </p>
+          <p>
+            <input type="submit" class="rex-fsubmit" value="<?php echo $I18N_IM_EXPORT->msg('db_import') ?>" />
+          </p>
+        </fieldset>
+      </form>
+      
+      <table class="rex-table" summary="<?php echo $I18N_IM_EXPORT->msg('export_db_summary'); ?>">
+        <caption><?php echo $I18N_IM_EXPORT->msg('export_db_caption'); ?></caption>
+        <colgroup>
+          <col width="*" />
+          <col width="15%" span="3"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th><?php echo $I18N_IM_EXPORT->msg('filename'); ?></th>
+            <th><?php echo $I18N_IM_EXPORT->msg('createdate'); ?></th>
+            <th colspan="2"><?php echo $I18N_IM_EXPORT->msg('function'); ?></th>
+          </tr>
+        </thead>
+        <tbody>
+<?php
+  $dir = getImportDir();
+  $folder = readImportFolder('.sql');
   
-  <br><br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
-  <tr><td align=left colspan=2 class=lgrey>".$I18N_IM_EXPORT->msg("database")."</td>
-  <form action=index.php method=post enctype='multipart/form-data'>
-  <input type=hidden name=page value=$page>
-  <input type=hidden name=function value=dbimport>
-  <tr>
-    <td class=lgrey><input type=file name=FORM[importfile]></td>
-    <td class=lgrey width=129><input type=submit value='".$I18N_IM_EXPORT->msg("db_import")."'></td>
-  </tr>
-  </form>
-  </table>";
-
-echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>";
-echo "<tr>
-      <td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td>
-      <td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td>
-      <td width=60 class=lgrey>&nbsp;</td>
-      <td width=60 class=lgrey>&nbsp;</td>";
-
-// DB IMPORT LIST
-// all files in files with .sql als endung
-$dir = getImportDir();
-$folder = readImportFolder(".sql");
-
-foreach ($folder as $file)
-{
-  $filepath = $dir.'/'.$file;
-  $filec = date("d.m.Y H:i", filemtime($filepath));
-  echo "<tr>
-                <td class=lgrey><b>$file</b></td>
-                <td class=lgrey>$filec</td>
-                <td class=lgrey><a href=index.php?page=$page&amp;function=dbimport&amp;impname=$file title='".$I18N_IM_EXPORT->msg('import_file')."' onclick=\"return confirm('".$I18N_IM_EXPORT->msg('proceed_db_import')."')\">".$I18N_IM_EXPORT->msg("import")."</a></td>
-                <td class=lgrey><a href=index.php?page=$page&amp;function=delete&amp;impname=$file title='".$I18N_IM_EXPORT->msg('delete_file')."' onclick=\"return confirm('".$I18N->msg('delete')." ?')\">".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
-}
-echo "</table>";
-
-// FILE IMPORT
-echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
-  <tr><td align=left colspan=2 class=lgrey>".$I18N_IM_EXPORT->msg("files")."</td>
-  <form action=index.php method=post enctype='multipart/form-data'>
-  <input type=hidden name=page value=$page>
-  <input type=hidden name=function value=fileimport>
-  <tr>
-    <td class=lgrey><input type=file name=FORM[importfile]></td>
-    <td class=lgrey width=130><input type=submit value='".$I18N_IM_EXPORT->msg("db_import")."'></td>
-  </tr>
-  </form>
-  </table>";
-
-echo "<br><table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>"."\n";
-echo "<tr>
-      <td align=left class=lgrey>".$I18N_IM_EXPORT->msg("filename")."</td>
-      <td width=60 class=lgrey>".$I18N_IM_EXPORT->msg("createdate")."</td>
-      <td width=60 class=lgrey>&nbsp;</td>
-      <td width=60 class=lgrey>&nbsp;</td>"."\n";
-
-// FILE IMPORT LIST
-// all files in files with .tar.gz als endung
-
-$dir = getImportDir();
-$folder = readImportFolder(".tar.gz");
-
-foreach ($folder as $file)
-{
-  $filepath = $dir.'/'.$file;
-  $filec = date("d.m.Y H:i", filemtime($filepath));
-  echo "<tr>
-                <td class=lgrey><b>$file</b></td>
-                <td class=lgrey>$filec</td>
-                <td class=lgrey><a href=index.php?page=$page&function=fileimport&impname=$file title='".$I18N_IM_EXPORT->msg('import_file')."' onclick=\"return confirm('".$I18N_IM_EXPORT->msg('proceed_file_import')."')\">".$I18N_IM_EXPORT->msg("import")."</a></td>
-                <td class=lgrey><a href=index.php?page=$page&function=delete&impname=$file title='".$I18N_IM_EXPORT->msg('delete_file')."' onclick=\"return confirm('".$I18N->msg('delete')." ?')\">".$I18N_IM_EXPORT->msg("delete")."</a></td></tr>";
-}
-
-echo "</table><br />"."\n";
-
-// ----------------------------------------------------------------- /IMPORT
-?></td><td valign="top" class="dgrey"><?php
-
-
-// ----------------------------------------------------------------- EXPORT
-
-echo "<br />".$I18N_IM_EXPORT->msg("intro_export")."<br /><br />"."\n";
-
-echo "<table width=100% border=0 cellspacing=1 cellpadding=4 bgcolor=#ffffff>
-  
-  <form action=index.php method=post enctype='multipart/form-data'>
-  <input type=hidden name=page value=$page>
-  <input type=hidden name=function value=export>  
-  "."\n";
-
-$checkedsql = "";
-$checkedfiles = "";
-
-if (isset ($exporttype) and $exporttype == "files")
-  $checkedfiles = " checked";
-else
-  $checkedsql = " checked";
-
-echo "<tr>"."\n";
-echo "  <td class=lgrey width=30><input type=radio id=exporttype[sql] name=exporttype value=sql $checkedsql></td>"."\n";
-echo "  <td class=lgrey><label for=exporttype[sql]>".$I18N_IM_EXPORT->msg("database_export")."</label></td>"."\n";
-echo "</tr>"."\n";
-
-echo "<tr>"."\n";
-echo "  <td class=lgrey><input type=radio id=exporttype[files] name=exporttype value=files $checkedfiles></td>"."\n";
-echo "  <td class=lgrey><label for=exporttype[files]>".$I18N_IM_EXPORT->msg("file_export")."</label></td>"."\n";
-echo "</tr>"."\n";
-
-echo "<tr><td class=grey>&nbsp;</td><td class=lgrey><table width=100%>"."\n";
-// FILE EXPORT LIST
-// all folders of the webpage except the cms dir
-
-$dir = $REX['INCLUDE_PATH']."/../../";
-$folders = readSubFolders($dir);
-
-foreach ($folders as $file)
-{
-  if ($file == 'redaxo')
+  foreach ($folder as $file)
   {
-    continue;
+    $filepath = $dir.'/'.$file;
+    $filec = date('d.m.Y H:i', filemtime($filepath));
+    
+    echo '<tr>
+            <td>'. $file .'</td>
+            <td>'. $filec .'</td>
+            <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_db_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
+            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>
+          </tr>
+  ';  
   }
+?>
+        </tbody>
+      </table>
 
-  $checked = "";
-  if (isset ($EXPDIR) and is_Array($EXPDIR))
-    if (array_key_exists($file, $EXPDIR) !== false)
-      $checked = " checked";
-  echo "<tr>"."\n";
-  echo "  <td class=lgrey width=30><input type=checkbox onchange=\"checkInput('exporttype[files]');\" id=EXPDIR[$file] name=EXPDIR[$file] value=true $checked></td>"."\n";
-  echo "  <td class=lgrey><label for=EXPDIR[$file]>$file</label></td>"."\n";
-  echo "</tr>"."\n";
+      <!-- FILE IMPORT -->
+      <form action="index.php" enctype="multipart/form-data" method="post" >
+        <fieldset>
+          <legend><?php echo $I18N_IM_EXPORT->msg('files'); ?></legend>
+          <input type="hidden" name="page" value="<?php echo $page ?>" />
+          <input type="hidden" name="function" value="fileimport" />
+          <p>
+            <label for="importtarfile"><?php echo $I18N_IM_EXPORT->msg('files'); ?></label>
+            <input type="file" id="importtarfile" name="FORM[importfile]" />
+          </p>
+          <p>
+            <input type="submit" value="<?php echo $I18N_IM_EXPORT->msg('db_import') ?>" />
+          </p>
+        </fieldset>
+      </form>
+      
+      <table class="rex-table" summary="<?php echo $I18N_IM_EXPORT->msg('export_file_summary'); ?>">
+        <caption><?php echo $I18N_IM_EXPORT->msg('export_file_caption'); ?></caption>
+        <colgroup>
+          <col width="*" />
+          <col width="15%" span="3"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th><?php echo $I18N_IM_EXPORT->msg('filename'); ?></th>
+            <th><?php echo $I18N_IM_EXPORT->msg('createdate'); ?></th>
+            <th colspan="2"><?php echo $I18N_IM_EXPORT->msg('function'); ?></th>
+          </tr>
+        </thead>
+        <tbody>
+<?php
+  $dir = getImportDir();
+  $folder = readImportFolder('.tar.gz');
+  
+  foreach ($folder as $file)
+  {
+    $filepath = $dir.'/'.$file;
+    $filec = date('d.m.Y H:i', filemtime($filepath));
+    
+    echo '<tr>
+            <td>'. $file .'</td>
+            <td>'. $filec .'</td>
+            <td><a href="index.php?page='. $page .'&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_file_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
+            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>
+          </tr>';
+  }
+?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Rechter Abschnitt -->
+  <div class="rex-cnt-col2">
+    <p class="rex-hdl"><?php echo $I18N_IM_EXPORT->msg('export'); ?></p>
+    <div class="rex-cnt">
+      <p><?php echo $I18N_IM_EXPORT->msg('intro_export') ?></p>
+      
+      <form action="index.php" enctype="multipart/form-data" method="post" >
+        <fieldset>
+          <legend><?php echo $I18N_IM_EXPORT->msg('import'); ?></legend>
+          <input type="hidden" name="page" value="<?php echo $page ?>" />
+          <input type="hidden" name="function" value="export" />  
+<?php
+$checkedsql = '';
+$checkedfiles = '';
+
+if (isset ($exporttype) and $exporttype == 'files')
+{
+  $checkedfiles = ' checked="checked"';
 }
-
-echo "</table></td></tr>";
-
-$checked0 = "";
-$checked1 = "";
+else
+{
+  $checkedsql = ' checked="checked"';
+}
+?>
+          <ul>
+            <li>
+              <input type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
+              <label for="exporttype_sql"><?php echo $I18N_IM_EXPORT->msg('database_export'); ?></label>
+            </li>
+            <li>
+              <input type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
+              <label for=exporttype_files><?php echo $I18N_IM_EXPORT->msg('file_export'); ?></label>
+            </li>
+            <li>
+              <!-- FILE EXPORT LIST -->
+              <ul>
+<?php
+  $dir = $REX['INCLUDE_PATH'] .'/../../';
+  $folders = readSubFolders($dir);
+  
+  foreach ($folders as $file)
+  {
+    if ($file == 'redaxo')
+    {
+      continue;
+    }
+  
+    $checked = '';
+    if (isset($EXPDIR) && is_array($EXPDIR) && array_key_exists($file, $EXPDIR) !== false)
+    {
+      $checked = ' checked="checked"';
+    }
+    
+    echo '<li>
+            <input type="checkbox" onchange="checkInput(\'exporttype[files]\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
+            <label for="EXPDIR_'. $file .'">'. $file .'</label>
+          </li>
+    ';
+  }
+?>
+              </ul>
+            </li>
+<?php
+$checked0 = '';
+$checked1 = '';
 
 if (isset ($exportdl) and $exportdl == 1)
-  $checked1 = " checked";
+{
+  $checked1 = ' checked="checked"';
+}
 else
-  $checked0 = " checked";
-
-echo "<tr>"."\n";
-echo "  <td class=lgrey><input type=radio id=exportdl[server] name=exportdl value=0 $checked0></td>"."\n";
-echo "  <td class=lgrey><label for=exportdl[server]>".$I18N_IM_EXPORT->msg("save_on_server")."</label></td>"."\n";
-echo "</tr>"."\n";
-echo "<tr>"."\n";
-echo "  <td class=lgrey><input type=radio id=exportdl[download] name=exportdl value=1 $checked1></td>"."\n";
-echo "  <td class=lgrey><label for=exportdl[download]>".$I18N_IM_EXPORT->msg("download_as_file")."</label></td>"."\n";
-echo "</tr>"."\n";
-echo "<tr>"."\n";
-echo "  <td class=lgrey></td>"."\n";
-echo "  <td class=lgrey><input type=text size=20 name=exportfilename class=inp100 value='$exportfilename'></td>"."\n";
-echo "</tr>"."\n";
-
-echo "<tr>"."\n";
-echo "  <td class=lgrey></td>"."\n";
-echo "  <td class=lgrey><input type=submit value='".$I18N_IM_EXPORT->msg("db_export")."'></td>"."\n";
-echo "</tr>"."\n";
-
-echo "</form>"."\n";
-echo "</table><br />"."\n";
-
-// ----------------------------------------------------------------- /EXPORT
-?></td>
-</tr>
-</table>
-
-
-
+{
+  $checked0 = ' checked="checked"';
+}
+?>
+            <li>
+              <input type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
+              <label for="exportdl_server"><?php echo $I18N_IM_EXPORT->msg('save_on_server'); ?></label>
+            </li>
+            <li>
+              <input type="radio" id="exportdl_download" name="exportdl" value="1"<?php echo $checked1; ?> />
+              <label for="exportdl_download"><?php echo $I18N_IM_EXPORT->msg('download_as_file'); ?></label>
+            </li>
+            <li>
+              <label for="exportfilename"><?php echo $I18N_IM_EXPORT->msg('filename'); ?></label>
+              <input type="text" id="exportfilename" name="exportfilename" value="<?php echo $exportfilename; ?>" />
+            </li>
+            <li>
+              <input type="submit" class="rex-fsubmit" value="<?php echo $I18N_IM_EXPORT->msg('db_export'); ?>" />
+            </li>
+          </ul>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  
+</div>
 
 <?php include $REX['INCLUDE_PATH']."/layout/bottom.php"; ?>

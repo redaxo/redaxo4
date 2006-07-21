@@ -219,7 +219,9 @@ function rex_a1_export_db()
   for ($i = 0; $i < $tabs->rows; $i++, $tabs->next())
   {
     $tab = $tabs->getValue("Tables_in_".$REX['DB']['1']['NAME']);
-    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab && $tab != $REX['TABLE_PREFIX'].'user')
+    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab // User Tabelle nicht exportieren 
+        && $tab != $REX['TABLE_PREFIX'].'user' // Nur Tabellen mit dem aktuellen Prefix 
+        && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert! 
     {
       $cols = new sql;
       $cols->setquery("SHOW COLUMNS FROM ".$tab);
@@ -354,12 +356,14 @@ function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
  */
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 {
+  global $REX;
+  
   $handle = opendir($path.$dir);
   $array_indx = 0;
   #$tar->addFile($path.$dir."/",TRUE);
   while (false !== ($file = readdir($handle)))
   {
-    if(substr($file, 0, 4) != 'tmp_')
+    if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
     {
       $dir_array[$array_indx] = $file;
       $array_indx++;
