@@ -16,7 +16,7 @@ start_article_not_selected = Kein Startartikel selektiert
 
 # redaxo/redaxo/index.php
 specials = Specials
-module = Module
+module = Modul
 template = Templates
 user = Benutzer
 community = Community

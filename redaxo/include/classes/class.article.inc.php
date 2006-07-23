@@ -480,7 +480,7 @@ class article
             <input type="hidden" name="clang" value="'. $this->clang .'" />
             <input type="hidden" name="ctype" value="'.$this->ctype .'" />
             <p>
-              Modul: '. $MOD->getValue("name") .'
+              '. $I18N->msg("module") .': '. $MOD->getValue("name") .'
             </p>
             <div class="rex-mdl-inp">
               '. $MOD->getValue("eingabe") .'
