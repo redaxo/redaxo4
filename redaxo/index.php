@@ -136,7 +136,7 @@ else
       $page_name = $I18N->msg("specials");
     }elseif ($REX['PAGEPATH'] == '' && $page == "module" && ($REX_USER->isValueOf("rights","module[]") || $REX_USER->isValueOf("rights","admin[]")))
     {
-      $page_name = $I18N->msg("module");
+      $page_name = $I18N->msg("modules");
     }elseif ($REX['PAGEPATH'] == '' && $page == "template" && ($REX_USER->isValueOf("rights","template[]") || $REX_USER->isValueOf("rights","admin[]")))
     {
       $page_name = $I18N->msg("template");
