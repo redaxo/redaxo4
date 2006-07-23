@@ -65,6 +65,18 @@ function rex_session($varname, $vartype = '', $default = '')
 }
 
 /**
+ * Setzt den Wert einer Session Variable.
+ * 
+ * Variablen werden Instanzabhängig gespeichert.
+ */
+function rex_set_session($varname, $value)
+{
+  global $REX;
+
+  $_SESSION[$varname][$REX['INSTNAME']] = $value;
+}
+
+/**
  * Gibt die Superglobale variable $varname des Array $_COOKIE zurück und castet dessen Wert ggf.
  * 
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
