@@ -565,10 +565,10 @@ class article
   			$tmp = $var->getFEOutput($sql,$content);
   		}
       
-      // hier mit TMP Variable arbeiten, 
-      // falls in einer der Vars kein RETURN Value gesetzt wurde,
-      // damit nicht die Ausgabe davon beschädigt wird.
-      if($tmp != '')
+      // Rückgabewert nur auswerten wenn auch einer vorhanden ist
+      // damit $content nicht verfälscht wird
+      // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist 
+      if($tmp !== null)
       {
         $content = $tmp;
       }

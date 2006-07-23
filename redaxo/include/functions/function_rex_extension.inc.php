@@ -1,8 +1,7 @@
 <?php
 
-
 /** 
- * Funktionen zur Registrierung von Schnittstellen 
+ * Funktionen zur Registrierung von Schnittstellen (EXTENSION_POINTS) 
  * @package redaxo3 
  * @version $Id$ 
  */
@@ -31,16 +30,21 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
     {
       foreach ($REX['EXTENSIONS'][$extensionPoint] as $ext)
       {
-        rex_call_func($ext, $params);
+        $func = $ext[0];
+        $local_params = array_merge($params, $ext[1]);
+        rex_call_func($func, $local_params);
       }
     }
     else
     {
       foreach ($REX['EXTENSIONS'][$extensionPoint] as $ext)
       {
-        $temp = rex_call_func($ext, $params);
-        // RÜckgabewert nur auswerten wenn auch einer vorhanden ist
-        // damit $params['subject'] nicht verfälscht wird 
+        $func = $ext[0];
+        $local_params = array_merge($params, $ext[1]);
+        $temp = rex_call_func($func, $local_params);
+        // Rückgabewert nur auswerten wenn auch einer vorhanden ist
+        // damit $params['subject'] nicht verfälscht wird
+        // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist 
         if($temp !== null)
         {
           $result = $temp; 
@@ -57,11 +61,13 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
  *
  * @param $extension Name der Extension
  * @param $function Name der Callback-Funktion
+ * @param [$params] Array von zusätzlichen Parametern
  */
-function rex_register_extension($extension, $function)
+function rex_register_extension($extension, $function, $params = array())
 {
   global $REX;
-  $REX['EXTENSIONS'][$extension][] = $function;
+  if(!is_array($params)) $params = array();
+  $REX['EXTENSIONS'][$extension][] = array($function,$params);
 }
 
 /**
@@ -85,7 +91,7 @@ function rex_get_registered_extensions($extensionPoint)
   if(rex_extension_is_registered($extensionPoint))
   {
     global $REX;
-    return $REX['EXTENSIONS'][$extensionPoint];
+    return $REX['EXTENSIONS'][$extensionPoint][0];
   }
   return array();
 }
@@ -128,7 +134,7 @@ function rex_call_func($function, $params)
     }
     else
     {
-      trigger_error('rexExtension: Function "'.$function.'" not found!');
+      trigger_error('rexCallFunc: Function "'.$function.'" not found!');
     }
   }
   // object->method call
@@ -141,7 +147,7 @@ function rex_call_func($function, $params)
   }
   else
   {
-    trigger_error('rexExtension: Using of an unexpected function var "'.$function.'"!');
+    trigger_error('rexCallFunc: Using of an unexpected function var "'.$function.'"!');
   }
 
   return call_user_func($func, $params);
@@ -157,7 +163,7 @@ function rex_check_callable($_callable)
   {
     if (!is_array($_callable))
     {
-      trigger_error('rexExtension: Unexpected vartype for $_callable given! Expecting Array!', E_USER_ERROR);
+      trigger_error('rexCallFunc: Unexpected vartype for $_callable given! Expecting Array!', E_USER_ERROR);
     }
     $_object = $_callable[0];
     $_method_name = $_callable[1];
@@ -167,10 +173,10 @@ function rex_check_callable($_callable)
       $_class_name = $_object;
       if (!class_exists($_class_name))
       {
-        trigger_error('rexExtension: Class "'.$_class_name.'" not found!', E_USER_ERROR);
+        trigger_error('rexCallFunc: Class "'.$_class_name.'" not found!', E_USER_ERROR);
       }
     }
-    trigger_error('rexExtension: No such method "'.$_method_name.'" in class "'.get_class($_object).'"!', E_USER_ERROR);
+    trigger_error('rexCallFunc: No such method "'.$_method_name.'" in class "'.get_class($_object).'"!', E_USER_ERROR);
   }
 }
 ?>
