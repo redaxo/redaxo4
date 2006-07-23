@@ -1126,9 +1126,9 @@ function rex_generateTemplate($template_id)
  */
 function rex_addslashes($string)
 {
-
   $string = str_replace("\\", "\\\\", $string);
   $string = str_replace("\"", "\\\"", $string);
+  $string = str_replace("'", "\'", $string);
 
   return $string;
 
