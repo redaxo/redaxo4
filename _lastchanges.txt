@@ -86,7 +86,7 @@ Changes:
   	- Synchronisation jetzt auch auf Selection möglich [kills]
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
-    - I18N Klasse codiert jetzt alle Langkeys mit htmlspecialchars() [kills]
+    - I18N Klasse codiert jetzt alle Langkeys mit htmlentities() [kills]
   * $REX['TEMP_PREFIX'] implementiert (Für Dateien und Tabellen) [kills]
     - Dateien mit diesem Prefix werden ...
       + .. NICHT vom Import/Export-Addon exportiert
@@ -103,7 +103,8 @@ Changes:
   * Internes Handling:
     - Default Systemvariablen werden alle in der master.inc.php gesetzt [kills]
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
-	- generateTemplate() implementiert [kills]
+		- generateTemplate() implementiert [kills]
+		- ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
   * Bugfixes:
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
 		- Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
