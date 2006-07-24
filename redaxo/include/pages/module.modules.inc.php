@@ -141,10 +141,10 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
     }
 
     echo '  
-		<div class="rex-mdl-moduleform">
+		<div class="rex-mdl-editmode">
       <form action="index.php" method="post">
         <fieldset>
-          <legend id="module">'. $legend .'</legend>
+          <legend class="rex-lgnd" id="module">'. $legend .'</legend>
           <input type="hidden" name="page" value="module" />
           <input type="hidden" name="function" value="'.$function.'" />
           <input type="hidden" name="save" value="ja" />
@@ -154,16 +154,16 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
             <label for="mname">'.$I18N->msg("module_name").'</label>
             <input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
           </p>
-          <p>
+          <p class="rex-txtr-cd">
             <label for="eingabe">'.$I18N->msg("input").'</label>
-            <textarea cols="50" rows="6" name="eingabe" id="eingabe" class="rex-ftxtr-cd">'.htmlspecialchars($eingabe).'</textarea>
+            <textarea cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
           </p>
-          <p>
+          <p class="rex-txtr-cd">
             <label for="ausgabe">'.$I18N->msg("output").'</label>
-            <textarea cols="50" rows="6" name="ausgabe" id="ausgabe" class="rex-ftxtr-cd">'.htmlspecialchars($ausgabe).'</textarea>
+            <textarea cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
           </p>
-          <p>
-            <input type="submit" class="rex-fsubmit" value="'.$I18N->msg("save_module_and_quit").'" />
+          <p class="rex-sbmt">
+            <input type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
             '. $btn_update .'
           </p>
         </fieldset>
@@ -232,14 +232,14 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
 
         echo '
         <fieldset>
-          <legend id="action">'.$I18N->msg("action_add").'</legend>
+          <legend class="rex-lgnd" id="action">'.$I18N->msg("action_add").'</legend>
           '. $actions .'
           <p>
             <label for="action_id">'.$I18N->msg("action").'</label>
             '.$gaa_sel->out().'
           </p>
-          <p>
-            <input type="submit" class="rex-fsubmit" value="'.$I18N->msg("action_add").'" name="add_action" />
+          <p class="rex-sbmt">
+            <input type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
           </p>
         </fieldset>';
       }
