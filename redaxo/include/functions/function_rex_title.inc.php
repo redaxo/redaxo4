@@ -124,7 +124,7 @@ function rex_get_subtitle($subline, $attr = '')
       if (!empty( $subpage[2]))
       {
         // Hat der User das Recht für die aktuelle Subpage?
-        if (!$REX_USER->isValueOf('rights', $subpage[2]))
+        if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm($subpage[2]))
         {
           // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
           if ($cur_subpage == $link)
