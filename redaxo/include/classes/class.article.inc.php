@@ -255,7 +255,7 @@ class article
             $amodule = '
             <form action="'. $form_url .'" method="get">
               <fieldset>
-                <legend><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+                <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                 <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -264,7 +264,7 @@ class article
                 <input type="hidden" name="clang" value="'.$this->clang.'" />
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
-                <p>
+                <p class="rex-slct">
                   '. $MODULESELECT->out() .'
                   <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                 </p>
@@ -309,7 +309,7 @@ class article
               {
                 $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
-                <div class="rex-cnt-moduleout">';
+                <div class="rex-cnt-slc-otp">';
                 
                 $slice_content .= $RE_MODUL_OUT[$I_ID];
                 
@@ -379,7 +379,7 @@ class article
           $amodule = '
             <form action="'. $form_url .'" method="get">
               <fieldset>
-                <legend><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+                <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                 <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -388,7 +388,7 @@ class article
                 <input type="hidden" name="clang" value="'.$this->clang.'" />
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
-                <p>
+                <p class="rex-slct">
                   '. $MODULESELECT->out() .'
                   <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                 </p>
@@ -469,7 +469,7 @@ class article
         <a name="addslice"></a>
         <form action="index.php#slice'. $I_ID .'" method="post" id="REX_FORM" enctype="multipart/form-data">
           <fieldset>
-            <legend>'. $I18N->msg('add_block').'</legend>
+            <legend class="rex-lgnd">'. $I18N->msg('add_block').'</legend>
             <input type="hidden" name="article_id" value="'. $this->article_id .'" />
             <input type="hidden" name="page" value="content" />
             <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -479,13 +479,13 @@ class article
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="clang" value="'. $this->clang .'" />
             <input type="hidden" name="ctype" value="'.$this->ctype .'" />
-            <p>
-              '. $I18N->msg("module") .': '. $MOD->getValue("name") .'
+            <p class="rex-cnt-mdl-name">
+              '. $I18N->msg("module") .': <span>'. $MOD->getValue("name") .'</span>
             </p>
-            <div class="rex-mdl-inp">
+            <div class="rex-cnt-slc-ipt">
               '. $MOD->getValue("eingabe") .'
             </div>
-            <p>
+            <p class="rex-sbmt">
               <input type="submit" value="'. $I18N->msg('add_block') .'" />
             </p> 
           </fieldset>
@@ -512,7 +512,7 @@ class article
       <a name="editslice"></a>
       <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
         <fieldset>
-          <legend>'. $I18N->msg('edit_block') .'</legend>
+          <legend class="rex-lgnd">'. $I18N->msg('edit_block') .'</legend>
           <input type="hidden" name="article_id" value="'.$this->article_id.'" />
           <input type="hidden" name="page" value="content" />
           <input type="hidden" name="mode" value="'.$this->mode.'" />
@@ -522,8 +522,12 @@ class article
           <input type="hidden" name="save" value="1" />
           <input type="hidden" name="update" value="0" />
           <input type="hidden" name="clang" value="'.$this->clang.'" />
+		  
+		  
+		  <div class="rex-cnt-slc-ipt">
           '.$RE_MODUL_IN.'
-          <p>
+		  </div>
+          <p class="rex-sbmt">
             <input type="submit" value="'.$I18N->msg('save_block').'" />
             <input type="submit" value="'.$I18N->msg('update_block').'" onClick="REX_FORM.update.value=1" />
           </p>

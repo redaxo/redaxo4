@@ -770,7 +770,7 @@ if ($article->getRows() == 1)
 	  <div class="rex-cnt-metamode">
       <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
         <fieldset>
-          <legend>'.$I18N->msg('general').'</legend>
+          <legend class="rex-lgnd">'.$I18N->msg('general').'</legend>
           <input type="hidden" name="page" value="content" />
           <input type="hidden" name="article_id" value="'. $article_id .'" />
           <input type="hidden" name="mode" value="meta" />
@@ -859,9 +859,9 @@ if ($article->getRows() == 1)
           <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
           <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
         </p>
-        <p>
+        <p class="rex-chckbx">
           <label for="meta_teaser">'. $I18N->msg("teaser") .'</label>
-          <input class="rex-fchckbx" type="checkbox" name="meta_teaser" id="meta_teaser" value="1"'. $teaser_checked .' />
+          <input type="checkbox" name="meta_teaser" id="meta_teaser" value="1"'. $teaser_checked .' />
         </p>
         
         '. $out;
@@ -870,8 +870,8 @@ if ($article->getRows() == 1)
      echo rex_register_extension_point('ART_META_FORM');
         
      echo '
-        <p>
-          <input class="rex-fsubmit" type="submit" value="'.$I18N->msg("update_metadata").'" />
+        <p class="rex-sbmt">
+          <input type="submit" value="'.$I18N->msg("update_metadata").'" />
         </p>
      </fieldset>';
         
@@ -926,14 +926,14 @@ if ($article->getRows() == 1)
               
             echo '
             <fieldset>
-              <legend>' . $I18N->msg("content_submitcopycontent") .'</legend>
+              <legend class="rex-lgnd">' . $I18N->msg("content_submitcopycontent") .'</legend>
               <p>
                 <label for="clang_a">'. $I18N->msg("content_contentoflang") .'</label>
                 '. $lang_a->out() .'
                 <label for="clang_b">'. $I18N->msg("content_to") .'</label> '. $lang_b->out() .'
               </p>
-              <p>
-                <input class="rex-fsubmit" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") .'" />
+              <p class="rex-sbmt">
+                <input type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") .'" />
               </p>
             </fieldset>';
           
@@ -958,13 +958,13 @@ if ($article->getRows() == 1)
             
             echo '
             <fieldset>
-              <legend>'. $I18N->msg("content_submitmovearticle") .'</legend>
+              <legend class="rex-lgnd">'. $I18N->msg("content_submitmovearticle") .'</legend>
               <p>
                 <label for="category_id_new">'. $I18N->msg("move_article") .'</label>
                 '. $move_a->out().'
               </p>
-              <p>
-                <input class="rex-fsubmit" type="submit" name="movearticle" value="'. $I18N->msg("content_submitmovearticle") .'" />
+              <p class="rex-sbmt">
+                <input type="submit" name="movearticle" value="'. $I18N->msg("content_submitmovearticle") .'" />
               </p>
             </fieldset>
             ';
@@ -993,13 +993,13 @@ if ($article->getRows() == 1)
             
             echo '
             <fieldset>
-              <legend>'. $I18N->msg("content_submitcopyarticle") .'</legend>
+              <legend class="rex-lgnd">'. $I18N->msg("content_submitcopyarticle") .'</legend>
               <p>
                 <label for="category_copy_id_new">'. $I18N->msg("copy_article") .'</label>
                 '. $move_a->out() .'
               </p>
-              <p>
-                <input class="rex-fsubmit" type="submit" name="copyarticle" value="'. $I18N->msg("content_submitcopyarticle").'" />
+              <p class="rex-sbmt">
+                <input type="submit" name="copyarticle" value="'. $I18N->msg("content_submitcopyarticle").'" />
               </p>
             </fieldset>
             ';
@@ -1027,13 +1027,13 @@ if ($article->getRows() == 1)
             }
             echo '
             <fieldset>
-              <legend>'. $I18N->msg("content_submitmovecategory") .'</legend>
+              <legend class="rex-lgnd">'. $I18N->msg("content_submitmovecategory") .'</legend>
               <p>
                 <label for="category_id_new">'. $I18N->msg("move_category") .'</label>
                 '. $move_a->out() .'
               </p>
-              <p>
-                <input class="rex-fsubmit" type="submit" name="movecategory" value="'. $I18N->msg("content_submitmovecategory") .'" />
+              <p class="rex-sbmt">
+                <input type="submit" name="movecategory" value="'. $I18N->msg("content_submitmovecategory") .'" />
               </p>
             </fieldset>';
           
