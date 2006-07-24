@@ -42,6 +42,16 @@ Planung / Irgendwann:
   * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
   
 ---------------------------------------------------------------------------------
+Diskussionsanregungen:
+---------------------------------------------------------------------------------
+  * Textile und Phpmailer ebenfalls nach Vorbild TinyMCE als Addon, da nicht zum Redaxo-Kern zugehörig
+    * Nachteil: 
+	  - Installation von "unnötigen" Addons -> unübersichtlich
+	* Vorteil:
+	  - konsequentes Auslagern und Sauberhalten des Redaxo-Kerns
+	  - Textile-Addon: detailierte Anleitung möglich
+  
+---------------------------------------------------------------------------------
 Known Bugs:
 ---------------------------------------------------------------------------------
 
