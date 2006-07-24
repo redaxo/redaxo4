@@ -103,6 +103,7 @@ Changes:
   * OOF:
     - OOMedia::toImage -> title Attribut bekommt nun den MediaTitle zugewiesen und nicht mehr die Description [tab]
   * Beiliegender PHPMailer aktualisiert [kills]
+  * TinyMCE entfernt [kills]
   * Internes Handling:
     - Default Systemvariablen werden alle in der master.inc.php gesetzt [kills]
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
