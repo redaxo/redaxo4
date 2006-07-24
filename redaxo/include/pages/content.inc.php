@@ -767,7 +767,7 @@ if ($article->getRows() == 1)
       }
 
       echo '
-	  <div class="rex-cnt-metaform">
+	  <div class="rex-cnt-metamode">
       <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
         <fieldset>
           <legend>'.$I18N->msg('general').'</legend>
