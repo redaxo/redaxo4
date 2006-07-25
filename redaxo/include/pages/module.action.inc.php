@@ -124,7 +124,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
     if ($sdelete == 1) $sel_status->set_selected(4);
     
     $btn_update = '';
-    if ($function != "add") $btn_update = '<input type="submit" class="rex-fsubmit" name="goon" value="'.$I18N->msg("save_action_and_continue").'" />';
+    if ($function != "add") $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_action_and_continue").'" />';
     
     if (isset($message) and $message != '')
     {
@@ -145,9 +145,9 @@ if (isset($function) and ($function == "add" or $function == "edit"))
           <label for="mname">'.$I18N->msg("action_name").'</label>
           <input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
         </p>
-        <p class="rex-txtr-cd">
+        <p>
           <label for="actioninput">'.$I18N->msg("input").'</label>
-          <textarea cols="50" rows="6" name="actioninput" id="actioninput">'.htmlspecialchars($actioninput).'</textarea>
+          <textarea class="rex-txtr-cd" cols="50" rows="6" name="actioninput" id="actioninput">'.htmlspecialchars($actioninput).'</textarea>
         </p>
         <p>
           <label for="prepost">'.$I18N->msg("action_time").'</label>
@@ -157,8 +157,8 @@ if (isset($function) and ($function == "add" or $function == "edit"))
           <label for="status">'.$I18N->msg("action_event").'<br />('.$I18N->msg("ctrl").')</label>
           '.$sel_status->out().'
         </p>
-        <p class="rex-sbmt">
-          <input type="submit" value="'.$I18N->msg("save_action_and_quit").'" />
+        <p>
+          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_action_and_quit").'" />
           '. $btn_update .'
         </p>
       </fieldset>

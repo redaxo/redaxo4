@@ -116,20 +116,20 @@ if (isset($function) and ($function == "add" or $function == "edit")){
           <input type="text" size="10" id="ltemplatename" name="templatename" value="'.htmlspecialchars($templatename).'" />
         </p>
 
-        <p class="rex-chckbx">
-    	    <label for="active">'.$I18N->msg("checkbox_template_active").' <span class="rex-hide"> '.$I18N->msg("checkbox_template_active_info").'</span></label>
-          <input type="checkbox" id="active" name="active" value="1"'. $tmpl_active_checked .'/>
+        <p>
+    	  <label for="active">'.$I18N->msg("checkbox_template_active").' <span class="rex-hide"> '.$I18N->msg("checkbox_template_active_info").'</span></label>
+          <input class="rex-chckbx" type="checkbox" id="active" name="active" value="1"'. $tmpl_active_checked .'/>
           <span class="rex-au-none">'.$I18N->msg("checkbox_template_active_info").'</span>
         </p>
 
-        <p class="rex-txtr-cd">
+        <p>
           <label for="content">'.$I18N->msg("header_template").'</label>
-          <textarea name="content" id="content" cols="50" rows="6">'.htmlspecialchars($content).'</textarea>
+          <textarea class="rex-txtr-cd" name="content" id="content" cols="50" rows="6">'.htmlspecialchars($content).'</textarea>
     	  </p>
 
-        <p class="rex-sbmt">
-          <input type="submit" value="'.$I18N->msg("save_template_and_quit").'" />
-          <input type="submit" name="goon" value="'.$I18N->msg("save_template_and_continue").'" />
+        <p>
+          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_template_and_quit").'" />
+          <input class="rex-sbmt" type="submit" name="goon" value="'.$I18N->msg("save_template_and_continue").'" />
         </p>
 
       </fieldset>

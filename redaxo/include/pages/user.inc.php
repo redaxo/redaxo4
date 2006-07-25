@@ -516,10 +516,10 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div>
 						<p class="rex-cnt-col2">
-						<input type="submit" class="rex-fsubmit" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" />
+						<input type="submit" class="rex-sbmt" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" />
 						</p>
 						<p class="rex-cnt-col2">
-						<input type="submit" class="rex-fsubmit" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" />
+						<input type="submit" class="rex-sbmt" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" />
 						</p>
 					</div>';
     $add_user_login = '<span id="userlogin">'. $sql->getValue($REX['TABLE_PREFIX']."user.login") .'</span>';
@@ -605,11 +605,11 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
       // Der Benutzer kann sich selbst die Rechte nicht entziehen 
       if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $adminchecked != '')
       {
-        $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-fchckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
+        $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
       }
       else
       {
-        $add_admin_chkbox = '<input class="rex-fchckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
+        $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
       }
       
       // Account gesperrt?
@@ -617,7 +617,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
       {
         $add_login_reset_chkbox = '
         <p class="rex-warning">
-          <input class="rex-fchckbx" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
+          <input class="rex-chckbx" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
           <label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
         </p>';
       }
@@ -629,16 +629,16 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
     // User Add
     $form_label = $I18N->msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
-    $add_submit = '<input type="submit" class="rex-fsubmit" name="function" value="'.$I18N->msg("add_user").'" />';
-    $add_admin_chkbox = '<input class="rex-fchckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
+    $add_submit = '<input type="submit" class="rex-sbmt" name="function" value="'.$I18N->msg("add_user").'" />';
+    $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
     $add_user_login = '<input type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
   
   echo '
-  <div class="rex-cnt-cols">
-  <form id="rex-usr" action="index.php" method="post">
+  <div class="rex-usr-editmode">
+  <form action="index.php" method="post">
     <fieldset>
-      <legend>'. $form_label .'</legend>
+      <legend class="rex-lgnd">'.$form_label.'</legend>
       <input type="hidden" name="page" value="user" />
       <input type="hidden" name="save" value="1" />
       '. $add_hidden .'
@@ -672,7 +672,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
         <div>
           <p class="rex-cnt-col2">
             '. $add_admin_chkbox .'
-            <label class="rex-lbl-right" for="useradmin">'.$I18N->msg('user_admin').'</label>
+            <label class="rex-lbl-rght" for="useradmin">'.$I18N->msg('user_admin').'</label>
           </p>
 		</div>
 		
@@ -705,12 +705,12 @@ if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
 		
         <div>
           <p class="rex-cnt-col2">
-            <input class="rex-fchckbx" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
-            <label class="rex-lbl-right" for="allcats">'.$I18N->msg('all_categories').'</label>
+            <input class="rex-chckbx" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
+            <label class="rex-lbl-rght" for="allcats">'.$I18N->msg('all_categories').'</label>
           </p>
           <p class="rex-cnt-col2">
-            <input class="rex-fchckbx" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
-            <label class="rex-lbl-right" for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
+            <input class="rex-chckbx" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
+            <label class="rex-lbl-rght" for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
           </p>
 		</div>
 		

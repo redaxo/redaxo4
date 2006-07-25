@@ -155,6 +155,7 @@ if ($message != "")
   echo '<p class="rex-warning">'.$message.'</p>';
   
 echo '
+	<div class="rex-spc-stn">
   <form action="index.php" method="post">
     <input type="hidden" name="page" value="specials" />
     <input type="hidden" name="func" value="updateinfos" />
@@ -162,7 +163,7 @@ echo '
     <div class="rex-cnt-cols">
     <div class="rex-cnt-col2">
       <p class="rex-hdl">'.$I18N->msg("specials_features").'</p>
-      <div class="rex-cnt">
+      <div class="rex-spc-stn-cnt">
         <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("regenerate_article").'</a></p>
         <p>'.$I18N->msg("regeneration_message").'</p>
   
@@ -176,9 +177,9 @@ echo '
     
     <div class="rex-cnt-col2">
       <p class="rex-hdl">'.$I18N->msg("specials_settings").'</p>
-      <div class="rex-cnt">
+      <div class="rex-spc-stn-cnt">
         <fieldset>  
-          <legend>'.$I18N->msg("general_info_header").'</legend>
+          <legend class="rex-lgnd">'.$I18N->msg("general_info_header").'</legend>
           <p>
             <label for="rex_version">$REX[\'VERSION\']</label>
             <span id="rex_version">&quot;'.$REX['VERSION'].'&quot;</span>
@@ -197,7 +198,7 @@ echo '
           </p>
         </fieldset>
         <fieldset>
-          <legend>'.$I18N->msg("db1_can_only_be_changed_by_setup").'</legend>
+          <legend class="rex-lgnd">'.$I18N->msg("db1_can_only_be_changed_by_setup").'</legend>
           <p>
             <label for="rex_db_host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
             <span id="rex_db_host">&quot;'.$REX['DB']['1']['HOST'].'&quot;</span>
@@ -216,7 +217,7 @@ echo '
           </p>
         </fieldset>
         <fieldset>
-          <legend>'.$I18N->msg("specials_others").'</legend>
+          <legend class="rex-lgnd">'.$I18N->msg("specials_others").'</legend>
           <p>
             <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
             <span id="rex_include_path">&quot;'.$REX['INCLUDE_PATH'].'&quot;</span>
@@ -242,13 +243,14 @@ echo '
             '.$sel_mod_rewrite->out().'
           </p>
           <p>
-            <input type="submit" class="rex-fsubmit" name="sendit" value="'.$I18N->msg("specials_update").'" />
+            <input type="submit" class="rex-sbmt" name="sendit" value="'.$I18N->msg("specials_update").'" />
           </p>
         </fieldset>
       </div>
     </div>
   </div>
   </form>
+  </div>
   ';
   
 ?>

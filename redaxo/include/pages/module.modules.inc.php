@@ -133,7 +133,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
     }
     
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" class="rex-fsubmit" name="goon" value="'.$I18N->msg("save_module_and_continue").'" />';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_module_and_continue").'" />';
     
     if (isset($message) and $message != '')
     {
@@ -154,16 +154,16 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
             <label for="mname">'.$I18N->msg("module_name").'</label>
             <input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
           </p>
-          <p class="rex-txtr-cd">
+          <p>
             <label for="eingabe">'.$I18N->msg("input").'</label>
-            <textarea cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
+            <textarea class="rex-txtr-cd" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
           </p>
-          <p class="rex-txtr-cd">
+          <p>
             <label for="ausgabe">'.$I18N->msg("output").'</label>
-            <textarea cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
+            <textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
           </p>
-          <p class="rex-sbmt">
-            <input type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
+          <p>
+            <input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
             '. $btn_update .'
           </p>
         </fieldset>
@@ -238,8 +238,8 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
             <label for="action_id">'.$I18N->msg("action").'</label>
             '.$gaa_sel->out().'
           </p>
-          <p class="rex-sbmt">
-            <input type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
+          <p>
+            <input class="rex-sbmt" type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
           </p>
         </fieldset>';
       }

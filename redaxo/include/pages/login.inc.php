@@ -21,10 +21,10 @@ if (!isset($REX_ULOGIN))
 echo '
 
 <!-- *** OUTPUT OF LOGIN-FORM - START *** -->
-<div class="rex-lgn-loginform">
+<div class="rex-lgn-frm">
 <form action="index.php" method="post" id="loginformular">
   <fieldset>
-    <legend>Login</legend>
+    <legend class="rex-lgnd">Login</legend>
     <input type="hidden" name="page" value="structure" />
     <p>
       <label for="REX_ULOGIN">'.$I18N->msg('login_name').':</label>
@@ -33,7 +33,7 @@ echo '
     <p>
       <label for="REX_UPSW">'.$I18N->msg('password').':</label>
       <input type="password" name="REX_UPSW" id="REX_UPSW" />
-			<input class="rex-fsubmit" type="submit" value="'.$I18N->msg('login').'" />
+	  <input class="rex-sbmt" type="submit" value="'.$I18N->msg('login').'" />
     </p>
   </fieldset>
 </form>

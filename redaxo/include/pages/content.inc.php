@@ -859,9 +859,9 @@ if ($article->getRows() == 1)
           <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
           <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
         </p>
-        <p class="rex-chckbx">
+        <p>
           <label for="meta_teaser">'. $I18N->msg("teaser") .'</label>
-          <input type="checkbox" name="meta_teaser" id="meta_teaser" value="1"'. $teaser_checked .' />
+          <input class="rex-chckbx" type="checkbox" name="meta_teaser" id="meta_teaser" value="1"'. $teaser_checked .' />
         </p>
         
         '. $out;
@@ -870,8 +870,8 @@ if ($article->getRows() == 1)
      echo rex_register_extension_point('ART_META_FORM');
         
      echo '
-        <p class="rex-sbmt">
-          <input type="submit" value="'.$I18N->msg("update_metadata").'" />
+        <p>
+          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("update_metadata").'" />
         </p>
      </fieldset>';
         
@@ -932,8 +932,8 @@ if ($article->getRows() == 1)
                 '. $lang_a->out() .'
                 <label for="clang_b">'. $I18N->msg("content_to") .'</label> '. $lang_b->out() .'
               </p>
-              <p class="rex-sbmt">
-                <input type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") .'" />
+              <p>
+                <input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") .'" />
               </p>
             </fieldset>';
           
@@ -963,8 +963,8 @@ if ($article->getRows() == 1)
                 <label for="category_id_new">'. $I18N->msg("move_article") .'</label>
                 '. $move_a->out().'
               </p>
-              <p class="rex-sbmt">
-                <input type="submit" name="movearticle" value="'. $I18N->msg("content_submitmovearticle") .'" />
+              <p>
+                <input class="rex-sbmt" type="submit" name="movearticle" value="'. $I18N->msg("content_submitmovearticle") .'" />
               </p>
             </fieldset>
             ';
@@ -998,8 +998,8 @@ if ($article->getRows() == 1)
                 <label for="category_copy_id_new">'. $I18N->msg("copy_article") .'</label>
                 '. $move_a->out() .'
               </p>
-              <p class="rex-sbmt">
-                <input type="submit" name="copyarticle" value="'. $I18N->msg("content_submitcopyarticle").'" />
+              <p>
+                <input class="rex-sbmt" type="submit" name="copyarticle" value="'. $I18N->msg("content_submitcopyarticle").'" />
               </p>
             </fieldset>
             ';
@@ -1032,8 +1032,8 @@ if ($article->getRows() == 1)
                 <label for="category_id_new">'. $I18N->msg("move_category") .'</label>
                 '. $move_a->out() .'
               </p>
-              <p class="rex-sbmt">
-                <input type="submit" name="movecategory" value="'. $I18N->msg("content_submitmovecategory") .'" />
+              <p>
+                <input class="rex-sbmt" type="submit" name="movecategory" value="'. $I18N->msg("content_submitmovecategory") .'" />
               </p>
             </fieldset>';
           
