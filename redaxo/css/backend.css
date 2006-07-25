@@ -187,6 +187,11 @@ div#rex-ftr {
 	width:770px;
 }
 
+body#rex-mpl div#rex-hdr, 
+body#rex-mpl div#rex-ftr {
+	width:100%;
+}
+
 div#rex-ftr {
 	clear:both;
 	padding:5px 0;
@@ -213,6 +218,10 @@ div#rex-ftr ul {
 	display:inline;
 	width:70%;
 	margin:0 5px;
+}
+
+body#rex-mpl div#rex-hdr div ul {
+	width:100%;
 }
 
 div#rex-hdr div li, 
@@ -256,6 +265,9 @@ div#rex-wrapper {
 	clear:both;
 	width:770px;
 	margin-bottom:10px;
+}
+body#rex-mpl div#rex-wrapper {
+	width:100%;
 }
 
 div#rex-output {
@@ -418,6 +430,54 @@ form#rex-tmp-editmode input.rex-fsubmit {
 	*//*
 }*/
 
+
+
+
+
+body div#rex-output legend.rex-lgnd {
+	padding:5px;
+	font-weight:bold;
+}
+body div#rex-output p.rex-hdl, 
+body div#rex-output div.rex-spc-stn-cnt, 
+body div#rex-output div.rex-lgn-frm p,  
+body div#rex-output div.rex-tmp-editmode p,
+body div#rex-output div.rex-mdl-editmode p,
+body div#rex-output div.rex-spc-stn-cnt p, 
+body div#rex-output div.rex-mpl-catslct-frm p, 
+body div#rex-output div.rex-mpl-dtl-wrp p,
+body div#rex-output div.rex-mpl-oth p, 
+body div#rex-output div.rex-mpl-oth li, 
+body div#rex-output p.rex-cnt-mdl-name,
+body div#rex-output p.rex-sbmt, 
+body div#rex-output p.rex-slct {
+	padding:5px;
+}
+body div#rex-output p label {
+	clear:left;
+	display:block;
+	float:left;
+	width:150px;
+}
+body div#rex-output p label.rex-lbl-rght {
+	clear:none;
+	display:inline;
+	float:left;
+	width:200px;
+}
+
+/* 
+	p.rex-chckbx - just in content.inc.php
+	p.rex-sbmt	 - just in content.inc.php
+*/
+body div#rex-output p.rex-chckbx input, 
+body div#rex-output p.rex-sbmt input, 
+body div#rex-output p input.rex-chckbx, 
+body div#rex-output p input.rex-sbmt {
+	width:auto;
+}
+
+
 /*	Table
 *******************************************************************************/
 table.rex-table {
@@ -434,6 +494,7 @@ table.rex-table th,
 table.rex-table td {
 	padding:5px;
 	border:1px solid #fff;
+	border-right:0;
 }
 
 table.rex-table caption {
@@ -553,40 +614,6 @@ div#rex-stp input.rex-sbmt {
 
 
 
-body div#rex-output legend.rex-lgnd {
-	padding:5px;
-	font-weight:bold;
-}
-body div#rex-output p.rex-hdl, 
-body div#rex-output div.rex-spc-stn-cnt, 
-body div#rex-output div.rex-lgn-frm p,  
-body div#rex-output div.rex-tmp-editmode p,
-body div#rex-output div.rex-mdl-editmode p,
-body div#rex-output div.rex-spc-stn-cnt p, 
-body div#rex-output p.rex-cnt-mdl-name,
-body div#rex-output p.rex-sbmt, 
-body div#rex-output p.rex-slct {
-	padding:5px;
-}
-body div#rex-output p label {
-	clear:left;
-	display:block;
-	float:left;
-	width:150px;
-}
-/* 
-	p.rex-chckbx - just in content.inc.php
-	p.rex-sbmt	 - just in content.inc.php
-*/
-body div#rex-output p.rex-chckbx input, 
-body div#rex-output p.rex-sbmt input, 
-body div#rex-output p input.rex-chckbx, 
-body div#rex-output p input.rex-sbmt {
-	width:auto;
-}
-
-
-
 
 /*	Login - Form
 *******************************************************************************/
@@ -595,7 +622,7 @@ div.rex-lgn-frm {
 	background-color: #f0efeb;
 	border: 1px solid #eae9e5;
 }
-div.rex-lgn-frm p label {
+body div#rex-output div.rex-lgn-frm p label {
 	width:100px;
 }
 div.rex-lgn-frm p input {
@@ -606,7 +633,9 @@ div.rex-lgn-frm p input.rex-sbmt {
 }
 
 
-/*	Structure - Edit Form
+/*	Inputs in Table
+	- add, edit Category (Structure, Medienpool)
+	- add, edit Article (Structure)
 *******************************************************************************/
 /* - Cat/Art Edit Form */
 input#category_name, 
@@ -616,7 +645,8 @@ input#kat_name,
 input#article_name,
 input#Position_New_Article, 
 input#Position_Article, 
-input#template_id   {
+input#template_id, 
+input#catname   {
 	width:98%;
 }
 
@@ -804,9 +834,6 @@ div.rex-usr-editmode p label {
 	font-weight:bold;
 }
 body div#rex-output div.rex-usr-editmode p label.rex-lbl-rght {
-	clear:none;
-	display:inline;
-	float:left;
 	width:200px;
 }
 div.rex-usr-editmode p input,  
@@ -844,4 +871,114 @@ div.rex-spc-stn-cnt p select  {
 }
 div.rex-spc-stn-cnt p input.rex-sbmt {
 	margin-left:190px;
+}
+
+
+/*	Medienpool
+*******************************************************************************/
+/*	Select Categories */
+div.rex-mpl-catslct-frm {
+	background-color:#d6e1e4;
+}
+body div#rex-output div.rex-mpl-catslct-frm p {
+	background-color:#f0efeb;
+}
+body div#rex-output div.rex-mpl-catslct-frm p label {
+	width:17%;
+	font-weight:bold;
+}
+body div#rex-output div.rex-mpl-catslct-frm p select {
+	width:60%;
+}
+
+/*	Medienlist */
+div.rex-mpl-mdn {
+	background-color:#d6e1e4;
+}
+div.rex-mpl-mdn table.rex-table td span {
+	display:block;
+	margin-bottom:1em;
+}
+div.rex-mpl-mdn table.rex-table td span a {
+	font-weight:bold;
+}
+
+div.rex-mpl-mdn div.rex-mpl-mdn-ftr {
+	padding:5px;
+}
+div.rex-mpl-mdn div.rex-mpl-mdn-ftr input.rex-chckbx, 
+div.rex-mpl-mdn div.rex-mpl-mdn-ftr select {
+	margin-right:10px;
+}
+
+/*	Mediendetail */
+div.rex-mpl-dtl {
+	background-color:#d6e1e4;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-wrp {
+	float:left;
+	width:100%;
+	background-color:#f0efeb;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt {
+	float:left;
+	width:100%;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p {
+	border-bottom:1px solid #fff;
+}
+body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p label {
+	width:28%;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p input, 
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p select, 
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
+	width:70%;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p input.rex-sbmt {
+	margin-left:28%;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-img {
+	float:right;
+}
+
+/*	manage Medienpool Categories */
+div.rex-mpl-cat-pth {
+	background-color:#f0efeb;
+}
+div.rex-mpl-cat-pth ul {
+	padding:5px;
+}
+div.rex-mpl-cat-pth ul li {
+	display:inline;
+	font-weight:bold;
+}
+div.rex-mpl-cat {
+	background-color:#d6e1e4;
+}
+
+
+
+
+/*	Other - Add File, Sync */
+div.rex-mpl-oth {
+	background-color:#d6e1e4;
+}
+div.rex-mpl-oth p, 
+div.rex-mpl-oth li {
+	background-color:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+body div#rex-output div.rex-mpl-oth p label {
+	width:28%;
+}
+body div#rex-output div.rex-mpl-oth p label.rex-lbl-rght {
+}
+div.rex-mpl-oth p input, 
+div.rex-mpl-oth p select, 
+div.rex-mpl-oth p textarea {
+	width:70%;
+}
+div.rex-mpl-oth p input.rex-sbmt {
+	margin-left:28%;
 }
