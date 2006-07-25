@@ -33,8 +33,6 @@ div, p {
 }
 
 
-
-
 .rex-clearer { 
 	display: block;
 	clear: both;
@@ -94,40 +92,35 @@ h2 {
 /*	Font Metrics
 *******************************************************************************/
 
+input, 
+select,
+textarea {
+	padding:1px;
+	font-family:verdana, arial, helvetica, sans-serif;
+}
+
 h2, 
 input, 
 select, 
-div#rex-setup
+textarea
 /*, 
-div.rex-lgn-loginform input, 
 div.rex-cnt-cols input, 
-div.rex-cnt-cols select, 
-div.rex-cnt-metaform input, 
-div.rex-cnt-metaform select, 
-div.rex-cnt-metaform textarea, 
-div.rex-mdl-moduleform input, 
-div.rex-mdl-moduleform select, 
-div.rex-mdl-moduleform textarea */ {
+div.rex-cnt-cols select */ {
 	font-size:1em;
-}
-div.rex-cnt-editmode p.rex-flLeft, 
-div.rex-cnt-editmode ul.rex-flRight li {
-	font-size:1.2em;
 }
 
 div#rex-title h1 {
 	font-size:1.3em;
 }
-
+/*
 textarea {
 	font-size:1.5em;
 }
-
+*/
 div#rex-title ul, 
 div#rex-title p, 
 div#rex-clang ul, 
-div.rex-cnt-hdr ul, 
-div.rex-cnt-editmode-slc {
+div.rex-cnt-hdr ul {
 	line-height:3em;
 }
 
@@ -161,8 +154,7 @@ div#rex-title h1 {
 
 div#rex-clang, 
 div.rex-cnt-hdr, 
-div.rex-cnt-cols, 
-form#rex-tmp-editmode p {
+div.rex-cnt-cols {
 	background-color:#f0efeb;
 }
 div.rex-cnt-bdy {
@@ -173,9 +165,7 @@ div.rex-cnt-bdy {
 
 /*	Images
 *******************************************************************************/
-div.rex-cnt-editmode ul.rex-flRight li img {
-	vertical-align:middle;
-}
+
 
 
 /*	General
@@ -269,6 +259,8 @@ div#rex-wrapper {
 }
 
 div#rex-output {
+	float:left;
+	width:100%;
 	margin-top:10px;
 }
 div#rex-output p.rex-hdl {
@@ -276,30 +268,9 @@ div#rex-output p.rex-hdl {
 	font-weight:bold;
 }
 
-div#rex-output p, 
-div#rex-output div.rex-cnt {
-	padding:5px;
-}
-
-div#rex-output div.rex-cnt-editmode-slc p {
-	padding:0;
-	padding-left:5px;
-	font-weight:bold;
-}
-
-div#rex-output div.rex-cnt-moduleout p {
-	padding:0;
-}
-
-div.rex-cnt-moduleout {
+div.rex-mdl-inp {
 	clear:both;
 	padding:10px;
-}
-
-div.rex-cnt-editmode-slc {
-	float:left;
-	width:100%;
-	background:#ccd7dd;
 }
 
 div.rex-cnt-cols {
@@ -320,7 +291,7 @@ p.rex-cnt-col2 {
 div#rex-title {
 	margin-top:10px;
 	height:61px;
-	background:#f0efeb url(../pics/logo.gif) 100% 0% no-repeat;
+	background:#f0efeb url(../pics/logo.jpg) 100% 50% no-repeat;
 }
 
 html>body div#rex-title {
@@ -359,8 +330,8 @@ div.rex-cnt-hdr {
 	background-image:url(../pics/document.gif);
 	background-position:7px 50%;
 	width:740px;
-	
 }
+
 div#rex-clang ul {
 	padding-left:5px;
 	border-left:1px solid #fff;
@@ -371,16 +342,9 @@ div.rex-cnt-hdr ul {
 	padding-left:10px;
 	border-left:1px solid #fff;
 }
-
-div.rex-cnt-editmode ul.rex-flRight {
-	padding:0 10px;
-	background:#e4eff2;
-}
-
 div#rex-title ul li, 
 div#rex-clang ul li, 
-div.rex-cnt-hdr ul li, 
-div.rex-cnt-editmode ul.rex-flRight li {
+div.rex-cnt-hdr ul li {
 	display:inline;
 	font-weight:bold;
 }
@@ -403,6 +367,8 @@ div.rex-cnt-hdr ul li a {
 
 /*	Form
 *******************************************************************************/
+
+/*
 div.rex-form {
 	padding:5px 0;
 	background:#eae9e5;
@@ -433,245 +399,24 @@ div.rex-form input.fsubmit {
 
 
 
-form#REX_FORM {
-	clear:both;
-}
-
-
-div.rex-cnt-editmode, 
-div.rex-cnt-metaform, 
-form#rex-usr {
-	background-color:#d6e1e4;
-}
-div.rex-lgn-loginform {
-	clear:both;
-	background-color: #f0efeb;
-	border: 1px solid #eae9e5;
-}
-
-div.rex-mdl-moduleform, 
-form#rex-tmp-editmode {
-	background-color:#d7d6d3;
-}
-
-div.rex-cnt-editmode form {
-	background-color:#b0bdc3;
-}
-
-form#REX_FORM fieldset {
-	padding:0 5px;
-}
-
-div.rex-lgn-loginform legend, 
-div.rex-cnt-cols legend, 
-div.rex-cnt-editmode legend, 
-div.rex-cnt-metaform legend, 
-form#rex-tmp-editmode legend, 
-div.rex-mdl-moduleform legend,  
-div#rex-setup legend {
-	padding:5px;
-	font-weight:bold;
-}
-
-div.rex-cnt-metaform p, 
-div.rex-mdl-moduleform p, 
-form#rex-tmp-editmode p {
-	border-bottom:1px solid #fff;
-	background:#f0efeb;
-}
-
-form#rex-usr div {
-	clear:both;
-	float:left;
-	width:100%;
-	padding:5px 0;
-	background:#f0efeb;
-	border-bottom:1px solid #fff;
-}
-form#rex-usr p {
-	margin:0;
-	padding:0;
-}
-div#rex-setup p {
-	float:left;
-	width:100%;
-}
-form#rex-usr span {
-	display:block;
-	margin-left:155px;
-}
-
-div.rex-lgn-loginform label, 
-div.rex-cnt-cols label, 
-div.rex-cnt-metaform label, 
-form#rex-tmp-editmode label, 
-div.rex-mdl-moduleform label, 
-form#rex-usr label, 
-div#rex-setup label {
-	clear:left;
-	display:block;
-	float:left;
-	width:150px;
-}
- 
-
-div.rex-lgn-loginform label {
-	width:100px;
-}
- 
-div#rex-setup label {
-	width:200px;
-}
- 
-div#rex-setup form#rex-stp-database label {
-	margin-bottom:1em;
-	width:450px;
-}
-form#rex-usr label {
-	padding-left:5px;
-	font-weight:bold;
-}
-form#rex-usr label.rex-lbl-right, 
-div#rex-setup label.rex-lbl-right {
-	clear:none;
-	display:inline;
-	float:left;
-	width:200px;
-}
-div.rex-cnt-cols label {
-	width:190px;
-}
-
-div.rex-cnt-cols input, 
-div.rex-cnt-cols select  {
-	width:40%;
-}
-/* - Cat/Art Edit Form */
-input#category_name, 
-input#Position_New_Category, 
-input#Position_Category, 
-input#kat_name, 
-input#article_name,
-input#Position_New_Article, 
-input#Position_Article, 
-input#template_id   {
-	width:100%;
-}
-div.rex-lgn-loginform input {
-	width:100px;
-} 
-
-form#rex-usr input,  
-form#rex-usr select,  
-form#rex-usr textarea {
-	width:200px;
-} 
-div.rex-mdl-moduleform input, 
-div.rex-mdl-moduleform select, 
-div.rex-mdl-moduleform textarea, 
-div#rex-setup input, 
-div#rex-setup select, 
-div#rex-setup textarea {
-	width:300px;
-}
-
-div.rex-cnt-metaform input, 
-div.rex-cnt-metaform select,
-div.rex-cnt-metaform textarea {
-	width:350px;
-}
-
-div.rex-mdl-moduleform input, 
-div.rex-mdl-moduleform select, 
-div.rex-mdl-moduleform textarea, 
-form#rex-tmp-editmode input, 
-form#rex-tmp-editmode textarea {
-	width:500px;
-}
-
-div.rex-cnt-editmode select {
-	width:100%;
-}
-
-div#rex-setup select.rex-fslct {
-	clear:both;
-	float:none;
-	margin-left:50px;
-}
 
 textarea.rex-ftxtr-cd {
-	height:150px;
+	height:150px;*/
 	/* font:normal 1em/1.6 courier; */
-}
-form#rex-tmp-editmode textarea.rex-ftxtr-cd {
-	height:400px;
-}  
-
-div.rex-cnt-editform form#REX_FORM input, 
-div.rex-cnt-editform form#REX_FORM select, 
-div.rex-cnt-editform form#REX_FORM textarea, 
-div.rex-lgn-loginform input.rex-fsubmit,
-div.rex-cnt-metaform input.rex-fchckbx, 
-div.rex-cnt-metaform input.rex-fsubmit, 
-div.rex-mdl-moduleform input.rex-fsubmit, 
-form#rex-tmp-editmode input.rex-fchckbx, 
-form#rex-tmp-editmode input.rex-fsubmit, 
-form#rex-usr input.rex-fchckbx, 
-form#rex-usr input.rex-fsubmit, 
-div#rex-setup input.rex-fsubmit, 
-div#rex-setup input.rex-fchckbx {
-	width:auto;
-}
-
-form#rex-usr input.rex-fchckbx, 
-div#rex-setup input.rex-fchckbx {
-	clear:both;
-	float:left;
-	margin:0 5px 0 135px;
-}
-
-div#rex-setup input.rex-fchckbx {
-	margin-left:30px;
-}
-
-div#rex-setup form#rex-stp-admin input.rex-fchckbx {
-	margin-left:180px;
-}
+/*}  
 
 input.rex-fsubmit {
-	padding:2px 10px;
+	padding:0 5px;
 }
-div.rex-cnt-metaform input.rex-fsubmit, 
-div.rex-mdl-moduleform input.rex-fsubmit, 
 form#rex-tmp-editmode input.rex-fsubmit {
-	margin-left:150px;
+	margin-left:150px;*/
 	/*
 	background:#d6e1e4;
 	border:1px solid #91ADB6;
 	border-top-color:#BED0D4;
 	border-left-color:#BED0D4;
-	*/
-}
-div#rex-setup input.rex-fsubmit {
-	margin-left:200px;
-}
-div.rex-cnt-cols input.rex-fsubmit {
-	margin-left:190px;
-}
-div.rex-cnt-cols form#rex-usr input.rex-fsubmit {
-	margin-left:155px;
-}
-div.rex-lgn-loginform input.rex-fsubmit {
-	margin-left:20px;
-}
-div.rex-cnt-metaform select.rex-fdatey {
-	width:60px;
-}
-
-div.rex-cnt-metaform select.rex-fdate {
-	width:40px;
-}
-
+	*//*
+}*/
 
 /*	Table
 *******************************************************************************/
@@ -692,9 +437,11 @@ table.rex-table td {
 }
 
 table.rex-table caption {
-	background:#c7c6c2;
-	background:#cac8c4;
-	border-left:0;
+	background-color:#c7c6c2;
+	background-color:#cac8c4;
+	background-color:#d6e1e4;
+	/* border-left:0; */
+	border-bottom:0;
 	font-weight:bold;
 	text-align:left;
 }
@@ -706,6 +453,7 @@ table.rex-table tr.rex-trow-actv td {
 */
 table.rex-table th {
 	background:#d7d6d3;
+	border-bottom:0;
 	text-align:left;
 }
 
@@ -725,31 +473,375 @@ table.rex-table th.rex-colz {
 
 /*	Setup
 *******************************************************************************/
-div#rex-setup {
+div#rex-stp {
 	padding:20px 5px;
 	background-color:#faf9f5;
 }
-
-div#rex-setup p {
-	padding-left:0;
+/*
+div#rex-stp p {
+	float:left;
+	width:100%;
 }
-
-div#rex-setup ul.language {
+*/
+/* Language */
+div#rex-stp ul.rex-stp-language {
 	font-weight:bold;
 	text-align:center;
 }
-div#rex-setup ul li {
+div#rex-stp ul.rex-stp-language li {
 	display:block;
 	padding:5px 0;
 }
-div#rex-setup ul li a {
+div#rex-stp ul.rex-stp-language li a {
 	color:#000;
 }
-div#rex-lizenz {
+
+
+/* License */
+div#rex-stp-lcns {
 	margin:30px 0;
+	padding:5px 0 5px 5px;
 	width:500px; 
 	height:200px; 
 	overflow:auto; 
 	background-color:#fff; 
-	font-size:.85em;
+	border:1px solid #f0efeb;
+}
+
+ 
+ 
+div#rex-stp p label {
+	width:200px;
+}
+ 
+div#rex-stp form#rex-stp-database label {
+	margin-bottom:1em;
+	width:450px;
+}
+div#rex-stp label.rex-lbl-right {
+	clear:none;
+	display:inline;
+	float:left;
+	width:200px;
+}
+
+div#rex-stp input, 
+div#rex-stp select, 
+div#rex-stp textarea {
+	width:300px;
+}
+
+div#rex-stp select.rex-slct {
+	clear:both;
+	float:none;
+	margin-left:50px;
+}
+
+div#rex-stp input.rex-chckbx {
+	clear:both;
+	float:left;
+	margin:0 5px 0 30px;
+}
+
+div#rex-stp form#rex-stp-admin input.rex-chckbx {
+	margin-left:180px;
+}
+div#rex-stp input.rex-sbmt {
+	margin-left:200px;
+}
+
+
+
+
+body div#rex-output legend.rex-lgnd {
+	padding:5px;
+	font-weight:bold;
+}
+body div#rex-output p.rex-hdl, 
+body div#rex-output div.rex-spc-stn-cnt, 
+body div#rex-output div.rex-lgn-frm p,  
+body div#rex-output div.rex-tmp-editmode p,
+body div#rex-output div.rex-mdl-editmode p,
+body div#rex-output div.rex-spc-stn-cnt p, 
+body div#rex-output p.rex-cnt-mdl-name,
+body div#rex-output p.rex-sbmt, 
+body div#rex-output p.rex-slct {
+	padding:5px;
+}
+body div#rex-output p label {
+	clear:left;
+	display:block;
+	float:left;
+	width:150px;
+}
+/* 
+	p.rex-chckbx - just in content.inc.php
+	p.rex-sbmt	 - just in content.inc.php
+*/
+body div#rex-output p.rex-chckbx input, 
+body div#rex-output p.rex-sbmt input, 
+body div#rex-output p input.rex-chckbx, 
+body div#rex-output p input.rex-sbmt {
+	width:auto;
+}
+
+
+
+
+/*	Login - Form
+*******************************************************************************/
+div.rex-lgn-frm {
+	clear:both;
+	background-color: #f0efeb;
+	border: 1px solid #eae9e5;
+}
+div.rex-lgn-frm p label {
+	width:100px;
+}
+div.rex-lgn-frm p input {
+	width:100px;
+} 
+div.rex-lgn-frm p input.rex-sbmt {
+	margin-left:20px;
+}
+
+
+/*	Structure - Edit Form
+*******************************************************************************/
+/* - Cat/Art Edit Form */
+input#category_name, 
+input#Position_New_Category, 
+input#Position_Category, 
+input#kat_name, 
+input#article_name,
+input#Position_New_Article, 
+input#Position_Article, 
+input#template_id   {
+	width:98%;
+}
+
+
+
+/*	Content - Editmode
+*******************************************************************************/
+
+/* rex-cnt-editmode-slc = Modulename - List Edit / Delete / Up / Down */
+div.rex-cnt-editmode div.rex-cnt-editmode-slc {
+	float:left;
+	width:100%;
+	background:#ccd7dd;
+	font-size:1.2em;
+	font-weight:bold;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc p {
+	padding:10px 5px;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul {
+	padding:0 10px;
+	background:#e4eff2;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li {
+	display:block;
+	float:left;
+	padding:10px 5px;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li img {
+	vertical-align:middle;
+}
+
+
+
+div.rex-cnt-editmode, 
+div.rex-cnt-editmode form div.rex-cnt-slc-ipt, 
+div.rex-cnt-editmode form p.rex-sbmt {
+	background-color:#d6e1e4;
+}
+
+div.rex-cnt-editmode form {
+	width:100%;
+	clear:both;
+	background-color:#b0bdc3;
+}
+div.rex-cnt-editmode form p.rex-cnt-mdl-name {
+	background:#ccd7dd;
+	font-size:1.2em;
+}
+div.rex-cnt-editmode form p.rex-cnt-mdl-name span {
+	font-weight:bold;
+}
+div.rex-cnt-editmode form p.rex-slct select {
+	width:100%;
+}
+/* Input Area */
+div.rex-cnt-editmode form div.rex-cnt-slc-ipt {
+	padding:10px 5px;
+}
+
+/* Output Area - width for IE-Bug */
+div.rex-cnt-editmode div.rex-cnt-slc-otp {
+	clear:both;
+	width:98%;
+	margin:1%;
+}
+
+
+
+/*	Content - Metamode
+*******************************************************************************/
+/* width for IE-Bug */
+div.rex-cnt-metamode {
+	background-color:#d6e1e4;
+	width:100%;
+}
+div.rex-cnt-metamode p {
+	padding:5px;
+	border-bottom:1px solid #d6e1e4;
+	background:#f0efeb;
+}
+/* general define */
+div.rex-cnt-metamode p label {
+}
+div.rex-cnt-metamode p input, 
+div.rex-cnt-metamode p select,
+div.rex-cnt-metamode p textarea {
+	width:350px;
+}
+div.rex-cnt-metamode p select.rex-fdatey {
+	width:60px;
+}
+div.rex-cnt-metamode p select.rex-fdate {
+	width:40px;
+}
+div.rex-cnt-metamode p input.rex-sbmt {
+	margin-left:150px;
+}
+
+
+/*	Template - Edit-/Addmode
+*******************************************************************************/
+div.rex-tmp-editmode {
+	background-color:#d7d6d3;
+	background-color:#d6e1e4;
+}
+
+div.rex-tmp-editmode p {
+	background-color:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+/* general define */
+div.rex-tmp-editmode p label {
+}
+div.rex-tmp-editmode p input, 
+div.rex-tmp-editmode p textarea {
+	width:500px;
+}
+div.rex-tmp-editmode p textarea {
+	height:400px;
+}
+div.rex-tmp-editmode p input.rex-sbmt {
+	margin-left:150px;
+}
+
+
+/*	Module/Action - Edit-/Addmode
+*******************************************************************************/
+div.rex-mdl-editmode {
+	background-color:#d7d6d3;
+	background-color:#d6e1e4;
+}
+div.rex-mdl-editmode p {
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+/* general define */
+div.rex-mdl-editmode p label {
+}
+div.rex-mdl-editmode p input, 
+div.rex-mdl-editmode p select, 
+div.rex-mdl-editmode p textarea {
+	width:500px;
+}
+div.rex-mdl-editmode p input.rex-sbmt {
+	margin-left:150px;
+}
+
+
+/*	Addon - Help
+*******************************************************************************/
+/* Container for User Helpfile */
+div.rex-adn-hlp {
+	padding:5px;
+	background-color:#f0efeb;
+}
+
+
+/*	User - Edit-/Addmode
+*******************************************************************************/
+div.rex-usr-editmode {
+	float:left;
+	width:100%;
+	background-color:#d6e1e4;
+}
+div.rex-usr-editmode div {
+	display:none;
+	clear:both;
+	float:left;
+	width:100%;
+	padding:5px 0;
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+div.rex-usr-editmode p {
+	margin:0;
+	padding:0;
+}
+div.rex-usr-editmode p span {
+	display:block;
+	margin-left:155px;
+}
+div.rex-usr-editmode p label {
+	padding-left:5px;
+	font-weight:bold;
+}
+body div#rex-output div.rex-usr-editmode p label.rex-lbl-rght {
+	clear:none;
+	display:inline;
+	float:left;
+	width:200px;
+}
+div.rex-usr-editmode p input,  
+div.rex-usr-editmode p select,  
+div.rex-usr-editmode p textarea {
+	width:200px;
+} 
+div.rex-usr-editmode p input.rex-chckbx {
+	clear:both;
+	float:left;
+	margin:0 5px 0 135px;
+}
+div.rex-usr-editmode p input.rex-sbmt {
+	margin-left:155px;
+}
+
+
+/*	Special
+*******************************************************************************/
+div.rex-spc-stn div.rex-spc-stn-cnt {
+}
+body div#rex-output div.rex-spc-stn legend.rex-lgnd {
+	padding-left:0;
+}
+body div#rex-output div.rex-spc-stn-cnt p {
+	padding-left:0;
+}
+body div#rex-output div.rex-spc-stn-cnt p label {
+	padding-left:0;
+	width:190px;
+}
+div.rex-spc-stn-cnt p input, 
+div.rex-spc-stn-cnt p select  {
+	width:40%;
+}
+div.rex-spc-stn-cnt p input.rex-sbmt {
+	margin-left:190px;
 }

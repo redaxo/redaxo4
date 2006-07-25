@@ -17,7 +17,7 @@ function rex_setuptitle($title)
   rex_title($title, "");
 
 				
-	echo '<div id="rex-setup">';
+	echo '<div id="rex-stp">';
 }
 
 function rex_setupimport($import_sql, $import_archiv = null)
@@ -89,7 +89,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
 {
   rex_setuptitle("SETUP: SELECT LANGUAGE");
 
-  echo '<ul class="rex-language">';
+  echo '<ul class="rex-stp-language">';
   echo "<li><a href=index.php?checkmodus=0.5&lang=de_de>DEUTSCH</a></li>";
   echo "<li><a href=index.php?checkmodus=0.5&lang=en_gb>ENGLISH</a></li>";
   echo "<li><a href=index.php?checkmodus=0.5&lang=es_es>ESPA&Ntilde;IOL</a></li>";
@@ -106,7 +106,7 @@ if ($checkmodus == "0.5")
 
   echo $I18N->msg("setup_005");
 
-  echo '<div id="rex-lizenz">';
+  echo '<div id="rex-stp-lcns">';
 
   $Basedir = dirname(__FILE__);
   $license_file = $Basedir.'/../../../_lizenz.txt';
