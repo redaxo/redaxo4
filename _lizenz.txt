@@ -47,9 +47,9 @@ mehr zu dieser Lizenz unter http://tinymce.moxiecode.com/
 
 A Humane Web Text Generator
 Version 2.0 beta
-Copyright (c) 2003-2004, Dean Allen <dean@textism.com>
+Copyright (c) 2003-2004, Dean Allen dean[AT]textism[DOT]com
 All rights reserved.
-Thanks to Carlo Zottmann <carlo@g-blog.net> for refactoring 
+Thanks to Carlo Zottmann carlo[AT]g-blog[DOT]net> for refactoring 
 Textile's procedural code into a class framework
 - mehr zu dieser lizenz in class.textile.inc.php
 
@@ -61,7 +61,7 @@ Base name: 	tarmanager
 Copyright (C) 2002  Josh Barger
 License: GNU Lesser General Public License (LGPL)
 Description: A PHP Implementation of the TAR Format manager.
-Author Josh Barger <joshb@npt.com>
+Author Josh Barger joshb[AT]npt[DOT]com
 
 
 // ----- redaxo GPL - General Public License
