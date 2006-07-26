@@ -1,7 +1,7 @@
 <?php
 
 /** 
- *  
+ * Sprachobjekt zur Internationalisierung (I18N)
  * @package redaxo3 
  * @version $Id$ 
  */
@@ -11,9 +11,11 @@
 // created 03.04.04 by Carsten Eckelmann, <careck@circle42.com>
 // updated 08.02.06 by Jan Kristinus
 // -- System vereinfacht und Fehlermeldungen vermeiden. 
-//    lang file fehlt -> fallback
 //    msg nicht da -> [translate:key]
 
+
+// TODO Kompilierte Sprachfiles bei denen aus ISO Versionen UTF8 generiert werden und Textile möglich ist
+ 
 class i18n
 {
 
@@ -24,30 +26,21 @@ class i18n
   var $text;
   var $filename;
 
-  var $fallback_locale;
-  var $fallback_text;
-  var $fallback_filename;
-  
   /*
    * Constructor
    * the locale must of the common form, eg. de_DE, en_US or just plain en, de.
    * the searchpath is where the language files are located
    */
-  function i18n($locale, $searchpath, $fallback_locale = 'de_de')
+  function i18n($locale, $searchpath)
   {
     $this->searchpath = $searchpath;
-	
+
     $this->text = array ();
     $this->locale = $locale;
-    $this->filename = $searchpath."/".$locale.".lang";
-    
-	$this->fallback_text = array();
-    $this->fallback_locale = $fallback_locale;
-    $this->fallback_filename = $searchpath."/".$fallback_locale.".lang";
-
-	$this->loadTexts();
+    $this->filename = $searchpath . "/" . $locale . ".lang";
 
     $this->locales = array ();
+    $this->loadTexts();
   }
 
   /* 
@@ -55,7 +48,7 @@ class i18n
    * The filename must be of the form:
    *
    * <locale>.lang
-   * eg: de_DE.lang or en_US.lang or en_GB.lang
+   * eg: de_de.lang or en_us.lang or en_gb.lang
    *
    * The file must be in the common property format:
    *
@@ -68,13 +61,7 @@ class i18n
    */
   function loadTexts()
   {
-
-	// sprache nicht vorhanden -> fallback einsetzen
-	$filename = $this->filename;
-    if (!is_readable($filename))
-    {
-    	$filename = $this->fallback_filename;
-    }
+    $filename = $this->filename;
 
     if (is_readable($filename))
     {
@@ -88,10 +75,6 @@ class i18n
         }
       }
       fclose($f);
-    }else
-    {
-		// sprache und fallbacksprache nicht gefunden
-
     }
   }
 
@@ -105,15 +88,93 @@ class i18n
 
     if (isset ($this->text[$key]))
     {
-      $msg = $this->text[$key];
-    }else
+      $msg = $this->format($this->text[$key]);
+    }
+    else
     {
       $msg = "[translate:$key]";
     }
 
-    $patterns = array ('/\{0\}/', '/\{1\}/', '/\{2\}/', '/\{3\}/', '/\{4\}/', '/\{5\}/', '/\{6\}/', '/\{7\}/', '/\{8\}/', '/\{9\}/');
-    $replacements = array ($p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9);
-    return htmlspecialchars(preg_replace($patterns, $replacements, $msg));
+    $patterns = array (
+      '/\{0\}/',
+      '/\{1\}/',
+      '/\{2\}/',
+      '/\{3\}/',
+      '/\{4\}/',
+      '/\{5\}/',
+      '/\{6\}/',
+      '/\{7\}/',
+      '/\{8\}/',
+      '/\{9\}/'
+    );
+    
+    $replacements = array (
+      $p0,
+      $p1,
+      $p2,
+      $p3,
+      $p4,
+      $p5,
+      $p6,
+      $p7,
+      $p8,
+      $p9
+    );
+    
+    return preg_replace($patterns, $replacements, $msg);
+  }
+  
+  function format($msg)
+  {
+    $msg = htmlspecialchars($msg);
+    $msg = str_replace('\n', "\n", $msg);
+    if (strpos($msg, '* ') !== false)
+    {
+      $lines = explode("\n", $msg);
+      $num_lines = count($lines);
+      
+      $msg = '';
+      $inList = false;
+      foreach ($lines as $line)
+      {
+        if ($line {0}== '*')
+        {
+          if (!$inList)
+          {
+            $msg .= '<ul>' . "\n";
+            $inList = true;
+          }
+          // Erst ab dem 2.Zeichen da der Identifier "* " ist 
+          $msg .= '<li>' . substr($line, 2) . '</li>' . "\n";
+        }
+        else
+        {
+          if ($inList)
+          {
+            $msg .= '</ul>' . "\n";
+            $inList = false;
+          }
+          
+          $msg .= $line;
+          
+          if($num_lines != 1)
+          {
+            $msg .= '<br />';
+          }
+        }
+        $num_lines--;
+      }
+
+      if ($inList)
+      {
+        $msg .= '</ul>' . "\n";
+      }
+    }
+    else
+    {
+      $msg = nl2br($msg);
+    }
+    return $msg;    
   }
 
   /* 
@@ -156,7 +217,7 @@ function rex_create_lang($locale, $searchpath = '')
 
   if ($searchpath == '')
   {
-    $searchpath = $REX['INCLUDE_PATH']."/lang";
+    $searchpath = $REX['INCLUDE_PATH'] . "/lang";
   }
 
   $lang_object = new i18n($locale, $searchpath);
@@ -169,5 +230,4 @@ function rex_create_lang($locale, $searchpath = '')
   return $lang_object;
 
 }
-
 ?>

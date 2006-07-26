@@ -420,22 +420,22 @@ pool_select_all = Alle markieren
 # redaxo/include/pages
 setup = Setup
 setup_text = Hier können Sie das Setup erneut starten. Sollten Sie nur im Notfall machen und ist unter normalen Umständen nicht nötig.
-setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf &gt;<a href=index.php>weiter</a>&lt; und führen das Setup aus.
+setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}>weiter<{1} und führen das Setup aus.
 setup_error2 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte tragen Sie dort in der \"\$REX[SETUP] = true;\" ein
-setup_005 = <b>Willkommen beim SETUP von REDAXO.</b><br><br>Was passiert jetzt:<br><br>- Die Dateirechte werden Überprüft<br>- Der Datenbankzugang wird Überprüft und in die master.inc.php eingetragen<br>- Die Datenbank wird (neu) eingerichtet.<br>- Ein Adminzugang wird eingerichtet
+setup_005 = {0}Willkommen beim SETUP von REDAXO.{1}\nWas passiert jetzt:\n* Die Dateirechte werden Überprüft\n* Der Datenbankzugang wird Überprüft und in die master.inc.php eingetragen\n* Die Datenbank wird (neu) eingerichtet.\n* Ein Adminzugang wird eingerichtet
 setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
 setup_step1 = SETUP: SCHRITT 1 von 5
-setup_010 = Die PHP version des Servers ist zu alt (unter 4.1.0), bitte updaten Sie auf die aktuellste Version
-setup_012 = <font class=error>Fehler</font> | Das Verzeichnis <b>{0}</b> ist nicht beschreib- oder ausführbar!
-setup_014 = <font class=error>Fehler</font> | Die Datei <b>{0}</b> ist nicht beschreibbar!
-setup_015 = <font class=error>Fehler</font> | Die Datei / Das Verzeichnis <b>{0}</b> exisitert nicht, bitte erstellen Sie es. 
-setup_016 = <b>PHP-Versionscheck | Rechte Überprüfung</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | Ordnerrechte
+setup_010 = Die PHP version des Servers ist zu alt ({0}), bitte updaten Sie auf die aktuellste Version (mindestens 4.2.0, neuste empfohlen)
+setup_012 = {0}Fehler{1} | Das Verzeichnis {2} ist nicht beschreib- oder ausführbar!
+setup_014 = {0}Fehler{1} | Die Datei {2} ist nicht beschreibbar!
+setup_015 = {0}Fehler{1} | Die Datei / Das Verzeichnis {2} exisitert nicht, bitte erstellen Sie es. 
+setup_016 = {0}PHP-Versionscheck | Rechte Überprüfung{1}\n* PHP Version {2}ok{3}\n* Ordnerrechte {2}ok{3}
 setup_017 = Weiter mit Schritt 2
 setup_018 = Bitte beheben Sie die aufgelisteten Fehlern und starten Sie das Setup erneut.
 setup_019 = Schritt 1 erneut durchführen
 setup_headline1 = PHP-Versionscheck | Rechte Überprüfung
 setup_step2 = SETUP: SCHRITT 2 von 5
-setup_020 = <b>include/master.inc.php</b> konnte nicht geschrieben werden. 
+setup_020 = {0}include/master.inc.php{1} konnte nicht geschrieben werden. 
 setup_021 = Es konnte keine Verbindung zur Datenbank hergestellt werden!
 setup_022 = Die angegebene Datenbank konnte nicht geoeffnet werden!
 setup_023 = Schreiben der 'include/master.inc.php'
@@ -453,7 +453,7 @@ setup_031 = Tabelle {0} wurde nicht gefunden !
 setup_032 = Die Tabellen konnten nicht erstellt werden.
 setup_033 = Bitte richten Sie die Datenbank erneut ein.
 setup_034 = Datenbank einrichten
-setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [<b>Vorsicht</b> - Alte Seite wird komplett gelöscht]
+setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [{0}Vorsicht{1} - Alte Seite wird komplett gelöscht!]
 setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
 setup_037 = Vorhandenen Export einspielen [Demo einspielen]:
 setup_03701 = Bitte wählen sie einen Export aus!
@@ -473,7 +473,7 @@ setup_048 = Keinen User anlegen
 setup_049 = Weiter zu Schritt 5
 setup_step5 = SETUP: SCHRITT 5 von 5
 setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte ändern Sie die Datei manuel über FTP.
-setup_051 = Herzlichen Glückwunsch zu Ihrem REDAXO! <br><br>Bitte noch dieses beachten:<br><br><b>1. Mit dem eingerichtetem Zugang einloggen <a href=index.php>login</a><br>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</b><br><br><br>Viel Spass und Erfolg <br><br>Das REDAXO Team <br><br>
+setup_051 = {0}Herzlichen Glückwunsch zu Ihrem REDAXO!{1}Bitte noch dieses beachten:\n* 1. Mit dem {2}eingerichtetem Zugang einloggen{3}\n* 2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.\n\nViel Spass und Erfolg\nDas REDAXO Team
 database_imported = Datenbank wurde importiert. 
 entry_count = {0} Einträge
 

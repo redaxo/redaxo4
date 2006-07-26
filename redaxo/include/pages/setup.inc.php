@@ -14,7 +14,7 @@
  */
 function rex_setuptitle($title)
 {
-  rex_title($title, "");
+  rex_title($title, '');
 
 				
 	echo '<div id="rex-stp">';
@@ -28,7 +28,7 @@ function rex_setupimport($import_sql, $import_archiv = null)
 
   if (!is_dir($export_addon_dir))
   {
-    $err_msg .= $I18N->msg("setup_03703")."<br>";
+    $err_msg .= $I18N->msg('setup_03703').'<br />';
   }
   else
   {
@@ -40,11 +40,11 @@ function rex_setupimport($import_sql, $import_archiv = null)
 
       // DB Import
       $replace_rex = false;
-      if ($REX['TABLE_PREFIX'] != "rex_") $replace_rex = true;
+      if ($REX['TABLE_PREFIX'] != 'rex_') $replace_rex = true;
       $state_db = rex_a1_import_db($import_sql,$replace_rex);
       if ($state_db['state'] === false)
       {
-        $err_msg .= $state_db['message']."<br>";
+        $err_msg .= $state_db['message'].'<br />';
       }
       
       // Archiv optional importieren
@@ -53,13 +53,13 @@ function rex_setupimport($import_sql, $import_archiv = null)
         $state_archiv = rex_a1_import_files($import_archiv);
         if ($state_archiv['state'] === false)
         {
-          $err_msg .= $state_archiv['message']."<br>";
+          $err_msg .= $state_archiv['message'].'<br />';
         }
       }
     }
     else
     {
-      $err_msg .= $I18N->msg("setup_03702")."<br>";
+      $err_msg .= $I18N->msg('setup_03702').'<br />';
     }
   }
 
@@ -87,24 +87,24 @@ $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
-  rex_setuptitle("SETUP: SELECT LANGUAGE");
+  rex_setuptitle('SETUP: SELECT LANGUAGE');
 
-  echo '<ul class="rex-stp-language">';
-  echo "<li><a href=index.php?checkmodus=0.5&lang=de_de>DEUTSCH</a></li>";
-  echo "<li><a href=index.php?checkmodus=0.5&lang=en_gb>ENGLISH</a></li>";
-  echo "<li><a href=index.php?checkmodus=0.5&lang=es_es>ESPA&Ntilde;IOL</a></li>";
-  echo "<li><a href=index.php?checkmodus=0.5&lang=pl_pl>POLSKI</a></li>";
-  echo "<li><a href=index.php?checkmodus=0.5&lang=tr_tr>TURKYE</a></li>";
-  echo "</ul>";
+  echo '<ul class="rex-stp-language">
+          <li><a href="index.php?checkmodus=0.5&amp;lang=de_de">DEUTSCH</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=en_gb">ENGLISH</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=es_es">ESPA&Ntilde;IOL</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=pl_pl">POLSKI</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=tr_tr">TURKYE</a></li>
+        </ul>';
 }
 
 // ---------------------------------- MODUS 0 | Start
 
-if ($checkmodus == "0.5")
+if ($checkmodus == '0.5')
 {
-  rex_setuptitle("SETUP: START");
+  rex_setuptitle('SETUP: START');
 
-  echo $I18N->msg("setup_005");
+  echo $I18N->msg('setup_005', '<h2>', '</h2>');
 
   echo '<div id="rex-stp-lcns">';
 
@@ -115,7 +115,7 @@ if ($checkmodus == "0.5")
   fclose($hdl);
   echo $license;
 
-  echo "</div>";
+  echo '</div>';
 
   echo '<p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.$I18N->msg("setup_006").'</a></p>';
 
@@ -129,25 +129,24 @@ if ($checkmodus == 1)
 
   // -------------------------- VERSIONSCHECK
 
-  if (version_compare(phpversion(), "4.2.0", "<") == 1)
+  if (version_compare(phpversion(), '4.2.0', '<') == 1)
   {
-    $MSG['err'] .= $I18N->msg("setup_010")."<br>";
+    $MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
   }
 
   // -------------------------- SCHREIBRECHTE
 
   $WRITEABLE = array (
-    $REX['INCLUDE_PATH']."/master.inc.php",
-    $REX['INCLUDE_PATH']."/addons.inc.php",
-    $REX['INCLUDE_PATH']."/clang.inc.php",
-    $REX['INCLUDE_PATH']."/ctype.inc.php",
-    $REX['INCLUDE_PATH']."/generated",
-    $REX['INCLUDE_PATH']."/generated/articles",
-    $REX['INCLUDE_PATH']."/generated/templates",
-    $REX['INCLUDE_PATH']."/addons/stats/logs",
-    $REX['INCLUDE_PATH']."/generated/files",
-    $REX['INCLUDE_PATH']."/addons/import_export/files",
-    $REX['INCLUDE_PATH']."/../../files"
+    $REX['INCLUDE_PATH'].'/master.inc.php',
+    $REX['INCLUDE_PATH'].'/addons.inc.php',
+    $REX['INCLUDE_PATH'].'/clang.inc.php',
+    $REX['INCLUDE_PATH'].'/ctype.inc.php',
+    $REX['INCLUDE_PATH'].'/generated',
+    $REX['INCLUDE_PATH'].'/generated/articles',
+    $REX['INCLUDE_PATH'].'/generated/templates',
+    $REX['INCLUDE_PATH'].'/generated/files',
+    $REX['INCLUDE_PATH'].'/../../files',
+    $REX['INCLUDE_PATH'].'/addons/import_export/files'
   );
 
   foreach ($WRITEABLE as $item)
@@ -159,31 +158,32 @@ if ($checkmodus == 1)
   }
 }
 
-if ($MSG['err'] == "" && $checkmodus == 1)
+if ($MSG['err'] == '' && $checkmodus == 1)
 {
-  rex_setuptitle($I18N->msg("setup_step1"));
+  rex_setuptitle($I18N->msg('setup_step1'));
 
-  echo '<p>'.$I18N->msg("setup_016").'</p>';
-  echo '<p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'">&raquo; '.$I18N->msg("setup_017").'</a></p>';
+  echo '<p>'.$I18N->msg('setup_016', '<h2>', '</h2>', '<span class="rex-ok">', '</span>') .'</p>
+        <p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'">&raquo; '.$I18N->msg('setup_017').'</a></p>';
 
 }
 elseif ($MSG['err'] != "")
 {
 
-  rex_setuptitle($I18N->msg("setup_step1"));
+  rex_setuptitle($I18N->msg('setup_step1'));
 
-  echo '<h2>'.$I18N->msg("setup_headline1").'</h2><ul>'.$MSG['err'].'</ul>
+  echo '<h2>'.$I18N->msg('setup_headline1').'</h2>
+        <ul>'.$MSG['err'].'</ul>
                 
-                  <p>'.$I18N->msg("setup_018").'</p>
-                  <p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.$I18N->msg("setup_017").'</a></p>';
+        <p>'.$I18N->msg('setup_018').'</p>
+        <p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.$I18N->msg('setup_017').'</a></p>';
 }
 
 // ---------------------------------- MODUS 2 | master.inc.php - Datenbankcheck
 
 if ($checkmodus == 2 && $send == 1)
 {
-  $h = @ fopen($REX['INCLUDE_PATH']."/master.inc.php", "r");
-  $cont = fread($h, filesize("include/master.inc.php"));
+  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
+  $cont = fread($h, filesize('include/master.inc.php'));
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*", "\\1".$serveraddress, $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*", "\\1".$serverbezeichnung, $cont);
   $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
@@ -196,25 +196,25 @@ if ($checkmodus == 2 && $send == 1)
 
   fclose($h);
 
-  $h = @ fopen($REX['INCLUDE_PATH']."/master.inc.php", "w+");
+  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
   {
     fclose($h);
   }
   else
   {
-    $err_msg = $I18N->msg("setup_020");
+    $err_msg = $I18N->msg('setup_020', '<b>', '</b>');
   }
 
   // -------------------------- DATENBANKZUGRIFF
   $link = @ mysql_connect($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass);
   if (!$link)
   {
-    $err_msg = $I18N->msg("setup_021")."<br>";
+    $err_msg = $I18N->msg('setup_021').'<br />';
   }
   elseif (!@ mysql_select_db($dbname, $link))
   {
-    $err_msg = $I18N->msg("setup_022")."<br>";
+    $err_msg = $I18N->msg('setup_022').'<br />';
   }
   elseif ($link)
   {
@@ -244,9 +244,9 @@ else
 if ($checkmodus == 2)
 {
 
-  rex_setuptitle($I18N->msg("setup_step2"));
+  rex_setuptitle($I18N->msg('setup_step2'));
 
-  echo '<h2>'.$I18N->msg("setup_023").'</h2>
+  echo '<h2>'.$I18N->msg('setup_023').'</h2>
 				
         <form action="index.php" method="post">
 				<fieldset>
@@ -260,7 +260,7 @@ if ($checkmodus == 2)
 
  
   echo '
-					  <legend>// ---- '.$I18N->msg("setup_0201").'</legend>
+					  <legend>'.$I18N->msg("setup_0201").'</legend>
 	          <p>
 							<label for="serveraddress">'.$I18N->msg("setup_024").'</label>
 							<input type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'" />
@@ -278,7 +278,7 @@ if ($checkmodus == 2)
 					</fieldset>
 					
 					<fieldset>
-						<legend>// ---- '.$I18N->msg("setup_0202").'</legend>
+						<legend>'.$I18N->msg("setup_0202").'</legend>
 						
 						<p>
 							<label for="dbname">'.$I18N->msg("setup_027").'</label>
@@ -315,17 +315,17 @@ if ($checkmodus == 3 && $send == 1)
   
   // Benötigte Tabellen
   $TBLS = array (
-    $REX['TABLE_PREFIX'] ."action" => 0,
-    $REX['TABLE_PREFIX'] ."article" => 0,
-    $REX['TABLE_PREFIX'] ."article_slice" => 0,
-    $REX['TABLE_PREFIX'] ."article_type" => 0,
-    $REX['TABLE_PREFIX'] ."clang" => 0,
-    $REX['TABLE_PREFIX'] ."file" => 0,
-    $REX['TABLE_PREFIX'] ."file_category" => 0,
-    $REX['TABLE_PREFIX'] ."module_action" => 0,
-    $REX['TABLE_PREFIX'] ."modultyp" => 0,
-    $REX['TABLE_PREFIX'] ."template" => 0,
-    $REX['TABLE_PREFIX'] ."user" => 0
+    $REX['TABLE_PREFIX'] .'action' => 0,
+    $REX['TABLE_PREFIX'] .'article' => 0,
+    $REX['TABLE_PREFIX'] .'article_slice' => 0,
+    $REX['TABLE_PREFIX'] .'article_type' => 0,
+    $REX['TABLE_PREFIX'] .'clang' => 0,
+    $REX['TABLE_PREFIX'] .'file' => 0,
+    $REX['TABLE_PREFIX'] .'file_category' => 0,
+    $REX['TABLE_PREFIX'] .'module_action' => 0,
+    $REX['TABLE_PREFIX'] .'modultyp' => 0,
+    $REX['TABLE_PREFIX'] .'template' => 0,
+    $REX['TABLE_PREFIX'] .'user' => 0
   );
 
   if ($dbanlegen == 3)
@@ -333,7 +333,7 @@ if ($checkmodus == 3 && $send == 1)
     // ----- vorhandenen Export importieren
     if(empty($import_name)) 
     {
-      $err_msg .= '<p>'.$I18N->msg("setup_03701").'</p>';
+      $err_msg .= '<p>'.$I18N->msg('setup_03701').'</p>';
     }
     else
     {
@@ -347,22 +347,22 @@ if ($checkmodus == 3 && $send == 1)
   }elseif ($dbanlegen == 1)
   {
     // ----- leere Datenbank und alte DB löschen / drop
-    $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_with_drop.sql";
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_with_drop.sql';
     $err_msg .= rex_setupimport($import_sql);
   }elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank und alte DB lassen
-    $import_sql = $REX['INCLUDE_PATH']."/install/redaxo3_0_without_drop.sql";
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_without_drop.sql';
     $err_msg .= rex_setupimport($import_sql);
   }
   
   // Prüfen, welche Tabellen bereits vorhanden sind
   $db = new sql;
-  $db->setQuery("show tables");
+  $db->setQuery('SHOW TABLES');
   
   for ($i = 0; $i < $db->getRows(); $i++, $db->next())
   {
-    $tblname = $db->getValue("Tables_in_".$REX['DB']['1']['NAME']);
+    $tblname = $db->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
     if (substr($tblname, 0, strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX'])
     {
       // echo $tblname."<br>";
@@ -380,7 +380,7 @@ if ($checkmodus == 3 && $send == 1)
     {
       if (current($TBLS) != 1)
       {
-        $err_msg .= $I18N->msg("setup_031", key($TBLS))."<br>";
+        $err_msg .= $I18N->msg('setup_031', key($TBLS)).'<br />';
       }
       next($TBLS);
     }
@@ -396,7 +396,7 @@ if ($checkmodus == 3 && $send == 1)
 if ($checkmodus == 3)
 {
 
-  rex_setuptitle($I18N->msg("setup_step3"));
+  rex_setuptitle($I18N->msg('setup_step3'));
 
   echo '
         <form action="index.php" method="post" id="rex-stp-database">
@@ -410,7 +410,7 @@ if ($checkmodus == 3)
         ';
 
   if (isset ($err_msg) and $err_msg != '')
-    echo '<p class="rex-warning">'.$err_msg.'<br />'.$I18N->msg("setup_033").'</p>';
+    echo '<p class="rex-warning">'.$err_msg.'<br />'.$I18N->msg('setup_033').'</p>';
 
   if (!isset ($dbchecked0))
     $dbchecked0 = '';
@@ -439,8 +439,9 @@ if ($checkmodus == 3)
   // Vorhandene Exporte auslesen
   $sel_export = new select();
   $sel_export->set_name('import_name');
+  $sel_export->set_id('import_name');
   $sel_export->set_style('class="rex-fslct"');
-  $sel_export->set_selectextra('onchange="checkInput(\'dbanlegen[3]\')"');
+  $sel_export->set_selectextra('onchange="checkInput(\'dbanlegen_3\')"');
   $export_dir = $export_addon_dir. '/files';
   $exports_found = false;
 
@@ -487,30 +488,30 @@ if ($checkmodus == 3)
 
   echo '
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen[0]" name="dbanlegen" value="0"'.$dbchecked0.' />
-				<label class="rex-lbl-right" for="dbanlegen[0]">'.$I18N->msg("setup_034").'</label>
+				<input class="rex-fchckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0.' />
+				<label class="rex-lbl-right" for="dbanlegen_0">'.$I18N->msg('setup_034').'</label>
 			</p>
 			
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen[1]" name="dbanlegen" value="1"'.$dbchecked1.' />
-				<label class="rex-lbl-right" for="dbanlegen[1]">'.$I18N->msg("setup_035").'</label>
+				<input class="rex-fchckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1.' />
+				<label class="rex-lbl-right" for="dbanlegen_1">'.$I18N->msg('setup_035', '<b>', '</b>').'</label>
 			</p>
 			
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen[2]" name="dbanlegen" value="2"'.$dbchecked2.' />
-				<label class="rex-lbl-right" for="dbanlegen[2]">'.$I18N->msg("setup_036").'</label>
+				<input class="rex-fchckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2.' />
+				<label class="rex-lbl-right" for="dbanlegen_2">'.$I18N->msg('setup_036').'</label>
 			</p>';
                   
   if($exports_found)
   {
   echo '
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen[3]" name="dbanlegen" value="3"'.$dbchecked3.' />
-				<label class="rex-lbl-right" for="dbanlegen[3]">'.$I18N->msg("setup_037").'</label>
+				<input class="rex-fchckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
+				<label class="rex-lbl-right" for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
 			</p>
 			<p>'.$sel_export->out().'</p>';
   }
-  echo '<p><input class="rex-fsubmit" type="submit" value="'.$I18N->msg("setup_038").'" /></p>
+  echo '<p><input class="rex-fsubmit" type="submit" value="'.$I18N->msg('setup_038').'" /></p>
 			</fieldset>
 			</form>
 	';
@@ -526,11 +527,11 @@ if ($checkmodus == 4 && $send == 1)
   {
     if ($redaxo_user_login == '')
     {
-      $err_msg .= '<p>'.$I18N->msg("setup_040").'</p>';
+      $err_msg .= $I18N->msg("setup_040");
     }
     if ($redaxo_user_pass == '')
     {
-      $err_msg .= '<p>'.$I18N->msg("setup_041").'</p>';
+      $err_msg .= $I18N->msg("setup_041");
     }
 
     if ($err_msg == "")
@@ -540,7 +541,7 @@ if ($checkmodus == 4 && $send == 1)
 
       if ($ga->getRows() > 0)
       {
-	      $err_msg .= '<p>'.$I18N->msg("setup_042").'</p>';
+	      $err_msg .= $I18N->msg("setup_042");
       }
       else
       {
@@ -551,7 +552,7 @@ if ($checkmodus == 4 && $send == 1)
         $link = @ mysql_connect($REX['DB'][1]['HOST'], $REX['DB'][1]['LOGIN'], $REX['DB'][1]['PSW']);
         if (!@ mysql_db_query($REX['DB'][1]['NAME'], $insert, $link))
         {
-		      $err_msg .= '<p>'.$I18N->msg("setup_043").'</p>';
+		      $err_msg .= $I18N->msg("setup_043");
         }
       }
     }
@@ -561,7 +562,7 @@ if ($checkmodus == 4 && $send == 1)
     $gu = new sql;
     $gu->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
     if ($gu->getRows() == 0)
-      $err_msg .= '<p>'.$I18N->msg("setup_044").'</p>';
+      $err_msg .= $I18N->msg("setup_044");
 
   }
 
@@ -635,24 +636,22 @@ if ($checkmodus == 4)
 if ($checkmodus == 5)
 {
 
-  $h = @ fopen($REX['INCLUDE_PATH']."/master.inc.php", "r");
-  $cont = fread($h, filesize($REX['INCLUDE_PATH']."/master.inc.php"));
-  $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", "\\1"."false", $cont);
+  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
+  $cont = fread($h, filesize($REX['INCLUDE_PATH'].'/master.inc.php'));
+  $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1false', $cont);
   fclose($h);
-  $h = @ fopen($REX['INCLUDE_PATH']."/master.inc.php", "w+");
+  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
   {
     $errmsg = "";
   }
   else
   {
-    $errmsg = $I18N->msg("setup_050");
+    $errmsg = $I18N->msg('setup_050');
   }
 
-  // generate all articles,cats,templates,caches
-  // generateAll();
-  rex_setuptitle($I18N->msg("setup_step5"));
-  echo "<p>".$I18N->msg("setup_051")."</p>";
+  rex_setuptitle($I18N->msg('setup_step5'));
+  echo '<p>'.$I18N->msg('setup_051', '<h2>', '</h2>', '<a href="index.php">', '</a>') .'</p>';
 
 }
 echo '</div>';
