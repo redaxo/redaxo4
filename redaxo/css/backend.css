@@ -877,6 +877,7 @@ div.rex-spc-stn-cnt p input.rex-sbmt {
 *******************************************************************************/
 /*	Select Categories */
 div.rex-mpl-catslct-frm {
+	margin-bottom:10px;
 	background-color:#d6e1e4;
 }
 body div#rex-output div.rex-mpl-catslct-frm p {

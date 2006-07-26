@@ -1100,7 +1100,7 @@ if ($subpage == "detail")
                       		<a href="../files/'. $fname .'" id="flink">'. htmlspecialchars($fname) .'</a>
                     	</p>
                     	<p>
-                     		 <label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
+                     		<label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
                       		<span id="fupdate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
                     	</p>
                     	<p>
@@ -1130,43 +1130,45 @@ if ($subpage == "detail")
       $Cat = OOMediaCategory::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
-      echo '
-            <div class="rex-cnt-cols">
-              <div class="rex-cnt-col2">
-                <p class="rex-hdl">'. $I18N->msg('pool_file_details') . $opener_link.'</p>
-                <p>
-                  <label for="ftitle">Titel</label>
-                  <span id="ftitle">'. htmlspecialchars($ftitle) .'</span>
-                  <span id="ftitle"></span>
-                </p>
-                <p>
-                  <label for="rex_file_new_category">'. $I18N->msg('pool_file_category') .'</label>
-                  <span id="rex_file_new_category">'. $catname .'</span>
-                </p>
-                <p>
-                  <label for="fdescription">'. $I18N->msg('pool_file_description') .'</label>
-                  <span id="fdescriptle">'. $fdescription .'</span>
-                </p>
-                <p>
-                  <label for="fcopyright">'. $I18N->msg('pool_file_copyright') .'</label>
-                  <span id="fcopyright">'. $fcopyright.'</span>
-                </p>
-                <p>
-                  <label for="flink">'. $I18N->msg('pool_filename') .'</label>
-                  <a href="../files/'. $fname .'" id="flink">'. $fname .'</a>
-                </p>
-                <p>
-                  <label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
-                  <span id="fupdate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
-                </p>
-                <p>
-                  <label for="fcreate">'. $I18N->msg('pool_last_update') .'</label>
-                  <span id="fcreate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate")).' ['.$gf->getValue("createuser") .']</span>
-                </p>
-              </div>
-              <div class="rex-cnt-col2">
+      echo '<p class="rex-hdl">'. $I18N->msg('pool_file_details') . $opener_link.'</p>
+            <div class="rex-mpl-dtl">
+				
+				<div class="rex-mpl-dtl-wrp">
+            	<div class="rex-mpl-dtl-edt"'.$style_width.'>
+				                
+                	<p>
+                  		<label for="ftitle">Titel</label>
+                  		<span id="ftitle">'. htmlspecialchars($ftitle) .'&nbsp;</span>
+					</p>
+                	<p>
+                  		<label for="rex_file_new_category">'. $I18N->msg('pool_file_category') .'</label>
+                  		<span id="rex_file_new_category">'. $catname .'&nbsp;</span>
+                	</p>
+                	<p>
+                  		<label for="fdescription">'. $I18N->msg('pool_file_description') .'</label>
+                  		<span id="fdescriptle">'. $fdescription .'&nbsp;</span>
+                	</p>
+                	<p>
+                  		<label for="fcopyright">'. $I18N->msg('pool_file_copyright') .'</label>
+                  		<span id="fcopyright">'. $fcopyright.'&nbsp;</span>
+                	</p>
+                	<p>
+                  		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
+                  		<a href="../files/'. $fname .'" id="flink">'. $fname .'</a>
+                	</p>
+                	<p>
+                  		<label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
+                  		<span id="fupdate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
+                	</p>
+                	<p>
+                  		<label for="fcreate">'. $I18N->msg('pool_last_update') .'</label>
+                  		<span id="fcreate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate")).' ['.$gf->getValue("createuser") .']</span>
+                	</p>
+				</div>
+				
                 '. $add_image .'
-              </div>
+				
+              	</div>
             </div>';
     }
   }
