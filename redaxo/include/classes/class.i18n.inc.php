@@ -82,48 +82,35 @@ class i18n
    * return a message according to a key from the current locale
    * you can give up to 10 parameters for substitution.
    */
-  function msg($key, $p0 = '', $p1 = '', $p2 = '', $p3 = '', $p4 = '', $p5 = '', $p6 = '', $p7 = '', $p8 = '', $p9 = '')
+  function msg($key)
   {
     global $REX;
 
     if (isset ($this->text[$key]))
     {
-      $msg = $this->format($this->text[$key]);
+      $msg = $this->text[$key];
     }
     else
     {
       $msg = "[translate:$key]";
     }
+    
+    $patterns = array ();
+    $replacements = array ();
+    
+    $args = func_get_args();
+    for($i = 1; $i < func_num_args(); $i++)
+    {
+      // zero indexed
+      $patterns[] = '/\{'. ($i-1) .'\}/';
+      $replacements[] = $args[$i]; 
+    }
 
-    $patterns = array (
-      '/\{0\}/',
-      '/\{1\}/',
-      '/\{2\}/',
-      '/\{3\}/',
-      '/\{4\}/',
-      '/\{5\}/',
-      '/\{6\}/',
-      '/\{7\}/',
-      '/\{8\}/',
-      '/\{9\}/'
-    );
-    
-    $replacements = array (
-      $p0,
-      $p1,
-      $p2,
-      $p3,
-      $p4,
-      $p5,
-      $p6,
-      $p7,
-      $p8,
-      $p9
-    );
-    
     return preg_replace($patterns, $replacements, $msg);
   }
   
+  /*
+   Formatierungsfunktion, für REDAXO 3.4
   function format($msg)
   {
     $msg = htmlspecialchars($msg);
@@ -176,6 +163,7 @@ class i18n
     }
     return $msg;    
   }
+  */
 
   /* 
    * find all defined locales in a searchpath
