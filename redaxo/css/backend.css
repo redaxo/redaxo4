@@ -544,14 +544,26 @@ div#rex-stp p {
 	width:100%;
 }
 */
+div#rex-stp p, 
+div#rex-stp ul {
+	margin-bottom:1em;
+}
+div#rex-stp ul {
+	margin-left:20px;
+}
+div#rex-stp ul li {
+	list-style-type:square;
+}
 /* Language */
 div#rex-stp ul.rex-stp-language {
+	margin-left:0;
 	font-weight:bold;
 	text-align:center;
 }
 div#rex-stp ul.rex-stp-language li {
 	display:block;
 	padding:5px 0;
+	list-style-type:none;
 }
 div#rex-stp ul.rex-stp-language li a {
 	color:#000;
