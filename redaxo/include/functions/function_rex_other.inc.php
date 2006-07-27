@@ -39,16 +39,55 @@ function rex_absPath($rel_path)
  */
 function rex_is_writable($item)
 {
+  return _rex_is_writable_info(_rex_is_writable($item), $item);
+}
+
+function _rex_is_writable_info($is_writable, $item = '')
+{
   global $I18N;
 
   $state = true;
+  $key = '';
+  switch($is_writable)
+  {
+    case 1:
+    {
+      $key = 'setup_012';
+      break;
+    }
+    case 2:
+    {
+      $key = 'setup_014';
+      break;
+    }
+    case 3:
+    {
+      $key = 'setup_015';
+      break;
+    }
+  }
+  
+  if($key != '')
+  {
+    $file = '';
+    if($item != '')
+    {
+      $file = '<b>'. rex_absPath($item) .'</b>';
+    }
+    $state = $I18N->msg($key, '<span class="rex-error">', '</span>', $file); 
+  }
+  
+  return $state;
+}
 
+function _rex_is_writable($item)
+{
   // Fehler unterdrücken, falls keine Berechtigung
   if (@ is_dir($item))
   {
     if (!@ is_writable($item . '/.'))
     {
-      $state = $I18N->msg('setup_012', '<span class="rex-error">', '</span>', '<b>'. rex_absPath($item) .'</b>');
+      return 1;
     }
   }
   // Fehler unterdrücken, falls keine Berechtigung
@@ -56,14 +95,14 @@ function rex_is_writable($item)
   {
     if (!@ is_writable($item))
     {
-      $state = $I18N->msg('setup_014', '<span class="rex-error">', '</span>', '<b>'. rex_absPath($item) .'</b>');
+      return 2;
     }
   }
   else
   {
-    $state = $I18N->msg('setup_015', '<span class="rex-error">', '</span>', '<b>'. rex_absPath($item) .'</b>');
+    return 3;
   }
 
-  return $state;
+  return 0;
 }
 ?>
