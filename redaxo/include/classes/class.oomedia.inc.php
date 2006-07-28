@@ -935,6 +935,7 @@ class OOMedia
       'image/jpg',
       'image/jpeg',
       'image/png',
+      'image/x-png',
       'image/pjpeg',
       'image/bmp'
     );
