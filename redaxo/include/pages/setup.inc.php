@@ -66,6 +66,23 @@ function rex_setupimport($import_sql, $import_archiv = null)
   return $err_msg;
 }
 
+function rex_setup_is_writable($items)
+{
+  $res = array();
+  
+  foreach($items as $item)
+  {
+    $is_writable = _rex_is_writable($item);
+    // 0 => kein Fehler
+    if($is_writable != 0)
+    {
+      $res[$is_writable][] = $item;
+    }
+  }
+  
+  return $res;
+}
+
 // --------------------------------------------- END: SETUP FUNCTIONS
 
 
@@ -149,12 +166,24 @@ if ($checkmodus == 1)
     $REX['INCLUDE_PATH'].'/addons/import_export/files'
   );
 
-  foreach ($WRITEABLE as $item)
+  $res = rex_setup_is_writable($WRITEABLE);
+  if(count($res) > 0)
   {
-    if (($_msg = rex_is_writable($item)) !== true)
+    $MSG['err'] .= '<li>';
+    foreach($res as $type => $messages)
     {
-      $MSG['err'] .= '<li>'.$_msg.'</li>';
+      if(count($messages) > 0)
+      {
+        $MSG['err'] .= '<h3>'. _rex_is_writable_info($type) .'</h3>';
+        $MSG['err'] .= '<ul>';
+        foreach($messages as $message)
+        {
+          $MSG['err'] .= '<li>'. rex_absPath($message) .'</li>';
+        }
+        $MSG['err'] .= '</ul>';
+      }
     }
+    $MSG['err'] .= '</li>';
   }
 }
 
