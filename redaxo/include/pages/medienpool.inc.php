@@ -1281,7 +1281,9 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   }
   else
   {
+    echo '<p>';
     echo '<strong>'. $I18N->msg('pool_sync_no_diffs') .'</strong>';
+    echo '</p>';
   }
   
   echo '</fieldset>
