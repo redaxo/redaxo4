@@ -91,22 +91,21 @@ elseif ($func == 'updateinfos')
     $cont = ereg_replace("(REX\['DB'\]\['2'\]\['PSW'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_psw)."\"", $cont);
     $cont = ereg_replace("(REX\['DB'\]\['2'\]\['NAME'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_name)."\"", $cont);
   }
-
+  
   // Mod-Rewrite
-  $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*", "\\1".strtolower($neu_modrewrite), $cont);
-
-  //      var_dump( $cont);
+  $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
 
   fclose($h);
   $h = fopen("include/master.inc.php", "w+");
   fwrite($h, $cont, strlen($cont));
   fclose($h);
 
-  if ($neu_modrewrite != "TRUE")
-    $REX['MOD_REWRITE'] = false;
-  else
-    $REX['MOD_REWRITE'] = true;
 
+  if ($neu_modrewrite === 'TRUE')
+    $REX['MOD_REWRITE'] = true;
+  else
+    $REX['MOD_REWRITE'] = false;
+    
   $REX['START_ARTICLE_ID'] = $neu_startartikel;
   $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
   $REX['EMAIL'] = $neu_error_emailaddress;
@@ -146,10 +145,10 @@ $sel_mod_rewrite = new select();
 $sel_mod_rewrite->set_name('neu_modrewrite');
 $sel_mod_rewrite->set_id('rex_mod_rewrite');
 $sel_mod_rewrite->set_size(1);
-$sel_mod_rewrite->set_selected($REX['MOD_REWRITE']);
+$sel_mod_rewrite->set_selected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 
-$sel_mod_rewrite->add_option('TRUE', '1');
-$sel_mod_rewrite->add_option('FALSE', '0');
+$sel_mod_rewrite->add_option('TRUE', 'TRUE');
+$sel_mod_rewrite->add_option('FALSE', 'FALSE');
 
 if ($message != "")
   echo '<p class="rex-warning">'.$message.'</p>';
