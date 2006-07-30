@@ -1287,7 +1287,8 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   }
   
   echo '</fieldset>
-  		</form>';
+  		</form>
+    </div>';
 }
 
 
