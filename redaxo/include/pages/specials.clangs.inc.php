@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * Verwaltung der Content Sprachen 
  * @package redaxo3
  * @version $Id$
  */
