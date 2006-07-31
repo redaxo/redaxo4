@@ -99,7 +99,6 @@ Changes:
   	- Synchronisation jetzt auch auf Selection möglich [kills]
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
-    - I18N Klasse codiert jetzt alle Langkeys mit htmlentities() [kills]
   * $REX['TEMP_PREFIX'] implementiert (Für Dateien und Tabellen) [kills]
     - Dateien mit diesem Prefix werden ...
       + .. NICHT vom Import/Export-Addon exportiert
