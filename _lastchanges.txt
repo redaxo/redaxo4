@@ -75,6 +75,8 @@ Changes:
     - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
   * Struktur:
     - Beim angelegen haben Artikel das gleiche Template wie die Kategorie in der sie sich befinden [kills]
+  * Metadaten:
+    - Online von/Online bis entfernt, gibts für r33 als Addon [kills]
   * rexExtensionPoint API:
 		- rex_call_func mit allgemeineren Fehlermeldungen [kills]
 		- in rex_register_extension können jetzt auch optional Parameter übergeben werden [kills]
