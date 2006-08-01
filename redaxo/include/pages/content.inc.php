@@ -696,10 +696,6 @@ if ($article->getRows() == 1)
         $meta_sql->setTable($REX['TABLE_PREFIX']."article");
         // $meta_sql->debugsql = 1;
         $meta_sql->where("id='$article_id' and clang=$clang");
-        $online_from = mktime(0,0,0,$monat_von,$tag_von,$jahr_von);
-        $online_to = mktime(0,0,0,$monat_bis,$tag_bis,$jahr_bis);
-        $meta_sql->setValue("online_from",$online_from);
-        $meta_sql->setValue("online_to",$online_to);
         $meta_sql->setValue("keywords",$meta_keywords);
         $meta_sql->setValue("description",$meta_description);
         $meta_sql->setValue("name",$meta_article_name);
@@ -727,8 +723,6 @@ if ($article->getRows() == 1)
         $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
           "id" => $article_id,
           "clang" => $clang,
-          "online_from" => $online_from,
-          "online_to" => $online_to,
           "keywords" => $meta_keywords,
           "description" => $meta_description,
           "name" => $meta_article_name,
@@ -781,63 +775,9 @@ if ($article->getRows() == 1)
 
       if (isset($err_msg) and $err_msg != '') echo '<p class="rex-warning">'.$err_msg.'</p>';
 
-      function selectdate($date,$extens){
-
-        $date = date('Ymd',$date);
-        $ausgabe = '
-          <select class="rex-fdatey" name="jahr'. $extens .'" id="jahr'. $extens .'">
-        ';
-        for ($i=2005;$i<2011;$i++)
-        {
-          $ausgabe .= '<option value="'. $i .'"';
-          if ($i == substr($date,0,4)){ $ausgabe .= ' selected="selected"'; }
-          $ausgabe .= '>'. $i .'</option>
-          ';  
-        }
-        
-        $ausgabe .= '
-          </select>
-          <select class="rex-fdate" name="monat'. $extens .'">';
-        
-        for ($i=1;$i<13;$i++)
-        {
-          if ($i<10){ $ii = "0".$i; }else{ $ii = $i; }
-          
-          $ausgabe .= '<option value="'. $ii .'"';
-          if ($ii == substr($date,4,2)){ $ausgabe .= ' selected="selected"'; }
-          $ausgabe .= '>'. $ii .'</option>
-          ';  
-        }
-        
-        $ausgabe .= '
-          </select>
-          <select class="rex-fdate" name="tag'. $extens .'">';
-        
-        for ($i=1;$i<32;$i++)
-        {
-          if ($i<10){ $ii = "0".$i; }else{ $ii = $i; }
-          $ausgabe .= '<option value="'. $ii .'"';
-          if ($ii == substr($date,6,2)){ $ausgabe .= ' selected="selected"'; }
-          $ausgabe .= '>'. $ii .'</option>
-          '; 
-        }
-        
-        $ausgabe .= '</select>';
-        
-        return $ausgabe;
-      }
-
       $teaser_checked = $article->getValue("teaser")==1 ? ' checked=checked' : '';
       
       echo '
-        <p>
-          <label for="jahr_von">'. $I18N->msg("online_from").'</label>
-          '. selectdate($article->getValue("online_from"),"_von") .'
-        </p>
-        <p>
-          <label for="jahr_bis">'. $I18N->msg("online_to") .'</label>
-          '. selectdate($article->getValue("online_to"),"_bis") .'
-        </p>
         <p>
           <label for="meta_article_name">'. $I18N->msg("name_description"). '</label>
           <input type="text" id="meta_article_name" name="meta_article_name" value="'. htmlspecialchars($article->getValue("name")) .'" size="30" />
@@ -855,7 +795,7 @@ if ($article->getRows() == 1)
           <input type="hidden" name="REX_MEDIA_DELETE_1" value="0" id="REX_MEDIA_DELETE_1" />
           <input type="text" size="30" name="REX_MEDIA_1" value="'. $article->getValue("file") .'" id="REX_MEDIA_1" readonly="readonly" />
           
-		       <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
+	      <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
           <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
           <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
         </p>
