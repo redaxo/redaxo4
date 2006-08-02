@@ -816,7 +816,7 @@ if ($article->getRows() == 1)
      </fieldset>';
         
      // ----- EXTENSION POINT
-     echo rex_register_extension_point('ART_META_FORM_SECTION');
+     echo rex_register_extension_point('ART_META_FORM_SECTION', '', array ("id" => $article_id,"clang" => $clang));
         
       // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN  	
       function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '', $nbsp = '')
