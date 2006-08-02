@@ -807,7 +807,7 @@ if ($article->getRows() == 1)
         '. $out;
 
      // ----- EXTENSION POINT
-     echo rex_register_extension_point('ART_META_FORM');
+     echo rex_register_extension_point('ART_META_FORM', '', array ("id" => $article_id,"clang" => $clang));
         
      echo '
         <p>
