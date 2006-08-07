@@ -84,6 +84,7 @@ if (!$REX['GG'])
   foreach($REX['VARIABLES'] as $key => $value)
   {
     require_once ($REX['INCLUDE_PATH'].'/classes/variables/class.'.$value.'.inc.php');
+    $REX['VARIABLES'][$key] = new $value;
   }
 }
 

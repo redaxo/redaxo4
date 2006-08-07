@@ -552,13 +552,18 @@ class article
   	global $REX;
     
     $tmp = '';
-  	foreach($REX['VARIABLES'] as $key => $value)
+  	foreach($REX['VARIABLES'] as $var)
   	{
-  		$var = new $value();
+  		
   		if ($this->mode == 'edit')
   		{
   		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '') || ($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
   		  {
+  		  	if (!$REX["ACTION"]["SAVE"])
+  		  	{
+  		  		$sql = new rex_dummy_sql();
+  		  		$var->setACValues($sql,$REX["ACTION"]);
+  		  	}
   		  	$tmp = $var->getBEInput($sql,$content);
   		  }else
   		  {

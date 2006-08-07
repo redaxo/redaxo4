@@ -128,29 +128,13 @@ if ($article->getRows() == 1)
           // ----- RECHTE AM MODUL: JA
           $message = "";
           
-          for ($i=1; $i<11; $i++)
+          
+          // ***********************  daten einlesen
+          $REX_ACTION = array();
+          foreach($REX['VARIABLES'] as $obj)
           {
-            // pruefe Vorhandensein der Variablen
-            if (!isset($VALUE[$i])) $VALUE[$i] = '';
-            if (!isset($LINK[$i])) $LINK[$i] = '';
-            
-            $REX_ACTION['VALUE'][$i] = $VALUE[$i];
-            $REX_ACTION['LINK'][$i] = $LINK[$i];
-            $FILENAME = "REX_MEDIA_$i";
-            if (!isset($$FILENAME)) $$FILENAME = '';
-            $REX_ACTION['FILE'][$i] = $$FILENAME;
-            $LINKLIST = "REX_LINKLIST_$i";
-            if (!isset($$LINKLIST)) $$LINKLIST = '';
-            $REX_ACTION['LINKLIST'][$i] = $$LINKLIST;
-            $MEDIALIST = "REX_MEDIALIST_$i";
-            if (!isset($$MEDIALIST)) $$MEDIALIST = '';
-            $REX_ACTION['MEDIALIST'][$i] = $$MEDIALIST;
+          	$REX_ACTION = $obj->getACRequestValues($REX_ACTION);
           }
-
-          if (!isset($INPUT_HTML)) $INPUT_HTML = '';
-          if (!isset($INPUT_PHP)) $INPUT_PHP = '';
-          $REX_ACTION['HTML'] = $INPUT_HTML;
-          $REX_ACTION['PHP'] = $INPUT_PHP;
 
           // ----- PRE ACTION [ADD/EDIT/DELETE]
 
@@ -165,33 +149,23 @@ if ($article->getRows() == 1)
 
           for ($i=0;$i<$ga->getRows();$i++)
           {
-            $iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
-            $iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
-            $iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
-            $iaction = str_replace("REX_CTYPE",$ctype,$iaction);
-            $iaction = str_replace("REX_CLANG_ID",$clang,$iaction);
-            $iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
-            $iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
-            $iaction = str_replace("REX_PHP",$REX_ACTION['PHP'],$iaction);
-            $iaction = str_replace("REX_HTML",$REX_ACTION['HTML'],$iaction);
-
-            for ($j=1;$j<11;$j++)
+          	
+          	$iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
+          	// *********************** werte ersetzen
+          	foreach($REX['VARIABLES'] as $obj)
             {
-              $iaction = str_replace("REX_VALUE[$j]",$REX_ACTION['VALUE'][$j],$iaction);
-              $iaction = str_replace("REX_LINK[$j]",$REX_ACTION['LINK'][$j],$iaction);
-              $iaction = str_replace("REX_FILE[$j]",$REX_ACTION['FILE'][$j],$iaction);
-              $iaction = str_replace("REX_LINKLIST[$j]",$REX_ACTION['LINKLIST'][$j],$iaction);
-              $iaction = str_replace("REX_MEDIALIST[$j]",$REX_ACTION['MEDIALIST'][$j],$iaction);
+              $iaction = $obj->getACOutput($REX_ACTION,$iaction);
             }
-
             eval("?>".$iaction);
             if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "" ) $message .= $REX_ACTION['MSG']." | ";
             $ga->next();
           }
 
           // ----- / PRE ACTION
-
-
+          
+          // Statusspeicherung für die Article Klasse. 
+          // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=false
+          $REX["ACTION"] = $REX_ACTION;
           if (!$REX_ACTION['SAVE'])
           {
             // ----- DOWN SAVE/UPDATE SLICE
@@ -209,7 +183,7 @@ if ($article->getRows() == 1)
             {
               
               $newsql = new sql;
-              // $newsql->debugsql = 1;
+              $newsql->debugsql = 0;
               $newsql->setTable($REX['TABLE_PREFIX']."article_slice");
     
               if ($function == "edit")
@@ -225,52 +199,11 @@ if ($article->getRows() == 1)
                 $newsql->setValue("clang",$clang);
                 $newsql->setValue("ctype",$ctype);
               }
-              
-              for ($i=1;$i<11;$i++)
+             
+              // ****************** SPEICHERN FALLS NOETIG
+              foreach($REX['VARIABLES'] as $obj)
               {
-                $newsql->setValue("value$i",$REX_ACTION['VALUE'][$i]);
-              }
-    
-              $newsql->setValue("html",$REX_ACTION['HTML']);
-              $newsql->setValue("php",$REX_ACTION['PHP']);
-    
-              // ---------------------------- REX_MEDIA
-              for ($fi=1;$fi<11;$fi++)
-              {
-                
-                // ----- link
-                if ($REX_ACTION['LINK'][$fi]=="delete link" or $REX_ACTION['LINK'][$fi]=="")
-                {
-                  $newsql->setValue("link$fi","");
-                }else
-                {
-                  $newsql->setValue("link$fi",$REX_ACTION['LINK'][$fi]);
-                }
-
-    
-                // ----- file
-                $FILENAME = $REX_ACTION['FILE'][$fi];
-                if ($FILENAME == "")
-                {
-                  $newsql->setValue("file".$fi,"");
-                }else
-                {
-                  $checkfile = new sql;
-                  $checkfile->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='".$FILENAME."'");
-                  if ($checkfile->getRows()==1)
-                  {
-                    $newsql->setValue("file".$fi,$FILENAME);
-                  }else
-                  {
-                    $message .= $I18N->msg('file');
-                  }
-                }
-                
-                // ----- linklist
-                $newsql->setValue("linklist$fi",$REX_ACTION['LINKLIST'][$fi]);
-
-                // ----- medialist
-                $newsql->setValue("filelist$fi",$REX_ACTION['MEDIALIST'][$fi]);
+                $obj->setACValues($newsql,$REX_ACTION,true);
               }
     
               $newsql->setValue("updatedate",time());
@@ -326,23 +259,14 @@ if ($article->getRows() == 1)
   
             for ($i=0;$i<$ga->getRows();$i++)
             {
+             
               $iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
-              $iaction = str_replace("REX_MODULE_ID",$module_id,$iaction);
-              $iaction = str_replace("REX_SLICE_ID",$slice_id,$iaction);
-              $iaction = str_replace("REX_CATEGORY_ID",$category_id,$iaction);
-              $iaction = str_replace("REX_ARTICLE_ID",$article_id,$iaction);
-              $iaction = str_replace("REX_CTYPE",$ctype,$iaction);
-              $iaction = str_replace("REX_CLANG_ID",$clang,$iaction);
-              $iaction = str_replace("REX_PHP",$REX_ACTION['PHP'],$iaction);
-              $iaction = str_replace("REX_HTML",$REX_ACTION['HTML'],$iaction);
-              for ($j=1;$j<11;$j++)
-              {
-                $iaction = str_replace("REX_VALUE[$j]",$REX_ACTION['VALUE'][$j],$iaction);
-                $iaction = str_replace("REX_LINK[$j]",$REX_ACTION['LINK'][$j],$iaction);
-                $iaction = str_replace("REX_LINKLIST[$j]",$REX_ACTION['LINKLIST'][$j],$iaction);
-                $iaction = str_replace("REX_FILE[$j]",$REX_ACTION['FILE'][$j],$iaction);
-                $iaction = str_replace("REX_MEDIALIST[$j]",$REX_ACTION['MEDIALIST'][$j],$iaction);
-              }
+              // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
+	          foreach($REX['VARIABLES'] as $obj)
+	          {
+	            $iaction = $obj->getACOutput($REX_ACTION,$iaction);
+	          }
+             
               eval("?>".$iaction);
               if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "") $message .= " | ".$REX_ACTION['MSG'];
               $REX_ACTION['MSG'] = "";
