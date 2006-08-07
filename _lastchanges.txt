@@ -68,6 +68,7 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [jan]
   * REX_Actions wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kill,jan]
   * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php 
