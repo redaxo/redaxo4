@@ -559,7 +559,7 @@ class article
   		{
   		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '') || ($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
   		  {
-  		  	if (!$REX["ACTION"]["SAVE"])
+  		  	if (isset($REX["ACTION"]["SAVE"]) && $REX["ACTION"]["SAVE"] === false)
   		  	{
   		  		$sql = new rex_dummy_sql();
   		  		$var->setACValues($sql,$REX["ACTION"]);
