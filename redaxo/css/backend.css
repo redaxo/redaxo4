@@ -86,6 +86,12 @@ div#rex-output .rex-warning {
 	color:#ea1144;
 }
 
+div#rex-output .rex-warning {
+	float:left;
+	width:670px;
+	margin:0 0 10px 0;
+}
+
 table .rex-warning {
 	margin:0;
 }
@@ -270,7 +276,7 @@ div#rex-wrapper {
 	float:left;
 	clear:both;
 	width:770px;
-	margin-bottom:10px;
+	margin-bottom:0px;
 }
 body#rex-mpl div#rex-wrapper {
 	width:100%;
@@ -642,12 +648,17 @@ div.rex-lgn-frm {
 }
 body div#rex-output div.rex-lgn-frm p label {
 	width:100px;
+	padding-top:4px;
 }
 div.rex-lgn-frm p input {
 	width:100px;
 } 
 div.rex-lgn-frm p input.rex-sbmt {
 	margin-left:20px;
+}
+
+div.rex-lgn-frm legend.rex-lgnd {
+	display:none;
 }
 
 
@@ -720,6 +731,10 @@ div.rex-cnt-editmode form p.rex-cnt-mdl-name span {
 div.rex-cnt-editmode form p.rex-slct select {
 	width:100%;
 }
+div.rex-cnt-editmode form legend.rex-lgnd {
+	display:none;
+}
+
 /* Input Area */
 div.rex-cnt-editmode form div.rex-cnt-slc-ipt {
 	padding:10px 5px;
@@ -770,6 +785,7 @@ div.rex-cnt-metamode p input.rex-sbmt {
 div.rex-tmp-editmode {
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
+	margin-bottom:10px;
 }
 
 div.rex-tmp-editmode p {
@@ -794,8 +810,10 @@ div.rex-tmp-editmode p input.rex-sbmt {
 /*	Module/Action - Edit-/Addmode
 *******************************************************************************/
 div.rex-mdl-editmode {
+clear:both;
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
+	margin-bottom:10px;
 }
 div.rex-mdl-editmode p {
 	background:#f0efeb;
@@ -813,7 +831,6 @@ div.rex-mdl-editmode p input.rex-sbmt {
 	margin-left:150px;
 }
 
-
 /*	Addon - Help
 *******************************************************************************/
 /* Container for User Helpfile */
@@ -829,6 +846,7 @@ div.rex-usr-editmode {
 	float:left;
 	width:100%;
 	background-color:#d6e1e4;
+	margin-bottom:10px;
 }
 div.rex-usr-editmode div {
 	clear:both;
@@ -870,6 +888,12 @@ div.rex-usr-editmode p input.rex-sbmt {
 
 /*	Special
 *******************************************************************************/
+
+div.rex-spc-stn {
+	float:left;
+	margin-bottom:10px;
+}
+
 div.rex-spc-stn div.rex-spc-stn-cnt {
 }
 body div#rex-output div.rex-spc-stn legend.rex-lgnd {
@@ -889,7 +913,6 @@ div.rex-spc-stn-cnt p select  {
 div.rex-spc-stn-cnt p input.rex-sbmt {
 	margin-left:190px;
 }
-
 
 /*	Medienpool
 *******************************************************************************/
