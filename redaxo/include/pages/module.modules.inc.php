@@ -67,15 +67,37 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
 
     if ($function == 'add')
     {
-      $modultyp->query("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
+      // $modultyp->query("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
+      
+      $IMOD = new sql;
+      $IMOD->setTable($REX['TABLE_PREFIX']."modultyp");
+      $IMOD->setValue("name",$mname);
+      $IMOD->setValue("eingabe",$eingabe);
+      $IMOD->setValue("ausgabe",$ausgabe);
+      $IMOD->setValue("createdate",time());
+      $IMOD->setValue("createuser",$REX_USER->getValue("login"));
+      $IMOD->insert();
       $message = $I18N->msg("module_added");
+
+
     } else {
       $modultyp->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id='$modul_id'");
       if ($modultyp->getRows()==1)
       {
         $old_ausgabe = $modultyp->getValue("ausgabe");
     
-        $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+        // $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+        
+        $UMOD = new sql;
+        $UMOD->setTable($REX['TABLE_PREFIX']."modultyp");
+        $UMOD->where("id='$modul_id'");
+        $UMOD->setValue("name",$mname);
+        $UMOD->setValue("eingabe",$eingabe);
+        $UMOD->setValue("ausgabe",$ausgabe);
+        $UMOD->setValue("updatedate",time());
+        $UMOD->setValue("updateuser",$REX_USER->getValue("login"));
+        $UMOD->update();
+
         $message = $I18N->msg("module_updated").' | '.$I18N->msg("articel_updated");
 
         $new_ausgabe = stripslashes($ausgabe);
