@@ -7,7 +7,7 @@ pre {padding:10px;font-size:12px;overflow:hidden;border:1px solid #CCCCCC;margin
 <table border="0" cellpadding="5" cellspacing="1" width="770">
   <tbody>
   <tr>
-    <th colspan="2" align="left"><?=$FL['title'];?></th>
+    <th colspan="2" align="left">TinyMCE2</th>
   </tr>
   
   <tr>

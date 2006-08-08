@@ -1,7 +1,10 @@
 <?php
+
 //TinyMCE 2.0.6.1 Redaxo Mods by Dave Holloway @ GN2-Netwerk.de
-include("inc-pclzip.php");
-  $archive = new PclZip('include/addons/tinymce/tinymce.zip');
+
+include_once $REX['INCLUDE_PATH'].'/addons/tinymce/classes/class.pclzip.inc.php';
+
+  $archive = new PclZip('include/addons/tinymce/js/tinymce.zip');
   if ($archive->extract(PCLZIP_OPT_PATH, '../files') == 0) {
     die("Error : ".$archive->errorInfo(true));
   }
