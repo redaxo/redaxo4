@@ -494,7 +494,7 @@ if (!empty($message))
 
 $SHOW = true;
 
-if (isset($FUNC_ADD) && $FUNC_ADD || $user_id != '')
+if (isset($FUNC_ADD) && $FUNC_ADD || isset($user_id))
 {
   $SHOW = false;
 
