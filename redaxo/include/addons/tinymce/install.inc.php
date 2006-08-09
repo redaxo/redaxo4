@@ -18,14 +18,15 @@ include_once $REX['INCLUDE_PATH'].'/addons/tinymce/classes/class.pclzip.inc.php'
 	
 	echo '<div style="height:200px;width:770px;overflow:auto;margin-bottom:10px;text-align:center;">';
 	echo '<h3>Addon wird extrahiert...</h3>';
-	echo "<table border=\"1\" style=\"margin:0 auto 0 auto;\">";
-	echo "<tr><th>Datei</th><th>Gr&ouml;&szlig;e</th>";
+	echo '<table border="1" style="margin:0 auto 0 auto;">';
+	echo '<tr><th>Datei</th><th>Gr&ouml;&szlig;e</th>';
 	for ($i=0; $i<count($list); $i++)
-	{	echo "<tr>";
-		echo "<td>".$list[$i]['filename']."</td><td>".$list[$i]['size']." bytes</td>";
-		echo "<tr>";
+	{
+    echo '<tr>';
+		echo '<td>'. $list[$i]['filename'] .'</td><td>'. $list[$i]['size'] .' bytes</td>';
+		echo '</tr>';
 	}
-	echo "</table>";
+	echo '</table>';
 	echo '</div>';
 
 
