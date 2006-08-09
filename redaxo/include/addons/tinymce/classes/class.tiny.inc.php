@@ -52,9 +52,9 @@ class tiny2editor {
 
 		if ($GLOBALS['TINY2']['script']!=1) {
 			if(strstr($_SERVER['HTTP_USER_AGENT'],"MSIE")) {
-				echo "\n".'<script language="javascript" type="text/javascript" src="../files/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
+				echo "\n".'<script language="javascript" type="text/javascript" src="../files/tinymce/tiny_mce.js"></script>';
 			} else {
-				echo "\n".'<script language="javascript" type="text/javascript" src="../files/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+				echo "\n".'<script language="javascript" type="text/javascript" src="../files/tinymce/tiny_mce_gzip.php"></script>';
 			}
 
 			$GLOBALS['TINY2']['script']="1";
