@@ -73,7 +73,9 @@ sind z. B. die Statistik oder die Import/Export-Funktion. AddOns werden unter de
 http://www.redaxo.de/18-0-addons.html
 
 Mehrsprachigkeit:
-REDAXO ist speziell dazu ausgelegt eine Seite mit der gleichen Struktur in mehreren Sprachen zu pflegen. Die Strukturen werden automatisch in allen vorgesehenen Sprachen gespiegelt. Inhalte können kopiert werden. Mit REDAXO können Seiten in beliebig vielen Sprachen erstellt werden. Seit der Version 3.1 ist auch utf-8-Codierung möglich.
+REDAXO ist speziell dazu ausgelegt eine Seite mit der gleichen Struktur in mehreren Sprachen zu pflegen.
+Die Strukturen werden automatisch in allen vorgesehenen Sprachen gespiegelt. Inhalte können kopiert werden.
+Mit REDAXO können Seiten in beliebig vielen Sprachen erstellt werden. Seit der Version 3.1 ist auch utf-8-Codierung möglich.
 
 Medienpool:
 Über einen Medienpool werden relevante Dateien, z. B. Bilder oder PDF's, zentral verwaltet.
