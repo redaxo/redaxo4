@@ -2,11 +2,10 @@
 
 $mypage = "tinymce";
 
-$REX['ADDON']['rxid'][$mypage] = "REX_REDAXO";
+$REX['ADDON']['rxid'][$mypage] = "52";
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = "TinyMCE";
-$REX['ADDON']['lang'][$mypage] = "de";
-
+$REX['ADDON']['perm'][$mypage] = "tiny_mce[]";
 
 // Include tinylib
 if($REX['REDAXO']){
