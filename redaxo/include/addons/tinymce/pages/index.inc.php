@@ -30,8 +30,8 @@ $TINY2[0]->show();
 //TinyMCE for Redaxo- dh@gn2-netwerk.de v0.03
 $TINY2[0]=new tiny2editor();
 $TINY2[0]->content="REX_VALUE[1]";
+$TINY2[0]->editorCSS = "../files/tinymce/myeditor.css";
 $TINY2[0]->disable="link,image,advimage,justifyleft,justifycenter,justifyright,justifyfull,indent,outdent,sub,sup,separator,help,visualaid,anchor";
-$TINY2[0]->plugins="emotions,iespell,table,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen";
 $TINY2[0]->validhtml="marquee[border|class|style|width]b[border|class|style]img[class|style|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]";
 $TINY2[0]->show();
 <?php echo "?>";?>
