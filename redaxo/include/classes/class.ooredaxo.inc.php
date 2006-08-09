@@ -32,8 +32,6 @@ class OORedaxo
   var $_prior = "";
   var $_path = "";
   var $_status = "";
-  var $_online_from = "";
-  var $_online_to = "";
   var $_createdate = "";
   var $_updatedate = "";
   var $_keywords = "";
@@ -106,9 +104,7 @@ class OORedaxo
       foreach ($class_vars as $name => $value)
       {
         // 1. Zeichen == '_'
-        if ($name {
-          0 }
-        == '_')
+        if ($name{0} == '_')
         {
           $vars[] = substr($name, 1);
         }
