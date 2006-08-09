@@ -27,13 +27,20 @@ class tiny2editor {
 	var $id;
 
 	function show() {
-		$this->address=$_SERVER['SCRIPT_URL'];
+    
+    if(isset($_SERVER['SCRIPT_URL']))
+    {
+      $address = $_SERVER['SCRIPT_URL'];
+    }elseif(isset($_SERVER['SCRIPT_FILENAME']))
+    {
+      $address = $_SERVER['SCRIPT_FILENAME'];
+    }
+    
+		$this->address=$address;
 		$splitURL=split("/redaxo/",$this->address);
 
 		$this->address=$splitURL[0];
 
-
-		echo "\n\n<!-- ------------------------------ -->";
 
 		if ($GLOBALS['TINY2']['counter']==0) {
 			$this->id=0;
@@ -104,7 +111,6 @@ class tiny2editor {
 		echo '}';
 
 		echo '</script>';
-		echo "\n<!-- ------------------------------ -->\n\n";
 
 		echo '<textarea name="VALUE[1]" class="tiny2" id="tiny2e'.$this->id.'" style="width:'.$this->width.';height:'.$this->height.';">'.$this->content.'</textarea>';
 	}

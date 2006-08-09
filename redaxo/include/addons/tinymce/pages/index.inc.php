@@ -18,7 +18,7 @@ TinyMCE 2.0.6.1 installiert
 <pre>
 &lt;?php
 //TinyMCE for Redaxo- dh@gn2-netwerk.de v0.03
-include("include/addons/tinymce/tiny2.php");
+include_once $REX['INCLUDE_PATH'].'/addons/tinymce/classes/class.tiny.inc.php';
 
 $TINY2[0]=new tiny2editor();
 $TINY2[0]->content="REX_VALUE[1]";
@@ -30,7 +30,7 @@ $TINY2[0]->show();
 <pre>
 &lt;?php
 //TinyMCE for Redaxo- dh@gn2-netwerk.de v0.03
-include("include/addons/tinymce/tiny2.php");
+include_once $REX['INCLUDE_PATH'].'/addons/tinymce/classes/class.tiny.inc.php';
 
 $TINY2[0]=new tiny2editor();
 $TINY2[0]->content="REX_VALUE[1]";
