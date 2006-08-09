@@ -28,11 +28,18 @@ class tiny2editor {
 
 
     function show() {
-    $this->address=$_SERVER['SCRIPT_URL'];
+    if(isset($_SERVER['SCRIPT_URL']))
+    {
+      $address = $_SERVER['SCRIPT_URL'];
+    }elseif(isset($_SERVER['SCRIPT_FILENAME']))
+    {
+      $address = $_SERVER['SCRIPT_FILENAME'];
+    }
+    $this->address=$address;
+
     $splitURL=split("/redaxo/",$this->address);
 
     $this->address=$splitURL[0];
-
 
     echo "\n\n<!-- ------------------------------ -->";
 
