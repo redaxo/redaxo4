@@ -12,28 +12,35 @@ pre {padding:10px;font-size:12px;overflow:hidden;border:1px solid #CCCCCC;margin
 
   <tr>
 <td class="grey">
-TinyMCE 2.0.6.1 installiert
+<a href="http://tinymce.moxiecode.com/tinymce/docs/index.html">TinyMCE 2.0.6.1 Dokumentation</a>
 <br />
 <h2>Moduleingabe Einfach</h2>
 <pre>
 &lt;?php
-//TinyMCE for Redaxo- dh@gn2-netwerk.de v0.03
-$TINY2[0]=new tiny2editor();
-$TINY2[0]->content="REX_VALUE[1]";
-$TINY2[0]->show();
+$editor=new tiny2editor();
+$editor->id=1;
+$editor->content="REX_VALUE[1]";
+$editor->show();
 <?php echo "?>";?>
 </pre>
 
-<h2>Moduleingabe Erweitert</h2>
+<h2>Moduleingabe Erweitert (mehrere Editoren in einem Modul)</h2>
+<a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" target="_blank">TinyMCE Plugin Liste</a>
 <pre>
 &lt;?php
-//TinyMCE for Redaxo- dh@gn2-netwerk.de v0.03
-$TINY2[0]=new tiny2editor();
-$TINY2[0]->content="REX_VALUE[1]";
-$TINY2[0]->editorCSS = "../files/tinymce/myeditor.css";
-$TINY2[0]->disable="link,image,advimage,justifyleft,justifycenter,justifyright,justifyfull,indent,outdent,sub,sup,separator,help,visualaid,anchor";
-$TINY2[0]->validhtml="marquee[border|class|style|width]b[border|class|style]img[class|style|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]";
-$TINY2[0]->show();
+$editor1=new tiny2editor();
+$editor1->id=1;
+$editor1->content="REX_VALUE[1]";
+$editor1->editorCSS = "../files/tinymce/content.css";
+$editor1->disable="justifyleft,justifycenter,justifyright,justifyfull";
+$editor1->buttons3="tablecontrols,separator,search,replace,separator,print";
+$editor1->add_validhtml="img[myspecialtag]";
+$editor1->show();
+
+$editor2=new tiny2editor();
+$editor2->id=2;
+$editor2->content="REX_VALUE[2]";
+$editor2->show();
 <?php echo "?>";?>
 </pre>
 
@@ -48,8 +55,8 @@ EOD;
 &lt;?php
 $content=$data;
 if ($REX['REDAXO']) {
-	$content=str_replace('src="files/','src="../files/',$content);
-	echo '&lt;link rel="stylesheet" type="text/css" href="../files/tinymce/content.css" /&gt;';
+  $content=str_replace('src="files/','src="../files/',$content);
+  echo '&lt;link rel="stylesheet" type="text/css" href="../files/tinymce/content.css" /&gt;';
 }
 echo $content;
 <?php echo "?>\n";?>
