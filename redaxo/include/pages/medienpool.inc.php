@@ -20,7 +20,13 @@
 // *************************************** WENN HTMLAREA ODER INPUT FELD.. SAVE
 
 // ----- opener_input_field setzen
-if(isset($_GET["opener_input_field"])) $_SESSION["media[opener_input_field]"] = $_GET["opener_input_field"];
+$opener_input_field = rex_get('opener_input_field');
+if($opener_input_field == '' && ($sess_opener_input_field = rex_session('media[opener_input_field]')) != '')
+{
+  $opener_input_field = $sess_opener_input_field;
+}
+
+rex_set_session('media[opener_input_field]', $opener_input_field);
 
 
 
@@ -46,17 +52,10 @@ if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 
 
 // *************************************** CAT ID IN SESSION SPEICHERN
-if (isset($_REQUEST["rex_file_category"]))
+$rex_file_category = rex_request('rex_file_category', 'int');
+if($rex_file_category == 0 && ($sess_rex_file_category = rex_session('media[rex_file_category]', 'int')) != 0)
 {
-  $rex_file_category = (int) $_REQUEST["rex_file_category"];
-}
-elseif (isset($_SESSION["rex_file_category"])) 
-{
-  $rex_file_category = $_SESSION['rex_file_category']; 
-}
-else
-{
-  $rex_file_category = 0;
+  $rex_file_category = $sess_rex_file_category;
 }
 
 $gc = new sql;
@@ -71,7 +70,7 @@ else
   $rex_file_category_name = $gc->getValue('name');
 }
 
-$_SESSION["rex_file_category"] = $rex_file_category;
+rex_set_session('media[rex_file_category]', $rex_file_category);
 
 
 
@@ -471,7 +470,7 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
   }
   
   $add_submit = '';
-  if ($_SESSION['media[opener_input_field]'] != '') 
+  if (rex_session('media[opener_input_field]') != '') 
   {
     $add_submit = '<input type="submit" class="rex-sbmt" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'" />';
   }
@@ -753,7 +752,7 @@ if ($subpage == "add_file" && $media_method == 'add_file'){
       $width = $return['width'];
       $height = $return['height'];
 
-      if($_SESSION["media[opener_input_field]"] == 'TINY')
+      if($opener_input_field == 'TINY')
       {
         if (OOMedia::_isImage($file_name))
         {
@@ -763,10 +762,10 @@ if ($subpage == "add_file" && $media_method == 'add_file'){
           $js = "insertLink('".$file_name."');";
         }
 
-      }elseif($_SESSION["media[opener_input_field]"] != '')
+      }elseif($opener_input_field != '')
       {
         $js = "selectMedia('".$file_name."');";
-        if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
+        if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
         {
           $js = "addMedialist('".$file_name."');";
         }
@@ -878,10 +877,8 @@ if ($subpage=="detail" && $media_method == 'edit_file'){
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
-
-    if ($PERMALL || ( $REX_USER->hasPerm("media[".$gf->getValue("category_id")."]") &&  $REX_USER->hasPerm("media[$rex_file_category]") ) )
+    if ($PERMALL || ($REX_USER->hasPerm("media[".$gf->getValue("category_id")."]") && $REX_USER->hasPerm("media[$rex_file_category]")))
     {
-
       $FILESQL = new sql;
       $FILESQL->setTable($REX['TABLE_PREFIX']."file");
       $FILESQL->where("file_id='$file_id'");
@@ -978,28 +975,36 @@ if ($subpage == "detail")
     $fname = $gf->getValue('filename');
     $ffiletype = $gf->getValue('filetype');
     $rex_category_id = $gf->getValue('category_id');
-
     $file_ext = substr(strrchr($fname, '.'),1);
     $icon_src = 'pics/mime_icons/mime-default.gif';
     if (OOMedia::isDocType($file_ext)) $icon_src = 'pics/mime_icons/mime-'.$file_ext.'.gif';
     {
-      $thumbnail = '<img src="'. $icon_src .'" alt="" title="" />';
+      $thumbnail = '<img src="'. $icon_src .'" alt="'. $fdescription .'" title="'. $ftitle .'" />';
     }
 
     $ffiletype_ii = OOMedia::_isImage($fname);
     if ($ffiletype_ii)
     {
-      $size = @getimagesize($REX['INCLUDE_PATH'].'/../../files/'.$fname);
-      $fwidth = $size[0];
-      $fheight = $size[1];
+      $fwidth = $gf->getValue('width');
+      $fheight = $gf->getValue('height');
       if ($fwidth >199) $rfwidth = 200;
       else $rfwidth = $fwidth;
     }
 
     $add_image = '';
-	$style_width = '';
+    $add_ext_info = '';
+	  $style_width = '';
     if ($ffiletype_ii)
     {
+      $add_ext_info = '
+      <p>
+        <label for="fwidth">'. $I18N->msg('pool_img_width') .'</label>
+        <span id="fwidth">'. $fwidth .'px</span>
+      </p>
+      <p>
+        <label for="fheight">'. $I18N->msg('pool_img_height') .'</label>
+        <span id="fheight">'. $fheight .'px</span>
+      </p>';
       $imgn = '../files/'. $fname .'" width="'. $rfwidth;
       
       if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
@@ -1016,7 +1021,7 @@ if ($subpage == "detail")
       }
             
       $add_image = '<div class="rex-mpl-dtl-img">
-	  				<p>
+	  		  <p>
 						<img src="'. $imgn .'" alt="'. $fdescription .'" title="'. $fdescription .'" />
 					</p>
 					</div>';
@@ -1030,17 +1035,18 @@ if ($subpage == "detail")
     }
 
     if (!isset($opener_link)) $opener_link = '';
-    if($_SESSION["media[opener_input_field]"] == 'TINY')
+    if($opener_input_field == 'TINY')
     {
-      if (OOMedia::_isImage($fname))
+      if ($ffiletype_ii)
       {
         $opener_link .= "<a href=javascript:insertImage('$fname','". htmlspecialchars( $fdescription) ."','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
       }
       $opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
-    }elseif($_SESSION["media[opener_input_field]"] != '')
+    }
+    elseif($opener_input_field != '')
     {
       $opener_link = "<a href=javascript:selectMedia('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
-      if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
+      if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
         $opener_link = "<a href=javascript:addMedialist('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
       }
@@ -1099,16 +1105,17 @@ if ($subpage == "detail")
                       		<label for="fcopyright">'. $I18N->msg('pool_file_copyright') .'</label>
                       		<input type="text" size="20" name="fcopyright" id="fcopyright" value="'. htmlspecialchars($fcopyright).'" />
                     	</p>
+                      '. $add_ext_info .'
                     	<p>
                       		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
                       		<a href="../files/'. $fname .'" id="flink">'. htmlspecialchars($fname) .'</a>
                     	</p>
                     	<p>
                      		<label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
-                      		<span id="fupdate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
+                      	<span id="fupdate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
                     	</p>
                     	<p>
-                      		<label for="fcreate">'. $I18N->msg('pool_last_update') .'</label>
+                      	<label for="fcreate">'. $I18N->msg('pool_last_update') .'</label>
                      		<span id="fcreate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate")).' ['.$gf->getValue("createuser") .']</span>
                     	</p>
                     	<p>
@@ -1503,7 +1510,7 @@ if ($subpage == '')
 
     // ----- opener
     $opener_link = '';
-    if ($_SESSION['media[opener_input_field]'] == 'TINY')
+    if ($opener_input_field == 'TINY')
     {
       if (OOMedia::_isImage($file_name))
       {
@@ -1511,10 +1518,10 @@ if ($subpage == '')
       }
       $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
 
-    } elseif ($_SESSION['media[opener_input_field]'] != '')
+    } elseif ($opener_input_field != '')
     {
       $opener_link = "<a href=\"javascript:selectMedia('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
-      if (substr($_SESSION["media[opener_input_field]"],0,14)=="REX_MEDIALIST_")
+      if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
         $opener_link = "<a href=\"javascript:addMedialist('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       }
