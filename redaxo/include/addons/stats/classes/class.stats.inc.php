@@ -455,15 +455,19 @@ class stats
       {
         foreach ($this->REF[$das] as $o => $p)
         {
-          if (strlen($o) > 60)
-            $q = substr($o, 0, 60)." ...";
+          if (strlen($o) > 55)
+            $q = substr($o, 0, 55)." ...";
           else
             $q = $o;
             
           $q = htmlspecialchars($q);
           $o = htmlspecialchars($o);
+          
+          // Dollar zeichen umwandeln, da sonst fehler beim eval() später passieren
+          $q = str_replace('$', '&#036;', $q);
+          $o = str_replace('$', '&#036;', $o);
 
-          $refout .= "<tr><td class=icon>&nbsp;</td><td class=lgrey><a href=$o target=_blank>$q</a></td><td width=100 align=right>$p</td></tr>";
+          $refout .= "<tr><td class=icon>&nbsp;</td><td class=lgrey><a href=". urlencode($o)." target=_blank>$q</a></td><td width=100 align=right>$p</td></tr>";
 
           for ($i = 0; $i < count($ser); $i++)
           {
