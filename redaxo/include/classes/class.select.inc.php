@@ -31,11 +31,11 @@ class select
   {
     if ($mul == 1)
     {
-      $this->select_multiple = " multiple";
+      $this->select_multiple = ' multiple="multiple"';
     }
     else
     {
-      $this->select_multiple = "";
+      $this->select_multiple = '';
     }
   }
 
