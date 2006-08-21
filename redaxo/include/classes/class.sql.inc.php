@@ -72,20 +72,43 @@ class sql
    * Setzt eine Abfrage (SQL) ab
    * @param $query Abfrage 
    */
-  function setQuery($select)
+  function setQuery($qry)
   {
     $this->counter = 0;
-    $this->select = $select;
+    $this->last_insert_id = 0;
+    $this->select = $qry;
     $this->selectDB();
-    $this->result = @ mysql_query("$select");
-    $this->rows = @ mysql_num_rows($this->result);
-    $this->last_insert_id = @ mysql_insert_id();
+    $this->result = @ mysql_query($qry);
+    
+    if(eregi("^[ ]*(SELECT|UPDATE|INSERT) ",$qry,$matches = array()))
+    {
+      switch(strtoupper($matches[1]))
+      {
+        case 'SELECT':
+        {
+          $this->rows = mysql_num_rows($this->result);
+          break;          
+        }
+        case 'UPDATE' :
+        {
+          $this->rows = mysql_affected_rows();
+          break;          
+        }
+        case 'INSERT' :
+        {
+          $this->rows = mysql_affected_rows();
+          $this->last_insert_id = @ mysql_insert_id();
+          break;          
+        }
+      }
+    }
+    
     $this->error = @ mysql_error();
     $this->errno = @ mysql_errno();
 
     if ($this->debugsql)
     {
-      $this->printError($select);
+      $this->printError($qry);
     }
   }
 
@@ -177,31 +200,27 @@ class sql
   {
     $this->counter = 0;
   }
-
-  /**
-   * Erstellt eine Liste der der aktuell in dem ResultSet befindlichen Daten.
-   * (Für Debugzwecke)
-   */
-  function liste()
+  
+  function buildSetQuery()
   {
-    $back = "";
-
-    for ($i = 0; $i < $this->getRows(); $i++)
+    $qry = '';
+    if (is_array($this->values))
     {
-      foreach ($this->values as $value)
+      foreach ($this->values as $fld_name => $value)
       {
-        $back .= $value." \n";
+        if ($qry != '')
+        {
+          $qry .= ',';
+        }
+        $qry .= '`'.$fld_name.'`=\''. $value .'\'';
       }
-
-      $back .= "<br>";
-      $this->counter++;
     }
-
-    return $back;
+    
+    return $qry;
   }
 
   /**
-   * Setzt eine Update-Abfrage auf die angegebene Tabelle 
+   * Setzt eine Update-Anweisung auf die angegebene Tabelle 
    * mit den angegebenen Werten und WHERE Parametern ab
    * 
    * @see #setTable()
@@ -210,30 +229,11 @@ class sql
    */
   function update()
   {
-    $sql = "";
-    if (is_array($this->values))
-    {
-      foreach ($this->values as $fld_name => $value)
-      {
-        if ($sql != "")
-        {
-          $sql .= ",";
-        }
-        $sql .= "`".$fld_name."`='".$value."'";
-
-      }
-
-      $this->selectDB();
-      $this->result = mysql_query("update `$this->table` set $sql $this->wherevar");
-      $this->error = @ mysql_error();
-      $this->message = "event updated<br>";
-      if ($this->debugsql)
-        echo "update $this->table set $sql $this->wherevar";
-    }
+    $this->setQuery('UPDATE `'. $this->table .'` SET '.$this->buildSetQuery() . $this->wherevar);
   }
 
   /**
-   * Setzt eine Insert-Abfrage auf die angegebene Tabelle 
+   * Setzt eine Insert-Anweisung auf die angegebene Tabelle 
    * mit den angegebenen Werten ab
    * 
    * @see #setTable()
@@ -241,36 +241,23 @@ class sql
    */
   function insert()
   {
-    $sql1 = "";
-    $sql2 = "";
-    if (is_array($this->values))
-    {
-      foreach ($this->values as $fld_name => $value)
-      {
-        if ($sql1 != "")
-        {
-          $sql1 .= ",";
-        }
-        if ($sql2 != "")
-        {
-          $sql2 .= ",";
-        }
-        $sql1 .= "`".$fld_name."`";
-        $sql2 .= "'".$value."'";
-      }
-
-      $this->selectDB();
-      $this->result = @ mysql_query("insert into $this->table ($sql1) VALUES ($sql2)");
-      $this->last_insert_id = @ mysql_insert_id();
-      $this->error = @ mysql_error();
-      $this->message = "new event inserted<br>";
-      if ($this->debugsql)
-        echo htmlspecialchars("insert into $this->table ($sql1) VALUES ($sql2)");
-    }
+    $this->setQuery('INSERT INTO `'. $this->table .'` SET '.$this->buildSetQuery() . $this->wherevar);
   }
 
   /**
-   * Setzt eine Delete-Abfrage auf die angegebene Tabelle 
+   * Setzt eine Replace-Anweisung auf die angegebene Tabelle 
+   * mit den angegebenen Werten ab
+   * 
+   * @see #setTable()
+   * @see #setValue()
+   */
+  function replace()
+  {
+    $this->setQuery('REPLACE INTO `'. $this->table .'` SET '.$this->buildSetQuery() . $this->wherevar);
+  }
+  
+  /**
+   * Setzt eine Delete-Anweisung auf die angegebene Tabelle 
    * mit den angegebenen WHERE Parametern ab
    * 
    * @see #setTable()
@@ -299,14 +286,11 @@ class sql
 
   /**
    * Sendet eine Abfrage an die Datenbank
+   * @deprecated 3.3 - 21.08.2006
    */
-  function query($sql)
+  function query($qry)
   {
-    $this->selectDB();
-    $this->result = mysql_query("$sql");
-    $this->error = @ mysql_error();
-    if ($this->debugsql)
-      echo $sql."<br>";
+    $this->setQuery($qry);
   }
 
   /**
@@ -325,10 +309,8 @@ class sql
     return $this->last_insert_id;
   }
 
-  // GET ARRAY RESULT
   /**
    * Lädt das komplette Resultset in ein Array und gibts dieses zurück 
-   * @deprecated version - 01.12.2005
    */
   function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
   {
@@ -369,17 +351,20 @@ class sql
    */
   function printError($select)
   {
-    echo '<hr />'."\n";
-    echo 'Query: '.nl2br(htmlspecialchars($select))."<br />\n";
-
-    if (strlen($this->getRows()) > 0)
+    if($this->debugsql === 2 && strlen($this->getError()) > 0 || $this->debugsql === true)
     {
-      echo 'Affected Rows: '.$this->getRows()."<br />\n";
-    }
-    if (strlen($this->getError()) > 0)
-    {
-      echo 'Error Message: '.htmlspecialchars($this->getError())."<br />\n";
-      echo 'Error Code: '.$this->getErrno()."<br />\n";
+      echo '<hr />'."\n";
+      echo 'Query: '.nl2br(htmlspecialchars($select))."<br />\n";
+  
+      if (strlen($this->getRows()) > 0)
+      {
+        echo 'Affected Rows: '.$this->getRows()."<br />\n";
+      }
+      if (strlen($this->getError()) > 0)
+      {
+        echo 'Error Message: '.htmlspecialchars($this->getError())."<br />\n";
+        echo 'Error Code: '.$this->getErrno()."<br />\n";
+      }
     }
   }
 
@@ -389,11 +374,12 @@ class sql
    */
   function setNewId($field)
   {
-    $result = mysql_query("select $field from $this->table order by $field desc LIMIT 1");
+    $result = mysql_query("SELECT `$field` FROM `$this->table` ORDER BY `$field` DESC LIMIT 1");
     if (@ mysql_num_rows($result) == 0)
       $id = 0;
     else
-      $id = mysql_result($result, 0, "$field");
+      $id = mysql_result($result, 0, $field);
+      
     $id++;
     $this->setValue($field, $id);
     return $id;

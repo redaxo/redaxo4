@@ -96,6 +96,10 @@ Changes:
 	    + REX_VALUE[id=3]
   	  + REX_MEDIA_BUTTON[id=4 category=3]
   * Sql-Klasse:
+    - sql::replace() implementiert für REPLACE INTO SQLs [kills]
+    - Wenn $sql->debugsql = 2 steht, wird nur dann eine Debugmeldung ausgeben, wenn ein Fehler aufgetreten ist [kills]
+    - Alle Funktionen verwenden jetzt intern die setQuery() funktion [kills]
+    - getRows() liefert jetzt auch bei INSERTs/UPDATEs die betroffenen Zeilenzahl [kills]
   	- getServerVersion() implementiert [kills]
   	- insert(),update() => Spaltennamen werden nun von ` Umschlossen, damit dort auch Sonderzeichen vorkommen dürfen [kills]
   * Medienpool:
