@@ -86,11 +86,13 @@ div#rex-output .rex-warning {
 	color:#ea1144;
 }
 
+/* jan - anpassung */
 div#rex-output .rex-warning {
 	float:left;
 	width:670px;
 	margin:0 0 10px 0;
 }
+/* jan - ende */
 
 table .rex-warning {
 	margin:0;
@@ -276,7 +278,7 @@ div#rex-wrapper {
 	float:left;
 	clear:both;
 	width:770px;
-	margin-bottom:0px;
+	margin-bottom:0px;						/* jan - von 10 auf 0*/
 }
 body#rex-mpl div#rex-wrapper {
 	width:100%;
@@ -648,7 +650,7 @@ div.rex-lgn-frm {
 }
 body div#rex-output div.rex-lgn-frm p label {
 	width:100px;
-	padding-top:4px;
+	padding-top:4px;						/* jan - von 0 auf 4 */
 }
 div.rex-lgn-frm p input {
 	width:100px;
@@ -657,9 +659,11 @@ div.rex-lgn-frm p input.rex-sbmt {
 	margin-left:20px;
 }
 
+/* jan - anpassung */
 div.rex-lgn-frm legend.rex-lgnd {
 	display:none;
 }
+/* jan - ende */
 
 
 /*	Inputs in Table
@@ -785,7 +789,7 @@ div.rex-cnt-metamode p input.rex-sbmt {
 div.rex-tmp-editmode {
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
-	margin-bottom:10px;
+	margin-bottom:10px;						/* jan - von 0 auf 10 */
 }
 
 div.rex-tmp-editmode p {
@@ -810,10 +814,10 @@ div.rex-tmp-editmode p input.rex-sbmt {
 /*	Module/Action - Edit-/Addmode
 *******************************************************************************/
 div.rex-mdl-editmode {
-clear:both;
+	clear:both;								/* jan - clear */
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
-	margin-bottom:10px;
+	margin-bottom:10px;						/* jan - von 0 auf 10 */
 }
 div.rex-mdl-editmode p {
 	background:#f0efeb;
@@ -846,7 +850,7 @@ div.rex-usr-editmode {
 	float:left;
 	width:100%;
 	background-color:#d6e1e4;
-	margin-bottom:10px;
+	margin-bottom:10px;						/* jan - von 0 auf 10 */
 }
 div.rex-usr-editmode div {
 	clear:both;
@@ -889,10 +893,13 @@ div.rex-usr-editmode p input.rex-sbmt {
 /*	Special
 *******************************************************************************/
 
+/* jan - anpassung */
 div.rex-spc-stn {
 	float:left;
 	margin-bottom:10px;
 }
+/* jan - ende */
+
 
 div.rex-spc-stn div.rex-spc-stn-cnt {
 }
