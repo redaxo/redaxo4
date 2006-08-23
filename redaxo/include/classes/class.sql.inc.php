@@ -61,9 +61,9 @@ class sql
   {
     global $REX;
 
-    if (!@ mysql_select_db($REX['DB'][$this->DBID]['NAME']))
+    if (!@ mysql_select_db($REX['DB'][$this->DBID]['NAME'], $this->identifier))
     {
-      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:".$REX['ERROR_EMAIL'].">".$REX['ERROR_EMAIL']."</a>\n | Thank you!\n</font>";
+      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
     }
   }
@@ -77,34 +77,40 @@ class sql
     $this->counter = 0;
     $this->last_insert_id = 0;
     $this->select = $qry;
-    $this->selectDB();
-    $this->result = @ mysql_query($qry);
-    
-    if(eregi("^[ ]*(SELECT|UPDATE|INSERT) ",$qry,$matches = array()))
+    $this->result = @ mysql_query($qry, $this->identifier);
+
+    if ($this->result)
     {
-      switch(strtoupper($matches[1]))
+      if (preg_match('/^\s*?(SELECT|UPDATE|INSERT)/i', $qry, $matches))
       {
-        case 'SELECT':
+        switch (strtoupper($matches[1]))
         {
-          $this->rows = mysql_num_rows($this->result);
-          break;          
-        }
-        case 'UPDATE' :
-        {
-          $this->rows = mysql_affected_rows();
-          break;          
-        }
-        case 'INSERT' :
-        {
-          $this->rows = mysql_affected_rows();
-          $this->last_insert_id = @ mysql_insert_id();
-          break;          
+          case 'SELECT' :
+            {
+              $this->rows = mysql_num_rows($this->result);
+              break;
+            }
+          case 'UPDATE' :
+            {
+              $this->rows = mysql_affected_rows($this->identifier);
+              break;
+            }
+          case 'INSERT' :
+            {
+              $this->rows = mysql_affected_rows($this->identifier);
+              $this->last_insert_id = mysql_insert_id($this->identifier);
+              break;
+            }
         }
       }
+      $this->error = '';
+      $this->errno = '';
     }
-    
-    $this->error = @ mysql_error();
-    $this->errno = @ mysql_errno();
+    else
+    {
+      $this->error = mysql_error($this->identifier);
+      $this->errno = mysql_errno($this->identifier);
+    }
 
     if ($this->debugsql)
     {
@@ -163,17 +169,13 @@ class sql
    */
   function getValue($value, $row = null)
   {
-      // wenn db verwechslungen, dann hier aktiv setzen
-    // $this->selectDB();
-  $_row = $this->counter;
+    $_row = $this->counter;
     if (is_int($row))
     {
       $_row = $row;
     }
 
-    $back = @ mysql_result($this->result, $_row, $value);
-
-    return $back;
+    return @ mysql_result($this->result, $_row, $value);
   }
 
   /**
@@ -200,7 +202,13 @@ class sql
   {
     $this->counter = 0;
   }
-  
+
+  /**
+   * Baut den SET bestandteil mit der 
+   * verfügbaren values zusammen und gibt diesen zurück
+   * 
+   * @see setValue 
+   */
   function buildSetQuery()
   {
     $qry = '';
@@ -212,10 +220,10 @@ class sql
         {
           $qry .= ',';
         }
-        $qry .= '`'.$fld_name.'`=\''. $value .'\'';
+        $qry .= '`' . $fld_name . '`=\'' . $value . '\'';
       }
     }
-    
+
     return $qry;
   }
 
@@ -229,7 +237,7 @@ class sql
    */
   function update()
   {
-    $this->setQuery('UPDATE `'. $this->table .'` SET '.$this->buildSetQuery() . $this->wherevar);
+    $this->setQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
   }
 
   /**
@@ -241,7 +249,7 @@ class sql
    */
   function insert()
   {
-    $this->setQuery('INSERT INTO `'. $this->table .'` SET '.$this->buildSetQuery() . $this->wherevar);
+    $this->setQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
   }
 
   /**
@@ -253,9 +261,9 @@ class sql
    */
   function replace()
   {
-    $this->setQuery('REPLACE INTO `'. $this->table .'` SET '.$this->buildSetQuery() . $this->wherevar);
+    $this->setQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
   }
-  
+
   /**
    * Setzt eine Delete-Anweisung auf die angegebene Tabelle 
    * mit den angegebenen WHERE Parametern ab
@@ -265,9 +273,7 @@ class sql
    */
   function delete()
   {
-    $this->selectDB();
-    $this->result = mysql_query("delete from $this->table $this->wherevar");
-    $this->error = @ mysql_error();
+    $this->setQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar);
   }
 
   /**
@@ -277,11 +283,13 @@ class sql
   {
     $this->table = "";
     $this->error = "";
+    $this->errno = "";
     $this->wherevar = "";
     $this->select = "";
     $this->counter = 0;
     $this->rows = 0;
     $this->result = "";
+    $this->values = array ();
   }
 
   /**
@@ -351,19 +359,19 @@ class sql
    */
   function printError($select)
   {
-    if($this->debugsql === 2 && strlen($this->getError()) > 0 || $this->debugsql === true)
+    if ($this->debugsql === 2 && strlen($this->getError()) > 0 || $this->debugsql === true)
     {
-      echo '<hr />'."\n";
-      echo 'Query: '.nl2br(htmlspecialchars($select))."<br />\n";
-  
+      echo '<hr />' . "\n";
+      echo 'Query: ' . nl2br(htmlspecialchars($select)) . "<br />\n";
+
       if (strlen($this->getRows()) > 0)
       {
-        echo 'Affected Rows: '.$this->getRows()."<br />\n";
+        echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
       }
       if (strlen($this->getError()) > 0)
       {
-        echo 'Error Message: '.htmlspecialchars($this->getError())."<br />\n";
-        echo 'Error Code: '.$this->getErrno()."<br />\n";
+        echo 'Error Message: ' . htmlspecialchars($this->getError()) . "<br />\n";
+        echo 'Error Code: ' . $this->getErrno() . "<br />\n";
       }
     }
   }
@@ -374,14 +382,16 @@ class sql
    */
   function setNewId($field)
   {
-    $result = mysql_query("SELECT `$field` FROM `$this->table` ORDER BY `$field` DESC LIMIT 1");
-    if (@ mysql_num_rows($result) == 0)
+    $this->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
+
+    if ($this->getRows() == 0)
       $id = 0;
     else
-      $id = mysql_result($result, 0, $field);
-      
+      $id = mysql_result($this->result, 0, $field);
+
     $id++;
     $this->setValue($field, $id);
+
     return $id;
   }
 
@@ -398,14 +408,33 @@ class sql
     }
     return $fields;
   }
-  
+
+  /**
+   * Escaped den übergeben Wert für den DB Query
+   */
   function escape($value)
   {
     // Quote if not a number or a numeric string
-    if (!is_numeric($value)) {
-        $value = "'" . mysql_real_escape_string($value) . "'";
+    if (!is_numeric($value))
+    {
+      $value = "'" . mysql_real_escape_string($value) . "'";
     }
     return $value;
+  }
+
+  /**
+   * Gibt ein SQL Singelton Objekt zurück 
+   */
+  function getInstance()
+  {
+    static $instance;
+
+    if ($instance)
+      $instance->flush();
+    else
+      $instance = new sql();
+
+    return $instance;
   }
 }
 ?>
