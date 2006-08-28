@@ -101,7 +101,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function & getRootCategories($ignore_offlines = true)
+  function & getRootCategories()
   {
     $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = 0 order by name';
     $sql = new sql();

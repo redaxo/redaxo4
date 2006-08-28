@@ -315,10 +315,6 @@ class OORedaxo
    * Object Function:
    * Return a array of all parentCategories for an Breadcrumb for instance
    * Returns an array of OORedaxo objects sorted by $prior.
-   *
-   * If $ignore_offlines is set to TRUE,
-   * all categories with status 0 will be
-   * excempt from this list!
    */
   function getParentTree()
   {

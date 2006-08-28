@@ -164,7 +164,7 @@ class OOCategory extends OORedaxo
    * all articles with status 0 will be
    * excempt from this list!
    */
-  function getArticles($ignore_offlines = true, $clang = false)
+  function getArticles($ignore_offlines = false, $clang = false)
   {
     return OOArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $clang);
   }
