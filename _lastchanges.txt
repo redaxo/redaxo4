@@ -100,6 +100,7 @@ Changes:
 	    + REX_VALUE[id=3]
   	  + REX_MEDIA_BUTTON[id=4 category=3]
   * Sql-Klasse:
+    - add_sql_options implementiert [kills]
     - link identifier eingebaut um auch mehrere DB-Verbindungen handeln zu können [kills]
     - sql::replace() implementiert für REPLACE INTO SQLs [kills]
     - Wenn $sql->debugsql = 2 steht, wird nur dann eine Debugmeldung ausgeben, wenn ein Fehler aufgetreten ist [kills]
