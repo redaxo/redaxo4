@@ -111,6 +111,26 @@ class select
   {
     $this->options[$re_id][] = array ($name, $value, $id);
   }
+  
+  function add_sql_options($qry)
+  {
+    $sql = new sql;
+    // $sql->debugsql = true;
+    $options = $sql->get_array($qry, MYSQL_NUM);
+    $grouped = isset ($option[2]) && isset ($option[3]);
+  
+    foreach ($options as $option)
+    {
+      if ($grouped)
+      {
+        $select->add_option($option[0], $option[1], $option[2], $option[3]);
+      }
+      else
+      {
+        $select->add_option($option[0], $option[1]);
+      }
+    }
+  }
 
   ############### show select
   function out()
