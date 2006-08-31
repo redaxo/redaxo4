@@ -4,10 +4,16 @@
  */
 
 $search = new rex_search_index();
-$search->searchIds = true;
-$search->status = 1; // 1 => sucht nur in Online Artikeln, 0 => sucht nur in Offline Artikeln, '' => sucht Status unabhängig
-$search->clang = 0; // optional
-// $search->custom_where_conditions = ' AND article_id not in (3,6,7)'; // Beliebige eigene SQL WHERE Bedingung
+
+// 1 => sucht nur in Online Artikeln, 0 => sucht nur in Offline Artikeln, '' => sucht Status unabhängig
+$search->status = 1;
+ 
+// Auf Sprache eingrenzen
+// $search->clang = $REX['CUR_CLANG']; 
+
+// Beliebige eigene SQL WHERE Bedingung
+// $search->custom_where_conditions = ' AND article_id not in (3,6,7)';
+ 
 $search->surroundchars = 20;
 $search->sourround_start_tag = "<strong>";
 $search->sourround_end_tag = "</strong>";
