@@ -523,11 +523,9 @@ class OOMedia
     // Alternativtext hinzufügen    
     if (!isset($params['alt']))
     {
-      if (($desc = $this->getDescription()) != '')
-      {
-        $params['alt'] = htmlspecialchars($desc);
-      }
+      $params['alt'] = htmlspecialchars($this->getDescription());
     }
+    
     // Titel hinzufügen    
     if (!isset($params['title']))
     {
