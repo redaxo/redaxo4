@@ -42,15 +42,19 @@ class sql
     $this->selectDB();
     $this->zaehler = 0;
     $this->counter = 0;
-
+    
     // MySQL Version bestimmen
     if ($REX['MYSQL_VERSION'] == '')
     {
-      $this->setQuery('SELECT VERSION() as VERSION');
-      $res = $this->get_array();
-      $arr = array ();
-      preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $arr);
-      $REX['MYSQL_VERSION'] = $arr[1];
+      $res = $this->get_array('SELECT VERSION() as VERSION');
+      if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
+      {
+        $REX['MYSQL_VERSION'] = $matches[1];
+      }
+      else
+      {
+        exit('Could not identifiy MySQL Version!');
+      }
     }
   }
 
@@ -81,11 +85,12 @@ class sql
 
     if ($this->result)
     {
-      if (preg_match('/^\s*?(SELECT|UPDATE|INSERT)/i', $qry, $matches))
+      if (preg_match('/^\s*?(SELECT|SHOW|UPDATE|INSERT)/i', $qry, $matches))
       {
         switch (strtoupper($matches[1]))
         {
           case 'SELECT' :
+          case 'SHOW' :
             {
               $this->rows = mysql_num_rows($this->result);
               break;
