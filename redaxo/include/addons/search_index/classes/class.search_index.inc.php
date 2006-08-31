@@ -26,9 +26,9 @@ class rex_search_index
 
     global $REX, $DB;
 
-    $SQL = "SELECT id,path,clang,status,online_from,online_to,keywords,name FROM rex_article ";
+    $SQL = 'SELECT id,clang FROM rex_article ';
 
-    $WHERE = "";
+    $WHERE = '';
 
     // ----- diese artikel filtern
     /*
@@ -58,7 +58,18 @@ class rex_search_index
     }
     else
     {
+      // Index erst nach den Daten einfügen, 
+      // da in eine Tabelle mit schon bestehendem Index der Insert viel länger dauert
+      $db2->query('ALTER TABLE `rex_12_search_index` DROP INDEX `full_content`');
+      $db2->query('ALTER TABLE `rex_12_search_index` DROP INDEX `full_name`');
+
+      // Tabelle leeren      
       $db2->query('TRUNCATE TABLE rex_12_search_index');
+      
+      // kopiere alle Metadaten
+      $db2->query('INSERT INTO `rex_12_search_index` (`id`,`path`,`clang`,`status`,`name`,`keywords`)
+                   SELECT `id`,`path`,`clang`,`status`,`name`,`keywords`
+                   FROM `rex_article`');
     }
 
     if ($stop)
@@ -72,41 +83,54 @@ class rex_search_index
     {
 
       $i = $start;
-      $articles = $db2->get_array("$SQL $WHERE $LIMIT");
+      $db2->setQuery($SQL. ' '. $WHERE .' '. $LIMIT);
       $CONTENT = ob_get_contents();
       ob_end_clean();
 
-      foreach ($articles as $var)
+      for($t = 0; $t < $db2->getRows(); $t++)
       {
+        $art_id = $db2->getValue('id');
+        $art_clang = $db2->getValue('clang');
+        
         ob_end_clean();
         ob_start();
+        
         echo "<html><head><title>REX SEARCH</title></head><body bgcolor=#fffff3>
         			Scriptlaufzeit war zu kurz, der Prozess wird sofort
         			weitergeführt. Sollten Sie dennoch abbrechen wollen dann <a href=index.php?page=search_index>hier</a>.
         			<br><br>
-        			Sollte das Script sich nicht erneut aufrufen, dann <a href=index.php?page=search_index&subpage=gen_index&start=$i&oldstart=$oldstart&errorid=".$var['id']."&errorclang=".$var['clang'].">hier</a> klicken um den Prozess weiterzuführen.
+        			Sollte das Script sich nicht erneut aufrufen, dann <a href=index.php?page=search_index&subpage=gen_index&start=". $i ."&oldstart=". $oldstart ."&errorid=".$art_id."&errorclang=".$art_clang.">hier</a> klicken um den Prozess weiterzuführen.
 
-        			<br><br><a href=index.php?page=content&article_id=".$var['id']."&mode=edit&clang=".$var['clang'].">Bei diesem Artikel wurde abgebrochen</a>
+        			<br><br><a href=index.php?page=content&article_id=".$art_id."&mode=edit&clang=".$art_clang.">Bei diesem Artikel wurde abgebrochen</a>
 
         			<br><br><br><br>";
 
         $REX['GG'] = true;
-        $REX_ARTICLE = new article;
-        $REX_ARTICLE->setCLang($var['clang']);
-        $REX_ARTICLE->setArticleId($var['id']);
-        $artcache = $REX_ARTICLE->getArticle();
-        $db2 = new sql; // falls im artikel eine andere datnebank aufgerufen wurde
+        $article = new article($art_id, $art_clang);
+        $artcache = $article->getArticle();
+        // Da dieser Prozess recht speicherintensiv ist, variable manuell löschen
+        unset($article);  
+        
         $artcache = rex_register_extension_point('OUTPUT_FILTER', $artcache);
         $artcache = rex_register_extension_point('SEARCH_ARTICLE_GENERATED', $artcache);
 
         if ($this->striptags)
           $artcache = preg_replace('@<[\/\!]*?[^<>]*?>@si', '', $artcache);
 
-        $sql = "INSERT INTO rex_12_search_index (id,path,clang,status,online_from,online_to,name,keywords,content) VALUES ('$var[id]','$var[path]','$var[clang]','$var[status]','$var[online_from]','$var[online_to]','$var[name]','$var[keywords]','".mysql_escape_string($artcache)."')";
-        $db2->query($sql);
+        $sql = "UPDATE rex_12_search_index SET content='".mysql_escape_string($artcache)."' WHERE id=". $art_id ." AND clang=". $art_clang;
+        
+        // falls im artikel eine andere datnebank aufgerufen wurde
+        $db_insert = new sql; 
+        $db_insert->setQuery($sql);
+        
         $i++;
-
+        $db2->next();
       }
+      
+      // Index erst nach den Daten einfügen, 
+      // da in eine Tabelle mit schon bestehendem Index der Insert viel länger dauert
+      $db2->query('ALTER TABLE `rex_12_search_index` ADD FULLTEXT `full_content` (`name` ,`keywords` ,`content`)');
+      $db2->query('ALTER TABLE `rex_12_search_index` ADD FULLTEXT `full_name` (`name`)');
 
       ob_end_clean();
       echo $CONTENT;
