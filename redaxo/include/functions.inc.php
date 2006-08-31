@@ -102,9 +102,11 @@ include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 include_once $REX['INCLUDE_PATH'].'/ctype.inc.php';
 include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
 
-// ----- SET CLANG
-if (!isset($clang)) $clang = '';
-if (!isset($REX['CLANG'][$clang]) or $REX['CLANG'][$clang] == '')
+// ----- SET CLANG/CTYPE
+$clang = rex_request('clang','int');
+$ctype = rex_request('ctype','int');
+
+if (empty($REX['CLANG'][$clang]))
 {
   $REX['CUR_CLANG'] = 0;
   $clang = 0;
@@ -113,13 +115,14 @@ if (!isset($REX['CLANG'][$clang]) or $REX['CLANG'][$clang] == '')
   $REX['CUR_CLANG'] = $clang;
 }
 
-// ----- SET CTYPE
-if (!isset($ctype)) {
+if (empty($REX['CTYPE'][$ctype])) 
+{
+  $REX['CUR_CTYPE'] = 0;
   $ctype = 0; 
-} else {
-  $ctype = $ctype + 0;
+}else
+{
+  $REX['CUR_CTYPE'] = $ctype;
 }
-if (!isset($REX['CTYPE'][$ctype])) $ctype = 0;
 
 // ----- INCLUDE ADDONS
 include_once $REX['INCLUDE_PATH']."/addons.inc.php";
