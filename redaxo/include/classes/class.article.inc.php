@@ -608,7 +608,7 @@ class article
     global $REX;
     
     // -- preg match redaxo://[ARTICLEID]-[CLANG] --
-    preg_match_all("/redaxo:\/\/([0-9]*)\-([0-9]*)\/?/im",$content,$matches=array(),PREG_SET_ORDER);
+    preg_match_all("/redaxo:\/\/([0-9]*)\-([0-9]*)\/?/im",$content,$matches,PREG_SET_ORDER);
     foreach($matches as $match)
     {
       if(empty($match)) continue;
@@ -618,7 +618,7 @@ class article
     }
     
     // -- preg match redaxo://[ARTICLEID] --
-    preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches=array(),PREG_SET_ORDER);
+    preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches,PREG_SET_ORDER);
     foreach($matches as $match)
     {
       if(empty($match)) continue;

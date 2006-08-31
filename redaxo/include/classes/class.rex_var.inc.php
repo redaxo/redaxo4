@@ -46,8 +46,8 @@ class rex_var
    */
 	function stripPHP($content)
 	{
-		$content = str_replace("<?","&lt;?",$content);
-		$content = str_replace("?>","?&gt;",$content);
+    $content = str_replace('<?','&lt;?',$content);
+    $content = str_replace('?>','?&gt;',$content);
 		return $content;
 	}
   
@@ -112,7 +112,7 @@ class rex_var
   {
     $result = array();
     
-    if (preg_match_all('/'.$varname.'\[([^\]]*)\]/ms', $content, $matches = array ()))
+    if (preg_match_all('/'.$varname.'\[([^\]]*)\]/ms', $content, $matches))
     {
       foreach($matches[1] as $match)
       {
@@ -138,7 +138,7 @@ class rex_var
     $string = ' '. trim($string) .' ';
   
     // Strings mit Quotes heraussuchen
-    preg_match_all('!(["\'])(.*)\\1!', $string, $matches = array ());
+    preg_match_all('!(["\'])(.*)\\1!', $string, $matches);
     $quoted = isset($matches[2]) ? $matches[2] : array();
     
     // Strings mit Quotes maskieren
