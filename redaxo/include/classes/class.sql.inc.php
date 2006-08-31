@@ -426,6 +426,15 @@ class sql
     }
     return $value;
   }
+  
+  /**
+   * Gibt die Serverversion zurück
+   */
+  function getServerVersion()
+  {
+    global $REX;
+    return $REX['MYSQL_VERSION']; 
+  }
 
   /**
    * Gibt ein SQL Singelton Objekt zurück 
