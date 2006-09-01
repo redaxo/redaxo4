@@ -59,7 +59,7 @@ class rex_search_index
     else
     {
       // Index erst nach den Daten einfügen, 
-      // da in eine Tabelle mit schon bestehendem Index der Insert viel länger dauert
+      // da in eine Tabelle mit schon bestehendem Index, der Insert viel länger dauert
       $db2->query('ALTER TABLE `rex_12_search_index` DROP INDEX `full_content`');
       $db2->query('ALTER TABLE `rex_12_search_index` DROP INDEX `full_name`');
 
@@ -128,7 +128,7 @@ class rex_search_index
       }
       
       // Index erst nach den Daten einfügen, 
-      // da in eine Tabelle mit schon bestehendem Index der Insert viel länger dauert
+      // da in eine Tabelle mit schon bestehendem Index, der Insert viel länger dauert
       $db2->query('ALTER TABLE `rex_12_search_index` ADD FULLTEXT `full_content` (`name` ,`keywords` ,`content`)');
       $db2->query('ALTER TABLE `rex_12_search_index` ADD FULLTEXT `full_name` (`name`)');
 
