@@ -11,7 +11,7 @@ CREATE TABLE `rex_12_search_index` (
   `name` varchar(255) NOT NULL default '',
   `keywords` text NOT NULL,
   `content` text NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`,`clang`)
 ) TYPE=MyISAM;
 ");
 
