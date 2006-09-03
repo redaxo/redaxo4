@@ -178,18 +178,17 @@ class article
       if ($this->article_id != 0)
       {
         // ---------- alle teile/slices eines artikels auswaehlen
-        $sql = "select ".$REX['TABLE_PREFIX']."modultyp.id, ".$REX['TABLE_PREFIX']."modultyp.name, ".$REX['TABLE_PREFIX']."modultyp.ausgabe, ".$REX['TABLE_PREFIX']."modultyp.eingabe, ".$REX['TABLE_PREFIX']."modultyp.php_enable, ".$REX['TABLE_PREFIX']."modultyp.html_enable, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
-          from
+        $sql = "SELECT ".$REX['TABLE_PREFIX']."modultyp.id, ".$REX['TABLE_PREFIX']."modultyp.name, ".$REX['TABLE_PREFIX']."modultyp.ausgabe, ".$REX['TABLE_PREFIX']."modultyp.eingabe, ".$REX['TABLE_PREFIX']."modultyp.php_enable, ".$REX['TABLE_PREFIX']."modultyp.html_enable, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
+          FROM
             ".$REX['TABLE_PREFIX']."article_slice
-          left join ".$REX['TABLE_PREFIX']."modultyp on ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id
-          left join ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
-          where
-            ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' and
-            ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' and
-            ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."'";
-        $sql .= $sliceLimit;
-        $sql .= "order by
-            ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
+          LEFT JOIN ".$REX['TABLE_PREFIX']."modultyp ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id
+          LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
+          WHERE
+            ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' AND
+            ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' AND
+            ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."'
+            ". $sliceLimit ."
+            ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
         $this->CONT = new sql;
         $this->CONT->setQuery($sql);
@@ -230,15 +229,15 @@ class article
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
         $I_ID = 0;
         $PRE_ID = 0;
-        $this->article_content = "";
         $this->CONT->resetCounter();
+        $this->article_content = "";
+        
+        // ----- ctype unterscheidung
+        if ($this->mode != "edit") 
+          $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>"; 
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
-
-	      // ----- ctype unterscheidung
-          if ($i==0 && $this->mode != "edit") $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
-
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
           $slice_content = "";
@@ -251,34 +250,32 @@ class article
 
             $this->ViewSliceId = $RE_CONTS[$I_ID];
 
-			// ----- BLOCKAUSWAHL - SELECT
-            $amodule = '
-            <form action="'. $form_url .'" method="get">
-              <fieldset>
-                <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
-                <input type="hidden" name="article_id" value="'. $this->article_id .'" />
-                <input type="hidden" name="page" value="content" />
-                <input type="hidden" name="mode" value="'. $this->mode .'" />
-                <input type="hidden" name="slice_id" value="'. $I_ID .'" />
-                <input type="hidden" name="function" value="add" />
-                <input type="hidden" name="clang" value="'.$this->clang.'" />
-                <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-
-                <p class="rex-slct">
-                  '. $MODULESELECT->out() .'
-                  <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
-                </p>
-
-              </fieldset>
-            </form>';
-
             // ----- add select box einbauen
             if($this->function=="add" && $this->slice_id == $I_ID)
             {
               $slice_content = $this->addSlice($I_ID,$module_id);
             }else
             {
-              $slice_content .= $amodule;
+              // ----- BLOCKAUSWAHL - SELECT
+              $slice_content .= '
+              <form action="'. $form_url .'" method="get">
+                <fieldset>
+                  <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+                  <input type="hidden" name="article_id" value="'. $this->article_id .'" />
+                  <input type="hidden" name="page" value="content" />
+                  <input type="hidden" name="mode" value="'. $this->mode .'" />
+                  <input type="hidden" name="slice_id" value="'. $I_ID .'" />
+                  <input type="hidden" name="function" value="add" />
+                  <input type="hidden" name="clang" value="'.$this->clang.'" />
+                  <input type="hidden" name="ctype" value="'.$this->ctype.'" />
+  
+                  <p class="rex-slct">
+                    '. $MODULESELECT->out() .'
+                    <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                  </p>
+  
+                </fieldset>
+              </form>';
             }
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
@@ -318,7 +315,7 @@ class article
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
                 ';
               }
-              $slice_content = $this->sliceIn($slice_content);
+              $slice_content = $this->replaceVars($this->CONT, $slice_content);
 
             }else
             {
@@ -332,7 +329,7 @@ class article
 				  </div>';
                 
               $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
-              $slice_content = $this->sliceIn($slice_content);
+              $slice_content = $this->replaceVars($this->CONT, $slice_content);
             }
 
           }else
@@ -345,7 +342,7 @@ class article
             }
             
             $slice_content .= $RE_MODUL_OUT[$I_ID];
-            $slice_content = $this->sliceIn($slice_content);
+            $slice_content = $this->replaceVars($this->CONT, $slice_content);
           }
           // --------------- ENDE EINZELNER SLICE
 
@@ -376,7 +373,13 @@ class article
           $form_url = 'index.php';
           if ($this->setanker) $form_url .= '#addslice';
           
-          $amodule = '
+          if($this->function=="add" && $this->slice_id == $I_ID)
+          {
+            $slice_content = $this->addSlice($I_ID,$module_id);
+          }else
+          {
+            // ----- BLOCKAUSWAHL - SELECT
+            $slice_content = '
             <form action="'. $form_url .'" method="get">
               <fieldset>
                 <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
@@ -394,15 +397,7 @@ class article
                 </p>
 
               </fieldset>
-            </form>
-          ';
-
-          if($this->function=="add" && $this->slice_id == $I_ID)
-          {
-            $slice_content = $this->addSlice($I_ID,$module_id);
-          }else
-          {
-            $slice_content = $amodule;
+            </form>';
           }
           $this->article_content .= $slice_content;
         }
@@ -459,7 +454,7 @@ class article
   {
     global $REX,$REX_ACTION,$FORM,$I18N;
     $MOD = new sql;
-    $MOD->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id=$module_id");
+    $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id=$module_id");
     if ($MOD->getRows() != 1)
     {
       $slice_content = '<p class="rex-warning>'. $I18N->msg('module_doesnt_exist'). '</p>';
@@ -491,12 +486,13 @@ class article
           </fieldset>
         </form>
       ';
-
+      
       $dummysql = new rex_dummy_sql();
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.clang',$this->clang);
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.ctype',$this->ctype);
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.modultyp_id',$module_id);
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.article_id',$this->article_id);
+      $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.id','0');
       
       $slice_content = $this->replaceVars($dummysql,$slice_content);
     }
@@ -534,35 +530,35 @@ class article
         </fieldset>
       </form>';
 
-    $slice_content = $this->sliceIn($slice_content);
+    $slice_content = $this->replaceVars($this->CONT, $slice_content);
     return $slice_content;
   }
 
   // ----- Modulvariablen werden ersetzt
-  function sliceIn($content)
+  function replaceVars(&$sql, $content)
   {
-    $content = $this->replaceVars($this->CONT,$content);
+    $content = $this->replaceObjectVars($sql,$content);
     $content = $this->replaceCommonVars($content);
     return $content;
   }
 
   // ----- REX_VAR Ersetzungen
-  function replaceVars(&$sql,$content)
+  function replaceObjectVars(&$sql,$content)
   {
   	global $REX;
     
     $tmp = '';
   	foreach($REX['VARIABLES'] as $var)
   	{
-  		
   		if ($this->mode == 'edit')
   		{
-  		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '') || ($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
+  		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '') ||
+            ($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
   		  {
-  		  	if (isset($REX["ACTION"]["SAVE"]) && $REX["ACTION"]["SAVE"] === false)
+  		  	if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
   		  	{
   		  		$sql = new rex_dummy_sql();
-  		  		$var->setACValues($sql,$REX["ACTION"]);
+  		  		$var->setACValues($sql,$REX['ACTION']);
   		  	}
   		  	$tmp = $var->getBEInput($sql,$content);
   		  }else
@@ -587,19 +583,24 @@ class article
   }
 
   function replaceCommonVars($content) {
+    global $REX_USER;
+    
     static $search = array(
        'REX_ARTICLE_ID',
        'REX_CATEGORY_ID',
        'REX_CLANG_ID',
-       'REX_TEMPLATE_ID'
+       'REX_TEMPLATE_ID',
+       'REX_USER_ID'
     );
-
+    
     $replace = array(
       $this->article_id,
       $this->category_id,
       $this->clang,
-      $this->getTemplateId()
+      $this->getTemplateId(),
+      $REX_USER->getValue('login')
     );
+    
     return str_replace($search, $replace,$content);
   }
 

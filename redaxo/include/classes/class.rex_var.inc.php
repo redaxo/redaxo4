@@ -53,18 +53,13 @@ class rex_var
   
   /**
    * GetValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und 
-   * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der gleichnamige
+   * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
    * Spalten unterschiedlicher Tabellen enthält. 
    */
   function getValue(&$sql, $value)
   {
     global $REX;
-    $tmp = $sql->getValue($value);
-    if ($tmp == '')
-    {
-      $tmp = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.'.$value);
-    }
-    return $tmp;
+    return $sql->getValue($REX['TABLE_PREFIX'].'article_slice.'.$value);
   }
   
   /**
