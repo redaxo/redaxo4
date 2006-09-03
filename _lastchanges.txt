@@ -95,6 +95,7 @@ Changes:
 	    + REX_SLICE_ID [jan,kills]
 	    + REX_CTYPE_ID [jan,kills]
 	    + REX_TEMPLATE_ID [jan,kills]
+	    + REX_USER_ID [kills]
     - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0 [kills]
     - Neue Variablen Sytax jetzt möglich (alte funktioniert weiter), z.b: [kills]
 	    + REX_VALUE[id=3]
