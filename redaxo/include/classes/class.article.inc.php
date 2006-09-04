@@ -552,7 +552,7 @@ class article
   	{
   		if ($this->mode == 'edit')
   		{
-  		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '') ||
+  		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '0') ||
             ($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
   		  {
   		  	if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
@@ -582,6 +582,7 @@ class article
 	  return $content;
   }
 
+  // ---- Artikelweite globale variablen werden ersetzt
   function replaceCommonVars($content) {
     global $REX_USER;
     

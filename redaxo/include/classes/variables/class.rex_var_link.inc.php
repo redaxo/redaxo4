@@ -82,8 +82,8 @@ class rex_var_link extends rex_var
 
       if ($id < 11 && $id > 0)
       {
-        $replace = $this->getLinkButton($id, $this->getValue($sql, 'link'.$id), $category);
-        $content = str_replace($var.'['.$param_str.']', $replace, $content);
+        $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category);
+        $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
 
@@ -103,8 +103,8 @@ class rex_var_link extends rex_var
 
       if ($id < 11 && $id > 0)
       {
-        $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist'.$id), $category);
-        $content = str_replace($var.'['.$param_str.']', $replace, $content);
+        $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist' . $id), $category);
+        $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
 
@@ -124,8 +124,8 @@ class rex_var_link extends rex_var
 
       if ($id > 0 && $id < 11)
       {
-        $replace = rex_getUrl($this->getValue($sql, 'link'.$id));
-        $content = str_replace($var.'['.$param_str.']', $replace, $content);
+        $replace = rex_getUrl($this->getValue($sql, 'link' . $id));
+        $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
 
@@ -145,8 +145,8 @@ class rex_var_link extends rex_var
 
       if ($id > 0 && $id < 11)
       {
-        $replace = $this->getValue($sql, 'link'.$id);
-        $content = str_replace($var.'['.$param_str.']', $replace, $content);
+        $replace = $this->getValue($sql, 'link' . $id);
+        $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
 
@@ -166,8 +166,8 @@ class rex_var_link extends rex_var
 
       if ($id > 0 && $id < 11)
       {
-        $replace = $this->getValue($sql, 'linklist'.$id);
-        $content = str_replace($var.'['.$param_str.']', $replace, $content);
+        $replace = $this->getValue($sql, 'linklist' . $id);
+        $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
 
@@ -190,14 +190,14 @@ class rex_var_link extends rex_var
     $open_params = '';
     if ($category != '')
     {
-      $open_params .= '&amp;category_id='.$category;
+      $open_params .= '&amp;category_id=' . $category;
     }
 
-    $media = '<input type="hidden" name="REX_LINK_DELETE_'.$id.'" value="0" id="REX_LINK_DELETE_'.$id.'" />
-                  <input type="hidden" name="LINK['.$id.']" value="REX_LINK_ID['.$id.']" id="LINK['.$id.']" />
-                  <input type="text" size="30" name="LINK_NAME['.$id.']" value="'.$art_name.'" id="LINK_NAME['.$id.']" readonly="readonly">
-                  <a href="#" onclick="javascript:openLinkMap('.$id.', \''.$open_params.'\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap"></a>
-                  <a href="#" onclick="javascript:deleteREXLink('.$id.');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection"></a>';
+    $media = '<input type="hidden" name="REX_LINK_DELETE_' . $id . '" value="0" id="REX_LINK_DELETE_' . $id . '" />
+                      <input type="hidden" name="LINK[' . $id . ']" value="REX_LINK_ID[' . $id . ']" id="LINK[' . $id . ']" />
+                      <input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_NAME[' . $id . ']" readonly="readonly">
+                      <a href="#" onclick="javascript:openLinkMap(' . $id . ', \'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap"></a>
+                      <a href="#" onclick="javascript:deleteREXLink(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection"></a>';
 
     $media = $this->stripPHP($media);
     return $media;

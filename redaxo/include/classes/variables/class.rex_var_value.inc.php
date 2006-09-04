@@ -9,38 +9,42 @@
 
 class rex_var_value extends rex_var
 {
-	
+
   function getACRequestValues($REX_ACTION)
   {
-  	$values = rex_request("VALUE","array");
-  	for($i=1;$i<21;$i++)
-  	{
-  		if(!isset($values[$i])) $values[$i] = '';
-  		
-  		$REX_ACTION["VALUE"][$i] = stripslashes($values[$i]);
-  	}
-  	$REX_ACTION["PHP"] = stripslashes(rex_request("INPUT_PHP","string"));
-	return $REX_ACTION;
+    $values = rex_request("VALUE", "array");
+    for ($i = 1; $i < 21; $i++)
+    {
+      if (!isset ($values[$i]))
+        $values[$i] = '';
+
+      $REX_ACTION["VALUE"][$i] = stripslashes($values[$i]);
+    }
+    $REX_ACTION["PHP"] = stripslashes(rex_request("INPUT_PHP", "string"));
+    
+    return $REX_ACTION;
   }
 
-  function setACValues(& $sql,$REX_ACTION,$escape = false)
+  function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
-  	global $REX;
-  	for($i=1;$i<21;$i++)
-  	{
-  	  if ($escape) $sql->setValue('value'.$i,addslashes($REX_ACTION["VALUE"][$i]));
-  	  else $sql->setValue('value'.$i,$REX_ACTION["VALUE"][$i]);
-  	}
-  	$sql->setValue("php",$REX_ACTION["PHP"]);
+    global $REX;
+    for ($i = 1; $i < 21; $i++)
+    {
+      if ($escape)
+        $sql->setValue('value' . $i, addslashes($REX_ACTION["VALUE"][$i]));
+      else
+        $sql->setValue('value' . $i, $REX_ACTION["VALUE"][$i]);
+    }
+    $sql->setValue("php", $REX_ACTION["PHP"]);
   }
 
   function getBEOutput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content, true);
-    
+
     $php_content = $sql->getValue('php');
     $php_content = highlight_string($php_content, true);
-    
+
     $content = str_replace('REX_PHP', $this->stripPHP($php_content), $content);
     return $content;
   }
@@ -51,7 +55,7 @@ class rex_var_value extends rex_var
     $content = str_replace('REX_PHP', $this->stripPHP($sql->getValue('php')), $content);
     return $content;
   }
-  
+
   function getFEOutput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content, true);
@@ -112,7 +116,7 @@ class rex_var_value extends rex_var
 
       if ($id > 0 && $id < 21)
       {
-        $replace = $this->getValue($sql, 'value'.$id);
+        $replace = $this->getValue($sql, 'value' . $id);
         if ($booleanize)
         {
           $replace = $replace == '' ? 'false' : 'true';
@@ -135,7 +139,7 @@ class rex_var_value extends rex_var
           }
         }
 
-        $content = str_replace($var.'['.$param_str.']', $replace, $content);
+        $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
 
