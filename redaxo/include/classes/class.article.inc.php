@@ -584,7 +584,18 @@ class article
 
   // ---- Artikelweite globale variablen werden ersetzt
   function replaceCommonVars($content) {
-    global $REX_USER;
+    
+    static $user_id = null;
+    
+    // UserId gibts nur im Backend
+    if($user_id === null)
+    {
+      global $REX_USER;
+      if($REX_USER)
+        $user_id = $REX_USER->getValue('login');
+      else
+        $user_id = '';
+    }
     
     static $search = array(
        'REX_ARTICLE_ID',
@@ -599,7 +610,7 @@ class article
       $this->category_id,
       $this->clang,
       $this->getTemplateId(),
-      $REX_USER->getValue('login')
+      $user_id      
     );
     
     return str_replace($search, $replace,$content);
