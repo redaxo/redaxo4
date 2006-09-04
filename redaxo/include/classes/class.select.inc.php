@@ -117,17 +117,23 @@ class select
     $sql = new sql;
     // $sql->debugsql = true;
     $options = $sql->get_array($qry, MYSQL_NUM);
-    $grouped = isset ($option[2]) && isset ($option[3]);
   
-    foreach ($options as $option)
+    if(is_array($options) && count($options)>0)
     {
-      if ($grouped)
+      $grouped = isset ($option[0][2]) && isset ($option[0][3]);
+      foreach ($options as $option)
       {
-        $select->add_option($option[0], $option[1], $option[2], $option[3]);
-      }
-      else
-      {
-        $select->add_option($option[0], $option[1]);
+        if ($grouped)
+        {
+          $this->add_option($option[0], $option[1], $option[2], $option[3]);
+        }
+        else
+        {
+          if(!isset($option[1]))
+            $option[1] = $option[0];
+            
+          $this->add_option($option[0], $option[1]);
+        }
       }
     }
   }
