@@ -68,12 +68,18 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * Umbenennungen
+    - login -> rex_login, sql -> rex_sql, article -> rex_article .. [kills,jan]
+    - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [kills,jan]
+    - Umbenennung - function_rex_modrewrite.inc.php -> function_rex_url.inc.php (kills,jan)
+    - Compat Inklude eingebaut für Rückwärtskompatibilität [kills,jan]
+  * UrlRewrite:
+    - Backendlink bei rex_getUrl() eingebaut. Wird dann auf EditView verlinkt (kills,jan)
   * Rückwärtskompatibilität eingeschränkt durch:
     - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert [kills]  
     - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt [kills]  
-  
   * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [jan]
-  * REX_Actions wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kill,jan]
+  * REX_Actions wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kills,jan]
   * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php 
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]

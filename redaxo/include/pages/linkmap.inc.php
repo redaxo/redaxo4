@@ -243,7 +243,7 @@ class rex_article_search_map extends rex_article_map
 
   function getArticles()
   {
-    $sql = new sql();
+    $sql = new rex_sql();
     $sql->setQuery($this->qry);
 
     $articles = array ();

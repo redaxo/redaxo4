@@ -65,7 +65,7 @@ elseif (!empty ($edit_clang_save))
 }
 
 // seltype
-$sel = new select;
+$sel = new rex_select;
 $sel->set_name('clang_id');
 $sel->set_id('clang_id');
 $sel->set_size(1);

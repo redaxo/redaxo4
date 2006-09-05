@@ -74,7 +74,7 @@ function rex_a1_import_db($filename,$replace_rex = false)
   // Datei aufteilen
   $lines = explode("\n", $conts);
 
-  $add = new sql;
+  $add = new rex_sql;
   // $add->debugsql = 1;
   foreach ($lines as $line)
   {
@@ -88,7 +88,7 @@ function rex_a1_import_db($filename,$replace_rex = false)
 
   // CLANG Array aktualisieren
   unset ($REX['CLANG']);
-  $db = new sql;
+  $db = new rex_sql;
   $db->setQuery("select * from ". $REX['TABLE_PREFIX'] ."clang");
   for ($i = 0; $i < $db->getRows(); $i++)
   {
@@ -212,7 +212,7 @@ function rex_a1_export_db()
 {
   global $REX;
 
-  $tabs = new sql;
+  $tabs = new rex_sql;
   $tabs->setquery("SHOW TABLES");
   $dump = '';
 
@@ -223,7 +223,7 @@ function rex_a1_export_db()
         && $tab != $REX['TABLE_PREFIX'].'user' // Nur Tabellen mit dem aktuellen Prefix 
         && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert! 
     {
-      $cols = new sql;
+      $cols = new rex_sql;
       $cols->setquery("SHOW COLUMNS FROM ".$tab);
       $query = "DROP TABLE IF EXISTS ".$tab.";\nCREATE TABLE ".$tab." (";
       $key = array ();
@@ -286,7 +286,7 @@ function rex_a1_export_db()
       $dump .= $query."\n";
 
       // Inhalte der Tabelle Auswerten
-      $cont = new sql;
+      $cont = new rex_sql;
       $cont->setquery("SELECT * FROM ".$tab);
       for ($j = 0; $j < $cont->rows; $j++, $cont->next())
       {

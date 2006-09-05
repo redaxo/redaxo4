@@ -82,7 +82,7 @@ class OOArticleSlice
       $clang = $REX['CUR_CLANG'];
       
     $table = $REX['TABLE_PREFIX']."article_slice";
-    $sql = new sql;
+    $sql = new rex_sql;
     $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
@@ -116,7 +116,7 @@ EOD;
       $clang = $REX['CUR_CLANG'];
       
     $table = $REX['TABLE_PREFIX'].'article_slice';
-    $sql = new sql;
+    $sql = new rex_sql;
     $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
@@ -148,7 +148,7 @@ EOD;
       $clang = $REX['CUR_CLANG'];
       
     $table = $REX['TABLE_PREFIX'].'article_slice';
-    $sql = new sql;
+    $sql = new rex_sql;
     $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
@@ -178,7 +178,7 @@ EOD;
     global $REX;
     $table = '';
     $table = $REX['TABLE_PREFIX']."article_slice";
-    $sql = new sql;
+    $sql = new rex_sql;
     $query =<<<EOD
 SELECT
   id,re_article_slice_id,value1,value2,value3,value4,value5,value6,

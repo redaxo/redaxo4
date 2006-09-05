@@ -18,7 +18,7 @@
 // --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
 if (isset ($edit_id) and $edit_id != '')
 {
-  $thisCat = new sql;
+  $thisCat = new rex_sql;
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id ='.$edit_id.' and clang ='.$clang);
   
   if ($thisCat->getRows() != 1)
@@ -34,7 +34,7 @@ else
 // --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
 if (isset ($article_id) and $article_id != '')
 {
-  $thisArt = new sql;
+  $thisArt = new rex_sql;
   $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
   
   if ($thisArt->getRows() != 1)
@@ -73,7 +73,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   $re_id = $thisCat->getValue("re_id");
 
   // --- Kategorie selbst updaten 
-  $EKAT = new sql;
+  $EKAT = new rex_sql;
   $EKAT->setTable($REX['TABLE_PREFIX']."article");
   $EKAT->where("id=$edit_id AND startpage=1 AND clang=$clang");
   $EKAT->setValue("catname", "$kat_name");
@@ -84,12 +84,12 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   $EKAT->update();
   
   // --- Kategorie Kindelemente updaten 
-  $ArtSql = new sql();
+  $ArtSql = new rex_sql();
   $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$edit_id .' AND startpage=0 AND clang='.$clang);
   
   for($i = 0; $i < $ArtSql->getRows(); $i++)
   {
-    $EART = new sql();
+    $EART = new rex_sql();
     $EART->setTable($REX['TABLE_PREFIX']."article");
     $EART->where('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
     $EART->setValue("catname", "$kat_name");
@@ -124,7 +124,7 @@ elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER-
 {
   // --------------------- KATEGORIE DELETE
   
-  $KAT = new sql;
+  $KAT = new rex_sql;
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=1");
   if ($KAT->getRows() == 0)
   {
@@ -177,7 +177,7 @@ elseif ($function == "status" && $edit_id != ""
     else
       $newstatus = 1;
 
-    $EKAT = new sql;
+    $EKAT = new rex_sql;
     $EKAT->setTable($REX['TABLE_PREFIX']."article");
     $EKAT->where("id='$edit_id' and clang=$clang and startpage=1");
     $EKAT->setValue("status", "$newstatus");
@@ -211,7 +211,7 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContent
   unset ($TMP);
   if ($category_id != "")
   {
-    $sql = new sql;
+    $sql = new rex_sql;
     // $sql->debugsql = 1;
     $sql->setQuery("select clang,template_id from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1");
     for ($i = 0; $i < $sql->getRows(); $i++, $sql->next())
@@ -235,7 +235,7 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContent
     if (isset ($TMP[$key]) && $TMP[$key] != "")
       $template_id = $TMP[$key];
 
-    $AART = new sql;
+    $AART = new rex_sql;
     // $AART->debugsql = 1;
     $AART->setTable($REX['TABLE_PREFIX']."article");
     if (!isset ($id) or !$id)
@@ -286,7 +286,7 @@ if ($function == "status_article" && $article_id != ""
     && ($REX_USER->hasPerm("admin[]") || $KATPERM && $REX_USER->hasPerm("publishArticle[]")))
 {
   // --------------------- ARTICLE STATUS
-  $GA = new sql;
+  $GA = new rex_sql;
   $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
   if ($GA->getRows() == 1)
   {
@@ -295,7 +295,7 @@ if ($function == "status_article" && $article_id != ""
     else
       $newstatus = 1;
 
-    $EA = new sql;
+    $EA = new rex_sql;
     $EA->setTable($REX['TABLE_PREFIX']."article");
     $EA->where("id='$article_id' and clang=$clang");
     $EA->setValue("status", "$newstatus");
@@ -328,7 +328,7 @@ elseif (!empty($artadd_function) && $category_id != '' && $KATPERM)
     $Position_New_Article = 1;
     
   // ------- Kategorienamen holen
-  $sql = new sql();
+  $sql = new rex_sql();
   $sql->setQuery('SELECT catname FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' and startpage=1 and clang='. $clang);
   
   $category_name = '';
@@ -346,7 +346,7 @@ elseif (!empty($artadd_function) && $category_id != '' && $KATPERM)
 
     // ### erstelle neue prioliste wenn noetig
 
-    $AART = new sql;
+    $AART = new rex_sql;
     // $AART->debugsql = 1;
     $AART->setTable($REX['TABLE_PREFIX']."article");
     if (!isset ($id) or !$id)
@@ -396,7 +396,7 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
     $Position_Article = 1;
 
   $amessage = $I18N->msg("article_updated");
-  $EA = new sql;
+  $EA = new rex_sql;
   $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->where("id='$article_id' and clang=$clang");
   $EA->setValue("name", $article_name);
@@ -451,7 +451,7 @@ if (isset ($message) and $message != "")
 $cat_name = 'Homepage';
 if($category_id != '')
 {
-  $sql = new sql();
+  $sql = new rex_sql();
 //  $sql->debugsql = true;
   $sql->setQuery('SELECT catname FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
   
@@ -544,7 +544,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
 
 // --------------------- KATEGORIE LIST
 
-$KAT = new sql;
+$KAT = new rex_sql;
 //$KAT->debugsql = true;
 $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 
@@ -681,9 +681,9 @@ echo '
 
 if ($category_id > -1)
 {
-  $TEMPLATES = new sql;
+  $TEMPLATES = new rex_sql;
   $TEMPLATES->setQuery("select * from ".$REX['TABLE_PREFIX']."template order by name");
-  $TMPL_SEL = new select;
+  $TMPL_SEL = new rex_select;
   $TMPL_SEL->set_name("template_id");
   $TMPL_SEL->set_id("template_id");
   $TMPL_SEL->set_size(1);
@@ -773,7 +773,7 @@ if ($category_id > -1)
   {
     if (empty($template_id))
     {
-      $sql = new sql;
+      $sql = new rex_sql;
       // $sql->debugsql = true;
       $sql->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
       if ($sql->getRows() == 1)
@@ -803,7 +803,7 @@ if ($category_id > -1)
 
   // --------------------- ARTIKEL LIST
 
-  $sql = new sql;
+  $sql = new rex_sql;
 //  $sql->debugsql = true;
   $sql->setQuery('SELECT * 
         FROM 

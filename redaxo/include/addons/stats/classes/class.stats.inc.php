@@ -48,7 +48,7 @@ class stats
     );
     $this->evalsnipps = array ();
 
-    $statartikel = new sql;
+    $statartikel = new rex_sql;
     $statartikel->setQuery('SELECT id,name FROM '.$REX['TABLE_PREFIX'].'article');
 
     for ($i = 0; $i < $statartikel->getRows(); $i++)

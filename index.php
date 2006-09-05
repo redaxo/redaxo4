@@ -44,7 +44,7 @@ include "./redaxo/include/master.inc.php";
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
 
-$REX_ARTICLE = new article;
+$REX_ARTICLE = new rex_article;
 $REX_ARTICLE->setCLang($clang);
 
 if ($REX_ARTICLE->setArticleId($article_id))

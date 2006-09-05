@@ -91,7 +91,7 @@ class OOMedia
     }
 
     $query = 'SELECT '.OOMedia :: _getTableName().'.*, '.OOMediaCategory :: _getTableName().'.name catname  FROM '.OOMedia :: _getTableJoin().' WHERE file_id = '.$id;
-    $sql = new sql();
+    $sql = new rex_sql();
     //        $sql->debugsql = true;
     $result = $sql->get_array($query);
     if (count($result) == 0)
@@ -147,7 +147,7 @@ class OOMedia
   function & getMediaByExtension($extension)
   {
     $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.$extension.'"';
-    $sql = new sql();
+    $sql = new rex_sql();
     //              $sql->debugsql = true;
     $result = $sql->get_array($query);
 
@@ -170,7 +170,7 @@ class OOMedia
   function & getMediaByFileName($name)
   {
     $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.$name.'"';
-    $sql = new sql();
+    $sql = new rex_sql();
     $result = $sql->get_array($query);
 
     if (is_array($result))
@@ -649,7 +649,7 @@ class OOMedia
   function isInUse()
   {
     global $REX;
-    $sql = new sql();
+    $sql = new rex_sql();
     //        $sql->debugsql = true;
     $query_file = '';
     $query_filelist = '';
@@ -834,7 +834,7 @@ class OOMedia
     $qry = 'INSERT INTO '.$this->_getTableName();
     $qry .= $this->_getSQLSetString();
 
-    $sql = new sql();
+    $sql = new rex_sql();
     $sql->query($qry);
 
     return $sql->getError();
@@ -850,7 +850,7 @@ class OOMedia
     $qry .= $this->_getSQLSetString();
     $qry .= ' WHERE file_id = "'.$this->getId().'" LIMIT 1';
 
-    $sql = new sql();
+    $sql = new rex_sql();
     $sql->query($qry);
 
     return $sql->getError();
@@ -881,7 +881,7 @@ class OOMedia
     global $REX;
 
     $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
-    $sql = new sql();
+    $sql = new rex_sql();
     //        $sql->debugsql = true;
     $sql->query($qry);
 

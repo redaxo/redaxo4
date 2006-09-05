@@ -21,7 +21,7 @@ if (!empty ($edit_article_type))
 {
   if ($type_id != '' && $typname != '')
   {
-    $update = new sql;
+    $update = new rex_sql;
     $update->setTable($REX['TABLE_PREFIX']."article_type");
     $update->where("type_id='$type_id'");
     $update->setValue("name", $typname);
@@ -40,7 +40,7 @@ elseif (!empty ($delete_article_type))
 {
   if ($type_id != 1)
   {
-    $delete = new sql;
+    $delete = new rex_sql;
     $result = $delete->get_array("SELECT name,id FROM ".$REX['TABLE_PREFIX']."article WHERE type_id = $type_id");
     if (is_array($result))
     {
@@ -67,7 +67,7 @@ elseif (!empty ($add_article_type))
 {
   if ($type_id != '' && $typname != '')
   {
-    $add = new sql;
+    $add = new rex_sql;
     $add->setTable($REX['TABLE_PREFIX']."article_type");
     $add->setValue("name", $typname);
     $add->setValue("type_id", $type_id);
@@ -145,7 +145,7 @@ if ($func == 'add')
         </tr>';
 }
 
-$sql = new sql;
+$sql = new rex_sql;
 $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article_type ORDER BY type_id');
 
 for ($i = 0; $i < $sql->getRows(); $i++)

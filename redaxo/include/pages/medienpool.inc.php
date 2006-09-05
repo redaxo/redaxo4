@@ -58,7 +58,7 @@ if($rex_file_category == 0 && ($sess_rex_file_category = rex_session('media[rex_
   $rex_file_category = $sess_rex_file_category;
 }
 
-$gc = new sql;
+$gc = new rex_sql;
 $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
 if ($gc->getRows() != 1) 
 {
@@ -207,11 +207,11 @@ if ($msg != '')
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
 // ***** kategorie auswahl
-$db = new sql();
+$db = new rex_sql();
 $file_cat = $db->get_array('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
 
 // ***** select bauen
-$sel_media = new select;
+$sel_media = new rex_select;
 $sel_media->set_id("rex_file_category");
 $sel_media->set_name("rex_file_category");
 $sel_media->set_size(1);
@@ -314,7 +314,7 @@ function rex_mpool_save_media($FILE,$rex_file_category,$FILEINFOS){
     // get widht height
     $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");
 
-    $FILESQL = new sql;
+    $FILESQL = new rex_sql;
     // $FILESQL->debugsql=1;
     $FILESQL->setTable($REX['TABLE_PREFIX']."file");
     $FILESQL->setValue("filetype",$FILETYPE);
@@ -372,7 +372,7 @@ function rex_mpool_register_file($physical_filename,$org_filename,$filename,$cat
   // get widht height
   $size = @getimagesize($abs_file);
 
-  $FILESQL = new sql;
+  $FILESQL = new rex_sql;
   // $FILESQL->debugsql=1;
   $FILESQL->setTable($REX['TABLE_PREFIX']."file");
   $FILESQL->setValue('filename',$filename);
@@ -433,7 +433,7 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
   
   $s = '';
   
-  $cats_sel = new select;
+  $cats_sel = new rex_select;
   $cats_sel->set_style('class="inp100"');
   $cats_sel->set_size(1);
   $cats_sel->set_name('rex_file_category');
@@ -543,7 +543,7 @@ if ($PERMALL && $subpage == "categories")
   $msg = "";
   if ($media_method == 'edit_file_cat')
   {
-    $db = new sql;
+    $db = new rex_sql;
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->where('id=$edit_id');
     $db->setValue('name',$cat_name);
@@ -554,9 +554,9 @@ if ($PERMALL && $subpage == "categories")
 
   } elseif ($media_method == 'delete_file_cat')
   {
-    $gf = new sql;
+    $gf = new rex_sql;
     $gf->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file WHERE category_id='.$edit_id);
-    $gd = new sql;
+    $gd = new rex_sql;
     $gd->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE re_id='.$edit_id);
     if ($gf->getRows()==0 && $gd->getRows()==0)
     {
@@ -568,7 +568,7 @@ if ($PERMALL && $subpage == "categories")
     }
   } elseif ($media_method == 'add_file_cat')
   {
-    $db = new sql;
+    $db = new rex_sql;
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->setValue('name',$_REQUEST['catname']);
     $db->setValue('re_id',$_REQUEST['cat_id']);
@@ -804,7 +804,7 @@ if ($subpage == "add_file")
 
 if ($subpage=="detail" && $media_method == 'delete_file')
 {
-  $gf = new sql;
+  $gf = new rex_sql;
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
 
   if ($gf->getRows()==1)
@@ -873,13 +873,13 @@ if ($subpage=="detail" && $media_method == 'delete_file')
 
 if ($subpage=="detail" && $media_method == 'edit_file'){
 
-  $gf = new sql;
+  $gf = new rex_sql;
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
     if ($PERMALL || ($REX_USER->hasPerm("media[".$gf->getValue("category_id")."]") && $REX_USER->hasPerm("media[$rex_file_category]")))
     {
-      $FILESQL = new sql;
+      $FILESQL = new rex_sql;
       $FILESQL->setTable($REX['TABLE_PREFIX']."file");
       $FILESQL->where("file_id='$file_id'");
       $FILESQL->setValue("title",$ftitle);
@@ -955,7 +955,7 @@ if ($subpage=="detail" && $media_method == 'edit_file'){
 
 if ($subpage == "detail")
 {
-  $gf = new sql;
+  $gf = new rex_sql;
 
   if (isset($file_name) and $file_name != "") $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='$file_name'");
   if ($gf->getRows()==1) $file_id = $gf->getValue("file_id");
@@ -1059,7 +1059,7 @@ if ($subpage == "detail")
 
     if ($TPERM)
     {
-      $cats_sel = new select;
+      $cats_sel = new rex_select;
       $cats_sel->set_style('class="inp100"');
       $cats_sel->set_size(1);
       $cats_sel->set_name('rex_file_category');
@@ -1225,7 +1225,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   }
   
   // ---- Dateien aus der DB lesen
-  $db = new sql();
+  $db = new rex_sql();
   $db->setQuery('SELECT filename FROM '. $REX['TABLE_PREFIX'].'file');
   $db_files = array();
   
@@ -1312,7 +1312,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 
     foreach($_POST["selectedmedia"] as $file_id){
 
-      $db = new sql;
+      $db = new rex_sql;
       // $db->debugsql = true;
       $db->setTable($REX['TABLE_PREFIX'].'file');
       $db->where("file_id='$file_id'");
@@ -1338,7 +1338,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 
       //kopiet von Dateidetails delete_file
 
-      $gf = new sql;
+      $gf = new rex_sql;
       $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
       if ($gf->getRows()==1)
       {
@@ -1404,7 +1404,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 
 if ($subpage == '')
 {
-  $cats_sel = new select;
+  $cats_sel = new rex_select;
   $cats_sel->set_style("width:150px;");
   $cats_sel->set_size(1);
   $cats_sel->set_name("rex_file_category");
@@ -1459,7 +1459,7 @@ if ($subpage == '')
               <tbody>';
               
 
-  $files = new sql;
+  $files = new rex_sql;
   // $files->debugsql = 1;
   $files->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc");
 
@@ -1563,7 +1563,7 @@ if ($subpage == '')
   if($PERMALL)
   {
     $add_input = '';
-    $filecat = new sql();
+    $filecat = new rex_sql();
     $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
     if ($filecat->getRows() > 0)
     {

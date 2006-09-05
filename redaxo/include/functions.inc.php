@@ -64,10 +64,10 @@ $REX['VARIABLES'][] = 'rex_var_media';
 
 // ----------------- REDAXO INCLUDES
 include_once $REX['INCLUDE_PATH'].'/classes/class.i18n.inc.php';
-include_once $REX['INCLUDE_PATH'].'/classes/class.sql.inc.php';
-include_once $REX['INCLUDE_PATH'].'/classes/class.select.inc.php';
-include_once $REX['INCLUDE_PATH'].'/classes/class.article.inc.php';
-include_once $REX['INCLUDE_PATH'].'/classes/class.login.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_sql.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_select.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_article.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_login.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooredaxo.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oocategory.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooarticle.inc.php';
@@ -89,6 +89,7 @@ if (!$REX['GG'])
 }
 
 // ----- EXTRA CLASSES
+// include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';
 
 // ----- FUNCTIONS
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_globals.inc.php';
@@ -97,6 +98,7 @@ include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 
 // ----- EXTRA FUNCTIONS
+
 
 // ----- CONFIG FILES
 include_once $REX['INCLUDE_PATH'].'/ctype.inc.php';

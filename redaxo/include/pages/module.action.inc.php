@@ -12,7 +12,7 @@ $type['del']  = 4;
 
 if (isset($function) and $function == "delete")
 {
-  $del = new sql;
+  $del = new rex_sql;
   $del->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action WHERE action_id='$action_id'"); // module mit dieser aktion vorhanden ?
   
   if ($del->getRows()>0)
@@ -44,7 +44,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
 
   if (isset($save) and $save == "ja")
   {
-    $faction = new sql;
+    $faction = new rex_sql;
 
     $sadd = 0;
     if (@in_array("1",$status)) $sadd = 1;
@@ -82,7 +82,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
     {
       $legend = $I18N->msg("action_edit"). ' [ID='.$action_id.']';
 
-      $hole = new sql;
+      $hole = new rex_sql;
       $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action WHERE id='$action_id'");
       $mname = $hole->getValue("name");
       $actioninput = $hole->getValue("action");
@@ -102,7 +102,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
       $sdelete = 0;
     }
 
-    $sel_prepost = new select();
+    $sel_prepost = new rex_select();
     $sel_prepost->set_name("prepost");
     $sel_prepost->set_id("prepost");
     $sel_prepost->add_option($PREPOST[0] .' - '.$I18N->msg("action_time_pre"),"0");
@@ -110,7 +110,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
     $sel_prepost->set_size(1);
     $sel_prepost->set_selected($prepost);
 
-    $sel_status = new select();
+    $sel_status = new rex_select();
     $sel_status->set_name("status[]");
     $sel_status->set_id("status");
     $sel_status->multiple(1);
@@ -200,7 +200,7 @@ if ($OUT)
     <tbody>
   ';
   
-  $sql = new sql;
+  $sql = new rex_sql;
   $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action ORDER BY name");
   
   for ($i=0; $i<$sql->getRows(); $i++) 

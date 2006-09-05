@@ -201,7 +201,7 @@ class rex_var
    */
   function getACOutput($REX_ACTION, $content)
   {
-  	$sql = new rex_dummy_sql();
+  	$sql = new rex_sql();
   	$this->setACValues(& $sql,$REX_ACTION);
     return $this->getBEOutput(& $sql, $content);
   }

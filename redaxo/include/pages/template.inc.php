@@ -11,7 +11,7 @@ $OUT = TRUE;
 
 if (isset($function) and $function == "delete")
 {
-  $del = new sql;
+  $del = new rex_sql;
   $del->setQuery("SELECT ".$REX['TABLE_PREFIX']."article.id,".$REX['TABLE_PREFIX']."template.name FROM ".$REX['TABLE_PREFIX']."article 
       LEFT JOIN ".$REX['TABLE_PREFIX']."template ON ".$REX['TABLE_PREFIX']."article.template_id=".$REX['TABLE_PREFIX']."template.id 
       WHERE ".$REX['TABLE_PREFIX']."article.template_id='$template_id' LIMIT 0,10");  
@@ -42,7 +42,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
 
     if ($function == "add")
     {
-      $ITPL = new sql;
+      $ITPL = new rex_sql;
       $ITPL->setTable($REX['TABLE_PREFIX']."template");
       $ITPL->setValue("name",$templatename);
       $ITPL->setValue("active",$active);
@@ -55,7 +55,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
     }
     else
     {
-      $TMPL = new sql;
+      $TMPL = new rex_sql;
       $TMPL->setTable($REX['TABLE_PREFIX']."template");
       $TMPL->where("id='$template_id'");
       $TMPL->setValue("name",$templatename);
@@ -85,7 +85,7 @@ if (isset($function) and ($function == "add" or $function == "edit")){
     if ($function == "edit"){
       $legend = $I18N->msg("edit_template").' [ID='.$template_id.']';
 
-      $hole = new sql;
+      $hole = new rex_sql;
       $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."template WHERE id = '$template_id'");
       $templatename = $hole->getValue("name");
       $content  = $hole->getValue("content");
@@ -170,7 +170,7 @@ if ($OUT)
   	<tbody>';
   
   
-  $sql = new sql;
+  $sql = new rex_sql;
   $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
   
   for ($i=0; $i<$sql->getRows(); $i++)

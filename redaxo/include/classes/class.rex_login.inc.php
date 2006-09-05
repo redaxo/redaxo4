@@ -14,7 +14,7 @@
 // www.pergopa.de
 // ersteller: j.kristinus
 
-class rex_login_sql extends sql{
+class rex_login_sql extends rex_sql{
 
   function isValueOf($feld, $prop)
   {

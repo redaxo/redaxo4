@@ -15,7 +15,7 @@
 
 unset($REX_ACTION);
 
-$article = new sql;
+$article = new rex_sql;
 $article->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id='$article_id' AND clang=$clang");
 
 if ($article->getRows() == 1)
@@ -83,7 +83,7 @@ if ($article->getRows() == 1)
       
       // ----- check module
 
-      $CM = new sql;
+      $CM = new rex_sql;
       if ($function == "edit" || $function == "delete")
       {
         // edit/ delete
@@ -144,7 +144,7 @@ if ($article->getRows() == 1)
           elseif($function == "delete") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sdelete=1"; // pre-action and delete
           else $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sadd=1"; // pre-action and add
 
-          $ga = new sql;
+          $ga = new rex_sql;
           $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."module_action,".$REX['TABLE_PREFIX']."action where ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$module_id' $addsql");
 
           for ($i=0;$i<$ga->getRows();$i++)
@@ -182,7 +182,7 @@ if ($article->getRows() == 1)
             if ($function == "add" || $function == "edit")
             {
               
-              $newsql = new sql;
+              $newsql = new rex_sql;
               $newsql->debugsql = 0;
               $newsql->setTable($REX['TABLE_PREFIX']."article_slice");
     
@@ -227,7 +227,7 @@ if ($article->getRows() == 1)
             {
               // make delete
               $re_id  = $CM->getValue($REX['TABLE_PREFIX']."article_slice.re_article_slice_id");
-              $newsql = new sql;
+              $newsql = new rex_sql;
               $newsql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$slice_id'");
               if ($newsql->getRows()>0)
               {
@@ -240,7 +240,7 @@ if ($article->getRows() == 1)
             
             
             // ----- artikel neu generieren
-            $EA = new sql;
+            $EA = new rex_sql;
             $EA->setTable($REX['TABLE_PREFIX']."article");
             $EA->where("id='$article_id' and clang=$clang");
             $EA->setValue("updatedate",time());
@@ -254,7 +254,7 @@ if ($article->getRows() == 1)
             elseif ($function == "delete") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sdelete=1"; // post-action and delete
             else $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sadd=1"; // post-action and add
 
-            $ga = new sql;
+            $ga = new rex_sql;
             $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."module_action,".$REX['TABLE_PREFIX']."action where ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$module_id' $addsql");
   
             for ($i=0;$i<$ga->getRows();$i++)
@@ -297,7 +297,7 @@ if ($article->getRows() == 1)
       {
         // modul und rechte vorhanden ?
         
-        $CM = new sql;
+        $CM = new rex_sql;
         $CM->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice left join ".$REX['TABLE_PREFIX']."modultyp on ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id where ".$REX['TABLE_PREFIX']."article_slice.id='$slice_id' and clang=$clang");
         if ($CM->getRows()!=1)
         {
@@ -328,7 +328,7 @@ if ($article->getRows() == 1)
             $re_slice_id = $CM->getValue($REX['TABLE_PREFIX']."article_slice.re_article_slice_id");
             $slice_ctype = $CM->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
 
-            $gs = new sql;
+            $gs = new rex_sql;
             // $gs->debugsql = 1;
             $gs->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where article_id='$slice_article_id'");
             for ($i=0;$i<$gs->getRows();$i++)
@@ -595,7 +595,7 @@ if ($article->getRows() == 1)
       <div class="rex-cnt-editmode">
       ';
       
-      $CONT = new article;
+      $CONT = new rex_article;
       $CONT->setArticleId($article_id);
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
@@ -616,7 +616,7 @@ if ($article->getRows() == 1)
       $extens = "";
       if (isset($save) and $save == "1")
       {
-        $meta_sql = new sql;
+        $meta_sql = new rex_sql;
         $meta_sql->setTable($REX['TABLE_PREFIX']."article");
         // $meta_sql->debugsql = 1;
         $meta_sql->where("id='$article_id' and clang=$clang");
@@ -655,12 +655,12 @@ if ($article->getRows() == 1)
         ));
       }
 
-      $typesel = new select();
+      $typesel = new rex_select();
       $typesel->set_name("type_id");
       $typesel->set_id("type_id");
       $typesel->set_size("1");
       
-      $typesql = new sql();
+      $typesql = new rex_sql();
       $typesql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_type order by name");
 
       for ($i=0;$i<$typesql->getRows();$i++)
@@ -772,7 +772,7 @@ if ($article->getRows() == 1)
           // --------------------------------------------------- INHALTE KOPIEREN START
           if(($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyContent[]")) && count($REX['CLANG']) > 1)
           {
-            $lang_a = new select;
+            $lang_a = new rex_select;
             $lang_a->set_id("clang_a");
             $lang_a->set_name("clang_a");
       		$lang_a->set_size("1");
@@ -809,7 +809,7 @@ if ($article->getRows() == 1)
           {
     
             // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-            $move_a = new select;
+            $move_a = new rex_select;
             $move_a->set_id("category_id_new");
             $move_a->set_name("category_id_new");
       		  $move_a->set_size("1");
@@ -843,7 +843,7 @@ if ($article->getRows() == 1)
           // -------------------------------------------------- ARTIKEL KOPIEREN START
           if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyArticle[]")) 
           {
-            $move_a = new select;
+            $move_a = new rex_select;
             $move_a->set_name("category_copy_id_new");
             $move_a->set_id("category_copy_id_new");
             $move_a->set_size("1");
@@ -878,7 +878,7 @@ if ($article->getRows() == 1)
           // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START 
           if ($article->getValue("startpage") == 1 && ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveCategory[]")))
           {
-            $move_a = new select;
+            $move_a = new rex_select;
             $move_a->set_id("category_id_new");
             $move_a->set_name("category_id_new");
             $move_a->set_size("1");

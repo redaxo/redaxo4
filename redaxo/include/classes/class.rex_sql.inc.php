@@ -163,15 +163,18 @@ class rex_sql
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
    */
-  function getValue($value, $row = null)
+  function getValue($feldname, $row = null)
   {
+  	if(isset($this->values[$feldname]))
+  		return $this->values[$feldname];
+  		
     $_row = $this->counter;
     if (is_int($row))
     {
       $_row = $row;
     }
 
-    return @ mysql_result($this->result, $_row, $value);
+    return @ mysql_result($this->result, $_row, $feldname);
   }
 
   /**
@@ -437,7 +440,7 @@ class rex_sql
     if ($instance)
       $instance->flush();
     else
-      $instance = new sql();
+      $instance = new rex_sql();
 
     return $instance;
   }

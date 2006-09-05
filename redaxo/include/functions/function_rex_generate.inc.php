@@ -24,7 +24,7 @@ function rex_generateAll()
 
   // ----------------------------------------------------------- generiere templates
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates", 0);
-  $gt = new sql;
+  $gt = new rex_sql;
   $gt->setQuery("select * from ".$REX['TABLE_PREFIX']."template");
   for ($i = 0; $i < $gt->getRows(); $i ++)
   {
@@ -34,7 +34,7 @@ function rex_generateAll()
 
   // ----------------------------------------------------------- generiere artikel
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/articles", 0);
-  $gc = new sql;
+  $gc = new rex_sql;
   $gc->setQuery("select distinct id from ".$REX['TABLE_PREFIX']."article");
   for ($i = 0; $i < $gc->getRows(); $i ++)
   {
@@ -43,7 +43,7 @@ function rex_generateAll()
   }
 
   // ----------------------------------------------------------- generiere clang
-  $lg = new sql();
+  $lg = new rex_sql();
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
   $content = "// --- DYN\n\r";
   for ($i = 0; $i < $lg->getRows(); $i ++)
@@ -106,7 +106,7 @@ function rex_generateArticle($id, $refreshall = true)
   {
     $MSG = '';
     $clang = key($CL);
-    $CONT = new article;
+    $CONT = new rex_article;
     $CONT->setCLang($clang);
     $CONT->setMode("generate"); // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
     $CONT->setArticleId($id);
@@ -215,7 +215,7 @@ function rex_deleteArticle($id, $ebene = 0)
     return $I18N->msg("cant_delete_startarticle");
   }
 
-  $ART = new sql;
+  $ART = new rex_sql;
   $ART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$id' and clang='0'");
 
   if ($ART->getRows() > 0)
@@ -223,7 +223,7 @@ function rex_deleteArticle($id, $ebene = 0)
     $re_id = $ART->getValue("re_id");
     if ($ART->getValue("startpage") == 1)
     {
-      $SART = new sql;
+      $SART = new rex_sql;
       $SART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$id' and clang='0'");
       for ($i = 0; $i < $SART->getRows(); $i ++)
       {
@@ -285,7 +285,7 @@ function rex_generateLists($re_id)
 
     // --------------------------------------- ARTICLE LIST
 
-    $GC = new sql;
+    $GC = new rex_sql;
     // $GC->debugsql = 1;
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where (re_id=$re_id and clang=$clang and startpage=0) OR (id=$re_id and clang=$clang and startpage=1) order by prior,name");
     $content = "<?php\n";
@@ -303,7 +303,7 @@ function rex_generateLists($re_id)
 
     // --------------------------------------- CAT LIST
 
-    $GC = new sql;
+    $GC = new rex_sql;
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id=$re_id and clang=$clang and startpage=1 order by catprior,name");
     $content = "<?php\n";
     for ($i = 0; $i < $GC->getRows(); $i ++)
@@ -341,8 +341,8 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
     else
       $addsql = "asc";
 
-    $gu = new sql;
-    $gr = new sql;
+    $gu = new rex_sql;
+    $gr = new rex_sql;
     $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$re_id' and clang='$clang' and startpage=1 order by catprior,updatedate $addsql");
     for ($i = 0; $i < $gr->getRows(); $i ++)
     {
@@ -374,8 +374,8 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
     else
       $addsql = "asc";
 
-    $gu = new sql;
-    $gr = new sql;
+    $gu = new rex_sql;
+    $gr = new rex_sql;
     $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang' and ((startpage<>1 and re_id='$re_id') or (startpage=1 and id=$re_id))order by prior,updatedate $addsql");
     for ($i = 0; $i < $gr->getRows(); $i ++)
     {
@@ -411,20 +411,20 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
   foreach ($REX['CLANG'] as $clang => $clang_name)
   {
     // validierung der id & from_cat_id
-    $from_sql = new sql;
+    $from_sql = new rex_sql;
     //$from_sql->debugsql = 1;
     $from_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
 
     if ($from_sql->getRows() == 1)
     {
       // validierung der to_cat_id
-      $to_sql = new sql;
+      $to_sql = new rex_sql;
       //$to_sql->debugsql = 1;
       $to_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'. $clang .'" and startpage=1 and id="'. $to_cat_id .'"');
 
       if ($to_sql->getRows() == 1)
       {
-        $art_sql = new sql;
+        $art_sql = new rex_sql;
         //$art_sql->debugsql = 1;
 
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
@@ -488,10 +488,10 @@ function rex_moveCategory($from_cat, $to_cat)
   {
 	// kategorien vorhanden ?
   	// ist die zielkategorie im pfad der quellkategeorie ?
-  	$fcat = new sql;
+  	$fcat = new rex_sql;
   	$fcat->setQuery("select * from ".$REX['TABLE_PREFIX']."article where startpage=1 and id=$from_cat and clang=0");
 
-  	$tcat = new sql;
+  	$tcat = new rex_sql;
   	$tcat->setQuery("select * from ".$REX['TABLE_PREFIX']."article where startpage=1 and id=$to_cat and clang=0");
 
 	if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
@@ -528,7 +528,7 @@ function rex_moveCategory($from_cat, $to_cat)
 
 		$from_path = $fcat->getValue("path").$from_cat."|";
 
-		$gcats = new sql;
+		$gcats = new rex_sql;
 		// $gcats->debugsql = 1;
 		$gcats->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '".$from_path."%' and clang=0");
 
@@ -540,7 +540,7 @@ function rex_moveCategory($from_cat, $to_cat)
 			$irecid = $gcats->getValue("re_id");
 			
 			// path aendern und speichern
-			$up = new sql;
+			$up = new rex_sql;
 			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->where("id=$icid");
@@ -559,10 +559,10 @@ function rex_moveCategory($from_cat, $to_cat)
 		for ($i = 0; $i < count($CL); $i ++)
 		{
 			$clang = key($CL);
-			$gmax = new sql;
+			$gmax = new rex_sql;
 			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=$clang");
 			$catprior = (int) $gmax->getValue("max(catprior)");
-			$up = new sql;
+			$up = new rex_sql;
 			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->where("id=$from_cat and clang=$clang ");
@@ -611,19 +611,19 @@ function rex_copyArticle($id, $to_cat_id)
   foreach ($REX['CLANG'] as $clang => $clang_name)
   {
     // validierung der id & from_cat_id
-    $from_sql = new sql;
+    $from_sql = new rex_sql;
     $qry = 'select * from '.$REX['TABLE_PREFIX'].'article where clang="'.$clang.'" and id="'. $id .'"';
     $from_sql->setQuery($qry);
  
     if ($from_sql->getRows() == 1)
     {
       // validierung der to_cat_id
-      $to_sql = new sql;
+      $to_sql = new rex_sql;
       $to_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'.$clang.'" and startpage=1 and id="'. $to_cat_id .'"');
 
       if ($to_sql->getRows() == 1)
       {
-        $art_sql = new sql;
+        $art_sql = new rex_sql;
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
         if ($new_id == "") $new_id = $art_sql->setNewId('id');
         $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen 
@@ -707,12 +707,12 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
   if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
 
-  $gc = new sql;
+  $gc = new rex_sql;
   $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$from_clang' and id='$from_id'");
 
   if ($gc->getRows() == 1)
   {
-    $uc = new sql;
+    $uc = new rex_sql;
     // $uc->debugsql = 1;
     $uc->setTable($REX['TABLE_PREFIX']."article");
     $uc->where("clang='$to_clang' and id='$to_id'");
@@ -750,14 +750,14 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
   if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
 
-  $gc = new sql;
+  $gc = new rex_sql;
   $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$from_id' and clang='$from_clang'");
 
   if ($gc->getRows() == 1)
   {
 
     // letzt slice_id des ziels holen ..
-    $glid = new sql;
+    $glid = new rex_sql;
     $glid->setQuery("select r1.id, r1.re_article_slice_id
                      from ".$REX['TABLE_PREFIX']."article_slice as r1 
                      left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id 
@@ -767,11 +767,11 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     else
       $to_last_slice_id = 0;
 
-    $ins = new sql;
+    $ins = new rex_sql;
     // $ins->debugsql = 1;
     $ins->setTable($REX['TABLE_PREFIX']."article_slice");
 
-    $cols = new sql;
+    $cols = new rex_sql;
     // $cols->debugsql = 1;
     $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
     for ($j = 0; $j < $cols->rows; $j ++, $cols->next())
@@ -914,7 +914,7 @@ function rex_deleteCLang($id)
   fclose($h);
   @ chmod($file, 0777);
 
-  $del = new sql();
+  $del = new rex_sql();
   $del->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$id'");
   for ($i = 0; $i < $del->getRows(); $i ++)
   {
@@ -931,7 +931,7 @@ function rex_deleteCLang($id)
   $del->query("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$id'");
 
   unset ($REX['CLANG'][$id]);
-  $del = new sql();
+  $del = new rex_sql();
   $del->query("delete from ".$REX['TABLE_PREFIX']."clang where id='$id'");
 
   // ----- EXTENSION POINT
@@ -973,12 +973,12 @@ function rex_addCLang($id, $name)
   fclose($h);
   @ chmod($file, 0777);
 
-  $add = new sql();
+  $add = new rex_sql();
   $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
   $fields = $add->getFieldnames();
   for ($i = 0; $i < $add->getRows(); $i ++)
   {
-    $adda = new sql;
+    $adda = new rex_sql;
     // $adda->debugsql = 1;
     $adda->setTable($REX['TABLE_PREFIX']."article");
     reset($fields);
@@ -1002,7 +1002,7 @@ function rex_addCLang($id, $name)
 
     $add->next();
   }
-  $add = new sql();
+  $add = new rex_sql();
   $add->query("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
 
   // ----- EXTENSION POINT
@@ -1031,7 +1031,7 @@ function rex_editCLang($id, $name)
   fwrite($h, $cont, strlen($cont));
   fclose($h);
   @ chmod($REX['INCLUDE_PATH']."/clang.inc.php", 0777);
-  $edit = new sql;
+  $edit = new rex_sql;
   $edit->query("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
   
   // ----- EXTENSION POINT
@@ -1100,7 +1100,7 @@ function rex_generateTemplate($template_id)
 {
   global $REX;
   
-  $sql = new sql();
+  $sql = new rex_sql();
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX']  .'template WHERE id = '.$template_id;
   $sql->setQuery($qry);
   

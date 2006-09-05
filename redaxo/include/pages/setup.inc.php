@@ -386,7 +386,7 @@ if ($checkmodus == 3 && $send == 1)
   }
   
   // Prüfen, welche Tabellen bereits vorhanden sind
-  $db = new sql;
+  $db = new rex_sql;
   $db->setQuery('SHOW TABLES');
   
   for ($i = 0; $i < $db->getRows(); $i++, $db->next())
@@ -466,7 +466,7 @@ if ($checkmodus == 3)
   }
 
   // Vorhandene Exporte auslesen
-  $sel_export = new select();
+  $sel_export = new rex_select();
   $sel_export->set_name('import_name');
   $sel_export->set_id('import_name');
   $sel_export->set_style('class="rex-fslct"');
@@ -565,7 +565,7 @@ if ($checkmodus == 4 && $send == 1)
 
     if ($err_msg == "")
     {
-      $ga = new sql;
+      $ga = new rex_sql;
       $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."user where login='$redaxo_user_login'");
 
       if ($ga->getRows() > 0)
@@ -577,7 +577,7 @@ if ($checkmodus == 4 && $send == 1)
         if ($REX['PSWFUNC'] != "")
           $redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
-        $insert = "INSERT INTO ".$REX['TABLE_PREFIX']."user (name,login,psw,rights) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','#admin[]#dev[]#import[]#stats[]#moveSlice[]#')";
+        $insert = "INSERT INTO ".$REX['TABLE_PREFIX']."user (name,login,psw,rights,createdate,createuser) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','#admin[]#dev[]#import[]#stats[]#moveSlice[]#','".time()."','setup')";
         $link = @ mysql_connect($REX['DB'][1]['HOST'], $REX['DB'][1]['LOGIN'], $REX['DB'][1]['PSW']);
         if (!@ mysql_db_query($REX['DB'][1]['NAME'], $insert, $link))
         {
@@ -588,7 +588,7 @@ if ($checkmodus == 4 && $send == 1)
   }
   else
   {
-    $gu = new sql;
+    $gu = new rex_sql;
     $gu->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
     if ($gu->getRows() == 0)
       $err_msg .= $I18N->msg("setup_044");

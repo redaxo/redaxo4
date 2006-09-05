@@ -73,7 +73,7 @@ class rex_article
     if (!$REX['GG'])
     {
       // ---------- select article
-      $this->ARTICLE = new sql;
+      $this->ARTICLE = new rex_sql;
       // $this->ARTICLE->debugsql = 1;
       $this->ARTICLE->setQuery("select * from ".$REX['TABLE_PREFIX']."article where ".$REX['TABLE_PREFIX']."article.id='$article_id' and clang='".$this->clang."'");
 
@@ -190,7 +190,7 @@ class rex_article
             ". $sliceLimit ."
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
-        $this->CONT = new sql;
+        $this->CONT = new rex_sql;
         $this->CONT->setQuery($sql);
         
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
@@ -209,10 +209,10 @@ class rex_article
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
         if($this->mode=="edit")
         {
-          $MODULE = new sql;
+          $MODULE = new rex_sql;
           $MODULE->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
 
-          $MODULESELECT = new select;
+          $MODULESELECT = new rex_select;
           $MODULESELECT->set_name("module_id");
           $MODULESELECT->set_id("module_id");
           $MODULESELECT->set_size("1");
@@ -453,7 +453,7 @@ class rex_article
   function addSlice($I_ID,$module_id)
   {
     global $REX,$REX_ACTION,$FORM,$I18N;
-    $MOD = new sql;
+    $MOD = new rex_sql;
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id=$module_id");
     if ($MOD->getRows() != 1)
     {
@@ -487,7 +487,7 @@ class rex_article
         </form>
       ';
       
-      $dummysql = new rex_dummy_sql();
+      $dummysql = new rex_sql();
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.clang',$this->clang);
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.ctype',$this->ctype);
       $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.modultyp_id',$module_id);
@@ -557,7 +557,7 @@ class rex_article
   		  {
   		  	if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
   		  	{
-  		  		$sql = new rex_dummy_sql();
+  		  		$sql = new rex_sql();
   		  		$var->setACValues($sql,$REX['ACTION']);
   		  	}
   		  	$tmp = $var->getBEInput($sql,$content);
@@ -643,25 +643,6 @@ class rex_article
     return $content;
   }
 
-}
-
-/**
- * @access private
- */
-class rex_dummy_sql extends sql
-{
-	var $dummyvalues = array();
-	function getValue($name)
-	{
-		if (isset($this->dummyvalues[$name])) return $this->dummyvalues[$name];
-    // hier null, damit man daran in den REX_VARS zwischen edit/add unterscheiden kann
-		return null;
-	}
-	
-	function setValue($name,$value)
-	{
-		$this->dummyvalues[$name] = $value;
-	}
 }
 
 ?>

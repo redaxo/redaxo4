@@ -40,7 +40,7 @@ elseif ($func == "linkchecker")
 
   for ($j = 1; $j < 11; $j++)
   {
-    $LC = new sql;
+    $LC = new rex_sql;
     // $LC->debugsql = 1;
     $LC->setQuery("SELECT ".$REX['TABLE_PREFIX']."article_slice.article_id,".$REX['TABLE_PREFIX']."article_slice.id FROM ".$REX['TABLE_PREFIX']."article_slice
               LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.link$j=".$REX['TABLE_PREFIX']."article.id
@@ -130,7 +130,7 @@ elseif ($func == 'updateinfos')
 
 }
 
-$sel_lang = new select();
+$sel_lang = new rex_select();
 $sel_lang->set_name('neu_lang');
 $sel_lang->set_id('rex_lang');
 $sel_lang->set_size(1);
@@ -141,7 +141,7 @@ foreach ($REX['LOCALES'] as $l)
   $sel_lang->add_option($l, $l);
 }
 
-$sel_mod_rewrite = new select();
+$sel_mod_rewrite = new rex_select();
 $sel_mod_rewrite->set_name('neu_modrewrite');
 $sel_mod_rewrite->set_id('rex_mod_rewrite');
 $sel_mod_rewrite->set_size(1);

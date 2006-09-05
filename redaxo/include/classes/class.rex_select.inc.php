@@ -114,7 +114,7 @@ class rex_select
   
   function add_sql_options($qry)
   {
-    $sql = new sql;
+    $sql = new rex_sql;
     // $sql->debugsql = true;
     $options = $sql->get_array($qry, MYSQL_NUM);
   

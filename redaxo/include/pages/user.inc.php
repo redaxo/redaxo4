@@ -35,13 +35,13 @@ mulselect module
 $user_id = rex_request('user_id', 'int');
 if ($user_id != 0)
 {
-  $sql = new sql;
+  $sql = new rex_sql;
   $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE user_id = '. $user_id .' LIMIT 2');
   if ($sql->getRows()!= 1) unset($user_id);
 }
 
 // Allgemeine Permissions setzen
-$sel_all = new select;
+$sel_all = new rex_select;
 $sel_all->multiple(1);
 $sel_all->set_style('class=rex-perm-fselect');
 $sel_all->set_size(10);
@@ -54,7 +54,7 @@ for ($i=0;$i<count($REX['PERM']);$i++)
   next($REX['PERM']);
 }
 
-$sel_ext = new select;
+$sel_ext = new rex_select;
 $sel_ext->multiple(1);
 $sel_ext->set_style('class=rex-perm-fselect');
 $sel_ext->set_size(10);
@@ -68,7 +68,7 @@ for ($i=0;$i<count($REX['EXTPERM']);$i++)
 }
 
 // zugriff auf categorien
-$sel_cat = new select;
+$sel_cat = new rex_select;
 $sel_cat->multiple(1);
 $sel_cat->set_style('class=rex-perm-fselect');
 $sel_cat->set_size(20);
@@ -101,7 +101,7 @@ function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
 }
 
 // zugriff auf mediacategorien
-$sel_media = new select;
+$sel_media = new rex_select;
 $sel_media->multiple(1);
 $sel_media->set_style('class=rex-perm-fselect');
 $sel_media->set_size(20);
@@ -134,13 +134,13 @@ function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName 
 }
 
 // zugriff auf sprachen
-$sel_sprachen = new select;
+$sel_sprachen = new rex_select;
 $sel_sprachen->multiple(1);
 $sel_sprachen->set_style('class=rex-perm-fselect');
 $sel_sprachen->set_size(3);
 $sel_sprachen->set_name("userperm_sprachen[]");
 $sel_sprachen->set_id("userperm_sprachen");
-$sqlsprachen = new sql;
+$sqlsprachen = new rex_sql;
 $sqlsprachen->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
@@ -151,7 +151,7 @@ for ($i=0;$i<$sqlsprachen->getRows();$i++)
 }
 
 // eigene sprache
-$sel_mylang = new select;
+$sel_mylang = new rex_select;
 $sel_mylang->set_style('class=rex-perm-fselect');
 $sel_mylang->set_size(1);
 $sel_mylang->set_name("userperm_mylang");
@@ -162,14 +162,14 @@ $sel_mylang->add_option("en_gb","be_lang[en_gb]");
 
 
 // zugriff auf module
-$sel_module = new select;
+$sel_module = new rex_select;
 $sel_module->multiple(1);
 $sel_module->set_style('class=rex-perm-fselect');
 $sel_module->set_size(10);
 $sel_module->set_name("userperm_module[]");
 $sel_module->set_id("userperm_module");
 
-$sqlmodule = new sql;
+$sqlmodule = new rex_sql;
 $sqlmodule->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
 
 for ($i=0;$i<$sqlmodule->getRows();$i++)
@@ -180,7 +180,7 @@ for ($i=0;$i<$sqlmodule->getRows();$i++)
 }
 
 // extrarechte - von den addons übergeben
-$sel_extra = new select;
+$sel_extra = new rex_select;
 $sel_extra->multiple(1);
 $sel_extra->set_style('class=rex-perm-fselect');
 $sel_extra->set_size(10);
@@ -205,7 +205,7 @@ rex_title($I18N->msg("title_user"),"");
 
 if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC_APPLY != ''))
 {
-  $updateuser = new sql;
+  $updateuser = new rex_sql;
   $updateuser->setTable($REX['TABLE_PREFIX']."user");
   $updateuser->where("user_id='$user_id'");
   $updateuser->setValue("name",$username);
@@ -251,7 +251,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     for ($i=0;$i<count($userperm_cat);$i++)
     {
       $ccat = current($userperm_cat);
-      $gp = new sql;
+      $gp = new rex_sql;
       $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
       if ($gp->getRows()==1)
       {
@@ -321,7 +321,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   // man kann sich selbst nicht löschen..
   if ($REX_USER->getValue("user_id")!=$user_id)
   {
-    $deleteuser = new sql;
+    $deleteuser = new rex_sql;
     $deleteuser->query("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
     $message = $I18N->msg("user_deleted");
     unset($user_id);
@@ -336,12 +336,12 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   $sel_sprachen->set_selected("0");
 } elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == 1))
 {
-  $adduser = new sql;
+  $adduser = new rex_sql;
   $adduser->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = '$userlogin'");
 
   if ($adduser->getRows()==0 and $userlogin != "")
   {
-    $adduser = new sql;
+    $adduser = new rex_sql;
     $adduser->setTable($REX['TABLE_PREFIX']."user");
     $adduser->setValue("name",$username);
     if ($REX['PSWFUNC']!="") $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
@@ -795,7 +795,7 @@ if (isset($SHOW) and $SHOW)
     </thead>
     <tbody>';
 
-  $sql = new sql;
+  $sql = new rex_sql;
   $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user ORDER BY name');
 
   for ($i=0; $i<$sql->getRows(); $i++)

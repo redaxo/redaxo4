@@ -85,7 +85,7 @@ else
     // fehlversuch speichern | login_tries++
     if ($REX_ULOGIN != "")
     {
-        $fvs = new sql;
+        $fvs = new rex_sql;
         $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=login_tries+1,lasttrydate='".time()."' where login='".$REX_ULOGIN."'");
     }
     
@@ -95,7 +95,7 @@ else
   	// gelungenen versuch speichern | login_tries = 0
     if ($REX_ULOGIN != "")
     {
-      $fvs = new sql;
+      $fvs = new rex_sql;
       $fvs->query("update ".$REX['TABLE_PREFIX']."user set login_tries=0,lasttrydate='".time()."' where login='".$REX_ULOGIN."'");
   		header("Location: index.php?page=structure");
   		exit;
