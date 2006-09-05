@@ -358,7 +358,7 @@ class rex_sql
    */
   function printError($select)
   {
-    if ($this->debugsql === 2 && strlen($this->getError()) > 0 || $this->debugsql === true)
+    if ($this->debugsql === 2 && strlen($this->getError()) > 0 || $this->debugsql == true)
     {
       echo '<hr />' . "\n";
       echo 'Query: ' . nl2br(htmlspecialchars($select)) . "<br />\n";

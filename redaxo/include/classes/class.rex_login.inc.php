@@ -154,7 +154,7 @@ class rex_login{
       // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
       if ($this->cache && $this->login_status>0) return true;
       elseif ($this->cache && $this->login_status<0) return false;
-      
+
       if ($this->usr_login != "")
       {
         // wenn login daten eingegeben dann checken
@@ -171,30 +171,28 @@ class rex_login{
         if ($this->USER->getRows() == 1)
         {
           $ok = true;
-          $_SESSION['UID'][$this->system_id] = $this->USER->getValue($this->uid);
-                    
+		  $this->setSessionVar('UID',$this->USER->getValue($this->uid));
         }else
         {
           $this->message = $this->text[30];
-          $_SESSION['UID'][$this->system_id] = "";
-          // session_unregister("REX_SESSION");
+          $this->setSessionVar('UID','');
         }
                 
-      } elseif (isset($_SESSION['UID']) && isset($_SESSION['UID'][$this->system_id]) && $_SESSION['UID'][$this->system_id] != '')
+      } elseif ($this->getSessionVar('UID') != '')
       {
         // wenn kein login und kein logout dann nach sessiontime checken
         // message schreiben und falls falsch auf error verweisen
                 
         $this->USER = new rex_login_sql($this->DB);
-        $query = str_replace("USR_UID",$_SESSION['UID'][$this->system_id],$this->user_query);
+        $query = str_replace("USR_UID",$this->getSessionVar('UID'),$this->user_query);
         
         $this->USER->setQuery($query);
         if ($this->USER->getRows() == 1)
         {
-          if (($_SESSION['ST'][$this->system_id]+$this->session_duration)>time())
+          if ( ($this->getSessionVar('STAMP')+$this->session_duration) > time() )
           {
             $ok = true;
-            $_SESSION['UID'][$this->system_id] = $this->USER->getValue($this->uid);
+			$this->setSessionVar('UID',$this->USER->getValue($this->uid));
           }else
           {
             $this->message = $this->text[10]; 
@@ -211,20 +209,21 @@ class rex_login{
     }else
     {
       $this->message = $this->text[50];
-      $_SESSION['UID'][$this->system_id] = "";
+      $this->setSessionVar('UID','');
       // session_unregister("REX_SESSION");
+      
     }
-    
+
     if ($ok)
     {
       // wenn alles ok dann REX[UID][system_id) schreiben
-      $_SESSION['ST'][$this->system_id] = time();
+      $this->setSessionVar('STAMP',time());
 
     }else
     {
       // wenn nicht, dann UID loeschen und error seite
-      $_SESSION['ST'][$this->system_id] = "";
-      $_SESSION['UID'][$this->system_id] = "";
+      $this->setSessionVar('STAMP','');
+      $this->setSessionVar('UID','');
     }
     
     if ($ok) $this->login_status = 1;
@@ -247,6 +246,17 @@ class rex_login{
   {
   	if ($this->passwordfunction == "") return $psw;
   	return call_user_func($this->passwordfunction,$psw);
+  }
+  
+  function setSessionVar($varname, $value)
+  {
+  	$_SESSION[$this->system_id][$varname] = $value;
+  }
+
+  function getSessionVar($varname, $default = '')
+  {
+  	if(isset($_SESSION[$this->system_id][$varname])) return $_SESSION[$this->system_id][$varname];
+	return $default;
   }
   
 }
