@@ -33,6 +33,7 @@ class rex_login_sql extends rex_sql{
   {
     return $this->isValueOf("rights",$perm);
   }
+  
 }
 
 class rex_login{
