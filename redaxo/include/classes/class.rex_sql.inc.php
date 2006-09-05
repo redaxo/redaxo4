@@ -14,7 +14,7 @@
  * Klasse zur Verbindung und Interatkion mit der Datenbank
  * @version $Id$ 
  */
-class sql
+class rex_sql
 {
   var $values; // Werte von setValue
 
@@ -32,7 +32,7 @@ class sql
   var $error; // Fehlertext
   var $errno; // Fehlernummer
 
-  function sql($DBID = 1)
+  function rex_sql($DBID = 1)
   {
     global $REX;
 

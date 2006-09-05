@@ -7,7 +7,7 @@
  */
 
 ################ Class Select
-class select
+class rex_select
 {
 
   var $select_name; //
@@ -21,7 +21,7 @@ class select
   var $select_style_class;
 
   ################ Konstruktor
-  function select()
+  function rex_select()
   {
     $this->init();
   }
