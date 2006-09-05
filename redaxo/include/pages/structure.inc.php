@@ -6,15 +6,6 @@
  * @version $Id$ 
  */
 
-/*
- * 
- * Todos: prio geschichten
- *
- * ### erstelle neue prioliste wenn noetig
- *
- */
-
-
 // --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
 if (isset ($edit_id) and $edit_id != '')
 {
@@ -246,14 +237,15 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContent
     $AART->setValue("template_id", $template_id);
     $AART->setValue("name", "$category_name");
     $AART->setValue("catname", "$category_name");
+    $AART->setValue("label", $category_label);
+    $AART->setValue("url", $category_url);
+    $AART->setValue("attributes", $category_attributes);
     $AART->setValue("catprior", $Position_New_Category);
     $AART->setValue("re_id", $category_id);
     $AART->setValue("prior", 1);
     $AART->setValue("path", $KATPATH);
     $AART->setValue("startpage", 1);
     $AART->setValue("status", 0);
-    $AART->setValue("online_from", time());
-    $AART->setValue("online_to", mktime(0, 0, 0, 1, 1, 2010));
     $AART->setValue("createdate", time());
     $AART->setValue("createuser", $REX_USER->getValue("login"));
     $AART->setValue("updatedate", time());
@@ -355,14 +347,15 @@ elseif (!empty($artadd_function) && $category_id != '' && $KATPERM)
       $AART->setValue("id", $id);
     $AART->setValue("name", $article_name);
     $AART->setValue("catname", $category_name);
+    $AART->setValue("label", $category_label);
+    $AART->setValue("url", $category_url);
+    $AART->setValue("attributes", $category_attributes);
     $AART->setValue("clang", $key);
     $AART->setValue("re_id", $category_id);
     $AART->setValue("prior", $Position_New_Article);
     $AART->setValue("path", $KATPATH);
     $AART->setValue("startpage", 0);
     $AART->setValue("status", 0);
-    $AART->setValue("online_from", time());
-    $AART->setValue("online_to", mktime(0, 0, 0, 1, 1, 2010));
     $AART->setValue("createdate", time());
     $AART->setValue("createuser", $REX_USER->getValue("login"));
     $AART->setValue("updatedate", time());
@@ -486,8 +479,12 @@ if($function == 'add_cat' || $function == 'edit_cat')
   <form action="index.php" method="post">
     <fieldset>
       <legend><span class="rex-hide">'.$I18N->msg('add_category') .'</span></legend>
-      <input type="hidden" name="page" value="structure" />
-      <input type="hidden" name="edit_id" value="'. $edit_id .'" />
+      <input type="hidden" name="page" value="structure" />';
+
+  if ($function == 'edit_cat')
+    echo '<input type="hidden" name="edit_id" value="'. $edit_id .'" />';
+      
+  echo '
       <input type="hidden" name="category_id" value="'. $category_id .'" />
       <input type="hidden" name="clang" value="'. $clang .'" />';
 }

@@ -178,7 +178,7 @@ class rex_article
       if ($this->article_id != 0)
       {
         // ---------- alle teile/slices eines artikels auswaehlen
-        $sql = "SELECT ".$REX['TABLE_PREFIX']."modultyp.id, ".$REX['TABLE_PREFIX']."modultyp.name, ".$REX['TABLE_PREFIX']."modultyp.ausgabe, ".$REX['TABLE_PREFIX']."modultyp.eingabe, ".$REX['TABLE_PREFIX']."modultyp.php_enable, ".$REX['TABLE_PREFIX']."modultyp.html_enable, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
+        $sql = "SELECT ".$REX['TABLE_PREFIX']."modultyp.id, ".$REX['TABLE_PREFIX']."modultyp.name, ".$REX['TABLE_PREFIX']."modultyp.ausgabe, ".$REX['TABLE_PREFIX']."modultyp.eingabe, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
           FROM
             ".$REX['TABLE_PREFIX']."article_slice
           LEFT JOIN ".$REX['TABLE_PREFIX']."modultyp ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id
@@ -191,7 +191,16 @@ class rex_article
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
         $this->CONT = new rex_sql;
+        $this->CONT->debugsql = 0;
         $this->CONT->setQuery($sql);
+        
+        $RE_CONTS = array();
+        $RE_CONTS_CTYPE = array();
+        $RE_MODUL_OUT = array();
+        $RE_MODUL_IN = array();
+        $RE_MODUL_ID = array();
+        $RE_MODUL_NAME = array();
+        $RE_C = array();
         
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
@@ -231,13 +240,14 @@ class rex_article
         $PRE_ID = 0;
         $this->CONT->resetCounter();
         $this->article_content = "";
-        
-        // ----- ctype unterscheidung
-        if ($this->mode != "edit") 
-          $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>"; 
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
+
+          // ----- ctype unterscheidung
+          if ($this->mode != "edit" && $i == 0) 
+            $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>"; 
+
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
           $slice_content = "";

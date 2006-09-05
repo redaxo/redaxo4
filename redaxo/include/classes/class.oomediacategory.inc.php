@@ -17,8 +17,6 @@ class OOMediaCategory
   var $_name = "";
   // path
   var $_path = "";
-  // hide
-  var $_hide = "";
 
   // createdate
   var $_createdate = "";
@@ -84,7 +82,6 @@ class OOMediaCategory
 
     $cat->_name = $result['name'];
     $cat->_path = $result['path'];
-    $cat->_hide = $result['hide'];
 
     $cat->_createdate = $result['createdate'];
     $cat->_updatedate = $result['updatedate'];

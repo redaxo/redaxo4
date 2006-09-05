@@ -47,25 +47,17 @@ $sel_all->set_style('class=rex-perm-fselect');
 $sel_all->set_size(10);
 $sel_all->set_name("userperm_all[]");
 $sel_all->set_id("userperm_all");
-for ($i=0;$i<count($REX['PERM']);$i++)
-{
-  if ($i==0) reset($REX['PERM']);
-  $sel_all->add_option(current($REX['PERM']),current($REX['PERM']));
-  next($REX['PERM']);
-}
+$sel_all->add_array_options($REX['PERM'],false);
 
+
+// Erweiterte Permissions setzen
 $sel_ext = new rex_select;
 $sel_ext->multiple(1);
 $sel_ext->set_style('class=rex-perm-fselect');
 $sel_ext->set_size(10);
 $sel_ext->set_name("userperm_ext[]");
 $sel_ext->set_id("userperm_ext");
-for ($i=0;$i<count($REX['EXTPERM']);$i++)
-{
-  if ($i==0) reset($REX['EXTPERM']);
-  $sel_ext->add_option(current($REX['EXTPERM']),current($REX['EXTPERM']));
-  next($REX['EXTPERM']);
-}
+$sel_ext->add_array_options($REX['EXTPERM'],false);
 
 // zugriff auf categorien
 $sel_cat = new rex_select;
@@ -140,6 +132,7 @@ $sel_sprachen->set_style('class=rex-perm-fselect');
 $sel_sprachen->set_size(3);
 $sel_sprachen->set_name("userperm_sprachen[]");
 $sel_sprachen->set_id("userperm_sprachen");
+	
 $sqlsprachen = new rex_sql;
 $sqlsprachen->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
@@ -187,14 +180,8 @@ $sel_extra->set_size(10);
 $sel_extra->set_name("userperm_extra[]");
 $sel_extra->set_id("userperm_extra");
 
-if (isset($REX['EXTRAPERM'])) {
-  for ($i = 0; $i < count($REX['EXTRAPERM']); $i++)
-  {
-    if ($i==0) reset($REX['EXTRAPERM']);
-    $sel_extra->add_option(current($REX['EXTRAPERM']), current($REX['EXTRAPERM']));
-    next ($REX['EXTRAPERM']);
-  }
-}
+if (isset($REX['EXTRAPERM']))
+  $sel_extra->add_array_options($REX['EXTRAPERM'], false);
 
 
 // --------------------------------- Title
