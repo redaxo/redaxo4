@@ -17,9 +17,18 @@ class select extends rex_select{
 
   function select()
   {
-    parent:select();
+    parent::select();
   }
 }
+
+class article extends rex_article{
+
+  function article($article_id = null, $clang = null)
+  {
+    parent::rex_article($article_id, $clang);
+  }
+}
+
 
 // ----------------------------------------- Redaxo 2.* functions
 

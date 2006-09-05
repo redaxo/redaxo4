@@ -6,13 +6,6 @@
  * @version $Id$ 
  */ 
 
-// ----------------------------------------- Redaxo 2.* functions
-
-function getUrlByid($id, $clang = "", $params = "")
-{
-  return rex_getUrl($id, $clang, $params);
-}
-
 // ----------------------------------------- Parse Article Name for Url
 
 function rex_parseArticleName($name)

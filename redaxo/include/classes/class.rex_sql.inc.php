@@ -1,19 +1,10 @@
 <?php
 
-
-// class sql 1.0
-//
-// erstellt 01.12.2001
-// pergopa kristinus gbr
-// lange strasse 31
-// 60311 Frankfurt/M.
-// www.pergopa.de
-// ersteller: j.kristinus
-
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank
  * @version $Id$ 
  */
+
 class rex_sql
 {
   var $values; // Werte von setValue
