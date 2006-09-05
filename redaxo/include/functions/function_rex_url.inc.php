@@ -75,6 +75,13 @@ function rex_getUrl($id = '', $clang = '', $params = '')
     $clang = $REX['CUR_CLANG'];
   }
 
+  // ----- Backend
+  if ($REX['REDAXO'])
+  {
+    return 'index.php?page=content&amp;article_id='.$id.'&amp;clang='.$clang;	
+  }
+
+
   // ----- get params
   $param_string = '';
   if (is_array($params))
