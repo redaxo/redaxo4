@@ -107,17 +107,26 @@ class rex_select
   }
 
   ################ optionen hinzufuegen
+  /**
+   * Fügt eine Option hinzu
+   */  
   function add_option($name, $value, $id = 0, $re_id = 0)
   {
     $this->options[$re_id][] = array ($name, $value, $id);
   }
   
-  function add_sql_options($qry)
+  /**
+   * Fügt ein Array von Optionen hinzu, dass eine mehrdimensionale Struktur hat.
+   *
+   * Dim   Wert
+   * 1.    Name
+   * 2.    Value
+   * 3.    Id
+   * 4.    Re_Id
+   * 5.    Selected
+   */  
+  function add_options($options)
   {
-    $sql = new rex_sql;
-    // $sql->debugsql = true;
-    $options = $sql->get_array($qry, MYSQL_NUM);
-  
     if(is_array($options) && count($options)>0)
     {
       $grouped = isset ($option[0][2]) && isset ($option[0][3]);
@@ -126,6 +135,10 @@ class rex_select
         if ($grouped)
         {
           $this->add_option($option[0], $option[1], $option[2], $option[3]);
+          if(isset($option[4]))
+          {
+          	$this->set_selected($option[4]);
+          }
         }
         else
         {
@@ -136,6 +149,31 @@ class rex_select
         }
       }
     }
+  }
+  
+  /**
+   * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
+   * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
+   */  
+  function add_array_options($options, $use_keys = true)
+  {
+  	foreach($options as $key => $value)
+  	{
+      if(!$use_keys)
+        $key = $value;
+  		  
+      $this->add_option($value, $key);
+  	}
+  }
+  
+  /**
+   * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
+   */  
+  function add_sql_options($qry)
+  {
+    $sql = new rex_sql;
+    // $sql->debugsql = true;
+    $this->add_options($sql->get_array($qry, MYSQL_NUM));
   }
 
   ############### show select
