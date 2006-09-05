@@ -215,6 +215,8 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   $updateuser->setValue("psw",$userpsw);
   $updateuser->setValue("description",$userdesc);
   if (isset($_REQUEST["logintriesreset"]) && $_REQUEST["logintriesreset"] == 1) $updateuser->setValue("login_tries","0");
+  if (isset($userstatus) and $userstatus == 1) $updateuser->setValue("status",1);
+  else $updateuser->setValue("status",0);
   
   $perm = "";
   if (isset($useradmin) and $useradmin == 1) $perm .= "#admin[]";
@@ -350,7 +352,9 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     $adduser->setValue("description",$userdesc);
     $adduser->setValue("createdate",time());
     $adduser->setValue("createuser",$REX_USER->getValue("login"));
-    
+    if (isset($userstatus) and $userstatus == 1) $adduser->setValue("status",1);
+    else $adduser->setValue("status",0);
+        
     $perm = "";
     if (isset($useradmin) and $useradmin == 1) $perm .= "#"."admin[]";
     if (isset($allcats) and $allcats == 1)     $perm .= "#"."csw[0]";
@@ -505,6 +509,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
   if (!isset($adminchecked)) { $adminchecked = ''; }
   if (!isset($allcatschecked)) { $allcatschecked = ''; }
   if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
+  if (!isset($statuschecked)) { $statuschecked = ''; }
   
   $add_login_reset_chkbox = '';
   
@@ -538,6 +543,9 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
       
       if ($sql->hasPerm("media[0]")) $allmcatschecked = "checked";
       else $allmcatschecked = "";
+      
+      if ($sql->getValue($REX['TABLE_PREFIX'].'user.status') == 1) $statuschecked = "checked";
+      else $statuschecked = "";
   
       // Allgemeine Permissions setzen
       for($i=0;$i<count($REX['PERM']);$i++)
@@ -612,6 +620,18 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
       }
       
+      // Der Benutzer kann sich selbst den Status nicht entziehen 
+      if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $statuschecked != '')
+      {
+        $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' disabled="disabled" />';
+      }
+      else
+      {
+        $add_status_chkbox = '<input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
+      }
+      
+      
+      
       // Account gesperrt?
       if ($REX['MAXLOGINS'] < $sql->getValue("login_tries"))
       {
@@ -631,6 +651,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<input type="submit" class="rex-sbmt" name="function" value="'.$I18N->msg("add_user").'" />';
     $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
+    $add_status_chkbox = '<input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
     $add_user_login = '<input type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
   
@@ -673,6 +694,10 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           <p class="rex-cnt-col2">
             '. $add_admin_chkbox .'
             <label class="rex-lbl-rght" for="useradmin">'.$I18N->msg('user_admin').'</label>
+          </p>
+          <p class="rex-cnt-col2">
+            '. $add_status_chkbox .'
+            <label class="rex-lbl-rght" for="userstatus">'.$I18N->msg('user_status').'</label>
           </p>
 		</div>
 		

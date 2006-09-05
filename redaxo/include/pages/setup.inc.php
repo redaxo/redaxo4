@@ -577,7 +577,7 @@ if ($checkmodus == 4 && $send == 1)
         if ($REX['PSWFUNC'] != "")
           $redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
-        $insert = "INSERT INTO ".$REX['TABLE_PREFIX']."user (name,login,psw,rights,createdate,createuser) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','#admin[]#dev[]#import[]#stats[]#moveSlice[]#','".time()."','setup')";
+        $insert = "INSERT INTO ".$REX['TABLE_PREFIX']."user (name,login,psw,rights,createdate,createuser,status) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','#admin[]#dev[]#import[]#stats[]#moveSlice[]#','".time()."','setup',1)";
         $link = @ mysql_connect($REX['DB'][1]['HOST'], $REX['DB'][1]['LOGIN'], $REX['DB'][1]['PSW']);
         if (!@ mysql_db_query($REX['DB'][1]['NAME'], $insert, $link))
         {
