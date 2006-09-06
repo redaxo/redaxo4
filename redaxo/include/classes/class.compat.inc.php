@@ -37,6 +37,11 @@ function getUrlByid($id, $clang = "", $params = "")
   return rex_getUrl($id, $clang, $params);
 }
 
+function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
+{
+  return rex_title($head, $subtitle, $styleclass, $width);
+}
+
 
 
 ?>
