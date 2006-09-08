@@ -41,7 +41,7 @@ elseif (!empty ($delete_article_type))
   if ($type_id != 1)
   {
     $delete = new rex_sql;
-    $result = $delete->get_array("SELECT name,id FROM ".$REX['TABLE_PREFIX']."article WHERE type_id = $type_id");
+    $result = $delete->getArray("SELECT name,id FROM ".$REX['TABLE_PREFIX']."article WHERE type_id = $type_id");
     if (is_array($result))
     {
       $message = $I18N->msg("article_type_still_used")."<br>";

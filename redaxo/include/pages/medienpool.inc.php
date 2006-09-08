@@ -208,7 +208,7 @@ if ($msg != '')
 
 // ***** kategorie auswahl
 $db = new rex_sql();
-$file_cat = $db->get_array('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
+$file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
 
 // ***** select bauen
 $sel_media = new rex_select;
@@ -827,11 +827,11 @@ if ($subpage=="detail" && $media_method == 'delete_file')
       // in rex_values ?
       $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
       // $db->setQuery($sql);
-      $res1 = $db->get_array($sql);
+      $res1 = $db->getArray($sql);
 
       // in article metafile ?
       $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
-      $res2= $db->get_array($sql);
+      $res2= $db->getArray($sql);
 
       if(!is_array($res1) and !is_array($res2)){
 
@@ -1355,10 +1355,10 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
         $file_search = substr($file_search,2);
         $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
         // $db->setQuery($sql);
-        $res1 = $db->get_array($sql);
+        $res1 = $db->getArray($sql);
 
         $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
-        $res2 = $db->get_array($sql);
+        $res2 = $db->getArray($sql);
 
         if(!is_array($res1) and !is_array($res2)){
 

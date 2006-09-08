@@ -99,7 +99,7 @@ function rex_a1_import_db($filename,$replace_rex = false)
   }
 
   // prüfen, ob eine user tabelle angelegt wurde
-  $result = $db->get_array('SHOW TABLES');
+  $result = $db->getArray('SHOW TABLES');
   $user_table_found = false;
   foreach ($result as $row)
   {

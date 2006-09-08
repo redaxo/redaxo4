@@ -65,7 +65,7 @@ class OOMediaCategory
 
     $sql = new rex_sql();
     //        $sql->debugsql = true;
-    $result = $sql->get_array($query);
+    $result = $sql->getArray($query);
     $result = $result[0];
 
     if (count($result) == 0)
@@ -103,7 +103,7 @@ class OOMediaCategory
     $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = 0 order by name';
     $sql = new rex_sql();
     $sql->setQuery($qry);
-    $result = $sql->get_array();
+    $result = $sql->getArray();
 
     $rootCats = array ();
     if (is_array($result))
@@ -129,7 +129,7 @@ class OOMediaCategory
     $query = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE name = "'.$name.'"';
     $sql = new rex_sql();
     //$sql->debugsql = true;
-    $result = $sql->get_array($query);
+    $result = $sql->getArray($query);
 
     $media = array ();
     if (is_array($result))
@@ -212,7 +212,7 @@ class OOMediaCategory
       $qry = 'SELECT id FROM '.OOMediaCategory :: _getTableName().' WHERE re_id = '.$this->getId().' ORDER BY name ';
       $sql = new rex_sql();
       $sql->setQuery($qry);
-      $result = $sql->get_array();
+      $result = $sql->getArray();
       if (is_array($result))
       {
         foreach ($result as $row)
@@ -241,7 +241,7 @@ class OOMediaCategory
       $qry = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE category_id = '.$this->getId();
       $sql = new rex_sql();
       $sql->setQuery($qry);
-      $result = $sql->get_array();
+      $result = $sql->getArray();
       if (is_array($result))
       {
         foreach ($result as $line)

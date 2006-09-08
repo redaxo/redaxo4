@@ -173,7 +173,7 @@ class rex_select
   {
     $sql = new rex_sql;
     // $sql->debugsql = true;
-    $this->add_options($sql->get_array($qry, MYSQL_NUM));
+    $this->add_options($sql->getArray($qry, MYSQL_NUM));
   }
 
   ############### show select

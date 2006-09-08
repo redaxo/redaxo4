@@ -11,6 +11,11 @@ class sql extends rex_sql{
   {
     parent::rex_sql($DBID);
   }
+  
+  function getArray($sql = "", $fetch_type = MYSQL_ASSOC)
+  {
+    return $this->getArray($sql, $fetch_type);
+  }
 }
 
 class select extends rex_select{

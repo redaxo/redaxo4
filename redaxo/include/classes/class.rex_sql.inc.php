@@ -37,7 +37,7 @@ class rex_sql
     // MySQL Version bestimmen
     if ($REX['MYSQL_VERSION'] == '')
     {
-      $res = $this->get_array('SELECT VERSION() as VERSION');
+      $res = $this->getArray('SELECT VERSION() as VERSION');
       if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
       {
         $REX['MYSQL_VERSION'] = $matches[1];
@@ -315,11 +315,11 @@ class rex_sql
   {
     return $this->last_insert_id;
   }
-
+  
   /**
    * Lädt das komplette Resultset in ein Array und gibts dieses zurück 
    */
-  function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
+  function getArray($sql = "", $fetch_type = MYSQL_ASSOC)
   {
 
     if ($sql != "")
@@ -327,7 +327,7 @@ class rex_sql
       $this->setQuery($sql);
     }
 
-    $data = null;
+    $data = array();
 
     while ($row = @ mysql_fetch_array($this->result, $fetch_type))
     {
