@@ -18,8 +18,9 @@
 # = to resize the imagefile to width = 100
 # methods: 
 #    w = width     (max width)
-#    h=height      (max height)
-#    a=automatic   (longest side will be used)
+#    h = height      (max height)
+#    a = automatic   (longest side will be used)
+#
 # important: gif files are cached as jpegs
 #
 # Changelog:
@@ -127,7 +128,8 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
     {
       include ($REX['HTDOCS_PATH'].'redaxo/include/addons/image_resize/classes/class.thumbnail.inc.php');
       $thumb = new thumbnail($cachepath);
-      @ header('Content-Type: image/'.$thumb->img['format']);
+      header('Content-Type: image/'.$thumb->img['format']);
+      header('Last-Modified: '.gmdate('D, d M Y H:i:s', $cachetime));
       readfile($cachepath);
       exit;
     }

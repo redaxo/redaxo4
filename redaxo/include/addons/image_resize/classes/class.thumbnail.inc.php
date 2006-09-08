@@ -105,6 +105,7 @@ class thumbnail
     {
       // --- kein caching -> gif ausgeben
       header('Content-Type: image/'.$this->img['format']);
+      header('Last-Modified: '.gmdate('D, d M Y H:i:s'));
       readfile($this->imgfile);
       exit;
     }
@@ -122,6 +123,7 @@ class thumbnail
 
     if($show){
       header('Content-Type: image/'.$this->img['format']);
+      header('Last-Modified: '.gmdate('D, d M Y H:i:s'));
       readfile($save);
     }
   }
