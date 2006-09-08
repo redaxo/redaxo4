@@ -537,8 +537,8 @@ class rex_article
           '.$RE_MODUL_IN.'
 		  </div>
           <p class="rex-sbmt">
-            <input type="submit" value="'.$I18N->msg('save_block').'" />
-            <input type="submit" value="'.$I18N->msg('update_block').'" onClick="REX_FORM.update.value=1" />
+            <input type="submit" value="'.$I18N->msg('save_block').'" name="btn_save"/>
+            <input type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" />
           </p>
         </fieldset>
       </form>';

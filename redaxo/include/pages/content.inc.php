@@ -274,7 +274,9 @@ if ($article->getRows() == 1)
             }
             // ----- / POST ACTION
             
-            if (!(isset($update) and $update == 1)){
+            // Update Button wurde gedrückt?
+            $btn_update = rex_post('btn_update');
+            if ($btn_update != ''){
               $slice_id = "";
               $function = "";
             }
