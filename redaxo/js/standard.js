@@ -426,4 +426,6 @@ function toggleElement(id,display)
    {
      needle.style.display = display;
    }
+   
+   return false;
 }
