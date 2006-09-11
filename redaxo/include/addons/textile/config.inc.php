@@ -9,10 +9,11 @@ $REX['ADDON']['perm'][$mypage] = 'textile[]';
 
 $REX['PERM'][] = 'textile[]';
 
+require_once($REX['INCLUDE_PATH']. '/addons/textile/classes/class.textile.inc.php');
+require_once $REX['INCLUDE_PATH']. '/addons/textile/functions/function_textile.inc.php';
+
 if ($REX['REDAXO'])
 {
-  require_once($REX['INCLUDE_PATH']. '/addons/textile/classes/class.textile.inc.php');
-  require_once $REX['INCLUDE_PATH']. '/addons/textile/functions/function_textile.inc.php';
   require_once $REX['INCLUDE_PATH'].'/addons/textile/functions/function_help.inc.php';
   
   // perms laden und hinzufügen
