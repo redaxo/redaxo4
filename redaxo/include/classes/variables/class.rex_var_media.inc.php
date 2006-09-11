@@ -11,6 +11,35 @@
 
 class rex_var_media extends rex_var
 {
+  // --------------------------------- Actions
+
+  function getACRequestValues($REX_ACTION)
+  {
+    $values = rex_request('MEDIA', 'array');
+    for ($i = 1; $i < 11; $i++)
+    {
+      if (!isset ($values[$i]))
+        $values[$i] = '';
+
+      $REX_ACTION['MEDIA'][$i] = stripslashes($values[$i]);
+    }
+    return $REX_ACTION;
+  }
+
+  function setACValues(& $sql, $REX_ACTION, $escape = false)
+  {
+    global $REX;
+    for ($i = 1; $i < 11; $i++)
+    {
+      if ($escape)
+        $sql->setValue('file' . $i, addslashes($REX_ACTION['MEDIA'][$i]));
+      else
+        $sql->setValue('file' . $i, $REX_ACTION['MEDIA'][$i]);
+    }
+  }
+  
+  // --------------------------------- Output
+  
   function getBEInput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
@@ -198,11 +227,12 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;filter=' . $filter;
     }
 
-    $media = '<input type="hidden" name="REX_MEDIA_DELETE_' . $id . '" value="0" id="REX_MEDIA_DELETE_' . $id . '" />
-        		          <input type="text" size="30" name="REX_MEDIA_' . $id . '" value="REX_FILE[' . $id . ']" id="REX_MEDIA_' . $id . '" readonly="readonly" />
-                      <a href="#" onclick="javascript:openREXMedia(' . $id . ',\'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
-        		          <a href="#" onclick="javascript:deleteREXMedia(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
-        		          <a href="javascript:addREXMedia(' . $id . ');"><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media" /></a>';
+    $media = '
+    <input type="text" size="30" name="MEDIA[' . $id . ']" value="REX_MEDIA[' . $id . ']" id="MEDIA_' . $id . '" readonly="readonly" />
+    <a href="#" onclick="javascript:openREXMedia(' . $id . ',\'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
+    <a href="#" onclick="javascript:addREXMedia(' . $id . ');"><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media" /></a>
+    <a href="#" onclick="javascript:deleteREXMedia(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
+    ';
 
     $media = $this->stripPHP($media);
     return $media;
@@ -232,23 +262,22 @@ class rex_var_media extends rex_var
       {
         if ($file != '')
         {
-          $options .= '<option value="' . $file . '">' . $file . '</option>
-                    ';
+          $options .= '<option value="' . $file . '">' . $file . '</option>';
         }
       }
     }
 
-    $media = '<input type=hidden name="REX_MEDIALIST_' . $id . '" value="REX_MEDIALIST[' . $id . ']" id="REX_MEDIALIST_' . $id . '" />
-                      <select name="REX_MEDIALIST_SELECT_' . $id . '" id="REX_MEDIALIST_SELECT_' . $id . '" size="8">
-                        ' . $options . '
-                      </select>
-        		          <a href="javascript:moveREXMedialist(' . $id . ',\'top\');"><img src="pics/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
-                		  <a href="javascript:moveREXMedialist(' . $id . ',\'up\');"><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
-              		    <a href="javascript:moveREXMedialist(' . $id . ',\'down\');"><img src="pics/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
-        		          <a href="javascript:moveREXMedialist(' . $id . ',\'bottom\');"><img src="pics/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
-                      <a href="javascript:openREXMedialist(' . $id . ');"><img src="pics/file_add.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
-              		    <a href="javascript:deleteREXMedialist(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>';
-    //              <a href="javascript:addREXMedialist('. $id .');"><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media"></a>';
+    $media = '
+    <select name="MEDIALIST[' . $id . ']" id="MEDIALIST_' . $id . '" size="8">
+      ' . $options . '
+    </select>
+    <a href="javascript:moveREXMedialist(' . $id . ',\'top\');"><img src="pics/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
+	  <a href="javascript:moveREXMedialist(' . $id . ',\'up\');"><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
+    <a href="javascript:moveREXMedialist(' . $id . ',\'down\');"><img src="pics/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
+    <a href="javascript:moveREXMedialist(' . $id . ',\'bottom\');"><img src="pics/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
+    <a href="javascript:openREXMedialist(' . $id . ');"><img src="pics/file_add.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
+    <a href="javascript:deleteREXMedialist(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>';
+    // <a href="javascript:addREXMedialist('. $id .');"><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media"></a>';
 
     return $media;
   }

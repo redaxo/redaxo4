@@ -8,6 +8,41 @@
 
 class rex_var
 {
+  // --------------------------------- Actions
+  
+  /**
+   * Actionmethode:
+   * Zum füllen des sql aus dem $REX_ACTION Array
+   */
+  function setACValues(& $sql, $REX_ACTION, $escape=false)
+  {
+    // nichts tun
+  }
+  
+  /**
+   * Actionmethode:
+   * Zum füllen des $REX_ACTION Arrays aus den Input Formularwerten
+   * @return REX_ACTION Array
+   */
+  function getACRequestValues($REX_ACTION)
+  {
+    return $REX_ACTION;
+  }
+
+  /**
+   * Actionmethode:
+   * Ersetzen der Werte in dem Aktionsscript
+   * @return output String
+   */
+  function getACOutput($REX_ACTION, $content)
+  {
+    $sql = new rex_sql();
+    $this->setACValues(& $sql,$REX_ACTION);
+    return $this->getBEOutput(& $sql, $content);
+  }
+
+  // --------------------------------- Ouput
+  
   /**
    * Ausgabe eines Modules fürs Frontend
    * sql Objekt mit der passenden Slice
@@ -185,34 +220,5 @@ class rex_var
     }
     return $result;
   }
-  
-  /**
-   * Actionmethode:
-   * Zum füllen des $REX_ACTION Arrays aus den Input Formularwerten
-   */
-  function getACRequestValues($REX_ACTION)
-  {
-	return $REX_ACTION;
-  }
-
-  /**
-   * Actionmethode:
-   * Ersetzen der Werte in dem Aktionsscript
-   */
-  function getACOutput($REX_ACTION, $content)
-  {
-  	$sql = new rex_sql();
-  	$this->setACValues(& $sql,$REX_ACTION);
-    return $this->getBEOutput(& $sql, $content);
-  }
-
-  /**
-   * Actionmethode:
-   * Zum füllen des sql aus dem $REX_ACTION Array
-   */
-  function setACValues(& $sql, $REX_ACTION, $escape=false)
-  {
-  }
-  
 }
 ?>
