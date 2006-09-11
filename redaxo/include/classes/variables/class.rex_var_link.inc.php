@@ -9,6 +9,35 @@
 
 class rex_var_link extends rex_var
 {
+  // --------------------------------- Actions
+
+  function getACRequestValues($REX_ACTION)
+  {
+    $values = rex_request('LINK', 'array');
+    for ($i = 1; $i < 11; $i++)
+    {
+      if (!isset ($values[$i]))
+        $values[$i] = '';
+
+      $REX_ACTION['LINK'][$i] = stripslashes($values[$i]);
+    }
+    return $REX_ACTION;
+  }
+
+  function setACValues(& $sql, $REX_ACTION, $escape = false)
+  {
+    global $REX;
+    for ($i = 1; $i < 11; $i++)
+    {
+      if ($escape)
+        $sql->setValue('link' . $i, addslashes($REX_ACTION['LINK'][$i]));
+      else
+        $sql->setValue('link' . $i, $REX_ACTION['LINK'][$i]);
+    }
+  }
+  
+  // --------------------------------- Output
+  
   function getBEOutput(& $sql, $content)
   {
     return $this->getOutput($sql, $content);
@@ -180,24 +209,22 @@ class rex_var_link extends rex_var
   function getLinkButton($id, $article_id, $category = '')
   {
     global $REX;
-    $art = OOArticle :: getArticleById($article_id);
+    
     $art_name = '';
+    $art = OOArticle :: getArticleById($article_id);
+    
     if (OOArticle :: isValid($art))
-    {
       $art_name = $art->getName();
-    }
 
     $open_params = '';
     if ($category != '')
-    {
       $open_params .= '&amp;category_id=' . $category;
-    }
 
-    $media = '<input type="hidden" name="REX_LINK_DELETE_' . $id . '" value="0" id="REX_LINK_DELETE_' . $id . '" />
-                      <input type="hidden" name="LINK[' . $id . ']" value="REX_LINK_ID[' . $id . ']" id="LINK[' . $id . ']" />
-                      <input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_NAME[' . $id . ']" readonly="readonly">
-                      <a href="#" onclick="javascript:openLinkMap(' . $id . ', \'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap"></a>
-                      <a href="#" onclick="javascript:deleteREXLink(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection"></a>';
+    $media = '
+    <input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="REX_LINK_ID[' . $id . ']" />
+    <input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_NAME_' . $id . '_" readonly="readonly">
+    <a href="#" onclick="javascript:openLinkMap(' . $id . ', \'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap"></a>
+    <a href="#" onclick="javascript:deleteREXLink(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection"></a>';
 
     $media = $this->stripPHP($media);
     return $media;
