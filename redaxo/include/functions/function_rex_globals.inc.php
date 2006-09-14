@@ -133,13 +133,13 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
   if(!is_array($haystack))
   {
     trigger_error('Array expected for $haystack in _rex_array_key_cast()!', E_USER_ERROR);
-    exit(); 
+    exit();
   }
   
   if(!is_scalar($needle))
   {
     trigger_error('Scalar expected for $needle in _rex_array_key_cast()!', E_USER_ERROR);
-    exit(); 
+    exit();
   }
   
   if(array_key_exists($needle, $haystack))
@@ -148,7 +148,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
     return _rex_cast_var($var, $vartype);
   }
   
-  return $default;
+  return _rex_cast_var($default, $vartype);
 }
 
 /**
@@ -181,8 +181,8 @@ function _rex_cast_var($var, $vartype)
     case 'int'    : 
     case 'integer': $var = (int)     $var; break; 
     case 'double' : $var = (double)  $var; break; 
-    case 'string' : $var = (string)  $var; break; 
     case 'float'  : $var = (float)   $var; break; 
+    case 'string' : $var = (string)  $var; break; 
     case 'object' : $var = (object)  $var; break; 
     case 'array'  : $var = (array)   $var; break;
     
