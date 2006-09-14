@@ -1,7 +1,7 @@
 ## Redaxo Database Dump Version 3
 ## Prefix rex_
 
-ALTER TABLE 'rex_template' DROP 'bcontent';
+ALTER TABLE `rex_template` DROP `bcontent`;
 ALTER TABLE `rex_template` DROP `date`;
 ALTER TABLE `rex_template` ADD `attributes` TEXT NOT NULL;
 ALTER TABLE `rex_article` DROP `cattype`;
