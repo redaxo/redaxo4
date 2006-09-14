@@ -99,10 +99,10 @@ if ($article->getRows() == 1)
       {
         // ------------- START: MODUL IST NICHT VORHANDEN
         $message = $I18N->msg('module_not_found');
-        $slice_id = "";
-        $function = "";
-        $module_id = "";
-        $save = "";
+        $slice_id = '';
+        $function = '';
+        $module_id = '';
+        $save = '';
         // ------------- END: MODUL IST NICHT VORHANDEN
 
       }else
@@ -137,7 +137,7 @@ if ($article->getRows() == 1)
           	$REX_ACTION = $obj->getACRequestValues($REX_ACTION);
           }
 
-          // ----- PRE ACTION [ADD/EDIT/DELETE]
+          // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
           
           if ($function == 'edit') $modebit = '2'; // pre-action and edit
           elseif($function == 'delete') $modebit = '4'; // pre-action and delete
@@ -162,7 +162,7 @@ if ($article->getRows() == 1)
             $ga->next();
           }
 
-          // ----- / PRE ACTION
+          // ----- / PRE SAVE ACTION
           
           // Statusspeicherung für die rex_article Klasse
           $REX['ACTION'] = $REX_ACTION;
@@ -251,10 +251,9 @@ if ($article->getRows() == 1)
             rex_generateArticle($article_id);
   
   
-            // ----- POST ACTION [ADD/EDIT/DELETE]
+            // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
             
             $ga = new rex_sql;
-            $ga->debugsql = true;
             $ga->setQuery('SELECT postsave FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.postsavemode & '. $modebit .') = '. $modebit .')');
   
             for ($i=0;$i<$ga->getRows();$i++)
@@ -273,7 +272,7 @@ if ($article->getRows() == 1)
               $ga->next();
             }
             
-            // ----- / POST ACTION
+            // ----- / POST SAVE ACTION
             
             // Update Button wurde gedrückt?
             $btn_update = rex_post('btn_update');

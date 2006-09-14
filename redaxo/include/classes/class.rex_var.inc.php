@@ -96,6 +96,16 @@ class rex_var
     global $REX;
     return $sql->getValue($REX['TABLE_PREFIX'].'article_slice.'.$value);
   }
+  /**
+   * setValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und 
+   * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
+   * Spalten unterschiedlicher Tabellen enthält. 
+   */
+  function setValue(&$sql, $fieldname, $value)
+  {
+    global $REX;
+    return $sql->setValue($REX['TABLE_PREFIX'].'article_slice.'.$fieldname, $value);
+  }
   
   /**
    * Findet den Parameter einer Variable in der Ausgabe.

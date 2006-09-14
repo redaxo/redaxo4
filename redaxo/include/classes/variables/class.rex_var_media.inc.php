@@ -32,9 +32,9 @@ class rex_var_media extends rex_var
     for ($i = 1; $i < 11; $i++)
     {
       if ($escape)
-        $sql->setValue('file' . $i, addslashes($REX_ACTION['MEDIA'][$i]));
+        $this->setValue($sql, 'file'. $i, addslashes($REX_ACTION['MEDIA'][$i]));
       else
-        $sql->setValue('file' . $i, $REX_ACTION['MEDIA'][$i]);
+        $this->setValue($sql, 'file'. $i, $REX_ACTION['MEDIA'][$i]);
     }
   }
   

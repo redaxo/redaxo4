@@ -30,9 +30,9 @@ class rex_var_link extends rex_var
     for ($i = 1; $i < 11; $i++)
     {
       if ($escape)
-        $sql->setValue('link' . $i, addslashes($REX_ACTION['LINK'][$i]));
+        $this->setValue($sql, 'link'. $i, addslashes($REX_ACTION['LINK'][$i]));
       else
-        $sql->setValue('link' . $i, $REX_ACTION['LINK'][$i]);
+        $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i]);
     }
   }
   

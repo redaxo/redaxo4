@@ -208,8 +208,8 @@ class rex_article
         {
           $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.id");
           $RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
-          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.ausgabe");
           $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.eingabe");
+          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.ausgabe");
           $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.id");
           $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.name");
           $RE_C[$this->CONT->getValue("re_article_slice_id")] = $i;
@@ -319,10 +319,45 @@ class rex_article
               $slice_content .= $mne;
               if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
               {
+                // **************** Aktueller Slice
+                
+                // ----- PRE VIEW ACTION [ADD/EDIT/DELETE]
+                
+                global $REX_ACTION;
+                
+                if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
+                elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
+                else $modebit = '1'; // pre-action and add
+                
+                $ga = new rex_sql;
+                $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
+      
+                for ($i=0;$i<$ga->getRows();$i++)
+                {
+                  $iaction = $ga->getValue('preview');
+                  
+                  // ****************** VARIABLEN ERSETZEN
+                  foreach($REX['VARIABLES'] as $obj)
+                  {
+                    $iaction = $obj->getACOutput($REX_ACTION,$iaction);
+                  }
+                  
+                  eval('?>'.$iaction);
+                  
+                  // ****************** SPEICHERN FALLS NOETIG
+                  foreach($REX['VARIABLES'] as $obj)
+                  {
+                    $obj->setACValues($this->CONT, $REX_ACTION);
+                  }
+                  $ga->next();
+                }
+      
+                // ----- / PRE VIEW ACTION
+                
                 $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID]);
-              }else
+              }
+              else
               {
-                // TODO PreViewAction
                 $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-cnt-slc-otp">';
