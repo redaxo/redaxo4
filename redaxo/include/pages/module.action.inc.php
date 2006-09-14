@@ -14,20 +14,20 @@ if (isset($function) and $function == "delete")
 {
   $del = new rex_sql;
   $del->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action WHERE action_id='$action_id'"); // module mit dieser aktion vorhanden ?
-  
+  var_dump($del->getRows());
   if ($del->getRows()>0)
   {
     $module = '';
     $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module_action.module_id"));
     for ($i=0;$i<$del->getRows();$i++)
     {
-     $module .= '<li><a href="index.php?page=module&amp;function=edit&amp;modul_id='.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'">'.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'</a></li>';
+     $module .= '<li>Aktion wird bereits verwendet im <a href="index.php?page=module&amp;function=edit&amp;modul_id='.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'">Modul '.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'</a></li>';
      $del->next();
     }
     
     if($module != '')
     {
-      $module = '<ul>'. $module . '</ul>';
+      $module = '<ul class="rex-warning">'. $module . '</ul>';
     }
     
     $message = $I18N->msg("action_cannot_be_deleted",$action_id).'<br /> '.$module;
