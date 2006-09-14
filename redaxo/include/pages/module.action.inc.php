@@ -37,9 +37,11 @@ if (isset($function) and $function == "delete")
 
 if (isset($function) and ($function == "add" or $function == "edit"))
 {
-  $previewaction = '';
-  $presaveaction = '';
-  $postsaveaction = '';
+  $name           = rex_post('name','string');
+  $previewaction  = rex_post('previewaction','string');
+  $presaveaction  = rex_post('presaveaction','string');
+  $postsaveaction = rex_post('postsaveaction','string');
+  
   $previewstatus = 0;
   $presavestatus = 0;
   $postsavestatus = 0;
@@ -48,10 +50,6 @@ if (isset($function) and ($function == "add" or $function == "edit"))
   {
     $faction = new rex_sql;
     
-    $name = rex_post('name','string');
-    $previewaction = rex_post('previewaction','string');
-    $presaveaction = rex_post('presaveaction','string');
-    $postsaveaction = rex_post('postsaveaction','string');
     $previewstatus = rex_post('previewstatus','array');
     $presavestatus = rex_post('presavestatus','array');
     $postsavestatus = rex_post('postsavestatus','array');
@@ -69,6 +67,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
       $postsavemode |= $status;
     
     $faction->setTable($REX['TABLE_PREFIX'].'action');
+    $faction->setValue('name', $name);
     $faction->setValue('preview', $previewaction);
     $faction->setValue('presave', $presaveaction);
     $faction->setValue('postsave', $postsaveaction);
@@ -103,24 +102,19 @@ if (isset($function) and ($function == "add" or $function == "edit"))
 
   if (!isset($save) or $save != 'ja')
   {
-    if (!isset($action_id)) $action_id = '';
-    if (!isset($mname)) $mname = '';
-    if (!isset($actioninput)) $actioninput = '';
-    
-    
     if ($function == 'edit')
     {
       $legend = $I18N->msg('action_edit'). ' [ID='.$action_id.']';
 
       $hole = new rex_sql;
       $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
-      $name = $hole->getValue('name');
       
-      $previewaction = $hole->getValue('preview');
-      $presaveaction = $hole->getValue('presave');
+      $name           = $hole->getValue('name');
+      $previewaction  = $hole->getValue('preview');
+      $presaveaction  = $hole->getValue('presave');
       $postsaveaction = $hole->getValue('postsave');
-      $previewstatus = $hole->getValue('previewmode');
-      $presavestatus = $hole->getValue('presavemode');
+      $previewstatus  = $hole->getValue('previewmode');
+      $presavestatus  = $hole->getValue('presavemode');
       $postsavestatus = $hole->getValue('postsavemode');
     }
     else
@@ -232,7 +226,7 @@ if ($OUT)
 {
   if (isset($message) and $message != "")
   {
-    echo '<p class="rex-warning>"'.$message.'</p>';
+    echo '<p class="rex-warning"'.$message.'</p>';
   }
   
   // ausgabe actionsliste !
