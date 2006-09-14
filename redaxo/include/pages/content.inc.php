@@ -254,6 +254,7 @@ if ($article->getRows() == 1)
             // ----- POST ACTION [ADD/EDIT/DELETE]
             
             $ga = new rex_sql;
+            $ga->debugsql = true;
             $ga->setQuery('SELECT postsave FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.postsavemode & '. $modebit .') = '. $modebit .')');
   
             for ($i=0;$i<$ga->getRows();$i++)
