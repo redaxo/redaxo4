@@ -151,7 +151,7 @@ if ($article->getRows() == 1)
             $REX_ACTION['MSG'] = '';
           	$iaction = $ga->getValue('presave');
             
-          	// *********************** werte ersetzen
+          	// *********************** WERTE ERSETZEN
           	foreach($REX['VARIABLES'] as $obj)
             {
               $iaction = $obj->getACOutput($REX_ACTION,$iaction);
@@ -161,7 +161,7 @@ if ($article->getRows() == 1)
             if ($REX_ACTION['MSG'] != "" ) $message .= $REX_ACTION['MSG']." | ";
             $ga->next();
           }
-
+          
           // ----- / PRE SAVE ACTION
           
           // Statusspeicherung für die rex_article Klasse
@@ -201,29 +201,33 @@ if ($article->getRows() == 1)
                 $newsql->setValue('clang',$clang);
                 $newsql->setValue('ctype',$ctype);
               }
-             
+              
               // ****************** SPEICHERN FALLS NOETIG
               foreach($REX['VARIABLES'] as $obj)
               {
                 $obj->setACValues($newsql,$REX_ACTION,true);
               }
     
-              $newsql->setValue('updatedate',time());
-              $newsql->setValue('updateuser',$REX_USER->getValue('login'));
               if ($function == 'edit')
               {
-                $newsql->update();
-                $message .= $I18N->msg('block_updated');
+                $newsql->setValue('updatedate',time());
+                $newsql->setValue('updateuser',$REX_USER->getValue('login'));
+                if($newsql->update())
+                  $message .= $I18N->msg('block_updated');
     
               }elseif ($function == 'add')
               {
                 $newsql->setValue('createdate',time());
                 $newsql->setValue('createuser',$REX_USER->getValue('login'));
-                $newsql->insert();
-                $last_id = $newsql->last_insert_id;
-                $newsql->query('UPDATE '.$REX['TABLE_PREFIX'].'article_slice SET re_article_slice_id='. $last_id .' WHERE re_article_slice_id='. $slice_id .' AND id<>'. $last_id .' AND article_id='. $article_id .' AND clang='. $clang);
-                $message .= $I18N->msg('block_added');
-                $slice_id = $last_id;
+                if($newsql->insert())
+                {
+                  $last_id = $newsql->getLastId();
+                  if($newsql->query('UPDATE '.$REX['TABLE_PREFIX'].'article_slice SET re_article_slice_id='. $last_id .' WHERE re_article_slice_id='. $slice_id .' AND id<>'. $last_id .' AND article_id='. $article_id .' AND clang='. $clang))
+                  {
+                    $message .= $I18N->msg('block_added');
+                    $slice_id = $last_id;
+                  }
+                }
               }
             }else
             {
