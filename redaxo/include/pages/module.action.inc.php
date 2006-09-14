@@ -41,90 +41,129 @@ if (isset($function) and $function == "delete")
 
 if (isset($function) and ($function == "add" or $function == "edit"))
 {
+  $previewaction = '';
+  $presaveaction = '';
+  $postsaveaction = '';
+  $previewstatus = 0;
+  $presavestatus = 0;
+  $postsavestatus = 0;
 
   if (isset($save) and $save == "ja")
   {
     $faction = new rex_sql;
-
-    $sadd = 0;
-    if (@in_array("1",$status)) $sadd = 1;
-    $sedit = 0;
-    if (@in_array("2",$status)) $sedit = 1;
-    $sdelete = 0;
-    if (@in_array("4",$status)) $sdelete = 1;
-
-    if ($function == "add")
+    
+    $name = rex_post('name','string');
+    $previewaction = rex_post('previewaction','string');
+    $presaveaction = rex_post('presaveaction','string');
+    $postsaveaction = rex_post('postsaveaction','string');
+    $previewstatus = rex_post('previewstatus','array');
+    $presavestatus = rex_post('presavestatus','array');
+    $postsavestatus = rex_post('postsavestatus','array');
+    
+    $previewmode = 0;
+    foreach($previewstatus as $status)
+      $previewmode |= $status;
+    
+    $presavemode = 0;
+    foreach($presavestatus as $status)
+      $presavemode |= $status;
+      
+    $postsavemode = 0;
+    foreach($postsavestatus as $status)
+      $postsavemode |= $status;
+    
+    $faction->setTable($REX['TABLE_PREFIX'].'action');
+    $faction->setValue('preview', $previewaction);
+    $faction->setValue('presave', $presaveaction);
+    $faction->setValue('postsave', $postsaveaction);
+    $faction->setValue('previewmode', $previewmode);
+    $faction->setValue('presavemode', $presavemode);
+    $faction->setValue('postsavemode', $postsavemode);
+    
+    if ($function == 'add')
     {
-      $faction->query("insert into ".$REX['TABLE_PREFIX']."action (name,action,prepost,sadd,sedit,sdelete) VALUES ('$mname','$actioninput','$prepost','$sadd','$sedit','$sdelete')");
-      $message = $I18N->msg("action_added");
+      $faction->setValue('createuser', $REX_USER->getValue('login'));
+      $faction->setValue('createdate', time());
+      $faction->insert();
+      
+      $message = $I18N->msg('action_added');
     }else{
-      $faction->query("update ".$REX['TABLE_PREFIX']."action set name='$mname',action='$actioninput',prepost='$prepost',sadd='$sadd',sedit='$sedit',sdelete='$sdelete' where id='$action_id'");
-      $message = $I18N->msg("action_updated");
+      $faction->setValue('updatedate', time());
+      $faction->setValue('updateuser', $REX_USER->getValue('login'));
+      $faction->where('id='. $action_id);
+      $faction->update();
+      
+      $message = $I18N->msg('action_updated');
     }
     
-    if (isset($goon) and $goon != "")
+    if (isset($goon) and $goon != '')
     {
-      $save = "nein";
+      $save = 'nein';
     } else
     {
-      $function = "";
+      $function = '';
     }
   }
 
-  if (!isset($save) or $save != "ja")
+  if (!isset($save) or $save != 'ja')
   {
     if (!isset($action_id)) $action_id = '';
     if (!isset($mname)) $mname = '';
     if (!isset($actioninput)) $actioninput = '';
     
     
-    if ($function == "edit")
+    if ($function == 'edit')
     {
-      $legend = $I18N->msg("action_edit"). ' [ID='.$action_id.']';
+      $legend = $I18N->msg('action_edit'). ' [ID='.$action_id.']';
 
       $hole = new rex_sql;
-      $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action WHERE id='$action_id'");
-      $mname = $hole->getValue("name");
-      $actioninput = $hole->getValue("action");
-      $prepost = $hole->getValue("prepost");
-      $sadd = $hole->getValue("sadd");
-      $sedit = $hole->getValue("sedit");
-      $sdelete = $hole->getValue("sdelete");
-            
+      $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
+      $name = $hole->getValue('name');
+      
+      $previewaction = $hole->getValue('preview');
+      $presaveaction = $hole->getValue('presave');
+      $postsaveaction = $hole->getValue('postsave');
+      $previewstatus = $hole->getValue('previewmode');
+      $presavestatus = $hole->getValue('presavemode');
+      $postsavestatus = $hole->getValue('postsavemode');
     }
     else
     {
       $legend = $I18N->msg("action_create");
-      
-      $prepost  = 0; // 0=pre / 1=post
-      $sadd = 0;
-      $sedit = 0;
-      $sdelete = 0;
     }
 
-    $sel_prepost = new rex_select();
-    $sel_prepost->set_name("prepost");
-    $sel_prepost->set_id("prepost");
-    $sel_prepost->add_option($PREPOST[0] .' - '.$I18N->msg("action_time_pre"),"0");
-    $sel_prepost->add_option($PREPOST[1] .' - '.$I18N->msg("action_time_post"),"1");
-    $sel_prepost->set_size(1);
-    $sel_prepost->set_selected($prepost);
-
-    $sel_status = new rex_select();
-    $sel_status->set_name("status[]");
-    $sel_status->set_id("status");
-    $sel_status->multiple(1);
-    $sel_status->add_option($ASTATUS[0] .' - '.$I18N->msg("action_event_add") ,"1");
-    $sel_status->add_option($ASTATUS[1] .' - '.$I18N->msg("action_event_edit") ,"2");
-    $sel_status->add_option($ASTATUS[2] .' - '.$I18N->msg("action_event_delete") ,"4");
-    $sel_status->set_size(3);
+    $sel_preview_status = new rex_select();
+    $sel_preview_status->multiple(1);
+    $sel_preview_status->add_option($ASTATUS[0] .' - '.$I18N->msg('action_event_add') ,1);
+    $sel_preview_status->add_option($ASTATUS[1] .' - '.$I18N->msg('action_event_edit') ,2);
+    $sel_preview_status->add_option($ASTATUS[2] .' - '.$I18N->msg('action_event_delete') ,4);
+    $sel_preview_status->set_size(3);
     
-    if ($sadd == 1) $sel_status->set_selected(1);
-    if ($sedit == 1) $sel_status->set_selected(2);
-    if ($sdelete == 1) $sel_status->set_selected(4);
+    $sel_preview_status->set_name('previewstatus[]');
+    $sel_preview_status->set_id('previewstatus');
     
+    $sel_presave_status = $sel_preview_status;
+    $sel_presave_status->set_name('presavestatus[]');
+    $sel_presave_status->set_id('presavestatus');
+    
+    $sel_postsave_status = $sel_preview_status;
+    $sel_postsave_status->set_name('postsavestatus[]');
+    $sel_postsave_status->set_id('postsavestatus');
+    
+    foreach(array(1,2,4) as $var)
+      if(($previewstatus & $var) == $var)
+        $sel_preview_status->set_selected($var);
+      
+    foreach(array(1,2,4) as $var)
+      if(($presavestatus & $var) == $var)
+        $sel_presave_status->set_selected($var);
+      
+    foreach(array(1,2,4) as $var)
+      if(($postsavestatus & $var) == $var)
+        $sel_postsave_status->set_selected($var);
+      
     $btn_update = '';
-    if ($function != "add") $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_action_and_continue").'" />';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg('save_action_and_continue').'" />';
     
     if (isset($message) and $message != '')
     {
@@ -142,23 +181,47 @@ if (isset($function) and ($function == "add" or $function == "edit"))
         <input type="hidden" name="save" value="ja" />
         <input type="hidden" name="action_id" value="'.$action_id.'" />
         <p>
-          <label for="mname">'.$I18N->msg("action_name").'</label>
-          <input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
+          <label for="name">'.$I18N->msg('action_name').'</label>
+          <input type="text" size="10" id="name" name="name" value="'.htmlspecialchars($name).'" />
+        </p>
+      </fieldset>
+      <fieldset>
+        <legend class="rex-lgnd">Preview-Action</legend>
+        <p>
+          <label for="previewaction">'.$I18N->msg('input').'</label>
+          <textarea class="rex-txtr-cd" cols="50" rows="6" name="previewaction" id="previewaction">'.htmlspecialchars($previewaction).'</textarea>
         </p>
         <p>
-          <label for="actioninput">'.$I18N->msg("input").'</label>
-          <textarea class="rex-txtr-cd" cols="50" rows="6" name="actioninput" id="actioninput">'.htmlspecialchars($actioninput).'</textarea>
+          <label for="previestatus">'.$I18N->msg('action_event').'</label>
+          '.$sel_preview_status->out().'
+          <span>'.$I18N->msg('ctrl').'</span>
+        </p>
+      </fieldset>
+      <fieldset>
+        <legend class="rex-lgnd">Presave-Action</legend>
+        <p>
+          <label for="presaveaction">'.$I18N->msg('input').'</label>
+          <textarea class="rex-txtr-cd" cols="50" rows="6" name="presaveaction" id="presaveaction">'.htmlspecialchars($presaveaction).'</textarea>
         </p>
         <p>
-          <label for="prepost">'.$I18N->msg("action_time").'</label>
-          '.$sel_prepost->out().'
+          <label for="presavestatus">'.$I18N->msg('action_event').'</label>
+          '.$sel_presave_status->out().'
+          <span>'.$I18N->msg('ctrl').'</span>
+        </p>
+      </fieldset>
+      <fieldset>
+        <legend class="rex-lgnd">Postsave-Action</legend>
+        <p>
+          <label for="postsaveaction">'.$I18N->msg('input').'</label>
+          <textarea class="rex-txtr-cd" cols="50" rows="6" name="postsaveaction" id="postsaveaction">'.htmlspecialchars($postsaveaction).'</textarea>
         </p>
         <p>
-          <label for="status">'.$I18N->msg("action_event").'<br />('.$I18N->msg("ctrl").')</label>
-          '.$sel_status->out().'
+          <label for="postsavestatus">'.$I18N->msg('action_event').'</label>
+          '.$sel_postsave_status->out().'
+          <span>'.$I18N->msg('ctrl').'</span>
         </p>
         <p>
-          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_action_and_quit").'" />
+          <input class="rex-sbmt" type="submit" value="'.$I18N->msg('save_action_and_quit').'" />
           '. $btn_update .'
         </p>
       </fieldset>
@@ -178,8 +241,8 @@ if ($OUT)
   
   // ausgabe actionsliste !
   echo '
-  <table class="rex-table" summary="'.$I18N->msg("action_summary").'">
-  	<caption class="rex-hide">'.$I18N->msg("action_caption").'</caption>
+  <table class="rex-table" summary="'.$I18N->msg('action_summary').'">
+  	<caption class="rex-hide">'.$I18N->msg('action_caption').'</caption>
     <colgroup>
       <col width="5%" />
       <col width="5%" />
@@ -190,33 +253,27 @@ if ($OUT)
     </colgroup>
     <thead>
       <tr>
-        <th><a href="index.php?page=module&amp;subpage=actions&amp;function=add"><img src="pics/modul_plus.gif" width="16" height="16" alt="'.$I18N->msg("action_create").'" title="'.$I18N->msg("action_create").'" /></a></th>
+        <th><a href="index.php?page=module&amp;subpage=actions&amp;function=add"><img src="pics/modul_plus.gif" width="16" height="16" alt="'.$I18N->msg('action_create').'" title="'.$I18N->msg('action_create').'" /></a></th>
         <th>ID</th>
-        <th>'.$I18N->msg("action_name").'</th>
-        <th>'.$I18N->msg("action_time").'</th>
-        <th>'.$I18N->msg("action_event").'</th>
-        <th>'.$I18N->msg("action_functions").'</th>
+        <th>'.$I18N->msg('action_name').'</th>
+        <th>'.$I18N->msg('action_time').'</th>
+        <th>'.$I18N->msg('action_event').'</th>
+        <th>'.$I18N->msg('action_functions').'</th>
       </tr>
     <tbody>
   ';
   
   $sql = new rex_sql;
-  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action ORDER BY name");
+  $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action ORDER BY name');
   
   for ($i=0; $i<$sql->getRows(); $i++) 
   {
-    $events = array();
-    if ($sql->getValue("sadd") == 1) $events[] = $ASTATUS[0];
-    if ($sql->getValue("sedit") == 1) $events[] = $ASTATUS[1];
-    if ($sql->getValue("sdelete") == 1) $events[] = $ASTATUS[2];
-    $events = implode(' / ', $events);
-    
     echo '  
       <tr>
         <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=edit"><img src="pics/modul.gif" width="16" height="16" alt="'. $sql->getValue("name") .'" title="'. $sql->getValue("name") .'" /></a></td>
         <td>'.$sql->getValue("id").'</td>
         <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a></td>
-        <td>'.$PREPOST[$sql->getValue("prepost")].'</td>
+        <td>'.$PREPOST[$sql->getValue('prepost')].'</td>
         <td>'. $events .'</td>
         <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('action_delete').' ?\')">'.$I18N->msg("action_delete").'</a></td>
       </tr>
