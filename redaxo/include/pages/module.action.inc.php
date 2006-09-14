@@ -6,15 +6,11 @@
  */
 
 $OUT = TRUE;
-$type['add']  = 1;
-$type['edit'] = 2;
-$type['del']  = 4;
 
 if (isset($function) and $function == "delete")
 {
   $del = new rex_sql;
   $del->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action WHERE action_id='$action_id'"); // module mit dieser aktion vorhanden ?
-  var_dump($del->getRows());
   if ($del->getRows()>0)
   {
     $module = '';
@@ -247,8 +243,9 @@ if ($OUT)
       <col width="5%" />
       <col width="5%" />
       <col width="*" />
-      <col width="17%" />
-      <col width="30%" />
+      <col width="18%" />
+      <col width="18%" />
+      <col width="18%" />
       <col width="17%" />
     </colgroup>
     <thead>
@@ -256,8 +253,9 @@ if ($OUT)
         <th><a href="index.php?page=module&amp;subpage=actions&amp;function=add"><img src="pics/modul_plus.gif" width="16" height="16" alt="'.$I18N->msg('action_create').'" title="'.$I18N->msg('action_create').'" /></a></th>
         <th>ID</th>
         <th>'.$I18N->msg('action_name').'</th>
-        <th>'.$I18N->msg('action_time').'</th>
-        <th>'.$I18N->msg('action_event').'</th>
+        <th>Preview-Event(s)</th>
+        <th>Presave-Event(s)</th>
+        <th>Postsave-Event(s)</th>
         <th>'.$I18N->msg('action_functions').'</th>
       </tr>
     <tbody>
@@ -268,13 +266,30 @@ if ($OUT)
   
   for ($i=0; $i<$sql->getRows(); $i++) 
   {
+    $previewmode = array();
+    $presavemode = array();
+    $postsavemode = array();
+    
+    foreach(array(1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
+      if(($sql->getValue('previewmode') & $var) == $var)
+        $previewmode[] = $value;
+        
+    foreach(array(1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
+      if(($sql->getValue('presavemode') & $var) == $var)
+        $presavemode[] = $value;
+        
+    foreach(array(1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
+      if(($sql->getValue('postsavemode') & $var) == $var)
+        $postsavemode[] = $value;
+        
     echo '  
       <tr>
         <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=edit"><img src="pics/modul.gif" width="16" height="16" alt="'. $sql->getValue("name") .'" title="'. $sql->getValue("name") .'" /></a></td>
         <td>'.$sql->getValue("id").'</td>
         <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a></td>
-        <td>'.$PREPOST[$sql->getValue('prepost')].'</td>
-        <td>'. $events .'</td>
+        <td>'.implode('/', $previewmode).'</td>
+        <td>'.implode('/', $presavemode).'</td>
+        <td>'.implode('/', $postsavemode).'</td>
         <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('action_delete').' ?\')">'.$I18N->msg("action_delete").'</a></td>
       </tr>
     ';
