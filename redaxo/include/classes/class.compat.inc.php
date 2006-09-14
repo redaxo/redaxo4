@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Klasse zur Verbindung und Interatkion mit der Datenbank
+ * Klassen zum erhalten der Rückwärtskompatibilität
+ * Dieser werden beim nächsten Versionssprung entfallen
  * @version $Id$ 
  */
 
@@ -12,10 +13,15 @@ class sql extends rex_sql{
     parent::rex_sql($DBID);
   }
   
-  function getArray($sql = "", $fetch_type = MYSQL_ASSOC)
+  function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
   {
     return $this->getArray($sql, $fetch_type);
   }
+
+  function getLastID()
+  {
+    return $this->getLastId();
+  } 
 }
 
 class select extends rex_select{
@@ -35,7 +41,7 @@ class article extends rex_article{
 }
 
 
-// ----------------------------------------- Redaxo 2.* functions
+// ----------------------------------------- Functions
 
 function getUrlByid($id, $clang = "", $params = "")
 {
