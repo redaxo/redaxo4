@@ -107,50 +107,48 @@ if ($article->getRows() == 1)
 
       }else
       {
-
         // ------------- MODUL IST VORHANDEN
 
         // ----- RECHTE AM MODUL ?
-        if ( !($REX_USER->hasPerm("admin[]") || 
-            $REX_USER->hasPerm("module[". $module_id ."]") || 
-            $REX_USER->hasPerm("module[0]"))
+        if ( !($REX_USER->hasPerm('admin[]') || 
+            $REX_USER->hasPerm('module['. $module_id .']') || 
+            $REX_USER->hasPerm('module[0]'))
           )
         {
           // ----- RECHTE AM MODUL: NEIN
           $message = $I18N->msg('no_rights_to_this_function');
-          $slice_id = "";
-          $function = "";
-          $module_id = "";
-          $save = "";
+          $slice_id = '';
+          $function = '';
+          $module_id = '';
+          $save = '';
 
         } else
         {
           // ----- RECHTE AM MODUL: JA
-          $message = "";
+          $message = '';
           
           
           // ***********************  daten einlesen
           $REX_ACTION = array();
+          $REX_ACTION['SAVE'] = true;
+          
           foreach($REX['VARIABLES'] as $obj)
           {
           	$REX_ACTION = $obj->getACRequestValues($REX_ACTION);
           }
 
           // ----- PRE ACTION [ADD/EDIT/DELETE]
-
-          $REX_ACTION['SAVE'] = true;
-
-          if ($function == "edit") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sedit=1"; // pre-action and edit
-          elseif($function == "delete") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sdelete=1"; // pre-action and delete
-          else $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=0 and ".$REX['TABLE_PREFIX']."action.sadd=1"; // pre-action and add
+          if ($function == 'edit') $modebit = '2'; // pre-action and edit
+          elseif($function == 'delete') $modebit = '4'; // pre-action and delete
+          else $modebit = '1'; // pre-action and add
 
           $ga = new rex_sql;
-          $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."module_action,".$REX['TABLE_PREFIX']."action where ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$module_id' $addsql");
+          $ga->setQuery('SELECT presave FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.presavemode & '. $modebit .') = '. $modebit .')');
 
           for ($i=0;$i<$ga->getRows();$i++)
           {
           	
-          	$iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
+          	$iaction = $ga->getValue('presave');
           	// *********************** werte ersetzen
           	foreach($REX['VARIABLES'] as $obj)
             {
@@ -170,34 +168,34 @@ if ($article->getRows() == 1)
           {
             // ----- DOWN SAVE/UPDATE SLICE
           
-            if ($REX_ACTION['MSG']!="") $message = $REX_ACTION['MSG'];
-            elseif ($function == "delete") $message = "Block konnte nicht gelöscht werden.";
-            else $message = "Eingaben wurde nicht übernommen.";
+            if ($REX_ACTION['MSG']!='') $message = $REX_ACTION['MSG'];
+            elseif ($function == 'delete') $message = 'Block konnte nicht gelöscht werden.';
+            else $message = 'Eingaben wurde nicht übernommen.';
           
           }else
           {
   
             // ----- SAVE/UPDATE SLICE
             
-            if ($function == "add" || $function == "edit")
+            if ($function == 'add' || $function == 'edit')
             {
               
               $newsql = new rex_sql;
               $newsql->debugsql = 0;
-              $newsql->setTable($REX['TABLE_PREFIX']."article_slice");
+              $newsql->setTable($REX['TABLE_PREFIX'].'article_slice');
     
-              if ($function == "edit")
+              if ($function == 'edit')
               {
                 // edit
-                $newsql->where("id='$slice_id'");
-              }elseif($function == "add")
+                $newsql->where('id='. $slice_id);
+              }elseif($function == 'add')
               {
                 // add
-                $newsql->setValue("re_article_slice_id",$slice_id);
-                $newsql->setValue("article_id",$article_id);
-                $newsql->setValue("modultyp_id",$module_id);
-                $newsql->setValue("clang",$clang);
-                $newsql->setValue("ctype",$ctype);
+                $newsql->setValue('re_article_slice_id',$slice_id);
+                $newsql->setValue('article_id',$article_id);
+                $newsql->setValue('modultyp_id',$module_id);
+                $newsql->setValue('clang',$clang);
+                $newsql->setValue('ctype',$ctype);
               }
              
               // ****************** SPEICHERN FALLS NOETIG
@@ -206,17 +204,17 @@ if ($article->getRows() == 1)
                 $obj->setACValues($newsql,$REX_ACTION,true);
               }
     
-              $newsql->setValue("updatedate",time());
-              $newsql->setValue("updateuser",$REX_USER->getValue("login"));
-              if ($function == "edit")
+              $newsql->setValue('updatedate',time());
+              $newsql->setValue('updateuser',$REX_USER->getValue('login'));
+              if ($function == 'edit')
               {
                 $newsql->update();
                 $message .= $I18N->msg('block_updated');
     
-              }elseif ($function == "add")
+              }elseif ($function == 'add')
               {
-                $newsql->setValue("createdate",time());
-                $newsql->setValue("createuser",$REX_USER->getValue("login"));
+                $newsql->setValue('createdate',time());
+                $newsql->setValue('createuser',$REX_USER->getValue('login'));
                 $newsql->insert();
                 $last_id = $newsql->last_insert_id;
                 $newsql->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
@@ -250,22 +248,18 @@ if ($article->getRows() == 1)
   
   
             // ----- POST ACTION [ADD AND EDIT]
-            if ($function == "edit") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sedit=1"; // post-action and edit
-            elseif ($function == "delete") $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sdelete=1"; // post-action and delete
-            else $addsql = " and ".$REX['TABLE_PREFIX']."action.prepost=1 and ".$REX['TABLE_PREFIX']."action.sadd=1"; // post-action and add
-
             $ga = new rex_sql;
-            $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."module_action,".$REX['TABLE_PREFIX']."action where ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$module_id' $addsql");
+            $ga->setQuery('SELECT postsave FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.postsavemode & '. $modebit .') = '. $modebit .')');
   
             for ($i=0;$i<$ga->getRows();$i++)
             {
              
               $iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
               // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
-	          foreach($REX['VARIABLES'] as $obj)
-	          {
-	            $iaction = $obj->getACOutput($REX_ACTION,$iaction);
-	          }
+  	          foreach($REX['VARIABLES'] as $obj)
+  	          {
+  	            $iaction = $obj->getACOutput($REX_ACTION,$iaction);
+  	          }
              
               eval("?>".$iaction);
               if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "") $message .= " | ".$REX_ACTION['MSG'];
@@ -276,12 +270,13 @@ if ($article->getRows() == 1)
             
             // Update Button wurde gedrückt?
             $btn_update = rex_post('btn_update');
-            if ($btn_update != ''){
+            if ($btn_update == '')
+            {
               $slice_id = "";
               $function = "";
             }
+            
             $save = "";
-
           }
         }
       }
@@ -572,13 +567,17 @@ if ($article->getRows() == 1)
     </div>
     ';
     
-    // ------------------------------------------ WARNING       
-    if (isset($message) and $message != "")
+    // ------------------------------------------ WARNING
+    if(!isset($message))
+      $message = '';
+    
+    if ($mode != 'edit' && $message != '')
     {
        echo '<p class="rex-warning">'. $message .'</p>';
     }
     if (isset($_REQUEST["msg"]) and $_REQUEST["msg"] != "")
     {
+      var_dump("<h2>gibts ja gar nicht</h2>");
        echo '<p class="rex-warning">'. $_REQUEST["msg"] .'</p>';
     }
     
@@ -598,6 +597,7 @@ if ($article->getRows() == 1)
       ';
       
       $CONT = new rex_article;
+      $CONT->message = $message;
       $CONT->setArticleId($article_id);
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
