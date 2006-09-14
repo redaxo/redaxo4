@@ -16,6 +16,7 @@ class rex_article
   var $function;
   var $eval;
   var $category_id;
+  var $message;
   var $CONT;
   var $template_id;
   var $ViewSliceId;
@@ -242,7 +243,6 @@ class rex_article
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
-
           // ----- ctype unterscheidung
           if ($this->mode != "edit" && $i == 0) 
             $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>"; 
@@ -315,6 +315,7 @@ class rex_article
                 $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID]);
               }else
               {
+                // TODO PreViewAction
                 $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-cnt-slc-otp">';
@@ -517,7 +518,14 @@ class rex_article
   {
     global $REX, $REX_ACTION, $FORM, $I18N;
     
+    $msg = '';
+    if($this->message != '')
+    {
+      $msg = '<p class="rex-warning">'. $this->message .'</p>';
+    }
+    
     $slice_content = '
+      '. $msg .'
       <a name="editslice"></a>
       <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
         <fieldset>
