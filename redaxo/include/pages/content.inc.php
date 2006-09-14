@@ -138,6 +138,7 @@ if ($article->getRows() == 1)
           }
 
           // ----- PRE ACTION [ADD/EDIT/DELETE]
+          
           if ($function == 'edit') $modebit = '2'; // pre-action and edit
           elseif($function == 'delete') $modebit = '4'; // pre-action and delete
           else $modebit = '1'; // pre-action and add
@@ -147,26 +148,29 @@ if ($article->getRows() == 1)
 
           for ($i=0;$i<$ga->getRows();$i++)
           {
-          	
+            $REX_ACTION['MSG'] = '';
           	$iaction = $ga->getValue('presave');
+            
           	// *********************** werte ersetzen
           	foreach($REX['VARIABLES'] as $obj)
             {
               $iaction = $obj->getACOutput($REX_ACTION,$iaction);
             }
+            
             eval("?>".$iaction);
-            if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "" ) $message .= $REX_ACTION['MSG']." | ";
+            if ($REX_ACTION['MSG'] != "" ) $message .= $REX_ACTION['MSG']." | ";
             $ga->next();
           }
 
           // ----- / PRE ACTION
           
-          // Statusspeicherung für die Article Klasse. 
-          // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=false
-          $REX["ACTION"] = $REX_ACTION;
+          // Statusspeicherung für die rex_article Klasse
+          $REX['ACTION'] = $REX_ACTION;
+          
+          // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
           if (!$REX_ACTION['SAVE'])
           {
-            // ----- DOWN SAVE/UPDATE SLICE
+            // ----- DONT SAVE/UPDATE SLICE
           
             if ($REX_ACTION['MSG']!='') $message = $REX_ACTION['MSG'];
             elseif ($function == 'delete') $message = 'Block konnte nicht gelöscht werden.';
@@ -217,21 +221,21 @@ if ($article->getRows() == 1)
                 $newsql->setValue('createuser',$REX_USER->getValue('login'));
                 $newsql->insert();
                 $last_id = $newsql->last_insert_id;
-                $newsql->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='$last_id' where re_article_slice_id='$slice_id' and id<>'$last_id' and article_id='$article_id' and clang=$clang");
+                $newsql->query('UPDATE '.$REX['TABLE_PREFIX'].'article_slice SET re_article_slice_id='. $last_id .' WHERE re_article_slice_id='. $slice_id .' AND id<>'. $last_id .' AND article_id='. $article_id .' AND clang='. $clang);
                 $message .= $I18N->msg('block_added');
                 $slice_id = $last_id;
               }
             }else
             {
               // make delete
-              $re_id  = $CM->getValue($REX['TABLE_PREFIX']."article_slice.re_article_slice_id");
+              $re_id  = $CM->getValue($REX['TABLE_PREFIX'].'article_slice.re_article_slice_id');
               $newsql = new rex_sql;
-              $newsql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$slice_id'");
+              $newsql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article_slice WHERE re_article_slice_id='. $slice_id);
               if ($newsql->getRows()>0)
               {
-                $newsql->query("update ".$REX['TABLE_PREFIX']."article_slice set re_article_slice_id='$re_id' where id='".$newsql->getValue("id")."'");
+                $newsql->query('UPDATE '.$REX['TABLE_PREFIX'].'article_slice SET re_article_slice_id='. $re_id .' where id='. $newsql->getValue('id'));
               }
-              $newsql->query("delete from ".$REX['TABLE_PREFIX']."article_slice where id='$slice_id'");
+              $newsql->query('DELETE FROM '.$REX['TABLE_PREFIX'].'article_slice WHERE id='. $slice_id);
               $message = $I18N->msg('block_deleted');
             } 
             // ----- / SAVE SLICE
@@ -247,36 +251,38 @@ if ($article->getRows() == 1)
             rex_generateArticle($article_id);
   
   
-            // ----- POST ACTION [ADD AND EDIT]
+            // ----- POST ACTION [ADD/EDIT/DELETE]
+            
             $ga = new rex_sql;
             $ga->setQuery('SELECT postsave FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.postsavemode & '. $modebit .') = '. $modebit .')');
   
             for ($i=0;$i<$ga->getRows();$i++)
             {
-             
-              $iaction = $ga->getValue($REX['TABLE_PREFIX']."action.action");
+              $REX_ACTION['MSG'] = '';
+              $iaction = $ga->getValue('postsave');
+              
               // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
   	          foreach($REX['VARIABLES'] as $obj)
   	          {
   	            $iaction = $obj->getACOutput($REX_ACTION,$iaction);
   	          }
              
-              eval("?>".$iaction);
-              if (isset($REX_ACTION['MSG']) and $REX_ACTION['MSG'] != "") $message .= " | ".$REX_ACTION['MSG'];
-              $REX_ACTION['MSG'] = "";
+              eval('?>'.$iaction);
+              if ($REX_ACTION['MSG'] != '') $message .= ' | '.$REX_ACTION['MSG'];
               $ga->next();
             }
+            
             // ----- / POST ACTION
             
             // Update Button wurde gedrückt?
             $btn_update = rex_post('btn_update');
             if ($btn_update == '')
             {
-              $slice_id = "";
-              $function = "";
+              $slice_id = '';
+              $function = '';
             }
             
-            $save = "";
+            $save = '';
           }
         }
       }
