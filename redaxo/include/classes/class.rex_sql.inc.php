@@ -112,6 +112,8 @@ class rex_sql
     {
       $this->printError($qry);
     }
+    
+    return $this->getError() === '';
   }
 
   /**
@@ -155,7 +157,7 @@ class rex_sql
    */
   function where($where)
   {
-    $this->wherevar = "where $where";
+    $this->wherevar = "WHERE $where";
   }
 
   /**
@@ -219,6 +221,11 @@ class rex_sql
         {
           $qry .= ',';
         }
+        
+        // Bei <tabelle>.<feld> Notation '.' ersetzen, da sonst `<tabelle>.<feld>` entsteht 
+        if(strpos($fld_name, '.') !== false)
+          $fld_name = str_replace('.', '`.`', $fld_name);
+          
         $qry .= '`' . $fld_name . '`=\'' . $value . '\'';
       }
     }
@@ -237,6 +244,7 @@ class rex_sql
   function update()
   {
     $this->setQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
+    return $this->getError() === '';
   }
 
   /**
@@ -249,6 +257,7 @@ class rex_sql
   function insert()
   {
     $this->setQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
+    return $this->getError() === '';
   }
 
   /**
@@ -261,6 +270,7 @@ class rex_sql
   function replace()
   {
     $this->setQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
+    return $this->getError() === '';
   }
 
   /**
@@ -273,6 +283,7 @@ class rex_sql
   function delete()
   {
     $this->setQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar);
+    return $this->getError() === '';
   }
 
   /**
@@ -280,14 +291,14 @@ class rex_sql
    */
   function flush()
   {
-    $this->table = "";
-    $this->error = "";
-    $this->errno = "";
-    $this->wherevar = "";
-    $this->select = "";
+    $this->table = '';
+    $this->error = '';
+    $this->errno = '';
+    $this->wherevar = '';
+    $this->select = '';
     $this->counter = 0;
     $this->rows = 0;
-    $this->result = "";
+    $this->result = '';
     $this->values = array ();
   }
 
@@ -298,6 +309,7 @@ class rex_sql
   function query($qry)
   {
     $this->setQuery($qry);
+    return $this->getError() === '';
   }
 
   /**
@@ -311,7 +323,7 @@ class rex_sql
   /**
    * Gibt die letzte InsertId zurück
    */
-  function getLastID()
+  function getLastId()
   {
     return $this->last_insert_id;
   }
