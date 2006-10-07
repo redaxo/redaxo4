@@ -693,7 +693,7 @@ class rex_article
     {
       if(empty($match)) continue;
       
-      $url = rex_getURL($match[1]);
+      $url = rex_getURL($match[1], $REX['CUR_CLANG']);
       $content = str_replace($match[0],$url,$content);
     }
 
