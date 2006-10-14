@@ -414,7 +414,7 @@ database_imported = Datenbank wurde importiert.
 entry_count = {0} Einträge
 
 # redaxo\include\pages\addon.inc.php
-addon = AddOn
+addon = AddOns
 addon_help = Hilfe für
 addon_no_help_file = Keine Hilfedatei gefunden
 addon_back = zurück
