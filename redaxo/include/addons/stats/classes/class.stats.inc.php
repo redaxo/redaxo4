@@ -275,12 +275,12 @@ class stats
 
       // hier wieder einmal IE und moz diffs augleichen
 
-        if (preg_match("/(.*?) \((.*)\) (.*)/", $v, $res = array ()))
+        if (preg_match("/(.*?) \((.*)\) (.*)/", $v, $res))
         $jo = TRUE;
       else
         preg_match("/(.*?) \((.*)\)/", $v, $res);
 
-        if (preg_match("/(.*);(.*);(.*);(.*);(.*)/", $res[2], $os = array ()))
+        if (preg_match("/(.*);(.*);(.*);(.*);(.*)/", $res[2], $os))
         $jo = TRUE;
       else
         preg_match("/(.*);(.*);(.*)/", $res[2], $os);
@@ -359,7 +359,7 @@ class stats
       {
         if ($var != "")
         {
-          preg_match("/^(http?:\/\/)?([^\/]+)/i", $var, $treffer = array ());
+          preg_match("/^(http?:\/\/)?([^\/]+)/i", $var, $treffer);
           $host = $treffer[2];
           // die letzten beiden Segmente aus Hostnamen holen
           // preg_match("/[^\.\/]+\.[^\.\/]+$/", $host, $treffer);
@@ -474,7 +474,7 @@ class stats
             if (preg_match("/".$ser[$i]."/", ($o)))
             {
               $this->SEARCH['engine'][base64_encode($ser[$i])] += $p;
-                if (preg_match($pat[$i], ($o), $res = array ()))
+                if (preg_match($pat[$i], ($o), $res))
                 $this->SEARCH['words'][base64_encode($res[1])] += $p;
             }
           }
@@ -677,7 +677,7 @@ class stats
         while (!feof($h))
         {
           $buffer = fgets($h, 1024); // careck 07.06.04 to make it work with php4.1 !
-          preg_match("/(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\n/", $buffer, $res = array ());
+          preg_match("/(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\n/", $buffer, $res);
           // $res[1] == stamp // $res[2] == ip // $res[3] == hostname // $res[4] == useragent // $res[5] == referer
           $this->computeLine($res, $article_id);
 
