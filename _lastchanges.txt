@@ -21,22 +21,14 @@ Todos:
     * Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
     * Fehler bei URLs mit $ z.b. $_POST .. Referer ..
   * Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
-  * Tiny MCE bereinigen und unnötiges raus.
   * Warnings/Notices entfernen
   
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
 ---------------------------------------------------------------------------------
 
-  * Caching als Addon auslagern
+  * (Caching als Addon auslagern) -> erste Beta bereit!
   * Historie mit Rollback
-  * Objektorientierterer Umbau. REX_.. werden Objekte und sind dann erweiterbar
-  * Komplette Platzhalter für Artikel. 
-    * REX_ARTICLE[2]
-    * REX_TEMPLATE[5]
-    * REX_ARTICLE_VARS['description'],REX_ARTICLE_VARS['id'],REX_ARTICLE_VARS['cat_id']
-    * REX_LINK_INTERN[ARTICLEID] und redaxo://[ARTICLEID] auch mit CLANG ermöglichen
-    * REX_MEDIA_BUTTON[1,10] -> REX_FILE[1] -> Kategorie [10]
   * Backend Redesign auf 100% Scaling
   * Backend auf CSS Layout umstellen
   * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
@@ -45,11 +37,11 @@ Planung / Irgendwann:
 Diskussionsanregungen:
 ---------------------------------------------------------------------------------
   * Textile und Phpmailer ebenfalls nach Vorbild TinyMCE als Addon, da nicht zum Redaxo-Kern zugehörig
-    * Nachteil: 
-	  - Installation von "unnötigen" Addons -> unübersichtlich
-	* Vorteil:
-	  - konsequentes Auslagern und Sauberhalten des Redaxo-Kerns
-	  - Textile-Addon: detailierte Anleitung möglich
+    - Nachteil: 
+      + Installation von "unnötigen" Addons -> unübersichtlich
+    - Vorteil:
+      + konsequentes Auslagern und Sauberhalten des Redaxo-Kerns
+      + Textile-Addon: detailierte Anleitung möglich
   
 ---------------------------------------------------------------------------------
 Known Bugs:
@@ -58,10 +50,10 @@ Known Bugs:
   * Umbau des Statistiktools. Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
   * Import/Export klappt nicht auf jedem. Verschiedene System austesten und Liste der Fehler hier auflisten.
   * Mac/Safari
-    * Medienpool "+" Problem
-    * EditierModul "hoch runter" verrutscht
+  * Medienpool "+" Problem
+  * EditierModul "hoch runter" verrutscht
   * OOKlassen rückgabewerte wenn leer falsch
-    http://forum.redaxo.de/viewtopic.php?t=720
+      http://forum.redaxo.de/viewtopic.php?t=720
 
 
 ---------------------------------------------------------------------------------
@@ -73,49 +65,52 @@ Changes:
     - sql::get_array -> sql::getArray() [kills]
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [kills,jan]
     - Umbenennung - function_rex_modrewrite.inc.php -> function_rex_url.inc.php [kills,jan]
-	* neue Compatibilitäts Bibliothek [kills,jan]
+   * neue Compatibilitäts Bibliothek [kills,jan]
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden !
-		  Klassen:
-		  - login -> rex_login()
-		  - sql::get_array -> sql::getArray()
-		  - sql -> rex_sql()
-		  - article -> rex_article()
-		  Funktionen:
-		  - title -> rex_title()
-		  - getUrlById -> rex_getUrl()
+        Klassen:
+        + login -> rex_login()
+        + sql::get_array -> sql::getArray()
+        + sql -> rex_sql()
+        + article -> rex_article()
+        Funktionen:
+        + title -> rex_title()
+        + getUrlById -> rex_getUrl()
   * Rückwärtskompatibilität eingeschränkt durch:
     - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert [kills]  
     - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt [kills]  
   * UrlRewrite:
     - Backendlink bei rex_getUrl() eingebaut. Wird dann auf EditView verlinkt [kills,jan]
   * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [jan]
-  * REX_Actions wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kills,jan]
+  * REX_ACTIONS wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kills,jan]
   * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php 
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
-	  - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
+    - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
     - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
   * Struktur:
     - Beim angelegen haben Artikel das gleiche Template wie die Kategorie in der sie sich befinden [kills]
   * Metadaten:
     - Online von/Online bis entfernt, gibts für r33 als Addon [kills]
   * rexExtensionPoint API:
-		- rex_call_func mit allgemeineren Fehlermeldungen [kills]
-		- in rex_register_extension können jetzt auch optional Parameter übergeben werden [kills]
+    - rex_call_func mit allgemeineren Fehlermeldungen [kills]
+    - in rex_register_extension können jetzt auch optional Parameter übergeben werden [kills]
   * rexExtensionPoint erstellt:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
     - neue rexVars:
-	    + REX_MODULE_ID [jan,kills]
-	    + REX_SLICE_ID [jan,kills]
-	    + REX_CTYPE_ID [jan,kills]
-	    + REX_TEMPLATE_ID [jan,kills]
-	    + REX_USER_ID [kills]
+       + REX_MODULE_ID [jan,kills]
+       + REX_SLICE_ID [jan,kills]
+       + REX_CTYPE_ID [jan,kills]
+       + REX_TEMPLATE_ID [jan,kills]
+       + REX_USER_ID [kills]
+       + REX_TEMPLATE[x] [kills]
+       + REX_ARTICLE[x] [kills]
+       + REX_ARTICLE_VARS[x] [kills]
     - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0 [kills]
     - Neue Variablen Sytax jetzt möglich (alte funktioniert weiter), z.b: [kills]
-	    + REX_VALUE[id=3]
-  	  + REX_MEDIA_BUTTON[id=4 category=3]
+      + REX_VALUE[id=3]
+       + REX_MEDIA_BUTTON[id=4 category=3]
   * Sql-Klasse:
     - add_sql_options implementiert [kills]
     - link identifier eingebaut um auch mehrere DB-Verbindungen handeln zu können [kills]
@@ -123,11 +118,11 @@ Changes:
     - Wenn $sql->debugsql = 2 steht, wird nur dann eine Debugmeldung ausgeben, wenn ein Fehler aufgetreten ist [kills]
     - Alle Funktionen verwenden jetzt intern die setQuery() funktion [kills]
     - getRows() liefert jetzt auch bei INSERTs/UPDATEs die betroffenen Zeilenzahl [kills]
-  	- getServerVersion() implementiert [kills]
-  	- insert(),update() => Spaltennamen werden nun von ` Umschlossen, damit dort auch Sonderzeichen vorkommen dürfen [kills]
+    - getServerVersion() implementiert [kills]
+    - insert(),update() => Spaltennamen werden nun von ` Umschlossen, damit dort auch Sonderzeichen vorkommen dürfen [kills]
   * Medienpool:
-  	- Synchronisation zwischen DB und /files implementiert [kills]
-  	- Synchronisation jetzt auch auf Selection möglich [kills]
+    - Synchronisation zwischen DB und /files implementiert [kills]
+    - Synchronisation jetzt auch auf Selection möglich [kills]
   * Sprachen:
     - Übersetzungen aktualisiert [jurand,jan]
   * $REX['TEMP_PREFIX'] implementiert (Für Dateien und Tabellen) [kills]
@@ -147,12 +142,14 @@ Changes:
   * Internes Handling:
     - Default Systemvariablen werden alle in der master.inc.php gesetzt [kills]
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
-		- generateTemplate() implementiert [kills]
-		- ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
+    - generateTemplate() implementiert [kills]
+    - ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
   * Bugfixes:
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
-		- Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
-		- Startartikel wurden immer online angezeigt
+    - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
+    - Startartikel wurden immer online angezeigt
+  * Neue Klassen:
+    - rex_template [kills]
 
 Version 3.2 (2006-04-06)
 
