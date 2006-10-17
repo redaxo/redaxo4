@@ -1,8 +1,10 @@
 <?php
 
-
 /**
- * REX_LINK_BUTTON, REX_LINKLIST_BUTTON, REX_LINKLIST
+ * REX_LINK_BUTTON,
+ * REX_LINKLIST_BUTTON,
+ * REX_LINKLIST
+ * 
  * @package redaxo3
  * @version $Id$
  */

@@ -2,7 +2,13 @@
 
 
 /**
- * REX_VALUE[1], REX_HTML_VALUE[1], REX_PHP, REX_PHP_VALUE[1], REX_HTML, REX_IS_VALUE
+ * REX_VALUE[1],
+ * REX_HTML_VALUE[1],
+ * REX_PHP_VALUE[1],
+ * REX_PHP,
+ * REX_HTML,
+ * REX_IS_VALUE
+ * 
  * @package redaxo3
  * @version $Id$
  */

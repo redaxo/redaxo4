@@ -1,14 +1,15 @@
 <?php
 
 /**
- * Artikel Objekt. Zuständig für die Ausgabe eines Artikel mit/ohne Template
+ * Artikel Objekt.
+ * Zuständig für die Verarbeitung eines Artikel
+ * 
  * @package redaxo3
  * @version $Id$
  */
 
 class rex_article
 {
-
   var $slice_id;
   var $article_id;
   var $mode;
@@ -602,11 +603,11 @@ class rex_article
   // ----- REX_VAR Ersetzungen
   function replaceObjectVars(&$sql,$content)
   {
-  	global $REX;
+    global $REX;
     
     $tmp = '';
-  	foreach($REX['VARIABLES'] as $var)
-  	{
+  	 foreach($REX['VARIABLES'] as $var)
+  	 {
   		if ($this->mode == 'edit')
   		{
   		  if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '0') ||
@@ -699,7 +700,6 @@ class rex_article
 
     return $content;
   }
-
 }
 
 ?>

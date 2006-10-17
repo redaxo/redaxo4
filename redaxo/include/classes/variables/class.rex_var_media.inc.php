@@ -1,8 +1,14 @@
 <?php
 
-
 /**
- * REX_FILE[1], REX_MEDIA[1], REX_FILELIST[1], REX_MEDIALIST[1], REX_FILE_BUTTON[1], REX_MEDIA_BUTTON[1], REX_FILELIST_BUTTON[1], REX_MEDIALIST_BUTTON[1],
+ * REX_FILE[1], 
+ * REX_FILELIST[1],
+ * REX_FILE_BUTTON[1],
+ * REX_FILELIST_BUTTON[1],
+ * REX_MEDIA[1],
+ * REX_MEDIALIST[1],
+ * REX_MEDIA_BUTTON[1],
+ * REX_MEDIALIST_BUTTON[1]
  * 
  * Alle Variablen die mit REX_FILE beginnnen sind als deprecated anzusehen!
  * @package redaxo3
@@ -272,7 +278,7 @@ class rex_var_media extends rex_var
       ' . $options . '
     </select>
     <a href="javascript:moveREXMedialist(' . $id . ',\'top\');"><img src="pics/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
-	  <a href="javascript:moveREXMedialist(' . $id . ',\'up\');"><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
+    <a href="javascript:moveREXMedialist(' . $id . ',\'up\');"><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
     <a href="javascript:moveREXMedialist(' . $id . ',\'down\');"><img src="pics/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
     <a href="javascript:moveREXMedialist(' . $id . ',\'bottom\');"><img src="pics/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
     <a href="javascript:openREXMedialist(' . $id . ');"><img src="pics/file_add.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
