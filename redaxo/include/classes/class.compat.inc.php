@@ -6,6 +6,7 @@
  * @version $Id$ 
  */
 
+// rex_sql -> sql alias
 class sql extends rex_sql{
 
   function sql($DBID = 1)
@@ -24,6 +25,7 @@ class sql extends rex_sql{
   } 
 }
 
+// rex_select -> select alias
 class select extends rex_select{
 
   function select()
@@ -32,6 +34,7 @@ class select extends rex_select{
   }
 }
 
+// rex_article -> article alias
 class article extends rex_article{
 
   function article($article_id = null, $clang = null)
@@ -43,16 +46,16 @@ class article extends rex_article{
 
 // ----------------------------------------- Functions
 
+// rex_getUrl -> getUrlById alias
 function getUrlByid($id, $clang = "", $params = "")
 {
   return rex_getUrl($id, $clang, $params);
 }
 
+// rex_title -> title alias
 function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
   return rex_title($head, $subtitle, $styleclass, $width);
 }
-
-
 
 ?>
