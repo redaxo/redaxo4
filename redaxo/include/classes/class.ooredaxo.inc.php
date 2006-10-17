@@ -8,17 +8,12 @@
 
 class OORedaxo
 {
-
-  /*
-   *  class vars
-   */
-  var $clang = "";
-
   /*
    * this vars get read out
    */
   var $_id = "";
   var $_re_id = "";
+  var $_clang = "";
   var $_name = "";
   var $_catname = "";
   var $_cattype = "";
@@ -38,7 +33,6 @@ class OORedaxo
   var $_updatedate = "";
   var $_keywords = "";
   var $_template_id = "";
-  var $_clang = "";
   var $_createuser = "";
   var $_updateuser = "";
 
@@ -47,33 +41,24 @@ class OORedaxo
    */
   function OORedaxo($params = false, $clang = false)
   {
-      //		var_dump($params);
-  if ($params !== false)
+    if ($params !== false)
     {
       foreach (OORedaxo :: getClassVars() as $var)
       {
         $class_var = '_'.$var;
-        $this-> $class_var = $params[$var];
+        $this->$class_var = $params[$var];
       }
     }
 
-    if ($clang === false && isset ($params['clang']))
-    {
-      $clang = $params['clang'];
-    }
     if ($clang !== false)
     {
-      $this->clang = $clang;
+      $this->setClang($clang);
     }
   }
 
-  /*
-   * Nothing but a bugfix ;)
-   *
-   */
   function setClang($clang)
   {
-    $this->clang = $clang;
+    $this->_clang = $clang;
   }
 
   /*
@@ -82,13 +67,11 @@ class OORedaxo
    */
   function getValue($value)
   {
-
     if (substr($value, 0, 1) != '_')
     {
       $value = "_".$value;
     }
-    return $this-> $value;
-
+    return $this->$value;
   }
 
   /*
@@ -105,8 +88,7 @@ class OORedaxo
 
       foreach ($class_vars as $name => $value)
       {
-        // 1. Zeichen == '_'
-        if ($name{0} == '_')
+        if (substr($name, 0, 1) == '_')
         {
           $vars[] = substr($name, 1);
         }
