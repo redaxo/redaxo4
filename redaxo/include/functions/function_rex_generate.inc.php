@@ -86,7 +86,7 @@ function rex_generateAll()
  */
 function rex_generateArticle($id, $refreshall = true)
 {
-  global $PHP_SELF, $module_id, $FORM, $REX_USER, $REX, $I18N;
+  global $REX, $I18N;
 
   // artikel generieren
   // vorraussetzung: articel steht schon in der datenbank
@@ -117,6 +117,7 @@ function rex_generateArticle($id, $refreshall = true)
 "<?php
 \$REX['ART']['$id']['article_id']['$clang'] = '". $id ."';
 \$REX['ART']['$id']['re_id']['$clang'] = '". rex_addslashes($CONT->getValue("re_id")) ."';
+\$REX['ART']['$id']['clang']['$clang'] = '". rex_addslashes($CONT->getValue("clang")) ."';
 \$REX['ART']['$id']['name']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
 \$REX['ART']['$id']['catname']['$clang'] = '". rex_addslashes($CONT->getValue("catname")) ."';
 \$REX['ART']['$id']['cattype']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
