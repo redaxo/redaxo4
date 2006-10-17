@@ -24,24 +24,17 @@ class OOArticle extends OORedaxo
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
     elseif(!isset($REX['CLANG'][$clang])) $clang = 0;
+    
     $article_path = $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$clang.".article";
     if (file_exists($article_path))
-    {
       include ($article_path);
-    }
     else
-    {
       return null;
-    }
-    if ($OOCategory)
-    {
-      return new OOCategory(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
-    }
-    else
-    {
-      return new OOArticle(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
-    }
 
+    if ($OOCategory)
+      return new OOCategory(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+    else
+      return new OOArticle(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
   }
 
   /**
@@ -225,6 +218,17 @@ class OOArticle extends OORedaxo
     if ($this->_teaser == 1) return true;
     else return false;
   }
-
+  
+  function getValue($value)
+  {
+    // alias für re_id -> category_id
+    if(in_array($value, array('re_id', '_re_id', 'category_id', '_category_id')))
+    {
+      // für die CatId hier den Getter verwenden, 
+      // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
+      return $this->getCategoryId();
+    }
+    return parent::getValue($value);
+  }
 }
 ?>
