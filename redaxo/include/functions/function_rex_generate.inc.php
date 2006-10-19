@@ -112,39 +112,53 @@ function rex_generateArticle($id, $refreshall = true)
     $CONT->setArticleId($id);
 
     // --------------------------------------------------- Artikelparameter speichern
+    // TODO EP und Array handling
+    $params = array(
+      'article_id' => $id,
+      'last_update_stamp' => time()
+    );
     
-    $article = 
-"<?php
-\$REX['ART']['$id']['article_id']['$clang'] = '". $id ."';
-\$REX['ART']['$id']['re_id']['$clang'] = '". rex_addslashes($CONT->getValue("re_id")) ."';
-\$REX['ART']['$id']['clang']['$clang'] = '". rex_addslashes($CONT->getValue("clang")) ."';
-\$REX['ART']['$id']['name']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
-\$REX['ART']['$id']['catname']['$clang'] = '". rex_addslashes($CONT->getValue("catname")) ."';
-\$REX['ART']['$id']['cattype']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
-\$REX['ART']['$id']['alias']['$clang'] = '". rex_addslashes($CONT->getValue("name")) ."';
-\$REX['ART']['$id']['description']['$clang'] = '". rex_addslashes($CONT->getValue("description")) ."';
-\$REX['ART']['$id']['attributes']['$clang'] = '". rex_addslashes($CONT->getValue("attributes")) ."';
-\$REX['ART']['$id']['label']['$clang'] = '". rex_addslashes($CONT->getValue("label")) ."';
-\$REX['ART']['$id']['url']['$clang'] = '". rex_addslashes($CONT->getValue("url")) ."';
-\$REX['ART']['$id']['file']['$clang'] = '". rex_addslashes($CONT->getValue("file")) ."';
-\$REX['ART']['$id']['type_id']['$clang'] = '". rex_addslashes($CONT->getValue("type_id")) ."';
-\$REX['ART']['$id']['teaser']['$clang'] = '". rex_addslashes($CONT->getValue("teaser")) ."';
-\$REX['ART']['$id']['startpage']['$clang'] = '". rex_addslashes($CONT->getValue("startpage")) ."';
-\$REX['ART']['$id']['prior']['$clang'] = '". rex_addslashes($CONT->getValue("prior")) ."';
-\$REX['ART']['$id']['path']['$clang'] = '". rex_addslashes($CONT->getValue("path")) ."';
-\$REX['ART']['$id']['status']['$clang'] = '". rex_addslashes($CONT->getValue("status")) ."';
-\$REX['ART']['$id']['createdate']['$clang'] = '". rex_addslashes($CONT->getValue("createdate")) ."';
-\$REX['ART']['$id']['updatedate']['$clang'] = '". rex_addslashes($CONT->getValue("updatedate")) ."';
-\$REX['ART']['$id']['keywords']['$clang'] = '". rex_addslashes($CONT->getValue("keywords")) ."';
-\$REX['ART']['$id']['template_id']['$clang'] = '". rex_addslashes($CONT->getValue("template_id")) ."';
-\$REX['ART']['$id']['createuser']['$clang'] = '". rex_addslashes($CONT->getValue("createuser")) ."';
-\$REX['ART']['$id']['updateuser']['$clang'] = '". rex_addslashes($CONT->getValue("updateuser")) ."';
-\$REX['ART']['$id']['last_update_stamp']['$clang'] = '". time() ."';
-?>";
+    $db_fields = array(
+      're_id',
+      'clang',
+      'name',
+      'catname',
+      'label',
+      'startpage',
+      'template_id',
+      'prior',
+      'path',
+      'url',
+      'file',
+      'type_id',
+      'teaser',
+      'keywords',
+      'description',
+      'attributes',
+      'updatedate',
+      'createdate',
+      'updateuser',
+      'createuser',
+      'status',
+    );
+    
+    foreach($db_fields as $field)
+    {
+      $params[$field] = $CONT->getValue($field);
+    }
+    
+    $params = rex_register_extension_point('GENERATE_ARTICLE_META', $params);
+    
+    $content = '<?php'."\n";
+    
+    foreach($params as $name => $value)
+      $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value) .'\';'."\n";
+    
+    $content .= '?>';
                 
     if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
     {
-      fputs($fp, $article);
+      fputs($fp, $content);
       fclose($fp);
       @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", 0777);
     }
