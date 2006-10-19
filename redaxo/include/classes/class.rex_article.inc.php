@@ -62,7 +62,7 @@ class rex_article
   function setCLang($value)
   {
     global $REX;
-    if ($REX['CLANG'][$value] == "") $value = 0;
+    if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = 0;
     $this->clang = $value;
   }
 
