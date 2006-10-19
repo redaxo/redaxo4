@@ -112,7 +112,6 @@ function rex_generateArticle($id, $refreshall = true)
     $CONT->setArticleId($id);
 
     // --------------------------------------------------- Artikelparameter speichern
-    // TODO EP und Array handling
     $params = array(
       'article_id' => $id,
       'last_update_stamp' => time()
@@ -143,10 +142,9 @@ function rex_generateArticle($id, $refreshall = true)
     );
     
     foreach($db_fields as $field)
-    {
       $params[$field] = $CONT->getValue($field);
-    }
-    
+
+    // ----- Extension Point    
     $params = rex_register_extension_point('GENERATE_ART_META', $params);
     
     $content = '<?php'."\n";
