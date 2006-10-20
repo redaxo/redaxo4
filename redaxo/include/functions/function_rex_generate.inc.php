@@ -145,7 +145,7 @@ function rex_generateArticle($id, $refreshall = true)
       $params[$field] = $CONT->getValue($field);
 
     // ----- Extension Point    
-    $params = rex_register_extension_point('GENERATE_ART_META', $params);
+    $params = rex_register_extension_point('ART_META_PARAMS', $params);
     
     $content = '<?php'."\n";
     

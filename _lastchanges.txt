@@ -97,7 +97,7 @@ Changes:
   * rexExtensionPoint erstellt:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
-    - GENERATE_ART_META [kills]
+    - ART_META_PARAMS [kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
     - neue rexVars:
        + REX_MODULE_ID [jan,kills]

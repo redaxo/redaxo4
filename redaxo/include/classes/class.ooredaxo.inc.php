@@ -16,25 +16,23 @@ class OORedaxo
   var $_clang = "";
   var $_name = "";
   var $_catname = "";
-  var $_cattype = "";
-  var $_alias = "";
-  var $_description = "";
-  var $_attributes = "";
+  var $_template_id = "";
+  var $_path = "";
+  var $_prior = "";
+  var $_startpage = "";
+  var $_status = "";
   var $_label = "";
   var $_url = "";
   var $_file = "";
   var $_type_id = "";
   var $_teaser = "";
-  var $_startpage = "";
-  var $_prior = "";
-  var $_path = "";
-  var $_status = "";
-  var $_createdate = "";
-  var $_updatedate = "";
   var $_keywords = "";
-  var $_template_id = "";
-  var $_createuser = "";
+  var $_description = "";
+  var $_attributes = "";
+  var $_updatedate = "";
+  var $_createdate = "";
   var $_updateuser = "";
+  var $_createuser = "";
 
   /*
    * Constructor
@@ -93,6 +91,12 @@ class OORedaxo
           $vars[] = substr($name, 1);
         }
       }
+      
+      // ----- Extension Point    
+      $params = rex_register_extension_point('ART_META_PARAMS', array());
+      
+      foreach($params as $name => $value)
+        $vars[] = $name;
     }
 
     return $vars;
