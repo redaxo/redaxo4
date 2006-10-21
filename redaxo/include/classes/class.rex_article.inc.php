@@ -333,7 +333,7 @@ class rex_article
                 $ga = new rex_sql;
                 $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
       
-                for ($i=0;$i<$ga->getRows();$i++)
+                for ($t=0;$t<$ga->getRows();$t++)
                 {
                   $iaction = $ga->getValue('preview');
                   
