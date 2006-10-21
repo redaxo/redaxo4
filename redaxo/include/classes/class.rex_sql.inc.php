@@ -37,6 +37,7 @@ class rex_sql
     // MySQL Version bestimmen
     if ($REX['MYSQL_VERSION'] == '')
     {
+      $this->setQuery('SET SQL_MODE=""');
       $res = $this->getArray('SELECT VERSION() as VERSION');
       if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
       {
