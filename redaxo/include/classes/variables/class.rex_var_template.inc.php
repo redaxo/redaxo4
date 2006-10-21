@@ -20,7 +20,6 @@ class rex_var_template extends rex_var
   {
     $matches = array ();
     $id = '';
-    $clang = '';
 
     $match = $this->matchVar($content, $varname);
     foreach ($match as $param_str)
