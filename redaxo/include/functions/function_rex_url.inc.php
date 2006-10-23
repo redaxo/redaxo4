@@ -54,6 +54,9 @@ function rex_getUrl($id = '', $clang = '', $params = '')
 {
   global $REX, $article_id;
 
+  $id = (int) $id;
+  $clang = (int) $clang;
+  
   // ----- get id
   if (strlen($id) == 0 || $id == 0)
   {
