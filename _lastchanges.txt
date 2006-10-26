@@ -61,17 +61,17 @@ Changes:
 ---------------------------------------------------------------------------------
 
   * Umbenennungen
-    - login -> rex_login, sql -> rex_sql, article -> rex_article .. [kills,jan]
-    - sql::get_array -> sql::getArray() [kills]
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [kills,jan]
     - Umbenennung - function_rex_modrewrite.inc.php -> function_rex_url.inc.php [kills,jan]
    * neue Compatibilitäts Bibliothek [kills,jan]
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden !
         Klassen:
         + login -> rex_login()
-        + sql::get_array -> sql::getArray()
         + sql -> rex_sql()
         + article -> rex_article()
+        Methoden:
+        + sql::get_array() -> sql::getArray()
+        + sql::where() -> sql::setWhere()
         Funktionen:
         + title -> rex_title()
         + getUrlById -> rex_getUrl()

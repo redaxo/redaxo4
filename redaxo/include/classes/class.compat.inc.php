@@ -22,7 +22,12 @@ class sql extends rex_sql{
   function getLastID()
   {
     return $this->getLastId();
-  } 
+  }
+  
+  function where($where)
+  {
+    $this->setWhere($where);
+  }
 }
 
 // rex_select -> select alias

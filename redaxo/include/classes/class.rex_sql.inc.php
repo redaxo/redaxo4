@@ -156,7 +156,7 @@ class rex_sql
   /**
    * Setzt die WHERE Bedienung der Abfrage
    */
-  function where($where)
+  function setWhere($where)
   {
     $this->wherevar = "WHERE $where";
   }
@@ -309,8 +309,7 @@ class rex_sql
    */
   function query($qry)
   {
-    $this->setQuery($qry);
-    return $this->getError() === '';
+    return $this->setQuery($qry);
   }
 
   /**
