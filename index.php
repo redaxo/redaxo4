@@ -6,7 +6,6 @@
  * @version $Id$ 
  */ 
 
-
 // ----- ob caching start für output filter
 ob_start();
 

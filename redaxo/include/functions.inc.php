@@ -101,17 +101,10 @@ include_once $REX['INCLUDE_PATH'].'/functions/function_rex_url.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 
-// ----- EXTRA FUNCTIONS
 
-
-// ----- CONFIG FILES
-include_once $REX['INCLUDE_PATH'].'/ctype.inc.php';
+// ----- SET CLANG
 include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
-
-// ----- SET CLANG/CTYPE
 $clang = rex_request('clang','int');
-$ctype = rex_request('ctype','int');
-
 if (empty($REX['CLANG'][$clang]))
 {
   $REX['CUR_CLANG'] = 0;
@@ -119,15 +112,6 @@ if (empty($REX['CLANG'][$clang]))
 }else
 {
   $REX['CUR_CLANG'] = $clang;
-}
-
-if (empty($REX['CTYPE'][$ctype])) 
-{
-  $REX['CUR_CTYPE'] = 0;
-  $ctype = 0; 
-}else
-{
-  $REX['CUR_CTYPE'] = $ctype;
 }
 
 // ----- INCLUDE ADDONS

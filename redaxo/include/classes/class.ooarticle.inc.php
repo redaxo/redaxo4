@@ -84,33 +84,6 @@ class OOArticle extends OORedaxo
 
   /**
    * CLASS Function:
-   * Return a list of articles which have a certain type.
-   *
-   * Returns an array of OORedaxo objects.
-   */
-  function searchArticlesByType($article_type_id, $ignore_offlines = false, $clang = false)
-  {
-    global $REX;
-    if ($clang === false)
-      $clang = $REX['CUR_CLANG'];
-    $offline = $ignore_offlines ? " and status = 1 " : "";
-    $artlist = array ();
-    $sql = new rex_sql;
-    $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." FROM ".$REX['TABLE_PREFIX']."article WHERE type_id = '$article_type_id' AND clang='$clang' $offline");
-    for ($i = 0; $i < $sql->getRows(); $i ++)
-    {
-      foreach (OORedaxo :: getClassVars() as $var)
-      {
-        $article_data[$var] = $sql->getValue($var);
-      }
-      $artlist[] = new OOArticle($article_data, $clang);
-      $sql->next();
-    }
-    return $artlist;
-  }
-
-  /**
-   * CLASS Function:
    * Return the site wide start article
    */
   function getSiteStartArticle($clang = false)

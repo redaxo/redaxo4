@@ -105,4 +105,19 @@ function _rex_is_writable($item)
 
   return 0;
 }
+
+function rex_getAttributes($name,$content,$default = null)
+{
+	$prop = unserialize($content);
+	if (isset($prop[$name])) return $prop[$name];
+	return $default;
+}
+
+function rex_setAttributes($name,$value,$content)
+{
+	$prop = unserialize($content);
+	$prop[$name] = ($value);
+	return serialize($prop);
+}
+
 ?>

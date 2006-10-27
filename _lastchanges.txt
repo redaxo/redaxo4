@@ -60,8 +60,12 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * CTypes aufbereitet [kills,jan]
+  	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt. 
+  	- Sind nun abhängig von einzelnen Templates 
   * Metadaten
-    - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt [kills,jan]
+    - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt 
+      OOArticle.searchArticlesByType entfernt [kills,jan]
   * Umbenennungen
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [kills,jan]
     - Umbenennung - function_rex_modrewrite.inc.php -> function_rex_url.inc.php [kills,jan]

@@ -16,12 +16,24 @@
 unset($REX_ACTION);
 
 $article = new rex_sql;
-$article->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id='$article_id' AND clang=$clang");
+$article->setQuery("
+		SELECT 
+			article.*, template.attributes as template_attributes 
+		FROM 
+			".$REX['TABLE_PREFIX']."article as article
+		LEFT JOIN ".$REX['TABLE_PREFIX']."template as template ON template.id=article.template_id    
+		WHERE 
+			article.id='$article_id' 
+			AND clang=$clang");
 
 if ($article->getRows() == 1)
 {
 
-  // ----- ctype wird in der functions überprüft.
+  // ----- ctype holen
+  $attributes = $article->getValue("template_attributes");
+	$REX['CTYPE'] = rex_getAttributes("ctype", $attributes); // ctypes - aus dem template
+	$ctype = rex_request("ctype","int");
+	if (!array_key_exists($ctype,$REX['CTYPE'])) $ctype = 1; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
   if ($article->getValue("startpage") == 1) $category_id = $article->getValue("id");
@@ -191,7 +203,7 @@ if ($article->getRows() == 1)
               if ($function == 'edit')
               {
                 // edit
-                $newsql->where('id='. $slice_id);
+                $newsql->setWhere('id='. $slice_id);
               }elseif($function == 'add')
               {
                 // add
@@ -248,7 +260,7 @@ if ($article->getRows() == 1)
             // ----- artikel neu generieren
             $EA = new rex_sql;
             $EA->setTable($REX['TABLE_PREFIX']."article");
-            $EA->where("id='$article_id' and clang=$clang");
+            $EA->setWhere("id='$article_id' and clang=$clang");
             $EA->setValue("updatedate",time());
             $EA->setValue("updateuser",$REX_USER->getValue("login"));
             $EA->update();
@@ -560,7 +572,7 @@ if ($article->getRows() == 1)
     <ul>
       <li>'.$menu_edit.' | </li>
       <li>'.$menu_meta.' | </li>
-      <li><a href="../index.php?article_id='. $article_id .'&amp;clang='. $clang .'">'.$I18N->msg('show').'</a></li>
+      <li><a href="../index.php?article_id='. $article_id .'&amp;clang='. $clang .'" target="_blank">'.$I18N->msg('show').'</a></li>
     </ul>';
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
@@ -625,11 +637,10 @@ if ($article->getRows() == 1)
         $meta_sql = new rex_sql;
         $meta_sql->setTable($REX['TABLE_PREFIX']."article");
         // $meta_sql->debugsql = 1;
-        $meta_sql->where("id='$article_id' and clang=$clang");
+        $meta_sql->setWhere("id='$article_id' and clang=$clang");
         $meta_sql->setValue("keywords",$meta_keywords);
         $meta_sql->setValue("description",$meta_description);
         $meta_sql->setValue("name",$meta_article_name);
-        $meta_sql->setValue("type_id",$type_id);
         $meta_sql->setValue("updatedate",time());
         $meta_sql->setValue("updateuser",$REX_USER->getValue("login"));
 
