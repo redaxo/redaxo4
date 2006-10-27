@@ -60,6 +60,8 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
+  * Metadaten
+    - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt [kills,jan]
   * Umbenennungen
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [kills,jan]
     - Umbenennung - function_rex_modrewrite.inc.php -> function_rex_url.inc.php [kills,jan]

@@ -14,6 +14,7 @@ ALTER TABLE `rex_article` DROP `online_to`;
 ALTER TABLE `rex_article` DROP `fe_user`;
 ALTER TABLE `rex_article` DROP `fe_group`;
 ALTER TABLE `rex_article` DROP `fe_ext`;
+ALTER TABLE `rex_article` DROP `teaser`;
 ALTER TABLE `rex_modultyp` DROP `bausgabe`;
 ALTER TABLE `rex_modultyp` DROP `func`;
 ALTER TABLE `rex_modultyp` DROP `php_enable`;

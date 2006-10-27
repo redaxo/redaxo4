@@ -208,16 +208,6 @@ class OOArticle extends OORedaxo
     return is_object($article) && is_a($article, 'ooarticle');
   }
 
-
-  /*
-   * Object Function:
-   * Returns boolean if teaser
-   */
-  function isTeaser()
-  {
-    if ($this->_teaser == 1) return true;
-    else return false;
-  }
   
   function getValue($value)
   {

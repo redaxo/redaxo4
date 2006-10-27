@@ -66,7 +66,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   // --- Kategorie selbst updaten 
   $EKAT = new rex_sql;
   $EKAT->setTable($REX['TABLE_PREFIX']."article");
-  $EKAT->where("id=$edit_id AND startpage=1 AND clang=$clang");
+  $EKAT->setWhere("id=$edit_id AND startpage=1 AND clang=$clang");
   $EKAT->setValue("catname", "$kat_name");
   $EKAT->setValue("catprior", "$new_prio");
   $EKAT->setValue("path", $KATPATH);
@@ -82,7 +82,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   {
     $EART = new rex_sql();
     $EART->setTable($REX['TABLE_PREFIX']."article");
-    $EART->where('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
+    $EART->setWhere('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
     $EART->setValue("catname", "$kat_name");
     $EART->setValue("updatedate", time());
     $EART->setValue("updateuser", $REX_USER->getValue("login"));
@@ -170,7 +170,7 @@ elseif ($function == "status" && $edit_id != ""
 
     $EKAT = new rex_sql;
     $EKAT->setTable($REX['TABLE_PREFIX']."article");
-    $EKAT->where("id='$edit_id' and clang=$clang and startpage=1");
+    $EKAT->setWhere("id='$edit_id' and clang=$clang and startpage=1");
     $EKAT->setValue("status", "$newstatus");
     $EKAT->setValue("updatedate", time());
     $EKAT->setValue("updateuser", $REX_USER->getValue("login"));
@@ -289,7 +289,7 @@ if ($function == "status_article" && $article_id != ""
 
     $EA = new rex_sql;
     $EA->setTable($REX['TABLE_PREFIX']."article");
-    $EA->where("id='$article_id' and clang=$clang");
+    $EA->setWhere("id='$article_id' and clang=$clang");
     $EA->setValue("status", "$newstatus");
     $EA->setValue("updatedate", time());
     $EA->setValue("updateuser", $REX_USER->getValue("login"));
@@ -391,7 +391,7 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
   $amessage = $I18N->msg("article_updated");
   $EA = new rex_sql;
   $EA->setTable($REX['TABLE_PREFIX']."article");
-  $EA->where("id='$article_id' and clang=$clang");
+  $EA->setWhere("id='$article_id' and clang=$clang");
   $EA->setValue("name", $article_name);
   $EA->setValue("template_id", $template_id);
   // $EA->setValue("path",$KATPATH);

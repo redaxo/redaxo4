@@ -630,8 +630,6 @@ if ($article->getRows() == 1)
         $meta_sql->setValue("description",$meta_description);
         $meta_sql->setValue("name",$meta_article_name);
         $meta_sql->setValue("type_id",$type_id);
-        if (!isset ($meta_teaser)) $meta_teaser = 0;
-        $meta_sql->setValue("teaser",$meta_teaser);
         $meta_sql->setValue("updatedate",time());
         $meta_sql->setValue("updateuser",$REX_USER->getValue("login"));
 
@@ -656,38 +654,7 @@ if ($article->getRows() == 1)
           "keywords" => $meta_keywords,
           "description" => $meta_description,
           "name" => $meta_article_name,
-          "type_id" => $type_id,
-          "teaser" => $meta_teaser
         ));
-      }
-
-      $typesel = new rex_select();
-      $typesel->set_name("type_id");
-      $typesel->set_id("type_id");
-      $typesel->set_size("1");
-      
-      $typesql = new rex_sql();
-      $typesql->setQuery("select * from ".$REX['TABLE_PREFIX']."article_type order by name");
-
-      for ($i=0;$i<$typesql->getRows();$i++)
-      {
-        $typesel->add_option($typesql->getValue("name"),$typesql->getValue("type_id"));
-        $typesql->next();
-      }
-
-      $typesel->set_selected($article->getValue("type_id"));
-      // Artikeltyp-Auswahl nur anzeigen, wenn mehr als ein Typ vorhanden ist
-      if ($typesql->getRows() <=1 ) 
-      {
-        $out = '<input type="hidden" name="type_id" value="0" />';
-      }
-      else
-      {
-        $out = '
-        <p>
-          <label for="type_id">'. $I18N->msg('article_type_list_name') .'</label>
-          '. $typesel->out() .'
-        </p>';
       }
 
       echo '
@@ -704,9 +671,7 @@ if ($article->getRows() == 1)
         ';
 
       if (isset($err_msg) and $err_msg != '') echo '<p class="rex-warning">'.$err_msg.'</p>';
-
-      $teaser_checked = $article->getValue("teaser")==1 ? ' checked=checked' : '';
-      
+   
       echo '
         <p>
           <label for="meta_article_name">'. $I18N->msg("name_description"). '</label>
@@ -729,12 +694,8 @@ if ($article->getRows() == 1)
           <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
           <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
         </p>
-        <p>
-          <label for="meta_teaser">'. $I18N->msg("teaser") .'</label>
-          <input class="rex-chckbx" type="checkbox" name="meta_teaser" id="meta_teaser" value="1"'. $teaser_checked .' />
-        </p>
-        
-        '. $out;
+
+        ';
 
      // ----- EXTENSION POINT
      echo rex_register_extension_point('ART_META_FORM', '', array ("id" => $article_id,"clang" => $clang));

@@ -25,7 +25,6 @@ class OORedaxo
   var $_url = "";
   var $_file = "";
   var $_type_id = "";
-  var $_teaser = "";
   var $_keywords = "";
   var $_description = "";
   var $_attributes = "";

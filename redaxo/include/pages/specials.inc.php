@@ -16,14 +16,12 @@ $func = rex_request('func', 'string');
 $subline = array( 
   array( '', $I18N->msg("main_preferences")),
   array( 'lang', $I18N->msg("languages")),
-  array( 'type', $I18N->msg("types")),
 );
 
 rex_title($I18N->msg("specials_title"),$subline);
 
 switch($subpage)
 {
-  case 'type': $file = 'specials.articletypes.inc.php'; break;
   case 'lang': $file = 'specials.clangs.inc.php'; break;
   default : $file = 'specials.settings.inc.php'; break;
 }
