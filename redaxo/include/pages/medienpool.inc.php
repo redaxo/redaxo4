@@ -545,7 +545,7 @@ if ($PERMALL && $subpage == "categories")
   {
     $db = new rex_sql;
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
-    $db->where('id=$edit_id');
+    $db->setWhere('id=$edit_id');
     $db->setValue('name',$cat_name);
     $db->setValue('updatedate',time());
     $db->setValue('updateuser',$REX_USER->getValue('login'));
@@ -881,7 +881,7 @@ if ($subpage=="detail" && $media_method == 'edit_file'){
     {
       $FILESQL = new rex_sql;
       $FILESQL->setTable($REX['TABLE_PREFIX']."file");
-      $FILESQL->where("file_id='$file_id'");
+      $FILESQL->setWhere("file_id='$file_id'");
       $FILESQL->setValue("title",$ftitle);
       $FILESQL->setValue("description",$fdescription);
       $FILESQL->setValue("copyright",$fcopyright);
@@ -1315,7 +1315,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       $db = new rex_sql;
       // $db->debugsql = true;
       $db->setTable($REX['TABLE_PREFIX'].'file');
-      $db->where("file_id='$file_id'");
+      $db->setWhere("file_id='$file_id'");
       $db->setValue('category_id',$rex_file_category);
       $db->setValue("updatedate",time());
       $db->setValue("updateuser",$REX_USER->getValue("login"));

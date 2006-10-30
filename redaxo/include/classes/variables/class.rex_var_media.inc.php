@@ -48,9 +48,9 @@ class rex_var_media extends rex_var
   
   function getBEInput(& $sql, $content)
   {
-    $content = $this->getOutput($sql, $content);
     $content = $this->matchMediaButton($sql, $content);
     $content = $this->matchMediaListButton($sql, $content);
+    $content = $this->getOutput($sql, $content);
     return $content;
   }
 
@@ -60,6 +60,9 @@ class rex_var_media extends rex_var
     return $content;
   }
 
+  /**
+   * Ersetzt die Value Platzhalter
+   */
   function getOutput(& $sql, $content)
   {
     $content = $this->matchMedia($sql, $content);
@@ -112,7 +115,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * Button für die Eingabe
+   * MediaButton für die Eingabe
    */
   function matchMediaButton(& $sql, $content)
   {
@@ -139,7 +142,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * Button für die Eingabe
+   * MediaListButton für die Eingabe
    */
   function matchMediaListButton(& $sql, $content)
   {
@@ -234,7 +237,7 @@ class rex_var_media extends rex_var
     }
 
     $media = '
-    <input type="text" size="30" name="MEDIA[' . $id . ']" value="REX_MEDIA[' . $id . ']" id="MEDIA_' . $id . '" readonly="readonly" />
+    <input type="text" size="30" name="MEDIA[' . $id . ']" value="REX_MEDIA[' . $id . ']" id="REX_MEDIA_' . $id . '" readonly="readonly" />
     <a href="#" onclick="javascript:openREXMedia(' . $id . ',\'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
     <a href="#" onclick="javascript:addREXMedia(' . $id . ');"><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media" /></a>
     <a href="#" onclick="javascript:deleteREXMedia(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
@@ -274,7 +277,7 @@ class rex_var_media extends rex_var
     }
 
     $media = '
-    <select name="MEDIALIST[' . $id . ']" id="MEDIALIST_' . $id . '" size="8">
+    <select name="MEDIALIST[' . $id . ']" id="REX_MEDIALIST_' . $id . '" size="8">
       ' . $options . '
     </select>
     <a href="javascript:moveREXMedialist(' . $id . ',\'top\');"><img src="pics/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>

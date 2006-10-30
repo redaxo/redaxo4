@@ -451,7 +451,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->setValue('updatedate', time());
         $art_sql->setValue('updateuser', addslashes($REX_USER->getValue('login')));
 
-        $art_sql->where('clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
+        $art_sql->setWhere('clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
         $art_sql->update();
 
         // Prios neu berechnen
@@ -556,7 +556,7 @@ function rex_moveCategory($from_cat, $to_cat)
 			$up = new rex_sql;
 			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
-			$up->where("id=$icid");
+			$up->setWhere("id=$icid");
 			$up->setValue("path",$new_path);
 			$up->update();
 			
@@ -578,7 +578,7 @@ function rex_moveCategory($from_cat, $to_cat)
 			$up = new rex_sql;
 			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
-			$up->where("id=$from_cat and clang=$clang ");
+			$up->setWhere("id=$from_cat and clang=$clang ");
 			$up->setValue("path",$to_path);
 			$up->setValue("re_id",$to_cat);
 			$up->setValue("catprior",($catprior+1));
@@ -728,7 +728,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
     $uc = new rex_sql;
     // $uc->debugsql = 1;
     $uc->setTable($REX['TABLE_PREFIX']."article");
-    $uc->where("clang='$to_clang' and id='$to_id'");
+    $uc->setWhere("clang='$to_clang' and id='$to_id'");
     $uc->setValue("updatedate", time());
     $uc->setValue("updateuser", addslashes($REX_USER->getValue("login")));
 

@@ -90,7 +90,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         
         $UMOD = new rex_sql;
         $UMOD->setTable($REX['TABLE_PREFIX']."modultyp");
-        $UMOD->where("id='$modul_id'");
+        $UMOD->setWhere("id='$modul_id'");
         $UMOD->setValue("name",$mname);
         $UMOD->setValue("eingabe",$eingabe);
         $UMOD->setValue("ausgabe",$ausgabe);

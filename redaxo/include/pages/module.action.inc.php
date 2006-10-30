@@ -85,7 +85,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
     }else{
       $faction->setValue('updatedate', time());
       $faction->setValue('updateuser', $REX_USER->getValue('login'));
-      $faction->where('id='. $action_id);
+      $faction->setWhere('id='. $action_id);
       $faction->update();
       
       $message = $I18N->msg('action_updated');

@@ -194,7 +194,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
 {
   $updateuser = new rex_sql;
   $updateuser->setTable($REX['TABLE_PREFIX']."user");
-  $updateuser->where("user_id='$user_id'");
+  $updateuser->setWhere("user_id='$user_id'");
   $updateuser->setValue("name",$username);
   $updateuser->setValue("updatedate",time());
   $updateuser->setValue("updateuser",$REX_USER->getValue("login"));

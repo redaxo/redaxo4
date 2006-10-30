@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Abtrackte Basisklasse für REX_VARS innerhalb der Module
  * @package redaxo3
@@ -9,16 +10,16 @@
 class rex_var
 {
   // --------------------------------- Actions
-  
+
   /**
    * Actionmethode:
    * Zum füllen des sql aus dem $REX_ACTION Array
    */
-  function setACValues(& $sql, $REX_ACTION, $escape=false)
+  function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     // nichts tun
   }
-  
+
   /**
    * Actionmethode:
    * Zum füllen des $REX_ACTION Arrays aus den Input Formularwerten
@@ -37,76 +38,76 @@ class rex_var
   function getACOutput($REX_ACTION, $content)
   {
     $sql = new rex_sql();
-    $this->setACValues(& $sql,$REX_ACTION);
+    $this->setACValues(& $sql, $REX_ACTION);
     return $this->getBEOutput(& $sql, $content);
   }
 
   // --------------------------------- Ouput
-  
+
   /**
    * Ausgabe eines Modules fürs Frontend
    * sql Objekt mit der passenden Slice
    * 
    * FE = Frontend
-   */	
-	function getFEOutput(&$sql,$content)
-	{	
-		return $this->getBEOutput($sql,$content);
-	}
-	
+   */
+  function getFEOutput(& $sql, $content)
+  {
+    return $this->getBEOutput($sql, $content);
+  }
+
   /**
    * Ausgabe eines Modules im Backend bei der Ausgabe
    * sql Objekt mit der passenden Slice
    * 
    * BE = Backend
    */
-	function getBEOutput(&$sql,$content)
-	{
-		return $content;
-	}
-	
-	/**
-	 * Ausgabe eines Modules im Backend bei der Eingabe
-	 * sql Objekt mit der passenden Slice
+  function getBEOutput(& $sql, $content)
+  {
+    return $content;
+  }
+
+  /**
+   * Ausgabe eines Modules im Backend bei der Eingabe
+   * sql Objekt mit der passenden Slice
    * 
    * BE = Backend
    */
-	function getBEInput(&$sql,$content)
-	{
-		return $this->getBEOutput($sql,$content);
-	}
+  function getBEInput(& $sql, $content)
+  {
+    return $this->getBEOutput($sql, $content);
+  }
 
   /**
    * Wandelt PHP Code in Einfache Textausgaben um
    */
-	function stripPHP($content)
-	{
-    $content = str_replace('<?','&lt;?',$content);
-    $content = str_replace('?>','?&gt;',$content);
-		return $content;
-	}
-  
+  function stripPHP($content)
+  {
+    $content = str_replace('<?', '&lt;?', $content);
+    $content = str_replace('?>', '?&gt;', $content);
+    return $content;
+  }
+
   /**
    * GetValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und 
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
    * Spalten unterschiedlicher Tabellen enthält. 
    */
-  function getValue(&$sql, $value)
+  function getValue(& $sql, $value)
   {
     global $REX;
-    return $sql->getValue($REX['TABLE_PREFIX'].'article_slice.'.$value);
+    return $sql->getValue($REX['TABLE_PREFIX'] . 'article_slice.' . $value);
   }
   /**
    * setValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und 
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
    * Spalten unterschiedlicher Tabellen enthält. 
    */
-  function setValue(&$sql, $fieldname, $value)
+  function setValue(& $sql, $fieldname, $value)
   {
     global $REX;
-    return $sql->setValue($REX['TABLE_PREFIX'].'article_slice.'.$fieldname, $value);
+    return $sql->setValue($REX['TABLE_PREFIX'] . 'article_slice.' . $fieldname, $value);
   }
-  
+
   /**
    * Findet den Parameter einer Variable in der Ausgabe.
    * Da dort immer nur ein ID Feld sinnvoll ist, wird das ganze hier in der
@@ -115,13 +116,13 @@ class rex_var
    */
   function getOutputParam($content, $varname)
   {
-    $result = array();
-    
+    $result = array ();
+
     $match = $this->matchVar($content, $varname);
     foreach ($match as $param_str)
     {
       $params = $this->splitString($param_str);
-      
+
       $id = '';
       foreach ($params as $name => $value)
       {
@@ -133,36 +134,38 @@ class rex_var
             break;
         }
       }
-      
-      if($id != '')
+
+      if ($id != '')
       {
-        $result[] = array($param_str, $id);
+        $result[] = array (
+          $param_str,
+          $id
+        );
       }
-      
     }
-      
+
     return $result;
   }
-  
+
   /**
    * Durchsucht den String $content nach Variablen mit dem Namen $varname.
    * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurück.
    */
   function matchVar($content, $varname)
   {
-    $result = array();
-    
-    if (preg_match_all('/'.$varname.'\[([^\]]*)\]/ms', $content, $matches))
+    $result = array ();
+
+    if (preg_match_all('/' . $varname . '\[([^\]]*)\]/ms', $content, $matches))
     {
-      foreach($matches[1] as $match)
+      foreach ($matches[1] as $match)
       {
         $result[] = $match;
       }
     }
-    
+
     return $result;
   }
-  
+
   /**
    * Trennt einen String an Leerzeichen auf.
    * Abschnitte die in "" oder '' stehen, werden als ganzes behandelt und
@@ -173,17 +176,17 @@ class rex_var
   {
     $spacer = '@@@REX_SPACER@@@';
     $result = array ();
-    
+
     // TODO mehrfachspaces hintereinander durch einfachen ersetzen
-    $string = ' '. trim($string) .' ';
-  
+    $string = ' ' . trim($string) . ' ';
+
     // Strings mit Quotes heraussuchen
     preg_match_all('!(["\'])(.*)\\1!', $string, $matches);
-    $quoted = isset($matches[2]) ? $matches[2] : array();
-    
+    $quoted = isset ($matches[2]) ? $matches[2] : array ();
+
     // Strings mit Quotes maskieren
     $string = preg_replace('!(["\'])(.*)\\1!', $spacer, $string);
-  
+
     // ----------- z.b. 4 "av c" 'de f' ghi
     if (strpos($string, '=') === false)
     {
@@ -194,7 +197,7 @@ class rex_var
         {
           continue;
         }
-        
+
         if ($part == $spacer)
         {
           $result[] = array_shift($quoted);
@@ -209,22 +212,22 @@ class rex_var
     else
     {
       $parts = explode(' ', $string);
-      foreach($parts as $part)
+      foreach ($parts as $part)
       {
         $variable = explode('=', $part);
         $var_name = $variable[0];
         $var_value = $variable[1];
-        
+
         if (empty ($var_name))
         {
           continue;
         }
-        
-        if($var_value == $spacer)
+
+        if ($var_value == $spacer)
         {
           $var_value = array_shift($quoted);
         }
-        
+
         $result[$var_name] = $var_value;
       }
     }
