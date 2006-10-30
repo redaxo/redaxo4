@@ -1086,8 +1086,8 @@ function rex_generateAddons($ADDONS, $debug = false)
       return 'Konnte Datei "'.$file.'" nicht lesen';
     }
     $fcontent = fread($h, filesize($file));
-    $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
     fclose($h);
+    $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
 
     if (!$h = fopen($file, "w+"))
     {
