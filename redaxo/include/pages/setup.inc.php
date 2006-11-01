@@ -157,7 +157,6 @@ if ($checkmodus == 1)
     $REX['INCLUDE_PATH'].'/master.inc.php',
     $REX['INCLUDE_PATH'].'/addons.inc.php',
     $REX['INCLUDE_PATH'].'/clang.inc.php',
-    $REX['INCLUDE_PATH'].'/ctype.inc.php',
     $REX['INCLUDE_PATH'].'/generated',
     $REX['INCLUDE_PATH'].'/generated/articles',
     $REX['INCLUDE_PATH'].'/generated/templates',
