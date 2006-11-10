@@ -165,55 +165,65 @@ if (isset($function) and ($function == "add" or $function == "edit"))
     <form action="index.php" method="post">
       <fieldset>
         <legend class="rex-lgnd" id="edit">'. $legend .' </legend>
-        <input type="hidden" name="page" value="module" />
-        <input type="hidden" name="subpage" value="actions" />
-        <input type="hidden" name="function" value="'.$function.'" />
-        <input type="hidden" name="save" value="ja" />
-        <input type="hidden" name="action_id" value="'.$action_id.'" />
-        <p>
-          <label for="name">'.$I18N->msg('action_name').'</label>
-          <input type="text" size="10" id="name" name="name" value="'.htmlspecialchars($name).'" />
-        </p>
+        
+     	<div class="rex-fldst-wrppr">
+			<input type="hidden" name="page" value="module" />
+			<input type="hidden" name="subpage" value="actions" />
+			<input type="hidden" name="function" value="'.$function.'" />
+			<input type="hidden" name="save" value="ja" />
+			<input type="hidden" name="action_id" value="'.$action_id.'" />
+			<p>
+			  <label for="name">'.$I18N->msg('action_name').'</label>
+			  <input type="text" size="10" id="name" name="name" value="'.htmlspecialchars($name).'" />
+			</p>
+        </div>
       </fieldset>
+      
       <fieldset>
         <legend class="rex-lgnd">Preview-Action</legend>
-        <p>
-          <label for="previewaction">'.$I18N->msg('input').'</label>
-          <textarea class="rex-txtr-cd" cols="50" rows="6" name="previewaction" id="previewaction">'.htmlspecialchars($previewaction).'</textarea>
-        </p>
-        <p>
-          <label for="previestatus">'.$I18N->msg('action_event').'</label>
-          '.$sel_preview_status->out().'
-          <span>'.$I18N->msg('ctrl').'</span>
-        </p>
-      </fieldset>
+ 	    <div class="rex-fldst-wrppr">
+			<p>
+			  <label for="previewaction">'.$I18N->msg('input').'</label>
+			  <textarea class="rex-txtr-cd" cols="50" rows="6" name="previewaction" id="previewaction">'.htmlspecialchars($previewaction).'</textarea>
+			</p>
+			<p>
+			  <label for="previestatus">'.$I18N->msg('action_event').'</label>
+			  '.$sel_preview_status->out().'
+			  <span>'.$I18N->msg('ctrl').'</span>
+			</p>
+		 </div>
+	  </fieldset>
       <fieldset>
         <legend class="rex-lgnd">Presave-Action</legend>
-        <p>
-          <label for="presaveaction">'.$I18N->msg('input').'</label>
-          <textarea class="rex-txtr-cd" cols="50" rows="6" name="presaveaction" id="presaveaction">'.htmlspecialchars($presaveaction).'</textarea>
-        </p>
-        <p>
-          <label for="presavestatus">'.$I18N->msg('action_event').'</label>
-          '.$sel_presave_status->out().'
-          <span>'.$I18N->msg('ctrl').'</span>
-        </p>
+      	<div class="rex-fldst-wrppr">
+			<p>
+			  <label for="presaveaction">'.$I18N->msg('input').'</label>
+			  <textarea class="rex-txtr-cd" cols="50" rows="6" name="presaveaction" id="presaveaction">'.htmlspecialchars($presaveaction).'</textarea>
+			</p>
+			<p>
+			  <label for="presavestatus">'.$I18N->msg('action_event').'</label>
+			  '.$sel_presave_status->out().'
+			  <span>'.$I18N->msg('ctrl').'</span>
+			</p>
+		</div>
       </fieldset>
       <fieldset>
         <legend class="rex-lgnd">Postsave-Action</legend>
-        <p>
-          <label for="postsaveaction">'.$I18N->msg('input').'</label>
-          <textarea class="rex-txtr-cd" cols="50" rows="6" name="postsaveaction" id="postsaveaction">'.htmlspecialchars($postsaveaction).'</textarea>
-        </p>
-        <p>
-          <label for="postsavestatus">'.$I18N->msg('action_event').'</label>
-          '.$sel_postsave_status->out().'
-          <span>'.$I18N->msg('ctrl').'</span>
-        </p>
-        <p>
-          <input class="rex-sbmt" type="submit" value="'.$I18N->msg('save_action_and_quit').'" />
-          '. $btn_update .'
-        </p>
+     	<div class="rex-fldst-wrppr">
+			<p>
+			  <label for="postsaveaction">'.$I18N->msg('input').'</label>
+			  <textarea class="rex-txtr-cd" cols="50" rows="6" name="postsaveaction" id="postsaveaction">'.htmlspecialchars($postsaveaction).'</textarea>
+			</p>
+			<p>
+			  <label for="postsavestatus">'.$I18N->msg('action_event').'</label>
+			  '.$sel_postsave_status->out().'
+			  <span>'.$I18N->msg('ctrl').'</span>
+			</p>
+			<p>
+			  <input class="rex-sbmt" type="submit" value="'.$I18N->msg('save_action_and_quit').'" />
+			  '. $btn_update .'
+			</p>
+		</div>
       </fieldset>
     </form>
 	</div>';

@@ -144,33 +144,36 @@ if ($function == "add" or $function == "edit") {
         <form action="index.php" method="post">
       		<fieldset>
         		<legend class="rex-lgnd">' . $legend . '</legend>
-            <input type="hidden" name="page" value="template" />
-            <input type="hidden" name="function" value="' . $function . '" />
-            <input type="hidden" name="save" value="ja" />
-            <input type="hidden" name="template_id" value="' . $template_id . '" />
-    
-            <p>
-              <label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
-              <input type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
-            </p>
-    
-            <p>
-        	  <label for="active">' . $I18N->msg("checkbox_template_active") . ' <span class="rex-hide"> ' . $I18N->msg("checkbox_template_active_info") . '</span></label>
-              <input class="rex-chckbx" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
-              <span class="rex-au-none">' . $I18N->msg("checkbox_template_active_info") . '</span>
-            </p>
-    
-            <p>
-              <label for="content">' . $I18N->msg("header_template") . '</label>
-              <textarea class="rex-txtr-cd" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
-        	  </p>
-    
-    
-          </fieldset>
+      			
+      			<div class="rex-fldst-wrppr">
+					<input type="hidden" name="page" value="template" />
+					<input type="hidden" name="function" value="' . $function . '" />
+					<input type="hidden" name="save" value="ja" />
+					<input type="hidden" name="template_id" value="' . $template_id . '" />
+			
+					<p>
+					  <label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
+					  <input type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
+					</p>
+			
+					<p>
+					  <label for="active">' . $I18N->msg("checkbox_template_active") . ' <span class="rex-hide"> ' . $I18N->msg("checkbox_template_active_info") . '</span></label>
+					  <input class="rex-chckbx" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
+					  <span class="rex-au-none">' . $I18N->msg("checkbox_template_active_info") . '</span>
+					</p>
+			
+					<p>
+					  <label for="content">' . $I18N->msg("header_template") . '</label>
+					  <textarea class="rex-txtr-cd" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
+					</p>
+    			</div>
+    		</fieldset>
     
       		<fieldset>
         		<legend class="rex-lgnd">ctypes</legend>
+     			<div class="rex-fldst-wrppr">
     				' . $ctypes_out . '
+    			</div>
           	</fieldset>
     
             <p>

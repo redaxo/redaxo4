@@ -656,39 +656,41 @@ if ($article->getRows() == 1)
                   <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
                     <fieldset>
                       <legend class="rex-lgnd">' . $I18N->msg('general') . '</legend>
-                      <input type="hidden" name="page" value="content" />
-                      <input type="hidden" name="article_id" value="' . $article_id . '" />
-                      <input type="hidden" name="mode" value="meta" />
-                      <input type="hidden" name="save" value="1" />
-                      <input type="hidden" name="clang" value="' . $clang . '" />
-                      <input type="hidden" name="ctype" value="' . $ctype . '" />
+                      
+				      <div class="rex-fldst-wrppr">
+						  <input type="hidden" name="page" value="content" />
+						  <input type="hidden" name="article_id" value="' . $article_id . '" />
+						  <input type="hidden" name="mode" value="meta" />
+						  <input type="hidden" name="save" value="1" />
+						  <input type="hidden" name="clang" value="' . $clang . '" />
+						  <input type="hidden" name="ctype" value="' . $ctype . '" />
                     ';
 
       if (isset ($err_msg) and $err_msg != '')
         echo '<p class="rex-warning">' . $err_msg . '</p>';
 
-      echo '
-                    <p>
-                      <label for="meta_article_name">' . $I18N->msg("name_description") . '</label>
-                      <input type="text" id="meta_article_name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30" />
-                    </p>
-                    <p>
-                      <label for="meta_description">' . $I18N->msg("description") . '</label>
-                      <textarea name="meta_description" id="meta_description" cols="50" rows="6" >' . htmlspecialchars($article->getValue("description")) . '</textarea>
-                    </p>
-                    <p>
-                      <label for="meta_keywords">' . $I18N->msg("keywords") . '</label>
-                      <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6">' . htmlspecialchars($article->getValue("keywords")) . '</textarea>
-                    </p>
-                    <p>
-                      <label for="REX_MEDIA_1">' . $I18N->msg("metadata_image") . '</label>
-                      <input type="hidden" name="REX_MEDIA_DELETE_1" value="0" id="REX_MEDIA_DELETE_1" />
-                      <input type="text" size="30" name="REX_MEDIA_1" value="' . $article->getValue("file") . '" id="REX_MEDIA_1" readonly="readonly" />
-                      
-            	      <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
-                      <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
-                      <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
-                    </p>
+      	echo '
+						<p>
+						  <label for="meta_article_name">' . $I18N->msg("name_description") . '</label>
+						  <input type="text" id="meta_article_name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30" />
+						</p>
+						<p>
+						  <label for="meta_description">' . $I18N->msg("description") . '</label>
+						  <textarea name="meta_description" id="meta_description" cols="50" rows="6" >' . htmlspecialchars($article->getValue("description")) . '</textarea>
+						</p>
+						<p>
+						  <label for="meta_keywords">' . $I18N->msg("keywords") . '</label>
+						  <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6">' . htmlspecialchars($article->getValue("keywords")) . '</textarea>
+						</p>
+						<p>
+						  <label for="REX_MEDIA_1">' . $I18N->msg("metadata_image") . '</label>
+						  <input type="hidden" name="REX_MEDIA_DELETE_1" value="0" id="REX_MEDIA_DELETE_1" />
+						  <input type="text" size="30" name="REX_MEDIA_1" value="' . $article->getValue("file") . '" id="REX_MEDIA_1" readonly="readonly" />
+						  
+						  <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
+						  <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
+						  <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
+						</p>
             
                     ';
 
@@ -699,9 +701,10 @@ if ($article->getRows() == 1)
       ));
 
       echo '
-                    <p>
-                      <input class="rex-sbmt" type="submit" value="' . $I18N->msg("update_metadata") . '" />
-                    </p>
+						<p>
+						  <input class="rex-sbmt" type="submit" value="' . $I18N->msg("update_metadata") . '" />
+						</p>
+                    </div>
                  </fieldset>';
 
       // ----- EXTENSION POINT
@@ -764,14 +767,16 @@ if ($article->getRows() == 1)
           echo '
                                 <fieldset>
                                   <legend class="rex-lgnd">' . $I18N->msg("content_submitcopycontent") . '</legend>
-                                  <p>
-                                    <label for="clang_a">' . $I18N->msg("content_contentoflang") . '</label>
-                                    ' . $lang_a->out() . '
-                                    <label for="clang_b">' . $I18N->msg("content_to") . '</label> ' . $lang_b->out() . '
-                                  </p>
-                                  <p>
-                                    <input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") . '" />
-                                  </p>
+      							  <div class="rex-fldst-wrppr">
+									  <p>
+										<label for="clang_a">' . $I18N->msg("content_contentoflang") . '</label>
+										' . $lang_a->out() . '
+										<label for="clang_b">' . $I18N->msg("content_to") . '</label> ' . $lang_b->out() . '
+									  </p>
+									  <p>
+										<input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") . '" />
+									  </p>
+								  </div>
                                 </fieldset>';
 
         }
@@ -798,13 +803,15 @@ if ($article->getRows() == 1)
           echo '
                                 <fieldset>
                                   <legend class="rex-lgnd">' . $I18N->msg("content_submitmovearticle") . '</legend>
-                                  <p>
-                                    <label for="category_id_new">' . $I18N->msg("move_article") . '</label>
-                                    ' . $move_a->out() . '
-                                  </p>
-                                  <p>
-                                    <input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '" />
-                                  </p>
+							      <div class="rex-fldst-wrppr">
+									  <p>
+										<label for="category_id_new">' . $I18N->msg("move_article") . '</label>
+										' . $move_a->out() . '
+									  </p>
+									  <p>
+										<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '" />
+									  </p>
+								  </div>
                                 </fieldset>
                                 ';
 
@@ -831,13 +838,15 @@ if ($article->getRows() == 1)
           echo '
                                 <fieldset>
                                   <legend class="rex-lgnd">' . $I18N->msg("content_submitcopyarticle") . '</legend>
-                                  <p>
-                                    <label for="category_copy_id_new">' . $I18N->msg("copy_article") . '</label>
-                                    ' . $move_a->out() . '
-                                  </p>
-                                  <p>
-                                    <input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '" />
-                                  </p>
+      							  <div class="rex-fldst-wrppr">
+									  <p>
+										<label for="category_copy_id_new">' . $I18N->msg("copy_article") . '</label>
+										' . $move_a->out() . '
+									  </p>
+									  <p>
+										<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '" />
+									  </p>
+								  </div>
                                 </fieldset>
                                 ';
 
@@ -863,13 +872,15 @@ if ($article->getRows() == 1)
           echo '
                                 <fieldset>
                                   <legend class="rex-lgnd">' . $I18N->msg("content_submitmovecategory") . '</legend>
-                                  <p>
-                                    <label for="category_id_new">' . $I18N->msg("move_category") . '</label>
-                                    ' . $move_a->out() . '
-                                  </p>
-                                  <p>
-                                    <input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '" />
-                                  </p>
+      							  <div class="rex-fldst-wrppr">
+									  <p>
+										<label for="category_id_new">' . $I18N->msg("move_category") . '</label>
+										' . $move_a->out() . '
+									  </p>
+									  <p>
+										<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '" />
+									  </p>
+								  </div>
                                 </fieldset>';
 
         }

@@ -167,27 +167,29 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       <form action="index.php" method="post">
         <fieldset>
           <legend class="rex-lgnd" id="module">'. $legend .'</legend>
-          <input type="hidden" name="page" value="module" />
-          <input type="hidden" name="function" value="'.$function.'" />
-          <input type="hidden" name="save" value="ja" />
-          <input type="hidden" name="category_id" value="0" />
-          <input type="hidden" name="modul_id" value="'.$modul_id.'" />
-          <p>
-            <label for="mname">'.$I18N->msg("module_name").'</label>
-            <input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
-          </p>
-          <p>
-            <label for="eingabe">'.$I18N->msg("input").'</label>
-            <textarea class="rex-txtr-cd" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
-          </p>
-          <p>
-            <label for="ausgabe">'.$I18N->msg("output").'</label>
-            <textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
-          </p>
-          <p>
-            <input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
-            '. $btn_update .'
-          </p>
+      	  <div class="rex-fldst-wrppr">
+			  <input type="hidden" name="page" value="module" />
+			  <input type="hidden" name="function" value="'.$function.'" />
+			  <input type="hidden" name="save" value="ja" />
+			  <input type="hidden" name="category_id" value="0" />
+			  <input type="hidden" name="modul_id" value="'.$modul_id.'" />
+			  <p>
+				<label for="mname">'.$I18N->msg("module_name").'</label>
+				<input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
+			  </p>
+			  <p>
+				<label for="eingabe">'.$I18N->msg("input").'</label>
+				<textarea class="rex-txtr-cd" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
+			  </p>
+			  <p>
+				<label for="ausgabe">'.$I18N->msg("output").'</label>
+				<textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
+			  </p>
+			  <p>
+				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
+				'. $btn_update .'
+			  </p>
+		  </div>
         </fieldset>
     ';
 
@@ -255,14 +257,16 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         echo '
         <fieldset>
           <legend class="rex-lgnd" id="action">'.$I18N->msg("action_add").'</legend>
-          '. $actions .'
-          <p>
-            <label for="action_id">'.$I18N->msg("action").'</label>
-            '.$gaa_sel->out().'
-          </p>
-          <p>
-            <input class="rex-sbmt" type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
-          </p>
+	      <div class="rex-fldst-wrppr">
+			  '. $actions .'
+			  <p>
+				<label for="action_id">'.$I18N->msg("action").'</label>
+				'.$gaa_sel->out().'
+			  </p>
+			  <p>
+				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
+			  </p>
+		  </div>
         </fieldset>';
       }
     }

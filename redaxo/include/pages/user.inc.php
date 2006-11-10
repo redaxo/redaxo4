@@ -647,6 +647,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
   <form action="index.php" method="post">
     <fieldset>
       <legend class="rex-lgnd">'.$form_label.'</legend>
+
+      <div class="rex-fldst-wrppr">
       <input type="hidden" name="page" value="user" />
       <input type="hidden" name="save" value="1" />
       '. $add_hidden .'
@@ -753,6 +755,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 		</div>
 
       '. $add_submit .'
+      </div>
     </fieldset>
   </form>
   </div>
