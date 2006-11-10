@@ -208,6 +208,7 @@ body#rex-mpl div#rex-ftr {
 
 div#rex-ftr {
 	clear:both;
+	margin-top:10px;
 	padding:5px 0;
 	background:#f0efeb;
 	border-top:20px solid #aab9a8;
@@ -394,59 +395,6 @@ div.rex-cnt-hdr ul li a {
 /*	Form
 *******************************************************************************/
 
-/*
-div.rex-form {
-	padding:5px 0;
-	background:#eae9e5;
-	border:1px solid #ddd;
-}
-
-div.rex-form legend {
-	display:none;
-}
-
-div.rex-form p {
-	padding:5px 10px;
-}
-
-div.rex-form label {
-	display:block;
-	float:left;
-	width:120px;
-}
-
-div.rex-form input {
-	padding:1px;
-	font-size:1em;
-}
-
-div.rex-form input.fsubmit {
-}
-
-
-
-
-textarea.rex-ftxtr-cd {
-	height:150px;*/
-	/* font:normal 1em/1.6 courier; */
-/*}  
-
-input.rex-fsubmit {
-	padding:0 5px;
-}
-form#rex-tmp-editmode input.rex-fsubmit {
-	margin-left:150px;*/
-	/*
-	background:#d6e1e4;
-	border:1px solid #91ADB6;
-	border-top-color:#BED0D4;
-	border-left-color:#BED0D4;
-	*//*
-}*/
-
-
-
-
 
 body div#rex-output legend.rex-lgnd {
 	padding:5px;
@@ -467,17 +415,22 @@ body div#rex-output p.rex-sbmt,
 body div#rex-output p.rex-slct {
 	padding:5px;
 }
+body div#rex-output div.rex-fldst-wrppr {
+	border-top:1px solid #fff;
+}
 body div#rex-output p label {
 	clear:left;
 	display:block;
 	float:left;
 	width:150px;
+	padding-top:2px;
 }
 body div#rex-output p label.rex-lbl-rght {
 	clear:none;
 	display:inline;
 	float:left;
 	width:200px;
+	padding-top:0;
 }
 
 /* 
@@ -496,13 +449,14 @@ body div#rex-output p input.rex-sbmt {
 *******************************************************************************/
 table.rex-table {
 	clear:both;
-	margin-bottom:10px;
 	width:100%;
 	background:#f0efeb;
 	border-collapse:collapse;
 	border-spacing:1px;
 }
-
+table.rex-table-mrgn {
+	margin-bottom:10px;
+}
 table.rex-table caption, 
 table.rex-table th, 
 table.rex-table td {
@@ -805,7 +759,6 @@ div.rex-cnt-metamode p input.rex-sbmt {
 div.rex-tmp-editmode {
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
-	margin-bottom:10px;						/* jan - von 0 auf 10 */
 }
 
 div.rex-tmp-editmode p {
@@ -833,7 +786,6 @@ div.rex-mdl-editmode {
 	clear:both;								/* jan - clear */
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
-	margin-bottom:10px;						/* jan - von 0 auf 10 */
 }
 div.rex-mdl-editmode p {
 	background:#f0efeb;
@@ -866,7 +818,6 @@ div.rex-usr-editmode {
 	float:left;
 	width:100%;
 	background-color:#d6e1e4;
-	margin-bottom:10px;						/* jan - von 0 auf 10 */
 }
 div.rex-usr-editmode div {
 	clear:both;
@@ -883,6 +834,7 @@ div.rex-usr-editmode p {
 div.rex-usr-editmode p span {
 	display:block;
 	margin-left:155px;
+	padding-top:2px;
 }
 div.rex-usr-editmode p label {
 	padding-left:5px;
@@ -908,14 +860,6 @@ div.rex-usr-editmode p input.rex-sbmt {
 
 /*	Special
 *******************************************************************************/
-
-/* jan - anpassung */
-div.rex-spc-stn {
-	float:left;
-	margin-bottom:10px;
-}
-/* jan - ende */
-
 
 div.rex-spc-stn div.rex-spc-stn-cnt {
 }
