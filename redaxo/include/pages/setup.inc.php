@@ -329,7 +329,7 @@ if ($checkmodus == 2)
 						</p>
 						
 						<p>
-							<input class="rex-fsubmit" type="submit" value="'.$I18N->msg("setup_029").'" />
+							<input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_029").'" />
 						</p>
 						</fieldset>
 						</form>';
@@ -468,7 +468,7 @@ if ($checkmodus == 3)
   $sel_export = new rex_select();
   $sel_export->set_name('import_name');
   $sel_export->set_id('import_name');
-  $sel_export->set_style('class="rex-fslct"');
+  $sel_export->set_style('class="rex-slct"');
   $sel_export->set_selectextra('onchange="checkInput(\'dbanlegen_3\')"');
   $export_dir = $export_addon_dir. '/files';
   $exports_found = false;
@@ -516,17 +516,17 @@ if ($checkmodus == 3)
 
   echo '
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0.' />
+				<input class="rex-chckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0.' />
 				<label class="rex-lbl-right" for="dbanlegen_0">'.$I18N->msg('setup_034').'</label>
 			</p>
 			
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1.' />
+				<input class="rex-chckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1.' />
 				<label class="rex-lbl-right" for="dbanlegen_1">'.$I18N->msg('setup_035', '<b>', '</b>').'</label>
 			</p>
 			
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2.' />
+				<input class="rex-chckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2.' />
 				<label class="rex-lbl-right" for="dbanlegen_2">'.$I18N->msg('setup_036').'</label>
 			</p>';
                   
@@ -534,12 +534,12 @@ if ($checkmodus == 3)
   {
   echo '
 			<p>
-				<input class="rex-fchckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
+				<input class="rex-chckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
 				<label class="rex-lbl-right" for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
 			</p>
 			<p>'.$sel_export->out().'</p>';
   }
-  echo '<p><input class="rex-fsubmit" type="submit" value="'.$I18N->msg('setup_038').'" /></p>
+  echo '<p><input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_038').'" /></p>
 			</fieldset>
 			</form>
 	';
@@ -645,12 +645,12 @@ if ($checkmodus == 4)
 				</p>
         
 				<p>
-					<input class="rex-fchckbx" type="checkbox" id="noadmin" name="noadmin" value="1" />
+					<input class="rex-chckbx" type="checkbox" id="noadmin" name="noadmin" value="1" />
 					<label class="rex-lbl-right" for="noadmin">'.$I18N->msg("setup_048").'</label>
 				</p>
 				
 				<p>
-					<input class="rex-fsubmit" type="submit" value="'.$I18N->msg("setup_049").'" />
+					<input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_049").'" />
 				</p>
 				
 				</fieldset>

@@ -597,7 +597,19 @@ div#rex-stp-lcns {
 
  
  
-div#rex-stp p label {
+div#rex-stp fieldset {
+	margin-bottom:20px;
+}
+div#rex-stp fieldset legend {
+	margin-bottom:10px;
+	font-weight:bold;
+}
+ 
+body div#rex-stp p {
+	clear:both;
+}
+ 
+body div#rex-stp p label {
 	width:200px;
 }
  
@@ -608,7 +620,6 @@ div#rex-stp form#rex-stp-database label {
 div#rex-stp label.rex-lbl-right {
 	clear:none;
 	display:inline;
-	float:left;
 	width:200px;
 }
 
@@ -628,13 +639,18 @@ div#rex-stp input.rex-chckbx {
 	clear:both;
 	float:left;
 	margin:0 5px 0 30px;
+	width:auto;
 }
 
 div#rex-stp form#rex-stp-admin input.rex-chckbx {
-	margin-left:180px;
+	margin-bottom:10px;
+	margin-left:200px;
 }
 div#rex-stp input.rex-sbmt {
 	margin-left:200px;
+}
+div#rex-stp form#rex-stp-database input.rex-sbmt {
+	margin-left:50px;
 }
 
 
