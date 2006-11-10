@@ -71,13 +71,18 @@ if ($function == "add" or $function == "edit") {
       }
     }
 
+		// Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
+		// keine Zeichen escaped werden dürfen
 		for($i=1;$i<count($ctypes)+1;$i++)
 		{
-			$ctypes[$i] = str_replace('\"','',$ctypes[$i]);
+			// einfacher Backslash entfernen
+			//   \\ ist ein einfacher Backslash!
+			$ctypes[$i] = str_replace('\\', '', $ctypes[$i]);
 		}	
 		
     if ($function == "add") {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
+      
       $ITPL = new rex_sql;
       $ITPL->setTable($REX['TABLE_PREFIX'] . "template");
       $ITPL->setValue("name", $templatename);
@@ -86,11 +91,13 @@ if ($function == "add" or $function == "edit") {
       $ITPL->setValue("attributes", $attributes);
       $ITPL->setValue("createdate", time());
       $ITPL->setValue("createuser", $REX_USER->getValue("login"));
-      $ITPL->insert();
-      $template_id = $ITPL->last_insert_id;
-      $message = $I18N->msg("template_added");
+      
+      if($ITPL->insert())
+      {
+	      $template_id = $ITPL->getLastId();
+	      $message = $I18N->msg("template_added");
+      }
     } else {
-    	
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
 
       $TMPL = new rex_sql;
@@ -102,15 +109,18 @@ if ($function == "add" or $function == "edit") {
       $TMPL->setValue("active", $active);
       $TMPL->setValue("updatedate", time());
       $TMPL->setValue("updateuser", $REX_USER->getValue("login"));
-      $TMPL->update();
+      
+      if($TMPL->update())
+      {
+	      $message = $I18N->msg("template_added");
+      }
 
 			// werte werden direkt wieder ausgegeben
       $attributes = stripslashes($attributes);
       $templatename = stripslashes($templatename);
       $content = stripslashes($content);
-
-      $message = $I18N->msg("template_added");
     }
+    
     rex_generateTemplate($template_id);
 
     if (isset ($goon) and $goon != "") {
