@@ -24,6 +24,15 @@ class sql extends rex_sql{
     return $this->getLastId();
   }
   
+  /**
+   * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
+   * @see #next();
+   */
+  function nextValue()
+  {
+  	$this->next();
+  }
+
   function where($where)
   {
     $this->setWhere($where);
