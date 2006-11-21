@@ -7,11 +7,15 @@
  */
 
 // rex_sql -> sql alias
-class sql extends rex_sql{
-
+class sql extends rex_sql
+{
+	var $select;
+	
   function sql($DBID = 1)
   {
     parent::rex_sql($DBID);
+    // Altes feld wurde umbenannt, deshalb hier als Alias speichern
+    $this->select =& $this->query;
   }
   
   function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
@@ -33,9 +37,28 @@ class sql extends rex_sql{
   	$this->next();
   }
 
+  /**
+   * Setzt den Cursor des Resultsets zurück zum Anfang
+   */
+  function resetCounter()
+  {
+    $this->reset();
+  }
+
+  /**
+   * Setzt die WHERE Bedienung der Abfrage
+   */
   function where($where)
   {
     $this->setWhere($where);
+  }
+  
+  /**
+   * Sendet eine Abfrage an die Datenbank
+   */
+  function query($qry)
+  {
+    return $this->setQuery($qry);
   }
 }
 

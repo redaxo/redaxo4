@@ -11,14 +11,14 @@ $OUT = TRUE;
 if (!empty($add_action))
 {
   $aa = new rex_sql;
-  $aa->query("INSERT INTO ".$REX['TABLE_PREFIX']."module_action SET module_id='$modul_id', action_id='$action_id'");
+  $aa->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."module_action SET module_id='$modul_id', action_id='$action_id'");
   $message = $I18N->msg("action_taken");
   $goon = 'ja';
 }
 elseif (isset($function_action) and $function_action == 'delete')
 {
   $aa = new rex_sql;
-  $aa->query("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id' and id='$iaction_id' LIMIT 1");
+  $aa->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id' and id='$iaction_id' LIMIT 1");
   $message = $I18N->msg("action_deleted_from_modul");
 } 
 
@@ -51,8 +51,8 @@ if (isset($function) and $function == 'delete')
     $message = $I18N->msg("module_cannot_be_deleted",$modulname).'<br /> '.$module;
   } else
   {
-    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
-    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id'");
+    $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
+    $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id'");
   
     $message = $I18N->msg("module_deleted");
   }
@@ -67,7 +67,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
 
     if ($function == 'add')
     {
-      // $modultyp->query("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
+      // $modultyp->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
       
       $IMOD = new rex_sql;
       $IMOD->setTable($REX['TABLE_PREFIX']."modultyp");
@@ -86,7 +86,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       {
         $old_ausgabe = $modultyp->getValue("ausgabe");
     
-        // $modultyp->query("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+        // $modultyp->setQuery("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
         
         $UMOD = new rex_sql;
         $UMOD->setTable($REX['TABLE_PREFIX']."modultyp");

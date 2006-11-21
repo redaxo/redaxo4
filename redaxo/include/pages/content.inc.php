@@ -244,7 +244,7 @@ if ($article->getRows() == 1)
                 if ($newsql->insert())
                 {
                   $last_id = $newsql->getLastId();
-                  if ($newsql->query('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $last_id . ' WHERE re_article_slice_id=' . $slice_id . ' AND id<>' . $last_id . ' AND article_id=' . $article_id . ' AND clang=' . $clang))
+                  if ($newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $last_id . ' WHERE re_article_slice_id=' . $slice_id . ' AND id<>' . $last_id . ' AND article_id=' . $article_id . ' AND clang=' . $clang))
                   {
                     $message .= $I18N->msg('block_added');
                     $slice_id = $last_id;
@@ -260,9 +260,9 @@ if ($article->getRows() == 1)
               $newsql->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE re_article_slice_id=' . $slice_id);
               if ($newsql->getRows() > 0)
               {
-                $newsql->query('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $re_id . ' where id=' . $newsql->getValue('id'));
+                $newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $re_id . ' where id=' . $newsql->getValue('id'));
               }
-              $newsql->query('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
+              $newsql->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
               $message = $I18N->msg('block_deleted');
             }
             // ----- / SAVE SLICE
@@ -372,10 +372,10 @@ if ($article->getRows() == 1)
               {
                 if ($SCTYPE[$SREID[$slice_id]] == $slice_ctype)
                 {
-                  $gs->query("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$SREID[$slice_id]] . "' where id='" . $slice_id . "'");
-                  $gs->query("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SREID[$slice_id] . "'");
+                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$SREID[$slice_id]] . "' where id='" . $slice_id . "'");
+                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SREID[$slice_id] . "'");
                   if ($SID[$slice_id] > 0)
-                    $gs->query("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
+                    $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
                   $message = $I18N->msg('slice_moved');
                   rex_generateArticle($slice_article_id);
                 }
@@ -389,10 +389,10 @@ if ($article->getRows() == 1)
               {
                 if ($SCTYPE[$SID[$slice_id]] == $slice_ctype)
                 {
-                  $gs->query("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-                  $gs->query("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SID[$slice_id] . "' where id='" . $slice_id . "'");
+                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
+                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SID[$slice_id] . "' where id='" . $slice_id . "'");
                   if ($SID[$SID[$slice_id]] > 0)
-                    $gs->query("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
+                    $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
                   $message = $I18N->msg('slice_moved');
                   rex_generateArticle($slice_article_id);
                 }

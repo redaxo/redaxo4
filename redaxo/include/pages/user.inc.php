@@ -311,7 +311,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   if ($REX_USER->getValue("user_id")!=$user_id)
   {
     $deleteuser = new rex_sql;
-    $deleteuser->query("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
+    $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
     $message = $I18N->msg("user_deleted");
     unset($user_id);
   }else

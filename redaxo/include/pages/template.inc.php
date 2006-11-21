@@ -24,7 +24,7 @@ if ($function == "delete") {
     if ($del->getRows() > 0) {
       $message = $I18N->msg("cant_delete_template_because_its_in_use", htmlspecialchars($del->getValue($REX['TABLE_PREFIX'] . "template.name")));
     } else {
-      $del->query("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
+      $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
       $message = $I18N->msg("template_deleted");
 
       rex_deleteDir($REX['INCLUDE_PATH'] . "/generated/templates/" . $template_id . ".template", 0);
@@ -78,7 +78,7 @@ if ($function == "add" or $function == "edit") {
 			// einfacher Backslash entfernen
 			//   \\ ist ein einfacher Backslash!
 			$ctypes[$i] = str_replace('\\', '', $ctypes[$i]);
-		}	
+		}
 		
     if ($function == "add") {
       $attributes = rex_setAttributes("ctype", $ctypes, "");

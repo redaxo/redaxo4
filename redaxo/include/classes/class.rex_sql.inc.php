@@ -11,10 +11,10 @@ class rex_sql
 
   var $table; // Tabelle setzen
   var $wherevar; // WHERE Bediengung
-  var $select; // letzter Query String
-  var $counter; // select: welcher datensatz ist dran
-  var $rows; // select: anzahl der treffer
-  var $result; // select: alle angaben gespeichert
+  var $query; // letzter Query String
+  var $counter; // ResultSet Cursor
+  var $rows; // anzahl der treffer
+  var $result; // ResultSet
   var $last_insert_id; // zuletzt angelegte auto_increment nummer
   var $debugsql; // debug schalter
   var $identifier; // Datenbankverbindung
@@ -71,7 +71,7 @@ class rex_sql
   {
     $this->counter = 0;
     $this->last_insert_id = 0;
-    $this->select = $qry;
+    $this->query = $qry;
     $this->result = @ mysql_query($qry, $this->identifier);
 
     if ($this->result)
@@ -180,7 +180,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die Anzahl der Zeilen zurück, die vom letzten SQL betroffen sind
+   * Gibt die Anzahl der Zeilen zurück
    */
   function getRows()
   {
@@ -188,13 +188,13 @@ class rex_sql
   }
 
   /**
-   * Setzt den Cursor des Resultsets zurück zum Anfang
+   * Gibt die Anzahl der Felder/Spalten zurück
    */
-  function resetCounter()
+  function getFields()
   {
-    $this->counter = 0;
+  	return mysql_num_fields($this->result);
   }
-
+  
   /**
    * Baut den SET bestandteil mit der 
    * verfügbaren values zusammen und gibt diesen zurück
@@ -286,20 +286,11 @@ class rex_sql
     $this->error = '';
     $this->errno = '';
     $this->wherevar = '';
-    $this->select = '';
+    $this->query = '';
     $this->counter = 0;
     $this->rows = 0;
     $this->result = '';
     $this->values = array ();
-  }
-
-  /**
-   * Sendet eine Abfrage an die Datenbank
-   * @deprecated 3.3 - 21.08.2006
-   */
-  function query($qry)
-  {
-    return $this->setQuery($qry);
   }
 
   /**
@@ -317,7 +308,15 @@ class rex_sql
   {
     $this->counter++;
   }
-
+  
+  /**
+   * Setzt den Cursor des Resultsets zurück zum Anfang
+   */
+  function reset()
+  {
+    $this->counter = 0;
+  }
+	
   /**
    * Gibt die letzte InsertId zurück
    */
@@ -331,7 +330,6 @@ class rex_sql
    */
   function getArray($sql = "", $fetch_type = MYSQL_ASSOC)
   {
-
     if ($sql != "")
     {
       $this->setQuery($sql);
@@ -403,15 +401,14 @@ class rex_sql
 
     return $id;
   }
-
+  
   /**
    * Gibt die Spaltennamen des ResultSets zurück 
    */
   function getFieldnames()
   {
     $fields = array ();
-    $numFields = mysql_num_fields($this->result);
-    for ($i = 0; $i < $numFields; $i++)
+    for ($i = 0; $i < $this->getFields(); $i++)
     {
       $fields[] = mysql_field_name($this->result, $i);
     }

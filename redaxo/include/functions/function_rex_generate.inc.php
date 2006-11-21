@@ -254,8 +254,8 @@ function rex_deleteArticle($id, $ebene = 0)
       @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content");
       @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.alist");
       @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.clist");
-      $ART->query("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
-      $ART->query("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
+      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
+      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
       next($CL);
     }
 
@@ -361,7 +361,7 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
     {
       $ipid = $gr->getValue("pid");
       $iprior = $i +1;
-      $gu->query("update ".$REX['TABLE_PREFIX']."article set catprior=$iprior where pid='$ipid'");
+      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set catprior=$iprior where pid='$ipid'");
       $gr->next();
     }
     rex_generateLists($re_id);
@@ -395,7 +395,7 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
       // echo "<br>".$gr->getValue("pid")." ".$gr->getValue("id")." ".$gr->getValue("name");
       $ipid = $gr->getValue("pid");
       $iprior = $i +1;
-      $gu->query("update ".$REX['TABLE_PREFIX']."article set prior=$iprior where pid='$ipid'");
+      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set prior=$iprior where pid='$ipid'");
       $gr->next();
     }
     rex_generateLists($re_id);
@@ -940,12 +940,12 @@ function rex_deleteCLang($id)
     $del->next();
   }
 
-  $del->query("delete from ".$REX['TABLE_PREFIX']."article where clang='$id'");
-  $del->query("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$id'");
+  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$id'");
+  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$id'");
 
   unset ($REX['CLANG'][$id]);
   $del = new rex_sql();
-  $del->query("delete from ".$REX['TABLE_PREFIX']."clang where id='$id'");
+  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$id'");
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_DELETED','',array ('id' => $id));
@@ -1016,7 +1016,7 @@ function rex_addCLang($id, $name)
     $add->next();
   }
   $add = new rex_sql();
-  $add->query("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
+  $add->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
@@ -1045,7 +1045,7 @@ function rex_editCLang($id, $name)
   fclose($h);
   @ chmod($REX['INCLUDE_PATH']."/clang.inc.php", 0777);
   $edit = new rex_sql;
-  $edit->query("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
+  $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
   
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));

@@ -836,7 +836,7 @@ if ($subpage=="detail" && $media_method == 'delete_file')
       if(!is_array($res1) and !is_array($res2)){
 
         $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
-        $db->query($sql);
+        $db->setQuery($sql);
         unlink($REX['MEDIAFOLDER']."/".$file_name);
         $msg = $I18N->msg('pool_file_deleted');
         $subpage = "";
@@ -1363,7 +1363,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
         if(!is_array($res1) and !is_array($res2)){
 
           $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
-          $db->query($sql);
+          $db->setQuery($sql);
           // fehler unterdrücken, falls die Datei nicht mehr vorhanden ist
           @unlink($REX['MEDIAFOLDER']."/".$file_name);
           $msg .= "\"$file_name\" ".$I18N->msg('pool_file_deleted');

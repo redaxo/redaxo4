@@ -326,7 +326,7 @@ class OOMediaCategory
     $sql = new rex_sql(); //        $sql->debugsql = true;
     //        echo $qry;
     //        return;
-    $sql->query($qry);
+    $sql->setQuery($qry);
     return $sql->getError();
   } /**
             * @access protected
@@ -340,7 +340,7 @@ class OOMediaCategory
     $sql = new rex_sql(); //        $sql->debugsql = true;
     //        echo $qry;
     //        return;
-    $sql->query($qry);
+    $sql->setQuery($qry);
     return $sql->getError();
   } /**
             * @access protected
@@ -387,7 +387,7 @@ class OOMediaCategory
     $sql = new rex_sql(); //        $sql->debugsql = true;
     //        echo $qry;
     //        return;
-    $sql->query($qry);
+    $sql->setQuery($qry);
     return $sql->getError();
   }
 }

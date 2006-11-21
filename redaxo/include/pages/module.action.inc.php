@@ -30,7 +30,7 @@ if (isset($function) and $function == "delete")
   }
   else
   {
-    $del->query("DELETE FROM ".$REX['TABLE_PREFIX']."action WHERE id='$action_id' LIMIT 1");
+    $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."action WHERE id='$action_id' LIMIT 1");
     $message = $I18N->msg("action_deleted");
   }
 }

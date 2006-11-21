@@ -116,7 +116,7 @@ function rex_getAttributes($name,$content,$default = null)
 function rex_setAttributes($name,$value,$content)
 {
 	$prop = unserialize($content);
-	$prop[$name] = ($value);
+	$prop[$name] = $value;
 	return serialize($prop);
 }
 

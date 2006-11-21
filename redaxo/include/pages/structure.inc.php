@@ -693,7 +693,7 @@ if ($category_id > -1)
       $TMPL_SEL->add_option($TEMPLATES->getValue("name"), $TEMPLATES->getValue("id"));
     }
     $TEMPLATE_NAME[$TEMPLATES->getValue("id")] = $TEMPLATES->getValue("name");
-    $TEMPLATES->nextValue();
+    $TEMPLATES->next();
   }
   $TEMPLATE_NAME[0] = $I18N->msg("template_default_name");
 

@@ -214,7 +214,7 @@ class rex_article
           $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.id");
           $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.name");
           $RE_C[$this->CONT->getValue("re_article_slice_id")] = $i;
-          $this->CONT->nextValue();
+          $this->CONT->next();
         }
 
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
