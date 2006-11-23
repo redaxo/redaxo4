@@ -27,7 +27,13 @@ class rex_sql
   {
     global $REX;
 
-    $this->identifier = @ mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+		// Baue eine Verbindung via mysql_pconnect auf
+		// Falls das Fehl schlägt, verbindung über mysql_connect aufbauen
+		// Bei manchen Providern ist mysql_pconnect nicht aktiviert/freigeschaltet
+    $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+    if(!$this->identifier)
+			$this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);     
+    										
     $this->debugsql = false;
     $this->DBID = $DBID;
     $this->selectDB();
