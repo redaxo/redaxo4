@@ -31,6 +31,8 @@ class rex_article
   // ----- Konstruktor
   function rex_article($article_id = null, $clang = null)
   {
+  	global $REX;
+  	
     $this->article_id = 0;
     $this->template_id = 0;
     $this->clang = 0;
@@ -48,6 +50,8 @@ class rex_article
 
     if($clang !== null)
       $this->setCLang($clang);
+    else
+      $this->setClang($REX['CUR_CLANG']);
       
     if ($article_id !== null) 
       $this->setArticleId($article_id);
