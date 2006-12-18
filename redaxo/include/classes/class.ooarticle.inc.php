@@ -44,42 +44,11 @@ class OOArticle extends OORedaxo
    * a simple name or a string containing SQL search placeholders
    * that you would insert into a 'LIKE '%...%' statement.
    *
-   * Returns an array of OORedaxo objects.
+   * Returns an array of OOArticle objects.
    */
-  function searchArticlesByName($article_name, $ignore_offlines = false, $clang = false, $categories = false)
+  function searchArticlesByName($article_name, $ignore_offlines = false, $clang = false)
   {
-    global $REX;
-    if ($clang === false)
-      $clang = $REX['CUR_CLANG'];
-    $offline = $ignore_offlines ? " and status = 1 " : "";
-    $cats = '';
-    if (is_array($categories))
-    {
-      $cats = " and re_id in (".implode(',', $categories).") ";
-    }
-    elseif (is_string($categories))
-    {
-      $cats = " and re_id = $categories ";
-    }
-    elseif ($categories === true)
-    {
-      $cats = " and startpage = 1 ";
-    }
-
-    $artlist = array ();
-    $sql = new rex_sql;
-    //              $sql->debugsql = true;
-    $sql->setQuery("select ".implode(',', OORedaxo :: getClassVars())." from ".$REX['TABLE_PREFIX']."article where name like '$article_name' AND clang='$clang' $offline $cats");
-    for ($i = 0; $i < $sql->getRows(); $i ++)
-    {
-      foreach (OORedaxo :: getClassVars() as $var)
-      {
-        $article_data[$var] = $sql->getValue($var);
-      }
-      $artlist[] = new OOArticle($article_data, $clang);
-      $sql->next();
-    }
-    return $artlist;
+		return searchByName($article_name, $ignore_offlines, $clang);
   }
 
   /**

@@ -62,21 +62,21 @@ class OOCategory extends OORedaxo
     return $catlist;
   }
 
-  /*
+  /**
    * CLASS Function:
    * Return a list of categories which names match the
    * search string. For now the search string can be either
    * a simple name or a string containing SQL search placeholders
    * that you would insert into a 'LIKE '%...%' statement.
    *
-   * Returns an array of OORedaxo objects.
+   * Returns an array of OOCategory objects.
    */
-  function searchCategoriesByName($a_name, $ignore_offlines = false, $clang = false)
+  function searchArticlesByName($category_name, $ignore_offlines = false, $clang = false)
   {
-    return OOArticle :: searchArticlesByName($a_name, $ignore_offlines, $clang, true);
+		return searchByName($category_name, $ignore_offlines, $clang, true);
   }
 
-  /*
+  /**
    * CLASS Function:
    * Return a list of top level categories, ie.
    * categories that have no parent.
@@ -86,13 +86,13 @@ class OOCategory extends OORedaxo
    * all categories with status 0 will be
    * excempt from this list!
    */
-  //function getRootCategories($ignore_offlines = false) {
-
   function getRootCategories($ignore_offlines = false, $clang = false)
   {
     global $REX;
+    
     if ($clang === false)
       $clang = $GLOBALS['REX']['CUR_CLANG'];
+      
     return OOCategory :: getChildrenById(0, $ignore_offlines, $clang);
   }
 
@@ -108,8 +108,10 @@ class OOCategory extends OORedaxo
   function getChildren($ignore_offlines = false, $clang = false)
   {
     global $REX;
+    
     if ($clang === false)
       $clang = $GLOBALS['REX']['CUR_CLANG'];
+      
     return OOCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
 
@@ -129,8 +131,7 @@ class OOCategory extends OORedaxo
    */
   function isParent($other_cat)
   {
-
-    // return $this->_id == $other_cat->_re_category_id;
+     return $this->getId() == $other_cat->getParentId();
   }
 
   /*
