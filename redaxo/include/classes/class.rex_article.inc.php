@@ -243,7 +243,7 @@ class rex_article
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
         $I_ID = 0;
         $PRE_ID = 0;
-        $this->CONT->resetCounter();
+        $this->CONT->reset();
         $this->article_content = "";
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
@@ -335,6 +335,7 @@ class rex_article
                 else $modebit = '1'; // pre-action and add
                 
                 $ga = new rex_sql;
+                $ga->debugsql = 0;
                 $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
       
                 for ($t=0;$t<$ga->getRows();$t++)
