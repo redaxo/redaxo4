@@ -747,7 +747,7 @@ class OOMedia
    */
   function toString()
   {
-    return 'OOMedia, "'.$this->getId().'", "'.$this->getName().'"'."<br/>\n";
+    return 'OOMedia, "'.$this->getId().'", "'.$this->getFileName().'"'."<br/>\n";
   }
 
   // new functions by vscope
