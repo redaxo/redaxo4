@@ -148,7 +148,7 @@ if (isset ($LOGIN) AND $LOGIN)
       }
       else
       {
-        echo '<li>' . $border . '<a href="javascript:' . $popup . '">' . $name . '</a></li>' . "\n";
+        echo '<li>' . $border . '<a href="' . $popup . '">' . $name . '</a></li>' . "\n";
       }
     }
     next($REX['ADDON']['status']);
