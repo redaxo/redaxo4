@@ -71,12 +71,13 @@ function rex_getUrl($id = '', $clang = '', $params = '')
     $clang = $REX['CUR_CLANG'];
   }
 
-  // ----- Backend
-  if ($REX['REDAXO'])
+  // ----- add protocol
+	$protocol = 'http';
+  if(isset($params['protocol']))
   {
-    return 'index.php?page=content&amp;article_id='.$id.'&amp;clang='.$clang;	
+  	$protocol = $params['protocol'];
+  	unset($params['protocol']);
   }
-
 
   // ----- get params
   $param_string = '';
@@ -108,7 +109,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   {
     $name = 'NoName';
   }
-
+  
   // ----- EXTENSION POINT
   $url = rex_register_extension_point('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string));
 
@@ -117,24 +118,24 @@ function rex_getUrl($id = '', $clang = '', $params = '')
     // ----- get rewrite function
     if ($REX['MOD_REWRITE'] === true || $REX['MOD_REWRITE'] == 'true')
     {
-      $rewrite_fn = 'rexrewrite_apache_rewrite';
+      $rewrite_fn = 'rex_apache_rewrite';
     }
     else
     {
-      $rewrite_fn = 'rexrewrite_no_rewrite';
+      $rewrite_fn = 'rex_no_rewrite';
     }
 
     $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string);
   }
 
-  return $url;
+  return $protocol .'://'. $REX['SERVER'] .'/'. $url;
 
 }
 
 // ----------------------------------------- Rewrite functions
 
 // Kein Rewrite wird durchgeführt
-function rexrewrite_no_rewrite($id, $name, $clang, $param_string)
+function rex_no_rewrite($id, $name, $clang, $param_string)
 {
   global $REX;
   $url = 'index.php?article_id='.$id;
@@ -148,7 +149,7 @@ function rexrewrite_no_rewrite($id, $name, $clang, $param_string)
 }
 
 // Rewrite für mod_rewrite
-function rexrewrite_apache_rewrite($id, $name, $clang, $params)
+function rex_apache_rewrite($id, $name, $clang, $params)
 {
   if ($params != '')
   {
