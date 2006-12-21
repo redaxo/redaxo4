@@ -1,4 +1,4 @@
-Diese Datei ist nur für den REDAXO Kern gedacht inkl. den 
+Diese Datei ist nur für den REDAXO Kern gedacht inkl. den
 AddOns: stats / import_export / image_resize
 
 Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
@@ -8,7 +8,7 @@ angehandelt.
 Todos:
 ---------------------------------------------------------------------------------
 
-  * JS Linkmap umbauen 
+  * JS Linkmap umbauen
     * Artikel suchbar machen
     * Struktur anzeigen und Artikel im Extra Bereich
     * JS System ändern da bei viele Artikel alles ein wenig langsam wird.
@@ -17,12 +17,12 @@ Todos:
     * Template fest zu Kategorien zuweisen können
     * Default Templates festlegbar machen
     * ctypes zu template zuweisen koennen
-  * Umbau des Statistiktools. 
+  * Umbau des Statistiktools.
     * Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
     * Fehler bei URLs mit $ z.b. $_POST .. Referer ..
   * Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
   * Warnings/Notices entfernen
-  
+
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
 ---------------------------------------------------------------------------------
@@ -32,17 +32,17 @@ Planung / Irgendwann:
   * Backend Redesign auf 100% Scaling
   * Backend auf CSS Layout umstellen
   * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
-  
+
 ---------------------------------------------------------------------------------
 Diskussionsanregungen:
 ---------------------------------------------------------------------------------
   * Textile und Phpmailer ebenfalls nach Vorbild TinyMCE als Addon, da nicht zum Redaxo-Kern zugehörig
-    - Nachteil: 
+    - Nachteil:
       + Installation von "unnötigen" Addons -> unübersichtlich
     - Vorteil:
       + konsequentes Auslagern und Sauberhalten des Redaxo-Kerns
       + Textile-Addon: detailierte Anleitung möglich
-  
+
 ---------------------------------------------------------------------------------
 Known Bugs:
 ---------------------------------------------------------------------------------
@@ -61,10 +61,10 @@ Changes:
 ---------------------------------------------------------------------------------
 
   * CTypes aufbereitet [kills,jan]
-  	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt. 
-  	- Sind nun abhängig von einzelnen Templates 
+  	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
+  	- Sind nun abhängig von einzelnen Templates
   * Metadaten
-    - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt 
+    - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt
       OOArticle.searchArticlesByType entfernt [kills,jan]
   * Umbenennungen
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [kills,jan]
@@ -87,17 +87,19 @@ Changes:
         + title -> rex_title()
         + getUrlById -> rex_getUrl()
   * Rückwärtskompatibilität eingeschränkt durch:
-    - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert [kills]  
-    - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt [kills]  
+    - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert [kills]
+    - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt [kills]
   * UrlRewrite:
     - Backendlink bei rex_getUrl() eingebaut. Wird dann auf EditView verlinkt [kills,jan]
   * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [jan]
   * REX_ACTIONS wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kills,jan]
   * Backend XHTML [tbaddade, kills]
-  * class.ooarticle.inc.php 
+  * class.ooarticle.inc.php
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
     - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
     - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
+  * class.ooredaxo.inc.php
+  	- getParentTree - "normale" Artikel fehlten im zurück gelieferten Array
   * Struktur:
     - Beim angelegen haben Artikel das gleiche Template wie die Kategorie in der sie sich befinden [kills]
   * Metadaten:
@@ -225,7 +227,7 @@ Version 3.2 (2006-04-06)
     - passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [jan]
   * Import/Export Addon:
     - Auf $REX['TABLE_PREFIX'] angepasst [kills]
-  
+
   * Login angepasst.. Jetzt wird nach einem gelungenen Login eine Headerweiterleitung durchgeführt. [jan]
   * rex_help tabellen aus setup und install sqls entfernt weil nie benutzt [jan]
   * $REX['NOTFOUND_ARTICLE_ID'] => auf diesen Artikel wird weitergeleitet, wenn eine ungültige article_id übergeben wurde [jan]
@@ -240,12 +242,12 @@ Version 3.2 (2006-04-06)
   * rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [kills]
   * Textile Klasse upgedated [jan]
   * Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
-  
+
 Version 3.1 (2005-11-30)
 
   * Import/Export:
     - Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [kills]
-  * rexExtensionPoints erstellt 
+  * rexExtensionPoints erstellt
     - MEDIA_ADDED, MEDIA_UPDATED [jan]
     - ALL_GENERATED, URL_REWRITE [kills]
     - CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS [jan]
