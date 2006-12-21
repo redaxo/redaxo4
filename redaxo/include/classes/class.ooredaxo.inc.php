@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
  * @package redaxo3
  * @version $Id$
@@ -90,10 +90,10 @@ class OORedaxo
           $vars[] = substr($name, 1);
         }
       }
-      
-      // ----- Extension Point    
+
+      // ----- Extension Point
       $params = rex_register_extension_point('ART_META_PARAMS', array());
-      
+
       foreach($params as $name => $value)
         $vars[] = $name;
     }
@@ -129,10 +129,10 @@ class OORedaxo
   function searchByName($name, $ignore_offlines = false, $clang = false, $categories = false)
   {
     global $REX;
-    
+
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
-      
+
     $offline = $ignore_offlines ? " AND status = 1 " : "";
     $cats = '';
     if (is_array($categories))
@@ -158,12 +158,12 @@ class OORedaxo
       {
         $data[$var] = $sql->getValue($var);
       }
-      
+
       if($categories)
 				$list[] = new OOCategory($data, $clang);
       else
 				$list[] = new OOArticle($data, $clang);
-	      
+
       $sql->next();
     }
     return $list;
@@ -213,7 +213,7 @@ class OORedaxo
   {
     return OOArticle::getArticleById($this->_re_id);
   }
-  
+
   /*
    * Accessor Method:
    * returns the name of the article
@@ -316,7 +316,7 @@ class OORedaxo
   /*
    * Accessor Method:
    * Returns a link to this article
-   * 
+   *
    * @param [$params] Parameter für den Link
    * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
    * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
@@ -361,7 +361,7 @@ class OORedaxo
 
     if ($this->_path)
     {
-      $explode = explode('|', $this->_path);
+      $explode = explode('|', $this->_path.$this->_id.'|');
       if (is_array($explode))
       {
         foreach ($explode as $var)
@@ -371,10 +371,6 @@ class OORedaxo
             $return[] = OOCategory :: getCategoryById($var, $this->_clang);
           }
         }
-      }
-      if ($this->_startpage)
-      {
-        $return[] = OOCategory :: getCategoryById($this->_id, $this->_clang);
       }
     }
 
@@ -409,7 +405,7 @@ class OORedaxo
     global $REX;
     return $this->_id == $REX['START_ARTICLE_ID'];
   }
-  
+
   /*
    * Object Helper Function:
    * Returns a String representation of this object
