@@ -71,14 +71,12 @@ function rex_getUrl($id = '', $clang = '', $params = '')
     $clang = $REX['CUR_CLANG'];
   }
 
-  // ----- add protocol
-	$protocol = 'http';
-  if(isset($params['protocol']))
+  // ----- Backend
+  if (!$REX['GG'])
   {
-  	$protocol = $params['protocol'];
-  	unset($params['protocol']);
+    return 'index.php?page=content&amp;article_id='.$id.'&amp;clang='.$clang;	
   }
-
+  
   // ----- get params
   $param_string = '';
   if (is_array($params))
@@ -128,7 +126,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
     $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string);
   }
 
-  return $protocol .'://'. $REX['SERVER'] .'/'. $url;
+  return $url;
 
 }
 
