@@ -55,7 +55,7 @@ class rex_map
 
     if ($node->getId() == $this->getCurrentNodeId())
     {
-      $attr['id'] = 'map-current';
+      $attr['id'] = 'rex-map-current';
     }
 
     if (count($attr) > 0)
@@ -84,18 +84,18 @@ class rex_map
     }
 
     $s = '';
-    $linkClass = $node->isOnline() ? 'online' : 'offline';
+    $linkClass = $node->isOnline() ? 'rex-online' : 'rex-offline';
 
     $liClass = '';
     if ($node->isStartPage() == 1)
     {
-      $liClass = ' class="map-startpage"';
+      $liClass = ' class="rex-map-startpage"';
     }
 
     $liId = '';
     if ($node->getId() == $this->getCurrentNodeId())
     {
-      $liId = ' id="map-active"';
+      $liId = ' id="rex-map-active"';
     }
     $s .= '<li'.$liClass.$liId.'>';
 
@@ -237,7 +237,7 @@ class rex_article_search_map extends rex_article_map
   function rex_article_search_map($title, $qry, $ignore_offlines = false)
   {
     $this->qry = $qry;
-    // Kategorie ID unwichtig => Dummy Value 
+    // Kategorie ID unwichtig => Dummy Value
     $this->rex_article_map($title, 0, $ignore_offlines = false);
   }
 
@@ -257,8 +257,8 @@ class rex_article_search_map extends rex_article_map
 
     return $articles;
   }
-  
-  // Funktion zur Sortierung 
+
+  // Funktion zur Sortierung
   function rex_sortArticleByName($articleA, $articleB)
   {
     $nameA = $articleA->getName();
@@ -335,7 +335,7 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
                needle.obj.value = linkid;
                var needle = new opener.getObj("'. $link_name_field .'");
                needle.obj.value = name;';
-              
+
 // ------------------------ Print JS Functions
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -350,7 +350,7 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 // ------------------------ Print CSS
 ?>
 
-<div class="searchbar">
+<div class="rex-linkmap-searchbar">
   <?php
 
 
