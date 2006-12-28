@@ -171,7 +171,7 @@ class rex_sql
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
    */
-  function getValue($feldname, $row = null)
+  function getValue($feldname, $row = null, $debug = false)
   {
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
@@ -182,7 +182,7 @@ class rex_sql
       $_row = $row;
     }
 
-    return @ mysql_result($this->result, $_row, $feldname);
+    return mysql_result($this->result, $_row, $feldname);
   }
 
   /**
