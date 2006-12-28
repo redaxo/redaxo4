@@ -162,6 +162,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - float
  *  - object
  *  - array
+ *  - '' (nicht casten)
  * 
  * @access private
  */
