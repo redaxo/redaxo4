@@ -117,38 +117,14 @@ function rex_generateArticle($id, $refreshall = true)
       'last_update_stamp' => time()
     );
     
-    $db_fields = array(
-      're_id',
-      'clang',
-      'name',
-      'catname',
-      'label',
-      'startpage',
-      'template_id',
-      'prior',
-      'path',
-      'url',
-      'file',
-      'type_id',
-      'teaser',
-      'keywords',
-      'description',
-      'attributes',
-      'updatedate',
-      'createdate',
-      'updateuser',
-      'createuser',
-      'status',
-    );
+    $class_vars = OORedaxo::getClassVars();
+    unset($class_vars[array_search('id', $class_vars)]);
+    $db_fields = $class_vars;
     
     foreach($db_fields as $field)
       $params[$field] = $CONT->getValue($field);
 
-    // ----- Extension Point    
-    $params = rex_register_extension_point('ART_META_PARAMS', $params);
-    
     $content = '<?php'."\n";
-    
     foreach($params as $name => $value)
       $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value) .'\';'."\n";
     
@@ -994,10 +970,8 @@ function rex_addCLang($id, $name)
     $adda = new rex_sql;
     // $adda->debugsql = 1;
     $adda->setTable($REX['TABLE_PREFIX']."article");
-    reset($fields);
-    while (list ($key, $value) = each($fields))
+    foreach($fields as $key => $value)
     {
-
       if ($value == "pid")
         echo ""; // nix passiert
       else
@@ -1139,9 +1113,10 @@ function rex_generateTemplate($template_id)
  */
 function rex_addslashes($string)
 {
-  $string = str_replace("\\", "\\\\", $string);
-  $string = str_replace("\"", "\\\"", $string);
-  $string = str_replace("'", "\'", $string);
+  $string = str_replace('\'', '\\\'', $string);
+//  $string = str_replace('\'', '\\\\', $string);
+//  $string = str_replace("\\", "\\\\", $string);
+//  $string = str_replace("\"", "\\\"", $string);
 
   return $string;
 
