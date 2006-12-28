@@ -91,14 +91,10 @@ if (isset ($LOGIN) AND $LOGIN)
 
   echo '</ul>' . "\n";
 
+  $first = true;
   echo '<ul>' . "\n";
-  $border = '';
   for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
   {
-    if ($i != 0)
-    {
-      $border = ' | ';
-    }
     $apage = key($REX['ADDON']['status']);
 
     if (isset ($REX['ADDON']['perm'][$apage]))
@@ -136,19 +132,25 @@ if (isset ($LOGIN) AND $LOGIN)
 
     if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->hasPerm("admin[]")))
     {
+    	$separator = ' | ';
+    	if($first)
+    	{
+    		$separator = '';
+	    	$first = false;
+    	}
       if ($popup == 1)
       {
-        echo '<li>' . $border . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');">' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');">' . $name . '</a></li>' . "\n";
 
       }
       elseif ($popup == "" or $popup == 0)
       {
-        echo '<li>' . $border . '<a href="index.php?page=' . $apage . '">' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '">' . $name . '</a></li>' . "\n";
 
       }
       else
       {
-        echo '<li>' . $border . '<a href="' . $popup . '">' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="' . $popup . '">' . $name . '</a></li>' . "\n";
       }
     }
     next($REX['ADDON']['status']);
