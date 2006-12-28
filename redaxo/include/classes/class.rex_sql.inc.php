@@ -171,7 +171,7 @@ class rex_sql
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
    */
-  function getValue($feldname, $row = null, $debug = false)
+  function getValue($feldname, $row = null)
   {
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
