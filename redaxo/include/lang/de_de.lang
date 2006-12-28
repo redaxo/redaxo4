@@ -5,9 +5,8 @@ no = nein
 month = Monat
 year = Jahr
 general = Allgemein
-dateformat = %a %d. %B %Y
+dateformat = %d. %b. %Y
 setlocale = de_DE
-adateformat = %d. %b. %Y
 datetimeformat = %d. %b. %Y - %H:%M
 ctrl = Mehrfachauswahl mit STRG
 
@@ -122,6 +121,8 @@ content_error_movecategory = Kategorie konnte nicht verschoben werden
 content_submitmovecategory = Kategorie verschieben
 move_category = nach
 category_moved = Kategorie wurde verschoben
+content_types = Typen
+content_type = Type
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
@@ -203,6 +204,7 @@ header_date = Erstellt am
 header_article_type = Artikeltyp
 change = ändern
 article_add = Artikel hinzufügen
+article_edit = Artikel editieren
 article = Artikel
 structure_categories_summary = Auflistung aller Unterkategorien der Kategorie "{0}"
 structure_categories_caption = Liste der Unterkategorien der Kategorie "{0}"

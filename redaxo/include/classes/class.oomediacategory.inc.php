@@ -66,7 +66,6 @@ class OOMediaCategory
     $sql = new rex_sql();
     //        $sql->debugsql = true;
     $result = $sql->getArray($query);
-    $result = $result[0];
 
     if (count($result) == 0)
     {
@@ -75,6 +74,7 @@ class OOMediaCategory
       return $return;
     }
 
+    $result = $result[0];
     $cat = & new OOMediaCategory();
 
     $cat->_id = $result['id'];

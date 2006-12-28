@@ -494,7 +494,8 @@ class rex_article
       $template_name = $REX['INCLUDE_PATH']."/generated/templates/".$this->getTemplateId().".template";
       if ($fd = fopen ($template_name, "r"))
       {
-        $template_content = fread ($fd, filesize ($template_name));
+      	$fs = filesize ($template_name);
+        if ($fs>0) $template_content = fread ($fd, $fs);
         fclose ($fd);
       }else
       {

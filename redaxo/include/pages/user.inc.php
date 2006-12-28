@@ -572,7 +572,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         if ($sql->hasPerm($name)) $sel_media->set_selected( $cat_id);
       }
       
-      $sqlmodule->resetCounter();
+      $sqlmodule->reset();
       for ($i=0;$i<$sqlmodule->getRows();$i++)
       {
         $name = "module[".$sqlmodule->getValue("id")."]";
@@ -580,7 +580,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         $sqlmodule->next();
       }
   
-      $sqlsprachen->resetCounter();
+      $sqlsprachen->reset();
       for ($i=0;$i<$sqlsprachen->getRows();$i++)
       {
         $name = "clang[".$sqlsprachen->getValue("id")."]";

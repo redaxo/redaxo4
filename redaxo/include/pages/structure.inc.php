@@ -791,7 +791,7 @@ if ($category_id > -1)
             <td><input type="text" id="article_name" name="article_name" /></td>
             <td><input type="text" id="Position_New_Article" name="Position_New_Article" value="100" /></td>
             <td>'. $TMPL_SEL->out() .'</td>
-            <td>'. strftime($I18N->msg("adateformat")) .'</td>
+            <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
             <td>'. $I18N->msg("article") .'</td>
             <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'" /></td>
           </tr>
@@ -843,9 +843,9 @@ if ($category_id > -1)
               <td><input type="text" id="article_name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
               <td><input type="text" id="Position_Article" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
               <td>'. $TMPL_SEL->out() .'</td>
-              <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')) .'</td>
+              <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
-              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('edit_article') .'" /></td>
+              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_edit') .'" /></td>
             </tr>
             ';
 
@@ -895,7 +895,7 @@ if ($category_id > -1)
               <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. $sql->getValue('name'). '</a></td>
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
               <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')] .'</td>
-              <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')) .'</td>
+              <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
               <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
               '. $add_extra .'
@@ -931,7 +931,7 @@ if ($category_id > -1)
               <td>'. htmlspecialchars($sql->getValue('name')).'</td>
               <td>'. htmlspecialchars($sql->getValue('prior')).'</td>
               <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')].'</td>
-              <td>'. strftime($I18N->msg('adateformat'), $sql->getValue('createdate')).'</td>
+              <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
               <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
               <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>

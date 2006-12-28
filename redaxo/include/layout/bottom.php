@@ -13,7 +13,7 @@ if (!(isset( $open_header_only) && $open_header_only == true)):
       <li><a href="http://www.redaxo.de" target="_blank" class="black">redaxo.de</a> | </li>
       <li><a href="http://forum.redaxo.de">?</a></li>
 		</ul>
-		<p><?php echo showScripttime() ?> sec | <?php echo strftime($I18N->msg("dateformat"))?></p>
+		<p><?php echo showScripttime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
 	</div>
 <?php
 endif;

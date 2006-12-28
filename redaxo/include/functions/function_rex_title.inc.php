@@ -150,8 +150,10 @@ function rex_get_subtitle($subline, $attr = '')
       // Auf der aktiven Seite den Link nicht anzeigen            
       if ($active)
       {
-        $format = '%s';
-        $subtitle[] = sprintf($format, $label);
+        // $format = '%s';
+        // $subtitle[] = sprintf($format, $label);
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s"%s>%s</a>';
+        $subtitle[] = sprintf($format, $link, $attr, $label);
       }
       elseif ($link == '')
       {
