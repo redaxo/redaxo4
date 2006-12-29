@@ -21,6 +21,7 @@ if ($page_name != '')
   <title><?php echo $page_title ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
+	<meta http-equiv="Cache-Control" content="no-cache"> 
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="css/backend.css" media="screen, projection, print" />
   <link rel="stylesheet" type="text/css" href="css/table-old.css" media="screen, projection, print" />
