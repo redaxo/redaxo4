@@ -124,6 +124,20 @@ function array_insert($array, $index, $value)
 {
 	// In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
   return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
+}
+
+/**
+ * Für Installationen mit PHP < 4.3.0
+ */
+if (!function_exists('file_get_contents'))
+{
+  function file_get_contents($filename)
+  {
+    $fd = fopen($filename, 'rb');
+    $content = fread($fd, filesize($filename));
+    fclose($fd);
+    return $content;
+  }
 }  
 
 ?>
