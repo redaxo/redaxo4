@@ -80,7 +80,7 @@ function rex_a1_import_db($filename,$replace_rex = false)
   {
   	$line = trim($line,"\r"); // Windows spezifische extras
   	$line = trim($line, ";"); // mysql 3.x 
-    $add->setquery($line);
+    $add->setQuery($line);
     $add->flush();
   }
 
