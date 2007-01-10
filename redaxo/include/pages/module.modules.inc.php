@@ -144,10 +144,8 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
       $category_id  = $hole->getValue("category_id");
       $mname    = $hole->getValue("name");
-      $include  = $hole->getValue("include");
       $ausgabe  = $hole->getValue("ausgabe");
       $eingabe  = $hole->getValue("eingabe");
-            
     }
     else
     {
@@ -214,14 +212,6 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
           $actions .= '
           <li>
             <a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit">'.$gma->getValue("name").'</a>
-            [ '. $PREPOST[$gma->getValue("prepost")];
-          
-          if ($gma->getValue("sadd")==1) $actions .= "|".$ASTATUS[0];
-          if ($gma->getValue("sedit")==1) $actions .= "|".$ASTATUS[1];
-          if ($gma->getValue("sdelete")==1) $actions .= "|".$ASTATUS[2];
-          
-          $actions .= '
-            ] 
             <a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a>
           </li>';
           
@@ -245,12 +235,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $status = "";
-          if ($gaa->getValue("sadd")==1) $status .= "|".$ASTATUS[0];
-          if ($gaa->getValue("sedit")==1) $status .= "|".$ASTATUS[1];
-          if ($gaa->getValue("sdelete")==1) $status .= "|".$ASTATUS[2];
-          
-          $gaa_sel->add_option($gaa->getValue("name")." [".$PREPOST[$gaa->getValue("prepost")]."$status]",$gaa->getValue("id"));
+          $gaa_sel->add_option($gaa->getValue("name"),$gaa->getValue("id"));
           $gaa->next();
         }
 
