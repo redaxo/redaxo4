@@ -240,7 +240,7 @@ class rex_sql
    */
   function update()
   {
-    $this->setQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
+    $this->setQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
     return $this->getError() === '';
   }
 
@@ -253,7 +253,7 @@ class rex_sql
    */
   function insert()
   {
-    $this->setQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
+    $this->setQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
     return $this->getError() === '';
   }
 
@@ -266,7 +266,7 @@ class rex_sql
    */
   function replace()
   {
-    $this->setQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() . $this->wherevar);
+    $this->setQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
     return $this->getError() === '';
   }
 
