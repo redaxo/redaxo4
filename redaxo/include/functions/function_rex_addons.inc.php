@@ -208,6 +208,11 @@ function rex_read_addons_folder($folder = '')
 
 // ------------------------------------- Helpers
 
+/**
+ * Importiert die gegebene SQL-Datei in die Datenbank
+ * 
+ * @return true bei Erfolg, sonst eine Fehlermeldung 
+ */
 function rex_install_dump($file, $debug = false)
 {
   $sql = new rex_sql();
@@ -224,7 +229,7 @@ function rex_install_dump($file, $debug = false)
     }
   }
 
-  return $error;
+  return $error == '' ? true : $error;
 }
 
 function rex_install_prepare_query($qry)
