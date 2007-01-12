@@ -41,3 +41,5 @@ proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?
 
 export_db_caption = Datenbankexporte
 export_file_caption = Dateiexporte
+
+function = Funktion
