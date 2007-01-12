@@ -31,7 +31,8 @@ class rex_list
 	var $debugsql;
 	
 	var $name;
-	var $caption;	
+	var $caption;
+	var $params;
 
 	// --------- Column Attributes
 	var $columnNames;
@@ -49,8 +50,12 @@ class rex_list
 	 * @param $rowsPerPage Anzahl der Elemente pro Zeile
 	 * @param $listName Name der Liste
 	 */
-	function rex_list($query, $rowsPerPage = 10, $listName = null)
+	function rex_list($query, $rowsPerPage = 10, $listName = null, $debug = false)
 	{
+		global $REX;
+		// TODO remove flag
+//		$debug = true;
+		
 		// --------- Validation
 		if(!$listName) $listName = md5($query);
 		
@@ -58,12 +63,15 @@ class rex_list
 		$this->query = $query;
 		$this->sql =& new rex_sql();
 		$this->sql->debugsql =& $this->debugsql;
-		$this->debugsql = false;
+		$this->debugsql = $debug;
 		$this->name = $listName;
+		$this->caption = '';
+		$this->params = array();
 		
 		// --------- Column Attributes
 		$this->columnLabels = array();
 		$this->columnFormates = array();
+		$this->columnParams = array();
 		$this->columnOptions = array();
 		
 		// --------- Pagination Attributes
@@ -74,6 +82,10 @@ class rex_list
 		
 		foreach($this->sql->getFieldnames() as $columnName)
 			$this->columnNames[] = $columnName;
+			
+		// --------- Load Env
+	  if($REX['REDAXO'])
+	  	$this->loadBackendConfig();
 	}
 	
 	// ---------------------- setters/getters
@@ -88,6 +100,11 @@ class rex_list
 		return $this->name;
 	}
 	
+	function getMessage()
+	{
+		return rex_request($this->getName().'_msg', 'string');
+	}
+
 	/**
 	 * Setzt die Caption/den Titel der Tabelle
 	 * Gibt den Namen es Formulars zurück
@@ -108,6 +125,25 @@ class rex_list
 	{
 		return $this->caption;
 	}
+	
+	function addParam($name, $value)
+	{
+		$this->params[$name] = $value;
+	}
+	
+	function getParams()
+	{
+		return $this->params;
+	}
+	
+	function loadBackendConfig()
+	{
+		global $page, $subpage;
+		
+		$this->addParam('page', $page);
+		$this->addParam('subpage', $subpage);
+	}
+	
 	// ---------------------- Column setters/getters/etc
 		
 	/**
@@ -269,17 +305,55 @@ class rex_list
 	}
 
 	/**
-	 * Gibt eine Urls zurück
+	 * Verlinkt eine Spalte mit den übergebenen Parametern
+	 * 
+	 * @param $columnName Name der Spalte
+	 * @param $params Array von Parametern
+	 */
+	function setColumnParams($columnName, $params = array())
+	{
+		if(!is_array($params))
+		{
+			trigger_error('rex_list: Erwarte 2. Parameter als Array!', E_USER_ERROR);
+		}
+		$this->columnParams[$columnName] = $params;
+	}
+	
+	/**
+	 * Gibt die Parameter für eine Spalte zurück
+	 * 
+	 * @param $columnName Name der Spalte
+	 * 
+	 * @return array
+	 */
+	function getColumnParams($columnName)
+	{
+		return $this->columnParams[$columnName];
+	}
+	
+	/**
+	 * Gibt zurück, ob Parameter für eine Spalte existieren
+	 * 
+	 * @param $columnName Name der Spalte
+	 * 
+	 * @return boolean
+	 */
+	function hasColumnParams($columnName)
+	{
+		return is_array($this->columnParams[$columnName]) && count($this->columnParams[$columnName]) > 0;
+	}
+	
+	/**
+	 * Gibt eine Url zurück
 	 */	
 	function getUrl($params = array())
 	{
-		global $page;
+		$params = array_merge($this->getParams(), $params);
 		
 		if(!isset($params['items']))
 		{
 			$params['items'] = $this->getRowsPerPage();
 		}
-			
 		if(!isset($params['sort']))
 		{
 			$params['sort'] = $this->getSortColumn();
@@ -291,7 +365,12 @@ class rex_list
 		{
 			$paramString .= '&'. $name .'='. $value;
 		}
-		return str_replace('&', '&amp;', '?page='. $page .'&list='. $this->getName() . $paramString);
+		return str_replace('&', '&amp;', 'index.php?list='. $this->getName() . $paramString);
+	}
+	
+	function getParsedUrl($params = array())
+	{
+		return $this->replaceVariables($this->getUrl($params));
 	}
 	
 	// ---------------------- Pagination
@@ -320,7 +399,7 @@ class rex_list
 	}
 
 	/**
-	 * Gibt die Anzahl der Zeilen zurück, welche vom SQL Statement betroffen werden
+	 * Gibt die Anzahl der Zeilen zurück, welche vom ursprüngliche SQL Statement betroffen werden
 	 * 
 	 * @return int
 	 */
@@ -365,16 +444,16 @@ class rex_list
 	 */
 	function getStartRow()
 	{
-		$start = 1;
+		$start = 0;
 				
 		if(rex_request('list', 'string') == $this->getName())
 		{
-			$start = rex_request('start', 'int', 1);
+			$start = rex_request('start', 'int', 0);
 			$rows = $this->getRows();
 			
 			if($start < 0 || $start > $rows)
 			{
-				$start = 1;
+				$start = 0;
 			}
 		}
 			
@@ -427,24 +506,34 @@ class rex_list
 		$pages = ceil($rows / $rowsPerPage);
 		
 		$s = ''. "\n";
-		$s .= '  <ul>'. "\n";
-		for($i = 1; $i <= $pages; $i++)
+		$s .= '<a href="'. $this->getUrl(array('start' => 0)) .'">first</a>'. "\n";
+		$s .= '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'">previous</a>'. "\n";
+		$s .= '<a href="'. $this->getUrl(array('func' => 'add')) .'">add</a>'. "\n";
+		$s .= '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'">next</a>'. "\n";
+		$s .= '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'">last</a>'. "\n";
+		$s .= $this->getRows(). ' rows found ';
+		
+		if($pages > 1)
 		{
-			$first = ($i - 1) * $rowsPerPage + 1;
-			$last = $i * $rowsPerPage;
-			
-			if($last > $rows)
-			  $last = $rows;
-			  
-			$pageLink = $first .'-'. $last;
-			if($start < $first || $start > $last)
+			$s .= '  <ul>'. "\n";
+			for($i = 1; $i <= $pages; $i++)
 			{
-				$pageLink = '<a href="'. $this->getUrl(array('start' => $first)) .'">'. $pageLink .'</a>';
+				$first = ($i - 1) * $rowsPerPage;
+				$last = $i * $rowsPerPage;
+				
+				if($last > $rows)
+				  $last = $rows;
+				  
+				$pageLink = ($first + 1) .'-'. $last;
+				if($start != $first)
+				{
+					$pageLink = '<a href="'. $this->getUrl(array('start' => $first)) .'">'. $pageLink .'</a>';
+				}
+				
+				$s .= '    <li>'. $pageLink .'</li>'. "\n";
 			}
-			
-			$s .= '    <li>'. $pageLink .'</li>'. "\n";
+			$s .= '  </ul>'. "\n";
 		}
-		$s .= '  </ul>'. "\n";
 		
 		return $s;
 	}
@@ -469,17 +558,26 @@ class rex_list
 	
 	// ---------------------- Generate Output
 	
+	function replaceVariable($value, $varname)
+	{
+		return str_replace('%'. $varname .'%', $this->sql->getValue($varname), $value);
+	}
+	
 	/**
 	 * Ersetzt alle Variablen im Format %<Spaltenname>%.
 	 * 
 	 * @param $value Zu durchsuchender String
-	 * @param $sql SQL Objekt, dass alle Werte enthält
 	 * @param $columnNames Zu suchende Spaltennamen
 	 * 
 	 * @return string
 	 */
-	function replaceVariables($value, $sql, $columnNames)
+	function replaceVariables($value)
 	{
+		if(strpos($value, '%') === false)
+			return $value;
+			
+		$columnNames = $this->getColumnNames();
+		
 		if(is_array($columnNames))
 		{
 			foreach($columnNames as $columnName)
@@ -488,7 +586,7 @@ class rex_list
 				if(is_array($columnName))
 					continue;
 					
-				$value = str_replace('%'. $columnName .'%', $sql->getValue($columnName), $value);
+				$value = $this->replaceVariable($value, $columnName);
 			}
 		}
 		return $value;
@@ -517,21 +615,28 @@ class rex_list
 	 */
 	function get()
 	{
+		$s = '';
 	  $columnFormates = array();
 	  $columnNames = $this->getColumnNames();
-	  $rowCount = $this->getRows();
 	  $sortColumn = $this->getSortColumn();
 	  $sortType = $this->getSortType();
-	  $caption = $this->getCaption();	  
-	  
-		$s = '';
+	  $caption = $this->getCaption();
+	  $message = $this->getMessage();
+		
+		if($message != '')
+		{
+			$s .= '<p class="rex-warning">'. $message .'</p>'. "\n";
+		}
+		
+		$s .= '<p>'. "\n";
 		$s .= $this->getPagination();
+		$s .= '</p>'. "\n";
 		$s .= '<form action="'. $this->getUrl() .'" method="post">'. "\n";
-		$s .= '  <table>'. "\n";
+		$s .= '  <table class="rex-table">'. "\n";
 		
 		if($caption != '')
 		{
-			$s .= '    <caption>'. $caption .'</caption>'. "\n";
+			$s .= '    <caption class="rex-hide">'. $caption .'</caption>'. "\n";
 		}
 		
 		$s .= '    <thead>'. "\n";
@@ -562,29 +667,39 @@ class rex_list
 		$s .= $this->getFooter();
 		$s .= '    </tfoot>'. "\n";
 		
-		$s .= '    <tbody>'. "\n";
-		for($i = 0; $i < $this->sql->getRows(); $i++)
+		if($this->getRows() > 0)
 		{
-			$s .= '      <tr>'. "\n";
-			foreach($columnNames as $columnName)
+			$s .= '    <tbody>'. "\n";
+			for($i = 0; $i < $this->sql->getRows(); $i++)
 			{
-				// Spalten, die mit addColumn eingefügt wurden
-				if(is_array($columnName))
+				$s .= '      <tr>'. "\n";
+				foreach($columnNames as $columnName)
 				{
-					// Nur hier sind Variablen erlaubt
-					$columnName = $columnName[0];
-					$s .= '        <td>'. $this->replaceVariables($this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName]), $this->sql, $columnNames) .'</td>'. "\n";
+					// Spalten, die mit addColumn eingefügt wurden
+					if(is_array($columnName))
+					{
+						// Nur hier sind Variablen erlaubt
+						$columnName = $columnName[0];
+						$columnValue = $this->replaceVariables($this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName]));
+					}
+					else
+					{
+						$columnValue = $this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName]);
+					}
+					
+					if($this->hasColumnParams($columnName))
+					{
+						$columnValue = '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'">'. $columnValue .'</a>';
+					}
+					
+					$s .= '        <td>'. $columnValue .'</td>'. "\n";
 				}
-				else
-				{
-					$s .= '        <td>'. $this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName]) .'</td>'. "\n";
-				}
+				$s .= '      </tr>'. "\n";
+				
+				$this->sql->next();
 			}
-			$s .= '      </tr>'. "\n";
-			
-			$this->sql->next();
+			$s .= '    </tbody>'. "\n";
 		}
-		$s .= '    </tbody>'. "\n";
 		
 		$s .= '  </table>'. "\n";
 		$s .= '</form>'. "\n";
