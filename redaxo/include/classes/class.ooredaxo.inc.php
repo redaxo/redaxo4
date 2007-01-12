@@ -24,7 +24,6 @@ class OORedaxo
   var $_label = "";
   var $_url = "";
   var $_file = "";
-  var $_type_id = "";
   var $_keywords = "";
   var $_description = "";
   var $_attributes = "";
@@ -239,15 +238,6 @@ class OORedaxo
   function getFileMedia()
   {
     return OOMedia :: getMediaByFileName($this->_file);
-  }
-
-  /*
-   * Accessor Method:
-   * returns the Type ID of the article
-   */
-  function getTypeId()
-  {
-    return $this->_type_id;
   }
 
   /*
