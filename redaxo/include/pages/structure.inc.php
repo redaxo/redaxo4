@@ -775,7 +775,7 @@ if ($category_id > -1)
       $sql->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
       if ($sql->getRows() == 1)
       {
-        $TMPL_SEL->set_selected($sql->getValue('template_id'));
+        $TMPL_SEL->setSelected($sql->getValue('template_id'));
       }
     }
     
@@ -790,7 +790,7 @@ if ($category_id > -1)
             '. $add_td .'
             <td><input type="text" id="article_name" name="article_name" /></td>
             <td><input type="text" id="Position_New_Article" name="Position_New_Article" value="100" /></td>
-            <td>'. $TMPL_SEL->out() .'</td>
+            <td>'. $TMPL_SEL->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
             <td>'. $I18N->msg("article") .'</td>
             <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'" /></td>
@@ -835,14 +835,14 @@ if ($category_id > -1)
         $add_td = '<td>'. $sql->getValue("id") .'</td>';
       }
       
-      $TMPL_SEL->set_selected($sql->getValue('template_id'));
+      $TMPL_SEL->setSelected($sql->getValue('template_id'));
       
       echo '<tr class="rex-trow-actv">
               <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
               '. $add_td .'
               <td><input type="text" id="article_name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
               <td><input type="text" id="Position_Article" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
-              <td>'. $TMPL_SEL->out() .'</td>
+              <td>'. $TMPL_SEL->get() .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
               <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_edit') .'" /></td>
