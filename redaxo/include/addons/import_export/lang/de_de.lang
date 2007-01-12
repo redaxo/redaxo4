@@ -38,3 +38,6 @@ file_generated_in  = Daten wurden gesichert in
 
 proceed_db_import = Bestehende Daten (Artikel, Templates, Module,...) gehen verloren. Fortfahren ?
 proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?
+
+export_db_caption = Datenbankexporte
+export_file_caption = Dateiexporte
