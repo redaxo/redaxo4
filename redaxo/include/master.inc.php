@@ -19,7 +19,7 @@ $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
 $REX['VERSION'] = "3";
-$REX['SUBVERSION'] = "2";
+$REX['SUBVERSION'] = "3";
 $REX['MYSQL_VERSION'] = ""; // Is set first time SQL Object ist initialised
 $REX['START_ARTICLE_ID'] = 1; // FIRST ARTICLE
 $REX['NOTFOUND_ARTICLE_ID'] = 1; // if there is no article -> change to this article
@@ -39,7 +39,7 @@ $REX['MAXLOGINS'] = 50; // maximal erlaubte versuche
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo3_2";
+$REX['DB']['1']['NAME'] = "redaxo3_3";
 
 // ----------------- DB2 - if necessary
 $REX['DB']['2']['HOST'] = "";
