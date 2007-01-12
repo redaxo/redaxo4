@@ -85,6 +85,7 @@ if (!$REX['GG'])
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_title.inc.php';
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_formatter.inc.php';
+  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
   foreach($REX['VARIABLES'] as $key => $value)
