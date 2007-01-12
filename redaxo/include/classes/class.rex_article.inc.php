@@ -235,12 +235,12 @@ class rex_article
           $MODULESELECT = new rex_select;
           $MODULESELECT->setName("module_id");
           $MODULESELECT->setSize("1");
-          $MODULESELECT->setSelectextra("onchange='this.form.submit();'");
+          $MODULESELECT->setAttribute('onchange', 'this.form.submit();');
           $MODULESELECT->addOption("----------------------------  ".$I18N->msg("add_block"),'');
   
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
-            if ($REX_USER->hasPerm("module[".$MODULE->getValue("id")."]") || $REX_USER->hasPerm("admin[]")) $MODULESELECT->add_option($MODULE->getValue("name"),$MODULE->getValue("id"));
+            if ($REX_USER->hasPerm("module[".$MODULE->getValue("id")."]") || $REX_USER->hasPerm("admin[]")) $MODULESELECT->addOption($MODULE->getValue("name"),$MODULE->getValue("id"));
             $MODULE->next();
           }
         }
