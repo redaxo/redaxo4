@@ -7,26 +7,26 @@
 
 $OUT = TRUE;
 
+$action_in_use_msg = '';
 if (isset($function) and $function == "delete")
 {
   $del = new rex_sql;
   $del->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action WHERE action_id='$action_id'"); // module mit dieser aktion vorhanden ?
   if ($del->getRows()>0)
   {
-    $module = '';
     $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module_action.module_id"));
     for ($i=0;$i<$del->getRows();$i++)
     {
-     $module .= '<li>Aktion wird bereits verwendet im <a href="index.php?page=module&amp;function=edit&amp;modul_id='.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'">Modul '.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'</a></li>';
+     $action_in_use_msg .= '<li>Aktion wird bereits verwendet im <a href="index.php?page=module&amp;function=edit&amp;modul_id='.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'">Modul '.$del->getValue($REX['TABLE_PREFIX']."module_action.module_id").'</a></li>';
      $del->next();
     }
     
-    if($module != '')
+    if($action_in_use_msg != '')
     {
-      $module = '<ul class="rex-warning">'. $module . '</ul>';
+      $action_in_use_msg = '<ul>'. $action_in_use_msg . '</ul>';
     }
     
-    $message = $I18N->msg("action_cannot_be_deleted",$action_id).'<br /> '.$module;
+    $message = $I18N->msg("action_cannot_be_deleted",$action_id);
   }
   else
   {
@@ -236,7 +236,8 @@ if ($OUT)
 {
   if (isset($message) and $message != "")
   {
-    echo '<p class="rex-warning"'.$message.'</p>';
+    echo '<p class="rex-warning">'.$message.'</p>';
+    echo $action_in_use_msg;
   }
   
   // ausgabe actionsliste !
