@@ -131,24 +131,24 @@ elseif ($func == 'updateinfos')
 }
 
 $sel_lang = new rex_select();
-$sel_lang->set_name('neu_lang');
-$sel_lang->set_id('rex_lang');
-$sel_lang->set_size(1);
-$sel_lang->set_selected($REX['LANG']);
+$sel_lang->setName('neu_lang');
+$sel_lang->setId('rex_lang');
+$sel_lang->setSize(1);
+$sel_lang->setSelected($REX['LANG']);
 
 foreach ($REX['LOCALES'] as $l)
 {
-  $sel_lang->add_option($l, $l);
+  $sel_lang->addOption($l, $l);
 }
 
 $sel_mod_rewrite = new rex_select();
-$sel_mod_rewrite->set_name('neu_modrewrite');
-$sel_mod_rewrite->set_id('rex_mod_rewrite');
-$sel_mod_rewrite->set_size(1);
-$sel_mod_rewrite->set_selected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
+$sel_mod_rewrite->setName('neu_modrewrite');
+$sel_mod_rewrite->setId('rex_mod_rewrite');
+$sel_mod_rewrite->setSize(1);
+$sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 
-$sel_mod_rewrite->add_option('TRUE', 'TRUE');
-$sel_mod_rewrite->add_option('FALSE', 'FALSE');
+$sel_mod_rewrite->addOption('TRUE', 'TRUE');
+$sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
 if ($message != "")
   echo '<p class="rex-warning">'.$message.'</p>';
@@ -235,11 +235,11 @@ echo '
           </p>
           <p>
             <label for="rex_lang">$REX[\'LANG\']</label>
-            '.$sel_lang->out().'
+            '.$sel_lang->get().'
           </p>
           <p>
             <label for="rex_mod_rewrite">$REX[\'MOD_REWRITE\']</label>
-            '.$sel_mod_rewrite->out().'
+            '.$sel_mod_rewrite->get().'
           </p>
           <p>
             <input type="submit" class="rex-sbmt" name="sendit" value="'.$I18N->msg("specials_update").'" />

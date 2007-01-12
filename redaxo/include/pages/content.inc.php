@@ -636,6 +636,7 @@ if ($article->getRows() == 1)
         $meta_sql->update();
 
         $article->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article where id='$article_id' and clang='$clang'");
+        
         if (!isset ($message))
           $message = '';
         $err_msg = $I18N->msg("metadata_updated") . $message;
@@ -649,16 +650,14 @@ if ($article->getRows() == 1)
           "keywords" => $meta_keywords,
           "description" => $meta_description,
           "name" => $meta_article_name,
-
-          
         ));
       }
 
       echo '
-            	  <div class="rex-cnt-metamode">
-                  <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
-                    <fieldset>
-                      <legend class="rex-lgnd">' . $I18N->msg('general') . '</legend>
+    	  <div class="rex-cnt-metamode">
+          <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+            <fieldset>
+              <legend class="rex-lgnd">' . $I18N->msg('general') . '</legend>
                       
 				      <div class="rex-fldst-wrppr">
 						  <input type="hidden" name="page" value="content" />
@@ -666,8 +665,7 @@ if ($article->getRows() == 1)
 						  <input type="hidden" name="mode" value="meta" />
 						  <input type="hidden" name="save" value="1" />
 						  <input type="hidden" name="clang" value="' . $clang . '" />
-						  <input type="hidden" name="ctype" value="' . $ctype . '" />
-                    ';
+						  <input type="hidden" name="ctype" value="' . $ctype . '" />';
 
       if (isset ($err_msg) and $err_msg != '')
         echo '<p class="rex-warning">' . $err_msg . '</p>';
@@ -693,9 +691,7 @@ if ($article->getRows() == 1)
 						  <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
 						  <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
 						  <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
-						</p>
-            
-                    ';
+						</p>';
 
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM', '', array (
@@ -704,11 +700,11 @@ if ($article->getRows() == 1)
       ));
 
       echo '
-						<p>
-						  <input class="rex-sbmt" type="submit" value="' . $I18N->msg("update_metadata") . '" />
-						</p>
-                    </div>
-                 </fieldset>';
+								<p>
+								  <input class="rex-sbmt" type="submit" value="' . $I18N->msg("update_metadata") . '" />
+								</p>
+	            </div>
+	         </fieldset>';
 
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM_SECTION', '', array (
@@ -729,7 +725,7 @@ if ($article->getRows() == 1)
         $cat_ids[] = $cat->getId();
         if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csr[" . $cat->getId() . "]") || $REX_USER->hasPerm("csw[" . $cat->getId() . "]"))
         {
-          $select->add_option($nbsp . $cat->getName(), $cat->getId());
+          $select->addOption($nbsp . $cat->getName(), $cat->getId());
           $childs = $cat->getChildren();
           if (is_array($childs))
           {
@@ -750,37 +746,37 @@ if ($article->getRows() == 1)
         if (($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyContent[]")) && count($REX['CLANG']) > 1)
         {
           $lang_a = new rex_select;
-          $lang_a->set_id("clang_a");
-          $lang_a->set_name("clang_a");
-          $lang_a->set_size("1");
+          $lang_a->setId("clang_a");
+          $lang_a->setName("clang_a");
+          $lang_a->setSize("1");
 
           foreach ($REX['CLANG'] as $val => $key)
           {
-            $lang_a->add_option($key, $val);
+            $lang_a->addOption($key, $val);
           }
 
           $lang_b = $lang_a;
-          $lang_b->set_id("clang_b");
-          $lang_b->set_name("clang_b");
+          $lang_b->setId("clang_b");
+          $lang_b->setName("clang_b");
           if (isset ($_REQUEST["clang_a"]))
-            $lang_a->set_selected($_REQUEST["clang_a"]);
+            $lang_a->setSelected($_REQUEST["clang_a"]);
           if (isset ($_REQUEST["clang_b"]))
-            $lang_b->set_selected($_REQUEST["clang_b"]);
+            $lang_b->setSelected($_REQUEST["clang_b"]);
 
           echo '
-                                <fieldset>
-                                  <legend class="rex-lgnd">' . $I18N->msg("content_submitcopycontent") . '</legend>
-      							  <div class="rex-fldst-wrppr">
+                <fieldset>
+                  <legend class="rex-lgnd">' . $I18N->msg("content_submitcopycontent") . '</legend>
+  							  <div class="rex-fldst-wrppr">
 									  <p>
 										<label for="clang_a">' . $I18N->msg("content_contentoflang") . '</label>
-										' . $lang_a->out() . '
-										<label for="clang_b">' . $I18N->msg("content_to") . '</label> ' . $lang_b->out() . '
+										' . $lang_a->get() . '
+										<label for="clang_b">' . $I18N->msg("content_to") . '</label> ' . $lang_b->get() . '
 									  </p>
 									  <p>
 										<input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") . '" />
 									  </p>
 								  </div>
-                                </fieldset>';
+                </fieldset>';
 
         }
         // --------------------------------------------------- INHALTE KOPIEREN ENDE
@@ -791,9 +787,9 @@ if ($article->getRows() == 1)
 
           // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
           $move_a = new rex_select;
-          $move_a->set_id("category_id_new");
-          $move_a->set_name("category_id_new");
-          $move_a->set_size("1");
+          $move_a->setId("category_id_new");
+          $move_a->setName("category_id_new");
+          $move_a->setSize("1");
 
           if ($cats = OOCategory :: getRootCategories())
           {
@@ -804,19 +800,18 @@ if ($article->getRows() == 1)
           }
 
           echo '
-                                <fieldset>
-                                  <legend class="rex-lgnd">' . $I18N->msg("content_submitmovearticle") . '</legend>
-							      <div class="rex-fldst-wrppr">
+                <fieldset>
+                  <legend class="rex-lgnd">' . $I18N->msg("content_submitmovearticle") . '</legend>
+						      <div class="rex-fldst-wrppr">
 									  <p>
-										<label for="category_id_new">' . $I18N->msg("move_article") . '</label>
-										' . $move_a->out() . '
+											<label for="category_id_new">' . $I18N->msg("move_article") . '</label>
+											' . $move_a->get() . '
 									  </p>
 									  <p>
-										<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '" />
+											<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '" />
 									  </p>
 								  </div>
-                                </fieldset>
-                                ';
+                </fieldset>';
 
         }
         // ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
@@ -825,10 +820,10 @@ if ($article->getRows() == 1)
         if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyArticle[]"))
         {
           $move_a = new rex_select;
-          $move_a->set_name("category_copy_id_new");
-          $move_a->set_id("category_copy_id_new");
-          $move_a->set_size("1");
-          $move_a->set_selected($article_id);
+          $move_a->setName("category_copy_id_new");
+          $move_a->setId("category_copy_id_new");
+          $move_a->setSize("1");
+          $move_a->setSelected($article_id);
 
           if ($cats = OOCategory :: getRootCategories())
           {
@@ -839,19 +834,18 @@ if ($article->getRows() == 1)
           }
 
           echo '
-                                <fieldset>
-                                  <legend class="rex-lgnd">' . $I18N->msg("content_submitcopyarticle") . '</legend>
-      							  <div class="rex-fldst-wrppr">
-									  <p>
-										<label for="category_copy_id_new">' . $I18N->msg("copy_article") . '</label>
-										' . $move_a->out() . '
-									  </p>
-									  <p>
-										<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '" />
-									  </p>
-								  </div>
-                                </fieldset>
-                                ';
+                  <fieldset>
+                    <legend class="rex-lgnd">' . $I18N->msg("content_submitcopyarticle") . '</legend>
+    							  <div class="rex-fldst-wrppr">
+										  <p>
+												<label for="category_copy_id_new">' . $I18N->msg("copy_article") . '</label>
+												' . $move_a->get() . '
+											  </p>
+										  <p>
+												<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '" />
+										  </p>
+									  </div>
+                  </fieldset>';
 
         }
         // --------------------------------------------------- ARTIKEL KOPIEREN ENDE 
@@ -860,10 +854,10 @@ if ($article->getRows() == 1)
         if ($article->getValue("startpage") == 1 && ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveCategory[]")))
         {
           $move_a = new rex_select;
-          $move_a->set_id("category_id_new");
-          $move_a->set_name("category_id_new");
-          $move_a->set_size("1");
-          $move_a->set_selected($article_id);
+          $move_a->setId("category_id_new");
+          $move_a->setName("category_id_new");
+          $move_a->setSize("1");
+          $move_a->setSelected($article_id);
 
           if ($cats = OOCategory :: getRootCategories())
           {
@@ -873,18 +867,18 @@ if ($article->getRows() == 1)
             }
           }
           echo '
-                                <fieldset>
-                                  <legend class="rex-lgnd">' . $I18N->msg("content_submitmovecategory") . '</legend>
-      							  <div class="rex-fldst-wrppr">
-									  <p>
-										<label for="category_id_new">' . $I18N->msg("move_category") . '</label>
-										' . $move_a->out() . '
-									  </p>
-									  <p>
-										<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '" />
-									  </p>
-								  </div>
-                                </fieldset>';
+                  <fieldset>
+                    <legend class="rex-lgnd">' . $I18N->msg("content_submitmovecategory") . '</legend>
+    							  <div class="rex-fldst-wrppr">
+										  <p>
+												<label for="category_id_new">' . $I18N->msg("move_category") . '</label>
+												' . $move_a->get() . '
+										  </p>
+										  <p>
+												<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '" />
+										  </p>
+									  </div>
+                  </fieldset>';
 
         }
         // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE 

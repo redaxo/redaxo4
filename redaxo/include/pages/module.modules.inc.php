@@ -202,8 +202,8 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       {     
         $gma = new rex_sql;
         $gma->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action, ".$REX['TABLE_PREFIX']."action WHERE ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$modul_id'");
-        $actions = '';
         
+        $actions = '';
         for ($i=0; $i<$gma->getRows(); $i++)
         {
           $iaction_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.id");
@@ -211,7 +211,8 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
           
           $actions .= '
           <li>
-            <a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit">'.$gma->getValue("name").'</a>
+            '. $gma->getValue('name') .'
+            <a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit">'.$I18N->msg("action_edit").'</a>
             <a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a>
           </li>';
           
@@ -228,30 +229,30 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         }
         
         $gaa_sel = new rex_select();
-        $gaa_sel->set_name("action_id");
-        $gaa_sel->set_id("action_id");
-        $gaa_sel->set_size(1);
-        $gaa_sel->set_style('class="inp100"');
+        $gaa_sel->setName("action_id");
+        $gaa_sel->setId("action_id");
+        $gaa_sel->setSize(1);
+        $gaa_sel->setStyle('class="inp100"');
         
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $gaa_sel->add_option($gaa->getValue("name"),$gaa->getValue("id"));
+          $gaa_sel->addOption($gaa->getValue("name"),$gaa->getValue("id"));
           $gaa->next();
         }
 
         echo '
         <fieldset>
           <legend class="rex-lgnd" id="action">'.$I18N->msg("action_add").'</legend>
-	      <div class="rex-fldst-wrppr">
-			  '. $actions .'
-			  <p>
-				<label for="action_id">'.$I18N->msg("action").'</label>
-				'.$gaa_sel->out().'
-			  </p>
-			  <p>
-				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
-			  </p>
-		  </div>
+		      <div class="rex-fldst-wrppr">
+					  '. $actions .'
+					  <p>
+							<label for="action_id">'.$I18N->msg("action").'</label>
+							'.$gaa_sel->get().'
+					  </p>
+					  <p>
+							<input class="rex-sbmt" type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
+					  </p>
+				  </div>
         </fieldset>';
       }
     }

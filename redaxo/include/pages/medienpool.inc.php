@@ -212,13 +212,13 @@ $file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category O
 
 // ***** select bauen
 $sel_media = new rex_select;
-$sel_media->set_id("rex_file_category");
-$sel_media->set_name("rex_file_category");
-$sel_media->set_size(1);
-$sel_media->set_selected($rex_file_category);
-$sel_media->set_selectextra('onchange="this.form.submit();"');
+$sel_media->setId("rex_file_category");
+$sel_media->setName("rex_file_category");
+$sel_media->setSize(1);
+$sel_media->setSelected($rex_file_category);
+$sel_media->setAttribute('onchange', 'this.form.submit();');
+$sel_media->addOption($I18N->msg('pool_kats_no'),"0");
 
-$sel_media->add_option($I18N->msg('pool_kats_no'),"0");
 $mediacat_ids = array();
 if ($rootCats = OOMediaCategory::getRootCategories())
 {
@@ -235,7 +235,7 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
                   <input type="hidden" name="page" value="medienpool" />
                   <p>
                     <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
-                    '. $sel_media->out() .'
+                    '. $sel_media->get() .'
                   </p>
                   <noscript>
                     <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_search') .'" />
@@ -401,7 +401,7 @@ function rex_mpool_add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $
   if(empty($mediacat)) return;
   $mname = $mediacat->getName();
   $mediacat_ids[] = $mediacat->getId();
-  $select->add_option($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+  $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
   $childs = $mediacat->getChildren();
   if (is_array($childs))
   {
@@ -414,10 +414,14 @@ function rex_mpool_add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $
 function rex_mpool_add_mediacat_options_wperm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
   global $PERMALL, $REX_USER;
-    if(empty($mediacat)) return;
+  
+  if(empty($mediacat)) return;
     $mname = $mediacat->getName();
+    
   $mediacat_ids[] = $mediacat->getId();
-  if ($PERMALL || $REX_USER->hasPerm("media[".$mediacat->getId()."]")) $select->add_option($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+  if ($PERMALL || $REX_USER->hasPerm("media[".$mediacat->getId()."]")) 
+  	$select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+  	
   $childs = $mediacat->getChildren();
   if (is_array($childs))
   {
@@ -434,11 +438,11 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
   $s = '';
   
   $cats_sel = new rex_select;
-  $cats_sel->set_style('class="inp100"');
-  $cats_sel->set_size(1);
-  $cats_sel->set_name('rex_file_category');
-  $cats_sel->set_id('rex_file_category');
-  $cats_sel->add_option($I18N->msg('pool_kats_no'),"0");
+  $cats_sel->setStyle('class="inp100"');
+  $cats_sel->setSize(1);
+  $cats_sel->setName('rex_file_category');
+  $cats_sel->setId('rex_file_category');
+  $cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
   
   $mediacat_ids = array();
   $rootCat = 0;
@@ -448,7 +452,7 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
       rex_mpool_add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
     }
   }
-  $cats_sel->set_selected($rex_file_category);
+  $cats_sel->setSelected($rex_file_category);
 
   if (isset($msg) and $msg != "")
   {
@@ -489,7 +493,7 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
                </p>
                <p>
                  <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>
-                 '.$cats_sel->out().'
+                 '.$cats_sel->get().'
                </p>
                <p>
                  <label for="fdescription">'.$I18N->msg('pool_file_description').'</label>
@@ -1060,11 +1064,11 @@ if ($subpage == "detail")
     if ($TPERM)
     {
       $cats_sel = new rex_select;
-      $cats_sel->set_style('class="inp100"');
-      $cats_sel->set_size(1);
-      $cats_sel->set_name('rex_file_category');
-      $cats_sel->set_id('rex_file_new_category');
-      $cats_sel->add_option($I18N->msg('pool_kats_no'),'0');
+      $cats_sel->setStyle('class="inp100"');
+      $cats_sel->setSize(1);
+      $cats_sel->setName('rex_file_category');
+      $cats_sel->setId('rex_file_new_category');
+      $cats_sel->addOption($I18N->msg('pool_kats_no'),'0');
       $mediacat_ids = array();
       $rootCat = 0;
       if ($rootCats = OOMediaCategory::getRootCategories())
@@ -1073,7 +1077,7 @@ if ($subpage == "detail")
               rex_mpool_add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
           }
       }
-      $cats_sel->set_selected($rex_file_category);
+      $cats_sel->setSelected($rex_file_category);
       
       // $I18N->msg('pool_file_detail')
       
@@ -1095,7 +1099,7 @@ if ($subpage == "detail")
                     	</p>
                     	<p>
                       		<label for="rex_file_new_category">'. $I18N->msg('pool_file_category') .'</label>
-                      		'. $cats_sel->out() .'
+                      		'. $cats_sel->get() .'
                     	</p>
                     	<p>
                       		<label for="fdescription">'. $I18N->msg('pool_file_description') .'</label>
@@ -1405,11 +1409,11 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 if ($subpage == '')
 {
   $cats_sel = new rex_select;
-  $cats_sel->set_style("width:150px;");
-  $cats_sel->set_size(1);
-  $cats_sel->set_name("rex_file_category");
-  $cats_sel->set_id("rex_file_category");
-  $cats_sel->add_option($I18N->msg('pool_kats_no'),"0");
+  $cats_sel->setStyle("width:150px;");
+  $cats_sel->setSize(1);
+  $cats_sel->setName("rex_file_category");
+  $cats_sel->setId("rex_file_category");
+  $cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
   $mediacat_ids = array();
   $rootCat = 0;
   if ($rootCats = OOMediaCategory::getRootCategories())
@@ -1418,7 +1422,7 @@ if ($subpage == '')
           rex_mpool_add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
       }
   }
-  $cats_sel->set_selected($rex_file_category);
+  $cats_sel->setSelected($rex_file_category);
 
   echo $cat_out;
   
@@ -1567,10 +1571,10 @@ if ($subpage == '')
     $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
     if ($filecat->getRows() > 0)
     {
-      $cats_sel->set_id('rex_move_file_dest_category');
+      $cats_sel->setId('rex_move_file_dest_category');
       $add_input = '
         <label class="rex-hide" for="rex_move_file_dest_category">'.$I18N->msg('pool_selectedmedia').'</label>
-        '. $cats_sel->out() .'
+        '. $cats_sel->get() .'
         <input class="rex-sbmt" type="submit" value="'. $I18N->msg('pool_changecat_selectedmedia') .'" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';" />';
     }
     $add_input .= '<input class="rex-sbmt" type="submit" value="'.$I18N->msg('pool_delete_selectedmedia').'" onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';

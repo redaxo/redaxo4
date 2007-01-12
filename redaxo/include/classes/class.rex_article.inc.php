@@ -196,6 +196,10 @@ class rex_article
             ". $sliceLimit ."
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
+        // ----- EXTENSION POINT
+        // TODO
+//        $sql = rex_register_extension_point('ART_READ_QUERY', $sql);
+        
         $this->CONT = new rex_sql;
         $this->CONT->debugsql = 0;
         $this->CONT->setQuery($sql);
@@ -228,10 +232,10 @@ class rex_article
           $MODULE->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
 
           $MODULESELECT = new rex_select;
-          $MODULESELECT->set_name("module_id");
-          $MODULESELECT->set_size("1");
-          $MODULESELECT->set_selectextra("onchange='this.form.submit();'");
-          $MODULESELECT->add_option("----------------------------  ".$I18N->msg("add_block"),'');
+          $MODULESELECT->setName("module_id");
+          $MODULESELECT->setSize("1");
+          $MODULESELECT->setSelectextra("onchange='this.form.submit();'");
+          $MODULESELECT->addOption("----------------------------  ".$I18N->msg("add_block"),'');
   
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
@@ -271,7 +275,7 @@ class rex_article
             }else
             {
               // ----- BLOCKAUSWAHL - SELECT
-              $MODULESELECT->set_id("module_id". $I_ID);
+              $MODULESELECT->setId("module_id". $I_ID);
               
               $slice_content .= '
               <form action="'. $form_url .'" method="get">
@@ -286,7 +290,7 @@ class rex_article
                   <input type="hidden" name="ctype" value="'.$this->ctype.'" />
   
                   <p class="rex-slct">
-                    '. $MODULESELECT->out() .'
+                    '. $MODULESELECT->get() .'
                     <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                   </p>
   
@@ -439,7 +443,7 @@ class rex_article
           }else
           {
             // ----- BLOCKAUSWAHL - SELECT
-            $MODULESELECT->set_id("module_id". $I_ID);
+            $MODULESELECT->setId("module_id". $I_ID);
               
             $slice_content = '
             <form action="'. $form_url .'" method="get">
@@ -454,7 +458,7 @@ class rex_article
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
                 <p class="rex-slct">
-                  '. $MODULESELECT->out() .'
+                  '. $MODULESELECT->get() .'
                   <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                 </p>
 

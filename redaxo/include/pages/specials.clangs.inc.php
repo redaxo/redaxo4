@@ -67,12 +67,12 @@ elseif (!empty ($edit_clang_save))
 
 // seltype
 $sel = new rex_select;
-$sel->set_name('clang_id');
-$sel->set_id('clang_id');
-$sel->set_size(1);
+$sel->setName('clang_id');
+$sel->setId('clang_id');
+$sel->setSize(1);
 foreach (array_diff(range(0, 14), array_keys($REX['CLANG'])) as $clang)
 {
-  $sel->add_option($clang, $clang);
+  $sel->addOption($clang, $clang);
 }
 
 if ($message != '')
@@ -120,7 +120,7 @@ if ($func == 'addclang')
   echo '
         <tr class="rex-trow-actv">
           <td></td>
-          <td>'.$sel->out().'</td>
+          <td>'.$sel->get().'</td>
           <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
           <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'" /></td>
         </tr>

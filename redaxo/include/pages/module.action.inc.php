@@ -123,34 +123,34 @@ if (isset($function) and ($function == "add" or $function == "edit"))
     }
 
     $sel_preview_status = new rex_select();
-    $sel_preview_status->multiple(1);
-    $sel_preview_status->add_option($ASTATUS[0] .' - '.$I18N->msg('action_event_add') ,1);
-    $sel_preview_status->add_option($ASTATUS[1] .' - '.$I18N->msg('action_event_edit') ,2);
-    $sel_preview_status->add_option($ASTATUS[2] .' - '.$I18N->msg('action_event_delete') ,4);
-    $sel_preview_status->set_size(3);
+    $sel_preview_status->setMultiple(1);
+    $sel_preview_status->addOption($ASTATUS[0] .' - '.$I18N->msg('action_event_add') ,1);
+    $sel_preview_status->addOption($ASTATUS[1] .' - '.$I18N->msg('action_event_edit') ,2);
+    $sel_preview_status->addOption($ASTATUS[2] .' - '.$I18N->msg('action_event_delete') ,4);
+    $sel_preview_status->setSize(3);
     
-    $sel_preview_status->set_name('previewstatus[]');
-    $sel_preview_status->set_id('previewstatus');
+    $sel_preview_status->setName('previewstatus[]');
+    $sel_preview_status->setId('previewstatus');
     
     $sel_presave_status = $sel_preview_status;
-    $sel_presave_status->set_name('presavestatus[]');
-    $sel_presave_status->set_id('presavestatus');
+    $sel_presave_status->setName('presavestatus[]');
+    $sel_presave_status->setId('presavestatus');
     
     $sel_postsave_status = $sel_preview_status;
-    $sel_postsave_status->set_name('postsavestatus[]');
-    $sel_postsave_status->set_id('postsavestatus');
+    $sel_postsave_status->setName('postsavestatus[]');
+    $sel_postsave_status->setId('postsavestatus');
     
     foreach(array(1,2,4) as $var)
       if(($previewstatus & $var) == $var)
-        $sel_preview_status->set_selected($var);
+        $sel_preview_status->setSelected($var);
       
     foreach(array(1,2,4) as $var)
       if(($presavestatus & $var) == $var)
-        $sel_presave_status->set_selected($var);
+        $sel_presave_status->setSelected($var);
       
     foreach(array(1,2,4) as $var)
       if(($postsavestatus & $var) == $var)
-        $sel_postsave_status->set_selected($var);
+        $sel_postsave_status->setSelected($var);
       
     $btn_update = '';
     if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg('save_action_and_continue').'" />';
@@ -188,7 +188,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
 			</p>
 			<p>
 			  <label for="previestatus">'.$I18N->msg('action_event').'</label>
-			  '.$sel_preview_status->out().'
+			  '.$sel_preview_status->get().'
 			  <span>'.$I18N->msg('ctrl').'</span>
 			</p>
 		 </div>
@@ -202,7 +202,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
 			</p>
 			<p>
 			  <label for="presavestatus">'.$I18N->msg('action_event').'</label>
-			  '.$sel_presave_status->out().'
+			  '.$sel_presave_status->get().'
 			  <span>'.$I18N->msg('ctrl').'</span>
 			</p>
 		</div>
@@ -216,7 +216,7 @@ if (isset($function) and ($function == "add" or $function == "edit"))
 			</p>
 			<p>
 			  <label for="postsavestatus">'.$I18N->msg('action_event').'</label>
-			  '.$sel_postsave_status->out().'
+			  '.$sel_postsave_status->get().'
 			  <span>'.$I18N->msg('ctrl').'</span>
 			</p>
 			<p>

@@ -63,12 +63,68 @@ class sql extends rex_sql
 }
 
 // rex_select -> select alias
-class select extends rex_select{
+class select extends rex_select
+{
 
   function select()
   {
-    parent::select();
+    parent::rex_select();
   }
+  
+  ################ set multiple
+  function multiple($mul)
+  {
+  	$this->setMultiple($mul);
+  }
+  
+  ################ select extra
+  function set_selectextra($extra)
+  {
+  	foreach(rex_var::splitString($extra) as $name => $value)
+  	{
+  		$this->set_attribute($name, $value);
+  	}
+  }
+  
+  function out()
+  {
+  	return $this->get();
+  }
+  
+  function set_name($name)
+  {
+  	$this->setName($name);
+  }
+  
+  function set_id($id)
+  {
+  	$this->setId($id);
+  }
+  
+  function set_size($size)
+  {
+  	$this->setSize($size);
+  }
+  
+  function set_selected($selected)
+  {
+  	$this->setSelected($selected);
+  }
+  
+  function reset_selected()
+  {
+  	$this->resetSelected();
+  }
+  
+  function set_style($style)
+  {
+  	$this->setStyle($style);
+  }
+  
+  function add_option($name, $value, $id = 0, $re_id = 0)
+  {
+  	$this->addOption($name, $value, $id, $re_id);
+  }    
 }
 
 // rex_article -> article alias

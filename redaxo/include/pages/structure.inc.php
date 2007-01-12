@@ -681,16 +681,16 @@ if ($category_id > -1)
   $TEMPLATES = new rex_sql;
   $TEMPLATES->setQuery("select * from ".$REX['TABLE_PREFIX']."template order by name");
   $TMPL_SEL = new rex_select;
-  $TMPL_SEL->set_name("template_id");
-  $TMPL_SEL->set_id("template_id");
-  $TMPL_SEL->set_size(1);
-  $TMPL_SEL->add_option($I18N->msg("option_no_template"), "0");
+  $TMPL_SEL->setName("template_id");
+  $TMPL_SEL->setId("template_id");
+  $TMPL_SEL->setSize(1);
+  $TMPL_SEL->addOption($I18N->msg("option_no_template"), "0");
 
   for ($i = 0; $i < $TEMPLATES->getRows(); $i++)
   {
     if ($TEMPLATES->getValue("active") == 1)
     {
-      $TMPL_SEL->add_option($TEMPLATES->getValue("name"), $TEMPLATES->getValue("id"));
+      $TMPL_SEL->addOption($TEMPLATES->getValue("name"), $TEMPLATES->getValue("id"));
     }
     $TEMPLATE_NAME[$TEMPLATES->getValue("id")] = $TEMPLATES->getValue("name");
     $TEMPLATES->next();
