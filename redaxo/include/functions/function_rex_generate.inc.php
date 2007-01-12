@@ -123,11 +123,12 @@ function rex_generateArticle($id, $refreshall = true)
     
     foreach($db_fields as $field)
       $params[$field] = $CONT->getValue($field);
-
+      
     $content = '<?php'."\n";
     foreach($params as $name => $value)
+    {
       $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value) .'\';'."\n";
-    
+    }
     $content .= '?>';
                 
     if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
@@ -141,7 +142,7 @@ function rex_generateArticle($id, $refreshall = true)
       $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
 
-    // --------------------------------------------------- Artikelcontent speichern
+  // --------------------------------------------------- Artikelcontent speichern
 	if ($refreshall)
 	{
 	    if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", "w"))
