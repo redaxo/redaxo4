@@ -79,9 +79,14 @@ class rex_article
     if (!$REX['GG'])
     {
       // ---------- select article
+      $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
       $this->ARTICLE = new rex_sql;
       // $this->ARTICLE->debugsql = 1;
-      $this->ARTICLE->setQuery("select * from ".$REX['TABLE_PREFIX']."article where ".$REX['TABLE_PREFIX']."article.id='$article_id' and clang='".$this->clang."'");
+      
+      // ----- EXTENSION POINT
+      $qry = rex_register_extension_point('ART_READ_QUERY', $qry, array('article_id' => $article_id,'clang' => $this->clang));
+      
+      $this->ARTICLE->setQuery($qry);
 
       if ($this->ARTICLE->getRows() == 1)
       {
@@ -160,7 +165,7 @@ class rex_article
     $sliceLimit = '';
     if ($this->getSlice){
       //$REX['GG'] = 0;
-      $sliceLimit = " and ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
+      $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
     }
     
     // ----- start: article caching
@@ -196,10 +201,6 @@ class rex_article
             ". $sliceLimit ."
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
-        // ----- EXTENSION POINT
-        // TODO
-//        $sql = rex_register_extension_point('ART_READ_QUERY', $sql);
-        
         $this->CONT = new rex_sql;
         $this->CONT->debugsql = 0;
         $this->CONT->setQuery($sql);
