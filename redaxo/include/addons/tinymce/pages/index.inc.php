@@ -4,15 +4,43 @@ include $REX['INCLUDE_PATH']."/layout/top.php";
 
 $subline = '
 <ul>
-  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/index.html" target="_blank">Zur Dokumentation</a></li>
-  <li>&nbsp;<a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" target="_blank">Zur Plugin Liste</a></li>
+  <li><a href="http://tinymce.moxiecode.com" target="_blank">Webseite</a></li>
+  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/index.html" target="_blank">Dokumentation</a></li>
+  <li>&nbsp;<a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" target="_blank">Plugin Liste</a></li>
 </ul>
 ';
 
 rex_title('TinyMCE', $subline);
+
+$install = rex_get('install', 'string');
+if($install != '')
+{
+	include_once $REX['INCLUDE_PATH'] . '/addons/tinymce/functions/function_pclzip.inc.php';
+
+
+	switch ($install) {
+  	case 'compressor': 
+  	{
+  		rex_a52_extract_archive('include/addons/tinymce/js/tinymce_compressor.zip');
+  		break;
+  	}
+  	case 'spellchecker': 
+  	{
+  		rex_a52_extract_archive('include/addons/tinymce/js/tinymce_spellchecker.zip');
+  		break;
+  	}
+  }
+}
+
 ?>
 
+<h2>Erweiterungen installieren</h2>
+
 <p>
+	<a href="?page=tinymce&amp;install=compressor">GZip Compressor</a>
+	<br />
+	<a href="?page=tinymce&amp;install=spellchecker">Spellchecker</a>
+</p>
 
 <h2>Moduleingabe Einfach</h2>
 
@@ -25,7 +53,6 @@ $editor->show();
 ?&gt;
 </pre>
 
-<br />
 <h2>Moduleingabe Erweitert (mehrere Editoren in einem Modul)</h2>
 
 <pre>
@@ -46,7 +73,6 @@ $editor2->show();
 ?&gt;
 </pre>
 
-<br />
 <h2>Modulausgabe (Alle)</h2>
 
 <pre>
@@ -65,10 +91,10 @@ echo $content;
 &lt;/div&gt;
 </pre>
 
-<br />
-
-<a href="http://www.gn2-netwerk.de">GN2-Netwerk</a>
-
+<p>
+	<a href="http://www.gn2-netwerk.de">GN2-Netwerk</a>
+	<br />
+	<a href="http://www.public-4u.de">Public-4u e.K.</a>
 </p>
 
 <?php

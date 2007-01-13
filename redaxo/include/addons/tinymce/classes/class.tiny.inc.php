@@ -280,13 +280,13 @@ class tiny2editor {
 
   var $address="";
 
-  var $width="100%";
-  var $height=300;
   var $content;
   var $id;
 
 
-    function show() {
+    function show() 
+    {
+      	global $REX;
 
     if(isset($_SERVER['SCRIPT_URL']))
     {
@@ -301,20 +301,41 @@ class tiny2editor {
 
     $this->address=$splitURL[0];
 
-    echo "\n\n<!-- ------------------------------ -->";
-
     if ($GLOBALS['TINY2']['script']!=1) {
-      if(strstr($_SERVER['HTTP_USER_AGENT'],"MSIE")) {
-        echo "\n".'<script language="javascript" type="text/javascript" src="../files/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
-      } else {
-        echo "\n".'<script language="javascript" type="text/javascript" src="../files/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+    	$script = '../files/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js';
+    	$useGzip = file_exists($script);
+    	
+      if(!$useGzip)
+	    	$script = '../files/tinymce/jscripts/tiny_mce/tiny_mce.js';
+      
+      $init = "\n".'<script language="javascript" type="text/javascript" src="'. $script .'"></script>';
+      
+      if($useGzip)
+      {
+				include_once $REX['INCLUDE_PATH'] . '/addons/tinymce/functions/function_rex_folder.inc.php';
+      	$plugins = readFolder('../files/tinymce/jscripts/tiny_mce/plugins');
+      	unset($plugins[0]); // Lösche .
+      	unset($plugins[1]); // Lösche ..
+				$init .=
+				"\n"."<script type=\"text/javascript\">
+				tinyMCE_GZ.init({
+					plugins : '". implode(',', $plugins) ."',
+					themes : 'simple,advanced',
+					languages : 'de',
+					disk_cache : true,
+					debug : false
+				});
+				</script>";
       }
-
+			echo $init;
+      
       $GLOBALS['TINY2']['script']="1";
     }
 
     if ($GLOBALS['TINY2']['boxes']!=1) {
-      echo "\n".'<div name="REX_FORM"><input type="hidden" name="LINK[1]" /><input type="hidden" name="LINK_NAME[1]" /><input type="hidden" name="REX_MEDIA_1" /></div>';
+      echo "\n".'<input type="hidden" name="LINK[1]" />
+                 <input type="hidden" name="LINK_NAME[1]" />
+                 <input type="hidden" name="REX_MEDIA_1" />';
       $GLOBALS['TINY2']['boxes']="1";
     }
 
@@ -342,7 +363,7 @@ class tiny2editor {
     echo 'plugin_insertdate_dateFormat : "%Y-%m-%d",'."\n";
     echo 'plugin_insertdate_timeFormat : "%H:%M:%S",'."\n";
     echo 'inline_styles: true,'."\n";
-    echo "valid_elements : ".$this->validhtml.",\n";
+    echo 'valid_elements : '.$this->validhtml.",\n";
     echo 'extended_valid_elements : "'.$this->add_validhtml.'",'."\n";
     echo 'advlink_file_browser_callback:"insertIntLink",'."\n";
     echo 'paste_auto_cleanup_on_paste : true,'."\n";
@@ -363,9 +384,8 @@ class tiny2editor {
     echo 'newWindow( "rexlinkpopup", "../../../../../../redaxo/index.php?page=linkmap&opener_input_field=1",660,500,",status=yes,resizable=yes");'."\n";
     echo '}'."\n";
     echo '</script>';
-    echo "\n<!-- ------------------------------ -->\n\n";
 
-    echo '<textarea name="VALUE['.$this->id.']" class="tiny2" id="tiny2e'.$this->id.'" style="width:'.$this->width.';height:'.$this->height.';">'.$this->content.'</textarea>';
+    echo '<textarea name="VALUE['.$this->id.']" class="tiny2" id="tiny2e'.$this->id.'" style="width:100%;" cols="50" rows="15">'.$this->content.'</textarea>';
   }
 }
 ?>
