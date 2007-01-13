@@ -151,4 +151,18 @@ function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
   return rex_title($head, $subtitle, $styleclass, $width);
 }
 
+/**
+ * Für Installationen mit PHP < 4.3.0
+ */
+if (!function_exists('file_get_contents'))
+{
+  function file_get_contents($filename)
+  {
+    $fd = fopen($filename, 'rb');
+    $content = fread($fd, filesize($filename));
+    fclose($fd);
+    return $content;
+  }
+}  
+
 ?>
