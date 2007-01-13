@@ -56,8 +56,16 @@ elseif($REX_ARTICLE->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
 }
 else
 {
-  echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
-  $REX['STATS'] = 0;
+	if($REX['SETUP'])
+	{
+		header('Location: redaxo/index.php');
+		exit();
+	}
+	else
+	{
+	  echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
+	  $REX['STATS'] = 0;
+	}
 }
 
 // ----- caching end für output filter
