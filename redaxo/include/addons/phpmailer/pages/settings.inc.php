@@ -59,28 +59,28 @@ if (rex_post('btn_save', 'string') != '')
 }
 
 $sel_mailer = new rex_select();
-$sel_mailer->set_id('mailer');
-$sel_mailer->set_name('mailer');
-$sel_mailer->set_size(1);
-$sel_mailer->set_selected($mailer);
+$sel_mailer->setId('mailer');
+$sel_mailer->setName('mailer');
+$sel_mailer->setSize(1);
+$sel_mailer->setSelected($mailer);
 foreach(array('mail', 'sendmail', 'smtp') as $type)
-  $sel_mailer->add_option($type,$type);
+  $sel_mailer->addOption($type,$type);
   
 $sel_encoding = new rex_select();
-$sel_encoding->set_id('encoding');
-$sel_encoding->set_name('encoding');
-$sel_encoding->set_size(1);
-$sel_encoding->set_selected($encoding);
+$sel_encoding->setId('encoding');
+$sel_encoding->setName('encoding');
+$sel_encoding->setSize(1);
+$sel_encoding->setSelected($encoding);
 foreach(array('7bit', '8bit', 'binary', 'base64', 'quoted-printable') as $enc)
-  $sel_encoding->add_option($enc,$enc);
+  $sel_encoding->addOption($enc,$enc);
 
 $sel_priority = new rex_select();
-$sel_priority->set_id('priority');
-$sel_priority->set_name('priority');
-$sel_priority->set_size(1);
-$sel_priority->set_selected($priority);
+$sel_priority->setid('priority');
+$sel_priority->setName('priority');
+$sel_priority->setSize(1);
+$sel_priority->setSelected($priority);
 foreach(array(1 =>'Hoch',3 => 'Normal',5 => 'Niedrig') as $no => $name)
-  $sel_priority->add_option($name,$no);
+  $sel_priority->addOption($name,$no);
 
 if($message != '')
   echo '<p class="rex-warning">'. $message .'</p>';
