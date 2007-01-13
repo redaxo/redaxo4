@@ -475,7 +475,7 @@ setup_048 = Keinen User anlegen
 setup_049 = Weiter zu Schritt 5
 setup_step5 = SETUP: SCHRITT 5 von 5
 setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte ändern Sie die Datei manuel über FTP.
-setup_051 = {0}Herzlichen Glückwunsch zu Ihrem REDAXO!{1}Bitte noch dieses beachten:\n* 1. Mit dem {2}eingerichtetem Zugang einloggen{3}\n* 2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.\n\nViel Spass und Erfolg\nDas REDAXO Team
+setup_051 = {0}Herzlichen Glückwunsch zu Ihrem REDAXO!{1}Bitte noch dieses beachten:<ul><li>1. Mit dem {2}eingerichtetem Zugang einloggen{3}</li><li>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</li></ul>Viel Spass und Erfolg<br />Das REDAXO Team
 database_imported = Datenbank wurde importiert. 
 entry_count = {0} Einträge
 
