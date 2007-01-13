@@ -466,10 +466,10 @@ if ($checkmodus == 3)
 
   // Vorhandene Exporte auslesen
   $sel_export = new rex_select();
-  $sel_export->set_name('import_name');
-  $sel_export->set_id('import_name');
-  $sel_export->set_style('class="rex-slct"');
-  $sel_export->set_selectextra('onchange="checkInput(\'dbanlegen_3\')"');
+  $sel_export->setName('import_name');
+  $sel_export->setId('import_name');
+  $sel_export->setStyle('class="rex-slct"');
+  $sel_export->setAttribute('onchange', 'checkInput(\'dbanlegen_3\')"');
   $export_dir = $export_addon_dir. '/files';
   $exports_found = false;
 
