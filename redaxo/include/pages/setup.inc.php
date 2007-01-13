@@ -509,7 +509,7 @@ if ($checkmodus == 3)
       // Es ist ein Export Archiv + SQL File vorhanden
       if (in_array($sql_export, $export_archives))
       {
-        $sel_export->add_option($sql_export, $sql_export);
+        $sel_export->addOption($sql_export, $sql_export);
       }
     }
   }
@@ -537,7 +537,7 @@ if ($checkmodus == 3)
 				<input class="rex-chckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
 				<label class="rex-lbl-right" for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
 			</p>
-			<p>'.$sel_export->out().'</p>';
+			<p>'.$sel_export->get().'</p>';
   }
   echo '<p><input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_038').'" /></p>
 			</fieldset>
