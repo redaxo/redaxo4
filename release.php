@@ -8,6 +8,9 @@
  *  - Dateien kopieren
  *  - CVS Ordner löschen
  *  - master.inc.php anpassen
+ * 
+ * Verwendung in der Console:
+ *  "php -f release.php"
  */
 
 buildRelease(null);
