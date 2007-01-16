@@ -10,18 +10,51 @@
  *  - master.inc.php anpassen
  * 
  * Verwendung in der Console:
+ * 
+ *  Erstellen eines Release:
  *  "php -f release.php"
+ * 
+ *  Erstelles eines Release mit Versionsnummer:
+ *  "php -f release.php 3.3"
  */
 
-buildRelease(null);
 
-function buildRelease($name = null)
+$name = null;
+$version = null;
+if(isset($argv) && count($argv) > 1)
 {
+	if(!empty($argv[1]))
+	{
+		$version = $argv[1];
+	}
+	if(!empty($argv[2]))
+	{
+		$name = $argv[2];
+	}
+}
+
+// Start Build-Script
+buildRelease($name, $version);
+
+
+function buildRelease($name = null, $version = null)
+{
+	// Ordner in dem das release gespeichert wird
+	// ohne "/" am Ende!
 	$cfg_path = 'release';
 	$path = $cfg_path;
 	
   if (!$name)
-    $name = 'redaxo_' . date('ymd');
+  {
+    $name = 'redaxo';
+  	if(!$version)
+  	  $name .= date('ymd');
+  	else
+  		$name .= str_replace('.', '_', $version);
+  }
+  
+  if($version)
+    $version = explode('.', $version);
 
   if(substr($path, -1) != '/')
   	$path .= '/';
@@ -71,7 +104,7 @@ function buildRelease($name = null)
   mkdir($dest .'/redaxo/include/generated/templates');
   mkdir($dest .'/redaxo/include/generated/files');
   
-  // Setup aktivieren
+  // master.inc.php anpassen
   $h = fopen($dest.'/redaxo/include/master.inc.php', 'r');
   $cont = fread($h, filesize($dest.'/redaxo/include/master.inc.php'));
   fclose($h);
@@ -83,6 +116,17 @@ function buildRelease($name = null)
   $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", '\\1"de_de"', $cont);
   $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
   $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
+  
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?)[^;]*", '\\1"localhost"', $cont);
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?)[^;]*", '\\1"root"', $cont);
+  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?)[^;]*", '\\1""', $cont);
+  
+  if($version)
+  {
+	  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
+	  $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*", '\\1'. $version[0], $cont);
+	  $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*", '\\1'. $version[1], $cont);
+  }
 
   $h = fopen($dest.'/redaxo/include/master.inc.php', 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
