@@ -1,0 +1,16 @@
+# addon:metaform de_de
+functions = Funktionen
+function_edit_fields = Felder bearbeiten
+
+section_label_id = ID
+section_label_name = Abschnittstitel
+section_label_submit = Button-Text
+section_list_caption = Abschnittsliste
+section_form_fieldset = Abschnitt bearbeiten/erstellen
+
+field_label_section = Gewählter Abschnitt
+field_label_id = ID
+field_label_name = Feldname
+field_label_typename = Feldtyp
+field_label_attribute = Attribute
+field_form_fieldset = Feld bearbeiten/erstellen
