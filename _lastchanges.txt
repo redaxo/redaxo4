@@ -166,6 +166,9 @@ Changes:
     - Startartikel wurden immer online angezeigt
   * Neue Klassen:
     - rex_template [kills]
+  * Addons:
+    - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert
+    - De-Installation: wenn eine uninstall.sql im Addon verzeichnis liegt, wird diese beim Addon de-installieren importiert
 
 Version 3.2 (2006-04-06)
 
