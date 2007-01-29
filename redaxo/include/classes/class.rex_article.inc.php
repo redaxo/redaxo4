@@ -557,11 +557,24 @@ class rex_article
       ';
       
       $dummysql = new rex_sql();
-      $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.clang',$this->clang);
-      $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.ctype',$this->ctype);
-      $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.modultyp_id',$module_id);
-      $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.article_id',$this->article_id);
-      $dummysql->setValue($REX['TABLE_PREFIX'].'article_slice.id','0');
+
+      // Den Dummy mit allen Feldern aus rex_article_slice füllen
+      $slice_fields = new rex_sql();
+      $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice' . ' LIMIT 1');
+      foreach($slice_fields->getFieldnames() as $fieldname)
+      {
+      	$def_value = '';
+      	switch($fieldname)
+      	{
+      		case 'clang'        : $def_value = $this->clang; break;
+      		case 'ctype'        : $def_value = $this->ctype; break;
+      		case 'modultyp_id'  : $def_value = $module_id; break;
+      		case 'article_id'   : $def_value = $this->article_id; break;
+      		case 'id'           : $def_value = 0; break;
+      		
+      	}
+      	$dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
+      }
       
       $slice_content = $this->replaceVars($dummysql,$slice_content);
     }
