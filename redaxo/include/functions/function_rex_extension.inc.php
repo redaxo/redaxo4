@@ -150,7 +150,7 @@ function rex_call_func($function, $params)
     trigger_error('rexCallFunc: Using of an unexpected function var "'.$function.'"!');
   }
 
-  return call_user_func($func, $params);
+  return call_user_func_array($func, $params);
 }
 
 function rex_check_callable($_callable)
