@@ -1,5 +1,7 @@
 RewriteEngine Off
 
+Deny from all
+
 AuthUserFile ./user.psw
 AuthGroupFile /dev/null
 AuthName Zugriff auf IncludeDateien
