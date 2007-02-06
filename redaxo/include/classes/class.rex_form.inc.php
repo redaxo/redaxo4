@@ -157,6 +157,12 @@ class rex_form
 		return $this->addInputField('text', $name, $value, $attributes);
 	}
 	
+	function &addReadOnlyTextField($name, $value = null, $attributes = array())
+	{
+		$attributes['readonly'] = 'readonly';
+		return $this->addInputField('text', $name, $value, $attributes);
+	}
+	
 	function &addHiddenField($name, $value = null, $attributes = array())
 	{
 		return $this->addInputField('hidden', $name, $value, $attributes, true);
@@ -402,6 +408,15 @@ class rex_form
 	
 	function save()
 	{
+    // trigger extensions point
+    // Entscheiden zwischen UPDATE <-> CREATE via editMode möglich
+    // Falls die Extension FALSE zurückgibt, nicht speicher, 
+    // um hier die Möglichkeit offen zu haben eigene Validierungen/Speichermechanismen zu implementieren
+    if(rex_register_extension_point('REX_FORM_'.strtoupper($this->getName()).'_SAVE', '', array ('form' => $this)) === false)
+    {
+    	return;
+    }
+		
 		$sql = rex_sql::getInstance();
 		$sql->debugsql =& $this->debug;
 		$sql->setTable($this->tableName);
