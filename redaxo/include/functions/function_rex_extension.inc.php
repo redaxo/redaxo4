@@ -112,7 +112,7 @@ function rex_get_registered_extensions($extensionPoint)
  *   $myObject = new myObject();
  *   rex_call_func( array($myObject, 'myMethod'), array( 'Param1' => 'ab', 'Param2' => 12))
  */
-function rex_call_func($function, $params)
+function rex_call_func($function, $params, $parseParamsAsArray = true)
 {
   $func = '';
 
@@ -150,6 +150,14 @@ function rex_call_func($function, $params)
     trigger_error('rexCallFunc: Using of an unexpected function var "'.$function.'"!');
   }
 
+	if($parseParamsAsArray === true)
+	{
+		// Alle Parameter als ein Array übergeben
+		// funktion($params);
+	  return call_user_func($func, $params);
+	}
+	// Jeder index im Array ist ein Parameter
+	// funktion($params[0], $params[1], $params[2],...);
   return call_user_func_array($func, $params);
 }
 
