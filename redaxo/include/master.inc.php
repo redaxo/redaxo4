@@ -34,6 +34,7 @@ $REX['INSTNAME'] = "rex20060101010101";
 $REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
 $REX['RELOGINDELAY'] = 5; // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['MAXLOGINS'] = 50; // maximal erlaubte versuche
+$REX['START_PAGE'] = 'structure'; // Page auf die nach dem Login weitergeleitet wird
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";
