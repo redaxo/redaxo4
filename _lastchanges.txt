@@ -155,6 +155,7 @@ Changes:
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
     - generateTemplate() implementiert [kills]
     - ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
+    - Die Startpage ist jetzt via $REX['START_PAGE'] einstellbar [kills]
   * Bugfixes:
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
     - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
