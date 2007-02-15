@@ -940,8 +940,12 @@ if ($subpage=="detail" && $media_method == 'edit_file'){
           $msg .= "<br>".$I18N->msg('pool_file_upload_errortype');
         }
       }
-      $size = @getimagesize($REX['INCLUDE_PATH']."/../../files/$filename");
-
+      if($size = @getimagesize($REX['INCLUDE_PATH']."/../../files/$filename"))
+      {
+				$FILESQL->setValue("width",$size[0]);
+				$FILESQL->setValue("height",$size[1]);
+      }
+			
       $FILESQL->setValue("updatedate",time());
       $FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
       $FILESQL->update();
