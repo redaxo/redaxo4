@@ -274,9 +274,8 @@ function rex_mpool_save_media($FILE,$rex_file_category,$FILEINFOS){
     $NFILE_EXT  = "";
   }
 
-  // ---- ext checken
-  $ERROR_EXT = array("php","php3","php4","php5","phtml","pl","asp","aspx","cfm");
-  if (in_array($NFILE_EXT,$ERROR_EXT))
+  // ---- ext checken - alle scriptendungen rausfiltern
+  if (in_array($NFILE_EXT,$REX["MEDIAPOOL"]["BLOCKED_EXTENSIONS"]))
   {
     $NFILE_NAME .= $NFILE_EXT;
     $NFILE_EXT = ".txt";
