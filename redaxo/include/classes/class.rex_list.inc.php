@@ -86,6 +86,12 @@ class rex_list
 		// --------- Load Env
 	  if($REX['REDAXO'])
 	  	$this->loadBackendConfig();
+	  	
+	  $this->init();
+	}
+	
+	function init()
+	{
 	}
 	
 	// ---------------------- setters/getters
@@ -699,6 +705,10 @@ class rex_list
 				$this->sql->next();
 			}
 			$s .= '    </tbody>'. "\n";
+		}
+		else
+		{
+			$s .= '<tr><td>No Rows Found</td></tr>';
 		}
 		
 		$s .= '  </table>'. "\n";
