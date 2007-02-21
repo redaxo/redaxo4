@@ -1,4 +1,11 @@
 <?php
+
+/** 
+ * Layout Fuß des Backends
+ * @package redaxo3
+ * @version $Id$
+ */
+ 
 if (!(isset( $open_header_only) && $open_header_only == true)):
 ?>
 
