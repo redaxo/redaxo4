@@ -8,10 +8,10 @@ $TINY2['address']=$REX['HTDOCS_PATH'];
 
 class tiny2editor {
 
-  var $editorCSS = "../files/tinymce/content.css";
-  var $advimageCSS="";
-  var $disable="";
-  var $plugins="advlink,advimage,emotions,iespell,table,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,redaxo";
+  var $editorCSS = '../files/tinymce/content.css';
+  var $advimageCSS='';
+  var $disable='';
+  var $plugins='advlink,advimage,emotions,iespell,table,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,redaxo';
   var $validhtml= '"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
     +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
     +"|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev"
@@ -269,16 +269,16 @@ class tiny2editor {
     +"|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style"
     +"|title]"
   ';
-  var $add_validhtml = "";
-  var $buttons1="styleselect,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent";
-  var $buttons2="link,unlink,insertEmail,separator,image,separator,removeformat,paste,pastetext,pasteword,code";
-  var $buttons3="";
-  var $buttons4="";
-  var $buttons1_add = "";
-  var $buttons2_add = "";
-  var $lang="de";
+  var $add_validhtml = '';
+  var $buttons1='styleselect,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent';
+  var $buttons2='link,unlink,insertEmail,separator,image,separator,removeformat,paste,pastetext,pasteword,code';
+  var $buttons3='';
+  var $buttons4='';
+  var $buttons1_add = '';
+  var $buttons2_add = '';
+  var $lang='de';
 
-  var $address="";
+  var $address='';
 
   var $content;
   var $id;
@@ -320,7 +320,7 @@ class tiny2editor {
 				"\n"."<script type=\"text/javascript\">
 				tinyMCE_GZ.init({
 					plugins : '". implode(',', $plugins) ."',
-					themes : 'simple,advanced',
+					themes : 'advanced',
 					languages : 'de',
 					disk_cache : true,
 					debug : false
