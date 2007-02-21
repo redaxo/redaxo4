@@ -64,6 +64,13 @@ class rex_form
 		{
 			trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
 		}
+		
+		$this->init();
+	}
+	
+	function init()
+	{
+		// nichts tun
 	}
 	
 	function loadBackendConfig()
@@ -75,22 +82,27 @@ class rex_form
 		$resetLabel = 'Zurücksetzen';
 		$abortLabel = 'Abbrechen';
 		
+		$func = rex_request('func', 'string');
+		
 		$this->addParam('page', rex_request('page', 'string'));
 		$this->addParam('subpage', rex_request('subpage', 'string'));
-		$this->addParam('func', rex_request('func', 'string'));
+		$this->addParam('func', $func);
 		$this->addParam('list', rex_request('list', 'string'));
 		
 		$saveElement = null;
 		if($saveLabel != '')
 			$saveElement = $this->addInputField('submit', 'save', $saveLabel, array('internal::useArraySyntax' => false), false);
-			
+		
 		$applyElement = null;
-		if($applyLabel != '')
-			$applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false), false);
-			
 		$deleteElement = null;
-		if($deleteLabel != '')
-			$deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false), false);
+		if($func == 'edit')
+		{
+			if($applyLabel != '')
+				$applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false), false);
+				
+			if($deleteLabel != '')
+				$deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false), false);
+		}
 
 		$resetElement = null;
 		if($resetLabel != '')
@@ -161,6 +173,13 @@ class rex_form
 	{
 		$attributes['readonly'] = 'readonly';
 		return $this->addInputField('text', $name, $value, $attributes);
+	}
+	
+	function &addReadOnlyField($name, $value = null, $attributes = array())
+	{
+		$attributes['internal::fieldSeparateEnding'] = true;
+		$attributes['internal::noNameAttribute'] = true;
+		return $this->addField('span', $name, $value, $attributes, true);
 	}
 	
 	function &addHiddenField($name, $value = null, $attributes = array())
@@ -250,10 +269,17 @@ class rex_form
 			unset($attributes['internal::fieldSeparateEnding']);
 		}
 
+		$internal_attr = array('name' => $name);
+		if(isset($attributes['internal::noNameAttribute']))
+		{
+			$internal_attr = array();
+			unset($attributes['internal::noNameAttribute']);
+		}
+		
 		// 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
 		// 2. Array: Eigenschaften, via Parameter
 		// 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
-		$attributes = array_merge(array('id' => $id), $attributes, array('name' => $name));
+		$attributes = array_merge(array('id' => $id), $attributes, $internal_attr);
 		$element = new $class($tag, $this, $attributes, $separateEnding);
 		$element->setValue($value);
 		return $element;
@@ -372,6 +398,12 @@ class rex_form
 	
 	function &getElement($fieldsetName, $elementName)
 	{
+		$normalizedName = rex_form_element::_normalizeName($fieldsetName.'['. $elementName .']');
+		return $this->_getElement($fieldsetName,$normalizedName); 
+	}
+		
+	function &_getElement($fieldsetName, $elementName)
+	{
 		if(is_array($this->elements[$fieldsetName]))
 		{
 			for($i = 0; $i < count($this->elements[$fieldsetName]); $i++)
@@ -406,6 +438,27 @@ class rex_form
 		return $message;
 	}
 	
+	/**
+	 * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann kurz vorm speichern
+	 */
+	function prepareSave($fieldsetName, $fieldName, $fieldValue)
+	{
+		return $fieldValue;
+	}
+	
+	function getElementPostValue($fieldsetName, $fieldName, $default = null)
+	{
+			// Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
+			$normalizedFieldsetName = rex_form_element::_normalizeName($fieldsetName);
+			// POST-Werte ermitteln
+			$fieldsetValues = rex_post($normalizedFieldsetName, 'array');
+			if(isset($fieldsetValues[$fieldName]))
+			{
+				return $fieldsetValues[$fieldName];
+			}
+			return $default;
+	}
+	
 	function save()
 	{
     // trigger extensions point
@@ -416,7 +469,7 @@ class rex_form
     {
     	return;
     }
-		
+
 		$sql = rex_sql::getInstance();
 		$sql->debugsql =& $this->debug;
 		$sql->setTable($this->tableName);
@@ -425,15 +478,19 @@ class rex_form
 		{
 			// Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
 			$normalizedFieldsetName = rex_form_element::_normalizeName($fieldsetName);
+			// POST-Werte ermitteln
 			foreach(rex_post($normalizedFieldsetName, 'array') as $fieldName => $fieldValue)
 			{
-				// POST-Wert ermitteln
-				$normalizedFieldName = rex_form_element::_normalizeName($fieldsetName.'['. $fieldName .']');
-				$element =& $this->getElement($fieldsetName, $normalizedFieldName);
+				// Callback, um die Values vor dem Speichern noch beeinflussen zu können
+				$fieldValue = $this->prepareSave($fieldsetName, $fieldName, $fieldValue);
+				
+				// Element heraussuchen				
+				$element =& $this->getElement($fieldsetName, $fieldName);
+				
 				// Den POST-Wert als Value in das Feld speichern
 				// Da generell alles von REDAXO escaped wird, hier slashes entfernen
 				$element->setValue(stripslashes($fieldValue));
-				// Den POST-Wert in die DB speichern
+				// Den POST-Wert in die DB speichern (inkl. slahes)
 				$sql->setValue($fieldName, $fieldValue);
 			}
 		}
@@ -441,11 +498,11 @@ class rex_form
 		if($this->isEditMode())
 		{
 			$sql->setWhere($this->whereCondition);
-			$sql->update();
+			return $sql->update();
 		}
 		else
 		{
-			$sql->insert();
+			return $sql->insert();
 		}
 	}
 	
@@ -455,7 +512,7 @@ class rex_form
 		$sql->debugsql =& $this->debug;
 		$sql->setTable($this->tableName);
 		$sql->setWhere($this->whereCondition);
-		$sql->delete();
+		return $sql->delete();
 	}
 	
 	function redirect($listMessage = '', $params = array())
@@ -492,23 +549,36 @@ class rex_form
 			if($controlElement->saved())
 			{
 				// speichern und umleiten
-				$this->save();
 				// Nachricht in der Liste anzeigen
-				$this->redirect('Eingaben wurden gespeichert!');
+				if(($result = $this->save()) === true)
+					$this->redirect('Eingaben wurden gespeichert!');
+				elseif(is_string($result) && $result != '')
+					// Falls ein Fehler auftritt, das Formular wieder anzeigen mit der Meldung
+					$this->setMessage($result);
+				else 
+					$this->redirect('Fehler beim speichern!');
 			}
 			elseif($controlElement->applied())
 			{
 				// speichern und wiederanzeigen
-				$this->save();
  				// Nachricht im Formular anzeigen
- 				$this->setMessage('Eingaben wurden übernommen');
+				if(($result = $this->save()) === true)
+	 				$this->setMessage('Eingaben wurden übernommen');
+				elseif(is_string($result) && $result != '')
+					$this->setMessage($result);
+				else 
+					$this->setMessage('Fehler beim speichern!');
 			}
 			elseif($controlElement->deleted())
 			{
 				// speichern und wiederanzeigen
-				$this->delete();
 				// Nachricht in der Liste anzeigen
-				$this->redirect('Eingaben wurden gelöscht!');
+				if(($result = $this->delete()) === true)
+					$this->redirect('Eingaben wurden gelöscht!');
+				elseif(is_string($result) && $result != '')
+					$this->redirect($result);
+				else
+					$this->redirect('Fehler beim löschen!');
 			}
 			elseif($controlElement->resetted())
 			{
