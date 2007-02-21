@@ -243,7 +243,6 @@ class rex_var_media extends rex_var
     <a href="#" onclick="javascript:deleteREXMedia(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
     ';
 
-    $media = $this->stripPHP($media);
     return $media;
   }
 
