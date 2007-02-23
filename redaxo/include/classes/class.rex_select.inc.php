@@ -113,7 +113,17 @@ class rex_select
   ################ selected feld - option value uebergeben
   function setSelected($selected)
   {
-    $this->option_selected[] = $selected;
+  	if(is_array($selected))
+  	{
+  		foreach($selected as $sectvalue)
+  		{
+  			$this->setSelected($sectvalue);
+  		}
+  	}
+  	else
+  	{
+	    $this->option_selected[] = $selected;
+  	}
   }
 
   function resetSelected()
