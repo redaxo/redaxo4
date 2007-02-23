@@ -1,0 +1,11 @@
+# addon:metaform de_de
+
+field_fieldset = Feld bearbeiten/erstellen
+field_label_prefix = Prefix
+field_label_name = Feldname
+field_label_id = ID
+field_label_type = Feldtyp
+field_label_attributes = Feldattribute
+field_label_default = Standardwert
+field_label_nullable = Pflichtfeld
+field_label_params = Parameter

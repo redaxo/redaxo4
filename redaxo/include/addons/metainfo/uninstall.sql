@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS `rex_62_params`;
+DROP TABLE IF EXISTS `rex_62_type`;
