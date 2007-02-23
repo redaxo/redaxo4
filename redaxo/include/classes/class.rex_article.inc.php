@@ -83,9 +83,6 @@ class rex_article
       $this->ARTICLE = new rex_sql;
       // $this->ARTICLE->debugsql = 1;
       
-      // ----- EXTENSION POINT
-      $qry = rex_register_extension_point('ART_READ_QUERY', $qry, array('article_id' => $article_id,'clang' => $this->clang));
-      
       $this->ARTICLE->setQuery($qry);
 
       if ($this->ARTICLE->getRows() == 1)

@@ -106,7 +106,6 @@ Changes:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
     - ART_META_PARAMS [kills]
-    - ART_READ_QUERY [kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
     - neue rexVars:
        + REX_MODULE_ID [jan,kills]
