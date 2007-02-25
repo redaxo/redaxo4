@@ -29,6 +29,10 @@ if($REX['REDAXO'])
 	{
 	  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_cat_metainfo.inc.php');
 	}
+	elseif($page == 'import_export')
+	{
+	  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_cleanup.inc.php');
+	}
 	
   include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_oof_metainfo.inc.php');
 }
