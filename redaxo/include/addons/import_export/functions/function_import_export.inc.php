@@ -71,6 +71,9 @@ function rex_a1_import_db($filename,$replace_rex = false)
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
   
+  // ----- EXTENSION POINT
+  $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg);
+  
   // Datei aufteilen
   $lines = explode("\n", $conts);
 
@@ -144,6 +147,8 @@ function rex_a1_import_db($filename,$replace_rex = false)
   // generated neu erstellen, wenn kein Fehler aufgetreten ist
   if($error == '')
   {
+	  // ----- EXTENSION POINT
+    $msg = rex_register_extension_point('A1_AFTER_DB_IMPORT', $msg);
     $msg .= rex_generateAll();
     $return['state'] = true;
   }
@@ -179,6 +184,10 @@ function rex_a1_import_files($filename)
   rex_deleteDir($REX['INCLUDE_PATH']."/../../files");
 
   $tar = new tar;
+  
+  // ----- EXTENSION POINT
+  $tar = rex_register_extension_point('A1_BEFORE_FILE_IMPORT', $tar);
+  
   $tar->openTAR($filename);
   if (!$tar->extractTar())
   {
@@ -199,6 +208,9 @@ function rex_a1_import_files($filename)
     $msg = $I18N_IM_EXPORT->msg("file_imported")."<br>";
   }
 
+  // ----- EXTENSION POINT
+  $tar = rex_register_extension_point('A1_AFTER_FILE_IMPORT', $tar);
+
   $return['state'] = true;
   $return['message'] = $msg;
   return $return;
@@ -216,6 +228,9 @@ function rex_a1_export_db()
   $tabs->setquery("SHOW TABLES");
   $dump = '';
 
+  // ----- EXTENSION POINT
+  rex_register_extension_point('A1_BEFORE_DB_EXPORT');
+  
   for ($i = 0; $i < $tabs->rows; $i++, $tabs->next())
   {
     $tab = $tabs->getValue("Tables_in_".$REX['DB']['1']['NAME']);
@@ -323,8 +338,12 @@ function rex_a1_export_db()
   $dump = str_replace("\r", "", $dump);
   $header = "## Redaxo Database Dump Version ".$REX['VERSION']."\n";
   $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
+  
+  $content = $header . $dump; 
+  // ----- EXTENSION POINT
+  $content = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
 
-  return $header . $dump;
+  return $content;
 }
 
 /**
@@ -341,11 +360,18 @@ function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
   global $REX;
 
   $tar = new tar;
+  
+  // ----- EXTENSION POINT
+  $tar = rex_register_extension_point('A1_BEFORE_FILE_EXPORT', $tar);
+
   foreach ($folders as $key => $item)
   {
     _rex_a1_add_folder_to_tar($tar, $REX['INCLUDE_PATH']."/../../", $key);
   }
 
+  // ----- EXTENSION POINT
+  $tar = rex_register_extension_point('A1_AFTER_FILE_EXPORT', $tar);
+  
   $content = $tar->toTarOutput($filename.$ext, true);
   return $content;
 }
