@@ -87,7 +87,7 @@ Changes:
   * UrlRewrite:
     - Backendlink bei rex_getUrl() eingebaut. Wird dann auf EditView verlinkt [kills,jan]
   * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [jan]
-  * REX_ACTIONS wieder eingebaut - Im Moment nur REX_VALUE Actions.. Rest folgt [kills,jan]
+  * REX_ACTIONS wieder umgebaut [kills,jan]
   * Backend XHTML [tbaddade, kills]
   * class.ooarticle.inc.php
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
@@ -143,12 +143,8 @@ Changes:
       + .. NICHT vom Import/Export-Addon exportiert
   * rexGlobales API implementiert [kills]
     - Ab sofort nur noch mit rex_get(), rex_post(), .. arbeiten!
-  * Image-Resize-Addon:
-    - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
   * OOF:
     - OOMedia::toImage -> title Attribut bekommt nun den MediaTitle zugewiesen und nicht mehr die Description [tab]
-  * Beiliegender PHPMailer aktualisiert [kills]
-  * TinyMCE entfernt [kills]
   * Internes Handling:
     - Default Systemvariablen werden alle in der master.inc.php gesetzt [kills]
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
@@ -161,9 +157,24 @@ Changes:
     - Startartikel wurden immer online angezeigt
   * Neue Klassen:
     - rex_template [kills]
+    
+    
   * Addons:
     - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert
     - De-Installation: wenn eine uninstall.sql im Addon verzeichnis liegt, wird diese beim Addon de-installieren importiert
+    
+  * Image-Resize-Addon:
+    - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
+  * TinyMCE entfernt und als Addon wieder eingebaut [kills]
+  * PHPMailer entfernt und als Addon wieder eingebaut [kills]
+  * Metafelder entfernt und als Addon wieder eingebaut [kills]
+  * Import-Export-Addon:
+    - rexExtensionPoint erstellt: [kills]
+        A1_BEFORE_DB_IMPORT, A1_AFTER_DB_IMPORT
+        A1_BEFORE_DB_EXPORT, A1_AFTER_DB_EXPORT
+        A1_BEFORE_FILE_IMPORT, A1_AFTER_FILE_IMPORT
+        A1_BEFORE_FILE_EXPORT, A1_AFTER_FILE_EXPORT
+    
 
 Version 3.2 (2006-04-06)
 
