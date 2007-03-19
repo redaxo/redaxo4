@@ -36,6 +36,7 @@ $REX = $REX_TEMP;
 // ----------------- REX PERMS
 
 // ----- allgemein
+$REX['PERM'] = array();
 $REX['PERM'][] = 'addon[]';
 $REX['PERM'][] = 'specials[]';
 $REX['PERM'][] = 'mediapool[]';
@@ -44,6 +45,7 @@ $REX['PERM'][] = 'template[]';
 $REX['PERM'][] = 'user[]';
 
 // ----- optionen
+$REX['EXTPERM'] = array();
 $REX['EXTPERM'][] = 'advancedMode[]';
 $REX['EXTPERM'][] = 'moveSlice[]';
 $REX['EXTPERM'][] = 'copyContent[]';
@@ -54,9 +56,11 @@ $REX['EXTPERM'][] = 'publishArticle[]';
 $REX['EXTPERM'][] = 'publishCategory[]';
 
 // ----- extras
+$REX['EXTRAPERM'] = array();
 $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- standard variables
+$REX['VARIABLES'] = array();
 $REX['VARIABLES'][] = 'rex_var_globals';
 $REX['VARIABLES'][] = 'rex_var_article';
 $REX['VARIABLES'][] = 'rex_var_template';
