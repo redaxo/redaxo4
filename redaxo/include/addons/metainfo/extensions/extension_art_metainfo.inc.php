@@ -27,6 +27,11 @@ function rex_a62_metainfo_form($params)
   $params = rex_a62_metainfo_handleSave($params, $fields);
   $article = $params['article'];
   
+  // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST
+  $media_id = 1;
+  $mlist_id = 1;
+  $link_id  = 1;
+  
   for($i = 0; $i < $fields->getRows(); $i++)
   {
   	$name = $fields->getValue('name');
@@ -145,8 +150,20 @@ function rex_a62_metainfo_form($params)
   			break;
   		}
   		case 'REX_MEDIA_BUTTON':
+  		{
+  			$field = rex_var_media::getMediaButton($media_id++);
+  			break;
+  		}
   		case 'REX_MEDIALIST_BUTTON':
+  		{
+  			$field = rex_var_media::getMediaListButton($mlist_id++, $value);
+  			break;
+  		}
   		case 'REX_LINK_BUTTON':
+  		{
+  			$field = rex_var_link::getLinkButton($link_id++);
+  			break;
+  		}
   	}
   	
     $s .= '<p>'. "\n";
