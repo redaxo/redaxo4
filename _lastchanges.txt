@@ -89,6 +89,8 @@ Changes:
   * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [jan]
   * REX_ACTIONS wieder umgebaut [kills,jan]
   * Backend XHTML [tbaddade, kills]
+  * class.rex_login.inc.php
+    - Texte ins Sprachfile verschoben [kills]
   * class.ooarticle.inc.php
     - clang abfrage korrigiert. "No Name" Fehler korrigiert. [jan]
     - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [kills]
@@ -151,12 +153,14 @@ Changes:
     - generateTemplate() implementiert [kills]
     - ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
     - Die Startpage ist jetzt via $REX['START_PAGE'] einstellbar [kills]
-  * Bugfixes:
-    - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
-    - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
-    - Startartikel wurden immer online angezeigt
   * Neue Klassen:
     - rex_template [kills]
+    
+  * BUGFIXES:
+    - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
+    - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
+    - Startartikel wurden immer online angezeigt [kills]
+    - Slices verschieben - http://forum.redaxo.de/ftopic4560.html [jan]
     
     
   * Addons:
