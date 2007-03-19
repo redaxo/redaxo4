@@ -51,7 +51,7 @@ class rex_var_value extends rex_var
   {
     $content = $this->getOutput($sql, $content, true);
 
-    $php_content = $sql->getValue('php');
+    $php_content = $this->getValue($sql, 'php');
     $php_content = highlight_string($php_content, true);
 
     $content = str_replace('REX_PHP', $this->stripPHP($php_content), $content);
@@ -61,14 +61,14 @@ class rex_var_value extends rex_var
   function getBEInput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
-    $content = str_replace('REX_PHP', $this->stripPHP($sql->getValue('php')), $content);
+    $content = str_replace('REX_PHP', $this->stripPHP($this->getValue($sql, 'php')), $content);
     return $content;
   }
 
   function getFEOutput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content, true);
-    $content = str_replace('REX_PHP', $sql->getValue('php'), $content);
+    $content = str_replace('REX_PHP', $this->getValue($sql, 'php'), $content);
     return $content;
   }
 
