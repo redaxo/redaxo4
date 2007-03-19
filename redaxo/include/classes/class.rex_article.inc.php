@@ -246,6 +246,7 @@ class rex_article
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
         $I_ID = 0;
         $PRE_ID = 0;
+				$LCTSL_ID = 0;
         $this->CONT->reset();
         $this->article_content = "";
 

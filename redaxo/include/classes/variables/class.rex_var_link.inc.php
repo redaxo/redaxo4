@@ -63,7 +63,7 @@ class rex_var_link extends rex_var
     return $content;
   }
 
-  function getInputParams($content, $varname)
+  function getInputParams(& $sql, $content, $varname)
   {
     $matches = array ();
     $id = '';
@@ -103,10 +103,10 @@ class rex_var_link extends rex_var
   /**
    * Button für die Eingabe
    */
-  function matchLinkButton($sql, $content)
+  function matchLinkButton(& $sql, $content)
   {
     $var = 'REX_LINK_BUTTON';
-    $matches = $this->getInputParams($content, $var);
+    $matches = $this->getInputParams(& $sql, $content, $var);
     foreach ($matches as $match)
     {
       list ($param_str, $id, $category) = $match;
@@ -127,7 +127,7 @@ class rex_var_link extends rex_var
   function matchLinkListButton(& $sql, $content)
   {
     $var = 'REX_LINKLIST_BUTTON';
-    $matches = $this->getInputParams($content, $var);
+    $matches = $this->getInputParams(& $sql, $content, $var);
     foreach ($matches as $match)
     {
       list ($param_str, $id, $category) = $match;
@@ -213,14 +213,18 @@ class rex_var_link extends rex_var
     global $REX;
     
     $art_name = '';
+    $clang = '';
     $art = OOArticle :: getArticleById($article_id);
     
     if (OOArticle :: isValid($art))
+    {
       $art_name = $art->getName();
-
-    $open_params = '';
+			if ($category == '') $category = $art->getCategoryId();
+    }
+    
+    $open_params = '&clang=' . $REX['CUR_CLANG'];
     if ($category != '')
-      $open_params .= '&amp;category_id=' . $category;
+      $open_params .= '&category_id=' . $category;
 
     $media = '
     <input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="REX_LINK_ID[' . $id . ']" />
