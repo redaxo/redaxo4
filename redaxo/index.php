@@ -9,6 +9,7 @@
 // ----- caching start für output filter
 
 ob_start();
+ob_implicit_flush(0);
 
 // ----- REX UNSET
 
