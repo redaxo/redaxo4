@@ -33,6 +33,7 @@ class rex_list
 	var $name;
 	var $caption;
 	var $params;
+	var $rows;
 
 	// --------- Column Attributes
 	var $columnNames;
@@ -66,6 +67,7 @@ class rex_list
 		$this->sql->debugsql =& $this->debug;
 		$this->name = $listName;
 		$this->caption = '';
+		$this->rows = 0;
 		$this->params = array();
 		
 		// --------- Column Attributes
