@@ -28,6 +28,11 @@ logout = abmelden
 # redaxo/include/classes/class.login.inc.php
 login_name  =  Benutzername
 password  =  Passwort
+login_error = Fehler bei der Anmeldung. Bitte vor dem nächsten Versuch {0} Sekunden warten.
+login_session_expired = Session beendet.
+login_user_not_found = ID nicht gefunden!
+login_welcome = Bitte anmelden.
+login_logged_out = Abgemeldet.
 
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  nicht angemeldet

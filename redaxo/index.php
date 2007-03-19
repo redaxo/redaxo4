@@ -35,27 +35,26 @@ if ($REX['SETUP'])
   // ----------------- SET SETUP LANG
   $LOGIN = FALSE;
   $REX['LANG'] = "en_gb";
-  $I18N = rex_create_lang( $REX['LANG']);
+  $I18N = rex_create_lang($REX['LANG']);
   foreach ($REX['LOCALES'] as $l) {
-    if (isset($_REQUEST["lang"]) && $_REQUEST["lang"] == $l) 
+    if (isset($_REQUEST['lang']) && $_REQUEST['lang'] == $l) 
     {
       $REX['LANG'] = $l;
-      $I18N = rex_create_lang( $REX['LANG']);
+      $I18N = rex_create_lang($REX['LANG']);
     }
   }
 
-  setlocale(LC_ALL,trim($I18N->msg("setlocale")));
-  header('Content-Type: text/html; charset='.$I18N->msg("htmlcharset"));
+  setlocale(LC_ALL,trim($I18N->msg('setlocale')));
+  header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
   
-  $page_name = $I18N->msg("setup");
-  $page = "setup";
-  
+  $page_name = $I18N->msg('setup');
+  $page = 'setup';
 }
 else
 {
 
   // ----------------- CREATE LANG OBJ
-  $I18N = rex_create_lang( $REX['LANG']);
+  $I18N = rex_create_lang($REX['LANG']);
   setlocale(LC_ALL,trim($I18N->msg('setlocale')));
   header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
   header('Cache-Control: no-cache');
@@ -68,7 +67,6 @@ else
   $REX_LOGIN->setSqlDb(1);
   $REX_LOGIN->setSysID($REX['INSTNAME']);
   $REX_LOGIN->setSessiontime(3000);
-  $REX_LOGIN->setLanguage($I18N->msg('htmllang'));
   if ($REX['PSWFUNC'] != '') $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
   if (isset($FORM['logout']) and $FORM['logout'] == 1) $REX_LOGIN->setLogout(true);

@@ -33,9 +33,7 @@ class rex_login_sql extends rex_sql
 
 class rex_login
 {
-
   var $DB;
-  var $error_page;
   var $session_duration;
   var $login_query;
   var $user_query;
@@ -46,7 +44,6 @@ class rex_login
   var $message;
   var $uid;
   var $USER;
-  var $text;
   var $passwordfunction;
   var $cache;
   var $login_status;
@@ -57,35 +54,8 @@ class rex_login
     $this->logout = false;
     $this->message = "";
     $this->system_id = "default";
-    $this->cryptFunction = false;
-    $this->setLanguage();
     $this->cache = false;
     $this->login_status = 0; // 0 = nochchecken, 1 = ok, -1 = notok
-
-  }
-
-  /**
-   * Setzt die Sprache, die für die versch. Meldungen verwendet wird
-   */
-  function setLanguage($lang = "en")
-  {
-    global $REX;
-    if ($lang == "de")
-    {
-      $this->text[10] = "Session beendet.";
-      $this->text[20] = "ID nicht gefunden.";
-      $this->text[30] = "Fehler beim Login. Bitte vor dem nächsten Versuch " . $REX['RELOGINDELAY'] . " Sekunden warten.";
-      $this->text[40] = "Bitte einloggen.";
-      $this->text[50] = "Ausgeloggt.";
-    }
-    else
-    {
-      $this->text[10] = "your session is expired!";
-      $this->text[20] = "uid not found!";
-      $this->text[30] = "login wrong. please wait " . $REX['RELOGINDELAY'] . " seconds before you try again.";
-      $this->text[40] = "login please.";
-      $this->text[50] = "You logged out.";
-    }
   }
 
   /**
@@ -185,7 +155,7 @@ class rex_login
    */
   function checkLogin()
   {
-    global $REX;
+    global $REX, $I18N;
     // wenn logout dann header schreiben und auf error seite verweisen
     // message schreiben
 
@@ -219,7 +189,7 @@ class rex_login
         }
         else
         {
-          $this->message = $this->text[30];
+          $this->message = $I18N->msg('login_error', $REX['RELOGINDELAY']);
           $this->setSessionVar('UID', '');
         }
 
@@ -242,33 +212,30 @@ class rex_login
           }
           else
           {
-            $this->message = $this->text[10];
+	          $this->message = $I18N->msg('login_session_expired');
           }
         }
         else
         {
-          $this->message = $this->text[20];
+          $this->message = $I18N->msg('login_user_not_found');
         }
       }
       else
       {
-        $this->message = $this->text[40];
+        $this->message = $I18N->msg('login_welcome');
         $ok = false;
       }
     }
     else
     {
-      $this->message = $this->text[50];
+      $this->message = $I18N->msg('login_logged_out');
       $this->setSessionVar('UID', '');
-      // session_unregister("REX_SESSION");
-
     }
 
     if ($ok)
     {
       // wenn alles ok dann REX[UID][system_id) schreiben
       $this->setSessionVar('STAMP', time());
-
     }
     else
     {
