@@ -82,35 +82,40 @@ class OOArticle extends OORedaxo
   function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
-    if ($clang === false)
-      $clang = $GLOBALS['REX']['CUR_CLANG'];
-    $articlelist = $REX['INCLUDE_PATH']."/generated/articles/".$a_category_id.".".$clang.".alist";
-    $artlist = array ();
-    if (file_exists($articlelist))
+    
+    if(!isset($REX['RE_ID'][$a_category_id]))
     {
-      include ($articlelist);
-      if (is_array($REX['RE_ID'][$a_category_id]))
-      {
-        foreach ($REX['RE_ID'][$a_category_id] as $var)
-        {
-          $article = OOArticle :: getArticleById($var, $clang);
-          if ($ignore_offlines)
-          {
-            if ($article->isOnline())
-            {
-              $artlist[] = $article;
-            }
-          }
-          else
-          {
-            $artlist[] = $article;
-          }
-        }
-      }
+	    $articlelist = $REX['INCLUDE_PATH']."/generated/articles/".$a_category_id.".".$clang.".alist";
+	    if (file_exists($articlelist))
+	      include($articlelist);
     }
+    
+    $artlist = array ();
+    if(isset($REX['RE_ID'][$a_category_id]))
+    {
+	    if ($clang === false)
+	      $clang = $REX['CUR_CLANG'];
+
+	    foreach ($REX['RE_ID'][$a_category_id] as $var)
+	    {
+	      $article = OOArticle :: getArticleById($var, $clang);
+	      if ($ignore_offlines)
+	      {
+	        if ($article->isOnline())
+	        {
+	          $artlist[] = $article;
+	        }
+	      }
+	      else
+	      {
+	        $artlist[] = $article;
+	      }
+	    }
+    }
+    
     return $artlist;
   }
-
+  
   /**
    * CLASS Function:
    * Return a list of top-level articles
