@@ -105,14 +105,28 @@ class rex_var_link extends rex_var
    */
   function matchLinkButton(& $sql, $content)
   {
+  	global $REX;
+
+  	$def_category = '';
+  	$article_id = rex_request('article_id', 'int');
+  	if($article_id != 0)
+  	{
+  		$art = OOArticle::getArticleById($article_id);
+  		$def_category = $art->getCategoryId(); 
+  	}
+  	
     $var = 'REX_LINK_BUTTON';
     $matches = $this->getInputParams($content, $var);
     foreach ($matches as $match)
     {
       list ($param_str, $id, $category) = $match;
-
+      
       if ($id < 11 && $id > 0)
       {
+      	// Wenn vom Programmierer keine Kategorie vorgegeben wurde,
+      	// die Linkmap mit der aktuellen Kategorie öffnen
+	      if($category == '') $category = $def_category;
+	      
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
@@ -216,10 +230,11 @@ class rex_var_link extends rex_var
     $clang = '';
     $art = OOArticle :: getArticleById($article_id);
     
+    // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
     if (OOArticle :: isValid($art))
     {
       $art_name = $art->getName();
-			if ($category == '') $category = $art->getCategoryId();
+			$category = $art->getCategoryId();
     }
     
     $open_params = '&clang=' . $REX['CUR_CLANG'];
