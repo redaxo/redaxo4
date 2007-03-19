@@ -627,13 +627,6 @@ if ($article->getRows() == 1)
         $meta_sql->setValue("name", $meta_article_name);
         $meta_sql->setValue("updatedate", time());
         $meta_sql->setValue("updateuser", $REX_USER->getValue("login"));
-
-        // -------------------------- FILE UPLOAD META BILD/FILE
-
-        $meta_sql->setValue("file", $REX_MEDIA_1);
-
-        // ----------------------------- / FILE UPLOAD
-
         $meta_sql->update();
 
         $article->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article where id='$article_id' and clang='$clang'");
@@ -683,21 +676,13 @@ if ($article->getRows() == 1)
 						<p>
 						  <label for="meta_keywords">' . $I18N->msg("keywords") . '</label>
 						  <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6">' . htmlspecialchars($article->getValue("keywords")) . '</textarea>
-						</p>
-						<p>
-						  <label for="REX_MEDIA_1">' . $I18N->msg("metadata_image") . '</label>
-						  <input type="hidden" name="REX_MEDIA_DELETE_1" value="0" id="REX_MEDIA_DELETE_1" />
-						  <input type="text" size="30" name="REX_MEDIA_1" value="' . $article->getValue("file") . '" id="REX_MEDIA_1" readonly="readonly" />
-						  
-						  <a href="#" onclick="openREXMedia(1); return false;"><img src="pics/file_open.gif" width="16" height="16" alt="medienpool" title="medienpool" /></a>
-						  <a href="#" onclick="deleteREXMedia(1); return false;"><img src="pics/file_del.gif" width=16 height=16 alt="+" title="-" /></a>
-						  <a href="#" onclick="addREXMedia(1); return false;"><img src="pics/file_add.gif" width="16" height="16" alt="-" title="+" /></a>
 						</p>';
 
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM', '', array (
-        "id" => $article_id,
-        "clang" => $clang
+        'id' => $article_id,
+        'clang' => $clang,
+        'article' => $article
       ));
 
       echo '
