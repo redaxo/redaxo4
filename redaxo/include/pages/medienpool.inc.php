@@ -52,8 +52,8 @@ if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 
 
 // *************************************** CAT ID IN SESSION SPEICHERN
-$rex_file_category = rex_request('rex_file_category', 'int');
-if($rex_file_category == 0 && ($sess_rex_file_category = rex_session('media[rex_file_category]', 'int')) != 0)
+$rex_file_category = rex_request('rex_file_category', 'int', null);
+if($rex_file_category === null && ($sess_rex_file_category = rex_session('media[rex_file_category]', 'int')) != 0)
 {
   $rex_file_category = $sess_rex_file_category;
 }
