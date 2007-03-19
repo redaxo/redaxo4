@@ -1,5 +1,5 @@
 CREATE TABLE `rex_62_params` (
-  `field_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `field_id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255),
   `attributes` VARCHAR(255),
   `type` INT UNSIGNED,
@@ -12,10 +12,10 @@ CREATE TABLE `rex_62_params` (
 );
 
 CREATE TABLE rex_62_type (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `label` VARCHAR(255),
   `dbtype` VARCHAR(255),
-  `dblength` INT(11),
+  `dblength` INT(11)
 );
 
 INSERT INTO rex_62_type VALUES (1, 'text', 'varchar', 255);
