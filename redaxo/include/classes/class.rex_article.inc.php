@@ -167,6 +167,7 @@ class rex_article
     
     // ----- start: article caching
     ob_start();
+    ob_implicit_flush(0);
 
     if ($REX['GG'] && !$this->getSlice)
     {
