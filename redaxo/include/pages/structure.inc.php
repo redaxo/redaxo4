@@ -237,9 +237,10 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContent
     $AART->setValue("template_id", $template_id);
     $AART->setValue("name", "$category_name");
     $AART->setValue("catname", "$category_name");
-    $AART->setValue("label", $category_label);
-    $AART->setValue("url", $category_url);
-    $AART->setValue("attributes", $category_attributes);
+// TODO Neue noch nicht verwendete Datenbankspalten
+//    $AART->setValue("label", $category_label);
+//    $AART->setValue("url", $category_url);
+//    $AART->setValue("attributes", $category_attributes);
     $AART->setValue("catprior", $Position_New_Category);
     $AART->setValue("re_id", $category_id);
     $AART->setValue("prior", 1);
@@ -347,9 +348,10 @@ elseif (!empty($artadd_function) && $category_id != '' && $KATPERM)
       $AART->setValue("id", $id);
     $AART->setValue("name", $article_name);
     $AART->setValue("catname", $category_name);
-    $AART->setValue("label", $category_label);
-    $AART->setValue("url", $category_url);
-    $AART->setValue("attributes", $category_attributes);
+// TODO Neue noch nicht verwendete Datenbankspalten
+//    $AART->setValue("label", $category_label);
+//    $AART->setValue("url", $category_url);
+//    $AART->setValue("attributes", $category_attributes);
     $AART->setValue("clang", $key);
     $AART->setValue("re_id", $category_id);
     $AART->setValue("prior", $Position_New_Article);
