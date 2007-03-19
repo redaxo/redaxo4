@@ -348,7 +348,7 @@ class rex_list
 	 */
 	function hasColumnParams($columnName)
 	{
-		return is_array($this->columnParams[$columnName]) && count($this->columnParams[$columnName]) > 0;
+		return isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName]) && count($this->columnParams[$columnName]) > 0;
 	}
 	
 	/**
