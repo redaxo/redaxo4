@@ -191,9 +191,10 @@ if ($article->getRows() == 1)
 
             if ($REX_ACTION['MSG'] != '')
               $message = $REX_ACTION['MSG'];
-            elseif ($function == 'delete') $message = 'Block konnte nicht gelöscht werden.';
+            elseif ($function == 'delete')
+            	$message = $I18N->msg('slice_deleted_error');
             else
-              $message = 'Eingaben wurde nicht übernommen.';
+              $message = $I18N->msg('slice_saved_error');
 
           }
           else
