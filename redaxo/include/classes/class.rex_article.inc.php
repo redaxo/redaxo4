@@ -271,12 +271,14 @@ class rex_article
             if($this->function=="add" && $this->slice_id == $I_ID)
             {
               $slice_content = $this->addSlice($I_ID,$module_id);
+
             }else
             {
+            	
               // ----- BLOCKAUSWAHL - SELECT
               $MODULESELECT->setId("module_id". $I_ID);
               
-              $slice_content .= '
+              $slice_content = '
               <form action="'. $form_url .'" method="get">
                 <fieldset>
                   <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
@@ -295,6 +297,7 @@ class rex_article
   
                 </fieldset>
               </form>';
+              
             }
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
@@ -413,6 +416,9 @@ class rex_article
             if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
             {
               $this->article_content .= $slice_content;
+
+              // last content type slice id
+              $LCTSL_ID = $RE_CONTS[$I_ID];
             }
 
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
@@ -436,14 +442,15 @@ class rex_article
           $form_url = 'index.php';
           if ($this->setanker) $form_url .= '#addslice';
           
-          if($this->function=="add" && $this->slice_id == $I_ID)
+          if($this->function=="add" && $this->slice_id == $LCTSL_ID)
           {
-            $slice_content = $this->addSlice($I_ID,$module_id);
+            $slice_content = $this->addSlice($LCTSL_ID,$module_id);
           }else
           {
             // ----- BLOCKAUSWAHL - SELECT
-            $MODULESELECT->setId("module_id". $I_ID);
-              
+            $MODULESELECT->setId("module_id". $LCTSL_ID);
+            
+            // $slice_content = $add_select_box;
             $slice_content = '
             <form action="'. $form_url .'" method="get">
               <fieldset>
@@ -451,7 +458,7 @@ class rex_article
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                 <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="mode" value="'. $this->mode .'" />
-                <input type="hidden" name="slice_id" value="'. $I_ID .'" />
+                <input type="hidden" name="slice_id" value="'. $LCTSL_ID .'" />
                 <input type="hidden" name="function" value="add" />
                 <input type="hidden" name="clang" value="'.$this->clang.'" />
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
