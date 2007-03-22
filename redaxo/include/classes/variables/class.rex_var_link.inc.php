@@ -243,8 +243,8 @@ class rex_var_link extends rex_var
 
     $media = '
     <input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="REX_LINK_ID[' . $id . ']" />
-    <input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_NAME_' . $id . '_" readonly="readonly" />
-    <a href="#" onclick="javascript:openLinkMap(' . $id . ', \'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
+    <input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
+    <a href="#" onclick="javascript:openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
     <a href="#" onclick="javascript:deleteREXLink(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>';
 
     $media = $this->stripPHP($media);
