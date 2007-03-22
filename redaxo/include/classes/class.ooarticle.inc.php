@@ -83,6 +83,9 @@ class OOArticle extends OORedaxo
   {
     global $REX;
     
+    if ($clang === false)
+      $clang = $REX['CUR_CLANG'];
+    
     if(!isset($REX['RE_ID'][$a_category_id]))
     {
 	    $articlelist = $REX['INCLUDE_PATH']."/generated/articles/".$a_category_id.".".$clang.".alist";
@@ -93,9 +96,6 @@ class OOArticle extends OORedaxo
     $artlist = array ();
     if(isset($REX['RE_ID'][$a_category_id]))
     {
-	    if ($clang === false)
-	      $clang = $REX['CUR_CLANG'];
-
 	    foreach ($REX['RE_ID'][$a_category_id] as $var)
 	    {
 	      $article = OOArticle :: getArticleById($var, $clang);
