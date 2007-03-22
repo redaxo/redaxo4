@@ -194,9 +194,7 @@ class rex_var
       foreach ($parts as $part)
       {
         if (empty ($part))
-        {
           continue;
-        }
 
         if ($part == $spacer)
         {
@@ -214,14 +212,15 @@ class rex_var
       $parts = explode(' ', $string);
       foreach ($parts as $part)
       {
+      	if(empty($part))
+      		continue;
+      		
         $variable = explode('=', $part);
         $var_name = $variable[0];
         $var_value = $variable[1];
 
         if (empty ($var_name))
-        {
           continue;
-        }
 
         if ($var_value == $spacer)
         {
