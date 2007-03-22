@@ -119,6 +119,7 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
     self.close();
   }
 </script>
+
 <div class="rex-linkmap-searchbar">
   <form action="index.php<?php echo rex_linkmap_url(array(), $GlobalParams); ?>" method="post">
 	  <fieldset>
@@ -133,25 +134,7 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 		</fieldset>
   </form>
 </div>
-<?php
-if ($search != '')
-{
-	// TODO Suche
-  $qry = 'SELECT id FROM rex_article WHERE name LIKE "%'.$search.'%" AND clang='.$REX['CUR_CLANG'].' LIMIT 30';
-  $sql = new rex_sql();
-  $sql->debugsql = true;
-  $sql->setQuery($qry);
-  
-  $found_articles = array();
-  $found_categories = array();
-  
-  for($i = 0; $i < $sql->getRows(); $i++)
-  {
-  	$sql->next();
-  }
-  // Unterscheidung nach Startpage 1 / 0
-}
-?>
+
 <div id="rex-linkmap">
   <div class="rex-map-categories">
     <h1>Kategorien</h1>
