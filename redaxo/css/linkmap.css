@@ -96,17 +96,19 @@ div#rex-linkmap ul li a {
 div.rex-map-categories ul li.rex-map-startpage a {
 	background-image:url(../pics/folder.gif);
 	background-position:left center;
+	background-repeat: no-repeat;
 }
 
 
 div.rex-map-articles ul li.rex-map-startpage a {
 	background-image:url(../pics/liste.gif);
 	background-position:left center;
+	background-repeat: no-repeat;
 }
 
 
 div.rex-map-articles ul li a {
 	background-image:url(../pics/document.gif);
 	background-position:left center;
+	background-repeat: no-repeat;
 }
-
