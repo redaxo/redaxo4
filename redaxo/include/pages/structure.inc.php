@@ -313,7 +313,7 @@ if ($function == "status_article" && $article_id != ""
   }
 
 }
-elseif (!empty($artadd_function) && $category_id != '' && $KATPERM)
+elseif (!empty($artadd_function) && $category_id != '' && $KATPERM &&  !$REX_USER->isValueOf("rights", "editContentOnly[]"))
 {
   // --------------------- ARTIKEL ADD
   $Position_New_Article = (int) $Position_New_Article;
@@ -419,7 +419,7 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
 		);
 
 }
-elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM)
+elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
 {
   // --------------------- ARTIKEL DELETE
 
@@ -713,7 +713,7 @@ if ($category_id > -1)
   }
   
   $art_add_link = '';
-  if ($KATPERM)
+  if ($KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
   {
     $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"><img src="pics/document_plus.gif" width="16" height="16" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
   }
@@ -774,7 +774,7 @@ if ($category_id > -1)
 
   // --------------------- ARTIKEL ADD FORM
 
-  if ($function == 'add_art' && $KATPERM)
+  if ($function == 'add_art' && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
   {
     if (empty($template_id))
     {
@@ -893,7 +893,15 @@ if ($category_id > -1)
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="'. $article_class .'">'. $article_status .'</a>';
         }
         
-        $add_extra = '<td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a></td>
+        if (!$REX_USER->isValueOf("rights", "editContentOnly[]"))
+        {
+        	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+        }else
+        {
+        	$article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
+        }
+        
+        $add_extra = '<td>'. $article_delete .'</td>
                       <td>'. $article_status .'</td>';
       }
 
