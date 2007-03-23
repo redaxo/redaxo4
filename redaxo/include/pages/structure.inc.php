@@ -111,7 +111,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   )));
 
 }
-elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm("editContentOnly[]"))
+elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
   
@@ -155,8 +155,8 @@ elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER-
   }
 
 }
-elseif ($function == "status" && $edit_id != "" 
-       && ($REX_USER->hasPerm("admin[]") || $KATPERM && $REX_USER->hasPerm("publishArticle[]")))
+elseif ($function == 'status' && $edit_id != '' 
+       && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
   
@@ -193,7 +193,7 @@ elseif ($function == "status" && $edit_id != ""
   }
 
 }
-elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContentOnly[]"))
+elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE ADD
   
@@ -275,8 +275,8 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm("editContent
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if ($function == "status_article" && $article_id != "" 
-    && ($REX_USER->hasPerm("admin[]") || $KATPERM && $REX_USER->hasPerm("publishArticle[]")))
+if ($function == 'status_article' && $article_id != '' 
+    && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- ARTICLE STATUS
   $GA = new rex_sql;
@@ -313,7 +313,7 @@ if ($function == "status_article" && $article_id != ""
   }
 
 }
-elseif (!empty($artadd_function) && $category_id != '' && $KATPERM &&  !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+elseif (!empty($artadd_function) && $category_id != '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL ADD
   $Position_New_Article = (int) $Position_New_Article;
@@ -419,7 +419,7 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
 		);
 
 }
-elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL DELETE
 
@@ -463,7 +463,7 @@ if($category_id != '')
 }
   
 $add_category = '';
-if ($KATPERM && !$REX_USER->hasPerm("editContentOnly[]"))
+if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"><img src="pics/folder_plus.gif" width="16" height="16" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'" /></a>';
 }
@@ -582,13 +582,13 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       // --------------------- KATEGORIE EDIT FORM
       
       $add_td = '';
-      if ($REX_USER->hasPerm("advancedMode[]"))
+      if ($REX_USER->hasPerm('advancedMode[]'))
       {
         $add_td = '<td>'. $i_category_id .'</td>';
       }
       
       $add_buttons = '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
-      if (!$REX_USER->hasPerm("editContentOnly[]"))
+      if (!$REX_USER->hasPerm('editContentOnly[]'))
       {
         $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
@@ -608,13 +608,13 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       // --------------------- KATEGORIE WITH WRITE
       
       $add_td = '';
-      if ($REX_USER->hasPerm("advancedMode[]"))
+      if ($REX_USER->hasPerm('advancedMode[]'))
       {
         $add_td = '<td>'. $i_category_id .'</td>';
       }
 
-      $add_text = $I18N->msg("category_edit_delete");
-      if ($REX_USER->hasPerm("editContentOnly[]")) 
+      $add_text = $I18N->msg('category_edit_delete');
+      if ($REX_USER->hasPerm('editContentOnly[]')) 
       {
         $add_text = $I18N->msg('edit_category');
       }
@@ -631,11 +631,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     }
 
   }
-  elseif ($REX_USER->hasPerm("csr[$i_category_id]") || $REX_USER->hasPerm("csw[$i_category_id]"))
+  elseif ($REX_USER->hasPerm('csr['. $i_category_id .']') || $REX_USER->hasPerm('csw['. $i_category_id .']'))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
-      if ($REX_USER->hasPerm("advancedMode[]"))
+      if ($REX_USER->hasPerm('advancedMode[]'))
       {
         $add_td = '<td>'. $i_category_id .'</td>';
       }
@@ -713,7 +713,7 @@ if ($category_id > -1)
   }
   
   $art_add_link = '';
-  if ($KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+  if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
     $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"><img src="pics/document_plus.gif" width="16" height="16" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
   }
@@ -774,7 +774,7 @@ if ($category_id > -1)
 
   // --------------------- ARTIKEL ADD FORM
 
-  if ($function == 'add_art' && $KATPERM && !$REX_USER->isValueOf("rights", "editContentOnly[]"))
+  if ($function == 'add_art' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
     if (empty($template_id))
     {
@@ -838,7 +838,7 @@ if ($category_id > -1)
     if ($function == 'edit_art' && isset ($article_id) && $sql->getValue('id') == $article_id && $KATPERM)
     {
       $add_td = '';
-      if ($REX_USER->hasPerm("advancedMode[]"))
+      if ($REX_USER->hasPerm('advancedMode[]'))
       {
         $add_td = '<td>'. $sql->getValue("id") .'</td>';
       }
@@ -893,7 +893,7 @@ if ($category_id > -1)
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="'. $article_class .'">'. $article_status .'</a>';
         }
         
-        if (!$REX_USER->isValueOf("rights", "editContentOnly[]"))
+        if (!$REX_USER->hasPerm('editContentOnly[]'))
         {
         	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
         }else
