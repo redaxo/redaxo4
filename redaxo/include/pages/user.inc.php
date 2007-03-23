@@ -497,6 +497,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
   if (!isset($allcatschecked)) { $allcatschecked = ''; }
   if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
   if (!isset($statuschecked)) { $statuschecked = ''; }
+  if (isset($FUNC_ADD) && $FUNC_ADD) $statuschecked = 'checked';
   
   $add_login_reset_chkbox = '';
   
