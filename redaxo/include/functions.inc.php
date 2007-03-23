@@ -54,6 +54,7 @@ $REX['EXTPERM'][] = 'copyArticle[]';
 $REX['EXTPERM'][] = 'moveCategory[]';
 $REX['EXTPERM'][] = 'publishArticle[]';
 $REX['EXTPERM'][] = 'publishCategory[]';
+$REX['EXTPERM'][] = 'article2startpage[]';
 
 // ----- extras
 $REX['EXTRAPERM'] = array();
