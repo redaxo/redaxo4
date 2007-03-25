@@ -4,7 +4,7 @@ include $REX['INCLUDE_PATH']."/layout/top.php";
 
 include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_folder.inc.php';
 
-if (isset($function) and $function == "clear_cache"){
+if (isset($subpage) and $subpage == "clear_cache"){
     $c = 0;
     $files = readFolderFiles($REX['HTDOCS_PATH']."files/");
     if(is_array($files)){
@@ -18,7 +18,13 @@ if (isset($function) and $function == "clear_cache"){
     $msg = "Cache cleared - $c cachefiles removed";
 }
 
-rex_title('Image Resize Addon ','&nbsp;&nbsp;&nbsp;<a href="index.php?page=image_resize&amp;function=clear_cache" onClick="return confirm(\'Resize Cache wirklich löschen?\')">Resize Cache löschen</a>');
+
+// Build Subnavigation 
+$subpages = array(
+  array('clear_cache','Resize Cache l&ouml;schen'),
+);
+
+rex_title('Image Resize Addon ',$subpages);
 
 if (isset($msg) and $msg != "") echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">'.$msg.'</td></tr></table><br />';
 
@@ -30,7 +36,7 @@ if (isset($msg) and $msg != "") echo '<table border="0" cellpadding="5" cellspac
     <th colspan="2" align="left">Instructions</th>
   </tr>
   <tr>
-    <td class="grey" valign="top" width="50%"><br />
+    <td class="grey" valign="top" width="50%">
     <b>Features:</b><br /><br />
     Makes resize of images on the fly, with extra cache of resized images so<br />
     performance loss is extremly small.<br />
