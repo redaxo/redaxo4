@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template Objekt.
  * Zuständig für die Verarbeitung eines Templates
@@ -19,6 +20,11 @@ class rex_template
    function getId()
    {
       return $this->id;
+   }
+   
+   function setId($id)
+   {
+      $this->id = (int) $id;
    }
    
    function getTemplate()
