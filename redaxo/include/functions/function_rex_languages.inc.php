@@ -20,7 +20,7 @@ if ($num_clang>1)
 <!-- *** OUTPUT OF CLANG-TOOLBAR - START *** -->
    <div id="rex-clang">
      <ul>
-       <li>Sprachen : </li>';
+       <li>'.$I18N->msg("languages").' : </li>';
        
 	$stop = false;
    $i = 1;
