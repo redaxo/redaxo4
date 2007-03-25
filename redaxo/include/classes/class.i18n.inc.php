@@ -6,14 +6,6 @@
  * @version $Id$ 
  */
 
-// class.i18n.inc.php
-// 
-// created 03.04.04 by Carsten Eckelmann, <careck@circle42.com>
-// updated 08.02.06 by Jan Kristinus
-// -- System vereinfacht und Fehlermeldungen vermeiden. 
-//    msg nicht da -> [translate:key]
-
-
 // TODO Kompilierte Sprachfiles bei denen aus ISO Versionen UTF8 generiert werden und Textile möglich ist
  
 class i18n
