@@ -78,7 +78,7 @@ class i18n
   {
     global $REX;
 
-    if (isset ($this->text[$key]))
+    if ($this->hasMsg($key))
     {
       $msg = $this->text[$key];
     }
@@ -99,6 +99,11 @@ class i18n
     }
 
     return preg_replace($patterns, $replacements, $msg);
+  }
+  
+  function hasMsg($key)
+  {
+  	return isset ($this->text[$key]);
   }
   
   /*
