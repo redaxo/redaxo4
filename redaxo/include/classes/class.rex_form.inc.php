@@ -618,7 +618,7 @@ class rex_form
 		foreach($fieldsets as $fieldsetName => $fieldsetElements)
 		{
 			$s .= '    <fieldset>'. "\n";
-			$s .= '      <legend class="rex-lgnd">'. htmlentities($fieldsetName) .'</legend>'. "\n";
+			$s .= '      <legend class="rex-lgnd">'. htmlspecialchars($fieldsetName) .'</legend>'. "\n";
 			$s .= '      <div class="rex-fldst-wrppr">'. "\n";
 			
 			// Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen

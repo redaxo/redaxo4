@@ -644,7 +644,7 @@ class rex_list
 		
 		if($caption != '')
 		{
-			$s .= '    <caption class="rex-hide">'. $caption .'</caption>'. "\n";
+			$s .= '    <caption class="rex-hide">'. htmlspecialchars($caption) .'</caption>'. "\n";
 		}
 		
 		$s .= '    <thead>'. "\n";
