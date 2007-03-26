@@ -16,7 +16,6 @@
 unset ($REX_ACTION);
 
 $article = new rex_sql;
-$article->debugsql = true;
 $article->setQuery("
 		SELECT 
 			article.*, template.attributes as template_attributes 
