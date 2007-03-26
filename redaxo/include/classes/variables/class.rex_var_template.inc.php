@@ -13,7 +13,12 @@ class rex_var_template extends rex_var
   
   function getBEOutput(& $sql, $content)
   {
-    return $this->matchTemplate(&$sql, $content);
+    return $this->matchTemplate($content);
+  }
+  
+  function getTemplate($content)
+  {
+    return $this->matchTemplate($content);
   }
 
   function getInputParams($content, $varname)
@@ -49,7 +54,7 @@ class rex_var_template extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  function matchTemplate(& $sql, $content)
+  function matchTemplate($content)
   {
     $var = 'REX_TEMPLATE';
     $matches = $this->getInputParams($content, $var);

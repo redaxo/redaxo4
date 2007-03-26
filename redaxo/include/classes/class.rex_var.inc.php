@@ -76,6 +76,14 @@ class rex_var
   {
     return $this->getBEOutput($sql, $content);
   }
+  
+  /**
+   * Ausgabe eines Templates
+   */
+  function getTemplate($content)
+  {
+  	return $content;
+  }
 
   /**
    * Wandelt PHP Code in Einfache Textausgaben um
