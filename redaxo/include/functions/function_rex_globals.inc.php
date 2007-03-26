@@ -57,8 +57,7 @@ function rex_session($varname, $vartype = '', $default = '')
 
   if(isset($_SESSION[$varname][$REX['INSTNAME']]))
   {
-    $var = unserialize($_SESSION[$varname][$REX['INSTNAME']]);
-    return _rex_cast_var($var, $vartype);
+    return _rex_cast_var($_SESSION[$varname][$REX['INSTNAME']], $vartype);
   }
   
   return $default;
@@ -73,7 +72,7 @@ function rex_set_session($varname, $value)
 {
   global $REX;
 
-  $_SESSION[$varname][$REX['INSTNAME']] = serialize($value);
+  $_SESSION[$varname][$REX['INSTNAME']] = $value;
 }
 
 /**
