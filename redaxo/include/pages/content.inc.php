@@ -16,6 +16,7 @@
 unset ($REX_ACTION);
 
 $article = new rex_sql;
+$article->debugsql = true;
 $article->setQuery("
 		SELECT 
 			article.*, template.attributes as template_attributes 
@@ -29,14 +30,20 @@ $article->setQuery("
 
 if ($article->getRows() == 1)
 {
-
   // ----- ctype holen
   $attributes = $article->getValue("template_attributes");
-  $REX['CTYPE'] = rex_getAttributes("ctype", $attributes, array ()); // ctypes - aus dem template
+  
+  $REX['CTYPE'] = array();
+  // Attribute sind null, bei Artikeln ohne Template
+  if($attributes != null)
+  {
+	  $REX['CTYPE'] = rex_getAttributes("ctype", $attributes, array ()); // ctypes - aus dem template
+  }
+  
   $ctype = rex_request("ctype", "int");
   if (!array_key_exists($ctype, $REX['CTYPE']))
     $ctype = 1; // default = 1
-
+    
   // ----- Artikel wurde gefunden - Kategorie holen
   if ($article->getValue("startpage") == 1)
     $category_id = $article->getValue("id");
