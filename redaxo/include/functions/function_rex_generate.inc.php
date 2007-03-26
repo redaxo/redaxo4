@@ -1148,7 +1148,12 @@ function rex_generateTemplate($template_id)
   {
     if($fp = fopen($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w"))
     {
-      fputs($fp, $sql->getValue('content'));
+    	$content = $sql->getValue('content');
+	  	foreach($REX['VARIABLES'] as $var)
+	  	{
+	  		$content = $var->getTemplate($content);
+	  	}
+      fwrite($fp, $content);
       fclose($fp);
       @ chmod($REX['INCLUDE_PATH']."/generated/templates/". $template_id .".template", $REX['FILEPERM']);
       return true;
