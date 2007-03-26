@@ -413,6 +413,25 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice move up/down
 
+		// ------------------------------------------ START: ARTICLE2STARTARTICLE
+    if (!empty ($_POST['article2startpage']))
+    {
+      if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("article2startpage[]"))
+      {
+        if (rex_article2startpage($article_id))
+        {
+          $message = $I18N->msg('content_tostartarticle_ok');
+        }
+        else
+        {
+          $message = $I18N->msg('content_tostartarticle_failed');
+        }
+        unset($function);
+      }
+    }
+    // ------------------------------------------ END: COPY LANG CONTENT
+		
+
     // ------------------------------------------ START: COPY LANG CONTENT
     if (isset ($function) and $function == "copycontent")
     {
@@ -726,8 +745,31 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN  
 
       // ------------------------------------------------------------- SONSTIGES START    
-      if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveArticle[]") || $REX_USER->hasPerm("copyArticle[]") || ($REX_USER->hasPerm("copyContent[]") && count($REX['CLANG']) > 1))
+      if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("article2startpage[]") || $REX_USER->hasPerm("moveArticle[]") || $REX_USER->hasPerm("copyArticle[]") || ($REX_USER->hasPerm("copyContent[]") && count($REX['CLANG']) > 1))
       {
+
+				// --------------------------------------------------- ZUM STARTARTICLE MACHEN START
+				if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("article2startpage[]"))
+				{
+					echo '
+                <fieldset>
+                  <legend class="rex-lgnd">' . $I18N->msg("content_startarticle") . '</legend>
+  							  <div class="rex-fldst-wrppr">
+									  <p>';
+					
+					if ($article->getValue("startpage")==1) 
+						echo $I18N->msg("content_isstartarticle");
+					else
+						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg("content_tostartarticle") . '" />';
+
+					echo '
+									  </p>
+								  </div>
+                </fieldset>';
+				}
+				// --------------------------------------------------- ZUM STARTARTICLE MACHEN END
+
+
         // --------------------------------------------------- INHALTE KOPIEREN START
         if (($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("copyContent[]")) && count($REX['CLANG']) > 1)
         {
