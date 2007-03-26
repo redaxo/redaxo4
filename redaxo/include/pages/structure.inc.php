@@ -498,8 +498,8 @@ if($function == 'add_cat' || $function == 'edit_cat')
 }
 
 echo '
-      <table class="rex-table rex-table-mrgn" summary="'. $I18N->msg('structure_categories_summary', $cat_name) .'">
-        <caption class="rex-hide">'.$I18N->msg('structure_categories_caption', $cat_name).'</caption>
+      <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($I18N->msg('structure_categories_summary', $cat_name)) .'">
+        <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
         <colgroup>
           <col width="5%" />
           '. $add_col .'
@@ -557,7 +557,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 {
   $i_category_id = $KAT->getValue('id');
   $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
-  $kat_icon_td = '<td class="rex-icon"><a href='. $kat_link .'><img src="pics/folder.gif" width="16" height="16" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
+  $kat_icon_td = '<td class="rex-icon"><a href="'. $kat_link .'"><img src="pics/folder.gif" width="16" height="16" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
     
   if ($KATPERM)
   {
@@ -739,8 +739,8 @@ if ($category_id > -1)
   }
   
   echo '  
-      <table class="rex-table" summary="'. $I18N->msg('structure_articles_summary', $cat_name) .'">
-        <caption class="rex-hide">'.$I18N->msg('structure_articles_caption', $cat_name).'</caption>
+      <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
+        <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
         <colgroup>
           <col width="5%" />
           '. $add_col .'
