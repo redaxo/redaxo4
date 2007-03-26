@@ -3,9 +3,9 @@
 /**
  * REX_ARTICLE[1]
  * 
- * REX_ARTICLE_VARS['description']
- * REX_ARTICLE_VARS['id']
- * REX_ARTICLE_VARS['category_id']
+ * REX_ARTICLE_VAR['description']
+ * REX_ARTICLE_VAR['id']
+ * REX_ARTICLE_VAR['category_id']
  * ...
  * 
  * @package redaxo3
@@ -80,7 +80,7 @@ class rex_var_article extends rex_var
   {
     global $article_id, $clang;
     
-    $var = 'REX_ARTICLE_VARS';
+    $var = 'REX_ARTICLE_VAR';
     $matches = $this->getArticleVarInputParams($content, $var);
 
     $article = OOArticle::getArticleById($article_id, $clang);

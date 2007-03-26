@@ -5,6 +5,12 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
 angehandelt.
 
 ---------------------------------------------------------------------------------
+DISCUSSION:
+---------------------------------------------------------------------------------
+
+REX_DATE_BUTTON[]
+
+---------------------------------------------------------------------------------
 Todos:
 ---------------------------------------------------------------------------------
 
@@ -117,7 +123,7 @@ Changes:
        + REX_USER_ID [kills]
        + REX_TEMPLATE[x] [kills]
        + REX_ARTICLE[x] [kills]
-       + REX_ARTICLE_VARS[x] [kills]
+       + REX_ARTICLE_VAR[x] [kills]
     - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0 [kills]
     - Neue Variablen Sytax jetzt möglich (alte funktioniert weiter), z.b: [kills]
       + REX_VALUE[id=3]
