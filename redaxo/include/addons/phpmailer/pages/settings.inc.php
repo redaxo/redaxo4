@@ -103,7 +103,7 @@ if($message != '')
     </p>
     <p>
       <label for="mailer">Mailertype</label>
-      <?php echo $sel_mailer->out(); ?>
+      <?php echo $sel_mailer->show(); ?>
     </p>
     <p>
       <label for="host">Host</label>
@@ -118,12 +118,12 @@ if($message != '')
       <input type="text" name="wordwrap" id="wordwrap" value="<?php echo $wordwrap ?>" />
     </p>
     <p>
-      <label for="encoding">Verschlüsselung</label>
-      <?php echo $sel_encoding->out(); ?>
+      <label for="encoding">Mailkodierung</label>
+      <?php echo $sel_encoding->show(); ?>
     </p>
     <p>
       <label for="priority">Priorität</label>
-      <?php echo $sel_priority->out(); ?>
+      <?php echo $sel_priority->show(); ?>
     </p>
     <p>
       <input type="submit" name="btn_save" value="Speichern" />

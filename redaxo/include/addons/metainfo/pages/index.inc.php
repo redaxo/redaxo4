@@ -22,7 +22,8 @@ include $REX['INCLUDE_PATH'].'/layout/top.php';
 // Build Subnavigation 
 $subpages = array(
 //  array('categories','Kategorien'),
-  array('article','Artikel'),
+  array('articles','Artikel'),
+  array('categories','Kategorien'),
 );
 
 rex_title('Metainformationen erweitern', $subpages);
@@ -30,11 +31,10 @@ rex_title('Metainformationen erweitern', $subpages);
 // Include Current Page
 switch($subpage)
 {
-//	case 'categories' :
-//	  $prefix = 'cat_'; 
-//    break;
-  case '' :
-	case 'article': 
+  case 'categories' :
+    $prefix = 'cat_'; 
+    break;
+  default:
 	  $prefix = 'art_'; 
     break;
 }

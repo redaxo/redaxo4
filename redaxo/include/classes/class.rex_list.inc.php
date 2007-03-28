@@ -40,6 +40,10 @@ class rex_list
 	var $columnLabels;
 	var $columnFormates;
 	var $columnOptions;
+	var $columnLayouts; // array("<th>###VALUE###</th>","<td>###VALUE###</td>");
+	
+	// --------- Layout, Default
+	var $defaultColumnLayout;
 	
 	// --------- Pagination Attributes
 	var $rowsPerPage;
@@ -75,6 +79,9 @@ class rex_list
 		$this->columnFormates = array();
 		$this->columnParams = array();
 		$this->columnOptions = array();
+		
+		// --------- Default
+		$this->defaultColumnLayout = array("<th>###VALUE###</th>","<td>###VALUE###</td>");
 		
 		// --------- Pagination Attributes
 		$this->rowsPerPage = $rowsPerPage;
@@ -160,8 +167,9 @@ class rex_list
 	 * @param $columnHead Titel der Spalte
 	 * @param $columnBody Text/Format der Spalte
 	 * @param $columnIndex Stelle, an der die neue Spalte erscheinen soll
+	 * @param $columnLayout Optional. Layout fuer th und td
 	 */
-	function addColumn($columnHead, $columnBody, $columnIndex = null)
+	function addColumn($columnHead, $columnBody, $columnIndex = null, $columnLayout = array())
 	{
 		// Bei negativem columnIndex, das Element am Ende anfügen
 		if($columnIndex < 0)
@@ -171,6 +179,23 @@ class rex_list
 		
 		$this->columnNames = array_insert($this->columnNames, $columnIndex, array($columnHead));
 		$this->setColumnFormat($columnHead, $columnBody);
+		$this->setColumnLayout($columnHead, $columnLayout);
+	}
+	
+	function setColumnLayout($column, $columnLayout)
+	{
+		$this->columnLayout[$column] = $columnLayout;
+	}
+
+	function getColumnLayout($column)
+	{
+		if (!is_array($this->columnLayout[$column])) return $this->defaultColumnLayout;
+		else return $this->columnLayout[$column];
+	}
+	
+	function getColumnLayouts()
+	{
+		return $this->columnLayouts;
 	}
 	
 	/**
@@ -516,7 +541,7 @@ class rex_list
 		$s = ''. "\n";
 		$s .= '<a href="'. $this->getUrl(array('start' => 0)) .'">first</a>'. "\n";
 		$s .= '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'">previous</a>'. "\n";
-		$s .= '<a href="'. $this->getUrl(array('func' => 'add')) .'">add</a>'. "\n";
+		// $s .= '<a href="'. $this->getUrl(array('func' => 'add')) .'">add</a>'. "\n";
 		$s .= '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'">next</a>'. "\n";
 		$s .= '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'">last</a>'. "\n";
 		$s .= $this->getRows(). ' rows found ';
@@ -556,11 +581,23 @@ class rex_list
 	function getFooter()
 	{
 		$s = '';
-		
+		/*
 		$s .= '      <tr>'. "\n";
 		$s .= '        <td colspan="'. count($this->getColumnNames()) .'"><input type="text" name="items" value="'. $this->getRowsPerPage() .'" maxlength="2" /><input type="submit" value="Anzeigen" /></td>'. "\n";
 		$s .= '      </tr>'. "\n";
-		
+		*/
+		return $s;
+	}
+
+	/**
+	 * Gibt den Header der Liste zurück
+	 * 
+	 * @return string
+	 */
+	function getHeader()
+	{
+		$s = '';
+		// $s = $this->getPagination();
 		return $s;
 	}
 	
@@ -624,12 +661,13 @@ class rex_list
 	function get()
 	{
 		$s = '';
-	  $columnFormates = array();
-	  $columnNames = $this->getColumnNames();
-	  $sortColumn = $this->getSortColumn();
-	  $sortType = $this->getSortType();
-	  $caption = $this->getCaption();
-	  $message = $this->getMessage();
+		$columnFormates = array();
+		$columnNames = $this->getColumnNames();
+		$columnLayouts = array();
+		$sortColumn = $this->getSortColumn();
+		$sortType = $this->getSortType();
+		$caption = $this->getCaption();
+		$message = $this->getMessage();
 		
 		if($message != '')
 		{
@@ -637,7 +675,7 @@ class rex_list
 		}
 		
 		$s .= '<p>'. "\n";
-		$s .= $this->getPagination();
+		$s .= $this->getHeader();
 		$s .= '</p>'. "\n";
 		$s .= '<form action="'. $this->getUrl() .'" method="post">'. "\n";
 		$s .= '  <table class="rex-table">'. "\n";
@@ -651,6 +689,8 @@ class rex_list
 		$s .= '      <tr>'. "\n";
 		foreach($columnNames as $columnName)
 		{
+			$layoutkey = $columnName;
+
 			// Spalten, die mit addColumn eingefügt wurden
 			if(is_array($columnName))
 			{
@@ -663,7 +703,10 @@ class rex_list
 				$columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
 				$columnHead = '<a href="'. $this->getUrl(array('start' => $this->getStartRow(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
 			}
-			$s .= '        <th>'. $columnHead .'</th>'. "\n";
+
+			$layout = $this->getColumnLayout($columnName);
+			$s .= str_replace("###VALUE###", $columnHead, $layout[0]);
+			// $s .= '        <th>'. $columnHead .'</th>'. "\n";
 			
 			// Formatierungen hier holen, da diese Schleife jede Spalte nur einmal durchläuft
 			$columnFormates[$columnName] = $this->getColumnFormat($columnName);
@@ -700,7 +743,9 @@ class rex_list
 						$columnValue = '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'">'. $columnValue .'</a>';
 					}
 					
-					$s .= '        <td>'. $columnValue .'</td>'. "\n";
+					$layout = $this->getColumnLayout($columnName);
+					$s .= str_replace("###VALUE###",$columnValue,$layout[1]);
+					// $s .= '        <td>'. $columnValue .'</td>'. "\n";
 				}
 				$s .= '      </tr>'. "\n";
 				
