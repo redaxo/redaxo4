@@ -789,9 +789,19 @@ if ($article->getRows() == 1)
             $lang_a->addOption($key, $val);
           }
 
-          $lang_b = $lang_a;
+					// beide sprachen separat anlegen, da bei einem
+					// $lang_a = $lang_b in PHP5 das objekt nicht kopiert würde
+					// http://forum.redaxo.de/sutra32904.html#32904
+          $lang_b = new rex_select;
           $lang_b->setId("clang_b");
           $lang_b->setName("clang_b");
+          $lang_b->setSize("1");
+
+          foreach ($REX['CLANG'] as $val => $key)
+          {
+            $lang_b->addOption($key, $val);
+          }
+          
           if (isset ($_REQUEST["clang_a"]))
             $lang_a->setSelected($_REQUEST["clang_a"]);
           if (isset ($_REQUEST["clang_b"]))
