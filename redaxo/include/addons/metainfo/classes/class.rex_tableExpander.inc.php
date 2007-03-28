@@ -7,7 +7,7 @@
  * @version $Id$
  */
  
-require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_tablemanager.inc.php';
+require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_tableManager.inc.php';
 
 class rex_a62_tableExpander extends rex_form
 {
