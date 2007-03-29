@@ -64,20 +64,6 @@ class OOCategory extends OORedaxo
 
   /**
    * CLASS Function:
-   * Return a list of categories which names match the
-   * search string. For now the search string can be either
-   * a simple name or a string containing SQL search placeholders
-   * that you would insert into a 'LIKE '%...%' statement.
-   *
-   * Returns an array of OOCategory objects.
-   */
-  function searchArticlesByName($category_name, $ignore_offlines = false, $clang = false)
-  {
-		return searchByName($category_name, $ignore_offlines, $clang, true);
-  }
-
-  /**
-   * CLASS Function:
    * Return a list of top level categories, ie.
    * categories that have no parent.
    * Returns an array of OOCategory objects sorted by $prior.

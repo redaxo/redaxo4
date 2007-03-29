@@ -142,57 +142,6 @@ class OORedaxo
     return $OORedaxoArray;
   }
 
-  /**
-   * CLASS Function:
-   * Return a list of objects which names match the
-   * search string. For now the search string can be either
-   * a simple name or a string containing SQL search placeholders
-   * that you would insert into a 'LIKE '%...%' statement.
-   *
-   * Returns an array of OORedaxo objects.
-   */
-  function searchByName($name, $ignore_offlines = false, $clang = false, $categories = false)
-  {
-    global $REX;
-
-    if ($clang === false)
-      $clang = $REX['CUR_CLANG'];
-
-    $offline = $ignore_offlines ? " AND status = 1 " : "";
-    $cats = '';
-    if (is_array($categories))
-    {
-      $cats = " AND re_id IN (".implode(',', $categories).") ";
-    }
-    elseif (is_string($categories))
-    {
-      $cats = " AND re_id = $categories ";
-    }
-    elseif ($categories === true)
-    {
-      $cats = " AND startpage = 1 ";
-    }
-
-    $list = array ();
-    $sql = new rex_sql;
-    $sql->setQuery("SELECT ".implode(',', OORedaxo :: getClassVars('sql_alias'))." FROM ".$REX['TABLE_PREFIX']."article WHERE name LIKE '$article_name' AND clang='$clang' $offline $cats");
-    for ($i = 0; $i < $sql->getRows(); $i ++)
-    {
-      foreach (OORedaxo :: getClassVars() as $var)
-      {
-        $data[$var] = $sql->getValue($var);
-      }
-
-      if($categories)
-				$list[] = new OOCategory($data, $clang);
-      else
-				$list[] = new OOArticle($data, $clang);
-
-      $sql->next();
-    }
-    return $list;
-  }
-
   /*
    * Accessor Method:
    * returns the clang of the category

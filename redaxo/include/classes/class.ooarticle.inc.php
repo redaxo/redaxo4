@@ -39,20 +39,6 @@ class OOArticle extends OORedaxo
 
   /**
    * CLASS Function:
-   * Return a list of articles which names match the
-   * search string. For now the search string can be either
-   * a simple name or a string containing SQL search placeholders
-   * that you would insert into a 'LIKE '%...%' statement.
-   *
-   * Returns an array of OOArticle objects.
-   */
-  function searchArticlesByName($article_name, $ignore_offlines = false, $clang = false)
-  {
-		return searchByName($article_name, $ignore_offlines, $clang);
-  }
-
-  /**
-   * CLASS Function:
    * Return the site wide start article
    */
   function getSiteStartArticle($clang = false)
