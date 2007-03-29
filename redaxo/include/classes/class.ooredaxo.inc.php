@@ -39,10 +39,20 @@ class OORedaxo
   {
     if ($params !== false)
     {
-      foreach (OORedaxo :: getClassVars() as $var)
+      foreach (OORedaxo :: getClassVars('array') as $var)
       {
-        $class_var = '_'.$var;
-        $this->$class_var = $params[$var];
+        if(is_array($var))
+        {
+        	$class_var = '_'. $var[1];
+        	$value = $params[$var[0]];
+        }
+        else
+        {
+	        $class_var = '_'.$var;
+	        $value = $params[$var];
+        }
+          
+        $this->$class_var = $value;
       }
     }
 
@@ -70,15 +80,15 @@ class OORedaxo
     return $this->$value;
   }
 
-  /*
+  /**
    * CLASS Function:
    * Returns an Array containing article field names
    */
-  function getClassVars()
+  function getClassVars($mode = '')
   {
     static $vars = array ();
 
-    if (empty ($vars))
+    if (empty($vars[$mode]))
     {
       $class_vars = get_class_vars('OORedaxo');
 
@@ -86,15 +96,34 @@ class OORedaxo
       {
         if (substr($name, 0, 1) == '_')
         {
-          $vars[] = substr($name, 1);
+          $vars[$mode][] = substr($name, 1);
         }
       }
 
       // ----- Extension Point
-      $vars = rex_register_extension_point('ART_META_PARAMS', $vars);
+      $new_vars = rex_register_extension_point('ART_META_PARAMS');
+      
+      foreach($new_vars as $name)
+      {
+      	if(is_array($name))
+      	{
+      		if($mode === 'sql_alias')
+	      		$vars[$mode][] = $name[0] .' AS '.$name[1];
+      		elseif($mode == 'alias')
+	      		$vars[$mode][] = $name[1];
+      		elseif($mode == 'array')
+	      		$vars[$mode][] = $name;
+      		else
+	      		$vars[$mode][] = $name[0];
+      	}
+      	else
+      	{
+      		$vars[$mode][] = $name;
+      	}
+      }
     }
 
-    return $vars;
+    return $vars[$mode];
   }
 
   /*
@@ -146,8 +175,7 @@ class OORedaxo
 
     $list = array ();
     $sql = new rex_sql;
-    //              $sql->debugsql = true;
-    $sql->setQuery("SELECT ".implode(',', OORedaxo :: getClassVars())." FROM ".$REX['TABLE_PREFIX']."article WHERE name LIKE '$article_name' AND clang='$clang' $offline $cats");
+    $sql->setQuery("SELECT ".implode(',', OORedaxo :: getClassVars('sql_alias'))." FROM ".$REX['TABLE_PREFIX']."article WHERE name LIKE '$article_name' AND clang='$clang' $offline $cats");
     for ($i = 0; $i < $sql->getRows(); $i ++)
     {
       foreach (OORedaxo :: getClassVars() as $var)
