@@ -19,21 +19,25 @@ $REX['ADDON']['perm'][$mypage] = 'metainfo[]';
 
 $REX['PERM'][] = 'metainfo[]';
 
-if($REX['REDAXO'] && isset($page) && isset($mode))
+if($REX['REDAXO'])
 {
-	if($page == 'content' && $mode =='meta')
+	if(isset($page))
 	{
-	  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_art_metainfo.inc.php');
+		if($page == 'content' && isset($mode) && $mode =='meta')
+		{
+		  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_art_metainfo.inc.php');
+		}
+		elseif($page == 'structure')
+		{
+		  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_cat_metainfo.inc.php');
+		}
+		elseif($page == 'import_export')
+		{
+		  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_cleanup.inc.php');
+		}
 	}
-	elseif($page == 'structure')
-	{
-	  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_cat_metainfo.inc.php');
-	}
-	elseif($page == 'import_export')
-	{
-	  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_cleanup.inc.php');
-	}
-	
-  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_oof_metainfo.inc.php');
 }
+
+include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_oof_metainfo.inc.php');
+
 ?>
