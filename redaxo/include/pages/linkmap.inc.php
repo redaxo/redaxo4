@@ -81,9 +81,6 @@ $GlobalParams = array(
   'category_id' =>$category_id
 );
 
-$search = rex_request('search', 'string');
-$search_close = rex_request('search_close', 'string');
-
 // ------- Build JS Functions
 
 $func_body = '';
