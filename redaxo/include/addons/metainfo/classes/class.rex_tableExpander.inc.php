@@ -76,7 +76,7 @@ class rex_a62_tableExpander extends rex_form
 	{
 		if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
 		{
-			$fieldValue = preg_replace('/[^a-z]/','', strtolower($fieldValue));
+			$fieldValue = preg_replace('/[^a-z\_]/','', strtolower($fieldValue));
 			if(substr($fieldValue, 0, strlen($this->metaPrefix)) !== $this->metaPrefix)
 			{
 				// Das name feld mit Prefix versehen
