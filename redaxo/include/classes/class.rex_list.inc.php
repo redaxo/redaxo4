@@ -755,7 +755,7 @@ class rex_list
 		}
 		else
 		{
-			$s .= '<tr><td>No Rows Found</td></tr>';
+			$s .= '<tr><td colspan="'. count($columnNames) .'">No Rows Found</td></tr>';
 		}
 		
 		$s .= '  </table>'. "\n";
