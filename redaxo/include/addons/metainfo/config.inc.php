@@ -19,7 +19,7 @@ $REX['ADDON']['perm'][$mypage] = 'metainfo[]';
 
 $REX['PERM'][] = 'metainfo[]';
 
-if($REX['REDAXO'] && isset($page) && isset($meta))
+if($REX['REDAXO'] && isset($page) && isset($mode))
 {
 	if($page == 'content' && $mode =='meta')
 	{
