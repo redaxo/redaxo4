@@ -109,10 +109,12 @@ include_once $REX['INCLUDE_PATH'].'/functions/function_rex_url.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 
+$page = rex_request('page', 'string');
+$subpage = rex_request('subpage', 'string');
+$clang = rex_request('clang','int');
 
 // ----- SET CLANG
 include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
-$clang = rex_request('clang','int');
 if (empty($REX['CLANG'][$clang]))
 {
   $REX['CUR_CLANG'] = 0;
