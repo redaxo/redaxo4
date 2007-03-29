@@ -104,12 +104,14 @@ class rex_form
 				$deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false), false);
 		}
 
-		/*
 		$resetElement = null;
+		/*
 		if($resetLabel != '')
 			$resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false), false);
+		*/
 			
 		$abortElement = null;
+		/*
 		if($abortLabel != '')
 			$abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
 		*/
@@ -155,7 +157,10 @@ class rex_form
 		$element =& $this->createElement($tag, $name, $value, $attributes);
 		
 		if($addElement)
-			return $this->addElement($element);
+		{
+			$this->addElement($element);
+			return $element;
+		}
 
 		return $element;
 	}
@@ -163,57 +168,67 @@ class rex_form
 	function &addInputField($type, $name, $value = null, $attributes = array(), $addElement = true)
 	{
 		$attributes['type'] = $type;
-		return $this->addField('input', $name, $value, $attributes, $addElement);
+		$field =& $this->addField('input', $name, $value, $attributes, $addElement);
+		return $field;
 	}
 	
 	function &addTextField($name, $value = null, $attributes = array())
 	{
-		return $this->addInputField('text', $name, $value, $attributes);
+		$field =& $this->addInputField('text', $name, $value, $attributes);
+		return $field;
 	}
 	
 	function &addReadOnlyTextField($name, $value = null, $attributes = array())
 	{
 		$attributes['readonly'] = 'readonly';
-		return $this->addInputField('text', $name, $value, $attributes);
+		$field =& $this->addInputField('text', $name, $value, $attributes);
+		return $field;
 	}
 	
 	function &addReadOnlyField($name, $value = null, $attributes = array())
 	{
 		$attributes['internal::fieldSeparateEnding'] = true;
 		$attributes['internal::noNameAttribute'] = true;
-		return $this->addField('span', $name, $value, $attributes, true);
+		$field =& $this->addField('span', $name, $value, $attributes, true);
+		return $field;
 	}
 	
 	function &addHiddenField($name, $value = null, $attributes = array())
 	{
-		return $this->addInputField('hidden', $name, $value, $attributes, true);
+		$field =& $this->addInputField('hidden', $name, $value, $attributes, true);
+		return $field;
 	}
 	
 	function &addCheckboxField($name, $value = null, $attributes = array())
 	{
-		return $this->addInputField('checkbox', $name, $value, $attributes);
+		$field =& $this->addInputField('checkbox', $name, $value, $attributes);
+		return $field;
 	}
 
 	function &addRadioField($name, $value = null, $attributes = array())
 	{
-		return $this->addInputField('radio', $name, $value, $attributes);
+		$field =& $this->addInputField('radio', $name, $value, $attributes);
+		return $field;
 	}
 	
 	function &addTextAreaField($name, $value = null, $attributes = array())
 	{
 		$attributes['internal::fieldSeparateEnding'] = true;
-		return $this->addField('textarea', $name, $value, $attributes);
+		$field =& $this->addField('textarea', $name, $value, $attributes);
+		return $field;
 	}
 	
 	function &addSelectField($name, $value = null, $attributes = array())
 	{
 		$attributes['internal::fieldClass'] = 'rex_form_select_element';
-		return $this->addField('', $name, $value, $attributes, true);
+		$field =& $this->addField('', $name, $value, $attributes, true);
+		return $field;
 	}
 
 	function &addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
 	{
-		return $this->addElement(new rex_form_control_element($this, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement));
+		$field =& $this->addElement(new rex_form_control_element($this, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement));
+		return $field;
 	}
 	
 	function addParam($name, $value)
