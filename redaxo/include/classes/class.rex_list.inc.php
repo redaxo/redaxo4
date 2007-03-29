@@ -189,8 +189,10 @@ class rex_list
 
 	function getColumnLayout($column)
 	{
-		if (!is_array($this->columnLayout[$column])) return $this->defaultColumnLayout;
-		else return $this->columnLayout[$column];
+		if (isset($this->columnLayout[$column]) && is_array($this->columnLayout[$column]))
+			return $this->columnLayout[$column];
+			
+		return $this->defaultColumnLayout;
 	}
 	
 	function getColumnLayouts()
