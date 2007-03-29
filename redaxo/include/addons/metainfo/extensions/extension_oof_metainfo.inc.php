@@ -19,15 +19,16 @@ function rex_a62_oof_metainfo_params($params)
 	
 	$new_params = array();
 	$fields = new rex_sql();
+//	$fields->debugsql = true;
   $fields->setQuery('SELECT name FROM '. $REX['TABLE_PREFIX'] .'62_params p WHERE `p`.`name` LIKE "art_%"');
 	
 	for($i = 0; $i < $fields->getRows(); $i++)
 	{
-		$new_params[] = $fields->getValue('name'); 
+		$new_params[] = array($fields->getValue('name'), substr($fields->getValue('name'), 4)); 
 		$fields->next();
 	}
 	
-	return array_merge($params['subject'], $new_params);
+	return $new_params;
 }
 
 ?>
