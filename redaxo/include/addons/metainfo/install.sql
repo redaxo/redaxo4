@@ -1,22 +1,22 @@
 CREATE TABLE `rex_62_params` (
-  `field_id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(255),
-  `attributes` VARCHAR(255),
-  `type` INT UNSIGNED,
-  `default` VARCHAR(255),
-  `params` VARCHAR(255),
-  `validate` VARCHAR(255),
-    UNIQUE (
-      `name`
-	)
+  `field_id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `attributes` varchar(255) NOT NULL,
+  `type` int(10) unsigned default NULL,
+  `default` varchar(255) NOT NULL,
+  `params` varchar(255) default NULL,
+  `validate` varchar(255) default NULL,
+  PRIMARY KEY  (`field_id`),
+  UNIQUE KEY `name` (`name`)
 );
 
-CREATE TABLE rex_62_type (
-  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `label` VARCHAR(255),
-  `dbtype` VARCHAR(255),
-  `dblength` INT(11)
-);
+CREATE TABLE `rex_62_type` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `label` varchar(255) default NULL,
+  `dbtype` varchar(255) NOT NULL,
+  `dblength` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM ;
 
 INSERT INTO rex_62_type VALUES (1, 'text', 'varchar', 255);
 INSERT INTO rex_62_type VALUES (2, 'textarea', 'text', 0);
