@@ -247,7 +247,6 @@ class rex_var_link extends rex_var
     <a href="#" onclick="javascript:openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');"><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
     <a href="#" onclick="javascript:deleteREXLink(' . $id . ');"><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>';
 
-    $media = $this->stripPHP($media);
     return $media;
   }
 
