@@ -17,7 +17,7 @@ $list = new rex_list('SELECT id,name FROM rex_article');
 $list->setColumnFormat('id', 'date');
 $list->setColumnLabel('name', 'Artikel-Name');
 $list->setColumnSortable('name');
-$list->addColumn('testhead','%id% - %name%',-1);
+$list->addColumn('testhead','###id### - ###name###',-1);
 $list->addColumn('testhead2','testbody2');
 $list->setCaption('thomas macht das geile css');
 $list->show();
@@ -607,7 +607,7 @@ class rex_list
 	
 	function replaceVariable($value, $varname)
 	{
-		return str_replace('%'. $varname .'%', $this->sql->getValue($varname), $value);
+		return str_replace('###'. $varname .'###', $this->sql->getValue($varname), $value);
 	}
 	
 	/**
