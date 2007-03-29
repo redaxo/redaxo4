@@ -620,7 +620,7 @@ class rex_list
 	 */
 	function replaceVariables($value)
 	{
-		if(strpos($value, '%') === false)
+		if(strpos($value, '###') === false)
 			return $value;
 			
 		$columnNames = $this->getColumnNames();
