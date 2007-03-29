@@ -701,7 +701,6 @@ if ($article->getRows() == 1)
       echo rex_register_extension_point('ART_META_FORM', '', array (
         'id' => $article_id,
         'clang' => $clang,
-        'article' => $article
       ));
 
       echo '
