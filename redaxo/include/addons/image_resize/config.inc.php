@@ -92,6 +92,10 @@ if ($REX['GG'])
 // Resize Script
 if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
 {
+	// Lösche alle Ausgaben zuvor
+	while(ob_get_level() > 0)
+	  ob_end_clean();
+	
   $rex_resize = $_GET['rex_resize'];
 
   // get params
