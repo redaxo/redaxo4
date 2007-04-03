@@ -7,7 +7,8 @@
  */
 
 // --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
-if (isset ($edit_id) and $edit_id != '')
+$edit_id = rex_request('edit_id', 'int');
+if ($edit_id)
 {
   $thisCat = new rex_sql;
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id ='.$edit_id.' and clang ='.$clang);
@@ -23,7 +24,8 @@ else
 }
 
 // --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
-if (isset ($article_id) and $article_id != '')
+$article_id = rex_request('article_id', 'int');
+if ($article_id)
 {
   $thisArt = new rex_sql;
   $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
@@ -38,8 +40,8 @@ else
   unset ($article_id);
 }
 
-if(!isset($function)) $function = '';
-if(!isset($category_id)) $category_id = 0;
+$function = rex_request('function', 'string');
+$category_id = rex_request('category_id', 'int');
 
 // --------------------------------------------- KATEGORIE PFAD UND RECHTE WERDEN ÜBERPRÜFT
 
@@ -738,6 +740,18 @@ if ($category_id > -1)
         <input type="hidden" name="clang" value="'. $clang .'" />';
   }
   
+  // READ DATA
+  
+  $sql = new rex_sql;
+  $sql->setQuery('SELECT * 
+        FROM 
+          '.$REX['TABLE_PREFIX'].'article 
+        WHERE 
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1)) 
+          AND clang='. $clang .'  
+        ORDER BY 
+          prior, name');
+  
   echo '  
       <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
         <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
@@ -765,6 +779,7 @@ if ($category_id > -1)
           </tr>
         </thead>
         ';
+        
   // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 || $function == 'add_art')
   {
@@ -807,17 +822,6 @@ if ($category_id > -1)
   }
 
   // --------------------- ARTIKEL LIST
-
-  $sql = new rex_sql;
-//  $sql->debugsql = true;
-  $sql->setQuery('SELECT * 
-        FROM 
-          '.$REX['TABLE_PREFIX'].'article 
-        WHERE 
-          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1)) 
-          AND clang='. $clang .'  
-        ORDER BY 
-          prior, name');
 
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
