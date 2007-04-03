@@ -39,6 +39,7 @@ function rex_a62_metainfo_form($params)
   	$id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
 		$params = $fields->getValue('params');
 		$attr = $fields->getValue('attributes');
+		$attr .= rex_tabindex();
 		$dbvalues = explode('|+|', $article->getValue($name));
 		$labelIt = true;
 		

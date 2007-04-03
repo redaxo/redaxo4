@@ -63,7 +63,7 @@ if ($article->getRows() == 1)
 
     $catname = str_replace(' ', '&nbsp;', $article->getValue('name'));
 
-    $KATout .= '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '">' . $catname . '</a>';
+    $KATout .= '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a>';
     // $KATout .= " [$article_id]";
     $KATout .= '</p>';
   }
@@ -581,7 +581,7 @@ if ($article->getRows() == 1)
         	$class = ' class="active"';
         }
         
-        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .'>' . $val . '</a>';
+        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
         
         if ($num_ctypes != $i)
         {
@@ -598,20 +598,20 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="active">' . $I18N->msg('edit_mode') . '</a>';
-      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '">' . $I18N->msg('metadata') . '</a>';
+      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
     else
     {
-      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '">' . $I18N->msg('edit_mode') . '</a>';
-      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="active">' . $I18N->msg('metadata') . '</a>';
+      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
 
     $menu .= '
             <ul>
               <li>' . $menu_edit . ' | </li>
               <li>' . $menu_meta . ' | </li>
-              <li><a href="../index.php?article_id=' . $article_id . '&amp;clang=' . $clang . '" target="_blank">' . $I18N->msg('show') . '</a></li>
+              <li><a href="../index.php?article_id=' . $article_id . '&amp;clang=' . $clang . '" target="_blank"'. rex_tabindex() .'>' . $I18N->msg('show') . '</a></li>
             </ul>';
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
@@ -681,15 +681,15 @@ if ($article->getRows() == 1)
 
 						<p>
 						  <label for="meta_article_name">' . $I18N->msg("name_description") . '</label>
-						  <input type="text" id="meta_article_name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30" />
+						  <input type="text" id="meta_article_name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30"'. rex_tabindex() .' />
 						</p>
 						<p>
 						  <label for="meta_description">' . $I18N->msg("description") . '</label>
-						  <textarea name="meta_description" id="meta_description" cols="50" rows="6" >' . htmlspecialchars($article->getValue("description")) . '</textarea>
+						  <textarea name="meta_description" id="meta_description" cols="50" rows="6"'. rex_tabindex() .'>' . htmlspecialchars($article->getValue("description")) . '</textarea>
 						</p>
 						<p>
 						  <label for="meta_keywords">' . $I18N->msg("keywords") . '</label>
-						  <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6">' . htmlspecialchars($article->getValue("keywords")) . '</textarea>
+						  <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6"'. rex_tabindex() .'>' . htmlspecialchars($article->getValue("keywords")) . '</textarea>
 						</p>';
 
       // ----- EXTENSION POINT
@@ -701,7 +701,7 @@ if ($article->getRows() == 1)
 
       echo '
 								<p>
-								  <input class="rex-sbmt" type="submit" value="' . $I18N->msg("update_metadata") . '" />
+								  <input class="rex-sbmt" type="submit" value="' . $I18N->msg("update_metadata") . '"'. rex_tabindex() .' />
 								</p>
 	            </div>
 	         </fieldset>';
@@ -755,7 +755,7 @@ if ($article->getRows() == 1)
 					if ($article->getValue('startpage')==1) 
 						echo $I18N->msg('content_isstartarticle');
 					else
-						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '" />';
+						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' />';
 
 					echo '
 									  </p>
@@ -772,6 +772,7 @@ if ($article->getRows() == 1)
           $lang_a->setId('clang_a');
           $lang_a->setName('clang_a');
           $lang_a->setSize('1');
+          $lang_a->setAttribute('tabindex', rex_tabindex(false));
           foreach ($REX['CLANG'] as $val => $key)
           {
             $lang_a->addOption($key, $val);
@@ -781,6 +782,7 @@ if ($article->getRows() == 1)
           $lang_b->setId('clang_b');
           $lang_b->setName('clang_b');
           $lang_b->setSize('1');
+          $lang_b->setAttribute('tabindex', rex_tabindex(false));
           foreach ($REX['CLANG'] as $val => $key)
           {
             $lang_b->addOption($key, $val);
@@ -794,12 +796,13 @@ if ($article->getRows() == 1)
                   <legend class="rex-lgnd">' . $I18N->msg("content_submitcopycontent") . '</legend>
   							  <div class="rex-fldst-wrppr">
 									  <p>
-										<label for="clang_a">' . $I18N->msg("content_contentoflang") . '</label>
-										' . $lang_a->get() . '
-										<label for="clang_b">' . $I18N->msg("content_to") . '</label> ' . $lang_b->get() . '
+											<label for="clang_a">' . $I18N->msg("content_contentoflang") . '</label>
+											' . $lang_a->get() . '
+											<label for="clang_b">' . $I18N->msg("content_to") . '</label>
+											' . $lang_b->get() . '
 									  </p>
 									  <p>
-										<input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") . '" />
+											<input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") . '"'. rex_tabindex() .' />
 									  </p>
 								  </div>
                 </fieldset>';
@@ -816,6 +819,7 @@ if ($article->getRows() == 1)
           $move_a->setId('category_id_new');
           $move_a->setName('category_id_new');
           $move_a->setSize('1');
+          $move_a->setAttribute('tabindex', rex_tabindex(false));
 
           if ($cats = OOCategory :: getRootCategories())
           {
@@ -834,7 +838,7 @@ if ($article->getRows() == 1)
 											' . $move_a->get() . '
 									  </p>
 									  <p>
-											<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '" />
+											<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '"'. rex_tabindex() .' />
 									  </p>
 								  </div>
                 </fieldset>';
@@ -850,6 +854,7 @@ if ($article->getRows() == 1)
           $move_a->setId('category_copy_id_new');
           $move_a->setSize('1');
           $move_a->setSelected($article_id);
+          $move_a->setAttribute('tabindex', rex_tabindex(false));
 
           if ($cats = OOCategory :: getRootCategories())
           {
@@ -866,9 +871,9 @@ if ($article->getRows() == 1)
 										  <p>
 												<label for="category_copy_id_new">' . $I18N->msg("copy_article") . '</label>
 												' . $move_a->get() . '
-											  </p>
+										  </p>
 										  <p>
-												<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '" />
+												<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '"'. rex_tabindex() .' />
 										  </p>
 									  </div>
                   </fieldset>';
@@ -884,6 +889,7 @@ if ($article->getRows() == 1)
           $move_a->setName('category_id_new');
           $move_a->setSize('1');
           $move_a->setSelected($article_id);
+          $move_a->setAttribute('tabindex', rex_tabindex(false));
 
           if ($cats = OOCategory :: getRootCategories())
           {
@@ -901,7 +907,7 @@ if ($article->getRows() == 1)
 												' . $move_a->get() . '
 										  </p>
 										  <p>
-												<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '" />
+												<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '"'. rex_tabindex() .' />
 										  </p>
 									  </div>
                   </fieldset>';
