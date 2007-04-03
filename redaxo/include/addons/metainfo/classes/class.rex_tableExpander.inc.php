@@ -32,8 +32,8 @@ class rex_a62_tableExpander extends rex_form
 		$field =& $this->addTextField('name');
 		$field->setLabel($I18N_META_INFOS->msg('field_label_name'));
 
-		$field =& $this->addTextAreaField('attributes');
-		$field->setLabel($I18N_META_INFOS->msg('field_label_attributes'));
+//		$field =& $this->addTextAreaField('attributes');
+//		$field->setLabel($I18N_META_INFOS->msg('field_label_attributes'));
 		
 		$field =& $this->addSelectField('type');
 		$field->setLabel($I18N_META_INFOS->msg('field_label_type'));
@@ -44,8 +44,8 @@ class rex_a62_tableExpander extends rex_form
 		$field =& $this->addTextField('default');
 		$field->setLabel($I18N_META_INFOS->msg('field_label_default'));
 
-		$field =& $this->addTextAreaField('params');
-		$field->setLabel($I18N_META_INFOS->msg('field_label_params'));
+//		$field =& $this->addTextAreaField('params');
+//		$field->setLabel($I18N_META_INFOS->msg('field_label_params'));
 		
 //		$field =& $this->addTextAreaField('validate');
 //		$field->setLabel($I18N_META_INFOS->msg('field_label_validate'));
