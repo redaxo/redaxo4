@@ -69,19 +69,20 @@ if ($article->getRows() == 1)
   }
 
   // ----- Titel anzeigen
-  rex_title("Artikel", $KATout);
+  rex_title($I18N->msg('content'), $KATout);
 
   // ----- Sprachenblock
   $sprachen_add = '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-  include $REX['INCLUDE_PATH'] . "/functions/function_rex_languages.inc.php";
+  include $REX['INCLUDE_PATH'] . '/functions/function_rex_languages.inc.php';
 
 	// ----- Request Parameter  
   $mode = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
+  $message = rex_request('message', 'string');
 
   // ----- mode defs
-  if ($mode != "meta")
-    $mode = "edit";
+  if ($mode != 'meta')
+    $mode = 'edit';
 
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
   if (!($KATPERM || $REX_USER->hasPerm('article[' . $article_id . ']')))
@@ -95,13 +96,13 @@ if ($article->getRows() == 1)
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if (isset ($save) and ($function == "add" or $function == "edit" or $function == "delete") and $save == 1)
+    if (isset ($save) and ($function == 'add' or $function == 'edit' or $function == 'delete') and $save == 1)
     {
 
       // ----- check module
 
       $CM = new rex_sql;
-      if ($function == "edit" || $function == "delete")
+      if ($function == 'edit' || $function == 'delete')
       {
         // edit/ delete
         $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "modultyp on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "modultyp.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
@@ -158,7 +159,8 @@ if ($article->getRows() == 1)
 
           if ($function == 'edit')
             $modebit = '2'; // pre-action and edit
-          elseif ($function == 'delete') $modebit = '4'; // pre-action and delete
+          elseif ($function == 'delete') 
+          	$modebit = '4'; // pre-action and delete
           else
             $modebit = '1'; // pre-action and add
 
@@ -297,16 +299,17 @@ if ($article->getRows() == 1)
               }
 
               eval ('?>' . $iaction);
+              
               if ($REX_ACTION['MSG'] != '')
                 $message .= ' | ' . $REX_ACTION['MSG'];
+                
               $ga->next();
             }
 
             // ----- / POST SAVE ACTION
 
             // Update Button wurde gedrückt?
-            $btn_update = rex_post('btn_update');
-            if ($btn_update == '')
+            if (rex_post('btn_update', 'string'))
             {
               $function = '';
             }
@@ -319,9 +322,9 @@ if ($article->getRows() == 1)
     // ------------------------------------------ END: Slice add/edit/delete
 
     // ------------------------------------------ START: Slice move up/down
-    if ($function == "moveup" || $function == "movedown")
+    if ($function == 'moveup' || $function == 'movedown')
     {
-      if ($REX_USER->hasPerm("moveSlice[]"))
+      if ($REX_USER->hasPerm('moveSlice[]'))
       {
         // modul und rechte vorhanden ?
 
@@ -455,7 +458,8 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE ARTICLE
     if (rex_post('movearticle', 'string') && $category_id != $article_id)
     {
-      $category_id_new = (int) $category_id_new;
+    	
+      $category_id_new = rex_post('category_id_new', 'int');
       if ($REX_USER->hasPerm('admin[]') || ($REX_USER->hasPerm('moveArticle[]') && ($REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csw[' . $category_id_new . ']'))))
       {
         if (rex_moveArticle($article_id, $category_id, $category_id_new))
@@ -526,10 +530,41 @@ if ($article->getRows() == 1)
       }
     }
     // ------------------------------------------ END: MOVE CATEGORY
+    
+    // ------------------------------------------ START: SAVE METADATA
+    if (rex_post('save','int'))
+    {
+      $meta_sql = new rex_sql;
+      $meta_sql->setTable($REX['TABLE_PREFIX'] . "article");
+      // $meta_sql->debugsql = 1;
+      $meta_sql->setWhere("id='$article_id' AND clang=$clang");
+      $meta_sql->setValue('keywords', $meta_keywords);
+      $meta_sql->setValue('description', $meta_description);
+      $meta_sql->setValue('name', $meta_article_name);
+      $meta_sql->setValue('updatedate', time());
+      $meta_sql->setValue('updateuser', $REX_USER->getValue('login'));
+      $meta_sql->update();
+
+      $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
+      
+      $message = $I18N->msg("metadata_updated") . $message;
+
+      rex_generateArticle($article_id);
+
+      // ----- EXTENSION POINT
+      $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
+        'id' => $article_id,
+        'clang' => $clang,
+        'keywords' => $meta_keywords,
+        'description' => $meta_description,
+        'name' => $meta_article_name,
+      ));
+    }
+    // ------------------------------------------ END: SAVE METADATA
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
     $num_ctypes = count($REX['CTYPE']);
-    $tadd = "";
+    $tadd = '';
     if ($num_ctypes > 1)
     {
       $tadd = '
@@ -589,9 +624,6 @@ if ($article->getRows() == 1)
             ';
 
     // ------------------------------------------ WARNING
-    if (!isset ($message))
-      $message = '';
-
     if ($mode != 'edit' && $message != '')
     {
       echo '<p class="rex-warning">' . $message . '</p>';
@@ -603,10 +635,7 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-      if (!isset ($slice_id))
-        $slice_id = '';
-      if (!isset ($function))
-        $function = '';
+      $slice_id = rex_request('slice_id', 'int', '');
 
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
       echo '
@@ -631,40 +660,9 @@ if ($article->getRows() == 1)
       // ------------------------------------------ END: MODULE EDITIEREN/ADDEN ETC.
 
     }
-    elseif ($mode == "meta")
+    elseif ($mode == 'meta')
     {
       // ------------------------------------------ START: META VIEW
-      $extens = "";
-      if (isset ($save) and $save == "1")
-      {
-        $meta_sql = new rex_sql;
-        $meta_sql->setTable($REX['TABLE_PREFIX'] . "article");
-        // $meta_sql->debugsql = 1;
-        $meta_sql->setWhere("id='$article_id' AND clang=$clang");
-        $meta_sql->setValue("keywords", $meta_keywords);
-        $meta_sql->setValue("description", $meta_description);
-        $meta_sql->setValue("name", $meta_article_name);
-        $meta_sql->setValue("updatedate", time());
-        $meta_sql->setValue("updateuser", $REX_USER->getValue("login"));
-        $meta_sql->update();
-
-        $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
-        
-        if (!isset ($message))
-          $message = '';
-        $err_msg = $I18N->msg("metadata_updated") . $message;
-
-        rex_generateArticle($article_id);
-
-        // ----- EXTENSION POINT
-        $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
-          "id" => $article_id,
-          "clang" => $clang,
-          "keywords" => $meta_keywords,
-          "description" => $meta_description,
-          "name" => $meta_article_name,
-        ));
-      }
 
       echo '
     	  <div class="rex-cnt-metamode">
@@ -673,17 +671,14 @@ if ($article->getRows() == 1)
               <legend class="rex-lgnd">' . $I18N->msg('general') . '</legend>
                       
 				      <div class="rex-fldst-wrppr">
+
 						  <input type="hidden" name="page" value="content" />
 						  <input type="hidden" name="article_id" value="' . $article_id . '" />
 						  <input type="hidden" name="mode" value="meta" />
 						  <input type="hidden" name="save" value="1" />
 						  <input type="hidden" name="clang" value="' . $clang . '" />
-						  <input type="hidden" name="ctype" value="' . $ctype . '" />';
+						  <input type="hidden" name="ctype" value="' . $ctype . '" />
 
-      if (isset ($err_msg) and $err_msg != '')
-        echo '<p class="rex-warning">' . $err_msg . '</p>';
-
-      	echo '
 						<p>
 						  <label for="meta_article_name">' . $I18N->msg("name_description") . '</label>
 						  <input type="text" id="meta_article_name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30" />
@@ -701,6 +696,7 @@ if ($article->getRows() == 1)
       echo rex_register_extension_point('ART_META_FORM', '', array (
         'id' => $article_id,
         'clang' => $clang,
+        'article' => $article
       ));
 
       echo '
