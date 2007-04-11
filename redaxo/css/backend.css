@@ -337,7 +337,7 @@ div#rex-title p {
 
 div.rex-cnt-bdy {
 	clear:both;
-	padding:1px 150px 0 31px;
+	padding:1px 110px 0 39px;
 }
 
 
@@ -348,7 +348,7 @@ div.rex-cnt-bdy {
 */
 div#rex-clang, 
 div.rex-cnt-hdr {
-	padding-left:30px;
+	padding-left:38px;
 	margin-bottom:10px;
 }
 div.rex-cnt-hdr {
@@ -356,7 +356,7 @@ div.rex-cnt-hdr {
 	margin:0;
 	background-image:url(../pics/document.gif);
 	background-position:7px 50%;
-	width:740px;
+	width:732px;
 }
 
 div#rex-clang ul {

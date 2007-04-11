@@ -29,20 +29,18 @@ function rex_linkmap_tree($tree, $current_category_id, $GlobalParams)
 	
 	$cat = array_shift($tree);
 	
-	echo '<ul>';
+  $li = '';
   foreach($cat->getChildren() as $child)
   {
-		echo rex_linkmap_format_li($child, $current_category_id, $GlobalParams, ' class="rex-map-startpage"');
-		
-		// Nächste Levels aufklappen
+		$li .= rex_linkmap_format_li($child, $current_category_id, $GlobalParams, ' class="rex-map-startpage"');
+		// Naechste Levels aufklappen
 		if(isset($tree[0]) && OOCategory::isValid($tree[0]) && $tree[0]->getId() == $child->getId())
 		{
 			rex_linkmap_tree($tree, $current_category_id, $GlobalParams);
 		}
-			
-		echo '</li>';
+		$li .= '</li>';
   }
-	echo '</ul>';
+  if ($li != '') echo '<ul>'.$li.'</ul>';
 }
 
 function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '')
@@ -78,7 +76,8 @@ $GlobalParams = array(
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
-  'category_id' =>$category_id
+  'category_id' =>$category_id,
+  'clang' => $clang
 );
 
 // ------- Build JS Functions

@@ -16,6 +16,10 @@
 
 /*	Sprachenliste
 *******************************************************************************/
+div.rex-linkmap-searchbar {
+	display:none;
+}
+
 div.rex-searchbar ul {
 	float:left;
 	padding-left:20px;
@@ -55,11 +59,13 @@ div#rex-linkmap {
 	clear:both;
 	background-color:#f0efeb;
 	border-bottom:5px solid #d7d6d3;
+	width:770px;
 }
 
 div#rex-linkmap h1 {
 	padding:5px 0px 4px 20px;
 	background-color:#d7d6d3;
+	font-size:1.3em;
 }
 
 div.rex-map-categories, 
@@ -79,12 +85,12 @@ div#rex-linkmap ul {
 }
 
 div#rex-linkmap ul ul {
-	margin:0;
+	margin:10px 0 0 0;
 }
 
 
 div#rex-linkmap ul li {
-	padding:2px 20px;
+	padding:2px 20px 8px 20px;
 }
 
 
