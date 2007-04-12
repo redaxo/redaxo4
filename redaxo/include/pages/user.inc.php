@@ -477,7 +477,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
 
 if (!empty($message))
 {
-  echo '<p class="rex-warning">'.$message.'</p>';
+  echo '<p class="rex-warning"><span>'.$message.'</span></p>';
 }
 
 
@@ -637,7 +637,11 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     // User Add
     $form_label = $I18N->msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
-    $add_submit = '<input type="submit" class="rex-sbmt" name="function" value="'.$I18N->msg("add_user").'" />';
+    $add_submit = '<div>
+						<p>
+						<input type="submit" class="rex-sbmt" name="function" value="'.$I18N->msg("add_user").'" />
+						</p>
+					</div>';
     $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
     $add_status_chkbox = '<input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
     $add_user_login = '<input type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';

@@ -673,7 +673,7 @@ class rex_list
 		
 		if($message != '')
 		{
-			$s .= '<p class="rex-warning">'. $message .'</p>'. "\n";
+			$s .= '<p class="rex-warning"><span>'. $message .'</span></p>'. "\n";
 		}
 		
 		$s .= '<p>'. "\n";

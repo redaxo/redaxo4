@@ -93,7 +93,7 @@ if ($SP)
   }
 
   if (isset ($errmsg) and $errmsg != "")
-    echo '<p class="rex-warning">'.$errmsg.'</p>';
+    echo '<p class="rex-warning"><span>'.$errmsg.'</span></p>';
 
   if (!isset ($user_id))
   {

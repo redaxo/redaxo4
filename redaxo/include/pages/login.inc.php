@@ -10,7 +10,7 @@ rex_title("Login","");
 
 if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
 {
-  echo '<p class="rex-warning">'.$FORM['loginmessage'].'</p>'."\n";
+  echo '<p class="rex-warning"><span>'.$FORM['loginmessage'].'</span></p>'."\n";
 }
 
 if (!isset($REX_ULOGIN)) 

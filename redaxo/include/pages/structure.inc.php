@@ -449,7 +449,7 @@ elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$
 // --------------------------------------------- KATEGORIE LISTE
 
 if (isset ($message) and $message != "")
-  echo '<p class="rex-warning">'. $message .'</p>';
+  echo '<p class="rex-warning"><span>'. $message .'</span></p>';
   
 $cat_name = 'Homepage';
 if($category_id != '')
@@ -711,7 +711,7 @@ if ($category_id > -1)
 
   if (isset ($amessage) and $amessage != "")
   {
-    echo '<p class="rex-warning">'. $amessage .'</p>';
+    echo '<p class="rex-warning"><span>'. $amessage .'</span></p>';
   }
   
   $art_add_link = '';

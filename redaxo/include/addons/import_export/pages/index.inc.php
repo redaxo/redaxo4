@@ -219,7 +219,7 @@ rex_title($I18N_IM_EXPORT->msg("importexport"), "");
 
 if ($msg != '')
 {
-  echo '<p class="rex-warning">'. $msg .'</p>';
+  echo '<p class="rex-warning"><span>'. $msg .'</span></p>';
 }
 
 ?>

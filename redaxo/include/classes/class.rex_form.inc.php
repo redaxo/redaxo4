@@ -623,7 +623,7 @@ class rex_form
 		$message = $this->getMessage();
 		if($message != '')
 		{
-			$s .= '  <p class="rex-warning">'. $message .'</p>'. "\n";
+			$s .= '  <p class="rex-warning"><span>'. $message .'</span></p>'. "\n";
 		}
 		
 		$i = 0;

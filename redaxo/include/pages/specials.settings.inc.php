@@ -151,7 +151,7 @@ $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
 if ($message != "")
-  echo '<p class="rex-warning">'.$message.'</p>';
+  echo '<p class="rex-warning"><span>'.$message.'</span></p>';
   
 echo '
 	<div class="rex-spc-stn">

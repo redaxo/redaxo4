@@ -88,7 +88,7 @@ if ($article->getRows() == 1)
   if (!($KATPERM || $REX_USER->hasPerm('article[' . $article_id . ']')))
   {
     // ----- hat keine rechte an diesem artikel
-    echo '<p class="rex-warning">' . $I18N->msg('no_rights_to_edit') . '</p>';
+    echo '<p class="rex-warning"><span>' . $I18N->msg('no_rights_to_edit') . '</span></p>';
 
   }
   else
@@ -578,7 +578,7 @@ if ($article->getRows() == 1)
         $class = '';
         if ($key == $ctype)
         {
-        	$class = ' class="active"';
+        	$class = ' class="rex-active"';
         }
         
         $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
@@ -598,13 +598,13 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
       $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
     else
     {
       $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
-      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
 
     $menu .= '
@@ -626,7 +626,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ WARNING
     if ($mode != 'edit' && $message != '')
     {
-      echo '<p class="rex-warning">' . $message . '</p>';
+      echo '<p class="rex-warning"><span>' . $message . '</span></p>';
     }
 
     echo '

@@ -159,7 +159,7 @@ function rex_generateArticle($id, $refreshall = true)
 	}
 	
     if ($MSG != '')
-      echo '<p class="rex-warning">'. $MSG .'</p>';
+      echo '<p class="rex-warning"><span>'. $MSG .'</span></p>';
 
     // --------------------------------------------------- Listen generieren
     if ($CONT->getValue("startpage") == 1)
