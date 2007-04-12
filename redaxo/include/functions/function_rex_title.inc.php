@@ -34,7 +34,14 @@
  */
 function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
-  $subtitle = rex_get_subtitle( $subtitle);
+  if($subtitle == '')
+  {
+    $subtitle = '<p>&nbsp;</p>';
+  }
+  else
+  {
+	  $subtitle = rex_get_subtitle( $subtitle);
+  }
   
   print '  
 	<div id="rex-title">
