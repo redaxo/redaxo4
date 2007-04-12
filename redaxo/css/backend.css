@@ -29,6 +29,9 @@ a {
 a:hover {
 	text-decoration:underline;
 }
+body div#rex-output a.rex-active {
+	color:#000;
+}
 
 li {
 	list-style-type:none;
@@ -80,19 +83,16 @@ legend.rex-hidden {
 div#rex-output .rex-warning {
 	float:left;
 	width:670px;
-	margin:10px 0;
-	padding:8px 50px;
-	background:#fae9e5 url(../pics/warning.gif) 2% 50% no-repeat;
-	color:#ea1144;
-}
-
-/* jan - anpassung */
-div#rex-output .rex-warning {
-	float:left;
-	width:670px;
+	width:100%;
 	margin:0 0 10px 0;
+	padding:8px 0px;
+	background:#fae9e5 url(../pics/warning.gif) 0% 50% no-repeat;
+	color:#ea1144;
+	font-weight:bold;
 }
-/* jan - ende */
+div#rex-output .rex-warning span {
+	padding:0 45px;
+}
 
 table .rex-warning {
 	margin:0;
@@ -149,6 +149,9 @@ div#rex-title h1 {
 .rex-ok, 
 .rex-online {
 	color:#3ec94a;
+}
+.rex-offline {
+	color:#aa0000;
 }
 
 .rex-nice {
@@ -442,6 +445,9 @@ body div#rex-output p.rex-sbmt input,
 body div#rex-output p input.rex-chckbx, 
 body div#rex-output p input.rex-sbmt {
 	width:auto;
+}
+body div#rex-output p textarea {
+	height:150px;
 }
 
 
@@ -857,6 +863,17 @@ div.rex-usr-editmode p input.rex-sbmt {
 	margin-left:155px;
 }
 
+body div#rex-output div.rex-usr-editmode p.rex-warning label {
+	clear:none;
+	width:80%;
+	margin:0;
+	padding-top:0;
+	padding-bottom:0;
+}
+body div#rex-output div.rex-usr-editmode p.rex-warning input.rex-chckbx {
+	margin:0 0 0 45px;
+}
+
 
 /*	Special
 *******************************************************************************/
@@ -942,6 +959,9 @@ div.rex-mpl-dtl div.rex-mpl-dtl-edt p input,
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p select, 
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
 	width:70%;
+}
+body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
+	height:90px;
 }
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p input.rex-sbmt {
 	margin-left:28%;
