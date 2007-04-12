@@ -446,9 +446,6 @@ body div#rex-output p input.rex-chckbx,
 body div#rex-output p input.rex-sbmt {
 	width:auto;
 }
-body div#rex-output p textarea {
-	height:150px;
-}
 
 
 /*	Table
@@ -804,6 +801,9 @@ div.rex-mdl-editmode p input,
 div.rex-mdl-editmode p select, 
 div.rex-mdl-editmode p textarea {
 	width:500px;
+}
+div.rex-mdl-editmode p textarea {
+	height:150px;
 }
 div.rex-mdl-editmode p input.rex-sbmt {
 	margin-left:150px;
