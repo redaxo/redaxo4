@@ -524,9 +524,10 @@ echo '
 
 if ($category_id != 0)
 {
+	$category = OOCategory::getCategoryById($category_id);
   echo '<tr>
           <td></td>
-          <td colspan="'. $data_colspan .'">..</td>
+          <td colspan="'. $data_colspan .'"><a href="index.php?page=structure&category_id='. $category->getParentId() .'&clang='. $clang .'">..</a></td>
         </tr>';
 }
 
