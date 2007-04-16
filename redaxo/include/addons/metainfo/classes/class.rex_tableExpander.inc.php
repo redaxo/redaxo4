@@ -98,7 +98,7 @@ class rex_a62_tableExpander extends rex_form
 		
 		if(parent::save())
 		{
-			global $REX;
+			global $REX, $I18N;
 			
 			$fieldName = $this->getFieldValue('name');
 			$fieldType = $this->getFieldValue('type');
@@ -121,7 +121,11 @@ class rex_a62_tableExpander extends rex_form
 			else
 			{
 				// Spalte in der Tabelle anlegen
-				return $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
+				if($this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault))
+				{
+					// TODO Translate
+					return 'Daten erfolgreich gespeichert! Nach ändern der Metafelder muss der Artikelcache neu generiert werden (Specials->'. $I18N->msg('regenerate_article') .')!';
+				}
 			}
 		}
 		
