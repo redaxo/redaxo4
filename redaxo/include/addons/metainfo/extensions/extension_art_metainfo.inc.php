@@ -35,14 +35,19 @@ function rex_a62_metainfo_form($params)
   for($i = 0; $i < $fields->getRows(); $i++)
   {
   	$name = $fields->getValue('name');
-  	$label = htmlspecialchars($name);
-  	$id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
+  	$title = $fields->getValue('title');
 		$params = $fields->getValue('params');
 		$attr = $fields->getValue('attributes');
-		$attr .= rex_tabindex();
 		$dbvalues = explode('|+|', $article->getValue($name));
-		$labelIt = true;
-		
+  	
+  	if($title != '')
+  		$label = htmlspecialchars($title);
+  	else
+  		$label = htmlspecialchars($name);
+  	
+  	$id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
+		$attr .= rex_tabindex();
+		$labelIt = true;		
 			
   	$field = '';
   	switch($fields->getValue('label'))

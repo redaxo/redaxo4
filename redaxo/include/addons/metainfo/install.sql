@@ -1,5 +1,6 @@
 CREATE TABLE `rex_62_params` (
   `field_id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
   `name` varchar(255) default NULL,
   `attributes` varchar(255) NOT NULL,
   `type` int(10) unsigned default NULL,

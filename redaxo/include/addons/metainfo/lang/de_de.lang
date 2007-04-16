@@ -2,10 +2,14 @@
 
 field_fieldset = Feld bearbeiten/erstellen
 field_label_prefix = Prefix
-field_label_name = Feldname
+field_label_title = Feldbezeichnung
+field_label_name = Spaltenname
 field_label_id = ID
 field_label_type = Feldtyp
 field_label_attributes = Feldattribute
 field_label_default = Standardwert
 field_label_nullable = Pflichtfeld
 field_label_params = Parameter
+
+field_error_name = Bitte Spaltennamen eingeben!
+field_successfull_saved = Daten erfolgreich gespeichert! Nach ändern der Metafelder muss der Artikelcache neu generiert werden (Specials->{0})!
