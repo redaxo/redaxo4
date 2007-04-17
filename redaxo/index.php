@@ -19,7 +19,7 @@ $REX['HTDOCS_PATH'] = "../";
 $REX['GG'] = false;
 $REX['REDAXO'] = true;
 
-session_start();
+
 
 include "include/master.inc.php";
 
@@ -90,10 +90,29 @@ else
     
   } else
   {
-  	
+
   	// gelungenen versuch speichern | login_tries = 0
     if ($REX_ULOGIN != "")
     {
+    	// ----- session fixation
+			$tmp = $_SESSION;
+			/*
+			var_dump($tmp);
+			echo "<br /";
+			var_dump($_SESSION);
+			echo "<br /";
+			*/
+      session_unset();
+      // session_destroy();
+      session_regenerate_id(true);
+      $_SESSION = $tmp;
+			/*
+			var_dump($tmp);
+			echo "<br /";
+			var_dump($_SESSION);
+			echo "<br /";
+		  exit;
+		  */
       $fvs = new rex_sql;
       $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=0, lasttrydate='.time().' WHERE login="'. $REX_ULOGIN .'"');
   		header('Location: index.php?page='. $REX['START_PAGE']);

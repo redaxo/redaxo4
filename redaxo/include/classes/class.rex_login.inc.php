@@ -56,6 +56,7 @@ class rex_login
     $this->system_id = "default";
     $this->cache = false;
     $this->login_status = 0; // 0 = nochchecken, 1 = ok, -1 = notok
+    session_start();
   }
 
   /**
@@ -186,6 +187,7 @@ class rex_login
         {
           $ok = true;
           $this->setSessionVar('UID', $this->USER->getValue($this->uid));
+          $this->sessionFixation();
         }
         else
         {
@@ -296,6 +298,18 @@ class rex_login
       return $_SESSION[$this->system_id][$varname];
 
     return $default;
+  }
+  
+  /* 
+   * Session fixation
+   *  
+   */
+  function sessionFixation()
+  {
+    $tmp = $_SESSION;
+    $_SESSION = "";
+    session_regenerate_id(true);
+    $_SESSION = $tmp;
   }
 }
 ?>
