@@ -79,7 +79,6 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 // *************************************** HEADER
 
 ?>
-<body id="rex-mpl">
 
 <script type="text/javascript">
 <!--
@@ -174,7 +173,7 @@ if($PERMALL)
   $subline[] = array('sync', $I18N->msg('pool_sync_files'));
 }
 
-rex_small_title($I18N->msg('pool_media'), $subline);
+rex_title($I18N->msg('pool_media'), $subline);
 
 
 // *************************************** request vars
@@ -185,13 +184,6 @@ $media_method = rex_request('media_method', 'string');
 
 
 
-// *************************************** Content Wrapper
-
-echo '
-<div id="rex-wrapper">
-  <div id="rex-output">
-';
-
 // *************************************** MESSAGES
 if ($msg != '')
 {
@@ -199,9 +191,6 @@ if ($msg != '')
 ';
   $msg = '';
 }
-
-
-
 
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
@@ -1598,8 +1587,5 @@ if ($subpage == '')
   </div>';
 }
 
-echo '
-  </div>
-</div>'."\n\n";
 
 ?>

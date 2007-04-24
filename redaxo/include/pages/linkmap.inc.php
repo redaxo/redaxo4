@@ -62,7 +62,7 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 
 // ------------------------ Ouput
 
-rex_small_title($REX['SERVERNAME'], 'Linkmap');
+rex_title($REX['SERVERNAME'], 'Linkmap');
 
 // ------- Default Values
 

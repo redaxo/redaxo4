@@ -33,18 +33,25 @@ if ($page_name != '')
   </script>
 </head>
 <?php
+/*
 if (isset ($open_header_only) && $open_header_only == true)
   return;
+*/
 ?>
-<body onunload="closeAll();">
+<body id="rex-page-<?php echo $page; ?>" <?php
+
+if (!isset($open_header_only)) echo 'onunload="closeAll();"';
+
+?>>
+
 <div id="rex-hdr">
 
 	<p class="rex-hdr-top"><?php echo $REX['SERVERNAME']; ?></p>
 	
 	<div>
-	<?php
+<?php
 
-if (isset ($LOGIN) AND $LOGIN)
+if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
 {
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
   echo '<p>' . $I18N->msg('name') . ' : <strong>' . $user_name . '</strong> [<a href="index.php?FORM[logout]=1">' . $I18N->msg('logout') . '</a>]</p>' . "\n";
@@ -135,13 +142,20 @@ if (isset ($LOGIN) AND $LOGIN)
   
   echo '</ul>' . "\n";
 }
-else
+else if(!isset($open_header_only))
 {
   echo '<p>' . $I18N->msg('logged_out') . '</p>';
+}else
+{
+	echo '<p>&nbsp;</p>';
 }
 ?>
 	</div>
 
 </div>
+<?php 
 
+
+
+?>
 <div id="rex-wrapper">

@@ -6,7 +6,7 @@
  * @version $Id$
  */
  
-if (!(isset( $open_header_only) && $open_header_only == true)):
+// if (!(isset( $open_header_only) && $open_header_only == true)):
 ?>
 
 	</div>
@@ -23,7 +23,7 @@ if (!(isset( $open_header_only) && $open_header_only == true)):
 		<p><?php echo showScripttime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
 	</div>
 <?php
-endif;
+// endif;
 ?>
    </body>
 </html>

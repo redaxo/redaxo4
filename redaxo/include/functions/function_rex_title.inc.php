@@ -32,7 +32,7 @@
  * rex_title( 'Headline', $subpages)
  * </code>
  */
-function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
+function rex_title($head, $subtitle = '')
 {
   if($subtitle == '')
   {
@@ -52,48 +52,6 @@ function rex_title($head, $subtitle = '', $styleclass = "grey", $width = '770px'
 <!-- *** OUTPUT OF CONTENT - START *** -->
 	<div id="rex-output">
 	';
-}
-
-/**
- * Ausgabe des Seitentitels für PopUps
- * 
- * Beispiel für einen Seitentitel
- *
- * <code>  
- * $subpages = array(
- *  array( '', 'Index'),
- *  array( 'lang', 'Sprachen'),
- *  array( 'groups', 'Gruppen')
- * );
- * 
- * rex_small_title( 'Headline', $subpages)
- * </code>
- * 
- * Beispiel für einen Seitentitel mit Rechteprüfung
- *
- * <code>  
- * $subpages = array(
- *  array( '', 'Index', 'index_perm'),
- *  array( 'lang', 'Sprachen verwalten', 'lang_perm'),
- *  array( 'groups', 'Gruppen verwalten', 'group_perm')
- * );
- * 
- * rex_small_title( 'Headline', $subpages)
- * </code>
- */
-function rex_small_title($title, $subtitle) {
-  $subtitle = rex_get_subtitle( $subtitle, ' class="white"');
-?>
-<div id="rex-hdr">
-
-  <p class="rex-hdr-top"><?php echo $title ?></p>
-  
-  <div>
-    <?php echo $subtitle ?>
-  </div>
-</div>
-
-<?php  
 }
 
 /**
