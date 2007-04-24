@@ -220,7 +220,7 @@ if ($rootCats = OOMediaCategory::getRootCategories())
 $cat_out = '<div class="rex-mpl-catslct-frm">
               <form action="index.php" method="post">
                 <fieldset>
-                  <legend class="rex-lgnd"><span>'. $I18N->msg('pool_select_cat') .'</span></legend>
+                  <!-- <legend class="rex-lgnd"><span>'. $I18N->msg('pool_select_cat') .'</span></legend> -->
                   <input type="hidden" name="page" value="medienpool" />
                   <p>
                     <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
@@ -619,7 +619,7 @@ if ($PERMALL && $subpage == "categories")
 	  <div class="rex-mpl-cat">
       <form action="index.php" method="post">
         <fieldset>
-          <legend class="rex-lgnd"><span>'. $legend .'</span></legend>
+          <!-- <legend class="rex-lgnd"><span>'. $legend .'</span></legend> -->
           <input type="hidden" name="page" value="medienpool" />
           <input type="hidden" name="subpage" value="categories" />
           <input type="hidden" name="media_method" value="'. $method .'" />
@@ -628,7 +628,7 @@ if ($PERMALL && $subpage == "categories")
     ';
   }
   
-  echo '<table class="rex-table" summary="'.$I18N->msg('pool_kat_summary').'">
+  echo '<table class="rex-table" summary="'.htmlspecialchars($I18N->msg('pool_kat_summary')).'">
           <caption class="rex-hide">'.$I18N->msg('pool_kat_caption').'</caption>
           <colgroup>
             <col width="5%" />
@@ -650,13 +650,14 @@ if ($PERMALL && $subpage == "categories")
   {
     echo '
       <tr class="rex-trow-actv">
-        <td colspan="2"></td>
+        <td><img src="pics/folder.gif" alt="'.$I18N->msg('pool_kat_create').'" title="'.$I18N->msg('pool_kat_create').'" /></td>
+        <td></td>
         <td>
           <span class="rex-hide"><label for="catname">'. $I18N->msg('pool_kat_name') .'</label></span>
           <input type="text" size="10" id="catname" name="catname" value="" />
         </td>
         <td>
-          <input type="submit" class="rex-fsubmit" value="'. $I18N->msg('pool_kat_create'). '" />
+          <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_kat_create'). '" />
         </td>
       </tr>
     ';
@@ -675,10 +676,10 @@ if ($PERMALL && $subpage == "categories")
           <td>'. $iid .'</td>
           <td>
             <span class="rex-hide"><label for="cat_name">'. $I18N->msg('pool_kat_name') .'</label></span>
-            <input type="text" size="10" id="cat_name" name="cat_name" value="'. htmlspecialchars($iname) .'" />
+            <input type="text" id="cat_name" name="cat_name" value="'. htmlspecialchars($iname) .'" />
           </td>
           <td>
-            <input type="submit" class="rex-fsubmit" value="'. $I18N->msg('pool_kat_update'). '" />
+            <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_kat_update'). '" />
           </td>
         </tr>
       ';
@@ -1077,7 +1078,7 @@ if ($subpage == "detail")
 	  		<div class="rex-mpl-dtl">
 	  			<form action="index.php" method="post" enctype="multipart/form-data">
               	<fieldset>
-                	<legend class="rex-lgnd"><span>'. $I18N->msg('pool_file_edit') .'</span></legend>
+                	<!-- <legend class="rex-lgnd"><span>'. $I18N->msg('pool_file_edit') .'</span></legend> -->
                 	<input type="hidden" name="page" value="medienpool" />
                 	<input type="hidden" name="subpage" value="detail" />
                 	<input type="hidden" name="media_method" value="edit_file" />
@@ -1118,7 +1119,7 @@ if ($subpage == "detail")
                       		<label for="file_new">'. $I18N->msg('pool_file_exchange') .'</label>
                       		<input type="file" id="file_new" name="file_new" size="30" />
                     	</p>
-                   	 	<p>
+                   	 	<p class="rex-sbmt">
                       		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_update') .'" />
                       		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_delete') .'" onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_file\';}else{return false;}" />
                     	</p>
@@ -1432,15 +1433,15 @@ if ($subpage == '')
   print '<div class="rex-mpl-mdn">
   		 <form action="index.php" method="post" enctype="multipart/form-data">
           <fieldset>
-            <legend class="rex-lgnd"><span>'. $I18N->msg('pool_selectedmedia') .'</span></legend>
+            <!-- <legend class="rex-lgnd"><span>'. $I18N->msg('pool_selectedmedia') .'</span></legend> -->
             <input type="hidden" name="page" value="medienpool" />
             <input type="hidden" id="media_method" name="media_method" value="" />
   
-            <table class="rex-table" summary="'. $I18N->msg('pool_file_summary', $rex_file_category_name) .'">
+            <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('pool_file_summary', $rex_file_category_name)) .'">
               <caption class="rex-hide">'. $I18N->msg('pool_file_caption', $rex_file_category_name) .'</caption>
               <colgroup>
                 <col width="5%" />
-                <col width="12%" />
+                <col width="17%" />
                 <col width="*" />
                 <col width="23%" />
               </colgroup>
@@ -1451,8 +1452,44 @@ if ($subpage == '')
                   <th>'. $I18N->msg('pool_file_info') .' / '. $I18N->msg('pool_file_description') .'</th>
                   <th>'. $I18N->msg('pool_file_functions') .'</th>
                 </tr>
-              </thead>
-              <tbody>';
+              </thead>';
+  
+  
+  
+  // ----- move and delete selected items
+  if($PERMALL)
+  {
+    $add_input = '';
+    $filecat = new rex_sql();
+    $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
+    if ($filecat->getRows() > 0)
+    {
+      $cats_sel->setId('rex_move_file_dest_category');
+      $add_input = '
+        <label class="rex-hide" for="rex_move_file_dest_category">'.$I18N->msg('pool_selectedmedia').'</label>
+        '. $cats_sel->get() .'
+        <input class="rex-sbmt" type="submit" value="'. $I18N->msg('pool_changecat_selectedmedia') .'" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';" />';
+    }
+    $add_input .= '<input class="rex-sbmt" type="submit" value="'.$I18N->msg('pool_delete_selectedmedia').'" onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
+
+    echo '
+    	<tfoot>
+    	<tr>
+    		<td class="rex-txt-algn-cntr">
+        	<label class="rex-hide" for="checkie">'.$I18N->msg('pool_select_all').'</label>
+        	<input class="rex-chckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'selectedmedia[]\',this)" />
+    		</td>
+    		<td colspan="3">
+    			'.$add_input.'
+    		</td>
+    	</tr>
+    	</tfoot>
+    ';
+  }
+  
+              
+              
+  print '<tbody>';
               
 
   $files = new rex_sql;
@@ -1526,14 +1563,14 @@ if ($subpage == '')
     $ilink = 'index.php?page=medienpool&amp;subpage=detail&amp;file_id='.$file_id.'&amp;rex_file_category='.$rex_file_category;
     
     $add_td = '<td></td>';
-    if ($PERMALL) $add_td = '<td><input class="rex-chckbx" type="checkbox" name="selectedmedia[]" value="'.$file_id.'" /></td>';
+    if ($PERMALL) $add_td = '<td class="rex-txt-algn-cntr"><input class="rex-chckbx" type="checkbox" name="selectedmedia[]" value="'.$file_id.'" /></td>';
     
     echo '<tr>
             '. $add_td .'
             <td><a href="'.$ilink.'">'.$thumbnail.'</a></td>
             <td>
                 <span><a href="'.$ilink.'">'.$file_title.'</a></span>
-                <span>'.$file_name.' ['.$file_size.']<br />'.nl2br(htmlspecialchars($file_description)).'</span>
+                <span><strong>'.$file_name.' ['.$file_size.']</strong><br />'.nl2br(htmlspecialchars($file_description)).'</span>
                 <span>'.$file_stamp .' | '. $file_updateuser.'</span>
             </td>
             <td>'.$opener_link.'</td>
@@ -1554,32 +1591,6 @@ if ($subpage == '')
   }
   
   echo '</table>';
-  
-  // ----- move and delete selected items
-  if($PERMALL)
-  {
-    $add_input = '';
-    $filecat = new rex_sql();
-    $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
-    if ($filecat->getRows() > 0)
-    {
-      $cats_sel->setId('rex_move_file_dest_category');
-      $add_input = '
-        <label class="rex-hide" for="rex_move_file_dest_category">'.$I18N->msg('pool_selectedmedia').'</label>
-        '. $cats_sel->get() .'
-        <input class="rex-sbmt" type="submit" value="'. $I18N->msg('pool_changecat_selectedmedia') .'" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';" />';
-    }
-    $add_input .= '<input class="rex-sbmt" type="submit" value="'.$I18N->msg('pool_delete_selectedmedia').'" onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
-    
-    echo '
-      <div class="rex-mpl-mdn-ftr">
-	  	<p>
-        <label class="rex-hide" for="checkie">'.$I18N->msg('pool_select_all').'</label>
-        <input class="rex-chckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'selectedmedia[]\',this)" />
-        '. $add_input .'
-		</p>
-      </div>';
-  }
   
   print '
     </fieldset>
