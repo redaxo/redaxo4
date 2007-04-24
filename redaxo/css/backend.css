@@ -79,6 +79,12 @@ legend.rex-hidden {
 	text-decoration:line-through;
 }
 
+.rex-txt-algn-cntr {
+	text-align:center;
+}
+.rex-strng {
+	font-weight:bold;
+}
 
 div#rex-output .rex-warning {
 	float:left;
@@ -204,9 +210,13 @@ div#rex-ftr {
 	width:770px;
 }
 
-body#rex-mpl div#rex-hdr, 
-body#rex-mpl div#rex-ftr {
+body#rex-page-medienpool div#rex-hdr, 
+body#rex-page-medienpool div#rex-ftr {
 	width:100%;
+}
+/* normalerweise vom body-Tag*/
+body#rex-page-medienpool div#rex-ftr {
+	margin-bottom:8px;
 }
 
 div#rex-ftr {
@@ -238,7 +248,7 @@ div#rex-ftr ul {
 	margin:0 5px;
 }
 
-body#rex-mpl div#rex-hdr div ul {
+body#rex-page-medienpool div#rex-hdr div ul {
 	width:100%;
 }
 
@@ -284,7 +294,7 @@ div#rex-wrapper {
 	width:770px;
 	margin-bottom:0px;						/* jan - von 10 auf 0*/
 }
-body#rex-mpl div#rex-wrapper {
+body#rex-page-medienpool div#rex-wrapper {
 	width:100%;
 }
 
@@ -443,7 +453,8 @@ body div#rex-output p label.rex-lbl-rght {
 body div#rex-output p.rex-chckbx input, 
 body div#rex-output p.rex-sbmt input, 
 body div#rex-output p input.rex-chckbx, 
-body div#rex-output p input.rex-sbmt {
+body div#rex-output p input.rex-sbmt, 
+body#rex-page-medienpool div#rex-output td input.rex-sbmt {
 	width:auto;
 }
 
@@ -902,18 +913,21 @@ div.rex-spc-stn-cnt p input.rex-sbmt {
 *******************************************************************************/
 /*	Select Categories */
 div.rex-mpl-catslct-frm {
-	margin-bottom:10px;
-	background-color:#d6e1e4;
+	margin-bottom:2px;
+	background-color:#f0efeb;
 }
 body div#rex-output div.rex-mpl-catslct-frm p {
-	background-color:#f0efeb;
+	margin-left:5%;
+	border-left:1px solid #fff;
 }
 body div#rex-output div.rex-mpl-catslct-frm p label {
 	width:17%;
+	margin-top:2px;
 	font-weight:bold;
 }
 body div#rex-output div.rex-mpl-catslct-frm p select {
-	width:60%;
+	width:58%;
+	margin-left:6px;
 }
 
 /*	Medienlist */
@@ -930,6 +944,7 @@ div.rex-mpl-mdn table.rex-table td span a {
 
 div.rex-mpl-mdn div.rex-mpl-mdn-ftr {
 	padding:5px;
+	background-color:#f0efeb;
 }
 div.rex-mpl-mdn div.rex-mpl-mdn-ftr input.rex-chckbx, 
 div.rex-mpl-mdn div.rex-mpl-mdn-ftr select {
@@ -953,7 +968,8 @@ div.rex-mpl-dtl div.rex-mpl-dtl-edt p {
 	border-bottom:1px solid #fff;
 }
 body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p label {
-	width:28%;
+	width:17%;
+	padding-right:33px;
 }
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p input, 
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p select, 
@@ -963,8 +979,11 @@ div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
 body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
 	height:90px;
 }
+body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p.rex-sbmt {
+	padding-left:17%;
+}
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p input.rex-sbmt {
-	margin-left:28%;
+	margin-left:33px;
 }
 div.rex-mpl-dtl div.rex-mpl-dtl-img {
 	float:right;
@@ -973,6 +992,7 @@ div.rex-mpl-dtl div.rex-mpl-dtl-img {
 /*	manage Medienpool Categories */
 div.rex-mpl-cat-pth {
 	background-color:#f0efeb;
+	margin-bottom:10px;
 }
 div.rex-mpl-cat-pth ul {
 	padding:5px;
@@ -984,6 +1004,9 @@ div.rex-mpl-cat-pth ul li {
 div.rex-mpl-cat {
 	background-color:#d6e1e4;
 }
+div.rex-mpl-cat input {
+	width:90%;
+}
 
 
 
@@ -991,6 +1014,7 @@ div.rex-mpl-cat {
 /*	Other - Add File, Sync */
 div.rex-mpl-oth {
 	background-color:#d6e1e4;
+	background-color:#d7d6d3;
 }
 div.rex-mpl-oth p, 
 div.rex-mpl-oth li {
