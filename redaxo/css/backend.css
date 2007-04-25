@@ -502,12 +502,17 @@ table.rex-table th {
 
 table.rex-table th.rex-icon, 
 table.rex-table td.rex-icon {
-	width:30px;
 	text-align:center;
 }
+table.rex-table th.rex-icon, 
+table.rex-table td.rex-icon, 
+table.rex-table th.rex-prio, 
+table.rex-table td.rex-prio {
+}
 
-table.rex-table th.rex-colz {
-	width:143px;
+table.rex-table th.rex-colz, 
+table.rex-table td.rex-colz {
+	width:153px;
 }
 
 
@@ -664,7 +669,13 @@ input#Position_New_Article,
 input#Position_Article, 
 input#template_id, 
 input#catname   {
-	width:98%;
+	width:97%;
+}
+input#Position_New_Category, 
+input#Position_Category, 
+input#Position_New_Article, 
+input#Position_Article {
+	width:87%;
 }
 
 
