@@ -476,7 +476,7 @@ $data_colspan = 4;
 if ($REX_USER->hasPerm('advancedMode[]'))
 {
   $add_header = '<th>'.$I18N->msg('header_id').'</th>';
-  $add_col = '<col width="5%" />';
+  $add_col = '<col width="40" />';
   $data_colspan = 5;
 }
 
@@ -503,12 +503,12 @@ echo '
       <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($I18N->msg('structure_categories_summary', $cat_name)) .'">
         <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
         <colgroup>
-          <col width="5%" />
+          <col width="40" />
           '. $add_col .'
           <col width="*" />
-          <col width="5%" />
-          <col width="39%" />
-          <col width="24%" />
+          <col width="40" />
+          <col width="315" />
+          <col width="153" />
         </colgroup>
         <thead>
           <tr>
@@ -726,7 +726,7 @@ if ($category_id > -1)
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
     $add_head = '<th>'. $I18N->msg('header_id') .'</th>';
-    $add_col  = '<col width="5%" />';
+    $add_col  = '<col width="40" />';
   }
   
   if($function == 'add_art' || $function == 'edit_art')
@@ -753,18 +753,26 @@ if ($category_id > -1)
         ORDER BY 
           prior, name');
   
+  
+  $col_status = ' width="153"';
+  // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
+  if($sql->getRows() > 0 AND $function != 'edit_art')
+  {
+	$col_status = ' width="51" span="3"';
+  }
+  
   echo '  
       <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
         <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
         <colgroup>
-          <col width="5%" />
+          <col width="40" />
           '. $add_col .'
           <col width="*" />
-          <col width="5%" />
-          <col width="13%" />
-          <col width="13%" />
-          <col width="13%" />
-          <col width="8%" span="3" />
+          <col width="40" />
+          <col width="105" />
+          <col width="105" />
+          <col width="105" />
+          <col'.$col_status.' />
 					
         </colgroup>
         <thead>
