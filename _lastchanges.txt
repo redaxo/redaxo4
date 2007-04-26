@@ -60,8 +60,6 @@ Known Bugs:
 ---------------------------------------------------------------------------------
 Changes:
 ---------------------------------------------------------------------------------
-  * Neue Extension Points
-    - ARTICLE_GENERATED, CLANG_ARTICLE_GENERATED
   * CTypes aufbereitet [kills,jan]
   	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
   	- Sind nun abhängig von einzelnen Templates
@@ -112,6 +110,7 @@ Changes:
     - rex_call_func mit allgemeineren Fehlermeldungen [kills]
     - in rex_register_extension können jetzt auch optional Parameter übergeben werden [kills]
   * rexExtensionPoint erstellt:
+    - ARTICLE_GENERATED, CLANG_ARTICLE_GENERATED [jan]
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
     - ART_META_PARAMS [kills]
