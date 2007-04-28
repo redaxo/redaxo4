@@ -99,14 +99,14 @@ echo '
       <caption class="rex-hide">'.$I18N->msg('clang_caption').'</caption>
       <colgroup>
         <col width="5%" />
-        <col width="6%" />
+        <col width="5%" />
         <col width="*" />
         <col width="40%" />
       </colgroup>
       <thead>
         <tr>
           <th class="rex-icon"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang" title="'.$I18N->msg('clang_add').'">+</a></th>
-          <th>ID</th>
+          <th class="rex-icon">ID</th>
           <th>'.$I18N->msg('clang_name').'</th>
           <th colspan="2">'.$I18N->msg('clang_function').'</th>
         </tr>
@@ -119,8 +119,8 @@ if ($func == 'addclang')
 {
   echo '
         <tr class="rex-trow-actv">
-          <td></td>
-          <td>'.$sel->get().'</td>
+          <td class="rex-icon"></td>
+          <td class="rex-icon">'.$sel->get().'</td>
           <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
           <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'" /></td>
         </tr>
@@ -134,8 +134,8 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   {
     echo '
           <tr class="rex-trow-actv">
-            <td></td>
-            <td align="center" class="grey">'.$lang_id.'</td>
+            <td class="rex-icon"></td>
+            <td class="rex-icon">'.$lang_id.'</td>
             <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
             <td>
               <input type="submit" class="rex-fsubmit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'" />
@@ -148,8 +148,8 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   {
     echo '
           <tr>
-            <td></td>
-            <td align="center">'.$lang_id.'</td>
+            <td class="rex-icon"></td>
+            <td class="rex-icon">'.$lang_id.'</td>
             <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
             <td></td>
           </tr>';

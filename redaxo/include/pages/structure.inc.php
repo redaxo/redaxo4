@@ -475,7 +475,7 @@ $add_col = '';
 $data_colspan = 4;
 if ($REX_USER->hasPerm('advancedMode[]'))
 {
-  $add_header = '<th>'.$I18N->msg('header_id').'</th>';
+  $add_header = '<th class="rex-icon">'.$I18N->msg('header_id').'</th>';
   $add_col = '<col width="40" />';
   $data_colspan = 5;
 }
@@ -538,7 +538,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
   $add_td = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
-    $add_td = '<td>-</td>';
+    $add_td = '<td class="rex-icon">-</td>';
   }
   echo '
         <tr class="rex-trow-actv">
@@ -587,7 +587,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td>'. $i_category_id .'</td>';
+        $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
       }
       
       $add_buttons = '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
@@ -613,7 +613,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td>'. $i_category_id .'</td>';
+        $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
       }
 
       $add_text = $I18N->msg('category_edit_delete');
@@ -640,7 +640,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td>'. $i_category_id .'</td>';
+        $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
       }
       
       echo '
@@ -725,7 +725,7 @@ if ($category_id > -1)
   $add_col  = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
-    $add_head = '<th>'. $I18N->msg('header_id') .'</th>';
+    $add_head = '<th class="rex-icon">'. $I18N->msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
   }
   
@@ -814,7 +814,7 @@ if ($category_id > -1)
     $add_td = '';
     if ($REX_USER->hasPerm('advancedMode[]'))
     {
-      $add_td = '<td>-</td>';
+      $add_td = '<td class="rex-icon">-</td>';
     }
     
     echo '<tr class="rex-trow-actv">
@@ -853,7 +853,7 @@ if ($category_id > -1)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td>'. $sql->getValue("id") .'</td>';
+        $add_td = '<td class="rex-icon">'. $sql->getValue("id") .'</td>';
       }
       
       $TMPL_SEL->setSelected($sql->getValue('template_id'));
@@ -878,7 +878,7 @@ if ($category_id > -1)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td>'. $sql->getValue('id') .'</td>';
+        $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
       }
   
       $article_class = '';
@@ -939,7 +939,7 @@ if ($category_id > -1)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td>'. $sql->getValue('id') .'</td>';
+        $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
       }
 
       $art_status       = '';

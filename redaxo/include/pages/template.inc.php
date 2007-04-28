@@ -209,7 +209,7 @@ if ($OUT) {
     	<caption class="rex-hide">' . $I18N->msg("header_template_caption") . '</caption>
     	<colgroup>
         <col width="5%" />
-        <col width="6%" />
+        <col width="5%" />
         <col width="*" />
         <col width="7%" />
         <col width="40%" />
@@ -217,7 +217,7 @@ if ($OUT) {
     	<thead>
         <tr>
           <th class="rex-icon"><a href="index.php?page=template&amp;function=add"><img src="pics/template_plus.gif" width="16" height="16" alt="' . $I18N->msg("create_template") . '" title="' . $I18N->msg("create_template") . '" /></a></th>
-          <th>' . $I18N->msg("header_template_id") . '</th>
+          <th class="rex-icon">ID</th>
           <th>' . $I18N->msg("header_template_description") . '</th>
           <th>' . $I18N->msg("header_template_active") . '</th>
           <th >' . $I18N->msg("header_template_functions") . '</th>
@@ -234,7 +234,7 @@ if ($OUT) {
     echo '
           <tr>
             <td class="rex-icon"><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit"><img src="pics/template.gif" alt="' . htmlspecialchars($sql->getValue('name')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '" width="16" height="16" /></a></td>
-            <td>' . $sql->getValue('id') . '</td>
+            <td class="rex-icon">' . $sql->getValue('id') . '</td>
             <td><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit">' . htmlspecialchars($sql->getValue('name')) . '<span class="rex-hide"> [' . $I18N->msg('header_template_id') . ' ' . $sql->getValue('id') . ']</span></a></td>
             <td>' . $active . '</td>
             <td><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('delete') . ' ?\')">' . $I18N->msg('delete_template') . '</a></td>

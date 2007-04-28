@@ -789,7 +789,7 @@ if (isset($SHOW) and $SHOW)
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
     $add_col = '<col width="5%" />'; 
-    $add_th = '<th>ID</th>';
+    $add_th = '<th class="rex-icon">ID</th>';
   }
 
   echo '
@@ -835,7 +835,7 @@ if (isset($SHOW) and $SHOW)
     $add_td = '';        
     if ($REX_USER->hasPerm('advancedMode[]'))
     {
-      $add_td = '<td>'.$sql->getValue('user_id').'</td>';
+      $add_td = '<td class="rex-icon">'.$sql->getValue('user_id').'</td>';
     }
     
     $delete_func = $I18N->msg("user_delete");
