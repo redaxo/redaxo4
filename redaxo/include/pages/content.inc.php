@@ -309,7 +309,7 @@ if ($article->getRows() == 1)
             // ----- / POST SAVE ACTION
 
             // Update Button wurde gedrückt?
-            if (rex_post('btn_update', 'string'))
+            if (rex_post('btn_save', 'string'))
             {
               $function = '';
             }
