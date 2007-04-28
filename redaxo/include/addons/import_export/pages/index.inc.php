@@ -269,9 +269,10 @@ if ($msg != '')
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
+    $filesize = OOMedia::_getFormattedSize(filesize($filepath));
     
     echo '<tr>
-            <td>'. $file .'</td>
+            <td>'. $file .' <br />['.$filesize.']</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_db_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
             <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>
@@ -320,9 +321,10 @@ if ($msg != '')
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
+    $filesize = OOMedia::_getFormattedSize(filesize($filepath));
     
     echo '<tr>
-            <td>'. $file .'</td>
+            <td>'. $file .'<br />['.$filesize.']</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page='. $page .'&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_file_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
             <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>
