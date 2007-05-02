@@ -40,12 +40,12 @@ function rex_title($head, $subtitle = '')
   }
   else
   {
-	  $subtitle = rex_get_subtitle( $subtitle);
+	  $subtitle = '<div class="rex-title-row">'.rex_get_subtitle( $subtitle).'</div>';
   }
   
   print '  
 	<div id="rex-title">
-  		<h1>'.$head.'</h1>
+  		<div class="rex-title-row"><h1>'.$head.'</h1></div>
   		'.$subtitle.'
 	</div>
 	
