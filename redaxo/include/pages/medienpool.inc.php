@@ -492,8 +492,8 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
                  <input type="text" size="20" id="fcopyright" name="fcopyright" value="'.(stripslashes($fcopyright)).'" />
                </p>
                '. $add_file .'
-               <p>
-                 <input type="submit" class="rex-sbmt" name="save" value="'.$button_title.'" />
+               <p class="rex-sbmt">
+                 <input type="submit" name="save" value="'.$button_title.'" />
                  '. $add_submit .'
                </p>
            </fieldset>
@@ -632,10 +632,10 @@ if ($PERMALL && $subpage == "categories")
   echo '<table class="rex-table" summary="'.htmlspecialchars($I18N->msg('pool_kat_summary')).'">
           <caption class="rex-hide">'.$I18N->msg('pool_kat_caption').'</caption>
           <colgroup>
-            <col width="5%" />
-            <col width="5%" />
+            <col width="40" />
+            <col width="40" />
             <col width="*" />
-            <col width="30%" />
+            <col width="153" />
           </colgroup>
           <thead>
             <tr>
@@ -1020,11 +1020,11 @@ if ($subpage == "detail")
       }
             
       $add_image = '<div class="rex-mpl-dtl-img">
-	  		  <p>
+	  		  		<p>
 						<img src="'. $imgn .'" alt="'. $fdescription .'" title="'. $fdescription .'" />
 					</p>
 					</div>';
-	   $style_width = ' style="width:59.9%; border-right:1px solid #fff;"';	
+	   $style_width = ' style="width:64.9%; border-right:1px solid #fff;"';	
     }
       
     if ($msg != '')
@@ -1114,12 +1114,12 @@ if ($subpage == "detail")
                       	<span id="fupdate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
                     	</p>
                     	<p>
-                      	<label for="fcreate">'. $I18N->msg('pool_last_update') .'</label>
+                      	<label for="fcreate">'. $I18N->msg('pool_created') .'</label>
                      		<span id="fcreate">'. strftime($I18N->msg('datetimeformat'),$gf->getValue("createdate")).' ['.$gf->getValue("createuser") .']</span>
                     	</p>
                     	<p>
                       		<label for="file_new">'. $I18N->msg('pool_file_exchange') .'</label>
-                      		<input type="file" id="file_new" name="file_new" size="30" />
+                      		<input type="file" id="file_new" name="file_new" size="24" />
                     	</p>
                    	 	<p class="rex-sbmt">
                       		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_update') .'" name="btn_update" />
@@ -1280,11 +1280,10 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
       echo '</li>';
     }
     
-    echo '
-		<li>
-			<input class="rex-chckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'sync_files[]\',this)"/>
-			<label for="checkie">'. $I18N->msg('pool_select_all') .'</label>
-		</li>';
+    echo '<li>';
+    echo '<input class="rex-chckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'sync_files[]\',this)" />';
+    echo '<label for="checkie">'. $I18N->msg('pool_select_all') .'</label>';
+    echo '</li>';
 		
     echo '</ul>';
     
@@ -1403,7 +1402,6 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 if ($subpage == '')
 {
   $cats_sel = new rex_select;
-  $cats_sel->setStyle("width:150px;");
   $cats_sel->setSize(1);
   $cats_sel->setName("rex_file_category");
   $cats_sel->setId("rex_file_category");
@@ -1441,10 +1439,10 @@ if ($subpage == '')
             <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('pool_file_summary', $rex_file_category_name)) .'">
               <caption class="rex-hide">'. $I18N->msg('pool_file_caption', $rex_file_category_name) .'</caption>
               <colgroup>
-                <col width="5%" />
-                <col width="17%" />
+                <col width="40" />
+                <col width="110" />
                 <col width="*" />
-                <col width="23%" />
+                <col width="153" />
               </colgroup>
               <thead>
                 <tr>
@@ -1568,7 +1566,7 @@ if ($subpage == '')
     
     echo '<tr>
             '. $add_td .'
-            <td><a href="'.$ilink.'">'.$thumbnail.'</a></td>
+            <td class="rex-thumbnail"><a href="'.$ilink.'">'.$thumbnail.'</a></td>
             <td>
                 <span><a href="'.$ilink.'">'.$file_title.'</a></span>
                 <span><strong>'.$file_name.' ['.$file_size.']</strong><br />'.nl2br(htmlspecialchars($file_description)).'</span>
