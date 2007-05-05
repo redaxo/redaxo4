@@ -25,4 +25,5 @@ INSERT INTO rex_62_type VALUES (3, 'select', 'varchar', 255);
 INSERT INTO rex_62_type VALUES (4, 'radio', 'varchar', 255);
 INSERT INTO rex_62_type VALUES (5, 'checkbox', 'varchar', 255);
 INSERT INTO rex_62_type VALUES (6, 'REX_MEDIA_BUTTON', 'varchar', 255);
+INSERT INTO rex_62_type VALUES (7, 'REX_MEDIALIST_BUTTON', 'varchar', 255);
 INSERT INTO rex_62_type VALUES (8, 'REX_LINK_BUTTON', 'varchar', 255);
