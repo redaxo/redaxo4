@@ -185,9 +185,14 @@ function deleteREXMedia(id)
     a.obj.value = "";
 }
 
-function addREXMedia(id,cat_id)
+function addREXMedia(id,params)
 {
-  newPoolWindow('index.php?page=medienpool&action=media_upload&subpage=add_file&cat_id='+cat_id+'&opener_input_field=REX_MEDIA_'+id);
+	if (typeof(params) == 'undefined')
+	{
+		params = '';	
+	}
+	
+  newPoolWindow('index.php?page=medienpool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIA_'+id+params);
 }
 
 function openLinkMap(id, param)
@@ -207,17 +212,19 @@ function setValue(id,value)
 
 function deleteREXLink(id)
 {
-        var a = new getObj("LINK["+id+"]");
-        a.obj.value = "";
-        a = new getObj("LINK_NAME["+id+"]");
-        a.obj.value = "";
+        var link;
+        link = new getObj("LINK_"+id);
+        link.obj.value = "";
+        link = new getObj("LINK_"+id+"_NAME");
+        link.obj.value = "";
 }
 
 function openREXMedialist(id)
 {
 	var medialist = 'REX_MEDIALIST_'+id;
-	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
-	var source = document.getElementById(mediaselect);
+	var needle = new getObj(medialist);
+	
+	var source = needle.obj;
 	var sourcelength = source.options.length;
 	var param= "";
 	for (ii = 0; ii < sourcelength; ii++) {
@@ -229,21 +236,22 @@ function openREXMedialist(id)
   newPoolWindow('index.php?page=medienpool'+ param +'&opener_input_field='+ medialist);
 }
 
-function addREXMedialist(id,file_id)
+function addREXMedialist(id,params)
 {
-	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
-	var source = document.getElementById(mediaselect);
-	var sourcelength = source.options.length;
+	if (typeof(params) == 'undefined')
+	{
+		params = '';	
+	}
 	
-	NewOption = new Option(file_id,file_id,true,true);
-	source.options[sourcelength] = NewOption;
-	writeREXMedialist(id);
+  newPoolWindow('index.php?page=medienpool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIALIST_'+id+params);
 }
 
 function deleteREXMedialist(id)
 {
-	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
-	var source = document.getElementById(mediaselect);
+	var medialist = 'REX_MEDIALIST_'+id;
+	var needle = new getObj(medialist);
+	
+	var source = needle.obj;
 	var sourcelength = source.options.length;
 	var position = "";
 	for (ii = 0; ii < sourcelength; ii++) {
@@ -252,7 +260,6 @@ function deleteREXMedialist(id)
 		}
 	}
 	source.options[position] = null;
-	writeREXMedialist(id);
 }
 
 function moveREXMedialist(id,direction)
@@ -262,8 +269,9 @@ function moveREXMedialist(id,direction)
 	// move up
 	// move down	
 	
-	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
-	var source = document.getElementById(mediaselect);
+	var medialist = 'REX_MEDIALIST_'+id;
+	var needle = new getObj(medialist);
+	var source = needle.obj;
 	var sourcelength = source.options.length;
 	
 	var elements = new Array();
@@ -339,27 +347,6 @@ function moveREXMedialist(id,direction)
 		source.options[ii] = new Option(elements[ii]['title'], elements[ii]['value']);
 		source.options[ii].selected = was_selected[ii];
 	}
-
-	writeREXMedialist(id);
-
-}
-
-function writeREXMedialist(id)
-{
-	var medialist = 'REX_MEDIALIST_'+id;
-	var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
-	
-	var source = document.getElementById(mediaselect);
-	var sourcelength = source.options.length;
-
-	var target = document.getElementById(medialist);
-
-	target.value = "";
-	for (i=0; i < sourcelength; i++) {
-		target.value += (source[i].value);
-		if (sourcelength > (i+1))  target.value += ',';
-	}
-
 }
 
 function moveItem(arr, from, to)

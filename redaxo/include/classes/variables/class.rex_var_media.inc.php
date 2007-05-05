@@ -238,9 +238,9 @@ class rex_var_media extends rex_var
 
     $media = '
     <input type="text" size="30" name="MEDIA[' . $id . ']" value="REX_MEDIA[' . $id . ']" id="REX_MEDIA_' . $id . '" readonly="readonly" />
-    <a href="#" onclick="javascript:openREXMedia(' . $id . ',\'' . $open_params . '\');"'. rex_tabindex() .'><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
-    <a href="#" onclick="javascript:addREXMedia(' . $id . ');"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media" /></a>
-    <a href="#" onclick="javascript:deleteREXMedia(' . $id . ');"'. rex_tabindex() .'><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
+    <a href="#" onclick="openREXMedia(' . $id . ',\'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
+    <a href="#" onclick="addREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media" /></a>
+    <a href="#" onclick="deleteREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
     ';
 
     return $media;
@@ -279,13 +279,13 @@ class rex_var_media extends rex_var
     <select name="MEDIALIST[' . $id . ']" id="REX_MEDIALIST_' . $id . '" size="8"'. rex_tabindex() .'>
       ' . $options . '
     </select>
-    <a href="javascript:moveREXMedialist(' . $id . ',\'top\');"'. rex_tabindex() .'><img src="pics/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
-    <a href="javascript:moveREXMedialist(' . $id . ',\'up\');"'. rex_tabindex() .'><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
-    <a href="javascript:moveREXMedialist(' . $id . ',\'down\');"'. rex_tabindex() .'><img src="pics/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
-    <a href="javascript:moveREXMedialist(' . $id . ',\'bottom\');"'. rex_tabindex() .'><img src="pics/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
-    <a href="javascript:openREXMedialist(' . $id . ');"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
-    <a href="javascript:deleteREXMedialist(' . $id . ');"'. rex_tabindex() .'><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>';
-    // <a href="javascript:addREXMedialist('. $id .');"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media"></a>';
+    <a href="#" onclick="moveREXMedialist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="pics/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
+    <a href="#" onclick="moveREXMedialist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
+    <a href="#" onclick="moveREXMedialist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="pics/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
+    <a href="#" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="pics/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
+    <a href="#" onclick="openREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
+    <a href="#" onclick="addREXMedialist('. $id .');return false;"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media"></a>
+    <a href="#" onclick="deleteREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>';
 
     return $media;
   }
