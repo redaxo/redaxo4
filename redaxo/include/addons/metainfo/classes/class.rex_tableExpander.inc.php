@@ -116,6 +116,8 @@ class rex_a62_tableExpander extends rex_form
 			// TEXT Spalten dürfen in MySQL keine Defaultwerte haben
 			if($fieldDbType == 'text')
 			  $fieldDefault = null;
+			  
+			rex_set_session('A62_MESSAGE', $I18N_META_INFOS->msg('field_update_notice'));
 			
 			if($this->isEditMode())
 			{
@@ -128,7 +130,7 @@ class rex_a62_tableExpander extends rex_form
 				if($this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault))
 				{
 					// Alles ok, Meldung zurückgeben
-					return $I18N_META_INFOS->msg('field_successfull_saved', $I18N->msg('regenerate_article'));
+					return $I18N_META_INFOS->msg('field_successfull_saved');
 				}
 			}
 		}

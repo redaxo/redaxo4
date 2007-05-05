@@ -28,6 +28,12 @@ $subpages = array(
 
 rex_title('Metainformationen erweitern', $subpages);
 
+$session_msg = rex_session('A62_MESSAGE', 'string');
+if($session_msg != '')
+{
+	echo '<p class="rex-warning"><span>'. $session_msg .'</span></p>';
+}
+
 // Include Current Page
 switch($subpage)
 {

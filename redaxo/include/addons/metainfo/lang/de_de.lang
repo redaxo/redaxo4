@@ -12,4 +12,5 @@ field_label_nullable = Pflichtfeld
 field_label_params = Parameter
 
 field_error_name = Bitte Spaltennamen eingeben!
-field_successfull_saved = Daten erfolgreich gespeichert! Nach ändern der Metafelder muss der Artikelcache neu generiert werden (Specials->{0})!
+field_successfull_saved = Daten erfolgreich gespeichert!
+field_update_notice = Nach Abschluss aller Änderungen muss der <a href="?page=specials&func=generate">Cache neu generiert</a> werden!

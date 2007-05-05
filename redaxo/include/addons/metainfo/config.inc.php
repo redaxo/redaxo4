@@ -21,8 +21,11 @@ $REX['PERM'][] = 'metainfo[]';
 
 if($REX['REDAXO'])
 {
+	// Include Extensions
 	if(isset($page))
 	{
+	  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_common.inc.php');
+		
 		if($page == 'content' && isset($mode) && $mode =='meta')
 		{
 		  include($REX['INCLUDE_PATH']. '/addons/'. $mypage .'/extensions/extension_art_metainfo.inc.php');
