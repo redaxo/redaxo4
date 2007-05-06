@@ -52,10 +52,10 @@ if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 
 
 // *************************************** CAT ID IN SESSION SPEICHERN
-$rex_file_category = rex_request('rex_file_category', 'int', null);
-if($rex_file_category === null && ($sess_rex_file_category = rex_session('media[rex_file_category]', 'int')) != 0)
+$rex_file_category = rex_request('rex_file_category', 'int', -1);
+if($rex_file_category == -1)
 {
-  $rex_file_category = $sess_rex_file_category;
+  $rex_file_category = rex_session('media[rex_file_category]', 'int');
 }
 
 $gc = new rex_sql;
@@ -64,8 +64,7 @@ if ($gc->getRows() != 1)
 {
   $rex_file_category = 0;
   $rex_file_category_name = $I18N->msg('pool_kats_no');
-}
-else
+}else
 {
   $rex_file_category_name = $gc->getValue('name');
 }
