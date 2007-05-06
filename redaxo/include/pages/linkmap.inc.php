@@ -23,26 +23,6 @@ function rex_linkmap_backlink($id, $name)
   return 'javascript:insertLink(\'redaxo://'.$id.'\',\''.$name.'\');';
 }
 
-function rex_linkmap_tree($tree, $current_category_id, $GlobalParams)
-{
-	if($tree == null) return;
-	
-	$cat = array_shift($tree);
-	
-  $li = '';
-  foreach($cat->getChildren() as $child)
-  {
-		$li .= rex_linkmap_format_li($child, $current_category_id, $GlobalParams, ' class="rex-map-startpage"');
-		// Naechste Levels aufklappen
-		if(isset($tree[0]) && OOCategory::isValid($tree[0]) && $tree[0]->getId() == $child->getId())
-		{
-			rex_linkmap_tree($tree, $current_category_id, $GlobalParams);
-		}
-		$li .= '</li>';
-  }
-  if ($li != '') echo '<ul>'.$li.'</ul>';
-}
-
 function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '')
 {
 	global $REX_USER;
@@ -59,6 +39,58 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 	
 	return '<li'. $liAttr .'><a'. $linkAttr .'>'. $label .'</a>';
 }
+/*
+function rex_linkmap_tree($tree, $current_category_id, $GlobalParams)
+{
+  if($tree == null) return;
+  if ($cat = array_shift($tree))
+  {
+    $li = '';
+    foreach($cat->getChildren() as $child)
+    {
+      $li .= rex_linkmap_format_li($child, $current_category_id, $GlobalParams, ' class="rex-map-startpage"');
+      // Naechste Levels aufklappen
+      if(isset($tree[0]) && OOCategory::isValid($tree[0]) && $tree[0]->getId() == $child->getId())
+      {
+        	rex_linkmap_tree($tree, $current_category_id, $GlobalParams);
+      }
+      $li .= '</li>';
+    }
+    if ($li != '') echo '<ul>'.$li.'</ul>';
+  }
+}
+*/
+
+
+function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
+{
+	$ul = '';
+	if(is_array($children))
+	{
+		$li = '';
+		foreach($children as $cat){
+			$cat_children = $cat->getChildren();
+			$cat_id = $cat->getId();
+			$liclasses = '';
+			$sub_li = '';
+			if (count($cat_children)>0) $liclasses .= ' rex-children ';
+			$liclasses .= $cat->isOnline() ? 'rex-online' : 'rex-offine';
+			if (is_array($tree) && in_array($cat_id,$tree))
+			{
+				$sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $GlobalParams);
+				$liclasses .= ' rex-active ';
+			}
+			$li .= '<li class="'.$liclasses.'">';
+			$li .= '<a href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$cat->getName().'</a>';
+			$li .= ' '. $liclasses ;
+			$li .= $sub_li;
+			$li .= '</li>';
+		}
+		if ($li!='') $ul = '<ul>'.$li.'</ul>';
+	}
+	return $ul;
+}
+
 
 // ------------------------ Ouput
 
@@ -131,26 +163,41 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
   </form>
 </div>
 
+<div class="rex-linkmap-path">
+<ul>
+<?php
+
+$category = OOCategory::getCategoryById($category_id);
+$link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
+echo '<li>'.$I18N->msg('path').' </li>';
+echo '<li>: <a href="'.$link.'">Home</a> </li>';
+
+$tree = array();
+
+if ($category = OOCategory::getCategoryById($category_id))
+{
+  $treee = $category->getParentTree();
+  foreach($treee as $cat)
+  {
+    $tree[] = $cat->getId();
+    $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
+    echo '<li>: <a href="'. $link .'">'.$cat->getName().'</a></li>';
+  }
+}
+
+?>
+</ul>
+</div>
+
+
+
 <div id="rex-linkmap">
   <div class="rex-map-categories">
     <h1>Kategorien</h1>
   	<ul>
     <?php
-      $roots = OOCategory::getRootCategories();
-      $category = OOCategory::getCategoryById($category_id);
-      $tree = $category->getParentTree();
-      
-    	foreach($roots as $root)
-    	{
-    		echo rex_linkmap_format_li($root, $category_id, $GlobalParams, ' class="rex-map-startpage"');
-    		
-    		if($root->getId() == $tree[0]->getId())
-    		{
-    			rex_linkmap_tree($tree, $category_id, $GlobalParams);
-    		}
-    		
-    		echo '</li>';
-    	}
+    $roots = OOCategory::getRootCategories();
+    echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
     ?>
   	</ul>
   </div>
@@ -158,15 +205,17 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
     <h1>Artikel</h1>
   	<ul>
     <?php
+    if ($category)
+    {
       $articles = $category->getArticles();
-      
       foreach($articles as $article)
-    	{
+    	  {
     		$liClass = $article->isStartpage() ? ' class="rex-map-startpage"' : '';
     		$url = rex_linkmap_backlink($article->getId(), $article->getName());
     		
     		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
     		echo '</li>';
+    	  }
     	}
     ?>
   	</ul>
