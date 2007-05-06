@@ -123,7 +123,7 @@ class thumbnail
 
     if($show){
       header('Content-Type: image/'.$this->img['format']);
-      header('HTTP/1.1 304 Not Modified');
+      // header('HTTP/1.1 304 Not Modified');
       header('Last-Modified: '.gmdate('D, d M Y H:i:s'));
       readfile($save);
     }
