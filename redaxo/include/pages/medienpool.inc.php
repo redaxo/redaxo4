@@ -997,6 +997,10 @@ if ($subpage == "detail")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
+      $size = getimagesize($REX['HTDOCS_PATH'].'/files/'.$fname);
+      $fwidth = $size[0];
+      $fheight = $size[1];
+
       if ($fwidth >199) $rfwidth = 200;
       else $rfwidth = $fwidth;
     }
@@ -1016,12 +1020,7 @@ if ($subpage == "detail")
       if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
       {
         $imgn = 'pics/mime_icons/mime-error.gif';
-      }
-//      elseif ($thumbs && $thumbsresize && $ffiletype == 'image/gif' && $rfwidth>199 && !function_exists('imageGIF')) 
-//      {
-//        $imgn = '../files/'. $fname .'" width="200';
-//      }
-      else if ($thumbs && $thumbsresize && $rfwidth>199) 
+      }else if ($thumbs && $thumbsresize && $rfwidth>199) 
       {
         $imgn = '../index.php?rex_resize=200w__'. $fname;
       }
