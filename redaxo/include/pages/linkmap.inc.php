@@ -39,28 +39,6 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 	
 	return '<li'. $liAttr .'><a'. $linkAttr .'>'. $label .'</a>';
 }
-/*
-function rex_linkmap_tree($tree, $current_category_id, $GlobalParams)
-{
-  if($tree == null) return;
-  if ($cat = array_shift($tree))
-  {
-    $li = '';
-    foreach($cat->getChildren() as $child)
-    {
-      $li .= rex_linkmap_format_li($child, $current_category_id, $GlobalParams, ' class="rex-map-startpage"');
-      // Naechste Levels aufklappen
-      if(isset($tree[0]) && OOCategory::isValid($tree[0]) && $tree[0]->getId() == $child->getId())
-      {
-        	rex_linkmap_tree($tree, $current_category_id, $GlobalParams);
-      }
-      $li .= '</li>';
-    }
-    if ($li != '') echo '<ul>'.$li.'</ul>';
-  }
-}
-*/
-
 
 function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 {
