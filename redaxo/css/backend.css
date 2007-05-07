@@ -29,7 +29,8 @@ a {
 a:hover {
 	text-decoration:underline;
 }
-body div#rex-output a.rex-active {
+body div#rex-output a.rex-active, 
+body a.rex-subpage-active {
 	color:#000;
 }
 
@@ -830,7 +831,7 @@ div.rex-tmp-editmode p input.rex-sbmt {
 /*	Module/Action - Edit-/Addmode
 *******************************************************************************/
 div.rex-mdl-editmode {
-	clear:both;								/* jan - clear */
+	clear:both;
 	background-color:#d7d6d3;
 	background-color:#d6e1e4;
 }
@@ -1122,11 +1123,14 @@ div.rex-lmp-arts {
 div#rex-lmp ul {
 	margin:10px 5px 10px 5px;
 }
-div#rex-lmp ul ul {
+div#rex-lmp ul li ul {
 	margin:0 0 0 0px;
 	background-image:url(../pics/file_vert.gif);
 	background-position:2px 0px;
 	background-repeat: repeat-y;
+}
+div#rex-lmp ul li ul.rex-children-one {
+	background:none;
 }
 div#rex-lmp ul li {
 }
@@ -1159,4 +1163,71 @@ div#rex-lmp div.rex-lmp-arts ul li a {
 }
 div#rex-lmp div.rex-lmp-arts ul li.rex-lmp-startpage a {
 	background-image:url(../pics/liste.gif);
+}
+
+
+
+
+
+/*	Addons
+*******************************************************************************/
+div.rex-addon-output {
+	clear:both;
+	background-color:#f0efeb;
+}
+div.rex-addon-output h2 {
+	padding:5px;
+	background-color:#d7d6d3;
+	border-bottom:1px solid #fff;
+}
+div.rex-addon-output div.rex-addon-content {
+	padding:5px;
+}
+div.rex-addon-output h3, 
+div.rex-addon-output p, 
+div.rex-addon-output code {
+	margin-bottom:1em;
+}
+div.rex-addon-output h3 {
+	font-size:1em;
+	font-weight:bold;
+}
+div.rex-addon-output code {
+	display:block;
+	padding:20px 10px;
+	border:1px solid #f2353a;
+	background-color:#faf9f5;
+	font-size:1.6em;
+}
+
+/*	Forms */
+/*
+div.rex-addon-content fieldset {
+	padding:20px 10px;
+	border:1px solid #f2353a;
+}
+*/
+div.rex-addon-editmode {
+	clear:both;
+	background-color:#d6e1e4;2
+	background-color:#d7d6d3;
+}
+div.rex-addon-editmode p {
+	padding:5px;
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+/* general define */
+div.rex-addon-editmode p label {
+}
+div.rex-addon-editmode p input, 
+div.rex-addon-editmode p select, 
+div.rex-addon-editmode p textarea {
+	width:500px;
+}
+div.rex-addon-editmode p textarea {
+	height:150px;
+}
+div.rex-addon-editmode p input.rex-sbmt {
+	margin-left:150px;
 }
