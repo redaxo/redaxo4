@@ -736,14 +736,16 @@ if ($category_id > -1)
       <fieldset>
         <legend><span class="rex-hide">'.$I18N->msg('article_add') .'</span></legend>
         <input type="hidden" name="page" value="structure" />
-        <input type="hidden" name="category_id" value="'. $category_id .'" />
-        <input type="hidden" name="article_id" value="'. $article_id .'" />
+        <input type="hidden" name="category_id" value="'. $category_id .'" />';
+    if (isset($article_id)) echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
+    echo '
         <input type="hidden" name="clang" value="'. $clang .'" />';
   }
   
   // READ DATA
   
   $sql = new rex_sql;
+  $sql->debugsql = 0;
   $sql->setQuery('SELECT * 
         FROM 
           '.$REX['TABLE_PREFIX'].'article 
@@ -758,7 +760,7 @@ if ($category_id > -1)
   // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 AND $function != 'edit_art')
   {
-	$col_status = ' width="51" span="3"';
+	  $col_status = ' width="51" span="3"';
   }
   
   echo '  
@@ -802,12 +804,12 @@ if ($category_id > -1)
   {
     if (empty($template_id))
     {
-      $sql = new rex_sql;
-      // $sql->debugsql = true;
-      $sql->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
-      if ($sql->getRows() == 1)
+      $sql2 = new rex_sql;
+      // $sql2->debugsql = true;
+      $sql2->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
+      if ($sql2->getRows() == 1)
       {
-        $TMPL_SEL->setSelected($sql->getValue('template_id'));
+        $TMPL_SEL->setSelected($sql2->getValue('template_id'));
       }
     }
     
