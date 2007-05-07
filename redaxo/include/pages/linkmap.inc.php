@@ -50,17 +50,20 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			$cat_children = $cat->getChildren();
 			$cat_id = $cat->getId();
 			$liclasses = '';
+			$linkclasses = '';
 			$sub_li = '';
 			if (count($cat_children)>0) $liclasses .= ' rex-children ';
-			$liclasses .= $cat->isOnline() ? 'rex-online' : 'rex-offline';
+			if (next($children)== null ) $liclasses .= ' rex-children-last ';
+			$linkclasses .= $cat->isOnline() ? ' rex-online ' : ' rex-offline ';
 			if (is_array($tree) && in_array($cat_id,$tree))
 			{
 				$sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $GlobalParams);
-				$liclasses .= ' rex-active ';
+				$linkclasses .= ' rex-active ';
 			}
+			
 			$li .= '<li class="'.$liclasses.'">';
-			$li .= '<a href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$cat->getName().'</a>';
-			$li .= ' '. $liclasses ;
+			$li .= '<a class="'.$linkclasses.'" href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$cat->getName().'</a>';
+			$li .= ' '. $liclasses . $linkclasses;
 			$li .= $sub_li;
 			$li .= '</li>';
 		}
