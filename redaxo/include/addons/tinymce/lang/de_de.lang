@@ -1,0 +1,11 @@
+title = TinyMCE
+website = Webseite
+documentation = Dokumentation
+list_of_plugins = Pluginliste
+
+install_extensions = Erweiterungen installieren
+
+moduleinput_simple = Moduleingabe Einfach
+moduleinput_extends = Moduleingabe Erweitert (mehrere Editoren in einem Modul)
+
+moduleoutput = Modulausgabe (Alle);

@@ -17,13 +17,13 @@ include $REX['INCLUDE_PATH']."/layout/top.php";
 
 $subline = '
 <ul>
-  <li><a href="http://tinymce.moxiecode.com" target="_blank">Webseite</a></li>
-  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/index.html" target="_blank">Dokumentation</a></li>
-  <li>&nbsp;<a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" target="_blank">Plugin Liste</a></li>
+  <li><a href="http://tinymce.moxiecode.com" target="_blank">'.$I18N_A52->msg('website').'</a> | </li>
+  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/index.html" target="_blank">'.$I18N_A52->msg('documentation').'</a> | </li>
+  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" target="_blank">'.$I18N_A52->msg('list_of_plugins').'</a></li>
 </ul>
 ';
 
-rex_title('TinyMCE', $subline);
+rex_title($I18N_A52->msg('title'), $subline);
 
 $install = rex_get('install', 'string');
 if($install != '')
@@ -45,70 +45,105 @@ if($install != '')
   }
 }
 
+
+$mdl_1 =<<<EOD
+<?php
+if (REX_IS_VALUE[1]) 
+{
+  \$editor=new tiny2editor();
+  \$editor->id=1;
+  \$editor->content="REX_VALUE[1]";
+  \$editor->show();
+}
 ?>
-
-<h2>Erweiterungen installieren</h2>
-
-<p>
-	<a href="?page=tinymce&amp;install=compressor">GZip Compressor</a>
-	<br />
-	<a href="?page=tinymce&amp;install=spellchecker">Spellchecker</a>
-</p>
-
-<h2>Moduleingabe Einfach</h2>
-
-<pre>
-&lt;?php
-$editor=new tiny2editor();
-$editor->id=1;
-$editor->content="REX_VALUE[1]";
-$editor->show();
-?&gt;
-</pre>
-
-<h2>Moduleingabe Erweitert (mehrere Editoren in einem Modul)</h2>
-
-<pre>
-&lt;?php
-$editor1=new tiny2editor();
-$editor1->id=1;
-$editor1->content="REX_VALUE[1]";
-$editor1->editorCSS = "../files/tinymce/content.css";
-$editor1->disable="justifyleft,justifycenter,justifyright,justifyfull";
-$editor1->buttons3="tablecontrols,separator,search,replace,separator,print";
-$editor1->add_validhtml="img[myspecialtag]";
-$editor1->show();
-
-$editor2=new tiny2editor();
-$editor2->id=2;
-$editor2->content="REX_VALUE[2]";
-$editor2->show();
-?&gt;
-</pre>
-
-<h2>Modulausgabe (Alle)</h2>
-
-<pre>
-&lt;div class="section"&gt;
-&lt;?php
-$content =&lt;&lt;&lt;EOD
-REX_HTML_VALUE[1]
 EOD;
 
-if ($REX['REDAXO']) {
-  $content=str_replace('src="files/','src="../files/',$content);
-  echo '&lt;link rel="stylesheet" type="text/css" href="../files/tinymce/content.css" /&gt;';
-}
-echo $content;
-?&gt;
-&lt;/div&gt;
-</pre>
 
-<p>
-	<a href="http://www.gn2-netwerk.de">GN2-Netwerk</a>
-	<br />
-	<a href="http://www.public-4u.de">Public-4u e.K.</a>
-</p>
+
+$mdl_2 =<<<EOD
+<?php
+if (REX_IS_VALUE[1]) 
+{
+  \$editor1=new tiny2editor();
+  \$editor1->id=1;
+  \$editor1->content="REX_VALUE[1]";
+  \$editor1->editorCSS = "../files/tinymce/content.css";
+  \$editor1->disable="justifyleft,justifycenter,justifyright,justifyfull";
+  \$editor1->buttons3="tablecontrols,separator,search,replace,separator,print";
+  \$editor1->add_validhtml="img[myspecialtag]";
+  \$editor1->show();
+
+  \$editor2=new tiny2editor();
+  \$editor2->id=2;
+  \$editor2->content="REX_VALUE[2]";
+  \$editor2->show();
+
+}
+?>
+EOD;
+
+
+
+$mdl_3 =<<<EOD
+<?php
+if (REX_IS_VALUE[1]) 
+{
+  echo '<div class="section">';
+  \$content =<<<EOD
+  REX_HTML_VALUE[1]
+  EOD;
+  
+  if (\$REX['REDAXO'])
+  {
+    \$content=str_replace('src="files/','src="../files/',\$content);
+    echo '<link rel="stylesheet" type="text/css" href="../files/tinymce/content.css" />';
+  }
+  echo \$content;
+  echo '</div>';
+}
+?>
+EOD;
+
+
+?>
+
+<div class="rex-addon-output">
+	<h2><?php echo $I18N_A52->msg('install_extensions'); ?></h2>
+
+	<div class="rex-addon-content">
+		
+		<p>
+			<a href="?page=tinymce&amp;install=compressor">GZip Compressor</a>
+			<br />
+			<a href="?page=tinymce&amp;install=spellchecker">Spellchecker</a>
+		</p>
+	</div>
+	
+	<h2><?php echo $I18N_A52->msg('moduleinput_simple'); ?></h2>
+
+	<div class="rex-addon-content">
+		<?php highlight_string($mdl_1); ?>
+	</div>
+
+<h2><?php echo $I18N_A52->msg('moduleinput_extends'); ?></h2>
+
+	<div class="rex-addon-content">
+		<?php highlight_string($mdl_2); ?>
+	</div>
+
+<h2><?php echo $I18N_A52->msg('moduleoutput'); ?></h2>
+
+	<div class="rex-addon-content">
+		<?php highlight_string($mdl_3); ?>
+	</div>
+
+	<div class="rex-addon-content">
+		<p>
+			<a href="http://www.gn2-netwerk.de">GN2-Netwerk</a>
+			<br />
+			<a href="http://www.public-4u.de">Public-4u e.K.</a>
+		</p>
+	</div>
 
 <?php
 

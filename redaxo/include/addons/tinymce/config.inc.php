@@ -20,6 +20,8 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = "TinyMCE";
 $REX['ADDON']['perm'][$mypage] = "tiny_mce[]";
 
+$I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/'); 
+
 // Include tinylib
 if($REX['REDAXO'])
 {
