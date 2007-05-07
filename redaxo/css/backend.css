@@ -1221,8 +1221,11 @@ div.rex-addon-output code {
 /*	Forms */
 div.rex-addon-editmode {
 	clear:both;
-	background-color:#d6e1e4;2
+	background-color:#d6e1e4;
 	background-color:#d7d6d3;
+}
+div.rex-addon-editmode form {
+	clear:both;
 }
 div.rex-addon-editmode p {
 	padding:5px;
