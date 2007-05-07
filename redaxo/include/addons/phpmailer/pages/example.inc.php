@@ -51,8 +51,11 @@ for(\$i = 0; \$i < \$sql->getRows(); \$i++)
 ?>
 EOD;
 
-echo '<p>Ein mögliches Beispiel:</p>';
-
-highlight_string($mdl_ex);
 
 ?>
+<div class="rex-addon-output">
+	<h2><?php echo $I18N_A93->msg('example_headline'); ?></h2>
+	<div class="rex-addon-content">
+		<?php highlight_string($mdl_ex); ?>
+	</div>
+</div>

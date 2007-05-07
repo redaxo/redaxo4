@@ -20,11 +20,11 @@ $func = rex_request('func', 'string');
 include $REX['INCLUDE_PATH'].'/layout/top.php';
 
 $subpages = array(
-  array('','Konfiguration'),
-  array('example','Beispiel'),
+  array('',$I18N_A93->msg('configuration')),
+  array('example',$I18N_A93->msg('example')),
 );
 
-rex_title('PHPMailer', $subpages);
+rex_title($I18N_A93->msg('title'), $subpages);
 
 switch($subpage)
 {

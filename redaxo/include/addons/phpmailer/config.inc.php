@@ -18,6 +18,7 @@ $REX['ADDON']['name'][$mypage] = 'PHPMailer';
 $REX['ADDON']['perm'][$mypage] = 'phpmailer[]';
 
 $REX['PERM'][] = 'phpmailer[]';
+$I18N_A93 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/'); 
 
 require_once($REX['INCLUDE_PATH']. '/addons/phpmailer/classes/class.phpmailer.inc.php');
 require_once($REX['INCLUDE_PATH']. '/addons/phpmailer/classes/class.rex_mailer.inc.php');
