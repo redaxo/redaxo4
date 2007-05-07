@@ -334,6 +334,7 @@ div.rex-cnt-col2,
 p.rex-cnt-col2 {
 	float:left;
 	width:49.9%;
+	width:50%;
 }
 
 
@@ -355,6 +356,19 @@ body#rex-page-linkmap div#rex-title {
 	background:none;
 	background-color:#f0efeb;
 }
+/* start single-row */
+body#rex-page-linkmap div#rex-title {
+	height:31px;
+}
+html>body#rex-page-linkmap div#rex-title {
+	height:auto;
+	min-height:31px;
+}
+body#rex-page-linkmap div#rex-title p {
+	display:none;
+}
+/*	end single-row */
+
 div.rex-title-row {
 	width:617px;
 }
@@ -1108,6 +1122,9 @@ div#rex-lmp {
 	clear:both;
 	width:100%;
 	background-color:#f0efeb;
+	background-image:url(../pics/file_vert.gif);
+	background-position:48% 0px;
+	background-repeat:repeat-y;
 }
 div#rex-lmp h1 {
 	padding:5px;
@@ -1169,7 +1186,8 @@ div#rex-lmp div.rex-lmp-arts ul li.rex-lmp-startpage a {
 
 
 
-/*	Addons
+
+/*	Addons - General
 *******************************************************************************/
 div.rex-addon-output {
 	clear:both;
@@ -1201,12 +1219,6 @@ div.rex-addon-output code {
 }
 
 /*	Forms */
-/*
-div.rex-addon-content fieldset {
-	padding:20px 10px;
-	border:1px solid #f2353a;
-}
-*/
 div.rex-addon-editmode {
 	clear:both;
 	background-color:#d6e1e4;2
@@ -1225,9 +1237,55 @@ div.rex-addon-editmode p select,
 div.rex-addon-editmode p textarea {
 	width:500px;
 }
+div.rex-addon-editmode p.rex-rdo input,
+div.rex-addon-editmode p.rex-chckbx input, 
+div.rex-addon-editmode p input.rex-ffile {
+	width:auto;
+}
 div.rex-addon-editmode p textarea {
 	height:150px;
 }
 div.rex-addon-editmode p input.rex-sbmt {
 	margin-left:150px;
+	width:auto;
+}
+
+
+
+/*	Addon - Import / Export
+*******************************************************************************/
+body#rex-page-import-export div.rex-cnt p {
+	clear:both;
+	margin:1em 5px;
+}
+body#rex-page-import-export div.rex-cnt fieldset p {
+	float:left;
+	width:100%;
+	margin:0;
+	padding-left:0;
+	padding-right:0;
+	background-color:#FAF9F5;
+}
+body#rex-page-import-export div.rex-cnt fieldset div.rex-export-list {
+	border-left:30px solid #f0efeb;
+}
+
+body#rex-page-import-export div.rex-addon-editmode p.rex-ftxt label {
+	margin:0 0 0 5px;
+	width:145px;
+}
+body#rex-page-import-export div.rex-addon-editmode p.rex-ftxt input {
+	width:200px;
+	margin:0 10px 0 5px;
+}
+body#rex-page-import-export div.rex-addon-editmode p.rex-chckbx input, 
+body#rex-page-import-export div.rex-addon-editmode p.rex-rdo input {
+	float:left;
+	margin:0 10px 0 5px;
+}
+body#rex-page-import-export div.rex-cnt table th {
+	white-space:nowrap;
+}
+body#rex-page-import-export div.rex-cnt table td {
+	background-color:#FAF9F5;
 }
