@@ -52,7 +52,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			$liclasses = '';
 			$sub_li = '';
 			if (count($cat_children)>0) $liclasses .= ' rex-children ';
-			$liclasses .= $cat->isOnline() ? 'rex-online' : 'rex-offine';
+			$liclasses .= $cat->isOnline() ? 'rex-online' : 'rex-offline';
 			if (is_array($tree) && in_array($cat_id,$tree))
 			{
 				$sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $GlobalParams);
@@ -72,7 +72,8 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 
 // ------------------------ Ouput
 
-rex_title($REX['SERVERNAME'], 'Linkmap');
+//rex_title($REX['SERVERNAME'], 'Linkmap');
+rex_title('Linkmap');
 
 // ------- Default Values
 
@@ -141,14 +142,14 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
   </form>
 </div>
 
-<div class="rex-linkmap-path">
+<div class="rex-lmp-pth">
 <ul>
 <?php
 
 $category = OOCategory::getCategoryById($category_id);
 $link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
 echo '<li>'.$I18N->msg('path').' </li>';
-echo '<li>: <a href="'.$link.'">Home</a> </li>';
+echo '<li>: <a href="'.$link.'">Homepage</a> </li>';
 
 $tree = array();
 
@@ -169,17 +170,15 @@ if ($category = OOCategory::getCategoryById($category_id))
 
 
 
-<div id="rex-linkmap">
-  <div class="rex-map-categories">
+<div id="rex-lmp">
+  <div class="rex-lmp-cats">
     <h1>Kategorien</h1>
-  	<ul>
     <?php
     $roots = OOCategory::getRootCategories();
     echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
     ?>
-  	</ul>
   </div>
-  <div class="rex-map-articles">
+  <div class="rex-lmp-arts">
     <h1>Artikel</h1>
   	<ul>
     <?php
@@ -188,7 +187,7 @@ if ($category = OOCategory::getCategoryById($category_id))
       $articles = $category->getArticles();
       foreach($articles as $article)
     	  {
-    		$liClass = $article->isStartpage() ? ' class="rex-map-startpage"' : '';
+    		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
     		$url = rex_linkmap_backlink($article->getId(), $article->getName());
     		
     		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
