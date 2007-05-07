@@ -27,7 +27,7 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 {
 	global $REX_USER;
 
-	$liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-map-active"' : '';
+	$liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-lmp-active"' : '';
 	$linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
 	
 	if(strpos($linkAttr, ' href=') === false)
@@ -63,7 +63,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			
 			$li .= '<li class="'.$liclasses.'">';
 			$li .= '<a class="'.$linkclasses.'" href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$cat->getName().'</a>';
-			$li .= ' '. $liclasses . $linkclasses;
+			//$li .= ' '. $liclasses . $linkclasses;
 			$li .= $sub_li;
 			$li .= '</li>';
 		}
@@ -163,7 +163,7 @@ if ($category = OOCategory::getCategoryById($category_id))
   {
     $tree[] = $cat->getId();
     $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
-    echo '<li>: <a href="'. $link .'">'.$cat->getName().'</a></li>';
+    echo '<li> : <a href="'. $link .'">'.$cat->getName().'</a></li>';
   }
 }
 
