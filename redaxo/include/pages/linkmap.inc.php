@@ -46,6 +46,8 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 	if(is_array($children))
 	{
 		$li = '';
+		$ulclasses = '';
+		if (count($children)==1) $ulclasses .= ' rex-children-one ';
 		foreach($children as $cat){
 			$cat_children = $cat->getChildren();
 			$cat_id = $cat->getId();
@@ -53,6 +55,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			$linkclasses = '';
 			$sub_li = '';
 			if (count($cat_children)>0) $liclasses .= ' rex-children ';
+			
 			if (next($children)== null ) $liclasses .= ' rex-children-last ';
 			$linkclasses .= $cat->isOnline() ? ' rex-online ' : ' rex-offline ';
 			if (is_array($tree) && in_array($cat_id,$tree))
@@ -67,7 +70,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			$li .= $sub_li;
 			$li .= '</li>';
 		}
-		if ($li!='') $ul = '<ul>'.$li.'</ul>';
+		if ($li!='') $ul = '<ul class="'.$ulclasses.'">'.$li.'</ul>';
 	}
 	return $ul;
 }
