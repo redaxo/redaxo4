@@ -101,6 +101,7 @@ body#rex-page-medienpool div#rex-output .rex-warning {
 	margin-bottom:2px;
 }
 div#rex-output .rex-warning span {
+	display:block;
 	padding:0 45px;
 }
 
