@@ -22,7 +22,7 @@ include $REX['INCLUDE_PATH'].'/layout/top.php';
 // Build Subnavigation 
 $subpages = array(
 //  array('categories','Kategorien'),
-  array('articles','Artikel'),
+  array('','Artikel'),
   array('categories','Kategorien'),
 );
 
