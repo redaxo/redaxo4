@@ -784,6 +784,38 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp {
 }
 
 
+/*	Widgets - MEDIA_BUTTON, MEDIALIST_BUTTON, LINK_BUTTON */
+div.rex-wdgt {
+	width:300px;
+	margin-bottom:10px;
+	padding:5px;
+	background-color:#fff;
+	border:1px solid #999;
+}
+
+body div#rex-output div.rex-wdgt p.rex-slct {
+	padding:0;
+}
+div.rex-wdgt p input,
+body div#rex-output div.rex-wdgt p.rex-slct select {
+	width:200px;
+	margin-right:5px;
+	background-color:#f0efeb;
+}
+body div#rex-output div.rex-wdgt p.rex-slct select {
+	width:205px;
+}
+
+div.rex-wdgt div.rex-wdgt-mdlst p {
+	float:left;
+	padding-top:12px;
+}
+
+div.rex-wdgt div.rex-wdgt-mdlst p a img {
+	margin-bottom:3px;
+}
+
+
 
 /*	Content - Metamode
 *******************************************************************************/
