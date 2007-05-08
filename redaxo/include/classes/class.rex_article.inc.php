@@ -293,7 +293,7 @@ class rex_article
   
                   <p class="rex-slct">
                     '. $MODULESELECT->get() .'
-                    <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                    <noscript><input type="submit" class="rex-sbmt" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                   </p>
   
                 </fieldset>
@@ -466,7 +466,7 @@ class rex_article
 
                 <p class="rex-slct">
                   '. $MODULESELECT->get() .'
-                  <noscript><input type="submit" class="rex-fsubmit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                  <noscript><input type="submit" class="rex-sbmt" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                 </p>
 
               </fieldset>
