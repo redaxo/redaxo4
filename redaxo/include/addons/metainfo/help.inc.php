@@ -1,20 +1,17 @@
 <?php
 
 /**
- * TinyMCE Addon
+ * MetaForm Addon
  *  
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
- * 
- * @author Dave Holloway
- * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>s
  * 
  * @package redaxo3
  * @version $Id$
  */
 
 ?>
-<b>TinyMCE Addon</b>
+<b>MetaForm Addon</b>
 
 <br /><br />
-Erweitert REDAXO um den WYSIWYG-Editor, TinyMCE
+Addon zur erweiterung der bestehenden Metadaten von Artikeln und Kategorien
