@@ -20,7 +20,6 @@
 #    h = height      (max height)
 #    a = automatic   (longest side will be used)
 #
-# important: gif files are cached as jpegs
 #
 # Changelog:
 #
