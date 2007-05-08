@@ -23,7 +23,6 @@ if ($page_name != '')
 	<meta http-equiv="Cache-Control" content="no-cache" /> 
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="css/backend.css" media="screen, projection, print" />
-  <link rel="stylesheet" type="text/css" href="css/table-old.css" media="screen, projection, print" />
   <link rel="stylesheet" type="text/css" href="css/aural.css" media="handheld, aural, braille" />
   <script src="js/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
@@ -37,8 +36,10 @@ if ($page_name != '')
 if (isset ($open_header_only) && $open_header_only == true)
   return;
 */
+
+$body_id = str_replace('_', '-', $page);
 ?>
-<body id="rex-page-<?php echo $page; ?>" <?php
+<body id="rex-page-<?php echo $body_id; ?>" <?php
 
 if (!isset($open_header_only)) echo 'onunload="closeAll();"';
 
