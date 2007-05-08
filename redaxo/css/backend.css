@@ -540,6 +540,7 @@ table.rex-table th {
 
 table.rex-table th.rex-icon, 
 table.rex-table td.rex-icon {
+	width:29px;
 	text-align:center;
 }
 table.rex-table th.rex-icon, 
