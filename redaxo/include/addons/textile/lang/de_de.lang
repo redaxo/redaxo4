@@ -1,5 +1,5 @@
 example_for = Beispiel für
 
 module_headline = Code für Modulausgabe
-module_intro_moduleoutput = Einfach mit folgendem Code in die Ausgabe eines beliebigen Moduls einbinden
-module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf einfügen:
+module_intro_moduleoutput = Einfach mit folgendem Code in die <em>Ausgabe eines beliebigen Moduls</em> einbinden
+module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf in die <em>Eingabe des Moduls</em> einfügen:

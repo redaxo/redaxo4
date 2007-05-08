@@ -40,7 +40,7 @@ $mdl_help = '<?php rex_a79_help_overview(); ?>';
 	
 		<p><?php echo $I18N_A79->msg('module_intro_help'); ?></p>
 	
-		<code><?php echo htmlspecialchars( $mdl_help); ?></code>
+		<code><?php echo htmlspecialchars($mdl_help); ?></code>
 	</div>
 </div>
 
