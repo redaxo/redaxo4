@@ -469,7 +469,8 @@ body div#rex-output p.rex-slct {
 body div#rex-output div.rex-fldst-wrppr {
 	border-top:1px solid #fff;
 }
-body div#rex-output p label {
+body div#rex-output p label, 
+body div#rex-output div.rex-ptag label {
 	clear:left;
 	display:block;
 	float:left;
@@ -787,7 +788,7 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp {
 
 
 /*	Widgets - MEDIA_BUTTON, MEDIALIST_BUTTON, LINK_BUTTON */
-div.rex-wdgt {
+div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt {
 	width:300px;
 	margin-bottom:10px;
 	padding:5px;
@@ -798,10 +799,13 @@ div.rex-wdgt {
 body div#rex-output div.rex-wdgt p.rex-slct {
 	padding:0;
 }
-div.rex-wdgt p input,
+body div#rex-output div.rex-wdgt p input,
 body div#rex-output div.rex-wdgt p.rex-slct select {
 	width:200px;
 	margin-right:5px;
+}
+body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p input,
+body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p.rex-slct select {
 	background-color:#f0efeb;
 }
 body div#rex-output div.rex-wdgt p.rex-slct select {
@@ -826,10 +830,18 @@ div.rex-cnt-metamode {
 	background-color:#d6e1e4;
 	width:100%;
 }
-div.rex-cnt-metamode p {
+div.rex-cnt-metamode p, 
+div.rex-cnt-metamode div.rex-ptag {
 	padding:5px;
 	border-bottom:1px solid #d6e1e4;
 	background:#f0efeb;
+}
+div.rex-cnt-metamode div.rex-ptag p {
+	padding-left:0;
+	border:0;
+}
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt {
+	float:left;
 }
 /* general define */
 div.rex-cnt-metamode p label {
@@ -838,6 +850,9 @@ div.rex-cnt-metamode p input,
 div.rex-cnt-metamode p select,
 div.rex-cnt-metamode p textarea {
 	width:350px;
+}
+div.rex-cnt-metamode p textarea {
+	height:90px;
 }
 div.rex-cnt-metamode p select.rex-fdatey {
 	width:60px;

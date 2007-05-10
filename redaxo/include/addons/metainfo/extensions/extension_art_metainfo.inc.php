@@ -34,6 +34,10 @@ function rex_a62_metainfo_form($params)
   
   for($i = 0; $i < $fields->getRows(); $i++)
   {
+  
+	// Umschliessendes Tag von Label und Formularelement
+	$tag = 'p';
+  
   	$name = $fields->getValue('name');
   	$title = $fields->getValue('title');
 		$params = $fields->getValue('params');
@@ -157,6 +161,8 @@ function rex_a62_metainfo_form($params)
   		}
   		case 'REX_MEDIA_BUTTON':
   		{
+  			$tag = 'div class="rex-ptag"';
+  			
   			$field = rex_var_media::getMediaButton($media_id);
   			$field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues[0], $field);
   			$field = str_replace('MEDIA['. $media_id .']', $name, $field);
@@ -165,25 +171,29 @@ function rex_a62_metainfo_form($params)
   		}
   		case 'REX_MEDIALIST_BUTTON':
   		{
+  			$tag = 'div class="rex-ptag"';
+  			
   			$field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues));
   			$mlist_id++;
   			break;
   		}
   		case 'REX_LINK_BUTTON':
   		{
+  			$tag = 'div class="rex-ptag"';
+  			
   			$field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $article->getValue('category_id'));
   			$link_id++;
   			break;
   		}
   	}
   	
-    $s .= '<p>'. "\n";
+    $s .= '<'.$tag.'>'. "\n";
     
   	if($labelIt)
       $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
       
     $s .= $field. "\n";
-    $s .= '</p>'. "\n";
+    $s .= '<br class="rex-clear" /></'.$tag.'>'. "\n";
            
     $fields->next();
   }
