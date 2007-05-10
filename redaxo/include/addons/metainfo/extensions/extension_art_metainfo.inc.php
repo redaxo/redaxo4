@@ -218,6 +218,9 @@ function rex_a62_metainfo_handleSave($params, $fields)
 	
 	$article->update();
 	
+	// Artikel nochmal mit den zusätzlichen Werten neu generieren
+	rex_generateArticle($params['id']);
+	
 	return $params;
 }
 ?>
