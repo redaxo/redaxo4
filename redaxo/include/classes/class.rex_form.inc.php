@@ -113,10 +113,8 @@ class rex_form
 		*/
 			
 		$abortElement = null;
-		/*
 		if($abortLabel != '')
 			$abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
-		*/
 		
 		if($saveElement || $applyElement || $deleteElement || $resetElement || $abortElement)
 			$this->addControlField($saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
