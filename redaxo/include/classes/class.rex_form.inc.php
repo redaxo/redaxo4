@@ -216,6 +216,11 @@ class rex_form
 	function &addTextAreaField($name, $value = null, $attributes = array())
 	{
 		$attributes['internal::fieldSeparateEnding'] = true;
+		if(!isset($attributes['cols']))
+		  $attributes['cols'] = 50;
+		if(!isset($attributes['rows']))
+			$attributes['rows'] = 6;
+		
 		$field =& $this->addField('textarea', $name, $value, $attributes);
 		return $field;
 	}
