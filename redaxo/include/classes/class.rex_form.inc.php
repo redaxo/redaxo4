@@ -693,6 +693,8 @@ class rex_form_element
 	var $table;
 	var $attributes;
 	var $separateEnding;
+	var $prefix;
+	var $suffix;
 	
 	function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
 	{
@@ -702,6 +704,8 @@ class rex_form_element
 		$this->table =& $table;
 		$this->setAttributes($attributes);
 		$this->separateEnding = $separateEnding;
+		$this->setPrefix('');
+		$this->setSuffix('');
 	}
 	
 	// --------- Attribute setter/getters
@@ -731,6 +735,26 @@ class rex_form_element
 		return $this->tag;
 	}
 	
+	function setSuffix($suffix)
+	{
+		$this->suffix = $suffix;
+	}
+	
+	function getSuffix()
+	{
+		return $this->suffix;
+	}
+
+	function setPrefix($prefix)
+	{
+		$this->prefix = $prefix;
+	}
+	
+	function getPrefix()
+	{
+		return $this->prefix;
+	}
+
 	function _normalizeId($id)
 	{
 		return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
@@ -856,9 +880,13 @@ class rex_form_element
 	{
 		$s = '';
 
+		$s .= $this->getPrefix();
+		
 		$s .= '        <p>'. "\n";
 		$s .= $this->_get();
 		$s .= '        </p>'. "\n";
+		
+		$s .= $this->getSuffix();
 		
 		return $s;
 	}
