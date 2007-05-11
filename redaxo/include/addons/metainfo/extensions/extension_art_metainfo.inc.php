@@ -34,9 +34,9 @@ function rex_a62_metainfo_form($params)
   
   for($i = 0; $i < $fields->getRows(); $i++)
   {
-  
-	// Umschliessendes Tag von Label und Formularelement
-	$tag = 'p';
+		// Umschliessendes Tag von Label und Formularelement
+		$tag = 'p';
+		$tag_attr = '';
   
   	$name = $fields->getValue('name');
   	$title = $fields->getValue('title');
@@ -154,6 +154,37 @@ function rex_a62_metainfo_form($params)
   			$field .= $select->get();
   			break;
   		}
+  		case 'date':
+  		{
+  			$name .= '[]';
+  			
+  			if(!isset($dbvalues[1])) $dbvalues[1] = ''; 
+  			if(!isset($dbvalues[2])) $dbvalues[2] = '';
+  			 
+  			$yearSelect = new rex_select();
+  			$yearSelect->addOptions(range(2005,date('Y')+2));
+  			$yearSelect->setName($name);
+  			$yearSelect->setSize(1);
+  			$yearSelect->setStyle('width: 19%');
+  			$yearSelect->setSelected($dbvalues[0]);
+  			
+  			$monthSelect = new rex_select();
+  			$monthSelect->addOptions(range(1,12));
+  			$monthSelect->setName($name);
+  			$monthSelect->setSize(1);
+  			$monthSelect->setStyle('width: 19%');
+  			$monthSelect->setSelected($dbvalues[1]);
+  			
+  			$daySelect = new rex_select();
+  			$daySelect->addOptions(range(1,31));
+  			$daySelect->setName($name);
+  			$daySelect->setSize(1);
+  			$daySelect->setStyle('width: 19%');
+  			$daySelect->setSelected($dbvalues[2]);
+  			
+  			$field = $yearSelect->get() . $monthSelect->get() . $daySelect->get();
+  			break;
+  		}
   		case 'textarea':
   		{
   			$field = '<textarea name="'. $name .'" id="'. $id .'" '. $attr .' >'. $dbvalues[0] .'</textarea>';
@@ -161,33 +192,43 @@ function rex_a62_metainfo_form($params)
   		}
   		case 'REX_MEDIA_BUTTON':
   		{
-  			$tag = 'div class="rex-ptag"';
+  			$tag = 'div';
+  			$tag_attr = ' class="rex-ptag"';
   			
   			$field = rex_var_media::getMediaButton($media_id);
   			$field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues[0], $field);
   			$field = str_replace('MEDIA['. $media_id .']', $name, $field);
+  			$id = 'REX_MEDIA_'. $media_id;
   			$media_id++;
   			break;
   		}
   		case 'REX_MEDIALIST_BUTTON':
   		{
-  			$tag = 'div class="rex-ptag"';
+  			$tag = 'div';
+  			$tag_attr = ' class="rex-ptag"';
   			
+  			$name .= '[]';
   			$field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues));
+  			$field = str_replace('MEDIALIST['. $media_id .']', $name, $field);
+  			$id = 'REX_MEDIALIST_'. $mlist_id;
+  			
   			$mlist_id++;
   			break;
   		}
   		case 'REX_LINK_BUTTON':
   		{
-  			$tag = 'div class="rex-ptag"';
+  			$tag = 'div';
+  			$tag_attr = ' class="rex-ptag"';
   			
   			$field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $article->getValue('category_id'));
+  			$id = 'LINK_'. $link_id;
+  			
   			$link_id++;
   			break;
   		}
   	}
   	
-    $s .= '<'.$tag.'>'. "\n";
+    $s .= '<'. $tag . $tag_attr  .'>'. "\n";
     
   	if($labelIt)
       $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
@@ -215,6 +256,7 @@ function rex_a62_metainfo_handleSave($params, $fields)
 	for($i = 0;$i < $fields->getRows(); $i++)
 	{
 		$fieldName = $fields->getValue('name');
+		
 		$postValue = rex_post($fieldName, 'array');
 		$saveValue = implode('|+|', $postValue);
 		
