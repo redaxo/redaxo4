@@ -1,11 +1,23 @@
 <?php
 /**
  * MetaForm Addon
+ * 
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * @package redaxo3
  * @version $Id$
  */
+
+define('REX_A62_FIELD_TEXT',                 1);
+define('REX_A62_FIELD_TEXTAREA',             2);
+define('REX_A62_FIELD_SELECT',               3);
+define('REX_A62_FIELD_RADIO',                4);
+define('REX_A62_FIELD_CHECKBOX',             5);
+define('REX_A62_FIELD_REX_MEDIA_BUTTON',     6);
+define('REX_A62_FIELD_REX_MEDIALIST_BUTTON', 7);
+define('REX_A62_FIELD_REX_LINK_BUTTON',      8);
+
+define('REX_A62_FIELD_COUNT',                8);
  
 require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_tableManager.inc.php';
 
@@ -35,20 +47,37 @@ class rex_a62_tableExpander extends rex_form
 		$field =& $this->addTextField('title');
 		$field->setLabel($I18N_META_INFOS->msg('field_label_title'));
 		
-//		$field =& $this->addTextAreaField('attributes');
-//		$field->setLabel($I18N_META_INFOS->msg('field_label_attributes'));
-		
 		$field =& $this->addSelectField('type');
 		$field->setLabel($I18N_META_INFOS->msg('field_label_type'));
+		$field->setAttribute('onchange', 'checkConditionalFields(this, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));');
 		$select =& $field->getSelect();
 		$select->setSize(1);
 		$select->addSqlOptions('SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
 		
+		$notices = '';
+		for($i = 1; $i < REX_A62_FIELD_COUNT; $i++)
+		{
+			if($I18N_META_INFOS->hasMsg('field_params_notice_'. $i))
+			{
+				$notices .= '<span id="a62_field_params_notice_'. $i .'" style="display:none">'. $I18N_META_INFOS->msg('field_params_notice_'. $i) .'</span>'. "\n";
+			}
+		}
+		$notices .= '
+		<script type="text/javascript">
+      var needle = new getObj("'. $field->getAttribute('id') .'");
+      
+      checkConditionalFields(needle.obj, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));
+    </script>';
+		
+		$field =& $this->addTextAreaField('params');
+		$field->setLabel($I18N_META_INFOS->msg('field_label_params'));
+		$field->setSuffix($notices);
+
 		$field =& $this->addTextField('default');
 		$field->setLabel($I18N_META_INFOS->msg('field_label_default'));
 
-//		$field =& $this->addTextAreaField('params');
-//		$field->setLabel($I18N_META_INFOS->msg('field_label_params'));
+//			$field =& $this->addTextAreaField('attributes');
+//			$field->setLabel($I18N_META_INFOS->msg('field_label_attributes'));
 		
 //		$field =& $this->addTextAreaField('validate');
 //		$field->setLabel($I18N_META_INFOS->msg('field_label_validate'));
