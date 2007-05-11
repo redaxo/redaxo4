@@ -294,7 +294,7 @@ class rex_var_media extends rex_var
 				<a href="#" onclick="openREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
 				<br />
 				<a href="#" onclick="moveREXMedialist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="pics/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
-				<a href="#" onclick="addREXMedialist('. $id .');return false;"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media"></a>
+				<a href="#" onclick="addREXMedialist('. $id .');return false;"'. rex_tabindex() .'><img src="pics/file_add.gif" width="16" height="16" title="Add New Media" alt="Add New Media" /></a>
 				<br />
 				<a href="#" onclick="moveREXMedialist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="pics/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
 				<a href="#" onclick="deleteREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
