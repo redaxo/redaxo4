@@ -157,6 +157,7 @@ class rex_select
       $grouped = isset ($option[0][2]) && isset ($option[0][3]);
       foreach ($options as $option)
       {
+      	$option = (array) $option;
         if ($grouped)
         {
           $this->addOption($option[0], $option[1], $option[2], $option[3]);
