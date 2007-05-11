@@ -988,6 +988,12 @@ class rex_form_select_element extends rex_form_element
 	
 	function formatElement()
 	{
+		// Hier die Attribute des Elements an den Select weitergeben, damit diese angezeigt werden 
+		foreach($this->getAttributes() as $attributeName => $attributeValue)
+		{
+			$this->select->setAttribute($attributeName, $attributeValue);
+		}
+		
 		$this->select->setSelected($this->getValue());
 		return $this->select->get();
 	}
