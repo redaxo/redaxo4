@@ -403,7 +403,16 @@ function uncheckInput(id)
 // Sonst wird der wert getoggled
 function toggleElement(id,display)
 {
-   var needle = new getObj(id);
+   var needle;
+   
+   if(typeof(id) != 'object')
+   {
+     needle = new getObj(id);
+   }
+   else
+   {
+     needle = id;
+   }
    
    if (typeof(display) == 'undefined')
    {
