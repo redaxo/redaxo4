@@ -6,39 +6,25 @@
 
 // -------------------------------------------------------------------------------------------------------------------
 
-var OSname = 'WIN';
-if (navigator.appVersion.indexOf("Win") > 0) OSname = "WIN";
-if (navigator.appVersion.indexOf("Mac") > 0) OSname = "MAC";
-
-var visible = "show";
-var hidden  = "hide";
-
 function getObj(name)
 {
-        if (document.layers)
-        {
-                visible = "show";
-                hidden  = "hide";
-        }else
-        {
-                visible = "visible";
-                hidden  = "hidden";
-        }
-
         if (document.getElementById)
         {
                 this.obj = document.getElementById(name);
-                this.style = document.getElementById(name).style;
+                if(this.obj)
+                  this.style = this.obj.style;
         }
         else if (document.all)
         {
                 this.obj = document.all[name];
-                this.style = document.all[name].style;
+                if(this.obj)
+                  this.style = this.obj.style;
         }
         else if (document.layers)
         {
                 this.obj = document.layers[name];
-                this.style = document.layers[name];
+                if(this.obj)
+                  this.style = this.obj;
         }
 }
 
