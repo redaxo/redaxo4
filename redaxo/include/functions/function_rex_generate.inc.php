@@ -324,27 +324,97 @@ function rex_generateLists($re_id)
  * 
  * @param $aid	Artikel ID
  */
-function rex_article2startpage($aid){
+function rex_article2startpage($neu_id){
 
 	global $REX;
 
 	$GAID = array();
 
-	// clang schleife noch einbauen
-	$clang = 0;
+    // neuer startartikel
+	$neu = new rex_sql;
+	$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=0");
+	if ($neu->getRows()!=1) return false;
+	$neu_path = $neu->getValue("path");
 
-  // normalen artikel holen
-	$a1 = new rex_sql;
-	$a1->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$aid and startpage=0 and clang=$clang");
-	if ($a1->getRows()!=1) return false;
+	// in oberster kategorie
+	$neu_cat_id = $neu->getValue("re_id");
+	if ($neu_cat_id == 0) return false;
 
-	// category holen
-	$cat_id = $a1->getValue("re_id");
+	// alter startartikel
+	$alt = new rex_sql;
+	$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=0");
+	if ($alt->getRows()!=1) return false;
+	$alt_path = $alt->getValue("path");
+	$alt_id = $alt->getValue("id");
 
-	// startartikel holen
-	$a2 = new rex_sql;
-	$a2->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$cat_id and startpage=1 and clang=$clang");
-	if ($a2->getRows()!=1) return false;
+	$params = array("path","prior","catname");
+	$db_fields = OORedaxo::getClassVars();
+    foreach($db_fields as $field)
+    {
+		if(substr($field,0,4)=="cat_") $params[] = $field;
+	}
+
+	// LANG SCHLEIFE
+	foreach($REX['CLANG'] as $clang => $lang){
+
+		$alt->debugsql = 0;
+		$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=$clang");
+		$alt2 = new rex_sql();
+		$alt2->debugsql = 0;
+		$alt2->setTable($REX['TABLE_PREFIX']."article");
+		$alt2->setWhere("id=$alt_id");
+
+		$neu->debugsql = 0;
+		$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=$clang");
+		$neu2 = new rex_sql();
+		$neu2->debugsql = 0;
+		$neu2->setTable($REX['TABLE_PREFIX']."article");
+		$neu2->setWhere("id=$neu_id");
+
+		$alt2->setValue("re_id",$neu_id);
+		$neu2->setValue("re_id",$alt->getValue("re_id"));
+
+		foreach($params as $param){
+			$neu_value = $neu->getValue($param);
+			$alt_value = $alt->getValue($param);
+			$alt2->setValue($param,$neu_value);
+			$neu2->setValue($param,$alt_value);
+		}
+
+		$alt2->setValue("textos","jah");
+		$neu2->setValue("textos","jah");
+		$alt2->update();
+		$neu2->update();
+	}
+	
+	// alle artikel suchen nach |art_id| und pfade ersetzen
+	// alles artikel mit re_id alt_id suchen und ersetzen
+	
+	$articles = new rex_sql();
+	$articles->debugsql =1;
+	$articles->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '%|$alt_id|%'");
+	for($i=0;$i<$articles->getRows();$i++){
+		echo "<br />".$articles->getValue("id")." ".$articles->getValue("path");
+		$articles->next();
+	}
+
+	// - categorynamen übernehmen
+	echo "<br />neuer startartikel ".$neu_path;
+	echo "<br />alter startartikel ".$alt_path;
+
+	
+
+	// TODO:
+	// - catname übernehmen
+	// - catprior übernehmen
+	// - catvars übernehmen
+	// - pfade tauschen
+	// - startpage aendern
+	// - 
+	
+	
+	// andere artikel nach pfaden suchen und pfade anpassen
+	// re_categories anpassen
 
 	return true;
 
