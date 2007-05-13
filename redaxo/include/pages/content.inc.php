@@ -427,6 +427,8 @@ if ($article->getRows() == 1)
         if (rex_article2startpage($article_id))
         {
           $message = $I18N->msg('content_tostartarticle_ok');
+          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&message=".urlencode($message));
+          exit;
         }
         else
         {
