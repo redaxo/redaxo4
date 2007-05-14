@@ -65,7 +65,8 @@ function rex_a62_metainfo_form($params)
   			$name .= '[]';
   		case 'radio':
   		{
-  		  $labelIt = false;
+  			$tag_attr = ' class="rex-chckbx"';
+  		  	$labelIt = false;
   			$values = array();
   			if(strpos($params, '|') !== false)
   			{
@@ -105,7 +106,7 @@ function rex_a62_metainfo_form($params)
 	  			if(in_array($value, $dbvalues))
 	  				$selected = ' checked="checked"';
 	  				
-          $field .= '<label for="'. $id .'">'. htmlspecialchars($key) .'</label>';
+          		$field .= '<label for="'. $id .'">'. htmlspecialchars($key) .'</label>';
 	  			$field .= '<input type="'. $fields->getValue('label') .'" name="'. $name .'" value="'. $value .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
 	  			
   			}
