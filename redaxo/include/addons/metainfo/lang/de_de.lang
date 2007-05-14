@@ -15,7 +15,7 @@ field_params_notice_3 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3
 field_params_notice_4 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT * FROM my_table WHERE a=4
 field_params_notice_5 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT * FROM my_table WHERE a=4
 
-field_attributes_notice = Beispiel:<br /> style=color:red multiple=multiple tabindex=12
+field_attributes_notice = Beispiel:<br /> style=color:red multiple=multiple
 
 field_error_name = Bitte Spaltennamen eingeben!
 field_successfull_saved = Daten erfolgreich gespeichert!
