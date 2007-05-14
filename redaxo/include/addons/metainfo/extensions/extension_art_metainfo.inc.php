@@ -122,7 +122,7 @@ function rex_a62_metainfo_form($params)
 
         foreach(explode(' ',$attr) as $pair)
         {
-          $temp = explode('=', $attr);
+          $temp = explode('=', $pair);
           $select->setAttribute($temp[0], str_replace(array('"', "'"),'',$temp[1]));
           
           if($temp[0] == 'multiple')
