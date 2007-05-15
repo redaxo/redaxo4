@@ -518,7 +518,13 @@ class tar
     {
       $fp = fopen($filename, "rb");
     }
-    $file_contents = fread($fp, filesize($filename));
+
+    if (filesize($filename) > 0) {
+      $file_contents = fread($fp, filesize($filename));
+    } else {
+      $file_contents = '';
+    }
+
     fclose($fp);
 
     // Add file to processed data
