@@ -1,24 +1,5 @@
 <?php
 
-/**
- * Erstellt ein REDAXO Release.
- * 
- * Vorgehensweise:
- *  - Ordnerstruktur kopieren nach release/redaxo_<Datum>
- *  - Dateien kopieren
- *  - CVS Ordner löschen
- *  - master.inc.php anpassen
- * 
- * Verwendung in der Console:
- * 
- *  Erstellen eines Release:
- *  "php -f release.php"
- * 
- *  Erstelles eines Release mit Versionsnummer:
- *  "php -f release.php 3.3"
- */
-
-
 $name = null;
 $version = null;
 if(isset($argv) && count($argv) > 1)
@@ -31,33 +12,55 @@ if(isset($argv) && count($argv) > 1)
 	{
 		$name = $argv[2];
 	}
+  
+  // Start Build-Script
+  buildRelease($name, $version);
+}
+else
+{
+  echo '
+/**
+ * Erstellt ein REDAXO Release.
+ * 
+ * 
+ * Verwendung in der Console:
+ * 
+ *  Erstelles eines Release mit Versionsnummer:
+ *  "php -f release.php 3.3"
+ * 
+ * 
+ * Vorgehensweise des release-scripts:
+ *  - Ordnerstruktur kopieren nach release/redaxo_<Datum>
+ *  - Dateien kopieren
+ *  - CVS Ordner löschen
+ *  - master.inc.php anpassen
+ */
+';
 }
 
-// Start Build-Script
-buildRelease($name, $version);
 
 
 function buildRelease($name = null, $version = null)
 {
-	// Ordner in dem das release gespeichert wird
-	// ohne "/" am Ende!
-	$cfg_path = 'release';
-	$path = $cfg_path;
-	
+  // Ordner in dem das release gespeichert wird
+  // ohne "/" am Ende!
+  $cfg_path = 'release';
+  $path = $cfg_path;
+  
   if (!$name)
   {
     $name = 'redaxo';
-  	if(!$version)
-  	  $name .= date('ymd');
-  	else
-  		$name .= str_replace('.', '_', $version);
+    if(!$version)
+      $name .= date('ymd');
+    else
+      $name .= str_replace('.', '_', $version);
   }
   
   if($version)
     $version = explode('.', $version);
 
   if(substr($path, -1) != '/')
-  	$path .= '/';
+    $path .= '/';
   
   if (!is_dir($path))
     mkdir($path);
@@ -69,31 +72,31 @@ function buildRelease($name = null, $version = null)
   else
     mkdir($dest);
 
-	// Ordner und Dateien auslesen
-	$structure = readFolderStructure('.', array('CVS', 'generated', $cfg_path));
-	
-	// Ordner/Dateien kopieren
+  // Ordner und Dateien auslesen
+  $structure = readFolderStructure('.', array('CVS', 'generated', $cfg_path));
+  
+  // Ordner/Dateien kopieren
   foreach($structure as $path => $content)
   {
-  	// Zielordnerstruktur anlegen
-  	$temp_path = '';
-  	foreach(explode('/', $dest .'/'. $path) as $pathdir)
-  	{
-  		if(!is_dir($temp_path . $pathdir .'/'))
-  		{
-  			mkdir($temp_path . $pathdir .'/');
-  		}
-  		$temp_path .= $pathdir .'/';
-  	}
-  	
-  	// Dateien kopieren/Ordner anlegen
-  	foreach($content as $dir)
-  	{
-  		if(is_file($path.'/'.$dir))
-	  		copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
-  		elseif(is_dir($path.'/'.$dir))
-  			mkdir($dest .'/'. $path.'/'.$dir);
-  	}
+    // Zielordnerstruktur anlegen
+    $temp_path = '';
+    foreach(explode('/', $dest .'/'. $path) as $pathdir)
+    {
+      if(!is_dir($temp_path . $pathdir .'/'))
+      {
+        mkdir($temp_path . $pathdir .'/');
+      }
+      $temp_path .= $pathdir .'/';
+    }
+    
+    // Dateien kopieren/Ordner anlegen
+    foreach($content as $dir)
+    {
+      if(is_file($path.'/'.$dir))
+        copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
+      elseif(is_dir($path.'/'.$dir))
+        mkdir($dest .'/'. $path.'/'.$dir);
+    }
   }
   
   // Ordner die wir nicht mitkopiert haben anlegen
@@ -105,8 +108,9 @@ function buildRelease($name = null, $version = null)
   mkdir($dest .'/redaxo/include/generated/files');
   
   // master.inc.php anpassen
-  $h = fopen($dest.'/redaxo/include/master.inc.php', 'r');
-  $cont = fread($h, filesize($dest.'/redaxo/include/master.inc.php'));
+  $master = $dest.'/redaxo/include/master.inc.php';
+  $h = fopen($master, 'r');
+  $cont = fread($h, filesize($master));
   fclose($h);
   
   $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
@@ -124,20 +128,38 @@ function buildRelease($name = null, $version = null)
   
   if($version)
   {
-	  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
-	  $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*", '\\1'. $version[0], $cont);
-	  $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*", '\\1'. $version[1], $cont);
+    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
+    $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*", '\\1'. $version[0], $cont);
+    $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*", '\\1'. $version[1], $cont);
   }
   else
   {
-	  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo"', $cont);
+    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo"', $cont);
   }
 
-  $h = fopen($dest.'/redaxo/include/master.inc.php', 'w+');
+  $h = fopen($master, 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
-	  fclose($h);
-	  
-	unlink($dest .'/release.php');
+    fclose($h);
+    
+  // functions.inc.php anpassen
+  $functions = $dest.'/redaxo/include/functions.inc.php';
+  $h = fopen($functions, 'r');
+  $cont = fread($h, filesize($functions));
+  fclose($h);
+  
+  // compat klasse aktivieren
+  $cont = str_replace(
+    "// include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
+    "include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
+    $cont
+  );
+  
+  $h = fopen($functions, 'w+');
+  if (fwrite($h, $cont, strlen($cont)) > 0)
+    fclose($h);
+    
+  // Das kopierte Release-Script aus dem neu erstellten Release löschen
+  unlink($dest .'/release.php');
 }
 
 /**
@@ -258,11 +280,11 @@ function readSubFolders($dir, $ignore_dots = true)
 
 function readFolderStructure($dir, $except = array ())
 {
-	$result = array ();
-	
-	_readFolderStructure($dir, $except, $result);
-	
-	uksort($result, 'sortFolderStructure');
+  $result = array ();
+  
+  _readFolderStructure($dir, $except, $result);
+  
+  uksort($result, 'sortFolderStructure');
   
   return $result;
 }
@@ -272,19 +294,19 @@ function _readFolderStructure($dir, $except = array (), & $result = array ())
   $files = readFolderFiles($dir);
   $subdirs = readSubFolders($dir);
 
-	if(is_array($subdirs))
-	{
-	  foreach ($subdirs as $key => $subdir)
-	  {
-	    if (in_array($subdir, $except))
-	    {
-	    	unset($subdirs[$key]);
-	      continue;
-	    }
-	
-	    _readFolderStructure($dir .'/'. $subdir, $except, $result);
-	  }
-	}
+  if(is_array($subdirs))
+  {
+    foreach ($subdirs as $key => $subdir)
+    {
+      if (in_array($subdir, $except))
+      {
+        unset($subdirs[$key]);
+        continue;
+      }
+  
+      _readFolderStructure($dir .'/'. $subdir, $except, $result);
+    }
+  }
 
   $result[$dir] = array_merge($files, $subdirs);
   
@@ -293,6 +315,6 @@ function _readFolderStructure($dir, $except = array (), & $result = array ())
 
 function sortFolderStructure($path1, $path2)
 {
-	return strlen($path1) > strlen($path2) ? 1 : -1;
+  return strlen($path1) > strlen($path2) ? 1 : -1;
 }
 ?>
