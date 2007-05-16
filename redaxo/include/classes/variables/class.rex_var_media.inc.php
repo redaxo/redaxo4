@@ -299,9 +299,9 @@ class rex_var_media extends rex_var
     $media = '
     <div class="rex-wdgt">
       <div class="rex-wdgt-mdlst">
-        <input type="hidden" name="MEDIALIST['. $id .']" value="'. $value .'" />
+        <input type="hidden" name="MEDIALIST['. $id .']" id="REX_MEDIALIST_'. $id .'" value="'. $value .'" />
         <p class="rex-slct">
-          <select name="MEDIALIST_SELECT_' . $id . '" id="REX_MEDIALIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
+          <select name="MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
             ' . $options . '
           </select>
         </p>
