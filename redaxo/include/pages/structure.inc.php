@@ -314,7 +314,8 @@ if ($function == 'status_article' && $article_id != ''
   }
 
 }
-elseif (!empty($artadd_function) && $category_id != '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
+// Hier mit !== vergleichen, da 0 auch einen gültige category_id ist (RootArtikel)
+elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL ADD
   $Position_New_Article = (int) $Position_New_Article;
