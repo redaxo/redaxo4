@@ -73,7 +73,7 @@ function buildRelease($name = null, $version = null)
     mkdir($dest);
 
   // Ordner und Dateien auslesen
-  $structure = readFolderStructure('.', array('CVS', 'generated', $cfg_path));
+  $structure = readFolderStructure('.', array('.project', 'CVS', 'generated', $cfg_path));
   
   // Ordner/Dateien kopieren
   foreach($structure as $path => $content)
@@ -224,7 +224,7 @@ function readFilteredFolder($dir, $fileprefix)
  * @return Array Files of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
  */
-function readFolderFiles($dir)
+function readFolderFiles($dir, $except = array ())
 {
   $folder = readFolder($dir);
   $files = array ();
@@ -236,7 +236,7 @@ function readFolderFiles($dir)
 
   foreach ($folder as $file)
   {
-    if (is_file($dir . '/' . $file))
+    if (is_file($dir . '/' . $file) && !in_array($file, $except))
     {
       $files[] = $file;
     }
@@ -291,7 +291,7 @@ function readFolderStructure($dir, $except = array ())
 
 function _readFolderStructure($dir, $except = array (), & $result = array ())
 {
-  $files = readFolderFiles($dir);
+  $files = readFolderFiles($dir, $except);
   $subdirs = readSubFolders($dir);
 
   if(is_array($subdirs))
