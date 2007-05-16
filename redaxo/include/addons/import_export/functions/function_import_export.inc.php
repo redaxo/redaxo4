@@ -1,5 +1,14 @@
 <?php
 
+// Da diese Funktion im Setup direkt eingebunden wird
+// hier das I18N Objekt ggf. erstellen
+if ($REX['REDAXO'] && !isset($I18N_IM_EXPORT))
+{
+  global $I18N_IM_EXPORT;
+  require_once(dirname(dirname(__FILE__)).'/config.inc.php');
+}
+
+
 /**
  * Importiert den SQL Dump $filename in die Datenbank
  * 
