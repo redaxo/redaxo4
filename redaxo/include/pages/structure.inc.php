@@ -198,10 +198,9 @@ elseif ($function == 'status' && $edit_id != ''
 elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE ADD
-  
   $message = $I18N->msg("category_added_and_startarticle_created");
   $template_id = 0;
-  unset ($TMP);
+  $NCAT = array();
   if ($category_id != "")
   {
     $sql = new rex_sql;
@@ -209,7 +208,7 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     $sql->setQuery("select clang,template_id from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1");
     for ($i = 0; $i < $sql->getRows(); $i++, $sql->next())
     {
-      $TMP[$sql->getValue("clang")] = $sql->getValue("template_id");
+      $NCAT[$sql->getValue("clang")] = $sql->getValue("template_id");
     }
   }
 
@@ -225,11 +224,11 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     // ### erstelle neue prioliste wenn noetig  
 
     $template_id = 0;
-    if (isset ($TMP[$key]) && $TMP[$key] != "")
-      $template_id = $TMP[$key];
+    if (isset ($NCAT[$key]) && $NCAT[$key] != "")
+      $template_id = $NCAT[$key];
 
     $AART = new rex_sql;
-    //$AART->debugsql = 1;
+    // $AART->debugsql = 1;
     $AART->setTable($REX['TABLE_PREFIX']."article");
     if (!isset ($id) or !$id)
       $id = $AART->setNewId("id");
