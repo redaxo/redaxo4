@@ -347,7 +347,6 @@ if ($checkmodus == 3 && $send == 1)
     $REX['TABLE_PREFIX'] .'action' => 0,
     $REX['TABLE_PREFIX'] .'article' => 0,
     $REX['TABLE_PREFIX'] .'article_slice' => 0,
-    $REX['TABLE_PREFIX'] .'article_type' => 0,
     $REX['TABLE_PREFIX'] .'clang' => 0,
     $REX['TABLE_PREFIX'] .'file' => 0,
     $REX['TABLE_PREFIX'] .'file_category' => 0,
