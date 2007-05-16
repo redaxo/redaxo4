@@ -17,7 +17,7 @@ function rex_setuptitle($title)
   rex_title($title, '');
 
 
-	echo '<div id="rex-stp">';
+  echo '<div id="rex-stp">';
 }
 
 function rex_setupimport($import_sql, $import_archiv = null)
@@ -162,6 +162,7 @@ if ($checkmodus == 1)
     $REX['INCLUDE_PATH'].'/generated/templates',
     $REX['INCLUDE_PATH'].'/generated/files',
     $REX['INCLUDE_PATH'].'/../../files',
+    $REX['INCLUDE_PATH'].'/../../files/_readme.txt',
     $REX['INCLUDE_PATH'].'/addons/import_export/files'
   );
 
@@ -277,62 +278,62 @@ if ($checkmodus == 2)
   echo '<h2>'.$I18N->msg('setup_023').'</h2>
 
         <form action="index.php" method="post">
-				<fieldset>
+        <fieldset>
           <input type="hidden" name="page" value="setup" />
           <input type="hidden" name="checkmodus" value="2" />
           <input type="hidden" name="send" value="1" />
           <input type="hidden" name="lang" value="'.$lang.'" />';
-		if (isset ($err_msg) and $err_msg != '') {
-	    echo '<p class="rex-warning"><span>'.$err_msg.'</span></p>';
-		}
+    if (isset ($err_msg) and $err_msg != '') {
+      echo '<p class="rex-warning"><span>'.$err_msg.'</span></p>';
+    }
 
 
   echo '
-					  <legend>'.$I18N->msg("setup_0201").'</legend>
-	          <p>
-							<label for="serveraddress">'.$I18N->msg("setup_024").'</label>
-							<input type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'" />
-						</p>
+            <legend>'.$I18N->msg("setup_0201").'</legend>
+            <p>
+              <label for="serveraddress">'.$I18N->msg("setup_024").'</label>
+              <input type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'" />
+            </p>
 
-						<p>
-					    <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
-							<input type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'" />
-						</p>
+            <p>
+              <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
+              <input type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'" />
+            </p>
 
-						<p>
-            	<label for="error_email">'.$I18N->msg("setup_026").'</label>
-							<input type="text" id="error_email" name="error_email" value="'.$error_email.'" />
-						</p>
-					</fieldset>
+            <p>
+              <label for="error_email">'.$I18N->msg("setup_026").'</label>
+              <input type="text" id="error_email" name="error_email" value="'.$error_email.'" />
+            </p>
+          </fieldset>
 
-					<fieldset>
-						<legend>'.$I18N->msg("setup_0202").'</legend>
+          <fieldset>
+            <legend>'.$I18N->msg("setup_0202").'</legend>
 
-						<p>
-							<label for="dbname">'.$I18N->msg("setup_027").'</label>
-							<input type="text" value="'.$dbname.'" id="dbname" name="dbname" />
-						</p>
+            <p>
+              <label for="dbname">'.$I18N->msg("setup_027").'</label>
+              <input type="text" value="'.$dbname.'" id="dbname" name="dbname" />
+            </p>
 
-						<p>
-            	<label for="mysql_host">MySQL Host</label>
-							<input type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'" />
-						</p>
+            <p>
+              <label for="mysql_host">MySQL Host</label>
+              <input type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'" />
+            </p>
 
-						<p>
-							<label for="redaxo_db_user_login">Login</label>
-							<input type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'" />
-						</p>
+            <p>
+              <label for="redaxo_db_user_login">Login</label>
+              <input type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'" />
+            </p>
 
-						<p>
-							<label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
-							<input type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'" />
-						</p>
+            <p>
+              <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
+              <input type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'" />
+            </p>
 
-						<p>
-							<input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_029").'" />
-						</p>
-						</fieldset>
-						</form>';
+            <p>
+              <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_029").'" />
+            </p>
+            </fieldset>
+            </form>';
 }
 
 // ---------------------------------- MODUS 3 | Datenbank anlegen ...
@@ -356,7 +357,12 @@ if ($checkmodus == 3 && $send == 1)
     $REX['TABLE_PREFIX'] .'user' => 0
   );
 
-  if ($dbanlegen == 3)
+  if ($dbanlegen == 4)
+  {
+    // ----- vorhandenen seite updaten
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_to_3_3.sql';
+    $err_msg .= rex_setupimport($import_sql);
+  }elseif ($dbanlegen == 3)
   {
     // ----- vorhandenen Export importieren
     if(empty($import_name))
@@ -371,7 +377,7 @@ if ($checkmodus == 3 && $send == 1)
     }
   }elseif ($dbanlegen == 2)
   {
-    // db schon vorhanden
+    // ----- db schon vorhanden, nichts tun
   }elseif ($dbanlegen == 1)
   {
     // ----- leere Datenbank und alte DB löschen / drop
@@ -428,13 +434,13 @@ if ($checkmodus == 3)
 
   echo '
         <form action="index.php" method="post" id="rex-stp-database">
-				<fieldset>
-					<input type="hidden" name="page" value="setup" />
+        <fieldset>
+          <input type="hidden" name="page" value="setup" />
           <input type="hidden" name="checkmodus" value="3" />
           <input type="hidden" name="send" value="1" />
           <input type="hidden" name="lang" value="'.$lang.'" />
 
-					<legend>Datenbank anlegen</legend>
+          <legend>Datenbank anlegen</legend>
         ';
 
   if (isset ($err_msg) and $err_msg != '')
@@ -448,6 +454,8 @@ if ($checkmodus == 3)
     $dbchecked2 = '';
   if (!isset ($dbchecked3))
     $dbchecked3 = '';
+  if (!isset ($dbchecked4))
+    $dbchecked4 = '';
 
   switch ($dbanlegen)
   {
@@ -459,6 +467,9 @@ if ($checkmodus == 3)
       break;
     case 3 :
       $dbchecked3 = ' checked="checked"';
+      break;
+    case 4 :
+      $dbchecked4 = ' checked="checked"';
       break;
     default :
       $dbchecked0 = ' checked="checked"';
@@ -515,34 +526,43 @@ if ($checkmodus == 3)
   }
 
   echo '
-			<p>
-				<input class="rex-chckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0.' />
-				<label class="rex-lbl-right" for="dbanlegen_0">'.$I18N->msg('setup_034').'</label>
-			</p>
+      <p>
+        <input class="rex-chckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0.' />
+        <label class="rex-lbl-right" for="dbanlegen_0">'.$I18N->msg('setup_034').'</label>
+      </p>
 
-			<p>
-				<input class="rex-chckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1.' />
-				<label class="rex-lbl-right" for="dbanlegen_1">'.$I18N->msg('setup_035', '<b>', '</b>').'</label>
-			</p>
+      <p>
+        <input class="rex-chckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1.' />
+        <label class="rex-lbl-right" for="dbanlegen_1">'.$I18N->msg('setup_035', '<b>', '</b>').'</label>
+      </p>
 
-			<p>
-				<input class="rex-chckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2.' />
-				<label class="rex-lbl-right" for="dbanlegen_2">'.$I18N->msg('setup_036').'</label>
-			</p>';
+      <p>
+        <input class="rex-chckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2.' />
+        <label class="rex-lbl-right" for="dbanlegen_2">'.$I18N->msg('setup_036').'</label>
+      </p>
+
+      <p>
+        <input class="rex-chckbx" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked3.' />
+        <label class="rex-lbl-right" for="dbanlegen_4">'.$I18N->msg('setup_038').'</label>
+      </p>';
 
   if($exports_found)
   {
   echo '
-			<p>
-				<input class="rex-chckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
-				<label class="rex-lbl-right" for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
-			</p>
-			<p>'.$sel_export->get().'</p>';
+      <p>
+        <input class="rex-chckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
+        <label class="rex-lbl-right" for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
+      </p>
+      <p>'.$sel_export->get().'</p>';
   }
-  echo '<p><input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_038').'" /></p>
-			</fieldset>
-			</form>
-	';
+  
+  echo '
+      <p>
+        <input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_039').'" />
+      </p>
+    </fieldset>
+  </form>
+  ';
 
 }
 
@@ -569,7 +589,7 @@ if ($checkmodus == 4 && $send == 1)
 
       if ($ga->getRows() > 0)
       {
-	      $err_msg .= $I18N->msg("setup_042");
+        $err_msg .= $I18N->msg("setup_042");
       }
       else
       {
@@ -580,7 +600,7 @@ if ($checkmodus == 4 && $send == 1)
         $link = @ mysql_connect($REX['DB'][1]['HOST'], $REX['DB'][1]['LOGIN'], $REX['DB'][1]['PSW']);
         if (!@ mysql_db_query($REX['DB'][1]['NAME'], $insert, $link))
         {
-		      $err_msg .= $I18N->msg("setup_043");
+          $err_msg .= $I18N->msg("setup_043");
         }
       }
     }
@@ -608,17 +628,15 @@ if ($checkmodus == 4)
   rex_setuptitle($I18N->msg("setup_step4"));
 
   echo '
+    <form action="index.php" method="post" id="rex-stp-admin">
+      <fieldset>
+        <input type="hidden" name="page" value="setup" />
+        <input type="hidden" name="checkmodus" value="4" />
+        <input type="hidden" name="send" value="1" />
+        <input type="hidden" name="lang" value="'.$lang.'" />
 
-                  <form action="index.php" method="post" id="rex-stp-admin">
-									<fieldset>
-                  <input type="hidden" name="page" value="setup" />
-                  <input type="hidden" name="checkmodus" value="4" />
-                  <input type="hidden" name="send" value="1" />
-                  <input type="hidden" name="lang" value="'.$lang.'" />
-
-									<legend>'.$I18N->msg("setup_045").'</legend>
-
-									';
+        <legend>'.$I18N->msg("setup_045").'</legend>
+        ';
 
   if ($err_msg != "")
     echo '<p class="rex-warning"><span>'.$err_msg.'</span></p>';
@@ -635,27 +653,26 @@ if ($checkmodus == 4)
     $redaxo_user_pass = '';
   echo '
         <p>
-	        <label for="redaxo_user_login">'.$I18N->msg("setup_046").':</label>
-					<input type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login" />
-				</p>
+          <label for="redaxo_user_login">'.$I18N->msg("setup_046").':</label>
+          <input type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login" />
+        </p>
 
-				<p>
-					<label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
-					<input type="text" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass" />
-				</p>
+        <p>
+          <label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
+          <input type="text" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass" />
+        </p>
 
-				<p>
-					<input class="rex-chckbx" type="checkbox" id="noadmin" name="noadmin" value="1" />
-					<label class="rex-lbl-right" for="noadmin">'.$I18N->msg("setup_048").'</label>
-				</p>
+        <p>
+          <input class="rex-chckbx" type="checkbox" id="noadmin" name="noadmin" value="1" />
+          <label class="rex-lbl-right" for="noadmin">'.$I18N->msg("setup_048").'</label>
+        </p>
 
-				<p>
-					<input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_049").'" />
-				</p>
+        <p>
+          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_049").'" />
+        </p>
 
-				</fieldset>
-				</form>
-					';
+      </fieldset>
+    </form>';
 
 }
 
