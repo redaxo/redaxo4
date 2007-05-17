@@ -75,6 +75,7 @@ class rex_sql
    */
   function setQuery($qry)
   {
+    $qry = trim($qry);
     $this->counter = 0;
     $this->last_insert_id = 0;
     $this->query = $qry;
