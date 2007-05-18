@@ -96,6 +96,11 @@ class thumbnail
     } else {
       $this->img['des'] = ImageCreate($this->img['width_thumb'],$this->img['height_thumb']);
     }
+    // Transparenz erhalten
+    if($this->img["format"] == "PNG"){
+      imagealphablending( $this->img["des"], false );
+      imagesavealpha($this->img["des"], true);
+    }
     imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, 0, 0, $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
   }
 
