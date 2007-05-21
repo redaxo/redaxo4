@@ -18,5 +18,6 @@ field_params_notice_5 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3
 field_attributes_notice = Beispiel:<br /> style=color:red multiple=multiple class=my_css_class
 
 field_error_name = Bitte Spaltennamen eingeben!
+field_error_unique_name = Der angegebene Spaltenname existiert schon!
 field_successfull_saved = Daten erfolgreich gespeichert!
 field_update_notice = Nach Abschluss aller Änderungen muss der <a href="?page=specials&func=generate">Cache neu generiert</a> werden!

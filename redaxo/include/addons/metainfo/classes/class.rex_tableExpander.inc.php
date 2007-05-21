@@ -124,8 +124,16 @@ class rex_a62_tableExpander extends rex_form
   {
     global $I18N_META_INFOS;
     
-    if(!$this->isEditMode() && $this->getElementPostValue($this->getFieldsetName(), 'name') == '')
+    $postName = $this->getElementPostValue($this->getFieldsetName(), 'name');
+    if(!$this->isEditMode() && $postName == '')
       return $I18N_META_INFOS->msg('field_error_name');
+      
+    $sql = new rex_sql();
+    $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->metaPrefix . $postName .'" LIMIT 1');
+    if($sql->getRows() == 1)
+    {
+      return $I18N_META_INFOS->msg('field_error_unique_name');
+    }
       
     // Da die POST werte erst in parent::save() übernommen werden, 
     // kann hier noch der vorhergehende Wert abgegriffen werden
