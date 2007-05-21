@@ -1539,7 +1539,7 @@ if ($subpage == '')
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
         $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" />';
-        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80w__'.$file_name.'" width="80" alt="'. $alt .'" />';
+        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80a__'.$file_name.'" alt="'. $alt .'" />';
       }
     }
 
