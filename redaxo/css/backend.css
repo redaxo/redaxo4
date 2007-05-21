@@ -528,11 +528,10 @@ table.rex-table caption {
 	text-align:left;
 }
 
-/*
 table.rex-table tr.rex-trow-actv td {
-	background:#b0bdc3;
+	background:#e7e6e3;
 }
-*/
+
 table.rex-table th {
 	background:#d7d6d3;
 	border-bottom:0;
@@ -1341,3 +1340,46 @@ body#rex-page-import-export div.rex-cnt table th {
 body#rex-page-import-export div.rex-cnt table td {
 	background-color:#FAF9F5;
 }
+
+
+
+
+
+
+
+/* *************** ANPASSUNGEN - THOMAS - KANNST DU DAS NOCH RICHTIG EINBAUZEN ?***************/
+
+tr.rex-trow-actv td {
+
+}
+
+
+tr.rex-trow-actv td.rex-mt-lbl {
+vertical-align:top;
+} 
+
+tr.rex-trow-actv td.rex_mt-fld {
+} 
+
+
+tr.rex-trow-actv td.rex-mt-fld textarea,
+tr.rex-trow-actv td.rex-mt-fld input {
+width:200px;
+}
+
+tr.rex-trow-actv td.rex-mt-fld select,
+tr.rex-trow-actv td.rex-mt-fld textarea {
+height:50px;
+}
+
+
+tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-mdlst p.rex-slct select,
+tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-lnk p input{
+background-color:#f90;
+width:88px;
+}
+
+
+
+
+

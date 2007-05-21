@@ -21,9 +21,8 @@ include $REX['INCLUDE_PATH'].'/layout/top.php';
 
 // Build Subnavigation 
 $subpages = array(
-//  array('categories','Kategorien'),
   array('','Artikel'),
-//  array('categories','Kategorien'),
+  array('categories','Kategorien'),
 );
 
 rex_title('Metainformationen erweitern', $subpages);
