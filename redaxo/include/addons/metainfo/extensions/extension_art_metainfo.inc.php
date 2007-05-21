@@ -223,7 +223,7 @@ function rex_a62_metainfo_form($params)
         $tag_attr = ' class="rex-ptag"';
         
         $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $article->getValue('category_id'));
-        $field = str_replace('LINK['. $media_id .']', $name, $field);
+        $field = str_replace('LINK['. $link_id .']', $name, $field);
         $id = 'LINK_'. $link_id;
         
         $link_id++;
