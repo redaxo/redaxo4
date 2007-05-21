@@ -7,9 +7,13 @@
  * @package redaxo3
  * @version $Id$
  */
-
-// rex_register_extension('CAT_META_FORM_ADD', 'rex_a62_metainfo_form');
+ 
+rex_register_extension('CAT_META_FORM_ADD', 'rex_a62_metainfo_form');
 rex_register_extension('CAT_META_FORM_EDIT', 'rex_a62_metainfo_form');
+
+rex_register_extension('CAT_ADDED', 'rex_a62_metainfo_form');
+rex_register_extension('CAT_UPDATED', 'rex_a62_metainfo_form');
+
 
 /**
  * Erweitert das Meta-Formular um die neuen Meta-Felder  
@@ -17,21 +21,16 @@ rex_register_extension('CAT_META_FORM_EDIT', 'rex_a62_metainfo_form');
 function rex_a62_metainfo_form($params)
 {
   global $article_id, $clang, $REX;
-
-	$data_colspan = $params['data_colspan']-1;
+  
   $s = '';
   $debug = false;
   
   $fields = new rex_sql();
-  // $fields->debugsql = 1;
-  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "cat_%"');
+//  $fields->debugsql = true;
+  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "art_%"');
   
-  // $params = rex_a62_metainfo_handleSave($params, $fields);
-  $article = OOCategory::getCategoryById($params['id'], $params['clang']);
-  
-  // echo $params['id'], $params['clang'];
-  //var_dump($params);
-  //echo "***".$article->getValue("name");
+  $params = rex_a62_metainfo_handleSave($params, $fields);
+  $article = new rex_article($params['id'], $params['clang']);
   
   // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST
   $media_id = 1;
@@ -200,6 +199,9 @@ function rex_a62_metainfo_form($params)
       }
       case 'REX_MEDIA_BUTTON':
       {
+        $tag = 'div';
+        $tag_attr = ' class="rex-ptag"';
+        
         $field = rex_var_media::getMediaButton($media_id);
         $field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues[0], $field);
         $field = str_replace('MEDIA['. $media_id .']', $name, $field);
@@ -209,38 +211,47 @@ function rex_a62_metainfo_form($params)
       }
       case 'REX_MEDIALIST_BUTTON':
       {
+        $tag = 'div';
+        $tag_attr = ' class="rex-ptag"';
+        
         $name .= '[]';
         $field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues));
         $field = str_replace('MEDIALIST['. $media_id .']', $name, $field);
         $id = 'REX_MEDIALIST_'. $mlist_id;
+        
         $mlist_id++;
         break;
       }
       case 'REX_LINK_BUTTON':
       {
+        $tag = 'div';
+        $tag_attr = ' class="rex-ptag"';
+        
         $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $article->getValue('category_id'));
         $id = 'LINK_'. $link_id;
+        
         $link_id++;
         break;
       }
     }
-    $s .= '<tr class="rex-trow-actv"><td>&nbsp;</td>';
-    $s .= '<td class="rex-mt-fld">'.$field. "</td>\n";
-		$s .= '<td class="rex-mt-lbl" colspan="'.($data_colspan-1).'"><label for="'. $id .'">'. $label .'</label></td>'. "\n";
-    $s .= '</tr>';
-                
+    
+    if($tag != '')
+    	$s .= '<'. $tag . $tag_attr  .'>'. "\n";
+    
+    if($labelIt)
+      $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
+      
+    $s .= $field. "\n";
+    $s .= '<br class="rex-clear" />';
+    
+    if($tag != '')
+    	$s .='</'.$tag.'>'. "\n";
+           
     $fields->next();
   }
   
-  // $s = '<tr class="rex-trow-actv"><td></td>'.$s.'<td colspan="'.($data_colspan-2).'"></td></tr>';
-  
   return $s;
 }
-
-
-
-
-
 
 function rex_a62_metainfo_handleSave($params, $fields)
 {
