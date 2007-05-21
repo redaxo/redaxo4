@@ -8,7 +8,7 @@
  * @version $Id$
  */
 
-rex_register_extension('ART_META_PARAMS', 'rex_a62_oof_metainfo_params');
+rex_register_extension('OOF_META_PARAMS', 'rex_a62_oof_metainfo_params');
 
 /**
  * Modifiziert das Parameter Array und fügt diesem die neuen Meta-Felder hinzu (Variablenerweiterung der OO-Klassen)
@@ -20,7 +20,7 @@ function rex_a62_oof_metainfo_params($params)
 	$new_params = array();
 	$fields = new rex_sql();
 //	$fields->debugsql = true;
-  $fields->setQuery('SELECT name FROM '. $REX['TABLE_PREFIX'] .'62_params p WHERE `p`.`name` LIKE "art_%"');
+  $fields->setQuery('SELECT name FROM '. $REX['TABLE_PREFIX'] .'62_params p');
 	
 	for($i = 0; $i < $fields->getRows(); $i++)
 	{

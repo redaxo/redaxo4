@@ -101,7 +101,7 @@ class OORedaxo
       }
 
       // ----- Extension Point
-      $new_vars = rex_register_extension_point('ART_META_PARAMS', array());
+      $new_vars = rex_register_extension_point('OOF_META_PARAMS', array());
       
       foreach($new_vars as $name)
       {
