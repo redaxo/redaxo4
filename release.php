@@ -34,6 +34,7 @@ else
  *  - Dateien kopieren
  *  - CVS Ordner löschen
  *  - master.inc.php anpassen
+ *  - functions.inc.php die compat klasse wird einkommentiert
  */
 ';
 }
