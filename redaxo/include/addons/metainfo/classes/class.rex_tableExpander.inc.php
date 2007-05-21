@@ -128,6 +128,9 @@ class rex_a62_tableExpander extends rex_form
     if(!$this->isEditMode() && $postName == '')
       return $I18N_META_INFOS->msg('field_error_name');
       
+    if(preg_match('/[^a-z0-9\_]/', $postName))
+      return $I18N_META_INFOS->msg('field_error_chars_name');
+      
     $sql = new rex_sql();
     $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->metaPrefix . $postName .'" LIMIT 1');
     if($sql->getRows() == 1)
