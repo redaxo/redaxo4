@@ -259,17 +259,16 @@ function rex_a62_metainfo_form($params)
   
   $s .= '<script><!--
 
-function metainfo_toggle()
+function rex_metainfo_toggle()
 {
 	var trs = getElementsByClass("rex-metainfo-cat");
 	for(i=0;i<trs.length;i++)
   {
-		if ( trs[i].style.display != "none" ) trs[i].style.display = "none";
-		else trs[i].style.display = "";
+		toggleElement(trs[i]);
 	}
 }
 
-//--></script><a href=javascript:metainfo_toggle();>open</a>';
+//--></script><a href=javascript:rex_metainfo_toggle();>open</a>';
   
   return $s;
 }
