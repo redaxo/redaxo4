@@ -605,6 +605,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
       
+      $add_buttons .= rex_register_extension_point('CAT_FORM_BUTTON_ADD', array('buttons' => $add_buttons) );
+      
       echo '
         <tr class="rex-trow-actv">
           '. $kat_icon_td .'
@@ -624,8 +626,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       	'data_colspan' => ($data_colspan+1),
 				));
         
-    }
-    else
+    }else
     {
       // --------------------- KATEGORIE WITH WRITE
       
@@ -652,8 +653,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         </tr>';
     }
 
-  }
-  elseif ($REX_USER->hasPerm('csr['. $i_category_id .']') || $REX_USER->hasPerm('csw['. $i_category_id .']'))
+  }elseif ($REX_USER->hasPerm('csr['. $i_category_id .']') || $REX_USER->hasPerm('csw['. $i_category_id .']'))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
@@ -891,8 +891,7 @@ if ($category_id > -1)
             </tr>
             ';
 
-    }
-    elseif ($KATPERM)
+    }elseif ($KATPERM)
     {
       // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
       
@@ -907,8 +906,7 @@ if ($category_id > -1)
       {
         $article_status = $I18N->msg('status_offline');
         $article_class = 'rex-offline';
-      }
-      elseif ($sql->getValue('status') == 1)
+      }elseif ($sql->getValue('status') == 1)
       {
         $article_status = $I18N->msg('status_online');
         $article_class = 'rex-online';
@@ -919,8 +917,7 @@ if ($category_id > -1)
       {
         $add_extra = '<td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
                       <td class="'. $article_class .'"><span class="rex-strike">'. $article_status .'</span></td>';
-      }
-      else
+      }else
       {
         if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]'))
         {
@@ -952,8 +949,7 @@ if ($category_id > -1)
             </tr>
             ';
 
-    }
-    else
+    }else
     {
       // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
