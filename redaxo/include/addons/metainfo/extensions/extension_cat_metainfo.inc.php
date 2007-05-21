@@ -235,6 +235,7 @@ function rex_a62_metainfo_form($params)
       }
     }
     
+    /*
     if($tag != '')
     	$s .= '<'. $tag . $tag_attr  .'>'. "\n";
     
@@ -246,7 +247,13 @@ function rex_a62_metainfo_form($params)
     
     if($tag != '')
     	$s .='</'.$tag.'>'. "\n";
-           
+		*/
+		
+		$s .= '<tr class="rex-trow-actv"><td>&nbsp;</td>';
+		$s .= '<td class="rex-mt-fld">'.$field. "</td>\n";
+		$s .= '<td class="rex-mt-lbl" colspan="3"><label for="'. $id .'">'. $label .'</label></td>'. "\n";
+		$s .= '</tr>';
+   	
     $fields->next();
   }
   

@@ -267,7 +267,8 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
       "name" => $category_name,
       "prior" => $Position_New_Category,
       "path" => $KATPATH,
-      "status" => 0
+      "status" => 0,
+      "article" => $AART,
     ));
 
   }
