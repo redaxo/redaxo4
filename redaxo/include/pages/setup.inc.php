@@ -109,7 +109,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   echo '<ul class="rex-stp-language">
           <li><a href="index.php?checkmodus=0.5&amp;lang=de_de">DEUTSCH</a></li>
           <li><a href="index.php?checkmodus=0.5&amp;lang=en_gb">ENGLISH</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=es_es">ESPA&Ntilde;IOL</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=es_es">ESPA&Ntilde;OL</a></li>
           <li><a href="index.php?checkmodus=0.5&amp;lang=pl_pl">POLSKI</a></li>
           <li><a href="index.php?checkmodus=0.5&amp;lang=tr_tr">TURKYE</a></li>
         </ul>';
