@@ -1379,7 +1379,10 @@ background-color:#f90;
 width:88px;
 }
 
-
+.rex-meta-button {
+float:right;
+line-height:18px;
+}
 
 
 

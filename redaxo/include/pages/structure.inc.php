@@ -598,14 +598,15 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       {
         $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
       }
+
+      $add_buttons = rex_register_extension_point('CAT_FORM_BUTTON_ADD', "" );
       
-      $add_buttons = '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
+      $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
       if (!$REX_USER->hasPerm('editContentOnly[]'))
       {
         $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
       
-      $add_buttons .= rex_register_extension_point('CAT_FORM_BUTTON_ADD', array('buttons' => $add_buttons) );
       
       echo '
         <tr class="rex-trow-actv">

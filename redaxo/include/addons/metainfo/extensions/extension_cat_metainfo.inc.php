@@ -18,7 +18,12 @@ rex_register_extension('CAT_FORM_BUTTON_ADD', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {
-	$params["buttons"] .= '<script><!--
+	global $REX;
+	
+	$fields = new rex_sql();
+  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "cat_%" LIMIT 1');
+	
+	$return = '<div class="rex-meta-button"><script><!--
 
 function rex_metainfo_toggle()
 {
@@ -29,9 +34,9 @@ function rex_metainfo_toggle()
 	}
 }
 
-//--></script><a href=javascript:rex_metainfo_toggle();><img src="pics/file_down.gif" /></a>';
+//--></script><a href=javascript:rex_metainfo_toggle();><img src="pics/file_down.gif" /></a></div>';
 
-	return $params["buttons"];
+	if ($fields->getRows()==1) return $return;
 }
 
 /**
