@@ -72,44 +72,74 @@ class thumbnail
         exit ();
       }
 
-      @ $this->img['width'] = imagesx($this->img['src']);
-      @ $this->img['height'] = imagesy($this->img['src']);
+      $this->img['width'] = imagesx($this->img['src']);
+      $this->img['height'] = imagesy($this->img['src']);
+      $this->img['width_offset_thumb'] = 0;
+      $this->img['height_offset_thumb'] = 0;
 
       // --- default quality jpeg
       $this->img['quality'] = 75;
     }
   }
 
-  function size_height($size = 100)
+  function size_height($size)
   {
     // --- height
     $this->img['height_thumb'] = $size;
-    if ($this->img['width_thumb'] == '')
+    if ($this->img['width_thumb'] == 0)
     {
-      @ $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
+      $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
     }
   }
 
-  function size_width($size = 100)
+  function size_width($size)
   {
     // --- width
     $this->img['width_thumb'] = $size;
-    @ $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
+    $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
   }
 
-  function size_auto($size = 100)
+  function size_auto($size)
   {
     // --- size
     if ($this->img['width'] >= $this->img['height'])
     {
-      $this->img['width_thumb'] = $size;
-      @ $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
+      $this->size_width($size);
+      //      $this->img['width_thumb'] = $size;
+      //      $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
     }
     else
     {
-      $this->img['height_thumb'] = $size;
-      @ $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
+      $this->size_height($size);
+      //      $this->img['height_thumb'] = $size;
+      //      $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
     }
+  }
+
+  // Ausschnitt aus dem Bild auf bestimmte größe zuschneiden
+  function size_crop($width, $height)
+  {
+    $this->img['width_thumb'] = $width;
+    $this->img['height_thumb'] = $height;
+
+    $width_ratio = $this->img['width'] / $this->img['width_thumb'];
+    $height_ratio = $this->img['height'] / $this->img['height_thumb'];
+
+    // Es muss an der Breite beschnitten werden
+    if ($width_ratio > $height_ratio)
+    {
+      //      $_DST['offset_w'] = round(($this->img['width']-$this->img['width_thumb']*$height_ratio)/2);
+      $this->img['width_offset_thumb'] = round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2);
+      $this->img['width'] = round($this->img['width_thumb'] * $height_ratio);
+    }
+    // es muss an der Höhe beschnitten werden
+    elseif ($width_ratio < $height_ratio)
+    {
+      //      $_DST['offset_h'] = round(($this->img['height']-$this->img['height_thumb']*$width_ratio)/2);
+      $this->img['height_offset_thumb'] = round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2);
+      $this->img['height'] = round($this->img['height_thumb'] * $width_ratio);
+    }
+
   }
 
   function jpeg_quality($quality = 85)
@@ -134,7 +164,7 @@ class thumbnail
       imagealphablending($this->img['des'], false);
       imagesavealpha($this->img['des'], true);
     }
-    imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, 0, 0, $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
+    imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, $this->img['width_offset_thumb'], $this->img['height_offset_thumb'], $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
   }
 
   function generateImage($save = '', $show = true)
@@ -142,14 +172,12 @@ class thumbnail
     if ($this->img['format'] == 'GIF' && !$this->gifsupport)
     {
       // --- kein caching -> gif ausgeben
-      header('Content-Type: image/' . $this->img['format']);
-      header('Last-Modified: ' . gmdate('D, d M Y H:i:s'));
-      readfile($this->imgfile);
-      exit;
+      $this->send();
     }
 
     $this->resampleImage();
     $this->UnsharpMask($this->img['des'], 80, .5, 3);
+
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
       imageJPEG($this->img['des'], $save, $this->img['quality']);
@@ -169,11 +197,21 @@ class thumbnail
 
     if ($show)
     {
-      header('Content-Type: image/' . $this->img['format']);
-      // header('HTTP/1.1 304 Not Modified');
-      header('Last-Modified: ' . gmdate('D, d M Y H:i:s'));
-      readfile($save);
+      $this->send($save);
     }
+  }
+
+  function send($file = null, $lastModified = null)
+  {
+    if (!$file)
+      $file = $this->imgfile;
+    if (!$lastModified)
+      $lastModified = time();
+
+    header('Content-Type: image/' . $this->img['format']);
+    // header('HTTP/1.1 304 Not Modified');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastModified));
+    readfile($file);
   }
 
   // Übernommen von cerdmann.com

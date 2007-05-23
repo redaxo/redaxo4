@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * Image-Resize Addon
+ * 
+ * @author office[at]vscope[dot]at Wolfgang Hutteger
+ * @author <a href="http://www.vscope.at">www.vscope.at</a>
+ * 
+ * @author staab[at]public-4u[dot]de Markus Staab
+ * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
+ * 
+ * @package redaxo3
+ * @version $Id$
+ */
+ 
 $mypage = 'image_resize';
 
 $REX['ADDON']['rxid'][$mypage] = 'REX_IMAGE_RESIZE';
@@ -56,7 +69,6 @@ if ($REX['GG'])
     }
     return $content;
   }
-
 }
 
 // Resize Script
@@ -69,14 +81,14 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
   $rex_resize = $_GET['rex_resize'];
 
   // get params
-  ereg('^([0-9]*)([awh])__(([0-9]*)h__)?(.*)', $rex_resize, $resize);
+  ereg('^([0-9]*)([awhc])__(([0-9]*)h__)?(.*)', $rex_resize, $resize);
 
   $size = $resize[1];
   $mode = $resize[2];
   $hmode = $resize[4];
   $imagefile = $resize[5];
 
-  $cachepath = $REX['HTDOCS_PATH'].'files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$rex_resize;
+  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
   // check for cache file
@@ -102,9 +114,7 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
     {
       include ($REX['HTDOCS_PATH'].'redaxo/include/addons/image_resize/classes/class.thumbnail.inc.php');
       $thumb = new thumbnail($cachepath);
-      header('Content-Type: image/'.$thumb->img['format']);
-      header('Last-Modified: '.gmdate('D, d M Y H:i:s', $cachetime));
-      readfile($cachepath);
+      $thumb->send($cachepath, $cachetime);
       exit;
     }
 
@@ -117,7 +127,7 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
     exit;
   }
 
-  if (($mode != 'w') and ($mode != 'h') and ($mode != 'a'))
+  if (($mode != 'w') and ($mode != 'h') and ($mode != 'a')and ($mode != 'c'))
   {
     print 'Error wrong mode - only h,w,a';
     exit;
@@ -147,10 +157,16 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
   {
     $thumb->size_height($size);
   }
-  if ($hmode != '')
+  
+  if ($mode == 'c')
+  {
+    $thumb->size_crop($size, $hmode);
+  }
+  elseif ($hmode != '')
   {
     $thumb->size_height($hmode);
   }
+  
   if ($mode == 'a')
   {
     $thumb->size_auto($size);
