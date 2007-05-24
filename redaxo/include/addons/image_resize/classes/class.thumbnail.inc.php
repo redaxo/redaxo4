@@ -20,6 +20,7 @@ class thumbnail
   var $img;
   var $gifsupport;
   var $imgfile;
+  var $filters;
 
   function thumbnail($imgfile)
   {
@@ -79,6 +80,7 @@ class thumbnail
 
       // --- default quality jpeg
       $this->img['quality'] = 75;
+      $this->filters = array();
     }
   }
 
@@ -141,7 +143,7 @@ class thumbnail
     }
 
   }
-
+  
   function jpeg_quality($quality = 85)
   {
     // --- jpeg quality
@@ -176,8 +178,8 @@ class thumbnail
     }
 
     $this->resampleImage();
-    $this->UnsharpMask($this->img['des'], 80, .5, 3);
-
+    $this->applyFilters();
+ 
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
       imageJPEG($this->img['des'], $save, $this->img['quality']);
@@ -212,6 +214,19 @@ class thumbnail
     // header('HTTP/1.1 304 Not Modified');
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastModified));
     readfile($file);
+  }
+  
+  function addFilter($filter)
+  {
+    $this->filters[] = $filter;
+  }
+  
+  function applyFilters()
+  {
+    if(in_array('blur', $this->filters))
+    {
+       $this->UnsharpMask($this->img['des'], 80, .5, 3);
+    }
   }
 
   // Übernommen von cerdmann.com

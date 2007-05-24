@@ -72,13 +72,13 @@ if ($REX['GG'])
 }
 
 // Resize Script
-if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
+$rex_resize = rex_get('rex_resize', 'string');
+if ($rex_resize != '')
 {
 	// Lösche alle Ausgaben zuvor
 	while(ob_get_level() > 0)
 	  ob_end_clean();
 	
-  $rex_resize = $_GET['rex_resize'];
 
   // get params
   ereg('^([0-9]*)([awhc])__(([0-9]*)h__)?(.*)', $rex_resize, $resize);
@@ -87,6 +87,7 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
   $mode = $resize[2];
   $hmode = $resize[4];
   $imagefile = $resize[5];
+  $filter = rex_get('filter', 'array');
 
   $cachepath = $REX['INCLUDE_PATH'].'/generated/files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
@@ -170,6 +171,11 @@ if (isset ($_GET['rex_resize']) and $_GET['rex_resize'] != '')
   if ($mode == 'a')
   {
     $thumb->size_auto($size);
+  }
+  
+  if($filter == 'blur')
+  {
+    $this->addFilter($filter);
   }
 
   // jpeg quality
