@@ -13,22 +13,22 @@
  * @version $Id$
  */
 
-include $REX['INCLUDE_PATH']."/layout/top.php";
+include $REX['INCLUDE_PATH'].'/layout/top.php';
 
 include_once $REX['INCLUDE_PATH']. '/addons/'. $page .'/functions/function_folder.inc.php';
 
-if (isset($subpage) and $subpage == "clear_cache"){
+if (isset($subpage) and $subpage == 'clear_cache'){
     $c = 0;
-    $files = readFolderFiles($REX['HTDOCS_PATH']."files/");
+    $files = readFolderFiles($REX['INCLUDE_PATH'].'/generated/files/');
     if(is_array($files)){
           foreach($files as $var){
               if(eregi('^'. $REX['TEMP_PREFIX'] .'cache_resize___',$var)){
-                  unlink($REX['HTDOCS_PATH']."files/".$var);
+                  unlink($REX['HTDOCS_PATH'].'files/'.$var);
                   $c++;
               }
           }
     }
-    $msg = "Cache cleared - $c cachefiles removed";
+    $msg = 'Cache cleared - '. $c .' cachefiles removed';
 }
 
 
@@ -39,7 +39,7 @@ $subpages = array(
 
 rex_title('Image Resize Addon ',$subpages);
 
-if (isset($msg) and $msg != "") echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">'.$msg.'</td></tr></table><br />';
+if (isset($msg) and $msg != '') echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">'.$msg.'</td></tr></table><br />';
 
 ?>
 <div class="rex-addon-output">
@@ -60,6 +60,6 @@ if (isset($msg) and $msg != "") echo '<table border="0" cellpadding="5" cellspac
 </div>
 <?php
 
-include $REX['INCLUDE_PATH']."/layout/bottom.php";
+include $REX['INCLUDE_PATH'].'/layout/bottom.php';
 
 ?>
