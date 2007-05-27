@@ -11,16 +11,27 @@
 ob_start();
 ob_implicit_flush(0);
 
-// ----- REX UNSET
+// ----------------- MAGIC QUOTES CHECK && REGISTER GLOBALS
+include "./include/functions/function_rex_mquotes.inc.php";
 
+// ----- REX UNSET
 unset($REX);
 
-$REX['HTDOCS_PATH'] = "../";
-$REX['GG'] = false;
+// Flag ob Inhalte mit Redaxo aufgerufen oder
+// von der Webseite aus
+// Kann wichtig für die Darstellung sein
+// Sollte immer false bleiben
+
 $REX['REDAXO'] = true;
 
+// Wenn $REX[GG] = true; dann wird der
+// Content aus den redaxo/include/generated/
+// genommen
 
+$REX['GG'] = false;
 
+// setzte pfad und includiere klassen und funktionen
+$REX['HTDOCS_PATH'] = "../";
 include "include/master.inc.php";
 
 // ----- addon/normal page path

@@ -10,6 +10,9 @@
 ob_start();
 ob_implicit_flush(0);
 
+// ----------------- MAGIC QUOTES CHECK && REGISTER GLOBALS
+include "./redaxo/include/functions/function_rex_mquotes.inc.php";
+
 // --------------------------- ini settings
 
 // Setzten des arg_separators, falls Sessions verwendet werden,
@@ -28,13 +31,11 @@ unset($REX);
 
 $REX['REDAXO'] = false;
 
-
 // Wenn $REX[GG] = true; dann wird der
 // Content aus den redaxo/include/generated/
 // genommen
 
 $REX['GG'] = true;
-
 
 // setzte pfad und includiere klassen und funktionen
 $REX['HTDOCS_PATH'] = "./";
