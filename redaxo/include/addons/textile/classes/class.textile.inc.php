@@ -783,7 +783,7 @@ class Textile
         if ((empty($parts['scheme']) or @$parts['scheme'] == 'http') and
              empty($parts['host']) and
              preg_match('/^\w/', @$parts['path']))
-            $url = hu.$url;
+            $url = $url; // hu.$url;
         if ($this->restricted and !empty($parts['scheme']) and
               !in_array($parts['scheme'], $this->url_schemes))
             return '#';
