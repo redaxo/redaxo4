@@ -623,7 +623,7 @@ class stats
 
     $len = strlen("http://".$_SERVER["SERVER_NAME"]);
 
-    if (substr($_SERVER['HTTP_REFERER'], 0, $len) != "http://".$_SERVER["SERVER_NAME"])
+    if (isset($_SERVER['HTTP_REFERER']) && substr($_SERVER['HTTP_REFERER'], 0, $len) != "http://".$_SERVER["SERVER_NAME"])
       $ref = $_SERVER['HTTP_REFERER'];
     else
       $ref = "";
