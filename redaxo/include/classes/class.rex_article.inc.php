@@ -27,6 +27,7 @@ class rex_article
   var $ctype;
   var $clang;
   var $getSlice;
+	var $viasql; // Content über Datenbank holen
 
   // ----- Konstruktor
   function rex_article($article_id = null, $clang = null)
@@ -42,6 +43,7 @@ class rex_article
     $this->article_content = "";
     $this->eval = FALSE;
     $this->setanker = true;
+    $this->viasql = false;
 
 
     // AUSNAHME: modul auswählen problem
@@ -56,6 +58,13 @@ class rex_article
     if ($article_id !== null) 
       $this->setArticleId($article_id);
   }
+
+	function getContentAsQuery($viasql = TRUE)
+	{
+		if ($viasql !== TRUE) $viasql = FALSE;
+		$this->viasql = $viasql;
+	}
+
 
   // ----- Slice Id setzen für Editiermodus
   function setSliceId($value)
@@ -74,9 +83,10 @@ class rex_article
   {
     global $REX;
 
+    $article_id = (int) $article_id;
     $this->article_id = (int) $article_id;
 
-    if (!$REX['GG'])
+    if (!$REX['GG'] || $this->viasql)
     {
       // ---------- select article
       $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
@@ -99,14 +109,33 @@ class rex_article
       }
     }else
     {
-      if (@include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
+    	$FX = file_exists($REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".content");
+      if ($FX && @include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
       {
         $this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
         $this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
         return TRUE;
       }else
       {
-        return FALSE;
+				$this->ARTICLE = new rex_sql;
+	      $this->ARTICLE->setQuery("select * from ".$REX['TABLE_PREFIX']."article where ".$REX['TABLE_PREFIX']."article.id='$article_id' and clang='".$this->clang."'");
+	   	  if ($this->ARTICLE->getRows() == 1)
+     	  {
+     	  	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
+     	  	rex_generateArticle($article_id);
+     	  	if (@include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
+	     		{
+  	    		$this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
+        		$this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
+        		return TRUE;
+        	}else
+        	{
+        		return FALSE;
+        	}
+     	  }else
+     	  {
+     	  	return FALSE;
+     	  }
       }
     }
   }
@@ -144,11 +173,11 @@ class rex_article
     if ($value == "category_id")
     {
       if ($this->getValue("startpage")!=1) $value = "re_id";
-      else if($REX['GG']) $value = "article_id";
+      else if($REX['GG'] && !$this->viasql) $value = "article_id";
       else $value = "id";
     }
 
-    if ($REX['GG']) return $REX['ART'][$this->article_id][$value][$this->clang];
+    if ($REX['GG'] && !$this->viasql) return $REX['ART'][$this->article_id][$value][$this->clang];
     else return $this->ARTICLE->getValue($value);
   }
 
@@ -169,7 +198,7 @@ class rex_article
     ob_start();
     ob_implicit_flush(0);
 
-    if ($REX['GG'] && !$this->getSlice)
+    if ($REX['GG'] && !$this->viasql && !$this->getSlice)
     {
       if ($this->article_id != 0)
       {
@@ -476,7 +505,7 @@ class rex_article
         }
 
         // -------------------------- schreibe content
-        if ($this->mode == "generate") echo $this->replaceLinks($this->article_content);
+        if ($this->mode == "generate" || $this->viasql) echo $this->replaceLinks($this->article_content);
         else eval("?>".$this->article_content);
 
       }else
@@ -658,6 +687,7 @@ class rex_article
   		  }
   		}else
       {
+      	// var_dump($var);exit;
   			$tmp = $var->getFEOutput($sql,$content);
   		}
       

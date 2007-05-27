@@ -163,8 +163,8 @@ echo '
     <div class="rex-cnt-col2">
       <p class="rex-hdl">'.$I18N->msg("specials_features").'</p>
       <div class="rex-spc-stn-cnt">
-        <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("regenerate_article").'</a></p>
-        <p>'.$I18N->msg("regeneration_message").'</p>
+        <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("delete_cache").'</a></p>
+        <p>'.$I18N->msg("delete_cache_description").'</p>
   
         <p><a href="index.php?page=specials&amp;func=linkchecker">'.$I18N->msg("link_checker").'</a></p>
         <p>'.$I18N->msg("check_links_text").'</p>

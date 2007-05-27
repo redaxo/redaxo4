@@ -26,10 +26,20 @@ class OOArticle extends OORedaxo
     elseif(!isset($REX['CLANG'][$clang])) $clang = 0;
     
     $article_path = $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$clang.".article";
+    if (!file_exists($article_path))
+		{
+			include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
+    	$article_id = (int) $article_id;
+    	rex_generateArticle($article_id, FALSE);
+		}    
+
     if (file_exists($article_path))
+    {
       include ($article_path);
-    else
-      return null;
+    }else
+    {
+			return null;
+    }
 
     if ($OOCategory)
       return new OOCategory(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));

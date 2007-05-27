@@ -8,31 +8,6 @@
 // ----------------- TIMER
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_time.inc.php";
 
-$REX_TEMP = $REX;
-
-// ----------------- MAGIC QUOTES CHECK
-if (!get_magic_quotes_gpc()) include $REX['INCLUDE_PATH']."/functions/function_rex_mquotes.inc.php";
-
-// ----------------- REGISTER GLOBALS CHECK
-if (!ini_get('register_globals'))
-{
-        // register_globals = off;
-        
-        if (isset($_COOKIE) and $_COOKIE) extract($_COOKIE);
-        if (isset($_ENV) and $_ENV) extract($_ENV);
-        if (isset($_FILES) and $_FILES) extract($_FILES);
-        if (isset($_GET) and $_GET) extract($_GET);
-        if (isset($_POST) and $_POST) extract($_POST);
-        if (isset($_SERVER) and $_SERVER) extract($_SERVER);
-        if (isset($_SESSION) and $_SESSION) extract($_SESSION);
-}else
-{
-        // register_globals = on;
-        
-}
-
-$REX = $REX_TEMP;
-
 // ----------------- REX PERMS
 
 // ----- allgemein
@@ -92,13 +67,13 @@ if (!$REX['GG'])
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_formatter.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
-  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
+}  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
   foreach($REX['VARIABLES'] as $key => $value)
   {
     require_once ($REX['INCLUDE_PATH'].'/classes/variables/class.'.$value.'.inc.php');
     $REX['VARIABLES'][$key] = new $value;
   }
-}
+
 
 // ----- EXTRA CLASSES
 // include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';

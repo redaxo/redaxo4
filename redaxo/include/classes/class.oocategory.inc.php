@@ -36,7 +36,15 @@ class OOCategory extends OORedaxo
     if ($clang === false)
       $clang = $GLOBALS['REX']['CUR_CLANG'];
     $categorylist = $REX['INCLUDE_PATH']."/generated/articles/".$cat_parent_id.".".$clang.".clist";
+
     $catlist = array ();
+
+    if (!file_exists($categorylist))
+    {
+    	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
+    	rex_generateLists($cat_parent_id);
+    }
+    
     if (file_exists($categorylist))
     {
       include ($categorylist);
@@ -59,6 +67,7 @@ class OOCategory extends OORedaxo
         }
       }
     }
+
     return $catlist;
   }
 

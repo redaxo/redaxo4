@@ -34,6 +34,7 @@ function rex_generateAll()
 
   // ----------------------------------------------------------- generiere artikel
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/articles", 0);
+  /*
   $gc = new rex_sql;
   $gc->setQuery("select distinct id from ".$REX['TABLE_PREFIX']."article");
   for ($i = 0; $i < $gc->getRows(); $i ++)
@@ -41,6 +42,7 @@ function rex_generateAll()
     rex_generateArticle($gc->getValue("id"));
     $gc->next();
   }
+  */
 
   // ----------------------------------------------------------- generiere clang
   $lg = new rex_sql();
@@ -68,7 +70,7 @@ function rex_generateAll()
   // **********************
 
   // ----------------------------------------------------------- message
-  $MSG = $I18N->msg('articles_generated')." ".$I18N->msg('old_articles_deleted');
+  $MSG = $I18N->msg('regenerated_all_message');
 
   // ----- EXTENSION POINT
   $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);
@@ -77,6 +79,28 @@ function rex_generateAll()
 }
 
 // ----------------------------------------- ARTICLE
+
+
+/**
+ * Löscht die gecachten Dateien eines Artikels
+ * 
+ * @param $id ArtikelId des Artikels, der generiert werden soll 
+ */
+
+function rex_deleteCacheArticle($id)
+{
+  global $REX;
+	
+  $CL = $REX['CLANG'];
+  foreach($CL as $clang => $clang2)
+  {
+  	@ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article");
+    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content");
+    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.alist");
+    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.clist");
+	}
+}
+
 
 /**
  * Generiert alle *.article u. *.content Dateien eines Artikels/einer Kategorie
@@ -108,6 +132,7 @@ function rex_generateArticle($id, $refreshall = true)
     $clang = key($CL);
     $CONT = new rex_article;
     $CONT->setCLang($clang);
+    $CONT->getContentAsQuery();
     $CONT->setMode("generate"); // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
     $CONT->setArticleId($id);
 

@@ -291,6 +291,7 @@ user_status = Status
 
 # redaxo\include\pages\special.inc.php
 articles_generated = Artikel und Templates wurden neu generiert, Cache gelöscht!
+regenerated_all_message = Cache wurde gelöscht.
 old_articles_deleted = [Alte Artikel und Templates wurden gelöscht]
 links_ok = Alle Links sind ok.
 links_not_ok = Folgende Links sind nicht ok:
@@ -299,6 +300,8 @@ specials_title = Spezielle Features
 specials_features = Features
 specials_settings = Einstellungen
 regenerate_article = Regeneriere Artikel & Cache
+delete_cache = Cache löschen.
+delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontentaufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt. 
 regeneration_message = Kategorien, Artikel und Templates werden neu generiert. Der gesamte Cache wird gelöscht. Kann länger dauerrn. Bitte den Vorgang nicht abbrechen.
 check_links_text = Wenn sie überprüfen wollen ob alle Links [REX_LINK] funktionieren, dann klicken Sie bitte hier.
 link_checker = Linkchecker
