@@ -719,6 +719,58 @@ input#Position_Article {
 
 
 
+
+
+
+/*	Structure
+*******************************************************************************/
+
+
+/*	Metainfo */
+tr.rex-trow-actv td {
+
+}
+
+
+tr.rex-trow-actv td.rex-mt-lbl {
+	vertical-align:top;
+} 
+
+tr.rex-trow-actv td.rex_mt-fld {
+} 
+
+
+tr.rex-trow-actv td.rex-mt-fld textarea,
+tr.rex-trow-actv td.rex-mt-fld input,
+tr.rex-trow-actv td.rex-mt-fld select {
+	width:97%;
+}
+
+tr.rex-trow-actv td.rex-mt-fld textarea {
+	height:50px;
+}
+
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx {
+	clear:both;
+}
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label {
+	float:right;
+	width:190px;
+}
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input {
+	margin:2px 0;
+}
+
+
+
+div.rex-meta-button {
+	float:right;
+	line-height:18px;
+}
+
+
+
+
 /*	Content - Editmode
 *******************************************************************************/
 
@@ -786,7 +838,7 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp {
 }
 
 
-/*	Widgets - MEDIA_BUTTON, MEDIALIST_BUTTON, LINK_BUTTON */
+/*	Widgets - MEDIA_BUTTON, MEDIALIST_BUTTON, LINK_BUTTON *********************/
 div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt {
 	width:300px;
 	margin-bottom:10px;
@@ -803,10 +855,6 @@ body div#rex-output div.rex-wdgt p.rex-slct select {
 	width:200px;
 	margin-right:5px;
 }
-body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p input,
-body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p.rex-slct select {
-	background-color:#f0efeb;
-}
 body div#rex-output div.rex-wdgt p.rex-slct select {
 	width:205px;
 }
@@ -818,6 +866,23 @@ div.rex-wdgt div.rex-wdgt-mdlst p {
 
 div.rex-wdgt div.rex-wdgt-mdlst p a img {
 	margin-bottom:3px;
+}
+
+body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p input,
+body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p.rex-slct select, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct select {
+	background-color:#f0efeb;
+}
+
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input {
+	width:140px;
+}
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct select {
+	width:146px;
+}
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-mdlst p.rex-slct select {
+	height:100px;
 }
 
 
@@ -916,6 +981,7 @@ div.rex-mdl-editmode p input.rex-sbmt {
 	margin-left:150px;
 }
 
+
 /*	Addon - Help
 *******************************************************************************/
 /* Container for User Helpfile */
@@ -923,6 +989,7 @@ div.rex-adn-hlp {
 	padding:5px;
 	background-color:#f0efeb;
 }
+
 
 
 /*	User - Edit-/Addmode
@@ -982,6 +1049,8 @@ body div#rex-output div.rex-usr-editmode p.rex-warning input.rex-chckbx {
 }
 
 
+
+
 /*	Special
 *******************************************************************************/
 
@@ -1004,6 +1073,9 @@ div.rex-spc-stn-cnt p select  {
 div.rex-spc-stn-cnt p input.rex-sbmt {
 	margin-left:190px;
 }
+
+
+
 
 /*	Medienpool
 *******************************************************************************/
@@ -1339,49 +1411,6 @@ body#rex-page-import-export div.rex-cnt table th {
 }
 body#rex-page-import-export div.rex-cnt table td {
 	background-color:#FAF9F5;
-}
-
-
-
-
-
-
-
-/* *************** ANPASSUNGEN - THOMAS - KANNST DU DAS NOCH RICHTIG EINBAUZEN ?***************/
-
-tr.rex-trow-actv td {
-
-}
-
-
-tr.rex-trow-actv td.rex-mt-lbl {
-vertical-align:top;
-} 
-
-tr.rex-trow-actv td.rex_mt-fld {
-} 
-
-
-tr.rex-trow-actv td.rex-mt-fld textarea,
-tr.rex-trow-actv td.rex-mt-fld input {
-width:200px;
-}
-
-tr.rex-trow-actv td.rex-mt-fld select,
-tr.rex-trow-actv td.rex-mt-fld textarea {
-height:50px;
-}
-
-
-tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-mdlst p.rex-slct select,
-tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-lnk p input{
-background-color:#f90;
-width:88px;
-}
-
-.rex-meta-button {
-float:right;
-line-height:18px;
 }
 
 
