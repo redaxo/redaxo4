@@ -274,6 +274,8 @@ class rex_form
       $attributes['internal::useArraySyntax'] = true;
     }
     
+    // Eigentlichen Feldnamen nochmals speichern
+    $fieldName = $name;
     if($attributes['internal::useArraySyntax'] === true)
     {
       $name = $this->fieldset . '['. $name .']';
@@ -310,6 +312,7 @@ class rex_form
     // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
     $attributes = array_merge(array('id' => $id), $attributes, $internal_attr);
     $element = new $class($tag, $this, $attributes, $separateEnding);
+    $element->setFieldName($fieldName);
     $element->setValue($value);
     return $element;
   }
@@ -473,24 +476,21 @@ class rex_form
   }
   
   /**
-   * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann kurz vorm speichern
+   * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
+   * kurz vorm speichern
    */
   function prepareSave($fieldsetName, $fieldName, $fieldValue)
   {
     return $fieldValue;
   }
   
-  function getElementPostValue($fieldsetName, $fieldName, $default = null)
+  /**
+   * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
+   * wenn das Feld mit Datenbankwerten angezeigt wird
+   */
+  function prepareView($fieldsetName, $fieldName, $fieldValue)
   {
-      // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
-      $normalizedFieldsetName = rex_form_element::_normalizeName($fieldsetName);
-      // POST-Werte ermitteln
-      $fieldsetValues = rex_post($normalizedFieldsetName, 'array');
-      if(isset($fieldsetValues[$fieldName]))
-      {
-        return $fieldsetValues[$fieldName];
-      }
-      return $default;
+    return $fieldValue;
   }
   
   function fieldsetPostValues($fieldsetName)
@@ -501,18 +501,14 @@ class rex_form
     return rex_post($normalizedFieldsetName, 'array');
   }
   
-  function elementPostValue($fieldsetName, $fieldName)
+  function elementPostValue($fieldsetName, $fieldName, $default = null)
   {
     $fields = $this->fieldsetPostValues($fieldsetName);
-    foreach($fields as $_fieldName => $_fieldValue)
-    {
-      if($fieldName === $_fieldName)
-      {
-        return $_fieldValue;
-      }
-    }
     
-    return null;
+    if(isset($fields[$fieldName]))
+      return $fields[$fieldName];
+      
+    return $default;
   }
   
   function save()
@@ -682,6 +678,8 @@ class rex_form
       {
         foreach($this->getHeaderElements() as $element)
         {
+          // Callback
+          $element->setValue($this->prepareView($fieldsetName, $element->getFieldName(), $element->getValue()));
           // HeaderElemente immer ohne <p>
           $s .= $element->formatElement();
         }
@@ -690,6 +688,8 @@ class rex_form
       
       foreach($fieldsetElements as $element)
       {
+        // Callback
+        $element->setValue($this->prepareView($fieldsetName, $element->getFieldName(), $element->getValue()));
         $s .= $element->get();
       }
       
@@ -698,6 +698,8 @@ class rex_form
       {
         foreach($this->getFooterElements() as $element)
         {
+          // Callback
+          $element->setValue($this->prepareView($fieldsetName, $element->getFieldName(), $element->getValue()));
           $s .= $element->get();
         }
       }
@@ -730,6 +732,7 @@ class rex_form_element
   var $table;
   var $attributes;
   var $separateEnding;
+  var $fieldName;
   var $prefix;
   var $suffix;
   
@@ -743,6 +746,7 @@ class rex_form_element
     $this->separateEnding = $separateEnding;
     $this->setPrefix('');
     $this->setSuffix('');
+    $this->setFieldName('');
   }
   
   // --------- Attribute setter/getters
@@ -757,6 +761,16 @@ class rex_form_element
     return $this->value;
   }
 
+  function setFieldName($name)
+  {
+    $this->fieldName = $name;
+  }
+  
+  function getFieldName()
+  {
+    return $this->fieldName;
+  }
+  
   function setLabel($label)
   {
     $this->label = $label;
@@ -814,8 +828,7 @@ class rex_form_element
       {
         $value = $this->_normalizeId($value);
       }
-      
-      if($name == 'name')
+      elseif($name == 'name')
       {
         $value = $this->_normalizeName($value);
       }
