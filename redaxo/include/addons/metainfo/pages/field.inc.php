@@ -25,7 +25,7 @@ if ($func == '')
   $list = new rex_list('SELECT field_id, name FROM '. $REX['TABLE_PREFIX'] .'62_params WHERE `name` LIKE "'. $prefix .'%"');
 	
 	$list->setCaption($I18N_META_INFOS->msg('field_list_caption'));
-	$list->addColumn('<a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;func=add"><img src="pics/modul_plus.gif" alt="add" title="add" /></a>', '<img src="pics/modul.gif" alt="field" title="field" />', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+	$list->addColumn('<a href="'. $list->getUrl(array('func' => 'add')) .'"><img src="pics/modul_plus.gif" alt="add" title="add" /></a>', '<img src="pics/modul.gif" alt="field" title="field" />', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
 	
 	$list->setColumnLabel('field_id', $I18N_META_INFOS->msg('field_label_id'));
 	$list->setColumnLayout('field_id',  array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
