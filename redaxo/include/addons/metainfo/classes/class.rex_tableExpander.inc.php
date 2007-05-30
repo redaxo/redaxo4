@@ -110,43 +110,76 @@ class rex_a62_tableExpander extends rex_form
   {
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
-      $fieldValue = preg_replace('/[^a-z0-9\_]/','', strtolower($fieldValue));
-      if(substr($fieldValue, 0, strlen($this->metaPrefix)) !== $this->metaPrefix)
-      {
-        // Das name feld mit Prefix versehen
-        return $this->metaPrefix . $fieldValue;
-      }
+      // Den Namen mit Prefix speichern
+      return $this->addPrefix($fieldValue);
     }
     return parent::prepareSave($fieldsetName, $fieldName, $fieldValue);
+  }
+  
+  function prepareView($fieldsetName, $fieldName, $fieldValue)
+  {
+    if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
+    {
+      // Den Namen ohne Prefix anzeigen
+      return $this->stripPrefix($fieldValue);
+    }
+    return parent::prepareView($fieldsetName, $fieldName, $fieldValue);
+  }
+  
+  function addPrefix($string)
+  {
+    $lowerString = strtolower($string);
+    if(substr($lowerString, 0, strlen($this->metaPrefix)) !== $this->metaPrefix)
+    {
+      return $this->metaPrefix . $string;
+    }
+    return $string;
+  }
+  
+  function stripPrefix($string)
+  {
+    $lowerString = strtolower($string);
+    if(substr($lowerString, 0, strlen($this->metaPrefix)) === $this->metaPrefix)
+    {
+      return substr($string, strlen($this->metaPrefix));
+    }
+    return $string;
   }
   
   function save()
   {
     global $I18N_META_INFOS;
     
-    $postName = $this->getElementPostValue($this->getFieldsetName(), 'name');
-    if($postName == '')
+    $fieldName = $this->getFieldValue('name');
+    if($fieldName == '')
       return $I18N_META_INFOS->msg('field_error_name');
       
-    if(preg_match('/[^a-z0-9\_]/', $postName))
+    if(preg_match('/[^a-z0-9\_]/', $fieldName))
       return $I18N_META_INFOS->msg('field_error_chars_name');
-      
-    $sql = new rex_sql();
-    $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->metaPrefix . $postName .'" LIMIT 1');
-    if($sql->getRows() == 1)
+     
+    // Prüfen ob schon eine Spalte mit dem Namen existiert (nur beim add nötig)
+    if(!$this->isEditMode())
     {
-      return $I18N_META_INFOS->msg('field_error_unique_name');
+      $sql = new rex_sql();
+      $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
+      if($sql->getRows() == 1)
+      {
+        return $I18N_META_INFOS->msg('field_error_unique_name');
+      }
     }
       
-    // Da die POST werte erst in parent::save() übernommen werden, 
-    // kann hier noch der vorhergehende Wert abgegriffen werden
-    $fieldOldName = $this->getFieldValue('name');
+    // Den alten Wert aus der DB holen
+    // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den 
+    // POST werten überschrieben werden!
+    $fieldOldName = '';
+    if($this->sql->getRows() == 1) 
+      $fieldOldName = $this->sql->getValue('name');
     
     if(parent::save())
     {
       global $REX, $I18N;
       
-      $fieldName = $this->getFieldValue('name');
+      $fieldName = $this->addPrefix($fieldName);
       $fieldType = $this->getFieldValue('type');
       $fieldDefault = $this->getFieldValue('default');
       
