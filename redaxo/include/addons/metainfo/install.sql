@@ -2,11 +2,16 @@ CREATE TABLE `rex_62_params` (
   `field_id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(255) default NULL,
   `name` varchar(255) default NULL,
+  `prior` int(10) unsigned NOT NULL,
   `attributes` varchar(255) NOT NULL,
   `type` int(10) unsigned default NULL,
   `default` varchar(255) NOT NULL,
   `params` varchar(255) default NULL,
   `validate` varchar(255) default NULL,
+  `createuser` varchar(255) NOT NULL,
+  `createdate` int(11) NOT NULL,
+  `updateuser` varchar(255) NOT NULL,
+  `updatedate` int(11) NOT NULL,
   PRIMARY KEY  (`field_id`),
   UNIQUE KEY `name` (`name`)
 );

@@ -22,7 +22,7 @@ function rex_a62_metainfo_form($params)
   
   $fields = new rex_sql();
 //  $fields->debugsql = true;
-  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "art_%"');
+  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "art_%" ORDER BY prior');
   
   $params = rex_a62_metainfo_handleSave($params, $fields);
   $article = new rex_article($params['id'], $params['clang']);

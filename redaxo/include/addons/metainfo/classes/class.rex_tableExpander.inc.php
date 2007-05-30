@@ -44,6 +44,29 @@ class rex_a62_tableExpander extends rex_form
     $field =& $this->addTextField('name');
     $field->setLabel($I18N_META_INFOS->msg('field_label_name'));
 
+    $field =& $this->addSelectField('prior');
+    $field->setLabel($I18N_META_INFOS->msg('field_label_prior'));
+    $select =& $field->getSelect();
+    $select->setSize(1);
+    $select->addOption($I18N_META_INFOS->msg('field_first_prior'), 1);
+    // Im Edit Mode das Feld selbst nicht als Position einfügen
+    $qry = 'SELECT name,prior FROM '. $this->tableName .' WHERE `name` LIKE "'. $this->metaPrefix .'%"';
+    if($this->isEditMode())
+    {
+      $qry .= ' AND field_id != '. $this->getParam('field_id');
+    }
+    $qry .=' ORDER BY prior';
+    $sql = new rex_sql();
+    $sql->setQuery($qry);
+    for($i = 0; $i < $sql->getRows(); $i++)
+    {
+      $select->addOption(
+        $I18N_META_INFOS->msg('field_after_prior', $sql->getValue('name')),
+        $sql->getValue('prior')+1
+      );
+      $sql->next();
+    }
+    
     $field =& $this->addTextField('title');
     $field->setLabel($I18N_META_INFOS->msg('field_label_title'));
     
@@ -106,24 +129,27 @@ class rex_a62_tableExpander extends rex_form
     return false;
   }
   
-  function prepareSave($fieldsetName, $fieldName, $fieldValue)
+  function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
+    global $REX;
+    
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
       // Den Namen mit Prefix speichern
       return $this->addPrefix($fieldValue);
     }
-    return parent::prepareSave($fieldsetName, $fieldName, $fieldValue);
+    
+    return parent::preSave($fieldsetName, $fieldName, $fieldValue, $saveSql);
   }
   
-  function prepareView($fieldsetName, $fieldName, $fieldValue)
+  function preView($fieldsetName, $fieldName, $fieldValue)
   {
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
       // Den Namen ohne Prefix anzeigen
       return $this->stripPrefix($fieldValue);
     }
-    return parent::prepareView($fieldsetName, $fieldName, $fieldValue);
+    return parent::preView($fieldsetName, $fieldName, $fieldValue);
   }
   
   function addPrefix($string)
@@ -172,12 +198,18 @@ class rex_a62_tableExpander extends rex_form
     // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den 
     // POST werten überschrieben werden!
     $fieldOldName = '';
-    if($this->sql->getRows() == 1) 
+    $fieldOldPrior = 1;
+    if($this->sql->getRows() == 1)
+    { 
       $fieldOldName = $this->sql->getValue('name');
-    
+      $fieldOldPrior = $this->sql->getValue('prior');
+    }
+      
     if(parent::save())
     {
       global $REX, $I18N;
+      
+      $this->organizePriorities($this->getFieldValue('prior'), $fieldOldPrior);
       
       $fieldName = $this->addPrefix($fieldName);
       $fieldType = $this->getFieldValue('type');
@@ -207,6 +239,33 @@ class rex_a62_tableExpander extends rex_form
     }
     
     return false;
+  }
+  
+  function organizePriorities($newPrio, $oldPrio)
+  {
+    if($newPrio == $oldPrio)
+      return;
+      
+    if ($newPrio < $oldPrio)
+      $addsql = 'desc';
+    else
+      $addsql = 'asc';
+      
+    $sql = new rex_sql();
+//    $sql->debugsql = true;
+    $sql->setQuery('SELECT field_id FROM '. $this->tableName .' WHERE name LIKE "'. $this->metaPrefix .'%" ORDER BY prior, updatedate '. $addsql);
+    
+    $updateSql = new rex_sql();
+//    $updateSql->debugsql = true;
+    $updateSql->setTable($this->tableName);
+    
+    for($i = 0; $i < $sql->getRows(); $i++)
+    {
+      $updateSql->setValue('prior', $i+1);
+      $updateSql->setWhere('name LIKE "'. $this->metaPrefix .'%" AND field_id = '. $sql->getValue('field_id'));
+      $updateSql->update();
+      $sql->next();
+    }
   }
 }
 ?>
