@@ -122,6 +122,8 @@ function rex_a62_metainfo_form($params)
 
         foreach(explode(' ',$attr) as $pair)
         {
+          if(strpos($pair, '=') === false) continue;
+          
           $temp = explode('=', $pair);
           $select->setAttribute($temp[0], str_replace(array('"', "'"),'',$temp[1]));
           
