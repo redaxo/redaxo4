@@ -487,7 +487,7 @@ class rex_form
    * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
    * kurz vorm speichern
    */
-  function prepareSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
+  function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
     global $REX_USER;
     
@@ -521,7 +521,7 @@ class rex_form
    * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
    * wenn das Feld mit Datenbankwerten angezeigt wird
    */
-  function prepareView($fieldsetName, $fieldName, $fieldValue)
+  function preView($fieldsetName, $fieldName, $fieldValue)
   {
     return $fieldValue;
   }
@@ -566,7 +566,7 @@ class rex_form
       foreach($fieldValues as $fieldName => $fieldValue)
       {
         // Callback, um die Values vor dem Speichern noch beeinflussen zu können
-        $fieldValue = $this->prepareSave($fieldsetName, $fieldName, $fieldValue, $sql);
+        $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
         
         // Element heraussuchen        
         $element =& $this->getElement($fieldsetName, $fieldName);
@@ -714,7 +714,7 @@ class rex_form
         foreach($this->getHeaderElements() as $element)
         {
           // Callback
-          $element->setValue($this->prepareView($fieldsetName, $element->getFieldName(), $element->getValue()));
+          $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
           // HeaderElemente immer ohne <p>
           $s .= $element->formatElement();
         }
@@ -724,7 +724,7 @@ class rex_form
       foreach($fieldsetElements as $element)
       {
         // Callback
-        $element->setValue($this->prepareView($fieldsetName, $element->getFieldName(), $element->getValue()));
+        $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
         $s .= $element->get();
       }
       
@@ -734,7 +734,7 @@ class rex_form
         foreach($this->getFooterElements() as $element)
         {
           // Callback
-          $element->setValue($this->prepareView($fieldsetName, $element->getFieldName(), $element->getValue()));
+          $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
           $s .= $element->get();
         }
       }
