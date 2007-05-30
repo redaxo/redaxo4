@@ -66,8 +66,6 @@ class rex_form
     {
       trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
     }
-    
-    $this->init();
   }
   
   function init()
@@ -244,6 +242,15 @@ class rex_form
   function getParams()
   {
     return $this->params;
+  }
+  
+  function getParam($name, $default = null)
+  {
+    if(isset($this->params[$name]))
+    {
+      return $this->params[$name];
+    }
+    return $default;
   }
   
   function &addElement(&$element)
@@ -436,7 +443,8 @@ class rex_form
   function &getElement($fieldsetName, $elementName)
   {
     $normalizedName = rex_form_element::_normalizeName($fieldsetName.'['. $elementName .']');
-    return $this->_getElement($fieldsetName,$normalizedName); 
+    $result =& $this->_getElement($fieldsetName,$normalizedName);
+    return  $result;
   }
     
   function &_getElement($fieldsetName, $elementName)
@@ -451,8 +459,8 @@ class rex_form
         }
       }
     }
-    
-    return null;
+    $result = null;
+    return $result;
   }
   
   function getName()
@@ -593,6 +601,8 @@ class rex_form
 
   function get()
   {
+    $this->init();
+    
     $this->setApplyUrl($this->getUrl(array('func' => ''), false));
     
     if(($controlElement = $this->getControlElement()) !== null)
