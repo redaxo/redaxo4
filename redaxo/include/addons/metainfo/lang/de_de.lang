@@ -10,7 +10,7 @@ field_label_attributes = Feldattribute
 field_label_default = Standardwert
 field_label_nullable = Pflichtfeld
 field_label_params = Parameter
-field_label_prior = Position
+field_label_prior = Feldposition
 
 field_first_prior = Am Anfang
 field_after_prior = Nach dem Feld "{0}"
