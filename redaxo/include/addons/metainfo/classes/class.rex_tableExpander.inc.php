@@ -195,7 +195,7 @@ class rex_a62_tableExpander extends rex_form
     if($fieldName == '')
       return $I18N_META_INFOS->msg('field_error_name');
       
-    if(preg_match('/[^a-z0-9\_]/', $fieldName))
+    if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
       return $I18N_META_INFOS->msg('field_error_chars_name');
      
     // Prüfen ob schon eine Spalte mit dem Namen existiert (nur beim add nötig)
@@ -224,6 +224,7 @@ class rex_a62_tableExpander extends rex_form
     {
       global $REX, $I18N;
       $this->organizePriorities($this->getFieldValue('prior'), $fieldOldPrior);
+      rex_generateAll();
       
       $fieldName = $this->addPrefix($fieldName);
       $fieldType = $this->getFieldValue('type');
@@ -238,8 +239,6 @@ class rex_a62_tableExpander extends rex_form
       if($fieldDbType == 'text')
         $fieldDefault = null;
         
-      rex_set_session('A62_MESSAGE', $I18N_META_INFOS->msg('field_update_notice'));
-      
       if($this->isEditMode())
       {
         // Spalte in der Tabelle verändern

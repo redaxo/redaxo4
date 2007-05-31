@@ -8,16 +8,7 @@
  * @version $Id$
  */
  
-rex_register_extension('ALL_GENERATED', 'rex_a62_metainfo_regenerate_all');
 rex_register_extension('OUTPUT_FILTER', 'rex_a62_insertJs');
-
-/**
- * Führt das nötige Cleanup nach einem "regenerate all" her. 	
- */
-function rex_a62_metainfo_regenerate_all($params)
-{
-	rex_set_session('A62_MESSAGE', '');
-}
 
 /**
  * Fügt den nötigen JS-Code ein
@@ -187,31 +178,30 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
       }
       case 'date':
       {
-        $name .= '[]';
+        if($dbvalues[0] == '')
+          $dbvalues[0] = time();
         
-        if(!isset($dbvalues[1])) $dbvalues[1] = ''; 
-        if(!isset($dbvalues[2])) $dbvalues[2] = '';
-         
         $yearSelect = new rex_select();
-        $yearSelect->addOptions(range(2005,date('Y')+2));
-        $yearSelect->setName($name);
+        $yearSelect->addOptions(range(2005,date('Y')+2), true);
+        $yearSelect->setName($name.'[year]');
         $yearSelect->setSize(1);
+        $yearSelect->setId($id);
         $yearSelect->setStyle('width: 19%');
-        $yearSelect->setSelected($dbvalues[0]);
+        $yearSelect->setSelected(date('Y', $dbvalues[0]));
         
         $monthSelect = new rex_select();
-        $monthSelect->addOptions(range(1,12));
-        $monthSelect->setName($name);
+        $monthSelect->addOptions(range(1,12), true);
+        $monthSelect->setName($name.'[month]');
         $monthSelect->setSize(1);
         $monthSelect->setStyle('width: 19%');
-        $monthSelect->setSelected($dbvalues[1]);
+        $monthSelect->setSelected(date('m', $dbvalues[0]));
         
         $daySelect = new rex_select();
-        $daySelect->addOptions(range(1,31));
-        $daySelect->setName($name);
+        $daySelect->addOptions(range(1,31), true);
+        $daySelect->setName($name.'[day]');
         $daySelect->setSize(1);
         $daySelect->setStyle('width: 19%');
-        $daySelect->setSelected($dbvalues[2]);
+        $daySelect->setSelected(date('d', $dbvalues[0]));
         
         $field = $yearSelect->get() . $monthSelect->get() . $daySelect->get();
         break;
@@ -282,9 +272,17 @@ function rex_a62_metainfo_handleSave($params, $fields)
   for($i = 0;$i < $fields->getRows(); $i++)
   {
     $fieldName = $fields->getValue('name');
-    
     $postValue = rex_post($fieldName, 'array');
-    $saveValue = implode('|+|', $postValue);
+    
+    // TODO
+    if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
+    {
+      $saveValue = mktime(0,0,0, $postValue['month'], $postValue['day'], $postValue['year']);
+    }
+    else
+    {
+      $saveValue = implode('|+|', $postValue);
+    }
     
     // Wert in SQL zum speichern
     $article->setValue($fieldName, $saveValue);
@@ -314,7 +312,7 @@ function _rex_a62_metainfo_form($prefix, $params)
   
   $fields = new rex_sql();
 //  $fields->debugsql = true;
-  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "'. $prefix .'%"');
+  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "'. $prefix .'%" ORDER BY prior');
   
   $params = rex_a62_metainfo_handleSave($params, $fields);
   $article = new rex_article($params['id'], $params['clang']);
