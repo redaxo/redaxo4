@@ -267,12 +267,10 @@ class rex_a62_tableExpander extends rex_form
       
     $sql = new rex_sql();
     $sql->debugsql =& $this->debug;
-    $sql->debugsql = true;
     $sql->setQuery('SELECT field_id FROM '. $this->tableName .' WHERE name LIKE "'. $this->metaPrefix .'%" ORDER BY prior, updatedate '. $addsql);
     
     $updateSql = new rex_sql();
     $updateSql->debugsql =& $this->debug;
-    $updateSql->debugsql = true;
     $updateSql->setTable($this->tableName);
     
     for($i = 0; $i < $sql->getRows(); $i++)
