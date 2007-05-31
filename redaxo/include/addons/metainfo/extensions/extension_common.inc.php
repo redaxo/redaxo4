@@ -176,34 +176,64 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
         $field .= $select->get();
         break;
       }
+      case 'datetime':
       case 'date':
       {
         if($dbvalues[0] == '')
           $dbvalues[0] = time();
         
+        $style = 'width: 19%';
+        $yearStyle = $style;
+        if($typeLabel == 'datetime')
+        {
+          $style = 'width: 10%';
+          $yearStyle = 'width: 12%'; // Jahr mit extra Style, da sonst zu klein
+        }
+          
         $yearSelect = new rex_select();
         $yearSelect->addOptions(range(2005,date('Y')+2), true);
         $yearSelect->setName($name.'[year]');
         $yearSelect->setSize(1);
         $yearSelect->setId($id);
-        $yearSelect->setStyle('width: 19%');
+        $yearSelect->setStyle($yearStyle);
         $yearSelect->setSelected(date('Y', $dbvalues[0]));
         
         $monthSelect = new rex_select();
         $monthSelect->addOptions(range(1,12), true);
         $monthSelect->setName($name.'[month]');
         $monthSelect->setSize(1);
-        $monthSelect->setStyle('width: 19%');
+        $monthSelect->setStyle($style);
         $monthSelect->setSelected(date('m', $dbvalues[0]));
         
         $daySelect = new rex_select();
         $daySelect->addOptions(range(1,31), true);
         $daySelect->setName($name.'[day]');
         $daySelect->setSize(1);
-        $daySelect->setStyle('width: 19%');
-        $daySelect->setSelected(date('d', $dbvalues[0]));
+        $daySelect->setStyle($style);
+        $daySelect->setSelected(date('j', $dbvalues[0]));
         
-        $field = $yearSelect->get() . $monthSelect->get() . $daySelect->get();
+        if($typeLabel == 'datetime')
+        {
+          $hourSelect = new rex_select();
+          $hourSelect->addOptions(range(1,23), true);
+          $hourSelect->setName($name.'[hour]');
+          $hourSelect->setSize(1);
+          $hourSelect->setStyle($style);
+          $hourSelect->setSelected(date('G', $dbvalues[0]));
+          
+          $minuteSelect = new rex_select();
+          $minuteSelect->addOptions(range(0,59), true);
+          $minuteSelect->setName($name.'[minute]');
+          $minuteSelect->setSize(1);
+          $minuteSelect->setStyle($style);
+          $minuteSelect->setSelected(date('i', $dbvalues[0]));
+          
+          $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get() .'-'. $hourSelect->get() . $minuteSelect->get();
+        }
+        else
+        {
+          $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get();
+        }
         break;
       }
       case 'textarea':
@@ -274,8 +304,12 @@ function rex_a62_metainfo_handleSave($params, $fields)
     $fieldName = $fields->getValue('name');
     $postValue = rex_post($fieldName, 'array');
     
-    // TODO
-    if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
+    // handle date types with timestamps
+    if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
+    {
+      $saveValue = mktime($postValue['hour'],$postValue['minute'],0, $postValue['month'], $postValue['day'], $postValue['year']);
+    }
+    elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
     {
       $saveValue = mktime(0,0,0, $postValue['month'], $postValue['day'], $postValue['year']);
     }
