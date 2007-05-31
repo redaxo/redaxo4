@@ -124,6 +124,8 @@ class rex_a62_tableExpander extends rex_form
   {
     if(parent::delete())
     {
+      // Prios neu setzen, damit keine lücken entstehen
+      $this->organizePriorities(1,2);
       return $this->tableManager->deleteColumn($this->getFieldValue('name'));
     }
     return false;
