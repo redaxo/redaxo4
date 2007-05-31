@@ -150,7 +150,7 @@ class rex_select
    * 3.    Re_Id
    * 4.    Selected
    */  
-  function addOptions($options)
+  function addOptions($options, $useOnlyValues = false)
   {
     if(is_array($options) && count($options)>0)
     {
@@ -168,10 +168,17 @@ class rex_select
         }
         else
         {
-          if(!isset($option[1]))
-            $option[1] = $key;
-            
-          $this->addOption($option[0], $option[1]);
+          if($useOnlyValues)
+          {
+            $this->addOption($option[0], $option[0]);
+          }
+          else
+          {
+            if(!isset($option[1]))
+              $option[1] = $key;
+              
+            $this->addOption($option[0], $option[1]);
+          }
         }
       }
     }
