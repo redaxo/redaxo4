@@ -63,6 +63,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
     $title = $sqlFields->getValue('title');
     $params = $sqlFields->getValue('params');
     $default = $sqlFields->getValue('default');
+    $typeLabel = $sqlFields->getValue('label');
     $attr = $sqlFields->getValue('attributes');
     $dbvalues = explode('|+|', $article->getValue($name));
     
@@ -79,7 +80,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
     $labelIt = true;    
       
     $field = '';
-    switch($sqlFields->getValue('label'))
+    switch($typeLabel)
     {
       case 'text':
       {
@@ -107,7 +108,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
         }
         else
         {
-          $value_groups = explode('|', $params. '|');
+          $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
           {
             if(strpos($value_group, ':') !== false)
@@ -123,17 +124,18 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
         }
         
         $field .= '<span>'. $label .'</span>';
+        $class = $typeLabel == 'radio' ? 'rex-radio' : 'rex-chckbx';
         foreach($values as $key => $value)
         {
           $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
           
           $selected = '';
-          if(in_array($value, $dbvalues))
+          if(in_array($key, $dbvalues))
             $selected = ' checked="checked"';
             
-          $field .= '<p class="rex-chckbx">'."\n";
-          $field .= '<label for="'. $id .'">'. htmlspecialchars($key) .'</label>';
-          $field .= '<input type="'. $sqlFields->getValue('label') .'" name="'. $name .'" value="'. $value .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+          $field .= '<p class="'. $class .'">'."\n";
+          $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
+          $field .= '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
           $field .= '</p>'."\n";
         }
         break;
@@ -163,7 +165,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
         else
         {
           $values = array();
-          $value_groups = explode('|', $params. '|');
+          $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
           {
             if(strpos($value_group, ':') !== false)
