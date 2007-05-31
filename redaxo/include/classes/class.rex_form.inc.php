@@ -485,6 +485,15 @@ class rex_form
   
   /**
    * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
+   * kurz vorm löschen
+   */
+  function preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql)
+  {
+    return $fieldValue;
+  }
+  
+  /**
+   * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
    * kurz vorm speichern
    */
   function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
@@ -593,11 +602,30 @@ class rex_form
   
   function delete()
   {
-    $sql = rex_sql::getInstance();
-    $sql->debugsql =& $this->debug;
-    $sql->setTable($this->tableName);
-    $sql->setWhere($this->whereCondition);
-    return $sql->delete();
+    $deleteSql = rex_sql::getInstance();
+    $deleteSql->debugsql =& $this->debug;
+    $deleteSql->setTable($this->tableName);
+    $deleteSql->setWhere($this->whereCondition);
+    
+    foreach($this->getFieldsets() as $fieldsetName)
+    {
+      // POST-Werte ermitteln
+      $fieldValues = $this->fieldsetPostValues($fieldsetName);
+      foreach($fieldValues as $fieldName => $fieldValue)
+      {
+        // Callback, um die Values vor dem Löschen noch beeinflussen zu können
+        $fieldValue = $this->preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql);
+        
+        // Element heraussuchen        
+        $element =& $this->getElement($fieldsetName, $fieldName);
+        
+        // Den POST-Wert als Value in das Feld speichern
+        // Da generell alles von REDAXO escaped wird, hier slashes entfernen
+        $element->setValue(stripslashes($fieldValue));
+      }
+    }
+    
+    return $deleteSql->delete();
   }
   
   function redirect($listMessage = '', $params = array())

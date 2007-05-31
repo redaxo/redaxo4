@@ -131,6 +131,19 @@ class rex_a62_tableExpander extends rex_form
     return false;
   }
   
+  function preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql)
+  {
+    global $REX;
+    
+    if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
+    {
+      // Vorm löschen, Prefix wieder anfügen
+      return $this->addPrefix($fieldValue);
+    }
+    
+    return parent::preDelete($fieldsetName, $fieldName, $fieldValue, $deleteSql);
+  }
+  
   function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
     global $REX;
@@ -200,7 +213,7 @@ class rex_a62_tableExpander extends rex_form
     // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den 
     // POST werten überschrieben werden!
     $fieldOldName = '';
-    $fieldOldPrior = 1;
+    $fieldOldPrior = 99999999999; // dirty, damit die prio richtig läuft...
     if($this->sql->getRows() == 1)
     { 
       $fieldOldName = $this->sql->getValue('name');
@@ -210,7 +223,6 @@ class rex_a62_tableExpander extends rex_form
     if(parent::save())
     {
       global $REX, $I18N;
-      
       $this->organizePriorities($this->getFieldValue('prior'), $fieldOldPrior);
       
       $fieldName = $this->addPrefix($fieldName);
@@ -254,11 +266,13 @@ class rex_a62_tableExpander extends rex_form
       $addsql = 'asc';
       
     $sql = new rex_sql();
-//    $sql->debugsql = true;
+    $sql->debugsql =& $this->debug;
+    $sql->debugsql = true;
     $sql->setQuery('SELECT field_id FROM '. $this->tableName .' WHERE name LIKE "'. $this->metaPrefix .'%" ORDER BY prior, updatedate '. $addsql);
     
     $updateSql = new rex_sql();
-//    $updateSql->debugsql = true;
+    $updateSql->debugsql =& $this->debug;
+    $updateSql->debugsql = true;
     $updateSql->setTable($this->tableName);
     
     for($i = 0; $i < $sql->getRows(); $i++)
