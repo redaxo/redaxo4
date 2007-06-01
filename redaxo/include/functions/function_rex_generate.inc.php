@@ -134,7 +134,7 @@ function rex_generateArticle($id, $refreshall = true)
     $CONT->setCLang($clang);
     $CONT->getContentAsQuery();
     $CONT->setMode("generate"); // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
-    $CONT->setArticleId($id);
+    if (!$CONT->setArticleId($id)) return false;
 
     // --------------------------------------------------- Artikelparameter speichern
     $params = array(
