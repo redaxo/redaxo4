@@ -114,7 +114,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
           }
         }
         
-        $field .= '<span>'. $label .'</span>';
+        // $field .= '<span>'. $label .'</span>';
         $class = $typeLabel == 'radio' ? 'rex-radio' : 'rex-chckbx';
         foreach($values as $key => $value)
         {
