@@ -183,7 +183,14 @@ class rex_sql
       $_row = $row;
     }
 
-    return mysql_result($this->result, $_row, $feldname);
+    $res = mysql_result($this->result, $_row, $feldname);
+    if($res === false && function_exists('debug_backtrace'))
+    {
+      $trace = debug_backtrace();
+      $loc = $trace[0];
+      echo '<b>Warning</b>:  mysql_result(): Error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+    }
+    return $res; 
   }
 
   /**
