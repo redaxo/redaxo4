@@ -75,7 +75,11 @@ class rex_a62_tableExpander extends rex_form
     $field->setAttribute('onchange', 'checkConditionalFields(this, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));');
     $select =& $field->getSelect();
     $select->setSize(1);
-    $select->addSqlOptions('SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
+    
+    $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
+    if($this->metaPrefix == 'med_')
+      $qry .= ' WHERE label NOT LIKE "REX_MEDIA%"';
+    $select->addSqlOptions($qry);
     
     $notices = '';
     for($i = 1; $i < REX_A62_FIELD_COUNT; $i++)

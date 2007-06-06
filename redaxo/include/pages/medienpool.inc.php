@@ -726,7 +726,7 @@ if ($PERMALL && $subpage == "categories")
 // *************************************** Subpage: ADD FILE
 
 // ----- METHOD ADD FILE
-if ($subpage == "add_file" && $media_method == 'add_file'){
+if ($subpage == 'add_file' && $media_method == 'add_file'){
 
   // echo $_FILES['file_new']['name'];
 
@@ -746,7 +746,7 @@ if ($subpage == "add_file" && $media_method == 'add_file'){
 
     // ----- EXTENSION POINT
     if ($return['ok'] == 1) 
-    rex_register_extension_point('MEDIA_ADDED','',$return);
+      rex_register_extension_point('MEDIA_ADDED','',$return);
 
     if (isset($saveandexit) and $saveandexit != "" && $return['ok'] == 1)
     {
@@ -1030,7 +1030,7 @@ if ($subpage == "detail")
       }
             
       $add_image = '<div class="rex-mpl-dtl-img">
-	  		  		<p>
+		  		<p>
 						<img src="'. $imgn .'" alt="'. $fdescription .'" title="'. $fdescription .'" />
 					</p>
 					</div>';
@@ -1084,8 +1084,6 @@ if ($subpage == "detail")
       }
       $cats_sel->setSelected($rex_file_category);
       
-      // $I18N->msg('pool_file_detail')
-      
       echo '<p class="rex-hdl">'. $I18N->msg('pool_file_details') . $opener_link.'</p>
 	  		<div class="rex-mpl-dtl">
 	  			<form action="index.php" method="post" enctype="multipart/form-data">
@@ -1113,7 +1111,12 @@ if ($subpage == "detail")
                     	<p>
                       		<label for="fcopyright">'. $I18N->msg('pool_file_copyright') .'</label>
                       		<input type="text" size="20" name="fcopyright" id="fcopyright" value="'. htmlspecialchars($fcopyright).'" />
-                    	</p>
+                    	</p>';
+                      
+  // ----- EXTENSION POINT
+  echo rex_register_extension_point('MEDIA_FORM_ADD', '', array ('file_id' => $file_id, 'media' => $gf));
+  
+  echo '
                       '. $add_ext_info .'
                     	<p>
                       		<label for="flink">'. $I18N->msg('pool_filename') .'</label>

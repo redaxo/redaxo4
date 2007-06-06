@@ -8,7 +8,8 @@
  * @version $Id$
  */
  
-rex_register_extension('ART_META_FORM', 'rex_a62_metainfo_form');
+ 
+rex_register_extension('MEDIA_FORM_ADD', 'rex_a62_metainfo_form');
 
 /**
  * Callback, dass ein Formular item formatiert
@@ -24,7 +25,6 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
     $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
     
   $s .= $field. "\n";
-  $s .= '<br class="rex-clear" />';
   
   if($tag != '')
     $s .='</'.$tag.'>'. "\n";
@@ -37,13 +37,11 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
  */
 function rex_a62_metainfo_form($params)
 {
-  $OOArt = OOArticle::getArticleById($params['id'], $params['clang']);
+  $params['activeItem'] = $params['media'];
+  // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
+  $params['activeItem']->setValue('category_id', 0);
   
-  $params['activeItem'] = $params['article'];
-  // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
-  $params['activeItem']->setValue('category_id', $OOArt->getCategoryId());
-  
-  return _rex_a62_metainfo_form('art_', $params, '_rex_a62_metainfo_art_handleSave');
+  return _rex_a62_metainfo_form('med_', $params, '_rex_a62_metainfo_med_handleSave');
 }
 
 ?>

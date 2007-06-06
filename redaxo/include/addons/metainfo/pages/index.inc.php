@@ -23,6 +23,7 @@ include $REX['INCLUDE_PATH'].'/layout/top.php';
 $subpages = array(
   array('','Artikel'),
   array('categories','Kategorien'),
+  array('media','Medien'),
 );
 
 rex_title('Metainformationen erweitern', $subpages);
@@ -36,12 +37,25 @@ if($session_msg != '')
 // Include Current Page
 switch($subpage)
 {
+  case 'media' :
+  {
+    $prefix = 'med_'; 
+    $metaTable = $REX['TABLE_PREFIX'] .'file';
+    break;
+  }
+    
   case 'categories' :
+  {
     $prefix = 'cat_'; 
+    $metaTable = $REX['TABLE_PREFIX'] .'article';
     break;
+  }
+  
   default:
+  {
 	  $prefix = 'art_'; 
-    break;
+    $metaTable = $REX['TABLE_PREFIX'] .'article';
+  }
 }
 require $Basedir .'/field.inc.php';
 

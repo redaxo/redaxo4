@@ -31,11 +31,18 @@ function rex_a62_insertJs($params)
 	  //-->
 	  </script>
   ';
-
+  
   return str_replace('</head>', $js . '</head>', $content);
 }
 
-function rex_a62_metaFields($sqlFields, $article, $formatCallback)
+/**
+ * Erstellt den nötigen HTML Code um ein Formular zu erweitern
+ * 
+ * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+ * @param $activeItem objekt, dass mit getValue() die Werte des akuellen Eintrags zurückgibt
+ * @param $formatCallback callback, dem die infos als Array übergeben werden und den formatierten HTML Text zurückgibt
+ */
+function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback)
 {
   $s = '';
   
@@ -55,7 +62,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
     $params = $sqlFields->getValue('params');
     $typeLabel = $sqlFields->getValue('label');
     $attr = $sqlFields->getValue('attributes');
-    $dbvalues = explode('|+|', $article->getValue($name));
+    $dbvalues = explode('|+|', $activeItem->getValue($name));
     
     if($title != '')
       $label = htmlspecialchars($title);
@@ -234,7 +241,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
       }
       case 'textarea':
       {
-        $field = '<textarea name="'. $name .'" id="'. $id .'" '. $attr .' >'. $dbvalues[0] .'</textarea>';
+        $field = '<textarea name="'. $name .'" id="'. $id .'" '. $attr .' cols="50" rows="6">'. $dbvalues[0] .'</textarea>';
         break;
       }
       case 'REX_MEDIA_BUTTON':
@@ -256,7 +263,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
         
         $name .= '[]';
         $field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues));
-        $field = str_replace('MEDIALIST['. $media_id .']', $name, $field);
+        $field = str_replace('MEDIALIST['. $mlist_id .']', $name, $field);
         $id = 'REX_MEDIALIST_'. $mlist_id;
         
         $mlist_id++;
@@ -267,7 +274,7 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
         $tag = 'div';
         $tag_attr = ' class="rex-ptag"';
         
-        $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $article->getValue('category_id'));
+        $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $activeItem->getValue('category_id'));
         $field = str_replace('LINK['. $link_id .']', $name, $field);
         $id = 'LINK_'. $link_id;
         
@@ -284,20 +291,19 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
   return $s;
 }
 
-function rex_a62_metainfo_handleSave($params, $fields)
+/**
+ * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt
+ * 
+ * @param $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen 
+ * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+ */
+function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
-  if($_SERVER['REQUEST_METHOD'] != 'POST') return $params;
+  if($_SERVER['REQUEST_METHOD'] != 'POST') return;
   
-  global $REX;
-  
-  $article = rex_sql::getInstance();
-//  $article->debugsql = true;
-  $article->setTable($REX['TABLE_PREFIX']. 'article');
-  $article->setWhere('id='. $params['id'] .' AND clang='. $params['clang']);
-  
-  for($i = 0;$i < $fields->getRows(); $i++)
+  for($i = 0;$i < $sqlFields->getRows(); $i++)
   {
-    $fieldName = $fields->getValue('name');
+    $fieldName = $sqlFields->getValue('name');
     $postValue = rex_post($fieldName, 'array');
     
     // handle date types with timestamps
@@ -315,12 +321,73 @@ function rex_a62_metainfo_handleSave($params, $fields)
     }
     
     // Wert in SQL zum speichern
-    $article->setValue($fieldName, $saveValue);
-    // Wert in das SQL Objekt speichern, dass zur Anzeige verwendet wird
-    $params['article']->setValue($fieldName, $saveValue);
+    $sqlSave->setValue($fieldName, $saveValue);
     
-    $fields->next();
+    // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
+    $params['activeItem']->setValue($fieldName, $saveValue);
+    
+    $sqlFields->next();
   }
+}
+
+/**
+ * Erweitert das Meta-Formular um die neuen Meta-Felder
+ * 
+ * @param $prefix Feldprefix
+ * @param $params EP Params  
+ * @param $saveCallback callback, dass die 
+ */
+function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
+{
+  global $REX;
+  
+  $s = '';
+  $debug = false;
+  
+  $qry = 'SELECT 
+            * 
+          FROM 
+            '. $REX['TABLE_PREFIX'] .'62_params p,
+            '. $REX['TABLE_PREFIX'] .'62_type t 
+          WHERE 
+            `p`.`type` = `t`.`id` AND 
+            `p`.`name` LIKE "'. $prefix .'%" 
+          ORDER BY 
+            prior';
+  
+  $sqlFields = new rex_sql();
+//  $fields->debugsql = true;
+  $sqlFields->setQuery($qry);
+  
+  $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
+  
+  $s = rex_a62_metaFields($sqlFields, $params['activeItem'], 'rex_a62_metainfo_form_item');
+  
+  return $s;
+}
+
+/**
+ * Artikel & Kategorien:
+ * 
+ * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
+ */
+function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
+{
+  return _rex_a62_metainfo_art_handleSave($params, $sqlFields);
+}
+
+function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
+{
+  if($_SERVER['REQUEST_METHOD'] != 'POST') return $params;
+  
+  global $REX;
+  
+  $article = rex_sql::getInstance();
+//  $article->debugsql = true;
+  $article->setTable($REX['TABLE_PREFIX']. 'article');
+  $article->setWhere('id='. $params['id'] .' AND clang='. $params['clang']);
+  
+  _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
   
   $article->update();
   
@@ -331,23 +398,25 @@ function rex_a62_metainfo_handleSave($params, $fields)
 }
 
 /**
- * Erweitert das Meta-Formular um die neuen Meta-Felder  
+ * Medien:
+ * 
+ * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
  */
-function _rex_a62_metainfo_form($prefix, $params)
+function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 {
+  if($_SERVER['REQUEST_METHOD'] != 'POST') return $params;
+  
   global $REX;
   
-  $s = '';
-  $debug = false;
+  $media = rex_sql::getInstance();
+//  $media->debugsql = true;
+  $media->setTable($REX['TABLE_PREFIX']. 'file');
+  $media->setWhere('file_id='. $params['file_id']);
   
-  $fields = new rex_sql();
-//  $fields->debugsql = true;
-  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "'. $prefix .'%" ORDER BY prior');
+  _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
   
-  $params = rex_a62_metainfo_handleSave($params, $fields);
-  $article = new rex_article($params['id'], $params['clang']);
+  $media->update();
   
-  $s = rex_a62_metaFields($fields, $article, 'rex_a62_metainfo_form_item');
-  
-  return $s;
+  return $params;
 }
+?>
