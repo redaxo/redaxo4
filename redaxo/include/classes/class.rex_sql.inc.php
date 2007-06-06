@@ -115,7 +115,7 @@ class rex_sql
       $this->errno = mysql_errno($this->identifier);
     }
 
-    if ($this->debugsql)
+    if ($this->debugsql || $this->error != '')
     {
       $this->printError($qry);
     }
