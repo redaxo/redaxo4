@@ -7,12 +7,12 @@
  */
 
 /**
-* Definiert einen Extension Point
-*
-* @param $extensionPoint Name des ExtensionPoints
-* @param $subject Objekt/Variable die beeinflusst werden soll
-* @param $params Parameter für die Callback-Funktion
-*/
+ * Definiert einen Extension Point
+ *
+ * @param $extensionPoint Name des ExtensionPoints
+ * @param $subject Objekt/Variable die beeinflusst werden soll
+ * @param $params Parameter für die Callback-Funktion
+ */
 function rex_register_extension_point($extensionPoint, $subject = '', $params = array (), $read_only = false)
 {
   global $REX;
@@ -22,6 +22,9 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
   {
     $params = array ();
   }
+  
+  // Name des EP als Parameter mit übergeben
+  $params['extension_point'] = $extensionPoint;
 
   if (isset ($REX['EXTENSIONS'][$extensionPoint]) && is_array($REX['EXTENSIONS'][$extensionPoint]))
   {
