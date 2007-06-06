@@ -21,8 +21,10 @@ class OOCategory extends OORedaxo
   function getCategoryById($category_id = false, $clang = false)
   {
     global $REX;
+    
     if ($clang === false)
-      $clang = $GLOBALS['REX']['CUR_CLANG'];
+      $clang = $REX['CUR_CLANG'];
+      
     return OOArticle :: getArticleById($category_id, $clang, true);
   }
 
@@ -33,8 +35,10 @@ class OOCategory extends OORedaxo
   function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
+    
     if ($clang === false)
-      $clang = $GLOBALS['REX']['CUR_CLANG'];
+      $clang = $REX['CUR_CLANG'];
+      
     $categorylist = $REX['INCLUDE_PATH']."/generated/articles/".$cat_parent_id.".".$clang.".clist";
 
     $catlist = array ();
@@ -86,7 +90,7 @@ class OOCategory extends OORedaxo
     global $REX;
     
     if ($clang === false)
-      $clang = $GLOBALS['REX']['CUR_CLANG'];
+      $clang = $REX['CUR_CLANG'];
       
     return OOCategory :: getChildrenById(0, $ignore_offlines, $clang);
   }
@@ -105,7 +109,7 @@ class OOCategory extends OORedaxo
     global $REX;
     
     if ($clang === false)
-      $clang = $GLOBALS['REX']['CUR_CLANG'];
+      $clang = $REX['CUR_CLANG'];
       
     return OOCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
@@ -137,7 +141,6 @@ class OOCategory extends OORedaxo
    */
   function isAncestor($other_cat)
   {
-
     $category = OOCategory :: _getCategoryObject($other_cat);
     $expl = explode('|', $category->_path);
     if ($expl[1] != "")
