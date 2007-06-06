@@ -53,14 +53,10 @@ function rex_a62_metaFields($sqlFields, $article, $formatCallback)
     $name = $sqlFields->getValue('name');
     $title = $sqlFields->getValue('title');
     $params = $sqlFields->getValue('params');
-    $default = $sqlFields->getValue('default');
     $typeLabel = $sqlFields->getValue('label');
     $attr = $sqlFields->getValue('attributes');
     $dbvalues = explode('|+|', $article->getValue($name));
     
-    if(count($dbvalues) == 1 && isset($dbvalues[0]) && $dbvalues[0] == '')
-      $dbvalues[0] = $default;
-      
     if($title != '')
       $label = htmlspecialchars($title);
     else

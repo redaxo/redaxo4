@@ -213,16 +213,19 @@ class rex_a62_tableExpander extends rex_form
     // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den 
     // POST werten überschrieben werden!
     $fieldOldName = '';
-    $fieldOldPrior = 99999999999; // dirty, damit die prio richtig läuft...
+    $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig läuft...
+    $fieldOldDefault = '';
     if($this->sql->getRows() == 1)
     { 
       $fieldOldName = $this->sql->getValue('name');
       $fieldOldPrior = $this->sql->getValue('prior');
+      $fieldOldDefault = $this->sql->getValue('default');
     }
       
     if(parent::save())
     {
       global $REX, $I18N;
+      
       $this->organizePriorities($this->getFieldValue('prior'), $fieldOldPrior);
       rex_generateAll();
       
@@ -242,12 +245,24 @@ class rex_a62_tableExpander extends rex_form
       if($this->isEditMode())
       {
         // Spalte in der Tabelle verändern
-        return $this->tableManager->editColumn($fieldOldName, $fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
+        $tmRes = $this->tableManager->editColumn($fieldOldName, $fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
       else
       {
         // Spalte in der Tabelle anlegen
-        return $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
+        $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
+      }
+      
+      if($tmRes)
+      {
+        // DefaultWerte setzen
+        if($fieldDefault != $fieldOldDefault)
+        {
+          $qry = 'UPDATE `'. $this->tableManager->getTableName() .'` SET `'.$fieldName.'`="'. $fieldDefault .'" WHERE `'. $fieldName .'`="'. $fieldOldDefault .'"';
+          return $sql->setQuery($qry);
+        }
+        // Default werte haben schon zuvor gepasst, daher true zurückgeben
+        return true;
       }
     }
     
