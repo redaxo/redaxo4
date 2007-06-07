@@ -490,6 +490,7 @@ body div#rex-output p label.rex-lbl-rght {
 	p.rex-sbmt	 - just in content.inc.php
 */
 body div#rex-output p.rex-chckbx input, 
+body div#rex-output p.rex-rdo input, 
 body div#rex-output p.rex-sbmt input, 
 body div#rex-output p input.rex-chckbx, 
 body div#rex-output p input.rex-sbmt, 
@@ -497,6 +498,12 @@ body#rex-page-medienpool div#rex-output td input.rex-sbmt {
 	width:auto;
 }
 
+body div#rex-output p select.rex-fdatey {
+	width:60px;
+}
+body div#rex-output p select.rex-fdate {
+	width:40px;
+}
 
 /*	Table
 *******************************************************************************/
@@ -746,18 +753,32 @@ tr.rex-trow-actv td.rex-mt-fld select {
 	width:97%;
 }
 
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdate, 
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
+	margin:2px 0;
+}
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdate {
+	width:40px;
+}
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
+	width:84px;
+}
+
 tr.rex-trow-actv td.rex-mt-fld textarea {
 	height:50px;
 }
 
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx {
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo {
 	clear:both;
 }
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label {
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo label {
 	float:right;
 	width:190px;
 }
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input {
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo input {
 	margin:2px 0;
 }
 
@@ -918,12 +939,6 @@ div.rex-cnt-metamode p textarea {
 div.rex-cnt-metamode p textarea {
 	height:90px;
 }
-div.rex-cnt-metamode p select.rex-fdatey {
-	width:60px;
-}
-div.rex-cnt-metamode p select.rex-fdate {
-	width:40px;
-}
 div.rex-cnt-metamode p input.rex-sbmt {
 	margin-left:150px;
 }
@@ -932,8 +947,8 @@ div.rex-cnt-metamode p input.rex-sbmt {
 /*	Template - Edit-/Addmode
 *******************************************************************************/
 div.rex-tmp-editmode {
-	background-color:#d7d6d3;
 	background-color:#d6e1e4;
+	background-color:#d7d6d3;
 }
 
 div.rex-tmp-editmode p {
@@ -959,8 +974,8 @@ div.rex-tmp-editmode p input.rex-sbmt {
 *******************************************************************************/
 div.rex-mdl-editmode {
 	clear:both;
-	background-color:#d7d6d3;
 	background-color:#d6e1e4;
+	background-color:#d7d6d3;
 }
 div.rex-mdl-editmode p {
 	background:#f0efeb;
@@ -980,6 +995,10 @@ div.rex-mdl-editmode p textarea {
 div.rex-mdl-editmode p input.rex-sbmt {
 	margin-left:150px;
 }
+div.rex-mdl-editmode p span {
+	display:block;
+	margin:5px 0 10px 150px;
+}
 
 
 /*	Addon - Help
@@ -998,6 +1017,7 @@ div.rex-usr-editmode {
 	float:left;
 	width:100%;
 	background-color:#d6e1e4;
+	background-color:#d7d6d3;
 }
 div.rex-usr-editmode div {
 	clear:both;
