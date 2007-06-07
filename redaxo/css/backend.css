@@ -388,7 +388,7 @@ div#rex-title p {
 
 div.rex-cnt-bdy {
 	clear:both;
-	padding:1px 110px 0 39px;
+	padding:1px 153px 0 39px;
 }
 
 
@@ -545,6 +545,7 @@ table.rex-table th {
 	text-align:left;
 }
 
+/*	real width = border + padding + width */
 table.rex-table th.rex-icon, 
 table.rex-table td.rex-icon {
 	width:29px;
@@ -968,6 +969,11 @@ div.rex-tmp-editmode p textarea {
 div.rex-tmp-editmode p input.rex-sbmt {
 	margin-left:150px;
 }
+div.rex-tmp-editmode img#rex-tmp-ctypes-icon {
+	vertical-align:middle;
+}
+
+
 
 
 /*	Module/Action - Edit-/Addmode
