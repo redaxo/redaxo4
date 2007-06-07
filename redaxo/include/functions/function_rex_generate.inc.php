@@ -70,7 +70,7 @@ function rex_generateAll()
   // **********************
 
   // ----------------------------------------------------------- message
-  $MSG = $I18N->msg('regenerated_all_message');
+  $MSG = $I18N->msg('delete_cache_message');
 
   // ----- EXTENSION POINT
   $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);
