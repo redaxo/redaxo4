@@ -454,6 +454,8 @@ div.rex-cnt-hdr ul li a {
 div.rex-cnt-hdr ul.rex-cnt-nav {
 	float:right;
 	margin-right:153px;
+	padding-right:10px;
+	border-right:1px solid #fff;
 }
 
 
