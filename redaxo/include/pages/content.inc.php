@@ -15,6 +15,8 @@
 
 unset ($REX_ACTION);
 
+$slice_id = rex_request('slice_id', 'int', '');
+
 $article = new rex_sql;
 $article->setQuery("
 		SELECT 
@@ -255,6 +257,7 @@ if ($article->getRows() == 1)
                     $message .= $I18N->msg('block_added');
                     $slice_id = $last_id;
                   }
+                  $function = "";
                 }
               }
             }
@@ -637,7 +640,7 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-      $slice_id = rex_request('slice_id', 'int', '');
+      
 
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
       echo '
