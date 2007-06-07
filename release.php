@@ -290,7 +290,7 @@ function readFolderStructure($dir, $except = array ())
   return $result;
 }
 
-function _readFolderStructure($dir, $except = array (), & $result = array ())
+function _readFolderStructure($dir, $except, & $result)
 {
   $files = readFolderFiles($dir, $except);
   $subdirs = readSubFolders($dir);
