@@ -7,6 +7,8 @@
 
 $OUT = TRUE;
 
+$action_id = rex_post('action_id','int');;
+
 $action_in_use_msg = '';
 if (isset($function) and $function == "delete")
 {
