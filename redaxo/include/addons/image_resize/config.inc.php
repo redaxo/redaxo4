@@ -21,6 +21,7 @@ $REX['ADDON']['name'][$mypage] = 'Image Resize Addon';
 $REX['ADDON']['perm'][$mypage] = 'image_resize[]';
 $REX['ADDON']['max_size'][$mypage] = 1000;
 $REX['ADDON']['jpeg_quality'][$mypage] = 75;
+$REX['ADDON']['system'][$mypage] = TRUE;
 
 $REX['PERM'][] = 'image_resize[]';
 
