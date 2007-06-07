@@ -295,6 +295,7 @@ old_articles_deleted = [Alte Artikel und Templates wurden gelöscht]
 links_ok = Alle Links sind ok.
 links_not_ok = Folgende Links sind nicht ok:
 info_updated = Informationen wurden aktualisiert!
+regenerated_all_message = Cache wurde gelöscht.
 delete_cache = Cache löschen.
 delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontentaufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt. 
 specials_title = Spezielle Features
