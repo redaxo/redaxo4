@@ -37,12 +37,10 @@ function getObjArray(name)
 
 function changeImage(id,img)
 {
-  var needle = new getObj(id);
-  var img = needle.obj;
+        if(document.getElementById(id)) {
+                document.getElementById(id).src = img;
+        }
 
-  if(img) {
-    img.src = src;
-  }
 }
 
 // -------------------------------------------------------------------------------------------------------------------
