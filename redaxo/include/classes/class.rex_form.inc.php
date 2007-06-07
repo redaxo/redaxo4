@@ -794,6 +794,8 @@ class rex_form_element
   var $attributes;
   var $separateEnding;
   var $fieldName;
+  var $header;
+  var $footer;
   var $prefix;
   var $suffix;
   
@@ -805,6 +807,8 @@ class rex_form_element
     $this->table =& $table;
     $this->setAttributes($attributes);
     $this->separateEnding = $separateEnding;
+    $this->setHeader('');
+    $this->setFooter('');
     $this->setPrefix('');
     $this->setSuffix('');
     $this->setFieldName('');
@@ -867,6 +871,26 @@ class rex_form_element
     return $this->prefix;
   }
 
+  function setHeader($header)
+  {
+    $this->header = $header;
+  }
+  
+  function getHeader()
+  {
+    return $this->header;
+  }
+
+  function setFooter($footer)
+  {
+    $this->footer = $footer;
+  }
+  
+  function getFooter()
+  {
+    return $this->footer;
+  }
+  
   function _normalizeId($id)
   {
     return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
@@ -990,15 +1014,17 @@ class rex_form_element
   function get()
   {
     $s = '';
+    $s .= $this->getHeader();
 
+    $s .= '        <p>'. "\n";
     $s .= $this->getPrefix();
     
-    $s .= '        <p>'. "\n";
     $s .= $this->_get();
-    $s .= '        </p>'. "\n";
     
     $s .= $this->getSuffix();
-    
+    $s .= '        </p>'. "\n";
+
+    $s .= $this->getFooter();
     return $s;
   }
   
