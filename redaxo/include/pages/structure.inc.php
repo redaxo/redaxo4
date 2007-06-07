@@ -115,8 +115,6 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
     'article' => $EKAT,
     )
   );
-  
-  var_dump($message);
 
 }
 elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
