@@ -1,9 +1,9 @@
 <?php
 
-/** 
- *  
- * @package redaxo3 
- * @version $Id$ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
  */
 
 rex_title($I18N->msg("title_templates"), "");
@@ -14,8 +14,8 @@ $function = rex_request("function", "string");
 
 if ($function == "delete") {
   $del = new rex_sql;
-  $del->setQuery("SELECT " . $REX['TABLE_PREFIX'] . "article.id," . $REX['TABLE_PREFIX'] . "template.name FROM " . $REX['TABLE_PREFIX'] . "article 
-        LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id 
+  $del->setQuery("SELECT " . $REX['TABLE_PREFIX'] . "article.id," . $REX['TABLE_PREFIX'] . "template.name FROM " . $REX['TABLE_PREFIX'] . "article
+        LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id
         WHERE " . $REX['TABLE_PREFIX'] . "article.template_id='$template_id' LIMIT 0,10");
 
   if ($template_id == 1) {
@@ -79,10 +79,10 @@ if ($function == "add" or $function == "edit") {
 			//   \\ ist ein einfacher Backslash!
 			$ctypes[$i] = str_replace('\\', '', $ctypes[$i]);
 		}
-		
+
     if ($function == "add") {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
-      
+
       $ITPL = new rex_sql;
       $ITPL->setTable($REX['TABLE_PREFIX'] . "template");
       $ITPL->setValue("name", $templatename);
@@ -91,7 +91,7 @@ if ($function == "add" or $function == "edit") {
       $ITPL->setValue("attributes", $attributes);
       $ITPL->setValue("createdate", time());
       $ITPL->setValue("createuser", $REX_USER->getValue("login"));
-      
+
       if($ITPL->insert())
       {
 	      $template_id = $ITPL->getLastId();
@@ -109,7 +109,7 @@ if ($function == "add" or $function == "edit") {
       $TMPL->setValue("active", $active);
       $TMPL->setValue("updatedate", time());
       $TMPL->setValue("updateuser", $REX_USER->getValue("login"));
-      
+
       if($TMPL->update())
       {
 	      $message = $I18N->msg("template_added");
@@ -120,7 +120,7 @@ if ($function == "add" or $function == "edit") {
       $templatename = stripslashes($templatename);
       $content = stripslashes($content);
     }
-    
+
     rex_generateTemplate($template_id);
 
     if (isset ($goon) and $goon != "") {
@@ -133,8 +133,8 @@ if ($function == "add" or $function == "edit") {
 
   if (!isset ($save) or $save != "ja") {
     echo '<a name="edit"></a>';
-    
-    // Ctype Handling    
+
+    // Ctype Handling
     $ctypes = rex_getAttributes("ctype", $attributes);
 
     $ctypes_out = '';
@@ -154,61 +154,61 @@ if ($function == "add" or $function == "edit") {
         <form action="index.php" method="post">
       		<fieldset>
         		<legend class="rex-lgnd">' . $legend . '</legend>
-      			
+
       			<div class="rex-fldst-wrppr">
 					<input type="hidden" name="page" value="template" />
 					<input type="hidden" name="function" value="' . $function . '" />
 					<input type="hidden" name="save" value="ja" />
 					<input type="hidden" name="template_id" value="' . $template_id . '" />
-			
+
 					<p>
 					  <label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
 					  <input type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
 					</p>
-			
+
 					<p>
 					  <label for="active">' . $I18N->msg("checkbox_template_active") . ' <span class="rex-hide"> ' . $I18N->msg("checkbox_template_active_info") . '</span></label>
 					  <input class="rex-chckbx" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
 					  <span class="rex-au-none">' . $I18N->msg("checkbox_template_active_info") . '</span>
 					</p>
-			
+
 					<p>
 					  <label for="content">' . $I18N->msg("header_template") . '</label>
 					  <textarea class="rex-txtr-cd" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
 					</p>
     			</div>
     		</fieldset>
-    
+
       		<fieldset>
         		<legend class="rex-lgnd">
 
-<script><!--
+<script type="text/javascript"><!--
 
 function rex_tplctypes_toggle()
 {
-	var trs = getElementsByClass("rex-tplctypes");
+	var trs = getElementsByClass("rex-tmp-ctypes");
 	for(i=0;i<trs.length;i++)
   {
 		show = toggleElement(trs[i]);
 	}
-  if (show == "") changeImage("rex-tplctypes-icon","pics/file_del.gif")
-  else changeImage("rex-tplctypes-icon","pics/file_add.gif");
+  if (show == "") changeImage("rex-tmp-ctypes-icon","pics/file_del.gif")
+  else changeImage("rex-tmp-ctypes-icon","pics/file_add.gif");
 }
 
-//--></script><a href=javascript:rex_tplctypes_toggle();><img src="pics/file_add.gif" id="rex-tplctypes-icon" /></a>
+//--></script><a href=javascript:rex_tplctypes_toggle();><img src="pics/file_add.gif" id="rex-tmp-ctypes-icon" /></a>
 ctypes
 </legend>
 
-     			<div class="rex-fldst-wrppr rex-tplctypes" style="display:none">
+     			<div class="rex-fldst-wrppr rex-tmp-ctypes" style="display:none">
     				' . $ctypes_out . '
     			</div>
           	</fieldset>
-    
+
             <p>
               <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '" />
               <input class="rex-sbmt" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '" />
             </p>
-    
+
         </form>
     	</div>';
 
