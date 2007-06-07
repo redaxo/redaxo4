@@ -449,14 +449,11 @@ function toggleElement(id,display)
    
    if (typeof(display) == 'undefined')
    {
-     needle.style.display = needle.style.display == '' ? 'none' : '';
-   }
-   else
-   {
-     needle.style.display = display;
+     display = needle.style.display == '' ? 'none' : '';
    }
    
-   return false;
+   needle.style.display = display;
+   return display;
 }
 
 function getElementsByClass(searchClass,node,tag) {

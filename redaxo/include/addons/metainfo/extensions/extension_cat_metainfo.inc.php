@@ -30,11 +30,13 @@ function rex_metainfo_toggle()
 	var trs = getElementsByClass("rex-metainfo-cat");
 	for(i=0;i<trs.length;i++)
   {
-		toggleElement(trs[i]);
+		show = toggleElement(trs[i]);
 	}
+  if (show == "") changeImage("rex-meta-icon","pics/file_del.gif")
+  else changeImage("rex-meta-icon","pics/file_add.gif");
 }
 
-//--></script><a href=javascript:rex_metainfo_toggle();><img src="pics/file_down.gif" /></a></div>';
+//--></script><a href=javascript:rex_metainfo_toggle();><img src="pics/file_add.gif" id="rex-meta-icon" /></a></div>';
 
 	if ($fields->getRows()==1) return $return;
 }
