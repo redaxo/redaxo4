@@ -19,6 +19,7 @@ $REX['ADDON']['rxid'][$mypage] = '62';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Meta Infos';
 $REX['ADDON']['perm'][$mypage] = 'metainfo[]';
+$REX['ADDON']['system'][$mypage] = TRUE; // System AddOn - nicht löschbar
 
 $REX['PERM'][] = 'metainfo[]';
 
