@@ -88,10 +88,10 @@ class thumbnail
   {
     // --- height
     $this->img['height_thumb'] = $size;
-    if ($this->img['width_thumb'] == 0)
-    {
+    //if ($this->img['width_thumb'] == 0)
+    //{
       $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
-    }
+    //}
   }
 
   function size_width($size)
