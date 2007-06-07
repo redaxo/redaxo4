@@ -118,6 +118,17 @@ table .rex-warning {
 }
 
 
+
+div#rex-output div.rex-warning-blck {
+	clear:both;
+	margin:0 0 10px 0;
+	padding:8px 45px;
+	background-color:#fae9e5;
+	color:#ea1144;
+	line-height:1.6;
+}
+
+
 h2 {
 	margin-bottom:1.2em;
 }
