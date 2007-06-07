@@ -15,8 +15,9 @@
 <pre>
 ################################################################################
 #
-# imageResize Addon 0.2
-# code by vscope new media - www.vscope.at - office@vscope.at
+# imageResize Addon 0.3
+#   code by vscope new media - www.vscope.at - office@vscope.at
+#   update by public-4u - www.public-4u.de - Markus Staab
 #
 ################################################################################
 #
