@@ -43,20 +43,10 @@ if (isset($msg) and $msg != '') echo '<table border="0" cellpadding="5" cellspac
 
 ?>
 <div class="rex-addon-output">
-<h2>Instructions</h2>
-<div class="rex-addon-content">
-<p><b>Features:</b><br /><br />
-    Makes resize of images on the fly, with extra cache of resized images so<br />
-    performance loss is extremly small.<br />
-    <br />
-    
-    <b>Usage:</b><br /><br />
-    
-    call an image that way <b>index.php?rex_resize=100w__imagefile</b><br />
-    to resize the imagefile to width = 100<br />
-    other methods: w = width h=height a=automatic<br />
-</p>
-</div>
+  <h2>Instructions</h2>
+  <div class="rex-addon-content">
+    <?php include dirname(__FILE__). '/../help.inc.php'; ?>
+  </div>
 </div>
 <?php
 
