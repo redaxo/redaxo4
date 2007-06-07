@@ -1,13 +1,13 @@
-/** 
- *  
+/**
+ *
  * @package redaxo3
  * @version $Id$
- */ 
+ */
 /*
 @import 'linkmap.css';
 @import 'form-search.css';
 */
-*, 
+*,
 .rex-nospace {
 	margin:0;
 	padding:0;
@@ -29,7 +29,7 @@ a {
 a:hover {
 	text-decoration:underline;
 }
-body div#rex-output a.rex-active, 
+body div#rex-output a.rex-active,
 body a.rex-subpage-active {
 	color:#000;
 }
@@ -43,7 +43,7 @@ div, p {
 }
 
 
-.rex-clearer { 
+.rex-clearer {
 	display: block;
 	clear: both;
 	line-height: 0em;
@@ -52,11 +52,11 @@ div, p {
 	visibility: hidden;
 }
 
-.rex-clear { 
+.rex-clear {
 	clear: both;
 }
 
-.rex-hide { 
+.rex-hide {
 	position: absolute !important;
 	left: -1000px !important;
 	top: -1000px !important;
@@ -101,7 +101,7 @@ div#rex-output .rex-warning {
 body#rex-page-medienpool div#rex-output .rex-warning {
 	margin-bottom:2px;
 }
-body#rex-page-content div#rex-output .rex-warning, 
+body#rex-page-content div#rex-output .rex-warning,
 div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-warning {
 	margin-bottom:0px;
 }
@@ -125,19 +125,19 @@ h2 {
 /*	Font Metrics
 *******************************************************************************/
 
-input, 
+input,
 select,
 textarea {
 	padding:1px;
 	font-family:verdana, arial, helvetica, sans-serif;
 }
 
-h2, 
-input, 
-select, 
+h2,
+input,
+select,
 textarea
-/*, 
-div.rex-cnt-cols input, 
+/*,
+div.rex-cnt-cols input,
 div.rex-cnt-cols select */ {
 	font-size:1em;
 }
@@ -150,9 +150,9 @@ textarea {
 	font-size:1.5em;
 }
 */
-div#rex-title ul, 
-div#rex-title p, 
-div#rex-clang ul, 
+div#rex-title ul,
+div#rex-title p,
+div#rex-clang ul,
 div.rex-cnt-hdr ul {
 	line-height:3em;
 }
@@ -165,12 +165,12 @@ div#rex-title h1 {
 
 /*	Color Properties
 *******************************************************************************/
-.rex-ok, 
-.rex-online, 
+.rex-ok,
+.rex-online,
 div#rex-lmp ul li a.rex-online {
 	color:#3ec94a;
 }
-.rex-offline, 
+.rex-offline,
 div#rex-lmp ul li a.rex-offline {
 	color:#aa0000;
 }
@@ -190,8 +190,8 @@ div#rex-lmp ul li a.rex-offline {
 	color:#ea1144;
 }
 
-div#rex-clang, 
-div.rex-cnt-hdr, 
+div#rex-clang,
+div.rex-cnt-hdr,
 div.rex-cnt-cols {
 	background-color:#f0efeb;
 }
@@ -212,27 +212,27 @@ div.rex-cnt-bdy {
 body {
 	margin:8px;
 	color:#32353a;
-	font-family:verdana, arial, sans-serif; 
+	font-family:verdana, arial, sans-serif;
 	font-size:62.5%;
 }
 
 
 /*	Header / Footer
 *******************************************************************************/
-div#rex-hdr, 
+div#rex-hdr,
 div#rex-ftr {
 	float:left;
 	width:770px;
 }
 
-body#rex-page-medienpool div#rex-hdr, 
-body#rex-page-medienpool div#rex-ftr, 
-body#rex-page-linkmap div#rex-hdr, 
+body#rex-page-medienpool div#rex-hdr,
+body#rex-page-medienpool div#rex-ftr,
+body#rex-page-linkmap div#rex-hdr,
 body#rex-page-linkmap div#rex-ftr {
 	width:100%;
 }
 /* normalerweise vom body-Tag*/
-body#rex-page-medienpool div#rex-ftr, 
+body#rex-page-medienpool div#rex-ftr,
 body#rex-page-linkmap div#rex-ftr {
 	margin-bottom:8px;
 }
@@ -258,7 +258,7 @@ div#rex-hdr div {
 	background:#aab9a8;
 }
 
-div#rex-hdr div ul, 
+div#rex-hdr div ul,
 div#rex-ftr ul {
 	float:left;
 	display:inline;
@@ -266,12 +266,12 @@ div#rex-ftr ul {
 	margin:0 5px;
 }
 
-body#rex-page-medienpool div#rex-hdr div ul, 
+body#rex-page-medienpool div#rex-hdr div ul,
 body#rex-page-linkmap div#rex-hdr div ul {
 	width:100%;
 }
 
-div#rex-hdr div li, 
+div#rex-hdr div li,
 div#rex-ftr li {
 	display:inline;
 	color:#fff;
@@ -289,7 +289,7 @@ div#rex-ftr li a {
 	color:#000;
 }
 
-div#rex-hdr div p, 
+div#rex-hdr div p,
 div#rex-ftr p {
 	float:right;
 	display:inline;
@@ -313,7 +313,7 @@ div#rex-wrapper {
 	width:770px;
 	margin-bottom:0px;						/* jan - von 10 auf 0*/
 }
-body#rex-page-medienpool div#rex-wrapper, 
+body#rex-page-medienpool div#rex-wrapper,
 body#rex-page-linkmap div#rex-wrapper {
 	width:100%;
 }
@@ -339,7 +339,7 @@ div.rex-cnt-cols {
 	width:100%;
 }
 
-div.rex-cnt-col2, 
+div.rex-cnt-col2,
 p.rex-cnt-col2 {
 	float:left;
 	width:49.9%;
@@ -360,7 +360,7 @@ html>body div#rex-title {
 	height:auto;
 	min-height:61px;
 }
-body#rex-page-medienpool div#rex-title, 
+body#rex-page-medienpool div#rex-title,
 body#rex-page-linkmap div#rex-title {
 	background:none;
 	background-color:#f0efeb;
@@ -381,13 +381,13 @@ body#rex-page-linkmap div#rex-title p {
 div.rex-title-row {
 	width:617px;
 }
-body#rex-page-medienpool div.rex-title-row, 
+body#rex-page-medienpool div.rex-title-row,
 body#rex-page-linkmap div.rex-title-row {
 	width:100%;
 }
 
-div#rex-title h1, 
-div#rex-title ul, 
+div#rex-title h1,
+div#rex-title ul,
 div#rex-title p {
 	padding-left:7px;
 	border-bottom:1px solid #fff;
@@ -402,10 +402,10 @@ div.rex-cnt-bdy {
 
 /*	Listen
 *******************************************************************************/
-/* 
-	div#rex-title ul weiter oben noch def. 
+/*
+	div#rex-title ul weiter oben noch def.
 */
-div#rex-clang, 
+div#rex-clang,
 div.rex-cnt-hdr {
 	padding-left:39px;
 	margin-bottom:10px;
@@ -428,19 +428,19 @@ div.rex-cnt-hdr ul {
 	padding-left:10px;
 	border-left:1px solid #fff;
 }
-div#rex-title ul li, 
-div#rex-clang ul li, 
+div#rex-title ul li,
+div#rex-clang ul li,
 div.rex-cnt-hdr ul li {
 	display:inline;
 	font-weight:bold;
 }
 
-div#rex-title ul li, 
-div#rex-clang ul li, 
-div.rex-cnt-hdr ul li, 
+div#rex-title ul li,
+div#rex-clang ul li,
+div.rex-cnt-hdr ul li,
 div#rex-title p {
 	font-weight:bold;
-} 
+}
 div.rex-cnt-hdr ul li span {
 	color:#000;
 	font-weight:normal;
@@ -467,25 +467,25 @@ body div#rex-output legend.rex-lgnd {
 	padding:5px;
 	font-weight:bold;
 }
-body div#rex-output p.rex-hdl, 
-body div#rex-output div.rex-spc-stn-cnt, 
-body div#rex-output div.rex-lgn-frm p,  
+body div#rex-output p.rex-hdl,
+body div#rex-output div.rex-spc-stn-cnt,
+body div#rex-output div.rex-lgn-frm p,
 body div#rex-output div.rex-tmp-editmode p,
 body div#rex-output div.rex-mdl-editmode p,
-body div#rex-output div.rex-spc-stn-cnt p, 
-body div#rex-output div.rex-mpl-catslct-frm p, 
+body div#rex-output div.rex-spc-stn-cnt p,
+body div#rex-output div.rex-mpl-catslct-frm p,
 body div#rex-output div.rex-mpl-dtl-wrp p,
-body div#rex-output div.rex-mpl-oth p, 
-body div#rex-output div.rex-mpl-oth li, 
+body div#rex-output div.rex-mpl-oth p,
+body div#rex-output div.rex-mpl-oth li,
 body div#rex-output p.rex-cnt-mdl-name,
-body div#rex-output p.rex-sbmt, 
+body div#rex-output p.rex-sbmt,
 body div#rex-output p.rex-slct {
 	padding:5px;
 }
 body div#rex-output div.rex-fldst-wrppr {
 	border-top:1px solid #fff;
 }
-body div#rex-output p label, 
+body div#rex-output p label,
 body div#rex-output div.rex-ptag label {
 	clear:left;
 	display:block;
@@ -501,15 +501,15 @@ body div#rex-output p label.rex-lbl-rght {
 	padding-top:0;
 }
 
-/* 
+/*
 	p.rex-chckbx - just in content.inc.php
 	p.rex-sbmt	 - just in content.inc.php
 */
-body div#rex-output p.rex-chckbx input, 
-body div#rex-output p.rex-rdo input, 
-body div#rex-output p.rex-sbmt input, 
-body div#rex-output p input.rex-chckbx, 
-body div#rex-output p input.rex-sbmt, 
+body div#rex-output p.rex-chckbx input,
+body div#rex-output p.rex-rdo input,
+body div#rex-output p.rex-sbmt input,
+body div#rex-output p input.rex-chckbx,
+body div#rex-output p input.rex-sbmt,
 body#rex-page-medienpool div#rex-output td input.rex-sbmt {
 	width:auto;
 }
@@ -533,8 +533,8 @@ table.rex-table {
 table.rex-table-mrgn {
 	margin-bottom:10px;
 }
-table.rex-table caption, 
-table.rex-table th, 
+table.rex-table caption,
+table.rex-table th,
 table.rex-table td {
 	padding:5px;
 	border:1px solid #fff;
@@ -550,6 +550,9 @@ table.rex-table caption {
 	font-weight:bold;
 	text-align:left;
 }
+body#rex-page-module table.rex-table caption {
+	border:0;
+}
 
 table.rex-table tr.rex-trow-actv td {
 	background:#e7e6e3;
@@ -562,18 +565,18 @@ table.rex-table th {
 }
 
 /*	real width = border + padding + width */
-table.rex-table th.rex-icon, 
+table.rex-table th.rex-icon,
 table.rex-table td.rex-icon {
 	width:29px;
 	text-align:center;
 }
-table.rex-table th.rex-icon, 
-table.rex-table td.rex-icon, 
-table.rex-table th.rex-prio, 
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon,
+table.rex-table th.rex-prio,
 table.rex-table td.rex-prio {
 }
 
-table.rex-table th.rex-colz, 
+table.rex-table th.rex-colz,
 table.rex-table td.rex-colz {
 	width:153px;
 }
@@ -594,7 +597,7 @@ div#rex-stp p {
 	width:100%;
 }
 */
-div#rex-stp p, 
+div#rex-stp p,
 div#rex-stp ul {
 	margin-bottom:1em;
 }
@@ -624,15 +627,15 @@ div#rex-stp ul.rex-stp-language li a {
 div#rex-stp-lcns {
 	margin:30px 0;
 	padding:5px 0 5px 5px;
-	width:500px; 
-	height:200px; 
-	overflow:auto; 
-	background-color:#fff; 
+	width:500px;
+	height:200px;
+	overflow:auto;
+	background-color:#fff;
 	border:1px solid #f0efeb;
 }
 
- 
- 
+
+
 div#rex-stp fieldset {
 	margin-bottom:20px;
 }
@@ -640,15 +643,15 @@ div#rex-stp fieldset legend {
 	margin-bottom:10px;
 	font-weight:bold;
 }
- 
+
 body div#rex-stp p {
 	clear:both;
 }
- 
+
 body div#rex-stp p label {
 	width:200px;
 }
- 
+
 div#rex-stp form#rex-stp-database label {
 	margin-bottom:1em;
 	width:450px;
@@ -659,8 +662,8 @@ div#rex-stp label.rex-lbl-right {
 	width:200px;
 }
 
-div#rex-stp input, 
-div#rex-stp select, 
+div#rex-stp input,
+div#rex-stp select,
 div#rex-stp textarea {
 	width:300px;
 }
@@ -706,7 +709,7 @@ body div#rex-output div.rex-lgn-frm p label {
 }
 div.rex-lgn-frm p input {
 	width:100px;
-} 
+}
 div.rex-lgn-frm p input.rex-sbmt {
 	margin-left:20px;
 }
@@ -723,20 +726,20 @@ div.rex-lgn-frm legend.rex-lgnd {
 	- add, edit Article (Structure)
 *******************************************************************************/
 /* - Cat/Art Edit Form */
-input#category_name, 
-input#Position_New_Category, 
-input#Position_Category, 
-input#kat_name, 
+input#category_name,
+input#Position_New_Category,
+input#Position_Category,
+input#kat_name,
 input#article_name,
-input#Position_New_Article, 
-input#Position_Article, 
-input#template_id, 
+input#Position_New_Article,
+input#Position_Article,
+input#template_id,
 input#catname   {
 	width:97%;
 }
-input#Position_New_Category, 
-input#Position_Category, 
-input#Position_New_Article, 
+input#Position_New_Category,
+input#Position_Category,
+input#Position_New_Article,
 input#Position_Article {
 	width:87%;
 }
@@ -758,10 +761,10 @@ tr.rex-trow-actv td {
 
 tr.rex-trow-actv td.rex-mt-lbl {
 	vertical-align:top;
-} 
+}
 
 tr.rex-trow-actv td.rex_mt-fld {
-} 
+}
 
 
 tr.rex-trow-actv td.rex-mt-fld textarea,
@@ -770,7 +773,7 @@ tr.rex-trow-actv td.rex-mt-fld select {
 	width:97%;
 }
 
-tr.rex-trow-actv td.rex-mt-fld select.rex-fdate, 
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdate,
 tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
 	margin:2px 0;
 }
@@ -785,16 +788,16 @@ tr.rex-trow-actv td.rex-mt-fld textarea {
 	height:50px;
 }
 
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo {
 	clear:both;
 }
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo label {
 	float:right;
 	width:190px;
 }
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input, 
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo input {
 	margin:2px 0;
 }
@@ -840,8 +843,8 @@ div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li img {
 
 
 
-div.rex-cnt-editmode, 
-div.rex-cnt-editmode form div.rex-cnt-slc-ipt, 
+div.rex-cnt-editmode,
+div.rex-cnt-editmode form div.rex-cnt-slc-ipt,
 div.rex-cnt-editmode form p.rex-sbmt {
 	background-color:#d6e1e4;
 }
@@ -911,8 +914,8 @@ div.rex-wdgt div.rex-wdgt-mdlst p a img {
 }
 
 body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p input,
-body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p.rex-slct select, 
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input, 
+body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p.rex-slct select,
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct select {
 	background-color:#f0efeb;
 }
@@ -936,7 +939,7 @@ div.rex-cnt-metamode {
 	background-color:#d6e1e4;
 	width:100%;
 }
-div.rex-cnt-metamode p, 
+div.rex-cnt-metamode p,
 div.rex-cnt-metamode div.rex-ptag {
 	padding:5px;
 	border-bottom:1px solid #d6e1e4;
@@ -952,7 +955,7 @@ div.rex-cnt-metamode div.rex-ptag div.rex-wdgt {
 /* general define */
 div.rex-cnt-metamode p label {
 }
-div.rex-cnt-metamode p input, 
+div.rex-cnt-metamode p input,
 div.rex-cnt-metamode p select,
 div.rex-cnt-metamode p textarea {
 	width:350px;
@@ -979,7 +982,7 @@ div.rex-tmp-editmode p {
 /* general define */
 div.rex-tmp-editmode p label {
 }
-div.rex-tmp-editmode p input, 
+div.rex-tmp-editmode p input,
 div.rex-tmp-editmode p textarea {
 	width:500px;
 }
@@ -1010,8 +1013,8 @@ div.rex-mdl-editmode p {
 /* general define */
 div.rex-mdl-editmode p label {
 }
-div.rex-mdl-editmode p input, 
-div.rex-mdl-editmode p select, 
+div.rex-mdl-editmode p input,
+div.rex-mdl-editmode p select,
 div.rex-mdl-editmode p textarea {
 	width:500px;
 }
@@ -1069,11 +1072,11 @@ div.rex-usr-editmode p label {
 body div#rex-output div.rex-usr-editmode p label.rex-lbl-rght {
 	width:200px;
 }
-div.rex-usr-editmode p input,  
-div.rex-usr-editmode p select,  
+div.rex-usr-editmode p input,
+div.rex-usr-editmode p select,
 div.rex-usr-editmode p textarea {
 	width:200px;
-} 
+}
 div.rex-usr-editmode p input.rex-chckbx {
 	clear:both;
 	float:left;
@@ -1112,7 +1115,7 @@ body div#rex-output div.rex-spc-stn-cnt p label {
 	padding-left:0;
 	width:190px;
 }
-div.rex-spc-stn-cnt p input, 
+div.rex-spc-stn-cnt p input,
 div.rex-spc-stn-cnt p select  {
 	width:40%;
 }
@@ -1186,7 +1189,7 @@ div.rex-mpl-dtl div.rex-mpl-dtl-edt p {
 body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p label {
 	width:144px;
 }
-div.rex-mpl-dtl div.rex-mpl-dtl-edt p input,  
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p input,
 div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
 	width:244px;
 }
@@ -1238,7 +1241,7 @@ div.rex-mpl-oth {
 	background-color:#d6e1e4;
 	background-color:#d7d6d3;
 }
-div.rex-mpl-oth p, 
+div.rex-mpl-oth p,
 div.rex-mpl-oth li {
 	background-color:#f0efeb;
 	border-bottom:1px solid #fff;
@@ -1252,8 +1255,8 @@ body div#rex-output div.rex-mpl-oth li input.rex-chckbx {
 body div#rex-output div.rex-mpl-oth p label {
 	width:144px;
 }
-div.rex-mpl-oth p input, 
-div.rex-mpl-oth p select, 
+div.rex-mpl-oth p input,
+div.rex-mpl-oth p select,
 div.rex-mpl-oth p textarea {
 	width:70%;
 }
@@ -1297,7 +1300,7 @@ div#rex-lmp h1 {
 	background-color:#d7d6d3;
 	font-size:1em;
 }
-div.rex-lmp-cats, 
+div.rex-lmp-cats,
 div.rex-lmp-arts {
 	float:left;
 	width:50%;
@@ -1328,7 +1331,7 @@ div#rex-lmp ul li a {
 div#rex-lmp ul li a.rex-active {
 	background-image:url(../pics/folder_on.gif);
 }
-div#rex-lmp ul li.rex-children ul li, 
+div#rex-lmp ul li.rex-children ul li,
 div#rex-lmp ul li ul li.rex-children-last {
 	margin-left:23px;
 	padding-left:10px;
@@ -1367,8 +1370,8 @@ div.rex-addon-output h2 {
 div.rex-addon-output div.rex-addon-content {
 	padding:5px;
 }
-div.rex-addon-output h3, 
-div.rex-addon-output p, 
+div.rex-addon-output h3,
+div.rex-addon-output p,
 div.rex-addon-output code {
 	margin-bottom:1em;
 }
@@ -1401,13 +1404,13 @@ div.rex-addon-editmode p {
 /* general define */
 div.rex-addon-editmode p label {
 }
-div.rex-addon-editmode p input, 
-div.rex-addon-editmode p select, 
+div.rex-addon-editmode p input,
+div.rex-addon-editmode p select,
 div.rex-addon-editmode p textarea {
 	width:500px;
 }
 div.rex-addon-editmode p.rex-rdo input,
-div.rex-addon-editmode p.rex-chckbx input, 
+div.rex-addon-editmode p.rex-chckbx input,
 div.rex-addon-editmode p input.rex-ffile {
 	width:auto;
 }
@@ -1447,7 +1450,7 @@ body#rex-page-import-export div.rex-addon-editmode p.rex-ftxt input {
 	width:200px;
 	margin:0 10px 0 5px;
 }
-body#rex-page-import-export div.rex-addon-editmode p.rex-chckbx input, 
+body#rex-page-import-export div.rex-addon-editmode p.rex-chckbx input,
 body#rex-page-import-export div.rex-addon-editmode p.rex-rdo input {
 	float:left;
 	margin:0 10px 0 5px;
