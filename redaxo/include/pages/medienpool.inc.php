@@ -21,7 +21,7 @@
 
 // ----- opener_input_field setzen
 $opener_input_field = rex_get('opener_input_field');
-if($opener_input_field == '' && ($sess_opener_input_field = rex_session('media[opener_input_field]')) != '')
+if(!isset($_REQUEST["opener_input_field"]) && $opener_input_field == '' && ($sess_opener_input_field = rex_session('media[opener_input_field]')) != '')
 {
   $opener_input_field = $sess_opener_input_field;
 }
