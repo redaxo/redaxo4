@@ -98,10 +98,10 @@ echo '
     <table class="rex-table" summary="'.$I18N->msg('clang_summary').'">
       <caption class="rex-hide">'.$I18N->msg('clang_caption').'</caption>
       <colgroup>
-        <col width="5%" />
-        <col width="5%" />
+        <col width="40" />
+        <col width="40" />
         <col width="*" />
-        <col width="40%" />
+        <col width="153" />
       </colgroup>
       <thead>
         <tr>

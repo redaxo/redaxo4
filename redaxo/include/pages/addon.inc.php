@@ -104,10 +104,10 @@ if ($SP)
       <caption class="rex-hide">'.$I18N->msg("addon_caption").'</caption>
       <colgroup>
         <col width="*"/>
-        <col width="19%" />
-        <col width="19%" />
-        <col width="15%" />
-        <col width="15%" />
+        <col width="130" />
+        <col width="130" />
+        <col width="130" />
+        <col width="153" />
       </colgroup>
   	  <thead>
         <tr>

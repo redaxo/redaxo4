@@ -796,12 +796,12 @@ if (isset($SHOW) and $SHOW)
   <table class="rex-table" summary="'.$I18N->msg('user_summary').'">
     <caption class="rex-hide">'.$I18N->msg('user_caption').'</caption>
     <colgroup>
-      <col width="5%" />
+      <col width="40" />
       '. $add_col .'
       <col width="*" />
-      <col width="25%" />
-      <col width="20%" />
-      <col width="15%" />
+      <col width="153" />
+      <col width="153" />
+      <col width="153" />
     </colgroup>
     <thead>
       <tr>
