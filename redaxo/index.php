@@ -66,7 +66,13 @@ else
 
   // ----------------- CREATE LANG OBJ
   $I18N = rex_create_lang($REX['LANG']);
-  setlocale(LC_ALL,trim($I18N->msg('setlocale')));
+  $locale = trim($I18N->msg('setlocale'));
+  $charset = trim($I18N->msg('htmlcharset'));
+  $charset_alt = str_replace("iso-","iso",$charset);
+  setlocale(LC_ALL,
+  	$locale.'.'.$charset,
+  	$locale.'.'.$charset_alt,
+		$locale);
   header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
   header('Cache-Control: no-cache');
   header('Pragma: no-cache');
@@ -88,7 +94,7 @@ else
   if (!$REX_LOGIN->checkLogin())
   {
   	// login failed
-    $FORM['loginmessage']= $REX_LOGIN->message;
+    $FORM['loginmessage'] = $REX_LOGIN->message;
     $LOGIN = FALSE;
     $page = 'login';
     
