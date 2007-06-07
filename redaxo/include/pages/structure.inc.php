@@ -240,8 +240,8 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
       $AART->setValue('id', $id);
     $AART->setValue('clang', $key);
     $AART->setValue('template_id', $template_id);
-    $AART->setValue('name', '$category_name');
-    $AART->setValue('catname', '$category_name');
+    $AART->setValue('name', $category_name);
+    $AART->setValue('catname', $category_name);
 // TODO Neue noch nicht verwendete Datenbankspalten
 //    $AART->setValue('label', $category_label);
 //    $AART->setValue('url', $category_url);
