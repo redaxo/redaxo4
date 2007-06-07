@@ -181,6 +181,8 @@ action_edit = Aktion bearbeiten
 action_add = Aktion hinzufügen
 action_caption = Liste der angelegten Aktionen
 action_summary = Auflistung aller angelegten Aktionen
+actions_added_caption = Liste der zugewiesenen Aktionen
+actions_added_summary = Auflistung aller zugewiesenen Aktionen
 
 # redaxo\include\pages\structure.inc.php
 title_structure = Strukturverwaltung
@@ -294,7 +296,7 @@ links_ok = Alle Links sind ok.
 links_not_ok = Folgende Links sind nicht ok:
 info_updated = Informationen wurden aktualisiert!
 delete_cache = Cache löschen.
-delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontend aufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt. 
+delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontend aufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt.
 delete_cache_message = Cache wurde gelöscht.
 specials_title = Spezielle Features
 specials_features = Features
