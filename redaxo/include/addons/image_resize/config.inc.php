@@ -130,7 +130,7 @@ if ($rex_resize != '')
 
   if (($mode != 'w') and ($mode != 'h') and ($mode != 'a')and ($mode != 'c'))
   {
-    print 'Error wrong mode - only h,w,a';
+    print 'Error wrong mode - only h,w,a,c';
     exit;
   }
   if ($size == '')
