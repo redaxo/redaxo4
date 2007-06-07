@@ -42,7 +42,7 @@ function rex_a62_insertJs($params)
  * @param $activeItem objekt, dass mit getValue() die Werte des akuellen Eintrags zurückgibt
  * @param $formatCallback callback, dem die infos als Array übergeben werden und den formatierten HTML Text zurückgibt
  */
-function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $params)
+function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 {
   $s = '';
 
@@ -117,7 +117,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $params)
           }
         }
 
-        if($params['extension_point'] != 'CAT_META_FORM_EDIT')
+        if($epParams['extension_point'] != 'CAT_META_FORM_EDIT')
           $field .= '<span>'. $label .'</span>';
 
         $class = $typeLabel == 'radio' ? 'rex-rdo' : 'rex-chckbx';
