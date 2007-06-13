@@ -213,6 +213,8 @@ if ($checkmodus == 2 && $send == 1)
 {
   $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
   $cont = fread($h, filesize('include/master.inc.php'));
+  fclose($h);
+  
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*", "\\1".$serveraddress, $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*", "\\1".$serverbezeichnung, $cont);
   $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
@@ -223,10 +225,8 @@ if ($checkmodus == 2 && $send == 1)
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*", "\\1".$dbname, $cont);
 
-  fclose($h);
-
   $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'w+');
-  if (fwrite($h, $cont, strlen($cont)) > 0)
+  if ($h && fwrite($h, $cont, strlen($cont)) > 0)
   {
     fclose($h);
   }
