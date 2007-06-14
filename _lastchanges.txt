@@ -60,6 +60,9 @@ Known Bugs:
 ---------------------------------------------------------------------------------
 Changes:
 ---------------------------------------------------------------------------------
+
+  * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen
+
   * CTypes aufbereitet [kills,jan]
   	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
   	- Sind nun abhängig von einzelnen Templates

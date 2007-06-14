@@ -146,7 +146,7 @@ if ($checkmodus == 1)
 
   // -------------------------- VERSIONSCHECK
 
-  if (version_compare(phpversion(), '4.2.0', '<') == 1)
+  if (version_compare(phpversion(), '4.3.2', '<') == 1)
   {
     $MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
   }
