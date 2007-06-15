@@ -8,6 +8,7 @@ $REX['ADDON']['rxid'][$mypage] = "1";     // unique id /
 $REX['ADDON']['page'][$mypage] = "$mypage";     // pagename/foldername
 $REX['ADDON']['name'][$mypage] = "Import/Export";   // name
 $REX['ADDON']['perm'][$mypage] = "import[]";    // permission
+$REX['ADDON']['system'][$mypage] = TRUE; // System AddOn - nicht löschbar
 
 $REX['PERM'][] = "import[]";
 
