@@ -1026,7 +1026,7 @@ if ($subpage == "detail")
         $imgn = 'pics/mime_icons/mime-error.gif';
       }else if ($thumbs && $thumbsresize && $rfwidth>199) 
       {
-        $imgn = '../index.php?rex_resize=200w__'. $fname;
+        $imgn = '../index.php?rex_resize=200a__'. $fname;
       }
             
       $add_image = '<div class="rex-mpl-dtl-img">
