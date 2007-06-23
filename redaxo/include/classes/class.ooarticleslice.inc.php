@@ -28,7 +28,12 @@ class OOArticleSlice
   /*
    * Constructor
    */
-  function OOArticleSlice($id, $re_article_slice_id, $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $file1, $file2, $file3, $file4, $file5, $file6, $file7, $file8, $file9, $file10, $link1, $link2, $link3, $link4, $link5, $link6, $link7, $link8, $link9, $link10, $php, $html, $article_id, $modultyp_id, $clang)
+  function OOArticleSlice(	
+  	$id, $re_article_slice_id, 
+  	$value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14, $value15, $value16, $value17, $value18, $value19, $value20, 
+  	$file1, $file2, $file3, $file4, $file5, $file6, $file7, $file8, $file9, $file10, 
+  	$link1, $link2, $link3, $link4, $link5, $link6, $link7, $link8, $link9, $link10, 
+  	$php, $html, $article_id, $modultyp_id, $clang)
   {
     $this->_id = $id;
     $this->_re_article_slice_id = $re_article_slice_id;
@@ -42,6 +47,16 @@ class OOArticleSlice
     $this->_value[8] = $value8;
     $this->_value[9] = $value9;
     $this->_value[10] = $value10;
+    $this->_value[11] = $value11;
+    $this->_value[12] = $value12;
+    $this->_value[13] = $value13;
+    $this->_value[14] = $value14;
+    $this->_value[15] = $value15;
+    $this->_value[16] = $value16;
+    $this->_value[17] = $value17;
+    $this->_value[18] = $value18;
+    $this->_value[19] = $value19;
+    $this->_value[20] = $value20;
     $this->_file[1] = $file1;
     $this->_file[2] = $file2;
     $this->_file[3] = $file3;
@@ -85,17 +100,25 @@ class OOArticleSlice
     $sql = new rex_sql;
     $query =<<<EOD
 SELECT
-  id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
-  value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
-  file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
-  link8,link9,link10,php,html,article_id,modultyp_id
+  id,re_article_slice_id,
+  value1,value2,value3,value4,value5,value6,value7,value8,value9,value10,value11,value12,value13,value14,value15,value16,value17,value18,value19,value20,
+  file1,file2,file3,file4,file5,file6,file7,file8,file9,file10,
+  link1,link2,link3,link4,link5,link6,link7,link8,link9,link10,
+  php,html,
+  article_id,modultyp_id,clang
 FROM $table
 WHERE id = $an_id AND clang = $clang
 EOD;
     $sql->setQuery($query);
     if ($sql->getRows() == 1)
     {
-      return new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
+      return new OOArticleSlice(
+      	$sql->getValue("id"), 
+      	$sql->getValue("re_article_slice_id"), 
+      	$sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("value11"), $sql->getValue("value12"), $sql->getValue("value13"), $sql->getValue("value14"), $sql->getValue("value15"), $sql->getValue("value16"), $sql->getValue("value17"), $sql->getValue("value18"), $sql->getValue("value19"), $sql->getValue("value20"), 
+      	$sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), 
+      	$sql->getValue("php"), $sql->getValue("html"), 
+      	$sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
     }
     return null;
   }
@@ -119,17 +142,25 @@ EOD;
     $sql = new rex_sql;
     $query =<<<EOD
 SELECT
-  id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
-  value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
-  file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
-  link8,link9,link10,php,html,article_id,modultyp_id
+  id,re_article_slice_id,
+  value1,value2,value3,value4,value5,value6,value7,value8,value9,value10,value11,value12,value13,value14,value15,value16,value17,value18,value19,value20,
+  file1,file2,file3,file4,file5,file6,file7,file8,file9,file10,
+  link1,link2,link3,link4,link5,link6,link7,link8,link9,link10,
+  php,html,
+  article_id,modultyp_id,clang
 FROM $table
 WHERE article_id = $an_article_id AND re_article_slice_id = 0 AND clang = $clang
 EOD;
     $sql->setQuery($query);
     if ($sql->getRows() == 1)
     {
-      return new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
+      return new OOArticleSlice(
+      	$sql->getValue("id"), $sql->getValue("re_article_slice_id"), 
+      	$sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("value11"), $sql->getValue("value12"), $sql->getValue("value13"), $sql->getValue("value14"), $sql->getValue("value15"), $sql->getValue("value16"), $sql->getValue("value17"), $sql->getValue("value18"), $sql->getValue("value19"), $sql->getValue("value20"), 
+      	$sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), 
+      	$sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), 
+      	$sql->getValue("php"), $sql->getValue("html"), 
+      	$sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
     }
     return null;
   }
@@ -151,10 +182,12 @@ EOD;
     $sql = new rex_sql;
     $query =<<<EOD
 SELECT
-  id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
-  value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
-  file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
-  link8,link9,link10,php,html,article_id,modultyp_id
+  id,re_article_slice_id,
+  value1,value2,value3,value4,value5,value6,value7,value8,value9,value10,value11,value12,value13,value14,value15,value16,value17,value18,value19,value20,
+  file1,file2,file3,file4,file5,file6,file7,file8,file9,file10,
+  link1,link2,link3,link4,link5,link6,link7,link8,link9,link10,
+  php,html,
+  article_id,modultyp_id,clang
 FROM $table
 WHERE article_id = $an_article_id AND clang = $clang AND modultyp_id = $a_moduletype_id
 EOD;
@@ -162,7 +195,13 @@ EOD;
     $slices = array ();
     for ($i = 0; $i < $sql->getRows(); $i++)
     {
-      $slices[] = new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
+      $slices[] = new OOArticleSlice(
+      	$sql->getValue("id"), $sql->getValue("re_article_slice_id"), 
+      	$sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("value11"), $sql->getValue("value12"), $sql->getValue("value13"), $sql->getValue("value14"), $sql->getValue("value15"), $sql->getValue("value16"), $sql->getValue("value17"), $sql->getValue("value18"), $sql->getValue("value19"), $sql->getValue("value20"), 
+      	$sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), 
+      	$sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), 
+      	$sql->getValue("php"), $sql->getValue("html"), 
+      	$sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
       $sql->next();
     }
     return $slices;
@@ -181,17 +220,24 @@ EOD;
     $sql = new rex_sql;
     $query =<<<EOD
 SELECT
-  id,re_article_slice_id,value1,value2,value3,value4,value5,value6,
-  value7,value8,value9,value10,file1,file2,file3,file4,file5,file6,
-  file7,file8,file9,file10,link1,link2,link3,link4,link5,link6,link7,
-  link8,link9,link10,php,html,article_id,modultyp_id
+  id,re_article_slice_id,
+  value1,value2,value3,value4,value5,value6,value7,value8,value9,value10,value11,value12,value13,value14,value15,value16,value17,value18,value19,value20,
+  file1,file2,file3,file4,file5,file6,file7,file8,file9,file10,
+  link1,link2,link3,link4,link5,link6,link7,link8,link9,link10,
+  php,html,article_id,modultyp_id,clang
 FROM $table
 WHERE re_article_slice_id = {$this->_id} AND clang = {$this->_clang}
 EOD;
     $sql->setQuery($query);
     if ($sql->getRows() == 1)
     {
-      return new OOArticleSlice($sql->getValue("id"), $sql->getValue("re_article_slice_id"), $sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), $sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), $sql->getValue("php"), $sql->getValue("html"), $sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
+      return new OOArticleSlice(
+      	$sql->getValue("id"), $sql->getValue("re_article_slice_id"), 
+      	$sql->getValue("value1"), $sql->getValue("value2"), $sql->getValue("value3"), $sql->getValue("value4"), $sql->getValue("value5"), $sql->getValue("value6"), $sql->getValue("value7"), $sql->getValue("value8"), $sql->getValue("value9"), $sql->getValue("value10"), $sql->getValue("value11"), $sql->getValue("value12"), $sql->getValue("value13"), $sql->getValue("value14"), $sql->getValue("value15"), $sql->getValue("value16"), $sql->getValue("value17"), $sql->getValue("value18"), $sql->getValue("value19"), $sql->getValue("value20"), 
+      	$sql->getValue("file1"), $sql->getValue("file2"), $sql->getValue("file3"), $sql->getValue("file4"), $sql->getValue("file5"), $sql->getValue("file6"), $sql->getValue("file7"), $sql->getValue("file8"), $sql->getValue("file9"), $sql->getValue("file10"), 
+      	$sql->getValue("link1"), $sql->getValue("link2"), $sql->getValue("link3"), $sql->getValue("link4"), $sql->getValue("link5"), $sql->getValue("link6"), $sql->getValue("link7"), $sql->getValue("link8"), $sql->getValue("link9"), $sql->getValue("link10"), 
+      	$sql->getValue("php"), $sql->getValue("html"), 
+      	$sql->getValue("article_id"), $sql->getValue("modultyp_id"), $sql->getValue("clang"));
     }
     return null;
   }
