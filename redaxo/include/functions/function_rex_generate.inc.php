@@ -522,25 +522,36 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
   {
     // validierung der id & from_cat_id
     $from_sql = new rex_sql;
-    //$from_sql->debugsql = 1;
     $from_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
 
     if ($from_sql->getRows() == 1)
     {
       // validierung der to_cat_id
       $to_sql = new rex_sql;
-      //$to_sql->debugsql = 1;
       $to_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'. $clang .'" and startpage=1 and id="'. $to_cat_id .'"');
 
-      if ($to_sql->getRows() == 1)
+      if ($to_sql->getRows() == 1 || $to_cat_id == 0)
       {
+				if ($to_sql->getRows() == 1)
+				{
+					$re_id = $to_sql->getValue('id');
+					$path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
+					$catname = $to_sql->getValue('name');
+				}else
+				{
+					// In RootEbene
+					$re_id = 0;
+      		$path = '|';
+      		$catname = $from_sql->getValue("name");
+				}
+
         $art_sql = new rex_sql;
         //$art_sql->debugsql = 1;
 
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
-        $art_sql->setValue('re_id', $to_sql->getValue('id'));
-        $art_sql->setValue('path', $to_sql->getValue('path').$to_sql->getValue('id').'|');
-        $art_sql->setValue('catname', $to_sql->getValue('name'));
+        $art_sql->setValue('re_id', $re_id);
+        $art_sql->setValue('path', $path);
+        $art_sql->setValue('catname', $catname);
         // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen
@@ -731,15 +742,26 @@ function rex_copyArticle($id, $to_cat_id)
       $to_sql = new rex_sql;
       $to_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'.$clang.'" and startpage=1 and id="'. $to_cat_id .'"');
 
-      if ($to_sql->getRows() == 1)
+      if ($to_sql->getRows() == 1 || $to_cat_id == 0)
       {
+      	if ($to_sql->getRows() == 1)
+      	{
+      		$path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
+      	  $catname = $to_sql->getValue('name');
+      	}else
+      	{
+      		// In RootEbene
+      		$path = '|';
+      		$catname = $from_sql->getValue("name");
+      	}
+      	
         $art_sql = new rex_sql;
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
         if ($new_id == "") $new_id = $art_sql->setNewId('id');
         $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen 
-        $art_sql->setValue('re_id', $to_sql->getValue('id'));
-        $art_sql->setValue('path', $to_sql->getValue('path').$to_sql->getValue('id').'|');
-        $art_sql->setValue('catname', $to_sql->getValue('name'));
+        $art_sql->setValue('re_id', $to_cat_id);
+        $art_sql->setValue('path', $path);
+        $art_sql->setValue('catname', $catname);
         $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
         $art_sql->setValue('createdate', time());
@@ -749,7 +771,7 @@ function rex_copyArticle($id, $to_cat_id)
         // schon gesetzte Felder nicht wieder überschreiben
         $dont_copy = array ('id', 'pid', 're_id', 'catname', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
         
-        foreach (array_diff($to_sql->getFieldnames(), $dont_copy) as $fld_name)
+        foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
         {
           $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
         }

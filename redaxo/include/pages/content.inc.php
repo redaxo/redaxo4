@@ -825,12 +825,14 @@ if ($article->getRows() == 1)
           $move_a->setName('category_id_new');
           $move_a->setSize('1');
           $move_a->setAttribute('tabindex', rex_tabindex(false));
+          $move_a->setSelected($category_id);
+          $move_a->addOption("Homepage",0);
 
           if ($cats = OOCategory :: getRootCategories())
           {
             foreach ($cats as $cat)
             {
-              add_cat_options($move_a, $cat, $cat_ids);
+              add_cat_options($move_a, $cat, $cat_ids, '', '&nbsp;&nbsp;&nbsp;');
             }
           }
 
@@ -858,14 +860,16 @@ if ($article->getRows() == 1)
           $move_a->setName('category_copy_id_new');
           $move_a->setId('category_copy_id_new');
           $move_a->setSize('1');
-          $move_a->setSelected($article_id);
+          $move_a->setSelected($category_id);
           $move_a->setAttribute('tabindex', rex_tabindex(false));
+
+					$move_a->addOption("Homepage",0);
 
           if ($cats = OOCategory :: getRootCategories())
           {
             foreach ($cats as $cat)
             {
-              add_cat_options($move_a, $cat, $cat_ids);
+              add_cat_options($move_a, $cat, $cat_ids, '', '&nbsp;&nbsp;&nbsp;');
             }
           }
 
@@ -895,6 +899,8 @@ if ($article->getRows() == 1)
           $move_a->setSize('1');
           $move_a->setSelected($article_id);
           $move_a->setAttribute('tabindex', rex_tabindex(false));
+
+					$move_a->addOption("Homepage",0);
 
           if ($cats = OOCategory :: getRootCategories())
           {
