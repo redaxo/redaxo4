@@ -16,6 +16,8 @@
 unset ($REX_ACTION);
 
 $slice_id = rex_request('slice_id', 'int', '');
+$function = rex_request('function', 'string', '');
+
 
 $article = new rex_sql;
 $article->setQuery("
@@ -437,7 +439,7 @@ if ($article->getRows() == 1)
         {
           $message = $I18N->msg('content_tostartarticle_failed');
         }
-        unset($function);
+        $function = '';
       }
     }
     // ------------------------------------------ END: COPY LANG CONTENT
@@ -757,7 +759,9 @@ if ($article->getRows() == 1)
   							  <div class="rex-fldst-wrppr">
 									  <p>';
 					
-					if ($article->getValue('startpage')==1) 
+					if ($article->getValue('startpage')==0 && $article->getValue('re_id')==0) 
+						echo $I18N->msg('content_nottostartarticle');
+					else if ($article->getValue('startpage')==1) 
 						echo $I18N->msg('content_isstartarticle');
 					else
 						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' />';
