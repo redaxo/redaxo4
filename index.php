@@ -40,7 +40,7 @@ $REX['GG'] = true;
 // setzte pfad und includiere klassen und funktionen
 $REX['HTDOCS_PATH'] = "./";
 include "./redaxo/include/master.inc.php";
-echo $article_id;
+
 // Starte einen neuen Artikel und setzte die aktuelle
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
