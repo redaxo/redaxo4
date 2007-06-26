@@ -25,11 +25,13 @@ function rex_a62_insertJs($params)
 	fclose($hdl);
 
   $js ='
+    <!-- Metainfo JS //--> 
 	  <script type="text/javascript">
 	  <!--
 	  '. $jscontent .'
 	  //-->
 	  </script>
+    <!-- End Metainfo JS //--> 
   ';
 
   return str_replace('</head>', $js . '</head>', $content);

@@ -25,3 +25,5 @@ field_error_name = Bitte Spaltennamen eingeben!
 field_error_unique_name = Der angegebene Spaltenname existiert schon!
 field_error_chars_name = Der Spaltennamen enthält ungültige Zeichen (Erlaubt sind A-Z, 0-9 und _)!
 field_successfull_saved = Daten erfolgreich gespeichert!
+
+edit_metadata = Metadaten bearbeiten
