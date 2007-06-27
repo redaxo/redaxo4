@@ -231,7 +231,7 @@ class rex_sql
         if(strpos($fld_name, '.') !== false)
           $fld_name = str_replace('.', '`.`', $fld_name);
           
-        $qry .= '`' . $fld_name . '`=\'' . $value . '\'';
+        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
       }
     }
 
@@ -437,7 +437,7 @@ class rex_sql
     // Quote if not a number or a numeric string
     if (!is_numeric($value))
     {
-      $value = "'" . mysql_real_escape_string($value) . "'";
+      $value = "'" . mysql_real_escape_string($value, $this->identifier) . "'";
     }
     return $value;
   }
