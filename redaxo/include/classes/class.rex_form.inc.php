@@ -612,7 +612,7 @@ class rex_form
       foreach($fieldValues as $fieldName => $fieldValue)
       {
         // Callback, um die Values vor dem Löschen noch beeinflussen zu können
-        $fieldValue = $this->preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql);
+        $fieldValue = $this->preDelete($fieldsetName, $fieldName, $fieldValue, $deleteSql);
         
         // Element heraussuchen        
         $element =& $this->getElement($fieldsetName, $fieldName);
