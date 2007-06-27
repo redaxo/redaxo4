@@ -46,15 +46,23 @@ function rex_metainfo_toggle()
  */
 function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt)
 {
-  $s = '';
-  $s .= '<tr class="rex-trow-actv rex-metainfo-cat-hdr rex-metainfo-cat" style="display:none;">' .
-  		'<td>&nbsp;</td>' .
-  		'<td colspan="4"><label for="'. $id .'">'. $label .'</label></td>' .
-  		'</tr>';
-  $s .= '<tr class="rex-trow-actv rex-metainfo-cat" style="display:none;">' .
-  		'<td>&nbsp;</td>' .
-  		'<td class="rex-mt-fld" colspan="4">'.$field. '</td>' .
-  		'</tr>';
+  global $REX_USER;
+  
+  $colspan = 4;
+  if ($REX_USER->hasPerm('advancedMode[]'))
+    $colspan++;
+  
+  $s = '
+  <tr class="rex-trow-actv rex-metainfo-cat-hdr rex-metainfo-cat" style="display:none;">
+  	<td>&nbsp;</td>
+  	<td colspan="'. $colspan .'"><label for="'. $id .'">'. $label .'</label></td>
+	</tr>';
+  
+  $s .= '
+  <tr class="rex-trow-actv rex-metainfo-cat" style="display:none;">
+    <td>&nbsp;</td>
+  	<td class="rex-mt-fld" colspan="'. $colspan .'">'.$field. '</td>
+  </tr>';
 
   return $s;
 }
