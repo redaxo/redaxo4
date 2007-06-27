@@ -39,9 +39,7 @@ function rex_setupimport($import_sql, $import_archiv = null)
       require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 
       // DB Import
-      $replace_rex = false;
-      if ($REX['TABLE_PREFIX'] != 'rex_') $replace_rex = true;
-      $state_db = rex_a1_import_db($import_sql,$replace_rex);
+      $state_db = rex_a1_import_db($import_sql);
       if ($state_db['state'] === false)
       {
         $err_msg .= $state_db['message'].'<br />';

@@ -18,7 +18,7 @@ if ($REX['REDAXO'] && !isset($I18N_IM_EXPORT))
  *               'state' => boolean (Status ob fehler aufgetreten sind)
  *               'message' => Evtl. Status/Fehlermeldung  
  */
-function rex_a1_import_db($filename,$replace_rex = false)
+function rex_a1_import_db($filename)
 {
   global $REX, $I18N_IM_EXPORT;
 
@@ -35,46 +35,46 @@ function rex_a1_import_db($filename,$replace_rex = false)
     return $return;
   }
 
-  $h = fopen($filename, "r");
+  $h = fopen($filename, 'r');
   $conts = fread($h, filesize($filename));
   fclose($h);
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
-  $rex_version = strpos($conts, "## Redaxo Database Dump Version ".$REX['VERSION']);
-  if($rex_version === FALSE)
+  $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
+  if($version === false)
   {
-    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Redaxo Database Dump Version ".$REX['VERSION']."] is missing";
+    $return['message'] = $I18N_IM_EXPORT->msg('no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
     return $return;
   }
-  else
-  {
-    // Versionsstempel entfernen
-    $conts = trim(str_replace("## Redaxo Database Dump Version ".$REX['VERSION'], "", $conts));
-  }
+  // Versionsstempel entfernen
+  $conts = trim(str_replace('## Redaxo Database Dump Version '.$REX['VERSION'], '', $conts));
 
   // Prefix prüfen
-  // ## Prefix rex_
-  $rex_prefix = strpos($conts, "## Prefix ". $REX['TABLE_PREFIX']);
-  if($replace_rex)
+  // ## Prefix xxx_
+  if(preg_match('/^## Prefix ([a-zA-Z0-9\_]*)/', $conts, $matches) && isset($matches[1]))
   {
-  	$conts = trim(str_replace("## Prefix rex_", "", $conts));
-  	
-  	$conts = str_replace("TABLE rex_","TABLE ".$REX['TABLE_PREFIX'],$conts);
-  	$conts = str_replace("INTO rex_","INTO ".$REX['TABLE_PREFIX'],$conts);
-  	$conts = str_replace("EXISTS rex_","EXISTS ".$REX['TABLE_PREFIX'],$conts);
-  	
-  }elseif($rex_prefix === FALSE)
-  {
-    $return['message'] = $I18N_IM_EXPORT->msg("no_valid_import_file").". [## Prefix ". $REX['TABLE_PREFIX'] ."] does not match config in master.inc.php";
-    return $return;
+    // prefix entfernen
+    $prefix = $matches[1];
+    $conts = trim(str_replace('## Prefix '. $prefix, '', $conts));
   }
   else
   {
-    // Prefix entfernen
-    $conts = trim(str_replace("## Prefix ". $REX['TABLE_PREFIX'], "", $conts));
+    // Prefix wurde nicht gefunden
+    $return['message'] = $I18N_IM_EXPORT->msg('no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
+    return $return;
   }
-  
+  	
+  // Prefix im export mit dem der installation angleichen
+  if($REX['TABLE_PREFIX'] != $prefix)
+  {
+    // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
+    // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
+    $conts = preg_replace('/(TABLE )' . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
+    $conts = preg_replace('/(INTO )'  . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
+    $conts = preg_replace('/(EXISTS )'. preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
+  }
+  	
   // Ordner /generated komplett leeren
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
@@ -96,16 +96,16 @@ function rex_a1_import_db($filename,$replace_rex = false)
     $add->flush();
   }
 
-  $msg .= $I18N_IM_EXPORT->msg("database_imported").". ".$I18N_IM_EXPORT->msg("entry_count", count($lines))."<br>";
+  $msg .= $I18N_IM_EXPORT->msg('database_imported').'. '.$I18N_IM_EXPORT->msg('entry_count', count($lines)).'<br />';
 
   // CLANG Array aktualisieren
   unset ($REX['CLANG']);
   $db = new rex_sql;
-  $db->setQuery("select * from ". $REX['TABLE_PREFIX'] ."clang");
+  $db->setQuery('select * from '. $REX['TABLE_PREFIX'] .'clang');
   for ($i = 0; $i < $db->getRows(); $i++)
   {
-    $id = $db->getValue("id");
-    $name = $db->getValue("name");
+    $id = $db->getValue('id');
+    $name = $db->getValue('name');
     $REX['CLANG'][$id] = $name;
     $db->next();
   }
