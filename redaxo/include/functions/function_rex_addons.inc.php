@@ -236,7 +236,10 @@ function rex_install_prepare_query($qry)
 {
   global $REX, $REX_USER;
   
-  $qry = str_replace('%USER%', $REX_USER->getValue('login'), $qry); 
+  // REX_USER gibts im Setup nicht
+  if(isset($REX_USER))
+    $qry = str_replace('%USER%', $REX_USER->getValue('login'), $qry);
+     
   $qry = str_replace('%TIME%', time(), $qry); 
   $qry = str_replace('%TABLE_PREFIX%', $REX['TABLE_PREFIX'], $qry);
   
