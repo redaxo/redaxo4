@@ -159,6 +159,19 @@ function buildRelease($name = null, $version = null)
   if (fwrite($h, $cont, strlen($cont)) > 0)
     fclose($h);
     
+  // addons.inc.php anpassen
+  $addons = $dest.'/redaxo/include/addons.inc.php';
+  $h = fopen($addons, 'r');
+  $cont = fread($h, filesize($addons));
+  fclose($h);
+  
+  // Default sind keine Addons installiert
+  $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
+  
+  $h = fopen($addons, 'w+');
+  if (fwrite($h, $cont, strlen($cont)) > 0)
+    fclose($h);
+    
   // Das kopierte Release-Script aus dem neu erstellten Release löschen
   unlink($dest .'/release.php');
 }
