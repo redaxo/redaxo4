@@ -183,23 +183,6 @@ if ($checkmodus == 1)
     }
     $MSG['err'] .= '</li>';
   }
-  
-  $addonErr = '';
-  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
-  {
-    if(!OOAddon::isAvailable($systemAddon))
-    {
-      $addonErr .= '<li>'. $systemAddon .'</li>';
-    }
-  }
-  
-  if($addonErr != '')
-  {
-    $MSG['err'] .= '<li>';
-    $MSG['err'] .= '<h3>'. $I18N->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>';
-    $MSG['err'] .= '<ul>'. $addonErr .'</ul>';
-    $MSG['err'] .= '</li>';
-  }
 }
 
 if ($MSG['err'] == '' && $checkmodus == 1)
@@ -357,7 +340,7 @@ if ($checkmodus == 3 && $send == 1)
 {
   $err_msg = '';
 
-  // Benötigte Tabellen
+  // -------------------------- Benötigte Tabellen prüfen
   $TBLS = array (
     $REX['TABLE_PREFIX'] .'action' => 0,
     $REX['TABLE_PREFIX'] .'article' => 0,
@@ -413,7 +396,7 @@ if ($checkmodus == 3 && $send == 1)
     $tblname = $db->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
     if (substr($tblname, 0, strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX'])
     {
-      // echo $tblname."<br>";
+      // echo $tblname."<br />";
       if (array_key_exists($tblname, $TBLS))
       {
         $TBLS[$tblname] = 1;
@@ -446,6 +429,26 @@ if ($checkmodus == 3)
 
   rex_setuptitle($I18N->msg('setup_step3'));
 
+  // -------------------------- System AddOns prüfen
+  
+  require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
+      
+  $addonErr = '';
+  $ADDONS = rex_read_addons_folder();
+  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
+  {
+    $state = true;
+    
+    if($state === true && !OOAddon::isInstalled($systemAddon))
+      $state = rex_install_addon($ADDONS, $systemAddon);
+      
+    if($state === true && !OOAddon::isActivated($systemAddon))
+        $state = rex_activate_addon($ADDONS, $systemAddon);
+        
+    if($state !== true)
+      $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+  }
+  
   echo '
         <form action="index.php" method="post" id="rex-stp-database">
         <fieldset>
@@ -457,6 +460,16 @@ if ($checkmodus == 3)
           <legend>Datenbank anlegen</legend>
         ';
 
+  if($addonErr != '')
+  {
+    echo '<p class="rex-warning"><span>';
+    echo '<ul><li>';
+    echo '<h3>'. $I18N->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>';
+    echo '<ul>'. $addonErr .'</ul>';
+    echo '</li></ul>';
+    echo '</span></p>';
+  }
+  
   if (isset ($err_msg) and $err_msg != '')
     echo '<p class="rex-warning"><span>'.$err_msg.'<br />'.$I18N->msg('setup_033').'</span></p>';
 
@@ -589,11 +602,14 @@ if ($checkmodus == 4 && $send == 1)
   {
     if ($redaxo_user_login == '')
     {
-      $err_msg .= $I18N->msg("setup_040");
+      $err_msg .= $I18N->msg('setup_040');
     }
     if ($redaxo_user_pass == '')
     {
-      $err_msg .= $I18N->msg("setup_041");
+      // Falls auch kein Login eingegeben wurde, die Fehlermeldungen mit " " trennen
+      if($err_msg != '') $err_msg .= ' ';
+      
+      $err_msg .= $I18N->msg('setup_041');
     }
 
     if ($err_msg == "")
@@ -603,11 +619,11 @@ if ($checkmodus == 4 && $send == 1)
 
       if ($ga->getRows() > 0)
       {
-        $err_msg .= $I18N->msg("setup_042");
+        $err_msg .= $I18N->msg('setup_042');
       }
       else
       {
-        if ($REX['PSWFUNC'] != "")
+        if ($REX['PSWFUNC'] != '')
           $redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
         $insert = "INSERT INTO ".$REX['TABLE_PREFIX']."user (name,login,psw,rights,createdate,createuser,status) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','#admin[]#dev[]#import[]#stats[]#moveSlice[]#','".time()."','setup',1)";
@@ -624,14 +640,14 @@ if ($checkmodus == 4 && $send == 1)
     $gu = new rex_sql;
     $gu->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
     if ($gu->getRows() == 0)
-      $err_msg .= $I18N->msg("setup_044");
+      $err_msg .= $I18N->msg('setup_044');
 
   }
 
-  if ($err_msg == "")
+  if ($err_msg == '')
   {
     $checkmodus = 5;
-    $send = "";
+    $send = '';
   }
 
 }
