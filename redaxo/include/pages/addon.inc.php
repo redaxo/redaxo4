@@ -121,12 +121,12 @@ if ($SP)
 
   foreach ($ADDONS as $cur)
   {
-  	if (!isset($REX['ADDON']['system'][$cur]) || !$REX['ADDON']['system'][$cur])
-  	{
-  		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("addon_delete").'</a>';
-  	}else
+  	if (in_array($cur, $REX['SYSTEM_ADDONS']))
   	{
   		$delete = ''.$I18N->msg("addon_systemaddon").'';
+  	}else
+  	{
+  		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("addon_delete").'</a>';
   	}
 
     if ($REX['ADDON']['install'][$cur] == 1)

@@ -183,6 +183,23 @@ if ($checkmodus == 1)
     }
     $MSG['err'] .= '</li>';
   }
+  
+  $addonErr = '';
+  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
+  {
+    if(!OOAddon::isAvailable($systemAddon))
+    {
+      $addonErr .= '<li>'. $systemAddon .'</li>';
+    }
+  }
+  
+  if($addonErr != '')
+  {
+    $MSG['err'] .= '<li>';
+    $MSG['err'] .= '<h3>'. $I18N->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>';
+    $MSG['err'] .= '<ul>'. $addonErr .'</ul>';
+    $MSG['err'] .= '</li>';
+  }
 }
 
 if ($MSG['err'] == '' && $checkmodus == 1)

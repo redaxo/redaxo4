@@ -35,7 +35,8 @@ $REX['MAXLOGINS'] = 50; // maximal erlaubte versuche
 $REX['START_PAGE'] = 'structure'; // Page auf die nach dem Login weitergeleitet wird
 
 // ----------------- OTHER VARS
-$REX["MEDIAPOOL"]["BLOCKED_EXTENSIONS"] = array(".php",".php3",".php4",".php5",".phtml",".pl",".asp",".aspx",".cfm");
+$REX['SYSTEM_ADDONS'] = array('import_export','metainfo');
+$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.phtml','.pl','.asp','.aspx','.cfm');
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";

@@ -164,7 +164,10 @@ function rex_uninstall_addon($addons, $addonname, $regenerate_addons = true)
 function rex_delete_addon($addons, $addonname)
 {
   global $REX, $I18N;
-  $state = true;
+  
+  // System AddOns dürfen nicht gelöscht werden!
+  if(in_array($addonname, $REX['SYSTEM_ADDONS']))
+    return $I18N->msg('addon_systemaddon_delete_not_allowed');
 
   // zuerst deinstallieren
   $state = rex_uninstall_addon($addons, $addonname, false);
