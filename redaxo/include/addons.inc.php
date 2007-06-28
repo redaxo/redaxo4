@@ -17,14 +17,17 @@ if (isset($REX['ADDON']['status'])) {
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS
 
-
-if(isset($REX['ADDON']) && is_array($REX['ADDON']))
+if(!isset($REX['ADDON']) || !is_array($REX['ADDON']))
 {
-  for($i=0;$i<count($REX['ADDON']['status']);$i++)
-  {
-  	if (current($REX['ADDON']['status']) == 1) include $REX['INCLUDE_PATH']."/addons/".key($REX['ADDON']['status'])."/config.inc.php";
-  	next($REX['ADDON']['status']);
-  }
+  $REX['ADDON'] = array();
+  $REX['ADDON']['install'] = array();
+  $REX['ADDON']['status'] = array();
+}
+  
+for($i=0;$i<count($REX['ADDON']['status']);$i++)
+{
+	if (current($REX['ADDON']['status']) == 1) include $REX['INCLUDE_PATH']."/addons/".key($REX['ADDON']['status'])."/config.inc.php";
+	next($REX['ADDON']['status']);
 }
 
 // ----- all addons configs included
