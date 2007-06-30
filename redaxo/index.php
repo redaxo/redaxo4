@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL);
+
 /** 
  *  
  * @package redaxo3
@@ -12,7 +14,7 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK && REGISTER GLOBALS
-include "./include/functions/function_rex_mquotes.inc.php";
+include './include/functions/function_rex_mquotes.inc.php';
 
 // ----- REX UNSET
 unset($REX);
@@ -31,11 +33,11 @@ $REX['REDAXO'] = true;
 $REX['GG'] = false;
 
 // setzte pfad und includiere klassen und funktionen
-$REX['HTDOCS_PATH'] = "../";
-include "include/master.inc.php";
+$REX['HTDOCS_PATH'] = '../';
+include 'include/master.inc.php';
 
 // ----- addon/normal page path
-$REX['PAGEPATH'] = "";
+$REX['PAGEPATH'] = '';
 
 // ----- header einbauen
 $withheader = true;
@@ -45,7 +47,7 @@ if ($REX['SETUP'])
 {
   // ----------------- SET SETUP LANG
   $LOGIN = FALSE;
-  $REX['LANG'] = "en_gb";
+  $REX['LANG'] = 'en_gb';
   $I18N = rex_create_lang($REX['LANG']);
   foreach ($REX['LOCALES'] as $l) {
     if (isset($_REQUEST['lang']) && $_REQUEST['lang'] == $l) 
@@ -68,7 +70,7 @@ else
   $I18N = rex_create_lang($REX['LANG']);
   $locale = trim($I18N->msg('setlocale'));
   $charset = trim($I18N->msg('htmlcharset'));
-  $charset_alt = str_replace("iso-","iso",$charset);
+  $charset_alt = str_replace('iso-','iso',$charset);
   setlocale(LC_ALL,
   	$locale.'.'.$charset,
   	$locale.'.'.$charset_alt,
@@ -78,15 +80,23 @@ else
   header('Pragma: no-cache');
 
   // ----------------- CREATE LANG OBJ
-  if (!isset($REX_ULOGIN)) { $REX_ULOGIN = ''; }
-  if (!isset($REX_UPSW)) { $REX_UPSW = ''; }
+  if (!isset($REX_ULOGIN))
+    $REX_ULOGIN = '';
+  if (!isset($REX_UPSW))
+    $REX_UPSW = '';
+  
   $REX_LOGIN = new rex_login();
   $REX_LOGIN->setSqlDb(1);
   $REX_LOGIN->setSysID($REX['INSTNAME']);
   $REX_LOGIN->setSessiontime(3000);
-  if ($REX['PSWFUNC'] != '') $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
+  
+  if ($REX['PSWFUNC'] != '')
+    $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
+    
+  if (isset($FORM['logout']) and $FORM['logout'] == 1)
+    $REX_LOGIN->setLogout(true);
+    
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
-  if (isset($FORM['logout']) and $FORM['logout'] == 1) $REX_LOGIN->setLogout(true);
   $REX_LOGIN->setUserID($REX['TABLE_PREFIX'].'user.user_id');
   $REX_LOGIN->setUserquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND user_id = "USR_UID"');
   $REX_LOGIN->setLoginquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
