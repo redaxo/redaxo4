@@ -770,6 +770,12 @@ tr.rex-trow-actv td {
 }
 
 
+body#rex-page-structure tr.rex-metainfo-cat-hdr td {
+	background-color:#d6e1e4;
+}
+body#rex-page-structure tr.rex-metainfo-cat-hdr td label {
+	font-weight:bold;
+}
 tr.rex-trow-actv td.rex-mt-lbl {
 	vertical-align:top;
 }
@@ -796,7 +802,7 @@ tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
 }
 
 tr.rex-trow-actv td.rex-mt-fld textarea {
-	height:50px;
+	height:90px;
 }
 
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx,
@@ -806,7 +812,7 @@ body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo {
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo label {
 	float:right;
-	width:190px;
+	width:700px;
 }
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo input {
@@ -932,10 +938,10 @@ body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct s
 }
 
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input {
-	width:140px;
+	width:205px;
 }
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct select {
-	width:146px;
+	width:211px;
 }
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-mdlst p.rex-slct select {
 	height:100px;
@@ -1433,6 +1439,15 @@ div.rex-addon-editmode p input.rex-sbmt {
 	width:auto;
 }
 
+
+
+/*	Addon - Metainfo
+*******************************************************************************/
+body#rex-page-metainfo fieldset p span.rex-notice {
+	display:block;
+	clear:both;
+	margin:1em 5px 1em 150px;
+}
 
 
 /*	Addon - Import / Export
