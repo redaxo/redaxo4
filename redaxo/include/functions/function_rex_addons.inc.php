@@ -58,6 +58,9 @@ function rex_install_addon($addons, $addonname)
 			  if($state === true && is_readable($install_sql))
 			  {
 					$state = rex_install_dump($install_sql);
+          
+          if($state !== true)
+            $state = 'Error found in install.sql:<br />'. $state;
 				}
 				
         // Installation ok
@@ -73,6 +76,9 @@ function rex_install_addon($addons, $addonname)
       $state = $I18N->msg('addon_install_not_found');
     }
   }
+  
+  if($state !== true)
+    $REX['ADDON']['install'][$addonname] = 0;
   
   return $state;
 }
@@ -93,6 +99,9 @@ function rex_activate_addon($addons, $addonname)
     $state = $I18N->msg("addon_no_activation", $addonname);
   }
 
+  if($state !== true)
+    $REX['ADDON']['status'][$addonname] = 0;
+    
   return $state;
 }
 
@@ -117,46 +126,50 @@ function rex_uninstall_addon($addons, $addonname, $regenerate_addons = true)
   $uninstall_file = $install_dir.'/uninstall.inc.php';
   $uninstall_sql = $install_dir.'/uninstall.sql';
 
-	if($state === true)
-	{			
-	  if (is_readable($uninstall_file))
-	  {
-	    include $uninstall_file;
-	
-	    // Wurde das "uninstall" Flag gesetzt, oder eine Fehlermeldung ausgegeben? Wenn ja, Abbruch
-	    if (OOAddon :: isInstalled($addonname) || !empty($REX['ADDON']['installmsg'][$addonname]))
-	    {
-	      $state = $I18N->msg('addon_no_uninstall', $addonname).'<br/>';
-	      if (empty( $REX['ADDON']['installmsg'][$addonname]))
-	      {
-	        $state .= $I18N->msg('addon_no_reason');
-	      }
-	      else
-	      {
-	        $state .= $REX['ADDON']['installmsg'][$addonname];
-	      }
-	    }
-	    else
-	    {
-	      $state = rex_deactivate_addon($addons, $addonname);
-	      
-			  if($state === true && is_readable($uninstall_sql))
-			  {
-					$state = rex_install_dump($uninstall_sql);
-				}
-				
-	      if ($state === true && $regenerate_addons)
-	      {
-	        // regenerate Addons file
-	        $state = rex_generateAddons($addons);
-	      }
-	    }
-	  }
-	  else
-	  {
-	    $state = $I18N->msg("addon_uninstall_not_found");
-	  }
-	}
+  if (is_readable($uninstall_file))
+  {
+    include $uninstall_file;
+
+    // Wurde das "uninstall" Flag gesetzt, oder eine Fehlermeldung ausgegeben? Wenn ja, Abbruch
+    if (OOAddon :: isInstalled($addonname) || !empty($REX['ADDON']['installmsg'][$addonname]))
+    {
+      $state = $I18N->msg('addon_no_uninstall', $addonname).'<br/>';
+      if (empty( $REX['ADDON']['installmsg'][$addonname]))
+      {
+        $state .= $I18N->msg('addon_no_reason');
+      }
+      else
+      {
+        $state .= $REX['ADDON']['installmsg'][$addonname];
+      }
+    }
+    else
+    {
+      $state = rex_deactivate_addon($addons, $addonname);
+      
+		  if($state === true && is_readable($uninstall_sql))
+		  {
+				$state = rex_install_dump($uninstall_sql);
+        
+        if($state !== true)
+          $state = 'Error found in uninstall.sql:<br />'. $state;
+			}
+			
+      if ($state === true && $regenerate_addons)
+      {
+        // regenerate Addons file
+        $state = rex_generateAddons($addons);
+      }
+    }
+  }
+  else
+  {
+    $state = $I18N->msg("addon_uninstall_not_found");
+  }
+  
+  // Fehler beim uninstall -> Addon bleibt installiert
+  if($state !== true)
+    $REX['ADDON']['install'][$addonname] = 1;
 
   return $state;
 }
