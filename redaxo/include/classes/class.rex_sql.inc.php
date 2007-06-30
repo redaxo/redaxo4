@@ -465,5 +465,11 @@ class rex_sql
 
     return $instance;
   }
+  
+  function disconnect()
+  {
+    if($this->identifier)
+      mysql_close($this->identifier);
+  } 
 }
 ?>

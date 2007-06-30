@@ -77,4 +77,8 @@ rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT, '', true);
 // ----- inhalt endgueltig ausgeben
 echo $CONTENT;
 
+// DB Verbindung schließen
+$sql = rex_sql::getInstance();
+$sql->disconnect();
+
 ?>
