@@ -154,7 +154,9 @@ class rex_select
   {
     if(is_array($options) && count($options)>0)
     {
-      $grouped = isset ($options[0][2]) && isset ($options[0][3]);
+      // Hier vorher auf is_array abfragen, da bei Strings auch die Syntax mit [] funktioniert
+      // $ab = "hallo"; $ab[2] -> "l"
+      $grouped = is_array($options[0]) && isset ($options[0][2]) && isset ($options[0][3]);
       foreach ($options as $key => $option)
       {
       	$option = (array) $option;
