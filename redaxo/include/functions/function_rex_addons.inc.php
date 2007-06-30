@@ -245,6 +245,7 @@ function rex_install_prepare_query($qry)
      
   $qry = str_replace('%TIME%', time(), $qry); 
   $qry = str_replace('%TABLE_PREFIX%', $REX['TABLE_PREFIX'], $qry);
+  $qry = str_replace('%TEMP_PREFIX%', $REX['TEMP_PREFIX'], $qry);
   
   return $qry;
 }
