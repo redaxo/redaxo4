@@ -1197,6 +1197,9 @@ function rex_generateAddons($ADDONS, $debug = false)
   // Sichergehen, dass die Datei existiert und beschreibbar ist
   if (is_writable($file))
   {
+    // Da dieser Funktion öfter pro request aufgerufen werden kann,
+    // hier die caches löschen
+    clearstatcache();
 
     if (!$h = fopen($file, "r"))
     {
