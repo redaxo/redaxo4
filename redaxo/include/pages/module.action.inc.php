@@ -199,11 +199,12 @@ if ($function == "add" or $function == "edit")
           </fieldset>
           
           <fieldset>
-            <legend class="rex-lgnd">Preview-Action</legend>
+            <legend class="rex-lgnd">Preview-Action ['. $I18N->msg('action_mode_preview') .']</legend>
            <div class="rex-fldst-wrppr">
           <p>
             <label for="previewaction">' . $I18N->msg('input') . '</label>
             <textarea class="rex-txtr-cd" cols="50" rows="6" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>
+            <span>' . $I18N->msg('action_hint') . '</span>
           </p>
           <p class="rex-slct">
             <label for="previestatus">' . $I18N->msg('action_event') . '</label>
@@ -213,11 +214,12 @@ if ($function == "add" or $function == "edit")
          </div>
         </fieldset>
           <fieldset>
-            <legend class="rex-lgnd">Presave-Action</legend>
+            <legend class="rex-lgnd">Presave-Action ['. $I18N->msg('action_mode_presave') .']</legend>
             <div class="rex-fldst-wrppr">
           <p>
             <label for="presaveaction">' . $I18N->msg('input') . '</label>
             <textarea class="rex-txtr-cd" cols="50" rows="6" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>
+            <span>' . $I18N->msg('action_hint') . '</span>
           </p>
           <p class="rex-slct">
             <label for="presavestatus">' . $I18N->msg('action_event') . '</label>
@@ -227,11 +229,12 @@ if ($function == "add" or $function == "edit")
         </div>
           </fieldset>
           <fieldset>
-            <legend class="rex-lgnd">Postsave-Action</legend>
+            <legend class="rex-lgnd">Postsave-Action ['. $I18N->msg('action_mode_postsave') .']</legend>
            <div class="rex-fldst-wrppr">
           <p>
             <label for="postsaveaction">' . $I18N->msg('input') . '</label>
             <textarea class="rex-txtr-cd" cols="50" rows="6" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>
+            <span>' . $I18N->msg('action_hint') . '</span>
           </p>
           <p class="rex-slct">
             <label for="postsavestatus">' . $I18N->msg('action_event') . '</label>
