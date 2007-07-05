@@ -81,6 +81,45 @@ function rex_setup_is_writable($items)
   return $res;
 }
 
+// -------------------------- System AddOns prüfen
+function rex_setup_addons($uninstallBefore = false)
+{
+  global $REX, $I18N;
+  
+  require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
+      
+  $state = true;
+  $addonErr = '';
+  $ADDONS = rex_read_addons_folder();
+  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
+  {
+    
+    if($state === true && $uninstallBefore && OOAddon::isInstalled($systemAddon))
+      $state = rex_uninstall_addon($ADDONS, $systemAddon);
+    
+    if($state === true && !OOAddon::isInstalled($systemAddon))
+      $state = rex_install_addon($ADDONS, $systemAddon);
+      
+    if($state === true && !OOAddon::isActivated($systemAddon))
+        $state = rex_activate_addon($ADDONS, $systemAddon);
+        
+    if($state !== true)
+      $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+  }
+  
+  if($addonErr != '')
+  {
+    $addonErr = '<ul>
+                   <li>
+                     <h3>'. $I18N->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>
+                     <ul>'. $addonErr .'</ul>
+                   </li>
+                 </ul>';
+  }
+  
+  return $addonErr;
+}
+
 // --------------------------------------------- END: SETUP FUNCTIONS
 
 
@@ -357,8 +396,13 @@ if ($checkmodus == 3 && $send == 1)
   if ($dbanlegen == 4)
   {
     // ----- vorhandenen seite updaten
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_to_3_3.sql';
-    $err_msg .= rex_setupimport($import_sql);
+    $err_msg .= rex_setup_addons();
+    
+    if($err_msg != '')
+    {
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_to_3_3.sql';
+      $err_msg .= rex_setupimport($import_sql);
+    }
   }elseif ($dbanlegen == 3)
   {
     // ----- vorhandenen Export importieren
@@ -377,14 +421,24 @@ if ($checkmodus == 3 && $send == 1)
     // ----- db schon vorhanden, nichts tun
   }elseif ($dbanlegen == 1)
   {
-    // ----- leere Datenbank und alte DB löschen / drop
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_with_drop.sql';
-    $err_msg .= rex_setupimport($import_sql);
+    // ----- volle Datenbank, alte DB löschen / drop
+    $err_msg .= rex_setup_addons(true);
+    
+    if($err_msg != '')
+    {
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_with_drop.sql';
+      $err_msg .= rex_setupimport($import_sql);
+    }
   }elseif ($dbanlegen == 0)
   {
-    // ----- leere Datenbank und alte DB lassen
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_without_drop.sql';
-    $err_msg .= rex_setupimport($import_sql);
+    // ----- leere Datenbank neu einrichten
+    $err_msg .= rex_setup_addons();
+    
+    if($err_msg != '')
+    {
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_without_drop.sql';
+      $err_msg .= rex_setupimport($import_sql);
+    }
   }
 
   // Prüfen, welche Tabellen bereits vorhanden sind
@@ -429,26 +483,6 @@ if ($checkmodus == 3)
 
   rex_setuptitle($I18N->msg('setup_step3'));
 
-  // -------------------------- System AddOns prüfen
-  
-  require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
-      
-  $addonErr = '';
-  $ADDONS = rex_read_addons_folder();
-  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
-  {
-    $state = true;
-    
-    if($state === true && !OOAddon::isInstalled($systemAddon))
-      $state = rex_install_addon($ADDONS, $systemAddon);
-      
-    if($state === true && !OOAddon::isActivated($systemAddon))
-        $state = rex_activate_addon($ADDONS, $systemAddon);
-        
-    if($state !== true)
-      $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
-  }
-  
   echo '
         <form action="index.php" method="post" id="rex-stp-database">
         <fieldset>
@@ -460,16 +494,6 @@ if ($checkmodus == 3)
           <legend>Datenbank anlegen</legend>
         ';
 
-  if($addonErr != '')
-  {
-    echo '<p class="rex-warning"><span>';
-    echo '<ul><li>';
-    echo '<h3>'. $I18N->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>';
-    echo '<ul>'. $addonErr .'</ul>';
-    echo '</li></ul>';
-    echo '</span></p>';
-  }
-  
   if (isset ($err_msg) and $err_msg != '')
     echo '<p class="rex-warning"><span>'.$err_msg.'<br />'.$I18N->msg('setup_033').'</span></p>';
 
