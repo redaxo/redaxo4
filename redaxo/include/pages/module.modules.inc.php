@@ -26,7 +26,6 @@ if (!empty($add_action))
 elseif (isset($function_action) and $function_action == 'delete')
 {
   $action = new rex_sql();
-  $action->debugsql=true;
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setWhere('id='. $iaction_id . ' LIMIT 1');
   
