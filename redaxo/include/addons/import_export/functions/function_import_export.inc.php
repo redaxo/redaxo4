@@ -34,11 +34,11 @@ function rex_a1_import_db($filename)
     $return['message'] = $I18N_IM_EXPORT->msg('no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
   }
-
+  
   $h = fopen($filename, 'r');
   $conts = fread($h, filesize($filename));
   fclose($h);
-
+  
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
@@ -64,7 +64,7 @@ function rex_a1_import_db($filename)
     $return['message'] = $I18N_IM_EXPORT->msg('no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
     return $return;
   }
-  	
+    
   // Prefix im export mit dem der installation angleichen
   if($REX['TABLE_PREFIX'] != $prefix)
   {
@@ -74,7 +74,7 @@ function rex_a1_import_db($filename)
     $conts = preg_replace('/(INTO )'  . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
     $conts = preg_replace('/(EXISTS )'. preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
   }
-  	
+    
   // Ordner /generated komplett leeren
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
@@ -90,8 +90,8 @@ function rex_a1_import_db($filename)
   // $add->debugsql = 1;
   foreach ($lines as $line)
   {
-  	$line = trim($line,"\r"); // Windows spezifische extras
-  	$line = trim($line, ";"); // mysql 3.x 
+    $line = trim($line,"\r"); // Windows spezifische extras
+    $line = trim($line, ";"); // mysql 3.x
     $add->setQuery($line);
     $add->flush();
   }
@@ -156,7 +156,7 @@ function rex_a1_import_db($filename)
   // generated neu erstellen, wenn kein Fehler aufgetreten ist
   if($error == '')
   {
-	  // ----- EXTENSION POINT
+    // ----- EXTENSION POINT
     $msg = rex_register_extension_point('A1_AFTER_DB_IMPORT', $msg);
     $msg .= rex_generateAll();
     $return['state'] = true;
@@ -248,8 +248,8 @@ function rex_a1_export_db()
         && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert! 
     {
       $cols = new rex_sql;
-      $cols->setquery("SHOW COLUMNS FROM ".$tab);
-      $query = "DROP TABLE IF EXISTS ".$tab.";\nCREATE TABLE ".$tab." (";
+      $cols->setquery("SHOW COLUMNS FROM `".$tab."`");
+      $query = "DROP TABLE IF EXISTS `".$tab."`;\nCREATE TABLE `".$tab."` (";
       $key = array ();
 
       // Spalten auswerten
@@ -286,7 +286,7 @@ function rex_a1_export_db()
           $colnull = "NOT NULL";
         }
 
-        $query .= " $colname $coltype $colnull $coldef $colextra";
+        $query .= " `$colname` $coltype $colnull $coldef $colextra";
         if ($j +1 != $cols->rows)
         {
           $query .= ",";
@@ -311,10 +311,10 @@ function rex_a1_export_db()
 
       // Inhalte der Tabelle Auswerten
       $cont = new rex_sql;
-      $cont->setquery("SELECT * FROM ".$tab);
+      $cont->setquery("SELECT * FROM `".$tab."`");
       for ($j = 0; $j < $cont->rows; $j++, $cont->next())
       {
-        $query = "INSERT INTO ".$tab." VALUES (";
+        $query = "INSERT INTO `".$tab."` VALUES (";
         $cols->counter = 0;
         for ($k = 0; $k < $cols->rows; $k++, $cols->next())
         {
@@ -348,7 +348,8 @@ function rex_a1_export_db()
   $header = "## Redaxo Database Dump Version ".$REX['VERSION']."\n";
   $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
   
-  $content = $header . $dump; 
+  $content = $header . $dump;
+  
   // ----- EXTENSION POINT
   $content = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
 
