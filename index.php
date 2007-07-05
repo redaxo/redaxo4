@@ -48,13 +48,13 @@ include "./redaxo/include/master.inc.php";
 $REX_ARTICLE = new rex_article;
 $REX_ARTICLE->setCLang($clang);
 
-if ($REX_ARTICLE->setArticleId($article_id))
-{
-  echo $REX_ARTICLE->getArticleTemplate();
-}elseif($REX['SETUP'])
+if($REX['SETUP'])
 {
 	header('Location: redaxo/index.php');
 	exit();
+}elseif ($REX_ARTICLE->setArticleId($article_id))
+{
+  echo $REX_ARTICLE->getArticleTemplate();
 }elseif($REX_ARTICLE->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
 {
   echo $REX_ARTICLE->getArticleTemplate();
