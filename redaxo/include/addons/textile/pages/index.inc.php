@@ -17,17 +17,17 @@ rex_title('Textile');
 $mdl_help = '<?php rex_a79_help_overview(); ?>';
 
 
-$mdl_ex =<<<EOD
-<?php
+$mdl_ex ='<?php
 if (REX_IS_VALUE[1]) 
 {
-  \$textile =<<<EOD
-  REX_HTML_VALUE[1]
-  EOD;
-  echo rex_a79_textile(\$textile);
-}
-?>
+// Diese Zeilen dürfen keine führenden Leerzeichen besitzen!
+$textile =<<<EOD
+REX_HTML_VALUE[1]
 EOD;
+
+  echo rex_a79_textile($textile);
+}
+?>';
 
 ?>
 
