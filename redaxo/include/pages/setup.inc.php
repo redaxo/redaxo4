@@ -400,7 +400,7 @@ if ($checkmodus == 3 && $send == 1)
     // ----- vorhandenen seite updaten
     $err_msg .= rex_setup_addons();
     
-    if($err_msg != '')
+    if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_to_3_3.sql';
       $err_msg .= rex_setupimport($import_sql);
@@ -426,7 +426,7 @@ if ($checkmodus == 3 && $send == 1)
     // ----- volle Datenbank, alte DB löschen / drop
     $err_msg .= rex_setup_addons(true);
     
-    if($err_msg != '')
+    if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_with_drop.sql';
       $err_msg .= rex_setupimport($import_sql);
@@ -436,7 +436,7 @@ if ($checkmodus == 3 && $send == 1)
     // ----- leere Datenbank neu einrichten
     $err_msg .= rex_setup_addons();
     
-    if($err_msg != '')
+    if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_without_drop.sql';
       $err_msg .= rex_setupimport($import_sql);
