@@ -7,26 +7,40 @@
 
 $OUT = TRUE;
 
+$function = rex_request('function', 'string');
+
 // ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
 if (!empty($add_action))
 {
-  $aa = new rex_sql;
-  $aa->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."module_action SET module_id='$modul_id', action_id='$action_id'");
-  $message = $I18N->msg("action_taken");
-  $goon = 'ja';
+  $action = new rex_sql();
+  $action->setTable($REX['TABLE_PREFIX'].'module_action');
+  $action->setValue('module_id', $modul_id);
+  $action->setValue('action_id', $action_id);
+  
+  if($action->insert())
+  {
+    $message = $I18N->msg('action_taken');
+    $goon = 'ja';
+  }
 }
 elseif (isset($function_action) and $function_action == 'delete')
 {
-  $aa = new rex_sql;
-  $aa->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id' and id='$iaction_id' LIMIT 1");
-  $message = $I18N->msg("action_deleted_from_modul");
+  $action = new rex_sql();
+  $action->debugsql=true;
+  $action->setTable($REX['TABLE_PREFIX'].'module_action');
+  $action->setWhere('id='. $iaction_id . ' LIMIT 1');
+  
+  if($action->delete())
+  {
+    $message = $I18N->msg('action_deleted_from_modul');
+  }
 }
 
 
 
 // ---------------------------- FUNKTIONEN FÜR MODULE
 
-if (isset($function) and $function == 'delete')
+if ($function == 'delete')
 {
   $del = new rex_sql;
   $del->setQuery("SELECT DISTINCT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."modultyp.name FROM ".$REX['TABLE_PREFIX']."article_slice
@@ -58,7 +72,7 @@ if (isset($function) and $function == 'delete')
   }
 }
 
-if (isset($function) and ($function == 'add' or $function == 'edit'))
+if ($function == 'add' or $function == 'edit')
 {
 
   if (isset($save) and $save == 'ja')
@@ -70,35 +84,35 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
       // $modultyp->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
 
       $IMOD = new rex_sql;
-      $IMOD->setTable($REX['TABLE_PREFIX']."modultyp");
-      $IMOD->setValue("name",$mname);
-      $IMOD->setValue("eingabe",$eingabe);
-      $IMOD->setValue("ausgabe",$ausgabe);
-      $IMOD->setValue("createdate",time());
-      $IMOD->setValue("createuser",$REX_USER->getValue("login"));
+      $IMOD->setTable($REX['TABLE_PREFIX'].'modultyp');
+      $IMOD->setValue('name',$mname);
+      $IMOD->setValue('eingabe',$eingabe);
+      $IMOD->setValue('ausgabe',$ausgabe);
+      $IMOD->setValue('createdate',time());
+      $IMOD->setValue('createuser',$REX_USER->getValue('login'));
       $IMOD->insert();
-      $message = $I18N->msg("module_added");
+      $message = $I18N->msg('module_added');
 
 
     } else {
-      $modultyp->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp where id='$modul_id'");
+      $modultyp->setQuery('select * from '.$REX['TABLE_PREFIX'].'modultyp where id='.$modul_id);
       if ($modultyp->getRows()==1)
       {
-        $old_ausgabe = $modultyp->getValue("ausgabe");
+        $old_ausgabe = $modultyp->getValue('ausgabe');
 
         // $modultyp->setQuery("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
 
         $UMOD = new rex_sql;
-        $UMOD->setTable($REX['TABLE_PREFIX']."modultyp");
-        $UMOD->setWhere("id='$modul_id'");
-        $UMOD->setValue("name",$mname);
-        $UMOD->setValue("eingabe",$eingabe);
-        $UMOD->setValue("ausgabe",$ausgabe);
-        $UMOD->setValue("updatedate",time());
-        $UMOD->setValue("updateuser",$REX_USER->getValue("login"));
+        $UMOD->setTable($REX['TABLE_PREFIX'].'modultyp');
+        $UMOD->setWhere('id='. $modul_id);
+        $UMOD->setValue('name',$mname);
+        $UMOD->setValue('eingabe',$eingabe);
+        $UMOD->setValue('ausgabe',$ausgabe);
+        $UMOD->setValue('updatedate',time());
+        $UMOD->setValue('updateuser',$REX_USER->getValue('login'));
         $UMOD->update();
 
-        $message = $I18N->msg("module_updated").' | '.$I18N->msg("articel_updated");
+        $message = $I18N->msg('module_updated').' | '.$I18N->msg('articel_updated');
 
         $new_ausgabe = stripslashes($ausgabe);
 
@@ -139,18 +153,18 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
 
     if ($function == 'edit')
     {
-      $legend = $I18N->msg("module_edit").' [ID='.$modul_id.']';
+      $legend = $I18N->msg('module_edit').' [ID='.$modul_id.']';
 
       $hole = new rex_sql;
-      $hole->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
-      $category_id  = $hole->getValue("category_id");
-      $mname    = $hole->getValue("name");
-      $ausgabe  = $hole->getValue("ausgabe");
-      $eingabe  = $hole->getValue("eingabe");
+      $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'modultyp WHERE id='.$modul_id);
+      $category_id  = $hole->getValue('category_id');
+      $mname    = $hole->getValue('name');
+      $ausgabe  = $hole->getValue('ausgabe');
+      $eingabe  = $hole->getValue('eingabe');
     }
     else
     {
-      $legend = $I18N->msg("create_module");
+      $legend = $I18N->msg('create_module');
     }
 
     $btn_update = '';
@@ -167,28 +181,28 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         <fieldset>
           <legend class="rex-lgnd" id="module">'. $legend .'</legend>
       	  <div class="rex-fldst-wrppr">
-			  <input type="hidden" name="page" value="module" />
-			  <input type="hidden" name="function" value="'.$function.'" />
-			  <input type="hidden" name="save" value="ja" />
-			  <input type="hidden" name="category_id" value="0" />
-			  <input type="hidden" name="modul_id" value="'.$modul_id.'" />
-			  <p>
-				<label for="mname">'.$I18N->msg("module_name").'</label>
-				<input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
-			  </p>
-			  <p>
-				<label for="eingabe">'.$I18N->msg("input").'</label>
-				<textarea class="rex-txtr-cd" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
-			  </p>
-			  <p>
-				<label for="ausgabe">'.$I18N->msg("output").'</label>
-				<textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
-			  </p>
-			  <p>
-				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
-				'. $btn_update .'
-			  </p>
-		  </div>
+    			  <input type="hidden" name="page" value="module" />
+    			  <input type="hidden" name="function" value="'.$function.'" />
+    			  <input type="hidden" name="save" value="ja" />
+    			  <input type="hidden" name="category_id" value="0" />
+    			  <input type="hidden" name="modul_id" value="'.$modul_id.'" />
+    			  <p>
+      				<label for="mname">'.$I18N->msg("module_name").'</label>
+      				<input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
+    			  </p>
+    			  <p>
+      				<label for="eingabe">'.$I18N->msg("input").'</label>
+      				<textarea class="rex-txtr-cd" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
+    			  </p>
+    			  <p>
+      				<label for="ausgabe">'.$I18N->msg("output").'</label>
+      				<textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
+    			  </p>
+    			  <p>
+      				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
+      				'. $btn_update .'
+    			  </p>
+    		  </div>
         </fieldset>
     ';
 
@@ -207,15 +221,16 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         $actions = '';
         for ($i=0; $i<$gma->getRows(); $i++)
         {
-          $iaction_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.id");
-          $action_id = $gma->getValue($REX['TABLE_PREFIX']."module_action.action_id");
+          $iaction_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.id');
+          $action_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.action_id');
+          $action_edit_url = 'index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit';
+          $action_name = htmlspecialchars($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit"><img src="pics/modul.gif" width="16" height="16" alt="' . $gma->getValue("name") . '" title="' . $gma->getValue("name") . '" /></a></td>
+          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="pics/modul.gif" width="16" height="16" alt="' . $action_name . '" title="' . $action_name . '" /></a></td>
             <td class="rex-icon">' . $gma->getValue("id") . '</td>
-          	<td>'. $gma->getValue('name') .'</td>
-          	<td><a href="index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit">'.$I18N->msg("action_edit").'</a></td>
-          	<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("action_delete").'</a></td>
+          	<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
+          	<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('action_delete').'</a></td>
           </tr>';
 
           $gma->next();
@@ -224,13 +239,12 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         if($actions !='')
         {
           $actions = '
-  					<table class="rex-table" summary="'.$I18N->msg("actions_added_summary").'">
-  						<caption>'.$I18N->msg("actions_added_caption").'</caption>
+  					<table class="rex-table" summary="'.$I18N->msg('actions_added_summary').'">
+  						<caption>'.$I18N->msg('actions_added_caption').'</caption>
     					<colgroup>
       				<col width="40" />
       				<col width="40" />
       				<col width="*" />
-      				<col width="153" />
       				<col width="153" />
     					</colgroup>
     					<thead>
@@ -238,7 +252,7 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         					<th class="rex-icon">&nbsp;</th>
         					<th class="rex-icon">ID</th>
         					<th>' . $I18N->msg('action_name') . '</th>
-        					<th colspan="2">' . $I18N->msg('action_functions') . '</th>
+        					<th>' . $I18N->msg('action_functions') . '</th>
       					</tr>
     					</thead>
     				<tbody>
@@ -249,28 +263,28 @@ if (isset($function) and ($function == 'add' or $function == 'edit'))
         }
 
         $gaa_sel = new rex_select();
-        $gaa_sel->setName("action_id");
-        $gaa_sel->setId("action_id");
+        $gaa_sel->setName('action_id');
+        $gaa_sel->setId('action_id');
         $gaa_sel->setSize(1);
         $gaa_sel->setStyle('class="inp100"');
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $gaa_sel->addOption($gaa->getValue("name"),$gaa->getValue("id"));
+          $gaa_sel->addOption(htmlspecialchars($gaa->getValue('name')),$gaa->getValue('id'));
           $gaa->next();
         }
 
         echo
         $actions .'
         <fieldset>
-          <legend class="rex-lgnd" id="action">'.$I18N->msg("action_add").'</legend>
+          <legend class="rex-lgnd" id="action">'.$I18N->msg('action_add').'</legend>
 		      <div class="rex-fldst-wrppr">
 					  <p>
-							<label for="action_id">'.$I18N->msg("action").'</label>
+							<label for="action_id">'.$I18N->msg('action').'</label>
 							'.$gaa_sel->get().'
 					  </p>
 					  <p>
-							<input class="rex-sbmt" type="submit" value="'.$I18N->msg("action_add").'" name="add_action" />
+							<input class="rex-sbmt" type="submit" value="'.$I18N->msg('action_add').'" name="add_action" />
 					  </p>
 				  </div>
         </fieldset>';
@@ -294,8 +308,8 @@ if ($OUT)
 
   // ausgabe modulliste !
   echo '
-  <table class="rex-table" summary="'.$I18N->msg("module_summary").'">
-  	<caption class="rex-hide">'.$I18N->msg("module_caption").'</caption>
+  <table class="rex-table" summary="'.$I18N->msg('module_summary').'">
+  	<caption class="rex-hide">'.$I18N->msg('module_caption').'</caption>
     <colgroup>
       <col width="40" />
       <col width="40" />
@@ -306,8 +320,8 @@ if ($OUT)
       <tr>
         <th class="rex-icon"><a href="index.php?page=module&amp;function=add"><img src="pics/modul_plus.gif" width="16" height="16" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'" /></a></th>
         <th class="rex-icon">ID</th>
-        <th>'.$I18N->msg("module_description").'</th>
-        <th>'.$I18N->msg("module_functions").'</th>
+        <th>'.$I18N->msg('module_description').'</th>
+        <th>'.$I18N->msg('module_functions').'</th>
       </tr>
     </thead>
     <tbody>
