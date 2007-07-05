@@ -16,7 +16,6 @@ function rex_setuptitle($title)
 {
   rex_title($title, '');
 
-
   echo '<div id="rex-stp">';
 }
 
@@ -34,6 +33,10 @@ function rex_setupimport($import_sql, $import_archiv = null)
   {
     if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
     {
+      // Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php übernommen
+      // wird und auch in der danach includeten function verfügbar ist
+      global $I18N_IM_EXPORT;
+      require $export_addon_dir.'/config.inc.php';
       require_once $export_addon_dir.'/classes/class.tar.inc.php';
       require_once $export_addon_dir.'/functions/function_folder.inc.php';
       require_once $export_addon_dir.'/functions/function_import_export.inc.php';
@@ -87,14 +90,13 @@ function rex_setup_addons($uninstallBefore = false)
   global $REX, $I18N;
   
   require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
-      
+  
   $state = true;
   $addonErr = '';
   $ADDONS = rex_read_addons_folder();
   foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
   {
-    
-    if($state === true && $uninstallBefore && OOAddon::isInstalled($systemAddon))
+    if($state === true && $uninstallBefore)
       $state = rex_uninstall_addon($ADDONS, $systemAddon);
     
     if($state === true && !OOAddon::isInstalled($systemAddon))
