@@ -1,9 +1,9 @@
 <?php
-$PREPOST[0] = "PRE";
-$PREPOST[1] = "POST";
-$ASTATUS[0] = "ADD";
-$ASTATUS[1] = "EDIT";
-$ASTATUS[2] = "DELETE";
+$PREPOST[0] = 'PRE';
+$PREPOST[1] = 'POST';
+$ASTATUS[0] = 'ADD';
+$ASTATUS[1] = 'EDIT';
+$ASTATUS[2] = 'DELETE';
 
 if (!isset ($subpage))
 {
@@ -14,13 +14,13 @@ switch ($subpage)
 {
   case 'actions' :
     {
-      $title = $I18N->msg("modules").': '.$I18N->msg("actions");
+      $title = $I18N->msg('modules').': '.$I18N->msg('actions');
       $file = 'module.action.inc.php';
       break;
     }
   default :
     {
-      $title = $I18N->msg("modules");
+      $title = $I18N->msg('modules');
       $file = 'module.modules.inc.php';
       break;
     }
