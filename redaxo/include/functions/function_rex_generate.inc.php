@@ -1210,7 +1210,6 @@ function rex_generateAddons($ADDONS, $debug = false)
     {
       return 'Konnte Datei "'.$file.'" nicht zum schreiben oeffnen';
     }
-    //if (!fwrite($h, $fcontent, strlen($fcontent))) {
     if (!fwrite($h, $fcontent, strlen($fcontent)))
     {
       return 'Konnte Inhalt nicht in Datei "'.$file.'" schreiben';
