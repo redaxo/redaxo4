@@ -11,14 +11,14 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK && REGISTER GLOBALS
-include "./redaxo/include/functions/function_rex_mquotes.inc.php";
+include './redaxo/include/functions/function_rex_mquotes.inc.php';
 
 // --------------------------- ini settings
 
 // Setzten des arg_separators, falls Sessions verwendet werden,
 // um XHTML valide Links zu produzieren
-@ini_set( 'arg_separator.input', '&amp;');
-@ini_set( 'arg_separator.output', '&amp;');
+@ini_set('arg_separator.input', '&amp;');
+@ini_set('arg_separator.output', '&amp;');
 
 // --------------------------- globals
 
@@ -38,8 +38,8 @@ $REX['REDAXO'] = false;
 $REX['GG'] = true;
 
 // setzte pfad und includiere klassen und funktionen
-$REX['HTDOCS_PATH'] = "./";
-include "./redaxo/include/master.inc.php";
+$REX['HTDOCS_PATH'] = './';
+include './redaxo/include/master.inc.php';
 
 // Starte einen neuen Artikel und setzte die aktuelle
 // artikel id. wenn nicht vorhanden, nimm einen
