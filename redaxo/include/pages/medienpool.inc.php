@@ -828,39 +828,48 @@ if ($subpage=="detail" && rex_post('btn_delete', 'string'))
 
       for($c=1;$c<11;$c++){
         $file_search.= "OR file$c='$file_name' ";
-        $file_search.= "OR value$c LIKE '%$file_name%' ";
+        $file_search.= "OR filelist$c LIKE '%$file_name%' ";
       }
 
+      for($c=1;$c<21;$c++){
+        $file_search.= "OR value$c LIKE '%$file_name%' ";
+      }
+      
       $file_search = substr($file_search,2);
 
       // in rex_values ?
-      $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
+      $sql = "SELECT DISTINCT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
       $res1 = $db->getArray($sql);
 
       // in article metafile ?
       $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
       $res2= $db->getArray($sql);
 
-      if(count($res1)==0 and count($res2)==0){
-
+      if(count($res1)==0 and count($res2)==0)
+      {
         $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
         $db->setQuery($sql);
         unlink($REX['MEDIAFOLDER']."/".$file_name);
         $msg = $I18N->msg('pool_file_deleted');
         $subpage = "";
-      }else{
-
+      }
+      else
+      {
         $msg = $I18N->msg('pool_file_delete_error_1',"$file_name")." ";
         $msg.= $I18N->msg('pool_file_delete_error_2')."<br />";
         if(is_array($res1))
         {
-          foreach($res1 as $var){
+          foreach($res1 as $var)
+          {
             $msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
           }
         }
         if(is_array($res2))
         {
-          foreach($res2 as $var){
+          foreach($res2 as $var)
+          {
+            if(is_array($res1) && in_array($var,$res1)) continue;
+             
             $msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
           }
         }
