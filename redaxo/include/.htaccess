@@ -1,10 +1,7 @@
 RewriteEngine Off
-
 Deny from all
-
 AuthUserFile ./user.psw
 AuthGroupFile /dev/null
-AuthName Zugriff auf IncludeDateien
+AuthName "Include Folder"
 AuthType Basic
-
 require valid-user
