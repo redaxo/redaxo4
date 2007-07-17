@@ -3,21 +3,21 @@
 /**
  * Klassen zum erhalten der Rückwärtskompatibilität
  * Dieser werden beim nächsten Versionssprung entfallen
- * @version $Id$ 
+ * @version $Id$
  */
 
 // rex_sql -> sql alias
 class sql extends rex_sql
 {
 	var $select;
-	
+
   function sql($DBID = 1)
   {
     parent::rex_sql($DBID);
     // Altes feld wurde umbenannt, deshalb hier als Alias speichern
     $this->select =& $this->query;
   }
-  
+
   function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
   {
     return $this->getArray($sql, $fetch_type);
@@ -27,7 +27,7 @@ class sql extends rex_sql
   {
     return $this->getLastId();
   }
-  
+
   /**
    * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
    * @see #next();
@@ -52,7 +52,7 @@ class sql extends rex_sql
   {
     $this->setWhere($where);
   }
-  
+
   /**
    * Sendet eine Abfrage an die Datenbank
    */
@@ -70,13 +70,13 @@ class select extends rex_select
   {
     parent::rex_select();
   }
-  
+
   ################ set multiple
   function multiple($mul)
   {
   	$this->setMultiple($mul);
   }
-  
+
   ################ select extra
   function set_selectextra($extra)
   {
@@ -85,46 +85,46 @@ class select extends rex_select
   		$this->set_attribute($name, $value);
   	}
   }
-  
+
   function out()
   {
   	return $this->get();
   }
-  
+
   function set_name($name)
   {
   	$this->setName($name);
   }
-  
+
   function set_id($id)
   {
   	$this->setId($id);
   }
-  
+
   function set_size($size)
   {
   	$this->setSize($size);
   }
-  
+
   function set_selected($selected)
   {
   	$this->setSelected($selected);
   }
-  
+
   function reset_selected()
   {
   	$this->resetSelected();
   }
-  
+
   function set_style($style)
   {
   	$this->setStyle($style);
   }
-  
+
   function add_option($name, $value, $id = 0, $re_id = 0)
   {
   	$this->addOption($name, $value, $id, $re_id);
-  }    
+  }
 }
 
 // rex_article -> article alias
@@ -163,6 +163,18 @@ if (!function_exists('file_get_contents'))
     fclose($fd);
     return $content;
   }
-}  
+}
+
+/**
+ * mime_content_type ist deprecated und wird in zukunft via PECL Extension
+ * gehandelt.
+ */
+if (!function_exists('mime_content_type'))
+{
+  function mime_content_type($f) {
+    $f = escapeshellarg($f);
+    return trim(`file -bi $f`);
+  }
+}
 
 ?>
