@@ -2,11 +2,13 @@
 
 /**
  * Klassen zum erhalten der Rückwärtskompatibilität
+ *
  * Dieser werden beim nächsten Versionssprung entfallen
  * @version $Id$
  */
 
 // rex_sql -> sql alias
+// Für < R3.3
 class sql extends rex_sql
 {
 	var $select;
@@ -63,6 +65,7 @@ class sql extends rex_sql
 }
 
 // rex_select -> select alias
+// Für < R3.3
 class select extends rex_select
 {
 
@@ -128,6 +131,7 @@ class select extends rex_select
 }
 
 // rex_article -> article alias
+// Für < R3.3
 class article extends rex_article{
 
   function article($article_id = null, $clang = null)
@@ -140,16 +144,20 @@ class article extends rex_article{
 // ----------------------------------------- Functions
 
 // rex_getUrl -> getUrlById alias
+// Für < R3.1
 function getUrlByid($id, $clang = "", $params = "")
 {
   return rex_getUrl($id, $clang, $params);
 }
 
 // rex_title -> title alias
+// Für < R3.2
 function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
   return rex_title($head, $subtitle, $styleclass, $width);
 }
+
+// ------------------------------------- Allgemeine PHP Functions
 
 /**
  * Für Installationen mit PHP < 4.3.0
