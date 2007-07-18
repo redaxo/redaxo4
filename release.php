@@ -12,7 +12,7 @@ if(isset($argv) && count($argv) > 1)
 	{
 		$name = $argv[2];
 	}
-  
+
   // Start Build-Script
   buildRelease($name, $version);
 }
@@ -21,14 +21,14 @@ else
   echo '
 /**
  * Erstellt ein REDAXO Release.
- * 
- * 
+ *
+ *
  * Verwendung in der Console:
- * 
+ *
  *  Erstelles eines Release mit Versionsnummer:
  *  "php -f release.php 3.3"
- * 
- * 
+ *
+ *
  * Vorgehensweise des release-scripts:
  *  - Ordnerstruktur kopieren nach release/redaxo_<Datum>
  *  - Dateien kopieren
@@ -47,7 +47,8 @@ function buildRelease($name = null, $version = null)
   // ohne "/" am Ende!
   $cfg_path = 'release';
   $path = $cfg_path;
-  
+  $default_addons = array('image_resize', 'import_export', 'metainfo', 'textile');
+
   if (!$name)
   {
     $name = 'redaxo';
@@ -56,26 +57,30 @@ function buildRelease($name = null, $version = null)
     else
       $name .= str_replace('.', '_', $version);
   }
-  
+
   if($version)
     $version = explode('.', $version);
 
   if(substr($path, -1) != '/')
     $path .= '/';
-  
+
   if (!is_dir($path))
     mkdir($path);
 
   $dest = $path . $name;
-  
+
   if (is_dir($dest))
     trigger_error('release folder already exists!', E_USER_ERROR);
   else
     mkdir($dest);
 
+  echo '>>> Build REDAXO release..'."\n";
+  echo '> read files'."\n";
+
   // Ordner und Dateien auslesen
   $structure = readFolderStructure('.', array('.project', 'CVS', 'generated', $cfg_path));
-  
+
+  echo '> copy files'."\n";
   // Ordner/Dateien kopieren
   foreach($structure as $path => $content)
   {
@@ -89,7 +94,7 @@ function buildRelease($name = null, $version = null)
       }
       $temp_path .= $pathdir .'/';
     }
-    
+
     // Dateien kopieren/Ordner anlegen
     foreach($content as $dir)
     {
@@ -99,7 +104,9 @@ function buildRelease($name = null, $version = null)
         mkdir($dest .'/'. $path.'/'.$dir);
     }
   }
-  
+
+  echo '> delete generated folder content'."\n";
+
   // Ordner die wir nicht mitkopiert haben anlegen
   // Der generated Ordner enthält sehr viele Daten,
   // das kopieren würde sehr lange dauern und ist unnötig
@@ -107,13 +114,15 @@ function buildRelease($name = null, $version = null)
   mkdir($dest .'/redaxo/include/generated/articles');
   mkdir($dest .'/redaxo/include/generated/templates');
   mkdir($dest .'/redaxo/include/generated/files');
-  
+
+  echo '> fix master.inc.php'."\n";
+
   // master.inc.php anpassen
   $master = $dest.'/redaxo/include/master.inc.php';
   $h = fopen($master, 'r');
   $cont = fread($h, filesize($master));
   fclose($h);
-  
+
   $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"redaxo.de"', $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", '\\1"REDAXO"', $cont);
@@ -122,11 +131,11 @@ function buildRelease($name = null, $version = null)
   $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
   $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
   $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*", '\\1false', $cont);
-  
+
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?)[^;]*", '\\1"localhost"', $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?)[^;]*", '\\1"root"', $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?)[^;]*", '\\1""', $cont);
-  
+
   if($version)
   {
     $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
@@ -141,44 +150,61 @@ function buildRelease($name = null, $version = null)
   $h = fopen($master, 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
     fclose($h);
-    
+
+  echo '> fix functions.inc.php'."\n";
+
   // functions.inc.php anpassen
   $functions = $dest.'/redaxo/include/functions.inc.php';
   $h = fopen($functions, 'r');
   $cont = fread($h, filesize($functions));
   fclose($h);
-  
+
+  echo '>> activate compatibility API'."\n";
+
   // compat klasse aktivieren
   $cont = str_replace(
     "// include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
     "include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
     $cont
   );
-  
+
   $h = fopen($functions, 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
     fclose($h);
-    
+
+  echo '> fix addons.inc.php'."\n";
+
   // addons.inc.php anpassen
   $addons = $dest.'/redaxo/include/addons.inc.php';
   $h = fopen($addons, 'r');
   $cont = fread($h, filesize($addons));
   fclose($h);
-  
-  // Default sind keine Addons installiert
-  $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
-  
+
+  $installed_addons = '';
+  foreach($default_addons as $def_addon)
+  {
+    $installed_addons .= "
+\$REX['ADDON']['install']['". $def_addon ."'] = 1;
+\$REX['ADDON']['status']['". $def_addon ."'] = 1;
+";
+  }
+
+  // Addons installieren
+  $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n". $installed_addons ."\n// --- /DYN", $cont);
+
   $h = fopen($addons, 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
     fclose($h);
-    
+
   // Das kopierte Release-Script aus dem neu erstellten Release löschen
   unlink($dest .'/release.php');
+
+  echo '>>> FINISHED'."\n";
 }
 
 /**
  * Returns the content of the given folder
- * 
+ *
  * @param $dir Path to the folder
  * @return Array Content of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
@@ -203,7 +229,7 @@ function readFolder($dir)
 /**
  * Returns the content of the given folder.
  * The content will be filtered with the given $fileprefix
- * 
+ *
  * @param $dir Path to the folder
  * @param $fileprefix Fileprefix to filter
  * @return Array Filtered-content of the folder or false on error
@@ -233,7 +259,7 @@ function readFilteredFolder($dir, $fileprefix)
 
 /**
  * Returns the files of the given folder
- * 
+ *
  * @param $dir Path to the folder
  * @return Array Files of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
@@ -261,7 +287,7 @@ function readFolderFiles($dir, $except = array ())
 
 /**
  * Returns the subfolders of the given folder
- * 
+ *
  * @param $dir Path to the folder
  * @param $ignore_dots True if the system-folders "." and ".." should be ignored
  * @return Array Subfolders of the folder or false on error
@@ -295,11 +321,11 @@ function readSubFolders($dir, $ignore_dots = true)
 function readFolderStructure($dir, $except = array ())
 {
   $result = array ();
-  
+
   _readFolderStructure($dir, $except, $result);
-  
+
   uksort($result, 'sortFolderStructure');
-  
+
   return $result;
 }
 
@@ -317,13 +343,13 @@ function _readFolderStructure($dir, $except, & $result)
         unset($subdirs[$key]);
         continue;
       }
-  
+
       _readFolderStructure($dir .'/'. $subdir, $except, $result);
     }
   }
 
   $result[$dir] = array_merge($files, $subdirs);
-  
+
   return $result;
 }
 
