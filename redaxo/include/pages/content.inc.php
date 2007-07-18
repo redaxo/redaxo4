@@ -1,10 +1,10 @@
 <?php
 
 
-/** 
- * Verwaltung der Inhalte. EditierModul / Metadaten ... 
- * @package redaxo3 
- * @version $Id$ 
+/**
+ * Verwaltung der Inhalte. EditierModul / Metadaten ...
+ * @package redaxo3
+ * @version $Id$
  */
 
 /*
@@ -21,14 +21,14 @@ $function = rex_request('function', 'string', '');
 
 $article = new rex_sql;
 $article->setQuery("
-		SELECT 
-			article.*, template.attributes as template_attributes 
-		FROM 
+		SELECT
+			article.*, template.attributes as template_attributes
+		FROM
 			" . $REX['TABLE_PREFIX'] . "article as article
-		LEFT JOIN " . $REX['TABLE_PREFIX'] . "template as template 
-      ON template.id=article.template_id    
-		WHERE 
-			article.id='$article_id' 
+		LEFT JOIN " . $REX['TABLE_PREFIX'] . "template as template
+      ON template.id=article.template_id
+		WHERE
+			article.id='$article_id'
 			AND clang=$clang");
 
 if ($article->getRows() == 1)
@@ -36,10 +36,10 @@ if ($article->getRows() == 1)
 
   // ----- ctype holen
   $attributes = $article->getValue('template_attributes');
-  
+
   // Für Artikel ohne Template
   if($attributes === null) $attributes = '';
-  
+
   $REX['CTYPE'] = rex_getAttributes('ctype', $attributes, array ()); // ctypes - aus dem template
   $ctype = rex_request('ctype', 'int');
   if (!array_key_exists($ctype, $REX['CTYPE']))
@@ -79,7 +79,7 @@ if ($article->getRows() == 1)
   $sprachen_add = '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
   include $REX['INCLUDE_PATH'] . '/functions/function_rex_languages.inc.php';
 
-	// ----- Request Parameter  
+	// ----- Request Parameter
   $mode = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
   $message = rex_request('message', 'string');
@@ -163,7 +163,7 @@ if ($article->getRows() == 1)
 
           if ($function == 'edit')
             $modebit = '2'; // pre-action and edit
-          elseif ($function == 'delete') 
+          elseif ($function == 'delete')
           	$modebit = '4'; // pre-action and delete
           else
             $modebit = '1'; // pre-action and add
@@ -304,10 +304,10 @@ if ($article->getRows() == 1)
               }
 
               eval ('?>' . $iaction);
-              
+
               if ($REX_ACTION['MSG'] != '')
                 $message .= ' | ' . $REX_ACTION['MSG'];
-                
+
               $ga->next();
             }
 
@@ -443,7 +443,7 @@ if ($article->getRows() == 1)
       }
     }
     // ------------------------------------------ END: COPY LANG CONTENT
-		
+
 
     // ------------------------------------------ START: COPY LANG CONTENT
     if ($function == 'copycontent')
@@ -465,7 +465,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE ARTICLE
     if (rex_post('movearticle', 'string') && $category_id != $article_id)
     {
-    	
+
       $category_id_new = rex_post('category_id_new', 'int');
       if ($REX_USER->hasPerm('admin[]') || ($REX_USER->hasPerm('moveArticle[]') && ($REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csw[' . $category_id_new . ']'))))
       {
@@ -537,7 +537,7 @@ if ($article->getRows() == 1)
       }
     }
     // ------------------------------------------ END: MOVE CATEGORY
-    
+
     // ------------------------------------------ START: SAVE METADATA
     if (rex_post('savemeta', 'string'))
     {
@@ -553,7 +553,7 @@ if ($article->getRows() == 1)
       $meta_sql->update();
 
       $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
-      
+
       $message = $I18N->msg("metadata_updated") . $message;
 
       rex_generateArticle($article_id);
@@ -587,9 +587,9 @@ if ($article->getRows() == 1)
         {
         	$class = ' class="rex-active"';
         }
-        
-        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
-        
+
+        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . htmlspecialchars($val) . '</a>';
+
         if ($num_ctypes != $i)
         {
           $tadd .= ' | ';
@@ -642,7 +642,7 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-      
+
 
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
       echo '
@@ -676,7 +676,7 @@ if ($article->getRows() == 1)
           <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
             <fieldset>
               <legend class="rex-lgnd">' . $I18N->msg('general') . '</legend>
-                      
+
 				      <div class="rex-fldst-wrppr">
 
 						  <input type="hidden" name="page" value="content" />
@@ -719,7 +719,7 @@ if ($article->getRows() == 1)
         "clang" => $clang
       ));
 
-      // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN  	
+      // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN
       function add_cat_options(& $select, & $cat, & $cat_ids, $groupName = '', $nbsp = '')
       {
 
@@ -744,9 +744,9 @@ if ($article->getRows() == 1)
           }
         }
       }
-      // --------------------------------------------------- ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN  
+      // --------------------------------------------------- ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN
 
-      // ------------------------------------------------------------- SONSTIGES START    
+      // ------------------------------------------------------------- SONSTIGES START
       if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('article2startpage[]') || $REX_USER->hasPerm('moveArticle[]') || $REX_USER->hasPerm('copyArticle[]') || ($REX_USER->hasPerm('copyContent[]') && count($REX['CLANG']) > 1))
       {
 
@@ -758,10 +758,10 @@ if ($article->getRows() == 1)
                   <legend class="rex-lgnd">' . $I18N->msg('content_startarticle') . '</legend>
   							  <div class="rex-fldst-wrppr">
 									  <p>';
-					
-					if ($article->getValue('startpage')==0 && $article->getValue('re_id')==0) 
+
+					if ($article->getValue('startpage')==0 && $article->getValue('re_id')==0)
 						echo $I18N->msg('content_nottostartarticle');
-					else if ($article->getValue('startpage')==1) 
+					else if ($article->getValue('startpage')==1)
 						echo $I18N->msg('content_isstartarticle');
 					else
 						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' />';
@@ -892,9 +892,9 @@ if ($article->getRows() == 1)
                   </fieldset>';
 
         }
-        // --------------------------------------------------- ARTIKEL KOPIEREN ENDE 
+        // --------------------------------------------------- ARTIKEL KOPIEREN ENDE
 
-        // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START 
+        // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
         if ($article->getValue('startpage') == 1 && ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('moveCategory[]')))
         {
           $move_a = new rex_select;
@@ -928,10 +928,10 @@ if ($article->getRows() == 1)
                   </fieldset>';
 
         }
-        // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE 
+        // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE
 
       }
-      // ------------------------------------------------------------- SONSTIGES ENDE  
+      // ------------------------------------------------------------- SONSTIGES ENDE
 
       echo '
                   </form>
