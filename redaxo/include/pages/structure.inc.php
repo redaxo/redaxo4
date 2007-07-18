@@ -1,9 +1,9 @@
 <?php
 
-/** 
- *  
- * @package redaxo3 
- * @version $Id$ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
  */
 
 // --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
@@ -12,7 +12,7 @@ if ($edit_id)
 {
   $thisCat = new rex_sql;
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id ='.$edit_id.' and clang ='.$clang);
-  
+
   if ($thisCat->getRows() != 1)
   {
     unset ($edit_id, $thisCat);
@@ -29,7 +29,7 @@ if ($article_id)
 {
   $thisArt = new rex_sql;
   $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
-  
+
   if ($thisArt->getRows() != 1)
   {
     unset ($article_id, $thisArt);
@@ -65,7 +65,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
     $new_prio = 1;
   $re_id = $thisCat->getValue("re_id");
 
-  // --- Kategorie selbst updaten 
+  // --- Kategorie selbst updaten
   $EKAT = new rex_sql;
   $EKAT->setTable($REX['TABLE_PREFIX']."article");
   $EKAT->setWhere("id=$edit_id AND startpage=1 AND clang=$clang");
@@ -75,11 +75,11 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   $EKAT->setValue('updatedate', time());
   $EKAT->setValue('updateuser', $REX_USER->getValue('login'));
   $EKAT->update();
-  
-  // --- Kategorie Kindelemente updaten 
+
+  // --- Kategorie Kindelemente updaten
   $ArtSql = new rex_sql();
   $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$edit_id .' AND startpage=0 AND clang='.$clang);
-  
+
   for($i = 0; $i < $ArtSql->getRows(); $i++)
   {
     $EART = new rex_sql();
@@ -89,7 +89,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
     $EART->setValue('updatedate', time());
     $EART->setValue('updateuser', $REX_USER->getValue('login'));
     $EART->update();
-    
+
     rex_generateArticle($ArtSql->getValue('id'));
     $ArtSql->next();
   }
@@ -102,7 +102,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   rex_generateArticle($edit_id);
 
   // ----- EXTENSION POINT
-  $message = rex_register_extension_point('CAT_UPDATED', $message, 
+  $message = rex_register_extension_point('CAT_UPDATED', $message,
   array (
     'category' => $EKAT,
     'id' => $edit_id,
@@ -120,7 +120,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
 elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
-  
+
   $KAT = new rex_sql;
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=1");
   if ($KAT->getRows() == 0)
@@ -161,11 +161,11 @@ elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER-
   }
 
 }
-elseif ($function == 'status' && $edit_id != '' 
+elseif ($function == 'status' && $edit_id != ''
        && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
-  
+
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
   if ($KAT->getRows() == 1)
   {
@@ -225,7 +225,7 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
   while (list ($key, $val) = each($REX['CLANG']))
   {
 
-    // ### erstelle neue prioliste wenn noetig  
+    // ### erstelle neue prioliste wenn noetig
 
     $template_id = 0;
     if (isset ($NCAT[$key]) && $NCAT[$key] != '')
@@ -282,7 +282,7 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
-if ($function == 'status_article' && $article_id != '' 
+if ($function == 'status_article' && $article_id != ''
     && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- ARTICLE STATUS
@@ -327,11 +327,11 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
   $Position_New_Article = (int) $Position_New_Article;
   if ($Position_New_Article == 0)
     $Position_New_Article = 1;
-    
+
   // ------- Kategorienamen holen
   $sql = new rex_sql();
   $sql->setQuery('SELECT catname FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' and startpage=1 and clang='. $clang);
-  
+
   $category_name = '';
   if($sql->getRows() == 1)
   {
@@ -417,12 +417,12 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
   // ----- EXTENSION POINT
   $amessage = rex_register_extension_point('ART_UPDATED', $amessage, array (
     "id" => $article_id,
-    "status" => $thisArt->getValue("status"), 
-		"name" => $article_name, 
-		"clang" => $clang, 
-		"re_id" => $category_id, 
-		"prior" => $Position_Article, 
-		"path" => $KATPATH, 
+    "status" => $thisArt->getValue("status"),
+		"name" => $article_name,
+		"clang" => $clang,
+		"re_id" => $category_id,
+		"prior" => $Position_Article,
+		"path" => $KATPATH,
 		"template_id" => $template_id)
 		);
 
@@ -456,20 +456,20 @@ elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$
 
 if (isset ($message) and $message != "")
   echo '<p class="rex-warning"><span>'. $message .'</span></p>';
-  
+
 $cat_name = 'Homepage';
 if($category_id != '')
 {
   $sql = new rex_sql();
 //  $sql->debugsql = true;
   $sql->setQuery('SELECT catname FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
-  
+
   if($sql->getRows() == 1)
   {
     $cat_name = $sql->getValue('catname');
   }
 }
-  
+
 $add_category = '';
 if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
@@ -499,7 +499,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
 
   if ($function == 'edit_cat')
     echo '<input type="hidden" name="edit_id" value="'. $edit_id .'" />';
-      
+
   echo '
       <input type="hidden" name="category_id" value="'. $category_id .'" />
       <input type="hidden" name="clang" value="'. $clang .'" />';
@@ -553,7 +553,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
           <td><input type="text" id="Position_New_Category" name="Position_New_Category" value="100" /></td>
           <td colspan="2"><input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'" /></td>
         </tr>';
-   
+
   // ----- EXTENSION POINT
   echo rex_register_extension_point('CAT_META_FORM_ADD', "", array (
       'id' => $category_id,
@@ -573,19 +573,20 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
   $i_category_id = $KAT->getValue('id');
   $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
   $kat_icon_td = '<td class="rex-icon"><a href="'. $kat_link .'"><img src="pics/folder.gif" width="16" height="16" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
-    
+
+  if ($KAT->getValue('status') == 0)
+  {
+    $status_class = 'rex-offline';
+    $kat_status = $I18N->msg('status_offline');
+  }
+  else
+  {
+    $status_class = 'rex-online';
+    $kat_status = $I18N->msg('status_online');
+  }
+
   if ($KATPERM)
   {
-    if ($KAT->getValue('status') == 0)
-    {
-      $status_class = 'rex-offline';
-      $kat_status = $I18N->msg('status_offline');
-    }
-    else
-    {
-      $status_class = 'rex-online';
-      $kat_status = $I18N->msg('status_online');
-    }
 
     if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishCategory[]'))
     {
@@ -595,7 +596,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     if (isset ($edit_id) and $edit_id == $i_category_id and $function == 'edit_cat')
     {
       // --------------------- KATEGORIE EDIT FORM
-      
+
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
@@ -603,14 +604,14 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       }
 
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTON_ADD', "" );
-      
+
       $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
       if (!$REX_USER->hasPerm('editContentOnly[]'))
       {
         $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
-      
-      
+
+
       echo '
         <tr class="rex-trow-actv">
           '. $kat_icon_td .'
@@ -620,7 +621,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           <td>'. $add_buttons .'</td>
           <td>'. $kat_status .'</td>
         </tr>';
-        
+
       // ----- EXTENSION POINT
   		echo rex_register_extension_point('CAT_META_FORM_EDIT', "", array (
       	'id' => $edit_id,
@@ -630,11 +631,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       	'catprior' => $KAT->getValue("catprior"),
       	'data_colspan' => ($data_colspan+1),
 				));
-        
+
     }else
     {
       // --------------------- KATEGORIE WITH WRITE
-      
+
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
@@ -642,7 +643,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       }
 
       $add_text = $I18N->msg('category_edit_delete');
-      if ($REX_USER->hasPerm('editContentOnly[]')) 
+      if ($REX_USER->hasPerm('editContentOnly[]'))
       {
         $add_text = $I18N->msg('edit_category');
       }
@@ -666,7 +667,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       {
         $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
       }
-      
+
       echo '
         <tr>
           '. $kat_icon_td .'
@@ -689,11 +690,11 @@ if($function == 'add_cat' || $function == 'edit_cat')
 {
   $fieldId = $function == 'add_cat' ? 'category_name' :  'kat_name';
   echo '
-    <script type="text/javascript"> 
-       <!-- 
+    <script type="text/javascript">
+       <!--
        var needle = new getObj("'. $fieldId .'");
        needle.obj.focus();
-       //--> 
+       //-->
     </script>
   </fieldset>
 </form>';
@@ -738,13 +739,13 @@ if ($category_id > -1)
   {
     echo '<p class="rex-warning"><span>'. $amessage .'</span></p>';
   }
-  
+
   $art_add_link = '';
   if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
     $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"><img src="pics/document_plus.gif" width="16" height="16" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
   }
-    
+
   $add_head = '';
   $add_col  = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
@@ -752,7 +753,7 @@ if ($category_id > -1)
     $add_head = '<th class="rex-icon">'. $I18N->msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
   }
-  
+
   if($function == 'add_art' || $function == 'edit_art')
   {
     echo '
@@ -765,29 +766,29 @@ if ($category_id > -1)
     echo '
         <input type="hidden" name="clang" value="'. $clang .'" />';
   }
-  
+
   // READ DATA
-  
+
   $sql = new rex_sql;
   $sql->debugsql = 0;
-  $sql->setQuery('SELECT * 
-        FROM 
-          '.$REX['TABLE_PREFIX'].'article 
-        WHERE 
-          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1)) 
-          AND clang='. $clang .'  
-        ORDER BY 
+  $sql->setQuery('SELECT *
+        FROM
+          '.$REX['TABLE_PREFIX'].'article
+        WHERE
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
+          AND clang='. $clang .'
+        ORDER BY
           prior, name');
-  
-  
+
+
   $col_status = ' width="153"';
   // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 AND $function != 'edit_art')
   {
 	  $col_status = ' width="51" span="3"';
   }
-  
-  echo '  
+
+  echo '
       <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
         <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
         <colgroup>
@@ -799,7 +800,7 @@ if ($category_id > -1)
           <col width="105" />
           <col width="105" />
           <col'.$col_status.' />
-					
+
         </colgroup>
         <thead>
           <tr>
@@ -814,7 +815,7 @@ if ($category_id > -1)
           </tr>
         </thead>
         ';
-        
+
   // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 || $function == 'add_art')
   {
@@ -836,13 +837,13 @@ if ($category_id > -1)
         $TMPL_SEL->setSelected($sql2->getValue('template_id'));
       }
     }
-    
+
     $add_td = '';
     if ($REX_USER->hasPerm('advancedMode[]'))
     {
       $add_td = '<td class="rex-icon">-</td>';
     }
-    
+
     echo '<tr class="rex-trow-actv">
             <td class="rex-icon"><img src="pics/document.gif" width="16" height="16" alt="'.$I18N->msg('article_add') .'" title="'.$I18N->msg('article_add') .'" /></td>
             '. $add_td .'
@@ -881,9 +882,9 @@ if ($category_id > -1)
       {
         $add_td = '<td class="rex-icon">'. $sql->getValue("id") .'</td>';
       }
-      
+
       $TMPL_SEL->setSelected($sql->getValue('template_id'));
-      
+
       echo '<tr class="rex-trow-actv">
               <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
               '. $add_td .'
@@ -899,13 +900,13 @@ if ($category_id > -1)
     }elseif ($KATPERM)
     {
       // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
-      
+
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
       }
-  
+
       $article_class = '';
       if ($sql->getValue('status') == 0)
       {
@@ -916,7 +917,7 @@ if ($category_id > -1)
         $article_status = $I18N->msg('status_online');
         $article_class = 'rex-online';
       }
-      
+
       $add_extra = '';
       if ($sql->getValue('startpage') == 1)
       {
@@ -928,7 +929,7 @@ if ($category_id > -1)
         {
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="'. $article_class .'">'. $article_status .'</a>';
         }
-        
+
         if (!$REX_USER->hasPerm('editContentOnly[]'))
         {
         	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
@@ -936,7 +937,7 @@ if ($category_id > -1)
         {
         	$article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
         }
-        
+
         $add_extra = '<td>'. $article_delete .'</td>
                       <td>'. $article_status .'</td>';
       }
@@ -965,16 +966,16 @@ if ($category_id > -1)
       }
 
       $art_status       = '';
-      $art_status_class = '';        
+      $art_status_class = '';
       if ($sql->getValue('status') == 0)
       {
         $art_status = $I18N->msg('status_offline');
-        $art_status_class = 'rex-offline';        
+        $art_status_class = 'rex-offline';
       }
       else
       {
         $art_status = $I18N->msg('status_online');
-        $art_status_class = 'rex-online';        
+        $art_status_class = 'rex-online';
       }
       echo '<tr>
               <td class="rex-icon"><img src="pics/'. $icon .'" width="16" height="16" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></td>
@@ -990,28 +991,28 @@ if ($category_id > -1)
             </tr>
             ';
     }
-    
+
     $sql->counter++;
   }
-  
+
   // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 || $function == 'add_art')
   {
     echo '
         </tbody>';
   }
-  
+
   echo '
       </table>';
-  
+
   if($function == 'add_art' || $function == 'edit_art')
   {
     echo '
-      <script type="text/javascript"> 
-         <!-- 
+      <script type="text/javascript">
+         <!--
          var needle = new getObj("article_name");
          needle.obj.focus();
-         //--> 
+         //-->
       </script>
     </fieldset>
   </form>';
