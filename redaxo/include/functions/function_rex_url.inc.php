@@ -1,10 +1,10 @@
 <?php
 
-/** 
- * URL Funktionen  
- * @package redaxo3 
- * @version $Id$ 
- */ 
+/**
+ * URL Funktionen
+ * @package redaxo3
+ * @version $Id$
+ */
 
 // ----------------------------------------- Parse Article Name for Url
 
@@ -35,16 +35,16 @@ function rex_parseArticleName($name)
  *
  * If you pass an associative array for $params,
  * then these parameters will be attached to the URL.
- * 
- * 
+ *
+ *
  * USAGE:
  *   $param = array("order" => "123", "name" => "horst");
  *   $url = $article->getUrl($param);
- * 
+ *
  *   - OR -
- *  
+ *
  *   $url = $article->getUrl("order=123&name=horst");
- * 
+ *
  * RETURNS:
  *   index.php?article_id=1&order=123&name=horst
  * or if mod_rewrite support is activated:
@@ -56,7 +56,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
 
   $id = (int) $id;
   $clang = (int) $clang;
-  
+
   // ----- get id
   if (strlen($id) == 0 || $id == 0)
   {
@@ -65,30 +65,24 @@ function rex_getUrl($id = '', $clang = '', $params = '')
 
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
-  // Die rexExtension muss selbst entscheiden was sie damit macht 
+  // Die rexExtension muss selbst entscheiden was sie damit macht
   if (strlen($clang) == 0 && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
   {
     $clang = $REX['CUR_CLANG'];
   }
 
-  // ----- Backend
-  if (!$REX['GG'])
-  {
-    return 'index.php?page=content&amp;article_id='.$id.'&amp;clang='.$clang;	
-  }
-  
   // ----- get params
   $param_string = '';
   if (is_array($params))
   {
     foreach ($params as $key => $value)
     {
-      $param_string .= '&amp;'.$key.'='.$value;
+      $param_string .= '&'.$key.'='.$value;
     }
   }
   elseif ($params != '')
   {
-    $param_string = str_replace('&', '&amp;', $params);
+    $param_string = $params;
   }
 
   // ----- get article name
@@ -107,7 +101,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   {
     $name = 'NoName';
   }
-  
+
   // ----- EXTENSION POINT
   $url = rex_register_extension_point('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string));
 
@@ -136,14 +130,14 @@ function rex_getUrl($id = '', $clang = '', $params = '')
 function rex_no_rewrite($id, $name, $clang, $param_string)
 {
   global $REX;
-  $url = 'index.php?article_id='.$id;
+  $url = '';
 
   if (count($REX['CLANG']) > 1)
   {
-    $url .= '&amp;clang='.$clang;
+    $url .= '&clang='.$clang;
   }
 
-  return $url.$param_string;
+  return 'index.php?article_id='.$id .urlencode($url.$param_string);
 }
 
 // Rewrite für mod_rewrite
@@ -152,7 +146,7 @@ function rex_apache_rewrite($id, $name, $clang, $params)
   if ($params != '')
   {
     // strip first "&amp;"
-    $params = '?'.substr($params, strpos($params, '&amp;') + 5);
+    $params = '?'.urlencode(substr($params, strpos($params, '&') + 1));
   }
 
   return $id.'-'.$clang.'-'.$name.'.html'.$params;
