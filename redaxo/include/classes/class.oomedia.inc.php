@@ -705,43 +705,6 @@ class OOMedia
     }
   }
 
-  /* Not in use
-  function _getJsLink( $javascript, $label, $additional = '') {
-      return sprintf( '<a href="javascript:%s"%s>%s</a>', $javascript, $additional, $label);
-  }
-  
-  function toInsertLink( &$poolParmas)
-  {
-      global $I18N;
-      
-      $insertLabel = $I18N->msg('pool_media_insert');
-      $linkLabel = $I18N->msg('pool_media_link');
-      $link = '';
-      
-      if ( $poolParmas->isMediaButtonMode()) 
-      {
-          $link = $this->_getJSLink( 'selectMedia(\''. $this->getFileName() .'\');', $insertLabel);
-      } 
-      else 
-      {
-          if ( $this->isImage()) 
-          {
-             $javascript = sprintf( 'insertImage(\'%s\', \'%s\', \'%s\', \'%s\');',
-                           $this->getFileName(),
-                           $this->getDescription(),
-                           $this->getWidth(),
-                           $this->getHeight());
-             $link .= $this->_getJSLink( $javascript, $insertLabel) .'<br/><br/>';
-          }
-          
-          $javascript = sprintf( 'insertLink( \'%s\')', $this->getFileName());
-          $link .= $this->_getJSLink( $javascript, $linkLabel);
-      }
-      
-      return $link;
-  }
-  */
-
   /**
    * @access public
    */
@@ -816,67 +779,45 @@ class OOMedia
   }
 
   /**
-   * @access protected
-   */
-  function _getSQLSetString()
-  {
-    $set = ' SET'.'  re_file_id = "'.$this->getParentId().'"'.', category_id = "'.sql :: escape($this->getCategoryId()).'"'.', filetype = "'.sql :: escape($this->getType()).'"'.', filename = "'.sql :: escape($this->getFileName()).'"'.', originalname = "'.sql :: escape($this->getOrgFileName()).'"'.', filesize = "'.sql :: escape($this->getSize()).'"'.', width = "'.sql :: escape($this->getWidth()).'"'.', height = "'.sql :: escape($this->getHeight()).'"'.', title = "'.sql :: escape($this->getTitle()).'"'.', description = "'.sql :: escape($this->getDescription()).'"'.', copyright = "'.sql :: escape($this->getCopyright()).'"'.', updatedate = "'.sql :: escape($this->getUpdateDate(null)).'"'.', createdate = "'.sql :: escape($this->getCreateDate(null)).'"'.', updateuser = "'.sql :: escape($this->getUpdateUser()).'"'.', createuser = "'.sql :: escape($this->getCreateUser()).'"';
-
-    return $set;
-  }
-
-  /**
-   * @access protected
+   * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function _insert()
+  function save()
   {
-    $qry = 'INSERT INTO '.$this->_getTableName();
-    $qry .= $this->_getSQLSetString();
-
     $sql = new rex_sql();
-    $sql->setQuery($qry);
-
-    return $sql->getError();
-  }
-
-  /**
-   * @access protected
-   * @return Returns <code>true</code> on success or <code>false</code> on error
-   */
-  function _update()
-  {
-    $qry = 'UPDATE '.$this->_getTableName();
-    $qry .= $this->_getSQLSetString();
-    $qry .= ' WHERE file_id = "'.$this->getId().'" LIMIT 1';
-
-    $sql = new rex_sql();
-    $sql->setQuery($qry);
-
-    return $sql->getError();
-  }
-
-  /**
-   * @access protected
-   * @return Returns <code>true</code> on success or <code>false</code> on error
-   */
-  function _save()
-  {
+    $sql->setTable($this->_getTableName());
+    $sql->setValue('re_file_id', $this->getParentId());
+    $sql->setValue('category_id', $this->getCategoryId());
+    $sql->setValue('filetype', $this->getType());
+    $sql->setValue('filename', $this->getFileName());
+    $sql->setValue('originalname', $this->getOrgFileName());
+    $sql->setValue('filesize', $this->getSize());
+    $sql->setValue('width', $this->getWidth());
+    $sql->setValue('height', $this->getHeight());
+    $sql->setValue('title', $this->getTitle());
+    $sql->setValue('description', $this->getDescription());
+    $sql->setValue('copyright', $this->getCopyright());
+    
     if ($this->getId() !== null)
     {
-      return $this->_update();
+      $sql->setValue('updatedate', $this->getUpdateDate(null));
+      $sql->setValue('updateuser', $this->getUpdateUser());
+      $sql->setWhere('file_id='.$this->getId() . ' LIMIT 1');
+      return $sql->update();
     }
     else
     {
-      return $this->_insert();
+      $sql->setValue('createdate', $this->getCreateDate(null));
+      $sql->setValue('createuser', $this->getCreateUser());
+      return $sql->insert();
     }
   }
 
   /**
-   * @access protected
+   * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function _delete()
+  function delete()
   {
     global $REX;
 
