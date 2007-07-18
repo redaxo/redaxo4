@@ -75,9 +75,7 @@ if ($function == "add" or $function == "edit") {
 		// keine Zeichen escaped werden dürfen
 		for($i=1;$i<count($ctypes)+1;$i++)
 		{
-			// einfacher Backslash entfernen
-			//   \\ ist ein einfacher Backslash!
-			$ctypes[$i] = str_replace('\\', '', $ctypes[$i]);
+			$ctypes[$i] = stripslashes($ctypes[$i]);
 		}
 
     if ($function == "add") {
@@ -105,18 +103,17 @@ if ($function == "add" or $function == "edit") {
       $TMPL->setWhere("id='$template_id'");
       $TMPL->setValue("name", $templatename);
       $TMPL->setValue("content", $content);
-      $TMPL->setValue("attributes", $attributes);
+      $TMPL->setValue("attributes", addslashes($attributes));
       $TMPL->setValue("active", $active);
       $TMPL->setValue("updatedate", time());
       $TMPL->setValue("updateuser", $REX_USER->getValue("login"));
 
       if($TMPL->update())
       {
-	      $message = $I18N->msg("template_added");
+	      $message = $I18N->msg("template_updated");
       }
 
 			// werte werden direkt wieder ausgegeben
-      $attributes = stripslashes($attributes);
       $templatename = stripslashes($templatename);
       $content = stripslashes($content);
     }
@@ -148,6 +145,10 @@ if ($function == "add" or $function == "edit") {
     $ctypes_out .= '<p><label for="ctype'.$i.'">' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="" /></p>';
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
+
+    if (isset ($message) and $message != "") {
+      echo '<p class="rex-warning"><span>' . $message . '</span></p>';
+    }
 
     echo '
     	<div class="rex-tmp-editmode">
