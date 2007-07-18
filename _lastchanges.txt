@@ -61,7 +61,9 @@ Known Bugs:
 Changes:
 ---------------------------------------------------------------------------------
 
-  * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen
+  * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen!
+  * Tabelle rex_modultyp in rex_module umbenannt!
+  
 
   * CTypes aufbereitet [kills,jan]
   	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.

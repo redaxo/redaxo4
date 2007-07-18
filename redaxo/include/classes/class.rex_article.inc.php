@@ -216,10 +216,10 @@ class rex_article
       if ($this->article_id != 0)
       {
         // ---------- alle teile/slices eines artikels auswaehlen
-        $sql = "SELECT ".$REX['TABLE_PREFIX']."modultyp.id, ".$REX['TABLE_PREFIX']."modultyp.name, ".$REX['TABLE_PREFIX']."modultyp.ausgabe, ".$REX['TABLE_PREFIX']."modultyp.eingabe, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
+        $sql = "SELECT ".$REX['TABLE_PREFIX']."module.id, ".$REX['TABLE_PREFIX']."module.name, ".$REX['TABLE_PREFIX']."module.ausgabe, ".$REX['TABLE_PREFIX']."module.eingabe, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
           FROM
             ".$REX['TABLE_PREFIX']."article_slice
-          LEFT JOIN ".$REX['TABLE_PREFIX']."modultyp ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id
+          LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
           LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
           WHERE
             ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' AND
@@ -245,10 +245,10 @@ class rex_article
         {
           $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.id");
           $RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
-          $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.eingabe");
-          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.ausgabe");
-          $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.id");
-          $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."modultyp.name");
+          $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.eingabe");
+          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.ausgabe");
+          $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.id");
+          $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.name");
           $RE_C[$this->CONT->getValue("re_article_slice_id")] = $i;
           $this->CONT->next();
         }
@@ -257,7 +257,7 @@ class rex_article
         if($this->mode=="edit")
         {
           $MODULE = new rex_sql;
-          $MODULE->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
+          $MODULE->setQuery("select * from ".$REX['TABLE_PREFIX']."module order by name");
 
           $MODULESELECT = new rex_select;
           $MODULESELECT->setName("module_id");
@@ -561,7 +561,7 @@ class rex_article
     global $REX,$I18N;
     
     $MOD = new rex_sql;
-    $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id=$module_id");
+    $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
     if ($MOD->getRows() != 1)
     {
       $slice_content = '<p class="rex-warning><span>'. $I18N->msg('module_doesnt_exist'). '</span></p>';

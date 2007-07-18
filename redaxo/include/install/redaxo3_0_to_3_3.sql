@@ -32,3 +32,5 @@ ALTER TABLE `rex_action` DROP `action`, DROP `prepost`, DROP `sadd`, DROP `sedit
 ALTER TABLE `rex_action` ADD `createuser` VARCHAR(255) NOT NULL, ADD `createdate` INT NOT NULL, ADD `updateuser` VARCHAR(255) NOT NULL, ADD `updatedate` INT NOT NULL;
 UPDATE `rex_user` SET `status`=1;
 UPDATE `rex_article_slice` SET `ctype`=`ctype`+1;
+
+RENAME TABLE `rex_modultyp` TO `rex_module`;

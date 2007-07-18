@@ -109,14 +109,14 @@ if ($article->getRows() == 1)
       if ($function == 'edit' || $function == 'delete')
       {
         // edit/ delete
-        $CM->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article_slice LEFT JOIN " . $REX['TABLE_PREFIX'] . "modultyp ON " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "modultyp.id WHERE " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' AND clang=$clang");
+        $CM->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article_slice LEFT JOIN " . $REX['TABLE_PREFIX'] . "module ON " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id WHERE " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' AND clang=$clang");
         if ($CM->getRows() == 1)
           $module_id = $CM->getValue("" . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id");
       }
       else
       {
         // add
-        $CM->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "modultyp WHERE id='$module_id'");
+        $CM->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "module WHERE id='$module_id'");
       }
 
       if ($CM->getRows() != 1)
@@ -334,7 +334,7 @@ if ($article->getRows() == 1)
         // modul und rechte vorhanden ?
 
         $CM = new rex_sql;
-        $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "modultyp on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "modultyp.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
+        $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "module on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
         if ($CM->getRows() != 1)
         {
           // ------------- START: MODUL IST NICHT VORHANDEN

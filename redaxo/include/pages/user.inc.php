@@ -163,7 +163,7 @@ $sel_module->setName("userperm_module[]");
 $sel_module->setId("userperm_module");
 
 $sqlmodule = new rex_sql;
-$sqlmodule->setQuery("select * from ".$REX['TABLE_PREFIX']."modultyp order by name");
+$sqlmodule->setQuery("select * from ".$REX['TABLE_PREFIX']."module order by name");
 
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {

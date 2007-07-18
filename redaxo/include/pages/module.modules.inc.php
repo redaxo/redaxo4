@@ -42,14 +42,14 @@ elseif (isset($function_action) and $function_action == 'delete')
 if ($function == 'delete')
 {
   $del = new rex_sql;
-  $del->setQuery("SELECT DISTINCT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."modultyp.name FROM ".$REX['TABLE_PREFIX']."article_slice
-      LEFT JOIN ".$REX['TABLE_PREFIX']."modultyp ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."modultyp.id
+  $del->setQuery("SELECT DISTINCT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."module.name FROM ".$REX['TABLE_PREFIX']."article_slice
+      LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
       WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
 
   if ($del->getRows() >0)
   {
     $module = '';
-    $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."modultyp.name"));
+    $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module.name"));
     for ($i=0; $i<$del->getRows(); $i++)
     {
      $module .= '<li><a href="index.php?page=content&amp;article_id='.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'">'.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'</a></li>';
@@ -64,7 +64,7 @@ if ($function == 'delete')
     $message = $I18N->msg("module_cannot_be_deleted",$modulname).'<br /> '.$module;
   } else
   {
-    $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."modultyp WHERE id='$modul_id'");
+    $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module WHERE id='$modul_id'");
     $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id'");
 
     $message = $I18N->msg("module_deleted");
@@ -83,7 +83,7 @@ if ($function == 'add' or $function == 'edit')
       // $modultyp->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
 
       $IMOD = new rex_sql;
-      $IMOD->setTable($REX['TABLE_PREFIX'].'modultyp');
+      $IMOD->setTable($REX['TABLE_PREFIX'].'module');
       $IMOD->setValue('name',$mname);
       $IMOD->setValue('eingabe',$eingabe);
       $IMOD->setValue('ausgabe',$ausgabe);
@@ -94,7 +94,7 @@ if ($function == 'add' or $function == 'edit')
 
 
     } else {
-      $modultyp->setQuery('select * from '.$REX['TABLE_PREFIX'].'modultyp where id='.$modul_id);
+      $modultyp->setQuery('select * from '.$REX['TABLE_PREFIX'].'module where id='.$modul_id);
       if ($modultyp->getRows()==1)
       {
         $old_ausgabe = $modultyp->getValue('ausgabe');
@@ -102,7 +102,7 @@ if ($function == 'add' or $function == 'edit')
         // $modultyp->setQuery("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
 
         $UMOD = new rex_sql;
-        $UMOD->setTable($REX['TABLE_PREFIX'].'modultyp');
+        $UMOD->setTable($REX['TABLE_PREFIX'].'module');
         $UMOD->setWhere('id='. $modul_id);
         $UMOD->setValue('name',$mname);
         $UMOD->setValue('eingabe',$eingabe);
@@ -155,7 +155,7 @@ if ($function == 'add' or $function == 'edit')
       $legend = $I18N->msg('module_edit').' [ID='.$modul_id.']';
 
       $hole = new rex_sql;
-      $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'modultyp WHERE id='.$modul_id);
+      $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'module WHERE id='.$modul_id);
       $category_id  = $hole->getValue('category_id');
       $mname    = $hole->getValue('name');
       $ausgabe  = $hole->getValue('ausgabe');
@@ -328,7 +328,7 @@ if ($OUT)
 
 
   $sql = new rex_sql;
-  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."modultyp ORDER BY name");
+  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module ORDER BY name");
 
   for($i=0; $i<$sql->getRows(); $i++){
 

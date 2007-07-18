@@ -390,7 +390,7 @@ if ($checkmodus == 3 && $send == 1)
     $REX['TABLE_PREFIX'] .'file' => 0,
     $REX['TABLE_PREFIX'] .'file_category' => 0,
     $REX['TABLE_PREFIX'] .'module_action' => 0,
-    $REX['TABLE_PREFIX'] .'modultyp' => 0,
+    $REX['TABLE_PREFIX'] .'module' => 0,
     $REX['TABLE_PREFIX'] .'template' => 0,
     $REX['TABLE_PREFIX'] .'user' => 0
   );

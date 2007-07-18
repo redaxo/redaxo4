@@ -21,7 +21,7 @@ if ($function == "delete")
           FROM 
             '. $REX['TABLE_PREFIX'] .'module_action a 
           LEFT JOIN 
-           '. $REX['TABLE_PREFIX'] .'modultyp m 
+           '. $REX['TABLE_PREFIX'] .'module m 
           ON 
             a.module_id = m.id 
           WHERE 
