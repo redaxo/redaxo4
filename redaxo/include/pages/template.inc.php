@@ -78,45 +78,40 @@ if ($function == "add" or $function == "edit") {
 			$ctypes[$i] = stripslashes($ctypes[$i]);
 		}
 
+    $TPL = new rex_sql;
+    $TPL->setTable($REX['TABLE_PREFIX'] . "template");
+    $TPL->setValue("name", $templatename);
+    $TPL->setValue("active", $active);
+    $TPL->setValue("content", $content);
+
     if ($function == "add") {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
+      $TPL->setValue("attributes", addslashes($attributes));
+      $TPL->setValue("createdate", time());
+      $TPL->setValue("createuser", $REX_USER->getValue("login"));
 
-      $ITPL = new rex_sql;
-      $ITPL->setTable($REX['TABLE_PREFIX'] . "template");
-      $ITPL->setValue("name", $templatename);
-      $ITPL->setValue("active", $active);
-      $ITPL->setValue("content", $content);
-      $ITPL->setValue("attributes", $attributes);
-      $ITPL->setValue("createdate", time());
-      $ITPL->setValue("createuser", $REX_USER->getValue("login"));
-
-      if($ITPL->insert())
+      if($TPL->insert())
       {
-	      $template_id = $ITPL->getLastId();
+	      $template_id = $TPL->getLastId();
 	      $message = $I18N->msg("template_added");
       }
     } else {
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
 
-      $TMPL = new rex_sql;
-      $TMPL->setTable($REX['TABLE_PREFIX'] . "template");
-      $TMPL->setWhere("id='$template_id'");
-      $TMPL->setValue("name", $templatename);
-      $TMPL->setValue("content", $content);
-      $TMPL->setValue("attributes", addslashes($attributes));
-      $TMPL->setValue("active", $active);
-      $TMPL->setValue("updatedate", time());
-      $TMPL->setValue("updateuser", $REX_USER->getValue("login"));
+      $TPL->setWhere("id='$template_id'");
+      $TPL->setValue("attributes", addslashes($attributes));
+      $TPL->setValue("updatedate", time());
+      $TPL->setValue("updateuser", $REX_USER->getValue("login"));
 
-      if($TMPL->update())
+      if($TPL->update())
       {
 	      $message = $I18N->msg("template_updated");
       }
 
-			// werte werden direkt wieder ausgegeben
-      $templatename = stripslashes($templatename);
-      $content = stripslashes($content);
     }
+		// werte werden direkt wieder ausgegeben
+    $templatename = stripslashes($templatename);
+    $content = stripslashes($content);
 
     rex_generateTemplate($template_id);
 
