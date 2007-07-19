@@ -1,5 +1,7 @@
 # addon:metaform de_de
 
+field_list_caption = Liste der Metafelder
+
 field_fieldset = Feld bearbeiten/erstellen
 field_label_prefix = Prefix
 field_label_title = Feldbezeichnung
