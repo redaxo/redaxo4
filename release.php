@@ -32,7 +32,7 @@ else
  * Vorgehensweise des release-scripts:
  *  - Ordnerstruktur kopieren nach release/redaxo_<Datum>
  *  - Dateien kopieren
- *  - CVS Ordner löschen
+ *  - CVS Ordner loeschen
  *  - master.inc.php anpassen
  *  - functions.inc.php die compat klasse wird einkommentiert
  */
@@ -47,7 +47,6 @@ function buildRelease($name = null, $version = null)
   // ohne "/" am Ende!
   $cfg_path = 'release';
   $path = $cfg_path;
-  $default_addons = array('image_resize', 'import_export', 'metainfo', 'textile');
 
   if (!$name)
   {
@@ -180,17 +179,8 @@ function buildRelease($name = null, $version = null)
   $cont = fread($h, filesize($addons));
   fclose($h);
 
-  $installed_addons = '';
-  foreach($default_addons as $def_addon)
-  {
-    $installed_addons .= "
-\$REX['ADDON']['install']['". $def_addon ."'] = 1;
-\$REX['ADDON']['status']['". $def_addon ."'] = 1;
-";
-  }
-
   // Addons installieren
-  $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n". $installed_addons ."\n// --- /DYN", $cont);
+  $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
 
   $h = fopen($addons, 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
