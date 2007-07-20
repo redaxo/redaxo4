@@ -157,7 +157,7 @@ else
     }
 
     // --- addon page check
-    if (is_array($REX['ADDON']['page']))
+    if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))
     {
       $as = array_search($page,$REX['ADDON']['page']);
       if ($as !== false)
