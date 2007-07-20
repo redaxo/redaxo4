@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * Layout Kopf des Backends
  * @package redaxo3
  * @version $Id$
@@ -18,9 +18,13 @@ if ($page_name != '')
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg("htmllang"); ?>" lang="<?php echo $I18N->msg("htmllang"); ?>">
 <head>
   <title><?php echo $page_title ?></title>
+<?php
+// ----- EXTENSION POINT
+echo rex_register_extension_point( 'PAGE_HEADER', '');
+?>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
-	<meta http-equiv="Cache-Control" content="no-cache" /> 
+  <meta http-equiv="Cache-Control" content="no-cache" />
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="css/backend.css" media="screen, projection, print" />
   <link rel="stylesheet" type="text/css" href="css/aural.css" media="handheld, aural, braille" />
@@ -48,7 +52,7 @@ if (!isset($open_header_only)) echo 'onunload="closeAll();"';
 <div id="rex-hdr">
 
 	<p class="rex-hdr-top"><?php echo $REX['SERVERNAME']; ?></p>
-	
+
 	<div>
 <?php
 
@@ -140,7 +144,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
     }
     next($REX['ADDON']['status']);
   }
-  
+
   echo '</ul>' . "\n";
 }
 else if(!isset($open_header_only))
@@ -154,7 +158,7 @@ else if(!isset($open_header_only))
 	</div>
 
 </div>
-<?php 
+<?php
 
 
 
