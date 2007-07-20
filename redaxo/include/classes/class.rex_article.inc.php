@@ -3,7 +3,7 @@
 /**
  * Artikel Objekt.
  * Zuständig für die Verarbeitung eines Artikel
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -33,10 +33,9 @@ class rex_article
   function rex_article($article_id = null, $clang = null)
   {
   	global $REX;
-  	
+
     $this->article_id = 0;
     $this->template_id = 0;
-    $this->clang = 0;
     $this->ctype = -1; // zeigt alles an
     $this->slice_id = 0;
     $this->mode = "view";
@@ -54,8 +53,8 @@ class rex_article
       $this->setCLang($clang);
     else
       $this->setClang($REX['CUR_CLANG']);
-      
-    if ($article_id !== null) 
+
+    if ($article_id !== null)
       $this->setArticleId($article_id);
   }
 
@@ -92,7 +91,7 @@ class rex_article
       $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
       $this->ARTICLE = new rex_sql;
       // $this->ARTICLE->debugsql = 1;
-      
+
       $this->ARTICLE->setQuery($qry);
 
       if ($this->ARTICLE->getRows() == 1)
@@ -181,7 +180,7 @@ class rex_article
     else return $this->ARTICLE->getValue($value);
   }
 
-  // ----- 
+  // -----
   function getArticle($curctype = -1)
   {
     global $module_id,$REX_USER,$REX,$REX_SESSION,$I18N;
@@ -193,7 +192,7 @@ class rex_article
       //$REX['GG'] = 0;
       $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
     }
-    
+
     // ----- start: article caching
     ob_start();
     ob_implicit_flush(0);
@@ -231,7 +230,7 @@ class rex_article
         $this->CONT = new rex_sql;
         $this->CONT->debugsql = 0;
         $this->CONT->setQuery($sql);
-        
+
         $RE_CONTS = array();
         $RE_CONTS_CTYPE = array();
         $RE_MODUL_OUT = array();
@@ -239,7 +238,7 @@ class rex_article
         $RE_MODUL_ID = array();
         $RE_MODUL_NAME = array();
         $RE_C = array();
-        
+
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
@@ -264,7 +263,7 @@ class rex_article
           $MODULESELECT->setSize("1");
           $MODULESELECT->setAttribute('onchange', 'this.form.submit();');
           $MODULESELECT->addOption("----------------------------  ".$I18N->msg("add_block"),'');
-  
+
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
             if ($REX_USER->hasPerm("module[".$MODULE->getValue("id")."]") || $REX_USER->hasPerm("admin[]")) $MODULESELECT->addOption($MODULE->getValue("name"),$MODULE->getValue("id"));
@@ -282,8 +281,8 @@ class rex_article
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
           // ----- ctype unterscheidung
-          if ($this->mode != "edit" && $i == 0) 
-            $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>"; 
+          if ($this->mode != "edit" && $i == 0)
+            $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
@@ -304,10 +303,10 @@ class rex_article
 
             }else
             {
-            	
+
               // ----- BLOCKAUSWAHL - SELECT
               $MODULESELECT->setId("module_id". $I_ID);
-              
+
               $slice_content = '
               <form action="'. $form_url .'" method="get">
                 <fieldset>
@@ -319,15 +318,15 @@ class rex_article
                   <input type="hidden" name="function" value="add" />
                   <input type="hidden" name="clang" value="'.$this->clang.'" />
                   <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-  
+
                   <p class="rex-slct">
                     '. $MODULESELECT->get() .'
                     <noscript><input type="submit" class="rex-sbmt" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                   </p>
-  
+
                 </fieldset>
               </form>';
-              
+
             }
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
@@ -338,7 +337,7 @@ class rex_article
               {
                 $msg = '<p class="rex-warning"><span>'. $this->message .'</span></p>';
               }
-              
+
               $mne = '
 			       	<div class="rex-cnt-editmode-slc">
                 '. $msg .'
@@ -354,38 +353,38 @@ class rex_article
                   <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=moveup&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_up.gif" width="16" height="16" alt="move up" title="move up" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
                   <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=movedown&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_down.gif" width="16" height="16" alt="move down" title="move down" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>';
               }
-              
+
               $mne .= '</ul></div>';
 
               $slice_content .= $mne;
               if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
               {
                 // **************** Aktueller Slice
-                
+
                 // ----- PRE VIEW ACTION [ADD/EDIT/DELETE]
-                
+
                 global $REX_ACTION;
-                
+
                 if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
                 elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
                 else $modebit = '1'; // pre-action and add
-                
+
                 $ga = new rex_sql;
                 $ga->debugsql = 0;
                 $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
-      
+
                 for ($t=0;$t<$ga->getRows();$t++)
                 {
                   $iaction = $ga->getValue('preview');
-                  
+
                   // ****************** VARIABLEN ERSETZEN
                   foreach($REX['VARIABLES'] as $obj)
                   {
                     $iaction = $obj->getACOutput($REX_ACTION,$iaction);
                   }
-                  
+
                   eval('?>'.$iaction);
-                  
+
                   // ****************** SPEICHERN FALLS NOETIG
                   foreach($REX['VARIABLES'] as $obj)
                   {
@@ -393,9 +392,9 @@ class rex_article
                   }
                   $ga->next();
                 }
-      
+
                 // ----- / PRE VIEW ACTION
-                
+
                 $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID]);
               }
               else
@@ -403,9 +402,9 @@ class rex_article
                 $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-cnt-slc-otp"><div class="rex-cnt-slc-otp2">';
-                
+
                 $slice_content .= $RE_MODUL_OUT[$I_ID];
-                
+
                 $slice_content .= '
                 </div></div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
@@ -423,7 +422,7 @@ class rex_article
                   <li>'. $I18N->msg('no_editing_rights') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></li>
                 </ul>
 				  </div>';
-                
+
               $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
               $slice_content = $this->replaceVars($this->CONT, $slice_content);
             }
@@ -436,7 +435,7 @@ class rex_article
                 while(list($k, $v) = each($RE_CONTS))
                   $I_ID = $k;
             }
-            
+
             $slice_content .= $RE_MODUL_OUT[$I_ID];
             $slice_content = $this->replaceVars($this->CONT, $slice_content);
           }
@@ -471,7 +470,7 @@ class rex_article
         {
           $form_url = 'index.php';
           if ($this->setanker) $form_url .= '#addslice';
-          
+
           if($this->function=="add" && $this->slice_id == $LCTSL_ID)
           {
             $slice_content = $this->addSlice($LCTSL_ID,$module_id);
@@ -479,7 +478,7 @@ class rex_article
           {
             // ----- BLOCKAUSWAHL - SELECT
             $MODULESELECT->setId("module_id". $LCTSL_ID);
-            
+
             // $slice_content = $add_select_box;
             $slice_content = '
             <form action="'. $form_url .'" method="get">
@@ -559,7 +558,7 @@ class rex_article
   function addSlice($I_ID,$module_id)
   {
     global $REX,$I18N;
-    
+
     $MOD = new rex_sql;
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
     if ($MOD->getRows() != 1)
@@ -589,11 +588,11 @@ class rex_article
             </div></div>
             <p class="rex-sbmt">
               <input type="submit" value="'. $I18N->msg('add_block') .'" />
-            </p> 
+            </p>
           </fieldset>
         </form>
       ';
-      
+
       $dummysql = new rex_sql();
 
       // Den Dummy mit allen Feldern aus rex_article_slice füllen
@@ -609,11 +608,11 @@ class rex_article
       		case 'modultyp_id'  : $def_value = $module_id; break;
       		case 'article_id'   : $def_value = $this->article_id; break;
       		case 'id'           : $def_value = 0; break;
-      		
+
       	}
       	$dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
       }
-      
+
       $slice_content = $this->replaceVars($dummysql,$slice_content);
     }
     return $slice_content;
@@ -623,7 +622,7 @@ class rex_article
   function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE)
   {
     global $REX, $I18N;
-    
+
     $slice_content = '
       <a name="editslice"></a>
       <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
@@ -638,8 +637,8 @@ class rex_article
           <input type="hidden" name="save" value="1" />
           <input type="hidden" name="update" value="0" />
           <input type="hidden" name="clang" value="'.$this->clang.'" />
-		  
-		  
+
+
 		  <div class="rex-cnt-slc-ipt"><div class="rex-cnt-slc-ipt2">
           '.$RE_MODUL_IN.'
 		  </div></div>
@@ -666,7 +665,7 @@ class rex_article
   function replaceObjectVars(&$sql,$content)
   {
     global $REX;
-    
+
     $tmp = '';
   	foreach($REX['VARIABLES'] as $var)
   	{
@@ -690,26 +689,26 @@ class rex_article
       	// var_dump($var);exit;
   			$tmp = $var->getFEOutput($sql,$content);
   		}
-      
+
       // Rückgabewert nur auswerten wenn auch einer vorhanden ist
       // damit $content nicht verfälscht wird
-      // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist 
+      // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
       if($tmp !== null)
       {
         $content = $tmp;
       }
   	}
-    
+
 	  return $content;
   }
 
   // ---- Artikelweite globale variablen werden ersetzt
-  function replaceCommonVars($content) 
+  function replaceCommonVars($content)
   {
   	global $REX;
-  	
+
     static $user_id = null;
-    
+
     // UserId gibts nur im Backend
     if($user_id === null)
     {
@@ -719,7 +718,7 @@ class rex_article
       else
         $user_id = '';
     }
-    
+
     static $search = array(
        'REX_ARTICLE_ID',
        'REX_CATEGORY_ID',
@@ -727,38 +726,38 @@ class rex_article
        'REX_TEMPLATE_ID',
        'REX_USER_ID'
     );
-    
+
     $replace = array(
       $this->article_id,
       $this->category_id,
       $this->clang,
       $this->getTemplateId(),
-      $user_id      
+      $user_id
     );
-    
+
     return str_replace($search, $replace,$content);
   }
 
   function replaceLinks($content)
   {
     global $REX;
-    
+
     // -- preg match redaxo://[ARTICLEID]-[CLANG] --
     preg_match_all("/redaxo:\/\/([0-9]*)\-([0-9]*)\/?/im",$content,$matches,PREG_SET_ORDER);
     foreach($matches as $match)
     {
       if(empty($match)) continue;
-      
+
       $url = rex_getURL($match[1], $match[2]);
       $content = str_replace($match[0],$url,$content);
     }
-    
+
     // -- preg match redaxo://[ARTICLEID] --
     preg_match_all("/redaxo:\/\/([0-9]*)\/?/im",$content,$matches,PREG_SET_ORDER);
     foreach($matches as $match)
     {
       if(empty($match)) continue;
-      
+
       $url = rex_getURL($match[1], $REX['CUR_CLANG']);
       $content = str_replace($match[0],$url,$content);
     }
