@@ -3,5 +3,5 @@ example_for = Beispiel für
 code_for_module_input = Code für Moduleingabe
 code_for_module_output = Code für Modulausgabe
 module_intro_moduleoutput = Einfach mit folgendem Code in die <b>Ausgabe eines beliebigen Moduls</b> einbinden
-module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf in die <b>Eingabe des Moduls</b> einfügen:
-module_rights = <b>Hinweis:</b> Die Anleitung wird nur angezeigt, wenn das Optionalrecht textile[help] dem Benutzer zugewiesen wurde.
+module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf in die <b>Eingabe des Moduls</b> einfügen:<br /><em>Damit die Hilfe angezeigt wird, muss der User über das Recht textile[help] verfügen</em>
+module_rights = <b>Hinweis:</b> Die Anleitung wird nur angezeigt, wenn das Optionalrecht <strong>textile[help]</strong> dem Benutzer zugewiesen wurde.
