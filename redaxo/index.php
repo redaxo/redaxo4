@@ -157,17 +157,32 @@ else
     }
 
     // --- addon page check
-    if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))
+    if (is_array($REX['ADDON']['page']))
     {
       $as = array_search($page,$REX['ADDON']['page']);
       if ($as !== false)
       {
         // --- addon gefunden
         $perm = $REX['ADDON']['perm'][$as];
-        if($REX['ADDON']['status'][$page] == 1 && ($REX_USER->isValueOf('rights',$perm) or $perm == '' or $REX_USER->isValueOf('rights','admin[]')))
+        $hasPerm = $perm == '' || $REX_USER->isValueOf('rights',$perm) || $REX_USER->isValueOf('rights','admin[]');
+
+        // Suche zuerst nach einem Addon, dass so heisst wie die aktuelle page
+        $addon_page = $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
+        if(file_exists($addon_page) && $hasPerm && OOAddon::isAvailable($page))
         {
           $withheader = false;
-          $REX['PAGEPATH'] = $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
+          $REX['PAGEPATH'] = $addon_page;
+        }
+        else
+        {
+          // Kein Addon gefunden, also suchen wir nach einem Addon,
+          // dass vorgegeben hat, eine Page zu haben, die so heisst, wie die aktuelle
+          $addon_page = $REX['INCLUDE_PATH'].'/addons/'. $as .'/pages/'. $page .'.inc.php';
+          if(file_exists($addon_page) && $hasPerm && OOAddon::isAvailable($as))
+          {
+            $withheader = false;
+            $REX['PAGEPATH'] = $addon_page;
+          }
         }
       }
     }

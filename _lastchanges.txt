@@ -4,17 +4,19 @@ AddOns: stats / import_export / image_resize
 Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
 angehandelt.
 
+
 ---------------------------------------------------------------------------------
 DISCUSSION:
 ---------------------------------------------------------------------------------
 
-REX_DATE_BUTTON[]
+  * REX_DATE_BUTTON[]
+  * Backend Redesign auf 100% Scaling
+
 
 ---------------------------------------------------------------------------------
 Todos:
 ---------------------------------------------------------------------------------
 
-  * onDelete Action
   * Templatehandling in den Kategorien
     * Template fest zu Kategorien zuweisen können
     * Default Templates festlegbar machen
@@ -23,29 +25,18 @@ Todos:
     * Fehler bei URLs mit $ z.b. $_POST .. Referer ..
   * Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
   * Warnings/Notices entfernen
+  
 
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
 ---------------------------------------------------------------------------------
 
-  * (Caching als Addon auslagern) -> erste Beta bereit!
   * Historie mit Rollback
-  * Backend Redesign auf 100% Scaling
-  * Backend auf CSS Layout umstellen
   * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
+  
 
 ---------------------------------------------------------------------------------
-Diskussionsanregungen:
----------------------------------------------------------------------------------
-  * Textile und Phpmailer ebenfalls nach Vorbild TinyMCE als Addon, da nicht zum Redaxo-Kern zugehörig
-    - Nachteil:
-      + Installation von "unnötigen" Addons -> unübersichtlich
-    - Vorteil:
-      + konsequentes Auslagern und Sauberhalten des Redaxo-Kerns
-      + Textile-Addon: detailierte Anleitung möglich
-
----------------------------------------------------------------------------------
-Known Bugs:
+Bekannte Bugs:
 ---------------------------------------------------------------------------------
 
   * Umbau des Statistiktools. Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
@@ -58,13 +49,27 @@ Known Bugs:
 
 
 ---------------------------------------------------------------------------------
-Changes:
+Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
-  * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen!
-  * Tabelle rex_modultyp in rex_module umbenannt!
+  * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen! [kills]
+  * Tabelle rex_modultyp in rex_module umbenannt! [kills]
+  * TinyMCE entfernt und als Addon wieder eingebaut [kills]
+  * PHPMailer entfernt und als Addon wieder eingebaut [kills]
+  * Metafelder entfernt und als Addon wieder eingebaut [kills]
   
+  
+---------------------------------------------------------------------------------
+Änderungen im Detail:
+---------------------------------------------------------------------------------
 
+  * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
+    - Addon trägt den Namen der Page + install/aktiviert
+      + Beispiel: include/addons/content/*
+        => Aufruf: include/addons/content/pages/index.inc.php
+    - Addon trägt beliebigen Namen und definiert $REX['ADDON']['page'][$mypage] = '<zuErsetzendePage>'; der Page + install/aktiviert
+      + Beispiel: $REX['ADDON']['page'][$mypage] = 'content';
+        => Aufruf: include/addons/$mypage/pages/content.inc.php
   * CTypes aufbereitet [kills,jan]
   	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
   	- Sind nun abhängig von einzelnen Templates
@@ -120,6 +125,7 @@ Changes:
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
     - ART_META_PARAMS [kills]
+    - PAGE_HEADER [kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
     - neue rexVars:
        + REX_MODULE_ID [jan,kills]
@@ -163,27 +169,24 @@ Changes:
     - Default Systemvariablen werden alle in der master.inc.php gesetzt [kills]
     - Addon werden erst nach setzen aller Default-Werte eingebunden [kills]
     - generateTemplate() implementiert [kills]
-    - ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
     - Die Startpage ist jetzt via $REX['START_PAGE'] einstellbar [kills]
   * Neue Klassen:
     - rex_template [kills]
     
   * BUGFIXES:
+    - ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
     - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
     - Startartikel wurden immer online angezeigt [kills]
     - Slices verschieben - http://forum.redaxo.de/ftopic4560.html [jan]
     
     
-  * Addons:
+  * Addons: [kills]
     - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert
     - De-Installation: wenn eine uninstall.sql im Addon verzeichnis liegt, wird diese beim Addon de-installieren importiert
     
   * Image-Resize-Addon:
     - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
-  * TinyMCE entfernt und als Addon wieder eingebaut [kills]
-  * PHPMailer entfernt und als Addon wieder eingebaut [kills]
-  * Metafelder entfernt und als Addon wieder eingebaut [kills]
   * Import-Export-Addon:
     - rexExtensionPoint erstellt: [kills]
         A1_BEFORE_DB_IMPORT, A1_AFTER_DB_IMPORT
