@@ -106,6 +106,7 @@ function selectMedialist(filename)
 
             option = opener.document.createElement("OPTION");
             option.text = filename;
+            option.value = filename;
 
 						source.options.add(option, sourcelength);
 						opener.writeREXMedialist('. $id .');';
