@@ -77,7 +77,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   {
     foreach ($params as $key => $value)
     {
-      $param_string .= '&'.$key.'='.$value;
+      $param_string .= '&'.urlencode($key).'='.urlencode($value);
     }
   }
   elseif ($params != '')
@@ -137,7 +137,7 @@ function rex_no_rewrite($id, $name, $clang, $param_string)
     $url .= '&clang='.$clang;
   }
 
-  return 'index.php?article_id='.$id .urlencode($url.$param_string);
+  return 'index.php?article_id='.$id .$url.$param_string;
 }
 
 // Rewrite für mod_rewrite
@@ -145,8 +145,8 @@ function rex_apache_rewrite($id, $name, $clang, $params)
 {
   if ($params != '')
   {
-    // strip first "&amp;"
-    $params = '?'.urlencode(substr($params, strpos($params, '&') + 1));
+    // strip first "&"
+    $params = '?'.substr($params, strpos($params, '&') + 1);
   }
 
   return $id.'-'.$clang.'-'.$name.'.htm'.$params;
