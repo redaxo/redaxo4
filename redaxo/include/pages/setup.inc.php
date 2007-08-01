@@ -88,9 +88,9 @@ function rex_setup_is_writable($items)
 function rex_setup_addons($uninstallBefore = false)
 {
   global $REX, $I18N;
-  
+
   require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
-  
+
   $state = true;
   $addonErr = '';
   $ADDONS = rex_read_addons_folder();
@@ -98,17 +98,17 @@ function rex_setup_addons($uninstallBefore = false)
   {
     if($state === true && $uninstallBefore)
       $state = rex_uninstall_addon($ADDONS, $systemAddon);
-    
+
     if($state === true && !OOAddon::isInstalled($systemAddon))
       $state = rex_install_addon($ADDONS, $systemAddon);
-      
+
     if($state === true && !OOAddon::isActivated($systemAddon))
         $state = rex_activate_addon($ADDONS, $systemAddon);
-        
+
     if($state !== true)
       $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
   }
-  
+
   if($addonErr != '')
   {
     $addonErr = '<ul>
@@ -118,7 +118,7 @@ function rex_setup_addons($uninstallBefore = false)
                    </li>
                  </ul>';
   }
-  
+
   return $addonErr;
 }
 
@@ -205,6 +205,9 @@ if ($checkmodus == 1)
     $REX['INCLUDE_PATH'].'/addons/import_export/files'
   );
 
+  foreach($REX['SYSTEM_ADDONS'] as $system_addon)
+    $WRITEABLE[] = $REX['INCLUDE_PATH'].'/addons/'. $system_addon;
+
   $res = rex_setup_is_writable($WRITEABLE);
   if(count($res) > 0)
   {
@@ -253,7 +256,7 @@ if ($checkmodus == 2 && $send == 1)
   $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
   $cont = fread($h, filesize('include/master.inc.php'));
   fclose($h);
-  
+
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*", "\\1".$serveraddress, $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*", "\\1".$serverbezeichnung, $cont);
   $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
@@ -399,7 +402,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- vorhandenen seite updaten
     $err_msg .= rex_setup_addons();
-    
+
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_to_3_3.sql';
@@ -425,7 +428,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
     $err_msg .= rex_setup_addons(true);
-    
+
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_with_drop.sql';
@@ -435,7 +438,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- leere Datenbank neu einrichten
     $err_msg .= rex_setup_addons();
-    
+
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_without_drop.sql';
@@ -608,7 +611,7 @@ if ($checkmodus == 3)
       </p>
       <p>'.$sel_export->get().'</p>';
   }
-  
+
   echo '
       <p>
         <input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_039').'" />
@@ -634,7 +637,7 @@ if ($checkmodus == 4 && $send == 1)
     {
       // Falls auch kein Login eingegeben wurde, die Fehlermeldungen mit " " trennen
       if($err_msg != '') $err_msg .= ' ';
-      
+
       $err_msg .= $I18N->msg('setup_041');
     }
 
