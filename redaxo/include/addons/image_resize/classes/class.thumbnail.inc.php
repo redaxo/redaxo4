@@ -3,13 +3,13 @@
 
 /**
  * Image-Resize Addon
- * 
+ *
  * @author office[at]vscope[dot]at Wolfgang Hutteger
  * @author <a href="http://www.vscope.at">www.vscope.at</a>
- * 
+ *
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -143,7 +143,7 @@ class thumbnail
     }
 
   }
-  
+
   function jpeg_quality($quality = 85)
   {
     // --- jpeg quality
@@ -179,7 +179,7 @@ class thumbnail
 
     $this->resampleImage();
     $this->applyFilters();
- 
+
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
       imageJPEG($this->img['des'], $save, $this->img['quality']);
@@ -210,17 +210,22 @@ class thumbnail
     if (!$lastModified)
       $lastModified = time();
 
+    if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
+    {
+      header('HTTP/1.1 304 Not Modified');
+      exit();
+    }
+
     header('Content-Type: image/' . $this->img['format']);
-    // header('HTTP/1.1 304 Not Modified');
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastModified));
+    header('Last-Modified: ' . gmdate('r', $lastModified));
     readfile($file);
   }
-  
+
   function addFilter($filter)
   {
     $this->filters[] = $filter;
   }
-  
+
   function applyFilters()
   {
     if(in_array('blur', $this->filters))
@@ -258,9 +263,9 @@ class thumbnail
     $imgBlur = imagecreatetruecolor($w, $h);
 
     // Gaussian blur matrix:
-    //  1 2 1   
-    //  2 4 2   
-    //  1 2 1   
+    //  1 2 1
+    //  2 4 2
+    //  1 2 1
 
     // Move copies of the image around one pixel at the time and merge them with weight
     // according to the matrix. The same matrix is simply repeated for higher radii.
