@@ -1,5 +1,10 @@
 <?php
 
+// TODO
+// - files Ordner nicht kopieren
+// - js Ordner nicht kopieren?
+// - pics Ordner nicht kopieren?
+
 $name = null;
 $version = null;
 if(isset($argv) && count($argv) > 1)
