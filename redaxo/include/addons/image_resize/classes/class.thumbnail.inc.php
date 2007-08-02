@@ -218,6 +218,8 @@ class thumbnail
 
     header('Content-Type: image/' . $this->img['format']);
     header('Last-Modified: ' . gmdate('r', $lastModified));
+    // caching clientseitig/proxieseitig erlauben
+    header('Cache-Control: public');
     readfile($file);
   }
 
