@@ -29,7 +29,7 @@ echo '
     <input type="hidden" name="page" value="structure" />
     <p>
       <label for="REX_ULOGIN">'.$I18N->msg('login_name').':</label>
-      <input type="text" value="'.$REX_ULOGIN.'" id="REX_ULOGIN" name="REX_ULOGIN" />
+      <input type="text" value="'.stripslashes(htmlspecialchars($REX_ULOGIN)).'" id="REX_ULOGIN" name="REX_ULOGIN" />
     </p>
     <p>
       <label for="REX_UPSW">'.$I18N->msg('password').':</label>
