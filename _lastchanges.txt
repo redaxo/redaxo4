@@ -63,6 +63,8 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 3.3 (2007-XX-XX)
+
   * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
     - Addon trägt den Namen der Page + install/aktiviert
       + Beispiel: include/addons/content/*
