@@ -146,11 +146,11 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   rex_setuptitle('SETUP: SELECT LANGUAGE');
 
   echo '<ul class="rex-stp-language">
-          <li><a href="index.php?checkmodus=0.5&amp;lang=de_de">DEUTSCH</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=en_gb">ENGLISH</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=es_es">ESPA&Ntilde;OL</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=pl_pl">POLSKI</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=tr_tr">TURKYE</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=de_de"'. rex_tabindex() .'>DEUTSCH</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=en_gb"'. rex_tabindex() .'>ENGLISH</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=es_es"'. rex_tabindex() .'>ESPA&Ntilde;OL</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=pl_pl"'. rex_tabindex() .'>POLSKI</a></li>
+          <li><a href="index.php?checkmodus=0.5&amp;lang=tr_tr"'. rex_tabindex() .'>TURKYE</a></li>
         </ul>';
 }
 
@@ -173,7 +173,7 @@ if ($checkmodus == '0.5')
 
   echo '</div>';
 
-  echo '<p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.$I18N->msg("setup_006").'</a></p>';
+  echo '<p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg("setup_006").'</a></p>';
 
   $checkmodus = 0;
 }
@@ -234,7 +234,7 @@ if ($MSG['err'] == '' && $checkmodus == 1)
   rex_setuptitle($I18N->msg('setup_step1'));
 
   echo $I18N->msg('setup_016', '<h2>', '</h2>', '<span class="rex-ok">', '</span>').'
-        <p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'">&raquo; '.$I18N->msg('setup_017').'</a></p>';
+        <p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a></p>';
 
 }
 elseif ($MSG['err'] != "")
@@ -246,7 +246,7 @@ elseif ($MSG['err'] != "")
         <ul>'.$MSG['err'].'</ul>
 
         <p>'.$I18N->msg('setup_018').'</p>
-        <p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.$I18N->msg('setup_017').'</a></p>';
+        <p><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a></p>';
 }
 
 // ---------------------------------- MODUS 2 | master.inc.php - Datenbankcheck
@@ -334,17 +334,17 @@ if ($checkmodus == 2)
             <legend>'.$I18N->msg("setup_0201").'</legend>
             <p>
               <label for="serveraddress">'.$I18N->msg("setup_024").'</label>
-              <input type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'" />
+              <input type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'"'. rex_tabindex() .' />
             </p>
 
             <p>
               <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
-              <input type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'" />
+              <input type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'"'. rex_tabindex() .' />
             </p>
 
             <p>
               <label for="error_email">'.$I18N->msg("setup_026").'</label>
-              <input type="text" id="error_email" name="error_email" value="'.$error_email.'" />
+              <input type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
             </p>
           </fieldset>
 
@@ -353,26 +353,26 @@ if ($checkmodus == 2)
 
             <p>
               <label for="dbname">'.$I18N->msg("setup_027").'</label>
-              <input type="text" value="'.$dbname.'" id="dbname" name="dbname" />
+              <input type="text" value="'.$dbname.'" id="dbname" name="dbname"'. rex_tabindex() .' />
             </p>
 
             <p>
               <label for="mysql_host">MySQL Host</label>
-              <input type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'" />
+              <input type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'"'. rex_tabindex() .' />
             </p>
 
             <p>
               <label for="redaxo_db_user_login">Login</label>
-              <input type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'" />
+              <input type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'"'. rex_tabindex() .' />
             </p>
 
             <p>
               <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
-              <input type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'" />
+              <input type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
             </p>
 
             <p>
-              <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_029").'" />
+              <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_029").'"'. rex_tabindex() .' />
             </p>
             </fieldset>
             </form>';
@@ -583,22 +583,22 @@ if ($checkmodus == 3)
 
   echo '
       <p>
-        <input class="rex-chckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0.' />
+        <input class="rex-chckbx" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked0. rex_tabindex() .' />
         <label class="rex-lbl-right" for="dbanlegen_0">'.$I18N->msg('setup_034').'</label>
       </p>
 
       <p>
-        <input class="rex-chckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1.' />
+        <input class="rex-chckbx" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked1 .' />
         <label class="rex-lbl-right" for="dbanlegen_1">'.$I18N->msg('setup_035', '<b>', '</b>').'</label>
       </p>
 
       <p>
-        <input class="rex-chckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2.' />
+        <input class="rex-chckbx" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked2 .' />
         <label class="rex-lbl-right" for="dbanlegen_2">'.$I18N->msg('setup_036').'</label>
       </p>
 
       <p>
-        <input class="rex-chckbx" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked3.' />
+        <input class="rex-chckbx" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked3 .' />
         <label class="rex-lbl-right" for="dbanlegen_4">'.$I18N->msg('setup_038').'</label>
       </p>';
 
@@ -606,15 +606,15 @@ if ($checkmodus == 3)
   {
   echo '
       <p>
-        <input class="rex-chckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3.' />
+        <input class="rex-chckbx" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked3 .' />
         <label class="rex-lbl-right" for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
       </p>
-      <p>'.$sel_export->get().'</p>';
+      <p>'. $sel_export->get() .'</p>';
   }
 
   echo '
       <p>
-        <input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_039').'" />
+        <input class="rex-sbmt" type="submit" value="'.$I18N->msg('setup_039').'"'. rex_tabindex() .' />
       </p>
     </fieldset>
   </form>
