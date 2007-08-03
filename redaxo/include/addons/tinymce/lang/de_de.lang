@@ -4,6 +4,8 @@ documentation = Dokumentation
 list_of_plugins = Pluginliste
 
 install_extensions = Erweiterungen installieren
+install_core = Installiere TinyMCE Core...
+install_lang_pakage = Installiere deutsches Sprachpaket...
 
 moduleinput_simple = Moduleingabe Einfach
 moduleinput_extends = Moduleingabe Erweitert (mehrere Editoren in einem Modul)
