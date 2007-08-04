@@ -20,6 +20,8 @@ $KAT->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id=$category
 if ($KAT->getRows()!=1)
 {
 	// kategorie existiert nicht
+	$category_id = 0;
+	$article_id = 0;
 }
 else
 {
