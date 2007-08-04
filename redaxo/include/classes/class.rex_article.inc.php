@@ -527,7 +527,8 @@ class rex_article
     ob_start();
     if ($this->getTemplateId() == 0 and $this->article_id != 0)
     {
-      echo $this->getArticle();
+      // echo $this->getArticle();
+      echo "no template";
     }
     elseif ($this->getTemplateId() != 0 and $this->article_id != 0)
     {

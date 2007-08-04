@@ -64,7 +64,7 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
-
+  * Artikel muss nun ein Template haben um ausgegeben zu werden.
   * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
     - Addon trägt den Namen der Page + install/aktiviert
       + Beispiel: include/addons/content/*
