@@ -64,7 +64,7 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
-  * Artikel muss nun ein Template haben um ausgegeben zu werden.
+  * Artikel muss nun ein Template haben um ausgegeben zu werden. [jan]
   * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
     - Addon trägt den Namen der Page + install/aktiviert
       + Beispiel: include/addons/content/*
@@ -123,6 +123,7 @@ Version 3.3 (2007-XX-XX)
     - rex_call_func mit allgemeineren Fehlermeldungen [kills]
     - in rex_register_extension können jetzt auch optional Parameter übergeben werden [kills]
   * rexExtensionPoint erstellt:
+    - TITLE_SHOWED [jan]
     - ARTICLE_GENERATED, CLANG_ARTICLE_GENERATED [jan]
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
@@ -138,12 +139,12 @@ Version 3.3 (2007-XX-XX)
        + REX_TEMPLATE[x] [kills]
        + REX_ARTICLE[x] [kills]
        + REX_ARTICLE_VAR[x] [kills]
-    - REX_PHP jetzt mit Sytax-Highlighting im Backend mit PHP >= 4.2.0 [kills]
-    - Neue Variablen Sytax jetzt möglich (alte funktioniert weiter), z.b: [kills]
+    - REX_PHP jetzt mit Syntax-Highlighting im Backend mit PHP >= 4.2.0 [kills]
+    - Neue Variablen Syntax jetzt möglich (alte funktioniert weiter), z.b: [kills]
       + REX_VALUE[id=3]
        + REX_MEDIA_BUTTON[id=4 category=3]
   * Sql-Klasse:
-	- fallback auf mysq_connect, falls mysql_pconnect nicht verüfgbar ist [kills]
+	- fallback auf mysql_connect, falls mysql_pconnect nicht verüfgbar ist [kills]
     - add_sql_options implementiert [kills]
     - link identifier eingebaut um auch mehrere DB-Verbindungen handeln zu können [kills]
     - sql::replace() implementiert für REPLACE INTO SQLs [kills]
