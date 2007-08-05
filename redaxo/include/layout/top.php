@@ -19,8 +19,8 @@ if ($page_name != '')
 <head>
   <title><?php echo $page_title ?></title>
 <?php
-// ----- EXTENSION POINT
-echo rex_register_extension_point( 'PAGE_HEADER', '');
+  // ----- EXTENSION POINT
+  echo rex_register_extension_point('PAGE_HEADER', '');
 ?>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg("htmlcharset"); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
@@ -36,10 +36,6 @@ echo rex_register_extension_point( 'PAGE_HEADER', '');
   </script>
 </head>
 <?php
-/*
-if (isset ($open_header_only) && $open_header_only == true)
-  return;
-*/
 
 $body_id = str_replace('_', '-', $page);
 ?>
