@@ -3,58 +3,58 @@
  * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
  * @package redaxo3
  * @version $Id$
- */ 
- 
+ */
+
 /**
  * Ausgabe des Seitentitels
- * 
+ *
  * Beispiel für einen Seitentitel
  *
- * <code>  
+ * <code>
  * $subpages = array(
  *  array( '', 'Index'),
  *  array( 'lang', 'Sprachen'),
  *  array( 'groups', 'Gruppen')
  * );
- * 
+ *
  * rex_title( 'Headline', $subpages)
  * </code>
- * 
+ *
  * Beispiel für einen Seitentitel mit Rechteprüfung
  *
- * <code>  
+ * <code>
  * $subpages = array(
  *  array( '', 'Index', 'index_perm'),
  *  array( 'lang', 'Sprachen', 'lang_perm'),
  *  array( 'groups', 'Gruppen', 'group_perm')
  * );
- * 
+ *
  * rex_title( 'Headline', $subpages)
  * </code>
  */
 function rex_title($head, $subtitle = '')
 {
 	global $article_id, $category_id, $page;
-	
+
   if($subtitle == '')
   {
     $subtitle = '<p>&nbsp;</p>';
   }
   else
   {
-	  $subtitle = '<div class="rex-title-row">'.rex_get_subtitle( $subtitle).'</div>';
+	  $subtitle = '<div class="rex-title-row">'.rex_get_subtitle($subtitle).'</div>';
   }
-  
-  print '  
+
+  // ----- EXTENSION POINT
+  $head = rex_register_extension_point('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
+  $subtitle = rex_register_extension_point('PAGE_SUBTITLE', $subtitle, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
+
+  print '
 	<div id="rex-title">
   		<div class="rex-title-row"><h1>'.$head.'</h1></div>
   		'.$subtitle.'
-	</div>';
+	</div>
 
-// ----- EXTENSION POINT
-rex_register_extension_point('TITLE_SHOWED','',array ('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page, ));
-
-  print '	
 <!-- *** OUTPUT OF CONTENT - START *** -->
 	<div id="rex-output">
 	';
@@ -66,17 +66,17 @@ rex_register_extension_point('TITLE_SHOWED','',array ('category_id' => $category
 function rex_get_subtitle($subline, $attr = '')
 {
   global $REX_USER;
-  
+
   if (empty($subline))
   {
     return  '';
   }
-  
+
   $subtitle_str = $subline;
   $subtitle = $subline;
   $cur_subpage = empty($_REQUEST['subpage']) ? '' : $_REQUEST['subpage'];
   $cur_page    = empty($_REQUEST['page']) ? '' : $_REQUEST['page'];
-  
+
   if (is_array($subline) && count( $subline) > 0)
   {
     $subtitle = array();
@@ -118,7 +118,7 @@ function rex_get_subtitle($subline, $attr = '')
 
       $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
 
-      // Auf der aktiven Seite den Link nicht anzeigen            
+      // Auf der aktiven Seite den Link nicht anzeigen
       if ($active)
       {
         // $format = '%s';
@@ -137,8 +137,8 @@ function rex_get_subtitle($subline, $attr = '')
         $subtitle[] = sprintf($format, $link, $attr, $label);
       }
     }
-    
-    
+
+
     if(!empty($subtitle))
     {
       $items = '';
@@ -156,7 +156,7 @@ function rex_get_subtitle($subline, $attr = '')
       }
       $subtitle_str = '
       <ul>
-        '. $items .'        
+        '. $items .'
       </ul>
       ';
     }
