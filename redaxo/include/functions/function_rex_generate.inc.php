@@ -152,7 +152,7 @@ function rex_generateArticle($id, $refreshall = true)
     $content = '<?php'."\n";
     foreach($params as $name => $value)
     {
-      $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value) .'\';'."\n";
+      $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value,'\\\'') .'\';'."\n";
     }
     $content .= '?>';
                 
@@ -1261,14 +1261,19 @@ function rex_generateTemplate($template_id)
  * 
  * @param $string Zu escapender String 
  */
-function rex_addslashes($string)
+function rex_addslashes($string, $flag = '\\\'\"')
 {
-  $string = str_replace('\'', '\\\'', $string);
-//  $string = str_replace('\'', '\\\\', $string);
-//  $string = str_replace("\\", "\\\\", $string);
-//  $string = str_replace("\"", "\\\"", $string);
-
+  if ($flag == '\\\'\"')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+    $string = str_replace('"', '\"', $string);
+  }elseif ($flag == '\\\'')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+  }
   return $string;
-
 }
+
 ?>
