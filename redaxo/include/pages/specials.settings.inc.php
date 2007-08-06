@@ -219,7 +219,12 @@ echo '
           <legend class="rex-lgnd">'.$I18N->msg("specials_others").'</legend>
           <p>
             <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
-            <span id="rex_include_path">&quot;'.$REX['INCLUDE_PATH'].'&quot;</span>
+            <span id="rex_include_path">&quot;';
+   
+   $tmp = $REX['INCLUDE_PATH'];
+   if (strlen($REX['INCLUDE_PATH'])>24) $tmp = substr($tmp,0,12)." ... ".substr($tmp,strlen($tmp)-12,12);
+   echo $tmp;
+   echo '&quot;</span>
           </p>
           <p>
             <label for="rex_error_email">$REX[\'ERROR_EMAIL\']</label>
