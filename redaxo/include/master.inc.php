@@ -12,7 +12,7 @@ if (!$REX['GG']) $REX['GG'] = false;
 
 // ----------------- SERVER VARS
 
-$REX['SETUP'] = true; 			// Setupservicestatus - if everything ok -> false; if problem set to true;
+$REX['SETUP'] = false; // Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
@@ -23,12 +23,12 @@ $REX['START_ARTICLE_ID'] = 1; // FIRST ARTICLE
 $REX['NOTFOUND_ARTICLE_ID'] = 1; // if there is no article -> change to this article
 $REX['LANG'] = "de_de"; // select default language
 $REX['MOD_REWRITE'] = false; // activate mod_rewrite support
-$REX['INCLUDE_PATH'] = $REX['HTDOCS_PATH']."redaxo/include"; // 
+$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include");
 $REX['MEDIAFOLDER'] = $REX['HTDOCS_PATH']."files"; //
 $REX['TABLE_PREFIX'] = "rex_";
 $REX['TEMP_PREFIX'] = "tmp_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20070606111111";
+$REX['INSTNAME'] = "rex20070808111111";
 $REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
 $REX['RELOGINDELAY'] = 5; // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['MAXLOGINS'] = 50; // maximal erlaubte versuche
@@ -41,7 +41,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
-$REX['DB']['1']['PSW'] = "root";
+$REX['DB']['1']['PSW'] = "";
 $REX['DB']['1']['NAME'] = "redaxo3_3";
 
 // ----------------- DB2 - if necessary
