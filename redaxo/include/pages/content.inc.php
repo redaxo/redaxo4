@@ -571,19 +571,22 @@ if ($article->getRows() == 1)
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
     $num_ctypes = count($REX['CTYPE']);
+
     $tadd = '';
-    if ($num_ctypes > 1)
+    if ($num_ctypes > 0)
     {
       $tadd = '
-                  <ul>
-                    <li>'.$I18N->msg('content_types').': </li>';
+                  <ul>';
+			if ($num_ctypes > 1) $tadd .= '<li>'.$I18N->msg('content_types').': </li>';
+			else $tadd .= '<li>'.$I18N->msg('content_type').': </li>';
+
       $i = 1;
       foreach ($REX['CTYPE'] as $key => $val)
       {
         $tadd .= '
                         <li>';
-        $class = '';
-        if ($key == $ctype)
+        $class = ''; 
+        if ($key == $ctype && $mode == 'edit')
         {
         	$class = ' class="rex-active"';
         }
