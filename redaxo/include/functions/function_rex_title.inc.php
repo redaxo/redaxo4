@@ -47,14 +47,16 @@ function rex_title($head, $subtitle = '')
 
   // ----- EXTENSION POINT
   $head = rex_register_extension_point('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
-  $subtitle = rex_register_extension_point('PAGE_SUBTITLE', $subtitle, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
 
   print '
 	<div id="rex-title">
   		<div class="rex-title-row"><h1>'.$head.'</h1></div>
   		'.$subtitle.'
-	</div>
+	</div>';
 
+  rex_register_extension_point('PAGE_TITLE_SHOWED', $subtitle, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
+
+  print '
 <!-- *** OUTPUT OF CONTENT - START *** -->
 	<div id="rex-output">
 	';

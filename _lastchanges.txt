@@ -64,6 +64,8 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
+  * MINI API
+    - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen
   * Artikel muss nun ein Template haben um ausgegeben zu werden. [jan]
   * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
     - Addon trägt den Namen der Page + install/aktiviert
@@ -123,7 +125,7 @@ Version 3.3 (2007-XX-XX)
     - rex_call_func mit allgemeineren Fehlermeldungen [kills]
     - in rex_register_extension können jetzt auch optional Parameter übergeben werden [kills]
   * rexExtensionPoint erstellt:
-    - PAGE_TITLE, PAGE_SUBTITLE [jan,kills]
+    - PAGE_TITLE_SHOWED [jan]
     - ARTICLE_GENERATED, CLANG_ARTICLE_GENERATED [jan]
     - ART_META_UPDATED,ART_META_FORM [kills]
     - ART_META_FORM_SECTION [kills]
