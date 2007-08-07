@@ -1254,6 +1254,125 @@ function rex_generateTemplate($template_id)
   return false;
 }
 
+
+/**
+ * Holt ein upgeloadetes File und legt es in den Medienpool
+ * Dabei wird kontrolliert ob das File schon vorhanden ist und es 
+ * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
+ * 
+ * @param $FILE
+ * @param $rex_file_category 
+ * @param $FILEINFOS
+ * @param $userlogin
+*/
+function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = "system"){
+
+  global $REX,$REX_USER;
+
+  $rex_file_category = (int) $rex_file_category;
+
+  $gc = new rex_sql();
+  $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
+	if ($gc->getRows() != 1)
+	{
+  	$rex_file_category = 0;
+	}
+
+  $FILENAME = $FILE['name'];
+  $FILESIZE = $FILE['size'];
+  $FILETYPE = $FILE['type'];
+  $NFILENAME = "";
+  $message = '';
+
+  // ----- neuer filename und extension holen
+  $NFILENAME = strtolower($FILENAME);
+  $NFILENAME = str_replace(array('ä','ö', 'ü', 'ß'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
+  $NFILENAME = preg_replace("/[^a-zA-Z0-9.\-\$\+]/","_",$NFILENAME);
+  if (strrpos($NFILENAME,".") != "")
+  {
+    $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
+    $NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
+  }else
+  {
+    $NFILE_NAME = $NFILENAME;
+    $NFILE_EXT  = "";
+  }
+
+  // ---- ext checken - alle scriptendungen rausfiltern
+  if (in_array($NFILE_EXT,$REX["MEDIAPOOL"]["BLOCKED_EXTENSIONS"]))
+  {
+    $NFILE_NAME .= $NFILE_EXT;
+    $NFILE_EXT = ".txt";
+  }
+
+  $NFILENAME = $NFILE_NAME.$NFILE_EXT;
+
+  // ----- datei schon vorhanden -> namen aendern -> _1 ..
+  if (file_exists($REX['MEDIAFOLDER']."/$NFILENAME"))
+  {
+    for ($cf=1;$cf<1000;$cf++)
+    {
+      $NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
+      if (!file_exists($REX['MEDIAFOLDER']."/$NFILENAME")) break;
+    }
+  }
+
+  // ----- dateiupload
+  $upload = true;
+  if(!@move_uploaded_file($FILE['tmp_name'],$REX['MEDIAFOLDER']."/$NFILENAME") )
+  {
+    if (!@copy($FILE['tmp_name'],$REX['MEDIAFOLDER']."/$NFILENAME"))
+    {
+      $message .= "move file $FILENAME failed | ";
+      $ok = 0;
+      $upload = false;
+    }
+  }
+
+  if($upload)
+  {
+
+    chmod($REX['MEDIAFOLDER']."/$NFILENAME", $REX['FILEPERM']);
+
+    // get widht height
+    $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");
+
+    $FILESQL = new rex_sql;
+    // $FILESQL->debugsql=1;
+    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
+    $FILESQL->setValue("filetype",$FILETYPE);
+    $FILESQL->setValue("title",$FILEINFOS['title']);
+    $FILESQL->setValue("description",$FILEINFOS['description']);
+    $FILESQL->setValue("copyright",$FILEINFOS['copyright']);
+    $FILESQL->setValue("filename",$NFILENAME);
+    $FILESQL->setValue("originalname",$FILENAME);
+    $FILESQL->setValue("filesize",$FILESIZE);
+    $FILESQL->setValue("width",$size[0]);
+    $FILESQL->setValue("height",$size[1]);
+    $FILESQL->setValue("category_id",$rex_file_category);
+    $FILESQL->setValue("createdate",time());
+    $FILESQL->setValue("createuser",$userlogin);
+    $FILESQL->setValue("updatedate",time());
+    $FILESQL->setValue("updateuser",$userlogin);
+    $FILESQL->insert();
+    $ok = 1;
+  }
+
+  $RETURN['title'] = $FILEINFOS['title'];
+  $RETURN['width'] = $size[0];
+  $RETURN['height'] = $size[1];
+  $RETURN['type'] = $FILETYPE;
+  $RETURN['msg'] = $message;
+  $RETURN['ok'] = $ok;
+  $RETURN['filename'] = $NFILENAME;
+  $RETURN['old_filename'] = $FILENAME;
+
+  return $RETURN;
+}
+
+
+
+
 // ----------------------------------------- generate helpers
 
 /**
@@ -1275,5 +1394,7 @@ function rex_addslashes($string, $flag = '\\\'\"')
   }
   return $string;
 }
+
+
 
 ?>

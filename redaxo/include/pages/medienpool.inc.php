@@ -219,7 +219,7 @@ $mediacat_ids = array();
 if ($rootCats = OOMediaCategory::getRootCategories())
 {
     foreach( $rootCats as $rootCat) {
-        rex_mpool_add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
+        rex_medienpool_addMediacatOptions( $sel_media, $rootCat, $mediacat_ids);
     }
 }
 
@@ -248,102 +248,8 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
 
 // *************************************** FUNCTIONS
 
-function rex_mpool_save_media($FILE,$rex_file_category,$FILEINFOS){
 
-  global $REX,$REX_USER;
-
-  $FILENAME = $FILE['name'];
-  $FILESIZE = $FILE['size'];
-  $FILETYPE = $FILE['type'];
-  $NFILENAME = "";
-  $message = '';
-
-  // ----- neuer filename und extension holen
-  $NFILENAME = strtolower($FILENAME);
-  $NFILENAME = str_replace(array('ä','ö', 'ü', 'ß'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
-  $NFILENAME = preg_replace("/[^a-zA-Z0-9.\-\$\+]/","_",$NFILENAME);
-  if (strrpos($NFILENAME,".") != "")
-  {
-    $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
-    $NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
-  }else
-  {
-    $NFILE_NAME = $NFILENAME;
-    $NFILE_EXT  = "";
-  }
-
-  // ---- ext checken - alle scriptendungen rausfiltern
-  if (in_array($NFILE_EXT,$REX["MEDIAPOOL"]["BLOCKED_EXTENSIONS"]))
-  {
-    $NFILE_NAME .= $NFILE_EXT;
-    $NFILE_EXT = ".txt";
-  }
-
-  $NFILENAME = $NFILE_NAME.$NFILE_EXT;
-
-  // ----- datei schon vorhanden -> namen aendern -> _1 ..
-  if (file_exists($REX['MEDIAFOLDER']."/$NFILENAME"))
-  {
-    for ($cf=1;$cf<1000;$cf++)
-    {
-      $NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
-      if (!file_exists($REX['MEDIAFOLDER']."/$NFILENAME")) break;
-    }
-  }
-
-  // ----- dateiupload
-  $upload = true;
-  if(!@move_uploaded_file($FILE['tmp_name'],$REX['MEDIAFOLDER']."/$NFILENAME") )
-  {
-    if (!@copy($FILE['tmp_name'],$REX['MEDIAFOLDER']."/$NFILENAME"))
-    {
-      $message .= "move file $FILENAME failed | ";
-      $ok = 0;
-      $upload = false;
-    }
-  }
-
-  if($upload)
-  {
-
-    chmod($REX['MEDIAFOLDER']."/$NFILENAME", $REX['FILEPERM']);
-
-    // get widht height
-    $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");
-
-    $FILESQL = new rex_sql;
-    // $FILESQL->debugsql=1;
-    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
-    $FILESQL->setValue("filetype",$FILETYPE);
-    $FILESQL->setValue("title",$FILEINFOS['title']);
-    $FILESQL->setValue("description",$FILEINFOS['description']);
-    $FILESQL->setValue("copyright",$FILEINFOS['copyright']);
-    $FILESQL->setValue("filename",$NFILENAME);
-    $FILESQL->setValue("originalname",$FILENAME);
-    $FILESQL->setValue("filesize",$FILESIZE);
-    $FILESQL->setValue("width",$size[0]);
-    $FILESQL->setValue("height",$size[1]);
-    $FILESQL->setValue("category_id",$rex_file_category);
-    $FILESQL->setValue("createdate",time());
-    $FILESQL->setValue("createuser",$REX_USER->getValue("login"));
-    $FILESQL->setValue("updatedate",time());
-    $FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
-    $FILESQL->insert();
-    $ok = 1;
-  }
-
-  $RETURN['title'] = $FILEINFOS['title'];
-  $RETURN['width'] = $size[0];
-  $RETURN['height'] = $size[1];
-  $RETURN['type'] = $FILETYPE;
-  $RETURN['msg'] = $message;
-  $RETURN['ok'] = $ok;
-  $RETURN['filename'] = $NFILENAME;
-
-  return $RETURN;
-}
-
-function rex_mpool_register_file($physical_filename,$org_filename,$filename,$category_id,$title,$description,$copyright,$filesize,$filetype)
+function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,$category_id,$title,$description,$copyright,$filesize,$filetype)
 {
   global $REX, $REX_USER;
 
@@ -393,7 +299,7 @@ function rex_mpool_register_file($physical_filename,$org_filename,$filename,$cat
   return $FILESQL->getError() == '';
 }
 
-function rex_mpool_add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
+function rex_medienpool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
   if(empty($mediacat)) return;
   $mname = $mediacat->getName();
@@ -403,12 +309,12 @@ function rex_mpool_add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $
   if (is_array($childs))
   {
     foreach ( $childs as $child) {
-      rex_mpool_add_mediacat_options( $select, $child, $mediacat_ids, $mname);
+      rex_medienpool_addMediacatOptions( $select, $child, $mediacat_ids, $mname);
     }
   }
 }
 
-function rex_mpool_add_mediacat_options_wperm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
+function rex_medienpool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
   global $PERMALL, $REX_USER;
 
@@ -423,12 +329,12 @@ function rex_mpool_add_mediacat_options_wperm( &$select, &$mediacat, &$mediacat_
   if (is_array($childs))
   {
     foreach ( $childs as $child) {
-      rex_mpool_add_mediacat_options_wperm( $select, $child, $mediacat_ids, $mname);
+      rex_medienpool_addMediacatOptionsWPerm( $select, $child, $mediacat_ids, $mname);
     }
   }
 }
 
-function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
+function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
   global $I18N, $subpage, $ftitle, $fdescription, $fcopyright;
 
@@ -446,7 +352,7 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
   if ($rootCats = OOMediaCategory::getRootCategories())
   {
     foreach( $rootCats as $rootCat) {
-      rex_mpool_add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
+      rex_medienpool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
     }
   }
   $cats_sel->setSelected($rex_file_category);
@@ -516,18 +422,18 @@ function rex_mpool_media_form($form_title, $button_title, $rex_file_category, $f
   return $s;
 }
 
-function rex_mpool_upload_form($rex_file_category)
+function rex_medienpool_Uploadform($rex_file_category)
 {
   global $I18N;
 
-  return rex_mpool_media_form($I18N->msg('pool_file_insert'), $I18N->msg('pool_file_upload'), $rex_file_category, true, true);
+  return rex_medienpool_Mediaform($I18N->msg('pool_file_insert'), $I18N->msg('pool_file_upload'), $rex_file_category, true, true);
 }
 
-function rex_mpool_sync_form($rex_file_category)
+function rex_medienpool_Syncform($rex_file_category)
 {
   global $I18N;
 
-  return rex_mpool_media_form($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false, false);
+  return rex_medienpool_Mediaform($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false, false);
 }
 
 
@@ -741,7 +647,7 @@ if ($subpage == 'add_file' && $media_method == 'add_file'){
 
     if (!$PERMALL && !$REX_USER->hasPerm("media[$rex_file_category]")) $rex_file_category = 0;
 
-    $return = rex_mpool_save_media($_FILES['file_new'],$rex_file_category,$FILEINFOS);
+    $return = rex_medienpool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX_USER->getValue("login"));
     $msg = $return['msg'];
     $subpage = "";
 
@@ -795,7 +701,7 @@ if ($subpage == 'add_file' && $media_method == 'add_file'){
 // ----- METHOD ADD FORM
 if ($subpage == "add_file")
 {
-  echo rex_mpool_upload_form($rex_file_category);
+  echo rex_medienpool_Uploadform($rex_file_category);
 }
 
 
@@ -1089,7 +995,7 @@ if ($subpage == "detail")
       if ($rootCats = OOMediaCategory::getRootCategories())
       {
           foreach( $rootCats as $rootCat) {
-              rex_mpool_add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
+              rex_medienpool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
           }
       }
       $cats_sel->setSelected($rex_file_category);
@@ -1272,7 +1178,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
-        if(rex_mpool_register_file($file,$file,$file,$rex_file_category,$ftitle,$fdescription,$fcopyright,'',''))
+        if(rex_medienpool_registerFile($file,$file,$file,$rex_file_category,$ftitle,$fdescription,$fcopyright,'',''))
         {
           unset($diff_files[$key]);
         }
@@ -1282,7 +1188,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     }
   }
 
-  echo rex_mpool_sync_form($rex_file_category);
+  echo rex_medienpool_Syncform($rex_file_category);
 
   $title = $I18N->msg('pool_sync_affected_files');
   if(!empty($diff_count))
@@ -1434,7 +1340,7 @@ if ($subpage == '')
   if ($rootCats = OOMediaCategory::getRootCategories())
   {
       foreach( $rootCats as $rootCat) {
-          rex_mpool_add_mediacat_options_wperm( $cats_sel, $rootCat, $mediacat_ids);
+          rex_medienpool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
       }
   }
   $cats_sel->setSelected($rex_file_category);
