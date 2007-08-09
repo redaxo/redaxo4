@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * Hauptkonfigurationsdatei
  * @package redaxo3
  * @version $Id$
  */
