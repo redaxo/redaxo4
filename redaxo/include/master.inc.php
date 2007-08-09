@@ -1,9 +1,9 @@
 <?php
 
-/** 
- * 
- * @package redaxo3 
- * @version $Id$ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
  */
 
 // -----------------
@@ -12,31 +12,64 @@ if (!$REX['GG']) $REX['GG'] = false;
 
 // ----------------- SERVER VARS
 
-$REX['SETUP'] = false; // Setupservicestatus - if everything ok -> false; if problem set to true;
+// Setupservicestatus - if everything ok -> false; if problem set to true;
+$REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
 $REX['VERSION'] = "3";
 $REX['SUBVERSION'] = "3";
-$REX['MYSQL_VERSION'] = ""; // Is set first time SQL Object ist initialised
-$REX['START_ARTICLE_ID'] = 1; // FIRST ARTICLE
-$REX['NOTFOUND_ARTICLE_ID'] = 1; // if there is no article -> change to this article
-$REX['LANG'] = "de_de"; // select default language
-$REX['MOD_REWRITE'] = false; // activate mod_rewrite support
-$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include");
+
+// Is set first time SQL Object ist initialised
+$REX['MYSQL_VERSION'] = "";
+
+// Homepage ArticleId
+$REX['START_ARTICLE_ID'] = 1;
+
+// if there is no article -> change to this article
+$REX['NOTFOUND_ARTICLE_ID'] = 1;
+
+// default language
+$REX['LANG'] = "de_de";
+
+// activate frontend mod_rewrite support for url-rewriting
+$REX['MOD_REWRITE'] = false;
+
+// activate output gzip support
+// reduces amount of data need to be send to the client, but increases cpu load of the server
+// true/false/fronted/backend
+$REX['USE_GZIP'] = "false";
+
+// activate frontend e-tag support
+// tag content with an md5 sum to improve usage of client cache
+$REX['USE_ETAG'] = false;
+
+// activate frontend last-modified support
+// tag content with a last-modified timestamp to improve usage of client cache
+$REX['USE_LAST_MODIFIED'] = true;
+
+$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include"); //
 $REX['MEDIAFOLDER'] = $REX['HTDOCS_PATH']."files"; //
 $REX['TABLE_PREFIX'] = "rex_";
 $REX['TEMP_PREFIX'] = "tmp_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20070808111111";
-$REX['PSWFUNC'] = ""; // wenn erwünscht: md5 / mcrypt ...
-$REX['RELOGINDELAY'] = 5; // bei fehllogin 5 sekunden kein relogin moeglich
-$REX['MAXLOGINS'] = 50; // maximal erlaubte versuche
-$REX['START_PAGE'] = 'structure'; // Page auf die nach dem Login weitergeleitet wird
+$REX['INSTNAME'] = "rex20070808200632";
+
+// wenn erwünscht: md5 / mcrypt ...
+$REX['PSWFUNC'] = "";
+
+// bei fehllogin 5 sekunden kein relogin moeglich
+$REX['RELOGINDELAY'] = 5;
+
+// maximal erlaubte versuche
+$REX['MAXLOGINS'] = 50;
+
+// Page auf die nach dem Login weitergeleitet wird
+$REX['START_PAGE'] = 'structure';
 
 // ----------------- OTHER VARS
 $REX['SYSTEM_ADDONS'] = array('import_export','metainfo');
-$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.phtml','.pl','.asp','.aspx','.cfm');
+$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";

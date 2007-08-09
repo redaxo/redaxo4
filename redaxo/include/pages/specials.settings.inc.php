@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -91,21 +91,28 @@ elseif ($func == 'updateinfos')
     $cont = ereg_replace("(REX\['DB'\]\['2'\]\['PSW'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_psw)."\"", $cont);
     $cont = ereg_replace("(REX\['DB'\]\['2'\]\['NAME'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_name)."\"", $cont);
   }
-  
+
   // Mod-Rewrite
   $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+  $cont = ereg_replace("(REX\['USE_GZIP'\].?\=.?)[^;]*","\\1\"".strtolower($neu_usegezip)."\"",$cont);
+  $cont = ereg_replace("(REX\['USE_ETAG'\].?\=.?)[^;]*","\\1".strtolower($neu_useetag),$cont);
+  $cont = ereg_replace("(REX\['USE_LAST_MODIFIED'\].?\=.?)[^;]*","\\1".strtolower($neu_uselastmodified),$cont);
 
   fclose($h);
   $h = fopen("include/master.inc.php", "w+");
   fwrite($h, $cont, strlen($cont));
   fclose($h);
 
-
-  if ($neu_modrewrite === 'TRUE')
-    $REX['MOD_REWRITE'] = true;
+  $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
+  $REX['USE_LAST_MODIFIED'] = $neu_uselastmodified === 'TRUE';
+  $REX['USE_ETAG'] = $neu_useetag === 'TRUE';
+  if($neu_usegezip === 'TRUE')
+    $REX['USE_GZIP'] = true;
+  elseif($neu_usegezip === 'FALSE')
+    $REX['USE_GZIP'] = false;
   else
-    $REX['MOD_REWRITE'] = false;
-    
+    $REX['USE_GZIP'] = strtoupper($neu_usegezip);
+
   $REX['START_ARTICLE_ID'] = $neu_startartikel;
   $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
   $REX['EMAIL'] = $neu_error_emailaddress;
@@ -142,17 +149,37 @@ foreach ($REX['LOCALES'] as $l)
 }
 
 $sel_mod_rewrite = new rex_select();
+$sel_mod_rewrite->setSize(1);
 $sel_mod_rewrite->setName('neu_modrewrite');
 $sel_mod_rewrite->setId('rex_mod_rewrite');
-$sel_mod_rewrite->setSize(1);
 $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
+$sel_use_etag =  $sel_mod_rewrite;
+$sel_use_etag->resetSelected();
+$sel_use_etag->setName('neu_useetag');
+$sel_use_etag->setId('rex_use_etag');
+$sel_use_etag->setSelected($REX['USE_ETAG'] === false ? 'FALSE' : 'TRUE');
+
+$sel_use_last_modified =  $sel_mod_rewrite;
+$sel_use_last_modified->resetSelected();
+$sel_use_last_modified->setName('neu_uselastmodified');
+$sel_use_last_modified->setId('rex_use_last_modified');
+$sel_use_last_modified->setSelected($REX['USE_LAST_MODIFIED'] === false ? 'FALSE' : 'TRUE');
+
+$sel_use_gzip =  $sel_mod_rewrite;
+$sel_use_gzip->resetSelected();
+$sel_use_gzip->setName('neu_usegezip');
+$sel_use_gzip->setId('rex_use_gzip');
+$sel_use_gzip->setSelected($REX['USE_GZIP'] === false ? 'FALSE' : $REX['USE_GZIP'] === true ? 'TRUE' : strtoupper($REX['USE_GZIP']));
+$sel_use_gzip->addOption('FRONTEND', 'FRONTEND');
+$sel_use_gzip->addOption('BACKEND', 'BACKEND');
+
 if ($message != "")
   echo '<p class="rex-warning"><span>'.$message.'</span></p>';
-  
+
 echo '
 	<div class="rex-spc-stn">
   <form action="index.php" method="post">
@@ -165,19 +192,19 @@ echo '
       <div class="rex-spc-stn-cnt">
         <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("delete_cache").'</a></p>
         <p>'.$I18N->msg("delete_cache_description").'</p>
-  
+
         <p><a href="index.php?page=specials&amp;func=linkchecker">'.$I18N->msg("link_checker").'</a></p>
         <p>'.$I18N->msg("check_links_text").'</p>
-        
+
         <p><a href="index.php?page=specials&amp;func=setup">'.$I18N->msg("setup").'</a></p>
         <p>'.$I18N->msg("setup_text").'</p>
       </div>
     </div>
-    
+
     <div class="rex-cnt-col2">
       <p class="rex-hdl">'.$I18N->msg("specials_settings").'</p>
       <div class="rex-spc-stn-cnt">
-        <fieldset>  
+        <fieldset>
           <legend class="rex-lgnd">'.$I18N->msg("general_info_header").'</legend>
           <p>
             <label for="rex_version">$REX[\'VERSION\']</label>
@@ -220,7 +247,7 @@ echo '
           <p>
             <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
             <span id="rex_include_path">&quot;';
-   
+
    $tmp = $REX['INCLUDE_PATH'];
    if (strlen($REX['INCLUDE_PATH'])>24) $tmp = substr($tmp,0,12)." ... ".substr($tmp,strlen($tmp)-12,12);
    echo $tmp;
@@ -247,6 +274,18 @@ echo '
             '.$sel_mod_rewrite->get().'
           </p>
           <p>
+            <label for="rex_lang">$REX[\'USE_GZIP\']</label>
+            '.$sel_use_gzip->get().'
+          </p>
+          <p>
+            <label for="rex_lang">$REX[\'USE_ETAG\']</label>
+            '.$sel_use_etag->get().'
+          </p>
+          <p>
+            <label for="rex_lang">$REX[\'USE_LAST_MODIFIED\']</label>
+            '.$sel_use_last_modified->get().'
+          </p>
+          <p>
             <input type="submit" class="rex-sbmt" name="sendit" value="'.$I18N->msg("specials_update").'" />
           </p>
         </fieldset>
@@ -256,5 +295,5 @@ echo '
   </form>
   </div>
   ';
-  
+
 ?>

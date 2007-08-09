@@ -1,10 +1,10 @@
 <?php
 
-/** 
- * 
- * @package redaxo3 
- * @version $Id$ 
- */ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
+ */
 
 // ----- ob caching start für output filter
 ob_start();
@@ -74,7 +74,19 @@ $CONTENT = rex_register_extension_point( 'OUTPUT_FILTER', $CONTENT);
 // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
 rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT, '', true);
 
-// ----- inhalt endgueltig ausgeben
+// ----- Last-Modified
+if($REX['USE_LAST_MODIFIED'])
+  rex_send_last_modified($REX_ARTICLE);
+
+// ----- ETAG
+if($REX['USE_ETAG'])
+  rex_send_etag($CONTENT);
+
+// ----- GZIP
+if($REX['USE_GZIP'] === true || $REX['USE_GZIP'] == 'frontend')
+  $CONTENT = rex_send_gzip($CONTENT);
+
+// ----- inhalt ausgeben
 echo $CONTENT;
 
 ?>
