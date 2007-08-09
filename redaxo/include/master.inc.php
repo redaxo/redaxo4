@@ -46,7 +46,7 @@ $REX['USE_ETAG'] = false;
 
 // activate frontend last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = true;
+$REX['USE_LAST_MODIFIED'] = false;
 
 $REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include"); //
 $REX['MEDIAFOLDER'] = $REX['HTDOCS_PATH']."files"; //
@@ -55,7 +55,7 @@ $REX['TEMP_PREFIX'] = "tmp_";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20070808200632";
 
-// wenn erwünscht: md5 / mcrypt ...
+// Passwortverschlüsselung, z.B: md5 / mcrypt ...
 $REX['PSWFUNC'] = "";
 
 // bei fehllogin 5 sekunden kein relogin moeglich
