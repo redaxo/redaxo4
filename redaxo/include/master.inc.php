@@ -33,19 +33,22 @@ $REX['NOTFOUND_ARTICLE_ID'] = 1;
 $REX['LANG'] = "de_de";
 
 // activate frontend mod_rewrite support for url-rewriting
+// Boolean: true/false
 $REX['MOD_REWRITE'] = false;
 
 // activate output gzip support
 // reduces amount of data need to be send to the client, but increases cpu load of the server
-// true/false/fronted/backend
+// String: "true"/"false"/"fronted"/"backend"
 $REX['USE_GZIP'] = "false";
 
 // activate frontend e-tag support
 // tag content with an md5 sum to improve usage of client cache
+// Boolean: true/false
 $REX['USE_ETAG'] = false;
 
 // activate frontend last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
+// Boolean: true/false
 $REX['USE_LAST_MODIFIED'] = false;
 
 $REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include"); //
