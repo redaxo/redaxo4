@@ -7,7 +7,7 @@
  * @version $Id$
  */
 
-
+// Prüft, ob sich dateien geändert haben
 function rex_send_last_modified($REX_ARTICLE)
 {
   $lastModified = date('r', $REX_ARTICLE->getValue('updatedate'));
@@ -26,6 +26,7 @@ function rex_send_last_modified($REX_ARTICLE)
   header('Last-Modified: ' . $lastModified);
 }
 
+// Prüft ob sich der Inhalt einer Seite geändert hat
 function rex_send_etag($CONTENT)
 {
   $cacheKey = md5($CONTENT);
