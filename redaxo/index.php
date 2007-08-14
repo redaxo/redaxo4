@@ -241,7 +241,7 @@ $CONTENT = rex_register_extension_point( 'OUTPUT_FILTER', $CONTENT);
 rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT, '', true);
 
 // ----- GZIP
-if($REX['USE_GZIP'] === true || $REX['USE_GZIP'] == 'backend')
+if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == 'backend')
   $CONTENT = rex_send_gzip($CONTENT);
 
 // ----- inhalt ausgeben

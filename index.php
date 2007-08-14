@@ -83,7 +83,7 @@ if($REX['USE_ETAG'])
   rex_send_etag($CONTENT);
 
 // ----- GZIP
-if($REX['USE_GZIP'] === true || $REX['USE_GZIP'] == 'frontend')
+if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == 'frontend')
   $CONTENT = rex_send_gzip($CONTENT);
 
 // ----- inhalt ausgeben
