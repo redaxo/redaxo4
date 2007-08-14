@@ -2,13 +2,13 @@
 
 /**
  * TinyMCE Addon
- *  
+ *
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
- * 
+ *
  * @author Dave Holloway
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>s
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -32,12 +32,12 @@ if($install != '')
 
 
 	switch ($install) {
-  	case 'compressor': 
+  	case 'compressor':
   	{
   		rex_a52_extract_archive('include/addons/tinymce/js/tinymce_compressor.zip');
   		break;
   	}
-  	case 'spellchecker': 
+  	case 'spellchecker':
   	{
   		rex_a52_extract_archive('include/addons/tinymce/js/tinymce_spellchecker.zip');
   		break;
@@ -48,9 +48,9 @@ if($install != '')
 
 $mdl_1 =<<<EOD
 <?php
-if (REX_IS_VALUE[1]) 
+if (REX_IS_VALUE[1])
 {
-  \$editor=new tiny2editor();
+  \$editor=new rexTiny2Editor();
   \$editor->id=1;
   \$editor->content="REX_VALUE[1]";
   \$editor->show();
@@ -62,9 +62,9 @@ EOD;
 
 $mdl_2 =<<<EOD
 <?php
-if (REX_IS_VALUE[1]) 
+if (REX_IS_VALUE[1])
 {
-  \$editor1=new tiny2editor();
+  \$editor1=new rexTiny2Editor();
   \$editor1->id=1;
   \$editor1->content="REX_VALUE[1]";
   \$editor1->editorCSS = "../files/tinymce/content.css";
@@ -86,13 +86,13 @@ EOD;
 
 $mdl_3 =<<<EOD
 <?php
-if (REX_IS_VALUE[1]) 
+if (REX_IS_VALUE[1])
 {
   echo '<div class="section">';
   \$content =<<<EOD
   REX_HTML_VALUE[1]
   EOD;
-  
+
   if (\$REX['REDAXO'])
   {
     \$content=str_replace('src="files/','src="../files/',\$content);
@@ -111,14 +111,14 @@ EOD;
 	<h2><?php echo $I18N_A52->msg('install_extensions'); ?></h2>
 
 	<div class="rex-addon-content">
-		
+
 		<p>
 			<a href="?page=tinymce&amp;install=compressor">GZip Compressor</a>
 			<br />
 			<a href="?page=tinymce&amp;install=spellchecker">Spellchecker</a>
 		</p>
 	</div>
-	
+
 	<h2><?php echo $I18N_A52->msg('moduleinput_simple'); ?></h2>
 
 	<div class="rex-addon-content">
