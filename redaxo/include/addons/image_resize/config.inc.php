@@ -2,17 +2,17 @@
 
 /**
  * Image-Resize Addon
- * 
+ *
  * @author office[at]vscope[dot]at Wolfgang Hutteger
  * @author <a href="http://www.vscope.at">www.vscope.at</a>
- * 
+ *
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
- 
+
 $mypage = 'image_resize';
 
 $REX['ADDON']['rxid'][$mypage] = 'REX_IMAGE_RESIZE';
@@ -27,49 +27,7 @@ $REX['PERM'][] = 'image_resize[]';
 
 if ($REX['GG'])
 {
-  rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
-
-  // Resize WYSIWYG Editor Images
-  function rex_resize_wysiwyg_output($params)
-  {
-    global $REX;
-
-    $content = $params['subject'];
-
-    preg_match_all('/<img[^>]*ismap="ismap"[^>]*>/imsU', $content, $matches);
-
-    if (is_array($matches[0]))
-    {
-      foreach ($matches[0] as $var)
-      {
-        preg_match('/width="(.*)"/imsU', $var, $width);
-        if (!$width)
-        {
-          preg_match('/width: (.*)px/imsU', $var, $width);
-        }
-        preg_match('/height="(.*)"/imsU', $var, $height);
-        if (!$height)
-        {
-          preg_match('/height: (.*)px/imsU', $var, $height);
-        }
-        if ($width)
-        {
-          preg_match('/src="(.*files\/(.*))"/imsU', $var, $src);
-          if (file_exists($REX['HTDOCS_PATH'].'files/'.$src[2]))
-          {
-            $realsize = getimagesize($REX['HTDOCS_PATH'].'files/'.$src[2]);
-            if (($realsize[0] != $width[1]) or ($realsize[1] != $height[1]))
-            {
-              $newsrc = 'index.php?rex_resize='.$width[1].'w__'.$height[1].'h__'.$src[2];
-              $newimage = str_replace($src[1], $newsrc, $var);
-              $content = str_replace($var, $newimage, $content);
-            }
-          }
-        }
-      }
-    }
-    return $content;
-  }
+  require $REX['INCLUDE_PATH'].'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
 }
 
 // Resize Script
@@ -77,9 +35,8 @@ $rex_resize = rex_get('rex_resize', 'string');
 if ($rex_resize != '')
 {
 	// Lösche alle Ausgaben zuvor
-	while(ob_get_level() > 0)
+	while(ob_get_level())
 	  ob_end_clean();
-	
 
   // get params
   ereg('^([0-9]*)([awhc])__(([0-9]*)h__)?(.*)', $rex_resize, $resize);
@@ -145,7 +102,7 @@ if ($rex_resize != '')
     exit;
   }
 
-  include ($REX['HTDOCS_PATH'].'redaxo/include/addons/image_resize/classes/class.thumbnail.inc.php');
+  include ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
 
   // start thumb class
   $thumb = new thumbnail($imagepath);
