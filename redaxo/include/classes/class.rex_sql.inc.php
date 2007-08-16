@@ -2,12 +2,13 @@
 
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank
- * @version $Id$ 
+ * @version $Id$
  */
 
 class rex_sql
 {
   var $values; // Werte von setValue
+  var $fieldnames; // Spalten im ResultSet
 
   var $table; // Tabelle setzen
   var $wherevar; // WHERE Bediengung
@@ -32,13 +33,13 @@ class rex_sql
 		// Bei manchen Providern ist mysql_pconnect nicht aktiviert/freigeschaltet
     $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
     if(!$this->identifier)
-			$this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);     
-    										
+			$this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+
     $this->debugsql = false;
     $this->DBID = $DBID;
     $this->selectDB();
-    $this->counter = 0;
-    
+    $this->flush();
+
     // MySQL Version bestimmen
     if ($REX['MYSQL_VERSION'] == '')
     {
@@ -71,13 +72,14 @@ class rex_sql
 
   /**
    * Setzt eine Abfrage (SQL) ab
-   * @param $query Abfrage 
+   * @param $query Abfrage
    */
   function setQuery($qry)
   {
+    // Alle Werte zurücksetzen
+    $this->flush();
+
     $qry = trim($qry);
-    $this->counter = 0;
-    $this->last_insert_id = 0;
     $this->query = $qry;
     $this->result = @ mysql_query($qry, $this->identifier);
 
@@ -108,8 +110,6 @@ class rex_sql
           }
         }
       }
-      $this->error = '';
-      $this->errno = '';
     }
     else
     {
@@ -121,7 +121,7 @@ class rex_sql
     {
       $this->printError($qry);
     }
-    
+
     return $this->getError() === '';
   }
 
@@ -178,7 +178,7 @@ class rex_sql
   {
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
-  		
+
     $_row = $this->counter;
     if (is_int($row))
     {
@@ -192,7 +192,16 @@ class rex_sql
       $loc = $trace[0];
       echo '<b>Warning</b>:  mysql_result(): Error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
     }
-    return $res; 
+    return $res;
+  }
+
+  /**
+   * Prüft, ob eine Spalte im Resultset vorhanden ist
+   * @param $value Name der Spalte
+   */
+  function hasValue($feldname)
+  {
+    return in_array($feldname, $this->getFieldnames());
   }
 
   /**
@@ -208,14 +217,14 @@ class rex_sql
    */
   function getFields()
   {
-  	return mysql_num_fields($this->result);
+    return mysql_num_fields($this->result);
   }
-  
+
   /**
-   * Baut den SET bestandteil mit der 
+   * Baut den SET bestandteil mit der
    * verfügbaren values zusammen und gibt diesen zurück
-   * 
-   * @see setValue 
+   *
+   * @see setValue
    */
   function buildSetQuery()
   {
@@ -228,13 +237,13 @@ class rex_sql
         {
           $qry .= ',';
         }
-        
-        // Bei <tabelle>.<feld> Notation '.' ersetzen, da sonst `<tabelle>.<feld>` entsteht 
+
+        // Bei <tabelle>.<feld> Notation '.' ersetzen, da sonst `<tabelle>.<feld>` entsteht
         if(strpos($fld_name, '.') !== false)
           $fld_name = str_replace('.', '`.`', $fld_name);
-          
+
         $qry .= '`' . $fld_name . '`="' . $value .'"';
-// Da Werte via POST/GET schon mit magic_quotes escaped werden, 
+// Da Werte via POST/GET schon mit magic_quotes escaped werden,
 // brauchen wir hier nicht mehr escapen
 //        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
       }
@@ -244,56 +253,52 @@ class rex_sql
   }
 
   /**
-   * Setzt eine Update-Anweisung auf die angegebene Tabelle 
+   * Setzt eine Update-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten und WHERE Parametern ab
-   * 
+   *
    * @see #setTable()
    * @see #setValue()
    * @see #where()
    */
   function update()
   {
-    $this->setQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
-    return $this->getError() === '';
+    return $this->setQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
   }
 
   /**
-   * Setzt eine Insert-Anweisung auf die angegebene Tabelle 
+   * Setzt eine Insert-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten ab
-   * 
+   *
    * @see #setTable()
    * @see #setValue()
    */
   function insert()
   {
-    $this->setQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
-    return $this->getError() === '';
+    return $this->setQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
   }
 
   /**
-   * Setzt eine Replace-Anweisung auf die angegebene Tabelle 
+   * Setzt eine Replace-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten ab
-   * 
+   *
    * @see #setTable()
    * @see #setValue()
    */
   function replace()
   {
-    $this->setQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
-    return $this->getError() === '';
+    return $this->setQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar);
   }
 
   /**
-   * Setzt eine Delete-Anweisung auf die angegebene Tabelle 
+   * Setzt eine Delete-Anweisung auf die angegebene Tabelle
    * mit den angegebenen WHERE Parametern ab
-   * 
+   *
    * @see #setTable()
    * @see #where()
    */
   function delete()
   {
-    $this->setQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar);
-    return $this->getError() === '';
+    return $this->setQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar);
   }
 
   /**
@@ -301,19 +306,22 @@ class rex_sql
    */
   function flush()
   {
+    $this->values = array ();
+    $this->fieldnames = array ();
+
     $this->table = '';
-    $this->error = '';
-    $this->errno = '';
     $this->wherevar = '';
     $this->query = '';
     $this->counter = 0;
     $this->rows = 0;
     $this->result = '';
-    $this->values = array ();
+    $this->last_insert_id = '';
+    $this->error = '';
+    $this->errno = '';
   }
 
   /**
-   * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
+   * Setzt den Cursor des Resultsets auf die nächst niedrigere Stelle
    */
   function previous()
   {
@@ -327,7 +335,7 @@ class rex_sql
   {
     $this->counter++;
   }
-  
+
   /**
    * Setzt den Cursor des Resultsets zurück zum Anfang
    */
@@ -335,7 +343,7 @@ class rex_sql
   {
     $this->counter = 0;
   }
-	
+
   /**
    * Gibt die letzte InsertId zurück
    */
@@ -343,9 +351,9 @@ class rex_sql
   {
     return $this->last_insert_id;
   }
-  
+
   /**
-   * Lädt das komplette Resultset in ein Array und gibts dieses zurück 
+   * Lädt das komplette Resultset in ein Array und gibts dieses zurück
    */
   function getArray($sql = "", $fetch_type = MYSQL_ASSOC)
   {
@@ -365,7 +373,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die zuletzt aufgetretene Fehlernummer zurück 
+   * Gibt die zuletzt aufgetretene Fehlernummer zurück
    */
   function getErrno()
   {
@@ -373,7 +381,7 @@ class rex_sql
   }
 
   /**
-   * Gibt den zuletzt aufgetretene Fehlernummer zurück 
+   * Gibt den zuletzt aufgetretene Fehlernummer zurück
    */
   function getError()
   {
@@ -381,7 +389,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die letzte Fehlermeldung aus 
+   * Gibt die letzte Fehlermeldung aus
    */
   function printError($select)
   {
@@ -404,34 +412,39 @@ class rex_sql
 
   /**
    * Setzt eine Spalte auf den nächst möglich auto_increment Wert
-   * @param $field Name der Spalte 
+   * @param $field Name der Spalte
    */
   function setNewId($field)
   {
-    $this->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
+    if($this->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1'))
+    {
+      if ($this->getRows() == 0)
+        $id = 0;
+      else
+        $id = mysql_result($this->result, 0, $field);
 
-    if ($this->getRows() == 0)
-      $id = 0;
-    else
-      $id = mysql_result($this->result, 0, $field);
+      $id++;
+      $this->setValue($field, $id);
 
-    $id++;
-    $this->setValue($field, $id);
+      return $id;
+    }
 
-    return $id;
+    return false;
   }
-  
+
   /**
-   * Gibt die Spaltennamen des ResultSets zurück 
+   * Gibt die Spaltennamen des ResultSets zurück
    */
   function getFieldnames()
   {
-    $fields = array ();
-    for ($i = 0; $i < $this->getFields(); $i++)
+    if(empty($this->fieldnames))
     {
-      $fields[] = mysql_field_name($this->result, $i);
+      for ($i = 0; $i < $this->getFields(); $i++)
+      {
+        $this->fieldnames[] = mysql_field_name($this->result, $i);
+      }
     }
-    return $fields;
+    return $this->fieldnames;
   }
 
   /**
@@ -446,18 +459,18 @@ class rex_sql
     }
     return $value;
   }
-  
+
   /**
    * Gibt die Serverversion zurück
    */
   function getServerVersion()
   {
     global $REX;
-    return $REX['MYSQL_VERSION']; 
+    return $REX['MYSQL_VERSION'];
   }
 
   /**
-   * Gibt ein SQL Singelton Objekt zurück 
+   * Gibt ein SQL Singelton Objekt zurück
    */
   function getInstance()
   {
@@ -470,11 +483,11 @@ class rex_sql
 
     return $instance;
   }
-  
+
   function disconnect()
   {
     if($this->identifier)
       mysql_close($this->identifier);
-  } 
+  }
 }
 ?>
