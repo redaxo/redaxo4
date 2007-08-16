@@ -51,7 +51,7 @@ class OORedaxo
 	        $class_var = '_'.$var;
 	        $value = $params[$var];
         }
-          
+
         $this->$class_var = $value;
       }
     }
@@ -77,7 +77,30 @@ class OORedaxo
     {
       $value = "_".$value;
     }
-    return $this->$value;
+    // damit alte rex_article felder wie teaser, online_from etc
+    // noch funktionieren
+    // gleicher BC code nochmals in article::getValue
+    if($this->hasValue($value))
+    {
+      return $this->$value;
+    }
+    elseif ($this->hasValue('art_'. $value))
+    {
+      return $this->getValue('art_'. $value);
+    }
+    elseif ($this->hasValue('cat_'. $value))
+    {
+      return $this->getValue('cat_'. $value);
+    }
+  }
+
+  function hasValue($value)
+  {
+    if (substr($value, 0, 1) != '_')
+    {
+      $value = "_".$value;
+    }
+    return isset($this->$value);
   }
 
   /**
@@ -91,9 +114,9 @@ class OORedaxo
     if (empty($vars[$mode]))
     {
       global $REX;
-      
+
       $vars[$mode] = array();
-      
+
       $file = $REX['INCLUDE_PATH']. '/generated/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
       if($REX['GG'] && file_exists($file))
       {
@@ -102,8 +125,8 @@ class OORedaxo
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
         $genVars = OORedaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
-        unset($genVars['article_id']);        
-        unset($genVars['last_update_stamp']);        
+        unset($genVars['article_id']);
+        unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
         {
           $vars[$mode][] = $name;
@@ -113,7 +136,7 @@ class OORedaxo
       {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
         $class_vars = get_class_vars('OORedaxo');
-  
+
         foreach ($class_vars as $name => $value)
         {
           if (substr($name, 0, 1) == '_')
@@ -121,10 +144,10 @@ class OORedaxo
             $vars[$mode][] = substr($name, 1);
           }
         }
-  
+
         // ----- Extension Point
         $new_vars = rex_register_extension_point('OOF_META_PARAMS', array());
-        
+
         foreach($new_vars as $name)
         {
           if(is_array($name))
@@ -146,7 +169,7 @@ class OORedaxo
         }
       }
     }
-    
+
     return $vars[$mode];
   }
 

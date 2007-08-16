@@ -165,7 +165,7 @@ class rex_article
     else $this->eval = FALSE;
   }
 
-  function getValue($value)
+  function _getValue($value)
   {
     global $REX;
 
@@ -176,8 +176,25 @@ class rex_article
       else $value = "id";
     }
 
+    return $value;
+  }
+
+  function getValue($value)
+  {
+    global $REX;
+    $value = $this->_getValue($value);
+
     if ($REX['GG'] && !$this->viasql) return $REX['ART'][$this->article_id][$value][$this->clang];
     else return $this->ARTICLE->getValue($value);
+  }
+
+  function hasValue($value)
+  {
+    global $REX;
+    $value = $this->_getValue($value);
+
+    if ($REX['GG'] && !$this->viasql) return isset($REX['ART'][$this->article_id][$value][$this->clang]);
+    else return $this->ARTICLE->hasValue($value);
   }
 
   // -----
