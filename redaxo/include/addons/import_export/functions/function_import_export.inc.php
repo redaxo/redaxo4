@@ -11,12 +11,12 @@ if ($REX['REDAXO'] && !isset($I18N_IM_EXPORT))
 
 /**
  * Importiert den SQL Dump $filename in die Datenbank
- * 
+ *
  * @param string Pfad + Dateinamen zur SQL-Datei
- *  
+ *
  * @return array Gibt ein Assoc. Array zurück.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
- *               'message' => Evtl. Status/Fehlermeldung  
+ *               'message' => Evtl. Status/Fehlermeldung
  */
 function rex_a1_import_db($filename)
 {
@@ -25,7 +25,7 @@ function rex_a1_import_db($filename)
   $return = array ();
   $return['state'] = false;
   $return['message'] = '';
-  
+
   $msg = '';
   $error = '';
 
@@ -34,11 +34,11 @@ function rex_a1_import_db($filename)
     $return['message'] = $I18N_IM_EXPORT->msg('no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
   }
-  
+
   $h = fopen($filename, 'r');
   $conts = fread($h, filesize($filename));
   fclose($h);
-  
+
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
@@ -64,7 +64,7 @@ function rex_a1_import_db($filename)
     $return['message'] = $I18N_IM_EXPORT->msg('no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
     return $return;
   }
-    
+
   // Prefix im export mit dem der installation angleichen
   if($REX['TABLE_PREFIX'] != $prefix)
   {
@@ -74,15 +74,15 @@ function rex_a1_import_db($filename)
     $conts = preg_replace('/(INTO )'  . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
     $conts = preg_replace('/(EXISTS )'. preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
   }
-    
+
   // Ordner /generated komplett leeren
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
-  
+
   // ----- EXTENSION POINT
   $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg);
-  
+
   // Datei aufteilen
   $lines = explode("\n", $conts);
 
@@ -126,7 +126,7 @@ function rex_a1_import_db($filename)
   {
     $create_user_table = '
     CREATE TABLE '. $REX['TABLE_PREFIX'] .'user
-     ( 
+     (
        user_id int(11) NOT NULL auto_increment,
        name varchar(255) NOT NULL,
        description text NOT NULL,
@@ -161,20 +161,20 @@ function rex_a1_import_db($filename)
     $msg .= rex_generateAll();
     $return['state'] = true;
   }
-  
+
   $return['message'] = $msg;
-  
+
   return $return;
 }
 
 /**
  * Importiert das Tar-Archiv $filename in den Ordner /files
- * 
+ *
  * @param string Pfad + Dateinamen zum Tar-Archiv
- * 
+ *
  * @return array Gibt ein Assoc. Array zurück.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
- *               'message' => Evtl. Status/Fehlermeldung  
+ *               'message' => Evtl. Status/Fehlermeldung
  */
 function rex_a1_import_files($filename)
 {
@@ -193,28 +193,26 @@ function rex_a1_import_files($filename)
   rex_deleteDir($REX['INCLUDE_PATH']."/../../files");
 
   $tar = new tar;
-  
+
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_BEFORE_FILE_IMPORT', $tar);
-  
+
   $tar->openTAR($filename);
   if (!$tar->extractTar())
   {
-    $msg = $I18N_IM_EXPORT->msg("problem_when_extracting")."<br>";
+    $msg = $I18N_IM_EXPORT->msg('problem_when_extracting').'<br />';
     if (count($tar->message) > 0)
     {
-      $msg .= $I18N_IM_EXPORT->msg("create_dirs_manually")."<br>";
-      reset($tar->message);
-      for ($fol = 0; $fol < count($tar->message); $fol++)
+      $msg .= $I18N_IM_EXPORT->msg('create_dirs_manually').'<br />';
+      foreach($tar->message as $_message)
       {
-        $msg .= rex_absPath(str_replace("'", "", key($tar->message)))."<br>";
-        next($tar->message);
+        $msg .= rex_absPath($_message).'<br />';
       }
     }
   }
   else
   {
-    $msg = $I18N_IM_EXPORT->msg("file_imported")."<br>";
+    $msg = $I18N_IM_EXPORT->msg('file_imported').'<br />';
   }
 
   // ----- EXTENSION POINT
@@ -234,18 +232,18 @@ function rex_a1_export_db()
   global $REX;
 
   $tabs = new rex_sql;
-  $tabs->setquery("SHOW TABLES");
+  $tabs->setquery('SHOW TABLES');
   $dump = '';
 
   // ----- EXTENSION POINT
   rex_register_extension_point('A1_BEFORE_DB_EXPORT');
-  
+
   for ($i = 0; $i < $tabs->rows; $i++, $tabs->next())
   {
-    $tab = $tabs->getValue("Tables_in_".$REX['DB']['1']['NAME']);
-    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab // User Tabelle nicht exportieren 
-        && $tab != $REX['TABLE_PREFIX'].'user' // Nur Tabellen mit dem aktuellen Prefix 
-        && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert! 
+    $tab = $tabs->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
+    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab // User Tabelle nicht exportieren
+        && $tab != $REX['TABLE_PREFIX'].'user' // Nur Tabellen mit dem aktuellen Prefix
+        && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
     {
       $cols = new rex_sql;
       $cols->setquery("SHOW COLUMNS FROM `".$tab."`");
@@ -255,35 +253,35 @@ function rex_a1_export_db()
       // Spalten auswerten
       for ($j = 0; $j < $cols->rows; $j++, $cols->next())
       {
-        $colname = $cols->getValue("Field");
-        $coltype = $cols->getValue("Type");
+        $colname = $cols->getValue('Field');
+        $coltype = $cols->getValue('Type');
 
         // Null Werte
-        if ($cols->getValue("Null") == 'YES')
+        if ($cols->getValue('Null') == 'YES')
         {
-          $colnull = "NULL";
+          $colnull = 'NULL';
         }
         else
         {
-          $colnull = "NOT NULL";
+          $colnull = 'NOT NULL';
         }
 
         // Default Werte
-        if ($cols->getValue("Default") != '')
+        if ($cols->getValue('Default') != '')
         {
-          $coldef = "DEFAULT ".$cols->getValue("Default")." ";
+          $coldef = 'DEFAULT '.$cols->getValue('Default').' ';
         }
         else
         {
-          $coldef = "";
+          $coldef = '';
         }
 
         // Spezial Werte
-        $colextra = $cols->getValue("Extra");
-        if ($cols->getValue("Key") != '')
+        $colextra = $cols->getValue('Extra');
+        if ($cols->getValue('Key') != '')
         {
           $key[] = $colname;
-          $colnull = "NOT NULL";
+          $colnull = 'NOT NULL';
         }
 
         $query .= " `$colname` $coltype $colnull $coldef $colextra";
@@ -347,9 +345,9 @@ function rex_a1_export_db()
   $dump = str_replace("\r", "", $dump);
   $header = "## Redaxo Database Dump Version ".$REX['VERSION']."\n";
   $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
-  
+
   $content = $header . $dump;
-  
+
   // ----- EXTENSION POINT
   $content = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
 
@@ -358,19 +356,19 @@ function rex_a1_export_db()
 
 /**
  * Exportiert alle Ordner $folders aus dem Verzeichnis /files
- * 
+ *
  * @param array Array von Ordnernamen, die exportiert werden sollen
  * @param string Pfad + Dateiname, wo das Tar File erstellt werden soll
- * 
+ *
  * @access public
- * @return string Inhalt des Tar-Archives als String 
+ * @return string Inhalt des Tar-Archives als String
  */
 function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
 {
   global $REX;
 
   $tar = new tar;
-  
+
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_BEFORE_FILE_EXPORT', $tar);
 
@@ -381,19 +379,19 @@ function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
 
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_AFTER_FILE_EXPORT', $tar);
-  
+
   $content = $tar->toTarOutput($filename.$ext, true);
   return $content;
 }
 
 /**
- * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu 
+ * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu
  * @access protected
  */
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 {
   global $REX;
-  
+
   $handle = opendir($path.$dir);
   $array_indx = 0;
   #$tar->addFile($path.$dir."/",TRUE);
