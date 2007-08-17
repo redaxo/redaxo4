@@ -241,17 +241,16 @@ function rex_a1_export_db()
   for ($i = 0; $i < $tabs->rows; $i++, $tabs->next())
   {
     $tab = $tabs->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
-    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab // User Tabelle nicht exportieren
-        && $tab != $REX['TABLE_PREFIX'].'user' // Nur Tabellen mit dem aktuellen Prefix
+    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab // Nur Tabellen mit dem aktuellen Prefix
+        && $tab != $REX['TABLE_PREFIX'].'user' // User Tabelle nicht exportieren
         && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
     {
       $cols = new rex_sql;
       $cols->setquery("SHOW COLUMNS FROM `".$tab."`");
       $query = "DROP TABLE IF EXISTS `".$tab."`;\nCREATE TABLE `".$tab."` (";
-      $key = array ();
 
       // Spalten auswerten
-      for ($j = 0; $j < $cols->rows; $j++, $cols->next())
+      for ($j = 0; $j < $cols->rows; $j++)
       {
         $colname = $cols->getValue('Field');
         $coltype = $cols->getValue('Type');
@@ -278,32 +277,64 @@ function rex_a1_export_db()
 
         // Spezial Werte
         $colextra = $cols->getValue('Extra');
-        if ($cols->getValue('Key') != '')
-        {
-          $key[] = $colname;
-          $colnull = 'NOT NULL';
-        }
 
         $query .= " `$colname` $coltype $colnull $coldef $colextra";
         if ($j +1 != $cols->rows)
         {
           $query .= ",";
         }
+        $cols->next();
       }
 
-      // Primärschlüssel Auswerten
-      if (count($key) > 0)
+      // Indizes Auswerten
+      $indizes = new rex_sql();
+      $indizes->setQuery('SHOW INDEX FROM `'. $tab .'`');
+
+      $primary = array();
+      $uniques = array();
+      $fulltexts = array();
+      for($x = 0; $x < $indizes->getRows(); $x++)
       {
-        $query .= ", PRIMARY KEY(";
-        for ($k = 0, reset($key); $k < count($key); $k++, next($key))
-        { // <-- yeah super for schleife, rock 'em hard :)
-          $query .= current($key);
-          if ($k +1 != count($key))
-            $query .= ",";
+        if($indizes->getValue('Index_type') == 'BTREE')
+        {
+          if($indizes->getValue('Key_name') != 'PRIMARY')
+          {
+            $uniques[$indizes->getValue('Key_name')][] = $indizes->getValue('Column_name');
+          }
+          else
+          {
+            $primary[$indizes->getValue('Key_name')][] = $indizes->getValue('Column_name');
+          }
         }
-        $query .= ")";
+        else if ($indizes->getValue('Index_type') == 'FULLTEXT')
+        {
+          $fulltexts[$indizes->getValue('Key_name')][] = $indizes->getValue('Column_name');
+        }
+        $indizes->next();
       }
-      $query .= ")TYPE=MyISAM;";
+
+      // Primary key Auswerten
+      foreach($primary as $name => $columnNames)
+      {
+        // , UNIQUE KEY `name` (`spalten`,..)
+        $query .= ", PRIMARY KEY (`". implode('`,`', $columnNames) ."`)";
+      }
+
+      // Unique Index Auswerten
+      foreach($uniques as $name => $columnNames)
+      {
+        // , UNIQUE KEY `name` (`spalten`,..)
+        $query .= ", UNIQUE KEY `". $name ."`(`". implode('`,`', $columnNames) ."`)";
+      }
+
+      // Unique Index Auswerten
+      foreach($fulltexts as $name => $columnNames)
+      {
+        // , FULLTEXT KEY `name` (`spalten`,..)
+        $query .= ", FULLTEXT KEY `". $name ."`(`". implode('`,`', $columnNames) ."`)";
+      }
+
+      $query .= ") TYPE=MyISAM;";
 
       $dump .= $query."\n";
 
