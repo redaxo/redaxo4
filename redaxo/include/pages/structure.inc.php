@@ -74,48 +74,59 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   $EKAT->setValue('path', $KATPATH);
   $EKAT->setValue('updatedate', time());
   $EKAT->setValue('updateuser', $REX_USER->getValue('login'));
-  $EKAT->update();
-
-  // --- Kategorie Kindelemente updaten
-  $ArtSql = new rex_sql();
-  $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$edit_id .' AND startpage=0 AND clang='.$clang);
-
-  for($i = 0; $i < $ArtSql->getRows(); $i++)
+  if($EKAT->update())
   {
-    $EART = new rex_sql();
-    $EART->setTable($REX['TABLE_PREFIX'].'article');
-    $EART->setWhere('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
-    $EART->setValue('catname', $kat_name);
-    $EART->setValue('updatedate', time());
-    $EART->setValue('updateuser', $REX_USER->getValue('login'));
-    $EART->update();
+    // --- Kategorie Kindelemente updaten
+    $ArtSql = new rex_sql();
+    $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$edit_id .' AND startpage=0 AND clang='.$clang);
 
-    rex_generateArticle($ArtSql->getValue('id'));
-    $ArtSql->next();
+    for($i = 0; $i < $ArtSql->getRows(); $i++)
+    {
+      $EART = new rex_sql();
+      $EART->setTable($REX['TABLE_PREFIX'].'article');
+      $EART->setWhere('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
+      $EART->setValue('catname', $kat_name);
+      $EART->setValue('updatedate', time());
+      $EART->setValue('updateuser', $REX_USER->getValue('login'));
+
+      if($EART->update())
+      {
+        rex_generateArticle($ArtSql->getValue('id'));
+      }
+      else
+      {
+        $message .= $EART->getError();
+      }
+
+      $ArtSql->next();
+    }
+
+    // ----- PRIOR
+    rex_newCatPrio($re_id, $clang, $new_prio, $old_prio);
+
+    $message = $I18N->msg("category_updated");
+
+    rex_generateArticle($edit_id);
+
+    // ----- EXTENSION POINT
+    $message = rex_register_extension_point('CAT_UPDATED', $message,
+    array (
+      'category' => $EKAT,
+      'id' => $edit_id,
+      're_id' => $re_id,
+      'clang' => $clang,
+      'name' => $kat_name,
+      'prior' => $new_prio,
+      'path' => $KATPATH,
+      'status' => $thisCat->getValue('status'),
+      'article' => $EKAT,
+      )
+    );
   }
-
-  // ----- PRIOR
-  rex_newCatPrio($re_id, $clang, $new_prio, $old_prio);
-
-  $message = $I18N->msg("category_updated");
-
-  rex_generateArticle($edit_id);
-
-  // ----- EXTENSION POINT
-  $message = rex_register_extension_point('CAT_UPDATED', $message,
-  array (
-    'category' => $EKAT,
-    'id' => $edit_id,
-    're_id' => $re_id,
-    'clang' => $clang,
-    'name' => $kat_name,
-    'prior' => $new_prio,
-    'path' => $KATPATH,
-    'status' => $thisCat->getValue('status'),
-    'article' => $EKAT,
-    )
-  );
-
+  else
+  {
+    $message = $EKAT->getError();
+  }
 }
 elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
@@ -180,18 +191,23 @@ elseif ($function == 'status' && $edit_id != ''
     $EKAT->setValue("status", "$newstatus");
     $EKAT->setValue("updatedate", time());
     $EKAT->setValue("updateuser", $REX_USER->getValue("login"));
-    $EKAT->update();
 
-    $message = $I18N->msg("category_status_updated");
-    rex_generateArticle($edit_id);
+    if($EKAT->update())
+    {
+      $message = $I18N->msg("category_status_updated");
+      rex_generateArticle($edit_id);
 
-    // ----- EXTENSION POINT
-    $message = rex_register_extension_point('CAT_STATUS', $message, array (
-      "id" => $edit_id,
-      "clang" => $clang,
-      "status" => $newstatus
-    ));
-
+      // ----- EXTENSION POINT
+      $message = rex_register_extension_point('CAT_STATUS', $message, array (
+        "id" => $edit_id,
+        "clang" => $clang,
+        "status" => $newstatus
+      ));
+    }
+    else
+    {
+      $message = $EKAT->getError();
+    }
   }
   else
   {
@@ -232,7 +248,6 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
       $template_id = $NCAT[$key];
 
     $AART = new rex_sql;
-    // $AART->debugsql = 1;
     $AART->setTable($REX['TABLE_PREFIX'].'article');
     if (!isset ($id) or !$id)
       $id = $AART->setNewId('id');
@@ -243,9 +258,8 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     $AART->setValue('name', $category_name);
     $AART->setValue('catname', $category_name);
 // TODO Neue noch nicht verwendete Datenbankspalten
-//    $AART->setValue('label', $category_label);
-//    $AART->setValue('url', $category_url);
 //    $AART->setValue('attributes', $category_attributes);
+    $AART->setValue('attributes', '');
     $AART->setValue('catprior', $Position_New_Category);
     $AART->setValue('re_id', $category_id);
     $AART->setValue('prior', 1);
@@ -256,28 +270,31 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     $AART->setValue('createuser', $REX_USER->getValue('login'));
     $AART->setValue('updatedate', time());
     $AART->setValue('updateuser', $REX_USER->getValue('login'));
-    $AART->insert();
+    if($AART->insert())
+    {
+      // ----- PRIOR
+      rex_newCatPrio($category_id, $key, 0, $Position_New_Category);
 
-    // ----- PRIOR
-    rex_newCatPrio($category_id, $key, 0, $Position_New_Category);
-
-    // ----- EXTENSION POINT
-    $message = rex_register_extension_point('CAT_ADDED', $message, array (
-      'category' => $AART,
-      'id' => $id,
-      're_id' => $category_id,
-      'clang' => $key,
-      'name' => $category_name,
-      'prior' => $Position_New_Category,
-      'path' => $KATPATH,
-      'status' => 0,
-      'article' => $AART,
-    ));
-
+      // ----- EXTENSION POINT
+      $message = rex_register_extension_point('CAT_ADDED', $message, array (
+        'category' => $AART,
+        'id' => $id,
+        're_id' => $category_id,
+        'clang' => $key,
+        'name' => $category_name,
+        'prior' => $Position_New_Category,
+        'path' => $KATPATH,
+        'status' => 0,
+        'article' => $AART,
+      ));
+    }
+    else
+    {
+      $message = $AART->getError();
+    }
   }
 
   rex_generateArticle($id);
-
 }
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
@@ -301,18 +318,23 @@ if ($function == 'status_article' && $article_id != ''
     $EA->setValue("status", "$newstatus");
     $EA->setValue("updatedate", time());
     $EA->setValue("updateuser", $REX_USER->getValue("login"));
-    $EA->update();
 
-    $message = $I18N->msg("article_status_updated");
-    rex_generateArticle($article_id);
+    if($EA->update())
+    {
+      $message = $I18N->msg("article_status_updated");
+      rex_generateArticle($article_id);
 
-    // ----- EXTENSION POINT
-    $message = rex_register_extension_point('ART_STATUS', $message, array (
-      "id" => $article_id,
-      "clang" => $clang,
-      "status" => $newstatus
-    ));
-
+      // ----- EXTENSION POINT
+      $message = rex_register_extension_point('ART_STATUS', $message, array (
+        "id" => $article_id,
+        "clang" => $clang,
+        "status" => $newstatus
+      ));
+    }
+    else
+    {
+      $message = $EA->getError();
+    }
   }
   else
   {
@@ -357,9 +379,8 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
     $AART->setValue("name", $article_name);
     $AART->setValue("catname", $category_name);
 // TODO Neue noch nicht verwendete Datenbankspalten
-//    $AART->setValue("label", $category_label);
-//    $AART->setValue("url", $category_url);
 //    $AART->setValue("attributes", $category_attributes);
+    $AART->setValue("attributes", '');
     $AART->setValue("clang", $key);
     $AART->setValue("re_id", $category_id);
     $AART->setValue("prior", $Position_New_Article);
@@ -371,10 +392,16 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
     $AART->setValue("updatedate", time());
     $AART->setValue("updateuser", $REX_USER->getValue("login"));
     $AART->setValue("template_id", $template_id);
-    $AART->insert();
 
-    // ----- PRIOR
-    rex_newArtPrio($category_id, $key, 0, $Position_New_Article);
+    if($AART->insert())
+    {
+      // ----- PRIOR
+      rex_newArtPrio($category_id, $key, 0, $Position_New_Article);
+    }
+    else
+    {
+      $amessage = $AART->getError();
+    }
   }
 
   rex_generateArticle($id);
@@ -398,7 +425,6 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
   if ($Position_Article == 0)
     $Position_Article = 1;
 
-  $amessage = $I18N->msg("article_updated");
   $EA = new rex_sql;
   $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->setWhere("id='$article_id' and clang=$clang");
@@ -408,24 +434,31 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
   $EA->setValue("updatedate", time());
   $EA->setValue("updateuser", $REX_USER->getValue("login"));
   $EA->setValue("prior", $Position_Article);
-  $EA->update();
 
-  // ----- PRIOR
-  rex_newArtPrio($category_id, $clang, $Position_Article, $thisArt->getValue("prior"));
-  rex_generateArticle($article_id);
+  if($EA->update())
+  {
+    $amessage = $I18N->msg("article_updated");
 
-  // ----- EXTENSION POINT
-  $amessage = rex_register_extension_point('ART_UPDATED', $amessage, array (
-    "id" => $article_id,
-    "status" => $thisArt->getValue("status"),
-		"name" => $article_name,
-		"clang" => $clang,
-		"re_id" => $category_id,
-		"prior" => $Position_Article,
-		"path" => $KATPATH,
-		"template_id" => $template_id)
-		);
+    // ----- PRIOR
+    rex_newArtPrio($category_id, $clang, $Position_Article, $thisArt->getValue("prior"));
+    rex_generateArticle($article_id);
 
+    // ----- EXTENSION POINT
+    $amessage = rex_register_extension_point('ART_UPDATED', $amessage, array (
+      "id" => $article_id,
+      "status" => $thisArt->getValue("status"),
+  		"name" => $article_name,
+  		"clang" => $clang,
+  		"re_id" => $category_id,
+  		"prior" => $Position_Article,
+  		"path" => $KATPATH,
+  		"template_id" => $template_id)
+  		);
+  }
+  else
+  {
+    $amessage = $EA->getError();
+  }
 }
 elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
