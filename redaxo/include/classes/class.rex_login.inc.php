@@ -1,9 +1,9 @@
 <?php
 
 
-/** 
+/**
  * Klasse zum handling des Login/Logout-Mechanismuses
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -12,14 +12,14 @@ class rex_login_sql extends rex_sql
 {
   function isValueOf($feld, $prop)
   {
-    if ($prop == "")
+    if ($prop == '')
     {
       return true;
     }
     else
     {
-      if ($feld == "rights")
-        return strpos($this->getValue($feld), "#" . $prop . "#") !== false;
+      if ($feld == 'rights')
+        return strpos($this->getValue($feld), '#' . $prop . '#') !== false;
       else
         return strpos($this->getValue($feld), $prop) !== false;
     }
@@ -27,7 +27,7 @@ class rex_login_sql extends rex_sql
 
   function hasPerm($perm)
   {
-    return $this->isValueOf("rights", $perm);
+    return $this->isValueOf('rights', $perm);
   }
 }
 
@@ -60,7 +60,7 @@ class rex_login
   }
 
   /**
-   * Setzt, ob die Ergebnisse der Login-Abfrage 
+   * Setzt, ob die Ergebnisse der Login-Abfrage
    * pro Seitenaufruf gecached werden sollen
    */
   function setCache($status = true)
@@ -77,7 +77,7 @@ class rex_login
   }
 
   /**
-   * Setzt eine eindeutige System Id, damit mehrere 
+   * Setzt eine eindeutige System Id, damit mehrere
    * Sessions auf der gleichen Domain unterschieden werden können
    */
   function setSysID($system_id)
@@ -112,8 +112,8 @@ class rex_login
 
   /**
    * Setzt den UserQuery
-   * 
-   * Dieser wird benutzt, um einen bereits eingeloggten User 
+   *
+   * Dieser wird benutzt, um einen bereits eingeloggten User
    * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
    */
   function setUserquery($login_query)
@@ -123,7 +123,7 @@ class rex_login
 
   /**
    * Setzt den LoginQuery
-   * 
+   *
    * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
    * Hier wird das eingegebene Password und der Login eingesetzt.
    */
@@ -149,9 +149,9 @@ class rex_login
   }
 
   /**
-   * Prüft die mit setLogin() und setPassword() gesetzten Werte 
+   * Prüft die mit setLogin() und setPassword() gesetzten Werte
    * anhand des LoginQueries/UserQueries und gibt den Status zurück
-   * 
+   *
    * Gibt true zurück bei erfolg, sonst false
    */
   function checkLogin()
@@ -255,7 +255,7 @@ class rex_login
   }
 
   /**
-   * Gibt einen Benutzer-Spezifischen Wert zurück 
+   * Gibt einen Benutzer-Spezifischen Wert zurück
    */
   function getValue($value)
   {
@@ -271,7 +271,7 @@ class rex_login
   }
 
   /**
-   * Verschlüsselt den übergebnen String, falls eine Password-Funktion gesetzt ist. 
+   * Verschlüsselt den übergebnen String, falls eine Password-Funktion gesetzt ist.
    */
   function encryptPassword($psw)
   {
@@ -299,17 +299,63 @@ class rex_login
 
     return $default;
   }
-  
-  /* 
+
+  /*
    * Session fixation
-   *  
+   *
    */
   function sessionFixation()
   {
     $tmp = $_SESSION;
-    $_SESSION = "";
+    session_unset();
     session_regenerate_id(true);
     $_SESSION = $tmp;
+  }
+}
+
+class rex_backend_login extends rex_login
+{
+  function rex_backend_login()
+  {
+    global $REX;
+
+    parent::rex_login();
+
+    $this->setSqlDb(1);
+    $this->setSysID($REX['INSTNAME']);
+    $this->setSessiontime(3000);
+    $this->setUserID($REX['TABLE_PREFIX'].'user.user_id');
+    $this->setUserquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND user_id = "USR_UID"');
+    $this->setLoginquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
+  }
+
+  function checkLogin()
+  {
+    global $REX;
+
+    $fvs = new rex_sql;
+    // $fvs->debugsql = true;
+    $check = parent::checkLogin();
+
+    if($check)
+    {
+      // gelungenen versuch speichern | login_tries = 0
+      if($this->usr_login != '')
+      {
+        $this->sessionFixation();
+        $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'"');
+      }
+    }
+    else
+    {
+      // fehlversuch speichern | login_tries++
+      if($this->usr_login != '')
+      {
+        $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=login_tries+1,lasttrydate='.time().' WHERE login="'. $this->usr_login .'"');
+      }
+    }
+
+    return $check;
   }
 }
 ?>

@@ -77,16 +77,10 @@ else
   header('Cache-Control: no-cache');
   header('Pragma: no-cache');
 
-  // ----------------- CREATE LANG OBJ
-  if (!isset($REX_ULOGIN))
-    $REX_ULOGIN = '';
-  if (!isset($REX_UPSW))
-    $REX_UPSW = '';
-
-  $REX_LOGIN = new rex_login();
-  $REX_LOGIN->setSqlDb(1);
-  $REX_LOGIN->setSysID($REX['INSTNAME']);
-  $REX_LOGIN->setSessiontime(3000);
+  // ---- prepare login
+  $REX_LOGIN = new rex_backend_login();
+  $REX_ULOGIN = rex_post('REX_ULOGIN', 'string');
+  $REX_UPSW = rex_post('REX_UPSW', 'string');
 
   if ($REX['PSWFUNC'] != '')
     $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
@@ -95,9 +89,6 @@ else
     $REX_LOGIN->setLogout(true);
 
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
-  $REX_LOGIN->setUserID($REX['TABLE_PREFIX'].'user.user_id');
-  $REX_LOGIN->setUserquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND user_id = "USR_UID"');
-  $REX_LOGIN->setLoginquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
 
   if (!$REX_LOGIN->checkLogin())
   {
@@ -105,56 +96,20 @@ else
     $FORM['loginmessage'] = $REX_LOGIN->message;
     $LOGIN = FALSE;
     $page = 'login';
-
-    // fehlversuch speichern | login_tries++
-    if ($REX_ULOGIN != '')
-    {
-        $fvs = new rex_sql;
-        $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=login_tries+1,lasttrydate='.time().' WHERE login="'. $REX_ULOGIN .'"');
-    }
-
   } else
   {
-
-  	// gelungenen versuch speichern | login_tries = 0
+    // login ok
     if ($REX_ULOGIN != "")
     {
-    	// ----- session fixation
-			$tmp = $_SESSION;
-			/*
-			var_dump($tmp);
-			echo "<br /";
-			var_dump($_SESSION);
-			echo "<br /";
-			*/
-      session_unset();
-      // session_destroy();
-      session_regenerate_id(true);
-      $_SESSION = $tmp;
-			/*
-			var_dump($tmp);
-			echo "<br /";
-			var_dump($_SESSION);
-			echo "<br /";
-		  exit;
-		  */
-
-      // ----- register login in db
-      $fvs = new rex_sql;
-      $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $REX_ULOGIN .'"');
+      // redirect to startpage, after successfull login
   		header('Location: index.php?page='. $REX['START_PAGE']);
   		exit;
     }
 
-  	// login ok
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
 
-    if (isset($page)) {
-      $page = strtolower($page);
-    } else {
-      $page = '';
-    }
+    $page = strtolower(rex_request('page', 'string'));
 
     // --- addon page check
     if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))
@@ -164,9 +119,10 @@ else
       {
         // --- addon gefunden
         $perm = $REX['ADDON']['perm'][$as];
-        $hasPerm = $perm == '' || $REX_USER->isValueOf('rights',$perm) || $REX_USER->isValueOf('rights','admin[]');
+        $hasPerm = $perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->hasPerm('admin[]');
 
         // Suche zuerst nach einem Addon, dass so heisst wie die aktuelle page
+        // z.b addons/structure/pages/index.inc.php
         $addon_page = $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
         if(file_exists($addon_page) && $hasPerm && OOAddon::isAvailable($page))
         {
@@ -177,6 +133,7 @@ else
         {
           // Kein Addon gefunden, also suchen wir nach einem Addon,
           // dass vorgegeben hat, eine Page zu haben, die so heisst, wie die aktuelle
+          // z.b addons/xxx/pages/structure.inc.php
           $addon_page = $REX['INCLUDE_PATH'].'/addons/'. $as .'/pages/'. $page .'.inc.php';
           if(file_exists($addon_page) && $hasPerm && OOAddon::isAvailable($as))
           {
@@ -188,19 +145,19 @@ else
     }
 
     // ----- standard pages
-    if ($REX['PAGEPATH'] == '' && $page == 'addon' && ($REX_USER->isValueOf('rights','addon[]') || $REX_USER->isValueOf('rights','admin[]')))
+    if ($REX['PAGEPATH'] == '' && $page == 'addon' && ($REX_USER->hasPerm('addon[]') || $REX_USER->hasPerm('admin[]')))
     {
       $page_name = $I18N->msg('addon');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'specials' && ($REX_USER->isValueOf('rights','specials[]') || $REX_USER->isValueOf('rights','admin[]')))
+    }elseif ($REX['PAGEPATH'] == '' && $page == 'specials' && ($REX_USER->hasPerm('specials[]') || $REX_USER->hasPerm('admin[]')))
     {
       $page_name = $I18N->msg('specials');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'module' && ($REX_USER->isValueOf('rights','module[]') || $REX_USER->isValueOf('rights','admin[]')))
+    }elseif ($REX['PAGEPATH'] == '' && $page == 'module' && ($REX_USER->hasPerm('module[]') || $REX_USER->hasPerm('admin[]')))
     {
       $page_name = $I18N->msg('modules');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'template' && ($REX_USER->isValueOf('rights','template[]') || $REX_USER->isValueOf('rights','admin[]')))
+    }elseif ($REX['PAGEPATH'] == '' && $page == 'template' && ($REX_USER->hasPerm('template[]') || $REX_USER->hasPerm('admin[]')))
     {
       $page_name = $I18N->msg('template');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'user' && ($REX_USER->isValueOf('rights','user[]') || $REX_USER->isValueOf('rights','admin[]')))
+    }elseif ($REX['PAGEPATH'] == '' && $page == 'user' && ($REX_USER->hasPerm('user[]') || $REX_USER->hasPerm('admin[]')))
     {
       $page_name = $I18N->msg('user');
     }elseif ($REX['PAGEPATH'] == '' && $page == 'medienpool')
@@ -218,7 +175,6 @@ else
       $page = 'structure';
       $page_name = $I18N->msg('structure');
     }
-
   }
 }
 
