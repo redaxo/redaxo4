@@ -15,7 +15,7 @@ $KATPERM = false;
 if ($REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('admin[]')) $KATPERM = true;
 
 $KAT = new rex_sql;
-$KAT->debugsql = true;
+// $KAT->debugsql = true;
 $KAT->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id=$category_id AND startpage=1 AND clang=$clang");
 
 if ($KAT->getRows()!=1)
