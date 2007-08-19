@@ -1,7 +1,7 @@
 <?php
 /**
  * MetaForm Addon
- * 
+ *
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * @package redaxo3
@@ -18,26 +18,26 @@ define('REX_A62_FIELD_REX_MEDIALIST_BUTTON', 7);
 define('REX_A62_FIELD_REX_LINK_BUTTON',      8);
 
 define('REX_A62_FIELD_COUNT',                8);
- 
+
 require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_tableManager.inc.php';
 
 class rex_a62_tableExpander extends rex_form
 {
   var $metaPrefix;
   var $tableManager;
-  
+
   function rex_a62_tableExpander($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $this->metaPrefix = $metaPrefix;
     $this->tableManager = new rex_a62_tableManager($metaTable);
-    
+
     parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
   }
-  
+
   function init()
   {
     global $REX, $I18N_META_INFOS;
-    
+
     $field =& $this->addReadOnlyField('prefix', $this->metaPrefix);
     $field->setLabel($I18N_META_INFOS->msg('field_label_prefix'));
 
@@ -66,21 +66,21 @@ class rex_a62_tableExpander extends rex_form
       );
       $sql->next();
     }
-    
+
     $field =& $this->addTextField('title');
     $field->setLabel($I18N_META_INFOS->msg('field_label_title'));
-    
+
     $field =& $this->addSelectField('type');
     $field->setLabel($I18N_META_INFOS->msg('field_label_type'));
     $field->setAttribute('onchange', 'checkConditionalFields(this, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));');
     $select =& $field->getSelect();
     $select->setSize(1);
-    
+
     $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
     if($this->metaPrefix == 'med_')
       $qry .= ' WHERE label NOT LIKE "REX_MEDIA%"';
     $select->addSqlOptions($qry);
-    
+
     $notices = '';
     for($i = 1; $i < REX_A62_FIELD_COUNT; $i++)
     {
@@ -92,10 +92,10 @@ class rex_a62_tableExpander extends rex_form
     $notices .= '
     <script type="text/javascript">
       var needle = new getObj("'. $field->getAttribute('id') .'");
-      
+
       checkConditionalFields(needle.obj, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));
     </script>';
-    
+
     $field =& $this->addTextAreaField('params');
     $field->setLabel($I18N_META_INFOS->msg('field_label_params'));
     $field->setSuffix($notices);
@@ -111,19 +111,19 @@ class rex_a62_tableExpander extends rex_form
 //    $field =& $this->addTextAreaField('validate');
 //    $field->setLabel($I18N_META_INFOS->msg('field_label_validate'));
   }
-  
+
   function getFieldsetName()
   {
     global $I18N_META_INFOS;
     return $I18N_META_INFOS->msg('field_fieldset');
   }
-  
+
   function getFieldValue($fieldName)
   {
     $el =& $this->getElement($this->getFieldsetName(), $fieldName);
     return $el->getValue();
   }
-  
+
   function delete()
   {
     if(parent::delete())
@@ -134,33 +134,33 @@ class rex_a62_tableExpander extends rex_form
     }
     return false;
   }
-  
+
   function preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql)
   {
     global $REX;
-    
+
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
       // Vorm löschen, Prefix wieder anfügen
       return $this->addPrefix($fieldValue);
     }
-    
+
     return parent::preDelete($fieldsetName, $fieldName, $fieldValue, $deleteSql);
   }
-  
+
   function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
     global $REX;
-    
+
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
       // Den Namen mit Prefix speichern
       return $this->addPrefix($fieldValue);
     }
-    
+
     return parent::preSave($fieldsetName, $fieldName, $fieldValue, $saveSql);
   }
-  
+
   function preView($fieldsetName, $fieldName, $fieldValue)
   {
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
@@ -170,7 +170,7 @@ class rex_a62_tableExpander extends rex_form
     }
     return parent::preView($fieldsetName, $fieldName, $fieldValue);
   }
-  
+
   function addPrefix($string)
   {
     $lowerString = strtolower($string);
@@ -180,7 +180,7 @@ class rex_a62_tableExpander extends rex_form
     }
     return $string;
   }
-  
+
   function stripPrefix($string)
   {
     $lowerString = strtolower($string);
@@ -190,18 +190,18 @@ class rex_a62_tableExpander extends rex_form
     }
     return $string;
   }
-  
+
   function save()
   {
     global $I18N_META_INFOS;
-    
+
     $fieldName = $this->getFieldValue('name');
     if($fieldName == '')
       return $I18N_META_INFOS->msg('field_error_name');
-      
+
     if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
       return $I18N_META_INFOS->msg('field_error_chars_name');
-     
+
     // Prüfen ob schon eine Spalte mit dem Namen existiert (nur beim add nötig)
     if(!$this->isEditMode())
     {
@@ -212,40 +212,40 @@ class rex_a62_tableExpander extends rex_form
         return $I18N_META_INFOS->msg('field_error_unique_name');
       }
     }
-      
+
     // Den alten Wert aus der DB holen
-    // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den 
+    // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den
     // POST werten überschrieben werden!
     $fieldOldName = '';
     $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig läuft...
     $fieldOldDefault = '';
     if($this->sql->getRows() == 1)
-    { 
+    {
       $fieldOldName = $this->sql->getValue('name');
       $fieldOldPrior = $this->sql->getValue('prior');
       $fieldOldDefault = $this->sql->getValue('default');
     }
-      
+
     if(parent::save())
     {
       global $REX, $I18N;
-      
+
       $this->organizePriorities($this->getFieldValue('prior'), $fieldOldPrior);
       rex_generateAll();
-      
+
       $fieldName = $this->addPrefix($fieldName);
       $fieldType = $this->getFieldValue('type');
       $fieldDefault = $this->getFieldValue('default');
-      
+
       $sql = rex_sql::getInstance();
       $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. $REX['TABLE_PREFIX'] .'62_type` WHERE id='. $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
-      
+
       // TEXT Spalten dürfen in MySQL keine Defaultwerte haben
       if($fieldDbType == 'text')
         $fieldDefault = null;
-        
+
       if($this->isEditMode())
       {
         // Spalte in der Tabelle verändern
@@ -256,7 +256,7 @@ class rex_a62_tableExpander extends rex_form
         // Spalte in der Tabelle anlegen
         $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
-      
+
       if($tmRes)
       {
         // DefaultWerte setzen
@@ -269,30 +269,30 @@ class rex_a62_tableExpander extends rex_form
         return true;
       }
     }
-    
+
     return false;
   }
-  
+
   function organizePriorities($newPrio, $oldPrio)
   {
     if($newPrio == $oldPrio)
       return;
-      
+
     if ($newPrio < $oldPrio)
       $addsql = 'desc';
     else
       $addsql = 'asc';
-      
+
     $sql = new rex_sql();
     $sql->debugsql =& $this->debug;
     $sql->setQuery('SELECT field_id FROM '. $this->tableName .' WHERE name LIKE "'. $this->metaPrefix .'%" ORDER BY prior, updatedate '. $addsql);
-    
+
     $updateSql = new rex_sql();
     $updateSql->debugsql =& $this->debug;
-    $updateSql->setTable($this->tableName);
-    
+
     for($i = 0; $i < $sql->getRows(); $i++)
     {
+      $updateSql->setTable($this->tableName);
       $updateSql->setValue('prior', $i+1);
       $updateSql->setWhere('name LIKE "'. $this->metaPrefix .'%" AND field_id = '. $sql->getValue('field_id'));
       $updateSql->update();
