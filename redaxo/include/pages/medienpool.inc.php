@@ -1044,7 +1044,7 @@ if ($subpage == "detail")
                     	</p>';
 
   // ----- EXTENSION POINT
-  echo rex_register_extension_point('MEDIA_FORM_ADD', '', array ('file_id' => $file_id, 'media' => $gf));
+  echo rex_register_extension_point('MEDIA_FORM_EDIT', '', array ('file_id' => $file_id, 'media' => $gf));
 
   echo '
                       '. $add_ext_info .'
