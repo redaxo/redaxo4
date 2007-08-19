@@ -14,7 +14,7 @@
  */
 function rex_setuptitle($title)
 {
-  rex_title($title, '');
+  rex_title($title);
 
   echo '<div id="rex-stp">';
 }
@@ -385,17 +385,17 @@ if ($checkmodus == 3 && $send == 1)
   $err_msg = '';
 
   // -------------------------- Benötigte Tabellen prüfen
-  $TBLS = array (
-    $REX['TABLE_PREFIX'] .'action' => 0,
-    $REX['TABLE_PREFIX'] .'article' => 0,
-    $REX['TABLE_PREFIX'] .'article_slice' => 0,
-    $REX['TABLE_PREFIX'] .'clang' => 0,
-    $REX['TABLE_PREFIX'] .'file' => 0,
-    $REX['TABLE_PREFIX'] .'file_category' => 0,
-    $REX['TABLE_PREFIX'] .'module_action' => 0,
-    $REX['TABLE_PREFIX'] .'module' => 0,
-    $REX['TABLE_PREFIX'] .'template' => 0,
-    $REX['TABLE_PREFIX'] .'user' => 0
+  $requiredTables = array (
+    $REX['TABLE_PREFIX'] .'action',
+    $REX['TABLE_PREFIX'] .'article',
+    $REX['TABLE_PREFIX'] .'article_slice',
+    $REX['TABLE_PREFIX'] .'clang',
+    $REX['TABLE_PREFIX'] .'file',
+    $REX['TABLE_PREFIX'] .'file_category',
+    $REX['TABLE_PREFIX'] .'module_action',
+    $REX['TABLE_PREFIX'] .'module',
+    $REX['TABLE_PREFIX'] .'template',
+    $REX['TABLE_PREFIX'] .'user',
   );
 
   if ($dbanlegen == 4)
@@ -405,7 +405,7 @@ if ($checkmodus == 3 && $send == 1)
 
     if($err_msg == '')
     {
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_to_3_3.sql';
+      $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_3_3.sql';
       $err_msg .= rex_setupimport($import_sql);
     }
   }elseif ($dbanlegen == 3)
@@ -427,52 +427,50 @@ if ($checkmodus == 3 && $send == 1)
   }elseif ($dbanlegen == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
-    $err_msg .= rex_setup_addons(true);
+    $db = new rex_sql;
+    // $db->debugsql = true;
+    foreach($requiredTables as $table)
+    {
+      $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
+    }
 
+    $err_msg .= rex_setup_addons(true);
     if($err_msg == '')
     {
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_with_drop.sql';
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
       $err_msg .= rex_setupimport($import_sql);
     }
   }elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank neu einrichten
     $err_msg .= rex_setup_addons();
-
     if($err_msg == '')
     {
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_0_without_drop.sql';
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
       $err_msg .= rex_setupimport($import_sql);
     }
   }
 
-  // Prüfen, welche Tabellen bereits vorhanden sind
-  $db = new rex_sql;
-  $db->setQuery('SHOW TABLES');
 
-  for ($i = 0; $i < $db->getRows(); $i++, $db->next())
+  if($err_msg == "" && isset($dbanlegen))
   {
-    $tblname = $db->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
-    if (substr($tblname, 0, strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX'])
+    // Prüfen, welche Tabellen bereits vorhanden sind
+    $db = new rex_sql;
+    $db->setQuery('SHOW TABLES');
+
+    $existingTables = array();
+    for ($i = 0; $i < $db->getRows(); $i++, $db->next())
     {
-      // echo $tblname."<br />";
-      if (array_key_exists($tblname, $TBLS))
+      $tblname = $db->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
+      if (substr($tblname, 0, strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX'])
       {
-        $TBLS[$tblname] = 1;
+        $existingTables[] = $tblname;
       }
     }
-  }
 
-  // ----- Keine Datenbank anlegen
-  if (isset($dbanlegen) && $err_msg == "")
-  {
-    for ($i = 0; $i < count($TBLS); $i++)
+    foreach(array_diff($requiredTables, $existingTables) as $missingTable)
     {
-      if (current($TBLS) != 1)
-      {
-        $err_msg .= $I18N->msg('setup_031', key($TBLS)).'<br />';
-      }
-      next($TBLS);
+      $err_msg .= $I18N->msg('setup_031', $missingTable.'<br />');
     }
   }
 
@@ -655,9 +653,17 @@ if ($checkmodus == 4 && $send == 1)
         if ($REX['PSWFUNC'] != '')
           $redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
-        $insert = "INSERT INTO ".$REX['TABLE_PREFIX']."user (name,login,psw,rights,createdate,createuser,status) VALUES ('Administrator','$redaxo_user_login','$redaxo_user_pass','#admin[]#dev[]#import[]#stats[]#moveSlice[]#','".time()."','setup',1)";
-        $link = @ mysql_connect($REX['DB'][1]['HOST'], $REX['DB'][1]['LOGIN'], $REX['DB'][1]['PSW']);
-        if (!@ mysql_db_query($REX['DB'][1]['NAME'], $insert, $link))
+        $user = new rex_sql;
+        // $user->debugsql = true;
+        $user->setTable($REX['TABLE_PREFIX'].'user');
+        $user->setValue('name', 'Administrator');
+        $user->setValue('login', $redaxo_user_login);
+        $user->setValue('psw', $redaxo_user_pass);
+        $user->setValue('rights', '#admin[]#dev[]#import[]#stats[]#moveSlice[]#');
+        $user->setValue('createdate', time());
+        $user->setValue('createuser', 'setup');
+        $user->setValue('status', '1');
+        if (!$user->insert())
         {
           $err_msg .= $I18N->msg("setup_043");
         }
