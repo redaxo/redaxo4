@@ -38,7 +38,6 @@ class rex_sql
     $this->debugsql = false;
     $this->DBID = $DBID;
     $this->selectDB();
-    $this->flush();
 
     // MySQL Version bestimmen
     if ($REX['MYSQL_VERSION'] == '')
@@ -54,6 +53,8 @@ class rex_sql
         exit('Could not identifiy MySQL Version!');
       }
     }
+
+    $this->flush();
   }
 
   /**
