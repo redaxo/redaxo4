@@ -1,7 +1,7 @@
 <?php
 
-/** 
- *  
+/**
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -16,15 +16,15 @@ if ($function == "delete")
 {
   $del = new rex_sql;
 //  $del->debugsql = true;
-  $qry = 'SELECT 
-            * 
-          FROM 
-            '. $REX['TABLE_PREFIX'] .'module_action a 
-          LEFT JOIN 
-           '. $REX['TABLE_PREFIX'] .'module m 
-          ON 
-            a.module_id = m.id 
-          WHERE 
+  $qry = 'SELECT
+            *
+          FROM
+            '. $REX['TABLE_PREFIX'] .'module_action a
+          LEFT JOIN
+           '. $REX['TABLE_PREFIX'] .'module m
+          ON
+            a.module_id = m.id
+          WHERE
             a.action_id='. $action_id;
   $del->setQuery($qry); // module mit dieser aktion vorhanden ?
   if ($del->getRows() > 0)
@@ -56,7 +56,7 @@ if ($function == "add" or $function == "edit")
   $previewaction  = rex_post('previewaction','string');
   $presaveaction  = rex_post('presaveaction','string');
   $postsaveaction = rex_post('postsaveaction','string');
-  
+
   $previewstatus = 0;
   $presavestatus = 0;
   $postsavestatus = 0;
@@ -94,18 +94,22 @@ if ($function == "add" or $function == "edit")
     {
       $faction->setValue('createuser', $REX_USER->getValue('login'));
       $faction->setValue('createdate', time());
-      
+
       if($faction->insert())
         $message = $I18N->msg('action_added');
+      else
+        $message = $faction->getError();
     }
     else
     {
       $faction->setValue('updateuser', $REX_USER->getValue('login'));
       $faction->setValue('updatedate', time());
       $faction->setWhere('id=' . $action_id);
-      
+
       if($faction->update())
         $message = $I18N->msg('action_updated');
+      else
+        $message = $faction->getError();
     }
 
     if (isset ($goon) and $goon != '')
@@ -126,7 +130,7 @@ if ($function == "add" or $function == "edit")
 
       $hole = new rex_sql;
       $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
-      
+
       $name           = $hole->getValue('name');
       $previewaction  = $hole->getValue('preview');
       $presaveaction  = $hole->getValue('presave');
@@ -184,7 +188,7 @@ if ($function == "add" or $function == "edit")
         <form action="index.php" method="post">
           <fieldset>
             <legend class="rex-lgnd" id="edit">' . $legend . ' </legend>
-            
+
            <div class="rex-fldst-wrppr">
           <input type="hidden" name="page" value="module" />
           <input type="hidden" name="subpage" value="actions" />
@@ -197,7 +201,7 @@ if ($function == "add" or $function == "edit")
           </p>
             </div>
           </fieldset>
-          
+
           <fieldset>
             <legend class="rex-lgnd">Preview-Action ['. $I18N->msg('action_mode_preview') .']</legend>
            <div class="rex-fldst-wrppr">
@@ -309,7 +313,7 @@ if ($OUT)
       if (($sql->getValue('postsavemode') & $var) == $var)
         $postsavemode[] = $value;
 
-    echo '  
+    echo '
           <tr>
             <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="pics/modul.gif" width="16" height="16" alt="' . $sql->getValue("name") . '" title="' . $sql->getValue("name") . '" /></a></td>
             <td class="rex-icon">' . $sql->getValue("id") . '</td>

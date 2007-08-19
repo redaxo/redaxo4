@@ -215,7 +215,7 @@ if ($article->getRows() == 1)
             {
 
               $newsql = new rex_sql;
-              $newsql->debugsql = 0;
+              // $newsql->debugsql = true;
               $newsql->setTable($REX['TABLE_PREFIX'] . 'article_slice');
 
               if ($function == 'edit')
@@ -245,6 +245,8 @@ if ($article->getRows() == 1)
                 $newsql->setValue('updateuser', $REX_USER->getValue('login'));
                 if ($newsql->update())
                   $message .= $I18N->msg('block_updated');
+                else
+                  $message .= $newsql->getError();
 
               }
               elseif ($function == 'add')
@@ -260,6 +262,10 @@ if ($article->getRows() == 1)
                     $slice_id = $last_id;
                   }
                   $function = "";
+                }
+                else
+                {
+                  $message .= $newsql->getError();
                 }
               }
             }
@@ -550,22 +556,28 @@ if ($article->getRows() == 1)
       $meta_sql->setValue('name', $meta_article_name);
       $meta_sql->setValue('updatedate', time());
       $meta_sql->setValue('updateuser', $REX_USER->getValue('login'));
-      $meta_sql->update();
 
-      $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
+      if($meta_sql->update())
+      {
+        $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
 
-      $message = $I18N->msg("metadata_updated") . $message;
+        $message = $I18N->msg("metadata_updated") . $message;
 
-      rex_generateArticle($article_id);
+        rex_generateArticle($article_id);
 
-      // ----- EXTENSION POINT
-      $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
-        'id' => $article_id,
-        'clang' => $clang,
-        'keywords' => $meta_keywords,
-        'description' => $meta_description,
-        'name' => $meta_article_name,
-      ));
+        // ----- EXTENSION POINT
+        $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
+          'id' => $article_id,
+          'clang' => $clang,
+          'keywords' => $meta_keywords,
+          'description' => $meta_description,
+          'name' => $meta_article_name,
+        ));
+      }
+      else
+      {
+        $message .= $meta_sql->getError();
+      }
     }
     // ------------------------------------------ END: SAVE METADATA
 
@@ -585,7 +597,7 @@ if ($article->getRows() == 1)
       {
         $tadd .= '
                         <li>';
-        $class = ''; 
+        $class = '';
         if ($key == $ctype && $mode == 'edit')
         {
         	$class = ' class="rex-active"';

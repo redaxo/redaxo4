@@ -16,11 +16,15 @@ if (!empty($add_action))
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setValue('module_id', $modul_id);
   $action->setValue('action_id', $action_id);
-  
+
   if($action->insert())
   {
     $message = $I18N->msg('action_taken');
     $goon = 'ja';
+  }
+  else
+  {
+    $message = $action->getErrro();
   }
 }
 elseif (isset($function_action) and $function_action == 'delete')
@@ -28,11 +32,8 @@ elseif (isset($function_action) and $function_action == 'delete')
   $action = new rex_sql();
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setWhere('id='. $iaction_id . ' LIMIT 1');
-  
-  if($action->delete())
-  {
-    $message = $I18N->msg('action_deleted_from_modul');
-  }
+
+  $message = $action->delete($I18N->msg('action_deleted_from_modul'));
 }
 
 
@@ -89,9 +90,8 @@ if ($function == 'add' or $function == 'edit')
       $IMOD->setValue('ausgabe',$ausgabe);
       $IMOD->setValue('createdate',time());
       $IMOD->setValue('createuser',$REX_USER->getValue('login'));
-      $IMOD->insert();
-      $message = $I18N->msg('module_added');
 
+      $message = $IMOD->insert($I18N->msg('module_added'));
 
     } else {
       $modultyp->setQuery('select * from '.$REX['TABLE_PREFIX'].'module where id='.$modul_id);
@@ -109,10 +109,8 @@ if ($function == 'add' or $function == 'edit')
         $UMOD->setValue('ausgabe',$ausgabe);
         $UMOD->setValue('updatedate',time());
         $UMOD->setValue('updateuser',$REX_USER->getValue('login'));
-        $UMOD->update();
 
-        $message = $I18N->msg('module_updated').' | '.$I18N->msg('articel_updated');
-
+        $message = $UMOD->update($I18N->msg('module_updated').' | '.$I18N->msg('articel_updated'));
         $new_ausgabe = stripslashes($ausgabe);
 
 		if ($old_ausgabe != $new_ausgabe)

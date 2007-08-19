@@ -1,16 +1,16 @@
 <?php
 
 
-/** 
- * Funktionensammlung für die generierung der Artikel/Templates/Kategorien/Metainfos.. etc. 
- * @package redaxo3 
- * @version $Id$ 
+/**
+ * Funktionensammlung für die generierung der Artikel/Templates/Kategorien/Metainfos.. etc.
+ * @package redaxo3
+ * @version $Id$
  */
 
 // ----------------------------------------- Alles generieren
 
 /**
- * Startet den kompletten Generations-Prozess von allen Artikel/Kategorien für alle Dateien 
+ * Startet den kompletten Generations-Prozess von allen Artikel/Kategorien für alle Dateien
  */
 function rex_generateAll()
 {
@@ -83,14 +83,14 @@ function rex_generateAll()
 
 /**
  * Löscht die gecachten Dateien eines Artikels
- * 
- * @param $id ArtikelId des Artikels, der generiert werden soll 
+ *
+ * @param $id ArtikelId des Artikels, der generiert werden soll
  */
 
 function rex_deleteCacheArticle($id)
 {
   global $REX;
-	
+
   $CL = $REX['CLANG'];
   foreach($CL as $clang => $clang2)
   {
@@ -104,8 +104,8 @@ function rex_deleteCacheArticle($id)
 
 /**
  * Generiert alle *.article u. *.content Dateien eines Artikels/einer Kategorie
- * 
- * @param $id ArtikelId des Artikels, der generiert werden soll 
+ *
+ * @param $id ArtikelId des Artikels, der generiert werden soll
  * @param $refreshall Boolean Bei True wird der Inhalte auch komplett neu generiert, bei False nur die Metainfos
  */
 function rex_generateArticle($id, $refreshall = true)
@@ -141,21 +141,21 @@ function rex_generateArticle($id, $refreshall = true)
       'article_id' => $id,
       'last_update_stamp' => time()
     );
-    
+
     $class_vars = OORedaxo::getClassVars();
     unset($class_vars[array_search('id', $class_vars)]);
     $db_fields = $class_vars;
-    
+
     foreach($db_fields as $field)
       $params[$field] = $CONT->getValue($field);
-      
+
     $content = '<?php'."\n";
     foreach($params as $name => $value)
     {
       $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value,'\\\'') .'\';'."\n";
     }
     $content .= '?>';
-                
+
     if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
     {
       fputs($fp, $content);
@@ -185,7 +185,7 @@ function rex_generateArticle($id, $refreshall = true)
 
     // ----- EXTENSION POINT
     $MSG = rex_register_extension_point('CLANG_ARTICLE_GENERATED','',array ('id' => $id, 'clang' => $clang, 'article' => $CONT));
-	
+
     if ($MSG != '')
       echo '<p class="rex-warning"><span>'. $MSG .'</span></p>';
 
@@ -211,7 +211,7 @@ function rex_generateArticle($id, $refreshall = true)
 
 /**
  * Löscht einen Artikel
- * 
+ *
  * @param $id ArtikelId des Artikels, der gelöscht werden soll
  */
 function rex_deleteArticle($id, $ebene = 0)
@@ -282,7 +282,7 @@ function rex_deleteArticle($id, $ebene = 0)
 
 /**
  * Generiert alle *.alist u. *.clist Dateien einer Kategorie/eines Artikels
- * 
+ *
  * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
  */
 function rex_generateLists($re_id)
@@ -346,7 +346,7 @@ function rex_generateLists($re_id)
 
 /**
  * Macht einen Artikel zum Startartikel der eigenen Kategorie
- * 
+ *
  * @param $aid	Artikel ID
  */
 function rex_article2startpage($neu_id){
@@ -401,16 +401,18 @@ function rex_article2startpage($neu_id){
 		$alt2->update();
 		$neu2->update();
 	}
-	
+
 	// alle artikel suchen nach |art_id| und pfade ersetzen
 	// alles artikel mit re_id alt_id suchen und ersetzen
-	
+
 	$articles = new rex_sql();
+	$ia = new rex_sql();
 	$articles->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '%|$alt_id|%'");
-	for($i=0;$i<$articles->getRows();$i++){
+	for($i=0;$i<$articles->getRows();$i++)
+  {
 		$iid = $articles->getValue("id");
 		$ipath = str_replace("|$alt_id|","|$neu_id|",$articles->getValue("path"));
-		$ia = new rex_sql();
+
 		$ia->setTable($REX['TABLE_PREFIX']."article");
 		$ia->setWhere('id="'.$iid.'"');
 		$ia->setValue("path",$ipath);
@@ -435,10 +437,10 @@ function rex_article2startpage($neu_id){
 
 /**
  * Berechnet die Prios der Kategorien in einer Kategorie neu
- * 
+ *
  * @param $re_id    KategorieId der Kategorie, die erneuert werden soll
  * @param $clang    ClangId der Kategorie, die erneuert werden soll
- * @param $new_prio Neue PrioNr der Kategorie 
+ * @param $new_prio Neue PrioNr der Kategorie
  * @param $old_prio Alte PrioNr der Kategorie
  */
 function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
@@ -468,10 +470,10 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
 
 /**
  * Berechnet die Prios der Artikel in einer Kategorie neu
- * 
+ *
  * @param $re_id    KategorieId der Kategorie, die erneuert werden soll
  * @param $clang    ClangId der Kategorie, die erneuert werden soll
- * @param $new_prio Neue PrioNr der Kategorie 
+ * @param $new_prio Neue PrioNr der Kategorie
  * @param $old_prio Alte PrioNr der Kategorie
  */
 function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
@@ -501,7 +503,7 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
 
 /**
  * Verschieben eines Artikels von einer Kategorie in eine Andere
- * 
+ *
  * @param $id          ArtikelId des zu verschiebenden Artikels
  * @param $from_cat_id KategorieId des Artikels, der Verschoben wird
  * @param $to_cat_id   KategorieId in die der Artikel verschoben werden soll
@@ -589,18 +591,18 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 
 /**
  * Verschieben einer Kategorie in eine andere
- * 
+ *
  * @param $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
  * @param $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
-  
+
   global $REX;
-  
+
   $from_cat = (int) $from_cat;
   $to_cat = (int) $to_cat;
-    
+
   if ($from_cat == $to_cat)
   {
   	// kann nicht in gleiche kategroie kopiert werden
@@ -630,7 +632,7 @@ function rex_moveCategory($from_cat, $to_cat)
 				return false;
 			}
 		}
-		
+
 		// ----- folgende cats regenerate
 		$RC = array();
 		$RC[$fcat->getValue("re_id")] = 1;
@@ -644,7 +646,7 @@ function rex_moveCategory($from_cat, $to_cat)
 		}else
 		{
 			$to_path = "|";
-			$to_re_id = 0;	
+			$to_re_id = 0;
 		}
 
 		$from_path = $fcat->getValue("path").$from_cat."|";
@@ -653,38 +655,39 @@ function rex_moveCategory($from_cat, $to_cat)
 		// $gcats->debugsql = 1;
 		$gcats->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '".$from_path."%' and clang=0");
 
+		$up = new rex_sql;
+		// $up->debugsql = 1;
 		for($i=0;$i<$gcats->getRows();$i++)
 		{
 			// make update
 			$new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
 			$icid = $gcats->getValue("id");
 			$irecid = $gcats->getValue("re_id");
-			
+
 			// path aendern und speichern
-			$up = new rex_sql;
-			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->setWhere("id=$icid");
 			$up->setValue("path",$new_path);
 			$up->update();
-			
-			// cat in gen eintragen			
+
+			// cat in gen eintragen
 			$RC[$icid] = 1;
-			
+
 			$gcats->next();
-		}		
+		}
 
 		// ----- clang holen, max catprio holen und entsprechen updaten
 		$CL = $REX['CLANG'];
 		reset($CL);
+
+		$gmax = new rex_sql;
+		$up = new rex_sql;
+		// $up->debugsql = 1;
 		for ($i = 0; $i < count($CL); $i ++)
 		{
 			$clang = key($CL);
-			$gmax = new rex_sql;
 			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=$clang");
 			$catprior = (int) $gmax->getValue("max(catprior)");
-			$up = new rex_sql;
-			// $up->debugsql = 1;
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->setWhere("id=$from_cat and clang=$clang ");
 			$up->setValue("path",$to_path);
@@ -699,7 +702,7 @@ function rex_moveCategory($from_cat, $to_cat)
 		{
 			rex_generateArticle($id,false);
 		}
-		
+
 		$CL = $REX['CLANG'];
 		reset($CL);
 		for ($j=0;$j<count($CL);$j++)
@@ -708,7 +711,7 @@ function rex_moveCategory($from_cat, $to_cat)
 			rex_newCatPrio($fcat->getValue("re_id"),$mlang,0,1);
 			next($CL);
 		}
-		
+
 		return true;
 	}
   }
@@ -716,7 +719,7 @@ function rex_moveCategory($from_cat, $to_cat)
 
 /**
  * Kopieren eines Artikels von einer Kategorie in eine andere
- * 
+ *
  * @param $id          ArtikelId des zu kopierenden Artikels
  * @param $to_cat_id   KategorieId in die der Artikel kopiert werden soll
  */
@@ -735,7 +738,7 @@ function rex_copyArticle($id, $to_cat_id)
     $from_sql = new rex_sql;
     $qry = 'select * from '.$REX['TABLE_PREFIX'].'article where clang="'.$clang.'" and id="'. $id .'"';
     $from_sql->setQuery($qry);
- 
+
     if ($from_sql->getRows() == 1)
     {
       // validierung der to_cat_id
@@ -754,11 +757,11 @@ function rex_copyArticle($id, $to_cat_id)
       		$path = '|';
       		$catname = $from_sql->getValue("name");
       	}
-      	
+
         $art_sql = new rex_sql;
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
         if ($new_id == "") $new_id = $art_sql->setNewId('id');
-        $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen 
+        $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
         $art_sql->setValue('re_id', $to_cat_id);
         $art_sql->setValue('path', $path);
         $art_sql->setValue('catname', $catname);
@@ -770,7 +773,7 @@ function rex_copyArticle($id, $to_cat_id)
 
         // schon gesetzte Felder nicht wieder überschreiben
         $dont_copy = array ('id', 'pid', 're_id', 'catname', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
-        
+
         foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
         {
           $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
@@ -807,7 +810,7 @@ function rex_copyArticle($id, $to_cat_id)
 
 /**
  * Kopieren einer Kategorie in eine andere
- * 
+ *
  * @param $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
  * @param $to_cat_id   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
  */
@@ -818,7 +821,7 @@ function rex_copyCategory($from_cat, $to_cat)
 
 /**
  * Kopiert die Metadaten eines Artikels in einen anderen Artikel
- * 
+ *
  * @param $from_id      ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
  * @param $to_id        ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
  * @param [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
@@ -868,7 +871,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
 /**
  * Kopiert die Inhalte eines Artikels in einen anderen Artikel
- * 
+ *
  * @param $from_id           ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
  * @param $to_id             ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
  * @param [$from_clang]      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
@@ -891,8 +894,8 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     // letzt slice_id des ziels holen ..
     $glid = new rex_sql;
     $glid->setQuery("select r1.id, r1.re_article_slice_id
-                     from ".$REX['TABLE_PREFIX']."article_slice as r1 
-                     left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id 
+                     from ".$REX['TABLE_PREFIX']."article_slice as r1
+                     left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id
                      where r1.article_id=$to_id and r1.clang=$to_clang and r2.id is NULL;");
     if ($glid->getRows() == 1)
       $to_last_slice_id = $glid->getValue("r1.id");
@@ -941,14 +944,14 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
 
 /**
  * Löscht einen Ordner/Datei mit Unterordnern
- * 
- * @param $file Zu löschender Ordner/Datei 
- * @param $delete_folders Ordner auch löschen? false => nein, true => ja 
+ *
+ * @param $file Zu löschender Ordner/Datei
+ * @param $delete_folders Ordner auch löschen? false => nein, true => ja
  */
 function rex_deleteDir($file, $delete_folders = false)
 {
   $state = true;
-    
+
   if (file_exists($file))
   {
     // Fehler unterdrücken, falls keine Berechtigung
@@ -1013,8 +1016,8 @@ function rex_deleteDir($file, $delete_folders = false)
 
 /**
  * Löscht eine Clang
- * 
- * @param $id Zu löschende ClangId 
+ *
+ * @param $id Zu löschende ClangId
  */
 function rex_deleteCLang($id)
 {
@@ -1068,15 +1071,15 @@ function rex_deleteCLang($id)
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_DELETED','',array ('id' => $id));
-  
+
   rex_generateAll();
 }
 
 /**
  * Erstellt eine Clang
- * 
- * @param $id   Id der Clang 
- * @param $name Name der Clang 
+ *
+ * @param $id   Id der Clang
+ * @param $name Name der Clang
  */
 function rex_addCLang($id, $name)
 {
@@ -1108,11 +1111,13 @@ function rex_addCLang($id, $name)
   $add = new rex_sql();
   $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
   $fields = $add->getFieldnames();
+
+  $adda = new rex_sql;
+  // $adda->debugsql = 1;
   for ($i = 0; $i < $add->getRows(); $i ++)
   {
-    $adda = new rex_sql;
-    // $adda->debugsql = 1;
     $adda->setTable($REX['TABLE_PREFIX']."article");
+
     foreach($fields as $key => $value)
     {
       if ($value == "pid")
@@ -1122,14 +1127,12 @@ function rex_addCLang($id, $name)
           $adda->setValue("clang", $id);
         else
           if ($value == "status")
-            $adda->setValue("status", "0"); // Alle neuen Artikel offline 
+            $adda->setValue("status", "0"); // Alle neuen Artikel offline
       else
         $adda->setValue($value, rex_addslashes($add->getValue("$value")));
-      //  createuser
-      //  updateuser
     }
-    $adda->insert();
 
+    $adda->insert();
     $add->next();
   }
   $add = new rex_sql();
@@ -1137,15 +1140,15 @@ function rex_addCLang($id, $name)
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
-  
+
   rex_generateAll();
 }
 
 /**
  * Ändert eine Clang
- * 
- * @param $id   Id der Clang 
- * @param $name Name der Clang 
+ *
+ * @param $id   Id der Clang
+ * @param $name Name der Clang
  */
 function rex_editCLang($id, $name)
 {
@@ -1163,7 +1166,7 @@ function rex_editCLang($id, $name)
   @ chmod($REX['INCLUDE_PATH']."/clang.inc.php", 0777);
   $edit = new rex_sql;
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
-  
+
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
 }
@@ -1231,11 +1234,11 @@ function rex_generateAddons($ADDONS, $debug = false)
 function rex_generateTemplate($template_id)
 {
   global $REX;
-  
+
   $sql = new rex_sql();
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX']  .'template WHERE id = '.$template_id;
   $sql->setQuery($qry);
-  
+
   if($sql->getRows() == 1)
   {
     if($fp = fopen($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w"))
@@ -1257,11 +1260,11 @@ function rex_generateTemplate($template_id)
 
 /**
  * Holt ein upgeloadetes File und legt es in den Medienpool
- * Dabei wird kontrolliert ob das File schon vorhanden ist und es 
+ * Dabei wird kontrolliert ob das File schon vorhanden ist und es
  * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
- * 
+ *
  * @param $FILE
- * @param $rex_file_category 
+ * @param $rex_file_category
  * @param $FILEINFOS
  * @param $userlogin
 */
@@ -1377,8 +1380,8 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 
 /**
  * Escaped einen String
- * 
- * @param $string Zu escapender String 
+ *
+ * @param $string Zu escapender String
  */
 function rex_addslashes($string, $flag = '\\\'\"')
 {

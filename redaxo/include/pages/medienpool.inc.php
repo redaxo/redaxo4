@@ -457,8 +457,15 @@ if ($PERMALL && $subpage == "categories")
     $db->setValue('name',$cat_name);
     $db->setValue('updatedate',time());
     $db->setValue('updateuser',$REX_USER->getValue('login'));
-    $db->update();
-    $msg = $I18N->msg('pool_kat_updated',$cat_name);
+
+    if($db->update())
+    {
+      $msg .= $I18N->msg('pool_kat_updated',$cat_name);
+    }
+    else
+    {
+      $msg .= $db->getError();
+    }
 
   } elseif ($media_method == 'delete_file_cat')
   {
@@ -485,8 +492,15 @@ if ($PERMALL && $subpage == "categories")
     $db->setValue('createuser',$REX_USER->getValue('login'));
     $db->setValue('updatedate',time());
     $db->setValue('updateuser',$REX_USER->getValue('login'));
-    $db->insert();
-    $msg = $I18N->msg('pool_kat_saved',$_REQUEST["catname"]);
+
+    if($db->insert())
+    {
+      $msg .= $I18N->msg('pool_kat_saved',$_REQUEST["catname"]);
+    }
+    else
+    {
+      $msg .= $db->getError();
+    }
   }
 
   $link = 'index.php?page=medienpool&amp;subpage=categories&amp;cat_id=';

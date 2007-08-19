@@ -95,6 +95,10 @@ if ($function == "add" or $function == "edit") {
 	      $template_id = $TPL->getLastId();
 	      $message = $I18N->msg("template_added");
       }
+      else
+      {
+        $message = $TPL->getError();
+      }
     } else {
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
 
@@ -103,11 +107,7 @@ if ($function == "add" or $function == "edit") {
       $TPL->setValue("updatedate", time());
       $TPL->setValue("updateuser", $REX_USER->getValue("login"));
 
-      if($TPL->update())
-      {
-	      $message = $I18N->msg("template_updated");
-      }
-
+      $message = $TPL->update($I18N->msg("template_updated"));
     }
 		// werte werden direkt wieder ausgegeben
     $templatename = stripslashes($templatename);
