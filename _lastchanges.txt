@@ -131,7 +131,7 @@ Version 3.3 (2007-XX-XX)
     - ART_META_FORM_SECTION [kills]
     - ART_META_PARAMS [kills]
     - PAGE_HEADER [kills]
-    - CAT_META_FORM_ADD, CAT_META_FORM_EDIT [jan]
+    - CAT_FORM_ADD, CAT_FORM_EDIT [jan,kills]
     - CAT_FORM_BUTTONS[kills]
   * rexVars API implementiert (Modularisiert) [jan,kills]
     - neue rexVars:

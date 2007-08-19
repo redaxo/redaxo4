@@ -8,8 +8,8 @@
  * @version $Id$
  */
 
-rex_register_extension('CAT_META_FORM_ADD', 'rex_a62_metainfo_form');
-rex_register_extension('CAT_META_FORM_EDIT', 'rex_a62_metainfo_form');
+rex_register_extension('CAT_FORM_ADD', 'rex_a62_metainfo_form');
+rex_register_extension('CAT_FORM_EDIT', 'rex_a62_metainfo_form');
 
 rex_register_extension('CAT_ADDED', 'rex_a62_metainfo_form');
 rex_register_extension('CAT_UPDATED', 'rex_a62_metainfo_form');
