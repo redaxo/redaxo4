@@ -577,17 +577,22 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
   {
     $add_td = '<td class="rex-icon">-</td>';
   }
+
+  $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
+  $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'" />';
+
   echo '
         <tr class="rex-trow-actv">
-          <td class="rex-icon"><img src="pics/folder.gif" width="16px" height="16px" title="'. $I18N->msg('add_category') .'" alt="'. $I18N->msg('add_category') .'" /></td>
+          <td class="rex-icon"><img src="pics/folder.gif" width="16" height="16" title="'. $I18N->msg('add_category') .'" alt="'. $I18N->msg('add_category') .'" /></td>
           '. $add_td .'
           <td><input type="text" id="category_name" name="category_name" /></td>
           <td><input type="text" id="Position_New_Category" name="Position_New_Category" value="100" /></td>
-          <td colspan="2"><input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'" /></td>
+          <td>'. $add_buttons .'</td>
+          <td class="rex-offline">'. $I18N->msg('status_offline') .'</td>
         </tr>';
 
   // ----- EXTENSION POINT
-  echo rex_register_extension_point('CAT_META_FORM_ADD', "", array (
+  echo rex_register_extension_point('CAT_META_FORM_ADD', '', array (
       'id' => $category_id,
       'clang' => $clang,
       'data_colspan' => ($data_colspan+1),
@@ -635,7 +640,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
       }
 
-      $add_buttons = rex_register_extension_point('CAT_FORM_BUTTON_ADD', "" );
+      $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
 
       $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('edit_category'). '" />';
       if (!$REX_USER->hasPerm('editContentOnly[]'))

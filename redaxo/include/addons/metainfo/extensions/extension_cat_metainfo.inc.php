@@ -8,13 +8,13 @@
  * @version $Id$
  */
 
-//rex_register_extension('CAT_META_FORM_ADD', 'rex_a62_metainfo_form');
+rex_register_extension('CAT_META_FORM_ADD', 'rex_a62_metainfo_form');
 rex_register_extension('CAT_META_FORM_EDIT', 'rex_a62_metainfo_form');
 
-//rex_register_extension('CAT_ADDED', 'rex_a62_metainfo_form');
+rex_register_extension('CAT_ADDED', 'rex_a62_metainfo_form');
 rex_register_extension('CAT_UPDATED', 'rex_a62_metainfo_form');
 
-rex_register_extension('CAT_FORM_BUTTON_ADD', 'rex_a62_metainfo_button');
+rex_register_extension('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {
@@ -47,17 +47,17 @@ function rex_metainfo_toggle()
 function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt)
 {
   global $REX_USER;
-  
+
   $colspan = 4;
   if ($REX_USER->hasPerm('advancedMode[]'))
     $colspan++;
-  
+
   $s = '
   <tr class="rex-trow-actv rex-metainfo-cat-hdr rex-metainfo-cat" style="display:none;">
   	<td>&nbsp;</td>
   	<td colspan="'. $colspan .'"><label for="'. $id .'">'. $label .'</label></td>
 	</tr>';
-  
+
   $s .= '
   <tr class="rex-trow-actv rex-metainfo-cat" style="display:none;">
     <td>&nbsp;</td>
@@ -72,15 +72,19 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
  */
 function rex_a62_metainfo_form($params)
 {
-  $params['activeItem'] = $params['category'];
-  // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
-  $params['activeItem']->setValue('category_id', $params['id']);
+  if(isset($params['category']))
+  {
+    $params['activeItem'] = $params['category'];
+
+    // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
+    $params['activeItem']->setValue('category_id', $params['id']);
+  }
 
   $result = _rex_a62_metainfo_form('cat_', $params, '_rex_a62_metainfo_cat_handleSave');
 
   // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
   if($params['extension_point'] == 'CAT_UPDATED'
-     //|| $params['extension_point'] == 'CAT_ADDED'
+     || $params['extension_point'] == 'CAT_ADDED'
      )
     return $params['subject'];
   else
