@@ -21,11 +21,6 @@ class OORedaxo
   var $_prior = "";
   var $_startpage = "";
   var $_status = "";
-  var $_label = "";
-  var $_url = "";
-  var $_file = "";
-  var $_keywords = "";
-  var $_description = "";
   var $_attributes = "";
   var $_updatedate = "";
   var $_createdate = "";
