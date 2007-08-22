@@ -432,6 +432,14 @@ class rex_sql
   }
 
   /**
+   * Prüft, ob ein Fehler aufgetreten ist
+   */
+  function hasError()
+  {
+    return $this->error != '';
+  }
+
+  /**
    * Gibt die letzte Fehlermeldung aus
    */
   function printError($select)
