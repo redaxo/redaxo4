@@ -89,11 +89,18 @@ else
     $REX_LOGIN->setLogout(true);
 
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
+  $loginCheck = $REX_LOGIN->checkLogin();
 
-  if (!$REX_LOGIN->checkLogin())
+  if ($loginCheck !== true)
   {
   	// login failed
+
     $FORM['loginmessage'] = $REX_LOGIN->message;
+
+    // Fehlermeldung von der Datenbank
+    if(is_string($loginCheck))
+      $FORM['loginmessage'] = $loginCheck;
+
     $LOGIN = FALSE;
     $page = 'login';
   } else

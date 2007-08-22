@@ -355,6 +355,9 @@ class rex_backend_login extends rex_login
       }
     }
 
+    if($fvs->hasError())
+      return $fvs->getError();
+
     return $check;
   }
 }
