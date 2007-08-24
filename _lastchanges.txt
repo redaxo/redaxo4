@@ -139,7 +139,7 @@ Version 3.3 (2007-XX-XX)
        + REX_SLICE_ID [jan,kills]
        + REX_CTYPE_ID [jan,kills]
        + REX_TEMPLATE_ID [jan,kills]
-       + REX_USER_ID [kills]
+       + REX_USER_ID, REX_USER_LOGIN [jan,kills]
        + REX_TEMPLATE[x] [kills]
        + REX_ARTICLE[x] [kills]
        + REX_ARTICLE_VAR[x] [kills]
