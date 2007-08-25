@@ -315,7 +315,9 @@ class rex_login
 
 class rex_backend_login extends rex_login
 {
-  function rex_backend_login()
+  var $tableName;
+
+  function rex_backend_login($tableName)
   {
     global $REX;
 
@@ -324,9 +326,10 @@ class rex_backend_login extends rex_login
     $this->setSqlDb(1);
     $this->setSysID($REX['INSTNAME']);
     $this->setSessiontime(3000);
-    $this->setUserID($REX['TABLE_PREFIX'].'user.user_id');
-    $this->setUserquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND user_id = "USR_UID"');
-    $this->setLoginquery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
+    $this->setUserID($tableName .'.user_id');
+    $this->setUserquery('SELECT * FROM '. $tableName .' WHERE status=1 AND user_id = "USR_UID"');
+    $this->setLoginquery('SELECT * FROM '.$tableName .' WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
+    $this->tableName = $tableName;
   }
 
   function checkLogin()
@@ -343,7 +346,7 @@ class rex_backend_login extends rex_login
       if($this->usr_login != '')
       {
         $this->sessionFixation();
-        $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'"');
+        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'"');
       }
     }
     else
@@ -351,7 +354,7 @@ class rex_backend_login extends rex_login
       // fehlversuch speichern | login_tries++
       if($this->usr_login != '')
       {
-        $fvs->setQuery('UPDATE '.$REX['TABLE_PREFIX'].'user SET login_tries=login_tries+1,lasttrydate='.time().' WHERE login="'. $this->usr_login .'"');
+        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=login_tries+1,lasttrydate='.time().' WHERE login="'. $this->usr_login .'"');
       }
     }
 

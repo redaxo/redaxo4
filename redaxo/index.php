@@ -78,7 +78,7 @@ else
   header('Pragma: no-cache');
 
   // ---- prepare login
-  $REX_LOGIN = new rex_backend_login();
+  $REX_LOGIN = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
   $REX_ULOGIN = rex_post('REX_ULOGIN', 'string');
   $REX_UPSW = rex_post('REX_UPSW', 'string');
 
