@@ -535,3 +535,6 @@ addon_caption = Liste der verfügbaren AddOns
 addon_summary = Auflistung aller AddOns
 addon_systemaddon = System AddOn
 addon_systemaddon_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
+
+# redaxo\include\classes\class.rex_list.inc.php
+list_no_rows = Keine Daten vorhanden
