@@ -64,8 +64,9 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
+  * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade! [kills, jan]
   * MINI API
-    - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen
+    - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen [jan]
   * Artikel muss nun ein Template haben um ausgegeben zu werden. [jan]
   * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
     - Addon trägt den Namen der Page + install/aktiviert
@@ -87,9 +88,9 @@ Version 3.3 (2007-XX-XX)
    * neue Compatibilitäts Bibliothek [kills,jan]
     - Alte Klassenbezeichnung ab nun NICHT mehr verwenden !
         Klassen:
-        + login -> rex_login()
-        + sql -> rex_sql()
-        + article -> rex_article()
+        + login -> rex_login
+        + sql -> rex_sql
+        + article -> rex_article
         Methoden:
         + sql::query() -> sql::setQuery()
         + sql::get_array() -> sql::getArray()
