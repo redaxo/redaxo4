@@ -8,7 +8,7 @@
  * REX_PHP,
  * REX_HTML,
  * REX_IS_VALUE
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -16,7 +16,7 @@
 class rex_var_value extends rex_var
 {
   // --------------------------------- Actions
-  
+
   function getACRequestValues($REX_ACTION)
   {
     $values = rex_request('VALUE', 'array');
@@ -29,14 +29,14 @@ class rex_var_value extends rex_var
     }
     $REX_ACTION['PHP'] = stripslashes(rex_request('INPUT_PHP', 'string'));
     $REX_ACTION['HTML'] = $this->stripPHP(stripslashes(rex_request('INPUT_HTML', 'string')));
-    
+
     return $REX_ACTION;
   }
 
   function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     global $REX;
-    
+
     for ($i = 1; $i < 21; $i++)
     {
       if ($escape)
@@ -44,7 +44,7 @@ class rex_var_value extends rex_var
       else
         $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i]);
     }
-    
+
     if ($escape)
     {
       $this->setValue($sql, 'php', addslashes($REX_ACTION['PHP']));
@@ -58,7 +58,7 @@ class rex_var_value extends rex_var
   }
 
   // --------------------------------- Output
-  
+
   function getBEOutput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content, true);
@@ -73,7 +73,7 @@ class rex_var_value extends rex_var
   function getBEInput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
-    $content = str_replace('REX_PHP', $this->stripPHP($this->getValue($sql, 'php')), $content);
+    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php')), $content);
     return $content;
   }
 
@@ -131,7 +131,7 @@ class rex_var_value extends rex_var
   function _matchValue(& $sql, $content, $var, $escape = false, $nl2br = false, $stripPHP = false, $booleanize = false)
   {
     $matches = $this->getInputParams($content, $var);
-    
+
 
     foreach ($matches as $match)
     {
