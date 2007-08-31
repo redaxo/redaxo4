@@ -207,6 +207,9 @@ rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT, '', true);
 if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == 'backend')
   $CONTENT = rex_send_gzip($CONTENT);
 
+// Evtl offene Db Verbindungen schlieﬂen
+rex_sql::disconnect(null);
+
 // ----- inhalt ausgeben
 echo $CONTENT;
 

@@ -31,9 +31,13 @@ class rex_sql
 		// Baue eine Verbindung via mysql_pconnect auf
 		// Falls das Fehl schlägt, verbindung über mysql_connect aufbauen
 		// Bei manchen Providern ist mysql_pconnect nicht aktiviert/freigeschaltet
-    $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
     if(!$this->identifier)
-			$this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+    {
+      if($REX['DB'][$DBID]['PERSISTENT'])
+        $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+      else
+        $this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+    }
 
     $this->debugsql = false;
     $this->DBID = $DBID;
@@ -525,22 +529,37 @@ class rex_sql
   /**
    * Gibt ein SQL Singelton Objekt zurück
    */
-  function getInstance()
+  function getInstance($DBID=1, $createInstance = true)
   {
-    static $instance;
+    static $instance = null;
 
     if ($instance)
       $instance->flush();
-    else
-      $instance = new rex_sql();
+    else if($createInstance)
+      $instance = new rex_sql($DBID);
 
     return $instance;
   }
 
-  function disconnect()
+  function disconnect($DBID=1)
   {
-    if($this->identifier)
-      mysql_close($this->identifier);
+    global $REX;
+
+    // Alle Connections schließen
+    if($DBID === null)
+    {
+      rex_sql::disconnect(1);
+      rex_sql::disconnect(2);
+      return;
+    }
+
+    if(!$REX['DB'][$DBID]['PERSISTENT'])
+    {
+      $db = rex_sql::getInstance($DBID, false);
+
+      if($db->identifier)
+        mysql_close($db->identifier);
+    }
   }
 }
 ?>

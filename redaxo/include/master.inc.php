@@ -16,9 +16,11 @@ if (!$REX['GG']) $REX['GG'] = false;
 $REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
-$REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
 $REX['VERSION'] = "3";
 $REX['SUBVERSION'] = "3";
+$REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
+$REX['FILEPERM'] = octdec(775); // oktaler wert
+$REX['INSTNAME'] = "rex20070826190640";
 
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
@@ -51,12 +53,11 @@ $REX['USE_ETAG'] = false;
 // Boolean: true/false
 $REX['USE_LAST_MODIFIED'] = false;
 
-$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include"); //
-$REX['MEDIAFOLDER'] = $REX['HTDOCS_PATH']."files"; //
+// versch. Pfade
+$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include");
+$REX['MEDIAFOLDER'] = realpath($REX['HTDOCS_PATH']."files");
 $REX['TABLE_PREFIX'] = "rex_";
 $REX['TEMP_PREFIX'] = "tmp_";
-$REX['FILEPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20070808200632";
 
 // Passwortverschlüsselung, z.B: md5 / mcrypt ...
 $REX['PSWFUNC'] = "";
@@ -70,7 +71,7 @@ $REX['MAXLOGINS'] = 50;
 // Page auf die nach dem Login weitergeleitet wird
 $REX['START_PAGE'] = 'structure';
 
-// ----------------- OTHER VARS
+// ----------------- OTHER STUFF
 $REX['SYSTEM_ADDONS'] = array('import_export','metainfo');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
@@ -79,12 +80,14 @@ $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
 $REX['DB']['1']['NAME'] = "redaxo3_3";
+$REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
 $REX['DB']['2']['HOST'] = "";
 $REX['DB']['2']['LOGIN'] = "";
 $REX['DB']['2']['PSW'] = "";
 $REX['DB']['2']['NAME'] = "";
+$REX['DB']['2']['PERSISTENT'] = false;
 
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
