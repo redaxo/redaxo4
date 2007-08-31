@@ -55,7 +55,7 @@ class rex_list
 
   // --------- Table Attributes
   var $tableAttributes;
-  var $tableColumnGroupes;
+  var $tableColumnGroups;
 
   // --------- Pagination Attributes
   var $rowsPerPage;
