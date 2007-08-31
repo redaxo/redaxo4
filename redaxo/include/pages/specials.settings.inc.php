@@ -64,17 +64,17 @@ elseif ($func == "linkchecker")
   }
 
   if (count($LART) == 0)
-    $message = $I18N->msg("links_ok");
+    $message = $I18N->msg('links_ok');
   else
-    $message = $I18N->msg("links_not_ok")."<br /> ".$message." |";
+    $message = $I18N->msg('links_not_ok').'<br /> '.$message.' |';
 
 }
 elseif ($func == 'updateinfos')
 {
   $REX['LANG'] = $neu_lang;
 
-  $h = fopen("include/master.inc.php", "r");
-  $cont = fread($h, filesize("include/master.inc.php"));
+  $h = fopen('include/master.inc.php', 'r');
+  $cont = fread($h, filesize('include/master.inc.php'));
 
   $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
   $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
@@ -82,37 +82,14 @@ elseif ($func == 'updateinfos')
   $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
-
-  // DB2 nur updaten, wenn das Formular unten aktiviert ist
-  if (isset ($neu_db2_host) && $neu_db2_host != '')
-  {
-    $cont = ereg_replace("(REX\['DB'\]\['2'\]\['HOST'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_host)."\"", $cont);
-    $cont = ereg_replace("(REX\['DB'\]\['2'\]\['LOGIN'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_login)."\"", $cont);
-    $cont = ereg_replace("(REX\['DB'\]\['2'\]\['PSW'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_psw)."\"", $cont);
-    $cont = ereg_replace("(REX\['DB'\]\['2'\]\['NAME'\].?\=.?)[^;]*", "\\1\"". ($neu_db2_name)."\"", $cont);
-  }
-
-  // Mod-Rewrite
   $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
-  $cont = ereg_replace("(REX\['USE_GZIP'\].?\=.?)[^;]*","\\1\"".strtolower($neu_usegezip)."\"",$cont);
-  $cont = ereg_replace("(REX\['USE_ETAG'\].?\=.?)[^;]*","\\1".strtolower($neu_useetag),$cont);
-  $cont = ereg_replace("(REX\['USE_LAST_MODIFIED'\].?\=.?)[^;]*","\\1".strtolower($neu_uselastmodified),$cont);
 
   fclose($h);
-  $h = fopen("include/master.inc.php", "w+");
+  $h = fopen('include/master.inc.php', 'w+');
   fwrite($h, $cont, strlen($cont));
   fclose($h);
 
   $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-  $REX['USE_LAST_MODIFIED'] = $neu_uselastmodified === 'TRUE';
-  $REX['USE_ETAG'] = $neu_useetag === 'TRUE';
-  if($neu_usegezip === 'TRUE')
-    $REX['USE_GZIP'] = true;
-  elseif($neu_usegezip === 'FALSE')
-    $REX['USE_GZIP'] = false;
-  else
-    $REX['USE_GZIP'] = strtoupper($neu_usegezip);
-
   $REX['START_ARTICLE_ID'] = $neu_startartikel;
   $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
   $REX['EMAIL'] = $neu_error_emailaddress;
@@ -120,21 +97,7 @@ elseif ($func == 'updateinfos')
   $REX['SERVER'] = $neu_SERVER;
   $REX['SERVERNAME'] = $neu_SERVERNAME;
 
-  if (!isset ($neu_db2_host))
-    $neu_db2_host = '';
-  if (!isset ($neu_db2_login))
-    $neu_db2_login = '';
-  if (!isset ($neu_db2_psw))
-    $neu_db2_psw = '';
-  if (!isset ($neu_db2_name))
-    $neu_db2_name = '';
-  $REX['DB']['2']['HOST'] = $neu_db2_host;
-  $REX['DB']['2']['LOGIN'] = $neu_db2_login;
-  $REX['DB']['2']['PSW'] = $neu_db2_psw;
-  $REX['DB']['2']['NAME'] = $neu_db2_name;
-
-  $message = $I18N->msg("info_updated");
-
+  $message = $I18N->msg('info_updated');
 }
 
 $sel_lang = new rex_select();
@@ -156,26 +119,6 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
-
-$sel_use_etag =  $sel_mod_rewrite;
-$sel_use_etag->resetSelected();
-$sel_use_etag->setName('neu_useetag');
-$sel_use_etag->setId('rex_use_etag');
-$sel_use_etag->setSelected($REX['USE_ETAG'] === false ? 'FALSE' : 'TRUE');
-
-$sel_use_last_modified =  $sel_mod_rewrite;
-$sel_use_last_modified->resetSelected();
-$sel_use_last_modified->setName('neu_uselastmodified');
-$sel_use_last_modified->setId('rex_use_last_modified');
-$sel_use_last_modified->setSelected($REX['USE_LAST_MODIFIED'] === false ? 'FALSE' : 'TRUE');
-
-$sel_use_gzip =  $sel_mod_rewrite;
-$sel_use_gzip->resetSelected();
-$sel_use_gzip->setName('neu_usegezip');
-$sel_use_gzip->setId('rex_use_gzip');
-$sel_use_gzip->setSelected($REX['USE_GZIP'] === false ? 'FALSE' : $REX['USE_GZIP'] === true ? 'TRUE' : strtoupper($REX['USE_GZIP']));
-$sel_use_gzip->addOption('FRONTEND', 'FRONTEND');
-$sel_use_gzip->addOption('BACKEND', 'BACKEND');
 
 if ($message != "")
   echo '<p class="rex-warning"><span>'.$message.'</span></p>';
@@ -246,10 +189,10 @@ echo '
           <legend class="rex-lgnd">'.$I18N->msg("specials_others").'</legend>
           <p>
             <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
-            <span id="rex_include_path">&quot;';
+            <span id="rex_include_path" title="'. $REX['INCLUDE_PATH'] .'">&quot;';
 
    $tmp = $REX['INCLUDE_PATH'];
-   if (strlen($REX['INCLUDE_PATH'])>24) $tmp = substr($tmp,0,12)." ... ".substr($tmp,strlen($tmp)-12,12);
+   if (strlen($REX['INCLUDE_PATH'])>24) $tmp = substr($tmp,0,8)."...".substr($tmp,strlen($tmp)-14);
    echo $tmp;
    echo '&quot;</span>
           </p>
@@ -272,18 +215,6 @@ echo '
           <p>
             <label for="rex_mod_rewrite">$REX[\'MOD_REWRITE\']</label>
             '.$sel_mod_rewrite->get().'
-          </p>
-          <p>
-            <label for="rex_lang">$REX[\'USE_GZIP\']</label>
-            '.$sel_use_gzip->get().'
-          </p>
-          <p>
-            <label for="rex_lang">$REX[\'USE_ETAG\']</label>
-            '.$sel_use_etag->get().'
-          </p>
-          <p>
-            <label for="rex_lang">$REX[\'USE_LAST_MODIFIED\']</label>
-            '.$sel_use_last_modified->get().'
           </p>
           <p>
             <input type="submit" class="rex-sbmt" name="sendit" value="'.$I18N->msg("specials_update").'" />
