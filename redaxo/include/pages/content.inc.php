@@ -93,7 +93,7 @@ if ($article->getRows() == 1)
   if (!($KATPERM || $REX_USER->hasPerm('article[' . $article_id . ']')))
   {
     // ----- hat keine rechte an diesem artikel
-    echo '<p class="rex-warning"><span>' . $I18N->msg('no_rights_to_edit') . '</span></p>';
+    echo rex_warning($I18N->msg('no_rights_to_edit'));
 
   }
   else
@@ -649,7 +649,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ WARNING
     if ($mode != 'edit' && $message != '')
     {
-      echo '<p class="rex-warning"><span>' . $message . '</span></p>';
+      echo rex_warning($message);
     }
 
     echo '

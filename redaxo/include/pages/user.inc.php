@@ -1,9 +1,9 @@
 <?php
-/** 
- *  
- * @package redaxo3 
- * @version $Id$ 
- */ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
+ */
 
 /*
 
@@ -20,7 +20,7 @@ optionen
   advancedMode[]
 
 zugriff auf folgende categorien
-  csw[2] write 
+  csw[2] write
   csr[2] read
 
 mulselect zugriff auf mediapool
@@ -132,13 +132,13 @@ $sel_sprachen->setStyle('class=rex-perm-fselect');
 $sel_sprachen->setSize(3);
 $sel_sprachen->setName("userperm_sprachen[]");
 $sel_sprachen->setId("userperm_sprachen");
-	
+
 $sqlsprachen = new rex_sql;
 $sqlsprachen->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
   $name = $sqlsprachen->getValue("name");
-  // $c = substr_count($sql->getValue("path"),"|"); 
+  // $c = substr_count($sql->getValue("path"),"|");
   $sel_sprachen->addOption($name,$sqlsprachen->getValue("id"));
   $sqlsprachen->next();
 }
@@ -167,7 +167,7 @@ $sqlmodule->setQuery("select * from ".$REX['TABLE_PREFIX']."module order by name
 
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
-  $name = $sqlmodule->getValue("name"); 
+  $name = $sqlmodule->getValue("name");
   $sel_module->addOption($name,$sqlmodule->getValue("id"));
   $sqlmodule->next();
 }
@@ -204,7 +204,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   if (isset($_REQUEST["logintriesreset"]) && $_REQUEST["logintriesreset"] == 1) $updateuser->setValue("login_tries","0");
   if (isset($userstatus) and $userstatus == 1) $updateuser->setValue("status",1);
   else $updateuser->setValue("status",0);
-  
+
   $perm = "";
   if (isset($useradmin) and $useradmin == 1) $perm .= "#admin[]";
   if (isset($allcats) and $allcats == 1)     $perm .= "#csw[0]";
@@ -233,8 +233,8 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       $perm .= "#".current($userperm_extra);
       next($userperm_extra);
     }
-  }  
-  
+  }
+
   // userperm_cat
   if (isset($userperm_cat)) {
     for ($i=0;$i<count($userperm_cat);$i++)
@@ -246,14 +246,14 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       {
         foreach ( explode("|",$gp->getValue("path")) as $a)
         {
-          if ($a!="")$userperm_cat_read[$a] = $a; 
+          if ($a!="")$userperm_cat_read[$a] = $a;
         }
       }
       $perm .= "#"."csw[$ccat]";
       next($userperm_cat);
     }
   }
-      
+
   if (isset($userperm_cat_read)) {
     for ($i=0;$i<count($userperm_cat_read);$i++)
     {
@@ -262,7 +262,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       next($userperm_cat_read);
     }
   }
-  
+
   // userperm_media
   if (isset($userperm_media)) {
     for ($i=0;$i<count($userperm_media);$i++)
@@ -271,7 +271,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       next($userperm_media);
     }
   }
-      
+
   // userperm_sprachen
   if (isset($userperm_sprachen)) {
     for ($i=0;$i<count($userperm_sprachen);$i++)
@@ -280,11 +280,11 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       next($userperm_sprachen);
     }
   }
-  
+
   // userperm mylang
   if (!isset($userperm_mylang) or $userperm_mylang == "") $userperm_mylang = 'be_lang[default]';
   $perm .= "#"."$userperm_mylang";
-  
+
   // userperm_module
   if (isset($userperm_module)) {
     for ($i=0;$i<count($userperm_module);$i++)
@@ -293,16 +293,16 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       next($userperm_module);
     }
   }
-  
+
   $updateuser->setValue("rights",$perm."#");
   $updateuser->update();
-  
+
   if(isset($FUNC_UPDATE) && $FUNC_UPDATE != '')
   {
     unset($user_id);
     unset($FUNC_UPDATE);
   }
-  
+
   $message = $I18N->msg("user_data_updated");
 
 } elseif (isset($FUNC_DELETE) and $FUNC_DELETE != '')
@@ -341,12 +341,12 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     $adduser->setValue("createuser",$REX_USER->getValue("login"));
     if (isset($userstatus) and $userstatus == 1) $adduser->setValue("status",1);
     else $adduser->setValue("status",0);
-        
+
     $perm = "";
     if (isset($useradmin) and $useradmin == 1) $perm .= "#"."admin[]";
     if (isset($allcats) and $allcats == 1)     $perm .= "#"."csw[0]";
     if (isset($allmcats) and $allmcats == 1)   $perm .= "#"."media[0]";
-  
+
     // userperm_all
     if (isset($userperm_all)) {
       for($i=0;$i<count($userperm_all);$i++)
@@ -415,12 +415,12 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     $message = $I18N->msg("user_added");
   } else
   {
-    
+
     if ($useradmin == 1) $adminchecked = ' checked="checked"';
     if ($allcats == 1) $allcatschecked = ' checked="checked"';
     if ($allmcats == 1) $allmcatschecked = ' checked="checked"';
-    
-    
+
+
     // userperm_all
     for($i=0;$i<count($userperm_all);$i++)
     {
@@ -467,7 +467,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
       $sel_module->setSelected(current($userperm_module));
       next($userperm_module);
     }
-    
+
     $message = $I18N->msg("user_login_exists");
   }
 }
@@ -476,9 +476,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
 // ---------------------------------- ERR MSG
 
 if (!empty($message))
-{
-  echo '<p class="rex-warning"><span>'.$message.'</span></p>';
-}
+  echo rex_warning($message);
 
 
 // --------------------------------- FORMS
@@ -498,13 +496,13 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
   if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
   if (!isset($statuschecked)) { $statuschecked = ''; }
   if (isset($FUNC_ADD) && $FUNC_ADD) $statuschecked = 'checked';
-  
+
   $add_login_reset_chkbox = '';
-  
+
   if($user_id != '')
   {
     // User Edit
-    
+
     $form_label = $I18N->msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div>
@@ -516,25 +514,25 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 						</p>
 					</div>';
     $add_user_login = '<span id="userlogin">'. $sql->getValue($REX['TABLE_PREFIX']."user.login") .'</span>';
-   
+
     $sql = new rex_login_sql;
     $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."user where user_id='$user_id'");
-    
+
     if ($sql->getRows()==1)
     {
       // ----- EINLESEN DER PERMS
       if ($sql->hasPerm("admin[]")) $adminchecked = "checked";
       else $adminchecked = "";
-  
+
       if ($sql->hasPerm("csw[0]")) $allcatschecked = "checked";
       else $allcatschecked = "";
-      
+
       if ($sql->hasPerm("media[0]")) $allmcatschecked = "checked";
       else $allmcatschecked = "";
-      
+
       if ($sql->getValue($REX['TABLE_PREFIX'].'user.status') == 1) $statuschecked = "checked";
       else $statuschecked = "";
-  
+
       // Allgemeine Permissions setzen
       for($i=0;$i<count($REX['PERM']);$i++)
       {
@@ -542,7 +540,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         if ($sql->hasPerm(current($REX['PERM']))) $sel_all->setSelected(current($REX['PERM']));
         next($REX['PERM']);
       }
-      
+
       // optionen
       for($i=0;$i<count($REX['EXTPERM']);$i++)
       {
@@ -550,7 +548,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         if ($sql->hasPerm(current($REX['EXTPERM']))) $sel_ext->setSelected(current($REX['EXTPERM']));
         next($REX['EXTPERM']);
       }
-      
+
       // optionen
       if (isset($REX['EXTRAPERM'])) {
         for ($i=0; $i < count($REX['EXTRAPERM']); $i++)
@@ -560,19 +558,19 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           next($REX['EXTRAPERM']);
         }
       }
-    
-      foreach ( $cat_ids as $cat_id) 
+
+      foreach ( $cat_ids as $cat_id)
       {
         $name = "csw[".$cat_id."]";
         if ($sql->hasPerm($name)) $sel_cat->setSelected($cat_id);
       }
-  
-      foreach ( $mediacat_ids as $cat_id) 
+
+      foreach ( $mediacat_ids as $cat_id)
       {
         $name = "media[".$cat_id."]";
         if ($sql->hasPerm($name)) $sel_media->setSelected( $cat_id);
       }
-      
+
       $sqlmodule->reset();
       for ($i=0;$i<$sqlmodule->getRows();$i++)
       {
@@ -580,7 +578,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         if ($sql->hasPerm($name)) $sel_module->setSelected($sqlmodule->getValue("id"));
         $sqlmodule->next();
       }
-  
+
       $sqlsprachen->reset();
       for ($i=0;$i<$sqlsprachen->getRows();$i++)
       {
@@ -588,17 +586,17 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         if ($sql->hasPerm($name)) $sel_sprachen->setSelected($sqlsprachen->getValue("id"));
         $sqlsprachen->next();
       }
-      
+
       if ($sql->hasPerm("be_lang[de_de]")) $userperm_mylang = "be_lang[de_de]";
       else if ($sql->hasPerm("be_lang[en_gb]")) $userperm_mylang = "be_lang[en_gb]";
       else $userperm_mylang = "be_lang[default]";
       $sel_mylang->setSelected($userperm_mylang);
-      
+
       $userpsw = $sql->getValue($REX['TABLE_PREFIX']."user.psw");
       $username = $sql->getValue($REX['TABLE_PREFIX']."user.name");
       $userdesc = $sql->getValue($REX['TABLE_PREFIX']."user.description");
-      
-      // Der Benutzer kann sich selbst die Rechte nicht entziehen 
+
+      // Der Benutzer kann sich selbst die Rechte nicht entziehen
       if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $adminchecked != '')
       {
         $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
@@ -607,8 +605,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
       {
         $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
       }
-      
-      // Der Benutzer kann sich selbst den Status nicht entziehen 
+
+      // Der Benutzer kann sich selbst den Status nicht entziehen
       if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $statuschecked != '')
       {
         $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' disabled="disabled" />';
@@ -617,9 +615,9 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
       {
         $add_status_chkbox = '<input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
       }
-      
-      
-      
+
+
+
       // Account gesperrt?
       if ($REX['MAXLOGINS'] < $sql->getValue("login_tries"))
       {
@@ -629,7 +627,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           <label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
         </p>';
       }
-      
+
     }
   }
   else
@@ -646,7 +644,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $add_status_chkbox = '<input class="rex-chckbx" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
     $add_user_login = '<input type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
-  
+
   echo '
   <div class="rex-usr-editmode">
   <form action="index.php" method="post">
@@ -664,15 +662,15 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         <div>
           <p class="rex-cnt-col2">
             <label for="userlogin">'.$I18N->msg('login_name').'</label>
-            '. $add_user_login .'  
+            '. $add_user_login .'
           </p>
           <p class="rex-cnt-col2">
             <label for="userpsw">'.$I18N->msg('password').'</label>
             <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
-            '. ($REX['PSWFUNC']!='' ? '<span>'. $I18N->msg('psw_encrypted') .'</span>' : '') .'  
+            '. ($REX['PSWFUNC']!='' ? '<span>'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
           </p>
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             <label for="username">'.$I18N->msg('name').'</label>
@@ -683,7 +681,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
           </p>
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             '. $add_admin_chkbox .'
@@ -694,7 +692,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <label class="rex-lbl-rght" for="userstatus">'.$I18N->msg('user_status').'</label>
           </p>
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             <label for="userperm_sprachen">'.$I18N->msg('user_lang_xs').'</label>
@@ -708,7 +706,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           </p>
           -->
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             <label for="userperm_all">'.$I18N->msg('user_all').'</label>
@@ -721,7 +719,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             <input class="rex-chckbx" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
@@ -732,7 +730,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <label class="rex-lbl-rght" for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
           </p>
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             <label for="userperm_cat">'.$I18N->msg('categories').'</label>
@@ -745,7 +743,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
 		</div>
-		
+
         <div>
           <p class="rex-cnt-col2">
             <label for="userperm_module">'.$I18N->msg('modules').'</label>
@@ -784,11 +782,11 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 
 if (isset($SHOW) and $SHOW)
 {
-  $add_col = ''; 
+  $add_col = '';
   $add_th = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
-    $add_col = '<col width="5%" />'; 
+    $add_col = '<col width="5%" />';
     $add_th = '<th class="rex-icon">ID</th>';
   }
 
@@ -822,22 +820,22 @@ if (isset($SHOW) and $SHOW)
   {
     $lasttrydate = $sql->getValue('lasttrydate');
     $last_login = '-';
-    
+
     if ( $lasttrydate != 0) {
         $last_login = strftime( $I18N->msg('datetimeformat'), $sql->getValue('lasttrydate'));
     }
-    
+
     $username = htmlspecialchars($sql->getValue('name'));
     if ( $username == '') {
         $username = htmlspecialchars($sql->getValue('login'));
     }
 
-    $add_td = '';        
+    $add_td = '';
     if ($REX_USER->hasPerm('advancedMode[]'))
     {
       $add_td = '<td class="rex-icon">'.$sql->getValue('user_id').'</td>';
     }
-    
+
     $delete_func = $I18N->msg("user_delete");
     // man kann sich selbst nicht löschen..
     if ($REX_USER->getValue("user_id")!=$sql->getValue("user_id"))
@@ -848,7 +846,7 @@ if (isset($SHOW) and $SHOW)
     {
       $delete_func = '<span class="rex-strike">'. $delete_func .'</span>';
     }
-    
+
     echo '
       <tr>
         <td class="rex-icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="pics/user.gif" width="16" height="16" alt="'. $username .'" title="'. $username .'" /></a></td>

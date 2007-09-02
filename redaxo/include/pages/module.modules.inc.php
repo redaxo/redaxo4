@@ -169,7 +169,7 @@ if ($function == 'add' or $function == 'edit')
 
     if (isset($message) and $message != '')
     {
-      echo '<p class="rex-warning"><span>'.$message.'</span></p>';
+      echo rex_warning($message);
     }
 
     echo '
@@ -300,7 +300,7 @@ if ($OUT)
 {
   if (isset($message) and $message != '')
   {
-    echo '<p class="rex-warning"><span>'.$message.'</span></p>';
+    echo rex_warning($message);
   }
 
   // ausgabe modulliste !

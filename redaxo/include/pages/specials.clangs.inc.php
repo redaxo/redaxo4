@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Verwaltung der Content Sprachen 
+ * Verwaltung der Content Sprachen
  * @package redaxo3
  * @version $Id$
  */
- 
+
 // -------------- Defaults
 $clang_id = rex_request('clang_id', 'int');
 $clang_name = rex_request('clang_name', 'string');
@@ -77,7 +77,7 @@ foreach (array_diff(range(0, 14), array_keys($REX['CLANG'])) as $clang)
 
 if ($message != '')
 {
-  echo '<p class="rex-warning"><span>'.$message.'</span></p>';
+  echo rex_warning($message);
   $message = "";
 }
 
@@ -163,11 +163,11 @@ echo '
 if ($func == 'addclang' || $func == 'editclang')
 {
   echo '
-          <script type="text/javascript"> 
-             <!-- 
+          <script type="text/javascript">
+             <!--
              var needle = new getObj("clang_name");
              needle.obj.focus();
-             //--> 
+             //-->
           </script>
         </fieldset>
       </form>';

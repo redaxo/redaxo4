@@ -141,9 +141,8 @@ if ($function == "add" or $function == "edit") {
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
-    if (isset ($message) and $message != "") {
-      echo '<p class="rex-warning"><span>' . $message . '</span></p>';
-    }
+    if (isset ($message) and $message != "")
+      echo rex_warning($message);
 
     echo '
     	<div class="rex-tmp-editmode">
@@ -214,7 +213,7 @@ function rex_tplctypes_toggle()
 
 if ($OUT) {
   if (isset ($message) and $message != "") {
-    echo '<p class="rex-warning"><span>' . $message . '</span></p>';
+    echo rex_warning($message);
   }
 
   // ausgabe templateliste !

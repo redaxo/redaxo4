@@ -1,9 +1,9 @@
 <?php
 
-/** 
- *  
- * @package redaxo3 
- * @version $Id$ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
  */
 
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
@@ -82,7 +82,7 @@ if ($SP)
 
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in include/addons.inc.php
   // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
-  if (count(array_diff(array_keys(array_flip($ADDONS)), array_keys($REX['ADDON']['install']))) > 0 || 
+  if (count(array_diff(array_keys(array_flip($ADDONS)), array_keys($REX['ADDON']['install']))) > 0 ||
       count(array_diff(array_keys($REX['ADDON']['install']), array_keys(array_flip($ADDONS)))) > 0)
   {
 
@@ -93,7 +93,7 @@ if ($SP)
   }
 
   if (isset ($errmsg) and $errmsg != "")
-    echo '<p class="rex-warning"><span>'.$errmsg.'</span></p>';
+    echo rex_warning($errmsg);
 
   if (!isset ($user_id))
   {
@@ -139,7 +139,7 @@ if ($SP)
       $install = $I18N->msg("addon_no").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;install=1">'.$I18N->msg("addon_install").'</a>';
       $uninstall = $I18N->msg("addon_notinstalled");
     }
-    
+
     if ($REX['ADDON']['status'][$cur] == 1)
     {
       $status = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;activate=0">'.$I18N->msg("addon_deactivate").'</a>';

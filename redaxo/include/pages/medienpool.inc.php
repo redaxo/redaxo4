@@ -194,8 +194,7 @@ $media_method = rex_request('media_method', 'string');
 // *************************************** MESSAGES
 if ($msg != '')
 {
-  echo '<p class="rex-warning"><span>'.$msg.'</span></p>
-';
+  echo rex_warning($msg)."\n";
   $msg = '';
 }
 
@@ -357,7 +356,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
 
   if (isset($msg) and $msg != "")
   {
-    $s .= '<p class="rex-warning"><span>'. $msg .'</span></p>';
+    $s .= rex_warning($msg);
     $msg = "";
   }
 
@@ -534,7 +533,7 @@ if ($PERMALL && $subpage == "categories")
 
   if ($msg!='')
   {
-    echo '<p class="rex-warning"><span>'. $msg .'</span></p>';
+    echo rex_warning($msg);
   }
 
   if ($media_method == 'add_cat' || $media_method == 'update_file_cat')
@@ -967,7 +966,7 @@ if ($subpage == "detail")
 
     if ($msg != '')
     {
-      echo '<p class="rex-warning"><span>'. $msg .'</span></p>';
+      echo rex_warning($msg);
       $msg = '';
     }
 
@@ -1365,12 +1364,12 @@ if ($subpage == '')
 
   if (isset($msg) and $msg != '')
   {
-    print '<p class="rex-warning"><span>'. $msg .'</span></p>';
+    echo rex_warning($msg);
     $msg = "";
   }
 
   //deletefilelist und cat change
-  print '<div class="rex-mpl-mdn">
+  echo '<div class="rex-mpl-mdn">
   		 <form action="index.php" method="post" enctype="multipart/form-data">
           <fieldset>
             <!-- <legend class="rex-lgnd"><span>'. $I18N->msg('pool_selectedmedia') .'</span></legend> -->
