@@ -7,18 +7,18 @@
  * @package redaxo3
  * @version $Id$
  */
- 
+
 rex_register_extension('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');
 
 /**
- * Erweitert das Meta-Formular um die neuen Meta-Felder	
+ * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
+ * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
+ * rex_article angelegt wurden!
  */
 function rex_a62_metainfo_cleanup($params)
 {
 	global $REX;
-	
-	// Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
-	// noch Datensätze zu Feldern stehen, welche nicht als Spalten in der rex_article angelegt wurden!
+
 	$sql = new rex_sql();
 	$sql->setQuery('DELETE FROM '. $REX['TABLE_PREFIX'] .'62_params');
 }
