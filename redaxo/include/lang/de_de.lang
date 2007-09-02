@@ -135,8 +135,9 @@ content_tostartarticle_failed = Dieser Artikel konnte nicht zum Startartikel umg
 content_tostartarticle_ok = Dieser Artikel wurde erfolgreich zum Startartikel umgewandelt
 move_category = nach
 category_moved = Kategorie wurde verschoben
-content_types = Typen
-content_type = Type
+content_types = Spalten
+content_type = Spalte
+option = optional
 
 # redaxo\include\pages\module.inc.php
 module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
