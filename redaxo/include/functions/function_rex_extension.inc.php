@@ -1,9 +1,9 @@
 <?php
 
-/** 
- * Funktionen zur Registrierung von Schnittstellen (EXTENSION_POINTS) 
- * @package redaxo3 
- * @version $Id$ 
+/**
+ * Funktionen zur Registrierung von Schnittstellen (EXTENSION_POINTS)
+ * @package redaxo3
+ * @version $Id$
  */
 
 /**
@@ -22,7 +22,7 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
   {
     $params = array ();
   }
-  
+
   // Name des EP als Parameter mit übergeben
   $params['extension_point'] = $extensionPoint;
 
@@ -47,10 +47,10 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
         $temp = rex_call_func($func, $local_params);
         // Rückgabewert nur auswerten wenn auch einer vorhanden ist
         // damit $params['subject'] nicht verfälscht wird
-        // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist 
+        // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
         if($temp !== null)
         {
-          $result = $temp; 
+          $result = $temp;
           $params['subject'] = $result;
         }
       }
@@ -62,15 +62,16 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
 /**
  * Definiert eine Callback-Funktion, die an dem Extension Point $extension aufgerufen wird
  *
- * @param $extension Name der Extension
+ * @param $extension Name des ExtensionPoints
  * @param $function Name der Callback-Funktion
  * @param [$params] Array von zusätzlichen Parametern
  */
-function rex_register_extension($extension, $function, $params = array())
+function rex_register_extension($extensionPoint, $callable, $params = array())
 {
   global $REX;
+
   if(!is_array($params)) $params = array();
-  $REX['EXTENSIONS'][$extension][] = array($function,$params);
+  $REX['EXTENSIONS'][$extensionPoint][] = array($callable, $params);
 }
 
 /**
@@ -81,12 +82,13 @@ function rex_register_extension($extension, $function, $params = array())
 function rex_extension_is_registered($extensionPoint)
 {
   global $REX;
+
   return !empty ($REX['EXTENSIONS'][$extensionPoint]);
 }
 
 /**
  * Gibt ein Array mit Namen von Extensions zurück, die am angegebenen Extension Point definiert wurden
- * 
+ *
  * @param $extensionPoint Name des ExtensionPoints
  */
 function rex_get_registered_extensions($extensionPoint)
@@ -104,14 +106,14 @@ function rex_get_registered_extensions($extensionPoint)
  *
  * @param $function Name der Callback-Funktion
  * @param $params Parameter für die Funktion
- * 
- * @example 
+ *
+ * @example
  *   rex_call_func( 'myFunction', array( 'Param1' => 'ab', 'Param2' => 12))
- * @example 
+ * @example
  *   rex_call_func( 'myObject::myMethod', array( 'Param1' => 'ab', 'Param2' => 12))
- * @example 
+ * @example
  *   rex_call_func( array('myObject', 'myMethod'), array( 'Param1' => 'ab', 'Param2' => 12))
- * @example 
+ * @example
  *   $myObject = new myObject();
  *   rex_call_func( array($myObject, 'myMethod'), array( 'Param1' => 'ab', 'Param2' => 12))
  */
