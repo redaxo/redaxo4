@@ -1,10 +1,10 @@
 <?php
 
 
-/** 
- *  
- * @package redaxo3 
- * @version $Id$ 
+/**
+ *
+ * @package redaxo3
+ * @version $Id$
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.
@@ -124,7 +124,7 @@ elseif (isset ($function) && $function == "fileimport")
 elseif (isset ($function) && $function == "export")
 {
 
-  // ------------------------------ FUNC EXPORT 
+  // ------------------------------ FUNC EXPORT
 
   $exportfilename = strtolower($exportfilename);
   $exportfilename = stripslashes($exportfilename);
@@ -140,12 +140,12 @@ elseif (isset ($function) && $function == "export")
     $content = "";
     if ($exporttype == "sql")
     {
-      // ------------------------------ FUNC EXPORT SQL    
+      // ------------------------------ FUNC EXPORT SQL
       $header = "plain/text";
       $ext = ".sql";
 
       $content = rex_a1_export_db();
-      // ------------------------------ /FUNC EXPORT SQL    
+      // ------------------------------ /FUNC EXPORT SQL
     }
     elseif ($exporttype == "files")
     {
@@ -173,7 +173,7 @@ elseif (isset ($function) && $function == "export")
       exit;
 
     }
-    elseif ($content != "")
+    elseif ($content != '')
     {
       // check filename ob vorhanden
       // aendern filename
@@ -184,14 +184,11 @@ elseif (isset ($function) && $function == "export")
 
       if (file_exists($filename.$ext))
       {
-        for ($i = 0; $i < 1000; $i++)
-        {
-          if (!file_exists($filename."_$i".$ext))
-          {
-            $filename = $filename."_$i".$ext;
-            break;
-          }
-        }
+        $i = 1;
+        while(file_exists($filename .'_'. $i . $ext))
+          $i++;
+
+        $filename = $filename .'_'. $i . $ext;
       }
       else
       {
@@ -202,13 +199,12 @@ elseif (isset ($function) && $function == "export")
       {
         fputs($fp, $content);
         fclose($fp);
-        $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.$filename;
+        $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename, '\\', '/');
       }
       else
       {
-        $msg = $I18N_IM_EXPORT->msg('file_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').' '.$REX['INCLUDE_PATH']."/addons/$page/files";
+        $msg = $I18N_IM_EXPORT->msg('file_could_not_be_generated').' '.$I18N->msg('check_rights_in_directory').' '.$dir_filename;
       }
-      // echo $content;
     }
   }
 }
@@ -219,7 +215,7 @@ rex_title($I18N_IM_EXPORT->msg("importexport"), "");
 
 if ($msg != '')
 {
-  echo '<p class="rex-warning"><span>'. $msg .'</span></p>';
+  echo rex_warning($msg);
 }
 
 ?>
@@ -230,7 +226,7 @@ if ($msg != '')
     <p class="rex-hdl"><?php echo $I18N_IM_EXPORT->msg('import'); ?></p>
     <div class="rex-cnt">
       <p><?php echo $I18N_IM_EXPORT->msg('intro_import') ?></p>
-      
+
       <!-- DB IMPORT LIST -->
       <div class="rex-addon-editmode">
       <form action="index.php" enctype="multipart/form-data" method="post" >
@@ -248,7 +244,7 @@ if ($msg != '')
         </fieldset>
       </form>
       </div>
-      
+
       <table class="rex-table" summary="<?php echo $I18N_IM_EXPORT->msg('export_db_summary'); ?>">
         <caption><?php echo $I18N_IM_EXPORT->msg('export_db_caption'); ?></caption>
         <colgroup>
@@ -266,20 +262,20 @@ if ($msg != '')
 <?php
   $dir = getImportDir();
   $folder = readImportFolder('.sql');
-  
+
   foreach ($folder as $file)
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
     $filesize = OOMedia::_getFormattedSize(filesize($filepath));
-    
+
     echo '<tr>
             <td>'. $file .' <br />['.$filesize.']</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_db_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
             <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>
           </tr>
-  ';  
+  ';
   }
 ?>
         </tbody>
@@ -302,7 +298,7 @@ if ($msg != '')
         </fieldset>
       </form>
       </div>
-      
+
       <table class="rex-table" summary="<?php echo $I18N_IM_EXPORT->msg('export_file_summary'); ?>">
         <caption><?php echo $I18N_IM_EXPORT->msg('export_file_caption'); ?></caption>
         <colgroup>
@@ -320,13 +316,13 @@ if ($msg != '')
 <?php
   $dir = getImportDir();
   $folder = readImportFolder('.tar.gz');
-  
+
   foreach ($folder as $file)
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
     $filesize = OOMedia::_getFormattedSize(filesize($filepath));
-    
+
     echo '<tr>
             <td>'. $file .'<br />['.$filesize.']</td>
             <td>'. $filec .'</td>
@@ -345,13 +341,13 @@ if ($msg != '')
     <p class="rex-hdl"><?php echo $I18N_IM_EXPORT->msg('export'); ?></p>
     <div class="rex-cnt">
       <p><?php echo $I18N_IM_EXPORT->msg('intro_export') ?></p>
-      
+
       <div class="rex-addon-editmode">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset>
           <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('export'); ?></legend>
           <input type="hidden" name="page" value="<?php echo $page ?>" />
-          <input type="hidden" name="function" value="export" />  
+          <input type="hidden" name="function" value="export" />
 <?php
 $checkedsql = '';
 $checkedfiles = '';
@@ -378,20 +374,20 @@ else
 <?php
   $dir = $REX['INCLUDE_PATH'] .'/../../';
   $folders = readSubFolders($dir);
-  
+
   foreach ($folders as $file)
   {
     if ($file == 'redaxo')
     {
       continue;
     }
-  
+
     $checked = '';
     if (isset($EXPDIR) && is_array($EXPDIR) && array_key_exists($file, $EXPDIR) !== false)
     {
       $checked = ' checked="checked"';
     }
-    
+
     echo '<p class="rex-chckbx">
             <input type="checkbox" onchange="checkInput(\'exporttype[files]\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
             <label class="rex-lbl-rght" for="EXPDIR_'. $file .'">'. $file .'</label>
@@ -434,7 +430,7 @@ else
       </div>
     </div>
   </div>
-  
+
 </div>
 
 <?php include $REX['INCLUDE_PATH']."/layout/bottom.php"; ?>
