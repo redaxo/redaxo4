@@ -853,7 +853,7 @@ class rex_list
 
     if($message != '')
     {
-      $s .= '<p class="rex-warning"><span>'. $message .'</span></p>'. "\n";
+      $s .= rex_warning($message). "\n";
     }
 
     if($header != '')

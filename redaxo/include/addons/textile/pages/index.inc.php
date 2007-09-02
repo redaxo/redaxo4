@@ -32,7 +32,7 @@ EOD;
 }
 else
 {
-  echo \'<span class="rex-warning">Dieses Modul benötigt das "textile" Addon!</span>\';
+  echo rex_warning(\'Dieses Modul benötigt das "textile" Addon!\');
 }
 ?>';
 

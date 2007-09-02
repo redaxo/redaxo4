@@ -187,7 +187,7 @@ function rex_generateArticle($id, $refreshall = true)
     $MSG = rex_register_extension_point('CLANG_ARTICLE_GENERATED','',array ('id' => $id, 'clang' => $clang, 'article' => $CONT));
 
     if ($MSG != '')
-      echo '<p class="rex-warning"><span>'. $MSG .'</span></p>';
+      echo rex_warning($MSG);
 
     // --------------------------------------------------- Listen generieren
     if ($CONT->getValue("startpage") == 1)

@@ -2,7 +2,7 @@
 
 
 /**
- * Addon Framework Classes 
+ * Addon Framework Classes
  * @author staab[at]public-4u[dot]de Markus Staab
  * @package redaxo3
  * @version $Id class.rex_form.inc.php,v 1.3 2006/09/07 104351 kills Exp $
@@ -30,7 +30,7 @@ if (rex_post('btn_save', 'string') != '')
   {
     $file_content = fread($hdl, filesize($file));
     fclose($hdl);
-    
+
     $template =
     "// --- DYN
     \$this->From             = '". $from ."';
@@ -43,9 +43,9 @@ if (rex_post('btn_save', 'string') != '')
     \$this->Encoding         = '". $encoding ."';
     \$this->Priority         = ". $priority .";
     // --- /DYN";
-    
+
     $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
-    
+
     if($hdl = fopen($file, 'w+'))
     {
       if(fwrite($hdl, $file_content, strlen($file_content)))
@@ -64,7 +64,7 @@ $sel_mailer->setSize(1);
 $sel_mailer->setSelected($mailer);
 foreach(array('mail', 'sendmail', 'smtp') as $type)
   $sel_mailer->addOption($type,$type);
-  
+
 $sel_encoding = new rex_select();
 $sel_encoding->setId('encoding');
 $sel_encoding->setName('encoding');
@@ -83,8 +83,8 @@ foreach(array(1 =>$I18N_A93->msg('high'),3 => $I18N_A93->msg('normal'),5 => $I18
 
 
 if($message != '')
-  echo '<p class="rex-warning">'. $message .'</p>';
-  
+  echo rex_warning($message);
+
 ?>
 
 <div class="rex-addon-editmode">

@@ -352,7 +352,7 @@ class rex_article
               $msg = '';
               if($this->slice_id == $RE_CONTS[$I_ID] && $this->message != '')
               {
-                $msg = '<p class="rex-warning"><span>'. $this->message .'</span></p>';
+                $msg = rex_warning($this->message);
               }
 
               $mne = '
@@ -581,7 +581,7 @@ class rex_article
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
     if ($MOD->getRows() != 1)
     {
-      $slice_content = '<p class="rex-warning><span>'. $I18N->msg('module_doesnt_exist'). '</span></p>';
+      $slice_content = rex_warning($I18N->msg('module_doesnt_exist'));
     }else
     {
       $slice_content = '

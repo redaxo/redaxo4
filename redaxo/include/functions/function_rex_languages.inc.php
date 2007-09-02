@@ -1,11 +1,11 @@
 <?php
 
-/** 
- * Dient zur Ausgabe des Sprachen-blocks  
- * @package redaxo3 
- * @version $Id$ 
+/**
+ * Dient zur Ausgabe des Sprachen-blocks
+ * @package redaxo3
+ * @version $Id$
  */
-  
+
 // rechte einbauen
 // admin[]
 // clang[xx], clang[0]
@@ -21,17 +21,17 @@ if ($num_clang>1)
    <div id="rex-clang">
      <ul>
        <li>'.$I18N->msg("languages").' : </li>';
-       
-	$stop = false;
+
+	 $stop = false;
    $i = 1;
    foreach($REX['CLANG'] as $key => $val)
    {
     echo '<li>';
-    
+
 		if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm('clang[all]') && !$REX_USER->hasPerm('clang['. $key .']'))
 		{
 			echo '<span class="rex-strike">'. $val .'</span>';
-         
+
 			if ($clang == $key) $stop = true;
 		}
 		else
@@ -40,36 +40,36 @@ if ($num_clang>1)
     	if ($key==$clang) $class = ' class="rex-active"';
       echo '<a'.$class.' href="index.php?page='. $page .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype .'"'. rex_tabindex() .'>'. $val .'</a>';
     }
-    
+
     if($i != $num_clang)
     {
        echo ' | ';
     }
-         
+
     echo '</li>';
     $i++;
 	}
-   
+
 	echo '
      </ul>
    </div>
 <!-- *** OUTPUT OF CLANG-TOOLBAR - END *** -->
 ';
-   
+
 	if ($stop)
 	{
 		echo '
 <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
-      <p class="rex-warning"><span>You have no permission to this area</span></p>
+      '. rex_warning('You have no permission to this area') .'
 <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
 ';
-		include $REX['INCLUDE_PATH']."/layout/bottom.php"; 
-		exit;	
+		include $REX['INCLUDE_PATH']."/layout/bottom.php";
+		exit;
 	}
 }
 else
 {
-	$clang = 0;	
+	$clang = 0;
 }
 
 ?>

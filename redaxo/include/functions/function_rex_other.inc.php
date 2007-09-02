@@ -7,7 +7,7 @@
  */
 
 /**
- * Berechnet aus einem Relativen Pfad einen Absoluten 
+ * Berechnet aus einem Relativen Pfad einen Absoluten
  */
 function rex_absPath($rel_path)
 {
@@ -35,7 +35,7 @@ function rex_absPath($rel_path)
 }
 
 /**
- * Prüfen ob ein/e Datei/Ordner beschreibbar ist 
+ * Prüfen ob ein/e Datei/Ordner beschreibbar ist
  */
 function rex_is_writable($item)
 {
@@ -66,7 +66,7 @@ function _rex_is_writable_info($is_writable, $item = '')
       break;
     }
   }
-  
+
   if($key != '')
   {
     $file = '';
@@ -74,9 +74,9 @@ function _rex_is_writable_info($is_writable, $item = '')
     {
       $file = '<b>'. rex_absPath($item) .'</b>';
     }
-    $state = $I18N->msg($key, '<span class="rex-error">', '</span>', $file); 
+    $state = $I18N->msg($key, '<span class="rex-error">', '</span>', $file);
   }
-  
+
   return $state;
 }
 
@@ -123,8 +123,8 @@ function rex_setAttributes($name,$value,$content)
 /**
  * Gibt den nächsten freien Tabindex zurück.
  * Der Tabindex ist eine stetig fortlaufende Zahl,
- * welche die Priorität der Tabulatorsprünge des Browsers regelt. 
- *  
+ * welche die Priorität der Tabulatorsprünge des Browsers regelt.
+ *
  * @return integer nächster freier Tabindex
  */
 function rex_tabindex($html = true)
@@ -135,7 +135,7 @@ function rex_tabindex($html = true)
   {
     $REX['TABINDEX'] = 0;
   }
-  
+
   if($html === true)
   {
 	  return ' tabindex="'. ++$REX['TABINDEX'] .'"';
@@ -148,6 +148,11 @@ function array_insert($array, $index, $value)
 {
 	// In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
   return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
+}
+
+function rex_warning($message, $cssClass = 'rex-warning')
+{
+  return '<p class="'. $cssClass .'"><span>'. $message .'</span></p>';
 }
 
 ?>
