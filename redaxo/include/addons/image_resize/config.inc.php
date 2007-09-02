@@ -17,7 +17,7 @@ $mypage = 'image_resize';
 
 $REX['ADDON']['rxid'][$mypage] = 'REX_IMAGE_RESIZE';
 $REX['ADDON']['page'][$mypage] = $mypage;
-$REX['ADDON']['name'][$mypage] = 'Image Resize Addon';
+$REX['ADDON']['name'][$mypage] = 'Image Resize';
 $REX['ADDON']['perm'][$mypage] = 'image_resize[]';
 $REX['ADDON']['max_size'][$mypage] = 1000;
 $REX['ADDON']['jpeg_quality'][$mypage] = 75;
@@ -45,9 +45,15 @@ if ($rex_resize != '')
   $mode = $resize[2];
   $hmode = $resize[4];
   $imagefile = $resize[5];
-  $filter = rex_get('filter', 'array');
+  $rex_filter = rex_get('rex_filter', 'array');
+  $filters = "";
+	foreach($rex_filter as $filter)
+	{
+		$filters .= $filter;
+	}
 
-  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$rex_resize;
+
+  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$filters.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
   // check for cache file
@@ -131,9 +137,9 @@ if ($rex_resize != '')
     $thumb->size_auto($size);
   }
   
-  if($filter == 'blur')
+  foreach($rex_filter as $filter)
   {
-    $this->addFilter($filter);
+    $thumb->addFilter($filter);
   }
 
   // jpeg quality

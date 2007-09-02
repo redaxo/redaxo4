@@ -46,7 +46,7 @@ $subpages = array (
   
 );
 
-rex_title('Image Resize Addon ', $subpages);
+rex_title('Image Resize', $subpages);
 
 if (isset ($msg) and $msg != '')
   echo '<table border="0" cellpadding="5" cellspacing="1" width="770"><tr><td class="warning">' . $msg . '</td></tr></table><br />';

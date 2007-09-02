@@ -12,55 +12,42 @@
  * @version $Id$
  */
 ?>
-<pre>
-################################################################################
-#
-# imageResize Addon 0.3
-#   code by vscope new media - www.vscope.at - office@vscope.at
-#   update by public-4u - www.public-4u.de - Markus Staab
-#
-################################################################################
-#
-# Features:
-#
-#   Makes resize of images on the fly, with extra cache of resized images so
-#   performance loss is extremly small.
-#
-#
-# Usage:
-#
-#   call an image that way index.php?rex_resize=100w__imagefile
-#   = to resize the imagefile to width = 100
-#
-#   Methods: 
-#      w = width       (max width)
-#      h = height      (max height)
-#      c = crop        (cut image part to certain length and height)
-#      a = automatic   (longest side will be used)
-#
-#
-# Examples:
-#
-#   resize image to a length of 100px and calculate heigt to match ratio
-#   index.php?rex_resize=100w__imagefile
-#
-#   resize image to a height of 150px and calculate width to match ratio
-#   index.php?rex_resize=150h__imagefile
-#
-#   resize image on the longest side to 200px and calculate the other side to match ratio
-#   index.php?rex_resize=200a__imagefile
-#
-#   resize image to a width of 100px and a heigt of 200px
-#   index.php?rex_resize=100w__200h__imagefile
-#
-#   resize inner image part to a width of 100px and a heigt of 200px
-#   index.php?rex_resize=100c__200h__imagefile
-#
-# Changelog:
-#
-# version 0.3 added cropping, UnsharpMask (kills)
-# version 0.2 made addon (vscope)
-# version 0.1 plugin first release (vscope)
-#
-################################################################################
-</pre>
+<h3>Version: 0.3</h1>
+
+<h3><br />Features:</h3>
+
+<p>Makes resize of images on the fly, with extra cache of resized images so performance loss is extremly small.</p>
+
+<h3>Usage:</h3>
+<p>call an image that way <b>index.php?rex_resize=100w__imagefile</b>
+= to resize the imagefile to width = 100</p>
+
+<h3>Methods: </h3>
+<p>w = width       (max width)
+<br />h = height      (max height)
+<br />c = crop        (cut image part to certain length and height)
+<br />a = automatic   (longest side will be used)
+</p>
+
+<h3>Examples:</h3>
+
+<p>
+resize image to a length of 100px and calculate heigt to match ratio
+<br /><b>index.php?rex_resize=100w__imagefile</b>
+
+<br /><br />resize image to a height of 150px and calculate width to match ratio
+<br /><b>index.php?rex_resize=150h__imagefile</b>
+
+<br /><br />resize image on the longest side to 200px and calculate the other side to match ratio
+<br /><b>index.php?rex_resize=200a__imagefile</b>
+
+<br /><br />resize image to a width of 100px and a heigt of 200px
+<br /><b>index.php?rex_resize=100w__200h__imagefile</b>
+
+<br /><br />resize inner image part to a width of 100px and a heigt of 200px
+<br /><b>index.php?rex_resize=100c__200h__imagefile</b>
+
+<br /><br />add filter/s: here blur and sepia
+<br /><b>index.php?rex_resize=200a__imagefile&rex_filter[]=blur&rex_filter[]=sepia</b>
+
+</p>
