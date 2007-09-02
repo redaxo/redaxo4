@@ -1,8 +1,8 @@
 <?php
 
-function image_resize_sepia( $src_im, $quality = 60 )
+function image_resize_sepia(&$src_im, $quality = 60 )
 {
-	$src_x = ceil( imagesx( $src_im ) ); 
+	$src_x = ceil( imagesx( $src_im ) );
 	$src_y = ceil( imagesy( $src_im ) );
 	$dst_x = $src_x;
 	$dst_y = $src_y;

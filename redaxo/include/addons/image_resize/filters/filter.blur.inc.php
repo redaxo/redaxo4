@@ -3,8 +3,8 @@
 // Übernommen von cerdmann.com
 // Unsharp mask algorithm by Torstein Hønsi 2003 (thoensi_at_netcom_dot_no)
 // Christoph Erdmann: changed it a little, cause i could not reproduce the darker blurred image, now it is up to 15% faster with same results
-  
-function image_resize_blur($img, $amount = 80, $radius = 8, $threshold = 3)
+
+function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
 {
 
 	// Attempt to calibrate the parameters to Photoshop:
