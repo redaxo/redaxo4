@@ -7,7 +7,53 @@
  * @version $Id$
  */
 
-// Prüft, ob sich dateien geändert haben
+/**
+ * Sendet den Content zum Client,
+ * fügt ggf. HTTP1.1 cache headers hinzu
+ *
+ * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
+ * @param $content string Inhalt des Artikels
+ * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
+ * (frontend/backend)
+ */
+function rex_send_content($REX_ARTICLE, $content, $environment)
+{
+  global $REX;
+
+  // ----- EXTENSION POINT
+  $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
+
+  // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
+  rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
+
+  if(!$REX['REDAXO'])
+  {
+    // ----- Last-Modified
+    if($REX['USE_LAST_MODIFIED'])
+      rex_send_last_modified($REX_ARTICLE);
+
+    // ----- ETAG
+    if($REX['USE_ETAG'])
+      rex_send_etag($content);
+  }
+
+  // ----- GZIP
+  if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
+    $content = rex_send_gzip($content);
+
+  // Evtl offene Db Verbindungen schließen
+  rex_sql::disconnect(null);
+
+  echo $content;
+}
+
+/**
+ * Prüft, ob sich dateien geändert haben
+ *
+ * XHTML 1.1: HTTP_IF_MODIFIED_SINCE feature
+ *
+ * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
+ */
 function rex_send_last_modified($REX_ARTICLE)
 {
   $lastModified = date('r', $REX_ARTICLE->getValue('updatedate'));
@@ -26,10 +72,16 @@ function rex_send_last_modified($REX_ARTICLE)
   header('Last-Modified: ' . $lastModified);
 }
 
-// Prüft ob sich der Inhalt einer Seite geändert hat
-function rex_send_etag($CONTENT)
+/**
+ * Prüft ob sich der Inhalt einer Seite geändert hat
+ *
+ * XHTML 1.1: HTTP_IF_NONE_MATCH feature
+ *
+ * @param $content string Inhalt des Artikels
+ */
+function rex_send_etag($content)
 {
-  $cacheKey = md5($CONTENT);
+  $cacheKey = md5($content);
 
   // CacheKey gefunden
   // => den Browser anweisen, den Cache zu verwenden
@@ -38,20 +90,28 @@ function rex_send_etag($CONTENT)
     while(@ob_end_clean());
 
     header('HTTP/1.1 304 Not Modified');
-    die();
+    exit();
   }
 
   // Sende CacheKey als ETag
   header('ETag: ' . $cacheKey);
 }
 
-function rex_send_gzip($CONTENT)
+/**
+ * Kodiert den Inhalt des Artikels in GZIP/X-GZIP
+ *
+ * XHTML 1.1: HTTP_ACCEPT_ENCODING feature
+ *
+ * @param $content string Inhalt des Artikels
+ */
+function rex_send_gzip($content)
 {
   // Check if it supports gzip
   if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
     $encodings = explode(',', strtolower(preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING'])));
 
-  if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+  if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
+  {
     $enc = in_array('x-gzip', $encodings) ? 'x-gzip' : 'gzip';
     $supportsGzip = true;
   }
@@ -59,10 +119,10 @@ function rex_send_gzip($CONTENT)
   if($supportsGzip)
   {
     header('Content-Encoding: '. $enc);
-    $CONTENT = gzencode($CONTENT, 9, FORCE_GZIP);
+    $content = gzencode($content, 9, FORCE_GZIP);
   }
 
-  return $CONTENT;
+  return $content;
 }
 
 ?>

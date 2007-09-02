@@ -197,20 +197,7 @@ if ($withheader) include $REX['INCLUDE_PATH'].'/layout/bottom.php';
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
-// ----- EXTENSION POINT
-$CONTENT = rex_register_extension_point( 'OUTPUT_FILTER', $CONTENT);
-
-// ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
-rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $CONTENT, '', true);
-
-// ----- GZIP
-if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == 'backend')
-  $CONTENT = rex_send_gzip($CONTENT);
-
-// Evtl offene Db Verbindungen schließen
-rex_sql::disconnect(null);
-
 // ----- inhalt ausgeben
-echo $CONTENT;
+rex_send_content(null, $CONTENT, 'backend');
 
 ?>
