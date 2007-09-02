@@ -233,9 +233,7 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
                     <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
                     '. $sel_media->get() .'
                   </p>
-                  <noscript>
                     <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_search') .'" />
-                  </noscript>
                 </fieldset>
               </form>
             </div>
