@@ -231,8 +231,8 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
                   <p>
                     <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
                     '. $sel_media->get() .'
-                  </p>
                     <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_search') .'" />
+                  </p>
                 </fieldset>
               </form>
             </div>
