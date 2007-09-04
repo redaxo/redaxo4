@@ -350,25 +350,41 @@ class rex_article
             if($REX_USER->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->hasPerm("admin[]"))
             {
               $msg = '';
+
               if($this->slice_id == $RE_CONTS[$I_ID] && $this->message != '')
               {
                 $msg = rex_warning($this->message);
               }
+
+              $listElements = array();
+              $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=edit&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-grn">'. $I18N->msg('edit') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=delete&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;save=1#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-red" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              if ($REX_USER->hasPerm('moveSlice[]'))
+              {
+                $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=moveup&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_up.gif" width="16" height="16" alt="move up" title="move up" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+                $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=movedown&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_down.gif" width="16" height="16" alt="move down" title="move down" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              }
+
+              // ----- EXTENSION POINT
+              $listElements = rex_register_extension_point('ART_SLICE_MENU', $listElements,
+              array(
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'ctype' => $this->ctype,
+                'slice_id' => $RE_CONTS[$I_ID]
+                )
+              );
 
               $mne = '
 			       	<div class="rex-cnt-editmode-slc">
                 '. $msg .'
                 <p class="rex-flLeft" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</p>
                 <ul class="rex-flRight">
-                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=edit&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-grn">'. $I18N->msg('edit') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
-                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=delete&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;save=1#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-red" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
               ';
 
-              if ($REX_USER->hasPerm('moveSlice[]'))
+              foreach($listElements as $listElement)
               {
-                $mne  .= '
-                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=moveup&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_up.gif" width="16" height="16" alt="move up" title="move up" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>
-                  <li><a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=movedown&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;upd='. time() .'#slice'. $RE_CONTS[$I_ID] .'" class="green12b"><img src="pics/file_down.gif" width="16" height="16" alt="move down" title="move down" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a></li>';
+                $mne  .= '<li>'. $listElement .'</li>';
               }
 
               $mne .= '</ul></div>';
