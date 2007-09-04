@@ -562,6 +562,10 @@ if (!window.addEventListener)
 addEvent(document, 'keypress', function(e)
 {
   var activeElement = document.activeElement || e.explicitOriginalTarget;
+  
+  if(!activeElement)
+    return;
+    
   var sTagName = activeElement.tagName.toLowerCase();
   if(sTagName == 'input' || sTagName == 'textarea' || sTagName == 'select' || sTagName == 'option')
     return;
