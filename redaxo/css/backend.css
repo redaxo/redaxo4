@@ -89,7 +89,6 @@ legend.rex-hidden {
 
 /*	rex-warning */
 div#rex-output .rex-warning {
-	float:left;
 	width:670px;
 	width:100%;
 	margin:0 0 10px 0;
@@ -837,7 +836,7 @@ div.rex-cnt-editmode div.rex-cnt-editmode-slc {
 	float:left;
 	width:100%;
 	background:#ccd7dd;
-	font-size:1em;
+	font-size:1.2em;
 	font-weight:bold;
 }
 div.rex-cnt-editmode div.rex-cnt-editmode-slc p {
