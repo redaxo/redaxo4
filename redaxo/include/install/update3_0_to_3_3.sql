@@ -16,6 +16,8 @@ ALTER TABLE `rex_article` DROP `fe_group`;
 ALTER TABLE `rex_article` DROP `fe_ext`;
 ALTER TABLE `rex_article` DROP `teaser`;
 ALTER TABLE `rex_article` DROP `type_id`;
+ALTER TABLE `rex_article` DROP `description`;
+ALTER TABLE `rex_article` DROP `keywords`;
 ALTER TABLE `rex_modultyp` DROP `bausgabe`;
 ALTER TABLE `rex_modultyp` DROP `func`;
 ALTER TABLE `rex_modultyp` DROP `php_enable`;

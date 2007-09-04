@@ -552,8 +552,6 @@ if ($article->getRows() == 1)
       $meta_sql->setTable($REX['TABLE_PREFIX'] . "article");
       // $meta_sql->debugsql = 1;
       $meta_sql->setWhere("id='$article_id' AND clang=$clang");
-      $meta_sql->setValue('keywords', $meta_keywords);
-      $meta_sql->setValue('description', $meta_description);
       $meta_sql->setValue('name', $meta_article_name);
       $meta_sql->setValue('updatedate', time());
       $meta_sql->setValue('updateuser', $REX_USER->getValue('login'));
@@ -570,8 +568,6 @@ if ($article->getRows() == 1)
         $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
           'id' => $article_id,
           'clang' => $clang,
-          'keywords' => $meta_keywords,
-          'description' => $meta_description,
           'name' => $meta_article_name,
         ));
       }
@@ -704,14 +700,6 @@ if ($article->getRows() == 1)
 						<p>
 						  <label for="meta_article_name">' . $I18N->msg("name_description") . '</label>
 						  <input type="text" id="meta_article_name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30"'. rex_tabindex() .' />
-						</p>
-						<p>
-						  <label for="meta_description">' . $I18N->msg("description") . '</label>
-						  <textarea name="meta_description" id="meta_description" cols="50" rows="6"'. rex_tabindex() .'>' . htmlspecialchars($article->getValue("description")) . '</textarea>
-						</p>
-						<p>
-						  <label for="meta_keywords">' . $I18N->msg("keywords") . '</label>
-						  <textarea name="meta_keywords" id="meta_keywords" cols="50" rows="6"'. rex_tabindex() .'>' . htmlspecialchars($article->getValue("keywords")) . '</textarea>
 						</p>';
 
       // ----- EXTENSION POINT
