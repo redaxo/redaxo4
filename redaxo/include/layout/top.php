@@ -54,39 +54,41 @@ if (!isset($open_header_only)) echo 'onunload="closeAll();"';
 
 if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
 {
+  $accesskey = 1;
+
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
-  echo '<p>' . $I18N->msg('name') . ' : <strong>' . $user_name . '</strong> [<a href="index.php?FORM[logout]=1">' . $I18N->msg('logout') . '</a>]</p>' . "\n";
+  echo '<p>' . $I18N->msg('name') . ' : <strong>' . $user_name . '</strong> [<a href="index.php?FORM[logout]=1" accesskey="'. $REX['ACKEY']['LOGOUT'] .'">' . $I18N->msg('logout') . '</a>]</p>' . "\n";
   echo '<ul>';
-  echo '<li><a href="index.php?page=structure"'. rex_tabindex() .'>' . $I18N->msg("structure") . '</a></li>' . "\n";
+  echo '<li><a href="index.php?page=structure"'. rex_tabindex() .' accesskey="'. $accesskey++ .'">' . $I18N->msg("structure") . '</a></li>' . "\n";
 
   if ($REX_USER->hasPerm("mediapool[]") || $REX_USER->hasPerm("admin[]") || ($REX_USER->hasPerm("clang[") AND ($REX_USER->hasPerm("csw[") || $REX_USER->hasPerm("csr["))))
   {
-    echo '<li> | <a href="#" onclick="openMediaPool();"'. rex_tabindex() .'>' . $I18N->msg("pool_name") . '</a></li>' . "\n";
+    echo '<li> | <a href="#" onclick="openMediaPool();"'. rex_tabindex() . 'accesskey="'. $accesskey++ .'">' . $I18N->msg("pool_name") . '</a></li>' . "\n";
   }
 
   if ($REX_USER->hasPerm("template[]") || $REX_USER->hasPerm("admin[]"))
   {
-    echo '<li> | <a href="index.php?page=template"'. rex_tabindex() .'>' . $I18N->msg("template") . '</a></li>' . "\n";
+    echo '<li> | <a href="index.php?page=template"'. rex_tabindex() .' accesskey="'. $accesskey++ .'">' . $I18N->msg("template") . '</a></li>' . "\n";
   }
 
   if ($REX_USER->hasPerm("module[]") || $REX_USER->hasPerm("admin[]"))
   {
-    echo '<li> | <a href="index.php?page=module"'. rex_tabindex() .'>' . $I18N->msg("modules") . '</a></li>' . "\n";
+    echo '<li> | <a href="index.php?page=module"'. rex_tabindex() .' accesskey="'. $accesskey++ .'">' . $I18N->msg("modules") . '</a></li>' . "\n";
   }
 
   if ($REX_USER->hasPerm("user[]") || $REX_USER->hasPerm("admin[]"))
   {
-    echo '<li> | <a href="index.php?page=user"'. rex_tabindex() .'>' . $I18N->msg("user") . '</a></li>' . "\n";
+    echo '<li> | <a href="index.php?page=user"'. rex_tabindex() .' accesskey="'. $accesskey++ .'">' . $I18N->msg("user") . '</a></li>' . "\n";
   }
 
   if ($REX_USER->hasPerm("addon[]") || $REX_USER->hasPerm("admin[]"))
   {
-    echo '<li> | <a href="index.php?page=addon"'. rex_tabindex() .'>' . $I18N->msg("addon") . '</a></li>' . "\n";
+    echo '<li> | <a href="index.php?page=addon"'. rex_tabindex() .' accesskey="'. $accesskey++ .'">' . $I18N->msg("addon") . '</a></li>' . "\n";
   }
 
   if ($REX_USER->hasPerm("specials[]") || $REX_USER->hasPerm("admin[]"))
   {
-    echo '<li> | <a href="index.php?page=specials"'. rex_tabindex() .'>' . $I18N->msg("specials") . '</a></li>' . "\n";
+    echo '<li> | <a href="index.php?page=specials"'. rex_tabindex() .' accesskey="'. $accesskey++ .'">' . $I18N->msg("specials") . '</a></li>' . "\n";
   }
 
   if (is_array($REX['ADDON']['status']))
@@ -127,15 +129,15 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
     	}
       if ($popup == 1)
       {
-        echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() .'>' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() .' accesskey='. $accesskey++ .'>' . $name . '</a></li>' . "\n";
       }
       elseif ($popup == "" or $popup == 0)
       {
-        echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() .'>' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() .' accesskey='. $accesskey++ .'>' . $name . '</a></li>' . "\n";
       }
       else
       {
-        echo '<li>' . $separator . '<a href="' . $popup . '"'. rex_tabindex() .'>' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="' . $popup . '"'. rex_tabindex() .' accesskey='. $accesskey++ .'>' . $name . '</a></li>' . "\n";
       }
     }
     next($REX['ADDON']['status']);
