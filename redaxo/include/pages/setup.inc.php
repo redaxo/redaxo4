@@ -262,6 +262,7 @@ if ($checkmodus == 2 && $send == 1)
   $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
   $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("YmdHis"), $cont);
   $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*", "\\1".$error_email, $cont);
+  $cont = ereg_replace("(REX\['PSWFUNC'\].?\=.?\")[^\"]*", "\\1".$psw_func, $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*", "\\1".$mysql_host, $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_login, $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
@@ -303,13 +304,17 @@ if ($checkmodus == 2 && $send == 1)
 }
 else
 {
-  $serveraddress = $REX['SERVER'];
-  $serverbezeichnung = $REX['SERVERNAME'];
-  $error_email = $REX['ERROR_EMAIL'];
-  $dbname = $REX['DB']['1']['NAME'];
-  $redaxo_db_user_login = $REX['DB']['1']['LOGIN'];
-  $redaxo_db_user_pass = $REX['DB']['1']['PSW'];
-  $mysql_host = $REX['DB']['1']['HOST'];
+  // Allgemeine Infos
+  $serveraddress         = $REX['SERVER'];
+  $serverbezeichnung     = $REX['SERVERNAME'];
+  $error_email           = $REX['ERROR_EMAIL'];
+  $psw_func              = $REX['PSWFUNC'];
+
+  // DB Infos
+  $dbname                = $REX['DB']['1']['NAME'];
+  $redaxo_db_user_login  = $REX['DB']['1']['LOGIN'];
+  $redaxo_db_user_pass   = $REX['DB']['1']['PSW'];
+  $mysql_host            = $REX['DB']['1']['HOST'];
 }
 
 if ($checkmodus == 2)
@@ -330,6 +335,16 @@ if ($checkmodus == 2)
       echo rex_warning($err_msg);
     }
 
+    $psw_functions = '';
+    foreach(array('', 'sha1', 'md5') as $key => $algo)
+    {
+      $key = $algo;
+      if($algo == '') $algo = $I18N->msg('setup_no_encryption');
+      $selected = $key == $psw_func ? ' selected="selected"' : '';
+
+      $psw_functions .= '<option value="'. $key .'"'. $selected .'>'. $algo .'</option>';
+    }
+
   echo '
             <legend>'.$I18N->msg("setup_0201").'</legend>
             <p>
@@ -345,6 +360,13 @@ if ($checkmodus == 2)
             <p>
               <label for="error_email">'.$I18N->msg("setup_026").'</label>
               <input type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
+            </p>
+
+            <p>
+              <label for="psw_func">'.$I18N->msg("setup_encryption").'</label>
+              <select id="psw_func" name="psw_func"'. rex_tabindex() .'>
+                '. $psw_functions .'
+              </select>
             </p>
           </fieldset>
 
