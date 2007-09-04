@@ -559,6 +559,7 @@ if (!window.addEventListener)
 // --------------- /AddEvent
 
 // Beim Drücken eines Access-Keys weiterleiten
+/*
 addEvent(document, 'keypress', function(e)
 {
   var key = String.fromCharCode(e.keyCode || e.which);
@@ -585,6 +586,7 @@ addEvent(document, 'keypress', function(e)
     }
   }
 });
+*/
 
 
 function stopEvent(e)
