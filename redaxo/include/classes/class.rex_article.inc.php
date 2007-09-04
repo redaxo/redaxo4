@@ -375,9 +375,8 @@ class rex_article
                 )
               );
 
-              $mne = '
+              $mne = $msg .'
 			       	<div class="rex-cnt-editmode-slc">
-                '. $msg .'
                 <p class="rex-flLeft" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</p>
                 <ul class="rex-flRight">
               ';
