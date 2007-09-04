@@ -559,9 +559,13 @@ if (!window.addEventListener)
 // --------------- /AddEvent
 
 // Beim Drücken eines Access-Keys weiterleiten
-/*
 addEvent(document, 'keypress', function(e)
 {
+  var activeElement = document.activeElement || e.explicitOriginalTarget;
+  var sTagName = activeElement.tagName.toLowerCase();
+  if(sTagName == 'input' || sTagName == 'textarea' || sTagName == 'select' || sTagName == 'option')
+    return;
+    
   var key = String.fromCharCode(e.keyCode || e.which);
   
   var buttons = document.getElementsByTagName('input');
@@ -586,7 +590,6 @@ addEvent(document, 'keypress', function(e)
     }
   }
 });
-*/
 
 
 function stopEvent(e)
