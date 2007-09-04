@@ -116,6 +116,10 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
     if(isset ($REX['ADDON']['popup'][$apage]))
       $popup = $REX['ADDON']['popup'][$apage];
 
+    $accesskey = '';
+    if(isset ($REX['ACKEY']['ADDON'][$apage]))
+      $accesskey = ' accesskey="'. $REX['ACKEY']['ADDON'][$apage] .'"';
+
     // Leerzeichen durch &nbsp; ersetzen, damit Addonnamen immer in einer Zeile stehen
     $name = str_replace(' ', '&nbsp;', $name);
 
@@ -129,15 +133,15 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
     	}
       if ($popup == 1)
       {
-        echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() .' accesskey='. $accesskey++ .'>' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
       }
       elseif ($popup == "" or $popup == 0)
       {
-        echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() .' accesskey='. $accesskey++ .'>' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
       }
       else
       {
-        echo '<li>' . $separator . '<a href="' . $popup . '"'. rex_tabindex() .' accesskey='. $accesskey++ .'>' . $name . '</a></li>' . "\n";
+        echo '<li>' . $separator . '<a href="' . $popup . '"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
       }
     }
     next($REX['ADDON']['status']);
