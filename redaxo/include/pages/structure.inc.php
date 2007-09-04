@@ -930,7 +930,7 @@ if ($category_id > -1)
               <td>'. $TMPL_SEL->get() .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
-              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_edit') .'" accesskey="'.$REX['ACKEY']['SAVE'].'" /></td>
+              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_save') .'" accesskey="'.$REX['ACKEY']['SAVE'].'" /></td>
             </tr>
             ';
 
