@@ -89,6 +89,13 @@ $REX['DB']['2']['PSW'] = "";
 $REX['DB']['2']['NAME'] = "";
 $REX['DB']['2']['PERSISTENT'] = false;
 
+// ----------------- Accesskeys
+$REX['ACKEY']['SAVE'] = 'S';
+$REX['ACKEY']['APPLY'] = 'X';
+$REX['ACKEY']['DELETE'] = 'D';
+$REX['ACKEY']['ART_CREATE'] = 'A';
+$REX['ACKEY']['CAT_CREATE'] = 'C';
+
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
