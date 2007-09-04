@@ -103,6 +103,7 @@ if ($SP)
       <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
       <caption class="rex-hide">'.$I18N->msg("addon_caption").'</caption>
       <colgroup>
+      	<col width="40" />
         <col width="*"/>
         <col width="130" />
         <col width="130" />
@@ -111,6 +112,7 @@ if ($SP)
       </colgroup>
   	  <thead>
         <tr>
+        	<th class="rex-icon">&nbsp;</th>
           <th>'.$I18N->msg("addon_hname").'</th>
           <th>'.$I18N->msg("addon_hinstall").'</th>
           <th>'.$I18N->msg("addon_hactive").'</th>
@@ -155,6 +157,7 @@ if ($SP)
 
     echo '
         <tr>
+          <td class="rex-icon"><img src="pics/addon.gif" alt="'. $cur .'" title="'. $cur .'"/></td>
           <td>'.$cur.' [<a href="index.php?page=addon&amp;spage=help&amp;addonname='.$cur.'">?</a>]</td>
           <td>'.$install.'</td>
           <td>'.$status.'</td>
