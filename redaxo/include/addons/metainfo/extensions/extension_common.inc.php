@@ -276,7 +276,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag = 'div';
         $tag_attr = ' class="rex-ptag"';
 
-        $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $activeItem->getValue('category_id'));
+        $category = '';
+        if($activeItem)
+          $category = $activeItem->getValue('category_id');
+
+        $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $category);
         $field = str_replace('LINK['. $link_id .']', $name, $field);
         $id = 'LINK_'. $link_id;
 
