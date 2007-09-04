@@ -507,10 +507,10 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div>
 						<p class="rex-cnt-col2">
-						<input type="submit" class="rex-sbmt" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" />
+						<input type="submit" class="rex-sbmt" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
 						</p>
 						<p class="rex-cnt-col2">
-						<input type="submit" class="rex-sbmt" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" />
+						<input type="submit" class="rex-sbmt" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" accesskey="'.$REX['ACKEY']['APPLY'].'" />
 						</p>
 					</div>';
     $add_user_login = '<span id="userlogin">'. $sql->getValue($REX['TABLE_PREFIX']."user.login") .'</span>';
@@ -637,7 +637,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div>
 						<p>
-						<input type="submit" class="rex-sbmt" name="function" value="'.$I18N->msg("add_user").'" />
+						<input type="submit" class="rex-sbmt" name="function" value="'.$I18N->msg("add_user").'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
 						</p>
 					</div>';
     $add_admin_chkbox = '<input class="rex-chckbx" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
@@ -803,7 +803,7 @@ if (isset($SHOW) and $SHOW)
     </colgroup>
     <thead>
       <tr>
-        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1"><img src="pics/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" /></a></th>
+        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1" accesskey="'.$REX['ACKEY']['ADD'].'"><img src="pics/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" /></a></th>
         '. $add_th .'
         <th>'.$I18N->msg('name').'</th>
         <th>'.$I18N->msg('login').'</th>

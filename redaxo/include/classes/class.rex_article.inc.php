@@ -621,7 +621,7 @@ class rex_article
               '. $MOD->getValue("eingabe") .'
             </div></div>
             <p class="rex-sbmt">
-              <input type="submit" value="'. $I18N->msg('add_block') .'" />
+              <input type="submit" value="'. $I18N->msg('add_block') .'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
             </p>
           </fieldset>
         </form>
@@ -677,8 +677,8 @@ class rex_article
           '.$RE_MODUL_IN.'
 		  </div></div>
           <p class="rex-sbmt">
-            <input type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" />
-            <input type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" />
+            <input type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" accesskey="'.$REX['ACKEY']['SAVE'].'" />
+            <input type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" accesskey="'.$REX['ACKEY']['APPLY'].'" />
           </p>
         </fieldset>
       </form>';

@@ -165,7 +165,7 @@ if ($function == 'add' or $function == 'edit')
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_module_and_continue").'" />';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_module_and_continue").'" accesskey="'.$REX['ACKEY']['APPLY'].'" />';
 
     if (isset($message) and $message != '')
     {
@@ -196,7 +196,7 @@ if ($function == 'add' or $function == 'edit')
       				<textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
     			  </p>
     			  <p>
-      				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" />
+      				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
       				'. $btn_update .'
     			  </p>
     		  </div>
@@ -315,7 +315,7 @@ if ($OUT)
     </colgroup>
     <thead>
       <tr>
-        <th class="rex-icon"><a href="index.php?page=module&amp;function=add"><img src="pics/modul_plus.gif" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'" /></a></th>
+        <th class="rex-icon"><a href="index.php?page=module&amp;function=add" accesskey="'.$REX['ACKEY']['ADD'].'"><img src="pics/modul_plus.gif" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'" /></a></th>
         <th class="rex-icon">ID</th>
         <th>'.$I18N->msg('module_description').'</th>
         <th>'.$I18N->msg('module_functions').'</th>

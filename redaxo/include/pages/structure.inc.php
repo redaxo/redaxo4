@@ -505,7 +505,7 @@ if($category_id != '')
 $add_category = '';
 if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
-  $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'" accesskey="'.$REX['ACKEY']['CAT_CREATE'].'"><img src="pics/folder_plus.gif" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'" /></a>';
+  $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'" accesskey="'.$REX['ACKEY']['ADD'].'"><img src="pics/folder_plus.gif" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'" /></a>';
 }
 
 $add_header = '';
@@ -780,7 +780,7 @@ if ($category_id > -1)
   $art_add_link = '';
   if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
-    $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'" accesskey="'.$REX['ACKEY']['ART_CREATE'].'"><img src="pics/document_plus.gif" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
+    $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'" accesskey="'.$REX['ACKEY']['ADD_2'].'"><img src="pics/document_plus.gif" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
   }
 
   $add_head = '';
