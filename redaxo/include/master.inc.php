@@ -90,11 +90,12 @@ $REX['DB']['2']['NAME'] = "";
 $REX['DB']['2']['PERSISTENT'] = false;
 
 // ----------------- Accesskeys
-$REX['ACKEY']['SAVE'] = 'S';
-$REX['ACKEY']['APPLY'] = 'X';
-$REX['ACKEY']['DELETE'] = 'D';
-$REX['ACKEY']['ART_CREATE'] = 'A';
-$REX['ACKEY']['CAT_CREATE'] = 'C';
+$REX['ACKEY']['SAVE'] = 's';
+$REX['ACKEY']['APPLY'] = 'x';
+$REX['ACKEY']['DELETE'] = 'd';
+$REX['ACKEY']['ART_CREATE'] = 'a';
+$REX['ACKEY']['CAT_CREATE'] = 'c';
+$REX['ACKEY']['LOGOUT'] = 'l';
 
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
