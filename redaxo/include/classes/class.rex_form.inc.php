@@ -714,13 +714,14 @@ class rex_form
     }
 
     $s = "\n";
-    $s .= '<div class="'. $this->divId .'">';
 
     $message = $this->getMessage();
     if($message != '')
     {
       $s .= '  '. rex_warning($message). "\n";
     }
+
+    $s .= '<div class="'. $this->divId .'">'. "\n";
 
     $i = 0;
     $addHeaders = true;
