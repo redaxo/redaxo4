@@ -46,13 +46,13 @@ $REX['USE_GZIP'] = "false";
 // activate frontend e-tag support
 // tag content with an md5 sum to improve usage of client cache
 // String: "true"/"false"/"fronted"/"backend"
-$REX['USE_ETAG'] = false;
+$REX['USE_ETAG'] = "false";
 
 // activate frontend last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
 // does NOT work for the backend yet!
 // String: "true"/"false"/"fronted"/"backend"
-$REX['USE_LAST_MODIFIED'] = false;
+$REX['USE_LAST_MODIFIED'] = "false";
 
 // versch. Pfade
 $REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include");
