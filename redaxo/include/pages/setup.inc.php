@@ -336,7 +336,7 @@ if ($checkmodus == 2)
     }
 
     $psw_functions = '';
-    foreach(array('', 'sha1', 'md5') as $key => $algo)
+    foreach(array('', 'sha1', 'md5', 'crypt') as $key => $algo)
     {
       $key = $algo;
       if($algo == '') $algo = $I18N->msg('setup_no_encryption');
