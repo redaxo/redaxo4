@@ -45,12 +45,13 @@ $REX['USE_GZIP'] = "false";
 
 // activate frontend e-tag support
 // tag content with an md5 sum to improve usage of client cache
-// Boolean: true/false
+// String: "true"/"false"/"fronted"/"backend"
 $REX['USE_ETAG'] = false;
 
 // activate frontend last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-// Boolean: true/false
+// does NOT work for the backend yet!
+// String: "true"/"false"/"fronted"/"backend"
 $REX['USE_LAST_MODIFIED'] = false;
 
 // versch. Pfade

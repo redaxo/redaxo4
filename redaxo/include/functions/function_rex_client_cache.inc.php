@@ -26,16 +26,13 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
   // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
   rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
 
-  if(!$REX['REDAXO'])
-  {
-    // ----- Last-Modified
-    if($REX['USE_LAST_MODIFIED'])
-      rex_send_last_modified($REX_ARTICLE);
+  // ----- Last-Modified
+  if($REX['USE_LAST_MODIFIED'] === 'true' || $REX['USE_LAST_MODIFIED'] == $environment)
+    rex_send_last_modified($REX_ARTICLE);
 
-    // ----- ETAG
-    if($REX['USE_ETAG'])
-      rex_send_etag($content);
-  }
+  // ----- ETAG
+  if($REX['USE_ETAG'] === 'true' || $REX['USE_ETAG'] == $environment)
+    rex_send_etag($content);
 
   // ----- GZIP
   if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
@@ -56,7 +53,12 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
  */
 function rex_send_last_modified($REX_ARTICLE)
 {
-  $lastModified = date('r', $REX_ARTICLE->getValue('updatedate'));
+  if($REX_ARTICLE)
+    $lastModified = $REX_ARTICLE->getValue('updatedate');
+  else
+    $lastModified = time();
+
+  $lastModified = date('r', $lastModified);
 
   // Last-Modified Timestamp gefunden
   // => den Browser anweisen, den Cache zu verwenden
