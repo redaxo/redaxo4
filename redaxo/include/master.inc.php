@@ -99,6 +99,9 @@ $REX['ACKEY']['ADD'] = 'a';
 $REX['ACKEY']['ADD_2'] = 'y';
 $REX['ACKEY']['LOGOUT'] = 'l';
 
+// ------ Accesskeys for Addons
+// $REX['ACKEY']['ADDON']['metainfo'] = 'm';
+
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
