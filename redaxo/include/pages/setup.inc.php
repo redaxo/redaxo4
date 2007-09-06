@@ -1,5 +1,26 @@
 <?php
 
+/**
+ * Direkter Aufruf, um zu testen, ob der Ordner redaxo/include
+ * erreichbar ist. Dies darf aus Sicherheitsgründen nicht möglich sein!
+ */
+if (!isset($REX))
+{
+  echo '<html>
+          <title></title>
+          <head>
+            <script src="../../js/standard.js" type="text/javascript"></script>
+            <script type="text/javascript">
+              var needle = new parent.getObj("security_warning");
+              var span = needle.obj;
+              span.style.display="";
+            </script>
+          </head>
+          <body></body>
+        </html>';
+  exit();
+}
+
 
 /**
  *
@@ -12,14 +33,14 @@
 /**
  * Ausgabe des Setup spezifischen Titels
  */
-function rex_setuptitle($title)
+function rex_setup_title($title)
 {
   rex_title($title);
 
   echo '<div id="rex-stp">';
 }
 
-function rex_setupimport($import_sql, $import_archiv = null)
+function rex_setup_import($import_sql, $import_archiv = null)
 {
   global $REX, $I18N, $export_addon_dir;
 
@@ -36,6 +57,7 @@ function rex_setupimport($import_sql, $import_archiv = null)
       // Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php übernommen
       // wird und auch in der danach includeten function verfügbar ist
       global $I18N_IM_EXPORT;
+
       require $export_addon_dir.'/config.inc.php';
       require_once $export_addon_dir.'/classes/class.tar.inc.php';
       require_once $export_addon_dir.'/functions/function_folder.inc.php';
@@ -45,7 +67,7 @@ function rex_setupimport($import_sql, $import_archiv = null)
       $state_db = rex_a1_import_db($import_sql);
       if ($state_db['state'] === false)
       {
-        $err_msg .= $state_db['message'].'<br />';
+        $err_msg .= nl2br($state_db['message']) .'<br />';
       }
 
       // Archiv optional importieren
@@ -125,25 +147,19 @@ function rex_setup_addons($uninstallBefore = false)
 // --------------------------------------------- END: SETUP FUNCTIONS
 
 
-
 $MSG['err'] = "";
-$MSG['good'] = "";
 
-if (!isset ($checkmodus))
-  $checkmodus = '';
-if (!isset ($send))
-  $send = '';
-if (!isset ($dbanlegen))
-  $dbanlegen = '';
-if (!isset ($noadmin))
-  $noadmin = '';
+$checkmodus = rex_request('checkmodus', 'float');
+$send       = rex_request('send', 'string');
+$dbanlegen  = rex_request('dbanlegen', 'string');
+$noadmin    = rex_request('noadmin', 'string');
 
 $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
 
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
-  rex_setuptitle('SETUP: SELECT LANGUAGE');
+  rex_setup_title('SETUP: SELECT LANGUAGE');
 
   echo '<ul class="rex-stp-language">
           <li><a href="index.php?checkmodus=0.5&amp;lang=de_de"'. rex_tabindex() .'>DEUTSCH</a></li>
@@ -158,7 +174,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
 
 if ($checkmodus == '0.5')
 {
-  rex_setuptitle('SETUP: START');
+  rex_setup_title('SETUP: START');
 
   echo $I18N->msg('setup_005', '<h2>', '</h2>');
 
@@ -231,16 +247,19 @@ if ($checkmodus == 1)
 
 if ($MSG['err'] == '' && $checkmodus == 1)
 {
-  rex_setuptitle($I18N->msg('setup_step1'));
+  rex_setup_title($I18N->msg('setup_step1'));
 
   echo $I18N->msg('setup_016', '<h2>', '</h2>', '<span class="rex-ok">', '</span>').'
-        <p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a></p>';
+        <p id="security_warning" class="security_warning" style="display: none">'. $I18N->msg('setup_security_msg') .'</p>
+        <noscript><p class="security_warning">'. $I18N->msg('setup_no_js_security_msg') .'</p></noscript>
+        <p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a></p>
+        <iframe src="include/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display:none"></iframe>';
 
 }
 elseif ($MSG['err'] != "")
 {
 
-  rex_setuptitle($I18N->msg('setup_step1'));
+  rex_setup_title($I18N->msg('setup_step1'));
 
   echo '<h2>'.$I18N->msg('setup_headline1').'</h2>
         <ul>'.$MSG['err'].'</ul>
@@ -320,7 +339,7 @@ else
 if ($checkmodus == 2)
 {
 
-  rex_setuptitle($I18N->msg('setup_step2'));
+  rex_setup_title($I18N->msg('setup_step2'));
 
   echo '<h2>'.$I18N->msg('setup_023').'</h2>
 
@@ -336,7 +355,7 @@ if ($checkmodus == 2)
     }
 
     $psw_functions = '';
-    foreach(array('', 'sha1', 'md5', 'crypt') as $key => $algo)
+    foreach(array('', 'sha1', 'md5') as $key => $algo)
     {
       $key = $algo;
       if($algo == '') $algo = $I18N->msg('setup_no_encryption');
@@ -428,7 +447,7 @@ if ($checkmodus == 3 && $send == 1)
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_3_3.sql';
-      $err_msg .= rex_setupimport($import_sql);
+      $err_msg .= rex_setup_import($import_sql);
     }
   }elseif ($dbanlegen == 3)
   {
@@ -441,7 +460,7 @@ if ($checkmodus == 3 && $send == 1)
     {
       $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
       $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
-      $err_msg .= rex_setupimport($import_sql, $import_archiv);
+      $err_msg .= rex_setup_import($import_sql, $import_archiv);
     }
   }elseif ($dbanlegen == 2)
   {
@@ -450,17 +469,14 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
     $db = new rex_sql;
-    // $db->debugsql = true;
     foreach($requiredTables as $table)
-    {
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
-    }
 
     $err_msg .= rex_setup_addons(true);
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
-      $err_msg .= rex_setupimport($import_sql);
+      $err_msg .= rex_setup_import($import_sql);
     }
   }elseif ($dbanlegen == 0)
   {
@@ -469,7 +485,7 @@ if ($checkmodus == 3 && $send == 1)
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
-      $err_msg .= rex_setupimport($import_sql);
+      $err_msg .= rex_setup_import($import_sql);
     }
   }
 
@@ -506,7 +522,7 @@ if ($checkmodus == 3 && $send == 1)
 if ($checkmodus == 3)
 {
 
-  rex_setuptitle($I18N->msg('setup_step3'));
+  rex_setup_title($I18N->msg('setup_step3'));
 
   echo '
         <form action="index.php" method="post" id="rex-stp-database">
@@ -712,7 +728,7 @@ if ($checkmodus == 4 && $send == 1)
 if ($checkmodus == 4)
 {
 
-  rex_setuptitle($I18N->msg("setup_step4"));
+  rex_setup_title($I18N->msg("setup_step4"));
 
   echo '
     <form action="index.php" method="post" id="rex-stp-admin">
@@ -734,10 +750,9 @@ if ($checkmodus == 4)
   else
     $dbchecked0 = ' checked="checked"';
 
-  if (!isset ($redaxo_user_login))
-    $redaxo_user_login = '';
-  if (!isset ($redaxo_user_pass))
-    $redaxo_user_pass = '';
+  $redaxo_user_login = rex_post('redaxo_user_login', 'string');
+  $redaxo_user_pass  = rex_post('redaxo_user_pass', 'string');
+
   echo '
         <p>
           <label for="redaxo_user_login">'.$I18N->msg("setup_046").':</label>
@@ -782,9 +797,10 @@ if ($checkmodus == 5)
     $errmsg = $I18N->msg('setup_050');
   }
 
-  rex_setuptitle($I18N->msg('setup_step5'));
+  rex_setup_title($I18N->msg('setup_step5'));
   echo $I18N->msg('setup_051', '<h2>', '</h2>', '<a href="index.php">', '</a>');
 
 }
 echo '</div>';
+
 ?>

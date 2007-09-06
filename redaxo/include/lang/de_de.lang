@@ -504,6 +504,8 @@ database_imported = Datenbank wurde importiert.
 entry_count = {0} Einträge
 setup_encryption = Passwortverschlüsselung
 setup_no_encryption = keine Verschlüsselung
+setup_security_msg = Der Ordner redaxo/include ist über die Domain erreichbar! Dies darf aus Sicherheitsgründen nicht möglich sein!
+setup_no_js_security_msg = Prüfen sie, ob Dateien aus dem Ordner redaxo/include direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
 
 # redaxo\include\pages\addon.inc.php
 addon = AddOns
