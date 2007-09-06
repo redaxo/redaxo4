@@ -26,9 +26,9 @@ if ($page_name != '')
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg("htmllang"); ?>" />
   <meta http-equiv="Cache-Control" content="no-cache" />
   <meta http-equiv="Pragma" content="no-cache" />
-  <link rel="stylesheet" type="text/css" href="css/backend.css" media="screen, projection, print" />
-  <link rel="stylesheet" type="text/css" href="css/aural.css" media="handheld, aural, braille" />
-  <script src="js/standard.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="media/css_backend.css" media="screen, projection, print" />
+  <link rel="stylesheet" type="text/css" href="media/css_aural.css" media="handheld, aural, braille" />
+  <script src="media/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
   var redaxo = true;

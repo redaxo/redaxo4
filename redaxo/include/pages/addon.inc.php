@@ -157,7 +157,7 @@ if ($SP)
 
     echo '
         <tr>
-          <td class="rex-icon"><img src="pics/addon.gif" alt="'. $cur .'" title="'. $cur .'"/></td>
+          <td class="rex-icon"><img src="media/addon.gif" alt="'. $cur .'" title="'. $cur .'"/></td>
           <td>'.$cur.' [<a href="index.php?page=addon&amp;spage=help&amp;addonname='.$cur.'">?</a>]</td>
           <td>'.$install.'</td>
           <td>'.$status.'</td>
