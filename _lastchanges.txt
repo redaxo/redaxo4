@@ -64,6 +64,7 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
+  * Creditseite eingeführt [jan]
   * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade! [kills, jan]
   * MINI API
     - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen [jan]
@@ -75,6 +76,7 @@ Version 3.3 (2007-XX-XX)
     - Addon trägt beliebigen Namen und definiert $REX['ADDON']['page'][$mypage] = '<zuErsetzendePage>'; der Page + install/aktiviert
       + Beispiel: $REX['ADDON']['page'][$mypage] = 'content';
         => Aufruf: include/addons/$mypage/pages/content.inc.php
+    - Addon haben nun Creditinformationen,$REX['ADDON']['supportpage'][$mypage], $REX['ADDON']['author'][$mypage], $REX['ADDON']['version'][$mypage]
   * CTypes aufbereitet [kills,jan]
   	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
   	- Sind nun abhängig von einzelnen Templates

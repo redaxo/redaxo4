@@ -544,3 +544,6 @@ addon_systemaddon_delete_not_allowed = System AddOns dürfen nicht gelöscht werde
 
 # redaxo\include\classes\class.rex_list.inc.php
 list_no_rows = Keine Daten vorhanden
+
+# redaxo\include\pages\credits.inc.php
+credits = credits
