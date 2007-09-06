@@ -22,7 +22,7 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 <b>Jan Kristinus</b>, jan.kristinus@redaxo.de
 Erfinder und Coreentwickler
-Yakamara GmbH & Co KG, <a href="http://www.yakamara.de">www.yakamara.de</a>
+Yakamara Media GmbH & Co KG, <a href="http://www.yakamara.de">www.yakamara.de</a>
 
 <b>Markus Staab</b>, markus.staab@redaxo.de
 Coreentwickler
