@@ -281,7 +281,7 @@ if ($OUT)
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><img src="pics/modul_plus.gif" alt="' . $I18N->msg('action_create') . '" title="' . $I18N->msg('action_create') . '" /></a></th>
+          <th class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><img src="media/modul_plus.gif" alt="' . $I18N->msg('action_create') . '" title="' . $I18N->msg('action_create') . '" /></a></th>
           <th class="rex-icon">ID</th>
           <th>' . $I18N->msg('action_name') . '</th>
           <th>Preview-Event(s)</th>
@@ -315,7 +315,7 @@ if ($OUT)
 
     echo '
           <tr>
-            <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="pics/modul.gif" alt="' . $sql->getValue("name") . '" title="' . $sql->getValue("name") . '" /></a></td>
+            <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="media/modul.gif" alt="' . $sql->getValue("name") . '" title="' . $sql->getValue("name") . '" /></a></td>
             <td class="rex-icon">' . $sql->getValue("id") . '</td>
             <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
             <td>' . implode('/', $previewmode) . '</td>

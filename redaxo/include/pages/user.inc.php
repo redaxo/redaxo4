@@ -803,7 +803,7 @@ if (isset($SHOW) and $SHOW)
     </colgroup>
     <thead>
       <tr>
-        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><img src="pics/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" /></a></th>
+        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" /></a></th>
         '. $add_th .'
         <th>'.$I18N->msg('name').'</th>
         <th>'.$I18N->msg('login').'</th>
@@ -849,7 +849,7 @@ if (isset($SHOW) and $SHOW)
 
     echo '
       <tr>
-        <td class="rex-icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="pics/user.gif" alt="'. $username .'" title="'. $username .'" /></a></td>
+        <td class="rex-icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="media/user.gif" alt="'. $username .'" title="'. $username .'" /></a></td>
         '. $add_td .'
         <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'">'.$username.'</a></td>
         <td>'.$sql->getValue("login").'</td>

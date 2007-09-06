@@ -224,7 +224,7 @@ if ($function == 'add' or $function == 'edit')
           $action_name = htmlspecialchars($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="pics/modul.gif" width="16" height="16" alt="' . $action_name . '" title="' . $action_name . '" /></a></td>
+          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . $action_name . '" title="' . $action_name . '" /></a></td>
             <td class="rex-icon">' . $gma->getValue("id") . '</td>
           	<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
           	<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('action_delete').'</a></td>
@@ -315,7 +315,7 @@ if ($OUT)
     </colgroup>
     <thead>
       <tr>
-        <th class="rex-icon"><a href="index.php?page=module&amp;function=add"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'"><img src="pics/modul_plus.gif" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'" /></a></th>
+        <th class="rex-icon"><a href="index.php?page=module&amp;function=add"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'"><img src="media/modul_plus.gif" alt="'.$I18N->msg("create_module").'" title="'.$I18N->msg("create_module").'" /></a></th>
         <th class="rex-icon">ID</th>
         <th>'.$I18N->msg('module_description').'</th>
         <th>'.$I18N->msg('module_functions').'</th>
@@ -332,7 +332,7 @@ if ($OUT)
 
     echo '
       <tr>
-        <td class="rex-icon"><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="pics/modul.gif" alt="'. $sql->getValue("name") .'" title="'. $sql->getValue("name") .'"/></a></td>
+        <td class="rex-icon"><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="media/modul.gif" alt="'. $sql->getValue("name") .'" title="'. $sql->getValue("name") .'"/></a></td>
         <td class="rex-icon">'.$sql->getValue("id").'</td>
         <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a></td>
         <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_module").'</a></td>

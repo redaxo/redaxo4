@@ -565,7 +565,7 @@ if ($PERMALL && $subpage == "categories")
           </colgroup>
           <thead>
             <tr>
-              <th class="rex-icon"><a href="'. $link . $cat_id .'&amp;media_method=add_cat"'. rex_accesskey($I18N->msg('pool_kat_create'), $REX['ACKEY']['ADD']) .'><img src="pics/folder_plus.gif" alt="'. $I18N->msg('pool_kat_create') .'" title="'. $I18N->msg('pool_kat_create') .'" /></a></th>
+              <th class="rex-icon"><a href="'. $link . $cat_id .'&amp;media_method=add_cat"'. rex_accesskey($I18N->msg('pool_kat_create'), $REX['ACKEY']['ADD']) .'><img src="media/folder_plus.gif" alt="'. $I18N->msg('pool_kat_create') .'" title="'. $I18N->msg('pool_kat_create') .'" /></a></th>
               <th class="rex-icon">ID</th>
               <th>'. $I18N->msg('pool_kat_name') .'</th>
               <th>'. $I18N->msg('pool_kat_function') .'</th>
@@ -577,7 +577,7 @@ if ($PERMALL && $subpage == "categories")
   {
     echo '
       <tr class="rex-trow-actv">
-        <td class="rex-icon"><img src="pics/folder.gif" alt="'.$I18N->msg('pool_kat_create').'" title="'.$I18N->msg('pool_kat_create').'" /></td>
+        <td class="rex-icon"><img src="media/folder.gif" alt="'.$I18N->msg('pool_kat_create').'" title="'.$I18N->msg('pool_kat_create').'" /></td>
         <td class="rex-icon">-</td>
         <td>
           <span class="rex-hide"><label for="catname">'. $I18N->msg('pool_kat_name') .'</label></span>
@@ -600,7 +600,7 @@ if ($PERMALL && $subpage == "categories")
       echo '
         <input type="hidden" name="edit_id" value="'. $edit_id .'" />
         <tr class="rex-trow-actv">
-          <td class="rex-icon"><img src="pics/folder.gif" alt="'.$OOCat->getName().'" title="'.$OOCat->getName().'" /></td>
+          <td class="rex-icon"><img src="media/folder.gif" alt="'.$OOCat->getName().'" title="'.$OOCat->getName().'" /></td>
           <td class="rex-icon">'. $iid .'</td>
           <td>
             <span class="rex-hide"><label for="cat_name">'. $I18N->msg('pool_kat_name') .'</label></span>
@@ -614,7 +614,7 @@ if ($PERMALL && $subpage == "categories")
     }else
     {
       echo '<tr>
-              <td class="rex-icon"><a href="'. $link . $iid .'"><img src="pics/folder.gif" alt="'.$OOCat->getName().'" title="'.$OOCat->getName().'" /></a></td>
+              <td class="rex-icon"><a href="'. $link . $iid .'"><img src="media/folder.gif" alt="'.$OOCat->getName().'" title="'.$OOCat->getName().'" /></a></td>
               <td class="rex-icon">'. $iid .'</td>
               <td><a href="'. $link . $iid .'">'.$OOCat->getName().'</a></td>
               <td>
@@ -917,8 +917,8 @@ if ($subpage == "detail")
     $ffile_size = OOMedia::_getFormattedSize($ffile_size);
     $rex_category_id = $gf->getValue('category_id');
     $file_ext = substr(strrchr($fname, '.'),1);
-    $icon_src = 'pics/mime_icons/mime-default.gif';
-    if (OOMedia::isDocType($file_ext)) $icon_src = 'pics/mime_icons/mime-'.$file_ext.'.gif';
+    $icon_src = 'media/mime-default.gif';
+    if (OOMedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
     {
       $thumbnail = '<img src="'. $icon_src .'" alt="'. $fdescription .'" title="'. $ftitle .'" />';
     }
@@ -950,7 +950,7 @@ if ($subpage == "detail")
 
       if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
       {
-        $imgn = 'pics/mime_icons/mime-error.gif';
+        $imgn = 'media/mime-error.gif';
       }else if ($thumbs && $thumbsresize && $rfwidth>199)
       {
         $imgn = '../index.php?rex_resize=200a__'. $fname;
@@ -1454,15 +1454,15 @@ if ($subpage == '')
     // wenn datei fehlt
     if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $file_name))
     {
-      $thumbnail = '<img src=pics/mime_icons/mime-error.gif width="44" height="38" alt="file does not exist" />';
+      $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
     else
     {
       $file_ext = substr(strrchr($file_name,'.'),1);
-      $icon_src = 'pics/mime_icons/mime-default.gif';
+      $icon_src = 'media/mime-default.gif';
       if (OOMedia::isDocType($file_ext))
       {
-        $icon_src = 'pics/mime_icons/mime-'. $file_ext .'.gif';
+        $icon_src = 'media/mime-'. $file_ext .'.gif';
       }
       $thumbnail = '<img src="'. $icon_src .'" width="44" height="38" alt="'. $alt .'" />';
 

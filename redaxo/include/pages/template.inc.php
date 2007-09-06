@@ -186,12 +186,12 @@ function rex_tplctypes_toggle()
   {
 		show = toggleElement(trs[i]);
 	}
-  if (show == "") changeImage("rex-tmp-ctypes-icon","pics/file_del.gif")
-  else changeImage("rex-tmp-ctypes-icon","pics/file_add.gif");
+  if (show == "") changeImage("rex-tmp-ctypes-icon","media/file_del.gif")
+  else changeImage("rex-tmp-ctypes-icon","media/file_add.gif");
 }
 
 //--></script>
-<a href="javascript:rex_tplctypes_toggle();"><img src="pics/file_add.gif" id="rex-tmp-ctypes-icon" /></a>
+<a href="javascript:rex_tplctypes_toggle();"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" /></a>
 <a href="javascript:rex_tplctypes_toggle();">'.$I18N->msg("content_types").' ['.$I18N->msg("option").']</a>
 </legend>
 
@@ -230,7 +230,7 @@ if ($OUT) {
     	</colgroup>
     	<thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=template&amp;function=add"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><img src="pics/template_plus.gif" alt="' . $I18N->msg("create_template") . '" title="' . $I18N->msg("create_template") . '" /></a></th>
+          <th class="rex-icon"><a href="index.php?page=template&amp;function=add"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><img src="media/template_plus.gif" alt="' . $I18N->msg("create_template") . '" title="' . $I18N->msg("create_template") . '" /></a></th>
           <th class="rex-icon">ID</th>
           <th>' . $I18N->msg("header_template_description") . '</th>
           <th>' . $I18N->msg("header_template_active") . '</th>
@@ -247,7 +247,7 @@ if ($OUT) {
 
     echo '
           <tr>
-            <td class="rex-icon"><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit"><img src="pics/template.gif" alt="' . htmlspecialchars($sql->getValue('name')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '" /></a></td>
+            <td class="rex-icon"><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit"><img src="media/template.gif" alt="' . htmlspecialchars($sql->getValue('name')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '" /></a></td>
             <td class="rex-icon">' . $sql->getValue('id') . '</td>
             <td><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit">' . htmlspecialchars($sql->getValue('name')) . '<span class="rex-hide"> [' . $I18N->msg('header_template_id') . ' ' . $sql->getValue('id') . ']</span></a></td>
             <td>' . $active . '</td>
