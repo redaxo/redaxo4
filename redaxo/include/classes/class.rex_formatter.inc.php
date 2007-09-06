@@ -1,10 +1,6 @@
 <?php
 
-
 /**
- * Addon Framework Classes 
- * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * @package redaxo3
  * @version $Id$
  */
@@ -16,21 +12,21 @@ class rex_formatter
 {
   /**
    * Formatiert den String <code>$value</code>
-   * 
+   *
    * @param $value zu formatierender String
    * @param $format_type Formatierungstype
    * @param $format Format
-   * 
+   *
    * Unterstützte Formatierugen:
-   * 
+   *
    * - <Formatierungstype>
    *    + <Format>
-   * 
+   *
    * - sprintf
    *    + siehe www.php.net/sprintf
-   * - date 
+   * - date
    *    + siehe www.php.net/date
-   * - strftime 
+   * - strftime
    *    + dateformat
    *    + datetime
    *    + siehe www.php.net/strftime
@@ -48,17 +44,17 @@ class rex_formatter
    * - rexmedia
    *    + formatiert ein Medium via OOMedia
    * - custom
-   *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion 
+   *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
    */
   function format($value, $format_type, $format)
   {
     global $I18N, $REX;
-    
+
     if($value === null || $value == '')
     {
       return '';
     }
-    
+
     // Stringformatierung mit sprintf()
     if ($format_type == 'sprintf')
     {
@@ -143,12 +139,12 @@ class rex_formatter
 
     if ($format == '' || $format == 'date')
     {
-      // Default REX-Dateformat 
+      // Default REX-Dateformat
       $format = $I18N->msg('dateformat');
     }
     elseif ($format == 'datetime')
     {
-      // Default REX-Datetimeformat 
+      // Default REX-Datetimeformat
       $format = $I18N->msg('datetimeformat');
     }
     return strftime($format, $value);
@@ -209,10 +205,11 @@ class rex_formatter
 
   function _formatUrl($value, $format)
   {
+    if(empty($value))
+      return '';
+
     if (!is_array($format))
-    {
       $format = array ();
-    }
 
     // Linkattribute
     if (empty ($format['attr']))
@@ -243,29 +240,23 @@ class rex_formatter
   function _formatTruncate($value, $format)
   {
     if (!is_array($format))
-    {
       $format = array ();
-    }
 
-    // String-laenge
+    // Max-String-laenge
     if (empty ($format['length']))
-    {
       $format['length'] = 80;
-    }
+
     // ETC
     if (empty ($format['etc']))
-    {
       $format['etc'] = '...';
-    }
+
     // Break-Words?
     if (empty ($format['break_words']))
-    {
       $format['break_words'] = false;
-    }
 
     return truncate($value, $format['length'], $format['etc'], $format['break_words']);
   }
-  
+
   function _formatNl2br($value, $format)
   {
     return nl2br($value);
@@ -297,8 +288,32 @@ class rex_formatter
     {
       $value = $media->toIcon();
     }
-    
+
     return $value;
   }
 }
+
+/**
+ * Returns the truncated $string
+ *
+ * @param $string String Searchstring
+ * @param $start String Suffix to search for
+ */
+function truncate($string, $length = 80, $etc = '...', $break_words = false)
+{
+  if ($length == 0)
+    return '';
+
+  if (strlen($string) > $length)
+  {
+    $length -= strlen($etc);
+    if (!$break_words)
+      $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
+
+    return substr($string, 0, $length).$etc;
+  }
+  else
+    return $string;
+}
+
 ?>
