@@ -29,7 +29,8 @@ Coreentwickler
 ???
 
 <b>Thomas Blum</b>, thomas.blum@redaxo.de
-CSS Entwickler, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
+CSS Entwickler
+blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
 ???
 
 
@@ -44,7 +45,7 @@ foreach ($ADDONS as $cur)
 {
   	if (isset($REX['ADDON']['page'][$cur])) $cl = 'rex-clr-grn';
 		else $cl = 'rex-clr-red';
-  	echo '<tr><td class="'.$cl.'">'.$cur.'</td><td class="'.$cl.'">'; 
+  	echo '<tr><td class="'.$cl.'">'.$cur.'</td><td class="'.$cl.'">';
   	if (isset($REX['ADDON']['version'][$cur])) echo '['.$REX['ADDON']['version'][$cur].']';
   	echo '</td><td class="'.$cl.'">';
   	if (isset($REX['ADDON']['author'][$cur])) echo $REX['ADDON']['author'][$cur];

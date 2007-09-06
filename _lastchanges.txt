@@ -25,7 +25,7 @@ Todos:
     * Fehler bei URLs mit $ z.b. $_POST .. Referer ..
   * Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
   * Warnings/Notices entfernen
-  
+
 
 ---------------------------------------------------------------------------------
 Planung / Irgendwann:
@@ -33,7 +33,7 @@ Planung / Irgendwann:
 
   * Historie mit Rollback
   * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
-  
+
 
 ---------------------------------------------------------------------------------
 Bekannte Bugs:
@@ -57,13 +57,22 @@ Wichtige Änderungen:
   * TinyMCE entfernt und als Addon wieder eingebaut [kills]
   * PHPMailer entfernt und als Addon wieder eingebaut [kills]
   * Metafelder entfernt und als Addon wieder eingebaut [kills]
-  
-  
+
+
 ---------------------------------------------------------------------------------
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
+  * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]
+  * Accesskey eingeführt [tab]
+    - $REX['ACKEY']['SAVE'] = 's';
+    - $REX['ACKEY']['APPLY'] = 'x';
+    - $REX['ACKEY']['DELETE'] = 'd';
+    - $REX['ACKEY']['ADD'] = 'a';
+    - $REX['ACKEY']['ADD_2'] = 'y';
+    - $REX['ACKEY']['LOGOUT'] = 'l';
+    - sowie die Zahlen 1-7 für die Standardseiten
   * Creditseite eingeführt [jan]
   * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade! [kills, jan]
   * MINI API
@@ -183,19 +192,19 @@ Version 3.3 (2007-XX-XX)
     - Die Startpage ist jetzt via $REX['START_PAGE'] einstellbar [kills]
   * Neue Klassen:
     - rex_template [kills]
-    
+
   * BUGFIXES:
     - ' Zeichen jetzt in Artikel/Kategorienamen möglich [kills]
     - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [kills]
     - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
     - Startartikel wurden immer online angezeigt [kills]
     - Slices verschieben - http://forum.redaxo.de/ftopic4560.html [jan]
-    
-    
+
+
   * Addons: [kills]
     - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert
     - De-Installation: wenn eine uninstall.sql im Addon verzeichnis liegt, wird diese beim Addon de-installieren importiert
-    
+
   * Image-Resize-Addon:
     - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
   * Import-Export-Addon:
@@ -204,7 +213,7 @@ Version 3.3 (2007-XX-XX)
         A1_BEFORE_DB_EXPORT, A1_AFTER_DB_EXPORT
         A1_BEFORE_FILE_IMPORT, A1_AFTER_FILE_IMPORT
         A1_BEFORE_FILE_EXPORT, A1_AFTER_FILE_EXPORT
-    
+
 
 Version 3.2 (2006-04-06)
 
