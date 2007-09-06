@@ -87,13 +87,24 @@ function rex_a1_import_db($filename)
   $lines = explode("\n", $conts);
 
   $add = new rex_sql;
-  // $add->debugsql = 1;
+  $error = '';
   foreach ($lines as $line)
   {
     $line = trim($line,"\r"); // Windows spezifische extras
     $line = trim($line, ";"); // mysql 3.x
+
+    if($line == '') continue;
+
     $add->setQuery($line);
-    $add->flush();
+
+    if($add->hasError())
+      $error .= "\n". $add->getError();
+  }
+
+  if($error != '')
+  {
+    $return['message'] = trim($error);
+    return $return;
   }
 
   $msg .= $I18N_IM_EXPORT->msg('database_imported').'. '.$I18N_IM_EXPORT->msg('entry_count', count($lines)).'<br />';
