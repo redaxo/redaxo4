@@ -41,6 +41,7 @@ $REX['PAGEPATH'] = '';
 $withheader = true;
 
 // ----------------- SETUP
+unset($REX_USER);
 if ($REX['SETUP'])
 {
   // ----------------- SET SETUP LANG
@@ -177,6 +178,9 @@ else
     }elseif ($REX['PAGEPATH'] == '' && $page == 'content')
     {
       $page_name = $I18N->msg('content');
+    }elseif ($REX['PAGEPATH'] == '' && $page == 'credits')
+    {
+      $page_name = $I18N->msg('credits');
     }elseif($REX['PAGEPATH'] == '')
     {
       $page = 'structure';

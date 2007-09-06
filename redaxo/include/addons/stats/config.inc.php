@@ -16,16 +16,13 @@ if (!$REX['GG'])
 	$REX['ADDON']['name'][$mypage] = $I18N_STATS->msg("stats_title");
 	$REX['ADDON']['perm'][$mypage] = "stats[]";
 	$REX['PERM'][] = "stats[]";
-	
-	
-	
-	
+	$REX['ADDON']['version'][$mypage] = "1.0";
+	$REX['ADDON']['author'][$mypage] = "Jan Kristinus";
+	// $REX['ADDON']['supportpage'][$mypage] = "";
 	
 	function rex_a7_insertCss($params) {
 		$content = $params['subject'];
 		$style = '<link rel="stylesheet" type="text/css" href="css/table-old.css" media="screen, projection, print" />';
-		
-	
 		return str_replace('</head>', $style.'</head>', $content);
 	}
 	
@@ -36,7 +33,6 @@ if (!$REX['GG'])
 }else
 {
 	$REX['STATS'] = 1;
-	
 	function rex_addStatEntry($params)
 	{
 		global $REX,$REX_ARTICLE;
@@ -49,10 +45,7 @@ if (!$REX['GG'])
 		}
 		return $content;
 	}
-	
-	
 	rex_register_extension('OUTPUT_FILTER', 'rex_addStatEntry');
-
 }
 
 // backend and frontend

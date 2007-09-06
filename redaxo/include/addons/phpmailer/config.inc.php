@@ -4,7 +4,6 @@
  * PHPMailer Addon
  *  
  * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * 
  * @package redaxo3
  * @version $Id$
@@ -16,6 +15,9 @@ $REX['ADDON']['rxid'][$mypage] = '93';
 $REX['ADDON']['page'][$mypage] = $mypage;    
 $REX['ADDON']['name'][$mypage] = 'PHPMailer';
 $REX['ADDON']['perm'][$mypage] = 'phpmailer[]';
+$REX['ADDON']['version'][$mypage] = "1.0";
+$REX['ADDON']['author'][$mypage] = "Markus Staab";
+// $REX['ADDON']['supportpage'][$mypage] = "";
 
 $REX['PERM'][] = 'phpmailer[]';
 $I18N_A93 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/'); 

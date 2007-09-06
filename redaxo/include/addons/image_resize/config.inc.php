@@ -9,6 +9,9 @@
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  *
+ * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
+ * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -22,6 +25,9 @@ $REX['ADDON']['perm'][$mypage] = 'image_resize[]';
 $REX['ADDON']['max_size'][$mypage] = 1000;
 $REX['ADDON']['jpeg_quality'][$mypage] = 75;
 $REX['ADDON']['system'][$mypage] = TRUE;
+$REX['ADDON']['version'][$mypage] = "1.0";
+$REX['ADDON']['author'][$mypage] = "Wolfgang Hutteger, Markus Staab, Jan Kristinus";
+// $REX['ADDON']['supportpage'][$mypage] = "";
 
 $REX['PERM'][] = 'image_resize[]';
 

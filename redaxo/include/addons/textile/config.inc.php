@@ -15,6 +15,9 @@ $REX['ADDON']['rxid'][$mypage] = '79';
 $REX['ADDON']['page'][$mypage] = $mypage;    
 $REX['ADDON']['name'][$mypage] = 'Textile';
 $REX['ADDON']['perm'][$mypage] = 'textile[]';
+$REX['ADDON']['version'][$mypage] = "1.0";
+$REX['ADDON']['author'][$mypage] = "Markus Staab";
+// $REX['ADDON']['supportpage'][$mypage] = "";
 
 $REX['PERM'][] = 'textile[]';
 $REX['EXTPERM'][] = 'textile[help]';
