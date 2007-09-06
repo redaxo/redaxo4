@@ -155,4 +155,9 @@ function rex_warning($message, $cssClass = 'rex-warning')
   return '<p class="'. $cssClass .'"><span>'. $message .'</span></p>';
 }
 
+function rex_accesskey($title, $key)
+{
+  return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+}
+
 ?>

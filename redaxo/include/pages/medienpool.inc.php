@@ -333,7 +333,7 @@ function rex_medienpool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediaca
 
 function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $I18N, $subpage, $ftitle, $fdescription, $fcopyright;
+  global $I18N, $REX, $subpage, $ftitle, $fdescription, $fcopyright;
 
   $s = '';
 
@@ -376,7 +376,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   $add_submit = '';
   if (rex_session('media[opener_input_field]') != '')
   {
-    $add_submit = '<input type="submit" class="rex-sbmt" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'" accesskey="'.$REX['ACKEY']['SAVE'].'" />';
+    $add_submit = '<input type="submit" class="rex-sbmt" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
   }
 
   $s .= '
@@ -405,7 +405,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
                </p>
                '. $add_file .'
                <p class="rex-sbmt">
-                 <input type="submit" name="save" value="'.$button_title.'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
+                 <input type="submit" name="save" value="'.$button_title.'"'. rex_accesskey($button_title, $REX['ACKEY']['SAVE']) .' />
                  '. $add_submit .'
                </p>
            </fieldset>
@@ -565,7 +565,7 @@ if ($PERMALL && $subpage == "categories")
           </colgroup>
           <thead>
             <tr>
-              <th class="rex-icon"><a href="'. $link . $cat_id .'&amp;media_method=add_cat"><img src="pics/folder_plus.gif" alt="'. $I18N->msg('pool_kat_create') .'" title="'. $I18N->msg('pool_kat_create') .'" accesskey="'.$REX['ACKEY']['ADD'].'" /></a></th>
+              <th class="rex-icon"><a href="'. $link . $cat_id .'&amp;media_method=add_cat"'. rex_accesskey($I18N->msg('pool_kat_create'), $REX['ACKEY']['ADD']) .'><img src="pics/folder_plus.gif" alt="'. $I18N->msg('pool_kat_create') .'" title="'. $I18N->msg('pool_kat_create') .'" /></a></th>
               <th class="rex-icon">ID</th>
               <th>'. $I18N->msg('pool_kat_name') .'</th>
               <th>'. $I18N->msg('pool_kat_function') .'</th>
@@ -584,7 +584,7 @@ if ($PERMALL && $subpage == "categories")
           <input type="text" size="10" id="catname" name="catname" value="" />
         </td>
         <td>
-          <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_kat_create'). '" accesskey="'.$REX['ACKEY']['SAVE'].'" />
+          <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_kat_create'). '"'. rex_accesskey($I18N->msg('pool_kat_create'), $REX['ACKEY']['SAVE']) .' />
         </td>
       </tr>
     ';
@@ -607,7 +607,7 @@ if ($PERMALL && $subpage == "categories")
             <input type="text" id="cat_name" name="cat_name" value="'. htmlspecialchars($iname) .'" />
           </td>
           <td>
-            <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_kat_update'). '" accesskey="'.$REX['ACKEY']['SAVE'].'" />
+            <input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_kat_update'). '"'. rex_accesskey($I18N->msg('pool_kat_update'), $REX['ACKEY']['SAVE']) .' />
           </td>
         </tr>
       ';
@@ -1062,8 +1062,8 @@ if ($subpage == "detail")
                       		<input type="file" id="file_new" name="file_new" size="24" />
                     	</p>
                    	 	<p class="rex-sbmt">
-                      		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_update') .'" name="btn_update" accesskey="'.$REX['ACKEY']['SAVE'].'" />
-                      		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_delete') .'" name="btn_delete" accesskey="'.$REX['ACKEY']['DELETE'].'" onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_file\';}else{return false;}" />
+                      		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_update') .'" name="btn_update"'. rex_accesskey($I18N->msg('pool_file_update'), $REX['ACKEY']['SAVE']) .' />
+                      		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_delete') .'" name="btn_delete"'. rex_accesskey($I18N->msg('pool_file_delete'), $REX['ACKEY']['DELETE']) .' onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_file\';}else{return false;}" />
                     	</p>
 					</div>
 
@@ -1409,7 +1409,7 @@ if ($subpage == '')
         '. $cats_sel->get() .'
         <input class="rex-sbmt" type="submit" value="'. $I18N->msg('pool_changecat_selectedmedia') .'" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';" />';
     }
-    $add_input .= '<input class="rex-sbmt" type="submit" value="'.$I18N->msg('pool_delete_selectedmedia').'" accesskey="'.$REX['ACKEY']['DELETE'].'" onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
+    $add_input .= '<input class="rex-sbmt" type="submit" value="'.$I18N->msg('pool_delete_selectedmedia').'"'. rex_accesskey($I18N->msg('pool_delete_selectedmedia'), $REX['ACKEY']['DELETE']) .' onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
 
     echo '
     	<tfoot>

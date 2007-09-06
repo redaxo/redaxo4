@@ -217,7 +217,7 @@ echo '
             '.$sel_mod_rewrite->get().'
           </p>
           <p>
-            <input type="submit" class="rex-sbmt" name="sendit" value="'.$I18N->msg("specials_update").'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
+            <input type="submit" class="rex-sbmt" name="sendit" value="'.$I18N->msg("specials_update").'"'. rex_accesskey($I18N->msg('specials_update'), $REX['ACKEY']['SAVE']) .' />
           </p>
         </fieldset>
       </div>

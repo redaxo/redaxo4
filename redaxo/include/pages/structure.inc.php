@@ -505,7 +505,7 @@ if($category_id != '')
 $add_category = '';
 if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
-  $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'" accesskey="'.$REX['ACKEY']['ADD'].'"><img src="pics/folder_plus.gif" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'" /></a>';
+  $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'><img src="pics/folder_plus.gif" alt="'.$I18N->msg("add_category").'" title="'.$I18N->msg("add_category").'" /></a>';
 }
 
 $add_header = '';
@@ -579,7 +579,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
   }
 
   $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
-  $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'" accesskey="'.$REX['ACKEY']['SAVE'].'" />';
+  $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
 
   echo '
         <tr class="rex-trow-actv">
@@ -642,10 +642,10 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
 
-      $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('save_category'). '" accesskey="'.$REX['ACKEY']['SAVE'].'" />';
+      $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
       if (!$REX_USER->hasPerm('editContentOnly[]'))
       {
-        $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '" accesskey="'.$REX['ACKEY']['DELETE'].'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
+        $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '"'. rex_accesskey($I18N->msg('delete_category'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
 
 
@@ -780,7 +780,7 @@ if ($category_id > -1)
   $art_add_link = '';
   if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
-    $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'" accesskey="'.$REX['ACKEY']['ADD_2'].'"><img src="pics/document_plus.gif" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
+    $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><img src="pics/document_plus.gif" alt="'. $I18N->msg('article_add') .'" title="' .$I18N->msg('article_add') .'" /></a>';
   }
 
   $add_head = '';
@@ -889,7 +889,7 @@ if ($category_id > -1)
             <td>'. $TMPL_SEL->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
             <td>'. $I18N->msg("article") .'</td>
-            <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'" accesskey="'.$REX['ACKEY']['SAVE'].'" /></td>
+            <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>
           </tr>
           ';
   }
@@ -930,7 +930,7 @@ if ($category_id > -1)
               <td>'. $TMPL_SEL->get() .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
-              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_save') .'" accesskey="'.$REX['ACKEY']['SAVE'].'" /></td>
+              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_save') .'"'. rex_accesskey($I18N->msg('article_save'), $REX['ACKEY']['SAVE']) .' /></td>
             </tr>
             ';
 

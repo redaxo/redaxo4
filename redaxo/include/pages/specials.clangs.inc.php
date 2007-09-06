@@ -105,7 +105,7 @@ echo '
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang" accesskey="'.$REX['ACKEY']['ADD'].'" title="'.$I18N->msg('clang_add').'">+</a></th>
+          <th class="rex-icon"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>+</a></th>
           <th class="rex-icon">ID</th>
           <th>'.$I18N->msg('clang_name').'</th>
           <th colspan="2">'.$I18N->msg('clang_function').'</th>
@@ -122,7 +122,7 @@ if ($func == 'addclang')
           <td class="rex-icon"></td>
           <td class="rex-icon">'.$sel->get().'</td>
           <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
-          <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'" accesskey="'.$REX['ACKEY']['SAVE'].'" /></td>
+          <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>
         </tr>
       ';
 }
@@ -138,8 +138,8 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
             <td class="rex-icon">'.$lang_id.'</td>
             <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
             <td>
-              <input type="submit" class="rex-fsubmit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'" accesskey="'.$REX['ACKEY']['SAVE'].'" />
-              <input type="submit" class="rex-fsubmit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'" accesskey="'.$REX['ACKEY']['DELETE'].'" onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
+              <input type="submit" class="rex-fsubmit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' />
+              <input type="submit" class="rex-fsubmit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'"'. rex_accesskey($I18N->msg('clang_delete'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
             </td>
           </tr>';
 

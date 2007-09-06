@@ -201,8 +201,8 @@ function rex_tplctypes_toggle()
           	</fieldset>
 
             <p>
-              <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '" accesskey="'.$REX['ACKEY']['SAVE'].'" />
-              <input class="rex-sbmt" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '" accesskey="'.$REX['ACKEY']['APPLY'].'" />
+              <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
+              <input class="rex-sbmt" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
             </p>
 
         </form>
@@ -230,7 +230,7 @@ if ($OUT) {
     	</colgroup>
     	<thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=template&amp;function=add" accesskey="'.$REX['ACKEY']['ADD'].'"><img src="pics/template_plus.gif" alt="' . $I18N->msg("create_template") . '" title="' . $I18N->msg("create_template") . '" /></a></th>
+          <th class="rex-icon"><a href="index.php?page=template&amp;function=add"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><img src="pics/template_plus.gif" alt="' . $I18N->msg("create_template") . '" title="' . $I18N->msg("create_template") . '" /></a></th>
           <th class="rex-icon">ID</th>
           <th>' . $I18N->msg("header_template_description") . '</th>
           <th>' . $I18N->msg("header_template_active") . '</th>
