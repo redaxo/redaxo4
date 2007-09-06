@@ -79,8 +79,8 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
-$REX['DB']['1']['PSW'] = "root";
-$REX['DB']['1']['NAME'] = "redaxo-cvs";
+$REX['DB']['1']['PSW'] = "";
+$REX['DB']['1']['NAME'] = "redaxo3_3";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
