@@ -89,7 +89,7 @@ div#rex-output .rex-warning {
 	width:100%;
 	margin:0 0 10px 0;
 	padding:8px 0px;
-	background:#fae9e5 url(../pics/warning.gif) 0% 50% no-repeat;
+	background:#fae9e5 url(../media/warning.gif) 0% 50% no-repeat;
 	color:#ea1144;
 	font-weight:bold;
 }
@@ -359,7 +359,7 @@ p.rex-cnt-col2 {
 div#rex-title {
 	margin-top:10px;
 	height:61px;
-	background:#f0efeb url(../pics/logo.jpg) 100% 50% no-repeat;
+	background:#f0efeb url(../media/logo.jpg) 100% 50% no-repeat;
 }
 
 html>body div#rex-title {
@@ -419,7 +419,7 @@ div.rex-cnt-hdr {
 div.rex-cnt-hdr {
 	float:left;
 	margin:0;
-	background-image:url(../pics/document.gif);
+	background-image:url(../media/document.gif);
 	background-position:7px 50%;
 	width:731px;
 }
@@ -1305,7 +1305,7 @@ div#rex-lmp {
 	clear:both;
 	width:100%;
 	background-color:#f0efeb;
-	background-image:url(../pics/file_vert.gif);
+	background-image:url(../media/file_vert.gif);
 	background-position:48% 0px;
 	background-repeat:repeat-y;
 }
@@ -1325,7 +1325,7 @@ div#rex-lmp ul {
 }
 div#rex-lmp ul li ul {
 	margin:0 0 0 0px;
-	background-image:url(../pics/file_vert.gif);
+	background-image:url(../media/file_vert.gif);
 	background-position:2px 0px;
 	background-repeat: repeat-y;
 }
@@ -1338,31 +1338,31 @@ div#rex-lmp ul li a {
 	display:block;
 	margin-bottom:4px;
 	padding:2px 0px 2px 35px;
-	background-image:url(../pics/folder_off.gif);
+	background-image:url(../media/folder_off.gif);
 	background-position:0px 0px;
 	background-repeat: no-repeat;
 }
 div#rex-lmp ul li a.rex-active {
-	background-image:url(../pics/folder_on.gif);
+	background-image:url(../media/folder_on.gif);
 }
 div#rex-lmp ul li.rex-children ul li,
 div#rex-lmp ul li ul li.rex-children-last {
 	margin-left:23px;
 	padding-left:10px;
-	background-image:url(../pics/file.gif);
+	background-image:url(../media/file.gif);
 	background-position:-21px 0px;
 	background-repeat: no-repeat;
 }
 div#rex-lmp ul li ul li.rex-children-last {
-	background-image:url(../pics/file_last_2.gif);
+	background-image:url(../media/file_last_2.gif);
 }
 
 div#rex-lmp div.rex-lmp-arts ul li a {
 	padding-left:20px;
-	background-image:url(../pics/document.gif);
+	background-image:url(../media/document.gif);
 }
 div#rex-lmp div.rex-lmp-arts ul li.rex-lmp-startpage a {
-	background-image:url(../pics/liste.gif);
+	background-image:url(../media/liste.gif);
 }
 
 

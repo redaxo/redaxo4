@@ -4,7 +4,7 @@
  * REX_LINK_BUTTON,
  * REX_LINKLIST_BUTTON,
  * REX_LINKLIST
- * 
+ *
  * @package redaxo3
  * @version $Id$
  */
@@ -37,9 +37,9 @@ class rex_var_link extends rex_var
         $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i]);
     }
   }
-  
+
   // --------------------------------- Output
-  
+
   function getBEOutput(& $sql, $content)
   {
     return $this->getOutput($sql, $content);
@@ -112,21 +112,21 @@ class rex_var_link extends rex_var
   	if($article_id != 0)
   	{
   		$art = OOArticle::getArticleById($article_id);
-  		$def_category = $art->getCategoryId(); 
+  		$def_category = $art->getCategoryId();
   	}
-  	
+
     $var = 'REX_LINK_BUTTON';
     $matches = $this->getInputParams($content, $var);
     foreach ($matches as $match)
     {
       list ($param_str, $id, $category) = $match;
-      
+
       if ($id < 11 && $id > 0)
       {
       	// Wenn vom Programmierer keine Kategorie vorgegeben wurde,
       	// die Linkmap mit der aktuellen Kategorie öffnen
 	      if($category == '') $category = $def_category;
-	      
+
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
@@ -225,18 +225,18 @@ class rex_var_link extends rex_var
   function getLinkButton($id, $article_id, $category = '')
   {
     global $REX;
-    
+
     $art_name = '';
     $clang = '';
     $art = OOArticle :: getArticleById($article_id);
-    
+
     // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
     if (OOArticle :: isValid($art))
     {
       $art_name = $art->getName();
 			$category = $art->getCategoryId();
     }
-    
+
     $open_params = '&clang=' . $REX['CUR_CLANG'];
     if ($category != '')
       $open_params .= '&category_id=' . $category;
@@ -247,8 +247,8 @@ class rex_var_link extends rex_var
 			<p>
   			<input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="'. $article_id .'" />
   			<input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
-  			<a href="#" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="pics/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
- 				<a href="#" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="pics/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
+  			<a href="#" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
+ 				<a href="#" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
  			</p>
  		</div>
  	</div>';

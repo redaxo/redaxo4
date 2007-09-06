@@ -1,7 +1,7 @@
 <?php
 
 
-/** 
+/**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
  * @package redaxo3
  * @version $Id$
@@ -11,7 +11,7 @@ class OOMedia
 {
   // id
   var $_id = "";
-  // parent (FOR FUTURE USE!) 
+  // parent (FOR FUTURE USE!)
   var $_parent_id = "";
   // categoryid
   var $_cat_id = "";
@@ -140,7 +140,7 @@ class OOMedia
 
   /**
    * @access public
-   * 
+   *
    * @example OOMedia::getMediaByExtension('css');
    * @example OOMedia::getMediaByExtension('gif');
    */
@@ -372,12 +372,12 @@ class OOMedia
 
   /**
    * Formats a datestamp with the given format.
-   * 
+   *
    * If format is <code>null</code> the datestamp is returned.
-   *  
-   * If format is <code>''</code> the datestamp is formated 
-   * with the default <code>dateformat</code> (lang-files). 
-   * 
+   *
+   * If format is <code>''</code> the datestamp is formated
+   * with the default <code>dateformat</code> (lang-files).
+   *
    * @access public
    * @static
    */
@@ -437,7 +437,7 @@ class OOMedia
   function toImage($params = array ())
   {
     global $REX;
-    
+
     if(!is_array($params))
     {
       $params = array();
@@ -450,10 +450,10 @@ class OOMedia
       unset ($params['path']);
     }
 
-    // Ist das Media ein Bild?        
+    // Ist das Media ein Bild?
     if (!$this->isImage())
     {
-      $path = 'pics/';
+      $path = 'media/';
       $file = 'file_dummy.gif';
 
       // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
@@ -520,13 +520,13 @@ class OOMedia
       }
     }
 
-    // Alternativtext hinzufügen    
+    // Alternativtext hinzufügen
     if (!isset($params['alt']))
     {
       $params['alt'] = htmlspecialchars($this->getDescription());
     }
-    
-    // Titel hinzufügen    
+
+    // Titel hinzufügen
     if (!isset($params['title']))
     {
       if (($title = $this->getTitle()) != '')
@@ -535,7 +535,7 @@ class OOMedia
       }
     }
 
-    // Evtl. Zusatzatrribute anfügen 
+    // Evtl. Zusatzatrribute anfügen
     $additional = '';
     foreach ($params as $name => $value)
     {
@@ -558,14 +558,14 @@ class OOMedia
   function toIcon($iconAttributes = array (), $iconPath = '')
   {
     global $REX;
-    
+
     static $icon_src;
 
     if (!isset ($icon_src))
     {
-      $icon_src = 'pics/mime_icons/';
+      $icon_src = 'media/';
     }
-    
+
     if(!$REX['REDAXO'])
     {
       $iconPath .= 'redaxo/';
@@ -584,17 +584,17 @@ class OOMedia
     {
       $iconAttributes['alt'] = '&quot;'. $ext .'&quot;-Symbol';
     }
-    
+
     if(!isset($iconAttributes['title']))
     {
-      $iconAttributes['title'] = $iconAttributes['alt']; 
+      $iconAttributes['title'] = $iconAttributes['alt'];
     }
-    
+
     if(!isset($iconAttributes['style']))
     {
       $iconAttributes['style'] = 'width: 44px; height: 38px';
     }
-    
+
     $attrs = '';
     foreach ($iconAttributes as $attrName => $attrValue)
     {
@@ -797,7 +797,7 @@ class OOMedia
     $sql->setValue('title', $this->getTitle());
     $sql->setValue('description', $this->getDescription());
     $sql->setValue('copyright', $this->getCopyright());
-    
+
     if ($this->getId() !== null)
     {
       $sql->setValue('updatedate', $this->getUpdateDate(null));
@@ -866,7 +866,7 @@ class OOMedia
     return in_array($type, OOMedia :: getDocTypes());
   }
 
-  // allowed image upload types 
+  // allowed image upload types
   function getImageTypes()
   {
     static $imageTypes = array (
@@ -893,7 +893,7 @@ class OOMedia
       'image/jpeg',
       'image/pjpeg'
     );
-    
+
     return in_array($type1, $jpg) && in_array($type2, $jpg);
   }
 }

@@ -186,7 +186,7 @@ class stats
       					<td class=grey align=right><a href=../index.php?article_id=$k target=_blank>$k</td></td>
       					<td class=grey align=right>$v</td>
       					<td class=grey align=right>".round(($v / $all * 100))."%</td>
-      					<td class=grey align=left><img src=pics/white.gif width=". (1 + 2 * round(($v / $all * 100)))." height=10></td>
+      					<td class=grey align=left><img src=media/white.gif width=". (1 + 2 * round(($v / $all * 100)))." height=10></td>
       				 </tr>";
       $i++;
       // break if top 10 or worst 10
@@ -253,9 +253,9 @@ class stats
         $out .= "<tr>
         						<td class=$iclass align=right>$date</td>
         						<td class=$iclass align=right>".$days[$day]['pageviews']."</td>
-        						<td class=$iclass align=left><img src=pics/white.gif width=". (1 + $pprozent)." height=10></td>
+        						<td class=$iclass align=left><img src=media/white.gif width=". (1 + $pprozent)." height=10></td>
         						<td class=$iclass align=right>".$days[$day]['visits']."</td>
-        						<td class=$iclass align=left><img src=pics/white.gif width=". (1 + $vprozent)." height=10></td>
+        						<td class=$iclass align=left><img src=media/white.gif width=". (1 + $vprozent)." height=10></td>
         						<td class=$iclass align=right>$pvpv</td>
         					</tr>";
       }
@@ -324,7 +324,7 @@ class stats
       						<td class=grey align=right>".$k."</td>
       						<td class=grey align=right>$v</td>
       						<td class=grey align=right>".round(($v / $alltype * 100))."%</td>
-      						<td class=grey align=left><img src=pics/white.gif width=". (1 + 2 * round(($v / $alltype * 100)))." height=10></td>
+      						<td class=grey align=left><img src=media/white.gif width=". (1 + 2 * round(($v / $alltype * 100)))." height=10></td>
       					 </tr>";
     }
 
@@ -336,7 +336,7 @@ class stats
       						<td class=grey align=right>".$k."</td>
       						<td class=grey align=right>$v</td>
       						<td class=grey align=right>".round(($v / $allos * 100))."%</td>
-      						<td class=grey align=left><img src=pics/white.gif width=". (1 + 2 * round(($v / $allos * 100)))." height=10></td>
+      						<td class=grey align=left><img src=media/white.gif width=". (1 + 2 * round(($v / $allos * 100)))." height=10></td>
       					 </tr>";
     }
 
@@ -380,11 +380,11 @@ class stats
 
     $refout .= "<script language=Javascript>
     		<!--
-    		
+
     		function showRest(id)
     		{
     			obj = document.getElementById(id).style;
-    			
+
     			if (obj.display == 'none')
     			{
     				obj.display = '';
@@ -392,9 +392,9 @@ class stats
     			{
     				obj.display = 'none';
     			}
-    			
+
     		}
-    		
+
     		-->
     		</script>
     		";
@@ -442,9 +442,9 @@ class stats
 
       $refout .= "<a name=astats$id_k></a>";
       $refout .= "<table class=rex border=0 cellpadding=5 cellspacing=1 width=100% style='width:100%;'>";
-      // <th class=icon><a href=#astats$id_k onclick=showRest('stats$id_k');><img src=pics/folder.gif width=16 height=16 border=0></a></th>
+      // <th class=icon><a href=#astats$id_k onclick=showRest('stats$id_k');><img src=media/folder.gif width=16 height=16 border=0></a></th>
       $refout .= "<tr>
-      							<th class=icon><a href=javascript:showRest('stats$id_k');><img src=pics/folder.gif width=16 height=16 border=0></a></th>
+      							<th class=icon><a href=javascript:showRest('stats$id_k');><img src=media/folder.gif width=16 height=16 border=0></a></th>
       							<th align=left><a href=$link target=_blank>$das</a></th>
       							<th align=right width=100>$v</th>
       						 </tr>";
@@ -459,10 +459,10 @@ class stats
             $q = substr($o, 0, 55)." ...";
           else
             $q = $o;
-            
+
           $q = htmlspecialchars($q);
           $o = htmlspecialchars($o);
-          
+
           // Dollar zeichen umwandeln, da sonst fehler beim eval() später passieren
           $q = str_replace('$', '&#036;', $q);
           $o = str_replace('$', '&#036;', $o);
@@ -542,7 +542,7 @@ class stats
       						<td class=grey align=right>".base64_decode($k)."</td>
       						<td class=grey align=right>$v</td>
       						<td class=grey align=right>".round(($v / $all * 100))."%</td>
-      						<td class=grey align=left><img src=pics/white.gif width=". (1 + 2 * round(($v / $all * 100)))." height=10></td>
+      						<td class=grey align=left><img src=media/white.gif width=". (1 + 2 * round(($v / $all * 100)))." height=10></td>
       					 </tr>";
     $landout .= "</table>";
 
@@ -563,7 +563,7 @@ class stats
     {
       $pv += count($v);
     }
-    
+
     if($visits != 0)
     {
       $pvpv = round($pv / $visits);

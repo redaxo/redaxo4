@@ -3,7 +3,7 @@
 // TODO
 // - files Ordner nicht kopieren
 // - js Ordner nicht kopieren?
-// - pics Ordner nicht kopieren?
+// - media Ordner nicht kopieren?
 
 $name = null;
 $version = null;
