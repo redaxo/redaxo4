@@ -281,7 +281,7 @@ if ($OUT)
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><img src="media/modul_plus.gif" alt="' . $I18N->msg('action_create') . '" title="' . $I18N->msg('action_create') . '" /></a></th>
+          <th class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><img src="media/modul_plus.gif" alt="' . $I18N->msg('action_create') . '" /></a></th>
           <th class="rex-icon">ID</th>
           <th>' . $I18N->msg('action_name') . '</th>
           <th>Preview-Event(s)</th>

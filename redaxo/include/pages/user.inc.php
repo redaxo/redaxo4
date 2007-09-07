@@ -803,7 +803,7 @@ if (isset($SHOW) and $SHOW)
     </colgroup>
     <thead>
       <tr>
-        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" /></a></th>
+        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" /></a></th>
         '. $add_th .'
         <th>'.$I18N->msg('name').'</th>
         <th>'.$I18N->msg('login').'</th>

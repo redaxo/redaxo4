@@ -230,7 +230,7 @@ if ($OUT) {
     	</colgroup>
     	<thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=template&amp;function=add"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><img src="media/template_plus.gif" alt="' . $I18N->msg("create_template") . '" title="' . $I18N->msg("create_template") . '" /></a></th>
+          <th class="rex-icon"><a href="index.php?page=template&amp;function=add"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><img src="media/template_plus.gif" alt="' . $I18N->msg("create_template") . '" /></a></th>
           <th class="rex-icon">ID</th>
           <th>' . $I18N->msg("header_template_description") . '</th>
           <th>' . $I18N->msg("header_template_active") . '</th>
