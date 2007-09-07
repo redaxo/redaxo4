@@ -98,56 +98,61 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
 
   echo '</ul>' . "\n";
 
-  $first = true;
-  echo '<ul>' . "\n";
-  for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
+  $onlineAddons = array_filter(array_values($REX['ADDON']['status']));
+  if(count($onlineAddons) > 0)
   {
-    $apage = key($REX['ADDON']['status']);
+    $first = true;
+    echo '<ul>' . "\n";
 
-    $perm = '';
-    if(isset ($REX['ADDON']['perm'][$apage]))
-      $perm = $REX['ADDON']['perm'][$apage];
-
-    $name = '';
-    if(isset ($REX['ADDON']['name'][$apage]))
-      $name = $REX['ADDON']['name'][$apage];
-
-    $popup = '';
-    if(isset ($REX['ADDON']['popup'][$apage]))
-      $popup = $REX['ADDON']['popup'][$apage];
-
-    $accesskey = '';
-    if(isset ($REX['ACKEY']['ADDON'][$apage]))
-      $accesskey = rex_accesskey($name, $REX['ACKEY']['ADDON'][$apage]);
-
-    // Leerzeichen durch &nbsp; ersetzen, damit Addonnamen immer in einer Zeile stehen
-    $name = str_replace(' ', '&nbsp;', $name);
-
-    if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->hasPerm("admin[]")))
+    for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
     {
-    	$separator = ' | ';
-    	if($first)
-    	{
-    		$separator = '';
-	    	$first = false;
-    	}
-      if ($popup == 1)
-      {
-        echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
-      }
-      elseif ($popup == "" or $popup == 0)
-      {
-        echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
-      }
-      else
-      {
-        echo '<li>' . $separator . '<a href="' . $popup . '"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
-      }
-    }
-    next($REX['ADDON']['status']);
-  }
+      $apage = key($REX['ADDON']['status']);
 
-  echo '</ul>' . "\n";
+      $perm = '';
+      if(isset ($REX['ADDON']['perm'][$apage]))
+        $perm = $REX['ADDON']['perm'][$apage];
+
+      $name = '';
+      if(isset ($REX['ADDON']['name'][$apage]))
+        $name = $REX['ADDON']['name'][$apage];
+
+      $popup = '';
+      if(isset ($REX['ADDON']['popup'][$apage]))
+        $popup = $REX['ADDON']['popup'][$apage];
+
+      $accesskey = '';
+      if(isset ($REX['ACKEY']['ADDON'][$apage]))
+        $accesskey = rex_accesskey($name, $REX['ACKEY']['ADDON'][$apage]);
+
+      // Leerzeichen durch &nbsp; ersetzen, damit Addonnamen immer in einer Zeile stehen
+      $name = str_replace(' ', '&nbsp;', $name);
+
+      if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->hasPerm("admin[]")))
+      {
+      	$separator = ' | ';
+      	if($first)
+      	{
+      		$separator = '';
+  	    	$first = false;
+      	}
+        if ($popup == 1)
+        {
+          echo '<li>' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
+        }
+        elseif ($popup == "" or $popup == 0)
+        {
+          echo '<li>' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
+        }
+        else
+        {
+          echo '<li>' . $separator . '<a href="' . $popup . '"'. rex_tabindex() . $accesskey .'>' . $name . '</a></li>' . "\n";
+        }
+      }
+      next($REX['ADDON']['status']);
+    }
+
+    echo '</ul>' . "\n";
+  }
 }
 else if(!isset($open_header_only))
 {
