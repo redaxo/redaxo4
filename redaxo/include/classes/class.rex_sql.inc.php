@@ -209,6 +209,14 @@ class rex_sql
     return in_array($feldname, $this->getFieldnames());
   }
 
+  function isNull($feldname)
+  {
+    if($this->hasValue($feldname))
+      return $this->getValue($feldname) === null;
+
+    return null;
+  }
+
   /**
    * Gibt die Anzahl der Zeilen zurück
    */
