@@ -46,6 +46,8 @@ function rex_a62_insertJs($params)
  */
 function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 {
+  global $I18N;
+
   $s = '';
 
   // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST
@@ -70,7 +72,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       $dbvalues = explode('|+|', $activeItem->getValue($name));
 
     if($title != '')
-      $label = htmlspecialchars($title);
+    {
+      $tranKey = 'translate:';
+      $transKeyLen = strlen($tranKey);
+      if(substr($title, 0, $transKeyLen) == $tranKey)
+        $label = htmlspecialchars($I18N->msg(substr($title, $transKeyLen)));
+      else
+        $label = htmlspecialchars($title);
+    }
     else
       $label = htmlspecialchars($name);
 

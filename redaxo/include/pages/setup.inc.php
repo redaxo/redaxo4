@@ -442,13 +442,12 @@ if ($checkmodus == 3 && $send == 1)
   if ($dbanlegen == 4)
   {
     // ----- vorhandenen seite updaten
-    $err_msg .= rex_setup_addons();
-
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_3_3.sql';
       $err_msg .= rex_setup_import($import_sql);
     }
+    $err_msg .= rex_setup_addons();
   }elseif ($dbanlegen == 3)
   {
     // ----- vorhandenen Export importieren
@@ -481,12 +480,12 @@ if ($checkmodus == 3 && $send == 1)
   }elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank neu einrichten
-    $err_msg .= rex_setup_addons();
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
       $err_msg .= rex_setup_import($import_sql);
     }
+    $err_msg .= rex_setup_addons();
   }
 
 

@@ -34,3 +34,22 @@ INSERT INTO %TABLE_PREFIX%62_type VALUES (11, 'datetime', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (6,  'REX_MEDIA_BUTTON', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (7,  'REX_MEDIALIST_BUTTON', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (8,  'REX_LINK_BUTTON', 'varchar', 255);
+
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('1','translate:pool_file_description','med_description','1','','2','','','','admin','1189343866','admin','1189344596');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('2','translate:pool_file_copyright','med_copyright','2','','1','','','','admin','1189343877','admin','1189344617');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('3','translate:online_from','art_online_from','1','','10','','','','admin','1189344934','admin','1189344934');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('4','translate:online_to','art_online_to','2','','10','','','','admin','1189344947','admin','1189344947');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('5','translate:description','art_description','3','','2','','','','admin','1189345025','admin','1189345025');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('6','translate:keywords','art_keywords','4','','2','','','','admin','1189345068','admin','1189345068');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('7','translate:metadata_image','art_file','5','','6','','','','admin','1189345109','admin','1189345109');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('8','translate:teaser','art_teaser','6','','5','','','','admin','1189345182','admin','1189345182');
+
+ALTER TABLE `rex_article` ADD `art_online_from` VARCHAR(255);
+ALTER TABLE `rex_article` ADD `art_online_to` VARCHAR(255);
+ALTER TABLE `rex_article` ADD `art_description` VARCHAR(255);
+ALTER TABLE `rex_article` ADD `art_keywords` VARCHAR(255);
+ALTER TABLE `rex_article` ADD `art_file` VARCHAR(255);
+ALTER TABLE `rex_article` ADD `art_teaser` VARCHAR(255);
+
+ALTER TABLE `rex_file` ADD `med_description` VARCHAR(255);
+ALTER TABLE `rex_file` ADD `med_copyright` VARCHAR(255);
