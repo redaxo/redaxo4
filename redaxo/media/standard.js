@@ -577,7 +577,7 @@ addEvent(document, 'keypress', function(e)
   {
     if (buttons[i].getAttribute('accesskey') == key)
     {
-      document.location = buttons[i].href;
+      buttons[i].click();
       stopEvent(e);
       return;
     }
@@ -588,7 +588,14 @@ addEvent(document, 'keypress', function(e)
   {
     if (anchors[i].getAttribute('accesskey') == key)
     {
-      document.location = anchors[i].href;
+      // href des links als location setzen 
+      if(anchors[i].onclick && anchors[i].onclick != "")
+        anchors[i].onclick();
+        
+      // onclick event auslösen, falls vorhanden
+      if(anchors[i].href && anchors[i].href != "" && anchors[i].href != "#")
+        document.location = anchors[i].href;
+        
       stopEvent(e);
       return;
     }
