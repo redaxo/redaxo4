@@ -246,7 +246,7 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
 // *************************************** FUNCTIONS
 
 
-function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,$category_id,$title,$description,$copyright,$filesize,$filetype)
+function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,$category_id,$title,$filesize,$filetype)
 {
   global $REX, $REX_USER;
 
@@ -331,7 +331,7 @@ function rex_medienpool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediaca
 
 function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $I18N, $REX, $subpage, $ftitle, $fdescription, $fcopyright;
+  global $I18N, $REX, $subpage, $ftitle;
 
   $s = '';
 
@@ -359,8 +359,6 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   }
 
   if (!isset($ftitle)) $ftitle = '';
-  if (!isset($fdescription)) $fdescription = '';
-  if (!isset($fcopyright)) $fcopyright = '';
 
   $add_file = '';
   if($file_chooser)
@@ -665,7 +663,7 @@ if ($subpage == 'add_file' && $media_method == 'add_file'){
       {
         if (OOMedia::_isImage($file_name))
         {
-          $js = "insertImage('$file_name','". htmlspecialchars( $fdescription) ."','$width','$height');";
+          $js = "insertImage('$file_name','','$width','$height');";
         }else
         {
           $js = "insertLink('".$file_name."');";
@@ -904,7 +902,7 @@ if ($subpage == "detail")
     $icon_src = 'media/mime-default.gif';
     if (OOMedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
     {
-      $thumbnail = '<img src="'. $icon_src .'" alt="'. $fdescription .'" title="'. $ftitle .'" />';
+      $thumbnail = '<img src="'. $icon_src .'" alt="'. $ftitle .'" title="'. $ftitle .'" />';
     }
 
     $ffiletype_ii = OOMedia::_isImage($fname);
@@ -942,7 +940,7 @@ if ($subpage == "detail")
 
       $add_image = '<div class="rex-mpl-dtl-img">
 		  		<p>
-						<img src="'. $imgn .'" alt="'. $fdescription .'" title="'. $fdescription .'" />
+						<img src="'. $imgn .'" alt="'. $ftitle .'" title="'. $ftitle.'" />
 					</p>
 					</div>';
 	   $style_width = ' style="width:64.9%; border-right:1px solid #fff;"';
@@ -959,7 +957,7 @@ if ($subpage == "detail")
     {
       if ($ffiletype_ii)
       {
-        $opener_link .= "<a href=javascript:insertImage('$fname','". htmlspecialchars( $fdescription) ."','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
+        $opener_link .= "<a href=javascript:insertImage('$fname','','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
       }
       $opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
     }
@@ -1069,14 +1067,6 @@ if ($subpage == "detail")
                   		<span id="rex_file_new_category">'. $catname .'&nbsp;</span>
                 	</p>
                 	<p>
-                  		<label for="fdescription">'. $I18N->msg('pool_file_description') .'</label>
-                  		<span id="fdescriptle">'. $fdescription .'&nbsp;</span>
-                	</p>
-                	<p>
-                  		<label for="fcopyright">'. $I18N->msg('pool_file_copyright') .'</label>
-                  		<span id="fcopyright">'. $fcopyright.'&nbsp;</span>
-                	</p>
-                	<p>
                   		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
                   		<a href="../files/'. $fname .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
                 	</p>
@@ -1158,7 +1148,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
-        if(rex_medienpool_registerFile($file,$file,$file,$rex_file_category,$ftitle,$fdescription,$fcopyright,'',''))
+        if(rex_medienpool_registerFile($file,$file,$file,$rex_file_category,$ftitle,'',''))
         {
           unset($diff_files[$key]);
         }
@@ -1415,7 +1405,15 @@ if ($subpage == '')
     $file_stamp = date('d-M-Y | H:i',$files->getValue('updatedate')).'h';
     $file_updateuser = $files->getValue('updateuser');
 
-    $alt = htmlspecialchars($file_description);
+    // Eine beschreibende Spalte schätzen
+    $alt = '';
+    foreach(array('description', 'title') as $col)
+    {
+      if($files->hasValue($col))
+      {
+        $alt = htmlspecialchars($files->getValue($col));
+      }
+    }
 
     // wenn datei fehlt
     if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $file_name))
