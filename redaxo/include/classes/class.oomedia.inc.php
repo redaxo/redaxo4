@@ -739,9 +739,8 @@ class OOMedia
     global $REX;
 
     $default_file_icon = "file";
-    $icons_folder = $REX['HTDOCS_PATH'].'redaxo/pics/pool_file_icons/';
+    $icons_folder = $REX['HTDOCS_PATH'].'redaxo/media';
 
-    // get File icons from dir redaxo/pics/pool_file_icons/
     if (!$REX['MEDIA']['ICONS'])
     {
       if ($handle = opendir($icons_folder))
