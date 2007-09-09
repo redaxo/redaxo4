@@ -14,7 +14,7 @@ function rex_linkmap_url($local = array(),$globals = array())
 		}
 	  $url .= $separator. $key .'='. $value;
 	}
-	
+
 	return $url;
 }
 
@@ -29,14 +29,14 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 
 	$liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-lmp-active"' : '';
 	$linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
-	
+
 	if(strpos($linkAttr, ' href=') === false)
 		$linkAttr .= ' href="'. rex_linkmap_url(array('category_id' => $OOobject->getId()), $GlobalParams) .'"';
-	
+
 	$label = $OOobject->getName();
 	if ($REX_USER->hasPerm('advancedMode[]'))
 	  $label .= ' ['. $OOobject->getId() .']';
-	
+
 	return '<li'. $liAttr .'><a'. $linkAttr .'>'. $label .'</a>';
 }
 
@@ -47,30 +47,40 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 	{
 		$li = '';
 		$ulclasses = '';
-		if (count($children)==1) $ulclasses .= ' rex-children-one ';
+		if (count($children)==1) $ulclasses .= 'rex-children-one ';
 		foreach($children as $cat){
 			$cat_children = $cat->getChildren();
 			$cat_id = $cat->getId();
 			$liclasses = '';
 			$linkclasses = '';
 			$sub_li = '';
-			if (count($cat_children)>0) $liclasses .= ' rex-children ';
-			
-			if (next($children)== null ) $liclasses .= ' rex-children-last ';
-			$linkclasses .= $cat->isOnline() ? ' rex-online ' : ' rex-offline ';
+			if (count($cat_children)>0) $liclasses .= 'rex-children ';
+
+			if (next($children)== null ) $liclasses .= 'rex-children-last ';
+			$linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
 			if (is_array($tree) && in_array($cat_id,$tree))
 			{
 				$sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $GlobalParams);
-				$linkclasses .= ' rex-active ';
+				$linkclasses .= 'rex-active ';
 			}
-			
-			$li .= '<li class="'.$liclasses.'">';
-			$li .= '<a class="'.$linkclasses.'" href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$cat->getName().'</a>';
+
+      if($liclasses != '')
+        $liclasses = ' class="'. rtrim($liclasses) .'"';
+
+      if($linkclasses != '')
+        $linkclasses = ' class="'. rtrim($linkclasses) .'"';
+
+			$li .= '      <li'.$liclasses.'>';
+			$li .= '<a'.$linkclasses.' href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$cat->getName().'</a>';
 			//$li .= ' '. $liclasses . $linkclasses;
 			$li .= $sub_li;
-			$li .= '</li>';
+			$li .= '</li>'. "\n";
 		}
-		if ($li!='') $ul = '<ul class="'.$ulclasses.'">'.$li.'</ul>';
+
+    if($ulclasses != '')
+      $ulclasses = ' class="'. rtrim($ulclasses) .'"';
+
+		if ($li!='') $ul = '<ul>'."\n".$li.'</ul>'. "\n";
 	}
 	return $ul;
 }
@@ -125,8 +135,9 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 
 // ------------------------ Print JS Functions
 
+$search = rex_request('search', 'string');
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   function insertLink(link,name){
     <?php echo $func_body. "\n" ?>
     self.close();
@@ -195,7 +206,7 @@ if ($category = OOCategory::getCategoryById($category_id))
     	  {
     		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
     		$url = rex_linkmap_backlink($article->getId(), $article->getName());
-    		
+
     		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
     		echo '</li>';
     	  }
