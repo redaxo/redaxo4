@@ -24,7 +24,6 @@ Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.d
 
 <b>Markus Staab</b>, markus.staab@redaxo.de
 Kernentwickler
-Public-4u e.K <a href="http://www.public-4u.de">http://www.public-4u.de</a>
 
 <b>Thomas Blum</b>, thomas.blum@redaxo.de
 Layout/Design Entwickler
