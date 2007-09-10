@@ -525,7 +525,7 @@ class rex_sql
     return $value;
   }
 
-  function showTables($DBID)
+  function showTables($DBID=1)
   {
     global $REX;
 
