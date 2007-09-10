@@ -542,7 +542,7 @@ class rex_sql
     return $tables;
   }
 
-  function showCOlumns($table, $DBID=1)
+  function showColumns($table, $DBID=1)
   {
     $sql = new rex_sql($DBID);
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
