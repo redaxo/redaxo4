@@ -152,7 +152,6 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 
 // ------------------------ Print JS Functions
 
-$search = rex_request('search', 'string');
 ?>
 <script type="text/javascript">
   function insertLink(link,name){
@@ -160,21 +159,6 @@ $search = rex_request('search', 'string');
     self.close();
   }
 </script>
-
-<div class="rex-linkmap-searchbar">
-  <form action="index.php<?php echo rex_linkmap_url(array(), $GlobalParams); ?>" method="post">
-	  <fieldset>
-	    <input type="text" name="search" value="<?php echo $search ?>" />
-	    <input type="submit" name="search_button" value="Suchen" />
-	<?php
-	if ($search != '')
-	{
-	  echo '<input type="submit" name="search_close" value="Suche Aufheben" />';
-	}
-	?>
-		</fieldset>
-  </form>
-</div>
 
 <div class="rex-lmp-pth">
 <ul>
