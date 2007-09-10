@@ -1344,11 +1344,17 @@ div#rex-lmp ul li a {
 	display:block;
 	margin-bottom:4px;
 	padding:2px 0px 2px 35px;
-	background-image:url(../media/folder_off.gif);
+	background-image:url(../media/folder_off_empty.gif);
 	background-position:0px 0px;
 	background-repeat: no-repeat;
 }
-div#rex-lmp ul li a.rex-active {
+div#rex-lmp ul li a.rex-lmp-is-not-empty {
+	background-image:url(../media/folder_off.gif);
+}
+div#rex-lmp ul li.rex-active a.rex-active {
+	background-image:url(../media/folder_on_empty.gif);
+}
+div#rex-lmp ul li.rex-active a.rex-lmp-is-not-empty.rex-active {
 	background-image:url(../media/folder_on.gif);
 }
 div#rex-lmp ul li.rex-children ul li,
