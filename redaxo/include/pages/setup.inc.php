@@ -471,12 +471,12 @@ if ($checkmodus == 3 && $send == 1)
     foreach($requiredTables as $table)
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
 
-    $err_msg .= rex_setup_addons(true);
     if($err_msg == '')
     {
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
       $err_msg .= rex_setup_import($import_sql);
     }
+    $err_msg .= rex_setup_addons(true);
   }elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank neu einrichten
