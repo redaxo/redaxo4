@@ -54,13 +54,17 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			$liclasses = '';
 			$linkclasses = '';
 			$sub_li = '';
-			if (count($cat_children)>0) $liclasses .= 'rex-children ';
+			if (count($cat_children)>0) {
+				$liclasses .= 'rex-children ';
+				$linkclasses .= 'rex-lmp-is-not-empty ';
+			}
 
 			if (next($children)== null ) $liclasses .= 'rex-children-last ';
 			$linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
 			if (is_array($tree) && in_array($cat_id,$tree))
 			{
 				$sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $GlobalParams);
+				$liclasses .= 'rex-active ';
 				$linkclasses .= 'rex-active ';
 			}
 
