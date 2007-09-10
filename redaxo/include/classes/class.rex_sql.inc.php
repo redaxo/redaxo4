@@ -525,6 +525,23 @@ class rex_sql
     return $value;
   }
 
+  function showTables($DBID)
+  {
+    global $REX;
+
+    $sql = new rex_sql($DBID);
+    $sql->setQuery('SHOW TABLES');
+
+    $tables = array();
+    for($i = 0; $i < $sql->getRows(); $i++)
+    {
+      $tables[] = $sql->getValue('Tables_in_'.$REX['DB'][$DBID]['NAME']);
+      $sql->next();
+    }
+
+    return $tables;
+  }
+
   /**
    * Gibt die Serverversion zurück
    */
