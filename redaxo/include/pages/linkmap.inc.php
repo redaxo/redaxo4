@@ -167,6 +167,7 @@ $search = rex_request('search', 'string');
 <ul>
 <?php
 
+$isRoot = $category_id === 0;
 $category = OOCategory::getCategoryById($category_id);
 $link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
 echo '<li>'.$I18N->msg('path').' </li>';
@@ -203,18 +204,23 @@ if ($category = OOCategory::getCategoryById($category_id))
     <h1>Artikel</h1>
   	<ul>
     <?php
-    if ($category)
-    {
+    $articles = null;
+    if($isRoot)
+      $articles = OOArticle::getRootArticles();
+    else if($category)
       $articles = $category->getArticles();
+
+    if ($articles)
+    {
       foreach($articles as $article)
-    	  {
+  	  {
     		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
     		$url = rex_linkmap_backlink($article->getId(), $article->getName());
 
-    		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
-    		echo '</li>';
-    	  }
-    	}
+    		echo '   '. rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
+    		echo '</li>'. "\n";
+  	  }
+  	}
     ?>
   	</ul>
   </div>
