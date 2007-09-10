@@ -56,6 +56,8 @@ function rex_a62_metainfo_cleanup($params)
 
   $sql = new rex_sql();
   $sql->setQuery('DELETE FROM '. $REX['TABLE_PREFIX'] .'62_params');
+
+  rex_generateAll();
 }
 
 ?>
