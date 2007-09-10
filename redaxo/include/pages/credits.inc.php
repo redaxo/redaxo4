@@ -16,27 +16,24 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
   <div class="rex-addon-content">
     <pre style="font-size:14px">
 
-      <b>REDAXO:</b>
+<b>REDAXO:</b>
 
-      <b>Jan Kristinus</b>, jan.kristinus@redaxo.de
-      Erfinder und Kernentwickler
-      Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.de</a>
+<b>Jan Kristinus</b>, jan.kristinus@redaxo.de
+Erfinder und Kernentwickler
+Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.de</a>
 
-      <b>Markus Staab</b>, markus.staab@redaxo.de
-      Kernentwickler
-      Public-4u e.K <a href="http://www.public-4u.de">http://www.public-4u.de</a>
+<b>Markus Staab</b>, markus.staab@redaxo.de
+Kernentwickler
+Public-4u e.K <a href="http://www.public-4u.de">http://www.public-4u.de</a>
 
-      <b>Thomas Blum</b>, thomas.blum@redaxo.de
-      Layout/Design Entwickler
-      blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
+<b>Thomas Blum</b>, thomas.blum@redaxo.de
+Layout/Design Entwickler
+blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
 
-      ???
-    </pre>
 
-    <p><b><?php echo $I18N->msg("addon"); ?>:</b></p>
+<b><?php echo $I18N->msg("addon"); ?>:</b>
 
-    <table>
-    <?php
+<table><?php
 
     $ADDONS = rex_read_addons_folder();
 
@@ -57,5 +54,6 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
     }
     ?>
     </table>
+    </pre>
   </div>
 </div>
