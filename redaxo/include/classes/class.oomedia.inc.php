@@ -37,10 +37,6 @@ class OOMedia
 
   // filetitle
   var $_title = "";
-  // filedescription
-  var $_description = "";
-  // copyright
-  var $_copyright = "";
 
   // updatedate
   var $_updatedate = "";
@@ -118,8 +114,6 @@ class OOMedia
     $media->_height = $result['height'];
 
     $media->_title = $result['title'];
-    $media->_description = $result['description'];
-    $media->_copyright = $result['copyright'];
 
     $media->_updatedate = $result['updatedate'];
     $media->_updateuser = $result['updateuser'];
@@ -242,22 +236,6 @@ class OOMedia
   function getTitle()
   {
     return $this->_title;
-  }
-
-  /**
-   * @access public
-   */
-  function getDescription()
-  {
-    return $this->_description;
-  }
-
-  /**
-   * @access public
-   */
-  function getCopyright()
-  {
-    return $this->_copyright;
   }
 
   /**
@@ -520,16 +498,21 @@ class OOMedia
       }
     }
 
+    $title = $this->getTitle();
+
     // Alternativtext hinzufügen
     if (!isset($params['alt']))
     {
-      $params['alt'] = htmlspecialchars($this->getDescription());
+      if ($title != '')
+      {
+        $params['alt'] = htmlspecialchars($title);
+      }
     }
 
     // Titel hinzufügen
     if (!isset($params['title']))
     {
-      if (($title = $this->getTitle()) != '')
+      if ($title != '')
       {
         $params['title'] = htmlspecialchars($title);
       }
@@ -653,12 +636,13 @@ class OOMedia
     //        $sql->debugsql = true;
     $query_file = '';
     $query_filelist = '';
-    for ($i = 1; $i < 11; $i++)
+    for ($i = 1; $i < 21; $i++)
     {
       if ($i > 1)
         $query_file .= ' or ';
       if ($i > 1)
         $query_filelist .= ' or ';
+
       $query_file .= ' file'.$i.'="'.$this->getFileName().'"';
       $query_filelist .= ' file'.$i.' like "%|'.$this->getFileName().'|%"';
     }
@@ -794,8 +778,6 @@ class OOMedia
     $sql->setValue('width', $this->getWidth());
     $sql->setValue('height', $this->getHeight());
     $sql->setValue('title', $this->getTitle());
-    $sql->setValue('description', $this->getDescription());
-    $sql->setValue('copyright', $this->getCopyright());
 
     if ($this->getId() !== null)
     {
@@ -826,7 +808,7 @@ class OOMedia
     $sql->setQuery($qry);
 
     ### todo - loeschen des files
-    unlink($REX['INCLUDE_PATH']."/../../files/".$this->getFileName());
+    unlink($REX['MEDIAFOLDER']. $this->getFileName());
 
     return $sql->getError();
   }
