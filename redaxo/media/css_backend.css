@@ -29,6 +29,12 @@ body div#rex-output a.rex-active,
 body a.rex-subpage-active {
 	color:#000;
 }
+.rex-lgnd a {
+	color:#32353a;
+}
+.rex-lgnd a:hover {
+	text-decoration:none;
+}
 
 li {
 	list-style-type:none;
@@ -839,12 +845,12 @@ div.rex-cnt-editmode div.rex-cnt-editmode-slc {
 }
 div.rex-cnt-editmode div.rex-cnt-editmode-slc p {
 	padding:0 7px;
-	line-height:3em;
+	line-height:2.2em;
 }
 div.rex-cnt-editmode div.rex-cnt-editmode-slc ul {
 	padding:0 10px;
 	background:#e4eff2;
-	line-height:3em;
+	line-height:2.2em;
 }
 div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li {
 	display:block;
