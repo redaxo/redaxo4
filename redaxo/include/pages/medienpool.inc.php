@@ -226,7 +226,7 @@ if ($rootCats = OOMediaCategory::getRootCategories())
 $cat_out = '<div class="rex-mpl-catslct-frm">
               <form action="index.php" method="post">
                 <fieldset>
-                  <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_select_cat') .'</span></legend>
+                  <!-- <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_select_cat') .'</span></legend> //-->
                   <input type="hidden" name="page" value="medienpool" />
                   <p>
                     <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
@@ -1001,7 +1001,7 @@ if ($subpage == "detail")
 	  		<div class="rex-mpl-dtl">
 	  			<form action="index.php" method="post" enctype="multipart/form-data">
           	<fieldset>
-            	<legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_file_edit') .'</span></legend>
+            	<!-- <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_file_edit') .'</span></legend> //-->
             	<input type="hidden" name="page" value="medienpool" />
             	<input type="hidden" name="subpage" value="detail" />
             	<input type="hidden" name="media_method" value="edit_file" />
@@ -1334,7 +1334,7 @@ if ($subpage == '')
   echo '<div class="rex-mpl-mdn">
   		 <form action="index.php" method="post" enctype="multipart/form-data">
           <fieldset>
-            <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_selectedmedia') .'</span></legend>
+            <!-- <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_selectedmedia') .'</span></legend> //-->
             <input type="hidden" name="page" value="medienpool" />
             <input type="hidden" id="media_method" name="media_method" value="" />
 
