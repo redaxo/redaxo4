@@ -52,6 +52,7 @@ Bekannte Bugs:
 Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
+  * Templateaufrufe nur noch über REX_TEMPLATE[1], nicht mehr include(...'2.template') [jan]
   * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen! [kills]
   * Tabelle rex_modultyp in rex_module umbenannt! [kills]
   * TinyMCE entfernt und als Addon wieder eingebaut [kills]
@@ -64,6 +65,7 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
+  * Templates on the fly. Werden beim Aufruf generiert [jan]
   * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]
   * Accesskey eingeführt [tab]
     - $REX['ACKEY']['SAVE'] = 's';
@@ -199,7 +201,6 @@ Version 3.3 (2007-XX-XX)
     - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [kills]
     - Startartikel wurden immer online angezeigt [kills]
     - Slices verschieben - http://forum.redaxo.de/ftopic4560.html [jan]
-
 
   * Addons: [kills]
     - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert

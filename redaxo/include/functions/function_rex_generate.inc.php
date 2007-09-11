@@ -24,13 +24,7 @@ function rex_generateAll()
 
   // ----------------------------------------------------------- generiere templates
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates", 0);
-  $gt = new rex_sql;
-  $gt->setQuery("select * from ".$REX['TABLE_PREFIX']."template");
-  for ($i = 0; $i < $gt->getRows(); $i ++)
-  {
-    rex_generateTemplate($gt->getValue("id"));
-    $gt->next();
-  }
+
 
   // ----------------------------------------------------------- generiere artikel
   rex_deleteDir($REX['INCLUDE_PATH']."/generated/articles", 0);

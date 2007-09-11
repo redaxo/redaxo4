@@ -113,7 +113,8 @@ if ($function == "add" or $function == "edit") {
     $templatename = stripslashes($templatename);
     $content = stripslashes($content);
 
-    rex_generateTemplate($template_id);
+    $TPL = new rex_template($template_id);
+		$TPL->deleteCache();
 
     if (isset ($goon) and $goon != "") {
       $function = "edit";
