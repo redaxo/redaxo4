@@ -383,7 +383,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   		<div class="rex-mpl-oth">
   		<form action="index.php" method="post" enctype="multipart/form-data">
            <fieldset>
-             <legend class="rex-lgnd">'. $form_title .'</legend>
+             <legend class="rex-lgnd"><span class="rex-hide">'. $form_title .'</span></legend>
                <input type="hidden" name="page" value="medienpool" />
                <input type="hidden" name="media_method" value="add_file" />
                <input type="hidden" name="subpage" value="'. $subpage .'" />
@@ -538,7 +538,7 @@ if ($PERMALL && $subpage == "categories")
 	  <div class="rex-mpl-cat">
       <form action="index.php" method="post">
         <fieldset>
-          <!-- <legend class="rex-lgnd"><span>'. $legend .'</span></legend> -->
+          <legend class="rex-lgnd"><span class="rex-hide">'. $legend .'</span></legend>
           <input type="hidden" name="page" value="medienpool" />
           <input type="hidden" name="subpage" value="categories" />
           <input type="hidden" name="media_method" value="'. $method .'" />
@@ -1170,7 +1170,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     $title .= ' ('. $diff_count .')';
   }
   echo '<fieldset>';
-  echo '<legend class="rex-lgnd">'. $title .'</legend>';
+  echo '<legend class="rex-lgnd"><span class="rex-hide">'. $title .'</span></legend>';
 
   if($diff_count > 0)
   {
@@ -1497,6 +1497,7 @@ if ($subpage == '')
   }
 
   print '
+      </tbody>
       </table>
     </fieldset>
   </form>
