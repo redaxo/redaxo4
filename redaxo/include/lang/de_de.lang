@@ -547,3 +547,7 @@ list_no_rows = Keine Daten vorhanden
 
 # redaxo\include\pages\credits.inc.php
 credits = credits
+
+# redaxo\include\pages\linkmap.inc.php
+lmap_categories = Kategorien
+lmap_articles = Artikel

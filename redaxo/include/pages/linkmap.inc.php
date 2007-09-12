@@ -191,14 +191,14 @@ if ($category = OOCategory::getCategoryById($category_id))
 
 <div id="rex-lmp">
   <div class="rex-lmp-cats">
-    <h1>Kategorien</h1>
+    <h1><?php echo $I18N->msg('lmap_categories'); ?></h1>
     <?php
     $roots = OOCategory::getRootCategories();
     echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
     ?>
   </div>
   <div class="rex-lmp-arts">
-    <h1>Artikel</h1>
+    <h1><?php echo $I18N->msg('lmap_articles'); ?></h1>
   	<ul>
     <?php
     $articles = null;
