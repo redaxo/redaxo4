@@ -29,6 +29,15 @@ class rex_template
 
   function getFile()
   {
+    // Generated Datei erzeugen
+    if($this->generate())
+      return $this->getFilePath();
+
+    return FALSE;
+  }
+
+  function getFilePath()
+  {
     global $REX;
 
     if($this->getId()<1) return FALSE;
@@ -38,21 +47,19 @@ class rex_template
 
   function getTemplate()
   {
-    global $REX;
-
 		if($this->getId()<1) return FALSE;
 
-    $file = $this->getFile();
+    $file = $this->getFilePath();
     if ($handle = @fopen($file, 'r'))
     {
+      $content = '';
 	    $fs = filesize($file);
 	    if ($fs>0) $content = fread($handle, filesize($file));
 	    fclose($handle);
-	    return '?>'. $content;
+	    return $content;
     }else
     {
-    	include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
-    	if(rex_generateTemplate($this->getId()))
+    	if($this->generate())
       {
         // rekursiv aufrufen, nach dem erfolgreichen generate
         return $this->getTemplate();
@@ -61,13 +68,23 @@ class rex_template
 		return FALSE;
   }
 
+  function generate()
+  {
+    global $REX;
+
+    if($this->getId()<1) return FALSE;
+
+    include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+    return rex_generateTemplate($this->getId());
+  }
+
   function deleteCache()
   {
   	global $REX;
 
 		if($this->id<1) return FALSE;
 
-		$file = $this->getFile();
+		$file = $this->getFilePath();
     if (@unlink($file)) return TRUE;
     else return FALSE;
   }
