@@ -48,13 +48,15 @@ if($install != '')
 
 $mdl_1 =<<<EOD
 <?php
-if (REX_IS_VALUE[1])
-{
-  \$editor=new rexTiny2Editor();
-  \$editor->id=1;
-  \$editor->content="REX_VALUE[1]";
-  \$editor->show();
-}
+// Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
+\$value1 =<<<TEXT
+REX_VALUE[1]
+TEXT;
+
+\$editor=new rexTiny2Editor();
+\$editor->id=1;
+\$editor->content=\$value1;;
+\$editor->show();
 ?>
 EOD;
 
@@ -62,23 +64,29 @@ EOD;
 
 $mdl_2 =<<<EOD
 <?php
-if (REX_IS_VALUE[1])
-{
-  \$editor1=new rexTiny2Editor();
-  \$editor1->id=1;
-  \$editor1->content="REX_VALUE[1]";
-  \$editor1->editorCSS = "../files/tinymce/content.css";
-  \$editor1->disable="justifyleft,justifycenter,justifyright,justifyfull";
-  \$editor1->buttons3="tablecontrols,separator,search,replace,separator,print";
-  \$editor1->add_validhtml="img[myspecialtag]";
-  \$editor1->show();
+// Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
+\$value1 =<<<TEXT
+REX_VALUE[1]
+TEXT;
 
-  \$editor2=new tiny2editor();
-  \$editor2->id=2;
-  \$editor2->content="REX_VALUE[2]";
-  \$editor2->show();
+\$editor1=new rexTiny2Editor();
+\$editor1->id=1;
+\$editor1->content=\$value1;
+\$editor1->editorCSS = "../files/tinymce/content.css";
+\$editor1->disable="justifyleft,justifycenter,justifyright,justifyfull";
+\$editor1->buttons3="tablecontrols,separator,search,replace,separator,print";
+\$editor1->add_validhtml="img[myspecialtag]";
+\$editor1->show();
 
-}
+// Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
+\$value2 =<<<TEXT
+REX_VALUE[2]
+TEXT;
+
+\$editor2=new rexTiny2Editor();
+\$editor2->id=2;
+\$editor2->content=\$value2;
+\$editor2->show();
 ?>
 EOD;
 
@@ -89,9 +97,10 @@ $mdl_3 =<<<EOD
 if (REX_IS_VALUE[1])
 {
   echo '<div class="section">';
-  \$content =<<<EOD
-  REX_HTML_VALUE[1]
-  EOD;
+// Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
+\$content =<<<TEXT
+REX_HTML_VALUE[1]
+TEXT;
 
   if (\$REX['REDAXO'])
   {
