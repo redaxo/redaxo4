@@ -23,7 +23,8 @@ $TINY2['address'] = $REX['HTDOCS_PATH'];
 class rexTiny2Editor
 {
 
-  var $editorCSS = '../files/tinymce/content.css';
+
+  var $editorCSS = '../files/tmp_/tinymce/content.css';
   var $advimageCSS = '';
   var $disable = '';
   var $plugins = 'advlink,advimage,emotions,iespell,table,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,redaxo';
@@ -327,7 +328,7 @@ class rexTiny2Editor
 
     if ($GLOBALS['TINY2']['script'] != 1)
     {
-      $script = '../files/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js';
+      $script = '../files/tmp_/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js';
       $useGzip = file_exists($script);
 
       if (!$useGzip)
@@ -338,7 +339,7 @@ class rexTiny2Editor
       if ($useGzip)
       {
         include_once $REX['INCLUDE_PATH'] . '/addons/tinymce/functions/function_rex_folder.inc.php';
-        $plugins = readFolder('../files/tinymce/jscripts/tiny_mce/plugins');
+        $plugins = readFolder('../files/tmp_/tinymce/jscripts/tiny_mce/plugins');
         unset ($plugins[0]); // Lösche .
         unset ($plugins[1]); // Lösche ..
         $init .= "\n" .

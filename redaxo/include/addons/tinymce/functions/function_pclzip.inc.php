@@ -18,7 +18,7 @@ include_once $REX['INCLUDE_PATH'] . '/addons/tinymce/classes/class.pclzip.inc.ph
 function rex_a52_extract_archive($file, $msg = '' )
 {
 	$archive = new PclZip($file);
-	if ($archive->extract(PCLZIP_OPT_PATH, '../files') == 0)
+	if ($archive->extract(PCLZIP_OPT_PATH, '../files/tmp_') == 0)
 	{
 	  die("Error : " . $archive->errorInfo(true));
 	}
