@@ -2,6 +2,14 @@
 ## Prefix rex_
 DROP TABLE IF EXISTS `rex_62_params`;
 CREATE TABLE `rex_62_params` ( `field_id` int(10) unsigned NOT NULL  auto_increment, `title` varchar(255) NULL  , `name` varchar(255) NULL  , `prior` int(10) unsigned NOT NULL  , `attributes` varchar(255) NOT NULL  , `type` int(10) unsigned NULL  , `default` varchar(255) NOT NULL  , `params` varchar(255) NULL  , `validate` varchar(255) NULL  , `createuser` varchar(255) NOT NULL  , `createdate` int(11) NOT NULL  , `updateuser` varchar(255) NOT NULL  , `updatedate` int(11) NOT NULL  , PRIMARY KEY (`field_id`), UNIQUE KEY `name`(`name`)) TYPE=MyISAM;
+INSERT INTO `rex_62_params` VALUES ('1','translate:pool_file_description','med_description','1','','2','','','','admin','1189343866','admin','1189344596');
+INSERT INTO `rex_62_params` VALUES ('2','translate:pool_file_copyright','med_copyright','2','','1','','','','admin','1189343877','admin','1189344617');
+INSERT INTO `rex_62_params` VALUES ('3','translate:online_from','art_online_from','1','','10','','','','admin','1189344934','admin','1189344934');
+INSERT INTO `rex_62_params` VALUES ('4','translate:online_to','art_online_to','2','','10','','','','admin','1189344947','admin','1189344947');
+INSERT INTO `rex_62_params` VALUES ('5','translate:description','art_description','3','','2','','','','admin','1189345025','admin','1189345025');
+INSERT INTO `rex_62_params` VALUES ('6','translate:keywords','art_keywords','4','','2','','','','admin','1189345068','admin','1189345068');
+INSERT INTO `rex_62_params` VALUES ('7','translate:metadata_image','art_file','5','','6','','','','admin','1189345109','admin','1189345109');
+INSERT INTO `rex_62_params` VALUES ('8','translate:teaser','art_teaser','6','','5','','','','admin','1189345182','admin','1189345182');
 DROP TABLE IF EXISTS `rex_62_type`;
 CREATE TABLE `rex_62_type` ( `id` int(10) unsigned NOT NULL  auto_increment, `label` varchar(255) NULL  , `dbtype` varchar(255) NOT NULL  , `dblength` int(11) NOT NULL  , PRIMARY KEY (`id`)) TYPE=MyISAM;
 INSERT INTO `rex_62_type` VALUES ('1','text','varchar','255');
