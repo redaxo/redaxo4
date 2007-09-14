@@ -40,7 +40,7 @@ ALTER TABLE `rex_clang` ADD `revision` int(11);
 ALTER TABLE `rex_file` ADD `revision` int(11);
 ALTER TABLE `rex_file_category` ADD `revision` int(11);
 ALTER TABLE `rex_module_action` ADD `revision` int(11);
-ALTER TABLE `rex_module` ADD `revision` int(11);
+ALTER TABLE `rex_modultyp` ADD `revision` int(11);
 ALTER TABLE `rex_template` ADD `revision` int(11);
 ALTER TABLE `rex_user` ADD `revision` int(11);
 
