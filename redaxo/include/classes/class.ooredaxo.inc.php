@@ -321,6 +321,15 @@ class OORedaxo
 
   /*
    * Accessor Method:
+   * returns the template id
+   */
+  function getTemplateId()
+  {
+    return $this->_template_id;
+  }
+
+  /*
+   * Accessor Method:
    * Returns a link to this article
    *
    * @param [$params] Parameter für den Link
