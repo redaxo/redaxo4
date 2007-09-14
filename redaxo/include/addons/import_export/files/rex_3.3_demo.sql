@@ -92,9 +92,6 @@ INSERT INTO `rex_article_slice` VALUES ('49','0','1','48','Es gibt ca. 600 gelis
 INSERT INTO `rex_article_slice` VALUES ('50','0','1','0','FAQ','h1','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','20','1','1189527486','1189527486','rexdemo','rexdemo','0');
 INSERT INTO `rex_article_slice` VALUES ('51','0','1','50','Welche Kenntnisse brauche ich, um mit Redaxo arbeiten zu können?','h2','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','20','1','1189527486','1189527504','rexdemo','rexdemo','0');
 INSERT INTO `rex_article_slice` VALUES ('52','0','1','51','Redaxo basiert auf PHP und Mysql. Kenntnisse in dieser Sprache und im Umgang mit der Datenbank sind zwar zu empfehlen, aber nicht unbedingt erforderlich. Anhand der Demo-Versionen kann man bereits eigene Webseiten erstellen und dabei lernen, das System zu nutzen.\r\n\r\n\"zurück\":?article_id=5','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','20','3','1189527486','1189527520','rexdemo','rexdemo','0');
-DROP TABLE IF EXISTS `rex_article_type`;
-CREATE TABLE `rex_article_type` ( `type_id` int(11) NOT NULL  auto_increment, `name` varchar(255) NOT NULL  , `description` text NOT NULL  , PRIMARY KEY (`type_id`)) TYPE=MyISAM;
-INSERT INTO `rex_article_type` VALUES ('1','Standard','Zugriff für alle');
 DROP TABLE IF EXISTS `rex_clang`;
 CREATE TABLE `rex_clang` ( `id` int(11) NOT NULL DEFAULT 0  , `name` varchar(255) NOT NULL  , `revision` int(11) NULL  , PRIMARY KEY (`id`)) TYPE=MyISAM;
 INSERT INTO `rex_clang` VALUES ('0','deutsch','0');
@@ -132,8 +129,6 @@ INSERT INTO `rex_file_category` VALUES ('2','Layout - images','0','|','117492293
 INSERT INTO `rex_file_category` VALUES ('3','Inhalt - images','0','|','1176638683','1176638683','gn2','gn2','','0');
 INSERT INTO `rex_file_category` VALUES ('4','Team','3','|3|','1176638698','1176638698','gn2','gn2','','0');
 INSERT INTO `rex_file_category` VALUES ('5','schritte','3','|3|','1176744700','1176744700','gn2','gn2','','0');
-DROP TABLE IF EXISTS `rex_help`;
-CREATE TABLE `rex_help` ( `id` int(11) NOT NULL  auto_increment, `page` varchar(255) NOT NULL  , `name` varchar(255) NOT NULL  , `description` text NOT NULL  , `comment` text NOT NULL  , `lang` varchar(255) NOT NULL  , PRIMARY KEY (`id`)) TYPE=MyISAM;
 DROP TABLE IF EXISTS `rex_module`;
 CREATE TABLE `rex_module` ( `id` int(11) NOT NULL  auto_increment, `name` varchar(255) NOT NULL  , `category_id` int(11) NOT NULL DEFAULT 0  , `ausgabe` text NOT NULL  , `eingabe` text NOT NULL  , `createuser` varchar(255) NOT NULL  , `updateuser` varchar(255) NOT NULL  , `createdate` int(11) NOT NULL DEFAULT 0  , `updatedate` int(11) NOT NULL DEFAULT 0  , `attributes` text NOT NULL  , `revision` int(11) NULL  , PRIMARY KEY (`id`,`category_id`)) TYPE=MyISAM;
 INSERT INTO `rex_module` VALUES ('1','01 - Headline','0','<REX_VALUE[2]>REX_VALUE[1]</REX_VALUE[2]>','&Uuml;berschrift:<br />\r\n<input type=\"text\" size=\"50\" name=\"VALUE[1]\" value=\"REX_VALUE[1]\" />\r\n<select name=\"VALUE[2]\" >\r\n<?php\r\nforeach (array(\"h1\",\"h2\",\"h3\",\"h4\",\"h5\",\"h6\") as $value) {\r\n	echo \'<option value=\"\'.$value.\'\" \';\r\n	\r\n	if ( \"REX_VALUE[2]\"==\"$value\" ) {\r\n		echo \'selected=\"selected\" \';\r\n	}\r\n	echo \'>\'.$value.\'</option>\';\r\n}\r\n?>\r\n</select>','admin','','1181731562','0','','');
