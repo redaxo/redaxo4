@@ -211,6 +211,8 @@ if ($category = OOCategory::getCategoryById($category_id))
     {
       foreach($articles as $article)
   	  {
+        if(!$article->hasTemplate()) continue;
+
     		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
     		$url = rex_linkmap_backlink($article->getId(), $article->getName());
 
