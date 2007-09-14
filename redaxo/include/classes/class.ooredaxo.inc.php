@@ -330,6 +330,15 @@ class OORedaxo
 
   /*
    * Accessor Method:
+   * returns true if article has a template.
+   */
+  function hasTemplate()
+  {
+    return $this->_template_id == 0;
+  }
+
+  /*
+   * Accessor Method:
    * Returns a link to this article
    *
    * @param [$params] Parameter für den Link
