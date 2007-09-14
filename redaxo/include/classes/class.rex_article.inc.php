@@ -165,7 +165,7 @@ class rex_article
     else $this->eval = FALSE;
   }
 
-  function _getValue($value)
+  function correctValue($value)
   {
     global $REX;
 
@@ -179,25 +179,43 @@ class rex_article
     return $value;
   }
 
-  function getValue($value)
+  function _getValue($value)
   {
     global $REX;
-    $value = $this->_getValue($value);
+    $value = $this->correctValue($value);
 
     if ($REX['GG'] && !$this->viasql) return $REX['ART'][$this->article_id][$value][$this->clang];
     else return $this->ARTICLE->getValue($value);
   }
 
+  function getValue($value)
+  {
+    // damit alte rex_article felder wie teaser, online_from etc
+    // noch funktionieren
+    // gleicher BC code nochmals in OOREDAXO::getValue
+    if($this->hasValue($value))
+    {
+      return $this->_getValue($value);
+    }
+    elseif ($this->hasValue('art_'. $value))
+    {
+      return $this->_getValue('art_'. $value);
+    }
+    elseif ($this->hasValue('cat_'. $value))
+    {
+      return $this->_getValue('cat_'. $value);
+    }
+  }
+
   function hasValue($value)
   {
     global $REX;
-    $value = $this->_getValue($value);
+    $value = $this->correctValue($value);
 
     if ($REX['GG'] && !$this->viasql) return isset($REX['ART'][$this->article_id][$value][$this->clang]);
     else return $this->ARTICLE->hasValue($value);
   }
 
-  // -----
   function getArticle($curctype = -1)
   {
     global $module_id,$REX_USER,$REX,$REX_SESSION,$I18N;

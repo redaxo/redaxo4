@@ -138,25 +138,6 @@ class article extends rex_article{
   {
     parent::rex_article($article_id, $clang);
   }
-
-  function getValue($value)
-  {
-    // damit alte rex_article felder wie teaser, online_from etc
-    // noch funktionieren
-    // gleicher BC code nochmals in OOREDAXO::getValue
-    if($this->hasValue($value))
-    {
-      return parent::getValue($value);
-    }
-    elseif ($this->hasValue('art_'. $value))
-    {
-      return parent::getValue('art_'. $value);
-    }
-    elseif ($this->hasValue('cat_'. $value))
-    {
-      return parent::getValue('cat_'. $value);
-    }
-  }
 }
 
 
