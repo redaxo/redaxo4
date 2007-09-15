@@ -604,7 +604,7 @@ class rex_sql
     {
       $db = rex_sql::getInstance($DBID, false);
 
-      if($db->identifier)
+      if(is_resource($db->identifier))
         mysql_close($db->identifier);
     }
   }
