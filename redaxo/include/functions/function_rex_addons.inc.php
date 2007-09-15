@@ -2,12 +2,12 @@
 
 
 /**
- * Addon Funktionen 
+ * Addon Funktionen
  * @package redaxo3
  * @version $Id$
  */
 
-function rex_install_addon($addons, $addonname)
+function rex_install_addon($addons, $addonname, $installDump = true)
 {
   global $REX, $I18N;
   $state = true;
@@ -17,7 +17,7 @@ function rex_install_addon($addons, $addonname)
   $install_sql = $install_dir.'/install.sql';
   $config_file = $install_dir.'/config.inc.php';
 
-  // Prüfen des Addon Ornders auf Schreibrechte, 
+  // Prüfen des Addon Ornders auf Schreibrechte,
   // damit das Addon später wieder gelöscht werden kann
   $state = rex_is_writable($install_dir);
 
@@ -26,7 +26,7 @@ function rex_install_addon($addons, $addonname)
     if (is_readable($install_file))
     {
       include $install_file;
-      
+
       // Wurde das "install" Flag gesetzt, oder eine Fehlermeldung ausgegeben? Wenn ja, Abbruch
       if (!OOAddon :: isInstalled($addonname) || !empty( $REX['ADDON']['installmsg'][$addonname]))
       {
@@ -55,14 +55,14 @@ function rex_install_addon($addons, $addonname)
           $state = $I18N->msg('addon_config_not_found');
         }
 
-			  if($state === true && is_readable($install_sql))
+			  if($installDump === true && $state === true && is_readable($install_sql))
 			  {
 					$state = rex_install_dump($install_sql);
-          
+
           if($state !== true)
             $state = 'Error found in install.sql:<br />'. $state;
 				}
-				
+
         // Installation ok
         if ($state === true)
         {
@@ -76,10 +76,10 @@ function rex_install_addon($addons, $addonname)
       $state = $I18N->msg('addon_install_not_found');
     }
   }
-  
+
   if($state !== true)
     $REX['ADDON']['install'][$addonname] = 0;
-  
+
   return $state;
 }
 
@@ -101,7 +101,7 @@ function rex_activate_addon($addons, $addonname)
 
   if($state !== true)
     $REX['ADDON']['status'][$addonname] = 0;
-    
+
   return $state;
 }
 
@@ -111,7 +111,7 @@ function rex_deactivate_addon($addons, $addonname)
   $state = true;
 
   $REX['ADDON']['status'][$addonname] = 0;
-  
+
   // regenerate Addons file
   $state = rex_generateAddons($addons);
 
@@ -147,15 +147,15 @@ function rex_uninstall_addon($addons, $addonname)
     else
     {
       $state = rex_deactivate_addon($addons, $addonname);
-      
+
 		  if($state === true && is_readable($uninstall_sql))
 		  {
 				$state = rex_install_dump($uninstall_sql);
-        
+
         if($state !== true)
           $state = 'Error found in uninstall.sql:<br />'. $state;
 			}
-			
+
       if ($state === true)
       {
         // regenerate Addons file
@@ -167,7 +167,7 @@ function rex_uninstall_addon($addons, $addonname)
   {
     $state = $I18N->msg("addon_uninstall_not_found");
   }
-  
+
   // Fehler beim uninstall -> Addon bleibt installiert
   if($state !== true)
     $REX['ADDON']['install'][$addonname] = 1;
@@ -178,7 +178,7 @@ function rex_uninstall_addon($addons, $addonname)
 function rex_delete_addon($addons, $addonname)
 {
   global $REX, $I18N;
-  
+
   // System AddOns dürfen nicht gelöscht werden!
   if(in_array($addonname, $REX['SYSTEM_ADDONS']))
     return $I18N->msg('addon_systemaddon_delete_not_allowed');
@@ -227,8 +227,8 @@ function rex_read_addons_folder($folder = '')
 
 /**
  * Importiert die gegebene SQL-Datei in die Datenbank
- * 
- * @return true bei Erfolg, sonst eine Fehlermeldung 
+ *
+ * @return true bei Erfolg, sonst eine Fehlermeldung
  */
 function rex_install_dump($file, $debug = false)
 {
@@ -252,15 +252,15 @@ function rex_install_dump($file, $debug = false)
 function rex_install_prepare_query($qry)
 {
   global $REX, $REX_USER;
-  
+
   // REX_USER gibts im Setup nicht
   if(isset($REX_USER))
     $qry = str_replace('%USER%', $REX_USER->getValue('login'), $qry);
-     
-  $qry = str_replace('%TIME%', time(), $qry); 
+
+  $qry = str_replace('%TIME%', time(), $qry);
   $qry = str_replace('%TABLE_PREFIX%', $REX['TABLE_PREFIX'], $qry);
   $qry = str_replace('%TEMP_PREFIX%', $REX['TEMP_PREFIX'], $qry);
-  
+
   return $qry;
 }
 
@@ -411,10 +411,10 @@ function PMA_splitSqlFile(& $ret, $sql, $release)
 
   return TRUE;
 } // end of the 'PMA_splitSqlFile()' function
-  
+
 /**
  * Reads a file and split all statements in it.
- * 
+ *
  * @param $file String Path to the SQL-dump-file
  */
 function rex_read_sql_dump($file)
