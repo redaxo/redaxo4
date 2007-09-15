@@ -1409,6 +1409,24 @@
 				</data>
 				<description><![CDATA[revision]]></description>
 			</field>
+      <field name="med_description">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[med_description]]></description>
+      </field>
+      <field name="med_keywords">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[med_keywords]]></description>
+      </field>
 		</table>
 		<table name="rex_file_category" className="Rex_file_category">
 			<field name="id" primaryKey="true" autoIncrement="true"
