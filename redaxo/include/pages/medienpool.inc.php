@@ -802,72 +802,69 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
-    if ($PERMALL || ($REX_USER->hasPerm("media[".$gf->getValue("category_id")."]") && $REX_USER->hasPerm("media[$rex_file_category]")))
+    if ($PERMALL || ($REX_USER->hasPerm('media['.$gf->getValue('category_id').']') && $REX_USER->hasPerm('media['. $rex_file_category .']')))
     {
       $FILESQL = new rex_sql;
-      $FILESQL->setTable($REX['TABLE_PREFIX']."file");
-      $FILESQL->setWhere("file_id='$file_id'");
-      $FILESQL->setValue("title",$ftitle);
-      $FILESQL->setValue("category_id",$rex_file_category);
+      $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
+      $FILESQL->setWhere('file_id='. $file_id);
+      $FILESQL->setValue('title',$ftitle);
+      $FILESQL->setValue('category_id',$rex_file_category);
 
-      $msg = $I18N->msg('pool_file_infos_updated');
-      $filename = $gf->getValue("filename");
-      $filetype = $gf->getValue("filetype");
+      $msg = '';
+      $filename = $gf->getValue('filename');
+      $filetype = $gf->getValue('filetype');
 
-      if ($_FILES['file_new']['name'] != "" and $_FILES['file_new']['name'] != "none")
+      $updated = false;
+      if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none')
       {
-
         $ffilename = $_FILES['file_new']['tmp_name'];
         $ffiletype = $_FILES['file_new']['type'];
         $ffilesize = $_FILES['file_new']['size'];
 
         if ($ffiletype == $filetype || OOMedia::compareImageTypes($ffiletype,$filetype))
         {
-          // unlink($REX['MEDIAFOLDER']."/".$filename);
-          $upload = false;
-          if (!move_uploaded_file($ffilename,$REX['MEDIAFOLDER']."/$filename"))
+          if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $filename) ||
+              copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $filename))
           {
-            if (!@copy($ffilename,$REX['MEDIAFOLDER']."/$filename"))
+            $msg .= '<br />'.$I18N->msg('pool_file_changed');
+
+            $FILESQL->setValue('filetype',$ffiletype);
+            $FILESQL->setValue('originalname',$ffilename);
+            $FILESQL->setValue('filesize',$ffilesize);
+            if($size = @getimagesize($REX['MEDIAFOLDER'] .'/'. $filename))
             {
-              $msg .= "<br>".$I18N->msg('pool_file_upload_error');
-            }else
-            {
-              $FILESQL->setValue("filetype",$ffiletype);
-              $FILESQL->setValue("originalname",$ffilename);
-              $FILESQL->setValue("filesize",$ffilesize);
-              $uploaded = true;
+              $FILESQL->setValue('width',$size[0]);
+              $FILESQL->setValue('height',$size[1]);
             }
+            chmod($REX['MEDIAFOLDER'].'/'. $filename, $REX['FILEPERM']);
+            $updated = true;
           }else
           {
-            $FILESQL->setValue("filetype",$ffiletype);
-            $FILESQL->setValue("originalname",$ffilename);
-            $FILESQL->setValue("filesize",$ffilesize);
-            $uploaded = true;
-          }
-
-          if (isset($uploaded) and $uploaded)
-          {
-            $msg .= "<br>".$I18N->msg('pool_file_changed');;
-            chmod($REX['MEDIAFOLDER']."/$filename", $REX['FILEPERM']);
-
-            // ----- EXTENSION POINT
-            rex_register_extension_point('MEDIA_UPDATED','',array("id" => $file_id, "type" => $ffiletype, "filename" => $filename ));
-
+              $msg .= '<br />'.$I18N->msg('pool_file_upload_error');
           }
         }else
         {
-          $msg .= "<br />".$I18N->msg('pool_file_upload_errortype');
+          $msg .= '<br />'.$I18N->msg('pool_file_upload_errortype');
         }
       }
-      if($size = @getimagesize($REX['INCLUDE_PATH']."/../../files/$filename"))
+
+      if($msg == '')
       {
-				$FILESQL->setValue("width",$size[0]);
-				$FILESQL->setValue("height",$size[1]);
+        $msg .= $I18N->msg('pool_file_infos_updated');
+        $updated = true;
       }
 
-      $FILESQL->setValue("updatedate",time());
-      $FILESQL->setValue("updateuser",$REX_USER->getValue("login"));
-      $FILESQL->update();
+      if($updated)
+      {
+        $msg .= $I18N->msg('pool_file_infos_updated');
+
+        $FILESQL->setValue('updatedate',time());
+        $FILESQL->setValue('updateuser',$REX_USER->getValue('login'));
+        $FILESQL->update();
+
+        // ----- EXTENSION POINT
+        rex_register_extension_point('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $ffiletype, 'filename' => $filename ));
+      }
     }else
     {
       $msg = $I18N->msg('no_permission');
