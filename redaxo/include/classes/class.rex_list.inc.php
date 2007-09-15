@@ -38,10 +38,6 @@ class rex_list
   // --------- Form Attributes
   var $formAttributes;
 
-  // --------- Table Attributes
-  var $caption;
-  var $tableAttributes;
-
   // --------- Column Attributes
   var $columnNames;
   var $columnLabels;
@@ -54,6 +50,7 @@ class rex_list
   var $defaultColumnLayout;
 
   // --------- Table Attributes
+  var $caption;
   var $tableAttributes;
   var $tableColumnGroups;
 
