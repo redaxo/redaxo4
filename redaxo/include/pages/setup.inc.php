@@ -107,7 +107,7 @@ function rex_setup_is_writable($items)
 }
 
 // -------------------------- System AddOns prüfen
-function rex_setup_addons($uninstallBefore = false)
+function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
   global $REX, $I18N;
 
@@ -122,7 +122,7 @@ function rex_setup_addons($uninstallBefore = false)
       $state = rex_uninstall_addon($ADDONS, $systemAddon);
 
     if($state === true && !OOAddon::isInstalled($systemAddon))
-      $state = rex_install_addon($ADDONS, $systemAddon);
+      $state = rex_install_addon($ADDONS, $systemAddon, $installDump);
 
     if($state === true && !OOAddon::isActivated($systemAddon))
         $state = rex_activate_addon($ADDONS, $systemAddon);
@@ -442,49 +442,66 @@ if ($checkmodus == 3 && $send == 1)
   if ($dbanlegen == 4)
   {
     // ----- vorhandenen seite updaten
+
+    $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_3_3.sql';
+
     if($err_msg == '')
-    {
-      $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_3_3.sql';
       $err_msg .= rex_setup_import($import_sql);
-    }
-    $err_msg .= rex_setup_addons();
-  }elseif ($dbanlegen == 3)
+
+    if($err_msg == '')
+      $err_msg .= rex_setup_addons();
+  }
+  elseif ($dbanlegen == 3)
   {
     // ----- vorhandenen Export importieren
+
+    $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
+    $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
+
     if(empty($import_name))
     {
       $err_msg .= '<p>'.$I18N->msg('setup_03701').'</p>';
     }
     else
     {
-      $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
-      $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
-      $err_msg .= rex_setup_import($import_sql, $import_archiv);
+      // Nur hier zuerst die Addons installieren
+      // Da sonst Daten aus dem eingespielten Export
+      // Überschrieben würden
+      if($err_msg == '')
+        $err_msg .= rex_setup_addons(true, false);
+      if($err_msg == '')
+        $err_msg .= rex_setup_import($import_sql, $import_archiv);
     }
-  }elseif ($dbanlegen == 2)
+  }
+  elseif ($dbanlegen == 2)
   {
     // ----- db schon vorhanden, nichts tun
-  }elseif ($dbanlegen == 1)
+  }
+  elseif ($dbanlegen == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
+
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
+
     $db = new rex_sql;
     foreach($requiredTables as $table)
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
 
     if($err_msg == '')
-    {
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
       $err_msg .= rex_setup_import($import_sql);
-    }
-    $err_msg .= rex_setup_addons(true);
-  }elseif ($dbanlegen == 0)
+
+    if($err_msg == '')
+      $err_msg .= rex_setup_addons(true);
+  }
+  elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank neu einrichten
+
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
+
     if($err_msg == '')
-    {
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
       $err_msg .= rex_setup_import($import_sql);
-    }
+
     $err_msg .= rex_setup_addons();
   }
 
