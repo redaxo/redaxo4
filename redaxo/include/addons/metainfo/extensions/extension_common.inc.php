@@ -8,7 +8,8 @@
  * @version $Id$
  */
 
-rex_register_extension('OUTPUT_FILTER', 'rex_a62_insertJs');
+if($page == 'metainfo')
+  rex_register_extension('OUTPUT_FILTER', 'rex_a62_insertJs');
 
 /**
  * Fügt den nötigen JS-Code ein
