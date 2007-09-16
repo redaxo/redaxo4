@@ -11,23 +11,24 @@
 rex_register_extension('OOF_META_PARAMS', 'rex_a62_oof_metainfo_params');
 
 /**
- * Modifiziert das Parameter Array und fügt diesem die neuen Meta-Felder hinzu (Variablenerweiterung der OO-Klassen)
+ * Modifiziert das Parameter Array und fügt diesem die neuen Meta-Felder hinzu
+ * (Variablenerweiterung der OOREDAXO-Klassen)
  */
 function rex_a62_oof_metainfo_params($params)
 {
 	global $REX;
-	
+
 	$new_params = array();
 	$fields = new rex_sql();
 //	$fields->debugsql = true;
   $fields->setQuery('SELECT name FROM '. $REX['TABLE_PREFIX'] .'62_params p WHERE `name` LIKE "art_%" OR `name` LIKE "cat_%"');
-	
+
 	for($i = 0; $i < $fields->getRows(); $i++)
 	{
-		$new_params[] = array($fields->getValue('name'), substr($fields->getValue('name'), 4)); 
+		$new_params[] = array($fields->getValue('name'), substr($fields->getValue('name'), 4));
 		$fields->next();
 	}
-	
+
 	return $new_params;
 }
 
