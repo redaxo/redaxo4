@@ -88,7 +88,7 @@ class OOMedia
 
     $query = 'SELECT '.OOMedia :: _getTableName().'.*, '.OOMediaCategory :: _getTableName().'.name catname  FROM '.OOMedia :: _getTableJoin().' WHERE file_id = '.$id;
     $sql = new rex_sql();
-    //        $sql->debugsql = true;
+//    $sql->debugsql = true;
     $result = $sql->getArray($query);
     if (count($result) == 0)
     {
@@ -97,29 +97,27 @@ class OOMedia
     }
 
     $result = $result[0];
-    //        var_dump( $result);
+    $aliasMap = array(
+      'field_id' => 'id',
+      're_file_id' => 'parent_id',
+      'category_id' => 'cat_id',
+      'catname' => 'cat_name',
+      'filename' => 'name',
+      'originalname' => 'orgname',
+      'filetype' => 'type',
+      'filesize' => 'size'
+    );
 
     $media = new OOMedia();
-    $media->_id = $result['file_id'];
-    $media->_parent_id = $result['re_file_id'];
-    $media->_cat_id = $result['category_id'];
-    $media->_cat_name = $result['catname'];
+    foreach($sql->getFieldNames() as $fieldName)
+    {
+      if(in_array($fieldName, $aliasMap))
+        $var_name = '_'. $aliasMap[$fieldName];
+      else
+        $var_name = '_'. $fieldName;
 
-    $media->_name = $result['filename'];
-    $media->_orgname = $result['originalname'];
-    $media->_type = $result['filetype'];
-    $media->_size = $result['filesize'];
-
-    $media->_width = $result['width'];
-    $media->_height = $result['height'];
-
-    $media->_title = $result['title'];
-
-    $media->_updatedate = $result['updatedate'];
-    $media->_updateuser = $result['updateuser'];
-
-    $media->_createdate = $result['createdate'];
-    $media->_createuser = $result['createuser'];
+      $media->$var_name = $result[$fieldName];
+    }
 
     return $media;
   }
@@ -876,6 +874,34 @@ class OOMedia
     );
 
     return in_array($type1, $jpg) && in_array($type2, $jpg);
+  }
+
+  function hasValue($value)
+  {
+    if (substr($value, 0, 1) != '_')
+    {
+      $value = "_".$value;
+    }
+    return isset($this->$value);
+  }
+
+  function getValue($value)
+  {
+    if (substr($value, 0, 1) != '_')
+    {
+      $value = "_".$value;
+    }
+
+    // damit alte rex_article felder wie copyright, description
+    // noch funktionieren
+    if($this->hasValue($value))
+    {
+      return $this->$value;
+    }
+    elseif ($this->hasValue('med'. $value))
+    {
+      return $this->getValue('med'. $value);
+    }
   }
 }
 ?>

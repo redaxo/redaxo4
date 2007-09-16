@@ -79,13 +79,13 @@ class OORedaxo
     {
       return $this->$value;
     }
-    elseif ($this->hasValue('art_'. $value))
+    elseif ($this->hasValue('art'. $value))
     {
-      return $this->getValue('art_'. $value);
+      return $this->getValue('art'. $value);
     }
-    elseif ($this->hasValue('cat_'. $value))
+    elseif ($this->hasValue('cat'. $value))
     {
-      return $this->getValue('cat_'. $value);
+      return $this->getValue('cat'. $value);
     }
   }
 
