@@ -38,6 +38,8 @@ ALTER TABLE `rex_action` ADD `revision` int(11);
 ALTER TABLE `rex_article` ADD `revision` int(11);
 ALTER TABLE `rex_article_slice` ADD `revision` int(11);
 ALTER TABLE `rex_clang` ADD `revision` int(11);
+ALTER TABLE `rex_file` DROP `copyright`;
+ALTER TABLE `rex_file` DROP `description`;
 ALTER TABLE `rex_file` ADD `revision` int(11);
 ALTER TABLE `rex_file_category` ADD `revision` int(11);
 ALTER TABLE `rex_module_action` ADD `revision` int(11);
