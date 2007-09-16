@@ -1421,15 +1421,29 @@ if ($subpage == '')
     $file_stamp = date('d-M-Y | H:i',$files->getValue('updatedate')).'h';
     $file_updateuser = $files->getValue('updateuser');
 
-    // Eine beschreibende Spalte schätzen
+    // Eine titel Spalte schätzen
     $alt = '';
+    foreach(array('title', 'med_description') as $col)
+    {
+      if($files->hasValue($col) && $files->getValue($col) != '')
+      {
+        $alt = htmlspecialchars($files->getValue($col));
+        break;
+      }
+    }
+
+    // Eine beschreibende Spalte schätzen
+    $desc = '';
     foreach(array('med_description') as $col)
     {
       if($files->hasValue($col))
       {
-        $alt = htmlspecialchars($files->getValue($col));
+        $desc = htmlspecialchars($files->getValue($col));
+        break;
       }
     }
+    if($desc != '')
+      $desc .= '<br />';
 
     // wenn datei fehlt
     if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $file_name))
@@ -1489,7 +1503,7 @@ if ($subpage == '')
             <td class="rex-thumbnail"><a href="'.$ilink.'">'.$thumbnail.'</a></td>
             <td>
                 <span><a href="'.$ilink.'">'.$file_title.'</a></span>
-                <span>'. $alt .'<br /><strong>'.$file_name.' ['.$file_size.']</strong></span>
+                <span>'. $desc .'<strong>'.$file_name.' ['.$file_size.']</strong></span>
                 <span>'.$file_stamp .' | '. $file_updateuser.'</span>
             </td>
             <td>'.$opener_link.'</td>
