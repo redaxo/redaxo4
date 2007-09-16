@@ -1423,7 +1423,7 @@ if ($subpage == '')
 
     // Eine beschreibende Spalte schätzen
     $alt = '';
-    foreach(array('description') as $col)
+    foreach(array('med_description') as $col)
     {
       if($files->hasValue($col))
       {
