@@ -6,6 +6,22 @@
  * @version $Id$
  */
 
+class rex_event_select extends rex_select
+{
+  function rex_event_select($ASTATUS)
+  {
+    global $I18N;
+
+    parent::rex_select();
+
+    $this->setMultiple(1);
+    $this->addOption($ASTATUS[0] .' - '.$I18N->msg('action_event_add') ,1);
+    $this->addOption($ASTATUS[1] .' - '.$I18N->msg('action_event_edit') ,2);
+    $this->addOption($ASTATUS[2] .' - '.$I18N->msg('action_event_delete') ,4);
+    $this->setSize(3);
+  }
+}
+
 $OUT = TRUE;
 
 $action_id = rex_request('action_id', 'int');
@@ -128,37 +144,31 @@ if ($function == "add" or $function == "edit")
     {
       $legend = $I18N->msg('action_edit') . ' [ID=' . $action_id . ']';
 
-      $hole = new rex_sql;
-      $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
+      $action = new rex_sql;
+      $action->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
 
-      $name           = $hole->getValue('name');
-      $previewaction  = $hole->getValue('preview');
-      $presaveaction  = $hole->getValue('presave');
-      $postsaveaction = $hole->getValue('postsave');
-      $previewstatus  = $hole->getValue('previewmode');
-      $presavestatus  = $hole->getValue('presavemode');
-      $postsavestatus = $hole->getValue('postsavemode');
+      $name           = $action->getValue('name');
+      $previewaction  = $action->getValue('preview');
+      $presaveaction  = $action->getValue('presave');
+      $postsaveaction = $action->getValue('postsave');
+      $previewstatus  = $action->getValue('previewmode');
+      $presavestatus  = $action->getValue('presavemode');
+      $postsavestatus = $action->getValue('postsavemode');
     }
     else
     {
       $legend = $I18N->msg('action_create');
     }
 
-    $sel_preview_status = new rex_select();
-    $sel_preview_status->setMultiple(1);
-    $sel_preview_status->addOption($ASTATUS[0] .' - '.$I18N->msg('action_event_add') ,1);
-    $sel_preview_status->addOption($ASTATUS[1] .' - '.$I18N->msg('action_event_edit') ,2);
-    $sel_preview_status->addOption($ASTATUS[2] .' - '.$I18N->msg('action_event_delete') ,4);
-    $sel_preview_status->setSize(3);
-
+    $sel_preview_status = new rex_event_select($ASTATUS);
     $sel_preview_status->setName('previewstatus[]');
     $sel_preview_status->setId('previewstatus');
 
-    $sel_presave_status = $sel_preview_status;
+    $sel_presave_status = new rex_event_select($ASTATUS);
     $sel_presave_status->setName('presavestatus[]');
     $sel_presave_status->setId('presavestatus');
 
-    $sel_postsave_status = $sel_preview_status;
+    $sel_postsave_status = new rex_event_select($ASTATUS);
     $sel_postsave_status->setName('postsavestatus[]');
     $sel_postsave_status->setId('postsavestatus');
 
