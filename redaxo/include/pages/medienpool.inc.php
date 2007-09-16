@@ -1064,17 +1064,23 @@ if ($subpage == "detail")
       $Cat = OOMediaCategory::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
+      if($REX_USER->hasPerm('advancedMode[]'))
+      {
+        $ftitle .= ' ['. $file_id .']';
+        $catname .= ' ['. $rex_file_category .']';
+      }
+
       echo '<p class="rex-hdl">'. $I18N->msg('pool_file_details') . $opener_link.'</p>
             <div class="rex-mpl-dtl">
 				      <div class="rex-mpl-dtl-wrp">
             	  <div class="rex-mpl-dtl-edt"'.$style_width.'>
                 	<p>
                   		<label for="ftitle">Titel</label>
-                  		<span id="ftitle">'. htmlspecialchars($ftitle) .'&nbsp;</span>
+                  		<span id="ftitle">'. htmlspecialchars($ftitle) .'</span>
         					</p>
                 	<p>
                   		<label for="rex_file_new_category">'. $I18N->msg('pool_file_category') .'</label>
-                  		<span id="rex_file_new_category">'. $catname .'&nbsp;</span>
+                  		<span id="rex_file_new_category">'. $catname .'</span>
                 	</p>
                 	<p>
                   		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
@@ -1417,7 +1423,7 @@ if ($subpage == '')
 
     // Eine beschreibende Spalte schätzen
     $alt = '';
-    foreach(array('description', 'title') as $col)
+    foreach(array('description') as $col)
     {
       if($files->hasValue($col))
       {
@@ -1438,12 +1444,12 @@ if ($subpage == '')
       {
         $icon_src = 'media/mime-'. $file_ext .'.gif';
       }
-      $thumbnail = '<img src="'. $icon_src .'" width="44" height="38" alt="'. $alt .'" />';
+      $thumbnail = '<img src="'. $icon_src .'" width="44" height="38" alt="'. $alt .'" title="'. $alt .'" />';
 
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" />';
-        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80a__'.$file_name.'" alt="'. $alt .'" />';
+        $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80a__'.$file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
       }
     }
 
@@ -1452,6 +1458,7 @@ if ($subpage == '')
     $file_size = OOMedia::_getFormattedSize($size);
 
     if ($file_title == '') $file_title = '['.$I18N->msg('pool_file_notitle').']';
+    if($REX_USER->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
 
     // ----- opener
     $opener_link = '';
@@ -1482,7 +1489,7 @@ if ($subpage == '')
             <td class="rex-thumbnail"><a href="'.$ilink.'">'.$thumbnail.'</a></td>
             <td>
                 <span><a href="'.$ilink.'">'.$file_title.'</a></span>
-                <span><strong>'.$file_name.' ['.$file_size.']</strong></span>
+                <span>'. $alt .'<br /><strong>'.$file_name.' ['.$file_size.']</strong></span>
                 <span>'.$file_stamp .' | '. $file_updateuser.'</span>
             </td>
             <td>'.$opener_link.'</td>
