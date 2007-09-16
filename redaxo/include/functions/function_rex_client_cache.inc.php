@@ -96,7 +96,7 @@ function rex_send_etag($content)
   }
 
   // Sende CacheKey als ETag
-  header('ETag: ' . $cacheKey);
+  header('ETag: "' . $cacheKey .'"');
 }
 
 /**
