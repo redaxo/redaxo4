@@ -34,18 +34,10 @@ class OORedaxo
   {
     if ($params !== false)
     {
-      foreach (OORedaxo :: getClassVars('array') as $var)
+      foreach (OORedaxo :: getClassVars() as $var)
       {
-        if(is_array($var))
-        {
-          $class_var = '_'. $var[1];
-        	  if (isset($params[$var[0]])) $value = $params[$var[0]];
-        	  else $value = '';
-        }else
-        {
-	        $class_var = '_'.$var;
-	        $value = $params[$var];
-        }
+        $class_var = '_'.$var;
+        $value = $params[$var];
 
         $this->$class_var = $value;
       }
@@ -102,15 +94,15 @@ class OORedaxo
    * CLASS Function:
    * Returns an Array containing article field names
    */
-  function getClassVars($mode = '')
+  function getClassVars()
   {
     static $vars = array ();
 
-    if (empty($vars[$mode]))
+    if (empty($vars))
     {
       global $REX;
 
-      $vars[$mode] = array();
+      $vars = array();
 
       $file = $REX['INCLUDE_PATH']. '/generated/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
       if($REX['GG'] && file_exists($file))
@@ -124,48 +116,22 @@ class OORedaxo
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
         {
-          $vars[$mode][] = $name;
+          $vars[] = $name;
         }
       }
       else
       {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
-        $class_vars = get_class_vars('OORedaxo');
-
-        foreach ($class_vars as $name => $value)
+        $sql = new rex_sql();
+        $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article LIMIT 0');
+        foreach($sql->getFieldnames() as $field)
         {
-          if (substr($name, 0, 1) == '_')
-          {
-            $vars[$mode][] = substr($name, 1);
-          }
-        }
-
-        // ----- Extension Point
-        $new_vars = rex_register_extension_point('OOF_META_PARAMS', array());
-
-        foreach($new_vars as $name)
-        {
-          if(is_array($name))
-          {
-  //          if($mode === 'sql_alias')
-  //            $vars[$mode][] = $name[0] .' AS '.$name[1];
-  //          elseif($mode == 'alias')
-  //            $vars[$mode][] = $name[1];
-  //          else
-            if($mode == 'array')
-              $vars[$mode][] = $name;
-            else
-              $vars[$mode][] = $name[0];
-          }
-          else
-          {
-            $vars[$mode][] = $name;
-          }
+          $vars[] = $field;
         }
       }
     }
 
-    return $vars[$mode];
+    return $vars;
   }
 
   /*
