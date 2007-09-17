@@ -344,7 +344,7 @@ function rex_medienpool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediaca
 
 function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $I18N, $REX, $subpage, $ftitle;
+  global $I18N, $REX, $REX_USER, $subpage, $ftitle;
 
   $s = '';
 
@@ -376,9 +376,22 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   $add_file = '';
   if($file_chooser)
   {
+    $devInfos = '';
+    if($REX_USER->hasPerm('admin[]'))
+    {
+      $devInfos =
+      '<span>
+         Uploads: '. (rex_ini_get('file_uploads') == 1 ? 'On' : 'Off') .'<br />
+         Max-Upload-Time: '. rex_ini_get('max_input_time') .'s  <br />
+         Max-Upload-Size: '. OOMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
+         Upload-Temp-Dir: '. rex_ini_get('upload_tmp_dir') .'<br />
+       </span>';
+    }
+
     $add_file = '<p>
                    <label for="file_new">'.$I18N->msg('pool_file_file').'</label>
                    <input type="file" id="file_new" name="file_new" size="30" />
+                   '. $devInfos .'
                  </p>';
   }
 
