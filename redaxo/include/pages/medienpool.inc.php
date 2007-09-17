@@ -380,7 +380,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
     if($REX_USER->hasPerm('admin[]'))
     {
       $devInfos =
-      '<span>
+      '<span class="rex-notice">
          Uploads: '. (rex_ini_get('file_uploads') == 1 ? 'On' : 'Off') .'<br />
          Max-Upload-Time: '. rex_ini_get('max_input_time') .'s  <br />
          Max-Upload-Size: '. OOMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
