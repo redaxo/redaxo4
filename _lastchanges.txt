@@ -32,8 +32,6 @@ Planung / Irgendwann:
 ---------------------------------------------------------------------------------
 
   * Historie mit Rollback
-  * gzip komprimierte outputbuffer-handler ob_start("ob_gzhandler");
-
 
 ---------------------------------------------------------------------------------
 Bekannte Bugs:
