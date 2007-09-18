@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * Object Oriented Framework: Bildet eine Kategorie der Struktur ab
  * @package redaxo3
  * @version $Id$
@@ -21,10 +21,10 @@ class OOCategory extends OORedaxo
   function getCategoryById($category_id = false, $clang = false)
   {
     global $REX;
-    
+
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
-      
+
     return OOArticle :: getArticleById($category_id, $clang, true);
   }
 
@@ -35,10 +35,10 @@ class OOCategory extends OORedaxo
   function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
-    
+
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
-      
+
     $categorylist = $REX['INCLUDE_PATH']."/generated/articles/".$cat_parent_id.".".$clang.".clist";
 
     $catlist = array ();
@@ -48,7 +48,7 @@ class OOCategory extends OORedaxo
     	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
     	rex_generateLists($cat_parent_id);
     }
-    
+
     if (file_exists($categorylist))
     {
       include ($categorylist);
@@ -88,10 +88,10 @@ class OOCategory extends OORedaxo
   function getRootCategories($ignore_offlines = false, $clang = false)
   {
     global $REX;
-    
+
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
-      
+
     return OOCategory :: getChildrenById(0, $ignore_offlines, $clang);
   }
 
@@ -107,10 +107,10 @@ class OOCategory extends OORedaxo
   function getChildren($ignore_offlines = false, $clang = false)
   {
     global $REX;
-    
+
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
-      
+
     return OOCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
 
@@ -163,9 +163,9 @@ class OOCategory extends OORedaxo
    * all articles with status 0 will be
    * excempt from this list!
    */
-  function getArticles($ignore_offlines = false, $clang = false)
+  function getArticles($ignore_offlines = false)
   {
-    return OOArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $clang);
+    return OOArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
   }
 
   /*
@@ -174,7 +174,7 @@ class OOCategory extends OORedaxo
    */
   function getStartArticle()
   {
-    return OOArticle :: getCategoryStartArticle($this->_id);
+    return OOArticle :: getCategoryStartArticle($this->_id, $this->_clang);
   }
 
   /*
@@ -186,7 +186,7 @@ class OOCategory extends OORedaxo
     return $this->_catname;
   }
 
-  function & _getCategoryObject($category)
+  function & _getCategoryObject($category, $clang = false)
   {
     if (is_object($category))
     {
@@ -194,14 +194,14 @@ class OOCategory extends OORedaxo
     }
     elseif (is_int($category))
     {
-      return OOCategory :: getCategoryById($category);
+      return OOCategory :: getCategoryById($category, $clang);
     }
     elseif (is_array($category))
     {
       $catlist = array ();
       foreach ($category as $cat)
       {
-        $catobj = OOCategory :: _getCategoryObject($cat);
+        $catobj = OOCategory :: _getCategoryObject($cat, $clang);
         if (is_object($catobj))
         {
           $catlist[] = $catobj;
