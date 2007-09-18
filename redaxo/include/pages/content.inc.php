@@ -446,14 +446,13 @@ if ($article->getRows() == 1)
         {
           $message = $I18N->msg('content_tostartarticle_failed');
         }
-        $function = '';
       }
     }
     // ------------------------------------------ END: COPY LANG CONTENT
 
 
     // ------------------------------------------ START: COPY LANG CONTENT
-    if ($function == 'copycontent')
+    if (rex_post('copycontent', 'string'))
     {
       if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('copyContent[]'))
       {
