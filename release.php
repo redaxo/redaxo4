@@ -37,6 +37,7 @@ else
  * Vorgehensweise des release-scripts:
  *  - Ordnerstruktur kopieren nach release/redaxo_<Datum>
  *  - Dateien kopieren
+ *  - Sprachdateien zu UTF-8 konvertieren
  *  - CVS Ordner loeschen
  *  - master.inc.php anpassen
  *  - functions.inc.php die compat klasse wird einkommentiert
@@ -103,7 +104,15 @@ function buildRelease($name = null, $version = null)
     foreach($content as $dir)
     {
       if(is_file($path.'/'.$dir))
+      {
         copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
+
+        if(substr($dir, -5) == '.lang' && substr($dir, -9) != 'utf8.lang')
+        {
+          echo '> convert file '. $dir .' to utf-8'."\n";
+          buildUtf8LangFile( $dest .'/'. $path.'/'.$dir);
+        }
+      }
       elseif(is_dir($path.'/'.$dir))
         mkdir($dest .'/'. $path.'/'.$dir);
     }
@@ -351,5 +360,25 @@ function _readFolderStructure($dir, $except, & $result)
 function sortFolderStructure($path1, $path2)
 {
   return strlen($path1) > strlen($path2) ? 1 : -1;
+}
+
+function buildUtf8LangFile($langFile)
+{
+  $content = '';
+  if($hdl = fopen($langFile, 'r'))
+  {
+    $content = fread($hdl, filesize($langFile));
+    fclose($hdl);
+
+    // Charset auf UTF-8 ändern
+    $content = preg_replace('/^htmlcharset = (.*)$/m', 'htmlcharset = utf-8', $content);
+  }
+
+  $utf8File = str_replace('.lang', '_utf8.lang', $langFile);
+  if($hdl = fopen($utf8File, 'w+'))
+  {
+    fwrite($hdl, iconv(iconv_get_encoding($content), 'UTF-8', $content));
+    fclose($hdl);
+  }
 }
 ?>
