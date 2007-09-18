@@ -56,6 +56,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
   $mlist_id = 1;
   $link_id  = 1;
 
+  $sqlFields->reset();
   for($i = 0; $i < $sqlFields->getRows(); $i++)
   {
     // Umschliessendes Tag von Label und Formularelement
