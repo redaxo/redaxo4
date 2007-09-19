@@ -34,6 +34,7 @@ ALTER TABLE `rex_action` ADD `preview` TEXT NOT NULL, ADD `presave` TEXT NOT NUL
 ALTER TABLE `rex_action` DROP `action`, DROP `prepost`, DROP `sadd`, DROP `sedit`, DROP `sdelete`;
 ALTER TABLE `rex_action` ADD `createuser` VARCHAR(255) NOT NULL, ADD `createdate` INT NOT NULL, ADD `updateuser` VARCHAR(255) NOT NULL, ADD `updatedate` INT NOT NULL;
 ALTER TABLE `rex_user` ADD `cookiekey` varchar(255);
+ALTER TABLE `rex_article_slice` ADD `next_article_slice_id` int(11);
 ALTER TABLE `rex_action` ADD `revision` int(11);
 ALTER TABLE `rex_article` ADD `revision` int(11);
 ALTER TABLE `rex_article_slice` ADD `revision` int(11);
