@@ -33,6 +33,18 @@ class rex_var_value extends rex_var
     return $REX_ACTION;
   }
 
+  function getACDatabaseValues($REX_ACTION, & $sql)
+  {
+    for ($i = 1; $i < 21; $i++)
+    {
+      $REX_ACTION['VALUE'][$i] = $this->getValue($sql, 'value'. $i);
+    }
+    $REX_ACTION['PHP'] = $this->getValue($sql, 'php');
+    $REX_ACTION['HTML'] = $this->getValue($sql, 'html');
+
+    return $REX_ACTION;
+  }
+
   function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     global $REX;

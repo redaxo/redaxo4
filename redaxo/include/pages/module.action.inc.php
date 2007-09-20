@@ -8,17 +8,18 @@
 
 class rex_event_select extends rex_select
 {
-  function rex_event_select($ASTATUS)
+  function rex_event_select($options)
   {
     global $I18N;
 
     parent::rex_select();
 
     $this->setMultiple(1);
-    $this->addOption($ASTATUS[0] .' - '.$I18N->msg('action_event_add') ,1);
-    $this->addOption($ASTATUS[1] .' - '.$I18N->msg('action_event_edit') ,2);
-    $this->addOption($ASTATUS[2] .' - '.$I18N->msg('action_event_delete') ,4);
-    $this->setSize(3);
+
+    foreach($options as $key => $value)
+      $this->addOption($value, $key);
+
+    $this->setSize(count($options));
   }
 }
 
@@ -28,7 +29,7 @@ $action_id = rex_request('action_id', 'int');
 $function = rex_request('function', 'string');
 
 $action_in_use_msg = '';
-if ($function == "delete")
+if ($function == 'delete')
 {
   $del = new rex_sql;
 //  $del->debugsql = true;
@@ -160,15 +161,28 @@ if ($function == "add" or $function == "edit")
       $legend = $I18N->msg('action_create');
     }
 
-    $sel_preview_status = new rex_event_select($ASTATUS);
+    // PreView action macht nur beim edit Sinn da,
+    // - beim Delete kommt keine View
+    // - beim Add sind noch keine Werte vorhanden, welche man verarbeiten könnte
+    $options = array(
+      2 => $ASTATUS[1] .' - '.$I18N->msg('action_event_edit')
+    );
+
+    $sel_preview_status = new rex_event_select($options, false);
     $sel_preview_status->setName('previewstatus[]');
     $sel_preview_status->setId('previewstatus');
 
-    $sel_presave_status = new rex_event_select($ASTATUS);
+    $options = array(
+      1 => $ASTATUS[0] .' - '.$I18N->msg('action_event_add'),
+      2 => $ASTATUS[1] .' - '.$I18N->msg('action_event_edit'),
+      4 => $ASTATUS[2] .' - '.$I18N->msg('action_event_delete')
+    );
+
+    $sel_presave_status = new rex_event_select($options);
     $sel_presave_status->setName('presavestatus[]');
     $sel_presave_status->setId('presavestatus');
 
-    $sel_postsave_status = new rex_event_select($ASTATUS);
+    $sel_postsave_status = new rex_event_select($options);
     $sel_postsave_status->setName('postsavestatus[]');
     $sel_postsave_status->setId('postsavestatus');
 

@@ -217,7 +217,8 @@ if ($article->getRows() == 1)
 
               $newsql = new rex_sql;
               // $newsql->debugsql = true;
-              $newsql->setTable($REX['TABLE_PREFIX'] . 'article_slice');
+              $sliceTable = $REX['TABLE_PREFIX'] . 'article_slice';
+              $newsql->setTable($sliceTable);
 
               if ($function == 'edit')
               {
@@ -227,11 +228,11 @@ if ($article->getRows() == 1)
               elseif ($function == 'add')
               {
                 // add
-                $newsql->setValue('re_article_slice_id', $slice_id);
-                $newsql->setValue('article_id', $article_id);
-                $newsql->setValue('modultyp_id', $module_id);
-                $newsql->setValue('clang', $clang);
-                $newsql->setValue('ctype', $ctype);
+                $newsql->setValue($sliceTable .'.re_article_slice_id', $slice_id);
+                $newsql->setValue($sliceTable .'.article_id', $article_id);
+                $newsql->setValue($sliceTable .'.modultyp_id', $module_id);
+                $newsql->setValue($sliceTable .'.clang', $clang);
+                $newsql->setValue($sliceTable .'.ctype', $ctype);
               }
 
               // ****************** SPEICHERN FALLS NOETIG

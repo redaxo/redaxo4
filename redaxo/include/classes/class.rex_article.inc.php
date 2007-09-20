@@ -395,6 +395,7 @@ class rex_article
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,
+                'module_id' => $RE_MODUL_ID[$I_ID],
                 'slice_id' => $RE_CONTS[$I_ID]
                 )
               );
@@ -417,10 +418,30 @@ class rex_article
               {
                 // **************** Aktueller Slice
 
+
                 // ----- PRE VIEW ACTION [ADD/EDIT/DELETE]
+                $REX_ACTION = array ();
 
-                global $REX_ACTION;
+                // nach klick auf den übernehmen button,
+                // die POST werte übernehmen
+                if(rex_request('btn_update', 'string'))
+                {
+                  foreach ($REX['VARIABLES'] as $obj)
+                  {
+                    $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
+                  }
+                }
+                // Sonst die Werte aus der DB holen
+                // (1. Aufruf via Editieren Link)
+                else
+                {
+                  foreach ($REX['VARIABLES'] as $obj)
+                  {
+                    $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $this->CONT);
+                  }
+                }
 
+                // TODO: PreviewActions gibts nur im EditMode...?
                 if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
                 elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
                 else $modebit = '1'; // pre-action and add
@@ -451,7 +472,7 @@ class rex_article
 
                 // ----- / PRE VIEW ACTION
 
-                $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID]);
+                $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID], $RE_MODUL_ID[$I_ID]);
               }
               else
               {
@@ -634,7 +655,7 @@ class rex_article
               '. $MOD->getValue("eingabe") .'
             </div></div>
             <p class="rex-sbmt">
-              <input type="submit" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
+              <input type="submit" name="btn_save" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
             </p>
           </fieldset>
         </form>
@@ -666,7 +687,7 @@ class rex_article
   }
 
   // ----- EDIT Slice
-  function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE)
+  function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
   {
     global $REX, $I18N;
 
@@ -680,6 +701,7 @@ class rex_article
           <input type="hidden" name="mode" value="'.$this->mode.'" />
           <input type="hidden" name="slice_id" value="'.$RE_CONTS.'" />
           <input type="hidden" name="ctype" value="'.$RE_CTYPE.'" />
+          <input type="hidden" name="module_id" value="'. $RE_MODUL_ID .'" />
           <input type="hidden" name="function" value="edit" />
           <input type="hidden" name="save" value="1" />
           <input type="hidden" name="update" value="0" />

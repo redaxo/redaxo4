@@ -26,6 +26,16 @@ class rex_var_link extends rex_var
     return $REX_ACTION;
   }
 
+  function getACDatabaseValues($REX_ACTION, & $sql)
+  {
+    for ($i = 1; $i < 11; $i++)
+    {
+      $REX_ACTION['LINK'][$i] = $this->getValue($sql, 'link'. $i);
+    }
+
+    return $REX_ACTION;
+  }
+
   function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     global $REX;

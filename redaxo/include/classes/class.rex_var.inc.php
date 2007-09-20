@@ -2,7 +2,7 @@
 
 
 /**
- * Abtrackte Basisklasse für REX_VARS innerhalb der Module
+ * Abtrackte Basisklasse für REX_VARS
  * @package redaxo3
  * @version $Id$
  */
@@ -32,6 +32,16 @@ class rex_var
 
   /**
    * Actionmethode:
+   * Zum füllen des $REX_ACTION Arrays aus der Datenbank (rex_sql)
+   * @return REX_ACTION Array
+   */
+  function getACDatabaseValues($REX_ACTION, & $sql)
+  {
+    return $REX_ACTION;
+  }
+
+  /**
+   * Actionmethode:
    * Ersetzen der Werte in dem Aktionsscript
    * @return output String
    */
@@ -47,7 +57,7 @@ class rex_var
   /**
    * Ausgabe eines Modules fürs Frontend
    * sql Objekt mit der passenden Slice
-   * 
+   *
    * FE = Frontend
    */
   function getFEOutput(& $sql, $content)
@@ -58,7 +68,7 @@ class rex_var
   /**
    * Ausgabe eines Modules im Backend bei der Ausgabe
    * sql Objekt mit der passenden Slice
-   * 
+   *
    * BE = Backend
    */
   function getBEOutput(& $sql, $content)
@@ -69,14 +79,14 @@ class rex_var
   /**
    * Ausgabe eines Modules im Backend bei der Eingabe
    * sql Objekt mit der passenden Slice
-   * 
+   *
    * BE = Backend
    */
   function getBEInput(& $sql, $content)
   {
     return $this->getBEOutput($sql, $content);
   }
-  
+
   /**
    * Ausgabe eines Templates
    */
@@ -96,9 +106,9 @@ class rex_var
   }
 
   /**
-   * GetValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und 
+   * GetValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
-   * Spalten unterschiedlicher Tabellen enthält. 
+   * Spalten unterschiedlicher Tabellen enthält.
    */
   function getValue(& $sql, $value)
   {
@@ -106,9 +116,9 @@ class rex_var
     return $sql->getValue($REX['TABLE_PREFIX'] . 'article_slice.' . $value);
   }
   /**
-   * setValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und 
+   * setValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
-   * Spalten unterschiedlicher Tabellen enthält. 
+   * Spalten unterschiedlicher Tabellen enthält.
    */
   function setValue(& $sql, $fieldname, $value)
   {
@@ -222,7 +232,7 @@ class rex_var
       {
       	if(empty($part))
       		continue;
-      		
+
         $variable = explode('=', $part);
         $var_name = $variable[0];
         $var_value = $variable[1];
