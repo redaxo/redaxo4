@@ -195,7 +195,7 @@ class rex_sql
     {
       $trace = debug_backtrace();
       $loc = $trace[0];
-      echo '<b>Warning</b>:  mysql_result(): Error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+      echo '<b>Warning</b>:  mysql_result('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
     }
     return $res;
   }
@@ -608,5 +608,11 @@ class rex_sql
         mysql_close($db->identifier);
     }
   }
+
+  function isValid($object)
+  {
+    return is_object($object) && is_a($object, 'rex_sql');
+  }
 }
+
 ?>
