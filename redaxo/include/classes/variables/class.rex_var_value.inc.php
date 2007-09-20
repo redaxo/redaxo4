@@ -51,22 +51,11 @@ class rex_var_value extends rex_var
 
     for ($i = 1; $i < 21; $i++)
     {
-      if ($escape)
-        $this->setValue($sql, 'value' . $i, addslashes($REX_ACTION['VALUE'][$i]));
-      else
-        $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i]);
+      $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i], $escape);
     }
 
-    if ($escape)
-    {
-      $this->setValue($sql, 'php', addslashes($REX_ACTION['PHP']));
-      $this->setValue($sql, 'html', addslashes($REX_ACTION['HTML']));
-    }
-    else
-    {
-      $this->setValue($sql, 'php', $REX_ACTION['PHP']);
-      $this->setValue($sql, 'html', $REX_ACTION['HTML']);
-    }
+    $this->setValue($sql, 'php', $REX_ACTION['PHP'], $escape);
+    $this->setValue($sql, 'html', $REX_ACTION['HTML'], $escape);
   }
 
   // --------------------------------- Output

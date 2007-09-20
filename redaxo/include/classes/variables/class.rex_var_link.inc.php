@@ -39,12 +39,10 @@ class rex_var_link extends rex_var
   function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     global $REX;
+
     for ($i = 1; $i < 11; $i++)
     {
-      if ($escape)
-        $this->setValue($sql, 'link'. $i, addslashes($REX_ACTION['LINK'][$i]));
-      else
-        $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i]);
+      $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i], $escape);
     }
   }
 

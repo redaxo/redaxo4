@@ -33,9 +33,9 @@ class rex_var_globals extends rex_var
 
   function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
-    $this->setValue($sql, 'id', $REX_ACTION['SLICE_ID']);
-    $this->setValue($sql, 'ctype', $REX_ACTION['CTYPE_ID']);
-    $this->setValue($sql, 'modultyp_id', $REX_ACTION['MODULE_ID']);
+    $this->setValue($sql, 'id', $REX_ACTION['SLICE_ID'], $escape);
+    $this->setValue($sql, 'ctype', $REX_ACTION['CTYPE_ID'], $escape);
+    $this->setValue($sql, 'modultyp_id', $REX_ACTION['MODULE_ID'], $escape);
   }
 
   // --------------------------------- Output
