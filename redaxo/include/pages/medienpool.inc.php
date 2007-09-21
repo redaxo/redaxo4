@@ -1209,7 +1209,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     }
 
     echo '<li>
-            <input class="rex-chckbx" type="checkbox" name="checkie" id="checkie" value="0" onClick="SetAllCheckBoxes(\'sync_files[]\',this)" />
+            <input class="rex-chckbx" type="checkbox" name="checkie" id="checkie" value="0" onchange="SetAllCheckBoxes(\'sync_files[]\',this)" />
             <label for="checkie">'. $I18N->msg('pool_select_all') .'</label>
           </li>';
 
