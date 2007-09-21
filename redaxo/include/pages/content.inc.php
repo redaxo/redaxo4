@@ -599,8 +599,9 @@ if ($article->getRows() == 1)
         {
         	$class = ' class="rex-active"';
         }
-
-        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . htmlspecialchars($val) . '</a>';
+        
+        $val = rex_translate($val);
+        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
 
         if ($num_ctypes != $i)
         {
@@ -785,9 +786,10 @@ if ($article->getRows() == 1)
           $lang_a->setName('clang_a');
           $lang_a->setSize('1');
           $lang_a->setAttribute('tabindex', rex_tabindex(false));
-          foreach ($REX['CLANG'] as $val => $key)
+          foreach ($REX['CLANG'] as $key => $val)
           {
-            $lang_a->addOption($key, $val);
+            $val = rex_translate($val);
+            $lang_a->addOption($val, $key);
           }
 
           $lang_b = new rex_select;
@@ -795,11 +797,12 @@ if ($article->getRows() == 1)
           $lang_b->setName('clang_b');
           $lang_b->setSize('1');
           $lang_b->setAttribute('tabindex', rex_tabindex(false));
-          foreach ($REX['CLANG'] as $val => $key)
+          foreach ($REX['CLANG'] as $key => $val)
           {
-            $lang_b->addOption($key, $val);
+            $val = rex_translate($val);
+            $lang_b->addOption($val, $key);
           }
-
+          
           $lang_a->setSelected(rex_request('clang_a', 'int', null));
           $lang_b->setSelected(rex_request('clang_b', 'int', null));
 

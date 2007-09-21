@@ -27,6 +27,8 @@ if ($num_clang>1)
    foreach($REX['CLANG'] as $key => $val)
    {
     echo '<li>';
+    
+    $val = rex_translate($val);
 
 		if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm('clang[all]') && !$REX_USER->hasPerm('clang['. $key .']'))
 		{

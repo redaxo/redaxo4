@@ -21,6 +21,7 @@ Todos:
     * Template fest zu Kategorien zuweisen können
     * Default Templates festlegbar machen
   * Umbau des Statistiktools.
+    * Auswertung via Datenbank vornehmen?
     * Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
     * Fehler bei URLs mit $ z.b. $_POST .. Referer ..
   * Wenn viele Artikel in einer Kategorie: Automatische Blätternaktivierung
@@ -37,8 +38,6 @@ Planung / Irgendwann:
 Bekannte Bugs:
 ---------------------------------------------------------------------------------
 
-  * Umbau des Statistiktools. Wenn Scripttime zuende da weitermachen wo es aufgehört hat.
-  * Import/Export klappt nicht auf jedem. Verschiedene System austesten und Liste der Fehler hier auflisten.
   * Mac/Safari
   * Medienpool "+" Problem
   * EditierModul "hoch runter" verrutscht
@@ -56,6 +55,7 @@ Wichtige Änderungen:
   * TinyMCE entfernt und als Addon wieder eingebaut [kills]
   * PHPMailer entfernt und als Addon wieder eingebaut [kills]
   * Metafelder entfernt und als Addon wieder eingebaut [kills]
+  * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade! [kills, jan]
 
 
 ---------------------------------------------------------------------------------
@@ -63,7 +63,8 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 3.3 (2007-XX-XX)
-  * Templates on the fly. Werden beim Aufruf generiert [jan]
+  * CLANG/CTYPE wird via I18N->msg aufgerufen, wenn translate: als prefix gesetzt ist (rex_translate) [kills]
+  * Templates/Artikel on the fly. Werden beim Aufruf generiert [jan]
   * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]
   * Accesskey eingeführt [tab]
     - $REX['ACKEY']['SAVE'] = 's';
@@ -74,7 +75,6 @@ Version 3.3 (2007-XX-XX)
     - $REX['ACKEY']['LOGOUT'] = 'l';
     - sowie die Zahlen 1-7 für die Standardseiten
   * Creditseite eingeführt [jan]
-  * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade! [kills, jan]
   * MINI API
     - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen [jan]
   * Artikel muss nun ein Template haben um ausgegeben zu werden. [jan]

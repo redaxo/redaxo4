@@ -72,16 +72,9 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dbvalues = array('');
     if($activeItem)
       $dbvalues = explode('|+|', $activeItem->getValue($name));
-
+      
     if($title != '')
-    {
-      $tranKey = 'translate:';
-      $transKeyLen = strlen($tranKey);
-      if(substr($title, 0, $transKeyLen) == $tranKey)
-        $label = htmlspecialchars($I18N->msg(substr($title, $transKeyLen)));
-      else
-        $label = htmlspecialchars($title);
-    }
+      $label = rex_translate($title);
     else
       $label = htmlspecialchars($name);
 
