@@ -15,7 +15,13 @@ class rex_var_globals extends rex_var
 
   function getACRequestValues($REX_ACTION)
   {
-    $REX_ACTION['SLICE_ID'] = rex_request('slice_id', 'int');
+    // SLICE ID nur im Update Mode setzen
+    if($this->isEditEvent())
+      $REX_ACTION['SLICE_ID'] = rex_request('slice_id', 'int');
+    // Im Add Mode 0 setze wg auto-increment
+    else
+      $REX_ACTION['SLICE_ID'] = 0;
+       
     $REX_ACTION['CTYPE_ID'] = rex_request('ctype', 'int');
     $REX_ACTION['MODULE_ID'] = rex_request('module_id', 'int');
 

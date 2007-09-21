@@ -254,5 +254,20 @@ class rex_var
     }
     return $result;
   }
+  
+  function isAddEvent()
+  {
+    return !$this->isEditEvent();
+  }
+  
+  function isEditEvent()
+  {
+    return rex_request('btn_update', 'string') != '';
+  }
+  
+  function isDeleteEvent()
+  {
+    return rex_request('function', 'string') == 'delete';
+  }
 }
 ?>
