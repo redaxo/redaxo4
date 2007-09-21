@@ -35,8 +35,9 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
+  $filesize = filesize($filename);
   $h = fopen($filename, 'r');
-  $conts = fread($h, filesize($filename));
+  $conts = fread($h, $filesize);
   fclose($h);
 
   // Versionsstempel prüfen
@@ -75,13 +76,19 @@ function rex_a1_import_db($filename)
     $conts = preg_replace('/(EXISTS )'. preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
   }
 
-  // Ordner /generated komplett leeren
+  // Inhalt der /generated Ordner komplett leeren
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
 
   // ----- EXTENSION POINT
-  $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg);
+  $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg, 
+   array(
+     'content' => $conts,
+     'filename' => $filename,
+     'filesize' => $filesize
+   )
+  );
 
   // Datei aufteilen
   $lines = explode("\n", $conts);
@@ -168,7 +175,13 @@ function rex_a1_import_db($filename)
   if($error == '')
   {
     // ----- EXTENSION POINT
-    $msg = rex_register_extension_point('A1_AFTER_DB_IMPORT', $msg);
+    $msg = rex_register_extension_point('A1_AFTER_DB_IMPORT', $msg,
+     array(
+       'content' => $conts,
+       'filename' => $filename,
+       'filesize' => $filesize
+     )
+    );
     $msg .= rex_generateAll();
     $return['state'] = true;
   }
