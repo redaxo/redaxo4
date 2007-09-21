@@ -18,9 +18,10 @@ $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "3";
 $REX['SUBVERSION'] = "3";
+$REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20070826190640";
+$REX['INSTNAME'] = "rex20070916171441";
 
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
