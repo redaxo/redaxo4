@@ -13,7 +13,7 @@
  * @version $Id$
  */
 
-rex_deleteDir('../files/tinymce', true);
+rex_deleteDir('../files/tmp_/tinymce', true);
 
 $REX['ADDON']['install']['tinymce'] = 0;
 ?>
