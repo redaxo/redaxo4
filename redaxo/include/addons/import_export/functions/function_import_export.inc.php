@@ -77,12 +77,10 @@ function rex_a1_import_db($filename)
   }
 
   // Inhalt der /generated Ordner komplett leeren
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles');
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files');
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates');
+  rex_generateAll();
 
   // ----- EXTENSION POINT
-  $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg, 
+  $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg,
    array(
      'content' => $conts,
      'filename' => $filename,
