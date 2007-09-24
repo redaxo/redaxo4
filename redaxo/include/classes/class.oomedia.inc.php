@@ -111,7 +111,7 @@ class OOMedia
     $media = new OOMedia();
     foreach($sql->getFieldNames() as $fieldName)
     {
-      if(in_array($fieldName, $aliasMap))
+      if(in_array($fieldName, array_keys($aliasMap)))
         $var_name = '_'. $aliasMap[$fieldName];
       else
         $var_name = '_'. $fieldName;
