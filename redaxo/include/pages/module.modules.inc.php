@@ -43,9 +43,9 @@ elseif (isset($function_action) and $function_action == 'delete')
 if ($function == 'delete')
 {
   $del = new rex_sql;
-  $del->setQuery("SELECT DISTINCT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."module.name FROM ".$REX['TABLE_PREFIX']."article_slice
+  $del->setQuery("SELECT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."article_slice.clang, ".$REX['TABLE_PREFIX']."article_slice.ctype, ".$REX['TABLE_PREFIX']."module.name FROM ".$REX['TABLE_PREFIX']."article_slice
       LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
-      WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
+      WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id' GROUP BY ".$REX['TABLE_PREFIX']."article_slice.article_id");
 
   if ($del->getRows() >0)
   {
@@ -53,8 +53,17 @@ if ($function == 'delete')
     $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module.name"));
     for ($i=0; $i<$del->getRows(); $i++)
     {
-     $module .= '<li><a href="index.php?page=content&amp;article_id='.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'">'.$del->getValue($REX['TABLE_PREFIX']."article_slice.article_id").'</a></li>';
-     $del->next();
+      $aid = $del->getValue($REX['TABLE_PREFIX']."article_slice.article_id");
+      $clang_id = $del->getValue($REX['TABLE_PREFIX']."article_slice.clang");
+      $ctype = $del->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
+      $OOArt = OOArticle::getArticleById($aid, $clang_id);
+
+      $label = $OOArt->getName() .' ['. $aid .']';
+      if(count($REX['CLANG']) > 1)
+        $label = '('. rex_translate($REX['CLANG'][$clang_id]) .') '. $label;
+
+      $module .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">- '. $label .'</a></li>';
+      $del->next();
     }
 
     if($module != '')
