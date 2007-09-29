@@ -246,6 +246,34 @@ class thumbnail
   	}
   }
 
+  // deleteCache
+  function deleteCache($filename = "")
+  {
+  	global $REX;
+  	$c = 0;
+  	include_once $REX['INCLUDE_PATH'] . '/addons/image_resize/functions/function_folder.inc.php';
+	  $folder = $REX['INCLUDE_PATH'] . '/generated/files/';
+	  $files = readFolderFiles($folder);
+	  if (is_array($files))
+	  {
+	    foreach ($files as $var)
+	    {
+	      if (eregi('^' . $REX['TEMP_PREFIX'] . 'cache_resize___', $var))
+	      {
+	      	if ($filename == "")
+	      	{
+	      		unlink($folder . $var);
+	      		$c++;
+	      	}elseif($filename == substr($var,strlen($filename)*-1))
+	      	{ 
+	      		unlink($folder . $var);
+	      		$c++;
+	      	}
+	      }
+	    }
+	  }
+	  return $c;
+  }
 
 }
 ?>

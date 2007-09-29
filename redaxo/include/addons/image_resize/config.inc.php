@@ -28,13 +28,22 @@ $REX['ADDON']['system'][$mypage] = TRUE;
 $REX['ADDON']['version'][$mypage] = "1.0";
 $REX['ADDON']['author'][$mypage] = "Wolfgang Hutteger, Markus Staab, Jan Kristinus";
 // $REX['ADDON']['supportpage'][$mypage] = "";
-
 $REX['PERM'][] = 'image_resize[]';
+
+include ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
 
 if ($REX['GG'])
 {
   require $REX['INCLUDE_PATH'].'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
+}else
+{
+	// Bei Update Cache löschen
+	rex_register_extension('MEDIA_UPDATED', 'rex_image_ep_mediaupdated');
+	function rex_image_ep_mediaupdated($params){
+		thumbnail::deleteCache($params["filename"]);
+	}
 }
+
 
 // Resize Script
 $rex_resize = rex_get('rex_resize', 'string');
@@ -83,7 +92,6 @@ if ($rex_resize != '')
     // cache is newer? - show cache
     if ($cachetime > $filetime)
     {
-      include ($REX['HTDOCS_PATH'].'redaxo/include/addons/image_resize/classes/class.thumbnail.inc.php');
       $thumb = new thumbnail($cachepath);
       $thumb->send($cachepath, $cachetime);
       exit;
@@ -113,8 +121,6 @@ if ($rex_resize != '')
     print 'Error size to big: max '.$REX['ADDON']['max_size'][$mypage].' px';
     exit;
   }
-
-  include ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
 
   // start thumb class
   $thumb = new thumbnail($imagepath);
