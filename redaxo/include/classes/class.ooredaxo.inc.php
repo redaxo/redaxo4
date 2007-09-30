@@ -303,7 +303,7 @@ class OORedaxo
    */
   function hasTemplate()
   {
-    return $this->_template_id == 0;
+  	return $this->_template_id > 0 ? true : false;
   }
 
   /*
