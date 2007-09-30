@@ -21,6 +21,7 @@ class thumbnail
   var $gifsupport;
   var $imgfile;
   var $filters;
+  var $warning_image;
 
   function thumbnail($imgfile)
   {
@@ -37,39 +38,38 @@ class thumbnail
     $this->img['format'] = strtoupper($this->img['format']);
     if (!eregi('cache/', $imgfile))
     {
+    	$make = false;
       if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
       {
         // --- JPEG
         $this->img['format'] = 'JPEG';
-        $this->img['src'] = ImageCreateFromJPEG($imgfile);
-
-      }
-      elseif ($this->img['format'] == 'PNG')
+        if ($this->img['src'] = @ImageCreateFromJPEG($imgfile)) $make = true;
+      }elseif ($this->img['format'] == 'PNG')
       {
         // --- PNG
-        $this->img['format'] = 'PNG';
-        $this->img['src'] = ImageCreateFromPNG($imgfile);
-
-      }
-      elseif ($this->img['format'] == 'GIF')
+        if ($this->img['src'] = @ImageCreateFromPNG($imgfile)) $make = true;
+      }elseif ($this->img['format'] == 'GIF')
       {
         // --- GIF
-        $this->img['format'] = 'GIF';
         if ($this->gifsupport)
-          $this->img['src'] = ImageCreateFromGIF($imgfile);
-
-      }
-      elseif ($this->img['format'] == 'WBMP')
+          if ($this->img['src'] = @ImageCreateFromGIF($imgfile)) $make = true;
+      }elseif ($this->img['format'] == 'WBMP')
       {
         // --- WBMP
-        $this->img['format'] = 'WBMP';
-        $this->img['src'] = ImageCreateFromWBMP($imgfile);
-
+        if ($this->img['src'] = @ImageCreateFromWBMP($imgfile)) $make = true;
       }
-      else
+      
+      if (!$make)
       {
         // --- DEFAULT
-        echo 'Not Supported File';
+        global $REX;
+				$file = $REX['INCLUDE_PATH'].'/addons/image_resize/media/warning.jpg';
+        header('Content-Type: image/JPG');
+		    // header('Last-Modified: ' . $lastModified);
+		    // caching clientseitig/proxieseitig erlauben
+		    header('Cache-Control: public');
+		    readfile($file);
+        // echo 'Not Supported File';
         exit ();
       }
 
@@ -82,6 +82,11 @@ class thumbnail
       $this->img['quality'] = 75;
       $this->filters = array();
     }
+  }
+
+  function showWarning()
+  {
+  	
   }
 
   function size_height($size)
@@ -107,14 +112,14 @@ class thumbnail
     if ($this->img['width'] >= $this->img['height'])
     {
       $this->size_width($size);
-      //      $this->img['width_thumb'] = $size;
-      //      $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
+      // $this->img['width_thumb'] = $size;
+      // $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
     }
     else
     {
       $this->size_height($size);
-      //      $this->img['height_thumb'] = $size;
-      //      $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
+      // $this->img['height_thumb'] = $size;
+      // $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
     }
   }
 
@@ -130,14 +135,14 @@ class thumbnail
     // Es muss an der Breite beschnitten werden
     if ($width_ratio > $height_ratio)
     {
-      //      $_DST['offset_w'] = round(($this->img['width']-$this->img['width_thumb']*$height_ratio)/2);
+      // $_DST['offset_w'] = round(($this->img['width']-$this->img['width_thumb']*$height_ratio)/2);
       $this->img['width_offset_thumb'] = round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2);
       $this->img['width'] = round($this->img['width_thumb'] * $height_ratio);
     }
     // es muss an der Höhe beschnitten werden
     elseif ($width_ratio < $height_ratio)
     {
-      //      $_DST['offset_h'] = round(($this->img['height']-$this->img['height_thumb']*$width_ratio)/2);
+      // $_DST['offset_h'] = round(($this->img['height']-$this->img['height_thumb']*$width_ratio)/2);
       $this->img['height_offset_thumb'] = round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2);
       $this->img['height'] = round($this->img['height_thumb'] * $width_ratio);
     }
