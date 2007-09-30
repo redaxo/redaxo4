@@ -440,6 +440,8 @@ pool_file_get = Datei übernehmen
 pool_last_update = Letztes Update
 pool_created = Erstellt am
 pool_select_all = Alle markieren
+pool_max_uploadsize = Maximale Uploadgröße
+
 
 # redaxo/include/pages
 setup = Setup

@@ -377,14 +377,16 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   if($file_chooser)
   {
     $devInfos = '';
-    if($REX_USER->hasPerm('admin[]'))
+    if($REX_USER->hasPerm('advancedMode[]'))
     {
       $devInfos =
       '<span class="rex-notice">
+         <span>'.$I18N->msg('pool_max_uploadsize').':</span> '. OOMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'
+
+         <!-- Upload-Temp-Dir: '. rex_ini_get('upload_tmp_dir') .'
          Uploads: '. (rex_ini_get('file_uploads') == 1 ? 'On' : 'Off') .'<br />
-         Max-Upload-Time: '. rex_ini_get('max_input_time') .'s  <br />
-         Max-Upload-Size: '. OOMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
-         Upload-Temp-Dir: '. rex_ini_get('upload_tmp_dir') .'<br />
+         Max-Upload-Time: '. rex_ini_get('max_input_time') .'s   -->
+
        </span>';
     }
 
