@@ -473,11 +473,11 @@ if ($PERMALL && $subpage == "categories")
 
     if($db->update())
     {
-      $msg .= $I18N->msg('pool_kat_updated',$cat_name);
+      $msg = $I18N->msg('pool_kat_updated',$cat_name);
     }
     else
     {
-      $msg .= $db->getError();
+      $msg = $db->getError();
     }
 
   } elseif ($media_method == 'delete_file_cat')
@@ -850,7 +850,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
           if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $filename) ||
               copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $filename))
           {
-            $msg .= '<br />'.$I18N->msg('pool_file_changed');
+            $msg = $I18N->msg('pool_file_changed');
 
             $FILESQL->setValue('filetype',$ffiletype);
             $FILESQL->setValue('originalname',$ffilename);
@@ -864,11 +864,11 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
             $updated = true;
           }else
           {
-              $msg .= '<br />'.$I18N->msg('pool_file_upload_error');
+              $msg = $I18N->msg('pool_file_upload_error');
           }
         }else
         {
-          $msg .= '<br />'.$I18N->msg('pool_file_upload_errortype');
+          $msg = $I18N->msg('pool_file_upload_errortype');
         }
       }
 
@@ -882,7 +882,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
 
       if($updated)
       {
-        $msg .= $I18N->msg('pool_file_infos_updated');
+        // $msg .= $I18N->msg('pool_file_infos_updated');
 
         $FILESQL->setValue('updatedate',time());
         $FILESQL->setValue('updateuser',$REX_USER->getValue('login'));
