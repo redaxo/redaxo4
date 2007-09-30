@@ -16,7 +16,7 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Textile';
 $REX['ADDON']['perm'][$mypage] = 'textile[]';
 $REX['ADDON']['version'][$mypage] = "1.0";
-$REX['ADDON']['author'][$mypage] = "Markus Staab";
+$REX['ADDON']['author'][$mypage] = "Dean Allen www.textism.com, Markus Staab";
 // $REX['ADDON']['supportpage'][$mypage] = "";
 
 $REX['PERM'][] = 'textile[]';
