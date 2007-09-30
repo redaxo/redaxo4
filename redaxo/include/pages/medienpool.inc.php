@@ -872,7 +872,9 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
 
       if($msg == '')
       {
-        $msg .= $I18N->msg('pool_file_infos_updated');
+        $msg = $I18N->msg('pool_file_infos_updated');
+        $ffilename = $gf->getValue('filename');
+        $ffiletype = $gf->getValue('filetype');
         $updated = true;
       }
 
