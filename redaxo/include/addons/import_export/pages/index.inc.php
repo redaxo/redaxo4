@@ -21,7 +21,7 @@ include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_string.i
 // ------------------------------ FUNC
 $msg = "";
 
-$impname = rex_request('$impname', 'string');
+$impname = rex_request('impname', 'string');
 
 if (isset ($impname) && $impname != '')
 {
