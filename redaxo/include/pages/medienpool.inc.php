@@ -13,7 +13,6 @@
 
 // KOMMT NOCH
 // - only types einbauen (only .gif/.pdf/.xxx ..)
-// - direkt katjump von modulen aus
 // - direktjump bei &action=media_details&file_name=xysd.jpg
 
 
