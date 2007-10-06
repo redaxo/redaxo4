@@ -6,7 +6,6 @@
 
 function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
 {
-
 	// Attempt to calibrate the parameters to Photoshop:
 	if ($amount > 500) $amount = 500;
 	$amount = $amount * 0.016;
@@ -16,9 +15,7 @@ function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
 	$radius = abs(round($radius)); // Only integers make sense.
 	if ($radius == 0)
 	{
-		// return $img;
-		// imagedestroy($img);
-		break;
+    return $img;
 	}
 
 	$w = imagesx($img);
@@ -76,9 +73,6 @@ function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
       }
     }
   }
-
-	$img = $imgBlur;
-
 }
 
 ?>
