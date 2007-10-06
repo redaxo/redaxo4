@@ -111,6 +111,14 @@ class rex_login
   }
 
   /**
+   * Prüft, ob die aktuelle Session ausgeloggt ist
+   */
+  function isLoggedOut()
+  {
+    return $this->logout;
+  }
+
+  /**
    * Setzt den UserQuery
    *
    * Dieser wird benutzt, um einen bereits eingeloggten User
@@ -175,7 +183,7 @@ class rex_login
           return false;
       }
 
-      if ($this->usr_login != "")
+      if ($this->usr_login != '')
       {
         // wenn login daten eingegeben dann checken
         // auf error seite verweisen und message schreiben
@@ -184,8 +192,8 @@ class rex_login
         $USR_LOGIN = $this->usr_login;
         $USR_PSW = $this->usr_psw;
 
-        $query = str_replace("USR_LOGIN", $this->usr_login, $this->login_query);
-        $query = str_replace("USR_PSW", $this->usr_psw, $query);
+        $query = str_replace('USR_LOGIN', $this->usr_login, $this->login_query);
+        $query = str_replace('USR_PSW', $this->usr_psw, $query);
 
         $this->USER->setQuery($query);
         if ($this->USER->getRows() == 1)
@@ -207,7 +215,7 @@ class rex_login
         // message schreiben und falls falsch auf error verweisen
 
         $this->USER = new rex_login_sql($this->DB);
-        $query = str_replace("USR_UID", $this->getSessionVar('UID'), $this->user_query);
+        $query = str_replace('USR_UID', $this->getSessionVar('UID'), $this->user_query);
 
         $this->USER->setQuery($query);
         if ($this->USER->getRows() == 1)
@@ -343,6 +351,7 @@ class rex_backend_login extends rex_login
 
     $fvs = new rex_sql;
     // $fvs->debugsql = true;
+    $userId = $this->getSessionVar('UID');
     $check = parent::checkLogin();
 
     if($check)
@@ -351,7 +360,7 @@ class rex_backend_login extends rex_login
       if($this->usr_login != '')
       {
         $this->sessionFixation();
-        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'"');
+        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'" LIMIT 1');
       }
     }
     else
@@ -359,8 +368,13 @@ class rex_backend_login extends rex_login
       // fehlversuch speichern | login_tries++
       if($this->usr_login != '')
       {
-        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=login_tries+1,lasttrydate='.time().' WHERE login="'. $this->usr_login .'"');
+        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=login_tries+1,session_id="",lasttrydate='.time().' WHERE login="'. $this->usr_login .'" LIMIT 1');
       }
+    }
+
+    if ($this->isLoggedOut() && $userId != '')
+    {
+      $fvs->setQuery('UPDATE '.$this->tableName.' SET session_id="" WHERE user_id="'. $userId .'" LIMIT 1');
     }
 
     if($fvs->hasError())
