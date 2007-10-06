@@ -166,9 +166,14 @@ class rex_login
     {
 
       // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
-      if ($this->cache && $this->login_status > 0)
-        return true;
-      elseif ($this->cache && $this->login_status < 0) return false;
+      if ($this->cache)
+      {
+        // TODO was passiert mit == 0?
+        if($this->login_status > 0)
+          return true;
+        elseif ($this->login_status < 0)
+          return false;
+      }
 
       if ($this->usr_login != "")
       {
