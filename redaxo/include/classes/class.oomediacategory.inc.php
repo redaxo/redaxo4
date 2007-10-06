@@ -1,7 +1,7 @@
 <?php
 
 
-/** 
+/**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab
  * @package redaxo3
  * @version $Id$
@@ -365,15 +365,13 @@ class OOMediaCategory
 
     if ($this->getId() !== null)
     {
-      $sql->setValue('updatedate', $this->getUpdateDate(null));
-      $sql->setValue('updateuser', $this->getUpdateUser());
+      $sql->addGlobalUpdateFields();
       $sql->setWhere('id=' . $this->getId() . ' LIMIT 1');
       return $sql->update();
     }
     else
     {
-      $sql->setValue('createdate', $this->getCreateDate(null));
-      $sql->setValue('createuser', $this->getCreateUser());
+      $sql->addGlobalCreateFields();
       return $sql->insert();
     }
   }

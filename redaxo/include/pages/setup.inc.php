@@ -710,8 +710,7 @@ if ($checkmodus == 4 && $send == 1)
         $user->setValue('login', $redaxo_user_login);
         $user->setValue('psw', $redaxo_user_pass);
         $user->setValue('rights', '#admin[]#dev[]#import[]#stats[]#moveSlice[]#');
-        $user->setValue('createdate', time());
-        $user->setValue('createuser', 'setup');
+        $user->addGlobalCreateFields();
         $user->setValue('status', '1');
         if (!$user->insert())
         {

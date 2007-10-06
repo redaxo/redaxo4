@@ -72,8 +72,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   $EKAT->setValue('catname', $kat_name);
   $EKAT->setValue('catprior', $new_prio);
   $EKAT->setValue('path', $KATPATH);
-  $EKAT->setValue('updatedate', time());
-  $EKAT->setValue('updateuser', $REX_USER->getValue('login'));
+  $EKAT->addGlobalUpdateFields();
   if($EKAT->update())
   {
     // --- Kategorie Kindelemente updaten
@@ -86,8 +85,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
       $EART->setTable($REX['TABLE_PREFIX'].'article');
       $EART->setWhere('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
       $EART->setValue('catname', $kat_name);
-      $EART->setValue('updatedate', time());
-      $EART->setValue('updateuser', $REX_USER->getValue('login'));
+      $EART->addGlobalUpdateFields();
 
       if($EART->update())
       {
@@ -189,8 +187,7 @@ elseif ($function == 'status' && $edit_id != ''
     $EKAT->setTable($REX['TABLE_PREFIX']."article");
     $EKAT->setWhere("id='$edit_id' and clang=$clang and startpage=1");
     $EKAT->setValue("status", "$newstatus");
-    $EKAT->setValue("updatedate", time());
-    $EKAT->setValue("updateuser", $REX_USER->getValue("login"));
+    $EKAT->addGlobalCreateFields();
 
     if($EKAT->update())
     {
@@ -266,10 +263,9 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     $AART->setValue('path', $KATPATH);
     $AART->setValue('startpage', 1);
     $AART->setValue('status', 0);
-    $AART->setValue('createdate', time());
-    $AART->setValue('createuser', $REX_USER->getValue('login'));
-    $AART->setValue('updatedate', time());
-    $AART->setValue('updateuser', $REX_USER->getValue('login'));
+    // TODO Hier Update + Create felder?
+    $AART->addGlobalUpdateFields();
+    $AART->addGlobalCreateFields();
     if($AART->insert())
     {
       // ----- PRIOR
@@ -316,8 +312,7 @@ if ($function == 'status_article' && $article_id != ''
     $EA->setTable($REX['TABLE_PREFIX']."article");
     $EA->setWhere("id='$article_id' and clang=$clang");
     $EA->setValue("status", "$newstatus");
-    $EA->setValue("updatedate", time());
-    $EA->setValue("updateuser", $REX_USER->getValue("login"));
+    $EA->addGlobalUpdateFields();
 
     if($EA->update())
     {
@@ -386,10 +381,9 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
     $AART->setValue("path", $KATPATH);
     $AART->setValue("startpage", 0);
     $AART->setValue("status", 0);
-    $AART->setValue("createdate", time());
-    $AART->setValue("createuser", $REX_USER->getValue("login"));
-    $AART->setValue("updatedate", time());
-    $AART->setValue("updateuser", $REX_USER->getValue("login"));
+    // TODO hier Update + Createfields?
+    $AART->addGlobalCreateFields();
+    $AART->addGlobalUpdateFields();
     $AART->setValue("template_id", $template_id);
 
     if($AART->insert())
@@ -430,8 +424,7 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
   $EA->setValue("name", $article_name);
   $EA->setValue("template_id", $template_id);
   // $EA->setValue("path",$KATPATH);
-  $EA->setValue("updatedate", time());
-  $EA->setValue("updateuser", $REX_USER->getValue("login"));
+  $EA->addGlobalUpdateFields();
   $EA->setValue("prior", $Position_Article);
 
   if($EA->update())

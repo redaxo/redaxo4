@@ -243,8 +243,7 @@ if ($article->getRows() == 1)
 
               if ($function == 'edit')
               {
-                $newsql->setValue('updatedate', time());
-                $newsql->setValue('updateuser', $REX_USER->getValue('login'));
+                $newsql->addGlobalUpdateFields();
                 if ($newsql->update())
                   $message .= $I18N->msg('block_updated');
                 else
@@ -253,8 +252,7 @@ if ($article->getRows() == 1)
               }
               elseif ($function == 'add')
               {
-                $newsql->setValue('createdate', time());
-                $newsql->setValue('createuser', $REX_USER->getValue('login'));
+                $newsql->addGlobalCreateFields();
                 if ($newsql->insert())
                 {
                   $last_id = $newsql->getLastId();
@@ -290,8 +288,7 @@ if ($article->getRows() == 1)
             $EA = new rex_sql;
             $EA->setTable($REX['TABLE_PREFIX'] . 'article');
             $EA->setWhere('id='. $article_id .' AND clang='. $clang);
-            $EA->setValue('updatedate', time());
-            $EA->setValue('updateuser', $REX_USER->getValue('login'));
+            $EA->addGlobalUpdateFields();
             $EA->update();
             rex_generateArticle($article_id);
 
@@ -553,8 +550,7 @@ if ($article->getRows() == 1)
       // $meta_sql->debugsql = 1;
       $meta_sql->setWhere("id='$article_id' AND clang=$clang");
       $meta_sql->setValue('name', $meta_article_name);
-      $meta_sql->setValue('updatedate', time());
-      $meta_sql->setValue('updateuser', $REX_USER->getValue('login'));
+      $meta_sql->addGlobalUpdateFields();
 
       if($meta_sql->update())
       {
@@ -599,7 +595,7 @@ if ($article->getRows() == 1)
         {
         	$class = ' class="rex-active"';
         }
-        
+
         $val = rex_translate($val);
         $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
 
@@ -802,7 +798,7 @@ if ($article->getRows() == 1)
             $val = rex_translate($val);
             $lang_b->addOption($val, $key);
           }
-          
+
           $lang_a->setSelected(rex_request('clang_a', 'int', null));
           $lang_b->setSelected(rex_request('clang_b', 'int', null));
 

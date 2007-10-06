@@ -6,10 +6,10 @@
  * @version $Id$
  */
 
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
-include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
 
-rex_title($I18N->msg("addon"), "");
+rex_title($I18N->msg('addon'), '');
 
 $ADDONS = rex_read_addons_folder();
 $addonname = isset ($addonname) && array_search($addonname, $ADDONS) !== false ? $addonname : '';

@@ -86,8 +86,7 @@ if ($function == "add" or $function == "edit") {
     if ($function == "add") {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
       $TPL->setValue("attributes", addslashes($attributes));
-      $TPL->setValue("createdate", time());
-      $TPL->setValue("createuser", $REX_USER->getValue("login"));
+      $TPL->addGlobalCreateFields();
 
       if($TPL->insert())
       {
@@ -103,8 +102,7 @@ if ($function == "add" or $function == "edit") {
 
       $TPL->setWhere("id='$template_id'");
       $TPL->setValue("attributes", addslashes($attributes));
-      $TPL->setValue("updatedate", time());
-      $TPL->setValue("updateuser", $REX_USER->getValue("login"));
+      $TPL->addGlobalUpdateFields();
 
       $message = $TPL->update($I18N->msg("template_updated"));
     }
@@ -113,7 +111,7 @@ if ($function == "add" or $function == "edit") {
     $content = stripslashes($content);
 
     rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates", 0);
-		
+
     if (isset ($goon) and $goon != "") {
       $function = "edit";
       $save = "nein";

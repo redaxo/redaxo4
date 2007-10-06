@@ -292,10 +292,9 @@ function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,
   $FILESQL->setValue('width',$size[0]);
   $FILESQL->setValue('height',$size[1]);
 
-  $FILESQL->setValue('createdate',time());
-  $FILESQL->setValue('createuser',$REX_USER->getValue('login'));
-  $FILESQL->setValue('updatedate',time());
-  $FILESQL->setValue('updateuser',$REX_USER->getValue('login'));
+  // TODO Hier Update + Create zugleich?
+  $FILESQL->addGlobalUpdateFields();
+  $FILESQL->addGlobalCreateFields();
 
   $FILESQL->insert();
 
@@ -472,8 +471,7 @@ if ($PERMALL && $subpage == "categories")
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->setWhere('id='.$edit_id);
     $db->setValue('name',$cat_name);
-    $db->setValue('updatedate',time());
-    $db->setValue('updateuser',$REX_USER->getValue('login'));
+    $db->addGlobalUpdateFields();
 
     if($db->update())
     {
@@ -505,10 +503,9 @@ if ($PERMALL && $subpage == "categories")
     $db->setValue('name',$_REQUEST['catname']);
     $db->setValue('re_id',$_REQUEST['cat_id']);
     $db->setValue('path',$_REQUEST['catpath']);
-    $db->setValue('createdate',time());
-    $db->setValue('createuser',$REX_USER->getValue('login'));
-    $db->setValue('updatedate',time());
-    $db->setValue('updateuser',$REX_USER->getValue('login'));
+    // TODO Update + Create zugleich?
+    $db->addGlobalCreateFields();
+    $db->addGlobalUpdateFields();
 
     if($db->insert())
     {
@@ -888,8 +885,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
       {
         // $msg .= $I18N->msg('pool_file_infos_updated');
 
-        $FILESQL->setValue('updatedate',time());
-        $FILESQL->setValue('updateuser',$REX_USER->getValue('login'));
+        $FILESQL->addGlobalUpdateFields();
         $FILESQL->update();
 
         // ----- EXTENSION POINT
@@ -1251,8 +1247,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       $db->setTable($REX['TABLE_PREFIX'].'file');
       $db->setWhere('file_id='.$file_id);
       $db->setValue('category_id',$rex_file_category);
-      $db->setValue('updatedate',time());
-      $db->setValue('updateuser',$REX_USER->getValue('login'));
+      $db->addGlobalUpdateFields();
       $db->update();
 
       $msg = $I18N->msg('pool_selectedmedia_moved');

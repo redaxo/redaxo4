@@ -554,8 +554,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen
         $art_sql->setValue('status', '0');
-        $art_sql->setValue('updatedate', time());
-        $art_sql->setValue('updateuser', addslashes($REX_USER->getValue('login')));
+        $art_sql->addGlobalUpdateFields();
 
         $art_sql->setWhere('clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
         $art_sql->update();
@@ -763,8 +762,7 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue('catname', $catname);
         $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
-        $art_sql->setValue('createdate', time());
-        $art_sql->setValue('createuser', addslashes($REX_USER->getValue('login')));
+        $art_sql->addGlobalCreateFields();
         $art_sql->setValue('startpage', 0);
 
         // schon gesetzte Felder nicht wieder überschreiben
@@ -847,8 +845,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
     // $uc->debugsql = 1;
     $uc->setTable($REX['TABLE_PREFIX']."article");
     $uc->setWhere("clang='$to_clang' and id='$to_id'");
-    $uc->setValue("updatedate", time());
-    $uc->setValue("updateuser", addslashes($REX_USER->getValue("login")));
+    $uc->addGlobalUpdateFields();
 
     foreach ($params as $key => $value)
     {
@@ -1349,10 +1346,9 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $FILESQL->setValue("width",$size[0]);
     $FILESQL->setValue("height",$size[1]);
     $FILESQL->setValue("category_id",$rex_file_category);
-    $FILESQL->setValue("createdate",time());
-    $FILESQL->setValue("createuser",$userlogin);
-    $FILESQL->setValue("updatedate",time());
-    $FILESQL->setValue("updateuser",$userlogin);
+    // TODO Create + Update zugleich?
+    $FILESQL->addGlobalCreateFields();
+    $FILESQL->addGlobalUpdateFields();
     $FILESQL->insert();
     $ok = 1;
   }

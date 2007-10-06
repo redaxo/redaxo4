@@ -779,15 +779,13 @@ class OOMedia
 
     if ($this->getId() !== null)
     {
-      $sql->setValue('updatedate', $this->getUpdateDate(null));
-      $sql->setValue('updateuser', $this->getUpdateUser());
+      $sql->addGlobalUpdateFields();
       $sql->setWhere('file_id='.$this->getId() . ' LIMIT 1');
       return $sql->update();
     }
     else
     {
-      $sql->setValue('createdate', $this->getCreateDate(null));
-      $sql->setValue('createuser', $this->getCreateUser());
+      $sql->addGlobalCreateFields();
       return $sql->insert();
     }
   }

@@ -97,8 +97,7 @@ if ($function == 'add' or $function == 'edit')
       $IMOD->setValue('name',$mname);
       $IMOD->setValue('eingabe',$eingabe);
       $IMOD->setValue('ausgabe',$ausgabe);
-      $IMOD->setValue('createdate',time());
-      $IMOD->setValue('createuser',$REX_USER->getValue('login'));
+      $IMOD->addGlobalCreateFields();
 
       $message = $IMOD->insert($I18N->msg('module_added'));
 
@@ -116,8 +115,7 @@ if ($function == 'add' or $function == 'edit')
         $UMOD->setValue('name',$mname);
         $UMOD->setValue('eingabe',$eingabe);
         $UMOD->setValue('ausgabe',$ausgabe);
-        $UMOD->setValue('updatedate',time());
-        $UMOD->setValue('updateuser',$REX_USER->getValue('login'));
+        $UMOD->addGlobalUpdateFields();
 
         $message = $UMOD->update($I18N->msg('module_updated').' | '.$I18N->msg('articel_updated'));
         $new_ausgabe = stripslashes($ausgabe);

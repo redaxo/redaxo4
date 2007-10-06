@@ -109,8 +109,7 @@ if ($function == "add" or $function == "edit")
 
     if ($function == 'add')
     {
-      $faction->setValue('createuser', $REX_USER->getValue('login'));
-      $faction->setValue('createdate', time());
+      $faction->addGlobalCreateFields();
 
       if($faction->insert())
         $message = $I18N->msg('action_added');
@@ -119,8 +118,7 @@ if ($function == "add" or $function == "edit")
     }
     else
     {
-      $faction->setValue('updateuser', $REX_USER->getValue('login'));
-      $faction->setValue('updatedate', time());
+      $faction->addGlobalUpdateFields();
       $faction->setWhere('id=' . $action_id);
 
       if($faction->update())
