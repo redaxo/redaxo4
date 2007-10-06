@@ -30,6 +30,7 @@ $REX['EXTPERM'][] = 'moveCategory[]';
 $REX['EXTPERM'][] = 'publishArticle[]';
 $REX['EXTPERM'][] = 'publishCategory[]';
 $REX['EXTPERM'][] = 'article2startpage[]';
+$REX['EXTPERM'][] = 'accesskeys[]';
 
 // ----- extras
 $REX['EXTRAPERM'] = array();

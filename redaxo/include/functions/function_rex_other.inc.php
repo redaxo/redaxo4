@@ -157,7 +157,12 @@ function rex_warning($message, $cssClass = 'rex-warning')
 
 function rex_accesskey($title, $key)
 {
-  return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+  global $REX_USER;
+
+  if($REX_USER->hasPerm('accesskeys[]'))
+    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+
+  return 'title="'. $title .'"';
 }
 
 function rex_ini_get($val)
@@ -185,7 +190,7 @@ function rex_translate($text, $I18N_Catalogue = null)
   if(!$I18N_Catalogue)
   {
     global $I18N;
-    
+
     return rex_translate($text, $I18N);
   }
 
@@ -195,7 +200,7 @@ function rex_translate($text, $I18N_Catalogue = null)
   {
     return htmlspecialchars($I18N_Catalogue->msg(substr($text, $transKeyLen)));
   }
-    
+
   return htmlspecialchars($text);
 }
 ?>
