@@ -6,9 +6,7 @@
  * @version $Id$
  */
 
-// ----------------------------------------- Parse Article Name for Url
-
-function rex_parseArticleName($name)
+function rex_parse_article_name($name)
 {
   $name = strtolower($name);
   $name = str_replace(' - ', '-', $name);
@@ -25,7 +23,27 @@ function rex_parseArticleName($name)
   return $name;
 }
 
-// ----------------------------------------- URL
+/**
+ * Baut einen Parameter String anhand des array $params
+ */
+function rex_param_string($params)
+{
+  $param_string = '';
+
+  if (is_array($params))
+  {
+    foreach ($params as $key => $value)
+    {
+      $param_string .= '&'.urlencode($key).'='.urlencode($value);
+    }
+  }
+  elseif ($params != '')
+  {
+    $param_string = $params;
+  }
+
+  return $param_string;
+}
 
 /**
  * Object Helper Function:
@@ -59,9 +77,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
 
   // ----- get id
   if (strlen($id) == 0 || $id == 0)
-  {
     $id = $article_id;
-  }
 
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
@@ -72,18 +88,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   }
 
   // ----- get params
-  $param_string = '';
-  if (is_array($params))
-  {
-    foreach ($params as $key => $value)
-    {
-      $param_string .= '&'.urlencode($key).'='.urlencode($value);
-    }
-  }
-  elseif ($params != '')
-  {
-    $param_string = $params;
-  }
+  $param_string = rex_param_string($params);
 
   // ----- get article name
   $id = (int) $id;
@@ -92,15 +97,11 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   {
     $ooa = OOArticle :: getArticleById($id, $clang);
     if ($ooa)
-    {
-      $name = rex_parseArticleName($ooa->getName());
-    }
+      $name = rex_parse_article_name($ooa->getName());
   }
 
   if (!isset ($name) or $name == '')
-  {
     $name = 'NoName';
-  }
 
   // ----- EXTENSION POINT
   $url = rex_register_extension_point('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string));
@@ -109,19 +110,14 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   {
     // ----- get rewrite function
     if ($REX['MOD_REWRITE'] === true || $REX['MOD_REWRITE'] == 'true')
-    {
       $rewrite_fn = 'rex_apache_rewrite';
-    }
     else
-    {
       $rewrite_fn = 'rex_no_rewrite';
-    }
 
     $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string);
   }
 
   return $url;
-
 }
 
 // ----------------------------------------- Rewrite functions
