@@ -327,7 +327,7 @@ class rex_sql
    * Beispiel:
    *
    * <code>
-   * $sql = new sql();
+   * $sql = new rex_sql();
    * $message = $sql->statusQuery(
    *    'INSERT  INTO abc SET a="ab"',
    *    'Datensatz  erfolgreich eingefügt');
@@ -336,7 +336,7 @@ class rex_sql
    *  anstatt von
    *
    * <code>
-   * $sql = new sql();
+   * $sql = new rex_sql();
    * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
    *   $message  = 'Datensatz erfolgreich eingefügt');
    * else
