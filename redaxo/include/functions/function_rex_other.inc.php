@@ -211,6 +211,9 @@ function rex_redirect($article_id, $clang, $params)
 {
   global $REX;
 
+  // Alle OBs schlieﬂen
+  while(@ob_end_clean());
+
   $url = rex_no_rewrite($article_id, $clang, '', rex_param_string($params));
 
   // Redirects nur im Frontend folgen
