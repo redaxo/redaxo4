@@ -609,6 +609,26 @@ class rex_sql
     }
   }
 
+  function addGlobalUpdateFields($user = null)
+  {
+    global $REX_USER;
+
+    if(!$user) $user = $REX_USER->getValue('login');
+
+    $this->setValue('updatedate', time());
+    $this->setValue('updateuser', $user);
+  }
+
+  function addGlobalCreateFields($user = null)
+  {
+    global $REX_USER;
+
+    if(!$user) $user = $REX_USER->getValue('login');
+
+    $this->setValue('createdate', time());
+    $this->setValue('createuser', $user);
+  }
+
   function isValid($object)
   {
     return is_object($object) && is_a($object, 'rex_sql');

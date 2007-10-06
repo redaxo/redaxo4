@@ -194,12 +194,11 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   $userstatus = rex_request('userstatus', 'int');
 
   $updateuser = new rex_sql;
-  $updateuser->setTable($REX['TABLE_PREFIX']."user");
-  $updateuser->setWhere("user_id='$user_id'");
-  $updateuser->setValue("name",$username);
-  $updateuser->setValue("updatedate",time());
-  $updateuser->setValue("updateuser",$REX_USER->getValue("login"));
-  if ($REX['PSWFUNC']!="" && $userpsw != $sql->getValue($REX['TABLE_PREFIX']."user.psw")) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+  $updateuser->setTable($REX['TABLE_PREFIX'].'user');
+  $updateuser->setWhere('user_id='. $user_id);
+  $updateuser->setValue('name',$username);
+  $updateuser->addGlobalUpdateFields();
+  if ($REX['PSWFUNC']!='' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw')) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue('psw',$userpsw);
   $updateuser->setValue('description',$userdesc);
   if ($loginReset == 1) $updateuser->setValue('login_tries','0');
@@ -207,9 +206,14 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   else $updateuser->setValue('status',0);
 
   $perm = '';
-  if (isset($useradmin) and $useradmin == 1) $perm .= '#admin[]';
-  if (isset($allcats) and $allcats == 1)     $perm .= '#csw[0]';
-  if (isset($allmcats) and $allmcats == 1)   $perm .= '#media[0]';
+  if (isset($useradmin) and $useradmin == 1)
+    $perm .= '#admin[]';
+
+  if (isset($allcats) and $allcats == 1)
+    $perm .= '#csw[0]';
+
+  if (isset($allmcats) and $allmcats == 1)
+    $perm .= '#media[0]';
 
   // userperm_all
   if (isset($userperm_all)) {
@@ -314,8 +318,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     $adduser->setValue('psw',$userpsw);
     $adduser->setValue('login',$userlogin);
     $adduser->setValue('description',$userdesc);
-    $adduser->setValue('createdate',time());
-    $adduser->setValue('createuser',$REX_USER->getValue('login'));
+    $adduser->addGlobalCreateFields();
     if (isset($userstatus) and $userstatus == 1) $adduser->setValue('status',1);
     else $adduser->setValue('status',0);
 
