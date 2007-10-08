@@ -601,24 +601,23 @@ class rex_article
   function getArticleTemplate()
   {
     global $REX;
-    ob_start();
-    if ($this->getTemplateId() == 0 and $this->article_id != 0)
+
+    if ($this->getTemplateId() != 0 && $this->article_id != 0)
     {
-      echo "no template";
-    }
-    elseif ($this->getTemplateId() != 0 and $this->article_id != 0)
-    {
+      ob_start();
+
     	$TEMPLATE = new rex_template();
     	$TEMPLATE->setId($this->getTemplateId());
-			$template_content = $TEMPLATE->getTemplate();
-      eval("?>".$template_content);
+			eval("?>".$TEMPLATE->getTemplate());
+
+      $CONTENT = ob_get_contents();
+      ob_end_clean();
     }
     else
     {
-      echo "no template";
+      $CONTENT = "no template";
     }
-    $CONTENT = ob_get_contents();
-    ob_end_clean();
+
     return $CONTENT;
   }
 
