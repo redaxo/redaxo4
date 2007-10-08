@@ -55,7 +55,7 @@ class rex_login
     $this->message = "";
     $this->system_id = "default";
     $this->cache = false;
-    $this->login_status = 0; // 0 = nochchecken, 1 = ok, -1 = notok
+    $this->login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
     session_start();
   }
 
@@ -172,11 +172,11 @@ class rex_login
 
     if (!$this->logout)
     {
+      // LoginStatus: 0 = noch checken, 1 = ok, -1 = not ok
 
       // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
       if ($this->cache)
       {
-        // TODO was passiert mit == 0?
         if($this->login_status > 0)
           return true;
         elseif ($this->login_status < 0)
