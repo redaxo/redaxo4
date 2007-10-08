@@ -224,7 +224,7 @@ class rex_article
 
   function getArticle($curctype = -1)
   {
-    global $module_id,$REX_USER,$REX,$REX_SESSION,$I18N;
+    global $module_id,$REX_USER,$REX,$I18N;
 
     $this->ctype = $curctype;
 
@@ -242,8 +242,8 @@ class rex_article
     {
       if ($this->article_id != 0)
       {
-        $this->contents = "";
-        $filename = $REX['INCLUDE_PATH']."/generated/articles/".$this->article_id.".".$this->clang.".content";
+        $this->contents = '';
+        $filename = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
         if ($fd = @fopen ($filename, "r"))
         {
           $this->contents = fread ($fd, filesize ($filename));
@@ -600,9 +600,13 @@ class rex_article
   // ----- Template inklusive Artikel zurückgeben
   function getArticleTemplate()
   {
+    // global $REX hier wichtig, damit in den Artikeln die Variable vorhanden ist!
+    global $REX;
+
     if ($this->getTemplateId() != 0 && $this->article_id != 0)
     {
       ob_start();
+      ob_implicit_flush(0);
 
     	$TEMPLATE = new rex_template();
     	$TEMPLATE->setId($this->getTemplateId());
