@@ -26,8 +26,9 @@ if(!isset($REX['ADDON']) || !is_array($REX['ADDON']))
 
 foreach($REX['ADDON']['status'] as $addonName => $addonStatus)
 {
+  // Warnungen unterdrücken ist schneller als ein file_exists
   if($addonStatus == 1)
-    include $REX['INCLUDE_PATH'].'/addons/'.$addonName.'/config.inc.php';
+    @include $REX['INCLUDE_PATH'].'/addons/'.$addonName.'/config.inc.php';
 }
 
 // ----- all addons configs included
