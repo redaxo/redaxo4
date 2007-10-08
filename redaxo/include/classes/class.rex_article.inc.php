@@ -600,8 +600,6 @@ class rex_article
   // ----- Template inklusive Artikel zurückgeben
   function getArticleTemplate()
   {
-    global $REX;
-
     if ($this->getTemplateId() != 0 && $this->article_id != 0)
     {
       ob_start();
