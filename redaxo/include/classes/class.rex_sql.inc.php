@@ -28,17 +28,6 @@ class rex_sql
   {
     global $REX;
 
-		// Baue eine Verbindung via mysql_pconnect auf
-		// Falls das Fehl schlägt, verbindung über mysql_connect aufbauen
-		// Bei manchen Providern ist mysql_pconnect nicht aktiviert/freigeschaltet
-    if(!$this->identifier)
-    {
-      if($REX['DB'][$DBID]['PERSISTENT'])
-        $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
-      else
-        $this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
-    }
-
     $this->debugsql = false;
     $this->selectDB($DBID);
 
@@ -69,7 +58,12 @@ class rex_sql
 
     $this->DBID = $DBID;
 
-    if (!@ mysql_select_db($REX['DB'][$this->DBID]['NAME'], $this->identifier))
+    if($REX['DB'][$DBID]['PERSISTENT'])
+      $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+    else
+      $this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+
+    if (!@mysql_select_db($REX['DB'][$DBID]['NAME'], $this->identifier))
     {
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
@@ -77,8 +71,100 @@ class rex_sql
   }
 
   /**
-   * Setzt eine Abfrage (SQL) ab
+   * Gibt die DatenbankId der Abfrage (SQL) zurück,
+   * oder false wenn die Abfrage keine DBID enthält
+   *
    * @param $query Abfrage
+   */
+  function getQueryDBID($qry = null)
+  {
+    if(!$qry)
+    {
+      if($this) // Nur bei angelegtem Object
+        $qry = $this->query;
+      else
+        return null;
+    }
+
+    $qry = trim($qry);
+
+    if(preg_match('/^\s*?\(DB([1-9]){1}\)/i', $qry, $matches))
+      return $matches[1];
+
+    return false;
+  }
+
+  /**
+   * Entfernt die DBID aus einer Abfrage (SQL) und gibt die DBID zurück falls
+   * vorhanden, sonst false
+   *
+   * @param $query Abfrage
+   */
+  function stripQueryDBID(&$qry)
+  {
+    $qry = trim($qry);
+
+    if(($qryDBID = rex_sql::getQueryDBID($qry)) !== false)
+      $qry = substr($qry, 6);
+
+    return $qryDBID;
+  }
+
+  /**
+   * Gibt den Typ der Abfrage (SQL) zurück,
+   * oder false wenn die Abfrage keinen Typ enthält
+   *
+   * Mögliche Typen:
+   * - SELECT
+   * - SHOW
+   * - UPDATE
+   * - INSERT
+   * - DELETE
+   * - REPLACE
+   *
+   * @param $query Abfrage
+   */
+  function getQueryType($qry = null)
+  {
+    if(!$qry)
+    {
+      if($this) // Nur bei angelegtem Object
+        $qry = $this->query;
+      else
+        return null;
+    }
+
+    $qry = trim($qry);
+    // DBID aus dem Query herausschneiden, falls vorhanden
+    rex_sql::stripQueryDBID($qry);
+
+    if(preg_match('/^\s*?(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
+      return strtoupper($matches[1]);
+
+    return false;
+  }
+
+  /**
+   * Setzt eine Abfrage (SQL) ab, wechselt die DBID falls vorhanden
+   *
+   * @param $query Abfrage
+   * @return boolean True wenn die Abfrage erfolgreich war (keine DB-Errors
+   * auftreten), sonst false
+   */
+  function setDBQuery($qry)
+  {
+    if(($qryDBID = rex_sql::stripQueryDBID($qry)) !== false)
+      $this->selectDB($qryDBID);
+
+    return $this->setQuery($qry);
+  }
+
+  /**
+   * Setzt eine Abfrage (SQL) ab
+   *
+   * @param $query Abfrage
+   * @return boolean True wenn die Abfrage erfolgreich war (keine DB-Errors
+   * auftreten), sonst false
    */
   function setQuery($qry)
   {
@@ -91,9 +177,9 @@ class rex_sql
 
     if ($this->result)
     {
-      if (preg_match('/^\s*?(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
+      if (($qryType = $this->getQueryType()) !== false)
       {
-        switch (strtoupper($matches[1]))
+        switch ($qryType)
         {
           case 'SELECT' :
           case 'SHOW' :
@@ -411,12 +497,27 @@ class rex_sql
   /**
    * Lädt das komplette Resultset in ein Array und gibts dieses zurück
    */
-  function getArray($sql = "", $fetch_type = MYSQL_ASSOC)
+  function getDBArray($sql = '', $fetch_type = MYSQL_ASSOC)
   {
-    if ($sql != "")
+    return $this->_getArray($sql, $fetch_type, 'DBQuery');
+  }
+
+  function getArray($sql = '', $fetch_type = MYSQL_ASSOC)
+  {
+    return $this->_getArray($sql, $fetch_type);
+  }
+
+  function _getArray($sql, $fetch_type, $qryType = 'default')
+  {
+    if ($sql != '')
     {
-      $this->setQuery($sql);
+      switch($qryType)
+      {
+        case 'DBQuery': $this->setDBQuery($sql); break;
+        default       : $this->setQuery($sql);
+      }
     }
+
 
     $data = array();
 

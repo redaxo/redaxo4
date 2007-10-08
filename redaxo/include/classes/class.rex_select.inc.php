@@ -1,10 +1,10 @@
 <?php
 
-/** 
+/**
  * Klasse zur Erstellung eines HTML-Pulldown-Menues (Select-Box)
- *   
- * @package redaxo3 
- * @version $Id$ 
+ *
+ * @package redaxo3
+ * @version $Id$
  */
 
 ################ Class Select
@@ -20,7 +20,7 @@ class rex_select
     $this->init();
   }
 
-  ################ init 
+  ################ init
   function init()
   {
     $this->attributes = array();
@@ -29,12 +29,12 @@ class rex_select
     $this->setSize('5');
     $this->setMultiple(false);
   }
-  
+
   function setAttribute($name, $value)
   {
   	$this->attributes[$name] = $value;
   }
-  
+
   function delAttribute($name)
   {
   	if($this->hasAttribute($name))
@@ -44,12 +44,12 @@ class rex_select
   	}
   	return false;
   }
-  
+
   function hasAttribute($name)
   {
   	return isset($this->attributes[$name]);
   }
-  
+
   function getAttribute($name, $default = '')
   {
   	if($this->hasAttribute($name))
@@ -59,7 +59,7 @@ class rex_select
   	return $default;
   }
 
-  ############### multiple felder ? 
+  ############### multiple felder ?
   function setMultiple($multiple)
   {
   	if($multiple)
@@ -134,12 +134,12 @@ class rex_select
   ################ optionen hinzufuegen
   /**
    * Fügt eine Option hinzu
-   */  
+   */
   function addOption($name, $value, $id = 0, $re_id = 0)
   {
     $this->options[$re_id][] = array ($name, $value, $id);
   }
-  
+
   /**
    * Fügt ein Array von Optionen hinzu, dass eine mehrdimensionale Struktur hat.
    *
@@ -149,7 +149,7 @@ class rex_select
    * 2.    Id
    * 3.    Re_Id
    * 4.    Selected
-   */  
+   */
   function addOptions($options, $useOnlyValues = false)
   {
     if(is_array($options) && count($options)>0)
@@ -178,37 +178,45 @@ class rex_select
           {
             if(!isset($option[1]))
               $option[1] = $key;
-              
+
             $this->addOption($option[0], $option[1]);
           }
         }
       }
     }
   }
-  
+
   /**
    * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
    * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
-   */  
+   */
   function addArrayOptions($options, $use_keys = true)
   {
   	foreach($options as $key => $value)
   	{
       if(!$use_keys)
         $key = $value;
-  		  
+
       $this->addOption($value, $key);
   	}
   }
-  
+
   /**
    * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
-   */  
+   */
   function addSqlOptions($qry)
   {
     $sql = new rex_sql;
-//     $sql->debugsql = true;
     $this->addOptions($sql->getArray($qry, MYSQL_NUM));
+  }
+
+  /**
+   * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
+   */
+  function addDBSqlOptions($qry)
+  {
+    $sql = new rex_sql;
+    $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
   }
 
   ############### show select
@@ -219,17 +227,17 @@ class rex_select
   	{
   		$attr .= ' '. $name .'="'. $value .'"';
   	}
-  	
+
     $ausgabe = "\n";
 		$ausgabe .= '<select'.$attr.'>'."\n";
-    
+
     if (is_array($this->options))
       $ausgabe .= $this->_outGroup(0);
-      
+
     $ausgabe .= '</select>'. "\n";
     return $ausgabe;
   }
-  
+
   ############### show select
   function show()
   {
