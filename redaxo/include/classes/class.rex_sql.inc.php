@@ -40,8 +40,7 @@ class rex_sql
     }
 
     $this->debugsql = false;
-    $this->DBID = $DBID;
-    $this->selectDB();
+    $this->selectDB($DBID);
 
     // MySQL Version bestimmen
     if ($REX['MYSQL_VERSION'] == '')
@@ -64,9 +63,11 @@ class rex_sql
   /**
    * Stellt die Verbindung zur Datenbank her
    */
-  function selectDB()
+  function selectDB($DBID)
   {
     global $REX;
+
+    $this->DBID = $DBID;
 
     if (!@ mysql_select_db($REX['DB'][$this->DBID]['NAME'], $this->identifier))
     {
