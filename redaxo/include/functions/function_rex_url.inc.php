@@ -8,19 +8,23 @@
 
 function rex_parse_article_name($name)
 {
-  $name = strtolower($name);
-  $name = str_replace(' - ', '-', $name);
-  $name = str_replace(' ', '-', $name);
-  $name = str_replace('.', '-', $name);
-  $name = str_replace('Ä', 'Ae', $name);
-  $name = str_replace('Ö', 'Oe', $name);
-  $name = str_replace('Ü', 'Ue', $name);
-  $name = str_replace('ä', 'ae', $name);
-  $name = str_replace('ö', 'oe', $name);
-  $name = str_replace('ü', 'ue', $name);
-  $name = str_replace('ß', 'ss', $name);
-  $name = preg_replace("/[^a-zA-Z\-0-9]/", "", $name);
-  return $name;
+  static $firstCall = true;
+  static $search  = array('Ä' , 'Ö' , 'Ü' , 'ä' , 'ö' , 'ü' , 'ß' , ' - ', ' ', '.');
+  static $replace = array('Ae', 'Oe', 'Ue', 'ae', 'oe', 'ue', 'ss', '-'  , '-', '-');
+
+  if($firstCall)
+  {
+    global $REX;
+
+    $firstCall = false;
+
+    // Wenn die Seite auf UTF-8 läuft, müssen wir auch nach UTF-8 Umlauten suchen
+    if(strpos($REX['LANG'], 'utf8') !== false)
+      $search = array_map('utf8_encode', $search);
+  }
+
+  $name = str_replace($search, $replace, $name);
+  return preg_replace('/[^a-zA-Z\-0-9]/', '', $name);
 }
 
 /**
