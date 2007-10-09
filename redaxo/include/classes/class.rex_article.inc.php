@@ -836,7 +836,7 @@ class rex_article
     {
       if(empty($match)) continue;
 
-      $url = rex_getURL($match[1], $REX['CUR_CLANG']);
+      $url = rex_getURL($match[1], $this->clang);
       $content = str_replace($match[0],$url,$content);
     }
 
