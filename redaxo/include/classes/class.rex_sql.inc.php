@@ -80,7 +80,7 @@ class rex_sql
   {
     if(!$qry)
     {
-      if($this) // Nur bei angelegtem Object
+      if(isset($this)) // Nur bei angelegtem Object
         $qry = $this->query;
       else
         return null;
@@ -128,7 +128,7 @@ class rex_sql
   {
     if(!$qry)
     {
-      if(@$this) // Nur bei angelegtem Object
+      if(isset($this)) // Nur bei angelegtem Object
         $qry = $this->query;
       else
         return null;
