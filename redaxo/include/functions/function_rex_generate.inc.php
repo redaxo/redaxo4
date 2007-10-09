@@ -78,22 +78,26 @@ function rex_generateAll()
 
 
 /**
- * Löscht die gecachten Dateien eines Artikels
+ * Löscht die gecachten Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelöscht.
  *
- * @param $id ArtikelId des Artikels, der generiert werden soll
+ * @param $id ArtikelId des Artikels
+ * @param [$clang ClangId des Artikels]
  */
 
-function rex_deleteCacheArticle($id)
+function rex_deleteCacheArticle($id, $clang = null)
 {
   global $REX;
 
-  $CL = $REX['CLANG'];
-  foreach($CL as $clang => $clang2)
+  foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-  	@ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article");
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content");
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.alist");
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.clist");
+    if(!$clang || $clang && $clang == $_clang)
+    {
+    	@unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.article');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.content');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.alist');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.clist');
+    }
 	}
 }
 
@@ -120,12 +124,9 @@ function rex_generateArticle($id, $refreshall = true)
 
   // --------------------------------------------------- generiere generated/articles/xx.article
 
-  $CL = $REX['CLANG'];
-  reset($CL);
-  for ($i = 0; $i < count($CL); $i ++)
+  foreach($REX['CLANG'] as $clang => $clang_name)
   {
     $MSG = '';
-    $clang = key($CL);
     $CONT = new rex_article;
     $CONT->setCLang($clang);
     $CONT->getContentAsQuery();
@@ -196,8 +197,6 @@ function rex_generateArticle($id, $refreshall = true)
       rex_generateLists($CONT->getValue("re_id"));
     }
 
-    next($CL);
-
   }
 
   // ----- EXTENSION POINT
@@ -249,19 +248,9 @@ function rex_deleteArticle($id, $ebene = 0)
       }
     }
 
-    $CL = $REX['CLANG'];
-    reset($CL);
-    for ($i = 0; $i < count($CL); $i ++)
-    {
-      $clang = key($CL);
-      @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article");
-      @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content");
-      @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.alist");
-      @ unlink($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.clist");
-      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
-      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
-      next($CL);
-    }
+    rex_deleteCacheArticle($id);
+    $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
+    $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
 
     // --------------------------------------------------- Listen generieren
     rex_generateLists($re_id);
@@ -293,13 +282,8 @@ function rex_generateLists($re_id)
   // --> catgorie listen
   //
 
-  $CL = $REX['CLANG'];
-  reset($CL);
-  for ($j = 0; $j < count($CL); $j ++)
+  foreach($REX['CLANG'] as $clang => $clang_name)
   {
-
-    $clang = key($CL);
-
     // --------------------------------------- ARTICLE LIST
 
     $GC = new rex_sql;
@@ -334,10 +318,7 @@ function rex_generateLists($re_id)
     fputs($fp, $content);
     fclose($fp);
     @ chmod($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist", 0777);
-
-    next($CL);
   }
-
 }
 
 /**
@@ -350,7 +331,7 @@ function rex_article2startpage($neu_id){
 	global $REX;
 	$GAID = array();
 
-    // neuer startartikel
+  // neuer startartikel
 	$neu = new rex_sql;
 	$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=0");
 	if ($neu->getRows()!=1) return false;
@@ -364,18 +345,18 @@ function rex_article2startpage($neu_id){
 	$alt = new rex_sql;
 	$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=0");
 	if ($alt->getRows()!=1) return false;
-	$alt_path = $alt->getValue("path");
-	$alt_id = $alt->getValue("id");
+	$alt_path = $alt->getValue('path');
+	$alt_id = $alt->getValue('id');
 
-	$params = array("path","prior","catname","startpage");
+	$params = array('path','prior','catname','startpage');
 	$db_fields = OORedaxo::getClassVars();
-    foreach($db_fields as $field)
-    {
-		if(substr($field,0,4)=="cat_") $params[] = $field;
+  foreach($db_fields as $field)
+  {
+		if(substr($field,0,4)=='cat_') $params[] = $field;
 	}
 
 	// LANG SCHLEIFE
-	foreach($REX['CLANG'] as $clang => $lang)
+	foreach($REX['CLANG'] as $clang => $clang_name)
 	{
 		$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=$clang");
 		$alt2 = new rex_sql();
@@ -388,7 +369,8 @@ function rex_article2startpage($neu_id){
 		$neu2->setWhere("id=$neu_id");
 		$alt2->setValue("re_id",$neu_id);
 		$neu2->setValue("re_id",$alt->getValue("re_id"));
-		foreach($params as $param){
+		foreach($params as $param)
+    {
 			$neu_value = $neu->getValue($param);
 			$alt_value = $alt->getValue($param);
 			$alt2->setValue($param,$neu_value);
@@ -672,16 +654,13 @@ function rex_moveCategory($from_cat, $to_cat)
 		}
 
 		// ----- clang holen, max catprio holen und entsprechen updaten
-		$CL = $REX['CLANG'];
-		reset($CL);
 
 		$gmax = new rex_sql;
 		$up = new rex_sql;
 		// $up->debugsql = 1;
-		for ($i = 0; $i < count($CL); $i ++)
+    foreach($REX['CLANG'] as $clang => $clang_name)
 		{
-			$clang = key($CL);
-			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=$clang");
+			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=".$clang);
 			$catprior = (int) $gmax->getValue("max(catprior)");
 			$up->setTable($REX['TABLE_PREFIX']."article");
 			$up->setWhere("id=$from_cat and clang=$clang ");
@@ -689,7 +668,6 @@ function rex_moveCategory($from_cat, $to_cat)
 			$up->setValue("re_id",$to_cat);
 			$up->setValue("catprior",($catprior+1));
 			$up->update();
-			next($CL);
 		}
 
 		// ----- generiere artikel neu - ohne neue inhaltsgenerierung
@@ -698,13 +676,9 @@ function rex_moveCategory($from_cat, $to_cat)
 			rex_generateArticle($id,false);
 		}
 
-		$CL = $REX['CLANG'];
-		reset($CL);
-		for ($j=0;$j<count($CL);$j++)
+    foreach($REX['CLANG'] as $clang => $clang_name)
 		{
-			$mlang = key($CL);
-			rex_newCatPrio($fcat->getValue("re_id"),$mlang,0,1);
-			next($CL);
+			rex_newCatPrio($fcat->getValue("re_id"),$clang,0,1);
 		}
 
 		return true;
@@ -1012,23 +986,19 @@ function rex_deleteDir($file, $delete_folders = false)
  *
  * @param $id Zu löschende ClangId
  */
-function rex_deleteCLang($id)
+function rex_deleteCLang($clang)
 {
   global $REX;
 
-  if ($id == 0)
+  if ($clang == 0)
     return "";
 
   $content = "// --- DYN\n\r";
 
-  reset($REX['CLANG']);
-  for ($i = 0; $i < count($REX['CLANG']); $i ++)
+  foreach($REX['CLANG'] as $cur => $val)
   {
-    $cur = key($REX['CLANG']);
-    $val = current($REX['CLANG']);
-    if ($cur != $id)
+    if ($cur != $clang)
       $content .= "\n\r\$REX['CLANG']['$cur'] = \"$val\";";
-    next($REX['CLANG']);
   }
   $content .= "\n\r// --- /DYN";
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
@@ -1043,27 +1013,23 @@ function rex_deleteCLang($id)
   @ chmod($file, 0777);
 
   $del = new rex_sql();
-  $del->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$id'");
+  $del->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
   for ($i = 0; $i < $del->getRows(); $i ++)
   {
     $aid = $del->getValue("id");
-    // rex_deleteArticle($del->getValue("id"),$id,0);
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.article");
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.content");
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.alist");
-    @ unlink($REX['INCLUDE_PATH']."/generated/articles/$aid.$id.clist");
+    rex_deleteCacheArticle($aid, $clang);
     $del->next();
   }
 
-  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$id'");
-  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$id'");
+  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
+  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
 
-  unset ($REX['CLANG'][$id]);
+  unset ($REX['CLANG'][$clang]);
   $del = new rex_sql();
-  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$id'");
+  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('CLANG_DELETED','',array ('id' => $id));
+  rex_register_extension_point('CLANG_DELETED','',array ('id' => $clang));
 
   rex_generateAll();
 }
@@ -1079,14 +1045,10 @@ function rex_addCLang($id, $name)
   global $REX;
   $REX['CLANG'][$id] = $name;
   $content = "// --- DYN\n\r";
-  reset($REX['CLANG']);
-  for ($i = 0; $i < count($REX['CLANG']); $i ++)
-  {
-    $cur = key($REX['CLANG']);
-    $val = current($REX['CLANG']);
 
+  foreach($REX['CLANG'] as $cur => $val)
+  {
     $content .= "\n\r\$REX['CLANG']['$cur'] = \"$val\";";
-    next($REX['CLANG']);
   }
   $content .= "\n\r// --- /DYN";
 
@@ -1113,21 +1075,22 @@ function rex_addCLang($id, $name)
 
     foreach($fields as $key => $value)
     {
-      if ($value == "pid")
-        echo ""; // nix passiert
+      if ($value == 'pid')
+        echo ''; // nix passiert
       else
-        if ($value == "clang")
-          $adda->setValue("clang", $id);
+        if ($value == 'clang')
+          $adda->setValue('clang', $id);
         else
-          if ($value == "status")
-            $adda->setValue("status", "0"); // Alle neuen Artikel offline
+          if ($value == 'status')
+            $adda->setValue('status', '0'); // Alle neuen Artikel offline
       else
-        $adda->setValue($value, rex_addslashes($add->getValue("$value")));
+        $adda->setValue($value, rex_addslashes($add->getValue($value)));
     }
 
     $adda->insert();
     $add->next();
   }
+
   $add = new rex_sql();
   $add->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
 
@@ -1177,13 +1140,10 @@ function rex_generateAddons($ADDONS, $debug = false)
   foreach ($ADDONS as $cur)
   {
     if (!OOAddon :: isInstalled($cur))
-    {
       $REX['ADDON']['install'][$cur] = 0;
-    }
+
     if (!OOAddon :: isActivated($cur))
-    {
       $REX['ADDON']['status'][$cur] = 0;
-    }
 
     $content .= "\$REX['ADDON']['install']['$cur'] = ".$REX['ADDON']['install'][$cur].";\n"."\$REX['ADDON']['status']['$cur'] = ".$REX['ADDON']['status'][$cur].";\n\n";
   }
@@ -1283,69 +1243,67 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   // ----- neuer filename und extension holen
   $NFILENAME = strtolower($FILENAME);
   $NFILENAME = str_replace(array('ä','ö', 'ü', 'ß'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
-  $NFILENAME = preg_replace("/[^a-zA-Z0-9.\-\$\+]/","_",$NFILENAME);
-  if (strrpos($NFILENAME,".") != "")
+  $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\$\+]/','_',$NFILENAME);
+  if (strrpos($NFILENAME,'.') != '')
   {
-    $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,".")));
-    $NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,"."),strlen($NFILENAME)-strrpos($NFILENAME,"."));
+    $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,'.')));
+    $NFILE_EXT  = substr($NFILENAME,strrpos($NFILENAME,'.'),strlen($NFILENAME)-strrpos($NFILENAME,'.'));
   }else
   {
     $NFILE_NAME = $NFILENAME;
-    $NFILE_EXT  = "";
+    $NFILE_EXT  = '';
   }
 
   // ---- ext checken - alle scriptendungen rausfiltern
-  if (in_array($NFILE_EXT,$REX["MEDIAPOOL"]["BLOCKED_EXTENSIONS"]))
+  if (in_array($NFILE_EXT,$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS']))
   {
     $NFILE_NAME .= $NFILE_EXT;
-    $NFILE_EXT = ".txt";
+    $NFILE_EXT = '.txt';
   }
 
   $NFILENAME = $NFILE_NAME.$NFILE_EXT;
 
   // ----- datei schon vorhanden -> namen aendern -> _1 ..
-  if (file_exists($REX['MEDIAFOLDER']."/$NFILENAME"))
+  if (file_exists($REX['MEDIAFOLDER'].'/'.$NFILENAME))
   {
-    for ($cf=1;$cf<1000;$cf++)
-    {
-      $NFILENAME = $NFILE_NAME."_$cf"."$NFILE_EXT";
-      if (!file_exists($REX['MEDIAFOLDER']."/$NFILENAME")) break;
-    }
+    $cnt = 1;
+    while(file_exists($REX['MEDIAFOLDER'].'/'.$NFILE_NAME.'_'.$cnt.$NFILE_EXT))
+      $cnt++;
+
+    $NFILENAME = $NFILE_NAME.'_'.$cnt.$NFILE_EXT;
   }
+
+  $dstFile = $REX['MEDIAFOLDER'].'/'.$NFILENAME;
 
   // ----- dateiupload
   $upload = true;
-  if(!@move_uploaded_file($FILE['tmp_name'],$REX['MEDIAFOLDER']."/$NFILENAME") )
+  if(!@move_uploaded_file($FILE['tmp_name'],$dstFile) && !@copy($FILE['tmp_name'],$dstFile))
   {
-    if (!@copy($FILE['tmp_name'],$REX['MEDIAFOLDER']."/$NFILENAME"))
-    {
-      $message .= "move file $FILENAME failed | ";
-      $ok = 0;
-      $upload = false;
-    }
+    $message .= 'move file '. $FILENAME .'failed | ';
+    $ok = 0;
+    $upload = false;
   }
 
   if($upload)
   {
-
-    chmod($REX['MEDIAFOLDER']."/$NFILENAME", $REX['FILEPERM']);
+    chmod($dstFile, $REX['FILEPERM']);
 
     // get widht height
-    $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");
+    $size = @getimagesize($dstFile);
 
     $FILESQL = new rex_sql;
     // $FILESQL->debugsql=1;
-    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
-    $FILESQL->setValue("filetype",$FILETYPE);
-    $FILESQL->setValue("title",$FILEINFOS['title']);
-    $FILESQL->setValue("description",$FILEINFOS['description']);
-    $FILESQL->setValue("copyright",$FILEINFOS['copyright']);
-    $FILESQL->setValue("filename",$NFILENAME);
-    $FILESQL->setValue("originalname",$FILENAME);
-    $FILESQL->setValue("filesize",$FILESIZE);
-    $FILESQL->setValue("width",$size[0]);
-    $FILESQL->setValue("height",$size[1]);
-    $FILESQL->setValue("category_id",$rex_file_category);
+    $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
+    $FILESQL->setValue('filetype',$FILETYPE);
+    $FILESQL->setValue('title',$FILEINFOS['title']);
+    $FILESQL->setValue('description',$FILEINFOS['description']);
+    $FILESQL->setValue('copyright',$FILEINFOS['copyright']);
+    $FILESQL->setValue('filename',$NFILENAME);
+    $FILESQL->setValue('originalname',$FILENAME);
+    $FILESQL->setValue('filesize',$FILESIZE);
+    $FILESQL->setValue('width',$size[0]);
+    $FILESQL->setValue('height',$size[1]);
+    $FILESQL->setValue('category_id',$rex_file_category);
     // TODO Create + Update zugleich?
     $FILESQL->addGlobalCreateFields();
     $FILESQL->addGlobalUpdateFields();
