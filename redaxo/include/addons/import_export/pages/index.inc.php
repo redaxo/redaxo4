@@ -233,7 +233,7 @@ if ($msg != '')
       <div class="rex-addon-editmode">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset>
-          <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('import'); ?></legend>
+          <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('database'); ?></legend>
           <input type="hidden" name="page" value="<?php echo $page ?>" />
           <input type="hidden" name="function" value="dbimport" />
           <p class="rex-ftxt">
