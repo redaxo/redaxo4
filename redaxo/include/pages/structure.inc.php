@@ -357,16 +357,15 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
   if($category)
     $category_name = addslashes($category->getName());
 
-  $amessage = $I18N->msg("article_added");
+  $amessage = $I18N->msg('article_added');
 
   unset ($id);
-  reset($REX['CLANG']);
   $AART = new rex_sql;
-  while (list ($key, $val) = each($REX['CLANG']))
+  foreach($REX['CLANG'] as $key => $val)
   {
     // ### erstelle neue prioliste wenn noetig
 
-    // $AART->debugsql = 1;
+//     $AART->debugsql = 1;
     $AART->setTable($REX['TABLE_PREFIX'].'article');
     if (!isset ($id) or !$id)
       $id = $AART->setNewId('id');
@@ -383,10 +382,10 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
     $AART->setValue('path', $KATPATH);
     $AART->setValue('startpage', 0);
     $AART->setValue('status', 0);
+    $AART->setValue('template_id', $template_id);
     // TODO hier Update + Createfields?
     $AART->addGlobalCreateFields();
     $AART->addGlobalUpdateFields();
-    $AART->setValue('template_id', $template_id);
 
     if($AART->insert())
     {
