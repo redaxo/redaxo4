@@ -43,13 +43,15 @@ INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('5','translate:description','art_d
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('6','translate:keywords','art_keywords','4','','2','','','','admin','1189345068','admin','1189345068');
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('7','translate:metadata_image','art_file','5','','6','','','','admin','1189345109','admin','1189345109');
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('8','translate:teaser','art_teaser','6','','5','','','','admin','1189345182','admin','1189345182');
+INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('9','translate:header_article_type','art_type_id','7','size=1','3','','Standard|Zugriff für alle','','admin','1191963797','admin','1191964038');
 
-ALTER TABLE `rex_article` ADD `art_online_from` VARCHAR(255);
-ALTER TABLE `rex_article` ADD `art_online_to` VARCHAR(255);
-ALTER TABLE `rex_article` ADD `art_description` VARCHAR(255);
-ALTER TABLE `rex_article` ADD `art_keywords` VARCHAR(255);
-ALTER TABLE `rex_article` ADD `art_file` VARCHAR(255);
-ALTER TABLE `rex_article` ADD `art_teaser` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_from` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_to` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_description` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_keywords` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_file` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_teaser` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_type_id` VARCHAR(255);
 
-ALTER TABLE `rex_file` ADD `med_description` VARCHAR(255);
-ALTER TABLE `rex_file` ADD `med_copyright` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%file` ADD `med_description` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%file` ADD `med_copyright` VARCHAR(255);
