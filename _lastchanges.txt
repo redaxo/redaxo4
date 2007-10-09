@@ -66,6 +66,7 @@ Version 3.3 (2007-XX-XX)
   * CLANG/CTYPE wird via I18N->msg aufgerufen, wenn translate: als prefix gesetzt ist (rex_translate) [kills]
   * Templates/Artikel on the fly. Werden beim Aufruf generiert [jan]
   * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]
+  * Accesskeys via Rechte aktivierbar [kills]
   * Accesskey eingeführt [tab]
     - $REX['ACKEY']['SAVE'] = 's';
     - $REX['ACKEY']['APPLY'] = 'x';
@@ -78,14 +79,6 @@ Version 3.3 (2007-XX-XX)
   * MINI API
     - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen [jan]
   * Artikel muss nun ein Template haben um ausgegeben zu werden. [jan]
-  * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
-    - Addon trägt den Namen der Page + install/aktiviert
-      + Beispiel: include/addons/content/*
-        => Aufruf: include/addons/content/pages/index.inc.php
-    - Addon trägt beliebigen Namen und definiert $REX['ADDON']['page'][$mypage] = '<zuErsetzendePage>'; der Page + install/aktiviert
-      + Beispiel: $REX['ADDON']['page'][$mypage] = 'content';
-        => Aufruf: include/addons/$mypage/pages/content.inc.php
-    - Addon haben nun Creditinformationen,$REX['ADDON']['supportpage'][$mypage], $REX['ADDON']['author'][$mypage], $REX['ADDON']['version'][$mypage]
   * CTypes aufbereitet [kills,jan]
   	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
   	- Sind nun abhängig von einzelnen Templates
@@ -204,6 +197,15 @@ Version 3.3 (2007-XX-XX)
   * Addons: [kills]
     - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert
     - De-Installation: wenn eine uninstall.sql im Addon verzeichnis liegt, wird diese beim Addon de-installieren importiert
+    - Creditinformationen: $REX['ADDON']['supportpage'][$mypage], $REX['ADDON']['author'][$mypage], $REX['ADDON']['version'][$mypage]
+    
+  * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [kills]
+    - Addon trägt den Namen der Page + install/aktiviert
+      + Beispiel: include/addons/content/*
+        => Aufruf: include/addons/content/pages/index.inc.php
+    - Addon trägt beliebigen Namen und definiert $REX['ADDON']['page'][$mypage] = '<zuErsetzendePage>'; der Page + install/aktiviert
+      + Beispiel: $REX['ADDON']['page'][$mypage] = 'content';
+        => Aufruf: include/addons/$mypage/pages/content.inc.php
 
   * Image-Resize-Addon:
     - Resize Script jetzt auch über die Backend index.php aufrufbar [kills]
