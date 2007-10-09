@@ -73,6 +73,7 @@ function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
       }
     }
   }
+  $img = $imgBlur;
 }
 
 ?>
