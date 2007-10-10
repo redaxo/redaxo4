@@ -234,6 +234,16 @@ class OORedaxo
     return $this->getValue('art_description');
   }
 
+  /**
+   * Accessor Method:
+   * returns the article description.
+   * @deprecated 17.09.2007
+   */
+  function getTypeId()
+  {
+    return $this->getValue('art_type_id');
+  }
+
   /*
    * Accessor Method:
    * returns the article priority
