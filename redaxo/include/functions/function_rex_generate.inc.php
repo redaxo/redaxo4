@@ -329,6 +329,7 @@ function rex_generateLists($re_id)
 function rex_article2startpage($neu_id){
 
 	global $REX;
+
 	$GAID = array();
 
   // neuer startartikel
@@ -336,9 +337,9 @@ function rex_article2startpage($neu_id){
 	$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=0");
 	if ($neu->getRows()!=1) return false;
 	$neu_path = $neu->getValue("path");
+	$neu_cat_id = $neu->getValue("re_id");
 
 	// in oberster kategorie
-	$neu_cat_id = $neu->getValue("re_id");
 	if ($neu_cat_id == 0) return false;
 
 	// alter startartikel
@@ -358,17 +359,24 @@ function rex_article2startpage($neu_id){
 	// LANG SCHLEIFE
 	foreach($REX['CLANG'] as $clang => $clang_name)
 	{
+    // alter startartikel
 		$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=$clang");
+
+    // neuer startartikel
+		$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=$clang");
+
+    // alter startartikel updaten
 		$alt2 = new rex_sql();
 		$alt2->setTable($REX['TABLE_PREFIX']."article");
-		$alt2->setWhere("id=$alt_id");
+		$alt2->setWhere("id=$alt_id and clang=". $clang);
+		$alt2->setValue("re_id",$neu_id);
 
-		$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=$clang");
+    // neuer startartikel updaten
 		$neu2 = new rex_sql();
 		$neu2->setTable($REX['TABLE_PREFIX']."article");
-		$neu2->setWhere("id=$neu_id");
-		$alt2->setValue("re_id",$neu_id);
+		$neu2->setWhere("id=$neu_id and clang=". $clang);
 		$neu2->setValue("re_id",$alt->getValue("re_id"));
+
 		foreach($params as $param)
     {
 			$neu_value = $neu->getValue($param);
@@ -385,6 +393,7 @@ function rex_article2startpage($neu_id){
 
 	$articles = new rex_sql();
 	$ia = new rex_sql();
+  $ia->debugsql = true;
 	$articles->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '%|$alt_id|%'");
 	for($i=0;$i<$articles->getRows();$i++)
   {
@@ -392,7 +401,7 @@ function rex_article2startpage($neu_id){
 		$ipath = str_replace("|$alt_id|","|$neu_id|",$articles->getValue("path"));
 
 		$ia->setTable($REX['TABLE_PREFIX']."article");
-		$ia->setWhere('id="'.$iid.'"');
+		$ia->setWhere('id='.$iid);
 		$ia->setValue("path",$ipath);
 		if ($articles->getValue("re_id")==$alt_id) $ia->setValue("re_id",$neu_id);
 		$ia->update();
@@ -409,7 +418,6 @@ function rex_article2startpage($neu_id){
 	}
 
 	return true;
-
 }
 
 
