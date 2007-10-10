@@ -816,6 +816,7 @@ class OOMedia
       'bmp',
       'css',
       'doc',
+      'eps',
       'gif',
       'gz',
       'jpg',

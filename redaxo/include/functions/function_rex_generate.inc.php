@@ -1231,7 +1231,7 @@ function rex_generateTemplate($template_id)
 */
 function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = "system"){
 
-  global $REX,$REX_USER;
+  global $REX,$REX_USER,$I18N;
 
   $rex_file_category = (int) $rex_file_category;
 
@@ -1287,7 +1287,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   $upload = true;
   if(!@move_uploaded_file($FILE['tmp_name'],$dstFile) && !@copy($FILE['tmp_name'],$dstFile))
   {
-    $message .= 'move file '. $FILENAME .'failed | ';
+    $message .= $I18N->msg("pool_file_movefailed");
     $ok = 0;
     $upload = false;
   }
@@ -1304,8 +1304,6 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
     $FILESQL->setValue('filetype',$FILETYPE);
     $FILESQL->setValue('title',$FILEINFOS['title']);
-    $FILESQL->setValue('description',$FILEINFOS['description']);
-    $FILESQL->setValue('copyright',$FILEINFOS['copyright']);
     $FILESQL->setValue('filename',$NFILENAME);
     $FILESQL->setValue('originalname',$FILENAME);
     $FILESQL->setValue('filesize',$FILESIZE);
@@ -1317,6 +1315,8 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $FILESQL->addGlobalUpdateFields();
     $FILESQL->insert();
     $ok = 1;
+    
+    $message .= $I18N->msg("pool_file_added");
   }
 
   $RETURN['title'] = $FILEINFOS['title'];
