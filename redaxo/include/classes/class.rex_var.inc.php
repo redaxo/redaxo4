@@ -262,7 +262,7 @@ class rex_var
   
   function isEditEvent()
   {
-    return rex_request('btn_update', 'string') != '';
+    return (rex_request('btn_update', 'string') != '' || rex_request('btn_save', 'string') != '');
   }
   
   function isDeleteEvent()
