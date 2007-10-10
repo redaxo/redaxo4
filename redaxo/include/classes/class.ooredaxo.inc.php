@@ -236,7 +236,7 @@ class OORedaxo
 
   /**
    * Accessor Method:
-   * returns the article description.
+   * returns the Type ID of the article.
    * @deprecated 17.09.2007
    */
   function getTypeId()
