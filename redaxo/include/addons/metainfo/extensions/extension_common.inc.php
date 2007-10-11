@@ -150,6 +150,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
           if($oneValue)
           {
+            $tag_attr = ' class="'. $class .'"';
             $field .= '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
           }
           else
