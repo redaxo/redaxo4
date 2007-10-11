@@ -66,6 +66,9 @@ div, p {
 	width: 1px !important;
 	height: 1px !important;
 }
+caption.rex-hide {
+	display:none;
+}
 legend.rex-hidden {
 	display:none;
 }
@@ -133,6 +136,27 @@ div#rex-output div.rex-warning-blck {
 h2 {
 	margin-bottom:1.2em;
 }
+
+.rex-cnt-slc-otp h1 {
+	font-size:2em;
+}
+.rex-cnt-slc-otp h2 {
+	margin-bottom:0;
+	font-size:1.6em;
+}
+.rex-cnt-slc-otp h3 {
+	font-size:1.4em;
+}
+.rex-cnt-slc-otp h4 {
+	font-size:1.2em;
+}
+.rex-cnt-slc-otp h5 {
+	font-size:1.1em;
+}
+.rex-cnt-slc-otp h6 {
+	font-size:1em;
+}
+
 
 /*	Font Metrics
 *******************************************************************************/
@@ -464,6 +488,7 @@ div.rex-cnt-hdr ul li a {
 
 /*	Cnt Navi - Editmode / Meta / Show */
 div.rex-cnt-hdr ul.rex-cnt-nav {
+	display:inline;
 	float:right;
 	margin-right:153px;
 	padding-right:10px;
@@ -512,6 +537,10 @@ body div#rex-output p label.rex-lbl-rght {
 	width:200px;
 	padding-top:0;
 }
+body div#rex-output div.rex-chckbxs p label span,
+body div#rex-output div.rex-chckbxs div.rex-ptag label span {
+	padding-left:20px;
+}
 
 /*
 	p.rex-chckbx - just in content.inc.php
@@ -527,10 +556,10 @@ body#rex-page-medienpool div#rex-output td input.rex-sbmt {
 }
 
 body div#rex-output p select.rex-fdatey {
-	width:60px;
+	width:70px;
 }
 body div#rex-output p select.rex-fdate {
-	width:40px;
+	width:50px;
 }
 
 /*	Table
@@ -850,14 +879,14 @@ div.rex-cnt-editmode div.rex-cnt-editmode-slc p {
 div.rex-cnt-editmode div.rex-cnt-editmode-slc ul {
 	padding:0 10px;
 	background:#e4eff2;
-	line-height:2.2em;
 }
 div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li {
 	display:block;
 	float:left;
-	padding:0 5px;
+	padding:0px 5px;
+	line-height:2.2em;
 }
-div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li img {
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
 	vertical-align:middle;
 }
 
@@ -968,6 +997,10 @@ div.rex-cnt-metamode div.rex-ptag {
 div.rex-cnt-metamode div.rex-ptag p {
 	padding-left:0;
 	border:0;
+}
+
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt p {
+	padding:0;
 }
 div.rex-cnt-metamode div.rex-ptag div.rex-wdgt {
 	float:left;
@@ -1103,6 +1136,7 @@ div.rex-usr-editmode p input.rex-chckbx {
 	margin:0 5px 0 135px;
 }
 div.rex-usr-editmode p input.rex-sbmt {
+	float:left;
 	margin-left:155px;
 }
 
@@ -1501,3 +1535,7 @@ body#rex-page-import-export div.rex-cnt table td {
 
 
 
+/* noch in CC setzen */
+* html div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
+	padding-top:5px;;
+}
