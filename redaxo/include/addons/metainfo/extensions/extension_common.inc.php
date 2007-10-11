@@ -155,7 +155,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           else
           {
             $field .= '<p class="'. $class .'">'."\n";
-            $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
+            $field .= '<label for="'. $id .'"><span>'. htmlspecialchars($value) .'</span></label>';
             $field .= '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
             $field .= '</p>'."\n";
           }
