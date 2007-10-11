@@ -162,7 +162,7 @@ function rex_accesskey($title, $key)
   if($REX_USER->hasPerm('accesskeys[]'))
     return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
 
-  return 'title="'. $title .'"';
+  return ' title="'. $title .'"';
 }
 
 function rex_ini_get($val)
