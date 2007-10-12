@@ -257,7 +257,7 @@ class rex_var
 
   function isAddEvent()
   {
-    return !$this->isEditEvent();
+    return (rex_request('btn_save', 'string') != '') && rex_request('function', 'string') == 'add';
   }
 
   function isEditEvent()
