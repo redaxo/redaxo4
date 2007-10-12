@@ -1488,6 +1488,7 @@ div.rex-addon-editmode p input.rex-sbmt {
 
 /*	Addon - Metainfo
 *******************************************************************************/
+body#rex-page-medienpool fieldset p span.rex-notice,
 body#rex-page-metainfo fieldset p span.rex-notice {
 	display:block;
 	clear:both;
