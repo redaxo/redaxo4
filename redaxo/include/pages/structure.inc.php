@@ -732,27 +732,27 @@ echo '
 if ($category_id > -1)
 {
   $TEMPLATES = new rex_sql;
-  $TEMPLATES->setQuery("select * from ".$REX['TABLE_PREFIX']."template order by name");
+  $TEMPLATES->setQuery('select * from '.$REX['TABLE_PREFIX'].'template order by name');
   $TMPL_SEL = new rex_select;
-  $TMPL_SEL->setName("template_id");
-  $TMPL_SEL->setId("template_id");
+  $TMPL_SEL->setName('template_id');
+  $TMPL_SEL->setId('template_id');
   $TMPL_SEL->setSize(1);
-  $TMPL_SEL->addOption($I18N->msg("option_no_template"), "0");
+  $TMPL_SEL->addOption($I18N->msg('option_no_template'), '0');
 
   for ($i = 0; $i < $TEMPLATES->getRows(); $i++)
   {
-    if ($TEMPLATES->getValue("active") == 1)
+    if ($TEMPLATES->getValue('active') == 1)
     {
-      $TMPL_SEL->addOption($TEMPLATES->getValue("name"), $TEMPLATES->getValue("id"));
+      $TMPL_SEL->addOption(rex_translate($TEMPLATES->getValue('name')), $TEMPLATES->getValue('id'));
     }
-    $TEMPLATE_NAME[$TEMPLATES->getValue("id")] = $TEMPLATES->getValue("name");
+    $TEMPLATE_NAME[$TEMPLATES->getValue('id')] = rex_translate($TEMPLATES->getValue('name'));
     $TEMPLATES->next();
   }
-  $TEMPLATE_NAME[0] = $I18N->msg("template_default_name");
+  $TEMPLATE_NAME[0] = $I18N->msg('template_default_name');
 
   // --------------------- ARTIKEL LIST
 
-  if (isset ($amessage) and $amessage != "")
+  if (isset ($amessage) and $amessage != '')
   {
     echo rex_warning($amessage);
   }
