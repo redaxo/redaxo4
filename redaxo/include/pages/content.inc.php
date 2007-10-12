@@ -764,7 +764,7 @@ if ($article->getRows() == 1)
 					else if ($article->getValue('startpage')==1)
 						echo $I18N->msg('content_isstartarticle');
 					else
-						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' />';
+						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_tostartarticle') . '\')"/>';
 
 					echo '
 									  </p>
