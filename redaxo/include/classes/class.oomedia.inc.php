@@ -78,10 +78,10 @@ class OOMedia
   /**
    * @access public
    */
-  function & getMediaById($id)
+  function getMediaById($id)
   {
     $id = (int) $id;
-    if (!is_numeric($id))
+    if ($id==0)
     {
       return null;
     }
@@ -92,7 +92,7 @@ class OOMedia
     $result = $sql->getArray($query);
     if (count($result) == 0)
     {
-      //trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_NOTICE);
+      trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_NOTICE);
       return null;
     }
 
@@ -125,7 +125,7 @@ class OOMedia
   /**
    * @access public
    */
-  function & getMediaByName($filename)
+  function getMediaByName($filename)
   {
     return OOMedia :: getMediaByFileName($filename);
   }
@@ -136,7 +136,7 @@ class OOMedia
    * @example OOMedia::getMediaByExtension('css');
    * @example OOMedia::getMediaByExtension('gif');
    */
-  function & getMediaByExtension($extension)
+  function getMediaByExtension($extension)
   {
     $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.$extension.'"';
     $sql = new rex_sql();
@@ -159,7 +159,7 @@ class OOMedia
   /**
    * @access public
    */
-  function & getMediaByFileName($name)
+  function getMediaByFileName($name)
   {
     $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.$name.'"';
     $sql = new rex_sql();
@@ -234,24 +234,6 @@ class OOMedia
   function getTitle()
   {
     return $this->_title;
-  }
-
-  /**
-   * @access public
-   * @deprecated 12.10.2007
-   */
-  function getDescription()
-  {
-    return $this->_description;
-  }
-
-  /**
-   * @access public
-   * @deprecated 12.10.2007
-   */
-  function getCopyright()
-  {
-    return $this->_copyright;
   }
 
   /**
