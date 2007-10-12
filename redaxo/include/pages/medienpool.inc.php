@@ -546,7 +546,7 @@ if ($PERMALL && $subpage == "categories")
 	  <div class="rex-mpl-cat">
       <form action="index.php" method="post">
         <fieldset>
-          <legend class="rex-lgnd"><span class="rex-hide">'. $legend .'</span></legend>
+          <!-- <legend class="rex-lgnd"><span class="rex-hide">'. $legend .'</span></legend> -->
           <input type="hidden" name="page" value="medienpool" />
           <input type="hidden" name="subpage" value="categories" />
           <input type="hidden" name="media_method" value="'. $method .'" />
