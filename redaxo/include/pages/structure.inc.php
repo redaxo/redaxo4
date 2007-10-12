@@ -56,14 +56,27 @@ include $REX['INCLUDE_PATH'].'/functions/function_rex_languages.inc.php';
 
 // -------------- STATUS_TYPE Map
 
-$statusTypes = array(
-  // I18N-Key, CSS-Class
-  array('status_offline', 'rex-offline'),
-  array('status_online', 'rex-online')
+$catStatusTypes = array(
+  // Name, CSS-Class
+  array($I18N->msg('status_offline'), 'rex-offline'),
+  array($I18N->msg('status_online'), 'rex-online')
+);
+
+$statusTypes;
+
+$artStatusTypes = array(
+  // Name, CSS-Class
+  array($I18N->msg('status_offline'), 'rex-offline'),
+  array($I18N->msg('status_online'), 'rex-online')
 );
 
 // ----- EXTENSION POINT
-$statusTypes = rex_register_extension_point('STATUS_TYPES', $statusTypes);
+$catStatusTypes = rex_register_extension_point('CAT_STATUS_TYPES', $catStatusTypes);
+$artStatusTypes = rex_register_extension_point('ART_STATUS_TYPES', $artStatusTypes);
+
+
+
+
 
 // --------------------------------------------- KATEGORIE FUNKTIONEN
 if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
@@ -189,7 +202,7 @@ elseif ($function == 'status' && $edit_id != ''
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
   if ($KAT->getRows() == 1)
   {
-    $newstatus = ($KAT->getValue('status') + 1) % count($statusTypes);
+    $newstatus = ($KAT->getValue('status') + 1) % count($catStatusTypes);
 
     $EKAT = new rex_sql;
     $EKAT->setTable($REX['TABLE_PREFIX'].'article');
@@ -263,7 +276,7 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     $AART->setValue('name', $category_name);
     $AART->setValue('catname', $category_name);
 // TODO Neue noch nicht verwendete Datenbankspalten
-//    $AART->setValue('attributes', $category_attributes);
+// $AART->setValue('attributes', $category_attributes);
     $AART->setValue('attributes', '');
     $AART->setValue('catprior', $Position_New_Category);
     $AART->setValue('re_id', $category_id);
@@ -311,7 +324,7 @@ if ($function == 'status_article' && $article_id != ''
   $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
   if ($GA->getRows() == 1)
   {
-    $newstatus = ($GA->getValue('status') + 1) % count($statusTypes);
+    $newstatus = ($GA->getValue('status') + 1) % count($artStatusTypes);
 
     $EA = new rex_sql;
     $EA->setTable($REX['TABLE_PREFIX']."article");
@@ -374,7 +387,7 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
     $AART->setValue('name', $article_name);
     $AART->setValue('catname', $category_name);
 // TODO Neue noch nicht verwendete Datenbankspalten
-//    $AART->setValue('attributes', $category_attributes);
+// $AART->setValue('attributes', $category_attributes);
     $AART->setValue('attributes', '');
     $AART->setValue('clang', $key);
     $AART->setValue('re_id', $category_id);
@@ -599,8 +612,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
   $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
   $kat_icon_td = '<td class="rex-icon"><a href="'. $kat_link .'"><img src="media/folder.gif" alt="'. htmlspecialchars($KAT->getValue("catname")). '" title="'. htmlspecialchars($KAT->getValue("catname")). '"/></a></td>';
 
-  $kat_status = $I18N->msg($statusTypes[$KAT->getValue('status')][0]);
-  $status_class = $statusTypes[$KAT->getValue('status')][1];
+  $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
+  $status_class = $catStatusTypes[$KAT->getValue('status')][1];
 
   if ($KATPERM)
   {
@@ -924,8 +937,8 @@ if ($category_id > -1)
         $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
       }
 
-      $article_status = $I18N->msg($statusTypes[$sql->getValue('status')][0]);
-      $article_class = $statusTypes[$sql->getValue('status')][1];
+      $article_status = $artStatusTypes[$sql->getValue('status')][0];
+      $article_class = $artStatusTypes[$sql->getValue('status')][1];
 
       $add_extra = '';
       if ($sql->getValue('startpage') == 1)
@@ -974,8 +987,8 @@ if ($category_id > -1)
         $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
       }
 
-      $art_status = $I18N->msg($statusTypes[$sql->getValue('status')][0]);
-      $art_status_class = $statusTypes[$sql->getValue('status')][1];
+      $art_status = $artStatusTypes[$sql->getValue('status')][0];
+      $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
 
       echo '<tr>
               <td class="rex-icon"><img src="media/'. $icon .'" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></td>
