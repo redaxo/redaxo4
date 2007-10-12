@@ -25,6 +25,10 @@ Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.d
 <b>Markus Staab</b>, markus.staab@redaxo.de
 Kernentwickler
 
+<b>Wolfgang Hutteger</b>, wolfgang.huttegger@redaxo.de
+Kernentwickler
+vscope new media, <a href="http://www.vscope.at">www.vscope.at</a>
+
 <b>Thomas Blum</b>, thomas.blum@redaxo.de
 Layout/Design Entwickler
 blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
