@@ -25,7 +25,7 @@ Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.d
 <b>Markus Staab</b>, markus.staab@redaxo.de
 Kernentwickler
 
-<b>Wolfgang Hutteger</b>, wolfgang.huttegger@redaxo.de
+<b>Wolfgang Huttegger</b>, wolfgang.huttegger@redaxo.de
 Kernentwickler
 vscope new media, <a href="http://www.vscope.at">www.vscope.at</a>
 
