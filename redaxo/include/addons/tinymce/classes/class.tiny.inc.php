@@ -24,7 +24,7 @@ class rexTiny2Editor
 {
 
 
-  var $editorCSS = '../files/tmp_/tinymce/content.css';
+  var $editorCSS = '../files/tmp_/tinymce/tinymce.css';
   var $advimageCSS = '';
   var $disable = '';
   var $plugins = 'advlink,advimage,emotions,iespell,table,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,redaxo';

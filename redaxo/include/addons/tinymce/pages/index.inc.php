@@ -55,7 +55,7 @@ TEXT;
 
 \$editor=new rexTiny2Editor();
 \$editor->id=1;
-\$editor->content=\$value1;;
+\$editor->content=\$value1;
 \$editor->show();
 ?>
 EOD;
@@ -72,10 +72,10 @@ TEXT;
 \$editor1=new rexTiny2Editor();
 \$editor1->id=1;
 \$editor1->content=\$value1;
-\$editor1->editorCSS = "../files/tinymce/content.css";
-\$editor1->disable="justifyleft,justifycenter,justifyright,justifyfull";
-\$editor1->buttons3="tablecontrols,separator,search,replace,separator,print";
-\$editor1->add_validhtml="img[myspecialtag]";
+\$editor1->editorCSS = '../files/tmp_/tinymce/content.css';
+\$editor1->disable='justifyleft,justifycenter,justifyright,justifyfull';
+\$editor1->buttons3='tablecontrols,separator,search,replace,separator,print';
+\$editor1->add_validhtml='img[myspecialtag]';
 \$editor1->show();
 
 // Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
@@ -103,16 +103,22 @@ REX_HTML_VALUE[1]
 TEXT;
 
   if (\$REX['REDAXO'])
-  {
-    \$content=str_replace('src="files/','src="../files/',\$content);
-    echo '<link rel="stylesheet" type="text/css" href="../files/tinymce/content.css" />';
-  }
+    echo '<link rel="stylesheet" type="text/css" href="../files/tmp_/tinymce/tinymce.css" />';
+
   echo \$content;
   echo '</div>';
 }
 ?>
 EOD;
 
+$mdl_css = <<<EOD
+<head>
+  ...
+  <link rel="stylesheet" type="text/css"
+   href="files/tmp_/tinymce/tinymce.css" media="screen" />
+  ...
+</head>
+EOD;
 
 ?>
 
@@ -127,6 +133,12 @@ EOD;
 			<a href="?page=tinymce&amp;install=spellchecker">Spellchecker</a>
 		</p>
 	</div>
+
+  <h2><?php echo $I18N_A52->msg('modulecss'); ?></h2>
+
+  <div class="rex-addon-content">
+    <?php highlight_string($mdl_css); ?>
+  </div>
 
 	<h2><?php echo $I18N_A52->msg('moduleinput_simple'); ?></h2>
 
