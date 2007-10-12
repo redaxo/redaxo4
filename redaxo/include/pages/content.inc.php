@@ -715,12 +715,12 @@ if ($article->getRows() == 1)
 
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM_SECTION', '', array (
-        "id" => $article_id,
-        "clang" => $clang
+        'id' => $article_id,
+        'clang' => $clang
       ));
 
       // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN
-      function add_cat_options(& $select, & $cat, & $cat_ids, $groupName = '', $nbsp = '')
+      function add_cat_options(& $select, & $cat, & $cat_ids, $groupName = '', $nbsp = '&nbsp;&nbsp;')
       {
 
         global $REX_USER;
@@ -730,13 +730,13 @@ if ($article->getRows() == 1)
         }
 
         $cat_ids[] = $cat->getId();
-        if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("csw[0]") || $REX_USER->hasPerm("csr[" . $cat->getId() . "]") || $REX_USER->hasPerm("csw[" . $cat->getId() . "]"))
+        if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csr[' . $cat->getId() . ']') || $REX_USER->hasPerm('csw[' . $cat->getId() . ']'))
         {
           $select->addOption($nbsp . $cat->getName(), $cat->getId());
           $childs = $cat->getChildren();
           if (is_array($childs))
           {
-            $nbsp = $nbsp . '&nbsp;&nbsp;&nbsp;';
+            $nbsp .= $nbsp;
             foreach ($childs as $child)
             {
               add_cat_options($select, $child, $cat_ids, $cat->getName(), $nbsp);
@@ -764,7 +764,7 @@ if ($article->getRows() == 1)
 					else if ($article->getValue('startpage')==1)
 						echo $I18N->msg('content_isstartarticle');
 					else
-						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_tostartarticle') . '\')"/>';
+						echo '<input class="rex-sbmt" type="submit" name="article2startpage" value="' . $I18N->msg('content_tostartarticle') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_tostartarticle') . '?\')" />';
 
 					echo '
 									  </p>
@@ -804,16 +804,16 @@ if ($article->getRows() == 1)
 
           echo '
                 <fieldset>
-                  <legend class="rex-lgnd">' . $I18N->msg("content_submitcopycontent") . '</legend>
+                  <legend class="rex-lgnd">' . $I18N->msg('content_submitcopycontent') . '</legend>
   							  <div class="rex-fldst-wrppr">
 									  <p>
-											<label for="clang_a">' . $I18N->msg("content_contentoflang") . '</label>
+											<label for="clang_a">' . $I18N->msg('content_contentoflang') . '</label>
 											' . $lang_a->get() . '
-											<label for="clang_b">' . $I18N->msg("content_to") . '</label>
+											<label for="clang_b">' . $I18N->msg('content_to') . '</label>
 											' . $lang_b->get() . '
 									  </p>
 									  <p>
-											<input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg("content_submitcopycontent") . '"'. rex_tabindex() .' />
+											<input class="rex-sbmt" type="submit" name="copycontent" value="' . $I18N->msg('content_submitcopycontent') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitcopycontent') . '?\')" />
 									  </p>
 								  </div>
                 </fieldset>';
@@ -822,7 +822,7 @@ if ($article->getRows() == 1)
         // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
         // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
-        if ($article->getValue("startpage") == 0 && ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("moveArticle[]")))
+        if ($article->getValue('startpage') == 0 && ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('moveArticle[]')))
         {
 
           // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
@@ -832,26 +832,26 @@ if ($article->getRows() == 1)
           $move_a->setSize('1');
           $move_a->setAttribute('tabindex', rex_tabindex(false));
           $move_a->setSelected($category_id);
-          $move_a->addOption("Homepage",0);
+          $move_a->addOption('Homepage',0);
 
           if ($cats = OOCategory :: getRootCategories())
           {
             foreach ($cats as $cat)
             {
-              add_cat_options($move_a, $cat, $cat_ids, '', '&nbsp;&nbsp;&nbsp;');
+              add_cat_options($move_a, $cat, $cat_ids, '');
             }
           }
 
           echo '
                 <fieldset>
-                  <legend class="rex-lgnd">' . $I18N->msg("content_submitmovearticle") . '</legend>
+                  <legend class="rex-lgnd">' . $I18N->msg('content_submitmovearticle') . '</legend>
 						      <div class="rex-fldst-wrppr">
 									  <p>
-											<label for="category_id_new">' . $I18N->msg("move_article") . '</label>
+											<label for="category_id_new">' . $I18N->msg('move_article') . '</label>
 											' . $move_a->get() . '
 									  </p>
 									  <p>
-											<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg("content_submitmovearticle") . '"'. rex_tabindex() .' />
+											<input class="rex-sbmt" type="submit" name="movearticle" value="' . $I18N->msg('content_submitmovearticle') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitmovearticle') . '?\')" />
 									  </p>
 								  </div>
                 </fieldset>';
@@ -869,26 +869,26 @@ if ($article->getRows() == 1)
           $move_a->setSelected($category_id);
           $move_a->setAttribute('tabindex', rex_tabindex(false));
 
-					$move_a->addOption("Homepage",0);
+					$move_a->addOption('Homepage',0);
 
           if ($cats = OOCategory :: getRootCategories())
           {
             foreach ($cats as $cat)
             {
-              add_cat_options($move_a, $cat, $cat_ids, '', '&nbsp;&nbsp;&nbsp;');
+              add_cat_options($move_a, $cat, $cat_ids, '');
             }
           }
 
           echo '
                   <fieldset>
-                    <legend class="rex-lgnd">' . $I18N->msg("content_submitcopyarticle") . '</legend>
+                    <legend class="rex-lgnd">' . $I18N->msg('content_submitcopyarticle') . '</legend>
     							  <div class="rex-fldst-wrppr">
 										  <p>
-												<label for="category_copy_id_new">' . $I18N->msg("copy_article") . '</label>
+												<label for="category_copy_id_new">' . $I18N->msg('copy_article') . '</label>
 												' . $move_a->get() . '
 										  </p>
 										  <p>
-												<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg("content_submitcopyarticle") . '"'. rex_tabindex() .' />
+												<input class="rex-sbmt" type="submit" name="copyarticle" value="' . $I18N->msg('content_submitcopyarticle') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitcopyarticle') . '?\')" />
 										  </p>
 									  </div>
                   </fieldset>';
@@ -906,25 +906,25 @@ if ($article->getRows() == 1)
           $move_a->setSelected($article_id);
           $move_a->setAttribute('tabindex', rex_tabindex(false));
 
-					$move_a->addOption("Homepage",0);
+					$move_a->addOption('Homepage',0);
 
           if ($cats = OOCategory :: getRootCategories())
           {
             foreach ($cats as $cat)
             {
-              add_cat_options($move_a, $cat, $cat_ids, "", "&nbsp;&nbsp;");
+              add_cat_options($move_a, $cat, $cat_ids, '');
             }
           }
           echo '
                   <fieldset>
-                    <legend class="rex-lgnd">' . $I18N->msg("content_submitmovecategory") . '</legend>
+                    <legend class="rex-lgnd">' . $I18N->msg('content_submitmovecategory') . '</legend>
     							  <div class="rex-fldst-wrppr">
 										  <p>
-												<label for="category_id_new">' . $I18N->msg("move_category") . '</label>
+												<label for="category_id_new">' . $I18N->msg('move_category') . '</label>
 												' . $move_a->get() . '
 										  </p>
 										  <p>
-												<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg("content_submitmovecategory") . '"'. rex_tabindex() .' />
+												<input class="rex-sbmt" type="submit" name="movecategory" value="' . $I18N->msg('content_submitmovecategory') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitmovecategory') . '?\')" />
 										  </p>
 									  </div>
                   </fieldset>';
