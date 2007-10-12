@@ -47,6 +47,7 @@ $sel_all->setStyle('class=rex-perm-fselect');
 $sel_all->setSize(10);
 $sel_all->setName('userperm_all[]');
 $sel_all->setId('userperm_all');
+sort($REX['PERM']);
 $sel_all->addArrayOptions($REX['PERM'],false);
 
 
@@ -57,6 +58,7 @@ $sel_ext->setStyle('class=rex-perm-fselect');
 $sel_ext->setSize(10);
 $sel_ext->setName('userperm_ext[]');
 $sel_ext->setId('userperm_ext');
+sort($REX['EXTPERM']);
 $sel_ext->addArrayOptions($REX['EXTPERM'],false);
 
 // zugriff auf categorien
@@ -179,8 +181,10 @@ $sel_extra->setName('userperm_extra[]');
 $sel_extra->setId('userperm_extra');
 
 if (isset($REX['EXTRAPERM']))
+{
+  sort($REX['EXTRAPERM']);
   $sel_extra->addArrayOptions($REX['EXTRAPERM'], false);
-
+}
 
 // --------------------------------- Title
 
