@@ -14,6 +14,9 @@ if (!isset($REX))
               var needle = new parent.getObj("security_warning");
               var span = needle.obj;
               span.style.display="";
+              var needle = new parent.getObj("nextstep");
+              var span = needle.obj;
+              span.style.display="none";
             </script>
           </head>
           <body></body>
@@ -252,7 +255,7 @@ if ($MSG['err'] == '' && $checkmodus == 1)
   echo $I18N->msg('setup_016', '<h2>', '</h2>', '<span class="rex-ok">', '</span>').'
         <p id="security_warning" class="security_warning" style="display: none">'. $I18N->msg('setup_security_msg') .'</p>
         <noscript><p class="security_warning">'. $I18N->msg('setup_no_js_security_msg') .'</p></noscript>
-        <p><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a></p>
+        <p id="nextstep"><a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a></p>
         <iframe src="include/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display:none"></iframe>';
 
 }
@@ -355,7 +358,8 @@ if ($checkmodus == 2)
     }
 
     $psw_functions = '';
-    foreach(array('', 'sha1', 'md5') as $key => $algo)
+    // foreach(array('', 'sha1', 'md5') as $key => $algo)
+    foreach(array('', 'md5') as $key => $algo)
     {
       $key = $algo;
       if($algo == '') $algo = $I18N->msg('setup_no_encryption');
