@@ -139,7 +139,7 @@ echo '
         <p><a href="index.php?page=specials&amp;func=linkchecker">'.$I18N->msg("link_checker").'</a></p>
         <p>'.$I18N->msg("check_links_text").'</p>
 
-        <p><a href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'\')";
+        <p><a href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\')";
 >'.$I18N->msg("setup").'</a></p>
         <p>'.$I18N->msg("setup_text").'</p>
       </div>
