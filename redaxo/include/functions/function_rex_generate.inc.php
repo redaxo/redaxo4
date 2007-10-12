@@ -93,10 +93,10 @@ function rex_deleteCacheArticle($id, $clang = null)
   {
     if(!$clang || $clang && $clang == $_clang)
     {
-    	@unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.article');
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.content');
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.alist');
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id . $_clang .'.clist');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'_'. $_clang .'.article');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'_'. $_clang .'.content');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'_'. $_clang .'.alist');
+      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'_'. $_clang .'.clist');
     }
 	}
 }
@@ -1315,7 +1315,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $FILESQL->addGlobalUpdateFields();
     $FILESQL->insert();
     $ok = 1;
-    
+
     $message .= $I18N->msg("pool_file_added");
   }
 
