@@ -1229,9 +1229,9 @@ function rex_generateTemplate($template_id)
  * @param $FILEINFOS
  * @param $userlogin
 */
-function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = "system"){
+function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null){
 
-  global $REX,$REX_USER,$I18N;
+  global $REX,$I18N;
 
   $rex_file_category = (int) $rex_file_category;
 
@@ -1251,7 +1251,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   // ----- neuer filename und extension holen
   $NFILENAME = strtolower($FILENAME);
   $NFILENAME = str_replace(array('ä','ö', 'ü', 'ß'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
-  $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\$\+]/','_',$NFILENAME);
+  $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\+]/','_',$NFILENAME);
   if (strrpos($NFILENAME,'.') != '')
   {
     $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,'.')));
@@ -1311,8 +1311,8 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $FILESQL->setValue('height',$size[1]);
     $FILESQL->setValue('category_id',$rex_file_category);
     // TODO Create + Update zugleich?
-    $FILESQL->addGlobalCreateFields();
-    $FILESQL->addGlobalUpdateFields();
+    $FILESQL->addGlobalCreateFields($userlogin);
+    $FILESQL->addGlobalUpdateFields($userlogin);
     $FILESQL->insert();
     $ok = 1;
 
