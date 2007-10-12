@@ -144,6 +144,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         {
           $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
 
+          // wenn man keine Werte angibt (Boolean Chkbox/Radio)
+          // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
+          if($oneValue && $key == '')
+            $key = 'true';
+
           $selected = '';
           if(in_array($key, $dbvalues))
             $selected = ' checked="checked"';
