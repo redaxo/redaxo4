@@ -130,7 +130,6 @@ if ($function == 'add' or $function == 'edit')
           for ($i=0; $i<$gc->getRows(); $i++)
           {
           	rex_deleteCacheArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
-            // rex_generateArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
             $gc->next();
           }
         }
@@ -228,7 +227,7 @@ if ($function == 'add' or $function == 'edit')
           $iaction_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.id');
           $action_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.action_id');
           $action_edit_url = 'index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit';
-          $action_name = htmlspecialchars($gma->getValue('name'));
+          $action_name = rex_translate($gma->getValue('name'));
 
           $actions .= '<tr>
           	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . $action_name . '" title="' . $action_name . '" /></a></td>
@@ -274,7 +273,7 @@ if ($function == 'add' or $function == 'edit')
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $gaa_sel->addOption(htmlspecialchars($gaa->getValue('name')),$gaa->getValue('id'));
+          $gaa_sel->addOption(rex_translate($gaa->getValue('name')),$gaa->getValue('id'));
           $gaa->next();
         }
 
