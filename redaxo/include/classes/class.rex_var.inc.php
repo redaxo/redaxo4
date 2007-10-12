@@ -254,17 +254,17 @@ class rex_var
     }
     return $result;
   }
-  
+
   function isAddEvent()
   {
     return !$this->isEditEvent();
   }
-  
+
   function isEditEvent()
   {
-    return (rex_request('btn_update', 'string') != '' || rex_request('btn_save', 'string') != '');
+    return (rex_request('btn_update', 'string') != '' || rex_request('btn_save', 'string') != '') && rex_request('function', 'string') == 'edit';
   }
-  
+
   function isDeleteEvent()
   {
     return rex_request('function', 'string') == 'delete';
