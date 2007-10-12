@@ -238,6 +238,24 @@ class OOMedia
 
   /**
    * @access public
+   * @deprecated 12.10.2007
+   */
+  function getDescription()
+  {
+    return $this->_description;
+  }
+
+  /**
+   * @access public
+   * @deprecated 12.10.2007
+   */
+  function getCopyright()
+  {
+    return $this->_copyright;
+  }
+
+  /**
+   * @access public
    */
   function getFileName()
   {
