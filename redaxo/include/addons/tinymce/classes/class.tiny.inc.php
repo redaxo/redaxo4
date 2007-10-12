@@ -320,11 +320,11 @@ class rexTiny2Editor
     {
       $address = $_SERVER['SCRIPT_FILENAME'];
     }
-    
-    
+
+
     $this->address = dirname(dirname($_SERVER['PHP_SELF']));
 
-    $splitURL = split("/redaxo/", $this->address);
+    $splitURL = split('/redaxo/', $this->address);
 
     $this->address = $splitURL[0];
 
@@ -334,7 +334,7 @@ class rexTiny2Editor
       $useGzip = file_exists($script);
 
       if (!$useGzip)
-        $script = '../files/tinymce/jscripts/tiny_mce/tiny_mce.js';
+        $script = '../files/tmp_/tinymce/jscripts/tiny_mce/tiny_mce.js';
 
       $init = "\n" . '<script language="javascript" type="text/javascript" src="' . $script . '"></script>';
 
@@ -426,7 +426,7 @@ class rexTiny2Editor
     echo ' win.resetImageData();'."\n";
     echo ' win.showPreviewImage(imageUrl, false);'."\n";
     echo '}' . "\n";
-    
+
     echo 'function insertFileLink(fileUrl,title){' . "\n";
     echo '  tinyMCE.themes["advanced"]._insertLink(fileUrl,"_self");' . "\n";
     echo '}' . "\n";
