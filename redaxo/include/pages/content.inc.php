@@ -708,7 +708,7 @@ if ($article->getRows() == 1)
 
       echo '
 								<p>
-								  <input class="rex-sbmt" type="submit" name="savemeta" value="' . $I18N->msg("update_metadata") . '"'. rex_accesskey($I18N->msg('update_metadata'), $REX['ACKEY']['SAVE']) . rex_tabindex() .' title="' . $I18N->msg("update_metadata") . ' ['.$REX['ACKEY']['SAVE'].']" />
+								  <input class="rex-sbmt" type="submit" name="savemeta" value="' . $I18N->msg("update_metadata") . '"'. rex_accesskey($I18N->msg('update_metadata'), $REX['ACKEY']['SAVE']) . rex_tabindex() .' />
 								</p>
 	            </div>
 	         </fieldset>';
