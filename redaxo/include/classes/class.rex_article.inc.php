@@ -283,31 +283,31 @@ class rex_article
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
-          $RE_CONTS[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.id");
-          $RE_CONTS_CTYPE[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
-          $RE_MODUL_IN[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.eingabe");
-          $RE_MODUL_OUT[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.ausgabe");
-          $RE_MODUL_ID[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.id");
-          $RE_MODUL_NAME[$this->CONT->getValue("re_article_slice_id")] = $this->CONT->getValue($REX['TABLE_PREFIX']."module.name");
-          $RE_C[$this->CONT->getValue("re_article_slice_id")] = $i;
+          $RE_CONTS[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+          $RE_CONTS_CTYPE[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+          $RE_MODUL_IN[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.eingabe');
+          $RE_MODUL_OUT[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.ausgabe');
+          $RE_MODUL_ID[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.id');
+          $RE_MODUL_NAME[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.name');
+          $RE_C[$this->CONT->getValue('re_article_slice_id')] = $i;
           $this->CONT->next();
         }
 
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
-        if($this->mode=="edit")
+        if($this->mode=='edit')
         {
           $MODULE = new rex_sql;
-          $MODULE->setQuery("select * from ".$REX['TABLE_PREFIX']."module order by name");
+          $MODULE->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
 
           $MODULESELECT = new rex_select;
-          $MODULESELECT->setName("module_id");
-          $MODULESELECT->setSize("1");
+          $MODULESELECT->setName('module_id');
+          $MODULESELECT->setSize('1');
           $MODULESELECT->setAttribute('onchange', 'this.form.submit();');
-          $MODULESELECT->addOption("----------------------------  ".$I18N->msg("add_block"),'');
+          $MODULESELECT->addOption('----------------------------  '.$I18N->msg('add_block'),'');
 
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
-            if ($REX_USER->hasPerm("module[".$MODULE->getValue("id")."]") || $REX_USER->hasPerm("admin[]")) $MODULESELECT->addOption($MODULE->getValue("name"),$MODULE->getValue("id"));
+            if ($REX_USER->hasPerm('module['.$MODULE->getValue('id').']') || $REX_USER->hasPerm('admin[]')) $MODULESELECT->addOption(rex_translate($MODULE->getValue('name')),$MODULE->getValue('id'));
             $MODULE->next();
           }
         }
