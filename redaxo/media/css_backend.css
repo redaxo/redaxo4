@@ -1534,9 +1534,16 @@ body#rex-page-import-export div.rex-cnt table td {
 	background-color:#FAF9F5;
 }
 
-
-
 /* noch in CC setzen */
 * html div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
 	padding-top:5px;;
+}
+
+p#security_warning{
+	font-size: 1.2em;
+	margin:0;
+	padding:5px;
+	background:#fae9e5 0% 50% no-repeat;
+	color:#ea1144;
+	font-weight:bold;
 }
