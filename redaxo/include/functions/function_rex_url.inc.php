@@ -30,7 +30,7 @@ function rex_parse_article_name($name)
 /**
  * Baut einen Parameter String anhand des array $params
  */
-function rex_param_string($params)
+function rex_param_string($params, $divider = '&amp;')
 {
   $param_string = '';
 
@@ -38,7 +38,7 @@ function rex_param_string($params)
   {
     foreach ($params as $key => $value)
     {
-      $param_string .= '&'.urlencode($key).'='.urlencode($value);
+      $param_string .= $divider.urlencode($key).'='.urlencode($value);
     }
   }
   elseif ($params != '')
@@ -50,29 +50,15 @@ function rex_param_string($params)
 }
 
 /**
- * Object Helper Function:
- * Returns a url for linking to this article
- * This url respects the setting for mod_rewrite
- * support!
+ * Gibt eine Url zu einem Artikel zurück
  *
- * If you pass an associative array for $params,
- * then these parameters will be attached to the URL.
- *
- *
- * USAGE:
- *   $param = array("order" => "123", "name" => "horst");
- *   $url = $article->getUrl($param);
- *
- *   - OR -
- *
- *   $url = $article->getUrl("order=123&name=horst");
- *
- * RETURNS:
- *   index.php?article_id=1&order=123&name=horst
- * or if mod_rewrite support is activated:
- *   /1-The_Article_Name?order=123&name=horst
+ * @param [$id] ArtikelId des Artikels
+ * @param [$clang] SprachId des Artikels
+ * @param [$params] Array von Parametern
+ * @param [$divider] Trennzeichen für Parameter
+ * (z.B. &amp; für HTML, & für Javascript)
  */
-function rex_getUrl($id = '', $clang = '', $params = '')
+function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
 {
   global $REX, $article_id;
 
@@ -92,7 +78,7 @@ function rex_getUrl($id = '', $clang = '', $params = '')
   }
 
   // ----- get params
-  $param_string = rex_param_string($params);
+  $param_string = rex_param_string($params, $divider);
 
   // ----- get article name
   $id = (int) $id;
