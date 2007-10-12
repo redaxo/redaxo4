@@ -114,20 +114,6 @@ function selectMedialist(filename)
   ?>
 }
 
-function insertLink(link){
-  window.opener.tinyMCE.insertLink( "<?php echo $backend_mediafolder ?>" + link,"_self");
-}
-
-function insertImage(src, alt, width, height)
-{
-  var image = '<img src="<?php echo $backend_mediafolder ?>'+ src +'" alt="'+ alt +'" style="width: '+ width +'; height:'+ height +'" class="rex_image" ismap="ismap" />';
-  insertHTML(image);
-}
-
-function insertHTML(html) {
-  window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
-}
-
 function SetAllCheckBoxes(FieldName, mthis)
 {
   var CheckValue;
@@ -146,22 +132,17 @@ function SetAllCheckBoxes(FieldName, mthis)
       objCheckBoxes[i].checked = CheckValue;
 }
 
-// ----- old functions
-
-function openImage(image){
-  window.open('index.php?page=medienpool&popimage='+image,'popview','width=123,height=111');
-}
-
-function insertHTMLArea(html,filename){
-  selection = window.opener.tinyMCE.getContent();
-  if(selection!=''){
-    html = '<a href=\"/files/'+filename+'\">'+selection+'<\/a>';
-  }
-  window.opener.tinyMCE.execCommand('mceInsertContent', false, html);
+function insertImage(src,alt)
+{
+  window.opener.insertImage('files/' + src, alt);
   self.close();
 }
 
-
+function insertLink(src)
+{
+  window.opener.insertFileLink('files/' + src);
+  self.close();
+}
 
 //-->
 </script>
@@ -685,20 +666,20 @@ if ($subpage == 'add_file' && $media_method == 'add_file'){
     {
       $file_name = $return['filename'];
       $ffiletype = $return['type'];
-      $width = $return['width'];
-      $height = $return['height'];
+      $title = $return['title'];
 
-      if($opener_input_field == 'TINY')
+      if($opener_input_field == 'TINYIMG')
       {
         if (OOMedia::_isImage($file_name))
         {
-          $js = "insertImage('$file_name','','$width','$height');";
-        }else
-        {
-          $js = "insertLink('".$file_name."');";
+          $js = "insertImage('$file_name','$title');";
         }
-
-      }elseif($opener_input_field != '')
+      }
+      elseif($opener_input_field == 'TINY')
+      {
+          $js = "insertLink('".$file_name."');";
+      }
+      elseif($opener_input_field != '')
       {
         if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
         {
@@ -980,13 +961,16 @@ if ($subpage == "detail")
     }
 
     if (!isset($opener_link)) $opener_link = '';
-    if($opener_input_field == 'TINY')
+    if($opener_input_field == 'TINYIMG')
     {
       if ($ffiletype_ii)
       {
-        $opener_link .= "<a href=javascript:insertImage('$fname','','".$gf->getValue("width")."','".$gf->getValue("height")."');>".$I18N->msg('pool_image_get')."</a> | ";
+        $opener_link .= "<a href=javascript:insertImage('$fname','".$gf->getValue("title")."');>".$I18N->msg('pool_image_get')."</a> | ";
       }
-      $opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
+
+    }
+    elseif($opener_input_field == 'TINY')
+    {      $opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
     }
     elseif($opener_input_field != '')
     {
@@ -1492,14 +1476,14 @@ if ($subpage == '')
 
     // ----- opener
     $opener_link = '';
-    if ($opener_input_field == 'TINY')
+    if ($opener_input_field == 'TINYIMG')
     {
       if (OOMedia::_isImage($file_name))
       {
-        $opener_link .= "<a href=\"javascript:insertImage('$file_name','". str_replace( " ", "&nbsp;", htmlspecialchars( $file_description)) ."','".$files->getValue("width")."','".$files->getValue("height")."');\">".$I18N->msg('pool_image_get')."</a><br>";
+        $opener_link .= "<a href=\"javascript:insertImage('$file_name','".$files->getValue("title")."')\">".$I18N->msg('pool_image_get')."</a><br>";
       }
-      $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
 
+    } elseif ($opener_input_field == 'TINY'){      $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
     } elseif ($opener_input_field != '')
     {
       $opener_link = "<a href=\"javascript:selectMedia('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
