@@ -24,6 +24,8 @@ rex_a52_extract_archive('include/addons/tinymce/js/tinymce_lang_de.zip', $I18N_A
 // Install Redaxo Plugin
 rex_a52_extract_archive('include/addons/tinymce/js/redaxo_tiny_plugin.zip', $I18N_A52->msg('install_redaxo_plugin'),'../files/tmp_/tinymce/jscripts/tiny_mce/plugins/');
 
+copy('include/addons/tinymce/css/tinymce.css', '../files/tmp_/tinymce/tinymce.css');
+
 $REX['ADDON']['install']['tinymce'] = true;
 
 ?>
