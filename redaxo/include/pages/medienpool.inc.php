@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package redaxo3
@@ -173,6 +174,7 @@ foreach($subline as $c)
   if ($c[0] == $subpage) $title = $I18N->msg('pool_media').': '.$c[1];
 }
 
+$title = $I18N->msg('pool_media');
 rex_title($title, $subline);
 
 
@@ -391,7 +393,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   		<div class="rex-mpl-oth">
   		<form action="index.php" method="post" enctype="multipart/form-data">
            <fieldset>
-             <legend class="rex-lgnd"><span class="rex-hide">'. $form_title .'</span></legend>
+             <legend class="rex-lgnd"><span >'. $form_title .'</span></legend>
                <input type="hidden" name="page" value="medienpool" />
                <input type="hidden" name="media_method" value="add_file" />
                <input type="hidden" name="subpage" value="'. $subpage .'" />
@@ -1183,7 +1185,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     $title .= ' ('. $diff_count .')';
   }
   echo '<fieldset>';
-  echo '<legend class="rex-lgnd"><span class="rex-hide">'. $title .'</span></legend>';
+  echo '<legend class="rex-lgnd"><span>'. $title .'</span></legend>';
 
   if($diff_count > 0)
   {
