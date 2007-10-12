@@ -21,6 +21,8 @@ $I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/tinymce/lang/')
 rex_a52_extract_archive('include/addons/tinymce/js/tinymce.zip', $I18N_A52->msg('install_core'));
 // Install German Language Pack
 rex_a52_extract_archive('include/addons/tinymce/js/tinymce_lang_de.zip', $I18N_A52->msg('install_lang_pakage'));
+// Install Redaxo Plugin
+rex_a52_extract_archive('include/addons/tinymce/js/redaxo_tiny_plugin.zip', $I18N_A52->msg('install_redaxo_plugin'),'../files/tinymce/jscripts/tiny_mce/plugins/');
 
 $REX['ADDON']['install']['tinymce'] = true;
 

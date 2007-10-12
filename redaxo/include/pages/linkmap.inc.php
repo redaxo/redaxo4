@@ -143,12 +143,16 @@ if ($opener_input_field != '' && $opener_input_field_name == '')
 {
   $opener_input_field_name = $opener_input_field.'_NAME';
 }
-
+if($opener_input_field=="TINY"){
+	$func_body .= 'window.opener.insertLink(link,name)';
+} else {
 $func_body .= 'var linkid = link.replace("redaxo://","");
                var needle = new opener.getObj("'. $opener_input_field .'");
                needle.obj.value = linkid;
                var needle = new opener.getObj("'. $opener_input_field_name .'");
                needle.obj.value = name;';
+}
+               
 
 // ------------------------ Print JS Functions
 

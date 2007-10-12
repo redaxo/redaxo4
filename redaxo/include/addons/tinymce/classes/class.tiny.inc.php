@@ -287,7 +287,7 @@ class rexTiny2Editor
     ';
   var $add_validhtml = '';
   var $buttons1 = 'styleselect,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent';
-  var $buttons2 = 'link,unlink,insertEmail,separator,image,separator,removeformat,paste,pastetext,pasteword,code';
+  var $buttons2 = 'link,unlink,insertEmail,separator,image,insertMedia,separator,removeformat,paste,pastetext,pasteword,code';
   var $buttons3 = '';
   var $buttons4 = '';
   var $buttons1_add = '';
@@ -320,7 +320,9 @@ class rexTiny2Editor
     {
       $address = $_SERVER['SCRIPT_FILENAME'];
     }
-    $this->address = $address;
+    
+    
+    $this->address = dirname(dirname($_SERVER['PHP_SELF']));
 
     $splitURL = split("/redaxo/", $this->address);
 
@@ -360,9 +362,6 @@ class rexTiny2Editor
 
     if ($GLOBALS['TINY2']['boxes'] != 1)
     {
-      echo "\n" . '<input type="hidden" name="LINK[1]" />
-                       <input type="hidden" name="LINK_NAME[1]" />
-                       <input type="hidden" name="REX_MEDIA_1" />';
       $GLOBALS['TINY2']['boxes'] = "1";
     }
 
@@ -371,12 +370,14 @@ class rexTiny2Editor
 
     echo 'tinyMCE.init({' . "\n";
     echo 'document_base_url: sDocumentBase,' . "\n";
+    echo 'relative_urls: true,' . "\n";
     echo 'advimage_styles : "' . $this->advimageCSS . '",' . "\n";
     echo 'content_css : "' . $this->editorCSS . '",' . "\n";
     echo 'mode : "exact",' . "\n";
     echo 'elements : "tiny2e' . $this->id . '",' . "\n";
     echo 'theme : "advanced",' . "\n";
     echo 'advimage_image_browser_callback : "fileBrowserCallBack",' . "\n";
+    echo 'advlink_file_browser_callback:"linkBrowserCallBack",' . "\n";
     echo 'plugins : "' . $this->plugins . '",' . "\n";
     echo 'theme_advanced_disable : "' . $this->disable . '",' . "\n";
     echo 'theme_advanced_buttons1 : "' . $this->buttons1 . '",' . "\n";
@@ -392,7 +393,6 @@ class rexTiny2Editor
     echo 'inline_styles: true,' . "\n";
     echo 'valid_elements : ' . $this->validhtml . ",\n";
     echo 'extended_valid_elements : "' . $this->add_validhtml . '",' . "\n";
-    echo 'advlink_file_browser_callback:"insertIntLink",' . "\n";
     echo 'paste_auto_cleanup_on_paste : true,' . "\n";
     echo 'paste_convert_headers_to_strong : true,' . "\n";
     echo 'convert_fonts_to_spans : true,' . "\n";
@@ -400,16 +400,41 @@ class rexTiny2Editor
     echo 'remove_linebreaks : true,' . "\n";
     echo 'language: "' . $this->lang . '",' . "\n";
     echo 'apply_source_formatting : false,' . "\n";
-    echo 'accessibility_warnings : true' . "\n";
+    echo 'accessibility_warnings : false' . "\n";
     echo '});' . "\n";
 
     echo 'function fileBrowserCallBack(field_name, url, type, win) {' . "\n";
-    echo 'newWindow( "rexmediapopup", "../../../../../../redaxo/index.php?page=medienpool&opener_input_field=REX_MEDIA_1",660,500,",status=yes,resizable=yes");' . "\n";
+    echo 'newWindow( "rexmediapopup", sDocumentBase+"redaxo/index.php?page=medienpool&opener_input_field=TINYIMG",660,500,",status=yes,resizable=yes");' . "\n";
     echo '}' . "\n";
 
-    echo 'function insertIntLink(href, target){' . "\n";
-    echo 'newWindow( "rexlinkpopup", "../../../../../../redaxo/index.php?page=linkmap&opener_input_field=1",660,500,",status=yes,resizable=yes");' . "\n";
+    echo 'function linkBrowserCallBack(href, target){' . "\n";
+    echo 'newWindow( "rexlinkpopup", sDocumentBase+"redaxo/index.php?page=linkmap&opener_input_field=TINY",660,500,",status=yes,resizable=yes");' . "\n";
     echo '}' . "\n";
+
+    echo '//redaxo default callback functions' . "\n";
+
+    echo 'function insertLink(link,name){' . "\n";
+    echo ' var win=tinyMCE.getWindowArg("window");'."\n";
+    echo ' win.document.forms[0].href.value=link;'."\n";
+    echo ' win.document.forms[0].title.value=name;'."\n";
+    echo '}' . "\n";
+
+    echo 'function insertImage(imageUrl,title){' . "\n";
+    echo ' var win=tinyMCE.getWindowArg("window");'."\n";
+    echo ' win.document.forms[0].src.value=imageUrl;'."\n";
+    echo ' win.document.forms[0].title.value=title;'."\n";
+    echo ' win.resetImageData();'."\n";
+    echo ' win.showPreviewImage(imageUrl, false);'."\n";
+    echo '}' . "\n";
+    
+    echo 'function insertFileLink(fileUrl,title){' . "\n";
+    echo '  tinyMCE.themes["advanced"]._insertLink(fileUrl,"_self");' . "\n";
+    echo '}' . "\n";
+
+    echo 'function insertHtml(htmlCode){' . "\n";
+    echo ' tinyMCE.execCommand("mceInsertContent", false, htmlCode);' . "\n";
+    echo '}' . "\n";
+
     echo '</script>';
 
     echo '<textarea name="VALUE[' . $this->id . ']" class="tiny2" id="tiny2e' . $this->id . '" style="width:100%;" cols="50" rows="15">' . $this->content . '</textarea>';

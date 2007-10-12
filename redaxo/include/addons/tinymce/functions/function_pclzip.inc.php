@@ -15,10 +15,10 @@
 
 include_once $REX['INCLUDE_PATH'] . '/addons/tinymce/classes/class.pclzip.inc.php';
 
-function rex_a52_extract_archive($file, $msg = '' )
+function rex_a52_extract_archive($file, $msg = '', $path='../files/tmp_' )
 {
 	$archive = new PclZip($file);
-	if ($archive->extract(PCLZIP_OPT_PATH, '../files/tmp_') == 0)
+	if ($archive->extract(PCLZIP_OPT_PATH, $path) == 0)
 	{
 	  die("Error : " . $archive->errorInfo(true));
 	}
