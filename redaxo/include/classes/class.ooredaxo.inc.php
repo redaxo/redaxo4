@@ -38,7 +38,6 @@ class OORedaxo
       {
         $class_var = '_'.$var;
         $value = $params[$var];
-
         $this->$class_var = $value;
       }
     }
