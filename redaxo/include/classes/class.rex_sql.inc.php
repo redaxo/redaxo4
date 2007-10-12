@@ -697,8 +697,9 @@ class rex_sql
     // Alle Connections schließen
     if($DBID === null)
     {
-      rex_sql::disconnect(1);
-      rex_sql::disconnect(2);
+      foreach($REX['DB'] as $DBID => $DBSettings)
+        rex_sql::disconnect($DBID);
+
       return;
     }
 
@@ -706,7 +707,7 @@ class rex_sql
     {
       $db = rex_sql::getInstance($DBID, false);
 
-      if(is_resource($db->identifier))
+      if(rex_sql::isValid($db) && is_resource($db->identifier))
         mysql_close($db->identifier);
     }
   }
