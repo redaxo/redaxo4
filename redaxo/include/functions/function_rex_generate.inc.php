@@ -1218,35 +1218,13 @@ function rex_generateTemplate($template_id)
   return false;
 }
 
-
 /**
- * Holt ein upgeloadetes File und legt es in den Medienpool
- * Dabei wird kontrolliert ob das File schon vorhanden ist und es
- * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
- *
- * @param $FILE
- * @param $rex_file_category
- * @param $FILEINFOS
- * @param $userlogin
-*/
-function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null){
-
-  global $REX,$I18N;
-
-  $rex_file_category = (int) $rex_file_category;
-
-  $gc = new rex_sql();
-  $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
-	if ($gc->getRows() != 1)
-	{
-  	$rex_file_category = 0;
-	}
-
-  $FILENAME = $FILE['name'];
-  $FILESIZE = $FILE['size'];
-  $FILETYPE = $FILE['type'];
-  $NFILENAME = "";
-  $message = '';
+ * Erstellt einen Filename der eindeutig ist für den Medienpool
+ * @param $FILENAME Dateiname
+ */
+function rex_medienpool_filename($FILENAME)
+{
+  global $REX;
 
   // ----- neuer filename und extension holen
   $NFILENAME = strtolower($FILENAME);
@@ -1281,7 +1259,40 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $NFILENAME = $NFILE_NAME.'_'.$cnt.$NFILE_EXT;
   }
 
-  $dstFile = $REX['MEDIAFOLDER'].'/'.$NFILENAME;
+  return $NFILENAME;
+}
+
+/**
+ * Holt ein upgeloadetes File und legt es in den Medienpool
+ * Dabei wird kontrolliert ob das File schon vorhanden ist und es
+ * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
+ *
+ * @param $FILE
+ * @param $rex_file_category
+ * @param $FILEINFOS
+ * @param $userlogin
+*/
+function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null){
+
+  global $REX,$I18N;
+
+  $rex_file_category = (int) $rex_file_category;
+
+  $gc = new rex_sql();
+  $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
+	if ($gc->getRows() != 1)
+	{
+  	$rex_file_category = 0;
+	}
+
+  $FILENAME = $FILE['name'];
+  $FILESIZE = $FILE['size'];
+  $FILETYPE = $FILE['type'];
+  $NFILENAME = "";
+  $message = '';
+
+  // ----- neuer filename
+  $dstFile = $REX['MEDIAFOLDER'].'/'.rex_medienpool_filename($FILENAME);
 
   // ----- dateiupload
   $upload = true;

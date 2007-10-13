@@ -256,7 +256,10 @@ function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,
 
   @chmod($abs_file, $REX['FILEPERM']);
 
-  $filename = strtolower($filename);
+  $filename = rex_medienpool_filename($filename);
+  $org_filename = strtolower($org_filename);
+
+  // Ggf Alte Datei umbennen
   rename($abs_file, $REX['MEDIAFOLDER'].'/'.$filename);
   $abs_file = $REX['MEDIAFOLDER'].'/'.$filename;
 
@@ -1155,6 +1158,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     $db->next();
   }
 
+  // Dateien tolower, da in der db alle lower sind
   $diff_files = array_diff($folder_files, $db_files);
   $diff_count = count($diff_files);
 
