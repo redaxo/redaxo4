@@ -38,38 +38,35 @@ class thumbnail
     $this->img['format'] = strtoupper($this->img['format']);
     if (!eregi('cache/', $imgfile))
     {
-    	$make = false;
       if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
       {
         // --- JPEG
         $this->img['format'] = 'JPEG';
-        if ($this->img['src'] = @ImageCreateFromJPEG($imgfile)) $make = true;
+        $this->img['src'] = @ImageCreateFromJPEG($imgfile);
       }elseif ($this->img['format'] == 'PNG')
       {
         // --- PNG
-        if ($this->img['src'] = @ImageCreateFromPNG($imgfile)) $make = true;
+        $this->img['src'] = @ImageCreateFromPNG($imgfile);
       }elseif ($this->img['format'] == 'GIF')
       {
         // --- GIF
         if ($this->gifsupport)
-          if ($this->img['src'] = @ImageCreateFromGIF($imgfile)) $make = true;
+          $this->img['src'] = @ImageCreateFromGIF($imgfile);
       }elseif ($this->img['format'] == 'WBMP')
       {
         // --- WBMP
-        if ($this->img['src'] = @ImageCreateFromWBMP($imgfile)) $make = true;
+        $this->img['src'] = @ImageCreateFromWBMP($imgfile);
       }
 
-      if (!$make)
+      // ggf error image senden
+      if (!$this->img['src'])
       {
-        // --- DEFAULT
         global $REX;
 				$file = $REX['INCLUDE_PATH'].'/addons/image_resize/media/warning.jpg';
         header('Content-Type: image/JPG');
-		    // header('Last-Modified: ' . $lastModified);
-		    // caching clientseitig/proxieseitig erlauben
-		    header('Cache-Control: public');
+		    // error image nicht cachen
+		    header('Cache-Control: false');
 		    readfile($file);
-        // echo 'Not Supported File';
         exit ();
       }
 
