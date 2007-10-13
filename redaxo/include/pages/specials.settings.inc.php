@@ -27,47 +27,10 @@ if ($func == 'setup')
   fclose($h);
 
 }
-elseif ($func == "generate")
+elseif ($func == 'generate')
 {
-
   // generate all articles,cats,templates,caches
   $message = rex_generateAll();
-
-}
-elseif ($func == "linkchecker")
-{
-  $LART = array ();
-
-  for ($j = 1; $j < 11; $j++)
-  {
-    $LC = new rex_sql;
-    // $LC->debugsql = 1;
-    $LC->setQuery("SELECT ".$REX['TABLE_PREFIX']."article_slice.article_id,".$REX['TABLE_PREFIX']."article_slice.id FROM ".$REX['TABLE_PREFIX']."article_slice
-              LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.link$j=".$REX['TABLE_PREFIX']."article.id
-              WHERE
-              ".$REX['TABLE_PREFIX']."article_slice.link$j>0 and ".$REX['TABLE_PREFIX']."article.id IS NULL");
-    for ($i = 0; $i < $LC->getRows(); $i++)
-    {
-      $LART[$LC->getValue($REX['TABLE_PREFIX']."article_slice.article_id")] = 1;
-      $LSLI[$LC->getValue($REX['TABLE_PREFIX']."article_slice.article_id")] = $LC->getValue($REX['TABLE_PREFIX']."article_slice.id");
-      $LC->next();
-    }
-  }
-
-  if (count($LART) > 0)
-    reset($LART);
-
-  for ($i = 0; $i < count($LART); $i++)
-  {
-    $message .= ' | <a href="index.php?page=content&amp;article_id='.key($LART).'&amp;mode=edit&amp;slice_id='.$LSLI[key($LART)].'&amp;function=edit#editslice">'.key($LART).'</a>';
-    next($LART);
-  }
-
-  if (count($LART) == 0)
-    $message = $I18N->msg('links_ok');
-  else
-    $message = $I18N->msg('links_not_ok').'<br /> '.$message.' |';
-
 }
 elseif ($func == 'updateinfos')
 {
@@ -135,9 +98,6 @@ echo '
       <div class="rex-spc-stn-cnt">
         <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("delete_cache").'</a></p>
         <p>'.$I18N->msg("delete_cache_description").'</p>
-
-        <p><a href="index.php?page=specials&amp;func=linkchecker">'.$I18N->msg("link_checker").'</a></p>
-        <p>'.$I18N->msg("check_links_text").'</p>
 
         <p><a href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\')";
 >'.$I18N->msg("setup").'</a></p>
