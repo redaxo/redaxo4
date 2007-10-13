@@ -1539,3 +1539,19 @@ body#rex-page-import-export div.rex-cnt table td {
 * html div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
 	padding-top:5px;;
 }
+
+div.rex-cnt-editmode div.rex-cnt-slc-otp h1,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h2,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h3,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h4,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h5,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h6,
+div.rex-cnt-editmode div.rex-cnt-slc-otp p,
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul {
+	margin-bottom:10px;
+}
+
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul li{
+	list-style-type:disc;
+	margin-left:15px;
+}
