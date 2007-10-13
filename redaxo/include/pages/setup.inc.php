@@ -188,7 +188,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
 	// wenn nur eine Sprache -> direkte weiterleitung
 	if (count($langs)==1)
 	{
-	  header('Location: index.php?checkmodus=0.5&lang=de_de'.key($langs));
+	  header('Location: index.php?checkmodus=0.5&lang='.key($langs));
 	  exit();
 	}
 
