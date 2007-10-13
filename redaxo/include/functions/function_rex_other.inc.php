@@ -210,7 +210,7 @@ function rex_translate($text, $I18N_Catalogue = null)
 /**
  * Leitet auf einen anderen Artikel weiter
  */
-function rex_redirect($article_id, $clang, $params)
+function rex_redirect($article_id, $clang, $params = array())
 {
   global $REX;
 
