@@ -201,7 +201,7 @@ function buildRelease($name = null, $version = null)
   fclose($h);
 
   // Addons installieren
-  $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
+  // $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
 
   $h = fopen($addons, 'w+');
   if (fwrite($h, $cont, strlen($cont)) > 0)
