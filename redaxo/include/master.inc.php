@@ -16,12 +16,12 @@ if (!$REX['GG']) $REX['GG'] = false;
 $REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
-$REX['VERSION'] = "3";
-$REX['SUBVERSION'] = "3";
+$REX['VERSION'] = "4";
+$REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "0";
-$REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
+$REX['ERROR_EMAIL'] = "jan.kristinus@redaxo.de";
 $REX['FILEPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20070916171441";
+$REX['INSTNAME'] = "rex20071013171717";
 $REX['FOLLOW_REDIRECTS'] = true;
 
 // Is set first time SQL Object ist initialised
@@ -82,7 +82,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo3_3";
+$REX['DB']['1']['NAME'] = "redaxo4_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
