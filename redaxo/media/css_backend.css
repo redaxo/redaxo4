@@ -1555,3 +1555,7 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp ul li{
 	list-style-type:disc;
 	margin-left:15px;
 }
+
+div.rex-cnt-editmode div.rex-cnt-slc-otp code{
+	font-size:1.4em;
+}
