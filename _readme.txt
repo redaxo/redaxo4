@@ -1,4 +1,4 @@
-Redaxo Version: 3.*
+Redaxo Version: 4.*
 Ersteller: Dagmar Uttich
 Datum: 24. Januar 2006
 Titel: readme.txt [deutsch]
@@ -43,7 +43,7 @@ zusätzliche Skriptsprache ist bei REDAXO nicht vorgesehen.
 
 1.2 Hilfe
 Hilfe findet man bei unserer sehr aktiven Community (http://forum.redaxo.de/), in dem Wiki
-(http://wiki3.redaxo.de/) oder in der Online-Dokumentation (http://www.redaxo.de/4-0-dokuredaxode.html).
+(http://wiki.redaxo.de/) oder in der Online-Dokumentation (http://www.redaxo.de/4-0-dokuredaxode.html).
 
 
 1.3 Technische Voraussetzungen
