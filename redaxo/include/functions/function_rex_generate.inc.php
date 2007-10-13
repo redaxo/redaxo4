@@ -396,7 +396,6 @@ function rex_article2startpage($neu_id){
 
 	$articles = new rex_sql();
 	$ia = new rex_sql();
-  $ia->debugsql = true;
 	$articles->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '%|$alt_id|%'");
 	for($i=0;$i<$articles->getRows();$i++)
   {
