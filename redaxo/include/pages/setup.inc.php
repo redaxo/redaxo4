@@ -447,7 +447,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- vorhandenen seite updaten
 
-    $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_3_3.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_4_0.sql';
 
     if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
@@ -485,7 +485,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
 
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_0.sql';
 
     $db = new rex_sql;
     foreach($requiredTables as $table)
