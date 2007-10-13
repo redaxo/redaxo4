@@ -151,13 +151,16 @@ function buildRelease($name = null, $version = null)
 
   if($version)
   {
+    if(empty($version[1]))
+      $version[1] = "0";
+
     if(empty($version[2]))
       $version[2] = "0";
-      
+
     $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
-    $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*", '\\1'. $version[0], $cont);
-    $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*", '\\1'. $version[1], $cont);
-    $cont = ereg_replace("(REX\['MINORVERSION'\].?\=.?)[^;]*", '\\1'. $version[2], $cont);
+    $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*"     , '\\1"'. $version[0] .'"', $cont);
+    $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*"  , '\\1"'. $version[1] .'"', $cont);
+    $cont = ereg_replace("(REX\['MINORVERSION'\].?\=.?)[^;]*", '\\1"'. $version[2] .'"', $cont);
   }
   else
   {
