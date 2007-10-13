@@ -14,6 +14,9 @@ if (isset($REX['ADDON']['status'])) {
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN
 
+$REX['ADDON']['install']['textile'] = 1;
+$REX['ADDON']['status']['textile'] = 1;
+
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS
 
