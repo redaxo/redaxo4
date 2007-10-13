@@ -20,7 +20,7 @@ function rex_a62_metainfo_cleanup($params)
 	global $REX;
 
 	// Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
-	if($params['force'] != true &&
+	if(isset($params['force']) && $params['force'] != true &&
      strpos($params['content'], 'CREATE TABLE `'. $REX['TABLE_PREFIX'] .'article`') === false &&
 	   strpos($params['content'], 'CREATE TABLE '. $REX['TABLE_PREFIX'] .'article') === false)
   {
