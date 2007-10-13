@@ -129,9 +129,6 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   $ADDONS = rex_read_addons_folder();
   foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
   {
-    if($state === true && $uninstallBefore)
-      $state = rex_uninstall_addon($ADDONS, $systemAddon);
-
     if($state === true && !OOAddon::isInstalled($systemAddon))
       $state = rex_install_addon($ADDONS, $systemAddon, $installDump);
 
