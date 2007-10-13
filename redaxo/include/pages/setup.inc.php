@@ -368,6 +368,7 @@ if ($checkmodus == 2)
     {
       $key = $algo;
       if($algo == '') $algo = $I18N->msg('setup_no_encryption');
+      if($algo == 'md5') $algo .= ' ('. $I18N->msg('recommended') .')';
       $selected = $key == $psw_func ? ' selected="selected"' : '';
 
       $psw_functions .= '<option value="'. $key .'"'. $selected .'>'. $algo .'</option>';

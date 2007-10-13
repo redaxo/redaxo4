@@ -443,6 +443,7 @@ pool_max_uploadsize = Maximale Uploadgröße
 
 
 # redaxo/include/pages
+recommended = empfohlen
 setup = Setup
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
 setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}>weiter<{1} und führen das Setup aus.
