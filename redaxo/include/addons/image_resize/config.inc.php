@@ -67,7 +67,8 @@ if ($rex_resize != '')
 		$filters .= $filter;
 	}
 
-  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/'. $REX['TEMP_PREFIX'] .'cache_resize___'.$filters.$rex_resize;
+	$filters = md5($filters);
+  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/image_resize___'.$filters.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
   // check for cache file
