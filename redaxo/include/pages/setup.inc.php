@@ -509,7 +509,7 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- leere Datenbank neu einrichten
 
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo3_3.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_0.sql';
 
     if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
