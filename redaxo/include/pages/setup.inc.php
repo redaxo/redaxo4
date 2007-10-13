@@ -94,11 +94,19 @@ function rex_setup_import($import_sql, $import_archiv = null)
 
 function rex_setup_is_writable($items)
 {
+  global $REX;
   $res = array();
 
   foreach($items as $item)
   {
     $is_writable = _rex_is_writable($item);
+
+    // 0 => kein Fehler
+    if($is_writable != 0)
+    {
+      if(@chmod($item, $REX['FILEPERM']))
+        $is_writable = 0;
+    }
     // 0 => kein Fehler
     if($is_writable != 0)
     {
