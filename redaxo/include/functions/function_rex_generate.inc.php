@@ -1290,11 +1290,11 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   $FILENAME = $FILE['name'];
   $FILESIZE = $FILE['size'];
   $FILETYPE = $FILE['type'];
-  $NFILENAME = "";
+  $NFILENAME = rex_medienpool_filename($FILENAME);
   $message = '';
 
   // ----- neuer filename
-  $dstFile = $REX['MEDIAFOLDER'].'/'.rex_medienpool_filename($FILENAME);
+  $dstFile = $REX['MEDIAFOLDER'].'/'.$NFILENAME;
 
   // ----- dateiupload
   $upload = true;
@@ -1313,7 +1313,6 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $size = @getimagesize($dstFile);
 
     $FILESQL = new rex_sql;
-    // $FILESQL->debugsql=1;
     $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
     $FILESQL->setValue('filetype',$FILETYPE);
     $FILESQL->setValue('title',$FILEINFOS['title']);
