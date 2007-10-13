@@ -332,24 +332,25 @@ function rex_article2startpage($neu_id){
 
 	$GAID = array();
 
-  // neuer startartikel
+  // neuen startartikel holen und schauen ob da
 	$neu = new rex_sql;
 	$neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=0");
 	if ($neu->getRows()!=1) return false;
 	$neu_path = $neu->getValue("path");
 	$neu_cat_id = $neu->getValue("re_id");
 
-	// in oberster kategorie
+	// in oberster kategorie dann return
 	if ($neu_cat_id == 0) return false;
 
-	// alter startartikel
+	// alten startartikel
 	$alt = new rex_sql;
 	$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=0");
 	if ($alt->getRows()!=1) return false;
 	$alt_path = $alt->getValue('path');
 	$alt_id = $alt->getValue('id');
 
-	$params = array('path','prior','catname','startpage');
+	// cat felder sammeln. +  
+	$params = array('path','prior','catname','startpage','catprior','status');
 	$db_fields = OORedaxo::getClassVars();
   foreach($db_fields as $field)
   {
@@ -359,6 +360,7 @@ function rex_article2startpage($neu_id){
 	// LANG SCHLEIFE
 	foreach($REX['CLANG'] as $clang => $clang_name)
 	{
+
     // alter startartikel
 		$alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=$clang");
 
@@ -377,6 +379,7 @@ function rex_article2startpage($neu_id){
 		$neu2->setWhere("id=$neu_id and clang=". $clang);
 		$neu2->setValue("re_id",$alt->getValue("re_id"));
 
+		// austauschen der definierten paramater
 		foreach($params as $param)
     {
 			$neu_value = $neu->getValue($param);
