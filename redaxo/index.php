@@ -46,7 +46,7 @@ if ($REX['SETUP'])
 {
   // ----------------- SET SETUP LANG
   $LOGIN = FALSE;
-  $REX['LANG'] = 'en_gb';
+  $REX['LANG'] = 'de_de';
   $I18N = rex_create_lang($REX['LANG']);
   $requestLang = rex_request('lang', 'string');
   foreach ($REX['LOCALES'] as $l) {

@@ -170,6 +170,10 @@ $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
+  // TODO keine Sprachauswahl mehr, da nur de_de files als default dabei
+  header('Location: index.php?checkmodus=0.5&lang=de_de');
+  exit();
+
   rex_setup_title('SETUP: SELECT LANGUAGE');
 
   echo '<ul class="rex-stp-language">
