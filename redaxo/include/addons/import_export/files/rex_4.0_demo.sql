@@ -1,4 +1,4 @@
-## Redaxo Database Dump Version 3
+## Redaxo Database Dump Version 4
 ## Prefix rex_
 DROP TABLE IF EXISTS `rex_62_params`;
 CREATE TABLE `rex_62_params` ( `field_id` int(10) unsigned NOT NULL  auto_increment, `title` varchar(255) NULL  , `name` varchar(255) NULL  , `prior` int(10) unsigned NOT NULL  , `attributes` varchar(255) NOT NULL  , `type` int(10) unsigned NULL  , `default` varchar(255) NOT NULL  , `params` varchar(255) NULL  , `validate` varchar(255) NULL  , `createuser` varchar(255) NOT NULL  , `createdate` int(11) NOT NULL  , `updateuser` varchar(255) NOT NULL  , `updatedate` int(11) NOT NULL  , PRIMARY KEY (`field_id`), UNIQUE KEY `name`(`name`)) TYPE=MyISAM;
