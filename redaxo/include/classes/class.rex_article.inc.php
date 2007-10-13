@@ -4,7 +4,7 @@
  * Artikel Objekt.
  * Zuständig für die Verarbeitung eines Artikel
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

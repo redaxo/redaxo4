@@ -3,7 +3,7 @@
 
 /**
  * Abtrackte Basisklasse für REX_VARS
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

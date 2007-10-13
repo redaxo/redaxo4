@@ -3,7 +3,7 @@
 
 /**
  * Funktionensammlung für die generierung der Artikel/Templates/Kategorien/Metainfos.. etc.
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

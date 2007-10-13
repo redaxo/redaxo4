@@ -2,7 +2,7 @@
 
 /**
  * Addonlist
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

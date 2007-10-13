@@ -9,7 +9,7 @@
  * REX_HTML,
  * REX_IS_VALUE
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

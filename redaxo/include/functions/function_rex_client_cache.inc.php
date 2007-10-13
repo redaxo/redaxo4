@@ -3,7 +3,7 @@
 /**
  * HTTP1.1 Client Cache Features
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

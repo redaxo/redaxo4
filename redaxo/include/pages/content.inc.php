@@ -3,7 +3,7 @@
 
 /**
  * Verwaltung der Inhalte. EditierModul / Metadaten ...
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

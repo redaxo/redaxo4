@@ -6,7 +6,7 @@ define('REX_LIST_OPT_SORT', 0);
 /**
  * Klasse zum erstellen von Listen
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

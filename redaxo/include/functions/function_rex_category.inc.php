@@ -3,7 +3,7 @@
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
  * Kategorien = Startartikel und Bezüge
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

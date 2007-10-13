@@ -3,7 +3,7 @@
 /**
  * Klasse zur Erstellung eines HTML-Pulldown-Menues (Select-Box)
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

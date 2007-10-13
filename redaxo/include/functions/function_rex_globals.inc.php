@@ -2,7 +2,7 @@
 /**
  * Getter Funktionen zum Handling von Superglobalen Variablen 
  * 
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

@@ -5,7 +5,7 @@
  * REX_LINKLIST_BUTTON,
  * REX_LINKLIST
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

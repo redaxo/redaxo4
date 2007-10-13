@@ -8,7 +8,7 @@
  * REX_ARTICLE_VAR['category_id']
  * ...
  * 
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

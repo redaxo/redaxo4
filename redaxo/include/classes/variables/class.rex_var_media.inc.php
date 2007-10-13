@@ -11,7 +11,7 @@
  * REX_MEDIALIST_BUTTON[1]
  *
  * Alle Variablen die mit REX_FILE beginnnen sind als deprecated anzusehen!
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

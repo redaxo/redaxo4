@@ -2,7 +2,7 @@
 
 /**
  * Funktionen zur Registrierung von Schnittstellen (EXTENSION_POINTS)
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Bindet nötige Klassen/Funktionen ein
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

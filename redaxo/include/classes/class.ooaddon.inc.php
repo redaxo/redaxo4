@@ -2,7 +2,7 @@
 
 /** 
  * Klasse zum prüfen ob Addons installiert/aktiviert sind
- * @package redaxo3 
+ * @package redaxo4 
  * @version $Id$ 
  */ 
 

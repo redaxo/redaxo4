@@ -3,7 +3,7 @@
 /**
  * REX_TEMPLATE[2]
  * 
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

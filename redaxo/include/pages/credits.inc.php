@@ -2,7 +2,7 @@
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

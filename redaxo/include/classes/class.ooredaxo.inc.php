@@ -2,7 +2,7 @@
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

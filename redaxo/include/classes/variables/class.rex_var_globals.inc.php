@@ -5,7 +5,7 @@
  * REX_SLICE_ID,
  * REX_CTYPE_ID
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

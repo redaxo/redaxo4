@@ -2,7 +2,7 @@
 
 /** 
  * Sprachobjekt zur Internationalisierung (I18N)
- * @package redaxo3 
+ * @package redaxo4 
  * @version $Id$ 
  */
 

@@ -2,7 +2,7 @@
 
 /**
  * Dient zur Ausgabe des Sprachen-blocks
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

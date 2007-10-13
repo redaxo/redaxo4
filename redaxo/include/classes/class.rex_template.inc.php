@@ -4,7 +4,7 @@
  * Template Objekt.
  * Zuständig für die Verarbeitung eines Templates
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

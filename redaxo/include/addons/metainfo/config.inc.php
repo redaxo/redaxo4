@@ -5,7 +5,7 @@
  *
  * @author staab[at]public-4u[dot]de Markus Staab
  *
- * @package redaxo3
+ * @package redaxo4
  * @version $Id$
  */
 

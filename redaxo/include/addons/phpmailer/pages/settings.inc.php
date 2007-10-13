@@ -4,7 +4,7 @@
 /**
  * Addon Framework Classes
  * @author staab[at]public-4u[dot]de Markus Staab
- * @package redaxo3
+ * @package redaxo4
  * @version $Id class.rex_form.inc.php,v 1.3 2006/09/07 104351 kills Exp $
  */
 
