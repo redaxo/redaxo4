@@ -170,19 +170,38 @@ $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
-  // TODO keine Sprachauswahl mehr, da nur de_de files als default dabei
-  header('Location: index.php?checkmodus=0.5&lang=de_de');
-  exit();
+	
+	$langpath = $REX['INCLUDE_PATH'].'/lang';
+	$langs = array();
+	if ($handle = opendir($langpath)) {
+		while (false !== ($file = readdir($handle))) {
+			if (substr($file,-5) == '.lang') {
+					$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
+					$I18N_T = rex_create_lang($locale,$langpath);
+					$langs[$locale] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$locale.'"'. rex_tabindex() .'>'.$I18N_T->msg('lang').'</a></li>';
+			}
+		}
+		closedir($handle);
+  	unset($I18N_T);
+	}
+	
+	// wenn nur eine Sprache -> direkte weiterleitung
+	if (count($langs)==1)
+	{
+	  header('Location: index.php?checkmodus=0.5&lang=de_de'.key($langs));
+	  exit();
+	}
 
-  rex_setup_title('SETUP: SELECT LANGUAGE');
+	rex_setup_title('SETUP: SELECT LANGUAGE');
 
-  echo '<ul class="rex-stp-language">
-          <li><a href="index.php?checkmodus=0.5&amp;lang=de_de"'. rex_tabindex() .'>DEUTSCH</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=en_gb"'. rex_tabindex() .'>ENGLISH</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=es_es"'. rex_tabindex() .'>ESPA&Ntilde;OL</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=pl_pl"'. rex_tabindex() .'>POLSKI</a></li>
-          <li><a href="index.php?checkmodus=0.5&amp;lang=tr_tr"'. rex_tabindex() .'>TURKYE</a></li>
-        </ul>';
+	// wenn mehrere sprachen - anzeigen
+	echo '<ul class="rex-stp-language">';
+	foreach($langs as $lang)
+	{
+		echo $lang;
+	}
+  echo '</ul>';
+
 }
 
 // ---------------------------------- MODUS 0 | Start
