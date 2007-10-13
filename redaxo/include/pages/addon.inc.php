@@ -44,13 +44,6 @@ if ($addonname != '')
       $errmsg = $I18N->msg("addon_installed", $addonname);
     }
   }
-  elseif (isset ($reinstall) and $reinstall == 1) // ----------------- ADDON REINSTALL
-  {
-    if (($errmsg = rex_reinstall_addon($ADDONS, $addonname)) === true)
-    {
-      $errmsg = $I18N->msg("addon_installed", $addonname);
-    }
-  }
   elseif (isset ($activate) and $activate == 1) // ----------------- ADDON ACTIVATE
   {
     if (($errmsg = rex_activate_addon($ADDONS, $addonname)) === true)
@@ -140,7 +133,7 @@ if ($SP)
 
     if ($REX['ADDON']['install'][$cur] == 1)
     {
-      $install = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;reinstall=1">'.$I18N->msg("addon_reinstall").'</a>';
+      $install = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;install=1">'.$I18N->msg("addon_reinstall").'</a>';
       $uninstall = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;uninstall=1" onclick="return confirm(\''.$I18N->msg("addon_uninstall").' ?\')">'.$I18N->msg("addon_uninstall").'</a>';
     }
     else
