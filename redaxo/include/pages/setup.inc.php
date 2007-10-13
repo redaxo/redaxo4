@@ -247,7 +247,7 @@ if ($checkmodus == 1)
         $MSG['err'] .= '<ul>';
         foreach($messages as $message)
         {
-          $MSG['err'] .= '<li>'. rex_absPath($message) .'</li>';
+          $MSG['err'] .= '<li>'. $message .'</li>';
         }
         $MSG['err'] .= '</ul>';
       }

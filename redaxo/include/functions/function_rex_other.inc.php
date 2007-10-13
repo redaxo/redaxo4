@@ -71,9 +71,8 @@ function _rex_is_writable_info($is_writable, $item = '')
   {
     $file = '';
     if($item != '')
-    {
-      $file = '<b>'. rex_absPath($item) .'</b>';
-    }
+      $file = '<b>'. $item .'</b>';
+
     $state = $I18N->msg($key, '<span class="rex-error">', '</span>', $file);
   }
 
