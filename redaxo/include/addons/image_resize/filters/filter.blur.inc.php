@@ -6,6 +6,17 @@
 
 function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
 {
+	
+////////////////////////////////////////////////////////////////////////////////////////////////  
+////  
+////                  Unsharp Mask for PHP - version 2.1.1  
+////  
+////    Unsharp mask algorithm by Torstein Hønsi 2003-07.  
+////             thoensi_at_netcom_dot_no.  
+////               Please leave this notice.  
+////  
+///////////////////////////////////////////////////////////////////////////////////////////////  
+	
 	// Attempt to calibrate the parameters to Photoshop:
 	if ($amount > 500) $amount = 500;
 	$amount = $amount * 0.016;
