@@ -5,13 +5,14 @@ Titel: readme.txt [deutsch]
 
 
 1. Über REDAXO
-1.1 Allgemein
-1.2 Hilfe
-1.3 Technische Voraussetzungen
-1.4 Charakteristika
-1.5 Einstieg
+  1.1 Allgemein
+  1.2 Hilfe
+  1.3 Technische Voraussetzungen
+  1.4 Charakteristika
+  1.5 Einstieg
 2. Lizenzbestimmungen
 3. Installation
+  3.1 Update von REDAXO3.x
 4. Dokumentation
 
 
@@ -108,6 +109,72 @@ Nach dem Importieren von Inhalten in das System mittels der Import-Funktion von 
 beim Aufrufen der URL die angegebene Startseite angezeigt.
 Die einzelnen Schritte der Installation sind in der Online-Dokumentation detailliert beschrieben.
 siehe: http://www.redaxo.de/29-0-a1--installation.html
+
+3.1 Update von REDAXO 3.x
+
+Folgende Änderungen sind bei einem Update von REDAXO 3.x zu beachten:
+
+
+Datenbank
+----------
+
+Die Datenbanktabellen wurde verändert. 
+Im Setup kann ein Update der Datenbank automatisiert durchgeführt werden.
+Wichtig dabei ist, dass man zuvor die komplette Seite sichert!
+
+
+Templates
+----------
+
+alt:
+<?php include($REX['INCLUDE_PATH'] .'/generated/templates/2.template'); ?>
+
+neu:
+// innerhalb von PHP Tags
+$navTemplate = new rex_template(2);  
+include $navTemplate->getFile();
+
+// ausserhalb von PHP Tags
+REX_TEMPLATE[2]
+
+
+CTYPES 
+-------
+
+Alle Ctypes sind nun via Backend zu verwalten. 
+Die Datei ctype.inc.php wurde komplett entfernt!
+Ctypes können nun pro Template hinterlegt werden.
+
+
+Allgemeines 
+------------
+
+  * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade!
+  * Umbenennungen
+    - Dateien:
+       - function_rex_modrewrite.inc.php -> function_rex_url.inc.php
+    - Klassen/Methoden/Funktionen:
+      - Alte Klassenbezeichnung ab nun NICHT mehr verwenden !
+          Klassen:
+          + login -> rex_login
+          + sql -> rex_sql
+          + article -> rex_article
+          Methoden:
+          + sql::query() -> sql::setQuery()
+          + sql::get_array() -> sql::getArray()
+          + sql::resetCounter() -> sql::reset()
+          + sql::nextValue() -> sql::next()
+          + sql::where() -> sql::setWhere()
+      Attribute:
+      + sql->select -> sql->query
+          Funktionen:
+          + title -> rex_title()
+          + getUrlById -> rex_getUrl()
+  * Rückwärtskompatibilität eingeschränkt durch:
+    - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert
+    - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt
+    
+siehe: http://www.redaxo.de/221-0-update-hinweise.html
 
 
 4. Dokumentation
