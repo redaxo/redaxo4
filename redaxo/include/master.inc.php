@@ -20,7 +20,7 @@ $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@redaxo.de";
-$REX['FILEPERM'] = octdec(775); // oktaler wert
+$REX['FILEPERM'] = octdec(755); // oktaler wert
 $REX['INSTNAME'] = "rex20071013171717";
 $REX['FOLLOW_REDIRECTS'] = true;
 
