@@ -9,78 +9,13 @@
 
 function rex_install_addon($addons, $addonname, $installDump = true)
 {
-  global $REX, $I18N;
-  $state = true;
+  rex_uninstall_addon($addons, $addonname);
+  _rex_install_addon($addons, $addonname, $installDump);
+}
 
-  $install_dir = $REX['INCLUDE_PATH'].'/addons/'. $addonname;
-  $install_file = $install_dir.'/install.inc.php';
-  $install_sql = $install_dir.'/install.sql';
-  $config_file = $install_dir.'/config.inc.php';
-
-  // Prüfen des Addon Ornders auf Schreibrechte,
-  // damit das Addon später wieder gelöscht werden kann
-  $state = rex_is_writable($install_dir);
-
-  if ($state === true)
-  {
-    if (is_readable($install_file))
-    {
-      include $install_file;
-
-      // Wurde das "install" Flag gesetzt, oder eine Fehlermeldung ausgegeben? Wenn ja, Abbruch
-      if (!OOAddon :: isInstalled($addonname) || !empty( $REX['ADDON']['installmsg'][$addonname]))
-      {
-        $state = $I18N->msg('addon_no_install', $addonname).'<br />';
-        if ($REX['ADDON']['installmsg'][$addonname] == '')
-        {
-          $state .= $I18N->msg('addon_no_reason');
-        }
-        else
-        {
-          $state .= $REX['ADDON']['installmsg'][$addonname];
-        }
-      }
-      else
-      {
-        // check if config file exists
-        if (is_readable($config_file))
-        {
-          if (!OOAddon :: isActivated($addonname))
-          {
-            include $config_file;
-          }
-        }
-        else
-        {
-          $state = $I18N->msg('addon_config_not_found');
-        }
-
-			  if($installDump === true && $state === true && is_readable($install_sql))
-			  {
-					$state = rex_install_dump($install_sql);
-
-          if($state !== true)
-            $state = 'Error found in install.sql:<br />'. $state;
-				}
-
-        // Installation ok
-        if ($state === true)
-        {
-          // regenerate Addons file
-          $state = rex_generateAddons($addons);
-        }
-      }
-    }
-    else
-    {
-      $state = $I18N->msg('addon_install_not_found');
-    }
-  }
-
-  if($state !== true)
-    $REX['ADDON']['install'][$addonname] = 0;
-
-  return $state;
+function rex_reinstall_addon($addons, $addonname, $installDump = true)
+{
+  return rex_install_addon($addons, $addonname, $installDump);
 }
 
 function rex_activate_addon($addons, $addonname)
@@ -439,4 +374,82 @@ function rex_read_sql_dump($file)
 
   return false;
 }
+
+function _rex_install_addon($addons, $addonname, $installDump = true)
+{
+  global $REX, $I18N;
+  $state = true;
+  clearstatcache();
+
+  $install_dir = $REX['INCLUDE_PATH'].'/addons/'. $addonname;
+  $install_file = $install_dir.'/install.inc.php';
+  $install_sql = $install_dir.'/install.sql';
+  $config_file = $install_dir.'/config.inc.php';
+
+  // Prüfen des Addon Ornders auf Schreibrechte,
+  // damit das Addon später wieder gelöscht werden kann
+  $state = rex_is_writable($install_dir);
+
+  if ($state === true)
+  {
+    if (is_readable($install_file))
+    {
+      include $install_file;
+
+      // Wurde das "install" Flag gesetzt, oder eine Fehlermeldung ausgegeben? Wenn ja, Abbruch
+      if (!OOAddon :: isInstalled($addonname) || !empty( $REX['ADDON']['installmsg'][$addonname]))
+      {
+        $state = $I18N->msg('addon_no_install', $addonname).'<br />';
+        if ($REX['ADDON']['installmsg'][$addonname] == '')
+        {
+          $state .= $I18N->msg('addon_no_reason');
+        }
+        else
+        {
+          $state .= $REX['ADDON']['installmsg'][$addonname];
+        }
+      }
+      else
+      {
+        // check if config file exists
+        if (is_readable($config_file))
+        {
+          if (!OOAddon :: isActivated($addonname))
+          {
+            include $config_file;
+          }
+        }
+        else
+        {
+          $state = $I18N->msg('addon_config_not_found');
+        }
+
+        if($installDump === true && $state === true && is_readable($install_sql))
+        {
+          $state = rex_install_dump($install_sql);
+
+          if($state !== true)
+            $state = 'Error found in install.sql:<br />'. $state;
+        }
+
+        // Installation ok
+        if ($state === true)
+        {
+          // regenerate Addons file
+          $state = rex_generateAddons($addons);
+        }
+      }
+    }
+    else
+    {
+      $state = $I18N->msg('addon_install_not_found');
+    }
+  }
+
+  if($state !== true)
+    $REX['ADDON']['install'][$addonname] = 0;
+
+  return $state;
+}
+
 ?>
