@@ -36,9 +36,12 @@ class OORedaxo
     {
       foreach (OORedaxo :: getClassVars() as $var)
       {
-        $class_var = '_'.$var;
-        $value = $params[$var];
-        $this->$class_var = $value;
+        if(isset($params[$var]))
+        {
+          $class_var = '_'.$var;
+          $value = $params[$var];
+          $this->$class_var = $value;
+        }
       }
     }
 
