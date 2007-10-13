@@ -1,4 +1,4 @@
-## Redaxo Database Dump Version 3
+## Redaxo Database Dump Version 4
 ## Prefix rex_
 
 ALTER TABLE `rex_template` DROP `bcontent`;
