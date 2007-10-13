@@ -379,7 +379,6 @@ function _rex_install_addon($addons, $addonname, $installDump = true)
 {
   global $REX, $I18N;
   $state = true;
-  clearstatcache();
 
   $install_dir = $REX['INCLUDE_PATH'].'/addons/'. $addonname;
   $install_file = $install_dir.'/install.inc.php';
