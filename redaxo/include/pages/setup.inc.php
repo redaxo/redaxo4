@@ -104,12 +104,6 @@ function rex_setup_is_writable($items)
     // 0 => kein Fehler
     if($is_writable != 0)
     {
-      if(@chmod($item, $REX['FILEPERM']))
-        $is_writable = 0;
-    }
-    // 0 => kein Fehler
-    if($is_writable != 0)
-    {
       $res[$is_writable][] = $item;
     }
   }
