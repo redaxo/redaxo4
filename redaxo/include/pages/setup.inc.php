@@ -170,21 +170,27 @@ $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
-	
+
 	$langpath = $REX['INCLUDE_PATH'].'/lang';
 	$langs = array();
-	if ($handle = opendir($langpath)) {
-		while (false !== ($file = readdir($handle))) {
-			if (substr($file,-5) == '.lang') {
-					$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
-					$I18N_T = rex_create_lang($locale,$langpath);
-					$langs[$locale] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$locale.'"'. rex_tabindex() .'>'.$I18N_T->msg('lang').'</a></li>';
+	if ($handle = opendir($langpath))
+  {
+		while (false !== ($file = readdir($handle)))
+    {
+			if (substr($file,-5) == '.lang')
+      {
+        $isUtf8 = substr($file, -9) == 'utf8.lang';
+				$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
+				$I18N_T = rex_create_lang($locale,$langpath);
+        $label = $I18N_T->msg('lang');
+        if($isUtf8) $label .= ' (utf-8)';
+				$langs[$locale] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$locale.'"'. rex_tabindex() .'>'.$label.'</a></li>';
 			}
 		}
 		closedir($handle);
   	unset($I18N_T);
 	}
-	
+
 	// wenn nur eine Sprache -> direkte weiterleitung
 	if (count($langs)==1)
 	{
@@ -210,6 +216,20 @@ if ($checkmodus == '0.5')
 {
   rex_setup_title('SETUP: START');
 
+  $lang = rex_request('lang', '');
+  $master = $REX['INCLUDE_PATH'] .'/master.inc.php';
+
+  $h = fopen($master, 'r');
+  $cont = fread($h, filesize($master));
+  fclose($h);
+
+  $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$lang."\"", $cont);
+  $REX['LANG'] = $lang;
+
+  $h = fopen($master, 'w+');
+  fwrite($h, $cont, strlen($cont));
+  fclose($h);
+
   echo $I18N->msg('setup_005', '<h2>', '</h2>');
 
   echo '<div id="rex-stp-lcns">';
@@ -219,7 +239,11 @@ if ($checkmodus == '0.5')
   $hdl = fopen($license_file, 'r');
   $license = nl2br(fread($hdl, filesize($license_file)));
   fclose($hdl);
-  echo $license;
+
+  if(strpos($REX['LANG'], 'utf') !== false)
+    echo utf8_encode($license);
+  else
+    echo $license;
 
   echo '</div>';
 
