@@ -44,6 +44,7 @@ include './redaxo/include/master.inc.php';
 // Starte einen neuen Artikel und setzte die aktuelle
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
+if (!isset($article_id) or $article_id == '') $article_id = $REX['START_ARTICLE_ID'];
 
 $REX_ARTICLE = new rex_article;
 $REX_ARTICLE->setCLang($clang);
