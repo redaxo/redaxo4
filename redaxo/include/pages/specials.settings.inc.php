@@ -35,9 +35,10 @@ elseif ($func == 'generate')
 elseif ($func == 'updateinfos')
 {
   $REX['LANG'] = $neu_lang;
+  $master = $REX['INCLUDE_PATH'] .'/master.inc.php';
 
-  $h = fopen('include/master.inc.php', 'r');
-  $cont = fread($h, filesize('include/master.inc.php'));
+  $h = fopen($master, 'r');
+  $cont = fread($h, filesize($master));
 
   $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
   $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
@@ -48,7 +49,7 @@ elseif ($func == 'updateinfos')
   $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
 
   fclose($h);
-  $h = fopen('include/master.inc.php', 'w+');
+  $h = fopen($master, 'w+');
   fwrite($h, $cont, strlen($cont));
   fclose($h);
 
