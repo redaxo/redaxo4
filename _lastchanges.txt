@@ -62,7 +62,12 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 3.3 (2007-XX-XX)
+Version 4.01 (2007-10-xx)
+  * urlrewrite von htm => html
+
+
+
+Version 4.0 (2007-10-14)
   * CLANG/CTYPE/MetaInfo wird via I18N->msg aufgerufen, wenn "translate:" als prefix gesetzt ist (rex_translate) [kills]
   * Templates/Artikel on the fly. Werden beim Aufruf generiert [jan]
   * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]

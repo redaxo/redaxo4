@@ -135,6 +135,6 @@ function rex_apache_rewrite($id, $name, $clang, $params)
     $params = '?'.substr($params, strpos($params, '&') + 1);
   }
 
-  return $id.'-'.$clang.'-'.$name.'.htm'.$params;
+  return $id.'-'.$clang.'-'.$name.'.html'.$params;
 }
 ?>
