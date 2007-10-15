@@ -44,7 +44,6 @@ $doctypes = OOMedia::getDocTypes();
 $imgtypes = OOMedia::getImageTypes();
 $thumbs = true;
 $thumbsresize = true;
-$backend_mediafolder = str_replace('/redaxo/index.php','',$_SERVER['SCRIPT_NAME']). '/files/';
 if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 
 
