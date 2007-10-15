@@ -85,7 +85,7 @@ class select extends rex_select
   {
   	foreach(rex_var::splitString($extra) as $name => $value)
   	{
-  		$this->set_attribute($name, $value);
+  		$this->setAttribute($name, $value);
   	}
   }
 
