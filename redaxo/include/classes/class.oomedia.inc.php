@@ -230,6 +230,24 @@ class OOMedia
 
   /**
    * @access public
+   * @deprecated 12.10.2007
+   */
+  function getDescription()
+  {
+    return $this->getValue('med_description');
+  }
+
+  /**
+   * @access public
+   * @deprecated 12.10.2007
+   */
+  function getCopyright()
+  {
+    return $this->getValue('med_copyright');
+  }
+
+  /**
+   * @access public
    */
   function getTitle()
   {
