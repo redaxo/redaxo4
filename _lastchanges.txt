@@ -62,7 +62,7 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.01 (2007-10-xx)
+Version 4.0.1 (2007-10-xx)
   Bugfix:
   * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
   * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
