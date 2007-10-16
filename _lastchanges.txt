@@ -118,11 +118,12 @@ Version 4.0 (2007-10-14)
         + OOCategory::getKeywords() -> OOCategory::getValue('art_keywords')
         + OOCategory::getDescription() -> OOCategory::getValue('art_description');
         + OOCategory::getFile() -> OOCategory::getValue('art_file');
-		Attribute:
-		+ sql->select -> sql->query
+    		Attribute:
+    		+ sql->select -> sql->query
         Funktionen:
-        + title -> rex_title()
-        + getUrlById -> rex_getUrl()
+        + title() -> rex_title()
+        + getUrlById() -> rex_getUrl()
+        + rex_parseArticleName() -> rex_parse_article_name()
   * Rückwärtskompatibilität eingeschränkt durch:
     - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert [kills]
     - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt [kills]
