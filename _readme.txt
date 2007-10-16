@@ -165,6 +165,14 @@ Allgemeines
           + sql::resetCounter() -> sql::reset()
           + sql::nextValue() -> sql::next()
           + sql::where() -> sql::setWhere()
+          + OOMedia::getDescription() -> OOMedia::getValue('med_description')
+          + OOMedia::getCopyright() -> OOMedia::getValue('med_copyright')
+          + OOArticle::getKeywords() -> OOArticle::getValue('art_keywords')
+          + OOArticle::getDescription() -> OOArticle::getValue('art_description');
+          + OOArticle::getFile() -> OOArticle::getValue('art_file');
+          + OOCategory::getKeywords() -> OOCategory::getValue('art_keywords')
+          + OOCategory::getDescription() -> OOCategory::getValue('art_description');
+          + OOCategory::getFile() -> OOCategory::getValue('art_file');
       Attribute:
       + sql->select -> sql->query
           Funktionen:
