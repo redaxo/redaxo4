@@ -63,7 +63,11 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 4.01 (2007-10-xx)
-  * urlrewrite von htm => html
+  Bugfix:
+  * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
+  * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
+  * absolute Pfadanzeige im Setup bei Schreibrechteprüfung [jan]
+  * urlrewrite von htm => html [jan]
 
 
 
