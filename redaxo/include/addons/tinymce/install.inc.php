@@ -17,15 +17,40 @@ require_once $REX['INCLUDE_PATH'] . '/addons/tinymce/functions/function_pclzip.i
 
 $I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/tinymce/lang/');
 
-// Install Tiny Core
-rex_a52_extract_archive('include/addons/tinymce/js/tinymce.zip', $I18N_A52->msg('install_core'));
-// Install German Language Pack
-rex_a52_extract_archive('include/addons/tinymce/js/tinymce_lang_de.zip', $I18N_A52->msg('install_lang_pakage'));
-// Install Redaxo Plugin
-rex_a52_extract_archive('include/addons/tinymce/js/redaxo_tiny_plugin.zip', $I18N_A52->msg('install_redaxo_plugin'),'../files/tmp_/tinymce/jscripts/tiny_mce/plugins/');
 
-copy('include/addons/tinymce/css/tinymce.css', '../files/tmp_/tinymce/tinymce.css');
+$error = '';
 
-$REX['ADDON']['install']['tinymce'] = true;
+// check folder write permissions
+$tmpDir = $REX['MEDIAFOLDER'].'/tmp_';
+if(!is_dir($tmpDir) && !mkdir($tmpDir))
+  $error = 'Could not create temp-dir "'. $tmpDir .'"!';
+
+if($error == '' && !is_writable($tmpDir))
+  $error = 'temp-dir "'. $tmpDir .'" not writable!';
+
+$tinyDir = $tmpDir.'/tinymce';
+if(!is_dir($tinyDir) && !mkdir($tinyDir))
+  $error = 'Could not create tiny-dir "'. $tinyDir .'"!';
+
+if($error == '' && !is_writable($tinyDir))
+  $error = 'tiny-dir "'. $tinyDir .'" not writable!';
+
+// Copy files
+if($error == '')
+{
+  // Install Tiny Core
+  rex_a52_extract_archive('include/addons/tinymce/js/tinymce.zip', $I18N_A52->msg('install_core'));
+  // Install German Language Pack
+  rex_a52_extract_archive('include/addons/tinymce/js/tinymce_lang_de.zip', $I18N_A52->msg('install_lang_pakage'));
+  // Install Redaxo Plugin
+  rex_a52_extract_archive('include/addons/tinymce/js/redaxo_tiny_plugin.zip', $I18N_A52->msg('install_redaxo_plugin'),'../files/tmp_/tinymce/jscripts/tiny_mce/plugins/');
+
+  copy('include/addons/tinymce/css/tinymce.css', '../files/tmp_/tinymce/tinymce.css');
+}
+
+if($error != '')
+  $REX['ADDON']['install']['tinymce'] = $error;
+else
+  $REX['ADDON']['install']['tinymce'] = true;
 
 ?>
