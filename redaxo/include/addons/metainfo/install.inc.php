@@ -10,12 +10,8 @@ $uninstall = $REX['INCLUDE_PATH'] . '/addons/metainfo/uninstall.sql';
 rex_install_dump($uninstall);
 
 if ($error != '')
-{
   $REX['ADDON']['installmsg']['metainfo'] = $error;
-}
 else
-{
   $REX['ADDON']['install']['metainfo'] = true;
-}
 
 ?>
