@@ -391,12 +391,12 @@ class rex_article
 
               // ----- EXTENSION POINT
               $listElements = rex_register_extension_point('ART_SLICE_MENU', $listElements,
-              array(
-                'article_id' => $this->article_id,
-                'clang' => $this->clang,
-                'ctype' => $this->ctype,
-                'module_id' => $RE_MODUL_ID[$I_ID],
-                'slice_id' => $RE_CONTS[$I_ID]
+                array(
+                  'article_id' => $this->article_id,
+                  'clang' => $this->clang,
+                  'ctype' => $this->ctype,
+                  'module_id' => $RE_MODUL_ID[$I_ID],
+                  'slice_id' => $RE_CONTS[$I_ID]
                 )
               );
 
@@ -419,26 +419,22 @@ class rex_article
                 // **************** Aktueller Slice
 
 
-                // ----- PRE VIEW ACTION [ADD/EDIT/DELETE]
+                // ----- PRE VIEW ACTION [EDIT]
                 $REX_ACTION = array ();
 
                 // nach klick auf den übernehmen button,
                 // die POST werte übernehmen
-                if(rex_request('btn_update', 'string'))
+                if(rex_var::isEditEvent())
                 {
                   foreach ($REX['VARIABLES'] as $obj)
-                  {
                     $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
-                  }
                 }
                 // Sonst die Werte aus der DB holen
                 // (1. Aufruf via Editieren Link)
                 else
                 {
                   foreach ($REX['VARIABLES'] as $obj)
-                  {
                     $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $this->CONT);
-                  }
                 }
 
                 // TODO: PreviewActions gibts nur im EditMode...?
@@ -456,17 +452,14 @@ class rex_article
 
                   // ****************** VARIABLEN ERSETZEN
                   foreach($REX['VARIABLES'] as $obj)
-                  {
                     $iaction = $obj->getACOutput($REX_ACTION,$iaction);
-                  }
 
                   eval('?>'.$iaction);
 
                   // ****************** SPEICHERN FALLS NOETIG
                   foreach($REX['VARIABLES'] as $obj)
-                  {
                     $obj->setACValues($this->CONT, $REX_ACTION);
-                  }
+
                   $ga->next();
                 }
 
@@ -662,14 +655,17 @@ class rex_article
         </form>
       ';
 
+      // Beim Add hier die Meldung ausgeben
+      if($this->slice_id == 0 && $this->message != '')
+         echo rex_warning($this->message);
+
       $dummysql = new rex_sql();
 
       // Den Dummy mit allen Feldern aus rex_article_slice füllen
       $slice_fields = new rex_sql();
-      $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice' . ' LIMIT 1');
+      $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice LIMIT 1');
       foreach($slice_fields->getFieldnames() as $fieldname)
       {
-      	$def_value = '';
       	switch($fieldname)
       	{
       		case 'clang'        : $def_value = $this->clang; break;
@@ -677,7 +673,7 @@ class rex_article
       		case 'modultyp_id'  : $def_value = $module_id; break;
       		case 'article_id'   : $def_value = $this->article_id; break;
       		case 'id'           : $def_value = 0; break;
-
+          default             : $def_value = '';
       	}
       	$dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
       }
@@ -737,12 +733,14 @@ class rex_article
     global $REX;
 
     $tmp = '';
+    $sliceId = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+
   	foreach($REX['VARIABLES'] as $var)
   	{
   		if ($this->mode == 'edit')
   		{
-  			if (($this->function == 'add' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == '0') ||
-      			($this->function == 'edit' && $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id') == $this->slice_id))
+  			if (($this->function == 'add' && $sliceId == '0') ||
+      			($this->function == 'edit' && $sliceId == $this->slice_id))
   			{
   		  	if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
   		  	{
@@ -756,7 +754,6 @@ class rex_article
   		  }
   		}else
       {
-      	// var_dump($var);exit;
   			$tmp = $var->getFEOutput($sql,$content);
   		}
 
