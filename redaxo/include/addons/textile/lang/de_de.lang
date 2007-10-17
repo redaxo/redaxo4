@@ -4,4 +4,4 @@ code_for_module_input = Code für Moduleingabe
 code_for_module_output = Code für Modulausgabe
 module_intro_moduleoutput = Einfach mit folgendem Code in die <b>Ausgabe eines beliebigen Moduls</b> einbinden
 module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf in die <b>Eingabe des Moduls</b> einfügen:<br />
-module_rights = <b>Hinweis:</b> Die Anleitung wird nur angezeigt, wenn das Optionalrecht <strong>textile[help]</strong> dem Benutzer zugewiesen wurde.
+module_rights = <b>Hinweis:</b><br />Die Anleitung wird nur angezeigt, wenn das Optionalrecht <strong>textile[help]</strong> dem Benutzer zugewiesen wurde. Auch Admin-User müssen diese Option aktivieren!
