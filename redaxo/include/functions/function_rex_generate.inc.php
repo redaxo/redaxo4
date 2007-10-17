@@ -228,7 +228,7 @@ function rex_deleteArticle($id, $ebene = 0)
 
   if ($id == $REX['START_ARTICLE_ID'])
   {
-    return $I18N->msg("cant_delete_startarticle");
+    return $I18N->msg("cant_delete_sitestartarticle");
   }
 
   $ART = new rex_sql;
