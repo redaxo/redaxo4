@@ -1,6 +1,8 @@
-Version 1.0.1 (R4.0.1 Compatible) (2007-10-xx)
+<h3>Changelog:</h3>
+
+<strong>Version 1.0.1 (R4.0.1 Compatible) (2007-10-xx)</strong>
   Bugfix:
   * Installation gibt jetzt korrekte Fehlermeldungen zurück 
 
-Version 1.0 (R4 Compatible) (2007-10-14)
+<strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
   - initial release
