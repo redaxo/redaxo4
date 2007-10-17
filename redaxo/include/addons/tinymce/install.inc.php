@@ -29,7 +29,7 @@ if($error == '' && !is_writable($tmpDir))
   $error = 'temp-dir "'. $tmpDir .'" not writable!';
 
 $tinyDir = $tmpDir.'/tinymce';
-if(!is_dir($tinyDir) && !mkdir($tinyDir))
+if($error == '' && !is_dir($tinyDir) && !mkdir($tinyDir))
   $error = 'Could not create tiny-dir "'. $tinyDir .'"!';
 
 if($error == '' && !is_writable($tinyDir))
@@ -49,7 +49,7 @@ if($error == '')
 }
 
 if($error != '')
-  $REX['ADDON']['install']['tinymce'] = $error;
+  $REX['ADDON']['installmsg']['tinymce'] = $error;
 else
   $REX['ADDON']['install']['tinymce'] = true;
 
