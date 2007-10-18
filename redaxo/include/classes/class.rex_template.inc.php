@@ -36,13 +36,21 @@ class rex_template
     return FALSE;
   }
 
-  function getFilePath()
+  function getFilePath($template_id = 0)
+  {
+    if($this->getId()<1) return FALSE;
+
+    if(isset($this))
+      $template_id = $this->getId();
+
+    return $this->getTemplatesDir() .'/' . $template_id . '.template';
+  }
+
+  function getTemplatesDir()
   {
     global $REX;
 
-    if($this->getId()<1) return FALSE;
-
-    return $REX['INCLUDE_PATH'] . '/generated/templates/' . $this->getId() . '.template';
+    return $REX['INCLUDE_PATH'] . '/generated/templates';
   }
 
   function getTemplate()
@@ -85,8 +93,7 @@ class rex_template
 		if($this->id<1) return FALSE;
 
 		$file = $this->getFilePath();
-    if (@unlink($file)) return TRUE;
-    else return FALSE;
+    return @unlink($file);
   }
 }
 ?>

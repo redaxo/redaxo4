@@ -349,7 +349,7 @@ function rex_article2startpage($neu_id){
 	$alt_path = $alt->getValue('path');
 	$alt_id = $alt->getValue('id');
 
-	// cat felder sammeln. +  
+	// cat felder sammeln. +
 	$params = array('path','prior','catname','startpage','catprior','status');
 	$db_fields = OORedaxo::getClassVars();
   foreach($db_fields as $field)
@@ -1204,7 +1204,10 @@ function rex_generateTemplate($template_id)
 
   if($sql->getRows() == 1)
   {
-    if($fp = fopen($REX['INCLUDE_PATH']."/generated/templates/".$template_id.".template", "w"))
+    $templatesDir = rex_template::getTemplatesDir();
+    $templateFile = rex_template::getFilePath($template_id);
+
+    if($fp = @fopen($templateFile, 'w'))
     {
     	$content = $sql->getValue('content');
 	  	foreach($REX['VARIABLES'] as $var)
@@ -1213,8 +1216,15 @@ function rex_generateTemplate($template_id)
 	  	}
       fwrite($fp, $content);
       fclose($fp);
-      @ chmod($REX['INCLUDE_PATH']."/generated/templates/". $template_id .".template", $REX['FILEPERM']);
+      @ chmod($templateFile, $REX['FILEPERM']);
       return true;
+    }
+    else
+    {
+      trigger_error('unable to generate template '. $template_id .'!', E_USER_ERROR);
+
+      if(!is_writable())
+        trigger_error('directory "'. rex_template::getTemplatesDir() .'" is not writable!', E_USER_ERROR);
     }
   }
   return false;
