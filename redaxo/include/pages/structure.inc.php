@@ -62,8 +62,6 @@ $catStatusTypes = array(
   array($I18N->msg('status_online'), 'rex-online')
 );
 
-$statusTypes;
-
 $artStatusTypes = array(
   // Name, CSS-Class
   array($I18N->msg('status_offline'), 'rex-offline'),
