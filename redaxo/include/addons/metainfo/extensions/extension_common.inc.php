@@ -177,12 +177,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $select->setId($id);
         $select->setSelected($dbvalues);
 
-        foreach(explode(' ',$attr) as $pair)
+        foreach(rex_split_string($attr) as $attr_name => $attr_value)
         {
-          if(strpos($pair, '=') === false) continue;
+          if(empty($attr_name)) continue;
 
-          $temp = explode('=', $pair);
-          $select->setAttribute($temp[0], str_replace(array('"', "'"),'',$temp[1]));
+          $select->setAttribute($attr_name, $attr_value);
 
           if($temp[0] == 'multiple')
             $select->setName($name.'[]');
