@@ -96,15 +96,12 @@ $mdl_3 =<<<EOD
 <?php
 if (REX_IS_VALUE[1])
 {
-  echo '<div class="section">';
 // Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
 \$content =<<<TEXT
 REX_HTML_VALUE[1]
 TEXT;
 
-  if (\$REX['REDAXO'])
-    echo '<link rel="stylesheet" type="text/css" href="../files/tmp_/tinymce/tinymce.css" />';
-
+  echo '<div class="section">';
   echo \$content;
   echo '</div>';
 }
