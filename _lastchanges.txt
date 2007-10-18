@@ -64,6 +64,7 @@ Wichtige Änderungen:
 
 Version 4.0.1 (2007-10-xx)
   Bugfix:
+  * Kategorie anlegen mit mehr als 2 Sprachen war nicht möglich [kills]
   * Bessere Fehlermeldung beim löschen des SITE_START_ARTICLES [kills]
   * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
   * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
