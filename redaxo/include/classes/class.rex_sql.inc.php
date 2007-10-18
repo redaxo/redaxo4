@@ -526,6 +526,8 @@ class rex_sql
       $data[] = $row;
     }
 
+    $this->freeResult();
+
     return $data;
   }
 
@@ -690,6 +692,18 @@ class rex_sql
     return $instance;
   }
 
+  /**
+   * Gibt den Speicher wieder frei
+   */
+  function freeResult()
+  {
+    if(is_resource($this->result))
+      mysql_free_result($this->result);
+  }
+
+  /**
+   * Schlieﬂt die Verbindung zum DB Server
+   */
   function disconnect($DBID=1)
   {
     global $REX;
