@@ -253,10 +253,8 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
     $Position_New_Category = 1;
 
   unset ($id);
-  reset($REX['CLANG']);
-  while (list ($key, $val) = each($REX['CLANG']))
+  foreach($REX['CLANG'] as $key => $val)
   {
-
     // ### erstelle neue prioliste wenn noetig
 
     $template_id = 0;
