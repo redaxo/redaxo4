@@ -64,11 +64,18 @@ Wichtige Änderungen:
 
 Version 4.0.1 (2007-10-xx)
   Bugfix:
+  * START_ARTICLE_ID wird jetzt richtig verwendet [kills]
+    - http://forum.redaxo.de/ftopic6885.html
+  * MetaInfo: HTML Attribute wurden bei Select Feldern verstümmelt [kills]
+    - http://forum.redaxo.de/sutra42980.html#42980
   * Kategorie anlegen mit mehr als 2 Sprachen war nicht möglich [kills]
+    - http://forum.redaxo.de/ftopic6966.html
   * Bessere Fehlermeldung beim löschen des SITE_START_ARTICLES [kills]
+    - http://forum.redaxo.de/ftopic6948.html
   * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
   * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
   * absolute Pfadanzeige im Setup bei Schreibrechteprüfung [jan]
+    - http://forum.redaxo.de/ftopic6890.html
   * urlrewrite von htm => html [jan]
 
 
