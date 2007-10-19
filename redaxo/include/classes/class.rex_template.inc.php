@@ -44,7 +44,7 @@ class rex_template
 
     if($template_id<1) return FALSE;
 
-    return $this->getTemplatesDir() .'/' . $template_id . '.template';
+    return rex_template::getTemplatesDir() .'/' . $template_id . '.template';
   }
 
   function getTemplatesDir()
