@@ -1224,7 +1224,7 @@ function rex_generateTemplate($template_id)
       trigger_error('unable to generate template '. $template_id .'!', E_USER_ERROR);
 
       if(!is_writable())
-        trigger_error('directory "'. rex_template::getTemplatesDir() .'" is not writable!', E_USER_ERROR);
+        trigger_error('directory "'. $templatesDir .'" is not writable!', E_USER_ERROR);
     }
   }
   return false;
