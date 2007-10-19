@@ -38,10 +38,11 @@ class rex_template
 
   function getFilePath($template_id = 0)
   {
-    if($this->getId()<1) return FALSE;
-
-    if(isset($this))
+    // statischer Methodenaufruf ermöglichen
+    if($template_id == 0 && isset($this))
       $template_id = $this->getId();
+
+    if($template_id<1) return FALSE;
 
     return $this->getTemplatesDir() .'/' . $template_id . '.template';
   }
