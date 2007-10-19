@@ -23,8 +23,7 @@ function rex_parse_article_name($name)
       $search = array_map('utf8_encode', $search);
   }
 
-  $name = str_replace($search, $replace, $name);
-  return preg_replace('/[^a-zA-Z\-0-9]/', '', $name);
+  return preg_replace('/[^a-zA-Z\-0-9]/', '', str_replace($search, $replace, $name));
 }
 
 /**
