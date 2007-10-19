@@ -31,17 +31,13 @@ class rex_template
   {
     // Generated Datei erzeugen
     if($this->generate())
-      return $this->getFilePath();
+      return $this->getFilePath($this->getId());
 
     return FALSE;
   }
 
-  function getFilePath($template_id = 0)
+  function getFilePath($template_id)
   {
-    // statischer Methodenaufruf ermöglichen
-    if($template_id == 0 && isset($this))
-      $template_id = $this->getId();
-
     if($template_id<1) return FALSE;
 
     return rex_template::getTemplatesDir() .'/' . $template_id . '.template';
@@ -58,7 +54,7 @@ class rex_template
   {
 		if($this->getId()<1) return FALSE;
 
-    $file = $this->getFilePath();
+    $file = $this->getFilePath($this->getId());
     if ($handle = @fopen($file, 'r'))
     {
       $content = '';
@@ -93,7 +89,7 @@ class rex_template
 
 		if($this->id<1) return FALSE;
 
-		$file = $this->getFilePath();
+		$file = $this->getFilePath($this->getId());
     return @unlink($file);
   }
 }
