@@ -75,7 +75,7 @@ TEXT;
 \$editor1->editorCSS = '../files/tmp_/tinymce/content.css';
 \$editor1->disable='justifyleft,justifycenter,justifyright,justifyfull';
 \$editor1->buttons3='tablecontrols,separator,search,replace,separator,print';
-\$editor1->add_validhtml='img[myspecialtag]';
+//\$editor1->add_validhtml='img[myspecialtag]';
 \$editor1->show();
 
 // Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
