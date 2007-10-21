@@ -65,20 +65,17 @@ function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
   $clang = (int) $clang;
 
   // ----- get id
-  if (strlen($id) == 0 || $id == 0)
+  if ($id == 0)
     $id = $article_id;
 
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
   // Die rexExtension muss selbst entscheiden was sie damit macht
-  if (strlen($clang) == 0 && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
+  if ($clang == 0 && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
     $clang = $REX['CUR_CLANG'];
 
   // ----- get params
   $param_string = rex_param_string($params, $divider);
-
-  // ----- get article name
-  $id = (int) $id;
 
   if ($id != 0)
   {
@@ -101,7 +98,7 @@ function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
     else
       $rewrite_fn = 'rex_no_rewrite';
 
-    $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string);
+    $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string, $divider);
   }
 
   return $url;
@@ -110,26 +107,26 @@ function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
 // ----------------------------------------- Rewrite functions
 
 // Kein Rewrite wird durchgeführt
-function rex_no_rewrite($id, $name, $clang, $param_string)
+function rex_no_rewrite($id, $name, $clang, $param_string, $divider)
 {
   global $REX;
   $url = '';
 
   if (count($REX['CLANG']) > 1)
   {
-    $url .= '&clang='.$clang;
+    $url .= $divider.'clang='.$clang;
   }
 
   return 'index.php?article_id='.$id .$url.$param_string;
 }
 
 // Rewrite für mod_rewrite
-function rex_apache_rewrite($id, $name, $clang, $params)
+function rex_apache_rewrite($id, $name, $clang, $params, $divider)
 {
   if ($params != '')
   {
     // strip first "&"
-    $params = '?'.substr($params, strpos($params, '&') + 1);
+    $params = '?'.substr($params, strpos($params, $divider) + strlen($divider));
   }
 
   return $id.'-'.$clang.'-'.$name.'.html'.$params;
