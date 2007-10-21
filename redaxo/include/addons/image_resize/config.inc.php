@@ -61,14 +61,14 @@ if ($rex_resize != '')
   $hmode = $resize[4];
   $imagefile = $resize[5];
   $rex_filter = rex_get('rex_filter', 'array');
-  $filters = "";
+  $filters = '';
 	foreach($rex_filter as $filter)
-	{
 		$filters .= $filter;
-	}
 
-	$filters = md5($filters);
-  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/image_resize___'.$filters.$rex_resize;
+  if($filters != '')
+	 $filters = md5($filters);
+
+  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/image_resize__'.$filters.$rex_resize;
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
   // check for cache file
@@ -134,7 +134,7 @@ if ($rex_resize != '')
   {
     $thumb->size_height($size);
   }
-  
+
   if ($mode == 'c')
   {
     $thumb->size_crop($size, $hmode);
@@ -143,12 +143,12 @@ if ($rex_resize != '')
   {
     $thumb->size_height($hmode);
   }
-  
+
   if ($mode == 'a')
   {
     $thumb->size_auto($size);
   }
-  
+
   foreach($rex_filter as $filter)
   {
     $thumb->addFilter($filter);
