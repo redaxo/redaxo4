@@ -526,8 +526,6 @@ class rex_sql
       $data[] = $row;
     }
 
-    $this->freeResult();
-
     return $data;
   }
 
