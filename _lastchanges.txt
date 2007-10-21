@@ -64,10 +64,14 @@ Wichtige Änderungen:
 
 Version 4.0.1 (2007-10-xx)
   Bugfix:
+  * UrlRewrite divider wurde nicht übergeben [kills]
+    - http://forum.redaxo.de/sutra43187.html
+  * ResizeCache wurde nicht geleert [kills]
+    - http://forum.redaxo.de/ftopic7016.html
   * START_ARTICLE_ID wird jetzt richtig verwendet [kills]
     - http://forum.redaxo.de/ftopic6885.html
   * MetaInfo: HTML Attribute wurden bei Select Feldern verstümmelt [kills]
-    - http://forum.redaxo.de/sutra42980.html#42980
+    - http://forum.redaxo.de/sutra42980.html
   * Kategorie anlegen mit mehr als 2 Sprachen war nicht möglich [kills]
     - http://forum.redaxo.de/ftopic6966.html
   * Bessere Fehlermeldung beim löschen des SITE_START_ARTICLES [kills]
