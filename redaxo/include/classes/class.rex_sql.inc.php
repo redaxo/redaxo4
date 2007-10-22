@@ -495,18 +495,43 @@ class rex_sql
   }
 
   /**
-   * Lädt das komplette Resultset in ein Array und gibts dieses zurück
+   * Lädt das komplette Resultset in ein Array und gibt dieses zurück und
+   * wechselt die DBID falls vorhanden
+   * 
+   * @access public
+   * @param string $sql Abfrage
+   * @param string $fetch_type Default: MYSQL_ASSOC; weitere: MYSQL_NUM, MYSQL_BOTH
+   * @return array
    */
   function getDBArray($sql = '', $fetch_type = MYSQL_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type, 'DBQuery');
   }
 
+  /**
+   * Lädt das komplette Resultset in ein Array und gibt dieses zurück
+   * 
+   * @access public
+   * @param string $sql Abfrage
+   * @param string $fetch_type Default: MYSQL_ASSOC; weitere: MYSQL_NUM, MYSQL_BOTH
+   * @return array
+   */
   function getArray($sql = '', $fetch_type = MYSQL_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type);
   }
 
+  /**
+   * Hilfsfunktion
+   *
+   * @access private
+   * @see getArray()
+   * @see getDBArray()
+   * @param string $sql Abfrage
+   * @param string $fetch_type Default: MYSQL_ASSOC, MYSQL_NUM, MYSQL_BOTH
+   * @param string $qryType void oder DBQuery
+   * @return array
+   */
   function _getArray($sql, $fetch_type, $qryType = 'default')
   {
     if ($sql != '')
