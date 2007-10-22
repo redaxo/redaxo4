@@ -39,6 +39,10 @@ function rex_absPath($rel_path, $rel_to_current = false)
 
 /**
  * Prüfen ob ein/e Datei/Ordner beschreibbar ist
+ * 
+ * @access public
+ * @param string $item Datei oder Verzeichnis
+ * @return mixed true bei Erfolg, sonst Fehlermeldung
  */
 function rex_is_writable($item)
 {
