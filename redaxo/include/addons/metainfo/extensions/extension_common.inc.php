@@ -183,16 +183,19 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
           $select->setAttribute($attr_name, $attr_value);
 
-          if($temp[0] == 'multiple')
+          if($attr_name[0] == 'multiple')
             $select->setName($name.'[]');
         }
 
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
+          // Werte via SQL Laden
           $select->addDBSqlOptions($params);
         }
         else
         {
+          // Optionen mit | separiert
+          // eine einzelne Option kann mit key:value separiert werden
           $values = array();
           $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
