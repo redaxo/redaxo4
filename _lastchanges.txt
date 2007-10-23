@@ -63,7 +63,8 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 4.0.1 (2007-10-xx)
-  Bugfix:
+  Bugfixes:
+  * Notices enfernt [kills, jan]
   * UrlRewrite divider wurde nicht übergeben [kills]
     - http://forum.redaxo.de/sutra43187.html
   * ResizeCache wurde nicht geleert [kills]
@@ -77,10 +78,12 @@ Version 4.0.1 (2007-10-xx)
   * Bessere Fehlermeldung beim löschen des SITE_START_ARTICLES [kills]
     - http://forum.redaxo.de/ftopic6948.html
   * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
+    - http://forum.redaxo.de/ftopic6889.html
   * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
   * absolute Pfadanzeige im Setup bei Schreibrechteprüfung [jan]
     - http://forum.redaxo.de/ftopic6890.html
   * urlrewrite von htm => html [jan]
+    - http://forum.redaxo.de/ftopic6923.html
 
 
 
