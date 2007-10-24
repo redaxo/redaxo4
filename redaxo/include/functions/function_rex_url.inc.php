@@ -88,7 +88,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     $name = 'NoName';
 
   // ----- EXTENSION POINT
-  $url = rex_register_extension_point('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $divider));
+  $url = rex_register_extension_point('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
 
   if ($url == '')
   {
