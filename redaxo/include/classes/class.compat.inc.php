@@ -157,6 +157,13 @@ function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
   return rex_title($head, $subtitle, $styleclass, $width);
 }
 
+// rex_parseArticleName -> rex_parse_article_name
+// Für < R3.2
+function rex_parseArticleName($name)
+{
+  return rex_parse_article_name($name);
+}
+
 // ------------------------------------- Allgemeine PHP Functions
 
 /**
