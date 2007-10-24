@@ -57,12 +57,12 @@ function rex_param_string($params, $divider = '&amp;')
  * @param [$divider] Trennzeichen für Parameter
  * (z.B. &amp; für HTML, & für Javascript)
  */
-function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
+function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 {
   global $REX, $article_id;
 
-  $id = (int) $id;
-  $clang = (int) $clang;
+  $id = (int) $_id;
+  $clang = (int) $_clang;
 
   // ----- get id
   if ($id == 0)
@@ -71,11 +71,11 @@ function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
   // Die rexExtension muss selbst entscheiden was sie damit macht
-  if ($clang == 0 && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
+  if ($_clang == '' && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
     $clang = $REX['CUR_CLANG'];
 
   // ----- get params
-  $param_string = rex_param_string($params, $divider);
+  $param_string = rex_param_string($_params, $_divider);
 
   if ($id != 0)
   {
@@ -98,7 +98,7 @@ function rex_getUrl($id = '', $clang = '', $params = '', $divider = '&amp;')
     else
       $rewrite_fn = 'rex_no_rewrite';
 
-    $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string, $divider);
+    $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string, $_divider);
   }
 
   return $url;
