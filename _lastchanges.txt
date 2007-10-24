@@ -63,8 +63,11 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 4.0.1 (2007-10-xx)
-  Bugfixes:
   * Notices enfernt [kills, jan]
+  
+  Bugfixes:
+  * Fehler bei der Übergabe von Sprachen [kills]
+    - http://forum.redaxo.de/ftopic7064.html
   * UrlRewrite divider wurde nicht übergeben [kills]
     - http://forum.redaxo.de/sutra43187.html
   * ResizeCache wurde nicht geleert [kills]
