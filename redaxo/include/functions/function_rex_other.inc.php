@@ -224,7 +224,8 @@ function rex_redirect($article_id, $clang, $params = array())
   // Alle OBs schlieﬂen
   while(@ob_end_clean());
 
-  $url = rex_no_rewrite($article_id, $clang, '', rex_param_string($params), '&');
+  $divider = '&';
+  $url = rex_no_rewrite($article_id, $clang, '', rex_param_string($params, $divider), $divider);
 
   // Redirects nur im Frontend folgen
   // Und nur wenn FOLLOW_REDIRECT auf true steht
