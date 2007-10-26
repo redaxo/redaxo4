@@ -7,7 +7,11 @@ function image_resize_sepia(&$src_im, $quality = 60 )
 	$dst_x = $src_x;
 	$dst_y = $src_y;
 	$dst_im = ImageCreateTrueColor( $dst_x, $dst_y );
-	ImageAntiAlias( $dst_im, TRUE );
+
+  // Benötigt PHP > 4.3.2
+  if(function_exists('imageantialias'))
+	 imageantialias( $dst_im, TRUE );
+
 	ImageCopyResampled( $dst_im, $src_im, 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y );
 	// Change style of image pixelwise
 	for( $y = 0; $y < $dst_y; $y++ )
