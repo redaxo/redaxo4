@@ -66,6 +66,8 @@ Version 4.0.1 (2007-10-xx)
   * Notices enfernt [kills, jan]
   
   Bugfixes:
+  * ImageResize: Sepia Filter funktionierte bei manchen Providern nicht [kills]
+    - http://forum.redaxo.de/ftopic7029.html
   * Fehler bei der Übergabe von Sprachen [kills]
     - http://forum.redaxo.de/ftopic7064.html
   * UrlRewrite divider wurde nicht übergeben [kills]
