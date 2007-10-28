@@ -67,6 +67,8 @@ Version 4.0.1 (2007-10-xx)
   
   Bugfixes:
   * Tabindizes im Setup ergänzt [kills]
+  * PHP Extensions werden im Setup geprüft [kills]
+    - http://forum.redaxo.de/ftopic7107.html
   * ImageResize: Sepia Filter funktionierte bei manchen Providern nicht [kills]
     - http://forum.redaxo.de/ftopic7029.html
   * Fehler bei der Übergabe von Sprachen [kills]
