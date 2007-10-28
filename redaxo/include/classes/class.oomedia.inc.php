@@ -739,7 +739,7 @@ class OOMedia
     global $REX;
 
     $default_file_icon = "file";
-    $icons_folder = $REX['HTDOCS_PATH'].'redaxo/media';
+    $icons_folder = $REX['HTDOCS_PATH'].'redaxo/media/';
 
     if (!$REX['MEDIA']['ICONS'])
     {
