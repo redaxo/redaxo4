@@ -810,21 +810,21 @@ if ($checkmodus == 4)
   echo '
         <p>
           <label for="redaxo_user_login">'.$I18N->msg("setup_046").':</label>
-          <input type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login" />
+          <input type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login"'. rex_tabindex() .'/>
         </p>
 
         <p>
           <label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
-          <input type="text" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass" />
+          <input type="text" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
         </p>
 
         <p>
-          <input class="rex-chckbx" type="checkbox" id="noadmin" name="noadmin" value="1" />
+          <input class="rex-chckbx" type="checkbox" id="noadmin" name="noadmin" value="1"'. rex_tabindex() .'/>
           <label class="rex-lbl-right" for="noadmin">'.$I18N->msg("setup_048").'</label>
         </p>
 
         <p>
-          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_049").'" />
+          <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_049").'"'. rex_tabindex() .' />
         </p>
 
       </fieldset>
