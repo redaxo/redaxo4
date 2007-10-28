@@ -453,6 +453,7 @@ setup_005 = <h2>Willkommen beim Setup von REDAXO.</h2><p>Was passiert jetzt:</p>
 setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
 setup_step1 = Setup: Schritt 1 von 5
 setup_010 = Die PHP version des Servers ist zu alt ({0}), bitte aktualisieren Sie auf eine höhere Version (mindestens 4.3.2, neueste empfohlen)
+setup_010_1 = Die benötigte PHP-Extension <strong>{0}</strong> wurde nicht gefunden!
 setup_011 = {0}Fehler{1} | Benötigte System-Addons fehlen
 setup_012 = {0}Fehler{1} | Das Verzeichnis {2} ist nicht beschreib- oder ausführbar!
 setup_014 = {0}Fehler{1} | Die Datei {2} ist nicht beschreibbar!

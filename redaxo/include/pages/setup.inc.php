@@ -247,6 +247,15 @@ if ($checkmodus == 1)
     $MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
   }
 
+  // -------------------------- EXTENSION CHECK
+
+  $requiredExtensions = array('session', 'mysql', 'pcre');
+  foreach($requiredExtensions as $extension)
+  {
+    if(!extension_loaded($extension))
+      $MSG['err'] .= '<li>'. $I18N->msg('setup_010_1', $extension).'</li>';
+  }
+
   // -------------------------- SCHREIBRECHTE
 
   $WRITEABLE = array (
