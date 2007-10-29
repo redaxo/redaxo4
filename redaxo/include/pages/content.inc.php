@@ -183,9 +183,9 @@ if ($article->getRows() == 1)
               $iaction = $obj->getACOutput($REX_ACTION, $iaction);
             }
 
-            eval ("?>" . $iaction);
-            if ($REX_ACTION['MSG'] != "")
-              $message .= $REX_ACTION['MSG'] . " | ";
+            eval ('?>' . $iaction);
+            if ($REX_ACTION['MSG'] != '')
+              $message .= $REX_ACTION['MSG'] . ' | ';
             $ga->next();
           }
 
