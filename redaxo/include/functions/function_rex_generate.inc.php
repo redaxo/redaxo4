@@ -1234,7 +1234,7 @@ function rex_generateTemplate($template_id)
  * Erstellt einen Filename der eindeutig ist für den Medienpool
  * @param $FILENAME Dateiname
  */
-function rex_medienpool_filename($FILENAME)
+function rex_medienpool_filename($FILENAME, $doSubindexing = true)
 {
   global $REX;
 
@@ -1261,14 +1261,17 @@ function rex_medienpool_filename($FILENAME)
 
   $NFILENAME = $NFILE_NAME.$NFILE_EXT;
 
-  // ----- datei schon vorhanden -> namen aendern -> _1 ..
-  if (file_exists($REX['MEDIAFOLDER'].'/'.$NFILENAME))
+  if($doSubindexing)
   {
-    $cnt = 1;
-    while(file_exists($REX['MEDIAFOLDER'].'/'.$NFILE_NAME.'_'.$cnt.$NFILE_EXT))
-      $cnt++;
+    // ----- datei schon vorhanden -> namen aendern -> _1 ..
+    if (file_exists($REX['MEDIAFOLDER'].'/'.$NFILENAME))
+    {
+      $cnt = 1;
+      while(file_exists($REX['MEDIAFOLDER'].'/'.$NFILE_NAME.'_'.$cnt.$NFILE_EXT))
+        $cnt++;
 
-    $NFILENAME = $NFILE_NAME.'_'.$cnt.$NFILE_EXT;
+      $NFILENAME = $NFILE_NAME.'_'.$cnt.$NFILE_EXT;
+    }
   }
 
   return $NFILENAME;

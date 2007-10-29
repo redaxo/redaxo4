@@ -255,7 +255,7 @@ function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,
 
   @chmod($abs_file, $REX['FILEPERM']);
 
-  $filename = rex_medienpool_filename($filename);
+  $filename = rex_medienpool_filename($filename, false);
   $org_filename = strtolower($org_filename);
 
   // Ggf Alte Datei umbennen
