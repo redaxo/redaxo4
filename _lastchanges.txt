@@ -67,6 +67,8 @@ Version 4.0.1 (2007-10-xx)
   
   Bugfixes:
   * Tabindizes im Setup ergänzt [kills]
+  * Medienpoolsync Dateinamen subindizes werden nicht mehr geprüft [kills]
+    - http://forum.redaxo.de/ftopic7139.html
   * OOMedia->getIcon() Pfad gefixed [kills]
     - http://forum.redaxo.de/ftopic7134.html
   * PHP Extensions werden im Setup geprüft [kills]
