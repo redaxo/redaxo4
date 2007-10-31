@@ -19,7 +19,6 @@ save = Speichern
 reset = Verwerfen
 reset_info = Änderungen verwerfen?
 
-config_file_not_writable = Die Datei {0] ist nicht beschreibbar!
 config_saved_error = Fehler beim speichern der Konfiguration!
 config_saved_successful = Konfiguration erfolgreich gespeichert!
 high = Hoch

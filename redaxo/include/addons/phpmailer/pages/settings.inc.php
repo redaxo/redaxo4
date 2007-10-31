@@ -24,39 +24,41 @@ $message = '';
 
 if (rex_post('btn_save', 'string') != '')
 {
-  $message  = $I18N_A93->msg('config_saved_error');
   $file = $REX['INCLUDE_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
-  if($hdl = fopen($file,'r'))
+  $message = rex_is_writable($file);
+
+  if($message === true)
   {
-    $file_content = fread($hdl, filesize($file));
-    fclose($hdl);
+    $message  = $I18N_A93->msg('config_saved_error');
 
-    $template =
-    "// --- DYN
-    \$this->From             = '". $from ."';
-    \$this->FromName         = '". $fromname ."';
-    \$this->ConfirmReadingTo = '". $confirmto ."';
-    \$this->Mailer           = '". $mailer ."';
-    \$this->Host             = '". $host ."';
-    \$this->CharSet          = '". $charset ."';
-    \$this->WordWrap         = ". $wordwrap .";
-    \$this->Encoding         = '". $encoding ."';
-    \$this->Priority         = ". $priority .";
-    // --- /DYN";
-
-    $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
-
-    if($hdl = fopen($file, 'w+'))
+    if($hdl = fopen($file,'r'))
     {
-      if(fwrite($hdl, $file_content, strlen($file_content)))
+      $file_content = fread($hdl, filesize($file));
+      fclose($hdl);
+
+      $template =
+      "// --- DYN
+      \$this->From             = '". $from ."';
+      \$this->FromName         = '". $fromname ."';
+      \$this->ConfirmReadingTo = '". $confirmto ."';
+      \$this->Mailer           = '". $mailer ."';
+      \$this->Host             = '". $host ."';
+      \$this->CharSet          = '". $charset ."';
+      \$this->WordWrap         = ". $wordwrap .";
+      \$this->Encoding         = '". $encoding ."';
+      \$this->Priority         = ". $priority .";
+      // --- /DYN";
+
+      $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
+
+      if($hdl = fopen($file, 'w+'))
       {
-        $message = $I18N_A93->msg('config_saved_successful');
-        fclose($hdl);
+        if(fwrite($hdl, $file_content, strlen($file_content)))
+        {
+          $message = $I18N_A93->msg('config_saved_successful');
+          fclose($hdl);
+        }
       }
-    }
-    else
-    {
-      $message = $I18N_A93->msg('config_file_not_writable');
     }
   }
 }
