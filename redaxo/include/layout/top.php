@@ -13,6 +13,12 @@ $page_title = $REX['SERVERNAME'];
 
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
+
+$body_id = str_replace('_', '-', $page);
+$bodyAttr = 'id="rex-page-'. $body_id .'"';
+
+if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg('htmllang'); ?>" lang="<?php echo $I18N->msg('htmllang'); ?>">
@@ -35,15 +41,7 @@ if ($page_name != '')
   //-->
   </script>
 </head>
-<?php
-
-$body_id = str_replace('_', '-', $page);
-?>
-<body id="rex-page-<?php echo $body_id; ?>" <?php
-
-if (!isset($open_header_only)) echo 'onunload="closeAll();"';
-
-?>>
+<body <?php echo $bodyAttr; ?>>
 
 <div id="rex-hdr">
 
@@ -175,9 +173,5 @@ else if(!isset($open_header_only))
   </div>
 
 </div>
-<?php
 
-
-
-?>
 <div id="rex-wrapper">
