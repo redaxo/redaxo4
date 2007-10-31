@@ -54,6 +54,10 @@ if (rex_post('btn_save', 'string') != '')
         fclose($hdl);
       }
     }
+    else
+    {
+      $message = $I18N_A93->msg('config_file_not_writable');
+    }
   }
 }
 
