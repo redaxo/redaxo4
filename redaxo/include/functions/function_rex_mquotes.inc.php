@@ -46,6 +46,17 @@ if (!get_magic_quotes_gpc())
 			$$Akey = $AVal;
 		}
 	}
+	
+	if (is_array($_REQUEST))
+	{
+	    addSlashesOnArray($_REQUEST);
+	    
+		while(list($Akey,$AVal)=each($_REQUEST))
+		{
+			$$Akey = $AVal;
+		}
+	}
+	
 }
 
 // ----------------- REGISTER GLOBALS CHECK
