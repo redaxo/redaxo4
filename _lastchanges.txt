@@ -67,7 +67,7 @@ Version 4.0.1 (2007-10-xx)
   
   Bugfixes:
   * Tabindizes im Setup ergänzt [kills]
-  * MetaInfo: laenge von attributes, params von 255 auf 2048 angehoben
+  * MetaInfo: laenge von attributes, params von 255 auf 2048 angehoben [johannest, kills]
     - http://forum.redaxo.de/ftopic7136.html
   * OOMedia->id wurden nicht richtig gefüllt [ludz, kills]
     - http://forum.redaxo.de/ftopic7201.html
