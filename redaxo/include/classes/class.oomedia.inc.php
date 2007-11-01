@@ -98,7 +98,7 @@ class OOMedia
 
     $result = $result[0];
     $aliasMap = array(
-      'file' => 'id',
+      'file_id' => 'id',
       're_file_id' => 'parent_id',
       'category_id' => 'cat_id',
       'catname' => 'cat_name',
