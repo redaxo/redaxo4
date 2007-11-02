@@ -380,15 +380,18 @@ class rex_article
                 $msg = rex_warning($this->message);
               }
 
+              $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
               $listElements = array();
-              $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=edit&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-grn">'. $I18N->msg('edit') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-              $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=delete&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;save=1#slice'. $RE_CONTS[$I_ID] .'" class="rex-clr-red" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-clr-grn">'. $I18N->msg('edit') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-clr-red" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
               if ($REX_USER->hasPerm('moveSlice[]'))
               {
                 $moveUp = $I18N->msg('move_slice_up');
                 $moveDown = $I18N->msg('move_slice_down');
-                $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=moveup&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;#slice'. $RE_CONTS[$I_ID] .'" title="'. $moveUp .'" class="green12b"><img src="media/file_up.gif" width="16" height="16" alt="'. $moveUp .'" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-                $listElements[] = '<a href="index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;function=movedown&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'&amp;#slice'. $RE_CONTS[$I_ID] .'" title="'. $moveDown .'" class="green12b"><img src="media/file_down.gif" width="16" height="16" alt="'. $moveDown .'" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+                // upd stamp übergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
+                // (Links wären sonst gleich und der Browser lässt das klicken auf den gleichen Link nicht zu)
+                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="green12b"><img src="media/file_up.gif" width="16" height="16" alt="'. $moveUp .'" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="green12b"><img src="media/file_down.gif" width="16" height="16" alt="'. $moveDown .'" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
               }
 
               // ----- EXTENSION POINT
