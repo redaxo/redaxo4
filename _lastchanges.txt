@@ -63,6 +63,10 @@ Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
 Version 4.0.1 (2007-10-xx)
+  * DB Update:
+  ALTER TABLE `rex_62_params` CHANGE `params` `params` VARCHAR(2048);
+  ALTER TABLE `rex_62_params` CHANGE `attributes` `attributes` VARCHAR(2048);
+
   * Notices enfernt [kills, jan]
   
   Bugfixes:
