@@ -68,6 +68,7 @@ Version 4.0.1 (2007-10-xx)
   ALTER TABLE `rex_62_params` CHANGE `attributes` `attributes` VARCHAR(2048);
 
   * Notices enfernt [kills, jan]
+  * $REX['SESSION_DURATION'] zum Konfigurieren der Session-Dauer im Backend ausgelagert (master.inc.php) [kills]
   
   Bugfixes:
   * Tabindizes im Setup ergänzt [kills]
