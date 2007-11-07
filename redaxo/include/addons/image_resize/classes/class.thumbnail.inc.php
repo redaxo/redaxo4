@@ -162,11 +162,20 @@ class thumbnail
     {
       $this->img['des'] = ImageCreate($this->img['width_thumb'], $this->img['height_thumb']);
     }
+
     // Transparenz erhalten
     if ($this->img['format'] == 'PNG')
     {
       imagealphablending($this->img['des'], false);
       imagesavealpha($this->img['des'], true);
+    }
+    if ($this->img['format'] == 'GIF')
+    {
+      $colorTransparent = imagecolortransparent($this->img['src']);
+      imagepalettecopy($this->img['src'], $this->img['des']);
+      imagefill($this->img['des'], 0, 0, $colorTransparent);
+      imagecolortransparent($this->img['des'], $colorTransparent);
+      imagetruecolortopalette($this->img['des'], true, 256);
     }
     imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, $this->img['width_offset_thumb'], $this->img['height_offset_thumb'], $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
   }
