@@ -180,8 +180,10 @@ class thumbnail
     imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, $this->img['width_offset_thumb'], $this->img['height_offset_thumb'], $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
   }
 
-  function generateImage($save = '', $show = true)
+  function generateImage($file = '', $show = true)
   {
+    global $REX;
+
     if ($this->img['format'] == 'GIF' && !$this->gifsupport)
     {
       // --- kein caching -> gif ausgeben
@@ -193,24 +195,26 @@ class thumbnail
 
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
-      imageJPEG($this->img['des'], $save, $this->img['quality']);
+      imageJPEG($this->img['des'], $file, $this->img['quality']);
     }
     elseif ($this->img['format'] == 'PNG')
     {
-      imagePNG($this->img['des'], $save);
+      imagePNG($this->img['des'], $file);
     }
     elseif ($this->img['format'] == 'GIF')
     {
-      imageGIF($this->img['des'], $save);
+      imageGIF($this->img['des'], $file);
     }
     elseif ($this->img['format'] == 'WBMP')
     {
-      imageWBMP($this->img['des'], $save);
+      imageWBMP($this->img['des'], $file);
     }
+
+    chmod($file, $REX['FILEPERM']);
 
     if ($show)
     {
-      $this->send($save);
+      $this->send($file);
     }
   }
 
