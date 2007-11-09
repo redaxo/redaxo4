@@ -24,10 +24,10 @@ $REX['ADDON']['name'][$mypage] = 'Image Resize';
 $REX['ADDON']['perm'][$mypage] = 'image_resize[]';
 $REX['ADDON']['max_size'][$mypage] = 1000;
 $REX['ADDON']['jpeg_quality'][$mypage] = 75;
-$REX['ADDON']['system'][$mypage] = TRUE;
-$REX['ADDON']['version'][$mypage] = "1.0";
-$REX['ADDON']['author'][$mypage] = "Wolfgang Hutteger, Markus Staab, Jan Kristinus";
-// $REX['ADDON']['supportpage'][$mypage] = "";
+$REX['ADDON']['system'][$mypage] = true;
+$REX['ADDON']['version'][$mypage] = '1.0';
+$REX['ADDON']['author'][$mypage] = 'Wolfgang Hutteger, Markus Staab, Jan Kristinus';
+// $REX['ADDON']['supportpage'][$mypage] = '';
 $REX['PERM'][] = 'image_resize[]';
 
 include ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
@@ -35,6 +35,7 @@ include ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.
 if ($REX['GG'])
 {
   require $REX['INCLUDE_PATH'].'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
+  rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
 }else
 {
 	// Bei Update Cache löschen

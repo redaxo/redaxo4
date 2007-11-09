@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
-
 // Resize WYSIWYG Editor Images
 function rex_resize_wysiwyg_output($params)
 {
