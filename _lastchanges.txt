@@ -72,6 +72,8 @@ Version 4.0.1 (2007-10-xx)
   
   Bugfixes:
   * Tabindizes im Setup ergänzt [kills]
+  * MetaInfo: einhängen von User EPs wieder ermöglicht [igeorgs, kills]
+    - http://forum.redaxo.de/ftopic7336.html
   * TinyMCE: Fehlende Scrollbars im Medienpool [woolf, kills]
     - http://forum.redaxo.de/ftopic7321.html
   * ImageReisze: Cache Dateien werden mit $REX['FILEPERM'] gespeichert (kills)
