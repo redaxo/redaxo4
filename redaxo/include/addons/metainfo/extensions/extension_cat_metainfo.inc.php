@@ -23,22 +23,27 @@ function rex_a62_metainfo_button($params)
 	$fields = new rex_sql();
   $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "cat_%" LIMIT 1');
 
-	$return = '<div class="rex-meta-button"><script type="text/javascript"><!--
-
-function rex_metainfo_toggle()
-{
-	var trs = getElementsByClass("rex-metainfo-cat");
-	for(i=0;i<trs.length;i++)
+  if ($fields->getRows()==1)
   {
-		show = toggleElement(trs[i]);
-	}
-  if (show == "") changeImage("rex-meta-icon","media/file_del.gif")
-  else changeImage("rex-meta-icon","media/file_add.gif");
-}
+  	$return = '<div class="rex-meta-button"><script type="text/javascript"><!--
 
-//--></script><a href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-meta-icon" alt="'. $I18N_META_INFOS->msg('edit_metadata') .'" title="'. $I18N_META_INFOS->msg('edit_metadata') .'" /></a></div>';
+  function rex_metainfo_toggle()
+  {
+  	var trs = getElementsByClass("rex-metainfo-cat");
+  	for(i=0;i<trs.length;i++)
+    {
+  		show = toggleElement(trs[i]);
+  	}
+    if (show == "") changeImage("rex-meta-icon","media/file_del.gif")
+    else changeImage("rex-meta-icon","media/file_add.gif");
+  }
 
-	if ($fields->getRows()==1) return $return;
+  //--></script><a href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-meta-icon" alt="'. $I18N_META_INFOS->msg('edit_metadata') .'" title="'. $I18N_META_INFOS->msg('edit_metadata') .'" /></a></div>';
+
+	   return $params['subject'] . $return;
+  }
+
+  return $params['subject'];
 }
 
 /**
@@ -83,12 +88,10 @@ function rex_a62_metainfo_form($params)
   $result = _rex_a62_metainfo_form('cat_', $params, '_rex_a62_metainfo_cat_handleSave');
 
   // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
-  if($params['extension_point'] == 'CAT_UPDATED'
-     || $params['extension_point'] == 'CAT_ADDED'
-     )
+  if($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
     return $params['subject'];
   else
-    return $result;
+    return $params['subject'] . $result;
 }
 
 ?>
