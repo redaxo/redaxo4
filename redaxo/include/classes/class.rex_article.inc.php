@@ -749,10 +749,20 @@ class rex_article
   			{
   		  	if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
   		  	{
-  		  		$sql = new rex_sql();
+            // Wenn der aktuelle Slice nicht gespeichert werden soll
+            // (via Action wurde das Nicht-Speichern-Flag gesetzt)
+            // Dann die Werte manuell aus dem Post übernehmen
+            // und anschließend die Werte wieder zurücksetzen,
+            // damit die nächsten Slices wieder die Werte aus der DB verwenden
   		  		$var->setACValues($sql,$REX['ACTION']);
+            $tmp = $var->getBEInput($sql,$content);
+            $sql->flushValues();
   		  	}
-  		  	$tmp = $var->getBEInput($sql,$content);
+          else
+          {
+            // Slice normal parsen
+    		  	$tmp = $var->getBEInput($sql,$content);
+          }
   		  }else
   		  {
   		  	$tmp = $var->getBEOutput($sql,$content);
