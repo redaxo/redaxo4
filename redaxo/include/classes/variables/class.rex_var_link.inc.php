@@ -179,7 +179,10 @@ class rex_var_link extends rex_var
 
       if ($id > 0 && $id < 11)
       {
-        $replace = rex_getUrl($this->getValue($sql, 'link' . $id));
+      	$replace = '';
+      	if ($this->getValue($sql, 'link' . $id)!="") 
+      		$replace = rex_getUrl($this->getValue($sql, 'link' . $id));
+      		
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }

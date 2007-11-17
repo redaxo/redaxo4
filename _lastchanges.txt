@@ -71,7 +71,12 @@ Version 4.0.1 (2007-10-xx)
   * $REX['SESSION_DURATION'] zum Konfigurieren der Session-Dauer im Backend ausgelagert (master.inc.php) [kills]
   
   Bugfixes:
-  * getPriority() in OOCategory angepasst [jan]
+  * Aktionen gehen nun. $REX_ACTION['SAVE'] korrigiert [kill, jan]
+    - http://forum.redaxo.de/ftopic6883.html
+  * REX_LINK_BUTTON[]: wenn leer dann auch keine URL [kills, jan]
+    - http://forum.redaxo.de/ftopic7328.html
+  * getParentTree() bei normalen Artikeln angepasst #136 [kill, jan]
+  * getPriority() in OOCategory angepasst #134 [kills,jan]
   * Tabindizes im Setup ergänzt [kills]
   * MetaInfo: einhängen von User EPs wieder ermöglicht [igeorgs, kills]
     - http://forum.redaxo.de/ftopic7336.html
