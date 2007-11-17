@@ -448,7 +448,7 @@ class rex_sql
    */
   function flush()
   {
-    $this->values = array ();
+    $this->flushValues();
     $this->fieldnames = array ();
 
     $this->table = '';
@@ -461,6 +461,17 @@ class rex_sql
     $this->error = '';
     $this->errno = '';
   }
+
+  /**
+   * Stellt alle Values, die mit setValue() gesetzt wurden, zurück
+   *
+   * @see #setValue(), #getValue()
+   */
+  function flushValues()
+  {
+    $this->values = array ();
+  }
+
 
   /**
    * Setzt den Cursor des Resultsets auf die nächst niedrigere Stelle
