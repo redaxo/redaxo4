@@ -474,13 +474,11 @@ class rex_article
               }
               else
               {
+                // Modulinhalt ausgeben
                 $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
-                <div class="rex-cnt-slc-otp"><div class="rex-cnt-slc-otp2">';
-
-                $slice_content .= $RE_MODUL_OUT[$I_ID];
-
-                $slice_content .= '
+                <div class="rex-cnt-slc-otp"><div class="rex-cnt-slc-otp2">
+                  '. $RE_MODUL_OUT[$I_ID] .'
                 </div></div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
                 ';
