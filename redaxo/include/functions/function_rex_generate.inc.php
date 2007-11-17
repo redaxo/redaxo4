@@ -226,11 +226,6 @@ function rex_deleteArticle($id, $ebene = 0)
   // -> startpage = 1
   // --> rekursiv aufrufen
 
-  if ($id == $REX['START_ARTICLE_ID'])
-  {
-    return $I18N->msg("cant_delete_sitestartarticle");
-  }
-
   $ART = new rex_sql;
   $ART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$id' and clang='0'");
 
