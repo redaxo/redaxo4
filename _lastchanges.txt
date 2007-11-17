@@ -71,6 +71,7 @@ Version 4.0.1 (2007-10-xx)
   * $REX['SESSION_DURATION'] zum Konfigurieren der Session-Dauer im Backend ausgelagert (master.inc.php) [kills]
   
   Bugfixes:
+  * getPriority() in OOCategory angepasst [jan]
   * Tabindizes im Setup ergänzt [kills]
   * MetaInfo: einhängen von User EPs wieder ermöglicht [igeorgs, kills]
     - http://forum.redaxo.de/ftopic7336.html

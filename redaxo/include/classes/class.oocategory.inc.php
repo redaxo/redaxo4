@@ -75,6 +75,15 @@ class OOCategory extends OORedaxo
     return $catlist;
   }
 
+  /*
+   * Accessor Method:
+   * returns the article priority
+   */
+  function getPriority()
+  {
+    return $this->_catprior;
+  }
+
   /**
    * CLASS Function:
    * Return a list of top level categories, ie.
