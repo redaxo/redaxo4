@@ -367,9 +367,9 @@ class OORedaxo
     if ($this->_path)
     {
       if($this->isStartArticle())
-        $explode = explode('|', $this->_path);
-      else
         $explode = explode('|', $this->_path.$this->_id.'|');
+      else
+        $explode = explode('|', $this->_path);
 
       if (is_array($explode))
       {
