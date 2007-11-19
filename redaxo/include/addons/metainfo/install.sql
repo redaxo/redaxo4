@@ -3,10 +3,10 @@ CREATE TABLE `%TABLE_PREFIX%62_params` (
   `title` varchar(255) default NULL,
   `name` varchar(255) default NULL,
   `prior` int(10) unsigned NOT NULL,
-  `attributes` varchar(2048) NOT NULL,
+  `attributes` text NOT NULL,
   `type` int(10) unsigned default NULL,
   `default` varchar(255) NOT NULL,
-  `params` varchar(2048) default NULL,
+  `params` text default NULL,
   `validate` varchar(255) default NULL,
   `createuser` varchar(255) NOT NULL,
   `createdate` int(11) NOT NULL,
@@ -15,6 +15,9 @@ CREATE TABLE `%TABLE_PREFIX%62_params` (
   PRIMARY KEY  (`field_id`),
   UNIQUE KEY `name` (`name`)
 );
+
+  ALTER TABLE `rex_62_params` CHANGE `params` `params` TEXT;
+  ALTER TABLE `rex_62_params` CHANGE `attributes` `attributes` TEXT;
 
 CREATE TABLE `%TABLE_PREFIX%62_type` (
   `id` int(10) unsigned NOT NULL auto_increment,
