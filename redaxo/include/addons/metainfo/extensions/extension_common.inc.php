@@ -227,7 +227,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $yearStyle = 'class="rex-fdatey"';
 
         $yearSelect = new rex_select();
-        $yearSelect->addOptions(range(2005,date('Y')+2), true);
+        $yearSelect->addOptions(range(2005,date('Y')+10), true);
         $yearSelect->setName($name.'[year]');
         $yearSelect->setSize(1);
         $yearSelect->setId($id);
