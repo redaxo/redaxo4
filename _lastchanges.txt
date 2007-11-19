@@ -62,7 +62,15 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.0.1 (2007-10-xx)
+Version 4.0.2 (2007-XX-XX)
+
+  Bugfixes:
+  * MetaInfo: online_von/bis daterange vergrößert (+10 Jahre)
+    - http://forum.redaxo.de/ftopic7394.html
+    
+    
+Version 4.0.1 (2007-11-07)
+
   * DB Update:
   ALTER TABLE `rex_62_params` CHANGE `params` `params` TEXT;
   ALTER TABLE `rex_62_params` CHANGE `attributes` `attributes` TEXT;
@@ -124,8 +132,8 @@ Version 4.0.1 (2007-10-xx)
     - http://forum.redaxo.de/ftopic6923.html
 
 
-
 Version 4.0 (2007-10-14)
+
   * CLANG/CTYPE/MetaInfo wird via I18N->msg aufgerufen, wenn "translate:" als prefix gesetzt ist (rex_translate) [kills]
   * Templates/Artikel on the fly. Werden beim Aufruf generiert [jan]
   * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]
@@ -368,6 +376,7 @@ Version 3.2 (2006-04-06)
   * Textile Klasse upgedated [jan]
   * Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [kills]
 
+
 Version 3.1 (2005-11-30)
 
   * Import/Export:
@@ -396,6 +405,7 @@ Version 3.1 (2005-11-30)
   * ob caching der artikel und templates.. ausgabe nun nur über echo moeglich. speichern in variablen moeglich [jan]
   * Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind [kills]
   * Slices/Blöcke verschieben [jan]
+
 
 Version 3.0 (2005-08-07)
 
