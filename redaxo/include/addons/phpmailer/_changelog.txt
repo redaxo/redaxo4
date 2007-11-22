@@ -1,4 +1,9 @@
 <h3>Changelog:</h3>
 
+<strong>Version 1.0.1 (2007-XX-XX)</strong>
+  Bugfixes: 
+  - Installationsfehler beseitigt [kills]
+    http://forum.redaxo.de/ftopic7440.html
+    
 <strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
   - initial release
