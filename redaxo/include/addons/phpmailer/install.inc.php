@@ -12,6 +12,8 @@
 
 $error = '';
 
+$settings_file = $REX['INCLUDE_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
+
 if(($state = rex_is_writable($settings_file)) !== true)
   $error = $state;
 
