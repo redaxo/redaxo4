@@ -81,11 +81,6 @@ class thumbnail
     }
   }
 
-  function showWarning()
-  {
-
-  }
-
   function size_height($size)
   {
     // --- height
@@ -295,5 +290,9 @@ class thumbnail
 	  return $c;
   }
 
+  function getImage()
+  {
+    return $this->img['src'];
+  }
 }
 ?>
