@@ -64,6 +64,8 @@ Wichtige Änderungen:
 
 Version 4.0.2 (2007-XX-XX)
 
+  * ImageResize: Neuer Branding Filter
+  
   Bugfixes:
   * rex_deleteDir: Löschvorgang wird nicht abgebrochen, 
                    wenn das löschen einer Datei/eines Ordners nicht erfolgreich war [kills]
