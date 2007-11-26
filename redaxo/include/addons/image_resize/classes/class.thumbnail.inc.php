@@ -294,5 +294,20 @@ class thumbnail
   {
     return $this->img['src'];
   }
+
+  function getImageWidth()
+  {
+    return $this->img['width'];
+  }
+
+  function getImageHeight()
+  {
+    return $this->img['height'];
+  }
+
+  function destroyImage()
+  {
+    imagedestroy($this->getImage());
+  }
 }
 ?>
