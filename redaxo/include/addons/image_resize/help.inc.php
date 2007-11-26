@@ -30,6 +30,13 @@ c = crop        (cut image part to certain length and height)<br />
 a = automatic   (longest side will be used)
 </p>
 
+<h3>Default-Filters:</h3>
+<p>
+blur<br />
+brand<br />
+sepia<br />
+sharpen
+</p>
 <h3>Examples:</h3>
 
 <p>
