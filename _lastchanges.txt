@@ -65,7 +65,10 @@ Wichtige Änderungen:
 Version 4.0.2 (2007-XX-XX)
 
   Bugfixes:
-  * MetaInfo: online_von/bis daterange vergrößert (+10 Jahre)
+  * rex_deleteDir: Löschvorgang wird nicht abgebrochen, 
+                   wenn das löschen einer Datei/eines Ordners nicht erfolgreich war [kills]
+    - http://forum.redaxo.de/ftopic7468.html                   
+  * MetaInfo: online_von/bis daterange vergrößert (+10 Jahre) [kills]
     - http://forum.redaxo.de/ftopic7394.html
     
     
@@ -79,10 +82,11 @@ Version 4.0.1 (2007-11-07)
   * $REX['SESSION_DURATION'] zum Konfigurieren der Session-Dauer im Backend ausgelagert (master.inc.php) [kills]
   
   Bugfixes:
-  * getParentTree() bei normalen Artikeln angepasst #136 [kill, jan]
-  * getPriority() in OOCategory angepasst #134 [kills,jan]
+  * getParentTree() bei normalen Artikeln angepasst #136 [kills, jan]
+  * getPriority() in OOCategory angepasst #134 [kills, jan]
   * Tabindizes im Setup ergänzt [kills]
   * $REX['FOLLOW_REDIRECTS'] entfernt [kills]
+  * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
   * Aktionen gehen nun. $REX_ACTION['SAVE'] korrigiert [kill, jan]
     - http://forum.redaxo.de/ftopic6883.html
   * REX_LINK_BUTTON[]: wenn leer dann auch keine URL [kills, jan]
@@ -125,7 +129,6 @@ Version 4.0.1 (2007-11-07)
     - http://forum.redaxo.de/ftopic6948.html
   * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
     - http://forum.redaxo.de/ftopic6889.html
-  * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
   * absolute Pfadanzeige im Setup bei Schreibrechteprüfung [jan]
     - http://forum.redaxo.de/ftopic6890.html
   * urlrewrite von htm => html [jan]
