@@ -942,10 +942,9 @@ function rex_deleteDir($file, $delete_folders = false)
           continue;
         }
 
-        if (($state = rex_deleteDir($file."/".$filename, $delete_folders)) !== true)
+        if (!rex_deleteDir($file.'/'.$filename, $delete_folders) && $state === true)
         {
-          // Schleife abbrechen, dir_hanlde schließen und danach erst false zurückgeben
-          break;
+          $state = false;
         }
       }
       closedir($handle);
