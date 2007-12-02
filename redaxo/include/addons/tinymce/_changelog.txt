@@ -1,7 +1,9 @@
 <h3>Changelog:</h3>
 
-<strong>Version 1.0.1 (R4.0.1 Compatible) (2007-10-xx)</strong>
-  Bugfix:
+<strong>Version 1.0.1 (R4.0.1 Compatible) (2007-12-xx)</strong>
+  - TinyMCE Update auf 2.1.3
+  
+  - Bugfixes:
   * Installation gibt jetzt korrekte Fehlermeldungen zurück 
 
 <strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
