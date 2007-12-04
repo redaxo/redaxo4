@@ -78,8 +78,8 @@ Version 4.0.2 (2007-XX-XX)
 Version 4.0.1 (2007-11-07)
 
   * DB Update:
-  ALTER TABLE `rex_62_params` CHANGE `params` `params` TEXT;
-  ALTER TABLE `rex_62_params` CHANGE `attributes` `attributes` TEXT;
+  ALTER TABLE `%TABLE_PREFIX%62_params` CHANGE `params` `params` TEXT;
+  ALTER TABLE `%TABLE_PREFIX%62_params` CHANGE `attributes` `attributes` TEXT;
 
   * Notices enfernt [kills, jan]
   * $REX['SESSION_DURATION'] zum Konfigurieren der Session-Dauer im Backend ausgelagert (master.inc.php) [kills]
