@@ -67,8 +67,9 @@ Version 4.0.2 (2007-XX-XX)
   * ImageResize: Neuer Branding Filter
   
   Bugfixes:
-  * rex_deleteDir: Löschvorgang wird nicht abgebrochen, 
-                   wenn das löschen einer Datei/eines Ordners nicht erfolgreich war [kills]
+  * MetaInfo: " und ' wurden nicht korrekt behandelt
+    - http://forum.redaxo.de/ftopic7567.html
+  * rex_deleteDir: Löschvorgang wird nicht abgebrochen, wenn das löschen einer Datei/eines Ordners nicht erfolgreich war [kills]
     - http://forum.redaxo.de/ftopic7468.html                   
   * MetaInfo: online_von/bis daterange vergrößert (+10 Jahre) [kills]
     - http://forum.redaxo.de/ftopic7394.html
