@@ -720,9 +720,8 @@ if ($article->getRows() == 1)
       ));
 
       // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN
-      function add_cat_options(& $select, & $cat, & $cat_ids, $groupName = '', $nbsp = '&nbsp;&nbsp;')
+      function add_cat_options(& $select, & $cat, & $cat_ids)
       {
-
         global $REX_USER;
         if (empty ($cat))
         {
@@ -732,14 +731,13 @@ if ($article->getRows() == 1)
         $cat_ids[] = $cat->getId();
         if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csr[' . $cat->getId() . ']') || $REX_USER->hasPerm('csw[' . $cat->getId() . ']'))
         {
-          $select->addOption($nbsp . $cat->getName(), $cat->getId());
+          $select->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
           $childs = $cat->getChildren();
           if (is_array($childs))
           {
-            $nbsp .= $nbsp;
             foreach ($childs as $child)
             {
-              add_cat_options($select, $child, $cat_ids, $cat->getName(), $nbsp);
+              add_cat_options($select, $child, $cat_ids);
             }
           }
         }
