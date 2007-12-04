@@ -71,7 +71,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
     $dbvalues = array('');
     if($activeItem)
+    {
       $dbvalues = explode('|+|', $activeItem->getValue($name));
+      $dbvalues_esc = array_map('htmlspecialchars', $dbvalues);
+    }
 
     if($title != '')
       $label = rex_translate($title);
@@ -87,7 +90,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     {
       case 'text':
       {
-        $field = '<input type="'. $sqlFields->getValue('label') .'" name="'. $name .'" value="'. $dbvalues[0] .'" id="'. $id .'" '. $attr .' />';
+        $field = '<input type="'. $sqlFields->getValue('label') .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .'" '. $attr .' />';
         break;
       }
       case 'checkbox':
@@ -124,11 +127,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           }
         }
 
-//        if($epParams['extension_point'] != 'CAT_META_FORM_EDIT')
-//          $field .= '<span>'. $label .'</span>';
-
         $class = $typeLabel == 'radio' ? 'rex-rdo' : 'rex-chckbx';
-
         $oneValue = (count($values) == 1);
 
         if(!$oneValue)
@@ -143,6 +142,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         foreach($values as $key => $value)
         {
           $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
+          $key = htmlspecialchars($key);
 
           // wenn man keine Werte angibt (Boolean Chkbox/Radio)
           // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
@@ -150,7 +150,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
             $key = 'true';
 
           $selected = '';
-          if(in_array($key, $dbvalues))
+          if(in_array($key, $dbvalues_esc))
             $selected = ' checked="checked"';
 
           if($oneValue)
@@ -175,6 +175,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $select = new rex_select();
         $select->setName($name);
         $select->setId($id);
+        // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
         $select->setSelected($dbvalues);
 
         foreach(rex_split_string($attr) as $attr_name => $attr_value)
@@ -220,8 +221,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       case 'datetime':
       case 'date':
       {
-        if($dbvalues[0] == '')
-          $dbvalues[0] = time();
+        if($dbvalues_esc[0] == '')
+          $dbvalues_esc[0] = time();
 
         $style = 'class="rex-fdate"';
         $yearStyle = 'class="rex-fdatey"';
@@ -232,21 +233,21 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $yearSelect->setSize(1);
         $yearSelect->setId($id);
         $yearSelect->setStyle($yearStyle);
-        $yearSelect->setSelected(date('Y', $dbvalues[0]));
+        $yearSelect->setSelected(date('Y', $dbvalues_esc[0]));
 
         $monthSelect = new rex_select();
         $monthSelect->addOptions(range(1,12), true);
         $monthSelect->setName($name.'[month]');
         $monthSelect->setSize(1);
         $monthSelect->setStyle($style);
-        $monthSelect->setSelected(date('m', $dbvalues[0]));
+        $monthSelect->setSelected(date('m', $dbvalues_esc[0]));
 
         $daySelect = new rex_select();
         $daySelect->addOptions(range(1,31), true);
         $daySelect->setName($name.'[day]');
         $daySelect->setSize(1);
         $daySelect->setStyle($style);
-        $daySelect->setSelected(date('j', $dbvalues[0]));
+        $daySelect->setSelected(date('j', $dbvalues_esc[0]));
 
         if($typeLabel == 'datetime')
         {
@@ -255,14 +256,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $hourSelect->setName($name.'[hour]');
           $hourSelect->setSize(1);
           $hourSelect->setStyle($style);
-          $hourSelect->setSelected(date('G', $dbvalues[0]));
+          $hourSelect->setSelected(date('G', $dbvalues_esc[0]));
 
           $minuteSelect = new rex_select();
           $minuteSelect->addOptions(range(0,59), true);
           $minuteSelect->setName($name.'[minute]');
           $minuteSelect->setSize(1);
           $minuteSelect->setStyle($style);
-          $minuteSelect->setSelected(date('i', $dbvalues[0]));
+          $minuteSelect->setSelected(date('i', $dbvalues_esc[0]));
 
           $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get() .'-'. $hourSelect->get() . $minuteSelect->get();
         }
@@ -274,7 +275,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       }
       case 'textarea':
       {
-        $field = '<textarea name="'. $name .'" id="'. $id .'" '. $attr .' cols="50" rows="6">'. $dbvalues[0] .'</textarea>';
+        $field = '<textarea name="'. $name .'" id="'. $id .'" '. $attr .' cols="50" rows="6">'. $dbvalues_esc[0] .'</textarea>';
         break;
       }
       case 'REX_MEDIA_BUTTON':
@@ -283,7 +284,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-ptag"';
 
         $field = rex_var_media::getMediaButton($media_id);
-        $field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues[0], $field);
+        $field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues_esc[0], $field);
         $field = str_replace('MEDIA['. $media_id .']', $name, $field);
         $id = 'REX_MEDIA_'. $media_id;
         $media_id++;
@@ -295,7 +296,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-ptag"';
 
         $name .= '[]';
-        $field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues));
+        $field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues_esc));
         $field = str_replace('MEDIALIST['. $mlist_id .']', $name, $field);
         $id = 'REX_MEDIALIST_'. $mlist_id;
 
@@ -311,7 +312,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         if($activeItem)
           $category = $activeItem->getValue('category_id');
 
-        $field = rex_var_link::getLinkButton($link_id, $dbvalues[0], $category);
+        $field = rex_var_link::getLinkButton($link_id, $dbvalues_esc[0], $category);
         $field = str_replace('LINK['. $link_id .']', $name, $field);
         $id = 'LINK_'. $link_id;
 
@@ -361,7 +362,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     $sqlSave->setValue($fieldName, $saveValue);
 
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
-    $params['activeItem']->setValue($fieldName, $saveValue);
+    $params['activeItem']->setValue($fieldName, stripslashes($saveValue));
 
     $sqlFields->next();
   }

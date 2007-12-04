@@ -122,7 +122,7 @@ class rex_select
   	}
   	else
   	{
-	    $this->option_selected[] = $selected;
+	    $this->option_selected[] = htmlspecialchars($selected);
   	}
   }
 
@@ -274,16 +274,18 @@ class rex_select
 
   function _outOption($name, $value, $level = 0)
   {
+    $name = htmlspecialchars($name);
+    $value = htmlspecialchars($value);
+
     $bsps = '';
-    $style = '';
     for ($i = 0; $i < $level; $i ++)
-      $bsps .= "&nbsp;&nbsp;&nbsp;";
+      $bsps .= '&nbsp;&nbsp;&nbsp;';
+
     $selected = '';
     if ($this->option_selected !== null)
-    {
       $selected = in_array($value, $this->option_selected) ? ' selected="selected"' : '';
-    }
-    return '    <option value="'.$value.'"'.$style.$selected.'>'.$bsps.$name.'</option>'."\n";
+
+    return '    <option value="'.$value.'"'.$selected.'>'.$bsps.$name.'</option>'."\n";
   }
 
   function _getGroup($re_id, $ignore_main_group = false)
