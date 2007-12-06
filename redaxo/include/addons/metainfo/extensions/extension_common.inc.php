@@ -77,7 +77,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     }
 
     if($title != '')
-      $label = rex_translate($title);
+      $label = htmlspecialchars(rex_translate($title));
     else
       $label = htmlspecialchars($name);
 
