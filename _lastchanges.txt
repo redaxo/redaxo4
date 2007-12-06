@@ -67,6 +67,8 @@ Version 4.0.2 (2007-XX-XX)
   * ImageResize: Neuer Branding Filter
   
   Bugfixes:
+  * rexLogin->sessionFixation
+    - http://forum.redaxo.de/sutra43202.html#43202
   * MetaInfo: ", ', <, > wurden nicht korrekt behandelt
     - http://forum.redaxo.de/ftopic7567.html
     - http://forum.redaxo.de/sutra46018.html#46018
