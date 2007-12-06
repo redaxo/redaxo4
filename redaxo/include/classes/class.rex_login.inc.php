@@ -319,10 +319,7 @@ class rex_login
    */
   function sessionFixation()
   {
-    $tmp = $_SESSION;
-    session_unset();
     session_regenerate_id(true);
-    $_SESSION = $tmp;
   }
 }
 
