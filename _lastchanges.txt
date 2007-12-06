@@ -67,8 +67,9 @@ Version 4.0.2 (2007-XX-XX)
   * ImageResize: Neuer Branding Filter
   
   Bugfixes:
-  * MetaInfo: " und ' wurden nicht korrekt behandelt
+  * MetaInfo: ", ', <, > wurden nicht korrekt behandelt
     - http://forum.redaxo.de/ftopic7567.html
+    - http://forum.redaxo.de/sutra46018.html#46018
   * rex_deleteDir: Löschvorgang wird nicht abgebrochen, wenn das löschen einer Datei/eines Ordners nicht erfolgreich war [kills]
     - http://forum.redaxo.de/ftopic7468.html                   
   * MetaInfo: online_von/bis daterange vergrößert (+10 Jahre) [kills]
