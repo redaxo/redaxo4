@@ -914,7 +914,7 @@ if ($subpage == "detail")
     $icon_src = 'media/mime-default.gif';
     if (OOMedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
     {
-      $thumbnail = '<img src="'. $icon_src .'" alt="'. $ftitle .'" title="'. $ftitle .'" />';
+      $thumbnail = '<img src="'. $icon_src .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />';
     }
 
     $ffiletype_ii = OOMedia::_isImage($fname);
@@ -952,7 +952,7 @@ if ($subpage == "detail")
 
       $add_image = '<div class="rex-mpl-dtl-img">
 		  		<p>
-						<img src="'. $imgn .'" alt="'. $ftitle .'" title="'. $ftitle.'" />
+						<img src="'. $imgn .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />
 					</p>
 					</div>';
 	   $style_width = ' style="width:64.9%; border-right:1px solid #fff;"';
@@ -1085,7 +1085,7 @@ if ($subpage == "detail")
         					</p>
                 	<p>
                   		<label for="rex_file_new_category">'. $I18N->msg('pool_file_category') .'</label>
-                  		<span id="rex_file_new_category">'. $catname .'</span>
+                  		<span id="rex_file_new_category">'. htmlspecialchars($catname) .'</span>
                 	</p>
                 	<p>
                   		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
@@ -1507,9 +1507,9 @@ if ($subpage == '')
             '. $add_td .'
             <td class="rex-thumbnail"><a href="'.$ilink.'">'.$thumbnail.'</a></td>
             <td>
-                <span><a href="'.$ilink.'">'.$file_title.'</a></span>
-                <span>'. $desc .'<strong>'.$file_name.' ['.$file_size.']</strong></span>
-                <span>'.$file_stamp .' | '. $file_updateuser.'</span>
+                <span><a href="'.$ilink.'">'.htmlspecialchars($file_title).'</a></span>
+                <span>'. $desc .'<strong>'.htmlspecialchars($file_name).' ['.$file_size.']</strong></span>
+                <span>'.$file_stamp .' | '. htmlspecialchars($file_updateuser).'</span>
             </td>
             <td>'.$opener_link.'</td>
          </tr>
