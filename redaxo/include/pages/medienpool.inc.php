@@ -726,7 +726,7 @@ if ($subpage == "add_file")
 
 // *************************************** Subpage: Detail
 
-if ($subpage=="detail" && rex_post('btn_delete', 'string'))
+if ($subpage=='detail' && rex_post('btn_delete', 'string'))
 {
 
   $file_id = rex_request('file_id', 'int');
@@ -736,10 +736,10 @@ if ($subpage=="detail" && rex_post('btn_delete', 'string'))
 
   if ($gf->getRows()==1)
   {
-    if ($PERMALL || $REX_USER->hasPerm("media[".$gf->getValue("category_id")."]"))
+    if ($PERMALL || $REX_USER->hasPerm('media['.$gf->getValue('category_id').']'))
     {
 
-      $file_name = $gf->getValue("filename");
+      $file_name = $gf->getValue('filename');
 
       // check if file is in an article slice
       $file_search = '';
