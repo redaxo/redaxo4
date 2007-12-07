@@ -485,16 +485,16 @@ if ($PERMALL && $subpage == "categories")
   {
     $db = new rex_sql;
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
-    $db->setValue('name',$_REQUEST['catname']);
-    $db->setValue('re_id',$_REQUEST['cat_id']);
-    $db->setValue('path',$_REQUEST['catpath']);
+    $db->setValue('name',rex_request('catname', 'string'));
+    $db->setValue('re_id', rex_request('cat_id', 'int'));
+    $db->setValue('path', rex_request('catpath', 'string'));
     // TODO Update + Create zugleich?
     $db->addGlobalCreateFields();
     $db->addGlobalUpdateFields();
 
     if($db->insert())
     {
-      $msg .= $I18N->msg('pool_kat_saved',$_REQUEST["catname"]);
+      $msg .= $I18N->msg('pool_kat_saved', stripslashes(rex_request('catname')));
     }
     else
     {
@@ -602,7 +602,7 @@ if ($PERMALL && $subpage == "categories")
       echo '
         <input type="hidden" name="edit_id" value="'. $edit_id .'" />
         <tr class="rex-trow-actv">
-          <td class="rex-icon"><img src="media/folder.gif" alt="'.$OOCat->getName().'" title="'.$OOCat->getName().'" /></td>
+          <td class="rex-icon"><img src="media/folder.gif" alt="'. htmlspecialchars($OOCat->getName()).'" title="'. htmlspecialchars($OOCat->getName()).'" /></td>
           <td class="rex-icon">'. $iid .'</td>
           <td>
             <span class="rex-hide"><label for="cat_name">'. $I18N->msg('pool_kat_name') .'</label></span>
@@ -616,9 +616,9 @@ if ($PERMALL && $subpage == "categories")
     }else
     {
       echo '<tr>
-              <td class="rex-icon"><a href="'. $link . $iid .'"><img src="media/folder.gif" alt="'.$OOCat->getName().'" title="'.$OOCat->getName().'" /></a></td>
+              <td class="rex-icon"><a href="'. $link . $iid .'"><img src="media/folder.gif" alt="'.htmlspecialchars($OOCat->getName()).'" title="'.htmlspecialchars($OOCat->getName()).'" /></a></td>
               <td class="rex-icon">'. $iid .'</td>
-              <td><a href="'. $link . $iid .'">'.$OOCat->getName().'</a></td>
+              <td><a href="'. $link . $iid .'">'. htmlspecialchars($OOCat->getName()) .'</a></td>
               <td>
                   <a href="'. $link . $cat_id .'&amp;media_method=update_file_cat&amp;edit_id='. $iid .'">'. $I18N->msg('pool_kat_edit').'</a> |
                   <a href="'. $link . $cat_id .'&amp;media_method=delete_file_cat&amp;edit_id='. $iid .'" onclick="return confirm(\''. $I18N->msg('delete').' ?\')">'. $I18N->msg('pool_kat_delete') .'</a>

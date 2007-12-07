@@ -678,7 +678,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         <tr>
           '. $kat_icon_td .'
           '. $add_td .'
-          <td><a href="'. $kat_link .'">'. $KAT->getValue("catname") .'</a></td>
+          <td><a href="'. $kat_link .'">'. htmlspecialchars($KAT->getValue("catname")) .'</a></td>
           <td>'. htmlspecialchars($KAT->getValue("catprior")) .'</td>
           <td><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=edit_cat&amp;clang='. $clang .'">'. $add_text .'</a></td>
           <td>'. $kat_status .'</td>
@@ -963,9 +963,9 @@ if ($category_id > -1)
       echo '<tr>
               <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><img src="media/'. $icon .'" alt="' .htmlspecialchars($sql->getValue('name')).'" title="' .htmlspecialchars($sql->getValue('name')).'" /></a></td>
               '. $add_td .'
-              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. $sql->getValue('name'). '</a></td>
+              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
-              <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')] .'</td>
+              <td>'. htmlspecialchars($TEMPLATE_NAME[$sql->getValue('template_id')]) .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td>'. $startpage .'</td>
               <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
