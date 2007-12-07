@@ -195,7 +195,7 @@ function rex_ini_get($val)
 /**
  * Übersetzt den text $text, falls dieser mit dem prefix "translate:" beginnt.
  */
-function rex_translate($text, $I18N_Catalogue = null)
+function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = true)
 {
   if(!$I18N_Catalogue)
   {
@@ -208,10 +208,13 @@ function rex_translate($text, $I18N_Catalogue = null)
   $transKeyLen = strlen($tranKey);
   if(substr($text, 0, $transKeyLen) == $tranKey)
   {
-    return htmlspecialchars($I18N_Catalogue->msg(substr($text, $transKeyLen)));
+    $text = $I18N_Catalogue->msg(substr($text, $transKeyLen));
   }
 
-  return htmlspecialchars($text);
+  if($use_htmlspecialchars)
+    return htmlspecialchars($text);
+
+  return $text;
 }
 
 /**
