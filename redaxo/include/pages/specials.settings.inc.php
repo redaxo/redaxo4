@@ -42,10 +42,11 @@ elseif ($func == 'updateinfos')
 
   $neu_startartikel       = rex_post('neu_startartikel', 'int');
   $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
-  $neu_error_emailaddress = rex_post('neu_error_emailaddress', 'string');
   $neu_lang               = rex_post('neu_lang', 'string');
-  $neu_SERVER             = rex_post('neu_SERVER', 'string');
-  $neu_SERVERNAME         = rex_post('neu_SERVERNAME', 'string');
+  // ' muss darf nichtg escaped werden, da in der Datei der Schlüssel nur zwischen " steht
+  $neu_error_emailaddress = str_replace("\'", "'", rex_post('neu_error_emailaddress', 'string'));
+  $neu_SERVER             = str_replace("\'", "'", rex_post('neu_SERVER', 'string'));
+  $neu_SERVERNAME         = str_replace("\'", "'", rex_post('neu_SERVERNAME', 'string'));
   $neu_modrewrite         = rex_post('neu_modrewrite', 'string');
 
   $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
