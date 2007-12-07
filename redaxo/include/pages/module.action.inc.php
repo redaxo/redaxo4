@@ -337,7 +337,7 @@ if ($OUT)
 
     echo '
           <tr>
-            <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="media/action.gif" alt="' . $sql->getValue("name") . '" title="' . $sql->getValue("name") . '" /></a></td>
+            <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="media/action.gif" alt="' . htmlspecialchars($sql->getValue("name")) . '" title="' . htmlspecialchars($sql->getValue("name")) . '" /></a></td>
             <td class="rex-icon">' . $sql->getValue("id") . '</td>
             <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
             <td>' . implode('/', $previewmode) . '</td>

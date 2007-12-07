@@ -230,7 +230,7 @@ if ($function == 'add' or $function == 'edit')
           $action_name = rex_translate($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . $action_name . '" title="' . $action_name . '" /></a></td>
+          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . htmlspecialchars($action_name) . '" title="' . htmlspecialchars($action_name) . '" /></a></td>
             <td class="rex-icon">' . $gma->getValue("id") . '</td>
           	<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
           	<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('action_delete').'</a></td>
@@ -273,7 +273,7 @@ if ($function == 'add' or $function == 'edit')
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $gaa_sel->addOption(rex_translate($gaa->getValue('name')),$gaa->getValue('id'));
+          $gaa_sel->addOption(rex_translate($gaa->getValue('name'), null, false),$gaa->getValue('id'));
           $gaa->next();
         }
 
@@ -338,7 +338,7 @@ if ($OUT)
 
     echo '
       <tr>
-        <td class="rex-icon"><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="media/modul.gif" alt="'. $sql->getValue("name") .'" title="'. $sql->getValue("name") .'"/></a></td>
+        <td class="rex-icon"><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="media/modul.gif" alt="'. htmlspecialchars($sql->getValue("name")) .'" title="'. htmlspecialchars($sql->getValue("name")) .'"/></a></td>
         <td class="rex-icon">'.$sql->getValue("id").'</td>
         <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a></td>
         <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_module").'</a></td>

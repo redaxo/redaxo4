@@ -752,7 +752,7 @@ if ($category_id > -1)
   {
     if ($TEMPLATES->getValue('active') == 1)
     {
-      $TMPL_SEL->addOption(rex_translate($TEMPLATES->getValue('name')), $TEMPLATES->getValue('id'));
+      $TMPL_SEL->addOption(rex_translate($TEMPLATES->getValue('name'), null, false), $TEMPLATES->getValue('id'));
     }
     $TEMPLATE_NAME[$TEMPLATES->getValue('id')] = rex_translate($TEMPLATES->getValue('name'));
     $TEMPLATES->next();
