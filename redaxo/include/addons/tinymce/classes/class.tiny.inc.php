@@ -423,8 +423,12 @@ class rexTiny2Editor
     echo ' var win=tinyMCE.getWindowArg("window");'."\n";
     echo ' win.document.forms[0].src.value=imageUrl;'."\n";
     echo ' win.document.forms[0].title.value=title;'."\n";
-    echo ' win.resetImageData();'."\n";
-    echo ' win.showPreviewImage(imageUrl, false);'."\n";
+    // Hier Fehler behandeln
+    // siehe http://trac.symfony-project.com/ticket/2625
+    echo ' try {'."\n";
+    echo '   win.resetImageData();'."\n";
+    echo '   win.showPreviewImage(imageUrl, false);'."\n";
+    echo ' } catch (ex) {}'."\n";
     echo '}' . "\n";
 
     echo 'function insertFileLink(fileUrl,title){' . "\n";
