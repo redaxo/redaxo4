@@ -40,6 +40,14 @@ elseif ($func == 'updateinfos')
   $h = fopen($master, 'r');
   $cont = fread($h, filesize($master));
 
+  $neu_startartikel       = rex_post('neu_startartikel', 'int');
+  $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
+  $neu_error_emailaddress = rex_post('neu_error_emailaddress', 'string');
+  $neu_lang               = rex_post('neu_lang', 'string');
+  $neu_SERVER             = rex_post('neu_SERVER', 'string');
+  $neu_SERVERNAME         = rex_post('neu_SERVERNAME', 'string');
+  $neu_modrewrite         = rex_post('neu_modrewrite', 'string');
+
   $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
   $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
   $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
@@ -56,10 +64,10 @@ elseif ($func == 'updateinfos')
   $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
   $REX['START_ARTICLE_ID'] = $neu_startartikel;
   $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
-  $REX['EMAIL'] = $neu_error_emailaddress;
-  $REX['ERROR_EMAIL'] = $neu_error_emailaddress;
-  $REX['SERVER'] = $neu_SERVER;
-  $REX['SERVERNAME'] = $neu_SERVERNAME;
+  // Für die Wiederanzeige Slashes strippen
+  $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
+  $REX['SERVER'] = stripslashes($neu_SERVER);
+  $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
 
   $message = $I18N->msg('info_updated');
 }
@@ -125,11 +133,11 @@ echo '
           </p>
           <p>
             <label for="rex_server">$REX[\'SERVER\']</label>
-            <input type="text" id="rex_server" name="neu_SERVER" value="'.$REX['SERVER'].'" />
+            <input type="text" id="rex_server" name="neu_SERVER" value="'. htmlspecialchars($REX['SERVER']).'" />
           </p>
           <p>
             <label for="rex_servername">$REX[\'SERVERNAME\']</label>
-            <input type="text" id="rex_servername" name="neu_SERVERNAME" value="'.$REX['SERVERNAME'].'" />
+            <input type="text" id="rex_servername" name="neu_SERVERNAME" value="'. htmlspecialchars($REX['SERVERNAME']).'" />
           </p>
         </fieldset>
         <fieldset>
@@ -148,7 +156,7 @@ echo '
           </p>
           <p>
             <label for="rex_db_name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-            <span id="rex_db_name">&quot;'.$REX['DB']['1']['NAME'].'&quot;</span>
+            <span id="rex_db_name">&quot;'.htmlspecialchars($REX['DB']['1']['NAME']).'&quot;</span>
           </p>
         </fieldset>
         <fieldset>
@@ -164,7 +172,7 @@ echo '
           </p>
           <p>
             <label for="rex_error_email">$REX[\'ERROR_EMAIL\']</label>
-            <input type="text" id="rex_error_email" name="neu_error_emailaddress" value="'.$REX['ERROR_EMAIL'].'" />
+            <input type="text" id="rex_error_email" name="neu_error_emailaddress" value="'.htmlspecialchars($REX['ERROR_EMAIL']).'" />
           </p>
           <p>
             <label for="rex_startarticle_id">$REX[\'START_ARTICLE_ID\']</label>
