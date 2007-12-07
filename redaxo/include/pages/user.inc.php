@@ -595,7 +595,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 
         <div>
           <p class="rex-cnt-col2">
-            <label for="userlogin">'.$I18N->msg('login_name').'</label>
+            <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
             '. $add_user_login .'
           </p>
           <p class="rex-cnt-col2">
@@ -685,7 +685,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
           <p class="rex-cnt-col2">
-            <label for="userperm_extra">'.$I18N->msg("extras").'</label>
+            <label for="userperm_extra">'.$I18N->msg('extras').'</label>
             '. $sel_extra->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
@@ -770,9 +770,9 @@ if (isset($SHOW) and $SHOW)
       $add_td = '<td class="rex-icon">'.$sql->getValue('user_id').'</td>';
     }
 
-    $delete_func = $I18N->msg("user_delete");
+    $delete_func = $I18N->msg('user_delete');
     // man kann sich selbst nicht löschen..
-    if ($REX_USER->getValue("user_id")!=$sql->getValue("user_id"))
+    if ($REX_USER->getValue('user_id')!=$sql->getValue('user_id'))
     {
       $delete_func = '<a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'&amp;FUNC_DELETE=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$delete_func.'</a>';
     }
@@ -783,10 +783,10 @@ if (isset($SHOW) and $SHOW)
 
     echo '
       <tr>
-        <td class="rex-icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="media/user.gif" alt="'. $username .'" title="'. $username .'" /></a></td>
+        <td class="rex-icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="media/user.gif" alt="'. htmlspecialchars($username) .'" title="'. htmlspecialchars($username) .'" /></a></td>
         '. $add_td .'
-        <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'">'.$username.'</a></td>
-        <td>'.$sql->getValue("login").'</td>
+        <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'">'.htmlspecialchars($username).'</a></td>
+        <td>'. htmlspecialchars($sql->getValue("login")).'</td>
         <td>'.$last_login.'</td>
         <td>'. $delete_func .'</td>
       </tr>';
