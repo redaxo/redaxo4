@@ -201,7 +201,7 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
   {
     global $I18N;
 
-    return rex_translate($text, $I18N);
+    return rex_translate($text, $I18N, $use_htmlspecialchars);
   }
 
   $tranKey = 'translate:';
