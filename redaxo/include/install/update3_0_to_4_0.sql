@@ -52,3 +52,5 @@ UPDATE `rex_user` SET `status`=1;
 UPDATE `rex_article_slice` SET `ctype`=`ctype`+1;
 
 RENAME TABLE `rex_modultyp` TO `rex_module`;
+
+DROP TABLE `rex_article_type`;
