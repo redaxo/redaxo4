@@ -487,8 +487,15 @@ class Textile
   function fList($m)
   {
     $text = preg_split('/\n(?=[*#])/m', $m[0]);
+    // PHP 5.2.4 Bug
+    // http://forum.redaxo.de/sutra46200.html#46200
+    // with
+    /*
     foreach($text as $line) {
       $nextline = next($text);
+    */
+    foreach($text as $nr => $line) {
+      $nextline = isset($text[$nr+1]) ? $text[$nr+1] : false;
       if (preg_match("/^([#*]+)($this->a$this->c) (.*)$/s", $line, $m)) {
         list(, $tl, $atts, $content) = $m;
         $nl = '';
