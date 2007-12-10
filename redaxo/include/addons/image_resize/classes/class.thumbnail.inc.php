@@ -261,8 +261,6 @@ class thumbnail
   {
   	global $REX;
 
-  	require_once $REX['INCLUDE_PATH'] . '/addons/image_resize/functions/function_folder.inc.php';
-
 	  $folders = array();
     $folders[] = $REX['INCLUDE_PATH'] . '/generated/files/';
     $folders[] = $REX['HTDOCS_PATH'] . 'files/';
@@ -270,21 +268,14 @@ class thumbnail
   	$c = 0;
     foreach($folders as $folder)
     {
-  	  $files = readFolderFiles($folder);
-  	  if (is_array($files))
-  	  {
-  	    foreach ($files as $var)
-  	    {
-  	      if (eregi('^image_resize__', $var))
-  	      {
-  	      	if ($filename == '' || $filename != '' && $filename == substr($var,strlen($filename) * -1))
-  	      	{
-  	      		unlink($folder . $var);
-  	      		$c++;
-  	      	}
-  	      }
-  	    }
-  	  }
+	    foreach (glob($folder .'image_resize__*') as $var)
+	    {
+      	if ($filename == '' || $filename != '' && $filename == substr($var,strlen($filename) * -1))
+      	{
+      		unlink($var);
+      		$c++;
+      	}
+	    }
     }
 
 	  return $c;
