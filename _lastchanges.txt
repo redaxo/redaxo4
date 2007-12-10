@@ -67,6 +67,8 @@ Version 4.0.2 (2007-XX-XX)
   * ImageResize: Neuer Branding Filter
   
   Bugfixes:
+  * Textile: Fehler bei der Darstellung von Listen [Stefan Brinkers]
+    - http://forum.redaxo.de/ftopic6994.html
   * DB-UpdateSkript: Fehlendes DROP Table ergänzt [kills]
     - http://forum.redaxo.de/ftopic7599.html
   * Struktur, Medienpool, Templates, Module, User, System: ", ', <, > wurden nicht korrekt behandelt [kills]
