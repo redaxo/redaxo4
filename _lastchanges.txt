@@ -64,7 +64,7 @@ Wichtige Änderungen:
 
 Version 4.0.2 (2007-XX-XX)
 
-  * ImageResize: Neuer Branding Filter
+  * ImageResize: Neuer Branding Filter [kills]
   
   Bugfixes:
   * Textile: Fehler bei der Darstellung von Listen [Stefan Brinkers]
