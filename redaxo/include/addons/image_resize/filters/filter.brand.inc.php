@@ -1,9 +1,16 @@
 <?php
+/**
+ * Branded ein Bild mit einem Wasserzeichen
+ *
+ * Der Filter sucht im Verzeichnis addons/image_resize/media/
+ * nach einem Bild mit dem Dateinamen "brand.*" und verwendet den 1. Treffer
+ */
 function image_resize_brand(& $src_im)
 {
   global $REX;
 
-  $brandImage = $REX['INCLUDE_PATH'] . '/addons/image_resize/media/brand.gif';
+  $files = glob($REX['INCLUDE_PATH'] . '/addons/image_resize/media/brand.*');
+  $brandImage = $files[0];
   $brand = new thumbnail($brandImage);
 
   $paddX = 10;
