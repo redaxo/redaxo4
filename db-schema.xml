@@ -41,13 +41,11 @@
 				<description><![CDATA[prior]]></description>
 			</field>
 			<field name="attributes" required="true">
-				<data>
-					<text type="default" mysqltype="varchar"
-						size="255">
-						<minimumLength>1</minimumLength>
-						<maximumLength>255</maximumLength>
-					</text>
-				</data>
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
 				<description><![CDATA[attributes]]></description>
 			</field>
 			<field name="type" foreignKeyOf="rex_62_type:id">
@@ -70,12 +68,11 @@
 				<description><![CDATA[default]]></description>
 			</field>
 			<field name="params">
-				<data>
-					<text type="default" mysqltype="varchar"
-						size="255">
-						<maximumLength>255</maximumLength>
-					</text>
-				</data>
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
 				<description><![CDATA[params]]></description>
 			</field>
 			<field name="validate">
