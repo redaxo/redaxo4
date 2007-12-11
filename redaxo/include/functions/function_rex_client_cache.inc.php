@@ -32,7 +32,7 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
 
   // ----- ETAG
   if($REX['USE_ETAG'] === 'true' || $REX['USE_ETAG'] == $environment)
-    rex_send_etag($content);
+    rex_send_etag($REX_ARTICLE, $content);
 
   // ----- GZIP
   if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
@@ -60,6 +60,9 @@ function rex_send_last_modified($REX_ARTICLE)
 
   $lastModified = date('r', $lastModified);
 
+  // Sende Last-Modification time
+  header('Last-Modified: ' . $lastModified);
+
   // Last-Modified Timestamp gefunden
   // => den Browser anweisen, den Cache zu verwenden
   if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
@@ -67,11 +70,8 @@ function rex_send_last_modified($REX_ARTICLE)
     while(@ob_end_clean());
 
     header('HTTP/1.1 304 Not Modified');
-    die();
+    exit();
   }
-
-  // Sende Last-Modification time
-  header('Last-Modified: ' . $lastModified);
 }
 
 /**
@@ -79,11 +79,19 @@ function rex_send_last_modified($REX_ARTICLE)
  *
  * XHTML 1.1: HTTP_IF_NONE_MATCH feature
  *
+ * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
  * @param $content string Inhalt des Artikels
  */
-function rex_send_etag($content)
+function rex_send_etag($REX_ARTICLE, $content)
 {
   $cacheKey = md5($content);
+
+  // Concat rex_article primary key to cache key in frontend
+  if($REX_ARTICLE)
+    $cacheKey .= $REX_ARTICLE->getValue('pid');
+
+  // Sende CacheKey als ETag
+  header('ETag: "' . $cacheKey .'"');
 
   // CacheKey gefunden
   // => den Browser anweisen, den Cache zu verwenden
@@ -94,9 +102,6 @@ function rex_send_etag($content)
     header('HTTP/1.1 304 Not Modified');
     exit();
   }
-
-  // Sende CacheKey als ETag
-  header('ETag: "' . $cacheKey .'"');
 }
 
 /**
