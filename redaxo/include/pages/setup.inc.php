@@ -326,6 +326,10 @@ if ($checkmodus == 2 && $send == 1)
   $cont = fread($h, filesize('include/master.inc.php'));
   fclose($h);
 
+  $serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
+  $serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
+  $error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
+
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*", "\\1".$serveraddress, $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*", "\\1".$serverbezeichnung, $cont);
   $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
