@@ -16,9 +16,6 @@ CREATE TABLE `%TABLE_PREFIX%62_params` (
   UNIQUE KEY `name` (`name`)
 );
 
-  ALTER TABLE `rex_62_params` CHANGE `params` `params` TEXT;
-  ALTER TABLE `rex_62_params` CHANGE `attributes` `attributes` TEXT;
-
 CREATE TABLE `%TABLE_PREFIX%62_type` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `label` varchar(255) default NULL,
