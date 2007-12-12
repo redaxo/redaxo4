@@ -125,9 +125,14 @@ var winObjCounter = -1;
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function newPoolWindow( link) 
+function newPoolWindow(link) 
 {
     newWindow( 'rexmediapopup', link, 660,500,',status=yes,resizable=yes');
+}
+
+function newLinkMapWindow(link) 
+{
+    newWindow( 'linkmappopup', link, 660,500,',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
@@ -187,7 +192,7 @@ function openLinkMap(id, param)
   {
     param = '';  
   }
-  newWindow('linkmappopup','index.php?page=linkmap&opener_input_field='+id+param,660,500,',status=yes,resizable=yes');
+  newLinkMapWindow('index.php?page=linkmap&opener_input_field='+id+param);
 }
 
 function setValue(id,value)
