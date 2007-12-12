@@ -62,7 +62,7 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.0.2 (2007-XX-XX)
+Version 4.0.2 (2007-12-XX)
 
   * ImageResize: Neuer Branding Filter [kills]
   
