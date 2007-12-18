@@ -51,7 +51,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
   $s = '';
 
-  // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST
+  // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
   $media_id = 1;
   $mlist_id = 1;
   $link_id  = 1;
@@ -69,7 +69,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $typeLabel = $sqlFields->getValue('label');
     $attr = $sqlFields->getValue('attributes');
 
-    $dbvalues = array('');
+    $dbvalues = array($sqlFields->getValue('default'));
     if($activeItem)
     {
       $dbvalues = explode('|+|', $activeItem->getValue($name));
