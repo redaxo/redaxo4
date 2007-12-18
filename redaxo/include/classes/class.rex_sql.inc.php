@@ -296,6 +296,12 @@ class rex_sql
     return in_array($feldname, $this->getFieldnames());
   }
 
+  /**
+   * Prüft, ob das Feld mit dem Namen $feldname Null ist.
+   *
+   * Falls das Feld nicht vorhanden ist,
+   * wird Null zurückgegeben, sonst True/False
+   */
   function isNull($feldname)
   {
     if($this->hasValue($feldname))
