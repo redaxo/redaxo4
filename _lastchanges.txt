@@ -67,6 +67,7 @@ Version 4.0.2 (2007-12-XX)
   * ImageResize: Neuer Branding Filter [kills]
   
   Bugfixes:
+  * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
   * rex_getUrl() fehler im Regulären Ausdruck [n.ruediger, kills]
     - http://forum.redaxo.de/ftopic7563.html
   * Textile: Fehler bei der Darstellung von Listen [Stefan Brinkers]
