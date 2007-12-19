@@ -69,7 +69,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $typeLabel = $sqlFields->getValue('label');
     $attr = $sqlFields->getValue('attributes');
 
-    $dbvalues = array($sqlFields->getValue('default'));
+    $dbvalues = array(htmlspecialchars($sqlFields->getValue('default')));
     if($activeItem)
     {
       $dbvalues = explode('|+|', $activeItem->getValue($name));
