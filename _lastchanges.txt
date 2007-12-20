@@ -68,6 +68,8 @@ Version 4.0.2 (2007-12-XX)
   
   Bugfixes:
   * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
+  * Logikfehler in Fehlermeldung des Setups [mikenolte, kills]
+    - http://forum.redaxo.de/ftopic7643.html 
   * rex_getUrl() fehler im Regulären Ausdruck [n.ruediger, kills]
     - http://forum.redaxo.de/ftopic7563.html
   * Textile: Fehler bei der Darstellung von Listen [Stefan Brinkers]
