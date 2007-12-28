@@ -21,7 +21,7 @@ $REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "2";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(755); // oktaler wert
-$REX['INSTNAME'] = "rex20071228171717";
+$REX['INSTNAME'] = "rex20071228124024";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -85,7 +85,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4";
+$REX['DB']['1']['NAME'] = "redaxo4";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
