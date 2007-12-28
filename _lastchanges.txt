@@ -62,25 +62,20 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.1.0 (2008-XX-XX)
+Version 4.0.2 (2007-12-07)
 
+  * ImageResize: Neuer Branding Filter [kills]
   * Neue Variablen in der master.inc
     - $REX['START_CLANG_ID'] [kills]
     - $REX['USE_MD5'] [kills]
   * MD5 Checksummenübermittlung gemaeß HTTP1.1 (Content-MD5 Header) [kills]
-    
+  
   Bugfixes:
+  * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * Artikel die Startartikel waren, ist nicht löschbar #110 [kills]
     - http://forum.redaxo.de/sutra42830.html#42830
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
-  
-
-Version 4.0.2 (2007-12-07)
-
-  * ImageResize: Neuer Branding Filter [kills]
-  
-  Bugfixes:
   * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
   * Logikfehler in Fehlermeldung des Setups [mikenolte, kills]
     - http://forum.redaxo.de/ftopic7643.html 
