@@ -687,18 +687,20 @@ class rex_list
    */
   function getPagination()
   {
+    global $I18N;
+
     $start = $this->getStartRow();
     $rows = $this->getRows();
     $rowsPerPage = $this->getRowsPerPage();
     $pages = ceil($rows / $rowsPerPage);
 
     $s = ''. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => 0)) .'">first</a>'. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'">previous</a>'. "\n";
-    // $s .= '<a href="'. $this->getUrl(array('func' => 'add')) .'">add</a>'. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'">next</a>'. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'">last</a>'. "\n";
-    $s .= $this->getRows(). ' rows found ';
+    $s .= '<a href="'. $this->getUrl(array('start' => 0)) .'">'. $I18N->msg('list_first') .'</a>'. "\n";
+    $s .= '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'">'. $I18N->msg('list_previous') .'</a>'. "\n";
+    // $s .= '<a href="'. $this->getUrl(array('func' => 'add')) .'">$I18N->msg('list_add')</a>'. "\n";
+    $s .= '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'">'. $I18N->msg('list_next') .'</a>'. "\n";
+    $s .= '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'">'. $I18N->msg('list_last') .'</a>'. "\n";
+    $s .= $I18N->msg('list_rows_found', $this->getRows());
 
     if($pages > 1)
     {

@@ -561,3 +561,11 @@ credits_supportpage = Hilfe
 # redaxo\include\pages\linkmap.inc.php
 lmap_categories = Kategorien
 lmap_articles = Artikel
+
+# redaxo\include\classes\class.rex_list.inc.php
+list_first = erste Seite
+list_previous = vorherige Seite
+list_add = Zeile einfügen
+list_next = nächste Seite
+list_last = letzte Seite
+list_rows_found = {0} Zeilen gefunden
