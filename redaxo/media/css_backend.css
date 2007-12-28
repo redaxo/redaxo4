@@ -94,6 +94,7 @@ legend.rex-hidden {
 
 /*	rex-warning */
 div#rex-output .rex-warning {
+	clear: both;
 	width:670px;
 	width:100%;
 	margin:0 0 10px 0;
@@ -828,7 +829,7 @@ tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
 	margin:2px 0;
 }
 tr.rex-trow-actv td.rex-mt-fld select.rex-fdate {
-	width:40px;
+	width:50px;
 }
 tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
 	width:84px;
@@ -849,7 +850,7 @@ body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo label {
 }
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input,
 body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo input {
-	margin:2px 0;
+	margin:3px 0;
 }
 
 
@@ -1558,4 +1559,26 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp ul li{
 
 div.rex-cnt-editmode div.rex-cnt-slc-otp code{
 	font-size:1.4em;
+}
+
+
+/*	Pages - General
+*******************************************************************************/
+.rex-mrgn {
+	margin-bottom: 10px;
+}
+div.rex-page-output {
+	clear:both;
+	background-color:#f0efeb;
+}
+div.rex-page-output h2 {
+	padding:5px;
+	background-color:#d7d6d3;
+	border-bottom:1px solid #fff;
+}
+div.rex-page-output p {
+	margin-bottom: 10px;
+}
+div.rex-page-output div.rex-page-content {
+	padding:5px;
 }
