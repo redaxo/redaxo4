@@ -13,15 +13,15 @@ if (!$REX['GG']) $REX['GG'] = false;
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = false;
-$REX['SERVER'] = "redaxo.de";
+$REX['SETUP'] = true;
+$REX['SERVER'] = "www.redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "2";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(755); // oktaler wert
-$REX['INSTNAME'] = "rex20071013171717";
+$REX['INSTNAME'] = "rex20071228171717";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
