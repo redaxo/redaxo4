@@ -439,4 +439,36 @@ function rex_read_sql_dump($file)
 
   return false;
 }
+
+/**
+ * Sucht innerhalb des $REX['ADDON']['page'] Array rekursiv nach der page
+ * $needle
+ *
+ * Gibt bei erfolgreicher Suche den Namen des Addons zurück, indem die page
+ * gefuden wurde, sonst false
+ */
+function rex_search_addon_page($needle, $haystack = null)
+{
+  global $REX;
+
+  if($haystack === null)
+    $haystack = $REX['ADDON']['page'];
+
+  foreach($haystack as $key => $value)
+  {
+    if(is_array($value))
+    {
+      $found = rex_search_addon_page($needle, $value);
+    }
+    else
+    {
+      $found = $needle == $value;
+    }
+
+    if($found !== false)
+      return $key;
+  }
+
+  return false;
+}
 ?>
