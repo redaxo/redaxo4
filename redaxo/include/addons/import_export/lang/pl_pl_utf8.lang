@@ -1,0 +1,40 @@
+# addon:import/export pl_PL
+importexport = Im-/Eksport
+file_deleted = Plik został usunięty
+no_import_file_chosen_or_wrong_version = Nie wybrano pliku do importu lub wybrano złą wersję
+no_valid_import_file = To nie jest plik, który można zaimportować
+database_imported = Załadowano bazę danych
+entry_count = ({0} Wpisów)
+file_could_not_be_uploaded = Nie udało się załadować pliku.
+you_have_no_write_permission_in = Nie posiadasz uprawnień do zapisu w tym folderze {0}.
+no_import_file_chosen = Nie wybrano pliku do importu.
+problem_when_extracting = Wystąpiły problemy podczas rozpakowywania pliku.
+create_dirs_manually = Proszę stworzyć następujący folder manualnie oraz nadać mu prawa zapisu(poprzez ftp).
+file_imported = Plik został zaimportowany.
+import = Import
+export = Eksport
+db_import = Import
+db_export = Eksport
+filename_updated = Nazwa została zmieniona, ponieważ zawierała niedozwolone znaki. Jeśli wszystko jest w porządku proszę kliknąć na 'eksport'
+please_choose_folder = Proszę wybrać foldery do eksportu danych!
+intro_import = Proszę mieć na uwadze, że podczas importu nowej bazy danych, <b>stara zostanie usunięta</b>. Jeśli nie jesteś pewny skutków operacji zapisz/wyeksportuj aktualną bazę
+database = Import bazy
+filename = Nazwa pliku
+delete = Usuń
+files = Import danych
+intro_export = Zapis aktualnych danych i ustawień REDAXO. By stworzyć kompletny backup należy <b>wyeksportować bazę danych oraz pliki</b>. Jeśli chcesz użyć backupu ponownie możesz go zapisać na serwerze i w razie konieczności wczytać z niego zapisane dane.
+database_export = Eksport bazy danych
+file_export = Eksport plików
+save_on_server = Zapisz na serwerze
+download_as_file = Załaduj z pliku
+createdate = Stworzono
+
+import_file = importuj pliku
+delete_file = usuń plik
+download_file = pobierz pliku
+
+file_could_not_be_generated  = Nie dało się utworzyć pliku.
+file_generated_in  = Pliki zostały zapisane w
+
+proceed_db_import = Istniejące dane (Artykuły, Szablony, Moduły,...) zostaną usunięte. Kontynuować ?
+proceed_file_import = Istniejące dane zostaną usunięte. Kontynuować ?

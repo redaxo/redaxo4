@@ -1,0 +1,26 @@
+title = PHPMailer
+configuration = Konfiguration
+example = Beispiel
+
+example_headline = Ein mögliches Beispiel:
+
+
+config_settings = Einstellungen
+sender_name = Absender (Name)
+sender_email = Absender (E-Mail)
+confirm = Lesebestätigung (E-Mail)
+mailertype = Mailertype
+host = Host
+charset = Zeichensatz
+wordwrap = WordWrap
+encoding = Kodierung
+priority = Priorität
+save = Speichern
+reset = Verwerfen
+reset_info = Änderungen verwerfen?
+
+config_saved_error = Fehler beim speichern der Konfiguration!
+config_saved_successful = Konfiguration erfolgreich gespeichert!
+high = Hoch
+normal = Normal
+low = Niedrig
