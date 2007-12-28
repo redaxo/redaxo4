@@ -548,9 +548,6 @@ addon_summary = Auflistung aller AddOns
 addon_systemaddon = System AddOn
 addon_systemaddon_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 
-# redaxo\include\classes\class.rex_list.inc.php
-list_no_rows = Keine Daten vorhanden
-
 # redaxo\include\pages\credits.inc.php
 credits = credits
 credits_name = AddOn
@@ -569,3 +566,13 @@ list_add = Zeile einfügen
 list_next = nächste Seite
 list_last = letzte Seite
 list_rows_found = {0} Zeilen gefunden
+list_no_rows = Keine Zeilen vorhanden
+
+# redaxo\include\classes\variables\class.rex_var_media.inc.php
+var_media_open = Medium auswählen
+var_media_new = Neues Medium hinzufügen
+var_media_remove = Ausgewähltes Medium löschen
+var_medialist_move_top = Ausgewähltes Medium an den Anfang verschieben
+var_medialist_move_up = Ausgewähltes Medium nach oben verschieben
+var_medialist_move_down = Ausgewähltes Medium nach unten verschieben
+var_medialist_move_bottom  = Ausgewähltes Medium an das Ende verschieben
