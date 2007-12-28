@@ -123,7 +123,9 @@ else
     // --- addon page check
     if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))
     {
-      $as = array_search($page,$REX['ADDON']['page']);
+      include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
+
+      $as = rex_search_addon_page($page);
       if ($as !== false)
       {
         // --- addon gefunden
