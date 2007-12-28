@@ -65,6 +65,8 @@ Wichtige Änderungen:
 Version 4.0.2 (2007-12-XX)
 
   * ImageResize: Neuer Branding Filter [kills]
+  * Eigene Parameter in rex_get_subtitle anhängbar #132 [kills]
+  * Mehrere Standard Pages via Addon ersetzbar #138 [kills]
   
   Bugfixes:
   * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
