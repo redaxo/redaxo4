@@ -8,25 +8,40 @@
 /**
  * Ausgabe des Seitentitels
  *
+ *
  * Beispiel für einen Seitentitel
  *
  * <code>
  * $subpages = array(
- *  array( '', 'Index'),
- *  array( 'lang', 'Sprachen'),
+ *  array( ''      , 'Index'),
+ *  array( 'lang'  , 'Sprachen'),
  *  array( 'groups', 'Gruppen')
  * );
  *
  * rex_title( 'Headline', $subpages)
  * </code>
  *
+ *
  * Beispiel für einen Seitentitel mit Rechteprüfung
  *
  * <code>
  * $subpages = array(
- *  array( '', 'Index', 'index_perm'),
- *  array( 'lang', 'Sprachen', 'lang_perm'),
- *  array( 'groups', 'Gruppen', 'group_perm')
+ *  array( ''      , 'Index'   , 'index_perm'),
+ *  array( 'lang'  , 'Sprachen', 'lang_perm'),
+ *  array( 'groups', 'Gruppen' , 'group_perm')
+ * );
+ *
+ * rex_title( 'Headline', $subpages)
+ * </code>
+ *
+ *
+ * Beispiel für einen Seitentitel eigenen Parametern
+ *
+ * <code>
+ * $subpages = array(
+ *  array( ''      , 'Index'   , '', array('a' => 'b')),
+ *  array( 'lang'  , 'Sprachen', '', 'a=z&x=12'),
+ *  array( 'groups', 'Gruppen' , '', array('clang' => $REX['CUR_CLANG']))
  * );
  *
  * rex_title( 'Headline', $subpages)
@@ -93,11 +108,13 @@ function rex_get_subtitle($subline, $attr = '')
 
       $link = $subpage[0];
       $label = $subpage[1];
+      $perm = !empty($subpage[2]) ? $subpage[2] : '';
+      $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
       // Berechtigung prüfen
-      if (!empty( $subpage[2]))
+      if ($perm != '')
       {
         // Hat der User das Recht für die aktuelle Subpage?
-        if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm($subpage[2]))
+        if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm($perm))
         {
           // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
           if ($cur_subpage == $link)
@@ -125,18 +142,18 @@ function rex_get_subtitle($subline, $attr = '')
       {
         // $format = '%s';
         // $subtitle[] = sprintf($format, $label);
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s"%s'. rex_tabindex() .' class="rex-subpage-active">%s</a>';
-        $subtitle[] = sprintf($format, $link, $attr, $label);
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-subpage-active">%s</a>';
+        $subtitle[] = sprintf($format, $link, $params, $attr, $label);
       }
       elseif ($link == '')
       {
-        $format = '<a href="?page='. $cur_page .'"%s'. rex_tabindex() .'>%s</a>';
-        $subtitle[] = sprintf($format, $attr, $label);
+        $format = '<a href="?page='. $cur_page .'%s"%s'. rex_tabindex() .'>%s</a>';
+        $subtitle[] = sprintf($format, $params, $attr, $label);
       }
       else
       {
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s"%s'. rex_tabindex() .'>%s</a>';
-        $subtitle[] = sprintf($format, $link, $attr, $label);
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .'>%s</a>';
+        $subtitle[] = sprintf($format, $link, $params, $attr, $label);
       }
     }
 
