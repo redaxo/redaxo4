@@ -60,14 +60,15 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
   for($i = 0; $i < $sqlFields->getRows(); $i++)
   {
     // Umschliessendes Tag von Label und Formularelement
-    $tag = 'p';
+    $tag      = 'p';
     $tag_attr = '';
 
-    $name = $sqlFields->getValue('name');
-    $title = $sqlFields->getValue('title');
-    $params = $sqlFields->getValue('params');
+    $name      = $sqlFields->getValue('name');
+    $title     = $sqlFields->getValue('title');
+    $params    = $sqlFields->getValue('params');
     $typeLabel = $sqlFields->getValue('label');
-    $attr = $sqlFields->getValue('attributes');
+    $attr      = $sqlFields->getValue('attributes');
+    $dblength  = $sqlFields->getValue('dblength');
 
     $dbvalues = array(htmlspecialchars($sqlFields->getValue('default')));
     if($activeItem)
@@ -90,7 +91,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     {
       case 'text':
       {
-        $field = '<input type="'. $sqlFields->getValue('label') .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .'" '. $attr .' />';
+        $field = '<input type="'. $sqlFields->getValue('label') .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .' "maxlength="'. $dblength .'" '. $attr .' />';
         break;
       }
       case 'checkbox':
@@ -275,7 +276,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       }
       case 'textarea':
       {
-        $field = '<textarea name="'. $name .'" id="'. $id .'" '. $attr .' cols="50" rows="6">'. $dbvalues_esc[0] .'</textarea>';
+        $field = '<textarea name="'. $name .'" id="'. $id .'" cols="50" rows="6" '. $attr .'>'. $dbvalues_esc[0] .'</textarea>';
         break;
       }
       case 'REX_MEDIA_BUTTON':
