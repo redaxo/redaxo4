@@ -35,10 +35,7 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
-  $filesize = filesize($filename);
-  $h = fopen($filename, 'r');
-  $conts = fread($h, $filesize);
-  fclose($h);
+  $conts = rex_get_file_contents($filename);
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
@@ -80,6 +77,7 @@ function rex_a1_import_db($filename)
   rex_generateAll();
 
   // ----- EXTENSION POINT
+  $filesize = filesize($filename);
   $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg,
    array(
      'content' => $conts,

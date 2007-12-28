@@ -243,11 +243,10 @@ class rex_article
       if ($this->article_id != 0)
       {
         $this->contents = '';
-        $filename = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
-        if ($fd = @fopen ($filename, "r"))
+        $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
+        if($cont = rex_get_file_contents($article_content_file))
         {
-          $this->contents = fread ($fd, filesize ($filename));
-          fclose ($fd);
+          $this->contents = $cont;
           eval($this->contents);
         }
       }

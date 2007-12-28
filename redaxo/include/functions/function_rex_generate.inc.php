@@ -14,7 +14,6 @@
  */
 function rex_generateAll()
 {
-
   global $REX, $I18N;
 
   // alles existiert schon
@@ -43,24 +42,17 @@ function rex_generateAll()
   // ----------------------------------------------------------- generiere clang
   $lg = new rex_sql();
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
-  $content = "// --- DYN\n\r";
+  $content = "";
   for ($i = 0; $i < $lg->getRows(); $i ++)
   {
     $id = $lg->getValue("id");
     $name = $lg->getValue("name");
-    $content .= "\n\r\$REX['CLANG']['$id'] = \"$name\";";
+    $content .= "\$REX['CLANG']['$id'] = \"$name\";\n";
     $lg->next();
   }
-  $content .= "\n\r// --- /DYN";
+
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  $h = fopen($file, "r");
-  $fcontent = fread($h, filesize($file));
-  $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
-  fclose($h);
-  $h = fopen($file, "w+");
-  fwrite($h, $fcontent, strlen($fcontent));
-  fclose($h);
-  @ chmod($file, $REX['FILEPERM']);
+  rex_replace_dynamic_contents($file, $content);
 
   // ----------------------------------------------------------- generiere filemetas ...
   // **********************
@@ -153,13 +145,8 @@ function rex_generateArticle($id, $refreshall = true)
     }
     $content .= '?>';
 
-    if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", "w"))
-    {
-      fputs($fp, $content);
-      fclose($fp);
-      @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article", 0777);
-    }
-    else
+    $article_file = $REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article";
+    if (!rex_put_file_contents($article_file, $content))
     {
       $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
@@ -167,14 +154,9 @@ function rex_generateArticle($id, $refreshall = true)
     // --------------------------------------------------- Artikelcontent speichern
   	if ($refreshall)
 	  {
-	    if ($fp = @ fopen($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", "w"))
-	    {
-	      $article_content = "?>".$CONT->getArticle();
-	      fputs($fp, $article_content);
-	      fclose($fp);
-	      @ chmod($REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content", 0777);
-	    }
-	    else
+      $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content";
+      $article_content = "?>".$CONT->getArticle();
+	    if (!rex_put_file_contents($article_content_file, $article_content))
 	    {
 	      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
 	    }
@@ -315,10 +297,9 @@ function rex_generateLists($re_id)
       $GC->next();
     }
     $content .= "\n?>";
-    $fp = fopen($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.alist", "w");
-    fputs($fp, $content);
-    fclose($fp);
-    @ chmod($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.alist", 0777);
+
+    $article_list_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.alist";
+    rex_put_file_contents($article_list_file, $content);
 
     // --------------------------------------- CAT LIST
 
@@ -332,10 +313,9 @@ function rex_generateLists($re_id)
       $GC->next();
     }
     $content .= "\n?>";
-    $fp = fopen($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist", "w");
-    fputs($fp, $content);
-    fclose($fp);
-    @ chmod($REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist", 0777);
+
+    $article_categories_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist";
+    rex_put_file_contents($article_categories_file, $content);
   }
 }
 
@@ -1020,24 +1000,16 @@ function rex_deleteCLang($clang)
   if ($clang == 0)
     return "";
 
-  $content = "// --- DYN\n\r";
+  $content = "";
 
   foreach($REX['CLANG'] as $cur => $val)
   {
     if ($cur != $clang)
-      $content .= "\n\r\$REX['CLANG']['$cur'] = \"$val\";";
+      $content .= "\$REX['CLANG']['$cur'] = \"$val\";\n";
   }
-  $content .= "\n\r// --- /DYN";
-  $file = $REX['INCLUDE_PATH']."/clang.inc.php";
 
-  $h = fopen($file, "r");
-  $fcontent = fread($h, filesize($file));
-  $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
-  fclose($h);
-  $h = fopen($file, "w+");
-  fwrite($h, $fcontent, strlen($fcontent));
-  fclose($h);
-  @ chmod($file, 0777);
+  $file = $REX['INCLUDE_PATH']."/clang.inc.php";
+  rex_replace_dynamic_contents($file, $content);
 
   $del = new rex_sql();
   $del->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
@@ -1071,24 +1043,15 @@ function rex_addCLang($id, $name)
 {
   global $REX;
   $REX['CLANG'][$id] = $name;
-  $content = "// --- DYN\n\r";
 
+  $content = "";
   foreach($REX['CLANG'] as $cur => $val)
   {
-    $content .= "\n\r\$REX['CLANG']['$cur'] = \"$val\";";
+    $content .= "\$REX['CLANG']['$cur'] = \"$val\";\n";
   }
-  $content .= "\n\r// --- /DYN";
 
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  $h = fopen($file, "r");
-  $fcontent = fread($h, filesize($file));
-  $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
-  fclose($h);
-
-  $h = fopen($file, "w+");
-  fwrite($h, $fcontent, strlen($fcontent));
-  fclose($h);
-  @ chmod($file, 0777);
+  rex_replace_dynamic_contents($file, $content);
 
   $add = new rex_sql();
   $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
@@ -1139,14 +1102,11 @@ function rex_editCLang($id, $name)
 
   $REX['CLANG'][$id] = $name;
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  $h = fopen($file, "r");
-  $cont = fread($h, filesize($file));
+
+  $cont = rex_get_file_contents($file);
   $cont = ereg_replace("(REX\['CLANG'\]\['$id\'].?\=.?)[^;]*", "\\1\"". ($name)."\"", $cont);
-  fclose($h);
-  $h = fopen($REX['INCLUDE_PATH']."/clang.inc.php", "w+");
-  fwrite($h, $cont, strlen($cont));
-  fclose($h);
-  @ chmod($REX['INCLUDE_PATH']."/clang.inc.php", 0777);
+  rex_put_file_contents($file, $cont);
+
   $edit = new rex_sql;
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
 
@@ -1163,7 +1123,7 @@ function rex_generateAddons($ADDONS, $debug = false)
   global $REX;
   natsort($ADDONS);
 
-  $content = "// --- DYN\n\n";
+  $content = "";
   foreach ($ADDONS as $cur)
   {
     if (!OOAddon :: isInstalled($cur))
@@ -1174,41 +1134,17 @@ function rex_generateAddons($ADDONS, $debug = false)
 
     $content .= "\$REX['ADDON']['install']['$cur'] = ".$REX['ADDON']['install'][$cur].";\n"."\$REX['ADDON']['status']['$cur'] = ".$REX['ADDON']['status'][$cur].";\n\n";
   }
-  $content .= "// --- /DYN";
+
+  // Da dieser Funktion öfter pro request aufgerufen werden kann,
+  // hier die caches löschen
+  clearstatcache();
 
   $file = $REX['INCLUDE_PATH']."/addons.inc.php";
-  // Sichergehen, dass die Datei existiert und beschreibbar ist
-  if (is_writable($file))
-  {
-    // Da dieser Funktion öfter pro request aufgerufen werden kann,
-    // hier die caches löschen
-    clearstatcache();
-
-    if (!$h = fopen($file, "r"))
-    {
-      return 'Konnte Datei "'.$file.'" nicht lesen';
-    }
-    $fcontent = fread($h, filesize($file));
-    fclose($h);
-    $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
-
-    if (!$h = fopen($file, "w+"))
-    {
-      return 'Konnte Datei "'.$file.'" nicht zum schreiben oeffnen';
-    }
-    if (!fwrite($h, $fcontent, strlen($fcontent)))
-    {
-      return 'Konnte Inhalt nicht in Datei "'.$file.'" schreiben';
-    }
-    fclose($h);
-
-    // alles ist gut gegangen
-    return true;
-  }
-  else
+  if(!rex_replace_dynamic_contents($file, $content))
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
+  return true;
 }
 
 function rex_generateTemplate($template_id)
@@ -1224,16 +1160,13 @@ function rex_generateTemplate($template_id)
     $templatesDir = rex_template::getTemplatesDir();
     $templateFile = rex_template::getFilePath($template_id);
 
-    if($fp = @fopen($templateFile, 'w'))
+  	$content = $sql->getValue('content');
+  	foreach($REX['VARIABLES'] as $var)
+  	{
+  		$content = $var->getTemplate($content);
+  	}
+    if(rex_put_file_contents($templateFile, $content))
     {
-    	$content = $sql->getValue('content');
-	  	foreach($REX['VARIABLES'] as $var)
-	  	{
-	  		$content = $var->getTemplate($content);
-	  	}
-      fwrite($fp, $content);
-      fclose($fp);
-      @ chmod($templateFile, $REX['FILEPERM']);
       return true;
     }
     else
@@ -1375,7 +1308,6 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 
 
 
-
 // ----------------------------------------- generate helpers
 
 /**
@@ -1397,7 +1329,5 @@ function rex_addslashes($string, $flag = '\\\'\"')
   }
   return $string;
 }
-
-
 
 ?>

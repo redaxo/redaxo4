@@ -55,13 +55,9 @@ class rex_template
 		if($this->getId()<1) return FALSE;
 
     $file = $this->getFilePath($this->getId());
-    if ($handle = @fopen($file, 'r'))
+    if (file_exists($file))
     {
-      $content = '';
-	    $fs = filesize($file);
-	    if ($fs>0) $content = fread($handle, filesize($file));
-	    fclose($handle);
-	    return $content;
+      return rex_get_file_contents($file);
     }else
     {
     	if($this->generate())

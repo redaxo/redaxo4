@@ -219,9 +219,7 @@ if ($checkmodus == '0.5')
 
   $Basedir = dirname(__FILE__);
   $license_file = $Basedir.'/../../../_lizenz.txt';
-  $hdl = fopen($license_file, 'r');
-  $license = nl2br(fread($hdl, filesize($license_file)));
-  fclose($hdl);
+  $license = nl2br(rex_get_file_contents($license_file));
 
   if(strpos($REX['LANG'], 'utf') !== false)
     echo utf8_encode($license);
@@ -322,9 +320,8 @@ elseif ($MSG['err'] != "")
 
 if ($checkmodus == 2 && $send == 1)
 {
-  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
-  $cont = fread($h, filesize('include/master.inc.php'));
-  fclose($h);
+  $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
+  $cont = rex_get_file_contents($master_file);
 
   $serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
   $serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
@@ -341,17 +338,13 @@ if ($checkmodus == 2 && $send == 1)
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*", "\\1".$dbname, $cont);
 
-  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'w+');
-  if ($h && fwrite($h, $cont, strlen($cont)) > 0)
-  {
-    fclose($h);
-  }
-  else
+  if(!rex_put_file_contents($master_file, $cont))
   {
     $err_msg = $I18N->msg('setup_020', '<b>', '</b>');
   }
 
   // -------------------------- DATENBANKZUGRIFF
+  // TODO TestDb Zugriff via SQL Klasse implementieren
   $link = @ mysql_connect($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass);
   if (!$link)
   {
@@ -849,13 +842,11 @@ if ($checkmodus == 4)
 
 if ($checkmodus == 5)
 {
-
-  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
-  $cont = fread($h, filesize($REX['INCLUDE_PATH'].'/master.inc.php'));
+  $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
+  $cont = rex_get_file_contents($master_file);
   $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1false', $cont);
-  fclose($h);
-  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'w+');
-  if (fwrite($h, $cont, strlen($cont)) > 0)
+
+  if(rex_put_file_contents($master_file, $cont))
   {
     $errmsg = "";
   }

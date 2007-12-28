@@ -10,13 +10,11 @@ if ($func == 'setup')
 {
   // REACTIVATE SETUP
 
-  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'r');
-  $cont = fread($h, filesize($REX['INCLUDE_PATH'].'/master.inc.php'));
+  $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
+  $cont = rex_get_file_contents($master_file);
   $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
-  fclose($h);
   // echo nl2br(htmlspecialchars($cont));
-  $h = @ fopen($REX['INCLUDE_PATH'].'/master.inc.php', 'w+');
-  if (fwrite($h, $cont, strlen($cont)) > 0)
+  if (rex_put_file_contents($master_file, $cont))
   {
     $message = $I18N->msg('setup_error1', '<a href="index.php">', '</a>');
   }
@@ -24,8 +22,6 @@ if ($func == 'setup')
   {
     $message = $I18N->msg('setup_error2');
   }
-  fclose($h);
-
 }
 elseif ($func == 'generate')
 {
@@ -35,10 +31,8 @@ elseif ($func == 'generate')
 elseif ($func == 'updateinfos')
 {
   $REX['LANG'] = $neu_lang;
-  $master = $REX['INCLUDE_PATH'] .'/master.inc.php';
-
-  $h = fopen($master, 'r');
-  $cont = fread($h, filesize($master));
+  $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
+  $cont = rex_get_file_contents($master_file);
 
   $neu_startartikel       = rex_post('neu_startartikel', 'int');
   $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
@@ -57,10 +51,7 @@ elseif ($func == 'updateinfos')
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
   $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
 
-  fclose($h);
-  $h = fopen($master, 'w+');
-  fwrite($h, $cont, strlen($cont));
-  fclose($h);
+  rex_put_file_contents($master_file, $cont);
 
   $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
   $REX['START_ARTICLE_ID'] = $neu_startartikel;

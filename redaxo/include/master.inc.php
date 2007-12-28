@@ -27,11 +27,14 @@ $REX['SESSION_DURATION'] = 3000;
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
 
-// Homepage ArticleId
+// default article id
 $REX['START_ARTICLE_ID'] = 1;
 
 // if there is no article -> change to this article
 $REX['NOTFOUND_ARTICLE_ID'] = 1;
+
+// default clang id
+$REX['START_CLANG_ID'] = 0;
 
 // default language
 $REX['LANG'] = "de_de";
@@ -40,21 +43,21 @@ $REX['LANG'] = "de_de";
 // Boolean: true/false
 $REX['MOD_REWRITE'] = false;
 
-// activate output gzip support
+// activate gzip output support
 // reduces amount of data need to be send to the client, but increases cpu load of the server
-// String: "true"/"false"/"fronted"/"backend"
-$REX['USE_GZIP'] = "false";
+$REX['USE_GZIP'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
-// activate frontend e-tag support
-// tag content with an md5 sum to improve usage of client cache
-// String: "true"/"false"/"fronted"/"backend"
-$REX['USE_ETAG'] = "false";
+// activate e-tag support
+// tag content with a cache key to improve usage of client cache
+$REX['USE_ETAG'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
-// activate frontend last-modified support
+// activate last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-// does NOT work for the backend yet!
-// String: "true"/"false"/"fronted"/"backend"
-$REX['USE_LAST_MODIFIED'] = "false";
+$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+
+// activate md5 checksum support
+// allow client to validate content integrity
+$REX['USE_MD5'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
 // versch. Pfade
 $REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH']."redaxo/include");

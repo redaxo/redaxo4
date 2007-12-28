@@ -21,9 +21,7 @@ function rex_a62_insertJs($params)
 	$content = $params['subject'];
 
 	$jsfile = $REX['INCLUDE_PATH'] .'/addons/metainfo/js/metainfo.js';
-	$hdl = fopen($jsfile, 'r');
-	$jscontent = fread($hdl, filesize($jsfile));
-	fclose($hdl);
+  $jscontent = rex_get_file_contents($jsfile);
 
   $js ='
     <!-- Metainfo JS //-->

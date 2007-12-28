@@ -197,10 +197,8 @@ elseif (isset ($function) && $function == "export")
         $filename .= $ext;
       }
 
-      if (is_writable($dir_filename) && $fp = fopen($filename, "w"))
+      if (rex_put_file_contents($dir_filename, $content))
       {
-        fputs($fp, $content);
-        fclose($fp);
         $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename, '\\', '/');
       }
       else

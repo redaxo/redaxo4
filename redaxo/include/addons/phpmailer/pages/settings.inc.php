@@ -31,11 +31,8 @@ if (rex_post('btn_save', 'string') != '')
   {
     $message  = $I18N_A93->msg('config_saved_error');
 
-    if($hdl = fopen($file,'r'))
+    if($file_content = rex_file_get_contents($file))
     {
-      $file_content = fread($hdl, filesize($file));
-      fclose($hdl);
-
       $template =
       "// --- DYN
       \$this->From             = '". $from ."';
@@ -51,13 +48,9 @@ if (rex_post('btn_save', 'string') != '')
 
       $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
 
-      if($hdl = fopen($file, 'w+'))
+      if(rex_file_put_contents($file, $file_content))
       {
-        if(fwrite($hdl, $file_content, strlen($file_content)))
-        {
-          $message = $I18N_A93->msg('config_saved_successful');
-          fclose($hdl);
-        }
+        $message = $I18N_A93->msg('config_saved_successful');
       }
     }
   }
