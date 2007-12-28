@@ -38,6 +38,10 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
   if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
     $content = rex_send_gzip($content);
 
+  // ----- MD5 Checksum
+  if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
+    rex_send_checksum($content);
+
   // Evtl offene Db Verbindungen schließen
   rex_sql::disconnect(null);
 
@@ -75,7 +79,8 @@ function rex_send_last_modified($REX_ARTICLE)
 }
 
 /**
- * Prüft ob sich der Inhalt einer Seite geändert hat
+ * Prüft ob sich der Inhalt einer Seite im Cache des Browsers befindet und
+ * verweisst ggf. auf den Cache
  *
  * XHTML 1.1: HTTP_IF_NONE_MATCH feature
  *
@@ -105,7 +110,8 @@ function rex_send_etag($REX_ARTICLE, $content)
 }
 
 /**
- * Kodiert den Inhalt des Artikels in GZIP/X-GZIP
+ * Kodiert den Inhalt des Artikels in GZIP/X-GZIP, wenn der Browser eines der
+ * Formate unterstützt
  *
  * XHTML 1.1: HTTP_ACCEPT_ENCODING feature
  *
@@ -132,4 +138,16 @@ function rex_send_gzip($content)
   return $content;
 }
 
+/**
+ * Sendet eine MD5 Checksumme als HTTP Header, damit der Browser validieren
+ * kann, ob Übertragungsfehler aufgetreten sind
+ *
+ * XHTML 1.1: HTTP_CONTENT_MD5 feature
+ *
+ * @param $content string Inhalt des Artikels
+ */
+function rex_send_checksum($content)
+{
+  header('Content-MD5: '. md5($content));
+}
 ?>
