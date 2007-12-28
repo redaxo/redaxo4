@@ -12,33 +12,53 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 ?>
-<div class="rex-addon-output">
-  <div class="rex-addon-content">
-    <pre style="font-size:14px">
+<div class="rex-page-output rex-mrgn">
+	<h2>REDAXO</h2>
+	<div class="rex-page-content">
 
-<b>REDAXO:</b>
+	<p>
+		<b>Jan Kristinus</b>, jan.kristinus@redaxo.de<br />
+		Erfinder und Kernentwickler<br />
+		Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.de</a>
+	</p>
 
-<b>Jan Kristinus</b>, jan.kristinus@redaxo.de
-Erfinder und Kernentwickler
-Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de">www.yakamara.de</a>
+	<p>
+		<b>Markus Staab</b>, markus.staab@redaxo.de<br />
+		Kernentwickler
+	</p>
+	
+	<p>
+		<b>Wolfgang Huttegger</b>, wolfgang.huttegger@redaxo.de<br />
+		Kernentwickler<br />
+		vscope new media, <a href="http://www.vscope.at">www.vscope.at</a>
+	</p>
+	
+	<p>
+		<b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
+		Layout/Design Entwickler<br />
+		blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
+	</p>
+	</div>
+</div>
 
-<b>Markus Staab</b>, markus.staab@redaxo.de
-Kernentwickler
 
-<b>Wolfgang Huttegger</b>, wolfgang.huttegger@redaxo.de
-Kernentwickler
-vscope new media, <a href="http://www.vscope.at">www.vscope.at</a>
+<div class="rex-page-output">
 
-<b>Thomas Blum</b>, thomas.blum@redaxo.de
-Layout/Design Entwickler
-blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
-
-
-<b><?php echo $I18N->msg("addon"); ?>:</b>
-
-<table><?php
-
-    $ADDONS = rex_read_addons_folder();
+		<table class="rex-table">
+			<thead>
+			<tr>
+				<th><?php echo $I18N->msg("credits_name"); ?></th>
+				<th><?php echo $I18N->msg("credits_version"); ?></th>
+				<th><?php echo $I18N->msg("credits_author"); ?></th>
+				<th><?php echo $I18N->msg("credits_supportpage"); ?></th>
+			</tr>
+			</thead>
+			
+			<tbody>
+			
+		<?php
+		
+		$ADDONS = rex_read_addons_folder();
 
     foreach ($ADDONS as $cur)
     {
@@ -55,8 +75,7 @@ blumbeet - web.studio, <a href="http://www.blumbeet.com">www.blumbeet.com</a>
     	if (isset($REX['ADDON']['supportpage'][$cur])) echo '<a href="'.$REX['ADDON']['supportpage'][$cur].'">'.$REX['ADDON']['supportpage'][$cur].'</a>';
     	echo '</td></tr>';
     }
-    ?>
-    </table>
-    </pre>
-  </div>
+    	?>
+    		</tbody>
+    	</table>
 </div>
