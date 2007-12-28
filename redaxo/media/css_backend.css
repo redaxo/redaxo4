@@ -67,10 +67,10 @@ div, p {
 	height: 1px !important;
 }
 caption.rex-hide {
-	display:none;
+	display: none;
 }
 legend.rex-hidden {
-	display:none;
+	display: none;
 }
 .rex-flLeft {
 	float:left;
@@ -995,6 +995,7 @@ div.rex-cnt-metamode {
 }
 div.rex-cnt-metamode p,
 div.rex-cnt-metamode div.rex-ptag {
+	clear: both;
 	padding:5px;
 	border-bottom:1px solid #d6e1e4;
 	background:#f0efeb;
@@ -1004,11 +1005,14 @@ div.rex-cnt-metamode div.rex-ptag p {
 	border:0;
 }
 
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt {
+	float:left;
+}
 div.rex-cnt-metamode div.rex-ptag div.rex-wdgt p {
 	padding:0;
 }
-div.rex-cnt-metamode div.rex-ptag div.rex-wdgt {
-	float:left;
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt p.rex-wdgt-icons {
+	clear: none;
 }
 /* general define */
 div.rex-cnt-metamode p label {
@@ -1542,6 +1546,11 @@ body#rex-page-import-export div.rex-cnt table td {
 /* noch in CC setzen */
 * html div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
 	padding-top:5px;;
+}
+* html div#rex-output div.rex-wdgt div.rex-wdgt-mda, 
+* html div#rex-output div.rex-wdgt div.rex-wdgt-lnk {
+	float: left;
+	width: 100%;
 }
 
 div.rex-cnt-editmode div.rex-cnt-slc-otp h1,
