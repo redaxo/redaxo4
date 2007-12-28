@@ -137,6 +137,9 @@ div#rex-output div.rex-warning-blck {
 h2 {
 	margin-bottom:1.2em;
 }
+h3, h4, h5, h6 {
+	font-size: 1em;
+}
 
 .rex-cnt-slc-otp h1 {
 	font-size:2em;

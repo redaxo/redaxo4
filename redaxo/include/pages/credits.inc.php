@@ -14,6 +14,7 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 ?>
 <div class="rex-page-output rex-mrgn">
 	<h2>REDAXO</h2>
+	
 	<div class="rex-page-content">
 
 	<p>
