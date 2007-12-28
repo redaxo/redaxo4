@@ -167,28 +167,21 @@ function rex_parseArticleName($name)
 // ------------------------------------- Allgemeine PHP Functions
 
 /**
- * Für Installationen mit PHP < 4.3.0
+ * Für Installationen mit PHP4.x
  */
-if (!function_exists('file_get_contents'))
+if (!function_exists('file_put_contents'))
 {
-  function file_get_contents($filename)
+  function file_put_contents($path, $content)
   {
-    $fd = fopen($filename, 'rb');
-    $content = fread($fd, filesize($filename));
-    fclose($fd);
-    return $content;
-  }
-}
+    $fp = @fopen($path, 'wb');
+    if ($fp)
+    {
+      $writtenBytes = fwrite($fp, $content, strlen($content));
 
-/**
- * mime_content_type ist deprecated und wird in zukunft via PECL Extension
- * gehandelt.
- */
-if (!function_exists('mime_content_type'))
-{
-  function mime_content_type($f) {
-    $f = escapeshellarg($f);
-    return trim(`file -bi $f`);
+      if(fclose($fp))
+        return $writtenBytes;
+    }
+    return false;
   }
 }
 
