@@ -211,6 +211,15 @@ function rex_generateArticle($id, $refreshall = true)
  */
 function rex_deleteArticle($id, $ebene = 0)
 {
+  global $I18N;
+
+  $result = _rex_deleteArticle($id, $ebene);
+
+  return $result === true ? $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted') : $result;
+}
+
+function _rex_deleteArticle($id, $ebene)
+{
   global $REX, $I18N;
 
   // artikel loeschen
@@ -226,32 +235,46 @@ function rex_deleteArticle($id, $ebene = 0)
   // -> startpage = 1
   // --> rekursiv aufrufen
 
+  if ($id == $REX['START_ARTICLE_ID'])
+  {
+    return $I18N->msg('cant_delete_sitestartarticle');
+  }
+  if ($id == $REX['ARTICLE_NOT_FOUND'])
+  {
+    return $I18N->msg('cant_delete_notfoundarticle');
+  }
+
   $ART = new rex_sql;
   $ART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$id' and clang='0'");
 
   if ($ART->getRows() > 0)
   {
-    $re_id = $ART->getValue("re_id");
-    if ($ART->getValue("startpage") == 1)
+    $re_id = $ART->getValue('re_id');
+    $allowDelete = true;
+    if ($ART->getValue('startpage') == 1)
     {
       $SART = new rex_sql;
       $SART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$id' and clang='0'");
       for ($i = 0; $i < $SART->getRows(); $i ++)
       {
-        rex_deleteArticle($id, ($ebene +1));
+        $allowDelete = _rex_deleteArticle($id, ($ebene +1));
         $SART->next();
       }
     }
 
-    rex_deleteCacheArticle($id);
-    $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
-    $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
+    // Rekursion über alle Kindkategorien ergab keine Fehler
+    // => löschen erlaubt
+    if($allowDelete === true)
+    {
+      rex_deleteCacheArticle($id);
+      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
+      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
 
-    // --------------------------------------------------- Listen generieren
-    rex_generateLists($re_id);
+      // --------------------------------------------------- Listen generieren
+      rex_generateLists($re_id);
+    }
 
-    return $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted');
-
+    return $allowDelete;
   }
   else
   {
