@@ -76,7 +76,7 @@ Version 4.1.0 (2008-XX-XX)
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
   
 
-Version 4.0.2 (2007-12-XX)
+Version 4.0.2 (2007-12-07)
 
   * ImageResize: Neuer Branding Filter [kills]
   
