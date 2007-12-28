@@ -13,13 +13,13 @@ if (!$REX['GG']) $REX['GG'] = false;
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
+$REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "0";
-$REX['MINORVERSION'] = "1";
-$REX['ERROR_EMAIL'] = "jan.kristinus@pergopa.de";
+$REX['MINORVERSION'] = "2";
+$REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(755); // oktaler wert
 $REX['INSTNAME'] = "rex20071013171717";
 $REX['SESSION_DURATION'] = 3000;
