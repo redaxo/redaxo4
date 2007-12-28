@@ -415,6 +415,16 @@ class OORedaxo
     return $this->_id == $REX['START_ARTICLE_ID'];
   }
 
+  /**
+   *  Accessor Method:
+   *  returns  true if this Article is the not found article
+   */
+  function isNotFoundArticle()
+  {
+    global $REX;
+    return $this->_id == $REX['NOTFOUND_ARTICLE_ID'];
+  }
+
   /*
    * Object Helper Function:
    * Returns a String representation of this object
