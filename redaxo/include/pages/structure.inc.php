@@ -515,6 +515,13 @@ if ($REX_USER->hasPerm('advancedMode[]'))
   $data_colspan = 5;
 }
 
+echo rex_register_extension_point('PAGE_STRUCTURE_HEADER', '',
+  array(
+    'category_id' => $category_id,
+    'clang' => $clang
+  )
+);
+
 echo '
 <!-- *** OUTPUT CATEGORIES - START *** -->';
 
