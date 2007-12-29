@@ -1,13 +1,11 @@
 <?php
 
-/** 
+/**
  * Sprachobjekt zur Internationalisierung (I18N)
- * @package redaxo4 
- * @version $Id$ 
+ * @package redaxo4
+ * @version $Id$
  */
 
-// TODO Kompilierte Sprachfiles bei denen aus ISO Versionen UTF8 generiert werden und Textile möglich ist
- 
 class i18n
 {
 
@@ -35,7 +33,7 @@ class i18n
     $this->loadTexts();
   }
 
-  /* 
+  /*
    * load texts from file.
    * The filename must be of the form:
    *
@@ -46,7 +44,7 @@ class i18n
    *
    * key = value
    * # comments must be on one line
-   * 
+   *
    * values may contain placeholders for replacement of variables, e.g.
    * file_not_found = The file {0} could not be found.
    * there can be only 10 placeholders, {0} to {9}.
@@ -86,26 +84,26 @@ class i18n
     {
       $msg = "[translate:$key]";
     }
-    
+
     $patterns = array ();
     $replacements = array ();
-    
+
     $args = func_get_args();
     for($i = 1; $i < func_num_args(); $i++)
     {
       // zero indexed
       $patterns[] = '/\{'. ($i-1) .'\}/';
-      $replacements[] = $args[$i]; 
+      $replacements[] = $args[$i];
     }
 
     return preg_replace($patterns, $replacements, $msg);
   }
-  
+
   function hasMsg($key)
   {
   	return isset ($this->text[$key]);
   }
-  
+
   /*
    Formatierungsfunktion, für REDAXO 3.4
   function format($msg)
@@ -116,7 +114,7 @@ class i18n
     {
       $lines = explode("\n", $msg);
       $num_lines = count($lines);
-      
+
       $msg = '';
       $inList = false;
       foreach ($lines as $line)
@@ -128,7 +126,7 @@ class i18n
             $msg .= '<ul>' . "\n";
             $inList = true;
           }
-          // Erst ab dem 2.Zeichen da der Identifier "* " ist 
+          // Erst ab dem 2.Zeichen da der Identifier "* " ist
           $msg .= '<li>' . substr($line, 2) . '</li>' . "\n";
         }
         else
@@ -138,9 +136,9 @@ class i18n
             $msg .= '</ul>' . "\n";
             $inList = false;
           }
-          
+
           $msg .= $line;
-          
+
           if($num_lines != 1)
           {
             $msg .= '<br />';
@@ -158,11 +156,11 @@ class i18n
     {
       $msg = nl2br($msg);
     }
-    return $msg;    
+    return $msg;
   }
   */
 
-  /* 
+  /*
    * find all defined locales in a searchpath
    * the language files must be of the form: <locale>.lang
    * e.g. de_de.lang or en_gb.lang
