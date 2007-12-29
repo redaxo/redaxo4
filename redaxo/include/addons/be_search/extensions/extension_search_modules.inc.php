@@ -8,4 +8,9 @@
  * @package redaxo4
  * @version $Id$
  */
+
+function rex_a256_search_modules()
+{
+  // TODO Implementierung fehlt noch komplett
+}
 ?>
