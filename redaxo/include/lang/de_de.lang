@@ -568,6 +568,19 @@ list_last = letzte Seite
 list_rows_found = {0} Zeilen gefunden
 list_no_rows = Keine Zeilen vorhanden
 
+# redaxo\include\classes\class.rex_form.inc.php
+form_save = Speichern
+form_apply = Übernehmen
+form_delete = Löschen
+form_reset = Zurücksetzen
+form_abort = Abbrechen
+form_saved = Eingaben wurden gespeichert!
+form_save_error = Fehler beim speichern!
+form_applied = Eingaben wurden übernommen!
+form_deleted = Eingaben wurden gelöscht!
+form_delete_error = Fehler beim löschen!
+form_resetted = Eingaben wurden verworfen!
+
 # redaxo\include\classes\variables\class.rex_var_media.inc.php
 var_media_open = Medium auswählen
 var_media_new = Neues Medium hinzufügen

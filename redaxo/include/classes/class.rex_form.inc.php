@@ -75,12 +75,13 @@ class rex_form
 
   function loadBackendConfig()
   {
-    // TODO translate
-    $saveLabel = 'Speichern';
-    $applyLabel = 'Übernehmen';
-    $deleteLabel = 'Löschen';
-    $resetLabel = 'Zurücksetzen';
-    $abortLabel = 'Abbrechen';
+    global $I18N;
+
+    $saveLabel = $I18N->msg('form_save');
+    $applyLabel = $I18N->msg('form_apply');
+    $deleteLabel = $I18N->msg('form_delete');
+    $resetLabel = $I18N->msg('form_reset');
+    $abortLabel = $I18N->msg('form_abort');
 
     $func = rex_request('func', 'string');
 
@@ -652,58 +653,59 @@ class rex_form
 
   function get()
   {
+    global $I18N;
+
     $this->init();
 
     $this->setApplyUrl($this->getUrl(array('func' => ''), false));
 
     if(($controlElement = $this->getControlElement()) !== null)
     {
-      // TODO Translate
       if($controlElement->saved())
       {
         // speichern und umleiten
         // Nachricht in der Liste anzeigen
         if(($result = $this->save()) === true)
-          $this->redirect('Eingaben wurden gespeichert!');
+          $this->redirect($I18N->msg('form_saved'));
         elseif(is_string($result) && $result != '')
           // Falls ein Fehler auftritt, das Formular wieder anzeigen mit der Meldung
           $this->setMessage($result);
         else
-          $this->redirect('Fehler beim speichern!');
+          $this->redirect($I18N->msg('form_save_error'));
       }
       elseif($controlElement->applied())
       {
         // speichern und wiederanzeigen
          // Nachricht im Formular anzeigen
         if(($result = $this->save()) === true)
-           $this->setMessage('Eingaben wurden übernommen');
+           $this->setMessage($I18N->msg('form_applied'));
         elseif(is_string($result) && $result != '')
           $this->setMessage($result);
         else
-          $this->setMessage('Fehler beim speichern!');
+          $this->setMessage($I18N->msg('form_save_error'));
       }
       elseif($controlElement->deleted())
       {
         // speichern und wiederanzeigen
         // Nachricht in der Liste anzeigen
         if(($result = $this->delete()) === true)
-          $this->redirect('Eingaben wurden gelöscht!');
+          $this->redirect($I18N->msg('form_deleted'));
         elseif(is_string($result) && $result != '')
           $this->redirect($result);
         else
-          $this->redirect('Fehler beim löschen!');
+          $this->redirect($I18N->msg('form_delete_error'));
       }
       elseif($controlElement->resetted())
       {
         // verwerfen und wiederanzeigen
         // Nachricht im Formular anzeigen
-        $this->setMessage('Eingaben wurden verworfen!');
+        $this->setMessage($I18N->msg('form_resetted'));
       }
       elseif($controlElement->aborted())
       {
         // verwerfen und umleiten
         // Nachricht in der Liste anzeigen
-        $this->redirect('Eingaben wurden verworfen!');
+        $this->redirect($I18N->msg('form_resetted'));
       }
     }
 
