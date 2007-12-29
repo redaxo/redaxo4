@@ -69,8 +69,11 @@ Version 4.0.2 (2007-12-28)
     - $REX['START_CLANG_ID'] [kills]
     - $REX['USE_MD5'] [kills]
   * MD5 Checksummenübermittlung gemaeß HTTP1.1 (Content-MD5 Header) [kills]
+  * Eigene Parameter in rex_get_subtitle anhängbar #132 [kills]
+  * Mehrere Standard Pages via Addon ersetzbar #138 [kills]
   
   Bugfixes:
+  * Doppelt ersetzen der REX-Vars bei der anzeige behoben [kills]
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * Artikel die Startartikel waren, ist nicht löschbar #110 [kills]
