@@ -139,7 +139,7 @@ function rex_call_func($function, $params, $parseParamsAsArray = true)
     }
     else
     {
-      trigger_error('rexCallFunc: Function "'.$function.'" not found!');
+      trigger_error('rexCallFunc: Function "'.$function.'" not found!', E_USER_ERROR);
     }
   }
   // object->method call
