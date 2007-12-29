@@ -558,7 +558,6 @@ class OOMedia
   {
     global $REX;
 
-    // TODO
     $ext = $this->getExtension();
     $icon = $this->getIcon();
 
