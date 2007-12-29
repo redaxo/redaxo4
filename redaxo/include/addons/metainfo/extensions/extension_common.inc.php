@@ -9,7 +9,7 @@
  */
 
 if($page == 'metainfo')
-  rex_register_extension('OUTPUT_FILTER', 'rex_a62_insertJs');
+  rex_register_extension('PAGE_HEADER', 'rex_a62_insertJs');
 
 /**
  * Fügt den nötigen JS-Code ein
@@ -33,7 +33,7 @@ function rex_a62_insertJs($params)
     <!-- End Metainfo JS //-->
   ';
 
-  return str_replace('</head>', $js . '</head>', $content);
+  return $content . $js;
 }
 
 /**
