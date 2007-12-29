@@ -631,6 +631,16 @@ if ($article->getRows() == 1)
             </ul>';
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
+    echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
+      array(
+        'article_id' => $article_id,
+        'clang' => $clang,
+        'function' => $function,
+        'mode' => $mode,
+        'slice_id' => $slice_id
+      )
+    );
+
     // ------------------------------------------ START: AUSGABE
     echo '
             <!-- *** OUTPUT OF ARTICLE-CONTENT - START *** -->
@@ -651,9 +661,8 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-
-
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
+
       echo '
                   <!-- *** OUTPUT OF ARTICLE-CONTENT-EDIT-MODE - START *** -->
                   <div class="rex-cnt-editmode">
@@ -718,31 +727,6 @@ if ($article->getRows() == 1)
         'id' => $article_id,
         'clang' => $clang
       ));
-
-      // --------------------------------------------------- START - FUNKTION ZUM AUSLESEN DER KATEGORIEN
-      function add_cat_options(& $select, & $cat, & $cat_ids)
-      {
-        global $REX_USER;
-        if (empty ($cat))
-        {
-          return;
-        }
-
-        $cat_ids[] = $cat->getId();
-        if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csr[' . $cat->getId() . ']') || $REX_USER->hasPerm('csw[' . $cat->getId() . ']'))
-        {
-          $select->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
-          $childs = $cat->getChildren();
-          if (is_array($childs))
-          {
-            foreach ($childs as $child)
-            {
-              add_cat_options($select, $child, $cat_ids);
-            }
-          }
-        }
-      }
-      // --------------------------------------------------- ENDE - FUNKTION ZUM AUSLESEN DER KATEGORIEN
 
       // ------------------------------------------------------------- SONSTIGES START
       if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('article2startpage[]') || $REX_USER->hasPerm('moveArticle[]') || $REX_USER->hasPerm('copyArticle[]') || ($REX_USER->hasPerm('copyContent[]') && count($REX['CLANG']) > 1))
@@ -824,21 +808,12 @@ if ($article->getRows() == 1)
         {
 
           // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-          $move_a = new rex_select;
+          $move_a = new rex_category_select();
           $move_a->setId('category_id_new');
           $move_a->setName('category_id_new');
           $move_a->setSize('1');
           $move_a->setAttribute('tabindex', rex_tabindex(false));
           $move_a->setSelected($category_id);
-          $move_a->addOption('Homepage',0);
-
-          if ($cats = OOCategory :: getRootCategories())
-          {
-            foreach ($cats as $cat)
-            {
-              add_cat_options($move_a, $cat, $cat_ids, '');
-            }
-          }
 
           echo '
                 <fieldset>
@@ -860,22 +835,12 @@ if ($article->getRows() == 1)
         // -------------------------------------------------- ARTIKEL KOPIEREN START
         if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('copyArticle[]'))
         {
-          $move_a = new rex_select;
+          $move_a = new rex_category_select();
           $move_a->setName('category_copy_id_new');
           $move_a->setId('category_copy_id_new');
           $move_a->setSize('1');
           $move_a->setSelected($category_id);
           $move_a->setAttribute('tabindex', rex_tabindex(false));
-
-					$move_a->addOption('Homepage',0);
-
-          if ($cats = OOCategory :: getRootCategories())
-          {
-            foreach ($cats as $cat)
-            {
-              add_cat_options($move_a, $cat, $cat_ids, '');
-            }
-          }
 
           echo '
                   <fieldset>
@@ -897,22 +862,13 @@ if ($article->getRows() == 1)
         // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
         if ($article->getValue('startpage') == 1 && ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('moveCategory[]')))
         {
-          $move_a = new rex_select;
+          $move_a = new rex_category_select();
           $move_a->setId('category_id_new');
           $move_a->setName('category_id_new');
           $move_a->setSize('1');
           $move_a->setSelected($article_id);
           $move_a->setAttribute('tabindex', rex_tabindex(false));
 
-					$move_a->addOption('Homepage',0);
-
-          if ($cats = OOCategory :: getRootCategories())
-          {
-            foreach ($cats as $cat)
-            {
-              add_cat_options($move_a, $cat, $cat_ids, '');
-            }
-          }
           echo '
                   <fieldset>
                     <legend class="rex-lgnd">' . $I18N->msg('content_submitmovecategory') . '</legend>
