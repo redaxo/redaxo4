@@ -133,7 +133,6 @@ class rex_var_value extends rex_var
   {
     $matches = $this->getInputParams($content, $var);
 
-
     foreach ($matches as $match)
     {
       list ($param_str, $id) = $match;
