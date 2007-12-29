@@ -792,7 +792,7 @@ function rex_copyArticle($id, $to_cat_id)
  */
 function rex_copyCategory($from_cat, $to_cat)
 {
-  // TODO
+  // TODO rex_copyCategory implementieren
 }
 
 /**
