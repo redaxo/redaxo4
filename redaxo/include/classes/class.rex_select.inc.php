@@ -308,4 +308,52 @@ class rex_select
   }
 }
 
+################ Class Kategorie Select
+class rex_category_select extends rex_select
+{
+  var $ignore_offlines;
+  var $clang;
+  var $check_perms;
+
+  function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true)
+  {
+    $this->ignore_offlines = $ignore_offlines;
+    $this->clang = $clang;
+    $this->check_perms = $check_perms;
+
+    $this->addOption('Homepage', 0);
+    if ($cats = OOCategory :: getRootCategories($ignore_offlines, $clang))
+    {
+      foreach ($cats as $cat)
+      {
+        $this->addCatOption($cat);
+      }
+    }
+
+    parent::rex_select();
+  }
+
+  function addCatOption($cat)
+  {
+    global $REX_USER;
+    if (empty ($cat))
+    {
+      return;
+    }
+
+    if(!$this->check_perms ||
+        $this->check_perms && $REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csr[' . $cat->getId() . ']') || $REX_USER->hasPerm('csw[' . $cat->getId() . ']'))
+    {
+      $this->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
+      $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
+      if (is_array($childs))
+      {
+        foreach ($childs as $child)
+        {
+          $this->addCatOption($child);
+        }
+      }
+    }
+  }
+}
 ?>
