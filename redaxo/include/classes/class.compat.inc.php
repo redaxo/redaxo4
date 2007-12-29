@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Klassen zum erhalten der Rückwärtskompatibilität
+ * Klassen zum erhalten der Rückwärtskompatibilität zu älteren REDAXO Versionen,
+ * NICHT für ältere PHP Versionen!
  *
  * Dieser werden beim nächsten Versionssprung entfallen
  * @version $Id$
