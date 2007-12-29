@@ -164,25 +164,4 @@ function rex_parseArticleName($name)
   return rex_parse_article_name($name);
 }
 
-// ------------------------------------- Allgemeine PHP Functions
-
-/**
- * Für Installationen mit PHP4.x
- */
-if (!function_exists('file_put_contents'))
-{
-  function file_put_contents($path, $content)
-  {
-    $fp = @fopen($path, 'wb');
-    if ($fp)
-    {
-      $writtenBytes = fwrite($fp, $content, strlen($content));
-
-      if(fclose($fp))
-        return $writtenBytes;
-    }
-    return false;
-  }
-}
-
 ?>
