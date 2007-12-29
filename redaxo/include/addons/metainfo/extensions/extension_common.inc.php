@@ -183,7 +183,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
           $select->setAttribute($attr_name, $attr_value);
 
-          if($attr_name[0] == 'multiple')
+          if($attr_name == 'multiple')
             $select->setName($name.'[]');
         }
 
