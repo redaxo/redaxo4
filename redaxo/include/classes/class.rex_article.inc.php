@@ -481,8 +481,9 @@ class rex_article
                 </div></div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
                 ';
+
+                $slice_content = $this->replaceVars($this->CONT, $slice_content);
               }
-              $slice_content = $this->replaceVars($this->CONT, $slice_content);
 
             }else
             {
