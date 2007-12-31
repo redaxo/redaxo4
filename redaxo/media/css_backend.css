@@ -1594,3 +1594,11 @@ div.rex-page-output p {
 div.rex-page-output div.rex-page-content {
 	padding:5px;
 }
+
+
+div.rex-f-lft {
+	float: left;
+}
+div.rex-f-rght {
+	float: right;
+}
