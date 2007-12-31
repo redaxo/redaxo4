@@ -214,48 +214,39 @@ if ($OUT) {
     echo rex_warning($message);
   }
 
-  // ausgabe templateliste !
-  echo '
-    <table class="rex-table" summary="' . $I18N->msg("header_template_summary") . '">
-    	<caption class="rex-hide">' . $I18N->msg("header_template_caption") . '</caption>
-    	<colgroup>
-        <col width="40" />
-        <col width="40" />
-        <col width="*" />
-        <col width="153" />
-        <col width="153" />
-    	</colgroup>
-    	<thead>
-        <tr>
-          <th class="rex-icon"><a href="index.php?page=template&amp;function=add"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><img src="media/template_plus.gif" alt="' . $I18N->msg("create_template") . '" /></a></th>
-          <th class="rex-icon">ID</th>
-          <th>' . $I18N->msg("header_template_description") . '</th>
-          <th>' . $I18N->msg("header_template_active") . '</th>
-          <th >' . $I18N->msg("header_template_functions") . '</th>
-        </tr>
-    	</thead>
-    	<tbody>';
+  $list = new rex_list('SELECT id, name, active FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
+  $list->setCaption($I18N->msg('header_template_caption'));
+  $list->addTableAttribute('summary', $I18N->msg('header_template_summary'));
 
-  $sql = new rex_sql;
-  $sql->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'template ORDER BY name');
-
-  for ($i = 0; $i < $sql->getRows(); $i++) {
-    $active = $sql->getValue('active') == 1 ? $I18N->msg('yes') : $I18N->msg('no');
-
-    echo '
-          <tr>
-            <td class="rex-icon"><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit"><img src="media/template.gif" alt="' . htmlspecialchars($sql->getValue('name')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '" /></a></td>
-            <td class="rex-icon">' . $sql->getValue('id') . '</td>
-            <td><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=edit">' . htmlspecialchars($sql->getValue('name')) . '<span class="rex-hide"> [' . $I18N->msg('header_template_id') . ' ' . $sql->getValue('id') . ']</span></a></td>
-            <td>' . $active . '</td>
-            <td><a href="index.php?page=template&amp;template_id=' . $sql->getValue('id') . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('delete') . ' ?\')">' . $I18N->msg('delete_template') . '</a></td>
-          </tr>';
-
-    $sql->counter++;
+  if (!$REX_USER->hasPerm('advancedMode[]'))
+  {
+    $list->removeColumn('id');
+    $list->addTableColumnGroup(array(40, '*', 153, 153));
+  }
+  else
+  {
+    $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
   }
 
-  echo '
-      </tbody>
-    </table>';
+  $img = '<img src="media/template.gif" alt="###name###" title="###name###" />';
+  $imgAdd = '<img src="media/template_plus.gif" alt="'.$I18N->msg('create_template').'" title="'.$I18N->msg('create_template').'" />';
+  $imgHeader = '<a href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
+  $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($imgHeader, array('function' => 'edit', 'modul_id' => '###id###'));
+
+  $list->setColumnLabel('id', 'ID');
+  $list->setColumnLayout('id',  array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+
+  $list->setColumnLabel('name', $I18N->msg('header_template_description'));
+  $list->setColumnParams('name', array('function' => 'edit', 'template_id' => '###id###'));
+
+  $list->setColumnLabel('active', $I18N->msg('header_template_active'));
+  $list->setColumnFormat('active', 'custom', create_function('$active', 'global $I18N; return $active == 1 ? $I18N->msg("yes") : $I18N->msg("no");'));
+
+  $list->addColumn($I18N->msg('header_template_functions'), $I18N->msg('delete_template'));
+  $list->setColumnParams($I18N->msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
+  $list->addLinkAttribute($I18N->msg('header_template_functions'), 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
+
+  $list->show();
 }
 ?>

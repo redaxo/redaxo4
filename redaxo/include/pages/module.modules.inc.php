@@ -309,46 +309,37 @@ if ($OUT)
     echo rex_warning($message);
   }
 
-  // ausgabe modulliste !
-  echo '
-  <table class="rex-table" summary="'.$I18N->msg('module_summary').'">
-  	<caption class="rex-hide">'.$I18N->msg('module_caption').'</caption>
-    <colgroup>
-      <col width="40" />
-      <col width="40" />
-      <col width="*" />
-      <col width="153" />
-    </colgroup>
-    <thead>
-      <tr>
-        <th class="rex-icon"><a href="index.php?page=module&amp;function=add"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'"><img src="media/modul_plus.gif" alt="'.$I18N->msg("create_module").'" /></a></th>
-        <th class="rex-icon">ID</th>
-        <th>'.$I18N->msg('module_description').'</th>
-        <th>'.$I18N->msg('module_functions').'</th>
-      </tr>
-    </thead>
-    <tbody>
-  ';
+  $list = new rex_list('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
+  $list->setCaption($I18N->msg('module_caption'));
+  $list->addTableAttribute('summary', $I18N->msg('module_summary'));
 
-
-  $sql = new rex_sql;
-  $sql->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module ORDER BY name");
-
-  for($i=0; $i<$sql->getRows(); $i++){
-
-    echo '
-      <tr>
-        <td class="rex-icon"><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit"><img src="media/modul.gif" alt="'. htmlspecialchars($sql->getValue("name")) .'" title="'. htmlspecialchars($sql->getValue("name")) .'"/></a></td>
-        <td class="rex-icon">'.$sql->getValue("id").'</td>
-        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=edit">'.htmlspecialchars($sql->getValue("name")).'</a></td>
-        <td><a href="index.php?page=module&amp;modul_id='.$sql->getValue("id").'&amp;function=delete" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("delete_module").'</a></td>
-      </tr>'."\n";
-    $sql->counter++;
+  if (!$REX_USER->hasPerm('advancedMode[]'))
+  {
+    $list->removeColumn('id');
+    $list->addTableColumnGroup(array(40, '*', 153));
+  }
+  else
+  {
+    $list->addTableColumnGroup(array(40, 40, '*', 153));
   }
 
-  echo '
-    </tbody>
-  </table>';
+  $img = '<img src="media/modul.gif" alt="###name###" title="###name###" />';
+  $imgAdd = '<img src="media/modul_plus.gif" alt="'.$I18N->msg('create_module').'" title="'.$I18N->msg('create_module').'" />';
+  $imgHeader = '<a href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
+  $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($imgHeader, array('function' => 'edit', 'modul_id' => '###id###'));
+
+  $list->setColumnLabel('id', 'ID');
+  $list->setColumnLayout('id', array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+
+  $list->setColumnLabel('name', $I18N->msg('module_description'));
+  $list->setColumnParams('name', array('function' => 'edit', 'modul_id' => '###id###'));
+
+  $list->addColumn($I18N->msg('module_functions'), $I18N->msg('delete_module'));
+  $list->setColumnParams($I18N->msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
+  $list->addLinkAttribute($I18N->msg('module_functions'), 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
+
+  $list->show();
 }
 
 ?>
