@@ -598,12 +598,12 @@ class rex_sql
   /**
    * Gibt die letzte Fehlermeldung aus
    */
-  function printError($select)
+  function printError($query)
   {
-    if ($this->debugsql === 2 && strlen($this->getError()) > 0 || $this->debugsql == true)
+    if (strlen($this->getError()) > 0 || $this->debugsql == true)
     {
       echo '<hr />' . "\n";
-      echo 'Query: ' . nl2br(htmlspecialchars($select)) . "<br />\n";
+      echo 'Query: ' . nl2br(htmlspecialchars($query)) . "<br />\n";
 
       if (strlen($this->getRows()) > 0)
       {
