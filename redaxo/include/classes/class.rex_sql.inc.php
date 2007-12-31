@@ -600,7 +600,7 @@ class rex_sql
    */
   function printError($query)
   {
-    if (strlen($this->getError()) > 0 || $this->debugsql == true)
+    if ($this->debugsql == true)
     {
       echo '<hr />' . "\n";
       echo 'Query: ' . nl2br(htmlspecialchars($query)) . "<br />\n";
