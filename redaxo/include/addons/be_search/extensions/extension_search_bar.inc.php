@@ -83,7 +83,7 @@ function rex_a256_search_bar($params)
 	        <input type="text" name="a256_article_id" id="rex-a256-article-id" />
     	    <input type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_start') .'" />
 		</div>
-		
+
 		<div class="rex-f-rght">
 			<label for="rex-a256-category-id">'. $I18N_BE_SEARCH->msg('search_quick_navi') .'</label>
 			'. $category_select->get() . '
@@ -97,7 +97,8 @@ function rex_a256_search_bar($params)
   '<div id="rex-a256-searchbar">
      '. $form .'
      '. $search_result .'
-   </div>';
+   </div>
+   <div class="rex-clearer"></div>';
 
   return $search_bar . $subject;
 }
