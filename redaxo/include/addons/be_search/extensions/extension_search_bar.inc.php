@@ -75,22 +75,23 @@ function rex_a256_search_bar($params)
    '  <form method="post">
         <input type="hidden" name="a256_clang" id="rex-a256-article-clang" value="'. $clang .'" />
 
-		<div class="rex-f-lft">
+		    <div class="rex-f-lft">
 	        <label for="rex-a256-article-name">'. $I18N_BE_SEARCH->msg('search_article_name') .'</label>
     	    <input type="text" name="a256_article_name" id="rex-a256-article-name" />
 
         	<label for="rex-a256-article-id">'. $I18N_BE_SEARCH->msg('search_article_id') .'</label>
 	        <input type="text" name="a256_article_id" id="rex-a256-article-id" />
     	    <input type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_start') .'" />
-		</div>
+		    </div>
 
-		<div class="rex-f-rght">
-			<label for="rex-a256-category-id">'. $I18N_BE_SEARCH->msg('search_quick_navi') .'</label>
-			'. $category_select->get() . '
-			<noscript>
-			  <input type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_jump_to_category') .'" />
-			</noscript>
+    		<div class="rex-f-rght">
+    			<label for="rex-a256-category-id">'. $I18N_BE_SEARCH->msg('search_quick_navi') .'</label>
+    			'. $category_select->get() . '
+    			<noscript>
+    			  <input type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_jump_to_category') .'" />
+    			</noscript>
         </div>
+
       </form>';
 
   $search_bar =
