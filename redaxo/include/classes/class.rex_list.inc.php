@@ -19,7 +19,7 @@ $list->setColumnLabel('name', 'Artikel-Name');
 $list->setColumnSortable('name');
 $list->addColumn('testhead','###id### - ###name###',-1);
 $list->addColumn('testhead2','testbody2');
-$list->setCaption('thomas macht das geile css');
+$list->setCaption('thomas macht das css');
 $list->show();
 
 */
@@ -45,6 +45,7 @@ class rex_list
   var $columnOptions;
   var $columnAttributes;
   var $columnLayouts;
+  var $columnParams;
 
   // --------- Layout, Default
   var $defaultColumnLayout;
@@ -53,6 +54,9 @@ class rex_list
   var $caption;
   var $tableAttributes;
   var $tableColumnGroups;
+
+  // --------- Link Attributes
+  var $linkAttributes;
 
   // --------- Pagination Attributes
   var $rowsPerPage;
@@ -67,8 +71,6 @@ class rex_list
   function rex_list($query, $rowsPerPage = 30, $listName = null, $debug = false)
   {
     global $REX;
-    // TODO remove flag
-//    $debug = true;
 
     // --------- Validation
     if(!$listName) $listName = md5($query);
@@ -101,6 +103,9 @@ class rex_list
     // --------- Table Attributes
     $this->tableAttributes = array();
     $this->tableColumnGroups = array();
+
+    // --------- Link Attributes
+    $this->linkAttributes = array();
 
     // --------- Pagination Attributes
     $this->rowsPerPage = $rowsPerPage;
@@ -203,6 +208,16 @@ class rex_list
     return $this->formAttributes;
   }
 
+  function addLinkAttribute($column, $name, $value)
+  {
+    $this->linkAttributes[$column] = array($name => $value);
+  }
+
+  function getLinkAttributes($column, $default = null)
+  {
+    return isset($this->linkAttributes[$column]) ? $this->linkAttributes[$column] : $default;
+  }
+
   // ---------------------- Column setters/getters/etc
 
   /**
@@ -213,7 +228,7 @@ class rex_list
    * @param $columnIndex int Stelle, an der die neue Spalte erscheinen soll
    * @param $columnLayout array Layout der Spalte
    */
-  function addColumn($columnHead, $columnBody, $columnIndex = null, $columnLayout = null)
+  function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
   {
     // Bei negativem columnIndex, das Element am Ende anfügen
     if($columnIndex < 0)
@@ -222,6 +237,12 @@ class rex_list
     $this->columnNames = array_insert($this->columnNames, $columnIndex, array($columnHead));
     $this->setColumnFormat($columnHead, $columnBody);
     $this->setColumnLayout($columnHead, $columnLayout);
+  }
+
+  function removeColumn($column)
+  {
+    $key = array_search($column, $this->columnNames);
+    unset($this->columnNames[$key]);
   }
 
   /**
@@ -895,7 +916,7 @@ class rex_list
         $columnName = $columnName[0];
 
       $columnHead = $this->getColumLabel($columnName);
-      if($columnNames != $sortColumn && $this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
+      if($columnName != $sortColumn && $this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
       {
         $columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
         $columnHead = '<a href="'. $this->getUrl(array('start' => $this->getStartRow(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
@@ -920,7 +941,7 @@ class rex_list
     if($this->getRows() > 0)
     {
       $s .= '    <tbody>'. "\n";
-      for($i = 0; $i < $this->sql->getRows(); $i++)
+      for($i = 0; $i < $this->getRows(); $i++)
       {
         $s .= '      <tr>'. "\n";
         foreach($columnNames as $columnName)
@@ -938,8 +959,11 @@ class rex_list
             $columnValue = htmlspecialchars($this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName]));
           }
 
+
           if($this->hasColumnParams($columnName))
-            $columnValue = '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'">'. $columnValue .'</a>';
+          {
+            $columnValue = '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'"'. $this->_getAttributeString($this->getLinkAttributes($columnName, array())) .'>'. $columnValue .'</a>';
+          }
 
           $layout = $this->getColumnLayout($columnName);
           $columnValue = str_replace('###VALUE###', $columnValue, $layout[1]);
