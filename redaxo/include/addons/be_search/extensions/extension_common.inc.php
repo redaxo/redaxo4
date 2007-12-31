@@ -25,11 +25,11 @@ function rex_a256_insertCss($params)
 
   $css ='
     <!-- Backend Search CSS //-->
-	  <script type="text/javascript">
+	  <style type="text/css">
 	  <!--
 	  '. $cssContent .'
 	  //-->
-	  </script>
+	  </style>
     <!-- End Backend Search CSS //-->
   ';
 
