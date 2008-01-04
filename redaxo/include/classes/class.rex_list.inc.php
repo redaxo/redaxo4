@@ -826,6 +826,10 @@ class rex_list
     if(!is_array($format))
       return $value;
 
+    // Callbackfunktion -> Alle Werte übergeben
+    if($format[0] == 'custom')
+      $value = $this->sql;
+
     return rex_formatter::format($value, $format[0], $format[1]);
   }
 
