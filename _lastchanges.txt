@@ -62,7 +62,7 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.0.2 (2007-12-28)
+Version 4.1.X (2007-XX-XX)
 
   * ImageResize: Neuer Branding Filter [kills]
   * Neue Variablen in der master.inc
@@ -71,6 +71,9 @@ Version 4.0.2 (2007-12-28)
   * MD5 Checksummenübermittlung gemaeß HTTP1.1 (Content-MD5 Header) [kills]
   * Eigene Parameter in rex_get_subtitle anhängbar #132 [kills]
   * Mehrere Standard Pages via Addon ersetzbar #138 [kills]
+  * rexExtensionPoint erstellt:
+    - PAGE_CONTENT_HEADER [kills]
+    - PAGE_STRUCTURE_HEADER [kills]
   
   Bugfixes:
   * Doppelt ersetzen der REX-Vars bei der anzeige behoben [kills]
