@@ -241,7 +241,7 @@ class rex_select
   ############### show select
   function show()
   {
-  	echo $this->get();
+  	return $this->get();
   }
 
   function _outGroup($re_id, $level = 0)
