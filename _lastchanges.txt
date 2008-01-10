@@ -79,10 +79,12 @@ Version 4.1.X (2007-XX-XX)
   * Doppelt ersetzen der REX-Vars bei der anzeige behoben [kills]
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
-  * Artikel die Startartikel waren, ist nicht löschbar #110 [kills]
-    - http://forum.redaxo.de/sutra42830.html#42830
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
   * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
+  * TinyMCE: sDocumentBase wurde falsch ermittelt bei installationen im Root [kills]
+    - http://forum.redaxo.de/ftopic7758.html
+  * Artikel die Startartikel waren, ist nicht löschbar #110 [kills]
+    - http://forum.redaxo.de/sutra42830.html#42830
   * Logikfehler in Fehlermeldung des Setups [mikenolte, kills]
     - http://forum.redaxo.de/ftopic7643.html 
   * rex_getUrl() fehler im Regulären Ausdruck [n.ruediger, kills]
