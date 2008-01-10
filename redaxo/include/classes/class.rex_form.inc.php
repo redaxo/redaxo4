@@ -39,7 +39,7 @@ class rex_form
     $this->addFieldset($fieldset);
     $this->whereCondition = $whereCondition;
     $this->divId = 'rex-addon-editmode';
-    
+
     // --------- Load Env
     if($REX['REDAXO'])
       $this->loadBackendConfig();
@@ -333,7 +333,7 @@ class rex_form
       $internal_attr = array();
       unset($attributes['internal::noNameAttribute']);
     }
-    
+
     // 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
     // 2. Array: Eigenschaften, via Parameter
     // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
@@ -599,15 +599,14 @@ class rex_form
 
         if (is_array($fieldValue))
           $fieldValue = implode('|+|', $fieldValue);
-          
+
         // Element heraussuchen
         $element =& $this->getElement($fieldsetName, $fieldName);
 
         // Den POST-Wert als Value in das Feld speichern
         // Da generell alles von REDAXO escaped wird, hier slashes entfernen
         $element->setValue(stripslashes($fieldValue));
-        
-          
+
         // Den POST-Wert in die DB speichern (inkl. slahes)
         $sql->setValue($fieldName, $fieldValue);
       }
@@ -1186,16 +1185,16 @@ class rex_form_select_element extends rex_form_element
     {
       if ($attributeName == 'multiple')
         $multipleSelect = true;
-        
+
       $this->select->setAttribute($attributeName, $attributeValue);
     }
-    
+
     if ($multipleSelect)
     {
         $this->setAttribute('name', $this->getAttribute('name').'[]');
-        
+
         $selectedOptions = explode('|+|', $this->getValue());
-        
+
         if (is_array($selectedOptions) AND $selectedOptions[0] != '')
         {
           foreach($selectedOptions as $selectedOption)
@@ -1204,7 +1203,7 @@ class rex_form_select_element extends rex_form_element
           }
         }
     }
-    else 
+    else
       $this->select->setSelected($this->getValue());
 
     $this->select->setName($this->getAttribute('name'));
@@ -1220,79 +1219,70 @@ class rex_form_select_element extends rex_form_element
 
 class rex_form_widget_media_element extends rex_form_element
 {
-  var $widget;
-  var $widget_counter;
-
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
   function rex_form_widget_media_element($tag = '', &$table, $attributes = array())
   {
     parent::rex_form_element('', $table, $attributes);
-    
-    $this->widget_counter = 1;
   }
-  
-  
+
+
   function formatElement()
   {
-		$this->widget =& rex_var_media::getMediaButton($this->widget_counter);
-		$this->widget = str_replace('REX_MEDIA['. $this->widget_counter .']', $this->getValue(), $this->widget);
-		$this->widget = str_replace('MEDIA['. $this->widget_counter .']', $this->getAttribute('name'), $this->widget);
+    static $widget_counter = 1;
 
-    $this->widget_counter++;
-    return $this->widget;
+		$html = rex_var_media::getMediaButton($widget_counter);
+		$html = str_replace('REX_MEDIA['. $widget_counter .']', $this->getValue(), $html);
+		$html = str_replace('MEDIA['. $widget_counter .']', $this->getAttribute('name'), $html);
+
+    $widget_counter++;
+    return $html;
   }
 }
 
 
 class rex_form_widget_medialist_element extends rex_form_element
 {
-  var $widget;
-  var $widget_counter;
-
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
   function rex_form_widget_medialist_element($tag = '', &$table, $attributes = array())
   {
     parent::rex_form_element('', $table, $attributes);
-    
-    $this->widget_counter = 1;
   }
-  
-  
+
+
   function formatElement()
   {
-    $this->widget = rex_var_media::getMediaListButton($this->widget_counter, $this->getValue());
-    $this->widget = str_replace('MEDIALIST['. $this->widget_counter .']', $this->getAttribute('name').'[]', $this->widget);
+    static $widget_counter = 1;
 
-    $this->widget_counter++;
-    return $this->widget;
+    $html = rex_var_media::getMediaListButton($widget_counter, $this->getValue());
+    $html = str_replace('MEDIALIST['. $widget_counter .']', $this->getAttribute('name').'[]', $html);
+
+    $widget_counter++;
+    return $html;
   }
 }
 
 
 class rex_form_widget_linkmap_element extends rex_form_element
 {
-  var $widget;
-  var $widget_counter;
-
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
   function rex_form_widget_linkmap_element($tag = '', &$table, $attributes = array())
   {
     parent::rex_form_element('', $table, $attributes);
-    
-    $this->widget_counter = 1;
   }
-  
-  
+
+
   function formatElement()
   {
-    $this->widget = rex_var_link::getLinkButton($this->widget_counter, $this->getValue());
-    $this->widget = str_replace('LINK['. $this->widget_counter .']', $this->getAttribute('name'), $this->widget);
+    static $widget_counter = 1;
 
-    $this->widget_counter++;
-    return $this->widget;
+    $html = rex_var_link::getLinkButton($widget_counter, $this->getValue());
+    $html = str_replace('LINK['. $widget_counter .']', $this->getAttribute('name'), $html);
+
+    $widget_counter++;
+    return $html;
   }
 }
 ?>
