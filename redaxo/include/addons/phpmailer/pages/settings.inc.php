@@ -31,7 +31,7 @@ if (rex_post('btn_save', 'string') != '')
   {
     $message  = $I18N_A93->msg('config_saved_error');
 
-    if($file_content = rex_file_get_contents($file))
+    if($file_content = rex_get_file_contents($file))
     {
       $template =
       "// --- DYN
@@ -48,7 +48,7 @@ if (rex_post('btn_save', 'string') != '')
 
       $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
 
-      if(rex_file_put_contents($file, $file_content))
+      if(rex_put_file_contents($file, $file_content))
       {
         $message = $I18N_A93->msg('config_saved_successful');
       }
