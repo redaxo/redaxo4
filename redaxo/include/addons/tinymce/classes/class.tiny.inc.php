@@ -312,21 +312,12 @@ class rexTiny2Editor
   {
     global $REX;
 
-    if (isset ($_SERVER['SCRIPT_URL']))
-    {
-      $address = $_SERVER['SCRIPT_URL'];
-    }
-    elseif (isset ($_SERVER['SCRIPT_FILENAME']))
-    {
-      $address = $_SERVER['SCRIPT_FILENAME'];
-    }
-
-
     $this->address = dirname(dirname($_SERVER['PHP_SELF']));
-
     $splitURL = split('/redaxo/', $this->address);
-
     $this->address = $splitURL[0];
+
+    if($this->address != '/' && $this->address != '\\')
+      $this->address .= '/';
 
     if ($GLOBALS['TINY2']['script'] != 1)
     {
@@ -366,7 +357,7 @@ class rexTiny2Editor
     }
 
     echo "\n" . '<script language="javascript" type="text/javascript">' . "\n";
-    echo 'var sDocumentBase = "' . $this->address . '/"' . ';' . "\n";
+    echo 'var sDocumentBase = "' . $this->address . '"' . ';' . "\n";
 
     echo 'tinyMCE.init({' . "\n";
     echo 'document_base_url: sDocumentBase,' . "\n";
