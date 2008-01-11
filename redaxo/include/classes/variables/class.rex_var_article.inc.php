@@ -18,13 +18,13 @@ class rex_var_article extends rex_var
 
   function getTemplate($content)
   {
+    $content = $this->matchArticleVar($content);
     return $this->matchArticle($content);
   }
 
   function getBEOutput(& $sql, $content)
   {
-    $content = $this->matchArticleVar($content);
-    return $this->matchArticle($content);
+    return $this->getTemplate($content);
   }
 
   function getArticleVarInputParams($content, $varname)
