@@ -69,7 +69,7 @@ class rex_list
    * @param $rowsPerPage Anzahl der Elemente pro Zeile
    * @param $listName Name der Liste
    */
-  function rex_list($query, $rowsPerPage = 3, $listName = null, $debug = false)
+  function rex_list($query, $rowsPerPage = 30, $listName = null, $debug = false)
   {
     global $REX;
 
