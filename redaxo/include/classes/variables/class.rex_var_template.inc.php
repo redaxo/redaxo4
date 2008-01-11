@@ -2,7 +2,7 @@
 
 /**
  * REX_TEMPLATE[2]
- * 
+ *
  * @package redaxo4
  * @version $Id$
  */
@@ -10,12 +10,12 @@
 class rex_var_template extends rex_var
 {
   // --------------------------------- Output
-  
+
   function getBEOutput(& $sql, $content)
   {
     return $this->matchTemplate($content);
   }
-  
+
   function getTemplate($content)
   {
     return $this->matchTemplate($content);
@@ -62,7 +62,16 @@ class rex_var_template extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $template_id) = $match;
-      
+
+      // bezeichner wählen, der keine variablen
+      // aus modulen/templates überschreibt
+      $varname = '$__rex_tpl'. $template_id;
+      $tpl = '<?php
+      '. $varname .' = new rex_template();
+      '. $varname .'->setId('. $template_id .');
+      include '. $varname .'->getFile();
+      ?>';
+
       $template = new rex_template($template_id);
       $content = str_replace($var . '[' . $param_str . ']', $template->getTemplate(), $content);
     }

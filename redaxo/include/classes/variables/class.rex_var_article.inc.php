@@ -2,12 +2,12 @@
 
 /**
  * REX_ARTICLE[1]
- * 
+ *
  * REX_ARTICLE_VAR['description']
  * REX_ARTICLE_VAR['id']
  * REX_ARTICLE_VAR['category_id']
  * ...
- * 
+ *
  * @package redaxo4
  * @version $Id$
  */
@@ -15,18 +15,18 @@
 class rex_var_article extends rex_var
 {
   // --------------------------------- Output
-  
+
   function getTemplate($content)
   {
     return $this->matchArticle($content);
   }
-  
+
   function getBEOutput(& $sql, $content)
   {
     $content = $this->matchArticleVar($content);
     return $this->matchArticle($content);
   }
-  
+
   function getArticleVarInputParams($content, $varname)
   {
     $matches = array ();
@@ -83,36 +83,46 @@ class rex_var_article extends rex_var
    */
   function matchArticleVar($content)
   {
-    global $article_id, $clang;
-    
     $var = 'REX_ARTICLE_VAR';
     $matches = $this->getArticleVarInputParams($content, $var);
 
-    $article = OOArticle::getArticleById($article_id, $clang);
     foreach ($matches as $match)
     {
       list ($param_str) = $match;
-      
-      $content = str_replace($var . '[' . $param_str . ']', $article->getValue($param_str), $content);
+
+      $content = str_replace($var . '[' . $param_str . ']', '<?php echo $this->getValue(\''. addslashes($param_str) .'\') ?>', $content);
     }
 
     return $content;
   }
-  
+
   /**
    * Wert für die Ausgabe
    */
   function matchArticle($content)
   {
+    global $REX;
+
     $var = 'REX_ARTICLE';
     $matches = $this->getArticleInputParams($content, $var);
 
     foreach ($matches as $match)
     {
       list ($param_str, $article_id, $clang) = $match;
-      
-      $article = new rex_article($article_id, $clang);
-      $content = str_replace($var . '[' . $param_str . ']', $article->getArticle(), $content);
+
+      $clang = $clang == '' ? $REX['CUR_CLANG'] : $clang;
+
+      // bezeichner wählen, der keine variablen
+      // aus modulen/templates überschreibt
+      $varname = '$__rex_art'. $article_id .'_'. $clang;
+      $tpl = '<?php
+      '. $varname .' = new rex_article();
+      '. $varname .'->setArticleId('. $article_id .');
+      '. $varname .'->setClang('. $clang .');
+      echo '. $varname .'->getArticle();
+      ?>';
+
+      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }
 
     return $content;
