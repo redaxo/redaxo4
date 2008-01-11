@@ -556,15 +556,17 @@ class rex_list
   {
     $params = array_merge($this->getParams(), $params);
 
-    if(!isset($params['items']))
-    {
-      $params['items'] = $this->getRowsPerPage();
-    }
-    if(!isset($params['sort']))
-    {
-      $params['sort'] = $this->getSortColumn();
-      $params['sorttype'] = $this->getSortType();
-    }
+// aendern der items pro seite aktuell nicht vorgesehen
+//    if(!isset($params['items']))
+//    {
+//      $params['items'] = $this->getRowsPerPage();
+//    }
+// aendern der sortierung pro spalte aktuell nicht vorgesehen
+//    if(!isset($params['sort']))
+//    {
+//      $params['sort'] = $this->getSortColumn();
+//      $params['sorttype'] = $this->getSortType();
+//    }
 
     $paramString = '';
     foreach($params as $name => $value)
@@ -667,8 +669,11 @@ class rex_list
       $rows = $this->getRows();
 
       // $start innerhalb des zulässigen Zahlenbereichs?
-      if($start < 0 || $start > $rows)
+      if($start < 0)
         $start = 0;
+
+      if($start > $rows)
+        $start = (int) ($rows / $this->getRowsPerPage()) * $this->getRowsPerPage();
     }
 
     return $start;
@@ -875,6 +880,7 @@ class rex_list
     $sortColumn = $this->getSortColumn();
     $sortType = $this->getSortType();
     $message = $this->getMessage();
+    $nbRows = $this->getRows();
 
     $header = $this->getHeader();
     $footer = $this->getFooter();
@@ -946,10 +952,12 @@ class rex_list
       $s .= '    </tfoot>'. "\n";
     }
 
-    if($this->getRows() > 0)
+    if($nbRows > 0)
     {
+      $maxRows = $nbRows - $this->getStartRow();
+
       $s .= '    <tbody>'. "\n";
-      for($i = 0; $i < $this->getRows(); $i++)
+      for($i = 0; $i < $this->getRowsPerPage() && $i < $maxRows; $i++)
       {
         $s .= '      <tr>'. "\n";
         foreach($columnNames as $columnName)
