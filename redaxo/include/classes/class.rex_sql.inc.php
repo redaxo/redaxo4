@@ -277,12 +277,12 @@ class rex_sql
       $_row = $row;
     }
 
-    $res = mysql_result($this->result, $_row, $feldname);
+    $res = @mysql_result($this->result, $_row, $feldname);
     if($res === false && function_exists('debug_backtrace'))
     {
       $trace = debug_backtrace();
       $loc = $trace[0];
-      echo '<b>Warning</b>:  mysql_result('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+      if ($this->debugsql) echo '<b>Warning</b>:  mysql_result('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
     }
     return $res;
   }
