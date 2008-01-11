@@ -13,6 +13,7 @@ function rex_a256_search_bar($params)
 {
   global $REX, $I18N_BE_SEARCH, $category_id, $clang;
 
+  $message = '';
   $search_result = '';
   $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s';
 
@@ -63,7 +64,7 @@ function rex_a256_search_bar($params)
     }
     else
     {
-      $search_result .= rex_warning($I18N_BE_SEARCH->msg('search_no_results'));
+      $message = rex_warning($I18N_BE_SEARCH->msg('search_no_results'));
     }
   }
 
@@ -98,7 +99,7 @@ function rex_a256_search_bar($params)
 
       </form>';
 
-  $search_bar =
+  $search_bar = $message.
   '<div id="rex-a256-searchbar">
      '. $form .'
      '. $search_result .'
