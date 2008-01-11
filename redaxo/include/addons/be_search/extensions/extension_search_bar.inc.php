@@ -61,6 +61,10 @@ function rex_a256_search_bar($params)
       }
       $search_result .= '</ul>';
     }
+    else
+    {
+      $search_result .= rex_warning($I18N_BE_SEARCH->msg('search_no_results'));
+    }
   }
 
   $subject = $params['subject'];

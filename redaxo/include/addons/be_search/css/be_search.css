@@ -26,11 +26,11 @@ div#rex-a256-searchbar form div.rex-f-rght {
 	padding-right: 5px;
 }
 div#rex-a256-searchbar form input#rex-a256-article-name {
-	width: 180px;
+	width: 150px;
 	margin-right: 5px;
 }
 div#rex-a256-searchbar form input#rex-a256-article-id {
-	width: 30px;
+	width: 40px;
 }
 div#rex-a256-searchbar form select#rex-a256-category-id {
 	width: 148px;
