@@ -69,7 +69,7 @@ class rex_list
    * @param $rowsPerPage Anzahl der Elemente pro Zeile
    * @param $listName Name der Liste
    */
-  function rex_list($query, $rowsPerPage = 30, $listName = null, $debug = false)
+  function rex_list($query, $rowsPerPage = 3, $listName = null, $debug = false)
   {
     global $REX;
 
@@ -724,17 +724,19 @@ class rex_list
     $rowsPerPage = $this->getRowsPerPage();
     $pages = ceil($rows / $rowsPerPage);
 
-    $s = ''. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => 0)) .'">'. $I18N->msg('list_first') .'</a>'. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'">'. $I18N->msg('list_previous') .'</a>'. "\n";
-    // $s .= '<a href="'. $this->getUrl(array('func' => 'add')) .'">$I18N->msg('list_add')</a>'. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'">'. $I18N->msg('list_next') .'</a>'. "\n";
-    $s .= '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'">'. $I18N->msg('list_last') .'</a>'. "\n";
-    $s .= $I18N->msg('list_rows_found', $this->getRows());
+    $s = "\n".
+      '<p class="rex-list-mnu">'.
+        '<a href="'. $this->getUrl(array('start' => 0)) .'"><img src="media/first.gif" alt="'. $I18N->msg('list_first') .'" title="'. $I18N->msg('list_first') .'" /></a>'. "\n".
+        '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'"><img src="media/back.gif" alt="'. $I18N->msg('list_previous') .'" title="'. $I18N->msg('list_previous') .'" /></a>'. "\n".
+      // '<a href="'. $this->getUrl(array('func' => 'add')) .'"><img src="media/add.gif" alt="'. $I18N->msg('list_add') .'" title="'. $I18N->msg('list_add') .'" /></a>'. "\n".
+        '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'"><img src="media/forward.gif" alt="'. $I18N->msg('list_next') .'" title="'. $I18N->msg('list_next') .'" /></a>'. "\n".
+        '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'"><img src="media/last.gif" alt="'. $I18N->msg('list_last') .'" title="'. $I18N->msg('list_last') .'" /></a>'. "\n".
+        '<span class="rex-list-msg">'. $I18N->msg('list_rows_found', $this->getRows()) .'</span>'.
+      '</p>';
 
     if($pages > 1)
     {
-      $s .= '  <ul>'. "\n";
+      $s .= '  <ul class="rex-list-pgnt">'. "\n";
       for($i = 1; $i <= $pages; $i++)
       {
         $first = ($i - 1) * $rowsPerPage;
@@ -892,7 +894,7 @@ class rex_list
 
     if($header != '')
     {
-      $s .= '<p>'. $header .'</p>'. "\n";
+      $s .= $header . "\n";
     }
 
     $s .= '<form'. $this->_getAttributeString($this->getFormAttributes()) .'>'. "\n";
