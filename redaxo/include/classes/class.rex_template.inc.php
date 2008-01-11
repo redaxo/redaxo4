@@ -33,6 +33,8 @@ class rex_template
     if($this->generate())
       return $this->getFilePath($this->getId());
 
+    trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
+
     return FALSE;
   }
 
