@@ -81,6 +81,8 @@ Version 4.1.X (2007-XX-XX)
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
   * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
+  * REX_ARTICLE[], REX_TEMPLATE[] wurden beim speichern nicht aktualsiert [kills]
+    - http://forum.redaxo.de/ftopic7784.html
   * TinyMCE: sDocumentBase wurde falsch ermittelt bei installationen im Root [kills]
     - http://forum.redaxo.de/ftopic7758.html
   * Artikel die Startartikel waren, ist nicht löschbar #110 [kills]
