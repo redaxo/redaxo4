@@ -177,7 +177,7 @@ class rex_var
   {
     $result = array ();
 
-    if (preg_match_all('/' . $varname . '\[([^\]]*)\]/ms', $content, $matches))
+    if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches))
     {
       foreach ($matches[1] as $match)
       {
