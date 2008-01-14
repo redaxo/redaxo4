@@ -1574,6 +1574,31 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp code{
 }
 
 
+div.rex-list-navi {
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+	background-color: #f0efeb;
+	line-height: 3em;
+}
+div.rex-list-navi p.rex-list-mnu {
+	float: left;
+	padding-left: 5px;
+}
+div.rex-list-navi p.rex-list-mnu a img {
+	vertical-align: middle;
+}
+div.rex-list-navi ul.rex-list-pgnt {
+	float: right;
+	padding-right: 5px;
+}
+div.rex-list-navi ul.rex-list-pgnt li {
+	display: inline;
+	padding-left: 5px;
+}
+
+
+
 /*	Pages - General
 *******************************************************************************/
 .rex-mrgn {
