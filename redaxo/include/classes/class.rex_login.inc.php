@@ -124,9 +124,9 @@ class rex_login
    * Dieser wird benutzt, um einen bereits eingeloggten User
    * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
    */
-  function setUserquery($login_query)
+  function setUserquery($user_query)
   {
-    $this->user_query = $login_query;
+    $this->user_query = $user_query;
   }
 
   /**
@@ -135,9 +135,9 @@ class rex_login
    * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
    * Hier wird das eingegebene Password und der Login eingesetzt.
    */
-  function setLoginquery($user_query)
+  function setLoginquery($login_query)
   {
-    $this->login_query = $user_query;
+    $this->login_query = $login_query;
   }
 
   /**
