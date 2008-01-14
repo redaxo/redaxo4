@@ -736,7 +736,7 @@ class rex_list
 
     if($pages > 1)
     {
-      $s .= '  <ul class="rex-list-pgnt">'. "\n";
+      $s .= '<ul class="rex-list-pgnt">'. "\n";
       for($i = 1; $i <= $pages; $i++)
       {
         $first = ($i - 1) * $rowsPerPage;
@@ -749,12 +749,12 @@ class rex_list
         if($start != $first)
           $pageLink = '<a href="'. $this->getUrl(array('start' => $first)) .'">'. $pageLink .'</a>';
 
-        $s .= '    <li>'. $pageLink .'</li>'. "\n";
+        $s .= '<li>'. $pageLink .'</li>';
       }
-      $s .= '  </ul>'. "\n";
+      $s .= '</ul>'. "\n";
     }
 
-    return $s;
+    return '<div class="rex-list-navi">'.$s.'</div>';
   }
 
   /**
