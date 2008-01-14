@@ -64,7 +64,11 @@ Wichtige Änderungen:
 
 Version 4.1.X (2007-XX-XX)
 
+  * Neues Core Addon:
+    - be_search [kills]
+    
   * ImageResize: Neuer Branding Filter [kills]
+  * rex_list navigation gefixed [kills]
   * Neue Variablen in der master.inc
     - $REX['START_CLANG_ID'] [kills]
     - $REX['USE_MD5'] [kills]
