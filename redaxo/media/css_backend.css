@@ -1581,20 +1581,49 @@ div.rex-list-navi {
 	background-color: #f0efeb;
 	line-height: 3em;
 }
+/*
 div.rex-list-navi p.rex-list-mnu {
-	float: left;
+	display: inline;
 	padding-left: 5px;
 }
 div.rex-list-navi p.rex-list-mnu a img {
 	vertical-align: middle;
 }
 div.rex-list-navi ul.rex-list-pgnt {
-	float: right;
+	display: inline;
 	padding-right: 5px;
 }
+*/
+div.rex-list-navi ul.rex-list-pgnt {
+	margin-left: 5px;
+}
 div.rex-list-navi ul.rex-list-pgnt li {
-	display: inline;
-	padding-left: 5px;
+	display: block;
+	float: left;
+	padding-right: 5px;
+}
+
+
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-img img {
+	vertical-align: middle;
+}
+
+
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a span, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span {
+	display: block;
+	background-image: url(../media/list_pages.gif);
+	background-position: 0px 10px;
+}
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span {
+	padding-left: 1px;
+}
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a span, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span span {
+	background-position: 100% -40px;
+	padding:1px 4px 0 2px;
 }
 
 
