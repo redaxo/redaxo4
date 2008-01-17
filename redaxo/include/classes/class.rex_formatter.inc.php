@@ -234,7 +234,7 @@ class rex_formatter
       }
     }
     // Protokoll
-    if (!preg_match('@(http|https|ftp|ftps|telnet|redaxo)://@', $value))
+    if (!preg_match('@((ht|f)tps?|telnet|redaxo)://@', $value))
     {
       $value = 'http://'.$value;
     }
