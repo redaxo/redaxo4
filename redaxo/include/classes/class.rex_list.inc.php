@@ -728,30 +728,11 @@ class rex_list
     $rowsPerPage = $this->getRowsPerPage();
     $pages = ceil($rows / $rowsPerPage);
 
-    /*
-    $s = "\n".
-      '<p class="rex-list-mnu">'.
-      //  '<a href="'. $this->getUrl(array('start' => 0)) .'"><img src="media/first.gif" alt="'. $I18N->msg('list_first') .'" title="'. $I18N->msg('list_first') .'" /></a>'. "\n".
-        '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'"><img src="media/back.gif" alt="'. $I18N->msg('list_previous') .'" title="'. $I18N->msg('list_previous') .'" /></a>'. "\n".
-      // '<a href="'. $this->getUrl(array('func' => 'add')) .'"><img src="media/add.gif" alt="'. $I18N->msg('list_add') .'" title="'. $I18N->msg('list_add') .'" /></a>'. "\n".
-        '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'"><img src="media/forward.gif" alt="'. $I18N->msg('list_next') .'" title="'. $I18N->msg('list_next') .'" /></a>'. "\n".
-      //  '<a href="'. $this->getUrl(array('start' => ($pages - 1)* $rowsPerPage)) .'"><img src="media/last.gif" alt="'. $I18N->msg('list_last') .'" title="'. $I18N->msg('list_last') .'" /></a>'. "\n".
-        '<span class="rex-list-msg">'. $I18N->msg('list_rows_found', $this->getRows()) .'</span>'.
-      '</p>';
-    */
-/*
-    $s = "\n".
-      '<p class="rex-list-mnu">'.
-        '<a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'"><img src="media/back.gif" alt="'. $I18N->msg('list_previous') .'" title="'. $I18N->msg('list_previous') .'" /></a>'. "\n".
-      '</p>';
-*/
-
     $s = '<ul class="rex-list-pgnt">'. "\n";
     $s .= '<li class="rex-list-pgnt-img"><a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'"><img src="media/back.gif" alt="'. $I18N->msg('list_previous') .'" title="'. $I18N->msg('list_previous') .'" /></a></li>';
 
     if($pages > 1)
     {
-      //$s .= '<ul class="rex-list-pgnt">'. "\n";
       for($i = 1; $i <= $pages; $i++)
       {
         $first = ($i - 1) * $rowsPerPage;
@@ -768,18 +749,11 @@ class rex_list
 
         $s .= '<li class="rex-list-pgnt-page">'. $pageLink .'</li>';
       }
-      //$s .= '</ul>'. "\n";
     }
     $s .= '<li class="rex-list-pgnt-img"><a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'"><img src="media/forward.gif" alt="'. $I18N->msg('list_next') .'" title="'. $I18N->msg('list_next') .'" /></a></li>';
     $s .= '<li class="rex-list-msg"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
     $s .= '</ul>'. "\n";
-/*
-    $s .= "\n".
-      '<p class="rex-list-mnu">'.
-        '<a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'"><img src="media/forward.gif" alt="'. $I18N->msg('list_next') .'" title="'. $I18N->msg('list_next') .'" /></a>'. "\n".
-        '<span class="rex-list-msg">'. $I18N->msg('list_rows_found', $this->getRows()) .'</span>'.
-      '</p>';
-*/
+
     return '<div class="rex-list-navi">'.$s.'</div>';
   }
 
