@@ -100,10 +100,15 @@ class rex_formatter
     {
       $value = rex_formatter::_formatRexMedia($value, $format);
     }
+    // Artikel Id-Clang Id mit rex_getUrl() darstellen
+    elseif ($format_type == 'rexurl' && $value != '')
+    {
+      $value = rex_formatter::_formatRexUrl($value, $format);
+    }
     // Benutzerdefinierte Callback-Funktion
     elseif ($format_type == 'custom')
     {
-      $value = rex_call_func($format, $value);
+      $value = rex_formatter::_formatCustom($value, $format);
     }
 
     return $value;
@@ -262,6 +267,22 @@ class rex_formatter
     return nl2br($value);
   }
 
+  function _formatCustom($value, $format)
+  {
+    if(!is_callable($format))
+    {
+      if(!is_callable($format[0]))
+      {
+        trigger_error('Unable to find callable '. $format[0] .' for custom format!');
+      }
+      // $format ist in der Form
+      // array(Name des Callables, Weitere Parameter)
+      return rex_call_func($format[0], array('subject' => $value, 'params' => $format[1]));
+    }
+
+    return rex_call_func($format, $value);
+  }
+
   function _formatRexMedia($value, $format)
   {
     if (!is_array($format))
@@ -290,6 +311,53 @@ class rex_formatter
     }
 
     return $value;
+  }
+
+  function _formatRexUrl($value, $format)
+  {
+    if(empty($value))
+      return '';
+
+    if (!is_array($format))
+      $format = array ();
+
+    // format in dem die werte gespeichert sind
+    if (empty ($format['format']))
+    {
+      // default: <article-id>-<clang-id>
+      $format['format'] = '%i-%i';
+    }
+
+    $hits = sscanf($value, $format['format'], $value, $format['clang']);
+    if($hits == 1)
+    {
+      // clang
+      if (empty ($format['clang']))
+      {
+        $format['clang'] = '';
+      }
+    }
+
+    // Linkparameter (z.b. subject=Hallo Sir)
+    if (empty ($format['params']))
+    {
+      $format['params'] = '';
+    }
+    else
+    {
+      if (!startsWith($format['params'], '?'))
+      {
+        $format['params'] = '?'.$format['params'];
+      }
+    }
+
+    // divider
+    if (empty ($format['divider']))
+    {
+      $format['divider'] = '&amp;';
+    }
+
+    return '<a href="'.rex_getUrl($value, $format['clang'], $format['params'], $format['divider']).'"'.$format['attr'].'>'.$value.'</a>';
   }
 }
 

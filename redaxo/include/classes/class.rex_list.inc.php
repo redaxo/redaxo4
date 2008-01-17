@@ -829,10 +829,11 @@ class rex_list
    *
    * @param $value Zu formatierender String
    * @param $format Array mit den Formatierungsinformationen
+   * @param $escape Flag, Ob escapen von $value erlaubt ist
    *
    * @return string
    */
-  function formatValue($value, $format)
+  function formatValue($value, $format, $escape)
   {
     if(!is_array($format))
       return $value;
@@ -841,7 +842,13 @@ class rex_list
     if($format[0] == 'custom')
       $value = $this->sql;
 
-    return rex_formatter::format($value, $format[0], $format[1]);
+    $value = rex_formatter::format($value, $format[0], $format[1]);
+
+    // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
+    if($escape && $format[0] != 'custom' && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
+      $value = htmlspecialchars($value);
+
+    return $value;
   }
 
   function _getAttributeString($array)
@@ -969,12 +976,12 @@ class rex_list
           {
             // Nur hier sind Variablen erlaubt
             $columnName = $columnName[0];
-            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName]);
+            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false);
           }
           else
           {
             // Spalten aus dem ResultSet
-            $columnValue = htmlspecialchars($this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName]));
+            $columnValue = $this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName], true);
           }
 
 
