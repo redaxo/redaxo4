@@ -514,6 +514,23 @@ class rex_article
           }
           // --------------- ENDE EINZELNER SLICE
 
+					// --------------- EP: SLICE_SHOW
+
+					$slice_content = rex_register_extension_point(
+						'SLICE_SHOW',
+						$slice_content,
+							array(
+								'article_id' => $this->article_id,
+								'clang' => $this->clang,
+								'ctype' => $this->ctype,
+								'module_id' => $RE_MODUL_ID[$I_ID],
+								'slice_id' => $RE_CONTS[$I_ID],
+								'function' => $this->function,
+								'function_slice_id' => $this->slice_id
+							)
+					);
+
+
           // ---------- slice in ausgabe speichern wenn ctype richtig
             if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
             {
