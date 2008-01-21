@@ -25,7 +25,7 @@ function rex_linkmap_backlink($id, $name)
 
 function rex_linkmap_format_label($OOobject)
 {
-  global $REX_USER;
+  global $REX_USER, $I18N;
 
   $label = $OOobject->getName();
 
@@ -35,10 +35,13 @@ function rex_linkmap_format_label($OOobject)
   if ($REX_USER->hasPerm('advancedMode[]'))
     $label .= ' ['. $OOobject->getId() .']';
 
+  if(OOArticle::isValid($OOobject) && !$OOobject->hasTemplate())
+    $label .= ' ['.$I18N->msg('lmap_has_no_template').']';
+
   return $label;
 }
 
-function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '', $labelExtra = '')
+function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '')
 {
 	$liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-lmp-active"' : '';
 	$linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
@@ -48,7 +51,7 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 
 	$label = rex_linkmap_format_label($OOobject);
 
-	return '<li'. $liAttr .'><a'. $linkAttr .'>'. $label . $labelExtra .'</a>';
+	return '<li'. $liAttr .'><a'. $linkAttr .'>'. $label . '</a>';
 }
 
 function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
@@ -213,15 +216,10 @@ if ($category = OOCategory::getCategoryById($category_id))
     {
       foreach($articles as $article)
   	  {
-
     		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
     		$url = rex_linkmap_backlink($article->getId(), $article->getName());
 
-				$labelExtra = '';
-    		if(!$article->hasTemplate()) $labelExtra = ' ['.$I18N->msg('lmap_has_no_template').']';
-
-    		echo '   '. rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"',$labelExtra);
-
+    		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
     		echo '</li>'. "\n";
   	  }
   	}
