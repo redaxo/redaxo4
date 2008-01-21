@@ -71,7 +71,19 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dbvalues = array(htmlspecialchars($sqlFields->getValue('default')));
     if($activeItem)
     {
-      $dbvalues = explode('|+|', $activeItem->getValue($name));
+      $itemValue = $activeItem->getValue($name);
+
+      if(strpos($itemValue, '|+|') !== false)
+      {
+        // Alte notation mit |+| als Trenner
+        $dbvalues = explode('|+|', $activeItem->getValue($name));
+      }
+      else
+      {
+        // Neue Notation mit | als Trenner
+        $dbvalues = explode('|', $activeItem->getValue($name));
+      }
+
       $dbvalues_esc = array_map('htmlspecialchars', $dbvalues);
     }
 
@@ -348,13 +360,23 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     {
       $saveValue = mktime($postValue['hour'],$postValue['minute'],0, $postValue['month'], $postValue['day'], $postValue['year']);
     }
+    // handle date types without timestamps
     elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
     {
       $saveValue = mktime(0,0,0, $postValue['month'], $postValue['day'], $postValue['year']);
     }
     else
     {
-      $saveValue = implode('|+|', $postValue);
+      if(count($postValue) > 1)
+      {
+        // Mehrwertige Felder
+        $saveValue = '|'. implode('|', $postValue) .'|';
+      }
+      else
+      {
+        // Einwertige Felder
+        $saveValue = $postValue[0];
+      }
     }
 
     // Wert in SQL zum speichern
