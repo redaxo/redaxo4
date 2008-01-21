@@ -129,6 +129,11 @@ class OOArticleSlice
     return OOArticleSlice::getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang);
   }
 
+  function getPrevSlice()
+  {
+    return OOArticleSlice::getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
+  }
+
   function getSliceWhere($whereCluase, $default = null)
   {
     global $REX;
