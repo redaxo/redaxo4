@@ -25,7 +25,7 @@ function rex_linkmap_backlink($id, $name)
 
 function rex_linkmap_format_label($OOobject)
 {
-  global $REX_USER,$I18N;
+  global $REX_USER;
 
   $label = $OOobject->getName();
 
@@ -221,7 +221,7 @@ if ($category = OOCategory::getCategoryById($category_id))
     		if(!$article->hasTemplate()) $labelExtra = ' ['.$I18N->msg('lmap_has_no_template').']';
 
     		echo '   '. rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"',$labelExtra);
-    		
+
     		echo '</li>'. "\n";
   	  }
   	}
