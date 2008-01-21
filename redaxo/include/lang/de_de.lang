@@ -558,6 +558,7 @@ credits_supportpage = Hilfe
 # redaxo\include\pages\linkmap.inc.php
 lmap_categories = Kategorien
 lmap_articles = Artikel
+lmap_has_no_template = hat kein Template
 
 # redaxo\include\classes\class.rex_list.inc.php
 list_first = erste Seite
