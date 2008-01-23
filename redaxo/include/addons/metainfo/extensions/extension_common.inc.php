@@ -353,6 +353,8 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
   for($i = 0;$i < $sqlFields->getRows(); $i++)
   {
     $fieldName = $sqlFields->getValue('name');
+    $fieldType = $sqlFields->getValue('type');
+    $fieldAttributes = $sqlFields->getValue('attributes');
     $postValue = rex_post($fieldName, 'array');
 
     // handle date types with timestamps
@@ -371,6 +373,15 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
       {
         // Mehrwertige Felder
         $saveValue = '|'. implode('|', $postValue) .'|';
+      }
+      // Type 3 => select
+      // Type 4 => radio
+      // Type 5 => checkbox
+      else if($fieldType == '3' && strpos($fieldAttributes, 'multiple') !== false ||
+              $fieldType == '4' || $fieldType == '5')
+      {
+        // Mehrwertiges Feld, aber nur ein Wert ausgewählt
+        $saveValue = '|'. $postValue[0] .'|';
       }
       else
       {
