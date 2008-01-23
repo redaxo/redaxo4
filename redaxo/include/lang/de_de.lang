@@ -8,6 +8,7 @@ year = Jahr
 general = Allgemein
 dateformat = %d. %b. %Y
 setlocale = de_DE
+phpini_settings = PHP.ini Einstellungen
 
 datetimeformat = %d. %b. %Y - %H:%M
 ctrl = Mehrfachauswahl mit STRG
@@ -443,6 +444,10 @@ pool_last_update = Letztes Update
 pool_created = Erstellt am
 pool_select_all = Alle markieren
 pool_max_uploadsize = Maximale Uploadgröße
+pool_max_uploadtime = Maximale Uploadzeit
+pool_upload_disabled = Deaktiviert!
+pool_upload = Dateiupload
+pool_upload_dir = Uploadverzeichnis
 
 
 # redaxo/include/pages
