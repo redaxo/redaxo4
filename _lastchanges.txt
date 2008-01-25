@@ -67,6 +67,7 @@ Version 4.1.X (2008-XX-XX)
   * Neues Core Addon:
     - be_search [kills]
   
+  * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
   * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [jan]
   * ImageResize: Neuer Branding Filter [kills]
   * Neue Variablen in der master.inc
