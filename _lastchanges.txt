@@ -4,15 +4,6 @@ AddOns: import_export / image_resize / metainfo
 Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
 angehandelt.
 
-
----------------------------------------------------------------------------------
-DISCUSSION:
----------------------------------------------------------------------------------
-
-  * REX_DATE_BUTTON[]
-  * Backend Redesign auf 100% Scaling
-
-
 ---------------------------------------------------------------------------------
 Todos:
 ---------------------------------------------------------------------------------
