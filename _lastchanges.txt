@@ -26,17 +26,6 @@ Planung / Irgendwann:
   * Historie mit Rollback
 
 ---------------------------------------------------------------------------------
-Bekannte Bugs:
----------------------------------------------------------------------------------
-
-  * Mac/Safari
-  * Medienpool "+" Problem
-  * EditierModul "hoch runter" verrutscht
-  * OOKlassen rückgabewerte wenn leer falsch
-      http://forum.redaxo.de/viewtopic.php?t=720
-
-
----------------------------------------------------------------------------------
 Wichtige Änderungen:
 ---------------------------------------------------------------------------------
 
