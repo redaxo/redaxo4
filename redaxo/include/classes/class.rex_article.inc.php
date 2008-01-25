@@ -74,7 +74,7 @@ class rex_article
   function setCLang($value)
   {
     global $REX;
-    if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = 0;
+    if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = $REX['CUR_CLANG'];
     $this->clang = $value;
   }
 
