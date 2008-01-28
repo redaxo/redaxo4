@@ -61,13 +61,8 @@ class thumbnail
       // ggf error image senden
       if (!$this->img['src'])
       {
-        global $REX;
-				$file = $REX['INCLUDE_PATH'].'/addons/image_resize/media/warning.jpg';
-        header('Content-Type: image/JPG');
-		    // error image nicht cachen
-		    header('Cache-Control: false');
-		    readfile($file);
-        exit ();
+        $this->sendError();
+        exit();
       }
 
       $this->img['width'] = imagesx($this->img['src']);
@@ -104,14 +99,10 @@ class thumbnail
     if ($this->img['width'] >= $this->img['height'])
     {
       $this->size_width($size);
-      // $this->img['width_thumb'] = $size;
-      // $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
     }
     else
     {
       $this->size_height($size);
-      // $this->img['height_thumb'] = $size;
-      // $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
     }
   }
 
@@ -138,7 +129,6 @@ class thumbnail
       $this->img['height_offset_thumb'] = round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2);
       $this->img['height'] = round($this->img['height_thumb'] * $width_ratio);
     }
-
   }
 
   function jpeg_quality($quality = 85)
@@ -232,6 +222,19 @@ class thumbnail
     header('Last-Modified: ' . $lastModified);
     // caching clientseitig/proxieseitig erlauben
     header('Cache-Control: public');
+    readfile($file);
+  }
+
+  function sendError($file = null)
+  {
+    global $REX;
+
+    if(!$file)
+      $file = $REX['INCLUDE_PATH'].'/addons/image_resize/media/warning.jpg';
+
+    header('Content-Type: image/JPG');
+    // error image nicht cachen
+    header('Cache-Control: false');
     readfile($file);
   }
 
