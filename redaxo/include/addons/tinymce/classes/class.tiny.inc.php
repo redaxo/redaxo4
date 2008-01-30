@@ -28,7 +28,8 @@ class rexTiny2Editor
   var $advimageCSS = '';
   var $disable = '';
   var $plugins = 'advlink,advimage,emotions,iespell,table,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,redaxo';
-  var $validhtml = '"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
+  var $validhtml =
+    '"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
       +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
       +"|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev"
       +"|shape<circle?default?poly?rect|style|tabindex|title|target|type],"
@@ -53,7 +54,7 @@ class rexTiny2Editor
     +"big[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress"
       +"|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style"
       +"|title],"
-    +"blockquote[dir|style|cite|class|dir<ltr?rtl|id|lang|onclick|ondblclick"
+    +"blockquote[cite|class|dir<ltr?rtl|id|lang|onclick|ondblclick"
       +"|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout"
       +"|onmouseover|onmouseup|style|title],"
     +"body[alink|background|bgcolor|class|dir<ltr?rtl|id|lang|link|onclick"
@@ -183,9 +184,7 @@ class rexTiny2Editor
     +"noframes[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress"
       +"|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style"
       +"|title],"
-    +"noscript[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress"
-      +"|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style"
-      +"|title],"
+    +"noscript[class|dir<ltr?rtl|id|lang|style|title],"
     +"object[align<bottom?left?middle?right?top|archive|border|class|classid"
       +"|codebase|codetype|data|declare|dir<ltr?rtl|height|hspace|id|lang|name"
       +"|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove"
@@ -217,7 +216,7 @@ class rexTiny2Editor
       +"|title],"
     +"script[charset|defer|language|src|type],"
     +"select[class|dir<ltr?rtl|disabled<disabled|id|lang|multiple<multiple|name"
-      +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
+      +"|onblur|onchange|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
       +"|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|size|style"
       +"|tabindex|title],"
     +"small[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress"
