@@ -416,8 +416,8 @@ class rexTiny2Editor
     // Hier Fehler behandeln
     // siehe http://trac.symfony-project.com/ticket/2625
     echo ' try {'."\n";
-    echo '   win.resetImageData();'."\n";
-    echo '   win.showPreviewImage(imageUrl, false);'."\n";
+    echo '   win.ImageDialog.resetImageData();'."\n";
+    echo '   win.ImageDialog.showPreviewImage(imageUrl, false);'."\n";
     echo ' } catch (ex) {}'."\n";
     echo '}' . "\n";
 
