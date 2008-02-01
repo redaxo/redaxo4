@@ -404,13 +404,13 @@ class rexTiny2Editor
     echo '//redaxo default callback functions' . "\n";
 
     echo 'function insertLink(link,name){' . "\n";
-    echo ' var win=tinyMCE.getWindowArg("window");'."\n";
+    echo ' var win=tinyMCEPopup.getWindowArg("window");'."\n";
     echo ' win.document.forms[0].href.value=link;'."\n";
     echo ' win.document.forms[0].title.value=name;'."\n";
     echo '}' . "\n";
 
     echo 'function insertImage(imageUrl,title){' . "\n";
-    echo ' var win=tinyMCE.getWindowArg("window");'."\n";
+    echo ' var win=tinyMCEPopup.getWindowArg("window");'."\n";
     echo ' win.document.forms[0].src.value=imageUrl;'."\n";
     echo ' win.document.forms[0].title.value=title;'."\n";
     // Hier Fehler behandeln
