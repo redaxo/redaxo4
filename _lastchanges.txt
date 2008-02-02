@@ -47,6 +47,7 @@ Version 4.1.X (2008-XX-XX)
   * Neues Core Addon:
     - be_search [kills]
   
+  * TinyMCE: Update auf TinyMCE3 [kills, vscope]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
   * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [jan]
   * ImageResize: Neuer Branding Filter [kills]
@@ -66,6 +67,7 @@ Version 4.1.X (2008-XX-XX)
     - keine Rückwärtskompatibilität!
   
   Bugfixes:
+  * Import/Export: Mögliche Lücke geschlossen [kills] 
   * Doppelt ersetzen der REX-Vars bei der anzeige behoben [kills]
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
