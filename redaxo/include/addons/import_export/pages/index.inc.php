@@ -168,44 +168,47 @@ elseif (isset ($function) && $function == 'export')
       // ------------------------------ /FUNC EXPORT FILES
     }
 
-    if ($content != '' && $exportdl == 1)
+    if ($content != '')
     {
-      $filename = $filename.$ext;
-      header("Content-type: $header");
-      header("Content-Disposition: attachment; filename=$filename");
-      echo $content;
-      exit;
-
-    }
-    elseif ($content != '')
-    {
-      // check filename ob vorhanden
-      // aendern filename
-      // speicher content in files
-
-      $dir_filename = $REX['INCLUDE_PATH']."/addons/$page/files/";
-      $filename = $dir_filename.$filename;
-
-      if (file_exists($filename.$ext))
+      if($exportdl == 1)
       {
-        $i = 1;
-        while(file_exists($filename .'_'. $i . $ext))
-          $i++;
+        $filename = $filename.$ext;
+        header("Content-type: $header");
+        header("Content-Disposition: attachment; filename=$filename");
+        echo $content;
+        exit;
 
-        $filename = $filename .'_'. $i . $ext;
       }
       else
       {
-        $filename .= $ext;
-      }
+        // check filename ob vorhanden
+        // aendern filename
+        // speicher content in files
 
-      if (rex_put_file_contents($dir_filename, $content))
-      {
-        $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename, '\\', '/');
-      }
-      else
-      {
-        $msg = $I18N_IM_EXPORT->msg('file_could_not_be_generated').' '.$I18N->msg('check_rights_in_directory').' '.$dir_filename;
+        $dir_filename = $REX['INCLUDE_PATH']."/addons/$page/files/";
+        $filename = $dir_filename.$filename;
+
+        if (file_exists($filename.$ext))
+        {
+          $i = 1;
+          while(file_exists($filename .'_'. $i . $ext))
+            $i++;
+
+          $filename = $filename .'_'. $i . $ext;
+        }
+        else
+        {
+          $filename .= $ext;
+        }
+
+        if (rex_put_file_contents($dir_filename, $content))
+        {
+          $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename, '\\', '/');
+        }
+        else
+        {
+          $msg = $I18N_IM_EXPORT->msg('file_could_not_be_generated').' '.$I18N->msg('check_rights_in_directory').' '.$dir_filename;
+        }
       }
     }
   }
