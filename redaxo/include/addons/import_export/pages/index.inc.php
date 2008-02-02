@@ -123,41 +123,43 @@ elseif (isset ($function) && $function == "fileimport")
   }
 
 }
-elseif (isset ($function) && $function == "export")
+elseif (isset ($function) && $function == 'export')
 {
 
   // ------------------------------ FUNC EXPORT
 
   $exportfilename = strtolower($exportfilename);
   $exportfilename = stripslashes($exportfilename);
-  $filename = ereg_replace("[^\.a-z0-9_\-]", "", $exportfilename);
+  $filename = ereg_replace('[^\.a-z0-9_\-]', '', $exportfilename);
 
   if ($filename != $exportfilename)
   {
-    $msg = $I18N_IM_EXPORT->msg("filename_updated");
+    $msg = $I18N_IM_EXPORT->msg('filename_updated');
     $exportfilename = $filename;
   }
   else
   {
-    $content = "";
-    if ($exporttype == "sql")
+    $content = '';
+    $header = '';
+    $ext = '';
+    if ($exporttype == 'sql')
     {
       // ------------------------------ FUNC EXPORT SQL
-      $header = "plain/text";
-      $ext = ".sql";
+      $header = 'plain/text';
+      $ext = '.sql';
 
       $content = rex_a1_export_db();
       // ------------------------------ /FUNC EXPORT SQL
     }
-    elseif ($exporttype == "files")
+    elseif ($exporttype == 'files')
     {
       // ------------------------------ FUNC EXPORT FILES
-      $header = "tar/gzip";
-      $ext = ".tar.gz";
+      $header = 'tar/gzip';
+      $ext = '.tar.gz';
 
-      if ($EXPDIR == "")
+      if ($EXPDIR == '')
       {
-        $msg = $I18N_IM_EXPORT->msg("please_choose_folder");
+        $msg = $I18N_IM_EXPORT->msg('please_choose_folder');
       }
       else
       {
@@ -166,7 +168,7 @@ elseif (isset ($function) && $function == "export")
       // ------------------------------ /FUNC EXPORT FILES
     }
 
-    if ($content != "" && $exportdl == 1)
+    if ($content != '' && $exportdl == 1)
     {
       $filename = $filename.$ext;
       header("Content-type: $header");
