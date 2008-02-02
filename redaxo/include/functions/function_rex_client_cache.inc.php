@@ -119,6 +119,9 @@ function rex_send_etag($REX_ARTICLE, $content)
  */
 function rex_send_gzip($content)
 {
+  $supportsGzip = false;
+  $enc = '';
+
   // Check if it supports gzip
   if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
     $encodings = explode(',', strtolower(preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING'])));
