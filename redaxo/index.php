@@ -139,6 +139,9 @@ else
         {
           $withheader = false;
           $REX['PAGEPATH'] = $addon_page;
+
+          if(isset($REX['ADDON']['name'][$page]))
+            $page_name = $REX['ADDON']['name'][$page];
         }
         else
         {
@@ -150,6 +153,9 @@ else
           {
             $withheader = false;
             $REX['PAGEPATH'] = $addon_page;
+
+            if(isset($REX['ADDON']['name'][$as]))
+              $page_name = $REX['ADDON']['name'][$as];
           }
         }
       }
