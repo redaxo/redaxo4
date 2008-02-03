@@ -46,7 +46,8 @@ Version 4.1.X (2008-XX-XX)
 
   * Neues Core Addon:
     - be_search [kills]
-  
+
+  * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, kills]  
   * TinyMCE: Update auf TinyMCE3 [kills, vscope]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
   * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [jan]
