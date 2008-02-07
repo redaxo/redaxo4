@@ -792,6 +792,7 @@ class OOMedia
       'bmp',
       'css',
       'doc',
+      'docx',
       'eps',
       'gif',
       'gz',
@@ -802,6 +803,9 @@ class OOMedia
       'pdf',
       'png',
       'ppt',
+      'pptx',
+      'pps',
+      'ppsx',
       'rar',
       'rtf',
       'swf',
@@ -810,6 +814,7 @@ class OOMedia
       'txt',
       'wma',
       'xls',
+      'xlsx',
       'zip'
     );
     return $docTypes;
