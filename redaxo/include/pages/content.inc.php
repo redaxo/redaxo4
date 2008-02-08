@@ -627,7 +627,7 @@ if ($article->getRows() == 1)
             <ul class="rex-cnt-nav">
               <li>' . $menu_edit . ' | </li>
               <li>' . $menu_meta . ' | </li>
-              <li><a href="../index.php?article_id=' . $article_id . '&amp;clang=' . $clang . '" target="_blank"'. rex_tabindex() .'>' . $I18N->msg('show') . '</a></li>
+              <li><a href="../index.php?article_id=' . $article_id . '&amp;clang=' . $clang . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a></li>
             </ul>';
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
