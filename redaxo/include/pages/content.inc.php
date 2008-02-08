@@ -577,60 +577,97 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: CONTENT HEAD MENUE
     $num_ctypes = count($REX['CTYPE']);
 
-    $tadd = '';
+    $ctype_menu = '';
     if ($num_ctypes > 0)
     {
-      $tadd = '
-                  <ul>';
-			if ($num_ctypes > 1) $tadd .= '<li>'.$I18N->msg('content_types').': </li>';
-			else $tadd .= '<li>'.$I18N->msg('content_type').': </li>';
+      $listElements = array();
+
+      if ($num_ctypes > 1)
+        $listElements[] = $I18N->msg('content_types').': ';
+      else
+        $listElements[] = $I18N->msg('content_type').': ';
 
       $i = 1;
       foreach ($REX['CTYPE'] as $key => $val)
       {
-        $tadd .= '
-                        <li>';
+        $s = '';
         $class = '';
+
         if ($key == $ctype && $mode == 'edit')
         {
         	$class = ' class="rex-active"';
         }
 
         $val = rex_translate($val);
-        $tadd .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
+        $s .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
 
         if ($num_ctypes != $i)
         {
-          $tadd .= ' | ';
+          $s .= ' | ';
         }
-        $tadd .= '</li>';
+
+        $listElements[] = $s;
         $i++;
       }
-      $tadd .= '
-                  </ul>';
+
+      // ----- EXTENSION POINT
+      $listElements = rex_register_extension_point('PAGE_CONTENT_CTYPE_MENU', $listElements,
+        array(
+          'article_id' => $article_id,
+          'clang' => $clang,
+          'function' => $function,
+          'mode' => $mode,
+          'slice_id' => $slice_id
+        )
+      );
+
+      $ctype_menu .= "\n".'<ul>';
+      foreach($listElements as $listElement)
+      {
+        $ctype_menu .= $listElement;
+      }
+      $ctype_menu .= '</ul>';
     }
 
-    $menu = $tadd;
+    $menu = $ctype_menu;
+    $listElements = array();
 
     if ($mode == 'edit')
     {
-      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
-      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
     else
     {
-      $menu_edit = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
-      $menu_meta = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
 
-    $menu .= '
-            <ul class="rex-cnt-nav">
-              <li>' . $menu_edit . ' | </li>
-              <li>' . $menu_meta . ' | </li>
-              <li><a href="../index.php?article_id=' . $article_id . '&amp;clang=' . $clang . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a></li>
-            </ul>';
+    $listElements[] = '<a href="../index.php?article_id=' . $article_id . '&amp;clang=' . $clang . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
+
+    // ----- EXTENSION POINT
+    $listElements = rex_register_extension_point('PAGE_CONTENT_MENU', $listElements,
+      array(
+        'article_id' => $article_id,
+        'clang' => $clang,
+        'function' => $function,
+        'mode' => $mode,
+        'slice_id' => $slice_id
+      )
+    );
+
+    $menu .= "\n".'<ul class="rex-cnt-nav">';
+    $num_elements = count($listElements);
+    for($i = 0; $i < $num_elements; $i++)
+    {
+      $lastElement = ($i == ($num_elements -1));
+      $menu .= '<li>'. $listElements[$i] . ($lastElement ? '' : ' | ') .'</li>';
+    }
+    $menu .= '</ul>';
+
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
+    // ----- EXTENSION POINT
     echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
       array(
         'article_id' => $article_id,
