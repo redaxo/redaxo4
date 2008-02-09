@@ -156,6 +156,16 @@ function rex_generateArticle($id, $refreshall = true)
 	  {
       $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content";
       $article_content = "?>".$CONT->getArticle();
+
+      // ----- EXTENSION POINT
+      $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
+        array (
+          'id' => $id,
+          'clang' => $clang,
+          'article' => $CONT
+        )
+      );
+
 	    if (!rex_put_file_contents($article_content_file, $article_content))
 	    {
 	      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
@@ -163,7 +173,13 @@ function rex_generateArticle($id, $refreshall = true)
 	  }
 
     // ----- EXTENSION POINT
-    $MSG = rex_register_extension_point('CLANG_ARTICLE_GENERATED','',array ('id' => $id, 'clang' => $clang, 'article' => $CONT));
+    $MSG = rex_register_extension_point('CLANG_ARTICLE_GENERATED', '',
+      array (
+        'id' => $id,
+        'clang' => $clang,
+        'article' => $CONT
+      )
+    );
 
     if ($MSG != '')
       echo rex_warning($MSG);

@@ -60,6 +60,7 @@ Version 4.1.X (2008-XX-XX)
   * Mehrere Standard Pages via Addon ersetzbar #138 [kills]
   * rex_list Navigation überarbeitet[kills]
   * rexExtensionPoint erstellt:
+    - GENERATE_FILTER [kills]
     - PAGE_CONTENT_MENU [kills]
     - PAGE_CONTENT_CTYPE_MENU [kills]
     - PAGE_CONTENT_HEADER [kills]
