@@ -348,7 +348,11 @@ class rex_sql
         if(strpos($fld_name, '.') !== false)
           $fld_name = str_replace('.', '`.`', $fld_name);
 
-        $qry .= '`' . $fld_name . '`="' . $value .'"';
+        if($value === null)
+          $qry .= '`' . $fld_name . '`= NULL';
+        else
+          $qry .= '`' . $fld_name . '`="' . $value .'"';
+
 // Da Werte via POST/GET schon mit magic_quotes escaped werden,
 // brauchen wir hier nicht mehr escapen
 //        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
@@ -380,7 +384,7 @@ class rex_sql
    */
   function insert($successMessage = null)
   {
-    return $this->statusQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
+    return $this->statusQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery(), $successMessage);
   }
 
   /**
