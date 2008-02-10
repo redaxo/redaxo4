@@ -12,7 +12,7 @@
  * @version $Id$
  */
 ?>
-<h3>Version: 0.3</h1>
+<h3>Version: 1.0</h1>
 
 <h3>Features:</h3>
 

@@ -14,7 +14,7 @@
  * @version $Id$
  */
 
-class thumbnail
+class rex_thumbnail
 {
 
   var $img;
@@ -22,8 +22,10 @@ class thumbnail
   var $imgfile;
   var $filters;
   var $warning_image;
+  var $img_filename;
+  var $img_cachepath;
 
-  function thumbnail($imgfile)
+  function rex_thumbnail($imgfile)
   {
     // ----- imagepfad speichern
     $this->imgfile = $imgfile;
@@ -166,7 +168,7 @@ class thumbnail
   }
 
   function generateImage($file = '', $show = true)
-  {
+  { 
     global $REX;
 
     if ($this->img['format'] == 'GIF' && !$this->gifsupport)
@@ -177,6 +179,7 @@ class thumbnail
 
     $this->resampleImage();
     $this->applyFilters();
+		$this->checkCacheFiles();
 
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
@@ -202,6 +205,19 @@ class thumbnail
       $this->send($file);
     }
   }
+
+	function checkCacheFiles()
+	{
+		global $REX;
+		$glo = glob($this->img_cachepath."image_resize__*"."__".$this->img_filename);
+		if ($REX['ADDON']['image_resize']['max_cachefiles']<count($glo))
+		{
+			foreach($glo as $gl)
+			{
+				unlink ($gl);
+			}
+		}
+	}
 
   function send($file = null, $lastModified = null)
   {
@@ -240,6 +256,7 @@ class thumbnail
 
   function addFilter($filter)
   {
+  	global $REX;
   	if ($filter == "") return;
     $this->filters[] = $filter;
   }
@@ -247,6 +264,7 @@ class thumbnail
   function applyFilters()
   {
   	global $REX;
+  	
   	foreach($this->filters as $filter)
   	{
   		$file = $REX['INCLUDE_PATH'].'/addons/image_resize/filters/filter.'.$filter.'.inc.php';
@@ -303,5 +321,146 @@ class thumbnail
   {
     imagedestroy($this->getImage());
   }
+  
+  function prepareImage($rex_resize)
+	{
+	  
+	  global $REX;  
+	  
+	  // Loesche alle Ausgaben zuvor
+		while(ob_get_level())
+		  ob_end_clean();
+	
+	  // get params
+	  ereg('^([0-9]*)([awhc])__(([0-9]*)h__)?(.*)', $rex_resize, $resize);
+	
+	  $size = $resize[1];
+	  $mode = $resize[2];
+	  $hmode = $resize[4];
+	  $imagefile = $resize[5];
+	  $rex_filter = rex_get('rex_filter', 'array');
+	  
+	  if (count($rex_filter)>$REX['ADDON']['image_resize']['max_filters']) $rex_filter = array();
+	  
+	  $filters = '';
+		foreach($rex_filter as $filter)
+			$filters .= $filter;
+	
+	  if($filters != '')
+		  $filters = md5($filters);
+	
+	  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/image_resize__'.$filters.$rex_resize;
+	  $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
+	
+	  // ----- check for cache file
+	  if (file_exists($cachepath))
+	  {
+	    // time of cache
+	    $cachetime = filectime($cachepath);
+	
+	    // file exists?
+	    if (file_exists($imagepath))
+	    {
+	      $filetime = filectime($imagepath);
+	    }
+	    else
+	    {
+	      // image file not exists
+	      print 'Error: Imagefile does not exist - '. $imagefile;
+	      exit;
+	    }
+	    // cache is newer? - show cache
+	    if ($cachetime > $filetime)
+	    {
+	      $thumb = new rex_thumbnail($cachepath);
+	      $thumb->send($cachepath, $cachetime);
+	      exit;
+	    }
+	
+	  }
+	
+	  // ----- check params
+	  if (!file_exists($imagepath))
+	  {
+	    print 'Error: Imagefile does not exist - '. $imagefile;
+	    exit;
+	  }
+	
+		// ----- check filesize
+		$max_file_size = $REX['ADDON']['image_resize']['max_resizekb']*1024;
+		if (filesize($imagepath)>$max_file_size)
+		{
+	    print 'Error: Imagefile is to big. Only files < '.$REX['ADDON']['image_resize']['max_resizekb'].'kb are allowed. - '. $imagefile;
+	    exit;
+		}
+	
+		// ----- check mode
+	  if (($mode != 'w') and ($mode != 'h') and ($mode != 'a')and ($mode != 'c'))
+	  {
+	    print 'Error wrong mode - only h,w,a,c';
+	    exit;
+	  }
+	  
+	  if ($size == '')
+	  {
+	    print 'Error size is no INTEGER';
+	    exit;
+	  }
+	  
+	  if ($size > $REX['ADDON']['image_resize']['max_resizepixel'] || $hmode > $REX['ADDON']['image_resize']['max_resizepixel'])
+	  {
+	    print 'Error size to big: max '.$REX['ADDON']['image_resize']['max_resizepixel'].' px';
+	    exit;
+	  }
+
+	  // ----- start thumb class
+	  $thumb = new rex_thumbnail($imagepath);
+	
+	  $thumb->img_filename = $imagefile;
+  	$thumb->img_cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+		
+	  // check method
+	  if ($mode == 'w')
+	  {
+	    $thumb->size_width($size);
+	  }
+	  if ($mode == 'h')
+	  {
+	    $thumb->size_height($size);
+	  }
+	
+	  if ($mode == 'c')
+	  {
+	    $thumb->size_crop($size, $hmode);
+	  }elseif ($hmode != '')
+	  {
+	    $thumb->size_height($hmode);
+	  }
+	
+	  if ($mode == 'a')
+	  {
+	    $thumb->size_auto($size);
+	  }
+	
+	  // Add Default Filters
+	  $rex_filter = array_merge($rex_filter,$REX['ADDON']['image_resize']['default_filters']);
+	
+	  // Add Filters
+	  foreach($rex_filter as $filter)
+	  {
+	    $thumb->addFilter($filter);
+	  }
+	
+	  // jpeg quality
+	  $thumb->jpeg_quality($REX['ADDON']['image_resize']['jpg_quality']);
+
+	
+	  // save cache
+	  $thumb->generateImage($cachepath);
+	  exit ();
+
+	}
+    
 }
+
 ?>
