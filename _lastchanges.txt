@@ -72,6 +72,7 @@ Version 4.1.X (2008-XX-XX)
     - keine Rückwärtskompatibilität!
   
   Bugfixes:
+  * htmlspecialcharsprobleme in modules, templates, blockauflistung.. [jan]
   * Import/Export: Mögliche Lücke geschlossen [kills] 
   * Doppelt ersetzen der REX-Vars bei der anzeige behoben [kills]
   * Blätter Navi falsch nicht übersetzt #150 [kills]

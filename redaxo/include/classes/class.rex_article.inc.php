@@ -306,7 +306,7 @@ class rex_article
 
           for ($i=0;$i<$MODULE->getRows();$i++)
           {
-            if ($REX_USER->hasPerm('module['.$MODULE->getValue('id').']') || $REX_USER->hasPerm('admin[]')) $MODULESELECT->addOption(rex_translate($MODULE->getValue('name')),$MODULE->getValue('id'));
+            if ($REX_USER->hasPerm('module['.$MODULE->getValue('id').']') || $REX_USER->hasPerm('admin[]')) $MODULESELECT->addOption(rex_translate($MODULE->getValue('name'),NULL,FALSE),$MODULE->getValue('id'));
             $MODULE->next();
           }
         }

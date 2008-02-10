@@ -462,7 +462,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 						<p class="rex-cnt-col2"><input type="submit" class="rex-sbmt" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
 						<p class="rex-cnt-col2"><input type="submit" class="rex-sbmt" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
 					</div>';
-    $add_user_login = '<span id="userlogin">'. $sql->getValue($REX['TABLE_PREFIX'].'user.login') .'</span>';
+    $add_user_login = '<span id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>';
 
     $sql = new rex_login_sql;
     $sql->setQuery('select * from '. $REX['TABLE_PREFIX'] .'user where user_id='. $user_id);
@@ -759,9 +759,9 @@ if (isset($SHOW) and $SHOW)
         $last_login = strftime( $I18N->msg('datetimeformat'), $sql->getValue('lasttrydate'));
     }
 
-    $username = htmlspecialchars($sql->getValue('name'));
+    $username = ($sql->getValue('name'));
     if ( $username == '') {
-        $username = htmlspecialchars($sql->getValue('login'));
+        $username = ($sql->getValue('login'));
     }
 
     $add_td = '';

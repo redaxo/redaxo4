@@ -999,7 +999,7 @@ class rex_list
           else
           {
             // Spalten aus dem ResultSet
-            $columnValue = $this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName], true);
+            $columnValue = htmlspecialchars($this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName], true));
           }
 
 
