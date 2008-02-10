@@ -51,7 +51,7 @@ function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $
 
 	$label = rex_linkmap_format_label($OOobject);
 
-	return '<li'. $liAttr .'><a'. $linkAttr .'>'. $label . '</a>';
+	return '<li'. $liAttr .'><a'. $linkAttr .'>'. htmlspecialchars($label) . '</a>';
 }
 
 function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
@@ -91,7 +91,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
       $label = rex_linkmap_format_label($cat);
 
 			$li .= '      <li'.$liclasses.'>';
-			$li .= '<a'.$linkclasses.' href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.$label.'</a>';
+			$li .= '<a'.$linkclasses.' href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.htmlspecialchars($label).'</a>';
 			//$li .= ' '. $liclasses . $linkclasses;
 			$li .= $sub_li;
 			$li .= '</li>'. "\n";
@@ -184,7 +184,7 @@ if ($category = OOCategory::getCategoryById($category_id))
   {
     $tree[] = $cat->getId();
     $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
-    echo '<li> : <a href="'. $link .'">'.$cat->getName().'</a></li>';
+    echo '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }
 }
 
@@ -217,7 +217,7 @@ if ($category = OOCategory::getCategoryById($category_id))
       foreach($articles as $article)
   	  {
     		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
-    		$url = rex_linkmap_backlink($article->getId(), $article->getName());
+    		$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
 
     		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
     		echo '</li>'. "\n";
