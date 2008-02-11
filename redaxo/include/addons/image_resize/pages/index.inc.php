@@ -2,16 +2,14 @@
 
 /**
  * Image-Resize Addon
- * 
+ *
  * @author office[at]vscope[dot]at Wolfgang Hutteger
- * @author marcus.staab[at]redaxo[dot]de Markus Staab
+ * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
- * 
+ *
  * @package redaxo4
  * @version $Id$
  */
-
-error_reporting(E_ALL);
 
 include $REX['INCLUDE_PATH'] . '/layout/top.php';
 
@@ -21,7 +19,7 @@ if (isset ($subpage) and $subpage == 'clear_cache')
   $msg = 'Cache cleared - ' . $c . ' cachefiles removed';
 }
 
-// Build Subnavigation 
+// Build Subnavigation
 $subpages = array (
   	array ('','Erkl&auml;rung'),
   	array ('config','Konfiguration'),
