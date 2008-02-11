@@ -37,7 +37,7 @@ $REX['ADDON']['image_resize']['max_cachefiles'] = 5;
 $REX['ADDON']['image_resize']['max_filters'] = 5;
 $REX['ADDON']['image_resize']['max_resizekb'] = 300;
 $REX['ADDON']['image_resize']['max_resizepixel'] = 500;
-$REX['ADDON']['image_resize']['jpg_quality'] = 120;
+$REX['ADDON']['image_resize']['jpg_quality'] = 100;
 // --- /DYN
 
 include ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
