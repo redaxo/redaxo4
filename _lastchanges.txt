@@ -40,26 +40,25 @@ Wichtige Änderungen:
 
 Version 4.1.X (2008-XX-XX)
 
-  * ImageResize: Neue Konfigurationsmöglichkeiten zur Sicherheit [jan]
-    - Maximale Anzahl von Cachedateien einschränkbar
-    - Maximale Größe und Maximale Pixelanzahl einschränkbar
-    - Konfiguration im AddOn möglich
-    
   * Neues Core Addon:
     - be_search [kills]
-
-  * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, kills]  
+  * ImageResize: 
+    - Neue Konfigurationsmöglichkeiten zur Sicherheit [jan]
+    - Maximale Anzahl von Cachedateien einschränkbar [jan]
+    - Maximale Größe und Maximale Pixelanzahl einschränkbar [jan]
+    - Konfiguration im AddOn möglich [jan]
+    - Neuer Branding Filter [kills]
   * TinyMCE: Update auf TinyMCE3 [kills, vscope]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
+  * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, kills]  
   * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [jan]
-  * ImageResize: Neuer Branding Filter [kills]
   * Neue Variablen in der master.inc
     - $REX['START_CLANG_ID'] [kills]
     - $REX['USE_MD5'] [kills]
   * MD5 Checksummenübermittlung gemaeß HTTP1.1 (Content-MD5 Header) [kills]
   * Eigene Parameter in rex_get_subtitle anhängbar #132 [kills]
   * Mehrere Standard Pages via Addon ersetzbar #138 [kills]
-  * rex_list Navigation überarbeitet[kills]
+  * rex_list Navigation überarbeitet [kills]
   * rexExtensionPoint erstellt:
     - GENERATE_FILTER [kills]
     - PAGE_CONTENT_MENU [kills]
