@@ -22,7 +22,7 @@ if (isset ($subpage) and $subpage == 'clear_cache')
 // Build Subnavigation
 $subpages = array (
   	array ('','Erkl&auml;rung'),
-  	array ('config','Konfiguration'),
+  	array ('settings','Konfiguration'),
   	array ('clear_cache','Resize Cache l&ouml;schen'),
 	);
 
@@ -31,7 +31,7 @@ rex_title('Image Resize', $subpages);
 // Include Current Page
 switch($subpage)
 {
-  case 'config' :
+  case 'settings' :
   {
     break;
   }

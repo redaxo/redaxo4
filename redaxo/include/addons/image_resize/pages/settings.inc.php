@@ -67,7 +67,7 @@ echo '
 
   <form action="index.php" method="post">
     <input type="hidden" name="page" value="image_resize" />
-    <input type="hidden" name="subpage" value="config" />
+    <input type="hidden" name="subpage" value="settings" />
     <input type="hidden" name="func" value="update" />
 
         <fieldset>
