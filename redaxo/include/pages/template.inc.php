@@ -188,7 +188,7 @@ function rex_tplctypes_toggle()
 }
 
 //--></script>
-<a href="javascript:rex_tplctypes_toggle();"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" /></a>
+<a href="javascript:rex_tplctypes_toggle();"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /></a>
 <a href="javascript:rex_tplctypes_toggle();">'.$I18N->msg("content_types").'</a>
 </legend>
 
