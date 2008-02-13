@@ -123,15 +123,15 @@ if ($SP)
 
   foreach ($ADDONS as $cur)
   {
-  	if (in_array($cur, $REX['SYSTEM_ADDONS']))
+  	if (OOAddon::isSystemAddon($cur))
   	{
-  		$delete = ''.$I18N->msg("addon_systemaddon").'';
+  		$delete = $I18N->msg("addon_systemaddon");
   	}else
   	{
   		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("addon_delete").'</a>';
   	}
 
-    if ($REX['ADDON']['install'][$cur] == 1)
+    if (OOAddon::isInstalled($cur))
     {
       $install = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;install=1">'.$I18N->msg("addon_reinstall").'</a>';
       $uninstall = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;uninstall=1" onclick="return confirm(\''.$I18N->msg("addon_uninstall").' ?\')">'.$I18N->msg("addon_uninstall").'</a>';
@@ -142,11 +142,11 @@ if ($SP)
       $uninstall = $I18N->msg("addon_notinstalled");
     }
 
-    if ($REX['ADDON']['status'][$cur] == 1)
+    if (OOAddon::isActivated($cur))
     {
       $status = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;activate=0">'.$I18N->msg("addon_deactivate").'</a>';
     }
-    elseif ($REX['ADDON']['install'][$cur] == 1)
+    elseif (OOAddon::isInstalled($cur))
     {
       $status = $I18N->msg("addon_no").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;activate=1">'.$I18N->msg("addon_activate").'</a>';
     }
