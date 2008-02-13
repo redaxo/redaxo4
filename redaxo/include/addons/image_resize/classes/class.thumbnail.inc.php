@@ -329,7 +329,7 @@ class rex_thumbnail
     imagedestroy($this->getImage());
   }
 
-  function prepareImage($rex_resize)
+  function createFromUrl($rex_resize)
   {
     global $REX;
 

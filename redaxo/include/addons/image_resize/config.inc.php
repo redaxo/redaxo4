@@ -59,7 +59,7 @@ if ($REX['GG'])
 $rex_resize = rex_get('rex_resize', 'string');
 if ($rex_resize != '')
 {
-	rex_thumbnail::prepareImage($rex_resize);
+	rex_thumbnail::createFromUrl($rex_resize);
 }
 
 ?>
