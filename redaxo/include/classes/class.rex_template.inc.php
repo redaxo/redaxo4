@@ -64,6 +64,9 @@ class rex_template
     {
     	if($this->generate())
       {
+        // Dateicache löschen, damit file_exists jetzt ein neuer ergebnis liefert
+        clearstatcache();
+
         // rekursiv aufrufen, nach dem erfolgreichen generate
         return $this->getTemplate();
     	}
