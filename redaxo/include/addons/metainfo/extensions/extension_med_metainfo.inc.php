@@ -10,7 +10,9 @@
 
 
 rex_register_extension('MEDIA_FORM_EDIT', 'rex_a62_metainfo_form');
+rex_register_extension('MEDIA_FORM_ADD', 'rex_a62_metainfo_form');
 
+rex_register_extension('MEDIA_ADDED', 'rex_a62_metainfo_form');
 /**
  * Callback, dass ein Formular item formatiert
  */
@@ -37,9 +39,25 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
  */
 function rex_a62_metainfo_form($params)
 {
-  $params['activeItem'] = $params['media'];
-  // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
-  $params['activeItem']->setValue('category_id', 0);
+  // Nur beim EDIT gibts auch ein Medium zum bearbeiten
+  if($params['extension_point'] == 'MEDIA_FORM_EDIT')
+  {
+    $params['activeItem'] = $params['media'];
+    // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
+    $params['activeItem']->setValue('category_id', 0);
+  }
+  else if($params['extension_point'] == 'MEDIA_ADDED')
+  {
+    global $REX;
+
+    $sql = new rex_sql();
+    $qry = 'SELECT file_id FROM '. $REX['TABLE_PREFIX'] .'file WHERE filename="'. $params['filename'] .'"';
+    $sql->setQuery($qry);
+    if($sql->getRows() == 1)
+    {
+      $params['file_id'] = $sql->getValue('file_id');
+    }
+  }
 
   return _rex_a62_metainfo_form('med_', $params, '_rex_a62_metainfo_med_handleSave');
 }

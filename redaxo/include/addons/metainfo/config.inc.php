@@ -39,7 +39,7 @@ if ($REX['REDAXO'])
     {
       require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_cat_metainfo.inc.php');
     }
-    elseif ($page == 'medienpool' && isset ($subpage) && $subpage == 'detail')
+    elseif ($page == 'medienpool')
     {
       require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_med_metainfo.inc.php');
     }

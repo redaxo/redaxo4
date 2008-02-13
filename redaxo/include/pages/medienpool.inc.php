@@ -405,8 +405,12 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
                <p>
                  <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>
                  '.$cats_sel->get().'
-               </p>
-               '. $add_file .'
+               </p>';
+
+  // ----- EXTENSION POINT
+  $s .= rex_register_extension_point('MEDIA_FORM_ADD', '');
+
+  $s .=        $add_file .'
                <p class="rex-sbmt">
                  <input type="submit" name="save" value="'.$button_title.'"'. rex_accesskey($button_title, $REX['ACKEY']['SAVE']) .' />
                  '. $add_submit .'
