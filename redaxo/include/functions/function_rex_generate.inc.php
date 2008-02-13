@@ -1298,8 +1298,13 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     $FILESQL->setValue('filename',$NFILENAME);
     $FILESQL->setValue('originalname',$FILENAME);
     $FILESQL->setValue('filesize',$FILESIZE);
-    $FILESQL->setValue('width',$size[0]);
-    $FILESQL->setValue('height',$size[1]);
+
+    if($size)
+    {
+      $FILESQL->setValue('width',$size[0]);
+      $FILESQL->setValue('height',$size[1]);
+    }
+
     $FILESQL->setValue('category_id',$rex_file_category);
     // TODO Create + Update zugleich?
     $FILESQL->addGlobalCreateFields($userlogin);
@@ -1311,13 +1316,17 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   }
 
   $RETURN['title'] = $FILEINFOS['title'];
-  $RETURN['width'] = $size[0];
-  $RETURN['height'] = $size[1];
   $RETURN['type'] = $FILETYPE;
   $RETURN['msg'] = $message;
   $RETURN['ok'] = $ok;
   $RETURN['filename'] = $NFILENAME;
   $RETURN['old_filename'] = $FILENAME;
+
+  if($size)
+  {
+    $RETURN['width'] = $size[0];
+    $RETURN['height'] = $size[1];
+  }
 
   return $RETURN;
 }
