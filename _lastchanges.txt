@@ -77,6 +77,10 @@ Version 4.1.X (2008-XX-XX)
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
+  * Credits: Inaktive Addons wurden falsch erkannt [kills]
+    - http://forum.redaxo.de/ftopic8187.html
+  * rex_sql: Logikfehler gefixed [kills]
+    - http://forum.redaxo.de/ftopic8148.html 
   * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [kills]
     - http://forum.redaxo.de/ftopic7852.html
   * REX_ARTICLE[], REX_TEMPLATE[] wurden beim speichern nicht aktualsiert [kills]
