@@ -57,6 +57,11 @@ function rex_a62_metainfo_form($params)
     {
       $params['file_id'] = $sql->getValue('file_id');
     }
+    else
+    {
+      trigger_error('Error occured during file upload', E_USER_ERROR);
+      exit();
+    }
   }
 
   return _rex_a62_metainfo_form('med_', $params, '_rex_a62_metainfo_med_handleSave');
