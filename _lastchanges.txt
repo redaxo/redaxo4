@@ -48,6 +48,7 @@ Version 4.1.X (2008-XX-XX)
     - Maximale Größe und Maximale Pixelanzahl einschränkbar [jan]
     - Konfiguration im AddOn möglich [jan]
     - Neuer Branding Filter [kills]
+  * Medienpool: MetaInfo Felder sind jetzt auch beim Einfüge-Formular eingebaut [kills]
   * TinyMCE: Update auf TinyMCE3 [kills, vscope]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
   * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, kills]  
