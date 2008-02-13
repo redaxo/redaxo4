@@ -20,7 +20,7 @@ $REX['ADDON']['name'][$mypage] = 'Meta Infos';
 $REX['ADDON']['perm'][$mypage] = 'metainfo[]';
 $REX['ADDON']['version'][$mypage] = "1.0";
 $REX['ADDON']['author'][$mypage] = "Markus Staab, Jan Kristinus";
-// $REX['ADDON']['supportpage'][$mypage] = "";
+$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 $REX['PERM'][] = 'metainfo[]';
 

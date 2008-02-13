@@ -21,6 +21,7 @@ $REX['ADDON']['name'][$mypage] = 'TinyMCE';
 $REX['ADDON']['perm'][$mypage] = 'tiny_mce[]';
 $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Wolfgang Hutteger, Markus Staab, Dave Holloway';
+$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 $I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 

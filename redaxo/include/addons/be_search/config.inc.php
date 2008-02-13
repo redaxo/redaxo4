@@ -19,7 +19,7 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 //$REX['ADDON']['perm'][$mypage] = 'be_search[]';
 $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab';
-// $REX['ADDON']['supportpage'][$mypage] = '';
+$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 //$REX['PERM'][] = 'be_search[]';
 
 if ($REX['REDAXO'])

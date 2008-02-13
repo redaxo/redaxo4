@@ -11,7 +11,7 @@ $REX['ADDON']['name'][$mypage] = 'Import/Export';   // name
 $REX['ADDON']['perm'][$mypage] = 'import[]';    // permission
 $REX['ADDON']['version'][$mypage] = "0.9";
 $REX['ADDON']['author'][$mypage] = "Jan Kristinus";
-// $REX['ADDON']['supportpage'][$mypage] = "";
+$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 $REX['PERM'][] = 'import[]';
 
