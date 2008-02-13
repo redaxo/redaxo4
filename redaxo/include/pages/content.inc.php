@@ -621,7 +621,7 @@ if ($article->getRows() == 1)
         )
       );
 
-      $ctype_menu .= "\n".'<ul>';
+      $ctype_menu .= "\n".'<ul id="rex-ctype-menu">';
       foreach($listElements as $listElement)
       {
         $ctype_menu .= $listElement;

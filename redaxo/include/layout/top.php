@@ -56,7 +56,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
 
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
   echo '<p>' . $I18N->msg('name') . ' : <strong>' . $user_name . '</strong> [<a href="index.php?FORM[logout]=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
-  echo '<ul>';
+  echo '<ul id="rex-main-mnu">';
 
   $activeClass = ' class="rex-active"';
   $liClass = $page == 'structure' || $page == 'content' ? $activeClass : '';
@@ -109,7 +109,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
   if(count($onlineAddons) > 0)
   {
     $first = true;
-    echo '<ul>' . "\n";
+    echo '<ul id="rex-addon-mnu">' . "\n";
 
     for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
     {

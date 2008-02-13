@@ -407,7 +407,7 @@ class rex_article
               $mne = $msg .'
 			       	<div class="rex-cnt-editmode-slc">
                 <p class="rex-flLeft">'. $RE_MODUL_NAME[$I_ID] .'</p>
-                <ul class="rex-flRight">
+                <ul class="rex-flRight" id="rex-slc-mnu">
               ';
 
               foreach($listElements as $listElement)
