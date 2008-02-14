@@ -78,6 +78,8 @@ Version 4.1.X (2008-XX-XX)
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
+  * REX-Vars: Variablen die nicht im Formular vorhanden waren, sind mit "" besetzt worden [kills]
+    - http://forum.redaxo.de/ftopic8174.html
   * Wenn Templates "on demand" generiert wurden ist ein Fehler aufgetreten [kills]
     - http://forum.redaxo.de/ftopic8196.html 
   * Credits: Inaktive Addons wurden falsch erkannt [kills]
