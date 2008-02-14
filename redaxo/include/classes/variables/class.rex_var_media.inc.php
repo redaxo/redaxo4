@@ -24,19 +24,23 @@ class rex_var_media extends rex_var
     $values = rex_request('MEDIA', 'array');
     for ($i = 1; $i < 11; $i++)
     {
-      if (!isset ($values[$i]))
-        $values[$i] = '';
-
-      $REX_ACTION['MEDIA'][$i] = stripslashes($values[$i]);
+      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
+      // siehe http://forum.redaxo.de/ftopic8174.html
+      if (isset ($values[$i]))
+      {
+        $REX_ACTION['MEDIA'][$i] = stripslashes($values[$i]);
+      }
     }
 
     $values = rex_request('MEDIALIST', 'array');
     for ($i = 1; $i < 11; $i++)
     {
-      if (!isset ($values[$i]))
-        $values[$i] = '';
-
-      $REX_ACTION['MEDIALIST'][$i] = stripslashes($values[$i]);
+      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
+      // siehe http://forum.redaxo.de/ftopic8174.html
+      if (isset ($values[$i]))
+      {
+        $REX_ACTION['MEDIALIST'][$i] = stripslashes($values[$i]);
+      }
     }
 
     return $REX_ACTION;
@@ -63,8 +67,16 @@ class rex_var_media extends rex_var
 
     for ($i = 1; $i < 11; $i++)
     {
-      $this->setValue($sql, 'file'. $i, $REX_ACTION['MEDIA'][$i], $escape);
-      $this->setValue($sql, 'filelist'. $i, $REX_ACTION['MEDIALIST'][$i], $escape);
+      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
+      // siehe http://forum.redaxo.de/ftopic8174.html
+      if (isset ($REX_ACTION['MEDIA'][$i]))
+      {
+        $this->setValue($sql, 'file'. $i, $REX_ACTION['MEDIA'][$i], $escape);
+      }
+      if (isset ($REX_ACTION['MEDIALIST'][$i]))
+      {
+        $this->setValue($sql, 'filelist'. $i, $REX_ACTION['MEDIALIST'][$i], $escape);
+      }
     }
   }
 
