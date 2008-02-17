@@ -16,8 +16,8 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'PHPMailer';
 $REX['ADDON']['perm'][$mypage] = 'phpmailer[]';
 $REX['ADDON']['version'][$mypage] = "1.0";
-$REX['ADDON']['author'][$mypage] = "Brent R. Matzelle, Markus Staab";
-// $REX['ADDON']['supportpage'][$mypage] = "";
+$REX['ADDON']['author'][$mypage] = "Markus Staab, Brent R. Matzelle";
+$REX['ADDON']['supportpage'][$mypage] = "forum.redaxo.de";
 
 $REX['PERM'][] = 'phpmailer[]';
 $I18N_A93 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
