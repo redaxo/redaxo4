@@ -53,6 +53,7 @@ Version 4.1.X (2008-XX-XX)
     - $REX['EVENT']
   * Medienpool: MetaInfo Felder sind jetzt auch beim Einfüge-Formular eingebaut [kills]
   * TinyMCE: Update auf TinyMCE3 [kills, vscope]
+  * PHPMailer: Update auf PHPMailer 2.0 [kills]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
   * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, kills]  
   * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [jan]
