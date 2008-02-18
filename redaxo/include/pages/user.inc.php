@@ -716,86 +716,62 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 
 if (isset($SHOW) and $SHOW)
 {
-  $add_col = '';
-  $add_th = '';
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  $list = new rex_list('SELECT user_id, name, login, lasttrydate FROM '.$REX['TABLE_PREFIX'].'user ORDER BY name');
+  $list->setCaption($I18N->msg('user_caption'));
+  $list->addTableAttribute('summary', $I18N->msg('user_summary'));
+
+  if (!$REX_USER->hasPerm('advancedMode[]'))
   {
-    $add_col = '<col width="5%" />';
-    $add_th = '<th class="rex-icon">ID</th>';
+    $list->removeColumn('id');
+    $list->addTableColumnGroup(array(40, '*', 153, 153, 153));
+  }
+  else
+  {
+    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
   }
 
-  echo '
-  <table class="rex-table" summary="'.$I18N->msg('user_summary').'">
-    <caption class="rex-hide">'.$I18N->msg('user_caption').'</caption>
-    <colgroup>
-      <col width="40" />
-      '. $add_col .'
-      <col width="*" />
-      <col width="153" />
-      <col width="153" />
-      <col width="153" />
-    </colgroup>
-    <thead>
-      <tr>
-        <th class="rex-icon"><a href="index.php?page=user&amp;FUNC_ADD=1"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" /></a></th>
-        '. $add_th .'
-        <th>'.$I18N->msg('name').'</th>
-        <th>'.$I18N->msg('login').'</th>
-        <th>'.$I18N->msg('last_login').'</th>
-        <th>'.$I18N->msg('user_functions').'</th>
-      </tr>
-    </thead>
-    <tbody>';
+  $img = '<img src="media/user.gif" alt="###name###" title="###name###" />';
+  $imgAdd = '<img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" />';
+  $imgHeader = '<a href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
+  $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($imgHeader, array('user_id' => '###user_id###'));
 
-  $sql = new rex_sql;
-  $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user ORDER BY name');
+  $list->setColumnLabel('user_id', 'ID');
+  $list->setColumnLayout('user_id', array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
 
-  for ($i=0; $i<$sql->getRows(); $i++)
-  {
-    $lasttrydate = $sql->getValue('lasttrydate');
-    $last_login = '-';
+  $list->setColumnLabel('name', $I18N->msg('name'));
+  $list->setColumnParams('name', array('user_id' => '###user_id###'));
+  $list->setColumnFormat('name', 'custom',
+    create_function(
+      '$params',
+      '$list = $params["list"];
+       return $list->getColumnLink("name", htmlspecialchars($list->getValue("name") != "" ? $list->getValue("name") : $list->getValue("login")));'
+    )
+  );
 
-    if ( $lasttrydate != 0) {
-        $last_login = strftime( $I18N->msg('datetimeformat'), $sql->getValue('lasttrydate'));
-    }
+  $list->setColumnLabel('login', $I18N->msg('login'));
 
-    $username = ($sql->getValue('name'));
-    if ( $username == '') {
-        $username = ($sql->getValue('login'));
-    }
+  $list->setColumnLabel('lasttrydate', $I18N->msg('last_login'));
+  $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
 
-    $add_td = '';
-    if ($REX_USER->hasPerm('advancedMode[]'))
-    {
-      $add_td = '<td class="rex-icon">'.$sql->getValue('user_id').'</td>';
-    }
+  $list->addColumn('funcs', $I18N->msg('user_delete'));
+  $list->setColumnLabel('funcs', $I18N->msg('user_functions'));
+  $list->setColumnParams('funcs', array('func' => 'delete', 'user_id' => '###user_id###'));
+  $list->setColumnFormat('funcs', 'custom',
+    create_function(
+      '$params',
+      'global $REX_USER;
+       $list = $params["list"];
+       if($list->getValue("user_id") == $REX_USER->getValue("user_id"))
+       {
+         return \'<span class="rex-strike">'. $I18N->msg('user_delete') .'</span>\';
+       }
+       return $list->getColumnLink("funcs","'. $I18N->msg('user_delete') .'");'
+    )
+  );
+  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
 
-    $delete_func = $I18N->msg('user_delete');
-    // man kann sich selbst nicht löschen..
-    if ($REX_USER->getValue('user_id')!=$sql->getValue('user_id'))
-    {
-      $delete_func = '<a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'&amp;FUNC_DELETE=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$delete_func.'</a>';
-    }
-    else
-    {
-      $delete_func = '<span class="rex-strike">'. $delete_func .'</span>';
-    }
-
-    echo '
-      <tr>
-        <td class="rex-icon"><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'"><img src="media/user.gif" alt="'. htmlspecialchars($username) .'" title="'. htmlspecialchars($username) .'" /></a></td>
-        '. $add_td .'
-        <td><a href="index.php?page=user&amp;user_id='.$sql->getValue("user_id").'">'.htmlspecialchars($username).'</a></td>
-        <td>'. htmlspecialchars($sql->getValue("login")).'</td>
-        <td>'.$last_login.'</td>
-        <td>'. $delete_func .'</td>
-      </tr>';
-    $sql->counter++;
-  }
-  echo '
-    </tbody>
-  </table>';
-
+  $list->show();
 }
 
 
