@@ -398,7 +398,7 @@ class rex_article
                 array(
                   'article_id' => $this->article_id,
                   'clang' => $this->clang,
-                  'ctype' => $this->ctype,
+                  'ctype' => $RE_CONTS_CTYPE[$I_ID],
                   'module_id' => $RE_MODUL_ID[$I_ID],
                   'slice_id' => $RE_CONTS[$I_ID]
                 )
@@ -515,30 +515,28 @@ class rex_article
           // --------------- ENDE EINZELNER SLICE
 
 					// --------------- EP: SLICE_SHOW
-
-					$slice_content = rex_register_extension_point(
-						'SLICE_SHOW',
-						$slice_content,
-							array(
-								'article_id' => $this->article_id,
-								'clang' => $this->clang,
-								'ctype' => $this->ctype,
-								'module_id' => $RE_MODUL_ID[$I_ID],
-								'slice_id' => $RE_CONTS[$I_ID],
-								'function' => $this->function,
-								'function_slice_id' => $this->slice_id
-							)
-					);
-
+  				$slice_content = rex_register_extension_point(
+  					'SLICE_SHOW',
+  					$slice_content,
+  						array(
+  							'article_id' => $this->article_id,
+  							'clang' => $this->clang,
+  							'ctype' => $RE_CONTS_CTYPE[$I_ID],
+  							'module_id' => $RE_MODUL_ID[$I_ID],
+  							'slice_id' => $RE_CONTS[$I_ID],
+  							'function' => $this->function,
+  							'function_slice_id' => $this->slice_id
+  						)
+  				);
 
           // ---------- slice in ausgabe speichern wenn ctype richtig
-            if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
-            {
-              $this->article_content .= $slice_content;
+          if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
+          {
+            $this->article_content .= $slice_content;
 
-              // last content type slice id
-              $LCTSL_ID = $RE_CONTS[$I_ID];
-            }
+            // last content type slice id
+            $LCTSL_ID = $RE_CONTS[$I_ID];
+          }
 
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
           if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
