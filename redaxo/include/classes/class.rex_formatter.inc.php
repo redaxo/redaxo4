@@ -275,9 +275,20 @@ class rex_formatter
       {
         trigger_error('Unable to find callable '. $format[0] .' for custom format!');
       }
+
+      $params = array();
+      $params['subject'] = $value;
+      if(is_array($format[1]))
+      {
+        $params = array_merge($format[1], $params);
+      }
+      else
+      {
+        $params['params'] = $format[1];
+      }
       // $format ist in der Form
       // array(Name des Callables, Weitere Parameter)
-      return rex_call_func($format[0], array('subject' => $value, 'params' => $format[1]));
+      return rex_call_func($format[0], $params);
     }
 
     return rex_call_func($format, $value);

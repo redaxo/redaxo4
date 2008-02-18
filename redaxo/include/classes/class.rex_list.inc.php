@@ -810,7 +810,7 @@ class rex_list
 
   function replaceVariable($string, $varname)
   {
-    return str_replace('###'. $varname .'###', $this->sql->getValue($varname), $string);
+    return str_replace('###'. $varname .'###', $this->getValue($varname), $string);
   }
 
   /**
@@ -842,6 +842,11 @@ class rex_list
     return $value;
   }
 
+  function isCustomFormat($format)
+  {
+    return is_array($format) && isset($format[0]) && $format[0] == 'custom';
+  }
+
   /**
    * Formatiert einen übergebenen String anhand der rexFormatter Klasse
    *
@@ -856,14 +861,16 @@ class rex_list
     if(!is_array($format))
       return $value;
 
-    // Callbackfunktion -> Alle Werte übergeben
-    if($format[0] == 'custom')
-      $value = $this->sql;
+    // Callbackfunktion -> Parameterliste aufbauen
+    if($this->isCustomFormat($format))
+    {
+      $format[1] = array($format[1], array('list' => $this, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
+    }
 
     $value = rex_formatter::format($value, $format[0], $format[1]);
 
     // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-    if($escape && $format[0] != 'custom' && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
+    if($escape && !$this->isCustomFormat($format) && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
       $value = htmlspecialchars($value);
 
     return $value;
@@ -877,6 +884,16 @@ class rex_list
       $s .= ' '. $name .'="'. $value .'"';
 
     return $s;
+  }
+
+  function getColumnLink($columnName, $columnValue)
+  {
+    return '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'"'. $this->_getAttributeString($this->getLinkAttributes($columnName, array())) .'>'. $columnValue .'</a>';
+  }
+
+  function getValue($colname)
+  {
+    return $this->sql->getValue($colname);
   }
 
   /**
@@ -996,16 +1013,15 @@ class rex_list
             $columnName = $columnName[0];
             $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false);
           }
+          // Spalten aus dem ResultSet
           else
           {
-            // Spalten aus dem ResultSet
-            $columnValue = htmlspecialchars($this->formatValue($this->sql->getValue($columnName), $columnFormates[$columnName], true));
+            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true);
           }
 
-
-          if($this->hasColumnParams($columnName))
+          if(!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName))
           {
-            $columnValue = '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'"'. $this->_getAttributeString($this->getLinkAttributes($columnName, array())) .'>'. $columnValue .'</a>';
+            $columnValue = $this->getColumnLink($columnName, $columnValue);
           }
 
           $layout = $this->getColumnLayout($columnName);
