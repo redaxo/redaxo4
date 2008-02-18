@@ -464,7 +464,7 @@ class rex_form
   {
     $normalizedName = rex_form_element::_normalizeName($fieldsetName.'['. $elementName .']');
     $result =& $this->_getElement($fieldsetName,$normalizedName);
-    return  $result;
+    return $result;
   }
 
   function &_getElement($fieldsetName, $elementName)
@@ -573,6 +573,27 @@ class rex_form
     return $default;
   }
 
+  /**
+   * Validiert die Eingaben.
+   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler oder
+   * einen String mit einer Fehlermeldung.
+   *
+   * Eingaben sind via
+   *   $el    =& $this->getElement($fieldSetName, $fieldName);
+   *   $val   = $el->getValue();
+   * erreichbar.
+   */
+  function validate()
+  {
+    return true;
+  }
+
+  /**
+   * Speichert das Formular
+   *
+   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler oder
+   * einen String mit einer Fehlermeldung.
+   */
   function save()
   {
     // trigger extensions point
@@ -689,7 +710,7 @@ class rex_form
       {
         // speichern und umleiten
         // Nachricht in der Liste anzeigen
-        if(($result = $this->save()) === true)
+        if(($result = $this->validate()) === true && ($result = $this->save()) === true)
           $this->redirect($I18N->msg('form_saved'));
         elseif(is_string($result) && $result != '')
           // Falls ein Fehler auftritt, das Formular wieder anzeigen mit der Meldung
@@ -700,8 +721,8 @@ class rex_form
       elseif($controlElement->applied())
       {
         // speichern und wiederanzeigen
-         // Nachricht im Formular anzeigen
-        if(($result = $this->save()) === true)
+        // Nachricht im Formular anzeigen
+        if(($result = $this->validate()) === true && ($result = $this->save()) === true)
            $this->setMessage($I18N->msg('form_applied'));
         elseif(is_string($result) && $result != '')
           $this->setMessage($result);
@@ -825,6 +846,7 @@ class rex_form_element
   var $footer;
   var $prefix;
   var $suffix;
+  var $notice;
 
   function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
   {
@@ -871,6 +893,16 @@ class rex_form_element
   function getLabel()
   {
     return $this->label;
+  }
+
+  function setNotice($notice)
+  {
+    $this->notice = $notice;
+  }
+
+  function getNotice()
+  {
+    return $this->notice;
   }
 
   function getTag()
@@ -1028,12 +1060,23 @@ class rex_form_element
     }
   }
 
+  function formatNotice()
+  {
+    $notice = $this->getNotice();
+    if($notice != '')
+    {
+      return '<span class="rex-notice" id="'. $this->getAttribute('id') .'_notice">'. $notice .'</span>';
+    }
+    return '';
+  }
+
   function _get()
   {
     $s = '';
 
     $s .= $this->formatLabel();
     $s .= $this->formatElement();
+    $s .= $this->formatNotice();
 
     return $s;
   }
