@@ -14,6 +14,8 @@ field_label_nullable = Pflichtfeld
 field_label_params = Parameter
 field_label_prior = Feldposition
 
+field_notice_title = Prefix "translate:" übersetzt den Wert via I18N
+
 field_first_prior = Am Anfang
 field_after_prior = Nach dem Feld "{0}"
 

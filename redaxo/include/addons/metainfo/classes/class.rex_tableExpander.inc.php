@@ -69,6 +69,7 @@ class rex_a62_tableExpander extends rex_form
 
     $field =& $this->addTextField('title');
     $field->setLabel($I18N_META_INFOS->msg('field_label_title'));
+    $field->setNotice($I18N_META_INFOS->msg('field_notice_title'));
 
     $field =& $this->addSelectField('type');
     $field->setLabel($I18N_META_INFOS->msg('field_label_type'));
@@ -191,7 +192,7 @@ class rex_a62_tableExpander extends rex_form
     return $string;
   }
 
-  function save()
+  function validate()
   {
     global $I18N_META_INFOS;
 
@@ -213,6 +214,11 @@ class rex_a62_tableExpander extends rex_form
       }
     }
 
+    return parent::validate();
+  }
+
+  function save()
+  {
     // Den alten Wert aus der DB holen
     // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den
     // POST werten überschrieben werden!
