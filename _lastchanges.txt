@@ -134,6 +134,8 @@ Version 4.0.1 (2007-11-07)
   * Tabindizes im Setup ergänzt [kills]
   * $REX['FOLLOW_REDIRECTS'] entfernt [kills]
   * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
+  * ImageResize: Bilder mit Sonderzeichen im Dateinamen wurden falsch behandelt [kills]
+    - http://forum.redaxo.de/ftopic8239.html
   * Aktionen gehen nun. $REX_ACTION['SAVE'] korrigiert [kill, jan]
     - http://forum.redaxo.de/ftopic6883.html
   * REX_LINK_BUTTON[]: wenn leer dann auch keine URL [kills, jan]
@@ -142,7 +144,7 @@ Version 4.0.1 (2007-11-07)
     - http://forum.redaxo.de/ftopic7336.html
   * TinyMCE: Fehlende Scrollbars im Medienpool [woolf, kills]
     - http://forum.redaxo.de/ftopic7321.html
-  * ImageReisze: Cache Dateien werden mit $REX['FILEPERM'] gespeichert (kills)
+  * ImageResize: Cache Dateien werden mit $REX['FILEPERM'] gespeichert [kills]
     - http://forum.redaxo.de/ftopic7279.html
   * ImageResize: Gif Transparenz wird erhalten [aeberhard]
     - http://forum.redaxo.de/ftopic7191.html
