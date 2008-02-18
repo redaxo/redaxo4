@@ -950,7 +950,7 @@ if ($subpage == "detail")
         $imgn = 'media/mime-error.gif';
       }else if ($thumbs && $thumbsresize && $rfwidth>199)
       {
-        $imgn = '../index.php?rex_resize=200a__'. $fname;
+        $imgn = '../index.php?rex_resize=200a__'. urlencode($fname);
       }
 
       $add_image = '<div class="rex-mpl-dtl-img">
