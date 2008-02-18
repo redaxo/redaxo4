@@ -82,6 +82,8 @@ Version 4.1.X (2008-XX-XX)
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
+  * ImageResize: Bilder mit Sonderzeichen im Dateinamen wurden falsch behandelt [kills]
+    - http://forum.redaxo.de/ftopic8239.html
   * REX-Vars: Variablen die nicht im Formular vorhanden waren, sind mit "" besetzt worden [kills]
     - http://forum.redaxo.de/ftopic8174.html
   * Wenn Templates "on demand" generiert wurden ist ein Fehler aufgetreten [kills]
@@ -134,8 +136,6 @@ Version 4.0.1 (2007-11-07)
   * Tabindizes im Setup ergänzt [kills]
   * $REX['FOLLOW_REDIRECTS'] entfernt [kills]
   * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [kills]
-  * ImageResize: Bilder mit Sonderzeichen im Dateinamen wurden falsch behandelt [kills]
-    - http://forum.redaxo.de/ftopic8239.html
   * Aktionen gehen nun. $REX_ACTION['SAVE'] korrigiert [kill, jan]
     - http://forum.redaxo.de/ftopic6883.html
   * REX_LINK_BUTTON[]: wenn leer dann auch keine URL [kills, jan]
