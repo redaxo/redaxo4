@@ -581,8 +581,12 @@ class rex_list
 //    }
     if(!isset($params['sort']))
     {
-      $params['sort'] = $this->getSortColumn();
-      $params['sorttype'] = $this->getSortType();
+      $sortColumn = $this->getSortColumn();
+      if($sortColumn != null)
+      {
+        $params['sort'] = $sortColumn;
+        $params['sorttype'] = $this->getSortType();
+      }
     }
 
     $paramString = '';
@@ -622,14 +626,14 @@ class rex_list
     $startRow = $this->getStartRow();
 
     $sortColumn = $this->getSortColumn();
-    $sortType = $this->getSortType();
-
     if($sortColumn != '')
     {
+      $sortType = $this->getSortType();
+
       if(strpos(strtoupper($query), 'ORDER BY') === false)
         $query .= ' ORDER BY '. $sortColumn .' '. $sortType;
       else
-        $query = preg_replace('/ORDER BY [^ ]* (asc|desc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
+        $query = preg_replace('/ORDER BY [^ ]*(asc|desc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
     }
 
     $query .= ' LIMIT '. $startRow .','. $rowsPerPage;
