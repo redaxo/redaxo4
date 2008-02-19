@@ -913,6 +913,8 @@ if ($subpage == "detail")
     $ffile_size = $gf->getValue('filesize');
     $ffile_size = OOMedia::_getFormattedSize($ffile_size);
     $rex_category_id = $gf->getValue('category_id');
+
+    $encoded_fname = urlencode($fname);
     $file_ext = substr(strrchr($fname, '.'),1);
     $icon_src = 'media/mime-default.gif';
     if (OOMedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
@@ -943,14 +945,14 @@ if ($subpage == "detail")
         <label for="fwidth">'. $I18N->msg('pool_img_width') .' / '.$I18N->msg('pool_img_height') .'</label>
         <span id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
       </p>';
-      $imgn = '../files/'. $fname .'" width="'. $rfwidth;
+      $imgn = '../files/'. $encoded_fname .'" width="'. $rfwidth;
 
       if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
       {
         $imgn = 'media/mime-error.gif';
       }else if ($thumbs && $thumbsresize && $rfwidth>199)
       {
-        $imgn = '../index.php?rex_resize=200a__'. urlencode($fname);
+        $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
       }
 
       $add_image = '<div class="rex-mpl-dtl-img">
@@ -972,19 +974,19 @@ if ($subpage == "detail")
     {
       if ($ffiletype_ii)
       {
-        $opener_link .= "<a href=javascript:insertImage('$fname','".$gf->getValue("title")."');>".$I18N->msg('pool_image_get')."</a> | ";
+        $opener_link .= "<a href=javascript:insertImage('". $encoded_fname ."','".$gf->getValue("title")."');>".$I18N->msg('pool_image_get')."</a> | ";
       }
 
     }
     elseif($opener_input_field == 'TINY')
-    {      $opener_link .= "<a href=javascript:insertLink('".$fname."');>".$I18N->msg('pool_link_get')."</a>";
+    {      $opener_link .= "<a href=javascript:insertLink('".$encoded_fname."');>".$I18N->msg('pool_link_get')."</a>";
     }
     elseif($opener_input_field != '')
     {
-      $opener_link = "<a href=javascript:selectMedia('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+      $opener_link = "<a href=javascript:selectMedia('".$encoded_fname."');>".$I18N->msg('pool_file_get')."</a>";
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = "<a href=javascript:selectMedialist('".$fname."');>".$I18N->msg('pool_file_get')."</a>";
+        $opener_link = "<a href=javascript:selectMedialist('".$encoded_fname."');>".$I18N->msg('pool_file_get')."</a>";
       }
     }
 
@@ -1039,7 +1041,7 @@ if ($subpage == "detail")
                       '. $add_ext_info .'
                     	<p>
                       		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
-                      		<a href="../files/'. $fname .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']
+                      		<a href="../files/'. $encoded_fname .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']
                     	</p>
                     	<p>
                      		<label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
@@ -1092,7 +1094,7 @@ if ($subpage == "detail")
                 	</p>
                 	<p>
                   		<label for="flink">'. $I18N->msg('pool_filename') .'</label>
-                  		<a href="../files/'. $fname .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
+                  		<a href="../files/'. $encoded_fname .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
                 	</p>
                 	<p>
                   		<label for="fupdate">'. $I18N->msg('pool_last_update') .'</label>
