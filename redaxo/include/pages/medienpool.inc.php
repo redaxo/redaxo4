@@ -1429,6 +1429,8 @@ if ($subpage == '')
     $file_stamp = date('d-M-Y | H:i',$files->getValue('updatedate')).'h';
     $file_updateuser = $files->getValue('updateuser');
 
+    $encoded_file_name = urlencode($file_name);
+
     // Eine titel Spalte schätzen
     $alt = '';
     foreach(array('title', 'med_description') as $col)
@@ -1444,7 +1446,7 @@ if ($subpage == '')
     $desc = '';
     foreach(array('med_description') as $col)
     {
-      if($files->hasValue($col))
+      if($files->hasValue($col) && $files->getValue($col) != '')
       {
         $desc = htmlspecialchars($files->getValue($col));
         break;
@@ -1470,8 +1472,8 @@ if ($subpage == '')
 
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
-        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80a__'.$file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="../files/'.$encoded_file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
       }
     }
 
@@ -1491,13 +1493,13 @@ if ($subpage == '')
         $opener_link .= "<a href=\"javascript:insertImage('$file_name','".$files->getValue("title")."')\">".$I18N->msg('pool_image_get')."</a><br>";
       }
 
-    } elseif ($opener_input_field == 'TINY'){      $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
+    } elseif ($opener_input_field == 'TINY'){      $opener_link .= "<a href=\"javascript:insertLink('".$encoded_file_name."');\">".$I18N->msg('pool_link_get')."</a>";
     } elseif ($opener_input_field != '')
     {
-      $opener_link = "<a href=\"javascript:selectMedia('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
+      $opener_link = "<a href=\"javascript:selectMedia('".$encoded_file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = "<a href=\"javascript:selectMedialist('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
+        $opener_link = "<a href=\"javascript:selectMedialist('".$encoded_file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       }
     }
 
