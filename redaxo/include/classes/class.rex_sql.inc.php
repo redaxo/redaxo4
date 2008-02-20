@@ -138,7 +138,7 @@ class rex_sql
     // DBID aus dem Query herausschneiden, falls vorhanden
     rex_sql::stripQueryDBID($qry);
 
-    if(preg_match('/(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
+    if(preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
       return strtoupper($matches[1]);
 
     return false;
