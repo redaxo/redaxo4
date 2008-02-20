@@ -188,6 +188,10 @@ function addREXMedia(id,params)
 
 function openLinkMap(id, param)
 {
+  if ( typeof(id) == 'undefined')
+  {
+    id = '';  
+  }
   if ( typeof(param) == 'undefined')
   {
     param = '';  
