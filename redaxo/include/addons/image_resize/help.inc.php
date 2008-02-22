@@ -12,7 +12,7 @@
  * @version $Id$
  */
 ?>
-<h2>Version: <?php echo $REX['ADDON']['version']['image_resize'] ?></h2>
+<h3>Version: 1.0</h1>
 
 <h3>Features:</h3>
 
@@ -37,8 +37,8 @@ brand<br />
 sepia<br />
 sharpen
 </p>
-
 <h3>Examples:</h3>
+
 <p>
 resize image to a length of 100px and calculate heigt to match ratio<br />
 <b>index.php?rex_resize=100w__imagefile</b>
