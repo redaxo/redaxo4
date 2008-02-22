@@ -27,6 +27,8 @@ class rex_thumbnail
 
   function rex_thumbnail($imgfile)
   {
+    global $REX;
+
     // ----- imagepfad speichern
     $this->imgfile = $imgfile;
 
@@ -73,7 +75,7 @@ class rex_thumbnail
       $this->img['height_offset_thumb'] = 0;
 
       // --- default quality jpeg
-      $this->img['quality'] = 75;
+      $this->img['quality'] = $REX['ADDON']['image_resize']['jpg_quality'];
       $this->filters = array();
     }
   }
@@ -456,10 +458,6 @@ class rex_thumbnail
 	  {
 	    $thumb->addFilter($filter);
 	  }
-
-	  // jpeg quality
-	  $thumb->jpeg_quality($REX['ADDON']['image_resize']['jpg_quality']);
-
 
 	  // save cache
 	  $thumb->generateImage($cachepath);
