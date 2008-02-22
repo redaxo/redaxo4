@@ -149,11 +149,11 @@ class rex_thumbnail
 
     if (function_exists('ImageCreateTrueColor'))
     {
-      $this->img['des'] = ImageCreateTrueColor($this->img['width_thumb'], $this->img['height_thumb']);
+      $this->img['des'] = @ImageCreateTrueColor($this->img['width_thumb'], $this->img['height_thumb']);
     }
     else
     {
-      $this->img['des'] = ImageCreate($this->img['width_thumb'], $this->img['height_thumb']);
+      $this->img['des'] = @ImageCreate($this->img['width_thumb'], $this->img['height_thumb']);
     }
 
     if(!$this->img['des'])
