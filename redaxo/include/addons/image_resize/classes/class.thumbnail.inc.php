@@ -83,18 +83,15 @@ class rex_thumbnail
   function size_height($size)
   {
     // --- height
-    $this->img['height_thumb'] = $size;
-    //if ($this->img['width_thumb'] == 0)
-    //{
-      $this->img['width_thumb'] = ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
-    //}
+    $this->img['height_thumb'] = (int) $size;
+    $this->img['width_thumb']  = (int) ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
   }
 
   function size_width($size)
   {
     // --- width
-    $this->img['width_thumb'] = $size;
-    $this->img['height_thumb'] = ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
+    $this->img['width_thumb']  = (int) $size;
+    $this->img['height_thumb'] = (int) ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
   }
 
   function size_auto($size)
@@ -113,8 +110,8 @@ class rex_thumbnail
   // Ausschnitt aus dem Bild auf bestimmte größe zuschneiden
   function size_crop($width, $height)
   {
-    $this->img['width_thumb'] = $width;
-    $this->img['height_thumb'] = $height;
+    $this->img['width_thumb']  = (int) $width;
+    $this->img['height_thumb'] = (int) $height;
 
     $width_ratio = $this->img['width'] / $this->img['width_thumb'];
     $height_ratio = $this->img['height'] / $this->img['height_thumb'];
@@ -122,16 +119,14 @@ class rex_thumbnail
     // Es muss an der Breite beschnitten werden
     if ($width_ratio > $height_ratio)
     {
-      // $_DST['offset_w'] = round(($this->img['width']-$this->img['width_thumb']*$height_ratio)/2);
-      $this->img['width_offset_thumb'] = round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2);
-      $this->img['width'] = round($this->img['width_thumb'] * $height_ratio);
+      $this->img['width_offset_thumb'] = (int) round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2);
+      $this->img['width']              = (int) round($this->img['width_thumb'] * $height_ratio);
     }
     // es muss an der Höhe beschnitten werden
     elseif ($width_ratio < $height_ratio)
     {
-      // $_DST['offset_h'] = round(($this->img['height']-$this->img['height_thumb']*$width_ratio)/2);
-      $this->img['height_offset_thumb'] = round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2);
-      $this->img['height'] = round($this->img['height_thumb'] * $width_ratio);
+      $this->img['height_offset_thumb'] = (int) round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2);
+      $this->img['height']              = (int) round($this->img['height_thumb'] * $width_ratio);
     }
   }
 
@@ -143,6 +138,15 @@ class rex_thumbnail
 
   function resampleImage()
   {
+    // Originalbild selbst sehr klein und wuerde via resize vergroessert
+    // => Das Originalbild ausliefern
+    if($this->img['width_thumb'] > $this->img['width'] &&
+       $this->img['height_thumb'] > $this->img['height'])
+    {
+      $this->img['width_thumb'] = $this->img['width'];
+      $this->img['height_thumb'] = $this->img['height'];
+    }
+
     if (function_exists('ImageCreateTrueColor'))
     {
       $this->img['des'] = ImageCreateTrueColor($this->img['width_thumb'], $this->img['height_thumb']);
@@ -172,6 +176,7 @@ class rex_thumbnail
       imagecolortransparent($this->img['des'], $colorTransparent);
       imagetruecolortopalette($this->img['des'], true, 256);
     }
+
     imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, $this->img['width_offset_thumb'], $this->img['height_offset_thumb'], $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
   }
 
