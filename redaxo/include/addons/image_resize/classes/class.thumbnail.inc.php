@@ -104,8 +104,14 @@ class rex_thumbnail
     }
   }
 
-  // Ausschnitt aus dem Bild auf bestimmte größe zuschneiden
-  function size_crop($width, $height)
+  /**
+   * Ausschnitt aus dem Bild auf bestimmte größe zuschneiden
+   *
+   * @param $width int Breite des Ausschnitts
+   * @param $height int Hoehe des Ausschnitts
+   * @param $offset int Verschiebung des Ausschnitts vom Zentrum ausgehend
+   */
+  function size_crop($width, $height, $offset)
   {
     $this->img['width_thumb']  = (int) $width;
     $this->img['height_thumb'] = (int) $height;
@@ -116,13 +122,13 @@ class rex_thumbnail
     // Es muss an der Breite beschnitten werden
     if ($width_ratio > $height_ratio)
     {
-      $this->img['width_offset_thumb'] = (int) round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2);
+      $this->img['width_offset_thumb'] = (int) (round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2) + $offset);
       $this->img['width']              = (int) round($this->img['width_thumb'] * $height_ratio);
     }
     // es muss an der Höhe beschnitten werden
     elseif ($width_ratio < $height_ratio)
     {
-      $this->img['height_offset_thumb'] = (int) round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2);
+      $this->img['height_offset_thumb'] = (int) (round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2) + $offset);
       $this->img['height']              = (int) round($this->img['height_thumb'] * $width_ratio);
     }
   }
@@ -341,13 +347,14 @@ class rex_thumbnail
 		while(ob_get_level())
 		  ob_end_clean();
 
-	  // get params
-	  ereg('^([0-9]*)([awhc])__(([0-9]*)h__)?(.*)', $rex_resize, $resize);
+    // get params
+    preg_match('@([0-9]*)([awhc])__(([0-9]*)h__)?((\-?[0-9]*)o__)?(.*)@', $rex_resize, $resize);
 
 	  $size = $resize[1];
 	  $mode = $resize[2];
-	  $hmode = $resize[4];
-	  $imagefile = $resize[5];
+	  $height = $resize[4];
+    $offset = $resize[6];
+	  $imagefile = $resize[7];
 	  $rex_filter = rex_get('rex_filter', 'array');
 
 	  if (count($rex_filter)>$REX['ADDON']['image_resize']['max_filters']) $rex_filter = array();
@@ -405,7 +412,7 @@ class rex_thumbnail
 		}
 
 		// ----- check mode
-	  if (($mode != 'w') and ($mode != 'h') and ($mode != 'a')and ($mode != 'c'))
+	  if (($mode != 'w') && ($mode != 'h') && ($mode != 'a') && ($mode != 'c'))
 	  {
 	    print 'Error wrong mode - only h,w,a,c';
 	    exit;
@@ -417,7 +424,7 @@ class rex_thumbnail
 	    exit;
 	  }
 
-	  if ($size > $REX['ADDON']['image_resize']['max_resizepixel'] || $hmode > $REX['ADDON']['image_resize']['max_resizepixel'])
+	  if ($size > $REX['ADDON']['image_resize']['max_resizepixel'] || $height > $REX['ADDON']['image_resize']['max_resizepixel'])
 	  {
 	    print 'Error size to big: max '.$REX['ADDON']['image_resize']['max_resizepixel'].' px';
 	    exit;
@@ -441,10 +448,10 @@ class rex_thumbnail
 
 	  if ($mode == 'c')
 	  {
-	    $thumb->size_crop($size, $hmode);
-	  }elseif ($hmode != '')
+	    $thumb->size_crop($size, $height, $offset);
+	  }elseif ($height != '')
 	  {
-	    $thumb->size_height($hmode);
+	    $thumb->size_height($height);
 	  }
 
 	  if ($mode == 'a')
