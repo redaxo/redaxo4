@@ -16,7 +16,6 @@
 
 class rex_thumbnail
 {
-
   var $img;
   var $gifsupport;
   var $imgfile;
@@ -30,16 +29,14 @@ class rex_thumbnail
     global $REX;
 
     // ----- imagepfad speichern
+    $this->img = array();
     $this->imgfile = $imgfile;
 
     // ----- gif support ?
-    $this->gifsupport = false;
-    if (function_exists('imageGIF'))
-      $this->gifsupport = true;
+    $this->gifsupport = function_exists('imageGIF');
 
     // ----- detect image format
-    $this->img['format'] = ereg_replace('.*\.(.*)$', '\\1', $imgfile);
-    $this->img['format'] = strtoupper($this->img['format']);
+    $this->img['format'] = strtoupper(OOMedia::_getExtension($imgfile));
     if (!eregi('cache/', $imgfile))
     {
       if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
