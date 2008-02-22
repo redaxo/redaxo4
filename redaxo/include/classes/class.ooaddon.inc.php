@@ -43,6 +43,31 @@ class OOAddon
     return OOAddon::_getProperty($addon, 'supportpage', $default);
   }
 
+  function getAvailableAddons()
+  {
+    global $REX;
+
+    if(isset($REX['ADDON']) && is_array($REX['ADDON']) &&
+       isset($REX['ADDON']['status']) && is_array($REX['ADDON']['status']))
+    {
+      $addons = $REX['ADDON']['status'];
+    }
+    else
+    {
+      $REX['ADDON']['status'] = array();
+      $addons = array();
+    }
+
+    $avail = array();
+    foreach($addons as $addonName => $addonStatus)
+    {
+      if($addonStatus == 1)
+        $avail[] = $addonName;
+    }
+
+    return $avail;
+  }
+
   function _getProperty($addon, $property, $default = null)
   {
     global $REX;
