@@ -15,11 +15,11 @@ class OOAddon
 
   function isActivated($addon)
   {
-    return OOAddon::_getProperty($addon, 'status') == 1;
+    return OOAddon::getProperty($addon, 'status') == 1;
   }
   function isInstalled($addon)
   {
-    return OOAddon::_getProperty($addon, 'install') == 1;
+    return OOAddon::getProperty($addon, 'install') == 1;
   }
 
   function isSystemAddon($addon)
@@ -30,17 +30,17 @@ class OOAddon
 
   function getVersion($addon, $default = null)
   {
-    return OOAddon::_getProperty($addon, 'version', $default);
+    return OOAddon::getProperty($addon, 'version', $default);
   }
 
   function getAuthor($addon, $default = null)
   {
-    return OOAddon::_getProperty($addon, 'author', $default);
+    return OOAddon::getProperty($addon, 'author', $default);
   }
 
   function getSupportPage($addon, $default = null)
   {
-    return OOAddon::_getProperty($addon, 'supportpage', $default);
+    return OOAddon::getProperty($addon, 'supportpage', $default);
   }
 
   function getAvailableAddons()
@@ -70,9 +70,20 @@ class OOAddon
     return $avail;
   }
 
-  function _getProperty($addon, $property, $default = null)
+  function setProperty($addon, $property, $value)
   {
     global $REX;
+
+    if(!isset($REX['ADDON'][$property]))
+      $REX['ADDON'][$property] = array();
+
+    $REX['ADDON'][$property][$addon] = $value;
+  }
+
+  function getProperty($addon, $property, $default = null)
+  {
+    global $REX;
+
     return isset($REX['ADDON'][$property][$addon]) ? $REX['ADDON'][$property][$addon] : $default;
   }
 }
