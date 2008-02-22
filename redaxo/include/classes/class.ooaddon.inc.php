@@ -54,6 +54,8 @@ class OOAddon
     }
     else
     {
+      $REX['ADDON'] = array();
+      $REX['ADDON']['install'] = array();
       $REX['ADDON']['status'] = array();
       $addons = array();
     }
