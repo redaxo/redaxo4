@@ -12,7 +12,7 @@
  * @version $Id$
  */
 ?>
-<h3>Version: 1.0</h1>
+<h2>Version: <?php echo $REX['ADDON']['version']['image_resize'] ?></h2>
 
 <h3>Features:</h3>
 
