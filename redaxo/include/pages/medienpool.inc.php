@@ -1520,7 +1520,7 @@ if ($subpage == '')
             </td>
             <td>';
 
-    echo rex_register_extension_point('MEDIA_FILELIST_FUNCTIONS',$opener_link, 
+    echo rex_register_extension_point('MEDIA_LIST_FUNCTIONS',$opener_link, 
     	array(
 				"file_id" => $files->getValue('file_id'),
 				"file_name" => $files->getValue('filename'),
