@@ -862,16 +862,16 @@ class rex_list
    */
   function formatValue($value, $format, $escape)
   {
-    if(!is_array($format))
-      return $value;
-
-    // Callbackfunktion -> Parameterliste aufbauen
-    if($this->isCustomFormat($format))
+    if(is_array($format))
     {
-      $format[1] = array($format[1], array('list' => $this, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
-    }
+      // Callbackfunktion -> Parameterliste aufbauen
+      if($this->isCustomFormat($format))
+      {
+        $format[1] = array($format[1], array('list' => $this, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
+      }
 
-    $value = rex_formatter::format($value, $format[0], $format[1]);
+      $value = rex_formatter::format($value, $format[0], $format[1]);
+    }
 
     // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
     if($escape && !$this->isCustomFormat($format) && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
