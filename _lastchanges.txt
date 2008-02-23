@@ -75,6 +75,7 @@ Version 4.1.X (2008-XX-XX)
     - alle DB Felder nun ansprechbar
     - keine Rückwärtskompatibilität!
   * JQuery 1.2.3 nun im Paket [kills]
+  * image_resize und textile sind nun system addons [jan]
   
   Bugfixes:
   * htmlspecialcharsprobleme in modules, templates, blockauflistung.. [jan]
