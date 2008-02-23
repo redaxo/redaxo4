@@ -938,52 +938,42 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp2 {
 
 
 /*	Widgets - MEDIA_BUTTON, MEDIALIST_BUTTON, LINK_BUTTON *********************/
-div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt {
-	width:300px;
+div.rex-wdgt {
+	width: 300px;
 	margin-bottom:10px;
 	padding:5px;
 	background-color:#fff;
 	border:1px solid #999;
 }
-
-body div#rex-output div.rex-wdgt p.rex-slct {
-	padding:0;
+div.rex-wdgt p.rex-wdgt-fld {
+	float: left;
+	padding: 0;
+	width: 230px;
 }
-body div#rex-output div.rex-wdgt p input,
-body div#rex-output div.rex-wdgt p.rex-slct select {
-	width:200px;
-	margin-right:5px;
+div.rex-wdgt div.rex-wdgt-lnk p.rex-wdgt-fld {
+	width: 250px;
 }
-body div#rex-output div.rex-wdgt p.rex-slct select {
-	width:205px;
+div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-fld {
+	width: 256px;
 }
-
-div.rex-wdgt div.rex-wdgt-mdlst p {
-	float:left;
-	padding-top:12px;
+div.rex-wdgt p.rex-wdgt-icons {
+	float: right;
 }
-
-div.rex-wdgt div.rex-wdgt-mdlst p a img {
-	margin-bottom:3px;
-}
-
-body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p input,
-body div#rex-output div.rex-cnt-editmode form div.rex-cnt-slc-ipt div.rex-wdgt p.rex-slct select,
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input,
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct select {
+div.rex-wdgt p.rex-wdgt-fld input, 
+div.rex-wdgt p.rex-wdgt-fld select {
+	width: 100%;
 	background-color:#f0efeb;
 }
-
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p input {
-	width:205px;
+div.rex-wdgt div.rex-wdgt-mda p.rex-wdgt-icons, 
+div.rex-wdgt div.rex-wdgt-lnk p.rex-wdgt-icons {
+	padding-top: 2px;
 }
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt p.rex-slct select {
-	width:211px;
+div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-icons {
+	padding-top: 12px;
 }
-body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld div.rex-wdgt div.rex-wdgt-mdlst p.rex-slct select {
-	height:100px;
+div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-icons a img {
+	margin-bottom:3px;
 }
-
 
 
 /*	Content - Metamode
