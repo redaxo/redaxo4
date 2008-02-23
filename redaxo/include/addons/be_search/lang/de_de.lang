@@ -6,3 +6,5 @@ search_start = suchen
 search_jump_to_category = Zur Kategorie springen
 search_quick_navi = Schnellnavigation
 search_no_results = Kein Artikel entspricht dem Suchkriterium
+
+search_mpool_search = Medien suchen 
