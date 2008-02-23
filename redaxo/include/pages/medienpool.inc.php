@@ -1434,7 +1434,6 @@ if ($subpage == '')
   // ----- EXTENSION POINT
   $qry = rex_register_extension_point('MEDIA_LIST_QUERY', $qry,
     array(
-      'subpage' => $subpage,
       'category_id' => $rex_file_category
     )
   );
