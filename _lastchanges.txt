@@ -74,6 +74,7 @@ Version 4.1.X (2008-XX-XX)
   * OOArticleSlice komplett überarbeitet [kills]
     - alle DB Felder nun ansprechbar
     - keine Rückwärtskompatibilität!
+  * JQuery 1.2.3 nun im Paket [kills]
   
   Bugfixes:
   * htmlspecialcharsprobleme in modules, templates, blockauflistung.. [jan]

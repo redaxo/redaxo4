@@ -30,6 +30,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="media/css_backend.css" media="screen, projection, print" />
   <link rel="stylesheet" type="text/css" href="media/css_aural.css" media="handheld, aural, braille" />
+  <script src="media/jquery-1.2.3.pack.js" type="text/javascript"></script>
   <script src="media/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
@@ -60,7 +61,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
 
   $activeClass = ' class="rex-active"';
   $liClass = $page == 'structure' || $page == 'content' ? $activeClass : '';
-  
+
   echo '<li'. $liClass .' id="rex-mainnavi-structure"><a href="index.php?page=structure"'. rex_tabindex() . rex_accesskey($I18N->msg('structure'), $accesskey++) .'>' . $I18N->msg("structure") . '</a></li>' . "\n";
 
   if ($REX_USER->hasPerm('mediapool[]') || $REX_USER->hasPerm('admin[]') || ($REX_USER->hasPerm('clang[') AND ($REX_USER->hasPerm('csw[') || $REX_USER->hasPerm('csr['))))
