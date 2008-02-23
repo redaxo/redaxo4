@@ -166,12 +166,13 @@ if($PERMALL)
   $subline[] = array('sync', $I18N->msg('pool_sync_files'));
 }
 
-$title = $I18N->msg('pool_media').': '.$subline[0][1];
-
-foreach($subline as $c)
-{
-  if ($c[0] == $subpage) $title = $I18N->msg('pool_media').': '.$c[1];
-}
+// ----- EXTENSION POINT
+$subline = rex_register_extension_point('PAGE_MEDIENPOOL_MENU', $subline,
+  array(
+    'subpage' => $subpage,
+    'category_id' => $rex_file_category
+  )
+);
 
 $title = $I18N->msg('pool_media');
 rex_title($title, $subline);
@@ -208,6 +209,15 @@ if ($rootCats = OOMediaCategory::getRootCategories())
     }
 }
 
+// ----- EXTENSION POINT
+echo rex_register_extension_point('PAGE_MEDIENPOOL_HEADER', '',
+  array(
+    'subpage' => $subpage,
+    'category_id' => $rex_file_category
+  )
+);
+
+
 // ***** formular
 $cat_out = '<div class="rex-mpl-catslct-frm">
               <form action="index.php" method="post">
@@ -224,6 +234,13 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
             </div>
 ';
 
+// ----- EXTENSION POINT
+$cat_out = rex_register_extension_point('MEDIA_LIST_TOOLBAR', $cat_out,
+  array(
+    'subpage' => $subpage,
+    'category_id' => $rex_file_category
+  )
+);
 
 
 
@@ -1412,13 +1429,21 @@ if ($subpage == '')
 
 
 
-  print '<tbody>';
+  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc";
 
-
+  // ----- EXTENSION POINT
+  $qry = rex_register_extension_point('MEDIA_LIST_QUERY', $qry,
+    array(
+      'subpage' => $subpage,
+      'category_id' => $rex_file_category
+    )
+  );
   $files = new rex_sql;
-  // $files->debugsql = 1;
-  $files->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc");
+//   $files->debugsql = 1;
+  $files->setQuery($qry);
 
+
+  print '<tbody>';
   for ($i=0;$i<$files->getRows();$i++)
   {
 
@@ -1520,7 +1545,7 @@ if ($subpage == '')
             </td>
             <td>';
 
-    echo rex_register_extension_point('MEDIA_LIST_FUNCTIONS',$opener_link, 
+    echo rex_register_extension_point('MEDIA_LIST_FUNCTIONS',$opener_link,
     	array(
 				"file_id" => $files->getValue('file_id'),
 				"file_name" => $files->getValue('filename'),
