@@ -40,8 +40,8 @@ if ($REX['REDAXO'])
   elseif ($page == 'medienpool')
   {
     require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_mpool.inc.php';
-    rex_register_extension('PAGE_MEDIENPOOL_MENU', 'rex_a256_search_mpool_menu');
-    rex_register_extension('PAGE_MEDIENPOOL_HEADER', 'rex_a256_search_mpool');
+    rex_register_extension('MEDIA_LIST_TOOLBAR', 'rex_a256_search_mpool');
+    rex_register_extension('MEDIA_LIST_QUERY', 'rex_a256_search_mpool_query');
   }
 }
 ?>
