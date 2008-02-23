@@ -567,9 +567,18 @@ echo '
 if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id)))
 {
   echo '<tr>
-          <td></td>
-          <td colspan="'. $data_colspan .'"><a href="index.php?page=structure&category_id='. $category->getParentId() .'&clang='. $clang .'">..</a></td>
-        </tr>';
+          <td class="rex-icon">&nbsp;</td>';
+  if ($REX_USER->hasPerm('advancedMode[]'))
+  {
+    echo '<td class="rex-icon">-</td>';
+  }  
+
+	echo '<td><a href="index.php?page=structure&category_id='. $category->getParentId() .'&clang='. $clang .'">..</a></td>';
+	echo '<td>&nbsp;</td>';
+	echo '<td>&nbsp;</td>';
+	echo '<td>&nbsp;</td>';
+	echo '</tr>';
+
 }
 
 // --------------------- KATEGORIE ADD FORM
