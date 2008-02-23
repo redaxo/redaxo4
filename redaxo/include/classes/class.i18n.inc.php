@@ -21,8 +21,9 @@ class i18n
    * the locale must of the common form, eg. de_DE, en_US or just plain en, de.
    * the searchpath is where the language files are located
    */
-  function i18n($locale, $searchpath)
+  function i18n($locale = "de_de", $searchpath)
   {
+  	
     $this->searchpath = $searchpath;
 
     $this->text = array ();
@@ -192,7 +193,7 @@ class i18n
 }
 
 // Funktion zum Anlegen eines Sprache-Objekts
-function rex_create_lang($locale, $searchpath = '')
+function rex_create_lang($locale = "de_de", $searchpath = '')
 {
   global $REX;
 

@@ -170,6 +170,9 @@ class rex_login
   function checkLogin()
   {
     global $REX, $I18N;
+    
+    if (!is_object($I18N)) $I18N = rex_create_lang();
+    
     // wenn logout dann header schreiben und auf error seite verweisen
     // message schreiben
 
