@@ -1191,13 +1191,25 @@ body div#rex-output div.rex-mpl-catslct-frm p {
 	border-left:1px solid #fff;
 }
 body div#rex-output div.rex-mpl-catslct-frm p label {
+	clear: none;
+	float: left;
 	width:104px;
 	margin-top:2px;
 	font-weight:bold;
 }
 body div#rex-output div.rex-mpl-catslct-frm p select {
-	width:250px;
+	float: left;
+	width:126px;
 	margin-left:0px;
+	margin-right: 20px;
+	vertical-align: middle;
+}
+body div#rex-output div.rex-mpl-catslct-frm p input {
+	width:140px;
+}
+body div#rex-output div.rex-mpl-catslct-frm p input.rex-sbmt {
+	width: auto;
+	line-height: 1em;
 }
 
 

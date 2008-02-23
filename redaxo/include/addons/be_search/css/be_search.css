@@ -10,6 +10,12 @@ div#rex-a256-searchbar form {
 	padding: 5px 0;
 	height: 20px;
 }
+div#rex-a256-searchbar form label {
+	font-weight: bold;
+}
+div#rex-a256-searchbar form input.rex-sbmt {
+	line-height: 1em;
+}
 div#rex-a256-searchbar ul {
 	clear: both;
 	margin-left: 40px;

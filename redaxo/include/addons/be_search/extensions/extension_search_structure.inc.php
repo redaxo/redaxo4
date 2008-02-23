@@ -110,7 +110,7 @@ function rex_a256_search_structure($params)
 
         	<label for="rex-a256-article-id">'. $I18N_BE_SEARCH->msg('search_article_id') .'</label>
 	        <input type="text" name="a256_article_id" id="rex-a256-article-id" />
-    	    <input type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_start') .'" />
+    	    <input class="rex-sbmt" type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_start') .'" />
 		    </div>
 
     		<div class="rex-f-rght">
