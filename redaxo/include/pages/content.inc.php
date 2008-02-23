@@ -89,12 +89,22 @@ if ($article->getRows() == 1)
   if ($mode != 'meta')
     $mode = 'edit';
 
+  // ----- EXTENSION POINT
+  echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
+    array(
+      'article_id' => $article_id,
+      'clang' => $clang,
+      'function' => $function,
+      'mode' => $mode,
+      'slice_id' => $slice_id
+    )
+  );
+
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
   if (!($KATPERM || $REX_USER->hasPerm('article[' . $article_id . ']')))
   {
     // ----- hat keine rechte an diesem artikel
     echo rex_warning($I18N->msg('no_rights_to_edit'));
-
   }
   else
   {
@@ -666,17 +676,6 @@ if ($article->getRows() == 1)
     $menu .= '</ul>';
 
     // ------------------------------------------ END: CONTENT HEAD MENUE
-
-    // ----- EXTENSION POINT
-    echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
-      array(
-        'article_id' => $article_id,
-        'clang' => $clang,
-        'function' => $function,
-        'mode' => $mode,
-        'slice_id' => $slice_id
-      )
-    );
 
     // ------------------------------------------ START: AUSGABE
     echo '
