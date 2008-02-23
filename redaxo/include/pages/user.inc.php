@@ -756,7 +756,7 @@ if (isset($SHOW) and $SHOW)
 
   $list->addColumn('funcs', $I18N->msg('user_delete'));
   $list->setColumnLabel('funcs', $I18N->msg('user_functions'));
-  $list->setColumnParams('funcs', array('func' => 'delete', 'user_id' => '###user_id###'));
+  $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
   $list->setColumnFormat('funcs', 'custom',
     create_function(
       '$params',
