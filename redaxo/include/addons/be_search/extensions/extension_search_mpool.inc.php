@@ -23,25 +23,26 @@ function rex_a256_search_mpool($params)
     <label for="a256_media_name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
     <input type="text" name="a256_media_name" id="a256_media_name" value="'. $media_name .'" />
   </p>';
+  
+  $search_form = '
+  
+    <label for="a256_media_name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
+    <input type="text" name="a256_media_name" id="a256_media_name" value="'. $media_name .'" />
+  ';
 
-  $subject = str_replace('</p>', '</p>'. $search_form, $subject);
+  $subject = str_replace('</select>', '</select>'. $search_form, $subject);
 
   return $subject;
 }
 
 function rex_a256_search_mpool_query($params)
 {
-  global $REX;
-
   $media_name = rex_request('a256_media_name', 'string');
   if($media_name == '') return $params['subject'];
 
   $subject = $params['subject'];
-
-  return "SELECT *
-          FROM ".$REX['TABLE_PREFIX']."file f, ".$REX['TABLE_PREFIX']."file_category c
-          WHERE f.category_id = c.id AND c.path LIKE '%|". $params['category_id'] ."|%' AND (filename LIKE '%". $media_name ."%' OR title LIKE '%". $media_name ."%')
-          ORDER BY f.updatedate desc";
+  $subject = preg_replace('/WHERE/', 'WHERE (filename LIKE "%'. $media_name .'%" OR title LIKE "%'. $media_name .'%") AND', $subject);
+  return $subject;
 }
 
 ?>
