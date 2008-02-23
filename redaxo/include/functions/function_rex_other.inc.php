@@ -220,15 +220,15 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
 /**
  * Leitet auf einen anderen Artikel weiter
  */
-function rex_redirect($article_id, $clang, $params = array())
+function rex_redirect($article_id, $clang = '', $params = array())
 {
   global $REX;
-
+  
   // Alle OBs schlieﬂen
   while(@ob_end_clean());
 
   $divider = '&';
-  $url = rex_no_rewrite($article_id, $clang, '', rex_param_string($params, $divider), $divider);
+  $url = rex_getUrl($article_id, $clang, $params, $divider);
 
   header('Location: '. $url);
   exit();
