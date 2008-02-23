@@ -37,7 +37,7 @@ class rex_login_sql extends rex_sql
 
   function hasCategoryPerm($category_id)
   {
-    return $this->hasPerm('admin[]') || $this->hasPerm('csw[0]') || $this->hasPerm('csr[' . $category_id . ']') || $this->hasPerm('csw[' . $category_id . ']');
+    return $this->isAdmin() || $this->hasPerm('csw[0]') || $this->hasPerm('csr[' . $category_id . ']') || $this->hasPerm('csw[' . $category_id . ']');
   }
 }
 
@@ -175,9 +175,9 @@ class rex_login
   function checkLogin()
   {
     global $REX, $I18N;
-    
+
     if (!is_object($I18N)) $I18N = rex_create_lang();
-    
+
     // wenn logout dann header schreiben und auf error seite verweisen
     // message schreiben
 
