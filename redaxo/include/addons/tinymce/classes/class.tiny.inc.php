@@ -404,20 +404,20 @@ class rexTiny2Editor
     echo '//redaxo default callback functions' . "\n";
 
     echo 'function insertLink(link,name){' . "\n";
-    echo ' var win=tinyMCEPopup.getWindowArg("window");'."\n";
+    echo ' var win=tinyMCE.getWindowArg("window");'."\n";
     echo ' win.document.forms[0].href.value=link;'."\n";
     echo ' win.document.forms[0].title.value=name;'."\n";
     echo '}' . "\n";
 
     echo 'function insertImage(imageUrl,title){' . "\n";
-    echo ' var win=tinyMCEPopup.getWindowArg("window");'."\n";
+    echo ' var win=tinyMCE.getWindowArg("window");'."\n";
     echo ' win.document.forms[0].src.value=imageUrl;'."\n";
     echo ' win.document.forms[0].title.value=title;'."\n";
     // Hier Fehler behandeln
     // siehe http://trac.symfony-project.com/ticket/2625
     echo ' try {'."\n";
-    echo '   win.ImageDialog.resetImageData();'."\n";
-    echo '   win.ImageDialog.showPreviewImage(imageUrl, false);'."\n";
+    echo '   win.resetImageData();'."\n";
+    echo '   win.showPreviewImage(imageUrl, false);'."\n";
     echo ' } catch (ex) {}'."\n";
     echo '}' . "\n";
 
