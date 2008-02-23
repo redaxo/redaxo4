@@ -25,6 +25,11 @@ class rex_login_sql extends rex_sql
     }
   }
 
+  function isAdmin()
+  {
+    return $this->hasPerm('admin[]');
+  }
+
   function hasPerm($perm)
   {
     return $this->isValueOf('rights', $perm);
