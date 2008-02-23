@@ -81,14 +81,14 @@ class rex_thumbnail
   {
     // --- height
     $this->img['height_thumb'] = (int) $size;
-    $this->img['width_thumb']  = (int) ($this->img['height_thumb'] / $this->img['height']) * $this->img['width'];
+    $this->img['width_thumb']  = (int) ($this->img['height_thumb'] / $this->img['height'] * $this->img['width']);
   }
 
   function size_width($size)
   {
     // --- width
     $this->img['width_thumb']  = (int) $size;
-    $this->img['height_thumb'] = (int) ($this->img['width_thumb'] / $this->img['width']) * $this->img['height'];
+    $this->img['height_thumb'] = (int) ($this->img['width_thumb'] / $this->img['width'] * $this->img['height']);
   }
 
   function size_auto($size)
@@ -226,12 +226,21 @@ class rex_thumbnail
 	{
 		global $REX;
 		$glo = glob($this->img_cachepath."image_resize__*"."__".$this->img_filename);
-		if ($REX['ADDON']['image_resize']['max_cachefiles']<count($glo))
+		if ($REX['ADDON']['image_resize']['max_cachefiles']<=count($glo))
 		{
+			$cachefile = '';
+			$cachetime = -1;
+			
+			// nur das Šlteste Cachefile lšschen
 			foreach($glo as $gl)
 			{
-				unlink ($gl);
+				if ($cachetime == -1 || filectime($gl) < $cachetime)
+				{
+					$cachetime = filectime($gl);
+					$cachefile = $gl;
+				}
 			}
+			if ($cachefile != "") unlink ($cachefile);
 		}
 	}
 
