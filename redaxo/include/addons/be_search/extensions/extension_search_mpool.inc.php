@@ -9,8 +9,7 @@
  * @version $Id$
  */
 
-function rex_a256_search_modules()
+function rex_a256_search_mpool()
 {
-  // TODO Implementierung fehlt noch komplett
 }
 ?>

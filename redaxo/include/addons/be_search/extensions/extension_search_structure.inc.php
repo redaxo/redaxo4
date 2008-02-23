@@ -9,7 +9,7 @@
  * @version $Id$
  */
 
-function rex_a256_search_bar($params)
+function rex_a256_search_structure($params)
 {
   global $REX, $REX_USER, $I18N_BE_SEARCH, $category_id, $clang;
 

@@ -29,18 +29,18 @@ if ($REX['REDAXO'])
   // Include Extensions
   if(!isset($page) || $page == 'structure' || $page == '')
   {
-    require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_bar.inc.php';
-    rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_a256_search_bar');
+    require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
+    rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_a256_search_structure');
   }
   elseif($page == 'content')
   {
-    require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_bar.inc.php';
-    rex_register_extension('PAGE_CONTENT_HEADER', 'rex_a256_search_bar');
+    require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
+    rex_register_extension('PAGE_CONTENT_HEADER', 'rex_a256_search_structure');
   }
-  elseif ($page == 'module')
+  elseif ($page == 'medienpool')
   {
     require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_modules.inc.php';
-    rex_register_extension('OUTPUT_FILTER', 'rex_a256_search_modules');
+    rex_register_extension('PAGE_MEDIENPOOL_HEADER', 'rex_a256_search_mpool');
   }
 }
 ?>
