@@ -219,6 +219,8 @@ class rex_a62_tableExpander extends rex_form
 
   function save()
   {
+    $fieldName = $this->getFieldValue('name');
+
     // Den alten Wert aus der DB holen
     // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den
     // POST werten überschrieben werden!
