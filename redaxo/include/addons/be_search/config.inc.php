@@ -20,7 +20,10 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-//$REX['PERM'][] = 'be_search[]';
+
+$REX['EXTPERM'][] = 'be_search[medienpool]';
+$REX['EXTPERM'][] = 'be_search[structure]';
+
 if ($REX['REDAXO'])
 {
   require $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_common.inc.php';

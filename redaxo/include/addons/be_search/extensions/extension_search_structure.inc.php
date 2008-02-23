@@ -13,6 +13,11 @@ function rex_a256_search_structure($params)
 {
   global $REX, $REX_USER, $I18N_BE_SEARCH, $category_id, $clang;
 
+  if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[structure]')))
+  {
+    return $params['subject'];
+  }
+
   $message = '';
   $search_result = '';
   $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s';
