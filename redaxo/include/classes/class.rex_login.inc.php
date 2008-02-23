@@ -29,6 +29,11 @@ class rex_login_sql extends rex_sql
   {
     return $this->isValueOf('rights', $perm);
   }
+
+  function hasCategoryPerm($category_id)
+  {
+    return $this->hasPerm('admin[]') || $this->hasPerm('csw[0]') || $this->hasPerm('csr[' . $category_id . ']') || $this->hasPerm('csw[' . $category_id . ']');
+  }
 }
 
 class rex_login

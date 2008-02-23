@@ -342,7 +342,7 @@ class rex_category_select extends rex_select
     }
 
     if(!$this->check_perms ||
-        $this->check_perms && $REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csr[' . $cat->getId() . ']') || $REX_USER->hasPerm('csw[' . $cat->getId() . ']'))
+        $this->check_perms && $REX_USER->hasCategoryPerm($cat->getId()))
     {
       $this->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
       $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
