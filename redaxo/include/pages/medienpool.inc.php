@@ -1428,7 +1428,7 @@ if ($subpage == '')
     $file_title = $files->getValue('title');
     $file_type = $files->getValue('filetype');
     $file_size = $files->getValue('filesize');
-    $file_stamp = date('d-M-Y | H:i',$files->getValue('updatedate')).'h';
+    $file_stamp = rex_formatter::format($files->getValue('updatedate'), "strftime", "datetime");
     $file_updateuser = $files->getValue('updateuser');
 
     $encoded_file_name = urlencode($file_name);
@@ -1518,9 +1518,23 @@ if ($subpage == '')
                 <span>'. $desc .'<strong>'.htmlspecialchars($file_name).' ['.$file_size.']</strong></span>
                 <span>'.$file_stamp .' | '. htmlspecialchars($file_updateuser).'</span>
             </td>
-            <td>'.$opener_link.'</td>
-         </tr>
-';
+            <td>';
+
+    echo rex_register_extension_point('MEDIA_FILELIST_FUNCTIONS',$opener_link, 
+    	array(
+				"file_id" => $files->getValue('file_id'),
+				"file_name" => $files->getValue('filename'),
+				"file_oname" => $files->getValue('originalname'),
+				"file_title" => $files->getValue('title'),
+				"file_type" => $files->getValue('filetype'),
+				"file_size" => $files->getValue('filesize'),
+				"file_stamp" => $files->getValue('updatedate'),
+				"file_updateuser" => $files->getValue('updateuser')
+				)
+			);
+
+    echo '</td>
+         </tr>';
 
     $files->next();
   } // endforeach

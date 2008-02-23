@@ -10,7 +10,7 @@ dateformat = %d. %b. %Y
 setlocale = de_DE
 phpini_settings = PHP.ini Einstellungen
 
-datetimeformat = %d. %b. %Y - %H:%M
+datetimeformat = %d. %b. %Y - %H:%Mh
 ctrl = Mehrfachauswahl mit STRG
 
 # redaxo/index.php
