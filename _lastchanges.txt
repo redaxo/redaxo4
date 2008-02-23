@@ -42,6 +42,7 @@ Version 4.1.X (2008-XX-XX)
 
   * Neues Core Addon:
     - be_search [kills]
+    - image_resize und textile sind nun system addons [jan]
   * ImageResize: 
     - Neue Konfigurationsmöglichkeiten zur Sicherheit [jan]
     - Maximale Anzahl von Cachedateien einschränkbar [jan]
@@ -71,11 +72,14 @@ Version 4.1.X (2008-XX-XX)
     - PAGE_CONTENT_HEADER [kills]
     - PAGE_STRUCTURE_HEADER [kills]
     - SLICE_SHOW [arnold,jan]
+    - PAGE_MEDIENPOOL_HEADER [kills]
+    - PAGE_MEDIENPOOL_MENU [kills]
+    - MEDIA_LIST_TOOLBAR [kills]
+    - MEDIA_LIST_QUERY [kills]
   * OOArticleSlice komplett überarbeitet [kills]
     - alle DB Felder nun ansprechbar
     - keine Rückwärtskompatibilität!
   * JQuery 1.2.3 nun im Paket [kills]
-  * image_resize und textile sind nun system addons [jan]
   
   Bugfixes:
   * htmlspecialcharsprobleme in modules, templates, blockauflistung.. [jan]
