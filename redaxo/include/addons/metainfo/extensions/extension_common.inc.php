@@ -69,6 +69,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dblength  = $sqlFields->getValue('dblength');
 
     $dbvalues = array(htmlspecialchars($sqlFields->getValue('default')));
+    $dbvalues_esc = $dbvalues;
     if($activeItem)
     {
       $itemValue = $activeItem->getValue($name);
