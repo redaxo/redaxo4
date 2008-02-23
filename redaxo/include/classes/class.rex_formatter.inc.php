@@ -50,11 +50,6 @@ class rex_formatter
   {
     global $I18N, $REX;
 
-    if($value === null || $value == '')
-    {
-      return '';
-    }
-
     // Stringformatierung mit sprintf()
     if ($format_type == 'sprintf')
     {
