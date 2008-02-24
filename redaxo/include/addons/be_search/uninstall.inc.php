@@ -3,8 +3,7 @@
 /**
  * Backend Search Addon
  *
- * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
+ * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
  * @version $Id$
