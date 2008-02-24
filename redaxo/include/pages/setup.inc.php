@@ -504,15 +504,15 @@ if ($checkmodus == 3 && $send == 1)
   {
     // ----- vorhandenen Export importieren
 
-    $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
-    $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
-
     if(empty($import_name))
     {
       $err_msg .= '<p>'.$I18N->msg('setup_03701').'</p>';
     }
     else
     {
+      $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
+      $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
+
       // Nur hier zuerst die Addons installieren
       // Da sonst Daten aus dem eingespielten Export
       // Überschrieben würden
