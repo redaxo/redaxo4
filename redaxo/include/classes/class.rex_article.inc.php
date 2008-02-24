@@ -406,7 +406,7 @@ class rex_article
 
               $mne = $msg .'
 			       	<div class="rex-cnt-editmode-slc">
-                <p class="rex-flLeft">'. $RE_MODUL_NAME[$I_ID] .'</p>
+                <p class="rex-flLeft">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</p>
                 <ul class="rex-flRight" id="rex-slc-mnu">
               ';
 
@@ -661,7 +661,7 @@ class rex_article
             <input type="hidden" name="clang" value="'. $this->clang .'" />
             <input type="hidden" name="ctype" value="'.$this->ctype .'" />
             <p class="rex-cnt-mdl-name">
-              '. $I18N->msg("module") .': <span>'. $MOD->getValue("name") .'</span>
+              '. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
             </p>
             <div class="rex-cnt-slc-ipt"><div class="rex-cnt-slc-ipt2">
               '. $MOD->getValue("eingabe") .'
@@ -722,10 +722,12 @@ class rex_article
           <input type="hidden" name="update" value="0" />
           <input type="hidden" name="clang" value="'.$this->clang.'" />
 
+    		  <div class="rex-cnt-slc-ipt">
+            <div class="rex-cnt-slc-ipt2">
+              '. $RE_MODUL_IN .'
+    		    </div>
+          </div>
 
-		  <div class="rex-cnt-slc-ipt"><div class="rex-cnt-slc-ipt2">
-          '.$RE_MODUL_IN.'
-		  </div></div>
           <p class="rex-sbmt">
             <input type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
             <input type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
