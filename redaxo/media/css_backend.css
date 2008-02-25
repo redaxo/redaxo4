@@ -1199,7 +1199,7 @@ body div#rex-output div.rex-mpl-catslct-frm p label {
 }
 body div#rex-output div.rex-mpl-catslct-frm p select {
 	float: left;
-	width:126px;
+	width:180px;
 	margin-left:0px;
 	margin-right: 20px;
 	vertical-align: middle;
