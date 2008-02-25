@@ -2,7 +2,7 @@
 
 // ----------------- CLANG
 // --- DYN
-$REX['CLANG'][0] = "deutsch";
+$REX['CLANG']['0'] = "deutsch";
 // --- /DYN
 
 ?>
