@@ -34,12 +34,12 @@ div#rex-a256-searchbar form div.rex-f-rght {
 	padding-right: 5px;
 }
 div#rex-a256-searchbar form input#rex-a256-article-name {
-	width: 150px;
+	width: 120px;
 	margin-right: 5px;
 }
 div#rex-a256-searchbar form input#rex-a256-article-id {
 	width: 40px;
 }
 div#rex-a256-searchbar form select#rex-a256-category-id {
-	width: 148px;
+	width: 180px;
 }
