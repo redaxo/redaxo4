@@ -27,5 +27,5 @@ switch ($subpage)
 }
 
 rex_title($title, array (array ('', $I18N->msg('modules')), array ('actions', $I18N->msg('actions'))));
-include $REX['INCLUDE_PATH'].'/pages/'.$file;
+require $REX['INCLUDE_PATH'].'/pages/'.$file;
 ?>

@@ -17,7 +17,7 @@ $func = rex_request('func', 'string');
 
 
 // Include Header and Navigation
-include $REX['INCLUDE_PATH'].'/layout/top.php';
+require $REX['INCLUDE_PATH'].'/layout/top.php';
 
 // Build Subnavigation
 $subpages = array(
@@ -54,5 +54,5 @@ switch($subpage)
 require $Basedir .'/field.inc.php';
 
 // Include Footer
-include $REX['INCLUDE_PATH'].'/layout/bottom.php';
+require $REX['INCLUDE_PATH'].'/layout/bottom.php';
 ?>

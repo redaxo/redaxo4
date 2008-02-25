@@ -12,7 +12,7 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK && REGISTER GLOBALS
-include './include/functions/function_rex_mquotes.inc.php';
+require './include/functions/function_rex_mquotes.inc.php';
 
 // ----- REX UNSET
 unset($REX);
@@ -32,7 +32,7 @@ $REX['GG'] = false;
 
 // setzte pfad und includiere klassen und funktionen
 $REX['HTDOCS_PATH'] = '../';
-include 'include/master.inc.php';
+require 'include/master.inc.php';
 
 // ----- addon/normal page path
 $REX['PAGEPATH'] = '';
@@ -118,7 +118,7 @@ else
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
 
-    $page = strtolower(rex_request('page', 'string'));
+    $page = strtolower(rex_request('page', 'string', $REX['START_PAGE']));
 
     // --- addon page check
     if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))
@@ -202,9 +202,9 @@ else
 if ($REX['PAGEPATH'] == '') $REX['PAGEPATH'] = $REX['INCLUDE_PATH'].'/pages/'. $page .'.inc.php';
 
 // ----- ausgabe des includes
-if ($withheader) include $REX['INCLUDE_PATH'].'/layout/top.php';
-include $REX['PAGEPATH'];
-if ($withheader) include $REX['INCLUDE_PATH'].'/layout/bottom.php';
+if ($withheader) require $REX['INCLUDE_PATH'].'/layout/top.php';
+require $REX['PAGEPATH'];
+if ($withheader) require $REX['INCLUDE_PATH'].'/layout/bottom.php';
 
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();

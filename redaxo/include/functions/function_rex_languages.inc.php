@@ -65,7 +65,7 @@ if ($num_clang>1)
       '. rex_warning('You have no permission to this area') .'
 <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
 ';
-		include $REX['INCLUDE_PATH']."/layout/bottom.php";
+		require $REX['INCLUDE_PATH']."/layout/bottom.php";
 		exit;
 	}
 }

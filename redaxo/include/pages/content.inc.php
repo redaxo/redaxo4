@@ -53,7 +53,7 @@ if ($article->getRows() == 1)
     $category_id = $article->getValue('re_id');
 
   // ----- category pfad und rechte
-  include $REX['INCLUDE_PATH'] . '/functions/function_rex_category.inc.php';
+  require $REX['INCLUDE_PATH'] . '/functions/function_rex_category.inc.php';
   // $KATout kommt aus dem include
   // $KATPERM
 
@@ -78,7 +78,7 @@ if ($article->getRows() == 1)
 
   // ----- Sprachenblock
   $sprachen_add = '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-  include $REX['INCLUDE_PATH'] . '/functions/function_rex_languages.inc.php';
+  require $REX['INCLUDE_PATH'] . '/functions/function_rex_languages.inc.php';
 
 	// ----- Request Parameter
   $mode = rex_request('mode', 'string');

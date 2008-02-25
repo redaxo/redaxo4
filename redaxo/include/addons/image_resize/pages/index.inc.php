@@ -11,7 +11,7 @@
  * @version $Id$
  */
 
-include $REX['INCLUDE_PATH'] . '/layout/top.php';
+require $REX['INCLUDE_PATH'] . '/layout/top.php';
 
 if (isset ($subpage) and $subpage == 'clear_cache')
 {
@@ -44,8 +44,8 @@ switch($subpage)
   }
 }
 
-include $REX['INCLUDE_PATH'] . '/addons/image_resize/pages/'.$subpage.'.inc.php';
+require $REX['INCLUDE_PATH'] . '/addons/image_resize/pages/'.$subpage.'.inc.php';
 
-include $REX['INCLUDE_PATH'] . '/layout/bottom.php';
+require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
 
 ?>

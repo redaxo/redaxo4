@@ -69,7 +69,7 @@ class rex_var_template extends rex_var
       $tpl = '<?php
       '. $varname .' = new rex_template();
       '. $varname .'->setId('. $template_id .');
-      include '. $varname .'->getFile();
+      require '. $varname .'->getFile();
       ?>';
 
       $template = new rex_template($template_id);

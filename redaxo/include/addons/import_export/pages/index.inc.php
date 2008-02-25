@@ -214,7 +214,7 @@ elseif (isset ($function) && $function == 'export')
   }
 }
 
-include $REX['INCLUDE_PATH']."/layout/top.php";
+require $REX['INCLUDE_PATH']."/layout/top.php";
 
 rex_title($I18N_IM_EXPORT->msg("importexport"), "");
 
@@ -438,4 +438,4 @@ else
 
 </div>
 
-<?php include $REX['INCLUDE_PATH']."/layout/bottom.php"; ?>
+<?php require $REX['INCLUDE_PATH']."/layout/bottom.php"; ?>

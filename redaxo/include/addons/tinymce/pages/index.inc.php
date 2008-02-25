@@ -13,7 +13,7 @@
  * @version $Id$
  */
 
-include $REX['INCLUDE_PATH']."/layout/top.php";
+require $REX['INCLUDE_PATH']."/layout/top.php";
 
 $subline = '
 <ul>
@@ -165,6 +165,6 @@ EOD;
 
 <?php
 
-include $REX['INCLUDE_PATH']."/layout/bottom.php";
+require $REX['INCLUDE_PATH']."/layout/bottom.php";
 
 ?>
