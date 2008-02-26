@@ -50,8 +50,12 @@ Version 4.1.X (2008-XX-XX)
     - Konfiguration im AddOn möglich [jan]
     - Neuer Branding Filter [kills]
   * Neue Variablen in den Actions/Aktionen : [kills]
-    - $REX['ARTICLE_ID']
     - $REX['EVENT']
+    - $REX['ARTICLE_ID']
+    - $REX['CLANG_ID']
+    - $REX['CTYPE_ID']
+    - $REX['MODULE_ID']
+    - $REX['SLICE_ID']
   * Medienpool: MetaInfo Felder sind jetzt auch beim Einfüge-Formular eingebaut [kills]
   * PHPMailer: Update auf PHPMailer 2.0 [kills]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
