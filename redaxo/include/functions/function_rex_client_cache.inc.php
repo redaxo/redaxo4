@@ -8,7 +8,29 @@
  */
 
 /**
- * Sendet den Content zum Client,
+ * Sendet eine Datei zum Client
+ *
+ * @param $file string Pfad zur Datei
+ * @param $contentType ContentType der Datei
+ * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
+ * (frontend/backend)
+ */
+function rex_send_file($file, $contentType, $environment = 'backend')
+{
+  header('Content-Type: '. $contentType);
+
+  $content = rex_get_file_contents($file);
+  $cacheKey = md5($content . $file . $contentType . $environment);
+
+  rex_send_content(
+    $content,
+    filemtime($file),
+    $cacheKey,
+    $environment);
+}
+
+/**
+ * Sendet einen rex_article zum Client,
  * fügt ggf. HTTP1.1 cache headers hinzu
  *
  * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
@@ -16,7 +38,38 @@
  * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
  * (frontend/backend)
  */
-function rex_send_content($REX_ARTICLE, $content, $environment)
+function rex_send_article($REX_ARTICLE, $content, $environment)
+{
+  $contentMd5 = md5($content);
+
+  if($REX_ARTICLE)
+  {
+    $lastModified = $REX_ARTICLE->getValue('updatedate');
+    $contentMd5 .= $REX_ARTICLE->getValue('pid');
+  }
+  else
+  {
+    $lastModified = time();
+  }
+
+  rex_send_content(
+    $content,
+    $lastModified,
+    $contentMd5,
+    $environment);
+}
+
+/**
+ * Sendet den Content zum Client,
+ * fügt ggf. HTTP1.1 cache headers hinzu
+ *
+ * @param $content string Inhalt des Artikels
+ * @param $lastModified integer Last-Modified Timestamp
+ * @param $cacheKey string Cachekey zur identifizierung des Caches
+ * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
+ * (frontend/backend)
+ */
+function rex_send_content($content, $lastModified, $cacheKey, $environment)
 {
   global $REX;
 
@@ -28,11 +81,11 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
 
   // ----- Last-Modified
   if($REX['USE_LAST_MODIFIED'] === 'true' || $REX['USE_LAST_MODIFIED'] == $environment)
-    rex_send_last_modified($REX_ARTICLE);
+    rex_send_last_modified($lastModified);
 
   // ----- ETAG
   if($REX['USE_ETAG'] === 'true' || $REX['USE_ETAG'] == $environment)
-    rex_send_etag($REX_ARTICLE, $content);
+    rex_send_etag($cacheKey);
 
   // ----- GZIP
   if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
@@ -40,7 +93,7 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
 
   // ----- MD5 Checksum
   if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
-    rex_send_checksum($content);
+    rex_send_checksum(md5($content));
 
   // Evtl offene Db Verbindungen schließen
   rex_sql::disconnect(null);
@@ -53,13 +106,11 @@ function rex_send_content($REX_ARTICLE, $content, $environment)
  *
  * XHTML 1.1: HTTP_IF_MODIFIED_SINCE feature
  *
- * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
+ * @param $lastModified integer Last-Modified Timestamp
  */
-function rex_send_last_modified($REX_ARTICLE)
+function rex_send_last_modified($lastModified = null)
 {
-  if($REX_ARTICLE)
-    $lastModified = $REX_ARTICLE->getValue('updatedate');
-  else
+  if(!$lastModified)
     $lastModified = time();
 
   $lastModified = date('r', $lastModified);
@@ -84,17 +135,10 @@ function rex_send_last_modified($REX_ARTICLE)
  *
  * XHTML 1.1: HTTP_IF_NONE_MATCH feature
  *
- * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
- * @param $content string Inhalt des Artikels
+ * @param $cacheKey string Cachekey zur identifizierung des Caches
  */
-function rex_send_etag($REX_ARTICLE, $content)
+function rex_send_etag($cacheKey)
 {
-  $cacheKey = md5($content);
-
-  // Concat rex_article primary key to cache key in frontend
-  if($REX_ARTICLE)
-    $cacheKey .= $REX_ARTICLE->getValue('pid');
-
   // Sende CacheKey als ETag
   header('ETag: "' . $cacheKey .'"');
 
@@ -147,10 +191,10 @@ function rex_send_gzip($content)
  *
  * XHTML 1.1: HTTP_CONTENT_MD5 feature
  *
- * @param $content string Inhalt des Artikels
+ * @param $md5 string MD5 Summe des Inhalts
  */
-function rex_send_checksum($content)
+function rex_send_checksum($md5)
 {
-  header('Content-MD5: '. md5($content));
+  header('Content-MD5: '. $md5);
 }
 ?>
