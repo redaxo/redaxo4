@@ -621,7 +621,9 @@ class rex_article
 
     	$TEMPLATE = new rex_template();
     	$TEMPLATE->setId($this->getTemplateId());
-			eval("?>".$TEMPLATE->getTemplate());
+      $tplContent = $TEMPLATE->getTemplate();
+      $tplContent = $this->replaceCommonVars($tplContent);
+			eval("?>".$tplContent);
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
