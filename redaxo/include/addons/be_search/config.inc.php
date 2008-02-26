@@ -25,7 +25,17 @@ $REX['EXTPERM'][] = 'be_search[structure]';
 
 if ($REX['REDAXO'])
 {
-  require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_common.inc.php';
+  if(rex_get('css', 'string') == 'be_search')
+  {
+    $cssfile = $REX['INCLUDE_PATH'] .'/addons/be_search/css/be_search.css';
+    rex_send_file($cssfile, 'text/css');
+    exit();
+  }
+
+  rex_register_extension('PAGE_HEADER',
+    create_function('$params', 'return \'  <link rel="stylesheet" type="text/css" href="index.php?css=be_search" />\';')
+  );
+
   $I18N_BE_SEARCH = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
   // Include Extensions
