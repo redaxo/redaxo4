@@ -71,7 +71,7 @@ class rex_article
     $this->slice_id = $value;
   }
 
-  function setCLang($value)
+  function setClang($value)
   {
     global $REX;
     if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = $REX['CUR_CLANG'];
