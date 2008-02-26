@@ -1562,16 +1562,30 @@ div.rex-cnt-editmode div.rex-cnt-slc-otp h4,
 div.rex-cnt-editmode div.rex-cnt-slc-otp h5,
 div.rex-cnt-editmode div.rex-cnt-slc-otp h6,
 div.rex-cnt-editmode div.rex-cnt-slc-otp p,
+div.rex-cnt-editmode div.rex-cnt-slc-otp ol,
 div.rex-cnt-editmode div.rex-cnt-slc-otp ul {
 	margin-bottom:10px;
 }
 
-div.rex-cnt-editmode div.rex-cnt-slc-otp ul li{
-	list-style-type:disc;
-	margin-left:15px;
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ol, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ol {
+	margin-left: 20px;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ul, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul {
+	margin-left: 15px;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ol li, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ol li {
+	list-style-type: decimal;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ul li, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul li {
+	list-style-type: disc;
 }
 
-div.rex-cnt-editmode div.rex-cnt-slc-otp code{
+
+div.rex-cnt-editmode div.rex-cnt-slc-otp code {
 	font-size:1.4em;
 }
 
