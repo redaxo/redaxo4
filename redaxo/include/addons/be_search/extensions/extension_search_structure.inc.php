@@ -26,6 +26,7 @@ function rex_a256_search_structure($params)
   $a256_article_id   = rex_post('a256_article_id'  , 'int');
   $a256_clang        = rex_post('a256_clang'       , 'int');
   $a256_article_name = rex_post('a256_article_name', 'string');
+  $mode              = rex_request('mode', 'string');
 
   // ------------ Suche via ArtikelId
   if($a256_article_id != 0)
@@ -95,10 +96,12 @@ function rex_a256_search_structure($params)
     }
   }
 
-  $subject = $params['subject'];
+  $select_name = 'category_id';
+  if($mode == 'edit')
+    $select_name = 'article_id';
 
   $category_select = new rex_category_select();
-  $category_select->setName('category_id');
+  $category_select->setName($select_name);
   $category_select->setId('rex-a256-category-id');
   $category_select->setSize('1');
   $category_select->setAttribute('onchange', 'this.form.submit();');
@@ -133,6 +136,6 @@ function rex_a256_search_structure($params)
    </div>
    <div class="rex-clearer"></div>';
 
-  return $search_bar . $subject;
+  return $search_bar . $params['subject'];
 }
 ?>
