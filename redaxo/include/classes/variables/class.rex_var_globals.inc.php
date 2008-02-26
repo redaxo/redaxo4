@@ -34,9 +34,10 @@ class rex_var_globals extends rex_var
       $REX_ACTION['SLICE_ID'] = 0;
     }
 
-    // ArtikelId hier nur einfuegen, damit in einer Aktion abgefragt
-    // werden kann in welchem Artikel gerade gearbeitet wird
+    // Variablen hier einfuegen, damit sie in einer
+    // Aktion abgefragt werden können
     $REX_ACTION['ARTICLE_ID'] = rex_request('article_id', 'int');
+    $REX_ACTION['CLANG_ID'] = rex_request('clang', 'int');
     $REX_ACTION['CTYPE_ID'] = rex_request('ctype', 'int');
     $REX_ACTION['MODULE_ID'] = rex_request('module_id', 'int');
 
@@ -45,12 +46,13 @@ class rex_var_globals extends rex_var
 
   function getACDatabaseValues($REX_ACTION, & $sql)
   {
-    // ArtikelId hier nur einfuegen, damit in einer Aktion abgefragt
-    // werden kann in welchem Artikel gerade gearbeitet wird
+    // Variablen hier einfuegen, damit sie in einer
+    // Aktion abgefragt werden können
     $REX_ACTION['ARTICLE_ID'] = $this->getValue($sql, 'article_id');
-    $REX_ACTION['SLICE_ID'] = $this->getValue($sql, 'id');
+    $REX_ACTION['CLANG_ID'] = $this->getValue($sql, 'clang');
     $REX_ACTION['CTYPE_ID'] = $this->getValue($sql, 'ctype');
     $REX_ACTION['MODULE_ID'] = $this->getValue($sql, 'modultyp_id');
+    $REX_ACTION['SLICE_ID'] = $this->getValue($sql, 'id');
 
     return $REX_ACTION;
   }
