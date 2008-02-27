@@ -418,7 +418,7 @@ function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
 {
   global $REX;
 
-  $tar = new tar;
+  $tar = new rex_tar;
 
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_BEFORE_FILE_EXPORT', $tar);
