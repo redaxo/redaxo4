@@ -17,6 +17,12 @@
  */
 function rex_send_file($file, $contentType, $environment = 'backend')
 {
+  global $REX;
+
+  // Cachen für Dateien aktivieren
+  $temp = $REX['USE_LAST_MODIFIED'];
+  $REX['USE_LAST_MODIFIED'] = true;
+
   header('Content-Type: '. $contentType);
 
   $content = rex_get_file_contents($file);
@@ -27,6 +33,9 @@ function rex_send_file($file, $contentType, $environment = 'backend')
     filemtime($file),
     $cacheKey,
     $environment);
+
+  // Setting zurücksetzen
+  $REX['USE_LAST_MODIFIED'] = $temp;
 }
 
 /**
@@ -40,6 +49,12 @@ function rex_send_file($file, $contentType, $environment = 'backend')
  */
 function rex_send_article($REX_ARTICLE, $content, $environment)
 {
+  // ----- EXTENSION POINT
+  $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
+
+  // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
+  rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
+
   $contentMd5 = md5($content);
 
   if($REX_ARTICLE)
@@ -72,12 +87,6 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
 function rex_send_content($content, $lastModified, $cacheKey, $environment)
 {
   global $REX;
-
-  // ----- EXTENSION POINT
-  $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
-
-  // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
-  rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
 
   // ----- Last-Modified
   if($REX['USE_LAST_MODIFIED'] === 'true' || $REX['USE_LAST_MODIFIED'] == $environment)
