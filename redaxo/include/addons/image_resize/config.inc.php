@@ -32,7 +32,6 @@ $REX['PERM'][] = 'image_resize[]';
 $REX['ADDON']['image_resize']['default_filters'] = array();
 
 // --- DYN
-
 $REX['ADDON']['image_resize']['max_cachefiles'] = 5;
 $REX['ADDON']['image_resize']['max_filters'] = 5;
 $REX['ADDON']['image_resize']['max_resizekb'] = 300;
