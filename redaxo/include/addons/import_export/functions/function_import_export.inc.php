@@ -212,7 +212,7 @@ function rex_a1_import_files($filename)
   // Ordner /files komplett leeren
   rex_deleteDir($REX['INCLUDE_PATH']."/../../files");
 
-  $tar = new tar;
+  $tar = new rex_tar;
 
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_BEFORE_FILE_IMPORT', $tar);
@@ -432,7 +432,7 @@ function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_AFTER_FILE_EXPORT', $tar);
 
-  $content = $tar->toTarOutput($filename.$ext, true);
+  $content = $tar->toTar($filename.$ext, true);
   return $content;
 }
 
