@@ -223,7 +223,7 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
 function rex_redirect($article_id, $clang = '', $params = array())
 {
   global $REX;
-  
+
   // Alle OBs schlieﬂen
   while(@ob_end_clean());
 
@@ -319,7 +319,7 @@ function rex_replace_dynamic_contents($path, $content)
 {
   if($fcontent = rex_get_file_contents($path))
   {
-    $content = "// --- DYN\r\n\r\n". trim($content) ."\r\n// --- /DYN";
+    $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
     $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
     return rex_put_file_contents($path, $fcontent);
   }
