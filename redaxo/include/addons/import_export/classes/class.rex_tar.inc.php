@@ -142,6 +142,8 @@ class rex_tar extends tar
     // Generate Records for each directory, if we have directories
     if($this->numDirectories > 0) {
       foreach($this->directories as $key => $information) {
+//        unset($header);
+        // STM: Warnung gefixed
         $header = '';
 
         // Generate tar header for this directory
@@ -180,7 +182,9 @@ class rex_tar extends tar
     // Generate Records for each file, if we have files (We should...)
     if($this->numFiles > 0) {
       foreach($this->files as $key => $information) {
-        unset($header);
+//        unset($header);
+        // STM: Warnung gefixed
+        $header = '';
 
         // Generate the TAR header for this file
         // Filename, Permissions, UID, GID, size, Time, checksum, typeflag, linkname, magic, version, user name, group name, devmajor, devminor, prefix, end
