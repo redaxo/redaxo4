@@ -26,9 +26,23 @@ $REX['PERM'][] = 'metainfo[]';
 
 if ($REX['REDAXO'])
 {
+  if(rex_get('js', 'string') == 'addons/metainfo')
+  {
+    $jsfile = $REX['INCLUDE_PATH'] .'/addons/metainfo/js/metainfo.js';
+    rex_send_file($jsfile, 'text/javascript');
+    exit();
+  }
+
   // Include Extensions
   if (isset ($page))
   {
+    if($page == 'metainfo')
+    {
+      rex_register_extension('PAGE_HEADER',
+        create_function('$params', 'return \'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\';')
+      );
+    }
+
     require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');
 
     if ($page == 'content' && isset ($mode) && $mode == 'meta')
