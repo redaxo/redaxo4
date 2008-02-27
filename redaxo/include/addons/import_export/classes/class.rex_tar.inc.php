@@ -231,25 +231,7 @@ class rex_tar extends tar
   }
 
 
- var $message;
-
- /**
-   * Addition by Markus Meissner
-   * extracting whole file into current directory
-   *
-   * @return bool
-   *
-   **/
-  function __mkdir_p($folder)
-  {
-    $folder_list = split("/", $folder);
-    $len = count($folder_list);
-    for ($i = 0; $i < $len; $i++)
-    {
-      $tmp .= $folder_list[$i].'/';
-      @ mkdir($tmp, 0664);
-    }
-  }
+  var $message;
 
   function extractTar()
   {
@@ -262,7 +244,6 @@ class rex_tar extends tar
 
         if (!file_exists(dirname($item['name'])))
         {
-          // $this->__mkdir_p(dirname($item['name']));
           $this->message[] = dirname($item['name']);
         }
         else
