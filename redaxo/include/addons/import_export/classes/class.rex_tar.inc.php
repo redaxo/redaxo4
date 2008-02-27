@@ -44,6 +44,7 @@ class rex_tar extends tar
     $activeFile["group_id"]   = $file_information["gid"];
     $activeFile["size"]   = $file_information["size"];
     $activeFile["time"]   = $file_information["mtime"];
+        // STM: Warnung gefixed
 //    $activeFile["checksum"]   = $checksum;
     $activeFile["user_name"]  = "";
     $activeFile["group_name"] = "";
@@ -68,6 +69,7 @@ class rex_tar extends tar
     $activeDir["time"]  = $file_information["time"];
     $activeDir["user_id"] = $file_information["uid"];
     $activeDir["group_id"]  = $file_information["gid"];
+        // STM: Warnung gefixed
 //    $activeDir["checksum"]  = $checksum;
 
     return true;
