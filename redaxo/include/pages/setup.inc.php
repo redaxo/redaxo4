@@ -63,6 +63,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
 
       require $export_addon_dir.'/config.inc.php';
       require_once $export_addon_dir.'/classes/class.tar.inc.php';
+      require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
       require_once $export_addon_dir.'/functions/function_folder.inc.php';
       require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 
