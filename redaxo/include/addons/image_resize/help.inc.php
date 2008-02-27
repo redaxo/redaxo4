@@ -18,7 +18,7 @@
 
 <h3>Usage:</h3>
 <p>call an image that way <b>index.php?rex_resize=100w__imagefile</b>
-= to resize the imagefile to width = 100</p>
+ to resize the imagefile to a width of 100</p>
 
 <h3>Methods:</h3>
 <p>
