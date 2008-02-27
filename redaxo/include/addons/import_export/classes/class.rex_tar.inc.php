@@ -11,7 +11,7 @@
  * @package     kernel
  * @subpackage  core
  */
- 
+
 class rex_tar extends tar
 {
   /**
@@ -37,6 +37,8 @@ class rex_tar extends tar
 
     // Get file information
     $file_information = stat($filename);
+    // STM
+    // hier mit get_file_contents, ist viel schneller als fopen/fread/fclose
     $file_contents = rex_get_file_contents($filename);
 
     // Add file to processed data
@@ -51,6 +53,7 @@ class rex_tar extends tar
     $activeFile["checksum"] = isset ($checksum) ? $checksum : '';
     $activeFile["user_name"] = "";
     $activeFile["group_name"] = "";
+    // STM
     // trim entfernt, da manche Dateien leere Header haben und
     // diese benoetigen (z.b. TTF)
     // $activeFile["file"] = trim($file_contents);
