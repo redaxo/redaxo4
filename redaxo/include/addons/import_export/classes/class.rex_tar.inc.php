@@ -258,15 +258,6 @@ class rex_tar extends tar
     {
       foreach ($this->files as $item)
       {
-        // original
-        /*
-        if(!file_exists(dirname($item['name']))) $this->__mkdir_p(dirname($item['name']));
-        if($h = fopen($item['name'],"w+")){
-            fwrite($h,$item['file'],$item['size']);
-            fclose($h);
-          } else return FALSE;
-        */
-
         // jan: wenn probleme mit der ordnergenerierung -> ordner manuell einstellen
 
         if (!file_exists(dirname($item['name'])))
