@@ -12,8 +12,6 @@
  * @version $Id$
  */
 ?>
-<h2>Version: <?php echo $REX['ADDON']['version']['image_resize'] ?></h2>
-
 <h3>Features:</h3>
 
 <p>Makes resize of images on the fly, with extra cache of resized images so performance loss is extremly small.</p>
@@ -37,8 +35,8 @@ brand<br />
 sepia<br />
 sharpen
 </p>
-<h3>Examples:</h3>
 
+<h3>Examples:</h3>
 <p>
 resize image to a length of 100px and calculate heigt to match ratio<br />
 <b>index.php?rex_resize=100w__imagefile</b>
