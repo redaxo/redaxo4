@@ -22,6 +22,8 @@ $max_resizepixel = rex_request('max_resizepixel', 'int');
 
 if ($func == "update")
 {
+  if($jpg_quality > 100) $jpg_quality = 100;
+  else if ($jpg_quality < 0) $jpg_quality = 0;
 
 	$REX['ADDON']['image_resize']['max_cachefiles'] = $max_cachefiles;
 	$REX['ADDON']['image_resize']['max_filters'] = $max_filters;
@@ -88,7 +90,7 @@ echo '
             <input type="text" id="max_resizepixel" name="max_resizepixel" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizepixel']).'" />
           </p>
           <p>
-            <label for="jpg_quality">Optional bei JPG Bildern: JPG Qualit&auml;t [0-100]</label>
+            <label for="jpg_quality">JPG/JPEG Ausgabe-Qualit&auml;t [0-100]</label>
             <input type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_resize']['jpg_quality']).'" />
           </p>
           <p>
