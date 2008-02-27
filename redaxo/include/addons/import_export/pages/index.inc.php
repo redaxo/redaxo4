@@ -390,7 +390,7 @@ else
     }
 
     echo '<p class="rex-chckbx">
-            <input type="checkbox" onchange="checkInput(\'exporttype[files]\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
+            <input type="checkbox" onchange="checkInput(\'exporttype_files\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
             <label class="rex-lbl-rght" for="EXPDIR_'. $file .'">'. $file .'</label>
           </p>
     ';
