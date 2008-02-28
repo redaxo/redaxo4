@@ -23,7 +23,7 @@ if(OOAddon::isAvailable("textile"))
   if(REX_IS_VALUE[1])
   {
     $textile = htmlspecialchars_decode("REX_VALUE[1]");
-    $textile = str_replace("<br />","\n",$textile);
+    $textile = str_replace("<br />","",$textile);
     echo rex_a79_textile($textile);
   }
 }
