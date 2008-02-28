@@ -9,8 +9,8 @@
  *
  * @author	Markus Staab
  *
- * @package     kernel
- * @subpackage  core
+ * @package redaxo4
+ * @see     http://www.mkssoftware.com/docs/man4/tar.4.asp
  */
 
 class rex_tar extends tar
