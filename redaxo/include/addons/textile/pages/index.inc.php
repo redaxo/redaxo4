@@ -22,11 +22,8 @@ if(OOAddon::isAvailable("textile"))
 {
   if(REX_IS_VALUE[1])
   {
-// Diese 3 Zeilen dürfen keine führenden Leerzeichen besitzen!
-$textile =<<<EOD
-REX_HTML_VALUE[1]
-EOD;
-
+    $textile = htmlspecialchars_decode("REX_VALUE[1]");
+    $textile = str_replace("<br />","\n",$textile);
     echo rex_a79_textile($textile);
   }
 }
