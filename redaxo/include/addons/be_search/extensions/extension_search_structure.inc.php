@@ -117,7 +117,7 @@ function rex_a256_search_structure($params)
 
 		    <div class="rex-f-lft">
 	        <label for="rex-a256-article-name">'. $I18N_BE_SEARCH->msg('search_article_name') .'</label>
-    	    <input type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars($a256_article_name) .'" />
+    	    <input type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars(stripslashes($a256_article_name)) .'" />
 
         	<label for="rex-a256-article-id">'. $I18N_BE_SEARCH->msg('search_article_id') .'</label>
 	        <input type="text" name="a256_article_id" id="rex-a256-article-id" />
