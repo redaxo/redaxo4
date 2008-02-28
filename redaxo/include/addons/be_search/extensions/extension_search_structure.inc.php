@@ -20,13 +20,14 @@ function rex_a256_search_structure($params)
 
   $message = '';
   $search_result = '';
-  $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s';
+  $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&a256_article_name=%s';
 
   // ------------ Parameter
-  $a256_article_id   = rex_post('a256_article_id'  , 'int');
-  $a256_clang        = rex_post('a256_clang'       , 'int');
-  $a256_article_name = rex_post('a256_article_name', 'string');
-  $mode              = rex_request('mode', 'string');
+  $a256_article_id        = rex_request('a256_article_id'  , 'int');
+  $a256_clang             = rex_request('a256_clang'       , 'int');
+  $a256_article_name      = rex_request('a256_article_name', 'string');
+  $a256_article_name_post = rex_post('a256_article_name', 'string');
+  $mode                   = rex_request('mode', 'string');
 
   // ------------ Suche via ArtikelId
   if($a256_article_id != 0)
@@ -34,13 +35,16 @@ function rex_a256_search_structure($params)
     $OOArt = OOArticle::getArticleById($a256_article_id, $a256_clang);
     if(OOArticle::isValid($OOArt))
     {
-      header('Location:'. sprintf($editUrl, $a256_article_id, $a256_clang));
+      header('Location:'. sprintf($editUrl, $a256_article_id, $a256_clang, urlencode($a256_article_name)));
       exit();
     }
   }
 
   // ------------ Suche via ArtikelName
-  if($a256_article_name != '')
+  // hier nur dne post artikel namen abfragen,
+  // da sonst bei vorherigen headerweiterleitungen
+  // auch gesucht wuerde
+  if($a256_article_name_post != '')
   {
     $qry = '
     SELECT id
@@ -66,7 +70,7 @@ function rex_a256_search_structure($params)
       $OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
       if($REX_USER->hasCategoryPerm($OOArt->getCategoryId()))
       {
-        header('Location:'. sprintf($editUrl, $OOArt->getCategoryId(), $a256_clang));
+        header('Location:'. sprintf($editUrl, $OOArt->getCategoryId(), $a256_clang, urlencode($a256_article_name)));
         exit();
       }
     }
@@ -84,7 +88,7 @@ function rex_a256_search_structure($params)
           if($REX_USER->hasPerm('advancedMode[]'))
             $label .= ' ['. $search->getValue('id') .']';
 
-          $search_result .= '<li><a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang) .'">'. $label .'</a></li>';
+          $search_result .= '<li><a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($label) .'</a></li>';
         }
         $search->next();
       }
@@ -113,7 +117,7 @@ function rex_a256_search_structure($params)
 
 		    <div class="rex-f-lft">
 	        <label for="rex-a256-article-name">'. $I18N_BE_SEARCH->msg('search_article_name') .'</label>
-    	    <input type="text" name="a256_article_name" id="rex-a256-article-name" />
+    	    <input type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars($a256_article_name) .'" />
 
         	<label for="rex-a256-article-id">'. $I18N_BE_SEARCH->msg('search_article_id') .'</label>
 	        <input type="text" name="a256_article_id" id="rex-a256-article-id" />
