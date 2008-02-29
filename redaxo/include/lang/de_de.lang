@@ -447,8 +447,6 @@ pool_max_uploadsize = Maximale Uploadgröße
 pool_max_uploadtime = Maximale Uploadzeit
 pool_upload_disabled = Deaktiviert!
 pool_upload = Dateiupload
-pool_upload_dir = Uploadverzeichnis
-
 
 # redaxo/include/pages
 recommended = empfohlen
