@@ -29,7 +29,7 @@ if(OOAddon::isAvailable("textile"))
 }
 else
 {
-  echo rex_warning(\'Dieses Modul benötigt das "textile" Addon!\');
+  echo rex_warning(\'Dieses Modul ben&ouml;tigt das "textile" Addon!\');
 }
 ?>';
 
