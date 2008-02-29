@@ -100,7 +100,16 @@ class OOArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return OOArticleSlice::getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND re_article_slice_id=0');
+    return OOArticleSlice::getSliceWhere('a.article_id='. $an_article_id .' AND
+                                          a.clang='. $clang .' AND
+                                          (
+                                           (a.re_article_slice_id=0 AND a.ctype=1 AND a.id = b.id)
+                                            OR
+                                           (b.ctype=2 AND a.ctype=1 AND b.id = a.re_article_slice_id)
+                                          )',
+                                          $REX['TABLE_PREFIX'].'article_slice a, '. $REX['TABLE_PREFIX'].'article_slice b',
+                                          'a.*'
+                                          );
   }
 
   /*
@@ -134,25 +143,20 @@ class OOArticleSlice
     return OOArticleSlice::getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
   }
 
-  function getSliceWhere($whereCluase, $default = null)
+  function getSliceWhere($whereCluase, $table = null, $fields = null, $default = null)
   {
     global $REX;
 
-    $table = $REX['TABLE_PREFIX'].'article_slice';
+    if(!$table)
+      $table = $REX['TABLE_PREFIX'].'article_slice';
+
+    if(!$fields)
+      $fields = '*';
 
     $sql = new rex_sql;
-    // $sql->debugsql = true;
+//     $sql->debugsql = true;
     $query = '
-      SELECT
-        id,article_id,clang,ctype,modultyp_id,
-        re_article_slice_id,next_article_slice_id,
-        createdate,updatedate,createuser,updateuser,revision,
-        value1,value2,value3,value4,value5,value6,value7,value8,value9,value10,value11,value12,value13,value14,value15,value16,value17,value18,value19,value20,
-        file1,file2,file3,file4,file5,file6,file7,file8,file9,file10,
-        filelist1,filelist2,filelist3,filelist4,filelist5,filelist6,filelist7,filelist8,filelist9,filelist10,
-        link1,link2,link3,link4,link5,link6,link7,link8,link9,link10,
-        linklist1,linklist2,linklist3,linklist4,linklist5,linklist6,linklist7,linklist8,linklist9,linklist10,
-        php,html
+      SELECT '. $fields .'
       FROM '. $table .'
       WHERE '. $whereCluase;
 
