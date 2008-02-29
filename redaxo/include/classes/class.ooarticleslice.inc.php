@@ -141,7 +141,7 @@ class OOArticleSlice
     $table = $REX['TABLE_PREFIX'].'article_slice';
 
     $sql = new rex_sql;
-    $sql->debugsql = true;
+    // $sql->debugsql = true;
     $query = '
       SELECT
         id,article_id,clang,ctype,modultyp_id,
