@@ -120,8 +120,8 @@ echo '
             <span id="rex_subversion">&quot;'.$REX['SUBVERSION'] .'&quot;</span>
           </p>
           <p>
-            <label for="rex_minorversion">$REX[\'MINORVERSION\']</label>
-            <span id="rex_minorversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
+            <label for="rex_subversion">$REX[\'MINORVERSION\']</label>
+            <span id="rex_subversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
           </p>
           <p>
             <label for="rex_server">$REX[\'SERVER\']</label>
