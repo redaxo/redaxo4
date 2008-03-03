@@ -74,7 +74,7 @@ if($REX['REDAXO'])
   }
 
   rex_register_extension('PAGE_HEADER',
-    create_function('$params', 'return \'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\';')
+    create_function('$params', 'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\'."\n";')
   );
 }
 
