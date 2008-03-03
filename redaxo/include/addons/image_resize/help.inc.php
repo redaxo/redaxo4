@@ -67,6 +67,6 @@ resize inner image part to a width of 100px and a heigt of 200px with an offset 
 
 <br /><br />
 add filter/s: here blur and sepia<br />
-<b>index.php?rex_resize=200a__imagefile&rex_filter[]=blur&rex_filter[]=sepia</b>
+<b>index.php?rex_resize=200a__imagefile&amp;rex_filter[]=blur&amp;rex_filter[]=sepia</b>
 
 </p>
