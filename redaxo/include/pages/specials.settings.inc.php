@@ -100,7 +100,7 @@ echo '
         <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("delete_cache").'</a></p>
         <p>'.$I18N->msg("delete_cache_description").'</p>
 
-        <p><a href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\')";
+        <p><a href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\');"
 >'.$I18N->msg("setup").'</a></p>
         <p>'.$I18N->msg("setup_text").'</p>
       </div>
@@ -120,8 +120,8 @@ echo '
             <span id="rex_subversion">&quot;'.$REX['SUBVERSION'] .'&quot;</span>
           </p>
           <p>
-            <label for="rex_subversion">$REX[\'MINORVERSION\']</label>
-            <span id="rex_subversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
+            <label for="rex_minorversion">$REX[\'MINORVERSION\']</label>
+            <span id="rex_minorversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
           </p>
           <p>
             <label for="rex_server">$REX[\'SERVER\']</label>

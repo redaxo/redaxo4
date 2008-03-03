@@ -121,14 +121,14 @@ function rex_a256_search_structure($params)
 
         	<label for="rex-a256-article-id">'. $I18N_BE_SEARCH->msg('search_article_id') .'</label>
 	        <input type="text" name="a256_article_id" id="rex-a256-article-id" />
-    	    <input class="rex-sbmt" type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_start') .'" />
+    	    <input class="rex-sbmt" type="submit" name="a256_start_search" value="'. $I18N_BE_SEARCH->msg('search_start') .'" />
 		    </div>
 
     		<div class="rex-f-rght">
     			<label for="rex-a256-category-id">'. $I18N_BE_SEARCH->msg('search_quick_navi') .'</label>
     			'. $category_select->get() . '
     			<noscript>
-    			  <input type="submit" name="" value="'. $I18N_BE_SEARCH->msg('search_jump_to_category') .'" />
+    			  <input type="submit" name="a256_start_jump" value="'. $I18N_BE_SEARCH->msg('search_jump_to_category') .'" />
     			</noscript>
         </div>
       </form>';

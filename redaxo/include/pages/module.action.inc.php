@@ -311,47 +311,54 @@ if ($OUT)
           <th>Postsave-Event(s)</th>
           <th>' . $I18N->msg('action_functions') . '</th>
         </tr>
-      <tbody>
+      </thead>
     ';
 
   $sql = new rex_sql;
   $sql->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'action ORDER BY name');
+  $rows = $sql->getRows();
 
-  for ($i = 0; $i < $sql->getRows(); $i++)
+  if($rows > 0)
   {
-    $previewmode = array ();
-    $presavemode = array ();
-    $postsavemode = array ();
+    echo '<tbody>'."\n";
 
-    foreach (array (1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
-      if (($sql->getValue('previewmode') & $var) == $var)
-        $previewmode[] = $value;
+    for ($i = 0; $i < $rows; $i++)
+    {
+      $previewmode = array ();
+      $presavemode = array ();
+      $postsavemode = array ();
 
-    foreach (array (1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
-      if (($sql->getValue('presavemode') & $var) == $var)
-        $presavemode[] = $value;
+      foreach (array (1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
+        if (($sql->getValue('previewmode') & $var) == $var)
+          $previewmode[] = $value;
 
-    foreach (array (1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
-      if (($sql->getValue('postsavemode') & $var) == $var)
-        $postsavemode[] = $value;
+      foreach (array (1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
+        if (($sql->getValue('presavemode') & $var) == $var)
+          $presavemode[] = $value;
 
-    echo '
-          <tr>
-            <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="media/action.gif" alt="' . htmlspecialchars($sql->getValue("name")) . '" title="' . htmlspecialchars($sql->getValue("name")) . '" /></a></td>
-            <td class="rex-icon">' . $sql->getValue("id") . '</td>
-            <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
-            <td>' . implode('/', $previewmode) . '</td>
-            <td>' . implode('/', $presavemode) . '</td>
-            <td>' . implode('/', $postsavemode) . '</td>
-            <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('action_delete') . ' ?\')">' . $I18N->msg("action_delete") . '</a></td>
-          </tr>
-        ';
+      foreach (array (1 => 'ADD',2 => 'EDIT',4 => 'DELETE') as $var => $value)
+        if (($sql->getValue('postsavemode') & $var) == $var)
+          $postsavemode[] = $value;
 
-    $sql->counter++;
+      echo '
+            <tr>
+              <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="media/action.gif" alt="' . htmlspecialchars($sql->getValue("name")) . '" title="' . htmlspecialchars($sql->getValue("name")) . '" /></a></td>
+              <td class="rex-icon">' . $sql->getValue("id") . '</td>
+              <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
+              <td>' . implode('/', $previewmode) . '</td>
+              <td>' . implode('/', $presavemode) . '</td>
+              <td>' . implode('/', $postsavemode) . '</td>
+              <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('action_delete') . ' ?\')">' . $I18N->msg("action_delete") . '</a></td>
+            </tr>
+          ';
+
+      $sql->next();
+    }
+
+    echo '</tbody>'."\n";
   }
 
   echo '
-      </tbody>
     </table>';
 }
 ?>
