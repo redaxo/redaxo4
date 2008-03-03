@@ -158,7 +158,7 @@ elseif (isset ($function) && $function == 'export')
       $header = 'tar/gzip';
       $ext = '.tar.gz';
 
-      if ($EXPDIR == '')
+      if (!isset($EXPDIR) || $EXPDIR == '')
       {
         $msg = $I18N_IM_EXPORT->msg('please_choose_folder');
       }
