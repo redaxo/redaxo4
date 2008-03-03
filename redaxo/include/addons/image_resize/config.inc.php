@@ -64,4 +64,18 @@ if ($rex_resize != '')
 	rex_thumbnail::createFromUrl($rex_resize);
 }
 
+if($REX['REDAXO'])
+{
+  if(rex_get('css', 'string') == 'addons/'. $mypage)
+  {
+    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/image_resize.css';
+    rex_send_file($cssfile, 'text/css');
+    exit();
+  }
+
+  rex_register_extension('PAGE_HEADER',
+    create_function('$params', 'return \'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\';')
+  );
+}
+
 ?>

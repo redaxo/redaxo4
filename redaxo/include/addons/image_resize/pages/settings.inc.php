@@ -45,22 +45,6 @@ $REX[\'ADDON\'][\'image_resize\'][\'jpg_quality\'] = '.$jpg_quality.';
 
 }
 
-?>
-
-<style>
-
-#rex-page-image-resize div.rex-addon-content form p{
-padding-bottom:10px;
-}
-
-#rex-page-image-resize div.rex-addon-content form p label {
-width:300px;
-}
-
-</style>
-
-<?php
-
 echo '
 
 <div class="rex-addon-output">
