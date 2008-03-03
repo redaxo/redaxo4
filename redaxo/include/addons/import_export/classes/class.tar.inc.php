@@ -85,6 +85,9 @@ class tar {
   // to try to ensure valid file
   // PRIVATE ACCESS FUNCTION
   function __computeUnsignedChecksum($bytestring) {
+    // STM: Warnung gefixed
+    $unsigned_chksum = 0;
+
     for($i=0; $i<512; $i++)
       $unsigned_chksum += ord($bytestring[$i]);
     for($i=0; $i<8; $i++)
@@ -241,7 +244,9 @@ class tar {
     // Generate Records for each directory, if we have directories
     if($this->numDirectories > 0) {
       foreach($this->directories as $key => $information) {
-        unset($header);
+        // STM: Warnung gefixed
+        // unset($header);
+        $header = '';
 
         // Generate tar header for this directory
         // Filename, Permissions, UID, GID, size, Time, checksum, typeflag, linkname, magic, version, user name, group name, devmajor, devminor, prefix, end
@@ -279,7 +284,9 @@ class tar {
     // Generate Records for each file, if we have files (We should...)
     if($this->numFiles > 0) {
       foreach($this->files as $key => $information) {
-        unset($header);
+        // STM: Warnung gefixed
+        // unset($header);
+        $header = '';
 
         // Generate the TAR header for this file
         // Filename, Permissions, UID, GID, size, Time, checksum, typeflag, linkname, magic, version, user name, group name, devmajor, devminor, prefix, end
@@ -428,7 +435,8 @@ class tar {
     $activeDir["time"]  = $file_information["time"];
     $activeDir["user_id"] = $file_information["uid"];
     $activeDir["group_id"]  = $file_information["gid"];
-    $activeDir["checksum"]  = $checksum;
+    // STM: Warnung gefixed
+    // $activeDir["checksum"]  = $checksum;
 
     return true;
   }
@@ -461,7 +469,8 @@ class tar {
     $activeFile["group_id"]   = $file_information["gid"];
     $activeFile["size"]   = $file_information["size"];
     $activeFile["time"]   = $file_information["mtime"];
-    $activeFile["checksum"]   = $checksum;
+    // STM: Warnung gefixed
+    // $activeFile["checksum"]   = $checksum;
     $activeFile["user_name"]  = "";
     $activeFile["group_name"] = "";
     $activeFile["file"]   = $file_contents;
