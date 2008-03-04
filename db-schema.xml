@@ -1406,6 +1406,15 @@
         </data>
         <description><![CDATA[med_keywords]]></description>
       </field>
+      <field name="med_copyright">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[med_copyright]]></description>
+      </field>
 		</table>
 		<table name="rex_file_category" className="Rex_file_category">
 			<field name="id" primaryKey="true" autoIncrement="true"
