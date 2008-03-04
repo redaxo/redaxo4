@@ -21,9 +21,17 @@ if (!extension_loaded('gd'))
 
 if($error == '')
 {
-  $settings_file = $REX['INCLUDE_PATH'] .'/addons/image_resize/config.inc.php';
+  $file = $REX['INCLUDE_PATH'] .'/addons/image_resize/config.inc.php';
 
-  if(($state = rex_is_writable($settings_file)) !== true)
+  if(($state = rex_is_writable($file)) !== true)
+    $error = $state;
+}
+
+if($error == '')
+{
+  $file = $REX['INCLUDE_PATH'] .'/generated/files';
+
+  if(($state = rex_is_writable($file)) !== true)
     $error = $state;
 }
 
