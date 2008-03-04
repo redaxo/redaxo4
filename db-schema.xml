@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ddl version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://www.myobjects.org/reference/ddl.xsd">
-	<database name="redaxo3_3">
+	<database name="redaxo4_0">
 		<table name="rex_62_params" className="Rex_62_params">
 			<field name="field_id" primaryKey="true"
 				autoIncrement="true" required="true">
@@ -1336,24 +1336,6 @@
 					</text>
 				</data>
 				<description><![CDATA[title]]></description>
-			</field>
-			<field name="description" required="true">
-				<data>
-					<text type="default" mysqltype="text">
-						<minimumLength>1</minimumLength>
-					</text>
-				</data>
-				<description><![CDATA[description]]></description>
-			</field>
-			<field name="copyright" required="true">
-				<data>
-					<text type="default" mysqltype="varchar"
-						size="255">
-						<minimumLength>1</minimumLength>
-						<maximumLength>255</maximumLength>
-					</text>
-				</data>
-				<description><![CDATA[copyright]]></description>
 			</field>
 			<field name="createdate" required="true">
 				<data>
