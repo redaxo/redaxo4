@@ -1,73 +1,73 @@
 <?php
 /**
  * Textile Addon
- *  
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * @package redaxo4
  * @version $Id$
  */
- 
+
 function rex_a79_help_overview()
 {
   global $REX_USER;
-  
+
   // check perms
   if(!$REX_USER->hasPerm('textile[help]'))
   {
   	return;
   }
-  
+
   $formats = rex_a79_help_overview_formats();
 
-  echo '<div class="a79_help_overview">';  
+  echo '<div class="a79_help_overview">';
   echo '<h3 class="a79">Anleitung/Hinweise</h3>';
   echo '<table style="width: 100%">';
   foreach($formats as $format)
   {
     $label = $format[0];
     $id = preg_replace('/[^a-zA-z0-9]/', '', htmlentities($label));
-    
+
     echo '
-          <thead>  
-            <tr>  
-              <th colspan="3"><a href="#" onclick="return toggleElement(\''. $id .'\');">'. $label .'</a></th>  
-            </tr>  
+          <thead>
+            <tr>
+              <th colspan="3"><a href="#" onclick="toggleElement(\''. $id .'\'); return false;">'. htmlentities($label) .'</a></th>
+            </tr>
           </thead>
          ';
-    
-    echo '<tbody id="'. $id .'" style="display: none">  
-            <tr>  
-              <th>Ausgabe</th>  
-              <th>Eingabe</th>  
-              <th>HTML-Code</th>  
+
+    echo '<tbody id="'. $id .'" style="display: none">
+            <tr>
+              <th>Ausgabe</th>
+              <th>Eingabe</th>
+              <th>HTML-Code</th>
             </tr>
            ';
-            
+
     foreach($format[1] as $perm => $formats)
     {
       foreach($formats as $_format)
       {
         $desc = $_format[0];
-        
+
         $code = '';
         if(isset($_format[1]))
         	$code = $_format[1];
-        
+
         if($code == '')
           $code = $desc;
-          
-        $code = trim(rex_a79_textile($code));
-          
-        echo '<tr>  
-                <td>'. $code .'</td>  
-                <td>'. nl2br(htmlspecialchars($desc)) .'</td>  
-                <td>'. htmlspecialchars($code) .'</td>  
+
+        $code = trim(rex_a79_textile(htmlentities($code)));
+
+        echo '<tr>
+                <td>'. $code .'</td>
+                <td>'. nl2br(htmlentities($desc)) .'</td>
+                <td>'. htmlentities($code) .'</td>
               </tr>
               ';
       }
     }
-    
+
     echo '</tbody>';
   }
   echo '</table>';
