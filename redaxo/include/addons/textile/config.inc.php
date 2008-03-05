@@ -30,6 +30,17 @@ require_once $REX['INCLUDE_PATH']. '/addons/textile/functions/function_textile.i
 if ($REX['REDAXO'])
 {
   require_once $REX['INCLUDE_PATH'].'/addons/textile/functions/function_help.inc.php';
+
+  if(rex_get('css', 'string') == 'addons/'. $mypage)
+  {
+    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/textile.css';
+    rex_send_file($cssfile, 'text/css');
+    exit();
+  }
+
+  rex_register_extension('PAGE_HEADER',
+    create_function('$params', 'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\'."\n";')
+  );
 }
 
 ?>
