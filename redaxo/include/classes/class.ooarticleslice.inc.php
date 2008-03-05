@@ -223,7 +223,7 @@ class OOArticleSlice
     return $this->_ctype;
   }
 
-  function getModulTyp()
+  function getModulId()
   {
     return $this->_modultyp_id;
   }
@@ -278,5 +278,15 @@ class OOArticleSlice
   {
     return $this->_php;
   }
+
+  /**
+   * Alter Alias aus BC Gruenden
+   * @deprecated 4.1 - 05.03.2008
+   */
+  function getModulTyp()
+  {
+    return $this->getModulId();
+  }
+
 }
 ?>
