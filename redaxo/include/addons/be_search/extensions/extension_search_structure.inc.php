@@ -101,10 +101,14 @@ function rex_a256_search_structure($params)
   }
 
   $select_name = 'category_id';
+  $add_homepage = true;
   if($mode == 'edit')
+  {
     $select_name = 'article_id';
+    $add_homepage = false;
+  }
 
-  $category_select = new rex_category_select();
+  $category_select = new rex_category_select(false, false, true, $add_homepage);
   $category_select->setName($select_name);
   $category_select->setId('rex-a256-category-id');
   $category_select->setSize('1');
