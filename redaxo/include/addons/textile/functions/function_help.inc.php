@@ -10,7 +10,7 @@
 
 function rex_a79_help_overview()
 {
-  global $REX_USER;
+  global $REX_USER, $I18N_A79;
 
   // check perms
   if(!$REX_USER->hasPerm('textile[help]'))
@@ -20,28 +20,31 @@ function rex_a79_help_overview()
 
   $formats = rex_a79_help_overview_formats();
 
-  echo '<div class="a79_help_overview">';
-  echo '<h3 class="a79">Anleitung/Hinweise</h3>';
-  echo '<table style="width: 100%">';
+  echo '<div class="a79_help_overview">
+          <h3 class="a79">'. $I18N_A79->msg('instructions') .'</h3>
+          <table style="width: 100%">
+            <colgroup>
+              <col width="50%" />
+              <col width="50%" />
+            </colgroup>
+        ';
   foreach($formats as $format)
   {
     $label = $format[0];
     $id = preg_replace('/[^a-zA-z0-9]/', '', htmlentities($label));
 
     echo '
-          <thead>
-            <tr>
-              <th colspan="3"><a href="#" onclick="toggleElement(\''. $id .'\'); return false;">'. htmlentities($label) .'</a></th>
-            </tr>
-          </thead>
-         ';
+            <thead>
+              <tr>
+                <th colspan="3"><a href="#" onclick="toggleElement(\''. $id .'\'); return false;">'. htmlspecialchars($label) .'</a></th>
+              </tr>
+            </thead>
 
-    echo '<tbody id="'. $id .'" style="display: none">
-            <tr>
-              <th>Ausgabe</th>
-              <th>Eingabe</th>
-              <th>HTML-Code</th>
-            </tr>
+            <tbody id="'. $id .'" style="display: none">
+              <tr>
+                <th>'. $I18N_A79->msg('input') .'</th>
+                <th>'. $I18N_A79->msg('preview') .'</th>
+              </tr>
            ';
 
     foreach($format[1] as $perm => $formats)
@@ -57,12 +60,11 @@ function rex_a79_help_overview()
         if($code == '')
           $code = $desc;
 
-        $code = trim(rex_a79_textile(htmlentities($code)));
+        $code = trim(rex_a79_textile($code));
 
         echo '<tr>
+                <td>'. nl2br(htmlspecialchars($desc)) .'</td>
                 <td>'. $code .'</td>
-                <td>'. nl2br(htmlentities($desc)) .'</td>
-                <td>'. htmlentities($code) .'</td>
               </tr>
               ';
       }
@@ -88,19 +90,21 @@ function rex_a79_help_overview_formats()
 
 function rex_a79_help_headlines()
 {
-  return array( 'Überschriften',
+  global $I18N_A79;
+
+  return array($I18N_A79->msg('headlines'),
     array(
     'headlines1-3' =>
       array(
-        array('h1. Überschrift1'),
-        array('h2. Überschrift2'),
-        array('h3. Überschrift3'),
+        array('h1. '. $I18N_A79->msg('headline') .' 1'),
+        array('h2. '. $I18N_A79->msg('headline') .' 2'),
+        array('h3. '. $I18N_A79->msg('headline') .' 3'),
       ),
     'headlines4-6' =>
       array(
-        array('h4. Überschrift4'),
-        array('h5. Überschrift5'),
-        array('h6. Überschrift6'),
+        array('h4. '. $I18N_A79->msg('headline') .' 4'),
+        array('h5. '. $I18N_A79->msg('headline') .' 5'),
+        array('h6. '. $I18N_A79->msg('headline') .' 6'),
       ),
     )
   );
@@ -108,32 +112,31 @@ function rex_a79_help_headlines()
 
 function rex_a79_help_formats()
 {
-  return array( 'Textformatierungen',
+  global $I18N_A79;
+
+  return array($I18N_A79->msg('text_formatting'),
     array(
     'text_xhtml' =>
       array(
-        array('_Kursiv_'),
-        array('*Fett*'),
+        array('_'. $I18N_A79->msg('text_italic') .'_'),
+        array('*'. $I18N_A79->msg('text_bold') .'*'),
       ),
     'text_html' =>
       array(
-        array('__Kursiv__'),
-        array('**Fett**'),
+        array('__'. $I18N_A79->msg('text_italic') .'__'),
+        array('**'. $I18N_A79->msg('text_bold') .'**'),
       ),
     'cite' =>
       array(
-        array('bq. Zitat'),
-        array('??Quelle/Autor??'),
+        array('bq. '. $I18N_A79->msg('text_cite')),
+        array('??'. $I18N_A79->msg('text_source_author') .'??'),
       ),
     'overwork' =>
       array(
-        array('-Durchgestrichen-'),
-        array('+Eingefügt+'),
-      ),
-    'overwork' =>
-      array(
-        array('^Hochgestellt^'),
-        array('~Tiefgestellt~'),
+        array('-'. $I18N_A79->msg('text_strike') .'-'),
+        array('+'. $I18N_A79->msg('text_insert') .'+'),
+        array('^'. $I18N_A79->msg('text_sup') .'^'),
+        array('~'. $I18N_A79->msg('text_sub') .'~'),
       ),
     'code' =>
       array(
@@ -145,21 +148,23 @@ function rex_a79_help_formats()
 
 function rex_a79_help_links()
 {
-  return array( 'Links/Anker',
+  global $I18N_A79;
+
+  return array($I18N_A79->msg('links'),
     array(
     'links_intern' =>
       array(
-        array ("Link (intern):\n \"zum Impressum\":redaxo://5"),
-        array ("Link (intern) mit Anker:\n \"zu unseren AGBs\":redaxo://7#AGB"),
+        array ($I18N_A79->msg('link_internal') .':redaxo://5'),
+        array ($I18N_A79->msg('link_internal_anchor') .':redaxo://7#AGB'),
       ),
     'links_extern' =>
       array(
-        array ("Link (extern):\n \"zur REDAXO Dokumentation\":http://doku.redaxo.de"),
-        array ("Link (extern) mit Anker:\n \"zu unserem Parnter\":http://www.unser-partner.de#News"),
+        array ($I18N_A79->msg('link_external') .':http://doku.redaxo.de'),
+        array ($I18N_A79->msg('link_external_anchor') .':http://www..redaxo.de#news'),
       ),
     'anchor' =>
       array(
-        array ("Anker definieren:\n\np(#Impressum). Hier steht das Impressum"),
+        array ($I18N_A79->msg('link_anchor') .":\n\np(#Impressum). ". $I18N_A79->msg('link_anchor_text')),
       ),
     )
   );
@@ -167,12 +172,14 @@ function rex_a79_help_links()
 
 function rex_a79_help_footnotes()
 {
-  return array( 'Fußnoten',
+  global $I18N_A79;
+
+  return array($I18N_A79->msg('footnotes'),
     array(
     'footnotes' =>
       array(
-        array('AJAX[1] ist..'),
-        array('fn1. Asynchronous JavaScript and XML'),
+        array($I18N_A79->msg('footnote_text'). '[1] ..'),
+        array('fn1. '. $I18N_A79->msg('footnote_note')),
       ),
     )
   );
@@ -180,12 +187,14 @@ function rex_a79_help_footnotes()
 
 function rex_a79_help_lists()
 {
-  return array( 'Listen',
+  global $I18N_A79;
+
+  return array($I18N_A79->msg('lists'),
     array(
     'lists' =>
       array(
-        array("Nummerierte-Liste:\n# redaxo.de\n# forum.redaxo.de"),
-        array("Aufzählungs-Liste:\n* redaxo.de\n* forum.redaxo.de"),
+        array($I18N_A79->msg('numeric_list') .":\n# redaxo.de\n# forum.redaxo.de"),
+        array($I18N_A79->msg('enum_list') .":\n* redaxo.de\n* forum.redaxo.de"),
       )
     )
   );
@@ -193,7 +202,9 @@ function rex_a79_help_lists()
 
 function rex_a79_help_tables()
 {
-  return array( 'Tabellen',
+  global $I18N_A79;
+
+  return array($I18N_A79->msg('tables'),
     array(
     'tables' =>
       array(
