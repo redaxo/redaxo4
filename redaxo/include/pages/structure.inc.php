@@ -571,9 +571,9 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
     echo '<td class="rex-icon">-</td>';
-  }  
+  }
 
-	echo '<td><a href="index.php?page=structure&category_id='. $category->getParentId() .'&clang='. $clang .'">..</a></td>';
+	echo '<td><a href="index.php?page=structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
 	echo '<td>&nbsp;</td>';
 	echo '<td>&nbsp;</td>';
 	echo '<td>&nbsp;</td>';
