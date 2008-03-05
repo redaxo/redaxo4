@@ -315,13 +315,15 @@ class rex_category_select extends rex_select
   var $clang;
   var $check_perms;
 
-  function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true)
+  function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
     $this->ignore_offlines = $ignore_offlines;
     $this->clang = $clang;
     $this->check_perms = $check_perms;
 
-    $this->addOption('Homepage', 0);
+    if($add_homepage)
+      $this->addOption('Homepage', 0);
+
     if ($cats = OOCategory :: getRootCategories($ignore_offlines, $clang))
     {
       foreach ($cats as $cat)
