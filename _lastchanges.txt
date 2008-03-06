@@ -184,7 +184,7 @@ Version 4.0.1 (2007-11-07)
     - http://forum.redaxo.de/sutra42980.html
   * Kategorie anlegen mit mehr als 2 Sprachen war nicht möglich [kills]
     - http://forum.redaxo.de/ftopic6966.html
-  * Bessere Fehlermeldung beim löschen des SITE_START_ARTICLES [kills]
+  * Bessere Fehlermeldung beim löschen des START_ARTICLE_ID [kills]
     - http://forum.redaxo.de/ftopic6948.html
   * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[kills]
     - http://forum.redaxo.de/ftopic6889.html
