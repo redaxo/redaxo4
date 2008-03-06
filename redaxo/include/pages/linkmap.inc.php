@@ -177,10 +177,9 @@ echo '<li>: <a href="'.$link.'">Homepage</a> </li>';
 
 $tree = array();
 
-if ($category = OOCategory::getCategoryById($category_id))
+if ($category)
 {
-  $treee = $category->getParentTree();
-  foreach($treee as $cat)
+  foreach($category->getParentTree() as $cat)
   {
     $tree[] = $cat->getId();
     $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
