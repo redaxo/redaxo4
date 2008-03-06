@@ -722,7 +722,7 @@ if (isset($SHOW) and $SHOW)
 
   if (!$REX_USER->hasPerm('advancedMode[]'))
   {
-    $list->removeColumn('id');
+    $list->removeColumn('user_id');
     $list->addTableColumnGroup(array(40, '*', 153, 153, 153));
   }
   else
