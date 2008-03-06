@@ -788,6 +788,8 @@ if ($checkmodus == 4 && $send == 1)
 
 if ($checkmodus == 4)
 {
+  $user_sql = new rex_sql;
+  $user_sql->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
 
   rex_setup_title($I18N->msg("setup_step4"));
 
@@ -823,13 +825,18 @@ if ($checkmodus == 4)
         <p>
           <label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
           <input type="text" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
-        </p>
+        </p>';
 
+if($user_sql->getRows() > 0)
+{
+  echo '
         <p>
           <input class="rex-chckbx" type="checkbox" id="noadmin" name="noadmin" value="1"'. rex_tabindex() .'/>
           <label class="rex-lbl-right" for="noadmin">'.$I18N->msg("setup_048").'</label>
-        </p>
+        </p>';
+}
 
+  echo '
         <p>
           <input class="rex-sbmt" type="submit" value="'.$I18N->msg("setup_049").'"'. rex_tabindex() .' />
         </p>
