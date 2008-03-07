@@ -92,6 +92,8 @@ Version 4.1.X (2008-XX-XX)
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
+  * Etag Feature gefixed [zehbaeh, kills]
+    - http://forum.redaxo.de/ftopic8426.html
   * ImageResize: Bilder mit Sonderzeichen im Dateinamen wurden falsch behandelt [kills]
     - http://forum.redaxo.de/ftopic8239.html
   * REX-Vars: Variablen die nicht im Formular vorhanden waren, sind mit "" besetzt worden [kills]
