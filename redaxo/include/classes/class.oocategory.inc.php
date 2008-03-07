@@ -225,6 +225,9 @@ class OOCategory extends OORedaxo
     return null;
   }
 
+  /*
+   * Static Method: Returns boolean if is category
+   */
   function isValid($category)
   {
     return is_object($category) && is_a($category, 'oocategory');

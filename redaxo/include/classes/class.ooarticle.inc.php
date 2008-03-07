@@ -143,8 +143,7 @@ class OOArticle extends OORedaxo
   }
 
   /*
-   * Object Function:
-   * Returns boolean if is article
+   * Static Method: Returns boolean if is article
    */
   function isValid($article)
   {
