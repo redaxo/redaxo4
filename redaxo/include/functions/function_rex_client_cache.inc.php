@@ -125,6 +125,9 @@ function rex_send_last_modified($lastModified = null)
 
   $lastModified = date('r', $lastModified);
 
+  // Sende Last-Modification time
+  header('Last-Modified: ' . $lastModified);
+
   // Last-Modified Timestamp gefunden
   // => den Browser anweisen, den Cache zu verwenden
   if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
@@ -134,9 +137,6 @@ function rex_send_last_modified($lastModified = null)
     header('HTTP/1.1 304 Not Modified');
     exit();
   }
-
-  // Sende Last-Modification time
-  header('Last-Modified: ' . $lastModified);
 }
 
 /**
@@ -149,6 +149,12 @@ function rex_send_last_modified($lastModified = null)
  */
 function rex_send_etag($cacheKey)
 {
+  // Laut HTTP Spec muss der Etag in " sein
+  $cacheKey = '"'. $cacheKey .'"';
+
+  // Sende CacheKey als ETag
+  header('ETag: '. $cacheKey);
+
   // CacheKey gefunden
   // => den Browser anweisen, den Cache zu verwenden
   if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $cacheKey)
@@ -158,9 +164,6 @@ function rex_send_etag($cacheKey)
     header('HTTP/1.1 304 Not Modified');
     exit();
   }
-
-  // Sende CacheKey als ETag
-  header('ETag: "' . $cacheKey .'"');
 }
 
 /**
