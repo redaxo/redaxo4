@@ -82,7 +82,7 @@ class OOArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return OOArticleSlice::getSliceWhere('id='. $an_id .' AND clang='. $clang);
+    return OOArticleSlice::_getSliceWhere('id='. $an_id .' AND clang='. $clang);
   }
 
   /*
@@ -100,7 +100,7 @@ class OOArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return OOArticleSlice::getSliceWhere('a.article_id='. $an_article_id .' AND
+    return OOArticleSlice::_getSliceWhere('a.article_id='. $an_article_id .' AND
                                           a.clang='. $clang .' AND
                                           (
                                            (a.re_article_slice_id=0 AND a.ctype=1 AND a.id = b.id)
@@ -125,7 +125,7 @@ class OOArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return OOArticleSlice::getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id, array());
+    return OOArticleSlice::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id, array());
   }
 
   /*
@@ -135,15 +135,30 @@ class OOArticleSlice
    */
   function getNextSlice()
   {
-    return OOArticleSlice::getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang);
+    return OOArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang);
   }
 
-  function getPrevSlice()
+  /*
+   * Object Function:
+   */
+  function getPreviousSlice()
   {
-    return OOArticleSlice::getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
+    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
   }
 
-  function getSliceWhere($whereCluase, $table = null, $fields = null, $default = null)
+  /**
+   * Gibt den Slice formatiert zurück
+   */
+  function getSlice()
+  {
+    $art = new rex_article();
+    $art->setArticleId($this->getArticleId());
+    $art->setClang($this->getClang());
+    $art->getSlice = $this->getId();
+    return $art->getArticle();
+  }
+
+  function _getSliceWhere($whereCluase, $table = null, $fields = null, $default = null)
   {
     global $REX;
 
@@ -195,14 +210,6 @@ class OOArticleSlice
     return $default;
   }
 
-  /*
-   * Object Function:
-   */
-  function getPreviousSlice()
-  {
-    return OOArticleSlice :: getArticleSliceById($this->_re_article_slice_id);
-  }
-
   function getArticle()
   {
     return OOArticle :: getArticleById($this->getArticleId());
@@ -223,7 +230,7 @@ class OOArticleSlice
     return $this->_ctype;
   }
 
-  function getModulId()
+  function getModuleId()
   {
     return $this->_modultyp_id;
   }
@@ -253,18 +260,18 @@ class OOArticleSlice
     return $this->_linklists[$index-1];
   }
 
-  function getFile($index)
+  function getMedia($index)
   {
     return $this->_files[$index-1];
   }
 
-  function getFileUrl($index)
+  function getMediaUrl($index)
   {
     global $REX;
-    return $REX['MEDIAFOLDER'].'/'.$this->getFile($index);
+    return $REX['MEDIAFOLDER'].'/'.$this->getMedia($index);
   }
 
-  function getFileList($index)
+  function getMediaList($index)
   {
     return $this->_filelists[$index-1];
   }
@@ -283,10 +290,48 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
+  function getFile($index)
+  {
+    return $this->_files[$index-1];
+  }
+
+  /**
+   * Alter Alias aus BC Gruenden
+   * @deprecated 4.1 - 05.03.2008
+   */
+  function getFileUrl($index)
+  {
+    global $REX;
+    return $REX['MEDIAFOLDER'].'/'.$this->getFile($index);
+  }
+
+  /**
+   * Alter Alias aus BC Gruenden
+   * @deprecated 4.1 - 05.03.2008
+   */
+  function getFileList($index)
+  {
+    return $this->_filelists[$index-1];
+  }
+
+  /**
+   * Alter Alias aus BC Gruenden
+   * @deprecated 4.1 - 05.03.2008
+   */
   function getModulTyp()
   {
     return $this->getModulId();
   }
+
+  /**
+   * Alter Alias aus BC Gruenden
+   * @deprecated 4.1 - 07.03.2008
+   */
+  function getPrevSlice()
+  {
+    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
+  }
+
 
 }
 ?>
