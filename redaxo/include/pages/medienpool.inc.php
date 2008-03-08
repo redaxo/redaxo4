@@ -1160,7 +1160,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
       // Tempfiles nicht synchronisieren
       if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
       {
-        $folder_files[] = $file;
+        $folder_files[] = rex_medienpool_filename($file, false);
       }
     }
     closedir($handle);
