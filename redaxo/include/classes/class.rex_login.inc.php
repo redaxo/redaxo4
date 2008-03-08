@@ -337,7 +337,7 @@ class rex_login
     {
       session_regenerate_id(true);
     }
-    else
+    else if (function_exists('session_regenerate_id'))
     {
       session_regenerate_id();
     }
