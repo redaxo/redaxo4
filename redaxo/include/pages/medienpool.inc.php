@@ -7,7 +7,6 @@
  */
 
 // TODOS
-// - mediensuche
 // - wysiwyg image pfade anschauen und kontrollieren
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
