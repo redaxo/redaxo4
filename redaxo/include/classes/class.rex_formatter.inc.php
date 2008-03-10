@@ -48,8 +48,6 @@ class rex_formatter
    */
   function format($value, $format_type, $format)
   {
-    global $I18N, $REX;
-
     // Stringformatierung mit sprintf()
     if ($format_type == 'sprintf')
     {
