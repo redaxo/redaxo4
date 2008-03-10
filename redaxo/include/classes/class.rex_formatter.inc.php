@@ -130,6 +130,8 @@ class rex_formatter
   {
     global $I18N;
 
+    if (!is_object($I18N)) $I18N = rex_create_lang();
+
     if (empty ($value))
     {
       return '';
