@@ -209,7 +209,7 @@ class OORedaxo
   /**
    * Accessor Method:
    * returns the name of the article
-   * @deprecated 17.09.2007
+   * @deprecated 4.0 17.09.2007
    */
   function getFile()
   {
@@ -219,7 +219,7 @@ class OORedaxo
   /**
    * Accessor Method:
    * returns the name of the article
-   * @deprecated 17.09.2007
+   * @deprecated 4.0 17.09.2007
    */
   function getFileMedia()
   {
@@ -229,7 +229,7 @@ class OORedaxo
   /**
    * Accessor Method:
    * returns the article description.
-   * @deprecated 17.09.2007
+   * @deprecated 4.0 17.09.2007
    */
   function getDescription()
   {
@@ -239,7 +239,7 @@ class OORedaxo
   /**
    * Accessor Method:
    * returns the Type ID of the article.
-   * @deprecated 17.09.2007
+   * @deprecated 4.0 17.09.2007
    */
   function getTypeId()
   {
