@@ -8,7 +8,7 @@
  * @author <a href="http://www.vscope.at">www.vscope.at</a>
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  *
  * @package redaxo4
  * @version $Id$
@@ -230,7 +230,7 @@ class rex_thumbnail
 		{
 			$cachefile = '';
 			$cachetime = -1;
-			
+
 			// nur das Šlteste Cachefile lšschen
 			foreach($glo as $gl)
 			{
@@ -253,16 +253,17 @@ class rex_thumbnail
 
     $lastModified = gmdate('r', $lastModified);
 
+    header('Content-Type: image/' . $this->img['format']);
+    header('Last-Modified: ' . $lastModified);
+    // caching clientseitig/proxieseitig erlauben
+    header('Cache-Control: public');
+
     if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
     {
       header('HTTP/1.1 304 Not Modified');
       exit();
     }
 
-    header('Content-Type: image/' . $this->img['format']);
-    header('Last-Modified: ' . $lastModified);
-    // caching clientseitig/proxieseitig erlauben
-    header('Cache-Control: public');
     readfile($file);
   }
 
