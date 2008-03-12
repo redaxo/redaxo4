@@ -288,7 +288,7 @@ function rex_a1_export_db()
         // Default Werte
         if ($cols->getValue('Default') != '')
         {
-          $coldef = 'DEFAULT '.$cols->getValue('Default').' ';
+          $coldef = 'DEFAULT \''. str_replace("'", "\'", $cols->getValue('Default')) .'\'';
         }
         else
         {
