@@ -1160,7 +1160,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
       // Tempfiles nicht synchronisieren
       if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
       {
-        $folder_files[] = rex_medienpool_filename($file, false);
+        $folder_files[] = $file;
       }
     }
     closedir($handle);
@@ -1168,12 +1168,14 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
 
   // ---- Dateien aus der DB lesen
   $db = new rex_sql();
-  $db->setQuery('SELECT filename FROM '. $REX['TABLE_PREFIX'].'file');
+  $db->setQuery('SELECT filename,originalname FROM '. $REX['TABLE_PREFIX'].'file');
   $db_files = array();
 
   for($i=0;$i<$db->getRows();$i++)
   {
     $db_files[] = $db->getValue('filename');
+    if($db->getValue('filename') != $db->getValue('originalname'))
+      $db_files[] = $db->getValue('originalname');
     $db->next();
   }
 
