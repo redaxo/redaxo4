@@ -248,9 +248,9 @@ $cat_out = rex_register_extension_point('MEDIA_LIST_TOOLBAR', $cat_out,
 // *************************************** FUNCTIONS
 
 
-function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,$category_id,$title,$filesize,$filetype)
+function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize,$filetype)
 {
-  global $REX, $REX_USER;
+  global $REX;
 
   $abs_file = $REX['MEDIAFOLDER'].'/'. $physical_filename;
 
@@ -269,41 +269,16 @@ function rex_medienpool_registerFile($physical_filename,$org_filename,$filename,
     $filetype = mime_content_type($abs_file);
   }
 
-  @chmod($abs_file, $REX['FILEPERM']);
+  $FILE = array();
+  $FILE['name'] = $physical_filename;
+  $FILE['size'] = $filesize;
+  $FILE['type'] = $filetype;
 
-  $filename = rex_medienpool_filename($filename, false);
-  $org_filename = strtolower($org_filename);
+  $FILEINFOS = array();
+  $FILEINFOS['title'] = $title;
 
-  // Ggf Alte Datei umbennen
-  rename($abs_file, $REX['MEDIAFOLDER'].'/'.$filename);
-  $abs_file = $REX['MEDIAFOLDER'].'/'.$filename;
-
-  // get widht height
-  $size = @getimagesize($abs_file);
-
-  $FILESQL = new rex_sql;
-  // $FILESQL->debugsql=1;
-  $FILESQL->setTable($REX['TABLE_PREFIX']."file");
-  $FILESQL->setValue('filename',$filename);
-  $FILESQL->setValue('originalname',$org_filename);
-  $FILESQL->setValue('category_id',$category_id);
-  $FILESQL->setValue('title',$title);
-  $FILESQL->setValue('filesize',$filesize);
-  $FILESQL->setValue('filetype',$filetype);
-
-  if($size)
-  {
-    $FILESQL->setValue('width',$size[0]);
-    $FILESQL->setValue('height',$size[1]);
-  }
-
-  // TODO Hier Update + Create zugleich?
-  $FILESQL->addGlobalUpdateFields();
-  $FILESQL->addGlobalCreateFields();
-
-  $FILESQL->insert();
-
-  return $FILESQL->getError() == '';
+  $RETURN = rex_medienpool_saveMedia($FILE, $category_id, $FILEINFOS);
+  return $RETURN['ok'] == 1;
 }
 
 function rex_medienpool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
@@ -1172,18 +1147,15 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
 
   // ---- Dateien aus der DB lesen
   $db = new rex_sql();
-  $db->setQuery('SELECT filename,originalname FROM '. $REX['TABLE_PREFIX'].'file');
+  $db->setQuery('SELECT filename FROM '. $REX['TABLE_PREFIX'].'file');
   $db_files = array();
 
   for($i=0;$i<$db->getRows();$i++)
   {
     $db_files[] = $db->getValue('filename');
-    if($db->getValue('filename') != $db->getValue('originalname'))
-      $db_files[] = $db->getValue('originalname');
     $db->next();
   }
 
-  // Dateien tolower, da in der db alle lower sind
   $diff_files = array_diff($folder_files, $db_files);
   $diff_count = count($diff_files);
 
@@ -1196,7 +1168,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
-        if(rex_medienpool_registerFile($file,$file,$file,$rex_file_category,$ftitle,'',''))
+        if(rex_medienpool_syncFile($file,$rex_file_category,$ftitle,'',''))
         {
           unset($diff_files[$key]);
         }
