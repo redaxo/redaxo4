@@ -88,7 +88,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 
   // ----- dateiupload
   $upload = true;
-  if(!@move_uploaded_file($FILE['tmp_name'],$dstFile) && !@copy($FILE['tmp_name'],$dstFile))
+  if(!@move_uploaded_file($FILE['tmp_name'],$dstFile))
   {
     $message .= $I18N->msg("pool_file_movefailed");
     $ok = 0;
