@@ -321,6 +321,15 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
+  function getModulId()
+  {
+    return $this->_modultyp_id;
+  }
+
+  /**
+   * Alter Alias aus BC Gruenden
+   * @deprecated 4.1 - 05.03.2008
+   */
   function getModulTyp()
   {
     return $this->getModulId();
