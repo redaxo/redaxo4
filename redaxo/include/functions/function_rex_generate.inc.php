@@ -237,7 +237,7 @@ function _rex_deleteArticle($id, $ebene)
   {
     return $I18N->msg('cant_delete_sitestartarticle');
   }
-  if ($id == $REX['ARTICLE_NOT_FOUND'])
+  if ($id == $REX['NOTFOUND_ARTICLE_ID'])
   {
     return $I18N->msg('cant_delete_notfoundarticle');
   }
