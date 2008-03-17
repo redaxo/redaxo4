@@ -92,6 +92,7 @@ Version 4.1.X (2008-XX-XX)
   * Blätter Navi falsch nicht übersetzt #150 [kills]
   * OORedaxo->isNotFoundArticle ergänzt #133 [kills]
   * MetaInfo: maxlength in Textfeldern ergänzt [kills]
+  * _rex_deleteArticle: Notice gefixed [koala, kills]
   * TinyMCE: Scrollbars im "Link einfügen" Dialog haben gefehlt [Konrad, kills]
     - http://forum.redaxo.de/ftopic8421.html 
   * TinyMCE: insertEmail korrigiert [darwin, kills]
