@@ -1193,10 +1193,19 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
     echo '<ul>';
     foreach($diff_files as $file)
     {
-      echo '<li>
+      echo '<li>';
+      if(is_writable($REX['MEDIAFOLDER'] .'/'. $file))
+      {
+        echo '
               <input class="rex-chckbx" type="checkbox" id="sync_file_'. $file .'" name="sync_files[]" value="'. $file .'" />
               <label class="rex-lbl-rght" for="sync_file_'. $file .'">'. $file .'</label>
-            </li>';
+             ';
+      }
+      else
+      {
+        echo $file .' - '.  $I18N->msg('pool_file_not_writable') . "\n";
+      }
+      echo '</li>';
     }
 
     echo '<li>

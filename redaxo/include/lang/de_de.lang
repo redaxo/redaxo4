@@ -443,6 +443,7 @@ pool_file_get = Datei übernehmen
 pool_last_update = Letztes Update
 pool_created = Erstellt am
 pool_select_all = Alle markieren
+pool_file_not_writable = Datei ist nicht beschreibbar!
 pool_max_uploadsize = Maximale Uploadgröße
 pool_max_uploadtime = Maximale Uploadzeit
 pool_upload_disabled = Deaktiviert!
