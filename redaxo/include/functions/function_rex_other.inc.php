@@ -156,9 +156,11 @@ function array_insert($array, $index, $value)
   return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
 }
 
-function rex_warning($message, $cssClass = 'rex-warning')
+function rex_warning($message, $cssClass = null, $sorround_tag = null)
 {
-  return '<p class="'. $cssClass .'"><span>'. $message .'</span></p>';
+  if(!$cssClass) $cssClass = 'rex-warning';
+  if(!$sorround_tag) $sorround_tag = 'p';
+  return '<'. $sorround_tag .' class="'. $cssClass .'"><span>'. $message .'</span></'. $sorround_tag .'>';
 }
 
 function rex_accesskey($title, $key)
