@@ -1193,6 +1193,11 @@ function rex_generateTemplate($template_id)
         trigger_error('directory "'. $templatesDir .'" is not writable!', E_USER_ERROR);
     }
   }
+  else
+  {
+    trigger_error('Template with id "'. $template_id .'" does not exist!', E_USER_ERROR);
+  }
+
   return false;
 }
 
