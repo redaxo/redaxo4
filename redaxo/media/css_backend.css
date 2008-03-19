@@ -141,6 +141,9 @@ div#rex-output div.rex-warning-blck {
 }
 div#rex-output div.rex-info-blck {
 	background-color:#D2EFD9;
+}
+div#rex-output div.rex-info-blck, 
+div#rex-output div.rex-info-blck a {
 	color:#107C2C;
 }
 div#rex-output div.rex-message-blck ol {
