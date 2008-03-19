@@ -760,8 +760,8 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue('catname', $catname);
         $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
-        $art_sql->addGlobalCreateFields();
         $art_sql->setValue('startpage', 0);
+        $art_sql->addGlobalCreateFields();
 
         // schon gesetzte Felder nicht wieder überschreiben
         $dont_copy = array ('id', 'pid', 're_id', 'catname', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
