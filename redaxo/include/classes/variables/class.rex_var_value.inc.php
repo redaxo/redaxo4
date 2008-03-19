@@ -81,7 +81,7 @@ class rex_var_value extends rex_var
   function getBEInput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
-    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php')), $content);
+    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php'),ENT_QUOTES), $content);
     return $content;
   }
 
@@ -155,7 +155,7 @@ class rex_var_value extends rex_var
         {
           if ($escape)
           {
-            $replace = htmlspecialchars($replace);
+            $replace = htmlspecialchars($replace,ENT_QUOTES);
           }
 
           if ($nl2br)
