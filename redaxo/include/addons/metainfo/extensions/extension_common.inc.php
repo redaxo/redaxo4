@@ -74,7 +74,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     {
       case 'text':
       {
-        $field = '<input type="'. $sqlFields->getValue('label') .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .' "maxlength="'. $dblength .'" '. $attr .' />';
+        $field = '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .' "maxlength="'. $dblength .'" '. $attr .' />';
         break;
       }
       case 'checkbox':
@@ -302,6 +302,12 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
         $link_id++;
         break;
+      }
+      default :
+      {
+        // ----- EXTENSION POINT
+        list($field, $tag, $tag_attr, $id, $label, $labelIt) =
+          rex_register_extension_point( 'A62_CUSTOM_FIELD', array($field, $tag, $tag_attr, $id, $label, $labelIt, 'type' => $typeLabel, 'sql' => $sqlFields));
       }
     }
 

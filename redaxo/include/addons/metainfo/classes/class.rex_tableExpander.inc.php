@@ -3,7 +3,7 @@
  * MetaForm Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version $Id$
  */
@@ -37,6 +37,10 @@ class rex_a62_tableExpander extends rex_form
   function init()
   {
     global $REX, $I18N_META_INFOS;
+
+    // ----- EXTENSION POINT
+    // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
+    $typeFields = rex_register_extension_point( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX));
 
     $field =& $this->addReadOnlyField('prefix', $this->metaPrefix);
     $field->setLabel($I18N_META_INFOS->msg('field_label_prefix'));
@@ -73,7 +77,7 @@ class rex_a62_tableExpander extends rex_form
 
     $field =& $this->addSelectField('type');
     $field->setLabel($I18N_META_INFOS->msg('field_label_type'));
-    $field->setAttribute('onchange', 'checkConditionalFields(this, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));');
+    $field->setAttribute('onchange', 'checkConditionalFields(this, new Array('. implode(',', $typeFields) .'));');
     $select =& $field->getSelect();
     $select->setSize(1);
 
@@ -94,7 +98,7 @@ class rex_a62_tableExpander extends rex_form
     <script type="text/javascript">
       var needle = new getObj("'. $field->getAttribute('id') .'");
 
-      checkConditionalFields(needle.obj, new Array('. REX_A62_FIELD_SELECT .','. REX_A62_FIELD_RADIO .','. REX_A62_FIELD_CHECKBOX .'));
+      checkConditionalFields(needle.obj, new Array('. implode(',', $typeFields) .'));
     </script>';
 
     $field =& $this->addTextAreaField('params');
