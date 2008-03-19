@@ -40,6 +40,7 @@ elseif (isset($function_action) and $function_action == 'delete')
 
 // ---------------------------- FUNKTIONEN FÜR MODULE
 
+$module_in_use_message = '';
 if ($function == 'delete')
 {
   $del = new rex_sql;
@@ -49,7 +50,6 @@ if ($function == 'delete')
 
   if ($del->getRows() >0)
   {
-    $module = '';
     $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module.name"));
     for ($i=0; $i<$del->getRows(); $i++)
     {
@@ -62,16 +62,16 @@ if ($function == 'delete')
       if(count($REX['CLANG']) > 1)
         $label = '('. rex_translate($REX['CLANG'][$clang_id]) .') '. $label;
 
-      $module .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">- '. $label .'</a></li>';
+      $module_in_use_message .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
       $del->next();
     }
 
-    if($module != '')
+    if($module_in_use_message != '')
     {
-      $module = '<ul>'. $module .'</ul>';
+      $module_in_use_message = rex_warning_block('<ul>' . $module_in_use_message . '</ul>');
     }
 
-    $message = $I18N->msg("module_cannot_be_deleted",$modulname).'<br /> '.$module;
+    $message = $I18N->msg("module_cannot_be_deleted",$modulname);
   } else
   {
     $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module WHERE id='$modul_id'");
@@ -307,6 +307,7 @@ if ($OUT)
   if (isset($message) and $message != '')
   {
     echo rex_warning($message);
+    echo $module_in_use_message;
   }
 
   $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
