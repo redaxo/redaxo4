@@ -46,10 +46,9 @@ if ($function == 'delete')
   $del->setQuery($qry); // module mit dieser aktion vorhanden ?
   if ($del->getRows() > 0)
   {
-    $modulname = htmlspecialchars($del->getValue('a.module_id'));
     for ($i = 0; $i < $del->getRows(); $i++)
     {
-      $action_in_use_msg .= '<li><a href="index.php?page=module&amp;function=edit&amp;modul_id=' . $del->getValue('a.module_id') . '">'. $del->getValue('m.name') . ' ['. $del->getValue('a.module_id') . ']</a></li>';
+      $action_in_use_msg .= '<li><a href="index.php?page=module&amp;function=edit&amp;modul_id=' . $del->getValue('a.module_id') . '">'. htmlspecialchars($del->getValue('m.name')) . ' ['. $del->getValue('a.module_id') . ']</a></li>';
       $del->next();
     }
 
