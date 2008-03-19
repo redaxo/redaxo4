@@ -54,7 +54,8 @@ if ($function == 'delete')
 
     if ($action_in_use_msg != '')
     {
-      $action_in_use_msg = '<div class="rex-message-blck rex-warning-blck"><ul>' . $action_in_use_msg . '</ul></div>';
+//      $action_in_use_msg = '<div class="rex-message-blck rex-warning-blck"><ul>' . $action_in_use_msg . '</ul></div>';
+      $action_in_use_msg = rex_warning_block('<ul>' . $action_in_use_msg . '</ul>');
     }
 
     $message = $I18N->msg("action_cannot_be_deleted", $action_id);

@@ -175,6 +175,25 @@ function rex_warning($message, $cssClass = null, $sorround_tag = null)
   return rex_message($message, $cssClass, $sorround_tag);
 }
 
+function rex_info_block($message, $cssClass = null, $sorround_tag = null)
+{
+  if(!$cssClass) $cssClass = 'rex-info-blck';
+  if(!$sorround_tag) $sorround_tag = 'div';
+  return rex_message_block($message, $cssClass, $sorround_tag);
+}
+
+function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
+{
+  if(!$cssClass) $cssClass = 'rex-warning-blck';
+  if(!$sorround_tag) $sorround_tag = 'div';
+  return rex_message_block($message, $cssClass, $sorround_tag);
+}
+
+function rex_message_block($message, $cssClass, $sorround_tag)
+{
+  return '<'. $sorround_tag .' class="rex-message-blck '. $cssClass .'">'. $message .'</'. $sorround_tag .'>';
+}
+
 function rex_accesskey($title, $key)
 {
   global $REX_USER;
