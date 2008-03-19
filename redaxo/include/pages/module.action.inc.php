@@ -36,19 +36,22 @@ if ($function == 'delete')
   $qry = 'SELECT
             *
           FROM
-            '. $REX['TABLE_PREFIX'] .'module_action a
+            '. $REX['TABLE_PREFIX'] .'action a,
+            '. $REX['TABLE_PREFIX'] .'module_action ma
           LEFT JOIN
            '. $REX['TABLE_PREFIX'] .'module m
           ON
-            a.module_id = m.id
+            ma.module_id = m.id
           WHERE
-            a.action_id='. $action_id;
+            ma.action_id = a.id AND
+            ma.action_id='. $action_id;
   $del->setQuery($qry); // module mit dieser aktion vorhanden ?
   if ($del->getRows() > 0)
   {
+    $action_name = htmlspecialchars($del->getValue('a.name'));
     for ($i = 0; $i < $del->getRows(); $i++)
     {
-      $action_in_use_msg .= '<li><a href="index.php?page=module&amp;function=edit&amp;modul_id=' . $del->getValue('a.module_id') . '">'. htmlspecialchars($del->getValue('m.name')) . ' ['. $del->getValue('a.module_id') . ']</a></li>';
+      $action_in_use_msg .= '<li><a href="index.php?page=module&amp;function=edit&amp;modul_id=' . $del->getValue('ma.module_id') . '">'. htmlspecialchars($del->getValue('m.name')) . ' ['. $del->getValue('ma.module_id') . ']</a></li>';
       $del->next();
     }
 
@@ -58,7 +61,7 @@ if ($function == 'delete')
       $action_in_use_msg = rex_warning_block('<ul>' . $action_in_use_msg . '</ul>');
     }
 
-    $message = $I18N->msg("action_cannot_be_deleted", $action_id);
+    $message = $I18N->msg("action_cannot_be_deleted", $action_name);
   }
   else
   {
