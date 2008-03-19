@@ -93,44 +93,67 @@ legend.rex-hidden {
 }
 
 /*	rex-warning */
-div#rex-output .rex-warning {
+div#rex-output .rex-message {
 	clear: both;
-	width:670px;
 	width:100%;
 	margin:0 0 10px 0;
 	padding:8px 0px;
-	background:#fae9e5 url(../media/warning.gif) 0% 50% no-repeat;
-	color:#ea1144;
 	font-weight:bold;
 }
-body#rex-page-medienpool div#rex-output .rex-warning {
+div#rex-output .rex-warning {
+	background:#FAE9E5 url(../media/warning.gif) 0% 50% no-repeat;
+	color:#EA1144;
+}
+div#rex-output .rex-info {
+	background:#D2EFD9 url(../media/excla_mark_green.gif) 0% 50% no-repeat;
+	color:#107C2C;
+}
+body#rex-page-medienpool div#rex-output .rex-message {
 	margin-bottom:2px;
 }
-body#rex-page-content div#rex-output .rex-warning,
-div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-warning {
+body#rex-page-content div#rex-output .rex-message,
+div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-message {
 	margin-bottom:0px;
 }
-div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-warning {
+div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-message {
 	padding:0;
 }
-div#rex-output .rex-warning span {
+div#rex-output .rex-message span {
 	display:block;
 	padding:0 45px;
 }
 
-table .rex-warning {
+table .rex-message {
 	margin:0;
 }
 
 
 
-div#rex-output div.rex-warning-blck {
+div#rex-output div.rex-message-blck {
 	clear:both;
 	margin:0 0 10px 0;
 	padding:8px 45px;
-	background-color:#fae9e5;
-	color:#ea1144;
 	line-height:1.6;
+}
+div#rex-output div.rex-warning-blck {
+	background-color:#FAE9E5;
+	color:#EA1144;
+}
+div#rex-output div.rex-info-blck {
+	background-color:#D2EFD9;
+	color:#107C2C;
+}
+div#rex-output div.rex-message-blck ol {
+	margin-left: 20px;
+}
+div#rex-output div.rex-message-blck ul {
+	margin-left: 15px;
+}
+div#rex-output div.rex-message-blck ol li {
+	list-style-type: decimal;
+}
+div#rex-output div.rex-message-blck ul li {
+	list-style-type: square;
 }
 
 
