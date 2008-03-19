@@ -158,6 +158,7 @@ class rex_list
 
   function init()
   {
+    // nichts tun
   }
 
   // ---------------------- setters/getters
