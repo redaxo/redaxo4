@@ -18,8 +18,8 @@ function rex_a256_search_mpool($params)
     return $params['subject'];
   }
 
-  $media_name = rex_request('a256_media_name', 'string');
   if(rex_request('subpage', 'string') != '') return $params['subject'];
+  $media_name = rex_request('a256_media_name', 'string');
 
   $subject = $params['subject'];
 
