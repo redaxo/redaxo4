@@ -449,7 +449,7 @@ pool_max_uploadtime = Maximale Uploadzeit
 pool_upload_disabled = Deaktiviert!
 pool_upload = Dateiupload
 
-# redaxo/include/pages
+# redaxo\include\pages\medienpool.inc.php\setup.inc.php
 recommended = empfohlen
 setup = Setup
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
@@ -534,6 +534,8 @@ addon_activated = AddOn "{0}" wurde aktiviert
 addon_deactivated =  AddOn "{0}" wurde deaktiviert
 addon_uninstalled = AddOn "{0}" wurde deinstalliert
 addon_deleted = AddOn "{0}" wurde gelöscht
+addon_delete_question = AddOn "{0}" löschen?
+addon_uninstall_question = AddOn "{0}" de-installieren?
 addon_hname = Name
 addon_hinstall = Installiert
 addon_hactive = Aktiviert

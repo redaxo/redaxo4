@@ -128,13 +128,13 @@ if ($SP)
   		$delete = $I18N->msg("addon_systemaddon");
   	}else
   	{
-  		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg("addon_delete").'</a>';
+  		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $cur)).'\');">'.$I18N->msg("addon_delete").'</a>';
   	}
 
     if (OOAddon::isInstalled($cur))
     {
       $install = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;install=1">'.$I18N->msg("addon_reinstall").'</a>';
-      $uninstall = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;uninstall=1" onclick="return confirm(\''.$I18N->msg("addon_uninstall").' ?\')">'.$I18N->msg("addon_uninstall").'</a>';
+      $uninstall = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $cur)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
     }
     else
     {
