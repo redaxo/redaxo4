@@ -47,11 +47,11 @@ INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('9','translate:header_article_type
 
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_from` VARCHAR(255);
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_to` VARCHAR(255);
-ALTER TABLE `%TABLE_PREFIX%article` ADD `art_description` VARCHAR(255);
-ALTER TABLE `%TABLE_PREFIX%article` ADD `art_keywords` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_description` TEXT;
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_keywords` TEXT;
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_file` VARCHAR(255);
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_teaser` VARCHAR(255);
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_type_id` VARCHAR(255);
 
-ALTER TABLE `%TABLE_PREFIX%file` ADD `med_description` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%file` ADD `med_description` TEXT;
 ALTER TABLE `%TABLE_PREFIX%file` ADD `med_copyright` VARCHAR(255);
