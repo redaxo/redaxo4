@@ -309,7 +309,7 @@ if ($OUT)
     echo rex_warning($message);
   }
 
-  $list = new rex_list('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
+  $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
   $list->setCaption($I18N->msg('module_caption'));
   $list->addTableAttribute('summary', $I18N->msg('module_summary'));
 

@@ -73,6 +73,19 @@ class rex_form
     // nichts tun
   }
 
+  function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  {
+    static $class = null;
+
+    if(!$class)
+    {
+      // ----- EXTENSION POINT
+      $class = rex_register_extension_point('REX_FORM_CLASSNAME', 'rex_form');
+    }
+
+    return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
+  }
+
   function loadBackendConfig()
   {
     global $I18N;

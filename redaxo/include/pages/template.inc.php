@@ -214,7 +214,7 @@ if ($OUT) {
     echo rex_warning($message);
   }
 
-  $list = new rex_list('SELECT id, name, active FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
+  $list = rex_list::factory('SELECT id, name, active FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
   $list->setCaption($I18N->msg('header_template_caption'));
   $list->addTableAttribute('summary', $I18N->msg('header_template_summary'));
 
