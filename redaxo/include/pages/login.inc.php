@@ -26,12 +26,12 @@ echo '
     <input type="hidden" name="page" value="structure" />
     <p>
       <label for="REX_ULOGIN">'.$I18N->msg('login_name').':</label>
-      <input type="text" value="'.stripslashes(htmlspecialchars($REX_ULOGIN)).'" id="REX_ULOGIN" name="REX_ULOGIN" />
+      <input type="text" value="'.stripslashes(htmlspecialchars($REX_ULOGIN)).'" id="REX_ULOGIN" name="REX_ULOGIN"'. rex_tabindex() .' />
     </p>
     <p>
       <label for="REX_UPSW">'.$I18N->msg('password').':</label>
-      <input type="password" name="REX_UPSW" id="REX_UPSW" />
-	  <input class="rex-sbmt" type="submit" value="'.$I18N->msg('login').'" />
+      <input type="password" name="REX_UPSW" id="REX_UPSW"'. rex_tabindex() .' />
+	    <input class="rex-sbmt" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
     </p>
   </fieldset>
 </form>
