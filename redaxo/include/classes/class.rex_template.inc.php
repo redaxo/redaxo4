@@ -67,8 +67,7 @@ class rex_template
         // Dateicache löschen, damit file_exists jetzt ein neuer ergebnis liefert
         clearstatcache();
 
-        // rekursiv aufrufen, nach dem erfolgreichen generate
-        return $this->getTemplate();
+        return rex_get_file_contents($file);
     	}
     }
 		return FALSE;
