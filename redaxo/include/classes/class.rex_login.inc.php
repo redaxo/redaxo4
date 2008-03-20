@@ -25,6 +25,11 @@ class rex_login_sql extends rex_sql
     }
   }
 
+  function getUserLogin()
+  {
+    return $this->getValue('login');
+  }
+
   function isAdmin()
   {
     return $this->hasPerm('admin[]');
