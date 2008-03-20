@@ -39,7 +39,7 @@ if ($REX['REDAXO'])
     if($page == 'metainfo')
     {
       rex_register_extension('PAGE_HEADER',
-        create_function('$params', 'return \'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\';')
+        create_function('$params', 'return $params[\'subject\'] .\'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\'."\n";')
       );
     }
 
