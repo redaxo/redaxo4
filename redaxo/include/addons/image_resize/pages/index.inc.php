@@ -39,7 +39,8 @@ switch($subpage)
   default:
   {
   	if (isset ($msg) and $msg != '')
-		  echo '<p class="rex-warning"><span>' . $msg . '</span></p>';
+		  echo rex_warning($msg);
+
 	  $subpage = 'overview';
   }
 }

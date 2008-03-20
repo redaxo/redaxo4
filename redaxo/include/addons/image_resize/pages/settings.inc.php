@@ -41,8 +41,7 @@ $REX[\'ADDON\'][\'image_resize\'][\'jpg_quality\'] = '.$jpg_quality.';
 	$file = $REX['INCLUDE_PATH']."/addons/image_resize/config.inc.php";
   rex_replace_dynamic_contents($file, $content);
 
-  echo '<p class="rex-warning"><span>' . 'Konfiguration wurde aktualisiert' . '</span></p>';
-
+  echo rex_warning('Konfiguration wurde aktualisiert');
 }
 
 echo '
