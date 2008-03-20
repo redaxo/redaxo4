@@ -324,6 +324,15 @@ class rex_sql
   }
 
   /**
+   * Gibt die Zeilennummer zurück, auf der sich gerade der
+   * interne Zähler befindet
+   */
+  function getCounter()
+  {
+    return $this->counter;
+  }
+
+  /**
    * Gibt die Anzahl der Felder/Spalten zurück
    */
   function getFields()
