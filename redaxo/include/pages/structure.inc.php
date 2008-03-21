@@ -833,7 +833,9 @@ if ($category_id > -1)
           <col width="105" />
           <col width="105" />
           <col width="105" />
-          <col width="51" span="3" />
+          <col width="51" />
+          <col width="51" />
+          <col width="51" />
         </colgroup>
         <thead>
           <tr>
