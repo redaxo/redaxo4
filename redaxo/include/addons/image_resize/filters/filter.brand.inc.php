@@ -11,7 +11,7 @@ function image_resize_brand(& $src_im)
 
   $files = glob($REX['INCLUDE_PATH'] . '/addons/image_resize/media/brand.*');
   $brandImage = $files[0];
-  $brand = new thumbnail($brandImage);
+  $brand = new rex_thumbnail($brandImage);
 
   $paddX = 10;
   $paddY = 10;
