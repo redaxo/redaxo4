@@ -570,11 +570,11 @@ lmap_has_no_template = hat kein Template
 # redaxo\include\classes\class.rex_list.inc.php
 list_first = erste Seite
 list_previous = vorherige Seite
-list_add = Zeile einfügen
+list_add = Neuen Eintrag einfügen
 list_next = nächste Seite
 list_last = letzte Seite
-list_rows_found = {0} Zeilen gefunden
-list_no_rows = Keine Zeilen vorhanden
+list_rows_found = {0} Einträge gefunden
+list_no_rows = Keine Einträge vorhanden
 
 # redaxo\include\classes\class.rex_form.inc.php
 form_save = Speichern
