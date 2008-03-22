@@ -36,10 +36,17 @@ if ($function == "delete") {
 
   $hole = new rex_sql;
   $hole->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id'");
-  $templatename = $hole->getValue("name");
-  $content = $hole->getValue("content");
-  $active = $hole->getValue("active");
-  $attributes = $hole->getValue("attributes");
+  if($hole->getRows() == 1)
+  {
+    $templatename = $hole->getValue("name");
+    $content = $hole->getValue("content");
+    $active = $hole->getValue("active");
+    $attributes = $hole->getValue("attributes");
+  }
+  else
+  {
+    $function = '';
+  }
 
 } else {
 
