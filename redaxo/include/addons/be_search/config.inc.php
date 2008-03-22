@@ -31,9 +31,17 @@ if ($REX['REDAXO'])
     rex_send_file($cssfile, 'text/css');
     exit();
   }
+  if(rex_get('css', 'string') == 'addons/'. $mypage .'/ie7')
+  {
+    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/be_search_ie_lte_7.css';
+    rex_send_file($cssfile, 'text/css');
+    exit();
+  }
 
   rex_register_extension('PAGE_HEADER',
-    create_function('$params', 'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\'."\n";')
+    create_function('$params',
+  'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />
+  <!--[if lte IE 7]><link rel="stylesheet" href="index.php?css=addons/'. $mypage .'/ie7" type="text/css" media="all" /><![endif]-->'. "\n" .'\';')
   );
 
   $I18N_BE_SEARCH = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
