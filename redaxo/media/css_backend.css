@@ -553,6 +553,12 @@ body div#rex-output p.rex-slct {
 body div#rex-output div.rex-fldst-wrppr {
 	border-top:1px solid #fff;
 }
+
+div.rex-ptag {
+	overflow: hidden;
+	width: 568px;
+}
+
 body div#rex-output p label,
 body div#rex-output div.rex-ptag label {
 	clear:left;
@@ -999,6 +1005,14 @@ div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-icons {
 }
 div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-icons a img {
 	margin-bottom:3px;
+}
+
+div.rex-ptag div.rex-wdgt{
+	margin-bottom:0px;
+}
+
+div.rex-ptag div.rex-wdgt p.rex-wdgt-icons {
+	background-color:#fff;
 }
 
 
@@ -1698,3 +1712,4 @@ div.rex-f-lft {
 div.rex-f-rght {
 	float: right;
 }
+

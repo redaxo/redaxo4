@@ -43,3 +43,30 @@ div#rex-a256-searchbar form input#rex-a256-article-id {
 div#rex-a256-searchbar form select#rex-a256-category-id {
 	width: 180px;
 }
+
+
+div#rex-a256-searchbar ul.a256-search-result {
+	margin-left:40px;
+	padding-bottom:5px;
+}
+
+div#rex-a256-searchbar ul.a256-search-result li{
+	margin:0px;
+	border:0px;
+	margin-left:15px;
+	background-color:#99f;
+}
+
+div#rex-a256-searchbar ul.a256-search-result li ul.a256-search-hit {
+	margin:0px;
+	border:0px;
+	padding:0px 0px 3px 0px;
+	background-color:#f9f;
+}
+
+div#rex-a256-searchbar ul.a256-search-result li ul.a256-search-hit li{
+	display:inline;
+	margin:0px;
+	background-color:#f90;
+}
+
