@@ -70,7 +70,7 @@ function rex_a256_search_structure($params)
       $OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
       if($REX_USER->hasCategoryPerm($OOArt->getCategoryId()))
       {
-        header('Location:'. sprintf($editUrl, $OOArt->getCategoryId(), $a256_clang, urlencode($a256_article_name)));
+        header('Location:'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)));
         exit();
       }
     }
