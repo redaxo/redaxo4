@@ -232,7 +232,7 @@ if ($OUT) {
   $imgAdd = '<img src="media/template_plus.gif" alt="'.$I18N->msg('create_template').'" title="'.$I18N->msg('create_template').'" />';
   $imgHeader = '<a href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
   $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
-  $list->setColumnParams($imgHeader, array('function' => 'edit', 'modul_id' => '###id###'));
+  $list->setColumnParams($imgHeader, array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
   $list->setColumnLayout('id',  array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
