@@ -105,7 +105,7 @@ function rex_a256_search_structure($params)
               $first = false;
             }
 
-            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($treeLabel) .'</a></li>';
+            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($treeLabel) .' </a></li>';
           }
 
           $prefix = ': ';
@@ -115,7 +115,7 @@ function rex_a256_search_structure($params)
             $first = false;
           }
 
-          $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($label) .'</a></li>';
+          $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($label) .' </a></li>';
 
           $search_result .= '<li><ul class="a256-search-hit">'. $s .'</ul></li>';
         }
