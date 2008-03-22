@@ -21,6 +21,7 @@ function rex_a256_search_structure($params)
   $message = '';
   $search_result = '';
   $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&a256_article_name=%s';
+  $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&a256_article_name=%s';
 
   // ------------ Parameter
   $a256_article_id        = rex_request('a256_article_id'  , 'int');
@@ -77,7 +78,7 @@ function rex_a256_search_structure($params)
     // Mehrere Suchtreffer, Liste anzeigen
     else if($foundRows > 0)
     {
-      $search_result .= '<ul>';
+      $search_result .= '<ul class="a256-search-result">';
       for($i = 0; $i < $foundRows; $i++)
       {
         $OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
@@ -88,7 +89,28 @@ function rex_a256_search_structure($params)
           if($REX_USER->hasPerm('advancedMode[]'))
             $label .= ' ['. $search->getValue('id') .']';
 
-          $search_result .= '<li><a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($label) .'</a></li>';
+          $s = '';
+          $first = true;
+          foreach($OOArt->getParentTree() as $treeItem)
+          {
+            $treeLabel = $treeItem->getName();
+
+            if($REX_USER->hasPerm('advancedMode[]'))
+              $treeLabel .= ' ['. $treeItem->getId() .']';
+
+            $prefix = ': ';
+            if($first)
+            {
+              $prefix = '';
+              $first = false;
+            }
+
+            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($treeLabel) .'</a></li>';
+          }
+
+          $s .= '<li>: <a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($label) .'</a></li>';
+
+          $search_result .= '<li><ul class="a256-search-hit">'. $s .'</ul></li>';
         }
         $search->next();
       }
