@@ -137,11 +137,11 @@ if ($function == "add" or $function == "edit") {
     $i = 1;
     if (is_array($ctypes)) {
       foreach ($ctypes as $id => $name) {
-        $ctypes_out .= '<p><label for="ctype'.$i.'">CTYPE ID ' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" /></p>';
+        $ctypes_out .= '<p><label for="ctype'.$i.'">ID ' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" /></p>';
         $i++;
       }
     }
-    $ctypes_out .= '<p><label for="ctype'.$i.'">CTYPE ID ' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="" /></p>';
+    $ctypes_out .= '<p><label for="ctype'.$i.'">ID ' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="" /></p>';
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
@@ -196,7 +196,7 @@ function rex_tplctypes_toggle()
 
 //--></script>
 <a href="javascript:rex_tplctypes_toggle();"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /></a>
-<a href="javascript:rex_tplctypes_toggle();">'.$I18N->msg("content_types").' - CTYPES</a>
+<a href="javascript:rex_tplctypes_toggle();">'.$I18N->msg("content_types").' [CTYPES]</a>
 </legend>
 
      			<div class="rex-fldst-wrppr rex-tmp-ctypes" style="display:none">
