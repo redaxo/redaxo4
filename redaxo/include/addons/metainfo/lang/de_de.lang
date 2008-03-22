@@ -1,5 +1,7 @@
 # addon:metaform de_de
 
+metainfos_not_found = Es wurden keine Metainformationen gefunden
+
 field_list_caption = Liste der Metafelder
 
 field_fieldset = Feld bearbeiten/erstellen

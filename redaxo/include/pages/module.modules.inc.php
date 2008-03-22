@@ -340,6 +340,8 @@ if ($OUT)
   $list->setColumnParams($I18N->msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
   $list->addLinkAttribute($I18N->msg('module_functions'), 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
 
+	$list->setNoRowsMessage($I18N->msg('modules_not_found'));
+
   $list->show();
 }
 

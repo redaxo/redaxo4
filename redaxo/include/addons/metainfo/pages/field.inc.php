@@ -41,6 +41,8 @@ if ($func == '')
   $list->setColumnLabel('name', $I18N_META_INFOS->msg('field_label_name'));
   $list->setColumnParams('name', array('func' => 'edit', 'field_id' => '###field_id###'));
 
+  $list->setNoRowsMessage($I18N_META_INFOS->msg('metainfos_not_found'));
+
   $list->show();
 }
 //------------------------------> Formular

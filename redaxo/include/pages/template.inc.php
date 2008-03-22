@@ -254,6 +254,8 @@ if ($OUT) {
   $list->setColumnParams($I18N->msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
   $list->addLinkAttribute($I18N->msg('header_template_functions'), 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
 
+	$list->setNoRowsMessage($I18N->msg('templates_not_found'));
+
   $list->show();
 }
 ?>

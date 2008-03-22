@@ -144,6 +144,7 @@ content_type = Spalte
 option = optional
 
 # redaxo\include\pages\module.inc.php
+modules_not_found = Es wurden keine Module gefunden
 module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
 module_deleted = Modul wurde gelöscht!
 module_added = Modul wurde hinzugefügt
@@ -236,6 +237,7 @@ structure_articles_summary = Auflistung aller Artikel der Kategorie "{0}"
 structure_articles_caption = Liste der Artikel der Kategorie "{0}"
 
 # redaxo\include\pages\template.inc.php
+templates_not_found = Es wurden keine Templates gefunden
 title_templates = Templates
 cant_delete_default_template = Das ist das 'default' Template und kann nicht gelöscht werden!
 cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von verschiendenen Artikeln genutzt wird.
