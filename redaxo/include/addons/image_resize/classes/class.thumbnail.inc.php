@@ -316,14 +316,18 @@ class rex_thumbnail
   	$c = 0;
     foreach($folders as $folder)
     {
-	    foreach (glob($folder .'image_resize__*') as $var)
-	    {
-      	if ($filename == '' || $filename != '' && $filename == substr($var,strlen($filename) * -1))
-      	{
-      		unlink($var);
-      		$c++;
-      	}
-	    }
+      $glob = glob($folder .'image_resize__*');
+      if($glob)
+      {
+  	    foreach ($glob as $var)
+  	    {
+        	if ($filename == '' || $filename != '' && $filename == substr($var,strlen($filename) * -1))
+        	{
+        		unlink($var);
+        		$c++;
+        	}
+  	    }
+      }
     }
 
 	  return $c;
