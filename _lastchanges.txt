@@ -38,7 +38,7 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.1.X (2008-XX-XX)
+Version 4.1.0 (2008-03-24)
 
   * Neues Core Addon:
     - be_search [kills]
