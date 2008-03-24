@@ -54,11 +54,13 @@ if ($REX['SETUP'])
     {
       $REX['LANG'] = $l;
       $I18N = rex_create_lang($REX['LANG']);
+      break;
     }
   }
 
-  setlocale(LC_ALL,trim($I18N->msg('setlocale')));
   header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
+  header('Cache-Control: no-cache');
+  header('Pragma: no-cache');
 
   $page_name = $I18N->msg('setup');
   $page = 'setup';
@@ -68,13 +70,6 @@ else
 
   // ----------------- CREATE LANG OBJ
   $I18N = rex_create_lang($REX['LANG']);
-  $locale = trim($I18N->msg('setlocale'));
-  $charset = trim($I18N->msg('htmlcharset'));
-  $charset_alt = str_replace('iso-','iso',$charset);
-  setlocale(LC_ALL,
-  	$locale.'.'.$charset,
-  	$locale.'.'.$charset_alt,
-		$locale);
   header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
   header('Cache-Control: no-cache');
   header('Pragma: no-cache');
