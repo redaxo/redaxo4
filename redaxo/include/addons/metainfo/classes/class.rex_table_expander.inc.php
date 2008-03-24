@@ -19,7 +19,7 @@ define('REX_A62_FIELD_REX_LINK_BUTTON',      8);
 
 define('REX_A62_FIELD_COUNT',                8);
 
-require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_tableManager.inc.php';
+require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_table_manager.inc.php';
 
 class rex_a62_tableExpander extends rex_form
 {
