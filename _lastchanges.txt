@@ -38,6 +38,9 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.1.1 (2008-XX-XX)
+  * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, kills]
+
 Version 4.1.0 (2008-03-24)
 
   * Neues Core Addon:
