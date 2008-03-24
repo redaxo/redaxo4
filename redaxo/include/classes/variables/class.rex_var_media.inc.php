@@ -21,7 +21,9 @@ class rex_var_media extends rex_var
 
   function getACRequestValues($REX_ACTION)
   {
-    $values = rex_request('MEDIA', 'array');
+    $values     = rex_request('MEDIA', 'array');
+    $listvalues = rex_request('MEDIALIST', 'array');
+
     for ($i = 1; $i < 11; $i++)
     {
       // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
@@ -30,16 +32,9 @@ class rex_var_media extends rex_var
       {
         $REX_ACTION['MEDIA'][$i] = stripslashes($values[$i]);
       }
-    }
-
-    $values = rex_request('MEDIALIST', 'array');
-    for ($i = 1; $i < 11; $i++)
-    {
-      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
-      // siehe http://forum.redaxo.de/ftopic8174.html
-      if (isset ($values[$i]))
+      if (isset ($listvalues[$i]))
       {
-        $REX_ACTION['MEDIALIST'][$i] = stripslashes($values[$i]);
+        $REX_ACTION['MEDIALIST'][$i] = stripslashes($listvalues[$i]);
       }
     }
 
@@ -51,10 +46,6 @@ class rex_var_media extends rex_var
     for ($i = 1; $i < 11; $i++)
     {
       $REX_ACTION['MEDIA'][$i] = $this->getValue($sql, 'file'. $i);
-    }
-
-    for ($i = 1; $i < 11; $i++)
-    {
       $REX_ACTION['MEDIALIST'][$i] = $this->getValue($sql, 'filelist'. $i);
     }
 
