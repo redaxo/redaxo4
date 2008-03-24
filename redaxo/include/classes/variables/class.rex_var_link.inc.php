@@ -18,6 +18,7 @@ class rex_var_link extends rex_var
   function getACRequestValues($REX_ACTION)
   {
     $values = rex_request('LINK', 'array');
+    $listvalues = rex_request('LINKLIST', 'array');
     for ($i = 1; $i < 11; $i++)
     {
       // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
@@ -25,6 +26,10 @@ class rex_var_link extends rex_var
       if (isset ($values[$i]))
       {
         $REX_ACTION['LINK'][$i] = stripslashes($values[$i]);
+      }
+      if (isset ($listvalues[$i]))
+      {
+        $REX_ACTION['LINK'][$i] = stripslashes($listvalues[$i]);
       }
     }
     return $REX_ACTION;
@@ -35,6 +40,7 @@ class rex_var_link extends rex_var
     for ($i = 1; $i < 11; $i++)
     {
       $REX_ACTION['LINK'][$i] = $this->getValue($sql, 'link'. $i);
+      $REX_ACTION['LINKLIST'][$i] = $this->getValue($sql, 'linklist'. $i);
     }
 
     return $REX_ACTION;
@@ -51,6 +57,10 @@ class rex_var_link extends rex_var
       if (isset ($REX_ACTION['LINK'][$i]))
       {
         $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i], $escape);
+      }
+      if (isset ($REX_ACTION['LINKLIST'][$i]))
+      {
+        $this->setValue($sql, 'linklist'. $i, $REX_ACTION['LINKLIST'][$i], $escape);
       }
     }
   }
@@ -264,13 +274,13 @@ class rex_var_link extends rex_var
     $media = '
 	<div class="rex-wdgt">
 		<div class="rex-wdgt-lnk">
-          <p class="rex-wdgt-fld">
+      <p class="rex-wdgt-fld">
   			<input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="'. $article_id .'" />
   			<input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
-  		  </p>
-          <p class="rex-wdgt-icons">
-          	<a href="#" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
- 			<a href="#" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
+		  </p>
+      <p class="rex-wdgt-icons">
+       	<a href="#" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
+ 	  		<a href="#" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
  		  </p>
  		  <div class="rex-clearer"></div>
  		</div>
@@ -282,10 +292,54 @@ class rex_var_link extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  function getLinklistButton($id, $article_id, $category = '')
+  function getLinklistButton($id, $value, $category = '')
   {
-    // TODO LinklistButton implementieren
-    return "";
+    global $REX;
+
+    $open_params = '&clang=' . $REX['CUR_CLANG'];
+    if ($category != '')
+      $open_params .= '&category_id=' . $category;
+
+    $options = '';
+    $linklistarray = explode(',', $value);
+    if (is_array($linklistarray))
+    {
+      foreach ($linklistarray as $link)
+      {
+        if ($link != '')
+        {
+		  $article = OOArticle::getArticleById($link);
+          $options .= '<option value="' . $link . '">' . $article->getName() . '</option>';
+        }
+      }
+    }
+
+    $link = '
+  <div class="rex-wdgt">
+    <div class="rex-wdgt-mdlst">
+      <input type="hidden" name="LINKLIST['. $id .']" id="REX_LINKLIST_'. $id .'" value="'. $value .'" />
+      <p class="rex-slct">
+        <select name="LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
+          ' . $options . '
+        </select>
+      </p>
+      <p class="rex-wdgt-icons">
+        <a href="#" onclick="moveREXLinklist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="media/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
+        <a href="#" onclick="openREXLinklist(' . $id . ', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
+        <br />
+        <a href="#" onclick="moveREXLinklist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="media/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
+   		  <a href="#" onclick="deleteREXLinklist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
+        <br />
+        <a href="#" onclick="moveREXLinklist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="media/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
+        <br />
+        <a href="#" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
+      </p>
+      <div class="rex-clearer"></div>
+    </div>
+  </div>
+    ';
+
+    return $link;
   }
 }
 ?>

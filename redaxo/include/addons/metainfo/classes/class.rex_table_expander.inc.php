@@ -17,8 +17,9 @@ define('REX_A62_FIELD_CHECKBOX',             5);
 define('REX_A62_FIELD_REX_MEDIA_BUTTON',     6);
 define('REX_A62_FIELD_REX_MEDIALIST_BUTTON', 7);
 define('REX_A62_FIELD_REX_LINK_BUTTON',      8);
+define('REX_A62_FIELD_REX_LINKLIST_BUTTON',  9);
 
-define('REX_A62_FIELD_COUNT',                8);
+define('REX_A62_FIELD_COUNT',                9);
 
 require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_table_manager.inc.php';
 

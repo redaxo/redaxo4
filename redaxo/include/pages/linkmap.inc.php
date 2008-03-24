@@ -147,11 +147,29 @@ if ($opener_input_field != '' && $opener_input_field_name == '')
   $opener_input_field_name = $opener_input_field.'_NAME';
 }
 if($opener_input_field=="TINY"){
-	$func_body .= 'window.opener.insertLink(link,name)';
-} else {
+	$func_body .= 'window.opener.insertLink(link,name);
+	               self.close();';
+} 
+else if (substr($opener_input_field,0,13)=="REX_LINKLIST_")
+{
+$id = substr($opener_input_field,13,strlen($opener_input_field));
+$func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
+               var linkid = link.replace("redaxo://","");
+			   var source = opener.document.getElementById(linklist);
+			   var sourcelength = source.options.length;
+
+               option = opener.document.createElement("OPTION");
+               option.text = name;
+               option.value = linkid;
+			   
+			   source.options.add(option, sourcelength);
+			   opener.writeREXLinklist('. $id .');';
+}
+else {
 $func_body .= 'var linkid = link.replace("redaxo://","");
                window.opener.document.getElementById("'. $opener_input_field .'").value = linkid;
-               window.opener.document.getElementById("'. $opener_input_field_name .'").value = name;';
+               window.opener.document.getElementById("'. $opener_input_field_name .'").value = name;
+               self.close();';
 }
 
 
@@ -161,7 +179,6 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 <script type="text/javascript">
   function insertLink(link,name){
     <?php echo $func_body. "\n" ?>
-    self.close();
   }
 </script>
 

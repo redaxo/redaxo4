@@ -25,6 +25,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
   $media_id = 1;
   $mlist_id = 1;
   $link_id  = 1;
+  $llist_id = 1;
 
   $sqlFields->reset();
   for($i = 0; $i < $sqlFields->getRows(); $i++)
@@ -301,6 +302,23 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $id = 'LINK_'. $link_id;
 
         $link_id++;
+        break;
+      }
+      case 'REX_LINKLIST_BUTTON':
+      {
+        $tag = 'div';
+        $tag_attr = ' class="rex-ptag"';
+    
+        $category = '';
+        if($activeItem)
+          $category = $activeItem->getValue('category_id');
+
+        $name .= '[]';
+        $field = rex_var_link::getLinklistButton($llist_id, implode(',',$dbvalues), $category);
+        $field = str_replace('LINKLIST['. $llist_id .']', $name, $field);
+        $id = 'REX_LINKLIST_'. $llist_id;
+
+        $llist_id++;
         break;
       }
       default :

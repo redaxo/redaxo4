@@ -196,6 +196,7 @@ function openLinkMap(id, param)
   {
     param = '';  
   }
+  
   newLinkMapWindow('index.php?page=linkmap&opener_input_field='+id+param);
 }
 
@@ -243,26 +244,73 @@ function addREXMedialist(id,params)
   newPoolWindow('index.php?page=medienpool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIALIST_'+id+params);
 }
 
-function deleteREXMedialist(id)
+function deleteREXMedialist(id){
+  deleteREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_');
+}
+
+function moveREXMedialist(id, direction){
+  moveREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_', direction);
+}
+
+function writeREXMedialist(id){
+  writeREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_');
+}
+
+function openREXLinklist(id, param)
 {
-  var medialist = 'REX_MEDIALIST_SELECT_'+id;
-  var needle = new getObj(medialist);
+  var linklist = 'REX_LINKLIST_'+id;
+  var linkselect = 'REX_LINKLIST_SELECT_'+id;
+  var needle = new getObj(linkselect);
+  var source = needle.obj;
+  var sourcelength = source.options.length;
   
+  if ( typeof(param) == 'undefined')
+  {
+    param = '';  
+  }
+
+  for (ii = 0; ii < sourcelength; ii++) {
+    if (source.options[ii].selected) {
+      param = '&action=link_details&file_name='+ source.options[ii].value;
+      break;
+    }
+  }
+  
+  newLinkMapWindow('index.php?page=linkmap&opener_input_field='+linklist+param);
+}
+
+function deleteREXLinklist(id){
+  deleteREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_');
+}
+
+function moveREXLinklist(id, direction){
+  moveREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_', direction);
+}
+
+function writeREXLinklist(id){
+  writeREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_');
+}
+
+function deleteREX(id, i_list, i_select)
+{
+  var medialist = i_select+id;
+  var needle = new getObj(medialist);
   var source = needle.obj;
   var sourcelength = source.options.length;
   var position = null;
+
   for (ii = 0; ii < sourcelength; ii++) {
     if (source.options[ii].selected) {
       position = ii;
       break;
     }
   }
-  
+
   if(position != null)
   {
     source.options[position] = null;
     sourcelength--;
-  
+
     // Wenn das erste gelöscht wurde
     if(position == 0)
     {
@@ -279,38 +327,33 @@ function deleteREXMedialist(id)
       else
         source.options[position-1].selected= "selected";
     }
-    
-    writeREXMedialist(id);
+    writeREX(id, i_list, i_select);
   }
-  
 }
 
-function moveREXMedialist(id,direction)
+function moveREX(id, i_list, i_select, direction)
 {
-  // move top
-  // move bottom
-  // move up
-  // move down  
-  
-  var medialist = 'REX_MEDIALIST_SELECT_'+id;
+  var medialist = i_select+id;
   var needle = new getObj(medialist);
   var source = needle.obj;
   var sourcelength = source.options.length;
-  
   var elements = new Array();
   var was_selected = new Array();
+
   for (ii = 0; ii < sourcelength; ii++) {
+
     elements[ii] = new Array();
     elements[ii]['value'] = source.options[ii].value; 
     elements[ii]['title'] = source.options[ii].text; 
     was_selected[ii] = false;
+
   }
-  
+
   var inserted = 0;
   var was_moved = new Array();
   was_moved[-1] = true;
   was_moved[sourcelength] = true;
-  
+
   if (direction == 'top') {
     for (ii = 0; ii < sourcelength; ii++) {
       if (source.options[ii].selected) {
@@ -335,7 +378,7 @@ function moveREXMedialist(id,direction)
       }
     }
   }
-  
+
   if (direction == 'down') {
     for (ii = sourcelength-1; ii >= 0; ii--) {
       was_moved[ii] = false;
@@ -359,32 +402,32 @@ function moveREXMedialist(id,direction)
         if (to > sourcelength) {
           to = sourcelength;
         }
+    
         elements = moveItem(elements, ii, to);
         was_selected[to] = true;
         inserted++;
       }
     }
   }
-  
+
   for (ii = 0; ii < sourcelength; ii++) {
     source.options[ii] = new Option(elements[ii]['title'], elements[ii]['value']);
     source.options[ii].selected = was_selected[ii];
   }
-
-  writeREXMedialist(id);
+  writeREX(id, i_list, i_select);
 }
 
-function writeREXMedialist(id)
+function writeREX(id, i_list, i_select)
 {
-  var medialist = 'REX_MEDIALIST_'+id;
-  var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
-  
-  var source = document.getElementById(mediaselect);
-  var sourcelength = source.options.length;
 
-  var target = document.getElementById(medialist);
+  var v_list = i_list+id;
+  var v_select = i_select+id;
+  var source = document.getElementById(v_select);
+  var sourcelength = source.options.length;
+  var target = document.getElementById(v_list);
 
   target.value = "";
+
   for (i=0; i < sourcelength; i++) {
     target.value += (source[i].value);
     if (sourcelength > (i+1))  target.value += ',';
