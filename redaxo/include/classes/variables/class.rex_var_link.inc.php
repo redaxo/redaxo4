@@ -318,7 +318,7 @@ class rex_var_link extends rex_var
   <div class="rex-wdgt">
     <div class="rex-wdgt-mdlst">
       <input type="hidden" name="LINKLIST['. $id .']" id="REX_LINKLIST_'. $id .'" value="'. $value .'" />
-      <p class="rex-slct">
+      <p class="rex-wdgt-fld">
         <select name="LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
           ' . $options . '
         </select>
