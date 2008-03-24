@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * MetaForm Addon
+ *
+ * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ *
+ * @package redaxo4
+ * @version $Id$
+ */
+
 $error = '';
 
 require_once ($REX['INCLUDE_PATH'] . '/addons/metainfo/extensions/extension_cleanup.inc.php');
