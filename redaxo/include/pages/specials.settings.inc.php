@@ -30,29 +30,45 @@ elseif ($func == 'generate')
 }
 elseif ($func == 'updateinfos')
 {
-  $REX['LANG'] = $neu_lang;
-  $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
-  $cont = rex_get_file_contents($master_file);
+  $message = '';
 
   $neu_startartikel       = rex_post('neu_startartikel', 'int');
   $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
   $neu_lang               = rex_post('neu_lang', 'string');
-  // ' muss darf nichtg escaped werden, da in der Datei der Schlüssel nur zwischen " steht
+  // ' darf nichtg escaped werden, da in der Datei der Schlüssel nur zwischen " steht
   $neu_error_emailaddress = str_replace("\'", "'", rex_post('neu_error_emailaddress', 'string'));
   $neu_SERVER             = str_replace("\'", "'", rex_post('neu_SERVER', 'string'));
   $neu_SERVERNAME         = str_replace("\'", "'", rex_post('neu_SERVERNAME', 'string'));
   $neu_modrewrite         = rex_post('neu_modrewrite', 'string');
 
-  $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
-  $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
-  $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
-  $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
-  $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
-  $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
-  $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+  $startArt = OOArticle::getArticleById($neu_startartikel);
+  $notFoundArt = OOArticle::getArticleById($neu_notfoundartikel);
 
-  rex_put_file_contents($master_file, $cont);
+  if(!OOArticle::isValid($startArt))
+    $message .= $I18N->msg('settings_invalid_sitestart_article');
 
+  if(!OOArticle::isValid($notFoundArt))
+    $message .= $I18N->msg('settings_invalid_notfound_article');
+
+  if($message == '')
+  {
+    $REX['LANG'] = $neu_lang;
+    $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
+    $cont = rex_get_file_contents($master_file);
+
+    $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
+    $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
+    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
+    $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
+    $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
+    $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
+    $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+
+    rex_put_file_contents($master_file, $cont);
+    $message = $I18N->msg('info_updated');
+  }
+
+  // Zuweisungen für Wiederanzeige
   $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
   $REX['START_ARTICLE_ID'] = $neu_startartikel;
   $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
@@ -60,8 +76,6 @@ elseif ($func == 'updateinfos')
   $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
   $REX['SERVER'] = stripslashes($neu_SERVER);
   $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
-
-  $message = $I18N->msg('info_updated');
 }
 
 $sel_lang = new rex_select();
@@ -120,8 +134,8 @@ echo '
             <span id="rex_subversion">&quot;'.$REX['SUBVERSION'] .'&quot;</span>
           </p>
           <p>
-            <label for="rex_subversion">$REX[\'MINORVERSION\']</label>
-            <span id="rex_subversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
+            <label for="rex_minorversion">$REX[\'MINORVERSION\']</label>
+            <span id="rex_minorversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
           </p>
           <p>
             <label for="rex_server">$REX[\'SERVER\']</label>
