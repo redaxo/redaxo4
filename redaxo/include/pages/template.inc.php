@@ -188,39 +188,48 @@ if ($function == "add" or $function == "edit") {
     			</div>
     		</fieldset>
 
-      		<fieldset>
-        		<legend class="rex-lgnd">
-
-<script type="text/javascript"><!--
-
-function rex_tplctypes_toggle()
-{
-	var trs = getElementsByClass("rex-tmp-ctypes");
-	for(i=0;i<trs.length;i++)
-  {
-		show = toggleElement(trs[i]);
-	}
-  if (show == "") changeImage("rex-tmp-ctypes-icon","media/file_del.gif")
-  else changeImage("rex-tmp-ctypes-icon","media/file_add.gif");
-}
-
-//--></script>
-<a href="javascript:rex_tplctypes_toggle();"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /></a>
-<a href="javascript:rex_tplctypes_toggle();">'.$I18N->msg("content_types").' [CTYPES]</a>
-</legend>
+    		<fieldset id="ctype-fldst">
+      		<legend class="rex-lgnd">
+            <a href="#"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /> '.$I18N->msg("content_types").' [CTYPES]</a>
+          </legend>
 
      			<div class="rex-fldst-wrppr rex-tmp-ctypes" style="display:none">
     				' . $ctypes_out . '
     			</div>
-          	</fieldset>
+      	</fieldset>
 
-            <p>
-              <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
-              <input class="rex-sbmt" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
-            </p>
+        <p>
+          <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
+          <input class="rex-sbmt" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
+        </p>
 
         </form>
-    	</div>';
+    	</div>
+
+      <script type="text/javascript">
+      <!--
+
+      $(document).ready(function() {
+
+        $("#active").click(function() {
+          $("#ctype-fldst").toggle();
+        });
+
+        $("#ctype-fldst legend a").click(function() {
+          $("#ctype-fldst .rex-tmp-ctypes").toggle();
+
+          var img = $("img", this);
+          if(img.attr("src") == "media/file_del.gif")
+            img.attr("src", "media/file_add.gif");
+          else
+            img.attr("src", "media/file_del.gif");
+
+          return false;
+        });
+
+      });
+
+      //--></script>';
 
     $OUT = false;
   }
