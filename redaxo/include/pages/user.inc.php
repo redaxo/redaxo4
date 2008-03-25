@@ -597,7 +597,6 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 
       '. $add_login_reset_chkbox .'
 
-
         <div>
           <p class="rex-cnt-col2">
             <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
@@ -608,7 +607,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
             '. ($REX['PSWFUNC']!='' ? '<span>'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
           </p>
-		</div>
+		    </div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -619,7 +618,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <label for="userdesc">'.$I18N->msg('description').'</label>
             <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
           </p>
-		</div>
+    		</div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -630,7 +629,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             '. $add_status_chkbox .'
             <label class="rex-lbl-rght" for="userstatus">'.$I18N->msg('user_status').'</label>
           </p>
-		</div>
+    		</div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -644,7 +643,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             '.$sel_mylang->get().'
           </p>
           -->
-		</div>
+		    </div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -657,7 +656,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             '. $sel_ext->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
-		</div>
+		    </div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -668,7 +667,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             <input class="rex-chckbx" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
             <label class="rex-lbl-rght" for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
           </p>
-		</div>
+		    </div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -681,7 +680,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             '. $sel_media->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
-		</div>
+		    </div>
 
         <div>
           <p class="rex-cnt-col2">
@@ -694,7 +693,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             '. $sel_extra->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
-		</div>
+		    </div>
 
       '. $add_submit .'
       </div>
