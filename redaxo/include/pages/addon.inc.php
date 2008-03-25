@@ -18,8 +18,9 @@ $subpage = rex_request('subpage', 'string');
 
 $ADDONS = rex_read_addons_folder();
 $addonname = array_search($addonname, $ADDONS) !== false ? $addonname : '';
-$SP = true; // SHOW PAGE ADDON LIST
 
+$warning = '';
+$info = '';
 
 // ----------------- HELPPAGE
 if ($subpage == 'help' && $addonname != '')
@@ -38,7 +39,6 @@ if ($subpage == 'help' && $addonname != '')
   }
   echo '</div>
   		<p class="rex-hdl"><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>';
-  $SP = false;
 }
 
 // ----------------- FUNCTIONS
@@ -51,41 +51,41 @@ if ($addonname != '')
   // ----------------- ADDON INSTALL
   if ($install == 1)
   {
-    if (($errmsg = rex_install_addon($ADDONS, $addonname)) === true)
+    if (($warning = rex_install_addon($ADDONS, $addonname)) === true)
     {
-      $errmsg = $I18N->msg("addon_installed", $addonname);
+      $info = $I18N->msg("addon_installed", $addonname);
     }
   }
   // ----------------- ADDON ACTIVATE
   elseif ($activate == 1)
   {
-    if (($errmsg = rex_activate_addon($ADDONS, $addonname)) === true)
+    if (($warning = rex_activate_addon($ADDONS, $addonname)) === true)
     {
-      $errmsg = $I18N->msg("addon_activated", $addonname);
+      $info = $I18N->msg("addon_activated", $addonname);
     }
   }
   // ----------------- ADDON DEACTIVATE
   elseif ($activate == 0)
   {
-    if (($errmsg = rex_deactivate_addon($ADDONS, $addonname)) === true)
+    if (($warning = rex_deactivate_addon($ADDONS, $addonname)) === true)
     {
-      $errmsg = $I18N->msg("addon_deactivated", $addonname);
+      $info = $I18N->msg("addon_deactivated", $addonname);
     }
   }
   // ----------------- ADDON UNINSTALL
   elseif ($uninstall == 1)
   {
-    if (($errmsg = rex_uninstall_addon($ADDONS, $addonname)) === true)
+    if (($warning = rex_uninstall_addon($ADDONS, $addonname)) === true)
     {
-      $errmsg = $I18N->msg("addon_uninstalled", $addonname);
+      $info = $I18N->msg("addon_uninstalled", $addonname);
     }
   }
   // ----------------- ADDON DELETE
   elseif ($delete == 1)
   {
-    if (($errmsg = rex_delete_addon($ADDONS, $addonname)) === true)
+    if (($warning = rex_delete_addon($ADDONS, $addonname)) === true)
     {
-      $errmsg = $I18N->msg("addon_deleted", $addonname);
+      $info = $I18N->msg("addon_deleted", $addonname);
       $addonkey = array_search( $addonname, $ADDONS);
       unset($ADDONS[$addonkey]);
     }
@@ -93,7 +93,7 @@ if ($addonname != '')
 }
 
 // ----------------- OUT
-if ($SP)
+if ($subpage == '')
 {
 
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in include/addons.inc.php
@@ -104,12 +104,15 @@ if ($SP)
 
     if (($state = rex_generateAddons($ADDONS)) !== true)
     {
-      $errmsg = $state;
+      $warning = $state;
     }
   }
 
-  if (isset ($errmsg) and $errmsg != "")
-    echo rex_warning($errmsg);
+  if ($info != '')
+    echo rex_info($info);
+
+  if ($warning != '' && $warning !== true)
+    echo rex_warning($warning);
 
   if (!isset ($user_id))
   {
