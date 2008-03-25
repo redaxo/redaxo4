@@ -216,13 +216,16 @@ if ($function == "add" or $function == "edit") {
         });
 
         $("#ctype-fldst legend a").click(function() {
-          $("#ctype-fldst .rex-tmp-ctypes").toggle();
-
+          var ctypes = $("#ctype-fldst .rex-tmp-ctypes");
           var img = $("img", this);
-          if(img.attr("src") == "media/file_del.gif")
-            img.attr("src", "media/file_add.gif");
-          else
+
+          if (ctypes.is(":hidden")) {
+            ctypes.slideDown("slow");
             img.attr("src", "media/file_del.gif");
+          } else {
+            img.attr("src", "media/file_add.gif");
+            ctypes.slideUp("slow");
+          }
 
           return false;
         });
