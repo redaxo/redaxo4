@@ -9,6 +9,10 @@ $OUT = TRUE;
 
 $function = rex_request('function', 'string');
 
+$info = '';
+$warning = '';
+$warning_block = '';
+
 // ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
 if (!empty($add_action))
 {
@@ -19,12 +23,12 @@ if (!empty($add_action))
 
   if($action->insert())
   {
-    $message = $I18N->msg('action_taken');
+    $info = $I18N->msg('action_taken');
     $goon = 'ja';
   }
   else
   {
-    $message = $action->getErrro();
+    $warning = $action->getErrro();
   }
 }
 elseif (isset($function_action) and $function_action == 'delete')
@@ -33,14 +37,13 @@ elseif (isset($function_action) and $function_action == 'delete')
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setWhere('id='. $iaction_id . ' LIMIT 1');
 
-  $message = $action->delete($I18N->msg('action_deleted_from_modul'));
+  $info = $action->delete($I18N->msg('action_deleted_from_modul'));
 }
 
 
 
 // ---------------------------- FUNKTIONEN FÜR MODULE
 
-$module_in_use_message = '';
 if ($function == 'delete')
 {
   $del = new rex_sql;
@@ -50,6 +53,7 @@ if ($function == 'delete')
 
   if ($del->getRows() >0)
   {
+    $module_in_use_message = '';
     $modulname = htmlspecialchars($del->getValue($REX['TABLE_PREFIX']."module.name"));
     for ($i=0; $i<$del->getRows(); $i++)
     {
@@ -68,22 +72,21 @@ if ($function == 'delete')
 
     if($module_in_use_message != '')
     {
-      $module_in_use_message = rex_warning_block('<ul>' . $module_in_use_message . '</ul>');
+      $warning_block = '<ul>' . $module_in_use_message . '</ul>';
     }
 
-    $message = $I18N->msg("module_cannot_be_deleted",$modulname);
+    $warning = $I18N->msg("module_cannot_be_deleted",$modulname);
   } else
   {
     $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module WHERE id='$modul_id'");
     $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id'");
 
-    $message = $I18N->msg("module_deleted");
+    $info = $I18N->msg("module_deleted");
   }
 }
 
 if ($function == 'add' or $function == 'edit')
 {
-
   if (isset($save) and $save == 'ja')
   {
     $modultyp = new rex_sql;
@@ -99,7 +102,10 @@ if ($function == 'add' or $function == 'edit')
       $IMOD->setValue('ausgabe',$ausgabe);
       $IMOD->addGlobalCreateFields();
 
-      $message = $IMOD->insert($I18N->msg('module_added'));
+      if($IMOD->insert())
+        $info = $I18N->msg('module_added');
+      else
+        $warning = $IMOD->getError();
 
     } else {
       $modultyp->setQuery('select * from '.$REX['TABLE_PREFIX'].'module where id='.$modul_id);
@@ -117,7 +123,11 @@ if ($function == 'add' or $function == 'edit')
         $UMOD->setValue('ausgabe',$ausgabe);
         $UMOD->addGlobalUpdateFields();
 
-        $message = $UMOD->update($I18N->msg('module_updated').' | '.$I18N->msg('articel_updated'));
+        if($UMOD->update())
+          $info = $I18N->msg('module_updated').' | '.$I18N->msg('articel_updated');
+        else
+          $warning = $UMOD->getError();
+
         $new_ausgabe = stripslashes($ausgabe);
 
 		if ($old_ausgabe != $new_ausgabe)
@@ -173,10 +183,14 @@ if ($function == 'add' or $function == 'edit')
     $btn_update = '';
     if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_module_and_continue").'"'. rex_accesskey($I18N->msg('save_module_and_continue'), $REX['ACKEY']['APPLY']) .' />';
 
-    if (isset($message) and $message != '')
-    {
-      echo rex_warning($message);
-    }
+    if ($info != '')
+      echo rex_info($info);
+
+    if ($warning != '')
+      echo rex_warning($warning);
+
+    if ($warning_block != '')
+      echo rex_warning_block($warning_block);
 
     echo '
 		<div class="rex-mdl-editmode">
@@ -304,11 +318,14 @@ if ($function == 'add' or $function == 'edit')
 
 if ($OUT)
 {
-  if (isset($message) and $message != '')
-  {
-    echo rex_warning($message);
-    echo $module_in_use_message;
-  }
+  if ($info != '')
+    echo rex_info($info);
+
+  if ($warning != '')
+    echo rex_warning($warning);
+
+  if ($warning_block != '')
+    echo rex_warning_block($warning_block);
 
   $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
   $list->setCaption($I18N->msg('module_caption'));
