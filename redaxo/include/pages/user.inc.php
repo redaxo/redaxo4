@@ -33,6 +33,9 @@ mulselect module
 */
 
 $user_id = rex_request('user_id', 'int');
+$info = '';
+$warning = '';
+
 if ($user_id != 0)
 {
   $sql = new rex_sql;
@@ -288,7 +291,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     unset($FUNC_UPDATE);
   }
 
-  $message = $I18N->msg('user_data_updated');
+  $info = $I18N->msg('user_data_updated');
 
 } elseif (isset($FUNC_DELETE) and $FUNC_DELETE != '')
 {
@@ -297,11 +300,11 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   {
     $deleteuser = new rex_sql;
     $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
-    $message = $I18N->msg("user_deleted");
+    $info = $I18N->msg("user_deleted");
     unset($user_id);
   }else
   {
-    $message = $I18N->msg("user_notdeleteself");
+    $warning = $I18N->msg("user_notdeleteself");
   }
 
 } elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == ''))
@@ -381,7 +384,7 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     $adduser->insert();
     $user_id = 0;
     unset($FUNC_ADD);
-    $message = $I18N->msg('user_added');
+    $info = $I18N->msg('user_added');
   } else
   {
 
@@ -421,16 +424,18 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     foreach($userperm_module as $_perm)
       $sel_module->setSelected($_perm);
 
-    $message = $I18N->msg('user_login_exists');
+    $warning = $I18N->msg('user_login_exists');
   }
 }
 
 
 // ---------------------------------- ERR MSG
 
-if (!empty($message))
-  echo rex_warning($message);
+if ($info != '')
+  echo rex_info($info);
 
+if ($warning != '')
+  echo rex_warning($warning);
 
 // --------------------------------- FORMS
 
