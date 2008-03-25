@@ -188,15 +188,18 @@ if ($function == "add" or $function == "edit") {
     			</div>
     		</fieldset>
 
-    		<fieldset id="ctype-fldst">
-      		<legend class="rex-lgnd">
-            <a href="#"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /> '.$I18N->msg("content_types").' [CTYPES]</a>
-          </legend>
+        <!-- Div nötig fuer JQuery slideIn -->
+        <div id="ctype-fldst">
+      		<fieldset>
+        		<legend class="rex-lgnd">
+              <a href="#"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /> '.$I18N->msg("content_types").' [CTYPES]</a>
+            </legend>
 
-     			<div class="rex-fldst-wrppr rex-tmp-ctypes" style="display:none">
-    				' . $ctypes_out . '
-    			</div>
-      	</fieldset>
+       			<div class="rex-fldst-wrppr rex-tmp-ctypes" style="display:none">
+      				' . $ctypes_out . '
+      			</div>
+        	</fieldset>
+        </div>
 
         <p>
           <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
@@ -212,7 +215,7 @@ if ($function == "add" or $function == "edit") {
       $(document).ready(function() {
 
         $("#active").click(function() {
-          $("#ctype-fldst").toggle();
+          $("#ctype-fldst").slideToggle("slow");
         });
 
         $("#ctype-fldst legend a").click(function() {
@@ -232,7 +235,6 @@ if ($function == "add" or $function == "edit") {
 
         if($("#active").attr("checked") == undefined)
           $("#ctype-fldst").hide();
-
       });
 
       //--></script>';
