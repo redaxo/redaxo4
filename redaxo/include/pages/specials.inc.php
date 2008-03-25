@@ -7,7 +7,6 @@
 
 // -------------- Defaults
 
-$message = rex_request('message', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
