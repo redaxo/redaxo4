@@ -227,6 +227,9 @@ if ($function == "add" or $function == "edit") {
           return false;
         });
 
+        if($("#active").attr("checked") == undefined)
+          $("#ctype-fldst").hide();
+
       });
 
       //--></script>';
