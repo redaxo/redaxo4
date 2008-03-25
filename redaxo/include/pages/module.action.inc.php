@@ -6,6 +6,12 @@
  * @version $Id$
  */
 
+$PREPOST[0] = 'PRE';
+$PREPOST[1] = 'POST';
+$ASTATUS[0] = 'ADD';
+$ASTATUS[1] = 'EDIT';
+$ASTATUS[2] = 'DELETE';
+
 class rex_event_select extends rex_select
 {
   function rex_event_select($options)

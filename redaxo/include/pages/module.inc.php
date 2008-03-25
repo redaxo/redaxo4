@@ -1,14 +1,6 @@
 <?php
-$PREPOST[0] = 'PRE';
-$PREPOST[1] = 'POST';
-$ASTATUS[0] = 'ADD';
-$ASTATUS[1] = 'EDIT';
-$ASTATUS[2] = 'DELETE';
 
-if (!isset ($subpage))
-{
-  $subpage = '';
-}
+$subpage = rex_request('subpage', 'string');
 
 switch ($subpage)
 {
@@ -27,5 +19,7 @@ switch ($subpage)
 }
 
 rex_title($title, array (array ('', $I18N->msg('modules')), array ('actions', $I18N->msg('actions'))));
+
 require $REX['INCLUDE_PATH'].'/pages/'.$file;
+
 ?>
