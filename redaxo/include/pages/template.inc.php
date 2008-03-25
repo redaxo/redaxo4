@@ -6,11 +6,14 @@
  * @version $Id$
  */
 
-rex_title($I18N->msg("title_templates"), "");
+rex_title($I18N->msg('title_templates'), '');
 
 $OUT = TRUE;
 
-$function = rex_request("function", "string");
+$function = rex_request('function', 'string');
+
+$info = '';
+$warning = '';
 
 if ($function == "delete") {
   $del = new rex_sql;
@@ -18,16 +21,17 @@ if ($function == "delete") {
     LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id
     WHERE " . $REX['TABLE_PREFIX'] . "article.template_id='$template_id' LIMIT 0,10");
 
+  // TODO Template mit ID 1 nicht löschbar? Aktive Templates sollten nicht löschbar sein!
   if ($template_id == 1) {
-    $message = $I18N->msg("cant_delete_default_template");
+    $warning = $I18N->msg("cant_delete_default_template");
   }else
   {
     if ($del->getRows() > 0) {
-      $message = $I18N->msg("cant_delete_template_because_its_in_use", htmlspecialchars($del->getValue($REX['TABLE_PREFIX'] . "template.name")));
+      $warning = $I18N->msg("cant_delete_template_because_its_in_use", htmlspecialchars($del->getValue($REX['TABLE_PREFIX'] . "template.name")));
     } else {
       $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
-      $message = $I18N->msg("template_deleted");
       rex_deleteDir($REX['INCLUDE_PATH'] . "/generated/templates/" . $template_id . ".template", 0);
+      $info = $I18N->msg("template_deleted");
     }
   }
 }elseif ($function == "edit") {
@@ -98,11 +102,11 @@ if ($function == "add" or $function == "edit") {
       if($TPL->insert())
       {
 	      $template_id = $TPL->getLastId();
-	      $message = $I18N->msg("template_added");
+	      $info = $I18N->msg("template_added");
       }
       else
       {
-        $message = $TPL->getError();
+        $warning = $TPL->getError();
       }
     } else {
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
@@ -111,7 +115,10 @@ if ($function == "add" or $function == "edit") {
       $TPL->setValue("attributes", addslashes($attributes));
       $TPL->addGlobalUpdateFields();
 
-      $message = $TPL->update($I18N->msg("template_updated"));
+      if($TPL->update())
+        $info = $I18N->msg("template_updated");
+      else
+        $warning = $TPL->getError();
     }
 		// werte werden direkt wieder ausgegeben
     $templatename = stripslashes($templatename);
@@ -145,8 +152,11 @@ if ($function == "add" or $function == "edit") {
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
-    if (isset ($message) and $message != "")
-      echo rex_warning($message);
+    if ($info != '')
+      echo rex_info($info);
+
+    if ($warning != '')
+      echo rex_warning($warning);
 
     echo '
     	<div class="rex-tmp-editmode">
@@ -216,10 +226,13 @@ function rex_tplctypes_toggle()
   }
 }
 
-if ($OUT) {
-  if (isset ($message) and $message != "") {
-    echo rex_warning($message);
-  }
+if ($OUT)
+{
+  if ($info != '')
+    echo rex_info($info);
+
+  if ($warning != '')
+    echo rex_warning($warning);
 
   $list = rex_list::factory('SELECT id, name, active FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
   $list->setCaption($I18N->msg('header_template_caption'));
