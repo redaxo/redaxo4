@@ -6,6 +6,9 @@
  * @version $Id$
  */
 
+$info = '';
+$warning = '';
+
 if ($func == 'setup')
 {
   // REACTIVATE SETUP
@@ -16,22 +19,20 @@ if ($func == 'setup')
   // echo nl2br(htmlspecialchars($cont));
   if (rex_put_file_contents($master_file, $cont))
   {
-    $message = $I18N->msg('setup_error1', '<a href="index.php">', '</a>');
+    $info = $I18N->msg('setup_error1', '<a href="index.php">', '</a>');
   }
   else
   {
-    $message = $I18N->msg('setup_error2');
+    $warning = $I18N->msg('setup_error2');
   }
 }
 elseif ($func == 'generate')
 {
   // generate all articles,cats,templates,caches
-  $message = rex_generateAll();
+  $info = rex_generateAll();
 }
 elseif ($func == 'updateinfos')
 {
-  $message = '';
-
   $neu_startartikel       = rex_post('neu_startartikel', 'int');
   $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
   $neu_lang               = rex_post('neu_lang', 'string');
@@ -45,12 +46,12 @@ elseif ($func == 'updateinfos')
   $notFoundArt = OOArticle::getArticleById($neu_notfoundartikel);
 
   if(!OOArticle::isValid($startArt))
-    $message .= $I18N->msg('settings_invalid_sitestart_article');
+    $warning .= $I18N->msg('settings_invalid_sitestart_article');
 
   if(!OOArticle::isValid($notFoundArt))
-    $message .= $I18N->msg('settings_invalid_notfound_article');
+    $warning .= $I18N->msg('settings_invalid_notfound_article');
 
-  if($message == '')
+  if($warning == '')
   {
     $REX['LANG'] = $neu_lang;
     $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
@@ -65,7 +66,7 @@ elseif ($func == 'updateinfos')
     $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
 
     rex_put_file_contents($master_file, $cont);
-    $message = $I18N->msg('info_updated');
+    $info = $I18N->msg('info_updated');
   }
 
   // Zuweisungen für Wiederanzeige
@@ -98,8 +99,11 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
-if ($message != "")
-  echo rex_warning($message);
+if ($info != '')
+  echo rex_info($info);
+
+if ($warning != '')
+  echo rex_warning($warning);
 
 echo '
 	<div class="rex-spc-stn">

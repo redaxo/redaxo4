@@ -16,6 +16,9 @@ $add_clang_save = rex_post('add_clang_save', 'string');
 $edit_clang_save = rex_post('edit_clang_save', 'string');
 $del_clang_save = rex_post('del_clang_save', 'string');
 
+$warning = '';
+$info = '';
+
 
 // ----- delete clang
 if (!empty ($del_clang_save))
@@ -23,7 +26,7 @@ if (!empty ($del_clang_save))
   if ($clang_id > 0)
   {
     rex_deleteCLang($clang_id);
-    $message = $I18N->msg('clang_deleted');
+    $info = $I18N->msg('clang_deleted');
     $func = '';
     unset ($clang_id);
   }
@@ -36,20 +39,20 @@ if (!empty ($add_clang_save))
   {
     if (!array_key_exists($clang_id, $REX['CLANG']))
     {
-      $message = $I18N->msg('clang_created');
+      $info = $I18N->msg('clang_created');
       rex_addCLang($clang_id, $clang_name);
       unset ($clang_id);
    	  $func = '';
     }
     else
     {
-      $message = $I18N->msg('id_exists');
+      $warning = $I18N->msg('id_exists');
       $func = 'addclang';
     }
   }
   else
   {
-    $message = $I18N->msg('enter_name');
+    $warning = $I18N->msg('enter_name');
     $func = 'addclang';
   }
 
@@ -59,7 +62,7 @@ elseif (!empty ($edit_clang_save))
   if ($clang_id >= 0)
   {
     rex_editCLang($clang_id, $clang_name);
-    $message = $I18N->msg('clang_edited');
+    $info = $I18N->msg('clang_edited');
     $func = '';
     unset ($clang_id);
   }
@@ -75,11 +78,11 @@ foreach (array_diff(range(0, 14), array_keys($REX['CLANG'])) as $clang)
   $sel->addOption($clang, $clang);
 }
 
-if ($message != '')
-{
-  echo rex_warning($message);
-  $message = "";
-}
+if ($info != '')
+  echo rex_info($info);
+
+if ($warning != '')
+  echo rex_warning($warning);
 
 if ($func == 'addclang' || $func == 'editclang')
 {
