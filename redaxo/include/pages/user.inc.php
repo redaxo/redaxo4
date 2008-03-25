@@ -388,9 +388,9 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   } else
   {
 
-    if ($useradmin == 1) $adminchecked = ' checked="checked"';
-    if ($allcats == 1) $allcatschecked = ' checked="checked"';
-    if ($allmcats == 1) $allmcatschecked = ' checked="checked"';
+    if ($useradmin == 1) $adminchecked = 'checked="checked"';
+    if ($allcats == 1) $allcatschecked = 'checked="checked"';
+    if ($allmcats == 1) $allmcatschecked = 'checked="checked"';
 
 
     // userperm_all
@@ -453,7 +453,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
   if (!isset($allcatschecked)) { $allcatschecked = ''; }
   if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
   if (!isset($statuschecked)) { $statuschecked = ''; }
-  if (isset($FUNC_ADD) && $FUNC_ADD) $statuschecked = 'checked';
+  if (isset($FUNC_ADD) && $FUNC_ADD) $statuschecked = 'checked="checked"';
 
   $add_login_reset_chkbox = '';
 
@@ -475,16 +475,16 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     if ($sql->getRows()==1)
     {
       // ----- EINLESEN DER PERMS
-      if ($sql->hasPerm('admin[]')) $adminchecked = 'checked';
+      if ($sql->hasPerm('admin[]')) $adminchecked = 'checked="checked"';
       else $adminchecked = '';
 
-      if ($sql->hasPerm('csw[0]')) $allcatschecked = 'checked';
+      if ($sql->hasPerm('csw[0]')) $allcatschecked = 'checked="checked"';
       else $allcatschecked = '';
 
-      if ($sql->hasPerm('media[0]')) $allmcatschecked = 'checked';
+      if ($sql->hasPerm('media[0]')) $allmcatschecked = 'checked="checked"';
       else $allmcatschecked = '';
 
-      if ($sql->getValue($REX['TABLE_PREFIX'].'user.status') == 1) $statuschecked = 'checked';
+      if ($sql->getValue($REX['TABLE_PREFIX'].'user.status') == 1) $statuschecked = 'checked="checked"';
       else $statuschecked = '';
 
       // Allgemeine Permissions setzen
