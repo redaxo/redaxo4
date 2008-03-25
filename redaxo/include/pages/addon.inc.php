@@ -11,22 +11,30 @@ include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
 
 rex_title($I18N->msg('addon'), '');
 
+// -------------- Defaults
+
+$addonname = rex_request('addonname', 'string');
+$subpage = rex_request('subpage', 'string');
+
 $ADDONS = rex_read_addons_folder();
-$addonname = isset ($addonname) && array_search($addonname, $ADDONS) !== false ? $addonname : '';
+$addonname = array_search($addonname, $ADDONS) !== false ? $addonname : '';
 $SP = true; // SHOW PAGE ADDON LIST
 
+
 // ----------------- HELPPAGE
-if (isset ($spage) && $spage == 'help' && $addonname != '')
+if ($subpage == 'help' && $addonname != '')
 {
+  $helpfile = $REX['INCLUDE_PATH']."/addons/$addonname/help.inc.php";
+
   echo '<p class="rex-hdl">'.$I18N->msg("addon_help").' '.$addonname.'</p>
   		<div class="rex-adn-hlp">';
-  if (!is_file($REX['INCLUDE_PATH']."/addons/$addonname/help.inc.php"))
+  if (!is_file($helpfile))
   {
     echo $I18N->msg("addon_no_help_file");
   }
   else
   {
-    include $REX['INCLUDE_PATH']."/addons/$addonname/help.inc.php";
+    include $helpfile;
   }
   echo '</div>
   		<p class="rex-hdl"><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>';
@@ -34,38 +42,46 @@ if (isset ($spage) && $spage == 'help' && $addonname != '')
 }
 
 // ----------------- FUNCTIONS
-// $addonname prüfen ob vorhanden
 if ($addonname != '')
 {
-  if (isset ($install) and $install == 1) // ----------------- ADDON INSTALL
+  $install  = rex_get('install', 'int', -1);
+  $activate = rex_get('activate', 'int', -1);
+  $delete = rex_get('delete', 'int', -1);
+
+  // ----------------- ADDON INSTALL
+  if ($install == 1)
   {
     if (($errmsg = rex_install_addon($ADDONS, $addonname)) === true)
     {
       $errmsg = $I18N->msg("addon_installed", $addonname);
     }
   }
-  elseif (isset ($activate) and $activate == 1) // ----------------- ADDON ACTIVATE
+  // ----------------- ADDON ACTIVATE
+  elseif ($activate == 1)
   {
     if (($errmsg = rex_activate_addon($ADDONS, $addonname)) === true)
     {
       $errmsg = $I18N->msg("addon_activated", $addonname);
     }
   }
-  elseif (isset ($activate) and $activate == 0) // ----------------- ADDON DEACTIVATE
+  // ----------------- ADDON DEACTIVATE
+  elseif ($activate == 0)
   {
     if (($errmsg = rex_deactivate_addon($ADDONS, $addonname)) === true)
     {
       $errmsg = $I18N->msg("addon_deactivated", $addonname);
     }
   }
-  elseif (isset ($uninstall) and $uninstall == 1) // ----------------- ADDON UNINSTALL
+  // ----------------- ADDON UNINSTALL
+  elseif ($uninstall == 1)
   {
     if (($errmsg = rex_uninstall_addon($ADDONS, $addonname)) === true)
     {
       $errmsg = $I18N->msg("addon_uninstalled", $addonname);
     }
   }
-  elseif (isset ($delete) and $delete == 1) // ----------------- ADDON DELETE
+  // ----------------- ADDON DELETE
+  elseif ($delete == 1)
   {
     if (($errmsg = rex_delete_addon($ADDONS, $addonname)) === true)
     {
@@ -126,7 +142,8 @@ if ($SP)
   	if (OOAddon::isSystemAddon($cur))
   	{
   		$delete = $I18N->msg("addon_systemaddon");
-  	}else
+  	}
+    else
   	{
   		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $cur)).'\');">'.$I18N->msg("addon_delete").'</a>';
   	}
@@ -158,7 +175,7 @@ if ($SP)
     echo '
         <tr>
           <td class="rex-icon"><img src="media/addon.gif" alt="'. htmlspecialchars($cur) .'" title="'. htmlspecialchars($cur) .'"/></td>
-          <td>'.htmlspecialchars($cur).' [<a href="index.php?page=addon&amp;spage=help&amp;addonname='.$cur.'">?</a>]</td>
+          <td>'.htmlspecialchars($cur).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$cur.'">?</a>]</td>
           <td>'.$install.'</td>
           <td>'.$status.'</td>
           <td>'.$uninstall.'</td>
