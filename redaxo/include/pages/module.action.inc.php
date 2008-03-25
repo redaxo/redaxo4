@@ -28,7 +28,10 @@ $OUT = TRUE;
 $action_id = rex_request('action_id', 'int');
 $function = rex_request('function', 'string');
 
-$action_in_use_msg = '';
+$info = '';
+$warning = '';
+$warning_blck = '';
+
 if ($function == 'delete')
 {
   $del = new rex_sql;
@@ -48,6 +51,7 @@ if ($function == 'delete')
   $del->setQuery($qry); // module mit dieser aktion vorhanden ?
   if ($del->getRows() > 0)
   {
+    $action_in_use_msg = '';
     $action_name = htmlspecialchars($del->getValue('a.name'));
     for ($i = 0; $i < $del->getRows(); $i++)
     {
@@ -57,15 +61,15 @@ if ($function == 'delete')
 
     if ($action_in_use_msg != '')
     {
-      $action_in_use_msg = rex_warning_block('<ul>' . $action_in_use_msg . '</ul>');
+      $warning_blck = '<ul>' . $action_in_use_msg . '</ul>';
     }
 
-    $message = $I18N->msg("action_cannot_be_deleted", $action_name);
+    $warning = $I18N->msg("action_cannot_be_deleted", $action_name);
   }
   else
   {
     $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "action WHERE id='$action_id' LIMIT 1");
-    $message = $I18N->msg("action_deleted");
+    $info = $I18N->msg("action_deleted");
   }
 }
 
@@ -114,9 +118,9 @@ if ($function == "add" or $function == "edit")
       $faction->addGlobalCreateFields();
 
       if($faction->insert())
-        $message = $I18N->msg('action_added');
+        $info = $I18N->msg('action_added');
       else
-        $message = $faction->getError();
+        $warning = $faction->getError();
     }
     else
     {
@@ -124,9 +128,9 @@ if ($function == "add" or $function == "edit")
       $faction->setWhere('id=' . $action_id);
 
       if($faction->update())
-        $message = $I18N->msg('action_updated');
+        $info = $I18N->msg('action_updated');
       else
-        $message = $faction->getError();
+        $warning = $faction->getError();
     }
 
     if (isset ($goon) and $goon != '')
@@ -202,10 +206,11 @@ if ($function == "add" or $function == "edit")
     if ($function != 'add')
       $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="' . $I18N->msg('save_action_and_continue') . '"'. rex_accesskey($I18N->msg('save_action_and_continue'), $REX['ACKEY']['APPLY']) .' />';
 
-    if (isset ($message) and $message != '')
-    {
-      echo rex_warning($message);
-    }
+    if ($info != '')
+      echo rex_info($info);
+
+    if ($warning != '')
+      echo rex_warning($warning);
 
     echo '
       <div class="rex-mdl-editmode">
@@ -284,11 +289,14 @@ if ($function == "add" or $function == "edit")
 
 if ($OUT)
 {
-  if (isset ($message) and $message != "")
-  {
-    echo rex_warning($message);
-    echo $action_in_use_msg;
-  }
+  if ($info != '')
+    echo rex_info($info);
+
+  if ($warning != '')
+    echo rex_warning($warning);
+
+  if ($warning_blck != '')
+    echo rex_warning_block($warning_blck);
 
   // ausgabe actionsliste !
   echo '
