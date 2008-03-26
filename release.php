@@ -83,7 +83,7 @@ function buildRelease($name = null, $version = null)
   echo '> read files'."\n";
 
   // Ordner und Dateien auslesen
-  $structure = readFolderStructure('.', array('.settings', '.project', '.DS_Store', 'CVS', 'db-schema.xml', 'db-schema.png', 'generated', $cfg_path));
+  $structure = readFolderStructure('.', array('.cvsignore', '.settings', '.project', '.DS_Store', 'CVS', 'db-schema.xml', 'db-schema.png', 'generated', $cfg_path));
 
   echo '> copy files'."\n";
   // Ordner/Dateien kopieren
