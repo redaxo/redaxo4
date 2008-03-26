@@ -444,6 +444,9 @@ function rex_article2startpage($neu_id){
  * @param $clang    ClangId der Kategorie, die erneuert werden soll
  * @param $new_prio Neue PrioNr der Kategorie
  * @param $old_prio Alte PrioNr der Kategorie
+ *
+ * @deprecated 4.1 - 26.03.2008
+ * Besser die rex_organize_priorities() Funktion verwenden!
  */
 function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
 {
@@ -455,19 +458,24 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
     else
       $addsql = "asc";
 
-    $gu = new rex_sql;
-    $gr = new rex_sql;
-    $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$re_id' and clang='$clang' and startpage=1 order by catprior,updatedate $addsql");
-    for ($i = 0; $i < $gr->getRows(); $i ++)
-    {
-      $ipid = $gr->getValue("pid");
-      $iprior = $i +1;
-      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set catprior=$iprior where pid='$ipid'");
-      $gr->next();
-    }
+    rex_organize_priorities(
+      $REX['TABLE_PREFIX'].'article',
+      'catprior',
+      'clang='. $clang .' AND re_id='. $re_id .' AND startpage=1',
+      'catprior,updatedate '. $addsql
+    );
+//    $gu = new rex_sql;
+//    $gr = new rex_sql;
+//    $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$re_id' and clang='$clang' and startpage=1 order by catprior,updatedate $addsql");
+//    for ($i = 0; $i < $gr->getRows(); $i ++)
+//    {
+//      $ipid = $gr->getValue("pid");
+//      $iprior = $i +1;
+//      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set catprior=$iprior where pid='$ipid'");
+//      $gr->next();
+//    }
     rex_generateLists($re_id);
   }
-
 }
 
 /**
@@ -477,6 +485,9 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
  * @param $clang    ClangId der Kategorie, die erneuert werden soll
  * @param $new_prio Neue PrioNr der Kategorie
  * @param $old_prio Alte PrioNr der Kategorie
+ *
+ * @deprecated 4.1 - 26.03.2008
+ * Besser die rex_organize_priorities() Funktion verwenden!
  */
 function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
 {
@@ -488,17 +499,23 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
     else
       $addsql = "asc";
 
-    $gu = new rex_sql;
-    $gr = new rex_sql;
-    $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang' and ((startpage<>1 and re_id='$re_id') or (startpage=1 and id=$re_id))order by prior,updatedate $addsql");
-    for ($i = 0; $i < $gr->getRows(); $i ++)
-    {
-      // echo "<br>".$gr->getValue("pid")." ".$gr->getValue("id")." ".$gr->getValue("name");
-      $ipid = $gr->getValue("pid");
-      $iprior = $i +1;
-      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set prior=$iprior where pid='$ipid'");
-      $gr->next();
-    }
+    rex_organize_priorities(
+      $REX['TABLE_PREFIX'].'article',
+      'prior',
+      'clang='. $clang .' AND ((startpage<>1 AND re_id='. $re_id .') OR (startpage=1 AND id='. $re_id .'))',
+      'prior,updatedate '. $addsql
+    );
+//    $gu = new rex_sql;
+//    $gr = new rex_sql;
+//    $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang' and ((startpage<>1 and re_id='$re_id') or (startpage=1 and id=$re_id))order by prior,updatedate $addsql");
+//    for ($i = 0; $i < $gr->getRows(); $i ++)
+//    {
+//      // echo "<br>".$gr->getValue("pid")." ".$gr->getValue("id")." ".$gr->getValue("name");
+//      $ipid = $gr->getValue("pid");
+//      $iprior = $i +1;
+//      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set prior=$iprior where pid='$ipid'");
+//      $gr->next();
+//    }
     rex_generateLists($re_id);
   }
 }
