@@ -359,6 +359,30 @@ function rex_replace_dynamic_contents($path, $content)
   return false;
 }
 
+/**
+ * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
+ * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
+ */
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
+{
+  // Datenbankvariable initialisieren
+  $qry = 'SET @count='. ($startBy - 1);
+  $sql = rex_sql::getInstance();
+  $sql->setQuery($qry);
+
+  // Spalte updaten
+  $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
+
+  if($whereCondition != '')
+    $qry .= ' WHERE '. $whereCondition;
+
+  if($orderBy != '')
+    $qry .= ' ORDER BY '. $orderBy;
+
+  $sql = rex_sql::getInstance();
+  $sql->setQuery($qry);
+}
+
 
 // ------------------------------------- Allgemeine PHP Functions
 
