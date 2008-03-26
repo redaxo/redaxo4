@@ -23,6 +23,7 @@ Wichtige Änderungen:
 
 Version 4.1.1 (2008-XX-XX)
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
+  * MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
   
   Bugfixes:
   * Medienpool sync subindex bugfix [Markus.Staab]
