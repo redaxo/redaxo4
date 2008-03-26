@@ -23,6 +23,10 @@ Wichtige Änderungen:
 
 Version 4.1.1 (2008-XX-XX)
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
+  
+  Bugfixes:
+  * Medienpool sync subindex bugfix [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8635.html
 
 Version 4.1.0 (2008-03-24)
 
