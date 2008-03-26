@@ -161,7 +161,17 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   return $RETURN;
 }
 
-function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize,$filetype)
+/**
+ * Synchronisiert die Datei $physical_filename des Mediafolders in den
+ * Medienpool
+ *
+ * @param $physical_filename
+ * @param $category_id
+ * @param $title
+ * @param $filesize
+ * @param $filetype
+ */
+function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null)
 {
   global $REX;
 
@@ -194,6 +204,15 @@ function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesiz
   return $RETURN['ok'] == 1;
 }
 
+/**
+ * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
+ * hinzu
+ *
+ * @param $select
+ * @param $mediacat
+ * @param $mediacat_ids
+ * @param $groupName
+ */
 function rex_medienpool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
   global $REX_USER;
@@ -215,6 +234,15 @@ function rex_medienpool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids
   }
 }
 
+/**
+ * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
+ * hinzu unter berücksichtigung der Medienkategorierechte
+ *
+ * @param $select
+ * @param $mediacat
+ * @param $mediacat_ids
+ * @param $groupName
+ */
 function rex_medienpool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
   global $PERMALL, $REX_USER;
@@ -238,6 +266,9 @@ function rex_medienpool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediaca
   }
 }
 
+/**
+ * Ausgabe des Medienpool Formulars
+ */
 function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
   global $I18N, $REX, $REX_USER, $subpage, $ftitle;
@@ -333,6 +364,9 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   return $s;
 }
 
+/**
+ * Ausgabe des Medienpool Upload-Formulars
+ */
 function rex_medienpool_Uploadform($rex_file_category)
 {
   global $I18N;
@@ -340,6 +374,9 @@ function rex_medienpool_Uploadform($rex_file_category)
   return rex_medienpool_Mediaform($I18N->msg('pool_file_insert'), $I18N->msg('pool_file_upload'), $rex_file_category, true, true);
 }
 
+/**
+ * Ausgabe des Medienpool Sync-Formulars
+ */
 function rex_medienpool_Syncform($rex_file_category)
 {
   global $I18N;
