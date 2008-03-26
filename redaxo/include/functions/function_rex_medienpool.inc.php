@@ -109,7 +109,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 
   if($success)
   {
-    chmod($dstFile, $REX['FILEPERM']);
+    @chmod($dstFile, $REX['FILEPERM']);
 
     // get widht height
     $size = @getimagesize($dstFile);

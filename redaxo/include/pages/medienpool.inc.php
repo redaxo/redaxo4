@@ -843,7 +843,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
               $FILESQL->setValue('width',$size[0]);
               $FILESQL->setValue('height',$size[1]);
             }
-            chmod($REX['MEDIAFOLDER'].'/'. $filename, $REX['FILEPERM']);
+            @chmod($REX['MEDIAFOLDER'].'/'. $filename, $REX['FILEPERM']);
             $updated = true;
           }else
           {
