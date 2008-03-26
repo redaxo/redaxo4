@@ -57,8 +57,17 @@ function rex_a256_search_structure($params)
         catname LIKE "%'. $a256_article_name .'%"
       )';
 
-    if($category_id != 0)
-      $qry .= ' AND path LIKE "%|'. $category_id .'|%"';
+    switch(OOAddon::getProperty('be_search', 'searchmode', 'local'))
+    {
+      case 'local':
+      {
+        // Suche auf aktuellen Kontext eingrenzen
+        if($category_id != 0)
+          $qry .= ' AND path LIKE "%|'. $category_id .'|%"';
+      }
+    }
+
+    $qry = rex_register_extension_point('A256_STRUCTURE_QUERY', $qry);
 
     $search = new rex_sql();
 //    $search->debugsql = true;

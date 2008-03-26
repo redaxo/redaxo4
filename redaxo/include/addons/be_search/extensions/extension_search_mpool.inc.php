@@ -52,10 +52,21 @@ function rex_a256_search_mpool_query($params)
           FROM ". $REX['TABLE_PREFIX'] ."file f, ". $REX['TABLE_PREFIX'] ."file_category c
           WHERE f.category_id = c.id AND (filename LIKE '%". $media_name ."%' OR title LIKE '%". $media_name ."%')";
 
-  if($category_id != 0)
-    $qry .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
+  switch(OOAddon::getProperty('be_search', 'searchmode', 'local'))
+  {
+    case 'local':
+    {
+      // Suche auf aktuellen Kontext eingrenzen
+      if($category_id != 0)
+        $qry .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
+    }
+  }
 
-  return $qry . "ORDER BY f.updatedate desc";
+  $qry .= 'ORDER BY f.updatedate desc';
+
+  $qry = rex_register_extension_point('A256_MEDIENPOOL_QUERY', $qry);
+
+  return $qry;
 }
 
 ?>

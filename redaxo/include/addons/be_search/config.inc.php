@@ -20,6 +20,12 @@ $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
+// Suchmodus
+// global => Es werden immer alle Kategorien durchsucht
+// local => Es werden immer die aktuelle+Unterkategorien durchsucht
+// $REX['ADDON']['searchmode'][$mypage] = 'global';
+$REX['ADDON']['searchmode'][$mypage] = 'local';
+
 $REX['EXTPERM'][] = 'be_search[medienpool]';
 $REX['EXTPERM'][] = 'be_search[structure]';
 
