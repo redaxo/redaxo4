@@ -77,10 +77,12 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   	$rex_file_category = 0;
 	}
 
+  $isFileUpload = isset($FILE['tmp_name']);
+
   $FILENAME = $FILE['name'];
   $FILESIZE = $FILE['size'];
   $FILETYPE = $FILE['type'];
-  $NFILENAME = rex_medienpool_filename($FILENAME);
+  $NFILENAME = rex_medienpool_filename($FILENAME, $isFileUpload);
   $message = '';
 
   // ----- alter/neuer filename
@@ -88,7 +90,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   $dstFile = $REX['MEDIAFOLDER'].'/'.$NFILENAME;
 
   $success = true;
-  if(isset($FILE['tmp_name'])) // Fileupload?
+  if($isFileUpload) // Fileupload?
   {
     if(!@move_uploaded_file($FILE['tmp_name'],$dstFile))
     {
