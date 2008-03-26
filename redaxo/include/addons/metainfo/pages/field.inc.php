@@ -10,13 +10,13 @@
 
 //------------------------------> Parameter
 
-if(!isset($prefix))
+if(empty($prefix))
 {
   trigger_error('Fehler: Prefix nicht definiert!', E_USER_ERROR);
   exit();
 }
 
-if(!isset($metaTable))
+if(empty($metaTable))
 {
   trigger_error('Fehler: metaTable nicht definiert!', E_USER_ERROR);
   exit();

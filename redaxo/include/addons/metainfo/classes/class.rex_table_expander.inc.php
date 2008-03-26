@@ -21,8 +21,6 @@ define('REX_A62_FIELD_REX_LINKLIST_BUTTON',  9);
 
 define('REX_A62_FIELD_COUNT',                9);
 
-require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_table_manager.inc.php';
-
 class rex_a62_tableExpander extends rex_form
 {
   var $metaPrefix;
