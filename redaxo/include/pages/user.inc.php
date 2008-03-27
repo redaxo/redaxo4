@@ -364,8 +364,24 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
 
     // userperm_cat
     if (isset($userperm_cat)) {
-      foreach($userperm_cat as $_perm)
-        $perm .= '#csw['.$_perm.']';
+      foreach($userperm_cat as $ccat)
+      {
+        $gp = new rex_sql;
+        $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
+        if ($gp->getRows()==1)
+        {
+          // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
+          // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
+          foreach (explode('|',$gp->getValue('path')) as $a)
+            if ($a!='')$userperm_cat_read[$a] = $a;
+        }
+        $perm .= '#csw['. $ccat .']';
+      }
+    }
+
+    if (isset($userperm_cat_read)) {
+      foreach($userperm_cat_read as $_perm)
+        $perm .= '#csr['. $_perm .']';
     }
 
     // userperm_media

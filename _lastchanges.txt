@@ -30,6 +30,8 @@ Version 4.1.1 (2008-XX-XX)
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
   
   Bugfixes:
+  * Beim Benuter anlegen wurden die Rechte falsch gespeichert [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8672.html
   * TinyMCE: Buttons Link und Bild einfügen funktioniert nicht [tgoellner, Markus.Staab]
     - http://forum.redaxo.de/ftopic8599.html
   * Medienpool sync subindex bugfix [Markus.Staab]
