@@ -77,7 +77,9 @@ class tar {
 
   // Class Constructor -- Does nothing...
   function tar() {
-    return true;
+    $this->files = array();
+    $this->numFiles = 0;
+    $this->numDirectories = 0;
   }
 
 
