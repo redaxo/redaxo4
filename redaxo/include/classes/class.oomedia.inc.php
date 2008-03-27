@@ -470,7 +470,7 @@ class OOMedia
       {
         unset ($params['resize']);
         // Resize Addon installiert?
-        if (isset ($REX['ADDON']['status']['image_resize']) && $REX['ADDON']['status']['image_resize'] == 1)
+        if (OOAddon::isAvailable('image_resize'))
         {
           $resize = true;
           if (isset ($params['width']))
@@ -485,10 +485,16 @@ class OOMedia
             $resizeParam = $params['height'];
             unset ($params['height']);
           }
+          elseif (isset ($params['crop']))
+          {
+            $resizeMode = 'c';
+            $resizeParam = $params['crop'];
+            unset ($params['crop']);
+          }
           else
           {
             $resizeMode = 'a';
-            $resizeParam = 0;
+            $resizeParam = 100;
           }
 
           // Evtl. Größeneinheiten entfernen
