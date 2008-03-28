@@ -116,7 +116,7 @@ class OOArticleSlice
    * CLASS Function:
    * Returns the first slice of the given ctype of an article
    */
-  function getFirstSlicesForCtype($ctype, $an_article_id, $clang = false)
+  function getFirstSliceForCtype($ctype, $an_article_id, $clang = false)
   {
     global $REX;
 
