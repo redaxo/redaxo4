@@ -114,6 +114,30 @@ class OOArticleSlice
 
   /*
    * CLASS Function:
+   * Returns the first slice of the given ctype of an article
+   */
+  function getFirstSlicesForCtype($ctype, $an_article_id, $clang = false)
+  {
+    global $REX;
+
+    if ($clang === false)
+      $clang = $REX['CUR_CLANG'];
+
+    return OOArticleSlice::_getSliceWhere('a.article_id='. $an_article_id .' AND
+                                          a.clang='. $clang .' AND
+                                          a.ctype='. $ctype .' AND
+                                          (
+                                           (a.re_article_slice_id=0  AND a.id = b.id)
+                                            OR
+                                           (b.ctype != a.ctype AND b.id = a.re_article_slice_id)
+                                          )',
+                                          $REX['TABLE_PREFIX'].'article_slice a, '. $REX['TABLE_PREFIX'].'article_slice b',
+                                          'a.*'
+                                          );
+  }
+
+  /*
+   * CLASS Function:
    * Return all slices for an article that have a certain
    * module type.
    * Returns an array of OOArticleSlice objects
