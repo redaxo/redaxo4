@@ -136,7 +136,7 @@ else
           $REX['PAGEPATH'] = $addon_page;
 
           if(isset($REX['ADDON']['name'][$page]))
-            $pagename = rex_translate($REX['ADDON']['name'][$page]);
+            $page_name = rex_translate($REX['ADDON']['name'][$page]);
         }
         else
         {
