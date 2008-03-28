@@ -28,6 +28,7 @@ Version 4.1.1 (2008-XX-XX)
     - Suchqueries via EP modifizierbar [Markus.Staab]
   * metainfo:
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
+  * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
   

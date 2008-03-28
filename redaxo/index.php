@@ -136,7 +136,7 @@ else
           $REX['PAGEPATH'] = $addon_page;
 
           if(isset($REX['ADDON']['name'][$page]))
-            $page_name = rex_translate($REX['ADDON']['name'][$page]);
+            $pagename = rex_translate($REX['ADDON']['name'][$page]);
         }
         else
         {
@@ -149,10 +149,8 @@ else
             $withheader = false;
             $REX['PAGEPATH'] = $addon_page;
 
-            if(isset($REX['ADDON']['page'][$page]))
-              $page_name = rex_translate($REX['ADDON']['page'][$page]);
-            else if(isset($REX['ADDON']['name'][$as]))
-              $page_name = rex_translate($REX['ADDON']['name'][$as]);
+            if(isset($REX['ADDON']['name'][$page]))
+              $page_name = rex_translate($REX['ADDON']['name'][$page]);
           }
         }
       }
@@ -180,6 +178,7 @@ else
       $open_header_only = true;
     }elseif ($REX['PAGEPATH'] == '' && $page == 'linkmap')
     {
+      $page_name = $I18N->msg('lmap_title');
       $open_header_only = true;
     }elseif ($REX['PAGEPATH'] == '' && $page == 'content')
     {
