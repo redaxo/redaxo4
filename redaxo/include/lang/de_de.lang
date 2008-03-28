@@ -550,6 +550,7 @@ credits_supportpage = Hilfe
 credits_addon_inactive = Addon inaktiv
 
 # redaxo\include\pages\linkmap.inc.php
+lmap_title = Linkmap
 lmap_categories = Kategorien
 lmap_articles = Artikel
 lmap_has_no_template = hat kein Template
