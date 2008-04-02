@@ -31,10 +31,12 @@ class rex_sql
     $this->debugsql = false;
     $this->selectDB($DBID);
 
-    // MySQL Version bestimmen
-    if ($REX['MYSQL_VERSION'] == '')
+    if($REX['MYSQL_VERSION'] == '')
     {
+      // ggf. Strict Mode abschalten
       $this->setQuery('SET SQL_MODE=""');
+
+      // MySQL Version bestimmen
       $res = $this->getArray('SELECT VERSION() as VERSION');
       if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
       {
@@ -43,6 +45,12 @@ class rex_sql
       else
       {
         exit('Could not identifiy MySQL Version!');
+      }
+
+      // connection auf UTF8 trimmen
+      if (rex_lang_is_utf8())
+      {
+        $this->setQuery('SET NAMES utf8');
       }
     }
 
