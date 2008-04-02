@@ -19,7 +19,7 @@ function rex_parse_article_name($name)
     $firstCall = false;
 
     // Wenn die Seite auf UTF-8 läuft, müssen wir auch nach UTF-8 Umlauten suchen
-    if(strpos($REX['LANG'], 'utf8') !== false)
+    if(rex_lang_is_utf8())
       $search = array_map('utf8_encode', $search);
   }
 

@@ -386,6 +386,11 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
   $sql->setQuery($qry);
 }
 
+function rex_lang_is_utf8()
+{
+  global $REX;
+  return strpos($REX['LANG'], 'utf8') !== false;
+}
 
 // ------------------------------------- Allgemeine PHP Functions
 
