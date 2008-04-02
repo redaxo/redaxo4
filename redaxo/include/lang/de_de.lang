@@ -26,6 +26,7 @@ import = Im-/Export
 content = Artikel
 structure = Struktur
 statistics = Statistiken
+profile = Mein Profil
 logout = abmelden
 
 # redaxo/include/classes/class.login.inc.php
@@ -548,6 +549,11 @@ credits_version = Version
 credits_author = Autor
 credits_supportpage = Hilfe
 credits_addon_inactive = Addon inaktiv
+
+# redaxo\include\pages\profile.inc.php
+profile_myprofile = Mein Benutzerprofil bearbeiten
+profile_title = Mein Profil
+profile_save = Profil speichern
 
 # redaxo\include\pages\linkmap.inc.php
 lmap_title = Linkmap

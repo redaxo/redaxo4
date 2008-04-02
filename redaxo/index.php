@@ -186,6 +186,9 @@ else
     }elseif ($REX['PAGEPATH'] == '' && $page == 'credits')
     {
       $page_name = $I18N->msg('credits');
+    }elseif ($REX['PAGEPATH'] == '' && $page == 'profile')
+    {
+      $page_name = $I18N->msg('profile');
     }elseif($REX['PAGEPATH'] == '')
     {
       $page = 'structure';

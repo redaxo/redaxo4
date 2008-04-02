@@ -56,7 +56,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
   $accesskey = 1;
 
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
-  echo '<p>' . $I18N->msg('name') . ' : <strong>' . $user_name . '</strong> [<a href="index.php?FORM[logout]=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
+  echo '<p>' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . $user_name . '</a></strong> [<a href="index.php?FORM[logout]=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
   echo '<ul id="rex-main-mnu">';
 
   $activeClass = ' class="rex-active"';

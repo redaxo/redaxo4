@@ -23,6 +23,8 @@ Wichtige Änderungen:
 
 Version 4.1.1 (2008-XX-XX)
 
+  * Neue Backendpage: Userprofil [Markus.Staab]
+    - Benutzer können selbst Ihre Daten ändern
   * be_search:
     - Suchmodus einstellbar global/local [Markus.Staab]
     - Suchqueries via EP modifizierbar [Markus.Staab]
