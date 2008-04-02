@@ -230,7 +230,7 @@ if ($msg != '')
 
       <!-- DB IMPORT LIST -->
       <div class="rex-addon-editmode">
-      <form action="index.php" enctype="multipart/form-data" method="post" >
+      <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N_IM_EXPORT->msg('proceed_db_import') ?>')">
         <fieldset>
           <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('database'); ?></legend>
           <input type="hidden" name="page" value="<?php echo $page ?>" />
@@ -284,7 +284,7 @@ if ($msg != '')
 
       <!-- FILE IMPORT -->
       <div class="rex-addon-editmode">
-      <form action="index.php" enctype="multipart/form-data" method="post" >
+      <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N_IM_EXPORT->msg('proceed_file_import') ?>')" >
         <fieldset>
           <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('files'); ?></legend>
           <input type="hidden" name="page" value="<?php echo $page ?>" />
