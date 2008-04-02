@@ -527,7 +527,7 @@ function getElementsByClass(searchClass,node,tag) {
 }
 
 jQuery(function($){
-  $("*:not(a,input,textarea,select,option)")
+  $("*:not(a,input,button,textarea,select,option)")
     .keypress(function(event) {
       var key = String.fromCharCode(event.which);
       var haystack = $("input[accesskey="+ key +"]");
