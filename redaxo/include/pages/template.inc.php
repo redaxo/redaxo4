@@ -191,11 +191,9 @@ if ($function == "add" or $function == "edit") {
         <!-- Div nötig fuer JQuery slideIn -->
         <div id="ctype-fldst">
       		<fieldset>
-        		<legend class="rex-lgnd">
-              <a href="#"><img src="media/file_add.gif" id="rex-tmp-ctypes-icon" alt="'.$I18N->msg("content_types").'" title="'.$I18N->msg("content_types").'" /> '.$I18N->msg("content_types").' [CTYPES]</a>
-            </legend>
+        		<legend class="rex-lgnd">'.$I18N->msg("content_types").' [CTYPES]</legend>
 
-       			<div class="rex-fldst-wrppr rex-tmp-ctypes" style="display:none">
+       			<div class="rex-fldst-wrppr rex-tmp-ctypes">
       				' . $ctypes_out . '
       			</div>
         	</fieldset>
@@ -212,29 +210,13 @@ if ($function == "add" or $function == "edit") {
       <script type="text/javascript">
       <!--
 
-      $(document).ready(function() {
-
+      jQuery(function($) {
         $("#active").click(function() {
           $("#ctype-fldst").slideToggle("slow");
         });
-
-        $("#ctype-fldst legend a").click(function() {
-          var ctypes = $("#ctype-fldst .rex-tmp-ctypes");
-          var img = $("img", this);
-
-          if (ctypes.is(":hidden")) {
-            ctypes.slideDown("slow");
-            img.attr("src", "media/file_del.gif");
-          } else {
-            img.attr("src", "media/file_add.gif");
-            ctypes.slideUp("slow");
-          }
-
-          return false;
-        });
-
-        if($("#active").attr("checked") == undefined)
+        if($("#active").is(":not(:checked)")) {
           $("#ctype-fldst").hide();
+        }
       });
 
       //--></script>';
