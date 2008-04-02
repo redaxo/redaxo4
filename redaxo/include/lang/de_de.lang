@@ -13,6 +13,10 @@ phpini_settings = PHP.ini Einstellungen
 datetimeformat = %d. %b. %Y - %H:%Mh
 ctrl = Mehrfachauswahl mit STRG
 
+# Sprachspezifische Sonderzeichen
+special_chars = ä|ö|ü|Ä|Ö|Ü|ß
+special_chars_rewrite = ae|oe|ue|Ae|Oe|Ue|ss
+
 # redaxo/index.php
 start_article_not_selected = Kein Startartikel ausgewählt
 
