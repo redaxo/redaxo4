@@ -674,6 +674,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           </p>
 		    </div>
 
+      <div id="rex-user-perms">
+
         <div>
           <p class="rex-cnt-col2">
             <input class="rex-chckbx" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
@@ -698,6 +700,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           </p>
 		    </div>
 
+      </div>
+
         <div>
           <p class="rex-cnt-col2">
             <label for="userperm_module">'.$I18N->msg('modules').'</label>
@@ -716,7 +720,20 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     </fieldset>
   </form>
   </div>
-';
+
+  <script type="text/javascript">
+  <!--
+
+  jQuery(function($) {
+    $("#useradmin").click(function() {
+      $("#rex-user-perms").slideToggle("slow");
+    });
+    if($("#useradmin").is(":checked")) {
+      $("#rex-user-perms").hide();
+    }
+  });
+
+  //--></script>';
 
 }
 
