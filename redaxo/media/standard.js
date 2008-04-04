@@ -527,39 +527,32 @@ function getElementsByClass(searchClass,node,tag) {
 }
 
 jQuery(function($){
-  $(":not(a,input,button,textarea,select,option)")
-    .keypress(function(event) {
-      // Aufgrund des EventBubbling koennen hier auch Elemente auftauchen
-      // die oben nicht im selektor dabeistehen
-      if($(event.target).is("a,input,button,textarea,select,option"))
+  $(document).keypress(function(event) {
+    if(!$(event.target).is("a,input,button,textarea,select,option"))
+    {
+      var key = String.fromCharCode(event.which);
+      var haystack = $("input[accesskey="+ key +"]");
+      
+      if(haystack.size() > 0)
       {
-        event.stopPropagation();
+        $(haystack.get(0)).click();
+        return false;
       }
       else
       {
-        var key = String.fromCharCode(event.which);
-        var haystack = $("input[accesskey="+ key +"]");
+        haystack = $("a[accesskey="+ key +"]");
         
         if(haystack.size() > 0)
         {
-          $(haystack.get(0)).click();
+          var hit = $(haystack.get(0));
+          if(hit.attr("onclick") != undefined)
+            hit.click();
+          else if(hit.attr("href") != undefined && hit.attr("href") != "#")
+            document.location = hit.attr("href");
+            
           return false;
         }
-        else
-        {
-          haystack = $("a[accesskey="+ key +"]");
-          
-          if(haystack.size() > 0)
-          {
-            var hit = $(haystack.get(0));
-            if(hit.attr("onclick") != undefined)
-              hit.click();
-            else if(hit.attr("href") != undefined && hit.attr("href") != "#")
-              document.location = hit.attr("href");
-              
-            return false;
-          }
-        }
-      }    
-    });
+      }
+    }    
+  });
 });
