@@ -527,29 +527,38 @@ function getElementsByClass(searchClass,node,tag) {
 }
 
 jQuery(function($){
-  $("*:not(a,input,button,textarea,select,option)")
+  $(":not(a,input,button,textarea,select,option)")
     .keypress(function(event) {
-      var key = String.fromCharCode(event.which);
-      var haystack = $("input[accesskey="+ key +"]");
-      
-      if(haystack.size() > 0)
+      // Aufgrund des EventBubbling koennen hier auch Elemente auftauchen
+      // die oben nicht im selektor dabeistehen
+      if($(event.target).is("a,input,button,textarea,select,option"))
       {
-        $(haystack.get(0)).click();
-        return false;
+        event.stopPropagation();
       }
       else
       {
-        haystack = $("a[accesskey="+ key +"]");
+        var key = String.fromCharCode(event.which);
+        var haystack = $("input[accesskey="+ key +"]");
         
         if(haystack.size() > 0)
         {
-          var hit = $(haystack.get(0));
-          if(hit.attr("onclick") != undefined)
-            hit.click();
-          else if(hit.attr("href") != undefined && hit.attr("href") != "#")
-            document.location = hit.attr("href");
-            
+          $(haystack.get(0)).click();
           return false;
+        }
+        else
+        {
+          haystack = $("a[accesskey="+ key +"]");
+          
+          if(haystack.size() > 0)
+          {
+            var hit = $(haystack.get(0));
+            if(hit.attr("onclick") != undefined)
+              hit.click();
+            else if(hit.attr("href") != undefined && hit.attr("href") != "#")
+              document.location = hit.attr("href");
+              
+            return false;
+          }
         }
       }    
     });
