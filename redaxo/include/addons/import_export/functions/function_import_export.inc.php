@@ -29,7 +29,7 @@ function rex_a1_import_db($filename)
   $msg = '';
   $error = '';
 
-  if ($filename == '')
+  if ($filename == '' || substr($filename, -4, 4) != ".sql")
   {
     $return['message'] = $I18N_IM_EXPORT->msg('no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
@@ -203,7 +203,7 @@ function rex_a1_import_files($filename)
   $return = array ();
   $return['state'] = false;
 
-  if ($filename == '')
+  if ($filename == '' || substr($filename, -7, 7) != ".tar.gz")
   {
     $return['message'] = $I18N_IM_EXPORT->msg("no_import_file_chosen")."<br>";
     return $return;
