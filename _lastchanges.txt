@@ -37,6 +37,7 @@ Version 4.2.0 (2008-XX-XX)
 Version 4.1.1 (2008-XX-XX)
   
   Bugfixes:
+  * Import/Export: Dateinamenvaliderung beim import von Dateien [Markus.Staab]
   * MetaInfo: Cleanup funktionierte nicht richtig [Markus.Staab]
     - http://forum.redaxo.de/ftopic8758.html
   * Beim Benuter anlegen wurden die Rechte falsch gespeichert [Markus.Staab]
