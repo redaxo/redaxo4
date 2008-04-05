@@ -21,7 +21,7 @@ Wichtige Änderungen:
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.1.1 (2008-XX-XX)
+Version 4.2.0 (2008-XX-XX)
 
   * Neue Backendpage: Userprofil [Markus.Staab]
     - Benutzer können selbst Ihre Daten ändern
@@ -34,7 +34,11 @@ Version 4.1.1 (2008-XX-XX)
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
   
+Version 4.1.1 (2008-XX-XX)
+  
   Bugfixes:
+  * MetaInfo: Cleanup funktionierte nicht richtig [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8758.html
   * Beim Benuter anlegen wurden die Rechte falsch gespeichert [Markus.Staab]
     - http://forum.redaxo.de/ftopic8672.html
   * TinyMCE: Buttons Link und Bild einfügen funktioniert nicht [tgoellner, Markus.Staab]
