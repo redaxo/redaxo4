@@ -6,7 +6,7 @@
  * @author <a href="http://www.vscope.at">www.vscope.at</a>
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  *
  * @package redaxo4
  * @version $Id$
@@ -28,7 +28,7 @@ c = crop        (cut image part to certain length and height)<br />
 a = automatic   (longest side will be used)
 </p>
 
-<h3>Default-Filters:</h3>
+<h3>Filters:</h3>
 <p>
 blur<br />
 brand<br />

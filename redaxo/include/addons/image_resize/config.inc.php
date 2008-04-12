@@ -66,6 +66,8 @@ if ($rex_resize != '')
 
 if($REX['REDAXO'])
 {
+  $I18N_IMG_RES = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
+
   if(rex_get('css', 'string') == 'addons/'. $mypage)
   {
     $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/image_resize.css';

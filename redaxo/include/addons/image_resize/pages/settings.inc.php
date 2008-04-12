@@ -19,8 +19,9 @@ $max_filters = rex_request('max_filters', 'int');
 $max_resizekb = rex_request('max_resizekb', 'int');
 $max_resizepixel = rex_request('max_resizepixel', 'int');
 
+$config_file = $REX['INCLUDE_PATH'].'/addons/image_resize/config.inc.php';
 
-if ($func == "update")
+if ($func == 'update')
 {
   if($jpg_quality > 100) $jpg_quality = 100;
   else if ($jpg_quality < 0) $jpg_quality = 0;
@@ -38,11 +39,14 @@ $REX[\'ADDON\'][\'image_resize\'][\'max_resizepixel\'] = '.$max_resizepixel.';
 $REX[\'ADDON\'][\'image_resize\'][\'jpg_quality\'] = '.$jpg_quality.';
 ';
 
-	$file = $REX['INCLUDE_PATH']."/addons/image_resize/config.inc.php";
-  rex_replace_dynamic_contents($file, $content);
-
-  echo rex_warning('Konfiguration wurde aktualisiert');
+  if(rex_replace_dynamic_contents($config_file, $content))
+    echo rex_info($I18N_IMG_RES->msg('config_saved'));
+  else
+    echo rex_warning($I18N_IMG_RES->msg('config_not_saved'));
 }
+
+if(!is_writable($config_file))
+  echo rex_warning($I18N_IMG_RES->msg('config_not_writable', $config_file));
 
 echo '
 
@@ -57,23 +61,23 @@ echo '
 
         <fieldset>
           <p>
-            <label for="max_cachefiles">Maximale Anzahl von Cachefiles pro Datei</label>
+            <label for="max_cachefiles">'. $I18N_IMG_RES->msg('max_cache_files') .'</label>
             <input type="text" id="max_cachefiles" name="max_cachefiles" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_cachefiles']).'" />
           </p>
           <p>
-            <label for="max_filters">Maximale Anzahl von Filtern, die auf eine Datei gleichzeitig angewendet werden k&ouml;nnen</label>
+            <label for="max_filters">'. $I18N_IMG_RES->msg('max_filters') .'</label>
             <input type="text" id="max_filters" name="max_filters" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_filters']).'" />
           </p>
           <p>
-            <label for="max_resizekb">Maximale Gr&ouml;sse einer Datei in Kilobyte, die &uuml;ber Image-Resize umgewandelt werden darf</label>
+            <label for="max_resizekb">'. $I18N_IMG_RES->msg('max_resizekb') .'</label>
             <input type="text" id="max_resizekb" name="max_resizekb" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizekb']).'" />
           </p>
           <p>
-            <label for="max_resizepixel">Maximale Gr&ouml;sse einer Datei in Pixel, die &uuml;ber Image-Resize umgewandelt werden darf</label>
+            <label for="max_resizepixel">'. $I18N_IMG_RES->msg('max_resizepx') .'</label>
             <input type="text" id="max_resizepixel" name="max_resizepixel" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizepixel']).'" />
           </p>
           <p>
-            <label for="jpg_quality">JPG/JPEG Ausgabe-Qualit&auml;t [0-100]</label>
+            <label for="jpg_quality">'. $I18N_IMG_RES->msg('jpg_quality') .' [0-100]</label>
             <input type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_resize']['jpg_quality']).'" />
           </p>
           <p>
