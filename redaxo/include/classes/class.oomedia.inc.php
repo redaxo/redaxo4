@@ -636,8 +636,10 @@ class OOMedia
   function isInUse()
   {
     global $REX;
+
     $sql = new rex_sql();
     //        $sql->debugsql = true;
+
     $query_file = '';
     $query_filelist = '';
     for ($i = 1; $i < 21; $i++)
@@ -653,6 +655,14 @@ class OOMedia
     $query_file = '('.$query_file.')';
     $query_filelist = '('.$query_filelist.')';
     $query = 'select id from '.$REX['TABLE_PREFIX'].'article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
+
+    // ----- EXTENSION POINT
+    $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
+      array(
+        'filename' => $this->getFileName(),
+        'media' => $this,
+      )
+    );
 
     $sql->setQuery($query);
     return $sql->getRows() > 0;
