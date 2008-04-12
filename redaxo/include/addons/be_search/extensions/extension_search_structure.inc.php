@@ -11,7 +11,7 @@
 
 function rex_a256_search_structure($params)
 {
-  global $REX, $REX_USER, $I18N_BE_SEARCH, $category_id, $clang;
+  global $REX, $REX_USER, $I18N_BE_SEARCH;
 
   if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[structure]')))
   {
@@ -22,6 +22,14 @@ function rex_a256_search_structure($params)
   $search_result = '';
   $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&a256_article_name=%s';
   $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&a256_article_name=%s';
+
+  // ------------ globale Parameter
+  $page         = rex_request('page', 'string');
+  $mode         = rex_request('mode', 'string');
+  $category_id  = rex_request('category_id', 'int');
+  $article_id   = rex_request('article_id', 'int');
+  $clang        = rex_request('clang', 'int');
+  $ctype        = rex_request('ctype', 'int');
 
   // ------------ Parameter
   $a256_article_id        = rex_request('a256_article_id'  , 'int');
@@ -154,7 +162,13 @@ function rex_a256_search_structure($params)
   $category_select->setSelected($category_id);
 
   $form =
-   '  <form method="post">
+   '  <form action="index.php" method="post">
+        <input type="hidden" name="page" id="rex-a256-article-clang" value="'. $page .'" />
+        <input type="hidden" name="mode" id="rex-a256-article-clang" value="'. $mode .'" />
+        <input type="hidden" name="category_id" id="rex-a256-article-clang" value="'. $category_id .'" />
+        <input type="hidden" name="article_id" id="rex-a256-article-clang" value="'. $article_id .'" />
+        <input type="hidden" name="clang" id="rex-a256-article-clang" value="'. $clang .'" />
+        <input type="hidden" name="ctype" id="rex-a256-article-clang" value="'. $ctype .'" />
         <input type="hidden" name="a256_clang" id="rex-a256-article-clang" value="'. $clang .'" />
 
 		    <div class="rex-f-lft">
@@ -171,7 +185,7 @@ function rex_a256_search_structure($params)
 
     			$category_select->setAttribute('tabindex', rex_tabindex(false));
 
-    $form .= $category_select->get() .'
+  $form .= $category_select->get() .'
     			<noscript>
     			  <input type="submit" name="a256_start_jump" value="'. $I18N_BE_SEARCH->msg('search_jump_to_category') .'" />
     			</noscript>
