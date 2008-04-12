@@ -25,12 +25,12 @@ Version 4.2.0 (2008-XX-XX)
 
   * Neue Backendpage: Userprofil [Markus.Staab]
     - Benutzer können selbst Ihre Daten ändern
-  * image_resize:
+  * ImageResize:
     - Sprachfile eingefügt [Markus.Staab]
-  * be_search:
+  * BackendSearch:
     - Suchmodus einstellbar global/local [Markus.Staab]
     - Suchqueries via EP modifizierbar [Markus.Staab]
-  * metainfo:
+  * MetaInfo:
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
@@ -42,6 +42,8 @@ Version 4.2.0 (2008-XX-XX)
 Version 4.1.1 (2008-XX-XX)
   
   Bugfixes:
+  * BackendSearch: Nach editieren wurde in den Root gesprungen [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8679.html 
   * Import/Export: Dateinamenvaliderung beim import von Dateien [Markus.Staab]
   * MetaInfo: Cleanup funktionierte nicht richtig [Markus.Staab]
     - http://forum.redaxo.de/ftopic8758.html
