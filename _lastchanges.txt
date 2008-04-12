@@ -25,6 +25,8 @@ Version 4.2.0 (2008-XX-XX)
 
   * Neue Backendpage: Userprofil [Markus.Staab]
     - Benutzer können selbst Ihre Daten ändern
+  * image_resize:
+    - Sprachfile eingefügt [Markus.Staab]
   * be_search:
     - Suchmodus einstellbar global/local [Markus.Staab]
     - Suchqueries via EP modifizierbar [Markus.Staab]
@@ -33,6 +35,9 @@ Version 4.2.0 (2008-XX-XX)
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
+  * rexExtensionPoint erstellt:
+    - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
+  
   
 Version 4.1.1 (2008-XX-XX)
   
