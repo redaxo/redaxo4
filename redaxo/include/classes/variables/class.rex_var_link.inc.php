@@ -29,7 +29,7 @@ class rex_var_link extends rex_var
       }
       if (isset ($listvalues[$i]))
       {
-        $REX_ACTION['LINK'][$i] = stripslashes($listvalues[$i]);
+        $REX_ACTION['LINKLIST'][$i] = stripslashes($listvalues[$i]);
       }
     }
     return $REX_ACTION;
