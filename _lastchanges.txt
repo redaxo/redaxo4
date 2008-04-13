@@ -33,7 +33,8 @@ Version 4.2.0 (2008-XX-XX)
   * MetaInfo:
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
-  * Neu implementiert: REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
+  * rexVars implementiert
+    - REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
