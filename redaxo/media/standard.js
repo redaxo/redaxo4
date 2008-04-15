@@ -526,33 +526,46 @@ function getElementsByClass(searchClass,node,tag) {
 	return classElements;
 }
 
+
 jQuery(function($){
+	var ENABLE_KEY_NAV = true;
+	
   $(document).keypress(function(event) {
-    if(!$(event.target).is("a,input,button,textarea,select,option"))
-    {
-      var key = String.fromCharCode(event.which);
-      var haystack = $("input[accesskey="+ key +"]");
-      
-      if(haystack.size() > 0)
-      {
-        $(haystack.get(0)).click();
-        return false;
-      }
-      else
-      {
-        haystack = $("a[accesskey="+ key +"]");
-        
-        if(haystack.size() > 0)
-        {
-          var hit = $(haystack.get(0));
-          if(hit.attr("onclick") != undefined)
-            hit.click();
-          else if(hit.attr("href") != undefined && hit.attr("href") != "#")
-            document.location = hit.attr("href");
-            
-          return false;
-        }
-      }
-    }    
+    if(!ENABLE_KEY_NAV) 
+      return true;
+    
+     var key = String.fromCharCode(event.which);
+     var haystack = $("input[accesskey="+ key +"]");
+     
+     if(haystack.size() > 0)
+     {
+       $(haystack.get(0)).click();
+       return false;
+     }
+     else
+     {
+       haystack = $("a[accesskey="+ key +"]");
+       
+       if(haystack.size() > 0)
+       {
+         var hit = $(haystack.get(0));
+         if(hit.attr("onclick") != undefined)
+           hit.click();
+         else if(hit.attr("href") != undefined && hit.attr("href") != "#")
+           document.location = hit.attr("href");
+           
+         return false;
+       }
+     }
+  });
+  
+  $(function() {
+    $("a,input,button,textarea,select,option")
+      .focus(function(event) {
+        ENABLE_KEY_NAV = false;
+      })
+      .blur(function(event) {
+        ENABLE_KEY_NAV = true;
+      });    
   });
 });
