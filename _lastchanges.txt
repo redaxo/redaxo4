@@ -43,6 +43,8 @@ Version 4.2.0 (2008-XX-XX)
 Version 4.1.1 (2008-XX-XX)
   
   Bugfixes:
+  * Medienpool: Warnungen behoben [Markus.Staab]
+    - http://forum.redaxo.de/sutra52479.html#52479
   * BackendSearch: Nach editieren wurde in den Root gesprungen [Markus.Staab]
     - http://forum.redaxo.de/ftopic8679.html 
   * Import/Export: Dateinamenvaliderung beim import von Dateien [Markus.Staab]
