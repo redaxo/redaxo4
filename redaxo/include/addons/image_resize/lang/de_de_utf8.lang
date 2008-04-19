@@ -1,0 +1,17 @@
+# addon:image_resize de_de
+
+subpage_desc = Erklärung
+subpage_config = Konfiguration
+subpage_clear_cache = Resize-Cache löschen
+
+cache_files_removed = {0} Cache-Dateien gelöscht
+
+config_saved = Konfiguration wurde aktualisiert!
+config_not_saved = Konfiguration konnte nicht gespeichert werden!
+config_not_writable = Konfigurationsdatei "{0}" ist nicht beschreibbar!
+
+max_cache_files = Maximale Anzahl von Cachefiles pro Datei
+max_filters = Maximale Anzahl von Filtern, die auf eine Datei gleichzeitig angewendet werden können
+max_resizekb = Maximale Größe einer Datei in Kilobyte, die über Image-Resize umgewandelt werden darf
+max_resizepx = Maximale Größe einer Datei in Pixel, die über Image-Resize umgewandelt werden darf
+jpg_quality = JPG/JPEG Ausgabe-Qualität
