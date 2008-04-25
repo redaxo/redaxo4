@@ -200,6 +200,7 @@ function rex_generateArticle($id, $refreshall = true)
   // ----- EXTENSION POINT
   $MSG = rex_register_extension_point('ARTICLE_GENERATED','',array ('id' => $id));
 
+  return true;
 }
 
 /**
