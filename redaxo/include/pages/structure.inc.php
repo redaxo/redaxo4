@@ -55,24 +55,8 @@ $sprachen_add = '&amp;category_id='. $category_id;
 require $REX['INCLUDE_PATH'].'/functions/function_rex_languages.inc.php';
 
 // -------------- STATUS_TYPE Map
-
-$catStatusTypes = array(
-  // Name, CSS-Class
-  array($I18N->msg('status_offline'), 'rex-offline'),
-  array($I18N->msg('status_online'), 'rex-online')
-);
-
-$artStatusTypes = array(
-  // Name, CSS-Class
-  array($I18N->msg('status_offline'), 'rex-offline'),
-  array($I18N->msg('status_online'), 'rex-online')
-);
-
-// ----- EXTENSION POINT
-$catStatusTypes = rex_register_extension_point('CAT_STATUS_TYPES', $catStatusTypes);
-$artStatusTypes = rex_register_extension_point('ART_STATUS_TYPES', $artStatusTypes);
-
-
+$catStatusTypes = rex_structure_categoryStatusTypes();
+$artStatusTypes = rex_structure_articleStatusTypes();
 
 
 
@@ -80,234 +64,37 @@ $artStatusTypes = rex_register_extension_point('ART_STATUS_TYPES', $artStatusTyp
 if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
 {
   // --------------------- KATEGORIE EDIT
+  $data = array();
+  $data['catprior'] = (int) $Position_Category;
+  $data['catname'] = $kat_name;
+  $data['path'] = $KATPATH;
 
-  $old_prio = $thisCat->getValue("catprior");
-  $new_prio = (int) $Position_Category;
-  if ($new_prio == 0)
-    $new_prio = 1;
-  $re_id = $thisCat->getValue("re_id");
-
-  // --- Kategorie selbst updaten
-  $EKAT = new rex_sql;
-  $EKAT->setTable($REX['TABLE_PREFIX']."article");
-  $EKAT->setWhere("id=$edit_id AND startpage=1 AND clang=$clang");
-  $EKAT->setValue('catname', $kat_name);
-  $EKAT->setValue('catprior', $new_prio);
-  $EKAT->setValue('path', $KATPATH);
-  $EKAT->addGlobalUpdateFields();
-  if($EKAT->update())
-  {
-    // --- Kategorie Kindelemente updaten
-    $ArtSql = new rex_sql();
-    $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$edit_id .' AND startpage=0 AND clang='.$clang);
-
-    $EART = new rex_sql();
-    for($i = 0; $i < $ArtSql->getRows(); $i++)
-    {
-      $EART->setTable($REX['TABLE_PREFIX'].'article');
-      $EART->setWhere('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
-      $EART->setValue('catname', $kat_name);
-      $EART->addGlobalUpdateFields();
-
-      if($EART->update())
-      {
-        rex_generateArticle($ArtSql->getValue('id'));
-      }
-      else
-      {
-        $message .= $EART->getError();
-      }
-
-      $ArtSql->next();
-    }
-
-    // ----- PRIOR
-    rex_newCatPrio($re_id, $clang, $new_prio, $old_prio);
-
-    $message = $I18N->msg("category_updated");
-
-    rex_generateArticle($edit_id);
-
-    // ----- EXTENSION POINT
-    $message = rex_register_extension_point('CAT_UPDATED', $message,
-    array (
-      'category' => $EKAT,
-      'id' => $edit_id,
-      're_id' => $re_id,
-      'clang' => $clang,
-      'name' => $kat_name,
-      'prior' => $new_prio,
-      'path' => $KATPATH,
-      'status' => $thisCat->getValue('status'),
-      'article' => $EKAT,
-      )
-    );
-  }
-  else
-  {
-    $message = $EKAT->getError();
-  }
+  list($success, $message) = rex_structure_editCategory($edit_id, $clang, $data);
 }
 elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
+  list($success, $message) = rex_structure_deleteCategory($edit_id, $clang);
 
-  $KAT = new rex_sql;
-  $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=1");
-  if ($KAT->getRows() == 0)
-  {
-    $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$edit_id' and clang='$clang' and startpage=0");
-    if ($KAT->getRows() == 0)
-    {
-      $re_id = $thisCat->getValue("re_id");
-      $message = rex_deleteArticle($edit_id);
-
-      // ----- PRIOR
-      $CL = $REX['CLANG'];
-      reset($CL);
-      for ($j = 0; $j < count($CL); $j++)
-      {
-        $mlang = key($CL);
-        rex_newCatPrio($re_id, $mlang, 0, 1);
-        next($CL);
-      }
-
-      // ----- EXTENSION POINT
-      $message = rex_register_extension_point('CAT_DELETED', $message, array (
-        "id" => $edit_id,
-        "re_id" => $re_id
-      ));
-
-    }
-    else
-    {
-      $message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_articles");
-      $function = "edit";
-    }
-  }
-  else
-  {
-    $message = $I18N->msg("category_could_not_be_deleted")." ".$I18N->msg("category_still_contains_subcategories");
-    $function = "edit";
-  }
-
+  if(!$success)
+    $function = 'edit';
 }
 elseif ($function == 'status' && $edit_id != ''
        && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
-
-  $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$edit_id' and clang=$clang and startpage=1");
-  if ($KAT->getRows() == 1)
-  {
-    $newstatus = ($KAT->getValue('status') + 1) % count($catStatusTypes);
-
-    $EKAT = new rex_sql;
-    $EKAT->setTable($REX['TABLE_PREFIX'].'article');
-    $EKAT->setWhere("id='$edit_id' and clang=$clang and startpage=1");
-    $EKAT->setValue("status", $newstatus);
-    $EKAT->addGlobalCreateFields();
-
-    if($EKAT->update())
-    {
-      $message = $I18N->msg('category_status_updated');
-      rex_generateArticle($edit_id);
-
-      // ----- EXTENSION POINT
-      $message = rex_register_extension_point('CAT_STATUS', $message, array (
-        'id' => $edit_id,
-        'clang' => $clang,
-        'status' => $newstatus
-      ));
-    }
-    else
-    {
-      $message = $EKAT->getError();
-    }
-  }
-  else
-  {
-    $message = $I18N->msg("no_such_category");
-  }
-
+  list($success, $message) = rex_structure_categoryStatus($edit_id, $clang);
 }
 elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE ADD
-  $message = $I18N->msg("category_added_and_startarticle_created");
-  $template_id = 0;
-  $NCAT = array();
-  if ($category_id != "")
-  {
-    $sql = new rex_sql;
-    // $sql->debugsql = 1;
-    $sql->setQuery("select clang,template_id from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1");
-    for ($i = 0; $i < $sql->getRows(); $i++, $sql->next())
-    {
-      $NCAT[$sql->getValue("clang")] = $sql->getValue("template_id");
-    }
-  }
 
-  $Position_New_Category = (int) $Position_New_Category;
-  if ($Position_New_Category == 0)
-    $Position_New_Category = 1;
+  $data = array();
+  $data['catprior'] = (int) $Position_New_Category;
+  $data['catname'] = $category_name;
+  $data['path'] = $KATPATH;
 
-  unset ($id);
-  foreach($REX['CLANG'] as $key => $val)
-  {
-    // ### erstelle neue prioliste wenn noetig
-
-    $template_id = 0;
-    if (isset ($NCAT[$key]) && $NCAT[$key] != '')
-      $template_id = $NCAT[$key];
-
-    $AART = new rex_sql;
-    $AART->setTable($REX['TABLE_PREFIX'].'article');
-    if (!isset ($id) or !$id)
-      $id = $AART->setNewId('id');
-    else
-      $AART->setValue('id', $id);
-    $AART->setValue('clang', $key);
-    $AART->setValue('template_id', $template_id);
-    $AART->setValue('name', $category_name);
-    $AART->setValue('catname', $category_name);
-// TODO Neue noch nicht verwendete Datenbankspalten
-// $AART->setValue('attributes', $category_attributes);
-    $AART->setValue('attributes', '');
-    $AART->setValue('catprior', $Position_New_Category);
-    $AART->setValue('re_id', $category_id);
-    $AART->setValue('prior', 1);
-    $AART->setValue('path', $KATPATH);
-    $AART->setValue('startpage', 1);
-    $AART->setValue('status', 0);
-    // TODO Hier Update + Create felder?
-    $AART->addGlobalUpdateFields();
-    $AART->addGlobalCreateFields();
-    if($AART->insert())
-    {
-      // ----- PRIOR
-      rex_newCatPrio($category_id, $key, 0, $Position_New_Category);
-
-      // ----- EXTENSION POINT
-      $message = rex_register_extension_point('CAT_ADDED', $message, array (
-        'category' => $AART,
-        'id' => $id,
-        're_id' => $category_id,
-        'clang' => $key,
-        'name' => $category_name,
-        'prior' => $Position_New_Category,
-        'path' => $KATPATH,
-        'status' => 0,
-        'article' => $AART,
-      ));
-    }
-    else
-    {
-      $message = $AART->getError();
-    }
-  }
-
-  rex_generateArticle($id);
+  list($success, $message) = rex_structure_addCategory($category_id, $clang, $data);
 }
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
@@ -316,177 +103,38 @@ if ($function == 'status_article' && $article_id != ''
     && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- ARTICLE STATUS
-  $GA = new rex_sql;
-  $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
-  if ($GA->getRows() == 1)
-  {
-    $newstatus = ($GA->getValue('status') + 1) % count($artStatusTypes);
-
-    $EA = new rex_sql;
-    $EA->setTable($REX['TABLE_PREFIX']."article");
-    $EA->setWhere("id='$article_id' and clang=$clang");
-    $EA->setValue('status', $newstatus);
-    $EA->addGlobalUpdateFields();
-
-    if($EA->update())
-    {
-      $message = $I18N->msg('article_status_updated');
-      rex_generateArticle($article_id);
-
-      // ----- EXTENSION POINT
-      $message = rex_register_extension_point('ART_STATUS', $message, array (
-        'id' => $article_id,
-        'clang' => $clang,
-        'status' => $newstatus
-      ));
-    }
-    else
-    {
-      $message = $EA->getError();
-    }
-  }
-  else
-  {
-    $message = $I18N->msg("no_such_category");
-  }
-
+  list($success, $message) = rex_strucutre_articleStatus($article_id, $clang);
 }
 // Hier mit !== vergleichen, da 0 auch einen gültige category_id ist (RootArtikel)
 elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL ADD
-  $Position_New_Article = (int) $Position_New_Article;
-  if ($Position_New_Article == 0)
-    $Position_New_Article = 1;
 
-  // ------- Kategorienamen holen
-  $category = OOCategory::getCategoryById($category_id, $clang);
+  $data = array();
+  $data['prior'] = (int) $Position_New_Article;
+  $data['category_id'] = $category_id;
+  $data['name'] = $article_name;
+  $data['template_id'] = $template_id;
+  $data['path'] = $KATPATH;
 
-  $category_name = '';
-  if($category)
-    $category_name = addslashes($category->getName());
-
-  $amessage = $I18N->msg('article_added');
-
-  unset ($id);
-  $AART = new rex_sql;
-  foreach($REX['CLANG'] as $key => $val)
-  {
-    // ### erstelle neue prioliste wenn noetig
-
-//     $AART->debugsql = 1;
-    $AART->setTable($REX['TABLE_PREFIX'].'article');
-    if (!isset ($id) or !$id)
-      $id = $AART->setNewId('id');
-    else
-      $AART->setValue('id', $id);
-    $AART->setValue('name', $article_name);
-    $AART->setValue('catname', $category_name);
-// TODO Neue noch nicht verwendete Datenbankspalten
-// $AART->setValue('attributes', $category_attributes);
-    $AART->setValue('attributes', '');
-    $AART->setValue('clang', $key);
-    $AART->setValue('re_id', $category_id);
-    $AART->setValue('prior', $Position_New_Article);
-    $AART->setValue('path', $KATPATH);
-    $AART->setValue('startpage', 0);
-    $AART->setValue('status', 0);
-    $AART->setValue('template_id', $template_id);
-    // TODO hier Update + Createfields?
-    $AART->addGlobalCreateFields();
-    $AART->addGlobalUpdateFields();
-
-    if($AART->insert())
-    {
-      // ----- PRIOR
-      rex_newArtPrio($category_id, $key, 0, $Position_New_Article);
-    }
-    else
-    {
-      $amessage = $AART->getError();
-    }
-  }
-
-  rex_generateArticle($id);
-
-  // ----- EXTENSION POINT
-  $amessage = rex_register_extension_point('ART_ADDED', $amessage, array (
-    'id' => $id,
-    'status' => 0,
-    'name' => $article_name,
-    're_id' => $category_id,
-    'prior' => $Position_New_Article,
-    'path' => $KATPATH,
-    'template_id' => $template_id
-  ));
-
+  list($success, $message) = rex_structure_addArticle($category_id, $clang, $data);
 }
 elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
 {
   // --------------------- ARTIKEL EDIT
-  $Position_Article = (int) $Position_Article;
-  if ($Position_Article == 0)
-    $Position_Article = 1;
+  $data = array();
+  $data['prior'] = (int) $Position_Article;
+  $data['name'] = $article_name;
+  $data['template_id'] = $template_id;
+  $data['category_id'] = $category_id;
+  $data['path'] = $KATPATH;
 
-  $EA = new rex_sql;
-  $EA->setTable($REX['TABLE_PREFIX']."article");
-  $EA->setWhere("id='$article_id' and clang=$clang");
-  $EA->setValue('name', $article_name);
-  $EA->setValue('template_id', $template_id);
-  // $EA->setValue('path',$KATPATH);
-  $EA->addGlobalUpdateFields();
-  $EA->setValue('prior', $Position_Article);
-
-  if($EA->update())
-  {
-    $amessage = $I18N->msg('article_updated');
-
-    // ----- PRIOR
-    rex_newArtPrio($category_id, $clang, $Position_Article, $thisArt->getValue('prior'));
-    rex_generateArticle($article_id);
-
-    // ----- EXTENSION POINT
-    $amessage = rex_register_extension_point('ART_UPDATED', $amessage,
-      array (
-        'id' => $article_id,
-        'status' => $thisArt->getValue('status'),
-    		'name' => $article_name,
-    		'clang' => $clang,
-    		're_id' => $category_id,
-    		'prior' => $Position_Article,
-    		'path' => $KATPATH,
-    		'template_id' => $template_id
-      )
-		);
-  }
-  else
-  {
-    $amessage = $EA->getError();
-  }
+  list($success, $message) = rex_structure_editArticle($article_id, $clang, $data);
 }
 elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL DELETE
-
-  $message = rex_deleteArticle($article_id);
-  $re_id = $thisArt->getValue("re_id");
-
-  // ----- PRIO
-  $CL = $REX['CLANG'];
-  reset($CL);
-  for ($j = 0; $j < count($CL); $j++)
-  {
-    $mlang = key($CL);
-    rex_newArtPrio($thisArt->getValue("re_id"), $mlang, 0, 1);
-    next($CL);
-  }
-
-  // ----- EXTENSION POINT
-  $message = rex_register_extension_point('ART_DELETED', $message, array (
-    "id" => $article_id,
-    "re_id" => $re_id
-  ));
-
+  list($success, $message) = rex_structure_deleteArticle($article_id);
 }
 
 // --------------------------------------------- KATEGORIE LISTE
