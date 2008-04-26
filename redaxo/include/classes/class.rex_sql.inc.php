@@ -227,6 +227,7 @@ class rex_sql
 
   /**
    * Setzt den Tabellennamen
+   *
    * @param $table Tabellenname
    */
   function setTable($table)
@@ -236,12 +237,32 @@ class rex_sql
 
   /**
    * Setzt den Wert eine Spalte
+   *
    * @param $feldname Spaltenname
    * @param $wert Wert
    */
   function setValue($feldname, $wert)
   {
     $this->values[$feldname] = $wert;
+  }
+
+  /**
+   * Setzt ein Array von Werten zugleich
+   *
+   * @param $valueArray Ein Array von Werten
+   * @param $wert Wert
+   */
+  function setValues($valueArray)
+  {
+    if(is_array($valueArray))
+    {
+      foreach($valueArray as $name => $value)
+      {
+        $this->setValue($name, $value);
+      }
+      return true;
+    }
+    return false;
   }
 
   /**
