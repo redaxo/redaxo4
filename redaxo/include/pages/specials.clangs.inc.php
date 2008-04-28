@@ -104,7 +104,7 @@ echo '
         <col width="40" />
         <col width="40" />
         <col width="*" />
-        <col width="153" />
+        <col width="250" />
       </colgroup>
       <thead>
         <tr>
