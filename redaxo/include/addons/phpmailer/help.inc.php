@@ -4,7 +4,7 @@
  * PHPMailer Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  *
  * @package redaxo4
  * @version $Id: help.inc.php,v 1.3 2008/03/11 16:03:48 kills Exp $
@@ -13,6 +13,8 @@
 ?>
 <p>
 PHPMailer Addon
+
+<a href="http://phpmailer.codeworxtech.com/">zur Seite des Erstellers</a>
 
 <br /><br />
 
