@@ -75,7 +75,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     {
       case 'text':
       {
-        $field = '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .' "maxlength="'. $dblength .'" '. $attr .' />';
+        $field = '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .'" maxlength="'. $dblength .'" '. $attr .' />';
         break;
       }
       case 'checkbox':
