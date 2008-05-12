@@ -30,6 +30,7 @@ function rex_a256_search_structure($params)
   $article_id   = rex_request('article_id', 'int');
   $clang        = rex_request('clang', 'int');
   $ctype        = rex_request('ctype', 'int');
+  $function     = rex_request('function', 'string');
 
   // ------------ Parameter
   $a256_article_id        = rex_request('a256_article_id'  , 'int');
@@ -205,6 +206,24 @@ function rex_a256_search_structure($params)
      '. $search_result .'
    </div>
    <div class="rex-clearer"></div>';
+
+  if($function != 'edit_art' &&
+     $function != 'edit_cat' &&
+     $function != 'add_art' &&
+     $function != 'add_cat' &&
+     $mode != 'meta' &&
+     ($mode == 'edit' && $function != 'edit'))
+  {
+    $search_bar .= '
+    <script type="text/javascript">
+    <!--
+
+    jQuery(function($) {
+      $("#rex-a256-article-name").focus();
+    });
+
+    //--></script>';
+  }
 
   return $search_bar . $params['subject'];
 }
