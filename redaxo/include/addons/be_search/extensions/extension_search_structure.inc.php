@@ -49,6 +49,13 @@ function rex_a256_search_structure($params)
     }
   }
 
+  // Auswahl eines normalen Artikels
+  if($article_id != 0)
+  {
+    $OOArt = OOArticle::getArticleById($article_id, $clang);
+    $category_id = $OOArt->getCategoryId();
+  }
+
   // ------------ Suche via ArtikelName
   // hier nur dne post artikel namen abfragen,
   // da sonst bei vorherigen headerweiterleitungen
