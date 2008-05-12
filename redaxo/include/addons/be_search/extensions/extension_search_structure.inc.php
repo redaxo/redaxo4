@@ -49,7 +49,7 @@ function rex_a256_search_structure($params)
     }
   }
 
-  // Auswahl eines normalen Artikels
+  // Auswahl eines normalen Artikels => category holen
   if($article_id != 0)
   {
     $OOArt = OOArticle::getArticleById($article_id, $clang);
