@@ -76,11 +76,7 @@ if ($article->getRows() == 1)
   // ----- Titel anzeigen
   rex_title($I18N->msg('content'), $KATout);
 
-  // ----- Sprachenblock
-  $sprachen_add = '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-  require $REX['INCLUDE_PATH'] . '/functions/function_rex_languages.inc.php';
-
-	// ----- Request Parameter
+  // ----- Request Parameter
   $mode = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
   $message = rex_request('message', 'string');
@@ -88,6 +84,10 @@ if ($article->getRows() == 1)
   // ----- mode defs
   if ($mode != 'meta')
     $mode = 'edit';
+
+  // ----- Sprachenblock
+  $sprachen_add = '&amp;mode='. $mode .'&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+  require $REX['INCLUDE_PATH'] . '/functions/function_rex_languages.inc.php';
 
   // ----- EXTENSION POINT
   echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
