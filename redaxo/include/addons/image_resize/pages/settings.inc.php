@@ -39,7 +39,7 @@ $REX[\'ADDON\'][\'image_resize\'][\'max_resizepixel\'] = '.$max_resizepixel.';
 $REX[\'ADDON\'][\'image_resize\'][\'jpg_quality\'] = '.$jpg_quality.';
 ';
 
-  if(rex_replace_dynamic_contents($config_file, $content))
+  if(rex_replace_dynamic_contents($config_file, $content) !== false)
     echo rex_info($I18N_IMG_RES->msg('config_saved'));
   else
     echo rex_warning($I18N_IMG_RES->msg('config_not_saved'));

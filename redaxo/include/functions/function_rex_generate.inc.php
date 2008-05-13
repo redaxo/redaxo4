@@ -1175,7 +1175,7 @@ function rex_generateAddons($ADDONS, $debug = false)
   clearstatcache();
 
   $file = $REX['INCLUDE_PATH']."/addons.inc.php";
-  if(!rex_replace_dynamic_contents($file, $content))
+  if(rex_replace_dynamic_contents($file, $content) === false)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
