@@ -48,7 +48,7 @@ if (rex_post('btn_save', 'string') != '')
 
       $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
 
-      if(rex_put_file_contents($file, $file_content))
+      if(rex_put_file_contents($file, $file_content) !== false)
       {
         $message = $I18N_A93->msg('config_saved_successful');
       }

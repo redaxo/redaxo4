@@ -146,7 +146,7 @@ function rex_generateArticle($id, $refreshall = true)
     $content .= '?>';
 
     $article_file = $REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article";
-    if (!rex_put_file_contents($article_file, $content))
+    if (rex_put_file_contents($article_file, $content) === false)
     {
       $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
@@ -166,7 +166,7 @@ function rex_generateArticle($id, $refreshall = true)
         )
       );
 
-	    if (!rex_put_file_contents($article_content_file, $article_content))
+	    if (rex_put_file_contents($article_content_file, $article_content) === false)
 	    {
 	      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
 	    }
@@ -1200,7 +1200,7 @@ function rex_generateTemplate($template_id)
   	{
   		$content = $var->getTemplate($content);
   	}
-    if(rex_put_file_contents($templateFile, $content))
+    if(rex_put_file_contents($templateFile, $content) !== false)
     {
       return true;
     }

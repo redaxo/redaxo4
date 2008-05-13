@@ -17,7 +17,7 @@ if ($func == 'setup')
   $cont = rex_get_file_contents($master_file);
   $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
   // echo nl2br(htmlspecialchars($cont));
-  if (rex_put_file_contents($master_file, $cont))
+  if (rex_put_file_contents($master_file, $cont) !== false)
   {
     $info = $I18N->msg('setup_error1', '<a href="index.php">', '</a>');
   }

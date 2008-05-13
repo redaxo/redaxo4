@@ -339,7 +339,7 @@ if ($checkmodus == 2 && $send == 1)
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
   $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*", "\\1".$dbname, $cont);
 
-  if(!rex_put_file_contents($master_file, $cont))
+  if(rex_put_file_contents($master_file, $cont) === false)
   {
     $err_msg = $I18N->msg('setup_020', '<b>', '</b>');
   }

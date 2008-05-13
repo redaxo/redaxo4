@@ -197,7 +197,7 @@ elseif (isset ($function) && $function == 'export')
           $filename = $filename .'_'. $i;
         }
 
-        if (rex_put_file_contents($export_path . $filename . $ext, $content))
+        if (rex_put_file_contents($export_path . $filename . $ext, $content) !== false)
         {
           $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename . $ext, '\\', '/');
         }
