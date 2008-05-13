@@ -414,7 +414,7 @@ function rex_a1_export_db()
  * @access public
  * @return string Inhalt des Tar-Archives als String
  */
-function rex_a1_export_files($folders, $filename, $ext = '.tar.gz')
+function rex_a1_export_files($folders)
 {
   global $REX;
 

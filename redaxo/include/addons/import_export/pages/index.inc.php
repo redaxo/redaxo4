@@ -164,7 +164,7 @@ elseif (isset ($function) && $function == 'export')
       }
       else
       {
-        $content = rex_a1_export_files($EXPDIR, $filename);
+        $content = rex_a1_export_files($EXPDIR);
       }
       // ------------------------------ /FUNC EXPORT FILES
     }
