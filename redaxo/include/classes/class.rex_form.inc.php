@@ -1223,6 +1223,7 @@ class rex_form_control_element extends rex_form_element
 class rex_form_select_element extends rex_form_element
 {
   var $select;
+  var $separator;
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
@@ -1231,6 +1232,7 @@ class rex_form_select_element extends rex_form_element
     parent::rex_form_element('', $table, $attributes);
 
     $this->select =& new rex_select();
+    $this->setSeparator('|+|');
   }
 
   function formatElement()
@@ -1249,8 +1251,7 @@ class rex_form_select_element extends rex_form_element
     {
         $this->setAttribute('name', $this->getAttribute('name').'[]');
 
-        $selectedOptions = explode('|+|', $this->getValue());
-
+        $selectedOptions = explode($this->separator, $this->getValue());
         if (is_array($selectedOptions) AND $selectedOptions[0] != '')
         {
           foreach($selectedOptions as $selectedOption)
@@ -1264,6 +1265,11 @@ class rex_form_select_element extends rex_form_element
 
     $this->select->setName($this->getAttribute('name'));
     return $this->select->get();
+  }
+
+  function setSeparator($separator)
+  {
+    $this->separator = $separator;
   }
 
   function &getSelect()
