@@ -118,7 +118,7 @@ class OOCategory extends OORedaxo
     global $REX;
 
     if ($clang === false)
-      $clang = $REX['CUR_CLANG'];
+      $clang = $this->_clang;
 
     return OOCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
@@ -127,9 +127,11 @@ class OOCategory extends OORedaxo
    * Object Function:
    * Returns the parent category
    */
-  function getParent()
+  function getParent($clang = false)
   {
-    return OOCategory :: getCategoryById($this->_re_id, $this->_clang);
+    if ($clang === false)
+      $clang = $this->_clang;
+    return OOCategory :: getCategoryById($this->_re_id, $clang);
   }
 
   /*
