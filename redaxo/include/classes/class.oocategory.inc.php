@@ -129,7 +129,7 @@ class OOCategory extends OORedaxo
    */
   function getParent()
   {
-    return OOCategory :: getCategoryById($this->_re_id);
+    return OOCategory :: getCategoryById($this->_re_id, $this->_clang);
   }
 
   /*
@@ -139,7 +139,8 @@ class OOCategory extends OORedaxo
    */
   function isParent($other_cat)
   {
-     return $this->getId() == $other_cat->getParentId();
+     return $this->getId() == $other_cat->getParentId() &&
+            $this->getClang() == $other_cat->getClang();
   }
 
   /*
