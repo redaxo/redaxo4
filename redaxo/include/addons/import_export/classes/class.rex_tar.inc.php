@@ -106,8 +106,6 @@ class rex_tar extends tar
 
   // Saves tar archive to a different file than the current file
   function toTar($filename,$useGzip) {
-    if(!$filename)
-      return false;
 
     // Encode processed files into TAR file format
     $this->__generateTar();
@@ -127,10 +125,13 @@ class rex_tar extends tar
 //    $fp = fopen($filename,"wb");
 //    fwrite($fp,$file);
 //    fclose($fp);
-    // STM: hier mit put_file_contents ist viel schneller
-    rex_put_file_contents($filename, $file);
 
-    return $file;
+    // kein Filename gegeben => Inhalt zurueckgeben
+    if(!$filename)
+      return $file;
+
+    // STM: hier mit put_file_contents ist viel schneller
+    return rex_put_file_contents($filename, $file) !== false;
   }
 
   // Generates a TAR file from the processed data
