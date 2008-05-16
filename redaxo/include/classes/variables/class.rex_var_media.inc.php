@@ -26,16 +26,11 @@ class rex_var_media extends rex_var
 
     for ($i = 1; $i < 11; $i++)
     {
-      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
-      // siehe http://forum.redaxo.de/ftopic8174.html
-      if (isset ($values[$i]))
-      {
-        $REX_ACTION['MEDIA'][$i] = stripslashes($values[$i]);
-      }
-      if (isset ($listvalues[$i]))
-      {
-        $REX_ACTION['MEDIALIST'][$i] = stripslashes($listvalues[$i]);
-      }
+      $media     = isset($values[$i]) ? stripslashes($values[$i]) : '';
+      $medialist = isset($listvalues[$i]) ? stripslashes($listvalues[$i]) : '';
+
+      $REX_ACTION['MEDIA'][$i] = $media;
+      $REX_ACTION['MEDIALIST'][$i] = $medialist;
     }
 
     return $REX_ACTION;

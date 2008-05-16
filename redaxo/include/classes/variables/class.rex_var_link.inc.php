@@ -21,16 +21,11 @@ class rex_var_link extends rex_var
     $listvalues = rex_request('LINKLIST', 'array');
     for ($i = 1; $i < 11; $i++)
     {
-      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
-      // siehe http://forum.redaxo.de/ftopic8174.html
-      if (isset ($values[$i]))
-      {
-        $REX_ACTION['LINK'][$i] = stripslashes($values[$i]);
-      }
-      if (isset ($listvalues[$i]))
-      {
-        $REX_ACTION['LINKLIST'][$i] = stripslashes($listvalues[$i]);
-      }
+      $link     = isset($values[$i]) ? stripslashes($values[$i]) : '';
+      $linklist = isset($listvalues[$i]) ? stripslashes($listvalues[$i]) : '';
+
+      $REX_ACTION['LINK'][$i] = $link;
+      $REX_ACTION['LINKLIST'][$i] = $linklist;
     }
     return $REX_ACTION;
   }
