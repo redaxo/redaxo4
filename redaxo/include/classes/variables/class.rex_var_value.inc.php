@@ -50,12 +50,7 @@ class rex_var_value extends rex_var
 
     for ($i = 1; $i < 21; $i++)
     {
-      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
-      // siehe http://forum.redaxo.de/ftopic8174.html
-      if(isset($REX_ACTION['VALUE'][$i]))
-      {
-        $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i], $escape);
-      }
+      $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i], $escape);
     }
 
     $this->setValue($sql, 'php', $REX_ACTION['PHP'], $escape);

@@ -53,16 +53,8 @@ class rex_var_media extends rex_var
 
     for ($i = 1; $i < 11; $i++)
     {
-      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
-      // siehe http://forum.redaxo.de/ftopic8174.html
-      if (isset ($REX_ACTION['MEDIA'][$i]))
-      {
-        $this->setValue($sql, 'file'. $i, $REX_ACTION['MEDIA'][$i], $escape);
-      }
-      if (isset ($REX_ACTION['MEDIALIST'][$i]))
-      {
-        $this->setValue($sql, 'filelist'. $i, $REX_ACTION['MEDIALIST'][$i], $escape);
-      }
+      $this->setValue($sql, 'file'. $i, $REX_ACTION['MEDIA'][$i], $escape);
+      $this->setValue($sql, 'filelist'. $i, $REX_ACTION['MEDIALIST'][$i], $escape);
     }
   }
 

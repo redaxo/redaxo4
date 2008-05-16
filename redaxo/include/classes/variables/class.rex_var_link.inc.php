@@ -47,16 +47,8 @@ class rex_var_link extends rex_var
 
     for ($i = 1; $i < 11; $i++)
     {
-      // Nur Werte die urspruenglich gepostet wurden auch uebernehmen
-      // siehe http://forum.redaxo.de/ftopic8174.html
-      if (isset ($REX_ACTION['LINK'][$i]))
-      {
-        $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i], $escape);
-      }
-      if (isset ($REX_ACTION['LINKLIST'][$i]))
-      {
-        $this->setValue($sql, 'linklist'. $i, $REX_ACTION['LINKLIST'][$i], $escape);
-      }
+      $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i], $escape);
+      $this->setValue($sql, 'linklist'. $i, $REX_ACTION['LINKLIST'][$i], $escape);
     }
   }
 
