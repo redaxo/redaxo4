@@ -257,7 +257,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getFiles()
+  function getMedia()
   {
     if ($this->_files === null)
     {
@@ -281,7 +281,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function countFiles()
+  function countMedia()
   {
     return count($this->getFiles());
   }
@@ -345,9 +345,9 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function hasFiles()
+  function hasMedia()
   {
-    return count($this->getFiles()) > 0;
+    return count($this->getMedia()) > 0;
   }
 
   /**
@@ -409,6 +409,33 @@ class OOMediaCategory
     //        return;
     $sql->setQuery($qry);
     return $sql->getError();
+  }
+
+  /**
+   * @access public
+   * @deprecated 4.2 - 17.05.2008
+   */
+  function countFiles()
+  {
+    return $this->countMedia();
+  }
+
+  /**
+   * @access public
+   * @deprecated 4.2 - 17.05.2008
+   */
+  function hasFiles()
+  {
+    return $this->hasMedia();
+  }
+
+  /**
+   * @access public
+   * @deprecated 4.2 - 17.05.2008
+   */
+  function getFiles()
+  {
+    return $this->getMedia();
   }
 }
 ?>
