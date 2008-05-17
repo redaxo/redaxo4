@@ -687,7 +687,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
           </p>
 		    </div>
 
-        <div>
+        <div id="cats_mcats_perms">
           <p class="rex-cnt-col2">
             <label for="userperm_cat">'.$I18N->msg('categories').'</label>
             ' .$sel_cat->get() .'
@@ -728,9 +728,40 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $("#useradmin").click(function() {
       $("#rex-user-perms").slideToggle("slow");
     });
+    $("#allmcats").click(function() {
+      catsChecked();
+    });
+    $("#allcats").click(function() {
+      catsChecked();
+    });
+    function catsChecked() {
+      var c_checked = $("#allcats").is(":checked");
+      var m_checked = $("#allmcats").is(":checked");
+
+      if(c_checked)
+        $("#userperm_cat").attr("disabled", "disabled");
+      else
+        $("#userperm_cat").attr("disabled", "");
+
+      if(m_checked)
+        $("#userperm_media").attr("disabled", "disabled");
+      else
+        $("#userperm_media").attr("disabled", "");
+
+      if(c_checked && m_checked)
+        $("#cats_mcats_perms").slideUp("slow");
+      else
+        $("#cats_mcats_perms").slideDown("slow");
+    };
+
+    // init behaviour
     if($("#useradmin").is(":checked")) {
       $("#rex-user-perms").hide();
-    }
+    };
+    if($("#allcats").is(":checked") &&
+       $("#allmcats").is(":checked")) {
+      $("#cats_mcats_perms").hide();
+    };
   });
 
   //--></script>';
