@@ -324,9 +324,16 @@ if ($checkmodus == 2 && $send == 1)
   $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
   $cont = rex_get_file_contents($master_file);
 
+  // Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
   $serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
   $serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
   $error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
+  $psw_func                  = str_replace("\'", "'", rex_post('psw_func', 'string'));
+  $mysql_host                = str_replace("\'", "'", rex_post('mysql_host', 'string'));
+  $redaxo_db_user_login      = str_replace("\'", "'", rex_post('redaxo_db_user_login', 'string'));
+  $redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
+  $dbname                    = str_replace("\'", "'", rex_post('dbname', 'string'));
+  $redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
 
   $cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*", "\\1".$serveraddress, $cont);
   $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*", "\\1".$serverbezeichnung, $cont);
@@ -345,17 +352,12 @@ if ($checkmodus == 2 && $send == 1)
   }
 
   // -------------------------- DATENBANKZUGRIFF
-  // TODO TestDb Zugriff via SQL Klasse implementieren
-  $link = @ mysql_connect($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass);
-  if (!$link)
+  $err = rex_sql::checkDbConnection($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass, $dbname, $redaxo_db_create);
+  if($err !== true)
   {
-    $err_msg = $I18N->msg('setup_021').'<br />';
+    $err_msg = $err;
   }
-  elseif (!@ mysql_select_db($dbname, $link))
-  {
-    $err_msg = $I18N->msg('setup_022').'<br />';
-  }
-  elseif ($link)
+  else
   {
     $REX['DB']['1']['NAME'] = $dbname;
     $REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
@@ -366,8 +368,6 @@ if ($checkmodus == 2 && $send == 1)
     $checkmodus = 3;
     $send = "";
   }
-  @ mysql_close($link);
-
 }
 else
 {
@@ -459,6 +459,11 @@ if ($checkmodus == 2)
             <p>
               <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
               <input type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
+            </p>
+
+            <p>
+              <label for="redaxo_db_create">'.$I18N->msg("setup_create_db").'</label>
+              <input type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1"'. rex_tabindex() .' />
             </p>
 
             <p>

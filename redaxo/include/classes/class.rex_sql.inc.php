@@ -793,6 +793,43 @@ class rex_sql
   }
 
   /**
+   * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
+   * Datenbank an
+   */
+  function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
+  {
+    global $I18N;
+
+    $err_msg = true;
+    $link = @ mysql_connect($host, $login, $pw);
+    if (!$link)
+    {
+      $err_msg = $I18N->msg('setup_021');
+    }
+    elseif (!@ mysql_select_db($dbname, $link))
+    {
+      if($createDb)
+      {
+        mysql_query('CREATE DATABASE `'. $dbname .'`', $link);
+        if(mysql_error($link) != '')
+        {
+          $err_msg = $I18N->msg('setup_022');
+        }
+      }
+      else
+      {
+        $err_msg = $I18N->msg('setup_022');
+      }
+    }
+
+    if($link)
+    {
+      mysql_close($link);
+    }
+    return $err_msg;
+  }
+
+  /**
    * Schlieﬂt die Verbindung zum DB Server
    */
   function disconnect($DBID=1)
