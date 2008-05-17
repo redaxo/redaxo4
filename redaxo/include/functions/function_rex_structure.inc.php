@@ -47,7 +47,7 @@ function rex_structure_addCategory($category_id, $clang, $data)
   $AART = new rex_sql;
   foreach($REX['CLANG'] as $key => $val)
   {
-    $template_id = 0;
+    $template_id = $REX['DEFAULT_TEMPLATE_ID'];
     if(isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '')
       $template_id = $startpageTemplates[$key];
 

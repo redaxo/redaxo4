@@ -36,6 +36,9 @@ $REX['NOTFOUND_ARTICLE_ID'] = 1;
 // default clang id
 $REX['START_CLANG_ID'] = 0;
 
+// default template
+$REX['DEFAULT_TEMPLATE_ID'] = 4;
+
 // default language
 $REX['LANG'] = "de_de";
 

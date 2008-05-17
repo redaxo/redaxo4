@@ -35,6 +35,7 @@ elseif ($func == 'updateinfos')
 {
   $neu_startartikel       = rex_post('neu_startartikel', 'int');
   $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
+  $neu_defaulttemplateid  = rex_post('neu_defaulttemplateid', 'int');
   $neu_lang               = rex_post('neu_lang', 'string');
   // ' darf nichtg escaped werden, da in der Datei der Schlüssel nur zwischen " steht
   $neu_error_emailaddress = str_replace("\'", "'", rex_post('neu_error_emailaddress', 'string'));
@@ -51,6 +52,11 @@ elseif ($func == 'updateinfos')
   if(!OOArticle::isValid($notFoundArt))
     $warning .= $I18N->msg('settings_invalid_notfound_article');
 
+  $sql = new rex_sql();
+  $sql->setQuery('SELECT * FROM rex_template WHERE id='. $neu_defaulttemplateid .' AND active=1');
+  if($sql->getRows() != 1)
+    $warning .= $I18N->msg('settings_invalid_default_template');
+
   if($warning == '')
   {
     $REX['LANG'] = $neu_lang;
@@ -59,6 +65,7 @@ elseif ($func == 'updateinfos')
 
     $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
     $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
+    $cont = ereg_replace("(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_defaulttemplateid), $cont);
     $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
     $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
     $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
@@ -73,6 +80,7 @@ elseif ($func == 'updateinfos')
   $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
   $REX['START_ARTICLE_ID'] = $neu_startartikel;
   $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
+  $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
   // Für die Wiederanzeige Slashes strippen
   $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
   $REX['SERVER'] = stripslashes($neu_SERVER);
@@ -191,6 +199,10 @@ echo '
           <p>
             <label for="rex_notfound_article_id">$REX[\'NOTFOUND_ARTICLE_ID\']</label>
             <input type="text" id="rex_notfound_article_id" name="neu_notfoundartikel" value="'.$REX['NOTFOUND_ARTICLE_ID'].'" />
+          </p>
+          <p>
+            <label for="rex_default_template_id">$REX[\'DEFAULT_TEMPLATE_ID\']</label>
+            <input type="text" id="rex_default_template_id" name="neu_defaulttemplateid" value="'.$REX['DEFAULT_TEMPLATE_ID'].'" />
           </p>
           <p>
             <label for="rex_lang">$REX[\'LANG\']</label>

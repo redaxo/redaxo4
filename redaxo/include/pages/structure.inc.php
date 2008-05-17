@@ -519,6 +519,10 @@ if ($category_id > -1)
       {
         $TMPL_SEL->setSelected($sql2->getValue('template_id'));
       }
+      else
+      {
+        $TMPL_SEL->setSelected($REX['DEFAULT_TEMPLATE_ID']);
+      }
     }
 
     $add_td = '';
