@@ -222,7 +222,7 @@ class rex_login
         }
         else
         {
-          $this->message = $I18N->msg('login_error', $REX['RELOGINDELAY']);
+          $this->message = $I18N->msg('login_error', '<strong>'. $REX['RELOGINDELAY'] .'</strong>');
           $this->setSessionVar('UID', '');
         }
 
