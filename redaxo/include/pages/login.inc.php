@@ -8,9 +8,29 @@
 
 rex_title('Login');
 
-if (isset($FORM['loginmessage']) and $FORM['loginmessage'] != "")
+$js = '';
+if (isset($FORM['loginmessage']) && $FORM['loginmessage'] != '')
 {
   echo rex_warning($FORM['loginmessage'])."\n";
+  $js = '
+    var time_el = $("p.rex-message span strong");
+
+    if(time_el.length == 1) {
+      function disableLogin() {
+        time_el.html((parseInt(time_el.html(), 10)-1) + "");
+
+        if(parseInt(time_el.html(), 10) > 0) {
+          setTimeout(disableLogin, 1000);
+        } else {
+          $("p.rex-message span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
+          $("#loginformular input:not(:hidden)").attr("disabled", "");
+          $("#REX_ULOGIN").focus();
+        }
+      };
+
+      $("#loginformular input:not(:hidden)").attr("disabled", "disabled");
+      setTimeout(disableLogin, 1000);
+    }';
 }
 
 $REX_ULOGIN = rex_post('REX_ULOGIN', 'string');
@@ -38,11 +58,11 @@ echo '
 </div>
 <script type="text/javascript">
    <!--
-   var needle = new getObj("REX_ULOGIN");
-   needle.obj.focus();
-
-   var needle = new getObj("javascript");
-   needle.obj.value = 1;
+  jQuery(function($) {
+    $("#REX_ULOGIN").focus();
+    $("#javascript").val("1");
+    '. $js .'
+  });
    //-->
 </script>
 <!-- *** OUTPUT OF LOGIN-FORM - END *** -->
