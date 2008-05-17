@@ -23,6 +23,10 @@ Wichtige Änderungen:
 
 Version 4.2.0 (2008-XX-XX)
 
+  * Setup: [Markus.Staab]
+    - Datenbank kann ggf. via Setup angelegt werden
+  * Default Template festlegbar [Markus.Staab]
+  * ReloginDelay wird heruntergezaehlt [Markus.Staab]
   * Neue Backendpage: Userprofil [Markus.Staab]
     - Benutzer können selbst Ihre Daten ändern
   * ImageResize:
@@ -32,6 +36,7 @@ Version 4.2.0 (2008-XX-XX)
     - Suchqueries via EP modifizierbar [Markus.Staab]
   * MetaInfo:
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
+    - Date/Datetime felder jetzt deaktivierbar [Markus.Staab]
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * rexVars implementiert
     - REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
