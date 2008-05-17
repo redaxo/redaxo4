@@ -206,6 +206,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       case 'datetime':
       case 'date':
       {
+        $active = $dbvalues_esc[0] != 0;
         if($dbvalues_esc[0] == '')
           $dbvalues_esc[0] = time();
 
@@ -237,7 +238,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         if($typeLabel == 'datetime')
         {
           $hourSelect = new rex_select();
-          $hourSelect->addOptions(range(1,23), true);
+          $hourSelect->addOptions(range(0,23), true);
           $hourSelect->setName($name.'[hour]');
           $hourSelect->setSize(1);
           $hourSelect->setStyle($style);
@@ -256,6 +257,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         {
           $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get();
         }
+        $checked = $active ? ' checked="checked"' : '';
+        $field .= '<input type="checkbox" name="'. $name .'[active]" value="1"'. $checked . $style .' />';
         break;
       }
       case 'textarea':
@@ -357,12 +360,18 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     // handle date types with timestamps
     if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
-      $saveValue = mktime($postValue['hour'],$postValue['minute'],0, $postValue['month'], $postValue['day'], $postValue['year']);
+      if(isset($postValue['active']))
+        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+      else
+        $saveValue = 0;
     }
     // handle date types without timestamps
     elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
     {
-      $saveValue = mktime(0,0,0, $postValue['month'], $postValue['day'], $postValue['year']);
+      if(isset($postValue['active']))
+        $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+      else
+        $saveValue = 0;
     }
     else
     {

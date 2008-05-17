@@ -42,4 +42,20 @@ function checkConditionalFields(selectEl, activeIds)
       toggleElement(visibleNotice, 'none');
     }
   }
-}
+};
+
+jQuery(function($) {
+  function disableSelect(chkbox)
+  {
+	  var disabled = $(chkbox).is(":checked") ? '' : 'disabled';
+    $("select.rex-fdate, select.rex-fdatey", chkbox.parentNode).each(function(){
+       $(this).attr('disabled', disabled);
+    });
+  }
+	$("input[type=checkbox].rex-fdate").click(function() {
+	   disableSelect(this);
+	});
+	$("input[type=checkbox].rex-fdate").each(function() {
+     disableSelect(this);
+	});
+});

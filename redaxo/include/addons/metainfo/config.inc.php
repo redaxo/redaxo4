@@ -42,7 +42,7 @@ if ($REX['REDAXO'])
   // Include Extensions
   if (isset ($page))
   {
-    if($page == 'metainfo')
+    if($page == 'metainfo' || ($page == 'content' && isset($mode) && $mode == 'meta'))
     {
       rex_register_extension('PAGE_HEADER',
         create_function('$params', 'return $params[\'subject\'] .\'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\'."\n";')
