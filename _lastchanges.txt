@@ -37,6 +37,7 @@ Version 4.2.0 (2008-XX-XX)
   * MetaInfo:
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
     - Date/Datetime felder jetzt deaktivierbar [Markus.Staab]
+    - isInUse Check beim löschen von Medien auch für MetaInfo Felder [Markus.Staab]
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * rexVars implementiert
     - REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
