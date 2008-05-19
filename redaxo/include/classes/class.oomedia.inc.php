@@ -92,7 +92,6 @@ class OOMedia
     $result = $sql->getArray($query);
     if (count($result) == 0)
     {
-      trigger_error('No OOMediaCategory found with id "'.$id.'"', E_USER_NOTICE);
       return null;
     }
 
@@ -638,23 +637,28 @@ class OOMedia
     global $REX;
 
     $sql = new rex_sql();
-    //        $sql->debugsql = true;
+//    $sql->debugsql = true;
+    $filename = addslashes($this->getFileName());
 
-    $query_file = '';
-    $query_filelist = '';
+    $values = array();
     for ($i = 1; $i < 21; $i++)
     {
-      if ($i > 1)
-        $query_file .= ' or ';
-      if ($i > 1)
-        $query_filelist .= ' or ';
-
-      $query_file .= ' file'.$i.'="'.$this->getFileName().'"';
-      $query_filelist .= ' file'.$i.' like "%|'.$this->getFileName().'|%"';
+      $values[] = 'value'.$i.' LIKE "%'.$filename.'%"';
     }
-    $query_file = '('.$query_file.')';
-    $query_filelist = '('.$query_filelist.')';
-    $query = 'select id from '.$REX['TABLE_PREFIX'].'article_slice where '.$query_file.' or '.$query_filelist.' LIMIT 1';
+
+    $files = array();
+    $filelists = array();
+    for ($i = 1; $i < 11; $i++)
+    {
+      $files[] = 'file'.$i.'="'.$filename.'"';
+      $filelists[] = 'filelist'.$i.' LIKE "%|'.$filename.'|%"';
+    }
+
+    $where = '';
+    $where .= implode(' OR ', $files).' OR ';
+    $where .= implode(' OR ', $filelists) .' OR ';
+    $where .= implode(' OR ', $values);
+    $query = 'SELECT DISTINCT article_id, clang FROM '.$REX['TABLE_PREFIX'].'article_slice WHERE '. $where;
 
     // ----- EXTENSION POINT
     $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
@@ -664,8 +668,13 @@ class OOMedia
       )
     );
 
-    $sql->setQuery($query);
-    return $sql->getRows() > 0;
+    $res = $sql->getArray($query);
+    if($sql->getRows() > 0)
+    {
+      return $res;
+    }
+
+    return false;
   }
 
   /**
@@ -792,11 +801,10 @@ class OOMedia
 
     $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
     $sql = new rex_sql();
-    //        $sql->debugsql = true;
+//    $sql->debugsql = true;
     $sql->setQuery($qry);
 
-    ### todo - loeschen des files
-    unlink($REX['MEDIAFOLDER']. $this->getFileName());
+    @unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
 
     return $sql->getError();
   }

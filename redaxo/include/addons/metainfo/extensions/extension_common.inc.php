@@ -8,6 +8,8 @@
  * @version $Id: extension_common.inc.php,v 1.18 2008/03/25 16:53:41 kills Exp $
  */
 
+rex_register_extension('OOMEDIA_IS_IN_USE_QUERY', 'rex_a62_media_is_in_use');
+
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
  *
@@ -497,4 +499,39 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
   return $params;
 }
+
+function rex_a62_media_is_in_use($params)
+{
+  $query = $params['subject'];
+
+  $sql = new rex_sql();
+  $sql->setQuery('SELECT name,type FROM rex_62_params WHERE type IN(6,7)');
+
+  $rows = $sql->getRows();
+  if($rows == 0)
+    return $query;
+
+  $where = array();
+  $filename = addslashes($params['filename']);
+  for($i = 0; $i < $rows; $i++)
+  {
+    switch ($sql->getValue('type'))
+    {
+      case '6':
+        $where[] = $sql->getValue('name') .'="'. $filename .'"';
+        break;
+      case '7':
+        $where[] = $sql->getValue('name') .' LIKE "%|'. $filename .'"|%';
+        break;
+      default :
+        trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);
+    }
+  }
+
+  $query .= "\n" .'UNION'. "\n";
+  $query .='SELECT DISTINCT id, clang FROM rex_article WHERE '. implode(' OR ', $where);
+
+  return $query;
+}
+
 ?>

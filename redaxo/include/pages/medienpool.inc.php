@@ -528,69 +528,42 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
 {
 
   $file_id = rex_request('file_id', 'int');
+  $media = OOMedia::getMediaById($file_id);
 
-  $gf = new rex_sql;
-  $gf->setQuery('select * from '.$REX['TABLE_PREFIX'].'file where file_id="'.$file_id.'"');
-
-  if ($gf->getRows()==1)
+  if ($media)
   {
-    if ($PERMALL || $REX_USER->hasPerm('media['.$gf->getValue('category_id').']'))
+    $file_name = $media->getFileName();
+    if ($PERMALL || $REX_USER->hasPerm('media['.$media->getCategoryId().']'))
     {
-
-      $file_name = $gf->getValue('filename');
-
-      // check if file is in an article slice
-      $file_search = '';
-
-      for($c=1;$c<11;$c++){
-        $file_search.= "OR file$c='$file_name' ";
-        $file_search.= "OR filelist$c LIKE '%$file_name%' ";
-      }
-
-      for($c=1;$c<21;$c++){
-        $file_search.= "OR value$c LIKE '%$file_name%' ";
-      }
-
-      $file_search = substr($file_search,2);
-
-      // in rex_values ?
-      $sql = "SELECT DISTINCT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
-      $res1 = $db->getArray($sql);
-
-      // in article metafile ?
-      $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
-      $res2= $db->getArray($sql);
-
-      if(count($res1)==0 and count($res2)==0)
+      $articleUsesMedia = $media->isInUse();
+      if($articleUsesMedia === false)
       {
-        $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
-        $db->setQuery($sql);
-        unlink($REX['MEDIAFOLDER']."/".$file_name);
-        $msg = $I18N->msg('pool_file_deleted');
+        if($media->delete())
+        {
+          $msg = $I18N->msg('pool_file_deleted');
+        }
+        else
+        {
+          $msg = $I18N->msg('pool_file_delete_error_1', $file_name);
+        }
         $subpage = "";
       }
       else
       {
-        $msg = $I18N->msg('pool_file_delete_error_1',"$file_name")." ";
-        $msg.= $I18N->msg('pool_file_delete_error_2')."<br />";
-        if(is_array($res1))
+        $msg = array();
+        $msg[] = $I18N->msg('pool_file_delete_error_1', $file_name).' '.
+                 $I18N->msg('pool_file_delete_error_2').'<br />';
+        $msg[] = '<ul>';
+        foreach($articleUsesMedia as $art_arr)
         {
-          foreach($res1 as $var)
-          {
-            $msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
-          }
+          $aid = $art_arr['article_id'];
+          $clang = $art_arr['clang'];
+          $ooa = OOArticle::getArticleById($aid, $clang);
+          $name = $ooa->getName();
+          $msg[] ='<li><a href="../index.php?article_id='. $aid .'&amp;clang='. $clang .'" onclick="window.open(this.href); return false;">'. $name .'</a></li>';
         }
-        if(is_array($res2))
-        {
-          foreach($res2 as $var)
-          {
-            if(is_array($res1) && in_array($var,$res1)) continue;
-
-            $msg.=" | <a href=../index.php?article_id=$var[id] target=_blank>$var[name]</a>";
-          }
-        }
-        $msg .= " | ";
-        $subpage = "";
+        $msg[] = '</ul>';
+        $subpage = '';
 
       }
     }else
@@ -852,7 +825,7 @@ if ($subpage == "detail")
                     	</p>
                    	 	<p class="rex-sbmt">
                       		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_update') .'" name="btn_update"'. rex_accesskey($I18N->msg('pool_file_update'), $REX['ACKEY']['SAVE']) .' />
-                      		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_delete') .'" name="btn_delete"'. rex_accesskey($I18N->msg('pool_file_delete'), $REX['ACKEY']['DELETE']) .' onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_file\';}else{return false;}" />
+                      		<input type="submit" class="rex-sbmt" value="'. $I18N->msg('pool_file_delete') .'" name="btn_delete"'. rex_accesskey($I18N->msg('pool_file_delete'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''.$I18N->msg('delete').' ?\');" />
                     	</p>
 					</div>
 
@@ -1149,7 +1122,10 @@ if ($subpage == '')
 //                  <th>'. $I18N->msg('pool_file_list') .'</th>
 //                </tr>
 
-  if (isset($msg) and $msg != '')
+  if(is_array($msg))
+  {
+    echo rex_warning_block(implode('', $msg));
+  } else if($msg != '')
   {
     echo rex_warning($msg);
     $msg = "";
