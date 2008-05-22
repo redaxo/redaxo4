@@ -30,7 +30,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="media/css_backend.css" media="screen, projection, print" />
   <link rel="stylesheet" type="text/css" href="media/css_aural.css" media="handheld, aural, braille" />
-  <script src="media/jquery-1.2.3.pack.js" type="text/javascript"></script>
+  <script src="media/jquery.pack.js" type="text/javascript"></script>
   <script src="media/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
   <!--

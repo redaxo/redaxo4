@@ -23,6 +23,7 @@ Wichtige Änderungen:
 
 Version 4.2.0 (2008-XX-XX)
 
+  * JQuery update auf 1.2.5 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
   * Struktur:
@@ -48,7 +49,6 @@ Version 4.2.0 (2008-XX-XX)
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
-  
   
 Version 4.1.1 (2008-XX-XX)
   
