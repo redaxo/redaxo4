@@ -21,7 +21,7 @@
 			<?php if(isset($REX_USER)) echo '<li><a href="index.php?page=credits" class="black">'.$I18N->msg('credits').'</a> | </li>'; ?>
       <li><a href="http://forum.redaxo.de" onclick="window.open(this.href); return false;"<?php echo rex_tabindex() ?>>?</a></li>
 		</ul>
-		<p><?php echo showScripttime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
+		<p><?php echo rex_showScriptTime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
 	</div>
    </body>
 </html>
