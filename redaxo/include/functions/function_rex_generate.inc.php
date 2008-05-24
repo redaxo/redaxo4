@@ -397,8 +397,8 @@ function rex_article2startpage($neu_id){
 		// austauschen der definierten paramater
 		foreach($params as $param)
     {
-			$neu_value = $neu->getValue($param);
-			$alt_value = $alt->getValue($param);
+			$neu_value = $neu->escape($neu->getValue($param));
+			$alt_value = $alt->escape($alt->getValue($param));
 			$alt2->setValue($param,$neu_value);
 			$neu2->setValue($param,$alt_value);
 		}
@@ -564,7 +564,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 					// In RootEbene
 					$re_id = 0;
       		$path = '|';
-      		$catname = $from_sql->getValue("name");
+      		$catname = $from_sql->getValue('name');
 				}
 
         $art_sql = new rex_sql;
@@ -573,7 +573,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
         $art_sql->setValue('re_id', $re_id);
         $art_sql->setValue('path', $path);
-        $art_sql->setValue('catname', $catname);
+        $art_sql->setValue('catname', $art_sql->escape($catname));
         // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen
@@ -616,7 +616,6 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
-
   global $REX;
 
   $from_cat = (int) $from_cat;
@@ -625,10 +624,11 @@ function rex_moveCategory($from_cat, $to_cat)
   if ($from_cat == $to_cat)
   {
   	// kann nicht in gleiche kategroie kopiert werden
-	return false;
-  }else
+  	return false;
+  }
+  else
   {
-	// kategorien vorhanden ?
+  	// kategorien vorhanden ?
   	// ist die zielkategorie im pfad der quellkategeorie ?
   	$fcat = new rex_sql;
   	$fcat->setQuery("select * from ".$REX['TABLE_PREFIX']."article where startpage=1 and id=$from_cat and clang=0");
@@ -636,95 +636,96 @@ function rex_moveCategory($from_cat, $to_cat)
   	$tcat = new rex_sql;
   	$tcat->setQuery("select * from ".$REX['TABLE_PREFIX']."article where startpage=1 and id=$to_cat and clang=0");
 
-	if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
-	{
-		// eine der kategorien existiert nicht
-		return false;
-	}else
-	{
-		if ($to_cat>0)
-		{
-			$tcats = explode("|",$tcat->getValue("path"));
-			if (in_array($from_cat,$tcats))
-			{
-				// zielkategorie ist in quellkategorie -> nicht verschiebbar
-				return false;
-			}
-		}
+  	if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
+  	{
+  		// eine der kategorien existiert nicht
+  		return false;
+  	}
+    else
+  	{
+  		if ($to_cat>0)
+  		{
+  			$tcats = explode("|",$tcat->getValue("path"));
+  			if (in_array($from_cat,$tcats))
+  			{
+  				// zielkategorie ist in quellkategorie -> nicht verschiebbar
+  				return false;
+  			}
+  		}
 
-		// ----- folgende cats regenerate
-		$RC = array();
-		$RC[$fcat->getValue("re_id")] = 1;
-		$RC[$from_cat] = 1;
-		$RC[$to_cat] = 1;
+  		// ----- folgende cats regenerate
+  		$RC = array();
+  		$RC[$fcat->getValue("re_id")] = 1;
+  		$RC[$from_cat] = 1;
+  		$RC[$to_cat] = 1;
 
-		if ($to_cat>0)
-		{
-			$to_path = $tcat->getValue("path").$to_cat."|";
-			$to_re_id = $tcat->getValue("re_id");
-		}else
-		{
-			$to_path = "|";
-			$to_re_id = 0;
-		}
+  		if ($to_cat>0)
+  		{
+  			$to_path = $tcat->getValue("path").$to_cat."|";
+  			$to_re_id = $tcat->getValue("re_id");
+  		}
+      else
+  		{
+  			$to_path = "|";
+  			$to_re_id = 0;
+  		}
 
-		$from_path = $fcat->getValue("path").$from_cat."|";
+  		$from_path = $fcat->getValue("path").$from_cat."|";
 
-		$gcats = new rex_sql;
-		// $gcats->debugsql = 1;
-		$gcats->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '".$from_path."%' and clang=0");
+  		$gcats = new rex_sql;
+  		// $gcats->debugsql = 1;
+  		$gcats->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '".$from_path."%' and clang=0");
 
-		$up = new rex_sql;
-		// $up->debugsql = 1;
-		for($i=0;$i<$gcats->getRows();$i++)
-		{
-			// make update
-			$new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
-			$icid = $gcats->getValue("id");
-			$irecid = $gcats->getValue("re_id");
+  		$up = new rex_sql;
+  		// $up->debugsql = 1;
+  		for($i=0;$i<$gcats->getRows();$i++)
+  		{
+  			// make update
+  			$new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
+  			$icid = $gcats->getValue("id");
+  			$irecid = $gcats->getValue("re_id");
 
-			// path aendern und speichern
-			$up->setTable($REX['TABLE_PREFIX']."article");
-			$up->setWhere("id=$icid");
-			$up->setValue("path",$new_path);
-			$up->update();
+  			// path aendern und speichern
+  			$up->setTable($REX['TABLE_PREFIX']."article");
+  			$up->setWhere("id=$icid");
+  			$up->setValue("path",$new_path);
+  			$up->update();
 
-			// cat in gen eintragen
-			$RC[$icid] = 1;
+  			// cat in gen eintragen
+  			$RC[$icid] = 1;
 
-			$gcats->next();
-		}
+  			$gcats->next();
+  		}
 
-		// ----- clang holen, max catprio holen und entsprechen updaten
+  		// ----- clang holen, max catprio holen und entsprechen updaten
+  		$gmax = new rex_sql;
+  		$up = new rex_sql;
+  		// $up->debugsql = 1;
+      foreach($REX['CLANG'] as $clang => $clang_name)
+  		{
+  			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=".$clang);
+  			$catprior = (int) $gmax->getValue("max(catprior)");
+  			$up->setTable($REX['TABLE_PREFIX']."article");
+  			$up->setWhere("id=$from_cat and clang=$clang ");
+  			$up->setValue("path",$to_path);
+  			$up->setValue("re_id",$to_cat);
+  			$up->setValue("catprior",($catprior+1));
+  			$up->update();
+  		}
 
-		$gmax = new rex_sql;
-		$up = new rex_sql;
-		// $up->debugsql = 1;
-    foreach($REX['CLANG'] as $clang => $clang_name)
-		{
-			$gmax->setQuery("select max(catprior) from ".$REX['TABLE_PREFIX']."article where re_id=$to_cat and clang=".$clang);
-			$catprior = (int) $gmax->getValue("max(catprior)");
-			$up->setTable($REX['TABLE_PREFIX']."article");
-			$up->setWhere("id=$from_cat and clang=$clang ");
-			$up->setValue("path",$to_path);
-			$up->setValue("re_id",$to_cat);
-			$up->setValue("catprior",($catprior+1));
-			$up->update();
-		}
+  		// ----- generiere artikel neu - ohne neue inhaltsgenerierung
+  		foreach($RC as $id => $key)
+  		{
+  			rex_generateArticle($id,false);
+  		}
 
-		// ----- generiere artikel neu - ohne neue inhaltsgenerierung
-		foreach($RC as $id => $key)
-		{
-			rex_generateArticle($id,false);
-		}
+      foreach($REX['CLANG'] as $clang => $clang_name)
+  		{
+  			rex_newCatPrio($fcat->getValue("re_id"),$clang,0,1);
+  		}
 
-    foreach($REX['CLANG'] as $clang => $clang_name)
-		{
-			rex_newCatPrio($fcat->getValue("re_id"),$clang,0,1);
-		}
-
-		return true;
-	}
+  		return true;
+  	}
   }
 }
 
@@ -775,7 +776,7 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
         $art_sql->setValue('re_id', $to_cat_id);
         $art_sql->setValue('path', $path);
-        $art_sql->setValue('catname', $catname);
+        $art_sql->setValue('catname', $art_sql->escape($catname));
         $art_sql->setValue('catprior', 0);
         $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
@@ -787,7 +788,7 @@ function rex_copyArticle($id, $to_cat_id)
 
         foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
         {
-          $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
+          $art_sql->setValue($fld_name, $art_sql->escape($from_sql->getValue($fld_name)));
         }
 
         $art_sql->setValue("clang", $clang);
@@ -866,8 +867,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     foreach ($params as $key => $value)
     {
-      $var = $gc->getValue("$value");
-      $uc->setValue("$value", $var);
+      $uc->setValue($value, $gc->escape($gc->getValue($value)));
     }
 
     $uc->update();
@@ -931,10 +931,10 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
       elseif ($colname == "createuser") $value = $REX_USER->getValue("login");
       elseif ($colname == "updateuser") $value = $REX_USER->getValue("login");
       else
-        $value = addslashes($gc->getValue("$colname"));
+        $value = $gc->getValue($colname);
 
       if ($colname != "id")
-        $ins->setValue($colname, $value);
+        $ins->setValue($colname, $ins->escape($value));
     }
     $ins->insert();
 
@@ -1109,7 +1109,7 @@ function rex_addCLang($id, $name)
           if ($value == 'status')
             $adda->setValue('status', '0'); // Alle neuen Artikel offline
       else
-        $adda->setValue($value, rex_addslashes($add->getValue($value)));
+        $adda->setValue($value, $add->escape($add->getValue($value)));
     }
 
     $adda->insert();

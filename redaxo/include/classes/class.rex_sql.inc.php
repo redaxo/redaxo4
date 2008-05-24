@@ -394,7 +394,7 @@ class rex_sql
         if($value === null)
           $qry .= '`' . $fld_name . '`= NULL';
         else
-          $qry .= '`' . $fld_name . '`="' . $value .'"';
+          $qry .= '`' . $fld_name . '`=\'' . $value .'\'';
 
 // Da Werte via POST/GET schon mit magic_quotes escaped werden,
 // brauchen wir hier nicht mehr escapen
@@ -710,7 +710,7 @@ class rex_sql
    * @param [$delimiter] Delimiter der verwendet wird, wenn es sich bei $value
    * um einen String handelt
    */
-  function escape($value, $delimiter = '\'')
+  function escape($value, $delimiter = '')
   {
     // Quote if not a number or a numeric string
     if (!is_numeric($value))
