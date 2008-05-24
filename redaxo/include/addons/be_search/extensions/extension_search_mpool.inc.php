@@ -57,6 +57,8 @@ function rex_a256_search_mpool_query($params)
       // Suche auf aktuellen Kontext eingrenzen
       if($category_id != 0)
         $where .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
+      else
+        $qry = str_replace('f.category_id=0', '1=1', $qry);
     }
   }
 
