@@ -508,7 +508,7 @@ if ($article->getRows() == 1)
     	$category_copy_id_new = rex_post('category_copy_id_new', 'int');
       if ($REX_USER->hasPerm('admin[]') || ($REX_USER->hasPerm('copyArticle[]') && ($REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csw[' . $category_copy_id_new . ']'))))
       {
-        if ($new_id = rex_copyArticle($article_id, $category_copy_id_new))
+        if (($new_id = rex_copyArticle($article_id, $category_copy_id_new)) !== false)
         {
           $message = $I18N->msg('content_articlecopied');
           ob_end_clean();
@@ -519,6 +519,7 @@ if ($article->getRows() == 1)
         {
           $message = $I18N->msg('content_errorcopyarticle');
         }
+          $message = $I18N->msg('content_errorcopyarticle');
       }
       else
       {
