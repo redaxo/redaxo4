@@ -27,55 +27,19 @@ class rex_var_article extends rex_var
     return $this->getTemplate($content);
   }
 
-  function getArticleVarInputParams($content, $varname)
+  /**
+   * @see rex_var::handleDefaultParam
+   */
+  function handleDefaultParam($varname, $args, $name, $value)
   {
-    $matches = array ();
-
-    $match = $this->matchVar($content, $varname);
-    foreach ($match as $param_str)
+    switch($name)
     {
-      $matches[] = array (
-        $param_str
-      );
+      case '1' :
+      case 'clang' :
+        $args['clang'] = (int) $value;
+        break;
     }
-
-    return $matches;
-  }
-
-  function getArticleInputParams($content, $varname)
-  {
-    $matches = array ();
-    $id = '';
-    $clang = '';
-
-    $match = $this->matchVar($content, $varname);
-    foreach ($match as $param_str)
-    {
-      $params = $this->splitString($param_str);
-
-      foreach ($params as $name => $value)
-      {
-        switch ($name)
-        {
-          case '0' :
-          case 'id' :
-            $id = (int) $value;
-            break;
-          case '1' :
-          case 'clang' :
-            $clang = (int) $value;
-            break;
-        }
-      }
-
-      $matches[] = array (
-        $param_str,
-        $id,
-        $clang
-      );
-    }
-
-    return $matches;
+    return parent::handleDefaultParam($varname, $args, $name, $value);
   }
 
   /**
@@ -84,7 +48,7 @@ class rex_var_article extends rex_var
   function matchArticleVar($content)
   {
     $var = 'REX_ARTICLE_VAR';
-    $matches = $this->getArticleVarInputParams($content, $var);
+    $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)
     {
@@ -104,13 +68,18 @@ class rex_var_article extends rex_var
     global $REX;
 
     $var = 'REX_ARTICLE';
-    $matches = $this->getArticleInputParams($content, $var);
+    $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)
     {
-      list ($param_str, $article_id, $clang) = $match;
+      list ($param_str, $article_id, $args) = $match;
 
-      $clang = $clang == '' ? $REX['CUR_CLANG'] : $clang;
+      $clang = $REX['CUR_CLANG'];
+      if(isset ($args['clang']))
+      {
+        $clang = $args['clang'];
+        unset ($args['clang']);
+      }
 
       // bezeichner wählen, der keine variablen
       // aus modulen/templates überschreibt

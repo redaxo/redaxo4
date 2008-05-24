@@ -17,7 +17,7 @@ class rex_var_link extends rex_var
 
   function getACRequestValues($REX_ACTION)
   {
-    $values = rex_request('LINK', 'array');
+    $values     = rex_request('LINK', 'array');
     $listvalues = rex_request('LINKLIST', 'array');
     for ($i = 1; $i < 11; $i++)
     {
@@ -77,41 +77,19 @@ class rex_var_link extends rex_var
     return $content;
   }
 
-  function getInputParams($content, $varname)
+  /**
+   * @see rex_var::handleDefaultParam
+   */
+  function handleDefaultParam($varname, $args, $name, $value)
   {
-    $matches = array ();
-    $id = '';
-    $category = '';
-
-    $match = $this->matchVar($content, $varname);
-    foreach ($match as $param_str)
+    switch($name)
     {
-      $params = $this->splitString($param_str);
-
-      foreach ($params as $name => $value)
-      {
-        switch ($name)
-        {
-          case '0' :
-          case 'id' :
-            $id = (int) $value;
-            break;
-
-          case '1' :
-          case 'category' :
-            $category = (int) $value;
-            break;
-        }
-      }
-
-      $matches[] = array (
-        $param_str,
-        $id,
-        $category
-      );
+      case '1' :
+      case 'category' :
+        $args['category'] = (int) $value;
+        break;
     }
-
-    return $matches;
+    return parent::handleDefaultParam($varname, $args, $name, $value);
   }
 
   /**
@@ -130,18 +108,24 @@ class rex_var_link extends rex_var
   	}
 
     $var = 'REX_LINK_BUTTON';
-    $matches = $this->getInputParams($content, $var);
+    $matches = $this->getVarParams($content, $var);
     foreach ($matches as $match)
     {
-      list ($param_str, $id, $category) = $match;
+      list ($param_str, $id, $args) = $match;
 
       if ($id < 11 && $id > 0)
       {
+        if(isset($args['category']))
+        {
+          $category = $args['category'];
+          unset($args['category']);
+        }
+
       	// Wenn vom Programmierer keine Kategorie vorgegeben wurde,
       	// die Linkmap mit der aktuellen Kategorie öffnen
 	      if($category == '') $category = $def_category;
 
-        $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category);
+        $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -155,13 +139,19 @@ class rex_var_link extends rex_var
   function matchLinkListButton(& $sql, $content)
   {
     $var = 'REX_LINKLIST_BUTTON';
-    $matches = $this->getInputParams($content, $var);
+    $matches = $this->getVarParams($content, $var);
     foreach ($matches as $match)
     {
-      list ($param_str, $id, $category) = $match;
+      list ($param_str, $id, $args) = $match;
 
       if ($id < 11 && $id > 0)
       {
+        if(isset($args['category']))
+        {
+          $category = $args['category'];
+          unset($args['category']);
+        }
+
         $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist' . $id), $category);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
@@ -176,10 +166,10 @@ class rex_var_link extends rex_var
   function matchLink(& $sql, $content)
   {
     $var = 'REX_LINK';
-    $matches = $this->getOutputParam($content, $var);
+    $matches = $this->getVarParams($content, $var);
     foreach ($matches as $match)
     {
-      list ($param_str, $id) = $match;
+      list ($param_str, $id, $args) = $match;
 
       if ($id > 0 && $id < 11)
       {
@@ -187,6 +177,7 @@ class rex_var_link extends rex_var
       	if ($this->getValue($sql, 'link' . $id) != "")
       		$replace = rex_getUrl($this->getValue($sql, 'link' . $id));
 
+        $replace = $this->handleGlobalParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -200,14 +191,15 @@ class rex_var_link extends rex_var
   function matchLinkId(& $sql, $content)
   {
     $var = 'REX_LINK_ID';
-    $matches = $this->getOutputParam($content, $var);
+    $matches = $this->getVarParams($content, $var);
     foreach ($matches as $match)
     {
-      list ($param_str, $id) = $match;
+      list ($param_str, $id, $args) = $match;
 
       if ($id > 0 && $id < 11)
       {
         $replace = $this->getValue($sql, 'link' . $id);
+        $replace = $this->handleGlobalParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -221,14 +213,15 @@ class rex_var_link extends rex_var
   function matchLinkList(& $sql, $content)
   {
     $var = 'REX_LINKLIST';
-    $matches = $this->getOutputParam($content, $var);
+    $matches = $this->getVarParams($content, $var);
     foreach ($matches as $match)
     {
-      list ($param_str, $id) = $match;
+      list ($param_str, $id, $args) = $match;
 
       if ($id > 0 && $id < 11)
       {
         $replace = $this->getValue($sql, 'linklist' . $id);
+        $replace = $this->handleGlobalParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }

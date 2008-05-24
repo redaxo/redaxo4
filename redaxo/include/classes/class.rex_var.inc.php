@@ -131,12 +131,39 @@ class rex_var
   }
 
   /**
-   * Findet den Parameter einer Variable in der Ausgabe.
-   * Da dort immer nur ein ID Feld sinnvoll ist, wird das ganze hier in der
-   * Basisklasse gemacht.
+   * Callback um nicht explizit gehandelte OutputParameter zu behandeln
+   */
+  function handleDefaultParam($varname, $args, $name, $value)
+  {
+    switch($name)
+    {
+      case 'ifempty':
+      case 'instead':
+      $args[$name] = (string) $value;
+    }
+    return $args;
+  }
+
+  /**
+   * Parameter aus args auf den Wert einer Variablen anwenden
+   */
+  function handleGlobalParams($varname, $args, $value)
+  {
+    // TODO Was hier tun?
+    // if(isset($args['instead']))
+
+    if(isset($args['ifempty']) && $value == '')
+      return $args['ifempty'];
+
+    return $value;
+  }
+
+  /**
+   * Findet die Parameter der Variable $varname innerhalb des Strings $content.
+   *
    * @access protected
    */
-  function getOutputParam($content, $varname)
+  function getVarParams($content, $varname)
   {
     $result = array ();
 
@@ -146,6 +173,7 @@ class rex_var
       $params = $this->splitString($param_str);
 
       $id = '';
+      $args = array();
       foreach ($params as $name => $value)
       {
         switch ($name)
@@ -154,6 +182,8 @@ class rex_var
           case 'id' :
             $id = (int) $value;
             break;
+          default :
+            $args = $this->handleDefaultParam($varname, $args, $name, $value);
         }
       }
 
@@ -161,7 +191,8 @@ class rex_var
       {
         $result[] = array (
           $param_str,
-          $id
+          $id,
+          $args
         );
       }
     }

@@ -84,53 +84,28 @@ class rex_var_media extends rex_var
     return $content;
   }
 
-  function getInputParams($content, $varname)
+  /**
+   * @see rex_var::handleDefaultParam
+   */
+  function handleDefaultParam($varname, $args, $name, $value)
   {
-    $matches = array ();
-
-    $match = $this->matchVar($content, $varname);
-    foreach ($match as $param_str)
+    switch($name)
     {
-      $id = '';
-      $category = '';
-      $args = array();
-      $params = $this->splitString($param_str);
-
-      foreach ($params as $name => $value)
-      {
-        switch ($name)
-        {
-          case '0' :
-          case 'id' :
-            $id = (int) $value;
-            break;
-
-          case '1' :
-          case 'category' :
-            $category = (int) $value;
-            break;
-
-          // TODO bisher nur types,preview impl.
-          case 'types' :
-          case 'ifempty' :
-          case 'instead' :
-            $args[$name] = (string) $value;
-            break;
-          case 'preview' :
-            $args[$name] = (boolean) $value;
-            break;
-        }
-      }
-
-      $matches[] = array (
-        $param_str,
-        $id,
-        $category,
-        $args
-      );
+      case '1' :
+      case 'category' :
+        $args['category'] = (int) $value;
+        break;
+      case 'types' :
+        $args[$name] = (string) $value;
+        break;
+      case 'preview' :
+        $args[$name] = (boolean) $value;
+        break;
+      case 'mimetype' :
+        $args[$name] = (string) $value;
+        break;
     }
-
-    return $matches;
+    return parent::handleDefaultParam($varname, $args, $name, $value);
   }
 
   /**
@@ -144,13 +119,18 @@ class rex_var_media extends rex_var
     );
     foreach ($vars as $var)
     {
-      $matches = $this->getInputParams($content, $var);
+      $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $category, $args) = $match;
+        list ($param_str, $id, $args) = $match;
 
         if ($id < 11 && $id > 0)
         {
+          if(isset($args['category']))
+          {
+            $category = $args['category'];
+            unset($args['category']);
+          }
           $replace = $this->getMediaButton($id, $category, $args);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
@@ -171,13 +151,18 @@ class rex_var_media extends rex_var
     );
     foreach ($vars as $var)
     {
-      $matches = $this->getInputParams($content, $var);
+      $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $category, $args) = $match;
+        list ($param_str, $id, $args) = $match;
 
         if ($id < 11 && $id > 0)
         {
+          if(isset($args['category']))
+          {
+            $category = $args['category'];
+            unset($args['category']);
+          }
           $replace = $this->getMedialistButton($id, $this->getValue($sql, 'filelist' . $id), $category, $args);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
@@ -198,14 +183,29 @@ class rex_var_media extends rex_var
     );
     foreach ($vars as $var)
     {
-      $matches = $this->getOutputParam($content, $var);
+      $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id) = $match;
+        list ($param_str, $id, $args) = $match;
 
         if ($id > 0 && $id < 11)
         {
-          $replace = $this->getValue($sql, 'file' . $id);
+          // Mimetype ausgeben
+          if(isset($args['mimetype']))
+          {
+            $OOM = OOMedia::getMediaByName($this->getValue($sql, 'file' . $id));
+            if($OOM)
+            {
+              $replace = $OOM->getType();
+            }
+          }
+          // "normale" ausgabe
+          else
+          {
+            $replace = $this->getValue($sql, 'file' . $id);
+          }
+
+          $replace = $this->handleGlobalParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -224,14 +224,15 @@ class rex_var_media extends rex_var
     );
     foreach ($vars as $var)
     {
-      $matches = $this->getOutputParam($content, $var);
+      $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id) = $match;
+        list ($param_str, $id, $args) = $match;
 
         if ($id > 0 && $id < 11)
         {
           $replace = $this->getValue($sql, 'filelist' . $id);
+          $replace = $this->handleGlobalParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -258,7 +259,7 @@ class rex_var_media extends rex_var
     }
 
     $wdgtClass = 'rex-wdgt-mda';
-    if($args['preview'])
+    if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-wdgt-prvw';
     }

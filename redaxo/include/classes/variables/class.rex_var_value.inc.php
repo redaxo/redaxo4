@@ -95,46 +95,16 @@ class rex_var_value extends rex_var
     return $content;
   }
 
-  function getInputParams($content, $varname)
-  {
-    $matches = array ();
-    $id = '';
-
-    $match = $this->matchVar($content, $varname);
-    foreach ($match as $param_str)
-    {
-      $params = $this->splitString($param_str);
-
-      foreach ($params as $name => $value)
-      {
-        switch ($name)
-        {
-          case '0' :
-          case 'id' :
-            $id = (int) $value;
-            break;
-        }
-      }
-
-      $matches[] = array (
-        $param_str,
-        $id
-      );
-    }
-
-    return $matches;
-  }
-
   /**
    * Wert für die Ausgabe
    */
   function _matchValue(& $sql, $content, $var, $escape = false, $nl2br = false, $stripPHP = false, $booleanize = false)
   {
-    $matches = $this->getInputParams($content, $var);
+    $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)
     {
-      list ($param_str, $id) = $match;
+      list ($param_str, $id, $args) = $match;
 
       if ($id > 0 && $id < 21)
       {
@@ -161,6 +131,7 @@ class rex_var_value extends rex_var
           }
         }
 
+        $replace = $this->handleGlobalParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
