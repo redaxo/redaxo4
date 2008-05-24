@@ -106,7 +106,7 @@ function rex_get_subtitle($subline, $attr = '')
   $cur_subpage = rex_request('subpage', 'string');
   $cur_page    = rex_request('page', 'string');
 
-  if (is_array($subline) && count( $subline) > 0)
+  if (is_array($subline) && count($subline) > 0)
   {
     $subtitle = array();
     $numPages = count($subline);
