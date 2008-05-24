@@ -13,20 +13,20 @@
 
 // KOMMT NOCH
 // - only types einbauen (only .gif/.pdf/.xxx ..)
-// - direktjump bei &action=media_details&file_name=xysd.jpg
 
-
-// *************************************** WENN HTMLAREA ODER INPUT FELD.. SAVE
 
 // ----- opener_input_field setzen
-$opener_input_field = rex_get('opener_input_field');
-if(!isset($_REQUEST["opener_input_field"]) && $opener_input_field == '' && ($sess_opener_input_field = rex_session('media[opener_input_field]')) != '')
-{
-  $opener_input_field = $sess_opener_input_field;
-}
-
+$opener_input_field = rex_request('opener_input_field', 'string', rex_session('media[opener_input_field]', 'string'));
 rex_set_session('media[opener_input_field]', $opener_input_field);
+$args = rex_request('args', 'array');
 
+$arg_url = '';
+$arg_fields = '';
+foreach($args as $arg_name => $arg_value)
+{
+  $arg_url .= '&amp;args['. urlencode($arg_name) .']='. urlencode($arg_value);
+  $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. $arg_value .'" />'. "\n";
+}
 
 
 // *************************************** PERMS
@@ -39,8 +39,6 @@ if ($REX_USER->hasPerm('admin[]') or $REX_USER->hasPerm('media[0]')) $PERMALL = 
 
 // *************************************** CONFIG
 
-$doctypes = OOMedia::getDocTypes();
-$imgtypes = OOMedia::getImageTypes();
 $thumbs = true;
 $thumbsresize = true;
 if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
@@ -50,11 +48,24 @@ if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 
 
 // *************************************** CAT ID IN SESSION SPEICHERN
-$rex_file_category = rex_request('rex_file_category', 'int', -1);
+$sql = new rex_sql();
+$file_name = rex_get('file_name', 'string');
+if ($file_name != "") $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='$file_name'");
+if ($sql->getRows()==1)
+{
+  $file_id = $sql->getValue("file_id");
+  $rex_file_category = $sql->getValue("category_id");
+}
+else
+{
+  $rex_file_category = rex_request('rex_file_category', 'int', -1);
+}
+
 if($rex_file_category == -1)
 {
   $rex_file_category = rex_session('media[rex_file_category]', 'int');
 }
+
 
 $gc = new rex_sql;
 $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
@@ -165,6 +176,13 @@ if($PERMALL)
   $subline[] = array('sync', $I18N->msg('pool_sync_files'));
 }
 
+// Arg Url an Menulinks anhaengen
+foreach($subline as $key => $item)
+{
+  $subline[$key][2] = '';
+  $subline[$key][3] = $arg_url;
+}
+
 // ----- EXTENSION POINT
 $subline = rex_register_extension_point('PAGE_MEDIENPOOL_MENU', $subline,
   array(
@@ -223,6 +241,7 @@ $cat_out = '<div class="rex-mpl-catslct-frm">
                 <fieldset>
                   <!-- <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_select_cat') .'</span></legend> //-->
                   <input type="hidden" name="page" value="medienpool" />
+                  '. $arg_fields .'
                   <p>
                     <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
                     '. $sel_media->get() .'
@@ -352,6 +371,7 @@ if ($PERMALL && $subpage == "categories")
           <input type="hidden" name="media_method" value="'. $method .'" />
           <input type="hidden" name="cat_id" value="'. $cat_id .'" />
           <input type="hidden" name="catpath" value="'. $catpath .'" />
+          '. $arg_fields .'
     ';
   }
 
@@ -662,14 +682,9 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
 if ($subpage == "detail")
 {
   $gf = new rex_sql;
-
-  if (isset($file_name) and $file_name != "") $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='$file_name'");
-  if ($gf->getRows()==1) $file_id = $gf->getValue("file_id");
-
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
-
     $TPERM = false;
     if ($PERMALL || $REX_USER->hasPerm("media[".$gf->getValue("category_id")."]")) $TPERM = true;
 
@@ -680,7 +695,7 @@ if ($subpage == "detail")
     $ffiletype = $gf->getValue('filetype');
     $ffile_size = $gf->getValue('filesize');
     $ffile_size = OOMedia::_getFormattedSize($ffile_size);
-    $rex_category_id = $gf->getValue('category_id');
+    $rex_file_category = $gf->getValue('category_id');
 
     $encoded_fname = urlencode($fname);
     $file_ext = substr(strrchr($fname, '.'),1);
@@ -695,9 +710,11 @@ if ($subpage == "detail")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      $size = getimagesize($REX['HTDOCS_PATH'].'/files/'.$fname);
-      $fwidth = $size[0];
-      $fheight = $size[1];
+      if($size = @getimagesize($REX['HTDOCS_PATH'].'/files/'.$fname))
+      {
+        $fwidth = $size[0];
+        $fheight = $size[1];
+      }
 
       if ($fwidth >199) $rfwidth = 200;
       else $rfwidth = $fwidth;
@@ -790,6 +807,8 @@ if ($subpage == "detail")
             	<input type="hidden" name="subpage" value="detail" />
             	<input type="hidden" name="media_method" value="edit_file" />
             	<input type="hidden" name="file_id" value="'.$file_id.'" />
+              '. $arg_fields .'
+
 
     					<div class="rex-mpl-dtl-wrp">
             		<div class="rex-mpl-dtl-edt"'.$style_width.'>
@@ -1131,6 +1150,9 @@ if ($subpage == '')
     $msg = "";
   }
 
+  if(!empty($args['types']))
+    echo rex_info($I18N->msg('pool_file_filter', $args['types']));
+
   //deletefilelist und cat change
   echo '<div class="rex-mpl-mdn">
   		 <form action="index.php" method="post" enctype="multipart/form-data">
@@ -1138,6 +1160,7 @@ if ($subpage == '')
             <!-- <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg('pool_selectedmedia') .'</span></legend> //-->
             <input type="hidden" name="page" value="medienpool" />
             <input type="hidden" id="media_method" name="media_method" value="" />
+            '. $arg_fields .'
 
             <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('pool_file_summary', $rex_file_category_name)) .'">
               <caption class="rex-hide">'. $I18N->msg('pool_file_caption', $rex_file_category_name) .'</caption>
@@ -1191,7 +1214,17 @@ if ($subpage == '')
 
 
 
-  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."file WHERE category_id=".$rex_file_category." ORDER BY updatedate desc";
+  $where = 'f.category_id='.$rex_file_category;
+  if(isset($args['types']))
+  {
+    $types = array();
+    foreach(explode(',',$args['types']) as $type)
+    {
+      $types[] = 'SUBSTRING(f.filename,LOCATE(".",f.filename)+1)="'. htmlspecialchars($type) .'"';
+    }
+    $where .= ' AND ('. implode(' OR ', $types) .')';
+  }
+  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."file f WHERE ". $where ." ORDER BY f.updatedate desc";
 
   // ----- EXTENSION POINT
   $qry = rex_register_extension_point('MEDIA_LIST_QUERY', $qry,
@@ -1291,7 +1324,7 @@ if ($subpage == '')
       }
     }
 
-    $ilink = 'index.php?page=medienpool&amp;subpage=detail&amp;file_id='.$file_id.'&amp;rex_file_category='.$rex_file_category;
+    $ilink = 'index.php?page=medienpool&amp;subpage=detail&amp;file_id='.$file_id.'&amp;rex_file_category='.$rex_file_category. $arg_url;
 
     $add_td = '<td></td>';
     if ($PERMALL) $add_td = '<td class="rex-txt-algn-cntr"><input class="rex-chckbx" type="checkbox" name="selectedmedia[]" value="'.$file_id.'" /></td>';
@@ -1316,8 +1349,8 @@ if ($subpage == '')
 				"file_size" => $files->getValue('filesize'),
 				"file_stamp" => $files->getValue('updatedate'),
 				"file_updateuser" => $files->getValue('updateuser')
-				)
-			);
+			)
+		);
 
     echo '</td>
          </tr>';

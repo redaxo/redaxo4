@@ -87,13 +87,13 @@ class rex_var_media extends rex_var
   function getInputParams($content, $varname)
   {
     $matches = array ();
-    $id = '';
-    $category = '';
-    $filter = '';
 
     $match = $this->matchVar($content, $varname);
     foreach ($match as $param_str)
     {
+      $id = '';
+      $category = '';
+      $args = array();
       $params = $this->splitString($param_str);
 
       foreach ($params as $name => $value)
@@ -110,9 +110,14 @@ class rex_var_media extends rex_var
             $category = (int) $value;
             break;
 
-          case '2' :
-          case 'filter' :
-            $filter = (string) $value;
+          // TODO bisher nur types,preview impl.
+          case 'types' :
+          case 'ifempty' :
+          case 'instead' :
+            $args[$name] = (string) $value;
+            break;
+          case 'preview' :
+            $args[$name] = (boolean) $value;
             break;
         }
       }
@@ -121,7 +126,7 @@ class rex_var_media extends rex_var
         $param_str,
         $id,
         $category,
-        $filter
+        $args
       );
     }
 
@@ -142,11 +147,11 @@ class rex_var_media extends rex_var
       $matches = $this->getInputParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $category, $filter) = $match;
+        list ($param_str, $id, $category, $args) = $match;
 
         if ($id < 11 && $id > 0)
         {
-          $replace = $this->getMediaButton($id, $category, $filter);
+          $replace = $this->getMediaButton($id, $category, $args);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -169,11 +174,11 @@ class rex_var_media extends rex_var
       $matches = $this->getInputParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $category, $filter) = $match;
+        list ($param_str, $id, $category, $args) = $match;
 
         if ($id < 11 && $id > 0)
         {
-          $replace = $this->getMedialistButton($id, $this->getValue($sql, 'filelist' . $id));
+          $replace = $this->getMedialistButton($id, $this->getValue($sql, 'filelist' . $id), $category, $args);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -237,7 +242,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das Button Template zurück
    */
-  function getMediaButton($id, $category = '', $filter = '')
+  function getMediaButton($id, $category = '', $args = array())
   {
     global $I18N;
 
@@ -247,14 +252,20 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    if ($filter != '')
+    foreach($args as $name => $value)
     {
-      $open_params .= '&amp;filter=' . $filter;
+      $open_params .= '&amp;args['. urlencode($name) .']='. urlencode($value);
+    }
+
+    $wdgtClass = 'rex-wdgt-mda';
+    if($args['preview'])
+    {
+      $wdgtClass .= ' rex-wdgt-prvw';
     }
 
     $media = '
     <div class="rex-wdgt">
-      <div class="rex-wdgt-mda">
+      <div class="'. $wdgtClass .'">
         <p class="rex-wdgt-fld">
           <input type="text" size="30" name="MEDIA[' . $id . ']" value="REX_MEDIA[' . $id . ']" id="REX_MEDIA_' . $id . '" readonly="readonly" />
         </p>
@@ -264,6 +275,7 @@ class rex_var_media extends rex_var
           <a href="#" onclick="deleteREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_media_remove') .'" alt="'. $I18N->msg('var_media_remove') .'" /></a>
         </p>
         <div class="rex-clearer"></div>
+        <div class="preview"></div>
       </div>
     </div>
     ';
@@ -274,7 +286,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  function getMedialistButton($id, $value, $category = '', $filter = '')
+  function getMedialistButton($id, $value, $category = '', $args = array())
   {
     global $I18N;
 
@@ -284,9 +296,9 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    if ($filter != '')
+    foreach($args as $name => $value)
     {
-      $open_params .= '&amp;filter=' . $filter;
+      $open_params .= '&amp;args['. $name .']='. urlencode($value);
     }
 
     $options = '';

@@ -371,6 +371,7 @@ pool_file_file = Datei
 pool_file_infos_updated = Dateiinformationen wurden aktualisiert!
 pool_file_upload = Hinzufügen
 pool_file_upload_get = Hinzufügen und übernehmen
+pool_file_filter = Ansicht beschränkt auf Dateien vom Typ {0}!
 pool_upload_get = Speichern und übernehmen
 pool_kat_saved = Medienkategorie "{0}" wurde angelegt
 pool_kat_updated = Medienkategorie "{0}" wurde aktualisiert
