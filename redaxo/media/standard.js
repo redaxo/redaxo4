@@ -529,7 +529,7 @@ function getElementsByClass(searchClass,node,tag) {
 
 jQuery(function($){
   // ------------------ Preview fuer REX_MEDIA_BUTTONS
-  $(".rex-wdgt-mda").bind("mouseenter", (function() {
+  $(".rex-wdgt-mda.rex-wdgt-prvw").bind("mouseenter", (function() {
     var div = $(".preview", this);
     var value = $("input[type=text]", this).val();
     var url = '../index.php?rex_resize=300a__'+ value;
