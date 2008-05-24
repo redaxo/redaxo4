@@ -54,7 +54,9 @@ function rex_a256_search_structure($params)
   if($article_id != 0)
   {
     $OOArt = OOArticle::getArticleById($article_id, $clang);
-    $category_id = $OOArt->getCategoryId();
+    // Falls Artikel gerade geloescht wird, gibts keinen OOArticle
+    if($OOArt)
+      $category_id = $OOArt->getCategoryId();
   }
 
   // ------------ Suche via ArtikelName
