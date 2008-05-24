@@ -144,6 +144,25 @@ class article extends rex_article{
 
 // ----------------------------------------- Functions
 
+// rex_showScripttime  -> showScripttime alias
+// rex_getCurrentTime  -> getCurrentTime alias
+// rex_startScripttime -> startScripttime alias
+// Für < R4.2
+function showScripttime()
+{
+  rex_showScriptTime();
+}
+
+function getCurrentTime()
+{
+  rex_getCurrentTime();
+}
+
+function startScripttime()
+{
+  rex_startScriptTime;
+}
+
 // rex_getUrl -> getUrlById alias
 // Für < R3.1
 function getUrlByid($id, $clang = "", $params = "")
