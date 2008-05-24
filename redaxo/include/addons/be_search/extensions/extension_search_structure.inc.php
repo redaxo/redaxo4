@@ -85,8 +85,6 @@ function rex_a256_search_structure($params)
       }
     }
 
-    $qry = rex_register_extension_point('A256_STRUCTURE_QUERY', $qry);
-
     $search = new rex_sql();
 //    $search->debugsql = true;
     $search->setQuery($qry);
