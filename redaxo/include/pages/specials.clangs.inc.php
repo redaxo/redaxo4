@@ -120,6 +120,7 @@ echo '
 // Add form
 if ($func == 'addclang')
 {
+  //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
   echo '
         <tr class="rex-trow-actv">
           <td class="rex-icon"></td>
@@ -129,7 +130,6 @@ if ($func == 'addclang')
         </tr>
       ';
 }
-
 foreach ($REX['CLANG'] as $lang_id => $lang)
 {
   // Edit form
