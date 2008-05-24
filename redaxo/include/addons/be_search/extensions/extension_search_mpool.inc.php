@@ -46,25 +46,22 @@ function rex_a256_search_mpool_query($params)
   $media_name = rex_request('a256_media_name', 'string');
   if($media_name == '') return $params['subject'];
 
+  $qry = $params['subject'];
   $category_id = $params['category_id'];
 
-  $qry = "SELECT *
-          FROM ". $REX['TABLE_PREFIX'] ."file f, ". $REX['TABLE_PREFIX'] ."file_category c
-          WHERE f.category_id = c.id AND (filename LIKE '%". $media_name ."%' OR title LIKE '%". $media_name ."%')";
-
+  $where = " f.category_id = c.id AND (f.filename LIKE '%". $media_name ."%' OR f.title LIKE '%". $media_name ."%')";
   switch(OOAddon::getProperty('be_search', 'searchmode', 'local'))
   {
     case 'local':
     {
       // Suche auf aktuellen Kontext eingrenzen
       if($category_id != 0)
-        $qry .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
+        $where .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
     }
   }
 
-  $qry .= 'ORDER BY f.updatedate desc';
-
-  $qry = rex_register_extension_point('A256_MEDIENPOOL_QUERY', $qry);
+  $qry = str_replace('FROM ', 'FROM '. $REX['TABLE_PREFIX'] .'file_category c,', $qry);
+  $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
 
   return $qry;
 }
