@@ -367,8 +367,6 @@ function rex_structure_addArticle($article_id, $clang, $data)
       $AART->setValue('id', $id);
     $AART->setValue('name', $data['name']);
     $AART->setValue('catname', $category_name);
-// TODO Neue noch nicht verwendete Datenbankspalten
-// $AART->setValue('attributes', $category_attributes);
     $AART->setValue('attributes', '');
     $AART->setValue('clang', $key);
     $AART->setValue('re_id', $data['category_id']);
@@ -377,7 +375,6 @@ function rex_structure_addArticle($article_id, $clang, $data)
     $AART->setValue('startpage', 0);
     $AART->setValue('status', 0);
     $AART->setValue('template_id', $data['template_id']);
-    // TODO hier Update + Createfields?
     $AART->addGlobalCreateFields();
     $AART->addGlobalUpdateFields();
 
@@ -497,6 +494,8 @@ function rex_structure_deleteArticle($article_id)
         "re_id" => $re_id
       )
     );
+
+    $success = true;
   }
 
   return array($success, $message);
