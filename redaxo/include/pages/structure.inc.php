@@ -6,6 +6,9 @@
  * @version $Id: structure.inc.php,v 1.7 2008/03/21 19:45:17 kristinus Exp $
  */
 
+$info = '';
+$warning = '';
+
 // --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
 $edit_id = rex_request('edit_id', 'int');
 if ($edit_id)
@@ -70,20 +73,37 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   $data['path'] = $KATPATH;
 
   list($success, $message) = rex_structure_editCategory($edit_id, $clang, $data);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
   list($success, $message) = rex_structure_deleteCategory($edit_id, $clang);
 
-  if(!$success)
+  if($success)
+  {
+    $info = $message;
+  }
+  else
+  {
+    $warning = $message;
     $function = 'edit';
+  }
 }
 elseif ($function == 'status' && $edit_id != ''
        && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
   list($success, $message) = rex_structure_categoryStatus($edit_id, $clang);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
@@ -95,6 +115,11 @@ elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContent
   $data['path'] = $KATPATH;
 
   list($success, $message) = rex_structure_addCategory($category_id, $clang, $data);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 
 // --------------------------------------------- ARTIKEL FUNKTIONEN
@@ -104,6 +129,11 @@ if ($function == 'status_article' && $article_id != ''
 {
   // --------------------- ARTICLE STATUS
   list($success, $message) = rex_strucutre_articleStatus($article_id, $clang);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 // Hier mit !== vergleichen, da 0 auch einen gültige category_id ist (RootArtikel)
 elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
@@ -118,6 +148,11 @@ elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_US
   $data['path'] = $KATPATH;
 
   list($success, $message) = rex_structure_addArticle($category_id, $clang, $data);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
 {
@@ -130,17 +165,30 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
   $data['path'] = $KATPATH;
 
   list($success, $message) = rex_structure_editArticle($article_id, $clang, $data);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL DELETE
   list($success, $message) = rex_structure_deleteArticle($article_id);
+
+  if($success)
+    $info = $message;
+  else
+    $warning = $message;
 }
 
 // --------------------------------------------- KATEGORIE LISTE
 
-if (isset ($message) and $message != "")
-  echo rex_warning($message);
+if ($warning != "")
+  echo rex_warning($warning);
+
+if ($info != "")
+  echo rex_info($info);
 
 $cat_name = 'Homepage';
 $category = OOCategory::getCategoryById($category_id, $clang);
@@ -424,12 +472,6 @@ if ($category_id > -1)
   $TEMPLATE_NAME[0] = $I18N->msg('template_default_name');
 
   // --------------------- ARTIKEL LIST
-
-  if (isset ($amessage) and $amessage != '')
-  {
-    echo rex_warning($amessage);
-  }
-
   $art_add_link = '';
   if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
