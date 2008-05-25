@@ -29,7 +29,7 @@ class rex_var_media extends rex_var
       $media     = isset($values[$i]) ? stripslashes($values[$i]) : '';
       $medialist = isset($listvalues[$i]) ? stripslashes($listvalues[$i]) : '';
 
-      $REX_ACTION['MEDIA'][$i] = $media;
+      $REX_ACTION['MEDIA'][$i]     = $media;
       $REX_ACTION['MEDIALIST'][$i] = $medialist;
     }
 
@@ -40,7 +40,7 @@ class rex_var_media extends rex_var
   {
     for ($i = 1; $i < 11; $i++)
     {
-      $REX_ACTION['MEDIA'][$i] = $this->getValue($sql, 'file'. $i);
+      $REX_ACTION['MEDIA'][$i]     = $this->getValue($sql, 'file'. $i);
       $REX_ACTION['MEDIALIST'][$i] = $this->getValue($sql, 'filelist'. $i);
     }
 
@@ -53,7 +53,7 @@ class rex_var_media extends rex_var
 
     for ($i = 1; $i < 11; $i++)
     {
-      $this->setValue($sql, 'file'. $i, $REX_ACTION['MEDIA'][$i], $escape);
+      $this->setValue($sql, 'file'. $i    , $REX_ACTION['MEDIA'][$i]    , $escape);
       $this->setValue($sql, 'filelist'. $i, $REX_ACTION['MEDIALIST'][$i], $escape);
     }
   }
@@ -132,6 +132,7 @@ class rex_var_media extends rex_var
             unset($args['category']);
           }
           $replace = $this->getMediaButton($id, $category, $args);
+          $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -163,7 +164,9 @@ class rex_var_media extends rex_var
             $category = $args['category'];
             unset($args['category']);
           }
+
           $replace = $this->getMedialistButton($id, $this->getValue($sql, 'filelist' . $id), $category, $args);
+          $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -205,7 +208,7 @@ class rex_var_media extends rex_var
             $replace = $this->getValue($sql, 'file' . $id);
           }
 
-          $replace = $this->handleGlobalParams($var, $args, $replace);
+          $replace = $this->handleGlobalVarParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -232,7 +235,7 @@ class rex_var_media extends rex_var
         if ($id > 0 && $id < 11)
         {
           $replace = $this->getValue($sql, 'filelist' . $id);
-          $replace = $this->handleGlobalParams($var, $args, $replace);
+          $replace = $this->handleGlobalVarParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
         }
       }
@@ -253,9 +256,9 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    foreach($args as $name => $value)
+    foreach($args as $aname => $avalue)
     {
-      $open_params .= '&amp;args['. urlencode($name) .']='. urlencode($value);
+      $open_params .= '&amp;args['. urlencode($aname) .']='. urlencode($avalue);
     }
 
     $wdgtClass = 'rex-wdgt-mda';
@@ -297,9 +300,15 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    foreach($args as $name => $value)
+    foreach($args as $aname => $avalue)
     {
-      $open_params .= '&amp;args['. $name .']='. urlencode($value);
+      $open_params .= '&amp;args['. $aname .']='. urlencode($avalue);
+    }
+
+    $wdgtClass = 'rex-wdgt-mdlst';
+    if(isset($args['preview']) && $args['preview'])
+    {
+      $wdgtClass .= ' rex-wdgt-prvw';
     }
 
     $options = '';
@@ -317,7 +326,7 @@ class rex_var_media extends rex_var
 
     $media = '
     <div class="rex-wdgt">
-      <div class="rex-wdgt-mdlst">
+      <div class="'. $wdgtClass .'">
         <input type="hidden" name="MEDIALIST['. $id .']" id="REX_MEDIALIST_'. $id .'" value="'. $value .'" />
         <p class="rex-wdgt-fld">
           <select name="MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
@@ -334,6 +343,7 @@ class rex_var_media extends rex_var
           <a href="#" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_bottom') .'" alt="'. $I18N->msg('var_medialist_move_bottom') .'" /></a>
         </p>
         <div class="rex-clearer"></div>
+        <div class="preview"></div>
       </div>
     </div>
     ';

@@ -126,6 +126,7 @@ class rex_var_link extends rex_var
 	      if($category == '') $category = $def_category;
 
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
+        $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -153,6 +154,7 @@ class rex_var_link extends rex_var
         }
 
         $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist' . $id), $category);
+        $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -177,7 +179,7 @@ class rex_var_link extends rex_var
       	if ($this->getValue($sql, 'link' . $id) != "")
       		$replace = rex_getUrl($this->getValue($sql, 'link' . $id));
 
-        $replace = $this->handleGlobalParams($var, $args, $replace);
+        $replace = $this->handleGlobalVarParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -199,7 +201,7 @@ class rex_var_link extends rex_var
       if ($id > 0 && $id < 11)
       {
         $replace = $this->getValue($sql, 'link' . $id);
-        $replace = $this->handleGlobalParams($var, $args, $replace);
+        $replace = $this->handleGlobalVarParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }
@@ -221,7 +223,7 @@ class rex_var_link extends rex_var
       if ($id > 0 && $id < 11)
       {
         $replace = $this->getValue($sql, 'linklist' . $id);
-        $replace = $this->handleGlobalParams($var, $args, $replace);
+        $replace = $this->handleGlobalVarParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }

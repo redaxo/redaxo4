@@ -528,10 +528,15 @@ function getElementsByClass(searchClass,node,tag) {
 
 
 jQuery(function($){
-  // ------------------ Preview fuer REX_MEDIA_BUTTONS
-  $(".rex-wdgt-mda.rex-wdgt-prvw").bind("mouseenter", (function() {
+  // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
+  function rexShowMediaPreview() {
+    var value;
+    if($(this).hasClass("rex-wdgt-mda"))
+      value = $("input[type=text]", this).val();
+    else
+      value = $("select", this).val();
+      
     var div = $(".preview", this);
-    var value = $("input[type=text]", this).val();
     var url = '../index.php?rex_resize=300a__'+ value;
     if(value.length != 0 && 
        (value.substr(-3) == "png" ||
@@ -541,15 +546,28 @@ jQuery(function($){
         value.substr(-4) == "jpeg")
       )
     {
-	    div.html('<img src="'+ url +'" />');
+      div.html('<img src="'+ url +'" />');
       div.slideDown("slow");
     }
-  })).bind("mouseleave", (function() {
-    var div = $(".preview", this);
-    div.slideUp("slow");
-  }));
+    else
+    {
+      var div = $(".preview", this);
+      div.slideUp("slow");
+    }
+  };
 
-  // ------------------ accesskey navigation
+  // Medialist preview neu anzeigen, beim wechsel der auswahl  
+  $(".rex-wdgt-mdlst.rex-wdgt-prvw")
+    .click(rexShowMediaPreview);
+    
+  $(".rex-wdgt-mda.rex-wdgt-prvw,.rex-wdgt-mdlst.rex-wdgt-prvw")
+    .bind("mouseenter", rexShowMediaPreview)
+    .bind("mouseleave", function() {
+	    var div = $(".preview", this);
+	    div.slideUp("slow");
+  });
+
+  // ------------------ Accesskey Navigation
 	var ENABLE_KEY_NAV = true;
 	
   $(document).keypress(function(event) {

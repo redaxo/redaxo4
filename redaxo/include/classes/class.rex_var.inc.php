@@ -145,9 +145,17 @@ class rex_var
   }
 
   /**
+   * Parameter aus args auf die Ausgabe eines Widgets anwenden
+   */
+  function handleGlobalWidgetParams($varname, $args, $value)
+  {
+    return $value;
+  }
+
+  /**
    * Parameter aus args auf den Wert einer Variablen anwenden
    */
-  function handleGlobalParams($varname, $args, $value)
+  function handleGlobalVarParams($varname, $args, $value)
   {
     // TODO Was hier tun?
     // if(isset($args['instead']))

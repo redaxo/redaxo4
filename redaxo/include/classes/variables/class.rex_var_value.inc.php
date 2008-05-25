@@ -131,7 +131,7 @@ class rex_var_value extends rex_var
           }
         }
 
-        $replace = $this->handleGlobalParams($var, $args, $replace);
+        $replace = $this->handleGlobalVarParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
       }
     }

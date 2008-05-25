@@ -35,7 +35,7 @@ class rex_var_template extends rex_var
 
       $template = new rex_template($template_id);
       $replace = $template->getTemplate();
-      $replace = $this->handleGlobalParams($var, $args, $replace);
+      $replace = $this->handleGlobalVarParams($var, $args, $replace);
       $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
     }
 
