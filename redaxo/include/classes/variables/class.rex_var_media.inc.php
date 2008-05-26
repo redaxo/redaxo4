@@ -262,7 +262,7 @@ class rex_var_media extends rex_var
     }
 
     $wdgtClass = 'rex-wdgt-mda';
-    if(isset($args['preview']) && $args['preview'])
+    if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
       $wdgtClass .= ' rex-wdgt-prvw';
     }
@@ -306,7 +306,7 @@ class rex_var_media extends rex_var
     }
 
     $wdgtClass = 'rex-wdgt-mdlst';
-    if(isset($args['preview']) && $args['preview'])
+    if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
       $wdgtClass .= ' rex-wdgt-prvw';
     }
