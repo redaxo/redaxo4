@@ -137,6 +137,8 @@ class rex_var
   {
     switch($name)
     {
+      case 'prefix':
+      case 'suffix':
       case 'ifempty':
       case 'instead':
       $args[$name] = (string) $value;
@@ -157,8 +159,14 @@ class rex_var
    */
   function handleGlobalVarParams($varname, $args, $value)
   {
-    // TODO Was hier tun?
-    // if(isset($args['instead']))
+    if(isset($args['prefix']))
+      $value = $args['prefix']. $value;
+
+    if(isset($args['suffix']))
+      $value = $value .$args['suffix'];
+
+    if(isset($args['instead']) && $value != '')
+      return $args['instead'];
 
     if(isset($args['ifempty']) && $value == '')
       return $args['ifempty'];
