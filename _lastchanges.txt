@@ -23,15 +23,18 @@ Wichtige Änderungen:
 
 Version 4.2.0 (2008-XX-XX)
 
-  * JQuery update auf 1.2.5 [Markus.Staab]
+  * JQuery update auf 1.2.6 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
   * Struktur:
     - Default Template festlegbar [Markus.Staab]
       + http://forum.redaxo.de/ftopic6934.html
+    - Logik in API ausgelagert [Markus.Staab]
+  * Inhaltsverwaltung:
+    - Logik in API ausgelagert [Markus.Staab]
   * ReloginDelay wird heruntergezaehlt [Markus.Staab]
   * Neue Backendpage: Userprofil [Markus.Staab]
-    - Benutzer können selbst Ihre Daten ändern
+    - Benutzer können selbst Ihre Daten ändern 
   * ImageResize:
     - Sprachfile eingefügt [Markus.Staab]
   * BackendSearch:
@@ -44,8 +47,11 @@ Version 4.2.0 (2008-XX-XX)
     - isInUse Check beim löschen von Medien auch für MetaInfo Felder [Markus.Staab]
       + http://forum.redaxo.de/ftopic8835.html
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
-  * rexVars implementiert
-    - REX_LINKLIST_BUTTON[] [BerserkerXP, Markus.Staab]
+  * rexVars:
+    - REX_LINKLIST_BUTTON[] implementiert [BerserkerXP, Markus.Staab]
+    - prefix, suffix, instead, ifempty als globale rexVar Argumente [Markus.Staab]
+    - preview, types Argumente bei REX_MEDIA/LIST_BUTTON
+    - 
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
