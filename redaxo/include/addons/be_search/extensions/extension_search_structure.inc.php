@@ -207,24 +207,6 @@ function rex_a256_search_structure($params)
    </div>
    <div class="rex-clearer"></div>';
 
-  if($function != 'edit_art' &&
-     $function != 'edit_cat' &&
-     $function != 'add_art' &&
-     $function != 'add_cat' &&
-     $mode != 'meta' &&
-     ($mode == 'edit' && $function != 'edit'))
-  {
-    $search_bar .= '
-    <script type="text/javascript">
-    <!--
-
-    jQuery(function($) {
-      $("#rex-a256-article-name").focus();
-    });
-
-    //--></script>';
-  }
-
   return $search_bar . $params['subject'];
 }
 ?>
