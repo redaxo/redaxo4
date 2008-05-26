@@ -13,6 +13,8 @@
 // - <? ?> $ Problematik bei REX_ACTION
 */
 
+require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
+
 unset ($REX_ACTION);
 
 $slice_id = rex_request('slice_id', 'int', '');
@@ -111,9 +113,8 @@ if ($article->getRows() == 1)
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if (isset ($save) and ($function == 'add' or $function == 'edit' or $function == 'delete') and $save == 1)
+    if (rex_request('save', 'boolean') && ($function == 'add' || $function == 'edit' || $function == 'delete'))
     {
-
       // ----- check module
 
       $CM = new rex_sql;
@@ -127,6 +128,7 @@ if ($article->getRows() == 1)
       else
       {
         // add
+        $module_id = rex_post('module_id', 'int');
         $CM->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "module WHERE id='$module_id'");
       }
 
@@ -136,10 +138,7 @@ if ($article->getRows() == 1)
         $message = $I18N->msg('module_not_found');
         $slice_id = '';
         $function = '';
-        $module_id = '';
-        $save = '';
         // ------------- END: MODUL IST NICHT VORHANDEN
-
       }
       else
       {
@@ -152,9 +151,6 @@ if ($article->getRows() == 1)
           $message = $I18N->msg('no_rights_to_this_function');
           $slice_id = '';
           $function = '';
-          $module_id = '';
-          $save = '';
-
         }
         else
         {
@@ -171,34 +167,8 @@ if ($article->getRows() == 1)
           }
 
           // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
-
-          if ($function == 'edit')
-            $modebit = '2'; // pre-action and edit
-          elseif ($function == 'delete')
-          	$modebit = '4'; // pre-action and delete
-          else
-            $modebit = '1'; // pre-action and add
-
-          $ga = new rex_sql;
-          $ga->setQuery('SELECT presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
-
-          for ($i = 0; $i < $ga->getRows(); $i++)
-          {
-            $REX_ACTION['MSG'] = '';
-            $iaction = $ga->getValue('presave');
-
-            // *********************** WERTE ERSETZEN
-            foreach ($REX['VARIABLES'] as $obj)
-            {
-              $iaction = $obj->getACOutput($REX_ACTION, $iaction);
-            }
-
-            eval ('?>' . $iaction);
-            if ($REX_ACTION['MSG'] != '')
-              $message .= $REX_ACTION['MSG'] . ' | ';
-            $ga->next();
-          }
-
+          list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
+          $message .= $action_message;
           // ----- / PRE SAVE ACTION
 
           // Statusspeicherung für die rex_article Klasse
@@ -219,7 +189,6 @@ if ($article->getRows() == 1)
           }
           else
           {
-
             // ----- SAVE/UPDATE SLICE
 
             if ($function == 'add' || $function == 'edit')
@@ -262,6 +231,7 @@ if ($article->getRows() == 1)
               }
               elseif ($function == 'add')
               {
+                $newsql->addGlobalUpdateFields();
                 $newsql->addGlobalCreateFields();
                 if ($newsql->insert())
                 {
@@ -303,29 +273,7 @@ if ($article->getRows() == 1)
             rex_generateArticle($article_id);
 
             // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
-
-            $ga = new rex_sql;
-            $ga->setQuery('SELECT postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
-
-            for ($i = 0; $i < $ga->getRows(); $i++)
-            {
-              $REX_ACTION['MSG'] = '';
-              $iaction = $ga->getValue('postsave');
-
-              // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
-              foreach ($REX['VARIABLES'] as $obj)
-              {
-                $iaction = $obj->getACOutput($REX_ACTION, $iaction);
-              }
-
-              eval ('?>' . $iaction);
-
-              if ($REX_ACTION['MSG'] != '')
-                $message .= ' | ' . $REX_ACTION['MSG'];
-
-              $ga->next();
-            }
-
+            $message .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
             // ----- / POST SAVE ACTION
 
             // Update Button wurde gedrückt?
@@ -333,8 +281,6 @@ if ($article->getRows() == 1)
             {
               $function = '';
             }
-
-            $save = '';
           }
         }
       }
@@ -356,74 +302,18 @@ if ($article->getRows() == 1)
           $message = $I18N->msg('module_not_found');
           $slice_id = "";
           $function = "";
-          $module_id = "";
-          $save = "";
           // ------------- END: MODUL IST NICHT VORHANDEN
-
         }
         else
         {
-
-          // ------------- MODUL IST VORHANDEN
-          $module_id = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.modultyp_id");
-
           // ----- RECHTE AM MODUL ?
           if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("dev[]") || $REX_USER->hasPerm("module[$module_id]") || $REX_USER->hasPerm("module[0]"))
           {
             // rechte sind vorhanden
-            // ctype beachten
-            // verschieben / vertauschen
-            // article regenerieren.
 
-            $slice_id = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.id");
-            $slice_article_id = $CM->getValue("article_id");
-            $re_slice_id = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.re_article_slice_id");
-            $slice_ctype = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.ctype");
-
-            $gs = new rex_sql;
-            // $gs->debugsql = 1;
-            $gs->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice where article_id='$slice_article_id'");
-            for ($i = 0; $i < $gs->getRows(); $i++)
+            if ($function == "moveup" || $function == "movedown")
             {
-              $SID[$gs->getValue("re_article_slice_id")] = $gs->getValue("id");
-              $SREID[$gs->getValue("id")] = $gs->getValue("re_article_slice_id");
-              $SCTYPE[$gs->getValue("id")] = $gs->getValue("ctype");
-              $gs->next();
-            }
-
-            $message = $I18N->msg('slice_moved_error');
-            // ------ moveup
-            if ($function == "moveup")
-            {
-              if ($SREID[$slice_id] > 0)
-              {
-                if ($SCTYPE[$SREID[$slice_id]] == $slice_ctype)
-                {
-                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$SREID[$slice_id]] . "' where id='" . $slice_id . "'");
-                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SREID[$slice_id] . "'");
-                  if ($SID[$slice_id] > 0)
-                    $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-                  $message = $I18N->msg('slice_moved');
-                  rex_generateArticle($slice_article_id);
-                }
-              }
-            }
-
-            // ------ movedown
-            if ($function == "movedown")
-            {
-              if ($SID[$slice_id] > 0)
-              {
-                if ($SCTYPE[$SID[$slice_id]] == $slice_ctype)
-                {
-                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-                  $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SID[$slice_id] . "' where id='" . $slice_id . "'");
-                  if ($SID[$SID[$slice_id]] > 0)
-                    $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
-                  $message = $I18N->msg('slice_moved');
-                  rex_generateArticle($slice_article_id);
-                }
-              }
+              list($success, $message) = rex_moveSlice($slice_id, $clang, $function);
             }
           }
           else
@@ -519,7 +409,6 @@ if ($article->getRows() == 1)
         {
           $message = $I18N->msg('content_errorcopyarticle');
         }
-          $message = $I18N->msg('content_errorcopyarticle');
       }
       else
       {

@@ -6,6 +6,9 @@
  * @version $Id: structure.inc.php,v 1.7 2008/03/21 19:45:17 kristinus Exp $
  */
 
+require $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
+require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
+
 $info = '';
 $warning = '';
 
@@ -45,10 +48,6 @@ else
 
 $function = rex_request('function', 'string');
 $category_id = rex_request('category_id', 'int');
-
-// --------------------------------------------- KATEGORIE PFAD UND RECHTE WERDEN ÜBERPRÜFT
-
-require $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
 
 // --------------------------------------------- TITLE
 
@@ -648,7 +647,7 @@ if ($category_id > -1)
       {
         if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]'))
         {
-            $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="'. $article_class .'">'. $article_status .'</a>';
+            $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
         }
 
         if (!$REX_USER->hasPerm('editContentOnly[]'))
@@ -722,8 +721,9 @@ if ($category_id > -1)
     echo '
       <script type="text/javascript">
          <!--
-         var needle = new getObj("article_name");
-         needle.obj.focus();
+        jQuery(function($) {
+          $("#article_name").focus();
+        });
          //-->
       </script>
     </fieldset>
