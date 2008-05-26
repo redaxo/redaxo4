@@ -51,7 +51,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
 
 <div id="rex-hdr">
 
-  <p class="rex-hdr-top"><?php echo $REX['SERVERNAME']; ?></p>
+  <p class="rex-hdr-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo $REX['SERVERNAME']; ?></a></p>
 
   <div>
 <?php
