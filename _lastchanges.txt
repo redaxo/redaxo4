@@ -49,9 +49,8 @@ Version 4.2.0 (2008-XX-XX)
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * rexVars:
     - REX_LINKLIST_BUTTON[] implementiert [BerserkerXP, Markus.Staab]
-    - prefix, suffix, instead, ifempty als globale rexVar Argumente [Markus.Staab]
+    - prefix, suffix, instead, ifempty, callback als globale rexVar Argumente [Markus.Staab]
     - preview, types Argumente bei REX_MEDIA/LIST_BUTTON
-    - 
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
