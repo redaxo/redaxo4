@@ -141,6 +141,7 @@ class rex_var
       case 'suffix':
       case 'ifempty':
       case 'instead':
+      case 'callback':
       $args[$name] = (string) $value;
     }
     return $args;
@@ -164,6 +165,12 @@ class rex_var
 
     if(isset($args['suffix']))
       $value = $value .$args['suffix'];
+
+    if(isset($args['callback']))
+    {
+      $args['subject'] = $value;
+      return rex_call_func($args['callback'], $args);
+    }
 
     if(isset($args['instead']) && $value != '')
       return $args['instead'];
@@ -261,4 +268,5 @@ class rex_var
     return rex_request('function', 'string') == 'delete';
   }
 }
+
 ?>
