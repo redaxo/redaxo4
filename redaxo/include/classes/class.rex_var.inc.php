@@ -160,25 +160,27 @@ class rex_var
    */
   function handleGlobalVarParams($varname, $args, $value)
   {
-    if(isset($args['prefix']))
-      $value = $args['prefix']. $value;
-
-    if(isset($args['suffix']))
-      $value = $value .$args['suffix'];
-
     if(isset($args['callback']))
     {
       $args['subject'] = $value;
       return rex_call_func($args['callback'], $args);
     }
 
+    $prefix = '';
+    if(isset($args['prefix']))
+      $prefix = $args['prefix'];
+
+    $suffix = '';
+    if(isset($args['suffix']))
+      $suffix = $args['suffix'];
+
     if(isset($args['instead']) && $value != '')
-      return $args['instead'];
+      $value = $args['instead'];
 
     if(isset($args['ifempty']) && $value == '')
-      return $args['ifempty'];
+      $value = $args['ifempty'];
 
-    return $value;
+    return $prefix . $value . $suffix;
   }
 
   /**
