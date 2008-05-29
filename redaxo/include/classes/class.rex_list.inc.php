@@ -916,9 +916,9 @@ class rex_list
     return $s;
   }
 
-  function getColumnLink($columnName, $columnValue)
+  function getColumnLink($columnName, $columnValue, $params = array())
   {
-    return '<a href="'. $this->getParsedUrl($this->getColumnParams($columnName)) .'"'. $this->_getAttributeString($this->getLinkAttributes($columnName, array())) .'>'. $columnValue .'</a>';
+    return '<a href="'. $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) .'"'. $this->_getAttributeString($this->getLinkAttributes($columnName, array())) .'>'. $columnValue .'</a>';
   }
 
   function getValue($colname)
