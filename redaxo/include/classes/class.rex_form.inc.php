@@ -25,7 +25,6 @@ class rex_form
   function rex_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     global $REX;
-    // TODO remove flag
 //    $debug = true;
 
     if(!in_array($method, array('post', 'get')))
@@ -211,13 +210,15 @@ class rex_form
 
   function &addCheckboxField($name, $value = null, $attributes = array())
   {
-    $field =& $this->addInputField('checkbox', $name, $value, $attributes);
+    $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
+    $field =& $this->addField('', $name, $value, $attributes);
     return $field;
   }
 
   function &addRadioField($name, $value = null, $attributes = array())
   {
-    $field =& $this->addInputField('radio', $name, $value, $attributes);
+    $attributes['internal::fieldClass'] = 'rex_form_radio_element';
+    $field =& $this->addField('radio', $name, $value, $attributes);
     return $field;
   }
 
@@ -1278,6 +1279,148 @@ class rex_form_select_element extends rex_form_element
   }
 }
 
+class rex_form_options_element extends rex_form_element
+{
+  var $options;
+
+  // 1. Parameter nicht genutzt, muss aber hier stehen,
+  // wg einheitlicher Konstrukturparameter
+  function rex_form_options_element($tag = '', &$table, $attributes = array())
+  {
+    parent::rex_form_element($tag, $table, $attributes);
+    $this->options = array();
+  }
+
+  function addOption($name, $value)
+  {
+    $this->options[$name] = $value;
+  }
+
+  function addOptions($options, $useOnlyValues = false)
+  {
+    if(is_array($options) && count($options)>0)
+    {
+      foreach ($options as $key => $option)
+      {
+        $option = (array) $option;
+        if($useOnlyValues)
+        {
+          $this->addOption($option[0], $option[0]);
+        }
+        else
+        {
+          if(!isset($option[1]))
+            $option[1] = $key;
+
+          $this->addOption($option[0], $option[1]);
+        }
+      }
+    }
+  }
+
+  function addSqlOptions($qry)
+  {
+    $sql = new rex_sql;
+    $this->addOptions($sql->getArray($qry, MYSQL_NUM));
+  }
+
+  function addDBSqlOptions($qry)
+  {
+    $sql = new rex_sql;
+    $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
+  }
+
+  function getOptions()
+  {
+    return $this->options;
+  }
+}
+
+class rex_form_checkbox_element extends rex_form_options_element
+{
+  // 1. Parameter nicht genutzt, muss aber hier stehen,
+  // wg einheitlicher Konstrukturparameter
+  function rex_form_checkbox_element($tag = '', &$table, $attributes = array())
+  {
+    parent::rex_form_options_element('', $table, $attributes);
+    // Jede checkbox bekommt eingenes Label
+    $this->setLabel('');
+  }
+
+  function formatLabel()
+  {
+    // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
+    return '<span>'. $this->getLabel() .'</span>';
+  }
+
+  function formatElement()
+  {
+    $s = '';
+    $values = explode('|+|', $this->getValue());
+    $options = $this->getOptions();
+    $name = $this->getAttribute('name');
+    $id = $this->getAttribute('id');
+
+    $attr = '';
+    foreach($this->getAttributes() as $attributeName => $attributeValue)
+    {
+      if($attributeName == 'name' || $attributeName == 'id') continue;
+      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+    }
+
+    foreach($options as $opt_name => $opt_value)
+    {
+      $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
+      $opt_id = $id .'_'. $this->_normalizeId($opt_value);
+      $opt_attr = $attr . ' id="'. $opt_id .'"';
+      $s .= '<input type="checkbox" name="'. $name .'['. $opt_value .']" value="'. htmlspecialchars($opt_value) .'"'. $opt_attr . $checked.' />
+             <label for="'. $opt_id .'">'. $opt_name .'</label>';
+    }
+    return $s;
+  }
+}
+
+class rex_form_radio_element extends rex_form_options_element
+{
+  // 1. Parameter nicht genutzt, muss aber hier stehen,
+  // wg einheitlicher Konstrukturparameter
+  function rex_form_radio_element($tag = '', &$table, $attributes = array())
+  {
+    parent::rex_form_options_element('', $table, $attributes);
+    // Jedes radio bekommt eingenes Label
+  }
+
+  function formatLabel()
+  {
+    // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
+    return '<span>'. $this->getLabel() .'</span>';
+  }
+
+  function formatElement()
+  {
+    $s = '';
+    $value = $this->getValue();
+    $options = $this->getOptions();
+    $id = $this->getAttribute('id');
+
+    $attr = '';
+    foreach($this->getAttributes() as $attributeName => $attributeValue)
+    {
+      if($attributeName == 'id') continue;
+      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+    }
+
+    foreach($options as $opt_name => $opt_value)
+    {
+      $checked = $opt_value == $value ? ' checked="checked"' : '';
+      $opt_id = $id .'_'. $this->_normalizeId($opt_value);
+      $opt_attr = $attr . ' id="'. $opt_id .'"';
+      $s .= '<input type="radio" value="'. htmlspecialchars($opt_value) .'"'. $opt_attr . $checked.' />
+             <label for="'. $opt_id .'">'. $opt_name .'</label>';
+    }
+    return $s;
+  }
+}
 
 class rex_form_widget_media_element extends rex_form_element
 {
