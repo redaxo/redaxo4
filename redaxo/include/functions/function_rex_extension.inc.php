@@ -126,9 +126,9 @@ function rex_call_func($function, $params, $parseParamsAsArray = true)
     // static class method
     if (strpos($function, '::') !== false)
     {
-      preg_match('!(\w+)::(\w+)!', $function, $_match = array ());
-      $_class_name = $_match[1];
-      $_method_name = $_match[2];
+      $_match = explode('::', $function);
+      $_class_name = trim($_match[0]);
+      $_method_name = trim($_match[1]);
 
       rex_check_callable($func = array ($_class_name, $_method_name));
     }
