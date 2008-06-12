@@ -81,7 +81,11 @@ class rex_thumbnail
   {
     // --- height
     $this->img['height_thumb'] = (int) $size;
-    $this->img['width_thumb']  = (int) ($this->img['height_thumb'] / $this->img['height'] * $this->img['width']);
+    // siehe http://forum.redaxo.de/ftopic9292.html
+    if ($this->img['width_thumb'] == 0)
+    {
+      $this->img['width_thumb']  = (int) ($this->img['height_thumb'] / $this->img['height'] * $this->img['width']);
+    }
   }
 
   function size_width($size)
