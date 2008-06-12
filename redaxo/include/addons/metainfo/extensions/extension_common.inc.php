@@ -330,7 +330,19 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         // ----- EXTENSION POINT
         list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-          rex_register_extension_point( 'A62_CUSTOM_FIELD', array($field, $tag, $tag_attr, $id, $label, $labelIt, 'type' => $typeLabel, 'sql' => $sqlFields));
+          rex_register_extension_point( 'A62_CUSTOM_FIELD',
+            array(
+              $field,
+              $tag,
+              $tag_attr,
+              $id,
+              $label,
+              $labelIt,
+              'values' => $dbvalues_esc,
+              'rawvalues' => $dbvalues,
+              'type' => $typeLabel,
+              'sql' => $sqlFields)
+            );
       }
     }
 
