@@ -56,12 +56,12 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
   // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
   rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
 
-  $contentMd5 = md5($content);
+  $etag = md5($content);
 
   if($REX_ARTICLE)
   {
     $lastModified = $REX_ARTICLE->getValue('updatedate');
-    $contentMd5 .= $REX_ARTICLE->getValue('pid');
+    $etag .= $REX_ARTICLE->getValue('pid');
   }
   else
   {
@@ -71,7 +71,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
   rex_send_content(
     $content,
     $lastModified,
-    $contentMd5,
+    $etag,
     $environment);
 }
 
@@ -85,7 +85,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
  * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
  * (frontend/backend)
  */
-function rex_send_content($content, $lastModified, $cacheKey, $environment)
+function rex_send_content($content, $lastModified, $etag, $environment)
 {
   global $REX;
 
@@ -95,7 +95,7 @@ function rex_send_content($content, $lastModified, $cacheKey, $environment)
 
   // ----- ETAG
   if($REX['USE_ETAG'] === 'true' || $REX['USE_ETAG'] == $environment)
-    rex_send_etag($cacheKey);
+    rex_send_etag($etag);
 
   // ----- GZIP
   if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
