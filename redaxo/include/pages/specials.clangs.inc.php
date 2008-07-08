@@ -167,10 +167,11 @@ if ($func == 'addclang' || $func == 'editclang')
 {
   echo '
           <script type="text/javascript">
-             <!--
-             var needle = new getObj("clang_name");
-             needle.obj.focus();
-             //-->
+            <!--
+            jQuery(function($){
+              $("#clang_name").focus();
+            });
+            //-->
           </script>
         </fieldset>
       </form>';

@@ -428,10 +428,11 @@ if($function == 'add_cat' || $function == 'edit_cat')
   $fieldId = $function == 'add_cat' ? 'category_name' :  'kat_name';
   echo '
     <script type="text/javascript">
-       <!--
-       var needle = new getObj("'. $fieldId .'");
-       needle.obj.focus();
-       //-->
+      <!--
+      jQuery(function($){
+        $("#'. $fieldId .'").focus();
+      });
+      //-->
     </script>
   </fieldset>
 </form>';
@@ -720,11 +721,11 @@ if ($category_id > -1)
   {
     echo '
       <script type="text/javascript">
-         <!--
-        jQuery(function($) {
+        <!--
+        jQuery(function($){
           $("#article_name").focus();
         });
-         //-->
+        //-->
       </script>
     </fieldset>
   </form>';
