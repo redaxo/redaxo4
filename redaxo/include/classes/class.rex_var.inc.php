@@ -257,12 +257,12 @@ class rex_var
 
   function isAddEvent()
   {
-    return (rex_request('btn_save', 'string') != '') && rex_request('function', 'string') == 'add';
+    return rex_request('function', 'string') == 'add';
   }
 
   function isEditEvent()
   {
-    return (rex_request('btn_update', 'string') != '' || rex_request('btn_save', 'string') != '') && rex_request('function', 'string') == 'edit';
+    return rex_request('function', 'string') == 'edit';
   }
 
   function isDeleteEvent()

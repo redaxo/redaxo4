@@ -277,6 +277,8 @@ if ($article->getRows() == 1)
             // ----- / POST SAVE ACTION
 
             // Update Button wurde gedrückt?
+            // TODO: Workaround, da IE keine Button Namen beim
+            // drücken der Entertaste übermittelt
             if (rex_post('btn_save', 'string'))
             {
               $function = '';
