@@ -26,10 +26,10 @@ Version 4.2.0 (2008-XX-XX)
   * JQuery update auf 1.2.6 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
-  * Struktur:
-    - Default Template festlegbar [Markus.Staab]
+  * Struktur: [Markus.Staab]
+    - Default Template festlegbar
       + http://forum.redaxo.de/ftopic6934.html
-    - Logik in API ausgelagert [Markus.Staab]
+    - Logik in API ausgelagert
   * Inhaltsverwaltung:
     - Logik in API ausgelagert [Markus.Staab]
   * ReloginDelay wird heruntergezaehlt [Markus.Staab]
@@ -40,11 +40,11 @@ Version 4.2.0 (2008-XX-XX)
   * BackendSearch:
     - Suchmodus einstellbar global/local [Markus.Staab]
     - Suchqueries via EP modifizierbar [Markus.Staab]
-  * MetaInfo:
-    - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons [Markus.Staab]
-    - Date/Datetime felder jetzt deaktivierbar [Markus.Staab]
+  * MetaInfo: [Markus.Staab]
+    - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons
+    - Date/Datetime felder jetzt deaktivierbar
       + http://forum.redaxo.de/ftopic9032.html
-    - isInUse Check beim löschen von Medien auch für MetaInfo Felder [Markus.Staab]
+    - isInUse Check beim löschen von Medien auch für MetaInfo Felder
       + http://forum.redaxo.de/ftopic8835.html
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * rexVars:
