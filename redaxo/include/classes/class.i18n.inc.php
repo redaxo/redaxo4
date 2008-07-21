@@ -8,7 +8,6 @@
 
 class i18n
 {
-
   var $locales;
   var $searchpath;
 
@@ -62,7 +61,7 @@ class i18n
         $buffer = fgets($f, 4096);
         if (preg_match("/^(\w*)\s*=\s*(.*)$/", $buffer, $matches))
         {
-          $this->text[$matches[1]] = trim($matches[2]);
+          $this->addMsg($matches[1], trim($matches[2]));
         }
       }
       fclose($f);
@@ -98,6 +97,11 @@ class i18n
     }
 
     return preg_replace($patterns, $replacements, $msg);
+  }
+
+  function addMsg($key, $msg)
+  {
+    $this->text[$key] = $msg;
   }
 
   function hasMsg($key)
