@@ -270,7 +270,14 @@ class OOArticleSlice
 
   function getValue($index)
   {
-    return $this->_values[$index-1];
+    if(is_int($index))
+      return $this->_values[$index-1];
+
+    $attrName = '_'. $index;
+    if(isset($this->$attrName))
+      return $this->$attrName;
+
+    return null;
   }
 
   function getLink($index)
