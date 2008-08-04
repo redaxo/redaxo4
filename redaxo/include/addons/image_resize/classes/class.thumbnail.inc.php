@@ -187,7 +187,7 @@ class rex_thumbnail
     imagecopyresampled($this->img['des'], $this->img['src'], 0, 0, $this->img['width_offset_thumb'], $this->img['height_offset_thumb'], $this->img['width_thumb'], $this->img['height_thumb'], $this->img['width'], $this->img['height']);
   }
 
-  function generateImage($file = '', $show = true)
+  function generateImage($file = null, $show = true)
   {
     global $REX;
 
@@ -218,7 +218,8 @@ class rex_thumbnail
       imageWBMP($this->img['des'], $file);
     }
 
-    chmod($file, $REX['FILEPERM']);
+    if($file)
+      chmod($file, $REX['FILEPERM']);
 
     if ($show)
     {
