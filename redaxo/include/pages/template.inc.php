@@ -237,15 +237,8 @@ if ($OUT)
   $list->setCaption($I18N->msg('header_template_caption'));
   $list->addTableAttribute('summary', $I18N->msg('header_template_summary'));
 
-  if (!$REX_USER->hasPerm('advancedMode[]'))
-  {
-    $list->removeColumn('id');
-    $list->addTableColumnGroup(array(40, '*', 153, 153));
-  }
-  else
-  {
-    $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
-  }
+  $list->removeColumn('id');
+  $list->addTableColumnGroup(array(40, '*', 153, 153));
 
   $img = '<img src="media/template.gif" alt="###name###" title="###name###" />';
   $imgAdd = '<img src="media/template_plus.gif" alt="'.$I18N->msg('create_template').'" title="'.$I18N->msg('create_template').'" />';
