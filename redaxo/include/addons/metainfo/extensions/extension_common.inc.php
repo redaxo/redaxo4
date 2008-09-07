@@ -165,6 +165,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
         $select->setSelected($dbvalues);
 
+				$multiple = FALSE;
         foreach(rex_split_string($attr) as $attr_name => $attr_value)
         {
           if(empty($attr_name)) continue;
@@ -172,8 +173,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $select->setAttribute($attr_name, $attr_value);
 
           if($attr_name == 'multiple')
+          {
+          	$multiple = TRUE;
             $select->setName($name.'[]');
+          }
         }
+        
+        if(!$multiple)
+        	$select->setSize(1);
 
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
