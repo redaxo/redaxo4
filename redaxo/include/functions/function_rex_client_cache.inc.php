@@ -176,8 +176,9 @@ function rex_send_etag($cacheKey)
  */
 function rex_send_gzip($content)
 {
-  $supportsGzip = false;
   $enc = '';
+  $encodings = array();
+  $supportsGzip = false;
 
   // Check if it supports gzip
   if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
