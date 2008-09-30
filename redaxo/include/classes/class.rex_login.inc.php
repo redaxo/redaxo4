@@ -71,7 +71,8 @@ class rex_login
     $this->system_id = "default";
     $this->cache = false;
     $this->login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
-    session_start();
+    if (session_id() == "") 
+    	session_start();
   }
 
   /**
