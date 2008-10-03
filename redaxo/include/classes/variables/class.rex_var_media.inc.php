@@ -159,6 +159,7 @@ class rex_var_media extends rex_var
 
         if ($id < 11 && $id > 0)
         {
+        	$category = '';
           if(isset($args['category']))
           {
             $category = $args['category'];
