@@ -308,8 +308,10 @@ if ($article->getRows() == 1)
         }
         else
         {
+        	$module_id = (int) $CM->getValue($REX['TABLE_PREFIX']."article_slice.modultyp_id");
+        	
           // ----- RECHTE AM MODUL ?
-          if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("dev[]") || $REX_USER->hasPerm("module[$module_id]") || $REX_USER->hasPerm("module[0]"))
+          if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("module[$module_id]") || $REX_USER->hasPerm("module[0]"))
           {
             // rechte sind vorhanden
 
