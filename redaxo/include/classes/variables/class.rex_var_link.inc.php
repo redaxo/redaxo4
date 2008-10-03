@@ -123,6 +123,7 @@ class rex_var_link extends rex_var
 
       	// Wenn vom Programmierer keine Kategorie vorgegeben wurde,
       	// die Linkmap mit der aktuellen Kategorie öffnen
+      	$category = '';
 	      if($category == '') $category = $def_category;
 
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
