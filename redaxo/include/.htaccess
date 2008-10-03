@@ -1,7 +1,2 @@
-RewriteEngine Off
-Deny from all
-AuthUserFile ./user.psw
-AuthGroupFile /dev/null
-AuthName "Include Folder"
-AuthType Basic
-require valid-user
+order deny,allow
+deny from all
