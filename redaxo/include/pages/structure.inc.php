@@ -522,10 +522,20 @@ if ($category_id > -1)
           <col width="40" />
           <col width="105" />
           <col width="105" />
-          <col width="105" />
+          <col width="105" />';
+          
+  if ($function == 'edit_art' && isset ($article_id) && $sql->getValue('id') == $article_id && $KATPERM)
+  {
+  	echo '<col width="152" />';
+  }else
+  {
+  	echo '
           <col width="51" />
           <col width="51" />
-          <col width="51" />
+          <col width="51" />';  
+  }
+          
+  echo '
         </colgroup>
         <thead>
           <tr>
