@@ -179,7 +179,7 @@ function rex_a256_search_structure($params)
         <input type="hidden" name="ctype" id="rex-a256-article-clang" value="'. $ctype .'" />
         <input type="hidden" name="a256_clang" id="rex-a256-article-clang" value="'. $clang .'" />
 
-		    <div class="rex-f-lft">
+		    <div class="rex-fl-lft">
 	        <label for="rex-a256-article-name">'. $I18N_BE_SEARCH->msg('search_article_name') .'</label>
     	    <input type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars(stripslashes($a256_article_name)) .'"'. rex_tabindex() .' />
 
@@ -188,7 +188,7 @@ function rex_a256_search_structure($params)
     	    <input class="rex-sbmt" type="submit" name="a256_start_search" value="'. $I18N_BE_SEARCH->msg('search_start') .'"'. rex_tabindex() .' />
 		    </div>
 
-    		<div class="rex-f-rght">
+    		<div class="rex-fl-rght">
     			<label for="rex-a256-category-id">'. $I18N_BE_SEARCH->msg('search_quick_navi') .'</label>';
 
     			$category_select->setAttribute('tabindex', rex_tabindex(false));
