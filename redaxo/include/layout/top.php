@@ -28,8 +28,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
   <meta http-equiv="Cache-Control" content="no-cache" />
   <meta http-equiv="Pragma" content="no-cache" />
-  <link rel="stylesheet" type="text/css" href="media/css_backend.css" media="screen, projection, print" />
-  <link rel="stylesheet" type="text/css" href="media/css_aural.css" media="handheld, aural, braille" />
+  <link rel="stylesheet" type="text/css" href="media/css_v0_import.css" media="screen, projection, print" />
   <script src="media/jquery.pack.js" type="text/javascript"></script>
   <script src="media/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
@@ -48,12 +47,12 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
 ?>
 </head>
 <body <?php echo $bodyAttr; ?>>
+<div id="rex-website">
+<div id="rex-header">
 
-<div id="rex-hdr">
+  <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo $REX['SERVERNAME']; ?></a></p>
 
-  <p class="rex-hdr-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo $REX['SERVERNAME']; ?></a></p>
-
-  <div>
+  <div id="rex-navi-header">
 <?php
 
 if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
@@ -61,8 +60,8 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
   $accesskey = 1;
 
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
-  echo '<p>' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . $user_name . '</a></strong> [<a href="index.php?FORM[logout]=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
-  echo '<ul id="rex-main-mnu">';
+  echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . $user_name . '</a></strong> [<a href="index.php?FORM[logout]=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
+  echo '<ul id="rex-navi-system">';
 
   $activeClass = ' class="rex-active"';
   $liClass = $page == 'structure' || $page == 'content' ? $activeClass : '';
@@ -116,7 +115,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
   if(count($onlineAddons) > 0)
   {
     $first = true;
-    echo '<ul id="rex-addon-mnu">' . "\n";
+    echo '<ul id="rex-navi-addon">' . "\n";
 
     for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
     {
@@ -171,10 +170,10 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
 }
 else if(!isset($open_header_only))
 {
-  echo '<p>' . $I18N->msg('logged_out') . '</p>';
+  echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
 }else
 {
-  echo '<p>&nbsp;</p>';
+  echo '<p class="rex-logout">&nbsp;</p>';
 }
 ?>
   </div>
