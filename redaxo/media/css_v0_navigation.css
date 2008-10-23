@@ -1,0 +1,111 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ */
+
+
+/*	Header / Footer ************************************************************
+*******************************************************************************/
+div#rex-navi-header {
+	float: left;
+	width: 100%;
+	padding: 5px 0;
+}
+div#rex-navi-header p,
+div#rex-navi-footer p {
+	float: right;
+	margin: 0 5px;
+}
+div#rex-navi-header p a {
+	font-weight: bold;
+}
+
+div#rex-navi-header ul,
+div#rex-navi-footer ul {
+	float: left;
+	width: 70%;
+	margin: 0 5px;
+}
+body#rex-page-medienpool div#rex-navi-header ul,
+body#rex-page-linkmap div#rex-navi-header ul {
+	width: 100%;
+}
+
+div#rex-navi-header ul li,
+div#rex-navi-footer ul li {
+	display: inline;
+}
+div#rex-navi-header ul li a {
+	font-weight: bold;
+}
+
+/*	Navi unter Titel ***********************************************************
+*******************************************************************************/
+div.rex-title-row ul li {
+	display: inline;
+	font-weight: bold;
+}
+
+/*	Pfad ***********************************************************************
+*******************************************************************************/
+ul#rex-navi-path li {
+}
+
+/*	Sprachen, Content (Editiermodus, Metadaten, Anzeigen) **********************
+*******************************************************************************/
+div.rex-content-header {
+	position: relative;
+	float: left;
+	width: 100%;
+}
+div#rex-clang,
+div.rex-content-header {
+	margin-bottom: 10px;
+}
+div#rex-clang {
+	padding-left: 39px;
+}
+div.rex-content-header-2 {
+	margin-left: 40px;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+
+div#rex-clang ul,
+div.rex-content-header ul {
+	padding-left: 7px;
+}
+div#rex-clang ul {
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+div.rex-content-header ul {
+	float: left;
+	margin-right: 50px;
+}
+div.rex-content-header ul.rex-navi-content {
+	float: right;
+	margin-right: 153px;
+	padding-right: 7px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+div#rex-clang ul li,
+div.rex-content-header ul li {
+	display: inline;
+	font-weight: bold;
+}
+div.rex-content-header ul li a,
+div.rex-content-header ul li span {
+	font-weight: normal;
+}
+
+
+
+
+
+
+

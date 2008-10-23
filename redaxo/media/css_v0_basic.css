@@ -1,0 +1,419 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ */
+
+/************************************* Reset allgemein - NICHTS VERAENDERN *****
+*******************************************************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+:focus {
+	outline: 0;
+}
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*********************************************** Reset - NICHTS VERAENDERN *****
+*******************************************************************************/
+a {
+	text-decoration: none;
+}
+img, iframe {
+	vertical-align: bottom;
+}
+strong {
+	font-weight: bold;
+}
+input, textarea, select {
+	font-size: 1em;
+}
+html {
+	height: 100.01%;
+	margin-bottom: -1px;
+}
+body {
+	position: relative;
+	background-color: #FFF;
+	color: #000;
+	font-size: 100.01%;
+	font-weight: normal;
+	line-height: 1;
+	text-align: left;
+}
+
+
+/******************************************** Standard - NICHTS VERAENDERN *****
+*******************************************************************************/
+body, div,
+h1, h2, h3, h4, h5, h6, p,
+a, span,
+li {
+	background-repeat:no-repeat;
+}
+
+.rex-nospace {
+	margin: 0;
+	padding: 0;
+}
+
+.rex-clearer {
+	display: block;
+	clear: both;
+	line-height: 0em;
+	height: 1px;
+	font-size: 0;
+	visibility: hidden;
+}
+
+.rex-clear {
+	clear: both;
+}
+
+.rex-hidden {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
+}
+
+.rex-rvrs {
+	unicode-bidi: bidi-override;
+	direction: rtl;
+}
+
+.rex-fl-lft {
+	float: left;
+}
+
+.rex-fl-rght {
+	float: right;
+}
+
+.rex-algn-lft {
+	text-align: left;
+}
+
+.rex-algn-rght {
+	text-align: right;
+}
+.rex-strke {
+	text-decoration: line-through;
+}
+
+div#rex-website a {
+	text-decoration: none;
+}
+div#rex-website a:hover {
+	text-decoration: underline;
+}
+
+
+
+/*	Schriftgroessen ************************************************************
+*******************************************************************************/
+div#rex-title h1 {
+	font-size: 1.3em;
+}
+
+
+/*	Zeilenhoehen ***************************************************************
+*******************************************************************************/
+
+div#rex-title ul,
+div#rex-title p,
+div#rex-clang ul,
+div.rex-content-header ul {
+	line-height: 3;
+}
+
+div#rex-title h1 {
+	line-height: 2.3;
+}
+div#rex-navi-header p,
+div#rex-navi-header ul {
+	line-height: 1.2;
+}
+
+
+/*	Text Color *****************************************************************
+*******************************************************************************/
+/*	Grau */
+body,
+div#rex-header p.rex-header-top a,
+div#rex-navi-footer ul li,
+div#rex-navi-footer ul li,
+div#rex-navi-footer ul li a,
+div#rex-clang ul li a.rex-active,
+div.rex-content-header ul li a.rex-active,
+div.rex-content-header ul li span {
+	color: #32353A;
+}
+
+/*	Weiss */
+div#rex-navi-header p a,
+div#rex-navi-header ul li,
+div#rex-navi-header ul li a {
+	color: #FFF;
+}
+
+/*	Rot */
+a {
+	color: #F2353A;
+}
+.rex-warning,
+div.rex-warning-block {
+	color: #EA1144;
+}
+.rex-offline,
+div#rex-lmp ul li a.rex-offline {
+	color: #A00;
+}
+
+/*	Gruen */
+.rex-info,
+div.rex-info-block,
+div.rex-info-block a {
+	color: #107C2C;
+}
+.rex-ok,
+.rex-online,
+div#rex-lmp ul li a.rex-online {
+	color: #3EC94A;
+}
+
+/*	Blau */
+div.rex-content-header ul li a {
+	color: #669;
+}
+/*
+.rex-nice {
+	color:#3A3;
+}
+
+.rex-error {
+	color:#C33;
+}
+
+.rex-clr-grn {
+	color:#478C44;
+}
+.rex-clr-red {
+	color:#EA1144;
+}
+*/
+
+/*	Background Color ***********************************************************
+*******************************************************************************/
+div#rex-header div#rex-navi-header {
+	background-color: #AAB9A8;
+}
+div#rex-footer,
+div#rex-header p.rex-header-top,
+div#rex-clang,
+div#rex-title,
+div.rex-content-header,
+div.rex-content-cols,
+table.rex-table {
+	background-color: #F0EFEB;
+}
+div.rex-content-body {
+	background-color: #FAF9F5;
+}
+
+/*	Rot */
+.rex-warning,
+div.rex-warning-block {
+	background-color: #FAE9E5;
+}
+
+/*	Gruen */
+.rex-info,
+div.rex-info-block {
+	background-color: #D2EFD9;
+}
+table.rex-table caption {
+	background-color: #D6E1E4;
+}
+table.rex-table th {
+	background-color: #D7D6D3;
+}
+table.rex-table tr.rex-table-row-activ td {
+	background-color: #E7E6E3;
+}
+
+
+/*	Border Color ***************************************************************
+*******************************************************************************/
+div#rex-footer {
+	border-top-color: #AAB9A8;
+}
+
+/*	Weiss */
+table.rex-table caption,
+table.rex-table th,
+table.rex-table td {
+	border-color: #FFF;
+}
+div.rex-content-header ul.rex-navi-content {
+	border-right-color: #FFF;
+}
+div#rex-title h1,
+div#rex-title ul,
+div#rex-title p {
+	border-bottom-color: #FFF;
+}
+div#rex-clang ul,
+div.rex-content-header-2,
+div.rex-content-header ul.rex-navi-content {
+	border-left-color: #FFF;
+}
+
+
+/*	Background Images **********************************************************
+*******************************************************************************/
+div.rex-content-header {
+	background-image: url(../media/document.gif);
+	background-position: 13px 50%;
+}
+.rex-info {
+	background-image: url(../media/excla_mark_green.gif);
+	background-position: 0% 50%;
+}
+div#rex-title {
+	background-image: url(../media/logo.jpg);
+	background-position: 100% 50%;
+}
+.rex-warning {
+	background-image: url(../media/warning.gif);
+	background-position: 0% 50%;
+}
+
+
+
+/*	Seitenstruktur *************************************************************
+*******************************************************************************/
+body {
+	margin: 8px;
+	font-family: Verdana, Arial, sans-serif;
+}
+
+div#rex-website {
+	width: 770px;
+	font-size: .625em;
+}
+
+div#rex-header,
+div#rex-footer,
+div#rex-wrapper,
+div#rex-output {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+}
+div#rex-footer {
+	margin: 10px 0;
+	padding: 5px 0;
+	border-top-width: 20px;
+	border-top-style: solid;
+}
+div#rex-header p.rex-header-top {
+	padding: 5px;
+	text-align: right;
+}
+
+div#rex-output {
+	margin-top: 10px;
+}
+div.rex-content-body {
+	clear: both;
+	padding: 1px 153px 0 39px;
+}
+
+/*	Titel **********************************************************************
+*******************************************************************************/
+div#rex-title {
+	margin-top: 10px;
+	height: 61px;
+}
+
+html>body div#rex-title {
+	height: auto;
+	min-height: 61px;
+}
+body#rex-page-linkmap div#rex-title,
+body#rex-page-medienpool div#rex-title {
+	background-image: none;
+}
+/* einzeilig */
+body#rex-page-linkmap div#rex-title {
+	height: 31px;
+}
+html>body#rex-page-linkmap div#rex-title {
+	height: auto;
+	min-height: 31px;
+}
+body#rex-page-linkmap div#rex-title p {
+	display: none;
+}
+
+div#rex-title div.rex-title-row {
+	width: 617px;
+}
+body#rex-page-linkmap div#rex-title div.rex-title-row,
+body#rex-page-medienpool div#rex-title div.rex-title-row {
+	width: 100%;
+}
+div#rex-title h1,
+div#rex-title ul,
+div#rex-title p {
+	padding-left: 7px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+

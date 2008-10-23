@@ -1,0 +1,18 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ */
+
+
+/*	Inputs in Table
+	- add, edit Category (Structure, Medienpool)
+	- add, edit Article (Structure)
+*******************************************************************************/
+/* - Cat/Art Edit Form */
+input#rex-form-field-name {
+	width: 97%;
+}
+input#rex-form-field-prior {
+	width: 87%;
+}

@@ -1,0 +1,109 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ */
+
+
+caption.rex-hidden,
+legend.rex-hidden {
+	display: none;
+}
+
+
+/*	Hinweise *******************************************************************
+*******************************************************************************/
+.rex-message {
+	clear: both;
+	width: 100%;
+	margin: 0 0 10px 0;
+	padding: 8px 0px;
+	font-weight: bold;
+}
+table .rex-message,
+body#rex-page-content .rex-message,
+div.rex-content-editmode-slc .rex-message {
+	margin-bottom: 0px;
+}
+body#rex-page-medienpool .rex-message {
+	margin-bottom: 2px;
+}
+div.rex-content-editmode-slc .rex-message {
+	padding: 0;
+}
+.rex-message span {
+	display: block;
+	padding: 0 45px;
+}
+
+
+
+div.rex-message-block {
+	clear: both;
+	margin: 0 0 10px 0;
+	padding: 8px 45px;
+	line-height: 1.6;
+}
+div.rex-message-block ol {
+	margin-left: 20px;
+}
+div.rex-message-block ol li {
+	list-style-type: decimal;
+}
+div.rex-message-block ul {
+	margin-left: 15px;
+}
+div.rex-message-block ul li {
+	list-style-type: square;
+}
+
+
+
+/*	Table **********************************************************************
+*******************************************************************************/
+table.rex-table {
+	clear: both;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 1px;
+}
+table.rex-table-mrgn {
+	margin-bottom: 10px;
+}
+table.rex-table caption,
+table.rex-table th,
+table.rex-table td {
+	padding: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-right-width: 0;
+}
+
+table.rex-table caption {
+	border-bottom: 0;
+	font-weight: bold;
+	text-align: left;
+}
+body#rex-page-module table.rex-table caption {
+	border:0;
+}
+
+table.rex-table th {
+	border-bottom: 0;
+	text-align: left;
+}
+
+/*	real width = border + padding + width */
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon {
+	width: 29px;
+	text-align: center;
+}
+
+table.rex-table th.rex-colz,
+table.rex-table td.rex-colz {
+	width: 153px;
+}
+table.rex-table td.rex-icon img {
+	vertical-align: middle;
+}
