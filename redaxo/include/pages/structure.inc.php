@@ -225,7 +225,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
   echo '
   <form action="index.php" method="post">
     <fieldset>
-      <legend><span class="rex-hide">'.$I18N->msg('add_category') .'</span></legend>
+      <legend><span class="rex-hidden">'.$I18N->msg('add_category') .'</span></legend>
       <input type="hidden" name="page" value="structure" />';
 
   if ($function == 'edit_cat')
@@ -238,7 +238,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
 
 echo '
       <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($I18N->msg('structure_categories_summary', $cat_name)) .'">
-        <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
+        <caption class="rex-hidden">'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
         <colgroup>
           <col width="40" />
           '. $add_col .'
@@ -287,14 +287,14 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
   }
 
   $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
-  $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
+  $add_buttons .= '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
 
   echo '
-        <tr class="rex-trow-actv">
+        <tr class="rex-table-row-activ">
           <td class="rex-icon"><img src="media/folder.gif" title="'. $I18N->msg('add_category') .'" alt="'. $I18N->msg('add_category') .'" /></td>
           '. $add_td .'
-          <td><input type="text" id="category_name" name="category_name" /></td>
-          <td><input type="text" id="Position_New_Category" name="Position_New_Category" value="100" /></td>
+          <td><input type="text" id="rex-form-field-name" name="category_name" /></td>
+          <td><input type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
           <td>'. $add_buttons .'</td>
           <td class="rex-offline">'. $I18N->msg('status_offline') .'</td>
         </tr>';
@@ -342,19 +342,19 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
 
-      $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
+      $add_buttons .= '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
       if (!$REX_USER->hasPerm('editContentOnly[]'))
       {
-        $add_buttons .= '<input type="submit" class="rex-fsubmit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '"'. rex_accesskey($I18N->msg('delete_category'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
+        $add_buttons .= '<input type="submit" class="rex-form-submit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '"'. rex_accesskey($I18N->msg('delete_category'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
 
 
       echo '
-        <tr class="rex-trow-actv">
+        <tr class="rex-table-row-activ">
           '. $kat_icon_td .'
           '. $add_td .'
-          <td><input type="text" id="kat_name" name="kat_name" value="'. htmlspecialchars($KAT->getValue("catname")). '" /></td>
-          <td><input type="text" id="Position_Category" name="Position_Category" value="'. htmlspecialchars($KAT->getValue("catprior")) .'" /></td>
+          <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="kat_name" value="'. htmlspecialchars($KAT->getValue("catname")). '" /></td>
+          <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Category" value="'. htmlspecialchars($KAT->getValue("catprior")) .'" /></td>
           <td>'. $add_buttons .'</td>
           <td>'. $kat_status .'</td>
         </tr>';
@@ -425,12 +425,11 @@ echo '
 
 if($function == 'add_cat' || $function == 'edit_cat')
 {
-  $fieldId = $function == 'add_cat' ? 'category_name' :  'kat_name';
   echo '
     <script type="text/javascript">
       <!--
       jQuery(function($){
-        $("#'. $fieldId .'").focus();
+        $("#rex-form-field-name").focus();
       });
       //-->
     </script>
@@ -456,7 +455,7 @@ if ($category_id > -1)
   $TEMPLATES->setQuery('select * from '.$REX['TABLE_PREFIX'].'template order by name');
   $TMPL_SEL = new rex_select;
   $TMPL_SEL->setName('template_id');
-  $TMPL_SEL->setId('template_id');
+  $TMPL_SEL->setId('rex-form-template');
   $TMPL_SEL->setSize(1);
   $TMPL_SEL->addOption($I18N->msg('option_no_template'), '0');
 
@@ -491,7 +490,7 @@ if ($category_id > -1)
     echo '
     <form action="index.php" method="post">
       <fieldset>
-        <legend><span class="rex-hide">'.$I18N->msg('article_add') .'</span></legend>
+        <legend><span class="rex-hidden">'.$I18N->msg('article_add') .'</span></legend>
         <input type="hidden" name="page" value="structure" />
         <input type="hidden" name="category_id" value="'. $category_id .'" />';
     if (isset($article_id)) echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
@@ -514,27 +513,19 @@ if ($category_id > -1)
 
   echo '
       <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
-        <caption class="rex-hide">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
+        <caption class="rex-hidden">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
         <colgroup>
           <col width="40" />
           '. $add_col .'
           <col width="*" />
           <col width="40" />
-          <col width="105" />
-          <col width="105" />
-          <col width="105" />';
-          
-  if ($function == 'edit_art' && isset ($article_id) && $sql->getValue('id') == $article_id && $KATPERM)
-  {
-  	echo '<col width="152" />';
-  }else
-  {
-  	echo '
+          <col width="200" />
+          <col width="115" />
           <col width="51" />
-          <col width="51" />
-          <col width="51" />';  
-  }
-          
+          <col width="50" />
+          <col width="50" />';
+
+
   echo '
         </colgroup>
         <thead>
@@ -545,7 +536,6 @@ if ($category_id > -1)
             <th>'.$I18N->msg('header_priority').'</th>
             <th>'.$I18N->msg('header_template').'</th>
             <th>'.$I18N->msg('header_date').'</th>
-            <th>'.$I18N->msg('header_article_type').'</th>
             <th colspan="3">'.$I18N->msg('header_status').'</th>
           </tr>
         </thead>
@@ -583,15 +573,14 @@ if ($category_id > -1)
       $add_td = '<td class="rex-icon">-</td>';
     }
 
-    echo '<tr class="rex-trow-actv">
+    echo '<tr class="rex-table-row-activ">
             <td class="rex-icon"><img src="media/document.gif" alt="'.$I18N->msg('article_add') .'" title="'.$I18N->msg('article_add') .'" /></td>
             '. $add_td .'
-            <td><input type="text" id="article_name" name="article_name" /></td>
-            <td><input type="text" id="Position_New_Article" name="Position_New_Article" value="100" /></td>
+            <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" /></td>
+            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_New_Article" value="100" /></td>
             <td>'. $TMPL_SEL->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
-            <td>'. $I18N->msg("article") .'</td>
-            <td colspan="3"><input type="submit" class="rex-fsubmit" name="artadd_function" value="'.$I18N->msg('article_add') .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>
+            <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.$I18N->msg('article_add') .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>
           </tr>
           ';
   }
@@ -603,12 +592,10 @@ if ($category_id > -1)
 
     if ($sql->getValue('startpage') == 1)
     {
-      $startpage = $I18N->msg('start_article');
       $icon = 'liste.gif';
     }
     else
     {
-      $startpage = $I18N->msg('article');
       $icon = 'document.gif';
     }
 
@@ -624,15 +611,14 @@ if ($category_id > -1)
 
       $TMPL_SEL->setSelected($sql->getValue('template_id'));
 
-      echo '<tr class="rex-trow-actv">
+      echo '<tr class="rex-table-row-activ">
               <td class="rex-icon"><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><img src="media/'. $icon .'" alt="' .htmlspecialchars($sql->getValue("name")).'" title="' .htmlspecialchars($sql->getValue("name")).'" /></a></td>
               '. $add_td .'
-              <td><input type="text" id="article_name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
-              <td><input type="text" id="Position_Article" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
+              <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
+              <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
               <td>'. $TMPL_SEL->get() .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td>'. $startpage .'</td>
-              <td colspan="3"><input type="submit" class="rex-fsubmit" name="artedit_function" value="'. $I18N->msg('article_save') .'"'. rex_accesskey($I18N->msg('article_save'), $REX['ACKEY']['SAVE']) .' /></td>
+              <td colspan="3"><input type="submit" class="rex-form-submt" name="artedit_function" value="'. $I18N->msg('article_save') .'"'. rex_accesskey($I18N->msg('article_save'), $REX['ACKEY']['SAVE']) .' /></td>
             </tr>
             ';
 
@@ -680,7 +666,6 @@ if ($category_id > -1)
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
               <td>'. htmlspecialchars($TEMPLATE_NAME[$sql->getValue('template_id')]) .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td>'. $startpage .'</td>
               <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
               '. $add_extra .'
             </tr>
@@ -706,7 +691,6 @@ if ($category_id > -1)
               <td>'. htmlspecialchars($sql->getValue('prior')).'</td>
               <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')].'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td>'. $startpage .'</td>
               <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
               <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>
               <td class="'. $art_status_class .'"><span class="rex-strike">'. $art_status .'</span></td>
@@ -733,7 +717,7 @@ if ($category_id > -1)
       <script type="text/javascript">
         <!--
         jQuery(function($){
-          $("#article_name").focus();
+          $("#rex-form-field-name").focus();
         });
         //-->
       </script>

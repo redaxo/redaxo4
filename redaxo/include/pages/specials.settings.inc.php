@@ -119,8 +119,8 @@ echo '
     <input type="hidden" name="page" value="specials" />
     <input type="hidden" name="func" value="updateinfos" />
 
-    <div class="rex-cnt-cols">
-    <div class="rex-cnt-col2">
+    <div class="rex-cntnt-cols">
+    <div class="rex-cntnt-col2">
       <p class="rex-hdl">'.$I18N->msg("specials_features").'</p>
       <div class="rex-spc-stn-cnt">
         <p><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("delete_cache").'</a></p>
@@ -132,7 +132,7 @@ echo '
       </div>
     </div>
 
-    <div class="rex-cnt-col2">
+    <div class="rex-cntnt-col2">
       <p class="rex-hdl">'.$I18N->msg("specials_settings").'</p>
       <div class="rex-spc-stn-cnt">
         <fieldset>

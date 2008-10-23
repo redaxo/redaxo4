@@ -120,7 +120,7 @@ if ($subpage == '')
   }
   echo '
       <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
-      <caption class="rex-hide">'.$I18N->msg("addon_caption").'</caption>
+      <caption class="rex-hidden">'.$I18N->msg("addon_caption").'</caption>
       <colgroup>
       	<col width="40" />
         <col width="*"/>
@@ -131,7 +131,7 @@ if ($subpage == '')
       </colgroup>
   	  <thead>
         <tr>
-        	<th class="rex-icon">&nbsp;</th>
+          <th class="rex-icon">&nbsp;</th>
           <th>'.$I18N->msg("addon_hname").'</th>
           <th>'.$I18N->msg("addon_hinstall").'</th>
           <th>'.$I18N->msg("addon_hactive").'</th>

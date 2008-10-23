@@ -480,8 +480,8 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $form_label = $I18N->msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div>
-						<p class="rex-cnt-col2"><input type="submit" class="rex-sbmt" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
-						<p class="rex-cnt-col2"><input type="submit" class="rex-sbmt" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
+						<p class="rex-cntnt-col2"><input type="submit" class="rex-sbmt" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
+						<p class="rex-cntnt-col2"><input type="submit" class="rex-sbmt" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
 					</div>';
     $add_user_login = '<span id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>';
 
@@ -614,11 +614,11 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
       '. $add_login_reset_chkbox .'
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
             '. $add_user_login .'
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userpsw">'.$I18N->msg('password').'</label>
             <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
             '. ($REX['PSWFUNC']!='' ? '<span>'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
@@ -626,35 +626,35 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 		    </div>
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="username">'.$I18N->msg('name').'</label>
             <input type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userdesc">'.$I18N->msg('description').'</label>
             <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
           </p>
     		</div>
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             '. $add_admin_chkbox .'
             <label class="rex-lbl-rght" for="useradmin">'.$I18N->msg('user_admin').'</label>
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             '. $add_status_chkbox .'
             <label class="rex-lbl-rght" for="userstatus">'.$I18N->msg('user_status').'</label>
           </p>
     		</div>
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_sprachen">'.$I18N->msg('user_lang_xs').'</label>
             '. $sel_sprachen->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
           <!--
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_mylang">Meine Backendsprache</label>
             '.$sel_mylang->get().'
           </p>
@@ -662,12 +662,12 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
 		    </div>
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_all">'.$I18N->msg('user_all').'</label>
             '. $sel_all->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_ext">'.$I18N->msg('user_options').'</label>
             '. $sel_ext->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
@@ -677,23 +677,23 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
       <div id="rex-user-perms">
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <input class="rex-chckbx" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
             <label class="rex-lbl-rght" for="allcats">'.$I18N->msg('all_categories').'</label>
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <input class="rex-chckbx" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
             <label class="rex-lbl-rght" for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
           </p>
 		    </div>
 
         <div id="cats_mcats_perms">
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_cat">'.$I18N->msg('categories').'</label>
             ' .$sel_cat->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_media">'.$I18N->msg('mediafolder').'</label>
             '. $sel_media->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>
@@ -703,12 +703,12 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
       </div>
 
         <div>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_module">'.$I18N->msg('modules').'</label>
             '.$sel_module->get().'
             <span>'. $I18N->msg('ctrl') .'</span>
           </p>
-          <p class="rex-cnt-col2">
+          <p class="rex-cntnt-col2">
             <label for="userperm_extra">'.$I18N->msg('extras').'</label>
             '. $sel_extra->get() .'
             <span>'. $I18N->msg('ctrl') .'</span>

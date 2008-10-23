@@ -65,11 +65,11 @@ else
           <input type="hidden" name="page" value="profile" />
 
           <div>
-            <p class="rex-cnt-col2">
+            <p class="rex-cntnt-col2">
               <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
               <span id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>
             </p>
-            <p class="rex-cnt-col2">
+            <p class="rex-cntnt-col2">
               <label for="userpsw">'.$I18N->msg('password').'</label>
               <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
               '. ($REX['PSWFUNC']!='' ? '<span>'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
@@ -77,18 +77,18 @@ else
   		    </div>
 
           <div>
-            <p class="rex-cnt-col2">
+            <p class="rex-cntnt-col2">
               <label for="username">'.$I18N->msg('name').'</label>
               <input type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
             </p>
-            <p class="rex-cnt-col2">
+            <p class="rex-cntnt-col2">
               <label for="userdesc">'.$I18N->msg('description').'</label>
               <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
             </p>
       		</div>
 
           <div>
-            <p class="rex-cnt-col2"><input type="submit" class="rex-sbmt" name="upd_profile_button" value="'.$I18N->msg('profile_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
+            <p class="rex-cntnt-col2"><input type="submit" class="rex-sbmt" name="upd_profile_button" value="'.$I18N->msg('profile_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
           </div>
         </div>
       </fieldset>

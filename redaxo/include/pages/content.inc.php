@@ -309,7 +309,7 @@ if ($article->getRows() == 1)
         else
         {
         	$module_id = (int) $CM->getValue($REX['TABLE_PREFIX']."article_slice.modultyp_id");
-        	
+
           // ----- RECHTE AM MODUL ?
           if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("module[$module_id]") || $REX_USER->hasPerm("module[0]"))
           {
@@ -525,10 +525,10 @@ if ($article->getRows() == 1)
         )
       );
 
-      $ctype_menu .= "\n".'<ul id="rex-ctype-menu">';
+      $ctype_menu .= "\n".'<ul id="rex-navi-ctype">';
       foreach($listElements as $listElement)
       {
-        $ctype_menu .= $listElement;
+        $ctype_menu .= '<li>'.$listElement.'</li>';
       }
       $ctype_menu .= '</ul>';
     }
@@ -560,7 +560,7 @@ if ($article->getRows() == 1)
       )
     );
 
-    $menu .= "\n".'<ul class="rex-cnt-nav">';
+    $menu .= "\n".'<ul class="rex-navi-content">';
     $num_elements = count($listElements);
     for($i = 0; $i < $num_elements; $i++)
     {
@@ -574,8 +574,11 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: AUSGABE
     echo '
             <!-- *** OUTPUT OF ARTICLE-CONTENT - START *** -->
-            <div class="rex-cnt-hdr">
+            <div class="rex-content-header">
+            <div class="rex-content-header-2">
               ' . $menu . '
+              <div class="rex-clearer"></div>
+            </div>
             </div>
             ';
 
@@ -586,7 +589,7 @@ if ($article->getRows() == 1)
     }
 
     echo '
-            <div class="rex-cnt-bdy">
+            <div class="rex-content-body">
             ';
 
     if ($mode == 'edit')
@@ -595,7 +598,7 @@ if ($article->getRows() == 1)
 
       echo '
                   <!-- *** OUTPUT OF ARTICLE-CONTENT-EDIT-MODE - START *** -->
-                  <div class="rex-cnt-editmode">
+                  <div class="rex-content-editmode">
                   ';
       $CONT = new rex_article;
       $CONT->message = $message;
@@ -619,12 +622,12 @@ if ($article->getRows() == 1)
       // ------------------------------------------ START: META VIEW
 
       echo '
-    	  <div class="rex-cnt-metamode">
+    	  <div class="rex-form rex-content-metamode">
           <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
             <fieldset>
-              <legend class="rex-lgnd">' . $I18N->msg('general') . '</legend>
+              <legend class="rex-legend">' . $I18N->msg('general') . '</legend>
 
-				      <div class="rex-fldst-wrppr">
+				      <div class="rex-fieldset-wrapper">
 
 						  <input type="hidden" name="page" value="content" />
 						  <input type="hidden" name="article_id" value="' . $article_id . '" />
