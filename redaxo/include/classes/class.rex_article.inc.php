@@ -298,6 +298,7 @@ class rex_article
           $MODULESELECT = new rex_select;
           $MODULESELECT->setName('module_id');
           $MODULESELECT->setSize('1');
+          $MODULESELECT->setStyle('class="rex-form-select"');
           $MODULESELECT->setAttribute('onchange', 'this.form.submit();');
           $MODULESELECT->addOption('----------------------------  '.$I18N->msg('add_block'),'');
 
@@ -345,9 +346,10 @@ class rex_article
               $MODULESELECT->setId("module_id". $I_ID);
 
               $slice_content = '
+              <div class="rex-form rex-form-content-editmode">
               <form action="'. $form_url .'" method="get" id="slice'. $RE_CONTS[$I_ID] .'">
-                <fieldset>
-                  <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+                <fieldset class="rex-form-col-1">
+                  <legend><span>'. $I18N->msg("add_block") .'</span></legend>
                   <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                   <input type="hidden" name="page" value="content" />
                   <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -355,14 +357,18 @@ class rex_article
                   <input type="hidden" name="function" value="add" />
                   <input type="hidden" name="clang" value="'.$this->clang.'" />
                   <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-
-                  <p class="rex-slct">
-                    '. $MODULESELECT->get() .'
-                    <noscript><input type="submit" class="rex-sbmt" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
-                  </p>
-
+									
+									<div class="rex-form-wrapper">
+										<div class="rex-form-row">
+		                  <p class="rex-form-col-a rex-form-select">
+    		                '. $MODULESELECT->get() .'
+        		            <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+            		      </p>
+            		    </div>
+            		  </div>
                 </fieldset>
-              </form>';
+              </form>
+              </div>';
 
             }
 
@@ -378,16 +384,16 @@ class rex_article
 
               $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
               $listElements = array();
-              $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-clr-grn">'. $I18N->msg('edit') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-              $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-clr-red" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx2">'. $I18N->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+              $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx3" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
               if ($REX_USER->hasPerm('moveSlice[]'))
               {
                 $moveUp = $I18N->msg('move_slice_up');
                 $moveDown = $I18N->msg('move_slice_down');
                 // upd stamp übergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
                 // (Links wären sonst gleich und der Browser lässt das klicken auf den gleichen Link nicht zu)
-                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'"><img src="media/file_up.gif" width="16" height="16" alt="'. $moveUp .'" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'"><img src="media/file_down.gif" width="16" height="16" alt="'. $moveDown .'" /> <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'"><img src="media/file_up.gif" width="16" height="16" alt="'. $moveUp .'" /> <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'"><img src="media/file_down.gif" width="16" height="16" alt="'. $moveDown .'" /> <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
               }
 
               // ----- EXTENSION POINT
@@ -402,9 +408,10 @@ class rex_article
               );
 
               $mne = $msg .'
-			       	<div class="rex-cnt-editmode-slc">
-                <p class="rex-flLeft">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</p>
-                <ul class="rex-flRight" id="rex-slc-mnu">
+		       		<div class="rex-content-editmode-module-name">
+                <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
+                <div class="rex-navi-slice">
+                	<ul>
               ';
 
               foreach($listElements as $listElement)
@@ -412,7 +419,7 @@ class rex_article
                 $mne  .= '<li>'. $listElement .'</li>';
               }
 
-              $mne .= '</ul></div>';
+              $mne .= '</ul></div></div>';
 
               $slice_content .= $mne;
               if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
@@ -473,9 +480,11 @@ class rex_article
                 // Modulinhalt ausgeben
                 $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
-                <div class="rex-cnt-slc-otp"><div class="rex-cnt-slc-otp2">
+                <div class="rex-content-editmode-slice-output">
+                <div class="rex-content-editmode-slice-output-2">
                   '. $RE_MODUL_OUT[$I_ID] .'
-                </div></div>
+                </div>
+                </div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
                 ';
 
@@ -486,11 +495,13 @@ class rex_article
             {
               // ----- hat keine rechte an diesem modul
               $mne = '
-			  	<div class="rex-cnt-editmode-slc">
-                <p class="rex-flLeft" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</p>
-                <ul class="rex-flRight">
-                  <li>'. $I18N->msg('no_editing_rights') .' <span class="rex-hide">'. $RE_MODUL_NAME[$I_ID] .'</span></li>
-                </ul>
+       		<div class="rex-content-editmode-module-name">
+                <h3 class="rex-hl4" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</h3>
+                <div class="rex-navi-slice">
+                	<ul>
+                  	<li>'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></li>
+                	</ul>
+                </div>
 				  </div>';
 
               $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
@@ -566,9 +577,10 @@ class rex_article
 
             // $slice_content = $add_select_box;
             $slice_content = '
+            <div class="rex-form rex-form-content-editmode">
             <form action="'. $form_url .'" method="get">
-              <fieldset>
-                <legend class="rex-lgnd"><span class="rex-hide">'. $I18N->msg("add_block") .'</span></legend>
+              <fieldset class="rex-form-col-1">
+                <legend><span>'. $I18N->msg("add_block") .'</span></legend>
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                 <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -577,13 +589,18 @@ class rex_article
                 <input type="hidden" name="clang" value="'.$this->clang.'" />
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
-                <p class="rex-slct">
-                  '. $MODULESELECT->get() .'
-                  <noscript><input type="submit" class="rex-sbmt" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
-                </p>
-
+									
+									<div class="rex-form-wrapper">
+										<div class="rex-form-row">
+		                  <p class="rex-form-col-a rex-form-select">
+		                  	'. $MODULESELECT->get() .'
+		                  	<noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                			</p>
+                		</div>
+                	</div>
               </fieldset>
-            </form>';
+            </form>
+            </div>';
           }
           $this->article_content .= $slice_content;
         }
@@ -647,9 +664,10 @@ class rex_article
     {
       $slice_content = '
         <a name="addslice"></a>
+        <div class="rex-form rex-form-content-editmode-add-slice">
         <form action="index.php#slice'. $I_ID .'" method="post" id="REX_FORM" enctype="multipart/form-data">
-          <fieldset>
-            <legend class="rex-lgnd">'. $I18N->msg('add_block').'</legend>
+          <fieldset class="rex-form-col-1">
+            <legend><span>'. $I18N->msg('add_block').'</span></legend>
             <input type="hidden" name="article_id" value="'. $this->article_id .'" />
             <input type="hidden" name="page" value="content" />
             <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -659,17 +677,37 @@ class rex_article
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="clang" value="'. $this->clang .'" />
             <input type="hidden" name="ctype" value="'.$this->ctype .'" />
-            <p class="rex-cnt-mdl-name">
-              '. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
-            </p>
-            <div class="rex-cnt-slc-ipt"><div class="rex-cnt-slc-ipt2">
-              '. $MOD->getValue("eingabe") .'
-            </div></div>
-            <p class="rex-sbmt">
-              <input type="submit" name="btn_save" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
-            </p>
+            
+						<div class="rex-content-editmode-module-name">
+							<h3 class="rex-hl4">
+								'. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
+							</h3>
+						</div>
+        		  
+            <div class="rex-form-wrapper">
+            	
+            	<div class="rex-form-row">
+            		<div class="rex-content-editmode-slice-input">
+            		<div class="rex-content-editmode-slice-input-2">
+		              '. $MOD->getValue("eingabe") .'
+		            </div>
+		            </div>
+		          </div>
+		          
+        		</div>
+          </fieldset>
+          
+          <fieldset class="rex-form-col-1">
+           	<div class="rex-form-wrapper">        		  
+            	<div class="rex-form-row">
+								<p class="rex-form-col-a rex-form-submit">
+									<input class="rex-form-submit" type="submit" name="btn_save" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
+								</p>
+							</div>
+						</div>
           </fieldset>
         </form>
+        </div>
       ';
 
       // Beim Add hier die Meldung ausgeben
@@ -707,9 +745,10 @@ class rex_article
 
     $slice_content = '
       <a name="editslice"></a>
+      <div class="rex-form rex-form-content-editmode-edit-slice">
       <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
-        <fieldset>
-          <legend class="rex-lgnd">'. $I18N->msg('edit_block') .'</legend>
+        <fieldset class="rex-form-col-1">
+          <legend><span>'. $I18N->msg('edit_block') .'</span></legend>
           <input type="hidden" name="article_id" value="'.$this->article_id.'" />
           <input type="hidden" name="page" value="content" />
           <input type="hidden" name="mode" value="'.$this->mode.'" />
@@ -720,19 +759,35 @@ class rex_article
           <input type="hidden" name="save" value="1" />
           <input type="hidden" name="update" value="0" />
           <input type="hidden" name="clang" value="'.$this->clang.'" />
-
-    		  <div class="rex-cnt-slc-ipt">
-            <div class="rex-cnt-slc-ipt2">
+            
+					<div class="rex-form-wrapper">
+						
+						<div class="rex-form-row">
+							<div class="rex-content-editmode-slice-input">
+							<div class="rex-content-editmode-slice-input-2">
               '. $RE_MODUL_IN .'
-    		    </div>
-          </div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</fieldset>
 
-          <p class="rex-sbmt">
-            <input type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
-            <input type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
-          </p>
+        <fieldset class="rex-form-col-2">
+            
+					<div class="rex-form-wrapper">
+						
+						<div class="rex-form-row">
+		          <p class="rex-form-col-a rex-form-submit">
+		            <input class="rex-form-submit" type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
+		          </p>
+		          <p class="rex-form-col-b rex-form-submit">
+		            <input class="rex-form-submit" type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
+		          </p>
+		        </div>
+		      </div>
         </fieldset>
-      </form>';
+      </form>
+      </div>';
 
     $slice_content = $this->replaceVars($this->CONT, $slice_content);
     return $slice_content;

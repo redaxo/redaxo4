@@ -974,7 +974,7 @@ class rex_list
 
     if($caption != '')
     {
-      $s .= '    <caption class="rex-hidden">'. htmlspecialchars($caption) .'</caption>'. "\n";
+      $s .= '    <caption>'. htmlspecialchars($caption) .'</caption>'. "\n";
     }
 
     if(count($tableColumnGroups) > 0)
