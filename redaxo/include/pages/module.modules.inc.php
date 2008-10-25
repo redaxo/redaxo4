@@ -181,7 +181,7 @@ if ($function == 'add' or $function == 'edit')
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" class="rex-sbmt" name="goon" value="'.$I18N->msg("save_module_and_continue").'"'. rex_accesskey($I18N->msg('save_module_and_continue'), $REX['ACKEY']['APPLY']) .' />';
+    if ($function != 'add') $btn_update = '<p class="rex-form-col-b rex-form-submit"><input type="submit" class="rex-form-submit" name="goon" value="'.$I18N->msg("save_module_and_continue").'"'. rex_accesskey($I18N->msg('save_module_and_continue'), $REX['ACKEY']['APPLY']) .' /></p>';
 
     if ($info != '')
       echo rex_info($info);
@@ -193,32 +193,46 @@ if ($function == 'add' or $function == 'edit')
       echo rex_warning_block($warning_block);
 
     echo '
-		<div class="rex-mdl-editmode">
-      <form action="index.php" method="post">
-        <fieldset>
-          <legend class="rex-lgnd" id="module">'. $legend .'</legend>
-      	  <div class="rex-fldst-wrppr">
-    			  <input type="hidden" name="page" value="module" />
-    			  <input type="hidden" name="function" value="'.$function.'" />
-    			  <input type="hidden" name="save" value="ja" />
-    			  <input type="hidden" name="category_id" value="0" />
-    			  <input type="hidden" name="modul_id" value="'.$modul_id.'" />
-    			  <p>
-      				<label for="mname">'.$I18N->msg("module_name").'</label>
-      				<input type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
-    			  </p>
-    			  <p>
-      				<label for="eingabe">'.$I18N->msg("input").'</label>
-      				<textarea class="rex-txtr-cd" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
-    			  </p>
-    			  <p>
-      				<label for="ausgabe">'.$I18N->msg("output").'</label>
-      				<textarea class="rex-txtr-cd" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
-    			  </p>
-    			  <p>
-      				<input class="rex-sbmt" type="submit" value="'.$I18N->msg("save_module_and_quit").'"'. rex_accesskey($I18N->msg('save_module_and_quit'), $REX['ACKEY']['SAVE']) .' />
+			<div class="rex-form rex-form-module-editmode">
+      	<form action="index.php" method="post">
+        <fieldset class="rex-form-col-1">
+          <legend>'. $legend .'</legend>
+      	  <div class="rex-form-wrapper">
+						<input type="hidden" name="page" value="module" />
+						<input type="hidden" name="function" value="'.$function.'" />
+						<input type="hidden" name="save" value="ja" />
+						<input type="hidden" name="category_id" value="0" />
+						<input type="hidden" name="modul_id" value="'.$modul_id.'" />
+						
+						<div class="rex-form-row">
+    			  	<p class="rex-form-col-a rex-form-text">
+      					<label for="mname">'.$I18N->msg("module_name").'</label>
+	      				<input class="rex-form-text" type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
+  	  			  </p>
+    				</div>
+						<div class="rex-form-row">
+    				  <p class="rex-form-col-a rex-form-textarea">
+      					<label for="eingabe">'.$I18N->msg("input").'</label>
+      					<textarea class="rex-form-textarea" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
+    				  </p>
+    				</div>
+						<div class="rex-form-row">
+    			  	<p class="rex-form-col-a rex-form-textarea">
+      					<label for="ausgabe">'.$I18N->msg("output").'</label>
+	      				<textarea class="rex-form-textarea" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
+  	  			  </p>
+    				</div>
+    			</div>
+        </fieldset>
+        
+				<fieldset class="rex-form-col-2">
+      		<div class="rex-form-wrapper">
+						<div class="rex-form-row">
+    				  <p class="rex-form-col-a rex-form-submit">
+      					<input class="rex-form-submit" type="submit" value="'.$I18N->msg("save_module_and_quit").'"'. rex_accesskey($I18N->msg('save_module_and_quit'), $REX['ACKEY']['SAVE']) .' />
+      				</p>
       				'. $btn_update .'
-    			  </p>
+    				</div>
     		  </div>
         </fieldset>
     ';
@@ -293,16 +307,22 @@ if ($function == 'add' or $function == 'edit')
 
         echo
         $actions .'
-        <fieldset>
-          <legend class="rex-lgnd" id="action">'.$I18N->msg('action_add').'</legend>
-		      <div class="rex-fldst-wrppr">
-					  <p>
-							<label for="action_id">'.$I18N->msg('action').'</label>
-							'.$gaa_sel->get().'
-					  </p>
-					  <p>
-							<input class="rex-sbmt" type="submit" value="'.$I18N->msg('action_add').'" name="add_action" />
-					  </p>
+				<fieldset class="rex-form-col-1">
+          <legend>'.$I18N->msg('action_add').'</legend>
+      		<div class="rex-form-wrapper">
+						
+						<div class="rex-form-row">
+							<p class="rex-form-col-a rex-form-select">
+								<label for="action_id">'.$I18N->msg('action').'</label>
+								'.$gaa_sel->get().'
+					  	</p>
+					  </div>
+					  
+						<div class="rex-form-row">
+					  	<p class="rex-form-col-a rex-form-select">
+								<input class="rex-form-submit" type="submit" value="'.$I18N->msg('action_add').'" name="add_action" />
+					  	</p>
+					  </div>
 				  </div>
         </fieldset>';
       }
@@ -348,7 +368,7 @@ if ($OUT)
   $list->setColumnParams($imgHeader, array('function' => 'edit', 'modul_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
-  $list->setColumnLayout('id', array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', $I18N->msg('module_description'));
   $list->setColumnParams('name', array('function' => 'edit', 'modul_id' => '###id###'));

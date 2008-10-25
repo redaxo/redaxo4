@@ -144,11 +144,11 @@ if ($function == "add" or $function == "edit") {
     $i = 1;
     if (is_array($ctypes)) {
       foreach ($ctypes as $id => $name) {
-        $ctypes_out .= '<p><label for="ctype'.$i.'">ID ' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" /></p>';
+        $ctypes_out .= '<div class="rex-form-row"><p class="rex-form-col-a rex-form-text"><label for="ctype'.$i.'">ID ' . $i . '</label> <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" /></p></div>';
         $i++;
       }
     }
-    $ctypes_out .= '<p><label for="ctype'.$i.'">ID ' . $i . '</label> <input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="" /></p>';
+    $ctypes_out .= '<div class="rex-form-row"><p class="rex-form-col-a rex-form-text"><label for="ctype'.$i.'">ID ' . $i . '</label> <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="" /></p></div>';
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
@@ -159,50 +159,65 @@ if ($function == "add" or $function == "edit") {
       echo rex_warning($warning);
 
     echo '
-    	<div class="rex-tmp-editmode">
+    	<div class="rex-form rex-form-template-editmode">
         <form action="index.php" method="post">
-      		<fieldset>
-        		<legend class="rex-lgnd">' . $legend . '</legend>
+      		<fieldset class="rex-form-col-1">
+        		<legend>' . $legend . '</legend>
 
-      			<div class="rex-fldst-wrppr">
-					<input type="hidden" name="page" value="template" />
-					<input type="hidden" name="function" value="' . $function . '" />
-					<input type="hidden" name="save" value="ja" />
-					<input type="hidden" name="template_id" value="' . $template_id . '" />
-
-					<p>
-					  <label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
-					  <input type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
-					</p>
-
-					<p>
-					  <label for="active">' . $I18N->msg("checkbox_template_active") . ' <span class="rex-hide"> ' . $I18N->msg("checkbox_template_active_info") . '</span></label>
-					  <input class="rex-chckbx" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
-					  <span class="rex-au-none">' . $I18N->msg("checkbox_template_active_info") . '</span>
-					</p>
-
-					<p>
-					  <label for="content">' . $I18N->msg("header_template") . '</label>
-					  <textarea class="rex-txtr-cd" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
-					</p>
-    			</div>
+      			<div class="rex-form-wrapper">
+							<input type="hidden" name="page" value="template" />
+							<input type="hidden" name="function" value="' . $function . '" />
+							<input type="hidden" name="save" value="ja" />
+							<input type="hidden" name="template_id" value="' . $template_id . '" />
+							
+							<div class="rex-form-row">
+								<p class="rex-form-col-a rex-form-text">
+									<label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
+									<input class="rex-form-text" type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
+								</p>
+							</div>
+			
+							<div class="rex-form-row">
+								<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+									<input class="rex-form-checkbox" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
+									<label for="active">' . $I18N->msg("checkbox_template_active") . '<span>' . $I18N->msg("checkbox_template_active_info") . '</span></label>
+								</p>
+							</div>
+			
+							<div class="rex-form-row">
+								<p class="rex-form-col-a rex-form-textarea">
+									<label for="content">' . $I18N->msg("header_template") . '</label>
+									<textarea class="rex-form-textarea" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
+								</p>
+							</div>
+							
+						</div>
     		</fieldset>
 
-        <!-- Div nötig fuer JQuery slideIn -->
-        <div id="ctype-fldst">
-      		<fieldset>
-        		<legend class="rex-lgnd">'.$I18N->msg("content_types").' [CTYPES]</legend>
+        <!-- DIV nötig fuer JQuery slideIn -->
+        <div id="rex-form-template-ctype">
+				<fieldset class="rex-form-col-1">
+					<legend>'.$I18N->msg("content_types").' [CTYPES]</legend>
 
-       			<div class="rex-fldst-wrppr rex-tmp-ctypes">
-      				' . $ctypes_out . '
-      			</div>
-        	</fieldset>
-        </div>
+					<div class="rex-form-wrapper">
+						' . $ctypes_out . '
+					</div>
+				</fieldset>
+				</div>
 
-        <p>
-          <input class="rex-sbmt" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
-          <input class="rex-sbmt" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
-        </p>
+				<fieldset class="rex-form-col-2">
+      		<div class="rex-form-wrapper">
+						<div class="rex-form-row">
+							<p class="rex-form-col-a rex-form-submit">
+								<input class="rex-form-submit" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
+							</p>
+							
+							<p class="rex-form-col-b rex-form-submit">
+								<input class="rex-form-submit" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
+							</p>
+						</div>
+					</div>
+		    </fieldset>
 
         </form>
     	</div>
@@ -212,10 +227,10 @@ if ($function == "add" or $function == "edit") {
 
       jQuery(function($) {
         $("#active").click(function() {
-          $("#ctype-fldst").slideToggle("slow");
+          $("#rex-form-template-ctype").slideToggle("slow");
         });
         if($("#active").is(":not(:checked)")) {
-          $("#ctype-fldst").hide();
+          $("#rex-form-template-ctype").hide();
         }
       });
 
@@ -237,7 +252,15 @@ if ($OUT)
   $list->setCaption($I18N->msg('header_template_caption'));
   $list->addTableAttribute('summary', $I18N->msg('header_template_summary'));
 
-  $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
+  if (!$REX_USER->hasPerm('advancedMode[]'))
+  {
+    $list->removeColumn('id');
+    $list->addTableColumnGroup(array(40, '*', 153, 153));
+  }
+  else
+  {
+    $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
+  }
 
   $img = '<img src="media/template.gif" alt="###name###" title="###name###" />';
   $imgAdd = '<img src="media/template_plus.gif" alt="'.$I18N->msg('create_template').'" title="'.$I18N->msg('create_template').'" />';
@@ -246,7 +269,7 @@ if ($OUT)
   $list->setColumnParams($imgHeader, array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
-  $list->setColumnLayout('id',  array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnLayout('id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', $I18N->msg('header_template_description'));
   $list->setColumnParams('name', array('function' => 'edit', 'template_id' => '###id###'));

@@ -71,7 +71,8 @@ elseif (!empty ($edit_clang_save))
 // seltype
 $sel = new rex_select;
 $sel->setName('clang_id');
-$sel->setId('clang_id');
+$sel->setStyle('class="rex-form-select"');
+$sel->setId('rex-form-clang-id');
 $sel->setSize(1);
 foreach (array_diff(range(0, 14), array_keys($REX['CLANG'])) as $clang)
 {
@@ -88,9 +89,10 @@ if ($func == 'addclang' || $func == 'editclang')
 {
   $legend = $func == 'add_clang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');
   echo '
+      <div class="rex-form rex-form-system-language">
       <form action="index.php#clang" method="post">
         <fieldset>
-          <legend><span class="rex-hide">'.$legend.'</span></legend>
+          <legend><span>'.$legend.'</span></legend>
           <input type="hidden" name="page" value="specials" />
           <input type="hidden" name="subpage" value="lang" />
           <input type="hidden" name="clang_id" value="'.$clang_id.'" />
@@ -99,17 +101,17 @@ if ($func == 'addclang' || $func == 'editclang')
 
 echo '
     <table class="rex-table" summary="'.$I18N->msg('clang_summary').'">
-      <caption class="rex-hide">'.$I18N->msg('clang_caption').'</caption>
+      <caption>'.$I18N->msg('clang_caption').'</caption>
       <colgroup>
         <col width="40" />
         <col width="40" />
         <col width="*" />
-        <col width="250" />
+        <col width="255" />
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>+</a></th>
-          <th class="rex-icon">ID</th>
+          <th class="rex-small"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>+</a></th>
+          <th class="rex-small">ID</th>
           <th>'.$I18N->msg('clang_name').'</th>
           <th colspan="2">'.$I18N->msg('clang_function').'</th>
         </tr>
@@ -122,11 +124,11 @@ if ($func == 'addclang')
 {
   //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
   echo '
-        <tr class="rex-trow-actv">
-          <td class="rex-icon"></td>
-          <td class="rex-icon">'.$sel->get().'</td>
-          <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
-          <td><input type="submit" class="rex-fsubmit" name="add_clang_save" value="'.$I18N->msg('clang_add').'"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>
+        <tr class="rex-table-row-activ">
+          <td class="rex-small"></td>
+          <td class="rex-small">'.$sel->get().'</td>
+          <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
+          <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.$I18N->msg('clang_add').'"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>
         </tr>
       ';
 }
@@ -137,12 +139,12 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   {
     echo '
           <tr class="rex-trow-actv">
-            <td class="rex-icon"></td>
-            <td class="rex-icon">'.$lang_id.'</td>
-            <td><input type="text" id="clang_name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
+            <td class="rex-small"></td>
+            <td class="rex-small">'.$lang_id.'</td>
+            <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
             <td>
-              <input type="submit" class="rex-fsubmit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' />
-              <input type="submit" class="rex-fsubmit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'"'. rex_accesskey($I18N->msg('clang_delete'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
+              <input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' />
+              <input class="rex-form-submit" type="submit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'"'. rex_accesskey($I18N->msg('clang_delete'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
             </td>
           </tr>';
 
@@ -151,8 +153,8 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   {
     echo '
           <tr>
-            <td class="rex-icon"></td>
-            <td class="rex-icon">'.$lang_id.'</td>
+            <td class="rex-small"></td>
+            <td class="rex-small">'.$lang_id.'</td>
             <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
             <td></td>
           </tr>';
@@ -169,11 +171,12 @@ if ($func == 'addclang' || $func == 'editclang')
           <script type="text/javascript">
             <!--
             jQuery(function($){
-              $("#clang_name").focus();
+              $("#rex-form-clang-name").focus();
             });
             //-->
           </script>
         </fieldset>
-      </form>';
+      </form>
+      </div>';
 }
 ?>

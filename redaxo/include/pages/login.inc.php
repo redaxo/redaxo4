@@ -24,7 +24,7 @@ if (isset($FORM['loginmessage']) && $FORM['loginmessage'] != '')
         } else {
           $("p.rex-message span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
           $("#loginformular input:not(:hidden)").attr("disabled", "");
-          $("#REX_ULOGIN").focus();
+          $("#rex-form-login").focus();
         }
       };
 
@@ -38,28 +38,36 @@ $REX_ULOGIN = rex_post('REX_ULOGIN', 'string');
 echo '
 
 <!-- *** OUTPUT OF LOGIN-FORM - START *** -->
-<div class="rex-lgn-frm">
+<div class="rex-form rex-form-login">
 <form action="index.php" method="post" id="loginformular">
-  <fieldset>
-    <legend class="rex-lgnd">Login</legend>
+  <fieldset class="rex-form-col-1">
+    <legend>Login</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
     <input type="hidden" name="page" value="structure" />
-    <p>
-      <label for="REX_ULOGIN">'.$I18N->msg('login_name').':</label>
-      <input type="text" value="'.stripslashes(htmlspecialchars($REX_ULOGIN)).'" id="REX_ULOGIN" name="REX_ULOGIN"'. rex_tabindex() .' />
-    </p>
-    <p>
-      <label for="REX_UPSW">'.$I18N->msg('password').':</label>
-      <input type="password" name="REX_UPSW" id="REX_UPSW"'. rex_tabindex() .' />
-	    <input class="rex-sbmt" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
-    </p>
+    
+    <div class="rex-form-wrapper">
+    
+    	<div class="rex-form-row">
+		    <p class="rex-form-col-a rex-form-text">
+    			<label for="rex-form-login">'.$I18N->msg('login_name').':</label>
+      		<input type="text" value="'.stripslashes(htmlspecialchars($REX_ULOGIN)).'" id="rex-form-login" name="REX_ULOGIN"'. rex_tabindex() .' />
+    		</p>
+    	</div>
+    	<div class="rex-form-row">
+		    <p class="rex-form-col-a rex-form-password">
+      		<label for="REX_UPSW">'.$I18N->msg('password').':</label>
+      		<input class="rex-form-password" type="password" name="REX_UPSW" id="REX_UPSW"'. rex_tabindex() .' />
+	    		<input class="rex-form-submit" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
+	    	</p>
+	    </div>
+	  </div>
   </fieldset>
 </form>
 </div>
 <script type="text/javascript">
    <!--
   jQuery(function($) {
-    $("#REX_ULOGIN").focus();
+    $("#rex-form-login").focus();
     $("#javascript").val("1");
     '. $js .'
   });

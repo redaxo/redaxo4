@@ -43,7 +43,7 @@ function rex_linkmap_format_label($OOobject)
 
 function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '')
 {
-	$liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-lmp-active"' : '';
+	$liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
 	$linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
 
 	if(strpos($linkAttr, ' href=') === false)
@@ -70,7 +70,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
 			$sub_li = '';
 			if (count($cat_children)>0) {
 				$liclasses .= 'rex-children ';
-				$linkclasses .= 'rex-lmp-is-not-empty ';
+				$linkclasses .= 'rex-linkmap-is-not-empty ';
 			}
 
 			if (next($children)== null ) $liclasses .= 'rex-children-last ';
@@ -182,7 +182,7 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
   }
 </script>
 
-<div class="rex-lmp-pth">
+<div id="rex-navi-path">
 <ul>
 <?php
 
@@ -210,37 +210,42 @@ if ($category)
 
 
 
-<div id="rex-lmp">
-  <div class="rex-lmp-cats">
-    <h1><?php echo $I18N->msg('lmap_categories'); ?></h1>
-    <?php
-    $roots = OOCategory::getRootCategories();
-    echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
-    ?>
-  </div>
-  <div class="rex-lmp-arts">
-    <h1><?php echo $I18N->msg('lmap_articles'); ?></h1>
-  	<ul>
-    <?php
-    $articles = null;
-    if($isRoot)
-      $articles = OOArticle::getRootArticles();
-    else if($category)
-      $articles = $category->getArticles();
-
-    if ($articles)
-    {
-      foreach($articles as $article)
-  	  {
-    		$liClass = $article->isStartpage() ? ' class="rex-lmp-startpage"' : '';
-    		$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
-
-    		echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
-    		echo '</li>'. "\n";
-  	  }
-  	}
-    ?>
-  	</ul>
-  </div>
-  <div class="rex-clearer"> </div>
+<div id="rex-linkmap">
+	<div class="rex-area-col-2">
+		<div class="rex-area-col-a">
+			<h3 class="rex-hl2"><?php echo $I18N->msg('lmap_categories'); ?></h3>
+			<div class="rex-area-content">
+			<?php
+			$roots = OOCategory::getRootCategories();
+			echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
+			?>
+			</div>
+		</div>
+		
+		<div class="rex-area-col-b">
+			<h3 class="rex-hl2"><?php echo $I18N->msg('lmap_articles'); ?></h3>
+			<div class="rex-area-content">
+			<ul>
+			<?php
+			$articles = null;
+			if($isRoot)
+				$articles = OOArticle::getRootArticles();
+			else if($category)
+				$articles = $category->getArticles();
+	
+			if ($articles)
+			{
+				foreach($articles as $article)
+				{
+					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
+					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
+	
+					echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
+					echo '</li>'. "\n";
+				}
+			}
+			?>
+			</ul>
+			</div>
+		</div>
 </div>

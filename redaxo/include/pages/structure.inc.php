@@ -205,7 +205,7 @@ $add_col = '';
 $data_colspan = 4;
 if ($REX_USER->hasPerm('advancedMode[]'))
 {
-  $add_header = '<th class="rex-icon">'.$I18N->msg('header_id').'</th>';
+  $add_header = '<th class="rex-small">'.$I18N->msg('header_id').'</th>';
   $add_col = '<col width="40" />';
   $data_colspan = 5;
 }
@@ -223,9 +223,10 @@ echo '
 if($function == 'add_cat' || $function == 'edit_cat')
 {
   echo '
+  <div class="rex-form rex-form-structure-category">
   <form action="index.php" method="post">
     <fieldset>
-      <legend><span class="rex-hidden">'.$I18N->msg('add_category') .'</span></legend>
+      <legend><span>'.$I18N->msg('add_category') .'</span></legend>
       <input type="hidden" name="page" value="structure" />';
 
   if ($function == 'edit_cat')
@@ -238,7 +239,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
 
 echo '
       <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($I18N->msg('structure_categories_summary', $cat_name)) .'">
-        <caption class="rex-hidden">'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
+        <caption>'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
         <colgroup>
           <col width="40" />
           '. $add_col .'
@@ -265,7 +266,7 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
           <td class="rex-icon">&nbsp;</td>';
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
-    echo '<td class="rex-icon">-</td>';
+    echo '<td class="rex-small">-</td>';
   }
 
 	echo '<td><a href="index.php?page=structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
@@ -283,7 +284,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
   $add_td = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
-    $add_td = '<td class="rex-icon">-</td>';
+    $add_td = '<td class="rex-small">-</td>';
   }
 
   $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
@@ -337,7 +338,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
+        $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
@@ -376,7 +377,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
+        $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
       $add_text = $I18N->msg('category_edit_delete');
@@ -402,7 +403,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td class="rex-icon">'. $i_category_id .'</td>';
+        $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
       echo '
@@ -434,7 +435,8 @@ if($function == 'add_cat' || $function == 'edit_cat')
       //-->
     </script>
   </fieldset>
-</form>';
+</form>
+</div>';
 }
 
 echo '
@@ -481,16 +483,17 @@ if ($category_id > -1)
   $add_col  = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
   {
-    $add_head = '<th class="rex-icon">'. $I18N->msg('header_id') .'</th>';
+    $add_head = '<th class="rex-small">'. $I18N->msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
   }
 
   if($function == 'add_art' || $function == 'edit_art')
   {
     echo '
+    <div class="rex-form rex-form-structure-article">
     <form action="index.php" method="post">
       <fieldset>
-        <legend><span class="rex-hidden">'.$I18N->msg('article_add') .'</span></legend>
+        <legend><span>'.$I18N->msg('article_add') .'</span></legend>
         <input type="hidden" name="page" value="structure" />
         <input type="hidden" name="category_id" value="'. $category_id .'" />';
     if (isset($article_id)) echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
@@ -513,7 +516,7 @@ if ($category_id > -1)
 
   echo '
       <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
-        <caption class="rex-hidden">'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
+        <caption>'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
         <colgroup>
           <col width="40" />
           '. $add_col .'
@@ -570,7 +573,7 @@ if ($category_id > -1)
     $add_td = '';
     if ($REX_USER->hasPerm('advancedMode[]'))
     {
-      $add_td = '<td class="rex-icon">-</td>';
+      $add_td = '<td class="rex-small">-</td>';
     }
 
     echo '<tr class="rex-table-row-activ">
@@ -606,7 +609,7 @@ if ($category_id > -1)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td class="rex-icon">'. $sql->getValue("id") .'</td>';
+        $add_td = '<td class="rex-small">'. $sql->getValue("id") .'</td>';
       }
 
       $TMPL_SEL->setSelected($sql->getValue('template_id'));
@@ -629,7 +632,7 @@ if ($category_id > -1)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
+        $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
       }
 
       $article_status = $artStatusTypes[$sql->getValue('status')][0];
@@ -678,7 +681,7 @@ if ($category_id > -1)
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
-        $add_td = '<td class="rex-icon">'. $sql->getValue('id') .'</td>';
+        $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
       }
 
       $art_status = $artStatusTypes[$sql->getValue('status')][0];
@@ -722,7 +725,8 @@ if ($category_id > -1)
         //-->
       </script>
     </fieldset>
-  </form>';
+  </form>
+  </div>';
   }
 }
 
