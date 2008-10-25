@@ -158,7 +158,21 @@ function array_insert($array, $index, $value)
 
 function rex_message($message, $cssClass, $sorround_tag)
 {
-  return '<'. $sorround_tag .' class="rex-message '. $cssClass .'"><span>'. $message .'</span></'. $sorround_tag .'>';
+	$return = '';
+	
+	$return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
+	
+	if ($sorround_tag != 'p')
+		$return .= '<p>';
+		
+  $return .= '<span>'. $message .'</span>';
+  
+	if ($sorround_tag != 'p')
+		$return .= '</p>';
+		
+  $return .= '</'. $sorround_tag .'></div>';
+  
+  return $return;
 }
 
 function rex_info($message, $cssClass = null, $sorround_tag = null)
@@ -191,7 +205,21 @@ function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
 
 function rex_message_block($message, $cssClass, $sorround_tag)
 {
-  return '<'. $sorround_tag .' class="rex-message-block '. $cssClass .'">'. $message .'</'. $sorround_tag .'>';
+	$return = '';
+	
+	$return = '<div class="rex-message-block"><'. $sorround_tag .' class="'. $cssClass .'">';
+	
+	if ($sorround_tag != 'p')
+		$return .= '<p>';
+		
+  $return .= '<span>'. $message .'</span>';
+  
+	if ($sorround_tag != 'p')
+		$return .= '</p>';
+		
+  $return .= '</'. $sorround_tag .'></div>';
+  
+  return $return;
 }
 
 function rex_accesskey($title, $key)

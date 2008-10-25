@@ -154,7 +154,7 @@ function rex_get_subtitle($subline, $attr = '')
       {
         // $format = '%s';
         // $subtitle[] = sprintf($format, $label);
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-subpage-active">%s</a>';
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-active">%s</a>';
         $subtitle[] = sprintf($format, $link, $params, $attr, $label);
       }
       elseif ($link == '')
