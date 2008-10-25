@@ -23,6 +23,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	vertical-align: baseline;
 	background: transparent;
 }
+input {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
 body {
 	line-height: 1;
 }
@@ -89,7 +96,7 @@ body, div,
 h1, h2, h3, h4, h5, h6, p,
 a, span,
 li {
-	background-repeat:no-repeat;
+	background-repeat: no-repeat;
 }
 
 .rex-nospace {
@@ -154,10 +161,24 @@ div#rex-website a:hover {
 
 
 
+/*	Schriftarten ***************************************************************
+*******************************************************************************/
+body, 
+input, 
+textarea, 
+select {
+	font-family: Verdana, Arial, sans-serif;
+}
+
 /*	Schriftgroessen ************************************************************
 *******************************************************************************/
 div#rex-title h1 {
 	font-size: 1.3em;
+}
+.rex-hl4, 
+.rex-tx2, 
+.rex-tx3 {
+	font-size: 1.2em;
 }
 
 
@@ -174,6 +195,14 @@ div.rex-content-header ul {
 div#rex-title h1 {
 	line-height: 2.3;
 }
+div.rex-content-editmode-module-name h3, 
+div.rex-content-editmode-module-name ul li {
+	line-height: 2.2;
+}
+div.rex-content-editmode-slice-output {
+	line-height: 1.6;
+}
+p.rex-tx1, 
 div#rex-navi-header p,
 div#rex-navi-header ul {
 	line-height: 1.2;
@@ -189,6 +218,7 @@ div#rex-navi-footer ul li,
 div#rex-navi-footer ul li,
 div#rex-navi-footer ul li a,
 div#rex-clang ul li a.rex-active,
+div.rex-title-row ul li a.rex-active,
 div.rex-content-header ul li a.rex-active,
 div.rex-content-header ul li span {
 	color: #32353A;
@@ -201,6 +231,9 @@ div#rex-navi-header ul li a {
 	color: #FFF;
 }
 
+table.rex-table caption {
+	color: #9C9A96;
+}
 /*	Rot */
 a {
 	color: #F2353A;
@@ -225,7 +258,9 @@ div.rex-info-block a {
 div#rex-lmp ul li a.rex-online {
 	color: #3EC94A;
 }
-
+.rex-tx3 {
+	color: #478C44;
+}
 /*	Blau */
 div.rex-content-header ul li a {
 	color: #669;
@@ -238,10 +273,6 @@ div.rex-content-header ul li a {
 .rex-error {
 	color:#C33;
 }
-
-.rex-clr-grn {
-	color:#478C44;
-}
 .rex-clr-red {
 	color:#EA1144;
 }
@@ -249,22 +280,50 @@ div.rex-content-header ul li a {
 
 /*	Background Color ***********************************************************
 *******************************************************************************/
-div#rex-header div#rex-navi-header {
-	background-color: #AAB9A8;
+div.rex-content-editmode div.rex-form-content-editmode, 
+div.rex-content-editmode div.rex-form-content-editmode div.rex-form-wrapper, 
+div.rex-content-editmode div.rex-form-content-editmode-add-slice, 
+div.rex-content-editmode div.rex-form-content-editmode-add-slice div.rex-form-wrapper, 
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice, 
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-form-wrapper {
+	background-color: transparent;
 }
+/*	Weiss */
+div.rex-widget {
+	background-color: #FFF;
+}
+
+/*	Grau Hellsten */
+div.rex-content-body, 
+table.rex-table caption {
+	background-color: #FAF9F5;
+}
+/*	Grau Heller */
 div#rex-footer,
 div#rex-header p.rex-header-top,
 div#rex-clang,
 div#rex-title,
+div#rex-linkmap, 
+div#rex-navi-path, 
 div.rex-content-header,
-div.rex-content-cols,
+div.rex-content-cols, 
+div.rex-form.rex-form-system-setup,
+div.rex-form div.rex-form-wrapper,
+div.rex-widget p.rex-widget-field input,
+div.rex-widget p.rex-widget-field select, 
 table.rex-table {
 	background-color: #F0EFEB;
 }
-div.rex-content-body {
-	background-color: #FAF9F5;
+/*	Grau Hell */
+table.rex-table tr.rex-table-row-activ td {
+	background-color: #E7E6E3;
 }
-
+/*	Grau Normal */
+h3.rex-hl2, 
+div.rex-form, 
+table.rex-table th {
+	background-color: #D7D6D3;
+}
 /*	Rot */
 .rex-warning,
 div.rex-warning-block {
@@ -276,22 +335,92 @@ div.rex-warning-block {
 div.rex-info-block {
 	background-color: #D2EFD9;
 }
-table.rex-table caption {
-	background-color: #D6E1E4;
-}
-table.rex-table th {
-	background-color: #D7D6D3;
-}
-table.rex-table tr.rex-table-row-activ td {
-	background-color: #E7E6E3;
+div#rex-header div#rex-navi-header {
+	background-color: #AAB9A8;
 }
 
+/*	Blau */
+div.rex-content-editmode-module-name div.rex-navi-slice {
+	background-color: #E4EFF2;
+}
+div.rex-content-editmode {
+	background-color: #D6E1E4;
+}
+div.rex-content-editmode-module-name {
+	background-color: #CCD7DD;
+}
+div.rex-content-editmode div.rex-form-content-editmode {
+	background-color: #B0BDC3;
+}
+/*	Background Images **********************************************************
+*******************************************************************************/
+div.rex-content-header, 
+div#rex-linkmap div.rex-area-col-b ul li a {
+	background-image: url(../media/document.gif);
+}
+div.rex-content-header {
+	background-position: 13px 50%;
+}
+div#rex-linkmap div.rex-area-col-b ul li a {
+	background-position: 0px 50%;
+}
+
+.rex-info {
+	background-image: url(../media/excla_mark_green.gif);
+	background-position: 0% 50%;
+}
+
+/*	File */
+div#rex-linkmap ul li.rex-children ul li,
+div#rex-linkmap ul li ul li.rex-children-last {
+	background-image: url(../media/file.gif);
+	background-position: -21px 0px;
+}
+div#rex-linkmap ul li ul li.rex-children-last {
+	background-image: url(../media/file_last_2.gif);
+}
+
+div#rex-linkmap, 
+div#rex-linkmap ul li ul {
+	background-image:url(../media/file_vert.gif);
+	background-position: 49% 0px;
+	background-repeat: repeat-y;
+}
+div#rex-linkmap ul li ul {
+	background-position: 2px 0px;
+}
+
+/*	Folder */
+div#rex-linkmap ul li a {
+	background-image: url(../media/folder_off_empty.gif);
+}
+div#rex-linkmap ul li a.rex-linkmap-is-not-empty {
+	background-image: url(../media/folder_off.gif);
+}
+div#rex-linkmap ul li.rex-active a.rex-active {
+	background-image: url(../media/folder_on_empty.gif);
+}
+div#rex-linkmap ul li.rex-active a.rex-linkmap-is-not-empty.rex-active {
+	background-image: url(../media/folder_on.gif);
+}
+
+
+div#rex-linkmap div.rex-area-col-b ul li.rex-linkmap-startpage a {
+	background-image: url(../media/liste.gif);
+}
+div#rex-title {
+	background-image: url(../media/logo.jpg);
+	background-position: 100% 50%;
+}
+.rex-warning {
+	background-image: url(../media/warning.gif);
+	background-position: 0% 50%;
+}
 
 /*	Border Color ***************************************************************
 *******************************************************************************/
 div#rex-footer {
-	border-top-color: #AAB9A8;
-}
+	border-top-color: #AAB9A8;}
 
 /*	Weiss */
 table.rex-table caption,
@@ -304,7 +433,12 @@ div.rex-content-header ul.rex-navi-content {
 }
 div#rex-title h1,
 div#rex-title ul,
-div#rex-title p {
+div#rex-title p, 
+div.rex-form div.rex-form-row, 
+div.rex-form div.rex-message, 
+div.rex-content-editmode div.rex-message, 
+div.rex-content-editmode-slice-input, 
+div.rex-content-editmode-slice-output {
 	border-bottom-color: #FFF;
 }
 div#rex-clang ul,
@@ -313,38 +447,50 @@ div.rex-content-header ul.rex-navi-content {
 	border-left-color: #FFF;
 }
 
+/*	Grau */
+div.rex-widget {
+	border-color:#999;
+}
 
-/*	Background Images **********************************************************
+
+
+/*	Elemente verstecken ********************************************************
+		Hinweis: 
+			den Elementen nicht die Klasse "rex-hidden" einzeln zuweisen, 
+			da diese von anderen Layouts eventuell dargestellt werden sollen
 *******************************************************************************/
-div.rex-content-header {
-	background-image: url(../media/document.gif);
-	background-position: 13px 50%;
+div.rex-navi-slice ul li span, 
+div.rex-form-content-editmode legend, 
+div.rex-form-content-editmode legend span, 
+div.rex-form-content-editmode-add-slice legend, 
+div.rex-form-content-editmode-add-slice legend span, 
+div.rex-form-content-editmode-edit-slice legend, 
+div.rex-form-content-editmode-edit-slice legend span {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background-color: #FFF !important;
+	overflow: hidden !important;
 }
-.rex-info {
-	background-image: url(../media/excla_mark_green.gif);
-	background-position: 0% 50%;
-}
-div#rex-title {
-	background-image: url(../media/logo.jpg);
-	background-position: 100% 50%;
-}
-.rex-warning {
-	background-image: url(../media/warning.gif);
-	background-position: 0% 50%;
-}
-
-
 
 /*	Seitenstruktur *************************************************************
 *******************************************************************************/
 body {
 	margin: 8px;
-	font-family: Verdana, Arial, sans-serif;
 }
 
 div#rex-website {
 	width: 770px;
 	font-size: .625em;
+}
+body#rex-page-linkmap div#rex-website, 
+body#rex-page-medienpool div#rex-website {
+	width: 100%;
 }
 
 div#rex-header,
@@ -372,7 +518,11 @@ div#rex-output {
 }
 div.rex-content-body {
 	clear: both;
-	padding: 1px 153px 0 39px;
+	float: left;
+	width: 100%;
+}
+div.rex-content-body-2 {
+	padding: 1px 154px 0 41px;
 }
 
 /*	Titel **********************************************************************

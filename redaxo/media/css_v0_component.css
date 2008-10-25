@@ -11,27 +11,68 @@ legend.rex-hidden {
 }
 
 
+/*	Abstaende ******************************************************************
+*******************************************************************************/
+h3.rex-hl2, 
+h4.rex-hl3, 
+p.rex-tx1 {
+	margin-bottom: 1em;
+}
+
+
+/*	Ueberschriften *************************************************************
+*******************************************************************************/
+h3.rex-hl2 {
+	padding: 5px;
+}
+
+div.rex-content-editmode-module-name h3.rex-hl4 {
+	padding-left: 5px;
+}
+
+
+/*	Texte **********************************************************************
+*******************************************************************************/
+.rex-tx2, 
+.rex-tx3 {
+	font-weight: bold;
+}
+
+
 /*	Hinweise *******************************************************************
 *******************************************************************************/
-.rex-message {
+div.rex-message {
 	clear: both;
 	width: 100%;
 	margin: 0 0 10px 0;
-	padding: 8px 0px;
 	font-weight: bold;
 }
-table .rex-message,
-body#rex-page-content .rex-message,
-div.rex-content-editmode-slc .rex-message {
+div.rex-form div.rex-message, 
+div.rex-content-editmode div.rex-message  {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+div.rex-content-editmode div.rex-message {
+	margin-bottom: 0;
+}
+/*
+table div.rex-message,
+body#rex-page-content div.rex-message,
+div.rex-content-editmode-slc div.rex-message {
 	margin-bottom: 0px;
 }
-body#rex-page-medienpool .rex-message {
+body#rex-page-medienpool div.rex-message {
 	margin-bottom: 2px;
 }
-div.rex-content-editmode-slc .rex-message {
+div.rex-content-editmode-slc div.rex-message {
 	padding: 0;
 }
-.rex-message span {
+*/
+div.rex-message .rex-info, 
+div.rex-message .rex-warning {
+	padding: 8px 5px;
+}
+div.rex-message span {
 	display: block;
 	padding: 0 45px;
 }
@@ -67,23 +108,50 @@ table.rex-table {
 	border-collapse: collapse;
 	border-spacing: 1px;
 }
-table.rex-table-mrgn {
+table.rex-table-mrgn, 
+div.rex-form-structure-category {
 	margin-bottom: 10px;
 }
+div.rex-form-structure-category table.rex-table-mrgn {
+	margin-bottom: 0px;
+}
+	
+	
 table.rex-table caption,
 table.rex-table th,
 table.rex-table td {
-	padding: 5px;
+	padding: 9px 5px;
 	border-width: 1px;
 	border-style: solid;
 	border-right-width: 0;
+	vertical-align: top;
 }
-
+div.rex-form-structure-article table.rex-table th,
+div.rex-form-structure-article table.rex-table td, 
+div.rex-form-structure-category table.rex-table th,
+div.rex-form-structure-category table.rex-table td, 
+div.rex-form-system-language table.rex-table th,
+div.rex-form-system-language table.rex-table td {
+	vertical-align: middle;
+}
 table.rex-table caption {
+	padding: 5px;
 	border-bottom: 0;
-	font-weight: bold;
+	border-left: 0;
 	text-align: left;
 }
+/*
+table.rex-table caption {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
+}
+*/
 body#rex-page-module table.rex-table caption {
 	border:0;
 }
@@ -95,15 +163,113 @@ table.rex-table th {
 
 /*	real width = border + padding + width */
 table.rex-table th.rex-icon,
-table.rex-table td.rex-icon {
+table.rex-table td.rex-icon, 
+table.rex-table th.rex-small,
+table.rex-table td.rex-small {
 	width: 29px;
 	text-align: center;
+}
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon {
+	padding-top: 6px;
+	padding-bottom: 0;
+}
+div.rex-form-structure-article table.rex-table th.rex-icon,
+div.rex-form-structure-article table.rex-table td.rex-icon, 
+div.rex-form-structure-category table.rex-table th.rex-icon,
+div.rex-form-structure-category table.rex-table td.rex-icon {
+	padding-bottom: 6px;
 }
 
 table.rex-table th.rex-colz,
 table.rex-table td.rex-colz {
 	width: 153px;
 }
+/*
+table.rex-table th.rex-icon img, 
 table.rex-table td.rex-icon img {
 	vertical-align: middle;
 }
+*/
+
+
+
+/*	Spaltigkeit ****************************************************************
+*******************************************************************************/
+div.rex-area-col-2 {
+	position: relative;
+	float: left;
+	width: 100%;
+}
+div.rex-area-col-a, 
+div.rex-area-col-b {
+	float: left;
+	width: 50%;
+}
+div.rex-area-col-b {
+	float: right;
+}
+div.rex-area-content {
+	padding: 5px;
+}
+
+
+
+/*	Editmode *******************************************************************
+*******************************************************************************/
+div.rex-content-editmode, 
+div.rex-content-editmode-module-name {
+	float: left;
+	width: 100%;
+}
+
+div.rex-content-editmode-module-name h3 {
+	float: left;
+}
+div.rex-content-editmode-module-name div.rex-navi-slice {
+	float: right;
+}
+
+div.rex-content-editmode-slice-input, 
+div.rex-content-editmode-slice-output {
+	clear: both;
+	padding: 10px 5px;
+} 
+div.rex-content-editmode-slice-output {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+
+/*	Linkmap ********************************************************************
+*******************************************************************************/
+div#rex-linkmap {
+	clear: both;
+	position: relative;
+	float: left;
+	width: 100%;
+}
+
+
+/*	Widget *********************************************************************
+*******************************************************************************/
+div.rex-widget {
+	float: left;
+	margin-bottom: 10px;
+	padding: 5px;
+	border-width: 1px;
+	border-style: solid;
+}
+/*	Breite war von "div.rex-form div.rex-form-row p" */
+div#rex-output div.rex-widget p {
+	width: auto;
+}
+
+div.rex-widget p.rex-widget-icons {
+	padding: 2px 0 0 10px;
+}
+div.rex-widget-linklist p.rex-widget-icons img, 
+div.rex-widget-medialist p.rex-widget-icons img {
+	margin-bottom: 2px;
+}
+
