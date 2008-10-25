@@ -237,7 +237,7 @@ class rex_var_link extends rex_var
    */
   function getLinkButton($id, $article_id, $category = '')
   {
-    global $REX;
+    global $REX, $I18N;
 
     $art_name = '';
     $clang = '';
@@ -255,19 +255,19 @@ class rex_var_link extends rex_var
       $open_params .= '&category_id=' . $category;
 
     $media = '
-	<div class="rex-wdgt">
-		<div class="rex-wdgt-lnk">
-      <p class="rex-wdgt-fld">
+	<div class="rex-widget">
+		<div class="rex-widget-link">
+      <p class="rex-widget-field">
   			<input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="'. $article_id .'" />
   			<input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
 		  </p>
-      <p class="rex-wdgt-icons">
-       	<a href="#" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
- 	  		<a href="#" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
+      <p class="rex-widget-icons">
+       	<a href="#" class="rex-icon-file-open" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" alt="'. $I18N->msg('var_link_open') .'" title="'. $I18N->msg('var_link_open') .'" /></a>
+ 	  		<a href="#" class="rex-icon-file-delete" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_link_delete') .'" alt="'. $I18N->msg('var_link_delete') .'" /></a>
  		  </p>
- 		  <div class="rex-clearer"></div>
  		</div>
- 	</div>';
+ 	</div>
+ 	<div class="rex-clearer"></div>';
 
     return $media;
   }
@@ -277,7 +277,7 @@ class rex_var_link extends rex_var
    */
   function getLinklistButton($id, $value, $category = '')
   {
-    global $REX;
+    global $REX, $I18N;
 
     $open_params = '&clang=' . $REX['CUR_CLANG'];
     if ($category != '')
@@ -298,28 +298,25 @@ class rex_var_link extends rex_var
     }
 
     $link = '
-  <div class="rex-wdgt">
-    <div class="rex-wdgt-mdlst">
+  <div class="rex-widget">
+    <div class="rex-widget-linklist">
       <input type="hidden" name="LINKLIST['. $id .']" id="REX_LINKLIST_'. $id .'" value="'. $value .'" />
-      <p class="rex-wdgt-fld">
+      <p class="rex-widget-field">
         <select name="LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
           ' . $options . '
         </select>
       </p>
-      <p class="rex-wdgt-icons">
-        <a href="#" onclick="moveREXLinklist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="media/file_top.gif" width="16" height="16" title="Move Selected Item Up To Top" alt="Move Selected Item Up To Top" /></a>
-        <a href="#" onclick="openREXLinklist(' . $id . ', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="Open Mediapool" alt="Open Mediapool" /></a>
-        <br />
-        <a href="#" onclick="moveREXLinklist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="media/file_up.gif" width="16" height="16" title="Move Selected Item Upwards" alt="Move Selected Item Upwards" /></a>
-   		  <a href="#" onclick="deleteREXLinklist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
-        <br />
-        <a href="#" onclick="moveREXLinklist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="media/file_down.gif" width="16" height="16" title="Move Selected Item Downwards" alt="Move Selected Item Downwards" /></a>
-        <br />
-        <a href="#" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="Move Selected Item Down To Bottom" alt="Move Selected Item Down To Bottom" /></a>
+      <p class="rex-widget-icons">
+        <a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="media/file_top.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_top') .'" alt="'. $I18N->msg('var_linklist_move_top') .'" /></a>
+        <a href="#" class="rex-icon-file-open" onclick="openREXLinklist(' . $id . ', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="'. $I18N->msg('var_link_open') .'" alt="'. $I18N->msg('var_link_open') .'" /></a><br />
+        <a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="media/file_up.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_up') .'" alt="'. $I18N->msg('var_linklist_move_up') .'" /></a>
+   		  <a href="#" class="rex-icon-file-delete" onclick="deleteREXLinklist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_link_delete') .'" alt="'. $I18N->msg('var_link_delete') .'" /></a><br />
+        <a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="media/file_down.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_down') .'" alt="'. $I18N->msg('var_linklist_move_down') .'" /></a><br />
+        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_bottom') .'" alt="'. $I18N->msg('var_linklist_move_bottom') .'" /></a>
       </p>
-      <div class="rex-clearer"></div>
     </div>
   </div>
+ 	<div class="rex-clearer"></div>
     ';
 
     return $link;

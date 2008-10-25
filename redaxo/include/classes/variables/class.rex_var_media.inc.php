@@ -263,27 +263,27 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;args['. urlencode($aname) .']='. urlencode($avalue);
     }
 
-    $wdgtClass = 'rex-wdgt-mda';
+    $wdgtClass = 'rex-widget-media';
     if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
-      $wdgtClass .= ' rex-wdgt-prvw';
+      $wdgtClass .= ' rex-widget-preview';
     }
 
     $media = '
-    <div class="rex-wdgt">
+    <div class="rex-widget">
       <div class="'. $wdgtClass .'">
-        <p class="rex-wdgt-fld">
+        <p class="rex-widget-field">
           <input type="text" size="30" name="MEDIA[' . $id . ']" value="REX_MEDIA[' . $id . ']" id="REX_MEDIA_' . $id . '" readonly="readonly" />
         </p>
-        <p class="rex-wdgt-icons">
-          <a href="#" onclick="openREXMedia(' . $id . ',\'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="'. $I18N->msg('var_media_open') .'" alt="'. $I18N->msg('var_media_open') .'" /></a>
-          <a href="#" onclick="addREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_add.gif" width="16" height="16" title="'. $I18N->msg('var_media_new') .'" alt="'. $I18N->msg('var_media_new') .'" /></a>
-          <a href="#" onclick="deleteREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_media_remove') .'" alt="'. $I18N->msg('var_media_remove') .'" /></a>
+        <p class="rex-widget-icons">
+          <a href="#" class="rex-icon-file-open" onclick="openREXMedia(' . $id . ',\'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="'. $I18N->msg('var_media_open') .'" alt="'. $I18N->msg('var_media_open') .'" /></a>
+          <a href="#" class="rex-icon-file-add" onclick="addREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_add.gif" width="16" height="16" title="'. $I18N->msg('var_media_new') .'" alt="'. $I18N->msg('var_media_new') .'" /></a>
+          <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_media_remove') .'" alt="'. $I18N->msg('var_media_remove') .'" /></a>
         </p>
-        <div class="rex-clearer"></div>
-        <div class="preview"></div>
+        <div class="rex-media-preview"></div>
       </div>
     </div>
+		<div class="rex-clearer"></div>
     ';
 
     return $media;
@@ -307,10 +307,10 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;args['. $aname .']='. urlencode($avalue);
     }
 
-    $wdgtClass = 'rex-wdgt-mdlst';
+    $wdgtClass = 'rex-widget-medialist';
     if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
-      $wdgtClass .= ' rex-wdgt-prvw';
+      $wdgtClass .= ' rex-widget-preview';
     }
 
     $options = '';
@@ -327,27 +327,27 @@ class rex_var_media extends rex_var
     }
 
     $media = '
-    <div class="rex-wdgt">
+    <div class="rex-widget">
       <div class="'. $wdgtClass .'">
         <input type="hidden" name="MEDIALIST['. $id .']" id="REX_MEDIALIST_'. $id .'" value="'. $value .'" />
-        <p class="rex-wdgt-fld">
+        <p class="rex-widget-field">
           <select name="MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
             ' . $options . '
           </select>
         </p>
-        <p class="rex-wdgt-icons">
-          <a href="#" onclick="moveREXMedialist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="media/file_top.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_top') .'" alt="'. $I18N->msg('var_medialist_move_top') .'" /></a>
-          <a href="#" onclick="openREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="'. $I18N->msg('var_media_open') .'" alt="'. $I18N->msg('var_media_open') .'" /></a><br />
-          <a href="#" onclick="moveREXMedialist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="media/file_up.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_up') .'" alt="'. $I18N->msg('var_medialist_move_top') .'" /></a>
-          <a href="#" onclick="addREXMedialist('. $id .');return false;"'. rex_tabindex() .'><img src="media/file_add.gif" width="16" height="16" title="'. $I18N->msg('var_media_new') .'" alt="'. $I18N->msg('var_media_new') .'" /></a><br />
-          <a href="#" onclick="moveREXMedialist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="media/file_down.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_down') .'" alt="'. $I18N->msg('var_medialist_move_down') .'" /></a>
-          <a href="#" onclick="deleteREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_media_remove') .'" alt="'. $I18N->msg('var_media_remove') .'" /></a><br />
-          <a href="#" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_bottom') .'" alt="'. $I18N->msg('var_medialist_move_bottom') .'" /></a>
+        <p class="rex-widget-icons">
+          <a href="#" class="rex-icon-file-top" onclick="moveREXMedialist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="media/file_top.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_top') .'" alt="'. $I18N->msg('var_medialist_move_top') .'" /></a>
+          <a href="#" class="rex-icon-file-open" onclick="openREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="'. $I18N->msg('var_media_open') .'" alt="'. $I18N->msg('var_media_open') .'" /></a><br />
+          <a href="#" class="rex-icon-file-up" onclick="moveREXMedialist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="media/file_up.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_up') .'" alt="'. $I18N->msg('var_medialist_move_top') .'" /></a>
+          <a href="#" class="rex-icon-file-add" onclick="addREXMedialist('. $id .');return false;"'. rex_tabindex() .'><img src="media/file_add.gif" width="16" height="16" title="'. $I18N->msg('var_media_new') .'" alt="'. $I18N->msg('var_media_new') .'" /></a><br />
+          <a href="#" class="rex-icon-file-down" onclick="moveREXMedialist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="media/file_down.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_down') .'" alt="'. $I18N->msg('var_medialist_move_down') .'" /></a>
+          <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedialist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_media_remove') .'" alt="'. $I18N->msg('var_media_remove') .'" /></a><br />
+          <a href="#" class="rex-icon-file-bottom" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="'. $I18N->msg('var_medialist_move_bottom') .'" alt="'. $I18N->msg('var_medialist_move_bottom') .'" /></a>
         </p>
-        <div class="rex-clearer"></div>
-        <div class="preview"></div>
+        <div class="rex-media-preview"></div>
       </div>
     </div>
+	 	<div class="rex-clearer"></div>
     ';
 
     return $media;
