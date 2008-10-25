@@ -36,7 +36,7 @@ if ($func == '')
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'field_id' => '###field_id###'));
 
   $list->setColumnLabel('field_id', $I18N_META_INFOS->msg('field_label_id'));
-  $list->setColumnLayout('field_id',  array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnLayout('field_id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', $I18N_META_INFOS->msg('field_label_name'));
   $list->setColumnParams('name', array('func' => 'edit', 'field_id' => '###field_id###'));
