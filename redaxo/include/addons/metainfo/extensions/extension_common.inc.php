@@ -77,7 +77,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     {
       case 'text':
       {
-        $field = '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .'" maxlength="'. $dblength .'" '. $attr .' />';
+        $tag_attr = ' class="rex-form-text"';
+        $field = '<input class="rex-form-text" type="'. $typeLabel .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .'" maxlength="'. $dblength .'" '. $attr .' />';
         break;
       }
       case 'checkbox':
@@ -114,7 +115,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           }
         }
 
-        $class = $typeLabel == 'radio' ? 'rex-rdo' : 'rex-chckbx';
+        $class_s = $typeLabel;
+        $class_p = $typeLabel == 'radio' ? 'radios' : 'checkboxes';
         $oneValue = (count($values) == 1);
 
         if(!$oneValue)
@@ -122,8 +124,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $tag = '';
           $labelIt = false;
           $tag = 'div';
-          $tag_attr = ' class="rex-chckbxs rex-ptag"';
-          $field .= '<p>'. $label .'</p>';
+          $tag_attr = ' class="rex-form-col-a rex-form-'.$class_p.'"';
+          $field .= '<p class="rex-form-label">'. $label .'</p><div class="rex-form-'.$class_p.'-wrapper">';
         }
 
         foreach($values as $key => $value)
@@ -142,24 +144,31 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
           if($oneValue)
           {
-            $tag_attr = ' class="'. $class .'"';
-            $field .= '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+            $tag_attr = ' class="rex-form-col-a rex-form-'. $class_s .'"';
+            $field .= '<input class="rex-form-'.$class_s.'" type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
           }
           else
           {
-            $field .= '<p class="'. $class .'">'."\n";
-            $field .= '<label for="'. $id .'"><span>'. htmlspecialchars($value) .'</span></label>';
-            $field .= '<input type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+            $field .= '<p class="rex-form-'. $class_s .' rex-form-label-right">'."\n";
+            $field .= '<input class="rex-form-'. $class_s .'" type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+            $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
             $field .= '</p>'."\n";
           }
 
+        }
+        if(!$oneValue)
+        {
+        	$field .= '</div>';
         }
 
         break;
       }
       case 'select':
       {
+        $tag_attr = ' class="rex-form-select"';
+        
         $select = new rex_select();
+				$select->setStyle('class="rex-form-select"');
         $select->setName($name);
         $select->setId($id);
         // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
@@ -215,12 +224,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       case 'datetime':
       case 'date':
       {
+        $tag_attr = ' class="rex-form-select-date"';
+        
         $active = $dbvalues_esc[0] != 0;
         if($dbvalues_esc[0] == '')
           $dbvalues_esc[0] = time();
 
-        $style = 'class="rex-fdate"';
-        $yearStyle = 'class="rex-fdatey"';
+        $style = 'class="rex-form-select-date"';
+        $yearStyle = 'class="rex-form-select-year"';
 
         $yearSelect = new rex_select();
         $yearSelect->addOptions(range(2005,date('Y')+10), true);
@@ -267,18 +278,20 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get();
         }
         $checked = $active ? ' checked="checked"' : '';
-        $field .= '<input type="checkbox" name="'. $name .'[active]" value="1"'. $checked . $style .' />';
+        $field .= '<input class="rex-form-select-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked . $style .' />';
         break;
       }
       case 'textarea':
       {
-        $field = '<textarea name="'. $name .'" id="'. $id .'" cols="50" rows="6" '. $attr .'>'. $dbvalues_esc[0] .'</textarea>';
+        $tag_attr = ' class="rex-form-textarea"';
+        
+        $field = '<textarea class="rex-form-textarea" name="'. $name .'" id="'. $id .'" cols="50" rows="6" '. $attr .'>'. $dbvalues_esc[0] .'</textarea>';
         break;
       }
       case 'REX_MEDIA_BUTTON':
       {
         $tag = 'div';
-        $tag_attr = ' class="rex-ptag"';
+        $tag_attr = ' class="rex-form-widget"';
 
         $field = rex_var_media::getMediaButton($media_id);
         $field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues_esc[0], $field);
@@ -290,7 +303,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       case 'REX_MEDIALIST_BUTTON':
       {
         $tag = 'div';
-        $tag_attr = ' class="rex-ptag"';
+        $tag_attr = ' class="rex-form-widget"';
 
         $name .= '[]';
         $field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues_esc));
@@ -303,7 +316,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       case 'REX_LINK_BUTTON':
       {
         $tag = 'div';
-        $tag_attr = ' class="rex-ptag"';
+        $tag_attr = ' class="rex-form-widget"';
 
         $category = '';
         if($activeItem)
@@ -319,7 +332,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       case 'REX_LINKLIST_BUTTON':
       {
         $tag = 'div';
-        $tag_attr = ' class="rex-ptag"';
+        $tag_attr = ' class="rex-form-widget"';
 
         $category = '';
         if($activeItem)

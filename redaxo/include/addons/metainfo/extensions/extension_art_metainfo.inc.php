@@ -16,6 +16,8 @@ rex_register_extension('ART_META_FORM', 'rex_a62_metainfo_form');
 function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt)
 {
   $s = '';
+  
+  $s .= '<div class="rex-form-row">';
 
   if($tag != '')
     $s .= '<'. $tag . $tag_attr  .'>'. "\n";
@@ -24,11 +26,12 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
     $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
 
   $s .= $field. "\n";
-  $s .= '<br class="rex-clear" />';
 
   if($tag != '')
     $s .='</'.$tag.'>'. "\n";
-
+	
+	$s .= '</div>';
+	
   return $s;
 }
 
