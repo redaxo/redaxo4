@@ -54,15 +54,15 @@ resize image to a width of 100px and a heigt of 200px<br />
 <b>index.php?rex_resize=100w__200h__imagefile</b>
 
 <br /><br />
-resize inner image part to a width of 100px and a heigt of 200px<br />
+resize inner image part to a width of 100px and a height of 200px<br />
 <b>index.php?rex_resize=100c__200h__imagefile</b>
 
 <br /><br />
-resize inner image part to a width of 100px and a heigt of 200px with an offset of 50px<br />
+resize inner image part to a width of 100px and a height of 200px with an offset of 50px<br />
 <b>index.php?rex_resize=100c__200h__50o__imagefile</b>
 
 <br /><br />
-resize inner image part to a width of 100px and a heigt of 200px with an offset of -150px<br />
+resize inner image part to a width of 100px and a height of 200px with an offset of -150px<br />
 <b>index.php?rex_resize=100c__200h__-150o__imagefile</b>
 
 <br /><br />
