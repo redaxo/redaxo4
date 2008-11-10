@@ -8,11 +8,12 @@
  * @version $Id: extension_med_metainfo.inc.php,v 1.5 2008/03/11 16:03:32 kills Exp $
  */
 
-
 rex_register_extension('MEDIA_FORM_EDIT', 'rex_a62_metainfo_form');
 rex_register_extension('MEDIA_FORM_ADD', 'rex_a62_metainfo_form');
 
 rex_register_extension('MEDIA_ADDED', 'rex_a62_metainfo_form');
+rex_register_extension('MEDIA_UPDATED', 'rex_a62_metainfo_form');
+
 /**
  * Callback, dass ein Formular item formatiert
  */
@@ -39,6 +40,7 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
  */
 function rex_a62_metainfo_form($params)
 {
+
   // Nur beim EDIT gibts auch ein Medium zum bearbeiten
   if($params['extension_point'] == 'MEDIA_FORM_EDIT')
   {
