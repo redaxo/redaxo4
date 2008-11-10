@@ -64,7 +64,7 @@ function rex_medienpool_filename($FILENAME, $doSubindexing = true)
  * @param $FILEINFOS
  * @param $userlogin
 */
-function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null){
+function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = TRUE){
 
   global $REX,$I18N;
 
@@ -78,11 +78,12 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 	}
 
   $isFileUpload = isset($FILE['tmp_name']);
+  if ($isFileUpload) $doSubindexing = TRUE;
 
   $FILENAME = $FILE['name'];
   $FILESIZE = $FILE['size'];
   $FILETYPE = $FILE['type'];
-  $NFILENAME = rex_medienpool_filename($FILENAME, $isFileUpload);
+  $NFILENAME = rex_medienpool_filename($FILENAME, $doSubindexing);
   $message = '';
 
   // ----- alter/neuer filename
@@ -161,6 +162,114 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
   return $RETURN;
 }
 
+
+/**
+ * Holt ein upgeloadetes File und legt es in den Medienpool
+ * Dabei wird kontrolliert ob das File schon vorhanden ist und es
+ * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
+ *
+ * @param $FILE
+ * @param $rex_file_category
+ * @param $FILEINFOS
+ * @param $userlogin
+*/
+function rex_medienpool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
+
+  global $REX,$I18N;
+
+	$RETURN = array();
+  
+  $FILESQL = new rex_sql;
+  // $FILESQL->debugsql = 1;
+  $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
+  $FILESQL->setWhere('file_id='. $FILEINFOS["file_id"]);
+  $FILESQL->setValue('title',$FILEINFOS["title"]);
+  $FILESQL->setValue('category_id',$FILEINFOS["rex_file_category"]);
+
+  $msg = '';
+
+  $updated = false;
+  if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none')
+  {
+    $ffilename = $_FILES['file_new']['tmp_name'];
+    $ffiletype = $_FILES['file_new']['type'];
+    $ffilesize = $_FILES['file_new']['size'];
+
+    if ($ffiletype == $FILEINFOS["filetype"] || OOMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
+    {
+      if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]) ||
+          copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
+      {
+        $RETURN["msg"] = $I18N->msg('pool_file_changed');
+				$FILEINFOS["filetype"] = $ffiletype;
+				$FILEINFOS["filesize"] = $ffilesize;
+
+        $FILESQL->setValue('filetype',$FILEINFOS["filetype"]);
+        // $FILESQL->setValue('originalname',$ffilename);
+        $FILESQL->setValue('filesize',$FILEINFOS["filesize"]);
+        if($size = @getimagesize($REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
+        {
+          $FILESQL->setValue('width',$size[0]);
+          $FILESQL->setValue('height',$size[1]);
+        }
+        @chmod($REX['MEDIAFOLDER'].'/'. $FILEINFOS["filename"], $REX['FILEPERM']);
+        $updated = true;
+      }else
+      {
+          $RETURN["msg"] = $I18N->msg('pool_file_upload_error');
+      }
+    }else
+    {
+      $RETURN["msg"] = $I18N->msg('pool_file_upload_errortype');
+    }
+  }
+
+  $RETURN["ok"] = 0;
+  if(!isset($RETURN["msg"]))
+  {
+    $RETURN["msg"] = $I18N->msg('pool_file_infos_updated');
+    $RETURN["filename"] = $FILEINFOS["filename"];
+    $RETURN["filetype"] = $FILEINFOS["filetype"];
+    $RETURN["file_id"] = $FILEINFOS["file_id"];
+    $RETURN["ok"] = 1;
+  }
+  
+	$FILESQL->addGlobalUpdateFields();
+	$FILESQL->update();
+
+
+/*
+$RETURN['title'] = $FILEINFOS['title'];
+$RETURN['type'] = $FILETYPE;
+$RETURN['msg'] = $message;
+// Aus BC gruenden hier mit int 1/0
+$RETURN['ok'] = $success ? 1 : 0;
+$RETURN['filename'] = $NFILENAME;
+$RETURN['old_filename'] = $FILENAME;
+*/
+
+	return $RETURN;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Synchronisiert die Datei $physical_filename des Mediafolders in den
  * Medienpool
@@ -171,7 +280,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
  * @param $filesize
  * @param $filetype
  */
-function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null)
+function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null, $doSubindexing = FALSE)
 {
   global $REX;
 
@@ -200,7 +309,7 @@ function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesiz
   $FILEINFOS = array();
   $FILEINFOS['title'] = $title;
 
-  $RETURN = rex_medienpool_saveMedia($FILE, $category_id, $FILEINFOS);
+  $RETURN = rex_medienpool_saveMedia($FILE, $category_id, $FILEINFOS, NULL, FALSE);
   return $RETURN['ok'] == 1;
 }
 

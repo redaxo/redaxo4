@@ -605,67 +605,23 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
   {
     if ($PERMALL || ($REX_USER->hasPerm('media['.$gf->getValue('category_id').']') && $REX_USER->hasPerm('media['. $rex_file_category .']')))
     {
-      $FILESQL = new rex_sql;
-      $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
-      $FILESQL->setWhere('file_id='. $file_id);
-      $FILESQL->setValue('title',$ftitle);
-      $FILESQL->setValue('category_id',$rex_file_category);
+    	
+			$FILEINFOS = array();
+			$FILEINFOS["rex_file_category"] = $rex_file_category;
+  		$FILEINFOS["file_id"] = $file_id;
+	  	$FILEINFOS["title"] = rex_request("ftitle","string");
+	  	$FILEINFOS["filetype"] = $gf->getValue('filetype');
+	  	$FILEINFOS["filename"] = $gf->getValue('filename');
+    	
+    	$return = rex_medienpool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX_USER->getValue("login"));
+	    $msg = $return['msg'];
+	    $subpage = "";
 
-      $msg = '';
-      $filename = $gf->getValue('filename');
-      $filetype = $gf->getValue('filetype');
-
-      $updated = false;
-      if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none')
+      if($return["ok"] == 1)
       {
-        $ffilename = $_FILES['file_new']['tmp_name'];
-        $ffiletype = $_FILES['file_new']['type'];
-        $ffilesize = $_FILES['file_new']['size'];
-
-        if ($ffiletype == $filetype || OOMedia::compareImageTypes($ffiletype,$filetype))
-        {
-          if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $filename) ||
-              copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $filename))
-          {
-            $msg = $I18N->msg('pool_file_changed');
-
-            $FILESQL->setValue('filetype',$ffiletype);
-            $FILESQL->setValue('originalname',$ffilename);
-            $FILESQL->setValue('filesize',$ffilesize);
-            if($size = @getimagesize($REX['MEDIAFOLDER'] .'/'. $filename))
-            {
-              $FILESQL->setValue('width',$size[0]);
-              $FILESQL->setValue('height',$size[1]);
-            }
-            @chmod($REX['MEDIAFOLDER'].'/'. $filename, $REX['FILEPERM']);
-            $updated = true;
-          }else
-          {
-              $msg = $I18N->msg('pool_file_upload_error');
-          }
-        }else
-        {
-          $msg = $I18N->msg('pool_file_upload_errortype');
-        }
-      }
-
-      if($msg == '')
-      {
-        $msg = $I18N->msg('pool_file_infos_updated');
-        $ffilename = $gf->getValue('filename');
-        $ffiletype = $gf->getValue('filetype');
-        $updated = true;
-      }
-
-      if($updated)
-      {
-        // $msg .= $I18N->msg('pool_file_infos_updated');
-
-        $FILESQL->addGlobalUpdateFields();
-        $FILESQL->update();
-
         // ----- EXTENSION POINT
-        rex_register_extension_point('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $ffiletype, 'filename' => $filename ));
+ 	       // rex_register_extension_point('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] ));
+ 	       rex_register_extension_point('MEDIA_UPDATED','', $return);
       }
     }else
     {
