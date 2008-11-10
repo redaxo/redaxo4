@@ -25,10 +25,11 @@ $info = '';
 // ----------------- HELPPAGE
 if ($subpage == 'help' && $addonname != '')
 {
-  $helpfile = $REX['INCLUDE_PATH']."/addons/$addonname/help.inc.php";
+  $helpfile = $REX['INCLUDE_PATH'].'/addons/'.$addonname.'/help.inc.php';
 
-  echo '<p class="rex-hdl">'.$I18N->msg("addon_help").' '.$addonname.'</p>
-  		<div class="rex-adn-hlp">';
+  echo '<div class="rex-area">
+  			<h3 class="rex-hl2">'.$I18N->msg("addon_help").' '.$addonname.'</h3>
+	  		<div class="rex-area-content">';
   if (!is_file($helpfile))
   {
     echo $I18N->msg("addon_no_help_file");
@@ -37,8 +38,11 @@ if ($subpage == 'help' && $addonname != '')
   {
     include $helpfile;
   }
-  echo '</div>
-  		<p class="rex-hdl"><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>';
+  echo '	</div>
+  			<div class="rex-area-footer">
+  				<p><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>
+  			</div>
+  		</div>';
 }
 
 // ----------------- FUNCTIONS
@@ -46,6 +50,7 @@ if ($addonname != '')
 {
   $install  = rex_get('install', 'int', -1);
   $activate = rex_get('activate', 'int', -1);
+  $uninstall = rex_get('uninstall', 'int', -1);
   $delete = rex_get('delete', 'int', -1);
 
   // ----------------- ADDON INSTALL

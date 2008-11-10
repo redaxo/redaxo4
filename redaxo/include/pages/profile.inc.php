@@ -56,39 +56,45 @@ else
   $userdesc = $sql->getValue($REX['TABLE_PREFIX'].'user.description');
 
   echo '
-    <div class="rex-usr-editmode">
+    <div class="rex-form rex-form-profile">
     <form action="index.php" method="post">
-      <fieldset>
-        <legend class="rex-lgnd">'.$I18N->msg('profile_myprofile').'</legend>
+      <fieldset class="rex-form-col-2">
+        <legend>'.$I18N->msg('profile_myprofile').'</legend>
 
-        <div class="rex-fldst-wrppr">
+        <div class="rex-form-wrapper">
           <input type="hidden" name="page" value="profile" />
 
-          <div>
-            <p class="rex-cntnt-col2">
+					<div class="rex-form-row">
+						<p class="rex-form-col-a rex-form-read">
               <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
-              <span id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>
-            </p>
-            <p class="rex-cntnt-col2">
+              <span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>
+						</p>
+						<p class="rex-form-col-b rex-form-text">
               <label for="userpsw">'.$I18N->msg('password').'</label>
-              <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
-              '. ($REX['PSWFUNC']!='' ? '<span>'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
-            </p>
-  		    </div>
+							<input class="rex-form-text" type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
+							'. ($REX['PSWFUNC']!='' ? '<span class="rex-form-notice">'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
+						</p>
+					</div>
 
-          <div>
-            <p class="rex-cntnt-col2">
+					<div class="rex-form-row">
+						<p class="rex-form-col-a rex-form-text">
               <label for="username">'.$I18N->msg('name').'</label>
-              <input type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
+              <input class="rex-form-text" type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
             </p>
-            <p class="rex-cntnt-col2">
+						<p class="rex-form-col-b rex-form-text">
               <label for="userdesc">'.$I18N->msg('description').'</label>
-              <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
+              <input class="rex-form-text" type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
             </p>
       		</div>
+      	</div>
+      </fieldset>
 
-          <div>
-            <p class="rex-cntnt-col2"><input type="submit" class="rex-sbmt" name="upd_profile_button" value="'.$I18N->msg('profile_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
+      <fieldset class="rex-form-col-1">
+        <div class="rex-form-wrapper">
+          <div class="rex-form-row">
+						<p class="rex-form-col-a rex-form-submit">
+            	<input class="rex-form-submit" type="submit" name="upd_profile_button" value="'.$I18N->msg('profile_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' />
+            </p>
           </div>
         </div>
       </fieldset>

@@ -12,29 +12,29 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_other.inc.php";
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 ?>
-<div class="rex-page-output rex-mrgn">
-	<h2>REDAXO <?php echo $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'] ?></h2>
+<div class="rex-area rex-mab-10">
+	<h3 class="rex-hl2">REDAXO <?php echo $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'] ?></h3>
 
-	<div class="rex-page-content">
+	<div class="rex-area-content">
 
-	<p>
+	<p class="rex-tx1">
 		<b>Jan Kristinus</b>, jan.kristinus@redaxo.de<br />
 		Erfinder und Kernentwickler<br />
 		Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
 	</p>
 
-	<p>
+	<p class="rex-tx1">
 		<b>Markus Staab</b>, markus.staab@redaxo.de<br />
 		Kernentwickler
 	</p>
 
-	<p>
+	<p class="rex-tx1">
 		<b>Wolfgang Huttegger</b>, wolfgang.huttegger@redaxo.de<br />
 		Kernentwickler<br />
 		vscope new media, <a href="http://www.vscope.at" onclick="window.open(this.href); return false;">www.vscope.at</a>
 	</p>
 
-	<p>
+	<p class="rex-tx1">
 		<b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
 		Layout/Design Entwickler<br />
 		blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a>
@@ -43,7 +43,7 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 </div>
 
 
-<div class="rex-page-output">
+<div class="rex-area">
 
 		<table class="rex-table">
 			<thead>
