@@ -27,6 +27,8 @@ input#rex-form-field-prior {
 div.rex-form {
 	float:left;
 	width:100%;
+	border-top-width: 1px;
+	border-top-style: solid;
 }
 div.rex-form legend {
 	padding: 7px 5px;
@@ -64,7 +66,8 @@ div.rex-form div.rex-form-row p.rex-form-label-right label {
 	width: auto;
 	padding: 0;
 }
-div.rex-form div.rex-form-row p.rex-form-checkbox label {
+div.rex-form div.rex-form-row p.rex-form-checkbox label, 
+div.rex-form div.rex-form-row p.rex-form-radio label {
 	padding-top: 2px;
 }
 
@@ -124,15 +127,25 @@ div.rex-form div.rex-form-row p select.rex-form-select-year {
 div.rex-form div.rex-form-row div.rex-form-widget select {
 	width: 212px;
 }
+	/*	Spezial Select - Bspl.: Setup : Step 3 (Auswahl von Export ) */
+div.rex-form div.rex-form-row p.rex-form-radio-select {
+	padding-top: 10px;
+}
+div.rex-form div.rex-form-row p.rex-form-radio-select select.rex-form-select {
+	margin-left: 5px;
+}
 
-/*	Checkbox */
+/*	Checkbox / Radio */
 div.rex-form-row p.rex-form-label-right input.rex-form-checkbox, 
-div.rex-message p.rex-form-label-right input.rex-form-checkbox {
+div.rex-form-row p.rex-form-label-right input.rex-form-radio, 
+div.rex-message p.rex-form-label-right input.rex-form-checkbox, 
+div.rex-message p.rex-form-label-right input.rex-form-radio {
 	clear: both;
 	float: left;
 	margin: 0 5px 0 135px;
 }
 div.rex-message p.rex-form-label-right input.rex-form-checkbox, 
+div.rex-message p.rex-form-label-right input.rex-form-radio, 
 div.rex-form-row div.rex-form-checkboxes-wrapper input.rex-form-checkbox, 
 div.rex-form-row div.rex-form-radios-wrapper input.rex-form-radio {
 	margin-left: 0;
@@ -172,6 +185,17 @@ div.rex-form fieldset.rex-form-col-2 div.rex-form-row p textarea {
 	width: 200px;
 }
 
+/*	Setup *********************************************************************/
+div.rex-form-setup-step-database div.rex-form-row p.rex-form-label-right label {
+	width: 630px;
+}
+div.rex-form-setup-step-database div.rex-form-row p input.rex-form-radio, 
+div.rex-form-setup-step-database div.rex-form-row p input.rex-form-submit {
+	margin-left: 5px;
+}
+div.rex-form-setup-admin div.rex-form-row p.rex-form-text input {
+	width: 200px;
+}
 
 /*	Login *********************************************************************/
 div.rex-form-login div.rex-form-row p.rex-form-text input,

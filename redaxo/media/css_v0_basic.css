@@ -182,6 +182,29 @@ div#rex-title h1 {
 }
 
 
+
+/*	Schriftgroessen fuer Ausgabe der Module / Slices */
+.rex-content-editmode-slice-output h1 {
+	font-size: 2em;
+}
+.rex-content-editmode-slice-output h2 {
+	font-size: 1.6em;
+}
+.rex-content-editmode-slice-output h3 {
+	font-size: 1.4em;
+}
+.rex-content-editmode-slice-output h4 {
+	font-size: 1.2em;
+}
+.rex-content-editmode-slice-output h5 {
+	font-size: 1.1em;
+}
+.rex-content-editmode-slice-output h6 {
+	font-size: 1em;
+}
+
+
+
 /*	Zeilenhoehen ***************************************************************
 *******************************************************************************/
 
@@ -203,6 +226,7 @@ div.rex-content-editmode-slice-output {
 	line-height: 1.6;
 }
 p.rex-tx1, 
+ul.rex-ul1, 
 div#rex-navi-header p,
 div#rex-navi-header ul {
 	line-height: 1.2;
@@ -243,7 +267,7 @@ div.rex-warning-block {
 	color: #EA1144;
 }
 .rex-offline,
-div#rex-lmp ul li a.rex-offline {
+div#rex-linkmap ul li a.rex-offline {
 	color: #A00;
 }
 
@@ -255,7 +279,7 @@ div.rex-info-block a {
 }
 .rex-ok,
 .rex-online,
-div#rex-lmp ul li a.rex-online {
+div#rex-linkmap ul li a.rex-online {
 	color: #3EC94A;
 }
 .rex-tx3 {
@@ -289,6 +313,7 @@ div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-form-w
 	background-color: transparent;
 }
 /*	Weiss */
+div.rex-area-scroll, 
 div.rex-widget {
 	background-color: #FFF;
 }
@@ -305,6 +330,7 @@ div#rex-clang,
 div#rex-title,
 div#rex-linkmap, 
 div#rex-navi-path, 
+div.rex-area, 
 div.rex-content-header,
 div.rex-content-cols, 
 div.rex-form.rex-form-system-setup,
@@ -319,8 +345,9 @@ table.rex-table tr.rex-table-row-activ td {
 	background-color: #E7E6E3;
 }
 /*	Grau Normal */
-h3.rex-hl2, 
+.rex-hl2, 
 div.rex-form, 
+div.rex-area-footer, 
 table.rex-table th {
 	background-color: #D7D6D3;
 }
@@ -428,6 +455,9 @@ table.rex-table th,
 table.rex-table td {
 	border-color: #FFF;
 }
+div.rex-form {
+	border-top-color: #FFF;
+}
 div.rex-content-header ul.rex-navi-content {
 	border-right-color: #FFF;
 }
@@ -448,9 +478,11 @@ div.rex-content-header ul.rex-navi-content {
 }
 
 /*	Grau */
+div.rex-area-scroll, 
 div.rex-widget {
 	border-color:#999;
 }
+
 
 
 

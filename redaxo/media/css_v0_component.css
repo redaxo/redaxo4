@@ -13,19 +13,25 @@ legend.rex-hidden {
 
 /*	Abstaende ******************************************************************
 *******************************************************************************/
-h3.rex-hl2, 
 h4.rex-hl3, 
-p.rex-tx1 {
+p.rex-tx1, 
+ul.rex-ul1 {
 	margin-bottom: 1em;
+}
+
+.rex-mab-10 {
+	margin-bottom: 10px;
 }
 
 
 /*	Ueberschriften *************************************************************
 *******************************************************************************/
-h3.rex-hl2 {
-	padding: 5px;
+.rex-hl2 {
+	padding: 7px 5px;
 }
-
+h3.rex-hl3 {
+	margin-bottom: 1em;
+}
 div.rex-content-editmode-module-name h3.rex-hl4 {
 	padding-left: 5px;
 }
@@ -36,6 +42,16 @@ div.rex-content-editmode-module-name h3.rex-hl4 {
 .rex-tx2, 
 .rex-tx3 {
 	font-weight: bold;
+}
+
+
+/*	Listen *********************************************************************
+*******************************************************************************/
+ul.rex-ul1 {
+	margin-left: 20px;
+}
+ul.rex-ul1 li {
+	list-style-type: square;
 }
 
 
@@ -193,6 +209,19 @@ table.rex-table td.rex-icon img {
 */
 
 
+/*	Allgemeiner Block (Addon Hilfeseiten) **************************************
+*******************************************************************************/
+div.rex-area {
+	float: left;
+	width: 100%;
+}
+div.rex-area-content {
+	padding: 10px 5px;
+}
+div.rex-area-footer {
+	padding: 7px 5px;
+	font-weight: bold;
+}
 
 /*	Spaltigkeit ****************************************************************
 *******************************************************************************/
@@ -209,12 +238,31 @@ div.rex-area-col-b {
 div.rex-area-col-b {
 	float: right;
 }
-div.rex-area-content {
-	padding: 5px;
+
+
+
+/*	Setup **********************************************************************
+*******************************************************************************/
+/* Language */
+div#rex-setup ul.rex-setup-language {
+	font-weight: bold;
+	text-align: center;
+}
+div#rex-setup ul.rex-setup-language li {
+	display: block;
+	padding: 5px 0;
 }
 
-
-
+/* License */
+div.rex-area-scroll {
+	margin: 30px 0;
+	padding: 5px 0 5px 5px;
+	width: 500px;
+	height: 200px;
+	overflow: auto;
+	border-width: 1px;
+	border-style: solid;
+}
 /*	Editmode *******************************************************************
 *******************************************************************************/
 div.rex-content-editmode, 
