@@ -41,6 +41,11 @@ function rex_structure_addCategory($category_id, $clang, $data)
     $data['name'] = $data['catname'];
   }
 
+  if(!isset($data['status']))
+  {
+    $data['status'] = 0;
+  }
+
 //    var_dump($data);
 
   // Kategorie in allen Sprachen anlegen
@@ -67,7 +72,7 @@ function rex_structure_addCategory($category_id, $clang, $data)
     $AART->setValue('prior', 1);
     $AART->setValue('path', $data['path']);
     $AART->setValue('startpage', 1);
-    $AART->setValue('status', 0);
+    $AART->setValue('status', $data['status']);
     $AART->addGlobalUpdateFields();
     $AART->addGlobalCreateFields();
 
