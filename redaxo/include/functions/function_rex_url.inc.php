@@ -120,7 +120,7 @@ function rex_no_rewrite($id, $name, $clang, $param_string, $divider)
     $url .= $divider.'clang='.$clang;
   }
 
-  return 'index.php?article_id='.$id .$url.$param_string;
+  return $REX["FRONTEND_FILE"].'?article_id='.$id .$url.$param_string;
 }
 
 /**

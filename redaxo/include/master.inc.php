@@ -21,7 +21,7 @@ $REX['SUBVERSION'] = "2";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(755); // oktaler wert
-$REX['INSTNAME'] = "rex20080419000000";
+$REX['INSTNAME'] = "rex20081101010101";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -37,7 +37,7 @@ $REX['NOTFOUND_ARTICLE_ID'] = 1;
 $REX['START_CLANG_ID'] = 0;
 
 // default template
-$REX['DEFAULT_TEMPLATE_ID'] = 4;
+$REX['DEFAULT_TEMPLATE_ID'] = 1;
 
 // default language
 $REX['LANG'] = "de_de";
@@ -70,6 +70,9 @@ $REX['MEDIAFOLDER']   = realpath($REX['HTDOCS_PATH'].'files');
 // Prefixes
 $REX['TABLE_PREFIX']  = 'rex_';
 $REX['TEMP_PREFIX']   = 'tmp_';
+
+// Frontenddatei
+$REX["FRONTEND_FILE"]	= 'index.php';
 
 // Passwortverschlüsselung, z.B: md5 / mcrypt ...
 $REX['PSWFUNC'] = "";
