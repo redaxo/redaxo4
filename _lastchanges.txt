@@ -23,6 +23,8 @@ Wichtige Änderungen:
 
 Version 4.2.0 (2008-XX-XX)
 
+  * Frontendcontroller umbenennbar "index.php" (Jan.Kristinus)
+  * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert (Jan.Kristinus)
   * Templateverwaltung hat nun immer eine ID in der Liste
   * OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab] 
     + siehe http://forum.redaxo.de/ftopic9816.html
