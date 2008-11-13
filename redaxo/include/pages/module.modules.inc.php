@@ -248,7 +248,15 @@ if ($function == 'add' or $function == 'edit')
       {
         $gma = new rex_sql;
         $gma->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action, ".$REX['TABLE_PREFIX']."action WHERE ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$modul_id'");
-
+				
+				$add_header = '';
+				$add_col = '';
+				if ($REX_USER->hasPerm('advancedMode[]'))
+				{
+					$add_header = '<th class="rex-small">'.$I18N->msg('header_id').'</th>';
+					$add_col = '<col width="40" />';
+				}
+				
         $actions = '';
         for ($i=0; $i<$gma->getRows(); $i++)
         {
@@ -258,9 +266,14 @@ if ($function == 'add' or $function == 'edit')
           $action_name = rex_translate($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . htmlspecialchars($action_name) . '" title="' . htmlspecialchars($action_name) . '" /></a></td>
-            <td class="rex-icon">' . $gma->getValue("id") . '</td>
-          	<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
+          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . htmlspecialchars($action_name) . '" title="' . htmlspecialchars($action_name) . '" /></a></td>';
+          	
+					if ($REX_USER->hasPerm('advancedMode[]'))
+					{
+             $actions .= '<td class="rex-small">' . $gma->getValue("id") . '</td>';
+          }
+          	
+          $actions .= '<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
           	<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('action_delete').'</a></td>
           </tr>';
 
@@ -274,14 +287,14 @@ if ($function == 'add' or $function == 'edit')
   						<caption>'.$I18N->msg('actions_added_caption').'</caption>
     					<colgroup>
       				<col width="40" />
-      				<col width="40" />
+      				'.$add_col.'
       				<col width="*" />
       				<col width="153" />
     					</colgroup>
     					<thead>
       					<tr>
         					<th class="rex-icon">&nbsp;</th>
-        					<th class="rex-icon">ID</th>
+        					'.$add_header.'
         					<th>' . $I18N->msg('action_name') . '</th>
         					<th>' . $I18N->msg('action_functions') . '</th>
       					</tr>
@@ -297,7 +310,7 @@ if ($function == 'add' or $function == 'edit')
         $gaa_sel->setName('action_id');
         $gaa_sel->setId('action_id');
         $gaa_sel->setSize(1);
-        $gaa_sel->setStyle('class="inp100"');
+        $gaa_sel->setStyle('class="rex-form-select"');
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
@@ -319,7 +332,7 @@ if ($function == 'add' or $function == 'edit')
 					  </div>
 					  
 						<div class="rex-form-row">
-					  	<p class="rex-form-col-a rex-form-select">
+					  	<p class="rex-form-col-a rex-form-submit">
 								<input class="rex-form-submit" type="submit" value="'.$I18N->msg('action_add').'" name="add_action" />
 					  	</p>
 					  </div>
