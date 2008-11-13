@@ -342,11 +342,6 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
 
       $add_buttons .= '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
-/*      if (!$REX_USER->hasPerm('editContentOnly[]'))
-      {
-        $add_buttons .= '<input type="submit" class="rex-form-submit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '"'. rex_accesskey($I18N->msg('delete_category'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
-      }
-*/
 
       echo '
         <tr class="rex-table-row-activ">
