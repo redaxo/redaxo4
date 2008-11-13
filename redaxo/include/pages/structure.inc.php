@@ -78,7 +78,7 @@ if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
   else
     $warning = $message;
 }
-elseif (!empty($catdelete_function) && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+elseif ($function == 'catdelete_function' && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
   list($success, $message) = rex_structure_deleteCategory($edit_id, $clang);
@@ -245,8 +245,9 @@ echo '
           '. $add_col .'
           <col width="*" />
           <col width="40" />
-          <col width="315" />
-          <col width="153" />
+          <col width="51" />
+          <col width="50" />
+          <col width="50" />
         </colgroup>
         <thead>
           <tr>
@@ -254,8 +255,7 @@ echo '
             '. $add_header .'
             <th>'.$I18N->msg('header_category').'</th>
             <th>'.$I18N->msg('header_priority').'</th>
-            <th>'.$I18N->msg('header_edit_category').'</th>
-            <th>'.$I18N->msg('header_status').'</th>
+            <th colspan="3">'.$I18N->msg('header_status').'</th>
           </tr>
         </thead>
         <tbody>';
@@ -271,8 +271,7 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
 
 	echo '<td><a href="index.php?page=structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
 	echo '<td>&nbsp;</td>';
-	echo '<td>&nbsp;</td>';
-	echo '<td>&nbsp;</td>';
+	echo '<td colspan="3">&nbsp;</td>';
 	echo '</tr>';
 
 }
@@ -296,8 +295,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
           '. $add_td .'
           <td><input type="text" id="rex-form-field-name" name="category_name" /></td>
           <td><input type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
-          <td>'. $add_buttons .'</td>
-          <td class="rex-offline">'. $I18N->msg('status_offline') .'</td>
+          <td colspan="3">'. $add_buttons .'</td>
         </tr>';
 
   // ----- EXTENSION POINT
@@ -344,11 +342,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
 
       $add_buttons .= '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
-      if (!$REX_USER->hasPerm('editContentOnly[]'))
+/*      if (!$REX_USER->hasPerm('editContentOnly[]'))
       {
         $add_buttons .= '<input type="submit" class="rex-form-submit" name="catdelete_function" value="'. $I18N->msg('delete_category'). '"'. rex_accesskey($I18N->msg('delete_category'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''. $I18N->msg('delete') .' ?\')" />';
       }
-
+*/
 
       echo '
         <tr class="rex-table-row-activ">
@@ -356,8 +354,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           '. $add_td .'
           <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="kat_name" value="'. htmlspecialchars($KAT->getValue("catname")). '" /></td>
           <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Category" value="'. htmlspecialchars($KAT->getValue("catprior")) .'" /></td>
-          <td>'. $add_buttons .'</td>
-          <td>'. $kat_status .'</td>
+          <td colspan="3">'. $add_buttons .'</td>
         </tr>';
 
       // ----- EXTENSION POINT
@@ -379,12 +376,14 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
-
-      $add_text = $I18N->msg('category_edit_delete');
-      if ($REX_USER->hasPerm('editContentOnly[]'))
-      {
-        $add_text = $I18N->msg('edit_category');
-      }
+    
+			if (!$REX_USER->hasPerm('editContentOnly[]'))
+			{
+				$category_delete = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+			}else
+			{
+				$category_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
+			}
 
       echo '
         <tr>
@@ -392,7 +391,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           '. $add_td .'
           <td><a href="'. $kat_link .'">'. htmlspecialchars($KAT->getValue("catname")) .'</a></td>
           <td>'. htmlspecialchars($KAT->getValue("catprior")) .'</td>
-          <td><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=edit_cat&amp;clang='. $clang .'">'. $add_text .'</a></td>
+          <td><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=edit_cat&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
+          <td>'. $category_delete .'</td>
           <td>'. $kat_status .'</td>
         </tr>';
     }
@@ -412,7 +412,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           '. $add_td .'
           <td><a href="'. $kat_link .'">'.$KAT->getValue("catname").'</a></td>
           <td>'.htmlspecialchars($KAT->getValue("catprior")).'</td>
-          <td>'.$I18N->msg("no_permission_to_edit").'</td>
+          <td><span class="rex-strike">'. $I18N->msg('change') .'</span></td>
+          <td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
           <td>'. $kat_status .'</td>
         </tr>';
   }
