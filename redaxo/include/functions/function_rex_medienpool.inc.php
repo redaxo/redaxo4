@@ -385,7 +385,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
   $s = '';
 
   $cats_sel = new rex_select;
-  $cats_sel->setStyle('class="inp100"');
+  $cats_sel->setStyle('class="rex-form-select"');
   $cats_sel->setSize(1);
   $cats_sel->setName('rex_file_category');
   $cats_sel->setId('rex_file_category');
@@ -416,7 +416,7 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
     if($REX_USER->hasPerm('advancedMode[]'))
     {
       $devInfos =
-      '<span class="rex-notice">
+      '<span class="rex-form-notice">
          '. $I18N->msg('phpini_settings') .':<br />
          '. ((rex_ini_get('file_uploads') == 0) ? '<span>'. $I18N->msg('pool_upload') .':</span> <em>'. $I18N->msg('pool_upload_disabled') .'</em><br />' : '') .'
          <span>'. $I18N->msg('pool_max_uploadsize') .':</span> '. OOMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
@@ -424,45 +424,58 @@ function rex_medienpool_Mediaform($form_title, $button_title, $rex_file_category
        </span>';
     }
 
-    $add_file = '<p>
-                   <label for="file_new">'.$I18N->msg('pool_file_file').'</label>
-                   <input type="file" id="file_new" name="file_new" size="30" />
-                   '. $devInfos .'
-                 </p>';
+    $add_file = '
+                <div class="rex-form-row">
+                  <p class="rex-form-file">
+                    <label for="file_new">'.$I18N->msg('pool_file_file').'</label>
+                    <input class="rex-form-file" type="file" id="file_new" name="file_new" size="30" />
+                    '. $devInfos .'
+                  </p>
+                </div>';
   }
 
   $add_submit = '';
   if (rex_session('media[opener_input_field]') != '')
   {
-    $add_submit = '<input type="submit" class="rex-sbmt" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
+    $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
   }
 
   $s .= '
-      <div class="rex-mpl-oth">
-      <form action="index.php" method="post" enctype="multipart/form-data">
-           <fieldset>
-             <legend class="rex-lgnd"><span >'. $form_title .'</span></legend>
-               <input type="hidden" name="page" value="medienpool" />
-               <input type="hidden" name="media_method" value="add_file" />
-               <input type="hidden" name="subpage" value="'. $subpage .'" />
-               <p>
-                 <label for="ftitle">'.$I18N->msg('pool_file_title').'</label>
-                 <input type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars(stripslashes($ftitle)).'" />
-               </p>
-               <p>
-                 <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>
-                 '.$cats_sel->get().'
-               </p>';
+      <div class="rex-form" id="rex-form-medienpool-other">
+        <form action="index.php" method="post" enctype="multipart/form-data">
+          <fieldset class="rex-form-col-1">
+            <legend>'. $form_title .'</legend>
+            <div class="rex-form-wrapper">
+              <input type="hidden" name="page" value="medienpool" />
+              <input type="hidden" name="media_method" value="add_file" />
+              <input type="hidden" name="subpage" value="'. $subpage .'" />
+              
+              <div class="rex-form-row">
+                <p class="rex-form-text">
+                  <label for="ftitle">'.$I18N->msg('pool_file_title').'</label>
+                  <input type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars(stripslashes($ftitle)).'" />
+                </p>
+              </div>
+              
+              <div class="rex-form-row">
+                <p class="rex-form-select">
+                  <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>
+                  '.$cats_sel->get().'
+                </p>
+              </div>';
 
   // ----- EXTENSION POINT
   $s .= rex_register_extension_point('MEDIA_FORM_ADD', '');
 
   $s .=        $add_file .'
-               <p class="rex-sbmt">
-                 <input type="submit" name="save" value="'.$button_title.'"'. rex_accesskey($button_title, $REX['ACKEY']['SAVE']) .' />
+              <div class="rex-form-row">
+                <p class="rex-form-submit">
+                 <input class="rex-form-submit" type="submit" name="save" value="'.$button_title.'"'. rex_accesskey($button_title, $REX['ACKEY']['SAVE']) .' />
                  '. $add_submit .'
-               </p>
-           </fieldset>
+                </p>
+              </div>
+            </div>
+          </fieldset>
         ';
 
   if($close_form)
