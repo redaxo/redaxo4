@@ -183,6 +183,8 @@ class rex_form
 
   function &addTextField($name, $value = null, $attributes = array())
   {
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-text';
     $field =& $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -190,6 +192,8 @@ class rex_form
   function &addReadOnlyTextField($name, $value = null, $attributes = array())
   {
     $attributes['readonly'] = 'readonly';
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-read';
     $field =& $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -198,6 +202,8 @@ class rex_form
   {
     $attributes['internal::fieldSeparateEnding'] = true;
     $attributes['internal::noNameAttribute'] = true;
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-read';
     $field =& $this->addField('span', $name, $value, $attributes, true);
     return $field;
   }
@@ -211,12 +217,16 @@ class rex_form
   function &addCheckboxField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-checkbox rex-form-label-right';
     $field =& $this->addField('', $name, $value, $attributes);
     return $field;
   }
 
   function &addRadioField($name, $value = null, $attributes = array())
   {
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-radio';
     $attributes['internal::fieldClass'] = 'rex_form_radio_element';
     $field =& $this->addField('radio', $name, $value, $attributes);
     return $field;
@@ -229,6 +239,8 @@ class rex_form
       $attributes['cols'] = 50;
     if(!isset($attributes['rows']))
       $attributes['rows'] = 6;
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-textarea';
 
     $field =& $this->addField('textarea', $name, $value, $attributes);
     return $field;
@@ -236,6 +248,8 @@ class rex_form
 
   function &addSelectField($name, $value = null, $attributes = array())
   {
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_select_element';
     $field =& $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -782,7 +796,7 @@ class rex_form
       $s .= '  '. rex_warning($message). "\n";
     }
 
-    $s .= '<div class="'. $this->divId .'">'. "\n";
+    $s .= '<div id="'. $this->divId .'" class="rex-form">'. "\n";
 
     $i = 0;
     $addHeaders = true;
@@ -792,9 +806,9 @@ class rex_form
     $s .= '  <form action="index.php" method="'. $this->method .'">'. "\n";
     foreach($fieldsets as $fieldsetName => $fieldsetElements)
     {
-      $s .= '    <fieldset>'. "\n";
-      $s .= '      <legend class="rex-lgnd">'. htmlspecialchars($fieldsetName) .'</legend>'. "\n";
-      $s .= '      <div class="rex-fldst-wrppr">'. "\n";
+      $s .= '    <fieldset class="rex-form-col-1">'. "\n";
+      $s .= '      <legend>'. htmlspecialchars($fieldsetName) .'</legend>'. "\n";
+      $s .= '      <div class="rex-form-wrapper">'. "\n";
 
       // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
       if($i == 0 && $addHeaders)
@@ -1040,6 +1054,19 @@ class rex_form_element
 
   // --------- Element Methods
 
+  function formatClass()
+  {
+    $s = '';
+    $class = $this->getAttribute('class');
+
+    if ($class != '')
+    {
+    	$s .= $class;
+    }
+
+    return $s;
+  }
+
   function formatLabel()
   {
     $s = '';
@@ -1079,7 +1106,7 @@ class rex_form_element
     $notice = $this->getNotice();
     if($notice != '')
     {
-      return '<span class="rex-notice" id="'. $this->getAttribute('id') .'_notice">'. $notice .'</span>';
+      return '<span class="rex-form-notice" id="'. $this->getAttribute('id') .'_notice">'. $notice .'</span>';
     }
     return '';
   }
@@ -1087,10 +1114,23 @@ class rex_form_element
   function _get()
   {
     $s = '';
-
+		$class = ' class="rex-form-col-a';
+		$formatClass = $this->formatClass();
+		
+		if ($formatClass != '')
+			$class .= ' '.$formatClass;
+			
+		$class .= '"';
+		    
+    $s .= '        <p'.$class.'>'. "\n";
+    $s .= $this->getPrefix();
+    
     $s .= $this->formatLabel();
     $s .= $this->formatElement();
     $s .= $this->formatNotice();
+
+    $s .= $this->getSuffix();
+    $s .= '        </p>'. "\n";
 
     return $s;
   }
@@ -1100,13 +1140,11 @@ class rex_form_element
     $s = '';
     $s .= $this->getHeader();
 
-    $s .= '        <p>'. "\n";
-    $s .= $this->getPrefix();
-
+		$s .= '    <div class="rex-form-row">'. "\n";
+		
     $s .= $this->_get();
-
-    $s .= $this->getSuffix();
-    $s .= '        </p>'. "\n";
+    
+    $s .= '    </div>'. "\n";
 
     $s .= $this->getFooter();
     return $s;
@@ -1140,19 +1178,25 @@ class rex_form_control_element extends rex_form_element
   function _get()
   {
     $s = '';
+    
+    $class = '';
 
     if($this->saveElement)
     {
       if(!$this->saveElement->hasAttribute('class'))
-        $this->saveElement->setAttribute('class', 'rex-sbmt');
-
+        $this->saveElement->setAttribute('class', 'rex-form-submit');
+			
+			$class = $this->saveElement->formatClass();
+			
       $s .= $this->saveElement->formatElement();
     }
 
     if($this->applyElement)
     {
       if(!$this->applyElement->hasAttribute('class'))
-        $this->applyElement->setAttribute('class', 'rex-sbmt');
+        $this->applyElement->setAttribute('class', 'rex-form-submit');
+			
+			$class = $this->applyElement->formatClass();
 
       $s .= $this->applyElement->formatElement();
     }
@@ -1160,10 +1204,12 @@ class rex_form_control_element extends rex_form_element
     if($this->deleteElement)
     {
       if(!$this->deleteElement->hasAttribute('class'))
-        $this->deleteElement->setAttribute('class', 'rex-sbmt');
+        $this->deleteElement->setAttribute('class', 'rex-form-submit');
 
       if(!$this->deleteElement->hasAttribute('onclick'))
         $this->deleteElement->setAttribute('onclick', 'return confirm(\'Löschen?\');');
+			
+			$class = $this->deleteElement->formatClass();
 
       $s .= $this->deleteElement->formatElement();
     }
@@ -1171,10 +1217,12 @@ class rex_form_control_element extends rex_form_element
     if($this->resetElement)
     {
       if(!$this->resetElement->hasAttribute('class'))
-        $this->resetElement->setAttribute('class', 'rex-sbmt');
+        $this->resetElement->setAttribute('class', 'rex-form-submit');
 
       if(!$this->resetElement->hasAttribute('onclick'))
         $this->resetElement->setAttribute('onclick', 'return confirm(\'Änderungen verwerfen?\');');
+			
+			$class = $this->resetElement->formatClass();
 
       $s .= $this->resetElement->formatElement();
     }
@@ -1182,9 +1230,20 @@ class rex_form_control_element extends rex_form_element
     if($this->abortElement)
     {
       if(!$this->abortElement->hasAttribute('class'))
-        $this->abortElement->setAttribute('class', 'rex-sbmt');
+        $this->abortElement->setAttribute('class', 'rex-form-submit');
+			
+			$class = $this->abortElement->formatClass();
 
       $s .= $this->abortElement->formatElement();
+    }
+    
+    if ($s != '')
+    {
+    	if ($class != '')
+    	{
+    		$class = ' '.$class;
+    	}
+    	$s = '<p class="rex-form-col-a'.$class.'">'.$s.'</p>';
     }
 
     return $s;
