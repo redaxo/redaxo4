@@ -23,6 +23,7 @@ Wichtige Änderungen:
 
 Version 4.2.0 (2008-XX-XX)
 
+  * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
   * Frontendcontroller umbenennbar "index.php" (Jan.Kristinus)
   * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert (Jan.Kristinus)
   * Templateverwaltung hat nun immer eine ID in der Liste
@@ -31,12 +32,17 @@ Version 4.2.0 (2008-XX-XX)
   * JQuery update auf 1.2.6 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
-  * Struktur: [Markus.Staab]
-    - Default Template festlegbar
+  * Struktur:
+    - Default Template festlegbar [Markus.Staab]
       + http://forum.redaxo.de/ftopic6934.html
-    - Logik in API ausgelagert
+    - Logik in API ausgelagert [Markus.Staab]
+    - Kategorietabelle angepasst [Thomas.Blum]
   * Inhaltsverwaltung:
     - Logik in API ausgelagert [Markus.Staab]
+  * Module:
+  	- Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
+  * System : Sprachen:
+    - Tabelle vereinheitlicht [Thomas.Blum]
   * ReloginDelay wird heruntergezaehlt [Markus.Staab]
   * Neue Backendpage: Userprofil [Markus.Staab]
     - Benutzer können selbst Ihre Daten ändern 
