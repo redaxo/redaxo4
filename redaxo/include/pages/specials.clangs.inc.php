@@ -21,7 +21,7 @@ $info = '';
 
 
 // ----- delete clang
-if (!empty ($del_clang_save))
+if ($func == 'deleteclang' && $clang_id != "")
 {
   if (array_key_exists($clang_id, $REX['CLANG']))
   {
@@ -89,14 +89,22 @@ if ($func == 'addclang' || $func == 'editclang')
 {
   $legend = $func == 'add_clang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');
   echo '
-      <div class="rex-form rex-form-system-language">
+      <div class="rex-form" id="rex-form-system-language">
       <form action="index.php#clang" method="post">
         <fieldset>
-          <legend><span>'.$legend.'</span></legend>
+          <legend>'.$legend.'</legend>
           <input type="hidden" name="page" value="specials" />
           <input type="hidden" name="subpage" value="lang" />
           <input type="hidden" name="clang_id" value="'.$clang_id.'" />
       ';
+}
+
+$add_header = '';
+$add_col = '';
+if ($REX_USER->hasPerm('advancedMode[]') OR $func == 'addclang')
+{
+  $add_header = '<th class="rex-small">ID</th>';
+  $add_col = '<col width="40" />';
 }
 
 echo '
@@ -104,16 +112,16 @@ echo '
       <caption>'.$I18N->msg('clang_caption').'</caption>
       <colgroup>
         <col width="40" />
-        <col width="40" />
+        '.$add_col.'
         <col width="*" />
-        <col width="255" />
+        <col width="153" />
       </colgroup>
       <thead>
         <tr>
           <th class="rex-small"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>+</a></th>
-          <th class="rex-small">ID</th>
+          '.$add_header.'
           <th>'.$I18N->msg('clang_name').'</th>
-          <th colspan="2">'.$I18N->msg('clang_function').'</th>
+          <th>'.$I18N->msg('clang_function').'</th>
         </tr>
       </thead>
       <tbody>
@@ -134,18 +142,26 @@ if ($func == 'addclang')
 }
 foreach ($REX['CLANG'] as $lang_id => $lang)
 {
+  
+  $add_td = '';      
+  if ($REX_USER->hasPerm('advancedMode[]'))
+  {
+    $add_td = '<td class="rex-small">'.$lang_id.'</td>';
+  }    
+  elseif ($func == 'addclang')
+  {
+    $add_td = '<td class="rex-small"></td>';
+  }
+    
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
   {
     echo '
           <tr class="rex-trow-actv">
             <td class="rex-small"></td>
-            <td class="rex-small">'.$lang_id.'</td>
+            '.$add_td.'
             <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
-            <td>
-              <input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' />
-              <input class="rex-form-submit" type="submit" name="del_clang_save" value="'.$I18N->msg('clang_delete').'"'. rex_accesskey($I18N->msg('clang_delete'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''.$I18N->msg('clang_delete').' ?\')" />
-            </td>
+            <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' /></td>
           </tr>';
 
   }
@@ -154,9 +170,9 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
     echo '
           <tr>
             <td class="rex-small"></td>
-            <td class="rex-small">'.$lang_id.'</td>
+            '.$add_td.'
             <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
-            <td></td>
+            <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('clang_delete').'</a></td>
           </tr>';
   }
 }
