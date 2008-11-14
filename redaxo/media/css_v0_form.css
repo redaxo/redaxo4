@@ -20,6 +20,17 @@ input#rex-form-field-prior {
 
 
 
+.rex-form-hidden-legend span, 
+.rex-form-hidden-label {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
+}
 
 /*	Formulare ******************************************************************
 *******************************************************************************/
@@ -170,12 +181,16 @@ div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-b {
 	float: right;
 }
 /*	Bspl.: div.rex-area-col-2 -> System : Einstellungen */
+div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row div.rex-form-checkboxes-wrapper, 
+div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row div.rex-form-radios-wrapper, 
 div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p.rex-form-label-right label, 
 div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span, 
 div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p.rex-form-text input,
 div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p.rex-form-password input,
 div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p select,
 div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p textarea, 
+div.rex-form fieldset.rex-form-col-2 div.rex-form-row div.rex-form-checkboxes-wrapper, 
+div.rex-form fieldset.rex-form-col-2 div.rex-form-row div.rex-form-radios-wrapper, 
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-label-right label, 
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-read span, 
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-text input,
@@ -184,6 +199,29 @@ div.rex-form fieldset.rex-form-col-2 div.rex-form-row p select,
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p textarea {
 	width: 200px;
 }
+
+
+/*	rex-form-element-v2 : Standardwerte von label und input vertauscht */
+div.rex-form div.rex-form-element-v2 label, 
+div.rex-form div.rex-form-element-v2 p.rex-form-label {
+	width: 456px;
+}
+div.rex-form div.rex-form-element-v2 div.rex-form-checkboxes-wrapper, 
+div.rex-form div.rex-form-element-v2 div.rex-form-radios-wrapper, 
+div.rex-form div.rex-form-element-v2 p.rex-form-label-right label, 
+div.rex-form div.rex-form-element-v2 p.rex-form-read span, 
+div.rex-form div.rex-form-element-v2 p.rex-form-text input,
+div.rex-form div.rex-form-element-v2 p.rex-form-password input,
+div.rex-form div.rex-form-element-v2 p select,
+div.rex-form div.rex-form-element-v2 p textarea {
+	width: 145px;
+}
+/*	Submit */
+div.rex-form div.rex-form-element-v2 p input.rex-form-submit {
+	margin-left: 466px;
+}
+
+
 
 /*	Setup *********************************************************************/
 div.rex-form-setup-step-database div.rex-form-row p.rex-form-label-right label {
@@ -276,33 +314,37 @@ div.rex-form-content-metamode fieldset.rex-form-col-2 div.rex-form-row p input.r
 
 
 /*	System : Eistellungen *****************************************************/
-div.rex-form-system-setup legend {
-	padding-left: 0;
+div#rex-form-system-setup fieldset {
+	padding-bottom: 1em;
 }
-div.rex-form-system-setup div.rex-form-row {
+div#rex-form-system-setup legend {
+	padding-left: 0;
+	padding-top: 0;
+}
+div#rex-form-system-setup div.rex-form-row {
 	border-bottom-width: 0;
 }
-div.rex-form-system-setup div.rex-form-row label {
+div#rex-form-system-setup div.rex-form-row label {
 	width: 190px;
 	padding-left: 0;
 	font-weight: normal;
 }
-div.rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-label-right label, 
-div.rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span,
-div.rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-text input,
-div.rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p select,
-div.rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p textarea {
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-label-right label, 
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-text input,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p select,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p textarea {
 	width: 40%;
 }
  
 /*	Submit */
-div.rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p input.rex-form-submit {
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p input.rex-form-submit {
 	margin-left: 195px;
 }
 
 
 /*	System : Sprachen *********************************************************/
-div.rex-form-system-language input.rex-form-text {
+div#rex-form-system-language input.rex-form-text {
 	width: 98%;
 }
 
@@ -317,4 +359,48 @@ div.rex-form-action-editmode div.rex-form-row p.rex-form-textarea textarea,
 div.rex-form-module-editmode div.rex-form-row p.rex-form-textarea textarea, 
 div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea {
 	height: 200px;
+}
+
+
+
+
+/*	Medienpool / Detail *******************************************************/
+div#rex-form-medienpool-detail div.rex-form-row div.rex-form-checkboxes-wrapper, 
+div#rex-form-medienpool-detail div.rex-form-row div.rex-form-radios-wrapper, 
+div#rex-form-medienpool-detail div.rex-form-row p.rex-form-label-right label, 
+div#rex-form-medienpool-detail div.rex-form-row p.rex-form-read span, 
+div#rex-form-medienpool-detail div.rex-form-row p.rex-form-text input,
+div#rex-form-medienpool-detail div.rex-form-row p.rex-form-password input,
+div#rex-form-medienpool-detail div.rex-form-row p select,
+div#rex-form-medienpool-detail div.rex-form-row p textarea, 
+div#rex-form-medienpool-selectcategory div.rex-form-row p select {
+	width: 244px;
+}
+div#rex-form-medienpool-detail div.rex-form-row p input.rex-form-submit-2 {
+	margin-left: 30px;
+}
+div#rex-form-medienpool-selectcategory div.rex-form-row p input.rex-form-submit {
+	margin-left: 10px;
+}
+
+
+
+/*	System Addons **************************************************************
+*******************************************************************************/
+
+/*	Import / Export ***********************************************************/
+
+/*  Export */
+div#rex-form-export div.rex-form-row p.rex-form-label-right input.rex-form-radio {
+	margin-left: 5px;
+}
+div#rex-form-export div.rex-form-row div.rex-form-checkboxes {
+  clear: both;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 23px;
+}
+div#rex-form-export div.rex-form-row div.rex-form-checkboxes-wrapper {
+  float: none;
+  width: 300px;
 }

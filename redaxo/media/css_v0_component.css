@@ -13,24 +13,31 @@ legend.rex-hidden {
 
 /*	Abstaende ******************************************************************
 *******************************************************************************/
+/*  Allgemeine Anweiungen siehe unten */
+h3.rex-hl3, 
 h4.rex-hl3, 
 p.rex-tx1, 
-ul.rex-ul1 {
+p.rex-tx4, 
+ul.rex-ul1, 
+div.rex-addon-content h3, 
+div.rex-addon-content h4, 
+div.rex-addon-content p, 
+div.rex-addon-content ul, 
+div.rex-addon-content ol, 
+div.rex-addon-content dl {
 	margin-bottom: 1em;
 }
 
-.rex-mab-10 {
-	margin-bottom: 10px;
-}
+div.rex-addon-content h3, 
+div.rex-addon-content h4 {
+	padding-top: 1em;
+} 
 
 
 /*	Ueberschriften *************************************************************
 *******************************************************************************/
 .rex-hl2 {
 	padding: 7px 5px;
-}
-h3.rex-hl3 {
-	margin-bottom: 1em;
 }
 div.rex-content-editmode-module-name h3.rex-hl4 {
 	padding-left: 5px;
@@ -40,7 +47,8 @@ div.rex-content-editmode-module-name h3.rex-hl4 {
 /*	Texte **********************************************************************
 *******************************************************************************/
 .rex-tx2, 
-.rex-tx3 {
+.rex-tx3, 
+.rex-tx4 {
 	font-weight: bold;
 }
 
@@ -52,6 +60,14 @@ ul.rex-ul1 {
 }
 ul.rex-ul1 li {
 	list-style-type: square;
+}
+
+
+/*	Listen *********************************************************************
+*******************************************************************************/
+.rex-code {
+  display: block;
+  padding: 20px 10px;
 }
 
 
@@ -146,8 +162,12 @@ div.rex-form-structure-article table.rex-table th,
 div.rex-form-structure-article table.rex-table td, 
 div.rex-form-structure-category table.rex-table th,
 div.rex-form-structure-category table.rex-table td, 
-div.rex-form-system-language table.rex-table th,
-div.rex-form-system-language table.rex-table td {
+div#rex-form-system-language table.rex-table th,
+div#rex-form-system-language table.rex-table td, 
+div#rex-form-medienpool-media table.rex-table th,
+div#rex-form-medienpool-media table.rex-table td,  
+div#rex-form-medienpool-categories table.rex-table th,
+div#rex-form-medienpool-categories table.rex-table td {
 	vertical-align: middle;
 }
 table.rex-table caption {
@@ -193,7 +213,11 @@ table.rex-table td.rex-icon {
 div.rex-form-structure-article table.rex-table th.rex-icon,
 div.rex-form-structure-article table.rex-table td.rex-icon, 
 div.rex-form-structure-category table.rex-table th.rex-icon,
-div.rex-form-structure-category table.rex-table td.rex-icon {
+div.rex-form-structure-category table.rex-table td.rex-icon, 
+div#rex-form-medienpool-media table.rex-table th.rex-icon,
+div#rex-form-medienpool-media table.rex-table td.rex-icon, 
+div#rex-form-medienpool-categories table.rex-table th.rex-icon,
+div#rex-form-medienpool-categories table.rex-table td.rex-icon {
 	padding-bottom: 6px;
 }
 
@@ -209,33 +233,40 @@ table.rex-table td.rex-icon img {
 */
 
 
-/*	Allgemeiner Block (Addon Hilfeseiten) **************************************
+/*	Allgemeiner Block (Addon Hilfeseiten) / Addon Seiten ***********************
 *******************************************************************************/
-div.rex-area {
+div.rex-area, 
+div.rex-addon-output {
 	float: left;
 	width: 100%;
 }
-div.rex-area-content {
+div.rex-area-content, 
+div.rex-addon-content {
 	padding: 10px 5px;
 }
-div.rex-area-footer {
+div.rex-area-footer, 
+div.rex-addon-footer {
 	padding: 7px 5px;
 	font-weight: bold;
 }
 
 /*	Spaltigkeit ****************************************************************
 *******************************************************************************/
-div.rex-area-col-2 {
+div.rex-area-col-2, 
+div.rex-addon-col-2 {
 	position: relative;
 	float: left;
 	width: 100%;
 }
 div.rex-area-col-a, 
-div.rex-area-col-b {
+div.rex-area-col-b, 
+div.rex-addon-col-a, 
+div.rex-addon-col-b {
 	float: left;
 	width: 50%;
 }
-div.rex-area-col-b {
+div.rex-area-col-b, 
+div.rex-addon-col-b {
 	float: right;
 }
 
@@ -299,6 +330,19 @@ div#rex-linkmap {
 }
 
 
+/*	Medienpool *****************************************************************
+*******************************************************************************/
+div.rex-medienpool-detail-data {
+  float: left;
+  width: 100%;
+}
+div.rex-medienpool-detail-image {
+	float: right;
+	width: 34%;
+	padding-top: 5px;
+	text-align: center;
+}
+
 /*	Widget *********************************************************************
 *******************************************************************************/
 div.rex-widget {
@@ -321,3 +365,40 @@ div.rex-widget-medialist p.rex-widget-icons img {
 	margin-bottom: 2px;
 }
 
+
+
+/*	System Addon : Import / Export *********************************************
+*******************************************************************************/
+body#rex-page-import-export table.rex-table tr th {
+	white-space: nowrap;
+}
+
+
+
+
+/*	Abstaende allgemein ********************************************************
+*******************************************************************************/
+/*  margin-bottom */
+body div#rex-website .rex-mab-10 {
+	margin-bottom: 10px;
+}
+
+/*  padding-top */
+body div#rex-website .rex-pat-0 {
+	padding-top: 0px;
+}
+
+/*  padding-right */
+body div#rex-website .rex-par-0 {
+	padding-right: 0px;
+}
+
+/*  padding-bottom */
+body div#rex-website .rex-pab-0 {
+	padding-bottom: 0px;
+}
+
+/*  padding-left */
+body div#rex-website .rex-pal-0 {
+	padding-left: 0px;
+}
