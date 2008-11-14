@@ -220,32 +220,40 @@ if ($msg != '')
 }
 
 ?>
-<div class="rex-cnt-cols">
 
-  <!-- Linker Abschnitt -->
-  <div class="rex-cnt-col2">
-    <p class="rex-hdl"><?php echo $I18N_IM_EXPORT->msg('import'); ?></p>
-    <div class="rex-cnt">
-      <p><?php echo $I18N_IM_EXPORT->msg('intro_import') ?></p>
-
-      <!-- DB IMPORT LIST -->
-      <div class="rex-addon-editmode">
-      <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N_IM_EXPORT->msg('proceed_db_import') ?>')">
-        <fieldset>
-          <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('database'); ?></legend>
-          <input type="hidden" name="page" value="<?php echo $page ?>" />
-          <input type="hidden" name="function" value="dbimport" />
-          <p class="rex-ftxt">
-            <label for="importdbfile"><?php echo $I18N_IM_EXPORT->msg('database'); ?></label>
-            <input type="file" class="rex-ffile" id="importdbfile" name="FORM[importfile]" />
-          </p>
-          <p>
-            <input type="submit" class="rex-sbmt" value="<?php echo $I18N_IM_EXPORT->msg('db_import') ?>" />
-          </p>
-        </fieldset>
-      </form>
+<div class="rex-area rex-area-col-2">
+  <div class="rex-area-col-a">
+    <h3 class="rex-hl2"><?php echo $I18N_IM_EXPORT->msg('import'); ?></h3>
+    
+    <div class="rex-area-content rex-par-0 rex-pab-0 rex-pal-0">
+      <p class="rex-tx1"><?php echo $I18N_IM_EXPORT->msg('intro_import') ?></p>
+      
+      <div class="rex-form" id="rex-form-import-data">
+        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N_IM_EXPORT->msg('proceed_db_import') ?>')">
+          <fieldset class="rex-form-col-1">
+          
+            <legend><?php echo $I18N_IM_EXPORT->msg('database'); ?></legend>
+            
+            <div class="rex-form-wrapper">
+              <input type="hidden" name="page" value="<?php echo $page ?>" />
+              <input type="hidden" name="function" value="dbimport" />
+              
+              <div class="rex-form-row">
+                <p class="rex-form-file">
+                  <label for="importdbfile"><?php echo $I18N_IM_EXPORT->msg('database'); ?></label>
+                  <input class="rex-form-file" type="file" id="importdbfile" name="FORM[importfile]" size="18" />
+                </p>
+              </div>
+              <div class="rex-form-row">
+                <p class="rex-form-submit">
+                  <input type="submit" class="rex-form-submit" value="<?php echo $I18N_IM_EXPORT->msg('db_import') ?>" />
+                </p>
+              </div>
+            </div>
+          </fieldset>
+        </form>
       </div>
-
+      
       <table class="rex-table" summary="<?php echo $I18N_IM_EXPORT->msg('export_db_summary'); ?>">
         <caption><?php echo $I18N_IM_EXPORT->msg('export_db_caption'); ?></caption>
         <colgroup>
@@ -283,21 +291,29 @@ if ($msg != '')
       </table>
 
       <!-- FILE IMPORT -->
-      <div class="rex-addon-editmode">
-      <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N_IM_EXPORT->msg('proceed_file_import') ?>')" >
-        <fieldset>
-          <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('files'); ?></legend>
-          <input type="hidden" name="page" value="<?php echo $page ?>" />
-          <input type="hidden" name="function" value="fileimport" />
-          <p class="rex-ftxt">
-            <label for="importtarfile"><?php echo $I18N_IM_EXPORT->msg('files'); ?></label>
-            <input type="file" class="rex-ffile" id="importtarfile" name="FORM[importfile]" />
-          </p>
-          <p>
-            <input type="submit" class="rex-sbmt" value="<?php echo $I18N_IM_EXPORT->msg('db_import') ?>" />
-          </p>
-        </fieldset>
-      </form>
+      <div class="rex-form" id="rex-form-import-files">
+        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N_IM_EXPORT->msg('proceed_file_import') ?>')" >
+          <fieldset class="rex-form-col-1">
+            <legend><?php echo $I18N_IM_EXPORT->msg('files'); ?></legend>
+            
+            <div class="rex-form-wrapper">
+              <input type="hidden" name="page" value="<?php echo $page ?>" />
+              <input type="hidden" name="function" value="fileimport" />
+              
+              <div class="rex-form-row">
+                <p class="rex-form-file">
+                  <label for="importtarfile"><?php echo $I18N_IM_EXPORT->msg('files'); ?></label>
+                  <input class="rex-form-file" type="file" id="importtarfile" name="FORM[importfile]" size="18" />
+                </p>
+              </div>
+              <div class="rex-form-row">
+                <p class="rex-form-submit">
+                  <input class="rex-form-submit" type="submit" value="<?php echo $I18N_IM_EXPORT->msg('db_import') ?>" />
+                </p>
+              </div>
+            </div>
+          </fieldset>
+        </form>
       </div>
 
       <table class="rex-table" summary="<?php echo $I18N_IM_EXPORT->msg('export_file_summary'); ?>">
@@ -334,21 +350,27 @@ if ($msg != '')
 ?>
         </tbody>
       </table>
+      
+      
     </div>
   </div>
+  
+<?php /*rechter Abschnitt */ ?>
 
-  <!-- Rechter Abschnitt -->
-  <div class="rex-cnt-col2">
-    <p class="rex-hdl"><?php echo $I18N_IM_EXPORT->msg('export'); ?></p>
-    <div class="rex-cnt">
-      <p><?php echo $I18N_IM_EXPORT->msg('intro_export') ?></p>
-
-      <div class="rex-addon-editmode">
+  <div class="rex-area-col-b">
+    <h3 class="rex-hl2"><?php echo $I18N_IM_EXPORT->msg('export'); ?></h3>
+  
+    <div class="rex-area-content rex-par-0 rex-pab-0 rex-pal-0">
+      <p class="rex-tx1"><?php echo $I18N_IM_EXPORT->msg('intro_export') ?></p>
+      
+      <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
-        <fieldset>
-          <legend class="rex-lgnd"><?php echo $I18N_IM_EXPORT->msg('export'); ?></legend>
-          <input type="hidden" name="page" value="<?php echo $page ?>" />
-          <input type="hidden" name="function" value="export" />
+        <fieldset class="rex-form-col-1">
+          <legend><?php echo $I18N_IM_EXPORT->msg('export'); ?></legend>
+          
+          <div class="rex-form-wrapper">
+            <input type="hidden" name="page" value="<?php echo $page ?>" />
+            <input type="hidden" name="function" value="export" />
 <?php
 $checkedsql = '';
 $checkedfiles = '';
@@ -362,16 +384,20 @@ else
   $checkedsql = ' checked="checked"';
 }
 ?>
-            <p class="rex-rdo">
-              <input type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
-              <label class="rex-lbl-rght" for="exporttype_sql"><?php echo $I18N_IM_EXPORT->msg('database_export'); ?></label>
-            </p>
-            <p class="rex-rdo">
-              <input type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
-              <label class="rex-lbl-rght" for="exporttype_files"><?php echo $I18N_IM_EXPORT->msg('file_export'); ?></label>
-            </p>
-            <!-- FILE EXPORT LIST -->
-            <div class="rex-export-list">
+            <div class="rex-form-row">
+              <p class="rex-form-radio rex-form-label-right">
+                <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
+                <label for="exporttype_sql"><?php echo $I18N_IM_EXPORT->msg('database_export'); ?></label>
+              </p>
+            </div>
+            <div class="rex-form-row">
+              <p class="rex-form-radio rex-form-label-right">
+                <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
+                <label for="exporttype_files"><?php echo $I18N_IM_EXPORT->msg('file_export'); ?></label>
+              </p>
+              
+              <div class="rex-form-checkboxes">
+                <div class="rex-form-checkboxes-wrapper">
 <?php
   $dir = $REX['INCLUDE_PATH'] .'/../../';
   $folders = readSubFolders($dir);
@@ -389,15 +415,18 @@ else
       $checked = ' checked="checked"';
     }
 
-    echo '<p class="rex-chckbx">
-            <input type="checkbox" onchange="checkInput(\'exporttype_files\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
-            <label class="rex-lbl-rght" for="EXPDIR_'. $file .'">'. $file .'</label>
+    echo '<p class="rex-form-checkbox rex-form-label-right">
+            <input class="rex-form-checkbox" type="checkbox" onchange="checkInput(\'exporttype_files\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
+            <label for="EXPDIR_'. $file .'">'. $file .'</label>
           </p>
     ';
   }
 ?>
-				<div class="rex-clear"></div>
-              </div>
+                </div><!-- END rex-form-checkboxes-wrapper -->
+              </div><!-- END rex-form-checkboxes -->
+            </div><!-- END rex-form-row -->
+            
+
 <?php
 $checked0 = '';
 $checked1 = '';
@@ -411,27 +440,38 @@ else
   $checked0 = ' checked="checked"';
 }
 ?>
-            <p class="rex-rdo">
-              <input type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
-              <label class="rex-lbl-rght" for="exportdl_server"><?php echo $I18N_IM_EXPORT->msg('save_on_server'); ?></label>
-            </p>
-            <p class="rex-rdo">
-              <input type="radio" id="exportdl_download" name="exportdl" value="1"<?php echo $checked1; ?> />
-              <label class="rex-lbl-rght" for="exportdl_download"><?php echo $I18N_IM_EXPORT->msg('download_as_file'); ?></label>
-            </p>
-            <p class="rex-ftxt">
-              <label for="exportfilename"><?php echo $I18N_IM_EXPORT->msg('filename'); ?></label>
-              <input type="text" id="exportfilename" name="exportfilename" value="<?php echo $exportfilename; ?>" />
-            </p>
-            <p>
-              <input type="submit" class="rex-sbmt" value="<?php echo $I18N_IM_EXPORT->msg('db_export'); ?>" />
-            </p>
+            <div class="rex-form-row">
+              <p class="rex-form-radio rex-form-label-right">
+                <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
+                <label for="exportdl_server"><?php echo $I18N_IM_EXPORT->msg('save_on_server'); ?></label>
+              </p>
+            </div>
+            <div class="rex-form-row">
+              <p class="rex-form-radio rex-form-label-right">
+                <input class="rex-form-radio" type="radio" id="exportdl_download" name="exportdl" value="1"<?php echo $checked1; ?> />
+                <label for="exportdl_download"><?php echo $I18N_IM_EXPORT->msg('download_as_file'); ?></label>
+              </p>
+            </div>
+            <div class="rex-form-row">
+              <p class="rex-form-text">
+                <label for="exportfilename"><?php echo $I18N_IM_EXPORT->msg('filename'); ?></label>
+                <input class="rex-form-text" type="text" id="exportfilename" name="exportfilename" value="<?php echo $exportfilename; ?>" />
+              </p>
+            </div>
+            <div class="rex-form-row">
+              <p class="rex-form-submit">
+                <input class="rex-form-submit" type="submit" value="<?php echo $I18N_IM_EXPORT->msg('db_export'); ?>" />
+              </p>
+            </div>
+          </div>
         </fieldset>
       </form>
-      </div>
-    </div>
-  </div>
+      </div><!-- END rex-form -->
+    </div><!-- END rex-area-content -->
+  </div><!-- END rex-area-col-b -->
+</div><!-- END rex-area -->
 
-</div>
+
+
 
 <?php require $REX['INCLUDE_PATH']."/layout/bottom.php"; ?>
