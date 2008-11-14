@@ -36,23 +36,23 @@ else
 ?>
 
 <div class="rex-addon-output">
-	<h2><?php echo $I18N_A79->msg('code_for_module_input'); ?></h2>
+	<h2 class="rex-hl2"><?php echo $I18N_A79->msg('code_for_module_input'); ?></h2>
 
 	<div class="rex-addon-content">
-		<p><?php echo $I18N_A79->msg('module_intro_help'); ?></p>
+		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_intro_help'); ?></p>
 
-		<code><?php echo htmlspecialchars($mdl_help); ?></code>
+		<p class="rex-code"><code><?php echo htmlspecialchars($mdl_help); ?></code></p>
 
-		<p><?php echo $I18N_A79->msg('module_rights'); ?></p>
+		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_rights'); ?></p>
 	</div>
 
-	<h2><?php echo $I18N_A79->msg('code_for_module_output'); ?></h2>
+	<h2 class="rex-hl2"><?php echo $I18N_A79->msg('code_for_module_output'); ?></h2>
 
 	<div class="rex-addon-content">
-		<p><?php echo $I18N_A79->msg('module_intro_moduleoutput'); ?></p>
+		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_intro_moduleoutput'); ?></p>
 
 		<h3><?php echo $I18N_A79->msg('example_for'); ?> REX_VALUE[1]</h3>
-		<?php highlight_string($mdl_ex); ?>
+		<p class="rex-code"><?php highlight_string($mdl_ex); ?></p>
 	</div>
 </div>
 
