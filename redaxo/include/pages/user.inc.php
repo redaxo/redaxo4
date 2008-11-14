@@ -596,7 +596,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
     $form_label = $I18N->msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
-						<p>
+						<p class="rex-form-submit">
 						<input type="submit" class="rex-form-submit" name="function" value="'.$I18N->msg("add_user").'" '. rex_accesskey($I18N->msg('add_user'), $REX['ACKEY']['SAVE']) .' />
 						</p>
 					</div>';
@@ -607,7 +607,7 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
   }
 
   echo '
-  <div class="rex-form rex-form-user-editmode">
+  <div class="rex-form" id="rex-form-user-editmode">
   <form action="index.php" method="post">
     <fieldset class="rex-form-col-2">
       <legend>'.$form_label.'</legend>

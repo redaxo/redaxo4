@@ -116,7 +116,7 @@ if ($warning != '')
   echo rex_warning($warning);
 
 echo '
-	<div class="rex-form rex-form-system-setup">
+	<div class="rex-form" id="rex-form-system-setup">
   	<form action="index.php" method="post">
     	<input type="hidden" name="page" value="specials" />
     	<input type="hidden" name="func" value="updateinfos" />
