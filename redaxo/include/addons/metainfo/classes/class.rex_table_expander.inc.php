@@ -91,7 +91,7 @@ class rex_a62_tableExpander extends rex_form
     {
       if($I18N_META_INFOS->hasMsg('field_params_notice_'. $i))
       {
-        $notices .= '<span class="rex-notice" id="a62_field_params_notice_'. $i .'" style="display:none">'. $I18N_META_INFOS->msg('field_params_notice_'. $i) .'</span>'. "\n";
+        $notices .= '<span class="rex-form-notice" id="a62_field_params_notice_'. $i .'" style="display:none">'. $I18N_META_INFOS->msg('field_params_notice_'. $i) .'</span>'. "\n";
       }
     }
     $notices .= '
@@ -107,7 +107,7 @@ class rex_a62_tableExpander extends rex_form
 
     $field =& $this->addTextAreaField('attributes');
     $field->setLabel($I18N_META_INFOS->msg('field_label_attributes'));
-    $notice = '<span class="rex-notice" id="a62_field_attributes_notice">'. $I18N_META_INFOS->msg('field_attributes_notice') .'</span>'. "\n";
+    $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. $I18N_META_INFOS->msg('field_attributes_notice') .'</span>'. "\n";
     $field->setSuffix($notice);
 
     $field =& $this->addTextField('default');
