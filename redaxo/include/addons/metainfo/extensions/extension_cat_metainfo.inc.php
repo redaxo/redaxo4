@@ -25,7 +25,7 @@ function rex_a62_metainfo_button($params)
 
   if ($fields->getRows()==1)
   {
-  	$return = '<div class="rex-meta-button"><script type="text/javascript"><!--
+  	$return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
   function rex_metainfo_toggle()
   {
@@ -34,11 +34,11 @@ function rex_a62_metainfo_button($params)
     {
   		show = toggleElement(trs[i]);
   	}
-    if (show == "") changeImage("rex-meta-icon","media/file_del.gif")
+    if (show == "") changeImage("rex-metainfo-icon","media/file_del.gif")
     else changeImage("rex-meta-icon","media/file_add.gif");
   }
 
-  //--></script><a href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-meta-icon" alt="'. $I18N_META_INFOS->msg('edit_metadata') .'" title="'. $I18N_META_INFOS->msg('edit_metadata') .'" /></a></div>';
+  //--></script><a class="rex-button-add" href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-metainfo-icon" alt="'. $I18N_META_INFOS->msg('edit_metadata') .'" title="'. $I18N_META_INFOS->msg('edit_metadata') .'" /></a></p>';
 
 	   return $params['subject'] . $return;
   }
@@ -53,21 +53,30 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
 {
   global $REX_USER;
 
-  $colspan = 4;
+  $add_td = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
-    $colspan++;
-
+    $add_td = '<td>&nbsp;</td>';
+  
+  $element = $field;
+  if ($labelIt)
+  {
+    $element = '
+  	   <'.$tag.$tag_attr.'>
+  	     <label for="'. $id .'">'. $label .'</label>
+  	     '.$field.'
+  	   </'.$tag.'>';
+  }
+  
   $s = '
-  <tr class="rex-trow-actv rex-metainfo-cat-hdr rex-metainfo-cat" style="display:none;">
+  <tr class="rex-table-row-activ rex-metainfo-cat" style="display:none;">
   	<td>&nbsp;</td>
-  	<td colspan="'. $colspan .'"><label for="'. $id .'">'. $label .'</label></td>
+  	'.$add_td.'
+  	<td colspan="5">
+  	 <div class="rex-form-row">
+  	   '.$element.'
+  	 </div>
+    </td>
 	</tr>';
-
-  $s .= '
-  <tr class="rex-trow-actv rex-metainfo-cat" style="display:none;">
-    <td>&nbsp;</td>
-  	<td class="rex-mt-fld" colspan="'. $colspan .'">'.$field. '</td>
-  </tr>';
 
   return $s;
 }
