@@ -223,7 +223,7 @@ echo '
 if($function == 'add_cat' || $function == 'edit_cat')
 {
   echo '
-  <div class="rex-form rex-form-structure-category">
+  <div class="rex-form" id="rex-form-structure-category">
   <form action="index.php" method="post">
     <fieldset>
       <legend><span>'.$I18N->msg('add_category') .'</span></legend>
@@ -486,7 +486,7 @@ if ($category_id > -1)
   if($function == 'add_art' || $function == 'edit_art')
   {
     echo '
-    <div class="rex-form rex-form-structure-article">
+    <div class="rex-form" id="rex-form-structure-article">
     <form action="index.php" method="post">
       <fieldset>
         <legend><span>'.$I18N->msg('article_add') .'</span></legend>
