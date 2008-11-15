@@ -63,11 +63,13 @@ ul.rex-ul1 li {
 }
 
 
-/*	Listen *********************************************************************
+/*	Code ***********************************************************************
 *******************************************************************************/
 .rex-code {
   display: block;
   padding: 20px 10px;
+  border-width: 1px;
+  border-style: solid;
 }
 
 
@@ -131,6 +133,17 @@ div.rex-message-block ul li {
 }
 
 
+/*	Buttons ********************************************************************
+*******************************************************************************/
+p.rex-button-add {
+}
+
+/*  Kategorietabelle Metainfo Button */
+div#rex-form-structure-category p.rex-button-add {
+  float: left;
+  margin-right: 5px;
+  padding-top: 2px;
+}
 
 /*	Table **********************************************************************
 *******************************************************************************/
@@ -141,10 +154,10 @@ table.rex-table {
 	border-spacing: 1px;
 }
 table.rex-table-mrgn, 
-div.rex-form-structure-category {
+div#rex-form-structure-category {
 	margin-bottom: 10px;
 }
-div.rex-form-structure-category table.rex-table-mrgn {
+div#rex-form-structure-category table.rex-table-mrgn {
 	margin-bottom: 0px;
 }
 	
@@ -158,10 +171,10 @@ table.rex-table td {
 	border-right-width: 0;
 	vertical-align: top;
 }
-div.rex-form-structure-article table.rex-table th,
-div.rex-form-structure-article table.rex-table td, 
-div.rex-form-structure-category table.rex-table th,
-div.rex-form-structure-category table.rex-table td, 
+div#rex-form-structure-article table.rex-table th,
+div#rex-form-structure-article table.rex-table td, 
+div#rex-form-structure-category table.rex-table th,
+div#rex-form-structure-category table.rex-table td, 
 div#rex-form-system-language table.rex-table th,
 div#rex-form-system-language table.rex-table td, 
 div#rex-form-medienpool-media table.rex-table th,
@@ -210,10 +223,10 @@ table.rex-table td.rex-icon {
 	padding-top: 6px;
 	padding-bottom: 0;
 }
-div.rex-form-structure-article table.rex-table th.rex-icon,
-div.rex-form-structure-article table.rex-table td.rex-icon, 
-div.rex-form-structure-category table.rex-table th.rex-icon,
-div.rex-form-structure-category table.rex-table td.rex-icon, 
+div#rex-form-structure-article table.rex-table th.rex-icon,
+div#rex-form-structure-article table.rex-table td.rex-icon, 
+div#rex-form-structure-category table.rex-table th.rex-icon,
+div#rex-form-structure-category table.rex-table td.rex-icon, 
 div#rex-form-medienpool-media table.rex-table th.rex-icon,
 div#rex-form-medienpool-media table.rex-table td.rex-icon, 
 div#rex-form-medienpool-categories table.rex-table th.rex-icon,

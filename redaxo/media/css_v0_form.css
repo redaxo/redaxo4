@@ -161,6 +161,10 @@ div.rex-form-row div.rex-form-checkboxes-wrapper input.rex-form-checkbox,
 div.rex-form-row div.rex-form-radios-wrapper input.rex-form-radio {
 	margin-left: 0;
 }
+div.rex-form-row div.rex-form-checkboxes-wrapper p.rex-form-checkbox, 
+div.rex-form-row div.rex-form-radios-wrapper p.rex-form-radio {
+	padding-top: 3px;
+}
 div.rex-form-row p input.rex-form-select-checkbox {
 	vertical-align: middle;
 }
@@ -235,7 +239,10 @@ div.rex-form-setup-admin div.rex-form-row p.rex-form-text input {
 	width: 200px;
 }
 
-/*	Login *********************************************************************/
+
+
+/*	Login **********************************************************************
+*******************************************************************************/
 div.rex-form-login div.rex-form-row p.rex-form-text input,
 div.rex-form-login div.rex-form-row p.rex-form-password input {
 	width: 100px;
@@ -247,7 +254,37 @@ div.rex-form-login div.rex-form-row p input.rex-form-submit {
 }
 
 
-/*	Content : Editmode ********************************************************/
+
+/*	Struktur : Metainfo ********************************************************
+*******************************************************************************/
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-row {
+  border-bottom: 0;
+}
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-row div.rex-widget {
+  margin-bottom: 0;
+}
+
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper, 
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper, 
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label, 
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-read span,
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-text input,
+div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
+	width: 317px;
+}
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
+	width: 323px;
+}
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper p.rex-form-label-right label, 
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper p.rex-form-label-right label {
+	width: 296px;
+}
+
+
+
+
+/*	Content : Editmode *********************************************************
+*******************************************************************************/
 div.rex-form-content-editmode {
 
 }
@@ -277,7 +314,8 @@ div.rex-form-content-editmode-edit-slice div.rex-form-row p.rex-form-col-b input
 
 
 
-/*	Content : Metamode ********************************************************/
+/*	Content : Metamode *********************************************************
+*******************************************************************************/
 div.rex-form-content-metamode fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-a, 
 div.rex-form-content-metamode fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-b {
 	width: 170px;
@@ -313,7 +351,8 @@ div.rex-form-content-metamode fieldset.rex-form-col-2 div.rex-form-row p input.r
 }
 
 
-/*	System : Eistellungen *****************************************************/
+/*	System : Eistellungen ******************************************************
+*******************************************************************************/
 div#rex-form-system-setup fieldset {
 	padding-bottom: 1em;
 }
@@ -343,13 +382,15 @@ div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p input.rex-f
 }
 
 
-/*	System : Sprachen *********************************************************/
+/*	System : Sprachen **********************************************************
+*******************************************************************************/
 div#rex-form-system-language input.rex-form-text {
 	width: 98%;
 }
 
 
-/*	Template / Module : Action ************************************************/
+/*	Template / Module : Action *************************************************
+*******************************************************************************/
 div.rex-form-action-editmode div.rex-form-row p.rex-form-col-b input.rex-form-submit, 
 div.rex-form-module-editmode div.rex-form-row p.rex-form-col-b input.rex-form-submit, 
 div.rex-form-template-editmode div.rex-form-row p.rex-form-col-b input.rex-form-submit {
@@ -364,7 +405,8 @@ div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea {
 
 
 
-/*	Medienpool / Detail *******************************************************/
+/*	Medienpool / Detail ********************************************************
+*******************************************************************************/
 div#rex-form-medienpool-detail div.rex-form-row div.rex-form-checkboxes-wrapper, 
 div#rex-form-medienpool-detail div.rex-form-row div.rex-form-radios-wrapper, 
 div#rex-form-medienpool-detail div.rex-form-row p.rex-form-label-right label, 
