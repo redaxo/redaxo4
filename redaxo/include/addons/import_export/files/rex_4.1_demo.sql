@@ -24,6 +24,7 @@ INSERT INTO `rex_62_type` VALUES ('6','REX_MEDIA_BUTTON','varchar','255');
 INSERT INTO `rex_62_type` VALUES ('7','REX_MEDIALIST_BUTTON','varchar','255');
 INSERT INTO `rex_62_type` VALUES ('8','REX_LINK_BUTTON','varchar','255');
 INSERT INTO `rex_62_type` VALUES ('9','REX_LINKLIST_BUTTON','varchar','255');
+INSERT INTO `rex_62_type` VALUES ('12',  'legend', 'varchar', '255');
 DROP TABLE IF EXISTS `rex_action`;
 CREATE TABLE `rex_action` ( `id` int(11) NOT NULL  auto_increment, `name` varchar(255) NOT NULL  , `preview` text NOT NULL  , `presave` text NOT NULL  , `postsave` text NOT NULL  , `previewmode` tinyint(4) NOT NULL DEFAULT '0' , `presavemode` tinyint(4) NOT NULL DEFAULT '0' , `postsavemode` tinyint(4) NOT NULL DEFAULT '0' , `createuser` varchar(255) NOT NULL  , `createdate` int(11) NOT NULL DEFAULT '0' , `updateuser` varchar(255) NOT NULL  , `updatedate` int(11) NOT NULL DEFAULT '0' , `revision` int(11) NULL  , PRIMARY KEY (`id`)) TYPE=MyISAM;
 DROP TABLE IF EXISTS `rex_article`;
