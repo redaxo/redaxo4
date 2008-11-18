@@ -49,7 +49,7 @@ function rex_a62_metainfo_button($params)
 /**
  * Callback, dass ein Formular item formatiert
  */
-function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt)
+function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
 {
   global $REX_USER;
 
@@ -67,16 +67,21 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   	   </'.$tag.'>';
   }
   
+  if ($typeLabel == 'legend')
+  {
+  	$element = '<p class="rex-form-legend">'. $label .'</p>';
+  }
+  
   $s = '
   <tr class="rex-table-row-activ rex-metainfo-cat" style="display:none;">
   	<td>&nbsp;</td>
   	'.$add_td.'
   	<td colspan="5">
-  	 <div class="rex-form-row">
-  	   '.$element.'
-  	 </div>
+   	  <div class="rex-form-row">
+  	    '.$element.'
+  	  </div>
     </td>
-	</tr>';
+  </tr>';
 
   return $s;
 }

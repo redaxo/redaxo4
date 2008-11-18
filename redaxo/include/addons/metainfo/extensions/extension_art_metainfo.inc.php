@@ -13,11 +13,11 @@ rex_register_extension('ART_META_FORM', 'rex_a62_metainfo_form');
 /**
  * Callback, dass ein Formular item formatiert
  */
-function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt)
+function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
 {
   $s = '';
-  
-  $s .= '<div class="rex-form-row">';
+  if($typeLabel != 'legend')
+    $s .= '<div class="rex-form-row">';
 
   if($tag != '')
     $s .= '<'. $tag . $tag_attr  .'>'. "\n";
@@ -30,7 +30,8 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   if($tag != '')
     $s .='</'.$tag.'>'. "\n";
 	
-	$s .= '</div>';
+  if($typeLabel != 'legend')
+    $s .= '</div>';
 	
   return $s;
 }

@@ -121,7 +121,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
         if(!$oneValue)
         {
-          $tag = '';
           $labelIt = false;
           $tag = 'div';
           $tag_attr = ' class="rex-form-col-a rex-form-'.$class_p.'"';
@@ -278,7 +277,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get();
         }
         $checked = $active ? ' checked="checked"' : '';
-        $field .= '<input class="rex-form-select-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked . $style .' />';
+        $field .= '<input class="rex-form-select-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked .' />';
         break;
       }
       case 'textarea':
@@ -286,6 +285,15 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-textarea"';
         
         $field = '<textarea class="rex-form-textarea" name="'. $name .'" id="'. $id .'" cols="50" rows="6" '. $attr .'>'. $dbvalues_esc[0] .'</textarea>';
+        break;
+      }
+      case 'legend':
+      {
+        $tag = '';
+        $tag_attr = '';
+        $labelIt = false;
+        
+        $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'">'. $label .'</legend><div class="rex-form-wrapper">';
         break;
       }
       case 'REX_MEDIA_BUTTON':
@@ -366,7 +374,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       }
     }
 
-    $s .= rex_call_func($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt), false);
+    $s .= rex_call_func($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel), false);
 
     $sqlFields->next();
   }

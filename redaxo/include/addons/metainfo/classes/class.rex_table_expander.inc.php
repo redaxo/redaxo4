@@ -18,8 +18,11 @@ define('REX_A62_FIELD_REX_MEDIA_BUTTON',     6);
 define('REX_A62_FIELD_REX_MEDIALIST_BUTTON', 7);
 define('REX_A62_FIELD_REX_LINK_BUTTON',      8);
 define('REX_A62_FIELD_REX_LINKLIST_BUTTON',  9);
+define('REX_A62_FIELD_DATE',                 10);
+define('REX_A62_FIELD_DATETIME',             11);
+define('REX_A62_FIELD_LEGEND',               12);
 
-define('REX_A62_FIELD_COUNT',                9);
+define('REX_A62_FIELD_COUNT',                12);
 
 class rex_a62_tableExpander extends rex_form
 {
