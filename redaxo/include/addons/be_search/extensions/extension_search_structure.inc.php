@@ -171,13 +171,13 @@ function rex_a256_search_structure($params)
 
   $form =
    '  <form action="index.php" method="post">
-        <input type="hidden" name="page" id="rex-a256-article-clang" value="'. $page .'" />
-        <input type="hidden" name="mode" id="rex-a256-article-clang" value="'. $mode .'" />
-        <input type="hidden" name="category_id" id="rex-a256-article-clang" value="'. $category_id .'" />
-        <input type="hidden" name="article_id" id="rex-a256-article-clang" value="'. $article_id .'" />
-        <input type="hidden" name="clang" id="rex-a256-article-clang" value="'. $clang .'" />
-        <input type="hidden" name="ctype" id="rex-a256-article-clang" value="'. $ctype .'" />
-        <input type="hidden" name="a256_clang" id="rex-a256-article-clang" value="'. $clang .'" />
+        <input type="hidden" name="page" value="'. $page .'" />
+        <input type="hidden" name="mode" value="'. $mode .'" />
+        <input type="hidden" name="category_id" value="'. $category_id .'" />
+        <input type="hidden" name="article_id" value="'. $article_id .'" />
+        <input type="hidden" name="clang" value="'. $clang .'" />
+        <input type="hidden" name="ctype" value="'. $ctype .'" />
+        <input type="hidden" name="a256_clang" value="'. $clang .'" />
 
 		    <div class="rex-fl-lft">
 	        <label for="rex-a256-article-name">'. $I18N_BE_SEARCH->msg('search_article_name') .'</label>
