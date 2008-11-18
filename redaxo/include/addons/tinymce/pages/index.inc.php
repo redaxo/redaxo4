@@ -17,9 +17,9 @@ require $REX['INCLUDE_PATH']."/layout/top.php";
 
 $subline = '
 <ul>
-  <li><a href="http://tinymce.moxiecode.com" target="_blank">'.$I18N_A52->msg('website').'</a> | </li>
-  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/index.html" target="_blank">'.$I18N_A52->msg('documentation').'</a> | </li>
-  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" target="_blank">'.$I18N_A52->msg('list_of_plugins').'</a></li>
+  <li><a href="http://tinymce.moxiecode.com" onclick="window.open(this.href); return false;">'.$I18N_A52->msg('website').'</a> | </li>
+  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/index.html" onclick="window.open(this.href); return false;">'.$I18N_A52->msg('documentation').'</a> | </li>
+  <li><a href="http://tinymce.moxiecode.com/tinymce/docs/reference_plugins.html" onclick="window.open(this.href); return false;">'.$I18N_A52->msg('list_of_plugins').'</a></li>
 </ul>
 ';
 
@@ -162,7 +162,7 @@ EOD;
 			<a href="http://www.public-4u.de">Public-4u e.K.</a>
 		</p>
 	</div>
-
+</div>
 <?php
 
 require $REX['INCLUDE_PATH']."/layout/bottom.php";
