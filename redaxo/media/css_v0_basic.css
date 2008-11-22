@@ -335,6 +335,7 @@ div#rex-title,
 div#rex-linkmap, 
 div#rex-navi-path, 
 div#rex-form-system-setup,
+div#rex-medienpool-detail-wrapper, 
 div.rex-area, 
 div.rex-addon-output, 
 div.rex-content-header,
@@ -354,7 +355,8 @@ table.rex-table tr.rex-table-row-activ td {
 div.rex-form, 
 div.rex-area-footer, 
 div.rex-addon-footer, 
-table.rex-table th {
+table.rex-table th, 
+table.rex-table tr td.rex-colored {
 	background-color: #D7D6D3;
 }
 /*	Rot */
@@ -567,7 +569,7 @@ div.rex-content-body {
 	width: 100%;
 }
 div.rex-content-body-2 {
-	padding: 1px 154px 0 41px;
+	padding: 0px 154px 0 41px;
 }
 
 /*	Titel **********************************************************************

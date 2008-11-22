@@ -24,7 +24,8 @@ div.rex-addon-content h4,
 div.rex-addon-content p, 
 div.rex-addon-content ul, 
 div.rex-addon-content ol, 
-div.rex-addon-content dl {
+div.rex-addon-content dl, 
+div#rex-form-medienpool-selectcategory {
 	margin-bottom: 1em;
 }
 
@@ -345,7 +346,7 @@ div#rex-linkmap {
 
 /*	Medienpool *****************************************************************
 *******************************************************************************/
-div.rex-medienpool-detail-data {
+div#rex-medienpool-detail-wrapper {
   float: left;
   width: 100%;
 }
