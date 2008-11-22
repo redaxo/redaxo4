@@ -24,12 +24,16 @@ function rex_a256_search_mpool($params)
   $subject = $params['subject'];
 
   $search_form = '
-
-    <label class="rex-hide" for="a256_media_name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
-    <input type="text" name="a256_media_name" id="a256_media_name" value="'. $media_name .'" />
+    <p class="rex-form-col-a rex-form-text">
+      <label for="a256_media_name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
+      <input class="rex-form-text" type="text" name="a256_media_name" id="a256_media_name" value="'. $media_name .'" />
+      <input class="rex-form-submit" type="submit" value="'. $I18N_BE_SEARCH->msg('pool_search') .'" />
+    </p>
   ';
-
-  $subject = str_replace('</select>', '</select>'. $search_form, $subject);
+  
+  $subject = str_replace('<div class="rex-form-row">', '<div class="rex-form-row">' . $search_form, $subject);
+  $subject = str_replace('<fieldset class="rex-form-col-1">', '<fieldset class="rex-form-col-2">', $subject);
+  $subject = str_replace('<p class="rex-form-select">', '<p class="rex-form-col-b rex-form-select">', $subject);
 
   return $subject;
 }
