@@ -54,6 +54,7 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   global $REX_USER;
 
   $add_td = '';
+  $class_td = '';
   if ($REX_USER->hasPerm('advancedMode[]'))
     $add_td = '<td>&nbsp;</td>';
   
@@ -70,13 +71,14 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   if ($typeLabel == 'legend')
   {
   	$element = '<p class="rex-form-legend">'. $label .'</p>';
+    $class_td = ' class="rex-colored"';
   }
   
   $s = '
   <tr class="rex-table-row-activ rex-metainfo-cat" style="display:none;">
   	<td>&nbsp;</td>
   	'.$add_td.'
-  	<td colspan="5">
+  	<td colspan="5"'.$class_td.'>
    	  <div class="rex-form-row">
   	    '.$element.'
   	  </div>
