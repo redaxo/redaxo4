@@ -623,7 +623,7 @@ if ($article->getRows() == 1)
       // ------------------------------------------ START: META VIEW
 
       echo '
-    	  <div class="rex-form rex-form-content-metamode">
+    	  <div class="rex-form" id="rex-form-content-metamode">
           <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
             <fieldset class="rex-form-col-1">
               <legend><span>' . $I18N->msg('general') . '</span></legend>
