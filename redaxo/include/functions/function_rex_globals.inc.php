@@ -181,10 +181,13 @@ function _rex_cast_var($var, $vartype)
     case 'int'    : 
     case 'integer': $var = (int)     $var; break; 
     case 'double' : $var = (double)  $var; break; 
-    case 'float'  : $var = (float)   $var; break; 
+    case 'float'  :
+    case 'real'   : $var = (float)   $var; break; 
     case 'string' : $var = (string)  $var; break; 
     case 'object' : $var = (object)  $var; break; 
     case 'array'  : $var = (array)   $var; break;
+    case 'array'  : $var = (array)   $var; break;
+    case 'binary' : $var = (binary)  $var; break;
     
     // kein Cast, nichts tun
     case ''       : break;
