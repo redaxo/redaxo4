@@ -20,7 +20,7 @@ function rex_linkmap_url($local = array(),$globals = array())
 
 function rex_linkmap_backlink($id, $name)
 {
-  return 'javascript:insertLink(\'redaxo://'.$id.'\',\''.$name.'\');';
+  return 'javascript:insertLink(\'redaxo://'.$id.'\',\''.addSlashes($name).'\');';
 }
 
 function rex_linkmap_format_label($OOobject)
