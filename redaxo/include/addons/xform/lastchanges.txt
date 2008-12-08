@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * X-Form 
+ * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
+ * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
+ */
+
+08.09.2008	radio class korrigiert
+22.08.2008	rex_xform_action_fulltext_value, neue aktion um felder zusammenzufassen und ein fulltextfeld bauen zu können: action|fulltext_value|vt|name,vorname,strasse,ort
+22.08.2008	value be_medialist hinzugefügt, bisher nur eine medialist in einem formular verwendbar [jan]
+20.08.2008	class.rexform -> erweitert um "medialist" [jan]
+
+
+
+
+?>
