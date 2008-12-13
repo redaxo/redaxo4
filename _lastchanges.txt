@@ -66,6 +66,9 @@ Version 4.2.0 (2008-XX-XX)
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
   
+  Bugfixes:
+  * Templates die mit REX_TEMPLATE[] eingebunden wurden, wurden nicht gecached [Markus.Staab]
+
 Version 4.1.1 (2008-XX-XX)
   
   Bugfixes:

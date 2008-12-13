@@ -29,13 +29,23 @@ class rex_template
 
   function getFile()
   {
-    // Generated Datei erzeugen
-    if($this->generate())
-      return $this->getFilePath($this->getId());
-
-    trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
-
-    return FALSE;
+    if($this->getId()<1) return FALSE;
+    
+  	$file = $this->getFilePath($this->getId());
+  	if(!$file) return FALSE;
+  	
+  	if(!file_exists($file))
+  	{
+      // Generated Datei erzeugen
+  		if(!$this->generate())
+  		{
+		    trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
+		
+		    return FALSE;
+  		}
+  	}
+  	
+    return $file;
   }
 
   function getFilePath($template_id)
