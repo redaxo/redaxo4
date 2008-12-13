@@ -64,19 +64,10 @@ class rex_template
 
   function getTemplate()
   {
-		if($this->getId()<1) return FALSE;
-
-    $file = $this->getFilePath($this->getId());
-    if (file_exists($file))
-    {
-      return rex_get_file_contents($file);
-    }
-    else
-    {
-    	if($this->generate())
-        return rex_get_file_contents($file);
-    }
-		return FALSE;
+  	$file = $this->getFile();
+  	if(!$file) return FALSE;
+  	
+  	return rex_get_file_contents($file);
   }
 
   function generate()
