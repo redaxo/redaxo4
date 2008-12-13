@@ -99,27 +99,20 @@ if ($func == 'addclang' || $func == 'editclang')
       ';
 }
 
-$add_header = '';
-$add_col = '';
-if ($REX_USER->hasPerm('advancedMode[]') OR $func == 'addclang')
-{
-  $add_header = '<th class="rex-small">ID</th>';
-  $add_col = '<col width="40" />';
-}
 
 echo '
     <table class="rex-table" summary="'.$I18N->msg('clang_summary').'">
       <caption>'.$I18N->msg('clang_caption').'</caption>
       <colgroup>
         <col width="40" />
-        '.$add_col.'
+        <col width="40" />
         <col width="*" />
         <col width="153" />
       </colgroup>
       <thead>
         <tr>
           <th class="rex-small"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>+</a></th>
-          '.$add_header.'
+          <th class="rex-small">ID</th>
           <th>'.$I18N->msg('clang_name').'</th>
           <th>'.$I18N->msg('clang_function').'</th>
         </tr>
@@ -144,14 +137,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
 {
   
   $add_td = '';      
-  if ($REX_USER->hasPerm('advancedMode[]'))
-  {
-    $add_td = '<td class="rex-small">'.$lang_id.'</td>';
-  }    
-  elseif ($func == 'addclang')
-  {
-    $add_td = '<td class="rex-small"></td>';
-  }
+  $add_td = '<td class="rex-small">'.$lang_id.'</td>';
     
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)

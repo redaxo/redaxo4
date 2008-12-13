@@ -364,15 +364,9 @@ if ($OUT)
   $list->setCaption($I18N->msg('module_caption'));
   $list->addTableAttribute('summary', $I18N->msg('module_summary'));
 
-  if (!$REX_USER->hasPerm('advancedMode[]'))
-  {
-    $list->removeColumn('id');
-    $list->addTableColumnGroup(array(40, '*', 153));
-  }
-  else
-  {
-    $list->addTableColumnGroup(array(40, 40, '*', 153));
-  }
+  $list->removeColumn('id');
+  $list->addTableColumnGroup(array(40, '*', 153));
+  // $list->addTableColumnGroup(array(40, 40, '*', 153));
 
   $img = '<img src="media/modul.gif" alt="###name###" title="###name###" />';
   $imgAdd = '<img src="media/modul_plus.gif" alt="'.$I18N->msg('create_module').'" title="'.$I18N->msg('create_module').'" />';

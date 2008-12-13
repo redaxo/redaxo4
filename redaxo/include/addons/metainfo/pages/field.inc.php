@@ -35,6 +35,10 @@ if ($func == '')
   $list->addColumn($imgHeader, '<img src="media/metainfo.gif" alt="field" title="field" />', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'field_id' => '###field_id###'));
 
+  $list->removeColumn('field_id');
+  $list->addTableColumnGroup(array(40, '*'));
+
+
   $list->setColumnLabel('field_id', $I18N_META_INFOS->msg('field_label_id'));
   $list->setColumnLayout('field_id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 

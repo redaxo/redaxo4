@@ -794,15 +794,9 @@ if (isset($SHOW) and $SHOW)
   $list->setCaption($I18N->msg('user_caption'));
   $list->addTableAttribute('summary', $I18N->msg('user_summary'));
 
-  if (!$REX_USER->hasPerm('advancedMode[]'))
-  {
-    $list->removeColumn('user_id');
-    $list->addTableColumnGroup(array(40, '*', 153, 153, 153));
-  }
-  else
-  {
-    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
-  }
+  $list->removeColumn('user_id');
+  $list->addTableColumnGroup(array(40, '*', 153, 153, 153));
+  // $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
 
   $img = '<img src="media/user.gif" alt="###name###" title="###name###" />';
   $imgAdd = '<img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" />';
