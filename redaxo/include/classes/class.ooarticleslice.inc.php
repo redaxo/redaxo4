@@ -180,7 +180,7 @@ class OOArticleSlice
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
     $art->getSlice = $this->getId();
-    return $art->getArticle();
+    return $art->replaceLinks( $art->getArticle() );
   }
 
   function _getSliceWhere($whereCluase, $table = null, $fields = null, $default = null)
