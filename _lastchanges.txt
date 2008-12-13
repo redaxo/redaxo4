@@ -29,6 +29,7 @@ Version 4.2.0 (2008-XX-XX)
   * Templateverwaltung hat nun immer eine ID in der Liste
   * OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab] 
     + siehe http://forum.redaxo.de/ftopic9816.html
+    - OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
   * JQuery update auf 1.2.6 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
@@ -45,7 +46,7 @@ Version 4.2.0 (2008-XX-XX)
     - Tabelle vereinheitlicht [Thomas.Blum]
   * ReloginDelay wird heruntergezaehlt [Markus.Staab]
   * Neue Backendpage: Userprofil [Markus.Staab]
-    - Benutzer können selbst Ihre Daten ändern 
+    - Benutzer können nun ihre Sprache ändern, sofern es der gleiche Zeichensatz ist [Jan.Kristinus]
   * ImageResize:
     - Sprachfile eingefügt [Markus.Staab]
   * BackendSearch:
