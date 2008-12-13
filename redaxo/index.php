@@ -102,13 +102,20 @@ else
     $page = 'login';
   } else
   {
+  	
     // login ok
     if ($REX_ULOGIN != "")
     {
       // redirect to startpage, after successfull login
-  		header('Location: index.php?page='. $REX['START_PAGE']);
+  		header('Location: '.$REX["FRONTEND_FILE"].'?page='. $REX['START_PAGE']);
   		exit;
     }
+
+		// Userspezifische Sprache einstellen, falls gleicher Zeichensatz
+  	$lang = $REX_LOGIN->getLanguage();
+  	$I18N_T = rex_create_lang($lang);
+  	if ($I18N->msg('htmlcharset') == $I18N_T->msg('htmlcharset')) $I18N = rex_create_lang($lang);
+
 
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;

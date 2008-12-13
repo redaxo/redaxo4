@@ -40,8 +40,17 @@ if ($user_id != 0)
 {
   $sql = new rex_sql;
   $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE user_id = '. $user_id .' LIMIT 2');
-  if ($sql->getRows()!= 1) unset($user_id);
+  if ($sql->getRows()!= 1) $user_id = 0;
 }
+
+// Allgemeine Infos
+$userpsw = rex_request('userpsw', 'string');
+$userlogin = rex_request('userlogin', 'string');
+$username = rex_request('username', 'string');
+$userdesc = rex_request('userdesc', 'string');
+$useradmin = rex_request('useradmin', 'int');
+$userstatus = rex_request('userstatus', 'int');
+
 
 // Allgemeine Permissions setzen
 $sel_all = new rex_select;
@@ -52,6 +61,7 @@ $sel_all->setName('userperm_all[]');
 $sel_all->setId('userperm-all');
 sort($REX['PERM']);
 $sel_all->addArrayOptions($REX['PERM'],false);
+$userperm_all = rex_request('userperm_all', 'array');
 
 
 // Erweiterte Permissions setzen
@@ -63,6 +73,9 @@ $sel_ext->setName('userperm_ext[]');
 $sel_ext->setId('userperm-ext');
 sort($REX['EXTPERM']);
 $sel_ext->addArrayOptions($REX['EXTPERM'],false);
+$userperm_ext = rex_request('userperm_ext', 'array');
+$allcats = rex_request('allcats', 'int');
+
 
 // zugriff auf categorien
 $sel_cat = new rex_select;
@@ -72,13 +85,16 @@ $sel_cat->setSize(20);
 $sel_cat->setName('userperm_cat[]');
 $sel_cat->setId('userperm-cat');
 $cat_ids = array();
-
 if ($rootCats = OOCategory::getRootCategories())
 {
   foreach( $rootCats as $rootCat) {
     add_cat_options( $sel_cat, $rootCat, $cat_ids);
   }
 }
+$userperm_cat = rex_request('userperm_cat', 'array');
+$allmcats = rex_request('allmcats', 'int');
+$userperm_cat_read = rex_request('userperm_cat_read', 'array');
+
 
 function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
 {
@@ -97,6 +113,7 @@ function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
   }
 }
 
+
 // zugriff auf mediacategorien
 $sel_media = new rex_select;
 $sel_media->setMultiple(1);
@@ -105,13 +122,13 @@ $sel_media->setSize(20);
 $sel_media->setName('userperm_media[]');
 $sel_media->setId('userperm-media');
 $mediacat_ids = array();
-
 if ($rootCats = OOMediaCategory::getRootCategories())
 {
   foreach ( $rootCats as $rootCat) {
     add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
   }
 }
+$userperm_media = rex_request('userperm_media', 'array');
 
 function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
@@ -130,6 +147,7 @@ function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName 
   }
 }
 
+
 // zugriff auf sprachen
 $sel_sprachen = new rex_select;
 $sel_sprachen->setMultiple(1);
@@ -137,7 +155,6 @@ $sel_sprachen->setStyle('class="rex-form-select"');
 $sel_sprachen->setSize(3);
 $sel_sprachen->setName('userperm_sprachen[]');
 $sel_sprachen->setId('userperm-sprachen');
-
 $sqlsprachen = new rex_sql;
 $sqlsprachen->setQuery('select * from '.$REX['TABLE_PREFIX'].'clang order by id');
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
@@ -146,16 +163,39 @@ for ($i=0;$i<$sqlsprachen->getRows();$i++)
   $sel_sprachen->addOption($name,$sqlsprachen->getValue('id'));
   $sqlsprachen->next();
 }
+$userperm_sprachen = rex_request('userperm_sprachen', 'array');
 
-// eigene sprache
-$sel_mylang = new rex_select;
-$sel_mylang->setStyle('class="rex-form-select"');
-$sel_mylang->setSize(1);
-$sel_mylang->setName('userperm_mylang');
-$sel_mylang->setId('userperm-mylang');
-$sel_mylang->addOption('default','be_lang[default]');
-$sel_mylang->addOption('de_de','be_lang[de_de]');
-$sel_mylang->addOption('en_gb','be_lang[en_gb]');
+
+// backend sprache
+$sel_be_sprache = new rex_select;
+$sel_be_sprache->setStyle('class="rex-form-select"');
+$sel_be_sprache->setSize(1);
+$sel_be_sprache->setName("userperm_be_sprache");
+$sel_be_sprache->setId("userperm-be_sprache");
+$sel_be_sprache->addOption("default","");
+$cur_htmlcharset = $I18N->msg('htmlcharset');
+$langpath = $REX['INCLUDE_PATH'].'/lang';
+$langs = array();
+if ($handle = opendir($langpath))
+{
+	while (false !== ($file = readdir($handle)))
+  {
+		if (substr($file,-5) == '.lang')
+    {
+			$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
+			$I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
+      $i_htmlcharset = $I18N_T->msg('htmlcharset');
+      if ($cur_htmlcharset == $i_htmlcharset)
+      {
+      	$sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
+      	$langs[$locale] = $I18N_T->msg('lang');
+      }
+		}
+	}
+	closedir($handle);
+	unset($I18N_T);
+}
+$userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 
 
 // zugriff auf module
@@ -165,15 +205,15 @@ $sel_module->setStyle('class="rex-form-select"');
 $sel_module->setSize(10);
 $sel_module->setName('userperm_module[]');
 $sel_module->setId('userperm-module');
-
 $sqlmodule = new rex_sql;
 $sqlmodule->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
-
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
   $sel_module->addOption($sqlmodule->getValue('name'),$sqlmodule->getValue('id'));
   $sqlmodule->next();
 }
+$userperm_module = rex_request('userperm_module', 'array');
+
 
 // extrarechte - von den addons übergeben
 $sel_extra = new rex_select;
@@ -182,20 +222,31 @@ $sel_extra->setStyle('class="rex-form-select"');
 $sel_extra->setSize(10);
 $sel_extra->setName('userperm_extra[]');
 $sel_extra->setId('userperm-extra');
-
 if (isset($REX['EXTRAPERM']))
 {
   sort($REX['EXTRAPERM']);
   $sel_extra->addArrayOptions($REX['EXTRAPERM'], false);
 }
+$userperm_extra = rex_request('userperm_extra', 'array');
+
 
 // --------------------------------- Title
 
 rex_title($I18N->msg('title_user'),'');
 
 // --------------------------------- FUNCTIONS
+$FUNC_UPDATE = rex_request("FUNC_UPDATE","string");
+$FUNC_APPLY = rex_request("FUNC_APPLY","string");
+$FUNC_DELETE = rex_request("FUNC_DELETE","string");
+$FUNC_ADD = rex_request("FUNC_ADD","string");
+$save = rex_request("save","int");
+$adminchecked = "";
+$allcatschecked = "";
+$allmcatschecked = "";
 
-if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC_APPLY != ''))
+
+
+if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 {
   $loginReset = rex_request('logintriesreset', 'int');
   $userstatus = rex_request('userstatus', 'int');
@@ -213,105 +264,93 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
   else $updateuser->setValue('status',0);
 
   $perm = '';
-  if (isset($useradmin) and $useradmin == 1)
+  if ($useradmin == 1)
     $perm .= '#admin[]';
 
-  if (isset($allcats) and $allcats == 1)
+  if ($allcats == 1)
     $perm .= '#csw[0]';
 
-  if (isset($allmcats) and $allmcats == 1)
+  if ($allmcats == 1)
     $perm .= '#media[0]';
 
   // userperm_all
-  if (isset($userperm_all)) {
-    foreach($userperm_all as $_perm)
-      $perm .= '#'.$_perm;
-  }
+  foreach($userperm_all as $_perm)
+    $perm .= '#'.$_perm;
+
   // userperm_ext
-  if (isset($userperm_ext)) {
-    foreach($userperm_ext as $_perm)
-      $perm .= '#'.$_perm;
-  }
+  foreach($userperm_ext as $_perm)
+    $perm .= '#'.$_perm;
+
   // userperm_extra
-  if (isset($userperm_extra)) {
-    foreach($userperm_extra as $_perm)
-      $perm .= '#'.$_perm;
-  }
+  foreach($userperm_extra as $_perm)
+    $perm .= '#'.$_perm;
 
   // userperm_cat
-  if (isset($userperm_cat)) {
-    foreach($userperm_cat as $ccat)
+  foreach($userperm_cat as $ccat)
+  {
+    $gp = new rex_sql;
+    $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
+    if ($gp->getRows()==1)
     {
-      $gp = new rex_sql;
-      $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
-      if ($gp->getRows()==1)
-      {
-        // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
-        // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
-        foreach (explode('|',$gp->getValue('path')) as $a)
-          if ($a!='')$userperm_cat_read[$a] = $a;
-      }
-      $perm .= '#csw['. $ccat .']';
+      // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
+      // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
+      foreach (explode('|',$gp->getValue('path')) as $a)
+        if ($a!='')$userperm_cat_read[$a] = $a;
     }
+    $perm .= '#csw['. $ccat .']';
   }
 
-  if (isset($userperm_cat_read)) {
-    foreach($userperm_cat_read as $_perm)
-      $perm .= '#csr['. $_perm .']';
-  }
+  foreach($userperm_cat_read as $_perm)
+    $perm .= '#csr['. $_perm .']';
 
   // userperm_media
-  if (isset($userperm_media)) {
-    foreach($userperm_media as $_perm)
-      $perm .= '#media['.$_perm.']';
-  }
+  foreach($userperm_media as $_perm)
+    $perm .= '#media['.$_perm.']';
 
   // userperm_sprachen
-  if (isset($userperm_sprachen)) {
-    foreach($userperm_sprachen as $_perm)
-      $perm .= '#clang['.$_perm.']';
-  }
+  foreach($userperm_sprachen as $_perm)
+    $perm .= '#clang['.$_perm.']';
 
   // userperm mylang
-  if (!isset($userperm_mylang) or $userperm_mylang == "") $userperm_mylang = 'be_lang[default]';
-  $perm .= '#'.$userperm_mylang;
+	foreach($langs as $k => $v)
+	{
+		if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
+	}
 
   // userperm_module
-  if (isset($userperm_module)) {
-    foreach($userperm_module as $_perm)
-      $perm .= '#module['.$_perm.']';
-  }
+  foreach($userperm_module as $_perm)
+    $perm .= '#module['.$_perm.']';
 
   $updateuser->setValue('rights',$perm.'#');
   $updateuser->update();
 
   if(isset($FUNC_UPDATE) && $FUNC_UPDATE != '')
   {
-    unset($user_id);
-    unset($FUNC_UPDATE);
+    $user_id = 0;
+    $FUNC_UPDATE = "";
   }
 
   $info = $I18N->msg('user_data_updated');
 
-} elseif (isset($FUNC_DELETE) and $FUNC_DELETE != '')
+} elseif ($FUNC_DELETE != '')
 {
   // man kann sich selbst nicht löschen..
-  if ($REX_USER->getValue("user_id")!=$user_id)
+  if ($REX_USER->getValue("user_id") != $user_id)
   {
     $deleteuser = new rex_sql;
     $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
     $info = $I18N->msg("user_deleted");
-    unset($user_id);
+    $user_id = 0;
   }else
   {
     $warning = $I18N->msg("user_notdeleteself");
   }
 
-} elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == ''))
+} elseif ($FUNC_ADD != '' and $save == '')
 {
   // bei add default selected
   $sel_sprachen->setSelected("0");
-} elseif ((isset($FUNC_ADD) and $FUNC_ADD != '') and (isset($save) and $save == 1))
+} elseif ($FUNC_ADD != '' and $save == 1)
 {
   $adduser = new rex_sql;
   $adduser->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = '$userlogin'");
@@ -330,76 +369,62 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     else $adduser->setValue('status',0);
 
     $perm = '';
-    if (isset($useradmin) and $useradmin == 1) $perm .= '#'.'admin[]';
-    if (isset($allcats) and $allcats == 1)     $perm .= '#'.'csw[0]';
-    if (isset($allmcats) and $allmcats == 1)   $perm .= '#'.'media[0]';
+    if ($useradmin == 1) $perm .= '#'.'admin[]';
+    if ($allcats == 1)     $perm .= '#'.'csw[0]';
+    if ($allmcats == 1)   $perm .= '#'.'media[0]';
 
     // userperm_all
-    if (isset($userperm_all)) {
-      foreach($userperm_all as $_perm)
-        $perm .= '#'.$_perm;
-    }
+    foreach($userperm_all as $_perm)
+      $perm .= '#'.$_perm;
 
     // userperm_ext
-    if (isset($userperm_ext)) {
-      foreach($userperm_ext as $_perm)
-        $perm .= '#'.$_perm;
-    }
+    foreach($userperm_ext as $_perm)
+      $perm .= '#'.$_perm;
 
     // userperm_sprachen
-    if (isset($userperm_sprachen)) {
-      foreach($userperm_sprachen as $_perm)
-        $perm .= '#clang['.$_perm.']';
-    }
+    foreach($userperm_sprachen as $_perm)
+      $perm .= '#clang['.$_perm.']';
 
     // userperm mylang
-    if (!isset($userperm_mylang) or $userperm_mylang == '') $userperm_mylang = 'be_lang[default]';
-    $perm .= '#'.$userperm_mylang;
+	  foreach($langs as $k => $v)
+	  {
+	    if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
+	  }
 
     // userperm_extra
-    if (isset($userperm_extra)) {
-      foreach($userperm_extra as $_perm)
-        $perm .= '#'.$_perm;
-    }
+    foreach($userperm_extra as $_perm)
+      $perm .= '#'.$_perm;
 
     // userperm_cat
-    if (isset($userperm_cat)) {
-      foreach($userperm_cat as $ccat)
+    foreach($userperm_cat as $ccat)
+    {
+      $gp = new rex_sql;
+      $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
+      if ($gp->getRows()==1)
       {
-        $gp = new rex_sql;
-        $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
-        if ($gp->getRows()==1)
-        {
-          // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
-          // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
-          foreach (explode('|',$gp->getValue('path')) as $a)
-            if ($a!='')$userperm_cat_read[$a] = $a;
-        }
-        $perm .= '#csw['. $ccat .']';
+        // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
+        // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
+        foreach (explode('|',$gp->getValue('path')) as $a)
+          if ($a!='')$userperm_cat_read[$a] = $a;
       }
+      $perm .= '#csw['. $ccat .']';
     }
 
-    if (isset($userperm_cat_read)) {
-      foreach($userperm_cat_read as $_perm)
-        $perm .= '#csr['. $_perm .']';
-    }
+    foreach($userperm_cat_read as $_perm)
+      $perm .= '#csr['. $_perm .']';
 
     // userperm_media
-    if (isset($userperm_media)) {
-      foreach($userperm_media as $_perm)
-        $perm .= '#media['.$_perm.']';
-    }
+    foreach($userperm_media as $_perm)
+      $perm .= '#media['.$_perm.']';
 
     // userperm_module
-    if (isset($userperm_module)) {
-      foreach($userperm_module as $_perm)
-        $perm .= '#module['.$_perm.']';
-    }
+    foreach($userperm_module as $_perm)
+      $perm .= '#module['.$_perm.']';
 
     $adduser->setValue('rights',$perm.'#');
     $adduser->insert();
     $user_id = 0;
-    unset($FUNC_ADD);
+    $FUNC_ADD = "";
     $info = $I18N->msg('user_added');
   } else
   {
@@ -425,8 +450,9 @@ if ((isset($FUNC_UPDATE) && $FUNC_UPDATE != '') || (isset($FUNC_APPLY) and $FUNC
     foreach($userperm_sprachen as $_perm)
       $sel_sprachen->setSelected($_perm);
 
-    if ($userperm_mylang=='') $userperm_mylang = 'be_lang[default]';
-    $sel_mylang->setSelected($userperm_mylang);
+
+    if ($userperm_be_sprache == '') $userperm_be_sprache = 'default';
+    $sel_be_sprache->setSelected($userperm_be_sprache);
 
     // userperm_cat
     foreach($userperm_cat as $_perm)
@@ -457,23 +483,15 @@ if ($warning != '')
 
 $SHOW = true;
 
-if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
+if ($FUNC_ADD != "" || $user_id > 0)
 {
   $SHOW = false;
 
-  if (!isset($userlogin)) { $userlogin = ''; }
-  if (!isset($userpsw)) { $userpsw = ''; }
-  if (!isset($username)) { $username = ''; }
-  if (!isset($userdesc)) { $userdesc = ''; }
-  if (!isset($adminchecked)) { $adminchecked = ''; }
-  if (!isset($allcatschecked)) { $allcatschecked = ''; }
-  if (!isset($allmcatschecked)) { $allmcatschecked = ''; }
-  if (!isset($statuschecked)) { $statuschecked = ''; }
-  if (isset($FUNC_ADD) && $FUNC_ADD) $statuschecked = 'checked="checked"';
+  if ($FUNC_ADD != "") $statuschecked = 'checked="checked"';
 
   $add_login_reset_chkbox = '';
 
-  if($user_id != '')
+  if($user_id > 0)
   {
     // User Edit
 
@@ -543,10 +561,12 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
         $sqlsprachen->next();
       }
 
-      if ($sql->hasPerm('be_lang[de_de]')) $userperm_mylang = 'be_lang[de_de]';
-      else if ($sql->hasPerm('be_lang[en_gb]')) $userperm_mylang = 'be_lang[en_gb]';
-      else $userperm_mylang = 'be_lang[default]';
-      $sel_mylang->setSelected($userperm_mylang);
+			foreach($langs as $k => $v)
+			{
+				if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
+			}
+			$sel_be_sprache->setSelected($userperm_be_sprache);
+
 
       $userpsw = $sql->getValue($REX['TABLE_PREFIX'].'user.psw');
       $username = $sql->getValue($REX['TABLE_PREFIX'].'user.name');
@@ -659,12 +679,10 @@ if (isset($FUNC_ADD) && $FUNC_ADD || (isset($user_id) && $user_id != ""))
             '. $sel_sprachen->get() .'
             <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
           </p>
-          <!--
           <p class="rex-form-col-b rex-form-select">
-            <label for="userperm-mylang">Meine Backendsprache</label>
-            '.$sel_mylang->get().'
+            <label for="userperm-mylang">'.$I18N->msg('backend_language').'</label>
+            '.$sel_be_sprache->get().'
           </p>
-          -->
 		    </div>
 
         <div class="rex-form-row">

@@ -406,5 +406,20 @@ class rex_backend_login extends rex_login
 
     return $check;
   }
+  
+  function getLanguage()
+	{
+
+		if (preg_match_all('@be_lang\[([^\]]*)\]@' , $this->getValue("rights"), $matches))
+    {
+      foreach ($matches[1] as $match)
+      {
+        return $match;
+      }
+    }
+
+
+	}
+  
 }
 ?>

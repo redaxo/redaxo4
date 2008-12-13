@@ -306,6 +306,8 @@ psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues
 user_caption = Liste der angelegten Benutzer
 user_summary = Auflistung aller angelegten Benutzer
 user_status = User ist aktiv
+backend_language = Backendsprache
+
 
 # redaxo\include\pages\special.inc.php
 articles_generated = Artikel und Templates wurden neu generiert, Cache gelöscht!

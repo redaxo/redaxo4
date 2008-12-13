@@ -197,7 +197,7 @@ class i18n
 }
 
 // Funktion zum Anlegen eines Sprache-Objekts
-function rex_create_lang($locale = "de_de", $searchpath = '')
+function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 {
   global $REX;
 
@@ -221,7 +221,8 @@ function rex_create_lang($locale = "de_de", $searchpath = '')
     $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
     $locales[]= $locale;
   }
-  setlocale(LC_ALL, $locales);
+  
+  if($setlocale) setlocale(LC_ALL, $locales);
 
   return $lang_object;
 

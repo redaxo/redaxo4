@@ -13,6 +13,49 @@ $user_id = $REX_USER->getValue('user_id');
 
 rex_title($I18N->msg('profile_title'),'');
 
+
+
+// --------------------------------- BE LANG
+
+// backend sprache
+$sel_be_sprache = new rex_select;
+$sel_be_sprache->setStyle('class="rex-form-select"');
+$sel_be_sprache->setSize(1);
+$sel_be_sprache->setName("userperm_be_sprache");
+$sel_be_sprache->setId("userperm-be_sprache");
+$sel_be_sprache->addOption("default","");
+$cur_htmlcharset = $I18N->msg('htmlcharset');
+$langpath = $REX['INCLUDE_PATH'].'/lang';
+$langs = array();
+if ($handle = opendir($langpath))
+{
+	while (false !== ($file = readdir($handle)))
+  {
+		if (substr($file,-5) == '.lang')
+    {
+			$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
+			$I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
+      $i_htmlcharset = $I18N_T->msg('htmlcharset');
+      if ($cur_htmlcharset == $i_htmlcharset)
+      {
+      	$sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
+      	$langs[$locale] = $I18N_T->msg('lang');
+      }
+		}
+	}
+	closedir($handle);
+	unset($I18N_T);
+}
+$userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
+foreach($langs as $k => $v)
+{
+	if ($REX_LOGIN->USER->hasPerm('be_lang['.$k.']')) $userperm_be_sprache_selected = $k;
+}
+
+
+
+
+
 // --------------------------------- FUNCTIONS
 
 if (rex_post('upd_profile_button', 'string'))
@@ -24,6 +67,15 @@ if (rex_post('upd_profile_button', 'string'))
   if ($REX['PSWFUNC']!='' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw')) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue('psw',$userpsw);
   $updateuser->setValue('description',$userdesc);
+
+	// set be langauage
+	$userperm_be_sprache = rex_request("userperm_be_sprache","string");
+	if($langs[$userperm_be_sprache] == "") $userperm_be_sprache = "default";
+	$userperm_be_sprache_selected = $userperm_be_sprache;
+	
+	$rights = preg_replace('@#be_lang\[([^\]]*)\]@' , '#be_lang['.$userperm_be_sprache.']', $REX_LOGIN->getValue("rights"));
+  $updateuser->setValue('rights',$rights);
+	
   $updateuser->addGlobalUpdateFields();
 
   if($updateuser->update())
@@ -31,6 +83,9 @@ if (rex_post('upd_profile_button', 'string'))
   else
     $warning = $updateuser->getError();
 }
+
+$sel_be_sprache->setSelected($userperm_be_sprache_selected);
+
 
 
 // ---------------------------------- ERR MSG
@@ -86,6 +141,14 @@ else
               <input class="rex-form-text" type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
             </p>
       		</div>
+
+					<div class="rex-form-row">
+          <p class="rex-form-col-a rex-form-select">
+            <label for="userperm-mylang">'.$I18N->msg('backend_language').'</label>
+            '.$sel_be_sprache->get().'
+          </p>
+			    </div>
+
       	</div>
       </fieldset>
 
