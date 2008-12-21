@@ -227,6 +227,11 @@ class OOCategory extends OORedaxo
     return null;
   }
 
+  function hasValue($value)
+  {
+    return parent::hasValue($value, array('cat_'));
+  }
+  
   /*
    * Static Method: Returns boolean if is category
    */

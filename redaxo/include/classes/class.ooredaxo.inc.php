@@ -62,34 +62,36 @@ class OORedaxo
    */
   function getValue($value)
   {
-    if (substr($value, 0, 1) != '_')
-    {
-      $value = "_".$value;
-    }
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in article::getValue
-    if($this->hasValue($value))
+    foreach(array('_', 'art_', 'cat_') as $prefix)
     {
-      return $this->$value;
+    	$val = $prefix . $value;
+    	if(isset($this->$val))
+    	{
+    	  return $this->$val;
+    	}
     }
-    elseif ($this->hasValue('art'. $value))
-    {
-      return $this->getValue('art'. $value);
-    }
-    elseif ($this->hasValue('cat'. $value))
-    {
-      return $this->getValue('cat'. $value);
-    }
+    return null;
   }
 
-  function hasValue($value)
+  function hasValue($value, $prefixes = array())
   {
-    if (substr($value, 0, 1) != '_')
+    static $values = null;
+        
+    if(!$values)
     {
-      $value = "_".$value;
+      $values = OOREDAXO::getClassVars();
     }
-    return isset($this->$value);
+    foreach(array_merge(array(''), $prefixes) as $prefix)
+    {
+      if (in_array($prefix . $value, $values))
+      {
+      	return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -357,7 +359,7 @@ class OORedaxo
 
   /*
    * Object Function:
-   * Return a array of all parentCategories for an Breadcrumb for instance
+   * Get an array of all parentCategories.
    * Returns an array of OORedaxo objects sorted by $prior.
    */
   function getParentTree()
@@ -384,6 +386,23 @@ class OORedaxo
     }
 
     return $return;
+  }
+  
+  /*
+   * Object Function:
+   * Checks if $anObj is in the parent tree of the object
+   */
+  function inParentTree($anObj)
+  {
+  	$tree = $this->getParentTree();
+  	foreach($tree as $treeObj)
+  	{
+  		if($treeObj == $anObj)
+  		{
+  			return true;
+  		}
+  	}
+  	return false;
   }
 
   /**
@@ -435,4 +454,3 @@ class OORedaxo
     return $this->_id.", ".$this->_name.", ". ($this->isOnline() ? "online" : "offline");
   }
 }
-?>

@@ -162,5 +162,10 @@ class OOArticle extends OORedaxo
     }
     return parent::getValue($value);
   }
+  
+  function hasValue($value)
+  {
+  	return parent::hasValue($value, array('art_'));
+  }
 }
 ?>
