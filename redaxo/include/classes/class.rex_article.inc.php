@@ -197,17 +197,13 @@ class rex_article
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in OOREDAXO::getValue
-    if($this->hasValue($value))
+    foreach(array('', 'art_', 'cat_') as $prefix)
     {
-      return $this->_getValue($value);
-    }
-    elseif ($this->hasValue('art_'. $value))
-    {
-      return $this->_getValue('art_'. $value);
-    }
-    elseif ($this->hasValue('cat_'. $value))
-    {
-      return $this->_getValue('cat_'. $value);
+      $val = $prefix . $value;
+      if($this->hasValue($val))
+      {
+        return $this->_getValue($val);
+      }
     }
     return '['. $value .' not found]';
   }
