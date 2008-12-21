@@ -137,10 +137,12 @@ class rex_var
   {
     switch($name)
     {
-      case 'prefix':
-      case 'suffix':
-      case 'ifempty':
-      case 'instead':
+      case '0'       : $name = 'id';
+    	case 'id'      :
+    	case 'prefix'  :
+      case 'suffix'  :
+      case 'ifempty' :
+      case 'instead' :
       case 'callback':
       $args[$name] = (string) $value;
     }
@@ -193,35 +195,22 @@ class rex_var
     $result = array ();
 
     $match = $this->matchVar($content, $varname);
+    
     foreach ($match as $param_str)
     {
-      $params = $this->splitString($param_str);
-
-      $id = '';
-      $args = array();
-      foreach ($params as $name => $value)
-      {
-        switch ($name)
-        {
-          case '0' :
-          case 'id' :
-            $id = (int) $value;
-            break;
-          default :
-            $args = $this->handleDefaultParam($varname, $args, $name, $value);
-        }
-      }
-
-      if ($id != '')
-      {
-        $result[] = array (
-          $param_str,
-          $id,
-          $args
-        );
-      }
+    	$args = array();
+    	$params = $this->splitString($param_str);
+    	foreach ($params as $name => $value)
+    	{
+        $args = $this->handleDefaultParam($varname, $args, $name, $value);
+    	}
+      
+      $result[] = array (
+        $param_str,
+        $args
+      );
     }
-
+    
     return $result;
   }
 
@@ -240,8 +229,21 @@ class rex_var
         $result[] = $match;
       }
     }
-
+    
     return $result;
+  }
+  
+  
+  
+  function extractArg($name, $args, $default = null)
+  {
+  	$val = $default;
+  	if(isset($args[$name]))
+  	{
+  		$val = $args[$name];
+  		unset($args[$name]);
+  	}
+  	return array($val, $args);
   }
 
   /**
@@ -270,5 +272,3 @@ class rex_var
     return rex_request('function', 'string') == 'delete';
   }
 }
-
-?>

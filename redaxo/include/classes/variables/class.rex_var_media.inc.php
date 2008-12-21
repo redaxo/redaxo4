@@ -123,6 +123,8 @@ class rex_var_media extends rex_var
       foreach ($matches as $match)
       {
         list ($param_str, $id, $args) = $match;
+        list ($id, $args) = $this->extractArg('id', $args, 0);
+        
 
         if ($id < 11 && $id > 0)
         {
@@ -156,8 +158,9 @@ class rex_var_media extends rex_var
       $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $args) = $match;
-
+        list ($param_str, $args) = $match;
+        list ($id, $args) = $this->extractArg('id', $args, 0);
+        
         if ($id < 11 && $id > 0)
         {
         	$category = '';
@@ -191,8 +194,9 @@ class rex_var_media extends rex_var
       $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $args) = $match;
-
+        list ($param_str, $args) = $match;
+        list ($id, $args) = $this->extractArg('id', $args, 0);
+        
         if ($id > 0 && $id < 11)
         {
           // Mimetype ausgeben
@@ -232,8 +236,9 @@ class rex_var_media extends rex_var
       $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $args) = $match;
-
+        list ($param_str, $args) = $match;
+        list ($id, $args) = $this->extractArg('id', $args, 0);
+        
         if ($id > 0 && $id < 11)
         {
           $replace = $this->getValue($sql, 'filelist' . $id);

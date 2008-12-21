@@ -31,12 +31,16 @@ class rex_var_template extends rex_var
 
     foreach ($matches as $match)
     {
-      list ($param_str, $template_id, $args) = $match;
-
-      $template = new rex_template($template_id);
-      $replace = $template->getTemplate();
-      $replace = $this->handleGlobalVarParams($var, $args, $replace);
-      $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
+      list ($param_str, $args) = $match;      
+      list ($template_id, $args) = $this->extractArg('id', $args, 0);
+      
+      if($template_id > 0)
+      {
+	      $template = new rex_template($template_id);
+	      $replace = $template->getTemplate();
+	      $replace = $this->handleGlobalVarParams($var, $args, $replace);
+	      $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
+      }
     }
 
     return $content;
