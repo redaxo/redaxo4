@@ -24,12 +24,14 @@ Wichtige Änderungen:
 Version 4.2.0 (2008-XX-XX)
 
   * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
-  * Frontendcontroller umbenennbar "index.php" (Jan.Kristinus)
-  * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert (Jan.Kristinus)
-  * Templateverwaltung hat nun immer eine ID in der Liste
-  * OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab] 
-    + siehe http://forum.redaxo.de/ftopic9816.html
-    - OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
+  * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
+  * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert [Jan.Kristinus]
+  * Template/Module/Benutzerverwaltung hat nun immer eine ID in der Liste [Jan.Kristinus]
+  * OOFramework:
+    - OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab] 
+      + siehe http://forum.redaxo.de/ftopic9816.html
+      + OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
+    - neu: OOCategory->inParentTree() [Markus.Staab]
   * JQuery update auf 1.2.6 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
@@ -61,6 +63,8 @@ Version 4.2.0 (2008-XX-XX)
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * rexVars:
     - REX_LINKLIST_BUTTON[] implementiert [BerserkerXP, Markus.Staab]
+    - REX_CATEGORY[] implementiert [Markus.Staab]
+    - REX_ARTICLE_VARS[] entfernt, jetzt ueber REX_ARTICLE[field=xyz] moeglich [Markus.Staab]
     - prefix, suffix, instead, ifempty, callback als globale rexVar Argumente [Markus.Staab]
     - preview, types Argumente bei REX_MEDIA/LIST_BUTTON
   * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
