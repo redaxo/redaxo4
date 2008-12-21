@@ -305,7 +305,7 @@ function rex_redirect($article_id, $clang = '', $params = array())
 function rex_split_string($string)
 {
   $spacer = '@@@REX_SPACER@@@';
-  $result = array ();
+  $result = array();
 
   // TODO mehrfachspaces hintereinander durch einfachen ersetzen
   $string = ' ' . trim($string) . ' ';
@@ -313,7 +313,7 @@ function rex_split_string($string)
   // Strings mit Quotes heraussuchen
   $pattern = '!(["\'])(.*)\\1!U';
   preg_match_all($pattern, $string, $matches);
-  $quoted = isset ($matches[2]) ? $matches[2] : array ();
+  $quoted = isset ($matches[2]) ? $matches[2] : array();
 
   // Strings mit Quotes maskieren
   $string = preg_replace($pattern, $spacer, $string);
@@ -347,12 +347,13 @@ function rex_split_string($string)
         continue;
 
       $variable = explode('=', $part);
-      $var_name = $variable[0];
-      $var_value = $variable[1];
 
-      if (empty ($var_name))
+      if (empty ($variable[0]) || empty ($variable[1]))
         continue;
 
+      $var_name = $variable[0];
+      $var_value = $variable[1];
+      
       if ($var_value == $spacer)
       {
         $var_value = array_shift($quoted);
