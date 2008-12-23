@@ -19,8 +19,11 @@ if (isset($REX['ADDON']['status'])) {
 
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {
-  // Warnungen unterdrücken ist schneller als ein file_exists
-  @include $REX['INCLUDE_PATH'].'/addons/'.$addonName.'/config.inc.php';
+  $addonConfig = $REX['INCLUDE_PATH'].'/addons/'.$addonName.'/config.inc.php';
+  if(file_exists($addonConfig))
+  {
+    require $addonConfig;
+  }
 }
 
 // ----- all addons configs included
