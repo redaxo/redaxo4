@@ -36,14 +36,15 @@ class rex_var_template extends rex_var
       
       if($template_id > 0)
       {
-	      $template = new rex_template($template_id);
-	      $replace = $template->getTemplate();
-	      $replace = $this->handleGlobalVarParams($var, $args, $replace);
-	      $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
+        $varname = '$__rex_tpl'. $template_id;
+        $tpl = '<?php
+        '. $varname .' = new rex_template('. $template_id .');
+        echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getTemplate()') .'
+        ?>';
+	      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
       }
     }
 
     return $content;
   }
 }
-?>

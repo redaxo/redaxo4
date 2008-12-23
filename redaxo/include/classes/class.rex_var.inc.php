@@ -184,6 +184,17 @@ class rex_var
 
     return $prefix . $value . $suffix;
   }
+  
+  /**
+   * Parameter aus args zur Laufzeit auf den Wert einer Variablen anwenden.
+   * Wichtig für Variablen, die Variable ausgaben haben.
+   */
+  function handleGlobalVarParamsSerialized($varname, $args, $value)
+  {
+    $varname = str_replace('"', '\"', $varname);
+    $args = str_replace('"', '\"', serialize($args));
+    return 'rex_var::handleGlobalVarParams("'. $varname .'", unserialize("'. $args .'"), '. $value .');';
+  }
 
   /**
    * Findet die Parameter der Variable $varname innerhalb des Strings $content.

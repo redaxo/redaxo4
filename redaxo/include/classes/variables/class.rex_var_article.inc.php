@@ -76,17 +76,17 @@ class rex_var_article extends rex_var
 	      {
 	        if(OOArticle::hasValue($field))
 	        {
-	          $tpl = '<?php echo $this->getValue(\''. addslashes($field) .'\'); ?>';
+	          $tpl = '<?php echo '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getValue(\''. addslashes($field) .'\')') .' ?>';
 	        }
 	      }
 	      // REX_ARTICLE[] keine id -> aktuellen artikel verwenden
-	      else if ($param_str == '')
+	      else
 	      {
 	      	if($replaceInTemplate)
 	      	{
 	          // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
 	          // => endlossschleife
-	          $tpl = '<?php echo $this->getArticle('. $ctype .'); ?>';
+	          $tpl = '<?php echo '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getArticle('. $ctype .')') .' ?>';
 	      	}
 	      }
       }
@@ -102,7 +102,7 @@ class rex_var_article extends rex_var
 	          $varname = '$__rex_art'. $article_id .'_'. $clang .'_'. $field;
 	          $tpl = '<?php
 	          '. $varname .' = OOArticle::getArticleById('. $article_id .', '. $clang .');
-	          echo '. $varname .'->getValue(\''. addslashes($field) .'\');
+	          if('. $varname .') echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .'
 	          ?>';
           }
         }
@@ -116,7 +116,7 @@ class rex_var_article extends rex_var
 	        '. $varname .' = new rex_article();
 	        '. $varname .'->setArticleId('. $article_id .');
 	        '. $varname .'->setClang('. $clang .');
-	        echo '. $varname .'->getArticle('. $ctype .');
+          echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getArticle('. $ctype .')') .'
 	        ?>';
         }
       }

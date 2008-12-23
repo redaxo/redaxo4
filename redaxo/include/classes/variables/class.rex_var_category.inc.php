@@ -72,7 +72,7 @@ class rex_var_category extends rex_var
           $tpl = '<?php
           '. $varname_art .' = OOArticle::getArticleById('. $article_id .', '. $clang .');
           '. $varname_cat .' = '. $varname_art .'->getCategory();
-          if('. $varname_cat .') echo '. $varname_cat .'->getValue(\''. addslashes($field) .'\');
+          if('. $varname_cat .') echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .';
           ?>';
         }
       }
@@ -83,12 +83,12 @@ class rex_var_category extends rex_var
         {
           if(OOCategory::hasValue($field))
           {
-	        	// bezeichner wählen, der keine variablen
+            // bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
 	          $varname = '$__rex_cat'. $category_id .'_'. $clang .'_'. $field;
 	          $tpl = '<?php
 	          '. $varname .' = OOCategory::getCategoryById('. $category_id .', '. $clang .');
-	          echo '. $varname .'->getValue(\''. addslashes($field) .'\');
+            if('. $varname .') echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .';	          
 	          ?>';
           }
         }
