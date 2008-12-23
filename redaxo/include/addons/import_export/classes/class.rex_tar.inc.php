@@ -268,4 +268,3 @@ class rex_tar extends tar
       return TRUE;
   }
 }
-?>

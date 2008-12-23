@@ -53,4 +53,3 @@ require $Basedir .'/field.inc.php';
 
 // Include Footer
 require $REX['INCLUDE_PATH'].'/layout/bottom.php';
-?>

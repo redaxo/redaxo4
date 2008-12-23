@@ -21,4 +21,3 @@ function image_resize_brand(& $src_im)
 
   $brand->destroyImage();
 }
-?>

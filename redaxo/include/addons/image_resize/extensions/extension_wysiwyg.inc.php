@@ -53,4 +53,3 @@ function rex_resize_wysiwyg_output($params)
   }
   return $content;
 }
-?>

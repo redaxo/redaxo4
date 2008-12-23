@@ -70,4 +70,3 @@ if ($REX['REDAXO'])
     rex_register_extension('MEDIA_LIST_QUERY', 'rex_a256_search_mpool_query');
   }
 }
-?>

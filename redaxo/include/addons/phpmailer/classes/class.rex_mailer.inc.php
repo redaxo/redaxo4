@@ -44,4 +44,3 @@ class rex_mailer extends PHPMailer
     parent :: SetLanguage($lang_type, $lang_path);
   }
 }
-?>

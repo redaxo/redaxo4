@@ -304,21 +304,5 @@ class rex_a62_tableExpander extends rex_form
       'name LIKE "'. $this->metaPrefix .'%"',
       'prior, updatedate '. $addsql
     );
-//    $sql = new rex_sql();
-//    $sql->debugsql =& $this->debug;
-//    $sql->setQuery('SELECT field_id FROM '. $this->tableName .' WHERE name LIKE "'. $this->metaPrefix .'%" ORDER BY prior, updatedate '. $addsql);
-//
-//    $updateSql = new rex_sql();
-//    $updateSql->debugsql =& $this->debug;
-//
-//    for($i = 0; $i < $sql->getRows(); $i++)
-//    {
-//      $updateSql->setTable($this->tableName);
-//      $updateSql->setValue('prior', $i+1);
-//      $updateSql->setWhere('name LIKE "'. $this->metaPrefix .'%" AND field_id = '. $sql->getValue('field_id'));
-//      $updateSql->update();
-//      $sql->next();
-//    }
   }
 }
-?>

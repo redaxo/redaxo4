@@ -552,5 +552,3 @@ class tar {
     return true;
   }
 }
-
-?>

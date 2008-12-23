@@ -67,5 +67,3 @@ function rex_a62_metainfo_cleanup($params)
 
   rex_generateAll();
 }
-
-?>

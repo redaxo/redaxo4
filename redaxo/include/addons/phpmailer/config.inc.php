@@ -24,5 +24,3 @@ $I18N_A93 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lan
 
 require_once($REX['INCLUDE_PATH']. '/addons/phpmailer/classes/class.phpmailer.php');
 require_once($REX['INCLUDE_PATH']. '/addons/phpmailer/classes/class.rex_mailer.inc.php');
-
-?>

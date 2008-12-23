@@ -201,5 +201,3 @@ function a62_meta_table($prefix)
 
   return false;
 }
-
-?>

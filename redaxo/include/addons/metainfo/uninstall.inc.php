@@ -15,5 +15,3 @@ $REX['ADDON']['install']['metainfo'] = 0;
 require_once ($REX['INCLUDE_PATH'] . '/addons/metainfo/extensions/extension_cleanup.inc.php');
 
 rex_a62_metainfo_cleanup(array('force' => true));
-
-?>

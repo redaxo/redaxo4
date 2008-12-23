@@ -25,4 +25,3 @@ function rex_a79_textile_instance()
   
   return $instance;
 } 
-?>

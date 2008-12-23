@@ -14,5 +14,3 @@ $REX['ADDON']['author'][$mypage] = "Jan Kristinus";
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 $REX['PERM'][] = 'import[]';
-
-?>

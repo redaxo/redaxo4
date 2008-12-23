@@ -128,4 +128,3 @@ if (!function_exists('readSubFolders'))
       return $folders;
    }
 }
-?>

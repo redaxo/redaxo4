@@ -61,5 +61,3 @@ elseif ($func == 'edit' || $func == 'add')
 
   $form->show();
 }
-
-?>

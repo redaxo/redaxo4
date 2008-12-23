@@ -234,4 +234,3 @@ if (!function_exists('readSqlDump'))
       return false;
    }
 }
-?>

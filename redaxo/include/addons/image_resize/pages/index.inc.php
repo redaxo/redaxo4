@@ -53,5 +53,3 @@ switch($subpage)
 
 require $REX['INCLUDE_PATH'] . '/addons/image_resize/pages/'.$subpage.'.inc.php';
 require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
-
-?>

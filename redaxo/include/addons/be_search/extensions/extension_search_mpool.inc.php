@@ -71,5 +71,3 @@ function rex_a256_search_mpool_query($params)
 
   return $qry;
 }
-
-?>

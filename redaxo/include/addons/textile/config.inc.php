@@ -42,5 +42,3 @@ if ($REX['REDAXO'])
     create_function('$params', 'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\'."\n";')
   );
 }
-
-?>

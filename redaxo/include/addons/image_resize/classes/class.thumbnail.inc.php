@@ -492,5 +492,3 @@ class rex_thumbnail
 	  exit ();
 	}
 }
-
-?>

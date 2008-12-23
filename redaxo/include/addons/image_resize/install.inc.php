@@ -39,5 +39,3 @@ if ($error != '')
   $REX['ADDON']['installmsg']['image_resize'] = $error;
 else
   $REX['ADDON']['install']['image_resize'] = true;
-
-?>

@@ -209,4 +209,3 @@ function rex_a256_search_structure($params)
 
   return $search_bar . $params['subject'];
 }
-?>

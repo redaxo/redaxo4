@@ -12,5 +12,3 @@
 
 $REX['ADDON']['install']['be_search'] = 0;
 // ERRMSG IN CASE: $REX['ADDON']['installmsg']['be_search'] = "Deinstallation fehlgeschlagen weil...";
-
-?>

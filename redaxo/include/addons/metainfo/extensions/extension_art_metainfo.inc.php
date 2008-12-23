@@ -49,5 +49,3 @@ function rex_a62_metainfo_form($params)
 
   return $params['subject'] . _rex_a62_metainfo_form('art_', $params, '_rex_a62_metainfo_art_handleSave');
 }
-
-?>

@@ -213,5 +213,3 @@ function rex_a79_help_tables()
       )
   ));
 }
-
-?>

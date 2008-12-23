@@ -28,4 +28,3 @@ function compareFiles($file_a, $file_b)
     
     return ( $time_a > $time_b) ? -1 : 1;
 }
-?>

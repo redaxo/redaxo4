@@ -50,5 +50,3 @@ function image_resize_sepia(&$src_im, $quality = 60 )
 	}
 	$src_im = $dst_im;
 }
-
-?>

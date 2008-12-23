@@ -109,5 +109,3 @@ function rex_a62_metainfo_form($params)
   else
     return $params['subject'] . $result;
 }
-
-?>

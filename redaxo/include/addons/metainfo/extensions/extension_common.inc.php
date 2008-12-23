@@ -573,5 +573,3 @@ function rex_a62_media_is_in_use($params)
 
   return $query;
 }
-
-?>

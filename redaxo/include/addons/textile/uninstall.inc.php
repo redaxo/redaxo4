@@ -10,4 +10,3 @@
  */
 
 $REX['ADDON']['install']['textile'] = 0;
-?>

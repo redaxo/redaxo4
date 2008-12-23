@@ -471,7 +471,5 @@ else
   </div><!-- END rex-area-col-b -->
 </div><!-- END rex-area -->
 
-
-
-
-<?php require $REX['INCLUDE_PATH']."/layout/bottom.php"; ?>
+<?php
+require $REX['INCLUDE_PATH']."/layout/bottom.php";

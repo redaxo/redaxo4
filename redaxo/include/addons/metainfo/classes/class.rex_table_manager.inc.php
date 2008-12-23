@@ -73,4 +73,3 @@ class rex_a62_tableManager
     return $sql->setQuery($qry);
   }
 }
-?>

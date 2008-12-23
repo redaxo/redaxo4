@@ -1215,5 +1215,3 @@ class Textile
 
 
 } // end class
-
-?>

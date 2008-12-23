@@ -133,5 +133,3 @@ function image_resize_sharpen(&$img, $amount = 80, $radius = 0.5, $threshold = 3
     imagedestroy($imgBlur); 
     
 }
-
-?>
