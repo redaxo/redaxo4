@@ -11,6 +11,8 @@ rex_title($I18N->msg('title_templates'), '');
 $OUT = TRUE;
 
 $function = rex_request('function', 'string');
+$template_id  = rex_request('template_id', 'int');
+$save = rex_request('save','string');
 
 $info = '';
 $warning = '';
@@ -65,7 +67,7 @@ if ($function == "delete") {
 
 if ($function == "add" or $function == "edit") {
 
-  if (isset ($save) and $save == "ja") {
+  if ($save == "ja") {
 
     $active = rex_post("active", "int");
     $templatename = rex_post("templatename", "string");
