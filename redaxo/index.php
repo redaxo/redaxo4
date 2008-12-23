@@ -103,24 +103,28 @@ else
   } else
   {
   	
-    // login ok
+  	// --- page herausfinden
+    $page = strtolower(rex_request('page', 'string'));
+		if($page == "")
+	 	{
+	  	$page = $REX_LOGIN->getStartpage();
+	  	if($page == "" || $page == "default") $page = $REX['START_PAGE'];
+    }
+  	
+    // --- login ok -> redirect
     if ($REX_ULOGIN != "")
     {
-      // redirect to startpage, after successfull login
-  		header('Location: '.$REX["FRONTEND_FILE"].'?page='. $REX['START_PAGE']);
+      header('Location: index.php?page='. $page);
   		exit;
     }
 
 		// Userspezifische Sprache einstellen, falls gleicher Zeichensatz
   	$lang = $REX_LOGIN->getLanguage();
-  	$I18N_T = rex_create_lang($lang);
+  	$I18N_T = rex_create_lang($lang,FALSE);
   	if ($I18N->msg('htmlcharset') == $I18N_T->msg('htmlcharset')) $I18N = rex_create_lang($lang);
-
 
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
-
-    $page = strtolower(rex_request('page', 'string', $REX['START_PAGE']));
 
     // --- addon page check
     if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))

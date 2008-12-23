@@ -302,6 +302,7 @@ user_caption = List of users
 user_summary = List of all users
 user_status = Status
 backend_language = Backend language
+startpage = Startpage
 
 # redaxo\include\pages\special.inc.php
 articles_generated = Articles and Templates regenerated, cache deleted!

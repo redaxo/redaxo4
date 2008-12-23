@@ -43,7 +43,6 @@ echo '
   <fieldset class="rex-form-col-1">
     <legend>Login</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
-    <input type="hidden" name="page" value="structure" />
     
     <div class="rex-form-wrapper">
     

@@ -32,6 +32,12 @@ mulselect module
 
 */
 
+
+
+
+
+
+
 $user_id = rex_request('user_id', 'int');
 $info = '';
 $warning = '';
@@ -198,6 +204,30 @@ if ($handle = opendir($langpath))
 $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 
 
+// ----- welche startseite
+$sel_startpage = new rex_select;
+$sel_startpage->setStyle('class="rex-form-select"');
+$sel_startpage->setSize(1);
+$sel_startpage->setName("userperm_startpage");
+$sel_startpage->setId("userperm-startpage");
+$sel_startpage->addOption("default","");
+$startpages = array();
+$startpages['structure'] = array($I18N->msg('structure'),'');
+$startpages['profile'] = array($I18N->msg('profile'),'');
+foreach($REX['ADDON']['status'] as $k => $v)
+{
+	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k])) 
+	{
+		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
+	}
+}
+foreach($startpages as $k => $v)
+{
+  $sel_startpage->addOption($v[0],$k);
+}
+$userperm_startpage = rex_request('userperm_startpage', 'string');
+
+
 // zugriff auf module
 $sel_module = new rex_select;
 $sel_module->setMultiple(1);
@@ -311,15 +341,21 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   foreach($userperm_sprachen as $_perm)
     $perm .= '#clang['.$_perm.']';
 
-  // userperm mylang
+  // userperm_be_sprache
 	foreach($langs as $k => $v)
 	{
 		if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
 	}
 
+	// userperm_startpage
+	foreach($startpages as $k => $v)
+	{
+	  if($userperm_startpage == $k) $perm .= '#startpage['.$userperm_startpage.']';
+	}
+
   // userperm_module
   foreach($userperm_module as $_perm)
-    $perm .= '#module['.$_perm.']';
+    if($_perm != "") $perm .= '#module['.$_perm.']';
 
   $updateuser->setValue('rights',$perm.'#');
   $updateuser->update();
@@ -385,11 +421,19 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     foreach($userperm_sprachen as $_perm)
       $perm .= '#clang['.$_perm.']';
 
-    // userperm mylang
+    // userperm be sprache
 	  foreach($langs as $k => $v)
 	  {
 	    if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
 	  }
+
+    // userperm startpage
+	  foreach($startpages as $k => $v)
+	  {
+	    if($userperm_startpage == $k) $perm .= '#startpage['.$userperm_startpage.']';
+	  }
+
+
 
     // userperm_extra
     foreach($userperm_extra as $_perm)
@@ -450,9 +494,13 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     foreach($userperm_sprachen as $_perm)
       $sel_sprachen->setSelected($_perm);
 
-
+		// userperm_be_sprache
     if ($userperm_be_sprache == '') $userperm_be_sprache = 'default';
     $sel_be_sprache->setSelected($userperm_be_sprache);
+
+		// userperm_be_sprache
+    if ($userperm_startpage == '') $userperm_startpage = 'default';
+    $sel_startpage->setSelected($userperm_startpage);
 
     // userperm_cat
     foreach($userperm_cat as $_perm)
@@ -566,6 +614,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
 				if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
 			}
 			$sel_be_sprache->setSelected($userperm_be_sprache);
+
+			foreach($startpages as $k => $v)
+			{
+				if ($sql->hasPerm('startpage['.$k.']')) $userperm_startpage = $k;
+			}
+			$sel_startpage->setSelected($userperm_startpage);
 
 
       $userpsw = $sql->getValue($REX['TABLE_PREFIX'].'user.psw');
@@ -684,6 +738,20 @@ if ($FUNC_ADD != "" || $user_id > 0)
             '.$sel_be_sprache->get().'
           </p>
 		    </div>
+
+
+
+        <div class="rex-form-row">
+          <p class="rex-form-col-a rex-form-select">
+            <label for="userperm-startpage">'.$I18N->msg('startpage').'</label>
+            '. $sel_startpage->get() .'
+          </p>
+		    </div>
+
+
+
+
+
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
