@@ -76,4 +76,3 @@ class rex_var_globals extends rex_var
     return $content;
   }
 }
-?>

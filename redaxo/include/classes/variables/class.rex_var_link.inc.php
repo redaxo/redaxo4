@@ -316,4 +316,3 @@ class rex_var_link extends rex_var
     return $link;
   }
 }
-?>

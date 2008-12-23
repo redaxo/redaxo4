@@ -160,4 +160,3 @@ class rex_var_value extends rex_var
     return $this->_matchValue($sql, $content, 'REX_IS_VALUE', false, false, false, true);
   }
 }
-?>

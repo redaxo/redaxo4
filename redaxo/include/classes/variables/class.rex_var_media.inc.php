@@ -359,4 +359,3 @@ class rex_var_media extends rex_var
   }
 
 }
-?>
