@@ -227,4 +227,3 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
   return $lang_object;
 
 }
-?>

@@ -1081,5 +1081,3 @@ class rex_list
     echo $this->get();
   }
 }
-
-?>

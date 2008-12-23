@@ -923,5 +923,3 @@ class rex_article
     return $content;
   }
 }
-
-?>

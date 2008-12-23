@@ -75,5 +75,3 @@ echo '
 <!-- *** OUTPUT OF LOGIN-FORM - END *** -->
 
 ';
-
-?>

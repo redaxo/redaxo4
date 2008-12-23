@@ -28,5 +28,3 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
 
 // ----- all addons configs included
 rex_register_extension_point( 'ADDONS_INCLUDED');
-
-?>

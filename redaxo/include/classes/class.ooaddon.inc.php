@@ -87,4 +87,3 @@ class OOAddon
     return isset($REX['ADDON'][$property][$addon]) ? $REX['ADDON'][$property][$addon] : $default;
   }
 }
-?>

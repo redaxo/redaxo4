@@ -26,5 +26,3 @@ switch($subpage)
 }
 
 require $REX['INCLUDE_PATH'].'/pages/'.$file;
-
-?>

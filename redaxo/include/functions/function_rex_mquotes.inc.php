@@ -71,12 +71,4 @@ if (!ini_get('register_globals'))
         if (isset($_POST) and $_POST) extract($_POST);
         if (isset($_SERVER) and $_SERVER) extract($_SERVER);
         if (isset($_SESSION) and $_SESSION) extract($_SESSION);
-}else
-{
-        // register_globals = on;
-        
 }
-
-
-
-?>

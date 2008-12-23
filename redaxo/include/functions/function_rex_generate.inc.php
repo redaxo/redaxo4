@@ -625,5 +625,3 @@ function rex_addslashes($string, $flag = '\\\'\"')
   }
   return $string;
 }
-
-?>

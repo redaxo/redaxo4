@@ -471,4 +471,3 @@ function rex_search_addon_page($needle, $haystack = null)
 
   return false;
 }
-?>

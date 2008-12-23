@@ -198,4 +198,3 @@ function _rex_cast_var($var, $vartype)
   
   return $var;
 }
-?>

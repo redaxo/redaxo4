@@ -194,4 +194,3 @@ if ($subpage == '')
   echo '</tbody>
   		</table>';
 }
-?>

@@ -27,5 +27,3 @@ function rex_startScriptTime()
 }
 
 rex_startScripttime();
-
-?>

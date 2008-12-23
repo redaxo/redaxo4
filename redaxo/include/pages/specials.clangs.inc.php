@@ -181,4 +181,3 @@ if ($func == 'addclang' || $func == 'editclang')
       </form>
       </div>';
 }
-?>

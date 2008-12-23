@@ -71,5 +71,3 @@ ob_end_clean();
 
 // ----- inhalt ausgeben
 rex_send_article($REX_ARTICLE, $CONTENT, 'frontend');
-
-?>

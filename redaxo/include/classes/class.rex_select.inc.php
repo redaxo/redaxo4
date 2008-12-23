@@ -358,4 +358,3 @@ class rex_category_select extends rex_select
     }
   }
 }
-?>

@@ -578,5 +578,3 @@ function rex_structure_articleStatusTypes()
 
   return $artStatusTypes;
 }
-
-?>

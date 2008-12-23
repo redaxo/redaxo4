@@ -192,4 +192,3 @@ function rex_check_callable($_callable)
     trigger_error('rexCallFunc: No such method "'.$_method_name.'" in class "'.get_class($_object).'"!', E_USER_ERROR);
   }
 }
-?>

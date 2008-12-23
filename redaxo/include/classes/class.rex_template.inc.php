@@ -90,4 +90,3 @@ class rex_template
     return @unlink($file);
   }
 }
-?>

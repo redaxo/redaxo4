@@ -222,5 +222,3 @@ ob_end_clean();
 
 // ----- inhalt ausgeben
 rex_send_article(null, $CONTENT, 'backend');
-
-?>

@@ -211,4 +211,3 @@ function rex_send_checksum($md5)
 {
   header('Content-MD5: '. $md5);
 }
-?>

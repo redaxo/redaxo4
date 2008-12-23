@@ -418,19 +418,14 @@ class rex_backend_login extends rex_login
     }
 	}
 
-  function getStartpage()
+	function getStartpage()
 	{
-		if (preg_match_all('@startpage\[([^\]]*)\]@' , $this->getValue("rights"), $matches))
-    {
-      foreach ($matches[1] as $match)
-      {
-        return $match;
-      }
-    }
+  	if (preg_match_all('@startpage\[([^\]]*)\]@' , $this->getValue("rights"), $matches))
+  	{
+    	foreach ($matches[1] as $match)
+    	{
+      	return $match;
+    	}
+  	}
 	}
-
-
-
-  
 }
-?>

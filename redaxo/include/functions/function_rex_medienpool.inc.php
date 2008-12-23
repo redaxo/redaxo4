@@ -505,5 +505,3 @@ function rex_medienpool_Syncform($rex_file_category)
 
   return rex_medienpool_Mediaform($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false, false);
 }
-
-?>

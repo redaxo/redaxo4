@@ -886,4 +886,3 @@ if ($article->getRows() == 1)
 
   }
 }
-?>

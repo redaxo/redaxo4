@@ -138,4 +138,3 @@ function rex_apache_rewrite($id, $name, $clang, $params, $divider)
 
   return $id.'-'.$clang.'-'.$name.'.html'.$params;
 }
-?>

@@ -121,5 +121,3 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
 if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
-
-?>

@@ -240,4 +240,3 @@ class OOCategory extends OORedaxo
     return is_object($category) && is_a($category, 'oocategory');
   }
 }
-?>

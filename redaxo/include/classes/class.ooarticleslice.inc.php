@@ -375,7 +375,4 @@ class OOArticleSlice
   {
     return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
   }
-
-
 }
-?>

@@ -438,4 +438,3 @@ class OOMediaCategory
     return $this->getMedia();
   }
 }
-?>

@@ -879,5 +879,3 @@ class rex_sql
     return is_object($object) && is_a($object, 'rex_sql');
   }
 }
-
-?>

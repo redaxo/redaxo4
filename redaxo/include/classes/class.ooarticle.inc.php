@@ -168,4 +168,3 @@ class OOArticle extends OORedaxo
   	return parent::hasValue($value, array('art_'));
   }
 }
-?>

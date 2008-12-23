@@ -389,4 +389,3 @@ function buildUtf8LangFile($langFile)
     fclose($hdl);
   }
 }
-?>

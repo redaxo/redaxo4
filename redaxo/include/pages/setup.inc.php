@@ -997,5 +997,3 @@ if ($checkmodus == 5)
 
 }
 echo '</div>';
-
-?>

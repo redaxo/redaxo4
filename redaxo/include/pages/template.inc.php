@@ -277,4 +277,3 @@ if ($OUT)
 
   $list->show();
 }
-?>

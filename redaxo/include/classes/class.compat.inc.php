@@ -183,5 +183,3 @@ function rex_parseArticleName($name)
 {
   return rex_parse_article_name($name);
 }
-
-?>

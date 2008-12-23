@@ -423,4 +423,3 @@ if ($OUT)
   echo '
     </table>';
 }
-?>

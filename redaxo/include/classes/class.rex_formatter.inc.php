@@ -389,5 +389,3 @@ function truncate($string, $length = 80, $etc = '...', $break_words = false)
   else
     return $string;
 }
-
-?>

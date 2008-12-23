@@ -790,5 +790,3 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
     rex_generateLists($re_id);
   }
 }
-
-?>

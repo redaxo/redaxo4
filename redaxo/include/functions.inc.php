@@ -112,5 +112,3 @@ if(empty($REX['CLANG'][$clang]))
 
 // ----- INCLUDE ADDONS
 include_once $REX['INCLUDE_PATH']."/addons.inc.php";
-
-?>

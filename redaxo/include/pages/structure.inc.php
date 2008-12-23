@@ -730,4 +730,3 @@ if ($category_id > -1)
 echo '
 <!-- *** OUTPUT ARTICLES - END *** -->
 ';
-?>

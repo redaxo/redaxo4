@@ -927,6 +927,3 @@ if (isset($SHOW) and $SHOW)
 
   $list->show();
 }
-
-
-?>

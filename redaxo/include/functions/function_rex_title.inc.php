@@ -195,4 +195,3 @@ function rex_get_subtitle($subline, $attr = '')
   // \n aus Quellcode formatierungsgründen
   return $subtitle_str;
 }
-?>
