@@ -1,19 +1,8 @@
 <?php
-
-/**
- * PHPMailer Addon
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
- *
- * @package redaxo4
- * @version $Id: class.smtp.php,v 1.3 2008/03/11 16:04:10 kills Exp $
- */
-
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 2.0.0                                                          |
+|   Version: 2.0.3                                                          |
 |   Contact: via sourceforge.net support pages (also www.codeworxtech.com)  |
 |      Info: http://phpmailer.sourceforge.net                               |
 |   Support: http://sourceforge.net/projects/phpmailer/                     |
@@ -1049,7 +1038,7 @@ class SMTP
    */
   function get_lines() {
     $data = "";
-    while($str = @fgets($this->smtp_conn,515)) {
+    while($str == @fgets($this->smtp_conn,515)) {
       if($this->do_debug >= 4) {
         echo "SMTP -> get_lines(): \$data was \"$data\"" .
                  $this->CRLF;
@@ -1069,4 +1058,5 @@ class SMTP
 
 }
 
-?>
+
+ ?>
