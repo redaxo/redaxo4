@@ -23,6 +23,7 @@ Wichtige Änderungen:
 
 Version 4.2.0 (2008-XX-XX)
 
+  * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
   * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
   * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
   * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert [Jan.Kristinus]
