@@ -33,6 +33,8 @@ $OUT = TRUE;
 
 $action_id = rex_request('action_id', 'int');
 $function = rex_request('function', 'string');
+$save = rex_request('save', 'int');
+$goon = rex_request('goon', 'string');
 
 $info = '';
 $warning = '';
@@ -90,7 +92,7 @@ if ($function == "add" or $function == "edit")
   $presavestatus = 0;
   $postsavestatus = 0;
 
-  if (isset ($save) and $save == "ja")
+  if ($save == "1")
   {
     $faction = new rex_sql;
 
@@ -149,7 +151,7 @@ if ($function == "add" or $function == "edit")
     }
   }
 
-  if (!isset ($save) or $save != 'ja')
+  if ($save != '1')
   {
     if ($function == 'edit')
     {
@@ -231,7 +233,7 @@ if ($function == "add" or $function == "edit")
 	          	<input type="hidden" name="page" value="module" />
   	        	<input type="hidden" name="subpage" value="actions" />
           		<input type="hidden" name="function" value="' . $function . '" />
-		          <input type="hidden" name="save" value="ja" />
+		          <input type="hidden" name="save" value="1" />
     		      <input type="hidden" name="action_id" value="' . $action_id . '" />
     		      
     		      <div class="rex-form-row">

@@ -8,13 +8,23 @@
 $OUT = TRUE;
 
 $function = rex_request('function', 'string');
+$function_action = rex_request('function_action', 'string');
+$save = rex_request('save','string');
+$modul_id = rex_request('modul_id','int');
+$action_id = rex_request('action_id','int');
+$iaction_id = rex_request('iaction_id','int');
+$mname = rex_request('mname','string');
+$eingabe = rex_request('eingabe','string');
+$ausgabe = rex_request('ausgabe','string');
+$goon = rex_request('goon','string');
+$add_action = rex_request('add_action','string');
 
 $info = '';
 $warning = '';
 $warning_block = '';
 
 // ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
-if (!empty($add_action))
+if ($add_action != "")
 {
   $action = new rex_sql();
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
@@ -24,14 +34,14 @@ if (!empty($add_action))
   if($action->insert())
   {
     $info = $I18N->msg('action_taken');
-    $goon = 'ja';
+    $goon = '1';
   }
   else
   {
     $warning = $action->getErrro();
   }
 }
-elseif (isset($function_action) and $function_action == 'delete')
+elseif ($function_action == 'delete')
 {
   $action = new rex_sql();
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
@@ -87,7 +97,7 @@ if ($function == 'delete')
 
 if ($function == 'add' or $function == 'edit')
 {
-  if (isset($save) and $save == 'ja')
+  if ($save == '1')
   {
     $modultyp = new rex_sql;
 
@@ -146,9 +156,9 @@ if ($function == 'add' or $function == 'edit')
       }
     }
 
-    if (isset($goon) and $goon != '')
+    if ($goon != '')
     {
-      $save = 'nein';
+      $save = '0';
     } else
     {
       $function = '';
@@ -157,7 +167,7 @@ if ($function == 'add' or $function == 'edit')
 
 
 
-  if (!isset($save) or $save != 'ja')
+  if ($save != '1')
   {
     if (!isset($modul_id)) $modul_id = '';
     if (!isset($mname)) $mname = '';
@@ -200,7 +210,7 @@ if ($function == 'add' or $function == 'edit')
       	  <div class="rex-form-wrapper">
 						<input type="hidden" name="page" value="module" />
 						<input type="hidden" name="function" value="'.$function.'" />
-						<input type="hidden" name="save" value="ja" />
+						<input type="hidden" name="save" value="1" />
 						<input type="hidden" name="category_id" value="0" />
 						<input type="hidden" name="modul_id" value="'.$modul_id.'" />
 						
