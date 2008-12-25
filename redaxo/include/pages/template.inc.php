@@ -10,33 +10,33 @@ rex_title($I18N->msg('title_templates'), '');
 
 $OUT = TRUE;
 
-$function = rex_request('function', 'string');
+$function     = rex_request('function', 'string');
 $template_id  = rex_request('template_id', 'int');
-$save = rex_request('save','string');
+$save         = rex_request('save','string');
+$goon         = rex_request('goon', 'string');
 
 $info = '';
 $warning = '';
 
-if ($function == "delete") {
+if ($function == "delete")
+{
   $del = new rex_sql;
   $del->setQuery("SELECT " . $REX['TABLE_PREFIX'] . "article.id," . $REX['TABLE_PREFIX'] . "template.name FROM " . $REX['TABLE_PREFIX'] . "article
     LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id
     WHERE " . $REX['TABLE_PREFIX'] . "article.template_id='$template_id' LIMIT 0,10");
 
-  // TODO Template mit ID 1 nicht löschbar? Aktive Templates sollten nicht löschbar sein!
-  if ($template_id == 1) {
-    $warning = $I18N->msg("cant_delete_default_template");
-  }else
-  {
-    if ($del->getRows() > 0) {
-      $warning = $I18N->msg("cant_delete_template_because_its_in_use", htmlspecialchars($del->getValue($REX['TABLE_PREFIX'] . "template.name")));
-    } else {
-      $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
-      rex_deleteDir($REX['INCLUDE_PATH'] . "/generated/templates/" . $template_id . ".template", 0);
-      $info = $I18N->msg("template_deleted");
-    }
+  if ($del->getRows() > 0) {
+    $warning = $I18N->msg("cant_delete_template_because_its_in_use", htmlspecialchars($del->getValue($REX['TABLE_PREFIX'] . "template.name")));
   }
-}elseif ($function == "edit") {
+  else
+  {
+    $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
+    rex_deleteDir($REX['INCLUDE_PATH'] . "/generated/templates/" . $template_id . ".template", 0);
+    $info = $I18N->msg("template_deleted");
+  }
+}
+elseif ($function == "edit")
+{
 
   $legend = $I18N->msg("edit_template") . ' [ID=' . $template_id . ']';
 
@@ -53,9 +53,9 @@ if ($function == "delete") {
   {
     $function = '';
   }
-
-} else {
-
+}
+else
+{
   $templatename = '';
   $content = '';
   $active = '';
@@ -65,10 +65,10 @@ if ($function == "delete") {
 
 }
 
-if ($function == "add" or $function == "edit") {
-
-  if ($save == "ja") {
-
+if ($function == "add" or $function == "edit")
+{
+  if ($save == "ja")
+  {
     $active = rex_post("active", "int");
     $templatename = rex_post("templatename", "string");
     $content = rex_post("content", "string");
@@ -76,9 +76,11 @@ if ($function == "add" or $function == "edit") {
 
     $num_ctypes = count($ctypes);
 
-    if ($ctypes[$num_ctypes] == "") {
+    if ($ctypes[$num_ctypes] == "")
+    {
       unset ($ctypes[$num_ctypes]);
-      if (isset ($ctypes[$num_ctypes -1]) && $ctypes[$num_ctypes -1] == '') {
+      if (isset ($ctypes[$num_ctypes -1]) && $ctypes[$num_ctypes -1] == '')
+      {
         unset ($ctypes[$num_ctypes -1]);
       }
     }
@@ -110,7 +112,9 @@ if ($function == "add" or $function == "edit") {
       {
         $warning = $TPL->getError();
       }
-    } else {
+    }
+    else
+    {
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
 
       $TPL->setWhere("id='$template_id'");
@@ -128,7 +132,7 @@ if ($function == "add" or $function == "edit") {
 
     rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates", 0);
 
-    if (isset ($goon) and $goon != "") {
+    if ($goon != "") {
       $function = "edit";
       $save = "nein";
     } else {
