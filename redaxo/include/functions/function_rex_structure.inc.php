@@ -46,10 +46,9 @@ function rex_structure_addCategory($category_id, $clang, $data)
     $data['status'] = 0;
   }
 
-//    var_dump($data);
-
   // Kategorie in allen Sprachen anlegen
   $AART = new rex_sql;
+//  $AART->debugsql = true;
   foreach($REX['CLANG'] as $key => $val)
   {
     $template_id = $REX['DEFAULT_TEMPLATE_ID'];
@@ -75,7 +74,7 @@ function rex_structure_addCategory($category_id, $clang, $data)
     $AART->setValue('status', $data['status']);
     $AART->addGlobalUpdateFields();
     $AART->addGlobalCreateFields();
-
+    
     if($AART->insert())
     {
       // ----- PRIOR
@@ -83,11 +82,12 @@ function rex_structure_addCategory($category_id, $clang, $data)
       {
         rex_newCatPrio($category_id, $key, 0, $data['catprior']);
       }
-
+      
       // ----- EXTENSION POINT
+      // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
       $message = rex_register_extension_point('CAT_ADDED', $message,
         array (
-          'category' => $AART,
+          'category' => clone($AART),
           'id' => $id,
           're_id' => $category_id,
           'clang' => $key,
@@ -95,10 +95,10 @@ function rex_structure_addCategory($category_id, $clang, $data)
           'prior' => $data['catprior'],
           'path' => $data['path'],
           'status' => $data['status'],
-          'article' => $AART,
+          'article' => clone($AART),
         )
       );
-
+      
       $message = $I18N->msg("category_added_and_startarticle_created");
       $success = true;
     }
@@ -107,7 +107,7 @@ function rex_structure_addCategory($category_id, $clang, $data)
       $message = $AART->getError();
     }
   }
-
+  
   rex_generateArticle($id);
 
   return array($success, $message);
@@ -182,9 +182,10 @@ function rex_structure_editCategory($category_id, $clang, $data)
     rex_generateArticle($category_id);
 
     // ----- EXTENSION POINT
+    // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
     $message = rex_register_extension_point('CAT_UPDATED', $message,
       array (
-        'category' => $EKAT,
+        'category' => clone($EKAT),
         'id' => $category_id,
         're_id' => $thisCat->getValue('re_id'),
         'clang' => $clang,
@@ -192,7 +193,7 @@ function rex_structure_editCategory($category_id, $clang, $data)
         'prior' => $thisCat->getValue('prior'),
         'path' => $thisCat->getValue('path'),
         'status' => $thisCat->getValue('status'),
-        'article' => $EKAT,
+        'article' => clone($EKAT),
       )
     );
 

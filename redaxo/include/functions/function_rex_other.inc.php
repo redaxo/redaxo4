@@ -447,3 +447,14 @@ if (!function_exists('file_put_contents'))
     return false;
   }
 }
+
+// make objectcloning work for php4
+// see http://acko.net/node/54
+// usage: $cloned = clone($yourObject);
+if (version_compare(phpversion(), '5.0') < 0 && !function_exists('clone')) {
+  eval('
+  function clone($object) {
+    return $object;
+  }
+  ');
+}
