@@ -16,8 +16,7 @@ class rex_article
   var $article_content;
   var $function;
   var $eval;
-  var $category_id;
-  var $message;
+  var $category_id;  
   var $CONT;
   var $template_id;
   var $ViewSliceId;
@@ -26,8 +25,11 @@ class rex_article
   var $ctype;
   var $clang;
   var $getSlice;
-	var $viasql; // Content über Datenbank holen
+  var $viasql; // Content über Datenbank holen
 
+  var $warning;
+  var $info;
+	
   // ----- Konstruktor
   function rex_article($article_id = null, $clang = null)
   {
@@ -219,12 +221,13 @@ class rex_article
 
   function getArticle($curctype = -1)
   {
-    global $module_id,$REX_USER,$REX,$I18N;
+    global $REX_USER,$REX,$I18N;
 
     $this->ctype = $curctype;
+    $module_id = rex_request('module_id', 'int');
 
     $sliceLimit = '';
-    if ($this->getSlice){
+    if ($this->getSlice) {
       //$REX['GG'] = 0;
       $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
     }
@@ -373,9 +376,16 @@ class rex_article
             {
               $msg = '';
 
-              if($this->slice_id == $RE_CONTS[$I_ID] && $this->message != '')
+              if($this->slice_id == $RE_CONTS[$I_ID])
               {
-                $msg = rex_warning($this->message);
+                if($this->warning != '')
+                {
+                  $msg = rex_warning($this->warning);
+                }
+                if($this->info != '')
+                {
+                  $msg = rex_info($this->info);
+                }
               }
 
               $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
@@ -707,8 +717,17 @@ class rex_article
       ';
 
       // Beim Add hier die Meldung ausgeben
-      if($this->slice_id == 0 && $this->message != '')
-         echo rex_warning($this->message);
+      if($this->slice_id == 0)
+      {
+         if($this->warning != '')
+         {
+           echo rex_warning($this->warning);
+         }
+         if($this->info != '')
+         {
+           echo rex_info($this->info);
+         }
+      }
 
       $dummysql = new rex_sql();
 

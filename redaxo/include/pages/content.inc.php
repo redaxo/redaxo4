@@ -606,8 +606,8 @@ if ($article->getRows() == 1)
                   <div class="rex-content-editmode">
                   ';
       $CONT = new rex_article;
-      // TODO doublecheck
-      $CONT->message = ($info . $warning);
+      $CONT->info = $info;
+      $CONT->warning = $warning;
       $CONT->setArticleId($article_id);
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
