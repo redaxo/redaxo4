@@ -80,7 +80,7 @@ else
   if ($REX['PSWFUNC'] != '')
     $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
 
-  if (isset($FORM['logout']) and $FORM['logout'] == 1)
+  if (rex_get('logout', 'boolean'))
     $REX_LOGIN->setLogout(true);
 
   $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);

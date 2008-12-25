@@ -23,7 +23,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg('htmllang'); ?>" lang="<?php echo $I18N->msg('htmllang'); ?>">
 <head>
-  <title><?php echo $page_title ?></title>
+  <title><?php echo htmlspecialchars($page_title) ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg('htmlcharset'); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
   <meta http-equiv="Cache-Control" content="no-cache" />
@@ -50,7 +50,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
 <div id="rex-website">
 <div id="rex-header">
 
-  <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo $REX['SERVERNAME']; ?></a></p>
+  <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo htmlspecialchars($REX['SERVERNAME']); ?></a></p>
 
   <div id="rex-navi-header">
 <?php
@@ -60,7 +60,7 @@ if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
   $accesskey = 1;
 
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
-  echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . $user_name . '</a></strong> [<a href="index.php?FORM[logout]=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
+  echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . $user_name . '</a></strong> [<a href="index.php?logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
   echo '<ul id="rex-navi-system">';
 
   $activeClass = ' class="rex-active"';
