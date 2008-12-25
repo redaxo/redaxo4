@@ -119,11 +119,12 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 
   require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
 
-  $state = true;
   $addonErr = '';
   $ADDONS = rex_read_addons_folder();
   foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
   {
+    $state = true;
+    
     if($state === true && $uninstallBefore)
       $state = rex_uninstall_addon($ADDONS, $systemAddon);
 
