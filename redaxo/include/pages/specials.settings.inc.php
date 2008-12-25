@@ -54,7 +54,7 @@ elseif ($func == 'updateinfos')
 
   $sql = new rex_sql();
   $sql->setQuery('SELECT * FROM rex_template WHERE id='. $neu_defaulttemplateid .' AND active=1');
-  if($sql->getRows() != 1)
+  if($sql->getRows() != 1 && $neu_defaulttemplateid != 0)
     $warning .= $I18N->msg('settings_invalid_default_template');
 
   if($warning == '')
