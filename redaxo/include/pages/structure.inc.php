@@ -153,7 +153,7 @@ elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPER
   else
     $warning = $message;
 }
-elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
+elseif (rex_post('artedit_function', 'boolean') && $article_id != '' && $KATPERM)
 {
   // --------------------- ARTIKEL EDIT
   $data = array();
