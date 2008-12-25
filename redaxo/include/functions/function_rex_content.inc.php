@@ -91,7 +91,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
     }
     else
     {
-      trigger_error('Unsupported direction "'. $direction .'"!', E_USER_ERROR);
+      trigger_error('rex_moveSlice: Unsupported direction "'. $direction .'"!', E_USER_ERROR);
     }
   }
 
