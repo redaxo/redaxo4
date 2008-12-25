@@ -48,14 +48,21 @@ jQuery(function($) {
   function disableSelect(chkbox)
   {
 	  var disabled = $(chkbox).is(":checked") ? '' : 'disabled';
-    $("select.rex-fdate, select.rex-fdatey", chkbox.parentNode).each(function(){
-       $(this).attr('disabled', disabled);
-    });
-  }
-	$("input[type=checkbox].rex-fdate").click(function() {
+    var sibling = chkbox;
+    while(sibling != null)
+    {
+      if(sibling.nodeType == 1 && sibling.tagName.toLowerCase() == "select")
+      {
+        $(sibling).attr('disabled', disabled);
+      }
+      sibling = sibling.previousSibling;
+    }
+  };
+  
+	$("input[type=checkbox].rex-metainfo-checkbox").click(function() {
 	   disableSelect(this);
 	});
-	$("input[type=checkbox].rex-fdate").each(function() {
+	$("input[type=checkbox].rex-metainfo-checkbox").each(function() {
      disableSelect(this);
 	});
 });

@@ -277,7 +277,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get();
         }
         $checked = $active ? ' checked="checked"' : '';
-        $field .= '<input class="rex-form-select-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked .' />';
+        $field .= '<input class="rex-form-select-checkbox rex-metainfo-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked .' />';
         break;
       }
       case 'textarea':
