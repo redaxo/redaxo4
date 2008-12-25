@@ -8,12 +8,14 @@
 $info = '';
 $warning = '';
 $user_id = $REX_USER->getValue('user_id');
+// Allgemeine Infos
+$userpsw = rex_request('userpsw', 'string');
+$username = rex_request('username', 'string');
+$userdesc = rex_request('userdesc', 'string');
 
 // --------------------------------- Title
 
 rex_title($I18N->msg('profile_title'),'');
-
-
 
 // --------------------------------- BE LANG
 
@@ -51,9 +53,6 @@ foreach($langs as $k => $v)
 {
 	if ($REX_LOGIN->USER->hasPerm('be_lang['.$k.']')) $userperm_be_sprache_selected = $k;
 }
-
-
-
 
 
 // --------------------------------- FUNCTIONS
