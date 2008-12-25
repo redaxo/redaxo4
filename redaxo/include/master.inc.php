@@ -13,7 +13,7 @@ if (!$REX['GG']) $REX['GG'] = false;
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
+$REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
@@ -21,7 +21,7 @@ $REX['SUBVERSION'] = "2";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(311); // oktaler wert
-$REX['INSTNAME'] = "rex20081101010101";
+$REX['INSTNAME'] = "rex20081223171334";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -36,8 +36,8 @@ $REX['NOTFOUND_ARTICLE_ID'] = 1;
 // default clang id
 $REX['START_CLANG_ID'] = 0;
 
-// default template
-$REX['DEFAULT_TEMPLATE_ID'] = 1;
+// default template id, if > 0 used as default, else template_id determined by inheritance
+$REX['DEFAULT_TEMPLATE_ID'] = 0;
 
 // default language
 $REX['LANG'] = "de_de";
@@ -94,7 +94,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_2_0";
+$REX['DB']['1']['NAME'] = "redaxo_4_2_0_trunk";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
@@ -121,3 +121,5 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
 if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
+
+?>
