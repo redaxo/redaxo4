@@ -424,8 +424,8 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
       }
       // Type 3 => select
       // Type 5 => checkbox
-      else if($fieldType == '3' && strpos($fieldAttributes, 'multiple') !== false ||
-              $fieldType == '5')
+      else if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
+              $fieldType == REX_A62_FIELD_CHECKBOX)
       {
         // Mehrwertiges Feld, aber nur ein Wert ausgewählt
         $saveValue = '|'. $postValue[0] .'|';
