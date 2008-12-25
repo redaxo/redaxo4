@@ -17,10 +17,13 @@ require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
 
 unset ($REX_ACTION);
 
-$slice_id = rex_request('slice_id', 'int', '');
-$article_id = rex_request('article_id', 'int');
 $category_id = rex_request('category_id', 'int');
-$function = rex_request('function', 'string');
+$article_id  = rex_request('article_id', 'int');
+$slice_id    = rex_request('slice_id', 'int', '');
+$function    = rex_request('function', 'string');
+
+$warning = '';
+$info = '';
 
 $article = new rex_sql;
 $article->setQuery("
@@ -35,8 +38,7 @@ $article->setQuery("
 			AND clang=$clang");
 
 if ($article->getRows() == 1)
-{
-
+{  
   // ----- ctype holen
   $attributes = $article->getValue('template_attributes');
 
@@ -49,10 +51,8 @@ if ($article->getRows() == 1)
     $ctype = 1; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
-  if ($article->getValue('startpage') == 1)
-    $category_id = $article->getValue('id');
-  else
-    $category_id = $article->getValue('re_id');
+  $OOArt = OOArticle::getArticleById($article_id, $clang);
+  $category_id = $OOArt->getCategoryId();
 
   // ----- category pfad und rechte
   require $REX['INCLUDE_PATH'] . '/functions/function_rex_category.inc.php';
@@ -79,10 +79,11 @@ if ($article->getRows() == 1)
   rex_title($I18N->msg('content'), $KATout);
 
   // ----- Request Parameter
-  $mode = rex_request('mode', 'string');
+  $mode     = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
-  $message = rex_request('message', 'string');
-
+  $warning  = rex_request('warning', 'string');
+  $info     = rex_request('info', 'string');
+  
   // ----- mode defs
   if ($mode != 'meta')
     $mode = 'edit';
@@ -113,7 +114,7 @@ if ($article->getRows() == 1)
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if (rex_request('save', 'boolean') && ($function == 'add' || $function == 'edit' || $function == 'delete'))
+    if (rex_request('save', 'boolean') && in_array($function, array('add', 'edit', 'delete')))
     {
       // ----- check module
 
@@ -135,7 +136,7 @@ if ($article->getRows() == 1)
       if ($CM->getRows() != 1)
       {
         // ------------- START: MODUL IST NICHT VORHANDEN
-        $message = $I18N->msg('module_not_found');
+        $warning = $I18N->msg('module_not_found');
         $slice_id = '';
         $function = '';
         // ------------- END: MODUL IST NICHT VORHANDEN
@@ -148,14 +149,13 @@ if ($article->getRows() == 1)
         if (!($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('module[' . $module_id . ']') || $REX_USER->hasPerm('module[0]')))
         {
           // ----- RECHTE AM MODUL: NEIN
-          $message = $I18N->msg('no_rights_to_this_function');
+          $warning = $I18N->msg('no_rights_to_this_function');
           $slice_id = '';
           $function = '';
         }
         else
         {
           // ----- RECHTE AM MODUL: JA
-          $message = '';
 
           // ***********************  daten einlesen
           $REX_ACTION = array ();
@@ -168,7 +168,6 @@ if ($article->getRows() == 1)
 
           // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
           list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
-          $message .= $action_message;
           // ----- / PRE SAVE ACTION
 
           // Statusspeicherung für die rex_article Klasse
@@ -178,22 +177,19 @@ if ($article->getRows() == 1)
           if (!$REX_ACTION['SAVE'])
           {
             // ----- DONT SAVE/UPDATE SLICE
-
-            if ($REX_ACTION['MSG'] != '')
-              $message = $REX_ACTION['MSG'];
+            if ($action_message != '')
+              $warning = $action_message;
             elseif ($function == 'delete')
-            	$message = $I18N->msg('slice_deleted_error');
+            	$warning = $I18N->msg('slice_deleted_error');
             else
-              $message = $I18N->msg('slice_saved_error');
+              $warning = $I18N->msg('slice_saved_error');
 
           }
           else
           {
             // ----- SAVE/UPDATE SLICE
-
             if ($function == 'add' || $function == 'edit')
             {
-
               $newsql = new rex_sql;
               // $newsql->debugsql = true;
               $sliceTable = $REX['TABLE_PREFIX'] . 'article_slice';
@@ -201,12 +197,10 @@ if ($article->getRows() == 1)
 
               if ($function == 'edit')
               {
-                // edit
                 $newsql->setWhere('id=' . $slice_id);
               }
               elseif ($function == 'add')
               {
-                // add
                 $newsql->setValue($sliceTable .'.re_article_slice_id', $slice_id);
                 $newsql->setValue($sliceTable .'.article_id', $article_id);
                 $newsql->setValue($sliceTable .'.modultyp_id', $module_id);
@@ -224,9 +218,9 @@ if ($article->getRows() == 1)
               {
                 $newsql->addGlobalUpdateFields();
                 if ($newsql->update())
-                  $message .= $I18N->msg('block_updated');
+                  $info = $action_message . $I18N->msg('block_updated');
                 else
-                  $message .= $newsql->getError();
+                  $warning = $action_message . $newsql->getError();
 
               }
               elseif ($function == 'add')
@@ -238,14 +232,14 @@ if ($article->getRows() == 1)
                   $last_id = $newsql->getLastId();
                   if ($newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $last_id . ' WHERE re_article_slice_id=' . $slice_id . ' AND id<>' . $last_id . ' AND article_id=' . $article_id . ' AND clang=' . $clang))
                   {
-                    $message .= $I18N->msg('block_added');
+                    $info = $action_message . $I18N->msg('block_added');
                     $slice_id = $last_id;
                   }
                   $function = "";
                 }
                 else
                 {
-                  $message .= $newsql->getError();
+                  $warning = $action_message . $newsql->getError();
                 }
               }
             }
@@ -260,7 +254,7 @@ if ($article->getRows() == 1)
                 $newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $re_id . ' where id=' . $newsql->getValue('id'));
               }
               $newsql->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
-              $message = $I18N->msg('block_deleted');
+              $info = $I18N->msg('block_deleted');
             }
             // ----- / SAVE SLICE
 
@@ -273,7 +267,7 @@ if ($article->getRows() == 1)
             rex_generateArticle($article_id);
 
             // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
-            $message .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
+            $info .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
             // ----- / POST SAVE ACTION
 
             // Update Button wurde gedrückt?
@@ -301,7 +295,7 @@ if ($article->getRows() == 1)
         if ($CM->getRows() != 1)
         {
           // ------------- START: MODUL IST NICHT VORHANDEN
-          $message = $I18N->msg('module_not_found');
+          $warning = $I18N->msg('module_not_found');
           $slice_id = "";
           $function = "";
           // ------------- END: MODUL IST NICHT VORHANDEN
@@ -314,21 +308,25 @@ if ($article->getRows() == 1)
           if ($REX_USER->hasPerm("admin[]") || $REX_USER->hasPerm("module[$module_id]") || $REX_USER->hasPerm("module[0]"))
           {
             // rechte sind vorhanden
-
             if ($function == "moveup" || $function == "movedown")
             {
               list($success, $message) = rex_moveSlice($slice_id, $clang, $function);
+              
+              if($success)
+                $info = $message;
+              else
+                $warning = $message;
             }
           }
           else
           {
-            $message = $I18N->msg('no_rights_to_this_function');
+            $warning = $I18N->msg('no_rights_to_this_function');
           }
         }
       }
       else
       {
-        $message = $I18N->msg('no_rights_to_this_function');
+        $warning = $I18N->msg('no_rights_to_this_function');
       }
     }
     // ------------------------------------------ END: Slice move up/down
@@ -340,13 +338,13 @@ if ($article->getRows() == 1)
       {
         if (rex_article2startpage($article_id))
         {
-          $message = $I18N->msg('content_tostartarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&message=".urlencode($message));
+          $info = $I18N->msg('content_tostartarticle_ok');
+          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
         {
-          $message = $I18N->msg('content_tostartarticle_failed');
+          $warning = $I18N->msg('content_tostartarticle_failed');
         }
       }
     }
@@ -358,14 +356,13 @@ if ($article->getRows() == 1)
     {
       if ($REX_USER->hasPerm('admin[]') || $REX_USER->hasPerm('copyContent[]'))
       {
+        $clang_a = rex_post('clang_a', 'int');
+        $clang_b = rex_post('clang_b', 'int');
+        
         if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b))
-        {
-          $message = $I18N->msg('content_contentcopy');
-        }
+          $info = $I18N->msg('content_contentcopy');
         else
-        {
-          $message = $I18N->msg('content_errorcopy');
-        }
+          $warning = $I18N->msg('content_errorcopy');
       }
     }
     // ------------------------------------------ END: COPY LANG CONTENT
@@ -373,25 +370,24 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE ARTICLE
     if (rex_post('movearticle', 'string') && $category_id != $article_id)
     {
-
       $category_id_new = rex_post('category_id_new', 'int');
       if ($REX_USER->hasPerm('admin[]') || ($REX_USER->hasPerm('moveArticle[]') && ($REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('csw[' . $category_id_new . ']'))))
       {
         if (rex_moveArticle($article_id, $category_id, $category_id_new))
         {
-          $message = $I18N->msg('content_articlemoved');
+          $info = $I18N->msg('content_articlemoved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&message=' . urlencode($message));
+          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
         {
-          $message = $I18N->msg('content_errormovearticle');
+          $warning = $I18N->msg('content_errormovearticle');
         }
       }
       else
       {
-        $message = $I18N->msg('no_rights_to_this_function');
+        $warning = $I18N->msg('no_rights_to_this_function');
       }
     }
     // ------------------------------------------ END: MOVE ARTICLE
@@ -404,19 +400,19 @@ if ($article->getRows() == 1)
       {
         if (($new_id = rex_copyArticle($article_id, $category_copy_id_new)) !== false)
         {
-          $message = $I18N->msg('content_articlecopied');
+          $info = $I18N->msg('content_articlecopied');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&message=' . urlencode($message));
+          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
         {
-          $message = $I18N->msg('content_errorcopyarticle');
+          $warning = $I18N->msg('content_errorcopyarticle');
         }
       }
       else
       {
-        $message = $I18N->msg('no_rights_to_this_function');
+        $warning = $I18N->msg('no_rights_to_this_function');
       }
     }
     // ------------------------------------------ END: COPY ARTICLE
@@ -429,19 +425,19 @@ if ($article->getRows() == 1)
       {
         if ($category_id != $category_id_new && rex_moveCategory($category_id, $category_id_new))
         {
-          $message = $I18N->msg('category_moved');
+          $info = $I18N->msg('category_moved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&message=' . urlencode($message));
+          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
         {
-          $message = $I18N->msg('content_error_movecategory');
+          $warning = $I18N->msg('content_error_movecategory');
         }
       }
       else
       {
-        $message = $I18N->msg('no_rights_to_this_function');
+        $warning = $I18N->msg('no_rights_to_this_function');
       }
     }
     // ------------------------------------------ END: MOVE CATEGORY
@@ -449,6 +445,8 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: SAVE METADATA
     if (rex_post('savemeta', 'string'))
     {
+      $meta_article_name = rex_post('meta_article_name', 'string');
+      
       $meta_sql = new rex_sql;
       $meta_sql->setTable($REX['TABLE_PREFIX'] . "article");
       // $meta_sql->debugsql = 1;
@@ -459,13 +457,12 @@ if ($article->getRows() == 1)
       if($meta_sql->update())
       {
         $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
-
-        $message = $I18N->msg("metadata_updated") . $message;
+        $info = $I18N->msg("metadata_updated");
 
         rex_generateArticle($article_id);
 
         // ----- EXTENSION POINT
-        $message = rex_register_extension_point('ART_META_UPDATED', $message, array (
+        $info = rex_register_extension_point('ART_META_UPDATED', $info, array (
           'id' => $article_id,
           'clang' => $clang,
           'name' => $meta_article_name,
@@ -473,7 +470,7 @@ if ($article->getRows() == 1)
       }
       else
       {
-        $message .= $meta_sql->getError();
+        $warning = $meta_sql->getError();
       }
     }
     // ------------------------------------------ END: SAVE METADATA
@@ -583,9 +580,16 @@ if ($article->getRows() == 1)
             ';
 
     // ------------------------------------------ WARNING
-    if ($mode != 'edit' && $message != '')
+    if ($mode != 'edit')
     {
-      echo rex_warning($message);
+      if($warning != '')
+      {
+        echo rex_warning($warning);
+      }
+      if($info != '')
+      {
+        echo rex_info($info);
+      }
     }
 
     echo '
@@ -602,7 +606,8 @@ if ($article->getRows() == 1)
                   <div class="rex-content-editmode">
                   ';
       $CONT = new rex_article;
-      $CONT->message = $message;
+      // TODO doublecheck
+      $CONT->message = ($info . $warning);
       $CONT->setArticleId($article_id);
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
