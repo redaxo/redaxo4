@@ -12,8 +12,15 @@ require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
 $info = '';
 $warning = '';
 
+// request vars
+$category_id = rex_request('category_id', 'int');
+$article_id  = rex_request('article_id', 'int');
+$clang       = rex_request('clang', 'int');
+$edit_id     = rex_request('edit_id', 'int');
+$function    = rex_request('function', 'string');
+
 // --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
-$edit_id = rex_request('edit_id', 'int');
+// TODO Abfragen via OOF?
 if ($edit_id)
 {
   $thisCat = new rex_sql;
@@ -30,7 +37,7 @@ else
 }
 
 // --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
-$article_id = rex_request('article_id', 'int');
+// TODO Abfragen via OOF?
 if ($article_id)
 {
   $thisArt = new rex_sql;
@@ -46,9 +53,6 @@ else
   unset ($article_id);
 }
 
-$function = rex_request('function', 'string');
-$category_id = rex_request('category_id', 'int');
-
 // --------------------------------------------- TITLE
 
 rex_title($I18N->msg('title_structure'), $KATout);
@@ -60,16 +64,14 @@ require $REX['INCLUDE_PATH'].'/functions/function_rex_languages.inc.php';
 $catStatusTypes = rex_structure_categoryStatusTypes();
 $artStatusTypes = rex_structure_articleStatusTypes();
 
-
-
 // --------------------------------------------- KATEGORIE FUNKTIONEN
-if (!empty($catedit_function) && $edit_id != '' && $KATPERM)
+if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
 {
   // --------------------- KATEGORIE EDIT
   $data = array();
-  $data['catprior'] = (int) $Position_Category;
-  $data['catname'] = $kat_name;
-  $data['path'] = $KATPATH;
+  $data['catprior'] = rex_post('Position_Category', 'int');
+  $data['catname']  = rex_post('kat_name', 'string');
+  $data['path']     = $KATPATH;
 
   list($success, $message) = rex_structure_editCategory($edit_id, $clang, $data);
 
@@ -94,7 +96,7 @@ elseif ($function == 'catdelete_function' && $edit_id != "" && $KATPERM && !$REX
   }
 }
 elseif ($function == 'status' && $edit_id != ''
-       && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
+        && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
   list($success, $message) = rex_structure_categoryStatus($edit_id, $clang);
@@ -104,14 +106,13 @@ elseif ($function == 'status' && $edit_id != ''
   else
     $warning = $message;
 }
-elseif (!empty($catadd_function) && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE ADD
-
   $data = array();
-  $data['catprior'] = (int) $Position_New_Category;
-  $data['catname'] = $category_name;
-  $data['path'] = $KATPATH;
+  $data['catprior'] = rex_post('Position_New_Category', 'int');
+  $data['catname']  = rex_post('category_name', 'string');
+  $data['path']     = $KATPATH;
 
   list($success, $message) = rex_structure_addCategory($category_id, $clang, $data);
 
@@ -135,16 +136,15 @@ if ($function == 'status_article' && $article_id != ''
     $warning = $message;
 }
 // Hier mit !== vergleichen, da 0 auch einen gültige category_id ist (RootArtikel)
-elseif (!empty($artadd_function) && $category_id !== '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
+elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL ADD
-
   $data = array();
-  $data['prior'] = (int) $Position_New_Article;
+  $data['prior']       = rex_post('Position_New_Article', 'int');
+  $data['name']        = rex_post('article_name', 'string');
+  $data['template_id'] = rex_post('template_id', 'int');
   $data['category_id'] = $category_id;
-  $data['name'] = $article_name;
-  $data['template_id'] = $template_id;
-  $data['path'] = $KATPATH;
+  $data['path']        = $KATPATH;
 
   list($success, $message) = rex_structure_addArticle($category_id, $clang, $data);
 
@@ -157,11 +157,11 @@ elseif (!empty($artedit_function) && $article_id != '' && $KATPERM)
 {
   // --------------------- ARTIKEL EDIT
   $data = array();
-  $data['prior'] = (int) $Position_Article;
-  $data['name'] = $article_name;
-  $data['template_id'] = $template_id;
+  $data['prior']       = rex_post('Position_Article', 'int');
+  $data['name']        = rex_post('article_name', 'string');
+  $data['template_id'] = rex_post('template_id', 'int');
   $data['category_id'] = $category_id;
-  $data['path'] = $KATPATH;
+  $data['path']        = $KATPATH;
 
   list($success, $message) = rex_structure_editArticle($article_id, $clang, $data);
 
@@ -323,7 +323,6 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-
     if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishCategory[]'))
     {
       $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
@@ -332,7 +331,6 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     if (isset ($edit_id) and $edit_id == $i_category_id and $function == 'edit_cat')
     {
       // --------------------- KATEGORIE EDIT FORM
-
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))
       {
@@ -340,7 +338,6 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       }
 
       $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
-
       $add_buttons .= '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
 
       echo '
@@ -360,9 +357,10 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       	'catname' => $KAT->getValue('catname'),
       	'catprior' => $KAT->getValue('catprior'),
       	'data_colspan' => ($data_colspan+1),
-				));
-
-    }else
+		  ));
+		  
+    }
+    else
     {
       // --------------------- KATEGORIE WITH WRITE
 
@@ -375,7 +373,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 			if (!$REX_USER->hasPerm('editContentOnly[]'))
 			{
 				$category_delete = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
-			}else
+			}
+			else
 			{
 				$category_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
 			}
@@ -392,7 +391,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         </tr>';
     }
 
-  }elseif ($REX_USER->hasPerm('csr['. $i_category_id .']') || $REX_USER->hasPerm('csw['. $i_category_id .']'))
+  }
+  elseif ($REX_USER->hasPerm('csr['. $i_category_id .']') || $REX_USER->hasPerm('csw['. $i_category_id .']'))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
@@ -498,7 +498,6 @@ if ($category_id > -1)
   }
 
   // READ DATA
-
   $sql = new rex_sql;
   $sql->debugsql = 0;
   $sql->setQuery('SELECT *
@@ -522,10 +521,7 @@ if ($category_id > -1)
           <col width="115" />
           <col width="51" />
           <col width="50" />
-          <col width="50" />';
-
-
-  echo '
+          <col width="50" />
         </colgroup>
         <thead>
           <tr>
@@ -548,21 +544,22 @@ if ($category_id > -1)
   }
 
   // --------------------- ARTIKEL ADD FORM
-
   if ($function == 'add_art' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
   {
-    if (empty($template_id))
+    if($REX['DEFAULT_TEMPLATE_ID'] > 0)
     {
+      $TMPL_SEL->setSelected($REX['DEFAULT_TEMPLATE_ID']);
+    }
+    else
+    {
+      // template_id vom Startartikel erben
       $sql2 = new rex_sql;
       // $sql2->debugsql = true;
       $sql2->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
+      
       if ($sql2->getRows() == 1)
       {
         $TMPL_SEL->setSelected($sql2->getValue('template_id'));
-      }
-      else
-      {
-        $TMPL_SEL->setSelected($REX['DEFAULT_TEMPLATE_ID']);
       }
     }
 
