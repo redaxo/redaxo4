@@ -7,7 +7,6 @@
  */
 
 // ----- caching start für output filter
-
 ob_start();
 ob_implicit_flush(0);
 
@@ -67,7 +66,6 @@ if ($REX['SETUP'])
 }
 else
 {
-
   // ----------------- CREATE LANG OBJ
   $I18N = rex_create_lang($REX['LANG']);
   header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
