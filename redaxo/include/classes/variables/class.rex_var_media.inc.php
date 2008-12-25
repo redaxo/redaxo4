@@ -122,18 +122,13 @@ class rex_var_media extends rex_var
       $matches = $this->getVarParams($content, $var);
       foreach ($matches as $match)
       {
-        list ($param_str, $id, $args) = $match;
+        list ($param_str, $args) = $match;
         list ($id, $args) = $this->extractArg('id', $args, 0);
         
-
         if ($id < 11 && $id > 0)
         {
-        	$category = '';
-          if(isset($args['category']))
-          {
-            $category = $args['category'];
-            unset($args['category']);
-          }
+          list ($category, $args) = $this->extractArg('category', $args, '');
+          
           $replace = $this->getMediaButton($id, $category, $args);
           $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
