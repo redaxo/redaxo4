@@ -14,9 +14,9 @@ rex_title($I18N->msg('addon'), '');
 // -------------- Defaults
 
 $addonname = rex_request('addonname', 'string');
-$subpage = rex_request('subpage', 'string');
+$subpage   = rex_request('subpage', 'string');
 
-$ADDONS = rex_read_addons_folder();
+$ADDONS    = rex_read_addons_folder();
 $addonname = array_search($addonname, $ADDONS) !== false ? $addonname : '';
 
 $warning = '';
@@ -38,7 +38,7 @@ if ($subpage == 'help' && $addonname != '')
   {
     include $helpfile;
   }
-  echo '	</div>
+  echo '</div>
   			<div class="rex-area-footer">
   				<p><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>
   			</div>
@@ -100,7 +100,6 @@ if ($addonname != '')
 // ----------------- OUT
 if ($subpage == '')
 {
-
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in include/addons.inc.php
   // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   if (count(array_diff(array_keys(array_flip($ADDONS)), array_keys($REX['ADDON']['install']))) > 0 ||
