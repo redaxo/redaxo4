@@ -246,15 +246,14 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
-              $re_id = $CM->getValue($REX['TABLE_PREFIX'] . 'article_slice.re_article_slice_id');
-              $newsql = new rex_sql;
-              $newsql->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE re_article_slice_id=' . $slice_id);
-              if ($newsql->getRows() > 0)
+              if(rex_deleteSlice($slice_id))
               {
-                $newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $re_id . ' where id=' . $newsql->getValue('id'));
+                $info = $I18N->msg('block_deleted');
               }
-              $newsql->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
-              $info = $I18N->msg('block_deleted');
+              else
+              {
+                $warning = $I18N->msg('block_not_deleted');
+              }
             }
             // ----- / SAVE SLICE
 

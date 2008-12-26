@@ -99,6 +99,34 @@ function rex_moveSlice($slice_id, $clang, $direction)
 }
 
 /**
+ * Löscht den slice mit der Id $slice_id
+ */
+function rex_deleteSlice($slice_id)
+{
+  global $REX;
+  
+  // zu loeschender slice suchen
+  $curr = new rex_sql;
+  $curr->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
+  if($curr->getRows() != 1)
+  {
+    return false;
+  }
+  
+  // nachfolge slice suchen
+  $next = new rex_sql;
+  $next->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE re_article_slice_id=' . $slice_id);
+  if ($next->getRows() == 1 )
+  {
+    // ggf. nachfolger auf eigenen vorgaenger verweisen
+    $next->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $curr->getValue('re_article_slice_id') . ' where id=' . $next->getValue('id'));
+  }
+  // slice loeschen
+  $curr->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
+  return $curr->getRows() == 1;
+}
+
+/**
  * Führt alle pre-save Aktionen des Moduls $module_id im Modus $function aus und
  * füllt dabei das $REX_ACTION Array
  */
