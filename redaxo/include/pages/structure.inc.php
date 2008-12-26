@@ -83,7 +83,7 @@ if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
 elseif ($function == 'catdelete_function' && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
-  list($success, $message) = rex_deleteCategory($edit_id, $clang);
+  list($success, $message) = rex_deleteCategoryReorganized($edit_id, $clang);
 
   if($success)
   {
@@ -173,7 +173,7 @@ elseif (rex_post('artedit_function', 'boolean') && $article_id != '' && $KATPERM
 elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL DELETE
-  list($success, $message) = rex_deleteArticle($article_id);
+  list($success, $message) = rex_deleteArticleReorganized($article_id);
 
   if($success)
     $info = $message;

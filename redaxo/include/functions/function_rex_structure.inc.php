@@ -207,7 +207,7 @@ function rex_editCategory($category_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_deleteCategory($category_id, $clang)
+function rex_deleteCategoryReorganized($category_id, $clang)
 {
   global $REX, $I18N;
 
@@ -474,7 +474,7 @@ function rex_editArticle($article_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_deleteArticle($article_id)
+function rex_deleteArticleReorganized($article_id)
 {
   global $REX;
 
