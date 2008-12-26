@@ -551,6 +551,14 @@ class rex_sql
   }
 
   /**
+   * Setzt den Cursor des Resultsets aufs Ende
+   */
+  function last()
+  {
+    $this->counter = ($this->rows - 1);
+  }
+  
+  /**
    * Gibt die letzte InsertId zurück
    */
   function getLastId()
