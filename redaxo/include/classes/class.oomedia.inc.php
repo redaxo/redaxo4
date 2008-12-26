@@ -795,18 +795,45 @@ class OOMedia
    * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function delete()
+  function delete($filename = null)
   {
     global $REX;
-
-    $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
-    $sql = new rex_sql();
-//    $sql->debugsql = true;
-    $sql->setQuery($qry);
-
-    @unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
-
-    return $sql->getError();
+    
+    if($filename != null)
+    {
+      $OOMed = OOMedia::getMediaByFileName($filename);
+      if($OOMed)
+      {
+        return $OOMed->delete();
+      }
+    }
+    else
+    {
+      $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
+      $sql = new rex_sql();
+  //    $sql->debugsql = true;
+      $sql->setQuery($qry);
+  
+      if($this->fileExists())
+      {
+        unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
+      }
+  
+      return $sql->getError();
+    }
+    return false;
+  }
+  
+  function fileExists($filename = null)
+  {
+    global $REX;
+    
+    if($filename === null)
+    {
+      $filename = $this->getFileName();
+    }
+    
+    return file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$filename);
   }
 
   // allowed filetypes
