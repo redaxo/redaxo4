@@ -212,7 +212,7 @@ function rex_getActionModeBit($function)
 /**
  * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
  *
- * @param $aid  Artikel ID
+ * @param $neu_id  Artikel ID
  */
 function rex_article2startpage($neu_id){
 
