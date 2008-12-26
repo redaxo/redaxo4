@@ -380,14 +380,14 @@ class rex_article
               {
                 if($this->warning != '')
                 {
-                  $msg = rex_warning($this->warning);
+                  $msg .= rex_warning($this->warning);
                 }
                 if($this->info != '')
                 {
-                  $msg = rex_info($this->info);
+                  $msg .= rex_info($this->info);
                 }
               }
-
+              
               $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
               $listElements = array();
               $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx2">'. $I18N->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
@@ -714,7 +714,13 @@ class rex_article
           </fieldset>
         </form>
         </div>
-      ';
+        <script type="text/javascript">
+           <!--
+          jQuery(function($) {
+            $(":input:visible:enabled:not([readonly]):first", $("form#REX_FORM")).focus();
+          });
+           //-->
+        </script>';
 
       // Beim Add hier die Meldung ausgeben
       if($this->slice_id == 0)
@@ -776,7 +782,6 @@ class rex_article
           <input type="hidden" name="clang" value="'.$this->clang.'" />
             
 					<div class="rex-form-wrapper">
-						
 						<div class="rex-form-row">
 							<div class="rex-content-editmode-slice-input">
 							<div class="rex-content-editmode-slice-input-2">
@@ -788,10 +793,8 @@ class rex_article
 				</fieldset>
 
         <fieldset class="rex-form-col-2">
-            
-					<div class="rex-form-wrapper">
-						
-						<div class="rex-form-row">
+          <div class="rex-form-wrapper">
+            <div class="rex-form-row">
 		          <p class="rex-form-col-a rex-form-submit">
 		            <input class="rex-form-submit" type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
 		          </p>
@@ -802,7 +805,14 @@ class rex_article
 		      </div>
         </fieldset>
       </form>
-      </div>';
+      </div>
+      <script type="text/javascript">
+         <!--
+        jQuery(function($) {
+          $(":input:visible:enabled:not([readonly]):first", $("form#REX_FORM")).focus();
+        });
+         //-->
+      </script>';
 
     $slice_content = $this->replaceVars($this->CONT, $slice_content);
     return $slice_content;
