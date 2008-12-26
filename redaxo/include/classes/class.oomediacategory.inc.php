@@ -220,6 +220,49 @@ class OOMediaCategory
   {
     return OOMediaCategory :: getCategoryById($this->getParentId());
   }
+  
+  /**
+   * @access public
+   * Get an array of all parentCategories.
+   * Returns an array of OORedaxo objects sorted by $prior.
+   * 
+   */
+  function getParentTree()
+  {
+    $tree = array();
+    if($this->_path)
+    {
+      $explode = explode('|', $this->_path);
+      if(is_array($explode))
+      {
+        foreach($explode as $var)
+        {
+          if($var != '')
+          {
+            $tree[] = OOMediaCategory :: getCategoryById($var);
+          }
+        }
+      }
+    }
+    return $tree;
+  }
+  
+  /*
+   * Object Function:
+   * Checks if $anObj is in the parent tree of the object
+   */
+  function inParentTree($anObj)
+  {
+  	$tree = $this->getParentTree();
+  	foreach($tree as $treeObj)
+  	{
+  		if($treeObj == $anObj)
+  		{
+  			return true;
+  		}
+  	}
+  	return false;
+  }
 
   /**
    * @access public
