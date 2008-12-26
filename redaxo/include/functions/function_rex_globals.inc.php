@@ -159,9 +159,11 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - double
  *  - string
  *  - float
+ *  - real
  *  - object
  *  - array
- *  - '' (nicht casten)
+ *  - binary
+ *  *  - '' (nicht casten)
  * 
  * @access private
  */
@@ -173,9 +175,9 @@ function _rex_cast_var($var, $vartype)
     exit(); 
   }
   
-  // Variable Casten    
   switch($vartype)
   {
+    // Variable Casten    
     case 'bool'   :
     case 'boolean': $var = (boolean) $var; break; 
     case 'int'    : 
@@ -185,8 +187,10 @@ function _rex_cast_var($var, $vartype)
     case 'real'   : $var = (float)   $var; break; 
     case 'string' : $var = (string)  $var; break; 
     case 'object' : $var = (object)  $var; break; 
-    case 'array'  : $var = (array)   $var; break;
-    case 'array'  : $var = (array)   $var; break;
+    case 'array'  : if(empty($var))
+                      $var = array();
+                    else 
+                      $var = (array) $var; break;
     case 'binary' : $var = (binary)  $var; break;
     
     // kein Cast, nichts tun
