@@ -11,13 +11,11 @@
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
 
-// KOMMT NOCH
-// - only types einbauen (only .gif/.pdf/.xxx ..)
-
 
 // ----- opener_input_field setzen
 $opener_input_field = rex_request('opener_input_field', 'string', rex_session('media[opener_input_field]', 'string'));
 rex_set_session('media[opener_input_field]', $opener_input_field);
+$opener_link = rex_request('opener_link', 'string');
 $args = rex_request('args', 'array');
 
 $arg_url = '';
@@ -27,7 +25,6 @@ foreach($args as $arg_name => $arg_value)
   $arg_url .= '&amp;args['. urlencode($arg_name) .']='. urlencode($arg_value);
   $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. $arg_value .'" />'. "\n";
 }
-
 
 // *************************************** PERMS
 $PERMALL = false;
@@ -48,17 +45,19 @@ if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 
 
 // *************************************** CAT ID IN SESSION SPEICHERN
-$sql = new rex_sql();
-$file_name = rex_get('file_name', 'string');
-if ($file_name != "") $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='$file_name'");
-if ($sql->getRows()==1)
+$file_id = rex_request('file_id', 'int');
+$file_name = rex_request('file_name', 'string');
+$rex_file_category = rex_request('rex_file_category', 'int', -1);
+
+if ($file_name != "")
 {
-  $file_id = $sql->getValue("file_id");
-  $rex_file_category = $sql->getValue("category_id");
-}
-else
-{
-  $rex_file_category = rex_request('rex_file_category', 'int', -1);
+  $sql = new rex_sql();
+  $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."file where filename='$file_name'");
+  if ($sql->getRows()==1)
+  {
+    $file_id = $sql->getValue("file_id");
+    $rex_file_category = $sql->getValue("category_id");
+  }
 }
 
 if($rex_file_category == -1)
@@ -161,9 +160,11 @@ function insertLink(src)
 
 // *************************************** request vars
 
-$subpage = rex_request('subpage', 'string');
-$msg = rex_request('msg', 'string');
+$subpage      = rex_request('subpage', 'string');
 $media_method = rex_request('media_method', 'string');
+$info         = rex_request('info', 'string');
+$warning      = rex_request('warning', 'string');
+
 
 $subline = array(
   array('', $I18N->msg('pool_file_list')),
@@ -196,11 +197,23 @@ rex_title($title, $subline);
 
 
 // *************************************** MESSAGES
+if ($info != '')
+{
+  echo rex_info($info);
+  $info = '';
+}
+if ($warning != '')
+{
+  echo rex_warning($warning);
+  $warning = '';
+}
+/*
 if ($msg != '')
 {
   echo rex_warning($msg)."\n";
   $msg = '';
 }
+*/
 
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
@@ -278,7 +291,6 @@ $cat_out = rex_register_extension_point('MEDIA_LIST_TOOLBAR', $cat_out,
 if ($PERMALL && $subpage == "categories")
 {
   $edit_id = rex_request('edit_id', 'int');
-  $msg = "";
   if ($media_method == 'edit_file_cat')
   {
     $cat_name = rex_request('cat_name', 'string');
@@ -290,11 +302,11 @@ if ($PERMALL && $subpage == "categories")
 
     if($db->update())
     {
-      $msg = $I18N->msg('pool_kat_updated',$cat_name);
+      $info = $I18N->msg('pool_kat_updated',$cat_name);
     }
     else
     {
-      $msg = $db->getError();
+      $warning = $db->getError();
     }
 
   } elseif ($media_method == 'delete_file_cat')
@@ -306,10 +318,10 @@ if ($PERMALL && $subpage == "categories")
     if ($gf->getRows()==0 && $gd->getRows()==0)
     {
       $gf->setQuery('DELETE FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $edit_id);
-      $msg = $I18N->msg('pool_kat_deleted');
+      $info = $I18N->msg('pool_kat_deleted');
     }else
     {
-      $msg = $I18N->msg('pool_kat_not_deleted');
+      $warning = $I18N->msg('pool_kat_not_deleted');
     }
   } elseif ($media_method == 'add_file_cat')
   {
@@ -318,24 +330,23 @@ if ($PERMALL && $subpage == "categories")
     $db->setValue('name',rex_request('catname', 'string'));
     $db->setValue('re_id', rex_request('cat_id', 'int'));
     $db->setValue('path', rex_request('catpath', 'string'));
-    // TODO Update + Create zugleich?
     $db->addGlobalCreateFields();
     $db->addGlobalUpdateFields();
 
     if($db->insert())
     {
-      $msg .= $I18N->msg('pool_kat_saved', stripslashes(rex_request('catname')));
+      $info = $I18N->msg('pool_kat_saved', stripslashes(rex_request('catname')));
     }
     else
     {
-      $msg .= $db->getError();
+      $warning = $db->getError();
     }
   }
 
   $link = 'index.php?page=medienpool&amp;subpage=categories&amp;cat_id=';
 
   $textpath = '<li> : <a href="'.$link.'0">Start</a></li>';
-  if (!isset($cat_id) or $cat_id == '') $cat_id = 0;
+  $cat_id = rex_request('cat_id', 'int');
   if ($cat_id == 0 || !($OOCat = OOMediaCategory::getCategoryById($cat_id)))
   {
     $OOCats = OOMediaCategory::getRootCategories();
@@ -344,7 +355,7 @@ if ($PERMALL && $subpage == "categories")
   }else
   {
     $OOCats = $OOCat->getChildren();
-
+    // TODO getParentTree() verwenden
     $paths = explode("|",$OOCat->getPath());
 
     for ($i=1;$i<count($paths);$i++)
@@ -363,9 +374,15 @@ if ($PERMALL && $subpage == "categories")
 
   echo '<div id="rex-navi-path"><ul><li>'. $I18N->msg('pool_kat_path') .'</li> '. $textpath .'</ul></div>';
 
-  if ($msg!='')
+  if ($warning != '')
   {
-    echo rex_warning($msg);
+    echo rex_warning($warning);
+    $warning = '';
+  }
+  if ($info!='')
+  {
+    echo rex_info($info);
+    $info = '';
   }
 
   if ($media_method == 'add_cat' || $media_method == 'update_file_cat')
@@ -480,19 +497,15 @@ if ($PERMALL && $subpage == "categories")
 
 // ----- METHOD ADD FILE
 if ($subpage == 'add_file' && $media_method == 'add_file'){
-
-  // echo $_FILES['file_new']['name'];
-
-  // function in function.rex_medienpool.inc.php
-  if ($_FILES['file_new']['name'] != "" and $_FILES['file_new']['name'] != "none")
+  if ($_FILES['file_new']['name'] != "" and $_FILES['file_new']['name'] != 'none')
   {
-
-    $FILEINFOS['title'] = $ftitle;
+    $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
     if (!$PERMALL && !$REX_USER->hasPerm("media[$rex_file_category]")) $rex_file_category = 0;
 
+    // function in function.rex_medienpool.inc.php
     $return = rex_medienpool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX_USER->getValue("login"));
-    $msg = $return['msg'];
+    $info = $return['msg'];
     $subpage = "";
 
     // ----- EXTENSION POINT
@@ -537,8 +550,7 @@ if ($subpage == 'add_file' && $media_method == 'add_file'){
 
   }else
   {
-    // $msg = ;
-    $msg = $I18N->msg('pool_file_not_found');
+    $warning = $I18N->msg('pool_file_not_found');
   }
 }
 
@@ -561,8 +573,6 @@ if ($subpage == "add_file")
 
 if ($subpage=='detail' && rex_post('btn_delete', 'string'))
 {
-
-  $file_id = rex_request('file_id', 'int');
   $media = OOMedia::getMediaById($file_id);
 
   if ($media)
@@ -575,39 +585,39 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
       {
         if($media->delete())
         {
-          $msg = $I18N->msg('pool_file_deleted');
+          $info = $I18N->msg('pool_file_deleted');
         }
         else
         {
-          $msg = $I18N->msg('pool_file_delete_error_1', $file_name);
+          $warning = $I18N->msg('pool_file_delete_error_1', $file_name);
         }
         $subpage = "";
       }
       else
       {
-        $msg = array();
-        $msg[] = $I18N->msg('pool_file_delete_error_1', $file_name).' '.
-                 $I18N->msg('pool_file_delete_error_2').'<br />';
-        $msg[] = '<ul>';
+        $warning = array();
+        $warning[] = $I18N->msg('pool_file_delete_error_1', $file_name).' '.
+                     $I18N->msg('pool_file_delete_error_2').'<br />';
+        $warning[] = '<ul>';
         foreach($articleUsesMedia as $art_arr)
         {
           $aid = $art_arr['article_id'];
           $clang = $art_arr['clang'];
           $ooa = OOArticle::getArticleById($aid, $clang);
           $name = $ooa->getName();
-          $msg[] ='<li><a href="../index.php?article_id='. $aid .'&amp;clang='. $clang .'" onclick="window.open(this.href); return false;">'. $name .'</a></li>';
+          $warning[] ='<li><a href="../index.php?article_id='. $aid .'&amp;clang='. $clang .'" onclick="window.open(this.href); return false;">'. $name .'</a></li>';
         }
-        $msg[] = '</ul>';
+        $warning[] = '</ul>';
         $subpage = '';
 
       }
     }else
     {
-      $msg = $I18N->msg('no_permission');
+      $warning = $I18N->msg('no_permission');
     }
   }else
   {
-    $msg = $I18N->msg('pool_file_not_found');
+    $warning = $I18N->msg('pool_file_not_found');
     $subpage = "";
   }
 }
@@ -629,8 +639,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
       $FILEINFOS["filename"] = $gf->getValue('filename');
       
       $return = rex_medienpool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX_USER->getValue("login"));
-      $msg = $return['msg'];
-      $subpage = "";
+      $info = $return['msg'];
 
       if($return["ok"] == 1)
       {
@@ -640,14 +649,13 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
       }
     }else
     {
-      $msg = $I18N->msg('no_permission');
+      $warning = $I18N->msg('no_permission');
     }
   }else
   {
-    $msg = $I18N->msg('pool_file_not_found');
+    $warning = $I18N->msg('pool_file_not_found');
     $subpage = "";
   }
-
 }
 
 if ($subpage == "detail")
@@ -721,20 +729,23 @@ if ($subpage == "detail")
      $style_width = ' style="width:64.9%; border-right: 1px solid #FFF;"';
     }
 
-    if ($msg != '')
+    if ($warning != '')
     {
-      echo rex_warning($msg);
-      $msg = '';
+      echo rex_warning($warning);
+      $warning = '';
     }
-
-    if (!isset($opener_link)) $opener_link = '';
+    if ($info != '')
+    {
+      echo rex_info($info);
+      $info = '';
+    }
+    
     if($opener_input_field == 'TINYIMG')
     {
       if ($ffiletype_ii)
       {
         $opener_link .= '<a href="javascript:insertImage(\''. $encoded_fname .'\',\''.$gf->getValue('title').'\');">'.$I18N->msg('pool_image_get').'</a> | ';
       }
-
     }
     elseif($opener_input_field == 'TINY')
     {
@@ -782,7 +793,6 @@ if ($subpage == "detail")
               <div class="rex-form-wrapper">
                 <input type="hidden" name="page" value="medienpool" />
                 <input type="hidden" name="subpage" value="detail" />
-                <input type="hidden" name="media_method" value="edit_file" />
                 <input type="hidden" name="file_id" value="'.$file_id.'" />
                 '. $arg_fields .'
 
@@ -905,7 +915,7 @@ if ($subpage == "detail")
   }
   else
   {
-    $msg = $I18N->msg('pool_file_not_found');
+    $warning = $I18N->msg('pool_file_not_found');
     $subpage = "";
   }
 }
@@ -958,11 +968,14 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   $diff_files = array_diff($folder_files, $db_files);
   $diff_count = count($diff_files);
 
-  if(!empty($_POST['save']) && !empty($_POST['sync_files']))
+  if(rex_post('save', 'boolean') && rex_post('sync_files', 'boolean'))
   {
+    $sync_files = rex_post('sync_files', 'array');
+    $ftitle     = rex_post('ftitle', 'string');
+    
     if($diff_count > 0)
     {
-      foreach($_POST['sync_files'] as $file)
+      foreach($sync_files as $file)
       {
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
@@ -984,37 +997,35 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
   {
     $title .= ' ('. $diff_count .')';
   }
-  echo '<fieldset class="rex-form-col-1">';
-  echo '<legend>'. $title .'</legend>';
-  echo '<div class="rex-form-wrapper">';
+  echo '<fieldset class="rex-form-col-1">
+          <legend>'. $title .'</legend>
+          <div class="rex-form-wrapper">';
 
   if($diff_count > 0)
   {
     foreach($diff_files as $file)
     {
-      echo '<div class="rex-form-row">';
-      echo '<p class="rex-form-checkbox rex-form-label-right">';
+      echo '<div class="rex-form-row">
+              <p class="rex-form-checkbox rex-form-label-right">';
       if(is_writable($REX['MEDIAFOLDER'] .'/'. $file))
       {
-        echo '
-              <input class="rex-form-checkbox" type="checkbox" id="sync_file_'. $file .'" name="sync_files[]" value="'. $file .'" />
-              <label for="sync_file_'. $file .'">'. $file .'</label>
-             ';
+        echo '<input class="rex-form-checkbox" type="checkbox" id="sync_file_'. $file .'" name="sync_files[]" value="'. $file .'" />
+              <label for="sync_file_'. $file .'">'. $file .'</label>';
       }
       else
       {
         echo $file .' - '.  $I18N->msg('pool_file_not_writable') . "\n";
       }
-      echo '</p>';
-      echo '</div>';
+      echo '  </p>
+            </div>';
     }
 
-      echo '<div class="rex-form-row">
-              <p class="rex-form-checkbox rex-form-label-right">
-                <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="SetAllCheckBoxes(\'sync_files[]\',this)" />
-                <label for="checkie">'. $I18N->msg('pool_select_all') .'</label>
-              </p>
-            </div>';
+    echo '<div class="rex-form-row">
+            <p class="rex-form-checkbox rex-form-label-right">
+              <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="SetAllCheckBoxes(\'sync_files[]\',this)" />
+              <label for="checkie">'. $I18N->msg('pool_select_all') .'</label>
+            </p>
+          </div>';
 
   }
   else
@@ -1047,12 +1058,19 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       $db->setWhere('file_id='.$file_id);
       $db->setValue('category_id',$rex_file_category);
       $db->addGlobalUpdateFields();
-      $db->update();
-
-      $msg = $I18N->msg('pool_selectedmedia_moved');
+      if($db->update())
+      {
+        $info = $I18N->msg('pool_selectedmedia_moved');
+      }
+      else
+      {
+        $warning = $I18N->msg('pool_selectedmedia_error');
+      }
     }
-  }else{
-    $msg = $I18N->msg('pool_selectedmedia_error');
+  }
+  else
+  {
+    $warning = $I18N->msg('pool_selectedmedia_error');
   }
 }
 
@@ -1061,10 +1079,8 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
   $selectedmedia = rex_post("selectedmedia","array");
   if($selectedmedia[0]>0)
   {
-    $msg = "";
     foreach($selectedmedia as $file_id)
     {
-
       $gf = new rex_sql;
       $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
       if ($gf->getRows()==1)
@@ -1090,37 +1106,43 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 
           $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
           $db->setQuery($sql);
-          // fehler unterdrücken, falls die Datei nicht mehr vorhanden ist
-          @unlink($REX['MEDIAFOLDER']."/".$file_name);
-          $msg .= "\"$file_name\" ".$I18N->msg('pool_file_deleted');
+          if(OOMedia::fileExists($file_name))
+          {
+            OOMedia::delete($file_name);
+          }
+          $info .= '"'. $file_name .'" '.$I18N->msg('pool_file_deleted') . "<br />";
           $subpage = "";
-        }else{
-          $msg .= $I18N->msg('pool_file_delete_error_1',$file_name)." ";
-          $msg .= $I18N->msg('pool_file_delete_error_2')."<br>";
+        }
+        else
+        {
+          $warning .= $I18N->msg('pool_file_delete_error_1',$file_name)." ";
+          $warning .= $I18N->msg('pool_file_delete_error_2')."<br>";
           if(is_array($res1))
           {
             foreach($res1 as $var){
-              $msg .= ' | <a href="../index.php?article_id='.$var['id'].'" target="_blank">'.$var['name'].'</a>';
+              $warning .= ' | <a href="../index.php?article_id='.$var['id'].'" target="_blank">'.$var['name'].'</a>';
             }
           }
           if(is_array($res2))
           {
             foreach($res2 as $var){
-              $msg .= ' | <a href="../index.php?article_id='.$var['id'].'" target="_blank">'.$var['name'].'</a>';
+              $warning .= ' | <a href="../index.php?article_id='.$var['id'].'" target="_blank">'.$var['name'].'</a>';
             }
           }
-          $msg .= " | ";
+          $warning .= " | <br />";
           $subpage = "";
         }
-      }else
+      }
+      else
       {
-        $msg .= $I18N->msg('pool_file_not_found');
+        $warning .= $I18N->msg('pool_file_not_found'). "<br />";
         $subpage = "";
       }
-      $msg .= "<br />";
     }
-  }else{
-    $msg = $I18N->msg('pool_selectedmedia_error');
+  }
+  else
+  {
+    $warning = $I18N->msg('pool_selectedmedia_error');
   }
 }
 
@@ -1152,15 +1174,22 @@ if ($subpage == '')
 //                  <th>'. $I18N->msg('pool_file_list') .'</th>
 //                </tr>
 
-  if(is_array($msg))
+  if(is_array($warning))
   {
-    echo rex_warning_block(implode('', $msg));
-  } else if($msg != '')
-  {
-    echo rex_warning($msg);
-    $msg = "";
+    echo rex_warning_block(implode('', $warning));
+    $warning = '';
   }
-
+  else if($warning != '')
+  {
+    echo rex_warning($warning);
+    $warning = '';
+  }
+  else if($info != '')
+  {
+    echo rex_info($info);
+    $info = '';
+  }
+    
   if(!empty($args['types']))
     echo rex_info($I18N->msg('pool_file_filter', $args['types']));
 
@@ -1253,7 +1282,6 @@ if ($subpage == '')
   print '<tbody>';
   for ($i=0;$i<$files->getRows();$i++)
   {
-
     $file_id =   $files->getValue('file_id');
     $file_name = $files->getValue('filename');
     $file_oname = $files->getValue('originalname');
@@ -1290,7 +1318,7 @@ if ($subpage == '')
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $file_name))
+    if (!OOMedia::fileExists($file_name))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
