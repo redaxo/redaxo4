@@ -117,7 +117,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 
     if($FILETYPE == '' && isset($size['mime']))
       $FILETYPE = $size['mime'];
-
+      
     $FILESQL = new rex_sql;
     $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
     $FILESQL->setValue('filetype',$FILETYPE);
@@ -133,7 +133,6 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
     }
 
     $FILESQL->setValue('category_id',$rex_file_category);
-    // TODO Create + Update zugleich?
     $FILESQL->addGlobalCreateFields($userlogin);
     $FILESQL->addGlobalUpdateFields($userlogin);
     $FILESQL->insert();
