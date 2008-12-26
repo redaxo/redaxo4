@@ -278,13 +278,15 @@ class rex_article
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
-          $RE_CONTS[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-          $RE_CONTS_CTYPE[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-          $RE_MODUL_IN[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.eingabe');
-          $RE_MODUL_OUT[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.ausgabe');
-          $RE_MODUL_ID[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.id');
-          $RE_MODUL_NAME[$this->CONT->getValue('re_article_slice_id')] = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.name');
-          $RE_C[$this->CONT->getValue('re_article_slice_id')] = $i;
+          $RE_SLICE_ID = $this->CONT->getValue('re_article_slice_id');
+          
+          $RE_CONTS[$RE_SLICE_ID]       = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+          $RE_CONTS_CTYPE[$RE_SLICE_ID] = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+          $RE_MODUL_IN[$RE_SLICE_ID]    = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.eingabe');
+          $RE_MODUL_OUT[$RE_SLICE_ID]   = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.ausgabe');
+          $RE_MODUL_ID[$RE_SLICE_ID]    = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.id');
+          $RE_MODUL_NAME[$RE_SLICE_ID]  = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.name');
+          $RE_C[$RE_SLICE_ID]           = $i;
           $this->CONT->next();
         }
 
