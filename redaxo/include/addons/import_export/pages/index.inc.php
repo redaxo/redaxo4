@@ -8,8 +8,7 @@
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.
-
-@ini_set('memory_limit', '32M');
+@ini_set('memory_limit', '64M');
 
 // ------- Addon Includes
 include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/classes/class.tar.inc.php';
@@ -19,44 +18,46 @@ include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_folder.i
 include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_import_folder.inc.php';
 include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_string.inc.php';
 
-// ------------------------------ FUNC
-$msg = "";
+$info = '';
+$warning = '';
 
-$impname = rex_request('impname', 'string');
+// ------------------------------ Requestvars
+$function       = rex_request('function', 'string');
+$impname        = rex_request('impname', 'string');
+$exportfilename = rex_post('exportfilename', 'string');
+$exporttype     = rex_post('exporttype', 'string');
+$exportdl       = rex_post('exportdl', 'boolean');
+$EXPDIR         = rex_post('EXPDIR', 'array');
+var_dump($EXPDIR);
 
-if (isset ($impname) && $impname != '')
+if ($impname != '')
 {
   $impname = str_replace("/", "", $impname);
 
   if ($function == "dbimport" && substr($impname, -4, 4) != ".sql")
     $impname = "";
-  elseif ($function == "fileimport" && substr($impname, -7, 7) != ".tar.gz") $impname = "";
-
+  elseif ($function == "fileimport" && substr($impname, -7, 7) != ".tar.gz")
+    $impname = "";
 }
 
-if (!isset ($exportfilename) || $exportfilename == '')
+if ($exportfilename == '')
   $exportfilename = 'rex_'.$REX['VERSION'].'_'.date("Ymd");
 
-if (isset ($function) && $function == "delete")
+if ($function == "delete")
 {
-
   // ------------------------------ FUNC DELETE
-
   if (unlink($REX['INCLUDE_PATH']."/addons/$page/files/$impname"));
-  $msg = $I18N_IM_EXPORT->msg("file_deleted");
-
+  $info = $I18N_IM_EXPORT->msg("file_deleted");
 }
-elseif (isset ($function) && $function == "dbimport")
+elseif ($function == "dbimport")
 {
-
   // ------------------------------ FUNC DBIMPORT
 
   // noch checken das nicht alle tabellen geloescht werden
   // install/temp.sql aendern
-
   if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
-    $msg = $I18N_IM_EXPORT->msg("no_import_file_chosen_or_wrong_version")."<br>";
+    $warning = $I18N_IM_EXPORT->msg("no_import_file_chosen_or_wrong_version")."<br>";
   }
   else
   {
@@ -72,7 +73,7 @@ elseif (isset ($function) && $function == "dbimport")
     if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $state = rex_a1_import_db($file_temp);
-      $msg = $state['message'];
+      $info = $state['message'];
 
       // temp datei löschen
       if ($impname == "")
@@ -82,19 +83,18 @@ elseif (isset ($function) && $function == "dbimport")
     }
     else
     {
-      $msg = $I18N_IM_EXPORT->msg("file_could_not_be_uploaded")." ".$I18N_IM_EXPORT->msg("you_have_no_write_permission_in", "addons/$page/files/")." <br>";
+      $warning = $I18N_IM_EXPORT->msg("file_could_not_be_uploaded")." ".$I18N_IM_EXPORT->msg("you_have_no_write_permission_in", "addons/$page/files/")." <br>";
     }
   }
 
 }
-elseif (isset ($function) && $function == "fileimport")
+elseif ($function == "fileimport")
 {
-
   // ------------------------------ FUNC FILEIMPORT
 
   if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
-    $msg = $I18N_IM_EXPORT->msg("no_import_file_chosen")."<br>";
+    $warning = $I18N_IM_EXPORT->msg("no_import_file_chosen")."<br/>";
   }
   else
   {
@@ -109,7 +109,7 @@ elseif (isset ($function) && $function == "fileimport")
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $state = rex_a1_import_files($file_temp);
-      $msg = $state['message'];
+      $info = $state['message'];
 
       // temp datei löschen
       if ($impname == "")
@@ -119,23 +119,22 @@ elseif (isset ($function) && $function == "fileimport")
     }
     else
     {
-      $msg = $I18N_IM_EXPORT->msg("file_could_not_be_uploaded")." ".$I18N_IM_EXPORT->msg("you_have_no_write_permission_in", "addons/$page/files/")." <br>";
+      $warning = $I18N_IM_EXPORT->msg("file_could_not_be_uploaded")." ".$I18N_IM_EXPORT->msg("you_have_no_write_permission_in", "addons/$page/files/")." <br>";
     }
   }
 
 }
-elseif (isset ($function) && $function == 'export')
+elseif ($function == 'export')
 {
-
   // ------------------------------ FUNC EXPORT
 
   $exportfilename = strtolower($exportfilename);
   $exportfilename = stripslashes($exportfilename);
-  $filename = ereg_replace('[^\.a-z0-9_\-]', '', $exportfilename);
+  $filename       = ereg_replace('[^\.a-z0-9_\-]', '', $exportfilename);
 
   if ($filename != $exportfilename)
   {
-    $msg = $I18N_IM_EXPORT->msg('filename_updated');
+    $info = $I18N_IM_EXPORT->msg('filename_updated');
     $exportfilename = $filename;
   }
   else
@@ -158,9 +157,9 @@ elseif (isset ($function) && $function == 'export')
       $header = 'tar/gzip';
       $ext = '.tar.gz';
 
-      if (!isset($EXPDIR) || $EXPDIR == '')
+      if (empty($EXPDIR))
       {
-        $msg = $I18N_IM_EXPORT->msg('please_choose_folder');
+        $warning = $I18N_IM_EXPORT->msg('please_choose_folder');
       }
       else
       {
@@ -171,14 +170,13 @@ elseif (isset ($function) && $function == 'export')
 
     if ($content != '')
     {
-      if($exportdl == 1)
+      if($exportdl)
       {
         $filename = $filename.$ext;
         header("Content-type: $header");
         header("Content-Disposition: attachment; filename=$filename");
         echo $content;
         exit;
-
       }
       else
       {
@@ -199,11 +197,11 @@ elseif (isset ($function) && $function == 'export')
 
         if (rex_put_file_contents($export_path . $filename . $ext, $content) !== false)
         {
-          $msg = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename . $ext, '\\', '/');
+          $info = $I18N_IM_EXPORT->msg('file_generated_in').' '.strtr($filename . $ext, '\\', '/');
         }
         else
         {
-          $msg = $I18N_IM_EXPORT->msg('file_could_not_be_generated').' '.$I18N->msg('check_rights_in_directory').' '.$export_path;
+          $warning = $I18N_IM_EXPORT->msg('file_could_not_be_generated').' '.$I18N->msg('check_rights_in_directory').' '.$export_path;
         }
       }
     }
@@ -214,9 +212,13 @@ require $REX['INCLUDE_PATH']."/layout/top.php";
 
 rex_title($I18N_IM_EXPORT->msg("importexport"), "");
 
-if ($msg != '')
+if ($info != '')
 {
-  echo rex_warning($msg);
+  echo rex_info($info);
+}
+if ($warning != '')
+{
+  echo rex_warning($warning);
 }
 
 ?>
@@ -350,12 +352,10 @@ if ($msg != '')
 ?>
         </tbody>
       </table>
-      
-      
     </div>
   </div>
   
-<?php /*rechter Abschnitt */ ?>
+  <!-- rechter Abschnitt -->
 
   <div class="rex-area-col-b">
     <h3 class="rex-hl2"><?php echo $I18N_IM_EXPORT->msg('export'); ?></h3>
@@ -375,7 +375,7 @@ if ($msg != '')
 $checkedsql = '';
 $checkedfiles = '';
 
-if (isset ($exporttype) and $exporttype == 'files')
+if ($exporttype == 'files')
 {
   $checkedfiles = ' checked="checked"';
 }
@@ -410,7 +410,7 @@ else
     }
 
     $checked = '';
-    if (isset($EXPDIR) && is_array($EXPDIR) && array_key_exists($file, $EXPDIR) !== false)
+    if (array_key_exists($file, $EXPDIR) !== false)
     {
       $checked = ' checked="checked"';
     }
@@ -422,16 +422,14 @@ else
     ';
   }
 ?>
-                </div><!-- END rex-form-checkboxes-wrapper -->
-              </div><!-- END rex-form-checkboxes -->
-            </div><!-- END rex-form-row -->
-            
-
+    </div><!-- END rex-form-checkboxes-wrapper -->
+  </div><!-- END rex-form-checkboxes -->
+</div><!-- END rex-form-row -->
 <?php
 $checked0 = '';
 $checked1 = '';
 
-if (isset ($exportdl) and $exportdl == 1)
+if ($exportdl)
 {
   $checked1 = ' checked="checked"';
 }
@@ -470,6 +468,5 @@ else
     </div><!-- END rex-area-content -->
   </div><!-- END rex-area-col-b -->
 </div><!-- END rex-area -->
-
 <?php
 require $REX['INCLUDE_PATH']."/layout/bottom.php";
