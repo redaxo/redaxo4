@@ -208,16 +208,16 @@ function rex_generateArticle($id, $refreshall = true)
  *
  * @param $id ArtikelId des Artikels, der gelöscht werden soll
  */
-function rex_deleteArticle($id, $ebene = 0)
+function rex_deleteArticle($id)
 {
   global $I18N;
 
-  $result = _rex_deleteArticle($id, $ebene);
+  $result = _rex_deleteArticle($id);
 
   return $result === true ? $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted') : $result;
 }
 
-function _rex_deleteArticle($id, $ebene)
+function _rex_deleteArticle($id)
 {
   global $REX, $I18N;
 
@@ -256,7 +256,7 @@ function _rex_deleteArticle($id, $ebene)
       $SART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$id' and clang='0'");
       for ($i = 0; $i < $SART->getRows(); $i ++)
       {
-        $allowDelete = _rex_deleteArticle($id, ($ebene +1));
+        $allowDelete = _rex_deleteArticle($id);
         $SART->next();
       }
     }
