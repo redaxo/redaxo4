@@ -40,9 +40,27 @@ Version 4.2.0 (2008-XX-XX)
     - Default Template festlegbar [Markus.Staab]
       + http://forum.redaxo.de/ftopic6934.html
     - Logik in API ausgelagert [Markus.Staab]
+      + rex_article2startpage()
+      + rex_copyMeta()
+      + rex_copyContent()
+      + rex_copyArticle()
+      + rex_moveArticle()
+      + rex_moveCategory()
+      + rex_newCatPrio()
+      + rex_newArtPrio()
+      + rex_addCategory()
+      + rex_editCategory()
+      + rex_deleteCategory()
+      + rex_categoryStatus()
+      + rex_addArticle()
+      + rex_editArticle()
+      + rex_deleteArticle()
+      + rex_articleStatus()  
     - Kategorietabelle angepasst [Thomas.Blum]
   * Inhaltsverwaltung:
     - Logik in API ausgelagert [Markus.Staab]
+      + rex_deleteSlice()
+      + rex_moveSlice(), rex_moveSliceUp(), rex_moveSliceDown()
   * Module:
   	- Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
   * System : Sprachen:

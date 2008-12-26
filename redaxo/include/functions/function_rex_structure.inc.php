@@ -7,7 +7,7 @@
  * @version $Id: function_rex_medienpool.inc.php,v 1.7 2008/03/26 16:26:51 kills Exp $
  */
 
-function rex_structure_addCategory($category_id, $clang, $data)
+function rex_addCategory($category_id, $clang, $data)
 {
   global $REX, $I18N;
 
@@ -113,7 +113,7 @@ function rex_structure_addCategory($category_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_structure_editCategory($category_id, $clang, $data)
+function rex_editCategory($category_id, $clang, $data)
 {
   global $REX, $I18N;
 
@@ -207,7 +207,7 @@ function rex_structure_editCategory($category_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_structure_deleteCategory($category_id, $clang)
+function rex_deleteCategory($category_id, $clang)
 {
   global $REX, $I18N;
 
@@ -262,13 +262,13 @@ function rex_structure_deleteCategory($category_id, $clang)
   return array($success, $message);
 }
 
-function rex_structure_categoryStatus($category_id, $clang, $status = null)
+function rex_categoryStatus($category_id, $clang, $status = null)
 {
   global $REX, $I18N;
 
   $success = false;
   $message = '';
-  $catStatusTypes = rex_structure_categoryStatusTypes();
+  $catStatusTypes = rex_categoryStatusTypes();
 
   $KAT = new rex_sql();
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$category_id' and clang=$clang and startpage=1");
@@ -314,7 +314,7 @@ function rex_structure_categoryStatus($category_id, $clang, $status = null)
   return array($success, $message);
 }
 
-function rex_structure_categoryStatusTypes()
+function rex_categoryStatusTypes()
 {
   global $I18N;
 
@@ -335,7 +335,7 @@ function rex_structure_categoryStatusTypes()
   return $catStatusTypes;
 }
 
-function rex_structure_addArticle($article_id, $clang, $data)
+function rex_addArticle($article_id, $clang, $data)
 {
   global $REX, $I18N;
 
@@ -414,7 +414,7 @@ function rex_structure_addArticle($article_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_structure_editArticle($article_id, $clang, $data)
+function rex_editArticle($article_id, $clang, $data)
 {
   global $REX, $I18N;
 
@@ -474,7 +474,7 @@ function rex_structure_editArticle($article_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_structure_deleteArticle($article_id)
+function rex_deleteArticle($article_id)
 {
   global $REX;
 
@@ -507,13 +507,13 @@ function rex_structure_deleteArticle($article_id)
   return array($success, $message);
 }
 
-function rex_strucutre_articleStatus($article_id, $clang, $status = null)
+function rex_articleStatus($article_id, $clang, $status = null)
 {
   global $REX, $I18N;
 
   $success = false;
   $message = '';
-  $artStatusTypes = rex_structure_articleStatusTypes();
+  $artStatusTypes = rex_articleStatusTypes();
 
   $GA = new rex_sql;
   $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
@@ -559,7 +559,7 @@ function rex_strucutre_articleStatus($article_id, $clang, $status = null)
   return array($success, $message);
 }
 
-function rex_structure_articleStatusTypes()
+function rex_articleStatusTypes()
 {
   global $I18N;
 
