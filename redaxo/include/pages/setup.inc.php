@@ -238,16 +238,13 @@ if ($checkmodus == '0.5')
 
 if ($checkmodus == 1)
 {
-
   // -------------------------- VERSIONSCHECK
-
   if (version_compare(phpversion(), '4.3.2', '<') == 1)
   {
     $MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
   }
 
   // -------------------------- EXTENSION CHECK
-
   foreach(array('session', 'mysql', 'pcre') as $extension)
   {
     if(!extension_loaded($extension))
@@ -255,7 +252,6 @@ if ($checkmodus == 1)
   }
 
   // -------------------------- SCHREIBRECHTE
-
   $WRITEABLES = array (
     $REX['INCLUDE_PATH'].'/master.inc.php',
     $REX['INCLUDE_PATH'].'/addons.inc.php',
