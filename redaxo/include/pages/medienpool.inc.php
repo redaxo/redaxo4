@@ -207,13 +207,6 @@ if ($warning != '')
   echo rex_warning($warning);
   $warning = '';
 }
-/*
-if ($msg != '')
-{
-  echo rex_warning($msg)."\n";
-  $msg = '';
-}
-*/
 
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
