@@ -28,7 +28,6 @@ $exportfilename = rex_post('exportfilename', 'string');
 $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
-var_dump($EXPDIR);
 
 if ($impname != '')
 {
