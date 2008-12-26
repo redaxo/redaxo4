@@ -46,7 +46,6 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
  */
 function rex_a62_metainfo_form($params)
 {
-
   // Nur beim EDIT gibts auch ein Medium zum bearbeiten
   if($params['extension_point'] == 'MEDIA_FORM_EDIT')
   {
