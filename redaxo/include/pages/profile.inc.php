@@ -49,9 +49,13 @@ if ($handle = opendir($langpath))
 	unset($I18N_T);
 }
 $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
+$userperm_be_sprache_selected = '';
 foreach($langs as $k => $v)
 {
-	if ($REX_LOGIN->USER->hasPerm('be_lang['.$k.']')) $userperm_be_sprache_selected = $k;
+	if ($REX_LOGIN->USER->hasPerm('be_lang['.$k.']'))
+	{
+	  $userperm_be_sprache_selected = $k;
+	}
 }
 
 
