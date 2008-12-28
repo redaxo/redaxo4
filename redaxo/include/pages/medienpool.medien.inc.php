@@ -57,24 +57,6 @@ function selectMedialist(filename)
   ?>
 }
 
-function SetAllCheckBoxes(FieldName, mthis)
-{
-  var CheckValue;
-
-  if (mthis.checked) CheckValue=true;
-  else CheckValue=false;
-
-  var objCheckBoxes = new getObjArray(FieldName);
-  if(!objCheckBoxes) return;
-
-  var countCheckBoxes = objCheckBoxes.length;
-  if(!countCheckBoxes) objCheckBoxes.checked = CheckValue;
-  else
-    // set the check value for all check boxes
-    for(var i = 0; i < countCheckBoxes; i++)
-      objCheckBoxes[i].checked = CheckValue;
-}
-
 function insertImage(src,alt)
 {
   window.opener.insertImage('files/' + src, alt);
@@ -89,27 +71,7 @@ function insertLink(src)
 
 //-->
 </script>
-
 <?php
-
-// *************************************** request vars
-
-$media_method = rex_request('media_method', 'string');
-$info         = rex_request('info', 'string');
-$warning      = rex_request('warning', 'string');
-
-// *************************************** MESSAGES
-if ($info != '')
-{
-  echo rex_info($info);
-  $info = '';
-}
-if ($warning != '')
-{
-  echo rex_warning($warning);
-  $warning = '';
-}
-
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
@@ -733,7 +695,7 @@ if ($subpage == '')
       <tr>
         <td class="rex-icon">
           <label class="rex-form-hidden-label" for="checkie">'.$I18N->msg('pool_select_all').'</label>
-          <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onclick="SetAllCheckBoxes(\'selectedmedia[]\',this)" />
+          <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />
         </td>
         <td colspan="3">
           '.$add_input.'

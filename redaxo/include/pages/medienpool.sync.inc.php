@@ -1,52 +1,10 @@
-<script type="text/javascript">
-<!--
-
-function SetAllCheckBoxes(FieldName, mthis)
-{
-  var CheckValue;
-
-  if (mthis.checked) CheckValue=true;
-  else CheckValue=false;
-
-  var objCheckBoxes = new getObjArray(FieldName);
-  if(!objCheckBoxes) return;
-
-  var countCheckBoxes = objCheckBoxes.length;
-  if(!countCheckBoxes) objCheckBoxes.checked = CheckValue;
-  else
-    // set the check value for all check boxes
-    for(var i = 0; i < countCheckBoxes; i++)
-      objCheckBoxes[i].checked = CheckValue;
-}
-
-//-->
-</script>
-
 <?php
-
-// *************************************** request vars
-
-$media_method = rex_request('media_method', 'string');
-$info         = rex_request('info', 'string');
-$warning      = rex_request('warning', 'string');
-
-// *************************************** MESSAGES
-if ($info != '')
-{
-  echo rex_info($info);
-  $info = '';
-}
-if ($warning != '')
-{
-  echo rex_warning($warning);
-  $warning = '';
-}
 
 // *************************************** SYNC FUNCTIONS
 
 
 // ----- SYNC DB WITH FILES DIR
-if($PERMALL && isset($subpage) and $subpage == 'sync')
+if($PERMALL)
 {
   // ---- Dateien aus dem Ordner lesen
   $folder_files = array();
@@ -133,7 +91,7 @@ if($PERMALL && isset($subpage) and $subpage == 'sync')
 
     echo '<div class="rex-form-row">
             <p class="rex-form-checkbox rex-form-label-right">
-              <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="SetAllCheckBoxes(\'sync_files[]\',this)" />
+              <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />
               <label for="checkie">'. $I18N->msg('pool_select_all') .'</label>
             </p>
           </div>';

@@ -6,28 +6,9 @@
  * @version $Id: medienpool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
  */
 
-// *************************************** request vars
-
-$media_method = rex_request('media_method', 'string');
-$info         = rex_request('info', 'string');
-$warning      = rex_request('warning', 'string');
-
-// *************************************** MESSAGES
-
-if ($info != '')
-{
-  echo rex_info($info);
-  $info = '';
-}
-if ($warning != '')
-{
-  echo rex_warning($warning);
-  $warning = '';
-}
-
 // *************************************** SUBPAGE: KATEGORIEN
 
-if ($PERMALL && $subpage == "categories")
+if ($PERMALL)
 {
   $edit_id = rex_request('edit_id', 'int');
   if ($media_method == 'edit_file_cat')

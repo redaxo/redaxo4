@@ -1,28 +1,9 @@
 <?php
 
-// *************************************** request vars
-
-$media_method = rex_request('media_method', 'string');
-$info         = rex_request('info', 'string');
-$warning      = rex_request('warning', 'string');
-
-// *************************************** MESSAGES
-if ($info != '')
-{
-  echo rex_info($info);
-  $info = '';
-}
-if ($warning != '')
-{
-  echo rex_warning($warning);
-  $warning = '';
-}
-
-
 // *************************************** Subpage: ADD FILE
 
 // ----- METHOD ADD FILE
-if ($subpage == 'add_file' && $media_method == 'add_file'){
+if ($media_method == 'add_file'){
   if ($_FILES['file_new']['name'] != "" and $_FILES['file_new']['name'] != 'none')
   {
     $FILEINFOS['title'] = rex_request('ftitle', 'string');
@@ -81,7 +62,4 @@ if ($subpage == 'add_file' && $media_method == 'add_file'){
 }
 
 // ----- METHOD ADD FORM
-if ($subpage == "add_file")
-{
-  echo rex_medienpool_Uploadform($rex_file_category);
-}
+echo rex_medienpool_Uploadform($rex_file_category);

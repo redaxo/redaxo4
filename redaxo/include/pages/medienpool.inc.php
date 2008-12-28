@@ -11,8 +11,11 @@
 // - mehrere ebenen in kategorienedit  einbauen
 
 // -------------- Defaults
-$subpage = rex_request('subpage', 'string');
-$func = rex_request('func', 'string');
+$subpage      = rex_request('subpage', 'string');
+$func         = rex_request('func', 'string');
+$media_method = rex_request('media_method', 'string');
+$info         = rex_request('info', 'string');
+$warning      = rex_request('warning', 'string');
 
 // -------------- Additional Args
 $arg_url = '';
@@ -90,6 +93,18 @@ $subline = rex_register_extension_point('PAGE_MEDIENPOOL_MENU', $subline,
 
 $title = $I18N->msg('pool_media');
 rex_title($title, $subline);
+
+// -------------- Messages
+if ($info != '')
+{
+  echo rex_info($info);
+  $info = '';
+}
+if ($warning != '')
+{
+  echo rex_warning($warning);
+  $warning = '';
+}
 
 // -------------- Include Page
 switch($subpage)
