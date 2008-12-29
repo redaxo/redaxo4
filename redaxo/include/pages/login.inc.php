@@ -13,7 +13,7 @@ if (isset($FORM['loginmessage']) && $FORM['loginmessage'] != '')
 {
   echo rex_warning($FORM['loginmessage'])."\n";
   $js = '
-    var time_el = $("p.rex-message span strong");
+    var time_el = $("div.rex-message span strong");
 
     if(time_el.length == 1) {
       function disableLogin() {
@@ -22,7 +22,7 @@ if (isset($FORM['loginmessage']) && $FORM['loginmessage'] != '')
         if(parseInt(time_el.html(), 10) > 0) {
           setTimeout(disableLogin, 1000);
         } else {
-          $("p.rex-message span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
+          $("div.rex-message span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
           $("#loginformular input:not(:hidden)").attr("disabled", "");
           $("#rex-form-login").focus();
         }
