@@ -40,9 +40,7 @@ else
 
 	<div class="rex-addon-content">
 		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_intro_help'); ?></p>
-
-		<p class="rex-code"><code><?php echo htmlspecialchars($mdl_help); ?></code></p>
-
+		<?php rex_highlight_string($mdl_help); ?>
 		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_rights'); ?></p>
 	</div>
 
@@ -52,7 +50,7 @@ else
 		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_intro_moduleoutput'); ?></p>
 
 		<h3><?php echo $I18N_A79->msg('example_for'); ?> REX_VALUE[1]</h3>
-		<p class="rex-code"><?php highlight_string($mdl_ex); ?></p>
+		<?php rex_highlight_string($mdl_ex); ?>
 	</div>
 </div>
 

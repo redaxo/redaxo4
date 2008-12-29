@@ -134,25 +134,25 @@ EOD;
   <h2><?php echo $I18N_A52->msg('modulecss'); ?></h2>
 
   <div class="rex-addon-content">
-    <?php highlight_string($mdl_css); ?>
+    <?php rex_highlight_string($mdl_css); ?>
   </div>
 
 	<h2><?php echo $I18N_A52->msg('moduleinput_simple'); ?></h2>
 
 	<div class="rex-addon-content">
-		<?php highlight_string($mdl_1); ?>
+		<?php rex_highlight_string($mdl_1); ?>
 	</div>
 
 <h2><?php echo $I18N_A52->msg('moduleinput_extends'); ?></h2>
 
 	<div class="rex-addon-content">
-		<?php highlight_string($mdl_2); ?>
+		<?php rex_highlight_string($mdl_2); ?>
 	</div>
 
 <h2><?php echo $I18N_A52->msg('moduleoutput'); ?></h2>
 
 	<div class="rex-addon-content">
-		<?php highlight_string($mdl_3); ?>
+		<?php rex_highlight_string($mdl_3); ?>
 	</div>
 
 	<div class="rex-addon-content">

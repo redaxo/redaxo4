@@ -448,6 +448,25 @@ if (!function_exists('file_put_contents'))
   }
 }
 
+function rex_highlight_string($string, $return = false)
+{
+  $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
+  if($return)
+  {
+    return $s;
+  }
+  echo $s;  
+}
+
+function rex_highlight_file($filename, $return = false)
+{
+  $s = '<p class="rex-code">'. highlight_file($filename, true) .'</p>';
+  if($return)
+  {
+    return $s;
+  }
+  echo $s;  
+}
 // make objectcloning work for php4
 // see http://acko.net/node/54
 // usage: $cloned = clone($yourObject);

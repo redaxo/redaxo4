@@ -64,7 +64,7 @@ class rex_var_value extends rex_var
     $content = $this->getOutput($sql, $content, true);
 
     $php_content = $this->getValue($sql, 'php');
-    $php_content = highlight_string($php_content, true);
+    $php_content = rex_highlight_string($php_content, true);
 
     $content = str_replace('REX_PHP', $this->stripPHP($php_content), $content);
     return $content;
