@@ -219,7 +219,7 @@ class rex_thumbnail
     }
 
     if($file)
-      chmod($file, $REX['FILEPERM']);
+      @chmod($file, $REX['FILEPERM']);
 
     if ($show)
     {

@@ -187,7 +187,7 @@ class rex_xform_mediapool extends rex_xform_abstract
 	  if($upload)
 	  {
 	
-	    chmod($REX['MEDIAFOLDER']."/$NFILENAME", $REX['FILEPERM']);
+	    @chmod($REX['MEDIAFOLDER']."/$NFILENAME", $REX['FILEPERM']);
 	
 	    // get widht height
 	    $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");

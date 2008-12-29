@@ -174,7 +174,7 @@ class rex_xform_mediafile extends rex_xform_abstract
 	    }
 	  }
 	
-		chmod($filefolder."/$NFILENAME", $REX['FILEPERM']);
+		@chmod($filefolder."/$NFILENAME", $REX['FILEPERM']);
 		$RETURN['type'] = $FILETYPE;
 		$RETURN['msg'] = $message;
 		$RETURN['ok'] = TRUE;
