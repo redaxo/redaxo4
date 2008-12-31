@@ -840,7 +840,7 @@ class rex_list
 
   function replaceVariable($string, $varname)
   {
-    return str_replace('###'. $varname .'###', $this->getValue($varname), $string);
+    return str_replace('###'. $varname .'###', htmlspecialchars($this->getValue($varname)), $string);
   }
 
   /**
