@@ -9,31 +9,26 @@
 rex_title('Login');
 
 $js = '';
-if (isset($FORM['loginmessage']) && $FORM['loginmessage'] != '')
+if ($rex_user_loginmessage != '')
 {
-  echo rex_warning($FORM['loginmessage'])."\n";
+  echo rex_warning($rex_user_loginmessage)."\n";
   $js = '
-    var time_el = $("div.rex-message span strong");
-
+    var time_el = $("div.rex-message p span strong");
     if(time_el.length == 1) {
       function disableLogin() {
         time_el.html((parseInt(time_el.html(), 10)-1) + "");
-
         if(parseInt(time_el.html(), 10) > 0) {
           setTimeout(disableLogin, 1000);
         } else {
-          $("div.rex-message span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
+          $("div.rex-message p span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
           $("#loginformular input:not(:hidden)").attr("disabled", "");
           $("#rex-form-login").focus();
         }
       };
-
       $("#loginformular input:not(:hidden)").attr("disabled", "disabled");
       setTimeout(disableLogin, 1000);
     }';
 }
-
-$REX_ULOGIN = rex_post('REX_ULOGIN', 'string');
 
 echo '
 
@@ -49,13 +44,13 @@ echo '
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
     			<label for="rex-form-login">'.$I18N->msg('login_name').':</label>
-      		<input type="text" value="'.stripslashes(htmlspecialchars($REX_ULOGIN)).'" id="rex-form-login" name="REX_ULOGIN"'. rex_tabindex() .' />
+      		<input type="text" value="'.stripslashes(htmlspecialchars($rex_user_login)).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
     		</p>
     	</div>
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-password">
       		<label for="REX_UPSW">'.$I18N->msg('password').':</label>
-      		<input class="rex-form-password" type="password" name="REX_UPSW" id="REX_UPSW"'. rex_tabindex() .' />
+      		<input class="rex-form-password" type="password" name="rex_user_psw" id="REX_UPSW"'. rex_tabindex() .' />
 	    		<input class="rex-form-submit" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
 	    	</p>
 	    </div>

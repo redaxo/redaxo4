@@ -74,27 +74,28 @@ else
 
   // ---- prepare login
   $REX_LOGIN = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
-  $REX_ULOGIN = rex_post('REX_ULOGIN', 'string');
-  $REX_UPSW = rex_post('REX_UPSW', 'string');
+  $rex_user_login = rex_post('rex_user_login', 'string');
+  $rex_user_psw = rex_post('rex_user_psw', 'string');
 
   if ($REX['PSWFUNC'] != '')
     $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
 
-  if (rex_get('logout', 'boolean'))
+  if (rex_get('rex_logout', 'boolean'))
     $REX_LOGIN->setLogout(true);
 
-  $REX_LOGIN->setLogin($REX_ULOGIN, $REX_UPSW);
+  $REX_LOGIN->setLogin($rex_user_login, $rex_user_psw);
   $loginCheck = $REX_LOGIN->checkLogin();
 
+	$rex_user_loginmessage = "";
   if ($loginCheck !== true)
   {
   	// login failed
 
-    $FORM['loginmessage'] = $REX_LOGIN->message;
+    $rex_user_loginmessage = $REX_LOGIN->message;
 
     // Fehlermeldung von der Datenbank
     if(is_string($loginCheck))
-      $FORM['loginmessage'] = $loginCheck;
+      $rex_user_loginmessage = $loginCheck;
 
     $LOGIN = FALSE;
     $page = 'login';
@@ -110,7 +111,7 @@ else
     }
   	
     // --- login ok -> redirect
-    if ($REX_ULOGIN != "")
+    if ($rex_user_login != "")
     {
       header('Location: index.php?page='. $page);
   		exit;
