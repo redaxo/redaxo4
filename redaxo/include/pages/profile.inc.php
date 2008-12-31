@@ -73,10 +73,11 @@ if (rex_post('upd_profile_button', 'string'))
 
 	// set be langauage
 	$userperm_be_sprache = rex_request("userperm_be_sprache","string");
-	if($langs[$userperm_be_sprache] == "") $userperm_be_sprache = "default";
+	if(!isset($langs[$userperm_be_sprache])) $userperm_be_sprache = "default";
 	$userperm_be_sprache_selected = $userperm_be_sprache;
 	
-	$rights = preg_replace('@#be_lang\[([^\]]*)\]@' , '#be_lang['.$userperm_be_sprache.']', $REX_LOGIN->getValue("rights"));
+	$rights = preg_replace('@#be_lang\[([^\]]*)\]@' , '', $REX_LOGIN->getValue("rights"));
+	$rights .= 'be_lang['.$userperm_be_sprache.']#';
   $updateuser->setValue('rights',$rights);
 	
   $updateuser->addGlobalUpdateFields();
