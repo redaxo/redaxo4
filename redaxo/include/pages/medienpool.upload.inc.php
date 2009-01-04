@@ -14,12 +14,12 @@ if ($media_method == 'add_file'){
     $return = rex_medienpool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX_USER->getValue("login"));
     $info = $return['msg'];
     $subpage = "";
-
+    
     // ----- EXTENSION POINT
     if ($return['ok'] == 1)
       rex_register_extension_point('MEDIA_ADDED','',$return);
 
-    if (isset($saveandexit) and $saveandexit != "" && $return['ok'] == 1)
+    if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1)
     {
       $file_name = $return['filename'];
       $ffiletype = $return['type'];
@@ -50,7 +50,7 @@ if ($media_method == 'add_file'){
 
       echo "<script language=javascript>\n";
       echo $js;
-      echo "\nself.close();\n";
+      // echo "\nself.close();\n";
       echo "</script>";
       exit;
     }
