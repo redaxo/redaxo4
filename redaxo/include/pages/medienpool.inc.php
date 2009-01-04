@@ -17,6 +17,11 @@ $media_method = rex_request('media_method', 'string');
 $info         = rex_request('info', 'string');
 $warning      = rex_request('warning', 'string');
 
+// ----- opener_input_field setzen
+$opener_input_field = rex_request('opener_input_field', 'string', rex_session('media[opener_input_field]', 'string'));
+rex_set_session('media[opener_input_field]', $opener_input_field);
+$opener_link = rex_request('opener_link', 'string');
+
 // -------------- Additional Args
 $arg_url = '';
 $arg_fields = '';
@@ -105,6 +110,60 @@ if ($warning != '')
   echo rex_warning($warning);
   $warning = '';
 }
+
+// -------------- Javascripts
+?>
+<script type="text/javascript">
+<!--
+
+function selectMedia(filename)
+{
+  <?php
+  if ($opener_input_field!='')
+  {
+    echo 'opener.document.getElementById("'.$opener_input_field.'").value = filename;';
+  }
+  ?>
+  self.close();
+}
+
+function selectMedialist(filename)
+{
+  <?php
+    if (substr($opener_input_field,0,14) == 'REX_MEDIALIST_')
+    {
+      $id = substr($opener_input_field,14,strlen($opener_input_field));
+      echo 'var medialist = "REX_MEDIALIST_SELECT_'. $id .'";
+
+            var source = opener.document.getElementById(medialist);
+            var sourcelength = source.options.length;
+
+            option = opener.document.createElement("OPTION");
+            option.text = filename;
+            option.value = filename;
+
+            source.options.add(option, sourcelength);
+            opener.writeREXMedialist('. $id .');';
+
+    }
+  ?>
+}
+
+function insertImage(src,alt)
+{
+  window.opener.insertImage('files/' + src, alt);
+  self.close();
+}
+
+function insertLink(src)
+{
+  window.opener.insertFileLink('files/' + src);
+  self.close();
+}
+
+//-->
+</script>
+<?php
 
 // -------------- Include Page
 switch($subpage)
