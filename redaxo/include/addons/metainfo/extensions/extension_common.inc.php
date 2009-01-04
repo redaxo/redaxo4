@@ -422,18 +422,20 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
         // Mehrwertige Felder
         $saveValue = '|'. implode('|', $postValue) .'|';
       }
-      // Type 3 => select
-      // Type 5 => checkbox
-      else if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
-              $fieldType == REX_A62_FIELD_CHECKBOX)
-      {
-        // Mehrwertiges Feld, aber nur ein Wert ausgewählt
-        $saveValue = '|'. $postValue[0] .'|';
-      }
       else
       {
-        // Einwertige Felder
-        $saveValue = $postValue[0];
+        $postValue = isset($postValue[0]) ? $postValue[0] : '';
+        if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
+           $fieldType == REX_A62_FIELD_CHECKBOX)
+        {
+          // Mehrwertiges Feld, aber nur ein Wert ausgewählt
+          $saveValue = '|'. $postValue .'|';
+        }
+        else
+        {
+          // Einwertige Felder
+          $saveValue = $postValue;
+        }
       }
     }
 
