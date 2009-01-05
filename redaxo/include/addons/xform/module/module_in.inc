@@ -48,7 +48,7 @@ echo $dbg->get();
   <fieldset><legend>Datenbankdaten:</legend>
   
   <br /><b>Where Klausel angeben (PHP erlaubt)</b>
-  <br />$xform->setObjectparams("main_where",$where);
+  <br />$xform-&gt;setObjectparams("main_where",$where);
   
   <br /><br /><textarea name="VALUE[9]" cols="30" rows="3" style="width:90%; height:100px;">REX_VALUE[9]</textarea>
   
@@ -57,7 +57,7 @@ echo $dbg->get();
     In der Where Klausel koennen die verschiedenen Felder eingesetzt werden.
     Dazu muss der entsprechende Feldname zwischen ### gesetzt werden. Z.B.
     <br />text|myname|Name|1
-    <br />-> ###myname### als Platzhalter in der Mail
+    <br />-&gt; ###myname### als Platzhalter in der Mail
     </td></tr></table>
   </div>
   
@@ -83,7 +83,7 @@ echo $dbg->get();
   
   echo $ts->show();
   ?>
-  </legend>
+  </fieldset>
 </div>
 
 
@@ -106,7 +106,7 @@ echo $dbg->get();
   In der Mail koennen die verschiedenen Felder eingesetzt werden.
   Dazu muss der entsprechende Feldname zwischen ### gesetzt werden. Z.B.
   <br />text|myname|Name|1
-  <br />-> ###myname### als Platzhalter in der Mail
+  <br />-&gt; ###myname### als Platzhalter in der Mail
   </td></tr></table>
   
   </fieldset>
