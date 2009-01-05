@@ -248,4 +248,5 @@ if ($category)
 			</ul>
 			</div>
 		</div>
+  </div>
 </div>
