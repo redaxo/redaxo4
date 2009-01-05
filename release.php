@@ -31,7 +31,7 @@ else
  * Verwendung in der Console:
  *
  *  Erstelles eines Release mit Versionsnummer:
- *  "php release.php 3.3"
+ *  "php release.php 4.2"
  *
  *
  * Vorgehensweise des release-scripts:
