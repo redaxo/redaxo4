@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<releases>
+  <release name="puristic"></release>
+  <release name="default">
+    <addons>
+      <addon name="phpmailer"></addon>
+      <addon name="tinymce"></addon>
+    </addons>
+  </release>
+  <release name="community">
+    <addons>
+      <addon name="xform"></addon>
+      <addon name="community"></addon>
+      <addon name="phpmailer"></addon>
+    </addons>
+  </release>
+</releases>

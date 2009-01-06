@@ -5,6 +5,13 @@
 // - js Ordner nicht kopieren?
 // - media Ordner nicht kopieren?
 
+// php5 noetig, wg simple_xml
+if(version_compare(phpversion(), $needed = '5.0.0', '<') == 1)
+{
+  echo 'Requires PHP '. $needed;
+  exit();
+}
+
 $name = null;
 $version = null;
 if(isset($argv) && count($argv) > 1)
@@ -52,8 +59,8 @@ function buildRelease($name = null, $version = null)
   // Ordner in dem das release gespeichert wird
   // ohne "/" am Ende!
   $cfg_path = 'release';
-  $path = $cfg_path;
-
+  $systemFolders = array('.cache', '.settings', '.svn', '.project', '.DS_Store');
+  
   if (!$name)
   {
     $name = 'redaxo';
@@ -62,156 +69,156 @@ function buildRelease($name = null, $version = null)
     else
       $name .= str_replace('.', '_', $version);
   }
-
-  if($version)
-    $version = explode('.', $version);
-
-  if(substr($path, -1) != '/')
-    $path .= '/';
-
-  if (!is_dir($path))
-    mkdir($path);
-
-  $dest = $path . $name;
-
-  if (is_dir($dest))
-    trigger_error('release folder already exists!', E_USER_ERROR);
-  else
-    mkdir($dest);
-
-  echo '>>> Build REDAXO release..'."\n";
-  echo '> read files'."\n";
-
-  // Ordner und Dateien auslesen
-  $structure = readFolderStructure('.', array('.cvsignore', '.settings', '.project', '.DS_Store', 'CVS', 'db-schema.xml', 'db-schema.png', 'generated', $cfg_path));
-
-  echo '> copy files'."\n";
-  // Ordner/Dateien kopieren
-  foreach($structure as $path => $content)
+  
+  $releaseConfigs = getReleaseConfigs();
+  $systemAddons = getSystemAddons();
+  $systemName = $name;
+  foreach($releaseConfigs as $releaseConfig)
   {
-    // Zielordnerstruktur anlegen
-    $temp_path = '';
-    foreach(explode('/', $dest .'/'. $path) as $pathdir)
+    $path = $cfg_path;
+    $name = $systemName .'_'. $releaseConfig['name'];
+  
+    if($version)
+      $version = explode('.', $version);
+  
+    if(substr($path, -1) != '/')
+      $path .= '/';
+  
+    if (!is_dir($path))
+      mkdir($path);
+  
+    $dest = $path . $name;
+  
+    if (is_dir($dest))
+      trigger_error('release folder already exists!', E_USER_ERROR);
+    else
+      mkdir($dest);
+  
+    echo '>>> BUILD REDAXO release '. $name .'..'."\n";
+    echo '> read files'."\n";
+    
+    // Ordner und Dateien auslesen
+    echo '> copy files'."\n";
+    $structure = readFolderStructure('.',
+      array_merge(
+        $systemFolders, 
+        array('release.xml', 'db-schema.xml', 'db-schema.png', 'files', 'generated', 'addons', $cfg_path)
+      )
+    );
+    copyFolderStructure($structure, $path, $dest);
+
+    echo '> copy addons'."\n";
+    foreach(array_merge($releaseConfig['addons'], $systemAddons) as $addon)
     {
-      if(!is_dir($temp_path . $pathdir .'/'))
-      {
-        mkdir($temp_path . $pathdir .'/');
-      }
-      $temp_path .= $pathdir .'/';
+      echo '>> '.$addon."\n";
+      $structure = readFolderStructure(
+        './redaxo/include/addons/'. $addon, 
+        $systemFolders
+      );
+      copyFolderStructure($structure, $path, $dest);
     }
-
-    // Dateien kopieren/Ordner anlegen
-    foreach($content as $dir)
+    
+    // Ordner die wir nicht mitkopiert haben anlegen
+    // Der generated Ordner enthält sehr viele Daten,
+    // das kopieren würde sehr lange dauern und ist unnötig
+    mkdir($dest .'/files');
+    mkdir($dest .'/redaxo/include/generated');
+    mkdir($dest .'/redaxo/include/generated/articles');
+    mkdir($dest .'/redaxo/include/generated/templates');
+    mkdir($dest .'/redaxo/include/generated/files');
+  
+    echo '> fix master.inc.php'."\n";
+  
+    // master.inc.php anpassen
+    $master = $dest.'/redaxo/include/master.inc.php';
+    $h = fopen($master, 'r');
+    $cont = fread($h, filesize($master));
+    fclose($h);
+  
+    $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
+    $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"redaxo.de"', $cont);
+    $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", '\\1"REDAXO"', $cont);
+    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", '\\1"jan.kristinus@yakamara.de"', $cont);
+    $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("Ymd")."000000", $cont);
+    $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", '\\1"de_de"', $cont);
+    $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
+    $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
+    $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*", '\\1false', $cont);
+  
+    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?)[^;]*", '\\1"localhost"', $cont);
+    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?)[^;]*", '\\1"root"', $cont);
+    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?)[^;]*", '\\1""', $cont);
+  
+    if($version)
     {
-      if(is_file($path.'/'.$dir))
-      {
-        copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
-
-        if(substr($dir, -5) == '.lang' && substr($dir, -9) != 'utf8.lang')
-        {
-          echo '> convert file '. $dir .' to utf-8'."\n";
-          buildUtf8LangFile( $dest .'/'. $path.'/'.$dir);
-        }
-      }
-      elseif(is_dir($path.'/'.$dir))
-        mkdir($dest .'/'. $path.'/'.$dir);
+      if(empty($version[1]))
+        $version[1] = "0";
+  
+      if(empty($version[2]))
+        $version[2] = "0";
+  
+      $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
+      $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*"     , '\\1"'. $version[0] .'"', $cont);
+      $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*"  , '\\1"'. $version[1] .'"', $cont);
+      $cont = ereg_replace("(REX\['MINORVERSION'\].?\=.?)[^;]*", '\\1"'. $version[2] .'"', $cont);
     }
-  }
-
-  echo '> delete generated folder content'."\n";
-
-  // Ordner die wir nicht mitkopiert haben anlegen
-  // Der generated Ordner enthält sehr viele Daten,
-  // das kopieren würde sehr lange dauern und ist unnötig
-  mkdir($dest .'/redaxo/include/generated');
-  mkdir($dest .'/redaxo/include/generated/articles');
-  mkdir($dest .'/redaxo/include/generated/templates');
-  mkdir($dest .'/redaxo/include/generated/files');
-
-  echo '> fix master.inc.php'."\n";
-
-  // master.inc.php anpassen
-  $master = $dest.'/redaxo/include/master.inc.php';
-  $h = fopen($master, 'r');
-  $cont = fread($h, filesize($master));
-  fclose($h);
-
-  $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
-  $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"redaxo.de"', $cont);
-  $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", '\\1"REDAXO"', $cont);
-  $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", '\\1"jan.kristinus@yakamara.de"', $cont);
-  $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("Ymd")."000000", $cont);
-  $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", '\\1"de_de"', $cont);
-  $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
-  $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
-  $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*", '\\1false', $cont);
-
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?)[^;]*", '\\1"localhost"', $cont);
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?)[^;]*", '\\1"root"', $cont);
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?)[^;]*", '\\1""', $cont);
-
-  if($version)
-  {
-    if(empty($version[1]))
-      $version[1] = "0";
-
-    if(empty($version[2]))
-      $version[2] = "0";
-
-    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo_'. implode('_', $version) .'"', $cont);
-    $cont = ereg_replace("(REX\['VERSION'\].?\=.?)[^;]*"     , '\\1"'. $version[0] .'"', $cont);
-    $cont = ereg_replace("(REX\['SUBVERSION'\].?\=.?)[^;]*"  , '\\1"'. $version[1] .'"', $cont);
-    $cont = ereg_replace("(REX\['MINORVERSION'\].?\=.?)[^;]*", '\\1"'. $version[2] .'"', $cont);
-  }
-  else
-  {
-    $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo"', $cont);
-  }
-
-  $h = fopen($master, 'w+');
-  if (fwrite($h, $cont, strlen($cont)) > 0)
+    else
+    {
+      $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?)[^;]*", '\\1"redaxo"', $cont);
+    }
+  
+    $h = fopen($master, 'w+');
+    if (fwrite($h, $cont, strlen($cont)) > 0)
+      fclose($h);
+  
+    echo '> fix functions.inc.php'."\n";
+  
+    // functions.inc.php anpassen
+    $functions = $dest.'/redaxo/include/functions.inc.php';
+    $h = fopen($functions, 'r');
+    $cont = fread($h, filesize($functions));
     fclose($h);
-
-  echo '> fix functions.inc.php'."\n";
-
-  // functions.inc.php anpassen
-  $functions = $dest.'/redaxo/include/functions.inc.php';
-  $h = fopen($functions, 'r');
-  $cont = fread($h, filesize($functions));
-  fclose($h);
-
-  echo '>> activate compatibility API'."\n";
-
-  // compat klasse aktivieren
-  $cont = str_replace(
-    "// include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
-    "include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
-    $cont
-  );
-
-  $h = fopen($functions, 'w+');
-  if (fwrite($h, $cont, strlen($cont)) > 0)
+  
+    echo '>> activate compatibility API'."\n";
+  
+    // compat klasse aktivieren
+    $cont = str_replace(
+      "// include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
+      "include_once \$REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';",
+      $cont,
+      $count
+    );
+    
+    if($count != 1)
+    {
+      trigger_error('Error while activating compat class!', E_USER_ERROR);
+      exit();
+    }
+  
+    $h = fopen($functions, 'w+');
+    if (fwrite($h, $cont, strlen($cont)) > 0)
+      fclose($h);
+  
+    echo '> fix addons.inc.php'."\n";
+  
+    // addons.inc.php anpassen
+    $addons = $dest.'/redaxo/include/addons.inc.php';
+    $h = fopen($addons, 'r');
+    $cont = fread($h, filesize($addons));
     fclose($h);
-
-  echo '> fix addons.inc.php'."\n";
-
-  // addons.inc.php anpassen
-  $addons = $dest.'/redaxo/include/addons.inc.php';
-  $h = fopen($addons, 'r');
-  $cont = fread($h, filesize($addons));
-  fclose($h);
-
-  // Addons installieren
-  // $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
-
-  $h = fopen($addons, 'w+');
-  if (fwrite($h, $cont, strlen($cont)) > 0)
-    fclose($h);
-
-  // Das kopierte Release-Script aus dem neu erstellten Release löschen
-  unlink($dest .'/release.php');
-
-  echo '>>> FINISHED'."\n";
+  
+    // Addons installieren
+    // $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
+  
+    $h = fopen($addons, 'w+');
+    if (fwrite($h, $cont, strlen($cont)) > 0)
+      fclose($h);
+  
+    // Das kopierte Release-Script aus dem neu erstellten Release löschen
+    unlink($dest .'/release.php');
+    echo '>>> BUILD "'. $name .'" Finished'."\n\n";
+  }
+  echo '> FINISHED'."\n";
 }
 
 /**
@@ -370,6 +377,43 @@ function sortFolderStructure($path1, $path2)
   return strlen($path1) > strlen($path2) ? 1 : -1;
 }
 
+function copyFolderStructure($structure, $path, $dest)
+{
+  // Ordner/Dateien kopieren
+  foreach($structure as $path => $content)
+  {
+    // Zielordnerstruktur anlegen
+    $temp_path = '';
+    foreach(explode('/', $dest .'/'. $path) as $pathdir)
+    {
+      if(!is_dir($temp_path . $pathdir .'/'))
+      {
+        mkdir($temp_path . $pathdir .'/');
+      }
+      $temp_path .= $pathdir .'/';
+    }
+
+    // Dateien kopieren/Ordner anlegen
+    foreach($content as $dir)
+    {
+      if(is_file($path.'/'.$dir))
+      {
+        copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
+
+        if(substr($dir, -5) == '.lang' && substr($dir, -9) != 'utf8.lang')
+        {
+          echo '> convert file '. $dir .' to utf-8'."\n";
+          buildUtf8LangFile( $dest .'/'. $path.'/'.$dir);
+        }
+      }
+      elseif(is_dir($path.'/'.$dir))
+      {
+        mkdir($dest .'/'. $path.'/'.$dir);
+      }
+    }
+  }
+}
+
 function buildUtf8LangFile($langFile)
 {
   $content = '';
@@ -388,4 +432,50 @@ function buildUtf8LangFile($langFile)
     fwrite($hdl, iconv(iconv_get_encoding($content), 'UTF-8', $content));
     fclose($hdl);
   }
+}
+
+function getReleaseConfigs()
+{
+  $config_file = 'release.xml';
+  if(!file_exists($config_file))
+  {
+    trigger_error('Required config-file not found "'. $config_file .'"', E_USER_ERROR);
+    exit();
+  }
+  
+  $configs = simplexml_load_file($config_file);
+  $releases = array();
+  foreach($configs as $config)
+  {
+    $release = array();
+    $release['name'] = xmlAttribute($config, 'name');
+    $release['addons'] = array();
+    
+    if($config->addons)
+    {
+      foreach($config->addons[0] as $addon)
+      {
+        $release['addons'][] = xmlAttribute($addon, 'name');
+      }
+    }
+    $releases[] = $release;
+  }
+  return $releases;
+}
+
+function xmlAttribute($xmlElement, $attrName, $default = null){
+    $attrs = $xmlElement->attributes();
+    return isset($attrs[$attrName]) ? (string) $attrs[$attrName] : $default;
+}
+
+function getSystemAddons()
+{
+  $master = 'redaxo/include/master.inc.php';
+  if(!file_exists($master))
+  {
+    trigger_error('config "'. $master .'" not found!', E_USER_ERROR);
+    exit();
+  }
+  require $master;
+  return $REX['SYSTEM_ADDONS'];
 }
