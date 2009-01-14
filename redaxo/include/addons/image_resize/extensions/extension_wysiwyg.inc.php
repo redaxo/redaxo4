@@ -41,12 +41,18 @@ function rex_resize_wysiwyg_output($params)
         if (file_exists($REX['HTDOCS_PATH'] . 'files/' . $src[2]))
         {
           $realsize = getimagesize($REX['HTDOCS_PATH'] . 'files/' . $src[2]);
-          if (($realsize[0] != $width[1]) or ($realsize[1] != $height[1]))
+          if (($realsize[0] != $width[1]) || ($realsize[1] != $height[1]))
           {
             $newsrc = 'index.php?rex_resize=' . $width[1] . 'w__' . $height[1] . 'h__' . $src[2];
             $newimage = str_replace($src[1], $newsrc, $var);
             $content = str_replace($var, $newimage, $content);
           }
+          else if ($REX['REDAXO'])
+          {
+            $newsrc = $REX['HTDOCS_PATH'] . 'files/' . $src[2];
+            $newimage = str_replace($src[1], $newsrc, $var);
+            $content = str_replace($var, $newimage, $content);
+          }          
         }
       }
     }

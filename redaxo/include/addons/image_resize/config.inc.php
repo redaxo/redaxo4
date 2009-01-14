@@ -41,11 +41,10 @@ $REX['ADDON']['image_resize']['jpg_quality'] = 75;
 
 include_once ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
 
-if ($REX['GG'])
-{
-  require_once $REX['INCLUDE_PATH'].'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
-  rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
-}else
+require_once $REX['INCLUDE_PATH'].'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
+rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
+
+if (!$REX['GG'])
 {
 	// Bei Update Cache loeschen
   if(!function_exists('rex_image_ep_mediaupdated'))
