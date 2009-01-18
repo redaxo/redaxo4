@@ -67,3 +67,6 @@ div#rex-a256-searchbar ul.a256-search-result li ul.a256-search-hit li {
 	margin:0px;
 }
 
+div#rex-a256-searchbar span.a256-search-hit {
+  font-weight: bold;
+}

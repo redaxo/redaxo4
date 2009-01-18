@@ -60,7 +60,7 @@ function rex_a256_search_structure($params)
   }
 
   // ------------ Suche via ArtikelName
-  // hier nur dne post artikel namen abfragen,
+  // hier nur den post artikel namen abfragen,
   // da sonst bei vorherigen headerweiterleitungen
   // auch gesucht wuerde
   if($a256_article_name_post != '')
@@ -103,6 +103,7 @@ function rex_a256_search_structure($params)
     // Mehrere Suchtreffer, Liste anzeigen
     else if($foundRows > 0)
     {
+      $needle = htmlspecialchars($a256_article_name);
       $search_result .= '<ul class="a256-search-result">';
       for($i = 0; $i < $foundRows; $i++)
       {
@@ -130,7 +131,10 @@ function rex_a256_search_structure($params)
               $first = false;
             }
 
-            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($treeLabel) .' </a></li>';
+            $treeLabel = htmlspecialchars($treeLabel);
+            $treeLabel = rex_a256_highlight_hit($treeLabel, $needle);
+          
+            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $a256_clang, urlencode($a256_article_name)) .'">'. $treeLabel .' </a></li>';
           }
 
           $prefix = ': ';
@@ -140,7 +144,10 @@ function rex_a256_search_structure($params)
             $first = false;
           }
 
-          $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. htmlspecialchars($label) .' </a></li>';
+          $label = htmlspecialchars($label);
+          $label = rex_a256_highlight_hit($label, $needle);
+          
+          $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. $label .' </a></li>';
 
           $search_result .= '<li><ul class="a256-search-hit">'. $s .'</ul></li>';
         }

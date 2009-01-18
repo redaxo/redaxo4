@@ -52,6 +52,9 @@ if ($REX['REDAXO'])
 
   $I18N_BE_SEARCH = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
+  // Include Functions
+  require_once $REX['INCLUDE_PATH'].'/addons/be_search/functions/functions.search.inc.php';
+  
   // Include Extensions
   if(!isset($page) || $page == '' || $page == 'structure')
   {
