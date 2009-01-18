@@ -68,7 +68,7 @@ if ($article->getRows() == 1)
     else
       $KATout .= $I18N->msg('article') . ' : ';
 
-    $catname = str_replace(' ', '&nbsp;', $article->getValue('name'));
+    $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
 
     $KATout .= '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a>';
     // $KATout .= " [$article_id]";
