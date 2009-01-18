@@ -79,10 +79,6 @@ Version 4.2.0 (2008-XX-XX)
   Bugfixes:
   * Templates die mit REX_TEMPLATE[] eingebunden wurden, wurden nicht gecached [Markus.Staab]
   * Fehlerhafte Addoninstallation im Setup [Markus.Staab]
-
-Version 4.1.1 (2008-XX-XX)
-  
-  Bugfixes:
   * Problem beim speichern von Slices im IE bei gedrueckter ENTER Taste [Markus.Staab]
     - http://forum.redaxo.de/sutra56086.html#56086
   * Medienpool: Warnungen behoben [Markus.Staab]
