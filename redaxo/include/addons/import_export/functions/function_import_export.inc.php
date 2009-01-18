@@ -125,16 +125,8 @@ function rex_a1_import_db($filename)
   }
 
   // prüfen, ob eine user tabelle angelegt wurde
-  $result = $db->getArray('SHOW TABLES');
-  $user_table_found = false;
-  foreach ($result as $row)
-  {
-    if (in_array($REX['TABLE_PREFIX'].'user', $row))
-    {
-      $user_table_found = true;
-      break;
-    }
-  }
+  $tables = rex_sql::showTables();
+  $user_table_found = in_array($REX['TABLE_PREFIX'].'user', $tables);
 
   if (!$user_table_found)
   {
