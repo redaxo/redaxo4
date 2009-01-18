@@ -39,7 +39,7 @@ else
     $SKAT = new rex_sql;
     $SKAT->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. $KPATH[$ii] .' AND startpage=1 AND clang='. $clang);
 
-    $catname = htmlspecialchars(str_replace(' ', '&nbsp;', $SKAT->getValue('catname')));
+    $catname = str_replace(' ', '&nbsp;', htmlspecialchars($SKAT->getValue('catname')));
     $catid = $SKAT->getValue('id');
 
     if ($SKAT->getRows()==1)
@@ -59,7 +59,7 @@ else
 
   if ($KATPERM || $REX_USER->hasPerm('csw['. $category_id .']') || $REX_USER->hasPerm('csr['. $category_id .']'))
   {
-    $catname = htmlspecialchars(str_replace(' ', '&nbsp;', $KAT->getValue('catname')));
+    $catname = str_replace(' ', '&nbsp;', htmlspecialchars($KAT->getValue('catname')));
 
     $KATout .= '<li>: <a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
     $KATPATH .= $category_id .'|';
