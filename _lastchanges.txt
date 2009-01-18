@@ -1,21 +1,7 @@
-Diese Datei ist nur für den REDAXO Kern gedacht inkl. den
-AddOns: import_export / metainfo / be_search / image_resize / textile
+Diese Datei ist nur für den REDAXO Kern gedacht inkl. aller System-Addons:
 
 Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
 angehandelt.
-
----------------------------------------------------------------------------------
-Wichtige Änderungen:
----------------------------------------------------------------------------------
-
-  * Templateaufrufe nur noch über REX_TEMPLATE[1], nicht mehr include(...'2.template') [Jan.Kristinus]
-  * Min. PHPVersion auf PHP4.3.2 angehoben, aus Sicherheitsgründen! [Markus.Staab]
-  * Tabelle rex_modultyp in rex_module umbenannt! [Markus.Staab]
-  * TinyMCE entfernt und als Addon wieder eingebaut [Markus.Staab]
-  * PHPMailer entfernt und als Addon wieder eingebaut [Markus.Staab]
-  * Metafelder entfernt und als Addon wieder eingebaut [Markus.Staab]
-  * $REX['INCLUDE_PATH'], $REX['MEDIAFOLDER'] sind jetzt absolute Pfade! [Markus.Staab, Jan.Kristinus]
-
 
 ---------------------------------------------------------------------------------
 Änderungen im Detail:
@@ -132,7 +118,7 @@ Version 4.1.0 (2008-03-24)
     - $REX_ACTION['MODULE_ID']
     - $REX_ACTION['SLICE_ID']
   * Medienpool: MetaInfo Felder sind jetzt auch beim Einfüge-Formular eingebaut [Markus.Staab]
-  * PHPMailer: Update auf PHPMailer 2.0 [Markus.Staab]
+  * PHPMailer: Update auf PHPMailer 2.0.3 [Markus.Staab]
   * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
   * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, Markus.Staab]  
   * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [Jan.Kristinus]
