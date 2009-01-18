@@ -73,7 +73,9 @@ Version 4.2.0 (2008-XX-XX)
     - REX_ARTICLE_VARS[] entfernt, jetzt ueber REX_ARTICLE[field=xyz] moeglich [Markus.Staab]
     - prefix, suffix, instead, ifempty, callback als globale rexVar Argumente [Markus.Staab]
     - preview, types Argumente bei REX_MEDIA/LIST_BUTTON
-  * Neue Methode: OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
+  * Neue Methoden: 
+    - OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
+    - rex_sql::hasNext() [Markus.Staab]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
   
