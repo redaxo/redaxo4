@@ -541,6 +541,14 @@ class rex_sql
   {
     $this->counter++;
   }
+  
+  /*
+   * Prüft ob das Resultset weitere Datensätze enthält
+   */
+  function hasNext()
+  {
+    return $this->counter != $this->rows;
+  }
 
   /**
    * Setzt den Cursor des Resultsets zurück zum Anfang
