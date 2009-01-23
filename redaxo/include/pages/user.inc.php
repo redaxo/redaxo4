@@ -177,7 +177,7 @@ $sel_be_sprache = new rex_select;
 $sel_be_sprache->setStyle('class="rex-form-select"');
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName("userperm_be_sprache");
-$sel_be_sprache->setId("userperm-be_sprache");
+$sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
 $cur_htmlcharset = $I18N->msg('htmlcharset');
 $langpath = $REX['INCLUDE_PATH'].'/lang';
