@@ -739,19 +739,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
           </p>
 		    </div>
 
-
-
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-startpage">'.$I18N->msg('startpage').'</label>
             '. $sel_startpage->get() .'
           </p>
 		    </div>
-
-
-
-
-
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
@@ -766,34 +759,30 @@ if ($FUNC_ADD != "" || $user_id > 0)
           </p>
 		    </div>
 
-      	<div id="rex-user-perms">
-
-					<div class="rex-form-row">
-						<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-							<input class="rex-form-checkbox" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
-							<label for="allcats">'.$I18N->msg('all_categories').'</label>
-						</p>
-						<p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
-							<input class="rex-form-checkbox" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
-							<label for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
-						</p>
-					</div>
-	
-					<div class="rex-form-row" id="cats_mcats_perms">
-						<p class="rex-form-col-a rex-form-select">
-							<label for="userperm-cat">'.$I18N->msg('categories').'</label>
-							' .$sel_cat->get() .'
-							<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-						</p>
-						<p class="rex-form-col-b rex-form-select">
-							<label for="userperm-media">'.$I18N->msg('mediafolder').'</label>
-							'. $sel_media->get() .'
-							<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-						</p>
-					</div>
-	
+				<div class="rex-form-row" id="cats_mcats_box">
+					<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+						<input class="rex-form-checkbox" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
+						<label for="allcats">'.$I18N->msg('all_categories').'</label>
+					</p>
+					<p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
+						<input class="rex-form-checkbox" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
+						<label for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
+					</p>
 				</div>
 
+				<div class="rex-form-row" id="cats_mcats_perms">
+					<p class="rex-form-col-a rex-form-select">
+						<label for="userperm-cat">'.$I18N->msg('categories').'</label>
+						' .$sel_cat->get() .'
+						<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+					</p>
+					<p class="rex-form-col-b rex-form-select">
+						<label for="userperm-media">'.$I18N->msg('mediafolder').'</label>
+						'. $sel_media->get() .'
+						<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+					</p>
+				</div>
+	
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-module">'.$I18N->msg('modules').'</label>
@@ -818,7 +807,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
   jQuery(function($) {
     $("#useradmin").click(function() {
-      $("#rex-user-perms").slideToggle("slow");
+      if($(this).is(":checked"))
+        $("#userperm-module").attr("disabled", "disabled");
+      else
+        $("#userperm-module").attr("disabled", "");
+        
+      $("#cats_mcats_perms").slideToggle("slow");
+      $("#cats_mcats_box").slideToggle("slow");
     });
     $("#allmcats").click(function() {
       catsChecked();
