@@ -46,8 +46,8 @@ if ($REX['REDAXO'])
 
   rex_register_extension('PAGE_HEADER',
     create_function('$params',
-  'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />
-  <!--[if lte IE 7]><link rel="stylesheet" href="index.php?css=addons/'. $mypage .'/ie7" type="text/css" media="all" /><![endif]-->'. "\n" .'\';')
+    'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />
+    <!--[if lte IE 7]><link rel="stylesheet" href="index.php?css=addons/'. $mypage .'/ie7" type="text/css" media="all" /><![endif]-->'. "\n" .'\';')
   );
 
   $I18N_BE_SEARCH = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
@@ -56,7 +56,7 @@ if ($REX['REDAXO'])
   require_once $REX['INCLUDE_PATH'].'/addons/be_search/functions/functions.search.inc.php';
   
   // Include Extensions
-  if(!isset($page) || $page == '' || $page == 'structure')
+  if($page == 'structure')
   {
     require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
     rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_a256_search_structure');
