@@ -495,11 +495,6 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
  */
 function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 {
-  return _rex_a62_metainfo_art_handleSave($params, $sqlFields);
-}
-
-function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
-{
   if($_SERVER['REQUEST_METHOD'] != 'POST') return $params;
 
   global $REX;
@@ -517,6 +512,15 @@ function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
   rex_generateArticle($params['id']);
 
   return $params;
+}
+
+function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
+{ 
+	// Nur speichern wenn auch das MetaForm ausgefüllt wurde
+	// z.b. nicht speichern wenn über be_search select navigiert wurde
+  if(rex_post('meta_article_name', 'string', null) === null) return $params;
+  
+  return _rex_a62_metainfo_cat_handleSave($params, $sqlFields);
 }
 
 /**
