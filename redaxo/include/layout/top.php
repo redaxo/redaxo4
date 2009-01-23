@@ -29,7 +29,7 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
   <meta http-equiv="Cache-Control" content="no-cache" />
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="media/css_v0_import.css" media="screen, projection, print" />
-  <script src="media/jquery.pack.js" type="text/javascript"></script>
+  <script src="media/jquery.min.js" type="text/javascript"></script>
   <script src="media/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
   <!--

@@ -19,7 +19,7 @@ Version 4.2.0 (2008-XX-XX)
       + siehe http://forum.redaxo.de/ftopic9816.html
       + OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
     - neu: OOCategory->inParentTree() [Markus.Staab]
-  * JQuery update auf 1.2.6 [Markus.Staab]
+  * JQuery update auf 1.3.1 [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
   * Struktur:
