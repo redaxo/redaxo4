@@ -549,15 +549,16 @@ jQuery(function($){
   // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
   function rexShowMediaPreview() {
     var value;
-    if($(this).hasClass("rex-wdgt-mda"))
+    if($(this).hasClass("rex-widget-media"))
       value = $("input[type=text]", this).val();
     else
       value = $("select", this).val();
       
-    var div = $(".preview", this);
+    var div = $(".rex-media-preview", this);
     var url = '../index.php?rex_resize=300a__'+ value;
     if(value.length != 0 && 
-       (value.substr(-3) == "png" ||
+      (
+        value.substr(-3) == "png" ||
         value.substr(-3) == "gif" ||
         value.substr(-3) == "bmp" ||
         value.substr(-3) == "jpg" ||
@@ -569,24 +570,23 @@ jQuery(function($){
     }
     else
     {
-      var div = $(".preview", this);
       div.slideUp("slow");
     }
   };
 
   // Medialist preview neu anzeigen, beim wechsel der auswahl  
-  $(".rex-wdgt-mdlst.rex-wdgt-prvw")
+  $(".rex-widget-medialist.rex-widget-preview")
     .click(rexShowMediaPreview);
     
-  $(".rex-wdgt-mda.rex-wdgt-prvw,.rex-wdgt-mdlst.rex-wdgt-prvw")
+  $(".rex-widget-media.rex-widget-preview, .rex-widget-medialist.rex-widget-preview")
     .bind("mouseenter", rexShowMediaPreview)
     .bind("mouseleave", function() {
-	    var div = $(".preview", this);
+	    var div = $(".rex-media-preview", this);
 	    div.slideUp("slow");
   });
 
   // ------------------ Accesskey Navigation
-	var ENABLE_KEY_NAV = true;
+  var ENABLE_KEY_NAV = true;
 	
   $(document).keypress(function(event) {
     if(!ENABLE_KEY_NAV) 
