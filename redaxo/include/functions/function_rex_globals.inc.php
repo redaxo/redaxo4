@@ -190,7 +190,8 @@ function _rex_cast_var($var, $vartype)
                       $var = array();
                     else 
                       $var = (array) $var; break;
-    case 'binary' : $var = (binary)  $var; break;
+// deaktiviert wg rückwärtskompatiblität                      
+//    case 'binary' : $var = (binary)  $var; break;
     
     // kein Cast, nichts tun
     case ''       : break;
