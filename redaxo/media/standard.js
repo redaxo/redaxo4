@@ -556,7 +556,7 @@ jQuery(function($){
       
     var div = $(".rex-media-preview", this);
     var url = '../index.php?rex_resize=300a__'+ value;
-    if(value.length != 0 && 
+    if(value && value.length != 0 && 
       (
         value.substr(-3) == "png" ||
         value.substr(-3) == "gif" ||
