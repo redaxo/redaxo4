@@ -145,7 +145,11 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
   {
     return _rex_cast_var($haystack[$needle], $vartype);
   }
-  
+
+  if($default === '')
+  {
+    return _rex_cast_var($default, $vartype);
+  }
   return $default;
 }
 
