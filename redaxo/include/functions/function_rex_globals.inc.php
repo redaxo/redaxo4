@@ -143,11 +143,10 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
   
   if(array_key_exists($needle, $haystack))
   {
-    $var = $haystack[$needle];
-    return _rex_cast_var($var, $vartype);
+    return _rex_cast_var($haystack[$needle], $vartype);
   }
   
-  return _rex_cast_var($default, $vartype);
+  return $default;
 }
 
 /**
