@@ -549,7 +549,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
 						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
 						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
 					</div>';
-		$add_user_class = ' rex-form-read"';
+		$add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>';
 
     $sql = new rex_login_sql;
@@ -676,7 +676,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
 					</div>';
     $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
     $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
-		$add_user_class = ' rex-form-text"';
+		$add_user_class = ' rex-form-text';
     $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
 
