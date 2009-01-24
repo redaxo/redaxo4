@@ -25,20 +25,31 @@ $info = '';
 // ----------------- HELPPAGE
 if ($subpage == 'help' && $addonname != '')
 {
+  $credits = '';
+  $version  = OOAddon::getVersion($addonname);
+  $author   =  OOAddon::getAuthor($addonname);
+  $supportPage = OOAddon::getSupportPage($addonname);
   $helpfile = $REX['INCLUDE_PATH'].'/addons/'.$addonname.'/help.inc.php';
-
+  
+  $credits .= $I18N->msg("credits_name") .': <span>'. $addonname .'</span><br />';
+  if($version) $credits .= $I18N->msg("credits_version") .': <span>'. $version .'</span><br />';
+  if($author) $credits .= $I18N->msg("credits_author") .': <span>'. $author .'</span><br />';
+  if($supportPage) $credits .= $I18N->msg("credits_supportpage") .': <span><a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a></span><br />';
+  
   echo '<div class="rex-area">
   			<h3 class="rex-hl2">'.$I18N->msg("addon_help").' '.$addonname.'</h3>
 	  		<div class="rex-area-content">';
   if (!is_file($helpfile))
   {
-    echo $I18N->msg("addon_no_help_file");
+    echo '<p>'. $I18N->msg("addon_no_help_file") .'</p>';
   }
   else
   {
     include $helpfile;
   }
-  echo '</div>
+  echo '<br />
+        <p>'. $credits .'</p>
+        </div>
   			<div class="rex-area-footer">
   				<p><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>
   			</div>
