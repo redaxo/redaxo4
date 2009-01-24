@@ -119,13 +119,22 @@ class rex_a62_tableExpander extends rex_form
 
   function delete()
   {
-    if(parent::delete())
+  	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
+    $sql = rex_sql::getInstance();
+    $sql->debugsql =& $this->debug;
+    $sql->setTable($this->tableName);
+    $sql->setWhere($this->whereCondition);
+    $sql->select('name');
+    $columnName = $sql->getValue('name');
+    
+    if(($result = parent::delete()) === true)
     {
       // Prios neu setzen, damit keine lücken entstehen
       $this->organizePriorities(1,2);
-      return $this->tableManager->deleteColumn($this->getFieldValue('name'));
+      return $this->tableManager->deleteColumn($columnName);
     }
-    return false;
+    
+    return $result;
   }
 
   function preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql)
