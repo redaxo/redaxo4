@@ -808,12 +808,17 @@ if ($FUNC_ADD != "" || $user_id > 0)
   jQuery(function($) {
     $("#useradmin").click(function() {
       if($(this).is(":checked"))
+      {
         $("#userperm-module").attr("disabled", "disabled");
+        $("#cats_mcats_perms").slideUp("slow");
+        $("#cats_mcats_box").slideUp("slow");
+      }
       else
+      {
         $("#userperm-module").attr("disabled", "");
-        
-      $("#cats_mcats_perms").slideToggle("slow");
-      $("#cats_mcats_box").slideToggle("slow");
+        $("#cats_mcats_box").slideDown("slow");
+        catsChecked();
+      }
     });
     $("#allmcats").click(function() {
       catsChecked();
