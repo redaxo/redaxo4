@@ -48,7 +48,7 @@ if ($subpage == 'help' && $addonname != '')
     include $helpfile;
   }
   echo '<br />
-        <p>'. $credits .'</p>
+        <p id="rex-addon-credits">'. $credits .'</p>
         </div>
   			<div class="rex-area-footer">
   				<p><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>
