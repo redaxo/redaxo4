@@ -406,12 +406,24 @@ class rex_sql
   }
 
   /**
+   * Setzt eine Select-Anweisung auf die angegebene Tabelle
+   * mit den WHERE Parametern ab
+   *
+   * @see #setTable()
+   * @see #setWhere()
+   */
+  function select($fields)
+  {
+    return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
+  }
+  
+  /**
    * Setzt eine Update-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten und WHERE Parametern ab
    *
    * @see #setTable()
    * @see #setValue()
-   * @see #where()
+   * @see #setWhere()
    */
   function update($successMessage = null)
   {
@@ -436,6 +448,7 @@ class rex_sql
    *
    * @see #setTable()
    * @see #setValue()
+   * @see #setWhere()
    */
   function replace($successMessage = null)
   {
@@ -447,7 +460,7 @@ class rex_sql
    * mit den angegebenen WHERE Parametern ab
    *
    * @see #setTable()
-   * @see #where()
+   * @see #setWhere()
    */
   function delete($successMessage = null)
   {
