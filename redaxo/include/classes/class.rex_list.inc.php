@@ -186,6 +186,16 @@ class rex_list
   }
 
   /**
+   * Gibt eine Warnung zurück
+   *
+   * @return string
+   */
+  function getWarning()
+  {
+    return rex_request($this->getName().'_warning', 'string');
+  }
+
+  /**
    * Setzt die Caption/den Titel der Tabelle
    * Gibt den Namen es Formulars zurück
    *
@@ -953,15 +963,20 @@ class rex_list
     // List vars
     $sortColumn = $this->getSortColumn();
     $sortType = $this->getSortType();
+    $warning = $this->getWarning();
     $message = $this->getMessage();
     $nbRows = $this->getRows();
 
     $header = $this->getHeader();
     $footer = $this->getFooter();
 
-    if($message != '')
+    if($warning != '')
     {
-      $s .= rex_warning($message). "\n";
+      $s .= rex_warning($warning). "\n";
+    }
+    else if($message != '')
+    {
+      $s .= rex_info($message). "\n";
     }
 
     if($header != '')

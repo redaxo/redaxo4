@@ -20,6 +20,7 @@ class rex_form
   var $debug;
   var $applyUrl;
   var $message;
+  var $warning;
   var $divId;
 
   function rex_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
@@ -516,6 +517,21 @@ class rex_form
     return $this->name;
   }
 
+  function setWarning($warning)
+  {
+    $this->warning = $warning;
+  }
+  
+  function getWarning()
+  {
+    $warning = rex_request($this->getName().'_warning', 'string');
+    if($this->warning != '')
+    {
+      $warning .= "\n". $this->warning;
+    }
+    return $warning;
+  }
+  
   function setMessage($message)
   {
     $this->message = $message;
@@ -700,7 +716,7 @@ class rex_form
     return $deleteSql->delete();
   }
 
-  function redirect($listMessage = '', $params = array())
+  function redirect($listMessage = '', $listWarning = '', $params = array())
   {
     if($listMessage != '')
     {
@@ -708,6 +724,12 @@ class rex_form
       $params[$listName.'_msg'] = $listMessage;
     }
 
+    if($listWarning != '')
+    {
+      $listName = rex_request('list', 'string');
+      $params[$listName.'_warning'] = $listWarning;
+    }
+    
     $paramString = '';
     foreach($params as $name => $value)
     {
@@ -742,20 +764,20 @@ class rex_form
           $this->redirect($I18N->msg('form_saved'));
         elseif(is_string($result) && $result != '')
           // Falls ein Fehler auftritt, das Formular wieder anzeigen mit der Meldung
-          $this->setMessage($result);
+          $this->setWarning($result);
         else
-          $this->setMessage($I18N->msg('form_save_error'));
+          $this->setWarning($I18N->msg('form_save_error'));
       }
       elseif($controlElement->applied())
       {
         // speichern und wiederanzeigen
         // Nachricht im Formular anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
-           $this->setMessage($I18N->msg('form_applied'));
+          $this->setMessage($I18N->msg('form_applied'));
         elseif(is_string($result) && $result != '')
-          $this->setMessage($result);
+          $this->setWarning($result);
         else
-          $this->setMessage($I18N->msg('form_save_error'));
+          $this->setWarning($I18N->msg('form_save_error'));
       }
       elseif($controlElement->deleted())
       {
@@ -764,9 +786,9 @@ class rex_form
         if(($result = $this->delete()) === true)
           $this->redirect($I18N->msg('form_deleted'));
         elseif(is_string($result) && $result != '')
-          $this->redirect($result);
+          $this->setWarning($result);
         else
-          $this->redirect($I18N->msg('form_delete_error'));
+          $this->setWarning($I18N->msg('form_delete_error'));
       }
       elseif($controlElement->resetted())
       {
@@ -790,10 +812,15 @@ class rex_form
 
     $s = "\n";
 
+    $warning = $this->getWarning();
     $message = $this->getMessage();
-    if($message != '')
+    if($warning != '')
     {
-      $s .= '  '. rex_warning($message). "\n";
+      $s .= '  '. rex_warning($warning). "\n";
+    }
+    else if($message != '')
+    {
+      $s .= '  '. rex_info($message). "\n";
     }
 
     $s .= '<div id="'. $this->divId .'" class="rex-form">'. "\n";
