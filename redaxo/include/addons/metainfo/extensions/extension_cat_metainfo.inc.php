@@ -29,7 +29,7 @@ function rex_a62_metainfo_button($params)
 
   function rex_metainfo_toggle()
   {
-  	var trs = getElementsByClass("rex-metainfo-cat");
+  	var trs = jQuery(".rex-metainfo-cat");
   	for(i=0;i<trs.length;i++)
     {
   		show = toggleElement(trs[i]);
