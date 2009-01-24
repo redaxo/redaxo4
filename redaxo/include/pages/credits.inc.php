@@ -25,7 +25,8 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 	<p class="rex-tx1">
 		<b>Markus Staab</b>, markus.staab@redaxo.de<br />
-		Kernentwickler
+		Kernentwickler<br />
+    REDAXO, <a href="http://www.redaxo.de" onclick="window.open(this.href); return false;">www.redaxo.de</a>
 	</p>
 
 	<p class="rex-tx1">
