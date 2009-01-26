@@ -528,6 +528,8 @@ function toggleElement(id,display)
 
 
 jQuery(function($){
+
+  
   // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
   function rexShowMediaPreview() {
     var value;
@@ -547,12 +549,15 @@ jQuery(function($){
         value.substr(-4) == "jpeg")
       )
     {
-      div.html('<img src="'+ url +'" />');
-      div.slideDown("slow");
+      if(div.css('height') == 'auto')
+      {
+	    div.html('<img src="'+ url +'" />');
+	    div.fadeIn("normal");
+      }
     }
     else
     {
-      div.slideUp("slow");
+      div.slideUp("fast");
     }
   };
 
@@ -561,10 +566,13 @@ jQuery(function($){
     .click(rexShowMediaPreview);
     
   $(".rex-widget-media.rex-widget-preview, .rex-widget-medialist.rex-widget-preview")
-    .bind("mouseenter", rexShowMediaPreview)
+    .bind("mousemove", rexShowMediaPreview)
     .bind("mouseleave", function() {
-	    var div = $(".rex-media-preview", this);
-	    div.slideUp("slow");
+      var div = $(".rex-media-preview", this);
+      if(div.css('height') != 'auto')
+      {
+        div.slideUp("normal");
+      }
   });
 
   // ------------------ Accesskey Navigation
