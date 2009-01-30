@@ -536,8 +536,8 @@ jQuery(function($){
     if($(this).hasClass("rex-widget-media"))
       value = $("input[type=text]", this).val();
     else
-      value = $("select", this).val();
-      
+      value = $("select :selected", this).text();
+
     var div = $(".rex-media-preview", this);
     var url = '../index.php?rex_resize=246a__'+ value;
     if(value && value.length != 0 && 
@@ -549,9 +549,18 @@ jQuery(function($){
         value.substr(-4) == "jpeg")
       )
     {
+      // img tag nur einmalig einfügen, ggf erzeugen wenn nicht vorhanden
+      var img = $('img', div);
+      if(img.length == 0)
+      {
+          div.html('<img />');
+          img = $('img', div);
+      }
+      img.attr('src', url);
+      
+      // warten bis der layer komplett ausgeblendet ist
       if(div.css('height') == 'auto')
       {
-	    div.html('<img src="'+ url +'" />');
 	    div.fadeIn("normal");
       }
     }
