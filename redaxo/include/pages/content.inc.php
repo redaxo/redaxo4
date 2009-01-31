@@ -99,7 +99,10 @@ if ($article->getRows() == 1)
       'clang' => $clang,
       'function' => $function,
       'mode' => $mode,
-      'slice_id' => $slice_id
+      'slice_id' => $slice_id,
+      'page' => $page, 
+      'ctype' => $ctype,
+      'category_id' => $category_id
     )
   );
 
