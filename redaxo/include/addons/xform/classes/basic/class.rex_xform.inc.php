@@ -231,9 +231,9 @@ class rex_xform
 		  for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
 		  {
 		    $element = explode("|", $this->objparams["form_elements"][$i]);
-		    if ($element[1] != "")
+		    if (($element[0]!="validate" && $element[0]!="action") and $element[1] != "")
 		    {
-		      $_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i] = @$SQLOBJ->getValue($element[1]);
+		      $_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i] = @addslashes($SQLOBJ->getValue($element[1]));
 		    }
 		    if($element[0]!="validate" && $element[0]!="action")
 		    {
@@ -290,6 +290,9 @@ class rex_xform
 
 
 		// ----- ACTION OBJEKTE
+		
+		// ID setzen, falls vorhanden
+		if($this->objparams["main_id"]>0) $email_elements["ID"] = $this->objparams["main_id"];
 		
 		// Action Felder auslesen und Validate Objekte erzeugen
 		if (isset($this->objparams['form_type']))
@@ -432,10 +435,6 @@ class rex_xform
 			if ($this->objparams["unique_error"] != '' || $hasWarnings || $hasWarningMessages)
 			{
 				$this->objparams["output"] .= '<ul class="' . $this->objparams["error_class"] . '">';
-				if($this->objparams["unique_error"] != '')
-				{
-					$this->objparams["output"] .= '<li>'. preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) .'</li>';
-				}
 				if($hasWarningMessages)
 				{
 					if ($this->objparams["Error-occured"] != "") $this->objparams["output"] .= '<li>'. $this->objparams["Error-occured"] .'</li>';
@@ -443,6 +442,10 @@ class rex_xform
 					{
 					 $this->objparams["output"] .= '<li>'. $v .'</li>';
 					}
+				}
+				if($this->objparams["unique_error"] != '')
+				{
+					$this->objparams["output"] .= '<li>'. preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) .'</li>';
 				}
 				$this->objparams["output"] .= '</ul>'; 
 			}

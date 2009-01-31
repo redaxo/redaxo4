@@ -16,6 +16,12 @@ class rex_xform_action_redirect extends rex_xform_action_abstract
 			$url = $element_2;
 		}
 
+		// Emailkeys ersetzen. Somit auch Weiterleitungen mit neuer ID mšglich. "id=###ID###"
+		foreach ($this->elements_email as $search => $replace)
+		{
+			$url = str_replace('###'. $search .'###', $replace, $url);
+		}
+
 		if ($url != '') {
 			ob_end_clean();
 			header("Location: ".$url);

@@ -6,12 +6,6 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{
 
-		/*
-		echo "<pre>";
-		var_dump($this->params);
-		echo "</pre>";
-		*/
-
 		// ***** SELECT FESTLEGEN
 		
 		$SEL = new rex_select();
@@ -25,7 +19,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 
 		$sql = $this->elements[5];
 		$teams = new rex_sql;
-		// $teams->debugsql = TRUE;
+		$teams->debugsql = $this->params["debug"];
 		$teams->setQuery($sql);
 		for ($t = 0; $t < $teams->getRows(); $t++)
 		{
@@ -40,7 +34,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 
 		// ***** EINGELOGGT ODER NICHT SETZEN
 
-		if ($send!=1)
+		if ($send == 0)
 		{
 			// erster aufruf
 			// Daten ziehen
@@ -49,7 +43,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 			{
 				$this->value = array();
 				$g = new rex_sql;
-				// $g->debugsql = TRUE;
+				$g->debugsql = $this->params["debug"];
 				$g->setQuery('select '.$this->elements[3].' from '.$this->elements[1].' where '.$this->elements[2].'='.$this->params["main_id"]);
 				$gg = $g->getArray();
 				if (is_array($gg))
@@ -92,7 +86,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 			// alte eintraege loeschen
 			// neue eintraege setzen
 			$g = new rex_sql;
-			// $g->debugsql = 1;
+			$g->debugsql = $this->params["debug"];
 			$g->setQuery('delete from '.$this->elements[1].' where '.$this->elements[2].'='.$id);
 			
 			if (is_array($this->value))
@@ -108,7 +102,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 	
 	function getDescription()
 	{
-		return "select_multiple_sql -> Beispiel: select_multiple_sql|rex_rel_user_city|user_id|city_id|	St‰dte *:|select * from city order by name|id|name";
+		return "select_multiple_sql -> Beispiel: select_multiple_sql|rex_rel_user_city|user_id|city_id|	Städte *:|select * from city order by name|id|name";
 	}
 }
 

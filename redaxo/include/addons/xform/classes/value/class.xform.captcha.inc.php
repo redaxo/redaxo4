@@ -9,7 +9,6 @@ class rex_xform_captcha extends rex_xform_abstract
 		// var_dump($this->params);
 		global $REX; 
 		
-		
 		require_once (realpath(dirname (__FILE__).'/../../ext/captcha/class.captcha_x.php'));
 
 		if (isset($_REQUEST["captcha"]) && $_REQUEST["captcha"] == "show")
@@ -24,6 +23,7 @@ class rex_xform_captcha extends rex_xform_abstract
 
 		$captcha = &new captcha_x ();
 		
+		$wc = "";
 		if ( $send == 1 & $captcha->validate($this->value)) 
 		{
 			// Alles ist gut.
@@ -32,19 +32,20 @@ class rex_xform_captcha extends rex_xform_abstract
 			// Error. Fehlermeldung ausgeben
 			$this->params["warning"][] = $this->elements[2];
 			$this->params["warning_messages"][] = $this->elements[2];
+			$wc = $this->params["error_class"];
 		}
-	
+
 		$link = rex_getUrl($this->params["article_id"],$this->params["clang"],array("captcha"=>"show"),"&");
 
 		$form_output[] = '
 			<p class="formcaptcha">
-				<span>'.htmlspecialchars($this->elements[1]).'</span>
-				<label class="captcha"><img 
+				<span class="' . $wc . '">'.htmlspecialchars($this->elements[1]).'</span>
+				<label class="captcha ' . $wc . '"><img 
 					src="'.$link.'" 
 					onclick="javascript:this.src=\''.$link.'&\'+Math.random();" 
 					alt="CAPTCHA image" 
 					/></label>
-				<input maxlength="5" size="5" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="text" />
+				<input class="' . $wc . '" maxlength="5" size="5" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="text" />
 			</p>';
 	}
 	

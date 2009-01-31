@@ -17,8 +17,10 @@ class rex_xform_radio extends rex_xform_abstract
 		}
 
 		$out = "";
+		$i = 0;
 		foreach (explode(";", $this->elements[3]) as $v)
 		{
+			$i++;
 			$teile = explode("=", $v);
 			$bezeichnung = $teile[0];
 			if (is_array($teile) && isset ($teile[1]))
@@ -29,10 +31,12 @@ class rex_xform_radio extends rex_xform_abstract
 				$wert = $teile[0];
 			}
 			
-			$out .= '<span>'.$bezeichnung.'</span>';
-			$out .= '<input type="radio" name="FORM[' . $this->params["form_name"] . '][el_' . $this->id . ']" value="'.$wert.'" ';
+			$out .= '<p>';
+			$out .= '<input type="radio" name="FORM[' . $this->params["form_name"] . '][el_' . $this->id . ']" id="el_'.$this->id.'_'.$i.'" value="'.$wert.'" ';
 			if ($this->value == $wert) $out .= ' checked="checked"';
 			$out .= ' />';
+			$out .= '<label for="el_'.$this->id.'_'.$i.'">'.$bezeichnung.'</label>';
+			$out .= '</p>';
 			
 		}
 
@@ -41,7 +45,7 @@ class rex_xform_radio extends rex_xform_abstract
 
 
 		$form_output[] = ' 
-			<p class="formradio">
+			<p class="formradio form_'.$this->elements[1].'">
 				<label class="radio ' . $wc . '" >' . $this->elements[2] . '</label>
 				<div class="radio '.$wc.'">' .$out . '</div>
 			</p>';
@@ -56,5 +60,3 @@ class rex_xform_radio extends rex_xform_abstract
 		return "radio -> Beispiel: radio|gender|Geschlecht *|Frau=w;Herr=m|[no_db]|defaultwert";
 	}
 }
-
-?>

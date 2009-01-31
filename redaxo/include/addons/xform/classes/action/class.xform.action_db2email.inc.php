@@ -7,7 +7,6 @@ class rex_xform_action_db2email extends rex_xform_action_abstract
 	{
 
 		global $REX;
-		// echo "DB2EMAIL EXECUTE";
 
 		$gt = new rex_sql;
 		if ($this->params["debug"]) $gt->debugsql = true;
@@ -34,9 +33,11 @@ class rex_xform_action_db2email extends rex_xform_action_abstract
 				$mail_from = str_replace('###'. $search .'###', $replace, $mail_from);
 				$mail_subject = str_replace('###'. $search .'###', $replace, $mail_subject);
 				$mail_body = str_replace('###'. $search .'###', $replace, $mail_body);
+				$mail_from = str_replace('***'. $search .'***', urlencode($replace), $mail_from);
+				$mail_subject = str_replace('***'. $search .'***', urlencode($replace), $mail_subject);
+				$mail_body = str_replace('***'. $search .'***', urlencode($replace), $mail_body);
 			}
 	
-			// $mail = new PHPMailer();
 			$mail = new rex_mailer();
 			$mail->AddAddress($mail_to, $mail_to);
 			$mail->WordWrap = 80;
