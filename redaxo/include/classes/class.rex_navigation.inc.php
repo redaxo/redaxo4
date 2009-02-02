@@ -71,7 +71,6 @@ class rex_navigation
 		{
 			$this->paths = explode("|",$a->getValue("path"));
 			$this->current_category_id = $a->getCategoryId();
-			var_dump($this->paths);
 			return TRUE;
 		}else
 		{
@@ -97,9 +96,9 @@ class rex_navigation
 			$path1 = 1;
 			
 			if($nav->getId() == $this->current_category_id)
-				$return .= '<li class="active">XXX<a href="'.$nav->getUrl().'">'.$nav->getName().'</a>';
+				$return .= '<li class="active"><a href="'.$nav->getUrl().'">'.$nav->getName().'</a>';
 			elseif (in_array($nav->getId(),$this->paths))
-					$return .= '<li class="active">YYY<a class="current" href="'.$nav->getUrl().'">'.$nav->getName().'</a>';
+					$return .= '<li class="active"><a class="current" href="'.$nav->getUrl().'">'.$nav->getName().'</a>';
       else
          $return .= '<li class="normal"><a href="'.$nav->getUrl().'">'.$nav->getName().'</a>';
       
