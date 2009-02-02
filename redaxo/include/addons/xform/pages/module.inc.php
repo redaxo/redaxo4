@@ -1,6 +1,3 @@
-
-
-
 <?php
 	
 	// Ist Modul schon vorhanden ?
@@ -48,24 +45,11 @@
 	
 	}
 
-	?>
+?>
 
 <div class="rex-addon-output">
 
-<style>
-	.rex-addon-content ul{
-		margin-bottom:10px;
-		margin-left:20px;
-	}
-
-	.rex-addon-content ul li{
-		list-style:square;
-	}
-	
-</style>
-
-
-	<h2>Modul installieren</h2>
+	<h2 class="rex-hl2">Modul installieren</h2>
 
 	<div class="rex-addon-content">
 	
@@ -74,10 +58,9 @@
 		man die entsprechenden Formulare erstellen kann.
 		</p>
 
-
-	<ul style="margin-left:20px; margin-bottom:10px;">
-	<li style="list-style:square;"><a href="index.php?page=xform&subpage=module&install=1">Neues Modul mit der XForm installieren</a><br /><br /></li>
-	<?php if ($module_id>0) echo '<li style="list-style:square;"><a href="index.php?page=xform&subpage=module&install=1&module_id='.$module_id.'">Folgendes Modul aktualisieren "'.htmlspecialchars($module_name).'"</a></li>'; ?>
+	<ul>
+	<li><a href="index.php?page=xform&subpage=module&install=1">Neues Modul mit der XForm installieren</a></li>
+	<?php if ($module_id>0) echo '<li><a href="index.php?page=xform&subpage=module&install=1&module_id='.$module_id.'">Folgendes Modul aktualisieren "'.htmlspecialchars($module_name).'"</a></li>'; ?>
 	</ul>	
 	
 	</div>

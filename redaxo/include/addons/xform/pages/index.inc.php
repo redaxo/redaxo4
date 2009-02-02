@@ -39,13 +39,16 @@ if ($subpage != "")
 	include $REX["INCLUDE_PATH"]."/addons/$page/pages/$subpage.inc.php";
 }else
 {
-	echo '<table class="rex-table">';
-	echo '<tr><th>XForm - Übersicht</th></tr>';
+	echo '<div class="rex-addon-output">';
+	echo '<h2 class="rex-hl2">XFORM - &Uuml;bersicht</h2>';
+	
+	echo '<div class="rex-addon-content"><ul>';
 	foreach($subpages as $sp)
 	{
-		echo '<tr><td>&raquo; <a href="index.php?page='.$page.'&subpage='.$sp[0].'">'.$sp[1].'</a></td></tr>';
+		echo '<li><a href="index.php?page='.$page.'&subpage='.$sp[0].'">'.$sp[1].'</a></li>';
 	}
-	echo '</table>';
+	echo '</ul></div>';
+	echo '</div>';
 }
 
 echo '</div>';

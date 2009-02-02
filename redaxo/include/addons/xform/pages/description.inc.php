@@ -1,29 +1,7 @@
 
-
-
-
 <div class="rex-addon-output">
 
-<style>
-	#rex-addon-content ul{
-		margin-bottom:10px;
-		margin-left:20px;
-	}
-
-	#rex-addon-content ul li{
-		list-style:square;
-	}
-	
-	#rex-addon-content p{
-		margin-bottom:10px;
-	}
-</style>
-
-
-	<h2>Beschreibung</h2>
-	
-	
-	
+	<h2 class="rex-hl2">Beschreibung</h2>
 	
 	<div class="rex-addon-content">
 	
@@ -53,7 +31,5 @@
 	</div>
 
 	<?php rex_xform::showHelp(); ?>
-
-
 
 </div>

@@ -7,6 +7,7 @@ $bezeichner = "E-Mail Template";
 $csuchfelder = array("name","mail_from","mail_subject","body");
 
 $func = rex_request("func","string","");
+$oid = rex_request("oid","int");
 
 
 //------------------------------> Hinzufügen
