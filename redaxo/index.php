@@ -160,10 +160,10 @@ else
 				$name = '';
 				if(isset ($REX['ADDON']['name'][$apage]))
 					$name = $REX['ADDON']['name'][$apage];
-				if(isset ($REX['ADDON']['link'][$k]) && $REX['ADDON']['link'][$k] != "") 
+				if(isset ($REX['ADDON']['link'][$apage]) && $REX['ADDON']['link'][$apage] != "") 
 	  			$link = '<a href="'.$link.'">';
 				else 
-					$link = '<a href="index.php?page='.$k.'">';
+					$link = '<a href="index.php?page='.$apage.'">';
 				if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->isAdmin()))
 				{
 					$popup = 1;
