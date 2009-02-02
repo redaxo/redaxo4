@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: medienpool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
+ * @version $Id: mediapool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
  */
 
 // *************************************** CONFIG
@@ -32,12 +32,12 @@ $mediacat_ids = array();
 if ($rootCats = OOMediaCategory::getRootCategories())
 {
     foreach( $rootCats as $rootCat) {
-        rex_medienpool_addMediacatOptions( $sel_media, $rootCat, $mediacat_ids);
+        rex_mediapool_addMediacatOptions( $sel_media, $rootCat, $mediacat_ids);
     }
 }
 
 // ----- EXTENSION POINT
-echo rex_register_extension_point('PAGE_MEDIENPOOL_HEADER', '',
+echo rex_register_extension_point('PAGE_MEDIAPOOL_HEADER', '',
   array(
     'subpage' => $subpage,
     'category_id' => $rex_file_category
@@ -46,13 +46,13 @@ echo rex_register_extension_point('PAGE_MEDIENPOOL_HEADER', '',
 
 
 // ***** formular
-$cat_out = '<div class="rex-form" id="rex-form-medienpool-selectcategory">
+$cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
               <form action="index.php" method="post">
                 <fieldset class="rex-form-col-1">
                   <legend>'. $I18N->msg('pool_select_cat') .'</legend>
                   
                   <div class="rex-form-wrapper">
-                    <input type="hidden" name="page" value="medienpool" />
+                    <input type="hidden" name="page" value="mediapool" />
                     '. $arg_fields .'
                     
                     <div class="rex-form-row">
@@ -151,7 +151,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
       $FILEINFOS["filetype"] = $gf->getValue('filetype');
       $FILEINFOS["filename"] = $gf->getValue('filename');
       
-      $return = rex_medienpool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX_USER->getValue("login"));
+      $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX_USER->getValue("login"));
       $info = $return['msg'];
 
       if($return["ok"] == 1)
@@ -234,7 +234,7 @@ if ($subpage == "detail")
         $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
       }
 
-      $add_image = '<div class="rex-medienpool-detail-image">
+      $add_image = '<div class="rex-mediapool-detail-image">
           <p class="rex-me1">
             <img src="'. $imgn .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />
           </p>
@@ -291,20 +291,20 @@ if ($subpage == "detail")
       if ($rootCats = OOMediaCategory::getRootCategories())
       {
           foreach( $rootCats as $rootCat) {
-              rex_medienpool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
+              rex_mediapool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
           }
       }
       $cats_sel->setSelected($rex_file_category);
 
       echo '
-        <div id="rex-medienpool-detail-wrapper">
-        <div class="rex-form" id="rex-form-medienpool-detail"'.$style_width.'>
+        <div id="rex-mediapool-detail-wrapper">
+        <div class="rex-form" id="rex-form-mediapool-detail"'.$style_width.'>
           <form action="index.php" method="post" enctype="multipart/form-data">
             <fieldset class="rex-form-col-1">
               <legend>'. $I18N->msg('pool_file_edit') . $opener_link.'</legend>
               
               <div class="rex-form-wrapper">
-                <input type="hidden" name="page" value="medienpool" />
+                <input type="hidden" name="page" value="mediapool" />
                 <input type="hidden" name="subpage" value="detail" />
                 <input type="hidden" name="file_id" value="'.$file_id.'" />
                 '. $arg_fields .'
@@ -384,9 +384,9 @@ if ($subpage == "detail")
       }
 
       echo '<h2 class="rex-hl2">'. $I18N->msg('pool_file_details') . $opener_link.'</h2>
-            <div class="rex-form" id="rex-form-medienpool-detail">
+            <div class="rex-form" id="rex-form-mediapool-detail">
               <div class="rex-form-wrapper">
-                <div class="rex-medienpool-detail-data"'.$style_width.'>
+                <div class="rex-mediapool-detail-data"'.$style_width.'>
 
                   <div class="rex-form-row">
                     <p class="rex-form-read">
@@ -419,7 +419,7 @@ if ($subpage == "detail")
                     </p>
                   </div>
                   
-                </div><!-- END rex-medienpool-detail-data //-->
+                </div><!-- END rex-mediapool-detail-data //-->
                 '. $add_image .'
                 
               </div>
@@ -553,7 +553,7 @@ if ($subpage == '')
   if ($rootCats = OOMediaCategory::getRootCategories())
   {
       foreach( $rootCats as $rootCat) {
-          rex_medienpool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
+          rex_mediapool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
       }
   }
   $cats_sel->setSelected($rex_file_category);
@@ -584,13 +584,13 @@ if ($subpage == '')
     echo rex_info($I18N->msg('pool_file_filter', $args['types']));
 
   //deletefilelist und cat change
-  echo '<div class="rex-form" id="rex-form-medienpool-media">
+  echo '<div class="rex-form" id="rex-form-mediapool-media">
        <form action="index.php" method="post" enctype="multipart/form-data">
           <fieldset class="rex-form-col-1">
             <legend class="rex-form-hidden-legend">'. $I18N->msg('pool_selectedmedia') .'</legend>
             
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="medienpool" />
+              <input type="hidden" name="page" value="mediapool" />
               <input type="hidden" id="media_method" name="media_method" value="" />
               '. $arg_fields .'
 
@@ -756,7 +756,7 @@ if ($subpage == '')
       }
     }
 
-    $ilink = 'index.php?page=medienpool&amp;subpage=detail&amp;file_id='.$file_id.'&amp;rex_file_category='.$rex_file_category. $arg_url;
+    $ilink = 'index.php?page=mediapool&amp;subpage=detail&amp;file_id='.$file_id.'&amp;rex_file_category='.$rex_file_category. $arg_url;
 
     $add_td = '<td></td>';
     if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="'.$file_id.'" /></td>';

@@ -25,6 +25,7 @@ specials = System
 module = Module
 template = Templates
 user = Benutzer
+mediapool = Medienpool
 community = Community
 import = Im-/Export
 content = Artikel
@@ -32,6 +33,8 @@ structure = Struktur
 statistics = Statistiken
 profile = Mein Profil
 logout = abmelden
+navigation_basis = Basis Navigation
+navigation_addons = AddOns
 
 # redaxo/include/classes/class.login.inc.php
 login_name  =  Benutzername
@@ -519,7 +522,8 @@ setup_no_js_security_msg = Prüfen sie, ob Dateien aus dem Ordner redaxo/include 
 setup_create_db = Datenbank anlegen?
 
 # redaxo\include\pages\addon.inc.php
-addon = AddOns
+addon = AddOn
+addons = AddOns
 addon_help = Hilfe für
 addon_no_help_file = Keine Hilfedatei gefunden
 addon_back = zurück
@@ -569,6 +573,7 @@ profile_title = Mein Profil
 profile_save = Profil speichern
 
 # redaxo\include\pages\linkmap.inc.php
+linkmap = Linkmap
 lmap_title = Linkmap
 lmap_categories = Kategorien
 lmap_articles = Artikel

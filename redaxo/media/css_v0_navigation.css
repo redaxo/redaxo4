@@ -40,6 +40,17 @@ div#rex-navi-header ul li a {
 	font-weight: bold;
 }
 
+/* JMK */
+div#rex-navi-header h1{
+display:none;
+}
+
+div#rex-navi-header ul li a{
+margin-right:10px;
+}
+/* ENDE */
+
+
 /*	Navi unter Titel ***********************************************************
 *******************************************************************************/
 div.rex-title-row ul li {

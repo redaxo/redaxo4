@@ -39,6 +39,11 @@ $REX['PAGEPATH'] = '';
 // ----- header einbauen
 $withheader = true;
 
+// ----- pages, verfŸgbare seiten
+// array(name,addon=1,htmlheader=1);
+$pages = array();
+$page = "";
+
 // ----------------- SETUP
 unset($REX_USER);
 if ($REX['SETUP'])
@@ -61,8 +66,8 @@ if ($REX['SETUP'])
   header('Cache-Control: no-cache');
   header('Pragma: no-cache');
 
-  $page_name = $I18N->msg('setup');
-  $page = 'setup';
+  $pages["setup"] = array($I18N->msg('setup'),0,1);
+  $page = "setup";
 }
 else
 {
@@ -98,25 +103,11 @@ else
       $rex_user_loginmessage = $loginCheck;
 
     $LOGIN = FALSE;
+    $pages["login"] = array("login",0,1);
     $page = 'login';
   } else
   {
   	
-  	// --- page herausfinden
-    $page = strtolower(rex_request('page', 'string'));
-		if($page == "")
-	 	{
-	  	$page = $REX_LOGIN->getStartpage();
-	  	if($page == "" || $page == "default") $page = $REX['START_PAGE'];
-    }
-  	
-    // --- login ok -> redirect
-    if ($rex_user_login != "")
-    {
-      header('Location: index.php?page='. $page);
-  		exit;
-    }
-
 		// Userspezifische Sprache einstellen, falls gleicher Zeichensatz
   	$lang = $REX_LOGIN->getLanguage();
   	$I18N_T = rex_create_lang($lang,FALSE);
@@ -125,95 +116,114 @@ else
     $LOGIN = TRUE;
     $REX_USER = $REX_LOGIN->USER;
 
-    // --- addon page check
-    if (isset($REX['ADDON']['page']) && is_array($REX['ADDON']['page']))
+		$pages["profile"] = array($I18N->msg("profile"),0,1);
+		$pages["credits"] = array($I18N->msg("credits"),0,1);
+		
+		if ($REX_USER->isAdmin() || ($REX_USER->hasPerm('clang[') AND ($REX_USER->hasPerm('csw[') || $REX_USER->hasPerm('csr['))))
+		{
+			$pages["structure"] = array($I18N->msg("structure"),0,1);
+			$pages["mediapool"] = array($I18N->msg("mediapool"),0,0);
+			$pages["linkmap"] = array($I18N->msg("linkmap"),0,0);
+			$pages["content"] = array($I18N->msg("content"),0,1);
+		}elseif($REX_USER->hasPerm('mediapool[]')) 
+		{
+			$pages["mediapool"] = array($I18N->msg("mediapool"),0,0);
+		}
+		
+		if ($REX_USER->hasPerm('template[]') || $REX_USER->isAdmin())
+			$pages["template"] = array($I18N->msg("template"),0,1);
+		
+		if ($REX_USER->hasPerm('module[]') || $REX_USER->isAdmin())
+			$pages["module"] = array($I18N->msg("modules"),0,1);
+		
+		if ($REX_USER->hasPerm('user[]') || $REX_USER->isAdmin())
+			$pages["user"] = array($I18N->msg("user"),0,1);
+		
+		if ($REX_USER->hasPerm('addon[]') || $REX_USER->isAdmin())
+			$pages["addon"] = array($I18N->msg("addon"),0,1);
+		
+		if ($REX_USER->hasPerm('specials[]') || $REX_USER->isAdmin()) 
+			$pages["specials"] = array($I18N->msg("specials"),0,1);
+		
+		if (is_array($REX['ADDON']['status'])) 
+			reset($REX['ADDON']['status']);
+		
+		$onlineAddons = array_filter(array_values($REX['ADDON']['status']));
+		if(count($onlineAddons) > 0)
+		{
+			for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
+			{
+				$apage = key($REX['ADDON']['status']);
+				$perm = '';
+				if(isset ($REX['ADDON']['perm'][$apage]))
+					$perm = $REX['ADDON']['perm'][$apage];
+				$name = '';
+				if(isset ($REX['ADDON']['name'][$apage]))
+					$name = $REX['ADDON']['name'][$apage];
+				if(isset ($REX['ADDON']['link'][$k]) && $REX['ADDON']['link'][$k] != "") 
+	  			$link = '<a href="'.$link.'">';
+				else 
+					$link = '<a href="index.php?page='.$k.'">';
+				if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->isAdmin()))
+				{
+					$popup = 1;
+      		if(isset ($REX['ADDON']['popup'][$apage]))
+      			$popup = 0;
+					$pages[$apage] = array($name,1,$popup,$link);
+				}
+				next($REX['ADDON']['status']);
+			}
+		}
+
+		$REX_USER->pages = $pages;
+
+		// --- page herausfinden
+    $page = trim(strtolower(rex_request('page', 'string')));
+    if($rex_user_login != "") $page = $REX_LOGIN->getStartpage();
+    if(!isset($pages[$page]))
     {
-      include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
-
-      $as = rex_search_addon_page($page);
-      if ($as !== false)
-      {
-        // --- addon gefunden
-        $perm = $REX['ADDON']['perm'][$as];
-        $hasPerm = $perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->hasPerm('admin[]');
-
-        // Suche zuerst nach einem Addon, dass so heisst wie die aktuelle page
-        // z.b addons/structure/pages/index.inc.php
-        $addon_page = $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
-        if(file_exists($addon_page) && $hasPerm && OOAddon::isAvailable($page))
-        {
-          $withheader = false;
-          $REX['PAGEPATH'] = $addon_page;
-
-          if(isset($REX['ADDON']['name'][$page]))
-            $page_name = rex_translate($REX['ADDON']['name'][$page]);
-        }
-        else
-        {
-          // Kein Addon gefunden, also suchen wir nach einem Addon,
-          // dass vorgegeben hat, eine Page zu haben, die so heisst, wie die aktuelle
-          // z.b addons/xxx/pages/structure.inc.php
-          $addon_page = $REX['INCLUDE_PATH'].'/addons/'. $as .'/pages/'. $page .'.inc.php';
-          if(file_exists($addon_page) && $hasPerm && OOAddon::isAvailable($as))
-          {
-            $withheader = false;
-            $REX['PAGEPATH'] = $addon_page;
-
-            if(isset($REX['ADDON']['name'][$page]))
-              $page_name = rex_translate($REX['ADDON']['name'][$page]);
-          }
-        }
-      }
+    	$page = $REX_LOGIN->getStartpage();
+	    if(!isset($pages[$page]))
+	    {
+	    	$page = $REX['START_PAGE'];
+		    if(!isset($pages[$page]))
+		    {
+		    	$page = "profile";
+		    }
+	    }
     }
-
-    // ----- standard pages
-    if ($REX['PAGEPATH'] == '' && $page == 'addon' && ($REX_USER->hasPerm('addon[]') || $REX_USER->hasPerm('admin[]')))
+  	
+    // --- login ok -> redirect
+    if ($rex_user_login != "")
     {
-      $page_name = $I18N->msg('addon');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'specials' && ($REX_USER->hasPerm('specials[]') || $REX_USER->hasPerm('admin[]')))
-    {
-      $page_name = $I18N->msg('specials');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'module' && ($REX_USER->hasPerm('module[]') || $REX_USER->hasPerm('admin[]')))
-    {
-      $page_name = $I18N->msg('modules');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'template' && ($REX_USER->hasPerm('template[]') || $REX_USER->hasPerm('admin[]')))
-    {
-      $page_name = $I18N->msg('template');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'user' && ($REX_USER->hasPerm('user[]') || $REX_USER->hasPerm('admin[]')))
-    {
-      $page_name = $I18N->msg('user');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'medienpool')
-    {
-      $page_name = $I18N->msg('pool_media');
-      $open_header_only = true;
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'linkmap')
-    {
-      $page_name = $I18N->msg('lmap_title');
-      $open_header_only = true;
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'content')
-    {
-      $page_name = $I18N->msg('content');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'credits')
-    {
-      $page_name = $I18N->msg('credits');
-    }elseif ($REX['PAGEPATH'] == '' && $page == 'profile')
-    {
-      $page_name = $I18N->msg('profile');
-    }elseif($REX['PAGEPATH'] == '')
-    {
-      $page = 'structure';
-      $page_name = $I18N->msg('structure');
+      header('Location: index.php?page='. $page);
+  		exit;
     }
+  
   }
 }
 
-// ----- kein pagepath -> kein addon -> path setzen
-if ($REX['PAGEPATH'] == '') $REX['PAGEPATH'] = $REX['INCLUDE_PATH'].'/pages/'. $page .'.inc.php';
+// Ausgabe der Seite
+// $pages[$page][0] -> Name der Seite
+// $pages[$page][1] -> Addon = 1
+// $pages[$page][2] -> Headers = 1
 
-// ----- ausgabe des includes
-if ($withheader) require $REX['INCLUDE_PATH'].'/layout/top.php';
-require $REX['PAGEPATH'];
-if ($withheader) require $REX['INCLUDE_PATH'].'/layout/bottom.php';
+$_REQUEST["page"] = $page;
+$REX["pages"] = $pages;
+$REX["page"] = $page; 
+
+$REX["page_no_navi"] = 1;
+if($pages[$page][2] == 1) $REX["page_no_navi"] = 0;
+
+if($pages[$page][1])
+{
+	require $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
+}else
+{
+  require $REX['INCLUDE_PATH'].'/layout/top.php';
+	require $REX['INCLUDE_PATH'].'/pages/'. $page .'.inc.php';
+  require $REX['INCLUDE_PATH'].'/layout/bottom.php';
+}
 
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();

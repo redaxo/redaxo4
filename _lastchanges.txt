@@ -9,6 +9,12 @@ angehandelt.
 
 Version 4.2.0 (2008-XX-XX)
 
+  Achtung:
+  * alle Bezeichnungen mit medien wurden in media geändert, d.h. alle Funktionen, 
+  Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
+
+  * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
+  * Startpage ist nun festlegbar [Jan.Kristinus]
   * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
   * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
   * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
@@ -78,6 +84,8 @@ Version 4.2.0 (2008-XX-XX)
     - rex_sql::hasNext() [Markus.Staab]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
+  * EPs angepasst
+  	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter
   
   Bugfixes:
   * Templates die mit REX_TEMPLATE[] eingebunden wurden, wurden nicht gecached [Markus.Staab]

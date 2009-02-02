@@ -335,7 +335,7 @@ div#rex-title,
 div#rex-linkmap, 
 div#rex-navi-path, 
 div#rex-form-system-setup,
-div#rex-medienpool-detail-wrapper, 
+div#rex-mediapool-detail-wrapper, 
 div.rex-area, 
 div.rex-addon-output, 
 div.rex-content-header,
@@ -536,7 +536,7 @@ div#rex-website {
 	font-size: .625em;
 }
 body#rex-page-linkmap div#rex-website, 
-body#rex-page-medienpool div#rex-website {
+body#rex-page-mediapool div#rex-website {
 	width: 100%;
 }
 
@@ -584,7 +584,7 @@ html>body div#rex-title {
 	min-height: 61px;
 }
 body#rex-page-linkmap div#rex-title,
-body#rex-page-medienpool div#rex-title {
+body#rex-page-mediapool div#rex-title {
 	background-image: none;
 }
 /* einzeilig */
@@ -603,7 +603,7 @@ div#rex-title div.rex-title-row {
 	width: 617px;
 }
 body#rex-page-linkmap div#rex-title div.rex-title-row,
-body#rex-page-medienpool div#rex-title div.rex-title-row {
+body#rex-page-mediapool div#rex-title div.rex-title-row {
 	width: 100%;
 }
 div#rex-title h1,

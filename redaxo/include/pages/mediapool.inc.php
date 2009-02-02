@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: medienpool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
+ * @version $Id: mediapool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
  */
 
 // TODOS
@@ -168,10 +168,10 @@ function insertLink(src)
 // -------------- Include Page
 switch($subpage)
 {
-  case 'add_file'  : $file = 'medienpool.upload.inc.php'; break;
-  case 'categories': $file = 'medienpool.structure.inc.php'; break;
-  case 'sync'      : $file = 'medienpool.sync.inc.php'; break;
-  default          : $file = 'medienpool.medien.inc.php'; break;
+  case 'add_file'  : $file = 'mediapool.upload.inc.php'; break;
+  case 'categories': $file = 'mediapool.structure.inc.php'; break;
+  case 'sync'      : $file = 'mediapool.sync.inc.php'; break;
+  default          : $file = 'mediapool.media.inc.php'; break;
 }
 
 require $REX['INCLUDE_PATH'].'/pages/'.$file;

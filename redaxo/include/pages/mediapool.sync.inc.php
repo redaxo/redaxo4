@@ -49,7 +49,7 @@ if($PERMALL)
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
-        if(rex_medienpool_syncFile($file,$rex_file_category,$ftitle,'',''))
+        if(rex_mediapool_syncFile($file,$rex_file_category,$ftitle,'',''))
         {
           unset($diff_files[$key]);
         }
@@ -59,7 +59,7 @@ if($PERMALL)
     }
   }
 
-  echo rex_medienpool_Syncform($rex_file_category);
+  echo rex_mediapool_Syncform($rex_file_category);
 
   $title = $I18N->msg('pool_sync_affected_files');
   if(!empty($diff_count))

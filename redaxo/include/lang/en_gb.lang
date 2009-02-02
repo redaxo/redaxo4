@@ -21,12 +21,15 @@ specials = System
 module = Modules
 template = Templates
 user = Users
+mediapool = Mediapool
 community = Community
 import = Im-/export
 content = Article
 structure = Structure
 statistics = Statistics
 logout = Logout
+navigation_basis = Basis Navigation
+navigation_addons = AddOns
 
 # redaxo/include/classes/class.login.inc.php
 login_name  =  Username
@@ -528,7 +531,8 @@ setup_security_msg = The folder redaxo/include is insecure. Please protect this 
 setup_no_js_security_msg = Please check, if files in the folder redaxo/include are directly accessible! This should be impossible due to security restrictions!
 
 # redaxo\include\pages\addon.inc.php
-addon = AddOns
+addon = AddOn
+addons = AddOns
 addon_help = Help
 addon_no_help_file = No help file found
 addon_back = back
@@ -579,6 +583,7 @@ profile_save = save profile
 profile = Profile
 
 # redaxo\include\pages\linkmap.inc.php
+linkmap = Linkmap
 lmap_title = Linkmap
 lmap_categories = Categories
 lmap_articles = Articles

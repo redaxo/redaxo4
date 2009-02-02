@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: medienpool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
+ * @version $Id: mediapool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
  */
 
 // *************************************** SUBPAGE: KATEGORIEN
@@ -63,7 +63,7 @@ if ($PERMALL)
     }
   }
 
-  $link = 'index.php?page=medienpool&amp;subpage=categories&amp;cat_id=';
+  $link = 'index.php?page=mediapool&amp;subpage=categories&amp;cat_id=';
 
   $textpath = '<li> : <a href="'.$link.'0">Start</a></li>';
   $cat_id = rex_request('cat_id', 'int');
@@ -112,13 +112,13 @@ if ($PERMALL)
     $method = $add_mode ? 'add_file_cat' : 'edit_file_cat';
 
     echo '
-    <div class="rex-form" id="rex-form-medienpool-categories">
+    <div class="rex-form" id="rex-form-mediapool-categories">
       <form action="index.php" method="post">
         <fieldset class="rex-form-col-1">
           <legend>'. $legend .'</legend>
           
           <div class="rex-form-wrapper">
-            <input type="hidden" name="page" value="medienpool" />
+            <input type="hidden" name="page" value="mediapool" />
             <input type="hidden" name="subpage" value="categories" />
             <input type="hidden" name="media_method" value="'. $method .'" />
             <input type="hidden" name="cat_id" value="'. $cat_id .'" />

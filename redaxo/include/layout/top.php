@@ -17,7 +17,7 @@ if ($page_name != '')
 $body_id = str_replace('_', '-', $page);
 $bodyAttr = 'id="rex-page-'. $body_id .'"';
 
-if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
+if ($REX["page_no_navi"]) $bodyAttr .= ' onunload="closeAll();"';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -55,129 +55,108 @@ if (!isset($open_header_only)) $bodyAttr .= ' onunload="closeAll();"';
   <div id="rex-navi-header">
 <?php
 
-if (isset ($LOGIN) AND $LOGIN AND !isset($open_header_only))
+if (isset ($LOGIN) AND $LOGIN AND !$REX["page_no_navi"])
 {
   $accesskey = 1;
 
   $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
   echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . htmlspecialchars($user_name) . '</a></strong> [<a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
-  echo '<ul id="rex-navi-system">';
+  
+  $navi_system = array();
+  $navi_addons = array();
 
-  $activeClass = ' class="rex-active"';
-  $liClass = $page == 'structure' || $page == 'content' ? $activeClass : '';
+	$pages_no_display = array("credits","profile","content","linkmap");  
 
-  echo '<li'. $liClass .' id="rex-navi-system-structure"><a href="index.php?page=structure"'. rex_tabindex() . rex_accesskey($I18N->msg('structure'), $accesskey++) .'><span>' . $I18N->msg("structure") . '</span></a></li>' . "\n";
+	$first_navi_basis = TRUE;
+	$first_navi_addons = TRUE;
 
-  if ($REX_USER->hasPerm('mediapool[]') || $REX_USER->hasPerm('admin[]') || ($REX_USER->hasPerm('clang[') AND ($REX_USER->hasPerm('csw[') || $REX_USER->hasPerm('csr['))))
+  foreach($REX_USER->pages as $k => $p)
   {
-    $liClass = $page == 'medienpool' ? $activeClass : '';
-    echo '<li'. $liClass .' id="rex-navi-system-mediapool"> | <a href="#" onclick="openMediaPool();"'. rex_tabindex() . rex_accesskey($I18N->msg('pool_name'), $accesskey++) .'><span>' . $I18N->msg("pool_name") . '</span></a></li>' . "\n";
+  	if(!in_array($k,$pages_no_display))
+  	{
+  		$link = '';
+	  	$class = "";
+	  	if($k == $REX["page"]) 
+	  		$class .= 'rex-active';
+
+			if($p[1] != 1)
+			{
+				// ***** Basis
+				if($first_navi_basis) 
+					$class .= ' rex-navi-first';
+				if($class != '')
+					$class = ' class="'.$class.'"';
+		  	$link .= '<li'.$class.' id="rex-navi-page-'.$k.'">';
+				$link .= '<a ';
+				if($k == "mediapool") 
+					$link .= 'href="#" onclick="openMediaPool();"';
+				else 
+					$link .= 'href="index.php?page='.$k.'"';
+		  	$link .= rex_tabindex();
+		  	$link .= rex_accesskey($p[0], $accesskey++);
+	      $link .= '>'.$p[0].'</a>';
+		  	$link .= '</li>';
+		  	$first_navi_basis = FALSE;
+			}else
+			{
+				// ***** AddOn
+				if($first_navi_addons) 
+					$class .= ' rex-navi-first';
+				if($class != '')
+					$class = ' class="'.$class.'"';
+		  	$link .= '<li'.$class.' id="rex-navi-page-'.$k.'">';
+		  	$link .= '<a ';
+	  		if(isset ($REX['ADDON']['link'][$k]) && $REX['ADDON']['link'][$k] != "") 
+	  			$link .= 'href="'.$link.'"';
+				else 
+					$link .= 'href="index.php?page='.$k.'"';
+		  	$link .= rex_tabindex();
+	      if(isset ($REX['ACKEY']['ADDON'][$k]))
+	        $link .= rex_accesskey($name, $REX['ACKEY']['ADDON'][$k]);
+	      else 
+			  	$link .= rex_accesskey($p[0], $accesskey++);
+	      $link .= '>'.$p[0].'</a>';
+	      
+    		$link .= '</li>';
+		  	$first_navi_addons = FALSE;
+			}
+	  	$p[3] = $link;
+	  	// Addon ?
+	  	if($p[1]==1) $navi_addons[] = $p;
+	  	else $navi_system[] = $p;
+  	}  	
   }
+  
+	if(count($navi_system)>0)
+	{
+		echo '<h1>'.$I18N->msg('navigation_basis').'</h1>';
+	  echo '<ul id="rex-navi-system">';
+		foreach($navi_system as $p)
+		{
+			echo $p[3];
+		}
+	  echo '</ul>' . "\n";
+	}
 
-  if ($REX_USER->hasPerm('template[]') || $REX_USER->hasPerm('admin[]'))
-  {
-    $liClass = $page == 'template' ? $activeClass : '';
-    echo '<li'. $liClass .' id="rex-navi-system-template"> | <a href="index.php?page=template"'. rex_tabindex() . rex_accesskey($I18N->msg('template'), $accesskey++) .'><span>' . $I18N->msg("template") . '</span></a></li>' . "\n";
-  }
+	if(count($navi_addons)>0)
+	{
+		echo '<h1>'.$I18N->msg('navigation_addons').'</h1>';
+	  echo '<ul id="rex-navi-addon">';
+		foreach($navi_addons as $p)
+		{
+			echo $p[3];
+		}
+	  echo '</ul>' . "\n";
+	}
 
-  if ($REX_USER->hasPerm('module[]') || $REX_USER->hasPerm('admin[]'))
-  {
-    $liClass = $page == 'module' ? $activeClass : '';
-    echo '<li'. $liClass .' id="rex-navi-system-module"> | <a href="index.php?page=module"'. rex_tabindex() . rex_accesskey($I18N->msg('modules'), $accesskey++) .'><span>' . $I18N->msg("modules") . '</span></a></li>' . "\n";
-  }
-
-  if ($REX_USER->hasPerm('user[]') || $REX_USER->hasPerm('admin[]'))
-  {
-    $liClass = $page == 'user' ? $activeClass : '';
-    echo '<li'. $liClass .' id="rex-navi-system-user"> | <a href="index.php?page=user"'. rex_tabindex() . rex_accesskey($I18N->msg('user'), $accesskey++) .'><span>' . $I18N->msg("user") . '</span></a></li>' . "\n";
-  }
-
-  if ($REX_USER->hasPerm('addon[]') || $REX_USER->hasPerm('admin[]'))
-  {
-    $liClass = $page == 'addon' ? $activeClass : '';
-    echo '<li'. $liClass .' id="rex-navi-system-addon"> | <a href="index.php?page=addon"'. rex_tabindex() . rex_accesskey($I18N->msg('addon'), $accesskey++) .'><span>' . $I18N->msg("addon") . '</span></a></li>' . "\n";
-  }
-
-  if ($REX_USER->hasPerm('specials[]') || $REX_USER->hasPerm('admin[]'))
-  {
-    $liClass = $page == 'specials' ? $activeClass : '';
-    echo '<li'. $liClass .' id="rex-navi-system-specials"> | <a href="index.php?page=specials"'. rex_tabindex() . rex_accesskey($I18N->msg('specials'), $accesskey++) .'><span>' . $I18N->msg("specials") . '</span></a></li>' . "\n";
-  }
-
-  if (is_array($REX['ADDON']['status']))
-  {
-    reset($REX['ADDON']['status']);
-  }
-
-  echo '</ul>' . "\n";
-
-  $onlineAddons = array_filter(array_values($REX['ADDON']['status']));
-  if(count($onlineAddons) > 0)
-  {
-    $first = true;
-    echo '<ul id="rex-navi-addon">' . "\n";
-
-    for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
-    {
-      $apage = key($REX['ADDON']['status']);
-
-      $perm = '';
-      if(isset ($REX['ADDON']['perm'][$apage]))
-        $perm = $REX['ADDON']['perm'][$apage];
-
-      $name = '';
-      if(isset ($REX['ADDON']['name'][$apage]))
-        $name = $REX['ADDON']['name'][$apage];
-
-      $popup = '';
-      if(isset ($REX['ADDON']['popup'][$apage]))
-        $popup = $REX['ADDON']['popup'][$apage];
-
-      $accesskey = '';
-      if(isset ($REX['ACKEY']['ADDON'][$apage]))
-        $accesskey = rex_accesskey($name, $REX['ACKEY']['ADDON'][$apage]);
-
-      // Leerzeichen durch &nbsp; ersetzen, damit Addonnamen immer in einer Zeile stehen
-      $name = str_replace(' ', '&nbsp;', $name);
-
-      $liClass = $page == $apage ? $activeClass : '';
-      if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->hasPerm("admin[]")))
-      {
-        $separator = ' | ';
-        if($first)
-        {
-          $separator = '';
-          $first = false;
-        }
-        
-        $apage_id = str_replace('_', '-', $apage);
-        
-        if ($popup == 1)
-        {
-          echo '<li'. $liClass .' id="rex-navi-addon-' . $apage_id . '">' . $separator . '<a href="javascript:newPoolWindow(\'index.php?page=' . $apage . '\');"'. rex_tabindex() . $accesskey .'><span>' . $name . '</span></a></li>' . "\n";
-        }
-        elseif ($popup == '' or $popup == 0)
-        {
-          echo '<li'. $liClass .' id="rex-navi-addon-' . $apage_id . '">' . $separator . '<a href="index.php?page=' . $apage . '"'. rex_tabindex() . $accesskey .'><span>' . $name . '</span></a></li>' . "\n";
-        }
-        else
-        {
-          echo '<li'. $liClass .' id="rex-navi-addon-' . $apage_id . '">' . $separator . '<a href="' . $popup . '"'. rex_tabindex() . $accesskey .'><span>' . $name . '</span></a></li>' . "\n";
-        }
-      }
-      next($REX['ADDON']['status']);
-    }
-
-    echo '</ul>' . "\n";
-  }
-}
-else if(!isset($open_header_only))
+}else if(!$REX["page_no_navi"])
 {
   echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
 }else
 {
   echo '<p class="rex-logout">&nbsp;</p>';
 }
+
 ?>
   </div>
 

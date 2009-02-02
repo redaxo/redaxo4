@@ -62,11 +62,13 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.oomediacategory.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oomedia.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooaddon.inc.php';
 
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_navigation.inc.php';
+
 if (!$REX['GG'])
 {
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_title.inc.php';
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php';
-  include_once $REX['INCLUDE_PATH'].'/functions/function_rex_medienpool.inc.php';
+  include_once $REX['INCLUDE_PATH'].'/functions/function_rex_mediapool.inc.php';
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_formatter.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';

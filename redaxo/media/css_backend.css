@@ -108,7 +108,7 @@ div#rex-output .rex-info {
 	background:#D2EFD9 url(../media/excla_mark_green.gif) 0% 50% no-repeat;
 	color:#107C2C;
 }
-body#rex-page-medienpool div#rex-output .rex-message {
+body#rex-page-mediapool div#rex-output .rex-message {
 	margin-bottom:2px;
 }
 body#rex-page-content div#rex-output .rex-message,
@@ -291,14 +291,14 @@ div#rex-ftr {
 	width:770px;
 }
 
-body#rex-page-medienpool div#rex-hdr,
-body#rex-page-medienpool div#rex-ftr,
+body#rex-page-mediapool div#rex-hdr,
+body#rex-page-mediapool div#rex-ftr,
 body#rex-page-linkmap div#rex-hdr,
 body#rex-page-linkmap div#rex-ftr {
 	width:100%;
 }
 /* normalerweise vom body-Tag*/
-body#rex-page-medienpool div#rex-ftr,
+body#rex-page-mediapool div#rex-ftr,
 body#rex-page-linkmap div#rex-ftr {
 	margin-bottom:8px;
 }
@@ -333,7 +333,7 @@ div#rex-ftr ul {
 	margin:0 5px;
 }
 
-body#rex-page-medienpool div#rex-hdr div ul,
+body#rex-page-mediapool div#rex-hdr div ul,
 body#rex-page-linkmap div#rex-hdr div ul {
 	width:100%;
 }
@@ -380,7 +380,7 @@ div#rex-wrapper {
 	width:770px;
 	margin-bottom:0px;						/* jan - von 10 auf 0*/
 }
-body#rex-page-medienpool div#rex-wrapper,
+body#rex-page-mediapool div#rex-wrapper,
 body#rex-page-linkmap div#rex-wrapper {
 	width:100%;
 }
@@ -427,7 +427,7 @@ html>body div#rex-title {
 	height:auto;
 	min-height:61px;
 }
-body#rex-page-medienpool div#rex-title,
+body#rex-page-mediapool div#rex-title,
 body#rex-page-linkmap div#rex-title {
 	background:none;
 	background-color:#f0efeb;
@@ -448,7 +448,7 @@ body#rex-page-linkmap div#rex-title p {
 div.rex-title-row {
 	width:617px;
 }
-body#rex-page-medienpool div.rex-title-row,
+body#rex-page-mediapool div.rex-title-row,
 body#rex-page-linkmap div.rex-title-row {
 	width:100%;
 }
@@ -588,7 +588,7 @@ body div#rex-output p.rex-rdo input,
 body div#rex-output p.rex-sbmt input,
 body div#rex-output p input.rex-chckbx,
 body div#rex-output p input.rex-sbmt,
-body#rex-page-medienpool div#rex-output td input.rex-sbmt {
+body#rex-page-mediapool div#rex-output td input.rex-sbmt {
 	width:auto;
 }
 
@@ -1543,7 +1543,7 @@ div.rex-addon-editmode p input.rex-sbmt {
 
 /*	Addon - Metainfo
 *******************************************************************************/
-body#rex-page-medienpool fieldset p span.rex-notice,
+body#rex-page-mediapool fieldset p span.rex-notice,
 body#rex-page-metainfo fieldset p span.rex-notice {
 	display:block;
 	clear:both;

@@ -10,8 +10,8 @@ if ($media_method == 'add_file'){
 
     if (!$PERMALL && !$REX_USER->hasPerm("media[$rex_file_category]")) $rex_file_category = 0;
 
-    // function in function.rex_medienpool.inc.php
-    $return = rex_medienpool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX_USER->getValue("login"));
+    // function in function.rex_mediapool.inc.php
+    $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX_USER->getValue("login"));
     $info = $return['msg'];
     $subpage = "";
     
@@ -62,4 +62,4 @@ if ($media_method == 'add_file'){
 }
 
 // ----- METHOD ADD FORM
-echo rex_medienpool_Uploadform($rex_file_category);
+echo rex_mediapool_Uploadform($rex_file_category);
