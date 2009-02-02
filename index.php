@@ -44,21 +44,25 @@ include './redaxo/include/master.inc.php';
 // Starte einen neuen Artikel und setzte die aktuelle
 // artikel id. wenn nicht vorhanden, nimm einen
 // speziellen artikel. z.b. fehler seite oder home seite
-if (!isset($article_id) or $article_id == '') $article_id = $REX['START_ARTICLE_ID'];
+$article_id = rex_request("article_id","int",$REX['START_ARTICLE_ID']);
 
-$REX_ARTICLE = new rex_article;
-$REX_ARTICLE->setCLang($clang);
+$REX["ARTICLE"] = new rex_article;
+$REX["ARTICLE"]->setCLang($clang);
+
+
 
 if($REX['SETUP'])
 {
 	header('Location: redaxo/index.php');
 	exit();
-}elseif ($REX_ARTICLE->setArticleId($article_id))
+}elseif ($REX["ARTICLE"]->setArticleId($article_id))
 {
-  echo $REX_ARTICLE->getArticleTemplate();
-}elseif($REX_ARTICLE->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
+	$REX["ARTICLE_ID"] = $article_id;
+  echo $REX["ARTICLE"]->getArticleTemplate();
+}elseif($REX["ARTICLE"]->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
 {
-  echo $REX_ARTICLE->getArticleTemplate();
+	$REX["ARTICLE_ID"] = $REX['NOTFOUND_ARTICLE_ID'];
+  echo $REX["ARTICLE"]->getArticleTemplate();
 }else
 {
   echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
@@ -70,4 +74,4 @@ $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_send_article($REX_ARTICLE, $CONTENT, 'frontend');
+rex_send_article($REX["ARTICLE"], $CONTENT, 'frontend');

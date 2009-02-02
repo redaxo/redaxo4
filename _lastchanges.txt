@@ -12,6 +12,9 @@ Version 4.2.0 (2008-XX-XX)
   Achtung:
   * alle Bezeichnungen mit medien wurden in media geändert, d.h. alle Funktionen, 
   Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
+  * in der index REX_ARTICLE -> REX["ARTICLE"], damit ist das Objekt überall verfügbar 
+  eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
+
 
   * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
   * Startpage ist nun festlegbar [Jan.Kristinus]
@@ -82,6 +85,8 @@ Version 4.2.0 (2008-XX-XX)
   * Neue Methoden: 
     - OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
     - rex_sql::hasNext() [Markus.Staab]
+  * Neue Klassen:
+    - rex_navigation, um im Frontend Navigationen leichter erstellen zu können [Jan.kristinus]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
   * EPs angepasst
