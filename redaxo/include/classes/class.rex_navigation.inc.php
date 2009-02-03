@@ -11,7 +11,7 @@
  * TODOS:
  * 
  * - Breadcrump
- * 
+ * - CSS Klassen nach Ebene ($class = array('lev1', 'lev2', 'lev3')) 
  */
 
 /*
