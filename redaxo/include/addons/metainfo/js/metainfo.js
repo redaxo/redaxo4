@@ -25,7 +25,7 @@ function checkConditionalFields(selectEl, activeIds)
       toggleElement(visibleNotice, 'none');
     }
     
-    var needle = new getObj('a62_field_params_notice_'+ toggle);
+    needle = new getObj('a62_field_params_notice_'+ toggle);
     if(needle.obj)
     {
       toggleElement(needle.obj, '');
