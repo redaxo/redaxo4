@@ -58,15 +58,15 @@ if($REX['SETUP'])
 }elseif ($REX["ARTICLE"]->setArticleId($article_id))
 {
 	$REX["ARTICLE_ID"] = $article_id;
-  echo $REX["ARTICLE"]->getArticleTemplate();
+	echo $REX["ARTICLE"]->getArticleTemplate();
 }elseif($REX["ARTICLE"]->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
 {
 	$REX["ARTICLE_ID"] = $REX['NOTFOUND_ARTICLE_ID'];
-  echo $REX["ARTICLE"]->getArticleTemplate();
+	echo $REX["ARTICLE"]->getArticleTemplate();
 }else
 {
-  echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
-  $REX['STATS'] = 0;
+	echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
+	$REX['STATS'] = 0;
 }
 
 // ----- caching end für output filter
