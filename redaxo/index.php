@@ -10,7 +10,7 @@
 ob_start();
 ob_implicit_flush(0);
 
-// ----------------- MAGIC QUOTES CHECK && REGISTER GLOBALS
+// ----------------- MAGIC QUOTES CHECK
 require './include/functions/function_rex_mquotes.inc.php';
 
 // ----- REX UNSET
