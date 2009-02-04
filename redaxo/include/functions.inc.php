@@ -93,6 +93,8 @@ include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 
 // ----- REQUEST VARS
+// TODO Hier variablen die eigentlich nur im Backend gebraucht werden...!?
+// werden später teilweise auch in der index.php wieder überschrieben...
 $page        = rex_request('page'       , 'string');
 $subpage     = rex_request('subpage'    , 'string');
 $article_id  = rex_request('article_id' , 'int');
