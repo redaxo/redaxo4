@@ -8,7 +8,7 @@
 // php5 noetig, wg simple_xml
 if(version_compare(phpversion(), $needed = '5.0.0', '<') == 1)
 {
-  echo 'Requires PHP '. $needed;
+  echo 'Requires PHP < '. $needed;
   exit();
 }
 
@@ -102,7 +102,7 @@ function buildRelease($name = null, $version = null)
     $structure = readFolderStructure('.',
       array_merge(
         $systemFolders, 
-        array('release.xml', 'db-schema.xml', 'db-schema.png', 'files', 'generated', 'addons', $cfg_path)
+        array('release.php', 'release.xml', 'db-schema.xml', 'db-schema.png', 'files', 'generated', 'addons', $cfg_path)
       )
     );
     copyFolderStructure($structure, $path, $dest);
@@ -208,14 +208,12 @@ function buildRelease($name = null, $version = null)
     fclose($h);
   
     // Addons installieren
-    // $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
+    $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
   
     $h = fopen($addons, 'w+');
     if (fwrite($h, $cont, strlen($cont)) > 0)
       fclose($h);
   
-    // Das kopierte Release-Script aus dem neu erstellten Release löschen
-    unlink($dest .'/release.php');
     echo '>>> BUILD "'. $name .'" Finished'."\n\n";
   }
   echo '> FINISHED'."\n";
