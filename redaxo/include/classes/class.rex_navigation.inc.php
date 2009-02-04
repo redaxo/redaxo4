@@ -50,19 +50,19 @@ class rex_navigation
 		$this->ignore_offlines = $ignore_offlines;
 	}
 
-	public function get()
+	function get()
 	{
 		global $REX,$I18N;
 		if(!$this->_setActivePaths()) return FALSE;
 		return $this->_getNavigation($this->category_id,0,$this->ignore_offlines);
 	}
 
-	public function show()
+	function show()
 	{
 		echo $this->get();
 	}
 
-	private function _setActivePaths()
+	function _setActivePaths()
 	{
 		global $REX;
 		$this->current_article_id = $REX["ARTICLE_ID"];
@@ -78,7 +78,7 @@ class rex_navigation
 		}
 	}
 
-	private function _getNavigation($category_id,$cur_deep = 0,$ignore_offlines = TRUE)
+	function _getNavigation($category_id,$cur_deep = 0,$ignore_offlines = TRUE)
 	{
 
 		if($category_id < 1)
@@ -121,5 +121,4 @@ class rex_navigation
 
 		return $return;
 	}
-
 }
