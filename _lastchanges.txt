@@ -108,8 +108,10 @@ Version 4.2.0 (2008-XX-XX)
     - http://forum.redaxo.de/ftopic8672.html
   * TinyMCE: Buttons Link und Bild einfügen funktioniert nicht [tgoellner, Markus.Staab]
     - http://forum.redaxo.de/ftopic8599.html
-  * Medienpool sync subindex bugfix [Markus.Staab]
+  * Medienpool: sync subindex bugfix [Markus.Staab]
     - http://forum.redaxo.de/ftopic8635.html
+  * Inhaltsverwaltung: Probleme beim Artikel kopieren mit " oder ' in MetaFeldern [Markus.Staab, Jan.Kristinus]
+    - http://forum.redaxo.de/ftopic10713.html
 
 Version 4.1.0 (2008-03-24)
 
