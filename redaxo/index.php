@@ -66,7 +66,7 @@ if ($REX['SETUP'])
 	header('Cache-Control: no-cache');
 	header('Pragma: no-cache');
 
-	$pages["setup"] = array($I18N->msg('setup'),0,1);
+	$pages["SETUP"] = array($I18N->msg('setup'),0,1);
 	$page = "setup";
 }
 else
@@ -83,10 +83,10 @@ else
 	$rex_user_psw = rex_post('rex_user_psw', 'string');
 
 	if ($REX['PSWFUNC'] != '')
-	$REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
+	  $REX_LOGIN->setPasswordFunction($REX['PSWFUNC']);
 
 	if (rex_get('rex_logout', 'boolean'))
-	$REX_LOGIN->setLogout(true);
+	  $REX_LOGIN->setLogout(true);
 
 	$REX_LOGIN->setLogin($rex_user_login, $rex_user_psw);
 	$loginCheck = $REX_LOGIN->checkLogin();
@@ -95,7 +95,6 @@ else
 	if ($loginCheck !== true)
 	{
 		// login failed
-
 		$rex_user_loginmessage = $REX_LOGIN->message;
 
 		// Fehlermeldung von der Datenbank
@@ -103,11 +102,11 @@ else
 		$rex_user_loginmessage = $loginCheck;
 
 		$LOGIN = FALSE;
-		$pages["login"] = array("login",0,1);
+		$pages["LOGIN"] = array("login",0,1);
 		$page = 'login';
-	} else
-	{
-		 
+	}
+	else
+	{		 
 		// Userspezifische Sprache einstellen, falls gleicher Zeichensatz
 		$lang = $REX_LOGIN->getLanguage();
 		$I18N_T = rex_create_lang($lang,FALSE);
@@ -116,37 +115,37 @@ else
 		$LOGIN = TRUE;
 		$REX_USER = $REX_LOGIN->USER;
 
-		$pages["profile"] = array($I18N->msg("profile"),0,1);
-		$pages["credits"] = array($I18N->msg("credits"),0,1);
+		$pages["PROFILE"] = array($I18N->msg("profile"),0,1);
+		$pages["CREDITS"] = array($I18N->msg("credits"),0,1);
 
 		if ($REX_USER->isAdmin() || ($REX_USER->hasPerm('clang[') AND ($REX_USER->hasPerm('csw[') || $REX_USER->hasPerm('csr['))))
 		{
-			$pages["structure"] = array($I18N->msg("structure"),0,1);
-			$pages["mediapool"] = array($I18N->msg("mediapool"),0,0);
-			$pages["linkmap"] = array($I18N->msg("linkmap"),0,0);
-			$pages["content"] = array($I18N->msg("content"),0,1);
+			$pages["STRUCTURE"] = array($I18N->msg("structure"),0,1);
+			$pages["MEDIAPOOL"] = array($I18N->msg("mediapool"),0,0);
+			$pages["LINKMAP"] = array($I18N->msg("linkmap"),0,0);
+			$pages["CONTENT"] = array($I18N->msg("content"),0,1);
 		}elseif($REX_USER->hasPerm('mediapool[]'))
 		{
-			$pages["mediapool"] = array($I18N->msg("mediapool"),0,0);
+			$pages["MEDIAPOOL"] = array($I18N->msg("mediapool"),0,0);
 		}
 
 		if ($REX_USER->hasPerm('template[]') || $REX_USER->isAdmin())
-		$pages["template"] = array($I18N->msg("template"),0,1);
+		  $pages["TEMPLATE"] = array($I18N->msg("template"),0,1);
 
 		if ($REX_USER->hasPerm('module[]') || $REX_USER->isAdmin())
-		$pages["module"] = array($I18N->msg("modules"),0,1);
+		  $pages["MODULE"] = array($I18N->msg("modules"),0,1);
 
 		if ($REX_USER->hasPerm('user[]') || $REX_USER->isAdmin())
-		$pages["user"] = array($I18N->msg("user"),0,1);
+		  $pages["USER"] = array($I18N->msg("user"),0,1);
 
 		if ($REX_USER->hasPerm('addon[]') || $REX_USER->isAdmin())
-		$pages["addon"] = array($I18N->msg("addon"),0,1);
+		  $pages["ADDON"] = array($I18N->msg("addon"),0,1);
 
 		if ($REX_USER->hasPerm('specials[]') || $REX_USER->isAdmin())
-		$pages["specials"] = array($I18N->msg("specials"),0,1);
+		  $pages["SPECIALS"] = array($I18N->msg("specials"),0,1);
 
 		if (is_array($REX['ADDON']['status']))
-		reset($REX['ADDON']['status']);
+		  reset($REX['ADDON']['status']);
 
 		$onlineAddons = array_filter(array_values($REX['ADDON']['status']));
 		if(count($onlineAddons) > 0)
@@ -154,22 +153,26 @@ else
 			for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
 			{
 				$apage = key($REX['ADDON']['status']);
+				
 				$perm = '';
 				if(isset ($REX['ADDON']['perm'][$apage]))
-				$perm = $REX['ADDON']['perm'][$apage];
+				  $perm = $REX['ADDON']['perm'][$apage];
+				  
 				$name = '';
 				if(isset ($REX['ADDON']['name'][$apage]))
-				$name = $REX['ADDON']['name'][$apage];
+				  $name = $REX['ADDON']['name'][$apage];
+				  
 				if(isset ($REX['ADDON']['link'][$apage]) && $REX['ADDON']['link'][$apage] != "")
-				$link = '<a href="'.$link.'">';
+				  $link = '<a href="'.$link.'">';
 				else
-				$link = '<a href="index.php?page='.$apage.'">';
+				  $link = '<a href="index.php?page='.$apage.'">';
+				  
 				if (current($REX['ADDON']['status']) == 1 && $name != '' && ($perm == '' || $REX_USER->hasPerm($perm) || $REX_USER->isAdmin()))
 				{
 					$popup = 1;
 					if(isset ($REX['ADDON']['popup'][$apage]))
 					$popup = 0;
-					$pages[$apage] = array($name,1,$popup,$link);
+					$pages[strtoupper($apage)] = array($name,1,$popup,$link);
 				}
 				next($REX['ADDON']['status']);
 			}
@@ -180,13 +183,13 @@ else
 		// --- page herausfinden
 		$page = trim(strtolower(rex_request('page', 'string')));
 		if($rex_user_login != "") $page = $REX_LOGIN->getStartpage();
-		if(!isset($pages[$page]))
+		if(!isset($pages[strtoupper($page)]))
 		{
 			$page = $REX_LOGIN->getStartpage();
-			if(!isset($pages[$page]))
+			if(!isset($pages[strtoupper($page)]))
 			{
 				$page = $REX['START_PAGE'];
-				if(!isset($pages[$page]))
+				if(!isset($pages[strtoupper($page)]))
 				{
 					$page = "profile";
 				}
@@ -209,13 +212,13 @@ else
 // $pages[$page][2] -> Headers = 1
 
 $_REQUEST["page"] = $page;
-$REX["pages"] = $pages;
-$REX["page"] = $page;
+$REX["PAGES"] = $pages;
+$REX["PAGE"] = $page;
 
-$REX["page_no_navi"] = 1;
-if($pages[$page][2] == 1) $REX["page_no_navi"] = 0;
+$REX["PAGE_NO_NAVI"] = 1;
+if($pages[strtoupper($page)][2] == 1) $REX["PAGE_NO_NAVI"] = 0;
 
-if($pages[$page][1])
+if($pages[strtoupper($page)][1])
 {
 	require $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
 }else

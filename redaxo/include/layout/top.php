@@ -17,7 +17,7 @@ if ($page_name != '')
 $body_id = str_replace('_', '-', $page);
 $bodyAttr = 'id="rex-page-'. $body_id .'"';
 
-if ($REX["page_no_navi"]) $bodyAttr .= ' onunload="closeAll();"';
+if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -55,7 +55,7 @@ if ($REX["page_no_navi"]) $bodyAttr .= ' onunload="closeAll();"';
   <div id="rex-navi-header">
 <?php
 
-if (isset ($LOGIN) AND $LOGIN AND !$REX["page_no_navi"])
+if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
 
@@ -65,18 +65,17 @@ if (isset ($LOGIN) AND $LOGIN AND !$REX["page_no_navi"])
   $navi_system = array();
   $navi_addons = array();
 
-	$pages_no_display = array("credits","profile","content","linkmap");  
+	$pages_no_display = array("CREDITS","PROFILE","CONTENT","LINKMAP");  
 
 	$first_navi_basis = TRUE;
 	$first_navi_addons = TRUE;
-
   foreach($REX_USER->pages as $k => $p)
   {
   	if(!in_array($k,$pages_no_display))
   	{
   		$link = '';
 	  	$class = "";
-	  	if($k == $REX["page"]) 
+	  	if($k == $REX["PAGE"]) 
 	  		$class .= 'rex-active';
 
 			if($p[1] != 1)
@@ -86,9 +85,9 @@ if (isset ($LOGIN) AND $LOGIN AND !$REX["page_no_navi"])
 					$class .= ' rex-navi-first';
 				if($class != '')
 					$class = ' class="'.$class.'"';
-		  	$link .= '<li'.$class.' id="rex-navi-page-'.$k.'">';
+		  	$link .= '<li'.$class.' id="rex-navi-page-'.strtolower($k).'">';
 				$link .= '<a ';
-				if($k == "mediapool") 
+				if($k == "MEDIAPOOL") 
 					$link .= 'href="#" onclick="openMediaPool();"';
 				else 
 					$link .= 'href="index.php?page='.$k.'"';
@@ -97,14 +96,15 @@ if (isset ($LOGIN) AND $LOGIN AND !$REX["page_no_navi"])
 	      $link .= '>'.$p[0].'</a>';
 		  	$link .= '</li>';
 		  	$first_navi_basis = FALSE;
-			}else
+			}
+			else
 			{
 				// ***** AddOn
 				if($first_navi_addons) 
 					$class .= ' rex-navi-first';
 				if($class != '')
 					$class = ' class="'.$class.'"';
-		  	$link .= '<li'.$class.' id="rex-navi-page-'.$k.'">';
+		  	$link .= '<li'.$class.' id="rex-navi-page-'.strtolower($k).'">';
 		  	$link .= '<a ';
 	  		if(isset ($REX['ADDON']['link'][$k]) && $REX['ADDON']['link'][$k] != "") 
 	  			$link .= 'href="'.$link.'"';
@@ -149,7 +149,7 @@ if (isset ($LOGIN) AND $LOGIN AND !$REX["page_no_navi"])
 	  echo '</ul>' . "\n";
 	}
 
-}else if(!$REX["page_no_navi"])
+}else if(!$REX["PAGE_NO_NAVI"])
 {
   echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
 }else
