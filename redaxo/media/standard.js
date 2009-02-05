@@ -127,12 +127,12 @@ var winObjCounter = -1;
 
 function newPoolWindow(link) 
 {
-    newWindow( 'rexmediapopup', link, 660,500,',status=yes,resizable=yes');
+    newWindow( 'rexmediapopup', link, 760,500,',status=yes,resizable=yes');
 }
 
 function newLinkMapWindow(link) 
 {
-    newWindow( 'linkmappopup', link, 660,500,',status=yes,resizable=yes');
+    newWindow( 'linkmappopup', link, 760,500,',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
