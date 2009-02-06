@@ -65,90 +65,83 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
   
   $navi_system = array();
   $navi_addons = array();
-
-	$pages_no_display = array("CREDITS","PROFILE","CONTENT","LINKMAP");  
-
-	$first_navi_basis = TRUE;
-	$first_navi_addons = TRUE;
-  foreach($REX_USER->pages as $k => $p)
+  foreach($REX_USER->pages as $pageKey => $pageArr)
   {
-  	if(!in_array($k,$pages_no_display))
+    $pageKey = strtolower($pageKey);
+  	if(!in_array($pageKey, array("credits","profile","content","linkmap")))
   	{
-  		$link = '';
-	  	$class = "";
-	  	if($k == $REX["PAGE"]) 
-	  		$class .= 'rex-active';
+  	  $item = array();
+  	  
+      $item['id'] = 'rex-navi-page-'.$pageKey;
+      $item['class'] = '';
+	  	if($pageKey == $REX["PAGE"]) 
+        $item['class'] = 'rex-active';
 
-			if($p[1] != 1)
+			if($pageArr[1] != 1)
 			{
 				// ***** Basis
-				if($first_navi_basis) 
-					$class .= ' rex-navi-first';
-				if($class != '')
-					$class = ' class="'.$class.'"';
-		  	$link .= '<li'.$class.' id="rex-navi-page-'.strtolower($k).'">';
-				$link .= '<a ';
-				if($k == "MEDIAPOOL") 
-					$link .= 'href="#" onclick="openMediaPool();"';
-				else 
-					$link .= 'href="index.php?page='.strtolower($k).'"';
-		  	$link .= rex_tabindex();
-		  	$link .= rex_accesskey($p[0], $accesskey++);
-	      $link .= '>'.$p[0].'</a>';
-		  	$link .= '</li>';
-		  	$first_navi_basis = FALSE;
+				if($pageKey == "mediapool")
+				{
+          $item['href'] = '#';
+          $item['onclick'] = 'openMediaPool();';
+				}
+				else
+				{ 
+          $item['href'] = 'index.php?page='.$pageKey;
+				}
+				
+        $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
+        $item['tabindex'] = rex_tabindex(false);
+  	  	$navi_system[$pageArr[0]] = $item;
 			}
 			else
 			{
 				// ***** AddOn
-				if($first_navi_addons) 
-					$class .= ' rex-navi-first';
-				if($class != '')
-					$class = ' class="'.$class.'"';
-		  	$link .= '<li'.$class.' id="rex-navi-page-'.strtolower($k).'">';
-		  	$link .= '<a ';
-	  		if(isset ($REX['ADDON']['link'][$k]) && $REX['ADDON']['link'][$k] != "") 
-	  			$link .= 'href="'.$link.'"';
+	  		if(isset ($REX['ADDON']['link'][$pageKey]) && $REX['ADDON']['link'][$pageKey] != "") 
+          $item['href'] = $REX['ADDON']['link'][$pageKey];
 				else 
-					$link .= 'href="index.php?page='.strtolower($k).'"';
-		  	$link .= rex_tabindex();
-	      if(isset ($REX['ACKEY']['ADDON'][$k]))
-	        $link .= rex_accesskey($name, $REX['ACKEY']['ADDON'][$k]);
+          $item['href'] = 'index.php?page='.$pageKey;
+          
+	      if(isset ($REX['ACKEY']['ADDON'][$pageKey]))
+          $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$pageKey]);
 	      else 
-			  	$link .= rex_accesskey($p[0], $accesskey++);
-	      $link .= '>'.$p[0].'</a>';
+          $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
 	      
-    		$link .= '</li>';
-		  	$first_navi_addons = FALSE;
+        $item['tabindex'] = rex_tabindex(false);
+  	  	$navi_addons[$pageArr[0]] = $item;
 			}
-	  	$p[3] = $link;
-	  	// Addon ?
-	  	if($p[1]==1) $navi_addons[] = $p;
-	  	else $navi_system[] = $p;
   	}  	
   }
   
-	if(count($navi_system)>0)
-	{
-		echo '<h1>'.$I18N->msg('navigation_basis').'</h1>';
-	  echo '<ul id="rex-navi-system">';
-		foreach($navi_system as $p)
-		{
-			echo $p[3];
-		}
-	  echo '</ul>' . "\n";
-	}
-
-	if(count($navi_addons)>0)
-	{
-		echo '<h1>'.$I18N->msg('navigation_addons').'</h1>';
-	  echo '<ul id="rex-navi-addon">';
-		foreach($navi_addons as $p)
-		{
-			echo $p[3];
-		}
-	  echo '</ul>' . "\n";
-	}
+  
+  foreach(array('system' => $navi_system, 'addon' => $navi_addons) as $topic => $naviList)
+  {
+    $headline = $topic == 'system' ? $I18N->msg('navigation_basis') : $I18N->msg('navigation_addons');
+    echo '<h1>'. $headline .'</h1>';
+    echo '<ul id="rex-navi-'. $topic .'">';
+    
+    $first = true;
+    foreach($naviList as $page => $item)
+    {
+      if($first)
+        $item['class'] .= ' rex-navi-first';
+        
+      $class = $item['class'] != '' ? ' class="'. $item['class'] .'"' : '';
+      unset($item['class']);
+      $extra = $item['extra'];
+      unset($item['extra']);
+      $id = $item['id'];
+      unset($item['id']);
+      
+      $tags = '';
+      foreach($item as $tag => $value)
+        $tags .= ' '. $tag .'="'. $value .'"';
+      
+      echo '<li'. $class .' id="'. $id .'"><a'. $tags . $extra .'>'. $page .'</a></li>';
+      $first = false;
+    }
+    echo '</ul>' . "\n";
+  }
 
 }else if(!$REX["PAGE_NO_NAVI"])
 {
