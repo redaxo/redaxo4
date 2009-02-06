@@ -91,7 +91,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 				if($k == "MEDIAPOOL") 
 					$link .= 'href="#" onclick="openMediaPool();"';
 				else 
-					$link .= 'href="index.php?page='.$k.'"';
+					$link .= 'href="index.php?page='.strtolower($k).'"';
 		  	$link .= rex_tabindex();
 		  	$link .= rex_accesskey($p[0], $accesskey++);
 	      $link .= '>'.$p[0].'</a>';
@@ -110,7 +110,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 	  		if(isset ($REX['ADDON']['link'][$k]) && $REX['ADDON']['link'][$k] != "") 
 	  			$link .= 'href="'.$link.'"';
 				else 
-					$link .= 'href="index.php?page='.$k.'"';
+					$link .= 'href="index.php?page='.strtolower($k).'"';
 		  	$link .= rex_tabindex();
 	      if(isset ($REX['ACKEY']['ADDON'][$k]))
 	        $link .= rex_accesskey($name, $REX['ACKEY']['ADDON'][$k]);
