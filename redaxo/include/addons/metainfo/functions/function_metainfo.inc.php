@@ -201,3 +201,43 @@ function a62_meta_table($prefix)
 
   return false;
 }
+
+/**
+ * Bindet ggf extensions ein
+ * 
+ * @param $params
+ */
+function a62_extensions_hanlder($params)
+{
+  global $REX;
+  
+  $page = $params['subject'];
+  $mode = rex_request('mode', 'string');
+  $mypage = 'metainfo';
+  
+  // additional javascripts
+  if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
+  {
+    rex_register_extension('PAGE_HEADER',
+      create_function('$params', 'return $params[\'subject\'] .\'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\'."\n";')
+    );
+  }
+  
+  // include extensions
+  if ($page == 'content' && $mode == 'meta')
+  {
+    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_art_metainfo.inc.php');
+  }
+  elseif ($page == 'structure')
+  {
+    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_cat_metainfo.inc.php');
+  }
+  elseif ($page == 'mediapool')
+  {
+    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_med_metainfo.inc.php');
+  }
+  elseif ($page == 'import_export')
+  {
+    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_cleanup.inc.php');
+  }
+}

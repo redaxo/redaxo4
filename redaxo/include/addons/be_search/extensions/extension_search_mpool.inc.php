@@ -13,7 +13,7 @@ function rex_a256_search_mpool($params)
 {
   global $I18N_BE_SEARCH, $REX_USER;
 
-  if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[medienpool]')))
+  if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[mediapool]')))
   {
     return $params['subject'];
   }
@@ -42,7 +42,7 @@ function rex_a256_search_mpool_query($params)
 {
   global $REX, $REX_USER;
 
-  if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[medienpool]')))
+  if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[mediapool]')))
   {
     return $params['subject'];
   }

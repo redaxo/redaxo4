@@ -26,7 +26,7 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 // $REX['ADDON']['searchmode'][$mypage] = 'global';
 $REX['ADDON']['searchmode'][$mypage] = 'local';
 
-$REX['EXTPERM'][] = 'be_search[medienpool]';
+$REX['EXTPERM'][] = 'be_search[mediapool]';
 $REX['EXTPERM'][] = 'be_search[structure]';
 
 if ($REX['REDAXO'])
@@ -44,32 +44,10 @@ if ($REX['REDAXO'])
     exit();
   }
 
-  rex_register_extension('PAGE_HEADER',
-    create_function('$params',
-    'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />
-    <!--[if lte IE 7]><link rel="stylesheet" href="index.php?css=addons/'. $mypage .'/ie7" type="text/css" media="all" /><![endif]-->'. "\n" .'\';')
-  );
-
   $I18N_BE_SEARCH = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
   // Include Functions
   require_once $REX['INCLUDE_PATH'].'/addons/be_search/functions/functions.search.inc.php';
   
-  // Include Extensions
-  if($page == 'structure')
-  {
-    require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
-    rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_a256_search_structure');
-  }
-  elseif($page == 'content')
-  {
-    require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
-    rex_register_extension('PAGE_CONTENT_HEADER', 'rex_a256_search_structure');
-  }
-  elseif ($page == 'medienpool')
-  {
-    require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_mpool.inc.php';
-    rex_register_extension('MEDIA_LIST_TOOLBAR', 'rex_a256_search_mpool');
-    rex_register_extension('MEDIA_LIST_QUERY', 'rex_a256_search_mpool_query');
-  }
+  rex_register_extension('PAGE_CHECKED', 'rex_a256_extensions_handler');
 }

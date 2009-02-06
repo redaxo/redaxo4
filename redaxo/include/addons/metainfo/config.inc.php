@@ -59,36 +59,9 @@ if ($REX['REDAXO'])
     exit();
   }
 
-  $page = rex_request('page', 'string');
-  $mode = rex_request('mode', 'string');
-
-  // additional javascripts
-  if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
-  {
-    rex_register_extension('PAGE_HEADER',
-      create_function('$params', 'return $params[\'subject\'] .\'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\'."\n";')
-    );
-  }
-
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');
 
-  // include extensions
-  if ($page == 'content' && $mode == 'meta')
-  {
-    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_art_metainfo.inc.php');
-  }
-  elseif ($page == 'structure')
-  {
-    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_cat_metainfo.inc.php');
-  }
-  elseif ($page == 'medienpool')
-  {
-    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_med_metainfo.inc.php');
-  }
-  elseif ($page == 'import_export')
-  {
-    require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_cleanup.inc.php');
-  }
+  rex_register_extension('PAGE_CHECKED', 'a62_extensions_hanlder');
 }

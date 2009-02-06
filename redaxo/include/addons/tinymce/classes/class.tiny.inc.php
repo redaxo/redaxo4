@@ -394,7 +394,7 @@ class rexTiny2Editor
     echo '});' . "\n";
 
     echo 'function fileBrowserCallBack(field_name, url, type, win) {' . "\n";
-    echo 'newPoolWindow( sDocumentBase+"redaxo/index.php?page=medienpool&opener_input_field=TINYIMG");' . "\n";
+    echo 'newPoolWindow( sDocumentBase+"redaxo/index.php?page=mediapool&opener_input_field=TINYIMG");' . "\n";
     echo '}' . "\n";
 
     echo 'function linkBrowserCallBack(href, target){' . "\n";
