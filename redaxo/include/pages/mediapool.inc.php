@@ -90,7 +90,7 @@ foreach($subline as $key => $item)
 }
 
 // ----- EXTENSION POINT
-$subline = rex_register_extension_point('PAGE_MEDIENPOOL_MENU', $subline,
+$subline = rex_register_extension_point('PAGE_MEDIAPOOL_MENU', $subline,
   array(
     'subpage' => $subpage,
   )
@@ -119,7 +119,7 @@ if ($warning != '')
 function selectMedia(filename)
 {
   <?php
-  if ($opener_input_field!='')
+  if ($opener_input_field != '')
   {
     echo 'opener.document.getElementById("'.$opener_input_field.'").value = filename;';
   }
