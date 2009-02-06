@@ -14,16 +14,18 @@
  * 2 Ebenen durchgehen, Alle unternavis offen
  * und offline categorien nicht beachten
  *
+ * Navigation:
+ * 
  * $nav = rex_navigation::factory();
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
  * echo $nav->get(0,2,TRUE,TRUE);
  *
- * Sitemap
+ * Sitemap:
  *
  * $nav = rex_navigation::factory();
  * $nav->show(0,-1,TRUE,TRUE);
  * 
- * Breadcrump
+ * Breadcrump:
  * 
  * $nav = rex_navigation::factory();
  * $nav->showBreadcrump(true);
@@ -59,6 +61,14 @@ class rex_navigation
     return new $class();
   }
   
+  /**
+   * Generiert eine Navigation
+   * 
+   * @param $category_id Id der Wurzelkategorie
+   * @param $depth Anzahl der Ebenen die angezeigt werden sollen
+   * @param $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
+   * @param $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
+   */
 	function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = false)
 	{
     $this->category_id = $category_id;
@@ -70,11 +80,20 @@ class rex_navigation
 		return $this->_getNavigation($this->category_id,$this->ignore_offlines);
 	}
 
+  /**
+   * @see get()
+   */
 	function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = false)
 	{
 		echo $this->get($category_id, $depth, $open, $ignore_offlines);
 	}
 	
+  /**
+   * Generiert eine Breadcrump-Navigation
+   * 
+   * @param $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
+   * @param $category_id Id der Wurzelkategorie
+   */
 	function getBreadcrump($includeCurrent = false, $category_id = 0)
 	{
     $this->category_id = $category_id;
@@ -99,6 +118,9 @@ class rex_navigation
     return $return;
 	}
 	
+	/**
+	 * @see getBreadcrump()
+	 */
   function showBreadcrump($category_id = 0, $includeCurrent = false)
   {
     echo $this->getBreadcrump($category_id, $includeCurrent);
