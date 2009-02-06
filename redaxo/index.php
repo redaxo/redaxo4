@@ -163,7 +163,7 @@ else
 				  $name = $REX['ADDON']['name'][$apage];
 				  
 				if(isset ($REX['ADDON']['link'][$apage]) && $REX['ADDON']['link'][$apage] != "")
-				  $link = '<a href="'.$link.'">';
+				  $link = '<a href="'.$REX['ADDON']['link'][$apage].'">';
 				else
 				  $link = '<a href="index.php?page='.$apage.'">';
 				  
