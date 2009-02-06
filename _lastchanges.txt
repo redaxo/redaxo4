@@ -9,13 +9,13 @@ angehandelt.
 
 Version 4.2.0 (2008-XX-XX)
 
-  Achtung:
+  Wichtig:
   * alle Bezeichnungen mit medien wurden in media geändert, d.h. alle Funktionen, 
-  Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
+    Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
   * in der index REX_ARTICLE -> REX["ARTICLE"], damit ist das Objekt überall verfügbar 
-  eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
+    eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
 
-
+  Änderungen:
   * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
   * Startpage ist nun festlegbar [Jan.Kristinus]
   * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
@@ -89,8 +89,9 @@ Version 4.2.0 (2008-XX-XX)
     - rex_navigation, um im Frontend Navigationen leichter erstellen zu können [Jan.kristinus]
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
+    - PAGE_CHECKED [Markus.Staab]
   * EPs angepasst
-  	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter
+  	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
   
   Bugfixes:
   * Templates die mit REX_TEMPLATE[] eingebunden wurden, wurden nicht gecached [Markus.Staab]
