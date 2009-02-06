@@ -218,6 +218,10 @@ $REX["PAGE"] = $page;
 $REX["PAGE_NO_NAVI"] = 1;
 if($pages[strtoupper($page)][2] == 1) $REX["PAGE_NO_NAVI"] = 0;
 
+// ----- EXTENSION POINT
+// page variable validated
+rex_register_extension_point( 'PAGE_CHECKED', $page, array('pages' => $pages));
+
 if($pages[strtoupper($page)][1])
 {
 	require $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
