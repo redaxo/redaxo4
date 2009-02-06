@@ -121,7 +121,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
     echo '<ul id="rex-navi-'. $topic .'">';
     
     $first = true;
-    foreach($naviList as $page => $item)
+    foreach($naviList as $pageTitle => $item)
     {
       if($first)
         $item['class'] .= ' rex-navi-first';
@@ -137,7 +137,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
       foreach($item as $tag => $value)
         $tags .= ' '. $tag .'="'. $value .'"';
       
-      echo '<li'. $class .' id="'. $id .'"><a'. $tags . $extra .'>'. $page .'</a></li>';
+      echo '<li'. $class .' id="'. $id .'"><a'. $tags . $extra .'>'. $pageTitle .'</a></li>';
       $first = false;
     }
     echo '</ul>' . "\n";
