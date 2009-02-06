@@ -71,13 +71,13 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
     	if ($isActive) $cl = 'rex-clr-grn';
     	else $cl = 'rex-clr-red';
-    	echo '<tr><td><span class="'.$cl.'">'.$cur.'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$cur.'">?</a>]</td><td class="'.$cl.'">';
+    	echo '<tr><td><span class="'.$cl.'">'.htmlspecialchars($cur).'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$cur.'">?</a>]</td><td class="'.$cl.'">';
 
 
     	if ($version) echo '['.$version.']';
     	echo '</td><td class="'.$cl.'">';
 
-    	if ($author) echo $author;
+    	if ($author) echo htmlspecialchars($author);
     	if (!$isActive) echo $I18N->msg('credits_addon_inactive');
     	echo '</td><td class="'.$cl.'">';
     	if ($supportPage) echo '<a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a>';

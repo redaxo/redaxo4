@@ -31,9 +31,9 @@ if ($subpage == 'help' && $addonname != '')
   $supportPage = OOAddon::getSupportPage($addonname);
   $helpfile = $REX['INCLUDE_PATH'].'/addons/'.$addonname.'/help.inc.php';
   
-  $credits .= $I18N->msg("credits_name") .': <span>'. $addonname .'</span><br />';
+  $credits .= $I18N->msg("credits_name") .': <span>'. htmlspecialchars($addonname) .'</span><br />';
   if($version) $credits .= $I18N->msg("credits_version") .': <span>'. $version .'</span><br />';
-  if($author) $credits .= $I18N->msg("credits_author") .': <span>'. $author .'</span><br />';
+  if($author) $credits .= $I18N->msg("credits_author") .': <span>'. htmlspecialchars($author) .'</span><br />';
   if($supportPage) $credits .= $I18N->msg("credits_supportpage") .': <span><a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a></span><br />';
   
   echo '<div class="rex-area">
