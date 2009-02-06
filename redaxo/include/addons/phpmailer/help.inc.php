@@ -14,6 +14,8 @@
 <p>
 PHPMailer Addon
 
+<br /><br />
+
 <a href="http://phpmailer.codeworxtech.com/">zur Seite des Erstellers</a>
 
 <br /><br />
