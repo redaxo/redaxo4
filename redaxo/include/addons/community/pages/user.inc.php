@@ -62,8 +62,6 @@ if($func == "add" || $func == "edit")
 	}
 	*/
 	
-	
-	
 	echo $mita->showForm();
 
 	if (!$mita->form_show)
@@ -79,7 +77,7 @@ if($func == "add" || $func == "edit")
 	
 }
 
-//------------------------------> Partner löschen
+//------------------------------> Partner lšschen
 if($func == "delete"){
 	$query = "delete from $table where id='".$oid."' ";
 	$delsql = new rex_sql;
@@ -87,7 +85,7 @@ if($func == "delete"){
 	$delsql->setQuery($query);
 	$func = "";
 	
-	echo rex_info("User wurde gelöscht");
+	echo rex_info("User wurde gelšscht");
 }
 
 
@@ -98,109 +96,131 @@ if($func == ""){
 	/** Suche  **/
 	$addsql = "";
 	$link	= "";
-	$ssql 	= new rex_sql();
-	// $ssql->debugsql = 1;
-	$ssql->setQuery("DESCRIBE ".$table.";");
 	
-	$csuchtxt = rex_request("FORM[csuchtxt]","string","");
-	
+	$csuchtxt = rex_request("csuchtxt","string","");
 	if($csuchtxt != ""){
-		$link .= "&FORM[csuchtxt]=".urlencode($csuchtxt);
+		$link .= "&csuchtxt=".urlencode($csuchtxt);
 	}
 	
+	$csuchfeld = rex_request("csuchfeld","array");
 	$SUCHSEL = new rexselect();
 	$SUCHSEL->setMultiple(1); 
 	$SUCHSEL->setSize(5); 
-	$SUCHSEL->setName("FORM[csuchfeld][]");
+	$SUCHSEL->setName("csuchfeld[]");
 	$SUCHSEL->setStyle("width:100%;");
+
+	$ssql 	= new rex_sql();
+	//$ssql->debugsql = 1;
+	$ssql->setQuery("select * from ".$table_field." order by prior");
+
 	for($i=0;$i<$ssql->getRows(); $i++){
-		$SUCHSEL->addOption($ssql->getValue("field"),$ssql->getValue("field"));
-		if(!is_array($FORM['csuchfeld']))
+		$SUCHSEL->addOption($ssql->getValue("name"),$ssql->getValue("userfield"));
+		if(!is_array($csuchfeld))
 			$SUCHSEL->setSelected($ssql->getValue("field"));
 		$ssql->next();
 	}
-	if(isset($FORM['csuchfeld']) && is_array($FORM['csuchfeld'])){
-		foreach($FORM['csuchfeld'] as $cs){
-			$SUCHSEL->setSelected($cs);
-			$link .= "&FORM[csuchfeld][]=".($cs);
-		}	
-	}
+	foreach($csuchfeld as $cs){
+		$SUCHSEL->setSelected($cs);
+		$link .= "&csuchfeld[]=".($cs);
+	}	
 	
+
+	$cstatus = rex_request("cstatus","string");
 	$STATUSSEL = new rexselect();
-	$STATUSSEL->setName("FORM[cstatus]");
+	$STATUSSEL->setName("cstatus");
 	$STATUSSEL->setStyle("width:100%;");
-	if(isset($FORM['cstatus']) && $FORM['cstatus'] != ""){
-		$STATUSSEL->setSelected($FORM['cstatus']);
-		$link .= "&FORM[cstatus]=".urlencode($FORM['cstatus']);
-	}
 	$STATUSSEL->addOption("Aktiv & Inaktiv", "");
 	$STATUSSEL->addOption("Aktiv", 1);
 	$STATUSSEL->addOption("Inaktiv", 0);	
-	
-	
+	if($cstatus != ""){
+		$STATUSSEL->setSelected($cstatus);
+		$link .= "&cstatus=".urlencode($cstatus);
+	}
+
 	$suchform = '<table width=770 cellpadding=5 cellspacing=1 border=0 bgcolor=#ffffff class="rex-table">';
 	$suchform .= '<form action="'.$_SERVER['PHP_SELF'].'" method="poost" >';
 	$suchform .= '<input type="hidden" name="page" value="'.$page.'" />';
 	$suchform .= '<input type="hidden" name="subpage" value="'.$subpage.'" />';
-	$suchform .= '<input type="hidden" name="FORM[csuche]" value="1" />';
-	$suchform .= '<tr><th>Suchbegriff</th><th>Tabellenfelder über die gesucht wird</th><th>Status der gesuchten Einträge</th><th>&nbsp;</th></tr>';	
-	$suchform .= '<tr><td class="grey" valign="top"><input type="text" name="FORM[csuchtxt]" value="'.htmlspecialchars(stripslashes($csuchtxt)).'" style="width:100%;" /></td><td class="grey" valign="top">'.$SUCHSEL->out().'</td><td class="grey" valign="top">'.$STATUSSEL->out().'</td><td class="grey" valign="top"><input type="submit" name="FORM[send]" value="suchen"  class="inp100" /></td></tr>';
+	$suchform .= '<input type="hidden" name="csuche" value="1" />';
+	$suchform .= '<tr>
+		<th>Suchbegriff</th>
+		<th>Tabellenfelder Ÿber die gesucht wird</th>
+		<th>Status der gesuchten EintrŠge</th><th>&nbsp;</th>
+		</tr>';	
+	$suchform .= '<tr>
+		<td class="grey" valign="top"><input type="text" name="csuchtxt" value="'.htmlspecialchars(stripslashes($csuchtxt)).'" style="width:100%;" /></td>
+		<td class="grey" valign="top">'.$SUCHSEL->out().'</td><td class="grey" valign="top">'.$STATUSSEL->out().'</td>
+		<td class="grey" valign="top"><input type="submit" name="send" value="suchen"  class="inp100" /></td>
+		</tr>';
 	$suchform .= '</form>';
 	$suchform .= '</table><br />';
 	
-	// echo $suchform;
+	echo $suchform;
 	
-	if(isset($FORM['csuche']) && $FORM['csuche'] == 1){
-		
-		if(is_array($FORM['csuchfeld']) && $csuchtxt != ""){
+	if($csuche == 1)
+	{
+		if(is_array($csuchfeld) && $csuchtxt != ""){
 			$addsql .= "WHERE (";
-			foreach($FORM['csuchfeld'] as $cs){
+			foreach($csuchfeld as $cs){
 				$addsql .= " `".$cs."` LIKE  '%".$csuchtxt."%' OR ";			
 			}
 			$addsql = substr($addsql, 0, strlen($addsql)-3 );
 			$addsql .= ")";
 		}	
-		$link .= "&FORM[csuche]=".$FORM['csuche'];
+		$link .= "&csuche]".$csuche;
 	}
-	if(isset($FORM['cstatus']) && $FORM['cstatus'] != ""){
+	if($cstatus != ""){
 		if($addsql == ""){ $addsql .= " WHERE "; } else { $addsql .= " AND "; }
-		$addsql .= " `status`='".$FORM['cstatus']."' ";
+		$addsql .= " `status`='".$cstatus."' ";
 	}
-	
 	
 	$sql = "select * from $table $addsql";
-
-	//echo $sql;
+	// echo $sql;
 
 	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a></td></tr></table><br />";
 	
-	
-	$mit = new rexlist;
-	$mit->setQuery($sql);
-	$mit->setList(100);
-	$mit->setGlobalLink("index.php?page=".$page."&subpage=".$subpage."".$link."&next=");
-	$mit->setValue("id","id");
-	$mit->setLink("index.php?page=".$page."&subpage=".$subpage."&func=edit&oid=","id");
-	$mit->setValueOrder(1);
+	$list = rex_list::factory($sql,30);
+	$list->setColumnFormat('id', 'Id');
 
+	/*
+	$list->setColumnLabel('name', 'Name');
+	$list->setColumnLabel('firma', 'Firma');
+	$list->setColumnLabel('funktion', 'Funktion');
+	*/
+
+	$list->setColumnParams("id", array("oid"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("name", array("oid"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("email", array("oid"=>"###id###","func"=>"edit"));
+
+	$list->addParam("page", $page);
+	$list->addParam("subpage", $subpage);
+	$list->addParam("csuchtxt", $csuchtxt);
+	$list->addParam("cstatus", $cstatus );
+	$list->addParam("csuche", $csuche );
+	foreach($csuchfeld as $cs)
+	{
+		$list->addParam("csuchfeld[]", $cs);
+	}
 
 	$guf = new rex_sql;
-	$guf->setQuery("select * from ".$table_field." where inlist=1 order by prior");
-	$fields = array();
+	$guf->setQuery("select * from ".$table_field." where inlist<>1 order by prior");
 	$gufa = $guf->getArray();
 	foreach($gufa as $key => $value)
 	{
-		rex_com_s_rexlist($mit,$value);
+		$list->removeColumn($value["userfield"]);
 	}
 
-	$mit->setValue("löschen","");
-	$mit->setFormat("ifempty", "- löschen");
-	$mit->setFormat("link","index.php?page=".$page."&subpage=".$subpage."&func=delete&oid=","id",""," onclick=\"return confirm('sicher löschen ?');\"");	
-	if (isset($FORM["ordername"]) && isset($FORM["ordertype"])) $mit->setOrder($FORM["ordername"],$FORM["ordertype"]);
-	$next = rex_request("next","int","0");
-	echo $mit->showall($next);
-
+	$list->addColumn('lšschen','lšschen');
+	$list->setColumnParams("lšschen", array("oid"=>"###id###","func"=>"delete"));
 	
+	/*
+	$list->setColumnSortable('name');
+	$list->addColumn('testhead','###id### - ###name###',-1);
+	$list->addColumn('testhead2','testbody2');
+	$list->setCaption('thomas macht das css');
+	*/
+	
+	echo $list->get();
 
 }
 
