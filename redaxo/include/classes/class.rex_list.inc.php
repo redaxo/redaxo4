@@ -628,7 +628,16 @@ class rex_list
     $paramString = '';
     foreach($params as $name => $value)
     {
-      $paramString .= '&'. $name .'='. $value;
+      if(is_array($value))
+      {
+      	foreach($value as $v)
+      	{
+          $paramString .= '&'. $name .'='. $v;
+      	}
+      }else
+      {
+        $paramString .= '&'. $name .'='. $value;
+      }
     }
     return str_replace('&', '&amp;', 'index.php?list='. $this->getName() . $paramString);
   }
