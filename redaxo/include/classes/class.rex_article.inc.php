@@ -20,7 +20,6 @@ class rex_article
   var $CONT;
   var $template_id;
   var $ViewSliceId;
-  var $setanker;
   var $save;
   var $ctype;
   var $clang;
@@ -329,8 +328,6 @@ class rex_article
           if($this->mode=="edit")
           {
             $form_url = 'index.php';
-            if ($this->setanker) $form_url .= '#addslice';
-
             $this->ViewSliceId = $RE_CONTS[$I_ID];
 
             // ----- add select box einbauen
@@ -571,8 +568,7 @@ class rex_article
         if ($this->mode == "edit")
         {
           $form_url = 'index.php';
-          if ($this->setanker) $form_url .= '#addslice';
-
+          
           if($this->function=="add" && $this->slice_id == $LCTSL_ID)
           {
             $slice_content = $this->addSlice($LCTSL_ID,$module_id);
