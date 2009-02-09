@@ -121,8 +121,8 @@ function rex_generateArticle($id, $refreshall = true)
     $MSG = '';
     $CONT = new rex_article;
     $CONT->setCLang($clang);
-    $CONT->getContentAsQuery();
-    $CONT->setMode("generate"); // keine Ausgabe als eval(CONTENT) sondern nur speichern in datei
+    $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
+    $CONT->setEval(FALSE); // Content nicht ausfŸhren, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($id)) return false;
 
     // --------------------------------------------------- Artikelparameter speichern
