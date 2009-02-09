@@ -13,9 +13,9 @@ class rex_article
   var $slice_id;
   var $article_id;
   var $mode;
-  var $article_content;
+  var $content;
   var $function;
-  var $eval;
+
   var $category_id;  
   var $CONT;
   var $template_id;
@@ -25,12 +25,13 @@ class rex_article
   var $ctype;
   var $clang;
   var $getSlice;
-  var $viasql; // Content über Datenbank holen
+  
+  var $eval;
+  var $viasql;
 
   var $warning;
   var $info;
 	
-  // ----- Konstruktor
   function rex_article($article_id = null, $clang = null)
   {
   	global $REX;
@@ -40,15 +41,9 @@ class rex_article
     $this->ctype = -1; // zeigt alles an
     $this->slice_id = 0;
     $this->mode = "view";
-    $this->article_content = "";
+    $this->content = "";
     $this->eval = FALSE;
-    $this->setanker = true;
     $this->viasql = false;
-
-
-    // AUSNAHME: modul auswählen problem
-    // action=index.php#1212 problem
-    if (strpos($_SERVER["HTTP_USER_AGENT"],"Mac") and strpos($_SERVER["HTTP_USER_AGENT"],"MSIE") ) $this->setanker = FALSE;
 
     if($clang !== null)
       $this->setCLang($clang);
@@ -64,7 +59,6 @@ class rex_article
 		if ($viasql !== TRUE) $viasql = FALSE;
 		$this->viasql = $viasql;
 	}
-
 
   // ----- Slice Id setzen für Editiermodus
   function setSliceId($value)
@@ -86,7 +80,7 @@ class rex_article
     $article_id = (int) $article_id;
     $this->article_id = (int) $article_id;
 
-    if (!$REX['GG'] || $this->viasql)
+    if ($this->viasql)
     {
       // ---------- select article
       $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
@@ -173,11 +167,11 @@ class rex_article
     if ($value == 'category_id')
     {
       if ($this->getValue('startpage')!=1) $value = 're_id';
-      else if($REX['GG'] && !$this->viasql) $value = 'article_id';
+      else if(!$this->viasql) $value = 'article_id';
       else $value = 'id';
     }
     // Nicht generated, oder über SQL muss article_id -> id heissen
-    else if ((!$REX['GG'] || $this->viasql) && $value == 'article_id')
+    else if ($this->viasql && $value == 'article_id')
     {
       $value = 'id';
     }
@@ -190,7 +184,7 @@ class rex_article
     global $REX;
     $value = $this->correctValue($value);
 
-    if ($REX['GG'] && !$this->viasql) return $REX['ART'][$this->article_id][$value][$this->clang];
+    if (!$this->viasql) return $REX['ART'][$this->article_id][$value][$this->clang];
     else return $this->ARTICLE->getValue($value);
   }
 
@@ -215,7 +209,7 @@ class rex_article
     global $REX;
     $value = $this->correctValue($value);
 
-    if ($REX['GG'] && !$this->viasql) return isset($REX['ART'][$this->article_id][$value][$this->clang]);
+    if (!$this->viasql) return isset($REX['ART'][$this->article_id][$value][$this->clang]);
     else return $this->ARTICLE->hasValue($value);
   }
 
@@ -223,12 +217,16 @@ class rex_article
   {
     global $REX_USER,$REX,$I18N;
 
+    if($this->content != "") {
+      echo $this->content;
+      return;
+    }
+
     $this->ctype = $curctype;
     $module_id = rex_request('module_id', 'int');
 
     $sliceLimit = '';
     if ($this->getSlice) {
-      //$REX['GG'] = 0;
       $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
     }
 
@@ -236,12 +234,12 @@ class rex_article
     ob_start();
     ob_implicit_flush(0);
 
-    if ($REX['GG'] && !$this->viasql && !$this->getSlice)
+    if (!$this->viasql && !$this->getSlice)
     {
       if ($this->article_id != 0)
       {
-        $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
-        if($cont = rex_get_file_contents($article_content_file))
+        $this->content = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
+        if($cont = rex_get_file_contents($this->content))
         {
           eval($cont);
         }
@@ -315,13 +313,13 @@ class rex_article
         $PRE_ID = 0;
 				$LCTSL_ID = 0;
         $this->CONT->reset();
-        $this->article_content = "";
+        $this->content = "";
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
           // ----- ctype unterscheidung
           if ($this->mode != "edit" && $i == 0)
-            $this->article_content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
+            $this->content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
@@ -548,7 +546,7 @@ class rex_article
           // ---------- slice in ausgabe speichern wenn ctype richtig
           if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
           {
-            $this->article_content .= $slice_content;
+            $this->content .= $slice_content;
 
             // last content type slice id
             $LCTSL_ID = $RE_CONTS[$I_ID];
@@ -557,7 +555,7 @@ class rex_article
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
           if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
           {
-            $this->article_content .= "<?php } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ ?>";
+            $this->content .= "<?php } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ ?>";
           }
 
           // zum nachsten slice
@@ -567,7 +565,7 @@ class rex_article
         }
 
         // ----- end: ctype unterscheidung
-        if ($this->mode != "edit" && $i>0) $this->article_content .= "<?php } ?>";
+        if ($this->mode != "edit" && $i>0) $this->content .= "<?php } ?>";
 
         // ----- add module im edit mode
         if ($this->mode == "edit")
@@ -610,12 +608,12 @@ class rex_article
             </form>
             </div>';
           }
-          $this->article_content .= $slice_content;
+          $this->content .= $slice_content;
         }
 
         // -------------------------- schreibe content
-        if ($this->mode == "generate" || $this->viasql) echo $this->replaceLinks($this->article_content);
-        else eval("?>".$this->article_content);
+        if ($this->eval === FALSE) echo $this->replaceLinks($this->content);
+        else eval("?>".$this->content);
 
       }else
       {
