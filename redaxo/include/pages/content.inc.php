@@ -614,7 +614,7 @@ if ($article->getRows() == 1)
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
       $CONT->setCLang($clang);
-      $CONT->setEval(TRUE);
+      $CONT->getContentAsQuery();
       $CONT->setFunction($function);
       eval ("?>" . $CONT->getArticle($ctype));
 
