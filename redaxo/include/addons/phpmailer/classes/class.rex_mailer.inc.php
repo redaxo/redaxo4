@@ -25,8 +25,8 @@ class rex_mailer extends PHPMailer
       $this->CharSet          = 'iso-8859-1';
       $this->WordWrap         = 75;
       $this->Encoding         = '8bit';
-      $this->Priority         = 3;
-      $this->SMTPAuth         = 'false';
+      $this->Priority         = 5;
+      $this->SMTPAuth         = false;
       $this->Username         = '';
       $this->Password         = '';
       // --- /DYN

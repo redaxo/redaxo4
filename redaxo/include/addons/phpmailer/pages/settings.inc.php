@@ -19,8 +19,14 @@ $wordwrap = rex_post('wordwrap', 'int', $testMailer->WordWrap);
 $encoding = rex_post('encoding', 'string', $testMailer->Encoding);
 $Password = rex_post('Password', 'string', $testMailer->Password);
 $Username = rex_post('Username', 'string', $testMailer->Username);
-$SMTPAuth = rex_post('SMTPAuth', 'string', $testMailer->SMTPAuth);
+$smtpauth_default = "false";
+if($testMailer->SMTPAuth) 
+	$smtpauth_default = "true";
+$smtpauth = rex_post('smtpauth', 'string', $smtpauth_default);
 $priority = rex_post('priority', 'int', $testMailer->Priority);
+
+if($smtpauth != "true") 
+	$smtpauth = "false";
 
 $message = '';
 
@@ -46,7 +52,7 @@ if (rex_post('btn_save', 'string') != '')
       \$this->WordWrap         = ". $wordwrap .";
       \$this->Encoding         = '". $encoding ."';
       \$this->Priority         = ". $priority .";
-      \$this->SMTPAuth         = '". $SMTPAuth ."';
+      \$this->SMTPAuth         = ". $smtpauth .";
       \$this->Username         = '". $Username ."';
       \$this->Password         = '". $Password."';
       // --- /DYN";
@@ -73,7 +79,7 @@ $sel_smtpauth = new rex_select();
 $sel_smtpauth->setId('smtpauth');
 $sel_smtpauth->setName('smtpauth');
 $sel_smtpauth->setSize(1);
-$sel_smtpauth->setSelected($mailer);
+$sel_smtpauth->setSelected($smtpauth);
 foreach(array('false', 'true') as $type)
 $sel_smtpauth->addOption($type,$type); 
 
