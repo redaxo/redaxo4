@@ -49,8 +49,6 @@ $article_id = rex_request("article_id","int",$REX['START_ARTICLE_ID']);
 $REX["ARTICLE"] = new rex_article;
 $REX["ARTICLE"]->setCLang($clang);
 
-
-
 if($REX['SETUP'])
 {
 	header('Location: redaxo/index.php');
