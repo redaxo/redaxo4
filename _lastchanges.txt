@@ -16,6 +16,7 @@ Version 4.2.0 (2008-XX-XX)
     eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
 
   Änderungen:
+  * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst [Jan.Kristinus] 
   * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
   * Startpage ist nun festlegbar [Jan.Kristinus]
   * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
@@ -94,6 +95,8 @@ Version 4.2.0 (2008-XX-XX)
   	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
     - PAGE_MEDIENPOOL_HEADER umbenannt in PAGE_MEDIAPOOL_HEADER [Markus.Staab]
     - PAGE_MEDIENPOOL_MENU umbenannt in PAGE_MEDIAPOOL_MENU [Markus.Staab]
+  * Neue EPs
+    - ART_INIT wird im Kontruktor von rex_article verwendet [Jan.kristinus]
   
   Bugfixes:
   * Templates die mit REX_TEMPLATE[] eingebunden wurden, wurden nicht gecached [Markus.Staab]
