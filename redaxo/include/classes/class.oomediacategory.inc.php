@@ -426,32 +426,35 @@ class OOMediaCategory
   function delete($recurse = false)
   {
     // Rekursiv löschen?
+    if(!$recurse && $this->hasChildren())
+    {
+      return false;
+    }
+    
     if ($recurse)
     {
-      if ($this->hasChildren())
+      $childs = $this->getChildren();
+      foreach ($childs as $child)
       {
-        $childs = $this->getChildren();
-        foreach ($childs as $child)
-        {
-          $child->_delete($recurse);
-        }
+        if(!$child->delete($recurse)) return false;
       }
-    } // Alle Dateien löschen
-    if ($this->hasFiles())
+    }
+    
+    // Alle Dateien löschen
+    if ($this->hasMedia())
     {
-      $files = $this->getFiles();
+      $files = $this->getMedia();
       foreach ($files as $file)
       {
-        $file->_delete();
+        if(!$file->delete()) return false;
       }
     }
 
     $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE id = ' . $this->getId() . ' LIMIT 1';
-    $sql = new rex_sql(); //        $sql->debugsql = true;
-    //        echo $qry;
-    //        return;
+    $sql = new rex_sql(); 
+    // $sql->debugsql = true;
     $sql->setQuery($qry);
-    return $sql->getError();
+    return !$sql->hasError() || $sql->getRows() != 1;
   }
 
   /**
