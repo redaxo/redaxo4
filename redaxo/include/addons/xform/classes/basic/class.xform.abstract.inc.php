@@ -7,6 +7,8 @@ class rex_xform_abstract
 	var $params = array(); // allgemeine parameter der
 	var $elements = array(); //
 	var $value;
+  var $label;
+  var $keys = array();
 
 	// Position im Formular. Unique ID
 	function setId($id)
@@ -21,16 +23,47 @@ class rex_xform_abstract
 	
 	function setValue($value)
 	{
-		// der Wert wird übergeben
 		$this->value=$value;
 	}
 
-	//Wert zurückgeben
 	function getValue()
 	{
-		// echo '<p>Wert wird geholt: '.$this->value.'</p>';
 		return $this->value;
 	}
+
+	function setKey($k,$v)
+	{
+		$this->keys[$k] = $v;
+	}
+
+	function getKeys()
+	{
+		return $this->keys;
+	}
+
+	function getValueFromKey($v = "")
+	{
+	
+		if($v == "") 
+			$v = $this->getValue();
+			
+		if(is_array($v))
+		{
+			return $v;
+		}else
+		{
+			if(isset($this->keys[$v]))
+				return $this->keys[$v];
+			else 
+				return $v; 
+		}
+	}
+
+	function emptyKeys()
+	{
+		$this->keys = array();
+	}
+
 
 	// FormularParameter ins Objekt legen
 	function loadParams(&$params,$elements = array(), $obj = "")

@@ -103,6 +103,7 @@ class rexform
 		
 		global $FORM,$REX;
 		
+		$FORM = rex_request("FORM","array");
 		
 		// --------------------------------- EDIT: 1. WERTE AUS DB HOLEN
 

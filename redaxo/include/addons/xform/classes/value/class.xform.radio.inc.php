@@ -4,7 +4,23 @@
 
 class rex_xform_radio extends rex_xform_abstract
 {
-
+	function preAction()
+	{
+		foreach (explode(";", $this->elements[3]) as $v)
+		{
+			$teile = explode("=", $v);
+			$wert = $teile[0];
+			if (is_array($teile) && isset ($teile[1]))
+			{
+				$bezeichnung = $teile[1];
+			}else
+			{
+				$bezeichnung = $teile[0];
+			}
+			$this->setKey($bezeichnung,$wert);
+		}
+	}
+	
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{
 		if ($this->value == "" && !$send)
@@ -18,19 +34,9 @@ class rex_xform_radio extends rex_xform_abstract
 
 		$out = "";
 		$i = 0;
-		foreach (explode(";", $this->elements[3]) as $v)
+		foreach($this->getKeys() as $wert => $bezeichnung)
 		{
 			$i++;
-			$teile = explode("=", $v);
-			$bezeichnung = $teile[0];
-			if (is_array($teile) && isset ($teile[1]))
-			{
-				$wert = $teile[1];
-			}else
-			{
-				$wert = $teile[0];
-			}
-			
 			$out .= '<p>';
 			$out .= '<input type="radio" name="FORM[' . $this->params["form_name"] . '][el_' . $this->id . ']" id="el_'.$this->id.'_'.$i.'" value="'.$wert.'" ';
 			if ($this->value == $wert) $out .= ' checked="checked"';
