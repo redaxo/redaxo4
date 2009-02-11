@@ -21,6 +21,8 @@ $category_id = rex_request('category_id', 'int');
 $article_id  = rex_request('article_id', 'int');
 $slice_id    = rex_request('slice_id', 'int', '');
 $function    = rex_request('function', 'string');
+$article_revision = 0;
+$slice_revision = 0;
 
 $warning = '';
 $info = '';
@@ -36,6 +38,9 @@ $article->setQuery("
 		WHERE
 			article.id='$article_id'
 			AND clang=$clang");
+
+
+
 
 if ($article->getRows() == 1)
 {  
@@ -102,7 +107,9 @@ if ($article->getRows() == 1)
       'slice_id' => $slice_id,
       'page' => $page, 
       'ctype' => $ctype,
-      'category_id' => $category_id
+      'category_id' => $category_id,
+      'article_revision' => &$article_revision,
+      'slice_revision' => &$slice_revision,
     )
   );
 
@@ -209,6 +216,7 @@ if ($article->getRows() == 1)
                 $newsql->setValue($sliceTable .'.modultyp_id', $module_id);
                 $newsql->setValue($sliceTable .'.clang', $clang);
                 $newsql->setValue($sliceTable .'.ctype', $ctype);
+                $newsql->setValue($sliceTable .'.revision', $slice_revision);
               }
 
               // ****************** SPEICHERN FALLS NOETIG
@@ -233,7 +241,7 @@ if ($article->getRows() == 1)
                 if ($newsql->insert())
                 {
                   $last_id = $newsql->getLastId();
-                  if ($newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $last_id . ' WHERE re_article_slice_id=' . $slice_id . ' AND id<>' . $last_id . ' AND article_id=' . $article_id . ' AND clang=' . $clang))
+                  if ($newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $last_id . ' WHERE re_article_slice_id=' . $slice_id . ' AND id<>' . $last_id . ' AND article_id=' . $article_id . ' AND clang=' . $clang .' AND revision='.$slice_revision))
                   {
                     $info = $action_message . $I18N->msg('block_added');
                     $slice_id = $last_id;
@@ -615,6 +623,7 @@ if ($article->getRows() == 1)
       $CONT->setMode($mode);
       $CONT->setCLang($clang);
       $CONT->getContentAsQuery();
+      $CONT->setSliceRevision($slice_revision);
       $CONT->setFunction($function);
       eval ("?>" . $CONT->getArticle($ctype));
 

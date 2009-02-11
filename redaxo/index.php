@@ -45,7 +45,8 @@ $pages = array();
 $page = "";
 
 // ----------------- SETUP
-unset($REX_USER);
+$REX_USER = NULL;
+
 if ($REX['SETUP'])
 {
 	// ----------------- SET SETUP LANG
@@ -214,6 +215,9 @@ else
 $_REQUEST["page"] = $page;
 $REX["PAGES"] = $pages;
 $REX["PAGE"] = $page;
+
+$REX["USER"] = &$REX_USER;
+$REX["LOGIN"] = &$REX_LOGIN;
 
 $REX["PAGE_NO_NAVI"] = 1;
 if($pages[strtoupper($page)][2] == 1) $REX["PAGE_NO_NAVI"] = 0;

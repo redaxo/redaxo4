@@ -28,8 +28,12 @@ class rex_article
   var $eval;
   var $viasql;
 
+  var $article_revision;
+  var $slice_revision;
+
   var $warning;
   var $info;
+	var $debug;
 	
   function rex_article($article_id = null, $clang = null)
   {
@@ -39,18 +43,40 @@ class rex_article
     $this->template_id = 0;
     $this->ctype = -1; // zeigt alles an
     $this->slice_id = 0;
+
     $this->mode = "view";
     $this->content = "";
+
     $this->eval = FALSE;
     $this->viasql = false;
+
+    $this->article_revision = 0;
+    $this->slice_revision = 0;
+
+		$this->debug = FALSE;
 
     if($clang !== null)
       $this->setCLang($clang);
     else
       $this->setClang($REX['CUR_CLANG']);
 
+    // ----- EXTENSION POINT
+    rex_register_extension_point('ART_INIT', "",
+      array (
+        'article' => &$this,
+        'article_id' => $article_id,
+        'clang' => $this->clang
+      )
+    );
+
     if ($article_id !== null)
       $this->setArticleId($article_id);
+
+  }
+
+  function setSliceRevision($sr)
+  {
+    $this->slice_revision = (int) $sr;
   }
 
 	function getContentAsQuery($viasql = TRUE)
@@ -84,7 +110,8 @@ class rex_article
       // ---------- select article
       $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
       $this->ARTICLE = new rex_sql;
-      // $this->ARTICLE->debugsql = 1;
+      if($this->debug)
+      	$this->ARTICLE->debugsql = 1;
 
       $this->ARTICLE->setQuery($qry);
 
@@ -256,12 +283,14 @@ class rex_article
           WHERE
             ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' AND
             ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' AND
-            ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."'
+            ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND 
+            ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
             ". $sliceLimit ."
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
         $this->CONT = new rex_sql;
-        $this->CONT->debugsql = 0;
+        if($this->debug)
+          $this->CONT->debugsql = 1;
         $this->CONT->setQuery($sql);
 
         $RE_CONTS = array();
@@ -454,7 +483,8 @@ class rex_article
                 else $modebit = '1'; // pre-action and add
 
                 $ga = new rex_sql;
-                $ga->debugsql = 0;
+                if($this->debug)
+                	$ga->debugsql = 1;
                 $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
                 for ($t=0;$t<$ga->getRows();$t++)
