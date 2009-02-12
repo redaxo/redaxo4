@@ -81,7 +81,7 @@ function rex_version_header($params)
 			require $REX['INCLUDE_PATH'].'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
 			// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
 			rex_copyRevisionContent($params["article_id"],$params["clang"],1, 0, 0, TRUE);
-		  echo rex_info("Arbeitsversion wurde live gestellt");
+		  echo rex_info($I18N_A461->msg("version_info_working_version_now_live"));
 		break;
 	}
 	

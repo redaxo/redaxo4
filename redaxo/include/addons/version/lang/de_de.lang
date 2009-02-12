@@ -1,4 +1,8 @@
 version = Version
 
-version_workingcontent = Arbeitsversion
-version_livecontent = Liveinhalt
+version_liveversion = Live
+version_workingversion = Arbeitsversion
+version_working_to_live = Arbeitsversion live stellen
+version_preview = Voransicht
+version_copa_live_to_workingversion = Kopiere Liveversion
+version_info_working_version_now_live = Arbeitsversion wurde live gestellt
