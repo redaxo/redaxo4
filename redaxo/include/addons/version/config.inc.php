@@ -9,7 +9,7 @@
  */
 
 $mypage = "version";
-$REX['ADDON']['rxid'][$mypage] = '256';
+$REX['ADDON']['rxid'][$mypage] = '461';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Version';
 $REX['ADDON']['perm'][$mypage] = 'be_search[]';
@@ -78,7 +78,7 @@ function rex_version_header($params)
 			$params["slice_revision"] = 1;
 		break;
 		case("copy_work_to_live"):
-			require $REX['INCLUDE_PATH'].'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
+			require $REX['INCLUDE_PATH'].'/addons/version/functions/function_rex_version.inc.php';
 			// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
 			rex_copyRevisionContent($params["article_id"],$params["clang"],1, 0, 0, TRUE);
 		  echo rex_info($I18N_A461->msg("version_info_working_version_now_live"));
@@ -107,7 +107,7 @@ function rex_version_header($params)
 				<li'.$cl_live.'><a href="'.$link.'&rex_version_func=work_on_live">'.$I18N_A461->msg("version_liveversion").'</a></li>
 				<li'.$cl_work.'><a href="'.$link.'&rex_version_func=work_on_preview">'.$I18N_A461->msg("version_workingversion").'</a></li>
 				<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.$I18N_A461->msg("version_working_to_live").'</a></li>
-				<li><a href="/'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>
+				<li><a href="../'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>
 				<li>'.$I18N_A461->msg("version_copa_live_to_workingversion").'</li>
 			</ul></div>
 			<div style="clear:both;"></div>
