@@ -2,8 +2,8 @@ version = Version
 
 version_liveversion = Liveversion
 version_workingversion = Arbeitsversion
-version_working_to_live = Arbeitsversion live stellen
+version_working_to_live = als Liveversion freigeben
 version_preview = Voransicht
-version_copy_live_to_workingversion = Kopiere Liveversion
+version_copy_live_to_workingversion = in Arbeitsversion kopieren
 version_info_working_version_to_live = Arbeitsversion wurde live gestellt
 version_info_live_version_to_working = Liveversion wurde in die Arbeitsversion kopiert

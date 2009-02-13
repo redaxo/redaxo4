@@ -74,18 +74,24 @@ function rex_version_header($params)
 	if($gw->getRows()>0)
 		$working_version_empty = FALSE;
 	
+	$revisions = array();
+	$revisions[0] = $I18N_A461->msg("version_liveversion");
+	$revisions[1] = $I18N_A461->msg("version_workingversion");
+	
+	$version_id = rex_request("rex_set_version","int","-1");
+	if($version_id == 0)
+	{
+			unset($rex_version_article[$params["article_id"]]);
+			$params["slice_revision"] = 0;
+	}else
+	{
+			$rex_version_article[$params["article_id"]] = 1;
+			$params["slice_revision"] = 1;
+	}
 	
 	$func = rex_request("rex_version_func","string");
 	switch($func)
 	{
-		case("work_on_live"):
-			unset($rex_version_article[$params["article_id"]]);
-			$params["slice_revision"] = 0;
-		break;
-		case("work_on_preview"):
-			$rex_version_article[$params["article_id"]] = 1;
-			$params["slice_revision"] = 1;
-		break;
 		case("copy_work_to_live"):
 		  if($REX["USER"]->isValueOf("rights","version[only_working_version]") && !$working_version_empty)
 		  {
@@ -109,47 +115,72 @@ function rex_version_header($params)
 		$params["slice_revision"] = 1;
 
   if($REX["USER"]->isValueOf("rights","version[only_working_version]"))
+  {
 		$params["slice_revision"] = 1;
+  	unset($revisions[0]);
+  }
 
-	$cl_work = '';
-	if($params["slice_revision"] == 1)
-		$cl_work = ' class="active"';
-
-	$cl_live = '';
-	if($params["slice_revision"] == 0)
-		$cl_live = ' class="active"';
-		
 	$link = 'index.php?page='.$params["page"].'&article_id='.$params["article_id"].'&clang='.$params["clang"];
 
 	$return .= '
 		<div id="rex-version-header">
-				<div class="rex-version-header"><ul>
+				<div class="rex-version-header">
+
+				<form action="index.php" method="post">
+				<input type="hidden" name="page" value="'. $params["page"] .'" />
+        <input type="hidden" name="article_id" value="'. $params["article_id"] .'" />
+        <input type="hidden" name="clang" value="'. $params["clang"] .'" />
+        <input type="hidden" name="ctype" value="'. $params["ctype"] .'" />
 	';
+
+	$s = new rex_select();
+	foreach($revisions as $k => $r)
+		$s->addOption($r,$k);
+	$s->setSelected($params["slice_revision"]);
+  $s->setName('rex_set_version');
+  $s->setId('rex-select-version-id');
+  $s->setSize('1');
+  $s->setAttribute('onchange', 'this.form.submit();');
+
+  $return .= '<ul>';
+  $return .= '<li class="rex-"><b>'.$I18N_A461->msg("version").':</b> '.$s->get().'</li>';
 
   if($REX["USER"]->isValueOf("rights","version[only_working_version]"))
 	{
-		$return .= '<li'.$cl_work.'><a href="'.$link.'&rex_version_func=work_on_preview">'.$I18N_A461->msg("version_workingversion").'</a></li>';
-		$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N_A461->msg("version_copy_live_to_workingversion").'</a></li>';
-	  $return .= '<li><a href="/'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>';
+		if($params["slice_revision"]>0)
+		{
+		  $return .= '<li><a href="/'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>';
+			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N_A461->msg("version_copy_live_to_workingversion").'</a></li>';
+		}
 	}else
 	{
-		$return .= '<li'.$cl_live.'><a href="'.$link.'&rex_version_func=work_on_live">'.$I18N_A461->msg("version_liveversion").'</a></li>';
-		$return .= '<li'.$cl_work.'><a href="'.$link.'&rex_version_func=work_on_preview">'.$I18N_A461->msg("version_workingversion").'</a></li>';
-		if(!$working_version_empty) 
-			$return .= '<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.$I18N_A461->msg("version_working_to_live").'</a></li>';
-		$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N_A461->msg("version_copy_live_to_workingversion").'</a></li>';
-	  $return .= '<li><a href="../'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>';
+		if($params["slice_revision"]>0)
+		{
+		  $return .= '<li><a href="../'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>';
+			if(!$working_version_empty)
+			  $return .= '<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.$I18N_A461->msg("version_working_to_live").'</a></li>';
+		}else
+		{
+			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N_A461->msg("version_copy_live_to_workingversion").'</a></li>';
+		}
 	}
-
+  $return .= '</ul>';
 
 	$return .= '
-			</ul></div>
+
+					<noscript>
+    			  <input type="submit" />
+    			</noscript>
+
+				</form>
+
+			</div>
 			<div style="clear:both;"></div>
 
 			<style>
 #rex-version-header { background-color:#f0efeb; margin:0px; margin-bottom:10px;}
-#rex-version-header ul{ margin:0px; margin-left:50px;}
-#rex-version-header li { list-style:square; float:left; margin-left:10px; margin-right:15px; line-height:30px;}
+#rex-version-header ul{ margin:0px; margin-left:45px;}
+#rex-version-header li { float:left; margin-right:15px; line-height:30px;}
 #rex-version-header li.active a{ color:#000;}
 			</style>
 			
