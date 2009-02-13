@@ -1,0 +1,9 @@
+version = Version
+
+version_liveversion = Live Version
+version_workingversion = Working Version
+version_working_to_live = Working Version -> Live Version
+version_preview = Preview
+version_copy_live_to_workingversion = Copy Live Version
+version_info_working_version_to_live = Working Version ist noch live
+version_info_live_version_to_working = Live Version has been copied to Working Version
