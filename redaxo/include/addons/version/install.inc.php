@@ -21,6 +21,7 @@ $create_sql->setQuery('CREATE TABLE `rex_version_article` (
 ) ENGINE = MYISAM ;');
 */
 
+$create_sql = new rex_sql();
 $create_sql->setQuery('UPDATE rex_article_slice set revision=0 where revision<1 or revision IS NULL');
 $create_sql->setQuery('UPDATE rex_article set revision=0 where revision<1 or revision IS NULL');
 
