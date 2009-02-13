@@ -32,7 +32,19 @@ div#rex-navi-footer ul li,
 div#rex-navi-footer ul li a {
 	color: #3C9ED0;
 }
+div#rex-title h1 {
+	color: #14568A;
+}
 
+
+
+
+div#rex-website {
+	font-size: .75em;
+}
+div#rex-title h1 {
+	font-size: 2em;
+}
 
 
 body, 
@@ -42,10 +54,15 @@ select {
 	font-family: Arial, Verdana, sans-serif;
 }
 
+body {
+	background-color: #404040;
+}
+
 
 div#rex-website {
+	float: left;
 	width: 964px;
-	font-size: .75em;
+	background-color: #FFF;
 }
 
 div#rex-navi-login {
@@ -62,7 +79,8 @@ div#rex-navi-login p {
 
 div#rex-navi-main {
 	float: left;
-	width: 187px;
+	width: 170px;
+	margin-left: 16px;
 	padding: 0;
 }
 
@@ -70,6 +88,8 @@ div#rex-wrapper {
 	clear: none;
 	float: right;
 	width: 745px;
+	margin-right: 16px;
+	padding-bottom: 10px;
 }
 div#rex-title {
 	margin-top: 0px;
@@ -79,7 +99,9 @@ div#rex-output {
 	background-color: #DFE9E9;
 }
 div#rex-footer {
-	border-top: 0;
+	border-top-color: #404040;
+	border-top-width: 8px;
+	margin: 0;
 	padding: 9px 0;
 	background-color: #000;
 }
