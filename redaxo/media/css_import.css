@@ -5,7 +5,7 @@
  */
 
 
-@import url('css_v0_basic.css');
-@import url('css_v0_navigation.css');
-@import url('css_v0_form.css');
-@import url('css_v0_component.css');
+@import url('css_basic.css');
+@import url('css_navigation.css');
+@import url('css_form.css');
+@import url('css_component.css');
