@@ -26,7 +26,10 @@ div#rex-navi-main ul li a {
 
 
 /*	Cyan */
-a {
+a, 
+div#rex-navi-footer, 
+div#rex-navi-footer ul li, 
+div#rex-navi-footer ul li a {
 	color: #3C9ED0;
 }
 
@@ -49,7 +52,12 @@ div#rex-navi-login {
 	float: left;
 	width: 100%;
 	margin-bottom: 36px;
+	padding: 20px 0;
 	background-color: #000;
+}
+div#rex-navi-login p {
+	padding-right: 5px;
+	text-align: right;
 }
 
 div#rex-navi-main {
@@ -67,9 +75,13 @@ div#rex-title {
 	margin-top: 0px;
 	background: none;
 }
-
 div#rex-output {
 	background-color: #DFE9E9;
+}
+div#rex-footer {
+	border-top: 0;
+	padding: 9px 0;
+	background-color: #000;
 }
 
 
@@ -104,7 +116,10 @@ div#rex-navi-main ul li.rex-active {
 div#rex-title div.rex-title-row {
 	width: 100%;
 }
-div#rex-title ul#rex-navi-path {
+div#rex-title div.rex-title-row-sub {
 	border-top: 1px solid #CBCBCB;
 	border-bottom: 1px solid #CBCBCB;
+}
+div#rex-title ul#rex-navi-path {
+	border: 0;
 }
