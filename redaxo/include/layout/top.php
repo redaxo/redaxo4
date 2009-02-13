@@ -53,7 +53,9 @@ if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
 
   <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo htmlspecialchars($REX['SERVERNAME']); ?></a></p>
 
-  <div id="rex-navi-login"><?php
+</div>
+
+<div id="rex-navi-login"><?php
   
 if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 {
@@ -159,8 +161,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 }
 
 ?>
-  </div>
-
 </div>
+
 
 <div id="rex-wrapper">
