@@ -53,15 +53,28 @@ if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
 
   <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo htmlspecialchars($REX['SERVERNAME']); ?></a></p>
 
-  <div id="rex-navi-header">
+  <div id="rex-navi-login"><?php
+  
+if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
+{
+  $accesskey = 1;
+  $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
+  echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . htmlspecialchars($user_name) . '</a></strong> [<a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
+}else if(!$REX["PAGE_NO_NAVI"])
+{
+  echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
+}else
+{
+  echo '<p class="rex-logout">&nbsp;</p>';
+}
+  
+?></div>
+
+  <div id="rex-main">
 <?php
 
 if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 {
-  $accesskey = 1;
-
-  $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
-  echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . htmlspecialchars($user_name) . '</a></strong> [<a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
   
   $navi_system = array();
   $navi_addons = array();
@@ -143,12 +156,6 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
     echo '</ul>' . "\n";
   }
 
-}else if(!$REX["PAGE_NO_NAVI"])
-{
-  echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
-}else
-{
-  echo '<p class="rex-logout">&nbsp;</p>';
 }
 
 ?>
