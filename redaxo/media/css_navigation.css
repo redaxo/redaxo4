@@ -7,45 +7,45 @@
 
 /*	Header / Footer ************************************************************
 *******************************************************************************/
-div#rex-navi-header {
+div#rex-navi-main {
 	float: left;
 	width: 100%;
 	padding: 5px 0;
 }
-div#rex-navi-header p,
+div#rex-navi-main p,
 div#rex-navi-footer p {
 	float: right;
 	margin: 0 5px;
 }
-div#rex-navi-header p a {
+div#rex-navi-main p a {
 	font-weight: bold;
 }
 
-div#rex-navi-header ul,
+div#rex-navi-main ul,
 div#rex-navi-footer ul {
 	float: left;
 	width: 70%;
 	margin: 0 5px;
 }
-body#rex-page-medienpool div#rex-navi-header ul,
-body#rex-page-linkmap div#rex-navi-header ul {
+body#rex-page-medienpool div#rex-navi-main ul,
+body#rex-page-linkmap div#rex-navi-main ul {
 	width: 100%;
 }
 
-div#rex-navi-header ul li,
+div#rex-navi-main ul li,
 div#rex-navi-footer ul li {
 	display: inline;
 }
-div#rex-navi-header ul li a {
+div#rex-navi-main ul li a {
 	font-weight: bold;
 }
 
 /* JMK */
-div#rex-navi-header h1{
+div#rex-navi-main h1{
 display:none;
 }
 
-div#rex-navi-header ul li a{
+div#rex-navi-main ul li a{
 margin-right:10px;
 }
 /* ENDE */
