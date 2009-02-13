@@ -173,16 +173,14 @@ function rex_get_subtitle($subline, $attr = '')
     if(!empty($subtitle))
     {
       $items = '';
-      $num_parts = count($subtitle);
       $i = 1;
       foreach($subtitle as $part)
       {
-        if($i != $num_parts)
-        {
-          $part .= ' | ';
-        }
-        $items .= '<li>'. $part .'</li>
-        ';
+	      if($i == 1) 
+					$items .= '<li class="rex-navi-first">'. $part .'</li>';
+				else 
+	        $items .= '<li>'. $part .'</li>';
+					
         $i++;
       }
       $subtitle_str = '
