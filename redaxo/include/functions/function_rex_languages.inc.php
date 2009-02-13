@@ -26,8 +26,11 @@ if ($num_clang>1)
    $i = 1;
    foreach($REX['CLANG'] as $key => $val)
    {
-    echo '<li>';
-    
+   	if($i == 1)
+   		echo '<li class="rex-navi-first">';
+		else
+			echo '<li>';
+		    
     $val = rex_translate($val);
 
 		if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm('clang[all]') && !$REX_USER->hasPerm('clang['. $key .']'))
@@ -41,11 +44,6 @@ if ($num_clang>1)
     	$class = '';
     	if ($key==$clang) $class = ' class="rex-active"';
       echo '<a'.$class.' href="index.php?page='. $page .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype .'"'. rex_tabindex() .'>'. $val .'</a>';
-    }
-
-    if($i != $num_clang)
-    {
-       echo ' | ';
     }
 
     echo '</li>';
