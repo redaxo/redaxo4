@@ -230,8 +230,8 @@ div.rex-content-editmode-slice-output {
 }
 p.rex-tx1, 
 ul.rex-ul1, 
-div#rex-navi-header p,
-div#rex-navi-header ul {
+div#rex-navi-main p,
+div#rex-navi-main ul {
 	line-height: 1.2;
 }
 
@@ -252,9 +252,9 @@ div.rex-content-header ul li span {
 }
 
 /*	Weiss */
-div#rex-navi-header p a,
-div#rex-navi-header ul li,
-div#rex-navi-header ul li a {
+div#rex-navi-main p a,
+div#rex-navi-main ul li,
+div#rex-navi-main ul li a {
 	color: #FFF;
 }
 
@@ -370,7 +370,7 @@ div.rex-warning-block {
 div.rex-info-block {
 	background-color: #D2EFD9;
 }
-div#rex-header div#rex-navi-header {
+div#rex-header div#rex-navi-main {
 	background-color: #AAB9A8;
 }
 
