@@ -53,11 +53,11 @@ function rex_title($head, $subtitle = '')
 
   if($subtitle == '')
   {
-    $subtitle = '<p>&nbsp;</p>';
+    $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
   }
   else
   {
-	  $subtitle = '<div class="rex-title-row">'.rex_get_subtitle($subtitle).'</div>';
+	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
   }
 
   // ----- EXTENSION POINT
