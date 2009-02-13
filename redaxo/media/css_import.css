@@ -25,6 +25,12 @@ div#rex-navi-main ul li a {
 
 
 
+/*	Cyan */
+a {
+	color: #3C9ED0;
+}
+
+
 
 body, 
 input, 
@@ -62,7 +68,9 @@ div#rex-title {
 	background: none;
 }
 
-
+div#rex-output {
+	background-color: #DFE9E9;
+}
 
 
 
@@ -91,3 +99,12 @@ div#rex-navi-main ul li.rex-active {
 	background-color: #14568A;
 }
 
+
+
+div#rex-title div.rex-title-row {
+	width: 100%;
+}
+div#rex-title ul#rex-navi-path {
+	border-top: 1px solid #CBCBCB;
+	border-bottom: 1px solid #CBCBCB;
+}
