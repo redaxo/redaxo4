@@ -1,0 +1,11 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ */
+
+
+@import url('css_v0_basic.css');
+@import url('css_v0_navigation.css');
+@import url('css_v0_form.css');
+@import url('css_v0_component.css');
