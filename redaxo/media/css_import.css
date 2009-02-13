@@ -9,3 +9,36 @@
 @import url('css_navigation.css');
 @import url('css_form.css');
 @import url('css_component.css');
+
+
+
+
+div#rex-website {
+	width: 964px;
+	font-size: .75em;
+}
+
+div#rex-navi-main {
+	float: left;
+	width: 187px;
+}
+
+div#rex-wrapper {
+	clear: none;
+	float: right;
+	width: 745px;
+}
+
+
+
+div#rex-navi-main ul {
+	width: 100%;
+	margin: 0;
+	background-color: #3C9ED0;
+}
+div#rex-navi-main ul li {
+	display: block;
+	padding: 4px 10px;
+	border-bottom: 1px solid #FFF;
+}
+
