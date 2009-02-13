@@ -30,12 +30,6 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 	</p>
 
 	<p class="rex-tx1">
-		<b>Wolfgang Huttegger</b>, wolfgang.huttegger@redaxo.de<br />
-		Kernentwickler<br />
-		vscope new media, <a href="http://www.vscope.at" onclick="window.open(this.href); return false;">www.vscope.at</a>
-	</p>
-
-	<p class="rex-tx1">
 		<b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
 		Layout/Design Entwickler<br />
 		blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a>
