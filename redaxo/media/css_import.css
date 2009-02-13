@@ -11,6 +11,27 @@
 @import url('css_component.css');
 
 
+/************************************************************************ JMK */
+div#rex-navi-main h1 {
+	display:none;
+}
+
+div#rex-navi-main ul li a {
+	margin-right:10px;
+}
+/*********************************************************************** ENDE */
+
+
+
+
+
+
+body, 
+input, 
+textarea, 
+select {
+	font-family: Arial, Verdana, sans-serif;
+}
 
 
 div#rex-website {
@@ -18,9 +39,17 @@ div#rex-website {
 	font-size: .75em;
 }
 
+div#rex-navi-login {
+	float: left;
+	width: 100%;
+	margin-bottom: 36px;
+	background-color: #000;
+}
+
 div#rex-navi-main {
 	float: left;
 	width: 187px;
+	padding: 0;
 }
 
 div#rex-wrapper {
@@ -28,17 +57,37 @@ div#rex-wrapper {
 	float: right;
 	width: 745px;
 }
+div#rex-title {
+	margin-top: 0px;
+	background: none;
+}
 
 
 
+
+
+
+
+div#rex-navi-main h1 {
+	clear: both;
+	display: block;
+	background-color: #DFE9E9;
+	border: 1px solid #CCC;
+	border-bottom-color: #FFF;
+	padding: 8px 10px 6px 10px;
+	font-size: 1.333em;
+}
 div#rex-navi-main ul {
 	width: 100%;
-	margin: 0;
+	margin: 0 0 16px 0;
 	background-color: #3C9ED0;
 }
 div#rex-navi-main ul li {
 	display: block;
 	padding: 4px 10px;
 	border-bottom: 1px solid #FFF;
+}
+div#rex-navi-main ul li.rex-active {
+	background-color: #14568A;
 }
 
