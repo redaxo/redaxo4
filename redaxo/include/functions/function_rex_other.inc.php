@@ -264,6 +264,9 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
 
     if(!$I18N)
       $I18N = rex_create_lang($REX['LANG']);
+      
+    if(!$I18N)
+      trigger_error('Unable to create language "'. $REX['LANG'] .'"', E_USER_ERROR);
 
     return rex_translate($text, $I18N, $use_htmlspecialchars);
   }
