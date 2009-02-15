@@ -123,9 +123,9 @@ function rex_uninstall_addon($addons, $addonname)
   global $REX, $I18N;
 
   $state = true;
-  $install_dir = $REX['INCLUDE_PATH'].'/addons/'. $addonname;
-  $uninstall_file = $install_dir.'/uninstall.inc.php';
-  $uninstall_sql = $install_dir.'/uninstall.sql';
+  $install_dir = rex_addons_folder($addonname);
+  $uninstall_file = $install_dir.'uninstall.inc.php';
+  $uninstall_sql = $install_dir.'uninstall.sql';
 
   if (is_readable($uninstall_file))
   {
@@ -197,13 +197,21 @@ function rex_delete_addon($addons, $addonname)
   return $state;
 }
 
-function rex_read_addons_folder($folder = '')
+function rex_addons_folder($addon = null)
 {
   global $REX;
+  
+  if(!is_null($addon))
+    return $REX['INCLUDE_PATH'] .DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR. $addon .DIRECTORY_SEPARATOR;
+  
+  return $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR;
+}
 
+function rex_read_addons_folder($folder = '')
+{
   if ($folder == '')
   {
-    $folder = $REX['INCLUDE_PATH'].'/addons/';
+    $folder = rex_addons_folder();
   }
 
   $addons = array ();

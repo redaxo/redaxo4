@@ -6,19 +6,25 @@
  * @version $Id: addon.inc.php,v 1.5 2008/03/25 10:42:51 kills Exp $
  */
 
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
-
 rex_title($I18N->msg('addon'), '');
 
+// -------------- RequestVars
+$addonname  = rex_request('addonname', 'string');
+$pluginname = rex_request('pluginname', 'string');
+$subpage    = rex_request('subpage', 'string');
+
 // -------------- Defaults
-
-$addonname = rex_request('addonname', 'string');
-$subpage   = rex_request('subpage', 'string');
-
 $ADDONS    = rex_read_addons_folder();
-$addonname = array_search($addonname, $ADDONS) !== false ? $addonname : '';
-
+$PLUGINS   = array();
+foreach($ADDONS as $_addon)
+  $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
+  
+$addonname  = array_search($addonname, $ADDONS) !== false ? $addonname : '';
+if($addonname != '')
+  $pluginname = array_search($pluginname, $PLUGINS[$addonname]) !== false ? $pluginname : '';
+else
+  $pluginname = '';
+  
 $warning = '';
 $info = '';
 
@@ -26,10 +32,23 @@ $info = '';
 if ($subpage == 'help' && $addonname != '')
 {
   $credits = '';
-  $version  = OOAddon::getVersion($addonname);
-  $author   =  OOAddon::getAuthor($addonname);
-  $supportPage = OOAddon::getSupportPage($addonname);
-  $helpfile = $REX['INCLUDE_PATH'].'/addons/'.$addonname.'/help.inc.php';
+  
+  if($pluginname != '')
+  {
+    $helpfile    = rex_plugins_folder($addonname, $pluginname);
+    $version     = OOPlugin::getVersion($addonname, $pluginname);
+    $author      = OOPlugin::getAuthor($addonname, $pluginname);
+    $supportPage = OOPlugin::getSupportPage($addonname, $pluginname);
+    $addonname = $addonname .' / '. $pluginname;
+  }
+  else
+  {
+    $helpfile    = rex_addons_folder($addonname);
+    $version     = OOAddon::getVersion($addonname);
+    $author      = OOAddon::getAuthor($addonname);
+    $supportPage = OOAddon::getSupportPage($addonname);
+  }
+  $helpfile .= DIRECTORY_SEPARATOR.'help.inc.php';
   
   $credits .= $I18N->msg("credits_name") .': <span>'. htmlspecialchars($addonname) .'</span><br />';
   if($version) $credits .= $I18N->msg("credits_version") .': <span>'. $version .'</span><br />';
@@ -59,51 +78,104 @@ if ($subpage == 'help' && $addonname != '')
 // ----------------- FUNCTIONS
 if ($addonname != '')
 {
-  $install  = rex_get('install', 'int', -1);
-  $activate = rex_get('activate', 'int', -1);
-  $uninstall = rex_get('uninstall', 'int', -1);
-  $delete = rex_get('delete', 'int', -1);
-
+  $install    = rex_get('install', 'int', -1);
+  $activate   = rex_get('activate', 'int', -1);
+  $uninstall  = rex_get('uninstall', 'int', -1);
+  $delete     = rex_get('delete', 'int', -1);
+  
   // ----------------- ADDON INSTALL
   if ($install == 1)
   {
-    if (($warning = rex_install_addon($ADDONS, $addonname)) === true)
+    if($pluginname != '')
     {
-      $info = $I18N->msg("addon_installed", $addonname);
+      if (($warning = rex_install_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      {
+        $info = $I18N->msg("plugin_installed", $pluginname);
+      }
+    }
+    else
+    {
+      if (($warning = rex_install_addon($ADDONS, $addonname)) === true)
+      {
+        $info = $I18N->msg("addon_installed", $addonname);
+      }
     }
   }
   // ----------------- ADDON ACTIVATE
   elseif ($activate == 1)
   {
-    if (($warning = rex_activate_addon($ADDONS, $addonname)) === true)
+    if($pluginname != '')
     {
-      $info = $I18N->msg("addon_activated", $addonname);
+      if (($warning = rex_activate_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      {
+        $info = $I18N->msg("plugin_activated", $pluginname);
+      }
+    }
+    else
+    {
+      if (($warning = rex_activate_addon($ADDONS, $addonname)) === true)
+      {
+        $info = $I18N->msg("addon_activated", $addonname);
+      }
     }
   }
   // ----------------- ADDON DEACTIVATE
   elseif ($activate == 0)
   {
-    if (($warning = rex_deactivate_addon($ADDONS, $addonname)) === true)
+    if($pluginname != '')
     {
-      $info = $I18N->msg("addon_deactivated", $addonname);
+      if (($warning = rex_deactivate_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      {
+        $info = $I18N->msg("plugin_deactivated", $pluginname);
+      }
+    }
+    else
+    {
+      if (($warning = rex_deactivate_addon($ADDONS, $addonname)) === true)
+      {
+        $info = $I18N->msg("addon_deactivated", $addonname);
+      }
     }
   }
   // ----------------- ADDON UNINSTALL
   elseif ($uninstall == 1)
   {
-    if (($warning = rex_uninstall_addon($ADDONS, $addonname)) === true)
+    if($pluginname != '')
     {
-      $info = $I18N->msg("addon_uninstalled", $addonname);
+      if (($warning = rex_uninstall_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      {
+        $info = $I18N->msg("plugin_uninstalled", $pluginname);
+      }
+      
+    }
+    else
+    {
+      if (($warning = rex_uninstall_addon($ADDONS, $addonname)) === true)
+      {
+        $info = $I18N->msg("addon_uninstalled", $addonname);
+      }
     }
   }
   // ----------------- ADDON DELETE
   elseif ($delete == 1)
   {
-    if (($warning = rex_delete_addon($ADDONS, $addonname)) === true)
+    if($pluginname != '')
     {
-      $info = $I18N->msg("addon_deleted", $addonname);
-      $addonkey = array_search( $addonname, $ADDONS);
-      unset($ADDONS[$addonkey]);
+      if (($warning = rex_delete_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      {
+        $info = $I18N->msg("plugin_deleted", $pluginname);
+        $addonkey = array_search( $addonname, $PLUGINS);
+        unset($PLUGINS[$addonkey]);
+      }
+    }
+    else
+    {
+      if (($warning = rex_delete_addon($ADDONS, $addonname)) === true)
+      {
+        $info = $I18N->msg("addon_deleted", $addonname);
+        $addonkey = array_search( $addonname, $ADDONS);
+        unset($ADDONS[$addonkey]);
+      }
     }
   }
 }
@@ -113,16 +185,30 @@ if ($subpage == '')
 {
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in include/addons.inc.php
   // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
-  if (count(array_diff(array_keys(array_flip($ADDONS)), array_keys($REX['ADDON']['install']))) > 0 ||
-      count(array_diff(array_keys($REX['ADDON']['install']), array_keys(array_flip($ADDONS)))) > 0)
+  if (count(array_diff($ADDONS, OOAddon::getRegisteredAddons())) > 0 ||
+      count(array_diff(OOAddon::getRegisteredAddons(), $ADDONS)) > 0)
   {
-
     if (($state = rex_generateAddons($ADDONS)) !== true)
     {
-      $warning = $state;
+      $warning .= $state;
     }
   }
 
+  // Vergleiche plugins aus dem Verzeichnis plugins/ mit den Eintraegen in include/plugins.inc.php
+  // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
+  foreach($ADDONS as $addon)
+  {
+    if (count(array_diff($PLUGINS[$addon], OOPlugin::getRegisteredPlugins($addon))) > 0 ||
+        count(array_diff(OOPlugin::getRegisteredPlugins($addon), $PLUGINS[$addon])) > 0)
+    {
+      if (($state = rex_generateplugins($PLUGINS)) !== true)
+      {
+        $warning .= $state;
+        break;
+      }
+    }
+  }
+  
   if ($info != '')
     echo rex_info($info);
 
@@ -155,35 +241,37 @@ if ($subpage == '')
   	  </thead>
   	  <tbody>';
 
-  foreach ($ADDONS as $cur)
+  foreach ($ADDONS as $addon)
   {
-  	if (OOAddon::isSystemAddon($cur))
+    $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;%s';
+    
+  	if (OOAddon::isSystemAddon($addon))
   	{
   		$delete = $I18N->msg("addon_systemaddon");
   	}
     else
   	{
-  		$delete = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $cur)).'\');">'.$I18N->msg("addon_delete").'</a>';
+  		$delete = '<a href="'. $addonurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $addon)).'\');">'.$I18N->msg("addon_delete").'</a>';
   	}
 
-    if (OOAddon::isInstalled($cur))
+    if (OOAddon::isInstalled($addon))
     {
-      $install = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;install=1">'.$I18N->msg("addon_reinstall").'</a>';
-      $uninstall = '<a href="index.php?page=addon&amp;addonname='.$cur.'&amp;uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $cur)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+      $install = $I18N->msg("addon_yes").' - <a href="'. $addonurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
+      $uninstall = '<a href="'. $addonurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
     }
     else
     {
-      $install = $I18N->msg("addon_no").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;install=1">'.$I18N->msg("addon_install").'</a>';
+      $install = $I18N->msg("addon_no").' - <a href="'. $addonurl .'install=1">'.$I18N->msg("addon_install").'</a>';
       $uninstall = $I18N->msg("addon_notinstalled");
     }
 
-    if (OOAddon::isActivated($cur))
+    if (OOAddon::isActivated($addon))
     {
-      $status = $I18N->msg("addon_yes").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;activate=0">'.$I18N->msg("addon_deactivate").'</a>';
+      $status = $I18N->msg("addon_yes").' - <a href="'. $addonurl .'activate=0">'.$I18N->msg("addon_deactivate").'</a>';
     }
-    elseif (OOAddon::isInstalled($cur))
+    elseif (OOAddon::isInstalled($addon))
     {
-      $status = $I18N->msg("addon_no").' - <a href="index.php?page=addon&amp;addonname='.$cur.'&amp;activate=1">'.$I18N->msg("addon_activate").'</a>';
+      $status = $I18N->msg("addon_no").' - <a href="'. $addonurl .'activate=1">'.$I18N->msg("addon_activate").'</a>';
     }
     else
     {
@@ -191,14 +279,55 @@ if ($subpage == '')
     }
 
     echo '
-        <tr>
-          <td class="rex-icon"><img src="media/addon.gif" alt="'. htmlspecialchars($cur) .'" title="'. htmlspecialchars($cur) .'"/></td>
-          <td>'.htmlspecialchars($cur).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$cur.'">?</a>]</td>
+        <tr class="rex-addon">
+          <td class="rex-icon"><img src="media/addon.gif" alt="'. htmlspecialchars($addon) .'" title="'. htmlspecialchars($addon) .'"/></td>
+          <td>'.htmlspecialchars($addon).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
           <td>'.$install.'</td>
           <td>'.$status.'</td>
           <td>'.$uninstall.'</td>
           <td>'.$delete.'</td>
         </tr>'."\n   ";
+
+    foreach($PLUGINS[$addon] as $plugin)
+    {
+      $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
+      
+      $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
+      
+      if (OOPlugin::isInstalled($addon, $plugin))
+      {
+        $install = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
+        $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+      }
+      else
+      {
+        $install = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_install").'</a>';
+        $uninstall = $I18N->msg("addon_notinstalled");
+      }
+  
+      if (OOPlugin::isActivated($addon, $plugin))
+      {
+        $status = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'activate=0">'.$I18N->msg("addon_deactivate").'</a>';
+      }
+      elseif (OOPlugin::isInstalled($addon, $plugin))
+      {
+        $status = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'activate=1">'.$I18N->msg("addon_activate").'</a>';
+      }
+      else
+      {
+        $status = $I18N->msg("addon_notinstalled");
+      }
+      
+      echo '
+          <tr class="rex-plugin">
+            <td class="rex-icon"></td>
+            <td>'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
+            <td>'.$install.'</td>
+            <td>'.$status.'</td>
+            <td>'.$uninstall.'</td>
+            <td>'.$delete.'</td>
+          </tr>'."\n   ";
+    }
   }
 
   echo '</tbody>

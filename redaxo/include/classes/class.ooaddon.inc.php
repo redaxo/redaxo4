@@ -6,58 +6,35 @@
  * @version $Id: class.ooaddon.inc.php,v 1.5 2008/02/22 20:07:31 kills Exp $
  */
 
-class OOAddon
+class OOAddon extends rex_addon
 {
-  function isAvailable($addon)
-  {
-    return OOAddon::isInstalled($addon) && OOAddon::isActivated($addon);
-  }
-
-  function isActivated($addon)
-  {
-    return OOAddon::getProperty($addon, 'status') == 1;
-  }
-  function isInstalled($addon)
-  {
-    return OOAddon::getProperty($addon, 'install') == 1;
-  }
-
+  /*
+   * Prüft, ob ein System-Addon vorliegt
+   * 
+   * @param string $addon Name des Addons
+   * 
+   * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
+   */
   function isSystemAddon($addon)
   {
     global $REX;
     return in_array($addon, $REX['SYSTEM_ADDONS']);
   }
 
-  function getVersion($addon, $default = null)
-  {
-    return OOAddon::getProperty($addon, 'version', $default);
-  }
-
-  function getAuthor($addon, $default = null)
-  {
-    return OOAddon::getProperty($addon, 'author', $default);
-  }
-
-  function getSupportPage($addon, $default = null)
-  {
-    return OOAddon::getProperty($addon, 'supportpage', $default);
-  }
-
+  /**
+   * Gibt ein Array von verfügbaren Addons zurück.
+   * 
+   * @return array Array der verfügbaren Addons
+   */
   function getAvailableAddons()
   {
     global $REX;
 
+    $addons = array();
     if(isset($REX['ADDON']) && is_array($REX['ADDON']) &&
        isset($REX['ADDON']['status']) && is_array($REX['ADDON']['status']))
     {
       $addons = $REX['ADDON']['status'];
-    }
-    else
-    {
-      $REX['ADDON'] = array();
-      $REX['ADDON']['install'] = array();
-      $REX['ADDON']['status'] = array();
-      $addons = array();
     }
 
     $avail = array();
@@ -69,21 +46,24 @@ class OOAddon
 
     return $avail;
   }
-
-  function setProperty($addon, $property, $value)
+  
+  /**
+   * Gibt ein Array aller registrierten Addons zurück.
+   * Ein Addon ist registriert, wenn es dem System bekannt ist (addons.inc.php).
+   * 
+   * @return array Array aller registrierten Addons
+   */
+  function getRegisteredAddons()
   {
     global $REX;
-
-    if(!isset($REX['ADDON'][$property]))
-      $REX['ADDON'][$property] = array();
-
-    $REX['ADDON'][$property][$addon] = $value;
-  }
-
-  function getProperty($addon, $property, $default = null)
-  {
-    global $REX;
-
-    return isset($REX['ADDON'][$property][$addon]) ? $REX['ADDON'][$property][$addon] : $default;
+    
+    $addons = array();
+    if(isset($REX['ADDON']) && is_array($REX['ADDON']) &&
+       isset($REX['ADDON']['install']) && is_array($REX['ADDON']['install']))
+    {
+      $addons = array_keys($REX['ADDON']['install']);
+    }
+    
+    return $addons;
   }
 }
