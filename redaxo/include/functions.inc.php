@@ -48,6 +48,16 @@ $REX['VARIABLES'][] = 'rex_var_link';
 $REX['VARIABLES'][] = 'rex_var_media';
 
 // ----------------- REDAXO INCLUDES
+// ----- FUNCTIONS
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_globals.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_client_cache.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_url.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_plugins.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
+
+// ----- CLASSES
 include_once $REX['INCLUDE_PATH'].'/classes/class.i18n.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_sql.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_select.inc.php';
@@ -56,6 +66,7 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.rex_template.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_login.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_addon.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_cache.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_navigation.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooredaxo.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oocategory.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooarticle.inc.php';
@@ -64,8 +75,6 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.oomediacategory.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oomedia.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooaddon.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooplugin.inc.php';
-
-include_once $REX['INCLUDE_PATH'].'/classes/class.rex_navigation.inc.php';
 
 if (!$REX['GG'])
 {
@@ -87,15 +96,6 @@ foreach($REX['VARIABLES'] as $key => $value)
 
 // ----- EXTRA CLASSES
 // include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';
-
-// ----- FUNCTIONS
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_globals.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_client_cache.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_url.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_plugins.inc.php';
-include_once $REX['INCLUDE_PATH'].'/functions/function_rex_other.inc.php';
 
 // ----- REQUEST VARS
 // TODO Hier variablen die eigentlich nur im Backend gebraucht werden...!?
