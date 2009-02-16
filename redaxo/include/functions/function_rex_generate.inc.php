@@ -16,29 +16,9 @@ function rex_generateAll()
 {
   global $REX, $I18N;
 
-  // alles existiert schon
-  // -> generiere templates
-  // -> generiere article und listen
-  // -> generiere file meta
-
-  // ----------------------------------------------------------- generiere templates
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/templates', 0);
-
-  // ----------------------------------------------------------- generiere artikel
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/articles', 0);
-
-  // ----------------------------------------------------------- generiere files
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated/files', 0);
-  /*
-  $gc = new rex_sql;
-  $gc->setQuery("select distinct id from ".$REX['TABLE_PREFIX']."article");
-  for ($i = 0; $i < $gc->getRows(); $i ++)
-  {
-    rex_generateArticle($gc->getValue("id"));
-    $gc->next();
-  }
-  */
-
+  // ----------------------------------------------------------- generated löschen
+  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', 0);
+  
   // ----------------------------------------------------------- generiere clang
   $lg = new rex_sql();
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
@@ -53,9 +33,6 @@ function rex_generateAll()
 
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
   rex_replace_dynamic_contents($file, $content);
-
-  // ----------------------------------------------------------- generiere filemetas ...
-  // **********************
 
   // ----------------------------------------------------------- message
   $MSG = $I18N->msg('delete_cache_message');
