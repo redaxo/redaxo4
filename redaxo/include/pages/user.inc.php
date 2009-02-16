@@ -848,7 +848,9 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
     // init behaviour
     if($("#useradmin").is(":checked")) {
-      $("#rex-user-perms").hide();
+      $("#userperm-module").attr("disabled", "disabled");
+      $("#cats_mcats_perms").hide();
+      $("#cats_mcats_box").hide();
     };
     if($("#allcats").is(":checked") &&
        $("#allmcats").is(":checked")) {
