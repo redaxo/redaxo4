@@ -55,6 +55,7 @@ Version 4.2.0 (2008-XX-XX)
     - Suchqueries via EP modifizierbar [Markus.Staab]
   * MetaInfo: [Markus.Staab]
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons
+    - Metafelder mit berechtigungen verknüpfbar
   * rexVars:
     - REX_LINKLIST_BUTTON[] implementiert [BerserkerXP, Markus.Staab]
     - REX_CATEGORY[] implementiert [Markus.Staab]

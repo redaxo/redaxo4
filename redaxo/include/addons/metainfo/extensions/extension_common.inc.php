@@ -19,7 +19,7 @@ rex_register_extension('OOMEDIA_IS_IN_USE_QUERY', 'rex_a62_media_is_in_use');
  */
 function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 {
-  global $I18N;
+  global $I18N, $REX_USER;
 
   $s = '';
 
@@ -30,7 +30,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
   $llist_id = 1;
 
   $sqlFields->reset();
-  for($i = 0; $i < $sqlFields->getRows(); $i++)
+  for($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next())
   {
     // Umschliessendes Tag von Label und Formularelement
     $tag      = 'p';
@@ -42,7 +42,17 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $typeLabel = $sqlFields->getValue('label');
     $attr      = $sqlFields->getValue('attributes');
     $dblength  = $sqlFields->getValue('dblength');
-
+    
+    $attrArray = rex_split_string($attr);
+    if(isset($attrArray['perm']))
+    {
+      if(!$REX_USER->hasPerm($attrArray['perm']))
+      {
+        continue;
+      }
+      unset($attrArray['perm']);
+    }
+    
     $dbvalues = array(htmlspecialchars($sqlFields->getValue('default')));
     $dbvalues_esc = $dbvalues;
     if($activeItem)
@@ -375,8 +385,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     }
 
     $s .= rex_call_func($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel), false);
-
-    $sqlFields->next();
   }
 
   return $s;
@@ -390,15 +398,28 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
  */
 function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
+  global $REX_USER;
+  
   if($_SERVER['REQUEST_METHOD'] != 'POST') return;
 
-  for($i = 0;$i < $sqlFields->getRows(); $i++)
+  for($i = 0;$i < $sqlFields->getRows(); $i++, $sqlFields->next())
   {
     $fieldName = $sqlFields->getValue('name');
     $fieldType = $sqlFields->getValue('type');
     $fieldAttributes = $sqlFields->getValue('attributes');
     $postValue = rex_post($fieldName, 'array');
 
+    // dont save restricted fields
+    $attrArray = rex_split_string($fieldAttributes);
+    if(isset($attrArray['perm']))
+    {
+      if(!$REX_USER->hasPerm($attrArray['perm']))
+      {
+        continue;
+      }
+      unset($attrArray['perm']);
+    }
+    
     // handle date types with timestamps
     if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
@@ -445,8 +466,6 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
       $params['activeItem']->setValue($fieldName, stripslashes($saveValue));
-
-    $sqlFields->next();
   }
 }
 
