@@ -325,6 +325,11 @@ class rex_category_select extends rex_select
 
   function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
+    global $REX;
+
+    if ($clang === false)
+      $clang = $REX['CUR_CLANG'];
+      
     $this->ignore_offlines = $ignore_offlines;
     $this->clang = $clang;
     $this->check_perms = $check_perms;
