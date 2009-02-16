@@ -81,6 +81,20 @@ define('REX_CACHE_SEPARATOR', ':');
   {
     // override
   }
+  
+  /**
+   * Removes content from the cache that matches the given pattern.
+   *
+   * @param  string  $pattern The cache key pattern
+   *
+   * @return Boolean true if no problem
+   *
+   * @see patternToRegexp
+   */
+  /*abstract*/ public function removePattern($pattern)
+  {
+    // override
+  }  
     
   /**
    * Cleans the cache.
@@ -119,6 +133,29 @@ define('REX_CACHE_SEPARATOR', ':');
   {
     return is_null($lifetime) ? $this->lifetime : $lifetime;
   }
+  
+  /**
+   * Converts a pattern to a regular expression.
+   *
+   * A pattern can use some special characters:
+   *
+   *  - * Matches a namespace (foo:*:bar)
+   *  - ** Matches one or more namespaces (foo:**:bar)
+   *
+   * @param  string $pattern  A pattern
+   *
+   * @return string A regular expression
+   */
+  /*protected*/ function patternToRegexp($pattern)
+  {
+    $regexp = str_replace(
+      array('\\*\\*', '\\*'),
+      array('.+?',    '[^'.preg_quote(REX_CACHE_SEPARATOR, '#').']+'),
+      preg_quote($pattern, '#')
+    );
+
+    return '#^'.$regexp.'$#';
+  }  
 }
 
 /**
@@ -144,10 +181,8 @@ class rex_function_cache
     $this->cache = $cache;
   }
   
-  /*public*/ function call($callable, $arguments, $parseParamsAsArray = false)
+  /*public*/ function callWithKey($key, $callable, $arguments, $parseParamsAsArray = false)
   {
-    $key = md5(serialize($callable).serialize($arguments));
-    
     $serialized = $this->cache->get($key);
     if($serialized !== null)
     {
@@ -173,11 +208,15 @@ class rex_function_cache
     echo $data['output'];
     return $data['result'];
   }
-  
-  /*public*/ function invalidate($callable, $arguments)
+  /*public*/ function call($callable, $arguments, $parseParamsAsArray = false)
   {
-    $key = md5(serialize($callable).serialize($arguments));
-    $this->cache->remove($key);    
+    $key = $this->cachekey($callable, $arguments);
+    return $this->callWithKey($key, $callable, $arguments, $parseParamsAsArray);
+  }
+  
+  /*public*/ function cachekey($callable, $arguments)
+  {
+    return md5(serialize($callable).serialize($arguments));
   }
 }
 
@@ -254,6 +293,51 @@ class rex_file_cache extends rex_cache
   }
 
   /**
+   * @see sfCache
+   */
+  /*public*/ function removePattern($pattern)
+  {
+    if (false !== strpos($pattern, '**'))
+    {
+      $pattern = str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern).REX_FILECACHE_EXTENSION;
+
+      $regexp = self::patternToRegexp($pattern);
+      $paths = array();
+      $hdl = opendir($this->cache_dir);
+      if($hdl)
+      {
+        while(($file = readdir($hdl)) !== false)
+        {
+          var_dump($file);
+          if($file == '.' || $file == '..') continue;
+          
+          if (preg_match($regexp, str_replace($this->cache_dir.DIRECTORY_SEPARATOR, '', $path)))
+          {
+            $paths[] = $path;
+          }
+        }
+        closedir($hdl);
+      }
+    }
+    else
+    {
+      $paths = glob($this->cache_dir.DIRECTORY_SEPARATOR.str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern).REX_FILECACHE_EXTENSION);
+    }
+
+    foreach ($paths as $path)
+    {
+      if (is_dir($path))
+      {
+        rex_deleteDir($path);
+      }
+      else
+      {
+        @unlink($path);
+      }
+    }
+  }
+
+  /**
    * @see rex_cache
    */
   /*public*/ function clean($mode = REX_CACHE_ALL)
@@ -269,7 +353,9 @@ class rex_file_cache extends rex_cache
     {
       while(($file = readdir($hdl)) !== false)
       {
-        if (REX_CACHE_ALL == $mode || !$this->isValid($file))
+        if($file == '.' || $file == '..') continue;
+        
+        if(REX_CACHE_ALL == $mode || !$this->isValid($file))
         {
           $result = @unlink($file) && $result;
         }
