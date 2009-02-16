@@ -1,8 +1,6 @@
 var visibleNotice;
 
 function checkConditionalFields(selectEl, activeIds) {
-  var needle = new getObj('rex_62_params_Feld_bearbeiten_erstellen_params');
-  var params = needle.obj;
   var toggle = false;
 
   for ( var i = 0; i < activeIds.length; i++) {
@@ -13,9 +11,6 @@ function checkConditionalFields(selectEl, activeIds) {
   }
 
   if (toggle) {
-    // show params field
-    toggleElement(params.parentNode, '');
-
     if (visibleNotice) {
       toggleElement(visibleNotice, 'none');
     }
@@ -26,9 +21,6 @@ function checkConditionalFields(selectEl, activeIds) {
       visibleNotice = needle.obj;
     }
   } else {
-    // hide params field
-    toggleElement(params.parentNode, 'none');
-
     if (visibleNotice) {
       toggleElement(visibleNotice, 'none');
     }
