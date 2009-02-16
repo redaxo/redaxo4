@@ -308,30 +308,47 @@ class rex_select
   }
 }
 
+rex_register_extension('CAT_ADDED',     'rex_category_select::clearCache');
+rex_register_extension('CAT_UPDATED',   'rex_category_select::clearCache');
+rex_register_extension('CAT_DELETED',   'rex_category_select::clearCache');
+rex_register_extension('ALL_GENERATED', 'rex_category_select::clearCache');
+
 ################ Class Kategorie Select
 class rex_category_select extends rex_select
 {
   var $ignore_offlines;
   var $clang;
   var $check_perms;
+  
+  var $cache;
+  var $cachekey;
 
   function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
     $this->ignore_offlines = $ignore_offlines;
     $this->clang = $clang;
     $this->check_perms = $check_perms;
-
-    if($add_homepage)
-      $this->addOption('Homepage', 0);
-
-    if ($cats = OOCategory :: getRootCategories($ignore_offlines, $clang))
+    
+    // prepare cache
+    $file_cache = new rex_file_cache();
+    $func_cache = new rex_function_cache($file_cache);
+    $this->cachekey = __CLASS__ .':'. $func_cache->cachekey(array($this,'get'), array($ignore_offlines, $clang, $check_perms, $add_homepage));
+    $this->cache = $func_cache;
+    
+    if(!$file_cache->has($this->cachekey))
     {
-      foreach ($cats as $cat)
+      if($add_homepage)
+        $this->addOption('Homepage', 0);
+  
+      if ($cats = OOCategory :: getRootCategories($ignore_offlines, $clang))
       {
-        $this->addCatOption($cat);
+        foreach ($cats as $cat)
+        {
+          $this->addCatOption($cat);
+        }
       }
     }
-
+    
     parent::rex_select();
   }
 
@@ -356,5 +373,42 @@ class rex_category_select extends rex_select
         }
       }
     }
+  }
+  
+  ############### show select
+  function get()
+  {
+    $attr = '';
+    foreach($this->attributes as $name => $value)
+    {
+      $attr .= ' '. $name .'="'. $value .'"';
+    }
+    
+    // optionen cachen, da bei grossen seiten sehr langsam
+    $cached = $this->cache->callWithKey($this->cachekey, array($this, '_outGroup'), array(0));
+    // ggf gecachte vorselktionen entfernen
+    $cached = str_replace(' selected="selected"', '', $cached);
+    // aktuell selektierte werte selektieren
+    
+    if ($this->option_selected !== null)
+    {
+      foreach($this->option_selected as $selected)
+      {
+        $cached = str_replace('value="'. $selected .'"', 'value="'. $selected .'" selected="selected"', $cached);        
+      }
+    }
+    
+    $ausgabe = "\n";
+    $ausgabe .= '<select'.$attr.'>'."\n";
+    $ausgabe .= $cached; 
+    $ausgabe .= '</select>'. "\n";
+    
+    return $ausgabe;
+  }
+  
+  /*static*/ function clearCache()
+  {
+    $file_cache = new rex_file_cache();
+    $file_cache->removePattern(__CLASS__. ':*');
   }
 }
