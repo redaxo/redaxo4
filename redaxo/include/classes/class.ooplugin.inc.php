@@ -103,7 +103,7 @@ class OOPlugin extends rex_addon
     $avail = array();
     foreach($plugins as $pluginName => $pluginStatus)
     {
-      if(parent::getProperty($addon, $plugin, 'status', false))
+      if($pluginStatus == 1)
       {
         $avail[] = $pluginName;
       }
