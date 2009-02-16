@@ -7,9 +7,7 @@
  */
 
 // ----------------- addons
-if (isset($REX['ADDON']['status'])) {
-  unset($REX['ADDON']['status']);
-}
+unset($REX['ADDON']);
 
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN
