@@ -14,22 +14,14 @@ Version 4.2.0 (2008-XX-XX)
     und Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
   * in der index REX_ARTICLE -> REX["ARTICLE"], damit ist das Objekt überall verfügbar 
     eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
-
-  Änderungen:
-  * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst [Jan.Kristinus] 
-  * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
+    
+  Neu:
+  * Cache layer zum zwischenspeichern von rechenintensiven Aktionen. [Markus.Staab]
+  * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst. [Jan.Kristinus] 
   * Startpage ist nun festlegbar [Jan.Kristinus]
-  * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
-  * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
   * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
-  * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert [Jan.Kristinus]
-  * Template/Module/Benutzerverwaltung hat nun immer eine ID in der Liste [Jan.Kristinus]
   * OOFramework:
-    - OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab] 
-      + siehe http://forum.redaxo.de/ftopic9816.html
-      + OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
-    - neu: OOCategory->inParentTree() [Markus.Staab]
-  * JQuery update auf 1.3.1 [Markus.Staab]
+    - OOCategory->inParentTree() [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
   * Struktur:
@@ -52,31 +44,17 @@ Version 4.2.0 (2008-XX-XX)
       + rex_editArticle()
       + rex_deleteArticleReorganized()
       + rex_articleStatus()  
-    - Kategorietabelle angepasst [Thomas.Blum]
   * Inhaltsverwaltung:
     - Logik in API ausgelagert [Markus.Staab]
       + rex_deleteSlice()
       + rex_moveSlice(), rex_moveSliceUp(), rex_moveSliceDown()
-  * Module:
-  	- Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
-  * System : Sprachen:
-    - Tabelle vereinheitlicht [Thomas.Blum]
   * ReloginDelay wird heruntergezaehlt [Markus.Staab]
   * Neue Backendpage: Userprofil [Markus.Staab]
-  * Benutzerverwaltung:
-    - Backendsprache pro User, sofern es der gleiche Zeichensatz ist [Jan.Kristinus]
-  * ImageResize:
-    - Sprachfile eingefügt [Markus.Staab]
   * BackendSearch:
     - Suchmodus einstellbar global/local [Markus.Staab]
     - Suchqueries via EP modifizierbar [Markus.Staab]
   * MetaInfo: [Markus.Staab]
     - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons
-    - Date/Datetime felder jetzt deaktivierbar
-      + http://forum.redaxo.de/ftopic9032.html
-    - isInUse Check beim löschen von Medien auch für MetaInfo Felder
-      + http://forum.redaxo.de/ftopic8835.html
-  * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * rexVars:
     - REX_LINKLIST_BUTTON[] implementiert [BerserkerXP, Markus.Staab]
     - REX_CATEGORY[] implementiert [Markus.Staab]
@@ -92,6 +70,34 @@ Version 4.2.0 (2008-XX-XX)
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
     - PAGE_CHECKED [Markus.Staab]
     - ART_INIT wird im Kontruktor von rex_article verwendet [Jan.kristinus]
+
+  Änderungen:
+  * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
+  * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
+  * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
+  * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert [Jan.Kristinus]
+  * Template/Module/Benutzerverwaltung hat nun immer eine ID in der Liste [Jan.Kristinus]
+  * OOFramework:
+    - OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab]
+      + siehe http://forum.redaxo.de/ftopic9816.html
+      + OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
+  * JQuery update auf 1.3.1 [Markus.Staab]
+  * Struktur:
+    - Kategorietabelle angepasst [Thomas.Blum]
+  * Module:
+  	- Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
+  * System -> Sprachen:
+    - Tabelle vereinheitlicht [Thomas.Blum]
+  * Benutzerverwaltung:
+    - Backendsprache pro User, sofern es der gleiche Zeichensatz ist [Jan.Kristinus]
+  * ImageResize:
+    - Sprachfile eingefügt [Markus.Staab]
+  * MetaInfo: [Markus.Staab]
+    - Date/Datetime felder jetzt deaktivierbar
+      + http://forum.redaxo.de/ftopic9032.html
+    - isInUse Check beim löschen von Medien auch für MetaInfo Felder
+      + http://forum.redaxo.de/ftopic8835.html
+  * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * EPs angepasst
   	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
     - PAGE_MEDIENPOOL_HEADER umbenannt in PAGE_MEDIAPOOL_HEADER [Markus.Staab]
