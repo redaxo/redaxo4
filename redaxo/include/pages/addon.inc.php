@@ -243,7 +243,7 @@ if ($subpage == '')
 
   foreach ($ADDONS as $addon)
   {
-    $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;%s';
+    $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
     
   	if (OOAddon::isSystemAddon($addon))
   	{
