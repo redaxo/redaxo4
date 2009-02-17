@@ -117,8 +117,56 @@ $REX['ACKEY']['LOGOUT'] = 'l';
 // ------ Accesskeys for Addons
 // $REX['ACKEY']['ADDON']['metainfo'] = 'm';
 
+// ----------------- REX PERMS
+
+// ----- allgemein
+$REX['PERM'] = array();
+$REX['PERM'][] = 'addon[]';
+$REX['PERM'][] = 'specials[]';
+$REX['PERM'][] = 'mediapool[]';
+$REX['PERM'][] = 'module[]';
+$REX['PERM'][] = 'template[]';
+$REX['PERM'][] = 'user[]';
+$REX['PERM'][] = 'profile[]';
+
+// ----- optionen
+$REX['EXTPERM'] = array();
+$REX['EXTPERM'][] = 'advancedMode[]';
+$REX['EXTPERM'][] = 'moveSlice[]';
+$REX['EXTPERM'][] = 'copyContent[]';
+$REX['EXTPERM'][] = 'moveArticle[]';
+$REX['EXTPERM'][] = 'copyArticle[]';
+$REX['EXTPERM'][] = 'moveCategory[]';
+$REX['EXTPERM'][] = 'publishArticle[]';
+$REX['EXTPERM'][] = 'publishCategory[]';
+$REX['EXTPERM'][] = 'article2startpage[]';
+$REX['EXTPERM'][] = 'accesskeys[]';
+
+// ----- extras
+$REX['EXTRAPERM'] = array();
+$REX['EXTRAPERM'][] = 'editContentOnly[]';
+
+// ----- standard variables
+$REX['VARIABLES'] = array();
+$REX['VARIABLES'][] = 'rex_var_globals';
+$REX['VARIABLES'][] = 'rex_var_article';
+$REX['VARIABLES'][] = 'rex_var_category';
+$REX['VARIABLES'][] = 'rex_var_template';
+$REX['VARIABLES'][] = 'rex_var_value';
+$REX['VARIABLES'][] = 'rex_var_link';
+$REX['VARIABLES'][] = 'rex_var_media';
+
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
 if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
+
+// ----- SET CLANG
+include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
+
+$REX['CUR_CLANG'] = rex_request("clang","rex-clang-id",$REX['START_CLANG_ID']);
+$REX['ARTICLE_ID'] = rex_request("clang","rex-article-id",$REX['START_ARTICLE_ID']);
+
+// ----- INCLUDE ADDONS
+include_once $REX['INCLUDE_PATH']."/addons.inc.php";

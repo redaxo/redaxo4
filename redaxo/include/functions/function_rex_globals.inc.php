@@ -172,6 +172,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  */
 function _rex_cast_var($var, $vartype)
 {
+  global $REX;
   if(!is_string($vartype))
   {
     trigger_error('String expected for $vartype in _rex_cast_var()!', E_USER_ERROR);
@@ -194,9 +195,21 @@ function _rex_cast_var($var, $vartype)
                       $var = array();
                     else 
                       $var = (array) $var; break;
-// deaktiviert wg rückwärtskompatiblität                      
-//    case 'binary' : $var = (binary)  $var; break;
-    
+    case 'rex-article-id':
+    	$var = (int) $var;echo $var;
+      if(!OOArticle::isValid(OOArticle::getArticleById($var)))
+        $var = (int) $REX['NOTFOUND_ARTICLE_ID']; 
+    	break;
+    case 'rex-category-id':
+      if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
+        $var = (int) -1; 
+    	break;
+    case 'rex-clang-id':
+      $var = (int) $var;
+      if(empty($REX['CLANG'][$var]))
+        $var = (int) $REX['START_CLANG_ID'];
+    	break;
+
     // kein Cast, nichts tun
     case ''       : break;
     

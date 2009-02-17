@@ -8,45 +8,6 @@
 // ----------------- TIMER
 include_once $REX['INCLUDE_PATH']."/functions/function_rex_time.inc.php";
 
-// ----------------- REX PERMS
-
-// ----- allgemein
-$REX['PERM'] = array();
-$REX['PERM'][] = 'addon[]';
-$REX['PERM'][] = 'specials[]';
-$REX['PERM'][] = 'mediapool[]';
-$REX['PERM'][] = 'module[]';
-$REX['PERM'][] = 'template[]';
-$REX['PERM'][] = 'user[]';
-$REX['PERM'][] = 'profile[]';
-
-// ----- optionen
-$REX['EXTPERM'] = array();
-$REX['EXTPERM'][] = 'advancedMode[]';
-$REX['EXTPERM'][] = 'moveSlice[]';
-$REX['EXTPERM'][] = 'copyContent[]';
-$REX['EXTPERM'][] = 'moveArticle[]';
-$REX['EXTPERM'][] = 'copyArticle[]';
-$REX['EXTPERM'][] = 'moveCategory[]';
-$REX['EXTPERM'][] = 'publishArticle[]';
-$REX['EXTPERM'][] = 'publishCategory[]';
-$REX['EXTPERM'][] = 'article2startpage[]';
-$REX['EXTPERM'][] = 'accesskeys[]';
-
-// ----- extras
-$REX['EXTRAPERM'] = array();
-$REX['EXTRAPERM'][] = 'editContentOnly[]';
-
-// ----- standard variables
-$REX['VARIABLES'] = array();
-$REX['VARIABLES'][] = 'rex_var_globals';
-$REX['VARIABLES'][] = 'rex_var_article';
-$REX['VARIABLES'][] = 'rex_var_category';
-$REX['VARIABLES'][] = 'rex_var_template';
-$REX['VARIABLES'][] = 'rex_var_value';
-$REX['VARIABLES'][] = 'rex_var_link';
-$REX['VARIABLES'][] = 'rex_var_media';
-
 // ----------------- REDAXO INCLUDES
 // ----- FUNCTIONS
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_globals.inc.php';
@@ -96,28 +57,3 @@ foreach($REX['VARIABLES'] as $key => $value)
 
 // ----- EXTRA CLASSES
 // include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';
-
-// ----- REQUEST VARS
-// TODO Hier variablen die eigentlich nur im Backend gebraucht werden...!?
-// werden später teilweise auch in der index.php wieder überschrieben...
-$page        = rex_request('page'       , 'string');
-$subpage     = rex_request('subpage'    , 'string');
-$article_id  = rex_request('article_id' , 'int');
-$clang       = rex_request('clang'      , 'int', $REX['START_CLANG_ID']);
-$category_id = rex_request('category_id', 'int');
-$ctype       = rex_request('ctype'      , 'int');
-
-// ----- SET CLANG
-include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
-
-if(empty($REX['CLANG'][$clang]))
-{
-  $REX['CUR_CLANG'] = $REX['START_CLANG_ID'];
-  $clang = $REX['START_CLANG_ID'];
-}else
-{
-  $REX['CUR_CLANG'] = $clang;
-}
-
-// ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH']."/addons.inc.php";

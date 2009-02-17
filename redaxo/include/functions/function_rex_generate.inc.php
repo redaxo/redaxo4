@@ -17,7 +17,7 @@ function rex_generateAll()
   global $REX, $I18N;
 
   // ----------------------------------------------------------- generated löschen
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', 0);
+  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
   
   // ----------------------------------------------------------- generiere clang
   $lg = new rex_sql();

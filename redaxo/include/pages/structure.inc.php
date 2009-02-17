@@ -6,52 +6,20 @@
  * @version $Id: structure.inc.php,v 1.7 2008/03/21 19:45:17 kristinus Exp $
  */
 
-require $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
-require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
+// request vars
+$category_id = rex_request('category_id', 'rex-category-id','');
+$article_id  = rex_request('article_id', 'rex-article-id','');
+$clang       = rex_request('clang', 'rex-clang-id');
+$ctype       = rex_request('ctype', 'int');
+$edit_id     = rex_request('edit_id', 'rex-category-id','');
+$function    = rex_request('function', 'string');
 
 $info = '';
 $warning = '';
 
-// request vars
-$category_id = rex_request('category_id', 'int');
-$article_id  = rex_request('article_id', 'int');
-$clang       = rex_request('clang', 'int');
-$edit_id     = rex_request('edit_id', 'int');
-$function    = rex_request('function', 'string');
+require $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
+require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
 
-// --------------------------------------------- EXISTIERT DIESER ZU EDITIERENDE ARTIKEL ?
-// TODO Abfragen via OOF?
-if ($edit_id)
-{
-  $thisCat = new rex_sql;
-  $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id ='.$edit_id.' and clang ='.$clang);
-
-  if ($thisCat->getRows() != 1)
-  {
-    unset ($edit_id, $thisCat);
-  }
-}
-else
-{
-  unset ($edit_id);
-}
-
-// --------------------------------------------- EXISTIERT DIESER ARTIKEL ?
-// TODO Abfragen via OOF?
-if ($article_id)
-{
-  $thisArt = new rex_sql;
-  $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
-
-  if ($thisArt->getRows() != 1)
-  {
-    unset ($article_id, $thisArt);
-  }
-}
-else
-{
-  unset ($article_id);
-}
 
 // --------------------------------------------- TITLE
 
@@ -492,7 +460,7 @@ if ($category_id > -1)
         <legend><span>'.$I18N->msg('article_add') .'</span></legend>
         <input type="hidden" name="page" value="structure" />
         <input type="hidden" name="category_id" value="'. $category_id .'" />';
-    if (isset($article_id)) echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
+    if ($article_id != "") echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
     echo '
         <input type="hidden" name="clang" value="'. $clang .'" />';
   }
@@ -597,7 +565,7 @@ if ($category_id > -1)
 
     // --------------------- ARTIKEL EDIT FORM
 
-    if ($function == 'edit_art' && isset ($article_id) && $sql->getValue('id') == $article_id && $KATPERM)
+    if ($function == 'edit_art' && $sql->getValue('id') == $article_id && $KATPERM)
     {
       $add_td = '';
       if ($REX_USER->hasPerm('advancedMode[]'))

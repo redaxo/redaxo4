@@ -13,7 +13,6 @@
 // - <? ?> $ Problematik bei REX_ACTION
 */
 
-require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
 
 unset ($REX_ACTION);
 
@@ -21,11 +20,14 @@ $category_id = rex_request('category_id', 'int');
 $article_id  = rex_request('article_id', 'int');
 $slice_id    = rex_request('slice_id', 'int', '');
 $function    = rex_request('function', 'string');
+
 $article_revision = 0;
 $slice_revision = 0;
 
 $warning = '';
 $info = '';
+
+require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
 
 $article = new rex_sql;
 $article->setQuery("
@@ -38,8 +40,6 @@ $article->setQuery("
 		WHERE
 			article.id='$article_id'
 			AND clang=$clang");
-
-
 
 
 if ($article->getRows() == 1)
