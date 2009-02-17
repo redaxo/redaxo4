@@ -18,7 +18,7 @@ class OOCategory extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  function getCategoryById($category_id = false, $clang = false)
+  function getCategoryById($category_id, $clang = false)
   {
     global $REX;
 
