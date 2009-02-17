@@ -243,7 +243,7 @@ class rex_file_cache extends rex_cache
     
     if(is_null($lifetime)) $lifetime = 86400;
     
-    $this->setCacheDir($REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files');
+    $this->setCacheDir($REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated');
     parent::rex_cache($lifetime);
   }
   
@@ -525,5 +525,24 @@ class rex_file_cache extends rex_cache
     }
     
     $this->cache_dir = $cache_dir;
+  }
+}
+
+class rex_cache_config
+{
+  function articleCache($article_id, $clang, $additionalCacheId = '')
+  {
+    $additionalCacheId = $additionalCacheId != '' ? ':'. $additionalCacheId : $additionalCacheId;
+    return 'article:'. $article_id .':'. $clang . $additionalCacheId;
+  }
+  
+  function articleMetaCache($article_id, $clang)
+  {
+    return self::articleCache($article_id, $clang, 'meta');
+  }
+  
+  function articleContentCache($article_id, $clang)
+  {
+    return self::articleCache($article_id, $clang, 'meta');
   }
 }
