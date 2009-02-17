@@ -44,6 +44,12 @@ class rex_login_sql extends rex_sql
   {
     return $this->isAdmin() || $this->hasPerm('csw[0]') || $this->hasPerm('csr[' . $category_id . ']') || $this->hasPerm('csw[' . $category_id . ']');
   }
+  
+  function hasStructurePerm()
+  {
+    return $this->isAdmin() || strpos($this->getValue("rights"), "#csw[") !== false || strpos($this->getValue("rights"), "#csr[") !== false;
+  }
+  
 }
 
 class rex_login

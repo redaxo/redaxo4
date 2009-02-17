@@ -119,7 +119,7 @@ else
 		$pages["PROFILE"] = array($I18N->msg("profile"),0,1);
 		$pages["CREDITS"] = array($I18N->msg("credits"),0,1);
 
-		if ($REX_USER->isAdmin() || ($REX_USER->hasPerm('clang[') AND ($REX_USER->hasPerm('csw[') || $REX_USER->hasPerm('csr['))))
+		if ($REX_USER->isAdmin() || $REX_USER->hasStructurePerm())
 		{
 			$pages["STRUCTURE"] = array($I18N->msg("structure"),0,1);
 			$pages["MEDIAPOOL"] = array($I18N->msg("mediapool"),0,0);
