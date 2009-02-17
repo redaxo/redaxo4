@@ -7,11 +7,11 @@
  */
 
 // request vars
-$category_id = rex_request('category_id', 'rex-category-id','');
-$article_id  = rex_request('article_id', 'rex-article-id','');
+$category_id = rex_request('category_id', 'rex-category-id', 0);
+$article_id  = rex_request('article_id', 'rex-article-id', 0);
 $clang       = rex_request('clang', 'rex-clang-id');
 $ctype       = rex_request('ctype', 'int');
-$edit_id     = rex_request('edit_id', 'rex-category-id','');
+$edit_id     = rex_request('edit_id', 'rex-category-id', 0);
 $function    = rex_request('function', 'string');
 
 $info = '';
