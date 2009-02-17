@@ -29,6 +29,7 @@ class rex_com_board
 	// ----- konstruktor
 	function rex_com_board()
 	{
+		global $REX;
 		$this->addlink = array();
 		$this->admin = false;
 		$this->setBoardname("standard");
@@ -36,7 +37,7 @@ class rex_com_board
 		$this->setLang("de");
 		$this->setArticleId(1);
 		$this->msg = array();
-		$this->setFormPostAction("index.php");
+		$this->setFormPostAction($REX["FRONTEND_FILE"]);
 		$this->debug = FALSE;
 		$this->setUserjoin();
 		$this->setLinkUser("",0);

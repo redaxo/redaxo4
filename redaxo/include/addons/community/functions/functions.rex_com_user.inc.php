@@ -243,7 +243,7 @@ class rex_com_user
 		
 			$echo .= '<div id="rex-form" class="com-guestbook-form spcl-bgcolor">
 			
-			<form action="index.php" method="post" id="guestbookform">
+			<form action="'.$REX["FRONTEND_FILE"].'" method="post" id="guestbookform">
 			
 			<h2>Einen neuen Eintrag schreiben</h2>
 
@@ -694,17 +694,17 @@ function rex_com_showUser(&$sql, $style="mini", $table="", $linked = TRUE)
 	if ($style == "mini")
 	{
 		$return = '<div class="profile-mini '.$admin_class.'">';
-		$return .= '<img src="index.php?rex_resize=50a__'.$img.'" class="flLeft" />';
+		$return .= '<img src="'.$REX["FRONTEND_FILE"].'?rex_resize=50a__'.$img.'" class="flLeft" />';
 		$return .= '<p>'.htmlspecialchars($sql->getValue("$table.firstname"))."<br />".htmlspecialchars($sql->getValue("$table.name")).'</p>';
 		$return .= '</div>';
 		$premium_class = "";
 	}elseif($style == "image")
 	{
-		$return .= '<img src="index.php?rex_resize=50a__'.$img.'" class="flLeft" />';
+		$return .= '<img src="'.$REX["FRONTEND_FILE"].'?rex_resize=50a__'.$img.'" class="flLeft" />';
 		$premium_class = "";
 	}elseif($style == "image_big")
 	{
-		$return .= '<img src="index.php?rex_resize=150a__'.$img.'" />';
+		$return .= '<img src="'.$REX["FRONTEND_FILE"].'?rex_resize=150a__'.$img.'" />';
 	}elseif($style == "name")
 	{
 		$return = nl2br(htmlspecialchars($sql->getValue("$table.firstname")." ".$sql->getValue("$table.name")));
@@ -713,7 +713,7 @@ function rex_com_showUser(&$sql, $style="mini", $table="", $linked = TRUE)
 		$return = nl2br(htmlspecialchars($sql->getValue("$table.city")));
 	}elseif($style == "url")
 	{
-		$return = 'index.php?article_id='.REX_COM_PAGE_PROFIL_ID.'&user_id='.$sql->getValue("$table.id");
+		$return = ''.$REX["FRONTEND_FILE"].'?article_id='.REX_COM_PAGE_PROFIL_ID.'&user_id='.$sql->getValue("$table.id");
 		$linked = FALSE;
 	}else
 	{
