@@ -26,7 +26,6 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.rex_article.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_template.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_login.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_addon.inc.php';
-include_once $REX['INCLUDE_PATH'].'/classes/class.rex_cache.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_navigation.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooredaxo.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oocategory.inc.php';
