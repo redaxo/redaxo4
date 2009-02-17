@@ -146,7 +146,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
     return _rex_cast_var($haystack[$needle], $vartype);
   }
 
-  if($default === '')
+  if($default === '' && substr($vartype, 0, 3) != 'rex')
   {
     return _rex_cast_var($default, $vartype);
   }
@@ -183,24 +183,39 @@ function _rex_cast_var($var, $vartype)
   {
     // Variable Casten    
     case 'bool'   :
-    case 'boolean': $var = (boolean) $var; break; 
+    case 'boolean':
+      $var = (boolean) $var;
+      break; 
     case 'int'    : 
-    case 'integer': $var = (int)     $var; break; 
-    case 'double' : $var = (double)  $var; break; 
+    case 'integer':
+      $var = (int)     $var;
+      break; 
+    case 'double' :
+      $var = (double)  $var;
+      break; 
     case 'float'  :
-    case 'real'   : $var = (float)   $var; break; 
-    case 'string' : $var = (string)  $var; break; 
-    case 'object' : $var = (object)  $var; break; 
-    case 'array'  : if(empty($var))
-                      $var = array();
-                    else 
-                      $var = (array) $var; break;
+    case 'real'   :
+      $var = (float)   $var;
+      break; 
+    case 'string' :
+      $var = (string)  $var;
+      break; 
+    case 'object' :
+      $var = (object)  $var;
+      break; 
+    case 'array'  :
+      if(empty($var))
+        $var = array();
+      else 
+        $var = (array) $var;
+      break;
     case 'rex-article-id':
-    	$var = (int) $var;echo $var;
+    	$var = (int) $var;
       if(!OOArticle::isValid(OOArticle::getArticleById($var)))
         $var = (int) $REX['NOTFOUND_ARTICLE_ID']; 
     	break;
     case 'rex-category-id':
+    	$var = (int) $var;
       if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
         $var = (int) -1; 
     	break;
