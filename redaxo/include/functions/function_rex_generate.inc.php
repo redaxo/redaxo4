@@ -60,7 +60,7 @@ function rex_deleteCacheArticle($id, $clang = null)
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    if($clang && $clang != $_clang)
+    if($clang !== null && $clang != $_clang)
       continue;
       
     @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.article');
@@ -77,7 +77,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
   
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    if($clang && $clang != $_clang)
+    if($clang !== null && $clang != $_clang)
       continue;
     
     $CONT = new rex_article;
@@ -122,7 +122,7 @@ function rex_generateArticleContent($article_id, $clang = null)
   
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    if($clang && $clang != $_clang)
+    if($clang !== null && $clang != $_clang)
       continue;
       
     $CONT = new rex_article;
@@ -321,9 +321,9 @@ function rex_generateLists($re_id, $clang = null)
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    if($clang && $clang != $_clang)
+    if($clang !== null && $clang != $_clang)
       continue;
-    
+        
     // --------------------------------------- ARTICLE LIST
 
     $GC = new rex_sql;
