@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Verwaltung der Inhalte. EditierModul / Metadaten ...
  * @package redaxo4
@@ -13,11 +12,11 @@
 // - <? ?> $ Problematik bei REX_ACTION
 */
 
-
 unset ($REX_ACTION);
 
-$category_id = rex_request('category_id', 'int');
-$article_id  = rex_request('article_id', 'int');
+$category_id = rex_request('category_id', 'rex-category-id');
+$article_id  = rex_request('article_id', 'rex-article-id');
+$clang       = rex_request('clang', 'rex-clang-id', $REX['START_CLANG_ID']);
 $slice_id    = rex_request('slice_id', 'int', '');
 $function    = rex_request('function', 'string');
 

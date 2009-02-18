@@ -7,11 +7,11 @@
  */
 
 // request vars
-$category_id = rex_request('category_id', 'rex-category-id', 0);
-$article_id  = rex_request('article_id', 'rex-article-id', 0);
-$clang       = rex_request('clang', 'rex-clang-id');
-$ctype       = rex_request('ctype', 'int');
-$edit_id     = rex_request('edit_id', 'rex-category-id', 0);
+$category_id = rex_request('category_id', 'rex-category-id');
+$article_id  = rex_request('article_id', 'rex-article-id');
+$clang       = rex_request('clang', 'rex-clang-id', $REX['START_CLANG_ID']);
+$ctype       = rex_request('ctype', 'rex-ctype-id');
+$edit_id     = rex_request('edit_id', 'rex-category-id');
 $function    = rex_request('function', 'string');
 
 $info = '';
@@ -48,7 +48,7 @@ if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
   else
     $warning = $message;
 }
-elseif ($function == 'catdelete_function' && $edit_id != "" && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
   list($success, $message) = rex_deleteCategoryReorganized($edit_id, $clang);
@@ -227,7 +227,6 @@ echo '
           </tr>
         </thead>
         <tbody>';
-
 if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id)))
 {
   echo '<tr>
@@ -277,7 +276,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]
 // --------------------- KATEGORIE LIST
 
 $KAT = new rex_sql;
-//$KAT->debugsql = true;
+// $KAT->debugsql = true;
 $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 
 for ($i = 0; $i < $KAT->getRows(); $i++)

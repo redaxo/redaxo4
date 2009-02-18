@@ -57,9 +57,13 @@ function rex_session($varname, $vartype = '', $default = '')
 
   if(isset($_SESSION[$varname][$REX['INSTNAME']]))
   {
-    return _rex_cast_var($_SESSION[$varname][$REX['INSTNAME']], $vartype);
+    return _rex_cast_var($_SESSION[$varname][$REX['INSTNAME']], $vartype, $default, 'found');
   }
   
+  if($default === '')
+  {
+    return _rex_cast_var($default, $vartype, $default, 'default');
+  }
   return $default;
 }
 
@@ -143,12 +147,12 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
   
   if(array_key_exists($needle, $haystack))
   {
-    return _rex_cast_var($haystack[$needle], $vartype);
+    return _rex_cast_var($haystack[$needle], $vartype, $default, 'found');
   }
 
-  if($default === '' && substr($vartype, 0, 3) != 'rex')
+  if($default === '')
   {
-    return _rex_cast_var($default, $vartype);
+    return _rex_cast_var($default, $vartype, $default, 'default');
   }
   return $default;
 }
@@ -165,12 +169,16 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - real
  *  - object
  *  - array
- *  - binary
- *  *  - '' (nicht casten)
+ *  - rex-article-id
+ *  - rex-category-id
+ *  - rex-clang-id
+ *  - rex-template-id
+ *  - rex-ctype-id
+ *  - '' (nicht casten)
  * 
  * @access private
  */
-function _rex_cast_var($var, $vartype)
+function _rex_cast_var($var, $vartype, $default, $mode)
 {
   global $REX;
   if(!is_string($vartype))
@@ -181,7 +189,49 @@ function _rex_cast_var($var, $vartype)
   
   switch($vartype)
   {
-    // Variable Casten    
+    // ---------------- REDAXO types
+    case 'rex-article-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        if(!OOArticle::isValid(OOArticle::getArticleById($var)))
+          $var = (int) $default; 
+      }
+      break;
+    case 'rex-category-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
+          $var = (int) $default;
+      } 
+      break;
+    case 'rex-clang-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        if(empty($REX['CLANG'][$var]))
+          $var = (int) $default;
+      }
+      break;
+    case 'rex-template-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        // erstmal keine weitere validierung von template id
+        $var = (int) $default;
+      }
+      break;
+    case 'rex-ctype-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        // erstmal keine weitere validierung von ctype id
+        $var = (int) $default;
+      }
+      break;
+      
+    // ---------------- PHP types
     case 'bool'   :
     case 'boolean':
       $var = (boolean) $var;
@@ -209,21 +259,6 @@ function _rex_cast_var($var, $vartype)
       else 
         $var = (array) $var;
       break;
-    case 'rex-article-id':
-    	$var = (int) $var;
-      if(!OOArticle::isValid(OOArticle::getArticleById($var)))
-        $var = (int) $REX['NOTFOUND_ARTICLE_ID']; 
-    	break;
-    case 'rex-category-id':
-    	$var = (int) $var;
-      if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
-        $var = (int) -1; 
-    	break;
-    case 'rex-clang-id':
-      $var = (int) $var;
-      if(empty($REX['CLANG'][$var]))
-        $var = (int) $REX['START_CLANG_ID'];
-    	break;
 
     // kein Cast, nichts tun
     case ''       : break;
