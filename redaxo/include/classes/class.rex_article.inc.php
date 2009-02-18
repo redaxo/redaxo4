@@ -97,7 +97,17 @@ class rex_article
     if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = $REX['CUR_CLANG'];
     $this->clang = $value;
   }
+  
+  function getArticleId()
+  {
+    return $this->article_id;
+  }
 
+  function getClang()
+  {
+    return $this->clang;
+  }
+  
   function setArticleId($article_id)
   {
     global $REX;

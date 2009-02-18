@@ -50,6 +50,8 @@ function rex_send_file($file, $contentType, $environment = 'backend')
  */
 function rex_send_article($REX_ARTICLE, $content, $environment)
 {
+  global $REX;
+  
   // ----- EXTENSION POINT
   $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
 
@@ -62,6 +64,9 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
   {
     $lastModified = $REX_ARTICLE->getValue('updatedate');
     $etag .= $REX_ARTICLE->getValue('pid');
+    
+    if($REX_ARTICLE->getArticleId() == $REX['NOTFOUND_ARTICLE_ID'])
+      header("HTTP/1.0 404 Not Found");
   }
   else
   {
