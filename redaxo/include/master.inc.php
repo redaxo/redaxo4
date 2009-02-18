@@ -166,7 +166,11 @@ if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php'
 include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
-$REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['START_ARTICLE_ID']);
+
+if(rex_request('article_id', 'int') == 0)
+  $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
+else
+  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
 
 // ----- INCLUDE ADDONS
 include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
