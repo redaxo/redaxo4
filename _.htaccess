@@ -1,4 +1,5 @@
 RewriteEngine On
-# RewriteBase /
+RewriteBase /
+#RewriteRule ^files/(*.) /index.php?rex_media=$1&%{QUERY_STRING} [NC]
 RewriteRule ^([0-9]*)-([0-9]*)- index.php?article_id=$1&clang=$2&%{QUERY_STRING}
 RewriteRule ^([0-9]*)- index.php?article_id=$1&%{QUERY_STRING}

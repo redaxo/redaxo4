@@ -41,25 +41,15 @@ $REX['GG'] = true;
 $REX['HTDOCS_PATH'] = './';
 include './redaxo/include/master.inc.php';
 
-// Starte einen neuen Artikel und setzte die aktuelle
-// artikel id. wenn nicht vorhanden, nimm einen
-// speziellen artikel. z.b. fehler seite oder home seite
-$article_id = rex_request("article_id","int",$REX['START_ARTICLE_ID']);
-
 $REX["ARTICLE"] = new rex_article;
-$REX["ARTICLE"]->setCLang($clang);
+$REX["ARTICLE"]->setCLang($REX['CUR_CLANG']);
 
 if($REX['SETUP'])
 {
 	header('Location: redaxo/index.php');
 	exit();
-}elseif ($REX["ARTICLE"]->setArticleId($article_id))
+}elseif ($REX["ARTICLE"]->setArticleId($REX["ARTICLE_ID"]))
 {
-	$REX["ARTICLE_ID"] = $article_id;
-	echo $REX["ARTICLE"]->getArticleTemplate();
-}elseif($REX["ARTICLE"]->setArticleId($REX['NOTFOUND_ARTICLE_ID']))
-{
-	$REX["ARTICLE_ID"] = $REX['NOTFOUND_ARTICLE_ID'];
 	echo $REX["ARTICLE"]->getArticleTemplate();
 }else
 {
