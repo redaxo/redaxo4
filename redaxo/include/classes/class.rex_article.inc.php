@@ -142,7 +142,7 @@ class rex_article
 	   	  if ($this->ARTICLE->getRows() == 1)
      	  {
      	  	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
-     	  	rex_generateArticle($article_id);
+     	  	rex_generateArticleMeta($article_id, $this->clang);
      	  	if (@include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
 	     		{
   	    		$this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
