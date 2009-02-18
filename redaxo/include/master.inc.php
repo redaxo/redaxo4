@@ -13,7 +13,7 @@ if (!$REX['GG']) $REX['GG'] = false;
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = false;
+$REX['SETUP'] = true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
@@ -95,7 +95,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_trunk";
+$REX['DB']['1']['NAME'] = "redaxo_4_2_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
