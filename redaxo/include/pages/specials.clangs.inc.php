@@ -138,6 +138,12 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   
   $add_td = '';      
   $add_td = '<td class="rex-small">'.$lang_id.'</td>';
+  
+  $delLink = $I18N->msg('clang_delete');
+  if($lang_id == 0)
+   $delLink = '<span class="rex-strike">'. $delLink .'</span>';
+  else
+    $delLink = '<a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $delLink .'</a>';
     
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
@@ -158,7 +164,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
             <td class="rex-small"></td>
             '.$add_td.'
             <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
-            <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('clang_delete').'</a></td>
+            <td>'. $delLink .'</td>
           </tr>';
   }
 }
