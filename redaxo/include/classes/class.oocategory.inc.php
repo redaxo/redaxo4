@@ -153,16 +153,7 @@ class OOCategory extends OORedaxo
   function isAncestor($other_cat)
   {
     $category = OOCategory :: _getCategoryObject($other_cat);
-    $expl = explode('|', $category->_path);
-    if ($expl[1] != "")
-    {
-      if (in_array($this->_id, $expl))
-      {
-        return true;
-      }
-    }
-
-    return false;
+    return in_array($this->_id, explode('|', $category->getPath()));
   }
 
   /*

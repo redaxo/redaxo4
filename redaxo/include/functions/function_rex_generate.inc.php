@@ -60,16 +60,98 @@ function rex_deleteCacheArticle($id, $clang = null)
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    if(!$clang || $clang && $clang == $_clang)
-    {
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.article');
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.content');
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.alist');
-      @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.clist');
-    }
-	}
+    if($clang && $clang != $_clang)
+      continue;
+      
+    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.article');
+    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.content');
+    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.alist');
+    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.clist');
+  }
 }
 
+
+function rex_generateArticleMeta($article_id, $clang = null)
+{
+  global $REX, $I18N;
+  
+  foreach($REX['CLANG'] as $_clang => $clang_name)
+  {
+    if($clang && $clang != $_clang)
+      continue;
+    
+    $CONT = new rex_article;
+    $CONT->setCLang($_clang);
+    $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
+    $CONT->setEval(FALSE); // Content nicht ausfŸhren, damit in Cachedatei gespeichert werden kann
+    if (!$CONT->setArticleId($article_id)) return false;
+
+    // --------------------------------------------------- Artikelparameter speichern
+    $params = array(
+      'article_id' => $article_id,
+      'last_update_stamp' => time()
+    );
+
+    $class_vars = OORedaxo::getClassVars();
+    unset($class_vars[array_search('id', $class_vars)]);
+    $db_fields = $class_vars;
+
+    foreach($db_fields as $field)
+      $params[$field] = $CONT->getValue($field);
+
+    $content = '<?php'."\n";
+    foreach($params as $name => $value)
+    {
+      $content .='$REX[\'ART\']['. $article_id .'][\''. $name .'\']['. $_clang .'] = \''. rex_addslashes($value,'\\\'') .'\';'."\n";
+    }
+    $content .= '?>';
+    
+    $article_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.article";
+    if (rex_put_file_contents($article_file, $content) === false)
+    {
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+    }
+  }
+  
+  return true;
+}
+
+function rex_generateArticleContent($article_id, $clang = null)
+{
+  global $REX, $I18N;
+  
+  foreach($REX['CLANG'] as $_clang => $clang_name)
+  {
+    if($clang && $clang != $_clang)
+      continue;
+      
+    $CONT = new rex_article;
+    $CONT->setCLang($_clang);
+    $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
+    $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
+    if (!$CONT->setArticleId($article_id)) return false;
+  
+    // --------------------------------------------------- Artikelcontent speichern
+    $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.content";
+    $article_content = "?>".$CONT->getArticle();
+  
+    // ----- EXTENSION POINT
+    $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
+      array (
+        'id' => $article_id,
+        'clang' => $_clang,
+        'article' => $CONT
+      )
+    );
+  
+    if (rex_put_file_contents($article_content_file, $article_content) === false)
+    {
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+    }
+  }
+  
+  return true;
+}
 
 /**
  * Generiert alle *.article u. *.content Dateien eines Artikels/einer Kategorie
@@ -91,63 +173,24 @@ function rex_generateArticle($id, $refreshall = true)
   // ---> artikel liste
   // ---> category liste
 
-  // --------------------------------------------------- generiere generated/articles/xx.article
-
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    $MSG = '';
     $CONT = new rex_article;
     $CONT->setCLang($clang);
     $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
-    $CONT->setEval(FALSE); // Content nicht ausfŸhren, damit in Cachedatei gespeichert werden kann
+    $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($id)) return false;
-
-    // --------------------------------------------------- Artikelparameter speichern
-    $params = array(
-      'article_id' => $id,
-      'last_update_stamp' => time()
-    );
-
-    $class_vars = OORedaxo::getClassVars();
-    unset($class_vars[array_search('id', $class_vars)]);
-    $db_fields = $class_vars;
-
-    foreach($db_fields as $field)
-      $params[$field] = $CONT->getValue($field);
-
-    $content = '<?php'."\n";
-    foreach($params as $name => $value)
+      
+    // ----------------------- generiere generated/articles/xx.article
+    $MSG = rex_generateArticleMeta($id, $clang);
+    if($MSG === false) return false;
+    
+    if($refreshall)
     {
-      $content .='$REX[\'ART\']['. $id .'][\''. $name .'\']['. $clang .'] = \''. rex_addslashes($value,'\\\'') .'\';'."\n";
+      // ----------------------- generiere generated/articles/xx.content
+      $MSG = rex_generateArticleContent($id, $clang);
+      if($MSG === false) return false;
     }
-    $content .= '?>';
-
-    $article_file = $REX['INCLUDE_PATH']."/generated/articles/$id.$clang.article";
-    if (rex_put_file_contents($article_file, $content) === false)
-    {
-      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
-    }
-
-    // --------------------------------------------------- Artikelcontent speichern
-  	if ($refreshall)
-	  {
-      $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$id.$clang.content";
-      $article_content = "?>".$CONT->getArticle();
-
-      // ----- EXTENSION POINT
-      $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
-        array (
-          'id' => $id,
-          'clang' => $clang,
-          'article' => $CONT
-        )
-      );
-
-	    if (rex_put_file_contents($article_content_file, $article_content) === false)
-	    {
-	      $MSG = $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
-	    }
-	  }
 
     // ----- EXTENSION POINT
     $MSG = rex_register_extension_point('CLANG_ARTICLE_GENERATED', '',
@@ -264,9 +307,9 @@ function _rex_deleteArticle($id)
  *
  * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
  */
-function rex_generateLists($re_id)
+function rex_generateLists($re_id, $clang = null)
 {
-  global $REX;
+  global $REX, $I18N;
 
   // generiere listen
   //
@@ -276,13 +319,16 @@ function rex_generateLists($re_id)
   // --> catgorie listen
   //
 
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach($REX['CLANG'] as $_clang => $clang_name)
   {
+    if($clang && $clang != $_clang)
+      continue;
+    
     // --------------------------------------- ARTICLE LIST
 
     $GC = new rex_sql;
     // $GC->debugsql = 1;
-    $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where (re_id=$re_id and clang=$clang and startpage=0) OR (id=$re_id and clang=$clang and startpage=1) order by prior,name");
+    $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
     $content = "<?php\n";
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
@@ -292,13 +338,16 @@ function rex_generateLists($re_id)
     }
     $content .= "\n?>";
 
-    $article_list_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.alist";
-    rex_put_file_contents($article_list_file, $content);
+    $article_list_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$_clang.alist";
+    if (rex_put_file_contents($article_list_file, $content) === false)
+    {
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+    }
 
     // --------------------------------------- CAT LIST
 
     $GC = new rex_sql;
-    $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id=$re_id and clang=$clang and startpage=1 order by catprior,name");
+    $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
     $content = "<?php\n";
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
@@ -308,9 +357,14 @@ function rex_generateLists($re_id)
     }
     $content .= "\n?>";
 
-    $article_categories_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$clang.clist";
-    rex_put_file_contents($article_categories_file, $content);
+    $article_categories_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$_clang.clist";
+    if (rex_put_file_contents($article_categories_file, $content) === false)
+    {
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+    }
   }
+  
+  return true;
 }
 
 /**
@@ -398,10 +452,10 @@ function rex_deleteCLang($clang)
 
   $content = "";
 
-  foreach($REX['CLANG'] as $cur => $val)
+  foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    if ($cur != $clang)
-      $content .= "\$REX['CLANG']['$cur'] = \"$val\";\n";
+    if ($_clang != $clang)
+      $content .= "\$REX['CLANG']['$_clang'] = \"$clang_name\";\n";
   }
 
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
@@ -441,9 +495,9 @@ function rex_addCLang($id, $name)
   $REX['CLANG'][$id] = $name;
 
   $content = "";
-  foreach($REX['CLANG'] as $cur => $val)
+  foreach($REX['CLANG'] as $_clang => $clang_name)
   {
-    $content .= "\$REX['CLANG']['$cur'] = \"$val\";\n";
+    $content .= "\$REX['CLANG']['$_clang'] = \"$clang_name\";\n";
   }
 
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
