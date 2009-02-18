@@ -13,7 +13,7 @@ if (!$REX['GG']) $REX['GG'] = false;
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
+$REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
@@ -73,7 +73,7 @@ $REX['TABLE_PREFIX']  = 'rex_';
 $REX['TEMP_PREFIX']   = 'tmp_';
 
 // Frontenddatei
-$REX["FRONTEND_FILE"]	= 'index.php';
+$REX['FRONTEND_FILE']	= 'index.php';
 
 // Passwortverschlüsselung, z.B: md5 / mcrypt ...
 $REX['PSWFUNC'] = "";
@@ -95,7 +95,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_2_0";
+$REX['DB']['1']['NAME'] = "redaxo_trunk";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
@@ -165,8 +165,8 @@ if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php'
 // ----- SET CLANG
 include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
 
-$REX['CUR_CLANG'] = rex_request("clang","rex-clang-id",$REX['START_CLANG_ID']);
-$REX['ARTICLE_ID'] = rex_request("clang","rex-article-id",$REX['START_ARTICLE_ID']);
+$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
+$REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['START_ARTICLE_ID']);
 
 // ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH']."/addons.inc.php";
+include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
