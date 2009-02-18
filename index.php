@@ -34,21 +34,20 @@ $REX['REDAXO'] = false;
 // Wenn $REX[GG] = true; dann wird der
 // Content aus den redaxo/include/generated/
 // genommen
-
 $REX['GG'] = true;
 
 // setzte pfad und includiere klassen und funktionen
 $REX['HTDOCS_PATH'] = './';
 include './redaxo/include/master.inc.php';
 
-$REX["ARTICLE"] = new rex_article;
-$REX["ARTICLE"]->setCLang($REX['CUR_CLANG']);
+$REX['ARTICLE'] = new rex_article;
+$REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
 if($REX['SETUP'])
 {
 	header('Location: redaxo/index.php');
 	exit();
-}elseif ($REX["ARTICLE"]->setArticleId($REX["ARTICLE_ID"]))
+}elseif ($REX["ARTICLE"]->setArticleId($REX['ARTICLE_ID']))
 {
 	echo $REX["ARTICLE"]->getArticleTemplate();
 }else
@@ -62,4 +61,4 @@ $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_send_article($REX["ARTICLE"], $CONTENT, 'frontend');
+rex_send_article($REX['ARTICLE'], $CONTENT, 'frontend');
