@@ -31,7 +31,6 @@ $info = '';
 // ----------------- HELPPAGE
 if ($subpage == 'help' && $addonname != '')
 {
-  $credits = '';
   
   if($pluginname != '')
   {
@@ -39,7 +38,7 @@ if ($subpage == 'help' && $addonname != '')
     $version     = OOPlugin::getVersion($addonname, $pluginname);
     $author      = OOPlugin::getAuthor($addonname, $pluginname);
     $supportPage = OOPlugin::getSupportPage($addonname, $pluginname);
-    $addonname = $addonname .' / '. $pluginname;
+    $addonname   = $addonname .' / '. $pluginname;
   }
   else
   {
@@ -50,6 +49,7 @@ if ($subpage == 'help' && $addonname != '')
   }
   $helpfile .= DIRECTORY_SEPARATOR.'help.inc.php';
   
+  $credits = '';
   $credits .= $I18N->msg("credits_name") .': <span>'. htmlspecialchars($addonname) .'</span><br />';
   if($version) $credits .= $I18N->msg("credits_version") .': <span>'. $version .'</span><br />';
   if($author) $credits .= $I18N->msg("credits_author") .': <span>'. htmlspecialchars($author) .'</span><br />';
@@ -288,45 +288,48 @@ if ($subpage == '')
           <td>'.$delete.'</td>
         </tr>'."\n   ";
 
-    foreach($PLUGINS[$addon] as $plugin)
+    if(OOAddon::isAvailable($addon))
     {
-      $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
-      
-      $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
-      
-      if (OOPlugin::isInstalled($addon, $plugin))
+      foreach($PLUGINS[$addon] as $plugin)
       {
-        $install = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
-        $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+        $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
+        
+        $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
+        
+        if (OOPlugin::isInstalled($addon, $plugin))
+        {
+          $install = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
+          $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+        }
+        else
+        {
+          $install = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_install").'</a>';
+          $uninstall = $I18N->msg("addon_notinstalled");
+        }
+    
+        if (OOPlugin::isActivated($addon, $plugin))
+        {
+          $status = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'activate=0">'.$I18N->msg("addon_deactivate").'</a>';
+        }
+        elseif (OOPlugin::isInstalled($addon, $plugin))
+        {
+          $status = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'activate=1">'.$I18N->msg("addon_activate").'</a>';
+        }
+        else
+        {
+          $status = $I18N->msg("addon_notinstalled");
+        }
+        
+        echo '
+            <tr class="rex-plugin">
+              <td class="rex-icon"></td>
+              <td>'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
+              <td>'.$install.'</td>
+              <td>'.$status.'</td>
+              <td>'.$uninstall.'</td>
+              <td>'.$delete.'</td>
+            </tr>'."\n   ";
       }
-      else
-      {
-        $install = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_install").'</a>';
-        $uninstall = $I18N->msg("addon_notinstalled");
-      }
-  
-      if (OOPlugin::isActivated($addon, $plugin))
-      {
-        $status = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'activate=0">'.$I18N->msg("addon_deactivate").'</a>';
-      }
-      elseif (OOPlugin::isInstalled($addon, $plugin))
-      {
-        $status = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'activate=1">'.$I18N->msg("addon_activate").'</a>';
-      }
-      else
-      {
-        $status = $I18N->msg("addon_notinstalled");
-      }
-      
-      echo '
-          <tr class="rex-plugin">
-            <td class="rex-icon"></td>
-            <td>'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
-            <td>'.$install.'</td>
-            <td>'.$status.'</td>
-            <td>'.$uninstall.'</td>
-            <td>'.$delete.'</td>
-          </tr>'."\n   ";
     }
   }
 
