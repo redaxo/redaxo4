@@ -65,7 +65,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SREID[$slice_id] . "'");
           if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-          rex_generateArticle($slice_article_id);
+          rex_generateArticleContent($slice_article_id, $clang);
           $message = $I18N->msg('slice_moved');
           $success = true;
         }
@@ -83,7 +83,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SID[$slice_id] . "' where id='" . $slice_id . "'");
           if (isset($SID[$SID[$slice_id]]) && $SID[$SID[$slice_id]] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
-          rex_generateArticle($slice_article_id);
+          rex_generateArticleContent($slice_article_id, $clang);
           $message = $I18N->msg('slice_moved');
           $success = true;
         }
@@ -362,7 +362,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     $uc->update();
 
-    rex_generateArticle($to_id,false);
+    rex_generateArticleMeta($to_id,$to_clang);
     return true;
   }
   return false;
@@ -432,7 +432,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     return true;
   }
 
-  rex_generateArticle($to_id);
+  rex_generateArticleContent($to_id, $to_clang);
 
   return true;
 }
