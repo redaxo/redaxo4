@@ -33,16 +33,15 @@ function rex_newsletter_sendmail($userinfo, $aid, $mail_reply, $mail_subject)
 
 	global $REX;
 
-	$tmp_gg = $REX['GG'];
 	$tmp_redaxo = $REX['REDAXO'];
 
-	$REX['GG'] = false;
 	$REX['REDAXO'] = true;
 
 	 // ***** HTML VERSION KOMPLETT
 	$REX_ARTICLE = new rex_article;
 	$REX_ARTICLE->setCLang(0);
 	$REX_ARTICLE->setArticleId($aid);
+	$REX_ARTICLE->getContentAsQuery(TRUE);
 	// $REX_ARTICLE->setTemplateId(xx);
 	$REX['ADDON']['NEWSLETTER_TEXT'] = FALSE;
 	$html_body = $REX_ARTICLE->getArticleTemplate();
@@ -51,6 +50,7 @@ function rex_newsletter_sendmail($userinfo, $aid, $mail_reply, $mail_subject)
 	$REX_ARTICLE = new rex_article;
 	$REX_ARTICLE->setCLang(0);
 	$REX_ARTICLE->setArticleId($aid);
+	$REX_ARTICLE->getContentAsQuery(TRUE);
 	// $REX_ARTICLE->setTemplateId(xx);
 	$REX['ADDON']['NEWSLETTER_TEXT'] = TRUE; // FILTERN VERSION KOMPLETT
 	$text_body = $REX_ARTICLE->getArticle();
@@ -60,7 +60,6 @@ function rex_newsletter_sendmail($userinfo, $aid, $mail_reply, $mail_subject)
 	$text_body = preg_replace("#(\<)(.*)(\>)#imsU", "",  $text_body);
 	$text_body = html_entity_decode($text_body);
 
-	$REX['GG'] = false;
 	$REX['REDAXO'] = true;
 
 	// ***** MAIL VERSAND
@@ -96,7 +95,6 @@ function rex_newsletter_sendmail($userinfo, $aid, $mail_reply, $mail_subject)
 	$mail->Body = $html_body;
 	$mail->Send();
 
-	$REX['GG'] = $tmp_gg;
 	$REX['REDAXO'] = $tmp_redaxo;
 
 }
