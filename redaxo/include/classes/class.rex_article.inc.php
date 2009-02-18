@@ -264,10 +264,20 @@ class rex_article
     {
       if ($this->article_id != 0)
       {
-        $this->content = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
-        if($cont = rex_get_file_contents($this->content))
+        $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
+        if(!file_exists($article_content_file))
         {
-          eval($cont);
+          $generated = rex_generateArticleContent($this->article_id, $this->clang);
+          if($generated !== true)
+          {
+            // fehlermeldung ausgeben
+            echo $generated;
+          }
+        }
+        
+        if(file_exists($article_content_file))
+        {
+          eval (rex_get_file_contents($article_content_file));
         }
       }
     }else
