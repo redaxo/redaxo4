@@ -7,13 +7,14 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.2.0 (2008-XX-XX)
+Version 4.2.0 (2009-XX-XX)
 
   Wichtig:
   * alle Bezeichnungen mit medien wurden in media geändert, d.h. alle Funktionen, Extension-Points 
     und Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
   * in der index REX_ARTICLE -> REX["ARTICLE"], damit ist das Objekt überall verfügbar 
     eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
+  * $REX['GG'] DEPRECATED! 
     
   Neu:
   * Cache layer zum zwischenspeichern von rechenintensiven Aktionen. [Markus.Staab]
@@ -67,6 +68,13 @@ Version 4.2.0 (2008-XX-XX)
     - rex_sql::hasNext() [Markus.Staab]
   * Neue Klassen:
     - rex_navigation, um im Frontend Navigationen leichter erstellen zu können [Jan.kristinus]
+  * rex-globals:
+    - neue vartypes:
+      + rex-article-id
+      + rex-category-id
+      + rex-clang-id
+      + rex-template-id
+      + rex-ctype-id
   * rexExtensionPoint erstellt:
     - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
     - PAGE_CHECKED [Markus.Staab]
