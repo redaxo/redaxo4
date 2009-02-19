@@ -28,14 +28,14 @@ class OOArticle extends OORedaxo
     $article_path = $REX['INCLUDE_PATH'].'/generated/articles/'.$article_id.'.'.$clang.'.article';
     if (!file_exists($article_path))
 		{
-			include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
     	rex_generateArticleMeta($article_id, $clang);
 		}
 
     if (file_exists($article_path))
     {
-  		include_once ($article_path);
-  
+      require_once ($article_path);
+      
       if ($OOCategory)
         return new OOCategory(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
       else
