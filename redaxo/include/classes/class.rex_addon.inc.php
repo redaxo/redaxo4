@@ -65,6 +65,7 @@
     {
       $addons[$nsString] = new rex_addon($namespace); 
     }
+    
     return $addons[$nsString];
   }
   
@@ -152,7 +153,7 @@
    * 
    * @return string Versionsnummer des Addons
    */
-  /*protected static*/ function setProperty($addon, $property, $value)
+  /*public static*/ function setProperty($addon, $property, $value)
   {
     $rexAddon = rex_addon::create($addon);
     
@@ -171,7 +172,7 @@
    * 
    * @return string Wert der Eigenschaft des Addons
    */
-  /*protected static*/ function getProperty($addon, $property, $default = null)
+  /*public static*/ function getProperty($addon, $property, $default = null)
   {
     $rexAddon = rex_addon::create($addon);
     return isset($rexAddon->data[$property][$rexAddon->name]) ? $rexAddon->data[$property][$rexAddon->name] : $default;
