@@ -51,7 +51,7 @@ if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
 elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
-  list($success, $message) = rex_deleteCategoryReorganized($edit_id, $clang);
+  list($success, $message) = rex_deleteCategoryReorganized($edit_id);
 
   if($success)
   {
@@ -82,7 +82,7 @@ elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX_USER->hasPer
   $data['catname']  = rex_post('category_name', 'string');
   $data['path']     = $KATPATH;
 
-  list($success, $message) = rex_addCategory($category_id, $clang, $data);
+  list($success, $message) = rex_addCategory($category_id, $data);
 
   if($success)
     $info = $message;
@@ -114,7 +114,7 @@ elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPER
   $data['category_id'] = $category_id;
   $data['path']        = $KATPATH;
 
-  list($success, $message) = rex_addArticle($category_id, $clang, $data);
+  list($success, $message) = rex_addArticle($category_id, $data);
 
   if($success)
     $info = $message;

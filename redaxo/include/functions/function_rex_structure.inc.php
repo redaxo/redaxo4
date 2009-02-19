@@ -7,7 +7,7 @@
  * @version $Id: function_rex_medienpool.inc.php,v 1.7 2008/03/26 16:26:51 kills Exp $
  */
 
-function rex_addCategory($category_id, $clang, $data)
+function rex_addCategory($category_id, $data)
 {
   global $REX, $I18N;
 
@@ -180,7 +180,7 @@ function rex_editCategory($category_id, $clang, $data)
     $message = $I18N->msg('category_updated');
 
     rex_generateArticle($category_id);
-
+    
     // ----- EXTENSION POINT
     // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
     $message = rex_register_extension_point('CAT_UPDATED', $message,
@@ -207,12 +207,14 @@ function rex_editCategory($category_id, $clang, $data)
   return array($success, $message);
 }
 
-function rex_deleteCategoryReorganized($category_id, $clang)
+function rex_deleteCategoryReorganized($category_id)
 {
   global $REX, $I18N;
 
   $success = false;
   $message = '';
+  
+  $clang = 0;
 
   $thisCat = new rex_sql;
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id.' and clang='. $clang);
@@ -229,18 +231,32 @@ function rex_deleteCategoryReorganized($category_id, $clang)
       // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
       if ($KAT->getRows() == 0)
       {
+        $thisCat = new rex_sql;
+        $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id);
+        
         $re_id = $thisCat->getValue('re_id');
         $message = rex_deleteArticle($category_id);
-
-        // ----- PRIOR
-        foreach($REX['CLANG'] as $clang => $clang_name)
-          rex_newCatPrio($re_id, $clang, 0, 1);
-
-        // ----- EXTENSION POINT
-        $message = rex_register_extension_point('CAT_DELETED', $message, array (
-          'id' => $category_id,
-          're_id' => $re_id
-        ));
+        
+        while($thisCat->hasNext())
+        {
+          $_clang = $thisCat->getValue('clang');
+          
+          // ----- PRIOR
+          rex_newCatPrio($re_id, $_clang, 0, 1);
+          
+          // ----- EXTENSION POINT
+          $message = rex_register_extension_point('CAT_DELETED', $message, array (
+            'id'     => $category_id,
+            're_id'  => $re_id,
+            'clang'  => $_clang,
+            'name'   => $thisCat->getValue('catname'),
+            'prior'  => $thisCat->getValue('catprior'),
+            'path'   => $thisCat->getValue('path'),
+            'status' => $thisCat->getValue('status'),
+          ));
+          
+          $thisCat->next();
+        }
 
         $success = true;
       }
@@ -335,7 +351,7 @@ function rex_categoryStatusTypes()
   return $catStatusTypes;
 }
 
-function rex_addArticle($article_id, $clang, $data)
+function rex_addArticle($article_id, $data)
 {
   global $REX, $I18N;
 
@@ -351,21 +367,20 @@ function rex_addArticle($article_id, $clang, $data)
       $data['prior'] = 1;
   }
 
-  // ------- Kategorienamen holen
-  $category = OOCategory::getCategoryById($data['category_id'], $clang);
-
-  $category_name = '';
-  if($category)
-    $category_name = addslashes($category->getName());
 
   $message = $I18N->msg('article_added');
 
   $AART = new rex_sql;
+//     $AART->debugsql = 1;
   foreach($REX['CLANG'] as $key => $val)
   {
-    // ### erstelle neue prioliste wenn noetig
-
-//     $AART->debugsql = 1;
+    // ------- Kategorienamen holen
+    $category = OOCategory::getCategoryById($data['category_id'], $key);
+  
+    $category_name = '';
+    if($category)
+      $category_name = addslashes($category->getName());
+      
     $AART->setTable($REX['TABLE_PREFIX'].'article');
     if (!isset ($id) or !$id)
       $id = $AART->setNewId('id');
@@ -394,22 +409,24 @@ function rex_addArticle($article_id, $clang, $data)
       $success = false;
       $message = $AART->getError();
     }
+    
+    // ----- EXTENSION POINT
+    $message = rex_register_extension_point('ART_ADDED', $message,
+      array (
+        'id' => $id,
+        'clang' => $key,
+        'status' => 0,
+        'name' => $data['name'],
+        're_id' => $data['category_id'],
+        'prior' => $data['prior'],
+        'path' => $data['path'],
+        'template_id' => $data['template_id']
+      )
+    );
   }
 
   rex_generateArticle($id);
 
-  // ----- EXTENSION POINT
-  $message = rex_register_extension_point('ART_ADDED', $message,
-    array (
-      'id' => $id,
-      'status' => 0,
-      'name' => $data['name'],
-      're_id' => $data['category_id'],
-      'prior' => $data['prior'],
-      'path' => $data['path'],
-      'template_id' => $data['template_id']
-    )
-  );
 
   return array($success, $message);
 }
@@ -435,6 +452,7 @@ function rex_editArticle($article_id, $clang, $data)
   }
 
   $EA = new rex_sql;
+  $EA->debugsql = true;
   $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->setWhere("id='$article_id' and clang=$clang");
   $EA->setValue('name', $data['name']);
@@ -445,11 +463,11 @@ function rex_editArticle($article_id, $clang, $data)
   if($EA->update())
   {
     $message = $I18N->msg('article_updated');
-
+    
     // ----- PRIOR
     rex_newArtPrio($data['category_id'], $clang, $data['prior'], $thisArt->getValue('prior'));
     rex_generateArticle($article_id);
-
+        
     // ----- EXTENSION POINT
     $message = rex_register_extension_point('ART_UPDATED', $message,
       array (
@@ -470,6 +488,10 @@ function rex_editArticle($article_id, $clang, $data)
   {
     $message = $EA->getError();
   }
+  sleep(2);
+        $ooa = OOArticle::getArticleById($article_id, $clang);
+        $name = $ooa->getName();
+        var_dump($name);
 
   return array($success, $message);
 }
@@ -489,18 +511,28 @@ function rex_deleteArticleReorganized($article_id)
     $message = rex_deleteArticle($article_id);
     $re_id = $Art->getValue("re_id");
 
-    // ----- PRIOR
     foreach($REX['CLANG'] as $clang => $clang_name)
+    {
+      // ----- PRIOR
       rex_newArtPrio($Art->getValue("re_id"), $clang, 0, 1);
-
-    // ----- EXTENSION POINT
-    $message = rex_register_extension_point('ART_DELETED', $message,
-      array (
-        "id" => $article_id,
-        "re_id" => $re_id
-      )
-    );
-
+      
+      // ----- EXTENSION POINT
+      $message = rex_register_extension_point('ART_DELETED', $message,
+        array (
+          "id"          => $article_id,
+          "clang"       => $clang,
+          "re_id"       => $re_id,
+          'name'        => $Art->getValue('name'),
+          'status'      => $Art->getValue('status'),
+          'prior'       => $Art->getValue('prior'),
+          'path'        => $Art->getValue('path'),
+          'template_id' => $Art->getValue('template_id'),
+        )
+      );
+      
+      $Art->next();
+    }
+    
     $success = true;
   }
 
