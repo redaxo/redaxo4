@@ -74,8 +74,6 @@ class i18n
    */
   function msg($key)
   {
-    global $REX;
-
     if ($this->hasMsg($key))
     {
       $msg = $this->text[$key];
