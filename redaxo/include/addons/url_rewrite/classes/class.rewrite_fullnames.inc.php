@@ -1,28 +1,28 @@
 <?php
 
+define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php');
 
 /**
  * URL-Rewrite Addon
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * @package redaxo3
- * @version $Id: class.rewrite_fullnames.inc.php,v 1.16 2007/11/21 14:46:05 kills Exp $
- */
-
-/**
- * Update
- * vscope update 18.09.07 (www.vscope.at)
- * Params werden in der Syntax /+/var/value/ angehängt und automatisch ausgelesen
+ * @version $Id: class.rewrite_fullnames.inc.php 90 2008-12-11 14:09:45Z ssh-68390 $
  */
 
 /**
  * URL Fullnames Rewrite Anleitung:
  *
  *   1) .htaccess file in das root verzeichnis:
+ *     #RewriteCond %{HTTP_HOST} ^domain.tld [NC]
+ *     #RewriteRule ^(.*)$ http://www.domain.tld/$1 [L,R=301]
  *     RewriteEngine On
- *     RewriteBase /
- *     RewriteCond %{REQUEST_URI}  !redaxo.*
- *     RewriteCond %{REQUEST_URI}  !files.*
+ *     #RewriteBase /
+ *     RewriteCond %{REQUEST_FILENAME} !-f
+ *     RewriteCond %{REQUEST_FILENAME} !-d
+ *     RewriteCond %{REQUEST_FILENAME} !-l
+ *     RewriteCond %{REQUEST_URI} !redaxo/.*
+ *     RewriteCond %{REQUEST_URI} !files/.*
  *     RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
  *
  *   2) .htaccess file in das redaxo/ verzeichnis:
@@ -33,11 +33,16 @@
  *
  *   4) Specials->Regenerate All starten
  *
+ *   5) ggf. Rewrite-Base der .htaccess Datei anpassen
+ *
+ * @author staab[at]public-4u[dot]de Markus Staab
+ * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ *
  * @author office[at]vscope[dot]at Wolfgang Huttegger
  * @author <a href="http://www.vscope.at/">vscope new media</a>
  *
- * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
+ * @author rn[at]gn2-netwerk[dot]de Rüdiger Nitzsche
+ * @author <a href="http://www.gn2-netwerk.de/">GN2 Netwerk</a>
  */
 
 class myUrlRewriter extends rexUrlRewriter
@@ -46,7 +51,7 @@ class myUrlRewriter extends rexUrlRewriter
   var $use_params_rewrite;
 
   // Konstruktor
-  function myUrlRewriter($use_levenshtein = true, $use_params_rewrite = true)
+  function myUrlRewriter($use_levenshtein = false, $use_params_rewrite = false)
   {
     $this->use_levenshtein = $use_levenshtein;
     $this->use_params_rewrite = $use_params_rewrite;
@@ -62,19 +67,12 @@ class myUrlRewriter extends rexUrlRewriter
 
     if (!$REX['REDAXO'])
     {
-      // article_id wurde in den super-globals übergeben
-      if(rex_request('article_id', 'int'))
-        $article_id = rex_request('article_id', 'int');
+      if(!file_exists(FULLNAMES_PATHLIST))
+      {
+         rex_rewriter_generate_pathnames();
+      }
 
-      // clang wurde in den super-globals übergeben
-      if(rex_request('clang', 'int'))
-        $clang = rex_request('clang', 'int');
-
-      if($article_id)
-        return true;
-
-      $pathlist = $REX['INCLUDE_PATH'].'/generated/files/pathlist.php';
-      include_once ($pathlist);
+      require_once (FULLNAMES_PATHLIST);
 
       $script_path = dirname($_SERVER['PHP_SELF']);
       $length = strlen($script_path);
@@ -82,11 +80,11 @@ class myUrlRewriter extends rexUrlRewriter
 
       // Parameter zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '?')) !== false)
-         $path = substr($path, 0, $pos);
+      $path = substr($path, 0, $pos);
 
       // Anker zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '#')) !== false)
-         $path = substr($path, 0, $pos);
+      $path = substr($path, 0, $pos);
 
       if ($path == '')
       {
@@ -94,25 +92,25 @@ class myUrlRewriter extends rexUrlRewriter
         return true;
       }
 
-			// Auch Urls die nicht auf "/" enden, sollen gefunden werden
-      if(substr($path, -1) != '/')
-        $path .= '/';
-
       // konvertiert params zu GET/REQUEST Variablen
       if($this->use_params_rewrite)
       {
-        if(strstr($path,'/+/')){
+        if(strstr($path,'/+/'))
+        {
           $tmp = explode('/+/',$path);
           $path = $tmp[0].'/';
-           $vars = explode('/',$tmp[1]);
-           for($c=0;$c<count($vars);$c+=2){
-               if($vars[$c]!=''){
-                 $_GET[$vars[$c]] = $vars[$c+1];
-                 $_REQUEST[$vars[$c]] = $vars[$c+1];
-               }
-           }
+          $vars = explode('/',$tmp[1]);
+          for($c=0;$c<count($vars);$c+=2)
+          {
+            if($vars[$c]!='')
+            {
+              $_GET[$vars[$c]] = $vars[$c+1];
+              $_REQUEST[$vars[$c]] = $vars[$c+1];
+            }
+          }
         }
       }
+
 
       foreach ($REXPATH as $key => $var)
       {
@@ -129,19 +127,11 @@ class myUrlRewriter extends rexUrlRewriter
       // Check Clang StartArtikel
       if (!$article_id)
       {
-        if(!isset($REX['CLANG']))
+        foreach ($REX['CLANG'] as $key => $var)
         {
-          include($REX['INCLUDE_PATH'].'/clang.inc.php');
-        }
-
-        if (is_array($REX['CLANG']))
-        {
-          foreach ($REX['CLANG'] as $key => $var)
+          if ($var.'/' == $path)
           {
-            if ($var.'/' == $path)
-            {
-              $clang = $key;
-            }
+            $clang = $key;
           }
         }
       }
@@ -156,33 +146,27 @@ class myUrlRewriter extends rexUrlRewriter
             $levenshtein[levenshtein($path, $v)] = $key.'#'.$k;
           }
         }
+
         ksort($levenshtein);
         $best = explode('#', array_shift($levenshtein));
         $article_id = $best[0];
         $clang = $best[1];
       }
 
-      if (!$article_id)
+      if (!$article_id) {
         $article_id = $REX['NOTFOUND_ARTICLE_ID'];
-
-      // clang auch im REX speichern
-      $REX['CUR_CLANG'] = $clang;
+      }
     }
   }
 
   // Url neu schreiben
   function rewrite($params)
   {
-  	// Url wurde von einer anderen Extension bereits gesetzt
-  	if($params['subject'] != '')
+    // Url wurde von einer anderen Extension bereits gesetzt
+    if($params['subject'] != '')
   		return $params['subject'];
 
-    global $REX, $REXPATH;
-
-    if (!$REXPATH)
-    {
-      include_once ($REX['INCLUDE_PATH'].'/generated/files/pathlist.php');
-    }
+    global $REXPATH;
 
     $id = $params['id'];
     $name = $params['name'];
@@ -202,7 +186,9 @@ class myUrlRewriter extends rexUrlRewriter
       $params = $params == '' ? '' : '?'.$params;
     }
 
+    $params = str_replace('/amp;','/',$params);
     $url = $REXPATH[$id][$clang].$params;
+    
     return $url;
   }
 }
@@ -212,63 +198,97 @@ if ($REX['REDAXO'])
   // Die Pathnames bei folgenden Extension Points aktualisieren
   $extension = 'rex_rewriter_generate_pathnames';
   $extensionPoints = array(
-    'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
+    'CAT_ADDED',   /*'CAT_UPDATED',*/   'CAT_DELETED',
     'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
-    'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
+    /*'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',*/
     'ALL_GENERATED');
 
   foreach($extensionPoints as $extensionPoint)
-    rex_register_extension($extensionPoint, $extension);
+  rex_register_extension($extensionPoint, $extension);
 }
 
 function rex_rewriter_generate_pathnames($params = array ())
 {
-  global $REX;
+  global $REX, $REXPATH;
 
-  $db = new rex_sql();
-  $result = $db->getArray('SELECT id,name,clang,path FROM rex_article');
-  if (is_array($result))
+  if(file_exists(FULLNAMES_PATHLIST))
   {
-    foreach ($result as $var)
-    {
-      $article_names[$var['id']][$var['clang']]['name'] = rex_parse_article_name($var['name']);
-    }
+    require_once (FULLNAMES_PATHLIST);
+  }
+  
+  if(!isset($REXPATH)) 
+    $REXPATH = array();
+    
+  $where = '';
+  switch($params['extension_point'])
+  {
+    // ------- sprachabhängig, einen artikel aktualisieren
+    case 'CAT_DELETED':
+    case 'ART_DELETED':
+      unset($REXPATH[$params['id']]);
+      break;
+    case 'CAT_ADDED':
+    // CAT_UPDATED nicht notwendig, da nur artikelnamen in urls gebraucht werden!
+    // case 'CAT_UPDATED':
+    case 'ART_ADDED':
+    case 'ART_UPDATED':
+      $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
+      break;
+    // ------- sprachabhängig, alle artikel aktualisieren
+    // CLANG_* nicht notwendig, da immer von ALL_GENERATED gefolgt!
+    /*
+    case 'CLANG_ADDED':
+    case 'CLANG_UPDATED':
+    case 'CLANG_DELETED':
+      $where = 'clang='. $params['id'];
+      break;
+    */
+    // ------- alles aktualisieren
+    case 'ALL_GENERATED':
+      $where = '1=1';
+      break;
   }
 
-  $fcontent = '<?php'."\n";
-  if (is_array($result))
+  
+  if($where != '')
   {
-    foreach ($result as $var)
+    $db = new rex_sql();
+  //  $db->debugsql=true;
+    $db->setQuery('SELECT id,name,clang,path FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where);
+    
+    while($db->hasNext())
     {
-      $clang = $var['clang'];
+      $clang = $db->getValue('clang');
+      $pathname = '';
       if (count($REX['CLANG']) > 1)
       {
         $pathname = $REX['CLANG'][$clang].'/';
       }
-      else
-      {
-        $pathname = '';
-      }
-      $path = explode('|', $var['path']);
-      $path[] = $var['id'];
+      
+      $path = explode('|', $db->getValue('path'));
+      $path[] = $db->getValue('id');
       foreach ($path as $p)
       {
         if ($p != '')
         {
-          $curname = $article_names[$p][$clang]['name'];
-          if ($curname != '')
+          $ooa = OOArticle::getArticleById($p, $clang);
+          $name = $ooa->getName();
+          unset($ooa); 
+          if ($name != '')
           {
-            $pathname .= $curname.'/';
+            $name = str_replace('&','und',$name);
+            $name = strtolower(rex_parse_article_name($name));
+            $pathname .= $name.'/';
           }
         }
       }
-      $fcontent .= '$REXPATH[\''.$var['id'].'\'][\''.$var['clang'].'\'] = "'.mysql_escape_string($pathname).'";'."\n";
+  
+      $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
+      $REXPATH[$db->getValue('id')][$db->getValue('clang')] = $pathname;
+      
+      $db->next();
     }
   }
-  $fcontent .= '?>';
-
-  $handle = fopen($REX['INCLUDE_PATH'].'/generated/files/pathlist.php', 'w');
-  fwrite($handle, $fcontent);
-  fclose($handle);
+  
+  rex_put_file_contents(FULLNAMES_PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) ."\n?>");
 }
-?>

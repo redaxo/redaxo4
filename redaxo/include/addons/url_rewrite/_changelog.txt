@@ -1,5 +1,11 @@
 <h2>Changelog:</h2>
 
+<strong>1.1.3 - 18.02.2009</strong>
+
+- Pathlist generation optimiert (nur noch differenziell wenn möglich)
+- Anderes Url-Format (GN2)
+- Bugfixes
+
 <strong>1.1.2 - 02.11.2007</strong>
 
 - params rewrite jetzt konfigurierbar
@@ -14,7 +20,7 @@
 - Anpassungen für REDAXO4.0
 
 <strong>1.0 - 18.09.2007</strong>
-- rewriteFullnames:
+- rewriteFullnames: (vscope)
  + Parameter werden SuMa freundlich angehängt
 
 <strong>RC4 - 16.05.2006</strong>
