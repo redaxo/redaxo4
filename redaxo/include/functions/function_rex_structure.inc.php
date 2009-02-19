@@ -452,7 +452,7 @@ function rex_editArticle($article_id, $clang, $data)
   }
 
   $EA = new rex_sql;
-  $EA->debugsql = true;
+//  $EA->debugsql = true;
   $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->setWhere("id='$article_id' and clang=$clang");
   $EA->setValue('name', $data['name']);
