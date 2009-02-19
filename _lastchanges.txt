@@ -17,7 +17,7 @@ Version 4.2.0 (2009-XX-XX)
   * $REX['GG'] DEPRECATED! 
     
   Neu:
-  * Cache layer zum zwischenspeichern von rechenintensiven Aktionen. [Markus.Staab]
+  * Vorgenerierungsmechanismus optimiert (jetzt selektiv) [Markus.Staab]
   * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst. [Jan.Kristinus] 
   * Startpage ist nun festlegbar [Jan.Kristinus]
   * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
