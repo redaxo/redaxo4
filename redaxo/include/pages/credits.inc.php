@@ -54,9 +54,7 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 		<?php
 
-		$ADDONS = rex_read_addons_folder();
-
-    foreach ($ADDONS as $cur)
+    foreach (OOAddon::getRegisteredAddons() as $cur)
     {
       $isActive = OOAddon::isActivated($cur);
       $version  = OOAddon::getVersion($cur);
