@@ -22,17 +22,16 @@ function rex_generateAll()
   // ----------------------------------------------------------- generiere clang
   $lg = new rex_sql();
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
-  $content = "";
-  for ($i = 0; $i < $lg->getRows(); $i ++)
+  
+  $REX['CLANG'] = array();
+  while($lg->hasNext())
   {
-    $id = $lg->getValue("id");
-    $name = $lg->getValue("name");
-    $content .= "\$REX['CLANG']['$id'] = \"$name\";\n";
+    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name"); 
     $lg->next();
   }
-
+  
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, $content);
+  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
 
   // ----------------------------------------------------------- message
   $MSG = $I18N->msg('delete_cache_message');
@@ -450,37 +449,17 @@ function rex_deleteCLang($clang)
 {
   global $REX;
 
-  if ($clang == 0)
+  if ($clang == 0 || !isset($REX['CLANG'][$clang]))
     return false;
 
-  $content = "";
   $clangName = $REX['CLANG'][$clang];
-
-  foreach($REX['CLANG'] as $_clang => $clang_name)
-  {
-    if ($_clang != $clang)
-      $content .= "\$REX['CLANG']['$_clang'] = \"$clang_name\";\n";
-  }
-
-  $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, $content);
+  unset ($REX['CLANG'][$clang]);
 
   $del = new rex_sql();
-  $del->setQuery("select id from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
-  for ($i = 0; $i < $del->getRows(); $i ++)
-  {
-    $aid = $del->getValue("id");
-    rex_deleteCacheArticle($aid, $clang);
-    $del->next();
-  }
-
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
-
-  unset ($REX['CLANG'][$clang]);
-  $del = new rex_sql();
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
-
+  
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_DELETED','',
     array (
@@ -501,17 +480,13 @@ function rex_deleteCLang($clang)
 function rex_addCLang($id, $name)
 {
   global $REX;
+  
+  if(isset($REX['CLANG'][$id])) return false;
+
   $REX['CLANG'][$id] = $name;
-
-  $content = "";
-  foreach($REX['CLANG'] as $_clang => $clang_name)
-  {
-    $content .= "\$REX['CLANG']['$_clang'] = \"$clang_name\";\n";
-  }
-
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, $content);
-
+  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
+  
   $add = new rex_sql();
   $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
   $fields = $add->getFieldnames();
@@ -545,8 +520,8 @@ function rex_addCLang($id, $name)
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
-
-  rex_generateAll();
+  
+  return true;
 }
 
 /**
@@ -558,19 +533,20 @@ function rex_addCLang($id, $name)
 function rex_editCLang($id, $name)
 {
   global $REX;
+  
+  if(!isset($REX['CLANG'][$id])) return false;
 
   $REX['CLANG'][$id] = $name;
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-
-  $cont = rex_get_file_contents($file);
-  $cont = ereg_replace("(REX\['CLANG'\]\['$id\'].?\=.?)[^;]*", "\\1\"". ($name)."\"", $cont);
-  rex_put_file_contents($file, $cont);
+  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
 
   $edit = new rex_sql;
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
+  
+  return true;
 }
 
 /**
