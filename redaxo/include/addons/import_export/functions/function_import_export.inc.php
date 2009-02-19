@@ -73,9 +73,6 @@ function rex_a1_import_db($filename)
     $conts = preg_replace('/(EXISTS `?)'. preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
   }
 
-  // Inhalt der /generated Ordner komplett leeren
-  rex_generateAll();
-
   // ----- EXTENSION POINT
   $filesize = filesize($filename);
   $msg = rex_register_extension_point('A1_BEFORE_DB_IMPORT', $msg,
@@ -111,18 +108,6 @@ function rex_a1_import_db($filename)
   }
 
   $msg .= $I18N_IM_EXPORT->msg('database_imported').'. '.$I18N_IM_EXPORT->msg('entry_count', count($lines)).'<br />';
-
-  // CLANG Array aktualisieren
-  unset ($REX['CLANG']);
-  $db = new rex_sql;
-  $db->setQuery('select * from '. $REX['TABLE_PREFIX'] .'clang');
-  for ($i = 0; $i < $db->getRows(); $i++)
-  {
-    $id = $db->getValue('id');
-    $name = $db->getValue('name');
-    $REX['CLANG'][$id] = $name;
-    $db->next();
-  }
 
   // prüfen, ob eine user tabelle angelegt wurde
   $tables = rex_sql::showTables();
