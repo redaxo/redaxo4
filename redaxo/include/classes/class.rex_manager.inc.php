@@ -318,6 +318,7 @@ class rex_pluginManager extends rex_installManager
   /*protected*/ function includeConfig($configFile)
   {
     global $REX;
+    // TODO ordentliche formatumwandlung
     require $configFile;
   }
   
@@ -327,6 +328,7 @@ class rex_pluginManager extends rex_installManager
     $ADDONSsic = $REX['ADDON'];
     $REX['ADDON'] = array();
     
+    // TODO ordentliche formatumwandlung
     require $installFile;
     
     $ADDONSsic['plugins'][$this->addonName] = $REX['ADDON'];
@@ -339,6 +341,7 @@ class rex_pluginManager extends rex_installManager
     $ADDONSsic = $REX['ADDON'];
     $REX['ADDON'] = array();
     
+    // TODO ordentliche formatumwandlung
     require $uninstallFile;
     
     $ADDONSsic['plugins'][$this->addonName] = $REX['ADDON'];
