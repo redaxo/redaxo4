@@ -134,6 +134,7 @@ function rex_a1_import_db($filename)
        session_id varchar(255) NOT NULL,
        PRIMARY KEY(user_id)
      ) TYPE=MyISAM;';
+    $db = new rex_sql;
     $db->setQuery($create_user_table);
     $error = $db->getError();
     if($error != '')
