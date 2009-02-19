@@ -378,6 +378,8 @@ function rex_generateLists($re_id, $clang = null)
 function rex_deleteDir($file, $delete_folders = false)
 {
   $state = true;
+  
+  $file = rtrim($file, DIRECTORY_SEPARATOR);
 
   if (file_exists($file))
   {
@@ -397,7 +399,7 @@ function rex_deleteDir($file, $delete_folders = false)
           continue;
         }
 
-        if (!rex_deleteDir($file.'/'.$filename, $delete_folders) && $state === true)
+        if (!rex_deleteDir($file.DIRECTORY_SEPARATOR.$filename, $delete_folders))
         {
           $state = false;
         }
@@ -408,6 +410,7 @@ function rex_deleteDir($file, $delete_folders = false)
       {
         return false;
       }
+      
 
       // Ordner auch löschen?
       if ($delete_folders)
