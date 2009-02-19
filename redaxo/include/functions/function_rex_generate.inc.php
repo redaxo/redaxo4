@@ -111,6 +111,9 @@ function rex_generateArticleMeta($article_id, $clang = null)
     {
       return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
+    
+    // damit die aktuellen änderungen sofort wirksam werden, einbinden!
+    require ($article_file);
   }
   
   return true;
@@ -448,9 +451,10 @@ function rex_deleteCLang($clang)
   global $REX;
 
   if ($clang == 0)
-    return "";
+    return false;
 
   $content = "";
+  $clangName = $REX['CLANG'][$clang];
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -462,7 +466,7 @@ function rex_deleteCLang($clang)
   rex_replace_dynamic_contents($file, $content);
 
   $del = new rex_sql();
-  $del->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
+  $del->setQuery("select id from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
   for ($i = 0; $i < $del->getRows(); $i ++)
   {
     $aid = $del->getValue("id");
@@ -478,7 +482,12 @@ function rex_deleteCLang($clang)
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
 
   // ----- EXTENSION POINT
-  rex_register_extension_point('CLANG_DELETED','',array ('id' => $clang));
+  rex_register_extension_point('CLANG_DELETED','',
+    array (
+      'id' => $clang,
+      'name' => $clangName,
+    )
+  );
 
   rex_generateAll();
 }
