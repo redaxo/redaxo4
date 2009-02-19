@@ -28,6 +28,15 @@ else
 $warning = '';
 $info = '';
 
+if($pluginname != '')
+{
+  $addonManager = new rex_pluginManager($PLUGINS, $addonname);
+}
+else
+{
+  $addonManager = new rex_addonManager($ADDONS);
+}
+
 // ----------------- HELPPAGE
 if ($subpage == 'help' && $addonname != '')
 {
@@ -88,17 +97,14 @@ if ($addonname != '')
   {
     if($pluginname != '')
     {
-      if (($warning = rex_install_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      if(($warning = $addonManager->install($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_installed", $pluginname);
       }
     }
-    else
+    else if (($warning = $addonManager->install($addonname)) === true)
     {
-      if (($warning = rex_install_addon($ADDONS, $addonname)) === true)
-      {
-        $info = $I18N->msg("addon_installed", $addonname);
-      }
+      $info = $I18N->msg("addon_installed", $addonname);
     }
   }
   // ----------------- ADDON ACTIVATE
@@ -106,17 +112,14 @@ if ($addonname != '')
   {
     if($pluginname != '')
     {
-      if (($warning = rex_activate_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      if(($warning = $addonManager->activate($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_activated", $pluginname);
       }
     }
-    else
+    else if (($warning = $addonManager->activate($addonname)) === true)
     {
-      if (($warning = rex_activate_addon($ADDONS, $addonname)) === true)
-      {
-        $info = $I18N->msg("addon_activated", $addonname);
-      }
+      $info = $I18N->msg("addon_activated", $addonname);
     }
   }
   // ----------------- ADDON DEACTIVATE
@@ -124,17 +127,14 @@ if ($addonname != '')
   {
     if($pluginname != '')
     {
-      if (($warning = rex_deactivate_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      if (($warning = $addonManager->deactivate($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_deactivated", $pluginname);
       }
     }
-    else
+    else if (($warning = $addonManager->deactivate($addonname)) === true)
     {
-      if (($warning = rex_deactivate_addon($ADDONS, $addonname)) === true)
-      {
-        $info = $I18N->msg("addon_deactivated", $addonname);
-      }
+      $info = $I18N->msg("addon_deactivated", $addonname);
     }
   }
   // ----------------- ADDON UNINSTALL
@@ -142,18 +142,14 @@ if ($addonname != '')
   {
     if($pluginname != '')
     {
-      if (($warning = rex_uninstall_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      if (($warning = $addonManager->uninstall($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_uninstalled", $pluginname);
       }
-      
     }
-    else
+    else if (($warning = $addonManager->uninstall($addonname)) === true)
     {
-      if (($warning = rex_uninstall_addon($ADDONS, $addonname)) === true)
-      {
-        $info = $I18N->msg("addon_uninstalled", $addonname);
-      }
+      $info = $I18N->msg("addon_uninstalled", $addonname);
     }
   }
   // ----------------- ADDON DELETE
@@ -161,21 +157,18 @@ if ($addonname != '')
   {
     if($pluginname != '')
     {
-      if (($warning = rex_delete_plugin($PLUGINS, $addonname, $pluginname)) === true)
+      if (($warning = $addonManager->delete($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_deleted", $pluginname);
-        $addonkey = array_search( $addonname, $PLUGINS);
+        $addonkey = array_search($addonname, $PLUGINS);
         unset($PLUGINS[$addonkey]);
       }
     }
-    else
+    else if (($warning = $addonManager->delete($addonname)) === true)
     {
-      if (($warning = rex_delete_addon($ADDONS, $addonname)) === true)
-      {
-        $info = $I18N->msg("addon_deleted", $addonname);
-        $addonkey = array_search( $addonname, $ADDONS);
-        unset($ADDONS[$addonkey]);
-      }
+      $info = $I18N->msg("addon_deleted", $addonname);
+      $addonkey = array_search($addonname, $ADDONS);
+      unset($ADDONS[$addonkey]);
     }
   }
 }
@@ -294,12 +287,12 @@ if ($subpage == '')
       {
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
         
-        $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
+        $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('plugin_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
         
         if (OOPlugin::isInstalled($addon, $plugin))
         {
           $install = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
-          $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+          $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("plugin_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
         }
         else
         {

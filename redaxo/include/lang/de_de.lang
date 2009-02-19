@@ -558,6 +558,20 @@ addon_caption = Liste der verfügbaren AddOns
 addon_summary = Auflistung aller AddOns
 addon_systemaddon = System AddOn
 addon_systemaddon_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
+plugin_install_not_found = Installationsdatei wurde nicht gefunden (install.inc.php)!
+plugin_uninstall_not_found = Deinstallationsdatei wurde nicht gefunden (uninstall.inc.php)!
+plugin_config_not_found = Konfigurationsdatei wurde nicht gefunden (config.inc.php)!
+plugin_no_install = PlugIn "{0}" konnte aus folgendem Grund <b>nicht</b> installiert werden:
+plugin_no_uninstall = PlugIn "{0}" konnte aus folgendem Grund <b>nicht</b> deinstalliert werden:
+plugin_no_reason = Es wurde kein Grund angegeben.
+plugin_no_activation = PlugIn "{0}" konnte <b>nicht</b> aktiviert werden, da es noch nicht installiert wurde!
+plugin_installed = PlugIn "{0}" wurde installiert
+plugin_activated = PlugIn "{0}" wurde aktiviert
+plugin_deactivated =  PlugIn "{0}" wurde deaktiviert
+plugin_uninstalled = PlugIn "{0}" wurde deinstalliert
+plugin_deleted = PlugIn "{0}" wurde gelöscht
+plugin_delete_question = PlugIn "{0}" löschen?
+plugin_uninstall_question = PlugIn "{0}" de-installieren?
 
 # redaxo\include\pages\credits.inc.php
 credits = credits
