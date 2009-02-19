@@ -43,6 +43,7 @@ if (!$REX['GG'])
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_mediapool.inc.php';
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_formatter.inc.php';
+  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_manager.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
 }
