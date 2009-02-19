@@ -7,7 +7,7 @@
  * @package redaxo3
  * @version $Id: config.inc.php,v 1.2 2006/12/19 21:19:30 kills Exp $
  */
-
+ 
 if ($REX['MOD_REWRITE'] !== false)
 {
   $UrlRewriteBasedir = dirname(__FILE__);
@@ -27,4 +27,3 @@ if ($REX['MOD_REWRITE'] !== false)
   
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
 }
-?>
