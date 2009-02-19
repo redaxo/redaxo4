@@ -12,10 +12,10 @@ function rex_install_addon($addons, $addonname, $installDump = true)
   global $REX, $I18N;
   $state = true;
 
-  $install_dir = $REX['INCLUDE_PATH'].'/addons/'. $addonname;
-  $install_file = $install_dir.'/install.inc.php';
-  $install_sql = $install_dir.'/install.sql';
-  $config_file = $install_dir.'/config.inc.php';
+  $install_dir = rex_addons_folder($addonname);
+  $install_file = $install_dir.'install.inc.php';
+  $install_sql = $install_dir.'install.sql';
+  $config_file = $install_dir.'config.inc.php';
 
   // Prüfen des Addon Ornders auf Schreibrechte,
   // damit das Addon später wieder gelöscht werden kann
