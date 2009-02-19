@@ -2,6 +2,8 @@
 
 <strong>1.1.3 - 18.02.2009</strong>
 
+WICHTIG: Nur mit REDAXO 4.2 kompatibel!
+
 - Pathlist generation optimiert (nur noch differenziell wenn möglich)
 - Anderes Url-Format (GN2)
 - Bugfixes
