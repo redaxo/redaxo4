@@ -290,5 +290,5 @@ function rex_rewriter_generate_pathnames($params = array ())
     }
   }
   
-  rex_put_file_contents(FULLNAMES_PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) ."\n?>");
+  rex_put_file_contents(FULLNAMES_PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) ."\n");
 }
