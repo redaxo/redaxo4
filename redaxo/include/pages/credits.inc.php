@@ -56,9 +56,9 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
     foreach (OOAddon::getRegisteredAddons() as $cur)
     {
-      $isActive = OOAddon::isActivated($cur);
-      $version  = OOAddon::getVersion($cur);
-      $author   =  OOAddon::getAuthor($cur);
+      $isActive    = OOAddon::isActivated($cur);
+      $version     = OOAddon::getVersion($cur);
+      $author      = OOAddon::getAuthor($cur);
       $supportPage = OOAddon::getSupportPage($cur);
 
     	if ($isActive) $cl = 'rex-clr-grn';
