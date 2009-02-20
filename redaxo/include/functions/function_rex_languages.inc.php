@@ -27,9 +27,9 @@ if ($num_clang>1)
    foreach($REX['CLANG'] as $key => $val)
    {
    	if($i == 1)
-   		echo '<li class="rex-navi-first">';
+   		echo '<li class="rex-navi-first rex-navi-clang-'.$key.'">';
 		else
-			echo '<li>';
+			echo '<li class="rex-navi-clang-'.$key.'">';
 		    
     $val = rex_translate($val);
 
