@@ -49,8 +49,7 @@ function rex_read_plugins_folder($addon, $folder = '')
 function rex_generatePlugins($PLUGINS)
 {
   global $REX;
-  natsort($PLUGINS);
-
+  
   $content = "";
   foreach ($PLUGINS as $addon => $_plugins)
   {
