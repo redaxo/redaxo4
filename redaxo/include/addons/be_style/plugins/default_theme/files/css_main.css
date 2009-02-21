@@ -322,8 +322,9 @@ body#rex-page-module div.rex-form table.rex-table {
 	-moz-outline-radius-topright: 0;
 	outline: 0;
 }
+
 div.rex-form input.rex-form-submit {
-	padding: 0 4px;
+	padding: 2px 6px;
 }
 
 
