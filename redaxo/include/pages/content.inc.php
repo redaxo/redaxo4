@@ -511,11 +511,6 @@ if ($article->getRows() == 1)
         $val = rex_translate($val);
         $s .= '<a href="index.php?page=content&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
 
-        if ($num_ctypes != $i)
-        {
-          $s .= ' | ';
-        }
-
         $listElements[] = $s;
         $i++;
       }
@@ -532,9 +527,17 @@ if ($article->getRows() == 1)
       );
 
       $ctype_menu .= "\n".'<ul id="rex-navi-ctype">';
+      $menu_counter = 0;
       foreach($listElements as $listElement)
       {
-        $ctype_menu .= '<li>'.$listElement.'</li>';
+        $menu_counter++;
+        
+        $class = '';
+        if($menu_counter == 2)
+          $class = ' class="rex-navi-first"';
+          
+        $ctype_menu .= '<li'.$class.'>'.$listElement.'</li>';
+  
       }
       $ctype_menu .= '</ul>';
     }
@@ -568,10 +571,16 @@ if ($article->getRows() == 1)
 
     $menu .= "\n".'<ul class="rex-navi-content">';
     $num_elements = count($listElements);
+    $menu_first = true;
     for($i = 0; $i < $num_elements; $i++)
     {
-      $lastElement = ($i == ($num_elements -1));
-      $menu .= '<li>'. $listElements[$i] . ($lastElement ? '' : ' | ') .'</li>';
+      $class = '';
+      if($menu_first)
+        $class = ' class="rex-navi-first"';
+        
+      $menu .= '<li'.$class.'>'. $listElements[$i] .'</li>';
+      
+      $menu_first = false;
     }
     $menu .= '</ul>';
 
