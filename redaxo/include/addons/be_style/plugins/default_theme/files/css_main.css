@@ -9,12 +9,14 @@
 /*	Textfarben *****************************************************************
 *******************************************************************************/
 /*	Weiss */
+div#rex-navi-login, 
 div#rex-navi-main ul li a.rex-active {
 	color: #FFF;
 }
 
 /*	Cyan */
 a, 
+div#rex-navi-login p a, 
 div#rex-navi-footer, 
 div#rex-navi-footer ul li, 
 div#rex-navi-footer ul li a {
