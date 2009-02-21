@@ -190,7 +190,7 @@ table.rex-table caption {
 	border-left: 0;
 	text-align: left;
 }
-/*
+
 table.rex-table caption {
 	display: inline !important;
 	position: absolute !important;
@@ -201,7 +201,7 @@ table.rex-table caption {
 	overflow: hidden !important;
 	background-color: #FFF !important;
 }
-*/
+
 body#rex-page-module table.rex-table caption {
 	border:0;
 }
@@ -233,6 +233,9 @@ div#rex-form-medienpool-media table.rex-table td.rex-icon,
 div#rex-form-medienpool-categories table.rex-table th.rex-icon,
 div#rex-form-medienpool-categories table.rex-table td.rex-icon {
 	padding-bottom: 6px;
+}
+table.rex-table tr.rex-plugin td.rex-col-b {
+	padding-left: 15px;
 }
 
 table.rex-table th.rex-colz,

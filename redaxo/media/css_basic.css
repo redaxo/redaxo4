@@ -230,17 +230,18 @@ div.rex-content-editmode-slice-output {
 }
 p.rex-tx1, 
 ul.rex-ul1, 
-div#rex-navi-main p,
+div#rex-navi-login p,
 div#rex-navi-main ul {
 	line-height: 1.2;
 }
 
 
-/*	Text Color *****************************************************************
+/*	Textfarben *****************************************************************
 *******************************************************************************/
 /*	Grau */
 body,
 div#rex-header p.rex-header-top a,
+div#rex-navi-main ul li a.rex-active, 
 div#rex-navi-footer ul li,
 div#rex-navi-footer ul li a,
 div#rex-clang ul li a.rex-active,
@@ -251,7 +252,7 @@ div.rex-content-header ul li span {
 }
 
 /*	Weiss */
-div#rex-navi-main p a,
+div#rex-navi-login p a,
 div#rex-navi-main ul li,
 div#rex-navi-main ul li a {
 	color: #FFF;
@@ -323,7 +324,8 @@ div.rex-widget {
 /*	Grau Hellsten */
 .rex-code, 
 div.rex-content-body, 
-table.rex-table caption {
+table.rex-table caption, 
+table.rex-table tr.rex-plugin td {
 	background-color: #FAF9F5;
 }
 /*	Grau Heller */
@@ -369,7 +371,7 @@ div.rex-warning-block {
 div.rex-info-block {
 	background-color: #D2EFD9;
 }
-div#rex-header div#rex-navi-main {
+div#rex-navi-main {
 	background-color: #AAB9A8;
 }
 
@@ -453,6 +455,39 @@ div#rex-title {
 	background-position: 0% 50%;
 }
 
+
+/*	Corner */
+table.rex-table tr.rex-plugin td.rex-col-b {
+	background-image: url(../media/corner.gif);
+	background-position: 7px 12px;
+	background-repeat: no-repeat;
+}
+
+
+/*	Pipe white */
+div#rex-navi-main ul li {
+	background-image: url(../media/pipe_c1.gif);
+	background-position: 0px 2px;
+}
+div#rex-navi-main ul li.rex-navi-first {
+	background: none;
+}
+
+
+/*	Pipe grey */
+div#rex-navi-page ul li a,
+div#rex-clang ul li a,
+div.rex-content-header ul li a {
+	background-image: url(../media/pipe_c2.gif);
+	background-position: 0px 2px;
+}
+div#rex-navi-page ul li.rex-navi-first a,
+div#rex-clang ul li.rex-navi-first a,
+div.rex-content-header ul li.rex-navi-first a {
+	background: none;
+}
+
+
 /*	Border Color ***************************************************************
 *******************************************************************************/
 div#rex-footer {
@@ -505,6 +540,7 @@ div.rex-widget {
 			den Elementen nicht die Klasse "rex-hidden" einzeln zuweisen, 
 			da diese von anderen Layouts eventuell dargestellt werden sollen
 *******************************************************************************/
+div#rex-navi-main dt, 
 div.rex-navi-slice ul li span, 
 div.rex-form-content-editmode legend, 
 div.rex-form-content-editmode legend span, 
@@ -531,6 +567,7 @@ body {
 }
 
 div#rex-website {
+	position: relative;
 	width: 770px;
 	font-size: .625em;
 }
