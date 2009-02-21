@@ -225,11 +225,11 @@ if ($subpage == '')
       </colgroup>
   	  <thead>
         <tr>
-          <th class="rex-icon">&nbsp;</th>
-          <th>'.$I18N->msg("addon_hname").'</th>
-          <th>'.$I18N->msg("addon_hinstall").'</th>
-          <th>'.$I18N->msg("addon_hactive").'</th>
-          <th colspan="2">'.$I18N->msg("addon_hdelete").'</th>
+          <th class="rex-icon rex-col-a">&nbsp;</th>
+          <th class="rex-col-b">'.$I18N->msg("addon_hname").'</th>
+          <th class="rex-col-c">'.$I18N->msg("addon_hinstall").'</th>
+          <th class="rex-col-d">'.$I18N->msg("addon_hactive").'</th>
+          <th class="rex-col-e" colspan="2">'.$I18N->msg("addon_hdelete").'</th>
         </tr>
   	  </thead>
   	  <tbody>';
@@ -273,12 +273,12 @@ if ($subpage == '')
 
     echo '
         <tr class="rex-addon">
-          <td class="rex-icon"><img src="media/addon.gif" alt="'. htmlspecialchars($addon) .'" title="'. htmlspecialchars($addon) .'"/></td>
-          <td>'.htmlspecialchars($addon).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
-          <td>'.$install.'</td>
-          <td>'.$status.'</td>
-          <td>'.$uninstall.'</td>
-          <td>'.$delete.'</td>
+          <td class="rex-icon rex-col-a"><img src="media/addon.gif" alt="'. htmlspecialchars($addon) .'" title="'. htmlspecialchars($addon) .'"/></td>
+          <td class="rex-col-b">'.htmlspecialchars($addon).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
+          <td class="rex-col-c">'.$install.'</td>
+          <td class="rex-col-d">'.$status.'</td>
+          <td class="rex-col-e">'.$uninstall.'</td>
+          <td class="rex-col-f">'.$delete.'</td>
         </tr>'."\n   ";
 
     if(OOAddon::isAvailable($addon))
@@ -315,12 +315,12 @@ if ($subpage == '')
         
         echo '
             <tr class="rex-plugin">
-              <td class="rex-icon"></td>
-              <td>'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
-              <td>'.$install.'</td>
-              <td>'.$status.'</td>
-              <td>'.$uninstall.'</td>
-              <td>'.$delete.'</td>
+              <td class="rex-icon rex-col-a"></td>
+              <td class="rex-col-b">'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
+              <td class="rex-col-c">'.$install.'</td>
+              <td class="rex-col-d">'.$status.'</td>
+              <td class="rex-col-e">'.$uninstall.'</td>
+              <td class="rex-col-f">'.$delete.'</td>
             </tr>'."\n   ";
       }
     }
