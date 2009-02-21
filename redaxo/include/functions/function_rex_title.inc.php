@@ -184,9 +184,11 @@ function rex_get_subtitle($subline, $attr = '')
         $i++;
       }
       $subtitle_str = '
+      <div id="rex-navi-page">
       <ul>
         '. $items .'
       </ul>
+      </div>
       ';
     }
   }
