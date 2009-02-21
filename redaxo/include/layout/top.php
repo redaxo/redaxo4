@@ -128,11 +128,13 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
   	}  	
   }
   
+  echo '<dl class="rex-navi">';
   
   foreach(array('system' => $navi_system, 'addon' => $navi_addons) as $topic => $naviList)
   {
     $headline = $topic == 'system' ? $I18N->msg('navigation_basis') : $I18N->msg('navigation_addons');
-    echo '<h1>'. $headline .'</h1>';
+    
+    echo '<dt>'. $headline .'</dt><dd>';
     echo '<ul id="rex-navi-'. $topic .'">';
     
     $first = true;
@@ -152,12 +154,12 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
       foreach($item as $tag => $value)
         $tags .= ' '. $tag .'="'. $value .'"';
       
-      echo '<li'. $class .' id="'. $id .'"><a'. $tags . $extra .'>'. $pageTitle .'</a></li>';
+      echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>'. $pageTitle .'</a></li>';
       $first = false;
     }
-    echo '</ul>' . "\n";
+    echo '</ul></dd>' . "\n";
   }
-
+  echo '</dl>';
 }
 
 ?>
