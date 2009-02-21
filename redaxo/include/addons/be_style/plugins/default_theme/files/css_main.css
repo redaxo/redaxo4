@@ -80,7 +80,7 @@ div#rex-navi-main ul li.rex-active a {
 }
 div#rex-clang, 
 div.rex-content-header {
-	background-color: #C6D6D6;
+	background-color: #DFE9E9;
 }
 
 /*	Background Image ***********************************************************
@@ -102,6 +102,10 @@ div#rex-footer {
 }
 div#rex-navi-login {
 	background-image: url(logo.gif);
+}
+div.rex-form input.rex-form-submit {
+	background-image: url(button.gif);
+	background-repeat: repeat-x;
 }
 
 
@@ -219,17 +223,20 @@ div#rex-title ul#rex-navi-path {
 
 /*	Sprachen, Content (Editiermodus, Metadaten, Anzeigen) **********************
 *******************************************************************************/
-div#rex-clang {
-	padding-left: 0;
-}
-div.rex-content-header-2 {
-	margin-left: 0;
-	border-left: 0;
-}
 div#rex-clang, 
 div.rex-content-header-2 {
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
+}
+div#rex-clang {
+	padding-left: 0;
+}
+div#rex-clang ul {
+	border-left: 0;
+}
+div.rex-content-header-2 {
+	margin-left: 0;
+	border-left: 0;
 }
 div.rex-content-header ul {
 	margin-right: 0;
@@ -243,6 +250,24 @@ div.rex-content-header ul.rex-navi-content {
 *******************************************************************************/
 div.rex-content-body-2 {
 	padding: 0;
+}
+
+
+
+
+
+
+/*	Formulare ******************************************************************
+*******************************************************************************/
+div.rex-form input.rex-form-submit {
+	border: 0;
+	-moz-outline-radius-bottomleft: 4px;
+	-moz-outline-radius-bottomright: 4px;
+	-moz-outline-radius-topleft: 4px;
+	-moz-outline-radius-topright: 4px;
+	outline-color: #999;
+	outline-style: solid;
+	outline-width: 1px;
 }
 
 
@@ -277,14 +302,14 @@ div#rex-header {
 
 
 
-body.rex-layout-percentage div#rex-website {	
+body.rex-layout-liquid div#rex-website {	
 	width: 100%;
 }
-body.rex-layout-percentage div#rex-navi-main {
+body.rex-layout-liquid div#rex-navi-main {
 	width: 15%;
 	margin-left: 2%;
 }
-body.rex-layout-percentage div#rex-wrapper {
+body.rex-layout-liquid div#rex-wrapper {
 	width: 78%;
 	margin-right: 2%;
 }
