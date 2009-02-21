@@ -173,6 +173,9 @@ div.rex-form-row p input.rex-form-select-checkbox {
 	vertical-align: middle;
 }
 /*	Submit */
+div.rex-form input.rex-form-submit {
+	cursor: pointer;
+}
 div.rex-form div.rex-form-row p input.rex-form-submit {
 	margin-left: 155px;
 }
