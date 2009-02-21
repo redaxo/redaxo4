@@ -11,6 +11,7 @@
 	</div>
 <!-- *** OUTPUT OF CONTENT - END *** -->
 
+</div>
 </div><!-- END #rex-wrapper -->
 
 	<div id="rex-footer">
@@ -25,6 +26,9 @@
 		<p id="rex-scripttime"><?php echo rex_showScriptTime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
 		</div>
 	</div>
+	
+	<div id="rex-extra"></div>
+	
 	</div><!-- END #rex-website -->
    </body>
 </html>

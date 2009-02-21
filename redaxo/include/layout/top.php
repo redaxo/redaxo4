@@ -167,3 +167,4 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 
 
 <div id="rex-wrapper">
+<div id="rex-wrapper2">
