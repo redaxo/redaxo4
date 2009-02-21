@@ -294,21 +294,36 @@ input.rex-form-text {
 	border: 1px solid #999;
 }
 /*	Submit */
+body#rex-page-structure div.rex-form, 
 body#rex-page-structure table.rex-table, 
+body#rex-page-template div.rex-form, 
 body#rex-page-template table.rex-table,  
+body#rex-page-module div.rex-form, 
 body#rex-page-module table.rex-table, 
+body#rex-page-user div.rex-form, 
 body#rex-page-user table.rex-table, 
 body#rex-page-addon table.rex-table, 
+body#rex-page-specials div.rex-form, 
+div.rex-addon-output, 
 div.rex-form input.rex-form-submit {
-	padding: 0 4px;
 	border: 0;
 	-moz-outline-radius-bottomleft: 4px;
 	-moz-outline-radius-bottomright: 4px;
 	-moz-outline-radius-topleft: 4px;
 	-moz-outline-radius-topright: 4px;
-	outline-color: #CBCBCB;
-	outline-style: solid;
-	outline-width: 1px;
+	outline: 1px solid #CBCBCB;
+}
+body#rex-page-structure div.rex-form table.rex-table, 
+body#rex-page-module div.rex-form table.rex-table {
+	border: 0;
+	-moz-outline-radius-bottomleft: 0;
+	-moz-outline-radius-bottomright: 0;
+	-moz-outline-radius-topleft: 0;
+	-moz-outline-radius-topright: 0;
+	outline: 0;
+}
+div.rex-form input.rex-form-submit {
+	padding: 0 4px;
 }
 
 
