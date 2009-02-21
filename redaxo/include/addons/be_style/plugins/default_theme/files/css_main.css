@@ -1,0 +1,251 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ */
+
+
+
+/*	Textfarben *****************************************************************
+*******************************************************************************/
+/*	Weiss */
+div#rex-navi-main ul li a.rex-active {
+	color: #FFF;
+}
+
+/*	Cyan */
+a, 
+div#rex-navi-footer, 
+div#rex-navi-footer ul li, 
+div#rex-navi-footer ul li a {
+	color: #3C9ED0;
+}
+
+/*	Blau - Dunkel */
+div#rex-title h1, 
+div#rex-navi-page ul li a.rex-active, 
+div#rex-clang ul li a.rex-active, 
+div.rex-content-header ul li a.rex-active {
+	color: #14568A;
+}
+
+
+
+/*	Schriftarten ***************************************************************
+*******************************************************************************/
+body, 
+input, 
+textarea, 
+select {
+	font-family: Arial, Verdana, sans-serif;
+}
+
+
+/*	Schriftgroessen ************************************************************
+*******************************************************************************/
+div#rex-website {
+	font-size: .75em;
+}
+div#rex-title h1 {
+	font-size: 2em;
+}
+
+
+
+/*	Zeilenhoehen ***************************************************************
+*******************************************************************************/
+div#rex-title h1 {
+	line-height: 1.1;
+}
+
+
+/*	Background Color ***********************************************************
+*******************************************************************************/
+body {
+	background-color: #404040;
+}
+
+/*	Blau - Hell */
+div#rex-navi-main dd {
+	background-color: #3C9ED0;
+}
+
+/*	Blau - Dunkel */
+div#rex-navi-main ul li a:hover, 
+div#rex-navi-main ul li.rex-active a {
+	background-color: #14568A;
+}
+
+
+/*	Background Image ***********************************************************
+*******************************************************************************/
+body {
+	background-image: url(body.gif);
+	background-repeat: repeat-x;
+}
+div#rex-website {
+	background-image: url(website.gif);
+	background-repeat: repeat-x;
+}
+div#rex-footer {
+	background-image: url(footer.gif);
+	background-repeat: repeat-x;
+}
+div#rex-navi-login {
+	background-image: url(logo.gif);
+}
+
+
+/*	Seitenstruktur *************************************************************
+*******************************************************************************/
+body {
+	margin-top: 0;
+}
+div#rex-website {
+	float: left;
+	width: 964px;
+	background-color: #FFF;
+}
+
+div#rex-navi-login {
+	position: static;
+	float: left;
+	width: 100%;
+	height: 75px;
+	margin-bottom: 36px;
+}
+div#rex-navi-login p {
+	padding: 34px 5px 0 0;
+	text-align: right;
+}
+
+div#rex-navi-main {
+	float: left;
+	width: 171px;
+	margin-left: 16px;
+	padding: 0;
+	background: none;
+}
+
+div#rex-wrapper {
+	clear: none;
+	float: right;
+	width: 745px;
+	margin-right: 16px;
+	padding-bottom: 10px;
+}
+div#rex-title {
+	margin-top: 0px;
+	background: none;
+}
+/*
+div#rex-output {
+	background-color: #DFE9E9;
+}*/
+div#rex-footer {
+	border-top-color: #404040;
+	border-top-width: 8px;
+	margin: 0;
+	padding: 9px 0;
+}
+
+
+div#rex-title h1 {
+	padding-top: 5px;
+	padding-bottom: 18px;
+	padding-left: 0px;
+}
+
+
+/*	Navigationen ***************************************************************
+*******************************************************************************/
+div#rex-navi-main dl {
+	width: 100%;
+}
+div#rex-navi-main dt {
+	clear: both;
+	display: block;
+	background-image: url(navi_main_dt.gif);
+	background-repeat: no-repeat;
+	border-bottom: 1px solid #FFF;
+	padding: 12px 10px 6px 10px !important;
+	font-size: 1.333em;
+	font-weight: bold;
+}
+div#rex-navi-main dd {
+	margin: 0 0 16px 0;
+	padding: 0;
+}
+div#rex-navi-main ul li, 
+div#rex-navi-main ul li.rex-navi-first  {
+	display: block;
+	padding: 0;
+	background: none;
+	border-bottom: 1px solid #FFF;
+}
+div#rex-navi-main ul li a, 
+div#rex-navi-main ul li.rex-navi-first a {
+	display: block;
+	padding: 5px 10px;
+}
+div#rex-navi-main ul li a:hover {
+	text-decoration: none;
+}
+
+
+
+div#rex-title div.rex-title-row {
+	width: 100%;
+}
+div#rex-title div.rex-title-row-sub {
+	border-top: 1px solid #CBCBCB;
+	border-bottom: 1px solid #CBCBCB;
+}
+div#rex-title ul#rex-navi-path {
+	border: 0;
+}
+
+
+
+/*	Elemente wieder anzeigen ***************************************************
+*******************************************************************************/
+div#rex-navi-main dl dt {
+	display: block !important;
+	position: static !important;
+	width: auto !important;
+	height: auto !important;
+	background-color: transparent !important;
+}
+
+/*	Elemente verstecken ********************************************************
+		Hinweis: 
+			den Elementen nicht die Klasse "rex-hidden" einzeln zuweisen, 
+			da diese von anderen Layouts eventuell dargestellt werden sollen
+*******************************************************************************/
+div#rex-header {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background-color: #FFF !important;
+	overflow: hidden !important;
+}
+
+
+
+
+body.rex-layout-percentage div#rex-website {	
+	width: 100%;
+}
+body.rex-layout-percentage div#rex-navi-main {
+	width: 15%;
+	margin-left: 2%;
+}
+body.rex-layout-percentage div#rex-wrapper {
+	width: 78%;
+	margin-right: 2%;
+}
