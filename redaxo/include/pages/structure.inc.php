@@ -190,11 +190,16 @@ echo '
 
 if($function == 'add_cat' || $function == 'edit_cat')
 {
+
+  $legend = $I18N->msg('add_category');
+  if ($function == 'edit_cat')
+    $legend = $I18N->msg('edit_category');
+    
   echo '
   <div class="rex-form" id="rex-form-structure-category">
   <form action="index.php" method="post">
     <fieldset>
-      <legend><span>'.$I18N->msg('add_category') .'</span></legend>
+      <legend><span>'.$legend .'</span></legend>
       <input type="hidden" name="page" value="structure" />';
 
   if ($function == 'edit_cat')
@@ -452,11 +457,16 @@ if ($category_id > -1)
 
   if($function == 'add_art' || $function == 'edit_art')
   {
+
+    $legend = $I18N->msg('article_add');
+    if ($function == 'edit_art')
+      $legend = $I18N->msg('article_edit');
+    
     echo '
     <div class="rex-form" id="rex-form-structure-article">
     <form action="index.php" method="post">
       <fieldset>
-        <legend><span>'.$I18N->msg('article_add') .'</span></legend>
+        <legend><span>'.$legend .'</span></legend>
         <input type="hidden" name="page" value="structure" />
         <input type="hidden" name="category_id" value="'. $category_id .'" />';
     if ($article_id != "") echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
