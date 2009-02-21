@@ -19,7 +19,8 @@ a,
 div#rex-navi-login p a, 
 div#rex-navi-footer, 
 div#rex-navi-footer ul li, 
-div#rex-navi-footer ul li a {
+div#rex-navi-footer ul li a, 
+div.rex-content-header ul li a {
 	color: #3C9ED0;
 }
 
@@ -77,10 +78,16 @@ div#rex-navi-main ul li a:hover,
 div#rex-navi-main ul li.rex-active a {
 	background-color: #14568A;
 }
-
+div#rex-clang, 
+div.rex-content-header {
+	background-color: #C6D6D6;
+}
 
 /*	Background Image ***********************************************************
 *******************************************************************************/
+div.rex-content-header {
+	background-image: none;
+}
 body {
 	background-image: url(body.gif);
 	background-repeat: repeat-x;
@@ -157,6 +164,9 @@ div#rex-title h1 {
 	padding-bottom: 18px;
 	padding-left: 0px;
 }
+div#rex-output {
+	margin-top: 22px;
+}
 
 
 /*	Navigationen ***************************************************************
@@ -207,6 +217,33 @@ div#rex-title ul#rex-navi-path {
 	border: 0;
 }
 
+/*	Sprachen, Content (Editiermodus, Metadaten, Anzeigen) **********************
+*******************************************************************************/
+div#rex-clang {
+	padding-left: 0;
+}
+div.rex-content-header-2 {
+	margin-left: 0;
+	border-left: 0;
+}
+div#rex-clang, 
+div.rex-content-header-2 {
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+div.rex-content-header ul {
+	margin-right: 0;
+}
+div.rex-content-header ul.rex-navi-content {
+	margin-right: 0;
+	border: 0;
+}
+
+/*	Content ********************************************************************
+*******************************************************************************/
+div.rex-content-body-2 {
+	padding: 0;
+}
 
 
 /*	Elemente wieder anzeigen ***************************************************
