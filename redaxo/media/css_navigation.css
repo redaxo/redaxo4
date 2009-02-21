@@ -12,47 +12,66 @@ div#rex-navi-main {
 	width: 100%;
 	padding: 5px 0;
 }
-div#rex-navi-main p,
 div#rex-navi-footer p {
 	float: right;
 	margin: 0 5px;
 }
-div#rex-navi-main p a {
-	font-weight: bold;
+
+div#rex-navi-main dl {
+	width: 70%;
+}
+div#rex-navi-main dd {
+	padding: 0 5px;
 }
 
-div#rex-navi-main ul,
+div#rex-navi-main ul li,
+div#rex-navi-main ul li a {
+	font-weight: bold;
+}
+div#rex-navi-main ul li {
+	display: inline;
+	padding: 0 5px;
+}
+div#rex-navi-main ul li.rex-navi-first {
+	padding-left: 0px;
+}
+
+
 div#rex-navi-footer ul {
 	float: left;
 	width: 70%;
 	margin: 0 5px;
 }
-body#rex-page-medienpool div#rex-navi-main ul,
-body#rex-page-linkmap div#rex-navi-main ul {
-	width: 100%;
-}
-
-div#rex-navi-main ul li,
 div#rex-navi-footer ul li {
 	display: inline;
 }
-div#rex-navi-main ul li a {
-	font-weight: bold;
+
+/*	Navi Logout ****************************************************************
+*******************************************************************************/
+div#rex-navi-login {
+	position: absolute;
+	right: 5px;
+	top: 25px;
 }
-
-
 
 /*	Navi unter Titel ***********************************************************
 *******************************************************************************/
-div.rex-title-row ul li {
+div#rex-navi-page ul li {
 	display: inline;
 	font-weight: bold;
+}
+div#rex-navi-page ul li a {
+	padding: 0 5px;
+}
+div#rex-navi-page ul li.rex-navi-first a {
+	padding-left: 0;
 }
 
 /*	Pfad ***********************************************************************
 *******************************************************************************/
-/*	siehe Navi unter Titel */
 ul#rex-navi-path li {
+	display: inline;
+	font-weight: bold;
 }
 
 /*	Bspl.: Linkmap Path */
@@ -97,7 +116,6 @@ div.rex-content-header ul {
 div.rex-content-header ul.rex-navi-content {
 	float: right;
 	margin-right: 153px;
-	padding-right: 5px;
 	border-right-width: 1px;
 	border-right-style: solid;
 	border-left-width: 1px;
@@ -108,9 +126,14 @@ div.rex-content-header ul li {
 	display: inline;
 	font-weight: bold;
 }
-div.rex-content-header ul li a,
-div.rex-content-header ul li span {
+div#rex-clang ul li a,
+div.rex-content-header ul li a {
+	padding: 0 5px;
 	font-weight: normal;
+}
+div#rex-clang ul li.rex-navi-first a,
+div.rex-content-header ul li.rex-navi-first a {
+	padding-left: 0;
 }
 
 
