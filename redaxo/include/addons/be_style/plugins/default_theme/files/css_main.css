@@ -79,9 +79,37 @@ div#rex-navi-main ul li.rex-active a {
 	background-color: #14568A;
 }
 div#rex-clang, 
-div.rex-content-header {
+div.rex-content-header, 
+
+.rex-hl2, 
+div.rex-form, 
+div.rex-area-footer, 
+div.rex-addon-footer, 
+table.rex-table th, 
+table.rex-table tr td.rex-colored, 
+table.rex-table tr.rex-table-row-activ td {
 	background-color: #DFE9E9;
 }
+
+div#rex-footer,
+div#rex-header p.rex-header-top,
+div#rex-title,
+div#rex-linkmap, 
+div#rex-navi-path, 
+div#rex-form-system-setup,
+div#rex-mediapool-detail-wrapper, 
+div.rex-area, 
+div.rex-addon-output, 
+div.rex-content-cols, 
+div.rex-form div.rex-form-wrapper,
+div.rex-widget p.rex-widget-field input,
+div.rex-widget p.rex-widget-field select, 
+table.rex-table {
+	background-color: #EFF9F9;
+}
+
+
+
 
 /*	Background Image ***********************************************************
 *******************************************************************************/
@@ -257,15 +285,28 @@ div.rex-content-body-2 {
 
 
 
+
+
 /*	Formulare ******************************************************************
 *******************************************************************************/
+input.rex-form-text {
+	padding: 1px 2px;
+	border: 1px solid #999;
+}
+/*	Submit */
+body#rex-page-structure table.rex-table, 
+body#rex-page-template table.rex-table,  
+body#rex-page-module table.rex-table, 
+body#rex-page-user table.rex-table, 
+body#rex-page-addon table.rex-table, 
 div.rex-form input.rex-form-submit {
+	padding: 0 4px;
 	border: 0;
 	-moz-outline-radius-bottomleft: 4px;
 	-moz-outline-radius-bottomright: 4px;
 	-moz-outline-radius-topleft: 4px;
 	-moz-outline-radius-topright: 4px;
-	outline-color: #999;
+	outline-color: #CBCBCB;
 	outline-style: solid;
 	outline-width: 1px;
 }
