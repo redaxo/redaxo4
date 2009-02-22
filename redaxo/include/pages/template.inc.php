@@ -207,6 +207,7 @@ if ($function == "add" or $function == "edit")
 				<p class="rex-form-col-a rex-form-text" id="p_modules'.$i.'">
 					<label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label> 
 					'.$modul_select->get().'
+					<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
 				</p>
 				</div>';
         $i++;
