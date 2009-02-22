@@ -89,29 +89,40 @@ class OOPlugin extends rex_addon
    */
   function getAvailablePlugins($addon)
   {
-    global $REX;
-
-    $plugins = array();
-    if(isset($REX['ADDON']) && is_array($REX['ADDON']) &&
-       isset($REX['ADDON']['plugins']) && is_array($REX['ADDON']['plugins']) &&
-       isset($REX['ADDON']['plugins'][$addon]) && is_array($REX['ADDON']['plugins'][$addon]) &&
-       isset($REX['ADDON']['plugins'][$addon]['status']) && is_array($REX['ADDON']['plugins'][$addon]['status']))
-    {
-      $plugins = $REX['ADDON']['plugins'][$addon]['status'];
-    }
-    
     $avail = array();
-    foreach($plugins as $pluginName => $pluginStatus)
+    foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
     {
-      if($pluginStatus == 1)
+      if(OOPlugin::isAvailable($addon, $plugin))
       {
-        $avail[] = $pluginName;
+        $avail[] = $plugin;
       }
     }
 
     return $avail;
   }
   
+
+  /**
+   * Gibt ein Array aller installierten Plugins zurück.
+   * 
+   * @param string $addon Name des Addons
+   * 
+   * @return array Array aller registrierten Plugins
+   */
+  function getInstalledPlugins($addon)
+  {
+    $avail = array();
+    foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
+    {
+      if(OOPlugin::isInstalled($addon, $plugin))
+      {
+        $avail[] = $plugin;
+      }
+    }
+
+    return $avail;
+  }
+
   /**
    * Gibt ein Array aller registrierten Plugins zurück.
    * Ein Plugin ist registriert, wenn es dem System bekannt ist (plugins.inc.php).

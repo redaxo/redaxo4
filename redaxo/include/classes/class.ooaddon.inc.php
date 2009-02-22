@@ -28,19 +28,10 @@ class OOAddon extends rex_addon
    */
   function getAvailableAddons()
   {
-    global $REX;
-
-    $addons = array();
-    if(isset($REX['ADDON']) && is_array($REX['ADDON']) &&
-       isset($REX['ADDON']['status']) && is_array($REX['ADDON']['status']))
-    {
-      $addons = $REX['ADDON']['status'];
-    }
-
     $avail = array();
-    foreach($addons as $addonName => $addonStatus)
+    foreach(OOAddon::getRegisteredAddons() as $addonName)
     {
-      if($addonStatus == 1)
+      if(OOAddon::isAvailable($addonName))
         $avail[] = $addonName;
     }
 

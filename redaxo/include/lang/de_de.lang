@@ -560,6 +560,7 @@ addon_caption = Liste der verfügbaren AddOns
 addon_summary = Auflistung aller AddOns
 addon_systemaddon = System AddOn
 addon_systemaddon_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
+plugin_plugins_installed = PlugIn installiert
 plugin_install_not_found = Installationsdatei wurde nicht gefunden (install.inc.php)!
 plugin_uninstall_not_found = Deinstallationsdatei wurde nicht gefunden (uninstall.inc.php)!
 plugin_config_not_found = Konfigurationsdatei wurde nicht gefunden (config.inc.php)!

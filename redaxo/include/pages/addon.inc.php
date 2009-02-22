@@ -250,7 +250,15 @@ if ($subpage == '')
     if (OOAddon::isInstalled($addon))
     {
       $install = $I18N->msg("addon_yes").' - <a href="'. $addonurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
-      $uninstall = '<a href="'. $addonurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+      if(count(OOPlugin::getInstalledPlugins($addon)) > 0)
+      {
+        $uninstall = $I18N->msg("plugin_plugins_installed");
+        $delete = $I18N->msg("plugin_plugins_installed");
+      }
+      else
+      {
+        $uninstall = '<a href="'. $addonurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("addon_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+      }
     }
     else
     {
