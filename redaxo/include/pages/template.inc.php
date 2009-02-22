@@ -184,6 +184,7 @@ if ($function == "add" or $function == "edit")
       foreach ($ctypes as $id => $name) 
       {
       	$modul_select->setName('modules['.$i.'][]');
+      	$modul_select->setId('modules_'.$i.'_select');
 				$modul_select->resetSelected();
 				if(isset($modules[$i]) && count($modules[$i])>0)
 					foreach($modules[$i] as $j => $jj)
@@ -204,7 +205,7 @@ if ($function == "add" or $function == "edit")
 					<label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label> 
 				</p>
 				<p class="rex-form-col-a rex-form-text" id="p_modules'.$i.'">
-					<label for="modules['.$i.'][]">'.$I18N->msg("modules_available").'</label> 
+					<label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label> 
 					'.$modul_select->get().'
 				</p>
 				</div>';
