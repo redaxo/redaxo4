@@ -34,7 +34,7 @@ $REX['ADDON']['image_resize']['default_filters'] = array();
 // --- DYN
 $REX['ADDON']['image_resize']['max_cachefiles'] = 5;
 $REX['ADDON']['image_resize']['max_filters'] = 5;
-$REX['ADDON']['image_resize']['max_resizekb'] = 300;
+$REX['ADDON']['image_resize']['max_resizekb'] = 1000;
 $REX['ADDON']['image_resize']['max_resizepixel'] = 500;
 $REX['ADDON']['image_resize']['jpg_quality'] = 75;
 // --- /DYN
@@ -66,15 +66,4 @@ if ($rex_resize != '')
 if($REX['REDAXO'])
 {
   $I18N_IMG_RES = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
-
-  if(rex_get('css', 'string') == 'addons/'. $mypage)
-  {
-    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/image_resize.css';
-    rex_send_file($cssfile, 'text/css');
-    exit();
-  }
-
-  rex_register_extension('PAGE_HEADER',
-    create_function('$params', 'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\'."\n";')
-  );
 }

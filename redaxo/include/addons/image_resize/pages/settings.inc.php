@@ -51,13 +51,16 @@ if(!is_writable($config_file))
 
 echo '
 
+<div class="rex-addon-output">
+
+<h2 class="rex-hl2">'. $I18N_IMG_RES->msg('subpage_config') .'</h2>
+
 <div class="rex-area">
   <div class="rex-form">
 	
   <form action="index.php" method="post">
 
 		<fieldset class="rex-form-col-1">
-			<legend>Konfiguration</legend>
       <div class="rex-form-wrapper">
 			<input type="hidden" name="page" value="image_resize" />
 			<input type="hidden" name="subpage" value="settings" />
@@ -102,8 +105,11 @@ echo '
 					<input type="submit" class="rex-form-submit" name="sendit" value="'.$I18N->msg("update").'" />
 				</p>
 			</div>
+		</div>
 			</fieldset>
   </form>
   </div>
+</div>
+
 </div>
   ';

@@ -105,11 +105,13 @@ if($message != '')
 
 ?>
 
+<div class="rex-addon-output">
+<h2 class="rex-hl2"><?php echo $I18N_A93->msg('config_settings'); ?></h2>
+
 <div id="rex-addon-editmode" class="rex-form">
 	<form action="" method="post">
 
 	  <fieldset class="rex-form-col-1">
-		<legend class="rex-lgnd"><?php echo $I18N_A93->msg('config_settings'); ?></legend>
 
 		<div class="rex-form-wrapper">
 		
@@ -169,7 +171,7 @@ if($message != '')
     </div>
     <div class="rex-form-row">
     <p>
-      <label for="SMTPAuth"><?php echo $I18N_A93->msg('SMTPAuth'); ?></label>
+      <label for="smtpauth"><?php echo $I18N_A93->msg('SMTPAuth'); ?></label>
       <?php echo $sel_smtpauth->show(); ?>
     </p>
     </div>
@@ -185,17 +187,18 @@ if($message != '')
       <input type="text" name="Password" id="Password" value="<?php echo $Password ?>" />
     </p>
     </div>
-    <div class="rex-form-row">
-    <p>
-		  <input class="rex-sbmt" type="submit" name="btn_save" value="<?php echo $I18N_A93->msg('save'); ?>" />
-		  <input class="rex-sbmt" type="reset" name="btn_reset" value="<?php echo $I18N_A93->msg('reset'); ?>" onclick="return confirm('<?php echo $I18N_A93->msg('reset_info'); ?>');"/>
-		</p>
+		
+		<div class="rex-form-row">
+			<p class="rex-form-col-a rex-form-submit">
+			  <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $I18N_A93->msg('save'); ?>" />
+			  <input class="rex-form-submit" type="reset" name="btn_reset" value="<?php echo $I18N_A93->msg('reset'); ?>" onclick="return confirm('<?php echo $I18N_A93->msg('reset_info'); ?>');"/>
+			</p>
 		</div>
 	
 		</div>
 
 	  </fieldset>
 	</form>
-
+</div>
 
 </div>

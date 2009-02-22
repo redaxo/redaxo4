@@ -1,13 +1,18 @@
 <?php
 
 include $REX["INCLUDE_PATH"]."/layout/top.php";
-echo '<div id="rex-addon-output">';
 
 $subpages = array();
 rex_title("be_style", $subpages);
 
-$addon = "be_style";
+echo '<div class="rex-addon-output">';
 
+echo '<h2 class="rex-hl2">Themes/Plugins</h2>';
+
+echo '<div class="rex-addon-content">';
+
+
+$addon = "be_style";
 foreach(rex_read_plugins_folder($addon) as $plugin)
 {
 	if (OOPlugin::isInstalled($addon, $plugin))
@@ -18,8 +23,11 @@ foreach(rex_read_plugins_folder($addon) as $plugin)
 	{
 
 	}  
-	echo '<br />'.$plugin;
+	echo $plugin.'<br />';
 }
+echo '</div>';
+
+
 
 echo '</div>';
 

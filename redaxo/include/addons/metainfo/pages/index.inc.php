@@ -28,6 +28,8 @@ $subpages = array(
 
 rex_title('Metainformationen erweitern', $subpages);
 
+echo '<div class="rex-addon-output">';
+
 // Include Current Page
 switch($subpage)
 {
@@ -50,6 +52,9 @@ switch($subpage)
 $metaTable = a62_meta_table($prefix);
 
 require $Basedir .'/field.inc.php';
+
+echo '</div>';
+
 
 // Include Footer
 require $REX['INCLUDE_PATH'].'/layout/bottom.php';
