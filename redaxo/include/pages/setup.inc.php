@@ -254,20 +254,22 @@ if ($checkmodus == 1)
 
   // -------------------------- SCHREIBRECHTE
   $WRITEABLES = array (
-    $REX['INCLUDE_PATH'].'/master.inc.php',
-    $REX['INCLUDE_PATH'].'/addons.inc.php',
-    $REX['INCLUDE_PATH'].'/clang.inc.php',
-    $REX['INCLUDE_PATH'].'/generated',
-    $REX['INCLUDE_PATH'].'/generated/articles',
-    $REX['INCLUDE_PATH'].'/generated/templates',
-    $REX['INCLUDE_PATH'].'/generated/files',
-    realpath($REX['INCLUDE_PATH'].'/../../files'),
-    realpath($REX['INCLUDE_PATH'].'/../../files').'/_readme.txt',
-    $REX['INCLUDE_PATH'].'/addons/import_export/files'
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'master.inc.php',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons.inc.php',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'clang.inc.php',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'articles',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'templates',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'files',
+    $REX['MEDIAFOLDER'],
+    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
+    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'addons',
+    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR.'_readme.txt',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR.'import_export'.DIRECTORY_SEPARATOR.'files'
   );
 
   foreach($REX['SYSTEM_ADDONS'] as $system_addon)
-    $WRITEABLES[] = $REX['INCLUDE_PATH'].'/addons/'. $system_addon;
+    $WRITEABLES[] = $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR. $system_addon;
 
   $res = rex_setup_is_writable($WRITEABLES);
   if(count($res) > 0)
