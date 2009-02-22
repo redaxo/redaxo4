@@ -36,7 +36,7 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.oomedia.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooaddon.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooplugin.inc.php';
 
-if (!$REX['GG'])
+if ($REX['REDAXO'])
 {
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_title.inc.php';
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php';
@@ -44,9 +44,11 @@ if (!$REX['GG'])
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_formatter.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_manager.inc.php';
-  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
-  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
 }
+
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_select.inc.php';
 
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
 foreach($REX['VARIABLES'] as $key => $value)

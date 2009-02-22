@@ -73,9 +73,7 @@ if ($function == "add" or $function == "edit")
     $templatename = rex_post("templatename", "string");
     $content = rex_post("content", "string");
     $ctypes = rex_post("ctype", "array");
-
     $num_ctypes = count($ctypes);
-
     if ($ctypes[$num_ctypes] == "")
     {
       unset ($ctypes[$num_ctypes]);
@@ -92,14 +90,31 @@ if ($function == "add" or $function == "edit")
 			$ctypes[$i] = stripslashes($ctypes[$i]);
 		}
 
+    $modules = rex_post("modules", "array");
+    // leerer eintrag = 0
+    if(count($modules) == 0)
+    	$modules[1]["all"] = 0;
+    
+		foreach($modules as $k => $module)
+		{
+	    if(!isset($module["all"]) ||$module["all"] != 1)
+	      $modules[$k]["all"] = 0;
+		}
+
     $TPL = new rex_sql;
     $TPL->setTable($REX['TABLE_PREFIX'] . "template");
     $TPL->setValue("name", $templatename);
     $TPL->setValue("active", $active);
     $TPL->setValue("content", $content);
+    $attributes = rex_setAttributes("ctype", $ctypes, "");
+    $attributes = rex_setAttributes("modules", $modules, "");
+    $TPL->setValue("attributes", addslashes($attributes));
+    $TPL->addGlobalCreateFields();
 
-    if ($function == "add") {
+    if ($function == "add") 
+    {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
+      $attributes = rex_setAttributes("modules", $modules, $attributes);
       $TPL->setValue("attributes", addslashes($attributes));
       $TPL->addGlobalCreateFields();
 
@@ -107,15 +122,14 @@ if ($function == "add" or $function == "edit")
       {
 	      $template_id = $TPL->getLastId();
 	      $info = $I18N->msg("template_added");
-      }
-      else
+      }else
       {
         $warning = $TPL->getError();
       }
-    }
-    else
+    }else
     {
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
+      $attributes = rex_setAttributes("modules", $modules, $attributes);
 
       $TPL->setWhere("id='$template_id'");
       $TPL->setValue("attributes", addslashes($attributes));
@@ -145,16 +159,84 @@ if ($function == "add" or $function == "edit")
 
     // Ctype Handling
     $ctypes = rex_getAttributes("ctype", $attributes);
+		$modules = rex_getAttributes("modules", $attributes);
+		
+		if(!is_array($modules))
+			$modules = array();
+
+		// modules[ctype_id][module_id];
+		// modules[ctype_id]['all'];
+
+		// Module ...
+		$modul_select = new rex_select();
+		$modul_select->setMultiple(TRUE);
+		$modul_select->setSize(10);
+		$m_sql = new rex_sql;
+		$m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
+		foreach($m_sql->getArray() as $m)
+			$modul_select->addOption($m["name"],$m["id"]);
 
     $ctypes_out = '';
     $i = 1;
+    $ctypes[] = ""; // Extra, fŸr Neue Spalte
+    
     if (is_array($ctypes)) {
-      foreach ($ctypes as $id => $name) {
-        $ctypes_out .= '<div class="rex-form-row"><p class="rex-form-col-a rex-form-text"><label for="ctype'.$i.'">ID ' . $i . '</label> <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" /></p></div>';
+      foreach ($ctypes as $id => $name) 
+      {
+      	$modul_select->setName('modules['.$i.'][]');
+				$modul_select->resetSelected();
+				if(isset($modules[$i]) && count($modules[$i])>0)
+					foreach($modules[$i] as $j => $jj)
+						if("$j" != 'all') 
+							$modul_select->setSelected($jj);
+
+        $ctypes_out .= '
+				<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-text">
+					<label for="ctype'.$i.'">ID=' . $i . '</label> 
+					<input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />
+				</p>
+				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+					<input class="rex-form-checkbox" id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
+				if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
+					$ctypes_out .= ' checked="checked" ';
+			  $ctypes_out .= ' value="1" />
+					<label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label> 
+				</p>
+				<p class="rex-form-col-a rex-form-text" id="p_modules'.$i.'">
+					<label for="modules['.$i.'][]">'.$I18N->msg("modules_available").'</label> 
+					'.$modul_select->get().'
+				</p>
+				</div>';
         $i++;
       }
     }
-    $ctypes_out .= '<div class="rex-form-row"><p class="rex-form-col-a rex-form-text"><label for="ctype'.$i.'">ID ' . $i . '</label> <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="" /></p></div>';
+
+
+		$ctypes_out .= '
+			<script type="text/javascript">
+      <!--
+      jQuery(function($) {
+		';
+		
+		for($j=1;$j<=$i;$j++)
+		{
+			$ctypes_out .= '
+
+        $("#allmodules'.$j.'").click(function() {
+          $("#p_modules'.$j.'").slideToggle("slow");
+        });
+        
+				if($("#allmodules'.$j.'").is(":checked")) {
+          $("#p_modules'.$j.'").hide();
+        }
+			';
+		}
+
+			$ctypes_out .= '
+      });
+      //--></script>';
+
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
@@ -203,7 +285,7 @@ if ($function == "add" or $function == "edit")
         <!-- DIV nötig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
 				<fieldset class="rex-form-col-1">
-					<legend>'.$I18N->msg("content_types").' [CTYPES]</legend>
+					<legend>'.$I18N->msg("content_types").' [ctypes]</legend>
 
 					<div class="rex-form-wrapper">
 						' . $ctypes_out . '
@@ -232,12 +314,15 @@ if ($function == "add" or $function == "edit")
       <!--
 
       jQuery(function($) {
+
         $("#active").click(function() {
           $("#rex-form-template-ctype").slideToggle("slow");
         });
-        if($("#active").is(":not(:checked)")) {
+        
+				if($("#active").is(":not(:checked)")) {
           $("#rex-form-template-ctype").hide();
         }
+
       });
 
       //--></script>';

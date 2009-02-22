@@ -262,6 +262,8 @@ header_template_functions = Functions
 delete_template = Delete template
 header_template_caption = List of available templates
 header_template_summary = List of templates
+modules_available = Only following Modules are available
+modules_available_all = All Modules are available
 
 # redaxo\include\functions\function_rex_category.inc.php
 article = Article
