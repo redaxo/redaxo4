@@ -132,6 +132,9 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
   
   foreach(array('system' => $navi_system, 'addon' => $navi_addons) as $topic => $naviList)
   {
+    if(count($naviList) == 0)
+      continue;
+      
     $headline = $topic == 'system' ? $I18N->msg('navigation_basis') : $I18N->msg('navigation_addons');
     
     echo '<dt>'. $headline .'</dt><dd>';
