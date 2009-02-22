@@ -20,19 +20,8 @@ function rex_generateAll()
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
   
   // ----------------------------------------------------------- generiere clang
-  $lg = new rex_sql();
-  $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
+  rex_generateClang();
   
-  $REX['CLANG'] = array();
-  while($lg->hasNext())
-  {
-    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name"); 
-    $lg->next();
-  }
-  
-  $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
-
   // ----------------------------------------------------------- message
   $MSG = $I18N->msg('delete_cache_message');
 
@@ -562,15 +551,24 @@ function rex_generateAddons($ADDONS, $debug = false)
   natsort($ADDONS);
 
   $content = "";
-  foreach ($ADDONS as $cur)
+  foreach ($ADDONS as $addon)
   {
-    if (!OOAddon :: isInstalled($cur))
-      $REX['ADDON']['install'][$cur] = 0;
+    if (!OOAddon :: isInstalled($addon))
+      OOAddon::setProperty($addon, 'install', 0);
 
-    if (!OOAddon :: isActivated($cur))
-      $REX['ADDON']['status'][$cur] = 0;
+    if (!OOAddon :: isActivated($addon))
+      OOAddon::setProperty($addon, 'status', 0);
 
-    $content .= "\$REX['ADDON']['install']['$cur'] = ".$REX['ADDON']['install'][$cur].";\n"."\$REX['ADDON']['status']['$cur'] = ".$REX['ADDON']['status'][$cur].";\n\n";
+    foreach(array('install', 'status') as $prop)
+    {
+      $content .= sprintf(
+        "\$REX['ADDON']['%s']['%s'] = '%d';\n",
+        $prop,
+        $addon,
+        OOAddon::getProperty($addon, $prop)
+      );
+    }
+    $content .= "\n";      
   }
 
   // Da dieser Funktion öfter pro request aufgerufen werden kann,
@@ -583,6 +581,24 @@ function rex_generateAddons($ADDONS, $debug = false)
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
   return true;
+}
+
+function rex_generateClang()
+{
+  global $REX;
+  
+  $lg = new rex_sql();
+  $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
+  
+  $REX['CLANG'] = array();
+  while($lg->hasNext())
+  {
+    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name"); 
+    $lg->next();
+  }
+  
+  $file = $REX['INCLUDE_PATH']."/clang.inc.php";
+  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
 }
 
 function rex_generateTemplate($template_id)
