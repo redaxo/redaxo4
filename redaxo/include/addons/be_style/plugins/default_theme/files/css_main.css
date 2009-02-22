@@ -370,3 +370,30 @@ body.rex-layout-liquid div#rex-wrapper {
 	width: 78%;
 	margin-right: 2%;
 }
+
+
+
+
+div#rex-navi-login {
+    background-position:10px 0px;
+}
+
+div#rex-wrapper {
+    padding-bottom: 40px;
+}
+
+div#rex-navi-login p {
+    padding: 34px 15px 0 0;
+}
+
+div#rex-navi-footer ul {
+    margin-left:15px;
+}
+
+div#rex-navi-footer p#rex-scripttime {
+    margin-right:15px;
+}
+
+
+
+
