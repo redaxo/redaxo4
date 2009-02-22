@@ -22,7 +22,7 @@ $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(660); // oktaler wert
 $REX['DIRPERM'] = octdec(770); // oktaler wert
-$REX['INSTNAME'] = "rex20081101010101";
+$REX['INSTNAME'] = "rex20090222010101";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -121,12 +121,8 @@ $REX['ACKEY']['LOGOUT'] = 'l';
 
 // ----- allgemein
 $REX['PERM'] = array();
-$REX['PERM'][] = 'addon[]';
 $REX['PERM'][] = 'specials[]';
 $REX['PERM'][] = 'mediapool[]';
-$REX['PERM'][] = 'module[]';
-$REX['PERM'][] = 'template[]';
-$REX['PERM'][] = 'user[]';
 $REX['PERM'][] = 'profile[]';
 
 // ----- optionen
