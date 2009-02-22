@@ -10,7 +10,7 @@
 // ----------------------------------------- Alles generieren
 
 /**
- * Startet den kompletten Generations-Prozess von allen Artikel/Kategorien für alle Dateien
+ * Löscht den vollständigen Artikel-Cache.
  */
 function rex_generateAll()
 {
@@ -20,7 +20,10 @@ function rex_generateAll()
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
   
   // ----------------------------------------------------------- generiere clang
-  rex_generateClang();
+  if(($MSG = rex_generateClang()) !== TRUE)
+  {
+    return $MSG;
+  }
   
   // ----------------------------------------------------------- message
   $MSG = $I18N->msg('delete_cache_message');
@@ -58,7 +61,14 @@ function rex_deleteCacheArticle($id, $clang = null)
   }
 }
 
-
+/**
+ * Generiert den Artikel-Cache der Metainformationen.
+ * 
+ * @param $article_id Id des zu generierenden Artikels
+ * @param [$clang ClangId des Artikels]
+ * 
+ * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+ */
 function rex_generateArticleMeta($article_id, $clang = null)
 {
   global $REX, $I18N;
@@ -72,7 +82,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $CONT->setCLang($_clang);
     $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
     $CONT->setEval(FALSE); // Content nicht ausfŸhren, damit in Cachedatei gespeichert werden kann
-    if (!$CONT->setArticleId($article_id)) return false;
+    if (!$CONT->setArticleId($article_id)) return FALSE;
 
     // --------------------------------------------------- Artikelparameter speichern
     $params = array(
@@ -95,7 +105,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $content .= '?>';
     
     $article_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.article";
-    if (rex_put_file_contents($article_file, $content) === false)
+    if (rex_put_file_contents($article_file, $content) === FALSE)
     {
       return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
@@ -104,9 +114,17 @@ function rex_generateArticleMeta($article_id, $clang = null)
     require ($article_file);
   }
   
-  return true;
+  return TRUE;
 }
 
+/**
+ * Generiert den Artikel-Cache des Artikelinhalts.
+ * 
+ * @param $article_id Id des zu generierenden Artikels
+ * @param [$clang ClangId des Artikels]
+ * 
+ * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+ */
 function rex_generateArticleContent($article_id, $clang = null)
 {
   global $REX, $I18N;
@@ -120,7 +138,7 @@ function rex_generateArticleContent($article_id, $clang = null)
     $CONT->setCLang($_clang);
     $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
     $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
-    if (!$CONT->setArticleId($article_id)) return false;
+    if (!$CONT->setArticleId($article_id)) return FALSE;
   
     // --------------------------------------------------- Artikelcontent speichern
     $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.content";
@@ -135,13 +153,13 @@ function rex_generateArticleContent($article_id, $clang = null)
       )
     );
   
-    if (rex_put_file_contents($article_content_file, $article_content) === false)
+    if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
       return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
   }
   
-  return true;
+  return TRUE;
 }
 
 /**
@@ -149,6 +167,8 @@ function rex_generateArticleContent($article_id, $clang = null)
  *
  * @param $id ArtikelId des Artikels, der generiert werden soll
  * @param $refreshall Boolean Bei True wird der Inhalte auch komplett neu generiert, bei False nur die Metainfos
+ * 
+ * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird
  */
 function rex_generateArticle($id, $refreshall = true)
 {
@@ -170,17 +190,17 @@ function rex_generateArticle($id, $refreshall = true)
     $CONT->setCLang($clang);
     $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
     $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
-    if (!$CONT->setArticleId($id)) return false;
+    if (!$CONT->setArticleId($id)) return FALSE;
       
     // ----------------------- generiere generated/articles/xx.article
     $MSG = rex_generateArticleMeta($id, $clang);
-    if($MSG === false) return false;
+    if($MSG === false) return FALSE;
     
     if($refreshall)
     {
       // ----------------------- generiere generated/articles/xx.content
       $MSG = rex_generateArticleContent($id, $clang);
-      if($MSG === false) return false;
+      if($MSG === false) return FALSE;
     }
 
     // ----- EXTENSION POINT
@@ -211,13 +231,15 @@ function rex_generateArticle($id, $refreshall = true)
   // ----- EXTENSION POINT
   $MSG = rex_register_extension_point('ARTICLE_GENERATED','',array ('id' => $id));
 
-  return true;
+  return TRUE;
 }
 
 /**
  * Löscht einen Artikel
  *
  * @param $id ArtikelId des Artikels, der gelöscht werden soll
+ * 
+ * @return Erfolgsmeldung bzw. Fehlermeldung bei Fehlern.
  */
 function rex_deleteArticle($id)
 {
@@ -228,6 +250,13 @@ function rex_deleteArticle($id)
   return $result === true ? $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted') : $result;
 }
 
+/**
+ * Löscht einen Artikel
+ * 
+ * @param $id ArtikelId des Artikels, der gelöscht werden soll
+ * 
+ * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
+ */
 function _rex_deleteArticle($id)
 {
   global $REX, $I18N;
@@ -290,13 +319,14 @@ function _rex_deleteArticle($id)
   {
     return $I18N->msg('category_doesnt_exist');
   }
-
 }
 
 /**
  * Generiert alle *.alist u. *.clist Dateien einer Kategorie/eines Artikels
  *
  * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
+ * 
+ * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
  */
 function rex_generateLists($re_id, $clang = null)
 {
@@ -330,7 +360,7 @@ function rex_generateLists($re_id, $clang = null)
     $content .= "\n?>";
 
     $article_list_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$_clang.alist";
-    if (rex_put_file_contents($article_list_file, $content) === false)
+    if (rex_put_file_contents($article_list_file, $content) === FALSE)
     {
       return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
@@ -349,13 +379,13 @@ function rex_generateLists($re_id, $clang = null)
     $content .= "\n?>";
 
     $article_categories_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$_clang.clist";
-    if (rex_put_file_contents($article_categories_file, $content) === false)
+    if (rex_put_file_contents($article_categories_file, $content) === FALSE)
     {
       return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
     }
   }
   
-  return true;
+  return TRUE;
 }
 
 /**
@@ -363,10 +393,12 @@ function rex_generateLists($re_id, $clang = null)
  *
  * @param $file Zu löschender Ordner/Datei
  * @param $delete_folders Ordner auch löschen? false => nein, true => ja
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
  */
-function rex_deleteDir($file, $delete_folders = false)
+function rex_deleteDir($file, $delete_folders = FALSE)
 {
-  $state = true;
+  $state = TRUE;
   
   $file = rtrim($file, DIRECTORY_SEPARATOR);
 
@@ -378,7 +410,7 @@ function rex_deleteDir($file, $delete_folders = false)
       $handle = opendir($file);
       if (!$handle)
       {
-        return false;
+        return FALSE;
       }
 
       while ($filename = readdir($handle))
@@ -390,14 +422,14 @@ function rex_deleteDir($file, $delete_folders = false)
 
         if (!rex_deleteDir($file.DIRECTORY_SEPARATOR.$filename, $delete_folders))
         {
-          $state = false;
+          $state = FALSE;
         }
       }
       closedir($handle);
 
-      if ($state !== true)
+      if ($state !== TRUE)
       {
-        return false;
+        return FALSE;
       }
       
 
@@ -407,7 +439,7 @@ function rex_deleteDir($file, $delete_folders = false)
         // Fehler unterdrücken, falls keine Berechtigung
         if (!@ rmdir($file))
         {
-          return false;
+          return FALSE;
         }
       }
     }
@@ -417,17 +449,17 @@ function rex_deleteDir($file, $delete_folders = false)
       // Fehler unterdrücken, falls keine Berechtigung
       if (!@ unlink($file))
       {
-        return false;
+        return FALSE;
       }
     }
   }
   else
   {
     // Datei/Ordner existiert nicht
-    return false;
+    return FALSE;
   }
 
-  return true;
+  return TRUE;
 }
 
 // ----------------------------------------- CLANG
@@ -436,13 +468,15 @@ function rex_deleteDir($file, $delete_folders = false)
  * Löscht eine Clang
  *
  * @param $id Zu löschende ClangId
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_deleteCLang($clang)
 {
   global $REX;
 
   if ($clang == 0 || !isset($REX['CLANG'][$clang]))
-    return false;
+    return FALSE;
 
   $clangName = $REX['CLANG'][$clang];
   unset ($REX['CLANG'][$clang]);
@@ -461,6 +495,8 @@ function rex_deleteCLang($clang)
   );
 
   rex_generateAll();
+  
+  return TRUE;
 }
 
 /**
@@ -468,16 +504,18 @@ function rex_deleteCLang($clang)
  *
  * @param $id   Id der Clang
  * @param $name Name der Clang
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_addCLang($id, $name)
 {
   global $REX;
   
-  if(isset($REX['CLANG'][$id])) return false;
+  if(isset($REX['CLANG'][$id])) return FALSE;
 
   $REX['CLANG'][$id] = $name;
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
+  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
   
   $add = new rex_sql();
   $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
@@ -513,7 +551,7 @@ function rex_addCLang($id, $name)
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
   
-  return true;
+  return TRUE;
 }
 
 /**
@@ -521,6 +559,8 @@ function rex_addCLang($id, $name)
  *
  * @param $id   Id der Clang
  * @param $name Name der Clang
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_editCLang($id, $name)
 {
@@ -530,7 +570,7 @@ function rex_editCLang($id, $name)
 
   $REX['CLANG'][$id] = $name;
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
+  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
 
   $edit = new rex_sql;
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
@@ -538,14 +578,17 @@ function rex_editCLang($id, $name)
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
   
-  return true;
+  return TRUE;
 }
 
 /**
-* Schreibt Addoneigenschaften in die Datei include/addons.inc.php
-* @param array Array mit den Namen der Addons aus dem Verzeichnis addons/
-*/
-function rex_generateAddons($ADDONS, $debug = false)
+ * Schreibt Addoneigenschaften in die Datei include/addons.inc.php
+ * 
+ * @param array Array mit den Namen der Addons aus dem Verzeichnis addons/
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateAddons($ADDONS)
 {
   global $REX;
   natsort($ADDONS);
@@ -576,13 +619,66 @@ function rex_generateAddons($ADDONS, $debug = false)
   clearstatcache();
 
   $file = $REX['INCLUDE_PATH']."/addons.inc.php";
+  if(rex_replace_dynamic_contents($file, $content) === FALSE)
+  {
+    return 'Datei "'.$file.'" hat keine Schreibrechte';
+  }
+  return TRUE;
+}
+
+/**
+ * Schreibt Plugineigenschaften in die Datei include/plugins.inc.php
+ * 
+ * @param array Array mit den Namen der Plugins aus dem Verzeichnis addons/plugins
+ * 
+ * @return TRUE bei Erfolg, sonst eine Fehlermeldung
+ */
+function rex_generatePlugins($PLUGINS)
+{
+  global $REX;
+  
+  $content = "";
+  foreach ($PLUGINS as $addon => $_plugins)
+  {
+    foreach($_plugins as $plugin)
+    {
+      if (!OOPlugin :: isInstalled($addon, $plugin))
+        OOPlugin::setProperty($addon, $plugin, 'install', 0);
+  
+      if (!OOPlugin :: isActivated($addon, $plugin))
+        OOPlugin::setProperty($addon, $plugin, 'status', 0);
+  
+      foreach(array('install', 'status') as $prop)
+      {
+        $content .= sprintf(
+          "\$REX['ADDON']['plugins']['%s']['%s']['%s'] = '%d';\n",
+          $addon,
+          $prop,
+          $plugin,
+          OOPlugin::getProperty($addon, $plugin, $prop)
+        );
+      }
+      $content .= "\n";
+    }
+  }
+
+  // Da dieser Funktion öfter pro request aufgerufen werden kann,
+  // hier die caches löschen
+  clearstatcache();
+
+  $file = $REX['INCLUDE_PATH']."/plugins.inc.php";
   if(rex_replace_dynamic_contents($file, $content) === false)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
-  return true;
+  return TRUE;
 }
 
+/**
+ * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
+ * 
+ * @return TRUE bei Erfolg, sonst eine Fehlermeldung
+ */
 function rex_generateClang()
 {
   global $REX;
@@ -598,9 +694,20 @@ function rex_generateClang()
   }
   
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], true) .";\n");
+  if(rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n") === FALSE)
+  {
+    return 'Datei "'.$file.'" hat keine Schreibrechte';
+  }
+  return TRUE;
 }
 
+/**
+ * Generiert den TemplateCache im Filesystem
+ * 
+ * @param $template_id Id des zu generierenden Templates
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
 function rex_generateTemplate($template_id)
 {
   global $REX;
@@ -619,9 +726,9 @@ function rex_generateTemplate($template_id)
   	{
   		$content = $var->getTemplate($content);
   	}
-    if(rex_put_file_contents($templateFile, $content) !== false)
+    if(rex_put_file_contents($templateFile, $content) !== FALSE)
     {
-      return true;
+      return TRUE;
     }
     else
     {
@@ -636,7 +743,7 @@ function rex_generateTemplate($template_id)
     trigger_error('Template with id "'. $template_id .'" does not exist!', E_USER_ERROR);
   }
 
-  return false;
+  return FALSE;
 }
 
 // ----------------------------------------- generate helpers
