@@ -82,6 +82,7 @@ Version 4.2.0 (2009-XX-XX)
     - ART_INIT wird im Kontruktor von rex_article verwendet [Jan.kristinus]
 
   Änderungen:
+  * Unnoetige Rechte entfernt. Laeuft nun alles unter Admin (template[]/module[]/user[]/addon[]) [Jan.Kristinus]
   * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
   * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
   * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
