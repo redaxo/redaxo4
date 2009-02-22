@@ -1,16 +1,27 @@
 <?php
 
+/**
+ * Managerklasse zum handeln von Addons
+ */
 /*abstract*/ class rex_installManager
 {
   var $i18nPrefix;
   
+  /**
+   * Konstruktor
+   * 
+   * @param $i18nPrefix Sprachprefix aller I18N Sprachschlüssel
+   */
   function rex_installManager($i18nPrefix)
   {
     $this->i18nPrefix = $i18nPrefix;
   }
   
   /**
+   * Installiert ein Addon
    * 
+   * @param $addonName Name des Addons
+   * @param $installDump Flag, ob die Datei install.sql importiert werden soll
    */
   /*public*/ function install($addonName, $installDump = true)
   {
@@ -91,7 +102,9 @@
   }
   
   /**
+   * De-installiert ein Addon
    * 
+   * @param $addonName Name des Addons
    */
   /*public*/ function uninstall($addonName)
   {
@@ -153,7 +166,9 @@
   }
   
   /**
+   * Aktiviert ein Addon
    * 
+   * @param $addonName Name des Addons
    */
   /*public*/ function activate($addonName)
   {
@@ -174,7 +189,9 @@
   }
   
   /**
+   * Deaktiviert ein Addon
    * 
+   * @param $addonName Name des Addons
    */
   /*public*/ function deactivate($addonName)
   {
@@ -188,7 +205,9 @@
   }
   
   /**
+   * Löscht ein Addon im Filesystem
    * 
+   * @param $addonName Name des Addons
    */
   /*public*/ function delete($addonName)
   {
@@ -201,43 +220,65 @@
     return $state;
   }
   
+  /**
+   * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes 
+   */
   /*protected*/ function I18N()
   {
     global $I18N;
-    
-    debug_print_backtrace();
     
     $args = func_get_args();
     $args[0] = $this->i18nPrefix. $args[0];
     
     return rex_call_func(array($I18N, 'msg'), $args, false);
   }
-  
+
+  /**
+   * Bindet die config-Datei eines Addons ein
+   */
   /*protected*/ function includeConfig($configFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
   
+  /**
+   * Bindet die installations-Datei eines Addons ein
+   */
   /*protected*/ function includeInstaller($installFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
   
+  /**
+   * Bindet die deinstallations-Datei eines Addons ein
+   */
   /*protected*/ function includeUninstaller($uninstallFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
   
+  /**
+   * Speichert den aktuellen Zustand
+   */
   /*protected*/ function generateConfig()
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
   
+  /**
+   * Ansprechen einer API funktion
+   * 
+   * @param $method Name der Funktion
+   * @param $arguments Array von Parametern/Argumenten
+   */
   /*protected*/ function apiCall($method, $arguments)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
       
+  /**
+   * Findet den Basispfad eines Addons
+   */
   /*protected*/ function baseFolder($addonName)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
