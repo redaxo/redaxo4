@@ -973,7 +973,7 @@ class rex_article
     // UserId gibts nur im Backend
     if($user_id === null)
     {
-      if($REX['USER'])
+      if(isset($REX['USER']))
       {
         $user_id = $REX['USER']->getValue('user_id');
         $user_login = $REX['USER']->getValue('login');
