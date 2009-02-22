@@ -84,12 +84,16 @@ if ($info != '')
 if ($warning != '')
   echo rex_warning($warning);
 
+
+echo '
+      <div class="rex-form" id="rex-form-system-language">
+      <form action="index.php#clang" method="post">
+		';
+
 if ($func == 'addclang' || $func == 'editclang')
 {
   $legend = $func == 'add_clang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');
   echo '
-      <div class="rex-form" id="rex-form-system-language">
-      <form action="index.php#clang" method="post">
         <fieldset>
           <legend>'.$legend.'</legend>
           <input type="hidden" name="page" value="specials" />
@@ -182,7 +186,9 @@ if ($func == 'addclang' || $func == 'editclang')
             });
             //-->
           </script>
-        </fieldset>
+        </fieldset>';
+}
+
+echo '
       </form>
       </div>';
-}
