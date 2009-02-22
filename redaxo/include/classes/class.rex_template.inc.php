@@ -89,4 +89,17 @@ class rex_template
 		$file = $this->getFilePath($this->getId());
     return @unlink($file);
   }
+  
+  /* static */ function isModule($template_attributes,$ctype,$module_id)
+	{
+		$template_modules = rex_getAttributes('modules', $template_attributes, array ());
+		if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
+			return TRUE;
+		
+		if(in_array($module_id,$template_modules[$ctype]))
+			return TRUE;
+		
+	  return FALSE;
+	}
+  
 }

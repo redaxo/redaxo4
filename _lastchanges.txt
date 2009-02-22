@@ -17,6 +17,7 @@ Version 4.2.0 (2009-XX-XX)
   * $REX['GG'] DEPRECATED! 
     
   Neu:
+  * Module sind Ctypes und Templates zuweisbar. Bei Artikeln ohne Templates sind alle Module verfügbar. [Jan.Kristinus]
   * Vorgenerierungsmechanismus optimiert (jetzt selektiv) [Markus.Staab]
   * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst. [Jan.Kristinus] 
   * Startpage ist nun festlegbar [Jan.Kristinus]

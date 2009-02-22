@@ -18,7 +18,10 @@ class rex_article
 
   var $category_id;  
   var $CONT;
+  
   var $template_id;
+  var $template_attributes;
+  
   var $ViewSliceId;
   var $save;
   var $ctype;
@@ -251,7 +254,7 @@ class rex_article
 
   function getArticle($curctype = -1)
   {
-    global $REX_USER,$REX,$I18N;
+    global $REX,$I18N;
 
     if($this->content != "") {
       echo $this->content;
@@ -342,18 +345,54 @@ class rex_article
           $MODULE = new rex_sql;
           $MODULE->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
 
-          $MODULESELECT = new rex_select;
-          $MODULESELECT->setName('module_id');
-          $MODULESELECT->setSize('1');
-          $MODULESELECT->setStyle('class="rex-form-select"');
-          $MODULESELECT->setAttribute('onchange', 'this.form.submit();');
-          $MODULESELECT->addOption('----------------------------  '.$I18N->msg('add_block'),'');
+					// TODO: !!!!
+					
+					$MODULESELECT = array();
 
-          for ($i=0;$i<$MODULE->getRows();$i++)
-          {
-            if ($REX_USER->hasPerm('module['.$MODULE->getValue('id').']') || $REX_USER->hasPerm('admin[]')) $MODULESELECT->addOption(rex_translate($MODULE->getValue('name'),NULL,FALSE),$MODULE->getValue('id'));
-            $MODULE->next();
-          }
+					$template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
+					$template_modules = rex_getAttributes('modules', $this->template_attributes, array ());
+					$modules = $MODULE->getArray();
+
+					foreach($template_ctypes as $ct_id => $ct_name)
+					{
+
+	          $MODULESELECT[$ct_id] = new rex_select;
+  	        $MODULESELECT[$ct_id]->setName('module_id');
+    	      $MODULESELECT[$ct_id]->setSize('1');
+      	    $MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
+        	  $MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
+          	$MODULESELECT[$ct_id]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
+						reset($modules);
+						foreach($modules as $m)
+						{
+	         	  if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
+	         	  {
+	         	    if(
+										rex_template::isModule($this->template_attributes,$ct_id,$m['id'])
+        					)
+        					{
+        						$MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
+        					}
+	         	  }
+						}
+					}
+					
+					if(count($template_ctypes) == 0)
+					{
+						// Default Selectbox wenn kein Template vorhanden ist.ctype vorhanden
+	          $MODULESELECT[1] = new rex_select;
+	 	        $MODULESELECT[1]->setName('module_id');
+	   	      $MODULESELECT[1]->setSize('1');
+	     	    $MODULESELECT[1]->setStyle('class="rex-form-select"');
+        	  $MODULESELECT[1]->setAttribute('onchange', 'this.form.submit();');
+	       	  $MODULESELECT[1]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
+	       	  foreach($modules as $m)
+						{
+	         	  if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
+	         	    $MODULESELECT[1]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
+						}
+					}
+					
         }
 
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
@@ -388,7 +427,7 @@ class rex_article
             {
 
               // ----- BLOCKAUSWAHL - SELECT
-              $MODULESELECT->setId("module_id". $I_ID);
+              $MODULESELECT[$this->ctype]->setId("module_id". $I_ID);
 
               $slice_content = '
               <div class="rex-form rex-form-content-editmode">
@@ -406,7 +445,7 @@ class rex_article
 									<div class="rex-form-wrapper">
 										<div class="rex-form-row">
 		                  <p class="rex-form-col-a rex-form-select">
-    		                '. $MODULESELECT->get() .'
+    		                '. $MODULESELECT[$this->ctype]->get() .'
         		            <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
             		      </p>
             		    </div>
@@ -418,7 +457,7 @@ class rex_article
             }
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-            if($REX_USER->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]") || $REX_USER->hasPerm("admin[]"))
+            if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
             {
               $msg = '';
 
@@ -438,7 +477,7 @@ class rex_article
               $listElements = array();
               $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx2">'. $I18N->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
               $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx3" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-              if ($REX_USER->hasPerm('moveSlice[]'))
+              if ($REX['USER']->hasPerm('moveSlice[]'))
               {
                 $moveUp = $I18N->msg('move_slice_up');
                 $moveDown = $I18N->msg('move_slice_down');
@@ -497,7 +536,6 @@ class rex_article
                     $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $this->CONT);
                 }
 
-                // TODO: PreviewActions gibts nur im EditMode...?
                 if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
                 elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
                 else $modebit = '1'; // pre-action and add
@@ -625,7 +663,7 @@ class rex_article
           }else
           {
             // ----- BLOCKAUSWAHL - SELECT
-            $MODULESELECT->setId("module_id". $LCTSL_ID);
+            $MODULESELECT[$this->ctype]->setId("module_id". $LCTSL_ID);
 
             // $slice_content = $add_select_box;
             $slice_content = '
@@ -645,7 +683,7 @@ class rex_article
 									<div class="rex-form-wrapper">
 										<div class="rex-form-row">
 		                  <p class="rex-form-col-a rex-form-select">
-		                  	'. $MODULESELECT->get() .'
+		                  	'. $MODULESELECT[$this->ctype]->get() .'
 		                  	<noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
                 			</p>
                 		</div>
@@ -935,11 +973,10 @@ class rex_article
     // UserId gibts nur im Backend
     if($user_id === null)
     {
-      global $REX_USER;
-      if($REX_USER)
+      if($REX['USER'])
       {
-        $user_id = $REX_USER->getValue('user_id');
-        $user_login = $REX_USER->getValue('login');
+        $user_id = $REX['USER']->getValue('user_id');
+        $user_login = $REX['USER']->getValue('login');
       }else
       {
         $user_id = '';
