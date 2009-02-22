@@ -130,20 +130,14 @@ else
 			$pages["MEDIAPOOL"] = array($I18N->msg("mediapool"),0,0);
 		}
 
-		if ($REX_USER->hasPerm('template[]') || $REX_USER->isAdmin())
+		if ($REX_USER->isAdmin())
+		{
 		  $pages["TEMPLATE"] = array($I18N->msg("template"),0,1);
-
-		if ($REX_USER->hasPerm('module[]') || $REX_USER->isAdmin())
 		  $pages["MODULE"] = array($I18N->msg("modules"),0,1);
-
-		if ($REX_USER->hasPerm('user[]') || $REX_USER->isAdmin())
 		  $pages["USER"] = array($I18N->msg("user"),0,1);
-
-		if ($REX_USER->hasPerm('addon[]') || $REX_USER->isAdmin())
 		  $pages["ADDON"] = array($I18N->msg("addon"),0,1);
-
-		if ($REX_USER->hasPerm('specials[]') || $REX_USER->isAdmin())
 		  $pages["SPECIALS"] = array($I18N->msg("specials"),0,1);
+		}
 
 		if (is_array($REX['ADDON']['status']))
 		  reset($REX['ADDON']['status']);
