@@ -367,12 +367,12 @@ class rex_thumbnail
 		  ob_end_clean();
 
     // get params
-    preg_match('@([0-9]*)([awhc])__(([0-9]*)h__)?((\-?[0-9]*)o__)?(.*)@', $rex_resize, $resize);
-
+    preg_match('@([0-9]+)([awhc])__(([0-9]+)h__)?((\-?[0-9]+)o__)?(.*)@', $rex_resize, $resize);
+    
 	  $size = $resize[1];
 	  $mode = $resize[2];
 	  $height = $resize[4];
-    $offset = $resize[6];
+      $offset = $resize[6];
 	  $imagefile = $resize[7];
 	  $rex_filter = rex_get('rex_filter', 'array');
 
