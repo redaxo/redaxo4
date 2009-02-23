@@ -30,7 +30,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     $pluginConfig = rex_plugins_folder($addonName, $pluginName). 'config.inc.php';
     if(file_exists($pluginConfig))
     {
-      require $pluginConfig;
+      rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginConfig);
     }
   }
 }

@@ -41,7 +41,7 @@
     {
       if (is_readable($install_file))
       {
-        $this->includeInstaller($install_file);
+        $this->includeInstaller($addonName, $install_file);
   
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
@@ -66,7 +66,7 @@
           {
             if (!$this->apiCall('isActivated', array($addonName)))
             {
-              $this->includeConfig($config_file);
+              $this->includeConfig($addonName, $config_file);
             }
           }
           else
@@ -126,7 +126,7 @@
   
     if (is_readable($uninstall_file))
     {
-      $this->includeUninstaller($uninstall_file);
+      $this->includeUninstaller($addonName, $uninstall_file);
   
       // Wurde das "install" Flag gesetzt?
       // Fehlermeldung ausgegeben? Wenn ja, Abbruch
@@ -255,7 +255,7 @@
   /**
    * Bindet die config-Datei eines Addons ein
    */
-  /*protected*/ function includeConfig($configFile)
+  /*protected*/ function includeConfig($addonName, $configFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -263,7 +263,7 @@
   /**
    * Bindet die installations-Datei eines Addons ein
    */
-  /*protected*/ function includeInstaller($installFile)
+  /*protected*/ function includeInstaller($addonName, $installFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -271,7 +271,7 @@
   /**
    * Bindet die deinstallations-Datei eines Addons ein
    */
-  /*protected*/ function includeUninstaller($uninstallFile)
+  /*protected*/ function includeUninstaller($addonName, $uninstallFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -336,20 +336,20 @@ class rex_addonManager extends rex_installManager
     parent::delete($addonName);
   }
   
-  /*protected*/ function includeConfig($configFile)
+  /*protected*/ function includeConfig($addonName, $configFile)
   {
     global $REX;
     require $configFile;
   }
   
   
-  /*protected*/ function includeInstaller($installFile)
+  /*protected*/ function includeInstaller($addonName, $installFile)
   {
     global $REX;
     require $installFile;
   }
   
-  /*protected*/ function includeUninstaller($uninstallFile)
+  /*protected*/ function includeUninstaller($addonName, $uninstallFile)
   {
     global $REX;
     require $uninstallFile;
@@ -395,37 +395,66 @@ class rex_pluginManager extends rex_installManager
     parent::rex_installManager('plugin_');
   }
   
-  /*protected*/ function includeConfig($configFile)
-  {
-    global $REX;
-    // TODO ordentliche formatumwandlung
-    require $configFile;
-  }
-  
-  /*protected*/ function includeInstaller($installFile)
-  {
-    global $REX;
-    $ADDONSsic = $REX['ADDON'];
-    $REX['ADDON'] = array();
-    
-    // TODO ordentliche formatumwandlung
-    require $installFile;
-    
-    $ADDONSsic['plugins'][$this->addonName] = $REX['ADDON'];
-    $REX['ADDON'] = $ADDONSsic;
-  }
-  
-  /*protected*/ function includeUninstaller($uninstallFile)
+  /**
+   * Wandelt ein AddOn in ein PlugIn eines anderen AddOns um
+   * 
+   * @param $addonName AddOn dem das PlugIn eingefügt werden soll
+   * @param $pluginName Name des Plugins
+   * @param $includeFile Datei die eingebunden und umgewandelt werden soll
+   */
+  /*public static*/ function addon2plugin($addonName, $pluginName, $includeFile)
   {
     global $REX;
     $ADDONSsic = $REX['ADDON'];
     $REX['ADDON'] = array();
     
-    // TODO ordentliche formatumwandlung
-    require $uninstallFile;
+    require $includeFile;
+
+    $plugInConfig = array();
+    if(isset($ADDONSsic['plugins'][$addonName]))
+    {
+      $plugInConfig = $ADDONSsic['plugins'][$addonName]; 
+    }
     
-    $ADDONSsic['plugins'][$this->addonName] = $REX['ADDON'];
-    $REX['ADDON'] = $ADDONSsic;
+    if(isset($REX['ADDON']) && is_array($REX['ADDON']))
+    {
+      foreach(array_keys($REX['ADDON']) as $key)
+      {
+        // Alle Eigenschaften die das PlugIn betreffen verschieben
+        if(isset($REX['ADDON'][$key][$pluginName]))
+        {
+          $plugInConfig[$key][$pluginName] = $REX['ADDON'][$key][$pluginName];
+          unset($REX['ADDON'][$key][$pluginName]);
+          
+          // ggf array das leer geworden ist löschen
+          // damit es beim merge später nicht ein vorhandes überschreibt
+          if(empty($REX['ADDON'][$key]))
+          {
+            unset($REX['ADDON'][$key]);
+          }
+        }
+      }
+    }
+
+    // Addoneinstellungen als PlugIndaten speichern
+    $ADDONSsic['plugins'][$addonName] = $plugInConfig;
+    // Alle überbleibenden Keys die ggf. andere Addons beinflussen einfließen lassen
+    $REX['ADDON'] = array_merge_recursive($ADDONSsic, $REX['ADDON']);
+  }
+  
+  /*protected*/ function includeConfig($addonName, $configFile)
+  {
+    rex_pluginManager::addon2plugin($this->addonName, $addonName, $configFile);
+  }
+  
+  /*protected*/ function includeInstaller($addonName, $installFile)
+  {
+    rex_pluginManager::addon2plugin($this->addonName, $addonName, $installFile);
+  }
+  
+  /*protected*/ function includeUninstaller($addonName, $uninstallFile)
+  {
+    rex_pluginManager::addon2plugin($this->addonName, $addonName, $uninstallFile);
   }
   
   /*protected*/ function generateConfig()
