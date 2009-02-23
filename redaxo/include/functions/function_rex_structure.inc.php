@@ -488,10 +488,6 @@ function rex_editArticle($article_id, $clang, $data)
   {
     $message = $EA->getError();
   }
-  sleep(2);
-        $ooa = OOArticle::getArticleById($article_id, $clang);
-        $name = $ooa->getName();
-        var_dump($name);
 
   return array($success, $message);
 }
