@@ -168,7 +168,7 @@ if ($article->getRows() == 1)
 
         // ----- RECHTE AM MODUL ?
         if(
-        		!rex_template::isModule($template_attributes,$ctype,$module_id)
+        		!rex_template::hasModule($template_attributes,$ctype,$module_id)
         	)
         {
           $global_warning = $I18N->msg('no_rights_to_this_function');

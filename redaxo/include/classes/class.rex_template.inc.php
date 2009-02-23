@@ -90,7 +90,7 @@ class rex_template
     return @unlink($file);
   }
   
-  /* static */ function isModule($template_attributes,$ctype,$module_id)
+  /* static */ function hasModule($template_attributes,$ctype,$module_id)
 	{
 		$template_modules = rex_getAttributes('modules', $template_attributes, array ());
 		if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)

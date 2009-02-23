@@ -368,7 +368,7 @@ class rex_article
 	         	  if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
 	         	  {
 	         	    if(
-										rex_template::isModule($this->template_attributes,$ct_id,$m['id'])
+										rex_template::hasModule($this->template_attributes,$ct_id,$m['id'])
         					)
         					{
         						$MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
