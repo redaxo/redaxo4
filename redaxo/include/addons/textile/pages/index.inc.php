@@ -43,7 +43,9 @@ else
 		<?php rex_highlight_string($mdl_help); ?>
 		<p class="rex-tx1"><?php echo $I18N_A79->msg('module_rights'); ?></p>
 	</div>
+</div>
 
+<div class="rex-addon-output">
 	<h2 class="rex-hl2"><?php echo $I18N_A79->msg('code_for_module_output'); ?></h2>
 
 	<div class="rex-addon-content">
