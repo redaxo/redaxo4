@@ -13,6 +13,8 @@
  * @version $Id: config.inc.php,v 1.13 2008/03/26 21:06:37 kills Exp $
  */
 
+$error = '';
+
 if ($error != '')
   $REX['ADDON']['installmsg']['default_theme'] = $error;
 else
