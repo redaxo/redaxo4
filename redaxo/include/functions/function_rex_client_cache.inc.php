@@ -58,6 +58,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
   // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
   rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
 
+  // dynamische teile sollen die md5 summe nicht beeinflussen
   $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content));
 
   if($REX_ARTICLE)
@@ -120,6 +121,7 @@ function rex_send_content($content, $lastModified, $etag, $environment)
     $content = rex_send_gzip($content);
 
   // ----- MD5 Checksum
+  // dynamische teile sollen die md5 summe nicht beeinflussen
   if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
     rex_send_checksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
 
