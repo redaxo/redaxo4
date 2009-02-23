@@ -66,7 +66,9 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
     $etag .= $REX_ARTICLE->getValue('pid');
     
     if($REX_ARTICLE->getArticleId() == $REX['NOTFOUND_ARTICLE_ID'])
+    {
       header("HTTP/1.0 404 Not Found");
+    }
   }
   else
   {
@@ -95,6 +97,7 @@ function rex_send_content($content, $lastModified, $etag, $environment)
   global $REX;
 
   // Cachen erlauben, nach revalidierung
+  // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
   session_cache_limiter('none');
   header('Cache-Control: must-revalidate, proxy-revalidate, private');
     
