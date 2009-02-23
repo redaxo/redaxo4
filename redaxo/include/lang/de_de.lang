@@ -587,6 +587,8 @@ credits_version = Version
 credits_author = Autor
 credits_supportpage = Hilfe
 credits_addon_inactive = Addon inaktiv
+credits_caption = Liste der verwendeten AddOns/PlugIns
+credits_summary = Auflistung aller verwendeten AddOns/PlugIns
 
 # redaxo\include\pages\profile.inc.php
 profile_myprofile = Mein Benutzerprofil bearbeiten

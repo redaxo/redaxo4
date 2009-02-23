@@ -40,7 +40,8 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 <div class="rex-area">
 
-		<table class="rex-table">
+		<table class="rex-table"  summary="<?php echo $I18N->msg("credits_summary") ?>">
+      <caption><?php echo $I18N->msg("credits_caption"); ?></caption>
 			<thead>
 			<tr>
 				<th><?php echo $I18N->msg("credits_name"); ?></th>
@@ -54,28 +55,58 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 
 		<?php
 
-    foreach (OOAddon::getRegisteredAddons() as $cur)
+    foreach (OOAddon::getRegisteredAddons() as $addon)
     {
-      $isActive    = OOAddon::isActivated($cur);
-      $version     = OOAddon::getVersion($cur);
-      $author      = OOAddon::getAuthor($cur);
-      $supportPage = OOAddon::getSupportPage($cur);
-
+      $isActive    = OOAddon::isActivated($addon);
+      $version     = OOAddon::getVersion($addon);
+      $author      = OOAddon::getAuthor($addon);
+      $supportPage = OOAddon::getSupportPage($addon);
+      
     	if ($isActive) $cl = 'rex-clr-grn';
     	else $cl = 'rex-clr-red';
-    	echo '<tr><td><span class="'.$cl.'">'.htmlspecialchars($cur).'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$cur.'">?</a>]</td><td class="'.$cl.'">';
-
-
-    	if ($version) echo '['.$version.']';
-    	echo '</td><td class="'.$cl.'">';
-
-    	if ($author) echo htmlspecialchars($author);
-    	if (!$isActive) echo $I18N->msg('credits_addon_inactive');
-    	echo '</td><td class="'.$cl.'">';
-    	if ($supportPage) echo '<a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a>';
-    	echo '</td></tr>';
+    	
+    	if ($version)   $version       = '['.$version.']';
+    	if ($author)    $author        = htmlspecialchars($author);
+    	if (!$isActive) $author        = $I18N->msg('credits_addon_inactive');
+    	if ($supportPage) $supportPage = '<a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a>';
+    	
+    	echo '
+    	<tr class="rex-addon">
+    	  <td class="rex-col-a"><span class="'.$cl.'">'.htmlspecialchars($addon).'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
+    	  <td class="rex-col-b '.$cl.'">'. $version .'</td>
+    	  <td class="rex-col-c'.$cl.'">'. $author .'</td>
+    	  <td class="rex-col-d'.$cl.'">'. $supportPage .'</td>
+  	  </tr>';
+    	
+    	if($isActive)
+    	{
+        foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
+        {
+          $isActive    = OOPlugin::isActivated($addon, $plugin);
+          $version     = OOPlugin::getVersion($addon, $plugin);
+          $author      = OOPlugin::getAuthor($addon, $plugin);
+          $supportPage = OOPlugin::getSupportPage($addon, $plugin);
+          
+          if ($isActive) $cl = 'rex-clr-grn';
+          else $cl = 'rex-clr-red';
+          
+          if ($version)   $version       = '['.$version.']';
+          if ($author)    $author        = htmlspecialchars($author);
+          if (!$isActive) $author        = $I18N->msg('credits_addon_inactive');
+          if ($supportPage) $supportPage = '<a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a>';
+          
+          echo '
+          <tr class="rex-plugin">
+            <td class="rex-col-a"><span class="'.$cl.'">'.htmlspecialchars($plugin).'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
+            <td class="rex-col-b '.$cl.'">'. $version .'</td>
+            <td class="rex-col-c '.$cl.'">'. $author .'</td>
+            <td class="rex-col-d '.$cl.'">'. $supportPage .'</td>
+          </tr>';
+        }
+    	}
     }
-    	?>
+    
+  	?>
     		</tbody>
     	</table>
 </div>
