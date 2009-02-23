@@ -234,7 +234,7 @@ div#rex-form-medienpool-categories table.rex-table th.rex-icon,
 div#rex-form-medienpool-categories table.rex-table td.rex-icon {
 	padding-bottom: 6px;
 }
-body#rex-page-addons table.rex-table tr.rex-plugin td.rex-col-b, 
+body#rex-page-addon table.rex-table tr.rex-plugin td.rex-col-b, 
 body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
 	padding-left: 15px;
 }

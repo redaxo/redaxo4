@@ -473,7 +473,7 @@ div#rex-title {
 
 
 /*	Corner */
-body#rex-page-addons table.rex-table tr.rex-plugin td.rex-col-b, 
+body#rex-page-addon table.rex-table tr.rex-plugin td.rex-col-b, 
 body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
 	background-image: url(../media/corner.gif);
 	background-position: 7px 12px;
