@@ -81,49 +81,49 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
   foreach($REX['USER']->pages as $pageKey => $pageArr)
   {
     $pageKey = strtolower($pageKey);
-  	if(!in_array($pageKey, array("credits","profile","content","linkmap")))
-  	{
-  	  $item = array();
-  	  
+    if(!in_array($pageKey, array("credits","profile","content","linkmap")))
+    {
+      $item = array();
+      
       $item['id'] = 'rex-navi-page-'.$pageKey;
       $item['class'] = '';
-	  	if($pageKey == $REX["PAGE"]) 
+      if($pageKey == $REX["PAGE"]) 
         $item['class'] = 'rex-active';
 
-			if($pageArr[1] != 1)
-			{
-				// ***** Basis
-				if($pageKey == "mediapool")
-				{
+      if($pageArr[1] != 1)
+      {
+        // ***** Basis
+        if($pageKey == "mediapool")
+        {
           $item['href'] = '#';
           $item['onclick'] = 'openMediaPool();';
-				}
-				else
-				{ 
+        }
+        else
+        { 
           $item['href'] = 'index.php?page='.$pageKey;
-				}
-				
+        }
+        
         $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
         $item['tabindex'] = rex_tabindex(false);
-  	  	$navi_system[$pageArr[0]] = $item;
-			}
-			else
-			{
-				// ***** AddOn
-	  		if(isset ($REX['ADDON']['link'][$pageKey]) && $REX['ADDON']['link'][$pageKey] != "") 
+        $navi_system[$pageArr[0]] = $item;
+      }
+      else
+      {
+        // ***** AddOn
+        if(isset ($REX['ADDON']['link'][$pageKey]) && $REX['ADDON']['link'][$pageKey] != "") 
           $item['href'] = $REX['ADDON']['link'][$pageKey];
-				else 
+        else 
           $item['href'] = 'index.php?page='.$pageKey;
           
-	      if(isset ($REX['ACKEY']['ADDON'][$pageKey]))
+        if(isset ($REX['ACKEY']['ADDON'][$pageKey]))
           $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$pageKey]);
-	      else 
+        else 
           $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
-	      
+        
         $item['tabindex'] = rex_tabindex(false);
-  	  	$navi_addons[$pageArr[0]] = $item;
-			}
-  	}  	
+        $navi_addons[$pageArr[0]] = $item;
+      }
+    }
   }
   
   echo '<dl class="rex-navi">';
