@@ -30,10 +30,9 @@ if($REX["REDAXO"])
 	function rex_be_style_css_add($params)
 	{
 		$addon = "be_style";
-		foreach(rex_read_plugins_folder($addon) as $plugin)
+		foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
 		{
-			if(OOPlugin::isActivated($addon, $plugin) && OOPlugin::isInstalled($addon, $plugin))
-				echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
+			echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
 		}
 	}
 }
