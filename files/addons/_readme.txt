@@ -1,1 +1,0 @@
-// Ordner für abgelegte Dateien von REDAXO-Addons
