@@ -12,10 +12,18 @@ a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
-dl, dt, dd, ol, ul, li,
+dl, dt, dd, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ol, ul {
 	padding: 0;
 	border: 0;
 	outline: 0;
@@ -33,9 +41,11 @@ input {
 body {
 	line-height: 1;
 }
+/*
 ol, ul {
 	list-style: none;
 }
+*/
 blockquote, q {
 	quotes: none;
 }
@@ -151,6 +161,11 @@ li {
 .rex-strike {
 	text-decoration: line-through;
 }
+.rex-display-inline, 
+ol.rex-display-inline li, 
+ul.rex-display-inline li {
+	display: inline;
+}
 
 div#rex-website a {
 	text-decoration: none;
@@ -173,7 +188,7 @@ select {
 /*	Schriftgroessen ************************************************************
 *******************************************************************************/
 .rex-code {
-	font-size: 1.6em;
+	font-size: 1.2em;
 }
 div#rex-title h1 {
 	font-size: 1.3em;
@@ -342,6 +357,7 @@ div.rex-addon-output,
 div.rex-content-header,
 div.rex-content-cols, 
 div.rex-form div.rex-form-wrapper,
+div.rex-toolbar, 
 div.rex-widget p.rex-widget-field input,
 div.rex-widget p.rex-widget-field select, 
 table.rex-table {
@@ -457,7 +473,8 @@ div#rex-title {
 
 
 /*	Corner */
-table.rex-table tr.rex-plugin td.rex-col-b {
+body#rex-page-addons table.rex-table tr.rex-plugin td.rex-col-b, 
+body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
 	background-image: url(../media/corner.gif);
 	background-position: 7px 12px;
 	background-repeat: no-repeat;
@@ -517,6 +534,7 @@ div.rex-content-editmode-slice-output {
 	border-bottom-color: #FFF;
 }
 div#rex-clang ul,
+div.rex-toolbar-content,
 div.rex-content-header-2,
 div.rex-content-header ul.rex-navi-content {
 	border-left-color: #FFF;

@@ -234,7 +234,8 @@ div#rex-form-medienpool-categories table.rex-table th.rex-icon,
 div#rex-form-medienpool-categories table.rex-table td.rex-icon {
 	padding-bottom: 6px;
 }
-table.rex-table tr.rex-plugin td.rex-col-b {
+body#rex-page-addons table.rex-table tr.rex-plugin td.rex-col-b, 
+body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
 	padding-left: 15px;
 }
 
@@ -390,7 +391,33 @@ body#rex-page-import-export table.rex-table tr th {
 	white-space: nowrap;
 }
 
+body#rex-page-import-export div.rex-area-content, 
+body#rex-page-import-export div.rex-addon-content {
+	padding: 0;
+}
+body#rex-page-import-export div.rex-area-content p.rex-tx1 {
+	margin-bottom: 0px;
+	padding: 5px;
+}
 
+
+
+
+
+/*	Toolbar ********************************************************************
+*******************************************************************************/
+div.rex-toolbar {
+	position: relative;
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+div.rex-toolbar-content {
+	margin-left: 40px;
+	padding: 5px;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
 
 
 /*	Abstaende allgemein ********************************************************
