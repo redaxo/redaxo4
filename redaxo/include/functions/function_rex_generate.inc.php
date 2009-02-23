@@ -484,6 +484,8 @@ function rex_deleteDir($file, $delete_folders = FALSE)
  */
 function rex_copyDir($srcdir, $dstdir)
 {
+  global $REX;
+  
   $debug = FALSE;
   $state = TRUE;
   
