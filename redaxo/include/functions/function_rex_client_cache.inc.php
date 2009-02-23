@@ -114,7 +114,7 @@ function rex_send_content($content, $lastModified, $etag, $environment)
 
   // ----- MD5 Checksum
   if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
-    rex_send_checksum(md5($content));
+    rex_send_checksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
 
   // Evtl offene Db Verbindungen schlieﬂen
   rex_sql::disconnect(null);
