@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Managerklasse zum handeln von Addons
+ * Managerklasse zum handeln von rexAddons
  */
 /*abstract*/ class rex_installManager
 {
@@ -23,20 +23,21 @@
    * @param $addonName Name des Addons
    * @param $installDump Flag, ob die Datei install.sql importiert werden soll
    */
-  /*public*/ function install($addonName, $installDump = true)
+  /*public*/ function install($addonName, $installDump = TRUE)
   {
-    $state = true;
+    $state = TRUE;
   
     $install_dir  = $this->baseFolder($addonName);
     $install_file = $install_dir.'install.inc.php';
     $install_sql  = $install_dir.'install.sql';
     $config_file  = $install_dir.'config.inc.php';
+    $files_dir    = $install_dir.'files';
     
     // Prüfen des Addon Ornders auf Schreibrechte,
     // damit das Addon später wieder gelöscht werden kann
     $state = rex_is_writable($install_dir);
-  
-    if ($state === true)
+    
+    if ($state === TRUE)
     {
       if (is_readable($install_file))
       {
@@ -73,16 +74,16 @@
             $state = $this->I18N('config_not_found');
           }
   
-          if($installDump === true && $state === true && is_readable($install_sql))
+          if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
           {
             $state = rex_install_dump($install_sql);
   
-            if($state !== true)
+            if($state !== TRUE)
               $state = 'Error found in install.sql:<br />'. $state;
           }
   
           // Installation ok
-          if ($state === true)
+          if ($state === TRUE)
           {
             // regenerate Addons file
             $state = $this->generateConfig();
@@ -95,7 +96,16 @@
       }
     }
   
-    if($state !== true)
+    // Dateien kopieren
+    if($state === TRUE && is_dir($files_dir))
+    {
+      if(!rex_copyDir($files_dir, $this->mediaFolder($addonName)))
+      {
+        $state = $this->I18N('install_cant_copy_files');
+      }
+    }
+    
+    if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'install', 0));
   
     return $state;
@@ -108,7 +118,7 @@
    */
   /*public*/ function uninstall($addonName)
   {
-    $state = true;
+    $state = TRUE;
     
     $install_dir    = $this->baseFolder($addonName);
     $uninstall_file = $install_dir.'uninstall.inc.php';
@@ -138,15 +148,15 @@
       {
         $state = $this->deactivate($addonName);
   
-        if($state === true && is_readable($uninstall_sql))
+        if($state === TRUE && is_readable($uninstall_sql))
         {
           $state = rex_install_dump($uninstall_sql);
   
-          if($state !== true)
+          if($state !== TRUE)
             $state = 'Error found in uninstall.sql:<br />'. $state;
         }
   
-        if ($state === true)
+        if ($state === TRUE)
         {
           // regenerate Addons file
           $state = $this->generateConfig();
@@ -157,9 +167,17 @@
     {
       $state = $this->I18N('uninstall_not_found');
     }
+    
+    if($state === TRUE)
+    {
+      if(!rex_deleteDir($this->mediaFolder($addonName), TRUE))
+      {
+        $state = $this->I18N('install_cant_delete_files');
+      }
+    }
   
     // Fehler beim uninstall -> Addon bleibt installiert
-    if($state !== true)
+    if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'install', 1));
   
     return $state;
@@ -182,7 +200,7 @@
       $state = $this->I18N('no_activation', $addonName);
     }
   
-    if($state !== true)
+    if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'status', 0));
   
     return $state;
@@ -198,7 +216,7 @@
     $this->apiCall('setProperty', array($addonName, 'status', 0));
     $state = $this->generateConfig();
   
-    if($state !== true)
+    if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'status', 1));
       
     return $state;
@@ -213,8 +231,9 @@
   {
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
-    $state = $this->uninstall($addonName);
-    $state = $state && rex_deleteDir($this->baseFolder($addonName), true);
+    $state = TRUE;
+    $state = $state && $this->uninstall($addonName);
+    $state = $state && rex_deleteDir($this->baseFolder($addonName), TRUE);
     $state = $state && $this->generateConfig();
   
     return $state;
@@ -283,8 +302,19 @@
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
+  
+  /**
+   * Findet den Basispfad für Media-Dateien
+   */
+  /*protected*/ function mediaFolder($addonName)
+  {
+    trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
+  }
 }
 
+/**
+ * Manager zum installieren von OOAddons
+ */
 class rex_addonManager extends rex_installManager
 {
   var $configArray;
@@ -342,8 +372,17 @@ class rex_addonManager extends rex_installManager
   {
     return rex_addons_folder($addonName);
   }
+  
+  /*protected*/ function mediaFolder($addonName)
+  {
+    global $REX;
+    return $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR .$addonName;
+  }
 }
 
+/**
+ * Manager zum intallieren von OOPlugins
+ */
 class rex_pluginManager extends rex_installManager
 {
   var $configArray;
@@ -405,8 +444,14 @@ class rex_pluginManager extends rex_installManager
     return rex_call_func(array('OOPlugin', $method), $arguments, false);
   }
   
-  /*protected*/ function baseFolder($addonName)
+  /*protected*/ function baseFolder($pluginName)
   {
-    return rex_plugins_folder($this->addonName, $addonName);
+    return rex_plugins_folder($this->addonName, $pluginName);
+  }
+  
+  /*protected*/ function mediaFolder($pluginName)
+  {
+    global $REX;
+    return $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;
   }
 }

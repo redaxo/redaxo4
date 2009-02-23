@@ -398,6 +398,7 @@ function rex_generateLists($re_id, $clang = null)
  */
 function rex_deleteDir($file, $delete_folders = FALSE)
 {
+  $debug = FALSE;
   $state = TRUE;
   
   $file = rtrim($file, DIRECTORY_SEPARATOR);
@@ -410,6 +411,9 @@ function rex_deleteDir($file, $delete_folders = FALSE)
       $handle = opendir($file);
       if (!$handle)
       {
+        if($debug)
+          echo "Unable to open dir '$file'<br />\n";
+          
         return FALSE;
       }
 
@@ -439,6 +443,9 @@ function rex_deleteDir($file, $delete_folders = FALSE)
         // Fehler unterdrücken, falls keine Berechtigung
         if (!@ rmdir($file))
         {
+          if($debug)
+            echo "Unable to delete folder '$file'<br />\n";
+            
           return FALSE;
         }
       }
@@ -449,17 +456,98 @@ function rex_deleteDir($file, $delete_folders = FALSE)
       // Fehler unterdrücken, falls keine Berechtigung
       if (!@ unlink($file))
       {
+        if($debug)
+          echo "Unable to delete file '$file'<br />\n";
+            
         return FALSE;
       }
     }
   }
   else
   {
+    if($debug)
+      echo "file '$file'not found!<br />\n";
     // Datei/Ordner existiert nicht
     return FALSE;
   }
 
   return TRUE;
+}
+
+/**
+ * Kopiert eine Ordner von $srcdir nach $dstdir
+ * 
+ * @param $srcdir Zu kopierendes Verzeichnis
+ * @param $dstdir Zielpfad
+ * 
+ * @return TRUE bei Erfolg, FALSE bei Fehler
+ */
+function rex_copyDir($srcdir, $dstdir)
+{
+  $debug = FALSE;
+  $state = TRUE;
+  
+  if(!is_dir($dstdir))
+  {
+    $dir = '';
+    foreach(explode(DIRECTORY_SEPARATOR, $dstdir) as $dirPart)
+    {
+      $dir .= $dirPart . DIRECTORY_SEPARATOR;
+      if(!is_dir($dir))
+      {
+        if($debug)
+          echo "Create dir '$dir'<br />\n";
+          
+        mkdir($dir);
+        chmod($dir, $REX['DIRPERM']);
+      }
+    }
+  }
+  
+  if($curdir = opendir($srcdir))
+  {
+    while($file = readdir($curdir))
+    {
+      if($file != '.' && $file != '..' && $file != '.svn')
+      {
+        $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;    
+        $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;    
+        if(is_file($srcfile))
+        {
+          $isNewer = TRUE;
+          if(is_file($dstfile))
+          {
+            $isNewer = (filemtime($srcfile) - filemtime($dstfile)) > 0;
+          }
+            
+          if($isNewer)
+          {
+            if($debug)
+              echo "Copying '$srcfile' to '$dstfile'...";
+            if(copy($srcfile, $dstfile))
+            {
+              touch($dstfile, filemtime($srcfile));
+              chmod($dstfile, $REX['FILEPERM']);
+              if($debug)
+                echo "OK<br />\n";
+            }
+            else
+            {
+              if($debug)
+               echo "Error: File '$srcfile' could not be copied!<br />\n";
+              return FALSE;
+            }
+          }
+        }
+        else if(is_dir($srcfile))
+        {
+          $state = rex_copyDir($srcfile, $dstfile) && $state;
+        }
+      }
+    }
+    closedir($curdir);
+  }
+  return $state;
 }
 
 // ----------------------------------------- CLANG
