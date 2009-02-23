@@ -226,7 +226,7 @@ if ($warning != '')
   <div class="rex-area-col-a">
     <h3 class="rex-hl2"><?php echo $I18N_IM_EXPORT->msg('import'); ?></h3>
     
-    <div class="rex-area-content rex-par-0 rex-pab-0 rex-pal-0">
+    <div class="rex-area-content">
       <p class="rex-tx1"><?php echo $I18N_IM_EXPORT->msg('intro_import') ?></p>
       
       <div class="rex-form" id="rex-form-import-data">
@@ -359,7 +359,7 @@ if ($warning != '')
   <div class="rex-area-col-b">
     <h3 class="rex-hl2"><?php echo $I18N_IM_EXPORT->msg('export'); ?></h3>
   
-    <div class="rex-area-content rex-par-0 rex-pab-0 rex-pal-0">
+    <div class="rex-area-content">
       <p class="rex-tx1"><?php echo $I18N_IM_EXPORT->msg('intro_export') ?></p>
       
       <div class="rex-form" id="rex-form-export">
@@ -466,6 +466,7 @@ else
       </div><!-- END rex-form -->
     </div><!-- END rex-area-content -->
   </div><!-- END rex-area-col-b -->
+  <div class="rex-clearer"></div>
 </div><!-- END rex-area -->
 <?php
 require $REX['INCLUDE_PATH']."/layout/bottom.php";
