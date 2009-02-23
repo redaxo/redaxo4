@@ -94,10 +94,9 @@ function rex_send_content($content, $lastModified, $etag, $environment)
 {
   global $REX;
 
-  // Cachen erlauben
-  header('Cache-Control: ');
-  header('Pragma: ');
-  
+  // Cachen erlauben, nach revalidierung
+  header('Cache-Control: must-revalidate, proxy-revalidate, private');
+    
   if($environment == 'backend')
   {
     global $I18N;
