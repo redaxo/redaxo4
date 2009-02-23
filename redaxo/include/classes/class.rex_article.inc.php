@@ -142,9 +142,10 @@ class rex_article
       }
     }else
     {
-    	$FX = file_exists($REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".content");
-      if ($FX && @include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
+      $metaFile = $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article";
+      if (file_exists($metaFile))
       {
+        include_once ($metaFile);
         $this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
         $this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
         return TRUE;
@@ -155,9 +156,8 @@ class rex_article
 	   	  if ($this->ARTICLE->getRows() == 1)
      	  {
      	  	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
-     	  	rex_generateArticleMeta($article_id, $this->clang);
-     	  	if (@include $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article")
-	     		{
+     	  	if (rex_generateArticleMeta($article_id, $this->clang))
+	     	{
   	    		$this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
         		$this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
         		return TRUE;
@@ -280,6 +280,7 @@ class rex_article
         $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
         if(!file_exists($article_content_file))
         {
+          include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
           $generated = rex_generateArticleContent($this->article_id, $this->clang);
           if($generated !== true)
           {
