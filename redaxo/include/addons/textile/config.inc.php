@@ -31,14 +31,14 @@ if ($REX['REDAXO'])
 {
   require_once $REX['INCLUDE_PATH'].'/addons/textile/functions/function_help.inc.php';
 
-  if(rex_get('css', 'string') == 'addons/'. $mypage)
+  rex_register_extension('PAGE_HEADER', 'rex_a79_css_add');
+  function rex_a79_css_add($params)
   {
-    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/textile.css';
-    rex_send_file($cssfile, 'text/css');
-    exit();
+    $addon = 'textile';
+    
+    $params['subject'] .= "\n  ".
+      '<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/textile.css" />';
+    
+    return $params['subject'];
   }
-
-  rex_register_extension('PAGE_HEADER',
-    create_function('$params', 'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />\'."\n";')
-  );
 }
