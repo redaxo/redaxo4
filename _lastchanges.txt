@@ -23,7 +23,8 @@ Version 4.2.0 (2009-XX-XX)
   * Startpage ist nun festlegbar [Jan.Kristinus]
   * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
   * OOFramework:
-    - OOCategory->inParentTree() [Markus.Staab]
+    - neue Methode:
+      + OOCategory->inParentTree() [Markus.Staab]
   * Setup: [Markus.Staab]
     - Datenbank kann ggf. via Setup angelegt werden
   * Struktur:
