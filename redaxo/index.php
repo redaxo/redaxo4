@@ -63,10 +63,6 @@ if ($REX['SETUP'])
 		}
 	}
 
-	header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
-	header('Cache-Control: no-cache');
-	header('Pragma: no-cache');
-
 	$pages["SETUP"] = array($I18N->msg('setup'),0,1);
 	$page = "setup";
 }
@@ -74,9 +70,6 @@ else
 {
 	// ----------------- CREATE LANG OBJ
 	$I18N = rex_create_lang($REX['LANG']);
-	header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
-	header('Cache-Control: no-cache');
-	header('Pragma: no-cache');
 
 	// ---- prepare login
 	$REX['LOGIN'] = new rex_backend_login($REX['TABLE_PREFIX'] .'user');

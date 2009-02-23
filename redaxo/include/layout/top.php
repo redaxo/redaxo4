@@ -26,8 +26,6 @@ if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
   <title><?php echo htmlspecialchars($page_title) ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg('htmlcharset'); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
-  <meta http-equiv="Cache-Control" content="no-cache" />
-  <meta http-equiv="Pragma" content="no-cache" />
   <link rel="stylesheet" type="text/css" href="media/css_import.css" media="screen, projection, print" />
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="media/jquery.min.js" type="text/javascript"></script>
