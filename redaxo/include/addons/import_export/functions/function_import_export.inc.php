@@ -422,32 +422,31 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   global $REX;
 
   $handle = opendir($path.$dir);
-  $array_indx = 0;
-  #$tar->addFile($path.$dir."/",TRUE);
+  $isMediafolder = realpath($path.$dir) == $REX['MEDIAFOLDER'];
   while (false !== ($file = readdir($handle)))
   {
-    if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
+    // Alles exportieren, außer ... 
+    // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)
+    // - svn infos
+    // - tmp prefix Dateien
+    
+    if($file == '.' || $file == '..' || $file == '.svn')
+      continue;
+    
+    if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) == $REX['TEMP_PREFIX'])
+      continue;
+      
+    if($isMediafolder && $file == 'addons')
+      continue;
+      
+    if (is_dir($path.$dir."/".$file))
     {
-      $dir_array[$array_indx] = $file;
-      $array_indx++;
+      _rex_a1_add_folder_to_tar($tar, $path.$dir."/", $file);
+    }
+    else
+    {
+      $tar->addFile($path.$dir."/".$file, true);
     }
   }
-  foreach ($dir_array as $n)
-  {
-    #echo $n."<br>";
-    if (($n != '.') && ($n != '..'))
-    {
-      #echo "hier : $n <br>";
-      if (is_dir($path.$dir."/".$n))
-      {
-        _rex_a1_add_folder_to_tar($tar, $path.$dir."/", $n);
-      }
-
-      if (!is_dir($path.$dir."/".$n))
-      {
-        $tar->addFile($path.$dir."/".$n, true);
-      }
-      #echo $path.$dir."/".$n."<br>";
-    }
-  }
+  closedir($handle);
 }
