@@ -295,9 +295,8 @@ function rex_redirect($article_id, $clang = '', $params = array())
   while(@ob_end_clean());
 
   $divider = '&';
-  $url = rex_getUrl($article_id, $clang, $params, $divider);
 
-  header('Location: '. $url);
+  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
   exit();
 }
 
