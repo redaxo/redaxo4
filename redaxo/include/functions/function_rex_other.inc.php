@@ -470,6 +470,7 @@ function rex_highlight_file($filename, $return = false)
   }
   echo $s;  
 }
+
 // make objectcloning work for php4
 // see http://acko.net/node/54
 // usage: $cloned = clone($yourObject);
