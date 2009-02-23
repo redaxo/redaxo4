@@ -27,6 +27,7 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.rex_template.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_login.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_addon.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_navigation.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_manager.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooredaxo.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oocategory.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooarticle.inc.php';
@@ -43,7 +44,6 @@ if ($REX['REDAXO'])
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_mediapool.inc.php';
   include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
   include_once $REX['INCLUDE_PATH'].'/classes/class.rex_formatter.inc.php';
-  include_once $REX['INCLUDE_PATH'].'/classes/class.rex_manager.inc.php';
 }
 
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
