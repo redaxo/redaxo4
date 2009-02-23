@@ -108,19 +108,20 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 // ----------------------------------------- Rewrite functions
 
 /**
- * Standard Rewriter, gibt normale Urls zurück
+ * Standard Rewriter, gibt normale Urls zurück im Format
+ * index.php?article_id=$article_id[&clang=$clang&$params]
  */
 function rex_no_rewrite($id, $name, $clang, $param_string, $divider)
 {
   global $REX;
-  $url = '';
+  $_clang = '';
 
   if (count($REX['CLANG']) > 1)
   {
-    $url .= $divider.'clang='.$clang;
+    $_clang .= $divider.'clang='.$clang;
   }
 
-  return $REX["FRONTEND_FILE"].'?article_id='.$id .$url.$param_string;
+  return $REX["FRONTEND_FILE"].'?article_id='.$id .$_clang.$param_string;
 }
 
 /**
