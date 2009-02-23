@@ -224,9 +224,9 @@ function rex_message_block($message, $cssClass, $sorround_tag)
 
 function rex_accesskey($title, $key)
 {
-  global $REX_USER;
+  global $REX;
 
-  if($REX_USER->hasPerm('accesskeys[]'))
+  if($REX['USER']->hasPerm('accesskeys[]'))
     return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
 
   return ' title="'. $title .'"';

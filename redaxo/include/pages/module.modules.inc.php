@@ -261,7 +261,7 @@ if ($function == 'add' or $function == 'edit')
 				
 				$add_header = '';
 				$add_col = '';
-				if ($REX_USER->hasPerm('advancedMode[]'))
+				if ($REX['USER']->hasPerm('advancedMode[]'))
 				{
 					$add_header = '<th class="rex-small">'.$I18N->msg('header_id').'</th>';
 					$add_col = '<col width="40" />';
@@ -278,7 +278,7 @@ if ($function == 'add' or $function == 'edit')
           $actions .= '<tr>
           	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . htmlspecialchars($action_name) . '" title="' . htmlspecialchars($action_name) . '" /></a></td>';
           	
-					if ($REX_USER->hasPerm('advancedMode[]'))
+					if ($REX['USER']->hasPerm('advancedMode[]'))
 					{
              $actions .= '<td class="rex-small">' . $gma->getValue("id") . '</td>';
           }

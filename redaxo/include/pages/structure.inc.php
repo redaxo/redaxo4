@@ -48,7 +48,7 @@ if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
   else
     $warning = $message;
 }
-elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
   list($success, $message) = rex_deleteCategoryReorganized($edit_id);
@@ -64,7 +64,7 @@ elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX
   }
 }
 elseif ($function == 'status' && $edit_id != ''
-        && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
+        && ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
   list($success, $message) = rex_categoryStatus($edit_id, $clang);
@@ -74,7 +74,7 @@ elseif ($function == 'status' && $edit_id != ''
   else
     $warning = $message;
 }
-elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE ADD
   $data = array();
@@ -93,7 +93,7 @@ elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX_USER->hasPer
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
 if ($function == 'status_article' && $article_id != ''
-    && ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]')))
+    && ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- ARTICLE STATUS
   list($success, $message) = rex_articleStatus($article_id, $clang);
@@ -104,7 +104,7 @@ if ($function == 'status_article' && $article_id != ''
     $warning = $message;
 }
 // Hier mit !== vergleichen, da 0 auch einen gültige category_id ist (RootArtikel)
-elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPERM &&  !$REX_USER->hasPerm('editContentOnly[]'))
+elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPERM &&  !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL ADD
   $data = array();
@@ -138,7 +138,7 @@ elseif (rex_post('artedit_function', 'boolean') && $article_id != '' && $KATPERM
   else
     $warning = $message;
 }
-elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL DELETE
   list($success, $message) = rex_deleteArticleReorganized($article_id);
@@ -163,7 +163,7 @@ if($category)
   $cat_name = $category->getName();
 
 $add_category = '';
-if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   $add_category = '<a href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'><img src="media/folder_plus.gif" alt="'.$I18N->msg("add_category").'" /></a>';
 }
@@ -171,7 +171,7 @@ if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
 $add_header = '';
 $add_col = '';
 $data_colspan = 4;
-if ($REX_USER->hasPerm('advancedMode[]'))
+if ($REX['USER']->hasPerm('advancedMode[]'))
 {
   $add_header = '<th class="rex-small">'.$I18N->msg('header_id').'</th>';
   $add_col = '<col width="40" />';
@@ -236,7 +236,7 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
 {
   echo '<tr>
           <td class="rex-icon">&nbsp;</td>';
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  if ($REX['USER']->hasPerm('advancedMode[]'))
   {
     echo '<td class="rex-small">-</td>';
   }
@@ -250,10 +250,10 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
 
 // --------------------- KATEGORIE ADD FORM
 
-if ($function == 'add_cat' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   $add_td = '';
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  if ($REX['USER']->hasPerm('advancedMode[]'))
   {
     $add_td = '<td class="rex-small">-</td>';
   }
@@ -295,7 +295,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-    if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishCategory[]'))
+    if ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishCategory[]'))
     {
       $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
@@ -304,7 +304,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     {
       // --------------------- KATEGORIE EDIT FORM
       $add_td = '';
-      if ($REX_USER->hasPerm('advancedMode[]'))
+      if ($REX['USER']->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
@@ -337,12 +337,12 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       // --------------------- KATEGORIE WITH WRITE
 
       $add_td = '';
-      if ($REX_USER->hasPerm('advancedMode[]'))
+      if ($REX['USER']->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
     
-			if (!$REX_USER->hasPerm('editContentOnly[]'))
+			if (!$REX['USER']->hasPerm('editContentOnly[]'))
 			{
 				$category_delete = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
 			}
@@ -364,11 +364,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     }
 
   }
-  elseif ($REX_USER->hasPerm('csr['. $i_category_id .']') || $REX_USER->hasPerm('csw['. $i_category_id .']'))
+  elseif ($REX['USER']->hasPerm('csr['. $i_category_id .']') || $REX['USER']->hasPerm('csw['. $i_category_id .']'))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
-      if ($REX_USER->hasPerm('advancedMode[]'))
+      if ($REX['USER']->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
@@ -442,14 +442,14 @@ if ($category_id > -1)
 
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
-  if ($KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+  if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
   {
     $art_add_link = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><img src="media/document_plus.gif" alt="'. $I18N->msg('article_add') .'" /></a>';
   }
 
   $add_head = '';
   $add_col  = '';
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  if ($REX['USER']->hasPerm('advancedMode[]'))
   {
     $add_head = '<th class="rex-small">'. $I18N->msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
@@ -521,7 +521,7 @@ if ($category_id > -1)
   }
 
   // --------------------- ARTIKEL ADD FORM
-  if ($function == 'add_art' && $KATPERM && !$REX_USER->hasPerm('editContentOnly[]'))
+  if ($function == 'add_art' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
   {
     if($REX['DEFAULT_TEMPLATE_ID'] > 0)
     {
@@ -541,7 +541,7 @@ if ($category_id > -1)
     }
 
     $add_td = '';
-    if ($REX_USER->hasPerm('advancedMode[]'))
+    if ($REX['USER']->hasPerm('advancedMode[]'))
     {
       $add_td = '<td class="rex-small">-</td>';
     }
@@ -577,7 +577,7 @@ if ($category_id > -1)
     if ($function == 'edit_art' && $sql->getValue('id') == $article_id && $KATPERM)
     {
       $add_td = '';
-      if ($REX_USER->hasPerm('advancedMode[]'))
+      if ($REX['USER']->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $sql->getValue("id") .'</td>';
       }
@@ -600,7 +600,7 @@ if ($category_id > -1)
       // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
       $add_td = '';
-      if ($REX_USER->hasPerm('advancedMode[]'))
+      if ($REX['USER']->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
       }
@@ -615,12 +615,12 @@ if ($category_id > -1)
                       <td class="'. $article_class .'"><span class="rex-strike">'. $article_status .'</span></td>';
       }else
       {
-        if ($REX_USER->hasPerm('admin[]') || $KATPERM && $REX_USER->hasPerm('publishArticle[]'))
+        if ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
         {
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
         }
 
-        if (!$REX_USER->hasPerm('editContentOnly[]'))
+        if (!$REX['USER']->hasPerm('editContentOnly[]'))
         {
         	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
         }else
@@ -649,7 +649,7 @@ if ($category_id > -1)
       // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
       $add_td = '';
-      if ($REX_USER->hasPerm('advancedMode[]'))
+      if ($REX['USER']->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
       }

@@ -15,6 +15,8 @@ Version 4.2.0 (2009-XX-XX)
   * in der index REX_ARTICLE -> REX["ARTICLE"], damit ist das Objekt überall verfügbar 
     eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
   * $REX['GG'] DEPRECATED! 
+  * $REX_USER -> $REX['USER']
+  * $REX_LOGIN -> $REX['LOGIN']
     
   Neu:
   * Module sind Ctypes und Templates zuweisbar. Bei Artikeln ohne Templates sind alle Module verfügbar. [Jan.Kristinus]

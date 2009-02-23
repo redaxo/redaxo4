@@ -562,7 +562,7 @@ class rex_form
    */
   function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
-    global $REX_USER;
+    global $REX;
 
     static $setOnce = false;
 
@@ -571,7 +571,7 @@ class rex_form
       $fieldnames = $this->sql->getFieldnames();
 
       if(in_array('updateuser', $fieldnames))
-        $saveSql->setValue('updateuser', $REX_USER->getValue('login'));
+        $saveSql->setValue('updateuser', $REX['USER']->getValue('login'));
 
       if(in_array('updatedate', $fieldnames))
         $saveSql->setValue('updatedate', time());
@@ -579,7 +579,7 @@ class rex_form
       if(!$this->isEditMode())
       {
         if(in_array('createuser', $fieldnames))
-          $saveSql->setValue('createuser', $REX_USER->getValue('login'));
+          $saveSql->setValue('createuser', $REX['USER']->getValue('login'));
 
         if(in_array('createdate', $fieldnames))
           $saveSql->setValue('createdate', time());

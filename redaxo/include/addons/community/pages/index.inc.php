@@ -13,14 +13,19 @@ include $REX["INCLUDE_PATH"]."/addons/xform/classes/basic/class.rexradio.inc.php
 
 $subpages = array();
 $subpages[] = array( '' , '&Uuml;bersicht');
-if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","community[users]")) $subpages[] = array ('user' , 'User Verwaltung');
-if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","community[admin]")) $subpages[] = array ('user_fields' , 'User Felder erweitern');
-if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","community[admin]")) $subpages[] = array ('plugin_manager' , 'PlugIns');
+if ($REX['USER']->isValueOf("rights","admin[]") || $REX['USER']->isValueOf("rights","community[users]")) $subpages[] = array ('user' , 'User Verwaltung');
+if ($REX['USER']->isValueOf("rights","admin[]") || $REX['USER']->isValueOf("rights","community[admin]")) $subpages[] = array ('user_fields' , 'User Felder erweitern');
+if ($REX['USER']->isValueOf("rights","admin[]") || $REX['USER']->isValueOf("rights","community[admin]")) $subpages[] = array ('plugin_manager' , 'PlugIns');
 
 // PlugIn Seiten einbauen..
 foreach($REX['ADDON']['community']['subpages'] as $subpage)
 {
-	if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","community[admin]") || $REX_USER->isValueOf("rights","community[$subpage]")) $subpages[] = $subpage;
+	if ($REX['USER']->isValueOf("rights","admin[]") ||
+	    $REX['USER']->isValueOf("rights","community[admin]") ||
+	    $REX['USER']->isValueOf("rights","community[". $subpage ."]"))
+  {
+	  $subpages[] = $subpage;
+  }
 }
 
 

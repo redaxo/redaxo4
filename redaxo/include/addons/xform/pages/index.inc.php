@@ -12,9 +12,9 @@ include $REX["INCLUDE_PATH"]."/addons/xform/classes/basic/class.rexradio.inc.php
 
 $subpages = array();
 $subpages[] = array( '' , 'Übersicht');
-if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","xform[]") || $REX_USER->isValueOf("rights","xform_email[]")) $subpages[] = array ('email_templates' , 'E-Mail Templates');
-if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","xform[]")) $subpages[] = array ('description' , 'Beschreibung/Beispiele');
-if ($REX_USER->isValueOf("rights","admin[]") || $REX_USER->isValueOf("rights","xform[]")) $subpages[] = array ('module' , 'Modul');
+if ($REX['USER']->isValueOf("rights","admin[]") || $REX['USER']->isValueOf("rights","xform[]") || $REX['USER']->isValueOf("rights","xform_email[]")) $subpages[] = array ('email_templates' , 'E-Mail Templates');
+if ($REX['USER']->isValueOf("rights","admin[]") || $REX['USER']->isValueOf("rights","xform[]")) $subpages[] = array ('description' , 'Beschreibung/Beispiele');
+if ($REX['USER']->isValueOf("rights","admin[]") || $REX['USER']->isValueOf("rights","xform[]")) $subpages[] = array ('module' , 'Modul');
 
 $back_to_overview = '<table cellpadding=5 class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'"><b>&laquo; Zurück zur Übersicht</b></a></td></tr></table><br />';
 

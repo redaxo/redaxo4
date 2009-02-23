@@ -25,14 +25,14 @@ function rex_linkmap_backlink($id, $name)
 
 function rex_linkmap_format_label($OOobject)
 {
-  global $REX_USER, $I18N;
+  global $REX, $I18N;
 
   $label = $OOobject->getName();
 
   if(trim($label) == '')
     $label = '&nbsp;';
 
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  if ($REX['USER']->hasPerm('advancedMode[]'))
     $label .= ' ['. $OOobject->getId() .']';
 
   if(OOArticle::isValid($OOobject) && !$OOobject->hasTemplate())

@@ -371,7 +371,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_DELETE != '')
 {
   // man kann sich selbst nicht löschen..
-  if ($REX_USER->getValue("user_id") != $user_id)
+  if ($REX['USER']->getValue("user_id") != $user_id)
   {
     $deleteuser = new rex_sql;
     $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
@@ -627,7 +627,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       $userdesc = $sql->getValue($REX['TABLE_PREFIX'].'user.description');
 
       // Der Benutzer kann sich selbst die Rechte nicht entziehen
-      if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $adminchecked != '')
+      if ($REX['USER']->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $adminchecked != '')
       {
         $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
       }
@@ -637,7 +637,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
 
       // Der Benutzer kann sich selbst den Status nicht entziehen
-      if ($REX_USER->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $statuschecked != '')
+      if ($REX['USER']->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'].'user.login') && $statuschecked != '')
       {
         $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' disabled="disabled" />';
       }
@@ -916,9 +916,9 @@ if (isset($SHOW) and $SHOW)
   $list->setColumnFormat('funcs', 'custom',
     create_function(
       '$params',
-      'global $REX_USER;
+      'global $REX;
        $list = $params["list"];
-       if($list->getValue("user_id") == $REX_USER->getValue("user_id"))
+       if($list->getValue("user_id") == $REX["USER"]->getValue("user_id"))
        {
          return \'<span class="rex-strike">'. $I18N->msg('user_delete') .'</span>\';
        }

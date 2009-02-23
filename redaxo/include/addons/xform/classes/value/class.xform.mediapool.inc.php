@@ -121,7 +121,7 @@ class rex_xform_mediapool extends rex_xform_abstract
 	
 	function saveMedia($FILE,$rex_file_category,$FILEINFOS){
 
-	  global $REX,$REX_USER;
+	  global $REX;
 	
 	  $FILENAME = $FILE['name'];
 	  $FILESIZE = $FILE['size'];

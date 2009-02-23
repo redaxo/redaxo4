@@ -885,9 +885,9 @@ class rex_sql
 
   function addGlobalUpdateFields($user = null)
   {
-    global $REX_USER;
+    global $REX;
 
-    if(!$user) $user = $REX_USER->getValue('login');
+    if(!$user) $user = $REX['USER']->getValue('login');
 
     $this->setValue('updatedate', time());
     $this->setValue('updateuser', $user);
@@ -895,9 +895,9 @@ class rex_sql
 
   function addGlobalCreateFields($user = null)
   {
-    global $REX_USER;
+    global $REX;
 
-    if(!$user) $user = $REX_USER->getValue('login');
+    if(!$user) $user = $REX['USER']->getValue('login');
 
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);

@@ -51,11 +51,11 @@ function rex_a62_metainfo_button($params)
  */
 function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
 {
-  global $REX_USER;
+  global $REX;
 
   $add_td = '';
   $class_td = '';
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  if ($REX['USER']->hasPerm('advancedMode[]'))
     $add_td = '<td>&nbsp;</td>';
   
   $element = $field;

@@ -9,7 +9,7 @@
 // rechte einbauen
 // admin[]
 // clang[xx], clang[0]
-// $REX_USER->isValueOf("rights","csw[0]")
+// $REX['USER']->isValueOf("rights","csw[0]")
 
 reset($REX['CLANG']);
 $num_clang = count($REX['CLANG']);
@@ -33,7 +33,7 @@ if ($num_clang>1)
 		    
     $val = rex_translate($val);
 
-		if (!$REX_USER->hasPerm('admin[]') && !$REX_USER->hasPerm('clang[all]') && !$REX_USER->hasPerm('clang['. $key .']'))
+		if (!$REX['USER']->hasPerm('admin[]') && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
 		{
 			echo '<span class="rex-strike">'. $val .'</span>';
 

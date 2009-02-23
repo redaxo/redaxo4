@@ -340,7 +340,7 @@ if ($OUT)
 
 	$add_col = '';
 	$add_th = '';
-  if ($REX_USER->hasPerm('advancedMode[]'))
+  if ($REX['USER']->hasPerm('advancedMode[]'))
   {
 		$add_col = '<col width="40" />';
 		$add_th = '<th class="rex-small">ID</th>';
@@ -400,7 +400,7 @@ if ($OUT)
 
 
 			$add_td = '';
-			if ($REX_USER->hasPerm('advancedMode[]'))
+			if ($REX['USER']->hasPerm('advancedMode[]'))
 			{
 				$add_td = '<td class="rex-small">' . $sql->getValue("id") . '</td>';
 			}

@@ -183,3 +183,11 @@ function rex_parseArticleName($name)
 {
   return rex_parse_article_name($name);
 }
+
+// ----------------------------------------- Variables
+
+// since R4.2
+$REX["USER"] = NULL;
+$REX["LOGIN"] = NULL;
+$REX_USER =& $REX["USER"];
+$REX_LOGIN = &$REX["LOGIN"];

@@ -323,12 +323,12 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
  */
 function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
-  global $REX_USER;
+  global $REX;
 
   if(empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if($REX_USER->hasPerm('advancedMode[]'))
+  if($REX['USER']->hasPerm('advancedMode[]'))
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
@@ -353,16 +353,16 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
  */
 function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
 {
-  global $PERMALL, $REX_USER;
+  global $PERMALL, $REX;
 
   if(empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if($REX_USER->hasPerm('advancedMode[]'))
+  if($REX['USER']->hasPerm('advancedMode[]'))
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
-  if ($PERMALL || $REX_USER->hasPerm('media['.$mediacat->getId().']'))
+  if ($PERMALL || $REX['USER']->hasPerm('media['.$mediacat->getId().']'))
     $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
 
   $childs = $mediacat->getChildren();
@@ -379,7 +379,7 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $I18N, $REX, $REX_USER, $subpage, $ftitle;
+  global $I18N, $REX, $subpage, $ftitle;
 
   $s = '';
 
@@ -412,7 +412,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   if($file_chooser)
   {
     $devInfos = '';
-    if($REX_USER->hasPerm('advancedMode[]'))
+    if($REX['USER']->hasPerm('advancedMode[]'))
     {
       $devInfos =
       '<span class="rex-form-notice">

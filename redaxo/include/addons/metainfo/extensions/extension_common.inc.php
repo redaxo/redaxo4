@@ -19,7 +19,7 @@ rex_register_extension('OOMEDIA_IS_IN_USE_QUERY', 'rex_a62_media_is_in_use');
  */
 function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 {
-  global $I18N, $REX_USER;
+  global $I18N, $REX;
 
   $s = '';
 
@@ -46,7 +46,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {
-      if(!$REX_USER->hasPerm($attrArray['perm']))
+      if(!$REX['USER']->hasPerm($attrArray['perm']))
       {
         continue;
       }
@@ -398,7 +398,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
  */
 function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
-  global $REX_USER;
+  global $REX;
   
   if($_SERVER['REQUEST_METHOD'] != 'POST') return;
 
@@ -413,7 +413,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     $attrArray = rex_split_string($fieldAttributes);
     if(isset($attrArray['perm']))
     {
-      if(!$REX_USER->hasPerm($attrArray['perm']))
+      if(!$REX['USER']->hasPerm($attrArray['perm']))
       {
         continue;
       }

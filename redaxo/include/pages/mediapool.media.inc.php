@@ -91,7 +91,7 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
   if ($media)
   {
     $file_name = $media->getFileName();
-    if ($PERMALL || $REX_USER->hasPerm('media['.$media->getCategoryId().']'))
+    if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
     {
       $articleUsesMedia = $media->isInUse();
       if($articleUsesMedia === false)
@@ -141,7 +141,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
-    if ($PERMALL || ($REX_USER->hasPerm('media['.$gf->getValue('category_id').']') && $REX_USER->hasPerm('media['. $rex_file_category .']')))
+    if ($PERMALL || ($REX['USER']->hasPerm('media['.$gf->getValue('category_id').']') && $REX['USER']->hasPerm('media['. $rex_file_category .']')))
     {
       
       $FILEINFOS = array();
@@ -151,7 +151,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
       $FILEINFOS["filetype"] = $gf->getValue('filetype');
       $FILEINFOS["filename"] = $gf->getValue('filename');
       
-      $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX_USER->getValue("login"));
+      $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX['USER']->getValue("login"));
       $info = $return['msg'];
 
       if($return["ok"] == 1)
@@ -178,7 +178,7 @@ if ($subpage == "detail")
   if ($gf->getRows()==1)
   {
     $TPERM = false;
-    if ($PERMALL || $REX_USER->hasPerm("media[".$gf->getValue("category_id")."]")) $TPERM = true;
+    if ($PERMALL || $REX['USER']->hasPerm("media[".$gf->getValue("category_id")."]")) $TPERM = true;
 
     echo $cat_out;
 
@@ -377,7 +377,7 @@ if ($subpage == "detail")
       $Cat = OOMediaCategory::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
-      if($REX_USER->hasPerm('advancedMode[]'))
+      if($REX['USER']->hasPerm('advancedMode[]'))
       {
         $ftitle .= ' ['. $file_id .']';
         $catname .= ' ['. $rex_file_category .']';
@@ -734,7 +734,7 @@ if ($subpage == '')
     $file_size = OOMedia::_getFormattedSize($size);
 
     if ($file_title == '') $file_title = '['.$I18N->msg('pool_file_notitle').']';
-    if($REX_USER->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
+    if($REX['USER']->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
 
     // ----- opener
     $opener_link = '';

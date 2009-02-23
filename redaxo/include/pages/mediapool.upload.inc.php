@@ -8,10 +8,10 @@ if ($media_method == 'add_file'){
   {
     $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
-    if (!$PERMALL && !$REX_USER->hasPerm("media[$rex_file_category]")) $rex_file_category = 0;
+    if (!$PERMALL && !$REX['USER']->hasPerm("media[$rex_file_category]")) $rex_file_category = 0;
 
     // function in function.rex_mediapool.inc.php
-    $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX_USER->getValue("login"));
+    $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX['USER']->getValue("login"));
     $info = $return['msg'];
     $subpage = "";
     

@@ -60,7 +60,7 @@ if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
 if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
-  $user_name = $REX_USER->getValue('name') != '' ? $REX_USER->getValue('name') : $REX_USER->getValue('login');
+  $user_name = $REX['USER']->getValue('name') != '' ? $REX['USER']->getValue('name') : $REX['USER']->getValue('login');
   echo '<p class="rex-logout">' . $I18N->msg('name') . ' : <strong><a href="index.php?page=profile">' . htmlspecialchars($user_name) . '</a></strong> [<a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a>]</p>' . "\n";
 }else if(!$REX["PAGE_NO_NAVI"])
 {
@@ -80,7 +80,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
   
   $navi_system = array();
   $navi_addons = array();
-  foreach($REX_USER->pages as $pageKey => $pageArr)
+  foreach($REX['USER']->pages as $pageKey => $pageArr)
   {
     $pageKey = strtolower($pageKey);
   	if(!in_array($pageKey, array("credits","profile","content","linkmap")))

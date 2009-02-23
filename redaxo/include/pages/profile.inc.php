@@ -7,7 +7,7 @@
 
 $info = '';
 $warning = '';
-$user_id = $REX_USER->getValue('user_id');
+$user_id = $REX['USER']->getValue('user_id');
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
 $username = rex_request('username', 'string');
@@ -52,7 +52,7 @@ $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 $userperm_be_sprache_selected = '';
 foreach($langs as $k => $v)
 {
-	if ($REX_LOGIN->USER->hasPerm('be_lang['.$k.']'))
+	if ($REX['LOGIN']->USER->hasPerm('be_lang['.$k.']'))
 	{
 	  $userperm_be_sprache_selected = $k;
 	}
@@ -76,7 +76,7 @@ if (rex_post('upd_profile_button', 'string'))
 	if(!isset($langs[$userperm_be_sprache])) $userperm_be_sprache = "default";
 	$userperm_be_sprache_selected = $userperm_be_sprache;
 	
-	$rights = preg_replace('@#be_lang\[([^\]]*)\]@' , '', $REX_LOGIN->getValue("rights"));
+	$rights = preg_replace('@#be_lang\[([^\]]*)\]@' , '', $REX['LOGIN']->getValue("rights"));
 	$rights .= 'be_lang['.$userperm_be_sprache.']#';
   $updateuser->setValue('rights',$rights);
 	

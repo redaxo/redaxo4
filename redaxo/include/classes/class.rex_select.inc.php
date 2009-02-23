@@ -337,14 +337,14 @@ class rex_category_select extends rex_select
 
   function addCatOption($cat)
   {
-    global $REX_USER;
+    global $REX;
     if (empty ($cat))
     {
       return;
     }
 
     if(!$this->check_perms ||
-        $this->check_perms && $REX_USER->hasCategoryPerm($cat->getId()))
+        $this->check_perms && $REX['USER']->hasCategoryPerm($cat->getId()))
     {
       $this->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
       $childs = $cat->getChildren($this->ignore_offlines, $this->clang);

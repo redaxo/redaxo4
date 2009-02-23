@@ -380,7 +380,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
  */
 function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0)
 {
-  global $REX, $REX_USER;
+  global $REX;
 
   if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
@@ -417,8 +417,8 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
       elseif ($colname == "article_id") $value = $to_id;
       elseif ($colname == "createdate") $value = time();
       elseif ($colname == "updatedate") $value = time();
-      elseif ($colname == "createuser") $value = $REX_USER->getValue("login");
-      elseif ($colname == "updateuser") $value = $REX_USER->getValue("login");
+      elseif ($colname == "createuser") $value = $REX['USER']->getValue("login");
+      elseif ($colname == "updateuser") $value = $REX['USER']->getValue("login");
       else
         $value = $gc->getValue($colname);
 

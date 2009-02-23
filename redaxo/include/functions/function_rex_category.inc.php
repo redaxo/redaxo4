@@ -12,7 +12,7 @@ $KATPATH = '|'; // Standard für path Eintragungen in DB
 if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 
 $KATPERM = false;
-if ($REX_USER->hasPerm('csw[0]') || $REX_USER->hasPerm('admin[]')) $KATPERM = true;
+if ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('admin[]')) $KATPERM = true;
 
 $KAT = new rex_sql;
 // $KAT->debugsql = true;
@@ -44,12 +44,12 @@ else
 
     if ($SKAT->getRows()==1)
     {
-      if ($KATPERM || $REX_USER->hasPerm('csw['.$catid.']') || $REX_USER->hasPerm('csr['.$catid.']'))
+      if ($KATPERM || $REX['USER']->hasPerm('csw['.$catid.']') || $REX['USER']->hasPerm('csr['.$catid.']'))
       {
         $KATout .= '<li>: <a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
         $KATPATH .= $KPATH[$ii]."|";
 
-        if($REX_USER->hasPerm('csw['.$catid.']'))
+        if($REX['USER']->hasPerm('csw['.$catid.']'))
         {
           $KATPERM = true;
         }
@@ -57,14 +57,14 @@ else
     }
   }
 
-  if ($KATPERM || $REX_USER->hasPerm('csw['. $category_id .']') || $REX_USER->hasPerm('csr['. $category_id .']'))
+  if ($KATPERM || $REX['USER']->hasPerm('csw['. $category_id .']') || $REX['USER']->hasPerm('csr['. $category_id .']'))
   {
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($KAT->getValue('catname')));
 
     $KATout .= '<li>: <a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
     $KATPATH .= $category_id .'|';
 
-    if ($REX_USER->hasPerm('csw['. $category_id .']'))
+    if ($REX['USER']->hasPerm('csw['. $category_id .']'))
     {
       $KATPERM = true;
     }

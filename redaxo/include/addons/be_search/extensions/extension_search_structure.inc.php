@@ -11,9 +11,9 @@
 
 function rex_a256_search_structure($params)
 {
-  global $REX, $REX_USER, $I18N_BE_SEARCH;
+  global $REX, $I18N_BE_SEARCH;
 
-  if(!($REX_USER->isAdmin() || $REX_USER->hasPerm('be_search[structure]')))
+  if(!($REX['USER']->isAdmin() || $REX['USER']->hasPerm('be_search[structure]')))
   {
     return $params['subject'];
   }
@@ -94,7 +94,7 @@ function rex_a256_search_structure($params)
     if($foundRows == 1)
     {
       $OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
-      if($REX_USER->hasCategoryPerm($OOArt->getCategoryId()))
+      if($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
       {
         header('Location:'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)));
         exit();
@@ -110,9 +110,9 @@ function rex_a256_search_structure($params)
         $OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
         $label = $OOArt->getName();
 
-        if($REX_USER->hasCategoryPerm($OOArt->getCategoryId()))
+        if($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
         {
-          if($REX_USER->hasPerm('advancedMode[]'))
+          if($REX['USER']->hasPerm('advancedMode[]'))
             $label .= ' ['. $search->getValue('id') .']';
 
           $s = '';
@@ -121,7 +121,7 @@ function rex_a256_search_structure($params)
           {
             $treeLabel = $treeItem->getName();
 
-            if($REX_USER->hasPerm('advancedMode[]'))
+            if($REX['USER']->hasPerm('advancedMode[]'))
               $treeLabel .= ' ['. $treeItem->getId() .']';
 
             $prefix = ': ';

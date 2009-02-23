@@ -10,10 +10,10 @@
 
 function rex_a79_help_overview()
 {
-  global $REX_USER, $I18N_A79;
+  global $REX, $I18N_A79;
 
   // check perms
-  if(!$REX_USER->hasPerm('textile[help]'))
+  if(!$REX['USER']->hasPerm('textile[help]'))
   {
   	return;
   }
