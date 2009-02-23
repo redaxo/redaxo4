@@ -24,13 +24,6 @@ function rex_a256_extensions_handler($params)
   global $REX;
   
   $page = $params['subject'];
-  $mypage = 'be_search';
-  
-  rex_register_extension('PAGE_HEADER',
-    create_function('$params',
-    'return $params[\'subject\'] .\'  <link rel="stylesheet" type="text/css" href="index.php?css=addons/'. $mypage .'" />
-    <!--[if lte IE 7]><link rel="stylesheet" href="index.php?css=addons/'. $mypage .'/ie7" type="text/css" media="all" /><![endif]-->'. "\n" .'\';')
-  );
   
   // Include Extensions
   if($page == 'structure')

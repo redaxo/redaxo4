@@ -31,17 +31,17 @@ $REX['EXTPERM'][] = 'be_search[structure]';
 
 if ($REX['REDAXO'])
 {
-  if(rex_get('css', 'string') == 'addons/'. $mypage)
+  rex_register_extension('PAGE_HEADER', 'rex_be_search_css_add');
+  function rex_be_search_css_add($params)
   {
-    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/be_search.css';
-    rex_send_file($cssfile, 'text/css');
-    exit();
-  }
-  if(rex_get('css', 'string') == 'addons/'. $mypage .'/ie7')
-  {
-    $cssfile = $REX['INCLUDE_PATH'] .'/addons/'. $mypage .'/css/be_search_ie_lte_7.css';
-    rex_send_file($cssfile, 'text/css');
-    exit();
+    $addon = 'be_search';
+    
+    $params['subject'] .= "\n  ".
+      '<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/be_search.css" />';
+    $params['subject'] .= "\n  ".
+      '<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/be_search_ie_lte_7.css" /><![endif]-->';
+    
+    return $params['subject'];
   }
 
   $I18N_BE_SEARCH = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
