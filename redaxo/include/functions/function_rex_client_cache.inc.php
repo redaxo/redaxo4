@@ -52,12 +52,6 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
 {
   global $REX;
   
-  if($environment == 'backend')
-  {
-    global $I18N;
-    header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
-  }
-  
   // ----- EXTENSION POINT
   $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
 
@@ -99,6 +93,16 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
 function rex_send_content($content, $lastModified, $etag, $environment)
 {
   global $REX;
+
+  // Cachen erlauben
+  header('Cache-Control: ');
+  header('Pragma: ');
+  
+  if($environment == 'backend')
+  {
+    global $I18N;
+    header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
+  }
 
   // ----- Last-Modified
   if($REX['USE_LAST_MODIFIED'] === 'true' || $REX['USE_LAST_MODIFIED'] == $environment)
