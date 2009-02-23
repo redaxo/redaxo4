@@ -95,6 +95,7 @@ function rex_send_content($content, $lastModified, $etag, $environment)
   global $REX;
 
   // Cachen erlauben, nach revalidierung
+  session_cache_limiter('none');
   header('Cache-Control: must-revalidate, proxy-revalidate, private');
     
   if($environment == 'backend')
@@ -102,7 +103,7 @@ function rex_send_content($content, $lastModified, $etag, $environment)
     global $I18N;
     header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
   }
-
+  
   // ----- Last-Modified
   if($REX['USE_LAST_MODIFIED'] === 'true' || $REX['USE_LAST_MODIFIED'] == $environment)
     rex_send_last_modified($lastModified);
@@ -122,6 +123,9 @@ function rex_send_content($content, $lastModified, $etag, $environment)
   // Evtl offene Db Verbindungen schlieﬂen
   rex_sql::disconnect(null);
 
+  // content length schicken, damit der browser einen ladebalken anzeigen kann
+  header('Content-Length: '. strlen($content));
+  
   echo $content;
 }
 
