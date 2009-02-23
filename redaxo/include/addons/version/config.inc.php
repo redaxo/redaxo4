@@ -123,10 +123,11 @@ function rex_version_header($params)
 	$link = 'index.php?page='.$params["page"].'&article_id='.$params["article_id"].'&clang='.$params["clang"];
 
 	$return .= '
-		<div id="rex-version-header">
-				<div class="rex-version-header">
+		<div id="rex-version-header" class="rex-toolbar">
+				<div class="rex-toolbar-content rex-version-header">
 
 				<form action="index.php" method="post">
+				<fieldset>
 				<input type="hidden" name="page" value="'. $params["page"] .'" />
         <input type="hidden" name="article_id" value="'. $params["article_id"] .'" />
         <input type="hidden" name="clang" value="'. $params["clang"] .'" />
@@ -142,8 +143,8 @@ function rex_version_header($params)
   $s->setSize('1');
   $s->setAttribute('onchange', 'this.form.submit();');
 
-  $return .= '<ul>';
-  $return .= '<li class="rex-"><b>'.$I18N_A461->msg("version").':</b> '.$s->get().'</li>';
+  $return .= '<ul class="rex-display-inline">';
+  $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.$I18N_A461->msg("version").':</label> '.$s->get().'</li>';
 
   if($REX["USER"]->isValueOf("rights","version[only_working_version]"))
 	{
@@ -171,18 +172,23 @@ function rex_version_header($params)
 					<noscript>
     			  <input type="submit" />
     			</noscript>
-
+				</fieldset>
 				</form>
 
 			</div>
-			<div style="clear:both;"></div>
+			<div class="rex-clearer"></div>
 
-			<style>
-#rex-version-header { background-color:#f0efeb; margin:0px; margin-bottom:10px;}
-#rex-version-header ul{ margin:0px; margin-left:45px;}
-#rex-version-header li { float:left; margin-right:15px; line-height:30px;}
-#rex-version-header li.active a{ color:#000;}
-			</style>
+<style type="text/css">
+  /* <![CDATA[ */
+		#rex-version-header label { 
+			font-weight: bold;
+		}  
+		#rex-version-header li { 
+			margin-right: 15px;
+			line-height: 30px;
+		}  
+  /* ]]> */
+</style>
 			
 		</div>
 	';
