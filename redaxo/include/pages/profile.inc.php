@@ -115,7 +115,7 @@ else
   $userdesc = $sql->getValue($REX['TABLE_PREFIX'].'user.description');
 
   echo '
-    <div class="rex-form rex-form-profile">
+    <div class="rex-form" id="rex-form-profile">
     <form action="index.php" method="post">
       <fieldset class="rex-form-col-2">
         <legend>'.$I18N->msg('profile_myprofile').'</legend>
