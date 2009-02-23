@@ -52,13 +52,19 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
 {
   global $REX;
   
+  if($environment == 'backend')
+  {
+    global $I18N;
+    header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
+  }
+  
   // ----- EXTENSION POINT
   $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
 
   // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
   rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
 
-  $etag = md5($content);
+  $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content));
 
   if($REX_ARTICLE)
   {

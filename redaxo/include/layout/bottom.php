@@ -23,7 +23,7 @@
 			<?php if(isset($REX['USER'])) echo '<li><a href="index.php?page=credits">'.$I18N->msg('credits').'</a> | </li>'; ?>
       		<li><a href="http://forum.redaxo.de" onclick="window.open(this.href); return false;"<?php echo rex_tabindex() ?>>?</a></li>
 		</ul>
-		<p id="rex-scripttime"><?php echo rex_showScriptTime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
+		<p id="rex-scripttime"><!--DYN--><?php echo rex_showScriptTime() ?><!--/DYN--> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?></p>
 		</div>
 	</div>
 	
