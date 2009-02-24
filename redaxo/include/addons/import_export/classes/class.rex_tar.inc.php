@@ -15,6 +15,12 @@
 
 class rex_tar extends tar
 {
+  // constructor to omit warnings
+  function rex_tar()
+  {
+    parent::tar();
+  }
+  
   // Add a file to the tar archive
   function addFile($filename) {
     // Make sure the file we are adding exists!
