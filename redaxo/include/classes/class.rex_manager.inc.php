@@ -168,9 +168,10 @@
       $state = $this->I18N('uninstall_not_found');
     }
     
-    if($state === TRUE)
+    $mediaFolder = $this->mediaFolder($addonName);
+    if($state === TRUE && is_dir($mediaFolder))
     {
-      if(!rex_deleteDir($this->mediaFolder($addonName), TRUE))
+      if(!rex_deleteDir($mediaFolder, TRUE))
       {
         $state = $this->I18N('install_cant_delete_files');
       }
