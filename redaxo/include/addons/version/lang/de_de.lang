@@ -7,3 +7,4 @@ version_preview = Voransicht
 version_copy_live_to_workingversion = in Arbeitsversion kopieren
 version_info_working_version_to_live = Arbeitsversion wurde live gestellt
 version_info_live_version_to_working = Liveversion wurde in die Arbeitsversion kopiert
+version_warning_working_version_to_live = Arbeitsversion kann nicht live gestellt werden, da sie leer ist

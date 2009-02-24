@@ -65,7 +65,7 @@ function rex_version_header($params)
   $return = "";
 
 	$rex_version_article = $REX["LOGIN"]->getSessionVar("rex_version_article");
-	if(!is_array($rex_version_article))$
+	if(!is_array($rex_version_article))
 		$rex_version_article = array();
 	
 	$working_version_empty = TRUE;
@@ -79,21 +79,26 @@ function rex_version_header($params)
 	$revisions[1] = $I18N_A461->msg("version_workingversion");
 	
 	$version_id = rex_request("rex_set_version","int","-1");
-	if($version_id == 0)
+
+	if($version_id === 0)
 	{
-			unset($rex_version_article[$params["article_id"]]);
-			$params["slice_revision"] = 0;
-	}else
+			$rex_version_article[$params["article_id"]] = 0;
+	}elseif($version_id == 1)
 	{
 			$rex_version_article[$params["article_id"]] = 1;
-			$params["slice_revision"] = 1;
+	}elseif(!isset($rex_version_article[$params["article_id"]]))
+	{
+			$rex_version_article[$params["article_id"]] = 1;
 	}
 	
 	$func = rex_request("rex_version_func","string");
 	switch($func)
 	{
 		case("copy_work_to_live"):
-		  if($REX["USER"]->isValueOf("rights","version[only_working_version]") && !$working_version_empty)
+		  if($working_version_empty)
+		  {
+		  	$return .= rex_warning($I18N_A461->msg("version_warning_working_version_to_live"));
+		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
 		  {
 				require $REX['INCLUDE_PATH'].'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
 				// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
@@ -109,16 +114,13 @@ function rex_version_header($params)
 		break;
 	}
 	
-	$REX["LOGIN"]->setSessionVar("rex_version_article", $rex_version_article);
-
-	if(isset($rex_version_article[$params["article_id"]]))
-		$params["slice_revision"] = 1;
-
-  if($REX["USER"]->isValueOf("rights","version[only_working_version]"))
+  if($REX["USER"]->hasPerm('version[only_working_version]'))
   {
-		$params["slice_revision"] = 1;
+		$rex_version_article[$params["article_id"]] = 1;
   	unset($revisions[0]);
   }
+
+	$REX["LOGIN"]->setSessionVar("rex_version_article", $rex_version_article);
 
 	$link = 'index.php?page='.$params["page"].'&article_id='.$params["article_id"].'&clang='.$params["clang"];
 
@@ -137,7 +139,7 @@ function rex_version_header($params)
 	$s = new rex_select();
 	foreach($revisions as $k => $r)
 		$s->addOption($r,$k);
-	$s->setSelected($params["slice_revision"]);
+	$s->setSelected($rex_version_article[$params["article_id"]]);
   $s->setName('rex_set_version');
   $s->setId('rex-select-version-id');
   $s->setSize('1');
@@ -148,14 +150,14 @@ function rex_version_header($params)
 
   if($REX["USER"]->isValueOf("rights","version[only_working_version]"))
 	{
-		if($params["slice_revision"]>0)
+		if($rex_version_article[$params["article_id"]]>0)
 		{
 		  $return .= '<li><a href="/'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>';
 			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N_A461->msg("version_copy_live_to_workingversion").'</a></li>';
 		}
 	}else
 	{
-		if($params["slice_revision"]>0)
+		if($rex_version_article[$params["article_id"]]>0)
 		{
 		  $return .= '<li><a href="../'.rex_getUrl($params["article_id"],$params["clang"],array("rex_version"=>1)).'" target="_blank">'.$I18N_A461->msg("version_preview").'</a></li>';
 			if(!$working_version_empty)
@@ -192,6 +194,8 @@ function rex_version_header($params)
 			
 		</div>
 	';
+	
+	$params["slice_revision"] = $rex_version_article[$params["article_id"]];
 	
 	return $return;
 }

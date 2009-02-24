@@ -7,3 +7,4 @@ version_preview = Preview
 version_copy_live_to_workingversion = Copy to Working Version
 version_info_working_version_to_live = Working Version is now live
 version_info_live_version_to_working = Live Version has been copied to Working Version
+version_warning_working_version_to_live = Working Version can not be copied, because it is empty
