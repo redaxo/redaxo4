@@ -38,7 +38,7 @@ class rex_navigation
 	var $depth; // Wieviele Ebene tief, ab der Startebene
 	var $open; // alles aufgeklappt, z.b. Sitemap
 	var $ignore_offlines;
-	var $paths = array();
+	var $path = array();
 	var $classes = array();
 
 	var $current_article_id = -1; // Aktueller Artikel
@@ -69,45 +69,46 @@ class rex_navigation
    * @param $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
    * @param $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
    */
-	function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = false)
+	function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
 	{
     $this->category_id = $category_id;
     $this->depth = $depth;
     $this->open = $open;
     $this->ignore_offlines = $ignore_offlines;
 	  
-    if(!$this->_setActivePaths()) return FALSE;
+    if(!$this->_setActivePath()) return FALSE;
 		return $this->_getNavigation($this->category_id,$this->ignore_offlines);
 	}
 
   /**
    * @see get()
    */
-	function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = false)
+	function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
 	{
 		echo $this->get($category_id, $depth, $open, $ignore_offlines);
 	}
 	
   /**
-   * Generiert eine Breadcrump-Navigation
+   * Generiert eine Breadcrumb-Navigation
    * 
    * @param $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
    * @param $category_id Id der Wurzelkategorie
    */
-	function getBreadcrump($includeCurrent = false, $category_id = 0)
+	function getBreadcrumb($includeCurrent = FALSE, $category_id = 0)
 	{
     $this->category_id = $category_id;
     
-	  if(!$this->_setActivePaths()) return FALSE;
+	  if(!$this->_setActivePath()) return FALSE;
     
-    $return = '';
-    $return .= '<ul class="breadcrump">';
-    
+	  $path = $this->path;
     if($includeCurrent)
-      $this->paths[] = $this->current_article_id;
+      $path = $this->current_article_id;
+      
+	  $return = '';
+    $return .= '<ul class="breadcrump">';
       
     $i = 1;
-    foreach($this->paths as $pathItem)
+    foreach($path as $pathItem)
     {
       $cat = OOCategory::getCategoryById($pathItem);
       $return .= '<li class="lvl'. $i .'"><a href="'. $cat->getUrl() .'">'. htmlspecialchars($cat->getName()) .'</a></li>';
@@ -119,11 +120,11 @@ class rex_navigation
 	}
 	
 	/**
-	 * @see getBreadcrump()
+	 * @see getBreadcrumb()
 	 */
-  function showBreadcrump($category_id = 0, $includeCurrent = false)
+  function showBreadcrumb($includeCurrent = FALSE, $category_id = 0)
   {
-    echo $this->getBreadcrump($category_id, $includeCurrent);
+    echo $this->getBreadcrumb($includeCurrent, $category_id);
   }
   
 	function setClasses($classes)
@@ -131,14 +132,14 @@ class rex_navigation
 	  $this->classes = $classes;
 	}
 
-	function _setActivePaths()
+	function _setActivePath()
 	{
 		global $REX;
 		$this->current_article_id = $REX["ARTICLE_ID"];
 
 		if($a = OOArticle::getArticleById($REX["ARTICLE_ID"]))
 		{
-			$this->paths = explode("|",trim($a->getValue("path"), '|'));
+			$this->path = explode("|",trim($a->getValue("path"), '|'));
 			$this->current_category_id = $a->getCategoryId();
 			return TRUE;
 		}else
@@ -172,7 +173,7 @@ class rex_navigation
 			  $liClass .= ' active';
 			  $linkClass .= ' current';
 			}
-			elseif (in_array($nav->getId(),$this->paths))
+			elseif (in_array($nav->getId(),$this->path))
 			{
         $liClass .= ' active';
 			}
@@ -194,7 +195,7 @@ class rex_navigation
 			$depth++;
 			if(($this->open || 
 			    $nav->getId() == $this->current_category_id || 
-			    in_array($nav->getId(),$this->paths))
+			    in_array($nav->getId(),$this->path))
          && ($this->depth > $depth || $this->depth < 0))
 			{
 				$return .= $this->_getNavigation($nav->getId(),$ignore_offlines);
