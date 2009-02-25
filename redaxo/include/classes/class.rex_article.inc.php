@@ -58,7 +58,11 @@ class rex_article
 
 		$this->debug = FALSE;
 
-    if($clang !== null)
+    $this->ARTICLE = new rex_sql;
+    if($this->debug)
+      $this->ARTICLE->debugsql = 1;
+        
+		if($clang !== null)
       $this->setCLang($clang);
     else
       $this->setClang($REX['CUR_CLANG']);
@@ -122,16 +126,12 @@ class rex_article
     {
       // ---------- select article
       $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
-      $this->ARTICLE = new rex_sql;
-      if($this->debug)
-      	$this->ARTICLE->debugsql = 1;
-
       $this->ARTICLE->setQuery($qry);
 
       if ($this->ARTICLE->getRows() == 1)
       {
-        $this->template_id = $this->ARTICLE->getValue($REX['TABLE_PREFIX']."article.template_id");
-        $this->category_id = $this->getValue("category_id");
+        $this->template_id = $this->getValue('template_id');
+        $this->category_id = $this->getValue('category_id');
         return TRUE;
       }
     }
