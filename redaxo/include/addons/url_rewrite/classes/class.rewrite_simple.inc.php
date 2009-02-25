@@ -28,7 +28,7 @@ class myUrlRewriter extends rexUrlRewriter
   {
     global $article_id, $clang, $REX;
 
-    if (ereg('^/([0-9]*)-([0-9]*)', $_SERVER['QUERY_STRING'], $_match = array ()))
+    if (ereg('^/([0-9]*)-([0-9]*)', $_SERVER['QUERY_STRING'], $_match))
     {
       $article_id = $_match[1];
       $clang = $_match[2];
