@@ -187,7 +187,6 @@ function rex_version_header($params)
 		}  
 		#rex-version-header li { 
 			margin-right: 15px;
-			line-height: 30px;
 		}  
   /* ]]> */
 </style>
