@@ -6,11 +6,11 @@
  * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
  */
 
-if (!isset ($page_name))
-  $page_name = '';
-
 $page_title = $REX['SERVERNAME'];
 
+if(!isset($page_name))
+  $page_name = $REX["PAGES"][strtoupper($page)][0];
+  
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
