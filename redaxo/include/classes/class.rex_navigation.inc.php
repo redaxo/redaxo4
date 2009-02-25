@@ -89,28 +89,46 @@ class rex_navigation
   /**
    * Generiert eine Breadcrumb-Navigation
    * 
+   * @param $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
    * @param $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
    * @param $category_id Id der Wurzelkategorie
    */
-	/*public*/ function getBreadcrumb($includeCurrent = FALSE, $category_id = 0)
+	/*public*/ function getBreadcrumb($startPageLabel, $includeCurrent = FALSE, $category_id = 0)
 	{
 	  if(!$this->_setActivePath()) return FALSE;
+	  
+	  global $REX;
     
 	  $path = $this->path;
     if($includeCurrent)
+    {
       $path[]= $this->current_article_id;
+    }
             
-  	$lis = '';
-      
     $i = 1;
+    $lis = '';
+    
+    if($startPageLabel)
+    {
+      $lis .= '<li class="rex-lvl'. $i .'"><a href="'. rex_getUrl($REX['START_ARTICLE_ID']) .'">'. htmlspecialchars($startPageLabel) .'</a></li>';
+      $i++;
+
+      // StartArticle nicht doppelt anzeigen
+      if($path[0] == $REX['START_ARTICLE_ID'])
+      {
+        unset($path[0]);
+      }
+    }
+    
     foreach($path as $pathItem)
     {
       $cat = OOCategory::getCategoryById($pathItem);
-      $lis .= '<li class="lvl'. $i .'"><a href="'. $cat->getUrl() .'">'. htmlspecialchars($cat->getName()) .'</a></li>';
+      $lis .= '<li class="rex-lvl'. $i .'"><a href="'. $cat->getUrl() .'">'. htmlspecialchars($cat->getName()) .'</a></li>';
       $i++;
     }
     
-    return '<ul class="breadcrumb">'. $lis .'</ul>';
+    
+    return '<ul class="rex-breadcrumb">'. $lis .'</ul>';
 	}
 	
 	/**
@@ -159,7 +177,7 @@ class rex_navigation
   	$return = "";
 
 		if(count($nav_obj)>0)
-		  $return .= '<ul class="navi'. ($depth+1) .'">';
+		  $return .= '<ul class="rex-navi'. ($depth+1) .'">';
 
 		foreach($nav_obj as $nav)
 		{
@@ -169,16 +187,16 @@ class rex_navigation
 		  // classes abhaengig vom pfad
 			if($nav->getId() == $this->current_category_id)
 			{
-			  $liClass .= ' active';
-			  $linkClass .= ' current';
+			  $liClass .= ' rex-active';
+			  $linkClass .= ' rex-current';
 			}
 			elseif (in_array($nav->getId(),$this->path))
 			{
-        $liClass .= ' active';
+        $liClass .= ' rex-active';
 			}
 			else
 			{
-        $liClass .= ' normal';
+        $liClass .= ' rex-normal';
 			}
 			
       // classes abhaengig vom level
