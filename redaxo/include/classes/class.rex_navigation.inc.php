@@ -44,11 +44,11 @@ class rex_navigation
 	var $current_article_id = -1; // Aktueller Artikel
 	var $current_category_id = -1; // Aktuelle Katgorie
 
-	function rex_navigation()
+	/*private*/ function rex_navigation()
 	{
 	}
 
-  function factory()
+  /*public*/ function factory()
   {
     static $class = null;
 
@@ -69,7 +69,7 @@ class rex_navigation
    * @param $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
    * @param $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
    */
-	function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
+	/*public*/ function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
 	{
     $this->category_id = $category_id;
     $this->depth = $depth;
@@ -83,7 +83,7 @@ class rex_navigation
   /**
    * @see get()
    */
-	function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
+	/*public*/ function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
 	{
 		echo $this->get($category_id, $depth, $open, $ignore_offlines);
 	}
@@ -94,7 +94,7 @@ class rex_navigation
    * @param $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
    * @param $category_id Id der Wurzelkategorie
    */
-	function getBreadcrumb($includeCurrent = FALSE, $category_id = 0)
+	/*public*/ function getBreadcrumb($includeCurrent = FALSE, $category_id = 0)
 	{
     $this->category_id = $category_id;
     
@@ -122,17 +122,17 @@ class rex_navigation
 	/**
 	 * @see getBreadcrumb()
 	 */
-  function showBreadcrumb($includeCurrent = FALSE, $category_id = 0)
+  /*public*/ function showBreadcrumb($includeCurrent = FALSE, $category_id = 0)
   {
     echo $this->getBreadcrumb($includeCurrent, $category_id);
   }
   
-	function setClasses($classes)
+	/*public*/ function setClasses($classes)
 	{
 	  $this->classes = $classes;
 	}
 
-	function _setActivePath()
+	/*private*/ function _setActivePath()
 	{
 		global $REX;
 		$this->current_article_id = $REX["ARTICLE_ID"];
@@ -148,7 +148,7 @@ class rex_navigation
 		}
 	}
 
-	function _getNavigation($category_id,$ignore_offlines = TRUE)
+	/*protected*/ function _getNavigation($category_id,$ignore_offlines = TRUE)
 	{
 	  static $depth = 0;
 	  
