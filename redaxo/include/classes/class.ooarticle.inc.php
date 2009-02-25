@@ -9,7 +9,7 @@
 class OOArticle extends OORedaxo
 {
 
-  function OOArticle($params = false, $clang = false)
+  function OOArticle($params = FALSE, $clang = FALSE)
   {
     parent :: OORedaxo($params, $clang);
   }
@@ -18,11 +18,11 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  function getArticleById($article_id, $clang = false, $OOCategory = false)
+  function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
   {
     global $REX;
     
-    if ($clang === false)
+    if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
     
     $article_path = $REX['INCLUDE_PATH'].'/generated/articles/'.$article_id.'.'.$clang.'.article';
@@ -42,18 +42,18 @@ class OOArticle extends OORedaxo
         return new OOArticle(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
     }
     
-    return null;
+    return NULL;
   }
 
   /**
    * CLASS Function:
    * Return the site wide start article
    */
-  function getSiteStartArticle($clang = false)
+  function getSiteStartArticle($clang = FALSE)
   {
     global $REX;
     
-    if ($clang === false)
+    if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
       
     return OOArticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
@@ -63,11 +63,11 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return start article for a certain category
    */
-  function getCategoryStartArticle($a_category_id, $clang = false)
+  function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
     global $REX;
     
-    if ($clang === false)
+    if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
       
     return OOArticle :: getArticleById($a_category_id, $clang);
@@ -77,11 +77,11 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of articles for a certain category
    */
-  function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
+  function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
   {
     global $REX;
 
-    if ($clang === false)
+    if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
     $articlelist = $REX['INCLUDE_PATH']."/generated/articles/".$a_category_id.".".$clang.".alist";
@@ -123,10 +123,10 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of top-level articles
    */
-  function getRootArticles($ignore_offlines = false, $clang = false)
+  function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
     global $REX;
-    if ($clang === false)
+    if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
       
     return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
