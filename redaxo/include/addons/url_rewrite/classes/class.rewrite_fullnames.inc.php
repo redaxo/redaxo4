@@ -78,13 +78,17 @@ class myUrlRewriter extends rexUrlRewriter
       $length = strlen($script_path);
       $path = substr($_SERVER['REQUEST_URI'], $length);
 
+      // Serverdifferenzen angleichen
+      if ($path{0}=='/')
+        $path = substr($path, 1);
+        
       // Parameter zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '?')) !== false)
-      $path = substr($path, 0, $pos);
+        $path = substr($path, 0, $pos);
 
       // Anker zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '#')) !== false)
-      $path = substr($path, 0, $pos);
+        $path = substr($path, 0, $pos);
 
       if ($path == '')
       {
@@ -168,10 +172,10 @@ class myUrlRewriter extends rexUrlRewriter
 
     global $REXPATH;
 
-    $id = $params['id'];
-    $name = $params['name'];
-    $clang = $params['clang'];
-    $params = $params['params'];
+    $id      = $params['id'];
+    $name    = $params['name'];
+    $clang   = $params['clang'];
+    $params  = $params['params'];
     $divider = $params['divider'];
 
     // params umformatieren neue Syntax suchmaschienen freundlich
@@ -229,20 +233,10 @@ function rex_rewriter_generate_pathnames($params = array ())
       break;
     case 'CAT_ADDED':
     // CAT_UPDATED nicht notwendig, da nur artikelnamen in urls gebraucht werden!
-    // case 'CAT_UPDATED':
     case 'ART_ADDED':
     case 'ART_UPDATED':
       $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
       break;
-    // ------- sprachabhängig, alle artikel aktualisieren
-    // CLANG_* nicht notwendig, da immer von ALL_GENERATED gefolgt!
-    /*
-    case 'CLANG_ADDED':
-    case 'CLANG_UPDATED':
-    case 'CLANG_DELETED':
-      $where = 'clang='. $params['id'];
-      break;
-    */
     // ------- alles aktualisieren
     case 'ALL_GENERATED':
       $where = '1=1';
