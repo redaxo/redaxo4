@@ -21,6 +21,29 @@ class rex_tar extends tar
     parent::tar();
   }
   
+  // Open a TAR file
+  function openTAR($filename) {
+    // call constructor to omit warnings instead of unset vars..
+    
+    $this->tar();
+    // Clear any values from previous tar archives
+    unset($this->filename);
+    unset($this->isGzipped);
+    unset($this->tar_file);
+    unset($this->directories);
+
+    // If the tar file doesn't exist...
+    if(!file_exists($filename))
+      return false;
+
+    $this->filename = $filename;
+
+    // Parse this file
+    $this->__readTar();
+
+    return true;
+  }
+
   // Add a file to the tar archive
   function addFile($filename) {
     // Make sure the file we are adding exists!
