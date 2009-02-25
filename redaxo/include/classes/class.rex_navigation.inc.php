@@ -69,11 +69,12 @@ class rex_navigation
    */
 	/*public*/ function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
 	{
-    $this->depth = $depth;
+    if(!$this->_setActivePath()) return FALSE;
+    
+	  $this->depth = $depth;
     $this->open = $open;
     $this->ignore_offlines = $ignore_offlines;
 	  
-    if(!$this->_setActivePath()) return FALSE;
 		return $this->_getNavigation($category_id,$this->ignore_offlines);
 	}
 
