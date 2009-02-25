@@ -25,7 +25,7 @@ class rex_tar extends tar
   function openTAR($filename) {
     // call constructor to omit warnings instead of unset vars..
     
-    $this->tar();
+    $this->rex_tar();
     // Clear any values from previous tar archives
     unset($this->filename);
     unset($this->isGzipped);
