@@ -795,8 +795,8 @@ class rex_list
     $rowsPerPage = $this->getRowsPerPage();
     $pages = ceil($rows / $rowsPerPage);
 
-    $s = '<ul class="rex-list-pgnt">'. "\n";
-    $s .= '<li class="rex-list-pgnt-img"><a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'"><img src="media/back.gif" alt="'. $I18N->msg('list_previous') .'" title="'. $I18N->msg('list_previous') .'" /></a></li>';
+    $s = '<ul class="rex-navi-paginate">'. "\n";
+    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'"><img src="media/back.gif" alt="'. $I18N->msg('list_previous') .'" title="'. $I18N->msg('list_previous') .'" /></a></li>';
 
     if($pages > 1)
     {
@@ -812,16 +812,16 @@ class rex_list
         if($start != $first)
           $pageLink = '<a href="'. $this->getUrl(array('start' => $first)) .'"><span>'. $pageLink .'</span></a>';
         else
-          $pageLink = '<span><span>'.$pageLink.'</span></span>';
+          $pageLink = '<a class="rex-active" href="'. $this->getUrl(array('start' => $first)) .'"><span>'. $pageLink .'</span></a>';
 
-        $s .= '<li class="rex-list-pgnt-page">'. $pageLink .'</li>';
+        $s .= '<li class="rex-navi-paginate-page">'. $pageLink .'</li>';
       }
     }
-    $s .= '<li class="rex-list-pgnt-img"><a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'"><img src="media/forward.gif" alt="'. $I18N->msg('list_next') .'" title="'. $I18N->msg('list_next') .'" /></a></li>';
-    $s .= '<li class="rex-list-msg"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
+    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'"><img src="media/forward.gif" alt="'. $I18N->msg('list_next') .'" title="'. $I18N->msg('list_next') .'" /></a></li>';
+    $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
     $s .= '</ul>'. "\n";
 
-    return '<div class="rex-list-navi">'.$s.'</div>';
+    return '<div id="rex-navi-paginate" class="rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
   }
 
   /**
