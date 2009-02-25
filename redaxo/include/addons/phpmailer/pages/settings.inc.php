@@ -21,12 +21,12 @@ $Password = rex_post('Password', 'string', $testMailer->Password);
 $Username = rex_post('Username', 'string', $testMailer->Username);
 $smtpauth_default = "false";
 if($testMailer->SMTPAuth) 
-	$smtpauth_default = "true";
+  $smtpauth_default = "true";
 $smtpauth = rex_post('smtpauth', 'string', $smtpauth_default);
 $priority = rex_post('priority', 'int', $testMailer->Priority);
 
 if($smtpauth != "true") 
-	$smtpauth = "false";
+  $smtpauth = "false";
 
 $message = '';
 
@@ -109,96 +109,96 @@ if($message != '')
 <h2 class="rex-hl2"><?php echo $I18N_A93->msg('config_settings'); ?></h2>
 
 <div id="rex-addon-editmode" class="rex-form">
-	<form action="" method="post">
+  <form action="" method="post">
 
-	  <fieldset class="rex-form-col-1">
+     <fieldset class="rex-form-col-1">
 
-		<div class="rex-form-wrapper">
-		
+    <div class="rex-form-wrapper">
+    
     <div class="rex-form-row">
-		<p>
-		  <label for="fromname"><?php echo $I18N_A93->msg('sender_name'); ?></label>
-		  <input type="text" name="fromname" id="fromname" value="<?php echo $fromname ?>" />
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="from"><?php echo $I18N_A93->msg('sender_email'); ?></label>
-		  <input type="text" name="from" id="from" value="<?php echo $from ?>" />
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="confirmto"><?php echo $I18N_A93->msg('confirm'); ?></label>
-		  <input type="text" name="confirmto" id="confirmto" value="<?php echo $confirmto ?>" />
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="mailer"><?php echo $I18N_A93->msg('mailertype'); ?></label>
-		  <?php echo $sel_mailer->show(); ?>
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="host"><?php echo $I18N_A93->msg('host'); ?></label>
-		  <input type="text" name="host" id="host" value="<?php echo $host ?>" />
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="charset"><?php echo $I18N_A93->msg('charset'); ?></label>
-		  <input type="text" name="charset" id="charset" value="<?php echo $charset ?>" />
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="wordwrap"><?php echo $I18N_A93->msg('wordwrap'); ?></label>
-		  <input type="text" name="wordwrap" id="wordwrap" value="<?php echo $wordwrap ?>" />
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="encoding"><?php echo $I18N_A93->msg('encoding'); ?></label>
-		  <?php echo $sel_encoding->show(); ?>
-		</p>
-    </div>
-    <div class="rex-form-row">
-		<p>
-		  <label for="priority"><?php echo $I18N_A93->msg('priority'); ?></label>
-		  <?php echo $sel_priority->show(); ?>
-		</p>
-    </div>
-    <div class="rex-form-row">
-    <p>
-      <label for="smtpauth"><?php echo $I18N_A93->msg('SMTPAuth'); ?></label>
-      <?php echo $sel_smtpauth->show(); ?>
+    <p class="rex-form-col-a rex-form-text">
+      <label for="fromname"><?php echo $I18N_A93->msg('sender_name'); ?></label>
+      <input type="text" name="fromname" id="fromname" value="<?php echo $fromname ?>" />
     </p>
     </div>
     <div class="rex-form-row">
-    <p>
+    <p class="rex-form-col-a rex-form-text">
+      <label for="from"><?php echo $I18N_A93->msg('sender_email'); ?></label>
+      <input type="text" name="from" id="from" value="<?php echo $from ?>" />
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-text">
+      <label for="confirmto"><?php echo $I18N_A93->msg('confirm'); ?></label>
+      <input type="text" name="confirmto" id="confirmto" value="<?php echo $confirmto ?>" />
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-select">
+      <label for="mailer"><?php echo $I18N_A93->msg('mailertype'); ?></label>
+      <?php echo $sel_mailer->show(); ?>
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-text">
+      <label for="host"><?php echo $I18N_A93->msg('host'); ?></label>
+      <input type="text" name="host" id="host" value="<?php echo $host ?>" />
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-text">
+      <label for="charset"><?php echo $I18N_A93->msg('charset'); ?></label>
+      <input type="text" name="charset" id="charset" value="<?php echo $charset ?>" />
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-text">
+      <label for="wordwrap"><?php echo $I18N_A93->msg('wordwrap'); ?></label>
+      <input type="text" name="wordwrap" id="wordwrap" value="<?php echo $wordwrap ?>" />
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-select">
+      <label for="encoding"><?php echo $I18N_A93->msg('encoding'); ?></label>
+      <?php echo $sel_encoding->show(); ?>
+    </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-select">
+      <label for="priority"><?php echo $I18N_A93->msg('priority'); ?></label>
+      <?php echo $sel_priority->show(); ?>
+    </p>
+    </div>
+    <div class="rex-form-row">
+      <p class="rex-form-col-a rex-form-select">
+          <label for="smtpauth"><?php echo $I18N_A93->msg('SMTPAuth'); ?></label>
+          <?php echo $sel_smtpauth->show(); ?>
+      </p>
+    </div>
+    <div class="rex-form-row">
+    <p class="rex-form-col-a rex-form-text">
       <label for="Username"><?php echo $I18N_A93->msg('Username'); ?></label>
       <input type="text" name="Username" id="Username" value="<?php echo $Username ?>" />
     </p>
     </div>
     <div class="rex-form-row">
-    <p>
+    <p class="rex-form-col-a rex-form-text">
       <label for="Password"><?php echo $I18N_A93->msg('Password'); ?></label>
       <input type="text" name="Password" id="Password" value="<?php echo $Password ?>" />
     </p>
     </div>
-		
-		<div class="rex-form-row">
-			<p class="rex-form-col-a rex-form-submit">
-			  <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $I18N_A93->msg('save'); ?>" />
-			  <input class="rex-form-submit" type="reset" name="btn_reset" value="<?php echo $I18N_A93->msg('reset'); ?>" onclick="return confirm('<?php echo $I18N_A93->msg('reset_info'); ?>');"/>
-			</p>
-		</div>
-	
-		</div>
+    
+    <div class="rex-form-row">
+      <p class="rex-form-col-a rex-form-submit">
+         <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $I18N_A93->msg('save'); ?>" />
+         <input class="rex-form-submit" type="reset" name="btn_reset" value="<?php echo $I18N_A93->msg('reset'); ?>" onclick="return confirm('<?php echo $I18N_A93->msg('reset_info'); ?>');"/>
+      </p>
+    </div>
+  
+    </div>
 
-	  </fieldset>
-	</form>
+     </fieldset>
+  </form>
 </div>
 
 </div>
