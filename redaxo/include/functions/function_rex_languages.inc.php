@@ -18,7 +18,8 @@ if ($num_clang>1)
 {
    echo '
 <!-- *** OUTPUT OF CLANG-TOOLBAR - START *** -->
-   <div id="rex-clang">
+   <div id="rex-clang" class="rex-toolbar">
+   <div class="rex-toolbar-content">
      <ul>
        <li>'.$I18N->msg("languages").' : </li>';
 
@@ -52,6 +53,7 @@ if ($num_clang>1)
 
 	echo '
      </ul>
+   </div>
    </div>
 <!-- *** OUTPUT OF CLANG-TOOLBAR - END *** -->
 ';
