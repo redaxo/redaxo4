@@ -133,44 +133,23 @@ class rex_article
         $this->template_id = $this->ARTICLE->getValue($REX['TABLE_PREFIX']."article.template_id");
         $this->category_id = $this->getValue("category_id");
         return TRUE;
-      }else
-      {
-        $this->article_id = 0;
-        $this->template_id = 0;
-        $this->category_id = 0;
-        return FALSE;
-      }
-    }else
-    {
-      $metaFile = $REX['INCLUDE_PATH']."/generated/articles/".$article_id.".".$this->clang.".article";
-      if (file_exists($metaFile))
-      {
-        include_once ($metaFile);
-        $this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
-        $this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
-        return TRUE;
-      }else
-      {
-				$this->ARTICLE = new rex_sql;
-	      $this->ARTICLE->setQuery("select * from ".$REX['TABLE_PREFIX']."article where ".$REX['TABLE_PREFIX']."article.id='$article_id' and clang='".$this->clang."'");
-	   	  if ($this->ARTICLE->getRows() == 1)
-     	  {
-     	  	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
-     	  	if (rex_generateArticleMeta($article_id, $this->clang))
-	     	{
-  	    		$this->category_id = $REX['ART'][$article_id]['re_id'][$this->clang];
-        		$this->template_id = $REX['ART'][$article_id]['template_id'][$this->clang];
-        		return TRUE;
-        	}else
-        	{
-        		return FALSE;
-        	}
-     	  }else
-     	  {
-     	  	return FALSE;
-     	  }
       }
     }
+    else
+    {
+      $OOArticle = OOArticle::getArticleById($article_id, $this->clang);
+      if(OOArticle::isValid($OOArticle))
+      {
+        $this->category_id = $OOArticle->getCategoryId();
+        $this->template_id = $OOArticle->getTemplateId();
+        return TRUE;
+      }
+    }
+    
+    $this->article_id = 0;
+    $this->template_id = 0;
+    $this->category_id = 0;
+    return FALSE;
   }
 
   function setTemplateId($template_id)
@@ -719,15 +698,14 @@ class rex_article
     // global $REX hier wichtig, damit in den Artikeln die Variable vorhanden ist!
     global $REX;
 
-    if ($this->getTemplateId() != 0 && $this->article_id != 0)
+    if ($this->template_id != 0 && $this->article_id != 0)
     {
       ob_start();
       ob_implicit_flush(0);
 
     	$TEMPLATE = new rex_template();
-    	$TEMPLATE->setId($this->getTemplateId());
-      $tplContent = $TEMPLATE->getTemplate();
-      $tplContent = $this->replaceCommonVars($tplContent);
+    	$TEMPLATE->setId($this->template_id);
+      $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 			eval("?>".$tplContent);
 
       $CONTENT = ob_get_contents();
@@ -1002,7 +980,7 @@ class rex_article
       $user_id,
       $user_login
     );
-
+    
     return str_replace($search, $replace,$content);
   }
 
