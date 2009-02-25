@@ -28,6 +28,7 @@
   </div>
   
   <div id="rex-extra"></div>
+  <div id="rex-redaxo-link"><p><a href="/redaxo/" title="Wohin verlinke ich?">Wohin verlinke ich?</a></p></div>
   
   </div><!-- END #rex-website -->
    </body>
