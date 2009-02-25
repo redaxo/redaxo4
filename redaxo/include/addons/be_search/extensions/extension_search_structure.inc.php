@@ -210,11 +210,13 @@ function rex_a256_search_structure($params)
       </form>';
 
   $search_bar = $message.
-  '<div id="rex-a256-searchbar">
+  '<div id="rex-a256-searchbar" class="rex-toolbar">
+   <div class="rex-toolbar-content">
      '. $form .'
      '. $search_result .'
+	 <div class="rex-clearer"></div>
    </div>
-   <div class="rex-clearer"></div>';
+   </div>';
 
   return $search_bar . $params['subject'];
 }
