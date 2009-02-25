@@ -11,6 +11,14 @@ legend.rex-hidden {
 }
 
 
+div.rex-addon-output ol, 
+div.rex-addon-output ul, 
+div.rex-content-editmode-slice-output ol, 
+div.rex-content-editmode-slice-output ul {
+	margin-left: 20px;
+}
+
+
 /*	Abstaende ******************************************************************
 *******************************************************************************/
 /*  Allgemeine Anweiungen siehe unten */
@@ -116,18 +124,24 @@ div.rex-message span {
 
 div.rex-message-block {
 	clear: both;
-	margin: 0 0 10px 0;
-	padding: 8px 45px;
-	line-height: 1.6;
+	margin-bottom: 10px;
 }
+div.rex-message-content {
+	margin-left: 40px;
+	padding: 10px 5px;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+
+
 div.rex-message-block ol {
-	margin-left: 20px;
+	margin: 0 0 0 20px;
 }
 div.rex-message-block ol li {
 	list-style-type: decimal;
 }
 div.rex-message-block ul {
-	margin-left: 15px;
+	margin: 0 0 0 18px;
 }
 div.rex-message-block ul li {
 	list-style-type: square;
@@ -408,13 +422,11 @@ body#rex-page-import-export div.rex-area-content p.rex-tx1 {
 *******************************************************************************/
 div.rex-toolbar {
 	position: relative;
-	float: left;
-	width: 100%;
 	margin-bottom: 10px;
 }
 div.rex-toolbar-content {
 	margin-left: 40px;
-	padding: 5px;
+	padding: 10px 5px;
 	border-left-width: 1px;
 	border-left-style: solid;
 }

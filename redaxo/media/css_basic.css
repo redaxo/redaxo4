@@ -185,6 +185,10 @@ select {
 	font-family: Verdana, Arial, sans-serif;
 }
 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	font-family: Monospace, Courier, ;
+}
+
 /*	Schriftgroessen ************************************************************
 *******************************************************************************/
 .rex-code {
@@ -195,7 +199,8 @@ div#rex-title h1 {
 }
 .rex-hl4, 
 .rex-tx2, 
-.rex-tx3 {
+.rex-tx3, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	font-size: 1.2em;
 }
 
@@ -228,7 +233,6 @@ div#rex-title h1 {
 
 div#rex-title ul,
 div#rex-title p,
-div#rex-clang ul,
 div.rex-content-header ul {
 	line-height: 3;
 }
@@ -240,13 +244,15 @@ div.rex-content-editmode-module-name h3,
 div.rex-content-editmode-module-name ul li {
 	line-height: 2.2;
 }
+div.rex-addon-content, 
 div.rex-content-editmode-slice-output {
 	line-height: 1.6;
 }
 p.rex-tx1, 
 ul.rex-ul1, 
 div#rex-navi-login p,
-div#rex-navi-main ul {
+div#rex-navi-main ul, 
+div.rex-message-block {
 	line-height: 1.2;
 }
 
@@ -262,7 +268,8 @@ div#rex-navi-footer ul li a,
 div#rex-clang ul li a.rex-active,
 div.rex-title-row ul li a.rex-active,
 div.rex-content-header ul li a.rex-active,
-div.rex-content-header ul li span {
+div.rex-content-header ul li span, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active {
 	color: #32353A;
 }
 
@@ -346,7 +353,6 @@ table.rex-table tr.rex-plugin td {
 /*	Grau Heller */
 div#rex-footer,
 div#rex-header p.rex-header-top,
-div#rex-clang,
 div#rex-title,
 div#rex-linkmap, 
 div#rex-navi-path, 
@@ -505,6 +511,17 @@ div.rex-content-header ul li.rex-navi-first a {
 }
 
 
+
+div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	background-image: url(../media/list_pages.gif);
+	background-position: 100% -50px;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	background-position: 0 0;
+}
+
+
 /*	Border Color ***************************************************************
 *******************************************************************************/
 div#rex-footer {
@@ -533,7 +550,7 @@ div.rex-content-editmode-slice-input,
 div.rex-content-editmode-slice-output {
 	border-bottom-color: #FFF;
 }
-div#rex-clang ul,
+div.rex-message-content, 
 div.rex-toolbar-content,
 div.rex-content-header-2,
 div.rex-content-header ul.rex-navi-content {
@@ -668,3 +685,21 @@ div#rex-title p {
 	border-bottom-style: solid;
 }
 
+
+/*	Extras *********************************************************************
+*******************************************************************************/
+div#rex-redaxo-link {
+	position: absolute;
+	right: 0;
+	top: 64px;
+}
+div#rex-redaxo-link a {
+	display: block;
+	width: 153px;
+	height: 41px;
+	text-indent: -1000em;
+}
+body#rex-page-linkmap div#rex-redaxo-link, 
+body#rex-page-mediapool div#rex-redaxo-link {
+	display: none;
+}

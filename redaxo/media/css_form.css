@@ -375,12 +375,16 @@ div.rex-form-template-editmode div.rex-form-row p.rex-form-col-b input.rex-form-
 	margin-left: 0px;
 }
 div.rex-form-action-editmode div.rex-form-row p.rex-form-textarea textarea, 
-div.rex-form-module-editmode div.rex-form-row p.rex-form-textarea textarea, 
-div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea {
+div.rex-form-module-editmode div.rex-form-row p.rex-form-textarea textarea {
 	height: 200px;
 }
+div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea {
+	height: 350px;
+}
 
-
+div.rex-form-template-editmode div#rex-form-template-ctype p.rex-form-checkbox {
+	padding-top: 5px;
+}
 
 
 /*	Medienpool : Detail ********************************************************

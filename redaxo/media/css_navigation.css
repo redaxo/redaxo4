@@ -8,10 +8,10 @@ div#rex-navi-main ul,
 div#rex-navi-page ul, 
 ul#rex-navi-path, 
 div#rex-clang ul,
-div.rex-toolbar ul, 
 div.rex-content-header ul, 
+div#rex-linkmap ul, 
 div.rex-navi-slice ul, 
-div#rex-linkmap ul {
+div.rex-toolbar ul {
 	margin: 0;
 	list-style: none;
 }
@@ -104,7 +104,6 @@ div.rex-content-header {
 }
 div#rex-clang {
 	margin-bottom: 10px;
-	padding-left: 40px;
 }
 div.rex-content-header-2 {
 	margin-left: 40px;
@@ -112,13 +111,10 @@ div.rex-content-header-2 {
 	border-left-style: solid;
 }
 
-div#rex-clang ul,
 div.rex-content-header ul {
 	padding-left: 5px;
 }
 div#rex-clang ul {
-	border-left-width: 1px;
-	border-left-style: solid;
 }
 div.rex-content-header ul {
 	float: left;
@@ -147,6 +143,30 @@ div.rex-content-header ul li.rex-navi-first a {
 	padding-left: 0;
 }
 
+
+
+/*	Paginate *******************************************************************
+*******************************************************************************/
+div#rex-navi-paginate ul li {
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+div#rex-navi-paginate ul li {
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-message {
+	padding-top: 2px;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	display: block;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	padding: 1px 4px 2px 4px;
+}
 
 
 /*	Slice **********************************************************************

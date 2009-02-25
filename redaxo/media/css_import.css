@@ -10,13 +10,3 @@
 @import url('css_form.css');
 @import url('css_component.css');
 
-div.rex-content-body ul,
-div.rex-addon-output ul{
-    margin-bottom:1em;
-}
-
-div.rex-content-body ul li,
-div.rex-addon-output ul li{
-    list-style-type:square;
-    margin-left:1.5em;
-}
