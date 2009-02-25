@@ -114,16 +114,16 @@ function _rex_is_writable($item)
 
 function rex_getAttributes($name,$content,$default = null)
 {
-	$prop = unserialize($content);
-	if (isset($prop[$name])) return $prop[$name];
-	return $default;
+  $prop = unserialize($content);
+  if (isset($prop[$name])) return $prop[$name];
+  return $default;
 }
 
 function rex_setAttributes($name,$value,$content)
 {
-	$prop = unserialize($content);
-	$prop[$name] = $value;
-	return serialize($prop);
+  $prop = unserialize($content);
+  $prop[$name] = $value;
+  return serialize($prop);
 }
 
 /**
@@ -144,7 +144,7 @@ function rex_tabindex($html = true)
 
   if($html === true)
   {
-	  return ' tabindex="'. ++$REX['TABINDEX'] .'"';
+    return ' tabindex="'. ++$REX['TABINDEX'] .'"';
   }
   return ++$REX['TABINDEX'];
 }
@@ -152,24 +152,24 @@ function rex_tabindex($html = true)
 
 function array_insert($array, $index, $value)
 {
-	// In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
+  // In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
   return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
 }
 
 function rex_message($message, $cssClass, $sorround_tag)
 {
-	$return = '';
-	
-	$return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
-	
-	if ($sorround_tag != 'p')
-		$return .= '<p>';
-		
+  $return = '';
+  
+  $return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
+  
+  if ($sorround_tag != 'p')
+    $return .= '<p>';
+    
   $return .= '<span>'. $message .'</span>';
   
-	if ($sorround_tag != 'p')
-		$return .= '</p>';
-		
+  if ($sorround_tag != 'p')
+    $return .= '</p>';
+    
   $return .= '</'. $sorround_tag .'></div>';
   
   return $return;
@@ -205,18 +205,16 @@ function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
 
 function rex_message_block($message, $cssClass, $sorround_tag)
 {
-	$return = '';
-	
-	$return = '<div class="rex-message-block"><'. $sorround_tag .' class="'. $cssClass .'">';
-	
-	if ($sorround_tag != 'p')
-		$return .= '<p>';
-		
-  $return .= '<span>'. $message .'</span>';
+  $return = '';
   
-	if ($sorround_tag != 'p')
-		$return .= '</p>';
-		
+  $return = '<div class="rex-message-block"><'. $sorround_tag .' class="'. $cssClass .'">';
+  
+  $return .= '<div class="rex-message-content">';
+    
+  $return .= $message;
+  
+  $return .= '</div>';
+    
   $return .= '</'. $sorround_tag .'></div>';
   
   return $return;
