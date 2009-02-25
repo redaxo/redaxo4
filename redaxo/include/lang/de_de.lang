@@ -581,7 +581,7 @@ plugin_install_cant_copy_files = Fehler beim Kopieren des /files Ordners!
 plugin_install_cant_delete_files = Fehler beim Löschen des /files Ordners!
 
 # redaxo\include\pages\credits.inc.php
-credits = credits
+credits = Credits
 credits_name = AddOn
 credits_version = Version
 credits_author = Autor
