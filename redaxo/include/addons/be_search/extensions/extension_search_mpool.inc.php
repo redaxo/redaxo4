@@ -24,9 +24,9 @@ function rex_a256_search_mpool($params)
   $subject = $params['subject'];
 
   $search_form = '
-    <p class="rex-form-col-a rex-form-text">
-      <label for="a256_media_name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
-      <input class="rex-form-text" type="text" name="a256_media_name" id="a256_media_name" value="'. $media_name .'" />
+    <p class="rex-form-col-a rex-form-text" id="a256-media-search">
+      <label for="a256-media-name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
+      <input class="rex-form-text" type="text" name="a256_media_name" id="a256-media-name" value="'. $media_name .'" />
       <input class="rex-form-submit" type="submit" value="'. $I18N_BE_SEARCH->msg('search_mpool_start') .'" />
     </p>
   ';
