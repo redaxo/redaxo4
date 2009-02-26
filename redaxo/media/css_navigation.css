@@ -4,6 +4,7 @@
  * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
  */
 
+div#rex-navi-logout ul, 
 div#rex-navi-main ul, 
 div#rex-navi-page ul, 
 ul#rex-navi-path, 
@@ -59,10 +60,22 @@ div#rex-navi-footer ul li {
 
 /*	Navi Logout ****************************************************************
 *******************************************************************************/
-div#rex-navi-login {
+div#rex-navi-logout {
 	position: absolute;
-	right: 5px;
+	right: 0;
 	top: 25px;
+}
+div#rex-navi-logout ul li {
+	display: inline;
+	font-weight: bold;
+}
+div#rex-navi-logout ul li a, 
+div#rex-navi-logout ul li span {
+	padding: 0 5px;
+}
+div#rex-navi-logout ul li.rex-navi-first a, 
+div#rex-navi-logout ul li.rex-navi-first span {
+	padding-left: 0;
 }
 
 /*	Navi unter Titel ***********************************************************

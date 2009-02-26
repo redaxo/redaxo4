@@ -250,7 +250,8 @@ div.rex-content-editmode-slice-output {
 }
 p.rex-tx1, 
 ul.rex-ul1, 
-div#rex-navi-login p,
+div#rex-navi-logout p,
+div#rex-navi-logout ul,
 div#rex-navi-main ul, 
 div.rex-message-block {
 	line-height: 1.2;
@@ -274,7 +275,8 @@ div#rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active {
 }
 
 /*	Weiss */
-div#rex-navi-login p a,
+div#rex-navi-logout p a,
+div#rex-navi-logout a,
 div#rex-navi-main ul li,
 div#rex-navi-main ul li a {
 	color: #FFF;
@@ -488,10 +490,12 @@ body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
 
 
 /*	Pipe white */
+div#rex-navi-logout ul li, 
 div#rex-navi-main ul li {
 	background-image: url(../media/pipe_c1.gif);
 	background-position: 0px 2px;
 }
+div#rex-navi-logout ul li.rex-navi-first, 
 div#rex-navi-main ul li.rex-navi-first {
 	background: none;
 }
