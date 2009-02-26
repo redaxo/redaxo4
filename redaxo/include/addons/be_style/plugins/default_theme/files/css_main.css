@@ -9,14 +9,14 @@
 /*	Textfarben *****************************************************************
 *******************************************************************************/
 /*	Weiss */
-div#rex-navi-login, 
+div#rex-navi-logout, 
 div#rex-navi-main ul li a.rex-active {
 	color: #FFF;
 }
 
 /*	Cyan */
 a, 
-div#rex-navi-login p a, 
+div#rex-navi-logout a, 
 div#rex-navi-footer, 
 div#rex-navi-footer ul li, 
 div#rex-navi-footer ul li a, 
@@ -145,7 +145,7 @@ div#rex-footer {
 	background-image: url(footer.gif);
 	background-repeat: repeat-x;
 }
-div#rex-navi-login {
+div#rex-navi-logout {
 	background-image: url(logo.gif);
     background-position: 8px 0px;
 }
@@ -172,15 +172,16 @@ div#rex-website {
 	background-color: #FFF;
 }
 
-div#rex-navi-login {
+div#rex-navi-logout {
 	position: static;
 	float: left;
 	width: 100%;
 	height: 75px;
 	margin-bottom: 36px;
 }
-div#rex-navi-login p {
-	padding: 34px 15px 0 0;
+div#rex-navi-logout p, 
+div#rex-navi-logout ul {
+	padding: 34px 10px 0 0;
 	text-align: right;
 }
 
@@ -199,13 +200,13 @@ div#rex-wrapper {
 	margin-right: 16px;
 	padding-bottom: 36px;
 }
-body#rex-page-login div#rex-wrapper, 
+body#rex-page-logout div#rex-wrapper, 
 body#rex-page-linkmap div#rex-wrapper, 
 body#rex-page-mediapool div#rex-wrapper {
 	width: 100%;
 	margin-right: 0px;
 }
-body#rex-page-login div#rex-wrapper2, 
+body#rex-page-logout div#rex-wrapper2, 
 body#rex-page-linkmap div#rex-wrapper2, 
 body#rex-page-mediapool div#rex-wrapper2 {
 	padding: 0 16px;
