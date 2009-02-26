@@ -36,6 +36,9 @@ div.rex-addon-content dl,
 div#rex-form-medienpool-selectcategory {
 	margin-bottom: 1em;
 }
+p.rex-button {
+	margin-bottom: 2em;
+}
 
 div.rex-addon-content h3, 
 div.rex-addon-content h4 {

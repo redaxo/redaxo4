@@ -179,6 +179,9 @@ div.rex-form input.rex-form-submit {
 div.rex-form div.rex-form-row p input.rex-form-submit {
 	margin-left: 155px;
 }
+div.rex-form div.rex-form-row p input.rex-form-submit-2 {
+	margin-left: 20px;
+}
 div.rex-form div.rex-form-row p input.rex-form-submit, 
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-text input.rex-form-submit {
 	width: auto;
@@ -385,7 +388,9 @@ div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea {
 div.rex-form-template-editmode div#rex-form-template-ctype p.rex-form-checkbox {
 	padding-top: 5px;
 }
-
+div.rex-form-template-editmode div#rex-form-template-ctype p.rex-form-select select {
+	margin-top: 5px;
+}
 
 /*	Medienpool : Detail ********************************************************
 *******************************************************************************/

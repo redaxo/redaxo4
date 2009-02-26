@@ -57,6 +57,12 @@ div#rex-navi-footer ul {
 div#rex-navi-footer ul li {
 	display: inline;
 }
+div#rex-navi-footer ul li a {
+	padding: 0 5px;
+}
+div#rex-navi-footer ul li.rex-navi-first a {
+	padding-left: 0;
+}
 
 /*	Navi Logout ****************************************************************
 *******************************************************************************/

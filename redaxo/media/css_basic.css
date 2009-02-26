@@ -245,10 +245,11 @@ div.rex-content-editmode-module-name ul li {
 	line-height: 2.2;
 }
 div.rex-addon-content, 
+p.rex-tx1, 	
 div.rex-content-editmode-slice-output {
 	line-height: 1.6;
 }
-p.rex-tx1, 
+.rex-code, 
 ul.rex-ul1, 
 div#rex-navi-logout p,
 div#rex-navi-logout ul,
@@ -504,13 +505,15 @@ div#rex-navi-main ul li.rex-navi-first {
 /*	Pipe grey */
 div#rex-navi-page ul li a,
 div#rex-clang ul li a,
-div.rex-content-header ul li a {
+div.rex-content-header ul li a, 
+div#rex-navi-footer ul li {
 	background-image: url(../media/pipe_c2.gif);
 	background-position: 0px 2px;
 }
 div#rex-navi-page ul li.rex-navi-first a,
 div#rex-clang ul li.rex-navi-first a,
-div.rex-content-header ul li.rex-navi-first a {
+div.rex-content-header ul li.rex-navi-first a, 
+div#rex-navi-footer ul li.rex-navi-first {
 	background: none;
 }
 
