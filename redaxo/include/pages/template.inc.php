@@ -83,23 +83,23 @@ if ($function == "add" or $function == "edit")
       }
     }
 
-		// Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
-		// keine Zeichen escaped werden dürfen
-		for($i=1;$i<count($ctypes)+1;$i++)
-		{
-			$ctypes[$i] = stripslashes($ctypes[$i]);
-		}
+    // Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
+    // keine Zeichen escaped werden dürfen
+    for($i=1;$i<count($ctypes)+1;$i++)
+    {
+      $ctypes[$i] = stripslashes($ctypes[$i]);
+    }
 
     $modules = rex_post("modules", "array");
     // leerer eintrag = 0
     if(count($modules) == 0)
-    	$modules[1]["all"] = 0;
+      $modules[1]["all"] = 0;
     
-		foreach($modules as $k => $module)
-		{
-	    if(!isset($module["all"]) ||$module["all"] != 1)
-	      $modules[$k]["all"] = 0;
-		}
+    foreach($modules as $k => $module)
+    {
+      if(!isset($module["all"]) ||$module["all"] != 1)
+        $modules[$k]["all"] = 0;
+    }
 
     $TPL = new rex_sql;
     $TPL->setTable($REX['TABLE_PREFIX'] . "template");
@@ -120,8 +120,8 @@ if ($function == "add" or $function == "edit")
 
       if($TPL->insert())
       {
-	      $template_id = $TPL->getLastId();
-	      $info = $I18N->msg("template_added");
+        $template_id = $TPL->getLastId();
+        $info = $I18N->msg("template_added");
       }else
       {
         $warning = $TPL->getError();
@@ -140,7 +140,7 @@ if ($function == "add" or $function == "edit")
       else
         $warning = $TPL->getError();
     }
-		// werte werden direkt wieder ausgegeben
+    // werte werden direkt wieder ausgegeben
     $templatename = stripslashes($templatename);
     $content = stripslashes($content);
 
@@ -159,22 +159,22 @@ if ($function == "add" or $function == "edit")
 
     // Ctype Handling
     $ctypes = rex_getAttributes("ctype", $attributes);
-		$modules = rex_getAttributes("modules", $attributes);
-		
-		if(!is_array($modules))
-			$modules = array();
+    $modules = rex_getAttributes("modules", $attributes);
+    
+    if(!is_array($modules))
+      $modules = array();
 
-		// modules[ctype_id][module_id];
-		// modules[ctype_id]['all'];
+    // modules[ctype_id][module_id];
+    // modules[ctype_id]['all'];
 
-		// Module ...
-		$modul_select = new rex_select();
-		$modul_select->setMultiple(TRUE);
-		$modul_select->setSize(10);
-		$m_sql = new rex_sql;
-		$m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
-		foreach($m_sql->getArray() as $m)
-			$modul_select->addOption($m["name"],$m["id"]);
+    // Module ...
+    $modul_select = new rex_select();
+    $modul_select->setMultiple(TRUE);
+    $modul_select->setSize(10);
+    $m_sql = new rex_sql;
+    $m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
+    foreach($m_sql->getArray() as $m)
+      $modul_select->addOption($m["name"],$m["id"]);
 
     $ctypes_out = '';
     $i = 1;
@@ -183,59 +183,59 @@ if ($function == "add" or $function == "edit")
     if (is_array($ctypes)) {
       foreach ($ctypes as $id => $name) 
       {
-      	$modul_select->setName('modules['.$i.'][]');
-      	$modul_select->setId('modules_'.$i.'_select');
-				$modul_select->resetSelected();
-				if(isset($modules[$i]) && count($modules[$i])>0)
-					foreach($modules[$i] as $j => $jj)
-						if("$j" != 'all') 
-							$modul_select->setSelected($jj);
+        $modul_select->setName('modules['.$i.'][]');
+        $modul_select->setId('modules_'.$i.'_select');
+        $modul_select->resetSelected();
+        if(isset($modules[$i]) && count($modules[$i])>0)
+          foreach($modules[$i] as $j => $jj)
+            if("$j" != 'all') 
+              $modul_select->setSelected($jj);
 
         $ctypes_out .= '
-				<div class="rex-form-row">
-				<p class="rex-form-col-a rex-form-text">
-					<label for="ctype'.$i.'">ID=' . $i . '</label> 
-					<input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />
-				</p>
-				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-					<input class="rex-form-checkbox" id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
-				if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
-					$ctypes_out .= ' checked="checked" ';
-			  $ctypes_out .= ' value="1" />
-					<label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label> 
-				</p>
-				<p class="rex-form-col-a rex-form-text" id="p_modules'.$i.'">
-					<label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label> 
-					'.$modul_select->get().'
-					<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-				</p>
-				</div>';
+        <div class="rex-form-row">
+        <p class="rex-form-col-a rex-form-text">
+          <label for="ctype'.$i.'">ID=' . $i . '</label> 
+          <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />
+        </p>
+        <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+          <input class="rex-form-checkbox" id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
+        if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
+          $ctypes_out .= ' checked="checked" ';
+        $ctypes_out .= ' value="1" />
+          <label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label> 
+        </p>
+        <p class="rex-form-col-a rex-form-select" id="p_modules'.$i.'">
+          <label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label> 
+          '.$modul_select->get().'
+          <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+        </p>
+        </div>';
         $i++;
       }
     }
 
 
-		$ctypes_out .= '
-			<script type="text/javascript">
+    $ctypes_out .= '
+      <script type="text/javascript">
       <!--
       jQuery(function($) {
-		';
-		
-		for($j=1;$j<=$i;$j++)
-		{
-			$ctypes_out .= '
+    ';
+    
+    for($j=1;$j<=$i;$j++)
+    {
+      $ctypes_out .= '
 
         $("#allmodules'.$j.'").click(function() {
           $("#p_modules'.$j.'").slideToggle("slow");
         });
         
-				if($("#allmodules'.$j.'").is(":checked")) {
+        if($("#allmodules'.$j.'").is(":checked")) {
           $("#p_modules'.$j.'").hide();
         }
-			';
-		}
+      ';
+    }
 
-			$ctypes_out .= '
+      $ctypes_out .= '
       });
       //--></script>';
 
@@ -249,68 +249,65 @@ if ($function == "add" or $function == "edit")
       echo rex_warning($warning);
 
     echo '
-    	<div class="rex-form rex-form-template-editmode">
+      <div class="rex-form rex-form-template-editmode">
         <form action="index.php" method="post">
-      		<fieldset class="rex-form-col-1">
-        		<legend>' . $legend . '</legend>
+          <fieldset class="rex-form-col-1">
+            <legend>' . $legend . '</legend>
 
-      			<div class="rex-form-wrapper">
-							<input type="hidden" name="page" value="template" />
-							<input type="hidden" name="function" value="' . $function . '" />
-							<input type="hidden" name="save" value="ja" />
-							<input type="hidden" name="template_id" value="' . $template_id . '" />
-							
-							<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-text">
-									<label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
-									<input class="rex-form-text" type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
-								</p>
-							</div>
-			
-							<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-									<input class="rex-form-checkbox" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
-									<label for="active">' . $I18N->msg("checkbox_template_active") . '<span>' . $I18N->msg("checkbox_template_active_info") . '</span></label>
-								</p>
-							</div>
-			
-							<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-textarea">
-									<label for="content">' . $I18N->msg("header_template") . '</label>
-									<textarea class="rex-form-textarea" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
-								</p>
-							</div>
-							
-						</div>
-    		</fieldset>
+            <div class="rex-form-wrapper">
+              <input type="hidden" name="page" value="template" />
+              <input type="hidden" name="function" value="' . $function . '" />
+              <input type="hidden" name="save" value="ja" />
+              <input type="hidden" name="template_id" value="' . $template_id . '" />
+              
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-text">
+                  <label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
+                  <input class="rex-form-text" type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
+                </p>
+              </div>
+      
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                  <input class="rex-form-checkbox" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
+                  <label for="active">' . $I18N->msg("checkbox_template_active") . '<span>' . $I18N->msg("checkbox_template_active_info") . '</span></label>
+                </p>
+              </div>
+      
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-textarea">
+                  <label for="content">' . $I18N->msg("header_template") . '</label>
+                  <textarea class="rex-form-textarea" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
+                </p>
+              </div>
+              
+            </div>
+        </fieldset>
 
         <!-- DIV nötig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
-				<fieldset class="rex-form-col-1">
-					<legend>'.$I18N->msg("content_types").' [ctypes]</legend>
+        <fieldset class="rex-form-col-1">
+          <legend>'.$I18N->msg("content_types").' [ctypes]</legend>
 
-					<div class="rex-form-wrapper">
-						' . $ctypes_out . '
-					</div>
-				</fieldset>
-				</div>
+          <div class="rex-form-wrapper">
+            ' . $ctypes_out . '
+          </div>
+        </fieldset>
+        </div>
 
-				<fieldset class="rex-form-col-2">
-      		<div class="rex-form-wrapper">
-						<div class="rex-form-row">
-							<p class="rex-form-col-a rex-form-submit">
-								<input class="rex-form-submit" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
-							</p>
-							
-							<p class="rex-form-col-b rex-form-submit">
-								<input class="rex-form-submit" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
-							</p>
-						</div>
-					</div>
-		    </fieldset>
+        <fieldset class="rex-form-col-1">
+          <div class="rex-form-wrapper">
+            <div class="rex-form-row">
+              <p class="rex-form-col-a rex-form-submit">
+                <input class="rex-form-submit" type="submit" value="' . $I18N->msg("save_template_and_quit") . '"'. rex_accesskey($I18N->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
+                <input class="rex-form-submit rex-form-submit-2" type="submit" name="goon" value="' . $I18N->msg("save_template_and_continue") . '"'. rex_accesskey($I18N->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
+              </p>
+            </div>
+          </div>
+        </fieldset>
 
         </form>
-    	</div>
+      </div>
 
       <script type="text/javascript">
       <!--
@@ -321,7 +318,7 @@ if ($function == "add" or $function == "edit")
           $("#rex-form-template-ctype").slideToggle("slow");
         });
         
-				if($("#active").is(":not(:checked)")) {
+        if($("#active").is(":not(:checked)")) {
           $("#rex-form-template-ctype").hide();
         }
 
@@ -366,7 +363,7 @@ if ($OUT)
   $list->setColumnParams($I18N->msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
   $list->addLinkAttribute($I18N->msg('header_template_functions'), 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
 
-	$list->setNoRowsMessage($I18N->msg('templates_not_found'));
+  $list->setNoRowsMessage($I18N->msg('templates_not_found'));
 
   $list->show();
 }
