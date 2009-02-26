@@ -125,7 +125,7 @@ function rex_version_header($params)
 	$link = 'index.php?page='.$params["page"].'&article_id='.$params["article_id"].'&clang='.$params["clang"];
 
 	$return .= '
-		<div id="rex-version-header" class="rex-toolbar">
+		<div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form">
 				<div class="rex-toolbar-content rex-version-header">
 
 				<form action="index.php" method="post">
