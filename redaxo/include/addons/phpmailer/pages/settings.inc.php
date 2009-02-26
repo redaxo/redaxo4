@@ -191,7 +191,7 @@ if($message != '')
     <div class="rex-form-row">
       <p class="rex-form-col-a rex-form-submit">
          <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $I18N_A93->msg('save'); ?>" />
-         <input class="rex-form-submit" type="reset" name="btn_reset" value="<?php echo $I18N_A93->msg('reset'); ?>" onclick="return confirm('<?php echo $I18N_A93->msg('reset_info'); ?>');"/>
+         <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="<?php echo $I18N_A93->msg('reset'); ?>" onclick="return confirm('<?php echo $I18N_A93->msg('reset_info'); ?>');"/>
       </p>
     </div>
   
