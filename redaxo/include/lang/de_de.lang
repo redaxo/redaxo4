@@ -47,6 +47,7 @@ login_logged_out = Abgemeldet.
 
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  nicht angemeldet
+logged_in_as  =  Angemeldet als
 
 # redaxo/include/classes/class.article.inc.php
 add_block  =  Block hinzufügen
