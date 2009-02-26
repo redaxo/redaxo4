@@ -125,7 +125,7 @@ function rex_version_header($params)
 	$link = 'index.php?page='.$params["page"].'&article_id='.$params["article_id"].'&clang='.$params["clang"];
 
 	$return .= '
-		<div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form">
+		<div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form rex-version-revision-'.$rex_version_article[$params["article_id"]].'">
 				<div class="rex-toolbar-content rex-version-header">
 
 				<form action="index.php" method="post">
@@ -187,7 +187,13 @@ function rex_version_header($params)
 		}  
 		#rex-version-header li { 
 			margin-right: 15px;
-		}  
+		}
+		div.rex-version-revision-0 {
+			background-color:#bbddaa;
+		}
+		div.rex-version-revision-1 {
+			background-color:#EFECD1;
+		}
   /* ]]> */
 </style>
 			
