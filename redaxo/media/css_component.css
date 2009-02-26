@@ -76,7 +76,7 @@ ul.rex-ul1 li {
 *******************************************************************************/
 .rex-code {
   display: block;
-  padding: 20px 10px;
+  padding: 10px;
   border-width: 1px;
   border-style: solid;
 }
@@ -429,6 +429,10 @@ div.rex-toolbar-content {
 	padding: 10px 5px;
 	border-left-width: 1px;
 	border-left-style: solid;
+}
+div.rex-toolbar-has-form div.rex-toolbar-content {
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 
