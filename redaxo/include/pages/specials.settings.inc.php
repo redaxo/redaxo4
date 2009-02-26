@@ -127,11 +127,14 @@ echo '
 					<h3 class="rex-hl2">'.$I18N->msg("specials_features").'</h3>
 	
 					<div class="rex-area-content">
-						<h4 class="rex-hl3"><a href="index.php?page=specials&amp;func=generate">'.$I18N->msg("delete_cache").'</a></h4>
+						<h4 class="rex-hl3">'.$I18N->msg("delete_cache").'</h4>
 						<p class="rex-tx1">'.$I18N->msg("delete_cache_description").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=generate"><span><span>'.$I18N->msg("delete_cache").'</span></span></a></p>
 		
-						<h4 class="rex-hl3"><a href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\');">'.$I18N->msg("setup").'</a></h4>
+						<h4 class="rex-hl3">'.$I18N->msg("setup").'</h4>
 						<p class="rex-tx1">'.$I18N->msg("setup_text").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\');"><span><span>'.$I18N->msg("setup").'</span></span></a></p>
+						
 	
 					</div>
 				</div>
