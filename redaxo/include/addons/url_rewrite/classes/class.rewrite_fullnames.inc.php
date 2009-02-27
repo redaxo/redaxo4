@@ -92,7 +92,10 @@ class myUrlRewriter extends rexUrlRewriter
 
       if ($path == '')
       {
+        // pre 4.2
         $article_id = $REX['START_ARTICLE_ID'];
+        // since 4.2
+        $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
         return true;
       }
 
