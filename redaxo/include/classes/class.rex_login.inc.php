@@ -418,6 +418,8 @@ class rex_backend_login extends rex_login
   
   function getLanguage()
 	{
+	  global $REX;
+	  
 		if (preg_match_all('@be_lang\[([^\]]*)\]@' , $this->getValue("rights"), $matches))
     {
       foreach ($matches[1] as $match)
@@ -425,11 +427,13 @@ class rex_backend_login extends rex_login
         return $match;
       }
     }
-    return NULL;
+    return $REX['LANG'];
 	}
 
 	function getStartpage()
 	{
+	  global $REX;
+	  
   	if (preg_match_all('@startpage\[([^\]]*)\]@' , $this->getValue("rights"), $matches))
   	{
     	foreach ($matches[1] as $match)
@@ -437,6 +441,6 @@ class rex_backend_login extends rex_login
       	return $match;
     	}
   	}
-  	return NULL;
+  	return $REX['START_PAGE'];
 	}
 }
