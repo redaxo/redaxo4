@@ -62,7 +62,8 @@ class rex_xform_validate_type extends rex_xform_validate_abstract
 									$warning["el_" . $xoObject->getId()] = $this->params["error_class"];
 									break;
 			}
-			if ($warning["el_" . $xoObject->getId()] != "") $warning_messages[] = $this->xaElements[4];
+			if (isset($warning["el_" . $xoObject->getId()])) 
+				$warning_messages[] = $this->xaElements[4];
 		}
 	}
 	

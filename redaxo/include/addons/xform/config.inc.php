@@ -1,7 +1,7 @@
 <?php
 
 /**
- * XO-Form 
+ * XForm 
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
@@ -23,5 +23,3 @@ $REX['ADDON']['xform']['classpaths']['action'] = array($REX['INCLUDE_PATH'].'/ad
 
 // Basis Klasse rex_xform
 include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_xform.inc.php');
-
-?>

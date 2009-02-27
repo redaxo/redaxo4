@@ -15,7 +15,7 @@
 		Checkboxen etc. sein, aber genauso auch Versteckte Felder, Geburtsdatum, 
 		Datenbankselectfelder etc. sein.
 		
-		<br /><br ><b>Validate Felder</b> - sind Felder zum überprüfen der Werte in den Value
+		<br /><br /><b>Validate Felder</b> - sind Felder zum überprüfen der Werte in den Value
 		Felder. D.h. damit kann man z.B. überprüfen ob ein Wert eingetragen worden 
 		ist (notEmpty) oder ob es ein String, Integer oder sonstiges Feld ist. Genauso
 		kann aber auch überprüft werden ob ein Datenbankfeld mit diesem Wert schon
@@ -24,10 +24,10 @@
 		<br /><br /><b>Action Felder</b> - sind für die späteren Verwendungen wichtig. Soll
 		eine E-Mail verschickt werden und/oder ein Eintrag in die Datenbank geschehen...
 
-		<br /><br /><hr /><br />
+		<br /><br />
 
 		</p>
-
+		<hr />
 	</div>
 
 	<?php rex_xform::showHelp(); ?>

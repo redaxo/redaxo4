@@ -28,7 +28,7 @@ class rex_xform_select extends rex_xform_abstract
 	
 		$this->label = $this->elements[1];
 		$multiple = FALSE;
-		if(isset($this->elements[6]) & $this->elements[6]==1)
+		if(isset($this->elements[6]) && $this->elements[6]==1)
 			$multiple = TRUE;
 	
 		$SEL = new rex_select();
@@ -38,11 +38,13 @@ class rex_xform_select extends rex_xform_abstract
 			$SEL->setName("FORM[" . $this->params["form_name"] . "][el_" . $this->id . "][]");
 			$SEL->setSize(5);
 			$SEL->setMultiple(1);
+			if(!is_array($this->value))
+				$this->value = array();
 		}else
 		{
 			$SEL->setName("FORM[" . $this->params["form_name"] . "][el_" . $this->id . "]");
 			$SEL->setSize(1);
-		}
+			$this->value = stripslashes($this->value);	}
 
 		foreach($this->getKeys() as $k => $v)
 		{
@@ -73,7 +75,7 @@ class rex_xform_select extends rex_xform_abstract
 			$SEL->get() . '
 			</p>';
 
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
+		$email_elements[$this->elements[1]] = $this->value;
 		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
 
 	}

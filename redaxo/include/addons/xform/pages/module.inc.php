@@ -59,8 +59,9 @@
 		</p>
 
 	<ul>
-	<li><a href="index.php?page=xform&subpage=module&install=1">Neues Modul mit der XForm installieren</a></li>
-	<?php if ($module_id>0) echo '<li><a href="index.php?page=xform&subpage=module&install=1&module_id='.$module_id.'">Folgendes Modul aktualisieren "'.htmlspecialchars($module_name).'"</a></li>'; ?>
+	<li><a href="index.php?page=xform&amp;subpage=module&amp;install=1">Neues Modul mit der XForm installieren</a></li>
+	<?php if ($module_id>0) 
+		echo '<li><a href="index.php?page=xform&amp;subpage=module&amp;install=1&amp;module_id='.$module_id.'">Folgendes Modul aktualisieren "'.htmlspecialchars($module_name).'"</a></li>'; ?>
 	</ul>	
 	
 	</div>
