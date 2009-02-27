@@ -207,6 +207,7 @@ class rex_login
         elseif ($this->login_status < 0)
           return false;
       }
+		
 
       if ($this->usr_login != '')
       {
@@ -297,7 +298,8 @@ class rex_login
    */
   function getValue($value)
   {
-    return $this->USER->getValue($value);
+  	if($this->USER)
+    	return $this->USER->getValue($value);
   }
 
   /**

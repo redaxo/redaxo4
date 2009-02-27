@@ -10,10 +10,9 @@ class i18n
 {
   var $locales;
   var $searchpath;
-
   var $locale;
   var $text;
-  var $filename;
+	var $text_loaded;
 
   /*
    * Constructor
@@ -22,15 +21,11 @@ class i18n
    */
   function i18n($locale = "de_de", $searchpath)
   {
-
     $this->searchpath = $searchpath;
-
     $this->text = array ();
     $this->locale = $locale;
-    $this->filename = $searchpath . "/" . $locale . ".lang";
-
     $this->locales = array ();
-    $this->loadTexts();
+    $this->text_loaded = FALSE;
   }
 
   /*
@@ -51,8 +46,8 @@ class i18n
    */
   function loadTexts()
   {
-    $filename = $this->filename;
-
+		$this->text_loaded = TRUE;
+    $filename = $this->searchpath . "/" . $this->locale . ".lang";
     if (is_readable($filename))
     {
       $f = fopen($filename, "r");
@@ -74,6 +69,19 @@ class i18n
    */
   function msg($key)
   {
+  	global $REX;
+  	
+  	if(is_object($REX['LOGIN']) && $REX['LOGIN']->getLanguage() != $this->locale)
+  	{
+  		$this->locale = $REX['LOGIN']->getLanguage();
+  		$this->text_loaded = FALSE;
+  	}
+  	
+  	if(!$this->text_loaded)
+  	{
+  	    $this->loadTexts();
+  	}
+  	
     if ($this->hasMsg($key))
     {
       $msg = $this->text[$key];

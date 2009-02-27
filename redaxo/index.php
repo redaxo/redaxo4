@@ -46,6 +46,7 @@ $page = "";
 
 // ----------------- SETUP
 $REX['USER'] = NULL;
+$REX['LOGIN'] = NULL;
 
 if ($REX['SETUP'])
 {
@@ -98,6 +99,9 @@ else
 		$LOGIN = FALSE;
 		$pages["LOGIN"] = array("login",0,1);
 		$page = 'login';
+		
+		$REX['USER'] = NULL;
+		$REX['LOGIN'] = NULL;
 	}
 	else
 	{		 
