@@ -152,22 +152,8 @@ echo '
 							
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
-										<label for="rex-form-version">$REX[\'VERSION\']</label>
-										<span class="rex-form-read" id="rex-form-version">&quot;'.$REX['VERSION'].'&quot;</span>
-									</p>
-								</div>
-							
-								<div class="rex-form-row">
-          				<p class="rex-form-col-a rex-form-read">
-										<label for="rex-form-subversion">$REX[\'SUBVERSION\']</label>
-										<span class="rex-form-read" id="rex-form-subversion">&quot;'.$REX['SUBVERSION'] .'&quot;</span>
-									</p>
-								</div>
-							
-								<div class="rex-form-row">
-									<p class="rex-form-col-a rex-form-read">
-										<label for="rex-form-minorversion">$REX[\'MINORVERSION\']</label>
-										<span class="rex-form-read" id="rex-form-minorversion">&quot;'.$REX['MINORVERSION'] .'&quot;</span>
+										<label for="rex-form-version">Version</label>
+										<span class="rex-form-read" id="rex-form-version">'.$REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'].'</span>
 									</p>
 								</div>
 							
@@ -187,6 +173,7 @@ echo '
 							</div>
 						</fieldset>
         
+						<!--
 						<fieldset class="rex-form-col-1">
 							<legend>'.$I18N->msg("db1_can_only_be_changed_by_setup").'</legend>
 							
@@ -221,7 +208,8 @@ echo '
 								</div>
 							</div>
 						</fieldset>
-        
+						-->        
+
 						<fieldset class="rex-form-col-1">
 							<legend>'.$I18N->msg("specials_others").'</legend>
 							
