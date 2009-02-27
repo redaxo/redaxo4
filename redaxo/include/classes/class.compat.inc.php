@@ -186,8 +186,9 @@ function rex_parseArticleName($name)
 
 // ----------------------------------------- Variables
 
-// since R4.2
-$REX["USER"] = NULL;
-$REX["LOGIN"] = NULL;
+// ---- since R4.2
 $REX_USER =& $REX["USER"];
 $REX_LOGIN = &$REX["LOGIN"];
+
+$article_id =& $REX['ARTICLE_ID'];
+$clang =& $REX['CUR_CLANG'];

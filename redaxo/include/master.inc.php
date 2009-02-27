@@ -168,9 +168,5 @@ if(rex_request('article_id', 'int') == 0)
 else
   $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
   
-// ----- COMPAT
-$article_id =& $REX['ARTICLE_ID'];
-$clang =& $REX['CUR_CLANG'];
-
 // ----- INCLUDE ADDONS
 include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
