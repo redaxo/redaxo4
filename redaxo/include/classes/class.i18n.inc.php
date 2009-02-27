@@ -117,62 +117,6 @@ class i18n
   }
 
   /*
-   Formatierungsfunktion, für REDAXO 3.4
-  function format($msg)
-  {
-    $msg = htmlspecialchars($msg);
-    $msg = str_replace('\n', "\n", $msg);
-    if (strpos($msg, '* ') !== false)
-    {
-      $lines = explode("\n", $msg);
-      $num_lines = count($lines);
-
-      $msg = '';
-      $inList = false;
-      foreach ($lines as $line)
-      {
-        if ($line {0}== '*')
-        {
-          if (!$inList)
-          {
-            $msg .= '<ul>' . "\n";
-            $inList = true;
-          }
-          // Erst ab dem 2.Zeichen da der Identifier "* " ist
-          $msg .= '<li>' . substr($line, 2) . '</li>' . "\n";
-        }
-        else
-        {
-          if ($inList)
-          {
-            $msg .= '</ul>' . "\n";
-            $inList = false;
-          }
-
-          $msg .= $line;
-
-          if($num_lines != 1)
-          {
-            $msg .= '<br />';
-          }
-        }
-        $num_lines--;
-      }
-
-      if ($inList)
-      {
-        $msg .= '</ul>' . "\n";
-      }
-    }
-    else
-    {
-      $msg = nl2br($msg);
-    }
-    return $msg;
-  }
-  */
-
-  /*
    * find all defined locales in a searchpath
    * the language files must be of the form: <locale>.lang
    * e.g. de_de.lang or en_gb.lang
@@ -232,5 +176,4 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
   if($setlocale) setlocale(LC_ALL, $locales);
 
   return $lang_object;
-
 }
