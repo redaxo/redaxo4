@@ -14,9 +14,9 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  * URL Fullnames Rewrite Anleitung:
  *
  *   1) .htaccess file in das root verzeichnis:
+ *     RewriteEngine On
  *     #RewriteCond %{HTTP_HOST} ^domain.tld [NC]
  *     #RewriteRule ^(.*)$ http://www.domain.tld/$1 [L,R=301]
- *     RewriteEngine On
  *     #RewriteBase /
  *     RewriteCond %{REQUEST_FILENAME} !-f
  *     RewriteCond %{REQUEST_FILENAME} !-d
@@ -29,7 +29,7 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  *     RewriteEngine Off
  *
  *   3) im Template folgende Zeile AM ANFANG des <head> ergänzen:
- *   <base href="htttp://www.meine_domain.de/pfad/zum/frontend" />
+ *   <base href="http://www.meine_domain.de/pfad/zum/frontend" />
  *
  *   4) Specials->Regenerate All starten
  *
@@ -69,15 +69,15 @@ class myUrlRewriter extends rexUrlRewriter
     {
       if(!file_exists(FULLNAMES_PATHLIST))
       {
-         rex_rewriter_generate_pathnames();
+         rex_rewriter_generate_pathnames(array());
       }
 
       require_once (FULLNAMES_PATHLIST);
 
-      $script_path = dirname($_SERVER['PHP_SELF']);
+      $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
       $length = strlen($script_path);
       $path = substr($_SERVER['REQUEST_URI'], $length);
-
+      
       // Serverdifferenzen angleichen
       if ($path{0}=='/')
         $path = substr($path, 1);
@@ -171,12 +171,12 @@ class myUrlRewriter extends rexUrlRewriter
   		return $params['subject'];
 
     global $REXPATH;
-
+    
     $id      = $params['id'];
     $name    = $params['name'];
     $clang   = $params['clang'];
-    $params  = $params['params'];
     $divider = $params['divider'];
+    $params  = $params['params'];
 
     // params umformatieren neue Syntax suchmaschienen freundlich
     if($this->use_params_rewrite)
@@ -211,7 +211,7 @@ if ($REX['REDAXO'])
   rex_register_extension($extensionPoint, $extension);
 }
 
-function rex_rewriter_generate_pathnames($params = array ())
+function rex_rewriter_generate_pathnames($params)
 {
   global $REX, $REXPATH;
 
@@ -247,8 +247,8 @@ function rex_rewriter_generate_pathnames($params = array ())
   if($where != '')
   {
     $db = new rex_sql();
-  //  $db->debugsql=true;
-    $db->setQuery('SELECT id,name,clang,path FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where);
+    // $db->debugsql=true;
+    $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where);
     
     while($db->hasNext())
     {
@@ -259,24 +259,37 @@ function rex_rewriter_generate_pathnames($params = array ())
         $pathname = $REX['CLANG'][$clang].'/';
       }
       
-      $path = explode('|', $db->getValue('path'));
-      $path[] = $db->getValue('id');
-      foreach ($path as $p)
+      // pfad über kategorien bauen
+      $path = trim($db->getValue('path'), '|');
+      if($path != '')
       {
-        if ($p != '')
+        $path = explode('|', $path);
+        foreach ($path as $p)
         {
-          $ooa = OOArticle::getArticleById($p, $clang);
-          $name = $ooa->getName();
-          unset($ooa); 
-          if ($name != '')
-          {
-            $name = str_replace('&','und',$name);
-            $name = strtolower(rex_parse_article_name($name));
-            $pathname .= $name.'/';
-          }
+          $ooc = OOCategory::getCategoryById($p, $clang);
+          $name = $ooc->getName();
+          unset($ooc); // speicher freigeben
+          
+          $pathname = rex_rewriter_appendToPath($pathname, $name);
         }
       }
-  
+      
+      $ooa = OOArticle::getArticleById($db->getValue('id'), $clang);
+      if($ooa->isStartArticle())
+      {
+        $ooc = $ooa->getCategory();
+        $catname = $ooc->getName();
+        unset($ooc); // speicher freigeben
+        
+        $pathname = rex_rewriter_appendToPath($pathname, $catname);
+      }
+      
+      // eigentlicher artikel anhängen
+      $name = $ooa->getName();
+      unset($ooa); // speicher freigeben
+//      if($name != $catname)
+        $pathname = rex_rewriter_appendToPath($pathname, $name);
+      
       $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
       $REXPATH[$db->getValue('id')][$db->getValue('clang')] = $pathname;
       
@@ -285,4 +298,14 @@ function rex_rewriter_generate_pathnames($params = array ())
   }
   
   rex_put_file_contents(FULLNAMES_PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) .";\n");
+}
+
+function rex_rewriter_appendToPath($path, $name)
+{
+  if ($name != '')
+  {
+    $name = strtolower(rex_parse_article_name($name));
+    $path .= $name.'/';
+  }
+  return $path;
 }
