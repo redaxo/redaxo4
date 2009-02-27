@@ -570,6 +570,12 @@ addon_caption = List of available addons
 addon_summary = List of addons
 addon_systemaddon = System addOn
 addon_systemaddon_delete_not_allowed = System addons cannot be deleted!
+plugin_plugins_installed = PlugIns are installed
+plugin_deactivated = PlugIn deactivated
+plugin_activated = PlugIn activated
+plugin_no_install = PlugIn has not been installed
+plugin_no_reason = 
+plugin_installed = PlugIn has been installed
 
 # redaxo\include\pages\credits.inc.php
 credits = credits
