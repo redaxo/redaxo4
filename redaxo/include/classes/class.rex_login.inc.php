@@ -296,10 +296,12 @@ class rex_login
   /**
    * Gibt einen Benutzer-Spezifischen Wert zurück
    */
-  function getValue($value)
+  function getValue($value, $default = NULL)
   {
   	if($this->USER)
     	return $this->USER->getValue($value);
+    	
+  	return $default;
   }
 
   /**
@@ -342,7 +344,6 @@ class rex_login
 
   /*
    * Session fixation
-   *
    */
   function sessionFixation()
   {
@@ -424,6 +425,7 @@ class rex_backend_login extends rex_login
         return $match;
       }
     }
+    return NULL;
 	}
 
 	function getStartpage()
@@ -435,5 +437,6 @@ class rex_backend_login extends rex_login
       	return $match;
     	}
   	}
+  	return NULL;
 	}
 }
