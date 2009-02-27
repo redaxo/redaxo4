@@ -65,13 +65,14 @@ class i18n
 
   /*
    * return a message according to a key from the current locale
-   * you can give up to 10 parameters for substitution.
+   * you can give parameters for substitution.
    */
   function msg($key)
   {
   	global $REX;
   	
-  	if(is_object($REX['LOGIN']) && $REX['LOGIN']->getLanguage() != $this->locale)
+  	if(isset($REX['LOGIN']) && is_object($REX['LOGIN']) && 
+  	   $REX['LOGIN']->getLanguage() != $this->locale)
   	{
   		$this->locale = $REX['LOGIN']->getLanguage();
   		$this->text_loaded = FALSE;
@@ -79,7 +80,7 @@ class i18n
   	
   	if(!$this->text_loaded)
   	{
-  	    $this->loadTexts();
+  	  $this->loadTexts();
   	}
   	
     if ($this->hasMsg($key))
