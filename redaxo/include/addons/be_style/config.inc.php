@@ -18,7 +18,6 @@ $mypage = 'be_style';
 /* Addon Parameter */
 $REX['ADDON']['rxid'][$mypage] = '467';
 $REX['ADDON']['page'][$mypage] = $mypage;
-$REX['ADDON']['name'][$mypage] = 'Backend Style';
 //$REX['ADDON']['perm'][$mypage] = 'be_style[]';
 $REX['ADDON']['version'][$mypage] = '1.2';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus, Markus Staab';
@@ -35,4 +34,18 @@ if($REX["REDAXO"])
 			echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
 		}
 	}
+	
+	// Menupunkt nur einbinden, falls ein Plugin sich angemeldet hat
+	// via BE_STYLE_PAGE_CONTENT inhalt auszugeben 
+  rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
+  function rex_be_add_page($params)
+  {
+    if(rex_extension_is_registered('BE_STYLE_PAGE_CONTENT'))
+    {
+      global $REX;
+      
+      $mypage = 'be_style';
+      $REX['ADDON']['name'][$mypage] = 'Backend Style';
+    }
+  }
 }
