@@ -816,7 +816,7 @@ if ($checkmodus == 4 && $send == 1)
         $user->setValue('name', 'Administrator');
         $user->setValue('login', $redaxo_user_login);
         $user->setValue('psw', $redaxo_user_pass);
-        $user->setValue('rights', '#admin[]#be_lang[default]#import[]');
+        $user->setValue('rights', '#admin[]#import[]');
         $user->addGlobalCreateFields('setup');
         $user->setValue('status', '1');
         if (!$user->insert())
