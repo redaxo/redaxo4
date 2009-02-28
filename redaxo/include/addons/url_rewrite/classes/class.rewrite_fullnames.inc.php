@@ -175,26 +175,26 @@ class myUrlRewriter extends rexUrlRewriter
 
     global $REXPATH;
     
-    $id      = $params['id'];
-    $name    = $params['name'];
-    $clang   = $params['clang'];
-    $divider = $params['divider'];
-    $params  = $params['params'];
+    $id         = $params['id'];
+    $name       = $params['name'];
+    $clang      = $params['clang'];
+    $divider    = $params['divider'];
+    $urlparams  = $params['params'];
 
     // params umformatieren neue Syntax suchmaschienen freundlich
     if($this->use_params_rewrite)
     {
-      $params = str_replace($divider,'/',$params);
-      $params = str_replace('=','/',$params);
-      $params = $params == '' ? '' : '+'.$params.'/';
+      $urlparams = str_replace($divider,'/',$urlparams);
+      $urlparams = str_replace('=','/',$urlparams);
+      $urlparams = $urlparams == '' ? '' : '+'.$urlparams.'/';
     }
     else
     {
-      $params = $params == '' ? '' : '?'.$params;
+      $urlparams = $urlparams == '' ? '' : '?'.$urlparams;
     }
 
-    $params = str_replace('/amp;','/',$params);
-    $url = $REXPATH[$id][$clang].$params;
+    $urlparams = str_replace('/amp;','/',$urlparams);
+    $url = $REXPATH[$id][$clang].$urlparams;
     
     return $url;
   }
