@@ -330,9 +330,13 @@ class rex_article
 					$MODULESELECT = array();
 
 					$template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
-					$template_modules = rex_getAttributes('modules', $this->template_attributes, array ());
+					// wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
+					if(count($template_ctypes) == 0)
+					{
+					  $template_ctypes = array(1 => 'default');
+					}
+					
 					$modules = $MODULE->getArray();
-
 					foreach($template_ctypes as $ct_id => $ct_name)
 					{
 
@@ -342,37 +346,17 @@ class rex_article
       	    $MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
         	  $MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
           	$MODULESELECT[$ct_id]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
-						reset($modules);
 						foreach($modules as $m)
 						{
 	         	  if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
 	         	  {
-	         	    if(
-										rex_template::hasModule($this->template_attributes,$ct_id,$m['id'])
-        					)
-        					{
-        						$MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
-        					}
+	         	    if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
+      					{
+      						$MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
+      					}
 	         	  }
 						}
 					}
-					
-					if(count($template_ctypes) == 0)
-					{
-						// Default Selectbox wenn kein Template vorhanden ist.ctype vorhanden
-	          $MODULESELECT[1] = new rex_select;
-	 	        $MODULESELECT[1]->setName('module_id');
-	   	      $MODULESELECT[1]->setSize('1');
-	     	    $MODULESELECT[1]->setStyle('class="rex-form-select"');
-        	  $MODULESELECT[1]->setAttribute('onchange', 'this.form.submit();');
-	       	  $MODULESELECT[1]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
-	       	  foreach($modules as $m)
-						{
-	         	  if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
-	         	    $MODULESELECT[1]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
-						}
-					}
-					
         }
 
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
