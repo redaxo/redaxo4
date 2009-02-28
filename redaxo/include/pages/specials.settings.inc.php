@@ -135,7 +135,9 @@ echo '
 						<p class="rex-tx1">'.$I18N->msg("setup_text").'</p>
 						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\');"><span><span>'.$I18N->msg("setup").'</span></span></a></p>
 						
-	
+            <h4 class="rex-hl3">Version</h4>
+            <p class="rex-tx1">REDAXO '.$REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'].'</p>
+						
 					</div>
 				</div>
 			
@@ -150,12 +152,14 @@ echo '
 							
 							<div class="rex-form-wrapper">
 							
-								<div class="rex-form-row">
+            <!--
+							<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-version">Version</label>
 										<span class="rex-form-read" id="rex-form-version">'.$REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'].'</span>
 									</p>
 								</div>
+						-->
 							
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
@@ -171,7 +175,9 @@ echo '
 									</p>
 								</div>
 							</div>
+            <!--
 						</fieldset>
+						-->
         
 						<!--
 						<fieldset class="rex-form-col-1">
@@ -210,10 +216,12 @@ echo '
 						</fieldset>
 						-->        
 
+						<!--
 						<fieldset class="rex-form-col-1">
 							<legend>'.$I18N->msg("specials_others").'</legend>
 							
 							<div class="rex-form-wrapper">
+						-->
 							
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
@@ -222,7 +230,7 @@ echo '
 										
 										$tmp = $REX['INCLUDE_PATH'];
 										if (strlen($REX['INCLUDE_PATH'])>24)
-											$tmp = substr($tmp,0,8)."...".substr($tmp,strlen($tmp)-14);
+											$tmp = substr($tmp,0,8)."..".substr($tmp,strlen($tmp)-14);
 										
 										echo $tmp;
 
@@ -278,7 +286,9 @@ echo '
 									</p>
 								</div>
 								
-							</div>
+            <!--
+								</div>
+						-->
 						</fieldset>
 					</div> <!-- Ende rex-area-content //-->
 					
