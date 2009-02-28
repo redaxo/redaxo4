@@ -36,11 +36,11 @@ class rex_article
 
   var $warning;
   var $info;
-	var $debug;
-	
+  var $debug;
+  
   function rex_article($article_id = null, $clang = null)
   {
-  	global $REX;
+    global $REX;
 
     $this->article_id = 0;
     $this->template_id = 0;
@@ -56,13 +56,13 @@ class rex_article
     $this->article_revision = 0;
     $this->slice_revision = 0;
 
-		$this->debug = FALSE;
+    $this->debug = FALSE;
 
     $this->ARTICLE = new rex_sql;
     if($this->debug)
       $this->ARTICLE->debugsql = 1;
         
-		if($clang !== null)
+    if($clang !== null)
       $this->setCLang($clang);
     else
       $this->setClang($REX['CUR_CLANG']);
@@ -86,11 +86,11 @@ class rex_article
     $this->slice_revision = (int) $sr;
   }
 
-	function getContentAsQuery($viasql = TRUE)
-	{
-		if ($viasql !== TRUE) $viasql = FALSE;
-		$this->viasql = $viasql;
-	}
+  function getContentAsQuery($viasql = TRUE)
+  {
+    if ($viasql !== TRUE) $viasql = FALSE;
+    $this->viasql = $viasql;
+  }
 
   // ----- Slice Id setzen für Editiermodus
   function setSliceId($value)
@@ -325,44 +325,43 @@ class rex_article
           $MODULE = new rex_sql;
           $MODULE->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
 
-					// TODO: !!!!
-					
-					$MODULESELECT = array();
+          // TODO: !!!!
+          
+          $MODULESELECT = array();
 
-					$template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
-					// wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
-					if(count($template_ctypes) == 0)
-					{
-					  $template_ctypes = array(1 => 'default');
-					}
-					
-					$modules = $MODULE->getArray();
-					foreach($template_ctypes as $ct_id => $ct_name)
-					{
-
-	          $MODULESELECT[$ct_id] = new rex_select;
-  	        $MODULESELECT[$ct_id]->setName('module_id');
-    	      $MODULESELECT[$ct_id]->setSize('1');
-      	    $MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
-        	  $MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
-          	$MODULESELECT[$ct_id]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
-						foreach($modules as $m)
-						{
-	         	  if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
-	         	  {
-	         	    if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
-      					{
-      						$MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
-      					}
-	         	  }
-						}
-					}
+          $template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
+          // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
+          if(count($template_ctypes) == 0)
+          {
+            $template_ctypes = array(1 => 'default');
+          }
+          
+          $modules = $MODULE->getArray();
+          foreach($template_ctypes as $ct_id => $ct_name)
+          {
+            $MODULESELECT[$ct_id] = new rex_select;
+            $MODULESELECT[$ct_id]->setName('module_id');
+            $MODULESELECT[$ct_id]->setSize('1');
+            $MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
+            $MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
+            $MODULESELECT[$ct_id]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
+            foreach($modules as $m)
+            {
+               if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
+               {
+                 if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
+                {
+                  $MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
+                }
+               }
+            }
+          }
         }
 
         // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
         $I_ID = 0;
         $PRE_ID = 0;
-				$LCTSL_ID = 0;
+        $LCTSL_ID = 0;
         $this->CONT->reset();
         $this->content = "";
 
@@ -405,15 +404,15 @@ class rex_article
                   <input type="hidden" name="function" value="add" />
                   <input type="hidden" name="clang" value="'.$this->clang.'" />
                   <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-									
-									<div class="rex-form-wrapper">
-										<div class="rex-form-row">
-		                  <p class="rex-form-col-a rex-form-select">
-    		                '. $MODULESELECT[$this->ctype]->get() .'
-        		            <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
-            		      </p>
-            		    </div>
-            		  </div>
+                  
+                  <div class="rex-form-wrapper">
+                    <div class="rex-form-row">
+                      <p class="rex-form-col-a rex-form-select">
+                        '. $MODULESELECT[$this->ctype]->get() .'
+                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                      </p>
+                    </div>
+                  </div>
                 </fieldset>
               </form>
               </div>';
@@ -463,10 +462,10 @@ class rex_article
               );
 
               $mne = $msg .'
-		       		<div class="rex-content-editmode-module-name">
+               <div class="rex-content-editmode-module-name">
                 <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
                 <div class="rex-navi-slice">
-                	<ul>
+                  <ul>
               ';
 
               foreach($listElements as $listElement)
@@ -506,7 +505,7 @@ class rex_article
 
                 $ga = new rex_sql;
                 if($this->debug)
-                	$ga->debugsql = 1;
+                  $ga->debugsql = 1;
                 $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
                 for ($t=0;$t<$ga->getRows();$t++)
@@ -550,14 +549,14 @@ class rex_article
             {
               // ----- hat keine rechte an diesem modul
               $mne = '
-       		<div class="rex-content-editmode-module-name">
+           <div class="rex-content-editmode-module-name">
                 <h3 class="rex-hl4" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</h3>
                 <div class="rex-navi-slice">
-                	<ul>
-                  	<li>'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></li>
-                	</ul>
+                  <ul>
+                    <li>'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></li>
+                  </ul>
                 </div>
-				  </div>';
+          </div>';
 
               $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
               $slice_content = $this->replaceVars($this->CONT, $slice_content);
@@ -577,20 +576,20 @@ class rex_article
           }
           // --------------- ENDE EINZELNER SLICE
 
-					// --------------- EP: SLICE_SHOW
-  				$slice_content = rex_register_extension_point(
-  					'SLICE_SHOW',
-  					$slice_content,
-  						array(
-  							'article_id' => $this->article_id,
-  							'clang' => $this->clang,
-  							'ctype' => $RE_CONTS_CTYPE[$I_ID],
-  							'module_id' => $RE_MODUL_ID[$I_ID],
-  							'slice_id' => $RE_CONTS[$I_ID],
-  							'function' => $this->function,
-  							'function_slice_id' => $this->slice_id
-  						)
-  				);
+          // --------------- EP: SLICE_SHOW
+          $slice_content = rex_register_extension_point(
+            'SLICE_SHOW',
+            $slice_content,
+              array(
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'ctype' => $RE_CONTS_CTYPE[$I_ID],
+                'module_id' => $RE_MODUL_ID[$I_ID],
+                'slice_id' => $RE_CONTS[$I_ID],
+                'function' => $this->function,
+                'function_slice_id' => $this->slice_id
+              )
+          );
 
           // ---------- slice in ausgabe speichern wenn ctype richtig
           if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
@@ -643,15 +642,15 @@ class rex_article
                 <input type="hidden" name="clang" value="'.$this->clang.'" />
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
-									
-									<div class="rex-form-wrapper">
-										<div class="rex-form-row">
-		                  <p class="rex-form-col-a rex-form-select">
-		                  	'. $MODULESELECT[$this->ctype]->get() .'
-		                  	<noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
-                			</p>
-                		</div>
-                	</div>
+                  
+                  <div class="rex-form-wrapper">
+                    <div class="rex-form-row">
+                      <p class="rex-form-col-a rex-form-select">
+                        '. $MODULESELECT[$this->ctype]->get() .'
+                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                      </p>
+                    </div>
+                  </div>
               </fieldset>
             </form>
             </div>';
@@ -687,10 +686,10 @@ class rex_article
       ob_start();
       ob_implicit_flush(0);
 
-    	$TEMPLATE = new rex_template();
-    	$TEMPLATE->setId($this->template_id);
+      $TEMPLATE = new rex_template();
+      $TEMPLATE->setId($this->template_id);
       $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-			eval("?>".$tplContent);
+      eval("?>".$tplContent);
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
@@ -731,33 +730,33 @@ class rex_article
             <input type="hidden" name="clang" value="'. $this->clang .'" />
             <input type="hidden" name="ctype" value="'.$this->ctype .'" />
             
-						<div class="rex-content-editmode-module-name">
-							<h3 class="rex-hl4">
-								'. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
-							</h3>
-						</div>
-        		  
+            <div class="rex-content-editmode-module-name">
+              <h3 class="rex-hl4">
+                '. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
+              </h3>
+            </div>
+              
             <div class="rex-form-wrapper">
-            	
-            	<div class="rex-form-row">
-            		<div class="rex-content-editmode-slice-input">
-            		<div class="rex-content-editmode-slice-input-2">
-		              '. $MOD->getValue("eingabe") .'
-		            </div>
-		            </div>
-		          </div>
-		          
-        		</div>
+              
+              <div class="rex-form-row">
+                <div class="rex-content-editmode-slice-input">
+                <div class="rex-content-editmode-slice-input-2">
+                  '. $MOD->getValue("eingabe") .'
+                </div>
+                </div>
+              </div>
+              
+            </div>
           </fieldset>
           
           <fieldset class="rex-form-col-1">
-           	<div class="rex-form-wrapper">        		  
-            	<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-submit">
-									<input class="rex-form-submit" type="submit" name="btn_save" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
-								</p>
-							</div>
-						</div>
+             <div class="rex-form-wrapper">              
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-submit">
+                  <input class="rex-form-submit" type="submit" name="btn_save" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
+                </p>
+              </div>
+            </div>
           </fieldset>
         </form>
         </div>
@@ -789,16 +788,16 @@ class rex_article
       $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice LIMIT 1');
       foreach($slice_fields->getFieldnames() as $fieldname)
       {
-      	switch($fieldname)
-      	{
-      		case 'clang'        : $def_value = $this->clang; break;
-      		case 'ctype'        : $def_value = $this->ctype; break;
-      		case 'modultyp_id'  : $def_value = $module_id; break;
-      		case 'article_id'   : $def_value = $this->article_id; break;
-      		case 'id'           : $def_value = 0; break;
+        switch($fieldname)
+        {
+          case 'clang'        : $def_value = $this->clang; break;
+          case 'ctype'        : $def_value = $this->ctype; break;
+          case 'modultyp_id'  : $def_value = $module_id; break;
+          case 'article_id'   : $def_value = $this->article_id; break;
+          case 'id'           : $def_value = 0; break;
           default             : $def_value = '';
-      	}
-      	$dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
+        }
+        $dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
       }
 
       $slice_content = $this->replaceVars($dummysql,$slice_content);
@@ -828,28 +827,28 @@ class rex_article
           <input type="hidden" name="update" value="0" />
           <input type="hidden" name="clang" value="'.$this->clang.'" />
             
-					<div class="rex-form-wrapper">
-						<div class="rex-form-row">
-							<div class="rex-content-editmode-slice-input">
-							<div class="rex-content-editmode-slice-input-2">
+          <div class="rex-form-wrapper">
+            <div class="rex-form-row">
+              <div class="rex-content-editmode-slice-input">
+              <div class="rex-content-editmode-slice-input-2">
               '. $RE_MODUL_IN .'
-							</div>
-							</div>
-						</div>
-					</div>
-				</fieldset>
+              </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
 
         <fieldset class="rex-form-col-2">
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
-		          <p class="rex-form-col-a rex-form-submit">
-		            <input class="rex-form-submit" type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
-		          </p>
-		          <p class="rex-form-col-b rex-form-submit">
-		            <input class="rex-form-submit" type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
-		          </p>
-		        </div>
-		      </div>
+              <p class="rex-form-col-a rex-form-submit">
+                <input class="rex-form-submit" type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
+              </p>
+              <p class="rex-form-col-b rex-form-submit">
+                <input class="rex-form-submit" type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
+              </p>
+            </div>
+          </div>
         </fieldset>
       </form>
       </div>
@@ -881,37 +880,37 @@ class rex_article
     $tmp = '';
     $sliceId = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
 
-  	foreach($REX['VARIABLES'] as $var)
-  	{
-  		if ($this->mode == 'edit')
-  		{
-  			if (($this->function == 'add' && $sliceId == '0') ||
-      			($this->function == 'edit' && $sliceId == $this->slice_id))
-  			{
-  		  	if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
-  		  	{
+    foreach($REX['VARIABLES'] as $var)
+    {
+      if ($this->mode == 'edit')
+      {
+        if (($this->function == 'add' && $sliceId == '0') ||
+            ($this->function == 'edit' && $sliceId == $this->slice_id))
+        {
+          if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
+          {
             // Wenn der aktuelle Slice nicht gespeichert werden soll
             // (via Action wurde das Nicht-Speichern-Flag gesetzt)
             // Dann die Werte manuell aus dem Post übernehmen
             // und anschließend die Werte wieder zurücksetzen,
             // damit die nächsten Slices wieder die Werte aus der DB verwenden
-  		  		$var->setACValues($sql,$REX['ACTION']);
+            $var->setACValues($sql,$REX['ACTION']);
             $tmp = $var->getBEInput($sql,$content);
             $sql->flushValues();
-  		  	}
+          }
           else
           {
             // Slice normal parsen
-    		  	$tmp = $var->getBEInput($sql,$content);
+            $tmp = $var->getBEInput($sql,$content);
           }
-  		  }else
-  		  {
-  		  	$tmp = $var->getBEOutput($sql,$content);
-  		  }
-  		}else
+        }else
+        {
+          $tmp = $var->getBEOutput($sql,$content);
+        }
+      }else
       {
-  			$tmp = $var->getFEOutput($sql,$content);
-  		}
+        $tmp = $var->getFEOutput($sql,$content);
+      }
 
       // Rückgabewert nur auswerten wenn auch einer vorhanden ist
       // damit $content nicht verfälscht wird
@@ -920,18 +919,18 @@ class rex_article
       {
         $content = $tmp;
       }
-  	}
+    }
 
-	  return $content;
+    return $content;
   }
 
   // ---- Artikelweite globale variablen werden ersetzt
   function replaceCommonVars($content)
   {
-  	global $REX;
+    global $REX;
 
     static $user_id = null;
-		static $user_login = null;
+    static $user_login = null;
 
     // UserId gibts nur im Backend
     if($user_id === null)
