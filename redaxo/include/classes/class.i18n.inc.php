@@ -71,12 +71,15 @@ class i18n
   {
   	global $REX;
   	
+  	/*
+  	// Warum hier umschalten der Sprache!?
   	if(isset($REX['LOGIN']) && is_object($REX['LOGIN']) && 
   	   $REX['LOGIN']->getLanguage() != $this->locale)
   	{
   		$this->locale = $REX['LOGIN']->getLanguage();
   		$this->text_loaded = FALSE;
   	}
+  	*/
   	
   	if(!$this->text_loaded)
   	{
@@ -156,9 +159,8 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 
   if ($searchpath == '')
   {
-    $searchpath = $REX['INCLUDE_PATH'] . "/lang";
+    $searchpath = $REX['INCLUDE_PATH'] .DIRECTORY_SEPARATOR. "lang";
   }
-
   $lang_object = new i18n($locale, $searchpath);
 
   if ($_searchpath == '')
@@ -166,14 +168,18 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
     $REX['LOCALES'] = $lang_object->getLocales($searchpath);
   }
 
-  $locales = array();
-  foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
-  {
-    $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
-    $locales[]= $locale;
-  }
   
-  if($setlocale) setlocale(LC_ALL, $locales);
+  if($setlocale)
+  {
+    $locales = array();
+    foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
+    {
+      $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
+      $locales[]= $locale;
+    }
+    
+    setlocale(LC_ALL, $locales);
+  }
 
   return $lang_object;
 }
