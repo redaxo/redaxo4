@@ -21,6 +21,9 @@ class OOArticle extends OORedaxo
   {
     global $REX;
     
+    if(!is_int($article_id))
+      return NULL;
+    
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
     
@@ -124,10 +127,6 @@ class OOArticle extends OORedaxo
    */
   /*public*/ function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
-    global $REX;
-    if ($clang === FALSE)
-      $clang = $REX['CUR_CLANG'];
-      
     return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
 
