@@ -20,11 +20,6 @@ class OOCategory extends OORedaxo
    */
   function getCategoryById($category_id, $clang = false)
   {
-    global $REX;
-
-    if ($clang === false)
-      $clang = $REX['CUR_CLANG'];
-
     return OOArticle :: getArticleById($category_id, $clang, true);
   }
 
@@ -36,6 +31,9 @@ class OOCategory extends OORedaxo
   {
     global $REX;
 
+    if(!is_int($cat_parent_id))
+      return array();
+    
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
