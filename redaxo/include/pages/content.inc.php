@@ -651,6 +651,7 @@ if ($article->getRows() == 1)
                   <div class="rex-content-editmode">
                   ';
       $CONT = new rex_article();
+      $CONT->getContentAsQuery();
       $CONT->info = $info;
       $CONT->warning = $warning;
       $CONT->template_attributes = $template_attributes;
@@ -659,7 +660,6 @@ if ($article->getRows() == 1)
       $CONT->setMode($mode);
       $CONT->setCLang($clang);
       $CONT->setEval(TRUE);
-      $CONT->getContentAsQuery();
       $CONT->setSliceRevision($slice_revision);
       $CONT->setFunction($function);
       $CONT->getArticle($ctype);
