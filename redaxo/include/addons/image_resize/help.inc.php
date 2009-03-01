@@ -7,28 +7,29 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- *
  * @package redaxo4
  * @version $Id: help.inc.php,v 1.12 2008/04/12 08:04:07 kills Exp $
  */
 ?>
-<h3>Features:</h3>
+<h3>Funktionen:</h3>
 
-<p>Makes resize of images on the fly, with extra cache of resized images so performance loss is extremly small.</p>
+<p>Addon zum generieren von Vorschaugrafiken.</p>
 
-<h3>Usage:</h3>
-<p>call an image that way <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100w__imagefile</b>
- to resize the imagefile to a width of 100px</p>
-
-<h3>Methods:</h3>
+<h3>Benutzung:</h3>
 <p>
-w = width       (max width)<br />
-h = height      (max height)<br />
-c = crop        (cut image part to certain length and height)<br />
-a = automatic   (longest side will be used)
+  Um eine Vorschaugrafik zu generieren wird es durch Aufrufen mit einer speziellen Url umgewandelt, z.B:
+  <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100w__imagefile</b>
 </p>
 
-<h3>Filters:</h3>
+<h3>Modi:</h3>
+<p>
+w = width       (Skalieren in der Breite)<br />
+h = height      (Skalieren in der Höhe)<br />
+c = crop        (Bildausschnitt herausschneiden)<br />
+a = automatic   (Skalieren anhand der längsten Seite des Bildes)
+</p>
+
+<h3>Filter/Effekte:</h3>
 <p>
 blur<br />
 brand<br />
@@ -36,37 +37,37 @@ sepia<br />
 sharpen
 </p>
 
-<h3>Examples:</h3>
+<h3>Anwendungsbeispiele:</h3>
 <p>
-resize image to a length of 100px and calculate heigt to match ratio<br />
+Skaliere das Bild auf eine Breite von 100px. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100w__imagefile</b>
 
 <br /><br />
-resize image to a height of 150px and calculate width to match ratio<br />
+Skaliere das Bild auf eine Höhe von 150px. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=150h__imagefile</b>
 
 <br /><br />
-resize image on the longest side to 200px and calculate the other side to match ratio<br />
+Skaliere das Bild anhand der längsten Seite, diese auf eine Länge von 200px. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200a__imagefile</b>
 
 <br /><br />
-resize image to a width of 100px and a heigt of 200px<br />
+Skaliere das Bild auf eine Breite von 100px und eine Höhe von 200px. Ggf. wird das Bild dadurch verzehrt..<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100w__200h__imagefile</b>
 
 <br /><br />
-resize inner image part to a width of 100px and a height of 200px<br />
+Schneide aus dem Bild, ausgehend vom Zentrum, einen 100px Breiten und 200px hohen Bereich heraus.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100c__200h__imagefile</b>
 
 <br /><br />
-resize inner image part to a width of 100px and a height of 200px with an offset of 50px<br />
+Schneide aus dem Bild, ausgehend vom Zentrum um 50px nach rechts verschoben, einen 100px Breiten und 200px hohen Bereich heraus.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100c__200h__50o__imagefile</b>
 
 <br /><br />
-resize inner image part to a width of 100px and a height of 200px with an offset of -150px<br />
+Schneide aus dem Bild, ausgehend vom Zentrum um 150px nach links verschoben, einen 100px Breiten und 200px hohen Bereich heraus.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100c__200h__-150o__imagefile</b>
 
 <br /><br />
-add filter/s: here blur and sepia<br />
+Wende die Filter blur und sepia auf das Bild an. Zugleich wird das Bild an der längsten Seite auf 200px länge skaliert. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200a__imagefile&amp;rex_filter[]=blur&amp;rex_filter[]=sepia</b>
 
 </p>
