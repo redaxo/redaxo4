@@ -662,7 +662,7 @@ if ($article->getRows() == 1)
       $CONT->setEval(TRUE);
       $CONT->setSliceRevision($slice_revision);
       $CONT->setFunction($function);
-      $CONT->getArticle($ctype);
+      echo $CONT->getArticle($ctype);
 
       echo '
                   </div>
