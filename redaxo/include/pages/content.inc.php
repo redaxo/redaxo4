@@ -650,7 +650,7 @@ if ($article->getRows() == 1)
                   <!-- *** OUTPUT OF ARTICLE-CONTENT-EDIT-MODE - START *** -->
                   <div class="rex-content-editmode">
                   ';
-      $CONT = new rex_article;
+      $CONT = new rex_article();
       $CONT->info = $info;
       $CONT->warning = $warning;
       $CONT->template_attributes = $template_attributes;
@@ -658,10 +658,11 @@ if ($article->getRows() == 1)
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
       $CONT->setCLang($clang);
+      $CONT->setEval(TRUE);
       $CONT->getContentAsQuery();
       $CONT->setSliceRevision($slice_revision);
       $CONT->setFunction($function);
-      eval ("?>" . $CONT->getArticle($ctype));
+      $CONT->getArticle($ctype);
 
       echo '
                   </div>
