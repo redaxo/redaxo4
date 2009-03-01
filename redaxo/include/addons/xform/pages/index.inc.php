@@ -7,11 +7,6 @@ $I18N_XFORM = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/l
 include $REX["INCLUDE_PATH"]."/layout/top.php";
 echo '<div id="rex-addon-output">';
 
-include $REX["INCLUDE_PATH"]."/addons/xform/classes/basic/class.rexform.inc.php";
-include $REX["INCLUDE_PATH"]."/addons/xform/classes/basic/class.rexlist.inc.php";
-include $REX["INCLUDE_PATH"]."/addons/xform/classes/basic/class.rexselect.inc.php";
-include $REX["INCLUDE_PATH"]."/addons/xform/classes/basic/class.rexradio.inc.php";
-
 $subpage = rex_request("subpage","string");
 
 $subpages = array();
@@ -22,8 +17,6 @@ if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]"))
 	$subpages[] = array ('description' , $I18N_XFORM->msg("description"));
 if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
 	$subpages[] = array ('module' , $I18N_XFORM->msg("install_module"));
-
-$back_to_overview = '<table cellpadding=5 class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'"><b>&laquo; Zurück zur Übersicht</b></a></td></tr></table><br />';
 
 rex_title("XForm", $subpages);
 
@@ -38,7 +31,9 @@ if (!deep_in_array($subpage,$subpages))
 
 if ($subpage != "")
 {
+	echo '<div class="rex-addon-output">';
 	include $REX["INCLUDE_PATH"]."/addons/$page/pages/$subpage.inc.php";
+	echo '</div>';
 }else
 {
 	echo '<div class="rex-addon-output">';

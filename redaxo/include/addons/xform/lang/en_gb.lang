@@ -1,4 +1,26 @@
-email_templates = E-Mail templates
+email_templates = E-Mail Templates
 description = Description
-install_module = Install module
+install_module = Install Module
 overview = Overview
+
+key = Key - please dont change
+email_from = E-Mail from [info@redaxo.de]
+email_from_name = E-Mail name [REDAXO Mailer]
+subject = Subject
+body = Body
+
+add_email_template = Add E-Mail template
+
+header_template_description = Description
+header_template_mail_from = E-Mail from
+header_template_mail_from_name = E-Mail name
+header_template_subject = Subject
+create_template = Create template
+header_template_functions = Functions
+
+templates_not_found = No templates found
+delete_template = delete
+
+info_template_deleted = Template deleted
+
+back_to_overview = &laquo; Back to overview
