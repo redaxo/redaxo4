@@ -30,6 +30,8 @@ class OOCategory extends OORedaxo
   function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
+    
+    $cat_parent_id = (int) $cat_parent_id;
 
     if(!is_int($cat_parent_id))
       return array();

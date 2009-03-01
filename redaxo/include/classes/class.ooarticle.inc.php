@@ -21,9 +21,11 @@ class OOArticle extends OORedaxo
   {
     global $REX;
     
+    $article_id = (int) $article_id;
+    
     if(!is_int($article_id))
       return NULL;
-    
+      
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
     
