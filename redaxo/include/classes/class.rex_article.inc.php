@@ -180,8 +180,6 @@ class rex_article
 
   function correctValue($value)
   {
-    global $REX;
-
     if ($value == 'category_id')
     {
       if ($this->getValue('startpage')!=1) $value = 're_id';
@@ -201,7 +199,7 @@ class rex_article
   {
     global $REX;
     $value = $this->correctValue($value);
-
+    
     if (!$this->viasql) return $REX['ART'][$this->article_id][$value][$this->clang];
     else return $this->ARTICLE->getValue($value);
   }
@@ -323,11 +321,7 @@ class rex_article
         if($this->mode=='edit')
         {
           $MODULE = new rex_sql;
-          $MODULE->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
-
-          // TODO: !!!!
-          
-          $MODULESELECT = array();
+          $modules = $MODULE->getArray('select * from '.$REX['TABLE_PREFIX'].'module order by name');
 
           $template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
           // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
@@ -336,7 +330,7 @@ class rex_article
             $template_ctypes = array(1 => 'default');
           }
           
-          $modules = $MODULE->getArray();
+          $MODULESELECT = array();
           foreach($template_ctypes as $ct_id => $ct_name)
           {
             $MODULESELECT[$ct_id] = new rex_select;
@@ -347,13 +341,13 @@ class rex_article
             $MODULESELECT[$ct_id]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
             foreach($modules as $m)
             {
-               if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
-               {
-                 if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
+              if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
+              {
+                if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
                 {
                   $MODULESELECT[$ct_id]->addOption(rex_translate($m['name'],NULL,FALSE),$m['id']);
                 }
-               }
+              }
             }
           }
         }
