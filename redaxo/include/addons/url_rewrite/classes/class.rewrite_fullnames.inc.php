@@ -92,10 +92,7 @@ class myUrlRewriter extends rexUrlRewriter
 
       if ($path == '')
       {
-        // pre 4.2
-        $article_id = $REX['START_ARTICLE_ID'];
-        // since 4.2
-        $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
+        $this->setArticleId($REX['START_ARTICLE_ID']);
         return true;
       }
 
@@ -125,7 +122,7 @@ class myUrlRewriter extends rexUrlRewriter
         {
           if ($path == $v)
           {
-            $article_id = $key;
+            $this->setArticleId($key);
             $clang = $k;
           }
         }
@@ -156,14 +153,27 @@ class myUrlRewriter extends rexUrlRewriter
 
         ksort($levenshtein);
         $best = explode('#', array_shift($levenshtein));
-        $article_id = $best[0];
+        
+        $this->setArticleId($best[0]);
         $clang = $best[1];
       }
 
-      if (!$article_id) {
-        $article_id = $REX['NOTFOUND_ARTICLE_ID'];
+      if (!$article_id)
+      {
+        $this->setArticleId($REX['NOTFOUND_ARTICLE_ID']);
       }
     }
+  }
+  
+  
+  /*private*/ function setArticleId($art_id)
+  {
+    global $REX, $article_id;
+    
+    // pre 4.2
+    $article_id = $art_id;
+    // since 4.2
+    $REX['ARTICLE_ID'] = $art_id;
   }
 
   // Url neu schreiben
