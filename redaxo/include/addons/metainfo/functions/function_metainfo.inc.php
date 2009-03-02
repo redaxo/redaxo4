@@ -219,7 +219,7 @@ function a62_extensions_hanlder($params)
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
     rex_register_extension('PAGE_HEADER',
-      create_function('$params', 'return $params[\'subject\'] .\'  <script src="index.php?js=addons/metainfo" type="text/javascript"></script>\'."\n";')
+      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="../files/addons/'. $mypage .'/metainfo.js" type="text/javascript"></script>\';')
     );
   }
   

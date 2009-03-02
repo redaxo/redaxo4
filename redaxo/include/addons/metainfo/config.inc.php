@@ -52,13 +52,6 @@ $REX['PERM'][] = 'metainfo[]';
 
 if ($REX['REDAXO'])
 {
-  if(rex_get('js', 'string') == 'addons/metainfo')
-  {
-    $jsfile = $REX['INCLUDE_PATH'] .'/addons/metainfo/js/metainfo.js';
-    rex_send_file($jsfile, 'text/javascript');
-    exit();
-  }
-
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');
