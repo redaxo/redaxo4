@@ -30,10 +30,6 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_COUNT',                12);
 }
 
-
-if ($REX['REDAXO'])
-  $I18N_META_INFOS = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
-
 $REX['ADDON']['rxid'][$mypage] = '62';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Meta Infos';
@@ -52,6 +48,8 @@ $REX['PERM'][] = 'metainfo[]';
 
 if ($REX['REDAXO'])
 {
+  $I18N_META_INFOS = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
+  
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');
