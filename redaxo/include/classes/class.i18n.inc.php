@@ -2,6 +2,7 @@
 
 /**
  * Sprachobjekt zur Internationalisierung (I18N)
+ * 
  * @package redaxo4
  * @version $Id: class.i18n.inc.php,v 1.4 2008/03/24 14:22:23 kills Exp $
  */
@@ -16,7 +17,7 @@ class i18n
 
   /*
    * Constructor
-   * the locale must of the common form, eg. de_DE, en_US or just plain en, de.
+   * the locale must of the common form, eg. de_de, en_us or just plain en, de.
    * the searchpath is where the language files are located
    */
   function i18n($locale = "de_de", $searchpath)
@@ -29,43 +30,49 @@ class i18n
   }
 
   /*
-   * load texts from file.
-   * The filename must be of the form:
-   *
-   * <locale>.lang
-   * eg: de_de.lang or en_us.lang or en_gb.lang
-   *
-   * The file must be in the common property format:
-   *
-   * key = value
-   * # comments must be on one line
-   *
-   * values may contain placeholders for replacement of variables, e.g.
-   * file_not_found = The file {0} could not be found.
-   * there can be only 10 placeholders, {0} to {9}.
+   * Lädt alle Übersetzungen der aktuellen Sprache aus dem Sprachpfad und fügt diese dem Katalog hinzu.
    */
   function loadTexts()
   {
-		$this->text_loaded = TRUE;
-    $filename = $this->searchpath . "/" . $this->locale . ".lang";
-    if (is_readable($filename))
+    if($this->appendFile($this->searchpath))
     {
-      $f = fopen($filename, "r");
-      while (!feof($f))
-      {
-        $buffer = fgets($f, 4096);
-        if (preg_match("/^(\w*)\s*=\s*(.*)$/", $buffer, $matches))
-        {
-          $this->addMsg($matches[1], trim($matches[2]));
-        }
-      }
-      fclose($f);
+  		$this->text_loaded = TRUE;
     }
   }
+  
+  /**
+   * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fügt diese dem Sprachkatalog an
+   *  
+   * @param $searchPath Pfad in dem die Sprachdatei gesucht werden soll
+   */
+  function appendFile($searchPath)
+  {
+    $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
+    if (is_readable($filename))
+    {
+      $handle = fopen($filename, "r");
+      if($handle)
+      {
+        while (!feof($handle))
+        {
+          $buffer = fgets($handle, 4096);
+          if (preg_match("/^(\w*)\s*=\s*(.*)$/", $buffer, $matches))
+          {
+            $this->addMsg($matches[1], trim($matches[2]));
+          }
+        }
+        fclose($handle);
+        return TRUE;
+      }
+    }
+    
+    return FALSE;
+  }
 
-  /*
-   * return a message according to a key from the current locale
-   * you can give parameters for substitution.
+  /**
+   * Durchsucht den Sprachkatalog nach einem Schlüssel und gibt die dazugehörige Übersetzung zurück
+   * 
+   * @param $key Zu suchender Schlüssel
    */
   function msg($key)
   {
@@ -109,20 +116,33 @@ class i18n
     return preg_replace($patterns, $replacements, $msg);
   }
 
+  /**
+   * Fügt dem Sprachkatalog unter dem gegebenen Schlüssel eine neue Übersetzung hinzu 
+   *  
+   * @param $key Schlüssel unter dem die Übersetzung abgelegt wird
+   * @param $msg Übersetzter Text
+   */
   function addMsg($key, $msg)
   {
     $this->text[$key] = $msg;
   }
 
+  /**
+   * Prüft ob der Sprachkatalog zu dem gegebenen Schlüssel eine Übersetzung beinhaltet
+   * 
+   * @param $key Zu suchender Schlüssel
+   * @return boolean TRUE Wenn der Schlüssel gefunden wurde, sonst FALSE
+   */
   function hasMsg($key)
   {
   	return isset ($this->text[$key]);
   }
 
-  /*
-   * find all defined locales in a searchpath
-   * the language files must be of the form: <locale>.lang
-   * e.g. de_de.lang or en_gb.lang
+  /**
+   * Durchsucht den Searchpath nach allen verfügbaren Sprachdateien und gibt diese zurück
+   * 
+   * @param $searchpath Zu duruchsuchender Ordner
+   * @return array Array von gefundenen Sprachen (locales)
    */
   function getLocales($searchpath)
   {
@@ -150,7 +170,14 @@ class i18n
 
 }
 
-// Funktion zum Anlegen eines Sprache-Objekts
+/**
+ * Funktion zum Anlegen eines Sprache-Objekts
+ * 
+ * @param $locale Locale der Sprache
+ * @param $searchpath Pfad zum Ordner indem die Sprachdatei gesucht werden soll
+ * @param $setlocale TRUE, wenn die locale für die Umgebung gesetzt werden soll, sonst FALSE
+ * @return unknown_type
+ */
 function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 {
   global $REX;
