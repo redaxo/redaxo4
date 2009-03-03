@@ -1,0 +1,18 @@
+<h3>Changelog:</h3>
+
+<strong>Version 1.5 (2009-02-20)</strong>
+  - Update TinyMCE auf Version 3.2.1.1
+  - Klasse pclzip entfernt, TinyMCE Source jetzt im Addonverzeichnis, kein entpacken mehr notwendig
+  - .htacces im Verzeichnis addons/tinymce/tinymce/jscripts/ hebt den Verzeichnisschutz auf
+  - Konfiguration des Addons, Aktivierung, Standardsprache, Theme + Skin usw.
+  - Editiermöglichkeit des Stylesheets für den WYSIWYG-Editor/Vorschau
+  
+<strong>Version 1.0.1 (R4.0.1 Compatible) (2008-02-xx)</strong>
+  - TinyMCE Update auf 2.1.3
+  
+  * Bugfixes:
+  - Installation gibt jetzt korrekte Fehlermeldungen zurück
+
+<strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
+  - initial release
+
