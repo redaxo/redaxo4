@@ -282,6 +282,7 @@ class rex_thumbnail
     header('Content-Type: image/JPG');
     // error image nicht cachen
     header('Cache-Control: false');
+    header('HTTP/1.0 404 Not Found');
     readfile($file);
     exit();
   }
