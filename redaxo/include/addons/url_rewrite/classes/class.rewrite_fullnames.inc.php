@@ -21,8 +21,8 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  *     RewriteCond %{REQUEST_FILENAME} !-f
  *     RewriteCond %{REQUEST_FILENAME} !-d
  *     RewriteCond %{REQUEST_FILENAME} !-l
- *     RewriteCond %{REQUEST_URI} !redaxo/.*
- *     RewriteCond %{REQUEST_URI} !files/.*
+ *     RewriteCond %{REQUEST_URI} !^redaxo/.*
+ *     RewriteCond %{REQUEST_URI} !^files/.*
  *     RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
  *
  *   2) .htaccess file in das redaxo/ verzeichnis:
