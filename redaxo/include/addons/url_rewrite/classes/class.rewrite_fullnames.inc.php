@@ -205,8 +205,10 @@ class myUrlRewriter extends rexUrlRewriter
 
     $urlparams = str_replace('/amp;','/',$urlparams);
     $url = $REXPATH[$id][$clang].$urlparams;
-    
-    return $url;
+        
+    // immer absolute Urls erzeugen, da relative mit rex_redirect() nicht funktionieren
+    // da dieser den <base href="" /> nicht kennt.
+    return dirname($_SERVER['PHP_SELF']) . '/' .$url;
   }
 }
 
