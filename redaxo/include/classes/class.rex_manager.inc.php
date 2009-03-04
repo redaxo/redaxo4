@@ -3,7 +3,7 @@
 /**
  * Managerklasse zum handeln von rexAddons
  */
-/*abstract*/ class rex_installManager
+/*abstract*/ class rex_baseManager
 {
   var $i18nPrefix;
   
@@ -12,7 +12,7 @@
    * 
    * @param $i18nPrefix Sprachprefix aller I18N Sprachschlüssel
    */
-  function rex_installManager($i18nPrefix)
+  function rex_baseManager($i18nPrefix)
   {
     $this->i18nPrefix = $i18nPrefix;
   }
@@ -25,6 +25,8 @@
    */
   /*public*/ function install($addonName, $installDump = TRUE)
   {
+    clearstatcache();
+    
     $state = TRUE;
   
     $install_dir  = $this->baseFolder($addonName);
@@ -118,6 +120,8 @@
    */
   /*public*/ function uninstall($addonName)
   {
+    clearstatcache();
+    
     $state = TRUE;
     
     $install_dir    = $this->baseFolder($addonName);
@@ -191,6 +195,8 @@
    */
   /*public*/ function activate($addonName)
   {
+    clearstatcache();
+    
     if ($this->apiCall('isInstalled', array($addonName)))
     {
       $this->apiCall('setProperty', array($addonName, 'status', 1));
@@ -316,14 +322,14 @@
 /**
  * Manager zum installieren von OOAddons
  */
-class rex_addonManager extends rex_installManager
+class rex_addonManager extends rex_baseManager
 {
   var $configArray;
   
   function rex_addonManager($configArray)
   {
     $this->configArray = $configArray;
-    parent::rex_installManager('addon_');
+    parent::rex_baseManager('addon_');
   }
   
   /*public*/ function delete($addonName)
@@ -384,7 +390,7 @@ class rex_addonManager extends rex_installManager
 /**
  * Manager zum intallieren von OOPlugins
  */
-class rex_pluginManager extends rex_installManager
+class rex_pluginManager extends rex_baseManager
 {
   var $configArray;
   var $addonName;
@@ -393,7 +399,7 @@ class rex_pluginManager extends rex_installManager
   {
     $this->configArray =& $configArray;
     $this->addonName = $addonName;
-    parent::rex_installManager('plugin_');
+    parent::rex_baseManager('plugin_');
   }
   
   /**
