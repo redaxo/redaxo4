@@ -25,27 +25,8 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 if($REX["REDAXO"])
 {
-	rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
-	function rex_be_style_css_add($params)
-	{
-		$addon = "be_style";
-		foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
-		{
-			echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
-		}
-	}
-	
-	// Menupunkt nur einbinden, falls ein Plugin sich angemeldet hat
-	// via BE_STYLE_PAGE_CONTENT inhalt auszugeben 
+  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/extensions/function_extensions.inc.php';
+  
+  rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
   rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
-  function rex_be_add_page($params)
-  {
-    if(rex_extension_is_registered('BE_STYLE_PAGE_CONTENT'))
-    {
-      global $REX;
-      
-      $mypage = 'be_style';
-      $REX['ADDON']['name'][$mypage] = 'Backend Style';
-    }
-  }
 }
