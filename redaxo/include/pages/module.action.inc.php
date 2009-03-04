@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: module.action.inc.php,v 1.10 2008/03/25 11:20:31 kills Exp $
+ * @version svn:$Id$
  */
 
 $PREPOST[0] = 'PRE';

@@ -3,7 +3,7 @@
 /**
  * Hauptkonfigurationsdatei
  * @package redaxo4
- * @version $Id: master.inc.php,v 1.11 2008/03/18 11:29:00 kills Exp $
+ * @version svn:$Id$
  */
 
 // -----------------

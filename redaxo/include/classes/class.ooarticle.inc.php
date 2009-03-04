@@ -3,7 +3,7 @@
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab
  * @package redaxo4
- * @version $Id: class.ooarticle.inc.php,v 1.2 2008/03/07 17:51:08 kills Exp $
+ * @version svn:$Id$
  */
 
 class OOArticle extends OORedaxo

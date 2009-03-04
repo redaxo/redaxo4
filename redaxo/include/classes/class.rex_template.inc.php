@@ -5,7 +5,7 @@
  * Zuständig für die Verarbeitung eines Templates
  *
  * @package redaxo4
- * @version $Id: class.rex_template.inc.php,v 1.6 2008/03/20 15:34:42 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_template

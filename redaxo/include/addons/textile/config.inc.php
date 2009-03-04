@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * 
  * @package redaxo4
- * @version $Id: config.inc.php,v 1.5 2008/03/11 16:04:25 kills Exp $
+ * @version svn:$Id$
  */
 
 $mypage = 'textile';

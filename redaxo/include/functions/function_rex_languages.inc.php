@@ -3,7 +3,7 @@
 /**
  * Dient zur Ausgabe des Sprachen-blocks
  * @package redaxo4
- * @version $Id: function_rex_languages.inc.php,v 1.2 2008/02/25 09:51:24 kills Exp $
+ * @version svn:$Id$
  */
 
 // rechte einbauen

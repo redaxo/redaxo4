@@ -4,7 +4,7 @@
  * HTTP1.1 Client Cache Features
  *
  * @package redaxo4
- * @version $Id: function_rex_client_cache.inc.php,v 1.8 2008/03/07 18:36:16 kills Exp $
+ * @version svn:$Id$
  */
 
 /**

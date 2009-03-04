@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: profile.inc.php,v 1.2 2008/04/15 15:50:28 kills Exp $
+ * @version svn:$Id$
  */
 
 $info = '';

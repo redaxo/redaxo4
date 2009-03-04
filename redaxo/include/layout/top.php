@@ -3,7 +3,7 @@
 /**
  * Layout Kopf des Backends
  * @package redaxo4
- * @version $Id: top.php,v 1.7 2008/04/02 19:58:00 kills Exp $
+ * @version svn:$Id$
  */
 
 $page_title = $REX['SERVERNAME'];

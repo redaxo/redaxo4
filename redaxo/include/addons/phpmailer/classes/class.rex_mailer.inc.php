@@ -7,7 +7,7 @@
  * 
  * 
  * @package redaxo4
- * @version $Id: class.rex_mailer.inc.php,v 1.3 2008/03/11 16:04:10 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_mailer extends PHPMailer

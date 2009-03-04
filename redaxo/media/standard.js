@@ -1,7 +1,7 @@
 /* 
  REDAXO JavaScript library
  @package redaxo4 
- @version $Id: standard.js,v 1.4 2007/12/12 16:24:43 kills Exp $
+ @version svn:$Id$
  */ 
 
 // -------------------------------------------------------------------------------------------------------------------

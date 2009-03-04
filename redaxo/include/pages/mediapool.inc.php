@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: mediapool.inc.php,v 1.19 2008/03/26 16:19:38 kills Exp $
+ * @version svn:$Id$
  */
 
 // TODOS

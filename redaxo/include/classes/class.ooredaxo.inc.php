@@ -3,7 +3,7 @@
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
  * @package redaxo4
- * @version $Id: class.ooredaxo.inc.php,v 1.3 2008/03/10 10:12:48 kills Exp $
+ * @version svn:$Id$
  */
 
 class OORedaxo

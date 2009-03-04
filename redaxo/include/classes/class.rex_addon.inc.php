@@ -4,7 +4,7 @@
  * Basisklasse für Addons/Plugins
  * 
  * @package redaxo4
- * @version $Id: class.ooaddon.inc.php,v 1.5 2008/02/22 20:07:31 kills Exp $
+ * @version svn:$Id$
  */
 
 /*private abstract*/ class rex_addon

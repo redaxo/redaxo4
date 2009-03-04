@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: extension_search_structure.inc.php,v 1.19 2008/04/12 09:28:04 kills Exp $
+ * @version svn:$Id$
  */
 
 function rex_a256_search_structure($params)

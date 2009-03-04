@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: login.inc.php,v 1.2 2008/03/19 13:02:44 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_title('Login');

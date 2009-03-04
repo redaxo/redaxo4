@@ -3,7 +3,7 @@
 /**
  * Object Oriented Framework: Bildet eine Kategorie der Struktur ab
  * @package redaxo4
- * @version $Id: class.oocategory.inc.php,v 1.2 2008/03/07 17:51:09 kills Exp $
+ * @version svn:$Id$
  */
 
 class OOCategory extends OORedaxo

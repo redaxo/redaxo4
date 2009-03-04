@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: specials.inc.php,v 1.3 2008/03/25 10:02:17 kills Exp $
+ * @version svn:$Id$
  */
 
 // -------------- Defaults

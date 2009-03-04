@@ -4,7 +4,7 @@
  * Funktionensammlung für den Medienpool
  *
  * @package redaxo4
- * @version $Id: function_rex_mediapool.inc.php,v 1.7 2008/03/26 16:26:51 kills Exp $
+ * @version svn:$Id$
  */
 
 /**

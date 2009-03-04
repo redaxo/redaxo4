@@ -5,7 +5,7 @@
  * NICHT für ältere PHP Versionen!
  *
  * Dieser werden beim nächsten Versionssprung entfallen
- * @version $Id: class.compat.inc.php,v 1.4 2007/12/29 17:28:57 kills Exp $
+ * @version svn:$Id$
  */
 
 // rex_sql -> sql alias

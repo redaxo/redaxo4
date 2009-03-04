@@ -3,7 +3,7 @@
 /**
  * URL Funktionen
  * @package redaxo4
- * @version $Id: function_rex_url.inc.php,v 1.4 2008/04/15 15:44:50 kills Exp $
+ * @version svn:$Id$
  */
 
 function rex_parse_article_name($name)

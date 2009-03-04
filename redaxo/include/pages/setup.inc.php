@@ -28,7 +28,7 @@ if (!isset($REX))
 /**
  *
  * @package redaxo4
- * @version $Id: setup.inc.php,v 1.7 2008/03/17 10:45:24 kills Exp $
+ * @version svn:$Id$
  */
 
 // --------------------------------------------- SETUP FUNCTIONS

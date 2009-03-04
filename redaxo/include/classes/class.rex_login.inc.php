@@ -5,7 +5,7 @@
  * Klasse zum handling des Login/Logout-Mechanismuses
  *
  * @package redaxo4
- * @version $Id: class.rex_login.inc.php,v 1.8 2008/03/20 11:14:47 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_login_sql extends rex_sql

@@ -4,7 +4,7 @@
  * Klasse zum Erstellen von Navigationen, v0.1
  *
  * @package redaxo4
- * @version $Id: class.rex_navigation.inc.php,v 1.24 2008/03/22 16:06:09 kills Exp $
+ * @version svn:$Id$
  */
 
 /*

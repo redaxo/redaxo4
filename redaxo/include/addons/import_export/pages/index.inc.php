@@ -4,7 +4,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: index.inc.php,v 1.10 2008/04/02 15:49:37 kills Exp $
+ * @version svn:$Id$
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.

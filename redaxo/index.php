@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: index.php,v 1.10 2008/04/02 18:12:39 kills Exp $
+ * @version svn:$Id$
  */
 
 // ----- caching start für output filter

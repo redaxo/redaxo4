@@ -3,7 +3,7 @@
 /**
  * Klasse
  * @package redaxo4
- * @version $Id: class.rex_com.inc.php,v 1.5 2008/02/22 20:07:31 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_com

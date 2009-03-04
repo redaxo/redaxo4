@@ -3,7 +3,7 @@
 /**
  * Layout Fuß des Backends
  * @package redaxo4
- * @version $Id: bottom.php,v 1.5 2008/03/19 13:03:13 kills Exp $
+ * @version svn:$Id$
  */
 
 ?>

@@ -12,7 +12,7 @@
  *
  * Alle Variablen die mit REX_FILE beginnnen sind als deprecated anzusehen!
  * @package redaxo4
- * @version $Id: class.rex_var_media.inc.php,v 1.7 2008/03/24 20:14:57 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_var_media extends rex_var

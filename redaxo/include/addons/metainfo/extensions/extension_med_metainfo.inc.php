@@ -5,7 +5,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * 
  * @package redaxo4
- * @version $Id: extension_med_metainfo.inc.php,v 1.5 2008/03/11 16:03:32 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_register_extension('MEDIA_FORM_EDIT', 'rex_a62_metainfo_form');

@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: config.inc.php,v 1.4 2008/03/04 15:01:08 kills Exp $
+ * @version svn:$Id$
  */
 
 $mypage = 'phpmailer';

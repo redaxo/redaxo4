@@ -8,7 +8,7 @@
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
  *
  * @package redaxo4
- * @version $Id: index.inc.php,v 1.7 2008/04/12 08:04:07 kills Exp $
+ * @version svn:$Id$
  */
 
 $page = rex_request('page', 'string');

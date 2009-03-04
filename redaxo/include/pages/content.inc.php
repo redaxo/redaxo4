@@ -3,7 +3,7 @@
 /**
  * Verwaltung der Inhalte. EditierModul / Metadaten ...
  * @package redaxo4
- * @version $Id: content.inc.php,v 1.7 2008/02/25 09:52:16 kills Exp $
+ * @version svn:$Id$
  */
 
 /*

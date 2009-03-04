@@ -4,7 +4,7 @@
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
  * Kategorien = Startartikel und Bezüge
  * @package redaxo4
- * @version $Id: function_rex_category.inc.php,v 1.1 2007/12/28 10:45:10 kills Exp $
+ * @version svn:$Id$
  */
 
 $KATebene = 0; // aktuelle Ebene: default

@@ -2,7 +2,7 @@
 /**
  * Bindet nötige Klassen/Funktionen ein
  * @package redaxo4
- * @version $Id: functions.inc.php,v 1.3 2008/03/08 15:06:47 kills Exp $
+ * @version svn:$Id$
  */
 
 // ----------------- TIMER

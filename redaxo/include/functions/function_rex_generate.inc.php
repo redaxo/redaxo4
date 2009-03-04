@@ -4,7 +4,7 @@
 /**
  * Funktionensammlung für die generierung der Artikel/Templates/Kategorien/Metainfos.. etc.
  * @package redaxo4
- * @version $Id: function_rex_generate.inc.php,v 1.12 2008/03/26 20:19:47 kills Exp $
+ * @version svn:$Id$
  */
 
 // ----------------------------------------- Alles generieren

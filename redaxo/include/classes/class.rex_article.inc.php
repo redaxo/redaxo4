@@ -5,7 +5,7 @@
  * Zuständig für die Verarbeitung eines Artikel
  *
  * @package redaxo4
- * @version $Id: class.rex_article.inc.php,v 1.12 2008/02/26 10:52:57 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_article

@@ -2,7 +2,7 @@
 
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank
- * @version $Id: class.rex_sql.inc.php,v 1.10 2008/04/02 17:44:41 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_sql

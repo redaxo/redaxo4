@@ -3,7 +3,7 @@
  * Getter Funktionen zum Handling von Superglobalen Variablen 
  * 
  * @package redaxo4
- * @version $Id: function_rex_globals.inc.php,v 1.1 2007/12/28 10:45:10 kills Exp $
+ * @version svn:$Id$
  */
 
 /**

@@ -4,7 +4,7 @@
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
  * @package redaxo4
- * @version $Id: class.oomedia.inc.php,v 1.5 2008/04/12 08:08:56 kills Exp $
+ * @version svn:$Id$
  */
 
 class OOMedia

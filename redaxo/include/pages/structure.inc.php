@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: structure.inc.php,v 1.7 2008/03/21 19:45:17 kristinus Exp $
+ * @version svn:$Id$
  */
 
 // request vars

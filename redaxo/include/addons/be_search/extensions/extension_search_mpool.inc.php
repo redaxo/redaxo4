@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: extension_search_mpool.inc.php,v 1.10 2008/03/26 21:06:37 kills Exp $
+ * @version svn:$Id$
  */
 
 function rex_a256_search_mpool($params)

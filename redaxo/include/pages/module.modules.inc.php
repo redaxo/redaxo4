@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: module.modules.inc.php,v 1.6 2008/03/25 11:26:53 kills Exp $
+ * @version svn:$Id$
  */
 
 $OUT = TRUE;

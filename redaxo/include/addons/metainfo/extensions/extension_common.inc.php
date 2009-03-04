@@ -5,7 +5,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: extension_common.inc.php,v 1.18 2008/03/25 16:53:41 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_register_extension('OOMEDIA_IS_IN_USE_QUERY', 'rex_a62_media_is_in_use');

@@ -9,7 +9,7 @@
  * 
  *
  * @package redaxo4
- * @version $Id: extension_wysiwyg.inc.php,v 1.3 2008/03/11 16:02:59 kills Exp $
+ * @version svn:$Id$
  */
 
 // Resize WYSIWYG Editor Images

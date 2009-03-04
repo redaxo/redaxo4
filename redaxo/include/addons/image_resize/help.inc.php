@@ -8,7 +8,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: help.inc.php,v 1.12 2008/04/12 08:04:07 kills Exp $
+ * @version svn:$Id$
  */
 ?>
 <h3>Funktionen:</h3>

@@ -12,7 +12,7 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  *
  * @package redaxo4
- * @version $Id: config.inc.php,v 1.13 2008/04/12 08:04:07 kills Exp $
+ * @version svn:$Id$
  */
 
 $mypage = 'image_resize';

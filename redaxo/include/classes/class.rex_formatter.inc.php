@@ -2,7 +2,7 @@
 
 /**
  * @package redaxo4
- * @version $Id: class.rex_formatter.inc.php,v 1.7 2008/03/10 10:20:25 kills Exp $
+ * @version svn:$Id$
  */
 
 /**

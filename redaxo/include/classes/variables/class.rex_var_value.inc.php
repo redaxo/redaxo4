@@ -10,7 +10,7 @@
  * REX_IS_VALUE
  *
  * @package redaxo4
- * @version $Id: class.rex_var_value.inc.php,v 1.4 2008/03/19 12:54:08 kristinus Exp $
+ * @version svn:$Id$
  */
 
 class rex_var_value extends rex_var

@@ -7,7 +7,7 @@
  * 
  * 
  * @package redaxo4
- * @version $Id: index.inc.php,v 1.4 2008/03/11 16:04:16 kills Exp $
+ * @version svn:$Id$
  */
  
 // Parameter

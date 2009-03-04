@@ -7,7 +7,7 @@
  * 
  * 
  * @package redaxo4
- * @version $Id: example.inc.php,v 1.3 2008/03/11 16:04:16 kills Exp $
+ * @version svn:$Id$
  */
 
 $mdl_ex =<<<EOD

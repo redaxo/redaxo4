@@ -3,7 +3,7 @@
 /**
  * Klasse zum erstellen von Listen
  * @package redaxo4
- * @version $Id: class.rex_form.inc.php,v 1.7 2008/03/19 10:05:42 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_form

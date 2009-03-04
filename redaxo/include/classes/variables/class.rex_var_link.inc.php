@@ -8,7 +8,7 @@
  * REX_LINKLIST
  *
  * @package redaxo4
- * @version $Id: class.rex_var_link.inc.php,v 1.7 2008/04/13 14:37:47 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_var_link extends rex_var

@@ -6,7 +6,7 @@
  * @author jan@kristinus.de
  *
  * @package redaxo4
- * @version $Id: uninstall.inc.php,v 1.13 2008/03/26 21:06:37 kills Exp $
+ * @version svn:$Id$
  */
 
 $REX['ADDON']['uninstall']['version'] = 1;

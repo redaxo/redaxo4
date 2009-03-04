@@ -3,7 +3,7 @@
  * @author staab[at]public-4u[dot]de Markus Staab
  * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
  * @package redaxo3
- * @version $Id: _readme.txt,v 1.1 2006/07/21 13:53:09 kills Exp $
+ * @version svn:$Id$
  */
 
 <a href="?page=addon&amp;spage=help&amp;addonname=url_rewrite&amp;mode=changelog">Changelog</a>

@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * 
  * @package redaxo4
- * @version $Id: index.inc.php,v 1.6 2008/03/11 16:04:53 kills Exp $
+ * @version svn:$Id$
  */
 
 require $REX['INCLUDE_PATH'].'/layout/top.php';

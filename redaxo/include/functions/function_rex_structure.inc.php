@@ -4,7 +4,7 @@
  * Funktionensammlung für die Strukturverwaltung
  *
  * @package redaxo4
- * @version $Id: function_rex_medienpool.inc.php,v 1.7 2008/03/26 16:26:51 kills Exp $
+ * @version svn:$Id$
  */
 
 function rex_addCategory($category_id, $data)

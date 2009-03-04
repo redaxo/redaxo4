@@ -5,7 +5,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: extension_cleanup.inc.php,v 1.5 2008/04/04 22:23:48 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_register_extension('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');

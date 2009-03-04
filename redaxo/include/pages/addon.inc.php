@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: addon.inc.php,v 1.5 2008/03/25 10:42:51 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_title($I18N->msg('addon'), '');

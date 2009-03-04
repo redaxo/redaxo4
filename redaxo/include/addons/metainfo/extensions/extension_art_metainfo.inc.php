@@ -5,7 +5,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * 
  * @package redaxo4
- * @version $Id: extension_art_metainfo.inc.php,v 1.3 2008/03/11 16:03:32 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_register_extension('ART_META_FORM', 'rex_a62_metainfo_form');

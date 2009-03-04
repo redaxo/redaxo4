@@ -11,7 +11,7 @@
  * REX_ARTICLE[field='description' id=3 clang=2]
  *
  * @package redaxo4
- * @version $Id: class.rex_var_article.inc.php,v 1.3 2008/01/11 14:57:08 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_var_article extends rex_var

@@ -2,7 +2,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: user.inc.php,v 1.11 2008/04/03 17:18:10 kills Exp $
+ * @version svn:$Id$
  */
 
 /*

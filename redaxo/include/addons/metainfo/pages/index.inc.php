@@ -5,7 +5,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo4
- * @version $Id: index.inc.php,v 1.5 2008/03/26 18:54:34 kills Exp $
+ * @version svn:$Id$
  */
 
 // Parameter

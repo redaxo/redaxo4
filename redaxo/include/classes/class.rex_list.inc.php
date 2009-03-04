@@ -7,7 +7,7 @@ define('REX_LIST_OPT_SORT', 0);
  * Klasse zum erstellen von Listen
  *
  * @package redaxo4
- * @version $Id: class.rex_list.inc.php,v 1.24 2008/03/22 16:06:09 kills Exp $
+ * @version svn:$Id$
  */
 
 /*

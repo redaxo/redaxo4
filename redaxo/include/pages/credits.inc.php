@@ -3,7 +3,7 @@
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
  * @package redaxo4
- * @version $Id: credits.inc.php,v 1.6 2008/03/25 10:13:16 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_title($I18N->msg("credits"), "");

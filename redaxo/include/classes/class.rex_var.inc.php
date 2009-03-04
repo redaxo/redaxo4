@@ -4,7 +4,7 @@
 /**
  * Abtrackte Basisklasse für REX_VARS
  * @package redaxo4
- * @version $Id: class.rex_var.inc.php,v 1.2 2008/01/11 14:00:19 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_var

@@ -11,7 +11,7 @@
  *
  *
  * @package redaxo4
- * @version $Id: class.thumbnail.inc.php,v 1.15 2008/03/24 11:41:28 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_thumbnail

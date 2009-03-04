@@ -11,7 +11,7 @@
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
  * @package redaxo4
- * @version $Id: config.inc.php,v 1.5 2008/03/11 16:04:53 kills Exp $
+ * @version svn:$Id$
  */
 
 	// Tabelle bei REDAXO 3.2.x ausgeben

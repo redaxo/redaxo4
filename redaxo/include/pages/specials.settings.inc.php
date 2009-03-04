@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: specials.settings.inc.php,v 1.6 2008/03/25 09:54:44 kills Exp $
+ * @version svn:$Id$
  */
 
 $info = '';

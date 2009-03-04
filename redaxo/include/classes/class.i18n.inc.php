@@ -4,7 +4,7 @@
  * Sprachobjekt zur Internationalisierung (I18N)
  * 
  * @package redaxo4
- * @version $Id: class.i18n.inc.php,v 1.4 2008/03/24 14:22:23 kills Exp $
+ * @version svn:$Id$
  */
 
 class i18n

@@ -3,7 +3,7 @@
 /**
  * Addon Funktionen
  * @package redaxo4
- * @version $Id: function_rex_addons.inc.php,v 1.3 2008/02/25 09:51:18 kills Exp $
+ * @version svn:$Id$
  */
 
 function rex_plugins_dir($plugin = null)

@@ -6,7 +6,7 @@
  * REX_CTYPE_ID
  *
  * @package redaxo4
- * @version $Id: class.rex_var_globals.inc.php,v 1.3 2008/02/26 10:42:46 kills Exp $
+ * @version svn:$Id$
  */
 
 class rex_var_globals extends rex_var

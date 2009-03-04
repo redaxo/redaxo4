@@ -9,7 +9,7 @@
  * This framework can be used in Modules, Templates and PHP-Slices!
  *
  * @package redaxo4
- * @version $Id: class.ooarticleslice.inc.php,v 1.11 2008/03/28 15:28:40 kills Exp $
+ * @version svn:$Id$
  */
 
 class OOArticleSlice

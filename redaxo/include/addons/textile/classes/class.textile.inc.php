@@ -11,7 +11,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @package redaxo4
- * @version $Id: class.textile.inc.php,v 1.4 2008/03/11 16:12:32 kills Exp $
+ * @version svn:$Id$
  */
 
 /*

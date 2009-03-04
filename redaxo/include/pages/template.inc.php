@@ -3,7 +3,7 @@
 /**
  *
  * @package redaxo4
- * @version $Id: template.inc.php,v 1.18 2008/04/02 19:44:55 kills Exp $
+ * @version svn:$Id$
  */
 
 rex_title($I18N->msg('title_templates'), '');

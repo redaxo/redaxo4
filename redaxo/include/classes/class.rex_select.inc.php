@@ -4,7 +4,7 @@
  * Klasse zur Erstellung eines HTML-Pulldown-Menues (Select-Box)
  *
  * @package redaxo4
- * @version $Id: class.rex_select.inc.php,v 1.6 2008/03/05 20:58:02 kills Exp $
+ * @version svn:$Id$
  */
 
 ################ Class Select
