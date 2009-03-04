@@ -160,7 +160,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
 /**
  * Castet die Variable $var zum Typ $vartype
  * 
- * Mögliche Typen sind:
+ * Mögliche PHP-Typen sind:
  *  - bool (auch boolean)
  *  - int (auch integer)
  *  - double
@@ -169,12 +169,19 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - real
  *  - object
  *  - array
+ *  - '' (nicht casten)
+ *  
+ * Mögliche REDAXO-Typen sind:
  *  - rex-article-id
  *  - rex-category-id
  *  - rex-clang-id
  *  - rex-template-id
  *  - rex-ctype-id
- *  - '' (nicht casten)
+ *  - rex-slice-id
+ *  - rex-module-id
+ *  - rex-action-id
+ *  - rex-media-id
+ *  - rex-mediacategory-id
  * 
  * @access private
  */
@@ -215,37 +222,18 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       }
       break;
     case 'rex-template-id':
+    case 'rex-ctype-id':
+    case 'rex-slice-id':
+    case 'rex-module-id':
+    case 'rex-action-id':
+    case 'rex-media-id':
+    case 'rex-mediacategory-id':
       $var = (int) $var;
       if($mode == 'found')
       {
         // erstmal keine weitere validierung von template id
         $var = (int) $default;
       }
-      break;
-    case 'rex-ctype-id':
-      $var = (int) $var;
-      if($mode == 'found')
-      {
-        // erstmal keine weitere validierung von ctype id
-        $var = (int) $default;
-      }
-      break;
-    case 'rex-media-id':
-      $var = (int) $var;
-      if($mode == 'found')
-      {
-        // erstmal keine weitere validierung von media id
-        $var = (int) $default;
-      }
-      break;
-    case 'rex-mediacategory-id':
-      $var = (int) $var;
-      if($mode == 'found')
-      {
-        // erstmal keine weitere validierung von mediacategory id
-        $var = (int) $default;
-      }
-      break;
       
     // ---------------- PHP types
     case 'bool'   :
