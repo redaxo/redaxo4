@@ -234,7 +234,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       $var = (int) $var;
       if($mode == 'found')
       {
-        // erstmal keine weitere validierung von ctype id
+        // erstmal keine weitere validierung von media id
         $var = (int) $default;
       }
       break;
@@ -242,7 +242,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       $var = (int) $var;
       if($mode == 'found')
       {
-        // erstmal keine weitere validierung von ctype id
+        // erstmal keine weitere validierung von mediacategory id
         $var = (int) $default;
       }
       break;
