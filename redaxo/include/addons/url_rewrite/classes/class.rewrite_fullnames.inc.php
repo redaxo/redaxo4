@@ -208,7 +208,7 @@ class myUrlRewriter extends rexUrlRewriter
         
     // immer absolute Urls erzeugen, da relative mit rex_redirect() nicht funktionieren
     // da dieser den <base href="" /> nicht kennt.
-    return dirname($_SERVER['PHP_SELF']) . '/' .$url;
+    return str_replace(' ', '%20', dirname($_SERVER['PHP_SELF'])) . '/' .$url;
   }
 }
 
@@ -223,7 +223,9 @@ if ($REX['REDAXO'])
     'ALL_GENERATED');
 
   foreach($extensionPoints as $extensionPoint)
-  rex_register_extension($extensionPoint, $extension);
+  {
+    rex_register_extension($extensionPoint, $extension);
+  }
 }
 
 function rex_rewriter_generate_pathnames($params)
@@ -303,7 +305,7 @@ function rex_rewriter_generate_pathnames($params)
       $name = $ooa->getName();
       unset($ooa); // speicher freigeben
 //      if($name != $catname)
-        $pathname = rex_rewriter_appendToPath($pathname, $name);
+      $pathname = rex_rewriter_appendToPath($pathname, $name);
       
       $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
       $REXPATH[$db->getValue('id')][$db->getValue('clang')] = $pathname;
