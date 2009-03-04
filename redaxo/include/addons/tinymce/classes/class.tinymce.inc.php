@@ -452,10 +452,14 @@ EOD;
 		$configout .= $n . '  theme_advanced_buttons3 : \'' . $this->buttons3 . '\',';
 		$configout .= $n . '  theme_advanced_buttons4 : \'' . $this->buttons4 . '\',';
 
-		$configout .= $n . '  theme_advanced_text_colors : \'' . $foreground . '\',';
-		$configout .= $n . '  theme_advanced_default_foreground_color : \'' . $default_foreground . '\',';
-		$configout .= $n . '  theme_advanced_background_colors : \'' . $background . '\',';
-		$configout .= $n . '  theme_advanced_default_background_color : \'' . $default_background . '\',';
+		if ($foreground <> '')
+			$configout .= $n . '  theme_advanced_text_colors : \'' . $foreground . '\',';
+		if ($default_foreground <> '')
+			$configout .= $n . '  theme_advanced_default_foreground_color : \'' . $default_foreground . '\',';
+		if ($background <> '')
+			$configout .= $n . '  theme_advanced_background_colors : \'' . $background . '\',';
+		if ($default_background <> '')
+			$configout .= $n . '  theme_advanced_default_background_color : \'' . $default_background . '\',';
 
 		$configout .= $n . '  theme_advanced_source_editor_width : 760,';
 		$configout .= $n . '  theme_advanced_source_editor_height : 500,';

@@ -12,7 +12,7 @@
 
 /* Top */
 .clearlooks2 .mceTop, .clearlooks2 .mceTop div {top:0; width:100%; height:23px}
-.clearlooks2 .mceTop .mceLeft {width:6px; background:url(img/corners.gif);}
+.clearlooks2 .mceTop .mceLeft {width:6px; background:url(img/corners.gif)}
 .clearlooks2 .mceTop .mceCenter {right:6px; width:100%; height:23px; background:url(img/horizontal.gif) 12px 0; clip:rect(auto auto auto 12px)}
 .clearlooks2 .mceTop .mceRight {right:0; width:6px; height:23px; background:url(img/corners.gif) -12px 0}
 .clearlooks2 .mceTop span {width:100%; text-align:center; vertical-align:middle; line-height:23px; font-weight:bold}

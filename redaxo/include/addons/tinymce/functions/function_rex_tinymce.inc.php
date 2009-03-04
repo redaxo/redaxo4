@@ -88,6 +88,14 @@ if (!function_exists('a52_tinymce_opf'))
 		$t = '  ';
 		$cssLink = $n . $t . '<!-- Addon TinyMCE -->';
 
+		// Selectbox Fix für IE6
+		$cssLink .= $n . $t . '<!--[if lte IE 6.5]>';
+		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/selectfix/select_fix.js';
+		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
+		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/selectfix/select_fix.css';
+		$cssLink .= $n . $t . '<link rel="stylesheet" type="text/css" href="' . $script . '">';
+		$cssLink .= $n . $t . '<![endif]-->';
+
 		// TinyMCE-HauptScript
 		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/tiny_mce/tiny_mce.js';
 		$script = str_replace('\\', '/', $script);

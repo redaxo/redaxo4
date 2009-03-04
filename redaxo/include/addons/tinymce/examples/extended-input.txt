@@ -15,7 +15,7 @@ EOD;
   $tiny->buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media';
 
   // zusätzliche Buttons für Undo/Redo, Tabellen und Template
-  $tiny->buttons3 = 'undo,redo,|,tablecontrols,visualaid,|,template';
+  $tiny->buttons3 = 'undo,redo,|,tablecontrols,visualaid,|,template,help';
   $tiny->buttons4 = '';
 
   // Breite und Höhe des Editors

@@ -297,28 +297,3 @@ tinyMCEPopup = {
 
 tinyMCEPopup.init();
 tinyMCEPopup._wait(); // Wait for DOM Content Loaded
-
-
-
-/* Anpassung für REDAXO Medienpool und Linkmap */
-/*
-function tinyMCEaddEvent( obj, type, fn )
-{
-	if (obj.addEventListener) {
-		obj.addEventListener( type, fn, false );
-	} else if (obj.attachEvent) {
-		obj["e"+type+fn] = fn;
-		obj[type+fn] = function() { obj["e"+type+fn]( window.event ); }
-		obj.attachEvent( "on"+type, obj[type+fn] );
-	}
-}
-
-function rexTinyMCEInit()
-{
-  tinyMCEPopup.executeOnLoad('init();');
-  var allLinks = document.getElementsByTagName("link");
-  if (allLinks.length > 1) {
-    allLinks[allLinks.length-1].parentNode.removeChild(allLinks[allLinks.length-1]);
-  }
-}
-*/

@@ -8,96 +8,24 @@
 (function() {
 
 	function ___getPageSize(){
+			prop = 'Width';
+			wwidth = Math['max'](
+				Math['max'](document.body["scroll" + prop], document.documentElement["scroll" + prop]),
+				Math['max'](document.body["offset" + prop], document.documentElement["offset" + prop])
+			);
+			//Math['min'](document.body["inner" + prop], document.documentElement["inner" + prop])
 
-	//http://codylindley.com/Webdev/295/javascript-get-page-height-with-scroll
-		if (window.innerHeight && window.scrollMaxY) {// Firefox
-			yWithScroll = window.innerHeight + window.scrollMaxY;
-			xWithScroll = window.innerWidth + window.scrollMaxX;
-		} else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
-			yWithScroll = document.body.scrollHeight;
-			xWithScroll = document.body.scrollWidth;
-		} else { // works in Explorer 6 Strict, Mozilla (not FF) and Safari
-			yWithScroll = document.body.offsetHeight;
-			xWithScroll = document.body.offsetWidth;
-	  	}
-		arrayPageSizeWithScroll = new Array(xWithScroll, yWithScroll);
-		return arrayPageSizeWithScroll;
-/**/
-		
-/*
-		this.windowX = (document.documentElement && document.documentElement.clientWidth) || window.innerWidth || self.innerWidth || document.body.clientWidth;
-		this.windowY = (document.documentElement && document.documentElement.clientHeight) || window.innerHeight || self.innerHeight || document.body.clientHeight;
-		this.scrollX = (document.documentElement && document.documentElement.scrollLeft) || window.pageXOffset || self.pageXOffset || document.body.scrollLeft;
-		this.scrollY = (document.documentElement && document.documentElement.scrollTop) || window.pageYOffset || self.pageYOffset || document.body.scrollTop;
-		this.pageX = (document.documentElement && document.documentElement.scrollWidth) ? document.documentElement.scrollWidth : (document.body.scrollWidth > document.body.offsetWidth) ? document.body.scrollWidth : document.body.offsetWidth;
-		this.pageY = (document.documentElement && document.documentElement.scrollHeight) ? document.documentElement.scrollHeight : (document.body.scrollHeight > document.body.offsetHeight) ? document.body.scrollHeight : document.body.offsetHeight;
-		arrayPageSizeWithScroll = new Array(this.pageX, this.pageY);
-		return arrayPageSizeWithScroll;
-*/
+			wwidth = '100%';
+			
+			prop = 'Height';
+			wheight = Math['max'](
+				Math['max'](document.body["scroll" + prop], document.documentElement["scroll" + prop]),
+				Math['max'](document.body["offset" + prop], document.documentElement["offset" + prop]),
+				Math['max'](document.body["client" + prop], document.documentElement["client" + prop])
+			);
 
-/*
-		var client = {
-			getPage: function() {
-				var pageWidth = 720;
-				var pageHeight = 576;
-				var scrollArr = this.getScroll();
-				var winArr = this.getWindow();
-				pageWidth = winArr.width + scrollArr.left;
-				pageHeight = winArr.height + scrollArr.top;
-				return {
-					scrollX: scrollArr.left,
-					scrollY: scrollArr.top,
-					winW: winArr.width,
-					winH: winArr.height,
-					pageW: pageWidth,
-					pageY: pageHeight
-				};
-			},
-			getScroll: function() {
-				return {
-					left: this.scrollLeft(),
-					top: this.scrollTop()
-				};
-			},
-			getWindow: function() {
-				return {
-					width: this.windowWidth(),
-					height: this.windowHeight()
-				};
-			},
-			scrollLeft: function() {
-				var xScroll = 0;
-				if (self.pageXOffset) xScroll = self.pageXOffset;
-				else if (document.documentElement && document.documentElement.scrollLeft) xScroll = document.documentElement.scrollLeft;
-				else if (document.body) xScroll = document.body.scrollLeft;
-				return xScroll;
-			},
-			scrollTop: function() {
-				var yScroll = 0;
-				if (self.pageYOffset) yScroll = self.pageYOffset;
-				else if (document.documentElement && document.documentElement.scrollTop) yScroll = document.documentElement.scrollTop;
-				else if (document.body) yScroll = document.body.scrollTop;
-				return yScroll;
-			},
-			windowWidth: function() {
-				var xWin = 720;
-				if (self.innerHeight) xWin = self.innerWidth;
-				else if (document.documentElement && document.documentElement.clientWidth) xWin = document.documentElement.clientWidth;
-				else if (document.body) xWin = document.body.clientWidth;
-				return xWin;
-			},
-			windowHeight: function() {
-				var yWin = 576;
-				if (self.innerHeight) yWin = self.innerHeight;
-				else if (document.documentElement && document.documentElement.clientHeight) yWin = document.documentElement.clientHeight;
-				else if (document.body) yWin = document.body.clientHeight;
-				return yWin;
-			}
-		};
-		arrayPageSizeWithScroll = new Array(client.winW, client.winH);
-		return arrayPageSizeWithScroll;
-*/
-
+		arrayPageSize = new Array(wwidth, wheight);
+		return arrayPageSize;
 	}
 		
 	var DOM = tinymce.DOM, Element = tinymce.dom.Element, Event = tinymce.dom.Event, each = tinymce.each, is = tinymce.is;
@@ -347,8 +275,12 @@
 				t.focus(id);
 			});
 
+
 			// Setup blocker
 //xxx
+			psize = ___getPageSize();
+			wwidth = psize[0];
+			wheight = psize[1];
 
 			if (t.count == 0 && t.editor.getParam('dialog_type', 'modal') == 'modal') {
 				DOM.add(DOM.doc.body, 'div', {
@@ -356,29 +288,21 @@
 					'class' : (t.editor.settings.inlinepopups_skin || 'clearlooks2') + '_modalBlocker',
 					style : {zIndex : t.zIndex - 1}
 				});
-
 				DOM.show('mceModalBlocker'); // Reduces flicker in IE
 			} else
 				DOM.setStyle('mceModalBlocker', 'z-index', t.zIndex - 1);
 
-				var arrPageSizes = ___getPageSize();
-				wwidth =	arrPageSizes[2];
-				wheight = arrPageSizes[1];
-//				DOM.setStyles('mceModalBlocker', {top: 0, left: 0, width : wwidth, height : wheight});
-
-			if (tinymce.isIE6 || /Firefox\/2\./.test(navigator.userAgent) || (tinymce.isIE && !DOM.boxModel))
-//				DOM.setStyles('mceModalBlocker', {position : 'absolute', width : vp.w - 2, height : vp.h - 2});
+			//DOM.setStyles('mceModalBlocker', {position : 'absolute', width : wwidth, height : wheight});
+			if (tinymce.isIE6) {
 				DOM.setStyles('mceModalBlocker', {position : 'absolute', width : wwidth, height : wheight});
-
-//				var arrPageSizes = ___getPageSize();
-//				wwidth =	arrPageSizes[2];
-//				wheight = arrPageSizes[1];
-//				DOM.setStyles('mceModalBlocker', {top: 0, left: 0, width : wwidth, height : wheight});
+				SelectFix.autoRepairFloatingElements(10000);
+			}
 //xxx
 
 
 			t.focus(id);
 			t._fixIELayout(id, 1);
+         DOM.show('mceModalBlocker'); // Reduces flicker in IE
 
 			// Focus ok button
 			if (DOM.get(id + '_ok'))
