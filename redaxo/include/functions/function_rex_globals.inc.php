@@ -230,6 +230,22 @@ function _rex_cast_var($var, $vartype, $default, $mode)
         $var = (int) $default;
       }
       break;
+    case 'rex-media-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        // erstmal keine weitere validierung von ctype id
+        $var = (int) $default;
+      }
+      break;
+    case 'rex-mediacategory-id':
+      $var = (int) $var;
+      if($mode == 'found')
+      {
+        // erstmal keine weitere validierung von ctype id
+        $var = (int) $default;
+      }
+      break;
       
     // ---------------- PHP types
     case 'bool'   :
