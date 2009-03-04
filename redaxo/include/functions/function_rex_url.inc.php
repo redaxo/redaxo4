@@ -26,7 +26,7 @@ function rex_parse_article_name($name)
     $firstCall = false;
   }
 
-  return preg_replace('/[^a-zA-Z\-0-9]/', '', str_replace($search, $replace, $name));
+  return urlencode(preg_replace('/[^a-zA-Z\-0-9 ]/', '', str_replace($search, $replace, $name)));
 }
 
 /**
