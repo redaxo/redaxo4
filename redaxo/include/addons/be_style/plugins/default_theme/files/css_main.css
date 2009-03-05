@@ -27,11 +27,23 @@ div.rex-content-header ul li a {
 /*	Blau - Dunkel */
 div#rex-title h1, 
 div#rex-navi-page ul li a.rex-active, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active, 
 div#rex-clang ul li a.rex-active, 
 div.rex-content-header ul li a.rex-active {
 	color: #14568A;
 }
 
+
+/*	Gruen */
+.rex-tx3 {
+	color: #188D12;
+}
+
+
+/*	Rot */
+.rex-tx2 {
+	color: #AF112F;
+}
 
 
 /*	Schriftarten ***************************************************************
@@ -39,7 +51,8 @@ div.rex-content-header ul li a.rex-active {
 body, 
 input, 
 textarea, 
-select {
+select, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	font-family: Arial, Verdana, sans-serif;
 }
 
@@ -130,7 +143,11 @@ body#rex-page-import-export div.rex-area-col-b {
 
 /*	Background Image ***********************************************************
 *******************************************************************************/
-div.rex-content-header {
+div.rex-content-header, 
+div#rex-navi-paginate ul li.rex-navi-paginate-prev, 
+div#rex-navi-paginate ul li.rex-navi-paginate-message, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	background-image: none;
 }
 body {
@@ -153,6 +170,33 @@ p.rex-button a,
 div.rex-form input.rex-form-submit {
 	background-image: url(button.gif);
 	background-repeat: repeat-x;
+}
+
+/*	Button - Pfeil oben */
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	background-image: url(icon_up.gif);
+}
+
+/*	Button - Pfeil unten */ 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	background-image: url(icon_down.gif);
+}
+
+/*	Button - Pfeil links */ 
+div#rex-navi-paginate ul li.rex-navi-paginate-prev a {
+	background-image: url(icon_left.gif);
+}
+
+/*	Button - Pfeil rechts */ 
+div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+	background-image: url(icon_right.gif);
+}
+
+
+/*	Trenner - Grau */ 
+div#rex-navi-paginate ul li {
+	background-image: url(pipe_grey.gif);
+	background-position: 0px 2px;
 }
 
 
@@ -320,8 +364,44 @@ div.rex-content-header ul.rex-navi-content {
 /*	Paginate *******************************************************************
 *******************************************************************************/
 
+div#rex-navi-paginate ul li {
+	margin-right: 10px;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-page {
+	margin-right: 0;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-next {
+	padding-left: 10px;
+}
 div#rex-navi-paginate ul li.rex-navi-paginate-message {
-	padding-top: 1px;
+	padding-top: 3px;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+	width: 18px;
+	height: 18px;
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	padding: 3px 10px 2px 10px;
+	font-weight: bold;
+}
+
+
+/*	Slice **********************************************************************
+*******************************************************************************/
+div.rex-navi-slice ul li a {
+	display: block;
+	padding-top: 2px;
+}
+div.rex-content-editmode-module-name h3.rex-hl4 {
+	padding-top: 10px;
+}
+
+div.rex-navi-slice ul li a.rex-slice-move-up, 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	padding-top: 0px;
+	width: 18px;
+	height: 18px;
 }
 
 /*	Content ********************************************************************
