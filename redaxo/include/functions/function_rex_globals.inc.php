@@ -189,11 +189,13 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
 function _rex_cast_var($var, $vartype, $default, $mode)
 {
   global $REX;
+  
   if(!is_string($vartype))
   {
     trigger_error('String expected for $vartype in _rex_cast_var()!', E_USER_ERROR);
     exit(); 
   }
+  
   switch($vartype)
   {
     // ---------------- REDAXO types
@@ -229,12 +231,8 @@ function _rex_cast_var($var, $vartype, $default, $mode)
     case 'rex-media-id':
     case 'rex-mediacategory-id':
     case 'rex-user-id':
+      // erstmal keine weitere validierung
       $var = (int) $var;
-      if($mode == 'found')
-      {
-        // erstmal keine weitere validierung
-        $var = (int) $default;
-      }
       break;
       
     // ---------------- PHP types
