@@ -231,9 +231,10 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       $var = (int) $var;
       if($mode == 'found')
       {
-        // erstmal keine weitere validierung von template id
+        // erstmal keine weitere validierung
         $var = (int) $default;
       }
+      break;
       
     // ---------------- PHP types
     case 'bool'   :
