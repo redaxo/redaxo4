@@ -300,6 +300,7 @@ class rex_thumbnail
 
   	foreach($this->filters as $filter)
   	{
+  	  $filter = preg_replace('[^a-zA-Z0-9\_]', '', $filter);
   		$file = $REX['INCLUDE_PATH'].'/addons/image_resize/filters/filter.'.$filter.'.inc.php';
   		if (file_exists($file)) require_once($file);
   		$fname = 'image_resize_'.$filter;
@@ -373,7 +374,7 @@ class rex_thumbnail
 	  $size = $resize[1];
 	  $mode = $resize[2];
 	  $height = $resize[4];
-      $offset = $resize[6];
+    $offset = $resize[6];
 	  $imagefile = $resize[7];
 	  $rex_filter = rex_get('rex_filter', 'array');
 
@@ -407,12 +408,14 @@ class rex_thumbnail
 	      exit;
 	    }
 	    // cache is newer? - show cache
+	    /*
 	    if ($cachetime > $filetime)
 	    {
 	      $thumb = new rex_thumbnail($cachepath);
 	      $thumb->send($cachepath, $cachetime);
 	      exit;
 	    }
+	    */
 
 	  }
 
