@@ -182,6 +182,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - rex-action-id
  *  - rex-media-id
  *  - rex-mediacategory-id
+ *  - rex-user-id
  * 
  * @access private
  */
@@ -193,7 +194,6 @@ function _rex_cast_var($var, $vartype, $default, $mode)
     trigger_error('String expected for $vartype in _rex_cast_var()!', E_USER_ERROR);
     exit(); 
   }
-  
   switch($vartype)
   {
     // ---------------- REDAXO types
@@ -228,6 +228,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
     case 'rex-action-id':
     case 'rex-media-id':
     case 'rex-mediacategory-id':
+    case 'rex-user-id':
       $var = (int) $var;
       if($mode == 'found')
       {
