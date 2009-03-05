@@ -8,11 +8,11 @@
 
 // request vars
 $category_id = rex_request('category_id', 'rex-category-id');
-$article_id  = rex_request('article_id', 'rex-article-id');
-$clang       = rex_request('clang', 'rex-clang-id', $REX['START_CLANG_ID']);
-$ctype       = rex_request('ctype', 'rex-ctype-id');
-$edit_id     = rex_request('edit_id', 'rex-category-id');
-$function    = rex_request('function', 'string');
+$article_id  = rex_request('article_id',  'rex-article-id');
+$clang       = rex_request('clang',       'rex-clang-id', $REX['START_CLANG_ID']);
+$ctype       = rex_request('ctype',       'rex-ctype-id');
+$edit_id     = rex_request('edit_id',     'rex-category-id');
+$function    = rex_request('function',    'string');
 
 $info = '';
 $warning = '';
@@ -110,7 +110,7 @@ elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPER
   $data = array();
   $data['prior']       = rex_post('Position_New_Article', 'int');
   $data['name']        = rex_post('article_name', 'string');
-  $data['template_id'] = rex_post('template_id', 'int');
+  $data['template_id'] = rex_post('template_id', 'rex-template-id');
   $data['category_id'] = $category_id;
   $data['path']        = $KATPATH;
 
@@ -127,7 +127,7 @@ elseif (rex_post('artedit_function', 'boolean') && $article_id != '' && $KATPERM
   $data = array();
   $data['prior']       = rex_post('Position_Article', 'int');
   $data['name']        = rex_post('article_name', 'string');
-  $data['template_id'] = rex_post('template_id', 'int');
+  $data['template_id'] = rex_post('template_id', 'rex-template-id');
   $data['category_id'] = $category_id;
   $data['path']        = $KATPATH;
 
@@ -476,7 +476,7 @@ if ($category_id > -1)
 
   // READ DATA
   $sql = new rex_sql;
-  $sql->debugsql = 0;
+  // $sql->debugsql = true;
   $sql->setQuery('SELECT *
         FROM
           '.$REX['TABLE_PREFIX'].'article

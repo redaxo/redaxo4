@@ -38,7 +38,7 @@ mulselect module
 
 
 
-$user_id = rex_request('user_id', 'int');
+$user_id = rex_request('user_id', 'rex-user-id');
 $info = '';
 $warning = '';
 
@@ -50,11 +50,11 @@ if ($user_id != 0)
 }
 
 // Allgemeine Infos
-$userpsw = rex_request('userpsw', 'string');
-$userlogin = rex_request('userlogin', 'string');
-$username = rex_request('username', 'string');
-$userdesc = rex_request('userdesc', 'string');
-$useradmin = rex_request('useradmin', 'int');
+$userpsw    = rex_request('userpsw', 'string');
+$userlogin  = rex_request('userlogin', 'string');
+$username   = rex_request('username', 'string');
+$userdesc   = rex_request('userdesc', 'string');
+$useradmin  = rex_request('useradmin', 'int');
 $userstatus = rex_request('userstatus', 'int');
 
 

@@ -11,7 +11,7 @@ rex_title($I18N->msg('title_templates'), '');
 $OUT = TRUE;
 
 $function     = rex_request('function', 'string');
-$template_id  = rex_request('template_id', 'int');
+$template_id  = rex_request('template_id', 'rex-template-id');
 $save         = rex_request('save','string');
 $goon         = rex_request('goon', 'string');
 

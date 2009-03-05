@@ -31,10 +31,10 @@ class rex_event_select extends rex_select
 
 $OUT = TRUE;
 
-$action_id = rex_request('action_id', 'int');
-$function = rex_request('function', 'string');
-$save = rex_request('save', 'int');
-$goon = rex_request('goon', 'string');
+$action_id = rex_request('action_id', 'rex-action-id');
+$function  = rex_request('function', 'string');
+$save      = rex_request('save', 'int');
+$goon      = rex_request('goon', 'string');
 
 $info = '';
 $warning = '';
@@ -96,8 +96,8 @@ if ($function == "add" or $function == "edit")
   {
     $faction = new rex_sql;
 
-    $previewstatus = rex_post('previewstatus', 'array');
-    $presavestatus = rex_post('presavestatus', 'array');
+    $previewstatus  = rex_post('previewstatus', 'array');
+    $presavestatus  = rex_post('presavestatus', 'array');
     $postsavestatus = rex_post('postsavestatus', 'array');
 
     $previewmode = 0;

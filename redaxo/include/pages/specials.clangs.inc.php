@@ -7,7 +7,7 @@
  */
 
 // -------------- Defaults
-$clang_id   = rex_request('clang_id', 'int');
+$clang_id   = rex_request('clang_id', 'rex-clang-id');
 $clang_name = rex_request('clang_name', 'string');
 $func       = rex_request('func', 'string');
 

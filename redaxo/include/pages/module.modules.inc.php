@@ -7,17 +7,17 @@
 
 $OUT = TRUE;
 
-$function = rex_request('function', 'string');
+$function        = rex_request('function', 'string');
 $function_action = rex_request('function_action', 'string');
-$save = rex_request('save','string');
-$modul_id = rex_request('modul_id','int');
-$action_id = rex_request('action_id','int');
-$iaction_id = rex_request('iaction_id','int');
-$mname = rex_request('mname','string');
-$eingabe = rex_request('eingabe','string');
-$ausgabe = rex_request('ausgabe','string');
-$goon = rex_request('goon','string');
-$add_action = rex_request('add_action','string');
+$save            = rex_request('save','string');
+$modul_id        = rex_request('modul_id', 'rex-module-id');
+$action_id       = rex_request('action_id', 'rex-action-id');
+$iaction_id      = rex_request('iaction_id','int'); // id der module-action relation
+$mname           = rex_request('mname','string');
+$eingabe         = rex_request('eingabe','string');
+$ausgabe         = rex_request('ausgabe','string');
+$goon            = rex_request('goon','string');
+$add_action      = rex_request('add_action','string');
 
 $info = '';
 $warning = '';
@@ -169,11 +169,6 @@ if ($function == 'add' or $function == 'edit')
 
   if ($save != '1')
   {
-    if (!isset($modul_id)) $modul_id = '';
-    if (!isset($mname)) $mname = '';
-    if (!isset($eingabe)) $eingabe = '';
-    if (!isset($ausgabe)) $ausgabe = '';
-
     if ($function == 'edit')
     {
       $legend = $I18N->msg('module_edit').' [ID='.$modul_id.']';

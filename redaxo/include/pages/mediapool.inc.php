@@ -34,7 +34,7 @@ foreach(rex_request('args', 'array') as $arg_name => $arg_value)
 // -------------- CatId in Session speichern
 $file_id = rex_request('file_id', 'int');
 $file_name = rex_request('file_name', 'string');
-$rex_file_category = rex_request('rex_file_category', 'int', -1);
+$rex_file_category = rex_request('rex_file_category', 'rex-mediacategory-id', -1);
 
 if ($file_name != "")
 {

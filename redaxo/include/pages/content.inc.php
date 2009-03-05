@@ -23,10 +23,10 @@
 unset ($REX_ACTION);
 
 $category_id = rex_request('category_id', 'rex-category-id');
-$article_id  = rex_request('article_id', 'rex-article-id');
-$clang       = rex_request('clang', 'rex-clang-id', $REX['START_CLANG_ID']);
-$slice_id    = rex_request('slice_id', 'int', '');
-$function    = rex_request('function', 'string');
+$article_id  = rex_request('article_id',  'rex-article-id');
+$clang       = rex_request('clang',       'rex-clang-id', $REX['START_CLANG_ID']);
+$slice_id    = rex_request('slice_id',    'rex-slice-id', '');
+$function    = rex_request('function',    'string');
 
 $article_revision = 0;
 $slice_revision = 0;
@@ -63,7 +63,7 @@ if ($article->getRows() == 1)
 
   $REX['CTYPE'] = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
 	
-  $ctype = rex_request('ctype', 'int');
+  $ctype = rex_request('ctype', 'rex-ctype-id', 1);
   if (!array_key_exists($ctype, $REX['CTYPE']))
     $ctype = 1; // default = 1
 
@@ -384,8 +384,8 @@ if ($article->getRows() == 1)
     {
       if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('copyContent[]'))
       {
-        $clang_a = rex_post('clang_a', 'int');
-        $clang_b = rex_post('clang_b', 'int');
+        $clang_a = rex_post('clang_a', 'rex-clang-id');
+        $clang_b = rex_post('clang_b', 'rex-clang-id');
         
         if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b))
           $info = $I18N->msg('content_contentcopy');
@@ -398,7 +398,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE ARTICLE
     if (rex_post('movearticle', 'string') && $category_id != $article_id)
     {
-      $category_id_new = rex_post('category_id_new', 'int');
+      $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('moveArticle[]') && ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('csw[' . $category_id_new . ']'))))
       {
         if (rex_moveArticle($article_id, $category_id, $category_id_new))
@@ -423,7 +423,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: COPY ARTICLE
     if (rex_post('copyarticle', 'string'))
     {
-    	$category_copy_id_new = rex_post('category_copy_id_new', 'int');
+    	$category_copy_id_new = rex_post('category_copy_id_new', 'rex-category-id');
       if ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('copyArticle[]') && ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('csw[' . $category_copy_id_new . ']'))))
       {
         if (($new_id = rex_copyArticle($article_id, $category_copy_id_new)) !== false)
@@ -448,7 +448,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE CATEGORY
     if (rex_post('movecategory', 'string'))
     {
-    	$category_id_new = rex_post('category_id_new', 'int');
+    	$category_id_new = rex_post('category_id_new', 'rex-category-id');
       if ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('moveCategory[]') && (($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('csw[' . $category_id . ']')) && ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('csw[' . $category_id_new . ']')))))
       {
         if ($category_id != $category_id_new && rex_moveCategory($category_id, $category_id_new))
@@ -697,9 +697,6 @@ if ($article->getRows() == 1)
 										</p>
 									</div>';
 
-
-
-
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM', '', array (
         'id' => $article_id,
@@ -781,8 +778,8 @@ if ($article->getRows() == 1)
             $lang_b->addOption($val, $key);
           }
 
-          $lang_a->setSelected(rex_request('clang_a', 'int', null));
-          $lang_b->setSelected(rex_request('clang_b', 'int', null));
+          $lang_a->setSelected(rex_request('clang_a', 'rex-clang-id', null));
+          $lang_b->setSelected(rex_request('clang_b', 'rex-clang-id', null));
 
           echo '
                 <fieldset class="rex-form-col-2">

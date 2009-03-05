@@ -8,8 +8,9 @@
 $info = '';
 $warning = '';
 $user_id = $REX['USER']->getValue('user_id');
+
 // Allgemeine Infos
-$userpsw = rex_request('userpsw', 'string');
+$userpsw  = rex_request('userpsw', 'string');
 $username = rex_request('username', 'string');
 $userdesc = rex_request('userdesc', 'string');
 
