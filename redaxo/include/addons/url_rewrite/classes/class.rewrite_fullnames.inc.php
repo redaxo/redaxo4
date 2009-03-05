@@ -65,15 +65,16 @@ class myUrlRewriter extends rexUrlRewriter
   {
     global $article_id, $clang, $REX, $REXPATH;
 
-    if (!$REX['REDAXO'])
+    if(!file_exists(FULLNAMES_PATHLIST))
     {
-      if(!file_exists(FULLNAMES_PATHLIST))
-      {
-         rex_rewriter_generate_pathnames(array());
-      }
+       rex_rewriter_generate_pathnames(array());
+    }
 
-      require_once (FULLNAMES_PATHLIST);
-
+    // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
+    require_once (FULLNAMES_PATHLIST);
+    
+    if(!$REX['REDAXO'])
+    {
       $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
       $length = strlen($script_path);
       $path = substr($_SERVER['REQUEST_URI'], $length);
@@ -85,17 +86,17 @@ class myUrlRewriter extends rexUrlRewriter
       // Parameter zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '?')) !== false)
         $path = substr($path, 0, $pos);
-
+  
       // Anker zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
-
+  
       if ($path == '')
       {
         $this->setArticleId($REX['START_ARTICLE_ID']);
         return true;
       }
-
+  
       // konvertiert params zu GET/REQUEST Variablen
       if($this->use_params_rewrite)
       {
@@ -113,9 +114,8 @@ class myUrlRewriter extends rexUrlRewriter
             }
           }
         }
-      }
-
-
+      }  
+  
       foreach ($REXPATH as $key => $var)
       {
         foreach ($var as $k => $v)
@@ -127,7 +127,7 @@ class myUrlRewriter extends rexUrlRewriter
           }
         }
       }
-
+  
       // Check Clang StartArtikel
       if (!$article_id)
       {
@@ -139,7 +139,7 @@ class myUrlRewriter extends rexUrlRewriter
           }
         }
       }
-
+  
       // Check levenshtein
       if ($this->use_levenshtein && !$article_id)
       {
@@ -150,14 +150,14 @@ class myUrlRewriter extends rexUrlRewriter
             $levenshtein[levenshtein($path, $v)] = $key.'#'.$k;
           }
         }
-
+  
         ksort($levenshtein);
         $best = explode('#', array_shift($levenshtein));
         
         $this->setArticleId($best[0]);
         $clang = $best[1];
       }
-
+  
       if (!$article_id)
       {
         $this->setArticleId($REX['NOTFOUND_ARTICLE_ID']);
@@ -205,7 +205,7 @@ class myUrlRewriter extends rexUrlRewriter
 
     $urlparams = str_replace('/amp;','/',$urlparams);
     $url = $REXPATH[$id][$clang].$urlparams;
-        
+
     // immer absolute Urls erzeugen, da relative mit rex_redirect() nicht funktionieren
     // da dieser den <base href="" /> nicht kennt.
     return str_replace(' ', '%20', dirname($_SERVER['PHP_SELF'])) . '/' .$url;
