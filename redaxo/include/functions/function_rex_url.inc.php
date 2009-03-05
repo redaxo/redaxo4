@@ -26,7 +26,18 @@ function rex_parse_article_name($name)
     $firstCall = false;
   }
 
-  return urlencode(preg_replace('/[^a-zA-Z\-0-9 ]/', '', str_replace($search, $replace, $name)));
+  return 
+    // ggf uebrige zeichen url-codieren
+    urlencode(
+      // mehrfach hintereinander auftretende spaces auf eines reduzieren
+      preg_replace('/ {2,}/',' ',
+        // alle sonderzeichen raus 
+        preg_replace('/[^a-zA-Z_\-0-9 ]/', '',
+          // sprachspezifische zeichen umschreiben 
+          str_replace($search, $replace, $name)
+        )
+      )
+    );
 }
 
 /**
