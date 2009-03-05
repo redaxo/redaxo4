@@ -292,7 +292,7 @@ if ($article->getRows() == 1)
             $EA->setWhere('id='. $article_id .' AND clang='. $clang);
             $EA->addGlobalUpdateFields();
             $EA->update();
-            rex_generateArticle($article_id);
+            rex_deleteCacheArticle($article_id, $clang);
 
             // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
             $info .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
@@ -487,7 +487,7 @@ if ($article->getRows() == 1)
         $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
         $info = $I18N->msg("metadata_updated");
 
-        rex_generateArticle($article_id);
+        rex_deleteCacheArticle($article_id, $clang);
 
         // ----- EXTENSION POINT
         $info = rex_register_extension_point('ART_META_UPDATED', $info, array (
