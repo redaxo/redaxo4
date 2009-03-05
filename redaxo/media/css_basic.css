@@ -240,10 +240,6 @@ div.rex-content-header ul {
 div#rex-title h1 {
 	line-height: 2.3;
 }
-div.rex-content-editmode-module-name h3, 
-div.rex-content-editmode-module-name ul li {
-	line-height: 2.2;
-}
 div.rex-addon-content, 
 p.rex-tx1, 	
 div.rex-content-editmode-slice-output {
@@ -519,6 +515,13 @@ div#rex-navi-footer ul li.rex-navi-first {
 
 
 
+/*	Paginate */
+div#rex-navi-paginate ul li.rex-navi-paginate-prev a {
+	background-image: url(../media/back.gif);
+}
+div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+	background-image: url(../media/forward.gif);
+}
 div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
 div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	background-image: url(../media/list_pages.gif);
@@ -528,6 +531,17 @@ div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	background-position: 0 0;
 }
 
+
+
+/*	Button - Arrow Up */
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	background-image: url(../media/file_up.gif);
+}
+
+/*	Button - Arrow Down */ 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	background-image: url(../media/file_down.gif);
+}
 
 /*	Border Color ***************************************************************
 *******************************************************************************/
