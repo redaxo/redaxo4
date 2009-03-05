@@ -183,7 +183,7 @@ class myUrlRewriter extends rexUrlRewriter
     if($params['subject'] != '')
   		return $params['subject'];
 
-    global $REXPATH;
+    global $REX, $REXPATH;
     
     $id         = $params['id'];
     $name       = $params['name'];
@@ -206,9 +206,15 @@ class myUrlRewriter extends rexUrlRewriter
     $urlparams = str_replace('/amp;','/',$urlparams);
     $url = $REXPATH[$id][$clang].$urlparams;
 
+    $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
+    if($REX['REDAXO'])
+    {
+      $baseDir = dirname($baseDir);
+    }
+    
     // immer absolute Urls erzeugen, da relative mit rex_redirect() nicht funktionieren
     // da dieser den <base href="" /> nicht kennt.
-    return str_replace(' ', '%20', dirname($_SERVER['PHP_SELF'])) . '/' .$url;
+    return $baseDir . '/' .$url;
   }
 }
 
