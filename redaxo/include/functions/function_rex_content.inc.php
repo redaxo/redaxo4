@@ -810,7 +810,7 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
       'catprior,updatedate '. $addsql
     );
 
-    rex_deleteCacheArticle($re_id, $clang);
+    rex_deleteCacheArticleLists($re_id, $clang);
   }
 }
 
@@ -844,6 +844,6 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
       'prior,updatedate '. $addsql
     );
 
-    rex_deleteCacheArticle($re_id, $clang);
+    rex_deleteCacheArticleLists($re_id, $clang);
   }
 }
