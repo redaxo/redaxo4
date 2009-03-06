@@ -162,11 +162,13 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   }
   else
   {
+    $editLink = 'index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang';
+    
     echo '
           <tr>
-            <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
+            <td class="rex-small"><a class="rex-i-element rex-i-clang" href="'. $editLink .'"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></a></td>
             '.$add_td.'
-            <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
+            <td><a href="'. $editLink .'">'.htmlspecialchars($lang).'</a></td>
             <td>'. $delLink .'</td>
           </tr>';
   }
