@@ -441,6 +441,10 @@ div#rex-navi-paginate ul li.rex-navi-paginate-next a {
 	width: 18px;
 	height: 18px;
 }
+div#rex-navi-paginate ul li.rex-navi-paginate-prev a span, 
+div#rex-navi-paginate ul li.rex-navi-paginate-next a span {
+	display: none;
+}
 div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	padding: 3px 10px 2px 10px;
 	font-weight: bold;
@@ -515,6 +519,8 @@ input.rex-form-text {
 
 body#rex-page-addon table.rex-table, 
 body#rex-page-mediapool div.rex-form, 
+body#rex-page-mediapool div#rex-navi-path, 
+body#rex-page-mediapool table.rex-table, 
 body#rex-page-module div.rex-form, 
 body#rex-page-module table.rex-table, 
 body#rex-page-profile div.rex-form, 
@@ -542,9 +548,10 @@ p.rex-button a {
 	-moz-outline-radius-topright: 4px;
 	outline: 1px solid #CBCBCB;
 }
-body#rex-page-structure div.rex-form table.rex-table, 
-body#rex-page-module div.rex-form table.rex-table, 
 body#rex-page-import-export div.rex-area, 
+body#rex-page-mediapool div.rex-form table.rex-table, 
+body#rex-page-module div.rex-form table.rex-table, 
+body#rex-page-structure div.rex-form table.rex-table, 
 div.rex-addon-output div.rex-area {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
@@ -571,8 +578,9 @@ div.rex-area-col-2,
 div.rex-addon-col-2 {
 	position: static;
 }
+body#rex-page-import-export div.rex-area-col-a, 
 div.rex-addon-output, 
-body#rex-page-import-export div.rex-area-col-a {
+div#rex-form-mediapool-selectcategory {
 	margin-bottom: 10px;
 }
 
