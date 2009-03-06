@@ -3,11 +3,13 @@
 /**
  * REDAXO Default-Theme
  * 
- * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
+ * @author Design
+ * @author ralph.zumkeller[at]yakamara[dot]de Ralph Zumkeller
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  * 
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ * @author Umsetzung
+ * @author thomas[dot]blum[at]redaxo[dot]de Thomas Blum
+ * @author <a href="http://www.blumbeet.com">www.blumbeet.com</a>
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -16,7 +18,7 @@
 $mypage = 'default_theme';
 
 $REX['ADDON']['version'][$mypage] = '1.2';
-$REX['ADDON']['author'][$mypage] = 'Jan Kristinus, Markus Staab';
+$REX['ADDON']['author'][$mypage] = 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 ?>
