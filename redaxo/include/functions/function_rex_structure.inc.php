@@ -108,8 +108,6 @@ function rex_addCategory($category_id, $data)
     }
   }
   
-  rex_generateArticle($id);
-
   return array($success, $message);
 }
 
@@ -154,7 +152,7 @@ function rex_editCategory($category_id, $clang, $data)
 
         if($EART->update())
         {
-          rex_generateArticle($ArtSql->getValue('id'));
+          rex_deleteCacheArticle($ArtSql->getValue('id'), $clang);
         }
         else
         {
@@ -179,7 +177,7 @@ function rex_editCategory($category_id, $clang, $data)
 
     $message = $I18N->msg('category_updated');
 
-    rex_generateArticle($category_id);
+    rex_deleteCacheArticle($category_id, $clang);
     
     // ----- EXTENSION POINT
     // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
@@ -306,7 +304,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
     if($EKAT->update())
     {
       $message = $I18N->msg('category_status_updated');
-      rex_generateArticle($category_id);
+      rex_deleteCacheArticle($category_id, $clang);
 
       // ----- EXTENSION POINT
       $message = rex_register_extension_point('CAT_STATUS', $message, array (
@@ -425,9 +423,6 @@ function rex_addArticle($article_id, $data)
     );
   }
 
-  rex_generateArticle($id);
-
-
   return array($success, $message);
 }
 
@@ -466,7 +461,7 @@ function rex_editArticle($article_id, $clang, $data)
     
     // ----- PRIOR
     rex_newArtPrio($data['category_id'], $clang, $data['prior'], $thisArt->getValue('prior'));
-    rex_generateArticle($article_id);
+    rex_deleteCacheArticle($article_id, $clang);
         
     // ----- EXTENSION POINT
     $message = rex_register_extension_point('ART_UPDATED', $message,
@@ -563,7 +558,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
     if($EA->update())
     {
       $message = $I18N->msg('article_status_updated');
-      rex_generateArticle($article_id);
+      rex_deleteCacheArticle($article_id, $clang);
 
       // ----- EXTENSION POINT
       $message = rex_register_extension_point('ART_STATUS', $message, array (
