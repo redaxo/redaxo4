@@ -1,4 +1,4 @@
-/**
+f/**
  * CSS Datei des Backends
  * @package redaxo4
  * @version svn:$Id$
@@ -179,6 +179,7 @@ div.rex-form input.rex-form-submit {
 div.rex-form div.rex-form-row p input.rex-form-submit {
 	margin-left: 155px;
 }
+div.rex-form input.rex-form-submit-2, 
 div.rex-form div.rex-form-row p input.rex-form-submit-2 {
 	margin-left: 20px;
 }
@@ -394,46 +395,43 @@ div.rex-form-template-editmode div#rex-form-template-ctype p.rex-form-select sel
 
 /*	Medienpool : Detail ********************************************************
 *******************************************************************************/
-div#rex-form-medienpool-detail div.rex-form-row div.rex-form-checkboxes-wrapper, 
-div#rex-form-medienpool-detail div.rex-form-row div.rex-form-radios-wrapper, 
-div#rex-form-medienpool-detail div.rex-form-row p.rex-form-label-right label, 
-div#rex-form-medienpool-detail div.rex-form-row p.rex-form-read span, 
-div#rex-form-medienpool-detail div.rex-form-row p.rex-form-text input,
-div#rex-form-medienpool-detail div.rex-form-row p.rex-form-password input,
-div#rex-form-medienpool-detail div.rex-form-row p select,
-div#rex-form-medienpool-detail div.rex-form-row p textarea {
+div#rex-form-mediapool-detail div.rex-form-row div.rex-form-checkboxes-wrapper, 
+div#rex-form-mediapool-detail div.rex-form-row div.rex-form-radios-wrapper, 
+div#rex-form-mediapool-detail div.rex-form-row p.rex-form-label-right label, 
+div#rex-form-mediapool-detail div.rex-form-row p.rex-form-read span, 
+div#rex-form-mediapool-detail div.rex-form-row p.rex-form-text input,
+div#rex-form-mediapool-detail div.rex-form-row p.rex-form-password input,
+div#rex-form-mediapool-detail div.rex-form-row p select,
+div#rex-form-mediapool-detail div.rex-form-row p textarea {
 	width: 244px;
 }
-div#rex-form-medienpool-detail div.rex-form-row p input.rex-form-submit-2 {
-	margin-left: 30px;
-}
-div#rex-form-medienpool-selectcategory div.rex-form-row p label {
+div#rex-form-mediapool-selectcategory div.rex-form-row p label {
 	font-weight: bold;
 }
-div#rex-form-medienpool-selectcategory div.rex-form-row p select {
+div#rex-form-mediapool-selectcategory div.rex-form-row p select {
 	width: 330px;
 }
-div#rex-form-medienpool-selectcategory div.rex-form-row p input.rex-form-submit {
+div#rex-form-mediapool-selectcategory div.rex-form-row p input.rex-form-submit {
 	margin-left: 10px;
 }
-div#rex-form-medienpool-selectcategory noscript div.rex-form-row p input.rex-form-submit {
+div#rex-form-mediapool-selectcategory noscript div.rex-form-row p input.rex-form-submit {
 	margin-left: 153px;
 }
 /*  Bspl. Searchbar */
-div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-a, 
-div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-b {
+div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-a, 
+div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-b {
 	width: auto;
 }
-div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-b {
+div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p.rex-form-col-b {
 	float: right;
 }
-div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p label {
+div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p label {
   width: auto;
 }
-div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p select {
+div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p select {
 	margin-right: 5px;
 }
-div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p select {
+div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p select {
 	width: 153px;
 }
 
@@ -443,8 +441,8 @@ div#rex-form-medienpool-selectcategory fieldset.rex-form-col-2 div.rex-form-row 
 *******************************************************************************/
 
 /*	Checkbox / Radio */
-div#rex-form-medienpool-other div.rex-form-row p.rex-form-label-right input.rex-form-checkbox, 
-div#rex-form-medienpool-other div.rex-form-row p.rex-form-label-right input.rex-form-radio {
+div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right input.rex-form-checkbox, 
+div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right input.rex-form-radio {
 	margin-left: 5px;
 }
 

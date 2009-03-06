@@ -543,6 +543,68 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 	background-image: url(../media/file_down.gif);
 }
 
+
+
+
+.rex-i-action {
+	background-image: url(../media/action.gif);
+}
+.rex-i-action-add {
+	background-image: url(../media/action_plus.gif);
+}
+.rex-i-addon {
+	background-image: url(../media/addon.gif);
+}
+.rex-i-article {
+	background-image: url(../media/document.gif);
+}
+.rex-i-article-add {
+	background-image: url(../media/document_plus.gif);
+}
+.rex-i-article-startpage {
+	background-image: url(../media/liste.gif);
+}
+.rex-i-clang {
+	background-image: url(../media/flag.gif);
+}
+.rex-i-clang-add {
+	background-image: url(../media/flag_plus.gif);
+}
+.rex-i-metainfo {
+	background-image: url(../media/metainfo.gif);
+}
+.rex-i-metainfo-add {
+	background-image: url(../media/metainfo_plus.gif);
+}
+.rex-i-module {
+	background-image: url(../media/modul.gif);
+}
+.rex-i-module-add {
+	background-image: url(../media/modul_plus.gif);
+}
+.rex-i-template {
+	background-image: url(../media/template.gif);
+}
+.rex-i-template-add {
+	background-image: url(../media/template_plus.gif);
+}
+.rex-i-user {
+	background-image: url(../media/user.gif);
+}
+.rex-i-user-add {
+	background-image: url(../media/user_plus.gif);
+}
+
+.rex-i-category, 
+.rex-i-mediapool-category {
+	background-image: url(../media/folder.gif);
+}
+.rex-i-category-add, 
+.rex-i-mediapool-category-add {
+	background-image: url(../media/folder_plus.gif);
+}
+
+
 /*	Border Color ***************************************************************
 *******************************************************************************/
 div#rex-footer {
