@@ -7,6 +7,14 @@
  * @version svn:$Id$
  */
 
+/**
+ * Erstellt eine neue Kategorie
+ * 
+ * @param int   $category_id KategorieId in der die neue Kategorie erstellt werden soll
+ * @param array $data        Array mit den Daten der Kategorie
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_addCategory($category_id, $data)
 {
   global $REX, $I18N;
@@ -111,6 +119,15 @@ function rex_addCategory($category_id, $data)
   return array($success, $message);
 }
 
+/**
+ * Bearbeitet einer Kategorie
+ * 
+ * @param int   $category_id Id der Kategorie die verändert werden soll
+ * @param int   $clang       Id der Sprache
+ * @param array $data        Array mit den Daten der Kategorie 
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_editCategory($category_id, $clang, $data)
 {
   global $REX, $I18N;
@@ -205,6 +222,13 @@ function rex_editCategory($category_id, $clang, $data)
   return array($success, $message);
 }
 
+/**
+ * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien
+ * 
+ * @param int $category_id Id der Kategorie die gelöscht werden soll
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_deleteCategoryReorganized($category_id)
 {
   global $REX, $I18N;
@@ -276,6 +300,15 @@ function rex_deleteCategoryReorganized($category_id)
   return array($success, $message);
 }
 
+/**
+ * Ändert den Status der Kategorie
+ * 
+ * @param int       $category_id   Id der Kategorie die gelöscht werden soll
+ * @param int       $clang         Id der Sprache
+ * @param int|null  $status        Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_categoryStatus($category_id, $clang, $status = null)
 {
   global $REX, $I18N;
@@ -328,6 +361,11 @@ function rex_categoryStatus($category_id, $clang, $status = null)
   return array($success, $message);
 }
 
+/**
+ * Gibt alle Stati zurück, die für eine Kategorie gültig sind
+ * 
+ * @return array Array von Stati
+ */
 function rex_categoryStatusTypes()
 {
   global $I18N;
@@ -349,7 +387,14 @@ function rex_categoryStatusTypes()
   return $catStatusTypes;
 }
 
-function rex_addArticle($article_id, $data)
+/**
+ * Erstellt einen neuen Artikel
+ * 
+ * @param array $data Array mit den Daten des Artikels
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
+function rex_addArticle($data)
 {
   global $REX, $I18N;
 
@@ -426,6 +471,15 @@ function rex_addArticle($article_id, $data)
   return array($success, $message);
 }
 
+/**
+ * Bearbeitet einen Artikel
+ * 
+ * @param int   $article_id  Id des Artikels der verändert werden soll
+ * @param int   $clang       Id der Sprache
+ * @param array $data        Array mit den Daten des Artikels 
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_editArticle($article_id, $clang, $data)
 {
   global $REX, $I18N;
@@ -487,6 +541,13 @@ function rex_editArticle($article_id, $clang, $data)
   return array($success, $message);
 }
 
+/**
+ * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel
+ * 
+ * @param int $article_id Id des Artikels die gelöscht werden soll
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_deleteArticleReorganized($article_id)
 {
   global $REX;
@@ -530,6 +591,15 @@ function rex_deleteArticleReorganized($article_id)
   return array($success, $message);
 }
 
+/**
+ * Ändert den Status des Artikels
+ * 
+ * @param int       $article_id Id des Artikels die gelöscht werden soll
+ * @param int       $clang      Id der Sprache
+ * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+ * 
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ */
 function rex_articleStatus($article_id, $clang, $status = null)
 {
   global $REX, $I18N;
@@ -582,6 +652,11 @@ function rex_articleStatus($article_id, $clang, $status = null)
   return array($success, $message);
 }
 
+/**
+ * Gibt alle Stati zurück, die für einen Artikel gültig sind
+ * 
+ * @return array Array von Stati
+ */
 function rex_articleStatusTypes()
 {
   global $I18N;

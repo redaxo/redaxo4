@@ -114,7 +114,7 @@ elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPER
   $data['category_id'] = $category_id;
   $data['path']        = $KATPATH;
 
-  list($success, $message) = rex_addArticle($category_id, $data);
+  list($success, $message) = rex_addArticle($data);
 
   if($success)
     $info = $message;
