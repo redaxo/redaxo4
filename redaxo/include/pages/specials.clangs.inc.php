@@ -92,7 +92,7 @@ echo '
 
 if ($func == 'addclang' || $func == 'editclang')
 {
-  $legend = $func == 'add_clang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');
+  $legend = $func == 'addclang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');
   echo '
         <fieldset>
           <legend>'.$legend.'</legend>
