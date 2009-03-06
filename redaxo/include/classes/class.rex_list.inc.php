@@ -796,7 +796,7 @@ class rex_list
     $pages = ceil($rows / $rowsPerPage);
 
     $s = '<ul class="rex-navi-paginate">'. "\n";
-    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'" title="'. $I18N->msg('list_previous') .'">'. $I18N->msg('list_previous') .'</a></li>';
+    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'" title="'. $I18N->msg('list_previous') .'"><span>'. $I18N->msg('list_previous') .'</span></a></li>';
 
     if($pages > 1)
     {
@@ -817,7 +817,7 @@ class rex_list
         $s .= '<li class="rex-navi-paginate-page">'. $pageLink .'</li>';
       }
     }
-    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'" title="'. $I18N->msg('list_next') .'">'. $I18N->msg('list_next') .'</a></li>';
+    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'" title="'. $I18N->msg('list_next') .'"><span>'. $I18N->msg('list_next') .'</span></a></li>';
     $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
     $s .= '</ul>'. "\n";
 
