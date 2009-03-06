@@ -48,16 +48,18 @@ function rex_generateAll()
 function rex_deleteCacheArticle($id, $clang = null)
 {
   global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'articles'. DIRECTORY_SEPARATOR;
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
     if($clang !== null && $clang != $_clang)
       continue;
       
-    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.article');
-    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.content');
-    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.alist');
-    @unlink($REX['INCLUDE_PATH'].'/generated/articles/'. $id .'.'. $_clang .'.clist');
+    @unlink($cachePath . $id .'.'. $_clang .'.article');
+    @unlink($cachePath . $id .'.'. $_clang .'.content');
+    @unlink($cachePath . $id .'.'. $_clang .'.alist');
+    @unlink($cachePath . $id .'.'. $_clang .'.clist');
   }
 }
 
