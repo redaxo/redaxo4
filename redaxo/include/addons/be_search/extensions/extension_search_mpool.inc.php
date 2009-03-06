@@ -11,7 +11,7 @@
 
 function rex_a256_search_mpool($params)
 {
-  global $I18N_BE_SEARCH, $REX;
+  global $I18N, $REX;
 
   if(!$REX['USER']->hasPerm('be_search[mediapool]'))
   {
@@ -25,9 +25,9 @@ function rex_a256_search_mpool($params)
 
   $search_form = '
     <p class="rex-form-col-a rex-form-text" id="a256-media-search">
-      <label for="a256-media-name">'. $I18N_BE_SEARCH->msg('search_mpool_media') .'</label>
+      <label for="a256-media-name">'. $I18N->msg('search_mpool_media') .'</label>
       <input class="rex-form-text" type="text" name="a256_media_name" id="a256-media-name" value="'. $media_name .'" />
-      <input class="rex-form-submit" type="submit" value="'. $I18N_BE_SEARCH->msg('search_mpool_start') .'" />
+      <input class="rex-form-submit" type="submit" value="'. $I18N->msg('search_mpool_start') .'" />
     </p>
   ';
   
