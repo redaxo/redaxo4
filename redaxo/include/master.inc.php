@@ -8,7 +8,8 @@
 
 // -----------------
 
-if (!$REX['GG']) $REX['GG'] = false;
+if (!$REX['GG']) 
+	$REX['GG'] = false;
 
 // ----------------- SERVER VARS
 
@@ -22,7 +23,7 @@ $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(660); // oktaler wert
 $REX['DIRPERM'] = octdec(770); // oktaler wert
-$REX['INSTNAME'] = "rex20090222010101";
+$REX['INSTNAME'] = "rex20090307000059";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -167,6 +168,3 @@ if(rex_request('article_id', 'int') == 0)
   $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
 else
   $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
-  
-// ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'].'/addons.inc.php';

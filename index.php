@@ -40,6 +40,9 @@ $REX['GG'] = true;
 $REX['HTDOCS_PATH'] = './';
 include './redaxo/include/master.inc.php';
 
+// ----- INCLUDE ADDONS
+include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
+
 $REX['ARTICLE'] = new rex_article;
 $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 

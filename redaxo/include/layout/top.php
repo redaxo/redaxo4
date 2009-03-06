@@ -55,7 +55,7 @@ if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
 
 <div id="rex-navi-logout"><?php
   
-if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
+if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
   $user_name = $REX['USER']->getValue('name') != '' ? $REX['USER']->getValue('name') : $REX['USER']->getValue('login');
@@ -73,7 +73,7 @@ if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
   <div id="rex-navi-main">
 <?php
 
-if (isset ($LOGIN) && $LOGIN && !$REX["PAGE_NO_NAVI"])
+if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   
   $navi_system = array();
