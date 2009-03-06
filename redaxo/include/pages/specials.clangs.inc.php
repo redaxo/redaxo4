@@ -153,7 +153,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   {
     echo '
           <tr class="rex-trow-actv">
-            <td class="rex-small"></td>
+            <td class="rex-small"><span class="rex-i-clang">'.htmlspecialchars($clang_name).'</span></td>
             '.$add_td.'
             <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
             <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' /></td>
@@ -164,7 +164,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   {
     echo '
           <tr>
-            <td class="rex-small"></td>
+            <td class="rex-small"><span class="rex-i-clang">'.htmlspecialchars($clang_name).'</span></td>
             '.$add_td.'
             <td><a href="index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang">'.htmlspecialchars($lang).'</a></td>
             <td>'. $delLink .'</td>
