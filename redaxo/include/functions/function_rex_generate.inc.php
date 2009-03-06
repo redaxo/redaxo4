@@ -43,9 +43,34 @@ function rex_generateAll()
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
+ * 
+ * @return void
  */
-
 function rex_deleteCacheArticle($id, $clang = null)
+{
+  global $REX;
+  
+  foreach($REX['CLANG'] as $_clang => $clang_name)
+  {
+    if($clang !== null && $clang != $_clang)
+      continue;
+      
+    rex_deleteCacheArticleMeta($id, $clang);
+    rex_deleteCacheArticleContent($id, $clang);
+    rex_deleteCacheArticleLists($id, $clang);
+  }
+}
+
+/**
+ * Löscht die gecachten Meta-Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelöscht.
+ *
+ * @param $id ArtikelId des Artikels
+ * @param [$clang ClangId des Artikels]
+ * 
+ * @return void
+ */
+function rex_deleteCacheArticleMeta($id, $clang = null)
 {
   global $REX;
   
@@ -57,11 +82,58 @@ function rex_deleteCacheArticle($id, $clang = null)
       continue;
       
     @unlink($cachePath . $id .'.'. $_clang .'.article');
+  }
+}
+
+/**
+ * Löscht die gecachten Content-Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelöscht.
+ *
+ * @param $id ArtikelId des Artikels
+ * @param [$clang ClangId des Artikels]
+ * 
+ * @return void
+ */
+function rex_deleteCacheArticleContent($id, $clang = null)
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'articles'. DIRECTORY_SEPARATOR;
+
+  foreach($REX['CLANG'] as $_clang => $clang_name)
+  {
+    if($clang !== null && $clang != $_clang)
+      continue;
+      
     @unlink($cachePath . $id .'.'. $_clang .'.content');
+  }
+}
+
+/**
+ * Löscht die gecachten List-Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelöscht.
+ *
+ * @param $id ArtikelId des Artikels
+ * @param [$clang ClangId des Artikels]
+ * 
+ * @return void
+ */
+function rex_deleteCacheArticleLists($id, $clang = null)
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'articles'. DIRECTORY_SEPARATOR;
+
+  foreach($REX['CLANG'] as $_clang => $clang_name)
+  {
+    if($clang !== null && $clang != $_clang)
+      continue;
+      
     @unlink($cachePath . $id .'.'. $_clang .'.alist');
     @unlink($cachePath . $id .'.'. $_clang .'.clist');
   }
 }
+
 
 /**
  * Generiert den Artikel-Cache der Metainformationen.
@@ -196,13 +268,13 @@ function rex_generateArticle($id, $refreshall = true)
       
     // ----------------------- generiere generated/articles/xx.article
     $MSG = rex_generateArticleMeta($id, $clang);
-    if($MSG === false) return FALSE;
+    if($MSG === FALSE) return FALSE;
     
     if($refreshall)
     {
       // ----------------------- generiere generated/articles/xx.content
       $MSG = rex_generateArticleContent($id, $clang);
-      if($MSG === false) return FALSE;
+      if($MSG === FALSE) return FALSE;
     }
 
     // ----- EXTENSION POINT
