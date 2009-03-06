@@ -264,6 +264,7 @@ if ($warning != '')
         <thead>
           <tr>
             <th><?php echo $I18N_IM_EXPORT->msg('filename'); ?></th>
+            <th><?php echo $I18N_IM_EXPORT->msg('filesize'); ?></th>
             <th><?php echo $I18N_IM_EXPORT->msg('createdate'); ?></th>
             <th colspan="2"><?php echo $I18N_IM_EXPORT->msg('function'); ?></th>
           </tr>
@@ -280,7 +281,8 @@ if ($warning != '')
     $filesize = OOMedia::_getFormattedSize(filesize($filepath));
 
     echo '<tr>
-            <td>'. $file .' <br />['.$filesize.']</td>
+            <td>'. $file .'</td>
+            <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_db_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
             <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>
@@ -326,6 +328,7 @@ if ($warning != '')
         <thead>
           <tr>
             <th><?php echo $I18N_IM_EXPORT->msg('filename'); ?></th>
+            <th><?php echo $I18N_IM_EXPORT->msg('filesize'); ?></th>
             <th><?php echo $I18N_IM_EXPORT->msg('createdate'); ?></th>
             <th colspan="2"><?php echo $I18N_IM_EXPORT->msg('function'); ?></th>
           </tr>
@@ -342,7 +345,8 @@ if ($warning != '')
     $filesize = OOMedia::_getFormattedSize(filesize($filepath));
 
     echo '<tr>
-            <td>'. $file .'<br />['.$filesize.']</td>
+            <td>'. $file .'</td>
+            <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page='. $page .'&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('import_file') .'" onclick="return confirm(\''. $I18N_IM_EXPORT->msg('proceed_file_import') .'\')">'. $I18N_IM_EXPORT->msg('import') .'</a></td>
             <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N_IM_EXPORT->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N_IM_EXPORT->msg('delete') .'</a></td>

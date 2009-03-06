@@ -20,6 +20,7 @@ please_choose_folder = Bitte wählen Sie die Verzeichnisse aus die exportiert wer
 intro_import = Bitte bedenken Sie das beim Importieren einer Datenbank <b>die alte Datenbank gelöscht</b> wird. Bitte speichern/exportieren Sie diese vorher wenn Sie sich unsicher sind.
 database = Datenbankimport
 filename = Dateiname
+filesize = Dateigröße
 delete = Löschen
 files = Dateienimport
 intro_export = Hier können Sie Ihre jetzigen Eingaben und Dateien von REDAXO sichern. Um eine vollständige Sicherung zu erhalten müssen Sie <b>die Datenbank UND die Dateien exportieren</b>. Wenn Sie die Sicherung wiederverwenden wollen, dann kann es Sinn machen diese direkt auf dem Server abzulegen und bei Bedarf direkt wieder zu importieren.
