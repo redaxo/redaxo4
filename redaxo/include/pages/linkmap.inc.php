@@ -12,6 +12,8 @@ $HTMLArea = rex_request('HTMLArea', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string');
 $opener_input_field_name = rex_request('opener_input_field_name', 'string');
 $category_id = rex_request('category_id', 'rex-category-id');
+$clang = rex_request('clang', 'rex-clang-id');
+
 
 $GlobalParams = array(
   'page' => $page,
