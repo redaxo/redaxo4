@@ -7,14 +7,13 @@
  */
 
 // -------------- Defaults
-$clang_id   = rex_request('clang_id', 'rex-clang-id');
+$clang_id   = rex_request('clang_id', 'int');
 $clang_name = rex_request('clang_name', 'string');
 $func       = rex_request('func', 'string');
 
 // -------------- Form Submits
-$add_clang_save  = rex_post('add_clang_save', 'string');
-$edit_clang_save = rex_post('edit_clang_save', 'string');
-$del_clang_save  = rex_post('del_clang_save', 'string');
+$add_clang_save  = rex_post('add_clang_save', 'boolean');
+$edit_clang_save = rex_post('edit_clang_save', 'boolean');
 
 $warning = '';
 $info = '';
@@ -32,7 +31,7 @@ if ($func == 'deleteclang' && $clang_id != "")
 }
 
 // ----- add clang
-if (!empty ($add_clang_save))
+if ($add_clang_save)
 {
   if ($clang_name != '' && $clang_id > 0)
   {
@@ -56,7 +55,7 @@ if (!empty ($add_clang_save))
   }
 
 }
-elseif (!empty ($edit_clang_save))
+elseif ($edit_clang_save)
 {
   if (array_key_exists($clang_id, $REX['CLANG']))
   {
