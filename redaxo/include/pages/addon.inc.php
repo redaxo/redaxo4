@@ -280,7 +280,7 @@ if ($subpage == '')
 
     echo '
         <tr class="rex-addon">
-          <td class="rex-icon rex-col-a"><img src="media/addon.gif" alt="'. htmlspecialchars($addon) .'" title="'. htmlspecialchars($addon) .'"/></td>
+          <td class="rex-icon rex-col-a"><span class="rex-i-addon">'. htmlspecialchars($addon) .'</span></td>
           <td class="rex-col-b">'.htmlspecialchars($addon).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
           <td class="rex-col-c">'.$install.'</td>
           <td class="rex-col-d">'.$status.'</td>
@@ -322,7 +322,7 @@ if ($subpage == '')
         
         echo '
             <tr class="rex-plugin">
-              <td class="rex-icon rex-col-a"></td>
+              <td class="rex-icon rex-col-a"><span class="rex-i-plugin">'. htmlspecialchars($plugin) .'</span></td>
               <td class="rex-col-b">'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
               <td class="rex-col-c">'.$install.'</td>
               <td class="rex-col-d">'.$status.'</td>

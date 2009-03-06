@@ -361,7 +361,7 @@ if ($OUT)
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><img src="media/action_plus.gif" alt="' . $I18N->msg('action_create') . '" /></a></th>
+          <th class="rex-icon"><a class="rex-i-action-add" href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'>' . $I18N->msg('action_create') . '</a></th>
           '.$add_th.'
           <th>' . $I18N->msg('action_name') . '</th>
           <th>Preview-Event(s)</th>
@@ -406,7 +406,7 @@ if ($OUT)
 			}
       echo '
             <tr>
-              <td class="rex-icon"><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit"><img src="media/action.gif" alt="' . htmlspecialchars($sql->getValue("name")) . '" title="' . htmlspecialchars($sql->getValue("name")) . '" /></a></td>
+              <td class="rex-icon"><a class="rex-i-action" href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit" title="' . htmlspecialchars($sql->getValue("name")) . '">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
               '.$add_td.'
               <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
               <td>' . implode('/', $previewmode) . '</td>

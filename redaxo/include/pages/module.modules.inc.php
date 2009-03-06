@@ -271,7 +271,7 @@ if ($function == 'add' or $function == 'edit')
           $action_name = rex_translate($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a href="'. $action_edit_url .'"><img src="media/modul.gif" width="16" height="16" alt="' . htmlspecialchars($action_name) . '" title="' . htmlspecialchars($action_name) . '" /></a></td>';
+          	<td class="rex-icon"><a class="rex-i-action" href="'. $action_edit_url .'">' . htmlspecialchars($action_name) . '</a></td>';
           	
 					if ($REX['USER']->hasPerm('advancedMode[]'))
 					{
@@ -373,11 +373,10 @@ if ($OUT)
   $list->addTableColumnGroup(array(40, '*', 153));
   // $list->addTableColumnGroup(array(40, 40, '*', 153));
 
-  $img = '<img src="media/modul.gif" alt="###name###" title="###name###" />';
-  $imgAdd = '<img src="media/modul_plus.gif" alt="'.$I18N->msg('create_module').'" title="'.$I18N->msg('create_module').'" />';
-  $imgHeader = '<a href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
-  $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
-  $list->setColumnParams($imgHeader, array('function' => 'edit', 'modul_id' => '###id###'));
+  $tdIcon = '<span class="rex-i-module">###name###</span>';
+  $thIcon = '<a class="rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'>'.$I18N->msg('create_module').'</a>';
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
   $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));

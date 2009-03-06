@@ -114,7 +114,7 @@ echo '
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-small"><a href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>+</a></th>
+          <th class="rex-small"><a class="rex-i-clang-add" href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'>'.$I18N->msg('clang_add').'</a></th>
           <th class="rex-small">ID</th>
           <th>'.$I18N->msg('clang_name').'</th>
           <th>'.$I18N->msg('clang_function').'</th>
@@ -129,7 +129,7 @@ if ($func == 'addclang')
   //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
   echo '
         <tr class="rex-table-row-activ">
-          <td class="rex-small"></td>
+          <td class="rex-small"><span class="rex-i-clang">'.htmlspecialchars($clang_name).'</span></td>
           <td class="rex-small">'.$sel->get().'</td>
           <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
           <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.$I18N->msg('clang_add').'"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>

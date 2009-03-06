@@ -344,11 +344,10 @@ if ($OUT)
 
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
-  $img = '<img src="media/template.gif" alt="###name###" title="###name###" />';
-  $imgAdd = '<img src="media/template_plus.gif" alt="'.$I18N->msg('create_template').'" title="'.$I18N->msg('create_template').'" />';
-  $imgHeader = '<a href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
-  $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
-  $list->setColumnParams($imgHeader, array('function' => 'edit', 'template_id' => '###id###'));
+  $tdIcon = '<span class="rex-i-template">###name###</span>';
+  $thIcon = '<a class="rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'>'.$I18N->msg('create_template').'</a>';
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
   $list->setColumnLayout('id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
