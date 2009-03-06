@@ -165,7 +165,7 @@ if($category)
 $add_category = '';
 if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
-  $add_category = '<a class="rex-i-category-add" href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'>'.$I18N->msg("add_category").'</a>';
+  $add_category = '<a class="rex-i-element rex-i-category-add" href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg("add_category").'</span></a>';
 }
 
 $add_header = '';
@@ -263,7 +263,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 
   echo '
         <tr class="rex-table-row-activ">
-          <td class="rex-icon"><span class="rex-i-category-add">'. $I18N->msg('add_category') .'</span></td>
+          <td class="rex-icon"><span class="rex-i-element rex-i-category-add"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
           '. $add_td .'
           <td><input type="text" id="rex-form-field-name" name="category_name" /></td>
           <td><input type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
@@ -288,7 +288,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 {
   $i_category_id = $KAT->getValue('id');
   $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
-  $kat_icon_td = '<td class="rex-icon"><a class="rex-i-category" href="'. $kat_link .'">'. htmlspecialchars($KAT->getValue("catname")). '</a></td>';
+  $kat_icon_td = '<td class="rex-icon"><a class="rex-i-element rex-i-category" href="'. $kat_link .'"><span class="rex-i-element-text">'. htmlspecialchars($KAT->getValue("catname")). '</span></a></td>';
 
   $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
   $status_class = $catStatusTypes[$KAT->getValue('status')][1];
@@ -444,7 +444,7 @@ if ($category_id > -1)
   $art_add_link = '';
   if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
   {
-    $art_add_link = '<a class="rex-i-article-add" href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'>'. $I18N->msg('article_add') .'</a>';
+    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. $I18N->msg('article_add') .'</span></a>';
   }
 
   $add_head = '';
@@ -547,7 +547,7 @@ if ($category_id > -1)
     }
 
     echo '<tr class="rex-table-row-activ">
-            <td class="rex-icon"><span class="rex-i-article-add">'.$I18N->msg('article_add') .'</span></td>
+            <td class="rex-icon"><span class="rex-i-element rex-i-article-add"><span class="rex-i-element-text">'.$I18N->msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" /></td>
             <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_New_Article" value="100" /></td>
@@ -585,7 +585,7 @@ if ($category_id > -1)
       $TMPL_SEL->setSelected($sql->getValue('template_id'));
 
       echo '<tr class="rex-table-row-activ">
-              <td class="rex-icon"><a class="'.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'">' .htmlspecialchars($sql->getValue("name")).'</a></td>
+              <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue("name")).'</span></a></td>
               '. $add_td .'
               <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
               <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
@@ -633,7 +633,7 @@ if ($category_id > -1)
       }
 
       echo '<tr>
-              <td class="rex-icon"><a class="'.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">' .htmlspecialchars($sql->getValue('name')).'</a></td>
+              <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'</span></a></td>
               '. $add_td .'
               <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
@@ -658,7 +658,7 @@ if ($category_id > -1)
       $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
 
       echo '<tr>
-              <td class="rex-icon"><span class="'.$class.'">' .htmlspecialchars($sql->getValue('name')).'"</span></td>
+              <td class="rex-icon"><span class="rex-i-element '.$class.'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'"</span></span></td>
               '. $add_td .'
               <td>'. htmlspecialchars($sql->getValue('name')).'</td>
               <td>'. htmlspecialchars($sql->getValue('prior')).'</td>

@@ -271,7 +271,7 @@ if ($function == 'add' or $function == 'edit')
           $action_name = rex_translate($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a class="rex-i-action" href="'. $action_edit_url .'">' . htmlspecialchars($action_name) . '</a></td>';
+          	<td class="rex-icon"><a class="rex-i-element rex-i-action" href="'. $action_edit_url .'"><span class="rex-i-element-text">' . htmlspecialchars($action_name) . '</span></a></td>';
           	
 					if ($REX['USER']->hasPerm('advancedMode[]'))
 					{
@@ -373,8 +373,8 @@ if ($OUT)
   $list->addTableColumnGroup(array(40, '*', 153));
   // $list->addTableColumnGroup(array(40, 40, '*', 153));
 
-  $tdIcon = '<span class="rex-i-module">###name###</span>';
-  $thIcon = '<a class="rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'>'.$I18N->msg('create_module').'</a>';
+  $tdIcon = '<span class="rex-i-element rex-i-module"><span class="rex-i-element-text">###name###</span></span>';
+  $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg('create_module').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 

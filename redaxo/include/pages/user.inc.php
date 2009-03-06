@@ -886,11 +886,10 @@ if (isset($SHOW) and $SHOW)
   $list->addTableColumnGroup(array(40, '*', 153, 153, 153));
   // $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
 
-  $img = '<img src="media/user.gif" alt="###name###" title="###name###" />';
-  $imgAdd = '<img src="media/user_plus.gif" alt="'.$I18N->msg('create_user').'" title="'.$I18N->msg('create_user').'" />';
-  $imgHeader = '<a href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'>'. $imgAdd .'</a>';
-  $list->addColumn($imgHeader, $img, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
-  $list->setColumnParams($imgHeader, array('user_id' => '###user_id###'));
+  $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
+  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $I18N->msg('create_user') .'</span></a>';
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
 
   $list->setColumnLabel('user_id', 'ID');
   $list->setColumnLayout('user_id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));

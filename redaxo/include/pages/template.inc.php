@@ -344,8 +344,8 @@ if ($OUT)
 
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
-  $tdIcon = '<span class="rex-i-template">###name###</span>';
-  $thIcon = '<a class="rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'>'.$I18N->msg('create_template').'</a>';
+  $tdIcon = '<span class="rex-i-element rex-i-template"><span class="rex-i-element-text">###name###</span></span>';
+  $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_template'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg('create_template').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
 
