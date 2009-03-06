@@ -487,7 +487,14 @@ div.rex-addon-col-b {
 /*	Icons **********************************************************************
 *******************************************************************************/
 .rex-i-element-text {
-	display: none;
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
 }
 .rex-i-clang, 
 .rex-i-clang-add {
