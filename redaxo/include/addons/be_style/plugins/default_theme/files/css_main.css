@@ -200,6 +200,66 @@ div#rex-navi-paginate ul li {
 }
 
 
+
+
+.rex-i-action {
+	background-image: url(action.gif);
+}
+.rex-i-action-add {
+	background-image: url(action_plus.gif);
+}
+.rex-i-addon {
+	background-image: url(addon.gif);
+}
+.rex-i-article {
+	background-image: url(document.gif);
+}
+.rex-i-article-add {
+	background-image: url(document_plus.gif);
+}
+.rex-i-article-startpage {
+	background-image: url(liste.gif);
+}
+.rex-i-clang {
+	background-image: url(clang.gif);
+}
+.rex-i-clang-add {
+	background-image: url(clang_plus.gif);
+}
+.rex-i-metainfo {
+	background-image: url(metainfo.gif);
+}
+.rex-i-metainfo-add {
+	background-image: url(metainfo_plus.gif);
+}
+.rex-i-module {
+	background-image: url(module.gif);
+}
+.rex-i-module-add {
+	background-image: url(module_plus.gif);
+}
+.rex-i-template {
+	background-image: url(template.gif);
+}
+.rex-i-template-add {
+	background-image: url(template_plus.gif);
+}
+.rex-i-user {
+	background-image: url(user.gif);
+}
+.rex-i-user-add {
+	background-image: url(user_plus.gif);
+}
+
+.rex-i-category, 
+.rex-i-mediapool-category {
+	background-image: url(folder.gif);
+}
+.rex-i-category-add, 
+.rex-i-mediapool-category-add {
+	background-image: url(folder_plus.gif);
+}
+
 /*	Allgemeines ****************************************************************
 *******************************************************************************/
 .rex-hl2 {
@@ -420,6 +480,15 @@ div.rex-addon-col-b {
 }
 
 
+/*	Icons **********************************************************************
+*******************************************************************************/
+.rex-i-element-text {
+	display: none;
+}
+.rex-i-clang, 
+.rex-i-clang-add {
+	width: 21px;
+}
 
 /*	Extras *********************************************************************
 *******************************************************************************/
