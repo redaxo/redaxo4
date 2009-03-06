@@ -65,5 +65,5 @@ if ($rex_resize != '')
 
 if($REX['REDAXO'])
 {
-  $I18N_IMG_RES = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
+	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 }
