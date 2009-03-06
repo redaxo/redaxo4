@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Verschiebt den Slice mit der Id $slice_id der Sprache $clang nach oben
+ * Verschiebt einen Slice nach oben
+ * 
+ * @param int $slice_id Id des Slices
+ * @param int $clang    Id der Sprache
+ *  
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_moveSliceUp($slice_id, $clang)
 {
@@ -9,7 +14,12 @@ function rex_moveSliceUp($slice_id, $clang)
 }
 
 /**
- * Verschiebt den Slice mit der Id $slice_id der Sprache $clang nach unten
+ * Verschiebt einen Slice nach unten
+ * 
+ * @param int $slice_id Id des Slices
+ * @param int $clang    Id der Sprache
+ *  
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_moveSliceDown($slice_id, $clang)
 {
@@ -17,8 +27,13 @@ function rex_moveSliceDown($slice_id, $clang)
 }
 
 /**
- * Verschiebt den Slice mit der Id $slice_id der Sprache $clang in die Richtung
- * $direction
+ * Verschiebt einen Slice
+ * 
+ * @param int    $slice_id  Id des Slices
+ * @param int    $clang     Id der Sprache
+ * @param string $direction Richtung in die verschoben werden soll
+ *  
+ * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_moveSlice($slice_id, $clang, $direction)
 {
@@ -65,7 +80,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SREID[$slice_id] . "'");
           if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-          rex_generateArticleContent($slice_article_id, $clang);
+          rex_deleteCacheArticle($slice_article_id, $clang);
           $message = $I18N->msg('slice_moved');
           $success = true;
         }
@@ -83,7 +98,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SID[$slice_id] . "' where id='" . $slice_id . "'");
           if (isset($SID[$SID[$slice_id]]) && $SID[$SID[$slice_id]] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
-          rex_generateArticleContent($slice_article_id, $clang);
+          rex_deleteCacheArticle($slice_article_id, $clang);
           $message = $I18N->msg('slice_moved');
           $success = true;
         }
@@ -99,7 +114,11 @@ function rex_moveSlice($slice_id, $clang, $direction)
 }
 
 /**
- * Löscht den slice mit der Id $slice_id
+ * Löscht einen Slice
+ * 
+ * @param int    $slice_id  Id des Slices
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_deleteSlice($slice_id)
 {
@@ -127,8 +146,13 @@ function rex_deleteSlice($slice_id)
 }
 
 /**
- * Führt alle pre-save Aktionen des Moduls $module_id im Modus $function aus und
- * füllt dabei das $REX_ACTION Array
+ * Führt alle pre-save Aktionen eines Moduls aus
+ * 
+ * @param int    $module_id  Id des Moduls
+ * @param string $function   Funktion/Modus der Aktion
+ * @param array  $REX_ACTION Array zum speichern des Status
+ * 
+ * @return array Ein Array welches eine Meldung sowie das gefüllte REX_ACTION-Array beinhaltet
  */
 function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 {
@@ -161,8 +185,13 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Führt alle post-save Aktionen des Moduls $module_id im Modus $function aus
- * und füllt dabei das $REX_ACTION Array
+ * Führt alle post-save Aktionen eines Moduls aus
+ * 
+ * @param int    $module_id  Id des Moduls
+ * @param string $function   Funktion/Modus der Aktion
+ * @param array  $REX_ACTION Array zum speichern des Status
+ * 
+ * @return string Eine Meldung
  */
 function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 {
@@ -195,7 +224,11 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Übersetzt den Modus $function in das dazugehörige Bitwort
+ * Übersetzt den Modus in das dazugehörige Bitwort
+ * 
+ * @param string $function   Funktion/Modus der Aktion
+ * 
+ * @return int Ein Bitwort
  */
 function rex_getActionModeBit($function)
 {
@@ -212,7 +245,9 @@ function rex_getActionModeBit($function)
 /**
  * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
  *
- * @param $neu_id  Artikel ID
+ * @param int $neu_id  Artikel ID des Artikels, der Startartikel werden soll
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_article2startpage($neu_id){
 
@@ -248,7 +283,6 @@ function rex_article2startpage($neu_id){
   // LANG SCHLEIFE
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-
     // alter startartikel
     $alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=$clang");
 
@@ -304,7 +338,7 @@ function rex_article2startpage($neu_id){
 
   foreach($GAID as $gid)
   {
-    rex_generateArticle($gid);
+    rex_deleteCacheArticle($gid);
   }
 
   return true;
@@ -313,8 +347,8 @@ function rex_article2startpage($neu_id){
 /**
  * Kopiert eine Kategorie in eine andere
  *
- * @param $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
- * @param $to_cat_id   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
+ * @param int $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
+ * @param int $to_cat_id   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
  */
 function rex_copyCategory($from_cat, $to_cat)
 {
@@ -324,11 +358,13 @@ function rex_copyCategory($from_cat, $to_cat)
 /**
  * Kopiert die Metadaten eines Artikels in einen anderen Artikel
  *
- * @param $from_id      ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
- * @param $to_id        ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
- * @param [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
- * @param [$to_clang]   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
- * @param [$params]     Array von Spaltennamen, welche kopiert werden sollen
+ * @param int $from_id      ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+ * @param int $to_id        ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+ * @param int [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
+ * @param int [$to_clang]   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
+ * @param array [$params]     Array von Spaltennamen, welche kopiert werden sollen
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
 {
@@ -362,7 +398,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     $uc->update();
 
-    rex_generateArticleMeta($to_id,$to_clang);
+    rex_deleteCacheArticle($to_id,$to_clang);
     return true;
   }
   return false;
@@ -372,11 +408,13 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 /**
  * Kopiert die Inhalte eines Artikels in einen anderen Artikel
  *
- * @param $from_id           ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
- * @param $to_id             ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
- * @param [$from_clang]      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
- * @param [$to_clang]        ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
- * @param [$from_re_sliceid] Id des Slices, bei dem begonnen werden soll
+ * @param int $from_id           ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+ * @param int $to_id             ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+ * @param int [$from_clang]      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
+ * @param int [$to_clang]        ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
+ * @param int [$from_re_sliceid] Id des Slices, bei dem begonnen werden soll
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0)
 {
@@ -432,7 +470,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     return true;
   }
 
-  rex_generateArticleContent($to_id, $to_clang);
+  rex_deleteCacheArticle($to_id, $to_clang);
 
   return true;
 }
@@ -440,8 +478,10 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
 /**
  * Kopieren eines Artikels von einer Kategorie in eine andere
  *
- * @param $id          ArtikelId des zu kopierenden Artikels
- * @param $to_cat_id   KategorieId in die der Artikel kopiert werden soll
+ * @param int $id          ArtikelId des zu kopierenden Artikels
+ * @param int $to_cat_id   KategorieId in die der Artikel kopiert werden soll
+ * 
+ * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
  */
 function rex_copyArticle($id, $to_cat_id)
 {
@@ -519,11 +559,11 @@ function rex_copyArticle($id, $to_cat_id)
     }
   }
 
-  // Generated des Artikels neu erzeugen
-  rex_generateArticle($id,false);
+  // Caches des Artikels löschen, in allen Sprachen
+  rex_deleteCacheArticle($id);
 
-  // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
-  rex_generateArticle($to_cat_id,false);
+  // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+  rex_deleteCacheArticle($to_cat_id);
 
   return $new_id;
 }
@@ -531,9 +571,11 @@ function rex_copyArticle($id, $to_cat_id)
 /**
  * Verschieben eines Artikels von einer Kategorie in eine Andere
  *
- * @param $id          ArtikelId des zu verschiebenden Artikels
- * @param $from_cat_id KategorieId des Artikels, der Verschoben wird
- * @param $to_cat_id   KategorieId in die der Artikel verschoben werden soll
+ * @param int $id          ArtikelId des zu verschiebenden Artikels
+ * @param int $from_cat_id KategorieId des Artikels, der Verschoben wird
+ * @param int $to_cat_id   KategorieId in die der Artikel verschoben werden soll
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 {
@@ -605,12 +647,12 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
     }
   }
 
-  // Generated des Artikels neu erzeugen
-  rex_generateArticle($id,false);
+  // Caches des Artikels löschen, in allen Sprachen
+  rex_deleteCacheArticle($id);
 
-  // Generated der Kategorien neu erzeugen, da sich derin befindliche Artikel geändert haben
-  rex_generateArticle($from_cat_id,false);
-  rex_generateArticle($to_cat_id,false);
+  // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+  rex_deleteCacheArticle($from_cat_id);
+  rex_deleteCacheArticle($to_cat_id);
 
   return true;
 }
@@ -618,8 +660,10 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 /**
  * Verschieben einer Kategorie in eine andere
  *
- * @param $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
- * @param $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
+ * @param int $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
+ * @param int $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
@@ -723,17 +767,17 @@ function rex_moveCategory($from_cat, $to_cat)
       // ----- generiere artikel neu - ohne neue inhaltsgenerierung
       foreach($RC as $id => $key)
       {
-        rex_generateArticle($id,false);
+        rex_deleteCacheArticle($id);
       }
 
       foreach($REX['CLANG'] as $clang => $clang_name)
       {
         rex_newCatPrio($fcat->getValue("re_id"),$clang,0,1);
       }
-
-      return true;
     }
   }
+  
+  return true;
 }
 
 /**
@@ -746,6 +790,8 @@ function rex_moveCategory($from_cat, $to_cat)
  *
  * @deprecated 4.1 - 26.03.2008
  * Besser die rex_organize_priorities() Funktion verwenden!
+ * 
+ * @return void
  */
 function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
 {
@@ -763,17 +809,8 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
       'clang='. $clang .' AND re_id='. $re_id .' AND startpage=1',
       'catprior,updatedate '. $addsql
     );
-//    $gu = new rex_sql;
-//    $gr = new rex_sql;
-//    $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$re_id' and clang='$clang' and startpage=1 order by catprior,updatedate $addsql");
-//    for ($i = 0; $i < $gr->getRows(); $i ++)
-//    {
-//      $ipid = $gr->getValue("pid");
-//      $iprior = $i +1;
-//      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set catprior=$iprior where pid='$ipid'");
-//      $gr->next();
-//    }
-    rex_generateLists($re_id);
+
+    rex_deleteCacheArticle($re_id, $clang);
   }
 }
 
@@ -787,6 +824,8 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
  *
  * @deprecated 4.1 - 26.03.2008
  * Besser die rex_organize_priorities() Funktion verwenden!
+ * 
+ * @return void
  */
 function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
 {
@@ -804,17 +843,7 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
       'clang='. $clang .' AND ((startpage<>1 AND re_id='. $re_id .') OR (startpage=1 AND id='. $re_id .'))',
       'prior,updatedate '. $addsql
     );
-//    $gu = new rex_sql;
-//    $gr = new rex_sql;
-//    $gr->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$clang' and ((startpage<>1 and re_id='$re_id') or (startpage=1 and id=$re_id))order by prior,updatedate $addsql");
-//    for ($i = 0; $i < $gr->getRows(); $i ++)
-//    {
-//      // echo "<br>".$gr->getValue("pid")." ".$gr->getValue("id")." ".$gr->getValue("name");
-//      $ipid = $gr->getValue("pid");
-//      $iprior = $i +1;
-//      $gu->setQuery("update ".$REX['TABLE_PREFIX']."article set prior=$iprior where pid='$ipid'");
-//      $gr->next();
-//    }
-    rex_generateLists($re_id);
+
+    rex_deleteCacheArticle($re_id, $clang);
   }
 }
