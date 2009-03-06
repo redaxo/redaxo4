@@ -455,8 +455,15 @@ class rex_article
                 )
               );
 
-              $mne = $msg .'
-               <div class="rex-content-editmode-module-name">
+              $mne = $msg;
+              
+
+              if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
+	              $mne .= '<div class="rex-content-editmode-module-name rex-form-content-editmode-edit-slice">';
+							else
+	              $mne .= '<div class="rex-content-editmode-module-name">';
+								
+              $mne .= '
                 <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
                 <div class="rex-navi-slice">
                   <ul>
@@ -837,9 +844,7 @@ class rex_article
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-submit">
                 <input class="rex-form-submit" type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
-              </p>
-              <p class="rex-form-col-b rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
+                <input class="rex-form-submit rex-form-submit-2" type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
               </p>
             </div>
           </div>

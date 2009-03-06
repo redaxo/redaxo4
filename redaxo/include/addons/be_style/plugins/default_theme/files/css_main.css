@@ -97,8 +97,19 @@ body {
 div#rex-navi-main dd {
 	background-color: #3C9ED0;
 }
-div.rex-content-editmode div.rex-form-content-editmode-edit-slice {
-	background-color: #EDEDED;
+
+/* Gelb für den Edit Slice */
+div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice {
+    background-color: #f4fecf;
+    border-bottom:1px solid #cbcbcb;
+}
+
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-navi-slice{
+    background-color: #f4fecf;
+}
+
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-edit-slice{
+    background-color: #f9fde9;
 }
 
 /*	Blau - Dunkel */
