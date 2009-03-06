@@ -337,22 +337,13 @@ if ($OUT)
   if ($warning_blck != '')
     echo rex_warning_block($warning_blck);
 
-
-	$add_col = '';
-	$add_th = '';
-  if ($REX['USER']->hasPerm('advancedMode[]'))
-  {
-		$add_col = '<col width="40" />';
-		$add_th = '<th class="rex-small">ID</th>';
-  }
-	
   // ausgabe actionsliste !
   echo '
     <table class="rex-table" summary="' . $I18N->msg('action_summary') . '">
       <caption>' . $I18N->msg('action_caption') . '</caption>
       <colgroup>
         <col width="40" />
-        '.$add_col.'
+        <col width="40" />
         <col width="*" />
         <col width="120" />
         <col width="120" />
@@ -362,7 +353,7 @@ if ($OUT)
       <thead>
         <tr>
           <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">' . $I18N->msg('action_create') . '</span></a></th>
-          '.$add_th.'
+          <th class="rex-small">ID</th>
           <th>' . $I18N->msg('action_name') . '</th>
           <th>Preview-Event(s)</th>
           <th>Presave-Event(s)</th>
@@ -398,16 +389,10 @@ if ($OUT)
         if (($sql->getValue('postsavemode') & $var) == $var)
           $postsavemode[] = $value;
 
-
-			$add_td = '';
-			if ($REX['USER']->hasPerm('advancedMode[]'))
-			{
-				$add_td = '<td class="rex-small">' . $sql->getValue("id") . '</td>';
-			}
       echo '
             <tr>
               <td class="rex-icon"><a class="rex-i-element rex-i-action" href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit" title="' . htmlspecialchars($sql->getValue("name")) . '"><span class="rex-i-element-text">' . htmlspecialchars($sql->getValue("name")) . '</span></a></td>
-              '.$add_td.'
+              <td class="rex-small">' . $sql->getValue("id") . '</td>
               <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
               <td>' . implode('/', $previewmode) . '</td>
               <td>' . implode('/', $presavemode) . '</td>

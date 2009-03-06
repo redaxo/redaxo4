@@ -341,7 +341,6 @@ if ($OUT)
   $list = rex_list::factory('SELECT id, name, active FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
   $list->setCaption($I18N->msg('header_template_caption'));
   $list->addTableAttribute('summary', $I18N->msg('header_template_summary'));
-
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-template"><span class="rex-i-element-text">###name###</span></span>';

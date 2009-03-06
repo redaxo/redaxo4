@@ -368,10 +368,7 @@ if ($OUT)
   $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
   $list->setCaption($I18N->msg('module_caption'));
   $list->addTableAttribute('summary', $I18N->msg('module_summary'));
-
-  $list->removeColumn('id');
-  $list->addTableColumnGroup(array(40, '*', 153));
-  // $list->addTableColumnGroup(array(40, 40, '*', 153));
+  $list->addTableColumnGroup(array(40, 40, '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-module"><span class="rex-i-element-text">###name###</span></span>';
   $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($I18N->msg('create_module'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg('create_module').'</span></a>';

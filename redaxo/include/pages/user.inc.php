@@ -881,10 +881,7 @@ if (isset($SHOW) and $SHOW)
   $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM '.$REX['TABLE_PREFIX'].'user ORDER BY name');
   $list->setCaption($I18N->msg('user_caption'));
   $list->addTableAttribute('summary', $I18N->msg('user_summary'));
-
-  $list->removeColumn('user_id');
-  $list->addTableColumnGroup(array(40, '*', 153, 153, 153));
-  // $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
+  $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
   $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $I18N->msg('create_user') .'</span></a>';
