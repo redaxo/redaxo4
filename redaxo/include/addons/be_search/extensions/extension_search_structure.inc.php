@@ -13,7 +13,7 @@ function rex_a256_search_structure($params)
 {
   global $REX, $I18N_BE_SEARCH;
 
-  if(!($REX['USER']->isAdmin() || $REX['USER']->hasPerm('be_search[structure]')))
+  if(!$REX['USER']->hasPerm('be_search[structure]'))
   {
     return $params['subject'];
   }
