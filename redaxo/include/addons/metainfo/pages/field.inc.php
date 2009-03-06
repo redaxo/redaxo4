@@ -31,8 +31,8 @@ if ($func == '')
   $list = rex_list::factory('SELECT field_id, name FROM '. $REX['TABLE_PREFIX'] .'62_params WHERE `name` LIKE "'. $prefix .'%" ORDER BY prior');
 
   $list->setCaption($I18N_META_INFOS->msg('field_list_caption'));
-  $imgHeader = '<a href="'. $list->getUrl(array('func' => 'add')) .'"><img src="media/metainfo_plus.gif" alt="add" title="add" /></a>';
-  $list->addColumn($imgHeader, '<img src="media/metainfo.gif" alt="field" title="field" />', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $imgHeader = '<a class="rex-i-element rex-i-metainfo-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.$I18N->msg('add').'</span></a>';
+  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-metainfo"><span class="rex-i-element-text">'.$I18N->msg('edit').'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'field_id' => '###field_id###'));
 
   $list->removeColumn('field_id');
