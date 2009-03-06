@@ -33,7 +33,7 @@ if(!defined('REX_A62_FIELD_TEXT'))
 $REX['ADDON']['rxid'][$mypage] = '62';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Meta Infos';
-$REX['ADDON']['perm'][$mypage] = 'metainfo[]';
+$REX['ADDON']['perm'][$mypage] = 'admin[]';
 $REX['ADDON']['version'][$mypage] = "1.2";
 $REX['ADDON']['author'][$mypage] = "Markus Staab, Jan Kristinus";
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
@@ -43,8 +43,6 @@ $REX['ADDON']['metaTables'][$mypage] = array(
   'cat_' => $REX['TABLE_PREFIX'] .'article',
   'med_' => $REX['TABLE_PREFIX'] .'file',
 );
-
-$REX['PERM'][] = 'metainfo[]';
 
 if ($REX['REDAXO'])
 {
