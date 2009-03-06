@@ -47,19 +47,17 @@
 
 ?>
 
-<h2 class="rex-hl2">Modul installieren</h2>
-
-<div class="rex-addon-content">
-
+<div class="rex-addon-output">
+	<h2 class="rex-hl2">Modul installieren</h2>
+	<div class="rex-addon-content">
 	<p>
 	Um die XForm sinnvoll nutzen können, muß ein Modul erstellt werden, <br />mit welchem
 	man die entsprechenden Formulare erstellen kann.
 	</p>
-
-<ul>
-<li><a href="index.php?page=xform&amp;subpage=module&amp;install=1">Neues Modul mit der XForm installieren</a></li>
-<?php if ($module_id>0) 
-	echo '<li><a href="index.php?page=xform&amp;subpage=module&amp;install=1&amp;module_id='.$module_id.'">Folgendes Modul aktualisieren "'.htmlspecialchars($module_name).'"</a></li>'; ?>
-</ul>	
-
+	<ul>
+		<li><a href="index.php?page=xform&amp;subpage=module&amp;install=1">Neues Modul mit der XForm installieren</a></li>
+		<?php if ($module_id>0) 
+			echo '<li><a href="index.php?page=xform&amp;subpage=module&amp;install=1&amp;module_id='.$module_id.'">Folgendes Modul aktualisieren "'.htmlspecialchars($module_name).'"</a></li>'; ?>
+	</ul>	
+	</div>
 </div>

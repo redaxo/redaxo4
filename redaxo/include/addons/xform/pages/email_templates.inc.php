@@ -15,10 +15,12 @@ $template_id = rex_request("template_id","int");
 if($func == "add" || $func == "edit")
 {
 	
-	echo '<div class="rex-addon-content">'.$I18N_XFORM->msg('back_to_overview').'</div>';
-	echo '</div>';
+	// echo '<div class="rex-addon-content">';
+	echo $I18N_XFORM->msg('back_to_overview');
+	
+	// echo '</div>';
+	// echo '<div class="rex-addon-output">';
 
-	echo '<div class="rex-addon-output">';
 	$form = new rex_form("rex_xform_email_template", 'Template', 'id='. $template_id);
 	if($func == 'edit')
 		$form->addParam('template_id', $template_id);
@@ -59,7 +61,6 @@ if($func == "delete")
 
 //------------------------------> Liste
 if($func == ""){
-	
 	
 	/** Suche  **/
 	$add_sql = "";

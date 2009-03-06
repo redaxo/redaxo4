@@ -31,9 +31,7 @@ if (!deep_in_array($subpage,$subpages))
 
 if ($subpage != "")
 {
-	echo '<div class="rex-addon-output">';
 	include $REX["INCLUDE_PATH"]."/addons/$page/pages/$subpage.inc.php";
-	echo '</div>';
 }else
 {
 	echo '<div class="rex-addon-output">';

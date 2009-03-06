@@ -1,7 +1,6 @@
-<h2 class="rex-hl2">Beschreibung</h2>
-
-<div class="rex-addon-content">
-
+<div class="rex-addon-output">
+	<h2 class="rex-hl2">Beschreibung</h2>
+	<div class="rex-addon-content">
 	<p>
 	
 	Im Modul sind vor allem die Felddefinitionen wichtig, die sich in 3 Bereiche
@@ -25,6 +24,6 @@
 
 	</p>
 	<hr />
-</div>
-
+	</div>
 <?php rex_xform::showHelp(); ?>
+</div>
