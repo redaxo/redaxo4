@@ -394,6 +394,9 @@ class rex_backend_login extends rex_login
       {
         $this->sessionFixation();
         $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'" LIMIT 1');
+        
+        if($fvs->hasError())
+          return $fvs->getError();
       }
     }
     else
@@ -402,6 +405,9 @@ class rex_backend_login extends rex_login
       if($this->usr_login != '')
       {
         $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=login_tries+1,session_id="",lasttrydate='.time().' WHERE login="'. $this->usr_login .'" LIMIT 1');
+        
+        if($fvs->hasError())
+          return $fvs->getError();
       }
     }
 
