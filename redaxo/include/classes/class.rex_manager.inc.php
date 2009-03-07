@@ -25,8 +25,6 @@
    */
   /*public*/ function install($addonName, $installDump = TRUE)
   {
-    clearstatcache();
-    
     $state = TRUE;
   
     $install_dir  = $this->baseFolder($addonName);
@@ -120,8 +118,6 @@
    */
   /*public*/ function uninstall($addonName)
   {
-    clearstatcache();
-    
     $state = TRUE;
     
     $install_dir    = $this->baseFolder($addonName);
@@ -195,8 +191,6 @@
    */
   /*public*/ function activate($addonName)
   {
-    clearstatcache();
-    
     if ($this->apiCall('isInstalled', array($addonName)))
     {
       $this->apiCall('setProperty', array($addonName, 'status', 1));
@@ -345,20 +339,20 @@ class rex_addonManager extends rex_baseManager
   
   /*protected*/ function includeConfig($addonName, $configFile)
   {
-    global $REX;
+    global $REX, $I18N; // Nötig damit im Addon verfügbar
     require $configFile;
   }
   
   
   /*protected*/ function includeInstaller($addonName, $installFile)
   {
-    global $REX;
+    global $REX, $I18N; // Nötig damit im Addon verfügbar
     require $installFile;
   }
   
   /*protected*/ function includeUninstaller($addonName, $uninstallFile)
   {
-    global $REX;
+    global $REX, $I18N; // Nötig damit im Addon verfügbar
     require $uninstallFile;
   }
   
@@ -411,7 +405,8 @@ class rex_pluginManager extends rex_baseManager
    */
   /*public static*/ function addon2plugin($addonName, $pluginName, $includeFile)
   {
-    global $REX;
+    global $REX, $I18N; // Nötig damit im Addon verfügbar
+        
     $ADDONSsic = $REX['ADDON'];
     $REX['ADDON'] = array();
     
