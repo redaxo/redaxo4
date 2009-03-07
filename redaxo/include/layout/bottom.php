@@ -12,7 +12,7 @@
 <!-- *** OUTPUT OF CONTENT - END *** -->
 
 </div>
-</div><!-- END #rex-wrapper -->
+</div><?php /* END #rex-wrapper - nicht als HTML Kommentar setzen, sonst Bug im IE */ ?>
 
   <div id="rex-footer">
     <div id="rex-navi-footer">
