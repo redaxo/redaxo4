@@ -64,7 +64,7 @@ class rex_var_article extends rex_var
     {
       list ($param_str, $args)  = $match;
       list ($article_id, $args) = $this->extractArg('id',    $args, 0);
-      list ($clang, $args)      = $this->extractArg('clang', $args, $REX['CUR_CLANG']);
+      list ($clang, $args)      = $this->extractArg('clang', $args, '$REX[\'CUR_CLANG\']');
       list ($ctype, $args)      = $this->extractArg('ctype', $args, -1);
       list ($field, $args)      = $this->extractArg('field', $args, '');
       
@@ -76,7 +76,7 @@ class rex_var_article extends rex_var
 	      {
 	        if(OOArticle::hasValue($field))
 	        {
-	          $tpl = '<?php echo '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getValue(\''. addslashes($field) .'\')') .' ?>';
+	          $tpl = '<?php echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getValue(\''. addslashes($field) .'\')') .'); ?>';
 	        }
 	      }
 	      // REX_ARTICLE[] keine id -> aktuellen artikel verwenden
@@ -86,7 +86,7 @@ class rex_var_article extends rex_var
 	      	{
 	          // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
 	          // => endlossschleife
-	          $tpl = '<?php echo '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getArticle('. $ctype .')') .' ?>';
+	          $tpl = '<?php echo '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getArticle('. $ctype .')') .'; ?>';
 	      	}
 	      }
       }
@@ -99,10 +99,10 @@ class rex_var_article extends rex_var
           {
 	        	// bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
-	          $varname = '$__rex_art'. $article_id .'_'. $clang .'_'. $field;
+	          $varname = '$__rex_art';
 	          $tpl = '<?php
 	          '. $varname .' = OOArticle::getArticleById('. $article_id .', '. $clang .');
-	          if('. $varname .') echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .'
+	          if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }
         }
@@ -111,12 +111,12 @@ class rex_var_article extends rex_var
         {
 	        // bezeichner wählen, der keine variablen
 	        // aus modulen/templates überschreibt
-	        $varname = '$__rex_art'. $article_id .'_'. $clang;
+	        $varname = '$__rex_art';
 	        $tpl = '<?php
 	        '. $varname .' = new rex_article();
 	        '. $varname .'->setArticleId('. $article_id .');
 	        '. $varname .'->setClang('. $clang .');
-          echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getArticle('. $ctype .')') .'
+          echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getArticle('. $ctype .')') .';
 	        ?>';
         }
       }

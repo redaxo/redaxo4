@@ -46,7 +46,7 @@ class rex_var_category extends rex_var
    */
   function matchCategory($content, $replaceInTemplate = false)
   {
-  	global $REX, $article_id;
+  	global $REX;
 
     $var = 'REX_CATEGORY';
     $matches = $this->getVarParams($content, $var);
@@ -55,7 +55,7 @@ class rex_var_category extends rex_var
     {
     	list ($param_str, $args)   = $match;
       list ($category_id, $args) = $this->extractArg('id',    $args, 0);
-      list ($clang, $args)       = $this->extractArg('clang', $args, $REX['CUR_CLANG']);
+      list ($clang, $args)       = $this->extractArg('clang', $args, '$REX[\'CUR_CLANG\']');
       list ($field, $args)       = $this->extractArg('field', $args, '');
       
       $tpl = '';
@@ -67,12 +67,12 @@ class rex_var_category extends rex_var
           // bezeichner wählen, der keine variablen
           // aus modulen/templates überschreibt
           // beachte: root-artikel haben keine kategorie
-          $varname_art = '$__rex_art'. $article_id .'_'. $clang .'_'. $field;
-          $varname_cat = '$__rex_cat'. $category_id .'_'. $clang .'_'. $field;
+          $varname_art = '$__rex_art';
+          $varname_cat = '$__rex_cat';
           $tpl = '<?php
-          '. $varname_art .' = OOArticle::getArticleById('. $article_id .', '. $clang .');
+          '. $varname_art .' = OOArticle::getArticleById($REX[\'ARTICLE_ID\'], '. $clang .');
           '. $varname_cat .' = '. $varname_art .'->getCategory();
-          if('. $varname_cat .') echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .';
+          if('. $varname_cat .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .');
           ?>';
         }
       }
@@ -85,10 +85,10 @@ class rex_var_category extends rex_var
           {
             // bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
-	          $varname = '$__rex_cat'. $category_id .'_'. $clang .'_'. $field;
+	          $varname = '$__rex_cat';
 	          $tpl = '<?php
 	          '. $varname .' = OOCategory::getCategoryById('. $category_id .', '. $clang .');
-            if('. $varname .') echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .';	          
+            if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');	          
 	          ?>';
           }
         }

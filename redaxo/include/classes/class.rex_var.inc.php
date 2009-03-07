@@ -193,7 +193,7 @@ class rex_var
   {
     $varname = str_replace('"', '\"', $varname);
     $args = str_replace('"', '\"', serialize($args));
-    return 'rex_var::handleGlobalVarParams("'. $varname .'", unserialize("'. $args .'"), '. $value .');';
+    return 'rex_var::handleGlobalVarParams("'. $varname .'", unserialize("'. $args .'"), '. $value .')';
   }
 
   /**
