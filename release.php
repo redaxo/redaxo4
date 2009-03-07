@@ -1,10 +1,5 @@
 <?php
 
-// TODO
-// - files Ordner nicht kopieren
-// - js Ordner nicht kopieren?
-// - media Ordner nicht kopieren?
-
 // php5 noetig, wg simple_xml
 if(version_compare(phpversion(), $needed = '5.0.0', '<') == 1)
 {
@@ -59,7 +54,27 @@ function buildRelease($name = null, $version = null)
   // Ordner in dem das release gespeichert wird
   // ohne "/" am Ende!
   $cfg_path = 'release';
-  $systemFolders = array('.cache', '.settings', '.svn', '.project', '.DS_Store');
+  
+  // Dateien/Verzeichnisse die in keinem Ordner kopiert werden sollen
+  $systemFiles = array(
+    '.cache',
+    '.settings',
+    '.svn',
+    '.project',
+    '.DS_Store'
+  );
+  // Dateien/Verzeichnisse die nur in bestimmten Ordnern nicht kopiert werden sollen
+  $ignoreFiles = array(
+    './release.php',
+    './release.xml',
+    './db-schema.png',
+    './db-schema.xml',
+    './files',
+    './bin',
+    './redaxo/include/generated',
+    './redaxo/include/addons',
+    './'. $cfg_path
+  );
   
   if (!$name)
   {
@@ -70,6 +85,9 @@ function buildRelease($name = null, $version = null)
       $name .= str_replace('.', '_', $version);
   }
   
+  if($version)
+    $version = explode('.', $version);
+    
   $releaseConfigs = getReleaseConfigs();
   $systemAddons = getSystemAddons();
   $systemName = $name;
@@ -77,9 +95,6 @@ function buildRelease($name = null, $version = null)
   {
     $path = $cfg_path;
     $name = $systemName .'_'. $releaseConfig['name'];
-  
-    if($version)
-      $version = explode('.', $version);
   
     if(substr($path, -1) != '/')
       $path .= '/';
@@ -101,11 +116,11 @@ function buildRelease($name = null, $version = null)
     echo '> copy files'."\n";
     $structure = readFolderStructure('.',
       array_merge(
-        $systemFolders, 
-        array('release.php', 'release.xml', 'db-schema.xml', 'db-schema.png', 'files', 'generated', 'addons', $cfg_path)
+        $systemFiles, 
+        $ignoreFiles
       )
     );
-    copyFolderStructure($structure, $path, $dest);
+    copyFolderStructure($structure, $dest);
 
     echo '> copy addons'."\n";
     foreach(array_merge($releaseConfig['addons'], $systemAddons) as $addon)
@@ -113,9 +128,9 @@ function buildRelease($name = null, $version = null)
       echo '>> '.$addon."\n";
       $structure = readFolderStructure(
         './redaxo/include/addons/'. $addon, 
-        $systemFolders
+        $systemFiles
       );
-      copyFolderStructure($structure, $path, $dest);
+      copyFolderStructure($structure, $dest);
     }
     
     // Ordner die wir nicht mitkopiert haben anlegen
@@ -224,7 +239,7 @@ function buildRelease($name = null, $version = null)
  *
  * @param $dir Path to the folder
  * @return Array Content of the folder or false on error
- * @author Markus Staab <staab@public-4u.de>
+ * @author Markus Staab <markus.staab@redaxo.de>
  */
 function readFolder($dir)
 {
@@ -250,7 +265,7 @@ function readFolder($dir)
  * @param $dir Path to the folder
  * @param $fileprefix Fileprefix to filter
  * @return Array Filtered-content of the folder or false on error
- * @author Markus Staab <staab@public-4u.de>
+ * @author Markus Staab <markus.staab@redaxo.de>
  */
 
 function readFilteredFolder($dir, $fileprefix)
@@ -279,7 +294,7 @@ function readFilteredFolder($dir, $fileprefix)
  *
  * @param $dir Path to the folder
  * @return Array Files of the folder or false on error
- * @author Markus Staab <staab@public-4u.de>
+ * @author Markus Staab <markus.staab@redaxo.de>
  */
 function readFolderFiles($dir, $except = array ())
 {
@@ -290,10 +305,10 @@ function readFolderFiles($dir, $except = array ())
   {
     return false;
   }
-
+  
   foreach ($folder as $file)
   {
-    if (is_file($dir . '/' . $file) && !in_array($file, $except))
+    if (is_file($dir . '/' . $file) && !inExcept($dir, $file, $except))
     {
       $files[] = $file;
     }
@@ -302,13 +317,31 @@ function readFolderFiles($dir, $except = array ())
   return $files;
 }
 
+function inExcept($dir, $file, $excepts = array())
+{
+  foreach($excepts as $except)
+  {
+    if(strpos($except, '/') === FALSE)
+    {
+      // handle relative file except
+      if($file == $except) return TRUE;
+    }
+    else
+    {
+      // handle absolute except
+      if(($dir .'/'. $file) == $except) return TRUE;
+    }
+  }
+  return FALSE;
+}
+
 /**
  * Returns the subfolders of the given folder
  *
  * @param $dir Path to the folder
  * @param $ignore_dots True if the system-folders "." and ".." should be ignored
  * @return Array Subfolders of the folder or false on error
- * @author Markus Staab <staab@public-4u.de>
+ * @author Markus Staab <markus.staab@redaxo.de>
  */
 function readSubFolders($dir, $ignore_dots = true)
 {
@@ -355,7 +388,7 @@ function _readFolderStructure($dir, $except, & $result)
   {
     foreach ($subdirs as $key => $subdir)
     {
-      if (in_array($subdir, $except))
+      if (inExcept($dir, $subdir, $except))
       {
         unset($subdirs[$key]);
         continue;
@@ -375,7 +408,7 @@ function sortFolderStructure($path1, $path2)
   return strlen($path1) > strlen($path2) ? 1 : -1;
 }
 
-function copyFolderStructure($structure, $path, $dest)
+function copyFolderStructure($structure, $dest)
 {
   // Ordner/Dateien kopieren
   foreach($structure as $path => $content)
@@ -400,7 +433,7 @@ function copyFolderStructure($structure, $path, $dest)
 
         if(substr($dir, -5) == '.lang' && substr($dir, -9) != 'utf8.lang')
         {
-          echo '> convert file '. $dir .' to utf-8'."\n";
+          echo '> convert file '. $path .'/'. $dir .' to utf-8'."\n";
           buildUtf8LangFile( $dest .'/'. $path.'/'.$dir);
         }
       }
@@ -474,6 +507,13 @@ function getSystemAddons()
     trigger_error('config "'. $master .'" not found!', E_USER_ERROR);
     exit();
   }
+  
+  // Warnungen vermeiden
+  $REX = array();
+  $REX['GG'] = FALSE;
+  $REX['REDAXO'] = TRUE;
+  $REX['HTDOCS_PATH'] = './';
+  
   require $master;
   return $REX['SYSTEM_ADDONS'];
 }
