@@ -97,19 +97,8 @@ body {
 div#rex-navi-main dd {
 	background-color: #3C9ED0;
 }
-
-/* Gelb für den Edit Slice */
-div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice {
-    background-color: #f4fecf;
-    border-bottom:1px solid #cbcbcb;
-}
-
-div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-navi-slice{
-    background-color: #f4fecf;
-}
-
-div.rex-content-editmode div.rex-form.rex-form-content-editmode-edit-slice{
-    background-color: #f9fde9;
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice {
+	background-color: #EDEDED;
 }
 
 /*	Blau - Dunkel */
@@ -229,7 +218,7 @@ div#rex-navi-paginate ul li {
 	background-image: url(document_plus.gif);
 }
 .rex-i-article-startpage {
-	background-image: url(liste.gif);
+	background-image: url(startpage.gif);
 }
 .rex-i-clang {
 	background-image: url(clang.gif);
@@ -318,13 +307,15 @@ div#rex-wrapper {
 }
 body#rex-page-login div#rex-wrapper, 
 body#rex-page-linkmap div#rex-wrapper, 
-body#rex-page-mediapool div#rex-wrapper {
+body#rex-page-mediapool div#rex-wrapper, 
+body#rex-page-setup div#rex-wrapper {
 	width: 100%;
 	margin-right: 0px;
 }
 body#rex-page-login div#rex-wrapper2, 
 body#rex-page-linkmap div#rex-wrapper2, 
-body#rex-page-mediapool div#rex-wrapper2 {
+body#rex-page-mediapool div#rex-wrapper2, 
+body#rex-page-setup div#rex-wrapper2 {
 	padding: 0 16px;
 }
 
@@ -337,6 +328,7 @@ div#rex-output {
 	background-color: #DFE9E9;
 }*/
 div#rex-footer {
+  clear: both;
 	border-top-color: #404040;
 	border-top-width: 8px;
 	margin: 0;
@@ -536,6 +528,8 @@ input.rex-form-text {
 }
 
 body#rex-page-addon table.rex-table, 
+body#rex-page-linkmap div#rex-linkmap, 
+body#rex-page-linkmap div#rex-navi-path, 
 body#rex-page-mediapool div.rex-form, 
 body#rex-page-mediapool div#rex-navi-path, 
 body#rex-page-mediapool table.rex-table, 
