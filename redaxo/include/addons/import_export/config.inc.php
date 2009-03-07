@@ -3,7 +3,7 @@
 $mypage = 'import_export';        // only for this file
 
 if ($REX['REDAXO'])
-  $I18N_IM_EXPORT = new i18n($REX['LANG'],$REX['INCLUDE_PATH'].'/addons/'. $mypage .'/lang');   // CREATE LANG OBJ FOR THIS ADDON
+	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 
 $REX['ADDON']['rxid'][$mypage] = '1';     // unique id /
 $REX['ADDON']['page'][$mypage] = $mypage;     // pagename/foldername
