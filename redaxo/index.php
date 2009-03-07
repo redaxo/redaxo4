@@ -36,10 +36,7 @@ require 'include/master.inc.php';
 // ----- addon/normal page path
 $REX['PAGEPATH'] = '';
 
-// ----- header einbauen
-$withheader = true;
-
-// ----- pages, verfŸgbare seiten
+// ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
 $pages = array();
 $page = "";
@@ -93,7 +90,7 @@ else
 
 		// Fehlermeldung von der Datenbank
 		if(is_string($loginCheck))
-		$rex_user_loginmessage = $loginCheck;
+		  $rex_user_loginmessage = $loginCheck;
 
 		$pages["LOGIN"] = array("login",0,1);
 		$page = 'login';
@@ -116,9 +113,9 @@ else
 include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
 
 
+// ----- Prepare Pages
 if($REX['USER'])
 {
-
 	$pages["PROFILE"] = array($I18N->msg("profile"),0,1);
 	$pages["CREDITS"] = array($I18N->msg("credits"),0,1);
 
@@ -169,7 +166,8 @@ if($REX['USER'])
 			{
 				$popup = 1;
 				if(isset ($REX['ADDON']['popup'][$apage]))
-				$popup = 0;
+				  $popup = 0;
+				  
 				$pages[strtoupper($apage)] = array($name,1,$popup,$link);
 			}
 			next($REX['ADDON']['status']);
@@ -198,9 +196,8 @@ if($REX['USER'])
 	if ($rex_user_login != "")
 	{
 		header('Location: index.php?page='. $page);
-		exit;
+		exit();
 	}
-
 }
 
 // Ausgabe der Seite
