@@ -18,7 +18,7 @@ rex_register_extension('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {
-	global $REX, $I18N_META_INFOS;
+	global $REX, $I18N;
 
 	$fields = new rex_sql();
   $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "cat_%" LIMIT 1');
@@ -38,7 +38,7 @@ function rex_a62_metainfo_button($params)
     else changeImage("rex-meta-icon","media/file_add.gif");
   }
 
-  //--></script><a class="rex-button-add" href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-metainfo-icon" alt="'. $I18N_META_INFOS->msg('edit_metadata') .'" title="'. $I18N_META_INFOS->msg('edit_metadata') .'" /></a></p>';
+  //--></script><a class="rex-button-add" href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-metainfo-icon" alt="'. $I18N->msg('minfo_edit_metadata') .'" title="'. $I18N->msg('minfo_edit_metadata') .'" /></a></p>';
 
 	   return $params['subject'] . $return;
   }

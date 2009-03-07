@@ -30,7 +30,7 @@ if ($func == '')
 {
   $list = rex_list::factory('SELECT field_id, name FROM '. $REX['TABLE_PREFIX'] .'62_params WHERE `name` LIKE "'. $prefix .'%" ORDER BY prior');
 
-  $list->setCaption($I18N_META_INFOS->msg('field_list_caption'));
+  $list->setCaption($I18N->msg('minfo_field_list_caption'));
   $imgHeader = '<a class="rex-i-element rex-i-metainfo-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.$I18N->msg('add').'</span></a>';
   $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-metainfo"><span class="rex-i-element-text">'.$I18N->msg('edit').'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'field_id' => '###field_id###'));
@@ -39,13 +39,13 @@ if ($func == '')
   $list->addTableColumnGroup(array(40, '*'));
 
 
-  $list->setColumnLabel('field_id', $I18N_META_INFOS->msg('field_label_id'));
+  $list->setColumnLabel('field_id', $I18N->msg('minfo_field_label_id'));
   $list->setColumnLayout('field_id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
-  $list->setColumnLabel('name', $I18N_META_INFOS->msg('field_label_name'));
+  $list->setColumnLabel('name', $I18N->msg('minfo_field_label_name'));
   $list->setColumnParams('name', array('func' => 'edit', 'field_id' => '###field_id###'));
 
-  $list->setNoRowsMessage($I18N_META_INFOS->msg('metainfos_not_found'));
+  $list->setNoRowsMessage($I18N->msg('minfo_metainfos_not_found'));
 
   $list->show();
 }
@@ -54,7 +54,7 @@ elseif ($func == 'edit' || $func == 'add')
 {
   require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_table_expander.inc.php';
 
-  $form = new rex_a62_tableExpander($prefix, $metaTable, $REX['TABLE_PREFIX'] .'62_params', $I18N_META_INFOS->msg('field_fieldset'),'field_id='. $field_id);
+  $form = new rex_a62_tableExpander($prefix, $metaTable, $REX['TABLE_PREFIX'] .'62_params', $I18N->msg('minfo_field_fieldset'),'field_id='. $field_id);
 
   if($func == 'edit')
     $form->addParam('field_id', $field_id);

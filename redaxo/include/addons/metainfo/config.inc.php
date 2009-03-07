@@ -46,7 +46,7 @@ $REX['ADDON']['metaTables'][$mypage] = array(
 
 if ($REX['REDAXO'])
 {
-  $I18N_META_INFOS = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
+  $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
   
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php');
