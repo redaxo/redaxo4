@@ -31,7 +31,7 @@ function rex_a1_import_db($filename)
 
   if ($filename == '' || substr($filename, -4, 4) != ".sql")
   {
-    $return['message'] = $I18N->msg('no_import_file_chosen_or_wrong_version').'<br>';
+    $return['message'] = $I18N->msg('im_export_no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
   }
 
@@ -42,7 +42,7 @@ function rex_a1_import_db($filename)
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
   if($version === false)
   {
-    $return['message'] = $I18N->msg('no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
+    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
     return $return;
   }
   // Versionsstempel entfernen
@@ -59,7 +59,7 @@ function rex_a1_import_db($filename)
   else
   {
     // Prefix wurde nicht gefunden
-    $return['message'] = $I18N->msg('no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
+    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
     return $return;
   }
 
@@ -107,7 +107,7 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
-  $msg .= $I18N->msg('database_imported').'. '.$I18N->msg('entry_count', count($lines)).'<br />';
+  $msg .= $I18N->msg('im_export_database_imported').'. '.$I18N->msg('im_export_entry_count', count($lines)).'<br />';
 
   // prüfen, ob eine user tabelle angelegt wurde
   $tables = rex_sql::showTables();
@@ -183,7 +183,7 @@ function rex_a1_import_files($filename)
 
   if ($filename == '' || substr($filename, -7, 7) != ".tar.gz")
   {
-    $return['message'] = $I18N->msg("no_import_file_chosen")."<br>";
+    $return['message'] = $I18N->msg("im_export_no_import_file_chosen")."<br>";
     return $return;
   }
 
@@ -198,10 +198,10 @@ function rex_a1_import_files($filename)
   $tar->openTAR($filename);
   if (!$tar->extractTar())
   {
-    $msg = $I18N->msg('problem_when_extracting').'<br />';
+    $msg = $I18N->msg('im_export_problem_when_extracting').'<br />';
     if (count($tar->message) > 0)
     {
-      $msg .= $I18N->msg('create_dirs_manually').'<br />';
+      $msg .= $I18N->msg('im_export_create_dirs_manually').'<br />';
       foreach($tar->message as $_message)
       {
         $msg .= rex_absPath($_message).'<br />';
@@ -210,7 +210,7 @@ function rex_a1_import_files($filename)
   }
   else
   {
-    $msg = $I18N->msg('file_imported').'<br />';
+    $msg = $I18N->msg('im_export_file_imported').'<br />';
   }
 
   // ----- EXTENSION POINT

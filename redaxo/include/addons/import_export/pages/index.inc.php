@@ -46,7 +46,7 @@ if ($function == "delete")
 {
   // ------------------------------ FUNC DELETE
   if (unlink($REX['INCLUDE_PATH']."/addons/$page/files/$impname"));
-  $info = $I18N->msg("file_deleted");
+  $info = $I18N->msg("im_export_file_deleted");
 }
 elseif ($function == "dbimport")
 {
@@ -56,7 +56,7 @@ elseif ($function == "dbimport")
   // install/temp.sql aendern
   if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
-    $warning = $I18N->msg("no_import_file_chosen_or_wrong_version")."<br>";
+    $warning = $I18N->msg("im_export_no_import_file_chosen_or_wrong_version")."<br>";
   }
   else
   {
@@ -82,7 +82,7 @@ elseif ($function == "dbimport")
     }
     else
     {
-      $warning = $I18N->msg("file_could_not_be_uploaded")." ".$I18N->msg("you_have_no_write_permission_in", "addons/$page/files/")." <br>";
+      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/$page/files/")." <br>";
     }
   }
 
@@ -93,7 +93,7 @@ elseif ($function == "fileimport")
 
   if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
-    $warning = $I18N->msg("no_import_file_chosen")."<br/>";
+    $warning = $I18N->msg("im_export_no_import_file_chosen")."<br/>";
   }
   else
   {
@@ -118,7 +118,7 @@ elseif ($function == "fileimport")
     }
     else
     {
-      $warning = $I18N->msg("file_could_not_be_uploaded")." ".$I18N->msg("you_have_no_write_permission_in", "addons/$page/files/")." <br>";
+      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/$page/files/")." <br>";
     }
   }
 
@@ -133,7 +133,7 @@ elseif ($function == 'export')
 
   if ($filename != $exportfilename)
   {
-    $info = $I18N->msg('filename_updated');
+    $info = $I18N->msg('im_export_filename_updated');
     $exportfilename = $filename;
   }
   else
@@ -158,7 +158,7 @@ elseif ($function == 'export')
 
       if (empty($EXPDIR))
       {
-        $warning = $I18N->msg('please_choose_folder');
+        $warning = $I18N->msg('im_export_please_choose_folder');
       }
       else
       {
@@ -196,11 +196,11 @@ elseif ($function == 'export')
 
         if (rex_put_file_contents($export_path . $filename . $ext, $content) !== false)
         {
-          $info = $I18N->msg('file_generated_in').' '.strtr($filename . $ext, '\\', '/');
+          $info = $I18N->msg('im_export_file_generated_in').' '.strtr($filename . $ext, '\\', '/');
         }
         else
         {
-          $warning = $I18N->msg('file_could_not_be_generated').' '.$I18N->msg('check_rights_in_directory').' '.$export_path;
+          $warning = $I18N->msg('im_export_file_could_not_be_generated').' '.$I18N->msg('im_export_check_rights_in_directory').' '.$export_path;
         }
       }
     }
@@ -209,7 +209,7 @@ elseif ($function == 'export')
 
 require $REX['INCLUDE_PATH']."/layout/top.php";
 
-rex_title($I18N->msg("importexport"), "");
+rex_title($I18N->msg("im_export_importexport"), "");
 
 if ($info != '')
 {
@@ -224,16 +224,16 @@ if ($warning != '')
 
 <div class="rex-area rex-area-col-2">
   <div class="rex-area-col-a">
-    <h3 class="rex-hl2"><?php echo $I18N->msg('import'); ?></h3>
+    <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_import'); ?></h3>
     
     <div class="rex-area-content">
-      <p class="rex-tx1"><?php echo $I18N->msg('intro_import') ?></p>
+      <p class="rex-tx1"><?php echo $I18N->msg('im_export_intro_import') ?></p>
       
       <div class="rex-form" id="rex-form-import-data">
-        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N->msg('proceed_db_import') ?>')">
+        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N->msg('im_export_proceed_db_import') ?>')">
           <fieldset class="rex-form-col-1">
           
-            <legend><?php echo $I18N->msg('database'); ?></legend>
+            <legend><?php echo $I18N->msg('im_export_database'); ?></legend>
             
             <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="<?php echo $page ?>" />
@@ -241,13 +241,13 @@ if ($warning != '')
               
               <div class="rex-form-row">
                 <p class="rex-form-file">
-                  <label for="importdbfile"><?php echo $I18N->msg('database'); ?></label>
+                  <label for="importdbfile"><?php echo $I18N->msg('im_export_database'); ?></label>
                   <input class="rex-form-file" type="file" id="importdbfile" name="FORM[importfile]" size="18" />
                 </p>
               </div>
               <div class="rex-form-row">
                 <p class="rex-form-submit">
-                  <input type="submit" class="rex-form-submit" value="<?php echo $I18N->msg('db_import') ?>" />
+                  <input type="submit" class="rex-form-submit" value="<?php echo $I18N->msg('im_export_db_import') ?>" />
                 </p>
               </div>
             </div>
@@ -255,18 +255,18 @@ if ($warning != '')
         </form>
       </div>
       
-      <table class="rex-table" summary="<?php echo $I18N->msg('export_db_summary'); ?>">
-        <caption><?php echo $I18N->msg('export_db_caption'); ?></caption>
+      <table class="rex-table" summary="<?php echo $I18N->msg('im_export_export_db_summary'); ?>">
+        <caption><?php echo $I18N->msg('im_export_export_db_caption'); ?></caption>
         <colgroup>
           <col width="*" />
           <col width="15%" span="3"/>
         </colgroup>
         <thead>
           <tr>
-            <th><?php echo $I18N->msg('filename'); ?></th>
-            <th><?php echo $I18N->msg('filesize'); ?></th>
-            <th><?php echo $I18N->msg('createdate'); ?></th>
-            <th colspan="2"><?php echo $I18N->msg('function'); ?></th>
+            <th><?php echo $I18N->msg('im_export_filename'); ?></th>
+            <th><?php echo $I18N->msg('im_export_filesize'); ?></th>
+            <th><?php echo $I18N->msg('im_export_createdate'); ?></th>
+            <th colspan="2"><?php echo $I18N->msg('im_export_function'); ?></th>
           </tr>
         </thead>
         <tbody>
@@ -284,8 +284,8 @@ if ($warning != '')
             <td>'. $file .'</td>
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
-            <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N->msg('import_file') .'" onclick="return confirm(\''. $I18N->msg('proceed_db_import') .'\')">'. $I18N->msg('import') .'</a></td>
-            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N->msg('delete') .'</a></td>
+            <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_db_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
           </tr>
   ';
   }
@@ -295,9 +295,9 @@ if ($warning != '')
 
       <!-- FILE IMPORT -->
       <div class="rex-form" id="rex-form-import-files">
-        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N->msg('proceed_file_import') ?>')" >
+        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N->msg('im_export_proceed_file_import') ?>')" >
           <fieldset class="rex-form-col-1">
-            <legend><?php echo $I18N->msg('files'); ?></legend>
+            <legend><?php echo $I18N->msg('im_export_files'); ?></legend>
             
             <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="<?php echo $page ?>" />
@@ -305,13 +305,13 @@ if ($warning != '')
               
               <div class="rex-form-row">
                 <p class="rex-form-file">
-                  <label for="importtarfile"><?php echo $I18N->msg('files'); ?></label>
+                  <label for="importtarfile"><?php echo $I18N->msg('im_export_files'); ?></label>
                   <input class="rex-form-file" type="file" id="importtarfile" name="FORM[importfile]" size="18" />
                 </p>
               </div>
               <div class="rex-form-row">
                 <p class="rex-form-submit">
-                  <input class="rex-form-submit" type="submit" value="<?php echo $I18N->msg('db_import') ?>" />
+                  <input class="rex-form-submit" type="submit" value="<?php echo $I18N->msg('im_export_db_import') ?>" />
                 </p>
               </div>
             </div>
@@ -319,18 +319,18 @@ if ($warning != '')
         </form>
       </div>
 
-      <table class="rex-table" summary="<?php echo $I18N->msg('export_file_summary'); ?>">
-        <caption><?php echo $I18N->msg('export_file_caption'); ?></caption>
+      <table class="rex-table" summary="<?php echo $I18N->msg('im_export_export_file_summary'); ?>">
+        <caption><?php echo $I18N->msg('im_export_export_file_caption'); ?></caption>
         <colgroup>
           <col width="*" />
           <col width="15%" span="3"/>
         </colgroup>
         <thead>
           <tr>
-            <th><?php echo $I18N->msg('filename'); ?></th>
-            <th><?php echo $I18N->msg('filesize'); ?></th>
-            <th><?php echo $I18N->msg('createdate'); ?></th>
-            <th colspan="2"><?php echo $I18N->msg('function'); ?></th>
+            <th><?php echo $I18N->msg('im_export_filename'); ?></th>
+            <th><?php echo $I18N->msg('im_export_filesize'); ?></th>
+            <th><?php echo $I18N->msg('im_export_createdate'); ?></th>
+            <th colspan="2"><?php echo $I18N->msg('im_export_function'); ?></th>
           </tr>
         </thead>
         <tbody>
@@ -348,8 +348,8 @@ if ($warning != '')
             <td>'. $file .'</td>
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
-            <td><a href="index.php?page='. $page .'&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N->msg('import_file') .'" onclick="return confirm(\''. $I18N->msg('proceed_file_import') .'\')">'. $I18N->msg('import') .'</a></td>
-            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('delete_file') .'" onclick="return confirm(\''. $I18N->msg('delete') .' ?\')">'. $I18N->msg('delete') .'</a></td>
+            <td><a href="index.php?page='. $page .'&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_file_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
           </tr>';
   }
 ?>
@@ -361,15 +361,15 @@ if ($warning != '')
   <!-- rechter Abschnitt -->
 
   <div class="rex-area-col-b">
-    <h3 class="rex-hl2"><?php echo $I18N->msg('export'); ?></h3>
+    <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_export'); ?></h3>
   
     <div class="rex-area-content">
-      <p class="rex-tx1"><?php echo $I18N->msg('intro_export') ?></p>
+      <p class="rex-tx1"><?php echo $I18N->msg('im_export_intro_export') ?></p>
       
       <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
-          <legend><?php echo $I18N->msg('export'); ?></legend>
+          <legend><?php echo $I18N->msg('im_export_export'); ?></legend>
           
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="<?php echo $page ?>" />
@@ -390,13 +390,13 @@ else
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
-                <label for="exporttype_sql"><?php echo $I18N->msg('database_export'); ?></label>
+                <label for="exporttype_sql"><?php echo $I18N->msg('im_export_database_export'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
-                <label for="exporttype_files"><?php echo $I18N->msg('file_export'); ?></label>
+                <label for="exporttype_files"><?php echo $I18N->msg('im_export_file_export'); ?></label>
               </p>
               
               <div class="rex-form-checkboxes">
@@ -444,24 +444,24 @@ else
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
-                <label for="exportdl_server"><?php echo $I18N->msg('save_on_server'); ?></label>
+                <label for="exportdl_server"><?php echo $I18N->msg('im_export_save_on_server'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exportdl_download" name="exportdl" value="1"<?php echo $checked1; ?> />
-                <label for="exportdl_download"><?php echo $I18N->msg('download_as_file'); ?></label>
+                <label for="exportdl_download"><?php echo $I18N->msg('im_export_download_as_file'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-text">
-                <label for="exportfilename"><?php echo $I18N->msg('filename'); ?></label>
+                <label for="exportfilename"><?php echo $I18N->msg('im_export_filename'); ?></label>
                 <input class="rex-form-text" type="text" id="exportfilename" name="exportfilename" value="<?php echo $exportfilename; ?>" />
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="<?php echo $I18N->msg('db_export'); ?>" />
+                <input class="rex-form-submit" type="submit" value="<?php echo $I18N->msg('im_export_db_export'); ?>" />
               </p>
             </div>
           </div>
