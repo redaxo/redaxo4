@@ -1,11 +1,11 @@
 # addon:be_search de_de
 
-search_article_name = Artikelname
-search_article_id = Artikel Id
-search_start = suchen
-search_jump_to_category = Zur Kategorie springen
-search_quick_navi = Schnellnavigation
-search_no_results = Kein Artikel entspricht dem Suchkriterium
+be_search_article_name = Artikelname
+be_search_article_id = Artikel Id
+be_search_start = suchen
+be_search_jump_to_category = Zur Kategorie springen
+be_search_quick_navi = Schnellnavigation
+be_search_no_results = Kein Artikel entspricht dem Suchkriterium
 
-search_mpool_media = Mediumname
-search_mpool_start = suchen
+be_search_mpool_media = Mediumname
+be_search_mpool_start = suchen
