@@ -5,6 +5,7 @@
     <addons>
       <addon name="phpmailer"></addon>
       <addon name="tinymce"></addon>
+      <addon name="be_style"></addon>
     </addons>
   </release>
   <release name="community">
@@ -12,6 +13,7 @@
       <addon name="xform"></addon>
       <addon name="community"></addon>
       <addon name="phpmailer"></addon>
+      <addon name="be_style"></addon>
     </addons>
   </release>
 </releases>
