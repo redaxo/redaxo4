@@ -22,8 +22,6 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = 'textile[]';
 $REX['EXTPERM'][] = 'textile[help]';
 
-$I18N_A79 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
-
 require_once($REX['INCLUDE_PATH']. '/addons/textile/classes/class.textile.inc.php');
 require_once $REX['INCLUDE_PATH']. '/addons/textile/functions/function_textile.inc.php';
 
@@ -32,5 +30,7 @@ if ($REX['REDAXO'])
   require_once $REX['INCLUDE_PATH'].'/addons/textile/extensions/function_extensions.inc.php';
   require_once $REX['INCLUDE_PATH'].'/addons/textile/functions/function_help.inc.php';
 
+  $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+  
   rex_register_extension('PAGE_HEADER', 'rex_a79_css_add');
 }
