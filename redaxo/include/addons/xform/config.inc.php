@@ -23,3 +23,18 @@ $REX['ADDON']['xform']['classpaths']['action'] = array($REX['INCLUDE_PATH'].'/ad
 
 // Basis Klasse rex_xform
 include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_xform.inc.php');
+
+if($REX["REDAXO"])
+{
+	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+	
+	$REX['SUBPAGES'][$mypage] = array();
+	$REX['SUBPAGES'][$mypage][] = array( '' , $I18N->msg("overview"));
+	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
+		$REX['SUBPAGES'][$mypage][] = array ('email_templates' , $I18N->msg("email_templates"));
+	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
+		$REX['SUBPAGES'][$mypage][] = array ('description' , $I18N->msg("description"));
+	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
+		$REX['SUBPAGES'][$mypage][] = array ('module' , $I18N->msg("install_module"));
+
+}
