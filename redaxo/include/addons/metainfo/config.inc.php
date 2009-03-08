@@ -53,4 +53,11 @@ if ($REX['REDAXO'])
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');
 
   rex_register_extension('PAGE_CHECKED', 'a62_extensions_hanlder');
+
+	$REX['SUBPAGES'][$mypage] = array(
+	  array('','Artikel'),
+	  array('categories','Kategorien'),
+	  array('media','Medien'),
+	);
+
 }

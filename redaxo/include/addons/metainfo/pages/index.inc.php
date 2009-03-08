@@ -15,18 +15,10 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-
 // Include Header and Navigation
 require $REX['INCLUDE_PATH'].'/layout/top.php';
 
-// Build Subnavigation
-$subpages = array(
-  array('','Artikel'),
-  array('categories','Kategorien'),
-  array('media','Medien'),
-);
-
-rex_title('Metainformationen erweitern', $subpages);
+rex_title('Metainformationen erweitern', $REX['SUBPAGES']['metainfo']);
 
 echo '<div class="rex-addon-output">';
 
@@ -54,7 +46,6 @@ $metaTable = a62_meta_table($prefix);
 require $Basedir .'/field.inc.php';
 
 echo '</div>';
-
 
 // Include Footer
 require $REX['INCLUDE_PATH'].'/layout/bottom.php';
