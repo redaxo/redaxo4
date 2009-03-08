@@ -24,7 +24,7 @@ $REX['ADDON']['xform']['classpaths']['action'] = array($REX['INCLUDE_PATH'].'/ad
 // Basis Klasse rex_xform
 include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_xform.inc.php');
 
-if($REX['USER'] && $REX['USER'])
+if($REX['REDAXO'] && $REX['USER'])
 {
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 	
