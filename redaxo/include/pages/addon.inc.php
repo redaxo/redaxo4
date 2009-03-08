@@ -12,7 +12,7 @@ $addonname  = rex_request('addonname', 'string');
 $pluginname = rex_request('pluginname', 'string');
 $subpage    = rex_request('subpage', 'string');
 
-// -------------- Defaults
+// -------------- READ CONFIG
 $ADDONS    = rex_read_addons_folder();
 $PLUGINS   = array();
 foreach($ADDONS as $_addon)
@@ -39,7 +39,6 @@ else
 // ----------------- HELPPAGE
 if ($subpage == 'help' && $addonname != '')
 {
-  
   if($pluginname != '')
   {
     $helpfile    = rex_plugins_folder($addonname, $pluginname);
