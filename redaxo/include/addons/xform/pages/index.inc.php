@@ -2,7 +2,8 @@
 
 $page = 'xform';
 
-$I18N_XFORM = new i18n($REX['LANG'], $REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+// $I18N_XFORM = new i18n($REX['LANG'], );
+$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 
 include $REX["INCLUDE_PATH"]."/layout/top.php";
 echo '<div id="rex-addon-output">';
@@ -10,13 +11,13 @@ echo '<div id="rex-addon-output">';
 $subpage = rex_request("subpage","string");
 
 $subpages = array();
-$subpages[] = array( '' , $I18N_XFORM->msg("overview"));
+$subpages[] = array( '' , $I18N->msg("overview"));
 if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]") || $REX['USER']->isValueOf("rights","xform_email[]")) 
-	$subpages[] = array ('email_templates' , $I18N_XFORM->msg("email_templates"));
+	$subpages[] = array ('email_templates' , $I18N->msg("email_templates"));
 if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
-	$subpages[] = array ('description' , $I18N_XFORM->msg("description"));
+	$subpages[] = array ('description' , $I18N->msg("description"));
 if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
-	$subpages[] = array ('module' , $I18N_XFORM->msg("install_module"));
+	$subpages[] = array ('module' , $I18N->msg("install_module"));
 
 rex_title("XForm", $subpages);
 
@@ -35,7 +36,7 @@ if ($subpage != "")
 }else
 {
 	echo '<div class="rex-addon-output">';
-	echo '<h2 class="rex-hl2">XFORM - '.$I18N_XFORM->msg("overview").'</h2>';
+	echo '<h2 class="rex-hl2">XFORM - '.$I18N->msg("overview").'</h2>';
 	
 	echo '<div class="rex-addon-content"><ul>';
 	foreach($subpages as $sp)
