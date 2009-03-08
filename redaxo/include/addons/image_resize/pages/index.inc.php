@@ -18,21 +18,13 @@ $msg = '';
 
 require $REX['INCLUDE_PATH'] . '/layout/top.php';
 
-
 if ($subpage == 'clear_cache')
 {
   $c = rex_thumbnail::deleteCache();
   $msg = $I18N->msg('iresize_cache_files_removed', $c);
 }
 
-// Build Subnavigation
-$subpages = array (
-  	array ('', $I18N->msg('iresize_subpage_desc')),
-  	array ('settings', $I18N->msg('iresize_subpage_config')),
-  	array ('clear_cache', $I18N->msg('iresize_subpage_clear_cache')),
-	);
-
-rex_title('Image Resize', $subpages);
+rex_title('Image Resize', $REX['SUBPAGES']['image_resize']);
 
 // Include Current Page
 switch($subpage)
