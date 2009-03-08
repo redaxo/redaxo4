@@ -98,6 +98,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
         {
           $item['href'] = '#';
           $item['onclick'] = 'openMediaPool();';
+          $item['class'] .= ' rex-popup';
         }
         else
         { 
@@ -183,7 +184,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
      			$tags = '';
     		  foreach($subitem as $tag => $value)
 		        $tags .= ' '. $tag .'="'. $value .'"';
-	        echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>> '. $sb[1] .'</a></li>';
+	        echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>'. $sb[1] .'</a></li>';
 		      $subfirst = FALSE;
 	      }
 	      echo '</ul>';
