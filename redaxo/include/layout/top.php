@@ -85,6 +85,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
     {
       $item = array();
       
+      $item['page'] = $pageKey;
       $item['id'] = 'rex-navi-page-'.$pageKey;
       $item['class'] = '';
       if($pageKey == $REX["PAGE"]) 
@@ -138,7 +139,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
     echo '<dt>'. $headline .'</dt><dd>';
     echo '<ul id="rex-navi-'. $topic .'">';
     
-    $first = true;
+    $first = TRUE;
     foreach($naviList as $pageTitle => $item)
     {
       if($first)
@@ -150,12 +151,46 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
       unset($item['extra']);
       $id = $item['id'];
       unset($item['id']);
+      $p = $item['page'];
+      unset($item['page']);
       
       $tags = '';
       foreach($item as $tag => $value)
         $tags .= ' '. $tag .'="'. $value .'"';
       
-      echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>'. $pageTitle .'</a></li>';
+      echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>'. $pageTitle .'</a>';
+
+			// ***** Subnavi
+      if(
+      	isset($REX['SUBPAGES'][$p]) && 
+      	is_array($REX['SUBPAGES'][$p]) && 
+      	count($REX['SUBPAGES'][$p])>0)
+      {
+      	echo '<ul>';
+	      $subfirst = TRUE;
+	      $subpage = rex_request("subpage","string");
+	      foreach($REX['SUBPAGES'][$p] as $sb)
+	      {
+	      	$class = '';
+        	$id = 'rex-navi-'.$p.'-subpage-'.$sb[0];
+	      	if($subfirst)
+        		$class .= ' rex-subnavi-first';
+        	if($p == $REX["PAGE"] && $subpage == $sb[0]) 
+		        $class .= ' rex-active';
+     			$class = $class != '' ? ' class="'. $class .'"' : '';
+     			$subitem = array();
+     			$subitem['href'] = 'index.php?page='.$p.'&amp;subpage='.$sb[0];
+     			$tags = '';
+    		  foreach($subitem as $tag => $value)
+		        $tags .= ' '. $tag .'="'. $value .'"';
+	        echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>> '. $sb[1] .'</a></li>';
+		      $subfirst = FALSE;
+	      }
+	      echo '</ul>';
+      }
+      // ***** Subnavi
+      
+      echo '</li>';
       $first = false;
     }
     echo '</ul></dd>' . "\n";
