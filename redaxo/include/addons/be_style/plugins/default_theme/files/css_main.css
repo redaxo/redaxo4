@@ -385,7 +385,9 @@ div#rex-navi-main ul li.rex-navi-first a {
 div#rex-navi-main ul li a:hover {
 	text-decoration: none;
 }
-
+div#rex-navi-main ul li.rex-active ul {
+  display:block;
+}
 
 
 div#rex-title div.rex-title-row {
