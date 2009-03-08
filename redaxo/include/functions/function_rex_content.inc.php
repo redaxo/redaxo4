@@ -72,7 +72,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
     // ------ moveup
     if ($direction == "moveup")
     {
-      if ($SREID[$slice_id] > 0)
+      if (isset($SREID[$slice_id]) && $SREID[$slice_id] > 0)
       {
         if ($SCTYPE[$SREID[$slice_id]] == $slice_ctype)
         {
@@ -90,7 +90,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
     // ------ movedown
     else if ($direction == "movedown")
     {
-      if ($SID[$slice_id] > 0)
+      if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
       {
         if ($SCTYPE[$SID[$slice_id]] == $slice_ctype)
         {
