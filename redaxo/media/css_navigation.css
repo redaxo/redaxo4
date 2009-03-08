@@ -44,11 +44,12 @@ div#rex-navi-main ul li {
 	display: inline;
 	padding: 0 5px;
 }
+div#rex-navi-main ul ul {
+  display:none;
+}
 div#rex-navi-main ul li.rex-navi-first {
 	padding-left: 0px;
 }
-
-
 div#rex-navi-footer ul {
 	float: left;
 	width: 70%;
