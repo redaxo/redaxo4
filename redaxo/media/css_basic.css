@@ -242,6 +242,7 @@ div#rex-title h1 {
 }
 div.rex-addon-content, 
 div.rex-area-content, 
+div.rex-content-editmode-slice-input, 
 div.rex-content-editmode-slice-output {
 	line-height: 1.6;
 }
