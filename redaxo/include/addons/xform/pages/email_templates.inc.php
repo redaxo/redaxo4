@@ -17,7 +17,7 @@ if($func == "add" || $func == "edit")
 {
 	
 	echo '<div class="rex-toolbar"><div class="rex-toolbar-content">';
-	echo '<p><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'">'.$I18N->msg('xform_back_to_overview').'</a></p>';
+	echo '<p><a class="rex-back" href="index.php?page='.$page.'&amp;subpage='.$subpage.'">'.$I18N->msg('xform_back_to_overview').'</a></p>';
 	echo '</div></div>';
 	
 	
