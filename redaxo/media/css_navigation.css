@@ -199,6 +199,9 @@ div.rex-navi-slice ul li {
 	float: left;
 	padding: 8px 0 7px 5px;
 }
+div.rex-navi-slice ul li.rex-navi-first {
+	padding-left: 10px;
+}
 div.rex-navi-slice ul li a {
 	margin-right: 5px;
 }

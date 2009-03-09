@@ -253,6 +253,9 @@ div#rex-navi-main ul,
 div.rex-message-block {
 	line-height: 1.2;
 }
+body#rex-page-linkmap div.rex-area-content {
+  line-height: 1em;
+}
 
 
 /*	Textfarben *****************************************************************

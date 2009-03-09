@@ -1,4 +1,4 @@
-f/**
+/**
  * CSS Datei des Backends
  * @package redaxo4
  * @version svn:$Id$
@@ -284,10 +284,10 @@ div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-read span,
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-text input,
 div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
-	width: 317px;
+	width: 356px;
 }
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
-	width: 323px;
+	width: 362px;
 }
 div#rex-form-structure-category tr.rex-metainfo-cat label {
 	padding-left: 0px;
