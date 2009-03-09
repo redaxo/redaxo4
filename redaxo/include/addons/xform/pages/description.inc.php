@@ -24,6 +24,6 @@
 
 	</p>
 	<hr />
-	</div>
 <?php rex_xform::showHelp(); ?>
+	</div>
 </div>
