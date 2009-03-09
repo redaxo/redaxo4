@@ -112,19 +112,19 @@ class rex_form
     if($func == 'edit')
     {
       if($applyLabel != '')
-        $applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
+        $applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false), false);
 
       if($deleteLabel != '')
-        $deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
+        $deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false), false);
     }
 
     $resetElement = null;
 //    if($resetLabel != '')
-//      $resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
+//      $resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false), false);
 
     $abortElement = null;
 //    if($abortLabel != '')
-//      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
+//      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
 
     if($saveElement || $applyElement || $deleteElement || $resetElement || $abortElement)
       $this->addControlField($saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
@@ -1221,7 +1221,7 @@ class rex_form_control_element extends rex_form_element
     if($this->applyElement)
     {
       if(!$this->applyElement->hasAttribute('class'))
-        $this->applyElement->setAttribute('class', 'rex-form-submit');
+        $this->applyElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 			
 			$class = $this->applyElement->formatClass();
 
@@ -1231,7 +1231,7 @@ class rex_form_control_element extends rex_form_element
     if($this->deleteElement)
     {
       if(!$this->deleteElement->hasAttribute('class'))
-        $this->deleteElement->setAttribute('class', 'rex-form-submit');
+        $this->deleteElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
       if(!$this->deleteElement->hasAttribute('onclick'))
         $this->deleteElement->setAttribute('onclick', 'return confirm(\'Löschen?\');');
@@ -1244,7 +1244,7 @@ class rex_form_control_element extends rex_form_element
     if($this->resetElement)
     {
       if(!$this->resetElement->hasAttribute('class'))
-        $this->resetElement->setAttribute('class', 'rex-form-submit');
+        $this->resetElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
       if(!$this->resetElement->hasAttribute('onclick'))
         $this->resetElement->setAttribute('onclick', 'return confirm(\'Änderungen verwerfen?\');');
@@ -1257,7 +1257,7 @@ class rex_form_control_element extends rex_form_element
     if($this->abortElement)
     {
       if(!$this->abortElement->hasAttribute('class'))
-        $this->abortElement->setAttribute('class', 'rex-form-submit');
+        $this->abortElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 			
 			$class = $this->abortElement->formatClass();
 
