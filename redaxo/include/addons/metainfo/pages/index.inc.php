@@ -20,7 +20,7 @@ require $REX['INCLUDE_PATH'].'/layout/top.php';
 
 rex_title('Metainformationen erweitern', $REX['ADDON'][$page]['SUBPAGES']);
 
-echo '<div class="rex-addon-output">';
+echo '<div class="rex-addon-output-v2">';
 
 // Include Current Page
 switch($subpage)
