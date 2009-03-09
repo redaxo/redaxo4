@@ -55,6 +55,7 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
 
   $add_td = '';
   $class_td = '';
+  $class_tr = '';
   if ($REX['USER']->hasPerm('advancedMode[]'))
     $add_td = '<td>&nbsp;</td>';
   
@@ -72,10 +73,11 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   {
   	$element = '<p class="rex-form-legend">'. $label .'</p>';
     $class_td = ' class="rex-colored"';
+    $class_tr .= ' rex-metainfo-cat-b';
   }
   
   $s = '
-  <tr class="rex-table-row-activ rex-metainfo-cat" style="display:none;">
+  <tr class="rex-table-row-activ rex-metainfo-cat'. $class_tr .'" style="display:none;">
   	<td>&nbsp;</td>
   	'.$add_td.'
   	<td colspan="5"'.$class_td.'>
