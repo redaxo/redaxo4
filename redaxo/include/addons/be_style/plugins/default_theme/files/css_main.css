@@ -14,6 +14,10 @@ div#rex-navi-main ul li a.rex-active {
 	color: #FFF;
 }
 
+a.rex-button {
+  color: #000;
+}
+
 /*	Cyan */
 a, 
 div#rex-navi-logout a, 
@@ -103,7 +107,7 @@ div.rex-content-editmode div.rex-form-content-editmode-edit-slice {
 
 /*	Blau - Dunkel */
 div#rex-navi-main ul li a:hover, 
-div#rex-navi-main ul li.rex-active a {
+div#rex-navi-main ul li a.rex-active {
 	background-color: #14568A;
 }
 div.rex-toolbar, 
@@ -128,6 +132,7 @@ div#rex-form-system-setup,
 div#rex-mediapool-detail-wrapper, 
 div.rex-area, 
 div.rex-addon-output, 
+div.rex-addon-output-v2 div.rex-form, 
 div.rex-content-cols, 
 div.rex-form div.rex-form-wrapper,
 div.rex-widget p.rex-widget-field input,
@@ -136,6 +141,25 @@ table.rex-table,
 body#rex-page-import-export div.rex-area-col-a, 
 body#rex-page-import-export div.rex-area-col-b {
 	background-color: #EFF9F9;
+}
+
+
+/*  Gruen - Add-, EditSlice *********/
+/*  Modulname, SliceNavi */
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
+div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-navi-slice {
+  background-color: #F4FECF;
+}
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
+div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice {
+  border-bottom: 1px solid #CBCBCB;
+}
+
+/*  Slice Inhalt */
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice, 
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-edit-slice {
+  background-color: #F9FDE9;
 }
 
 
@@ -172,6 +196,12 @@ div.rex-form input.rex-form-submit {
 	background-repeat: repeat-x;
 }
 
+
+div#rex-navi-main ul li ul li a {
+	background-image: url(navi_sub.gif);
+	background-position: 13px 8px;
+}
+
 /*	Button - Pfeil oben */
 div.rex-navi-slice ul li a.rex-slice-move-up {
 	background-image: url(icon_up.gif);
@@ -194,9 +224,13 @@ div#rex-navi-paginate ul li.rex-navi-paginate-next a {
 
 
 /*	Trenner - Grau */ 
-div#rex-navi-paginate ul li {
+div#rex-navi-paginate ul li, 
+div.rex-navi-slice ul li a.rex-tx3 {
 	background-image: url(pipe_grey.gif);
 	background-position: 0px 2px;
+}
+div.rex-navi-slice ul li a.rex-tx3 {
+	background-position: 100% 2px;
 }
 
 
@@ -319,14 +353,6 @@ body#rex-page-setup div#rex-wrapper2 {
 	padding: 0 16px;
 }
 
-div#rex-title {
-	margin-top: 0px;
-	background: none;
-}
-/*
-div#rex-output {
-	background-color: #DFE9E9;
-}*/
 div#rex-footer {
   clear: both;
 	border-top-color: #404040;
@@ -342,6 +368,13 @@ div#rex-navi-footer p#rex-scripttime {
 }
 
 
+div#rex-title {
+	margin-top: 0px;
+	background: none;
+}
+html>body div#rex-title {
+	min-height: 0;
+}
 div#rex-title h1 {
 	padding-top: 5px;
 	padding-bottom: 18px;
@@ -370,15 +403,13 @@ div#rex-navi-main dd {
 	margin: 0 0 16px 0;
 	padding: 0;
 }
-div#rex-navi-main ul li, 
-div#rex-navi-main ul li.rex-navi-first  {
+div#rex-navi-main ul li  {
 	display: block;
 	padding: 0;
 	background: none;
 	border-bottom: 1px solid #FFF;
 }
-div#rex-navi-main ul li a, 
-div#rex-navi-main ul li.rex-navi-first a {
+div#rex-navi-main ul li a {
 	display: block;
 	padding: 5px 10px;
 }
@@ -386,7 +417,15 @@ div#rex-navi-main ul li a:hover {
 	text-decoration: none;
 }
 div#rex-navi-main ul li.rex-active ul {
-  display:block;
+  display: block;
+}
+div#rex-navi-main ul li ul li {
+	border-top: 1px solid #FFF;
+	border-bottom: 0;
+}
+div#rex-navi-main ul li ul li a {
+	padding-left: 25px;
+	font-weight: normal;
 }
 
 
@@ -396,6 +435,12 @@ div#rex-title div.rex-title-row {
 div#rex-title div.rex-title-row-sub {
 	border-top: 1px solid #CBCBCB;
 	border-bottom: 1px solid #CBCBCB;
+}
+div#rex-title div.rex-title-row-empty {
+	border-bottom: 0;
+}
+div#rex-title div.rex-title-row-empty p {
+	display: none;
 }
 div#rex-title ul#rex-navi-path {
 	border: 0;
@@ -460,7 +505,9 @@ div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 *******************************************************************************/
 div.rex-navi-slice ul li a {
 	display: block;
+	margin-right: 0px;
 	padding-top: 2px;
+	padding-right: 5px;
 }
 div.rex-content-editmode-module-name h3.rex-hl4 {
 	padding-top: 10px;
@@ -471,6 +518,9 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 	padding-top: 0px;
 	width: 18px;
 	height: 18px;
+}
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	padding-right: 0px;
 }
 
 /*	Content ********************************************************************
@@ -531,7 +581,6 @@ input.rex-form-text {
 
 body#rex-page-addon table.rex-table, 
 body#rex-page-linkmap div#rex-linkmap, 
-body#rex-page-linkmap div#rex-navi-path, 
 body#rex-page-mediapool div.rex-form, 
 body#rex-page-mediapool div#rex-navi-path, 
 body#rex-page-mediapool table.rex-table, 
@@ -549,6 +598,8 @@ body#rex-page-import-export div.rex-area-col-a,
 body#rex-page-import-export div.rex-area-col-b, 
 div.rex-area, 
 div.rex-addon-output, 
+div.rex-addon-output-v2 div.rex-form, 
+div.rex-addon-output-v2 table.rex-table, 
 div.rex-content-header, 
 div.rex-content-body,
 div.rex-message, 
@@ -587,6 +638,9 @@ p.rex-button a,
 div.rex-form input.rex-form-submit {
 	padding: 2px 6px;
 }
+div#rex-website a.rex-button:hover {
+	text-decoration: none;
+}
 
 div.rex-area-col-2, 
 div.rex-addon-col-2 {
@@ -598,6 +652,18 @@ div#rex-form-mediapool-selectcategory {
 	margin-bottom: 10px;
 }
 
+/*	Popup Spezial **************************************************************
+*******************************************************************************/
+body.rex-popup div#rex-navi-logout {
+	margin-bottom: 2px;
+}
+body.rex-popup div#rex-title h1 {
+	padding-bottom: 5px;
+	text-align: right;
+}
+body.rex-popup div#rex-output {
+	margin-top: 12px;
+}
 
 /*	Elemente wieder anzeigen ***************************************************
 *******************************************************************************/
@@ -641,6 +707,7 @@ body.rex-layout-liquid div#rex-wrapper {
 	width: 78%;
 	margin-right: 2%;
 }
+
 
 
 
