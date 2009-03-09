@@ -267,10 +267,10 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 
   echo '
         <tr class="'. $class .'">
-          <td class="rex-icon"><span class="rex-i-element rex-i-category-add"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
+          <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
           '. $add_td .'
-          <td><input type="text" id="rex-form-field-name" name="category_name" />'. $meta_buttons .'</td>
-          <td><input type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
+          <td><input class="rex-form-text" type="text" id="rex-form-field-name" name="category_name" />'. $meta_buttons .'</td>
+          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
           <td colspan="3">'. $add_buttons .'</td>
         </tr>';
 
