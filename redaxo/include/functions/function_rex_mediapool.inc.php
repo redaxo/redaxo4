@@ -452,7 +452,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
               <div class="rex-form-row">
                 <p class="rex-form-text">
                   <label for="ftitle">'.$I18N->msg('pool_file_title').'</label>
-                  <input type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars(stripslashes($ftitle)).'" />
+                  <input class="rex-form-text" type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars(stripslashes($ftitle)).'" />
                 </p>
               </div>
               
