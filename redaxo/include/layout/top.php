@@ -167,7 +167,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
       	is_array($REX['SUBPAGES'][$p]) && 
       	count($REX['SUBPAGES'][$p])>0)
       {
-      	echo '<ul>';
+      	echo '<ul class="rex-navi-level-2">';
 	      $subfirst = TRUE;
 	      $subpage = rex_request("subpage","string");
 	      foreach($REX['SUBPAGES'][$p] as $sb)
@@ -175,7 +175,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 	      	$class = '';
         	$id = 'rex-navi-'.$p.'-subpage-'.$sb[0];
 	      	if($subfirst)
-        		$class .= ' rex-subnavi-first';
+        		$class .= ' rex-navi-first';
         	if($p == $REX["PAGE"] && $subpage == $sb[0]) 
 		        $class .= ' rex-active';
      			$class = $class != '' ? ' class="'. $class .'"' : '';
