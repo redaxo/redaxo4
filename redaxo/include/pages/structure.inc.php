@@ -263,7 +263,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 
   echo '
         <tr class="rex-table-row-activ">
-          <td class="rex-icon"><span class="rex-i-element rex-i-category-add"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
+          <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
           '. $add_td .'
           <td><input type="text" id="rex-form-field-name" name="category_name" /></td>
           <td><input type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
@@ -547,7 +547,7 @@ if ($category_id > -1)
     }
 
     echo '<tr class="rex-table-row-activ">
-            <td class="rex-icon"><span class="rex-i-element rex-i-article-add"><span class="rex-i-element-text">'.$I18N->msg('article_add') .'</span></span></td>
+            <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.$I18N->msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" /></td>
             <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_New_Article" value="100" /></td>
