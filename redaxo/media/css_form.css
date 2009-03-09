@@ -505,3 +505,24 @@ div#rex-form-export div.rex-form-row div.rex-form-checkboxes-wrapper {
   width: 300px;
 }
 
+
+/*	Image Resize **************************************************************/
+
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 label, 
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p.rex-form-label {
+	width: 546px;
+}
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 div.rex-form-checkboxes-wrapper, 
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 div.rex-form-radios-wrapper, 
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p.rex-form-label-right label, 
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p.rex-form-read span, 
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p.rex-form-text input,
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p.rex-form-password input,
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p select,
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p textarea {
+	width: 55px;
+}
+/*	Submit */
+body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p input.rex-form-submit {
+	margin-left: 556px;
+}
