@@ -468,10 +468,17 @@ class rex_article
                 <div class="rex-navi-slice">
                   <ul>
               ';
-
+              
+              $listElementFlag = true;
               foreach($listElements as $listElement)
               {
-                $mne  .= '<li>'. $listElement .'</li>';
+                $class = ''; 
+                if ($listElementFlag)
+                {
+                  $class = ' class="rex-navi-first"';
+                  $listElementFlag = false;
+                }
+                $mne  .= '<li'.$class.'>'. $listElement .'</li>';
               }
 
               $mne .= '</ul></div></div>';
