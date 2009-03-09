@@ -13,6 +13,9 @@
 input#rex-form-field-name {
 	width: 97%;
 }
+tr.rex-has-metainfo input#rex-form-field-name {
+	width: 94%;
+}
 input#rex-form-field-prior {
 	width: 87%;
 }
@@ -40,6 +43,9 @@ div.rex-form {
 	width:100%;
 	border-top-width: 1px;
 	border-top-style: solid;
+}
+div.rex-toolbar div.rex-form {
+  border-top: 0;
 }
 div.rex-form legend {
 	padding: 7px 5px;
@@ -284,10 +290,10 @@ div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-read span,
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-text input,
 div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
-	width: 356px;
+	width: 340px;
 }
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
-	width: 362px;
+	width: 346px;
 }
 div#rex-form-structure-category tr.rex-metainfo-cat label {
 	padding-left: 0px;
@@ -443,6 +449,9 @@ div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p
 /*	Checkbox / Radio */
 div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right input.rex-form-checkbox, 
 div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right input.rex-form-radio {
+	margin-left: 5px;
+}
+div#rex-form-mediapool-other div.rex-form-row p span.rex-form-notice {
 	margin-left: 5px;
 }
 

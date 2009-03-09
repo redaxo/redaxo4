@@ -157,9 +157,8 @@ p.rex-button-add {
 
 /*  Kategorietabelle Metainfo Button */
 div#rex-form-structure-category p.rex-button-add {
-  float: left;
-  margin-right: 5px;
-  padding-top: 2px;
+  display: inline;
+  margin: 0 5px;
 }
 
 /*	Table **********************************************************************
@@ -187,6 +186,10 @@ table.rex-table td {
 	border-style: solid;
 	border-right-width: 0;
 	vertical-align: top;
+}
+table.rex-table tr.rex-metainfo-cat td {
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 div#rex-form-structure-article table.rex-table th,
 div#rex-form-structure-article table.rex-table td, 

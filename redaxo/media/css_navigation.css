@@ -23,7 +23,12 @@ div.rex-toolbar ul {
 div#rex-navi-main {
 	float: left;
 	width: 100%;
+	height: 24px;
 	padding: 5px 0;
+}
+html>body div#rex-navi-main {
+	height: auto;
+	min-height: 24px;
 }
 div#rex-navi-footer p {
 	float: right;
@@ -72,6 +77,9 @@ div#rex-navi-logout {
 	position: absolute;
 	right: 0;
 	top: 25px;
+}
+div#rex-navi-logout p.rex-logout {
+	padding-right: 5px;
 }
 div#rex-navi-logout ul li {
 	display: inline;

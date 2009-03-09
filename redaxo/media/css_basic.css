@@ -414,6 +414,9 @@ div.rex-content-editmode div.rex-form-content-editmode {
 	background-color: #B0BDC3;
 }
 
+div.rex-toolbar div.rex-form {
+  background-color: transparent;
+}
 
 /*	Background Images **********************************************************
 *******************************************************************************/
