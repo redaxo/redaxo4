@@ -177,7 +177,8 @@ function rex_a256_search_structure($params)
   $category_select->setSelected($category_id);
 
   $form =
-   '  <form action="index.php" method="post">
+   '  <div class="rex-form">
+      <form action="index.php" method="post">
       <fieldset>
         <input type="hidden" name="page" value="'. $page .'" />
         <input type="hidden" name="mode" value="'. $mode .'" />
@@ -189,10 +190,10 @@ function rex_a256_search_structure($params)
 
 		    <div class="rex-fl-lft">
 	        <label for="rex-a256-article-name">'. $I18N->msg('be_search_article_name') .'</label>
-    	    <input type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars(stripslashes($a256_article_name)) .'"'. rex_tabindex() .' />
+    	    <input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars(stripslashes($a256_article_name)) .'"'. rex_tabindex() .' />
 
         	<label for="rex-a256-article-id">'. $I18N->msg('be_search_article_id') .'</label>
-	        <input type="text" name="a256_article_id" id="rex-a256-article-id"'. rex_tabindex() .' />
+	        <input class="rex-form-text" type="text" name="a256_article_id" id="rex-a256-article-id"'. rex_tabindex() .' />
     	    <input class="rex-form-submit" type="submit" name="a256_start_search" value="'. $I18N->msg('be_search_start') .'"'. rex_tabindex() .' />
 		    </div>
 
@@ -207,7 +208,8 @@ function rex_a256_search_structure($params)
     			</noscript>
         </div>
         </fieldset>
-      </form>';
+      </form>
+      </div>';
 
   $search_bar = $message.
   '<div id="rex-a256-searchbar" class="rex-toolbar rex-toolbar-has-form">
