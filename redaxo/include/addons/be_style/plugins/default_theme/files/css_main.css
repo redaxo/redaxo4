@@ -89,7 +89,8 @@ div#rex-title h1 {
 /*	Background Color ***********************************************************
 *******************************************************************************/
 
-body#rex-page-import-export div.rex-area {
+body#rex-page-import-export div.rex-area, 
+div#rex-navi-path {
 	background-color: transparent;
 }
 
@@ -132,7 +133,6 @@ div#rex-footer,
 div#rex-header p.rex-header-top,
 div#rex-title,
 div#rex-linkmap, 
-div#rex-navi-path, 
 div#rex-form-system-setup,
 div#rex-mediapool-detail-wrapper, 
 div.rex-area, 
@@ -620,7 +620,6 @@ input.rex-form-text {
 body#rex-page-addon table.rex-table, 
 body#rex-page-linkmap div#rex-linkmap, 
 body#rex-page-mediapool div.rex-form, 
-body#rex-page-mediapool div#rex-navi-path, 
 body#rex-page-mediapool table.rex-table, 
 body#rex-page-module div.rex-form, 
 body#rex-page-module table.rex-table, 
