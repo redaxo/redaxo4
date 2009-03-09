@@ -25,7 +25,7 @@ div#rex-navi-footer,
 div#rex-navi-footer ul li, 
 div#rex-navi-footer ul li a, 
 div.rex-content-header ul li a {
-	color: #3C9ED0;
+	color: #2C8EC0;
 }
 
 /*	Blau - Dunkel */
@@ -114,7 +114,7 @@ div#rex-navi-main ul li a.rex-active {
 
 /*	Blau - Dunkel */
 div#rex-navi-main ul li ul li a {
-	background-color: #2681B3;
+	background-color: #5AB8EF;
 }
 
 div.rex-toolbar, 
@@ -240,6 +240,13 @@ div.rex-navi-slice ul li a.rex-tx3 {
 div#rex-navi-main ul li a.rex-popup {
 	background-image: url(popup.gif);
 	background-position: 154px 6px;
+}
+
+/*	Back */ 
+a.rex-back {
+  padding-left: 8px;
+	background-image: url(back.gif);
+	background-position: 0 4px;
 }
 
 
@@ -587,10 +594,10 @@ div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-read span,
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-text input,
 div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
-	width: 327px;
+	width: 312px;
 }
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
-	width: 333px;
+	width: 318px;
 }
 
 
@@ -620,6 +627,7 @@ input.rex-form-text {
 body#rex-page-addon table.rex-table, 
 body#rex-page-linkmap div#rex-linkmap, 
 body#rex-page-mediapool div.rex-form, 
+body#rex-page-mediapool div#rex-mediapool-detail-wrapper, 
 body#rex-page-mediapool table.rex-table, 
 body#rex-page-module div.rex-form, 
 body#rex-page-module table.rex-table, 
@@ -651,10 +659,13 @@ p.rex-button a {
 	outline: 1px solid #CBCBCB;
 }
 body#rex-page-import-export div.rex-area, 
+body#rex-page-mediapool div#rex-mediapool-detail-wrapper div.rex-form, 
 body#rex-page-mediapool div.rex-form table.rex-table, 
 body#rex-page-module div.rex-form table.rex-table, 
 body#rex-page-structure div.rex-form table.rex-table, 
-div.rex-addon-output div.rex-area {
+div.rex-addon-output div.rex-area, 
+div.rex-content-editmode div.rex-message, 
+div#rex-output div.rex-toolbar div.rex-form {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;
