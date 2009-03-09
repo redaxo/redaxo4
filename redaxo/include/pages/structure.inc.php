@@ -258,14 +258,18 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
     $add_td = '<td class="rex-small">-</td>';
   }
 
-  $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
-  $add_buttons .= '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
+  $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
+  $add_buttons = '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
+
+  $class = 'rex-table-row-activ';
+  if($meta_buttons != "")
+    $class .= ' rex-has-metainfo';
 
   echo '
-        <tr class="rex-table-row-activ">
-          <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
+        <tr class="'. $class .'">
+          <td class="rex-icon"><span class="rex-i-element rex-i-category-add"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
           '. $add_td .'
-          <td><input type="text" id="rex-form-field-name" name="category_name" /></td>
+          <td><input type="text" id="rex-form-field-name" name="category_name" />'. $meta_buttons .'</td>
           <td><input type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
           <td colspan="3">'. $add_buttons .'</td>
         </tr>';
@@ -309,14 +313,18 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
-      $add_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
-      $add_buttons .= '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
+      $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
+      $add_buttons = '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
+
+		  $class = 'rex-table-row-activ';
+ 		 	if($meta_buttons != "")
+    		$class .= ' rex-has-metainfo';
 
       echo '
-        <tr class="rex-table-row-activ">
+        <tr class="'. $class .'">
           '. $kat_icon_td .'
           '. $add_td .'
-          <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="kat_name" value="'. htmlspecialchars($KAT->getValue("catname")). '" /></td>
+          <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="kat_name" value="'. htmlspecialchars($KAT->getValue("catname")). '" />'. $meta_buttons .'</td>
           <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Category" value="'. htmlspecialchars($KAT->getValue("catprior")) .'" /></td>
           <td colspan="3">'. $add_buttons .'</td>
         </tr>';
