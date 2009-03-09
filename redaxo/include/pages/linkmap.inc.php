@@ -3,9 +3,6 @@
 require $REX['INCLUDE_PATH'].'/functions/function_rex_linkmap.inc.php';
 
 
-//rex_title($REX['SERVERNAME'], 'Linkmap');
-rex_title('Linkmap');
-
 // ------- Default Values
 
 $HTMLArea = rex_request('HTMLArea', 'string');
@@ -79,15 +76,17 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
   }
 </script>
 
-<div id="rex-navi-path">
-<ul>
 <?php
+
+$navi_path = '<ul id="rex-navi-path">';
+
 
 $isRoot = $category_id === 0;
 $category = OOCategory::getCategoryById($category_id);
 $link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
-echo '<li>'.$I18N->msg('path').' </li>';
-echo '<li>: <a href="'.$link.'">Homepage</a> </li>';
+
+$navi_path .= '<li>'.$I18N->msg('path').' </li>';
+$navi_path .= '<li>: <a href="'.$link.'">Homepage</a> </li>';
 
 $tree = array();
 
@@ -97,13 +96,15 @@ if ($category)
   {
     $tree[] = $cat->getId();
     $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
-    echo '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
+    $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }
 }
+$navi_path .= '</ul>';
 
+//rex_title($REX['SERVERNAME'], 'Linkmap');
+rex_title('Linkmap', $navi_path);
 ?>
-</ul>
-</div>
+
 
 
 
