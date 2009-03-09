@@ -5,6 +5,8 @@
  * @package redaxo4
  * @version svn:$Id$
  */
+ 
+$popups_arr = array('linkmap', 'mediapool');
 
 $page_title = $REX['SERVERNAME'];
 
@@ -16,6 +18,9 @@ if ($page_name != '')
 
 $body_id = str_replace('_', '-', $page);
 $bodyAttr = 'id="rex-page-'. $body_id .'"';
+
+if (in_array($body_id, $popups_arr))
+  $bodyAttr .= ' class="rex-popup"';
 
 if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
 
