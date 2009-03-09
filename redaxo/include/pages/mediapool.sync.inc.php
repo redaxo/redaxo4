@@ -99,9 +99,11 @@ if($PERMALL)
   }
   else
   {
-    echo '<p>
-            <strong>'. $I18N->msg('pool_sync_no_diffs') .'</strong>
-          </p>';
+    echo '<div class="rex-form-row">
+            <p class="rex-form-notice">
+              <span class="rex-form-notice"><strong>'. $I18N->msg('pool_sync_no_diffs') .'</strong></span>
+            </p>
+          </div>';
   }
 
   echo '</div>
