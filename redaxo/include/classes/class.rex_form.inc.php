@@ -112,19 +112,19 @@ class rex_form
     if($func == 'edit')
     {
       if($applyLabel != '')
-        $applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false), false);
+        $applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
 
       if($deleteLabel != '')
-        $deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false), false);
+        $deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
     }
 
     $resetElement = null;
 //    if($resetLabel != '')
-//      $resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false), false);
+//      $resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
 
     $abortElement = null;
 //    if($abortLabel != '')
-//      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
+//      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false, 'class' => 'rex-form-submit-2'), false);
 
     if($saveElement || $applyElement || $deleteElement || $resetElement || $abortElement)
       $this->addControlField($saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
