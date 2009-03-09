@@ -110,9 +110,14 @@ div#rex-navi-main ul li a:hover,
 div#rex-navi-main ul li a.rex-active {
 	background-color: #14568A;
 }
+
+/*	Blau - Dunkel */
+div#rex-navi-main ul li ul li a {
+	background-color: #2681B3;
+}
+
 div.rex-toolbar, 
 div.rex-content-header, 
-
 .rex-hl2, 
 div.rex-form, 
 div.rex-area-footer, 
@@ -145,21 +150,19 @@ body#rex-page-import-export div.rex-area-col-b {
 
 
 /*  Gruen - Add-, EditSlice *********/
+/*  Slice Inhalt */
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice, 
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-edit-slice, 
+table.rex-table tr.rex-metainfo-cat td {
+  background-color: #F9FDE9;
+}
+
 /*  Modulname, SliceNavi */
 div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
 div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
-div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-navi-slice {
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-navi-slice, 
+table.rex-table tr.rex-metainfo-cat-b td {
   background-color: #F4FECF;
-}
-div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
-div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice {
-  border-bottom: 1px solid #CBCBCB;
-}
-
-/*  Slice Inhalt */
-div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice, 
-div.rex-content-editmode div.rex-form.rex-form-content-editmode-edit-slice {
-  background-color: #F9FDE9;
 }
 
 
@@ -233,6 +236,11 @@ div.rex-navi-slice ul li a.rex-tx3 {
 	background-position: 100% 2px;
 }
 
+/*	Popup */ 
+div#rex-navi-main ul li a.rex-popup {
+	background-image: url(popup.gif);
+	background-position: 154px 6px;
+}
 
 
 
@@ -293,6 +301,18 @@ div.rex-navi-slice ul li a.rex-tx3 {
 .rex-i-mediapool-category-add {
 	background-image: url(folder_plus.gif);
 }
+
+/*	Border *********************************************************************
+*******************************************************************************/
+table.rex-table tr.rex-metainfo-cat td {
+  border-color: #DFE9E9;
+}
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
+div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
+table.rex-table tr.rex-metainfo-cat-b td {
+  border-bottom: 1px solid #CBCBCB;
+}
+
 
 /*	Allgemeines ****************************************************************
 *******************************************************************************/
@@ -556,6 +576,24 @@ div.rex-addon-col-b {
 	width: 21px;
 }
 
+
+/*	Formulare ******************************************************************
+*******************************************************************************/
+/*	Struktur : Metainfo 
+*******************************************************************************/
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper, 
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper, 
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label, 
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-read span,
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-text input,
+div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
+	width: 327px;
+}
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
+	width: 333px;
+}
+
+
 /*	Extras *********************************************************************
 *******************************************************************************/
 div#rex-redaxo-link {
@@ -637,9 +675,6 @@ div.rex-content-body {
 p.rex-button a, 
 div.rex-form input.rex-form-submit {
 	padding: 2px 6px;
-}
-div#rex-website a.rex-button:hover {
-	text-decoration: none;
 }
 
 div.rex-area-col-2, 
