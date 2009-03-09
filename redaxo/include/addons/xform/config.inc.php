@@ -29,12 +29,12 @@ if($REX['REDAXO'] && $REX['USER'])
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 	
 	$REX['SUBPAGES'][$mypage] = array();
-	$REX['SUBPAGES'][$mypage][] = array( '' , $I18N->msg("overview"));
+	$REX['SUBPAGES'][$mypage][] = array( '' , $I18N->msg("xform_overview"));
 	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
-		$REX['SUBPAGES'][$mypage][] = array ('email_templates' , $I18N->msg("email_templates"));
+		$REX['SUBPAGES'][$mypage][] = array ('email_templates' , $I18N->msg("xform_email_templates"));
 	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
-		$REX['SUBPAGES'][$mypage][] = array ('description' , $I18N->msg("description"));
+		$REX['SUBPAGES'][$mypage][] = array ('description' , $I18N->msg("xform_description"));
 	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","xform[]")) 
-		$REX['SUBPAGES'][$mypage][] = array ('module' , $I18N->msg("install_module"));
+		$REX['SUBPAGES'][$mypage][] = array ('module' , $I18N->msg("xform_install_module"));
 
 }

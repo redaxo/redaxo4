@@ -24,7 +24,7 @@ if ($subpage != "")
 }else
 {
 	echo '<div class="rex-addon-output">';
-	echo '<h2 class="rex-hl2">XFORM - '.$I18N->msg("overview").'</h2>';
+	echo '<h2 class="rex-hl2">XFORM - '.$I18N->msg("xform_overview").'</h2>';
 	
 	echo '<div class="rex-addon-content"><ul>';
 	foreach($REX['SUBPAGES'][$mypage] as $sp)

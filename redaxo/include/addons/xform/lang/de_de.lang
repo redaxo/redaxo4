@@ -1,26 +1,26 @@
-email_templates = E-Mail Templates
-description = Beschreibung/Beispiele
-install_module = Modul installieren
-overview = Übersicht
+xform_email_templates = E-Mail Templates
+xform_description = Beschreibung/Beispiele
+xform_install_module = Modul installieren
+xform_overview = Übersicht
 
-key = Key - bitte nicht veraendern
-email_from = E-Mail [z.b.info@redaxo.de]
-email_from_name = E-Mail-Name [z.b. REDAXO Server]
-subject = Betreff
-body = Body
+xform_key = Key - bitte nicht veraendern
+xform_email_from = E-Mail [z.b.info@redaxo.de]
+xform_email_from_name = E-Mail-Name [z.b. REDAXO Server]
+xform_subject = Betreff
+xform_body = Body
 
-add_email_template = E-Mail Template hinzufügen
+xform_add_email_template = E-Mail Template hinzufügen
 
-header_template_description = Beschreibung
-header_template_mail_from = E-Mail von
-header_template_mail_from_name = EMail Name
-header_template_subject = Betreff
-create_template = Template erstellen
-header_template_functions = Funktionen
+xform_header_template_description = Beschreibung
+xform_header_template_mail_from = E-Mail von
+xform_header_template_mail_from_name = EMail Name
+xform_header_template_subject = Betreff
+xform_create_template = Template erstellen
+xform_header_template_functions = Funktionen
 
-templates_not_found = Keine Templates gefunden
-delete_template = Löschen
+xform_templates_not_found = Keine Templates gefunden
+xform_delete_template = Löschen
 
-info_template_deleted = Template wurde gelöscht
+xform_info_template_deleted = Template wurde gelöscht
 
-back_to_overview = &laquo; Zurück zur Übersicht
+xform_back_to_overview = &laquo; Zurück zur Übersicht
