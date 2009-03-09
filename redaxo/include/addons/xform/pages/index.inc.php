@@ -7,7 +7,7 @@ echo '<div id="rex-addon-output">';
 
 $subpage = rex_request("subpage","string");
 
-rex_title("XForm", $REX['SUBPAGES'][$mypage]);
+rex_title("XForm", $REX['ADDON'][$page]['SUBPAGES']);
 
 function deep_in_array($value, $array, $case_insensitive = false)
 {
@@ -15,7 +15,7 @@ function deep_in_array($value, $array, $case_insensitive = false)
    return false;
 }
 
-if (!deep_in_array($subpage,$REX['SUBPAGES'][$mypage])) 
+if (!deep_in_array($subpage,$REX['ADDON'][$page]['SUBPAGES'])) 
 	$subpage = "help";
 
 if ($subpage != "")
@@ -27,7 +27,7 @@ if ($subpage != "")
 	echo '<h2 class="rex-hl2">XFORM - '.$I18N->msg("xform_overview").'</h2>';
 	
 	echo '<div class="rex-addon-content"><ul>';
-	foreach($REX['SUBPAGES'][$mypage] as $sp)
+	foreach($REX['ADDON'][$page]['SUBPAGES'] as $sp)
 	{
 		echo '<li><a href="index.php?page='.$page.'&amp;subpage='.$sp[0].'">'.$sp[1].'</a></li>';
 	}

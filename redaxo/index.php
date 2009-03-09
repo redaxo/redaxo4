@@ -60,7 +60,7 @@ if ($REX['SETUP'])
 		}
 	}
 
-	$pages["SETUP"] = array($I18N->msg('setup'),0,1);
+	$pages["setup"] = array($I18N->msg('setup'),0,1);
 	$page = "setup";
 }
 else
@@ -92,7 +92,7 @@ else
 		if(is_string($loginCheck))
 		  $rex_user_loginmessage = $loginCheck;
 
-		$pages["LOGIN"] = array("login",0,1);
+		$pages["login"] = array("login",0,1);
 		$page = 'login';
 		
 		$REX['USER'] = NULL;
@@ -116,27 +116,27 @@ include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
 // ----- Prepare Pages
 if($REX['USER'])
 {
-	$pages["PROFILE"] = array($I18N->msg("profile"),0,1);
-	$pages["CREDITS"] = array($I18N->msg("credits"),0,1);
+	$pages["profile"] = array($I18N->msg("profile"),0,1);
+	$pages["credits"] = array($I18N->msg("credits"),0,1);
 
 	if ($REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm())
 	{
-		$pages["STRUCTURE"] = array($I18N->msg("structure"),0,1);
-		$pages["MEDIAPOOL"] = array($I18N->msg("mediapool"),0,0);
-		$pages["LINKMAP"] = array($I18N->msg("linkmap"),0,0);
-		$pages["CONTENT"] = array($I18N->msg("content"),0,1);
+		$pages["structure"] = array($I18N->msg("structure"),0,1);
+		$pages["mediapool"] = array($I18N->msg("mediapool"),0,0);
+		$pages["linkmap"] = array($I18N->msg("linkmap"),0,0);
+		$pages["content"] = array($I18N->msg("content"),0,1);
 	}elseif($REX['USER']->hasPerm('mediapool[]'))
 	{
-		$pages["MEDIAPOOL"] = array($I18N->msg("mediapool"),0,0);
+		$pages["mediapool"] = array($I18N->msg("mediapool"),0,0);
 	}
 
 	if ($REX['USER']->isAdmin())
 	{
-	  $pages["TEMPLATE"] = array($I18N->msg("template"),0,1);
-	  $pages["MODULE"] = array($I18N->msg("modules"),0,1);
-	  $pages["USER"] = array($I18N->msg("user"),0,1);
-	  $pages["ADDON"] = array($I18N->msg("addon"),0,1);
-	  $pages["SPECIALS"] = array($I18N->msg("specials"),0,1);
+	  $pages["template"] = array($I18N->msg("template"),0,1);
+	  $pages["module"] = array($I18N->msg("modules"),0,1,'SUBPAGES'=>array(array('',$I18N->msg("modules")),array('actions',$I18N->msg("actions"))));
+	  $pages["user"] = array($I18N->msg("user"),0,1);
+	  $pages["addon"] = array($I18N->msg("addon"),0,1);
+	  $pages["specials"] = array($I18N->msg("specials"),0,1,'SUBPAGES'=>array(array('',$I18N->msg("main_preferences")),array('lang',$I18N->msg("languages"))));
 	}
 
 	if (is_array($REX['ADDON']['status']))
@@ -168,7 +168,7 @@ if($REX['USER'])
 				if(isset ($REX['ADDON']['popup'][$apage]))
 				  $popup = 0;
 				  
-				$pages[strtoupper($apage)] = array($name,1,$popup,$link);
+				$pages[strtolower($apage)] = array($name,1,$popup,$link);
 			}
 			next($REX['ADDON']['status']);
 		}
@@ -179,13 +179,13 @@ if($REX['USER'])
 	// --- page herausfinden
 	$page = trim(strtolower(rex_request('page', 'string')));
 	if($rex_user_login != "") $page = $REX['LOGIN']->getStartpage();
-	if(!isset($pages[strtoupper($page)]))
+	if(!isset($pages[strtolower($page)]))
 	{
 		$page = $REX['LOGIN']->getStartpage();
-		if(!isset($pages[strtoupper($page)]))
+		if(!isset($pages[strtolower($page)]))
 		{
 			$page = $REX['START_PAGE'];
-			if(!isset($pages[strtoupper($page)]))
+			if(!isset($pages[strtolower($page)]))
 			{
 				$page = "profile";
 			}
@@ -210,13 +210,13 @@ $REX["PAGES"] = $pages;
 $REX["PAGE"] = $page;
 
 $REX["PAGE_NO_NAVI"] = 1;
-if($pages[strtoupper($page)][2] == 1) $REX["PAGE_NO_NAVI"] = 0;
+if($pages[strtolower($page)][2] == 1) $REX["PAGE_NO_NAVI"] = 0;
 
 // ----- EXTENSION POINT
 // page variable validated
 rex_register_extension_point( 'PAGE_CHECKED', $page, array('pages' => $pages));
 
-if($pages[strtoupper($page)][1])
+if($pages[strtolower($page)][1])
 {
 	require $REX['INCLUDE_PATH'].'/addons/'. $page .'/pages/index.inc.php';
 }else

@@ -18,7 +18,7 @@ $func = rex_request('func', 'string');
 // Include Header and Navigation
 require $REX['INCLUDE_PATH'].'/layout/top.php';
 
-rex_title('Metainformationen erweitern', $REX['SUBPAGES']['metainfo']);
+rex_title('Metainformationen erweitern', $REX['ADDON'][$page]['SUBPAGES']);
 
 echo '<div class="rex-addon-output">';
 

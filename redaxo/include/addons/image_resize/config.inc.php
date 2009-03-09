@@ -66,7 +66,7 @@ if ($rex_resize != '')
 if($REX['REDAXO'])
 {
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
-	$REX['SUBPAGES']['image_resize'] = array (
+	$REX['ADDON'][$mypage]['SUBPAGES'] = array (
   	array ('', $I18N->msg('iresize_subpage_desc')),
   	array ('settings', $I18N->msg('iresize_subpage_config')),
   	array ('clear_cache', $I18N->msg('iresize_subpage_clear_cache')),

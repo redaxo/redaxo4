@@ -24,7 +24,7 @@ if ($subpage == 'clear_cache')
   $msg = $I18N->msg('iresize_cache_files_removed', $c);
 }
 
-rex_title('Image Resize', $REX['SUBPAGES']['image_resize']);
+rex_title('Image Resize', $REX['ADDON'][$page]['SUBPAGES']);
 
 // Include Current Page
 switch($subpage)
