@@ -21,7 +21,7 @@ if($func == "add" || $func == "edit")
 	echo '</div></div>';
 	
 	
-	echo '<div class="rex-addon-output">';
+	echo '<div class="rex-addon-output-v2">';
 
 	$form = new rex_form("rex_xform_email_template", 'Template', 'id='. $template_id);
 	if($func == 'edit')
@@ -65,7 +65,7 @@ if($func == "delete")
 //------------------------------> Liste
 if($func == ""){
 
-	echo '<div class="rex-addon-output">';
+	echo '<div class="rex-addon-output-v2">';
 	/** Suche  **/
 	$add_sql = "";
 	$link	= "";
