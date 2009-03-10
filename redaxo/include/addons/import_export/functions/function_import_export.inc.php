@@ -183,7 +183,7 @@ function rex_a1_import_files($filename)
 
   if ($filename == '' || substr($filename, -7, 7) != ".tar.gz")
   {
-    $return['message'] = $I18N->msg("im_export_no_import_file_chosen")."<br>";
+    $return['message'] = $I18N->msg("im_export_no_import_file_chosen")."<br />";
     return $return;
   }
 
