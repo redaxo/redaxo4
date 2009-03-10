@@ -1,5 +1,9 @@
 # addon:metaform de_de
 
+media = Medien
+categories = Kategorien
+articles = Artikel
+
 minfo_metainfos_not_found = Es wurden keine Metainformationen gefunden
 
 minfo_field_list_caption = Liste der Metafelder
