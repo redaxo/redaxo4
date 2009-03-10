@@ -15,7 +15,7 @@
  * @version svn:$Id$
  */
 
-$mypage = 'default_theme';
+$mypage = 'agk_skin';
 
 $REX['ADDON']['version'][$mypage] = '1.2';
 $REX['ADDON']['author'][$mypage] = 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum';

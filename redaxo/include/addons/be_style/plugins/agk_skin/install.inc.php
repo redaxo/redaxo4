@@ -18,8 +18,8 @@
 $error = '';
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['default_theme'] = $error;
+  $REX['ADDON']['installmsg']['agk_skin'] = $error;
 else
-  $REX['ADDON']['install']['default_theme'] = true;
+  $REX['ADDON']['install']['agk_skin'] = true;
   
 ?>
