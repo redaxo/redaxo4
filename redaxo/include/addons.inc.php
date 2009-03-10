@@ -11,7 +11,8 @@ unset($REX['ADDON']);
 
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN
-
+$REX['ADDON']['install']['be_style'] = '1';
+$REX['ADDON']['status']['be_style'] = '1';
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS
 
