@@ -551,9 +551,9 @@ function rex_deleteDir($file, $delete_folders = FALSE)
 
 
 /**
- * Löscht einen Datei in einem Ordnern
+ * Lösch allen Datei in einem Ordner
  *
- * @param $file Zu löschender Ordner
+ * @param $file Pfad zum Ordner
  * 
  * @return TRUE bei Erfolg, sonst FALSE
  */
@@ -583,6 +583,7 @@ function rex_deleteFiles($file)
         {
           continue;
         }
+        
 	      if (!@ unlink($file))
 	      {
 	        if($debug)
@@ -592,8 +593,7 @@ function rex_deleteFiles($file)
 	      }
     
       }
-      closedir($handle);
-     
+      closedir($handle);     
     }
     else
     {
