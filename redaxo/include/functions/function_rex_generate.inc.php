@@ -548,6 +548,70 @@ function rex_deleteDir($file, $delete_folders = FALSE)
   return TRUE;
 }
 
+
+
+/**
+ * Löscht einen Datei in einem Ordnern
+ *
+ * @param $file Zu löschender Ordner
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_deleteFiles($file)
+{
+  $debug = FALSE;
+  
+  $file = rtrim($file, DIRECTORY_SEPARATOR);
+
+  if (file_exists($file))
+  {
+    // Fehler unterdrücken, falls keine Berechtigung
+    if (@ is_dir($file))
+    {
+      $handle = opendir($file);
+      if (!$handle)
+      {
+        if($debug)
+          echo "Unable to open dir '$file'<br />\n";
+          
+        return FALSE;
+      }
+
+      while ($filename = readdir($handle))
+      {
+        if ($filename == '.' || $filename == '..')
+        {
+          continue;
+        }
+	      if (!@ unlink($file))
+	      {
+	        if($debug)
+	          echo "Unable to delete file '$file'<br />\n";
+	            
+	        return FALSE;
+	      }
+    
+      }
+      closedir($handle);
+     
+    }
+    else
+    {
+      // Datei löschen
+      // Fehler unterdrücken, falls keine Berechtigung
+    }
+  }
+  else
+  {
+    if($debug)
+      echo "file '$file'not found!<br />\n";
+    // Datei/Ordner existiert nicht
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 /**
  * Kopiert eine Ordner von $srcdir nach $dstdir
  * 

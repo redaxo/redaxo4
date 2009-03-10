@@ -188,7 +188,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_deleteDir($REX['INCLUDE_PATH']."/../../files");
+  rex_deleteFiles($REX['INCLUDE_PATH']."/../../files");
 
   $tar = new rex_tar;
 
