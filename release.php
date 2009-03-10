@@ -1,5 +1,9 @@
 <?php
 
+// TODO be_style + agk Skin defaul installed
+// TODO addons.inc, plugins.inc entsprechend
+// TODO nur sprache XY ins release
+
 // php5 noetig, wg simple_xml
 if(version_compare(phpversion(), $needed = '5.0.0', '<') == 1)
 {
