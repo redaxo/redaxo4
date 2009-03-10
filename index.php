@@ -43,6 +43,12 @@ include './redaxo/include/master.inc.php';
 // ----- INCLUDE ADDONS
 include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
 
+if($REX['SETUP'])
+{
+	header('Location:redaxo/');
+	exit();
+}
+
 $REX['ARTICLE'] = new rex_article;
 $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
