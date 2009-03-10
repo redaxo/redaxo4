@@ -25,5 +25,5 @@ if($REX["REDAXO"])
 {
   require_once(dirname(__FILE__). '/extensions/extension_cssadd.inc.php');
   
-  rex_register_extension('PAGE_HEADER', 'rex_be_style_default_theme_css_add');
+  rex_register_extension('PAGE_HEADER', 'rex_be_style_agk_skin_css_add');
 }
