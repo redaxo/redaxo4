@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <releases>
-  <release name="puristic"></release>
+  <release name="puristic">
+      <addon name="textile"></addon>
+  </release>
   <release name="default">
     <addons>
       <addon name="phpmailer"></addon>
-      <addon name="tinymce"></addon>
       <addon name="be_style"></addon>
+      <addon name="textile"></addon>
+      <addon name="url_rewrite"></addon>
+      <addon name="version"></addon>
+      <addon name="tinymce"></addon>
     </addons>
   </release>
   <release name="community">
     <addons>
-      <addon name="xform"></addon>
-      <addon name="community"></addon>
       <addon name="phpmailer"></addon>
       <addon name="be_style"></addon>
+      <addon name="textile"></addon>
+      <addon name="url_rewrite"></addon>
+      <addon name="xform"></addon>
+      <addon name="community"></addon>
     </addons>
   </release>
 </releases>

@@ -89,7 +89,7 @@ $REX['MAXLOGINS'] = 50;
 $REX['START_PAGE'] = 'structure';
 
 // ----------------- OTHER STUFF
-$REX['SYSTEM_ADDONS'] = array('import_export', 'metainfo', 'be_search', 'image_resize', 'textile');
+$REX['SYSTEM_ADDONS'] = array('import_export', 'metainfo', 'be_search', 'image_resize');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- DB1
