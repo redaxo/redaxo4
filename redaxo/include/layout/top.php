@@ -11,12 +11,12 @@ $popups_arr = array('linkmap', 'mediapool');
 $page_title = $REX['SERVERNAME'];
 
 if(!isset($page_name))
-  $page_name = $REX["PAGES"][strtolower($page)][0];
+  $page_name = $REX["PAGES"][strtolower($REX["PAGE"])][0];
   
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
-$body_id = str_replace('_', '-', $page);
+$body_id = str_replace('_', '-', $REX["PAGE"]);
 $bodyAttr = 'id="rex-page-'. $body_id .'"';
 
 if (in_array($body_id, $popups_arr))
