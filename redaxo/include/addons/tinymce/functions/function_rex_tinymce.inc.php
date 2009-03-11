@@ -102,7 +102,7 @@ if (!function_exists('a52_tinymce_opf'))
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
 		// Script für Media
-		if ($REX['ADDON'][$mypage]['media'] == 'on')
+		if (isset($REX['ADDON'][$mypage]['media']) && $REX['ADDON'][$mypage]['media'] == 'on')
 		{
 			$script = 'include/addons/' . $mypage . '/tinymce/jscripts/tiny_mce/plugins/media/js/rexembed.js';
 			$script = str_replace('\\', '/', $script);
