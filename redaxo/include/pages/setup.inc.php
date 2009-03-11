@@ -256,6 +256,7 @@ if ($checkmodus == 1)
   $WRITEABLES = array (
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'master.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons.inc.php',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'plugins.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'clang.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'articles',
