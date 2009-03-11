@@ -1,0 +1,20 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+div.rex-toolbar-content {
+  zoom: 1;
+}
+
+input.rex-form-text {
+  height: 14px;
+}
+/*
+input.rex-form-text, 
+input.rex-form-select, 
+input.rex-form-submit {
+  vertical-align: middle;
+}
+*/
