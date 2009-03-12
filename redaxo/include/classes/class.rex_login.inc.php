@@ -440,7 +440,7 @@ class rex_backend_login extends rex_login
 	{
 	  global $REX;
 	  
-  	if (preg_match_all('@startpage\[([^\]]*)\]@' , $this->getValue("rights"), $matches))
+  	if (preg_match_all('@#startpage\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
   	{
     	foreach ($matches[1] as $match)
     	{
