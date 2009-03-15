@@ -69,7 +69,8 @@ if (rex_post('upd_profile_button', 'string'))
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
-  if ($REX['PSWFUNC']!='' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw')) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+  if ($REX['PSWFUNC']!='' && $userpsw != $REX['USER']->getValue($REX['TABLE_PREFIX'].'user.psw')) 
+  	$userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue('psw',$userpsw);
   $updateuser->setValue('description',$userdesc);
 
