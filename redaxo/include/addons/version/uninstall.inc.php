@@ -9,5 +9,5 @@
  * @version svn:$Id$
  */
 
-$REX['ADDON']['uninstall']['version'] = 1;
+$REX['ADDON']['install']['version'] = 0;
 // ERRMSG IN CASE: $REX['ADDON']['installmsg']['version'] = "Leider konnte nichts installiert werden da.";
