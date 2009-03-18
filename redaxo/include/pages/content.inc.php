@@ -76,7 +76,7 @@ if ($article->getRows() == 1)
   // $KATout kommt aus dem include
   // $KATPERM
 
-  if ($page == 'content' && $article_id > 0)
+  if ($REX['PAGE'] == 'content' && $article_id > 0)
   {
     $KATout .= "\n" . '<p>';
 
@@ -117,7 +117,7 @@ if ($article->getRows() == 1)
       'function' => $function,
       'mode' => $mode,
       'slice_id' => $slice_id,
-      'page' => $page, 
+      'page' => 'content', 
       'ctype' => $ctype,
       'category_id' => $category_id,
       'article_revision' => &$article_revision,
