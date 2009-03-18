@@ -3,6 +3,7 @@ im_export_importexport = Im-/Export
 im_export_file_deleted = Datei wurde gelöscht
 im_export_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
 im_export_no_valid_import_file = Das ist keine korrekte Importdatei
+im_export_no_valid_charset = Kein passender Zeichensatz.
 im_export_database_imported = Datenbankimport erfolgreich importiert
 im_export_entry_count = ({0} Eintraege)
 im_export_file_could_not_be_uploaded = Datei konnte nicht hochgeladen werden.
