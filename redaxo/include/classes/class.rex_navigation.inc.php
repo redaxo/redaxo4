@@ -187,12 +187,13 @@ class rex_navigation
 		  // classes abhaengig vom pfad
 			if($nav->getId() == $this->current_category_id)
 			{
-			  $liClass .= ' rex-active';
+			  $liClass .= ' rex-current';
 			  $linkClass .= ' rex-current';
 			}
 			elseif (in_array($nav->getId(),$this->path))
 			{
         $liClass .= ' rex-active';
+			  $linkClass .= ' rex-active';
 			}
 			else
 			{
