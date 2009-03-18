@@ -319,9 +319,8 @@ function rex_deleteArticle($id)
 {
   global $I18N;
 
-  $result = _rex_deleteArticle($id);
-
-  return $result === true ? $I18N->msg('category_deleted').' '.$I18N->msg('article_deleted') : $result;
+  $return = _rex_deleteArticle($id);
+	return $return['message'];
 }
 
 /**
@@ -348,50 +347,60 @@ function _rex_deleteArticle($id)
   // -> startpage = 1
   // --> rekursiv aufrufen
 
+  $return = array();
+	$return['state'] = FALSE;
+
   if ($id == $REX['START_ARTICLE_ID'])
   {
-    return $I18N->msg('cant_delete_sitestartarticle');
+  	$return['message'] = $I18N->msg('cant_delete_sitestartarticle');
+    return $return;
   }
   if ($id == $REX['NOTFOUND_ARTICLE_ID'])
   {
-    return $I18N->msg('cant_delete_notfoundarticle');
+  	$return['message'] = $I18N->msg('cant_delete_notfoundarticle');
+    return $return;
   }
 
   $ART = new rex_sql;
-  $ART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$id' and clang='0'");
+  $ART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$id.' and clang=0');
 
   if ($ART->getRows() > 0)
   {
     $re_id = $ART->getValue('re_id');
-    $allowDelete = true;
+    $return['state'] = true;
     if ($ART->getValue('startpage') == 1)
     {
+    	$return['message'] = $I18N->msg('category_deleted');
       $SART = new rex_sql;
-      $SART->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$id' and clang='0'");
+      $SART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where re_id='.$id.' and clang=0');
       for ($i = 0; $i < $SART->getRows(); $i ++)
       {
-        $allowDelete = _rex_deleteArticle($id);
+        $return['state'] = _rex_deleteArticle($id);
         $SART->next();
       }
+    }else
+    {
+    	$return['message'] = $I18N->msg('article_deleted');
     }
 
     // Rekursion über alle Kindkategorien ergab keine Fehler
     // => löschen erlaubt
-    if($allowDelete === true)
+    if($return['state'] === true)
     {
       rex_deleteCacheArticle($id);
-      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article where id='$id'");
-      $ART->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where article_id='$id'");
+      $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article where id='.$id);
+      $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$id);
 
       // --------------------------------------------------- Listen generieren
       rex_generateLists($re_id);
     }
 
-    return $allowDelete;
+    return $return;
   }
   else
   {
-    return $I18N->msg('category_doesnt_exist');
+  	$return['message'] = $I18N->msg('category_doesnt_exist');
+    return $return;
   }
 }
 
