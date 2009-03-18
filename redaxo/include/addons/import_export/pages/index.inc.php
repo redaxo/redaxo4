@@ -11,12 +11,12 @@
 @ini_set('memory_limit', '64M');
 
 // ------- Addon Includes
-include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/classes/class.tar.inc.php';
-include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/classes/class.rex_tar.inc.php';
-include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_import_export.inc.php';
-include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_folder.inc.php';
-include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_import_folder.inc.php';
-include_once $REX['INCLUDE_PATH'].'/addons/'.$page.'/functions/function_string.inc.php';
+include_once $REX['INCLUDE_PATH'].'/addons/import_export/classes/class.tar.inc.php';
+include_once $REX['INCLUDE_PATH'].'/addons/import_export/classes/class.rex_tar.inc.php';
+include_once $REX['INCLUDE_PATH'].'/addons/import_export/functions/function_import_export.inc.php';
+include_once $REX['INCLUDE_PATH'].'/addons/import_export/functions/function_folder.inc.php';
+include_once $REX['INCLUDE_PATH'].'/addons/import_export/functions/function_import_folder.inc.php';
+include_once $REX['INCLUDE_PATH'].'/addons/import_export/functions/function_string.inc.php';
 
 $info = '';
 $warning = '';
@@ -236,7 +236,7 @@ if ($warning != '')
             <legend><?php echo $I18N->msg('im_export_database'); ?></legend>
             
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="<?php echo $page ?>" />
+              <input type="hidden" name="page" value="import_export" />
               <input type="hidden" name="function" value="dbimport" />
               
               <div class="rex-form-row">
@@ -284,8 +284,8 @@ if ($warning != '')
             <td>'. $file .'</td>
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
-            <td><a href="index.php?page='. $page .'&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_db_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
-            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_db_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
           </tr>
   ';
   }
@@ -300,7 +300,7 @@ if ($warning != '')
             <legend><?php echo $I18N->msg('im_export_files'); ?></legend>
             
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="<?php echo $page ?>" />
+              <input type="hidden" name="page" value="import_export" />
               <input type="hidden" name="function" value="fileimport" />
               
               <div class="rex-form-row">
@@ -348,8 +348,8 @@ if ($warning != '')
             <td>'. $file .'</td>
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
-            <td><a href="index.php?page='. $page .'&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_file_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
-            <td><a href="index.php?page='. $page .'&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_file_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
           </tr>';
   }
 ?>
@@ -372,7 +372,7 @@ if ($warning != '')
           <legend><?php echo $I18N->msg('im_export_export'); ?></legend>
           
           <div class="rex-form-wrapper">
-            <input type="hidden" name="page" value="<?php echo $page ?>" />
+            <input type="hidden" name="page" value="import_export" />
             <input type="hidden" name="function" value="export" />
 <?php
 $checkedsql = '';
