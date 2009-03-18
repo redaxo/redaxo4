@@ -19,6 +19,7 @@ Version 4.2.0 (2009-XX-XX)
   * $REX_LOGIN -> $REX['LOGIN']
     
   Neu:
+  * Import/Export, Zeichensatz wird an den Datenbank export gehaengt. Imports gehen nur noch mit dem passenden Zeichensatz [Jan.Kristinus]
   * Module sind Ctypes und Templates zuweisbar. Bei Artikeln ohne Templates sind alle Module verfügbar. [Jan.Kristinus]
   * Vorgenerierungsmechanismus optimiert (jetzt selektiv) [Markus.Staab]
   * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst. [Jan.Kristinus] 
