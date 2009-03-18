@@ -238,10 +238,8 @@ class rex_list
 
   function loadBackendConfig()
   {
-    global $page, $subpage;
-
-    $this->addParam('page', $page);
-    $this->addParam('subpage', $subpage);
+    $this->addParam('page', rex_request('page', 'string'));
+    $this->addParam('subpage', rex_request('subpage', 'string'));
   }
 
   function addTableAttribute($name, $value)
