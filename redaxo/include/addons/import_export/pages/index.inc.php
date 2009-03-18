@@ -66,7 +66,7 @@ elseif ($function == "dbimport")
     }
     else
     {
-      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/sql.temp';
+      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/temp.sql';
     }
 
     if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
