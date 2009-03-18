@@ -63,6 +63,32 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
+
+
+  // Charset prŸfen
+  // ## charset xxx_
+  if(preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
+  {
+    // charset entfernen
+    $charset = $matches[1];
+    $conts = trim(str_replace('## charset '. $charset, '', $conts));
+    
+    if($I18N->msg('htmlcharset') != $charset)
+    {
+	    $return['message'] = $I18N->msg('im_export_no_valid_charset').'. '.$I18N->msg('htmlcharset').' != '.$charset;
+	    return $return;
+    }
+    
+  }else
+  {
+    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing]';
+    return $return;
+  }
+
+
+
+
+
   // Prefix im export mit dem der installation angleichen
   if($REX['TABLE_PREFIX'] != $prefix)
   {
@@ -227,7 +253,7 @@ function rex_a1_import_files($filename)
  */
 function rex_a1_export_db()
 {
-  global $REX;
+  global $REX,$I18N;
 
   $tabs = new rex_sql;
   $tabs->setquery('SHOW TABLES');
@@ -374,6 +400,7 @@ function rex_a1_export_db()
   $dump = str_replace("\r", "", $dump);
   $header = "## Redaxo Database Dump Version ".$REX['VERSION']."\n";
   $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
+  $header .= "## charset ". $I18N->msg('htmlcharset') ."\n";
 
   $content = $header . $dump;
 
