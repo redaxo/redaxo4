@@ -380,6 +380,7 @@ pool_sync_button = Synchronise
 pool_sync_title = Synchronise files
 pool_sync_affected_files = Affected Files
 pool_sync_no_diffs = no differences!
+pool_sync_files_synced = Files has been synchronised.
 pool_file_not_found = File not found
 pool_file_upload_error = Error on file upload
 pool_file_upload_errortype = This file cannot be used for exchange because file type does not match

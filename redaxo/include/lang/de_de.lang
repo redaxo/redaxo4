@@ -370,6 +370,7 @@ pool_sync_button = Synchronisieren
 pool_sync_title = Dateien Synchronisieren
 pool_sync_affected_files = Betroffene Dateien
 pool_sync_no_diffs = keine Unterschiede festgestellt!
+pool_sync_files_synced = Dateien wurden synchronisiert.
 pool_file_not_found = Datei wurde nicht gefunden
 pool_file_upload_error = Fehler beim Upload der Datei
 pool_file_upload_errortype = Diese Datei kann nicht zum Austausch benutzt werden, da sie von einem anderen Dateityp ist

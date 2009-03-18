@@ -3,12 +3,16 @@
 // *************************************** Subpage: ADD FILE
 
 // ----- METHOD ADD FILE
-if ($media_method == 'add_file'){
+if ($media_method == 'add_file')
+{
+
   if ($_FILES['file_new']['name'] != "" and $_FILES['file_new']['name'] != 'none')
   {
+
     $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
-    if (!$PERMALL && !$REX['USER']->hasPerm("media[$rex_file_category]")) $rex_file_category = 0;
+    if (!$PERMALL && !$REX['USER']->hasPerm("media[$rex_file_category]")) 
+    	$rex_file_category = 0;
 
     // function in function.rex_mediapool.inc.php
     $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX['USER']->getValue("login"));
@@ -53,6 +57,13 @@ if ($media_method == 'add_file'){
       // echo "\nself.close();\n";
       echo "</script>";
       exit;
+    }elseif($return['ok'] == 1)
+    {
+    	header('Location:index.php?page=mediapool&info='.urlencode($I18N->msg('pool_file_added')));
+    	exit;
+    }else
+    {
+    	$warning = $I18N->msg('pool_file_movefailed');
     }
 
   }else

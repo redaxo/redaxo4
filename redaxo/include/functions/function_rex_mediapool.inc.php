@@ -379,7 +379,7 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $I18N, $REX, $subpage, $ftitle;
+  global $I18N, $REX, $subpage, $ftitle, $warning, $info;
 
   $s = '';
 
@@ -400,10 +400,16 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   }
   $cats_sel->setSelected($rex_file_category);
 
-  if (isset($msg) and $msg != "")
+  if (isset($warning) and $warning != "")
   {
-    $s .= rex_warning($msg);
-    $msg = "";
+    $s .= rex_warning($warning);
+    $warning = "";
+  }
+  
+  if (isset($info) and $info != "")
+  {
+    $s .= rex_info($info);
+    $info = "";
   }
 
   if (!isset($ftitle)) $ftitle = '';
