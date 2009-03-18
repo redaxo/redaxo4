@@ -62,11 +62,11 @@ elseif ($function == "dbimport")
   {
     if ($impname != "")
     {
-      $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/$impname";
+      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/'.$impname;
     }
     else
     {
-      $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/sql.temp";
+      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/sql.temp';
     }
 
     if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
@@ -82,7 +82,7 @@ elseif ($function == "dbimport")
     }
     else
     {
-      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/$page/files/")." <br>";
+      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
     }
   }
 
@@ -99,11 +99,11 @@ elseif ($function == "fileimport")
   {
     if ($impname == "")
     {
-      $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/tar.temp";
+      $file_temp = $REX['INCLUDE_PATH']."/addons/import_export/files/tar.temp";
     }
     else
     {
-      $file_temp = $REX['INCLUDE_PATH']."/addons/$page/files/$impname";
+      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/'.$impname;
     }
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
@@ -118,7 +118,7 @@ elseif ($function == "fileimport")
     }
     else
     {
-      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/$page/files/")." <br>";
+      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
     }
   }
 
@@ -183,7 +183,7 @@ elseif ($function == 'export')
         // aendern filename
         // speicher content in files
 
-        $export_path = $REX['INCLUDE_PATH']."/addons/$page/files/";
+        $export_path = $REX['INCLUDE_PATH']."/addons/import_export/files/";
 
         if (file_exists($export_path . $filename . $ext))
         {
