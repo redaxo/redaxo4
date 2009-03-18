@@ -1,9 +1,9 @@
 <?php
 // Import Folder Functions
 function getImportDir() {
-    global $page, $REX;
+    global $REX;
     
-    return $REX['INCLUDE_PATH'].'/addons/'. $page .'/files';
+    return $REX['INCLUDE_PATH'].'/addons/import_export/files';
 }
 
 function readImportFolder($fileprefix)
