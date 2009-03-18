@@ -45,7 +45,7 @@ if ($exportfilename == '')
 if ($function == "delete")
 {
   // ------------------------------ FUNC DELETE
-  if (unlink($REX['INCLUDE_PATH']."/addons/$page/files/$impname"));
+  if (unlink($REX['INCLUDE_PATH'].'/addons/import_export/files/'.$impname));
   $info = $I18N->msg("im_export_file_deleted");
 }
 elseif ($function == "dbimport")
@@ -107,8 +107,11 @@ elseif ($function == "fileimport")
     }
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
-      $state = rex_a1_import_files($file_temp);
-      $info = $state['message'];
+      $return = rex_a1_import_files($file_temp);
+			if($return['state'])
+      	$info = $return['message'];
+			else
+				$warning = $return['message'];
 
       // temp datei löschen
       if ($impname == "")
