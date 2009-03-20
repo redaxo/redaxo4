@@ -521,6 +521,7 @@ database_imported = Datenbank wurde importiert.
 entry_count = {0} Einträge
 setup_encryption = Passwortverschlüsselung
 setup_no_encryption = keine Verschlüsselung
+setup_psw_encryption = mit Verschlüsselung (sha1)
 setup_security_msg = Der Ordner redaxo/include ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen sie, ob Dateien aus dem Ordner redaxo/include direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
 setup_create_db = Datenbank anlegen?

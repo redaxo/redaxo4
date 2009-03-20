@@ -531,6 +531,7 @@ database_imported = Database imported
 entry_count = {0} entries
 setup_encryption = password encryption
 setup_no_encryption = no encryption
+setup_psw_encryption = with encryption (sha1)
 setup_security_msg = The folder redaxo/include is insecure. Please protect this folder and run setup again.
 setup_no_js_security_msg = Please check, if files in the folder redaxo/include are directly accessible! This should be impossible due to security restrictions!
 

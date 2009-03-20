@@ -412,11 +412,11 @@ if ($checkmodus == 2)
     }
 
     $psw_functions = '';
-    foreach(array('', 'md5', 'sha1') as $key => $algo)
+    foreach(array('', 'sha1') as $key => $algo)
     {
       $key = $algo;
       if($algo == '') $algo = $I18N->msg('setup_no_encryption');
-      if($algo == 'sha1') $algo .= ' ('. $I18N->msg('recommended') .')';
+      if($algo == 'sha1') $algo = $I18N->msg('setup_psw_encryption');  // ' ('. $I18N->msg('recommended') .')'
       $selected = $key == $psw_func ? ' selected="selected"' : '';
 
       $psw_functions .= '<option value="'. $key .'"'. $selected .'>'. $algo .'</option>';
