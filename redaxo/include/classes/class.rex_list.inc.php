@@ -373,7 +373,7 @@ class rex_list
    *
    * @return string|null
    */
-  function getColumLabel($column, $default = null)
+  function getColumnLabel($column, $default = null)
   {
     if(isset($this->columnLabels[$column]))
       return $this->columnLabels[$column];
@@ -1025,7 +1025,7 @@ class rex_list
       if(is_array($columnName))
         $columnName = $columnName[0];
 
-      $columnHead = $this->getColumLabel($columnName);
+      $columnHead = $this->getColumnLabel($columnName);
       if($this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
       {
         $columnSortType = $columnName == $sortColumn && $sortType == 'desc' ? 'asc' : 'desc';
