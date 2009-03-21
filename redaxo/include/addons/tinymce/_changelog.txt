@@ -1,7 +1,7 @@
 <h3>Changelog:</h3>
 
-<strong>Version 1.5 (2009-02-20)</strong>
-  - Update TinyMCE auf Version 3.2.1.1
+<strong>Version 1.5 (2009-03-21)</strong>
+  - Update TinyMCE auf Version 3.2.2.1
   - Klasse pclzip entfernt, TinyMCE Source jetzt im Addonverzeichnis, kein entpacken mehr notwendig
   - .htacces im Verzeichnis addons/tinymce/tinymce/jscripts/ hebt den Verzeichnisschutz auf
   - Konfiguration des Addons, Aktivierung, Standardsprache, Theme + Skin usw.
