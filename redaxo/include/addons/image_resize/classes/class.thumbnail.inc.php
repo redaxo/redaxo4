@@ -412,14 +412,12 @@ class rex_thumbnail
 	      exit;
 	    }
 	    // cache is newer? - show cache
-	    /*
-	    if ($cachetime > $filetime)
+      if ($cachetime > $filetime)
 	    {
 	      $thumb = new rex_thumbnail($cachepath);
 	      $thumb->send($cachepath, $cachetime);
 	      exit;
 	    }
-	    */
 
 	  }
 
