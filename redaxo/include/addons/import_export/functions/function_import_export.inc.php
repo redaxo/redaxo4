@@ -79,11 +79,16 @@ function rex_a1_import_db($filename)
 	    return $return;
     }
     
-  }else
+  }
+  
+  /*
+  // Charset nicht zwingend notwendig
+  else
   {
-    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing]';
+    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Charset '. $I18N->msg('htmlcharset') .'] is missing]';
     return $return;
   }
+  */
 
 
 
