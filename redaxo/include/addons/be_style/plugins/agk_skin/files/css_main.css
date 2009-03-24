@@ -365,6 +365,9 @@ div#rex-wrapper {
 	margin-right: 16px;
 	padding-bottom: 36px;
 }
+#rex-page-login div#rex-wrapper {
+	padding-bottom: 72px;
+}
 body#rex-page-login div#rex-wrapper, 
 body#rex-page-linkmap div#rex-wrapper, 
 body#rex-page-mediapool div#rex-wrapper, 
@@ -409,7 +412,9 @@ div#rex-title h1 {
 div#rex-output {
 	margin-top: 22px;
 }
+#rex-page-login div#rex-title, 
 #rex-page-setup div#rex-title, 
+#rex-page-login div#rex-output, 
 #rex-page-setup div#rex-output {
 	float: none;
 	width: 650px;
@@ -610,6 +615,10 @@ div.rex-form-setup-step-database div.rex-form-row p.rex-form-label-right label {
 	width: 590px;
 }
 
+div.rex-form div.rex-widget {
+	margin-top: -20px;
+	margin-left: 155px;
+}
 
 /*	Extras *********************************************************************
 *******************************************************************************/
