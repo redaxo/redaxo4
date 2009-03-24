@@ -354,6 +354,9 @@ clang_delete = Sprache löschen
 clang_caption = Liste der verfügbaren Sprachen
 clang_summary = Auflistung aller Sprachen
 clang_function = Funktionen
+version = Version
+host = Host
+database = Datenbank
 
 # redaxo\include\pages\medienpool.inc.php
 pool_name = Medienpool

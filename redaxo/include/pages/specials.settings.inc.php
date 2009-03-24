@@ -135,8 +135,11 @@ echo '
 						<p class="rex-tx1">'.$I18N->msg("setup_text").'</p>
 						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$I18N->msg("setup").'?\');"><span><span>'.$I18N->msg("setup").'</span></span></a></p>
 						
-            <h4 class="rex-hl3">Version</h4>
+            <h4 class="rex-hl3">'.$I18N->msg("version").'</h4>
             <p class="rex-tx1">REDAXO '.$REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'].'</p>
+
+            <h4 class="rex-hl3">'.$I18N->msg("database").'</h4>
+            <p class="rex-tx1">'.$I18N->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$I18N->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
 						
 					</div>
 				</div>
