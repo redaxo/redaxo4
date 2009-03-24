@@ -56,7 +56,6 @@ function rex_addCategory($category_id, $data)
 
   // Kategorie in allen Sprachen anlegen
   $AART = new rex_sql;
-//  $AART->debugsql = true;
   foreach($REX['CLANG'] as $key => $val)
   {
     $template_id = $REX['DEFAULT_TEMPLATE_ID'];
@@ -104,6 +103,7 @@ function rex_addCategory($category_id, $data)
           'path' => $data['path'],
           'status' => $data['status'],
           'article' => clone($AART),
+          'data' => $data,
         )
       );
       
@@ -205,10 +205,11 @@ function rex_editCategory($category_id, $clang, $data)
         're_id' => $thisCat->getValue('re_id'),
         'clang' => $clang,
         'name' => $thisCat->getValue('catname'),
-        'prior' => $thisCat->getValue('prior'),
+        'prior' => $thisCat->getValue('catprior'),
         'path' => $thisCat->getValue('path'),
         'status' => $thisCat->getValue('status'),
         'article' => clone($EKAT),
+        'data' => $data,
       )
     );
 
@@ -410,11 +411,9 @@ function rex_addArticle($data)
       $data['prior'] = 1;
   }
 
-
   $message = $I18N->msg('article_added');
 
   $AART = new rex_sql;
-//     $AART->debugsql = 1;
   foreach($REX['CLANG'] as $key => $val)
   {
     // ------- Kategorienamen holen
@@ -463,7 +462,8 @@ function rex_addArticle($data)
         're_id' => $data['category_id'],
         'prior' => $data['prior'],
         'path' => $data['path'],
-        'template_id' => $data['template_id']
+        'template_id' => $data['template_id'],
+        'data' => $data,
       )
     );
   }
@@ -501,7 +501,6 @@ function rex_editArticle($article_id, $clang, $data)
   }
 
   $EA = new rex_sql;
-//  $EA->debugsql = true;
   $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->setWhere("id='$article_id' and clang=$clang");
   $EA->setValue('name', $data['name']);
@@ -527,7 +526,8 @@ function rex_editArticle($article_id, $clang, $data)
         're_id' => $data['category_id'],
         'prior' => $data['prior'],
         'path' => $data['path'],
-        'template_id' => $data['template_id']
+        'template_id' => $data['template_id'],
+        'data' => $data,
       )
     );
 
