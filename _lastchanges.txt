@@ -107,6 +107,9 @@ Version 4.2.0 (2009-XX-XX)
     - Backendsprache pro User, sofern es der gleiche Zeichensatz ist [Jan.Kristinus]
   * ImageResize:
     - Sprachfile eingefügt [Markus.Staab]
+    - EP eingebaut
+      - IMAGE_RESIZE_SEND, params: img, file, lastModified
+      - IMAGE_RESIZE_SENDERROR, params: img, file
   * MetaInfo: [Markus.Staab]
     - Date/Datetime felder jetzt deaktivierbar
       + http://forum.redaxo.de/ftopic9032.html
@@ -117,6 +120,7 @@ Version 4.2.0 (2009-XX-XX)
   	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
     - PAGE_MEDIENPOOL_HEADER umbenannt in PAGE_MEDIAPOOL_HEADER [Markus.Staab]
     - PAGE_MEDIENPOOL_MENU umbenannt in PAGE_MEDIAPOOL_MENU [Markus.Staab]
+    - ADD/UPDATE ARTICLE/CATEGORY haben nun auch data, UPDATE_CATEGORY prior->catprior [Jan.kristinus]
   
   Bugfixes:
   * Image-Resize: Bessere erkennung wenn __ im Dateinamen [Markus.Staab]
