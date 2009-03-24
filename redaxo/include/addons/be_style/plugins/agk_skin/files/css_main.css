@@ -409,6 +409,13 @@ div#rex-title h1 {
 div#rex-output {
 	margin-top: 22px;
 }
+#rex-page-setup div#rex-title, 
+#rex-page-setup div#rex-output {
+	float: none;
+	width: 650px;
+	margin-right: auto;
+	margin-left: auto;
+}
 
 
 /*	Navigationen ***************************************************************
@@ -599,6 +606,10 @@ div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
 	width: 318px;
 }
 
+div.rex-form-setup-step-database div.rex-form-row p.rex-form-label-right label {
+	width: 590px;
+}
+
 
 /*	Extras *********************************************************************
 *******************************************************************************/
@@ -610,7 +621,7 @@ div#rex-redaxo-link {
 }
 div#rex-redaxo-link a {
 	display: block;
-	width: 100px;
+	width: 200px;
 	height: 75px;
 	text-indent: -1000em;
 }
@@ -625,6 +636,7 @@ input.rex-form-text {
 
 body#rex-page-addon table.rex-table, 
 body#rex-page-linkmap div#rex-linkmap, 
+body#rex-page-login div.rex-form, 
 body#rex-page-mediapool div.rex-form, 
 body#rex-page-mediapool div#rex-mediapool-detail-wrapper, 
 body#rex-page-mediapool table.rex-table, 
