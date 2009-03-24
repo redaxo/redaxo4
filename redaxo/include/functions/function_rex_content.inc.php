@@ -807,7 +807,8 @@ function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
       $REX['TABLE_PREFIX'].'article',
       'catprior',
       'clang='. $clang .' AND re_id='. $re_id .' AND startpage=1',
-      'catprior,updatedate '. $addsql
+      'catprior,updatedate '. $addsql,
+      'pid'
     );
 
     rex_deleteCacheArticleLists($re_id, $clang);
@@ -841,7 +842,8 @@ function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
       $REX['TABLE_PREFIX'].'article',
       'prior',
       'clang='. $clang .' AND ((startpage<>1 AND re_id='. $re_id .') OR (startpage=1 AND id='. $re_id .'))',
-      'prior,updatedate '. $addsql
+      'prior,updatedate '. $addsql,
+      'pid'
     );
 
     rex_deleteCacheArticleLists($re_id, $clang);

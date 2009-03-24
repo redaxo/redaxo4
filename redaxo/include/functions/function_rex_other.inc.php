@@ -395,24 +395,22 @@ function rex_replace_dynamic_contents($path, $content)
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
  */
-function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
 {
-  // Datenbankvariable initialisieren
-  $qry = 'SET @count='. ($startBy - 1);
-  $sql = rex_sql::getInstance();
-  $sql->setQuery($qry);
-
-  // Spalte updaten
-  $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
-
+  $gu = new rex_sql;
+  $qry = 'select * from '.$tableName;
   if($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
-
   if($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
-
-  $sql = rex_sql::getInstance();
-  $sql->setQuery($qry);
+  $gr = new rex_sql;
+  $gr->setQuery($qry);
+  for ($i = 0; $i < $gr->getRows(); $i ++)
+  {
+      $gu->setQuery('update '.$tableName.' set '.$priorColumnName.'='.($i+1).' where '.$id_field.'='.$gr->getValue($id_field));
+      $gr->next();
+  }
+	return;
 }
 
 function rex_lang_is_utf8()
