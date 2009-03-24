@@ -262,6 +262,19 @@ class rex_thumbnail
 
     $lastModified = gmdate('r', $lastModified);
 
+		// ----- EXTENSION POINT
+		$sendfile = TRUE;
+    $sendfile = rex_register_extension_point('IMAGE_RESIZE_SEND', $sendfile,
+      array (
+      	'img' => $this->img,
+        'file' => $file,
+        'lastModified' => $lastModified,
+      )
+    );
+
+		if(!$sendfile)
+			return FALSE;
+
     header('Content-Type: image/' . $this->img['format']);
     header('Last-Modified: ' . $lastModified);
     // caching clientseitig/proxieseitig erlauben
@@ -282,6 +295,19 @@ class rex_thumbnail
 
     if(!$file)
       $file = $REX['INCLUDE_PATH'].'/addons/image_resize/media/warning.jpg';
+
+		// ----- EXTENSION POINT
+		$sendfile = TRUE;
+    $sendfile = rex_register_extension_point('IMAGE_RESIZE_SENDERROR', $sendfile,
+      array (
+      	'img' => $this->img,
+        'file' => $file,
+      )
+    );
+
+		if(!$sendfile)
+			return FALSE;
+
 
     header('Content-Type: image/JPG');
     // error image nicht cachen
