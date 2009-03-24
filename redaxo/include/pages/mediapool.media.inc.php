@@ -58,17 +58,30 @@ $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
                     <div class="rex-form-row">
                       <p class="rex-form-select">
                         <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
-                        '. $sel_media->get() .'
+                        '. $sel_media->get();
+
+if ($subpage=='detail')
+{
+	$cat_out .= '<input class="rex-form-submit" type="submit" value="'. $I18N->msg('show') .'" />';
+}
+
+$cat_out .= '
                       </p>
-                    </div>
-                    <noscript>
+                    </div>';
+
+if ($subpage!='detail')
+{
+	$cat_out .= '			<noscript>
                       <div class="rex-form-row">
                         <p class="rex-form-submit">
                           <input class="rex-form-submit" type="submit" value="'. $I18N->msg('pool_search') .'" />
                         </p>
                       </div>
-                    </noscript>
-                  </div>
+                    </noscript>';
+}
+
+      
+$cat_out .= '     </div>
                 </fieldset>
               </form>
             </div>
