@@ -48,18 +48,29 @@ $REX['LOGIN'] = NULL;
 if ($REX['SETUP'])
 {
 	// ----------------- SET SETUP LANG
-	$REX['LANG'] = 'de_de';
-	$I18N = rex_create_lang($REX['LANG']);
+	$REX['LANG'] = '';
 	$requestLang = rex_request('lang', 'string');
-	foreach ($REX['LOCALES'] as $l) {
-		if ($requestLang == $l)
+	$langpath = $REX['INCLUDE_PATH'].'/lang';
+	$REX['LANGUAGES'] = array();
+	if ($handle = opendir($langpath))
+	{
+		while (false !== ($file = readdir($handle)))
 		{
-			$REX['LANG'] = $l;
-			$I18N = rex_create_lang($REX['LANG']);
-			break;
+			if (substr($file,-5) == '.lang')
+			{
+				$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
+				$REX['LANGUAGES'][] = $locale;
+				if($requestLang == $locale)
+					$REX['LANG'] = $locale;
+			}
 		}
 	}
+	closedir($handle);
+	if($REX['LANG'] == '')
+		$REX['LANG'] = 'de_de';
 
+  $I18N = rex_create_lang($REX['LANG']);
+	
 	$REX['PAGES']["setup"] = array($I18N->msg('setup'),0,1);
 	$REX['PAGE'] = "setup";
 }

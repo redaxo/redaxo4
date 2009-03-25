@@ -200,10 +200,9 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
   {
     $locales = array();
     foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
-    {
       $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
+    foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
       $locales[]= $locale;
-    }
     
     setlocale(LC_ALL, $locales);
   }

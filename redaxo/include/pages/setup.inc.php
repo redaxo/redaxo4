@@ -169,27 +169,19 @@ $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
   $langpath = $REX['INCLUDE_PATH'].'/lang';
-  $langs = array();
-  if ($handle = opendir($langpath))
+  foreach($REX['LANGUAGES'] as $l)
   {
-    while (false !== ($file = readdir($handle)))
-    {
-      if (substr($file,-5) == '.lang')
-      {
-        $isUtf8 = substr($file, -9) == 'utf8.lang';
-        $locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
-        $I18N_T = rex_create_lang($locale,$langpath);
+        $isUtf8 = substr($l, -4) == 'utf8';
+        $I18N_T = rex_create_lang($l,$langpath,FALSE);
         $label = $I18N_T->msg('lang');
         if($isUtf8) $label .= ' (utf-8)';
-        $langs[$locale] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$locale.'"'. rex_tabindex() .'>'.$label.'</a></li>';
-      }
-    }
-    closedir($handle);
-    unset($I18N_T);
+        $langs[$l] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$l.'"'. rex_tabindex() .'>'.$label.'</a></li>';
+  
   }
+  unset($I18N_T);
 
   // wenn nur eine Sprache -> direkte weiterleitung
-  if (count($langs)==1)
+  if (count($REX['LANGUAGES'])==1)
   {
     header('Location: index.php?checkmodus=0.5&lang='.key($langs));
     exit();
