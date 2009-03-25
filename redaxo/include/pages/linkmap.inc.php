@@ -13,7 +13,7 @@ $clang = rex_request('clang', 'rex-clang-id');
 
 
 $GlobalParams = array(
-  'page' => $page,
+  'page' => $REX["PAGE"],
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
