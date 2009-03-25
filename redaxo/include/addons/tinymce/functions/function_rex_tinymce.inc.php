@@ -14,6 +14,8 @@
  * @version svn:$Id$
  */
 
+	//$rxa_tinymce['name'] = 'tinymce';
+
 /**
  * Returns the content of the given folder
  */
@@ -74,12 +76,11 @@ if (!function_exists('a52_tinymce_opf'))
 	{
 		global $REX;
 		global $rxa_tinymce;
-		global $mypage;
 		global $clang;
 		
 		$content = $params['subject'];
 			
-		if ( !strstr($content,'</head>')) {
+		if ( !strstr($content, '</head>')) {
 			return $content;
 		}
 
@@ -89,28 +90,28 @@ if (!function_exists('a52_tinymce_opf'))
 		$cssLink = $n . $t . '<!-- Addon TinyMCE -->';
 
 		// Selectbox Fix für IE6
-		$cssLink .= $n . $t . '<!--[if lte IE 6.5]>';
-		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/selectfix/select_fix.js';
+		$cssLink .= $n . $t . '<!--[if lte IE 6]>';
+		$script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.js';
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
-		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/selectfix/select_fix.css';
+		$script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.css';
 		$cssLink .= $n . $t . '<link rel="stylesheet" type="text/css" href="' . $script . '">';
 		$cssLink .= $n . $t . '<![endif]-->';
 
 		// TinyMCE-HauptScript
-		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/tiny_mce/tiny_mce.js';
+		$script = $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce.js';
 		$script = str_replace('\\', '/', $script);
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
 		// Script für Media
-		if (isset($REX['ADDON'][$mypage]['media']) && $REX['ADDON'][$mypage]['media'] == 'on')
+		if (isset($REX['ADDON'][$rxa_tinymce['name']]['media']) and $REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on')
 		{
-			$script = 'include/addons/' . $mypage . '/tinymce/jscripts/tiny_mce/plugins/media/js/rexembed.js';
+			$script = $rxa_tinymce['fe_path'] . '/tiny_mce/plugins/media/js/rexembed.js';
 			$script = str_replace('\\', '/', $script);
 			$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 		}
 
 		// TinyMCE-InitScript
-		$script = 'include/addons/' . $mypage . '/tinymce/jscripts/tiny_mce_init.php?clang=' . $clang . '&amp;version=' . $rxa_tinymce['rexversion'];
+		$script = $rxa_tinymce['fe_path'] . '/tiny_mce_init.php?clang=' . $clang . '&amp;version=' . $rxa_tinymce['rexversion'];
 		$script = str_replace('\\', '/', $script);
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '" id="TinyMCEInit"></script>' . $n . $n;
 
@@ -129,7 +130,11 @@ if (!function_exists('a52_tinymce_mediaadded'))
 		global $REX;
 
 		// Dateinamen für Outputfilter merken!
-		$REX['a52_media_added_filename'] = $params['filename'];
+//		$REX['a52_media_added_filename'] = $params['filename'];
+		$_POST['saveand-exit'] = false;
+//		$_GET['saveand-exit'] = false;
+//		$_REQUEST['saveand-exit'] = false;
+		$_SESSION['a52_media_added_filename'] = $params['filename'];
 	}
 } // End function_exists
 
@@ -141,7 +146,6 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 	function a52_tinymce_opf_media_linkmap($params)
 	{
 		global $REX;
-		global $mypage;
 		global $rxa_tinymce;
 		$n = "\n";
 
@@ -151,27 +155,28 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 		$content = $params['subject'];
 
 		// JavaScript für TinyMCE-Popups
-		$scriptoutput = $n . '<script type="text/javascript" src="include/addons/' . $mypage . '/tinymce/jscripts/tiny_mce/tiny_mce_popup.js"></script>';
+		$scriptoutput = $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce_popup.js"></script>';
 
 		// JavaScript für Medienpool
 		if ($page == $rxa_tinymce['medienpool'])
 		{
-			$scriptoutput .= $n . '<script type="text/javascript" src="include/addons/' . $mypage . '/tinymce/jscripts/mediapool.js"></script>';
+			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/mediapool.js"></script>';
 			// Medium hinzufügen und übernehmen, Fenster schliessen
-			if (isset($REX['a52_media_added_filename'])) {
+			if (isset($_SESSION['a52_media_added_filename'])) {
 				$scriptoutput .= $n . '<script type="text/javascript">';
 				$scriptoutput .= $n . '<!--';
-				$scriptoutput .= $n . '	selectMedia("'.$REX['a52_media_added_filename'].'")';
-				$scriptoutput .= $n . '	tinyMCEPopup.close();';
+				$scriptoutput .= $n . '	selectMedia("'.$_SESSION['a52_media_added_filename'].'")';
+				$scriptoutput .= $n . '	//tinyMCEPopup.close();';
 				$scriptoutput .= $n . '//-->';
 				$scriptoutput .= $n . '</script>';
+				unset($_SESSION['a52_media_added_filename']);
 			}
 		}
 
 		// JavaScript für Linkmap
 		if ($page == $rxa_tinymce['linkmap'])
 		{
-			$scriptoutput .= $n . '<script type="text/javascript" src="include/addons/' . $mypage . '/tinymce/jscripts/linkmap.js"></script>';
+			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/linkmap.js"></script>';
 		}
 
 		$output = $n . '<!-- Addon TinyMCE - ' . $page . ' -->' . $scriptoutput;
@@ -234,9 +239,9 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 			$content = str_replace($search, $replace, $content);
 		}
 
-		if ($page == 'linkmap')
+		if ($page == $rxa_tinymce['linkmap'])
 		{
-			if ($rxa_tinymce['rexversion'] == 32)
+  			if ($rxa_tinymce['rexversion'] == 32)
 			{
 				$search[0] = '</body>';
 				$replace[0] = $n.$output.$n.$n.$search[0];
@@ -257,7 +262,7 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 			}
 			if ($rxa_tinymce['rexversion'] >= 42)
 			{
-				$search[0] = '<div id="rex-navi-path">';
+				$search[0] = '<div id="rex-title">';
 				$replace[0] = $n.$output.$n.$n.$search[0];
 				$search[1] = 'page=linkmap';
 				$replace[1] = 'page=linkmap&amp;tinymce=true';

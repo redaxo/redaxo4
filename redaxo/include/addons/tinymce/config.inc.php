@@ -14,42 +14,57 @@
  * @version svn:$Id$
  */
 
-	$mypage = 'tinymce';
+	unset($rxa_tinymce);
+	$rxa_tinymce['name'] = 'tinymce';
 
 	// Addon Settings
-	$REX['ADDON']['rxid'][$mypage] = '52';
-	$REX['ADDON']['page'][$mypage] = $mypage;
-	$REX['ADDON']['name'][$mypage] = 'TinyMCE';
-	$REX['ADDON']['perm'][$mypage] = 'tiny_mce[]';
-	$REX['ADDON']['version'][$mypage] = '1.5';
-	$REX['ADDON']['author'][$mypage] = 'Wolfgang Hutteger, Markus Staab, Dave Holloway, Andreas Eberhard';
-	$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+	$REX['ADDON']['rxid'][$rxa_tinymce['name']] = '52';
+	$REX['ADDON']['page'][$rxa_tinymce['name']] = $rxa_tinymce['name'];
+	$REX['ADDON']['name'][$rxa_tinymce['name']] = 'TinyMCE';
+	$REX['ADDON']['perm'][$rxa_tinymce['name']] = 'tiny_mce[]';
+	$REX['ADDON']['version'][$rxa_tinymce['name']] = '1.5';
+	$REX['ADDON']['author'][$rxa_tinymce['name']] = 'Andreas Eberhard, Wolfgang Hutteger, Markus Staab, Dave Holloway';
+	$REX['ADDON']['supportpage'][$rxa_tinymce['name']] = 'forum.redaxo.de';
 
 	$REX['PERM'][] = 'tiny_mce[]';
 
 	// REDAXO-Version
 	$rxa_tinymce['rexversion'] = isset($REX['VERSION']) ? $REX['VERSION'] . $REX['SUBVERSION'] : '';
+$rxa_tinymce['rexversion'] = '42';
 
 	// Versions-Spezifische Variablen/Konstanten
 	$rxa_tinymce['medienpool'] = ($rxa_tinymce['rexversion'] > '41') ? 'mediapool' : 'medienpool';
    $rxa_tinymce['linkmap'] = 'linkmap';
-   
+
+	if (!isset($REX['HTDOCS_PATH']))
+	{
+		$REX['HTDOCS_PATH'] = '../';
+		$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH'] . 'redaxo/include');
+	}
+	$rxa_tinymce['fe_path'] = ($rxa_tinymce['rexversion'] < '42')
+		? $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name']
+		: $REX['HTDOCS_PATH'] . 'files' . '/addons/' . $rxa_tinymce['name'];
+
+	$rxa_tinymce['document_base'] = str_replace($_SERVER["DOCUMENT_ROOT"], '', str_replace("\\", "/", dirname(dirname(__FILE__))));
+//echo $rxa_tinymce['fe_path'];
+
 
 
 // Konfigurationsvariablen, werden in pages/settings.inc.php geschrieben
 // -----------------------------------------------------------------------------
+
 // --- DYN
-$REX['ADDON'][$mypage]['active'] = 'on';
-$REX['ADDON'][$mypage]['lang'] = 'de';
-$REX['ADDON'][$mypage]['pages'] = 'content, metainfo';
-$REX['ADDON'][$mypage]['foreground'] = '';
-$REX['ADDON'][$mypage]['background'] = '';
-$REX['ADDON'][$mypage]['validxhtml'] = '';
-$REX['ADDON'][$mypage]['theme'] = 'default';
-$REX['ADDON'][$mypage]['skin'] = 'default';
-$REX['ADDON'][$mypage]['emoticons'] = 'on';
-$REX['ADDON'][$mypage]['media'] = 'on';
-$REX['ADDON'][$mypage]['highlight'] = '';
+$REX['ADDON'][$rxa_tinymce['name']]['active'] = 'on';
+$REX['ADDON'][$rxa_tinymce['name']]['lang'] = 'de';
+$REX['ADDON'][$rxa_tinymce['name']]['pages'] = 'content, metainfo';
+$REX['ADDON'][$rxa_tinymce['name']]['foreground'] = '';
+$REX['ADDON'][$rxa_tinymce['name']]['background'] = '';
+$REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = 'on';
+$REX['ADDON'][$rxa_tinymce['name']]['theme'] = 'default';
+$REX['ADDON'][$rxa_tinymce['name']]['skin'] = 'default';
+$REX['ADDON'][$rxa_tinymce['name']]['emoticons'] = 'on';
+$REX['ADDON'][$rxa_tinymce['name']]['media'] = 'on';
+$REX['ADDON'][$rxa_tinymce['name']]['highlight'] = '';
 // --- /DYN
 // -----------------------------------------------------------------------------
 
@@ -57,7 +72,7 @@ $REX['ADDON'][$mypage]['highlight'] = '';
 
 	// Wenn nicht von REDAXO aufgerufen dann return
 	// Wird benötigt für den JavaScript Aufruf
-	//   <script type="text/javascript" src="../redaxo/include/addons/tinymce/tinymce/jscripts/tiny_mce_init.php?clang=0&amp;version=41" id="TinyMCEInit"></script>
+	//   <script type="text/javascript" src="../files/addons/tinymce/tiny_mce_init.php?clang=0&amp;version=41" id="TinyMCEInit"></script>
 	if (!isset($REX['REDAXO']))
 		return;
 
@@ -65,40 +80,58 @@ $REX['ADDON'][$mypage]['highlight'] = '';
 	if ($REX['REDAXO'])
 	{
 		// rexTinyMCEEditor-Klasse
-		include_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.tinymce.inc.php';
+		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/classes/class.tinymce.inc.php';
 
 		// Funktionen für TinyMCE
-		include_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_rex_tinymce.inc.php';
+		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_tinymce.inc.php';
 
 		// Kompatibilitäts-Funktionen
-		include_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_rex_compat.inc.php';
+		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_compat.inc.php';
 
 		// Im Backend Sprachobjekt anlegen
-		$I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang/');
+		$I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/lang/');
+
+		// Addon-Subnavigation für das REDAXO-Menue
+		$REX['ADDON'][$rxa_tinymce['name']]['SUBPAGES'] = array (
+			array('', $I18N_A52->msg('menu_module')),
+			array('settings', $I18N_A52->msg('menu_settings')),
+			array('css', $I18N_A52->msg('menu_css')),
+			array('tipps', $I18N_A52->msg('menu_tipps')),
+			array('info', $I18N_A52->msg('menu_information')),
+		);
 
 		// Request-Variablen
-		$page = rex_request('page', 'string');
-		$tinymce = rex_request('tinymce', 'string');
+		$rxa_tinymce['get_page'] = rex_request('page', 'string');
+		$rxa_tinymce['get_tinymce'] = rex_request('tinymce', 'string');
 
 		// ausgewählte Seiten laut Konfiguration
-		$includepages = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$mypage]['pages'])));
-		if (!in_array('content', $includepages)) // Bei 'content' immer!
-			$includepages[] = 'content';
+		$rxa_tinymce['includepages'] = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$rxa_tinymce['name']]['pages'])));
+		if (!in_array('content', $rxa_tinymce['includepages'])) // Bei 'content' immer!
+		{
+			$rxa_tinymce['includepages'][] = 'content';
+		}
 
 		// TinyMCE ins Backend integrieren, nur in ausgewählten Seiten laut Konfiguration
-		if(($page <> '') and in_array($page, $includepages) and ($REX['ADDON'][$mypage]['active'] == 'on'))
+		if(($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
 		{
 			rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf');
 		}
 
 		// Outputfilter für Medienpool und Linkmap
-		if ($REX['ADDON'][$mypage]['active'] == 'on') // nur wen TinyMCE aktiv
+		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
 		{
-			if ((($page == $rxa_tinymce['medienpool']) or ($page == $rxa_tinymce['linkmap'])) and ($tinymce == 'true'))
+			if (($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap']))
 			{
 				rex_register_extension('MEDIA_ADDED', 'a52_tinymce_mediaadded');
 				rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf_media_linkmap');
 			}
 		}
+
+		// CSS für das Backend einbinden
+		if ($rxa_tinymce['get_page'] == $rxa_tinymce['name'])
+		{
+			rex_register_extension('PAGE_HEADER', create_function('$params', 'return $params[\'subject\'] ."\n".\'  <link rel="stylesheet" type="text/css" href="../files/addons/'. $rxa_tinymce['name'] .'/tinymce_be.css"  />\';'));
+		}
+
 	} // Ende nur im Backend
 ?>

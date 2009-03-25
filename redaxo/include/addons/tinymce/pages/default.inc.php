@@ -28,73 +28,78 @@
   <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_simple_sample'); ?></h2>
   <div class="rex-addon-content">
 
+  <p>
   <?php echo $I18N_A52->msg('txt_simple_sample'); ?>
-  <br /><br />
+  </p>
+
 <?php
+  echo '<p>';
   echo $I18N_A52->msg('title_input');
-  $file = dirname( __FILE__) .'/../examples/simple-input.txt';
-  if(is_readable($file))
+  $filename = dirname( __FILE__) . '/../examples/simple-input.txt';
+  if(is_readable($filename))
   {
-    echo '<textarea style="width:99%;height:120px;" onfocus="this.select();">';
+    echo '<textarea class="tinymce-code-small" onfocus="this.select();">';
     if (strstr($REX['LANG'],'utf8'))
     {
-      echo utf8_encode(htmlspecialchars(file_get_contents($file)));
+      echo utf8_encode(htmlspecialchars(file_get_contents($filename)));
     }
     else
     {
-      echo htmlspecialchars(file_get_contents($file));
+      echo htmlspecialchars(file_get_contents($filename));
     }
-    echo '</textarea>';
+    echo '</textarea></p>';
   }
-  echo "<br /><br />";
+
+  echo '<p>';
   echo $I18N_A52->msg('title_output');
-  $file = dirname( __FILE__) .'/../examples/output.txt';
-  if(is_readable($file))
+  $filename = dirname( __FILE__) . '/../examples/output.txt';
+  if(is_readable($filename))
   {
-    echo '<textarea style="width:99%;height:120px;" onfocus="this.select();">';
+    echo '<textarea class="tinymce-code-small" onfocus="this.select();">';
     if (strstr($REX['LANG'],'utf8'))
     {
-      echo utf8_encode(htmlspecialchars(file_get_contents($file)));
+      echo utf8_encode(htmlspecialchars(file_get_contents($filename)));
     }
     else
     {
-      echo htmlspecialchars(file_get_contents($file));
+      echo htmlspecialchars(file_get_contents($filename));
     }
-    echo '</textarea>';
+    echo '</textarea></p>';
   }
 ?>
-<br /><br />
   </div>
+</div>
+
+<div class="rex-addon-output">
 
   <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_extended_sample'); ?></h2>
   <div class="rex-addon-content">
 
+  <p>
   <?php echo $I18N_A52->msg('txt_extended_sample'); ?>
-  <br /><br />
+  </p>
+
 <?php
+  echo '<p>';
   echo $I18N_A52->msg('title_input');
-  $file = dirname( __FILE__) .'/../examples/extended-input.txt';
-  if(is_readable($file))
+  $filename = dirname( __FILE__) . '/../examples/extended-input.txt';
+  if(is_readable($filename))
   {
-    echo '<textarea style="width:99%;height:300px;" onfocus="this.select();">';
+    echo '<textarea class="tinymce-code-big" onfocus="this.select();">';
     if (strstr($REX['LANG'],'utf8'))
     {
-      echo utf8_encode(htmlspecialchars(file_get_contents($file)));
+      echo utf8_encode(htmlspecialchars(file_get_contents($filename)));
     }
     else
     {
-      echo htmlspecialchars(file_get_contents($file));
+      echo htmlspecialchars(file_get_contents($filename));
     }
-    echo '</textarea>';
+    echo '</textarea></p>';
   }
 ?>
 
   </div>
-
-  <br /><br />
-
 </div>
-
 
 <?php
 	// Tabelle bei REDAXO 3.2.x ausgeben

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>SyntaxHighlighter Build Test Page</title>
+
+	<script type="text/javascript" src="shAll.js"></script>
+	<link type="text/css" rel="stylesheet" href="styles/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="styles/shThemeDefault.css"/>
+
+	<script type="text/javascript">
+		SyntaxHighlighter.config.tagName = 'pre';
+		SyntaxHighlighter.config.clipboardSwf = 'clipboard.swf';
+		SyntaxHighlighter.all();
+	</script>
+
+</head>
+
+<body >
+<h1>SyntaxHihglighter Test</h1>
+<p>This is a test file to insure that everything is working well.</p>
+
+<pre class="
+brush: php;
+auto-links: false;
+class-name: 'class_name_demo';
+collapse: false;
+first-line: 1;
+gutter: false;
+highlight: [1,3,5];
+html-script: true;
+ruler: true;
+smart-tabs: true;
+tab-size: 3;
+toolbar: true;
+">
+&lt;html&gt;
+&lt;body&gt;
+	&lt;div style="font-weight: bold"&gt;&lt;?= str_replace("\n", "&lt;br/&gt;", $var) ?&gt;&lt;/div&gt;
+
+	&lt;?
+	/***********************************
+	 ** Multiline block comments
+	 **********************************/
+
+	$stringWithUrl = "http://alexgorbatchev.com";
+	$stringWithUrl = 'http://alexgorbatchev.com';
+
+	ob_start("parseOutputBuffer");		// Start Code Buffering
+	session_start();
+	?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+
+<textarea class="
+brush: php;
+auto-links: false;
+class-name: 'class_name_demo';
+collapse: false;
+first-line: 1;
+gutter: false;
+highlight: [1,3,5];
+html-script: true;
+ruler: true;
+smart-tabs: true;
+tab-size: 3;
+toolbar: true;
+">
+&lt;html&gt;
+&lt;body&gt;
+	&lt;div style="font-weight: bold"&gt;&lt;?= str_replace("\n", "&lt;br/&gt;", $var) ?&gt;&lt;/div&gt;
+
+	&lt;?
+	/***********************************
+	 ** Multiline block comments
+	 **********************************/
+
+	$stringWithUrl = "http://alexgorbatchev.com";
+	$stringWithUrl = 'http://alexgorbatchev.com';
+
+	ob_start("parseOutputBuffer");		// Start Code Buffering
+	session_start();
+	?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
+</html>

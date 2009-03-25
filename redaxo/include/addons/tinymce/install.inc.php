@@ -14,8 +14,8 @@
  * @version svn:$Id$
  */
 
-	@chmod(dirname( __FILE__).'/config.inc.php', 0755);
-	@chmod(dirname( __FILE__).'/tinymce/jscripts/content.css', 0755);
-
+	// Schreibberechtigung für Konfigurationsetzen
+	@chmod(dirname( __FILE__) . '/config.inc.php', 0755);
+	
 	$REX['ADDON']['install']['tinymce'] = 1;
 ?>

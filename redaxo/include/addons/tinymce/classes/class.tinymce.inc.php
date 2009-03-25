@@ -16,11 +16,13 @@
 
 class rexTinyMCEEditor
 {
+	var $tinyversion = '1.5';
+	
 	var $default_buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
 	var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image';
 	var $default_buttons3 = 'undo,redo,|,tablecontrols,visualaid';
 	var $default_plugins  = 'advhr,advimage,advlink,contextmenu,fullscreen,inlinepopups,paste,preview,redaxo,safari,visualchars';
-	
+
 	var $id = '';
 	var $content;
 	var $buttons1 = false;
@@ -45,10 +47,10 @@ class rexTinyMCEEditor
 	function show()
 	{
 		global $REX;
-		global $mypage;
+		global $rxa_tinymce;
 		$n = "\n";
 		
-		if ($REX['ADDON'][$mypage]['active'] == 'on')
+		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on')
 		{
 			echo $n . '<script type="text/javascript">';
 			echo $n . $this->getConfiguration();
@@ -63,19 +65,21 @@ class rexTinyMCEEditor
 	function getConfiguration()
 	{
 		global $REX;
-		global $mypage;
+		global $rxa_tinymce;
 		$n = "\n";
 
 		// Basis-Adresse
 		if ($this->address == '')
 		{
-			$this->address = dirname(dirname($_SERVER['PHP_SELF']));
+			$this->address = $rxa_tinymce['document_base'];
 			$splitURL = split('/redaxo/', $this->address);
 			$this->address = $splitURL[0];
 			if($this->address != '/' && $this->address != '\\')
 				$this->address .= '/';
 			$this->address = str_replace("\\",'/',$this->address);
 		}
+//$this->address = '/';
+//$this->address =  $_SERVER["DOCUMENT_ROOT"];
 
 		// evtl. Standard-Buttons vorbelegen
 		$plugins = $this->default_plugins;
@@ -84,33 +88,33 @@ class rexTinyMCEEditor
 		{
 			$this->buttons1 = $this->default_buttons1;
 		}
-		if (($this->buttons2 === false) and ($REX['ADDON'][$mypage]['theme'] <> 'simple'))
+		if (($this->buttons2 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] <> 'simple'))
 		{
 			$this->buttons2 = $this->default_buttons2;
-			if ($REX['ADDON'][$mypage]['emoticons'] == 'on') // Emoticons-Button ausgewählt
+			if ($REX['ADDON'][$rxa_tinymce['name']]['emoticons'] == 'on') // Emoticons-Button ausgewählt
 			{
 				$this->buttons2 .= ',emotions';
 				$plugins .= ',emotions';
 			}
-			if ($REX['ADDON'][$mypage]['media'] == 'on') // Medaia-Button ausgewählt
+			if ($REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on') // Medaia-Button ausgewählt
 			{
 				$this->buttons2 .= ',media';
 				$plugins .= ',media';
 			}
-			if ($REX['ADDON'][$mypage]['highlight'] == 'on') // Syntaxhighlight-Button ausgewählt
+			if ($REX['ADDON'][$rxa_tinymce['name']]['highlight'] == 'on') // Syntaxhighlight-Button ausgewählt
 			{
-				$this->buttons2 .= ',syntaxhl';
-				$plugins .= ',syntaxhl';
+				$this->buttons2 .= ',syntaxhighlighter';
+				$plugins .= ',syntaxhighlighter';
 			}
 		}
-		if (($this->buttons3 === false) and ($REX['ADDON'][$mypage]['theme'] == 'advanced'))
+		if (($this->buttons3 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced'))
 		{
 			$this->buttons3 = $this->default_buttons3;
 			$plugins .= ',table';
 		}
 		
 		// Skin aus Konfiguration
-		$va = explode('_', $REX['ADDON'][$mypage]['skin']);
+		$va = explode('_', $REX['ADDON'][$rxa_tinymce['name']]['skin']);
 		if (count($va)>=1)
 		{
 			if (isset($va[1]) and ($va[1] <> ''))
@@ -133,7 +137,7 @@ class rexTinyMCEEditor
 		// Farben aus der Konfiguration
 		$default_foreground = '';
 		$foreground = '';
-		$va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$mypage]['foreground']))));
+		$va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$rxa_tinymce['name']]['foreground']))));
 		if (count($va) > 0)
 		{
 			$default_foreground = $va[0];
@@ -143,7 +147,7 @@ class rexTinyMCEEditor
 		}
 		$default_background = '';
 		$background = '';
-		$va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$mypage]['background']))));
+		$va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$rxa_tinymce['name']]['background']))));
 		if (count($va) > 0)
 		{
 			$default_background = $va[0];
@@ -153,10 +157,20 @@ class rexTinyMCEEditor
 		}
 
 		// Valider XHTML-Code aus der Konfiguration
-		if ($REX['ADDON'][$mypage]['validxhtml'] <> 'on')
+		if ($REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] <> 'on')
 		{
 			$this->validxhtml = false;
 		}
+
+		// extendet_valid_elements-Parameter falls kein XHTML ausgewählt wurde
+		// wird fuer das IMG-Tag benoetigt
+$extended_valid_elements =<<<EOD
+extended_valid_elements : ""
++"img[align<bottom?left?middle?right?top|alt|border|class|dir<ltr?rtl|height"
+  +"|hspace|id|ismap|lang|longdesc|name|onclick|ondblclick|onkeydown"
+  +"|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover"
+  +"|onmouseup|src|style|title|usemap|vspace|width],",
+EOD;
 
 		// valid_elements-Parameter für validen XHTML-Code
 $valid_elements =<<<EOD
@@ -421,7 +435,7 @@ EOD;
 
 		$configout = 'tinyMCEInitArray' . $this->id . ' = {';
 
-		$configout .= $n . '  language: \'' . $REX['ADDON'][$mypage]['lang'] . '\',';
+		$configout .= $n . '  language: \'' . $REX['ADDON'][$rxa_tinymce['name']]['lang'] . '\',';
 
 		if ($this->id <> '')
 		{
@@ -453,28 +467,44 @@ EOD;
 		$configout .= $n . '  theme_advanced_buttons4 : \'' . $this->buttons4 . '\',';
 
 		if ($foreground <> '')
+		{
 			$configout .= $n . '  theme_advanced_text_colors : \'' . $foreground . '\',';
+		}
 		if ($default_foreground <> '')
+		{
 			$configout .= $n . '  theme_advanced_default_foreground_color : \'' . $default_foreground . '\',';
+		}
 		if ($background <> '')
+		{
 			$configout .= $n . '  theme_advanced_background_colors : \'' . $background . '\',';
+		}
 		if ($default_background <> '')
+		{
 			$configout .= $n . '  theme_advanced_default_background_color : \'' . $default_background . '\',';
+		}
 
 		$configout .= $n . '  theme_advanced_source_editor_width : 760,';
 		$configout .= $n . '  theme_advanced_source_editor_height : 500,';
 
 		$configout .= $n . '  plugins : \'' . $plugins . '\',';
 
-		$configout .= $n . '  content_css : \'redaxo/include/addons/tinymce/tinymce/jscripts/content.css\',';
+		$configout .= $n . '  content_css : \'' . $rxa_tinymce['fe_path'] . '/content.css\',';
 
 		if ($this->validxhtml == true or $this->validxhtml == 1)
 		{
 			$configout .= $n . $valid_elements;
 		}
+		else
+		{
+			$configout .= $n . $extended_valid_elements;
+		}
 
 		$configout .= $n . '  plugin_preview_width : 760,';
 		$configout .= $n . '  plugin_preview_height : 500,';
+
+		$configout .= $n . '  template_popup_width : 760,';
+		$configout .= $n . '  template_popup_height : 500,';
+
 		$configout .= $n . '  media_use_script : true,';
 
 		$configout .= $n . '  accessibility_warnings : false,';

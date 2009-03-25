@@ -14,15 +14,17 @@
  * @version svn:$Id$
  */
 
-	$func = rex_request('func', 'string');
-	$tinymcecss = rex_request('tinymcecss', 'string');
+	$rxa_tinymce['get_func'] = rex_request('func', 'string');
+	$rxa_tinymce['get_tinymcecss'] = rex_request('tinymcecss', 'string');
 
 	// CSS speichern
-	if ($func == "update")
+	if ($rxa_tinymce['get_func'] == 'update')
 	{
-		$file = dirname( __FILE__) . '/../tinymce/jscripts/content.css';
-		$tinymcecss = stripslashes($tinymcecss);
-		if (file_put_contents($file, $tinymcecss))
+		@chmod(dirname(__FILE__) . '/config.inc.php', 0755);
+
+		$filename = $rxa_tinymce['fe_path'] . '/content.css';
+		$rxa_tinymce['get_tinymcecss'] = stripslashes($rxa_tinymce['get_tinymcecss']);
+		if (file_put_contents($filename, $rxa_tinymce['get_tinymcecss']))
 		{
 			echo rex_info($I18N_A52->msg('msg_css_saved'));
 		}
@@ -44,28 +46,44 @@
 <div class="rex-addon-output">
 
 	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_css_wysiwyg'); ?></h2>
-	<div class="rex-addon-content">
+
+	<div class="rex-area">
+	<div class="rex-form">
+	
 		<form action="index.php" method="post">
+		<fieldset>
+		<div class="rex-form-wrapper">
 		<input type="hidden" name="page" value="tinymce" />
 		<input type="hidden" name="subpage" value="css" />
 		<input type="hidden" name="func" value="update" />
 <?php
-	$file = dirname( __FILE__) .'/../tinymce/jscripts/content.css';
-	if(is_readable($file))
+	$filename = $rxa_tinymce['fe_path'] . '/content.css';
+	if(is_readable($filename))
 	{
-		$csstext = htmlspecialchars(file_get_contents($file));
+		$csstext = htmlspecialchars(file_get_contents($filename));
 	}
 ?>
-<textarea name="tinymcecss" style="width:99%;height:350px;">
-<?php echo $csstext; ?>
-</textarea>
-		<br /><br />
-		<input type="submit" value="<?php echo $I18N_A52->msg('button_save_css'); ?>" />
-		</form>
-		<br />
-	</div>
+  <div class="rex-form-row rex-form-element-v2">
 
-</div>
+<textarea name="tinymcecss" cols="80" rows="20" class="tinymce-code-big">
+<?php echo htmlspecialchars($csstext); ?>
+</textarea>
+		</div>
+
+  <div class="rex-form-row rex-form-element-v2">
+			<p class="rex-form-submit">
+				<input class="rex-form-submit rex-form-submit2" type="submit" value="<?php echo $I18N_A52->msg('button_save_css'); ?>" />
+			</p>
+		</div>
+
+		</div>
+      </fieldset>
+		</form>
+
+	</div> <!-- END rex-form -->
+	</div> <!-- END rex-area -->
+
+</div> <!-- END rex-addon-output -->
 
 <?php
 	// Tabelle bei REDAXO 3.2.x ausgeben

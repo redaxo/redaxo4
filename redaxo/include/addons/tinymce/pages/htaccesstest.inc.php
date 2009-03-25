@@ -14,6 +14,11 @@
  * @version svn:$Id$
  */
 
+	if (($rxa_tinymce['rexversion'] <> '32') and ($rxa_tinymce['rexversion'] <> '41'))
+	{
+		return;
+	}
+	
 	$address = dirname(dirname($_SERVER['PHP_SELF']));
 	$splitURL = split('/redaxo/', $address);
 	$address = $splitURL[0];
