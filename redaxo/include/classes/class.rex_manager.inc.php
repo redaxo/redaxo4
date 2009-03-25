@@ -25,6 +25,8 @@
    */
   /*public*/ function install($addonName, $installDump = TRUE)
   {
+  	global $REX;
+  	
     $state = TRUE;
   
     $install_dir  = $this->baseFolder($addonName);
@@ -99,7 +101,7 @@
     // Dateien kopieren
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_copyDir($files_dir, $this->mediaFolder($addonName)))
+      if(!rex_copyDir($files_dir, $this->mediaFolder($addonName), $REX['MEDIAFOLDER']))
       {
         $state = $this->I18N('install_cant_copy_files');
       }

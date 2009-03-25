@@ -626,10 +626,11 @@ function rex_deleteFiles($file)
  * 
  * @param $srcdir Zu kopierendes Verzeichnis
  * @param $dstdir Zielpfad
+ * @param $startdir Pfad ab welchem erst neue Ordner generiert werden
  * 
  * @return TRUE bei Erfolg, FALSE bei Fehler
  */
-function rex_copyDir($srcdir, $dstdir)
+function rex_copyDir($srcdir, $dstdir, $startdir = "")
 {
   global $REX;
   
@@ -642,7 +643,7 @@ function rex_copyDir($srcdir, $dstdir)
     foreach(explode(DIRECTORY_SEPARATOR, $dstdir) as $dirPart)
     {
       $dir .= $dirPart . DIRECTORY_SEPARATOR;
-      if(!is_dir($dir))
+      if(strpos($startdir,$dir) !== 0 && !is_dir($dir))
       {
         if($debug)
           echo "Create dir '$dir'<br />\n";
@@ -690,7 +691,7 @@ function rex_copyDir($srcdir, $dstdir)
         }
         else if(is_dir($srcfile))
         {
-          $state = rex_copyDir($srcfile, $dstfile) && $state;
+          $state = rex_copyDir($srcfile, $dstfile, $startdir) && $state;
         }
       }
     }
