@@ -615,9 +615,10 @@ div.rex-form-setup-step-database div.rex-form-row p.rex-form-label-right label {
 	width: 590px;
 }
 
-div.rex-form div.rex-widget {
+div#rex-addon-editmode form div.rex-widget {
 	margin-top: -20px;
 	margin-left: 155px;
+	margin-bottom: 0px;
 }
 
 /*	Extras *********************************************************************
