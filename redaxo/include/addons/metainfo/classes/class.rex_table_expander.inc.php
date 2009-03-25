@@ -296,7 +296,8 @@ class rex_a62_tableExpander extends rex_form
       $this->tableName,
       'prior',
       'name LIKE "'. $this->metaPrefix .'%"',
-      'prior, updatedate '. $addsql
+      'prior, updatedate '. $addsql, 
+      'field_id'
     );
   }
 }
