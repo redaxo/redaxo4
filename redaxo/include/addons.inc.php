@@ -8,6 +8,7 @@
 
 // ----------------- addons
 unset($REX['ADDON']);
+$REX['ADDON'] = array();
 
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN
