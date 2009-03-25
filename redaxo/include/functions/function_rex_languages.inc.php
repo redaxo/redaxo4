@@ -44,7 +44,7 @@ if ($num_clang>1)
     {
     	$class = '';
     	if ($key==$clang) $class = ' class="rex-active"';
-      echo '<a'.$class.' href="index.php?page='. $page .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype .'"'. rex_tabindex() .'>'. $val .'</a>';
+      echo '<a'.$class.' href="index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype .'"'. rex_tabindex() .'>'. $val .'</a>';
     }
 
     echo '</li>';
