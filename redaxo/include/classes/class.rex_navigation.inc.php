@@ -100,10 +100,6 @@ class rex_navigation
 	  global $REX;
     
 	  $path = $this->path;
-    if($includeCurrent)
-    {
-      $path[]= $this->current_article_id;
-    }
             
     $i = 1;
     $lis = '';
@@ -114,7 +110,7 @@ class rex_navigation
       $i++;
 
       // StartArticle nicht doppelt anzeigen
-      if($path[0] == $REX['START_ARTICLE_ID'])
+      if(isset($path[0]) && $path[0] == $REX['START_ARTICLE_ID'])
       {
         unset($path[0]);
       }
@@ -127,6 +123,18 @@ class rex_navigation
       $i++;
     }
     
+    if($includeCurrent)
+    {
+      if($art = OOArticle::getArticleById($this->current_article_id))
+        if(!$art->isStartpage())
+        {
+          $lis .= '<li class="rex-lvl'. $i .'">'. htmlspecialchars($art->getName()) .'</li>';
+        }else
+        {
+        	$cat = OOCategory::getCategoryById($this->current_article_id);
+          $lis .= '<li class="rex-lvl'. $i .'">'. htmlspecialchars($cat->getName()) .'</li>';
+        }
+    }
     
     return '<ul class="rex-breadcrumb">'. $lis .'</ul>';
 	}
