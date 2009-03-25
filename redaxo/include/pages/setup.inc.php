@@ -64,8 +64,6 @@ function rex_setup_import($import_sql, $import_archiv = null)
       require $export_addon_dir.'/config.inc.php';
       require_once $export_addon_dir.'/classes/class.tar.inc.php';
       require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
-      require_once $export_addon_dir.'/functions/function_folder.inc.php';
-      require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 
       // DB Import
       $state_db = rex_a1_import_db($import_sql);
@@ -164,6 +162,10 @@ $noadmin    = rex_request('noadmin', 'string');
 $lang       = rex_request('lang', 'string');
 
 $export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
+require_once $export_addon_dir.'/functions/function_folder.inc.php';
+require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
+require_once $export_addon_dir.'/functions/function_import_export.inc.php';
+
 
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
@@ -256,7 +258,7 @@ if ($checkmodus == 1)
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'files',
     $REX['MEDIAFOLDER'],
     $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
-    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR.'import_export'.DIRECTORY_SEPARATOR.'files'
+    getImportDir()
   );
 
   foreach($REX['SYSTEM_ADDONS'] as $system_addon)
@@ -554,8 +556,8 @@ if ($checkmodus == 3 && $send == 1)
     }
     else
     {
-      $import_sql = $export_addon_dir.'/files/'.$import_name.'.sql';
-      $import_archiv = $export_addon_dir.'/files/'.$import_name.'.tar.gz';
+      $import_sql = getImportDir().'/'.$import_name.'.sql';
+      $import_archiv = getImportDir().'/'.$import_name.'.tar.gz';
 
       // Nur hier zuerst die Addons installieren
       // Da sonst Daten aus dem eingespielten Export
@@ -660,7 +662,7 @@ if ($checkmodus == 3)
   $sel_export->setId('import_name');
   $sel_export->setStyle('class="rex-form-select"');
   $sel_export->setAttribute('onclick', 'checkInput(\'dbanlegen_3\')');
-  $export_dir = $export_addon_dir. '/files';
+  $export_dir = getImportDir();
   $exports_found = false;
 
   if (is_dir($export_dir))

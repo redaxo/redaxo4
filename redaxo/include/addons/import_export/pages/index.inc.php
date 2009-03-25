@@ -45,7 +45,7 @@ if ($exportfilename == '')
 if ($function == "delete")
 {
   // ------------------------------ FUNC DELETE
-  if (unlink($REX['INCLUDE_PATH'].'/addons/import_export/files/'.$impname));
+  if (unlink(getImportDir().'/'.$impname));
   $info = $I18N->msg("im_export_file_deleted");
 }
 elseif ($function == "dbimport")
@@ -62,11 +62,11 @@ elseif ($function == "dbimport")
   {
     if ($impname != "")
     {
-      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/'.$impname;
+      $file_temp = getImportDir().'/'.$impname;
     }
     else
     {
-      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/temp.sql';
+      $file_temp = getImportDir().'/temp.sql';
     }
 
     if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
@@ -99,11 +99,11 @@ elseif ($function == "fileimport")
   {
     if ($impname == "")
     {
-      $file_temp = $REX['INCLUDE_PATH']."/addons/import_export/files/tar.temp";
+      $file_temp = getImportDir().'/tar.temp';
     }
     else
     {
-      $file_temp = $REX['INCLUDE_PATH'].'/addons/import_export/files/'.$impname;
+      $file_temp = getImportDir().'/'.$impname;
     }
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
@@ -186,7 +186,7 @@ elseif ($function == 'export')
         // aendern filename
         // speicher content in files
 
-        $export_path = $REX['INCLUDE_PATH']."/addons/import_export/files/";
+        $export_path = getImportDir().'/';
 
         if (file_exists($export_path . $filename . $ext))
         {
