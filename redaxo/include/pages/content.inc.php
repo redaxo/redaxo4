@@ -695,7 +695,9 @@ if ($article->getRows() == 1)
 						  				<label for="rex-form-meta-article-name">' . $I18N->msg("name_description") . '</label>
 						  				<input class="rex-form-text" type="text" id="rex-form-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" size="30"'. rex_tabindex() .' />
 										</p>
-									</div>';
+									<div class="rex-clearer"></div>
+									</div>
+									<div class="rex-clearer"></div>';
 
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM', '', array (
@@ -711,6 +713,7 @@ if ($article->getRows() == 1)
 								  		<input class="rex-form-submit" type="submit" name="savemeta" value="' . $I18N->msg("update_metadata") . '"'. rex_accesskey($I18N->msg('update_metadata'), $REX['ACKEY']['SAVE']) . rex_tabindex() .' />
 										</p>
 									</div>
+									<div class="rex-clearer"></div>
 								</div>
 	           </fieldset>';
 
@@ -801,6 +804,7 @@ if ($article->getRows() == 1)
 												<input class="rex-form-submit" type="submit" name="copycontent" value="' . $I18N->msg('content_submitcopycontent') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitcopycontent') . '?\')" />
 										  </p>
 										 </div>
+										 <div class="rex-clearer"></div>
 								  </div>
                 </fieldset>';
 
@@ -839,6 +843,7 @@ if ($article->getRows() == 1)
 										  </p>
 										</div>
 										
+										<div class="rex-clearer"></div>
 								  </div>
                 </fieldset>';
 
@@ -874,6 +879,8 @@ if ($article->getRows() == 1)
 												<input class="rex-form-submit" type="submit" name="copyarticle" value="' . $I18N->msg('content_submitcopyarticle') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitcopyarticle') . '?\')" />
 										  </p>
 									  </div>
+									  
+									  <div class="rex-clearer"></div>
 									</div>
                 </fieldset>';
 
@@ -909,6 +916,8 @@ if ($article->getRows() == 1)
 												<input class="rex-form-submit" type="submit" name="movecategory" value="' . $I18N->msg('content_submitmovecategory') . '"'. rex_tabindex() .' onclick="return confirm(\'' . $I18N->msg('content_submitmovecategory') . '?\')" />
 										  </p>
 										</div>
+	
+										<div class="rex-clearer"></div>
 								  </div>
                 </fieldset>';
 
