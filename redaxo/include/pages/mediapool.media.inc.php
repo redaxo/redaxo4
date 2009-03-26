@@ -109,17 +109,15 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
       $articleUsesMedia = $media->isInUse();
       if($articleUsesMedia === false)
       {
-        if($media->delete())
+        if($media->delete() !== FALSE)
         {
           $info = $I18N->msg('pool_file_deleted');
-        }
-        else
+        }else
         {
           $warning = $I18N->msg('pool_file_delete_error_1', $file_name);
         }
         $subpage = "";
-      }
-      else
+      }else
       {
         $warning = array();
         $warning[] = $I18N->msg('pool_file_delete_error_1', $file_name).' '.
@@ -480,73 +478,56 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 
 if($PERMALL && $media_method == 'delete_selectedmedia')
 {
-  $selectedmedia = rex_post("selectedmedia","array");
-  if($selectedmedia[0]>0)
+	$selectedmedia = rex_post("selectedmedia","array");
+  if(count($selectedmedia)>0)
   {
+  	
+  	$warning = array();
+  	$info = array();
+  	
     foreach($selectedmedia as $file_id)
     {
-      $gf = new rex_sql;
-      $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
-      if ($gf->getRows()==1)
-      {
-        $file_name = $gf->getValue("filename");
-
-        // check if file is in an article slice
-        $file_search = '';
-
-        for($c=1;$c<11;$c++){
-          $file_search.= "OR file$c='$file_name' ";
-          $file_search.= "OR value$c LIKE '%$file_name%' ";
-        }
-
-        $file_search = substr($file_search,2);
-        $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article_slice LEFT JOIN ".$REX['TABLE_PREFIX']."article on ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id WHERE ".$file_search." AND ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id";
-        $res1 = $db->getArray($sql);
-
-        $sql = "SELECT ".$REX['TABLE_PREFIX']."article.name,".$REX['TABLE_PREFIX']."article.id FROM ".$REX['TABLE_PREFIX']."article where file='$file_name'";
-        $res2 = $db->getArray($sql);
-
-        if(count($res1)==0 and count($res2)==0){
-
-          $sql = "DELETE FROM ".$REX['TABLE_PREFIX']."file WHERE file_id = '$file_id'";
-          $db->setQuery($sql);
-          if(OOMedia::fileExists($file_name))
-          {
-            OOMedia::delete($file_name);
-          }
-          $info .= '"'. $file_name .'" '.$I18N->msg('pool_file_deleted') . "<br />";
-          $subpage = "";
-        }
-        else
-        {
-          $warning .= $I18N->msg('pool_file_delete_error_1',$file_name)." ";
-          $warning .= $I18N->msg('pool_file_delete_error_2')."<br>";
-          if(is_array($res1))
-          {
-            foreach($res1 as $var){
-              $warning .= ' | <a href="../index.php?article_id='.$var['id'].'" target="_blank">'.$var['name'].'</a>';
-            }
-          }
-          if(is_array($res2))
-          {
-            foreach($res2 as $var){
-              $warning .= ' | <a href="../index.php?article_id='.$var['id'].'" target="_blank">'.$var['name'].'</a>';
-            }
-          }
-          $warning .= " | <br />";
-          $subpage = "";
-        }
-      }
-      else
-      {
-        $warning .= $I18N->msg('pool_file_not_found'). "<br />";
-        $subpage = "";
-      }
+			$media = OOMedia::getMediaById($file_id);
+			if ($media)
+			{
+			 $file_name = $media->getFileName();
+			 if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
+			 {
+			   $articleUsesMedia = $media->isInUse();
+			   if($articleUsesMedia === false)
+			   {
+			     if($media->delete() !== FALSE)
+			     {
+			       $info[] = $I18N->msg('pool_file_deleted');
+			     }else
+			     {
+			       $warning[] = $I18N->msg('pool_file_delete_error_1', $file_name);
+			     }
+			     $subpage = "";
+			   }else
+			   {
+			   	 $tmp = $I18N->msg('pool_file_delete_error_1', $file_name).' '.$I18N->msg('pool_file_delete_error_2').'<br />';
+			     $tmp .= '<ul>';
+			     foreach($articleUsesMedia as $art_arr)
+			     {
+			       $aid = $art_arr['article_id'];
+			       $clang = $art_arr['clang'];
+			       $ooa = OOArticle::getArticleById($aid, $clang);
+			       $name = $ooa->getName();
+			       $tmp .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
+			     }
+			     $tmp .= '</ul>';
+					 $warning[] = $tmp;
+			   }
+			 }else
+			 {
+			   $warning[] = $I18N->msg('no_permission');
+			 }
+			}else
+			{
+			 $warning[] = $I18N->msg('pool_file_not_found');
+			}
     }
-  }
-  else
-  {
-    $warning = $I18N->msg('pool_selectedmedia_error');
   }
 }
 
@@ -573,21 +554,23 @@ if ($subpage == '')
 
   echo $cat_out;
 
-//                <tr>
-//                  <th>'. $I18N->msg('pool_file_list') .'</th>
-//                </tr>
-
   if(is_array($warning))
   {
-    echo rex_warning_block(implode('', $warning));
+    if(count($warning)>0)
+	    echo rex_warning_block(implode('', $warning));
     $warning = '';
-  }
-  else if($warning != '')
+  }else if($warning != '')
   {
     echo rex_warning($warning);
     $warning = '';
   }
-  else if($info != '')
+
+  if(is_array($info))
+  {
+    if(count($info)>0)
+      echo rex_info_block(implode('', $info));
+    $info = '';
+  }else if($info != '')
   {
     echo rex_info($info);
     $info = '';

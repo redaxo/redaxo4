@@ -669,11 +669,9 @@ class OOMedia
 
     $res = $sql->getArray($query);
     if($sql->getRows() > 0)
-    {
       return $res;
-    }
 
-    return true;
+    return FALSE;
   }
 
   /**
@@ -805,12 +803,10 @@ class OOMedia
       {
         return $OOMed->delete();
       }
-    }
-    else
+    }else
     {
       $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
       $sql = new rex_sql();
-  //    $sql->debugsql = true;
       $sql->setQuery($qry);
   
       if($this->fileExists())
