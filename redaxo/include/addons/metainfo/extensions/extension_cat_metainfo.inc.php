@@ -29,13 +29,12 @@ function rex_a62_metainfo_button($params)
 
   function rex_metainfo_toggle()
   {
-  	var trs = jQuery(".rex-metainfo-cat");
-  	for(i=0;i<trs.length;i++)
-    {
-  		show = toggleElement(trs[i]);
-  	}
-    if (show == "") changeImage("rex-metainfo-icon","media/file_del.gif")
-    else changeImage("rex-meta-icon","media/file_add.gif");
+  	jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
+		img = jQuery("img#rex-metainfo-icon");
+		if(img.attr("src") == "media/file_add.gif")
+			img.attr("src","media/file_del.gif");
+		else 
+			img.attr("src","media/file_add.gif");
   }
 
   //--></script><a class="rex-button-add" href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-metainfo-icon" alt="'. $I18N->msg('minfo_edit_metadata') .'" title="'. $I18N->msg('minfo_edit_metadata') .'" /></a></p>';
