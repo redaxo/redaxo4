@@ -30,7 +30,7 @@ title_background = Hintergrundfarben ausw&auml;hlen
 tinymce_background = Liste durch Kommas getrennt<br />hier die Hex-Werte f&uuml;r Farben ohne # angeben: z.B.: CC0000,009900,000099<br />Die erste Farbe wird als Standard gesetzt
 
 title_validxhtml = Validen XHTML-Code ausgeben
-tinymce_validxhtml = Validen XHTML-Code ausgeben (evtl. Probleme mit der Performance)
+tinymce_validxhtml = (evtl. Probleme mit der Performance)
 
 title_theme = Theme ausw&auml;hlen
 theme_simple = Einfach
