@@ -254,7 +254,11 @@ div#rex-navi-main ul,
 div.rex-message-block {
 	line-height: 1.2;
 }
-body#rex-page-linkmap div.rex-area-content {
+body#rex-page-linkmap div.rex-area-content, 
+div.rex-addon-content p.rex-form-checkbox, 
+div.rex-addon-content p.rex-form-radio, 
+div.rex-area-content p.rex-form-checkbox, 
+div.rex-area-content p.rex-form-radio  {
   line-height: 1em;
 }
 

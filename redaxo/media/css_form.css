@@ -66,6 +66,9 @@ div.rex-form div.rex-form-row {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 }
+div.rex-form div.rex-form-row .rex-form-headline {
+	padding: 0 5px;
+}
 div.rex-form div.rex-form-row p {
 	float: left;
 	width: 100%;
@@ -91,6 +94,10 @@ div.rex-form div.rex-form-row p.rex-form-checkbox label,
 div.rex-form div.rex-form-row p.rex-form-radio label {
 	padding-top: 2px;
 }
+div.rex-form div.rex-form-row label img, 
+div.rex-form div.rex-form-row p.rex-form-label img {
+	vertical-align: middle;
+}
 
 
 div.rex-form div.rex-form-row p span.rex-form-read, 
@@ -102,6 +109,7 @@ div.rex-form div.rex-form-row p span.rex-form-read {
 	float: left;
 }
 div.rex-form div.rex-form-row p span.rex-form-notice {
+	clear: both;
 	margin-left: 155px;
 }
 div.rex-form div.rex-form-row p label span {
@@ -125,6 +133,9 @@ div.rex-form div.rex-form-row p.rex-form-password input,
 div.rex-form div.rex-form-row p select,
 div.rex-form div.rex-form-row p textarea {
 	width: 456px;
+}
+div.rex-form div.rex-form-row p textarea.rex-form-textarea-v2 {
+	width: 94%;
 }
 div.rex-form div.rex-form-row p textarea {
 	padding: 2px;
