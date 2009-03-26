@@ -2,7 +2,7 @@
 
 $mypage = 'import_export';
 
-if($REX['REDAXO'])
+if($REX['REDAXO'] && is_object($REX["USER"]))
 {
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 
@@ -19,7 +19,7 @@ if($REX['REDAXO'])
 	
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('', $I18N->msg('im_export_export'));
-	if($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin()) 
-	  $REX['ADDON'][$mypage]['SUBPAGES'][] = array ('import', $I18N->msg('im_export_import'));
+ 	if($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin())
+		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('import', $I18N->msg('im_export_import'));
 
 }
