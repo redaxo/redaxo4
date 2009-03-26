@@ -281,6 +281,7 @@ if ($function == "add" or $function == "edit")
                 </p>
               </div>
               
+              <div class="rex-clearer"></div>
             </div>
         </fieldset>
 

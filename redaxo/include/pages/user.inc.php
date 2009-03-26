@@ -797,6 +797,8 @@ if ($FUNC_ADD != "" || $user_id > 0)
 		    </div>
 
       '. $add_submit .'
+			        
+      	<div class="rex-clearer"></div>
       </div>
     </fieldset>
   </form>

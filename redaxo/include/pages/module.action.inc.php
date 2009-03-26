@@ -242,6 +242,8 @@ if ($function == "add" or $function == "edit")
 			            <input class="rex-form-text" type="text" size="10" id="name" name="name" value="' . htmlspecialchars($name) . '" />
       			    </p>
       			  </div>
+      			  
+              <div class="rex-clearer"></div>
       			</div>
           </fieldset>
 
@@ -263,6 +265,8 @@ if ($function == "add" or $function == "edit")
 			         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
 			         	</p>
 			        </div>
+			        
+              <div class="rex-clearer"></div>
 			      </div>
 	        </fieldset>
 	        
@@ -284,6 +288,8 @@ if ($function == "add" or $function == "edit")
       			      <span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
       			    </p>
       			  </div>
+      			  
+              <div class="rex-clearer"></div>
       			</div>
           </fieldset>
           
@@ -306,6 +312,8 @@ if ($function == "add" or $function == "edit")
 			         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
 			         	</p>
 			        </div>
+			        
+              <div class="rex-clearer"></div>
 			      </div>
 			    </fieldset>
 			    

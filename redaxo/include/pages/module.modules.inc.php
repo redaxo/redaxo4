@@ -227,6 +227,8 @@ if ($function == 'add' or $function == 'edit')
 	      				<textarea class="rex-form-textarea" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
   	  			  </p>
     				</div>
+              
+            <div class="rex-clearer"></div>
     			</div>
         </fieldset>
         
