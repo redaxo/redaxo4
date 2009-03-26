@@ -131,7 +131,7 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
           $clang = $art_arr['clang'];
           $ooa = OOArticle::getArticleById($aid, $clang);
           $name = $ooa->getName();
-          $warning[] ='<li><a href="../index.php?article_id='. $aid .'&amp;clang='. $clang .'" onclick="window.open(this.href); return false;">'. $name .'</a></li>';
+          $warning[] ='<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
         }
         $warning[] = '</ul>';
         $subpage = '';

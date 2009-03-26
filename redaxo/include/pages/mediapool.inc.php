@@ -161,6 +161,12 @@ function insertLink(src)
   self.close();
 }
 
+function openPage(src)
+{
+  window.opener.location.href = src;
+  self.close();
+}
+
 //-->
 </script>
 <?php

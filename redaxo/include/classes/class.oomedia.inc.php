@@ -637,7 +637,6 @@ class OOMedia
     global $REX;
 
     $sql = new rex_sql();
-//    $sql->debugsql = true;
     $filename = addslashes($this->getFileName());
 
     $values = array();
@@ -651,7 +650,7 @@ class OOMedia
     for ($i = 1; $i < 11; $i++)
     {
       $files[] = 'file'.$i.'="'.$filename.'"';
-      $filelists[] = 'filelist'.$i.' LIKE "%|'.$filename.'|%"';
+      $filelists[] = '(filelist'.$i.' LIKE "'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.'" ) ';
     }
 
     $where = '';
@@ -674,7 +673,7 @@ class OOMedia
       return $res;
     }
 
-    return false;
+    return true;
   }
 
   /**
