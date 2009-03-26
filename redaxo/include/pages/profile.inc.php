@@ -10,7 +10,7 @@ $warning = '';
 $user_id = $REX['USER']->getValue('user_id');
 
 // Allgemeine Infos
-$userpsw  = rex_request('userpsw', 'string');
+$userpsw  = trim(rex_request('userpsw', 'string'));
 $username = rex_request('username', 'string');
 $userdesc = rex_request('userdesc', 'string');
 
@@ -69,10 +69,14 @@ if (rex_post('upd_profile_button', 'string'))
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
-  if ($REX['PSWFUNC']!='' && $userpsw != $REX['USER']->getValue($REX['TABLE_PREFIX'].'user.psw')) 
-  	$userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
-  $updateuser->setValue('psw',$userpsw);
   $updateuser->setValue('description',$userdesc);
+
+  if($userpsw != '')
+  {
+    if ($REX['PSWFUNC']!='' && $userpsw != $REX['USER']->getValue($REX['TABLE_PREFIX'].'user.psw')) 
+  	  $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+    $updateuser->setValue('psw',$userpsw);
+  }
 
 	// set be langauage
 	$userperm_be_sprache = rex_request("userperm_be_sprache","string");
@@ -132,8 +136,8 @@ else
               <span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>
 						</p>
 						<p class="rex-form-col-b rex-form-text">
-              <label for="userpsw">'.$I18N->msg('password').'</label>
-							<input class="rex-form-text" type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
+              <label for="userpsw">'.$I18N->msg('new_password').'</label>
+							<input class="rex-form-text" type="password" id="userpsw" name="userpsw" />
 							'. ($REX['PSWFUNC']!='' ? '<span class="rex-form-notice">'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
 						</p>
 					</div>
