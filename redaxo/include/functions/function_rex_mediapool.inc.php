@@ -467,7 +467,9 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
                   <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>
                   '.$cats_sel->get().'
                 </p>
-              </div>';
+              </div>
+
+              <div class="rex-clearer"></div>';
 
   // ----- EXTENSION POINT
   $s .= rex_register_extension_point('MEDIA_FORM_ADD', '');
@@ -479,6 +481,8 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
                  '. $add_submit .'
                 </p>
               </div>
+
+              <div class="rex-clearer"></div>
             </div>
           </fieldset>
         ';

@@ -333,7 +333,9 @@ if ($subpage == "detail")
                       <label for="rex_file_new_category">'. $I18N->msg('pool_file_category') .'</label>
                       '. $cats_sel->get() .'
                     </p>
-                  </div>';
+                  </div>
+
+              	<div class="rex-clearer"></div>';
 
   // ----- EXTENSION POINT
   echo rex_register_extension_point('MEDIA_FORM_EDIT', '', array ('file_id' => $file_id, 'media' => $gf));
@@ -375,6 +377,7 @@ if ($subpage == "detail")
                     </p>
                   </div>
 
+              	<div class="rex-clearer"></div>
               </div>
             </fieldset>
           </form>
@@ -433,6 +436,8 @@ if ($subpage == "detail")
                 </div><!-- END rex-mediapool-detail-data //-->
                 '. $add_image .'
                 
+
+              	<div class="rex-clearer"></div>
               </div>
             </div>';
     }
