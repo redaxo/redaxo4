@@ -440,8 +440,8 @@ class rex_article
                 $moveDown = $I18N->msg('move_slice_down');
                 // upd stamp übergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
                 // (Links wären sonst gleich und der Browser lässt das klicken auf den gleichen Link nicht zu)
-                $listElements[] = '<!--DYN--><a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a><!--/DYN-->';
-                $listElements[] = '<!--DYN--><a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a><!--/DYN-->';
+                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+                $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
               }
 
               // ----- EXTENSION POINT
