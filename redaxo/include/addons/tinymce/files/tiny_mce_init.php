@@ -38,7 +38,7 @@ function rexCustomFileBrowser(field_name, url, type, win)
 	}
 	if (type == 'file')
 	{
-		cmsURL = "index.php?page=linkmap&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>;
+		cmsURL = "index.php?page=<?php echo $rxa_tinymce['linkmap']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>;
 		popupTitle = 'Linkmap';
 	}
 
