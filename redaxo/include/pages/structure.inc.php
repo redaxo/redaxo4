@@ -56,14 +56,12 @@ elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX
   if($success)
   {
     $info = $message;
-  }
-  else
+  }else
   {
     $warning = $message;
     $function = 'edit';
   }
-}
-elseif ($function == 'status' && $edit_id != ''
+}elseif ($function == 'status' && $edit_id != ''
         && ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS

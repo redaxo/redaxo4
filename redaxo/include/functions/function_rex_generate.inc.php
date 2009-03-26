@@ -320,7 +320,7 @@ function rex_deleteArticle($id)
   global $I18N;
 
   $return = _rex_deleteArticle($id);
-	return $return['message'];
+	return $return;
 }
 
 /**

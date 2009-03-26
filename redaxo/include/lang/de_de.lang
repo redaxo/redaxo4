@@ -80,7 +80,8 @@ article_could_not_be_generated  =  Artikel konnte nicht erstellt werden.
 check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
 category_deleted  =  Kategorie wurde gelöscht!
 category_doesnt_exist  =  Kategorie existiert nicht!
-cant_delete_sitestartarticle = Der Webseiten-Startartikel darf nicht gelöscht werden!
+cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
+cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
 
 # redaxo\include\pages\content.inc.php
 move_slice_up = Nach oben verschieben

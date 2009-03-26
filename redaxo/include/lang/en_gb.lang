@@ -75,7 +75,8 @@ article_could_not_be_generated  =  Article could not be generated.
 check_rights_in_directory  =  Check folder permissions.
 category_deleted  =  Category deleted!
 category_doesnt_exist  =  Category doesn't exist!
-cant_delete_startarticle = Start-article cannot be deleted!
+cant_delete_startarticle = Start-article can not be deleted!
+cant_delete_notfoundarticle = Not-Found-article can not be deleted
 
 # redaxo\include\pages\content.inc.php
 move_slice_up = move up

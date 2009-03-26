@@ -200,16 +200,18 @@ function rex_editCategory($category_id, $clang, $data)
     // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
     $message = rex_register_extension_point('CAT_UPDATED', $message,
       array (
-        'category' => clone($EKAT),
         'id' => $category_id,
+
+        'category' => clone($EKAT),
+        'category_old' => clone($thisCat),
+        'article' => clone($EKAT),
+        
         're_id' => $thisCat->getValue('re_id'),
         'clang' => $clang,
         'name' => $thisCat->getValue('catname'),
         'prior' => $thisCat->getValue('catprior'),
         'path' => $thisCat->getValue('path'),
         'status' => $thisCat->getValue('status'),
-        'article' => clone($EKAT),
-        'data' => $data,
       )
     );
 
@@ -234,8 +236,9 @@ function rex_deleteCategoryReorganized($category_id)
 {
   global $REX, $I18N;
 
-  $success = false;
-  $message = '';
+	$return = array();
+  $return['state'] = FALSE;
+  $return['message'] = '';
   
   $clang = 0;
 
@@ -258,7 +261,7 @@ function rex_deleteCategoryReorganized($category_id)
         $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id);
         
         $re_id = $thisCat->getValue('re_id');
-        $message = rex_deleteArticle($category_id);
+        $return = rex_deleteArticle($category_id);
         
         while($thisCat->hasNext())
         {
@@ -268,7 +271,7 @@ function rex_deleteCategoryReorganized($category_id)
           rex_newCatPrio($re_id, $_clang, 0, 1);
           
           // ----- EXTENSION POINT
-          $message = rex_register_extension_point('CAT_DELETED', $message, array (
+          $return = rex_register_extension_point('CAT_DELETED', $return, array (
             'id'     => $category_id,
             're_id'  => $re_id,
             'clang'  => $_clang,
@@ -281,24 +284,20 @@ function rex_deleteCategoryReorganized($category_id)
           $thisCat->next();
         }
 
-        $success = true;
-      }
-      else
+      }else
       {
-        $message = $I18N->msg('category_could_not_be_deleted').' '.$I18N->msg('category_still_contains_articles');
+        $return['message'] = $I18N->msg('category_could_not_be_deleted').' '.$I18N->msg('category_still_contains_articles');
       }
-    }
-    else
+    }else
     {
-      $message = $I18N->msg('category_could_not_be_deleted').' '.$I18N->msg('category_still_contains_subcategories');
+      $return['message'] = $I18N->msg('category_could_not_be_deleted').' '.$I18N->msg('category_still_contains_subcategories');
     }
-  }
-  else
+  }else
   {
-    $message = $I18N->msg('category_could_not_be_deleted');
+    $return['message'] = $I18N->msg('category_could_not_be_deleted');
   }
 
-  return array($success, $message);
+  return array($return['state'],$return['message']);
 }
 
 /**
@@ -520,6 +519,10 @@ function rex_editArticle($article_id, $clang, $data)
     $message = rex_register_extension_point('ART_UPDATED', $message,
       array (
         'id' => $article_id,
+
+				'article' => clone($EA),
+				'article_old' => clone($thisArt),
+
         'status' => $thisArt->getValue('status'),
         'name' => $data['name'],
         'clang' => $clang,
@@ -527,7 +530,6 @@ function rex_editArticle($article_id, $clang, $data)
         'prior' => $data['prior'],
         'path' => $data['path'],
         'template_id' => $data['template_id'],
-        'data' => $data,
       )
     );
 
@@ -552,15 +554,16 @@ function rex_deleteArticleReorganized($article_id)
 {
   global $REX;
 
-  $success = false;
-  $message = '';
+  $return = array();
+  $return['state'] = FALSE;
+  $return['message'] = '';
 
   $Art = new rex_sql;
   $Art->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and startpage=0');
 
   if ($Art->getRows() == count($REX['CLANG']))
   {
-    $message = rex_deleteArticle($article_id);
+    $return = rex_deleteArticle($article_id);
     $re_id = $Art->getValue("re_id");
 
     foreach($REX['CLANG'] as $clang => $clang_name)
@@ -569,7 +572,7 @@ function rex_deleteArticleReorganized($article_id)
       rex_newArtPrio($Art->getValue("re_id"), $clang, 0, 1);
       
       // ----- EXTENSION POINT
-      $message = rex_register_extension_point('ART_DELETED', $message,
+      $return = rex_register_extension_point('ART_DELETED', $return,
         array (
           "id"          => $article_id,
           "clang"       => $clang,
@@ -584,11 +587,8 @@ function rex_deleteArticleReorganized($article_id)
       
       $Art->next();
     }
-    
-    $success = true;
   }
-
-  return array($success, $message);
+  return array($return['state'],$return['message']);
 }
 
 /**
