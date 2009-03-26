@@ -351,7 +351,7 @@ div.rex-content-editmode-module-name div.rex-navi-slice {
 div.rex-content-editmode-slice-input, 
 div.rex-content-editmode-slice-output {
 	clear: both;
-	padding: 10px 5px;
+	padding: 10px;
 } 
 div.rex-content-editmode-slice-output {
 	border-bottom-width: 1px;

@@ -339,7 +339,7 @@ div.rex-form-content-editmode fieldset.rex-form-col-1 div.rex-form-row p.rex-for
 /*	Slice add / edit */
 div.rex-form-content-editmode-add-slice div.rex-form-row p input.rex-form-submit, 
 div.rex-form-content-editmode-edit-slice div.rex-form-row p input.rex-form-submit {
-	margin-left: 5px;
+	margin-left: 10px;
 }
 div.rex-form-content-editmode-add-slice div.rex-form-row p.rex-form-col-b input.rex-form-submit, 
 div.rex-form-content-editmode-edit-slice div.rex-form-row p.rex-form-col-b input.rex-form-submit {
