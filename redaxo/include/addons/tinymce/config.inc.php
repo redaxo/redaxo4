@@ -127,11 +127,5 @@ $REX['ADDON'][$rxa_tinymce['name']]['highlight'] = '';
 			}
 		}
 
-		// CSS für das Backend einbinden
-		if ($rxa_tinymce['get_page'] == $rxa_tinymce['name'])
-		{
-			rex_register_extension('PAGE_HEADER', create_function('$params', 'return $params[\'subject\'] ."\n".\'  <link rel="stylesheet" type="text/css" href="../files/addons/'. $rxa_tinymce['name'] .'/tinymce_be.css"  />\';'));
-		}
-
 	} // Ende nur im Backend
 ?>
