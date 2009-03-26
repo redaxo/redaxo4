@@ -4,3 +4,7 @@
  * @version svn:$Id$
  */
 
+div.rex-content-header ul, 
+div#rex-form-content-metamode fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span {
+	display: inline;
+}

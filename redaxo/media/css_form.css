@@ -422,6 +422,17 @@ div#rex-form-mediapool-detail div.rex-form-row p select,
 div#rex-form-mediapool-detail div.rex-form-row p textarea {
 	width: 244px;
 }
+div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-date {
+	width: 50px;
+}
+div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
+	width: 70px;
+}
+div#rex-form-mediapool-detail div.rex-form-row div.rex-form-checkboxes-wrapper p.rex-form-label-right label, 
+div#rex-form-mediapool-detail div.rex-form-row div.rex-form-radios-wrapper p.rex-form-label-right label, 
+div#rex-form-mediapool-detail div.rex-form-row div.rex-form-widget select {
+	width: 212px;
+}
 div#rex-form-mediapool-selectcategory div.rex-form-row p label {
 	font-weight: bold;
 }
@@ -461,6 +472,10 @@ div#rex-form-mediapool-selectcategory fieldset.rex-form-col-2 div.rex-form-row p
 div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right input.rex-form-checkbox, 
 div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right input.rex-form-radio {
 	margin-left: 5px;
+}
+div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right label, 
+div#rex-form-mediapool-other div.rex-form-row p.rex-form-label-right label {
+	width: 426px;
 }
 div#rex-form-mediapool-other div.rex-form-row p span.rex-form-notice {
 	margin-left: 5px;
