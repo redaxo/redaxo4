@@ -63,21 +63,20 @@
 		$csstext = htmlspecialchars(file_get_contents($filename));
 	}
 ?>
-  <div class="rex-form-row rex-form-element-v2">
-
-<textarea name="tinymcecss" cols="80" rows="20" class="tinymce-code-big">
-<?php echo htmlspecialchars($csstext); ?>
-</textarea>
-		</div>
-
-  <div class="rex-form-row rex-form-element-v2">
-			<p class="rex-form-submit">
-				<input class="rex-form-submit rex-form-submit2" type="submit" value="<?php echo $I18N_A52->msg('button_save_css'); ?>" />
+	  <div class="rex-form-row">
+			<p class="rex-form-textarea">
+				<label for="tinymcecss">CSS</label>
+				<textarea class="rex-form-textarea" name="tinymcecss" id="tinymcecss" cols="80" rows="20"><?php echo htmlspecialchars($csstext); ?></textarea>
 			</p>
 		</div>
 
+  	<div class="rex-form-row">
+			<p class="rex-form-submit">
+				<input class="rex-form-submit" type="submit" value="<?php echo $I18N_A52->msg('button_save_css'); ?>" />
+			</p>
 		</div>
-      </fieldset>
+
+    </fieldset>
 		</form>
 
 	</div> <!-- END rex-form -->

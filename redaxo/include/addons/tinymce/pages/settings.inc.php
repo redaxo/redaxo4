@@ -89,111 +89,136 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'highlight\'] = \'' . $rxa_tinymce['get
 
 <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_config'); ?></h2>
 
-	<div class="rex-area">
 	<div class="rex-form">
 
 	<form action="index.php" method="post">
-		<fieldset>
+		<fieldset class="rex-form-col-1">
       <div class="rex-form-wrapper">
-			<input type="hidden" name="page" value="tinymce" />
-			<input type="hidden" name="subpage" value="settings" />
-			<input type="hidden" name="func" value="update" />
+				<input type="hidden" name="page" value="tinymce" />
+				<input type="hidden" name="subpage" value="settings" />
+				<input type="hidden" name="func" value="update" />
 
-			<div class="rex-form-row-tiny-label-right">
-				<h5><?php echo $I18N_A52->msg('title_active'); ?></h5>
-				<p class="rex-form-text">
-				<input type="checkbox" id="tinymce_active" name="active" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') echo 'checked="checked"'; ?> />
-				<label for="tinymce_active"><?php echo $I18N_A52->msg('tinymce_active'); ?></label>
-				</p>
-			</div>
+				<div class="rex-form-row">
+					<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+						<input class="rex-form-checkbox" type="checkbox" id="tinymce_active" name="active" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') echo 'checked="checked"'; ?> />
+						<label for="tinymce_active"><?php echo $I18N_A52->msg('title_active'); ?></label>
+					</p>
+				</div>
 
-			<div class="rex-form-row-tiny-label-right">
-				<h5><?php echo $I18N_A52->msg('title_language'); ?></h5>
-				<p class="rex-form-text">
-				<input type="text" id="tinymce_lang" name="lang" maxlength="2" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['lang']; ?>" />
-				<label for="tinymce_lang"><?php echo $I18N_A52->msg('tinymce_langs', $rxa_tinymce['tinymce_langs']); ?></label>
-				</p>
-			</div>
+				<div class="rex-form-row">
+					<p class="rex-form-col-a rex-form-text">
+						<label for="tinymce_lang"><?php echo $I18N_A52->msg('title_language'); ?></label>
+						<input class="rex-form-text" type="text" id="tinymce_lang" name="lang" maxlength="2" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['lang']; ?>" />
+						<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_langs', $rxa_tinymce['tinymce_langs']); ?></span>
+					</p>
+				</div>
 			
-			<div class="rex-form-row-tiny-label-top">
-				<h5><?php echo $I18N_A52->msg('title_pages'); ?></h5>
-				<p class="rex-form-text">
-				<label for="tinymce_pages"><?php echo $I18N_A52->msg('tinymce_pages'); ?></label><br />
-				<input type="text" id="tinymce_pages" name="pages" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['pages']; ?>" />
-				</p>
-			</div>
-
-			<div class="rex-form-row-tiny-label-top">
-				<h5><?php echo $I18N_A52->msg('title_foreground'); ?></h5>
-				<p class="rex-form-text">
-				<label for="tinymce_foreground"><?php echo $I18N_A52->msg('tinymce_foreground'); ?></label><br />
-				<input type="text" id="tinymce_foreground" name="foreground" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['foreground']; ?>" />
-				</p>
-			</div>
-
-			<div class="rex-form-row-tiny-label-top">
-				<h5><?php echo $I18N_A52->msg('title_background'); ?></h5>
-				<p class="rex-form-text">
-				<label for="tinymce_background"><?php echo $I18N_A52->msg('tinymce_background'); ?></label><br />
-				<input type="text" id="tinymce_background" name="background" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['background']; ?>" />
-				</p>
-			</div>
-
-			<div class="rex-form-row-tiny-label-right">
-				<h5><?php echo $I18N_A52->msg('title_validxhtml'); ?></h5>
-				<p class="rex-form-text">
-				<input type="checkbox" id="tinymce_validxhtml" name="validxhtml" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] == 'on') echo 'checked="checked"'; ?> />
-				<label for="tinymce_validxhtml"><?php echo $I18N_A52->msg('tinymce_validxhtml'); ?></label>
-				</p>
-			</div>
-
-			<div class="rex-form-row-tiny-label-right">
-				<h5><?php echo $I18N_A52->msg('title_theme'); ?></h5>
-				<p class="rex-form-text">
-				<input type="radio" id="tinymce_theme_simple" name="theme" value="simple" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'simple') echo 'checked="checked"'; ?>/>
-				<label for="tinymce_theme_simple"><strong><?php echo $I18N_A52->msg('theme_simple'); ?></strong><br /><img class="theme" src="./include/addons/tinymce/img/theme_simple.jpg" alt="" /></label>
-				<br /><br />
-				<input type="radio" id="tinymce_theme_default" name="theme" value="default" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'default') echo 'checked="checked"'; ?> />
-				<label for="tinymce_theme_default"><strong><?php echo $I18N_A52->msg('theme_default'); ?></strong><br /><img class="theme" src="./include/addons/tinymce/img/theme_default.jpg" alt="" /></label>
-				<br /><br />
-				<input type="radio" id="tinymce_theme_advanced" name="theme" value="advanced" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced') echo 'checked="checked"'; ?> />
-				<label for="tinymce_theme_advanced"><strong><?php echo $I18N_A52->msg('theme_advanced'); ?></strong><br /><img class="theme" src="./include/addons/tinymce/img/theme_advanced.jpg" alt="" /></label>
-				</p>
-			</div>
-
-			<div class="rex-form-row-tiny-label-right">
-				<h5><?php echo $I18N_A52->msg('title_skin'); ?></h5>
-				<p class="rex-form-text">
-				<input type="radio" id="tinymce_skin_standard" name="skin" value="default" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'default') echo 'checked="checked"'; ?>/>
-				<label for="tinymce_skin_standard"><strong><?php echo $I18N_A52->msg('skin_standard'); ?></strong><br /><img class="skin" src="./include/addons/tinymce/img/skin_default.jpg" alt="" /></label>
-				<br /><br />
-				<input type="radio" id="tinymce_skin_o2k7" name="skin" value="o2k7" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'o2k7') echo 'checked="checked"'; ?>/>
-				<label for="tinymce_skin_o2k7"><strong><?php echo $I18N_A52->msg('skin_o2k7'); ?></strong><br /><img class="skin" src="./include/addons/tinymce/img/skin_o2k7.jpg" alt="" /></label>
-				<br /><br />
-				<input type="radio" id="tinymce_skin_o2k7_silver" name="skin" value="o2k7_silver" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'o2k7_silver') echo 'checked="checked"'; ?>/>
-				<label for="tinymce_skin_o2k7_silver"><strong><?php echo $I18N_A52->msg('skin_o2k7_silver'); ?></strong><br /><img class="skin" src="./include/addons/tinymce/img/skin_o2k7_silver.jpg" alt="" /></label>
-				<br /><br />
-				<input type="radio" id="tinymce_skin_o2k7_black" name="skin" value="o2k7_black" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'o2k7_black') echo 'checked="checked"'; ?>/>
-				<label for="tinymce_skin_o2k7_black"><strong><?php echo $I18N_A52->msg('skin_o2k7_black'); ?></strong><br /><img class="skin" src="./include/addons/tinymce/img/skin_o2k7_black.jpg" alt="" /></label>
-				</p>
-			</div>
-
-			<div class="rex-form-row-tiny-label-right">
-				<h5><?php echo $I18N_A52->msg('title_buttons'); ?></h5>
-				<p class="rex-form-text">
-				<input type="checkbox" id="tinymce_btn_emoticons" name="emoticons" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['emoticons'] == 'on') echo 'checked="checked"'; ?> />
-				<label for="tinymce_btn_emoticons"><img class="icon" src="./include/addons/tinymce/img/emoticons.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_emoticons'); ?></label>
-				<br /><br />
-				<input type="checkbox" id="tinymce_btn_media" name="media" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on') echo 'checked="checked"'; ?> />
-				<label for="tinymce_btn_media"><img class="icon" src="./include/addons/tinymce/img/media.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_media'); ?></label>
-				<br /><br />
-				<input type="checkbox" id="tinymce_btn_highlight" name="highlight" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['highlight'] == 'on') echo 'checked="checked"'; ?> />
-				<label for="tinymce_btn_highlight"><img class="icon" src="./include/addons/tinymce/img/syntaxhighlighter.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_highlight'); ?></label>
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-text">
+					<label for="tinymce_pages"><?php echo $I18N_A52->msg('title_pages'); ?></label>
+					<input class="rex-form-text" type="text" id="tinymce_pages" name="pages" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['pages']; ?>" />
+					<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_pages'); ?></span>
 				</p>
 			</div>
 
 			<div class="rex-form-row">
-				<p class="rex-form-submit">
+				<p class="rex-form-col-a rex-form-text">
+					<label for="tinymce_foreground"><?php echo $I18N_A52->msg('title_foreground'); ?></label>
+					<input class="rex-form-text" type="text" id="tinymce_foreground" name="foreground" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['foreground']; ?>" />
+					<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_foreground'); ?></span>
+				</p>
+			</div>
+
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-text">
+					<label for="tinymce_background"><?php echo $I18N_A52->msg('title_background'); ?></label>
+					<input class="rex-form-text" type="text" id="tinymce_background" name="background" value="<?php echo $REX['ADDON'][$rxa_tinymce['name']]['background']; ?>" />
+					<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_background'); ?></span>
+				</p>
+			</div>
+
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+					<input class="rex-form-checkbox" type="checkbox" id="tinymce_validxhtml" name="validxhtml" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] == 'on') echo 'checked="checked"'; ?> />
+					<label for="tinymce_validxhtml"><?php echo $I18N_A52->msg('title_validxhtml'); ?></label>
+					<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_validxhtml'); ?></span>
+				</p>
+			</div>
+
+			<div class="rex-form-row">
+				<h5 class="rex-form-headline"><?php echo $I18N_A52->msg('title_theme'); ?></h5>
+			</div>
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+					<input class="rex-form-radio" type="radio" id="tinymce_theme_simple" name="theme" value="simple" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'simple') echo 'checked="checked"'; ?>/>
+					<label for="tinymce_theme_simple"><strong><?php echo $I18N_A52->msg('theme_simple'); ?></strong><br /><br /><img class="theme" src="./include/addons/tinymce/img/theme_simple.jpg" alt="" /></label>
+				</p>
+			</div>
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+					<input class="rex-form-radio" type="radio" id="tinymce_theme_default" name="theme" value="default" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'default') echo 'checked="checked"'; ?> />
+					<label for="tinymce_theme_default"><strong><?php echo $I18N_A52->msg('theme_default'); ?></strong><br /><br /><img class="theme" src="./include/addons/tinymce/img/theme_default.jpg" alt="" /></label>
+				</p>
+			</div>
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+					<input class="rex-form-radio" type="radio" id="tinymce_theme_advanced" name="theme" value="advanced" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced') echo 'checked="checked"'; ?> />
+					<label for="tinymce_theme_advanced"><strong><?php echo $I18N_A52->msg('theme_advanced'); ?></strong><br /><br /><img class="theme" src="./include/addons/tinymce/img/theme_advanced.jpg" alt="" /></label>
+				</p>
+			</div>
+
+
+			<div class="rex-form-row">
+				<h5 class="rex-form-headline"><?php echo $I18N_A52->msg('title_skin'); ?></h5>
+			</div>
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+					<input class="rex-form-radio" type="radio" id="tinymce_skin_standard" name="skin" value="default" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'default') echo 'checked="checked"'; ?>/>
+					<label for="tinymce_skin_standard"><strong><?php echo $I18N_A52->msg('skin_standard'); ?></strong><br /><br /><img class="skin" src="./include/addons/tinymce/img/skin_default.jpg" alt="" /></label>
+				</p>
+			</div>
+			<div class="rex-form-row">	
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">			
+					<input class="rex-form-radio" type="radio" id="tinymce_skin_o2k7" name="skin" value="o2k7" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'o2k7') echo 'checked="checked"'; ?>/>
+					<label for="tinymce_skin_o2k7"><strong><?php echo $I18N_A52->msg('skin_o2k7'); ?></strong><br /><br /><img class="skin" src="./include/addons/tinymce/img/skin_o2k7.jpg" alt="" /></label>
+				</p>
+			</div>
+			<div class="rex-form-row">	
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+					<input class="rex-form-radio" type="radio" id="tinymce_skin_o2k7_silver" name="skin" value="o2k7_silver" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'o2k7_silver') echo 'checked="checked"'; ?>/>
+					<label for="tinymce_skin_o2k7_silver"><strong><?php echo $I18N_A52->msg('skin_o2k7_silver'); ?></strong><br /><br /><img class="skin" src="./include/addons/tinymce/img/skin_o2k7_silver.jpg" alt="" /></label>
+				</p>
+			</div>
+			<div class="rex-form-row">	
+				<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+					<input class="rex-form-radio" type="radio" id="tinymce_skin_o2k7_black" name="skin" value="o2k7_black" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['skin'] == 'o2k7_black') echo 'checked="checked"'; ?>/>
+					<label for="tinymce_skin_o2k7_black"><strong><?php echo $I18N_A52->msg('skin_o2k7_black'); ?></strong><br /><br /><img class="skin" src="./include/addons/tinymce/img/skin_o2k7_black.jpg" alt="" /></label>
+				</p>
+			</div>
+
+			<div class="rex-form-row">
+				<h5 class="rex-form-headline"><?php echo $I18N_A52->msg('title_buttons'); ?></h5>
+			</div>
+			<div class="rex-form-row">	
+				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+					<input class="rex-form-checkbox" type="checkbox" id="tinymce_btn_emoticons" name="emoticons" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['emoticons'] == 'on') echo 'checked="checked"'; ?> />
+					<label for="tinymce_btn_emoticons"><img class="icon" src="./include/addons/tinymce/img/emoticons.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_emoticons'); ?></label>
+				</p>
+			</div>
+			<div class="rex-form-row">	
+				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+					<input class="rex-form-checkbox" type="checkbox" id="tinymce_btn_media" name="media" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on') echo 'checked="checked"'; ?> />
+					<label for="tinymce_btn_media"><img class="icon" src="./include/addons/tinymce/img/media.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_media'); ?></label>
+				</p>
+			</div>
+			<div class="rex-form-row">	
+				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+					<input class="rex-form-checkbox" type="checkbox" id="tinymce_btn_highlight" name="highlight" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['highlight'] == 'on') echo 'checked="checked"'; ?> />
+					<label for="tinymce_btn_highlight"><img class="icon" src="./include/addons/tinymce/img/syntaxhighlighter.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_highlight'); ?></label>
+				</p>
+			</div>
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-submit">
 					<input type="submit" class="rex-form-submit" name="sendit" value="<?php echo $I18N_A52->msg('button_save_settings'); ?>" />
 				</p>
 			</div>
@@ -203,7 +228,6 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'highlight\'] = \'' . $rxa_tinymce['get
 	</form>
 
 	</div> <!-- END rex-form -->
-	</div> <!-- END rex-area -->
 
 </div> <!-- END rex-addon-output -->
 
