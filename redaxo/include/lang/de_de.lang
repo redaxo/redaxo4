@@ -39,6 +39,7 @@ navigation_addons = AddOns
 # redaxo/include/classes/class.login.inc.php
 login_name  =  Benutzername
 password  =  Passwort
+new_password = Neues Passwort
 login_error = Fehler bei der Anmeldung. Bitte vor dem nächsten Versuch {0} Sekunden warten.
 login_session_expired = Session beendet.
 login_user_not_found = Benutzer nicht gefunden!
