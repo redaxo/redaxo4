@@ -249,7 +249,7 @@ structure_articles_caption = Liste der Artikel der Kategorie "{0}"
 # redaxo\include\pages\template.inc.php
 templates_not_found = Es wurden keine Templates gefunden
 title_templates = Templates
-cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von verschiendenen Artikeln genutzt wird.
+cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.
 template_deleted = Template wurde gelöscht.
 template_added = Template wurde hinzugefügt
 template_updated = Template wurde aktualisiert

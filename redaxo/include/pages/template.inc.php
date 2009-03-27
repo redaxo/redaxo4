@@ -25,17 +25,18 @@ if ($function == "delete")
     LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id
     WHERE " . $REX['TABLE_PREFIX'] . "article.template_id='$template_id' LIMIT 0,10");
 
-  if ($del->getRows() > 0) {
-    $warning = $I18N->msg("cant_delete_template_because_its_in_use", htmlspecialchars($del->getValue($REX['TABLE_PREFIX'] . "template.name")));
-  }
-  else
+  if ($del->getRows() > 0  || $REX['DEFAULT_TEMPLATE_ID'] == $template_id) 
+  {
+    $warning = $I18N->msg("cant_delete_template_because_its_in_use", 'ID = '.$template_id);
+
+  }else
   {
     $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
     rex_deleteDir($REX['INCLUDE_PATH'] . "/generated/templates/" . $template_id . ".template", 0);
     $info = $I18N->msg("template_deleted");
   }
-}
-elseif ($function == "edit")
+
+}elseif ($function == "edit")
 {
 
   $legend = $I18N->msg("edit_template") . ' [ID=' . $template_id . ']';
@@ -48,13 +49,13 @@ elseif ($function == "edit")
     $content = $hole->getValue("content");
     $active = $hole->getValue("active");
     $attributes = $hole->getValue("attributes");
-  }
-  else
+
+  }else
   {
     $function = '';
   }
-}
-else
+
+}else
 {
   $templatename = '';
   $content = '';
