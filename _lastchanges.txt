@@ -19,6 +19,15 @@ Version 4.2.0 (2009-XX-XX)
   * $REX_LOGIN -> $REX['LOGIN']
     
   Neu:
+  * Page kann überschrieben werden und Navigation im Backend kann komplett beeinfluss werden [Jan.Kristinus]
+    $REX['PAGES']['structure'] = array(
+      'Name in der Navigation',
+      0, // 1 = addon/ 0 = core page
+      1, // 0 = no navi / 1 = navi
+      'SUBPAGES' => $REX['ADDON'][$mypage]['SUBPAGES'],
+      'PATH' => $REX['INCLUDE_PATH'].'/addons/import_export/pages/index.inc.php',
+      'NAVI' => array('class'=>' rex-popup', 'onclick' => 'alert(1);') 
+    );
   * Import/Export, Zeichensatz wird an den Datenbank export gehaengt. Imports gehen nur noch mit dem passenden Zeichensatz [Jan.Kristinus]
   * Module sind Ctypes und Templates zuweisbar. Bei Artikeln ohne Templates sind alle Module verfügbar. [Jan.Kristinus]
   * Vorgenerierungsmechanismus optimiert (jetzt selektiv) [Markus.Staab]

@@ -111,16 +111,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
       if($pageArr[1] != 1)
       {
         // ***** Basis
-        if($pageKey == "mediapool")
-        {
-          $item['href'] = '#';
-          $item['onclick'] = 'openMediaPool();';
-          $item['class'] .= ' rex-popup';
-        }
-        else
-        { 
-          $item['href'] = 'index.php?page='.$pageKey;
-        }
+        $item['href'] = 'index.php?page='.$pageKey;
         
         if(isset($REX['PAGES'][$pageKey]['SUBPAGES']))
         {
@@ -129,9 +120,14 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
         
         $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
         $item['tabindex'] = rex_tabindex(false);
+        
+        if(isset($pageArr['NAVI']) && is_array($pageArr['NAVI']))
+        	foreach($pageArr['NAVI'] as $k => $v)
+        		$item[$k] = $v;
+        
         $navi_system[$pageArr[0]] = $item;
-      }
-      else
+
+      }else
       {
         // ***** AddOn
         if(isset ($REX['ADDON']['link'][$pageKey]) && $REX['ADDON']['link'][$pageKey] != "") 
@@ -149,6 +145,11 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
         	$item['subpages'] = $REX['ADDON'][$pageKey]['SUBPAGES'];
 
         $item['tabindex'] = rex_tabindex(false);
+
+        if(isset($pageArr['NAVI']) && is_array($pageArr['NAVI']))
+        	foreach($pageArr['NAVI'] as $k => $v)
+        		$item[$k] = $v;
+
         $navi_addons[$pageArr[0]] = $item;
       }
     }

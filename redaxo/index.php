@@ -73,8 +73,8 @@ if ($REX['SETUP'])
 	
 	$REX['PAGES']["setup"] = array($I18N->msg('setup'),0,1);
 	$REX['PAGE'] = "setup";
-}
-else
+
+}else
 {
 	// ----------------- CREATE LANG OBJ
 	$I18N = rex_create_lang($REX['LANG']);
@@ -120,11 +120,7 @@ else
 	}
 }
 
-// ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
-
-
-// ----- Prepare Pages
+// ----- Prepare Core Pages
 if($REX['USER'])
 {
 	$REX['PAGES']["profile"] = array($I18N->msg("profile"),0,1);
@@ -133,12 +129,12 @@ if($REX['USER'])
 	if ($REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm())
 	{
 		$REX['PAGES']["structure"] = array($I18N->msg("structure"),0,1);
-		$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0);
+		$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0,'NAVI' => array('href' =>'#', 'onclick' => 'openMediaPool()', 'class' => ' rex-popup'));
 		$REX['PAGES']["linkmap"] = array($I18N->msg("linkmap"),0,0);
 		$REX['PAGES']["content"] = array($I18N->msg("content"),0,1);
 	}elseif($REX['USER']->hasPerm('mediapool[]'))
 	{
-		$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0);
+		$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0,'NAVI' => array('href' =>'#', 'onclick' => 'openMediaPool()', 'class' => ' rex-popup'));
 	}
 
 	if ($REX['USER']->isAdmin())
@@ -149,7 +145,14 @@ if($REX['USER'])
 	  $REX['PAGES']["addon"] = array($I18N->msg("addon"),0,1);
 	  $REX['PAGES']["specials"] = array($I18N->msg("specials"),0,1,'SUBPAGES'=>array(array('',$I18N->msg("main_preferences")),array('lang',$I18N->msg("languages"))));
 	}
+}
 
+// ----- INCLUDE ADDONS
+include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
+
+// ----- Prepare AddOn Pages
+if($REX['USER'])
+{
 	if (is_array($REX['ADDON']['status']))
 	  reset($REX['ADDON']['status']);
 
@@ -184,7 +187,11 @@ if($REX['USER'])
 			next($REX['ADDON']['status']);
 		}
 	}
+}
 
+// Set Startpage
+if($REX['USER'])
+{
 	$REX['USER']->pages = $REX['PAGES'];
 
 	// --- page herausfinden
@@ -212,20 +219,28 @@ if($REX['USER'])
 	}
 }
 
-$_REQUEST["page"] = $REX['PAGE'];
-
 $REX["PAGE_NO_NAVI"] = 1;
-if($REX['PAGES'][strtolower($REX['PAGE'])][2] == 1) $REX["PAGE_NO_NAVI"] = 0;
+if($REX['PAGES'][strtolower($REX['PAGE'])][2] == 1) 
+	$REX["PAGE_NO_NAVI"] = 0;
 
 // ----- EXTENSION POINT
 // page variable validated
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
-if($REX['PAGES'][strtolower($REX['PAGE'])][1])
+
+if(isset($REX['PAGES'][$REX['PAGE']]['PATH']) && $REX['PAGES'][$REX['PAGE']]['PATH'] != "")
 {
-	require $REX['INCLUDE_PATH'].'/addons/'. $REX['PAGE'] .'/pages/index.inc.php';
+	// If page has a new/overwritten path
+	require $REX['PAGES'][$REX['PAGE']]['PATH'];
+
+}elseif($REX['PAGES'][strtolower($REX['PAGE'])][1])
+{
+  // Addon Page
+  require $REX['INCLUDE_PATH'].'/addons/'. $REX['PAGE'] .'/pages/index.inc.php';
+	
 }else
 {
+	// Core Page
 	require $REX['INCLUDE_PATH'].'/layout/top.php';
 	require $REX['INCLUDE_PATH'].'/pages/'. $REX['PAGE'] .'.inc.php';
 	require $REX['INCLUDE_PATH'].'/layout/bottom.php';
