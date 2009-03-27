@@ -562,7 +562,7 @@ if ($subpage == '')
   if(is_array($warning))
   {
     if(count($warning)>0)
-	    echo rex_warning_block(implode('', $warning));
+	    echo rex_warning_block(implode('<br />', $warning));
     $warning = '';
   }else if($warning != '')
   {
@@ -573,7 +573,7 @@ if ($subpage == '')
   if(is_array($info))
   {
     if(count($info)>0)
-      echo rex_info_block(implode('', $info));
+      echo rex_info_block(implode('<br />', $info));
     $info = '';
   }else if($info != '')
   {
