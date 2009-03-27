@@ -454,10 +454,8 @@ function buildUtf8LangFile($langFile, $lang)
 	$charset_from = 'iso-8859-1';
 	
 	// Wenn neue Sprachdateien mit anderen charsets, dann hier fest einbrennen
-  /*
-	if($lang == "abc")
-	  $charset_from = "...";
-	*/
+  if($lang == "cs_cz.lang")
+	  $charset_from = "iso-8859-2";
 	
   $content = '';
   if($hdl = fopen($langFile, 'r'))
