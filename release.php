@@ -438,7 +438,7 @@ function copyFolderStructure($structure, $dest)
         if(substr($dir, -5) == '.lang' && substr($dir, -9) != 'utf8.lang')
         {
           echo '> convert file '. $path .'/'. $dir .' to utf-8'."\n";
-          buildUtf8LangFile( $dest .'/'. $path.'/'.$dir);
+          buildUtf8LangFile( $dest .'/'. $path.'/'.$dir,$dir);
         }
       }
       elseif(is_dir($path.'/'.$dir))
@@ -449,8 +449,16 @@ function copyFolderStructure($structure, $dest)
   }
 }
 
-function buildUtf8LangFile($langFile)
+function buildUtf8LangFile($langFile, $lang)
 {
+	$charset_from = 'iso-8859-1';
+	
+	// Wenn neue Sprachdateien mit anderen charsets, dann hier fest einbrennen
+  /*
+	if($lang == "abc")
+	  $charset_from = "...";
+	*/
+	
   $content = '';
   if($hdl = fopen($langFile, 'r'))
   {
@@ -464,7 +472,7 @@ function buildUtf8LangFile($langFile)
   $utf8File = str_replace('.lang', '_utf8.lang', $langFile);
   if($hdl = fopen($utf8File, 'w+'))
   {
-    fwrite($hdl, iconv(iconv_get_encoding($content), 'UTF-8', $content));
+    fwrite($hdl, iconv($charset_from, 'UTF-8', $content));
     fclose($hdl);
   }
 }
