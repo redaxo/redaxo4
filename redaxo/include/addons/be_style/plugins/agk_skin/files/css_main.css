@@ -599,6 +599,10 @@ div.rex-addon-col-b {
 *******************************************************************************/
 /*	Struktur : Metainfo 
 *******************************************************************************/
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper p.rex-form-label-right label, 
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper p.rex-form-label-right label {
+	width: 282px;
+}
 div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper, 
 div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper, 
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label, 
@@ -621,6 +625,12 @@ div#rex-addon-editmode form div.rex-widget {
 	margin-bottom: 0px;
 }
 
+div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-date {
+	width: 45px;
+}
+div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
+	width: 65px;
+}
 /*	Extras *********************************************************************
 *******************************************************************************/
 div#rex-redaxo-link {
@@ -778,4 +788,6 @@ body.rex-layout-liquid div#rex-wrapper {
 
 
 
-
+tr.rex-metainfo-cat {
+	display: none;
+}
