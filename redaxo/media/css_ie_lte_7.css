@@ -18,3 +18,9 @@ input.rex-form-submit {
   vertical-align: middle;
 }
 */
+
+#rex-page-structure div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-row label, 
+#rex-page-structure div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-row p.rex-form-label {
+	float: none;
+	width: auto;
+}
