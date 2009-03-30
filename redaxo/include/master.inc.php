@@ -21,8 +21,8 @@ $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "2";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
-$REX['FILEPERM'] = octdec(660); // oktaler wert
-$REX['DIRPERM'] = octdec(770); // oktaler wert
+$REX['FILEPERM'] = octdec(664); // oktaler wert
+$REX['DIRPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20090307000059";
 $REX['SESSION_DURATION'] = 3000;
 
