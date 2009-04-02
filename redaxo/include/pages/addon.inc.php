@@ -77,7 +77,7 @@ if ($subpage == 'help' && $addonname != '')
         <p id="rex-addon-credits">'. $credits .'</p>
         </div>
   			<div class="rex-area-footer">
-  				<p><a href="index.php?page=addon">'.$I18N->msg("addon_back").'</a></p>
+  				<p><a href="JavaScript:history.back();">'.$I18N->msg("addon_back").'</a></p>
   			</div>
   		</div>';
 }
