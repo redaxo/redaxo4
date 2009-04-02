@@ -443,6 +443,7 @@ div#rex-navi-main dd {
 }
 div#rex-navi-main ul li  {
 	display: block;
+	float: none;
 	padding: 0;
 	background: none;
 	border-bottom: 1px solid #FFF;
@@ -450,6 +451,7 @@ div#rex-navi-main ul li  {
 div#rex-navi-main ul li a {
 	display: block;
 	padding: 5px 10px;
+	white-space: normal;
 }
 div#rex-navi-main ul li a:hover {
 	text-decoration: none;

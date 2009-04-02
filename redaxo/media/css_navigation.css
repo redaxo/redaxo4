@@ -39,6 +39,7 @@ div#rex-navi-main dl {
 	width: 70%;
 }
 div#rex-navi-main dd {
+	clear: both;
 	padding: 0 5px;
 }
 
@@ -47,8 +48,10 @@ div#rex-navi-main ul li a {
 	font-weight: bold;
 }
 div#rex-navi-main ul li {
-	display: inline;
+	display: block;
+	float: left;
 	padding: 0 5px;
+	white-space: nowrap;
 }
 div#rex-navi-main ul ul {
   display: none;
