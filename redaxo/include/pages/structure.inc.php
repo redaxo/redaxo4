@@ -428,7 +428,7 @@ echo '
 if ($category_id > -1)
 {
   $TEMPLATES = new rex_sql;
-  $TEMPLATES->setQuery('select * from '.$REX['TABLE_PREFIX'].'template order by name');
+  $TEMPLATES->setQuery('select * from '.$REX['TABLE_PREFIX'].'template where active=1 order by name');
   $TMPL_SEL = new rex_select;
   $TMPL_SEL->setName('template_id');
   $TMPL_SEL->setId('rex-form-template');
@@ -437,10 +437,7 @@ if ($category_id > -1)
 
   for ($i = 0; $i < $TEMPLATES->getRows(); $i++)
   {
-    if ($TEMPLATES->getValue('active') == 1)
-    {
-      $TMPL_SEL->addOption(rex_translate($TEMPLATES->getValue('name'), null, false), $TEMPLATES->getValue('id'));
-    }
+    $TMPL_SEL->addOption(rex_translate($TEMPLATES->getValue('name'), null, false), $TEMPLATES->getValue('id'));
     $TEMPLATE_NAME[$TEMPLATES->getValue('id')] = rex_translate($TEMPLATES->getValue('name'));
     $TEMPLATES->next();
   }
@@ -449,9 +446,7 @@ if ($category_id > -1)
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
   if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
-  {
     $art_add_link = '<a class="rex-i-element rex-i-article-add" href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. $I18N->msg('article_add') .'</span></a>';
-  }
 
   $add_head = '';
   $add_col  = '';
@@ -529,28 +524,22 @@ if ($category_id > -1)
   // --------------------- ARTIKEL ADD FORM
   if ($function == 'add_art' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
   {
-    if($REX['DEFAULT_TEMPLATE_ID'] > 0)
+    if($REX['DEFAULT_TEMPLATE_ID'] > 0 && isset($TEMPLATE_NAME[$REX['DEFAULT_TEMPLATE_ID']]))
     {
       $TMPL_SEL->setSelected($REX['DEFAULT_TEMPLATE_ID']);
-    }
-    else
+    
+    }else
     {
       // template_id vom Startartikel erben
       $sql2 = new rex_sql;
-      // $sql2->debugsql = true;
       $sql2->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
-      
       if ($sql2->getRows() == 1)
-      {
         $TMPL_SEL->setSelected($sql2->getValue('template_id'));
-      }
     }
 
     $add_td = '';
     if ($REX['USER']->hasPerm('advancedMode[]'))
-    {
       $add_td = '<td class="rex-small">-</td>';
-    }
 
     echo '<tr class="rex-table-row-activ">
             <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.$I18N->msg('article_add') .'</span></span></td>
@@ -570,13 +559,9 @@ if ($category_id > -1)
   {
 
     if ($sql->getValue('startpage') == 1)
-    {
       $class = 'rex-i-article-startpage';
-    }
     else
-    {
       $class = 'rex-i-article';
-    }
 
     // --------------------- ARTIKEL EDIT FORM
 
@@ -584,9 +569,7 @@ if ($category_id > -1)
     {
       $add_td = '';
       if ($REX['USER']->hasPerm('advancedMode[]'))
-      {
         $add_td = '<td class="rex-small">'. $sql->getValue("id") .'</td>';
-      }
 
       $TMPL_SEL->setSelected($sql->getValue('template_id'));
 
@@ -607,9 +590,7 @@ if ($category_id > -1)
 
       $add_td = '';
       if ($REX['USER']->hasPerm('advancedMode[]'))
-      {
         $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
-      }
 
       $article_status = $artStatusTypes[$sql->getValue('status')][0];
       $article_class = $artStatusTypes[$sql->getValue('status')][1];
@@ -622,17 +603,12 @@ if ($category_id > -1)
       }else
       {
         if ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
-        {
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
-        }
 
         if (!$REX['USER']->hasPerm('editContentOnly[]'))
-        {
         	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
-        }else
-        {
+        else
         	$article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
-        }
 
         $add_extra = '<td>'. $article_delete .'</td>
                       <td>'. $article_status .'</td>';
@@ -656,9 +632,7 @@ if ($category_id > -1)
 
       $add_td = '';
       if ($REX['USER']->hasPerm('advancedMode[]'))
-      {
         $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
-      }
 
       $art_status = $artStatusTypes[$sql->getValue('status')][0];
       $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
