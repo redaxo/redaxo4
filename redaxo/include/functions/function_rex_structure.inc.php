@@ -212,6 +212,8 @@ function rex_editCategory($category_id, $clang, $data)
         'prior' => $thisCat->getValue('catprior'),
         'path' => $thisCat->getValue('path'),
         'status' => $thisCat->getValue('status'),
+        
+        'data' => $data,
       )
     );
 
@@ -530,6 +532,8 @@ function rex_editArticle($article_id, $clang, $data)
         'prior' => $data['prior'],
         'path' => $data['path'],
         'template_id' => $data['template_id'],
+        
+        'data' => $data,
       )
     );
 
