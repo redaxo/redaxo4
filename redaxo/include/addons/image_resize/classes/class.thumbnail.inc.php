@@ -269,6 +269,7 @@ class rex_thumbnail
       	'img' => $this->img,
         'file' => $file,
         'lastModified' => $lastModified,
+        'filename' => $this->img_filename
       )
     );
 
