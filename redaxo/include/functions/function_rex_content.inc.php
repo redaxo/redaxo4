@@ -416,7 +416,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
  * 
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
-function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0)
+function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0, $revision = 0)
 {
   global $REX;
 
@@ -424,7 +424,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     return false;
 
   $gc = new rex_sql;
-  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$from_id' and clang='$from_clang'");
+  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$from_id' and clang='$from_clang' and revision='$revision'");
 
   if ($gc->getRows() == 1)
   {
@@ -434,14 +434,15 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     $glid->setQuery("select r1.id, r1.re_article_slice_id
                      from ".$REX['TABLE_PREFIX']."article_slice as r1
                      left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id
-                     where r1.article_id=$to_id and r1.clang=$to_clang and r2.id is NULL;");
+                     where 
+												r1.article_id=$to_id and r1.clang=$to_clang and r1.revision=$revision
+												and r2.id is NULL");
     if ($glid->getRows() == 1)
       $to_last_slice_id = $glid->getValue("r1.id");
     else
       $to_last_slice_id = 0;
 
     $ins = new rex_sql;
-    // $ins->debugsql = 1;
     $ins->setTable($REX['TABLE_PREFIX']."article_slice");
 
     $cols = new rex_sql;
@@ -466,7 +467,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     $ins->insert();
 
     // id holen und als re setzen und weitermachen..
-    rex_copyContent($from_id, $to_id, $from_clang, $to_clang, $gc->getValue("id"));
+    rex_copyContent($from_id, $to_id, $from_clang, $to_clang, $gc->getValue("id"),$revision);
     return true;
   }
 
