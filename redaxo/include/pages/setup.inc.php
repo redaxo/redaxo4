@@ -845,7 +845,7 @@ if ($checkmodus == 4)
 
   echo '
 		<div class="rex-form rex-form-setup-admin">
-    <form action="index.php" method="post">
+    <form action="index.php" method="post" autocomplete="off">
       <fieldset class="rex-form-col-1">
         <input type="hidden" name="page" value="setup" />
         <input type="hidden" name="checkmodus" value="4" />
@@ -871,7 +871,7 @@ if ($checkmodus == 4)
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
           <label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
-          <input class="rex-form-text" type="text" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
+          <input class="rex-form-text" type="password" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
         </p>
       </div>';
 
