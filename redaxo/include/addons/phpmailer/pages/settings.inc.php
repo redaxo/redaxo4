@@ -101,7 +101,7 @@ foreach(array(1 =>$I18N->msg('phpmailer_high'),3 => $I18N->msg('phpmailer_normal
 
 
 if($message != '')
-  echo rex_warning($message);
+  echo rex_info($message);
 
 ?>
 
