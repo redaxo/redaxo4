@@ -25,8 +25,7 @@ if ($func == 'setup')
   {
     $warning = $I18N->msg('setup_error2');
   }
-}
-elseif ($func == 'generate')
+}elseif ($func == 'generate')
 {
   // generate all articles,cats,templates,caches
   $info = rex_generateAll();
@@ -46,42 +45,51 @@ elseif ($func == 'updateinfos')
   $startArt = OOArticle::getArticleById($neu_startartikel);
   $notFoundArt = OOArticle::getArticleById($neu_notfoundartikel);
 
+  $REX['LANG'] = $neu_lang;
+  $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
+  $cont = rex_get_file_contents($master_file);
+
   if(!OOArticle::isValid($startArt))
-    $warning .= $I18N->msg('settings_invalid_sitestart_article');
-
+  {
+    $warning .= $I18N->msg('settings_invalid_sitestart_article')."<br />";
+  }else
+  {
+  	$cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
+    $REX['START_ARTICLE_ID'] = $neu_startartikel;
+  }
+  
   if(!OOArticle::isValid($notFoundArt))
-    $warning .= $I18N->msg('settings_invalid_notfound_article');
-
+  {
+    $warning .= $I18N->msg('settings_invalid_notfound_article')."<br />";
+  }else
+  {
+	  $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
+    $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
+  }
+  
   $sql = new rex_sql();
   $sql->setQuery('SELECT * FROM rex_template WHERE id='. $neu_defaulttemplateid .' AND active=1');
   if($sql->getRows() != 1 && $neu_defaulttemplateid != 0)
-    $warning .= $I18N->msg('settings_invalid_default_template');
-
-  if($warning == '')
   {
-    $REX['LANG'] = $neu_lang;
-    $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
-    $cont = rex_get_file_contents($master_file);
+    $warning .= $I18N->msg('settings_invalid_default_template')."<br />";
+  }else
+	{
+	  $cont = ereg_replace("(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_defaulttemplateid), $cont);
+    $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
+	}
 
-    $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
-    $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
-    $cont = ereg_replace("(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_defaulttemplateid), $cont);
-    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
-    $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
-    $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
-    $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
-    $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+  $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
+  $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
+  $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
+  $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
+  $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
 
-    rex_put_file_contents($master_file, $cont);
-    $info = $I18N->msg('info_updated');
-  }
+  rex_put_file_contents($master_file, $cont);
+  $info = $I18N->msg('info_updated');
 
   // Zuweisungen für Wiederanzeige
   $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-  $REX['START_ARTICLE_ID'] = $neu_startartikel;
-  $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
-  $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
-  // Für die Wiederanzeige Slashes strippen
+  // FŸr die Wiederanzeige Slashes strippen
   $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
   $REX['SERVER'] = stripslashes($neu_SERVER);
   $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
@@ -109,11 +117,11 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
-if ($info != '')
-  echo rex_info($info);
-
 if ($warning != '')
   echo rex_warning($warning);
+
+if ($info != '')
+  echo rex_info($info);
 
 echo '
 	<div class="rex-form" id="rex-form-system-setup">
