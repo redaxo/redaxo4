@@ -185,8 +185,11 @@ class rex_thumbnail
     {
       $colorTransparent = imagecolortransparent($this->img['src']);
       imagepalettecopy($this->img['src'], $destImage);
-      imagefill($destImage, 0, 0, $colorTransparent);
-      imagecolortransparent($destImage, $colorTransparent);
+      if($colorTransparent>0)
+      {
+      	imagefill($destImage, 0, 0, $colorTransparent);
+      	imagecolortransparent($destImage, $colorTransparent);
+      }
       imagetruecolortopalette($destImage, true, 256);
     }
   }
