@@ -7,7 +7,7 @@ month = Mois
 year = Année
 general = Généralités
 dateformat = %d. %b. %Y
-setlocale = fr_FR@euro,fr_FR,fr_fr,french_france,fr,fr
+setlocale = fr_FR,fr_fr,fr_FR@euro,french_france,fr,fr
 phpini_settings = PHP.ini : Réglages
 
 datetimeformat = %d. %b. %Y - %H:%Mh

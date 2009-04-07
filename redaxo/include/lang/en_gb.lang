@@ -7,7 +7,7 @@ month = month
 year = year
 general = general
 dateformat = %Y-%b-%d
-setlocale = en_GB
+setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Einstellungen
 
 datetimeformat = %Y-%b-%d %H:%M

@@ -7,7 +7,7 @@ month = mìsíc
 year = rok
 general = hlavní
 dateformat = %R-%b-%d
-setlocale = cs_CZ@euro,cs_CZ,cz_cz,czech_czech,cz,ge
+setlocale = cs_CZ,cz_cz,cs_CZ@euro,czech_czech,cz,ge
 phpini_settings = PHP.ini Einstellungen
 
 datetimeformat = %Y-%b-%d %H:%M
