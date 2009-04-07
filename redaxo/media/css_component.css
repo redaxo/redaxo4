@@ -221,6 +221,12 @@ table.rex-table caption {
 	height: 0px !important;
 	overflow: hidden !important;
 	background-color: #FFF !important;
+	
+	
+	display: none !important;
+	visibility: hidden !important;
+	font-size: 0px !important;
+	line-height: 0px !important;
 }
 
 body#rex-page-module table.rex-table caption {
