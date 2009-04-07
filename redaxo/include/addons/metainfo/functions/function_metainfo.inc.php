@@ -207,7 +207,7 @@ function a62_meta_table($prefix)
  * 
  * @param $params
  */
-function a62_extensions_hanlder($params)
+function a62_extensions_handler($params)
 {
   global $REX;
   

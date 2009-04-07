@@ -52,7 +52,7 @@ if ($REX['REDAXO'])
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');
 
-  rex_register_extension('PAGE_CHECKED', 'a62_extensions_hanlder');
+  rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
 
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array(
 	  array('', $I18N->msg('article')),

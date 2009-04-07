@@ -271,8 +271,11 @@ class rex_a62_tableExpander extends rex_form
         // DefaultWerte setzen
         if($fieldDefault != $fieldOldDefault)
         {
-          $qry = 'UPDATE `'. $this->tableManager->getTableName() .'` SET `'.$fieldName.'`="'. $fieldDefault .'" WHERE `'. $fieldName .'`="'. $fieldOldDefault .'"';
-          return $sql->setQuery($qry);
+          $upd = new rex_sql();
+          $upd->setTable($this->tableManager->getTableName());
+          $upd->setWhere('`'. $fieldName .'`="'. addSlashes($fieldOldDefault) .'"');
+          $upd->setValue($fieldName, addSlashes($fieldDefault));
+          return $upd->update();
         }
         // Default werte haben schon zuvor gepasst, daher true zurückgeben
         return true;
