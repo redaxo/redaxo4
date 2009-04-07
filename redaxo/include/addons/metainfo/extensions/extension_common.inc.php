@@ -76,7 +76,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     if($title != '')
       $label = rex_translate($title);
     else
-      $label = htmlspecialchars($name."kk");
+      $label = htmlspecialchars($name);
 
     $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
     $attr .= rex_tabindex();
