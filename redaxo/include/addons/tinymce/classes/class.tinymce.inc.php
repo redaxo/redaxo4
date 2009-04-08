@@ -71,15 +71,14 @@ class rexTinyMCEEditor
 		// Basis-Adresse
 		if ($this->address == '')
 		{
-			$this->address = $rxa_tinymce['document_base'];
-			$splitURL = split('/redaxo/', $this->address);
-			$this->address = $splitURL[0];
-			if($this->address != '/' && $this->address != '\\')
-				$this->address .= '/';
-			$this->address = str_replace("\\",'/',$this->address);
+			$splitURL = split('files/', dirname($_SERVER['REQUEST_URI']));
+			$this->address = 'http';
+			if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
+			{
+				$this->address .= 's';
+			}
+			$this->address .= '://' . $_SERVER['HTTP_HOST'] . str_replace('redaxo', '', $splitURL[0]);
 		}
-//$this->address = '/';
-//$this->address =  $_SERVER["DOCUMENT_ROOT"];
 
 		// evtl. Standard-Buttons vorbelegen
 		$plugins = $this->default_plugins;
