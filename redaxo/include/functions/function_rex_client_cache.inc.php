@@ -53,7 +53,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
   global $REX;
   
   // ----- EXTENSION POINT
-  $content = rex_register_extension_point( 'OUTPUT_FILTER', $content);
+  $content = rex_register_extension_point( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
   // ----- EXTENSION POINT - keine Manipulation der Ausgaben ab hier (read only)
   rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
