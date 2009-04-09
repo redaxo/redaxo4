@@ -537,8 +537,7 @@ if ($checkmodus == 3 && $send == 1)
   if ($dbanlegen == 4)
   {
     // ----- vorhandenen seite updaten
-    $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_4_0.sql';
-
+    $import_sql = $REX['INCLUDE_PATH'].'/install/update4_0_to_4_2.sql';
     if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
 
@@ -571,11 +570,12 @@ if ($checkmodus == 3 && $send == 1)
   elseif ($dbanlegen == 2)
   {
     // ----- db schon vorhanden, nichts tun
+    $err_msg .= rex_setup_addons(true, false);
   }
   elseif ($dbanlegen == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_0.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_2.sql';
 
     $db = new rex_sql;
     foreach($requiredTables as $table)
@@ -590,7 +590,7 @@ if ($checkmodus == 3 && $send == 1)
   elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank neu einrichten
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_0.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_2.sql';
 
     if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
@@ -612,7 +612,7 @@ if ($checkmodus == 3 && $send == 1)
 
     foreach(array_diff($requiredTables, $existingTables) as $missingTable)
     {
-      $err_msg .= $I18N->msg('setup_031', $missingTable.'<br />');
+      $err_msg .= $I18N->msg('setup_031', $missingTable)."<br />";
     }
   }
 
