@@ -2,7 +2,7 @@
 /*~ class.phpmailer.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 2.0.3                                                          |
+|   Version: 2.0.4                                                          |
 |   Contact: via sourceforge.net support pages (also www.codeworxtech.com)  |
 |      Info: http://phpmailer.sourceforge.net                               |
 |   Support: http://sourceforge.net/projects/phpmailer/                     |
@@ -28,7 +28,7 @@
  * PHPMailer - PHP email transport class
  * @package PHPMailer
  * @author Andy Prevost
- * @copyright 2004 - 2008 Andy Prevost
+ * @copyright 2004 - 2009 Andy Prevost
  */
 
 class PHPMailer {
@@ -139,7 +139,7 @@ class PHPMailer {
    * Holds PHPMailer version.
    * @var string
    */
-  var $Version           = "2.0.3";
+  var $Version           = "2.0.4";
 
   /**
    * Sets the email address that a reading confirmation will be sent.
@@ -256,7 +256,7 @@ class PHPMailer {
   var $boundary        = array();
   var $language        = array();
   var $error_count     = 0;
-  var $LE              = "\r\n";
+  var $LE              = "\n";
   var $sign_cert_file  = "";
   var $sign_key_file   = "";
   var $sign_key_pass   = "";
