@@ -76,13 +76,15 @@ class rex_xform
 		$this->setObjectparams("form_data",$form_definitions,$refresh);
 	}
 
-	function setRedaxoVars($aid,$clang = "")
+	function setRedaxoVars($aid,$clang = "",$params = array())
 	{
 		global $REX;
 		
-		if ($clang == "") $clang = $REX["CUR_CLANG"];
+		if ($clang == "") 
+			$clang = $REX["CUR_CLANG"];
 		$this->setObjectparams("article_id",$aid);
 		$this->setObjectparams("clang",$clang);
+		$this->setObjectparams("form_action", rex_getUrl($aid, $clang, $params));
 	}
 	
 	function setHiddenField($k,$v)
