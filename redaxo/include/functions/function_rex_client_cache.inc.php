@@ -48,7 +48,7 @@ function rex_send_file($file, $contentType, $environment = 'backend')
  * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
  * (frontend/backend)
  */
-function rex_send_article($REX_ARTICLE, $content, $environment)
+function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = FALSE)
 {
   global $REX;
   
@@ -81,7 +81,8 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
     $content,
     $lastModified,
     $etag,
-    $environment);
+    $environment,
+    $sendcharset);
 }
 
 /**
@@ -94,7 +95,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment)
  * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
  * (frontend/backend)
  */
-function rex_send_content($content, $lastModified, $etag, $environment)
+function rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
 {
   global $REX;
 
@@ -103,7 +104,7 @@ function rex_send_content($content, $lastModified, $etag, $environment)
   session_cache_limiter('none');
   header('Cache-Control: must-revalidate, proxy-revalidate, private');
     
-  if($environment == 'backend')
+  if($sendcharset)
   {
     global $I18N;
     header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));

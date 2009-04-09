@@ -113,8 +113,9 @@ if ($REX['SETUP'])
 	{		 
 		// Userspezifische Sprache einstellen, falls gleicher Zeichensatz
 		$lang = $REX['LOGIN']->getLanguage();
-		$I18N_T = rex_create_lang($lang,FALSE);
-		if ($I18N->msg('htmlcharset') == $I18N_T->msg('htmlcharset')) $I18N = rex_create_lang($lang);
+		$I18N_T = rex_create_lang($lang,'',FALSE);
+		if ($I18N->msg('htmlcharset') == $I18N_T->msg('htmlcharset')) 
+			$I18N = rex_create_lang($lang);
 
 		$REX['USER'] = $REX['LOGIN']->USER;
 	}
@@ -245,10 +246,9 @@ if(isset($REX['PAGES'][$REX['PAGE']]['PATH']) && $REX['PAGES'][$REX['PAGE']]['PA
 	require $REX['INCLUDE_PATH'].'/pages/'. $REX['PAGE'] .'.inc.php';
 	require $REX['INCLUDE_PATH'].'/layout/bottom.php';
 }
-
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_send_article(null, $CONTENT, 'backend');
+rex_send_article(null, $CONTENT, 'backend', TRUE);
