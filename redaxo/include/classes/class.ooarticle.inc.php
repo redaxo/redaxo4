@@ -147,7 +147,7 @@ class OOArticle extends OORedaxo
    */
   /*public*/ function getCategory()
   {
-    return OOCategory :: getCategoryById($this->getCategoryId());
+    return OOCategory :: getCategoryById($this->getCategoryId(),$this->getClang());
   }
 
   /*
