@@ -4,10 +4,8 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
 
 /**
  * URL-Rewrite Addon
- * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
- * @package redaxo3
- * @version $Id: class.rewrite_fullnames.inc.php 90 2008-12-11 14:09:45Z ssh-68390 $
+ * @author markus.staab[at]redaxo[dot]de Markus Staab
+ * @package redaxo4.2
  */
 
 /**
@@ -63,12 +61,13 @@ class myUrlRewriter extends rexUrlRewriter
   // Parameter aus der URL für das Script verarbeiten
   function prepare()
   {
-    global $article_id, $clang, $REX, $REXPATH;
+    global $REX, $REXPATH;
+
+		$article_id = -1;
+		$clang = $REX["CUR_CLANG"];
 
     if(!file_exists(FULLNAMES_PATHLIST))
-    {
        rex_rewriter_generate_pathnames(array());
-    }
 
     // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
     require_once (FULLNAMES_PATHLIST);
@@ -115,33 +114,35 @@ class myUrlRewriter extends rexUrlRewriter
           }
         }
       }  
-  
+
+			// aktuellen pfad mit pfadarray vergleichen
+
       foreach ($REXPATH as $key => $var)
       {
         foreach ($var as $k => $v)
         {
           if ($path == $v)
           {
-            $this->setArticleId($key);
+            $article_id = $key;
             $clang = $k;
           }
         }
       }
-  
+      
       // Check Clang StartArtikel
-      if (!$article_id)
+      if ($article_id == -1)
       {
         foreach ($REX['CLANG'] as $key => $var)
         {
-          if ($var.'/' == $path)
+          if ($var.'/' == $path || $var == $path)
           {
             $clang = $key;
           }
         }
       }
-  
-      // Check levenshtein
-      if ($this->use_levenshtein && !$article_id)
+      
+ 			// Check levenshtein
+      if ($this->use_levenshtein && $article_id == -1)
       {
         foreach ($REXPATH as $key => $var)
         {
@@ -158,22 +159,20 @@ class myUrlRewriter extends rexUrlRewriter
         $clang = $best[1];
       }
   
-      if (!$article_id)
-      {
-        $this->setArticleId($REX['NOTFOUND_ARTICLE_ID']);
-      }
+      if ($article_id == -1)
+      	$article_id = $REX['NOTFOUND_ARTICLE_ID'];
+      
+      $this->setArticleId($article_id,$clang);
     }
   }
   
   
-  /*private*/ function setArticleId($art_id)
+  /*private*/ function setArticleId($art_id, $clang_id = -1)
   {
-    global $REX, $article_id;
-    
-    // pre 4.2
-    $article_id = $art_id;
-    // since 4.2
+    global $REX;
     $REX['ARTICLE_ID'] = $art_id;
+    if($clang_id > -1)
+    	$REX['CUR_CLANG'] = $clang_id;
   }
 
   // Url neu schreiben
@@ -197,8 +196,7 @@ class myUrlRewriter extends rexUrlRewriter
       $urlparams = str_replace($divider,'/',$urlparams);
       $urlparams = str_replace('=','/',$urlparams);
       $urlparams = $urlparams == '' ? '' : '+'.$urlparams.'/';
-    }
-    else
+    }else
     {
       $urlparams = $urlparams == '' ? '' : '?'.$urlparams;
     }
@@ -207,23 +205,31 @@ class myUrlRewriter extends rexUrlRewriter
     $url = $REXPATH[$id][$clang].$urlparams;
 
     $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
+
     if($REX['REDAXO'])
     {
       $baseDir = dirname($baseDir);
     }
-    
+
+		if (substr($baseDir, -1) !="/" ) 
+			$baseDir .= "/";
+
     // immer absolute Urls erzeugen, da relative mit rex_redirect() nicht funktionieren
     // da dieser den <base href="" /> nicht kennt.
-    return $baseDir . '/' .$url;
+    return $baseDir .$url;
   }
 }
+
+/*
+ * Allgemeine EP Definitionen
+ */
 
 if ($REX['REDAXO'])
 {
   // Die Pathnames bei folgenden Extension Points aktualisieren
   $extension = 'rex_rewriter_generate_pathnames';
   $extensionPoints = array(
-    'CAT_ADDED',   /*'CAT_UPDATED',*/   'CAT_DELETED',
+    'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
     'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
     /*'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',*/
     'ALL_GENERATED');
@@ -233,6 +239,14 @@ if ($REX['REDAXO'])
     rex_register_extension($extensionPoint, $extension);
   }
 }
+
+
+/**
+ * rex_rewriter_generate_pathnames
+ * generiert die Pathlist, abhŠngig von Aktion
+ * @author markus.staab[at]redaxo[dot]de Markus Staab
+ * @package redaxo4.2
+ */
 
 function rex_rewriter_generate_pathnames($params)
 {
@@ -245,6 +259,9 @@ function rex_rewriter_generate_pathnames($params)
   
   if(!isset($REXPATH)) 
     $REXPATH = array();
+  
+  if(!isset($params['extension_point']))
+    $params['extension_point'] = '';
     
   $where = '';
   switch($params['extension_point'])
@@ -255,23 +272,23 @@ function rex_rewriter_generate_pathnames($params)
       unset($REXPATH[$params['id']]);
       break;
     case 'CAT_ADDED':
-    // CAT_UPDATED nicht notwendig, da nur artikelnamen in urls gebraucht werden!
+    case 'CAT_UPDATED':
     case 'ART_ADDED':
     case 'ART_UPDATED':
       $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
       break;
     // ------- alles aktualisieren
     case 'ALL_GENERATED':
+    default:
       $where = '1=1';
-      break;
+			break;
   }
-
   
   if($where != '')
   {
     $db = new rex_sql();
-    // $db->debugsql=true;
-    $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where);
+    $db->debugsql=true;
+    $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' and revision=0');
     
     while($db->hasNext())
     {
@@ -303,14 +320,12 @@ function rex_rewriter_generate_pathnames($params)
         $ooc = $ooa->getCategory();
         $catname = $ooc->getName();
         unset($ooc); // speicher freigeben
-        
         $pathname = rex_rewriter_appendToPath($pathname, $catname);
       }
       
       // eigentlicher artikel anhängen
       $name = $ooa->getName();
       unset($ooa); // speicher freigeben
-//      if($name != $catname)
       $pathname = rex_rewriter_appendToPath($pathname, $name);
       
       $pathname = substr($pathname,0,strlen($pathname)-1).'.html';

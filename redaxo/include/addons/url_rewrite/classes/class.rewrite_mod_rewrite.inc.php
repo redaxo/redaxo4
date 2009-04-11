@@ -2,9 +2,8 @@
 
 /**
  * URL-Rewrite Addon
- * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.public-4u.de">www.public-4u.de</a>
- * @package redaxo3
+ * @author markus.staab[at]redaxo[dot]de Markus Staab
+ * @package redaxo4.2
  * @version svn:$Id$
  */
 
@@ -31,4 +30,3 @@ class myUrlRewriter extends rexUrlRewriter
     return $params['id'].'-'.$params['clang'].'-'.$params['name'].'.htm'.$params['params'];
   }
 }
-?>
