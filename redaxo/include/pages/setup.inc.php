@@ -61,7 +61,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
       // wird und auch in der danach includeten function verfügbar ist
       global $I18N_IM_EXPORT;
 
-      require $export_addon_dir.'/config.inc.php';
+      $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/import_export/lang/');
       require_once $export_addon_dir.'/classes/class.tar.inc.php';
       require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
 
