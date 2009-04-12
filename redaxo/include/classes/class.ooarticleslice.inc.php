@@ -75,14 +75,14 @@ class OOArticleSlice
    * Return an ArticleSlice by its id
    * Returns an OOArticleSlice object
    */
-  function getArticleSliceById($an_id, $clang = false)
+  function getArticleSliceById($an_id, $clang = false, $revision = 0)
   {
     global $REX;
 
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return OOArticleSlice::_getSliceWhere('id='. $an_id .' AND clang='. $clang);
+    return OOArticleSlice::_getSliceWhere('id='. $an_id .' AND clang='. $clang.' and revision='.$revision);
   }
 
   /*
@@ -93,7 +93,7 @@ class OOArticleSlice
    * getNextSlice() function.
    * Returns an OOArticleSlice object
    */
-  function getFirstSliceForArticle($an_article_id, $clang = false)
+  function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -106,9 +106,11 @@ class OOArticleSlice
                                            (a.re_article_slice_id=0 AND a.ctype=1 AND a.id = b.id)
                                             OR
                                            (b.ctype=2 AND a.ctype=1 AND b.id = a.re_article_slice_id)
-                                          )',
+                                          )
+                                          AND a.revision='.$revision.' 
+                                          AND b.revision='.$revision,
                                           $REX['TABLE_PREFIX'].'article_slice a, '. $REX['TABLE_PREFIX'].'article_slice b',
-                                          'a.*'
+                                          'a.*' 
                                           );
   }
 
@@ -116,7 +118,7 @@ class OOArticleSlice
    * CLASS Function:
    * Returns the first slice of the given ctype of an article
    */
-  function getFirstSliceForCtype($ctype, $an_article_id, $clang = false)
+  function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -130,7 +132,9 @@ class OOArticleSlice
                                            (a.re_article_slice_id=0  AND a.id = b.id)
                                             OR
                                            (b.ctype != a.ctype AND b.id = a.re_article_slice_id)
-                                          )',
+                                          )
+                                          AND a.revision='.$revision.' 
+                                          AND b.revision='.$revision,
                                           $REX['TABLE_PREFIX'].'article_slice a, '. $REX['TABLE_PREFIX'].'article_slice b',
                                           'a.*'
                                           );
@@ -142,14 +146,14 @@ class OOArticleSlice
    * module type.
    * Returns an array of OOArticleSlice objects
    */
-  function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false)
+  function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
   {
     global $REX;
 
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return OOArticleSlice::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id, array());
+    return OOArticleSlice::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id .' AND revision='.$revision, array());
   }
 
   /*
@@ -159,7 +163,7 @@ class OOArticleSlice
    */
   function getNextSlice()
   {
-    return OOArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang);
+    return OOArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang.' AND revision='.$this->revision);
   }
 
   /*
@@ -167,7 +171,7 @@ class OOArticleSlice
    */
   function getPreviousSlice()
   {
-    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
+    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang.' AND revision='.$this->revision);
   }
 
   /**
@@ -176,6 +180,7 @@ class OOArticleSlice
    */
   function getSlice()
   {
+  	// TODO:: ------------------- .' AND revision='.$this->revision
     $art = new rex_article();
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
@@ -183,7 +188,7 @@ class OOArticleSlice
     return $art->replaceLinks( $art->getArticle() );
   }
 
-  function _getSliceWhere($whereCluase, $table = null, $fields = null, $default = null)
+  function _getSliceWhere($where, $table = null, $fields = null, $default = null)
   {
     global $REX;
 
@@ -194,11 +199,11 @@ class OOArticleSlice
       $fields = '*';
 
     $sql = new rex_sql;
-//     $sql->debugsql = true;
+    // $sql->debugsql = true;
     $query = '
       SELECT '. $fields .'
       FROM '. $table .'
-      WHERE '. $whereCluase;
+      WHERE '. $where;
 
     $sql->setQuery($query);
     $rows = $sql->getRows();
@@ -256,6 +261,11 @@ class OOArticleSlice
   function getCtype()
   {
     return $this->_ctype;
+  }
+  
+  function getRevision()
+  {
+    return $this->_revision;
   }
 
   function getModuleId()
@@ -373,6 +383,6 @@ class OOArticleSlice
    */
   function getPrevSlice()
   {
-    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang);
+    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang .' AND revision = '.$this->revision);
   }
 }
