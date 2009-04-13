@@ -287,7 +287,7 @@ function rex_rewriter_generate_pathnames($params)
   if($where != '')
   {
     $db = new rex_sql();
-    $db->debugsql=true;
+    // $db->debugsql=true;
     $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' and revision=0');
     
     while($db->hasNext())
