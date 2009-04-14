@@ -295,10 +295,12 @@ class rex_list
 
   /**
    * Entfernt eine Spalte aus der Anzeige
+   *
+   * @param $columnName Name der Spalte
    */
-  function removeColumn($column)
+  function removeColumn($columnName)
   {
-    $this->columnDisabled[] = $column;
+    $this->columnDisabled[] = $columnName;
   }
 
   /**
@@ -311,15 +313,23 @@ class rex_list
   {
     $this->columnLayout[$columnHead] = $columnLayout;
   }
-
-  function getColumnLayout($column)
+  
+  /**
+   * Gibt das Layout einer Spalte zurück
+   *
+   * @param $columnName Name der Spalte
+   */
+  function getColumnLayout($columnName)
   {
-    if (isset($this->columnLayout[$column]) && is_array($this->columnLayout[$column]))
-      return $this->columnLayout[$column];
+    if (isset($this->columnLayout[$columnName]) && is_array($this->columnLayout[$columnName]))
+      return $this->columnLayout[$columnName];
 
     return $this->defaultColumnLayout;
   }
 
+  /**
+   * Gibt die Layouts aller Spalten zurück
+   */
   function getColumnLayouts()
   {
     return $this->columnLayouts;
@@ -368,43 +378,43 @@ class rex_list
    * Falls nicht vorhanden und der Parameter $default auf null steht,
    * wird der Spaltenname zurückgegeben
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    * @param $default Defaultrückgabewert, falls kein Label gesetzt ist
    *
    * @return string|null
    */
-  function getColumnLabel($column, $default = null)
+  function getColumnLabel($columnName, $default = null)
   {
-    if(isset($this->columnLabels[$column]))
-      return $this->columnLabels[$column];
+    if(isset($this->columnLabels[$columnName]))
+      return $this->columnLabels[$columnName];
 
-    return $default === null ? $column : $default;
+    return $default === null ? $columnName : $default;
   }
 
   /**
    * Setzt ein Format für die Spalte
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    * @param $format_type Formatierungstyp
    * @param $format Zu verwendentes Format
    */
-  function setColumnFormat($column, $format_type, $format = '')
+  function setColumnFormat($columnName, $format_type, $format = '')
   {
-    $this->columnFormates[$column] = array($format_type, $format);
+    $this->columnFormates[$columnName] = array($format_type, $format);
   }
 
   /**
    * Gibt das Format für eine Spalte zurück
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    * @param $default Defaultrückgabewert, falls keine Formatierung gesetzt ist
    *
    * @return string|null
    */
-  function getColumnFormat($column, $default = null)
+  function getColumnFormat($columnName, $default = null)
   {
-    if(isset($this->columnFormates[$column]))
-      return $this->columnFormates[$column];
+    if(isset($this->columnFormates[$columnName]))
+      return $this->columnFormates[$columnName];
 
     return $default;
   }
@@ -412,40 +422,40 @@ class rex_list
   /**
    * Markiert eine Spalte als sortierbar
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    */
-  function setColumnSortable($column)
+  function setColumnSortable($columnName)
   {
-    $this->setColumnOption($column, REX_LIST_OPT_SORT, true);
+    $this->setColumnOption($columnName, REX_LIST_OPT_SORT, true);
   }
 
   /**
    * Setzt eine Option für eine Spalte
    * (z.b. Sortable,..)
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
    * @param $value Wert der Option
    */
-  function setColumnOption($column, $option, $value)
+  function setColumnOption($columnName, $option, $value)
   {
-    $this->columnOptions[$column][$option] = $value;
+    $this->columnOptions[$columnName][$option] = $value;
   }
 
   /**
    * Gibt den Wert einer Option für eine Spalte zurück
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
    * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
    *
    * @return mixed|null
    */
-  function getColumnOption($column, $option, $default = null)
+  function getColumnOption($columnName, $option, $default = null)
   {
-    if($this->hasColumnOption($column, $option))
+    if($this->hasColumnOption($columnName, $option))
     {
-      return $this->columnOptions[$column][$option];
+      return $this->columnOptions[$columnName][$option];
     }
     return $default;
   }
@@ -453,15 +463,15 @@ class rex_list
   /**
    * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde
    *
-   * @param $column Name der Spalte
+   * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
    * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
    *
    * @return boolean
    */
-  function hasColumnOption($column, $option)
+  function hasColumnOption($columnName, $option)
   {
-    return isset($this->columnOptions[$column][$option]);
+    return isset($this->columnOptions[$columnName][$option]);
   }
 
   /**
