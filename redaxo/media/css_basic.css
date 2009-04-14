@@ -233,6 +233,7 @@ div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
 
 div#rex-title ul,
 div#rex-title p,
+div#rex-output div#rex-navi-page ul, 
 div.rex-content-header ul {
 	line-height: 3;
 }
@@ -272,6 +273,7 @@ div#rex-navi-main ul li a.rex-active,
 div#rex-navi-footer ul li,
 div#rex-navi-footer ul li a,
 div#rex-clang ul li a.rex-active,
+div#rex-output div#rex-navi-page ul li a.rex-active,
 div.rex-title-row ul li a.rex-active,
 div.rex-content-header ul li a.rex-active,
 div.rex-content-header ul li span, 
@@ -362,6 +364,7 @@ div#rex-footer,
 div#rex-header p.rex-header-top,
 div#rex-title,
 div#rex-linkmap, 
+div#rex-output div#rex-navi-page, 
 div#rex-navi-path, 
 div#rex-form-system-setup,
 div#rex-mediapool-detail-wrapper, 

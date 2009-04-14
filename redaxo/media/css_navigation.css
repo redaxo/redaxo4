@@ -110,6 +110,15 @@ div#rex-navi-page ul li.rex-navi-first a {
 	padding-left: 0;
 }
 
+/* Navi unterhalb des Subpages (Addons) */
+div#rex-output div#rex-navi-page {
+	margin-top: -10px;
+	margin-bottom: 10px;
+}
+div#rex-output div#rex-navi-page ul {
+	padding-left: 5px;
+}
+
 /*	Pfad ***********************************************************************
 *******************************************************************************/
 ul#rex-navi-path li {
