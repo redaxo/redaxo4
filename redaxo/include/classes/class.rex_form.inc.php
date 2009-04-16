@@ -73,14 +73,20 @@ class rex_form
     // nichts tun
   }
 
-  function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
   {
-    static $class = null;
-
+    // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_FORM_CLASSNAME', 'rex_form');
+      $class = rex_register_extension_point('REX_FORM_CLASSNAME', 'rex_form',
+        array(
+          'tableName'      => $tableName,
+          'fieldset'       => $fieldset,
+          'whereCondition' => $whereCondition,
+          'method'         => $method,
+          'debug'          => $debug)
+      );
     }
 
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);

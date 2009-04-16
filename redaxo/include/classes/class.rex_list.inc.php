@@ -145,14 +145,20 @@ class rex_list
     $this->init();
   }
 
-  function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
+  function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $class = null)
   {
-    static $class = null;
-
+    // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_LIST_CLASSNAME', 'rex_list');
+      $class = rex_register_extension_point('REX_LIST_CLASSNAME', 'rex_list',
+        array(
+          'query'       => $query,
+          'rowsPerPage' => $rowsPerPage,
+          'listName'    => $listName,
+          'debug'       => $debug
+        )
+      );
     }
 
     return new $class($query, $rowsPerPage, $listName, $debug);
