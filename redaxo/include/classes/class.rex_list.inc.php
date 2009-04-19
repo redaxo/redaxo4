@@ -248,9 +248,9 @@ class rex_list
     $this->addParam('subpage', rex_request('subpage', 'string'));
   }
 
-  function addTableAttribute($name, $value)
+  function addTableAttribute($attrName, $attrValue)
   {
-    $this->tableAttributes[$name] = $value;
+    $this->tableAttributes[$attrName] = $attrValue;
   }
 
   function getTableAttributes()
@@ -258,9 +258,9 @@ class rex_list
     return $this->tableAttributes;
   }
 
-  function addFormAttribute($name, $value)
+  function addFormAttribute($attrName, $attrValue)
   {
-    $this->formAttributes[$name] = $value;
+    $this->formAttributes[$attrName] = $attrValue;
   }
 
   function getFormAttributes()
@@ -268,9 +268,9 @@ class rex_list
     return $this->formAttributes;
   }
 
-  function addLinkAttribute($column, $name, $value)
+  function addLinkAttribute($columnName, $attrName, $attrValue)
   {
-    $this->linkAttributes[$column] = array($name => $value);
+    $this->linkAttributes[$columnName] = array($attrName => $attrValue);
   }
 
   function getLinkAttributes($column, $default = null)
