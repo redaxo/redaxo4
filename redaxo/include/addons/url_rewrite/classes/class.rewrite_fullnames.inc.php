@@ -195,7 +195,7 @@ class myUrlRewriter extends rexUrlRewriter
     {
       $urlparams = str_replace($divider,'/',$urlparams);
       $urlparams = str_replace('=','/',$urlparams);
-      $urlparams = $urlparams == '' ? '' : '+'.$urlparams.'/';
+      $urlparams = $urlparams == '' ? '' : '/'.'+'.$urlparams.'/';
     }else
     {
       $urlparams = $urlparams == '' ? '' : '?'.$urlparams;
