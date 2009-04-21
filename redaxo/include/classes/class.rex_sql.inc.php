@@ -50,7 +50,7 @@ class rex_sql
       // connection auf UTF8 trimmen
       if (rex_lang_is_utf8())
       {
-        $this->setQuery('SET NAMES utf8');
+        // $this->setQuery('SET NAMES utf8');
       }
     }
 
