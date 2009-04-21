@@ -49,7 +49,7 @@ class rex_xform
 		$this->objparams["form_show"] = TRUE;
 		$this->objparams["form_name"] = "formular";
 		$this->objparams["form_id"] = "form_formular";
-		$this->objparams["form_wrap"] = array('<div id="form-module">','</div>');
+		$this->objparams["form_wrap"] = array('<div id="rex-xform">','</div>');
 		$this->objparams["form_hiddenfields"] = array();
 		
 		$this->objparams["Error-occured"] = "Bitte überprüfen Sie Ihre Angaben und korrigieren Sie diese gegebenenfalls.";
