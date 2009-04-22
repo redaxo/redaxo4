@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.2.0 (2009-XX-XX)
+Version 4.2.0 (2009-04-22)
 
   Wichtig:
   * alle Bezeichnungen mit medien wurden in media geändert, d.h. alle Funktionen, Extension-Points 
