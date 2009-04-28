@@ -149,11 +149,9 @@ class rex_xform_abstract
 		return "Es existiert keine Klassenbeschreibung";
 	}
 
-	function longDescription()
+	function getLongDescription()
 	{
 		return "Es existiert keine auswührliche Klassenbeschreibung";
 	}
 
 }
-
-?>

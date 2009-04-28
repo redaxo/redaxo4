@@ -29,7 +29,7 @@ class rex_xform_action_abstract
 		return "no description entered";
 	}
 
-	function longDescription()
+	function getLongDescription()
 	{
 		return "Es existiert keine auswührliche Klassenbeschreibung";
 	}

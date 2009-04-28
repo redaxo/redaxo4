@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 class rex_xform_validate_abstract
 {
@@ -45,5 +45,10 @@ class rex_xform_validate_abstract
 	{
 		return "Für dieses Objekt fehlt die Beschreibung";
 	}
+
+	function getLongDescription()
+	{
+		return "Für dieses Objekt fehlt die Beschreibung";
+	}
+	
 }
-?>
