@@ -7,53 +7,84 @@ $table_field = $REX['TABLE_PREFIX'].'com_user_field';
 $bezeichner = "User";
 
 $func = rex_request("func","string","");
-$FORM = rex_request("FORM","array","");
+$page = rex_request("page","string","");
+$subpage = rex_request("subpage","string","");
+$user_id = rex_request("user_id","int");
+
 
 //------------------------------
 if($func == "add" || $func == "edit")
 {
 	
-	echo $back_to_overview;
-
-	$mita = new rexform;
-	// $mita->debug = 1;
-	$mita->setWidth(770);
-	$mita->setLabelWidth(160);
-	$mita->setTablename($table);
+  echo '<div class="rex-toolbar"><div class="rex-toolbar-content">';
+	echo '<p><a class="rex-back" href="index.php?page='.$page.'&amp;subpage='.$subpage.'">'.$I18N->msg('back_to_overview').'</a></p>';
+	echo '</div></div>';
 	
-	$oid = (int) @$_REQUEST["oid"];
+	echo '<div class="rex-addon-output-v2">';
+
+	$form_data = "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n".'hidden|subpage|'.$subpage.'|REQUEST|no_db'."\n".'hidden|func|'.$func.'|REQUEST|no_db';
 	
-	if($func == "add"){
-		$mita->setFormtype("add");
-		$mita->setFormheader("
-			<input type=hidden name=page value=".$page." />
-			<input type=hidden name=subpage value=".$subpage." />
-			<input type=hidden name=func value=".$func." />");
-		$mita->setShowFormAlways(false);
-		$mita->setValue("subline","$bezeichner erstellen" ,"left",0);
-	}else{			
-		$mita->setFormtype("edit", "id='".$oid."'", "$bezeichner wurde nicht gefunden");
-		$mita->setFormheader("
-			<input type=hidden name=page value=".$page.">
-			<input type=hidden name=subpage value=".$subpage.">
-			<input type=hidden name=func value=".$func." />
-			<input type=hidden name=oid value=".$oid.">");
-		$mita->setShowFormAlways(false);				
-		$mita->setValue("subline","$bezeichner edieren" ,"left",0);
-	}
-
-	$mita->setCols(2);
-	$mita->setValue("empty","","",0);
-
 	$guf = new rex_sql;
 	$guf->setQuery("select * from ".$table_field." where editable=1 order by prior");
-	$fields = array();
-	$gufa = $guf->getArray();
-	foreach($gufa as $key => $value)
+	foreach($guf->getArray() as $key => $value)
 	{
-	  rex_com_s_rexform($mita,$value);
+	  switch($value["type"])
+		{
+			case("3"):
+				// bool
+				$form_data .= "\n".'textarea|'.$value["userfield"].'|'.$value["name"];
+				break;
+			case("4"):
+				// bool
+				$form_data .= "\n".'password|'.$value["userfield"].'|'.$value["name"];
+				break;
+			case("5"):
+				// select
+				$form_data .= "\n".'select|'.$value["userfield"].'|'.$value["name"].'|'.$value["extra1"].'|';
+				break;
+			case("6"):
+				// bool
+				$form_data .= "\n".'checkbox|'.$value["userfield"].'|'.$value["name"];
+				break;
+			default:
+				// sonstige
+				$form_data .= "\n".'text|'.$value["userfield"].'|'.$value["name"];
+				break;
+		}
+		
+		$value["mandatory"] = (int) $value["mandatory"];
+		if($value["mandatory"] == 1)
+		{
+			$form_data .= "\n".'validate|notEmpty|'.$value["userfield"].'|Bitte geben Sie in diesem Feld "'.$value["name"].'" etwas ein.';
+		}
 	}
-	
+
+	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
+
+
+	$xform = new rex_xform;
+	// $xform->setDebug(TRUE);
+	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank für die Aktualisierung</p>',"",),);
+	$xform->setObjectparams("main_table",$table); // fŸr db speicherungen und unique abfragen
+
+	if($func == "edit")
+	{
+		$form_data .= "\n".'hidden|user_id|'.$user_id.'|REQUEST|no_db';
+		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table,"id=$user_id"),);
+		$xform->setObjectparams("main_id","$user_id");
+		$xform->setObjectparams("main_where","id=$user_id");
+		$xform->setGetdata(true); // Datein vorher auslesen
+	}elseif($func == "add")
+	{
+		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table),);
+	}
+
+	$xform->setFormData($form_data);
+	echo $xform->getForm();
+
+  echo '</div>';
+
+
 	/*
 	if($func == "edit"){
 		$mita->setValue("multipleselectsql","Gruppen","",0,
@@ -62,31 +93,30 @@ if($func == "add" || $func == "edit")
 	}
 	*/
 	
-	echo $mita->showForm();
-
-	if (!$mita->form_show)
-	{
-		$func = "";
-	}else
-	{
-		if ($oid > 0 & $func == "edit")
-		{
-
-		}
-	} 
-	
 }
 
-//------------------------------> Partner lšschen
+
+
+
+
+
+//------------------------------> User lšschen
 if($func == "delete"){
-	$query = "delete from $table where id='".$oid."' ";
+	$query = "delete from $table where id='".$user_id."' ";
 	$delsql = new rex_sql;
 	$delsql->debugsql=0;
 	$delsql->setQuery($query);
 	$func = "";
-	
-	echo rex_info("User wurde gelšscht");
+	echo rex_info("User wurde gel&ouml;scht");
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -103,7 +133,7 @@ if($func == ""){
 	}
 	
 	$csuchfeld = rex_request("csuchfeld","array");
-	$SUCHSEL = new rexselect();
+	$SUCHSEL = new rex_select();
 	$SUCHSEL->setMultiple(1); 
 	$SUCHSEL->setSize(5); 
 	$SUCHSEL->setName("csuchfeld[]");
@@ -126,7 +156,7 @@ if($func == ""){
 	
 
 	$cstatus = rex_request("cstatus","string");
-	$STATUSSEL = new rexselect();
+	$STATUSSEL = new rex_select();
 	$STATUSSEL->setName("cstatus");
 	$STATUSSEL->setStyle("width:100%;");
 	$STATUSSEL->addOption("Aktiv & Inaktiv", "");
@@ -144,12 +174,12 @@ if($func == ""){
 	$suchform .= '<input type="hidden" name="csuche" value="1" />';
 	$suchform .= '<tr>
 		<th>Suchbegriff</th>
-		<th>Tabellenfelder Ÿber die gesucht wird</th>
-		<th>Status der gesuchten EintrŠge</th><th>&nbsp;</th>
+		<th>Tabellenfelder über die gesucht wird</th>
+		<th>Status der gesuchten Einträge</th><th>&nbsp;</th>
 		</tr>';	
 	$suchform .= '<tr>
 		<td class="grey" valign="top"><input type="text" name="csuchtxt" value="'.htmlspecialchars(stripslashes($csuchtxt)).'" style="width:100%;" /></td>
-		<td class="grey" valign="top">'.$SUCHSEL->out().'</td><td class="grey" valign="top">'.$STATUSSEL->out().'</td>
+		<td class="grey" valign="top">'.$SUCHSEL->get().'</td><td class="grey" valign="top">'.$STATUSSEL->get().'</td>
 		<td class="grey" valign="top"><input type="submit" name="send" value="suchen"  class="inp100" /></td>
 		</tr>';
 	$suchform .= '</form>';
@@ -157,9 +187,13 @@ if($func == ""){
 	
 	echo $suchform;
 	
+	$csuche = rex_request("csuche","int","0");
+	
+	
+	
 	if($csuche == 1)
 	{
-		if(is_array($csuchfeld) && $csuchtxt != ""){
+		if(is_array($csuchfeld) && count($csuchfeld)>0 && $csuchtxt != ""){
 			$addsql .= "WHERE (";
 			foreach($csuchfeld as $cs){
 				$addsql .= " `".$cs."` LIKE  '%".$csuchtxt."%' OR ";			
@@ -168,29 +202,23 @@ if($func == ""){
 			$addsql .= ")";
 		}	
 		$link .= "&csuche]".$csuche;
+		
 	}
 	if($cstatus != ""){
 		if($addsql == ""){ $addsql .= " WHERE "; } else { $addsql .= " AND "; }
 		$addsql .= " `status`='".$cstatus."' ";
 	}
 	
-	$sql = "select * from $table $addsql";
-	// echo $sql;
-
 	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a></td></tr></table><br />";
 	
+	$sql = "select * from $table $addsql";
+
 	$list = rex_list::factory($sql,30);
 	$list->setColumnFormat('id', 'Id');
 
-	/*
-	$list->setColumnLabel('name', 'Name');
-	$list->setColumnLabel('firma', 'Firma');
-	$list->setColumnLabel('funktion', 'Funktion');
-	*/
-
-	$list->setColumnParams("id", array("oid"=>"###id###","func"=>"edit"));
-	$list->setColumnParams("name", array("oid"=>"###id###","func"=>"edit"));
-	$list->setColumnParams("email", array("oid"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("id", array("user_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("login", array("user_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("email", array("user_id"=>"###id###","func"=>"edit"));
 
 	$list->addParam("page", $page);
 	$list->addParam("subpage", $subpage);
@@ -210,8 +238,8 @@ if($func == ""){
 		$list->removeColumn($value["userfield"]);
 	}
 
-	$list->addColumn('lšschen','lšschen');
-	$list->setColumnParams("lšschen", array("oid"=>"###id###","func"=>"delete"));
+	$list->addColumn('l&ouml;schen','l&ouml;schen');
+	$list->setColumnParams("l&ouml;schen", array("user_id"=>"###id###","func"=>"delete"));
 	
 	/*
 	$list->setColumnSortable('name');

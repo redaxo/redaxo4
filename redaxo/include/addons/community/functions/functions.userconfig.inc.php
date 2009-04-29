@@ -18,6 +18,8 @@ $ff[] = "password";
 $ff[] = "email";
 $ff[] = "status";
 
+
+/*
 $ff[] = "session_id";
 $ff[] = "last_xs";
 $ff[] = "last_login";
@@ -40,6 +42,9 @@ $ff[] = "show_guestbook";
 $ff[] = "sendemail_contactrequest";
 $ff[] = "sendemail_newmessage";
 $ff[] = "sendemail_guestbook";
+*/
+
+
 
 $REX["ADDON"]["community"]["ut"] = $UT;
 $REX["ADDON"]["community"]["ff"] = $ff;
@@ -131,4 +136,79 @@ function rex_com_s_rexform(&$form,$value)
 	}
 }
 
-?>
+
+function rex_com_checkFields($table, $table_user)
+{
+
+
+	// **************** bei jedem Aufruf Felder abgleichen
+	
+	$err_msg = array();
+	
+	$guf = new rex_sql;
+	$guf->setQuery("select * from ".$table." order by prior");
+	$fields = array();
+	$gufa = $guf->getArray();
+	foreach($gufa as $key => $value)
+	{
+	  $userfield = $value["userfield"];
+	  $fields[$userfield] = $value["type"];
+	  $extra1[$userfield] = $value["extra1"];
+	  $extra2[$userfield] = $value["extra2"];
+	  $extra3[$userfield] = $value["extra3"];
+	  $utype[$userfield] = $value["type"];
+	  // echo "<br />$key - $userfield - ".$value["type"];
+	}
+	
+	// $UT - Feldtypen drin..
+	$gu = new rex_sql;
+	$gu->setQuery("SHOW COLUMNS from ".$table_user);
+	foreach($gu->getArray() as $key => $value)
+	{
+		$field = $value["Field"];
+		$type = $value["Type"];
+		// echo "<br />$key - ".$value["Field"]." - ".$value["Type"]." - ".$value["Extra"];
+		if ($field=="id") echo ""; // ID wird ignoriert
+		elseif (@$fields[$field] != "") echo ""; // Feld vorhanden - alles ist ok
+		else {
+			// Feld zuviel - Melden
+			$err_msg[] = "In der Usertabelle ist folgendes Feld zuviel: <b>$field | $type</b>. Bitte nachträglich hier anlegen.";
+		}
+		$ufields[$field] = $type;
+	}
+	
+	foreach($fields as $field => $value)
+	{
+		if (isset($ufields[$field]) &&  $ufields[$field] != "") echo ""; // Feld vorhanden - alles ist gut
+		else
+		{
+			// Feld fehlt -> anlegen
+			$err_msg[] = rex_com_utcreate($table_user,$field,$utype[$field],$extra1[$field],$extra2[$field],$extra3[$field]);
+		}
+	}
+
+	$message = "";
+	
+	if (count($err_msg)==0)
+	{
+		return array("status"=>1,"message"=>"Alle Felder wurden überprüft und es wurden keine Fehler gefunden.");
+	}else
+	{
+		return array("status"=>0,"message"=>$err_msg);
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

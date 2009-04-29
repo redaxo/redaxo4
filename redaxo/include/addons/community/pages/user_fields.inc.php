@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-
 $SF = true;
 
 $table = 'rex_com_user_field';
@@ -9,110 +7,111 @@ $table_user = 'rex_com_user';
 $bezeichner = "Userfeld";
 
 $func = rex_request("func","string","");
-$FORM = rex_request("FORM","array");
+$field_id = rex_request("field_id","int","");
 
 
 $rep = "";
 $UT = $REX["ADDON"]["community"]["ut"];
 foreach($UT as $key => $value)
 {
-	if ($rep != "") $rep .= "|";
-	$rep .= "$key|[$key] $value";
+	if ($rep != "") $rep .= ";";
+	$rep .= "$value=$key";
 }
 
 //------------------------------> Poll Anlegen|Editieren
 if($func == "add" || $func == "edit")
 {
 	
-	$mita = new rexform;
+	echo '<div class="rex-toolbar"><div class="rex-toolbar-content">';
+	echo '<p><a class="rex-back" href="index.php?page='.$page.'&amp;subpage='.$subpage.'">'.$I18N->msg('back_to_overview').'</a></p>';
+	echo '</div></div>';
 	
-	$mita->setWidth(770);
-	$mita->setLabelWidth(160);
-	$mita->setTablename($table);
+	echo '<div class="rex-addon-output-v2">';
 	
-	if($func == "add"){
-		$mita->setFormtype("add");
-		$mita->setFormheader("
-			<input type=hidden name=page value=".$page." />
-			<input type=hidden name=subpage value=".$subpage." />
-			<input type=hidden name=func value=".$func." />");
-		$mita->setShowFormAlways(false);
-		$mita->setValue("subline","$bezeichner erstellen" ,"left",0);
+	$form_data = "";
+	
+	$form_data .= "\n"."text|prior|Prior";
+	$form_data .= "\n"."validate|notEmpty|prior|Bitte geben SIe die Priorität ein";
 
-		$mita->setValue("text","prior","prior",1);
-		$mita->setValue("text","name","name",1);
-		$mita->setValue("text","userfield","userfield",1);
-		$mita->setValue("singleselect","type","type",1, $rep);
-		$mita->setValue("text","extra1","extra1",0);
-		// $mita->setValue("text","extra2","extra2",0);
-		// $mita->setValue("text","extra3","extra3",0);
-		$mita->setValue("checkbox","Erscheint in Userliste","inlist",0);
-		$mita->setValue("checkbox","Editierbar","editable",0);
-		$mita->setValue("checkbox","Pflichtfeld","mandatory",0);
-		$mita->setValue("text","Defaultwert","defaultvalue",0);
-		$mita->setValue("subline","***** Beispiele" ,"left",0);
-		$mita->setValue("subline","INT * extra1=14" ,"left",0);
-		$mita->setValue("subline","VARCHAR * extra1=255" ,"left",0);
-		$mita->setValue("subline","TEXT * " ,"left",0);
-		$mita->setValue("subline","PASSWORD * extra1=md5" ,"left",0);
-		$mita->setValue("subline","SELECT * extra1 0=offline|1=online" ,"left",0);
-		$mita->setValue("subline","BOOL	*" ,"left",0);
+	$form_data .= "\n"."text|name|Name";
+	$form_data .= "\n"."validate|notEmpty|name|Bitte geben Sie den Namen ein";
 
-	}else{			
-		$mita->setFormtype("edit", "id='".$oid."'", "$bezeichner wurde nicht gefunden");
-		$mita->setFormheader("
-			<input type=hidden name=page value=".$page.">
-			<input type=hidden name=subpage value=".$subpage.">
-			<input type=hidden name=func value=".$func." />
-			<input type=hidden name=oid value=".$oid.">");
-		$mita->setShowFormAlways(false);				
-		$mita->setValue("subline","$bezeichner edieren" ,"left",0);
-		$mita->setValue("text","prior","prior",1);
-		$mita->setValue("text","name","name",1);
-		$mita->setValue("showtext","userfield","userfield");
-		$mita->setValue("checkbox","Erscheint in Userliste","inlist",0);
-		$mita->setValue("checkbox","Editierbar","editable",0);
-		$mita->setValue("checkbox","Pflichtfeld","mandatory",0);
-		$mita->setValue("text","Defaultwert","defaultvalue",0);
-		$mita->setValue("showtext","extra1","extra1",0);
-		// $mita->setValue("showtext","extra2","extra2",0);
-		// $mita->setValue("showtext","extra3","extra3",0);
+	$form_data .= "\n"."text|userfield|userfield";
+	$form_data .= "\n"."validate|notEmpty|userfield|Bitte geben Sie die userfield Bezeichnung ein";
 
-	}
+	$form_data .= "\n".'select|type|Typ|'.$rep.'';
 
-	echo $mita->showForm();
+	$form_data .= "\n".'html|<p><label>Beispiele</label>';
+	$form_data .= "\n".'html|<div style="display:block;float:left">INT * extra1=14<br />';
+	$form_data .= "\n".'html|VARCHAR * extra1=255<br />';
+	$form_data .= "\n".'html|TEXT * <br />';
+	$form_data .= "\n".'html|PASSWORD * extra1=md5<br />';
+	$form_data .= "\n".'html|SELECT * extra1 offline=0;online=1<br />';
+	$form_data .= "\n".'html|BOOL *</div></p>';
 
-	if (!$mita->form_show)
+	$form_data .= "\n"."text|extra1|extra1";
+	
+	$form_data .= "\n"."checkbox|inlist|Erscheint in Userliste";
+	$form_data .= "\n"."checkbox|editable|Editierbar";
+	$form_data .= "\n"."checkbox|mandatory|Pflichtfeld";
+	$form_data .= "\n"."text|defaultvalue|Defaultwert";
+	
+	$form_data .= "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n".'hidden|subpage|'.$subpage.'|REQUEST|no_db';
+	$form_data .= "\n".'hidden|func|'.$func.'|REQUEST|no_db';
+
+	$xform = new rex_xform;
+	$xform->setDebug(TRUE);
+	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank füŸr die Aktualisierung</p>',"",),);
+	$xform->setObjectparams("main_table",$table); // fŸr db speicherungen und unique abfragen
+
+	if($func == "edit")
 	{
-		$func = "";
-		echo "<br />";
+		$form_data .= "\n".'hidden|field_id|'.$field_id.'|REQUEST|no_db';
+		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table,"id=$field_id"),);
+		$xform->setObjectparams("main_id","$field_id");
+		$xform->setObjectparams("main_where","id=$field_id");
+		$xform->setGetdata(true); // Datein vorher auslesen
+	}elseif($func == "add")
+	{
+		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table),);
 	}
-	else echo "<br /><table class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."><b>&laquo; Zurück zur Übersicht</b></a></td></tr></table>";
+
+	$xform->setFormData($form_data);
+	echo $xform->getForm();
+
+  echo '</div>';
+	
+	
+	echo "<br /><table class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."><b>&laquo; Zurück zur Übersicht</b></a></td></tr></table>";
 	
 }
 
-//------------------------------> Partner löschen
+//------------------------------> löschen
 if($func == "delete"){
 
 	$gf = new rex_sql;
-	$gf->setQuery("select * from $table where id='".$oid."'");
+	$gf->setQuery("select * from $table where id='".$field_id."'");
 	if ($gf->getRows()==1 && $gf->getValue("userfield")!= "id")
 	{
 		// feste felder - nicht loeschbar	
 		if (in_array($gf->getValue("userfield"),$REX["ADDON"]["community"]["ff"]))
 		{
 			
-			echo "<p class=rex-warning>Das Feld <b>".$gf->getValue("userfield")."</b> kann nicht gelöscht werden da es ein fester Bestandteil ist</p><p class=rex-clear></p>";
+			echo rex_warning('Das Feld "'.$gf->getValue("userfield").'" kann nicht gelöscht werden da es ein fester Bestandteil ist');
 			$func = "";	
 			
 		}else
 		{
-			$query = "delete from $table where id='".$oid."' ";
+			$query = "delete from $table where id='".$field_id."' ";
 			$delsql = new rex_sql;
 			$delsql->debugsql=0;
 			$delsql->setQuery($query);
 			$func = "";
+
+			echo rex_info('Dae Feld "'.$gf->getValue("userfield").'" wurde gelöscht');
+
 			$gf->setQuery("ALTER TABLE `$table_user` DROP `".$gf->getValue("userfield")."`");
+			
 		}
 	}
 }
@@ -125,15 +124,22 @@ if($func == ""){
 	// ***** add 
 	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a></td></tr></table><br />";
 
-
-	// ***** Suche
-	$addsql = "";
-	$link	= "";
-	$ssql 	= new rex_sql();
-	
+	$ssql = new rex_sql();
 	$sql = "select * from $table order by prior";
 	
-	$mit = new rexlist;
+	$list = rex_list::factory($sql,30);
+	$list->setColumnFormat('id', 'Id');
+	$list->removeColumn('extra1');
+	$list->removeColumn('extra2');
+	$list->removeColumn('extra3');
+	$list->addColumn('l&ouml;schen','l&ouml;schen');
+	$list->setColumnParams("l&ouml;schen", array("field_id"=>"###id###","func"=>"delete"));
+	// $list->setColumnParams("id", array("field_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("name", array("field_id"=>"###id###","func"=>"edit"));
+	echo $list->get();
+
+
+	/*
 	$mit->setQuery($sql);
 	$mit->setList(50);
 	$mit->setGlobalLink("index.php?page=".$page."&subpage=".$subpage."".$link."&next=");
@@ -161,63 +167,14 @@ if($func == ""){
 	$mit->setFormat("link","index.php?page=".$page."&subpage=".$subpage."&func=delete&oid=","id",""," onclick=\"return confirm('sicher löschen ?');\"");	
 	if (isset($FORM["ordername"]) && isset($FORM["ordertype"])) $mit->setOrder($FORM["ordername"],$FORM["ordertype"]);
 	echo $mit->showall(@$next);
+	*/
 	
+	$r = rex_com_checkFields($table, $table_user);
+	if($r["status"] == 1)
+		echo "<br />".rex_info($r["message"]);
+	else
+		echo "<br />".rex_warning($r["message"]);
 	
-	
-	// **************** bei jedem Aufruf Felder abgleichen
-	
-	$err_msg = array();
-	
-	$guf = new rex_sql;
-	$guf->setQuery("select * from ".$table." order by prior");
-	$fields = array();
-	$gufa = $guf->getArray();
-	foreach($gufa as $key => $value)
-	{
-	  $userfield = $value["userfield"];
-	  $fields[$userfield] = $value["type"];
-	  $extra1[$userfield] = $value["extra1"];
-	  $extra2[$userfield] = $value["extra2"];
-	  $extra3[$userfield] = $value["extra3"];
-	  $utype[$userfield] = $value["type"];
-	  // echo "<br />$key - $userfield - ".$value["type"];
-	}
-	
-	// $UT - Feldtypen drin..
-	$gu = new rex_sql;
-	$gu->setQuery("SHOW COLUMNS from ".$table_user);
-	foreach($gu->getArray() as $key => $value)
-	{
-		$field = $value["Field"];
-		$type = $value["Type"];
-		// echo "<br />$key - ".$value["Field"]." - ".$value["Type"]." - ".$value["Extra"];
-		if ($field=="id") echo ""; // ID wird ignoriert
-		elseif (@$fields[$field] != "") echo ""; // Feld vorhanden - alles ist ok
-		else {
-			// Feld zuviel - Melden
-			$err_msg[] = "In der Usertabelle ist folgendes Feld zuviel: <b>$field | $type</b>. Bitte nachträglich hier anlegen.";
-		}
-		$ufields[$field] = $type;
-	}
-	
-	foreach($fields as $field => $value)
-	{
-		if (isset($ufields[$field]) &&  $ufields[$field] != "") echo ""; // Feld vorhanden - alles ist gut
-		else
-		{
-			// Feld fehlt -> anlegen
-			$err_msg[] = rex_com_utcreate($table_user,$field,$utype[$field],$extra1[$field],$extra2[$field],$extra3[$field]);
-		}
-	}
-	
-	echo "<br />";
-	
-	foreach($err_msg as $key => $value)
-	{
-		echo rex_warning($value);
-	}
-	
-	if (count($err_msg)==0) echo rex_info("Alle Felder wurden überprüft und es wurden keine Fehler gefunden.");
 
 }
 

@@ -6,6 +6,11 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
-$REX['ADDON']['plugins']['community']['setup']['install'] = 1;
+$error = '';
+
+if ($error != '')
+  $REX['ADDON']['installmsg']['setup'] = $error;
+else
+  $REX['ADDON']['install']['setup'] = true;
 
 ?>

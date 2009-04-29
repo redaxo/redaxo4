@@ -13,16 +13,12 @@ if ($REX["REDAXO"])
 
 	// Templates für das Setup aufnehmen
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","main","1011 - COM-Template - Standardtemplate",1);
-
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","auth","1012 - COM-Template - Authentifizierung",0);
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","permission","1013 - COM-Template - Permission/Rechte",0);
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","userlogin","1014 - COM-Template - Userloginfenster",0);
-
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","navi","1015 - COM-Template - Navigation mit 3 Ebenen",0);
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","navi_user","1016 - COM-Template - Navigation - Userbereiche 1 Ebene",0);
-
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","breadcrump","1017 - COM-Template - Breadcrumb",0);
-
 
 	// E-Mail Templates für das Setup aufnehmen
 	$REX["ADDON"]["community"]["plugins"]["setup"]["emails"][] = array("setup","register","register","Community: Bitte bestätigen Sie die Registrierung", $REX['ERROR_EMAIL'], $REX['ERROR_EMAIL']);
@@ -53,6 +49,5 @@ define('REX_COM_USERCAT_ID',2);
 define('REX_COM_PAGE_SENDMESSAGE_ID',6);
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS
-
 
 ?>
