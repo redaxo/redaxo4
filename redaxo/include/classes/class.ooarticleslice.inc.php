@@ -163,7 +163,7 @@ class OOArticleSlice
    */
   function getNextSlice()
   {
-    return OOArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang.' AND revision='.$this->revision);
+    return OOArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang.' AND revision='.$this->_revision);
   }
 
   /*
@@ -171,7 +171,7 @@ class OOArticleSlice
    */
   function getPreviousSlice()
   {
-    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang.' AND revision='.$this->revision);
+    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang.' AND revision='.$this->_revision);
   }
 
   /**
@@ -383,6 +383,6 @@ class OOArticleSlice
    */
   function getPrevSlice()
   {
-    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang .' AND revision = '.$this->revision);
+    return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang .' AND revision = '.$this->_revision);
   }
 }

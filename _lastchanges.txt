@@ -10,8 +10,13 @@ angehandelt.
 Version 4.2.1 (2009-xx-xx)
 
 Bugfixes
+  * OOArticleSlice: Revision
+	http://forum.redaxo.de/ftopic11805.html?
   * Addon
     * Import/Export - Importieren von tars geht nun wieder.
+		
+		
+		
 		
 Version 4.2.0 (2009-04-22)
 
