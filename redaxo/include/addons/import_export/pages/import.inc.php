@@ -46,17 +46,12 @@ elseif ($function == "dbimport")
   if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
     $warning = $I18N->msg("im_export_no_import_file_chosen_or_wrong_version")."<br>";
-  }
-  else
+  }else
   {
     if ($impname != "")
-    {
       $file_temp = getImportDir().'/'.$impname;
-    }
     else
-    {
       $file_temp = getImportDir().'/temp.sql';
-    }
 
     if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
@@ -65,64 +60,54 @@ elseif ($function == "dbimport")
 
       // temp datei löschen
       if ($impname == "")
-      {
         @ unlink($file_temp);
-      }
-    }
-    else
+
+    }else
     {
       $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
     }
   }
 
-}
-elseif ($function == "fileimport")
+}elseif ($function == "fileimport")
 {
   // ------------------------------ FUNC FILEIMPORT
 
   if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
   {
     $warning = $I18N->msg("im_export_no_import_file_chosen")."<br/>";
-  }
-  else
+  }else
   {
     if ($impname == "")
-    {
-      $file_temp = getImportDir().'/tar.temp';
-    }
+      $file_temp = getImportDir().'/temp.tar.gz';
     else
-    {
       $file_temp = getImportDir().'/'.$impname;
-    }
+
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
+
       $return = rex_a1_import_files($file_temp);
-			if($return['state'])
-      	$info = $return['message'];
-			else
-				$warning = $return['message'];
+      if($return['state'])
+        $info = $return['message'];
+      else
+        $warning = $return['message'];
 
       // temp datei löschen
       if ($impname == "")
-      {
         @ unlink($file_temp);
-      }
-    }
-    else
+
+    }else
     {
       $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
     }
   }
 
 }
+
 if ($info != '')
-{
   echo rex_info($info);
-}
+
 if ($warning != '')
-{
   echo rex_warning($warning);
-}
 
 ?>
 
@@ -177,6 +162,7 @@ if ($warning != '')
         </thead>
         <tbody>
 <?php
+
   $dir = getImportDir();
   $folder = readImportFolder('.sql');
 
@@ -195,6 +181,7 @@ if ($warning != '')
           </tr>
   ';
   }
+
 ?>
         </tbody>
       </table>
