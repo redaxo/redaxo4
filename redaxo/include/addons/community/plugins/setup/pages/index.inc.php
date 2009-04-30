@@ -198,69 +198,59 @@ if ($func == "email" && $request_email != "")
 
 ?>
 
-<div class="rex-addon-output">
+<div class="rex-area">
 
-<h2>Setup für Standardcommunity</h2>
+<h3 class="rex-hl2">Setup für Standardcommunity</h3>
 
-<div class="rex-addon-content">
-</div>
 
-<h2>Module</h2>
-<div class="rex-addon-content">
-<ul style="margin-left:20px; margin-bottom:20px;">
+
+<h3 class="rex-hl2">Module</h3>
+<div class="rex-area-content">
+<ul style="margin-left:20px;">
 <?php
-
 $modules = $REX["ADDON"]["community"]["plugins"]["setup"]["modules"];
 foreach($modules as $module)
 {
-
 	$link = 'index.php?page=community&subpage='.$subpage.'&func=module&module='.urlencode($module[0]).'.'.urlencode($module[1]);
-
 	$g = new rex_sql;
 	// $g->debugsql = 1;
 	$g->setQuery('select * from rex_module where name="'.addslashes($module[2]).'" LIMIT 1');
-
-	if ($g->getRows()==1) echo '<li style="list-style:square;font-size:12px;">'.htmlspecialchars($module[2]).' [schon vorhanden | <a href="'.$link.'&update=1">aktualisieren</a>]</li>';
-	else echo '<li style="list-style:square;font-size:12px;"><a href="'.$link.'">'.htmlspecialchars($module[2]).'</a></li>';
+	if ($g->getRows()==1) 
+		echo '<li>'.htmlspecialchars($module[2]).' - [ schon vorhanden | <a href="'.$link.'&update=1">aktualisieren</a> ]</li>';
+	else 
+		echo '<li><a href="'.$link.'">'.htmlspecialchars($module[2]).'</a></li>';
 }
-
-
-
 ?>
 </ul>
 </div>
 
-<h2>Templates</h2>
-<div class="rex-addon-content">
-<ul style="margin-left:20px; margin-bottom:20px;">
-<?php
 
+
+<h3 class="rex-hl2">Templates</h3>
+<div class="rex-area-content">
+<ul style="margin-left:20px;">
+<?php
 $templates = $REX["ADDON"]["community"]["plugins"]["setup"]["templates"];
 foreach($templates as $template)
 {
-
 	$link = 'index.php?page=community&subpage='.$subpage.'&func=template&template='.urlencode($template[0]).'.'.urlencode($template[1]);
-
 	$g = new rex_sql;
 	// $g->debugsql = 1;
 	$g->setQuery('select * from rex_template where name="'.addslashes($template[2]).'" LIMIT 1');
-
-	if ($g->getRows()==1) echo '<li style="list-style:square;font-size:12px;">'.htmlspecialchars($template[2]).' [schon vorhanden | <a href="'.$link.'&update=1">aktualisieren</a>]</li>';
-	else echo '<li style="list-style:square;font-size:12px;"><a href="'.$link.'">'.htmlspecialchars($template[2]).'</a></li>';
+	if ($g->getRows()==1) 
+		echo '<li>'.htmlspecialchars($template[2]).' - [ schon vorhanden | <a href="'.$link.'&update=1">aktualisieren</a> ]</li>';
+	else 
+		echo '<li><a href="'.$link.'">'.htmlspecialchars($template[2]).'</a></li>';
 }
-
-
-
 ?>
 </ul>
 </div>
 
 
-<h2>EMails</h2>
-<div class="rex-addon-content">
-<ul style="margin-left:20px; margin-bottom:20px;">
+<h3 class="rex-hl2">EMails</h3>
+<div class="rex-area-content">
+<ul style="margin-left:20px;">
 <?php
-
 $emails = $REX["ADDON"]["community"]["plugins"]["setup"]["emails"];
 foreach($emails as $email)
 {
@@ -268,20 +258,19 @@ foreach($emails as $email)
 	$g = new rex_sql;
 	// $g->debugsql = 1;
 	$g->setQuery('select * from rex_xform_email_template where name="'.addslashes($email[2]).'" LIMIT 1');
-
-	if ($g->getRows()==1) echo '<li style="list-style:square;font-size:12px;">'.htmlspecialchars($email[2]).' [schon vorhanden | <a href="'.$link.'&update=1">aktualisieren</a>]</li>';
-	else echo '<li style="list-style:square;font-size:12px;"><a href="'.$link.'">'.htmlspecialchars($email[2]).'</a></li>';
+	if ($g->getRows()==1) 
+		echo '<li>'.htmlspecialchars($email[2]).' - [ schon vorhanden | <a href="'.$link.'&update=1">aktualisieren</a> ]</li>';
+	else 
+		echo '<li><a href="'.$link.'">'.htmlspecialchars($email[2]).'</a></li>';
 }
-
-
-
 ?>
 </ul>
 </div>
 
 
-<h2>IDs</h2>
-<div class="rex-addon-content">
+
+<h3 class="rex-hl2">IDs</h3>
+<div class="rex-area-content">
 <form action="index.php" method="post" />
 <input type="hidden" name="page" value="community" />
 <input type="hidden" name="subpage" value="plugin.setup" />
@@ -293,10 +282,8 @@ $i=0;
 foreach($ids as $v)
 {
 	$i++;
-	
 	$name = "";
 	if (@constant($v)) if ($a = OOArticle::getArticleById(constant($v))) $name = $a->getName();	
-	
 	?>
 	
 	<div class="pluginbox" style="width:350px;float:left; ">
@@ -323,12 +310,12 @@ foreach($ids as $v)
 }
 
 ?><div class="rex-clearer"></div>
-<input type="submit" value="abschicken" />
+<input type="submit" value="abschicken" class="rex-form-submit" style="margin-top:20px;" />
 </form>
 </div>
 
-</div>
 
+</div>
 
 
 
