@@ -13,7 +13,7 @@ xform_add_email_template = E-Mail Template hinzufügen
 
 xform_header_template_description = Beschreibung
 xform_header_template_mail_from = E-Mail von
-xform_header_template_mail_from_name = EMail Name
+xform_header_template_mail_from_name = E-Mail von Name
 xform_header_template_subject = Betreff
 xform_create_template = Template erstellen
 xform_header_template_functions = Funktionen

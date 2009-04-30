@@ -30,7 +30,7 @@
 }
 
 #rex-xform ul.form_warning {
-    color:#f90;
+    color:#f00;
     margin-bottom:20px;
 }
 
@@ -40,53 +40,53 @@
 }
 
 
-p.formcaptcha input,
-p.formtextarea textarea,
-p.formselect select,
-p.formtext input,
-p.formpassword input,
-input.formtext,
-textarea {
+#rex-xform p.formcaptcha input,
+#rex-xform p.formtextarea textarea,
+#rex-xform p.formselect select,
+#rex-xform p.formtext input,
+#rex-xform p.formpassword input,
+#rex-xform input.formtext,
+#rex-xform textarea {
     border:1px solid #ccc;
     padding:2px;
     width:250px;
 }
 
-p.formcaptcha input,
-p.formselect select,
-p.formtext input,
-p.formpassword input,
-input.formtext {
+#rex-xform p.formcaptcha input,
+#rex-xform p.formselect select,
+#rex-xform p.formtext input,
+#rex-xform p.formpassword input,
+#rex-xform input.formtext {
     height:15px;
 }
 
 /* ***************************** TEXTAREA */
-textarea {
+#rex-xform textarea {
     height:80px;
 }
 
 /* ***************************** TEXT */
-p.formtext {
+#rex-xform p.formtext {
     clear:both;
     padding-bottom:0px;
     margin-bottom:5px;
 }
 
 /* ***************************** HTML */
-p.formhtml {
+#rex-xform p.formhtml {
     margin-top:10px;
     margin-bottom:10px;
     font-weight:bold;
 }
 
 /* ***************************** TEXTSELECT */
-p.formselect {
+#rex-xform p.formselect {
     clear:both;
     padding-bottom:0px;
     margin-bottom:10px;
 }
 
-p.formselect select {
+#rex-xform p.formselect select {
     height:20px;
     padding:1px;
     width:256px;
@@ -94,51 +94,51 @@ p.formselect select {
 
 /* ***************************** CAPTCHA */
 
-p.formcaptcha {
+#rex-xform p.formcaptcha {
     clear:both;
     padding-bottom:10px;
     margin-bottom:10px;
 }
 
-p.formcaptcha label{
+#rex-xform p.formcaptcha label{
 
 }
 
-p.formcaptcha input{
+#rex-xform p.formcaptcha input{
     margin-top:4px;
 }
 
-p.formcaptcha span{
+#rex-xform p.formcaptcha span{
     display:block;
 }
 
 /* ***************************** TEXTSELECT */
-p.formtextarea {
+#rex-xform p.formtextarea {
     clear:both;
     padding-bottom:0px;
     margin-bottom:10px;
 }
 
-p.formtextarea textarea {
+#rex-xform p.formtextarea textarea {
     height:80px;
 }
 
 /* ***************************** CHECKBOX */
 
-p.formcheckbox {
+#rex-xform p.formcheckbox {
     clear:both;
     padding:0;
     margin-bottom:10px;
     height:22px;
 }
 
-p.formcheckbox input {
+#rex-xform p.formcheckbox input {
     float:left;
     margin:5px;
     margin-left:135px;
 }
 
-p.formcheckbox label {
+#rex-xform p.formcheckbox label {
     float:left;
     margin-left:10px;
     width:250px;
@@ -148,19 +148,19 @@ p.formcheckbox label {
 
 /* ***************************** RADIO */
 
-p.formradio {
+#rex-xform p.formradio {
     clear:both;
     padding:0;
     margin-bottom:10px;
     height:22px;
 }
 
-p.formradio input {
+#rex-xform p.formradio input {
     float:left;
     margin:5px;
 }
 
-p.formradio label {
+#rex-xform p.formradio label {
     float:right;
     width:460px;
     line-height:23px;
@@ -176,24 +176,24 @@ p.formline {
 
 /* ***************************** BE MEDIAPOOL */
 
-p.formbe_mediapool {
+#rex-xform p.formbe_mediapool {
     clear:both;
     padding:0;
     margin-bottom:10px;
     height:22px;
 }
 
-p.formbe_mediapool input {
+#rex-xform p.formbe_mediapool input {
     float:left;
     margin:0px;
 }
 
-p.formbe_mediapool label {
+#rex-xform p.formbe_mediapool label {
     float:left;
     width:160px;
 }
 
-p.formbe_mediapool span {
+#rex-xform p.formbe_mediapool span {
     margin-left:10px;
 }
 
@@ -201,18 +201,22 @@ p.formbe_mediapool span {
 
 /* ***************************** SUBMIT */
 
-p.formsubmit label {
-    clear:both;
-    width:160px;
+#rex-xform input.submit {
+	background-image: url(../be_style/plugins/agk_skin/button.gif);
+	background-repeat: repeat-x;
 }
 
-p.formsubmit input{
-    width:auto;
-    margin:0;
-    border:0;
-    padding:3px 5px;
-    background-color:#d5eeff;
-    color:#216491;
-    font-size:14px;
+
+#rex-xform input.submit {
+	padding: 2px 6px;
+}
+
+#rex-xform input.submit{
+	border: 0;
+	-moz-outline-radius-bottomleft: 4px;
+	-moz-outline-radius-bottomright: 4px;
+	-moz-outline-radius-topleft: 4px;
+	-moz-outline-radius-topright: 4px;
+	outline: 1px solid #CBCBCB;
 }
 

@@ -7,8 +7,8 @@ class rex_xform_abstract
 	var $params = array(); // allgemeine parameter der
 	var $elements = array(); //
 	var $value;
-  var $label;
-  var $keys = array();
+    var $label;
+    var $keys = array();
 
 	// Position im Formular. Unique ID
 	function setId($id)
@@ -151,7 +151,17 @@ class rex_xform_abstract
 
 	function getLongDescription()
 	{
-		return "Es existiert keine auswührliche Klassenbeschreibung";
+		return "Es existiert keine ausführliche Klassenbeschreibung";
 	}
+	
+	
+	// ************** FÜR DATENBANKEN
+	
+	function getDBFieldType()
+	{
+		return FALSE;
+	}
+	
+	
 
 }

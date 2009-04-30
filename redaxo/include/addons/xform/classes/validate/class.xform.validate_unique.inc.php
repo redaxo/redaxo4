@@ -7,10 +7,20 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 	{
 		if($send=="1")
 		{
+		
+			$table = $this->params["main_table"];
+			if(isset($this->xaElements[4]) && $this->xaElements[4] != "")
+				$table = $this->xaElements[4];
+				
 			foreach($this->xaObjects as $xoObject)
 			{
-				$sql = 'select '.$this->xaElements[2].' from '.$this->params["main_table"].' WHERE '.$this->xaElements[2].'="'.$xoObject->getValue().'" LIMIT 1';
+			
+				$sql = 'select '.$this->xaElements[2].' from '.$table.' WHERE '.$this->xaElements[2].'="'.$xoObject->getValue().'" LIMIT 1';
+				if($this->params["main_where"] != "")
+					$sql = 'select '.$this->xaElements[2].' from '.$table.' WHERE '.$this->xaElements[2].'="'.$xoObject->getValue().'" AND !('.$this->params["main_where"].') LIMIT 1';
+
 				$cd = new rex_sql;
+				// $cd->debugsql = 1;
 				$cd->setQuery($sql);
 				if ($cd->getRows()>0)
 				{
@@ -23,7 +33,7 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 	
 	function getDescription()
 	{
-		return "unique -> prüft ob unique, beispiel: validate|unique|user.name|Dieser Name existiert schon";
+		return "unique -> prüft ob unique, beispiel: validate|unique|dbfeldname|Dieser Name existiert schon|[table]";
 	}
 }
 
