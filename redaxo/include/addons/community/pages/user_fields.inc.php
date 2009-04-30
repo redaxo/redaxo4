@@ -4,7 +4,6 @@ $SF = true;
 
 $table = 'rex_com_user_field';
 $table_user = 'rex_com_user';
-$bezeichner = "Userfeld";
 
 $func = rex_request("func","string","");
 $field_id = rex_request("field_id","int","");
@@ -22,21 +21,23 @@ foreach($UT as $key => $value)
 if($func == "add" || $func == "edit")
 {
 	
-	echo '<div class="rex-toolbar"><div class="rex-toolbar-content">';
-	echo '<p><a class="rex-back" href="index.php?page='.$page.'&amp;subpage='.$subpage.'">'.$I18N->msg('back_to_overview').'</a></p>';
-	echo '</div></div>';
-	
-	echo '<div class="rex-addon-output-v2">';
+	if($func == "edit")
+		echo '<div class="rex-area"><h3 class="rex-hl2">Feld editieren</h3><div class="rex-area-content">';
+	else
+		echo '<div class="rex-area"><h3 class="rex-hl2">Feld hinzufügen</h3><div class="rex-area-content">';
+		
 	
 	$form_data = "";
+	
+	// $form_data .= "\n"."html|<h1>Userfeld erstellen</h1>";
 	
 	$form_data .= "\n"."text|prior|Prior";
 	$form_data .= "\n"."validate|notEmpty|prior|Bitte geben SIe die Priorität ein";
 
-	$form_data .= "\n"."text|name|Name";
+	$form_data .= "\n"."text|name|Bezeichnung";
 	$form_data .= "\n"."validate|notEmpty|name|Bitte geben Sie den Namen ein";
 
-	$form_data .= "\n"."text|userfield|userfield";
+	$form_data .= "\n"."text|userfield|Datenbankbezeichnung";
 	$form_data .= "\n"."validate|notEmpty|userfield|Bitte geben Sie die userfield Bezeichnung ein";
 
 	$form_data .= "\n".'select|type|Typ|'.$rep.'';
@@ -54,14 +55,15 @@ if($func == "add" || $func == "edit")
 	$form_data .= "\n"."checkbox|inlist|Erscheint in Userliste";
 	$form_data .= "\n"."checkbox|editable|Editierbar";
 	$form_data .= "\n"."checkbox|mandatory|Pflichtfeld";
+	$form_data .= "\n"."checkbox|unique|Unique";
 	$form_data .= "\n"."text|defaultvalue|Defaultwert";
 	
 	$form_data .= "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n".'hidden|subpage|'.$subpage.'|REQUEST|no_db';
 	$form_data .= "\n".'hidden|func|'.$func.'|REQUEST|no_db';
 
 	$xform = new rex_xform;
-	$xform->setDebug(TRUE);
-	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank füŸr die Aktualisierung</p>',"",),);
+	// $xform->setDebug(TRUE);
+	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p class="warning">Vielen Dank für die Aktualisierung</p>',"",),);
 	$xform->setObjectparams("main_table",$table); // fŸr db speicherungen und unique abfragen
 
 	if($func == "edit")
@@ -79,10 +81,9 @@ if($func == "add" || $func == "edit")
 	$xform->setFormData($form_data);
 	echo $xform->getForm();
 
-  echo '</div>';
+	echo '</div></div>';
 	
-	
-	echo "<br /><table class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."><b>&laquo; Zurück zur Übersicht</b></a></td></tr></table>";
+	echo '<br />&nbsp;<br /><div class="rex-area"><div class="rex-area-content"><a href=index.php?page='.$page.'&subpage='.$subpage.'><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></div></div>';
 	
 }
 
@@ -122,7 +123,7 @@ if($func == "delete"){
 if($func == ""){
 
 	// ***** add 
-	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a></td></tr></table><br />";
+	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ Feld anlegen</b></a></td></tr></table><br />";
 
 	$ssql = new rex_sql();
 	$sql = "select * from $table order by prior";
@@ -173,7 +174,11 @@ if($func == ""){
 	if($r["status"] == 1)
 		echo "<br />".rex_info($r["message"]);
 	else
-		echo "<br />".rex_warning($r["message"]);
+		if(is_array($r["message"]))
+			foreach($r["message"] as $m)
+				echo "<br />".rex_warning($m);
+		else
+			echo "<br />".rex_warning($m);
 	
 
 }

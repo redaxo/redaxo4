@@ -1,0 +1,9 @@
+body#rex-page-community div.rex-form, 
+body#rex-page-community table.rex-table {
+	border: 0;
+	-moz-outline-radius-bottomleft: 4px;
+	-moz-outline-radius-bottomright: 4px;
+	-moz-outline-radius-topleft: 4px;
+	-moz-outline-radius-topright: 4px;
+	outline: 1px solid #CBCBCB;
+}

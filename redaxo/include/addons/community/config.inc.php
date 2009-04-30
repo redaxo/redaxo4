@@ -2,25 +2,30 @@
 
 // error_reporting(E_ALL ^ E_NOTICE);
 
-$mypage = "community";        // only for this file
+$mypage = "community"; // only for this file
 
+
+// ********** Allgemeine AddOn Config
 $REX['ADDON']['rxid'][$mypage] = '5';
 $REX['ADDON']['page'][$mypage] = "$mypage";     // pagename/foldername
 $REX['ADDON']['name'][$mypage] = "Community";   // name
 $REX['ADDON']['perm'][$mypage] = "community[]"; // benoetigt mindest permission
-$REX['ADDON']['version'][$mypage] = '1.2';
+$REX['ADDON']['version'][$mypage] = '1.3';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
-$REX['ADDON']['supportpage'][$mypage] = 'community.redaxo.de';
+$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = "community[]";
 
 $I18N_COM = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
-// ----- Community User Funktionen
+
+// ********** Community User Funktionen
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_user.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_replace.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_paginate.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_formatter.inc.php";
 
+
+// ********** Backend, Perms, Subpages etc.
 if ($REX["REDAXO"] && $REX['USER'])
 {
 	$REX['EXTRAPERM'][] = "community[admin]";
@@ -47,9 +52,21 @@ if ($REX["REDAXO"] && $REX['USER'])
 		  $REX['ADDON'][$mypage]['SUBPAGES'][] = array('plugin.'.$plugin,"translate:$plugin");
 	  }
 	}
+	
+	if($REX["REDAXO"])
+	{
+		function rex_community_addCSS($params)
+		{
+		    echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/community/community_be.css" media="screen, projection, print" />';
+		}
+		rex_register_extension('PAGE_HEADER', 'rex_community_addCSS');
+	}
+	
 }
 
-// ----- XForm values/action/validations einbinden
+
+
+// ********** XForm values/action/validations einbinden
 $REX['ADDON']['community']['xform_path']['value'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/value/');
 $REX['ADDON']['community']['xform_path']['validate'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/validate/');
 $REX['ADDON']['community']['xform_path']['action'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/action/');

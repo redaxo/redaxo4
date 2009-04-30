@@ -16,14 +16,15 @@ $user_id = rex_request("user_id","int");
 if($func == "add" || $func == "edit")
 {
 	
-  echo '<div class="rex-toolbar"><div class="rex-toolbar-content">';
-	echo '<p><a class="rex-back" href="index.php?page='.$page.'&amp;subpage='.$subpage.'">'.$I18N->msg('back_to_overview').'</a></p>';
-	echo '</div></div>';
-	
-	echo '<div class="rex-addon-output-v2">';
-
+	if($func == "edit")
+		echo '<div class="rex-area"><h3 class="rex-hl2">User editieren</h3><div class="rex-area-content">';
+	else
+		echo '<div class="rex-area"><h3 class="rex-hl2">User hinzufügen</h3><div class="rex-area-content">';
+		
+	// ***** Allgemeine BE Felder reinlegen
 	$form_data = "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n".'hidden|subpage|'.$subpage.'|REQUEST|no_db'."\n".'hidden|func|'.$func.'|REQUEST|no_db';
-	
+
+	// ***** Felder auslesen und entsprechend des Typen festlegen.	
 	$guf = new rex_sql;
 	$guf->setQuery("select * from ".$table_field." where editable=1 order by prior");
 	foreach($guf->getArray() as $key => $value)
@@ -52,11 +53,16 @@ if($func == "add" || $func == "edit")
 				break;
 		}
 		
+		// Pflichtfelder festlegen
 		$value["mandatory"] = (int) $value["mandatory"];
 		if($value["mandatory"] == 1)
-		{
-			$form_data .= "\n".'validate|notEmpty|'.$value["userfield"].'|Bitte geben Sie in diesem Feld "'.$value["name"].'" etwas ein.';
-		}
+			$form_data .= "\n".'validate|empty|'.$value["userfield"].'|Bitte geben Sie im Feld "'.$value["name"].'" etwas ein.';
+
+		$value["unique"] = (int) $value["unique"];
+		if($value["unique"] == 1)
+			$form_data .= "\n".'validate|unique|'.$value["userfield"].'|Der Wert im Feld "'.$value["name"].'" existiert bereits.';
+
+
 	}
 
 	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
@@ -64,7 +70,7 @@ if($func == "add" || $func == "edit")
 
 	$xform = new rex_xform;
 	// $xform->setDebug(TRUE);
-	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank für die Aktualisierung</p>',"",),);
+	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p>Vielen Dank für die Eintragung</p>',"",),);
 	$xform->setObjectparams("main_table",$table); // fŸr db speicherungen und unique abfragen
 
 	if($func == "edit")
@@ -82,16 +88,9 @@ if($func == "add" || $func == "edit")
 	$xform->setFormData($form_data);
 	echo $xform->getForm();
 
-  echo '</div>';
-
-
-	/*
-	if($func == "edit"){
-		$mita->setValue("multipleselectsql","Gruppen","",0,
-				"select * from rex_com_group order by name","id","name",
-				5,"rex_com_group_user","user_id='$oid'","group_id");
-	}
-	*/
+	echo '</div></div>';
+	
+	echo '<br />&nbsp;<br /><div class="rex-area"><div class="rex-area-content"><a href=index.php?page='.$page.'&subpage='.$subpage.'><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></div></div>';
 	
 }
 
