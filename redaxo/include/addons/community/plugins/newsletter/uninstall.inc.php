@@ -1,5 +1,10 @@
 <?php
 
-$REX['ADDON']['plugins']['community']['guestbook']['install'] = 0;
+$error = '';
+
+if ($error != '')
+  $REX['ADDON']['installmsg']['newsletter'] = $error;
+else
+  $REX['ADDON']['install']['newsletter'] = false;
 
 ?>

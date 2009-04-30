@@ -6,6 +6,22 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
-$REX['ADDON']['plugins']['community']['newsletter']['install'] = 1;
+/*
+	TODOS: Felder hinzufügen
+
+	- newsletter
+	- last_newsletter_id
+	
+	function zum abgleich einbauen
+
+
+*/
+
+$error = '';
+
+if ($error != '')
+  $REX['ADDON']['installmsg']['newsletter'] = $error;
+else
+  $REX['ADDON']['install']['newsletter'] = true;
 
 ?>

@@ -17,7 +17,8 @@ $test_firstname = rex_request("test_firstname","string");
 $method = rex_request("method","string");
 $method_all = rex_request("method_all","string","");
 
-
+// TODO: wenn id gesetzt noch namen auslesen
+$mail_name = "";
 
 // ********************************************************* ALLE MAILS
 
@@ -42,7 +43,7 @@ if ($method_all == "all")
 		// ----- eMails auslesen und versenden
 		$nl = new rex_sql;
 		// $nl->debugsql = 1;
-		$nl->setQuery('select * from rex_com_user where last_newsletterid<>"'.$mail_nlid.'" and status=1 LIMIT 50');
+		$nl->setQuery('select * from rex_com_user where last_newsletter_id<>"'.$mail_nlid.'" and status=1 LIMIT 50');
 		
 		if($nl->getRows()>0)
 		{
@@ -60,7 +61,7 @@ if ($method_all == "all")
 			$msg .= ", ".$nl->getValue("email");
 
 			// ----- email miz mail_nlid aktualisieren
-			$up->setQuery('update rex_com_user set last_newsletterid="'.$mail_nlid.'" where id='.$nl->getValue("id"));
+			$up->setQuery('update rex_com_user set last_newsletter_id="'.$mail_nlid.'" where id='.$nl->getValue("id"));
 
 			$userinfo = array();
 			$userinfo["login"] = $nl->getValue("login");
@@ -115,9 +116,9 @@ if ($method_all == "all")
 	}
 }
 
-if ($msg != "")
+if (isset($msg) && $msg != "")
 {
-	echo '<p class="rex-message rex-warning"><span>'.$msg.'</span></p>';		
+	echo rex_warning($msg);		
 }
 
 ?>
