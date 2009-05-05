@@ -8,6 +8,8 @@ CREATE TABLE `rex_com_user` (
   `email` varchar(255) NOT NULL default '',
   `status` int(11) NOT NULL default '0',
   `admin` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `firstname` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -34,4 +36,6 @@ INSERT INTO `rex_com_user_field` VALUES (1, 10, 'Login', 'login', 2, '', '', '',
 INSERT INTO `rex_com_user_field` VALUES (2, 20, 'Passwort', 'password', 2, '', '', '', 0, 1, 0, '', 0);
 INSERT INTO `rex_com_user_field` VALUES (3, 30, 'Email', 'email', 2, '', '', '', 1, 1, 1, '', 1);
 INSERT INTO `rex_com_user_field` VALUES (4, 40, 'Status', 'status', 5, 'inaktiv=0;aktiv=1;angefragt=2', '', '', 1, 1, 1, '0', 0);
-INSERT INTO `rex_com_user_field` VALUES (8, 50, 'Admin', 'admin', 6, '', '', '', 1, 1, 0, '0', 0);
+INSERT INTO `rex_com_user_field` VALUES (5, 50, 'Admin', 'admin', 6, '', '', '', 1, 1, 0, '0', 0);
+INSERT INTO `rex_com_user_field` VALUES (6, 60, 'Nachname', 'name', 2, '', '', '', 1, 1, 0, '', 0);
+INSERT INTO `rex_com_user_field` VALUES (7, 61, 'Vorname', 'firstname', 2, '', '', '', 1, 1, 0, '', 0);
