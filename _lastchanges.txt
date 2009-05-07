@@ -13,9 +13,9 @@ Bugfixes
   * OOArticleSlice: Revision
 	http://forum.redaxo.de/ftopic11805.html?
   * Addon
-    * Import/Export - Importieren von tars geht nun wieder.
-		
-		
+    * Import/Export - Importieren von tars geht nun wieder. 
+  * Register Globals komplett rausgenommen
+    * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig.
 		
 		
 Version 4.2.0 (2009-04-22)
