@@ -12,12 +12,12 @@ $UT[6] = "BOOL";
 // feste felder
 $ff = array();
 $ff[] = "id";
-
 $ff[] = "login";
 $ff[] = "password";
 $ff[] = "email";
 $ff[] = "status";
-
+$ff[] = "name";
+$ff[] = "firstname";
 
 /*
 $ff[] = "session_id";
@@ -28,8 +28,6 @@ $ff[] = "activation_key";
 $ff[] = "last_newsletterid";
 
 $ff[] = "gender";
-$ff[] = "name";
-$ff[] = "firstname";
 $ff[] = "street";
 $ff[] = "zip";
 $ff[] = "city";

@@ -310,7 +310,7 @@ foreach($ids as $v)
 }
 
 ?><div class="rex-clearer"></div>
-<input type="submit" value="abschicken" class="rex-form-submit" style="margin-top:20px;" />
+<input type="submit" value="abschicken" class="rex-form-submit submit" style="margin-top:20px;" />
 </form>
 </div>
 

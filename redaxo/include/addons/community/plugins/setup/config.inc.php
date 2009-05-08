@@ -1,10 +1,15 @@
 <?php
 
-if ($REX["REDAXO"])
+if ($REX["REDAXO"]
+	&& 
+		$REX['USER'] 
+		&& 
+		($REX['USER']->isAdmin("rights","admin[]") || $REX['USER']->isValueOf("rights","community[admin]") || $REX['USER']->isValueOf("rights","community[setup]"))
+)
 {
 
 	// Diese Seite noch extra einbinden
-	$REX['ADDON']['community']['subpages'][] = array('plugin.setup','Setup');
+	$REX['ADDON']['community']['SUBPAGES'][] = array('plugin.setup','Setup');
 	
 	// Module für das Setup aufnehmen
 	$REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("setup","tabbox","1001 - COM-Module - Tabbox");

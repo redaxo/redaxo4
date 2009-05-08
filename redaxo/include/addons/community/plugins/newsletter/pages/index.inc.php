@@ -8,17 +8,22 @@
 $error = "";
 $mail_reply = rex_request("mail_reply","string");
 $mail_subject = rex_request("mail_subject","string");
-$mail_aid = rex_request("mail_aid","int");
 $mail_nlid = rex_request("mail_nlid","string");
-if ($mail_nlid == "") $mail_nlid = date("YmdHi");
+if ($mail_nlid == "") 
+  $mail_nlid = date("YmdHi");
 $test_email = rex_request("test_email","string");
 $test_name = rex_request("test_name","string");
 $test_firstname = rex_request("test_firstname","string");
 $method = rex_request("method","string");
 $method_all = rex_request("method_all","string","");
 
-// TODO: wenn id gesetzt noch namen auslesen
+$mail_aid = rex_request("mail_aid","int");
 $mail_name = "";
+if($mail_aid > 0 && $m = OOArticle::getArticleById($mail_aid))
+	$mail_name = $m->getName();
+
+$info = "";
+$error = "";
 
 // ********************************************************* ALLE MAILS
 
@@ -38,36 +43,32 @@ if ($method_all == "all")
 		// $mail_aid
 		
 		// ----- Info
-		$msg = "Newsletter wurde komplett versandt!";
+		$info = "Newsletter wurde komplett versandt!";
 		
 		// ----- eMails auslesen und versenden
 		$nl = new rex_sql;
 		// $nl->debugsql = 1;
-		$nl->setQuery('select * from rex_com_user where last_newsletter_id<>"'.$mail_nlid.'" and status=1 LIMIT 50');
+		$nl->setQuery('select * from rex_com_user where newsletter_last_id<>"'.$mail_nlid.'" and email <>"" and newsletter=1 LIMIT 50');
 		
 		if($nl->getRows()>0)
 		{
-			$msg = "".date("H:i:s")."h Bitte noch nicht abbrechen. Automatischer Reload. Es werden noch weitere E-Mails versendet";
+			$info = "".date("H:i:s")."h Bitte noch nicht abbrechen. Automatischer Reload. Es werden noch weitere E-Mails versendet";
 			?><script>
 			function win_reload(){ window.location.reload(); }
 			setTimeout("win_reload()",5000); // Millisekunden 1000 = 1 Sek * 80
 			</script><?php
-			$msg .= "<br />An folgende E-Mails wurde der Newsletter versendet: ";
+			$info .= "<br />An folgende E-Mails wurde der Newsletter versendet: ";
 		}
 		
 		$up = new rex_sql;
-		for ($i=0;$i<$nl->getRows();$i++)
+		
+		foreach($up->getArray() as $userinfo)
 		{
-			$msg .= ", ".$nl->getValue("email");
+		
+			$info .= ", ".$userinfo["email"];
 
 			// ----- email miz mail_nlid aktualisieren
-			$up->setQuery('update rex_com_user set last_newsletter_id="'.$mail_nlid.'" where id='.$nl->getValue("id"));
-
-			$userinfo = array();
-			$userinfo["login"] = $nl->getValue("login");
-			$userinfo["email"] = $nl->getValue("email");
-			$userinfo["name"] = $nl->getValue("name");
-			$userinfo["firstname"] = $nl->getValue("firstname");
+			$up->setQuery('update rex_com_user set newsletter_last_id="'.$mail_nlid.'" where id='.$userinfo["id"]);
 
 			rex_newsletter_sendmail($userinfo,$mail_aid, $mail_reply, $mail_subject, $to_code);
 
@@ -77,7 +78,7 @@ if ($method_all == "all")
 
 	}else
 	{
-		$msg = "Bitte geben Sie alle Daten ein!";
+		$error = "Bitte geben Sie alle Daten ein!";
 	}
 
 
@@ -104,22 +105,28 @@ if ($method_all == "all")
 		$userinfo["name"] = $test_name;
 		$userinfo["firstname"] = $test_firstname;
 
-		rex_newsletter_sendmail($userinfo,$mail_aid, $mail_reply, $mail_subject);
-
-		// Testmail verschicken..
-		$msg = "Testmail wurde versandt!";
-		
+		if(rex_newsletter_sendmail($userinfo,$mail_aid, $mail_reply, $mail_subject))
+		{
+			$info = "Testmail wurde versandt!";
+		}else
+		{
+			$error = "Testmail ist fehlgeschlagen!";
+			$method = "";
+		}
 	}else
 	{
 		$method = "";
-		$msg = "Bitte geben Sie alle Daten ein!";		
+		$error = "Bitte geben Sie alle Daten ein!";		
 	}
 }
 
-if (isset($msg) && $msg != "")
-{
-	echo rex_warning($msg);		
-}
+if ($error != "")
+	echo rex_warning($error);		
+
+if ($info != "")
+	echo rex_info($info);
+
+
 
 ?>
 
@@ -131,7 +138,7 @@ if (isset($msg) && $msg != "")
 	<tr>
 		<th class="rex-icon">&nbsp;</th>
 		<th colspan="2" style="font-size:12px;">
-			<ul>
+			<ul style="margin-left:20px;">
 			<li>Artikel in REDAXO erstellen</li>
 			<li>###email### / ###firstname### / ###name### als Platzhaler erlaubt</li>
 			<li>Testmail schicken</li>
@@ -156,7 +163,6 @@ if (isset($msg) && $msg != "")
 				<input type="hidden" name="mail_aid" id="LINK_1" value="<?php echo $mail_aid; ?>" />
 				<input type="text" size="30" name="mail_name" value="<?php echo stripslashes(htmlspecialchars($mail_name)); ?>" id="LINK_1_NAME" readonly="readonly" />
 				<a href="#" onclick="openLinkMap('LINK_1', '&clang=0');return false;" tabindex="23"><img src="media/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
-	
 				<a href="#" onclick="deleteREXLink(1);return false;" tabindex="24"><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
 			</p>
 			</div>
@@ -166,17 +172,17 @@ if (isset($msg) && $msg != "")
 	<tr>
 		<td class=rex-icon>&nbsp;</td>
 		<td>Absendeadresse:</td>
-		<td><table class=rexbutton><tr><td><input type=text size=30 name='mail_reply' value="<?php echo stripslashes(htmlspecialchars($mail_reply)); ?>" class=inp100 ></td></tr></table></td>
+		<td><input type="text" size="30" name="mail_reply" value="<?php echo stripslashes(htmlspecialchars($mail_reply)); ?>" class="inp100" /></td>
 	</tr>
 	<tr>
 		<td class=rex-icon>&nbsp;</td>
 		<td>Betreff/Subject:<br>(Auch Platzhalter m&ouml;glich)</td>
-		<td><table class=rexbutton><tr><td><input type=text size=30 name='mail_subject' value="<?php echo stripslashes(htmlspecialchars($mail_subject)); ?>" class=inp100 ></td></tr></table></td>
+		<td><input type="text" size="30" name="mail_subject" value="<?php echo stripslashes(htmlspecialchars($mail_subject)); ?>" class="inp100" /></td>
 	</tr>
 	<tr>
 		<td class=rex-icon>&nbsp;</td>
 		<td>NewsletterID:</td>
-		<td><table class=rexbutton><tr><td><input type=text size=30 name='mail_nlid' value="<?php echo stripslashes(htmlspecialchars($mail_nlid)); ?>" class=inp100 ></td></tr></table></td>
+		<td><input type="text" size="30" name="mail_nlid" value="<?php echo stripslashes(htmlspecialchars($mail_nlid)); ?>" class="inp100" /></td>
 	</tr>
 	<tr>
 		<th class=rex-icon>&nbsp;</th>
@@ -185,29 +191,29 @@ if (isset($msg) && $msg != "")
 	<tr>
 		<td>&nbsp;</td>
 		<td>E-Mail:</td>
-		<td><table class=rexbutton><tr><td><input type=text size=30 name='test_email' value="<?php echo stripslashes(htmlspecialchars($test_email)); ?>" class=inp100 ></td></tr></table></td>
+		<td><input type="text" size="30" name="test_email" value="<?php echo stripslashes(htmlspecialchars($test_email)); ?>" class="inp100" /></td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
 		<td>Name:</td>
-		<td><table class=rexbutton><tr><td><input type=text size=30 name='test_name' value="<?php echo stripslashes(htmlspecialchars($test_name)); ?>" class=inp100 ></td></tr></table></td>
+		<td><input type="text" size="30" name="test_name" value="<?php echo stripslashes(htmlspecialchars($test_name)); ?>" class="inp100" /></td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
 		<td>Vorname:</td>
-		<td><table class=rexbutton><tr><td><input type=text size=30 name='test_firstname' value="<?php echo stripslashes(htmlspecialchars($test_firstname)); ?>" class=inp100 ></td></tr></table></td>
+		<td><input type="text" size="30" name="test_firstname" value="<?php echo stripslashes(htmlspecialchars($test_firstname)); ?>" class="inp100" /></td>
 	</tr>
 	<?php if ($method == "start") { ?>
 	<tr>
 		<td>&nbsp;</td>
 		<td>Testmail ok ? Dann H&auml;kchen setzen <br>und Newsletter wird abgeschickt.</td>
-		<td><table class=rexbutton style="width:30px;"><tr><td><input type=checkbox name="method_all" value="all" /></td></tr></table></td>
+		<td><input type="checkbox" name="method_all" value="all" /></td>
 	</tr>
 	<?php } ?>
 	<tr>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td><input type=submit value="Mail/s verschicken"></td>
+		<td><input type="submit" value="Mail/s verschicken" class="submit" /></td>
 	</tr>
 	</form>
 </table>

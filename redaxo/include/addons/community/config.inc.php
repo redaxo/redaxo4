@@ -24,7 +24,6 @@ include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_repl
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_paginate.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_formatter.inc.php";
 
-
 // ********** Backend, Perms, Subpages etc.
 if ($REX["REDAXO"] && $REX['USER'])
 {
@@ -40,18 +39,6 @@ if ($REX["REDAXO"] && $REX['USER'])
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('user' , 'User Verwaltung');
 	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","community[admin]")) 
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('user_fields' , 'User Felder erweitern');
-	
-	// PlugIn Seiten einbauen..
-	$plugins = OOPlugin::getAvailablePlugins('community');
-	foreach($plugins as $plugin)
-	{
-		if ($REX['USER']->isAdmin("rights","admin[]") ||
-		    $REX['USER']->isValueOf("rights","community[admin]") ||
-		    $REX['USER']->isValueOf("rights","community[". $plugin ."]"))
-	  {
-		  $REX['ADDON'][$mypage]['SUBPAGES'][] = array('plugin.'.$plugin,"translate:$plugin");
-	  }
-	}
 	
 	if($REX["REDAXO"])
 	{

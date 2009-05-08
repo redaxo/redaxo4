@@ -7,15 +7,17 @@
  */
 
 /*
-	TODOS: Felder hinzufÃ¼gen
-
-	- newsletter
-	- last_newsletter_id
-	
-	function zum abgleich einbauen
-
-
+	UserFelder hinzufŸgen
+	- newsletter, bool
+	- newsletter_last_id, varchar
+  + Felder abgleichen
 */
+
+$ins = new rex_sql;
+$ins->setQuery("INSERT INTO `rex_com_user_field` SET `prior`='100',`name`='Newsletter schicken',`userfield`='newsletter',`type`='6',`extra1`='',`inlist`='',`editable`='1',`mandatory`='',`unique`='',`defaultvalue`='0'");
+$ins->setQuery("INSERT INTO `rex_com_user_field` SET `prior`='110',`name`='Letzte Newsletter ID',`userfield`='newsletter_last_id',`type`='2',`extra1`='',`inlist`='',`editable`='1',`mandatory`='',`unique`='',`defaultvalue`=''");
+
+rex_com_checkFields('rex_com_user_field', 'rex_com_user');
 
 $error = '';
 

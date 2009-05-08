@@ -7,3 +7,16 @@ body#rex-page-community table.rex-table {
 	-moz-outline-radius-topright: 4px;
 	outline: 1px solid #CBCBCB;
 }
+
+#rex-page-community input.submit {
+    background-image: url(../be_style/plugins/agk_skin/button.gif);
+    background-repeat: repeat-x;
+    padding: 2px 6px;
+    border: 0;
+    -moz-outline-radius-bottomleft: 4px;
+    -moz-outline-radius-bottomright: 4px;
+    -moz-outline-radius-topleft: 4px;
+    -moz-outline-radius-topright: 4px;
+    outline: 1px solid #CBCBCB;
+}
+

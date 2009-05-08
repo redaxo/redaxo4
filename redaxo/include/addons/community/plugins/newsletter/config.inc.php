@@ -6,24 +6,15 @@
  * @version 0.9
  */ 
 
-
-if ($REX["REDAXO"])
+if ($REX["REDAXO"] 
+		&& 
+		$REX['USER'] 
+		&& 
+		($REX['USER']->isAdmin("rights","admin[]") || $REX['USER']->isValueOf("rights","community[admin]") || $REX['USER']->isValueOf("rights","community[setup]"))
+)
 {
 	// Diese Seite noch extra einbinden
-	$REX['ADDON']['community']['subpages'][] = array('plugin.newsletter','Newsletter');
-
-	// Im Setup aufnehmen - für Module.
-	// $REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("guestbook","guestbook","1201 - COM-Module - Gästebuch");
-
-	// EMails
-	// $REX["ADDON"]["community"]["plugins"]["setup"]["emails"][] = array("guestbook","sendemail_guestbook","sendemail_guestbook","Community: Neuer Eintrag in Ihr Gästebuch", $REX['ERROR_EMAIL'], $REX['ERROR_EMAIL']);
-
-}else
-{
-
-
-
-
+	$REX['ADDON']['community']['SUBPAGES'][] = array('plugin.newsletter','Newsletter');
 }
 
 $REX['ADDON']['NEWSLETTER_TEXT'] = FALSE;
@@ -93,10 +84,9 @@ function rex_newsletter_sendmail($userinfo, $aid, $mail_reply, $mail_subject)
 	$mail->Subject = $subject;
 	$mail->AltBody = $text_body;
 	$mail->Body = $html_body;
-	$mail->Send();
 
 	$REX['REDAXO'] = $tmp_redaxo;
 
-}
+	return $mail->Send();
 
-?>
+}
