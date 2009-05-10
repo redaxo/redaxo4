@@ -8,7 +8,7 @@ class rex_xform_hidden extends rex_xform_abstract
 		if (isset($this->elements[3]) && $this->elements[3]=="REQUEST" && isset($_REQUEST[$this->elements[1]]))
 		{
 			$this->value = $_REQUEST[$this->elements[1]];
-			$form_output[] = '<input type="hidden" name="'.$this->elements[1].'" value="'.$this->value.'" />';
+			$form_output[] = '<p style="display:hidden;"><input type="hidden" name="'.$this->elements[1].'" value="'.$this->value.'" /></p>';
 		}else
 		{
 			$this->value = $this->elements[2];
@@ -16,7 +16,8 @@ class rex_xform_hidden extends rex_xform_abstract
 		}
 
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
+			$sql_elements[$this->elements[1]] = $this->value;
 	}
 	
 	function getDescription()

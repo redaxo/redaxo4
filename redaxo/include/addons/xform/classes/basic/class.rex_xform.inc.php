@@ -1,6 +1,6 @@
 <?php
 
-// v15
+// v16
 
 class rex_xform
 {
@@ -427,13 +427,13 @@ class rex_xform
 			$this->objparams["output"] .= $this->objparams["form_wrap"][0].'
 				<form action="'.$this->objparams["form_action"].'" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
 			
+			$this->objparams["output"] .= '<p style="display:none;">';
 			$this->objparams["output"] .= '<input type="hidden" name="article_id" value="'.htmlspecialchars($this->objparams["article_id"]).'" />';
 			$this->objparams["output"] .= '<input type="hidden" name="clang" value="'.htmlspecialchars($this->objparams["clang"]).'" />';
-			
+			$this->objparams["output"] .= '<input type="hidden" name="FORM[' . $this->objparams["form_name"] . '][' . $this->objparams["form_name"] . 'send]" value="1" />';
 			foreach($this->objparams["form_hiddenfields"] as $k => $v)
-			{
 				$this->objparams["output"] .= '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'" />';
-			}
+			$this->objparams["output"] .= '</p>';
 			
 			$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 			if ($this->objparams["unique_error"] != '' || $hasWarnings || $hasWarningMessages)
@@ -443,9 +443,7 @@ class rex_xform
 				{
 					if ($this->objparams["Error-occured"] != "") $this->objparams["output"] .= '<li>'. $this->objparams["Error-occured"] .'</li>';
 					foreach($this->objparams["warning_messages"] as $k => $v)
-					{
-					 $this->objparams["output"] .= '<li>'. $v .'</li>';
-					}
+					  $this->objparams["output"] .= '<li>'. $v .'</li>';
 				}
 				if($this->objparams["unique_error"] != '')
 				{
@@ -453,13 +451,9 @@ class rex_xform
 				}
 				$this->objparams["output"] .= '</ul>'; 
 			}
-			$this->objparams["output"] .= '
-			<input type="hidden" name="FORM[' . $this->objparams["form_name"] . '][' . $this->objparams["form_name"] . 'send]" value="1" />';
 		  
 			foreach ($form_output as $v)
-			{
 				$this->objparams["output"] .= $v;
-			}
 		  
 			if ($this->objparams["submit_btn_show"])
 			{
@@ -471,9 +465,7 @@ class rex_xform
 			}  
 		
 			if(!$this->objparams["first_fieldset"])
-			{
 				$this->objparams["output"] .= '</fieldset>';
-			}
 		  
 			$this->objparams["output"] .= '</form>
 			'.$this->objparams["form_wrap"][1];
@@ -648,32 +640,3 @@ class rex_xform
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?>
