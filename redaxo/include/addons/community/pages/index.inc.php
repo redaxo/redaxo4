@@ -32,7 +32,7 @@ if ($subpage != "")
 	echo '<table class="rex-table">';
 	echo '<tr><th>Community - Übersicht</th></tr>';
 	foreach($REX['ADDON'][$page]['SUBPAGES'] as $sp)
-		echo '<tr><td>&raquo; <a href="index.php?page='.$page.'&subpage='.$sp[0].'">'.$sp[1].'</a></td></tr>';
+		echo '<tr><td>&raquo; <a href="index.php?page='.$page.'&amp;subpage='.$sp[0].'">'.$sp[1].'</a></td></tr>';
 	echo '</table>';
 }
 

@@ -1,9 +1,6 @@
 <?php
 
-// error_reporting(E_ALL ^ E_NOTICE);
-
 $mypage = "community"; // only for this file
-
 
 // ********** Allgemeine AddOn Config
 $REX['ADDON']['rxid'][$mypage] = '5';
@@ -16,7 +13,6 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = "community[]";
 
 $I18N_COM = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
-
 
 // ********** Community User Funktionen
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_user.inc.php";
@@ -48,10 +44,7 @@ if ($REX["REDAXO"] && $REX['USER'])
 		}
 		rex_register_extension('PAGE_HEADER', 'rex_community_addCSS');
 	}
-	
 }
-
-
 
 // ********** XForm values/action/validations einbinden
 $REX['ADDON']['community']['xform_path']['value'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/value/');
@@ -74,4 +67,3 @@ function rex_com_xform_add($params){
 		$REX['ADDON']['xform']['classpaths']['action'][] = $action;
 	}
 }
-

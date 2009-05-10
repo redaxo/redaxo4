@@ -90,7 +90,7 @@ if($func == "add" || $func == "edit")
 
 	echo '</div></div>';
 	
-	echo '<br />&nbsp;<br /><div class="rex-area"><div class="rex-area-content"><a href=index.php?page='.$page.'&subpage='.$subpage.'><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></div></div>';
+	echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
 	
 }
 
@@ -250,6 +250,3 @@ if($func == ""){
 	echo $list->get();
 
 }
-
-
-?>

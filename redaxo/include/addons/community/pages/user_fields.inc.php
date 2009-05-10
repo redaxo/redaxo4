@@ -43,12 +43,12 @@ if($func == "add" || $func == "edit")
 	$form_data .= "\n".'select|type|Typ|'.$rep.'';
 
 	$form_data .= "\n".'html|<p><label>Beispiele</label>';
-	$form_data .= "\n".'html|<div style="display:block;float:left">INT * extra1=14<br />';
+	$form_data .= "\n".'html|<span style="display:block;float:left">INT * extra1=14<br />';
 	$form_data .= "\n".'html|VARCHAR * extra1=255<br />';
 	$form_data .= "\n".'html|TEXT * <br />';
 	$form_data .= "\n".'html|PASSWORD * extra1=md5<br />';
 	$form_data .= "\n".'html|SELECT * extra1 offline=0;online=1<br />';
-	$form_data .= "\n".'html|BOOL *</div></p>';
+	$form_data .= "\n".'html|BOOL *</span></p>';
 
 	$form_data .= "\n"."text|extra1|extra1";
 	
@@ -83,7 +83,7 @@ if($func == "add" || $func == "edit")
 
 	echo '</div></div>';
 	
-	echo '<br />&nbsp;<br /><div class="rex-area"><div class="rex-area-content"><a href=index.php?page='.$page.'&subpage='.$subpage.'><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></div></div>';
+	echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
 	
 }
 
@@ -123,7 +123,7 @@ if($func == "delete"){
 if($func == ""){
 
 	// ***** add 
-	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ Feld anlegen</b></a></td></tr></table><br />";
+	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;func=add"><b>+ Feld anlegen</b></a></td></tr></table><br />';
 
 	$ssql = new rex_sql();
 	$sql = "select * from $table order by prior";
@@ -182,5 +182,3 @@ if($func == ""){
 	
 
 }
-
-?>
