@@ -12,27 +12,27 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isAvailable($addon)
    */
-  /*public static*/ function isAvailable($addon, $plugin, $default = null)
+  /*public static*/ function isAvailable($addon, $plugin)
   {
-    return parent::isAvailable(array($addon, $plugin), $default);
+    return parent::isAvailable(array($addon, $plugin));
   }
 
   /**
    * @override
    * @see redaxo/include/classes/rex_addon#isActivated($addon)
    */
-  /*public static*/ function isActivated($addon, $plugin, $default = null)
+  /*public static*/ function isActivated($addon, $plugin)
   {
-    return parent::isActivated(array($addon, $plugin), $default);
+    return parent::isActivated(array($addon, $plugin));
   }
 
   /**
    * @override
    * @see redaxo/include/classes/rex_addon#isInstalled($addon)
    */
-  /*public static*/ function isInstalled($addon, $plugin, $default = null)
+  /*public static*/ function isInstalled($addon, $plugin)
   {
-    return parent::isInstalled(array($addon, $plugin), $default);
+    return parent::isInstalled(array($addon, $plugin));
   }
 
   /**
