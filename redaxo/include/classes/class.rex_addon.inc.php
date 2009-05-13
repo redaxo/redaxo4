@@ -76,7 +76,7 @@
    * 
    * @return boolean TRUE, wenn das rex-Addon verfügbar ist, sonst FALSE
    */
-  /*public*/ function isAvailable($addon)
+  /*public static*/ function isAvailable($addon)
   {
     return rex_addon::isInstalled($addon) && rex_addon::isActivated($addon);
   }
@@ -88,7 +88,7 @@
    * 
    * @return boolean TRUE, wenn das rex-Addon aktiviert ist, sonst FALSE
    */
-  /*public*/ function isActivated($addon)
+  /*public static*/ function isActivated($addon)
   {
     return rex_addon::getProperty($addon, 'status', false) == true;
   }
@@ -100,7 +100,7 @@
    * 
    * @return boolean TRUE, wenn das rex-Addon installiert ist, sonst FALSE
    */
-  /*public*/ function isInstalled($addon)
+  /*public static*/ function isInstalled($addon)
   {
     return rex_addon::getProperty($addon, 'install', false) == true;
   }
@@ -113,7 +113,7 @@
    * 
    * @return string Versionsnummer des Addons
    */
-  /*public*/ function getVersion($addon, $default = null)
+  /*public static*/ function getVersion($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'version', $default);
   }
@@ -126,7 +126,7 @@
    * 
    * @return string Autor des Addons
    */
-  /*public*/ function getAuthor($addon, $default = null)
+  /*public static*/ function getAuthor($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'author', $default);
   }
@@ -139,7 +139,7 @@
    * 
    * @return string Versionsnummer des Addons
    */
-  /*public*/ function getSupportPage($addon, $default = null)
+  /*public static*/ function getSupportPage($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'supportpage', $default);
   }
