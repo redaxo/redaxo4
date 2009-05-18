@@ -12,19 +12,19 @@ Version 4.2.2 (2009-xx-xx)
   Neu:
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
   
-  Bugfixes:
-  * OOArticleSlice: Revision
-	http://forum.redaxo.de/ftopic11805.html?
-  * Addon
-    * Import/Export - Importieren von tars geht nun wieder. 
-  * Register Globals komplett rausgenommen
-    * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig.
-    
 Version 4.2.1 (2009-05-07)
 
   Wichtig:		
   * Sicherheitslücke geschlossen [Jan.Kristinus]
   
+  Bugfixes:
+  * OOArticleSlice: Revision
+    - http://forum.redaxo.de/ftopic11805.html
+  * Addon
+    * Import/Export - Importieren von tars geht nun wieder. 
+  * Register Globals komplett rausgenommen
+    * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig.
+    
 Version 4.2.0 (2009-04-22)
 
   Wichtig:
