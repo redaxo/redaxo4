@@ -9,7 +9,10 @@ angehandelt.
 
 Version 4.2.1 (2009-xx-xx)
 
-Bugfixes
+  Neu:
+  * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
+  
+  Bugfixes:
   * OOArticleSlice: Revision
 	http://forum.redaxo.de/ftopic11805.html?
   * Addon

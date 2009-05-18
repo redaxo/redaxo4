@@ -34,7 +34,8 @@ a = automatic   (Skalieren anhand der längsten Seite des Bildes)
 blur<br />
 brand<br />
 sepia<br />
-sharpen
+sharpen<br />
+grayscale
 </p>
 
 <h3>Anwendungsbeispiele:</h3>
