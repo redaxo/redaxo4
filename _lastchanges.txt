@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.2.1 (2009-xx-xx)
+Version 4.2.2 (2009-xx-xx)
 
   Neu:
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
@@ -19,8 +19,12 @@ Version 4.2.1 (2009-xx-xx)
     * Import/Export - Importieren von tars geht nun wieder. 
   * Register Globals komplett rausgenommen
     * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig.
-		
-		
+    
+Version 4.2.1 (2009-05-07)
+
+  Wichtig:		
+  * Sicherheitslücke geschlossen [Jan.Kristinus]
+  
 Version 4.2.0 (2009-04-22)
 
   Wichtig:
