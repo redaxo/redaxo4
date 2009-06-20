@@ -534,7 +534,21 @@ if ($checkmodus == 3 && $send == 1)
     $REX['TABLE_PREFIX'] .'user',
   );
 
-  if ($dbanlegen == 4)
+  if ($dbanlegen == 5)
+  {
+    // ----- vorhandenen seite updaten
+    $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_4_0.sql';
+    if($err_msg == '')
+      $err_msg .= rex_setup_import($import_sql);
+      
+    $import_sql = $REX['INCLUDE_PATH'].'/install/update4_0_to_4_2.sql';
+    if($err_msg == '')
+      $err_msg .= rex_setup_import($import_sql);
+
+    if($err_msg == '')
+      $err_msg .= rex_setup_addons();
+  }
+  elseif ($dbanlegen == 4)
   {
     // ----- vorhandenen seite updaten
     $import_sql = $REX['INCLUDE_PATH'].'/install/update4_0_to_4_2.sql';
@@ -643,13 +657,14 @@ if ($checkmodus == 3)
   if (isset ($err_msg) and $err_msg != '')
     echo rex_warning($err_msg.'<br />'.$I18N->msg('setup_033'));
 
-  $dbchecked = array_fill(0, 5, '');
+  $dbchecked = array_fill(0, 6, '');
   switch ($dbanlegen)
   {
     case 1 :
     case 2 :
     case 3 :
     case 4 :
+    case 5 :
       $dbchecked[$dbanlegen] = ' checked="checked"';
       break;
     default :
@@ -731,13 +746,20 @@ if ($checkmodus == 3)
       </p>
     </div>
 
+    <div class="rex-form-row">
+			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
+        <input class="rex-form-radio" type="radio" id="dbanlegen_5" name="dbanlegen" value="5"'.$dbchecked[5] .' />
+        <label for="dbanlegen_5">'.$I18N->msg('setup_03801').'</label>
+      </p>
+    </div>
+  
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked[4] .' />
         <label for="dbanlegen_4">'.$I18N->msg('setup_038').'</label>
       </p>
     </div>';
-
+  
   if($exports_found)
   {
   echo '

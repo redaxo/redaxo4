@@ -505,6 +505,7 @@ setup_03701 = Bitte wählen sie einen Export aus!
 setup_03702 = Export-Dateien konnten nicht gefunden werden!
 setup_03703 = Import/Export AddOn wurde nicht gefunden!
 setup_038 = Datenbank aktualisieren von REDAXO 4.0/4.1 [vorher Sichern!]
+setup_03801 = Datenbank aktualisieren von REDAXO 3.x [vorher Sichern!]
 setup_039 = Weiter zu Schritt 4
 setup_step4 = Setup: Schritt 4 von 5
 setup_040 = Bitte geben Sie das Administratorlogin ein!
