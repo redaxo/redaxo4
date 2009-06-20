@@ -19,7 +19,6 @@ class rex_article
   var $template_id;
   var $template_attributes;
   
-  var $ViewSliceId;
   var $save;
   var $ctype;
   var $clang;
@@ -363,7 +362,6 @@ class rex_article
           if($this->mode=="edit")
           {
             $form_url = 'index.php';
-            $this->ViewSliceId = $RE_CONTS[$I_ID];
 
             // ----- add select box einbauen
             if($this->function=="add" && $this->slice_id == $I_ID)
