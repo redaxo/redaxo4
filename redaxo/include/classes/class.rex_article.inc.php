@@ -10,14 +10,12 @@
 
 class rex_article
 {
-  var $slice_id;
+  var $category_id;
   var $article_id;
+  var $slice_id;
   var $mode;
   var $function;
 
-  var $category_id;  
-  var $CONT;
-  
   var $template_id;
   var $template_attributes;
   
@@ -281,10 +279,10 @@ class rex_article
             ". $sliceLimit ."
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
-        $this->CONT = new rex_sql;
+        $artDataSql = new rex_sql;
         if($this->debug)
-          $this->CONT->debugsql = 1;
-        $this->CONT->setQuery($sql);
+          $artDataSql->debugsql = 1;
+        $artDataSql->setQuery($sql);
 
         $RE_CONTS = array();
         $RE_CONTS_CTYPE = array();
@@ -295,18 +293,18 @@ class rex_article
         $RE_C = array();
 
         // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
-        for ($i=0;$i<$this->CONT->getRows();$i++)
+        for ($i=0;$i<$artDataSql->getRows();$i++)
         {
-          $RE_SLICE_ID = $this->CONT->getValue('re_article_slice_id');
+          $RE_SLICE_ID = $artDataSql->getValue('re_article_slice_id');
           
-          $RE_CONTS[$RE_SLICE_ID]       = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-          $RE_CONTS_CTYPE[$RE_SLICE_ID] = $this->CONT->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-          $RE_MODUL_IN[$RE_SLICE_ID]    = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.eingabe');
-          $RE_MODUL_OUT[$RE_SLICE_ID]   = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.ausgabe');
-          $RE_MODUL_ID[$RE_SLICE_ID]    = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.id');
-          $RE_MODUL_NAME[$RE_SLICE_ID]  = $this->CONT->getValue($REX['TABLE_PREFIX'].'module.name');
+          $RE_CONTS[$RE_SLICE_ID]       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+          $RE_CONTS_CTYPE[$RE_SLICE_ID] = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+          $RE_MODUL_IN[$RE_SLICE_ID]    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.eingabe');
+          $RE_MODUL_OUT[$RE_SLICE_ID]   = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.ausgabe');
+          $RE_MODUL_ID[$RE_SLICE_ID]    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+          $RE_MODUL_NAME[$RE_SLICE_ID]  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.name');
           $RE_C[$RE_SLICE_ID]           = $i;
-          $this->CONT->next();
+          $artDataSql->next();
         }
 
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
@@ -348,17 +346,17 @@ class rex_article
         $I_ID = 0;
         $PRE_ID = 0;
         $LCTSL_ID = 0;
-        $this->CONT->reset();
+        $artDataSql->reset();
         $articleContent = "";
 
-        for ($i=0;$i<$this->CONT->getRows();$i++)
+        for ($i=0;$i<$artDataSql->getRows();$i++)
         {
           // ----- ctype unterscheidung
           if ($this->mode != "edit" && $i == 0)
             $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
-          $this->CONT->counter = $RE_C[$I_ID];
+          $artDataSql->counter = $RE_C[$I_ID];
           $slice_content = "";
           $SLICE_SHOW = TRUE;
 
@@ -496,7 +494,7 @@ class rex_article
                 else
                 {
                   foreach ($REX['VARIABLES'] as $obj)
-                    $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $this->CONT);
+                    $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
                 }
 
                 if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
@@ -520,14 +518,14 @@ class rex_article
 
                   // ****************** SPEICHERN FALLS NOETIG
                   foreach($REX['VARIABLES'] as $obj)
-                    $obj->setACValues($this->CONT, $REX_ACTION);
+                    $obj->setACValues($artDataSql, $REX_ACTION);
 
                   $ga->next();
                 }
 
                 // ----- / PRE VIEW ACTION
 
-                $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID], $RE_MODUL_ID[$I_ID]);
+                $slice_content .= $this->editSlice($artDataSql, $RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID], $RE_MODUL_ID[$I_ID]);
               }
               else
               {
@@ -542,7 +540,7 @@ class rex_article
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
                 ';
 
-                $slice_content = $this->replaceVars($this->CONT, $slice_content);
+                $slice_content = $this->replaceVars($artDataSql, $slice_content);
               }
 
             }else
@@ -559,7 +557,7 @@ class rex_article
           </div>';
 
               $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
-              $slice_content = $this->replaceVars($this->CONT, $slice_content);
+              $slice_content = $this->replaceVars($artDataSql, $slice_content);
             }
 
           }else
@@ -572,7 +570,7 @@ class rex_article
             }
 
             $slice_content .= $RE_MODUL_OUT[$I_ID];
-            $slice_content = $this->replaceVars($this->CONT, $slice_content);
+            $slice_content = $this->replaceVars($artDataSql, $slice_content);
           }
           // --------------- ENDE EINZELNER SLICE
 
@@ -806,7 +804,7 @@ class rex_article
   }
 
   // ----- EDIT Slice
-  function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
+  function editSlice(&$sql, $RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
   {
     global $REX, $I18N;
 
@@ -858,7 +856,7 @@ class rex_article
          //-->
       </script>';
 
-    $slice_content = $this->replaceVars($this->CONT, $slice_content);
+    $slice_content = $this->replaceVars($sql, $slice_content);
     return $slice_content;
   }
 
