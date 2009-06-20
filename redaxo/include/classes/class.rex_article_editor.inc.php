@@ -16,8 +16,7 @@ class rex_article_editor extends rex_article
     parent::rex_article($article_id, $clang);
   }
 
-  function outputSlice(
-    $artDataSql, $module_id, $I_ID,
+  function outputSlice($artDataSql, $module_id, $I_ID,
     $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
     $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {

@@ -194,23 +194,15 @@ class rex_article_base
     return $this->ARTICLE->hasValue($this->correctValue($value));
   }
 
-  function outputSlice(
-  $artDataSql,
-  $I_ID,
-  $RE_CONTS,
-  $RE_CONTS_CTYPE,
-  $RE_MODUL_IN,
-  $RE_MODUL_OUT,
-  $RE_MODUL_ID,
-  $RE_MODUL_NAME,
-  $RE_C
-  )
+  function outputSlice($artDataSql, $module_id, $I_ID,
+    $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
+    $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {
     if($this->getSlice){
       while(list($k, $v) = each($RE_CONTS))
       $I_ID = $k;
     }
-
+    
     $slice_content .= $RE_MODUL_OUT[$I_ID];
     return $this->replaceVars($artDataSql, $slice_content);
   }
@@ -250,7 +242,7 @@ class rex_article_base
 
       $artDataSql = new rex_sql;
       if($this->debug)
-      $artDataSql->debugsql = 1;
+        $artDataSql->debugsql = 1;
       $artDataSql->setQuery($sql);
 
       $RE_CONTS = array();
