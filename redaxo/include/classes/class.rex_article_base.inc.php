@@ -60,11 +60,11 @@ class rex_article_base
 
     // ----- EXTENSION POINT
     rex_register_extension_point('ART_INIT', "",
-    array (
-        'article' => &$this,
-        'article_id' => $article_id,
-        'clang' => $this->clang
-    )
+      array (
+          'article' => &$this,
+          'article_id' => $article_id,
+          'clang' => $this->clang
+      )
     );
 
     if ($article_id !== null)
