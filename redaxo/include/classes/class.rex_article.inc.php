@@ -19,7 +19,6 @@ class rex_article
   var $template_id;
   var $template_attributes;
   
-  var $save;
   var $ctype;
   var $clang;
   var $getSlice;
