@@ -445,6 +445,7 @@ class rex_thumbnail
       if ($cachetime > $filetime)
 	    {
 	      $thumb = new rex_thumbnail($cachepath);
+	      $thumb->img_filename = $imagefile;
 	      $thumb->send($cachepath, $cachetime);
 	      exit;
 	    }
