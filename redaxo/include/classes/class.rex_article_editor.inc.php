@@ -97,14 +97,16 @@ class rex_article_editor extends rex_article
         }
 
         // ----- EXTENSION POINT
-        $listElements = rex_register_extension_point('ART_SLICE_MENU', $listElements,
-        array(
-                  'article_id' => $this->article_id,
-                  'clang' => $this->clang,
-                  'ctype' => $RE_CONTS_CTYPE[$I_ID],
-                  'module_id' => $RE_MODUL_ID[$I_ID],
-                  'slice_id' => $RE_CONTS[$I_ID]
-        )
+        $listElements = rex_register_extension_point(
+          'ART_SLICE_MENU',
+          $listElements,
+          array(
+            'article_id' => $this->article_id,
+            'clang' => $this->clang,
+            'ctype' => $RE_CONTS_CTYPE[$I_ID],
+            'module_id' => $RE_MODUL_ID[$I_ID],
+            'slice_id' => $RE_CONTS[$I_ID]
+          )
         );
 
         $mne = $msg;
@@ -195,9 +197,9 @@ class rex_article_editor extends rex_article
           $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-content-editmode-slice-output">
-                <div class="rex-content-editmode-slice-output-2">
-                  '. $RE_MODUL_OUT[$I_ID] .'
-                </div>
+                  <div class="rex-content-editmode-slice-output-2">
+                    '. $RE_MODUL_OUT[$I_ID] .'
+                  </div>
                 </div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
                 ';
@@ -239,6 +241,7 @@ class rex_article_editor extends rex_article
         $RE_C
       );
     }
+    
     return $slice_content;
   }
 
@@ -461,9 +464,9 @@ class rex_article_editor extends rex_article
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
               <div class="rex-content-editmode-slice-input">
-              <div class="rex-content-editmode-slice-input-2">
-              '. $RE_MODUL_IN .'
-              </div>
+                <div class="rex-content-editmode-slice-input-2">
+                '. $RE_MODUL_IN .'
+                </div>
               </div>
             </div>
           </div>

@@ -296,33 +296,33 @@ class rex_article_base
         $artDataSql->counter = $RE_C[$I_ID];
 
         $slice_content = $this->outputSlice(
-        $artDataSql,
-        $module_id,
-        $I_ID,
-        $RE_CONTS,
-        $RE_CONTS_CTYPE,
-        $RE_MODUL_IN,
-        $RE_MODUL_OUT,
-        $RE_MODUL_ID,
-        $RE_MODUL_NAME,
-        $RE_C
+          $artDataSql,
+          $module_id,
+          $I_ID,
+          $RE_CONTS,
+          $RE_CONTS_CTYPE,
+          $RE_MODUL_IN,
+          $RE_MODUL_OUT,
+          $RE_MODUL_ID,
+          $RE_MODUL_NAME,
+          $RE_C
         );
 
         // --------------- ENDE EINZELNER SLICE
 
         // --------------- EP: SLICE_SHOW
         $slice_content = rex_register_extension_point(
-            'SLICE_SHOW',
-        $slice_content,
-        array(
-                'article_id' => $this->article_id,
-                'clang' => $this->clang,
-                'ctype' => $RE_CONTS_CTYPE[$I_ID],
-                'module_id' => $RE_MODUL_ID[$I_ID],
-                'slice_id' => $RE_CONTS[$I_ID],
-                'function' => $this->function,
-                'function_slice_id' => $this->slice_id
-        )
+          'SLICE_SHOW',
+          $slice_content,
+          array(
+            'article_id' => $this->article_id,
+            'clang' => $this->clang,
+            'ctype' => $RE_CONTS_CTYPE[$I_ID],
+            'module_id' => $RE_MODUL_ID[$I_ID],
+            'slice_id' => $RE_CONTS[$I_ID],
+            'function' => $this->function,
+            'function_slice_id' => $this->slice_id
+          )
         );
 
         // ---------- slice in ausgabe speichern wenn ctype richtig
