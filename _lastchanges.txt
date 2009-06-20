@@ -22,9 +22,10 @@ Version 4.2.1 (2009-05-07)
     - http://forum.redaxo.de/ftopic11805.html
   * Addon
     * Import/Export - Importieren von tars geht nun wieder. 
-  * Register Globals komplett rausgenommen
-    * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig.
-    
+    * Register Globals komplett rausgenommen
+    * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig. 
+    * Image resize: EP mit Imagefile angepasst [Gregor.Harlan]    
+
 Version 4.2.0 (2009-04-22)
 
   Wichtig:
