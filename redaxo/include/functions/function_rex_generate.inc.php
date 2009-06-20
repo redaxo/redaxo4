@@ -152,9 +152,8 @@ function rex_generateArticleMeta($article_id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
     
-    $CONT = new rex_article;
+    $CONT = new rex_article_base();
     $CONT->setCLang($_clang);
-    $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
     $CONT->setEval(FALSE); // Content nicht ausfŸhren, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($article_id)) return FALSE;
 
@@ -208,9 +207,8 @@ function rex_generateArticleContent($article_id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
       
-    $CONT = new rex_article;
+    $CONT = new rex_article_base();
     $CONT->setCLang($_clang);
-    $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
     $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($article_id)) return FALSE;
   
@@ -260,9 +258,8 @@ function rex_generateArticle($id, $refreshall = true)
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    $CONT = new rex_article;
+    $CONT = new rex_article_base();
     $CONT->setCLang($clang);
-    $CONT->getContentAsQuery(); // Content aus Datenbank holen, no cache
     $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($id)) return FALSE;
       
