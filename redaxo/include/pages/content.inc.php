@@ -650,7 +650,7 @@ if ($article->getRows() == 1)
                   <!-- *** OUTPUT OF ARTICLE-CONTENT-EDIT-MODE - START *** -->
                   <div class="rex-content-editmode">
                   ';
-      $CONT = new rex_article();
+      $CONT = new rex_article_editor();
       $CONT->getContentAsQuery();
       $CONT->info = $info;
       $CONT->warning = $warning;
