@@ -13,7 +13,6 @@ class rex_article
   var $slice_id;
   var $article_id;
   var $mode;
-  var $content;
   var $function;
 
   var $category_id;  
@@ -48,8 +47,6 @@ class rex_article
     $this->slice_id = 0;
 
     $this->mode = "view";
-    $this->content = "";
-
     $this->eval = FALSE;
     $this->viasql = false;
 
@@ -66,7 +63,7 @@ class rex_article
       $this->setCLang($clang);
     else
       $this->setClang($REX['CUR_CLANG']);
-
+  
     // ----- EXTENSION POINT
     rex_register_extension_point('ART_INIT', "",
       array (
@@ -233,11 +230,6 @@ class rex_article
   {
     global $REX,$I18N;
 
-    if($this->content != "") {
-      echo $this->content;
-      return;
-    }
-
     $this->ctype = $curctype;
     $module_id = rex_request('module_id', 'int');
 
@@ -357,13 +349,13 @@ class rex_article
         $PRE_ID = 0;
         $LCTSL_ID = 0;
         $this->CONT->reset();
-        $this->content = "";
+        $articleContent = "";
 
         for ($i=0;$i<$this->CONT->getRows();$i++)
         {
           // ----- ctype unterscheidung
           if ($this->mode != "edit" && $i == 0)
-            $this->content = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
+            $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
 
           // ------------- EINZELNER SLICE - AUSGABE
           $this->CONT->counter = $RE_C[$I_ID];
@@ -602,7 +594,7 @@ class rex_article
           // ---------- slice in ausgabe speichern wenn ctype richtig
           if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
           {
-            $this->content .= $slice_content;
+            $articleContent .= $slice_content;
 
             // last content type slice id
             $LCTSL_ID = $RE_CONTS[$I_ID];
@@ -611,7 +603,7 @@ class rex_article
           // ----- zwischenstand: ctype .. wenn ctype neu dann if
           if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
           {
-            $this->content .= "<?php } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ ?>";
+            $articleContent .= "<?php } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ ?>";
           }
 
           // zum nachsten slice
@@ -621,7 +613,7 @@ class rex_article
         }
 
         // ----- end: ctype unterscheidung
-        if ($this->mode != "edit" && $i>0) $this->content .= "<?php } ?>";
+        if ($this->mode != "edit" && $i>0) $articleContent .= "<?php } ?>";
 
         // ----- add module im edit mode
         if ($this->mode == "edit")
@@ -663,12 +655,12 @@ class rex_article
             </form>
             </div>';
           }
-          $this->content .= $slice_content;
+          $articleContent .= $slice_content;
         }
 
         // -------------------------- schreibe content
-        if ($this->eval === FALSE) echo $this->replaceLinks($this->content);
-        else eval("?>".$this->content);
+        if ($this->eval === FALSE) echo $this->replaceLinks($articleContent);
+        else eval("?>".$articleContent);
 
       }else
       {
