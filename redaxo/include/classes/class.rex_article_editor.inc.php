@@ -112,9 +112,9 @@ class rex_article_editor extends rex_article
 
 
         if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
-        $mne .= '<div class="rex-content-editmode-module-name rex-form-content-editmode-edit-slice">';
+          $mne .= '<div class="rex-content-editmode-module-name rex-form-content-editmode-edit-slice">';
         else
-        $mne .= '<div class="rex-content-editmode-module-name">';
+          $mne .= '<div class="rex-content-editmode-module-name">';
 
         $mne .= '
                 <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
@@ -166,7 +166,7 @@ class rex_article_editor extends rex_article
 
           $ga = new rex_sql;
           if($this->debug)
-          $ga->debugsql = 1;
+            $ga->debugsql = 1;
           $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
           for ($t=0;$t<$ga->getRows();$t++)
@@ -211,12 +211,12 @@ class rex_article_editor extends rex_article
         // ----- hat keine rechte an diesem modul
         $mne = '
            <div class="rex-content-editmode-module-name">
-                <h3 class="rex-hl4" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</h3>
-                <div class="rex-navi-slice">
-                  <ul>
-                    <li>'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></li>
-                  </ul>
-                </div>
+            <h3 class="rex-hl4" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</h3>
+            <div class="rex-navi-slice">
+              <ul>
+                <li>'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></li>
+              </ul>
+            </div>
           </div>';
 
         $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
