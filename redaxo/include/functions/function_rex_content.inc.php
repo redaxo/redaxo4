@@ -158,7 +158,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 {
   global $REX;
   $modebit = rex_getActionModeBit($function);
-	$message = '';
+	$messages = array();
 	
   $ga = new rex_sql;
   $ga->setQuery('SELECT presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
@@ -177,11 +177,11 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
     eval ('?>' . $iaction);
 
     if ($REX_ACTION['MSG'] != '')
-      $message .= $REX_ACTION['MSG'] . ' | ';
+      $messages[] = $REX_ACTION['MSG'];
 
     $ga->next();
   }
-  return array($message, $REX_ACTION);
+  return array(implode(' | ', $messages), $REX_ACTION);
 }
 
 /**
@@ -197,7 +197,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 {
   global $REX;
   $modebit = rex_getActionModeBit($function);
-	$message = '';
+	$messages = array();
 	
   $ga = new rex_sql;
   $ga->setQuery('SELECT postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
@@ -216,11 +216,11 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
     eval ('?>' . $iaction);
 
     if ($REX_ACTION['MSG'] != '')
-      $message .= ' | ' . $REX_ACTION['MSG'];
+      $messages[] = $REX_ACTION['MSG'];
 
     $ga->next();
   }
-  return $message;
+  return implode(' | ', $messages);
 }
 
 /**
