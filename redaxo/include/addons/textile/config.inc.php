@@ -15,7 +15,7 @@ $REX['ADDON']['rxid'][$mypage] = '79';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Textile';
 $REX['ADDON']['perm'][$mypage] = 'textile[]';
-$REX['ADDON']['version'][$mypage] = "1.2";
+$REX['ADDON']['version'][$mypage] = "1.3";
 $REX['ADDON']['author'][$mypage] = "Markus Staab, Dean Allen www.textism.com";
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 

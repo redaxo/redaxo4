@@ -15,7 +15,7 @@ $REX['ADDON']['rxid'][$mypage] = '93';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'PHPMailer';
 $REX['ADDON']['perm'][$mypage] = 'phpmailer[]';
-$REX['ADDON']['version'][$mypage] = "1.2";
+$REX['ADDON']['version'][$mypage] = "1.3";
 $REX['ADDON']['author'][$mypage] = "Markus Staab, Brent R. Matzelle";
 $REX['ADDON']['supportpage'][$mypage] = "forum.redaxo.de";
 

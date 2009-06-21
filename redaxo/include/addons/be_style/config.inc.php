@@ -19,7 +19,7 @@ $mypage = 'be_style';
 $REX['ADDON']['rxid'][$mypage] = '467';
 $REX['ADDON']['page'][$mypage] = $mypage;
 //$REX['ADDON']['perm'][$mypage] = 'be_style[]';
-$REX['ADDON']['version'][$mypage] = '1.2';
+$REX['ADDON']['version'][$mypage] = '1.3';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus, Markus Staab';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
