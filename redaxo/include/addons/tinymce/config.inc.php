@@ -23,7 +23,7 @@
 	$REX['ADDON']['name'][$rxa_tinymce['name']] = 'TinyMCE';
 	$REX['ADDON']['perm'][$rxa_tinymce['name']] = 'tiny_mce[]';
 	$REX['ADDON']['version'][$rxa_tinymce['name']] = '1.5';
-	$REX['ADDON']['author'][$rxa_tinymce['name']] = 'Andreas Eberhard, Wolfgang Hutteger, Markus Staab, Dave Holloway';
+	$REX['ADDON']['author'][$rxa_tinymce['name']] = 'Andreas Eberhard, Markus Staab, Dave Holloway';
 	$REX['ADDON']['supportpage'][$rxa_tinymce['name']] = 'forum.redaxo.de';
 
 	$REX['PERM'][] = 'tiny_mce[]';
