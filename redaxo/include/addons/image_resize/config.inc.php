@@ -23,7 +23,7 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Image Resize';
 $REX['ADDON']['perm'][$mypage] = 'image_resize[]';
 $REX['ADDON']['version'][$mypage] = '1.3';
-$REX['ADDON']['author'][$mypage] = 'Wolfgang Hutteger, Markus Staab, Jan Kristinus';
+$REX['ADDON']['author'][$mypage] = 'Markus Staab, Jan Kristinus, Wolfgang Hutteger';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = 'image_resize[]';
 
