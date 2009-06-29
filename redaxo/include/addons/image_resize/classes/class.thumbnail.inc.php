@@ -263,7 +263,7 @@ class rex_thumbnail
     if (!$lastModified)
       $lastModified = time();
 
-    $lastModified = gmdate('r', $lastModified);
+    $lastModified =  gmdate('D, d M Y H:i:s', $lastModified).' GMT';
 
 		// ----- EXTENSION POINT
 		$sendfile = TRUE;
@@ -278,17 +278,19 @@ class rex_thumbnail
 
 		if(!$sendfile)
 			return FALSE;
-
-    header('Content-Type: image/' . $this->img['format']);
-    header('Last-Modified: ' . $lastModified);
-    // caching clientseitig/proxieseitig erlauben
-    header('Cache-Control: public');
-
+			
     if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
     {
       header('HTTP/1.1 304 Not Modified');
       exit();
     }
+	
+    header('Content-Type: image/' . $this->img['format']);
+    header('Last-Modified: ' . $lastModified);
+    // caching clientseitig/proxieseitig erlauben
+    header('Cache-Control: public');
+
+
 
     readfile($file);
   }
