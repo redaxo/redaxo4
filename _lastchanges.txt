@@ -13,6 +13,10 @@ Version 4.2.2 (2009-xx-xx)
   Neu:
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
   
+  Bugfixes:
+  * Probleme mit Image-Resize auf manchen Servern behoben
+    - http://forum.redaxo.de/ftopic11483.html [pingback, Markus.Staab]
+  
 Version 4.2.1 (2009-05-07)
 
   Wichtig:		
