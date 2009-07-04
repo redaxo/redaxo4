@@ -5,9 +5,8 @@
  * Image-Resize Addon
  *
  * @author office[at]vscope[dot]at Wolfgang Hutteger
- * @author <a href="http://www.vscope.at">www.vscope.at</a>
- *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ * @author jan[dot]kristinus[at]redaxo[dot]de Jan Kristinus
  *
  *
  * @package redaxo4
@@ -404,6 +403,8 @@ class rex_thumbnail
 		while(ob_get_level())
 		  ob_end_clean();
 
+		$rex_resize = str_replace("/","",$rex_resize);
+		  
     // get params
     preg_match('@([0-9]+)([awhc])__(([0-9]+)h__)?((\-?[0-9]+)o__)?(.*)@', $rex_resize, $resize);
     
@@ -414,7 +415,8 @@ class rex_thumbnail
 	  $imagefile = $resize[7];
 	  $rex_filter = rex_get('rex_filter', 'array');
 
-	  if (count($rex_filter)>$REX['ADDON']['image_resize']['max_filters']) $rex_filter = array();
+	  if (count($rex_filter)>$REX['ADDON']['image_resize']['max_filters']) 
+	    $rex_filter = array();
 
 	  $filters = '';
 		foreach($rex_filter as $filter)
