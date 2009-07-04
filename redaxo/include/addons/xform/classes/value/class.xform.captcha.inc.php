@@ -36,7 +36,7 @@ class rex_xform_captcha extends rex_xform_abstract
 		}
 
 		$link = rex_getUrl($this->params["article_id"],$this->params["clang"],array("captcha"=>"show"),"&");
-
+		/*
 		$form_output[] = '
 			<p class="formcaptcha">
 				<span class="' . $wc . '">'.htmlspecialchars($this->elements[1]).'</span>
@@ -47,6 +47,25 @@ class rex_xform_captcha extends rex_xform_abstract
 					/></label>
 				<input class="' . $wc . '" maxlength="5" size="5" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="text" />
 			</p>';
+		*/
+		
+		// 22.05.2009 - Tab Aenderung
+		if ($wc != '')
+			$wc = ' '.$wc;
+			
+		$form_output[] = '
+			<p class="formcaptcha">
+				<label class="captcha' . $wc . '" for="el_' . $this->id . '">
+					'.htmlspecialchars($this->elements[1]).'
+				</label>
+				<span class="as-label' . $wc . '"><img 
+					src="'.$link.'" 
+					onclick="javascript:this.src=\''.$link.'&\'+Math.random();" 
+					alt="CAPTCHA image" 
+					/></span>
+				<input class="captcha' . $wc . '" maxlength="5" size="5" id="el_' . $this->id . '" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="text" />
+			</p>';
+		// Ende
 	}
 	
 	function getDescription()

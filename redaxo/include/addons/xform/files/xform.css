@@ -1,0 +1,224 @@
+/* *** ALLGEMEIN *** */
+
+#rex-xform fieldset{
+    border:1px solid #333;
+    margin:0;
+    padding:20px;
+    padding-bottom:10px;
+    border:1px solid #d5eeff;
+}
+
+
+#rex-xform legend {
+    margin-left:-5px;
+    padding:3px 5px;
+    background-color:#d5eeff;
+    color:#216491;
+    font-size:14px;
+}
+
+#rex-xform label {
+    float:left;
+    width:160px;
+    line-height:23px;
+}
+
+#rex-xform select {
+    border:1px solid #ccc;
+    padding:2px;
+    width:250px;
+}
+
+#rex-xform ul.form_warning {
+    color:#f90;
+    margin-bottom:20px;
+}
+
+#rex-xform ul.form_warning li{
+    list-style-type: square;
+    margin-left:15px;
+}
+
+
+p.formcaptcha input,
+p.formtextarea textarea,
+p.formselect select,
+p.formtext input,
+p.formpassword input,
+input.formtext,
+textarea {
+    border:1px solid #ccc;
+    padding:2px;
+    width:250px;
+}
+
+p.formcaptcha input,
+p.formselect select,
+p.formtext input,
+p.formpassword input,
+input.formtext {
+    height:15px;
+}
+
+/* ***************************** TEXTAREA */
+textarea {
+    height:80px;
+}
+
+/* ***************************** TEXT */
+p.formtext {
+    clear:both;
+    padding-bottom:0px;
+    margin-bottom:5px;
+}
+
+/* ***************************** HTML */
+p.formhtml {
+    margin-top:10px;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+/* ***************************** TEXTSELECT */
+p.formselect {
+    clear:both;
+    padding-bottom:0px;
+    margin-bottom:10px;
+}
+
+p.formselect select {
+    height:20px;
+    padding:1px;
+    width:256px;
+}
+
+/* ***************************** CAPTCHA */
+
+p.formcaptcha {
+    clear:both;
+    padding-bottom:10px;
+    margin-bottom:10px;
+}
+
+p.formcaptcha label{
+
+}
+
+p.formcaptcha input{
+    margin-top:4px;
+}
+
+p.formcaptcha span{
+    display:block;
+}
+
+/* ***************************** TEXTSELECT */
+p.formtextarea {
+    clear:both;
+    padding-bottom:0px;
+    margin-bottom:10px;
+}
+
+p.formtextarea textarea {
+    height:80px;
+}
+
+/* ***************************** CHECKBOX */
+
+p.formcheckbox {
+    clear:both;
+    padding:0;
+    margin-bottom:10px;
+    height:22px;
+}
+
+p.formcheckbox input {
+    float:left;
+    margin:5px;
+    margin-left:135px;
+}
+
+p.formcheckbox label {
+    float:left;
+    margin-left:10px;
+    width:250px;
+    line-height:23px;
+}
+
+
+/* ***************************** RADIO */
+
+p.formradio {
+    clear:both;
+    padding:0;
+    margin-bottom:10px;
+    height:22px;
+}
+
+p.formradio input {
+    float:left;
+    margin:5px;
+}
+
+p.formradio label {
+    float:right;
+    width:460px;
+    line-height:23px;
+}
+
+/* ***************************** LINE */
+
+p.formline {
+    height:1px;
+    border-bottom:1px solid #ccc;
+    margin-bottom:10px;
+}
+
+/* ***************************** BE MEDIAPOOL */
+
+p.formbe_mediapool {
+    clear:both;
+    padding:0;
+    margin-bottom:10px;
+    height:22px;
+}
+
+p.formbe_mediapool input {
+    float:left;
+    margin:0px;
+}
+
+p.formbe_mediapool label {
+    float:left;
+    width:160px;
+}
+
+p.formbe_mediapool span {
+    margin-left:10px;
+}
+
+/* ***************************** Google Geocode */
+
+#rex-xform #map_canvas {
+	margin:10px 0px 20px 0px;
+	border:1px solid #999;
+}
+
+
+/* ***************************** SUBMIT */
+
+p.formsubmit label {
+    clear:both;
+    width:160px;
+}
+
+p.formsubmit input{
+    width:auto;
+    margin:0;
+    border:0;
+    padding:3px 5px;
+    background-color:#d5eeff;
+    color:#216491;
+    font-size:14px;
+}
+

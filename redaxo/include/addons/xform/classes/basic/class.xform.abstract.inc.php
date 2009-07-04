@@ -9,6 +9,7 @@ class rex_xform_abstract
 	var $value;
     var $label;
     var $keys = array();
+	var $obj;
 
 	// Position im Formular. Unique ID
 	function setId($id)
@@ -72,7 +73,25 @@ class rex_xform_abstract
 		$this->params = &$params;
 		// die entsprechende passende Zeile wird als array | übergeben
 		$this->elements = &$elements;
+		$this->setLabel($elements[1]);
 	}
+
+	function setLabel($label)
+	{
+		$this->label = $label;
+	}
+
+	function getLabel()
+	{
+		return $this->label;
+	}
+
+
+	function setObjects($obj)
+	{
+		$this->obj = &$obj;
+	}
+
 
 	// Aufruf des Objektes mit den verschiedenen Zeigern
 	function enterObject($email_elements,$sql_elements,$warning,$form_output,$send = 0)

@@ -13,7 +13,7 @@ class rex_xform_validate_email extends rex_xform_validate_abstract
 					if ((!ereg(".+\@.+\..+", $xoObject->getValue())) || (!ereg("^[a-zA-Z0-9_@.-]+$", $xoObject->getValue())))
 					{
 						$warning["el_" . $xoObject->getId()] = $this->params["error_class"];
-						$warning_messages[] = $this->xaElements[3];
+						$warning_messages[] = $this->xaElements[3]."dfgh";
 					}
 				}
 			}

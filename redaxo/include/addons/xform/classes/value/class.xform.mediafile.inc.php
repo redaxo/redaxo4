@@ -79,7 +79,7 @@ class rex_xform_mediafile extends rex_xform_abstract
    			// $this->elements[2] = "";
    		}
 
-		$warning["el_" . $this->id] = '';
+		// $warning["el_" . $this->id] = '';
 		if ($send && $this->elements[5]==1 && $this->value=="")
 		{
 			$warning["el_" . $this->id] = $this->params["error_class"];
@@ -182,7 +182,7 @@ class rex_xform_mediafile extends rex_xform_abstract
 		$RETURN['filename'] = $NFILENAME;
 
 
-	    $FILESQL = new sql;
+	    $FILESQL = new rex_sql;
 	    // $FILESQL->debugsql=1;
 	    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
 	    $FILESQL->setValue("filetype",$FILETYPE);

@@ -9,8 +9,8 @@ class rex_xform_validate_abstract
 	
 	function loadParams(&$params, &$elements)
 	{
-		$this->params = $params;
-		$this->xaElements=$elements;
+		$this->params = &$params;
+		$this->xaElements = $elements;
 	}
 	
 	function setObjects($Objects)

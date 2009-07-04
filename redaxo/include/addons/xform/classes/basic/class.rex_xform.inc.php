@@ -45,11 +45,12 @@ class rex_xform
 		
 		$this->objparams["form_method"] = "post";
 		$this->objparams["form_action"] = "index.php";
+		$this->objparams["form_anchor"] = "";
 		$this->objparams["form_showformafterupdate"] = 0;
 		$this->objparams["form_show"] = TRUE;
 		$this->objparams["form_name"] = "formular";
 		$this->objparams["form_id"] = "form_formular";
-		$this->objparams["form_wrap"] = array('<div id="rex-xform">','</div>');
+		$this->objparams["form_wrap"] = array('<div id="rex-xform" class="xform">','</div>');
 		$this->objparams["form_hiddenfields"] = array();
 		
 		$this->objparams["Error-occured"] = "Bitte überprüfen Sie Ihre Angaben und korrigieren Sie diese gegebenenfalls.";
@@ -57,10 +58,7 @@ class rex_xform
 		$this->objparams["Error-Code-InsertQueryError"] = "ErrorCode - InsertQueryError";
 		$this->objparams["warning"] = array ();
 		$this->objparams["warning_messages"] = array ();
-		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"])) 
-			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
-		else 
-			$this->objparams["send"] = 0;
+			
 		$this->objparams["first_fieldset"] = true; // 
 		$this->objparams["getdata"] = FALSE; // Daten vorab aus der DB holen
 		
@@ -76,12 +74,15 @@ class rex_xform
 		$this->setObjectparams("form_data",$form_definitions,$refresh);
 	}
 
-	function setRedaxoVars($aid,$clang = "",$params = array())
+	function setRedaxoVars($aid = "",$clang = "",$params = array())
 	{
 		global $REX;
 		
 		if ($clang == "") 
 			$clang = $REX["CUR_CLANG"];
+		if ($aid == "") 
+			$aid = $REX["ARTICLE_ID"];
+			
 		$this->setObjectparams("article_id",$aid);
 		$this->setObjectparams("clang",$clang);
 		$this->setObjectparams("form_action", rex_getUrl($aid, $clang, $params));
@@ -99,15 +100,32 @@ class rex_xform
 	
 	function setObjectparams($k,$v,$refresh = TRUE)
 	{
-		if (!$refresh && isset($this->objparams[$k])) $this->objparams[$k] .= $v;
-		else $this->objparams[$k] = $v;
+		if (!$refresh && isset($this->objparams[$k])) 
+			$this->objparams[$k] .= $v;
+		else 
+			$this->objparams[$k] = $v;
+		
+		if($k != "form_name")
+			return;
+		
+		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"])) 
+			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
+		else 
+			$this->objparams["send"] = 0;
+	
 	}
+
 
 	
 	function getForm()
 	{
 
 		global $REX;
+
+		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"])) 
+			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
+		else 
+			$this->objparams["send"] = 0;
 
 		$preg_user_vorhanden = "~\*|:|\(.*\)~Usim"; // Preg der Bestimmte Zeichen/Zeichenketten aus der Bezeichnung entfernt
 		$form_output = array ();
@@ -160,6 +178,8 @@ class rex_xform
 						else 
 							$obj[$i]->setValue("");
 						
+						$obj[$i]->setObjects(&$obj);
+
 						// muss hier gesetzt sein, damit ein value objekt die elemente erweitern kann
 						$rows = count($this->objparams["form_elements"]);
 						
@@ -296,7 +316,8 @@ class rex_xform
 		// ----- ACTION OBJEKTE
 		
 		// ID setzen, falls vorhanden
-		if($this->objparams["main_id"]>0) $email_elements["ID"] = $this->objparams["main_id"];
+		if($this->objparams["main_id"]>0) 
+			$email_elements["ID"] = $this->objparams["main_id"];
 		
 		// Action Felder auslesen und Validate Objekte erzeugen
 		if (isset($this->objparams['form_type']))
@@ -345,7 +366,6 @@ class rex_xform
 			}
 			if ($this->objparams["answertext"]!="")
 			{
-			
 				$this->objparams["actions"][] = array(
 					"type" => "showtext",
 					"elements" => array(
@@ -363,9 +383,6 @@ class rex_xform
 		
 		$hasWarnings = count($this->objparams["warning"]) != 0;
 		$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
-
-
-		
 
 		// ----- Actionen ausführen
 		if ($this->objparams["send"] == 1 && !$hasWarnings && !$hasWarningMessages)
@@ -424,8 +441,10 @@ class rex_xform
 		
 			// ----- Formular wieder anzeigen
 		
-			$this->objparams["output"] .= $this->objparams["form_wrap"][0].'
-				<form action="'.$this->objparams["form_action"].'" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
+			$this->objparams["output"] .= $this->objparams["form_wrap"][0].'<form action="'.$this->objparams["form_action"];
+			if($this->objparams["form_anchor"] != "")
+				$this->objparams["output"] .= '#'.$this->objparams["form_anchor"];
+			$this->objparams["output"] .= '" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
 			
 			$this->objparams["output"] .= '<p style="display:none;">';
 			$this->objparams["output"] .= '<input type="hidden" name="article_id" value="'.htmlspecialchars($this->objparams["article_id"]).'" />';
@@ -443,7 +462,7 @@ class rex_xform
 				{
 					if ($this->objparams["Error-occured"] != "") $this->objparams["output"] .= '<li>'. $this->objparams["Error-occured"] .'</li>';
 					foreach($this->objparams["warning_messages"] as $k => $v)
-					  $this->objparams["output"] .= '<li>'. $v .'</li>';
+						$this->objparams["output"] .= '<li>'. $v .'</li>';
 				}
 				if($this->objparams["unique_error"] != '')
 				{
