@@ -134,7 +134,7 @@ class rex_xform_be_table extends rex_xform_abstract
 	
 	function getDescription()
 	{
-		return "select -> Beispiel: be_table|label|Beschreibung *|Anzahl Spalten|Menge,Preis/Stück";
+		return "be_table -> Beispiel: be_table|label|Beschreibung *|Anzahl Spalten|Menge,Preis/Stück";
 	}
 }
 

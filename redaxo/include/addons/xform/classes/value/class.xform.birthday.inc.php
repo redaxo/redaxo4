@@ -94,7 +94,7 @@ class rex_xform_birthday extends rex_xform_abstract
 	}
 	function getDescription()
 	{
-		return "select -> Beispiel: birthday|feldname|Text *|[format: Y-m-d]|Pflicht";
+		return "birthday -> Beispiel: birthday|feldname|Text *|[format: Y-m-d]|Pflicht";
 	}
 }
 
