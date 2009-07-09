@@ -7,15 +7,18 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.2.2 (2009-xx-xx)
+Version 4.3 (2009-xx-xx)
   * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]
 
   Neu:
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
+  * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
+  * rex_article umgebaut und vereinfacht [Markus.Staab]
   
   Bugfixes:
   * Probleme mit Image-Resize auf manchen Servern behoben
     - http://forum.redaxo.de/ftopic11483.html [pingback, Markus.Staab]
+  * Category->getPath fehlte.. eingebaut
   
 Version 4.2.1 (2009-05-07)
 

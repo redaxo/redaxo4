@@ -188,6 +188,16 @@ class OOCategory extends OORedaxo
     return $this->_catname;
   }
 
+  /*
+   * Accessor Method:
+   * returns the path of the category
+   */
+  function getPath()
+  {
+    return $this->_path;
+  }
+  
+  
   function & _getCategoryObject($category, $clang = false)
   {
     if (is_object($category))
