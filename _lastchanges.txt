@@ -19,7 +19,8 @@ Version 4.3 (2009-xx-xx)
   * Probleme mit Image-Resize auf manchen Servern behoben
     - http://forum.redaxo.de/ftopic11483.html [pingback, Markus.Staab]
   * Category->getPath fehlte.. eingebaut
-  
+  * rex_parse_article_name() angepasst. '-' statt '+' als Trennzeichen. [Dave.Holloway]
+    
 Version 4.2.1 (2009-05-07)
 
   Wichtig:		
