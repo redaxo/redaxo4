@@ -48,7 +48,9 @@ if($func == "add" || $func == "edit")
 	$form_data .= "\n".'html|TEXT * <br />';
 	$form_data .= "\n".'html|PASSWORD * extra1=md5<br />';
 	$form_data .= "\n".'html|SELECT * extra1 offline=0;online=1<br />';
-	$form_data .= "\n".'html|BOOL *</span></p>';
+	$form_data .= "\n".'html|BOOL *<br />';
+	$form_data .= "\n".'html|FLOAT(10,7) für Positionen wir lat und lng *<br />';
+	$form_data .= "\n".'html|SQL SELECT / select id,name from tbl *</span></p>';
 
 	$form_data .= "\n"."text|extra1|extra1";
 	

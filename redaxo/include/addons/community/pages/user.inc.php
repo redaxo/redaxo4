@@ -29,6 +29,7 @@ if($func == "add" || $func == "edit")
 	$guf->setQuery("select * from ".$table_field." where editable=1 order by prior");
 	foreach($guf->getArray() as $key => $value)
 	{
+		$value["mandatory"] = (int) $value["mandatory"];
 	  switch($value["type"])
 		{
 			case("3"):
@@ -47,6 +48,13 @@ if($func == "add" || $func == "edit")
 				// bool
 				$form_data .= "\n".'checkbox|'.$value["userfield"].'|'.$value["name"];
 				break;
+			case("8"):
+				// sql select
+				if($value["mandatory"] != 1)
+					$value["mandatory"] = "Keine Angabe";
+				$form_data .= "\n".'select_single_sql|'.$value["userfield"].'|'.$value["name"].'|'.$value["mandatory"].'|'.$value["extra1"].'|';
+				break;
+				
 			default:
 				// sonstige
 				$form_data .= "\n".'text|'.$value["userfield"].'|'.$value["name"];
@@ -54,7 +62,7 @@ if($func == "add" || $func == "edit")
 		}
 		
 		// Pflichtfelder festlegen
-		$value["mandatory"] = (int) $value["mandatory"];
+		
 		if($value["mandatory"] == 1)
 			$form_data .= "\n".'validate|empty|'.$value["userfield"].'|Bitte geben Sie im Feld "'.$value["name"].'" etwas ein.';
 

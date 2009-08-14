@@ -20,7 +20,7 @@ class rex_xform_com_user extends rex_xform_abstract
 		{
 			$user_field = $REX["COM_USER"]->getValue($this->elements[2]);
 			$this->value = $user_field;
-			$user_name = rex_com_showUser(&$REX["COM_USER"],"name","",FALSE);
+			$user_name = rex_com_showUser(&$REX["COM_USER"],"name","rex_com_user",FALSE);
 			$this->user_name = $user_name;
 			// echo '<p>Wert wurde neu gesetzt auf: '.$this->value.'</p>';
 		}

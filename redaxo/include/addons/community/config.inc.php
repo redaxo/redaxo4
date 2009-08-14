@@ -7,18 +7,20 @@ $REX['ADDON']['rxid'][$mypage] = '5';
 $REX['ADDON']['page'][$mypage] = "$mypage";     // pagename/foldername
 $REX['ADDON']['name'][$mypage] = "Community";   // name
 $REX['ADDON']['perm'][$mypage] = "community[]"; // benoetigt mindest permission
-$REX['ADDON']['version'][$mypage] = '1.3';
+$REX['ADDON']['version'][$mypage] = '1.4';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = "community[]";
 
-$I18N_COM = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
+$I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
 // ********** Community User Funktionen
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_user.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_replace.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_paginate.inc.php";
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_formatter.inc.php";
+
+include $REX["INCLUDE_PATH"]."/addons/community/classes/class.rex_com.inc.php";
 
 // ********** Backend, Perms, Subpages etc.
 if ($REX["REDAXO"] && $REX['USER'])
@@ -27,7 +29,7 @@ if ($REX["REDAXO"] && $REX['USER'])
 	$REX['EXTRAPERM'][] = "community[users]";
 	include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.userconfig.inc.php";
 	
-	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
+	// $REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , '&Uuml;bersicht');
 	
 	// Feste Subpages
@@ -46,7 +48,55 @@ if ($REX["REDAXO"] && $REX['USER'])
 	}
 }
 
+
+// allgemeine feldtypen
+
+$REX["ADDON"]["community"]["ut"] = array();
+$REX["ADDON"]["community"]["ut"][1] = "INT(11)";
+$REX["ADDON"]["community"]["ut"][2] = "VARCHAR(255)";
+$REX["ADDON"]["community"]["ut"][3] = "TEXT";
+$REX["ADDON"]["community"]["ut"][4] = "PASSWORD";
+$REX["ADDON"]["community"]["ut"][5] = "SELECT";
+$REX["ADDON"]["community"]["ut"][6] = "BOOL";
+$REX["ADDON"]["community"]["ut"][7] = "FLOAT(10,7) für Positionen wie lat und lng";
+$REX["ADDON"]["community"]["ut"][8] = "SQL SELECT";
+
+// feste felder
+$REX["ADDON"]["community"]["ff"] = array();
+$REX["ADDON"]["community"]["ff"][] = "id";
+$REX["ADDON"]["community"]["ff"][] = "login";
+$REX["ADDON"]["community"]["ff"][] = "password";
+$REX["ADDON"]["community"]["ff"][] = "email";
+$REX["ADDON"]["community"]["ff"][] = "status";
+$REX["ADDON"]["community"]["ff"][] = "name";
+$REX["ADDON"]["community"]["ff"][] = "firstname";
+$REX["ADDON"]["community"]["ff"][] = "activation_key";
+
+/*
+$ff[] = "session_id";
+$ff[] = "last_xs";
+$ff[] = "last_login";
+$ff[] = "email_checked";
+$ff[] = "activation_key";
+$ff[] = "last_newsletterid";
+
+$ff[] = "gender";
+$ff[] = "street";
+$ff[] = "zip";
+$ff[] = "city";
+$ff[] = "phone";
+$ff[] = "birthday";
+
+*/
+
+
+
+
+
+
+
 // ********** XForm values/action/validations einbinden
+
 $REX['ADDON']['community']['xform_path']['value'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/value/');
 $REX['ADDON']['community']['xform_path']['validate'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/validate/');
 $REX['ADDON']['community']['xform_path']['action'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/action/');
@@ -66,4 +116,5 @@ function rex_com_xform_add($params){
 	{
 		$REX['ADDON']['xform']['classpaths']['action'][] = $action;
 	}
+
 }

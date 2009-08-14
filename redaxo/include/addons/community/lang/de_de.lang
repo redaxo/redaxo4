@@ -27,3 +27,4 @@ plugin_yes = ja
 plugin_no = nein
 plugin_caption = Liste der verfügbaren Plugins
 plugin_summary = Auflistung aller Plugins
+back_to_overview = Zurück zur Übersicht

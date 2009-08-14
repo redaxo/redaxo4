@@ -667,9 +667,6 @@ function rex_com_showUser(&$sql, $style="mini", $table="", $linked = TRUE)
 
 	global $REX;
 
-	$return = "";
-	if ($table == "") $table = "rex_com_user";
-
 	// $sql is rex_sql
 
 	// Styles
@@ -685,7 +682,8 @@ function rex_com_showUser(&$sql, $style="mini", $table="", $linked = TRUE)
 	$img = "nobody.gif";
 	if ($sql->getValue("$table.gender")=="2") $img = "nobody_w.gif";
 	if ($sql->getValue("$table.gender")=="1") $img = "nobody_m.gif";
-	if ($sql->getValue("$table.image") != "") $img = $sql->getValue("$table.image");
+	if (@$sql->getValue("$table.image") != "") $img = $sql->getValue("$table.image");
+	if (@$sql->getValue("$table.photo") != "") $img = $sql->getValue("$table.photo");
 
 	$admin_class = "";
 	if ($sql->getValue("$table.admin") == 1) $admin_class = " admin";

@@ -1,52 +1,5 @@
 <?php
 
-// allgemeine feldtypen
-$UT = array();
-$UT[1] = "INT(11)";
-$UT[2] = "VARCHAR(255)";
-$UT[3] = "TEXT";
-$UT[4] = "PASSWORD";
-$UT[5] = "SELECT";
-$UT[6] = "BOOL";
-
-// feste felder
-$ff = array();
-$ff[] = "id";
-$ff[] = "login";
-$ff[] = "password";
-$ff[] = "email";
-$ff[] = "status";
-$ff[] = "name";
-$ff[] = "firstname";
-
-/*
-$ff[] = "session_id";
-$ff[] = "last_xs";
-$ff[] = "last_login";
-$ff[] = "email_checked";
-$ff[] = "activation_key";
-$ff[] = "last_newsletterid";
-
-$ff[] = "gender";
-$ff[] = "street";
-$ff[] = "zip";
-$ff[] = "city";
-$ff[] = "phone";
-$ff[] = "birthday";
-
-$ff[] = "show_contactinfo";
-$ff[] = "show_personalinfo";
-$ff[] = "show_guestbook";
-$ff[] = "sendemail_contactrequest";
-$ff[] = "sendemail_newmessage";
-$ff[] = "sendemail_guestbook";
-*/
-
-
-
-$REX["ADDON"]["community"]["ut"] = $UT;
-$REX["ADDON"]["community"]["ff"] = $ff;
-
 function rex_com_utcreate($table,$feld,$type,$extra1="",$extra2="",$extra3="")
 {
 	$err_msg = "<b>$feld</b> fehlte in der Usertabelle und wurde nun angelegt.";
@@ -54,6 +7,7 @@ function rex_com_utcreate($table,$feld,$type,$extra1="",$extra2="",$extra3="")
 	$up = new rex_sql;
 	switch($type)
 	{
+		case("8"):
 		case("1"):
 			// int anlegen
 			$up->setQuery("ALTER TABLE `$table` ADD `$feld` INT(11) NOT NULL;");
@@ -78,6 +32,11 @@ function rex_com_utcreate($table,$feld,$type,$extra1="",$extra2="",$extra3="")
 			// tinyint(4) anlegen
 			$up->setQuery("ALTER TABLE `$table` ADD `$feld` TINYINT NOT NULL;");
 			break;
+		case("7"):
+			// float für positionen anlegen
+			$up->setQuery("ALTER TABLE `$table` ADD `$feld` FLOAT(10,7) NOT NULL;");
+			break;
+			
 		default:
 			// fehler - typ nicht vorhanden
 			$err_msg = "Typ <b>$type</b> nicht gefunden. Feld <b>$feld</b> konnte nicht angelegt werden.";
@@ -197,16 +156,3 @@ function rex_com_checkFields($table, $table_user)
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
