@@ -86,13 +86,18 @@ class rex_xform_mediafile extends rex_xform_abstract
 			$this->params["warning_messages"][] = $this->elements[6];
 		}
 
+		$wc = "";
+		if (isset($warning["el_" . $this->getId()])) 
+		  $wc = $warning["el_" . $this->getId()];
+		
+		
 
        	$out = '
 			<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.'_filename]" value="'.$this->value.'" />
 
 			<p class="formfile">
-				<label class="text ' . $warning["el_" . $this->id] . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
-				<input class="uploadbox clickmedia '.$warning["el_".$this->id].'" id="el_'.$this->id.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="file" />
+				<label class="text ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+				<input class="uploadbox clickmedia '.$wc.'" id="el_'.$this->id.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="file" />
 			</p>'.$check_delete;
 
 		$form_output[] = $out;
