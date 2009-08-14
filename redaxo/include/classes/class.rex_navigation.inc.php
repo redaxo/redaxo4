@@ -18,6 +18,7 @@
  * 
  * $nav = rex_navigation::factory();
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
+ * $nav->setLinkClasses(array('alev1', 'alev2', 'alev3'));
  * echo $nav->get(0,2,TRUE,TRUE);
  *
  * Sitemap:
@@ -152,6 +153,11 @@ class rex_navigation
 	  $this->classes = $classes;
 	}
 
+	/*public*/ function setLinkClasses($classes)
+	{
+	  $this->linkclasses = $classes;
+	}
+
 	/*private*/ function _setActivePath()
 	{
 		global $REX;
@@ -211,6 +217,11 @@ class rex_navigation
       // classes abhaengig vom level
       if(isset($this->classes[$depth]))
         $liClass .= ' '. $this->classes[$depth];
+
+      if(isset($this->linkclasses[$depth]))
+        $linkClass .= ' '. $this->linkclasses[$depth];
+
+
       
 			$liClass   = $liClass   == '' ? '' : ' class="'. ltrim($liClass) .'"';
 			$linkClass = $linkClass == '' ? '' : ' class="'. ltrim($linkClass) .'"';
