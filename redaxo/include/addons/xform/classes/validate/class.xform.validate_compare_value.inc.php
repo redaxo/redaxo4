@@ -22,7 +22,7 @@ class rex_xform_validate_compare_value extends rex_xform_validate_abstract
 	
 	function getDescription()
 	{
-		return "compare_value -> compare label with value, example: validate|compare_vale|label|value|warning_message ";
+		return "compare_value -> compare label with value, example: validate|compare_value|label|value|warning_message ";
 	}
 }
 

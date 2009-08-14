@@ -37,27 +37,30 @@ class rex_xform_radio extends rex_xform_abstract
 		foreach($this->getKeys() as $wert => $bezeichnung)
 		{
 			$i++;
-			$out .= '<p>';
+			$out .= '<span class="formradio">';
 			$out .= '<input type="radio" name="FORM[' . $this->params["form_name"] . '][el_' . $this->id . ']" id="el_'.$this->id.'_'.$i.'" value="'.$wert.'" ';
-			if ($this->value == $wert) $out .= ' checked="checked"';
+			if ($this->value == $wert) 
+			 $out .= ' checked="checked"';
 			$out .= ' />';
 			$out .= '<label for="el_'.$this->id.'_'.$i.'">'.$bezeichnung.'</label>';
-			$out .= '</p>';
+			$out .= '</span>';
 			
 		}
 
 		$wc = "";
-		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()];
+		if (isset($warning["el_" . $this->getId()])) 
+		  $wc = $warning["el_" . $this->getId()];
 
 
 		$form_output[] = ' 
-			<p class="formradio form_'.$this->elements[1].'">
-				<label class="radio ' . $wc . '" >' . $this->elements[2] . '</label>
-				<div class="radio '.$wc.'">' .$out . '</div>
+			<p class="formradio form_'.$this->elements[1].' '.$wc.'">
+				<label class="radio" >' . $this->elements[2] . '</label>
+				<div class="radio">' .$out . '</div>
 			</p>';
 
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
+		  $sql_elements[$this->elements[1]] = $this->value;
 
 	}
 	

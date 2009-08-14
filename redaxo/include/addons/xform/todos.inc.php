@@ -1,5 +1,15 @@
 Todos:
 
+markus prüfen
+
+das reihenteil $ jquery unabhaengig noconflict mode verwenden
+
+style für form optimieren
+
+radio markup in ordnung bringen
+
+
+
 - jquery einbetten können
 - layout modifizierbarer machen
 - mehrseitige Formulare
@@ -8,6 +18,8 @@ Todos:
 - preAction, keys setzen
 - longdescription einsetzen und anzeigen lassen
 - email validierung nur wenn email eingetragen wurde.
+
+
 
 
 $REX["FRONTEND_FILE"] - index.php nachsehen

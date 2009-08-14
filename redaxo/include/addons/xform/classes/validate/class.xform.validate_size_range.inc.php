@@ -40,6 +40,6 @@ class rex_xform_validate_size_range extends rex_xform_validate_abstract
 	
 	function getDescription()
 	{
-		return "size -> Laenge der Eingabe muss mindestens und/oder maximal sein, beispiel: validate|size_range|label|[minsize]|[maxsize]|Fehlermeldung";
+		return "size_range -> Laenge der Eingabe muss mindestens und/oder maximal sein, beispiel: validate|size_range|label|[minsize]|[maxsize]|Fehlermeldung";
 	}
 }

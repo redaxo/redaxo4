@@ -11,7 +11,7 @@
 
 #rex-xform legend {
     margin-left:-5px;
-    padding:3px 5px;
+    padding:0px 5px;
     background-color:#d5eeff;
     color:#216491;
     font-size:14px;
@@ -67,6 +67,12 @@
 
 /* ***************************** TEXT */
 #rex-xform p.formtext {
+    clear:both;
+    padding-bottom:0px;
+    margin-bottom:5px;
+}
+
+#rex-xform p.formpassword {
     clear:both;
     padding-bottom:0px;
     margin-bottom:5px;

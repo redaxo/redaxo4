@@ -1,44 +1,49 @@
 /* *** ALLGEMEIN *** */
 
 #rex-xform fieldset{
-    border:1px solid #333;
-    margin:0;
-    padding:20px;
-    padding-bottom:10px;
-    border:1px solid #d5eeff;
+	clear:both;
+  border:1px solid #333;
+	margin:0;
+	padding:20px;
+	padding-bottom:10px;
+	border:1px solid #d5eeff;
 }
 
 
 #rex-xform legend {
-    margin-left:-5px;
-    padding:3px 5px;
-    background-color:#d5eeff;
-    color:#216491;
-    font-size:14px;
+	margin-left:-5px;
+	padding:3px 5px;
+	background-color:#d5eeff;
+	color:#216491;
+	font-size:14px;
 }
 
 #rex-xform label {
-    float:left;
-    width:160px;
-    line-height:23px;
+	float:left;
+	width:160px;
+	line-height:23px;
 }
 
 #rex-xform select {
-    border:1px solid #ccc;
-    padding:2px;
-    width:250px;
+	border:1px solid #ccc;
+	padding:2px;
+	width:250px;
 }
 
 #rex-xform ul.form_warning {
-    color:#f90;
-    margin-bottom:20px;
+	color:#f90;
+	margin-bottom:20px;
 }
 
 #rex-xform ul.form_warning li{
-    list-style-type: square;
-    margin-left:15px;
+	list-style-type: square;
+	margin-left:15px;
 }
 
+p.formpassword,
+p.formdate {
+clear:both;
+}
 
 p.formcaptcha input,
 p.formtextarea textarea,
@@ -112,7 +117,7 @@ p.formcaptcha span{
     display:block;
 }
 
-/* ***************************** TEXTSELECT */
+/* ***************************** TEXTAREA */
 p.formtextarea {
     clear:both;
     padding-bottom:0px;

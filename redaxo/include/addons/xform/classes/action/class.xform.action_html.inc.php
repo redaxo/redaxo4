@@ -14,7 +14,7 @@ class rex_xform_action_html extends rex_xform_action_abstract
 
 	function getDescription()
 	{
-		return "action|html|<b>fett</b>";
+		return "action|html|&lt;b&gt;fett&lt;/b&gt;";
 	}
 
 }

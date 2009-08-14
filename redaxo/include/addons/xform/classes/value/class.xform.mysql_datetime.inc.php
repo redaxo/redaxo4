@@ -7,7 +7,8 @@ class rex_xform_mysql_datetime extends rex_xform_abstract
 	{
 		$this->value = date("Y-m-d H-i-s");
 		$email_elements[$this->elements[1]] = $this->value;
-		if ($this->elements[3] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		if (!isset($this->elements[3]) || $this->elements[3] != "no_db") 
+		  $sql_elements[$this->elements[1]] = $this->value;
 	}
 	
 	function getDescription()
