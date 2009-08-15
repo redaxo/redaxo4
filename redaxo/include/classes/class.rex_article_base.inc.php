@@ -203,8 +203,7 @@ class rex_article_base
       $I_ID = $k;
     }
     
-    $slice_content = $RE_MODUL_OUT[$I_ID];
-    return $this->replaceVars($artDataSql, $slice_content);
+    return $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
   }
 
 
