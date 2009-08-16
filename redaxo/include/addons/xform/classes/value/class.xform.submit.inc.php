@@ -21,7 +21,6 @@ class rex_xform_submit extends rex_xform_abstract
 	
        	$form_output[] = '
 				<p class="formsubmit formlabel-'.$this->label.'">
-				<label class="text ' . $wc . '" for="el_' . $this->id . '" >&nbsp;</label>
 				<input type="submit" class="submit ' . $wc . '" name="FORM['.$this->params["form_name"] . '][el_' . $this->id . ']" id="el_' . $this->id . '" value="' . 
 				htmlspecialchars(stripslashes($this->value)) . '" />
 				</p>';

@@ -124,14 +124,14 @@ class rex_xform_google_geocode extends rex_xform_abstract
 	</script>';
 
 		$output = '
-			<p class="form_google_geocode formlabel-'.$this->label.'">
+			<div class="xform-element form_google_geocode formlabel-'.$this->label.'">
 				<label class="text '.$wc.'" for="el_'.$this->id.'_lat" >'.$this->elements[5].'</label>
-				<span>';
+				<p class="form_google_geocode">';
 		if ($vv != "")
 			$output .= '<a href="javascript:void(0);" onclick="getGGeo'.$this->id.'(); return false">Geodaten holen</a> | ';	
-		$output .= '<a href="javascript:void(0);" onclick="deleteGGeo'.$this->id.'(); return false">Geodaten nullen</a></span>
-				<div id="map_canvas" style="width:400px; height:200px">Google Map</div>
-			</p>';
+		$output .= '<a href="javascript:void(0);" onclick="deleteGGeo'.$this->id.'(); return false">Geodaten nullen</a></p>
+				<div class="form_google_geocode_map" id="map_canvas" style="width:400px; height:200px">Google Map</div>
+			</div>';
 			
 		$form_output[] = $output;
 			

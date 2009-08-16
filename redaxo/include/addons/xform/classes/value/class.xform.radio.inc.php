@@ -42,7 +42,7 @@ class rex_xform_radio extends rex_xform_abstract
 			if ($this->value == $wert) 
 			 $out .= ' checked="checked"';
 			$out .= ' />';
-			$out .= '<label for="el_'.$this->id.'_'.$i.'">'.$bezeichnung.'</label>';
+			$out .= '<label class="radio" for="el_'.$this->id.'_'.$i.'">'.$bezeichnung.'</label>';
 			$out .= '</span>';
 			
 		}
@@ -53,10 +53,10 @@ class rex_xform_radio extends rex_xform_abstract
 
 
 		$form_output[] = ' 
-			<p class="formradio form_'.$this->elements[1].' '.$wc.'">
+			<div class="xform-element formradio form_'.$this->elements[1].' '.$wc.'">
 				<label class="radio" >' . $this->elements[2] . '</label>
-				<div class="radio">' .$out . '</div>
-			</p>';
+				<p class="radio">' .$out . '</p>
+			</div>';
 
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
 		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
