@@ -52,7 +52,7 @@ html|<p>Welche Objektparams gibt es.. Auflisten</p>
 
 submit|label|value|[no_db]|cssclassname
 submitimage|label|value|/redaxo/media/email.gif/|[no_db]
-submit|label|value|cssclassname
+submit|label|value||cssclassname
 
 
 fieldset|Validierungen|class_valid
