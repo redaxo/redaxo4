@@ -4,7 +4,7 @@ article|2
 fieldset|Funktioniert nur im Backend|class_be
 be_medialist|label|Bezeichnung|no_db
 be_mediapool|label|Bezeichnung|defaultwert|no_db
-be_table|label|Beschreibung *|Anzahl Spalten|Menge,Preis/Stück
+be_table|label|Beschreibung *|Anzahl Spalten|Menge,Preis/St&#159;ck
 
 
 fieldset|Normale Felder|class_be
@@ -22,7 +22,7 @@ select_single_sql|user_id|Single SQL mit Select:|1|select id,login from rex_user
 mediafile|label|Bezeichnung|groesseinkb|endungenmitpunktmitkommasepariert|pflicht=1|Fehlermeldung|[no_db]|mediacatid
 mediapool|label|Bezeichnung|kategorieid|100|jpg,gif,png
 
-select_multiple_sql|rex_rel_user_city|user_id|city_id| Redaxo User *:|select * from rex_user order by name|id|name
+select_multiple_sql|rex_rel_user_city|user_id|city_id| Redaxo User *:|select * from rex_user order by name|user_id|name
 
 
 
@@ -66,7 +66,7 @@ validate|empty|valid2|Bitte Valid2 Text eingeben
 text|valid3|Valid3 Text
 validate|intfromto|valid3|6000|10000|Bitte geben Sie bei Valid3 eine Zahl zwischen 6000 und 10000 ein.
 
-validate|atleastone|valid1,valid2,valid3|2|3|Bitte füllen Sie mindesten 2 der oberen Valid1-3 Textfelder aus
+validate|atleastone|valid1,valid2,valid3|2|3|Bitte f&#159;llen Sie mindesten 2 der oberen Valid1-3 Textfelder aus
 
 
 text|valid4|Valid4 Text
@@ -81,13 +81,13 @@ validate|type|valid6|url|Bitte geben eine URL in den Valid6 Text ein.
 
 text|valid7|Valid7 Text
 text|valid8|Valid8 Text
-validate|compare|valid7|valid8|Valid7 und Valid8 müssen gleich sein.
+validate|compare|valid7|valid8|Valid7 und Valid8 m&#159;ssen gleich sein.
 
 
 
 validate|compare_value|label|value|warning_message
 validate|existintable|label|tablename|feldname|warning_message
-validate|unique|dbfeldname|Dieser Name existiert schon|[table]
+validate|unique|label|Dieser Name existiert schon|[table]
 
 
 fieldset|Sonstiges|class_extra
