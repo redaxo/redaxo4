@@ -616,6 +616,7 @@ jQuery(function($){
      }
   });
   
+  /*
   $(function() {
     $("a,input,button,textarea,select,option")
       .focus(function(event) {
@@ -625,4 +626,5 @@ jQuery(function($){
         ENABLE_KEY_NAV = true;
       });    
   });
+  */
 });
