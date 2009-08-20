@@ -19,7 +19,8 @@ if ($func == "ids")
 	{
 		$i++;
 		$v = (int) $_REQUEST["LINK"][$i];
-		$content .= "define('$k',$v);\n";
+		$content .= '$REX["ADDON"]["COMMUNITY_VARS"]["'.$k.'"] = "'.$v.'";'."\n";
+		$REX["ADDON"]["COMMUNITY_VARS"][$k] = $v;
 	}
 	rex_replace_dynamic_contents($file, $content);
 	
@@ -283,7 +284,13 @@ foreach($ids as $v)
 {
 	$i++;
 	$name = "";
-	if (@constant($v)) if ($a = OOArticle::getArticleById(constant($v))) $name = $a->getName();	
+	$val = "0";
+	if(isset($REX["ADDON"]["COMMUNITY_VARS"][$v]))
+	  $val = $REX["ADDON"]["COMMUNITY_VARS"][$v];
+	
+	if ($val != "0")
+	  if ($a = OOArticle::getArticleById($val)) 
+	    $name = $a->getName();	
 	?>
 	
 	<div class="pluginbox" style="width:350px;float:left; ">
@@ -293,7 +300,7 @@ foreach($ids as $v)
 		<div class="rex-wdgt-lnk">
 
           <p class="rex-wdgt-fld">
-  			<input type="hidden" name="LINK[<?php echo $i; ?>]" id="LINK_<?php echo $i; ?>" value="<?php echo constant($v); ?>" />
+  			<input type="hidden" name="LINK[<?php echo $i; ?>]" id="LINK_<?php echo $i; ?>" value="<?php echo $val; ?>" />
   			<input type="text" size="30" name="LINK_NAME[<?php echo $i; ?>]" value="<?php echo htmlspecialchars($name); ?>" id="LINK_<?php echo $i; ?>_NAME" readonly="readonly" />
   		  </p>
           <p class="rex-wdgt-icons">
