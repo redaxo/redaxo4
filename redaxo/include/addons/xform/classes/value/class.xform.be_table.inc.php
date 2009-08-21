@@ -13,7 +13,6 @@ class rex_xform_be_table extends rex_xform_abstract
 
 		$id = $this->id;
 	
-	
 		// "1,1000,121;10,900,1212;100,800,1212;"
 	
 		$out = '<script>
@@ -21,8 +20,7 @@ class rex_xform_be_table extends rex_xform_abstract
 		function rex_xform_table_deleteRow'.$id.'(obj)
 		{
 			tr = obj.parent("td").parent("tr");
-			tbody = tr.parent("tbody");
-			tr.fadeOut("slow", function()
+			tr.fadeOut("normal", function()
 				{
 					tr.remove();
 				}
@@ -31,15 +29,23 @@ class rex_xform_be_table extends rex_xform_abstract
 		
 		function rex_xform_table_addRow'.$id.'(table)
 		{
-			table.append(\'<tr>';
-			for($r=0;$r<$columns;$r++)
+			
+			jQuery(function($) { table.append(\'';
+
+		  $out .= '<tr>';
+	   	for($r=0;$r<$columns;$r++)
 			{
 				$out .= '<td><input type="text" name="v['.$id.']['.$r.'][]" value="" /></td>';
-			
 			}
-			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'($(this))">- löschen</a></td>';
-			$out .= '</tr>\');
+			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'( jQuery(this) )">- löschen</a></td>';
+			$out .= '</tr>';
+		  	
+			$out .= '\');
+
+			    })
+			
 		}
+		
 		
 		</script>';
 		
@@ -97,7 +103,7 @@ class rex_xform_be_table extends rex_xform_abstract
 		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()];
 		
 		$out .= '
-		<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'($(\'#xform_table'.$id.'\'))">+ Reihe hinzufügen</a>
+		<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'(jQuery(\'#xform_table'.$id.'\'))">+ Reihe hinzufügen</a>
 		<table id="xform_table'.$id.'"><tr>';
 		for($r=0;$r<$columns;$r++) $out .= '<th>'.$column_names[$r].'</th>';
 		$out .= '</tr>';
@@ -114,7 +120,7 @@ class rex_xform_be_table extends rex_xform_abstract
 				$tmp = ""; if(isset($v[$r])) $tmp = $v[$r];
 				$out .= '<td><input type="text" name="v['.$id.']['.$r.'][]" value="'.$tmp.'" /></td>';
 			}
-			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'($(this))">- löschen</a></td>';
+			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'(jQuery(function($) {$(this)}))">- löschen</a></td>';
 			$out .= '</tr>';
 		}
 		$out .= '</table><br />';

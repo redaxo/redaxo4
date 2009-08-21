@@ -4,7 +4,7 @@ article|2
 fieldset|Funktioniert nur im Backend|class_be
 be_medialist|label|Bezeichnung|no_db
 be_mediapool|label|Bezeichnung|defaultwert|no_db
-be_table|label|Beschreibung *|Anzahl Spalten|Menge,Preis/St&#159;ck
+be_table|label|Beschreibung *|3|Menge,Preis,Einkaufspreis
 
 
 fieldset|Normale Felder|class_be
