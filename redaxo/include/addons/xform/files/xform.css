@@ -78,6 +78,13 @@
 	border: 1px solid #000;
 }
 
+.xform .formtable table {
+	margin-left: 145px;
+}
+.xform .formtable table td {
+	padding: 0 5px 5px 0;
+}
+
 /*	--------------------------------------- Submit */
 .xform input.submit {
 	margin-left: 145px;
