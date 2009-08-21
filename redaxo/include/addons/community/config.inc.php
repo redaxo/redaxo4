@@ -12,7 +12,8 @@ $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = "community[]";
 
-$I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
+if (isset($I18N) && is_object($I18N))
+  $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
 // ********** Community User Funktionen
 include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_user.inc.php";
