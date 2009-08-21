@@ -121,7 +121,7 @@ class rex_xform_be_table extends rex_xform_abstract
 				$tmp = ""; if(isset($v[$r])) $tmp = $v[$r];
 				$out .= '<td><input type="text" name="v['.$id.']['.$r.'][]" value="'.$tmp.'" /></td>';
 			}
-			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'(jQuery(function($) {$(this)}))">- löschen</a></td>';
+			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'(jQuery(this))">- löschen</a></td>';
 			$out .= '</tr>';
 		}
 		$out .= '</table><br />';
