@@ -14,7 +14,8 @@ class rex_xform_be_table extends rex_xform_abstract
 		$id = $this->id;
 	
 		// "1,1000,121;10,900,1212;100,800,1212;"
-	
+		
+		$out_row_add = '';
 		$out = '<script>
 		
 		function rex_xform_table_deleteRow'.$id.'(obj)
@@ -102,9 +103,9 @@ class rex_xform_be_table extends rex_xform_abstract
 		$wc = "";
 		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()];
 		
-		$out .= '
-		<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'(jQuery(\'#xform_table'.$id.'\'))">+ Reihe hinzufügen</a>
-		<table id="xform_table'.$id.'"><tr>';
+		$out_row_add .= '<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'(jQuery(\'#xform_table'.$id.'\'))">+ Reihe hinzufügen</a>';
+		
+		$out .= '<table id="xform_table'.$id.'"><tr>';
 		for($r=0;$r<$columns;$r++) $out .= '<th>'.$column_names[$r].'</th>';
 		$out .= '</tr>';
 		
@@ -125,11 +126,14 @@ class rex_xform_be_table extends rex_xform_abstract
 		}
 		$out .= '</table><br />';
 	
-		$form_output[] = ' 
-			<p class="formselect ' . $wc . '">
-			<label class="select ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>' .
-			$out . '
-			</p>';
+		$form_output[] = '
+			<div class="xform-element formtable">
+				<p class="formtable ' . $wc . '">
+				<label class="table ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+				'.$out_row_add.'
+				</p>
+				'.$out.'
+			</div>';
 	
 	
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
