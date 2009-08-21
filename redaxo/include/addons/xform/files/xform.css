@@ -7,7 +7,6 @@
 	clear: both;
 	padding: .5em;
 	margin-bottom: 1em;
-	border: 1px solid #000;
 }
 .xform legend {
 	padding: .5em;
@@ -69,13 +68,15 @@
 .xform select.multipleselect {
 	width: 306px;
 }
+.xform fieldset, 
 .xform input.captcha, 
 .xform input.inp_disabled,
 .xform input.password, 
 .xform .formtext input.text,  
 .xform textarea.textarea, 
-.xform select.multipleselect {
-	border: 1px solid #000;
+.xform select.multipleselect, 
+.xform .formtable table td input {
+	border: 1px solid #3c9ed0;
 }
 
 .xform .formtable table {
