@@ -167,9 +167,9 @@ class OORedaxo
    * Object Helper Function:
    * Returns a url for linking to this article
    */
-  function getUrl($params = '')
+  function getUrl($params = '', $divider = '&amp;')
   {
-    return rex_getUrl($this->getId(), $this->getClang(), $params);
+    return rex_getUrl($this->getId(), $this->getClang(), $params, $divider);
   }
 
   /*
