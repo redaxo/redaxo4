@@ -57,7 +57,7 @@
 .xform input.password, 
 .xform .formtext input.text, 
 .xform textarea.textarea {
-	padding: 2px;
+	padding: 1px 2px;
 	width: 300px;
 }
 .xform input.captcha {
@@ -76,7 +76,7 @@
 .xform textarea.textarea, 
 .xform select.multipleselect, 
 .xform .formtable table td input {
-	border: 1px solid #3c9ed0;
+	border: 1px solid #999;
 }
 
 .xform .formtable table {
