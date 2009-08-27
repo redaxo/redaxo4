@@ -478,7 +478,6 @@ class rex_xform
 			{
 				$this->objparams["output"] .= '
 					<p class="formsubmit">
-						<label>&nbsp;</label>
 						<input type="submit" name="FORM['.$this->objparams["form_name"].']['.$this->objparams["form_name"].'submit]" value="'.$this->objparams["submit_btn_label"].'" class="submit" />
 					</p>';
 			}  
