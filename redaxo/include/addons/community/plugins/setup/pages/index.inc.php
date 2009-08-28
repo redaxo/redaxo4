@@ -151,11 +151,12 @@ if ($func == "email" && $request_email != "")
 		
 			$body = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/community/plugins/".$email[0]."/emails/".$email[1].".email");
 			
-			$body = str_replace("\r","\n",$body); $body = str_replace("\n\n","\n",$body);
+			$body = str_replace("\r","\n",$body); 
+			$body = str_replace("\n\n","\n",$body);
 			
-			foreach($REX["ADDON"]["community"]["plugins"]["setup"]["ids"] as $k)
+			foreach($REX["ADDON"]["COMMUNITY_VARS"] as $k => $v)
 			{
-				$body = str_replace('###'.$k.'###',constant($k),$body);
+				$body = str_replace('###'.$k.'###',$v,$body);
 			}
 			$body = str_replace('###REXCOM_SERVER###',$REX['SERVER'],$body);
 			$body = str_replace('###REXCOM_EMAIL###',$REX['ERROR_EMAIL'],$body);
@@ -201,7 +202,7 @@ if ($func == "email" && $request_email != "")
 
 <div class="rex-area">
 
-<h3 class="rex-hl2">Setup für Standardcommunity</h3>
+<h3 class="rex-hl2">Setup</h3>
 
 
 

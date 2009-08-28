@@ -12,8 +12,8 @@ if (isset($REX['COM_USER']) && is_object($REX['COM_USER']))
 	$login .= '<div id="com-user-box">';
 	$login .= '<p><strong>'.$REX['COM_USER']->getValue('firstname').' '.$REX['COM_USER']->getValue('name').'</strong></p>';
 	$login .= '<ul>
-					<li><a class="icon icon-myprfl" href="'.rex_getUrl(REX_COM_PAGE_MYPROFIL_ID).'"><span>Mein Profil</span></a></li>
-					<li><a class="icon icon-lgt" href="'.rex_getUrl(REX_COM_PAGE_LOGOUT_ID,'',array('logout'=>1)).'"><span>Logout</span></a></li>
+					<li><a class="icon icon-myprfl" href="'.rex_getUrl($REX["ADDON"]["COMMUNITY_VARS"]["COM_PAGE_MYPROFIL_ID"]).'"><span>Mein Profil</span></a></li>
+					<li><a class="icon icon-lgt" href="'.rex_getUrl($REX["ADDON"]["COMMUNITY_VARS"]["COM_PAGE_LOGOUT_ID"],'',array('logout'=>1)).'"><span>Logout</span></a></li>
 				</ul>';
 	$login .= '</div>';
 
@@ -23,7 +23,7 @@ if (isset($REX['COM_USER']) && is_object($REX['COM_USER']))
 	$status = 'Logout';
 
 	$login .= '<div id="com-user-box">';
-	$login .= '<form action="'.rex_getUrl(REX_COM_PAGE_LOGIN_ID).'" method="post">
+	$login .= '<form action="'.rex_getUrl($REX["ADDON"]["COMMUNITY_VARS"]["COM_PAGE_LOGIN_ID"]).'" method="post">
 			<fieldset>
 			<p class="formtext">
 				<label for="name" class="hidden">Benutzername:</label>
@@ -38,8 +38,8 @@ if (isset($REX['COM_USER']) && is_object($REX['COM_USER']))
 		</form>
 		
 		<ul>
-			<li><a class="icon-arrow" href="'.rex_getUrl(REX_COM_PAGE_REGISTER_ID).'"><span>Registrieren ?</span></a></li>
-			<li><a class="icon-arrow" href="'.rex_getUrl(REX_COM_PAGE_PSWFORGOTTEN_ID).'"><span>Passwort ?</span></a></li>
+			<li><a class="icon-arrow" href="'.rex_getUrl($REX["ADDON"]["COMMUNITY_VARS"]["COM_PAGE_REGISTER_ID"]).'"><span>Registrieren ?</span></a></li>
+			<li><a class="icon-arrow" href="'.rex_getUrl($REX["ADDON"]["COMMUNITY_VARS"]["COM_PAGE_PSWFORGOTTEN_ID"]).'"><span>Passwort ?</span></a></li>
 		</ul>';
 	$login .= '</div>';
 }
