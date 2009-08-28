@@ -3,7 +3,7 @@
 /** 
  * Config . Zuständig für den Newsletter 
  * @author jan@kristinus
- * @version 0.9
+ * @version 1.0
  */ 
 
 if ($REX["REDAXO"] 
@@ -18,6 +18,9 @@ if ($REX["REDAXO"]
 }
 
 $REX['ADDON']['NEWSLETTER_TEXT'] = FALSE;
+
+// Feld festlegen, nicht lšschbar
+$REX["ADDON"]["community"]["ff"][] = "last_newsletterid";
 
 function rex_newsletter_sendmail($userinfo, $aid, $mail_reply, $mail_subject)
 {
