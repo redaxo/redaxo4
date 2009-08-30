@@ -47,9 +47,11 @@ function rex_version_initArticle($params)
 	$REX["USER"] = &$REX["LOGIN"]->USER;
 
   $params["article"]->setSliceRevision($version);
-	$params["article"]->getContentAsQuery();
+	if($params["article"] instanceof rex_article)
+	{
+  	$params["article"]->getContentAsQuery();
+	}
 	$params["article"]->setEval(TRUE);
-
 }
 
 rex_register_extension('PAGE_CONTENT_HEADER', 'rex_version_header');

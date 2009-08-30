@@ -15,8 +15,8 @@ class rex_article extends rex_article_base
 
   function rex_article($article_id = null, $clang = null)
   {
-    parent::rex_article_base($article_id, $clang);
     $this->viasql = FALSE;
+    parent::rex_article_base($article_id, $clang);
   }
 
   // bc
@@ -105,7 +105,7 @@ class rex_article extends rex_article_base
     {
       return parent::getArticle($curctype);
     }
-     
+    
     global $REX;
 
     $this->ctype = $curctype;
