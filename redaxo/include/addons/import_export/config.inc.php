@@ -19,7 +19,9 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 	
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('', $I18N->msg('im_export_export'));
+	
  	if($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin())
+ 	{
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('import', $I18N->msg('im_export_import'));
-
+ 	}
 }
