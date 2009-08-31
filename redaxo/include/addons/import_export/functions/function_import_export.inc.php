@@ -64,7 +64,7 @@ function rex_a1_import_db($filename)
   }
 
 
-  // Charset prŸfen
+  // Charset prüfen
   // ## charset xxx_
   if(preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
   {
@@ -105,11 +105,12 @@ function rex_a1_import_db($filename)
   {
     include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php');
   }
+  
+  $sql   = new rex_sql();
+  $lines = array();
+  // Datei aufteilen
   PMA_splitSqlFile($lines, $conts, 0);
 
-  // Datei aufteilen
-  $lines = array();
-  $sql   = new rex_sql();
   foreach ($lines as $line) {
     $sql->setQuery($line['query']);
 
@@ -118,7 +119,6 @@ function rex_a1_import_db($filename)
       $error .= "\n". $sql->getError();
     }
   }
-  unset($lines);
 
   if($error != '')
   {
@@ -127,6 +127,7 @@ function rex_a1_import_db($filename)
   }
 
   $msg .= $I18N->msg('im_export_database_imported').'. '.$I18N->msg('im_export_entry_count', count($lines)).'<br />';
+  unset($lines);
 
   // prüfen, ob eine user tabelle angelegt wurde
   $tables = rex_sql::showTables();
@@ -372,15 +373,15 @@ function rex_a1_export_db($filename)
 
   fclose($fp);
   
-  // ----- EXTENSION POINT
-  // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
   
   $hasContent = true;
   
+  // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
   if (rex_extension_is_registered('A1_AFTER_DB_EXPORT'))
   {
     $content    = rex_get_file_contents($filename);
     $hashBefore = md5($content);
+    // ----- EXTENSION POINT
     $content    = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
     $hashAfter  = md5($content);
     
