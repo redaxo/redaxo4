@@ -64,7 +64,6 @@ function rex_a1_import_db($filename)
   }
 
 
-
   // Charset prŸfen
   // ## charset xxx_
   if(preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
@@ -75,25 +74,13 @@ function rex_a1_import_db($filename)
     
     if($I18N->msg('htmlcharset') != $charset)
     {
-	    $return['message'] = $I18N->msg('im_export_no_valid_charset').'. '.$I18N->msg('htmlcharset').' != '.$charset;
-	    return $return;
+      $return['message'] = $I18N->msg('im_export_no_valid_charset').'. '.$I18N->msg('htmlcharset').' != '.$charset;
+      return $return;
     }
     
   }
+
   
-  /*
-  // Charset nicht zwingend notwendig
-  else
-  {
-    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Charset '. $I18N->msg('htmlcharset') .'] is missing]';
-    return $return;
-  }
-  */
-
-
-
-
-
   // Prefix im export mit dem der installation angleichen
   if($REX['TABLE_PREFIX'] != $prefix)
   {
@@ -114,23 +101,24 @@ function rex_a1_import_db($filename)
    )
   );
 
-  // Datei aufteilen
-  $lines = explode("\n", $conts);
-
-  $add = new rex_sql;
-  $error = '';
-  foreach ($lines as $line)
+  if (!function_exists('PMA_splitSqlFile'))
   {
-    $line = trim($line,"\r"); // Windows spezifische extras
-    $line = trim($line, ";"); // mysql 3.x
-
-    if($line == '') continue;
-
-    $add->setQuery($line);
-
-    if($add->hasError())
-      $error .= "\n". $add->getError();
+    include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php');
   }
+  PMA_splitSqlFile($lines, $conts, 0);
+
+  // Datei aufteilen
+  $lines = array();
+  $sql   = new rex_sql();
+  foreach ($lines as $line) {
+    $sql->setQuery($line['query']);
+
+    if($sql->hasError())
+    {
+      $error .= "\n". $sql->getError();
+    }
+  }
+  unset($lines);
 
   if($error != '')
   {
@@ -253,166 +241,158 @@ function rex_a1_import_files($filename)
 }
 
 /**
- * Erstellt einen SQL Dump, der die aktuellen Datebankstruktur darstellt
- * @return string SQL Dump der Datenbank
+ * Erstellt einen SQL Dump, der die aktuellen Datebankstruktur darstellt.
+ * Dieser wird in der Datei $filename gespeichert.
+ * 
+ * @return boolean TRUE wenn ein Dump erstellt wurde, sonst FALSE
  */
-function rex_a1_export_db()
+function rex_a1_export_db($filename)
 {
   global $REX,$I18N;
-
-  $tabs = new rex_sql;
-  $tabs->setquery('SHOW TABLES');
-  $dump = '';
+  
+  $fp = @fopen($filename, "w");
+  
+  if (!$fp)
+  {
+    return false;
+  }
+  
+  $sql        = new rex_sql();
+  $tables     = rex_sql::showTables(1, $REX['TABLE_PREFIX']);
+  
+  $nl         = "\n";
+  $insertSize = 5000;
 
   // ----- EXTENSION POINT
   rex_register_extension_point('A1_BEFORE_DB_EXPORT');
+  
+  // Versionsstempel hinzufügen
+  fwrite($fp, '## Redaxo Database Dump Version '.$REX['VERSION'].$nl);
+  fwrite($fp, '## Prefix '.$REX['TABLE_PREFIX'].$nl);
+  fwrite($fp, '## charset '.$I18N->msg('htmlcharset').$nl.$nl);
+//  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
-  for ($i = 0; $i < $tabs->rows; $i++, $tabs->next())
+  foreach ($tables as $table)
   {
-    $tab = $tabs->getValue('Tables_in_'.$REX['DB']['1']['NAME']);
-    if (strstr($tab, $REX['TABLE_PREFIX']) == $tab // Nur Tabellen mit dem aktuellen Prefix
-        && $tab != $REX['TABLE_PREFIX'].'user' // User Tabelle nicht exportieren
-        && substr($tab, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+    if ($table != $REX['TABLE_PREFIX'].'user' // User Tabelle nicht exportieren
+        && substr($table, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
     {
-      $cols = new rex_sql;
-      $cols->setquery("SHOW COLUMNS FROM `".$tab."`");
-      $query = "DROP TABLE IF EXISTS `".$tab."`;\nCREATE TABLE `".$tab."` (";
-
-      // Spalten auswerten
-      for ($j = 0; $j < $cols->rows; $j++)
+    	//---- export metadata
+    	$create = rex_sql::showCreateTable($table);
+//      $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
+//      $create = $create['Create Table'];
+    
+      fwrite($fp, "DROP TABLE IF EXISTS `$table`;\n");
+      fwrite($fp, "$create;\n");
+    
+      $fields = $sql->getArray("SHOW FIELDS FROM `$table`");
+    
+      foreach ($fields as &$field)
       {
-        $colname = $cols->getValue('Field');
-        $coltype = $cols->getValue('Type');
-
-        // Null Werte
-        if ($cols->getValue('Null') == 'YES')
+        if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
         {
-          $colnull = 'NULL';
+          $field = 'int';
         }
-        else
+        elseif (preg_match('#^(float|double|decimal)#', $field['Type']))
         {
-          $colnull = 'NOT NULL';
+          $field = 'double';
         }
-
-        // Default Werte
-        if ($cols->getValue('Default') != '')
+        elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type']))
         {
-          $coldef = 'DEFAULT \''. str_replace("'", "\'", $cols->getValue('Default')) .'\'';
+          $field = 'string';
         }
-        else
-        {
-          $coldef = '';
-        }
-
-        // Spezial Werte
-        $colextra = $cols->getValue('Extra');
-
-        $query .= " `$colname` $coltype $colnull $coldef $colextra";
-        if ($j +1 != $cols->rows)
-        {
-          $query .= ",";
-        }
-        $cols->next();
+        // else ?
       }
-
-      // Indizes Auswerten
-      $indizes = new rex_sql();
-      $indizes->setQuery('SHOW INDEX FROM `'. $tab .'`');
-
-      $primary = array();
-      $uniques = array();
-      $fulltexts = array();
-      for($x = 0; $x < $indizes->getRows(); $x++)
+      
+    	//---- export tabledata
+      $start = 0;
+      $max   = $insertSize;
+      
+      do
       {
-        if($indizes->getValue('Index_type') == 'BTREE')
+        $sql->freeResult();
+        $sql->setQuery("SELECT * FROM `$table` LIMIT $start,$max");
+      
+        if ($sql->getRows() > 0 && $start == 0)
         {
-          if($indizes->getValue('Key_name') != 'PRIMARY')
-          {
-            $uniques[$indizes->getValue('Key_name')][] = $indizes->getValue('Column_name');
-          }
-          else
-          {
-            $primary[$indizes->getValue('Key_name')][] = $indizes->getValue('Column_name');
-          }
+          fwrite($fp, "\nLOCK TABLES `$table` WRITE;");
+          fwrite($fp, "\n/*!40000 ALTER TABLE `$table` DISABLE KEYS */;");
         }
-        else if ($indizes->getValue('Index_type') == 'FULLTEXT')
+        elseif ($sql->getRows() == 0)
         {
-          $fulltexts[$indizes->getValue('Key_name')][] = $indizes->getValue('Column_name');
+          break;
         }
-        $indizes->next();
-      }
-
-      // Primary key Auswerten
-      foreach($primary as $name => $columnNames)
-      {
-        // , UNIQUE KEY `name` (`spalten`,..)
-        $query .= ", PRIMARY KEY (`". implode('`,`', $columnNames) ."`)";
-      }
-
-      // Unique Index Auswerten
-      foreach($uniques as $name => $columnNames)
-      {
-        // , UNIQUE KEY `name` (`spalten`,..)
-        $query .= ", UNIQUE KEY `". $name ."`(`". implode('`,`', $columnNames) ."`)";
-      }
-
-      // Unique Index Auswerten
-      foreach($fulltexts as $name => $columnNames)
-      {
-        // , FULLTEXT KEY `name` (`spalten`,..)
-        $query .= ", FULLTEXT KEY `". $name ."`(`". implode('`,`', $columnNames) ."`)";
-      }
-
-      $query .= ") TYPE=MyISAM;";
-
-      $dump .= $query."\n";
-
-      // Inhalte der Tabelle Auswerten
-      $cont = new rex_sql;
-      $cont->setquery("SELECT * FROM `".$tab."`");
-      for ($j = 0; $j < $cont->rows; $j++, $cont->next())
-      {
-        $query = "INSERT INTO `".$tab."` VALUES (";
-        $cols->counter = 0;
-        for ($k = 0; $k < $cols->rows; $k++, $cols->next())
+        
+        $start += $max;
+        $values = array();
+      
+        while($sql->hasNext())
         {
-          $con = $cont->getValue($cols->getValue("Field"));
-
-          if (is_numeric($con))
+          $record = array();
+          
+          foreach ($fields as $idx => $type)
           {
-            $query .= "'".$con."'";
+            $column = $sql->getValue($idx);
+            
+            switch ($type)
+            {
+              case 'int':
+                $record[] = intval($column);
+                break;
+              case 'double':
+                $record[] = sprintf('%.10F', (double) $column);
+                break;
+              case 'string':
+              default:
+                $record[] = $sql->escape($column, "'");
+                break;
+            }
           }
-          else
-          {
-            $query .= "'".addslashes($con)."'";
-          }
-
-          if ($k +1 != $cols->rows)
-          {
-            $query .= ",";
-          }
+        
+          $values[] = $nl .'  ('.implode(',', $record).')';
+          $sql->next();
         }
-        $query .= ");";
-        $dump .= str_replace(array (
-          "\r\n",
-          "\n"
-        ), '\r\n', $query)."\n";
+      
+        if (!empty($values))
+        {
+          $values = implode(',', $values);
+          fwrite($fp, "\nINSERT INTO `$table` VALUES $values;");
+          unset($values);
+        }
+      }
+      while ($sql->getRows() >= $max);
+      
+      if ($start > 0)
+      {
+        fwrite($fp, "\n/*!40000 ALTER TABLE `$table` ENABLE KEYS */;");
+        fwrite($fp, "\nUNLOCK TABLES;\n\n");
       }
     }
   }
 
-  // Versionsstempel hinzufügen
-  $dump = str_replace("\r", "", $dump);
-  $header = "## Redaxo Database Dump Version ".$REX['VERSION']."\n";
-  $header .= "## Prefix ". $REX['TABLE_PREFIX'] ."\n";
-  $header .= "## charset ". $I18N->msg('htmlcharset') ."\n";
-
-  $content = $header . $dump;
-
+  fclose($fp);
+  
   // ----- EXTENSION POINT
-  $content = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
+  // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
+  
+  $hasContent = true;
+  
+  if (rex_extension_is_registered('A1_AFTER_DB_EXPORT'))
+  {
+    $content    = rex_get_file_contents($filename);
+    $hashBefore = md5($content);
+    $content    = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
+    $hashAfter  = md5($content);
+    
+    if ($hashAfter != $hashBefore)
+    {
+      rex_put_file_contents($filename, $content);
+	    $hasContent = !empty($content);
+	    unset($content);
+    }
+  }
 
-  return $content;
+  return $hasContent;
 }
 
 /**

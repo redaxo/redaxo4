@@ -56,23 +56,31 @@ if ($function == 'export')
   }
   else
   {
-    $content = '';
-    $header = '';
-    $ext = '';
+    $content     = '';
+    $hasContent  = false;
+    $header      = '';
+    $ext         = $exporttype == 'sql' ? '.sql' : '.tar.gz';
+    $export_path = getImportDir().'/';
+
+    if (file_exists($export_path.$filename.$ext))
+    {
+      $i = 1;
+      while (file_exists($export_path.$filename.'_'.$i.$ext)) $i++;
+      $filename = $filename.'_'.$i;
+    }
+    
     if ($exporttype == 'sql')
     {
       // ------------------------------ FUNC EXPORT SQL
       $header = 'plain/text';
-      $ext = '.sql';
 
-      $content = rex_a1_export_db();
+      $hasContent = rex_a1_export_db($export_path.$filename.$ext);
       // ------------------------------ /FUNC EXPORT SQL
     }
     elseif ($exporttype == 'files')
     {
       // ------------------------------ FUNC EXPORT FILES
       $header = 'tar/gzip';
-      $ext = '.tar.gz';
 
       if (empty($EXPDIR))
       {
@@ -80,48 +88,32 @@ if ($function == 'export')
       }
       else
       {
-        $content = rex_a1_export_files($EXPDIR);
+        $content    = rex_a1_export_files($EXPDIR);
+        $hasContent = rex_put_file_contents($export_path.$filename.$ext, $content);
       }
       // ------------------------------ /FUNC EXPORT FILES
     }
 
-    if ($content != '')
+    if ($hasContent)
     {
-      if($exportdl)
+      if ($exportdl)
       {
-      	ob_end_clean();
+      	while (ob_get_level()) ob_end_clean();
         $filename = $filename.$ext;
         header("Content-type: $header");
         header("Content-Disposition: attachment; filename=$filename");
-        echo $content;
+        readfile($export_path.$filename);
+        unlink($export_path.$filename);
         exit;
       }
       else
       {
-        // check filename ob vorhanden
-        // aendern filename
-        // speicher content in files
-
-        $export_path = getImportDir().'/';
-
-        if (file_exists($export_path . $filename . $ext))
-        {
-          $i = 1;
-          while(file_exists($export_path . $filename .'_'. $i . $ext))
-            $i++;
-
-          $filename = $filename .'_'. $i;
-        }
-
-        if (rex_put_file_contents($export_path . $filename . $ext, $content) !== false)
-        {
-          $info = $I18N->msg('im_export_file_generated_in').' '.strtr($filename . $ext, '\\', '/');
-        }
-        else
-        {
-          $warning = $I18N->msg('im_export_file_could_not_be_generated').' '.$I18N->msg('im_export_check_rights_in_directory').' '.$export_path;
-        }
+        $info = $I18N->msg('im_export_file_generated_in').' '.strtr($filename . $ext, '\\', '/');
       }
+    }
+    else
+    {
+      $warning = $I18N->msg('im_export_file_could_not_be_generated').' '.$I18N->msg('im_export_check_rights_in_directory').' '.$export_path;
     }
   }
 }
@@ -252,3 +244,5 @@ else
   </div><!-- END rex-area-col-b -->
   <div class="rex-clearer"></div>
 </div><!-- END rex-area -->
+
+<? print memory_get_peak_usage(); ?>
