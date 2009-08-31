@@ -748,21 +748,27 @@ class rex_sql
     }
     return $value;
   }
-
-  function showTables($DBID=1)
+  
+  function showCreateTable($table, $DBID=1)
   {
-    global $REX;
-
     $sql = new rex_sql($DBID);
-    $sql->setQuery('SHOW TABLES');
+    $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
+    $create = $create['Create Table'];
+    return $create;  	
+  }
 
-    $tables = array();
-    for($i = 0; $i < $sql->getRows(); $i++)
+  function showTables($DBID=1, $tablePrefix=null)
+  {
+    $qry = 'SHOW TABLES';
+    if($tablePrefix != null)
     {
-      $tables[] = $sql->getValue('Tables_in_'.$REX['DB'][$DBID]['NAME']);
-      $sql->next();
+    	$qry .= ' LIKE "'.$tablePrefix.'%"';    	
     }
 
+    $sql = new rex_sql($DBID);
+    $tables = $sql->getArray($qry);
+    $tables = array_map('reset', $tables);
+    
     return $tables;
   }
 
