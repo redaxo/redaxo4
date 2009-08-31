@@ -8,9 +8,11 @@ angehandelt.
 ---------------------------------------------------------------------------------
 
 Version 4.3 (2009-xx-xx)
-  * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]
 
   Neu:
+  * Import/Export optimiert [Markus.Staab]
+    - Basierend auf einem Patch von http://blog.webvariants.de/groessere-datenbanken-in-redaxo-exportieren
+  * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
   * rex_article umgebaut und vereinfacht [Markus.Staab]
