@@ -13,8 +13,8 @@ if ($REX["REDAXO"]
 	
 	// Module für das Setup aufnehmen
 	// $REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("setup","tabbox","1001 - COM-Module - Tabbox");
-	$REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("setup","usersearch","1002 - COM-Module - Usersuche");
-	$REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("setup","userdetails","1003 - COM-Module - Userdetails");
+	// $REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("setup","usersearch","1002 - COM-Module - Usersuche");
+	// $REX["ADDON"]["community"]["plugins"]["setup"]["modules"][] = array("setup","userdetails","1003 - COM-Module - Userdetails");
 
 	// Templates für das Setup aufnehmen
 	$REX["ADDON"]["community"]["plugins"]["setup"]["templates"][] = array("setup","auth","1012 - COM-Template - Basis - Authentifizierung",0);
