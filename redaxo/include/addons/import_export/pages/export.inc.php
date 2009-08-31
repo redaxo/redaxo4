@@ -144,7 +144,6 @@ if ($warning != '')
           
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="import_export" />
-            <input type="hidden" name="subpage" value="export" /> 
             <input type="hidden" name="function" value="export" />
 <?php
 $checkedsql = '';
