@@ -6,6 +6,12 @@
 
 ?>
 
+<style>
+ul.xform {
+  width:650px;
+  float:none;
+}</style>
+
 <br />DebugModus:
 <?php
 

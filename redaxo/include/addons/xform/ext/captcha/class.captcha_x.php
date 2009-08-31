@@ -258,7 +258,8 @@ class captcha_x {
      */    
     function _put_md5_into_session () {
         extract ( $this->INI);
-        session_start();
+        if(!isset($_SESSION))
+          session_start();
             
         $string              = implode ( '', $this->letters);
         

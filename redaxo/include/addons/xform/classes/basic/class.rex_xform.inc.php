@@ -562,7 +562,7 @@ class rex_xform
 				{
 				    while($Datei = readdir($Verzeichniszeiger))
 				    {
-				        if ($Datei != "." && $Datei != ".." && !preg_match("/^(class.xform.validate|class.xform.abstract)/", $Datei))
+				        if (preg_match("/^(class.xform)/", $Datei) && !preg_match("/^(class.xform.validate|class.xform.abstract)/", $Datei))
 				        {
 				            if(!is_dir($Datei))
 				            {
@@ -596,7 +596,7 @@ class rex_xform
 				{
 				    while($Datei = readdir($Verzeichniszeiger))
 				    {
-				        if ($Datei != "." && $Datei != ".." && !preg_match("/^(class.xform.validate_abstract)/", $Datei))
+				        if (preg_match("/^(class.xform.validate)/", $Datei) && !preg_match("/^(class.xform.validate_abstract)/", $Datei))
 				        {
 				            if(!is_dir($Datei))
 				            {
@@ -632,7 +632,7 @@ class rex_xform
 				{
 				    while($Datei = readdir($Verzeichniszeiger))
 				    {
-				        if ($Datei != "." && $Datei != ".." && !preg_match("/^(class.xform.action_abstract)/", $Datei))
+				        if (preg_match("/^(class.xform.action)/", $Datei) && !preg_match("/^(class.xform.action_abstract)/", $Datei))
 				        {
 				            if(!is_dir($Datei))
 				            {
