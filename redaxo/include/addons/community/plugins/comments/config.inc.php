@@ -24,4 +24,6 @@ if ($REX["REDAXO"])
 	// EMails
 	// $REX["ADDON"]["community"]["plugins"]["setup"]["emails"][] = array("guestbook","sendemail_guestbook","sendemail_guestbook","Community: Neuer Eintrag in Ihr Gästebuch", $REX['ERROR_EMAIL'], $REX['ERROR_EMAIL']);
 
+	// $REX['ADDON']['community']['xform_path']['validate'] = array($REX['INCLUDE_PATH'].'/addons/community/plugins/comments/xform/classes/validate/');
+	
 }
