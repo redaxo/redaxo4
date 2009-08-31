@@ -162,7 +162,7 @@ function rex_version_header($params)
 			  $return .= '<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.$I18N->msg("version_working_to_live").'</a></li>';
 		}else
 		{
-			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N->msg("version_copy_live_to_workingversion").'</a></li>';
+			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work" onclick="return confirm(\''.$I18N->msg("version_confirm_copy_live_to_workingversion").'\');">'.$I18N->msg("version_copy_live_to_workingversion").'</a></li>';
 		}
 	}
   $return .= '</ul>';
