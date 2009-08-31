@@ -14,6 +14,7 @@ $REX['ADDON']['name'][$mypage] = 'XForm';
 $REX['ADDON']['perm'][$mypage] = 'xform[]';
 $REX['ADDON']['version'][$mypage] = '1.4.1';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
+$REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = 'xform[]';
 
 // standard ordner fuer klassen
