@@ -9,7 +9,7 @@ $REX['ADDON']['name'][$mypage] = "Community";   // name
 $REX['ADDON']['perm'][$mypage] = "community[]"; // benoetigt mindest permission
 $REX['ADDON']['version'][$mypage] = '1.4';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+$REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = "community[]";
 
 if (isset($I18N) && is_object($I18N))
