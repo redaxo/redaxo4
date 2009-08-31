@@ -575,7 +575,7 @@ if ($article->getRows() == 1)
       $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
 
-    $listElements[] = '<a href="../'.$REX["FRONTEND_FILE"].'?article_id=' . $article_id . '&amp;clang=' . $clang . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
+    $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
 
     // ----- EXTENSION POINT
     $listElements = rex_register_extension_point('PAGE_CONTENT_MENU', $listElements,
