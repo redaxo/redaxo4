@@ -16,11 +16,6 @@ if (isset($I18N) && is_object($I18N))
   $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
 
 // ********** Community User Funktionen
-include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_user.inc.php";
-include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_replace.inc.php";
-include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_paginate.inc.php";
-include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.rex_com_formatter.inc.php";
-
 include $REX["INCLUDE_PATH"]."/addons/community/classes/class.rex_com.inc.php";
 
 // ********** Backend, Perms, Subpages etc.
@@ -91,16 +86,12 @@ $ff[] = "birthday";
 */
 
 
-
-
-
-
-
 // ********** XForm values/action/validations einbinden
+// $REX['INCLUDE_PATH'].'/addons/community/xform/classes/value/'
 
-$REX['ADDON']['community']['xform_path']['value'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/value/');
-$REX['ADDON']['community']['xform_path']['validate'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/validate/');
-$REX['ADDON']['community']['xform_path']['action'] = array($REX['INCLUDE_PATH'].'/addons/community/xform/classes/action/');
+$REX['ADDON']['community']['xform_path']['value'] = array();
+$REX['ADDON']['community']['xform_path']['validate'] = array();
+$REX['ADDON']['community']['xform_path']['action'] = array();
 
 rex_register_extension('ADDONS_INCLUDED', 'rex_com_xform_add');
 function rex_com_xform_add($params){
