@@ -89,7 +89,6 @@ div#rex-title h1 {
 /*	Background Color ***********************************************************
 *******************************************************************************/
 
-body#rex-page-import-export div.rex-area, 
 div#rex-navi-path {
 	background-color: transparent;
 }
@@ -141,9 +140,7 @@ div.rex-content-cols,
 div.rex-form div.rex-form-wrapper,
 div.rex-widget p.rex-widget-field input,
 div.rex-widget p.rex-widget-field select, 
-table.rex-table, 
-body#rex-page-import-export div.rex-area-col-a, 
-body#rex-page-import-export div.rex-area-col-b {
+table.rex-table {
 	background-color: #EFF9F9;
 }
 
@@ -687,7 +684,6 @@ p.rex-button a {
 	-moz-outline-radius-topright: 4px;
 	outline: 1px solid #CBCBCB;
 }
-body#rex-page-import-export div.rex-area, 
 body#rex-page-mediapool div#rex-mediapool-detail-wrapper div.rex-form, 
 body#rex-page-mediapool div.rex-form table.rex-table, 
 body#rex-page-module div.rex-form table.rex-table, 
