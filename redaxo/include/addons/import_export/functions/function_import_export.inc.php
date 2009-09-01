@@ -280,15 +280,13 @@ function rex_a1_export_db($filename)
     {
     	//---- export metadata
     	$create = rex_sql::showCreateTable($table);
-//      $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
-//      $create = $create['Create Table'];
     
       fwrite($fp, "DROP TABLE IF EXISTS `$table`;\n");
       fwrite($fp, "$create;\n");
     
       $fields = $sql->getArray("SHOW FIELDS FROM `$table`");
     
-      foreach ($fields as &$field)
+      foreach ($fields as $field)
       {
         if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
         {
