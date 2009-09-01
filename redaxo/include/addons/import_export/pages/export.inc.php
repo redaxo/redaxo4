@@ -129,9 +129,9 @@ if ($warning != '')
 
 ?>
 
-<div class="rex-area rex-area-col-2">
+<div class="rex-area">
   
-  <div class="rex-area-col-b">
+  <div class="rex-area-col-a">
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_export'); ?></h3>
   
     <div class="rex-area-content">

@@ -132,7 +132,7 @@ if ($warning != '')
 
 ?>
 
-<div class="rex-area rex-area-col-2">
+<div class="rex-area">
   <div class="rex-area-col-a">
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_import'); ?></h3>
     
