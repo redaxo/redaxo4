@@ -131,7 +131,6 @@ if ($warning != '')
 
 <div class="rex-area">
   
-  <div class="rex-area-col-a">
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_export'); ?></h3>
   
     <div class="rex-area-content">
@@ -164,7 +163,7 @@ else
                 <label for="exporttype_sql"><?php echo $I18N->msg('im_export_database_export'); ?></label>
               </p>
             </div>
-            <div class="rex-form-row">
+            <div class="rex-form-row rex-form-element-v2">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
                 <label for="exporttype_files"><?php echo $I18N->msg('im_export_file_export'); ?></label>
@@ -240,8 +239,5 @@ else
       </form>
       </div><!-- END rex-form -->
     </div><!-- END rex-area-content -->
-  </div><!-- END rex-area-col-b -->
   <div class="rex-clearer"></div>
 </div><!-- END rex-area -->
-
-<? print memory_get_peak_usage(); ?>

@@ -133,7 +133,6 @@ if ($warning != '')
 ?>
 
 <div class="rex-area">
-  <div class="rex-area-col-a">
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_import'); ?></h3>
     
     <div class="rex-area-content">
@@ -269,7 +268,6 @@ if ($warning != '')
         </tbody>
       </table>
     </div>
-  </div>
   
  
   <div class="rex-clearer"></div>
