@@ -621,7 +621,7 @@ class rex_sql
    * @see getArray()
    * @see getDBArray()
    * @param string $sql Abfrage
-   * @param string $fetch_type Default: MYSQL_ASSOC, MYSQL_NUM, MYSQL_BOTH
+   * @param string $fetch_type MYSQL_ASSOC, MYSQL_NUM oder MYSQL_BOTH
    * @param string $qryType void oder DBQuery
    * @return array
    */
@@ -749,6 +749,14 @@ class rex_sql
     return $value;
   }
   
+  /**
+   * Erstellt das CREATE TABLE Statement um die Tabelle $table 
+   * der Datenbankverbindung $DBID zu erstellen.
+   * 
+   * @param $table string Name der Tabelle
+   * @param $DBID int Id der Datenbankverbindung 
+   * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
+   */
   function showCreateTable($table, $DBID=1)
   {
     $sql = new rex_sql($DBID);
@@ -757,6 +765,14 @@ class rex_sql
     return $create;  	
   }
 
+  /**
+   * Sucht alle Tabellen der Datenbankverbindung $DBID.
+   * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
+   * 
+   * @param $DBID int Id der Datenbankverbindung 
+   * @param $tablePrefix string Zu suchender Tabellennamen-Prefix 
+   * @return array Ein Array von Tabellennamen
+   */
   function showTables($DBID=1, $tablePrefix=null)
   {
     $qry = 'SHOW TABLES';
@@ -772,6 +788,13 @@ class rex_sql
     return $tables;
   }
 
+  /**
+   * Sucht Spalteninformationen der Tabelle $table der Datenbankverbindung $DBID.
+   * 
+   * @param $table string Name der Tabelle
+   * @param $DBID int Id der Datenbankverbindung 
+   * @return array Ein Array das die Metadaten enthält
+   */
   function showColumns($table, $DBID=1)
   {
     $sql = new rex_sql($DBID);
