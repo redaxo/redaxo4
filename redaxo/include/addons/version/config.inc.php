@@ -47,7 +47,7 @@ function rex_version_initArticle($params)
 	$REX["USER"] = &$REX["LOGIN"]->USER;
 
   $params["article"]->setSliceRevision($version);
-	if($params["article"] instanceof rex_article)
+	if(is_a($params["article"], 'rex_article'))
 	{
   	$params["article"]->getContentAsQuery();
 	}
