@@ -7,7 +7,7 @@ $REX['ADDON']['rxid'][$mypage] = '5';
 $REX['ADDON']['page'][$mypage] = "$mypage";     // pagename/foldername
 $REX['ADDON']['name'][$mypage] = "Community";   // name
 $REX['ADDON']['perm'][$mypage] = "community[]"; // benoetigt mindest permission
-$REX['ADDON']['version'][$mypage] = '1.4';
+$REX['ADDON']['version'][$mypage] = '1.5';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = "community[]";
@@ -56,6 +56,10 @@ $REX["ADDON"]["community"]["ut"][5] = "SELECT";
 $REX["ADDON"]["community"]["ut"][6] = "BOOL";
 $REX["ADDON"]["community"]["ut"][7] = "FLOAT(10,7) für Positionen wie lat und lng";
 $REX["ADDON"]["community"]["ut"][8] = "SQL SELECT";
+$REX["ADDON"]["community"]["ut"][9] = "REDAXO MEDIALIST";
+$REX["ADDON"]["community"]["ut"][10] = "REDAXO MEDIA";
+
+
 
 // feste felder
 $REX["ADDON"]["community"]["ff"] = array();

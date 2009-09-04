@@ -50,8 +50,9 @@ if($func == "add" || $func == "edit")
 	$form_data .= "\n".'html|SELECT * extra1 offline=0;online=1<br />';
 	$form_data .= "\n".'html|BOOL *<br />';
 	$form_data .= "\n".'html|FLOAT(10,7) für Positionen wir lat und lng *<br />';
-	$form_data .= "\n".'html|SQL SELECT / select id,name from tbl *</span></p>';
-
+  $form_data .= "\n".'html|REDAXO Medialist<br />';
+	$form_data .= "\n".'html|REDAXO Mediafile</span></p>';
+  
 	$form_data .= "\n"."text|extra1|extra1";
 	
 	$form_data .= "\n"."checkbox|inlist|Erscheint in Userliste";

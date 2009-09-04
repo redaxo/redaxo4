@@ -54,6 +54,19 @@ if($func == "add" || $func == "edit")
 					$value["mandatory"] = "Keine Angabe";
 				$form_data .= "\n".'select_single_sql|'.$value["userfield"].'|'.$value["name"].'|'.$value["mandatory"].'|'.$value["extra1"].'|';
 				break;
+			
+			case("9"):
+        // medialist
+        $form_data .= "\n".'be_medialist|'.$value["userfield"].'|'.$value["name"];
+        break;
+        
+      case("10"):
+        // mediafile
+        $form_data .= "\n".'be_mediapool|'.$value["userfield"].'|'.$value["name"].'|'.$value["extra1"].'|';
+        break;
+				
+				
+				
 				
 			default:
 				// sonstige

@@ -6,14 +6,9 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
-/**
- * Todos:
- * - Demoinstallation im Setup integrieren
- * - Gruppen als Plugin einbauen
- * - Notices entfernen
- *
- */
+Version 1.5
 
-31.08.2008 config.inc.php -> $REX['EXTRAPERM'][] = "community[users]";
+  - Felder erweitert. Nun sind auch REXMEDIALIST und REXMEDIA in den Userfeldern verwendbar (jan)
+
 
 ?>

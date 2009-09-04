@@ -36,7 +36,19 @@ function rex_com_utcreate($table,$feld,$type,$extra1="",$extra2="",$extra3="")
 			// float für positionen anlegen
 			$up->setQuery("ALTER TABLE `$table` ADD `$feld` FLOAT(10,7) NOT NULL;");
 			break;
-			
+    case("8"):
+      // varchar anlegen
+      $up->setQuery("ALTER TABLE `$table` ADD `$feld` VARCHAR(255) NOT NULL;");
+      break;
+    case("9"):
+      // medialist
+      $up->setQuery("ALTER TABLE `$table` ADD `$feld` TEXT NOT NULL;");
+      break;
+    case("10"):
+      // media
+      $up->setQuery("ALTER TABLE `$table` ADD `$feld` TEXT NOT NULL;");
+      break;
+      
 		default:
 			// fehler - typ nicht vorhanden
 			$err_msg = "Typ <b>$type</b> nicht gefunden. Feld <b>$feld</b> konnte nicht angelegt werden.";
