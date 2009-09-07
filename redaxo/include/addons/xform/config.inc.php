@@ -39,7 +39,7 @@ if($REX['REDAXO'] && $REX['USER'])
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('module' , $I18N->msg("xform_install_module"));
 		
 	function rex_xform_css($params){
-		return '<link rel="stylesheet" type="text/css" href="../files/addons/xform/xform.css" media="screen, projection, print" />';
+		return $params['subject']."\n  ".'<link rel="stylesheet" type="text/css" href="../files/addons/xform/xform.css" media="screen, projection, print" />';
 	}
 	  
   rex_register_extension('PAGE_HEADER', 'rex_xform_css');
