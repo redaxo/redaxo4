@@ -469,6 +469,313 @@ function rex_generateLists($re_id, $clang = null)
 }
 
 /**
+ * Löscht die gecachte Medium-Datei.
+ *
+ * @param $media_id Medium-Id
+ * 
+ * @return void
+ */
+function rex_deleteCacheMedia($media_id)
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  @unlink($cachePath . $media_id . '.media');
+  @unlink($cachePath . 'names.mnamelist');
+  rex_deleteCacheMediaLists();
+}
+
+/**
+ * Löscht die gecachten Dateien der Media-Kategorie.
+ *
+ * @param $category_id Id der Media-Kategorie
+ * 
+ * @return void
+ */
+function rex_deleteCacheMediaCategory($category_id)
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  @unlink($cachePath . $category_id . '.mcat');
+  @unlink($cachePath . 'catnames.mcnamelist');
+  rex_deleteCacheMediaCategoryLists();
+}
+
+/**
+ * Löscht die gecachten Media-Listen.
+ * 
+ * @return void
+ */
+function rex_deleteCacheMediaLists()
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $glob = glob($cachePath . '*.mlist');
+  foreach ($glob as $file)
+    @unlink($file);
+}
+
+/**
+ * Löscht die gecachte Liste mit den Media der Kategorie.
+ *
+ * @param $category_id Id der Media-Kategorie
+ * 
+ * @return void
+ */
+function rex_deleteCacheMediaList($category_id)
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  @unlink($cachePath . $category_id . '.mlist');
+}
+
+/**
+ * Löscht die gecachten Media-Kategorien-Listen.
+ * 
+ * @return void
+ */
+function rex_deleteCacheMediaCategoryLists()
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $glob = glob($cachePath . '*.mclist');
+  foreach ($glob as $file)
+    @unlink($file);
+}
+
+/**
+ * Löscht die gecachte Media-Kategorien-Liste.
+ *
+ * @param $category_id Id der Media-Kategorie
+ * 
+ * @return void
+ */
+function rex_deleteCacheMediaCategoryList($category_id)
+{
+  global $REX;
+  
+  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  @unlink($cachePath . $category_id . '.mclist');
+}
+
+/**
+ * Generiert den Cache des Mediums.
+ * 
+ * @param $media_id Id des zu generierenden Mediums
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMedia($media_id)
+{
+  global $REX;
+  
+  $query = 'SELECT * FROM ' . OOMedia :: _getTableName() . ' WHERE file_id = '.$media_id;
+  $sql = new rex_sql();
+  //$sql->debugsql = true;
+  $sql->setQuery($query);
+  
+  if ($sql->getRows() == 0)
+    return false;
+  
+  $content = '<?php'."\n";
+  foreach($sql->getFieldNames() as $fieldName)
+  {
+    $content .= '$REX[\'MEDIA\'][\'ID\']['. $media_id .'][\''. $fieldName .'\'] = \''. rex_addslashes($sql->getValue($fieldName),'\\\'') .'\';'."\n";
+  }
+  $content .= '?>';
+  
+  $media_file = $REX['INCLUDE_PATH']."/generated/files/$media_id.media";
+  if (rex_put_file_contents($media_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
+ * Generiert den Cache der Media-Kategorie.
+ * 
+ * @param $category_id Id des zu generierenden Media-Kategorie
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMediaCategory($category_id)
+{
+  global $REX;
+  
+  $query = 'SELECT * FROM ' . OOMediaCategory :: _getTableName() . ' WHERE id = '.$category_id;
+  $sql = new rex_sql();
+  //$sql->debugsql = true;
+  $sql->setQuery($query);
+  
+  if ($sql->getRows() == 0)
+    return false;
+  
+  $content = '<?php'."\n";
+  foreach($sql->getFieldNames() as $fieldName)
+  {
+    $content .= '$REX[\'MEDIA\'][\'CAT_ID\']['. $category_id .'][\''. $fieldName .'\'] = \''. rex_addslashes($sql->getValue($fieldName),'\\\'') .'\';'."\n";
+  }
+  $content .= '?>';
+  
+  $cat_file = $REX['INCLUDE_PATH']."/generated/files/$category_id.mcat";
+  if (rex_put_file_contents($cat_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
+ * Generiert eine Liste mit den Media einer Kategorie.
+ * 
+ * @param $category_id Id der Kategorie
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMediaList($category_id)
+{
+  global $REX;
+  
+  $query = 'SELECT file_id FROM ' . OOMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
+  $sql = new rex_sql();
+  $sql->setQuery($query);
+  
+  $content = '<?php'."\n";
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $content .= '$REX[\'MEDIA\'][\'MEDIA_CAT_ID\']['. $category_id .']['. $i .'] = \''. $sql->getValue('file_id') .'\';'."\n";
+    $sql->next();
+  }
+  $content .= '?>';
+  
+  $list_file = $REX['INCLUDE_PATH']."/generated/files/$category_id.mlist";
+  if (rex_put_file_contents($list_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
+ * Generiert eine Liste mit den Kindkategorien einer Kategorie.
+ * 
+ * @param $category_id Id der Kategorie
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMediaCategoryList($category_id)
+{
+  global $REX;
+  
+  $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id;
+  $sql = new rex_sql();
+  //$sql->debugsql = true;
+  $sql->setQuery($query);
+  
+  $content = '<?php'."\n";
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $content .='$REX[\'MEDIA\'][\'RE_CAT_ID\']['. $category_id .']['. $i .'] = \''. $sql->getValue('id') .'\';'."\n";
+    $sql->next();
+  }
+  $content .= '?>';
+  
+  $list_file = $REX['INCLUDE_PATH']."/generated/files/$category_id.mclist";
+  if (rex_put_file_contents($list_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
+ * Generiert eine Zuordnungsliste: Medium-Name - Medium-Id
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMediaNameList()
+{
+  global $REX;
+  
+  $query = 'SELECT file_id, filename FROM ' . OOMedia :: _getTableName();
+  $sql = new rex_sql();
+  $sql->setQuery($query);
+  
+  $content = '<?php'."\n";
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $content .= '$REX[\'MEDIA\'][\'NAME\'][\''. $sql->getValue('filename') .'\'] = \''. $sql->getValue('file_id') .'\';'."\n";
+    $sql->next();
+  }
+  $content .= '?>';
+  
+  $list_file = $REX['INCLUDE_PATH']."/generated/files/names.mnamelist";
+  if (rex_put_file_contents($list_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
+ * Generiert eine Zuordnungsliste: Mediakategorie-Name - Mediakategorie-Id
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMediaCategoryNameList()
+{
+  global $REX;
+  
+  $query = 'SELECT id, name FROM ' . OOMediaCategory :: _getTableName();
+  $sql = new rex_sql();
+  $sql->setQuery($query);
+  
+  $content = '<?php'."\n";
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $content .= '$REX[\'MEDIA\'][\'CAT_NAME\'][\''. rex_addslashes($sql->getValue($name),'\\\'') .'\'] = \''. $sql->getValue('id') .'\';'."\n";
+    $sql->next();
+  }
+  $content .= '?>';
+  
+  $list_file = $REX['INCLUDE_PATH']."/generated/files/catnames.mcnamelist";
+  if (rex_put_file_contents($list_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
+ * Generiert eine Liste mit allen Media einer Dateiendung
+ * 
+ * @param $extension Dateiendung der zu generierenden Liste
+ * 
+ * @return TRUE bei Erfolg, sonst FALSE
+ */
+function rex_generateMediaExtensionList($extension)
+{
+  global $REX;
+  
+  $query = 'SELECT file_id FROM ' . OOMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
+  $sql = new rex_sql();
+  $sql->setQuery($query);
+  
+  $content = '<?php'."\n";
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $content .= '$REX[\'MEDIA\'][\'EXTENSION\'][\''. $extension .'\']['. $i .'] = \''. $sql->getValue('file_id') .'\';'."\n";
+    $sql->next();
+  }
+  $content .= '?>';
+  
+  $list_file = $REX['INCLUDE_PATH']."/generated/files/$extension.mextlist";
+  if (rex_put_file_contents($list_file, $content))
+    return true;
+  
+  return false;
+}
+
+/**
  * Löscht einen Ordner/Datei mit Unterordnern
  *
  * @param $file Zu löschender Ordner/Datei

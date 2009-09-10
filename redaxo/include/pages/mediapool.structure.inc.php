@@ -23,6 +23,7 @@ if ($PERMALL)
     if($db->update())
     {
       $info = $I18N->msg('pool_kat_updated',$cat_name);
+      rex_deleteCacheMediaCategory($edit_id);
     }
     else
     {
@@ -38,6 +39,8 @@ if ($PERMALL)
     if ($gf->getRows()==0 && $gd->getRows()==0)
     {
       $gf->setQuery('DELETE FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $edit_id);
+      rex_deleteCacheMediaCategory($edit_id);
+      rex_deleteCacheMediaLists();
       $info = $I18N->msg('pool_kat_deleted');
     }else
     {
@@ -56,6 +59,7 @@ if ($PERMALL)
     if($db->insert())
     {
       $info = $I18N->msg('pool_kat_saved', stripslashes(rex_request('catname')));
+      rex_deleteCacheMediaCategoryList(rex_request('cat_id', 'int'));
     }
     else
     {

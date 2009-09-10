@@ -10,6 +10,8 @@ angehandelt.
 Version 4.3 (2009-xx-xx)
 
   Neu:
+  * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
+    - neue Funktion OOMediaCategory::getChildrenById($category_id)
   * Import/Export optimiert [Markus.Staab]
     - Basierend auf einem Patch von http://blog.webvariants.de/groessere-datenbanken-in-redaxo-exportieren
   * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]

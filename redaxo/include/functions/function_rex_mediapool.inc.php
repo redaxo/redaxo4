@@ -138,6 +138,8 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $FILESQL->insert();
 
     $message .= $I18N->msg("pool_file_added");
+    
+    rex_deleteCacheMediaList($rex_file_category);
   }
 
   $RETURN['title'] = $FILEINFOS['title'];
@@ -235,6 +237,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
   
 	$FILESQL->addGlobalUpdateFields();
 	$FILESQL->update();
+  
+  rex_deleteCacheMedia($FILEINFOS["file_id"]);
 
 
 /*

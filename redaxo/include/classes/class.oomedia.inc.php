@@ -57,68 +57,53 @@ class OOMedia
   }
 
   /**
-   * @access protected
-   */
-  function _getTableName()
-  {
-    global $REX;
-    return $REX['TABLE_PREFIX'].'file';
-  }
-
-  /**
-   * @access protected
-   */
-  function _getTableJoin()
-  {
-    $mediatable = OOMedia :: _getTableName();
-    $cattable = OOMediaCategory :: _getTableName();
-    return $mediatable.' LEFT JOIN '.$cattable.' ON '.$mediatable.'.category_id = '.$cattable.'.id';
-  }
-
-  /**
    * @access public
    */
   function getMediaById($id)
   {
+    global $REX;
+    
     $id = (int) $id;
     if ($id==0)
-    {
       return null;
-    }
 
-    $query = 'SELECT '.OOMedia :: _getTableName().'.*, '.OOMediaCategory :: _getTableName().'.name catname  FROM '.OOMedia :: _getTableJoin().' WHERE file_id = '.$id;
-    $sql = new rex_sql();
-//    $sql->debugsql = true;
-    $result = $sql->getArray($query);
-    if (count($result) == 0)
+    $media_path = $REX['INCLUDE_PATH'].'/generated/files/'.$id.'.media';
+    if (!file_exists($media_path))
+		{
+			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+    	rex_generateMedia($id);
+		}
+
+    if (file_exists($media_path))
     {
-      return null;
+      require_once ($media_path);
+      $aliasMap = array(
+        'file_id' => 'id',
+        're_file_id' => 'parent_id',
+        'category_id' => 'cat_id',
+        'filename' => 'name',
+        'originalname' => 'orgname',
+        'filetype' => 'type',
+        'filesize' => 'size'
+      );
+      
+      $media = new OOMedia();
+      foreach($REX['MEDIA']['ID'][$id] as $key => $value)
+      {
+        if(in_array($key, array_keys($aliasMap)))
+          $var_name = '_'. $aliasMap[$key];
+        else
+          $var_name = '_'. $key;
+  
+        $media->$var_name = $value;
+      }
+      $media->_cat = null;
+      $media->_cat_name = null;
+  
+      return $media;
     }
-
-    $result = $result[0];
-    $aliasMap = array(
-      'file_id' => 'id',
-      're_file_id' => 'parent_id',
-      'category_id' => 'cat_id',
-      'catname' => 'cat_name',
-      'filename' => 'name',
-      'originalname' => 'orgname',
-      'filetype' => 'type',
-      'filesize' => 'size'
-    );
-
-    $media = new OOMedia();
-    foreach($sql->getFieldNames() as $fieldName)
-    {
-      if(in_array($fieldName, array_keys($aliasMap)))
-        $var_name = '_'. $aliasMap[$fieldName];
-      else
-        $var_name = '_'. $fieldName;
-
-      $media->$var_name = $result[$fieldName];
-    }
-
-    return $media;
+    
+    return NULL;
   }
 
   /**
@@ -137,18 +122,25 @@ class OOMedia
    */
   function getMediaByExtension($extension)
   {
-    $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "'.$extension.'"';
-    $sql = new rex_sql();
-    //              $sql->debugsql = true;
-    $result = $sql->getArray($query);
+    global $REX;
+    
+    $extlist_path = $REX['INCLUDE_PATH'].'/generated/files/'.$extension.'.mextlist';
+    if (!file_exists($extlist_path))
+		{
+			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+    	rex_generateMediaExtensionList($extension);
+		}
+    
+    $media = array();
 
-    $media = array ();
-
-    if (is_array($result))
+    if (file_exists($extlist_path))
     {
-      foreach ($result as $row)
+      require_once ($extlist_path);
+      
+      if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension])) 
       {
-        $media[] = & OOMedia :: getMediaById($row['file_id']);
+        foreach($REX['MEDIA']['EXTENSION'][$extension] as $id)
+          $media[] = & OOMedia :: getMediaById($id);
       }
     }
 
@@ -160,16 +152,21 @@ class OOMedia
    */
   function getMediaByFileName($name)
   {
-    $query = 'SELECT file_id FROM '.OOMedia :: _getTableName().' WHERE filename = "'.$name.'"';
-    $sql = new rex_sql();
-    $result = $sql->getArray($query);
+    global $REX;
+    
+    $namelist_path = $REX['INCLUDE_PATH'].'/generated/files/names.mnamelist';
+    if (!file_exists($namelist_path))
+		{
+			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+    	rex_generateMediaNameList();
+		}
 
-    if (is_array($result))
+    if (file_exists($namelist_path))
     {
-      foreach ($result as $line)
-      {
-        return OOMedia :: getMediaById($line['file_id']);
-      }
+      require_once ($namelist_path);
+      
+      if (isset($REX['MEDIA']['NAME'][$name]))
+        return OOMedia :: getMediaById($REX['MEDIA']['NAME'][$name]);
     }
 
     return null;
@@ -200,6 +197,13 @@ class OOMedia
    */
   function getCategoryName()
   {
+    if ($this->_cat_name === null)
+    {
+      $this->_cat_name = '';
+      $category = $this->getCategory();
+      if (is_object($category))
+        $this->_cat_name = $category->getName();
+    }
     return $this->_cat_name;
   }
 
@@ -756,6 +760,15 @@ class OOMedia
     }
     return $icon;
   }
+  
+  /**
+   * @access protected
+   */
+  function _getTableName()
+  {
+    global $REX;
+    return $REX['TABLE_PREFIX'].'file';
+  }
 
   /**
    * @access public
@@ -779,12 +792,18 @@ class OOMedia
     {
       $sql->addGlobalUpdateFields();
       $sql->setWhere('file_id='.$this->getId() . ' LIMIT 1');
-      return $sql->update();
+      $success = $sql->update();
+      if ($success)
+        rex_deleteCacheMedia($this->getId());
+      return $success;
     }
     else
     {
       $sql->addGlobalCreateFields();
-      return $sql->insert();
+      $success = $sql->insert();
+      if ($success)
+        rex_deleteCacheMediaList($this->getCategoryId());
+      return $success;
     }
   }
 
@@ -813,6 +832,8 @@ class OOMedia
       {
         unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
       }
+      
+      rex_deleteCacheMedia($this->getId());
   
       return $sql->getError();
     }
@@ -916,6 +937,12 @@ class OOMedia
     if (substr($value, 0, 1) != '_')
     {
       $value = "_".$value;
+    }
+    
+    // Extra-Abfrage, da die Variable _cat_name erst in getCategoryName() gesetzt wird
+    if ($value == '_cat_name')
+    {
+      return $this->getCategoryName();
     }
 
     // damit alte rex_article felder wie copyright, description
