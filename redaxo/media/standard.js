@@ -121,13 +121,22 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-var winObjCounter = -1;
+if (opener != null)
+{
+  if (typeof(opener.winObjCounter) == "number")
+  {
+    var winObjCounter = opener.winObjCounter;
+  }
+}else
+{
+  var winObjCounter = -1;
+}
 
 // -------------------------------------------------------------------------------------------------------------------
 
 function newPoolWindow(link) 
 {
-    newWindow( 'rexmediapopup', link, 760,600,',status=yes,resizable=yes');
+    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 760,600,',status=yes,resizable=yes');
 }
 
 function newLinkMapWindow(link) 
