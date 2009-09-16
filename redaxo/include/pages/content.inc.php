@@ -294,6 +294,13 @@ if ($article->getRows() == 1)
             $EA->update();
             rex_deleteCacheArticle($article_id, $clang);
 
+            rex_register_extension_point('ART_CONTENT_UPDATED', '',
+              array (
+                'id' => $article_id,
+                'clang' => $clang
+              )
+            );
+            
             // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
             $info .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
             // ----- / POST SAVE ACTION

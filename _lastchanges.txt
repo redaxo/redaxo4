@@ -10,6 +10,7 @@ angehandelt.
 Version 4.3 (2009-xx-xx)
 
   Neu:
+  * Metainfo: Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
   * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
     - neue Funktion OOMediaCategory::getChildrenById($category_id)
   * Import/Export optimiert [Markus.Staab]
@@ -18,12 +19,14 @@ Version 4.3 (2009-xx-xx)
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
   * rex_article umgebaut und vereinfacht [Markus.Staab]
+  * Extension Points: ART_CONTENT_UPDATED [Jan.Kristinus]
   
   Bugfixes:
   * Probleme mit Image-Resize auf manchen Servern behoben
     - http://forum.redaxo.de/ftopic11483.html [pingback, Markus.Staab]
   * Category->getPath fehlte.. eingebaut
   * rex_parse_article_name() angepasst. '-' statt '+' als Trennzeichen. [Dave.Holloway]
+  * Wenn gzip Auslieferung, dann gab es eine Notice wenn Browser das nicht unterstützt hatte [Andreas.Eberhardt]
     
 Version 4.2.1 (2009-05-07)
 
