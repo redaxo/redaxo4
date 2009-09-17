@@ -69,7 +69,7 @@ class rex_xform_action_db extends rex_xform_action_abstract
 
 	function getDescription()
 	{
-		return "action|db|dbname|[where]";
+		return "action|db|tblname|[where]";
 	}
 
 }
