@@ -87,7 +87,7 @@ class rex_xform_abstract
 	}
 
 
-	function setObjects($obj)
+	function setObjects(&$obj)
 	{
 		$this->obj = &$obj;
 	}
@@ -121,7 +121,7 @@ class rex_xform_abstract
 	
 	
 	// Aufruf nachdem E-Mail oder Datenbankeintrag vorgenommen wurde
-	function postAction($email_elements,$sql_elements)
+	function postAction(&$email_elements,&$sql_elements)
 	{
 		/*
 		unset($_SESSION["wk"]);

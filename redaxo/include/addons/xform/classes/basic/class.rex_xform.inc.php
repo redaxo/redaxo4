@@ -178,7 +178,7 @@ class rex_xform
 						else 
 							$obj[$i]->setValue("");
 						
-						$obj[$i]->setObjects(&$obj);
+						$obj[$i]->setObjects($obj);
 
 						// muss hier gesetzt sein, damit ein value objekt die elemente erweitern kann
 						$rows = count($this->objparams["form_elements"]);
@@ -401,7 +401,7 @@ class rex_xform
 						{
 							$classname = 'rex_xform_'.$type;
 							$actions[$i] = new $classname;
-							$actions[$i]->loadParams(&$this->objparams,$action,&$email_elements,&$sql_elements,&$this->objparams["warning"],&$this->objparams["warning_messages"]);
+							$actions[$i]->loadParams($this->objparams,$action,$email_elements,$sql_elements,$this->objparams["warning"],$this->objparams["warning_messages"]);
 						}
 					}
 				}
@@ -414,7 +414,7 @@ class rex_xform
 			// PostActions
 			foreach($obj as $value_object)
 			{
-				$value_object->postAction(&$email_elements, &$sql_elements);
+				$value_object->postAction($email_elements, $sql_elements);
 			}
 			
 			
