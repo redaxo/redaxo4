@@ -97,7 +97,7 @@ class rex_list
 
     // --------- List Attributes
     $this->query = $query;
-    $this->sql =& new rex_sql();
+    $this->sql = new rex_sql();
     $this->debug = $debug;
     $this->sql->debugsql =& $this->debug;
     $this->name = $listName;

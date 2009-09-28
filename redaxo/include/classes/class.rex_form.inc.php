@@ -1324,7 +1324,7 @@ class rex_form_select_element extends rex_form_element
   {
     parent::rex_form_element('', $table, $attributes);
 
-    $this->select =& new rex_select();
+    $this->select = new rex_select();
     $this->setSeparator('|+|');
   }
 

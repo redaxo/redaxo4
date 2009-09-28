@@ -64,7 +64,7 @@ class OOMediaCategory
     {
       require_once ($cat_path);
 
-      $cat = & new OOMediaCategory();
+      $cat = new OOMediaCategory();
   
       $cat->_id = $REX['MEDIA']['CAT_ID'][$id]['id'];
       $cat->_parent_id = $REX['MEDIA']['CAT_ID'][$id]['re_id'];
