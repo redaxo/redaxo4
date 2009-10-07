@@ -8,7 +8,7 @@
 
 class OOArticle extends OORedaxo
 {
-  /*private*/ function OOArticle($params = FALSE, $clang = FALSE)
+  /*protected*/ function OOArticle($params = FALSE, $clang = FALSE)
   {
     parent :: OORedaxo($params, $clang);
   }
@@ -17,7 +17,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  /*public*/ function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
+  /*public static*/ function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
   {
     global $REX;
     
@@ -53,7 +53,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return the site wide start article
    */
-  /*public*/ function getSiteStartArticle($clang = FALSE)
+  /*public static*/ function getSiteStartArticle($clang = FALSE)
   {
     global $REX;
     
@@ -67,7 +67,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return start article for a certain category
    */
-  /*public*/ function getCategoryStartArticle($a_category_id, $clang = FALSE)
+  /*public static*/ function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
     global $REX;
     
@@ -81,7 +81,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of articles for a certain category
    */
-  /*public*/ function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
+  /*public static*/ function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
   {
     global $REX;
 
@@ -127,7 +127,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of top-level articles
    */
-  /*public*/ function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
+  /*public static*/ function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
     return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
@@ -147,7 +147,7 @@ class OOArticle extends OORedaxo
    */
   /*public*/ function getCategory()
   {
-    return OOCategory :: getCategoryById($this->getCategoryId(),$this->getClang());
+    return OOCategory :: getCategoryById($this->getCategoryId(), $this->getClang());
   }
 
   /*
