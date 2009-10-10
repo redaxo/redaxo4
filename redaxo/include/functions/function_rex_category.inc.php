@@ -14,7 +14,7 @@ if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nich
 $KATPERM = false;
 if ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('admin[]')) $KATPERM = true;
 
-$KAT = new rex_sql;
+$KAT = rex_sql::factory();
 // $KAT->debugsql = true;
 $KAT->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE id=$category_id AND startpage=1 AND clang=$clang");
 
@@ -36,7 +36,7 @@ else
   $KATebene = count($KPATH)-1;
   for ($ii=1;$ii<$KATebene;$ii++)
   {
-    $SKAT = new rex_sql;
+    $SKAT = rex_sql::factory();
     $SKAT->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. $KPATH[$ii] .' AND startpage=1 AND clang='. $clang);
 
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($SKAT->getValue('catname')));

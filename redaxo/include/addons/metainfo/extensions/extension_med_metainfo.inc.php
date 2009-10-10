@@ -57,7 +57,7 @@ function rex_a62_metainfo_form($params)
   {
     global $REX;
 
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     $qry = 'SELECT file_id FROM '. $REX['TABLE_PREFIX'] .'file WHERE filename="'. $params['filename'] .'"';
     $sql->setQuery($qry);
     if($sql->getRows() == 1)

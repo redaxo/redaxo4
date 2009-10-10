@@ -4,7 +4,7 @@
 	
 	$searchtext = '$xform = new rex_xform';
 	
-	$gm = new rex_sql;
+	$gm = rex_sql::factory();
 	$gm->setQuery('select * from rex_module where ausgabe LIKE "%'.$searchtext.'%"');
 	
 	$module_id = 0;
@@ -24,7 +24,7 @@
 		$in = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/module/module_in.inc");
 		$out = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/module/module_out.inc");
 	
-		$mi = new rex_sql;
+		$mi = rex_sql::factory();
 		// $mi->debugsql = 1;
 		$mi->setTable("rex_module");
 		$mi->setValue("eingabe",addslashes($in));

@@ -18,7 +18,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 		// ***** SQL - ROHDATEN ZIEHEN
 
 		$sql = $this->elements[5];
-		$teams = new rex_sql;
+		$teams = rex_sql::factory();
 		$teams->debugsql = $this->params["debug"];
 		$teams->setQuery($sql);
 		for ($t = 0; $t < $teams->getRows(); $t++)
@@ -42,7 +42,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 			if ($this->params["main_id"]>0)
 			{
 				$this->value = array();
-				$g = new rex_sql;
+				$g = rex_sql::factory();
 				$g->debugsql = $this->params["debug"];
 				$g->setQuery('select '.$this->elements[3].' from '.$this->elements[1].' where '.$this->elements[2].'='.$this->params["main_id"]);
 				$gg = $g->getArray();
@@ -85,7 +85,7 @@ class rex_xform_select_multiple_sql extends rex_xform_abstract
 	
 			// alte eintraege loeschen
 			// neue eintraege setzen
-			$g = new rex_sql;
+			$g = rex_sql::factory();
 			$g->debugsql = $this->params["debug"];
 			$g->setQuery('delete from '.$this->elements[1].' where '.$this->elements[2].'='.$id);
 			

@@ -206,7 +206,7 @@ class rex_select
    */
   function addSqlOptions($qry)
   {
-    $sql = new rex_sql;
+    $sql = rex_sql::factory();
     $this->addOptions($sql->getArray($qry, MYSQL_NUM));
   }
 
@@ -215,7 +215,7 @@ class rex_select
    */
   function addDBSqlOptions($qry)
   {
-    $sql = new rex_sql;
+    $sql = rex_sql::factory();
     $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
   }
 

@@ -46,7 +46,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
   $success = false;
   $message = $I18N->msg('slice_moved_error');
 
-  $CM = new rex_sql;
+  $CM = rex_sql::factory();
   $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "module on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
   if ($CM->getRows() == 1)
   {
@@ -55,7 +55,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
     $re_slice_id = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.re_article_slice_id");
     $slice_ctype = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.ctype");
 
-    $gs = new rex_sql;
+    $gs = rex_sql::factory();
     // $gs->debugsql = 1;
     $gs->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice where article_id='$slice_article_id'");
     $SID = array();
@@ -125,7 +125,7 @@ function rex_deleteSlice($slice_id)
   global $REX;
   
   // zu loeschender slice suchen
-  $curr = new rex_sql;
+  $curr = rex_sql::factory();
   $curr->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
   if($curr->getRows() != 1)
   {
@@ -133,7 +133,7 @@ function rex_deleteSlice($slice_id)
   }
   
   // nachfolge slice suchen
-  $next = new rex_sql;
+  $next = rex_sql::factory();
   $next->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE re_article_slice_id=' . $slice_id);
   if ($next->getRows() == 1 )
   {
@@ -160,7 +160,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
   $modebit = rex_getActionModeBit($function);
 	$messages = array();
 	
-  $ga = new rex_sql;
+  $ga = rex_sql::factory();
   $ga->setQuery('SELECT presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
   for ($i = 0; $i < $ga->getRows(); $i++)
@@ -199,7 +199,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
   $modebit = rex_getActionModeBit($function);
 	$messages = array();
 	
-  $ga = new rex_sql;
+  $ga = rex_sql::factory();
   $ga->setQuery('SELECT postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
   for ($i = 0; $i < $ga->getRows(); $i++)
@@ -256,7 +256,7 @@ function rex_article2startpage($neu_id){
   $GAID = array();
 
   // neuen startartikel holen und schauen ob da
-  $neu = new rex_sql;
+  $neu = rex_sql::factory();
   $neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=0");
   if ($neu->getRows()!=1) return false;
   $neu_path = $neu->getValue("path");
@@ -266,7 +266,7 @@ function rex_article2startpage($neu_id){
   if ($neu_cat_id == 0) return false;
 
   // alten startartikel
-  $alt = new rex_sql;
+  $alt = rex_sql::factory();
   $alt->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_cat_id and startpage=1 and clang=0");
   if ($alt->getRows()!=1) return false;
   $alt_path = $alt->getValue('path');
@@ -290,13 +290,13 @@ function rex_article2startpage($neu_id){
     $neu->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id=$neu_id and startpage=0 and clang=$clang");
 
     // alter startartikel updaten
-    $alt2 = new rex_sql();
+    $alt2 = rex_sql::factory();
     $alt2->setTable($REX['TABLE_PREFIX']."article");
     $alt2->setWhere("id=$alt_id and clang=". $clang);
     $alt2->setValue("re_id",$neu_id);
 
     // neuer startartikel updaten
-    $neu2 = new rex_sql();
+    $neu2 = rex_sql::factory();
     $neu2->setTable($REX['TABLE_PREFIX']."article");
     $neu2->setWhere("id=$neu_id and clang=". $clang);
     $neu2->setValue("re_id",$alt->getValue("re_id"));
@@ -316,8 +316,8 @@ function rex_article2startpage($neu_id){
   // alle artikel suchen nach |art_id| und pfade ersetzen
   // alles artikel mit re_id alt_id suchen und ersetzen
 
-  $articles = new rex_sql();
-  $ia = new rex_sql();
+  $articles = rex_sql::factory();
+  $ia = rex_sql::factory();
   $articles->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '%|$alt_id|%'");
   for($i=0;$i<$articles->getRows();$i++)
   {
@@ -380,12 +380,12 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
   if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
 
-  $gc = new rex_sql;
+  $gc = rex_sql::factory();
   $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='$from_clang' and id='$from_id'");
 
   if ($gc->getRows() == 1)
   {
-    $uc = new rex_sql;
+    $uc = rex_sql::factory();
     // $uc->debugsql = 1;
     $uc->setTable($REX['TABLE_PREFIX']."article");
     $uc->setWhere("clang='$to_clang' and id='$to_id'");
@@ -423,14 +423,14 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
   if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
 
-  $gc = new rex_sql;
+  $gc = rex_sql::factory();
   $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$from_id' and clang='$from_clang' and revision='$revision'");
 
   if ($gc->getRows() == 1)
   {
 
     // letzt slice_id des ziels holen ..
-    $glid = new rex_sql;
+    $glid = rex_sql::factory();
     $glid->setQuery("select r1.id, r1.re_article_slice_id
                      from ".$REX['TABLE_PREFIX']."article_slice as r1
                      left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id
@@ -442,10 +442,10 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     else
       $to_last_slice_id = 0;
 
-    $ins = new rex_sql;
+    $ins = rex_sql::factory();
     $ins->setTable($REX['TABLE_PREFIX']."article_slice");
 
-    $cols = new rex_sql;
+    $cols = rex_sql::factory();
     // $cols->debugsql = 1;
     $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
     for ($j = 0; $j < $cols->rows; $j ++, $cols->next())
@@ -496,14 +496,14 @@ function rex_copyArticle($id, $to_cat_id)
   foreach ($REX['CLANG'] as $clang => $clang_name)
   {
     // validierung der id & from_cat_id
-    $from_sql = new rex_sql;
+    $from_sql = rex_sql::factory();
     $qry = 'select * from '.$REX['TABLE_PREFIX'].'article where clang="'.$clang.'" and id="'. $id .'"';
     $from_sql->setQuery($qry);
 
     if ($from_sql->getRows() == 1)
     {
       // validierung der to_cat_id
-      $to_sql = new rex_sql;
+      $to_sql = rex_sql::factory();
       $to_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'.$clang.'" and startpage=1 and id="'. $to_cat_id .'"');
 
       if ($to_sql->getRows() == 1 || $to_cat_id == 0)
@@ -519,7 +519,7 @@ function rex_copyArticle($id, $to_cat_id)
           $catname = $from_sql->getValue("name");
         }
 
-        $art_sql = new rex_sql;
+        $art_sql = rex_sql::factory();
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
         if ($new_id == "") $new_id = $art_sql->setNewId('id');
         $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
@@ -593,13 +593,13 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
   foreach ($REX['CLANG'] as $clang => $clang_name)
   {
     // validierung der id & from_cat_id
-    $from_sql = new rex_sql;
+    $from_sql = rex_sql::factory();
     $from_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
 
     if ($from_sql->getRows() == 1)
     {
       // validierung der to_cat_id
-      $to_sql = new rex_sql;
+      $to_sql = rex_sql::factory();
       $to_sql->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where clang="'. $clang .'" and startpage=1 and id="'. $to_cat_id .'"');
 
       if ($to_sql->getRows() == 1 || $to_cat_id == 0)
@@ -617,7 +617,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
           $catname = $from_sql->getValue('name');
         }
 
-        $art_sql = new rex_sql;
+        $art_sql = rex_sql::factory();
         //$art_sql->debugsql = 1;
 
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
@@ -682,10 +682,10 @@ function rex_moveCategory($from_cat, $to_cat)
   {
     // kategorien vorhanden ?
     // ist die zielkategorie im pfad der quellkategeorie ?
-    $fcat = new rex_sql;
+    $fcat = rex_sql::factory();
     $fcat->setQuery("select * from ".$REX['TABLE_PREFIX']."article where startpage=1 and id=$from_cat and clang=0");
 
-    $tcat = new rex_sql;
+    $tcat = rex_sql::factory();
     $tcat->setQuery("select * from ".$REX['TABLE_PREFIX']."article where startpage=1 and id=$to_cat and clang=0");
 
     if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
@@ -724,11 +724,11 @@ function rex_moveCategory($from_cat, $to_cat)
 
       $from_path = $fcat->getValue("path").$from_cat."|";
 
-      $gcats = new rex_sql;
+      $gcats = rex_sql::factory();
       // $gcats->debugsql = 1;
       $gcats->setQuery("select * from ".$REX['TABLE_PREFIX']."article where path like '".$from_path."%' and clang=0");
 
-      $up = new rex_sql;
+      $up = rex_sql::factory();
       // $up->debugsql = 1;
       for($i=0;$i<$gcats->getRows();$i++)
       {
@@ -750,8 +750,8 @@ function rex_moveCategory($from_cat, $to_cat)
       }
 
       // ----- clang holen, max catprio holen und entsprechen updaten
-      $gmax = new rex_sql;
-      $up = new rex_sql;
+      $gmax = rex_sql::factory();
+      $up = rex_sql::factory();
       // $up->debugsql = 1;
       foreach($REX['CLANG'] as $clang => $clang_name)
       {

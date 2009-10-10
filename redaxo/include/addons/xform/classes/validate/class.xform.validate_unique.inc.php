@@ -19,7 +19,7 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 				if($this->params["main_where"] != "")
 					$sql = 'select '.$this->xaElements[2].' from '.$table.' WHERE '.$this->xaElements[2].'="'.$xoObject->getValue().'" AND !('.$this->params["main_where"].') LIMIT 1';
 
-				$cd = new rex_sql;
+				$cd = rex_sql::factory();
 				// $cd->debugsql = 1;
 				$cd->setQuery($sql);
 				if ($cd->getRows()>0)

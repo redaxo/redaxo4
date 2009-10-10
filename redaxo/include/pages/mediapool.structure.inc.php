@@ -14,7 +14,7 @@ if ($PERMALL)
   if ($media_method == 'edit_file_cat')
   {
     $cat_name = rex_request('cat_name', 'string');
-    $db = new rex_sql;
+    $db = rex_sql::factory();
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->setWhere('id='.$edit_id);
     $db->setValue('name',$cat_name);
@@ -32,9 +32,9 @@ if ($PERMALL)
 
   } elseif ($media_method == 'delete_file_cat')
   {
-    $gf = new rex_sql;
+    $gf = rex_sql::factory();
     $gf->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file WHERE category_id='.$edit_id);
-    $gd = new rex_sql;
+    $gd = rex_sql::factory();
     $gd->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE re_id='.$edit_id);
     if ($gf->getRows()==0 && $gd->getRows()==0)
     {
@@ -48,7 +48,7 @@ if ($PERMALL)
     }
   } elseif ($media_method == 'add_file_cat')
   {
-    $db = new rex_sql;
+    $db = rex_sql::factory();
     $db->setTable($REX['TABLE_PREFIX'].'file_category');
     $db->setValue('name',rex_request('catname', 'string'));
     $db->setValue('re_id', rex_request('cat_id', 'int'));

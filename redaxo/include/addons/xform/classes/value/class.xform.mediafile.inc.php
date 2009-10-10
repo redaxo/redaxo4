@@ -187,7 +187,7 @@ class rex_xform_mediafile extends rex_xform_abstract
 		$RETURN['filename'] = $NFILENAME;
 
 
-	    $FILESQL = new rex_sql;
+	    $FILESQL = rex_sql::factory();
 	    // $FILESQL->debugsql=1;
 	    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
 	    $FILESQL->setValue("filetype",$FILETYPE);

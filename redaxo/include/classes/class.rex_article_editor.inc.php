@@ -164,7 +164,7 @@ class rex_article_editor extends rex_article
           elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
           else $modebit = '1'; // pre-action and add
 
-          $ga = new rex_sql;
+          $ga = rex_sql::factory();
           if($this->debug)
             $ga->debugsql = 1;
           $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
@@ -252,7 +252,7 @@ class rex_article_editor extends rex_article
     // ---------- moduleselect: nur module nehmen auf die der user rechte hat
     if($this->mode=='edit')
     {
-      $MODULE = new rex_sql;
+      $MODULE = rex_sql::factory();
       $modules = $MODULE->getArray('select * from '.$REX['TABLE_PREFIX'].'module order by name');
 
       $template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
@@ -340,7 +340,7 @@ class rex_article_editor extends rex_article
   {
     global $REX,$I18N;
 
-    $MOD = new rex_sql;
+    $MOD = rex_sql::factory();
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
     if ($MOD->getRows() != 1)
     {
@@ -414,10 +414,10 @@ class rex_article_editor extends rex_article
         }
       }
 
-      $dummysql = new rex_sql();
+      $dummysql = rex_sql::factory();
 
       // Den Dummy mit allen Feldern aus rex_article_slice füllen
-      $slice_fields = new rex_sql();
+      $slice_fields = rex_sql::factory();
       $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice LIMIT 1');
       foreach($slice_fields->getFieldnames() as $fieldname)
       {

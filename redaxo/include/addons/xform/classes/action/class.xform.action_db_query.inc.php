@@ -26,7 +26,7 @@ class rex_xform_action_db_query extends rex_xform_action_abstract
 			return;
 		}
 
-		$sql = new rex_sql();
+		$sql = rex_sql::factory();
 		if ($this->params["debug"]) $sql->debugsql = TRUE;
 
 		// SQL Objekt mit Werten füllen

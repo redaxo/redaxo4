@@ -17,7 +17,7 @@ class rex_xform_action_db extends rex_xform_action_abstract
 		// echo "DB EXECUTE";
 		// return;
 
-		$sql = new rex_sql();
+		$sql = rex_sql::factory();
 		if ($this->params["debug"]) $sql->debugsql = TRUE;
     
     	$main_table = "";

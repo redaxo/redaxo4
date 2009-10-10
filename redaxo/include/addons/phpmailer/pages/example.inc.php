@@ -14,7 +14,7 @@ $mdl_ex =<<<EOD
 <?php
 
 \$mail = new rex_mailer();
-\$sql = new rex_sql();
+\$sql = rex_sql::factory();
 
 \$query  = "SELECT full_name, email, photo FROM employee WHERE id=\$id";
 \$sql->setQuery(\$query);

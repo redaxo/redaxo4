@@ -382,7 +382,7 @@ class rex_backend_login extends rex_login
   {
     global $REX;
 
-    $fvs = new rex_sql;
+    $fvs = rex_sql::factory();
     // $fvs->debugsql = true;
     $userId = $this->getSessionVar('UID');
     $check = parent::checkLogin();

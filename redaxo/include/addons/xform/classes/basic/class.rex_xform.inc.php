@@ -229,7 +229,7 @@ class rex_xform
 		
 		// ----- PRE VALUES
 		// Felder aus Datenbank auslesen - Sofern Aktualisierung
-		$SQLOBJ = new rex_sql;
+		$SQLOBJ = rex_sql::factory();
 		if ((!isset($this->objparams['form_type']) || $this->objparams['form_type'] != "3") && $this->objparams['getdata'])
 		{
 			$xsSelect = "SELECT * from ".$this->objparams["main_table"]. " WHERE ".$this->objparams["main_where"];

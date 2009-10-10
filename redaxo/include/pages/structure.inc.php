@@ -282,7 +282,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 
 // --------------------- KATEGORIE LIST
 
-$KAT = new rex_sql;
+$KAT = rex_sql::factory();
 // $KAT->debugsql = true;
 $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 
@@ -427,7 +427,7 @@ echo '
 
 if ($category_id > -1)
 {
-  $TEMPLATES = new rex_sql;
+  $TEMPLATES = rex_sql::factory();
   $TEMPLATES->setQuery('select * from '.$REX['TABLE_PREFIX'].'template where active=1 order by name');
   $TMPL_SEL = new rex_select;
   $TMPL_SEL->setName('template_id');
@@ -476,7 +476,7 @@ if ($category_id > -1)
   }
 
   // READ DATA
-  $sql = new rex_sql;
+  $sql = rex_sql::factory();
   // $sql->debugsql = true;
   $sql->setQuery('SELECT *
         FROM
@@ -531,7 +531,7 @@ if ($category_id > -1)
     }else
     {
       // template_id vom Startartikel erben
-      $sql2 = new rex_sql;
+      $sql2 = rex_sql::factory();
       $sql2->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
       if ($sql2->getRows() == 1)
         $TMPL_SEL->setSelected($sql2->getValue('template_id'));

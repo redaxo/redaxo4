@@ -26,7 +26,7 @@ $warning_block = '';
 // ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
 if ($add_action != "")
 {
-  $action = new rex_sql();
+  $action = rex_sql::factory();
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setValue('module_id', $modul_id);
   $action->setValue('action_id', $action_id);
@@ -43,7 +43,7 @@ if ($add_action != "")
 }
 elseif ($function_action == 'delete')
 {
-  $action = new rex_sql();
+  $action = rex_sql::factory();
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setWhere('id='. $iaction_id . ' LIMIT 1');
 
@@ -56,7 +56,7 @@ elseif ($function_action == 'delete')
 
 if ($function == 'delete')
 {
-  $del = new rex_sql;
+  $del = rex_sql::factory();
   $del->setQuery("SELECT ".$REX['TABLE_PREFIX']."article_slice.article_id, ".$REX['TABLE_PREFIX']."article_slice.clang, ".$REX['TABLE_PREFIX']."article_slice.ctype, ".$REX['TABLE_PREFIX']."module.name FROM ".$REX['TABLE_PREFIX']."article_slice
       LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
       WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id' GROUP BY ".$REX['TABLE_PREFIX']."article_slice.article_id");
@@ -99,13 +99,13 @@ if ($function == 'add' or $function == 'edit')
 {
   if ($save == '1')
   {
-    $modultyp = new rex_sql;
+    $modultyp = rex_sql::factory();
 
     if ($function == 'add')
     {
       // $modultyp->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
 
-      $IMOD = new rex_sql;
+      $IMOD = rex_sql::factory();
       $IMOD->setTable($REX['TABLE_PREFIX'].'module');
       $IMOD->setValue('name',$mname);
       $IMOD->setValue('eingabe',$eingabe);
@@ -125,7 +125,7 @@ if ($function == 'add' or $function == 'edit')
 
         // $modultyp->setQuery("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
 
-        $UMOD = new rex_sql;
+        $UMOD = rex_sql::factory();
         $UMOD->setTable($REX['TABLE_PREFIX'].'module');
         $UMOD->setWhere('id='. $modul_id);
         $UMOD->setValue('name',$mname);
@@ -143,7 +143,7 @@ if ($function == 'add' or $function == 'edit')
 		if ($old_ausgabe != $new_ausgabe)
 		{
           // article updaten - nur wenn ausgabe sich veraendert hat
-          $gc = new rex_sql;
+          $gc = rex_sql::factory();
           $gc->setQuery("SELECT DISTINCT(".$REX['TABLE_PREFIX']."article.id) FROM ".$REX['TABLE_PREFIX']."article
               LEFT JOIN ".$REX['TABLE_PREFIX']."article_slice ON ".$REX['TABLE_PREFIX']."article.id=".$REX['TABLE_PREFIX']."article_slice.article_id
               WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
@@ -173,7 +173,7 @@ if ($function == 'add' or $function == 'edit')
     {
       $legend = $I18N->msg('module_edit').' [ID='.$modul_id.']';
 
-      $hole = new rex_sql;
+      $hole = rex_sql::factory();
       $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'module WHERE id='.$modul_id);
       $category_id  = $hole->getValue('category_id');
       $mname    = $hole->getValue('name');
@@ -248,12 +248,12 @@ if ($function == 'add' or $function == 'edit')
     {
       // Im Edit Mode Aktionen bearbeiten
 
-      $gaa = new rex_sql;
+      $gaa = rex_sql::factory();
       $gaa->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."action ORDER BY name");
 
       if ($gaa->getRows()>0)
       {
-        $gma = new rex_sql;
+        $gma = rex_sql::factory();
         $gma->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module_action, ".$REX['TABLE_PREFIX']."action WHERE ".$REX['TABLE_PREFIX']."module_action.action_id=".$REX['TABLE_PREFIX']."action.id and ".$REX['TABLE_PREFIX']."module_action.module_id='$modul_id'");
 				
 				$add_header = '';

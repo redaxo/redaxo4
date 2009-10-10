@@ -65,7 +65,7 @@ foreach($langs as $k => $v)
 
 if (rex_post('upd_profile_button', 'string'))
 {
-  $updateuser = new rex_sql;
+  $updateuser = rex_sql::factory();
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);

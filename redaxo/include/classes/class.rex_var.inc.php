@@ -47,7 +47,7 @@ class rex_var
    */
   function getACOutput($REX_ACTION, $content)
   {
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     $this->setACValues($sql, $REX_ACTION);
     return $this->getBEOutput($sql, $content);
   }

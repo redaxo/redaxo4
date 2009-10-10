@@ -42,7 +42,7 @@ $warning_blck = '';
 
 if ($function == 'delete')
 {
-  $del = new rex_sql;
+  $del = rex_sql::factory();
 //  $del->debugsql = true;
   $qry = 'SELECT
             *
@@ -94,7 +94,7 @@ if ($function == "add" or $function == "edit")
 
   if ($save == "1")
   {
-    $faction = new rex_sql;
+    $faction = rex_sql::factory();
 
     $previewstatus  = rex_post('previewstatus', 'array');
     $presavestatus  = rex_post('presavestatus', 'array');
@@ -157,7 +157,7 @@ if ($function == "add" or $function == "edit")
     {
       $legend = $I18N->msg('action_edit') . ' [ID=' . $action_id . ']';
 
-      $action = new rex_sql;
+      $action = rex_sql::factory();
       $action->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
 
       $name           = $action->getValue('name');
@@ -371,7 +371,7 @@ if ($OUT)
       </thead>
     ';
 
-  $sql = new rex_sql;
+  $sql = rex_sql::factory();
   $sql->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'action ORDER BY name');
   $rows = $sql->getRows();
 

@@ -9,7 +9,7 @@ class rex_xform_readtable extends rex_xform_abstract
 		{
 			if ($this->elements[3] == $k) $value = $v;
 		}
-		$gd = new rex_sql;
+		$gd = rex_sql::factory();
 		$gd->setQuery('select * from '.$this->elements[1].' where '.$this->elements[2].'="'.addslashes($v).'"');
 
 		if ($gd->getRows()==1)

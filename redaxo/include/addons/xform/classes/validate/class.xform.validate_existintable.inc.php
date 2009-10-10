@@ -10,7 +10,7 @@ class rex_xform_validate_existintable extends rex_xform_validate_abstract
 			foreach($this->xaObjects as $xoObject)
 			{
 				$sql = 'select '.$this->xaElements[2].' from '.$this->xaElements[3].' WHERE '.$this->xaElements[4].'="'.$xoObject->getValue().'" LIMIT 2';
-				$cd = new rex_sql;
+				$cd = rex_sql::factory();
 				// $cd->debugsql = 1;
 				$cd->setQuery($sql);
 				if ($cd->getRows()!=1)

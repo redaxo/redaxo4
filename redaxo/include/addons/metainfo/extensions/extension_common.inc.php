@@ -98,7 +98,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $values = array();
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
-          $sql = new rex_sql();
+          $sql = rex_sql::factory();
           $value_groups = $sql->getDBArray($params, MYSQL_NUM);
           foreach($value_groups as $value_group)
           {
@@ -493,7 +493,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
           ORDER BY
             prior';
 
-  $sqlFields = new rex_sql();
+  $sqlFields = rex_sql::factory();
   // $sqlFields->debugsql = true;
   $sqlFields->setQuery($qry);
 
@@ -569,7 +569,7 @@ function rex_a62_media_is_in_use($params)
 {
   $query = $params['subject'];
 
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery('SELECT name,type FROM rex_62_params WHERE type IN(6,7)');
 
   $rows = $sql->getRows();

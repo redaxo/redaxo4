@@ -106,7 +106,7 @@ function rex_a1_import_db($filename)
     include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php');
   }
   
-  $sql   = new rex_sql();
+  $sql   = rex_sql::factory();
   $lines = array();
   // Datei aufteilen
   PMA_splitSqlFile($lines, $conts, 0);
@@ -154,7 +154,7 @@ function rex_a1_import_db($filename)
        session_id varchar(255) NOT NULL,
        PRIMARY KEY(user_id)
      ) TYPE=MyISAM;';
-    $db = new rex_sql;
+    $db = rex_sql::factory();
     $db->setQuery($create_user_table);
     $error = $db->getError();
     if($error != '')
@@ -258,7 +258,7 @@ function rex_a1_export_db($filename)
     return false;
   }
   
-  $sql        = new rex_sql();
+  $sql        = rex_sql::factory();
   $tables     = rex_sql::showTables(1, $REX['TABLE_PREFIX']);
   
   $nl         = "\n";

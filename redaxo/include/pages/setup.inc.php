@@ -591,7 +591,7 @@ if ($checkmodus == 3 && $send == 1)
     // ----- volle Datenbank, alte DB löschen / drop
     $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_2.sql';
 
-    $db = new rex_sql;
+    $db = rex_sql::factory();
     foreach($requiredTables as $table)
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
 
@@ -815,7 +815,7 @@ if ($checkmodus == 4 && $send == 1)
 
     if ($err_msg == "")
     {
-      $ga = new rex_sql;
+      $ga = rex_sql::factory();
       $ga->setQuery("select * from ".$REX['TABLE_PREFIX']."user where login='$redaxo_user_login'");
 
       if ($ga->getRows() > 0)
@@ -827,7 +827,7 @@ if ($checkmodus == 4 && $send == 1)
         if ($REX['PSWFUNC'] != '')
           $redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
-        $user = new rex_sql;
+        $user = rex_sql::factory();
         // $user->debugsql = true;
         $user->setTable($REX['TABLE_PREFIX'].'user');
         $user->setValue('name', 'Administrator');
@@ -845,7 +845,7 @@ if ($checkmodus == 4 && $send == 1)
   }
   else
   {
-    $gu = new rex_sql;
+    $gu = rex_sql::factory();
     $gu->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
     if ($gu->getRows() == 0)
       $err_msg .= $I18N->msg('setup_044');
@@ -860,7 +860,7 @@ if ($checkmodus == 4 && $send == 1)
 
 if ($checkmodus == 4)
 {
-  $user_sql = new rex_sql;
+  $user_sql = rex_sql::factory();
   $user_sql->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
 
   rex_setup_title($I18N->msg("setup_step4"));

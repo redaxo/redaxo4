@@ -126,7 +126,7 @@
       else
       {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
-        $sql = new rex_sql();
+        $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article LIMIT 0');
         foreach($sql->getFieldnames() as $field)
         {

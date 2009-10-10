@@ -198,7 +198,7 @@ class OOArticleSlice
     if(!$fields)
       $fields = '*';
 
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $query = '
       SELECT '. $fields .'

@@ -71,7 +71,7 @@ echo $dbg->get();
   <br /><b>Bitte Tabelle angeben </b>
   <br />(Diese Tabelle gilt auch bei Uniqueabfragen (Pflichtfeld=2) siehe oben
   <br /><br /><?php
-  $gc = new rex_sql;
+  $gc = rex_sql::factory();
   $gc->setQuery("SHOW TABLES");
   $tables = $gc->getArray();
   

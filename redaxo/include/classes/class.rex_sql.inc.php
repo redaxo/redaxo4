@@ -483,7 +483,7 @@ class rex_sql
    * Beispiel:
    *
    * <code>
-   * $sql = new rex_sql();
+   * $sql = rex_sql::factory();
    * $message = $sql->statusQuery(
    *    'INSERT  INTO abc SET a="ab"',
    *    'Datensatz  erfolgreich eingefügt');
@@ -492,7 +492,7 @@ class rex_sql
    *  anstatt von
    *
    * <code>
-   * $sql = new rex_sql();
+   * $sql = rex_sql::factory();
    * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
    *   $message  = 'Datensatz erfolgreich eingefügt');
    * else
@@ -700,7 +700,7 @@ class rex_sql
   /*public*/ function setNewId($field)
   {
     // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt überschrieben werden
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     if($sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1'))
     {
       if ($sql->getRows() == 0)
@@ -759,7 +759,7 @@ class rex_sql
    */
   /*public static*/ function showCreateTable($table, $DBID=1)
   {
-    $sql = new rex_sql($DBID);
+    $sql = rex_sql::factory($DBID);
     $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
     $create = $create['Create Table'];
     return $create;  	
@@ -781,7 +781,7 @@ class rex_sql
     	$qry .= ' LIKE "'.$tablePrefix.'%"';    	
     }
 
-    $sql = new rex_sql($DBID);
+    $sql = rex_sql::factory($DBID);
     $tables = $sql->getArray($qry);
     $tables = array_map('reset', $tables);
     
@@ -797,7 +797,7 @@ class rex_sql
    */
   /*public*/ function showColumns($table, $DBID=1)
   {
-    $sql = new rex_sql($DBID);
+    $sql = rex_sql::factory($DBID);
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
 
     $columns = array();

@@ -44,7 +44,7 @@ $warning = '';
 
 if ($user_id != 0)
 {
-  $sql = new rex_sql;
+  $sql = rex_sql::factory();
   $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user WHERE user_id = '. $user_id .' LIMIT 2');
   if ($sql->getRows()!= 1) $user_id = 0;
 }
@@ -161,7 +161,7 @@ $sel_sprachen->setStyle('class="rex-form-select"');
 $sel_sprachen->setSize(3);
 $sel_sprachen->setName('userperm_sprachen[]');
 $sel_sprachen->setId('userperm-sprachen');
-$sqlsprachen = new rex_sql;
+$sqlsprachen = rex_sql::factory();
 $sqlsprachen->setQuery('select * from '.$REX['TABLE_PREFIX'].'clang order by id');
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
@@ -235,7 +235,7 @@ $sel_module->setStyle('class="rex-form-select"');
 $sel_module->setSize(10);
 $sel_module->setName('userperm_module[]');
 $sel_module->setId('userperm-module');
-$sqlmodule = new rex_sql;
+$sqlmodule = rex_sql::factory();
 $sqlmodule->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
@@ -281,7 +281,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $loginReset = rex_request('logintriesreset', 'int');
   $userstatus = rex_request('userstatus', 'int');
 
-  $updateuser = new rex_sql;
+  $updateuser = rex_sql::factory();
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
@@ -318,7 +318,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   // userperm_cat
   foreach($userperm_cat as $ccat)
   {
-    $gp = new rex_sql;
+    $gp = rex_sql::factory();
     $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
     if ($gp->getRows()==1)
     {
@@ -373,7 +373,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   // man kann sich selbst nicht löschen..
   if ($REX['USER']->getValue("user_id") != $user_id)
   {
-    $deleteuser = new rex_sql;
+    $deleteuser = rex_sql::factory();
     $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
     $info = $I18N->msg("user_deleted");
     $user_id = 0;
@@ -388,12 +388,12 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $sel_sprachen->setSelected("0");
 } elseif ($FUNC_ADD != '' and $save == 1)
 {
-  $adduser = new rex_sql;
+  $adduser = rex_sql::factory();
   $adduser->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."user WHERE login = '$userlogin'");
 
   if ($adduser->getRows()==0 and $userlogin != '')
   {
-    $adduser = new rex_sql;
+    $adduser = rex_sql::factory();
     $adduser->setTable($REX['TABLE_PREFIX'].'user');
     $adduser->setValue('name',$username);
     if ($REX['PSWFUNC']!='') $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
@@ -442,7 +442,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     // userperm_cat
     foreach($userperm_cat as $ccat)
     {
-      $gp = new rex_sql;
+      $gp = rex_sql::factory();
       $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
       if ($gp->getRows()==1)
       {

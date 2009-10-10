@@ -29,7 +29,7 @@ function rex_a62_metainfo_cleanup($params)
 
   require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_table_manager.inc.php';
 
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery('SELECT name FROM ' . $REX['TABLE_PREFIX'] . '62_params');
 
   for ($i = 0; $i < $sql->getRows(); $i++)
@@ -62,6 +62,6 @@ function rex_a62_metainfo_cleanup($params)
     }
   }
 
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery('DELETE FROM '. $REX['TABLE_PREFIX'] .'62_params');
 }

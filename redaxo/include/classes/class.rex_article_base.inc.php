@@ -49,7 +49,7 @@ class rex_article_base
 
     $this->debug = FALSE;
 
-    $this->ARTICLE = new rex_sql;
+    $this->ARTICLE = rex_sql::factory();
     if($this->debug)
     $this->ARTICLE->debugsql = 1;
 
@@ -239,7 +239,7 @@ class rex_article_base
             ". $sliceLimit ."
             ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
 
-      $artDataSql = new rex_sql;
+      $artDataSql = rex_sql::factory();
       if($this->debug)
         $artDataSql->debugsql = 1;
       $artDataSql->setQuery($sql);

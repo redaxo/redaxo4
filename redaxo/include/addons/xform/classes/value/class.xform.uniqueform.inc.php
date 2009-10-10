@@ -18,7 +18,7 @@ class rex_xform_uniqueform extends rex_xform_abstract
 		{
 			// in tabelle nachsehen ob formcode vorhanden
 			$sql = 'select '.$this->label.' from '.$table.' WHERE '.$this->label.'="'.$this->value.'" LIMIT 1';
-			$cd = new rex_sql;
+			$cd = rex_sql::factory();
 			if ($this->params["debug"]) $cd->debugsql = true;
 			$cd->setQuery($sql);
 			if ($cd->getRows()==1)

@@ -50,7 +50,7 @@ function rex_read_addons_folder($folder = '')
  */
 function rex_install_dump($file, $debug = false)
 {
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->debugsql = $debug;
   $error = '';
 

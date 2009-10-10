@@ -358,7 +358,7 @@ function _rex_deleteArticle($id)
     return $return;
   }
 
-  $ART = new rex_sql;
+  $ART = rex_sql::factory();
   $ART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$id.' and clang=0');
 
   if ($ART->getRows() > 0)
@@ -368,7 +368,7 @@ function _rex_deleteArticle($id)
     if ($ART->getValue('startpage') == 1)
     {
     	$return['message'] = $I18N->msg('category_deleted');
-      $SART = new rex_sql;
+      $SART = rex_sql::factory();
       $SART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where re_id='.$id.' and clang=0');
       for ($i = 0; $i < $SART->getRows(); $i ++)
       {
@@ -427,7 +427,7 @@ function rex_generateLists($re_id, $clang = null)
         
     // --------------------------------------- ARTICLE LIST
 
-    $GC = new rex_sql;
+    $GC = rex_sql::factory();
     // $GC->debugsql = 1;
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
     $content = "<?php\n";
@@ -447,7 +447,7 @@ function rex_generateLists($re_id, $clang = null)
 
     // --------------------------------------- CAT LIST
 
-    $GC = new rex_sql;
+    $GC = rex_sql::factory();
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
     $content = "<?php\n";
     for ($i = 0; $i < $GC->getRows(); $i ++)
@@ -574,7 +574,7 @@ function rex_generateMedia($media_id)
   global $REX;
   
   $query = 'SELECT * FROM ' . OOMedia :: _getTableName() . ' WHERE file_id = '.$media_id;
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
   
@@ -607,7 +607,7 @@ function rex_generateMediaCategory($category_id)
   global $REX;
   
   $query = 'SELECT * FROM ' . OOMediaCategory :: _getTableName() . ' WHERE id = '.$category_id;
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
   
@@ -640,7 +640,7 @@ function rex_generateMediaList($category_id)
   global $REX;
   
   $query = 'SELECT file_id FROM ' . OOMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery($query);
   
   $content = '<?php'."\n";
@@ -670,7 +670,7 @@ function rex_generateMediaCategoryList($category_id)
   global $REX;
   
   $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id;
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
   
@@ -699,7 +699,7 @@ function rex_generateMediaNameList()
   global $REX;
   
   $query = 'SELECT file_id, filename FROM ' . OOMedia :: _getTableName();
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery($query);
   
   $content = '<?php'."\n";
@@ -727,7 +727,7 @@ function rex_generateMediaCategoryNameList()
   global $REX;
   
   $query = 'SELECT id, name FROM ' . OOMediaCategory :: _getTableName();
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery($query);
   
   $content = '<?php'."\n";
@@ -757,7 +757,7 @@ function rex_generateMediaExtensionList($extension)
   global $REX;
   
   $query = 'SELECT file_id FROM ' . OOMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery($query);
   
   $content = '<?php'."\n";
@@ -1023,7 +1023,7 @@ function rex_deleteCLang($clang)
   $clangName = $REX['CLANG'][$clang];
   unset ($REX['CLANG'][$clang]);
 
-  $del = new rex_sql();
+  $del = rex_sql::factory();
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
@@ -1059,11 +1059,11 @@ function rex_addCLang($id, $name)
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
   rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
   
-  $add = new rex_sql();
+  $add = rex_sql::factory();
   $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
   $fields = $add->getFieldnames();
 
-  $adda = new rex_sql;
+  $adda = rex_sql::factory();
   // $adda->debugsql = 1;
   for ($i = 0; $i < $add->getRows(); $i ++)
   {
@@ -1087,7 +1087,7 @@ function rex_addCLang($id, $name)
     $add->next();
   }
 
-  $add = new rex_sql();
+  $add = rex_sql::factory();
   $add->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
 
   // ----- EXTENSION POINT
@@ -1114,7 +1114,7 @@ function rex_editCLang($id, $name)
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
   rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
 
-  $edit = new rex_sql;
+  $edit = rex_sql::factory();
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
 
   // ----- EXTENSION POINT
@@ -1225,7 +1225,7 @@ function rex_generateClang()
 {
   global $REX;
   
-  $lg = new rex_sql();
+  $lg = rex_sql::factory();
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
   
   $REX['CLANG'] = array();
@@ -1254,7 +1254,7 @@ function rex_generateTemplate($template_id)
 {
   global $REX;
 
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX']  .'template WHERE id = '.$template_id;
   $sql->setQuery($qry);
 

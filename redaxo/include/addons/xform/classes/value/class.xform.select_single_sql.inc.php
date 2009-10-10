@@ -12,7 +12,7 @@ class rex_xform_select_single_sql extends rex_xform_abstract
 		$SEL->setSize(1);
 
 		$sql = $this->elements[4];
-		$teams = new rex_sql;
+		$teams = rex_sql::factory();
 		$teams->debugsql = $this->params["debug"];
 		$teams->setQuery($sql);
 		$sqlnames = array();

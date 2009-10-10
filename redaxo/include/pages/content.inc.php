@@ -39,7 +39,7 @@ $global_info = '';
 
 require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
 
-$article = new rex_sql;
+$article = rex_sql::factory();
 $article->setQuery("
 		SELECT
 			article.*, template.attributes as template_attributes
@@ -140,7 +140,7 @@ if ($article->getRows() == 1)
     {
       // ----- check module
 
-      $CM = new rex_sql;
+      $CM = rex_sql::factory();
       if ($function == 'edit' || $function == 'delete')
       {
         // edit/ delete
@@ -218,7 +218,7 @@ if ($article->getRows() == 1)
             // ----- SAVE/UPDATE SLICE
             if ($function == 'add' || $function == 'edit')
             {
-              $newsql = new rex_sql;
+              $newsql = rex_sql::factory();
               // $newsql->debugsql = true;
               $sliceTable = $REX['TABLE_PREFIX'] . 'article_slice';
               $newsql->setTable($sliceTable);
@@ -287,7 +287,7 @@ if ($article->getRows() == 1)
             // ----- / SAVE SLICE
 
             // ----- artikel neu generieren
-            $EA = new rex_sql;
+            $EA = rex_sql::factory();
             $EA->setTable($REX['TABLE_PREFIX'] . 'article');
             $EA->setWhere('id='. $article_id .' AND clang='. $clang);
             $EA->addGlobalUpdateFields();
@@ -325,7 +325,7 @@ if ($article->getRows() == 1)
       {
         // modul und rechte vorhanden ?
 
-        $CM = new rex_sql;
+        $CM = rex_sql::factory();
         $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "module on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
         if ($CM->getRows() != 1)
         {
@@ -482,7 +482,7 @@ if ($article->getRows() == 1)
     {
       $meta_article_name = rex_post('meta_article_name', 'string');
       
-      $meta_sql = new rex_sql;
+      $meta_sql = rex_sql::factory();
       $meta_sql->setTable($REX['TABLE_PREFIX'] . "article");
       // $meta_sql->debugsql = 1;
       $meta_sql->setWhere("id='$article_id' AND clang=$clang");

@@ -422,7 +422,7 @@ class OOMediaCategory
    */
   function save()
   {
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     $sql->setTable($this->_getTableName());
     $sql->setValue('re_id', $this->getParentId());
     $sql->setValue('name', $this->getName());
@@ -480,7 +480,7 @@ class OOMediaCategory
     }
 
     $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE id = ' . $this->getId() . ' LIMIT 1';
-    $sql = new rex_sql(); 
+    $sql = rex_sql::factory(); 
     // $sql->debugsql = true;
     $sql->setQuery($qry);
     

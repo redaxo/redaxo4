@@ -51,7 +51,7 @@ if($func == "add" || $func == "edit")
 if($func == "delete")
 {
 	$query = "delete from $table where id='".$template_id."' ";
-	$delsql = new rex_sql;
+	$delsql = rex_sql::factory();
 	$delsql->debugsql=0;
 	$delsql->setQuery($query);
 	$func = "";

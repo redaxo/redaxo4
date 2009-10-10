@@ -9,7 +9,7 @@
 
 // Tabelle anlegen Redaxo 4.0.x
 
-$sql = new rex_sql();
+$sql = rex_sql::factory();
 $sql->setQuery("CREATE TABLE IF NOT EXISTS `rex_xform_email_template` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',

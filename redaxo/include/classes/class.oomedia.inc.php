@@ -640,7 +640,7 @@ class OOMedia
   {
     global $REX;
 
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
 
     $values = array();
@@ -776,7 +776,7 @@ class OOMedia
    */
   function save()
   {
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     $sql->setTable($this->_getTableName());
     $sql->setValue('re_file_id', $this->getParentId());
     $sql->setValue('category_id', $this->getCategoryId());
@@ -825,7 +825,7 @@ class OOMedia
     }else
     {
       $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
-      $sql = new rex_sql();
+      $sql = rex_sql::factory();
       $sql->setQuery($qry);
   
       if($this->fileExists())

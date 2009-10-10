@@ -8,7 +8,7 @@
 
 // email templates tabelle loeschen
 
-$sql = new rex_sql();
+$sql = rex_sql::factory();
 $sql->setQuery("DROP TABLE `rex_xform_email_template`;");
 
 $REX['ADDON']['install']['xform'] = 0;

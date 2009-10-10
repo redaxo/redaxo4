@@ -15,7 +15,7 @@ if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
 // ***** kategorie auswahl
-$db = new rex_sql();
+$db = rex_sql::factory();
 $file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
 
 // ***** select bauen
@@ -148,7 +148,7 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
 
 if ($subpage=="detail" && rex_post('btn_update', 'string')){
 
-  $gf = new rex_sql;
+  $gf = rex_sql::factory();
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
@@ -184,7 +184,7 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
 
 if ($subpage == "detail")
 {
-  $gf = new rex_sql;
+  $gf = rex_sql::factory();
   $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
   if ($gf->getRows()==1)
   {
@@ -459,7 +459,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 
     foreach($selectedmedia as $file_id){
 
-      $db = new rex_sql;
+      $db = rex_sql::factory();
       // $db->debugsql = true;
       $db->setTable($REX['TABLE_PREFIX'].'file');
       $db->setWhere('file_id='.$file_id);
@@ -619,7 +619,7 @@ if ($subpage == '')
   if($PERMALL)
   {
     $add_input = '';
-    $filecat = new rex_sql();
+    $filecat = rex_sql::factory();
     $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
     if ($filecat->getRows() > 0)
     {
@@ -666,7 +666,7 @@ if ($subpage == '')
       'category_id' => $rex_file_category
     )
   );
-  $files = new rex_sql;
+  $files = rex_sql::factory();
 //   $files->debugsql = 1;
   $files->setQuery($qry);
 

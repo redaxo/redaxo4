@@ -29,7 +29,7 @@ function rex_addCategory($category_id, $data)
   if ($category_id != "")
   {
     // TemplateId vom Startartikel der jeweiligen Sprache vererben
-    $sql = new rex_sql;
+    $sql = rex_sql::factory();
     // $sql->debugsql = 1;
     $sql->setQuery("select clang,template_id from ".$REX['TABLE_PREFIX']."article where id=$category_id and startpage=1");
     for ($i = 0; $i < $sql->getRows(); $i++, $sql->next())
@@ -55,7 +55,7 @@ function rex_addCategory($category_id, $data)
   }
 
   // Kategorie in allen Sprachen anlegen
-  $AART = new rex_sql;
+  $AART = rex_sql::factory();
   foreach($REX['CLANG'] as $key => $val)
   {
     $template_id = $REX['DEFAULT_TEMPLATE_ID'];
@@ -139,11 +139,11 @@ function rex_editCategory($category_id, $clang, $data)
     trigger_error('Expecting $data to be an array!', E_USER_ERROR);
 
   // --- Kategorie mit alten Daten selektieren
-  $thisCat = new rex_sql;
+  $thisCat = rex_sql::factory();
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE startpage=1 and id='.$category_id.' and clang='. $clang);
 
   // --- Kategorie selbst updaten
-  $EKAT = new rex_sql;
+  $EKAT = rex_sql::factory();
   $EKAT->setTable($REX['TABLE_PREFIX']."article");
   $EKAT->setWhere("id=$category_id AND startpage=1 AND clang=$clang");
   $EKAT->setValue('catname', $data['catname']);
@@ -156,10 +156,10 @@ function rex_editCategory($category_id, $clang, $data)
     // --- Kategorie Kindelemente updaten
     if(isset($data['catname']))
     {
-      $ArtSql = new rex_sql();
+      $ArtSql = rex_sql::factory();
       $ArtSql->setQuery('SELECT id FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='.$category_id .' AND startpage=0 AND clang='.$clang);
 
-      $EART = new rex_sql();
+      $EART = rex_sql::factory();
       for($i = 0; $i < $ArtSql->getRows(); $i++)
       {
         $EART->setTable($REX['TABLE_PREFIX'].'article');
@@ -244,13 +244,13 @@ function rex_deleteCategoryReorganized($category_id)
   
   $clang = 0;
 
-  $thisCat = new rex_sql;
+  $thisCat = rex_sql::factory();
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id.' and clang='. $clang);
 
   // Prüfen ob die Kategorie existiert
   if ($thisCat->getRows() == 1)
   {
-    $KAT = new rex_sql;
+    $KAT = rex_sql::factory();
     $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$category_id' and clang='$clang' and startpage=1");
     // Prüfen ob die Kategorie noch Unterkategorien besitzt
     if ($KAT->getRows() == 0)
@@ -259,7 +259,7 @@ function rex_deleteCategoryReorganized($category_id)
       // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
       if ($KAT->getRows() == 0)
       {
-        $thisCat = new rex_sql;
+        $thisCat = rex_sql::factory();
         $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id);
         
         $re_id = $thisCat->getValue('re_id');
@@ -319,7 +319,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
   $message = '';
   $catStatusTypes = rex_categoryStatusTypes();
 
-  $KAT = new rex_sql();
+  $KAT = rex_sql::factory();
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$category_id' and clang=$clang and startpage=1");
   if ($KAT->getRows() == 1)
   {
@@ -330,7 +330,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
     else
       $newstatus = $status;
 
-    $EKAT = new rex_sql;
+    $EKAT = rex_sql::factory();
     $EKAT->setTable($REX['TABLE_PREFIX'].'article');
     $EKAT->setWhere("id='$category_id' and clang=$clang and startpage=1");
     $EKAT->setValue("status", $newstatus);
@@ -414,7 +414,7 @@ function rex_addArticle($data)
 
   $message = $I18N->msg('article_added');
 
-  $AART = new rex_sql;
+  $AART = rex_sql::factory();
   foreach($REX['CLANG'] as $key => $val)
   {
     // ------- Kategorienamen holen
@@ -492,7 +492,7 @@ function rex_editArticle($article_id, $clang, $data)
     trigger_error('Expecting $data to be an array!', E_USER_ERROR);
 
   // Artikel mit alten Daten selektieren
-  $thisArt = new rex_sql;
+  $thisArt = rex_sql::factory();
   $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
 
   if(isset($data['prior']))
@@ -501,7 +501,7 @@ function rex_editArticle($article_id, $clang, $data)
       $data['prior'] = 1;
   }
 
-  $EA = new rex_sql;
+  $EA = rex_sql::factory();
   $EA->setTable($REX['TABLE_PREFIX']."article");
   $EA->setWhere("id='$article_id' and clang=$clang");
   $EA->setValue('name', $data['name']);
@@ -562,7 +562,7 @@ function rex_deleteArticleReorganized($article_id)
   $return['state'] = FALSE;
   $return['message'] = '';
 
-  $Art = new rex_sql;
+  $Art = rex_sql::factory();
   $Art->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and startpage=0');
 
   if ($Art->getRows() == count($REX['CLANG']))
@@ -612,7 +612,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
   $message = '';
   $artStatusTypes = rex_articleStatusTypes();
 
-  $GA = new rex_sql;
+  $GA = rex_sql::factory();
   $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
   if ($GA->getRows() == 1)
   {
@@ -623,7 +623,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
     else
       $newstatus = $status;
 
-    $EA = new rex_sql;
+    $EA = rex_sql::factory();
     $EA->setTable($REX['TABLE_PREFIX']."article");
     $EA->setWhere("id='$article_id' and clang=$clang");
     $EA->setValue('status', $newstatus);

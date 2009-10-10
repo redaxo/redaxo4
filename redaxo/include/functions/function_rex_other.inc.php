@@ -397,13 +397,13 @@ function rex_replace_dynamic_contents($path, $content)
  */
 function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
 {
-  $gu = new rex_sql;
+  $gu = rex_sql::factory();
   $qry = 'select * from '.$tableName;
   if($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
   if($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
-  $gr = new rex_sql;
+  $gr = rex_sql::factory();
   $gr->setQuery($qry);
   for ($i = 0; $i < $gr->getRows(); $i ++)
   {

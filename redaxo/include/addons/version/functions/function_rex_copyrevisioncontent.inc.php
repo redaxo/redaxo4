@@ -17,20 +17,20 @@ if(!function_exists("rex_copyRevisionContent"))
 	
 	  if($to_revision_delete)
 	  {
-	  	$dc = new rex_sql;
+	  	$dc = rex_sql::factory();
 	    // $dc->debugsql = 1;
 	  	$dc->setQuery('delete from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$article_id.' and clang='.$clang.' and revision='.$to_revision_id);
 	  }
 	
 	  if ($from_revision_id == $to_revision_id)
 	    return false;
-	  $gc = new rex_sql;
+	  $gc = rex_sql::factory();
 	  // $gc->debugsql = 1;
 	  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$article_id' and clang='$clang' and revision='$from_revision_id'");
 	  if ($gc->getRows() == 1)
 	  {
 	    // letzt slice_id des ziels holen ..
-	    $glid = new rex_sql;
+	    $glid = rex_sql::factory();
 	    // $glid->debugsql = 1;
 	    $glid->setQuery("
 					select 
@@ -46,10 +46,10 @@ if(!function_exists("rex_copyRevisionContent"))
 	      $to_last_slice_id = $glid->getValue("r1.id");
 	    else
 	      $to_last_slice_id = 0;
-	    $ins = new rex_sql;
+	    $ins = rex_sql::factory();
 	    // $ins->debugsql = 1;
 	    $ins->setTable($REX['TABLE_PREFIX']."article_slice");
-	    $cols = new rex_sql;
+	    $cols = rex_sql::factory();
 	    $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
 	    for ($j = 0; $j < $cols->rows; $j ++, $cols->next())
 	    {

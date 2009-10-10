@@ -20,7 +20,7 @@ $warning = '';
 
 if ($function == "delete")
 {
-  $del = new rex_sql;
+  $del = rex_sql::factory();
   $del->setQuery("SELECT " . $REX['TABLE_PREFIX'] . "article.id," . $REX['TABLE_PREFIX'] . "template.name FROM " . $REX['TABLE_PREFIX'] . "article
     LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id
     WHERE " . $REX['TABLE_PREFIX'] . "article.template_id='$template_id' LIMIT 0,10");
@@ -41,7 +41,7 @@ if ($function == "delete")
 
   $legend = $I18N->msg("edit_template") . ' [ID=' . $template_id . ']';
 
-  $hole = new rex_sql;
+  $hole = rex_sql::factory();
   $hole->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id'");
   if($hole->getRows() == 1)
   {
@@ -102,7 +102,7 @@ if ($function == "add" or $function == "edit")
         $modules[$k]["all"] = 0;
     }
 
-    $TPL = new rex_sql;
+    $TPL = rex_sql::factory();
     $TPL->setTable($REX['TABLE_PREFIX'] . "template");
     $TPL->setValue("name", $templatename);
     $TPL->setValue("active", $active);
@@ -172,7 +172,7 @@ if ($function == "add" or $function == "edit")
     $modul_select = new rex_select();
     $modul_select->setMultiple(TRUE);
     $modul_select->setSize(10);
-    $m_sql = new rex_sql;
+    $m_sql = rex_sql::factory();
     $m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
     foreach($m_sql->getArray() as $m)
       $modul_select->addOption($m["name"],$m["id"]);

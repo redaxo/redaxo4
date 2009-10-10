@@ -67,7 +67,7 @@ elseif ($func == 'updateinfos')
     $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
   }
   
-  $sql = new rex_sql();
+  $sql = rex_sql::factory();
   $sql->setQuery('SELECT * FROM rex_template WHERE id='. $neu_defaulttemplateid .' AND active=1');
   if($sql->getRows() != 1 && $neu_defaulttemplateid != 0)
   {

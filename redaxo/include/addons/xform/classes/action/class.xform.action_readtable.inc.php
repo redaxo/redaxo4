@@ -11,7 +11,7 @@ class rex_xform_action_readtable extends rex_xform_action_abstract
 			if ($this->action["elements"][4] == $k) $value = $v;
 		}
 
-		$gd = new rex_sql;
+		$gd = rex_sql::factory();
 		// $gd->debugsql = 1;
 		$gd->setQuery('select * from '.$this->action["elements"][2].' where '.$this->action["elements"][3].'="'.addslashes($value).'"');
 

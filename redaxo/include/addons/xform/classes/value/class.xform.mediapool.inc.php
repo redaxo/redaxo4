@@ -192,7 +192,7 @@ class rex_xform_mediapool extends rex_xform_abstract
 	    // get widht height
 	    $size = @getimagesize($REX['MEDIAFOLDER']."/$NFILENAME");
 	
-	    $FILESQL = new rex_sql;
+	    $FILESQL = rex_sql::factory();
 	    // $FILESQL->debugsql=1;
 	    $FILESQL->setTable($REX['TABLE_PREFIX']."file");
 	    $FILESQL->setValue("filetype",$FILETYPE);

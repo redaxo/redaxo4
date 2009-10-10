@@ -20,7 +20,7 @@ function rex_a62_metainfo_button($params)
 {
 	global $REX, $I18N;
 
-	$fields = new rex_sql();
+	$fields = rex_sql::factory();
   $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "cat_%" LIMIT 1');
 
   if ($fields->getRows()==1)

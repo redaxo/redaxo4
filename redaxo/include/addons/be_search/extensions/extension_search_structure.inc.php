@@ -85,7 +85,7 @@ function rex_a256_search_structure($params)
       }
     }
 
-    $search = new rex_sql();
+    $search = rex_sql::factory();
 //    $search->debugsql = true;
     $search->setQuery($qry);
     $foundRows = $search->getRows();

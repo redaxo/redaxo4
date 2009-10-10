@@ -67,7 +67,7 @@ function rex_version_header($params)
 		$rex_version_article = array();
 	
 	$working_version_empty = TRUE;
-	$gw = new rex_sql;
+	$gw = rex_sql::factory();
 	$gw->setQuery('select * from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$params["article_id"].' and clang='.$params["clang"].' and revision=1 LIMIT 1');
 	if($gw->getRows()>0)
 		$working_version_empty = FALSE;
