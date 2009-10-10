@@ -24,7 +24,7 @@ class rex_sql
   var $error; // Fehlertext
   var $errno; // Fehlernummer
 
-  function rex_sql($DBID = 1)
+  /*private*/ function rex_sql($DBID = 1)
   {
     global $REX;
 
@@ -60,7 +60,7 @@ class rex_sql
   /**
    * Stellt die Verbindung zur Datenbank her
    */
-  function selectDB($DBID)
+  /*protected*/ function selectDB($DBID)
   {
     global $REX;
 
@@ -76,6 +76,7 @@ class rex_sql
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
     }
+    $REX['DB'][$DBID]['IDENTIFIER'] = $this->identifier;
   }
 
   /**
@@ -84,7 +85,7 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  function getQueryDBID($qry = null)
+  /*protected static*/ function getQueryDBID($qry = null)
   {
     if(!$qry)
     {
@@ -108,7 +109,7 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  function stripQueryDBID(&$qry)
+  /*protected static*/ function stripQueryDBID(&$qry)
   {
     $qry = trim($qry);
 
@@ -132,7 +133,7 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  function getQueryType($qry = null)
+  /*protected*/ function getQueryType($qry = null)
   {
     if(!$qry)
     {
@@ -159,7 +160,7 @@ class rex_sql
    * @return boolean True wenn die Abfrage erfolgreich war (keine DB-Errors
    * auftreten), sonst false
    */
-  function setDBQuery($qry)
+  /*public*/ function setDBQuery($qry)
   {
     if(($qryDBID = rex_sql::stripQueryDBID($qry)) !== false)
       $this->selectDB($qryDBID);
@@ -174,7 +175,7 @@ class rex_sql
    * @return boolean True wenn die Abfrage erfolgreich war (keine DB-Errors
    * auftreten), sonst false
    */
-  function setQuery($qry)
+  /*public*/ function setQuery($qry)
   {
     // Alle Werte zurücksetzen
     $this->flush();
@@ -230,7 +231,7 @@ class rex_sql
    *
    * @param $table Tabellenname
    */
-  function setTable($table)
+  /*public*/ function setTable($table)
   {
     $this->table = $table;
   }
@@ -241,7 +242,7 @@ class rex_sql
    * @param $feldname Spaltenname
    * @param $wert Wert
    */
-  function setValue($feldname, $wert)
+  /*public*/ function setValue($feldname, $wert)
   {
     $this->values[$feldname] = $wert;
   }
@@ -252,7 +253,7 @@ class rex_sql
    * @param $valueArray Ein Array von Werten
    * @param $wert Wert
    */
-  function setValues($valueArray)
+  /*public*/ function setValues($valueArray)
   {
     if(is_array($valueArray))
     {
@@ -270,7 +271,7 @@ class rex_sql
    * @param $feld Spaltenname des zu prüfenden Feldes
    * @param $prop Wert, der enthalten sein soll
    */
-  function isValueOf($feld, $prop)
+  /*public*/ function isValueOf($feld, $prop)
   {
     if ($prop == "")
     {
@@ -285,7 +286,7 @@ class rex_sql
   /**
    * Setzt die WHERE Bedienung der Abfrage
    */
-  function setWhere($where)
+  /*public*/ function setWhere($where)
   {
     $this->wherevar = "WHERE $where";
   }
@@ -295,7 +296,7 @@ class rex_sql
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
    */
-  function getValue($feldname, $row = null)
+  /*public*/ function getValue($feldname, $row = null)
   {
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
@@ -325,7 +326,7 @@ class rex_sql
    * Prüft, ob eine Spalte im Resultset vorhanden ist
    * @param $value Name der Spalte
    */
-  function hasValue($feldname)
+  /*public*/ function hasValue($feldname)
   {
     return in_array($feldname, $this->getFieldnames());
   }
@@ -336,7 +337,7 @@ class rex_sql
    * Falls das Feld nicht vorhanden ist,
    * wird Null zurückgegeben, sonst True/False
    */
-  function isNull($feldname)
+  /*public*/ function isNull($feldname)
   {
     if($this->hasValue($feldname))
       return $this->getValue($feldname) === null;
@@ -347,7 +348,7 @@ class rex_sql
   /**
    * Gibt die Anzahl der Zeilen zurück
    */
-  function getRows()
+  /*public*/ function getRows()
   {
     return $this->rows;
   }
@@ -355,8 +356,10 @@ class rex_sql
   /**
    * Gibt die Zeilennummer zurück, auf der sich gerade der
    * interne Zähler befindet
+   * 
+   * @deprecated since version 4.3.0
    */
-  function getCounter()
+  /*public*/ function getCounter()
   {
     return $this->counter;
   }
@@ -364,7 +367,7 @@ class rex_sql
   /**
    * Gibt die Anzahl der Felder/Spalten zurück
    */
-  function getFields()
+  /*public*/ function getFields()
   {
     return mysql_num_fields($this->result);
   }
@@ -375,7 +378,7 @@ class rex_sql
    *
    * @see setValue
    */
-  function buildSetQuery()
+  /*protected*/ function buildSetQuery()
   {
     $qry = '';
     if (is_array($this->values))
@@ -412,7 +415,7 @@ class rex_sql
    * @see #setTable()
    * @see #setWhere()
    */
-  function select($fields)
+  /*public*/ function select($fields)
   {
     return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
   }
@@ -425,7 +428,7 @@ class rex_sql
    * @see #setValue()
    * @see #setWhere()
    */
-  function update($successMessage = null)
+  /*public*/ function update($successMessage = null)
   {
     return $this->statusQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
   }
@@ -437,7 +440,7 @@ class rex_sql
    * @see #setTable()
    * @see #setValue()
    */
-  function insert($successMessage = null)
+  /*public*/ function insert($successMessage = null)
   {
     return $this->statusQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery(), $successMessage);
   }
@@ -450,7 +453,7 @@ class rex_sql
    * @see #setValue()
    * @see #setWhere()
    */
-  function replace($successMessage = null)
+  /*public*/ function replace($successMessage = null)
   {
     return $this->statusQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
   }
@@ -462,7 +465,7 @@ class rex_sql
    * @see #setTable()
    * @see #setWhere()
    */
-  function delete($successMessage = null)
+  /*public*/ function delete($successMessage = null)
   {
     return $this->statusQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar, $successMessage);
   }
@@ -496,7 +499,7 @@ class rex_sql
    *   $message  = $sql- >getError();
    * </code>
    */
-  function statusQuery($query, $successMessage = null)
+  /*public*/ function statusQuery($query, $successMessage = null)
   {
     $res = $this->setQuery($query);
     if($successMessage)
@@ -512,7 +515,7 @@ class rex_sql
   /**
    * Stellt alle Werte auf den Ursprungszustand zurück
    */
-  function flush()
+  /*public*/ function flush()
   {
     $this->flushValues();
     $this->fieldnames = array ();
@@ -533,7 +536,7 @@ class rex_sql
    *
    * @see #setValue(), #getValue()
    */
-  function flushValues()
+  /*public*/ function flushValues()
   {
     $this->values = array ();
   }
@@ -542,7 +545,7 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets auf die nächst niedrigere Stelle
    */
-  function previous()
+  /*public*/ function previous()
   {
     $this->counter--;
   }
@@ -550,7 +553,7 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
    */
-  function next()
+  /*public*/ function next()
   {
     $this->counter++;
   }
@@ -558,7 +561,7 @@ class rex_sql
   /*
    * Prüft ob das Resultset weitere Datensätze enthält
    */
-  function hasNext()
+  /*public*/ function hasNext()
   {
     return $this->counter != $this->rows;
   }
@@ -566,7 +569,7 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets zurück zum Anfang
    */
-  function reset()
+  /*public*/ function reset()
   {
     $this->counter = 0;
   }
@@ -574,7 +577,7 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets aufs Ende
    */
-  function last()
+  /*public*/ function last()
   {
     $this->counter = ($this->rows - 1);
   }
@@ -582,7 +585,7 @@ class rex_sql
   /**
    * Gibt die letzte InsertId zurück
    */
-  function getLastId()
+  /*public*/ function getLastId()
   {
     return $this->last_insert_id;
   }
@@ -591,12 +594,11 @@ class rex_sql
    * Lädt das komplette Resultset in ein Array und gibt dieses zurück und
    * wechselt die DBID falls vorhanden
    *
-   * @access public
    * @param string $sql Abfrage
    * @param string $fetch_type Default: MYSQL_ASSOC; weitere: MYSQL_NUM, MYSQL_BOTH
    * @return array
    */
-  function getDBArray($sql = '', $fetch_type = MYSQL_ASSOC)
+  /*public*/ function getDBArray($sql = '', $fetch_type = MYSQL_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type, 'DBQuery');
   }
@@ -604,12 +606,11 @@ class rex_sql
   /**
    * Lädt das komplette Resultset in ein Array und gibt dieses zurück
    *
-   * @access public
    * @param string $sql Abfrage
    * @param string $fetch_type Default: MYSQL_ASSOC; weitere: MYSQL_NUM, MYSQL_BOTH
    * @return array
    */
-  function getArray($sql = '', $fetch_type = MYSQL_ASSOC)
+  /*public*/ function getArray($sql = '', $fetch_type = MYSQL_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type);
   }
@@ -617,7 +618,6 @@ class rex_sql
   /**
    * Hilfsfunktion
    *
-   * @access private
    * @see getArray()
    * @see getDBArray()
    * @param string $sql Abfrage
@@ -625,7 +625,7 @@ class rex_sql
    * @param string $qryType void oder DBQuery
    * @return array
    */
-  function _getArray($sql, $fetch_type, $qryType = 'default')
+  /*private*/ function _getArray($sql, $fetch_type, $qryType = 'default')
   {
     if ($sql != '')
     {
@@ -650,7 +650,7 @@ class rex_sql
   /**
    * Gibt die zuletzt aufgetretene Fehlernummer zurück
    */
-  function getErrno()
+  /*public*/ function getErrno()
   {
     return $this->errno;
   }
@@ -658,7 +658,7 @@ class rex_sql
   /**
    * Gibt den zuletzt aufgetretene Fehlernummer zurück
    */
-  function getError()
+  /*public*/ function getError()
   {
     return $this->error;
   }
@@ -666,7 +666,7 @@ class rex_sql
   /**
    * Prüft, ob ein Fehler aufgetreten ist
    */
-  function hasError()
+  /*public*/ function hasError()
   {
     return $this->error != '';
   }
@@ -674,7 +674,7 @@ class rex_sql
   /**
    * Gibt die letzte Fehlermeldung aus
    */
-  function printError($query)
+  /*public*/ function printError($query)
   {
     if ($this->debugsql == true)
     {
@@ -697,7 +697,7 @@ class rex_sql
    * Setzt eine Spalte auf den nächst möglich auto_increment Wert
    * @param $field Name der Spalte
    */
-  function setNewId($field)
+  /*public*/ function setNewId($field)
   {
     // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt überschrieben werden
     $sql = new rex_sql();
@@ -720,7 +720,7 @@ class rex_sql
   /**
    * Gibt die Spaltennamen des ResultSets zurück
    */
-  function getFieldnames()
+  /*public*/ function getFieldnames()
   {
     if(empty($this->fieldnames))
     {
@@ -739,7 +739,7 @@ class rex_sql
    * @param [$delimiter] Delimiter der verwendet wird, wenn es sich bei $value
    * um einen String handelt
    */
-  function escape($value, $delimiter = '')
+  /*public*/ function escape($value, $delimiter = '')
   {
     // Quote if not a number or a numeric string
     if (!is_numeric($value))
@@ -757,7 +757,7 @@ class rex_sql
    * @param $DBID int Id der Datenbankverbindung 
    * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
    */
-  function showCreateTable($table, $DBID=1)
+  /*public static*/ function showCreateTable($table, $DBID=1)
   {
     $sql = new rex_sql($DBID);
     $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
@@ -773,7 +773,7 @@ class rex_sql
    * @param $tablePrefix string Zu suchender Tabellennamen-Prefix 
    * @return array Ein Array von Tabellennamen
    */
-  function showTables($DBID=1, $tablePrefix=null)
+  /*public static*/ function showTables($DBID=1, $tablePrefix=null)
   {
     $qry = 'SHOW TABLES';
     if($tablePrefix != null)
@@ -795,7 +795,7 @@ class rex_sql
    * @param $DBID int Id der Datenbankverbindung 
    * @return array Ein Array das die Metadaten enthält
    */
-  function showColumns($table, $DBID=1)
+  /*public*/ function showColumns($table, $DBID=1)
   {
     $sql = new rex_sql($DBID);
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
@@ -818,33 +818,47 @@ class rex_sql
   }
 
   /**
-   * Gibt die Serverversion zurück
+   * Gibt die Serverversion zurück.
+   * 
+   * Die Versionsinformation ist erst bekannt,
+   * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
    */
-  function getServerVersion()
+  /*public static*/ function getServerVersion()
   {
     global $REX;
     return $REX['MYSQL_VERSION'];
   }
+  
+  /*public static*/ function factory($DBID=1, $class=null)
+  {
+    // keine spezielle klasse angegeben -> default klasse verwenden?
+    if(!$class)
+    {
+      // ----- EXTENSION POINT
+      $class = rex_register_extension_point('REX_FORM_CLASSNAME', 'rex_sql',
+        array(
+          'DBID'      => $DBID
+        )
+      );
+    }
+    
+    return new $class($DBID);
+  }
 
   /**
    * Gibt ein SQL Singelton Objekt zurück
+   * 
+   * @deprecated since 4.3.0
    */
-  function getInstance($DBID=1, $createInstance = true)
+  /*public*/ function getInstance($DBID=1, $deprecatedSecondParam = null)
   {
-    static $instance = null;
-
-    if ($instance)
-      $instance->flush();
-    else if($createInstance)
-      $instance = new rex_sql($DBID);
-
-    return $instance;
+  	return rex_sql::factory($DBID);
   }
 
   /**
    * Gibt den Speicher wieder frei
    */
-  function freeResult()
+  /*public*/ function freeResult()
   {
     if(is_resource($this->result))
       mysql_free_result($this->result);
@@ -854,7 +868,7 @@ class rex_sql
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
-  function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
+  /*public static*/ function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
     global $I18N;
 
@@ -890,7 +904,7 @@ class rex_sql
   /**
    * Schließt die Verbindung zum DB Server
    */
-  function disconnect($DBID=1)
+  /*public static*/ function disconnect($DBID=1)
   {
     global $REX;
 
@@ -903,16 +917,18 @@ class rex_sql
       return;
     }
 
-    if(!$REX['DB'][$DBID]['PERSISTENT'])
+    if(!$REX['DB'][$DBID]['PERSISTENT'] && 
+       isset($REX['DB'][$DBID]['IDENTIFIER']) && 
+       is_resource($REX['DB'][$DBID]['IDENTIFIER']))
     {
-      $db = rex_sql::getInstance($DBID, false);
+      $db = rex_sql::factory($DBID);
 
-      if(rex_sql::isValid($db) && is_resource($db->identifier))
+      if(rex_sql::isValid($db))
         mysql_close($db->identifier);
     }
   }
 
-  function addGlobalUpdateFields($user = null)
+  /*public*/ function addGlobalUpdateFields($user = null)
   {
     global $REX;
 
@@ -922,7 +938,7 @@ class rex_sql
     $this->setValue('updateuser', $user);
   }
 
-  function addGlobalCreateFields($user = null)
+  /*public*/ function addGlobalCreateFields($user = null)
   {
     global $REX;
 
@@ -932,7 +948,7 @@ class rex_sql
     $this->setValue('createuser', $user);
   }
 
-  function isValid($object)
+  /*public*/ function isValid($object)
   {
     return is_object($object) && is_a($object, 'rex_sql');
   }
