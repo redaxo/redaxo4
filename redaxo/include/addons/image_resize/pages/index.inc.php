@@ -6,6 +6,7 @@
  * @author office[at]vscope[dot]at Wolfgang Hutteger
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
+ * @author dh[at]daveholloway[dot]co[dot]uk Dave Holloway
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -29,6 +30,11 @@ rex_title('Image Resize', $REX['ADDON'][$page]['SUBPAGES']);
 // Include Current Page
 switch($subpage)
 {
+  case 'types' :
+  {
+    break;
+  }
+
   case 'settings' :
   {
     break;

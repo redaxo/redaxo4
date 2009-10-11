@@ -1,0 +1,1 @@
+DROP TABLE `%TABLE_PREFIX%469_types`;
