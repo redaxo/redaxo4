@@ -2,6 +2,11 @@
 
 $mypage = 'import_export';
 
+define('REX_A1_IMPORT_ARCHIVE', 1);
+define('REX_A1_IMPORT_DB', 2);
+define('REX_A1_IMPORT_EVENT_PRE', 3);
+define('REX_A1_IMPORT_EVENT_POST', 4);
+
 if($REX['REDAXO'] && is_object($REX["USER"]))
 {
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');

@@ -10,9 +10,9 @@ function readImportFolder($fileprefix)
 {
     $folder = '';
 
-	usort($folder = readFilteredFolder( getImportDir(), $fileprefix), 'compareFiles');
+  usort($folder = readFilteredFolder( getImportDir(), $fileprefix), 'compareFiles');
 
-	return $folder;
+  return $folder;
 }
 
 function compareFiles($file_a, $file_b)

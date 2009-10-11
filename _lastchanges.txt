@@ -15,6 +15,7 @@ Version 4.3 (2009-xx-xx)
     - neue Funktion OOMediaCategory::getChildrenById($category_id)
   * Import/Export optimiert [Markus.Staab]
     - Basierend auf einem Patch von http://blog.webvariants.de/groessere-datenbanken-in-redaxo-exportieren
+    - importe/exporte koennen jetzt optional zusätzlich eine php Datei enthalten, die vorm/nach dem export ausgeführt um ggf. anpassungen vorzunehmen
   * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
@@ -30,7 +31,7 @@ Version 4.3 (2009-xx-xx)
     
 Version 4.2.1 (2009-05-07)
 
-  Wichtig:		
+  Wichtig:    
   * Sicherheitslücke geschlossen [Jan.Kristinus]
   
   Bugfixes:
@@ -144,7 +145,7 @@ Version 4.2.0 (2009-04-22)
   * Struktur:
     - Kategorietabelle angepasst [Thomas.Blum]
   * Module:
-  	- Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
+    - Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
   * System -> Sprachen:
     - Tabelle vereinheitlicht [Thomas.Blum]
   * Benutzerverwaltung:
@@ -161,7 +162,7 @@ Version 4.2.0 (2009-04-22)
       + http://forum.redaxo.de/ftopic8835.html
   * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
   * EPs angepasst
-  	- PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
+    - PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
     - PAGE_MEDIENPOOL_HEADER umbenannt in PAGE_MEDIAPOOL_HEADER [Markus.Staab]
     - PAGE_MEDIENPOOL_MENU umbenannt in PAGE_MEDIAPOOL_MENU [Markus.Staab]
     - ADD/UPDATE ARTICLE/CATEGORY haben nun auch data, UPDATE_CATEGORY prior->catprior [Jan.kristinus]
@@ -377,8 +378,8 @@ Version 4.0 (2007-10-14)
     - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen [Jan.Kristinus]
   * Artikel muss nun ein Template haben um ausgegeben zu werden. [Jan.Kristinus]
   * CTypes aufbereitet [Markus.Staab,Jan.Kristinus]
-  	- Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
-  	- Sind nun abhängig von einzelnen Templates
+    - Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
+    - Sind nun abhängig von einzelnen Templates
   * Metadaten
     - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt
       OOArticle.searchArticlesByType entfernt [Markus.Staab,Jan.Kristinus]
@@ -406,8 +407,8 @@ Version 4.0 (2007-10-14)
         + OOCategory::getKeywords() -> OOCategory::getValue('art_keywords')
         + OOCategory::getDescription() -> OOCategory::getValue('art_description');
         + OOCategory::getFile() -> OOCategory::getValue('art_file');
-    		Attribute:
-    		+ sql->select -> sql->query
+        Attribute:
+        + sql->select -> sql->query
         Funktionen:
         + title() -> rex_title()
         + getUrlById() -> rex_getUrl()
@@ -427,7 +428,7 @@ Version 4.0 (2007-10-14)
     - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [Markus.Staab]
     - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
   * class.ooredaxo.inc.php
-  	- getParentTree - "normale" Artikel fehlten im zurück gelieferten Array
+    - getParentTree - "normale" Artikel fehlten im zurück gelieferten Array
   * Struktur:
     - Beim angelegen haben Artikel das gleiche Template wie die Kategorie in der sie sich befinden [Markus.Staab]
   * Metadaten:
@@ -462,7 +463,7 @@ Version 4.0 (2007-10-14)
       + REX_VALUE[id=3]
        + REX_MEDIA_BUTTON[id=4 category=3]
   * Sql-Klasse:
-	- fallback auf mysql_connect, falls mysql_pconnect nicht verüfgbar ist [Markus.Staab]
+  - fallback auf mysql_connect, falls mysql_pconnect nicht verüfgbar ist [Markus.Staab]
     - add_sql_options implementiert [Markus.Staab]
     - link identifier eingebaut um auch mehrere DB-Verbindungen handeln zu können [Markus.Staab]
     - sql::replace() implementiert für REPLACE INTO SQLs [Markus.Staab]

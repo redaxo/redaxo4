@@ -101,16 +101,19 @@ function rex_a1_import_db($filename)
    )
   );
 
+  // require import skript to do some userside-magic
+  rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_PRE);
+
   if (!function_exists('PMA_splitSqlFile'))
   {
     include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php');
   }
   
-  $sql   = rex_sql::factory();
-  $lines = array();
   // Datei aufteilen
+  $lines = array();
   PMA_splitSqlFile($lines, $conts, 0);
 
+  $sql   = rex_sql::factory();
   foreach ($lines as $line) {
     $sql->setQuery($line['query']);
 
@@ -176,6 +179,10 @@ function rex_a1_import_db($filename)
        'filesize' => $filesize
      )
     );
+
+    // require import skript to do some userside-magic
+  rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_POST);
+    
     $msg .= rex_generateAll();
     $return['state'] = true;
   }
@@ -214,6 +221,9 @@ function rex_a1_import_files($filename)
 
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_BEFORE_FILE_IMPORT', $tar);
+  
+  // require import skript to do some userside-magic
+  rex_a1_import_skript(str_replace('.tar.gz', '.php', $filename), REX_A1_IMPORT_ARCHIVE, REX_A1_IMPORT_EVENT_PRE);
 
   $tar->openTAR($filename);
   if (!$tar->extractTar())
@@ -235,6 +245,9 @@ function rex_a1_import_files($filename)
 
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_AFTER_FILE_IMPORT', $tar);
+
+  // require import skript to do some userside-magic
+  rex_a1_import_skript(str_replace('.tar.gz', '.php', $filename), REX_A1_IMPORT_ARCHIVE, REX_A1_IMPORT_EVENT_POST);
 
   $return['state'] = true;
   $return['message'] = $msg;
@@ -278,8 +291,8 @@ function rex_a1_export_db($filename)
     if ($table != $REX['TABLE_PREFIX'].'user' // User Tabelle nicht exportieren
         && substr($table, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
     {
-    	//---- export metadata
-    	$create = rex_sql::showCreateTable($table);
+      //---- export metadata
+      $create = rex_sql::showCreateTable($table);
     
       fwrite($fp, "DROP TABLE IF EXISTS `$table`;\n");
       fwrite($fp, "$create;\n");
@@ -303,7 +316,7 @@ function rex_a1_export_db($filename)
         // else ?
       }
       
-    	//---- export tabledata
+      //---- export tabledata
       $start = 0;
       $max   = $insertSize;
       
@@ -386,8 +399,8 @@ function rex_a1_export_db($filename)
     if ($hashAfter != $hashBefore)
     {
       rex_put_file_contents($filename, $content);
-	    $hasContent = !empty($content);
-	    unset($content);
+      $hasContent = !empty($content);
+      unset($content);
     }
   }
 
@@ -462,3 +475,10 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   closedir($handle);
 }
 
+function rex_a1_import_skript($filename, $importType, $eventType)
+{
+  if(file_exists($filename))
+  {
+    require($filename);
+  }
+}
