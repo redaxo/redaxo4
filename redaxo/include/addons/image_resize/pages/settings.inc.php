@@ -110,7 +110,7 @@ echo '
 					<label for="old_syntax">'. $I18N->msg('iresize_old_syntax') .'</label>
 					';					
 					$sel = new rex_select;
-					$sel->addOption($I18N->msg('iresize_nein'),0);
+					$sel->addOption($I18N->msg('iresize_no'),0);
 					$sel->addOption($I18N->msg('iresize_yes'),1);
 					$sel->setName('old_syntax');
 					$sel->setSelected($REX['ADDON']['image_resize']['old_syntax']);
