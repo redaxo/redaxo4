@@ -16,7 +16,7 @@ iresize_max_filters = Maximum allowed filters per file
 iresize_max_resizekb = Maximum size of file to be resized
 iresize_max_resizepx = Maximum width in pixel
 iresize_jpg_quality = JPG/JPEG quality
-iresize_old_syntax = Alte URL-Syntax erlauben? (z.B. index.php?rex_resize=100w__file.jpg)
+iresize_old_syntax = Allow old URL-Syntax? (e.g. index.php?rex_resize=100w__file.jpg)
 
 iresize_id = ID
 iresize_name = Name
