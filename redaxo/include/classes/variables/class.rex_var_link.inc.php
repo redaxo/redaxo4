@@ -285,8 +285,8 @@ class rex_var_link extends rex_var
       {
         if ($link != '')
         {
-		  $article = OOArticle::getArticleById($link);
-          $options .= '<option value="' . $link . '">' . $article->getName() . '</option>';
+		  		if($article = OOArticle::getArticleById($link))
+          	$options .= '<option value="' . $link . '">' . $article->getName() . '</option>';
         }
       }
     }
