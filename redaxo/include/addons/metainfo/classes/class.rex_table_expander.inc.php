@@ -48,7 +48,7 @@ class rex_a62_tableExpander extends rex_form
       $qry .= ' AND field_id != '. $this->getParam('field_id');
     }
     $qry .=' ORDER BY prior';
-    $sql = new rex_sql();
+    $sql = rex_sql::factory();
     $sql->setQuery($qry);
     for($i = 0; $i < $sql->getRows(); $i++)
     {
@@ -70,8 +70,8 @@ class rex_a62_tableExpander extends rex_form
     $select->setSize(1);
 
     $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
-    // if($this->metaPrefix == 'med_')
-    //   $qry .= ' WHERE label NOT LIKE "REX_MEDIA%"';
+    if($this->metaPrefix == 'med_')
+       $qry .= ' WHERE label NOT LIKE "REX_MEDIA%"';
     $select->addSqlOptions($qry);
 
     $notices = '';
@@ -103,6 +103,12 @@ class rex_a62_tableExpander extends rex_form
 
 //    $field =& $this->addTextAreaField('validate');
 //    $field->setLabel($I18N->msg('minfo_field_label_validate'));
+
+    $attributes = array();
+    $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';
+    $field =& $this->addField('', 'restrictions', $value = null, $attributes);
+    $field->setLabel($I18N->msg('minfo_field_label_restrictions'));
+    $field->setAttribute('size', 10);
   }
 
   function getFieldsetName()
@@ -159,7 +165,7 @@ class rex_a62_tableExpander extends rex_form
       // Den Namen mit Prefix speichern
       return $this->addPrefix($fieldValue);
     }
-
+    
     return parent::preSave($fieldsetName, $fieldName, $fieldValue, $saveSql);
   }
 
@@ -207,7 +213,7 @@ class rex_a62_tableExpander extends rex_form
     // Prüfen ob schon eine Spalte mit dem Namen existiert (nur beim add nötig)
     if(!$this->isEditMode())
     {
-      $sql = new rex_sql();
+      $sql = rex_sql::factory();
       $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
       if($sql->getRows() == 1)
       {
@@ -271,7 +277,7 @@ class rex_a62_tableExpander extends rex_form
         // DefaultWerte setzen
         if($fieldDefault != $fieldOldDefault)
         {
-          $upd = new rex_sql();
+          $upd = rex_sql::factory();
           $upd->setTable($this->tableManager->getTableName());
           $upd->setWhere('`'. $fieldName .'`="'. addSlashes($fieldOldDefault) .'"');
           $upd->setValue($fieldName, addSlashes($fieldDefault));

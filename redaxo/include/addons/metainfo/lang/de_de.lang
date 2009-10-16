@@ -19,6 +19,8 @@ minfo_field_label_default = Standardwert
 minfo_field_label_nullable = Pflichtfeld
 minfo_field_label_params = Parameter
 minfo_field_label_prior = Feldposition
+minfo_field_label_restrictions = Nur in folgenden Kategorien verfügbar
+minfo_field_label_no_restrictions = In allen Kategorien verfügbar
 
 minfo_field_notice_title = Prefix "translate:" übersetzt den Wert via I18N
 

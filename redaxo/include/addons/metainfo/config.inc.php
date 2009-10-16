@@ -48,6 +48,7 @@ if ($REX['REDAXO'])
 {
   $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
   
+  require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_restrictions_element.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php');
   require_once ($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php');

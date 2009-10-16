@@ -46,7 +46,7 @@ class rex_form
 
     $this->setMessage('');
 
-    $this->sql = new rex_sql();
+    $this->sql = rex_sql::factory();
     $this->sql->debugsql =& $this->debug;
     $this->debug = $debug;
     $this->sql->setQuery('SELECT * FROM '. $tableName .' WHERE '. $this->whereCondition .' LIMIT 2');
@@ -318,11 +318,14 @@ class rex_form
   {
     $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
 
-    $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
     // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
+    $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
     if($postValue !== null)
     {
-      $value = stripslashes($postValue);
+      if(is_string($value))
+      {
+        $value = stripslashes($postValue);
+      }
     }
 
     // Wert aus der DB nehmen, falls keiner extern und keiner im POST angegeben
@@ -469,6 +472,8 @@ class rex_form
     $fieldsetElements = array();
     foreach($this->elements as $fieldsetName => $fieldsetElementsArray)
     {
+      $fieldsetElements[$fieldsetName] = array();
+      
       foreach($fieldsetElementsArray as $element)
       {
         if($this->isHeaderElement($element)) continue;
@@ -659,21 +664,25 @@ class rex_form
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
 
-    foreach($this->getFieldsets() as $fieldsetName)
+    foreach($this->getFieldsetElements() as $fieldsetName => $fieldsetElements)
     {
-      // POST-Werte ermitteln
-      $fieldValues = $this->fieldsetPostValues($fieldsetName);
-      foreach($fieldValues as $fieldName => $fieldValue)
+      foreach($fieldsetElements as $element)
       {
+        // read-only-fields nicht speichern
+        if(strpos($element->getAttribute('class'), 'rex-form-read') !== false)
+        {
+          continue;
+        }
+        
+        $fieldName = $element->getFieldName();
+        $fieldValue = $this->elementPostValue($fieldsetName, $fieldName);
+        
         // Callback, um die Values vor dem Speichern noch beeinflussen zu können
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
-
+        
         if (is_array($fieldValue))
           $fieldValue = implode('|+|', $fieldValue);
-
-        // Element heraussuchen
-        $element =& $this->getElement($fieldsetName, $fieldName);
-
+          
         // Den POST-Wert als Value in das Feld speichern
         // Da generell alles von REDAXO escaped wird, hier slashes entfernen
         $element->setValue(stripslashes($fieldValue));
@@ -1038,12 +1047,6 @@ class rex_form_element
         $value = $this->_normalizeName($value);
       }
 
-      // Wenn noch kein Label gesetzt, den Namen als Label verwenden
-      if($name == 'name' && $this->getLabel() == '')
-      {
-        $this->setLabel($value);
-      }
-
       $this->attributes[$name] = $value;
     }
   }
@@ -1064,6 +1067,8 @@ class rex_form_element
 
   function setAttributes($attributes)
   {
+    $this->attributes = array();
+    
     foreach($attributes as $name => $value)
     {
       $this->setAttribute($name, $value);
@@ -1089,15 +1094,7 @@ class rex_form_element
 
   function formatClass()
   {
-    $s = '';
-    $class = $this->getAttribute('class');
-
-    if ($class != '')
-    {
-    	$s .= $class;
-    }
-
-    return $s;
+    return $this->getAttribute('class');
   }
 
   function formatLabel()
@@ -1173,10 +1170,8 @@ class rex_form_element
     $s = '';
     $s .= $this->getHeader();
 
-		$s .= '    <div class="rex-form-row">'. "\n";
-		
+	$s .= '    <div class="rex-form-row">'. "\n";
     $s .= $this->_get();
-    
     $s .= '    </div>'. "\n";
 
     $s .= $this->getFooter();
@@ -1339,13 +1334,13 @@ class rex_form_select_element extends rex_form_element
 
       $this->select->setAttribute($attributeName, $attributeValue);
     }
-
+    
     if ($multipleSelect)
     {
         $this->setAttribute('name', $this->getAttribute('name').'[]');
 
         $selectedOptions = explode($this->separator, $this->getValue());
-        if (is_array($selectedOptions) AND $selectedOptions[0] != '')
+        if (is_array($selectedOptions) && $selectedOptions[0] != '')
         {
           foreach($selectedOptions as $selectedOption)
           {
@@ -1368,6 +1363,15 @@ class rex_form_select_element extends rex_form_element
   function &getSelect()
   {
     return $this->select;
+  }
+  
+  function setSelect($selectObj)
+  {
+    $this->select = $selectObj;
+    if($selectObj->hasAttribute('multiple'))
+    {
+      $this->setAttribute('multiple', $selectObj->getAttribute('multiple'));
+    }
   }
 }
 
@@ -1412,13 +1416,13 @@ class rex_form_options_element extends rex_form_element
 
   function addSqlOptions($qry)
   {
-    $sql = new rex_sql;
+    $sql = rex_sql::factory();
     $this->addOptions($sql->getArray($qry, MYSQL_NUM));
   }
 
   function addDBSqlOptions($qry)
   {
-    $sql = new rex_sql;
+    $sql = rex_sql::factory();
     $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
   }
 
@@ -1437,12 +1441,20 @@ class rex_form_checkbox_element extends rex_form_options_element
     parent::rex_form_options_element('', $table, $attributes);
     // Jede checkbox bekommt eingenes Label
     $this->setLabel('');
+    $this->setAttribute('class', 'rex-form-checkbox rex-form-label-right');
   }
 
   function formatLabel()
   {
     // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
-    return '<span>'. $this->getLabel() .'</span>';
+    $label = $this->getLabel();
+    
+    if($label != '')
+    {
+      $label = '<span>'. $label .'</span>';
+    }
+    
+    return $label;
   }
 
   function formatElement()
@@ -1462,9 +1474,13 @@ class rex_form_checkbox_element extends rex_form_options_element
 
     foreach($options as $opt_name => $opt_value)
     {
-      $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
-      $opt_id = $id .'_'. $this->_normalizeId($opt_value);
+      $opt_id = $id;
+      if($opt_value != '') {
+       $id .= '_'. $this->_normalizeId($opt_value);
+      }
       $opt_attr = $attr . ' id="'. $opt_id .'"';
+      $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
+      
       $s .= '<input type="checkbox" name="'. $name .'['. $opt_value .']" value="'. htmlspecialchars($opt_value) .'"'. $opt_attr . $checked.' />
              <label for="'. $opt_id .'">'. $opt_name .'</label>';
     }
