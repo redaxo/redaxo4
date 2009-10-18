@@ -1,6 +1,10 @@
 <?php
 
-// v16
+/**
+ * XForm 
+ * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
+ * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
+ */
 
 class rex_xform
 {
@@ -122,11 +126,6 @@ class rex_xform
 
 		global $REX;
 
-		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"])) 
-			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
-		else 
-			$this->objparams["send"] = 0;
-
 		$preg_user_vorhanden = "~\*|:|\(.*\)~Usim"; // Preg der Bestimmte Zeichen/Zeichenketten aus der Bezeichnung entfernt
 		$form_output = array ();
 		
@@ -190,7 +189,11 @@ class rex_xform
 			}	
 		}
 
-
+		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"])) 
+			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
+		else 
+			$this->objparams["send"] = 0;
+		
 
 
 

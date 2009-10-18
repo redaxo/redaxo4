@@ -47,6 +47,6 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 	
 	function getDescription()
 	{
-		return "labelexist -> mindestens ein feld muss ausgefüllt sein, example: validate|atleastone|label,label2,label3|[minlabels]|[maximallabels]|Fehlermeldung";
+		return "labelexist -> mindestens ein feld muss ausgefüllt sein, example: validate|labelexist|label,label2,label3|[minlabels]|[maximallabels]|Fehlermeldung";
 	}
 }
