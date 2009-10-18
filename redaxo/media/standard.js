@@ -625,9 +625,8 @@ jQuery(function($){
      }
   });
   
-  /*
   $(function() {
-    $("a,input,button,textarea,select,option")
+    $("input,button,textarea,select,option")
       .focus(function(event) {
         ENABLE_KEY_NAV = false;
       })
@@ -635,5 +634,5 @@ jQuery(function($){
         ENABLE_KEY_NAV = true;
       });    
   });
-  */
+
 });
