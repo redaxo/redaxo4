@@ -51,4 +51,9 @@ class rex_xform_validate_abstract
 		return "Für dieses Objekt fehlt die Beschreibung";
 	}
 	
+	function getDefinitions()
+	{
+		return array();
+	}
+	
 }

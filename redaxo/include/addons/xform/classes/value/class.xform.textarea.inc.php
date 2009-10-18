@@ -27,6 +27,23 @@ class rex_xform_textarea extends rex_xform_abstract
 	{
 		return "textarea -> Beispiel: textarea|label|FieldLabel|default|[no_db]";
 	}
+	
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'value',
+						'name' => 'textarea',
+						'values' => array(
+							'textarea',
+							'label',
+							'Bezeichnung',
+							'Defaultwert',
+							'no_db',
+						),
+						'description' => 'Ein Textfeld für mehrzeilige Eingaben',
+			);
+	
+	}
 }
 
 ?>

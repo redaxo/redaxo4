@@ -30,6 +30,23 @@ class rex_xform_text extends rex_xform_abstract
 	{
 		return "text -> Beispiel: text|label|Bezeichnung|defaultwert|[no_db]";
 	}
+	
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'value',
+						'name' => 'text',
+						'values' => array(
+							'text',
+							'label',
+							'Bezeichnung',
+							'Defaultwert',
+							'no_db',
+						),
+						'description' => 'Ein einfaches Textfeld als Eingabe',
+			);
+	
+	}
 }
 
 ?>

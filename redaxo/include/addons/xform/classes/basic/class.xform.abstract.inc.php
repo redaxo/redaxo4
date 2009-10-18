@@ -172,7 +172,11 @@ class rex_xform_abstract
 	{
 		return "Es existiert keine ausführliche Klassenbeschreibung";
 	}
-	
+
+	function getDefinitions()
+	{
+		return array();
+	}
 	
 	// ************** FÜR DATENBANKEN
 	

@@ -84,6 +84,24 @@ class rex_xform_select extends rex_xform_abstract
 	{
 		return "select -> Beispiel: select|gender|Geschlecht *|Frau=w;Herr=m|[no_db]|defaultwert|multiple=1";
 	}
+	
+  function getDefinitions()
+  {
+    return array(
+            'type' => 'value',
+            'name' => 'select',
+            'values' => array(
+              'label' => array('Feld'),
+              'text' => array('Bezeichnung'),
+              'select' => array('Selektdefinition'),
+              'no_db' => array('Datenbank',1),
+              'boolean' => array('Mehrfachselektion',0),
+            ),
+            'description' => 'Ein Selektfeld mit festen Definitionen.',
+      );
+  }
+	
+	
 }
 
 ?>

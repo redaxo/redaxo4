@@ -660,4 +660,121 @@ class rex_xform
 	
 	}
 	
+	
+	function getTypeArray()
+	{
+	
+		global $REX;
+	
+		$return = array();
+	
+		// Value
+	
+		if (!class_exists('rex_xform_abstract')) 
+			require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.abstract.inc.php');
+			
+		foreach($REX['ADDON']['xform']['classpaths']['value'] as $pos => $value_path)
+		{
+			if($Verzeichniszeiger = opendir($value_path))
+			{
+			    while($Datei = readdir($Verzeichniszeiger))
+			    {
+			        if (preg_match("/^(class.xform)/", $Datei) && !preg_match("/^(class.xform.validate|class.xform.abstract)/", $Datei))
+			        {
+			            if(!is_dir($Datei))
+			            {
+			            	$classname = (explode(".", substr($Datei, 12)));
+			            	$name = $classname[0];
+			            	$classname = "rex_xform_".$name;
+							if (file_exists($value_path.$Datei))
+							{
+			               		include_once($value_path.$Datei); 
+			                	$class = new $classname;
+			                	$d = $class->getDefinitions();
+			                	if(count($d)>0)
+			                		$return['value'][$d['name']] = $d;
+							}
+			            }
+			        }
+			    }
+			    closedir($Verzeichniszeiger);
+			}
+		}
+
+
+		// Validate
+
+		if (!class_exists('rex_xform_validate_abstract')) 
+			require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate_abstract.inc.php');
+				
+		foreach($REX['ADDON']['xform']['classpaths']['validate'] as $pos => $validate_path)
+		{
+			if ($pos==1) echo '<li><b>Extras</b><ul>';
+			if($Verzeichniszeiger = opendir($validate_path))
+			{
+			    while($Datei = readdir($Verzeichniszeiger))
+			    {
+			        if (preg_match("/^(class.xform.validate)/", $Datei) && !preg_match("/^(class.xform.validate_abstract)/", $Datei))
+			        {
+			            if(!is_dir($Datei))
+			            {
+			            	$classname = (explode(".", substr($Datei, 12)));
+			            	$name = $classname[0];
+			            	$classname = "rex_xform_".$name;
+							if (file_exists($validate_path.$Datei))
+							{
+			                	include_once($validate_path.$Datei);
+			                	$class = new $classname;
+			                	$d = $class->getDefinitions();
+			                	if(count($d)>0)
+			                		$return['validate'][$d['name']] = $d;
+							}
+			            }
+			        }
+			    }
+			    closedir($Verzeichniszeiger);
+			}
+		}
+
+
+		// Action
+
+		if (!class_exists('rex_xform_action_abstract')) 
+			require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action_abstract.inc.php');
+				
+		foreach($REX['ADDON']['xform']['classpaths']['action'] as $pos => $action_path)
+		{
+			if ($pos==1) echo '<li><b>Extras</b><ul>';
+			if($Verzeichniszeiger = opendir($action_path))
+			{
+			    while($Datei = readdir($Verzeichniszeiger))
+			    {
+			        if (preg_match("/^(class.xform.action)/", $Datei) && !preg_match("/^(class.xform.action_abstract)/", $Datei))
+			        {
+			            if(!is_dir($Datei))
+			            {
+			            	$classname = (explode(".", substr($Datei, 12)));
+			            	$name = $classname[0];
+			            	$classname = "rex_xform_".$name;
+			            	if (file_exists($action_path.$Datei))
+			            	{
+			                	include_once($action_path.$Datei);
+			                	$class = new $classname;
+			                	$d = $class->getDefinitions();
+			                	if(count($d)>0)
+			                		$return['action'][$d['name']] = $d;
+			                }
+			            }
+			        }
+			    }
+			    closedir($Verzeichniszeiger);
+			}
+		}
+	
+		return $return;
+	
+	}
+	
+	
+	
 }

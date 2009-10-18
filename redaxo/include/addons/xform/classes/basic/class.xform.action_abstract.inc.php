@@ -34,6 +34,10 @@ class rex_xform_action_abstract
 		return "Es existiert keine auswührliche Klassenbeschreibung";
 	}
 
+	function getDefinitions()
+	{
+		return array();
+	}
 
 }
 

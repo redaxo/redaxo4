@@ -27,7 +27,8 @@ class rex_xform_checkbox extends rex_xform_abstract
 			</p>';
 
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") 
+		  $sql_elements[$this->elements[1]] = $this->value;
 
 	}
 	
@@ -35,6 +36,25 @@ class rex_xform_checkbox extends rex_xform_abstract
 	{
 		return "checkbox -> Beispiel: checkbox|check_design|Bezeichnung|Value|1/0|[no_db]";
 	}
+	
+	function getDefinitions()
+  {
+    return array(
+            'type' => 'value',
+            'name' => 'checkbox',
+            'values' => array(
+              'label' => array('Feld'),
+              'text' => array('Bezeichnung'),
+              'text' => array('Wert wenn angeklickt'),
+              'boolean' => array('Defaulstatus',1),
+              'no_db' => array('Datenbank',0),
+            ),
+            'description' => 'Ein Selectfeld mit festen Definitionen.',
+      );
+  }
+	
+	
+	
 }
 
 ?>
