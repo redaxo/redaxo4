@@ -152,9 +152,17 @@ $(document).ready(function() {
 		echo '</pre>';
 		*/
 		
-		$link_edit = 'redaxo/index.php?page=content&article_id='.$params['article_id'].'&mode=edit&clang=0&ctype='.$params['ctype'].'&frontend_css=1&slice_id='.$params['slice_id'].'&function=edit&rex_version=0&iframe';
+		$link_edit = 'redaxo/index.php?page=content&'.
+		'article_id='.$params['article_id'].
+		'&mode=edit'.
+		'&clang=0'.
+		'&ctype='.$params['ctype'].
+		'&frontend_css=1'.
+		'&slice_id='.$params['slice_id'].
+		'&function=edit'.
+		'&rex_set_version=0'.
+		'&iframe';
 
-		
 		$return .= '<div class="frontedit_slice_header">';
 		$return .= '<a class="group" href="'.$link_edit.'">Edit Slice</a>';
 		$return .= ' | <a href="">Add Slice</a>';
@@ -225,14 +233,57 @@ if($REX["REDAXO"])
 		
 		// wenn edit übernehmen. so belassen wir bisher
 		
-		
-		
-		
 		function rex_frontend_addCSS($params)
 		{
 		    echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/frontedit/frontedit_be.css" media="screen" />';
 		}
 		rex_register_extension('PAGE_HEADER', 'rex_frontend_addCSS');
+
+		// nach forms und links suchen und frontend_css=1 setzen
+		
+    function rex_frontend_addFrontendCSSLink($params)
+    {
+      $suchmuster = array();
+      $ersetzungen = array();
+      
+      $suchmuster[0] = '#(href)=[\"\'](.*)[\"\']#Um';
+      // $ersetzungen[0] = 'href="\1\2\3&frontend_css=1"'; // frontedit_css=1
+
+      $suchmuster[1] = '#(action)=[\"\'](.*)[\"\']#Um';
+      // $ersetzungen[1] = 'action="\1?frontend_css=1"'; // frontedit_css=1
+      
+      $suchmuster[2] = '#(<form)(.*)(</form>)#Um';
+      
+      
+      function rex_frontend_FELinkreplace($t)
+      {
+      	$r = "";
+        switch($t[1])
+        {
+          case("<form"):
+            $r = '<form'.$t[2].$t[3];
+            break;
+          case("href"):
+            $r = 'href=';
+          case("href"):
+            $r = 'href=';
+          default:
+          	if(strpos($t[2],"?") === FALSE)
+		          $r .= $t[2].'?&frontend_css=1';
+		        else
+		          $r .= $t[2].'&frontend_css=1';
+        }
+      	
+        return $r;
+      }
+      $params["subject"] = preg_replace_callback($suchmuster,"rex_frontend_FELinkreplace",$params["subject"]);
+      return $params["subject"];
+    }
+    rex_register_extension('OUTPUT_FILTER', 'rex_frontend_addFrontendCSSLink');
+		
+	
+	
+	
 	}
 }
 
