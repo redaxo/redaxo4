@@ -1,1 +1,5 @@
-dummyaddon = Dummyaddontext in deutsch
+editme = Editier mich!
+editme_choosenadd = Felder auswählen
+editme_choosenadd_description = Bitte wählen Sie Feld aus, welches Sie bei Ihrer Verwaltung verwenden wollen. Dabei gibt es Value-Felder, mit denen normalerweise Eingaben getätigt werden, wie auch Validate-Felder, mit denen die Value-Felder nach diversen Kriterien überprüft werden können.
+
+editme_addfield = Feld hinzufügen

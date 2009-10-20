@@ -11,7 +11,7 @@
 
 // Sprachdateien anhaengen
 if($REX["REDAXO"])
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/dummyaddon/lang/');
+	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
 
 
 // $REX['ADDON']['rxid']["editme"] = '';

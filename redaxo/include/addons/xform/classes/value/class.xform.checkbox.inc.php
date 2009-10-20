@@ -45,7 +45,7 @@ class rex_xform_checkbox extends rex_xform_abstract
             'values' => array(
               'label' => array('Feld'),
               'text' => array('Bezeichnung'),
-              'text' => array('Wert wenn angeklickt'),
+              'text' => array('Wert wenn angeklickt',1),
               'boolean' => array('Defaulstatus',1),
               'no_db' => array('Datenbank',0),
             ),

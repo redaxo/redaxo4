@@ -2,7 +2,7 @@
 
 // ************************* FELDER EINER TABELLE
 
-$table = $REX['TABLE_PREFIX'].'em_table_field';
+$table = $REX['TABLE_PREFIX'].'em_field';
 
 $bezeichner = "Tabellenfeld";
 
@@ -111,7 +111,7 @@ if($func == "choosenadd")
 if($func == "add" && isset($types[$type_id][$type_name]))
 {
 	
-	echo '<div class="rex-area"><h3 class="rex-hl2">Feld hinzufügen</h3><div class="rex-area-content">';
+	echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_addfield").'</h3><div class="rex-area-content">';
 		
 	// ***** Allgemeine BE Felder reinlegen
 	$form_data = "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n";
@@ -122,10 +122,10 @@ if($func == "add" && isset($types[$type_id][$type_name]))
   $form_data.= 'hidden|func|'.$func.'|REQUEST|no_db';
 	
   /*
+  */
 	echo '<pre>';
 	var_dump($types[$type_id][$type_name]['values']);
 	echo '</pre>';
-  */
 	
 	$i = 0;
 	foreach($types[$type_id][$type_name]['values'] as $k => $v)
@@ -165,6 +165,7 @@ if($func == "add" && isset($types[$type_id][$type_name]))
 	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p>Vielen Dank für die Eintragung</p>',"",),);
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
+	
 	if($func == "edit")
 	{
 		$form_data .= "\n".'hidden|table_id|'.$table_id.'|REQUEST|no_db';
@@ -179,6 +180,10 @@ if($func == "add" && isset($types[$type_id][$type_name]))
 	}
 
 	$xform->setFormData($form_data);
+
+	echo '<pre>'; var_dump($xform->objparams); echo '</pre>';
+	
+	
 	echo $xform->getForm();
 
 	echo '</div></div>';
@@ -210,8 +215,7 @@ if($func == ""){
 	
 	echo '<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page='.$page.'&subpage='.$subpage.'&table_id='.$table_id.'&func=choosenadd><b>+ '.$bezeichner.' anlegen</b></a></td></tr></table><br />';
 	
-	$sql = 'select * from $table where table_id='.$table_id.' order by type_id,field';
-
+	$sql = 'select * from '.$table.' where table_id='.$table_id.'';
 	$list = rex_list::factory($sql,30);
 	$list->setColumnFormat('id', 'Id');
 
@@ -219,9 +223,8 @@ if($func == ""){
 	$list->addParam("subpage", $subpage);
 	$list->addParam("table_id", $table_id);
 
-	$list->setColumnFormat('type_id', 'Typ');
-
-	$list->setColumnFormat('field', 'Feld');
+	// $list->setColumnFormat('type_id', 'Typ');
+	// $list->setColumnFormat('field', 'Feld');
 
 	$list->addColumn('editieren','Feld editieren');
 	$list->setColumnParams("editieren", array("field_id"=>"###id###","func"=>"edit"));

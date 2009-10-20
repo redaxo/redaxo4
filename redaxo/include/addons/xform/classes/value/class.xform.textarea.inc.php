@@ -34,13 +34,12 @@ class rex_xform_textarea extends rex_xform_abstract
 						'type' => 'value',
 						'name' => 'textarea',
 						'values' => array(
-							'textarea',
-							'label',
-							'Bezeichnung',
-							'Defaultwert',
-							'no_db',
+             	'label' => array('Feld'),
+              'text' => array('Bezeichnung'),
+              'text' => array('Defaultwert'),
+							'no_db' => array('Datenbank',1),
 						),
-						'description' => 'Ein Textfeld für mehrzeilige Eingaben',
+						'description' => 'Ein Textfeld fŸr mehrzeilige Eingaben',
 			);
 	
 	}

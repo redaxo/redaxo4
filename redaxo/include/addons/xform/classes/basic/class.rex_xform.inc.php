@@ -66,6 +66,8 @@ class rex_xform
 		$this->objparams["first_fieldset"] = true; // 
 		$this->objparams["getdata"] = FALSE; // Daten vorab aus der DB holen
 		
+		$this->objparams["form_elements"] = array(); // Alle einzelnen Elemente
+		
 	}
 	
 	function setDebug($s = TRUE)
@@ -76,6 +78,19 @@ class rex_xform
 	function setFormData($form_definitions,$refresh = TRUE)
 	{
 		$this->setObjectparams("form_data",$form_definitions,$refresh);
+		
+		$this->objparams["form_data"] = str_replace("\n\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
+		$this->objparams["form_data"] = str_replace("\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
+
+		$this->objparams["form_elements"] = array();
+
+		$form_elements_tmp = array ();
+		$form_elements_tmp = explode("\n", $this->objparams['form_data']); // Die Definitionen
+		
+		// leere Zeilen aus $this->objparams["form_elements"] entfernen
+		foreach($form_elements_tmp as $form_element) 
+			if(trim($form_element)!="") $this->objparams["form_elements"][] = $form_element;
+		
 	}
 
 	function setRedaxoVars($aid = "",$clang = "",$params = array())
@@ -129,23 +144,8 @@ class rex_xform
 		$preg_user_vorhanden = "~\*|:|\(.*\)~Usim"; // Preg der Bestimmte Zeichen/Zeichenketten aus der Bezeichnung entfernt
 		$form_output = array ();
 		
-		$this->objparams["form_data"] = str_replace("\n\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
-		$this->objparams["form_data"] = str_replace("\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
-
-		$this->objparams["form_elements"] = array();
-
-		$form_elements_tmp = array ();
-		$form_elements_tmp = explode("\n", $this->objparams['form_data']); // Die Definitionen
-		
 		$sql_elements = array(); // diese Werte werden beim DB Satz verwendet /update oder insert
 		$email_elements = array(); // hier werden Werte gesetzt die beim Mailversand ersetzt werden. z.B. passwort etc.
-
-
-		// leere Zeilen aus $this->objparams["form_elements"] entfernen
-		foreach($form_elements_tmp as $form_element) 
-			if(trim($form_element)!="") $this->objparams["form_elements"][] = $form_element;
-
-
 
 
 		

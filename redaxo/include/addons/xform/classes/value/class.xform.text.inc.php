@@ -37,11 +37,10 @@ class rex_xform_text extends rex_xform_abstract
 						'type' => 'value',
 						'name' => 'text',
 						'values' => array(
-							'text',
-							'label',
-							'Bezeichnung',
-							'Defaultwert',
-							'no_db',
+             	'label' => array('Feld'),
+              'text' => array('Bezeichnung'),
+              'text' => array('Defaultwert'),
+							'no_db' => array('Datenbank',1),
 						),
 						'description' => 'Ein einfaches Textfeld als Eingabe',
 			);
