@@ -90,3 +90,15 @@
 .xform input.submit {
 	margin-left: 145px;
 }
+
+/*  --------------------------------------- Checkbox */
+.xform p.formcheckbox input {
+  float:left;
+  margin-left: 125px;
+}
+
+.xform p.formcheckbox label {
+  float:left;
+  margin-left: 10px;
+  width:300px;
+}

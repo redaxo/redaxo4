@@ -37,6 +37,15 @@ $REX['ADDON']['supportpage']["editme"] = 'forum.redaxo.de';
 
 // Linke Navigation
 if($REX["REDAXO"])
-	$REX['ADDON']['editme']['SUBPAGES'] = array(
-	);
+{
+	
+	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
+	
+	$REX['ADDON']['editme']['SUBPAGES'] = array( );
+	
+  $REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
+ $REX['ADDON']['editme']['SUBPAGES'][] = array( 'generate' , $I18N->msg("em_generate"));
+  
 
+	
+}

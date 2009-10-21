@@ -1,12 +1,23 @@
 <?php
 
+
+rex_em_generateAll();
+
+
+
+
+
+/*
 $msg = "Meine Meldung";
 
 if ($msg != '')
 	echo rex_warning($msg);
+*/
+
 
 ?>
 
+<!-- 
 
 <div class="rex-addon-output">
 	<h2 class="rex-hl2"><?php echo $I18N->msg('dummyaddon'); ?></h2>
@@ -45,5 +56,7 @@ if ($msg != '')
 		</div>
 	</div>
 </div>
+
+ -->
 
 					

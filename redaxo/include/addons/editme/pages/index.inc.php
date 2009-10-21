@@ -14,7 +14,7 @@ require $REX['INCLUDE_PATH'].'/layout/top.php';
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 
-rex_title($I18N->msg("editme"));
+rex_title($I18N->msg("editme"),$REX['ADDON'][$page]['SUBPAGES']);
 
 ?>
 <style>
@@ -47,7 +47,9 @@ switch($subpage)
 {
   case 'field':
     break;
-
+	case 'generate':
+    break;
+    
   default:
   {
 	  $subpage = 'tables';

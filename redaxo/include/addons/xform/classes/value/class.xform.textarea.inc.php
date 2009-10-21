@@ -30,18 +30,18 @@ class rex_xform_textarea extends rex_xform_abstract
 	
 	function getDefinitions()
 	{
-		return array(
-						'type' => 'value',
-						'name' => 'textarea',
-						'values' => array(
-             	'label' => array('Feld'),
-              'text' => array('Bezeichnung'),
-              'text' => array('Defaultwert'),
-							'no_db' => array('Datenbank',1),
-						),
-						'description' => 'Ein Textfeld fŸr mehrzeilige Eingaben',
-			);
-	
+    return array(
+            'type' => 'value',
+            'name' => 'textarea',
+            'values' => array(
+              array( 'type' => 'label',   'name' => 'Feld' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+              array( 'type' => 'text',    'name' => 'Defaultwert'),
+              array( 'type' => 'no_db',   'name' => 'Datenbank',  'default' => 1),
+            ),
+            'description' => 'Ein mehrzeiliges Textfeld als Eingabe',
+            'dbtype' => 'text'
+      );
 	}
 }
 

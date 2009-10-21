@@ -4,6 +4,8 @@
 
 
 $table = $REX['TABLE_PREFIX'].'em_table';
+$table_field = $REX['TABLE_PREFIX'].'em_field';
+
 
 $bezeichner = "Tabelle";
 
@@ -23,16 +25,9 @@ if($func == "add" || $func == "edit")
 		echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
 		
 	// ***** Allgemeine BE Felder reinlegen
-	$form_data = "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n".'hidden|subpage|'.$subpage.'|REQUEST|no_db'."\n";
-	$form_data.= 'hidden|func|'.$func.'|REQUEST|no_db';
-	
-	$form_data.= "\n".'text|name|Name|';
-	$form_data.= "\n".'textarea|description|Beschreibung|';
+	$form_data = "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n".'hidden|subpage|'.$subpage.'|REQUEST|no_db';
+	$form_data.= "\n".'hidden|func|'.$func.'|REQUEST|no_db';
 
-	$form_data.= "\n".'validate|empty|name|Bitte den Namen eingeben';
-
-
-	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
 
 	$xform = new rex_xform;
 	// $xform->setDebug(TRUE);
@@ -41,18 +36,27 @@ if($func == "add" || $func == "edit")
 
 	if($func == "edit")
 	{
+    $form_data .= "\nshowvalue|label|Label";
 		$form_data .= "\n".'hidden|table_id|'.$table_id.'|REQUEST|no_db';
 		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table,"id=$table_id"),);
-
-		$xform->setObjectparams("main_id","$table_id");
+		$xform->setObjectparams("main_id",$table_id);
 		$xform->setObjectparams("main_where","id=$table_id");
 		$xform->setGetdata(true); // Datein vorher auslesen
 	}elseif($func == "add")
 	{
+    $form_data .= "\ntext|label|Label";
+    $form_data .= "\nvalidate|notEmpty|label|Bitte tragen Sie das Label ein"; // nicht leer
+    $form_data .= "\nvalidate|preg_match|label|/[a-z_]*/i|Bitte tragen Sie beim Label nur Buchstaben ein";
+    $form_data .= "\n".'validate|customfunction|label|rex_em_checkLabelInTable||Dieses Label ist bereits vorhanden|';
 		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table),);
 	}
-
-	$xform->setFormData($form_data);
+	
+  $form_data.= "\n".'text|name|Name|';
+  $form_data.= "\n".'textarea|description|Beschreibung|';
+  $form_data.= "\n".'validate|empty|name|Bitte den Namen eingeben';
+	
+  $form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
+  $xform->setFormData($form_data);
 	echo $xform->getForm();
 
 	echo '</div></div>';
@@ -68,12 +72,13 @@ if($func == "add" || $func == "edit")
 
 //------------------------------> Löschen
 if($func == "delete"){
-	/*
 	$query = "delete from $table where id='".$table_id."' ";
 	$delsql = new rex_sql;
-	$delsql->debugsql=1;
+	// $delsql->debugsql=1;
 	$delsql->setQuery($query);
-	*/
+  $query = "delete from $table_field where table_id='".$table_id."' ";
+	$delsql->setQuery($query);
+  
 	$func = "";
 	echo rex_info($bezeichner." wurde gel&ouml;scht");
 }

@@ -39,18 +39,22 @@ class rex_xform_checkbox extends rex_xform_abstract
 	
 	function getDefinitions()
   {
+
     return array(
             'type' => 'value',
             'name' => 'checkbox',
             'values' => array(
-              'label' => array('Feld'),
-              'text' => array('Bezeichnung'),
-              'text' => array('Wert wenn angeklickt',1),
-              'boolean' => array('Defaulstatus',1),
-              'no_db' => array('Datenbank',0),
+              array( 'type' => 'label',   'name' => 'Feld' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+              array( 'type' => 'text',    'name' => 'Wert wenn angeklickt', 'default' => 1),
+              array( 'type' => 'boolean', 'name' => 'Defaulstatus',         'default' => 1),
+              array( 'type' => 'no_db',   'name' => 'Datenbank',  'default' => 1),
             ),
             'description' => 'Ein Selectfeld mit festen Definitionen.',
+            'dbtype' => 'varchar(255)'
       );
+      
+  
   }
 	
 	
