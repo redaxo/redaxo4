@@ -203,9 +203,12 @@ $(document).ready(function() {
 		}
 		
 		$REX["USER"] = &$REX["LOGIN"]->USER;
-	
+  	
 	    // $params["article"]->setSliceRevision($version);
-		$params["article"]->getContentAsQuery();
+	  if(is_a($params["article"], 'rex_article'))
+	  {
+		  $params["article"]->getContentAsQuery();
+	  }
 		$params["article"]->setEval(TRUE);
 	
 
