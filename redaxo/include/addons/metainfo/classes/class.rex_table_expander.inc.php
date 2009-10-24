@@ -117,12 +117,6 @@ class rex_a62_tableExpander extends rex_form
     return $I18N->msg('minfo_field_fieldset');
   }
 
-  function getFieldValue($fieldName)
-  {
-    $el =& $this->getElement($this->getFieldsetName(), $fieldName);
-    return $el->getValue();
-  }
-
   function delete()
   {
   	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
@@ -141,19 +135,6 @@ class rex_a62_tableExpander extends rex_form
     }
     
     return $result;
-  }
-
-  function preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql)
-  {
-    global $REX;
-
-    if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
-    {
-      // Vorm löschen, Prefix wieder anfügen
-      return $this->addPrefix($fieldValue);
-    }
-
-    return parent::preDelete($fieldsetName, $fieldName, $fieldValue, $deleteSql);
   }
 
   function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
@@ -203,7 +184,7 @@ class rex_a62_tableExpander extends rex_form
   {
     global $I18N;
 
-    $fieldName = $this->getFieldValue('name');
+    $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
     if($fieldName == '')
       return $I18N->msg('minfo_field_error_name');
 
@@ -226,7 +207,7 @@ class rex_a62_tableExpander extends rex_form
 
   function save()
   {
-    $fieldName = $this->getFieldValue('name');
+    $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
 
     // Den alten Wert aus der DB holen
     // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den
@@ -245,18 +226,19 @@ class rex_a62_tableExpander extends rex_form
     {
       global $REX, $I18N;
 
-      $this->organizePriorities($this->getFieldValue('prior'), $fieldOldPrior);
+      $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'prior'), $fieldOldPrior);
       rex_generateAll();
 
       $fieldName = $this->addPrefix($fieldName);
-      $fieldType = $this->getFieldValue('type');
-      $fieldDefault = $this->getFieldValue('default');
+      $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type');
+      $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
 
-      $sql = rex_sql::getInstance();
+      $sql = rex_sql::factory();
+      $sql->debugsql =& $this->debug;
       $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. $REX['TABLE_PREFIX'] .'62_type` WHERE id='. $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
-
+      
       // TEXT Spalten dürfen in MySQL keine Defaultwerte haben
       if($fieldDbType == 'text')
         $fieldDefault = null;
@@ -271,18 +253,20 @@ class rex_a62_tableExpander extends rex_form
         // Spalte in der Tabelle anlegen
         $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
-
+      
       if($tmRes)
       {
         // DefaultWerte setzen
         if($fieldDefault != $fieldOldDefault)
         {
           $upd = rex_sql::factory();
+          $upd->debugsql =& $this->debug;
           $upd->setTable($this->tableManager->getTableName());
           $upd->setWhere('`'. $fieldName .'`="'. addSlashes($fieldOldDefault) .'"');
           $upd->setValue($fieldName, addSlashes($fieldDefault));
           return $upd->update();
         }
+        
         // Default werte haben schon zuvor gepasst, daher true zurückgeben
         return true;
       }
