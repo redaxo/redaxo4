@@ -69,7 +69,7 @@ class rex_a62_tableManager
 
   function setQuery($qry)
   {
-    $sql = rex_sql::getInstance($this->DBID);
+    $sql = rex_sql::factory($this->DBID);
     return $sql->setQuery($qry);
   }
 }
