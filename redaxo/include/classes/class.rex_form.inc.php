@@ -560,15 +560,6 @@ class rex_form
 
   /**
    * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
-   * kurz vorm löschen
-   */
-  function preDelete($fieldsetName, $fieldName, $fieldValue, &$deleteSql)
-  {
-    return $fieldValue;
-  }
-
-  /**
-   * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
    * kurz vorm speichern
    */
   function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
@@ -644,7 +635,37 @@ class rex_form
   }
 
   /**
-   * Speichert das Formular
+   * Übernimmt die POST-Werte in die FormElemente.  
+   */
+  function processPostValues()
+  {
+    foreach($this->getFieldsetElements() as $fieldsetName => $fieldsetElements)
+    {
+      foreach($fieldsetElements as $element)
+      {
+        // read-only-fields nicht speichern
+        if(strpos($element->getAttribute('class'), 'rex-form-read') !== false)
+        {
+          continue;
+        }
+        
+        $fieldName = $element->getFieldName();
+        $fieldValue = $this->elementPostValue($fieldsetName, $fieldName);
+        
+        if (is_array($fieldValue))
+          $fieldValue = implode('|+|', $fieldValue);
+          
+        // Den POST-Wert als Value in das Feld speichern
+        // Da generell alles von REDAXO escaped wird, hier slashes entfernen
+        $element->setValue(stripslashes($fieldValue));
+      }
+    }
+  }
+  
+  /**
+   * Speichert das Formular.
+   * 
+   * Übernimmt die Werte aus den FormElementen in die Datenbank.
    *
    * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler oder
    * einen String mit einer Fehlermeldung.
@@ -675,20 +696,13 @@ class rex_form
         }
         
         $fieldName = $element->getFieldName();
-        $fieldValue = $this->elementPostValue($fieldsetName, $fieldName);
+        $fieldValue = $element->getValue();
         
         // Callback, um die Values vor dem Speichern noch beeinflussen zu können
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
         
-        if (is_array($fieldValue))
-          $fieldValue = implode('|+|', $fieldValue);
-          
-        // Den POST-Wert als Value in das Feld speichern
-        // Da generell alles von REDAXO escaped wird, hier slashes entfernen
-        $element->setValue(stripslashes($fieldValue));
-
-        // Den POST-Wert in die DB speichern (inkl. slahes)
-        $sql->setValue($fieldName, $fieldValue);
+        // Den POST-Wert in die DB speichern (inkl. slashes)
+        $sql->setValue($fieldName, addslashes($fieldValue));
       }
     }
 
@@ -709,25 +723,6 @@ class rex_form
     $deleteSql->debugsql =& $this->debug;
     $deleteSql->setTable($this->tableName);
     $deleteSql->setWhere($this->whereCondition);
-
-    foreach($this->getFieldsets() as $fieldsetName)
-    {
-      // POST-Werte ermitteln
-      $fieldValues = $this->fieldsetPostValues($fieldsetName);
-      foreach($fieldValues as $fieldName => $fieldValue)
-      {
-        // Callback, um die Values vor dem Löschen noch beeinflussen zu können
-        $fieldValue = $this->preDelete($fieldsetName, $fieldName, $fieldValue, $deleteSql);
-
-        // Element heraussuchen
-        $element =& $this->getElement($fieldsetName, $fieldName);
-
-        // Den POST-Wert als Value in das Feld speichern
-        // Da generell alles von REDAXO escaped wird, hier slashes entfernen
-        $element->setValue(stripslashes($fieldValue));
-      }
-    }
-
     return $deleteSql->delete();
   }
 
@@ -773,6 +768,8 @@ class rex_form
     {
       if($controlElement->saved())
       {
+        $this->processPostValues();
+        
         // speichern und umleiten
         // Nachricht in der Liste anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
@@ -785,6 +782,8 @@ class rex_form
       }
       elseif($controlElement->applied())
       {
+        $this->processPostValues();
+        
         // speichern und wiederanzeigen
         // Nachricht im Formular anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
