@@ -53,6 +53,7 @@ if($func == "add" || $func == "edit")
 	
   $form_data.= "\n".'text|name|Name|';
   $form_data.= "\n".'textarea|description|Beschreibung|';
+  $form_data.= "\n".'checkbox|status|Aktiv|';
   $form_data.= "\n".'validate|empty|name|Bitte den Namen eingeben';
 	
   $form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
@@ -97,8 +98,13 @@ if($func == ""){
 	$list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit"));
 	// $list->setColumnParams("login", array("table_id"=>"###id###","func"=>"edit"));
 
-	$list->addColumn('editieren','Felder editieren');
-	$list->setColumnParams("editieren", array("subpage"=>"field","table_id"=>"###id###"));
+	$list->removeColumn("id");
+	
+	$list->addColumn('editieren','editieren');
+	$list->setColumnParams("editieren", array("table_id"=>"###id###","func"=>"edit"));
+	
+	$list->addColumn('Felder_editieren','Felder editieren');
+	$list->setColumnParams("Felder_editieren", array("subpage"=>"field","table_id"=>"###id###"));
 
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
 	$list->setColumnParams("l&ouml;schen", array("table_id"=>"###id###","func"=>"delete"));
