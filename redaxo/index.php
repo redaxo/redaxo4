@@ -124,6 +124,13 @@ if ($REX['SETUP'])
 // ----- Prepare Core Pages
 if($REX['USER'])
 {
+	
+	if ($REX['USER']->hasDashboard())
+	{
+		$REX['PAGES']["dashboard"] = array($I18N->msg("dashboard"),0,1);
+		$REX['START_PAGE'] = "dashboard";
+	}
+		
 	$REX['PAGES']["profile"] = array($I18N->msg("profile"),0,1);
 	$REX['PAGES']["credits"] = array($I18N->msg("credits"),0,1);
 
