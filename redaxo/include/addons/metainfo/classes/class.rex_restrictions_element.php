@@ -40,12 +40,17 @@ class rex_form_restrictons_element extends rex_form_select_element
 
       $("#enable_restrictions_chkbx").click(function() {
         $("#'. $slctDivId .'").slideToggle("slow");
+        if($(this).is(":checked"))
+        {
+          $("option:selected", "#'. $slctDivId .'").each(function () {
+            $(this).removeAttr("selected");
+          });
+        }
       });
       
       if($("#enable_restrictions_chkbx").is(":checked")) {
         $("#'. $slctDivId .'").hide();
       }
-
     });
 
     //-->
