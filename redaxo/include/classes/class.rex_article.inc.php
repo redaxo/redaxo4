@@ -110,36 +110,34 @@ class rex_article extends rex_article_base
 
     $this->ctype = $curctype;
 
-    if (!$this->getSlice)
+    if (!$this->getSlice && $this->article_id != 0)
     {
-      if ($this->article_id != 0)
+      // ----- start: article caching
+      ob_start();
+      ob_implicit_flush(0);
+
+      $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
+      if(!file_exists($article_content_file))
       {
-        // ----- start: article caching
-        ob_start();
-        ob_implicit_flush(0);
-
-        $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
-        if(!file_exists($article_content_file))
+        include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
+        $generated = rex_generateArticleContent($this->article_id, $this->clang);
+        if($generated !== true)
         {
-          include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
-          $generated = rex_generateArticleContent($this->article_id, $this->clang);
-          if($generated !== true)
-          {
-            // fehlermeldung ausgeben
-            echo $generated;
-          }
+          // fehlermeldung ausgeben
+          echo $generated;
         }
-
-        if(file_exists($article_content_file))
-        {
-          eval (rex_get_file_contents($article_content_file));
-        }
-
-        // ----- end: article caching
-        $CONTENT = ob_get_contents();
-        ob_end_clean();
       }
-    }else
+
+      if(file_exists($article_content_file))
+      {
+        eval (rex_get_file_contents($article_content_file));
+      }
+
+      // ----- end: article caching
+      $CONTENT = ob_get_contents();
+      ob_end_clean();
+    }
+    else
     {
       // Inhalt ueber sql generierens
       $CONTENT = parent::getArticle($curctype);
