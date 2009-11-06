@@ -28,7 +28,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     $slctDivId = $this->getAttribute('id'). '_div';
     
     // Wert aus dem select in die checkbox übernehmen
-    $this->chkbox_element->setValue($this->table->getFieldValue($this->getFieldName()));
+    $this->chkbox_element->setValue($this->getValue());
     
     $html = '';
     
