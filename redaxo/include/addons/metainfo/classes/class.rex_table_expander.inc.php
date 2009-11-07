@@ -14,7 +14,7 @@ class rex_a62_tableExpander extends rex_form
   var $metaPrefix;
   var $tableManager;
 
-  function rex_a62_tableExpander($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  /*public*/ function rex_a62_tableExpander($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $this->metaPrefix = $metaPrefix;
     $this->tableManager = new rex_a62_tableManager($metaTable);
@@ -22,7 +22,7 @@ class rex_a62_tableExpander extends rex_form
     parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 
-  function init()
+  /*public*/ function init()
   {
     global $REX, $I18N;
 
@@ -111,13 +111,13 @@ class rex_a62_tableExpander extends rex_form
     $field->setAttribute('size', 10);
   }
 
-  function getFieldsetName()
+  /*public*/ function getFieldsetName()
   {
     global $I18N;
     return $I18N->msg('minfo_field_fieldset');
   }
 
-  function delete()
+  /*protected*/ function delete()
   {
   	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
     $sql = rex_sql::getInstance();
@@ -137,7 +137,7 @@ class rex_a62_tableExpander extends rex_form
     return $result;
   }
 
-  function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
+  /*protected*/ function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
     global $REX;
 
@@ -150,7 +150,7 @@ class rex_a62_tableExpander extends rex_form
     return parent::preSave($fieldsetName, $fieldName, $fieldValue, $saveSql);
   }
 
-  function preView($fieldsetName, $fieldName, $fieldValue)
+  /*protected*/ function preView($fieldsetName, $fieldName, $fieldValue)
   {
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
@@ -160,7 +160,7 @@ class rex_a62_tableExpander extends rex_form
     return parent::preView($fieldsetName, $fieldName, $fieldValue);
   }
 
-  function addPrefix($string)
+  /*public*/ function addPrefix($string)
   {
     $lowerString = strtolower($string);
     if(substr($lowerString, 0, strlen($this->metaPrefix)) !== $this->metaPrefix)
@@ -170,7 +170,7 @@ class rex_a62_tableExpander extends rex_form
     return $string;
   }
 
-  function stripPrefix($string)
+  /*public*/ function stripPrefix($string)
   {
     $lowerString = strtolower($string);
     if(substr($lowerString, 0, strlen($this->metaPrefix)) === $this->metaPrefix)
@@ -180,7 +180,7 @@ class rex_a62_tableExpander extends rex_form
     return $string;
   }
 
-  function validate()
+  /*protected*/ function validate()
   {
     global $I18N;
 
@@ -205,7 +205,7 @@ class rex_a62_tableExpander extends rex_form
     return parent::validate();
   }
 
-  function save()
+  /*protected*/ function save()
   {
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
 
@@ -274,8 +274,13 @@ class rex_a62_tableExpander extends rex_form
 
     return false;
   }
+  
+  /*public*/ function getPrefix()
+  {
+    return $this->metaPrefix;
+  }
 
-  function organizePriorities($newPrio, $oldPrio)
+  /*protected*/ function organizePriorities($newPrio, $oldPrio)
   {
     if($newPrio == $oldPrio)
       return;
