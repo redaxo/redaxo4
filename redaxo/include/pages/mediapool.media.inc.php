@@ -19,7 +19,7 @@ $db = rex_sql::factory();
 $file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
 
 // ***** select bauen
-$sel_media = new rex_select;
+$sel_media = new rex_mediacategory_select($check_perm = false);
 $sel_media->setId("rex_file_category");
 $sel_media->setName("rex_file_category");
 $sel_media->setSize(1);
@@ -27,14 +27,6 @@ $sel_media->setStyle('class="rex-form-select"');
 $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->addOption($I18N->msg('pool_kats_no'),"0");
-
-$mediacat_ids = array();
-if ($rootCats = OOMediaCategory::getRootCategories())
-{
-    foreach( $rootCats as $rootCat) {
-        rex_mediapool_addMediacatOptions( $sel_media, $rootCat, $mediacat_ids);
-    }
-}
 
 // ----- EXTENSION POINT
 echo rex_register_extension_point('PAGE_MEDIAPOOL_HEADER', '',
@@ -291,20 +283,12 @@ if ($subpage == "detail")
 
     if ($TPERM)
     {
-      $cats_sel = new rex_select;
+      $cats_sel = new rex_mediacategory_select();
       $cats_sel->setStyle('class="rex-form-select"');
       $cats_sel->setSize(1);
       $cats_sel->setName('rex_file_category');
       $cats_sel->setId('rex_file_new_category');
       $cats_sel->addOption($I18N->msg('pool_kats_no'),'0');
-      $mediacat_ids = array();
-      $rootCat = 0;
-      if ($rootCats = OOMediaCategory::getRootCategories())
-      {
-          foreach( $rootCats as $rootCat) {
-              rex_mediapool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
-          }
-      }
       $cats_sel->setSelected($rex_file_category);
 
       echo '
@@ -542,20 +526,12 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 
 if ($subpage == '')
 {
-  $cats_sel = new rex_select;
+  $cats_sel = new rex_mediacategory_select();
   $cats_sel->setSize(1);
   $cats_sel->setStyle('class="rex-form-select"');
   $cats_sel->setName("rex_file_category");
   $cats_sel->setId("rex_file_category");
   $cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
-  $mediacat_ids = array();
-  $rootCat = 0;
-  if ($rootCats = OOMediaCategory::getRootCategories())
-  {
-      foreach( $rootCats as $rootCat) {
-          rex_mediapool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
-      }
-  }
   $cats_sel->setSelected($rex_file_category);
 
   echo $cat_out;
