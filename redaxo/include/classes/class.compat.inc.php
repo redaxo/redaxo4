@@ -231,6 +231,73 @@ function rex_medienpool_Syncform($rex_file_category)
   return rex_mediapool_Syncform($rex_file_category);
 }
 
+/**
+ * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
+ * hinzu
+ *
+ * @param $select
+ * @param $mediacat
+ * @param $mediacat_ids
+ * @param $groupName
+ * 
+ * @deprecated since REDAXO 4.3
+ * @see rex_mediacategory_select
+ */
+function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
+{
+  global $REX;
+
+  if(empty($mediacat)) return;
+
+  $mname = $mediacat->getName();
+  if($REX['USER']->hasPerm('advancedMode[]'))
+    $mname .= ' ['. $mediacat->getId() .']';
+
+  $mediacat_ids[] = $mediacat->getId();
+  $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+  $childs = $mediacat->getChildren();
+  if (is_array($childs))
+  {
+    foreach ( $childs as $child) {
+      rex_mediapool_addMediacatOptions( $select, $child, $mediacat_ids, $mname);
+    }
+  }
+}
+
+/**
+ * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
+ * hinzu unter berücksichtigung der Medienkategorierechte
+ *
+ * @param $select
+ * @param $mediacat
+ * @param $mediacat_ids
+ * @param $groupName
+ * 
+ * @deprecated since REDAXO 4.3
+ * @see rex_mediacategory_select
+ */
+function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
+{
+  global $PERMALL, $REX;
+
+  if(empty($mediacat)) return;
+
+  $mname = $mediacat->getName();
+  if($REX['USER']->hasPerm('advancedMode[]'))
+    $mname .= ' ['. $mediacat->getId() .']';
+
+  $mediacat_ids[] = $mediacat->getId();
+  if ($PERMALL || $REX['USER']->hasPerm('media['.$mediacat->getId().']'))
+    $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+
+  $childs = $mediacat->getChildren();
+  if (is_array($childs))
+  {
+    foreach ( $childs as $child) {
+      rex_mediapool_addMediacatOptionsWPerm( $select, $child, $mediacat_ids, $mname);
+    }
+  }
+}
 
 // ----------------------------------------- Variables
 

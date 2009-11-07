@@ -15,13 +15,13 @@ class rex_select
   var $option_selected;
 
   ################ Konstruktor
-  function rex_select()
+  /*public*/ function rex_select()
   {
     $this->init();
   }
 
   ################ init
-  function init()
+  /*public*/ function init()
   {
     $this->attributes = array();
     $this->resetSelected();
@@ -30,12 +30,12 @@ class rex_select
     $this->setMultiple(false);
   }
 
-  function setAttribute($name, $value)
+  /*public*/ function setAttribute($name, $value)
   {
   	$this->attributes[$name] = $value;
   }
 
-  function delAttribute($name)
+  /*public*/ function delAttribute($name)
   {
   	if($this->hasAttribute($name))
   	{
@@ -45,12 +45,12 @@ class rex_select
   	return false;
   }
 
-  function hasAttribute($name)
+  /*public*/ function hasAttribute($name)
   {
   	return isset($this->attributes[$name]);
   }
 
-  function getAttribute($name, $default = '')
+  /*public*/ function getAttribute($name, $default = '')
   {
   	if($this->hasAttribute($name))
   	{
@@ -60,7 +60,7 @@ class rex_select
   }
 
   ############### multiple felder ?
-  function setMultiple($multiple)
+  /*public*/ function setMultiple($multiple)
   {
   	if($multiple)
   		$this->setAttribute('multiple', 'multiple');
@@ -69,13 +69,13 @@ class rex_select
   }
 
   ################ select name
-  function setName($name)
+  /*public*/ function setName($name)
   {
   	$this->setAttribute('name', $name);
   }
 
   ################ select id
-  function setId($id)
+  /*public*/ function setId($id)
   {
   	$this->setAttribute('id', $id);
   }
@@ -89,7 +89,7 @@ class rex_select
   * und/oder
   * $sel_media->setStyle("width:150px;");
   */
-  function setStyle($style)
+  /*public*/ function setStyle($style)
   {
     if (strpos($style, 'class=') !== false)
     {
@@ -105,13 +105,13 @@ class rex_select
   }
 
   ################ select size
-  function setSize($size)
+  /*public*/ function setSize($size)
   {
   	$this->setAttribute('size', $size);
   }
 
   ################ selected feld - option value uebergeben
-  function setSelected($selected)
+  /*public*/ function setSelected($selected)
   {
   	if(is_array($selected))
   	{
@@ -126,7 +126,7 @@ class rex_select
   	}
   }
 
-  function resetSelected()
+  /*public*/ function resetSelected()
   {
     $this->option_selected = array ();
   }
@@ -135,7 +135,7 @@ class rex_select
   /**
    * Fügt eine Option hinzu
    */
-  function addOption($name, $value, $id = 0, $re_id = 0)
+  /*public*/ function addOption($name, $value, $id = 0, $re_id = 0)
   {
     $this->options[$re_id][] = array ($name, $value, $id);
   }
@@ -150,7 +150,7 @@ class rex_select
    * 3.    Re_Id
    * 4.    Selected
    */
-  function addOptions($options, $useOnlyValues = false)
+  /*public*/ function addOptions($options, $useOnlyValues = false)
   {
     if(is_array($options) && count($options)>0)
     {
@@ -190,7 +190,7 @@ class rex_select
    * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
    * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
    */
-  function addArrayOptions($options, $use_keys = true)
+  /*public*/ function addArrayOptions($options, $use_keys = true)
   {
   	foreach($options as $key => $value)
   	{
@@ -204,7 +204,7 @@ class rex_select
   /**
    * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
    */
-  function addSqlOptions($qry)
+  /*public*/ function addSqlOptions($qry)
   {
     $sql = rex_sql::factory();
     $this->addOptions($sql->getArray($qry, MYSQL_NUM));
@@ -213,14 +213,14 @@ class rex_select
   /**
    * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
    */
-  function addDBSqlOptions($qry)
+  /*public*/ function addDBSqlOptions($qry)
   {
     $sql = rex_sql::factory();
     $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
   }
 
   ############### show select
-  function get()
+  /*public*/ function get()
   {
   	$attr = '';
   	foreach($this->attributes as $name => $value)
@@ -239,12 +239,12 @@ class rex_select
   }
 
   ############### show select
-  function show()
+  /*public*/ function show()
   {
   	echo $this->get();
   }
 
-  function _outGroup($re_id, $level = 0)
+  /*private*/ function _outGroup($re_id, $level = 0)
   {
 
     if ($level > 100)
@@ -272,7 +272,7 @@ class rex_select
     return $ausgabe;
   }
 
-  function _outOption($name, $value, $level = 0)
+  /*private*/ function _outOption($name, $value, $level = 0)
   {
     $name = htmlspecialchars($name);
     $value = htmlspecialchars($value);
@@ -288,7 +288,7 @@ class rex_select
     return '    <option value="'.$value.'"'.$selected.'>'.$bsps.$name.'</option>'."\n";
   }
 
-  function _getGroup($re_id, $ignore_main_group = false)
+  /*private*/ function _getGroup($re_id, $ignore_main_group = false)
   {
 
     if ($ignore_main_group && $re_id == 0)
@@ -315,38 +315,44 @@ class rex_category_select extends rex_select
   var $clang;
   var $check_perms;
 
-  function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
+  /*public*/ function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
     $this->ignore_offlines = $ignore_offlines;
     $this->clang = $clang;
     $this->check_perms = $check_perms;
+    $this->add_homepage = $add_homepage;
 
-    if($add_homepage)
+    parent::rex_select();
+  }
+
+  /*protected*/ function addCatOptions()
+  {
+    if($this->add_homepage)
       $this->addOption('Homepage', 0);
 
-    if ($cats = OOCategory :: getRootCategories($ignore_offlines, $clang))
+    if ($cats = OOCategory :: getRootCategories($this->ignore_offlines, $this->clang))
     {
       foreach ($cats as $cat)
       {
         $this->addCatOption($cat);
       }
     }
-
-    parent::rex_select();
   }
-
-  function addCatOption($cat)
+  
+  /*protected*/ function addCatOption(/*OOCategory*/ $cat)
   {
     global $REX;
-    if (empty ($cat))
-    {
-      return;
-    }
 
     if(!$this->check_perms ||
         $this->check_perms && $REX['USER']->hasCategoryPerm($cat->getId()))
     {
-      $this->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
+      $cid = $cat->getId();
+      $cname = $cat->getName();
+      
+      if($REX['USER']->hasPerm('advancedMode[]'))
+        $cname .= ' ['. $cid .']';
+      
+      $this->addOption($cname, $cid, $cid, $cat->getParentId());
       $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
       if (is_array($childs))
       {
@@ -356,5 +362,77 @@ class rex_category_select extends rex_select
         }
       }
     }
+  }
+  
+  /*public*/ function get()
+  {
+    static $loaded = false;
+    
+    if(!$loaded)
+    {
+      $this->addCatOptions();
+    }
+    
+    return parent::get();
+  }
+}
+
+################ Class MediaKategorie Select
+class rex_mediacategory_select extends rex_select
+{
+  var $check_perms;
+  
+  /*public*/ function rex_mediacategory_select($check_perms = true)
+  {
+    $this->check_perms = $check_perms;
+    parent::rex_select();
+  }
+  
+  /*protected*/ function addCatOptions()
+  {
+    if ($rootCats = OOMediaCategory::getRootCategories())
+    {
+      foreach($rootCats as $rootCat)
+      {
+          $this->addCatOption($rootCat);
+      }
+    }
+  }
+  
+  /*protected*/ function addCatOption(/*OOMediaCategory*/ $mediacat)
+  {
+    global $REX;
+    
+    if(!$this->check_perms ||
+        $this->check_perms && $REX['USER']->hasMediaCategoryPerm($mediacat->getId()))
+    {
+      $mid = $mediacat->getId();
+      $mname = $mediacat->getName();
+      
+      if($REX['USER']->hasPerm('advancedMode[]'))
+        $mname .= ' ['. $mid .']';
+        
+      $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
+      $childs = $mediacat->getChildren();
+      if (is_array($childs))
+      {
+        foreach ($childs as $child)
+        {
+          $this->addCatOption($child);
+        }
+      }
+    }
+  }
+  
+  /*public*/ function get()
+  {
+    static $loaded = false;
+    
+    if(!$loaded)
+    {
+      $this->addCatOptions();
+    }
+    
+    return parent::get();
   }
 }
