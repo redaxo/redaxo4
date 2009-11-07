@@ -19,11 +19,15 @@ rex_register_extension('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 function rex_a62_metainfo_button($params)
 {
 	global $REX, $I18N;
+	
+	$restrictions = '';
+	if(isset($params['id']))
+	{
+	  $restrictions = $params['id'];
+	}
 
-	$fields = rex_sql::factory();
-  $fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_params p,'. $REX['TABLE_PREFIX'] .'62_type t WHERE `p`.`type` = `t`.`id` AND `p`.`name` LIKE "cat_%" LIMIT 1');
-
-  if ($fields->getRows()==1)
+	$fields = _rex_a62_metainfo_sqlfields('cat_', $restrictions);
+  if ($fields->getRows() >= 1)
   {
   	$return = '<p class="rex-button-add"><script type="text/javascript"><!--
 

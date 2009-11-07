@@ -6,7 +6,7 @@ class rex_form_restrictons_element extends rex_form_select_element
   
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  function rex_form_restrictons_element($tag = '', &$table, $attributes = array())
+  function rex_form_restrictons_element($tag = '', /*rex_a62_tableExpander*/ &$table, $attributes = array())
   {
     global $I18N;
     
@@ -17,9 +17,22 @@ class rex_form_restrictons_element extends rex_form_select_element
     $this->chkbox_element->setAttribute('id', 'enable_restrictions_chkbx');
     $this->chkbox_element->addOption($I18N->msg('minfo_field_label_no_restrictions'), '');
     
-    $categorySelect = new rex_category_select();
-    $categorySelect->setMultiple(true);
-    $this->setSelect($categorySelect);
+    if($table->getPrefix() == 'art_' || $table->getPrefix() == 'cat_')
+    {
+      $restrictionsSelect = new rex_category_select();
+    }
+    else if($table->getPrefix() == 'med_') 
+    {
+      $restrictionsSelect = new rex_mediacategory_select();
+    }
+    else
+    {
+      trigger_error('Unexpected TablePrefix "'. $table->getPrefix() .'"!', E_USER_ERROR);
+      exit();
+    }
+    
+    $restrictionsSelect->setMultiple(true);
+    $this->setSelect($restrictionsSelect);
     $this->setNotice($I18N->msg('ctrl'));
   }
 
@@ -66,5 +79,4 @@ class rex_form_restrictons_element extends rex_form_select_element
     
     return $html;
   }
-  
 }

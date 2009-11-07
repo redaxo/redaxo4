@@ -10,6 +10,7 @@ angehandelt.
 Version 4.3 (2009-xx-xx)
 
   Neu:
+  * Metainfo: Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
   * Metainfo: Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
   * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
     - neue Funktion OOMediaCategory::getChildrenById($category_id)
@@ -20,7 +21,12 @@ Version 4.3 (2009-xx-xx)
   * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
   * rex_article umgebaut und vereinfacht [Markus.Staab]
-  * Extension Points: ART_CONTENT_UPDATED [Jan.Kristinus]
+  * Neue Klassen:
+    - rex_mediacategory_select [Markus.Staab]
+  * neue Extension Points:
+    - ART_CONTENT_UPDATED [Jan.Kristinus]
+  * neue Extension Point Parameter:
+    - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
   
   Bugfixes:
   * Probleme mit Image-Resize auf manchen Servern behoben
@@ -28,6 +34,10 @@ Version 4.3 (2009-xx-xx)
   * Category->getPath fehlte.. eingebaut
   * rex_parse_article_name() angepasst. '-' statt '+' als Trennzeichen. [Dave.Holloway]
   * Wenn gzip Auslieferung, dann gab es eine Notice wenn Browser das nicht unterstützt hatte [Andreas.Eberhardt]
+  
+  Deprecated:
+  * rex_mediapool_addMediacatOptions()
+  * rex_mediapool_addMediacatOptionsWPerm()
     
 Version 4.2.1 (2009-05-07)
 

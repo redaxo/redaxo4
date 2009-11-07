@@ -36,12 +36,13 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $tag      = 'p';
     $tag_attr = '';
 
-    $name      = $sqlFields->getValue('name');
-    $title     = $sqlFields->getValue('title');
-    $params    = $sqlFields->getValue('params');
-    $typeLabel = $sqlFields->getValue('label');
-    $attr      = $sqlFields->getValue('attributes');
-    $dblength  = $sqlFields->getValue('dblength');
+    $name          = $sqlFields->getValue('name');
+    $title         = $sqlFields->getValue('title');
+    $params        = $sqlFields->getValue('params');
+    $typeLabel     = $sqlFields->getValue('label');
+    $attr          = $sqlFields->getValue('attributes');
+    $dblength      = $sqlFields->getValue('dblength');
+    $restrictions  = $sqlFields->getValue('restrictions');
     
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
@@ -470,18 +471,22 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 }
 
 /**
- * Erweitert das Meta-Formular um die neuen Meta-Felder
- *
- * @param $prefix Feldprefix
- * @param $params EP Params
- * @param $saveCallback callback, dass die
+ * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
+ * 
+ * @param string $prefix Feldprefix      
+ * @param string $restrictions Kategorierestriktionen
+ * @return rex_sql Metainfofelder
  */
-function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
+function _rex_a62_metainfo_sqlfields($prefix, $restrictions)
 {
   global $REX;
-
-  $debug = false;
-
+  
+  $restrictionsCondition = '';
+  if($restrictions != '')
+  {
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` LIKE "%|'. $restrictions .'|%")';
+  }
+  
   $qry = 'SELECT
             *
           FROM
@@ -490,12 +495,36 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
           WHERE
             `p`.`type` = `t`.`id` AND
             `p`.`name` LIKE "'. $prefix .'%"
-          ORDER BY
+            '. $restrictionsCondition .'
+            ORDER BY
             prior';
 
   $sqlFields = rex_sql::factory();
-  // $sqlFields->debugsql = true;
+  //$sqlFields->debugsql = true;
   $sqlFields->setQuery($qry);
+  
+  return $sqlFields;
+}
+
+/**
+ * Erweitert das Meta-Formular um die neuen Meta-Felder
+ *
+ * @param string $prefix Feldprefix
+ * @param string $params EP Params
+ * @param callback $saveCallback Callback, dass die Daten speichert
+ */
+function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
+{
+  if($prefix == 'med_')
+  {
+    $catId = $params['activeItem']->getValue('category_id');
+  }
+  else
+  {
+    $catId = $params['id'];
+  }
+  
+  $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $catId);
 
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
 
@@ -570,7 +599,7 @@ function rex_a62_media_is_in_use($params)
   $query = $params['subject'];
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT name,type FROM rex_62_params WHERE type IN(6,7)');
+  $sql->setQuery('SELECT `name`, `type` FROM `rex_62_params` WHERE `type` IN(6,7)');
 
   $rows = $sql->getRows();
   if($rows == 0)

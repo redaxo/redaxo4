@@ -50,8 +50,9 @@ function rex_a62_metainfo_form($params)
   if($params['extension_point'] == 'MEDIA_FORM_EDIT')
   {
     $params['activeItem'] = $params['media'];
+    unset($params['media']);
     // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
-    $params['activeItem']->setValue('category_id', 0);
+    // $params['activeItem']->setValue('category_id', 0);
   }
   else if($params['extension_point'] == 'MEDIA_ADDED')
   {
@@ -66,7 +67,7 @@ function rex_a62_metainfo_form($params)
     }
     else
     {
-      trigger_error('Error occured during file upload', E_USER_ERROR);
+      trigger_error('Error occured during file upload!', E_USER_ERROR);
       exit();
     }
   }
