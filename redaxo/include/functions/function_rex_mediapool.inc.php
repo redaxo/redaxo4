@@ -317,68 +317,6 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
 }
 
 /**
- * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
- * hinzu
- *
- * @param $select
- * @param $mediacat
- * @param $mediacat_ids
- * @param $groupName
- */
-function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
-{
-  global $REX;
-
-  if(empty($mediacat)) return;
-
-  $mname = $mediacat->getName();
-  if($REX['USER']->hasPerm('advancedMode[]'))
-    $mname .= ' ['. $mediacat->getId() .']';
-
-  $mediacat_ids[] = $mediacat->getId();
-  $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
-  $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
-    foreach ( $childs as $child) {
-      rex_mediapool_addMediacatOptions( $select, $child, $mediacat_ids, $mname);
-    }
-  }
-}
-
-/**
- * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
- * hinzu unter berücksichtigung der Medienkategorierechte
- *
- * @param $select
- * @param $mediacat
- * @param $mediacat_ids
- * @param $groupName
- */
-function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
-{
-  global $PERMALL, $REX;
-
-  if(empty($mediacat)) return;
-
-  $mname = $mediacat->getName();
-  if($REX['USER']->hasPerm('advancedMode[]'))
-    $mname .= ' ['. $mediacat->getId() .']';
-
-  $mediacat_ids[] = $mediacat->getId();
-  if ($PERMALL || $REX['USER']->hasPerm('media['.$mediacat->getId().']'))
-    $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
-
-  $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
-    foreach ( $childs as $child) {
-      rex_mediapool_addMediacatOptionsWPerm( $select, $child, $mediacat_ids, $mname);
-    }
-  }
-}
-
-/**
  * Ausgabe des Medienpool Formulars
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
@@ -387,21 +325,12 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
   $s = '';
 
-  $cats_sel = new rex_select;
+  $cats_sel = new rex_mediacategory_select();
   $cats_sel->setStyle('class="rex-form-select"');
   $cats_sel->setSize(1);
   $cats_sel->setName('rex_file_category');
   $cats_sel->setId('rex_file_category');
   $cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
-
-  $mediacat_ids = array();
-  $rootCat = 0;
-  if ($rootCats = OOMediaCategory::getRootCategories())
-  {
-    foreach( $rootCats as $rootCat) {
-      rex_mediapool_addMediacatOptionsWPerm( $cats_sel, $rootCat, $mediacat_ids);
-    }
-  }
   $cats_sel->setSelected($rex_file_category);
 
   if (isset($warning) and $warning != "")
