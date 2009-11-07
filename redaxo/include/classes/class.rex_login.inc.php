@@ -32,7 +32,7 @@ class rex_login_sql extends rex_sql
 
   function isAdmin()
   {
-    return $this->hasPerm('admin[]');
+    return $this->isValueOf('rights', 'admin[]');
   }
 
   function hasPerm($perm)
@@ -42,12 +42,24 @@ class rex_login_sql extends rex_sql
 
   function hasCategoryPerm($category_id)
   {
-    return $this->isAdmin() || $this->hasPerm('csw[0]') || $this->hasPerm('csr[' . $category_id . ']') || $this->hasPerm('csw[' . $category_id . ']');
+    return $this->isValueOf('rights', 'admin[]') ||
+           $this->isValueOf('rights', 'csw[0]') ||
+           $this->isValueOf('rights', 'csr[' . $category_id . ']') ||
+           $this->isValueOf('rights', 'csw[' . $category_id . ']');
+  }
+  
+  function hasMediaCategoryPerm($category_id)
+  {
+    return $this->isValueOf('rights', 'admin[]') ||
+           $this->isValueOf('rights', 'media[0]') ||
+           $this->isValueOf('rights', 'media[' . $category_id . ']');
   }
   
   function hasStructurePerm()
   {
-    return $this->isAdmin() || strpos($this->getValue("rights"), "#csw[") !== false || strpos($this->getValue("rights"), "#csr[") !== false;
+    return $this->isValueOf('rights', 'admin[]') || 
+           strpos($this->getValue("rights"), "#csw[") !== false ||
+           strpos($this->getValue("rights"), "#csr[") !== false;
   }
 
   function hasMountpoints()
@@ -57,7 +69,7 @@ class rex_login_sql extends rex_sql
   
   function getMountpoints()
   {
-  		preg_match_all('|\#mp\[([0-9]+)\]+|U',$this->getValue("rights"),$return,PREG_PATTERN_ORDER);
+  		preg_match_all('|\#mp\[([0-9]+)\]+|U', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
   		return $return[1];
   }
   
@@ -65,8 +77,6 @@ class rex_login_sql extends rex_sql
   {
   	return $this->hasMountpoints();
   }
-  
-  
 }
 
 class rex_login
