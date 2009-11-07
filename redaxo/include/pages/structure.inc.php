@@ -302,7 +302,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
 
-    if (isset ($edit_id) and $edit_id == $i_category_id and $function == 'edit_cat')
+    if (isset ($edit_id) && $edit_id == $i_category_id && $function == 'edit_cat')
     {
       // --------------------- KATEGORIE EDIT FORM
       $add_td = '';
@@ -311,7 +311,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
-      $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
+      // ----- EXTENSION POINT
+      $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', '', array(
+        'id' => $edit_id,
+        'clang' => $clang,
+      ));
       $add_buttons = '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
 
 		  $class = 'rex-table-row-activ';
