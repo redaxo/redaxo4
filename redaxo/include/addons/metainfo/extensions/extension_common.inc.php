@@ -515,9 +515,19 @@ function _rex_a62_metainfo_sqlfields($prefix, $restrictions)
  */
 function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
 {
+  // Beim ADD gibts noch kein activeItem
+  $activeItem = null;
+  if(isset($params['activeItem']))
+    $activeItem = $params['activeItem'];
+    
+  // TODO: Metainfo Felder sind beim Add vorhanden und ggf. dann in der Kategorie nicht mehr editierbar
+  $catId = '';
   if($prefix == 'med_')
   {
-    $catId = $params['activeItem']->getValue('category_id');
+    if($activeItem)
+    {
+      $catId = $activeItem->getValue('category_id');
+    }
   }
   else
   {
@@ -525,13 +535,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   }
   
   $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $catId);
-
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
-
-  // Beim ADD gibts noch kein activeItem
-  $activeItem = null;
-  if(isset($params['activeItem']))
-    $activeItem = $params['activeItem'];
 
   return rex_a62_metaFields($sqlFields, $activeItem, 'rex_a62_metainfo_form_item', $params);
 }
