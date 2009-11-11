@@ -38,7 +38,6 @@ if ($func == '')
   $list->removeColumn('field_id');
   $list->addTableColumnGroup(array(40, '*'));
 
-
   $list->setColumnLabel('field_id', $I18N->msg('minfo_field_label_id'));
   $list->setColumnLayout('field_id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
