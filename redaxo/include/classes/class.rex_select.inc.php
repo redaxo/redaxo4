@@ -311,9 +311,10 @@ class rex_select
 ################ Class Kategorie Select
 class rex_category_select extends rex_select
 {
-  var $ignore_offlines;
-  var $clang;
-  var $check_perms;
+  /*private*/ var $ignore_offlines;
+  /*private*/ var $clang;
+  /*private*/ var $check_perms;
+  /*private*/ var $rootId;
 
   /*public*/ function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
@@ -321,20 +322,54 @@ class rex_category_select extends rex_select
     $this->clang = $clang;
     $this->check_perms = $check_perms;
     $this->add_homepage = $add_homepage;
+    $this->rootId = null;
 
     parent::rex_select();
   }
 
+  /**
+   * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
+   * 
+   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente. 
+   */
+  /*public*/ function setRootId($rootId)
+  {
+    $this->rootId = $rootId;
+  }
+  
   /*protected*/ function addCatOptions()
   {
     if($this->add_homepage)
       $this->addOption('Homepage', 0);
-
-    if ($cats = OOCategory :: getRootCategories($this->ignore_offlines, $this->clang))
+      
+    if($this->rootId !== null)
     {
-      foreach ($cats as $cat)
+      if(is_array($this->rootId))
       {
-        $this->addCatOption($cat);
+        foreach($this->rootId as $rootId)
+        {
+          if($rootCat = OOCategory::getCategoryById($rootId, $this->clang))
+          {
+            $this->addCatOption($rootCat);
+          }
+        }
+      }
+      else
+      {
+        if($rootCat = OOCategory::getCategoryById($this->rootId, $this->clang))
+        {
+          $this->addCatOption($rootCat);
+        }
+      }
+    }
+    else
+    {
+      if ($rootCats = OOCategory :: getRootCategories($this->ignore_offlines, $this->clang))
+      {
+        foreach ($rootCats as $rootCat)
+        {
+          $this->addCatOption($rootCat);
+        }
       }
     }
   }
@@ -381,20 +416,56 @@ class rex_category_select extends rex_select
 class rex_mediacategory_select extends rex_select
 {
   var $check_perms;
+  var $rootId;
   
   /*public*/ function rex_mediacategory_select($check_perms = true)
   {
     $this->check_perms = $check_perms;
+    $this->rootId = null;
+    
     parent::rex_select();
+  }
+  
+  /**
+   * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
+   * 
+   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente. 
+   */
+  /*public*/ function setRootId($rootId)
+  {
+    $this->rootId = $rootId;
   }
   
   /*protected*/ function addCatOptions()
   {
-    if ($rootCats = OOMediaCategory::getRootCategories())
+    if($this->rootId !== null)
     {
-      foreach($rootCats as $rootCat)
+      if(is_array($this->rootId))
       {
+        foreach($this->rootId as $rootId)
+        {
+          if($rootCat = OOMediaCategory::getCategoryById($rootId))
+          {
+            $this->addCatOption($rootCat);
+          }
+        }
+      }
+      else
+      {
+        if($rootCat = OOMediaCategory::getCategoryById($this->rootId))
+        {
           $this->addCatOption($rootCat);
+        }
+      }
+    }
+    else
+    {
+      if ($rootCats = OOMediaCategory::getRootCategories())
+      {
+        foreach($rootCats as $rootCat)
+        {
+          $this->addCatOption($rootCat);
+        }
       }
     }
   }
