@@ -71,11 +71,8 @@ class rex_form_restrictons_element extends rex_form_select_element
     
     $html .= $this->chkbox_element->get();
     
-    $html .= '
-    <!-- DIV nötig fuer JQuery slideIn -->
-    <div id="'. $slctDivId .'">
-      '. parent::get() .'
-    </div>';
+    $element = parent :: get();
+    $html .= str_replace('class="rex-form-row"', 'id="'.$slctDivId.'" class="rex-form-row"', $element);
     
     return $html;
   }
