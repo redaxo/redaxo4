@@ -1169,7 +1169,7 @@ class rex_form_element
     $s = '';
     $s .= $this->getHeader();
 
-	$s .= '    <div class="rex-form-row">'. "\n";
+    $s .= '    <div class="rex-form-row">'. "\n";
     $s .= $this->_get();
     $s .= '    </div>'. "\n";
 
