@@ -474,18 +474,12 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
  * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
  * 
  * @param string $prefix Feldprefix      
- * @param string $restrictions Kategorierestriktionen
+ * @param string $restrictionsCondition SQL Where-Bedingung zum einschränken der Metafelder
  * @return rex_sql Metainfofelder
  */
-function _rex_a62_metainfo_sqlfields($prefix, $restrictions)
+function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
 {
   global $REX;
-  
-  $restrictionsCondition = '';
-  if($restrictions != '')
-  {
-    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` LIKE "%|'. $restrictions .'|%")';
-  }
   
   $qry = 'SELECT
             *
@@ -521,20 +515,75 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
     $activeItem = $params['activeItem'];
     
   // TODO: Metainfo Felder sind beim Add vorhanden und ggf. dann in der Kategorie nicht mehr editierbar
-  $catId = '';
-  if($prefix == 'med_')
+  $restrictionsCondition = '';
+  if($prefix == 'art_')
+  {
+    if($params['id'] != '')
+    {
+      $s = '';
+      $OOArt = OOArticle::getArticleById($params['id']);
+      
+      // Alle Metafelder des Pfades sind erlaubt
+      foreach(explode('|', $OOArt->getPath()) as $pathElement)
+      {
+        if($pathElement != '')
+        {
+          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+        }
+      }
+      
+      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+    }
+  }
+  else if($prefix == 'cat_')
+  {
+    if($params['id'] != '')
+    {
+      $s = '';
+      $OOCat = OOCategory::getCategoryById($params['id']);
+      
+      // Alle Metafelder des Pfades sind erlaubt
+      foreach(explode('|', $OOCat->getPath()) as $pathElement)
+      {
+        if($pathElement != '')
+        {
+          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+        }
+      }
+      
+      // Auch die Kategorie selbst kann Metafelder haben
+      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
+      
+      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+    }
+  }
+  else if($prefix == 'med_')
   {
     if($activeItem)
     {
-      $catId = $activeItem->getValue('category_id');
+      if($activeItem->getValue('category_id') != '')
+      {
+        $s = '';
+        $OOCat = OOMediaCategory::getCategoryById($activeItem->getValue('category_id'));
+        
+        // Alle Metafelder des Pfades sind erlaubt
+        foreach(explode('|', $OOCat->getPath()) as $pathElement)
+        {
+          if($pathElement != '')
+          {
+            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+          }
+        }
+        
+        // Auch die Kategorie selbst kann Metafelder haben
+        $s .= ' OR `p`.`restrictions` LIKE "%|'. $activeItem->getValue('category_id') .'|%"';
+        
+        $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      }
     }
   }
-  else
-  {
-    $catId = $params['id'];
-  }
   
-  $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $catId);
+  $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
 
   return rex_a62_metaFields($sqlFields, $activeItem, 'rex_a62_metainfo_form_item', $params);

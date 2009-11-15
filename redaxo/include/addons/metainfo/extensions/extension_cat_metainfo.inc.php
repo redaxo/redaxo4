@@ -20,14 +20,33 @@ function rex_a62_metainfo_button($params)
 {
 	global $REX, $I18N;
 	
-	$restrictions = '';
+	$restrictionsCondition = '';
 	if(isset($params['id']))
 	{
-	  $restrictions = $params['id'];
+    if($params['id'] != '')
+    {
+      $s = '';
+      $OOCat = OOCategory::getCategoryById($params['id']);
+      
+      // Alle Metafelder des Pfades sind erlaubt
+      foreach(explode('|', $OOCat->getPath()) as $pathElement)
+      {
+        if($pathElement != '')
+        {
+          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+        }
+      }
+      
+      // Auch die Kategorie selbst kann Metafelder haben
+      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
+      
+      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+    }
 	}
 
-	$fields = _rex_a62_metainfo_sqlfields('cat_', $restrictions);
-  if ($fields->getRows() >= 1)
+	
+	$fields = _rex_a62_metainfo_sqlfields('cat_', $restrictionsCondition);
+	if ($fields->getRows() >= 1)
   {
   	$return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
