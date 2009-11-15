@@ -537,9 +537,10 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   }
   else if($prefix == 'cat_')
   {
+    $s = '';
+    
     if($params['id'] != '')
     {
-      $s = '';
       $OOCat = OOCategory::getCategoryById($params['id']);
       
       // Alle Metafelder des Pfades sind erlaubt
@@ -554,8 +555,9 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       // Auch die Kategorie selbst kann Metafelder haben
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
       
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
     }
+    
+    $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
   }
   else if($prefix == 'med_')
   {

@@ -20,29 +20,25 @@ function rex_a62_metainfo_button($params)
 {
 	global $REX, $I18N;
 	
+  $s = '';
 	$restrictionsCondition = '';
-	if(isset($params['id']))
+	if(isset($params['id']) && $params['id'] != '')
 	{
-    if($params['id'] != '')
+    $OOCat = OOCategory::getCategoryById($params['id']);
+    
+    // Alle Metafelder des Pfades sind erlaubt
+    foreach(explode('|', $OOCat->getPath()) as $pathElement)
     {
-      $s = '';
-      $OOCat = OOCategory::getCategoryById($params['id']);
-      
-      // Alle Metafelder des Pfades sind erlaubt
-      foreach(explode('|', $OOCat->getPath()) as $pathElement)
+      if($pathElement != '')
       {
-        if($pathElement != '')
-        {
-          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
-        }
+        $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
       }
-      
-      // Auch die Kategorie selbst kann Metafelder haben
-      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
-      
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
     }
+    
+    // Auch die Kategorie selbst kann Metafelder haben
+    $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
 	}
+  $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
 
 	
 	$fields = _rex_a62_metainfo_sqlfields('cat_', $restrictionsCondition);
