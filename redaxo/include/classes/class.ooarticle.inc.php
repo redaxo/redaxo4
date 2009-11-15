@@ -150,6 +150,18 @@ class OOArticle extends OORedaxo
     return OOCategory :: getCategoryById($this->getCategoryId(), $this->getClang());
   }
 
+  /**
+   * Accessor Method:
+   * returns the path of the category/article
+   */
+  /*public*/ function getPath()
+  {
+      if($this->isStartArticle())
+        return $this->_path.$this->_id .'|';
+        
+      return $this->_path;
+  }
+
   /*
    * Static Method: Returns boolean if is article
    */
