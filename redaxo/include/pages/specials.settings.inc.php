@@ -259,14 +259,14 @@ echo '
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-startarticle-id">$REX[\'START_ARTICLE_ID\']</label>
-										<input class="rex-form-text" type="text" id="rex-form-startarticle-id" name="neu_startartikel" value="'.$REX['START_ARTICLE_ID'].'" />
+										'. rex_var_link::_getLinkButton('neu_startartikel', 1, $REX['START_ARTICLE_ID']) .'
 									</p>
 								</div>
 							
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-notfound-article-id">$REX[\'NOTFOUND_ARTICLE_ID\']</label>
-										<input class="rex-form-text" type="text" id="rex-form-notfound-article-id" name="neu_notfoundartikel" value="'.$REX['NOTFOUND_ARTICLE_ID'].'" />
+                    '. rex_var_link::_getLinkButton('neu_notfoundartikel', 2, $REX['NOTFOUND_ARTICLE_ID']) .'
 									</p>
 								</div>
 							

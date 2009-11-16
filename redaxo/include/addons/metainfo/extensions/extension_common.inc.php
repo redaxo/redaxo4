@@ -341,8 +341,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         if($activeItem)
           $category = $activeItem->getValue('category_id');
 
-        $field = rex_var_link::getLinkButton($link_id, $dbvalues_esc[0], $category);
-        $field = str_replace('LINK['. $link_id .']', $name, $field);
+        $field = rex_var_link::_getLinkButton($name, $link_id, $dbvalues_esc[0], $category);
         $id = 'LINK_'. $link_id;
 
         $link_id++;

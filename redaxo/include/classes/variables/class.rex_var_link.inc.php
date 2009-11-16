@@ -225,6 +225,13 @@ class rex_var_link extends rex_var
 
     return $content;
   }
+  
+  // TODO: passenden namen finden
+  function _getLinkButton($name, $linkId, $article_id, $category = '')
+  {
+    $field = rex_var_link::getLinkButton($linkId, $article_id, $category);
+    return str_replace('LINK['. $linkId .']', $name, $field);
+  }
 
   /**
    * Gibt das Button Template zurück
