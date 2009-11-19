@@ -73,6 +73,7 @@ function buildRelease($name = null, $version = null)
     './release.xml',
     './db-schema.png',
     './db-schema.xml',
+    './test',
     './files',
     './bin',
     './redaxo/include/generated',
