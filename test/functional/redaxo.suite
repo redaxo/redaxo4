@@ -18,6 +18,10 @@
 <tr><td><a href="module/module_update.test">module_update</a></td></tr>
 <tr><td><a href="module/module_update_apply.test">module_update_apply</a></td></tr>
 <tr><td><a href="module/module_delete.test">module_delete</a></td></tr>
+<tr><td><a href="action/action_add.test">action_add</a></td></tr>
+<tr><td><a href="action/action_update.test">action_update</a></td></tr>
+<tr><td><a href="action/action_update_apply.test">action_update_apply</a></td></tr>
+<tr><td><a href="action/action_delete.test">action_delete</a></td></tr>
 <tr><td><a href="structure/root_category_add.test">root_category_add</a></td></tr>
 <tr><td><a href="structure/root_category_publish.test">root_category_publish</a></td></tr>
 <tr><td><a href="structure/root_article_add.test">root_article_add</a></td></tr>
