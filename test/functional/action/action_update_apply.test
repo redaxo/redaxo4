@@ -17,6 +17,16 @@
 	<td></td>
 </tr>
 <tr>
+    <td>clickAndWait</td>
+    <td>link=[translate:modules]</td>
+    <td></td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>link=[translate:actions]</td>
+    <td></td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
 	<td>//a[contains(text(),'myNewActionUpdate')]</td>
 	<td></td>

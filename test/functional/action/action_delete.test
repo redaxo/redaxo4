@@ -17,9 +17,14 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>//div[@id='rex-navi-page']/ul/li[2]/a</td>
-	<td></td>
+    <td>clickAndWait</td>
+    <td>link=[translate:modules]</td>
+    <td></td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>link=[translate:actions]</td>
+    <td></td>
 </tr>
 <tr>
 	<td>click</td>
