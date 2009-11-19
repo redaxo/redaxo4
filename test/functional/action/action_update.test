@@ -34,7 +34,7 @@
 <tr>
 	<td>type</td>
 	<td>name</td>
-	<td>myNewActionuUpdate</td>
+	<td>myNewActionUpdate</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -48,7 +48,7 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>myNewActionuUpdate</td>
+	<td>myNewActionUpdate</td>
 	<td></td>
 </tr>
 

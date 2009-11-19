@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//a[contains(text(),'myNewActionuUpdate')]</td>
+	<td>//a[contains(text(),'myNewActionUpdate')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -43,7 +43,7 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>	myNewAction</td>
+	<td>myNewAction</td>
 	<td></td>
 </tr>
 

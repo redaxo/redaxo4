@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/redaxo_trunk/redaxo/index.php?page=module&amp;subpage=actions</td>
+	<td>/redaxo_trunk/redaxo/index.php</td>
 	<td></td>
 </tr>
 <tr>
