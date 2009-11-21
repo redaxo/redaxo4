@@ -70,8 +70,6 @@ class rex_a62_tableExpander extends rex_form
     $select->setSize(1);
 
     $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
-    if($this->metaPrefix == 'med_')
-       $qry .= ' WHERE label NOT LIKE "REX_MEDIA%"';
     $select->addSqlOptions($qry);
 
     $notices = '';
