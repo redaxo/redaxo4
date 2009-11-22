@@ -7,7 +7,7 @@
 // php5 noetig, wg simple_xml
 if(version_compare(phpversion(), $needed = '5.0.0', '<') == 1)
 {
-  echo 'Requires PHP < '. $needed;
+  echo 'Requires PHP >= '. $needed;
   exit();
 }
 
