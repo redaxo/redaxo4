@@ -2,38 +2,53 @@
 
 class rex_xform_validate_abstract
 {
-	var $xaObjects = array();
 	var $params = array();
+	var $obj;
+	var $elements;
+  var $obj_array;
+	
+	// deprecated
+	var $xaObjects = array();
 	var $xaElements = array();
 	var $Objects; // die verschiedenen Value Objekte
 	
 	function loadParams(&$params, &$elements)
 	{
 		$this->params = &$params;
+	  $this->elements = $elements;
+
+	  // deprecated
 		$this->xaElements = $elements;
 	}
 	
 	function setObjects($Objects)
 	{
-		$this->Objects = $Objects; 
-	
-		$xatmpObjects = explode(",", $this->xaElements[2]);
+
+		$this->obj = $Objects;
+		$tmp_Objects = explode(",", $this->elements[2]);
 		
-		foreach($xatmpObjects as $xatmpObject)
+		foreach($tmp_Objects as $tmp_Object)
 		{
-			$xbFoundObject=false;
+			$tmp_FoundObject=false;
 			foreach($Objects as $Object)
 			{
-				if(strcmp($Object->getDatabasefieldname(),trim($xatmpObject))==0)
+				if(strcmp($Object->getDatabasefieldname(),trim($tmp_Object))==0)
 				{
+					$this->obj_array[] = &$Object;
+					$tmp_FoundObject = true;
+					
+					// deprecated
 					$this->xaObjects[] = &$Object;
-					$xbFoundObject = true;
 					break;
 				}
 			}
-			if(!$xbFoundObject)
-				echo "FEHLER: Object ".$xatmpObject." nicht gefunden!";
+			if(!$tmp_FoundObject)
+				echo "FEHLER: Object ".$tmp_FoundObject." nicht gefunden!";
 		}
+		
+		// deprecated
+		$this->Objects = $Objects; 
+		
 	}
 	
 	function enterObject()

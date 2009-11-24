@@ -49,10 +49,24 @@ switch($subpage)
     break;
 	case 'generate':
     break;
-    
+	case '':
+	  $subpage = 'tables';
+		break;
   default:
   {
-	  $subpage = 'tables';
+  	$table = "";
+  	foreach($tables as $t)
+  		if($t["label"] == $subpage)
+  		  $table = $subpage;
+  	
+		if($table == "")
+			$subpage = "tables";
+		else
+			$subpage = "edit";  	
+		// $tables = rex_em_getTables();
+  		
+  		echo '<pre>';var_dump($tables);echo '</pre>';
+
   }
 }
 

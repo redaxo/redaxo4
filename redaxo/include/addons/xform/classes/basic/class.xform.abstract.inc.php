@@ -3,13 +3,14 @@
 class rex_xform_abstract
 {
 
-	var $id;
 	var $params = array(); // allgemeine parameter der
-	var $elements = array(); //
-	var $value;
-    var $label;
-    var $keys = array();
 	var $obj;
+	var $elements = array(); //
+
+	var $id;
+	var $value;
+  var $label;
+  var $keys = array();
 
 	// Position im Formular. Unique ID
 	function setId($id)
