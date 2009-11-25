@@ -29,7 +29,7 @@ class rex_form
 //    $debug = true;
 
     if(!in_array($method, array('post', 'get')))
-      trigger_error("rex_form: 3. Parameter darf nur die Werte 'post' oder 'get' annehmen!", E_USER_ERROR);
+      trigger_error("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!", E_USER_ERROR);
 
     $this->name = md5($tableName . $whereCondition . $method);
     $this->method = $method;
