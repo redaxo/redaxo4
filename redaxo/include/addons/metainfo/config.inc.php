@@ -26,8 +26,9 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_DATE',                 10);
   define('REX_A62_FIELD_DATETIME',             11);
   define('REX_A62_FIELD_LEGEND',               12);
+  define('REX_A62_FIELD_TIME',                 13);
   
-  define('REX_A62_FIELD_COUNT',                12);
+  define('REX_A62_FIELD_COUNT',                13);
 }
 
 $REX['ADDON']['rxid'][$mypage] = '62';
