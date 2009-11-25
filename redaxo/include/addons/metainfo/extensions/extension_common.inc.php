@@ -84,12 +84,19 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $labelIt = true;
 
     $field = '';
+    
     switch($typeLabel)
     {
       case 'text':
       {
         $tag_attr = ' class="rex-form-text"';
-        $field = '<input class="rex-form-text" type="'. $typeLabel .'" name="'. $name .'" value="'. $dbvalues_esc[0] .'" id="'. $id .'" maxlength="'. $dblength .'" '. $attr .' />';
+        
+        $rexInput = rex_input::factory($typeLabel);
+        $rexInput->setAttribute('id', $id);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setAttribute('maxlength', $dblength);
+        $rexInput->setValue($dbvalues_esc[0]);
+        $field = $rexInput->getHtml();
         break;
       }
       case 'checkbox':
@@ -227,66 +234,32 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $select->addOptions($values);
         }
 
-
         $field .= $select->get();
         break;
       }
-      case 'datetime':
       case 'date':
+      case 'time':
+      case 'datetime':
       {
         $tag_attr = ' class="rex-form-select-date"';
         
         $active = $dbvalues_esc[0] != 0;
         if($dbvalues_esc[0] == '')
           $dbvalues_esc[0] = time();
+          
+        $inputValue = array();
+        $inputValue['year'] = date('Y', $dbvalues_esc[0]);
+        $inputValue['month'] = date('m', $dbvalues_esc[0]);
+        $inputValue['day'] = date('j', $dbvalues_esc[0]);
+        $inputValue['hour'] = date('G', $dbvalues_esc[0]);
+        $inputValue['minute'] = date('i', $dbvalues_esc[0]);
 
-        $style = 'class="rex-form-select-date"';
-        $yearStyle = 'class="rex-form-select-year"';
-
-        $yearSelect = new rex_select();
-        $yearSelect->addOptions(range(2005,date('Y')+10), true);
-        $yearSelect->setName($name.'[year]');
-        $yearSelect->setSize(1);
-        $yearSelect->setId($id);
-        $yearSelect->setStyle($yearStyle);
-        $yearSelect->setSelected(date('Y', $dbvalues_esc[0]));
-
-        $monthSelect = new rex_select();
-        $monthSelect->addOptions(range(1,12), true);
-        $monthSelect->setName($name.'[month]');
-        $monthSelect->setSize(1);
-        $monthSelect->setStyle($style);
-        $monthSelect->setSelected(date('m', $dbvalues_esc[0]));
-
-        $daySelect = new rex_select();
-        $daySelect->addOptions(range(1,31), true);
-        $daySelect->setName($name.'[day]');
-        $daySelect->setSize(1);
-        $daySelect->setStyle($style);
-        $daySelect->setSelected(date('j', $dbvalues_esc[0]));
-
-        if($typeLabel == 'datetime')
-        {
-          $hourSelect = new rex_select();
-          $hourSelect->addOptions(range(0,23), true);
-          $hourSelect->setName($name.'[hour]');
-          $hourSelect->setSize(1);
-          $hourSelect->setStyle($style);
-          $hourSelect->setSelected(date('G', $dbvalues_esc[0]));
-
-          $minuteSelect = new rex_select();
-          $minuteSelect->addOptions(range(0,59), true);
-          $minuteSelect->setName($name.'[minute]');
-          $minuteSelect->setSize(1);
-          $minuteSelect->setStyle($style);
-          $minuteSelect->setSelected(date('i', $dbvalues_esc[0]));
-
-          $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get() .'-'. $hourSelect->get() . $minuteSelect->get();
-        }
-        else
-        {
-          $field = $daySelect->get() . $monthSelect->get() . $yearSelect->get();
-        }
+        $rexInput = rex_input::factory($typeLabel);
+        $rexInput->setAttribute('id', $id);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setValue($inputValue);
+        $field = $rexInput->getHtml();
+        
         $checked = $active ? ' checked="checked"' : '';
         $field .= '<input class="rex-form-select-checkbox rex-metainfo-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked .' />';
         break;
@@ -295,7 +268,13 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         $tag_attr = ' class="rex-form-textarea"';
         
-        $field = '<textarea class="rex-form-textarea" name="'. $name .'" id="'. $id .'" cols="50" rows="6" '. $attr .'>'. $dbvalues_esc[0] .'</textarea>';
+        $rexInput = rex_input::factory($typeLabel);
+        $rexInput->setAttribute('id', $id);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setAttribute('maxlength', $dblength);
+        $rexInput->setValue($dbvalues_esc[0]);
+        $field = $rexInput->getHtml();
+        
         break;
       }
       case 'legend':
@@ -312,10 +291,13 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag = 'div';
         $tag_attr = ' class="rex-form-widget"';
 
-        $field = rex_var_media::getMediaButton($media_id);
-        $field = str_replace('REX_MEDIA['. $media_id .']', $dbvalues_esc[0], $field);
-        $field = str_replace('MEDIA['. $media_id .']', $name, $field);
-        $id = 'REX_MEDIA_'. $media_id;
+        $rexInput = rex_input::factory('mediabutton');
+        $rexInput->setButtonId($media_id);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setValue($dbvalues_esc[0]);
+        $id = $rexInput->getAttribute('id');
+        $field = $rexInput->getHtml();
+        
         $media_id++;
         break;
       }
@@ -325,10 +307,13 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-widget"';
 
         $name .= '[]';
-        $field = rex_var_media::getMediaListButton($mlist_id, implode(',',$dbvalues_esc));
-        $field = str_replace('MEDIALIST['. $mlist_id .']', $name, $field);
-        $id = 'REX_MEDIALIST_'. $mlist_id;
-
+        $rexInput = rex_input::factory('medialistbutton');
+        $rexInput->setButtonId($mlist_id);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setValue(implode(',', $dbvalues_esc));
+        $id = $rexInput->getAttribute('id');
+        $field = $rexInput->getHtml();
+        
         $mlist_id++;
         break;
       }
@@ -341,9 +326,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         if($activeItem)
           $category = $activeItem->getValue('category_id');
 
-        $field = rex_var_link::_getLinkButton($name, $link_id, $dbvalues_esc[0], $category);
-        $id = 'LINK_'. $link_id;
-
+        $rexInput = rex_input::factory('linkbutton');
+        $rexInput->setButtonId($link_id);
+        $rexInput->setMediaCategoryId($category);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setValue($dbvalues_esc[0]);
+        $id = $rexInput->getAttribute('id');
+        $field = $rexInput->getHtml();
+        
         $link_id++;
         break;
       }
@@ -357,9 +347,13 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $category = $activeItem->getValue('category_id');
 
         $name .= '[]';
-        $field = rex_var_link::getLinklistButton($llist_id, implode(',',$dbvalues), $category);
-        $field = str_replace('LINKLIST['. $llist_id .']', $name, $field);
-        $id = 'REX_LINKLIST_'. $llist_id;
+        $rexInput = rex_input::factory('linklistbutton');
+        $rexInput->setButtonId($llist_id);
+        $rexInput->setMediaCategoryId($category);
+        $rexInput->setAttribute('name', $name);
+        $rexInput->setValue(implode(',',$dbvalues));
+        $id = $rexInput->getAttribute('id');
+        $field = $rexInput->getHtml();
 
         $llist_id++;
         break;
@@ -420,6 +414,8 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
       unset($attrArray['perm']);
     }
     
+    var_dump($postValue);
+    
     // handle date types with timestamps
     if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
@@ -433,6 +429,14 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     {
       if(isset($postValue['active']))
         $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+      else
+        $saveValue = 0;
+    }
+    // handle time types
+    elseif(isset($postValue['hour']) && isset($postValue['minute']))
+    {
+      if(isset($postValue['active']))
+        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,0,0,0);
       else
         $saveValue = 0;
     }

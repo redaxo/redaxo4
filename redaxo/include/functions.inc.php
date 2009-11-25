@@ -52,6 +52,18 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_select.inc.php';
 
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_input.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_text.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_textarea.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_mediabutton.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_medialistbutton.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_linkbutton.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_linklistbutton.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_date.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_time.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_datetime.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/input/class.rex_input_select.inc.php';
+
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
 foreach($REX['VARIABLES'] as $key => $value)
 {
