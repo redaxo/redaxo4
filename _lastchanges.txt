@@ -27,6 +27,8 @@ Version 4.3 (2009-xx-xx)
     - ART_CONTENT_UPDATED [Jan.Kristinus]
   * neue Extension Point Parameter:
     - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
+  * neue Addons:
+    - Cronjob Addon [Gregor.Harlan]
   
   Bugfixes:
   * Probleme mit Image-Resize auf manchen Servern behoben
