@@ -50,29 +50,68 @@ function rex_em_generateAll()
 	{
     $name = $table['name'];
     $id = $table['id'];
-		
+		$tablename = 'rex_em_data_'.$table['label'];
+    
     $fields = rex_em_getFields($table['id']);
 		
-    echo "<h1>".$table['name']." / ".$table['id']."</h1>";
+    echo "<h1>".$table['name']." / ".$table['label']." / ".$table['id']."</h1>";
     
-    // TODO: Table schon vorhanden ?, wenn nein, dann anlegen
+    // Table schon vorhanden ?, wenn nein, dann anlegen
 
-    // TODO: Felder merken und eventuell loeschen
+    $c = rex_sql::factory();
+    $c->debugsql = 1;
+    $c->setQuery('CREATE TABLE IF NOT EXISTS `'.$tablename.'` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY )');
+    
+    // Felder merken und eventuell loeschen
+    $c->setQuery('SHOW COLUMNS FROM `'.$tablename.'`');
+		$saved_columns = $c->getArray();
+
+		// echo '<pre>'; var_dump($saved_columns); echo '</pre>';
     
     echo '<ul>';
     foreach($fields as $field)
     {
     	$type_name = $field["type_name"];
     	$type_id = $field["type_id"];
-
-    	echo '<li>'.$field["type_name"].$field["type_id"].'</li>';
-    	echo '<pre>'; var_dump($types[$type_id][$type_name]); echo '</pre>';
     	
+    	if($type_id == "value")
+    	{
+    	
+				$type_label = $field["f1"];
+    		$dbtype = $types[$type_id][$type_name]['dbtype'];
+				
+    		echo '<li>'.$field["type_name"]."-".$field["type_id"]."-".$field["f1"].'</li>';
+				// echo '<pre>'; var_dump($field); echo '</pre>';
+    		
+    		// Column schon vorhanden ?
+    		$add_column = TRUE;
+    		foreach($saved_columns as $uu => $vv)
+    		{
+					if ($vv["Field"] == $type_label)
+					{
+    				$add_column = FALSE;
+    				unset($saved_columns[$uu]);
+    				break;
+					}
+    		}
+					
+    		if($add_column)
+    			$c->setQuery('ALTER TABLE `'.$tablename.'` ADD `'.$type_label.'` '.$dbtype);
+    		
+    	}
+
     }
 		echo '</ul>';
 		
-		
-		
+		// Lšschen von Spalten ohne Zuweisung
+		foreach($saved_columns as $uu => $vv)
+		{
+			if ($vv["Field"] != "id")
+			{
+				$c->setQuery('ALTER TABLE `'.$tablename.'` DROP `'.$vv["Field"].'` ');
+			}
+		}
+		// echo '<pre>'; var_dump($saved_columns); echo '</pre>';
 	}
 }
 
