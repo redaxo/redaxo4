@@ -53,7 +53,7 @@ class rex_a630_cronjob
   
   function executePhpCode($code)
   {
-    $code = preg_replace('/^\<\?php/','',$code);
+    $code = preg_replace('/^\<\?(php)?/','',$code);
     $success = eval($code) !== false;
     return $success;
   }
