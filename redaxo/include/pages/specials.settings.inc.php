@@ -95,6 +95,16 @@ elseif ($func == 'updateinfos')
   $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
 }
 
+$sel_template = new rex_select();
+$sel_template->setStyle('class="rex-form-select"');
+$sel_template->setName('neu_defaulttemplateid');
+$sel_template->setId('rex-form-default-template-id');
+$sel_template->setSize(1);
+$sel_template->setSelected($REX['DEFAULT_TEMPLATE_ID']);
+
+$sel_template->addOption($I18N->msg('option_no_template'), 0);
+$sel_template->addSqlOptions('SELECT name, id FROM '.$REX['TABLE_PREFIX'].'template WHERE active=1');
+
 $sel_lang = new rex_select();
 $sel_lang->setStyle('class="rex-form-select"');
 $sel_lang->setName('neu_lang');
@@ -271,9 +281,9 @@ echo '
 								</div>
 							
 								<div class="rex-form-row">
-									<p class="rex-form-col-a rex-form-text">
+									<p class="rex-form-col-a rex-form-select">
 										<label for="rex-form-default-template-id">$REX[\'DEFAULT_TEMPLATE_ID\']</label>
-										<input class="rex-form-text" type="text" id="rex-form-default-template-id" name="neu_defaulttemplateid" value="'.$REX['DEFAULT_TEMPLATE_ID'].'" />
+										'. $sel_template->get() .'
 									</p>
 								</div>
 							
