@@ -16,7 +16,7 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("im_export_importexport");
 	$REX['ADDON']['perm'][$mypage] = 'import_export[export]';
 	$REX['ADDON']['version'][$mypage] = "1.3";
-	$REX['ADDON']['author'][$mypage] = "Jan Kristinus";
+	$REX['ADDON']['author'][$mypage] = "Jan Kristinus, Markus Staab";
 	$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 	
 	$REX['PERM'][] = 'import_export[export]';
