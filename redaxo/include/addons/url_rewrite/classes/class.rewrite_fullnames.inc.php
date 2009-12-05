@@ -155,12 +155,19 @@ class myUrlRewriter extends rexUrlRewriter
         ksort($levenshtein);
         $best = explode('#', array_shift($levenshtein));
         
-        $this->setArticleId($best[0]);
+        $article_id = $best[0];
         $clang = $best[1];
+      
+      }elseif($article_id == -1)
+      {
+      	
+        // Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
+        
+      	if(rex_request("article_id","int",0)>0)
+        	$article_id = $REX['ARTICLE_ID'];
+        else
+			    $article_id = $REX['NOTFOUND_ARTICLE_ID'];
       }
-  
-      if ($article_id == -1)
-      	$article_id = $REX['NOTFOUND_ARTICLE_ID'];
       
       $this->setArticleId($article_id,$clang);
     }
