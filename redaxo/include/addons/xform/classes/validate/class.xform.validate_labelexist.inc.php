@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 class rex_xform_validate_labelexist extends rex_xform_validate_abstract 
 {
@@ -12,7 +12,7 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 			if(!isset($this->xaElements[3]) || $this->xaElements[3] == "")
 				$minamount = 1;
 			else
-				$minamount = (int) $this->xaElements[4];
+				$minamount = (int) $this->xaElements[3];
 
 			if(!isset($this->xaElements[4]) || $this->xaElements[4] == "")
 				$maxamount = 1000;
