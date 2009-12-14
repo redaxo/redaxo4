@@ -90,7 +90,7 @@ if($func == "choosenadd")
 				if(isset($types['validate']))
 				foreach($types['validate'] as $k => $v)
 				{
-					echo '<p class="rex-button">"<a href="'.$link.'type_id=validate&type_name='.$k.'">'.$k.'</a>" - '.$v['description'].'</p>';
+					echo '<p class="rex-button"><a class="rex-button" href="'.$link.'type_id=validate&type_name='.$k.'">'.$k.'</a> '.$v['description'].'</p>';
 				}
 				
 				?></p>
@@ -137,22 +137,20 @@ if(
 	
 	echo '-> '.$type_name;
 	
-	// ***** Allgemeine BE Felder reinlegen
-	$form_data = "\n".'hidden|page|'.$page.'|REQUEST|no_db'."\n";
-	$form_data.= 'hidden|subpage|'.$subpage.'|REQUEST|no_db'."\n";
-  $form_data.= 'hidden|table_id|'.$table_id.'|REQUEST|'."\n";
-  $form_data.= 'hidden|type_name|'.$type_name.'|REQUEST|'."\n";
-  $form_data.= 'hidden|type_id|'.$type_id.'|REQUEST|'."\n";
-  $form_data.= 'hidden|func|'.$func.'|REQUEST|no_db';
+	$xform = new rex_xform;
+  $xform->setDebug(TRUE);
   
-  /*
-	echo '<pre>';
-	var_dump($types[$type_id][$type_name]['values']);
-	echo '</pre>';
-  */
- 
-  $form_data .= "\ntext|prio|Prioritaet"; // .$v[0];
-	
+  $xform->setHiddenField("page",$page);
+  $xform->setHiddenField("subpage",$subpage);
+  $xform->setHiddenField("func",$func);
+  
+  $xform->setValueField("hidden",array("table_id",$table_id,"REQUEST"));
+  $xform->setValueField("hidden", array("type_name",$type_name,"REQUEST"));
+  $xform->setValueField("hidden", array("type_id",$type_id,"REQUEST"));
+  
+  $xform->setValueField("text",array("prio","Prioritaet"));
+  
+  
 	$i = 0;
 	foreach($types[$type_id][$type_name]['values'] as $v)
 	{
@@ -160,65 +158,63 @@ if(
 
 		switch($v['type'])
 		{
+			case("getlabel"):
+				$xform->setValueField("text",array("f".$i,$v['name'])); 
+				break;
+			
 			
 			case("label"):
 
 				if($func == "edit" )
 				{
-          $form_data .= "\nshowvalue|f".$i."|Label"; // .$v[0];
+					$xform->setValueField("showvalue",array("f".$i,"Label"));
 				}else
 				{
-          $form_data .= "\ntext|f".$i."|Label"; // .$v[0];
-          $form_data .= "\nvalidate|notEmpty|f".$i."|Bitte tragen Sie das Label ein"; // nicht leer
-          // Validate, das richtige Labelform
-          $form_data .= "\nvalidate|preg_match|f".$i.'|/[a-z_]*/i|Bitte tragen Sie beim Label nur Buchstaben ein'; // nach Buchstaben und _
-          // Validate, dass nicht schon in Tabelle vorhanden ist.
-          $form_data .= "\n".'validate|customfunction|f'.$i.'|rex_em_checkField|'.$table_id.'|Dieses Label ist bereits vorhanden|';
+					$xform->setValueField("text",array("f".$i,"Label"));
+					$xform->setValidateField("notEmpty",array("f".$i,"Bitte tragen Sie das Label ein"));					
+					$xform->setValidateField("preg_match",array("f".$i,"/[a-z_]*/i","Bitte tragen Sie beim Label nur Buchstaben ein"));					
+					$xform->setValidateField("customfunction",array("f".$i,"rex_em_checkField",$table_id,"Dieses Label ist bereits vorhanden"));					
 				}
-        
 				break;
 			
       case("no_db"):
-        $form_data .= "\ncheckbox|f".$i."|Nicht in Datenbank speichern"."|no_db|".$v['default'];
-        
+				$xform->setValueField("checkbox",array("f".$i,"Nicht in Datenbank speichern","no_db",$v['default']));
         break;
 
       case("boolean"):
-        $form_data .= "\ncheckbox|f".$i."|".$v['name']."|";    // checkbox|check_design|Bezeichnung|Value|1/0|[no_db]
+      	// checkbox|check_design|Bezeichnung|Value|1/0|[no_db]
+				$xform->setValueField("checkbox",array("f".$i,$v['name'])); 
       	break;
         
 			default:
-        $form_data .= "\ntext|f".$i."|".$v['name'];
+				$xform->setValueField("text",array("f".$i,$v['name'])); 
 				
 		}
 		
 	}
 
-	// $form_data.= "\n".'text|name|Name|';
-	// $form_data.= "\n".'textarea|description|Beschreibung|';
-	// $form_data.= "\n".'validate|empty|name|Bitte den Namen eingeben';
-
-	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
-
-	$xform = new rex_xform;
-  $xform->setDebug(TRUE);
-	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p>Vielen Dank für die Eintragung</p>',"",),);
+	$xform->setActionField("showtext",array("","<p>Vielen Dank für die Eintragung</p>"));	
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 	
 	if($func == "edit")
 	{
-		$form_data .= "\n".'hidden|field_id|'.$field_id.'|REQUEST|no_db';
-		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table,"id=$field_id"),);
-
+		$xform->setHiddenField("field_id",$field_id);
+		$xform->setActionField("db",array($table,"id=$field_id"));	
 		$xform->setObjectparams("main_id",$field_id);
 		$xform->setObjectparams("main_where","id=$field_id");
 		$xform->setGetdata(true); // Datein vorher auslesen
 	}elseif($func == "add")
 	{
-		$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db",$table),);
+		$xform->setActionField("db",array($table));
 	}
-
-	$xform->setFormData($form_data);
+	
+	if($type_id == "value")
+	{
+		$xform->setValueField("checkbox",array("inlist","In der Liste anzeigen","",0));
+	}else	if($type_id == "validate")
+	{
+		$xform->setValueField("hidden",array("inlist",0));
+	}
 	echo $xform->getForm();
 
 	echo '</div></div>';

@@ -54,12 +54,12 @@ function rex_em_generateAll()
     
     $fields = rex_em_getFields($table['id']);
 		
-    echo "<h1>".$table['name']." / ".$table['label']." / ".$table['id']."</h1>";
+    // echo "<h1>".$table['name']." / ".$table['label']." / ".$table['id']."</h1>";
     
     // Table schon vorhanden ?, wenn nein, dann anlegen
 
     $c = rex_sql::factory();
-    $c->debugsql = 1;
+    // $c->debugsql = 1;
     $c->setQuery('CREATE TABLE IF NOT EXISTS `'.$tablename.'` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY )');
     
     // Felder merken und eventuell loeschen
@@ -68,7 +68,7 @@ function rex_em_generateAll()
 
 		// echo '<pre>'; var_dump($saved_columns); echo '</pre>';
     
-    echo '<ul>';
+    // echo '<ul>';
     foreach($fields as $field)
     {
     	$type_name = $field["type_name"];
@@ -80,7 +80,7 @@ function rex_em_generateAll()
 				$type_label = $field["f1"];
     		$dbtype = $types[$type_id][$type_name]['dbtype'];
 				
-    		echo '<li>'.$field["type_name"]."-".$field["type_id"]."-".$field["f1"].'</li>';
+    		// echo '<li>'.$field["type_name"]."-".$field["type_id"]."-".$field["f1"].'</li>';
 				// echo '<pre>'; var_dump($field); echo '</pre>';
     		
     		// Column schon vorhanden ?
@@ -101,7 +101,7 @@ function rex_em_generateAll()
     	}
 
     }
-		echo '</ul>';
+		// echo '</ul>';
 		
 		// Lšschen von Spalten ohne Zuweisung
 		foreach($saved_columns as $uu => $vv)

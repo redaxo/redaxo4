@@ -16,6 +16,8 @@ $subpage = rex_request('subpage', 'string');
 
 rex_title($I18N->msg("editme"),$REX['ADDON'][$page]['SUBPAGES']);
 
+$tables = rex_em_getTables();
+
 ?>
 <style>
 body#rex-page-editme div.rex-form, 
@@ -46,11 +48,11 @@ body#rex-page-editme table.rex-table {
 switch($subpage)
 {
   case 'field':
-    break;
-	case 'generate':
+  	require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
     break;
 	case '':
 	  $subpage = 'tables';
+	  require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
 		break;
   default:
   {
@@ -60,17 +62,21 @@ switch($subpage)
   		  $table = $subpage;
   	
 		if($table == "")
+		{
 			$subpage = "tables";
+			require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+	  }
 		else
-			$subpage = "edit";  	
-		// $tables = rex_em_getTables();
-  		
-  		echo '<pre>';var_dump($tables);echo '</pre>';
+			require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
+
+			// $tables = rex_em_getTables();
+  		// echo '<pre>';var_dump($tables);echo '</pre>';
+  	
 
   }
 }
 
-require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+
 
 
 ?>

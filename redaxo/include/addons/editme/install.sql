@@ -16,6 +16,8 @@ CREATE TABLE `rex_em_field` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
+ALTER TABLE `rex_em_field` ADD `inlist` INT NOT NULL;
+
 CREATE TABLE `rex_em_table` (
   `id` int(11) NOT NULL auto_increment,
   `status` tinyint(4) NOT NULL,

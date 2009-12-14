@@ -22,7 +22,7 @@ if($REX["REDAXO"])
 	
 
 	// Credits
-	$REX['ADDON']['version']["editme"] = '0.2';
+	$REX['ADDON']['version']["editme"] = '0.5';
 	$REX['ADDON']['author']["editme"] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage']["editme"] = 'forum.redaxo.de';
 
@@ -37,17 +37,18 @@ if($REX["REDAXO"])
 
 	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
 	
-	$REX['ADDON']['editme']['SUBPAGES'] = array( );
-  $REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
-  $REX['ADDON']['editme']['SUBPAGES'][] = array( 'generate' , $I18N->msg("em_generate"));
+	$REX['ADDON']['editme']['SUBPAGES'] = array();
+	
+	if ($REX['USER'] && ($REX['USER']->isAdmin()))
+  	$REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
 	
   $tables = rex_em_getTables();
   foreach($tables as $table)
   {
   	
 		// Recht um das AddOn ueberhaupt einsehen zu koennen
-		$table_perm = 'editme['.$table["label"].']';
-		$REX['EXTRAPERM'][] = $table_perm;
+		$table_perm = 'em['.$table["label"].']';
+		$REX['EXTPERM'][] = $table_perm;
 		
   	if($table["status"] == 1)
   	{

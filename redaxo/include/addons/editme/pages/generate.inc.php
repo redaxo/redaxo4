@@ -1,34 +1,23 @@
-<?php
-
-
-rex_em_generateAll();
-
-
-
-
-
-/*
-$msg = "Meine Meldung";
-
-if ($msg != '')
-	echo rex_warning($msg);
-*/
-
-
-?>
-
-<!-- 
 
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $I18N->msg('dummyaddon'); ?></h2>
+	<h2 class="rex-hl2"><?php echo $I18N->msg('em_table_generate'); ?></h2>
 
 	<div class="rex-addon-content">
-		<p class="rex-tx1">abc</p>
+		<p class="rex-tx1"><?php
+		
+echo rex_em_generateAll();
+		
+		?></p>
 		<p class="rex-tx1">def</p>
 	</div>
 
 </div>
 
+
+
+
+
+<!-- 
 
 <div class="rex-addon-output">
 	<div class="rex-area-col-2">
