@@ -1,9 +1,11 @@
+DROP TABLE IF EXISTS rex_em_field;
 CREATE TABLE `rex_em_field` (
   `id` int(11) NOT NULL auto_increment,
   `table_id` int(11) NOT NULL,
   `type_name` varchar(255) NOT NULL,
   `type_id` varchar(255) NOT NULL,
   `prio` varchar(255) NOT NULL,
+  `list_hidden` TINYINT NOT NULL,
   `f1` text NOT NULL,
   `f2` text NOT NULL,
   `f3` text NOT NULL,
@@ -16,8 +18,7 @@ CREATE TABLE `rex_em_field` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
-ALTER TABLE `rex_em_field` ADD `inlist` INT NOT NULL;
-
+DROP TABLE IF EXISTS rex_em_table;
 CREATE TABLE `rex_em_table` (
   `id` int(11) NOT NULL auto_increment,
   `status` tinyint(4) NOT NULL,

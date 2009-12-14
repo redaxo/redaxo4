@@ -210,10 +210,10 @@ if(
 	
 	if($type_id == "value")
 	{
-		$xform->setValueField("checkbox",array("inlist","In der Liste anzeigen","",0));
+		$xform->setValueField("checkbox",array("list_hidden","In Liste verstecken","",0));
 	}else	if($type_id == "validate")
 	{
-		$xform->setValueField("hidden",array("inlist",0));
+		$xform->setValueField("hidden",array("list_hidden",1));
 	}
 	echo $xform->getForm();
 

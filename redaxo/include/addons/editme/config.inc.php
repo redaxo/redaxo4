@@ -27,11 +27,11 @@ if($REX["REDAXO"])
 	$REX['ADDON']['supportpage']["editme"] = 'forum.redaxo.de';
 
 	// *************
-	// $REX['PERM'][] = 'editme[1]';
-	// $REX['PERM'][] = 'editme[2]';
+	// $REX['PERM'][] = 'em[1]';
+	// $REX['PERM'][] = 'em[2]';
 
 	// Fuer Benutzervewaltung
-	// $REX['EXTPERM'][] = 'editme[]';
+	// $REX['EXTPERM'][] = 'em[]';
 
 	// Linke Navigation
 
@@ -40,7 +40,7 @@ if($REX["REDAXO"])
 	$REX['ADDON']['editme']['SUBPAGES'] = array();
 	
 	if ($REX['USER'] && ($REX['USER']->isAdmin()))
-  	$REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
+  		$REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
 	
   $tables = rex_em_getTables();
   foreach($tables as $table)

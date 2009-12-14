@@ -19,7 +19,23 @@ foreach($tables as $table)
 	}
 
 }
+
+
+if($func == "delete")
+{
+  $query = 'delete from '.$table["tablename"].' where id='.$data_id;
+  $delsql = new rex_sql;
+  // $delsql->debugsql=1;
+  $delsql->setQuery($query);
+  $func = "";
+  echo rex_info("Datensatz wurde gel&ouml;scht");
 	
+	
+  $func = "";
+}
+
+
+$fields = rex_em_getFields($table['id']);
 	
 
 //------------------------------ Add und Edit
@@ -37,8 +53,6 @@ if($func == "add" || $func == "edit")
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
 
-	$fields = rex_em_getFields($table['id']);
-		
 	foreach($fields as $field)
 	{
 		$type_name = $field["type_name"];
@@ -94,7 +108,14 @@ if($func == "add" || $func == "edit")
 	$list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit"));
 	// $list->setColumnParams("login", array("table_id"=>"###id###","func"=>"edit"));
 
-	$list->removeColumn("id");
+	// $list->removeColumn("id");
+	
+	foreach($fields as $field)
+  {
+  	if($field["list_hidden"] == 1)
+  	 $list->removeColumn($field["f1"]);
+  }
+	
 	
 	$list->addColumn('editieren','editieren');
 	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit"));
