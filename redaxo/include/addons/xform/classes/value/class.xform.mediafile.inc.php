@@ -109,6 +109,32 @@ class rex_xform_mediafile extends rex_xform_abstract
 		return "mediafile -> Beispiel: mediafile|label|Bezeichnung|groesseinkb|endungenmitpunktmitkommasepariert|pflicht=1|Fehlermeldung|[no_db]|mediacatid";
 	}
 
+	
+	function getDefinitions()
+	{
+		/*
+		return array(
+						'type' => 'value',
+						'name' => 'mediafile',
+						'values' => array(
+             	array( 'type' => 'label',   'name' => 'Label' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+              array( 'type' => 'text',    'name' => 'Maximale Grš§e in Kb'),
+              array( 'type' => 'text',    'name' => 'Welche Dateien sollen erlaubt sein, kommaseparierte Liste. ".gif,.png"'),
+              array( 'type' => 'boolean', 'name' => 'Pflichtfeld'),
+              array( 'type' => 'text',    'name' => 'Fehlermeldung'),
+              
+						),
+						'description' => 'Mediafeld, welches Dateien aus dem Medienpool holen',
+						'dbtype' => 'text'
+			);
+		*/
+	}
+	
+	
+	
+	
+	
 
 	function postAction($email_elements,$sql_elements)
 	{

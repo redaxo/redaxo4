@@ -24,4 +24,20 @@ class rex_xform_validate_size extends rex_xform_validate_abstract
 	{
 		return "size -> Laenge der Eingabe muss gleich size sein, beispiel: validate|size|plz|6|warning_message";
 	}
+	
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'validate',
+						'name' => 'size',
+						'values' => array(
+             	array( 'type' => 'getlabel',   	'name' => 'Label' ),
+              array( 'type' => 'text',    		'name' => 'Anzahl der Stellen'),
+              array( 'type' => 'text',    		'name' => 'Fehlermeldung'),
+              ),
+						'description' => 'Hiermit wird ein Label ŸberprŸft ob es eine bestimmte Anzahl von Zeichen hat',
+			);
+	
+	}
+	
 }

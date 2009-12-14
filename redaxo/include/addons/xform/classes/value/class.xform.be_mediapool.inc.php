@@ -51,6 +51,23 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 	{
 		return "be_mediapool -> Beispiel: be_mediapool|label|Bezeichnung|defaultwert|no_db";
 	}
+	
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'value',
+						'name' => 'be_mediapool',
+						'values' => array(
+             	array( 'type' => 'label',   'name' => 'Label' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+              array( 'type' => 'text', 		'name' => 'Defaultwert'),
+						),
+						'description' => 'Mediafeld, welches eine Datei aus dem Medienpool holt',
+						'dbtype' => 'text'
+			);
+	}
+	
+	
 }
 
 ?>

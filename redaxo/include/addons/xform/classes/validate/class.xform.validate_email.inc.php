@@ -23,4 +23,19 @@ class rex_xform_validate_email extends rex_xform_validate_abstract
 	{
 		return "email -> prueft ob email korrekt ist. leere email ist auch korrekt, bitte zusaetzlich mit ifempty prŸfen, beispiel: validate|email|emaillabel|warning_message ";
 	}
+	
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'validate',
+						'name' => 'email',
+						'values' => array(
+             	array( 'type' => 'getlabel',   	'name' => 'Label' ),
+              array( 'type' => 'text',    		'name' => 'Fehlermeldung'),
+						),
+						'description' => 'Hiermit wird ein Label ŸberprŸft ob es eine E-Mail ist',
+			);
+	
+	}
+	
 }

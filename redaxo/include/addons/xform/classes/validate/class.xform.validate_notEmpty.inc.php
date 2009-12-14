@@ -27,5 +27,21 @@ class rex_xform_validate_notEmpty extends rex_xform_validate_abstract
 	{
 		return "notEmpty -> prüft ob leer, beispiel: validate|notEmpty|label|warning_message ";
 	}
+	
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'validate',
+						'name' => 'notEmpty',
+						'values' => array(
+             	array( 'type' => 'getlabel',   'name' => 'Label' ),
+              array( 'type' => 'text',    'name' => 'Fehlermeldung'),
+						),
+						'description' => 'Hiermit wird ein Label ŸberprŸft ob es gesetzt ist',
+			);
+	
+	}
+	
+	
 }
 ?>

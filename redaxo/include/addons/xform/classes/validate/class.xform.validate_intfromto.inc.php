@@ -34,5 +34,21 @@ class rex_xform_validate_intfromto extends rex_xform_validate_abstract
 	{
 		return "type -> prüft auf zahlengröße, größer from, kleiner to: validate|intfromto|label|from|to|warning_message";
 	}
+
+	function getDefinitions()
+	{
+		return array(
+						'type' => 'validate',
+						'name' => 'intfromto',
+						'values' => array(
+             	array( 'type' => 'getlabel',   	'name' => 'Label' ),
+              array( 'type' => 'text',    		'name' => 'Von'),
+              array( 'type' => 'text',    		'name' => 'Bis'),
+              array( 'type' => 'text',    		'name' => 'Fehlermeldung'),
+              ),
+						'description' => 'Hiermit wird ein Label ŸberprŸft ob es zwischen zwei Zahlen ist',
+			);
+	}
+	
+	
 }
-?>

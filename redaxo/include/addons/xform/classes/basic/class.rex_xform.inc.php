@@ -44,7 +44,7 @@ class rex_xform
 		$this->objparams["WRAP_BLOCK_END"] = '</div>';
 		$this->objparams["unique_error"] = "";
 		$this->objparams["unique_field_warning"] = "not unique"; // Fehlermeldung die erscheint, wenn ein Unique-Feld von einem anderen User benutzt wird.
-		$this->objparams["article_id"] = 1;
+		$this->objparams["article_id"] = 0;
 		$this->objparams["clang"] = 0;
 		
 		$this->objparams["form_method"] = "post";
@@ -82,7 +82,8 @@ class rex_xform
 		$this->objparams["form_data"] = str_replace("\n\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
 		$this->objparams["form_data"] = str_replace("\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
 
-		$this->objparams["form_elements"] = array();
+		if(!is_array($this->objparams["form_elements"]))
+			$this->objparams["form_elements"] = array();
 
 		$form_elements_tmp = array ();
 		$form_elements_tmp = explode("\n", $this->objparams['form_data']); // Die Definitionen
@@ -91,6 +92,38 @@ class rex_xform
 		foreach($form_elements_tmp as $form_element) 
 			if(trim($form_element)!="") $this->objparams["form_elements"][] = $form_element;
 		
+	}
+	
+	function setValueField($type = "",$values = array())
+	{
+		$t = "$type|";
+		foreach($values as $value)
+		{
+			$t .= "$value|";
+		}
+		$this->objparams["form_elements"][] = $t;
+	}
+	
+	
+	function setValidateField($type = "",$values = array())
+	{
+		$t = "validate|$type|";
+		foreach($values as $value)
+		{
+			$t .= "$value|";
+		}
+		$this->objparams["form_elements"][] = $t;
+	}
+	
+	
+	function setActionField($type = "",$values = array())
+	{
+		$t = "action|$type|";
+		foreach($values as $value)
+		{
+			$t .= "$value|";
+		}
+		$this->objparams["form_elements"][] = $t;
 	}
 
 	function setRedaxoVars($aid = "",$clang = "",$params = array())
@@ -101,9 +134,14 @@ class rex_xform
 			$clang = $REX["CUR_CLANG"];
 		if ($aid == "") 
 			$aid = $REX["ARTICLE_ID"];
-			
+		
+		// deprecated
 		$this->setObjectparams("article_id",$aid);
 		$this->setObjectparams("clang",$clang);
+
+		$this->setHiddenField("article_id",$aid);
+		$this->setHiddenField("clang",$clang);
+		
 		$this->setObjectparams("form_action", rex_getUrl($aid, $clang, $params));
 	}
 	
@@ -147,7 +185,7 @@ class rex_xform
 		$sql_elements = array(); // diese Werte werden beim DB Satz verwendet /update oder insert
 		$email_elements = array(); // hier werden Werte gesetzt die beim Mailversand ersetzt werden. z.B. passwort etc.
 
-
+		$obj = array();
 		
 		// ----- VALUE OBJEKTE
 		
@@ -450,8 +488,13 @@ class rex_xform
 			$this->objparams["output"] .= '" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
 			
 			$this->objparams["output"] .= '<p style="display:none;">';
-			$this->objparams["output"] .= '<input type="hidden" name="article_id" value="'.htmlspecialchars($this->objparams["article_id"]).'" />';
-			$this->objparams["output"] .= '<input type="hidden" name="clang" value="'.htmlspecialchars($this->objparams["clang"]).'" />';
+			
+			// deprecated
+			if($this->objparams["article_id"]>0)
+				$this->objparams["output"] .= '<input type="hidden" name="article_id" value="'.htmlspecialchars($this->objparams["article_id"]).'" />';
+			if($this->objparams["clang"]>0)
+				$this->objparams["output"] .= '<input type="hidden" name="clang" value="'.htmlspecialchars($this->objparams["clang"]).'" />';
+
 			$this->objparams["output"] .= '<input type="hidden" name="FORM[' . $this->objparams["form_name"] . '][' . $this->objparams["form_name"] . 'send]" value="1" />';
 			foreach($this->objparams["form_hiddenfields"] as $k => $v)
 				$this->objparams["output"] .= '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'" />';

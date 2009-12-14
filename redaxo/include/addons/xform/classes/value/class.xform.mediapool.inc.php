@@ -109,7 +109,24 @@ class rex_xform_mediapool extends rex_xform_abstract
 	}
 	
 	
-	
+	function getDefinitions()
+	{
+		/*
+		return array(
+						'type' => 'value',
+						'name' => 'mediapool',
+						'values' => array(
+             	array( 'type' => 'label',   'name' => 'Label' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+              array( 'type' => 'text', 'name' => 'Medienpoolkategorie ID'),
+              array( 'type' => 'text',    'name' => 'Maximale Grš§e in Kb'),
+              array( 'type' => 'text',    'name' => 'Welche Dateien sollen erlaubt sein, kommaseparierte Liste. ".gif,.png"'),
+						),
+						'description' => 'Datei kann hochgeladen werden und wird dann in den Medienpool gelegt',
+						'dbtype' => 'text'
+			);
+		*/
+	}
 	
 	
 	
