@@ -23,9 +23,9 @@ class rex_mailer extends PHPMailer
       $this->Mailer           = 'sendmail';
       $this->Host             = 'localhost';
       $this->CharSet          = 'iso-8859-1';
-      $this->WordWrap         = 75;
+      $this->WordWrap         = 120;
       $this->Encoding         = '8bit';
-      $this->Priority         = 5;
+      $this->Priority         = 3;
       $this->SMTPAuth         = false;
       $this->Username         = '';
       $this->Password         = '';
