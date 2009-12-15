@@ -178,7 +178,7 @@ if(
 				break;
 			
       case("no_db"):
-				$xform->setValueField("checkbox",array("f".$i,"Nicht in Datenbank speichern","no_db",$v['default']));
+				$xform->setValueField("checkbox",array("f".$i,"Nicht in Datenbank speichern",1,0));
         break;
 
       case("boolean"):
@@ -210,7 +210,7 @@ if(
 	
 	if($type_id == "value")
 	{
-		$xform->setValueField("checkbox",array("list_hidden","In Liste verstecken","",0));
+		$xform->setValueField("checkbox",array("list_hidden","In Liste verstecken",1,"0"));
 	}else	if($type_id == "validate")
 	{
 		$xform->setValueField("hidden",array("list_hidden",1));

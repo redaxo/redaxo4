@@ -48,7 +48,7 @@ if($func == "add" || $func == "edit")
 		echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
 		
 	$xform = new rex_xform;
-	$xform->setDebug(TRUE);
+	// $xform->setDebug(TRUE);
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
