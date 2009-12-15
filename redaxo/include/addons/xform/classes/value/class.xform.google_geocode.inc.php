@@ -6,20 +6,18 @@ class rex_xform_google_geocode extends rex_xform_abstract
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{	
 
-		$labels = explode(",",$this->elements[2]);
-
-		$label_lng = $labels[0];
+		$label_lng = $this->elements[2];
 		$label_lng_id = 0;
 
-		$label_lat = $labels[1];
+		$label_lat = $this->elements[3];
 		$label_lat_value = 0;
 
 
-		$google_key = "ABQIAAAA9X7aYuoSxHOtyCq4UchU-RQyipGq1b1Vxx1ZHLOcBEyNcCPR-RQvmOEddgXQfl-Xds-NLuqPv8OH1Q";	
-		if($this->elements[3] != "")
-			$google_key = $this->elements[3];
+		$google_key = "xxx";	
+		if($this->elements[4] != "")
+			$google_key = $this->elements[4];
 
-		$address = explode(",",$this->elements[4]);
+		$address = explode(",",$this->elements[5]);
 		
 		$label_ids = array();
 
@@ -36,8 +34,8 @@ class rex_xform_google_geocode extends rex_xform_abstract
 		// rex_com::debug($this->obj);
 	
 		if ($this->value == "" && !$send)
-			if (isset($this->elements[3])) 
-				$this->value = $this->elements[3];
+			if (isset($this->elements[4])) 
+				$this->value = $this->elements[4];
 
 		$wc = "";
 		if (isset($warning["el_" . $this->getId()])) 
@@ -125,7 +123,7 @@ class rex_xform_google_geocode extends rex_xform_abstract
 
 		$output = '
 			<div class="xform-element form_google_geocode formlabel-'.$this->label.'">
-				<label class="text '.$wc.'" for="el_'.$this->id.'_lat" >'.$this->elements[5].'</label>
+				<label class="text '.$wc.'" for="el_'.$this->id.'_lat" >'.$this->elements[6].'</label>
 				<p class="form_google_geocode">';
 		if ($vv != "")
 			$output .= '<a href="javascript:void(0);" onclick="getGGeo'.$this->id.'(); return false">Geodaten holen</a> | ';	
@@ -142,10 +140,29 @@ class rex_xform_google_geocode extends rex_xform_abstract
 	
 	function getDescription()
 	{
-		return "google_geocode -> Beispiel: 
-		google_geocode|gcode|pos_lng,pos_lat|ABQIAAAA9X7aYuoSxHOtyCq4UchU-RQyipGq1b1Vxx1ZHLOcBEyNcCPR-RQvmOEddgXQfl-Xds-NLuqPv8OH1Q|strasse,plz,ort|Google Map
+		return "google_geocode -> Beispiel: google_geocode|gcode|pos_lng|pos_lat|googlemapkey|strasse,plz,ort|Google Map
 		";
 	}
+	
+  function getDefinitions()
+  {
+    return array(
+            'type' => 'value',
+            'name' => 'google_geocode',
+            'values' => array(
+              array( 'type' => 'label',   'name' => 'Label' ),
+              array( 'type' => 'getlabel','name' => '"lng"-Label'),
+              array( 'type' => 'getlabel','name' => '"lat"-Label'),
+              array( 'type' => 'text',    'name' => 'GoogleMapKey'),
+              array( 'type' => 'getlabels','name' => 'Labels Positionsfindung'),
+              array( 'type' => 'text',     'name' => 'Bezeichnung'),
+            ),
+            'description' => 'GoogeMap Positionierung',
+            'dbtype' => 'text'
+      );
+  
+  }
+	
 }
 
 ?>

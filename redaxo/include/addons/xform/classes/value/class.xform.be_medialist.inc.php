@@ -96,6 +96,23 @@ class rex_xform_be_medialist extends rex_xform_abstract
 	{
 		return "be_medialist -> Beispiel: be_medialist|label|Bezeichnung|no_db";
 	}
+	
+  function getDefinitions()
+  {
+    return array(
+            'type' => 'value',
+            'name' => 'be_medialist',
+            'values' => array(
+              array( 'type' => 'label',   'name' => 'Label' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+            ),
+            'description' => 'Medialiste, welches Dateien aus dem Medienpool holt',
+            'dbtype' => 'text'
+      );
+  }
+	
+	
+	
 }
 
 ?>

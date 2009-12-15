@@ -106,7 +106,13 @@ class rex_xform_be_table extends rex_xform_abstract
 		$out_row_add .= '<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'(jQuery(\'#xform_table'.$id.'\'))">+ Reihe hinzufügen</a>';
 		
 		$out .= '<table id="xform_table'.$id.'"><tr>';
-		for($r=0;$r<$columns;$r++) $out .= '<th>'.$column_names[$r].'</th>';
+		for($r=0;$r<$columns;$r++)
+		{
+      $out .= '<th>';
+      if(isset($column_names[$r]))
+        $out .= $column_names[$r];
+      $out .= '</th>';
+		}
 		$out .= '</tr>';
 		
 		
@@ -144,8 +150,27 @@ class rex_xform_be_table extends rex_xform_abstract
 	
 	function getDescription()
 	{
-		return "be_table -> Beispiel: be_table|label|Beschreibung *|Anzahl Spalten|Menge,Preis/Stück";
+		return "be_table -> Beispiel: be_table|label|Bezeichnung|Anzahl Spalten|Menge,Preis/Stück";
 	}
+	
+  function getDefinitions()
+  {
+    return array(
+            'type' => 'value',
+            'name' => 'be_table',
+            'values' => array(
+              array( 'type' => 'label',   'name' => 'Label' ),
+              array( 'type' => 'text',    'name' => 'Bezeichnung'),
+              array( 'type' => 'text',    'name' => 'Anzahl Spalten'),
+              array( 'type' => 'text',    'name' => 'Bezeichnung der Spalten (Menge,Preis,Irgendwas)'),
+              ),
+            'description' => 'Eine Tabelle mit Infos',
+            'dbtype' => 'text'
+      );
+  }
+	
+	
+	
 }
 
 ?>

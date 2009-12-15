@@ -127,18 +127,13 @@ if(
 {
 	
 	
-	
-	
-	
-	
-	
-	echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_addfield").'</h3><div class="rex-area-content">';
-	
-	
-	echo '-> '.$type_name;
+	if($func == "add")
+	 echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+	else
+   echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 	
 	$xform = new rex_xform;
-  $xform->setDebug(TRUE);
+  // $xform->setDebug(TRUE);
   
   $xform->setHiddenField("page",$page);
   $xform->setHiddenField("subpage",$subpage);
@@ -158,11 +153,7 @@ if(
 
 		switch($v['type'])
 		{
-			case("getlabel"):
-				$xform->setValueField("text",array("f".$i,$v['name'])); 
-				break;
-			
-			
+
 			case("label"):
 
 				if($func == "edit" )
@@ -186,7 +177,13 @@ if(
 				$xform->setValueField("checkbox",array("f".$i,$v['name'])); 
       	break;
         
-			default:
+      case("getlabel"):
+      	// Todo:
+      	
+      case("getlabels"):
+        // Todo:
+
+      default:
 				$xform->setValueField("text",array("f".$i,$v['name'])); 
 				
 		}
