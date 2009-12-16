@@ -36,6 +36,7 @@ Version 4.3 (2009-xx-xx)
   * Category->getPath fehlte.. eingebaut
   * rex_parse_article_name() angepasst. '-' statt '+' als Trennzeichen. [Dave.Holloway]
   * Wenn gzip Auslieferung, dann gab es eine Notice wenn Browser das nicht unterstützt hatte [Andreas.Eberhardt]
+  * rex_article2startpage: Nicht alle relevanten Cache-Dateien wurden gelöscht [Gregor.Harlan]
   
   Deprecated:
   * rex_mediapool_addMediacatOptions()
