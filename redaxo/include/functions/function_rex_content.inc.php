@@ -271,6 +271,7 @@ function rex_article2startpage($neu_id){
   if ($alt->getRows()!=1) return false;
   $alt_path = $alt->getValue('path');
   $alt_id = $alt->getValue('id');
+  $parent_id = $alt->getValue('re_id');
 
   // cat felder sammeln. +
   $params = array('path','prior','catname','startpage','catprior','status');
@@ -335,6 +336,7 @@ function rex_article2startpage($neu_id){
 
   $GAID[$neu_id] = $neu_id;
   $GAID[$alt_id] = $alt_id;
+  $GAID[$parent_id] = $parent_id;
 
   foreach($GAID as $gid)
   {
