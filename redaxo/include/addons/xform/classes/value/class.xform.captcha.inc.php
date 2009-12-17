@@ -16,12 +16,12 @@ class rex_xform_captcha extends rex_xform_abstract
 
 			ob_end_clean();
 			ob_end_clean();
-			$server = &new captcha_x ();
+			$server = new captcha_x ();
 			$server->handle_request ();
 			exit;
 		}
 
-		$captcha = &new captcha_x ();
+		$captcha = new captcha_x ();
 		
 		$wc = "";
 		if ( $send == 1 & $captcha->validate($this->value)) 
