@@ -5,6 +5,8 @@
 
 $func = rex_request("func","string","");
 $data_id = rex_request("data_id","int","");
+$popup = rex_request("popup","int",0);
+
 
 foreach($tables as $table)
 {
@@ -52,7 +54,8 @@ if($func == "add" || $func == "edit")
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
-
+	$xform->setHiddenField("popup",$popup);
+	
 	foreach($fields as $field)
 	{
 		$type_name = $field["type_name"];
@@ -123,10 +126,41 @@ if($func == "add" || $func == "edit")
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
 	$list->setColumnParams("l&ouml;schen", array("data_id"=>"###id###","func"=>"delete"));
 
+	if($popup)
+	{
+		$list->addColumn('Ÿbernehmen','Ÿbernehmen');
+		$list->setColumnParams("Ÿbernehmen", array("data_id"=>"###id###","func"=>"delete"));
+	}
+	
 	echo $list->get();
 	
 }
 
+
+if($popup == 1)
+{
+?>
+
+<style>
+
+
+#rex-footer,
+#rex-navi-logout,
+#rex-title,
+#rex-navi-main {
+display:none;
+}
+
+#rex-page-editme #rex-website {
+width:780px;
+}
+
+
+</style>
+
+
+<?php
+}
 
 
 

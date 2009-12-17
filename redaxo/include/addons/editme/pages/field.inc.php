@@ -176,7 +176,18 @@ if(
       	// checkbox|check_design|Bezeichnung|Value|1/0|[no_db]
 				$xform->setValueField("checkbox",array("f".$i,$v['name'])); 
       	break;
-        
+
+      case("select"):
+      	// select|gender|Geschlecht *|Frau=w;Herr=m|[no_db]|defaultwert|multiple=1
+				$xform->setValueField("select",array("f".$i,$v['name'],$v['definition'],"",$v['default'],0)); 
+      	break;
+      	
+      case("table.field"):
+      	// Todo:
+      	
+      case("table"):
+      	// Todo:
+      	
       case("getlabel"):
       	// Todo:
       	
