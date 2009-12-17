@@ -11,19 +11,21 @@ class rex_xform_captcha extends rex_xform_abstract
 		
 		require_once (realpath(dirname (__FILE__).'/../../ext/captcha/class.captcha_x.php'));
 
-		if (isset($_REQUEST["captcha"]) && $_REQUEST["captcha"] == "show")
+    $captcha = new captcha_x ();
+		$captchaRequest = rex_request('captcha', 'string');
+		
+		if ($captchaRequest == "show")
 		{
-
-			ob_end_clean();
-			ob_end_clean();
-			$server = new captcha_x ();
-			$server->handle_request ();
+      // alle offenen buffer schliessen
+			while(ob_end_clean());
+			
+			$captcha->handle_request();
 			exit;
 		}
 
-		$captcha = new captcha_x ();
-		
 		$wc = "";
+		// TODO jan ?!?!
+		// hier bewusst nur ein "&" (konditionales und, kein boolsches und!)
 		if ( $send == 1 & $captcha->validate($this->value)) 
 		{
 			// Alles ist gut.
