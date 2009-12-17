@@ -42,19 +42,20 @@ if($REX["REDAXO"])
 	if ($REX['USER'] && ($REX['USER']->isAdmin()))
   		$REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
 	
-  $tables = rex_em_getTables();
-  foreach($tables as $table)
+  if($tables = rex_em_getTables())
   {
-  	
-		// Recht um das AddOn ueberhaupt einsehen zu koennen
-		$table_perm = 'em['.$table["label"].']';
-		$REX['EXTPERM'][] = $table_perm;
-		
-  	if($table["status"] == 1)
-  	{
-  		if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights",$table_perm)) )
-  			$REX['ADDON']['editme']['SUBPAGES'][] = array( $table["label"] , $table["name"]);
-  	}
+    foreach($tables as $table)
+    {
+    	
+  		// Recht um das AddOn ueberhaupt einsehen zu koennen
+  		$table_perm = 'em['.$table["label"].']';
+  		$REX['EXTPERM'][] = $table_perm;
+  		
+    	if($table["status"] == 1)
+    	{
+    		if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights",$table_perm)) )
+    			$REX['ADDON']['editme']['SUBPAGES'][] = array( $table["label"] , $table["name"]);
+    	}
+    }
   }
-  
 }
