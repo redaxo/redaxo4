@@ -1,12 +1,11 @@
 <?php
 
-// Hier werden die einzelnen Datensaetze angezeigt 
-// und entsprechend der Konfiguration verwaltbar gemacht
+// ********************************************* DATA ADD/EDIT/LIST
 
 $func = rex_request("func","string","");
 $data_id = rex_request("data_id","int","");
 $popup = rex_request("popup","int",0);
-
+$show_list = TRUE;
 
 foreach($tables as $table)
 {
@@ -22,7 +21,18 @@ foreach($tables as $table)
 
 }
 
+/*
+ * 
+ * POPUP SACHEN
+rex_set_session('media[opener_input_field]', $opener_input_field);
+$opener_link = rex_request('opener_link', 'string');
+ */
 
+
+
+
+
+// ********************************************* L…SCHEN
 if($func == "delete")
 {
   $query = 'delete from '.$table["tablename"].' where id='.$data_id;
@@ -31,24 +41,18 @@ if($func == "delete")
   $delsql->setQuery($query);
   $func = "";
   echo rex_info("Datensatz wurde gel&ouml;scht");
-	
-	
   $func = "";
 }
 
 
-$fields = rex_em_getFields($table['id']);
-	
 
-//------------------------------ Add und Edit
+
+
+// ********************************************* FORMULAR
+$fields = rex_em_getFields($table['id']);
 if($func == "add" || $func == "edit")
 {
 	
-	if($func == "edit")
-		echo '<div class="rex-area"><h3 class="rex-hl2">Daten editieren</h3><div class="rex-area-content">';
-	else
-		echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
-		
 	$xform = new rex_xform;
 	// $xform->setDebug(TRUE);
 	$xform->setHiddenField("page",$page);
@@ -60,10 +64,8 @@ if($func == "add" || $func == "edit")
 	{
 		$type_name = $field["type_name"];
 		$type_id = $field["type_id"];
-
 		$values = array();
     for($i=1;$i<10;$i++){ $values[] = $field["f".$i]; }
-    
 		if($type_id == "value")
 			$xform->setValueField($field["type_name"],$values);
 		elseif($type_id == "validate")
@@ -72,7 +74,7 @@ if($func == "add" || $func == "edit")
 			$xform->setActionField($field["type_name"],$values);
 	}
 		
-	$xform->setActionField("showtext",array("","Vielen Dank fŸr die Eintragung"));
+	// $xform->setActionField("showtext",array("","Vielen Dank fŸr die Eintragung"));
 	$xform->setObjectparams("main_table",$table["tablename"]); // für db speicherungen und unique abfragen
 
 	if($func == "edit")
@@ -86,19 +88,36 @@ if($func == "add" || $func == "edit")
 	{
 		$xform->setActionField("db",array($table["tablename"]));
 	}
+
+  $form = $xform->getForm();
   
-  echo $xform->getForm();
+  if($xform->objparams["form_show"])
+  {
+	  if($func == "edit")
+	    echo '<div class="rex-area"><h3 class="rex-hl2">Daten editieren</h3><div class="rex-area-content">';
+	  else
+	    echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
+	  echo $form;
+    echo '</div></div>';
+    echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+    $show_list = FALSE;
+  }else
+  {
+    if($func == "edit")
+      echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+    elseif($func == "add")
+      echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+  }
+	
+}
 
-	echo '</div></div>';
-	
-	echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
-	
-}else
+
+
+
+
+// ********************************************* LIST
+if($show_list)
 {
-
-
-	//------------------------------  Datensaetze anzeigen
-
 	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ anlegen</b></a></td></tr></table><br />";
 		 
 	$fields = rex_em_getFields($table['id']);
@@ -110,15 +129,16 @@ if($func == "add" || $func == "edit")
 
 	$list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit"));
 	// $list->setColumnParams("login", array("table_id"=>"###id###","func"=>"edit"));
-
 	// $list->removeColumn("id");
 	
 	foreach($fields as $field)
   {
-  	if($field["list_hidden"] == 1)
-  	 $list->removeColumn($field["f1"]);
+  	if($field["type_id"] == "value")
+  	{
+  		if($field["list_hidden"] == 1)
+        $list->removeColumn($field["f1"]);
+  	}
   }
-	
 	
 	$list->addColumn('editieren','editieren');
 	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit"));

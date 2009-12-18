@@ -4,7 +4,7 @@
 
 class rex_xform_radio extends rex_xform_abstract
 {
-	function preAction()
+	function init()
 	{
 		foreach (explode(";", $this->elements[3]) as $v)
 		{

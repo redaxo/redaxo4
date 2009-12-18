@@ -3,7 +3,7 @@
 class rex_xform_standard_packages extends rex_xform_abstract
 {
 
-	function preAction()
+	function init()
 	{	
 
 		$REPL = array();

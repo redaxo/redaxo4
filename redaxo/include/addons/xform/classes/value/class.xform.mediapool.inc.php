@@ -64,9 +64,10 @@ class rex_xform_mediapool extends rex_xform_abstract
    		}
 
 		$wc = "";
-		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()];
+		if (isset($warning["el_" . $this->getId()])) 
+		  $wc = $warning["el_" . $this->getId()];
 
-       	$out = '
+    $out = '
 			<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.'_filename]" value="'.$this->value.'" />
 
 			<p class="formmediapool">
@@ -74,31 +75,6 @@ class rex_xform_mediapool extends rex_xform_abstract
 				<input class="uploadbox clickmedia '.$wc.'" id="el_'.$this->id.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" type="file" />
 			</p>'.$check_delete;
 			
-			
-		/*
-       	$out .= '
-			<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.'_filename]" value="'.$this->value.'" />
-
-			<p class="formmediapool">
-
-				<label class="text ' . $warning["el_" . $this->id] . '" for="el_' . $this->id . '" >' . $this->elements[2] . $pic . '</label>
-
-				<div class="uploader">
-					<input class="uploadbox clickmedia '.$warning["el_".$this->id].'" 
-						id="el_'.$this->id.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" 
-						type="file" />
-					<div class="uploader-img">
-					</div>
-				</div>
-				'.$check_delete.'
-				<div class="clearer"> </div>
-			</p>';
-		*/
-
-
-		// <p class="link-button"><a href=""><span>Bild löschen</span></a></p>
-
-
 		$form_output[] = $out;
 
 	}

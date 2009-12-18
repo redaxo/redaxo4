@@ -1,7 +1,6 @@
 <?php
 
-// ************************* TABELLE
-
+// ********************************************* TABLE ADD/EDIT/LIST
 
 $table = $REX['TABLE_PREFIX'].'em_table';
 $table_field = $REX['TABLE_PREFIX'].'em_field';
@@ -13,6 +12,8 @@ $page = rex_request("page","string","");
 $subpage = rex_request("subpage","string","");
 $table_id = rex_request("table_id","int");
 
+$show_list = TRUE;
+
 if($func == "update")
 {
 	rex_em_generateAll();
@@ -22,24 +23,18 @@ if($func == "update")
 
 
 
-//------------------------------
+
+
+// ********************************************* FORMULAR
 if($func == "add" || $func == "edit")
 {
 	
-	if($func == "edit")
-		echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle editieren</h3><div class="rex-area-content">';
-	else
-		echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
-		
 	$xform = new rex_xform;
-	
+  // $xform->setDebug(TRUE);
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
-	
-	// $xform->setDebug(TRUE);
 	$xform->setActionField("showtext",array("","Vielen Dank fŸr die Eintragung"));
-	
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
 	if($func == "edit")
@@ -62,14 +57,26 @@ if($func == "add" || $func == "edit")
 	$xform->setValueField("text",array("name","Name"));
 	$xform->setValueField("textarea",array("description","Beschreibung"));
 	$xform->setValueField("checkbox",array("status","Aktiv"));
-	
 	$xform->setValueField("validate",array("empty","name","Bitte den Namen eingeben"));
+	$form = $xform->getForm();
 	
-	echo $xform->getForm();
-
-	echo '</div></div>';
-	
-	echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+  if($xform->objparams["form_show"])
+  {	
+  	if($func == "edit")
+	    echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle editieren</h3><div class="rex-area-content">';
+	  else
+	    echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
+    echo $form;
+    echo '</div></div>';
+    echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+    $show_list = FALSE;
+  }else
+  {
+    if($func == "edit")
+      echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+    elseif($func == "add")
+      echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+  }
 	
 }
 
@@ -77,8 +84,7 @@ if($func == "add" || $func == "edit")
 
 
 
-
-//------------------------------> Löschen
+// ********************************************* L…SCHEN
 if($func == "delete"){
 	$query = "delete from $table where id='".$table_id."' ";
 	$delsql = new rex_sql;
@@ -92,8 +98,11 @@ if($func == "delete"){
 }
 
 
-//------------------------------> Liste
-if($func == ""){
+
+
+
+// ********************************************* LISTE
+if($show_list){
 	
 	echo "<table cellpadding=5 class=rex-table><tr><td>
 		<a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a>

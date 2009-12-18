@@ -5,7 +5,9 @@ class rex_xform_abstract
 
 	var $params = array(); // allgemeine parameter der
 	var $obj;
-	var $elements = array(); //
+	var $elements = array(); // lokale elemente
+  var $element_values = array(); // Werte aller Value Objekte
+	
 
 	var $id;
 	var $value;
@@ -68,13 +70,17 @@ class rex_xform_abstract
 
 
 	// FormularParameter ins Objekt legen
-	function loadParams(&$params,$elements = array(), $obj = "")
+	function loadParams(&$params, $elements = array(), &$obj = "", &$email_elements, &$sql_elements)
 	{
 		// parameter des Formuarmoduls werden Ã¼bergeben
 		$this->params = &$params;
 		// die entsprechende passende Zeile wird als array | Ã¼bergeben
 		$this->elements = &$elements;
-		$this->setLabel($elements[1]);
+		$this->obj = &$obj;
+		$this->setLabel($this->elements[1]);
+    $this->element_values["email"] = &$email_elements;
+    $this->element_values["sql"] = &$sql_elements;
+    
 	}
 
 	function setLabel($label)
@@ -115,12 +121,29 @@ class rex_xform_abstract
 		// $send == 1 - formular wurde schonmal abgeschickt
 	}
 	
-	function preAction()
+	/* ******************************************************** AKTIONEN **************** */
+	
+	// Wird direkt nach bei der Objekterzeugung ausgefŸhrt
+	function init()
 	{
 	
 	}
+
+  function preValidateAction()
+  {
+  
+  }
 	
-	
+  function postValidateAction()
+  {
+  
+  }
+
+  function postFormAction()
+  {
+  
+  }
+  
 	// Aufruf nachdem E-Mail oder Datenbankeintrag vorgenommen wurde
 	function postAction(&$email_elements,&$sql_elements)
 	{
@@ -143,11 +166,16 @@ class rex_xform_abstract
 			
 		}
 	}
+
+	/* ******************************************************** / AKTIONEN **************** */
+	
+	
 	
 	// DB-feld Bezeichnung zurückgeben
 	function getDatabasefieldname()
 	{
-		if (isset($this->elements[1])) return $this->elements[1];
+		if (isset($this->elements[1])) 
+		  return $this->elements[1];
 	}
 	
 

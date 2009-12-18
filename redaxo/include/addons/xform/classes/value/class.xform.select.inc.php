@@ -6,7 +6,7 @@ class rex_xform_select extends rex_xform_abstract
 	/*
 	 * Werte setzen
 	 */
-	function preAction()
+	function init()
 	{
 		foreach (explode(";", $this->elements[3]) as $v)
 		{

@@ -14,31 +14,40 @@ class rex_xform_be_relation extends rex_xform_abstract
 		$relationstype = $this->elements[5];	// single=0;multiple=1
 		$style = $this->elements[6];	// popup=0;selectbox=1
 		
-		echo '<pre>'; var_dump($this->elements);echo '</pre>'; 
+		// echo '<pre>'; var_dump($this->elements);echo '</pre>'; 
 		
-		
+    // 'index.php?page=mediapool'+ param +'&opener_input_field='+ mediaid
 		$link = 'index.php?page='.rex_request("page").'&subpage='.$tabelle.'&popup=1';
 		
-		// 'index.php?page=mediapool'+ param +'&opener_input_field='+ mediaid
+		$wc = "";
+    if (isset($warning["el_" . $this->getId()])) 
+      $wc = $warning["el_" . $this->getId()];
+		
+    // counter, wenn dieses Feld šfter in einem Formular erscheint
+    if(!isset($REX["xform_classes_be_relation"]))
+      $REX["xform_classes_be_relation"] = 0;
+    $REX["xform_classes_be_relation"]++;
+    $i = $REX["xform_classes_be_relation"];
+		
+    $form_output[] = '
+    
+      <div class="xform-element formbe_relation formlabel-'.$this->label.'">
+        <label class="text ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+        <div class="rex-widget">
+          <div class="rex-widget-media">
+            <p class="rex-widget-field">
+              <input type="text" class="text '.$wc.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="REX_RELATION_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->value)) . '" />
+            </p>
+            <p class="rex-widget-icons">
+              <a onclick="newPoolWindow(\''.$link.'\');return false;" class="rex-icon-file-open" href="#"><img width="16" height="16" alt="Medium auswählen" title="Medium auswählen" src="media/file_open.gif"/></a>
+              <a onclick="addREXMedia('.$i.');return false;" class="rex-icon-file-add" href="#"><img width="16" height="16" alt="Neues Medium hinzufügen" title="Neues Medium hinzufügen" src="media/file_add.gif"/></a>
+              <a onclick="deleteREXMedia('.$i.');return false;" class="rex-icon-file-delete" href="#"><img width="16" height="16" alt="Ausgewähltes Medium löschen" title="Ausgewähltes Medium löschen" src="media/file_del.gif"/></a>
+            </p>
+          </div>
+        </div>
+      </div>';		
 		
 		
-		$form_output[] = '
-
-		<br />value: '.$this->value.'
-		<br />bezeichnung: '.$bezeichnung.'
-<div class="rex-widget">
- <div class="rex-widget-media">
-  <p class="rex-widget-field">
-   <input type="text" size="30" name="MEDIA[1]" value="" id="REX_MEDIA_1" readonly="readonly" />
-  </p>
-  <p class="rex-widget-icons">
-   <a href="#" class="rex-icon-file-open" onclick="newPoolWindow(\''.$link.'\');return false;" tabindex="21"><img src="media/file_open.gif" width="16" height="16" title="Medium auswŠhlen" alt="Medium auswŠhlen" /></a>
-   <a href="#" class="rex-icon-file-add" onclick="addREXMedia(1);return false;" tabindex="22"><img src="media/file_add.gif" width="16" height="16" title="Neues Medium hinzufŸgen" alt="Neues Medium hinzufŸgen" /></a>
-   <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia(1);return false;" tabindex="23"><img src="media/file_del.gif" width="16" height="16" title="AusgewŠhltes Medium lšschen" alt="AusgewŠhltes Medium lšschen" /></a>
-  </p>
-  <div class="rex-media-preview"></div>
- </div>
-</div>';
 		
 		
 		
@@ -66,7 +75,7 @@ class rex_xform_be_relation extends rex_xform_abstract
               array( 'type' => 'select', 	'name' => 'Relationtype',	'default' => '', 'definition' => 'single=0;multiple=1' ),
               array( 'type' => 'select', 	'name' => 'Relationstyle',	'default' => '', 'definition' => 'popup=0;selectbox=1' ),
             ),
-						'description' => 'Mediafeld, welches eine Datei aus dem Medienpool holt',
+						'description' => 'hiemit kann man Verkn&uuml;pfungen zu anderen Tabellen setzen',
 						'dbtype' => 'text'
 			);
 	}

@@ -1,6 +1,6 @@
 <?php
 
-// ************************* FELDER EINER TABELLE
+// ********************************************* FIELD ADD/EDIT/LIST
 
 $table = $REX['TABLE_PREFIX'].'em_field';
 
@@ -13,6 +13,8 @@ $table_id = rex_request("table_id","int");
 $type_id = rex_request("type_id","string");
 $type_name = rex_request("type_name","string");
 $field_id = rex_request("field_id","int");
+$show_list = TRUE;
+
 
 $TYPE = array('value'=>"Werte",'validate'=>"Validierung/Überprüfung",'action'=>"Aktionen");
 
@@ -31,29 +33,17 @@ if($tb->getRows()==0)
 	$func = "nothing";
 }else
 {
-	echo '<br /><table cellpadding="5" class="rex-table"><tr><td><b>'.$tb->getValue("name").'</b> - '.$tb->getValue("description").'</td></tr></table><br />';
+	echo '<br /><table cellpadding="5" class="rex-table"><tr><td>Tabelle: <b>'.$tb->getValue("name").'</b> - '.$tb->getValue("description").'</td></tr></table><br />';
 }
 
 
 
 
 
-
-
-
-
-
-
-
+// ********************************************* CHOOSE FIELD
 $types = rex_xform::getTypeArray();
-
-
-
-//------------------------------
-
 if($func == "choosenadd")
 {
-
 	// type and choose !!
 	
 	$link = 'index.php?page=editme&subpage=field&table_id='.$table_id.'&func=add&';
@@ -118,19 +108,15 @@ if($func == "choosenadd")
 }
 
 
-//------------------------------
 
+
+
+// ********************************************* FORMULAR
 if( 
     ($func == "add" || $func == "edit" )  && 
     isset($types[$type_id][$type_name]) 
   )
 {
-	
-	
-	if($func == "add")
-	 echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
-	else
-   echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 	
 	$xform = new rex_xform;
   // $xform->setDebug(TRUE);
@@ -223,20 +209,33 @@ if(
 	{
 		$xform->setValueField("hidden",array("list_hidden",1));
 	}
-	echo $xform->getForm();
+	
+	$form = $xform->getForm();
 
-	echo '</div></div>';
-	
-	echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;table_id='.$table_id.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
-	
+	if($xform->objparams["form_show"])
+  {
+	  if($func == "add")
+	   echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+	  else
+	   echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+	  echo $form;
+		echo '</div></div>';
+  	echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;table_id='.$table_id.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+    $show_list = FALSE;
+  }else
+  {
+  	if($func == "edit")
+      echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+    elseif($func == "add")
+      echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+  }	
 }
 
 
 
 
 
-
-//------------------------------> Löschen
+// ********************************************* L…SCHEN
 if($func == "delete"){
 	$query = 'delete from '.$table.' where table_id='.$table_id.' and id='.$field_id;
 	$delsql = new rex_sql;
@@ -247,8 +246,11 @@ if($func == "delete"){
 }
 
 
-//------------------------------> Liste
-if($func == ""){
+
+
+
+// ********************************************* LIST
+if($show_list){
 	
 	echo '<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page='.$page.'&subpage='.$subpage.'&table_id='.$table_id.'&func=choosenadd><b>+ '.$bezeichner.' anlegen</b></a></td></tr></table><br />';
 	
@@ -267,19 +269,14 @@ if($func == ""){
   {
     $list->removeColumn('f'.$i);
   }	
-	
-	// $list->setColumnFormat('type_id', 'Typ');
-	// $list->setColumnFormat('field', 'Feld');
 
 	$list->addColumn('editieren','Feld editieren');
 	$list->setColumnParams("editieren", array("field_id"=>"###id###","func"=>"edit",'type_name'=>'###type_name###','type_id'=>'###type_id###',));
 
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
 	$list->setColumnParams("l&ouml;schen", array("field_id"=>"###id###","func"=>"delete"));
-	
 
 	echo $list->get();
 
 }
 
-?>
