@@ -4,7 +4,10 @@
 
 $func = rex_request("func","string","");
 $data_id = rex_request("data_id","int","");
-$popup = rex_request("popup","int",0);
+$rex_em_opener_field = rex_request("rex_em_opener_field","int","");
+$rex_em_opener_fieldname = rex_request("rex_em_opener_fieldname","string","");
+
+
 $show_list = TRUE;
 
 foreach($tables as $table)
@@ -27,6 +30,13 @@ foreach($tables as $table)
 rex_set_session('media[opener_input_field]', $opener_input_field);
 $opener_link = rex_request('opener_link', 'string');
  */
+
+if($rex_em_opener_field != "")
+{
+	echo '<link rel="stylesheet" type="text/css" href="../files/addons/editme/popup.css" media="screen, projection, print" />';
+}
+
+
 
 
 
@@ -58,7 +68,8 @@ if($func == "add" || $func == "edit")
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
-	$xform->setHiddenField("popup",$popup);
+	$xform->setHiddenField("rex_em_opener_field",$rex_em_opener_field);
+	$xform->setHiddenField("rex_em_opener_fieldname",$rex_em_opener_fieldname);
 	
 	foreach($fields as $field)
 	{
@@ -99,7 +110,7 @@ if($func == "add" || $func == "edit")
 	    echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
 	  echo $form;
     echo '</div></div>';
-    echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+    echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
     $show_list = FALSE;
   }else
   {
@@ -118,7 +129,7 @@ if($func == "add" || $func == "edit")
 // ********************************************* LIST
 if($show_list)
 {
-	echo "<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ anlegen</b></a></td></tr></table><br />";
+	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'&func=add&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).'"><b>+ anlegen</b></a></td></tr></table><br />';
 		 
 	$fields = rex_em_getFields($table['id']);
 
@@ -127,7 +138,7 @@ if($show_list)
 	$list = rex_list::factory($sql,30);
 	$list->setColumnFormat('id', 'Id');
 
-	$list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));
 	// $list->setColumnParams("login", array("table_id"=>"###id###","func"=>"edit"));
 	// $list->removeColumn("id");
 	
@@ -141,49 +152,17 @@ if($show_list)
   }
 	
 	$list->addColumn('editieren','editieren');
-	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));
 
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
-	$list->setColumnParams("l&ouml;schen", array("data_id"=>"###id###","func"=>"delete"));
+	$list->setColumnParams("l&ouml;schen", array("data_id"=>"###id###","func"=>"delete","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));
 
-	if($popup)
+	if($rex_em_opener_field)
 	{
-		$list->addColumn('Ÿbernehmen','Ÿbernehmen');
-		$list->setColumnParams("Ÿbernehmen", array("data_id"=>"###id###","func"=>"delete"));
+		$list->addColumn('&uuml;bernehmen','<a href="javascript:em_setData('.$rex_em_opener_field.',###id###,\'###'.$rex_em_opener_fieldname.'###\')">&uuml;bernehmen</a>',-1,"sdfghjkl");
+		// $list->setColumnParams("&uuml;bernehmen", array("data_id"=>"###id###","func"=>"","rex_em_opener_field"=>$rex_em_opener_field));
 	}
 	
 	echo $list->get();
 	
 }
-
-
-if($popup == 1)
-{
-?>
-
-<style>
-
-
-#rex-footer,
-#rex-navi-logout,
-#rex-title,
-#rex-navi-main {
-display:none;
-}
-
-#rex-page-editme #rex-website {
-width:780px;
-}
-
-
-</style>
-
-
-<?php
-}
-
-
-
-
-
-

@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS rex_em_field;
-CREATE TABLE `rex_em_field` (
+CREATE TABLE IF NOT EXISTS `rex_em_field` (
   `id` int(11) NOT NULL auto_increment,
   `table_id` int(11) NOT NULL,
   `type_name` varchar(255) NOT NULL,
@@ -18,8 +17,7 @@ CREATE TABLE `rex_em_field` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS rex_em_table;
-CREATE TABLE `rex_em_table` (
+CREATE TABLE IF NOT EXISTS `rex_em_table` (
   `id` int(11) NOT NULL auto_increment,
   `status` tinyint(4) NOT NULL,
   `label` varchar(255) NOT NULL,

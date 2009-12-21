@@ -619,7 +619,9 @@ class rex_xform
 								{
 				               		include_once($value_path.$Datei); 
 				                	$class = new $classname;
-				                	echo '<li>'.$class->getDescription().'</li>';
+				                	$desc = $class->getDescription();
+				                	if($desc != "")
+					                	echo '<li>'.$desc.'</li>';
 								}
 				            }
 				        }
@@ -653,7 +655,9 @@ class rex_xform
 								{
 				                	include_once($validate_path.$Datei);
 				                	$class = new $classname;
-				                	echo '<li>'.$class->getDescription().'</li>';
+				                	$desc = $class->getDescription();
+				                	if($desc != "")
+					                	echo '<li>'.$desc.'</li>';
 								}
 				            }
 				        }
@@ -689,7 +693,9 @@ class rex_xform
 				            	{
 				                	include_once($action_path.$Datei);
 				                	$class = new $classname;
-				                	echo '<li>'.$class->getDescription().'</li>';
+				                	$desc = $class->getDescription();
+				                	if($desc != "")
+					                	echo '<li>'.$desc.'</li>';
 				                }
 				            }
 				        }

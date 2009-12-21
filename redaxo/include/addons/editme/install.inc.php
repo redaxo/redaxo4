@@ -9,8 +9,5 @@
  * @version svn:$Id$
  */
 
-
-
-
 $REX['ADDON']['install']['editme'] = 1;
 // $REX['ADDON']['installmsg']['editme'] = "Leider konnte nichts installiert werden da. ***** ";

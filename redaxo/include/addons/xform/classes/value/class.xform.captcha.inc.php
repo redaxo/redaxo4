@@ -17,7 +17,7 @@ class rex_xform_captcha extends rex_xform_abstract
 		if ($captchaRequest == "show")
 		{
       // alle offenen buffer schliessen
-			while(ob_end_clean());
+			while(@ob_end_clean());
 			
 			$captcha->handle_request();
 			exit;
