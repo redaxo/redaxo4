@@ -62,7 +62,7 @@ if($func == "choosenadd")
 		<div class="rex-area-col-a">
 			<h3 class="rex-hl2"><?php echo $TYPE['value']; ?></h3>
 			<div class="rex-area-content">
-				<p class="rex-tx1"></p><?php
+				<p class="rex-tx1"><?php
 				
 				if(isset($types['value']))
 				foreach($types['value'] as $k => $v)
@@ -70,7 +70,8 @@ if($func == "choosenadd")
 					echo '<p class="rex-button"><a class="rex-button" href="'.$link.'type_id=value&type_name='.$k.'">'.$k.'</a> '.$v['description'].'</p>';
 				}
 				
-				?></p>
+				?>
+				</p>
 			</div>
 		</div>
 		<div class="rex-area-col-b">
