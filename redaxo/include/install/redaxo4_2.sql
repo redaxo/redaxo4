@@ -13,3 +13,10 @@ CREATE TABLE `rex_template` ( `id` int(11) NOT NULL  auto_increment, `label` var
 CREATE TABLE `rex_user` ( `user_id` int(11) NOT NULL auto_increment, `name` varchar(255) , `description` text , `login` varchar(50) NOT NULL  , `psw` varchar(50) NOT NULL  , `status` varchar(5) NOT NULL  , `rights` text NOT NULL  , `login_tries` tinyint(4) DEFAULT 0 , `createuser` varchar(255) NOT NULL  , `updateuser` varchar(255) NOT NULL  , `createdate` int(11) NOT NULL , `updatedate` int(11) NOT NULL , `lasttrydate` int(11) DEFAULT 0 , `session_id` varchar(255) , `cookiekey` varchar(255) , `revision` int(11) NOT NULL, PRIMARY KEY(`user_id`))TYPE=MyISAM;
 
 INSERT INTO `rex_clang` VALUES ('0','deutsch', 0);
+
+ALTER TABLE rex_article ADD INDEX `id` (`id`), ADD INDEX `clang` (`clang`), ADD UNIQUE INDEX `find_articles` (`id`, `clang`), ADD INDEX `re_id` (`re_id`);
+ALTER TABLE rex_article_slice ADD INDEX `id` (`id`), ADD INDEX `clang` (`clang`), ADD INDEX `re_article_slice_id` (`re_article_slice_id`), ADD INDEX `article_id` (`article_id`), ADD INDEX `find_slices` (`clang`, `article_id`);
+ALTER TABLE rex_file ADD INDEX `re_file_id` (`re_file_id`), ADD INDEX `category_id` (`category_id`);
+ALTER TABLE rex_file_category DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `re_id` (`re_id`);
+ALTER TABLE rex_module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);
+ALTER TABLE rex_user ADD UNIQUE INDEX `login` (`login`(50)); 
