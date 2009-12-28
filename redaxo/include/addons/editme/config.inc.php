@@ -60,7 +60,7 @@ if($REX["REDAXO"])
   }
   
   function rex_editme_assets($params){
-  	$params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../files/addons/editme/em.css" media="screen, projection, print" />';
+  	// $params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../files/addons/editme/em.css" media="screen, projection, print" />';
   	$params['subject'] .= "\n  ".'<script src="../files/addons/editme/em.js" type="text/javascript"></script>';
 		return $params['subject'];
 	}

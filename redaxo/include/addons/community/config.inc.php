@@ -36,11 +36,7 @@ if ($REX["REDAXO"] && $REX['USER'])
 	
 	if($REX["REDAXO"])
 	{
-		function rex_community_addCSS($params)
-		{
-		    echo "\n".'<link rel="stylesheet" type="text/css" href="../files/addons/community/community_be.css" media="screen, projection, print" />';
-		}
-		rex_register_extension('PAGE_HEADER', 'rex_community_addCSS');
+
 	}
 }
 
@@ -96,6 +92,8 @@ $ff[] = "birthday";
 $REX['ADDON']['community']['xform_path']['value'] = array();
 $REX['ADDON']['community']['xform_path']['validate'] = array();
 $REX['ADDON']['community']['xform_path']['action'] = array();
+
+$REX['ADDON']['community']['xform_path']['value'][] = $REX["INCLUDE_PATH"]."/addons/community/xform/value/";
 
 rex_register_extension('ADDONS_INCLUDED', 'rex_com_xform_add');
 function rex_com_xform_add($params){
