@@ -534,24 +534,10 @@ if ($checkmodus == 3 && $send == 1)
     $REX['TABLE_PREFIX'] .'user',
   );
 
-  if ($dbanlegen == 5)
+  if ($dbanlegen == 4)
   {
     // ----- vorhandenen seite updaten
-    $import_sql = $REX['INCLUDE_PATH'].'/install/update3_0_to_4_0.sql';
-    if($err_msg == '')
-      $err_msg .= rex_setup_import($import_sql);
-      
-    $import_sql = $REX['INCLUDE_PATH'].'/install/update4_0_to_4_2.sql';
-    if($err_msg == '')
-      $err_msg .= rex_setup_import($import_sql);
-
-    if($err_msg == '')
-      $err_msg .= rex_setup_addons();
-  }
-  elseif ($dbanlegen == 4)
-  {
-    // ----- vorhandenen seite updaten
-    $import_sql = $REX['INCLUDE_PATH'].'/install/update4_0_to_4_2.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/update4_x_to_4_3.sql';
     if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
 
@@ -589,7 +575,7 @@ if ($checkmodus == 3 && $send == 1)
   elseif ($dbanlegen == 1)
   {
     // ----- volle Datenbank, alte DB löschen / drop
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_2.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
 
     $db = rex_sql::factory();
     foreach($requiredTables as $table)
@@ -604,7 +590,7 @@ if ($checkmodus == 3 && $send == 1)
   elseif ($dbanlegen == 0)
   {
     // ----- leere Datenbank neu einrichten
-    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_2.sql';
+    $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
 
     if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
@@ -664,7 +650,6 @@ if ($checkmodus == 3)
     case 2 :
     case 3 :
     case 4 :
-    case 5 :
       $dbchecked[$dbanlegen] = ' checked="checked"';
       break;
     default :
@@ -746,13 +731,6 @@ if ($checkmodus == 3)
       </p>
     </div>
 
-    <div class="rex-form-row">
-			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
-        <input class="rex-form-radio" type="radio" id="dbanlegen_5" name="dbanlegen" value="5"'.$dbchecked[5] .' />
-        <label for="dbanlegen_5">'.$I18N->msg('setup_03801').'</label>
-      </p>
-    </div>
-  
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked[4] .' />

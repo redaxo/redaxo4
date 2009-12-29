@@ -167,7 +167,17 @@ class rex_sql
 
     return $this->setQuery($qry);
   }
-
+  
+  /**
+   * Setzt Debugmodus an/aus
+   *
+   * @param $debug Debug TRUE/FALSE
+   */
+  /*public*/ function setDebug($debug = TRUE)
+  {
+	  $this->debugsql = $debug;
+  }
+  
   /**
    * Setzt eine Abfrage (SQL) ab
    *
