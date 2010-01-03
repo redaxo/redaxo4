@@ -137,10 +137,11 @@ if($REX['USER'])
 	if ($REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm())
 	{
 		$REX['PAGES']["structure"] = array($I18N->msg("structure"),0,1);
-		$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0,'NAVI' => array('href' =>'#', 'onclick' => 'openMediaPool()', 'class' => ' rex-popup'));
+		if($REX['USER']->hasMediaPerm())
+			$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0,'NAVI' => array('href' =>'#', 'onclick' => 'openMediaPool()', 'class' => ' rex-popup'));
 		$REX['PAGES']["linkmap"] = array($I18N->msg("linkmap"),0,0);
 		$REX['PAGES']["content"] = array($I18N->msg("content"),0,1);
-	}elseif($REX['USER']->hasPerm('mediapool[]'))
+	}elseif($REX['USER']->hasMediaPerm())
 	{
 		$REX['PAGES']["mediapool"] = array($I18N->msg("mediapool"),0,0,'NAVI' => array('href' =>'#', 'onclick' => 'openMediaPool()', 'class' => ' rex-popup'));
 	}

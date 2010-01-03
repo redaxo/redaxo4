@@ -169,18 +169,19 @@ class rex_var
     }
 
     $prefix = '';
-    if(isset($args['prefix']))
-      $prefix = $args['prefix'];
-
     $suffix = '';
-    if(isset($args['suffix']))
-      $suffix = $args['suffix'];
 
     if(isset($args['instead']) && $value != '')
       $value = $args['instead'];
-
+    
     if(isset($args['ifempty']) && $value == '')
       $value = $args['ifempty'];
+      
+    if($value != '' && isset($args['prefix']))
+      $prefix = $args['prefix'];
+
+    if($value != '' && isset($args['suffix']))
+      $suffix = $args['suffix'];
 
     return $prefix . $value . $suffix;
   }

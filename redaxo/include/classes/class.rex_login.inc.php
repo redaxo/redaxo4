@@ -48,11 +48,19 @@ class rex_login_sql extends rex_sql
            $this->isValueOf('rights', 'csw[' . $category_id . ']');
   }
   
-  function hasMediaCategoryPerm($category_id)
+	function hasMediaCategoryPerm($category_id)
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'media[0]') ||
            $this->isValueOf('rights', 'media[' . $category_id . ']');
+  }
+  
+	function hasMediaPerm()
+  {
+    return $this->isValueOf('rights', 'admin[]') ||
+           $this->isValueOf('rights', 'media[0]') ||
+           $this->isValueOf('rights', 'media[') OR 
+           $this->isValueOf('rights', 'mediapool[]');
   }
   
   function hasStructurePerm()
