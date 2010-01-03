@@ -26,7 +26,8 @@
 w = width       (Skalieren in der Breite)<br />
 h = height      (Skalieren in der Höhe)<br />
 c = crop        (Bildausschnitt herausschneiden)<br />
-a = automatic   (Skalieren anhand der längsten Seite des Bildes)
+a = automatic   (Skalieren anhand der längsten Seite des Bildes)<br />
+f = fit					(Skalieren anhand der kuerzesten Seite des Bildes)
 </p>
 
 <h3>Filter/Effekte:</h3>
@@ -50,6 +51,14 @@ Skaliere das Bild auf eine Höhe von 150px. Die Proportionen des Bildes werden be
 <br /><br />
 Skaliere das Bild anhand der längsten Seite, diese auf eine Länge von 200px. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200a__imagefile</b>
+
+<br /><br />
+Skaliere das Bild anhand der kuerzesten Seite, diese auf eine Länge von 200px. Die Proportionen des Bildes werden beibehalten.<br />
+<b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200f__imagefile</b>
+
+<br /><br />
+Skaliere das Bild anhand der Breite auf maximal 200px oder Anhand der Hoehe von 100px. Die Proportionen des Bildes werden beibehalten.<br />
+<b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200f__100h__imagefile</b>
 
 <br /><br />
 Skaliere das Bild auf eine Breite von 100px und eine Höhe von 200px. Ggf. wird das Bild dadurch verzehrt..<br />
