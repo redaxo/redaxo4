@@ -242,18 +242,23 @@ function deleteREXLink(id)
         link.obj.value = "";
 }
 
-function openREXMedialist(id)
+function openREXMedialist(id,param)
 {
-  var medialist = 'REX_MEDIALIST_'+id;
-  var mediaselect = 'REX_MEDIALIST_SELECT_'+id;
+  var medialist = 'REX_MEDIALIST_' + id;
+  var mediaselect = 'REX_MEDIALIST_SELECT_' + id;
   var needle = new getObj(mediaselect);
   
   var source = needle.obj;
   var sourcelength = source.options.length;
-  var param= "";
+
+  if ( typeof(param) == 'undefined')
+  {
+    param = '';
+  }
+
   for (ii = 0; ii < sourcelength; ii++) {
     if (source.options[ii].selected) {
-      param = '&action=media_details&file_name='+ source.options[ii].value;
+      param += '&subpage=detail&file_name='+ source.options[ii].value;
       break;
     }
   }

@@ -513,8 +513,9 @@ function rex_deleteCacheMediaLists()
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   $glob = glob($cachePath . '*.mlist');
-  foreach ($glob as $file)
-    @unlink($file);
+  if(is_array($glob))
+  	foreach ($glob as $file)
+    	@unlink($file);
 }
 
 /**
