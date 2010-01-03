@@ -35,9 +35,9 @@ INSERT INTO %TABLE_PREFIX%62_type VALUES (13, 'time', 'varchar', 2048);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (11, 'datetime', 'varchar', 2048);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (12, 'legend', 'varchar', 2048);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (6,  'REX_MEDIA_BUTTON', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (7,  'REX_MEDIALIST_BUTTON', 'varchar', 2048);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (7,  'REX_MEDIALIST_BUTTON', 'text', 0);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (8,  'REX_LINK_BUTTON', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (9,  'REX_LINKLIST_BUTTON', 'varchar', 2048);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (9,  'REX_LINKLIST_BUTTON', 'text', 0);
 
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('1','translate:pool_file_description','med_description','1','','2','','','','','admin','1189343866','admin','1189344596');
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('2','translate:pool_file_copyright','med_copyright','2','','1','','','','','admin','1189343877','admin','1189344617');

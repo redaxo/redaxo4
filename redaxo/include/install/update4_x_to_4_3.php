@@ -26,6 +26,11 @@ $update->setQuery("ALTER TABLE rex_file_category DROP PRIMARY KEY, ADD PRIMARY K
 $update->setQuery("ALTER TABLE rex_module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);");
 $update->setQuery("ALTER TABLE rex_user ADD UNIQUE INDEX `login` (`login`(50));");
 
+
+$update->setQuery("ALTER TABLE rex_62_type ADD UNIQUE INDEX `login` (`login`(50));");
+
+$update->setQuery("UPDATE rex_62_type set dbtype='text', dblength='0' where label='REX_MEDIALIST_BUTTON' or label='REX_LINKLIST_BUTTON'");
+
 // $update->setQuery("");
 
 ?>
