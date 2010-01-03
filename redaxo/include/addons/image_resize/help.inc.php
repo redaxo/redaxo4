@@ -80,4 +80,9 @@ Schneide aus dem Bild, ausgehend vom Zentrum um 150px nach links verschoben, ein
 Wende die Filter blur und sepia auf das Bild an. Zugleich wird das Bild an der längsten Seite auf 200px länge skaliert. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200a__imagefile&amp;rex_filter[]=blur&amp;rex_filter[]=sepia</b>
 
+<br /><br />
+Sofern man Einstellungstypen verwendet, werden die Resizefunktionen ausschliesslich über einen resize_type gesetzt.<br />
+<b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize_type=beispiel&amp;rex_resize=imagefile</b>
+
+
 </p>
