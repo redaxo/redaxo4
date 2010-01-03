@@ -414,8 +414,6 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
       unset($attrArray['perm']);
     }
     
-    var_dump($postValue);
-    
     // handle date types with timestamps
     if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
