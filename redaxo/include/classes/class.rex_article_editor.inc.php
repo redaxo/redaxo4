@@ -147,19 +147,23 @@ class rex_article_editor extends rex_article
 
           // nach klick auf den übernehmen button,
           // die POST werte übernehmen
-          if(rex_var::isEditEvent())
+          if(rex_request_method() == 'post' && rex_var::isEditEvent())
           {
             foreach ($REX['VARIABLES'] as $obj)
-            $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
+            {
+              $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
+            }
           }
           // Sonst die Werte aus der DB holen
           // (1. Aufruf via Editieren Link)
           else
           {
             foreach ($REX['VARIABLES'] as $obj)
-            $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
+            {
+              $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
+            }
           }
-
+            
           if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
           elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
           else $modebit = '1'; // pre-action and add
@@ -175,13 +179,18 @@ class rex_article_editor extends rex_article
 
             // ****************** VARIABLEN ERSETZEN
             foreach($REX['VARIABLES'] as $obj)
-            $iaction = $obj->getACOutput($REX_ACTION,$iaction);
+            {
+              $iaction = $obj->getACOutput($REX_ACTION,$iaction);
+            }
+            
 
             eval('?>'.$iaction);
 
             // ****************** SPEICHERN FALLS NOETIG
             foreach($REX['VARIABLES'] as $obj)
-            $obj->setACValues($artDataSql, $REX_ACTION);
+            {
+              $obj->setACValues($artDataSql, $REX_ACTION);
+            }
 
             $ga->next();
           }

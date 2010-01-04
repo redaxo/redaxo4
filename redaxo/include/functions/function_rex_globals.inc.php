@@ -273,3 +273,8 @@ function _rex_cast_var($var, $vartype, $default, $mode)
   
   return $var;
 }
+
+function rex_request_method()
+{
+  return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
+}
