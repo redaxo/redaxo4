@@ -418,7 +418,7 @@ class rex_article_base
       if ($this->mode == 'edit')
       {
         if (($this->function == 'add' && $sliceId == '0') ||
-        ($this->function == 'edit' && $sliceId == $this->slice_id))
+            ($this->function == 'edit' && $sliceId == $this->slice_id))
         {
           if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
           {
