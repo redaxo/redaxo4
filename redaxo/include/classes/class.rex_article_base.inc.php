@@ -32,7 +32,7 @@ class rex_article_base
   var $info;
   var $debug;
 
-  function rex_article_base($article_id = null, $clang = null)
+  /*private*/ function rex_article_base($article_id = null, $clang = null)
   {
     global $REX;
 
@@ -51,15 +51,15 @@ class rex_article_base
 
     $this->ARTICLE = rex_sql::factory();
     if($this->debug)
-    $this->ARTICLE->debugsql = 1;
+      $this->ARTICLE->debugsql = 1;
 
     if($clang !== null)
-    $this->setCLang($clang);
+      $this->setCLang($clang);
     else
-    $this->setClang($REX['CUR_CLANG']);
+      $this->setClang($REX['CUR_CLANG']);
 
     // ----- EXTENSION POINT
-    rex_register_extension_point('ART_INIT', "",
+    rex_register_extension_point('ART_INIT', '',
       array (
           'article' => &$this,
           'article_id' => $article_id,
@@ -68,38 +68,38 @@ class rex_article_base
     );
 
     if ($article_id !== null)
-    $this->setArticleId($article_id);
+      $this->setArticleId($article_id);
   }
 
-  function setSliceRevision($sr)
+  /*protected*/ function setSliceRevision($sr)
   {
     $this->slice_revision = (int) $sr;
   }
 
   // ----- Slice Id setzen für Editiermodus
-  function setSliceId($value)
+  /*public*/ function setSliceId($value)
   {
     $this->slice_id = $value;
   }
 
-  function setClang($value)
+  /*public*/ function setClang($value)
   {
     global $REX;
     if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = $REX['CUR_CLANG'];
     $this->clang = $value;
   }
 
-  function getArticleId()
+  /*public*/ function getArticleId()
   {
     return $this->article_id;
   }
 
-  function getClang()
+  /*public*/ function getClang()
   {
     return $this->clang;
   }
 
-  function setArticleId($article_id)
+  /*public*/ function setArticleId($article_id)
   {
     global $REX;
 
@@ -123,33 +123,33 @@ class rex_article_base
     return FALSE;
   }
 
-  function setTemplateId($template_id)
+  /*public*/ function setTemplateId($template_id)
   {
     $this->template_id = $template_id;
   }
 
-  function getTemplateId()
+  /*public*/ function getTemplateId()
   {
     return $this->template_id;
   }
 
-  function setMode($mode)
+  /*public*/ function setMode($mode)
   {
     $this->mode = $mode;
   }
 
-  function setFunction($function)
+  /*public*/ function setFunction($function)
   {
     $this->function = $function;
   }
 
-  function setEval($value)
+  /*public*/ function setEval($value)
   {
     if ($value) $this->eval = TRUE;
     else $this->eval = FALSE;
   }
 
-  function correctValue($value)
+  /*protected*/ function correctValue($value)
   {
     if ($value == 'category_id')
     {
@@ -165,7 +165,7 @@ class rex_article_base
     return $value;
   }
 
-  function _getValue($value)
+  /*private*/ function _getValue($value)
   {
     global $REX;
     $value = $this->correctValue($value);
@@ -173,7 +173,7 @@ class rex_article_base
     return $this->ARTICLE->getValue($value);
   }
 
-  function getValue($value)
+  /*protected*/ function getValue($value)
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
@@ -189,25 +189,25 @@ class rex_article_base
     return '['. $value .' not found]';
   }
 
-  function hasValue($value)
+  /*public*/ function hasValue($value)
   {
     return $this->ARTICLE->hasValue($this->correctValue($value));
   }
 
-  function outputSlice($artDataSql, $module_id, $I_ID,
+  /*protected*/ function outputSlice($artDataSql, $module_id, $I_ID,
     $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
     $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {
     if($this->getSlice){
       while(list($k, $v) = each($RE_CONTS))
-      $I_ID = $k;
+      	$I_ID = $k;
     }
     
     return $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
   }
 
 
-  function getArticle($curctype = -1)
+  /*public*/ function getArticle($curctype = -1)
   {
     global $REX,$I18N;
 
@@ -246,6 +246,7 @@ class rex_article_base
     if($this->debug)
       $artDataSql->debugsql = 1;
     $artDataSql->setQuery($sql);
+    $rows=$artDataSql->getRows();
 
     $RE_CONTS = array();
     $RE_CONTS_CTYPE = array();
@@ -256,9 +257,9 @@ class rex_article_base
     $RE_C = array();
 
     // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
-    for ($i=0;$i<$artDataSql->getRows();$i++)
+    for ($i=0; $i<$rows; $i++)
     {
-      $RE_SLICE_ID = $artDataSql->getValue('re_article_slice_id');
+      $RE_SLICE_ID                  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.re_article_slice_id');
 
       $RE_CONTS[$RE_SLICE_ID]       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
       $RE_CONTS_CTYPE[$RE_SLICE_ID] = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
@@ -280,11 +281,11 @@ class rex_article_base
     $artDataSql->reset();
     $articleContent = "";
 
-    for ($i=0;$i<$artDataSql->getRows();$i++)
+    for ($i=0; $i<$rows; $i++)
     {
       // ----- ctype unterscheidung
       if ($this->mode != "edit" && $i == 0)
-      $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
+        $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
 
       // ------------- EINZELNER SLICE - AUSGABE
       $artDataSql->counter = $RE_C[$I_ID];
@@ -358,19 +359,19 @@ class rex_article_base
     return $CONTENT;
   }
 
-  function preArticle()
+  /*protected*/ function preArticle()
   {
     // nichts tun
   }
 
-  function postArticle($articleContent, $LCTSL_ID, $module_id)
+  /*protected*/ function postArticle($articleContent, $LCTSL_ID, $module_id)
   {
     // nichts tun
     return $articleContent;
   }
 
   // ----- Template inklusive Artikel zurückgeben
-  function getArticleTemplate()
+  /*public*/ function getArticleTemplate()
   {
     // global $REX hier wichtig, damit in den Artikeln die Variable vorhanden ist!
     global $REX;
@@ -397,7 +398,7 @@ class rex_article_base
   }
 
   // ----- Modulvariablen werden ersetzt
-  function replaceVars(&$sql, $content)
+  /*protected*/ function replaceVars(&$sql, $content)
   {
     $content = $this->replaceObjectVars($sql,$content);
     $content = $this->replaceCommonVars($content);
@@ -405,7 +406,7 @@ class rex_article_base
   }
 
   // ----- REX_VAR Ersetzungen
-  function replaceObjectVars(&$sql,$content)
+  /*protected*/ function replaceObjectVars(&$sql,$content)
   {
     global $REX;
 
@@ -457,7 +458,7 @@ class rex_article_base
   }
 
   // ---- Artikelweite globale variablen werden ersetzt
-  function replaceCommonVars($content)
+  /*protected*/ function replaceCommonVars($content)
   {
     global $REX;
 
@@ -485,21 +486,21 @@ class rex_article_base
        'REX_TEMPLATE_ID',
        'REX_USER_ID',
        'REX_USER_LOGIN'
-       );
+    );
 
-       $replace = array(
+    $replace = array(
        $this->article_id,
        $this->category_id,
        $this->clang,
        $this->getTemplateId(),
        $user_id,
        $user_login
-       );
+    );
 
-       return str_replace($search, $replace,$content);
+    return str_replace($search, $replace,$content);
   }
 
-  function replaceLinks($content)
+  /*protected*/ function replaceLinks($content)
   {
     // Hier beachten, dass man auch ein Zeichen nach dem jeweiligen Link mitmatched,
     // damit beim ersetzen von z.b. redaxo://11 nicht auch innerhalb von redaxo://112
