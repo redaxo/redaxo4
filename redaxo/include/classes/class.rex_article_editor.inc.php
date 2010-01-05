@@ -11,12 +11,12 @@ class rex_article_editor extends rex_article
 {
   var $MODULESELECT;
 
-  function rex_article_editor($article_id = null, $clang = null)
+  /*public*/ function rex_article_editor($article_id = null, $clang = null)
   {
     parent::rex_article($article_id, $clang);
   }
 
-  function outputSlice($artDataSql, $module_id, $I_ID,
+  /*protected*/ function outputSlice($artDataSql, $module_id, $I_ID,
     $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
     $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {
@@ -254,7 +254,7 @@ class rex_article_editor extends rex_article
   }
 
 
-  function preArticle()
+  /*protected*/ function preArticle()
   {
     global $REX, $I18N;
 
@@ -294,7 +294,7 @@ class rex_article_editor extends rex_article
     }
   }
 
-  function postArticle($articleContent, $LCTSL_ID, $module_id)
+  /*protected*/ function postArticle($articleContent, $LCTSL_ID, $module_id)
   {
     global $REX, $I18N;
 
@@ -345,7 +345,7 @@ class rex_article_editor extends rex_article
 
 
   // ----- ADD Slice
-  function addSlice($I_ID,$module_id)
+  /*protected*/ function addSlice($I_ID,$module_id)
   {
     global $REX,$I18N;
 
@@ -405,7 +405,7 @@ class rex_article_editor extends rex_article
         <script type="text/javascript">
            <!--
           jQuery(function($) {
-            $(":input:visible:enabled:not([readonly]):first", $("form#REX_FORM")).focus();
+            $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();
           });
            //-->
         </script>';
@@ -448,7 +448,7 @@ class rex_article_editor extends rex_article
   }
 
   // ----- EDIT Slice
-  function editSlice(&$sql, $RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
+  /*public*/ function editSlice(&$sql, $RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
   {
     global $REX, $I18N;
 
@@ -495,7 +495,7 @@ class rex_article_editor extends rex_article
       <script type="text/javascript">
          <!--
         jQuery(function($) {
-          $(":input:visible:enabled:not([readonly]):first", $("form#REX_FORM")).focus();
+          $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();
         });
          //-->
       </script>';
