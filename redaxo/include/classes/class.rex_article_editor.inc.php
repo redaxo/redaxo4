@@ -89,8 +89,8 @@ class rex_article_editor extends rex_article
         {
           $moveUp = $I18N->msg('move_slice_up');
           $moveDown = $I18N->msg('move_slice_down');
-          // upd stamp übergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
-          // (Links wären sonst gleich und der Browser lässt das klicken auf den gleichen Link nicht zu)
+          // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
+          // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
           $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
           $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
         }
@@ -163,7 +163,7 @@ class rex_article_editor extends rex_article
               $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
             }
           }
-            
+                      
           if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
           elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
           else $modebit = '1'; // pre-action and add
@@ -173,7 +173,7 @@ class rex_article_editor extends rex_article
             $ga->debugsql = 1;
           $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
-          for ($t=0;$t<$ga->getRows();$t++)
+          while ($ga->hasNext())
           {
             $iaction = $ga->getValue('preview');
 
