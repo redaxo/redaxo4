@@ -165,7 +165,7 @@ class rex_article_base
     return $value;
   }
 
-  /*private*/ function _getValue($value)
+  /*protected*/ function _getValue($value)
   {
     global $REX;
     $value = $this->correctValue($value);
