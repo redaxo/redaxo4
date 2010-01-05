@@ -326,11 +326,33 @@ class rex_article_editor extends rex_article
 
     $MOD = rex_sql::factory();
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
+    
     if ($MOD->getRows() != 1)
     {
       $slice_content = rex_warning($I18N->msg('module_doesnt_exist'));
     }else
     {
+      $dummysql = rex_sql::factory();
+
+      // Den Dummy mit allen Feldern aus rex_article_slice füllen
+      $slice_fields = rex_sql::factory();
+      $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice LIMIT 1');
+      foreach($slice_fields->getFieldnames() as $fieldname)
+      {
+        switch($fieldname)
+        {
+          case 'clang'        : $def_value = $this->clang; break;
+          case 'ctype'        : $def_value = $this->ctype; break;
+          case 'modultyp_id'  : $def_value = $module_id; break;
+          case 'article_id'   : $def_value = $this->article_id; break;
+          case 'id'           : $def_value = 0; break;
+          default             : $def_value = '';
+        }
+        $dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
+      }
+
+      $moduleInput = $this->replaceVars($dummysql, $MOD->getValue("eingabe"));
+      
       $slice_content = '
         <a name="addslice"></a>
         <div class="rex-form rex-form-content-editmode-add-slice">
@@ -358,7 +380,7 @@ class rex_article_editor extends rex_article
               <div class="rex-form-row">
                 <div class="rex-content-editmode-slice-input">
                 <div class="rex-content-editmode-slice-input-2">
-                  '. $MOD->getValue("eingabe") .'
+                  '. $moduleInput .'
                 </div>
                 </div>
               </div>
@@ -397,28 +419,8 @@ class rex_article_editor extends rex_article
           echo rex_info($this->info);
         }
       }
-
-      $dummysql = rex_sql::factory();
-
-      // Den Dummy mit allen Feldern aus rex_article_slice füllen
-      $slice_fields = rex_sql::factory();
-      $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice LIMIT 1');
-      foreach($slice_fields->getFieldnames() as $fieldname)
-      {
-        switch($fieldname)
-        {
-          case 'clang'        : $def_value = $this->clang; break;
-          case 'ctype'        : $def_value = $this->ctype; break;
-          case 'modultyp_id'  : $def_value = $module_id; break;
-          case 'article_id'   : $def_value = $this->article_id; break;
-          case 'id'           : $def_value = 0; break;
-          default             : $def_value = '';
-        }
-        $dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
-      }
-
-      $slice_content = $this->replaceVars($dummysql,$slice_content);
     }
+    
     return $slice_content;
   }
 
