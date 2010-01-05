@@ -146,6 +146,41 @@ function rex_deleteSlice($slice_id)
 }
 
 /**
+ * Führt alle pre-view Aktionen eines Moduls aus
+ * 
+ * @param int    $module_id  Id des Moduls
+ * @param string $function   Funktion/Modus der Aktion
+ * @param array  $REX_ACTION Array zum modifizieren der initialwerte
+ * 
+ * @return array Das gefüllte REX_ACTION-Array
+ */
+function rex_execPreViewAction($module_id, $function, $REX_ACTION)
+{
+  global $REX;
+  $modebit = rex_getActionModeBit($function);
+  
+  $ga = rex_sql::factory();
+  $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
+
+  while ($ga->hasNext())
+  {
+    $iaction = $ga->getValue('preview');
+
+    // ****************** VARIABLEN ERSETZEN
+    foreach($REX['VARIABLES'] as $obj)
+    {
+      $iaction = $obj->getACOutput($REX_ACTION, $iaction);
+    }
+
+    eval('?>'.$iaction);
+
+    $ga->next();
+  }
+  
+  return $REX_ACTION;
+}
+
+/**
  * Führt alle pre-save Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
@@ -163,7 +198,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  for ($i = 0; $i < $ga->getRows(); $i++)
+  while ($ga->hasNext())
   {
     $REX_ACTION['MSG'] = '';
     $iaction = $ga->getValue('presave');
@@ -202,7 +237,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  for ($i = 0; $i < $ga->getRows(); $i++)
+  while ($ga->hasNext())
   {
     $REX_ACTION['MSG'] = '';
     $iaction = $ga->getValue('postsave');

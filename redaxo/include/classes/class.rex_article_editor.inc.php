@@ -141,8 +141,6 @@ class rex_article_editor extends rex_article
         {
           // **************** Aktueller Slice
 
-
-          // ----- PRE VIEW ACTION [EDIT]
           $REX_ACTION = array ();
 
           // nach klick auf den übernehmen button,
@@ -163,39 +161,16 @@ class rex_article_editor extends rex_article
               $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
             }
           }
-                      
-          if ($this->function == 'edit') $modebit = '2'; // pre-action and edit
-          elseif($this->function == 'delete') $modebit = '4'; // pre-action and delete
-          else $modebit = '1'; // pre-action and add
-
-          $ga = rex_sql::factory();
-          if($this->debug)
-            $ga->debugsql = 1;
-          $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $RE_MODUL_ID[$I_ID] .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
-
-          while ($ga->hasNext())
-          {
-            $iaction = $ga->getValue('preview');
-
-            // ****************** VARIABLEN ERSETZEN
-            foreach($REX['VARIABLES'] as $obj)
-            {
-              $iaction = $obj->getACOutput($REX_ACTION,$iaction);
-            }
-            
-
-            eval('?>'.$iaction);
-
-            // ****************** SPEICHERN FALLS NOETIG
-            foreach($REX['VARIABLES'] as $obj)
-            {
-              $obj->setACValues($artDataSql, $REX_ACTION);
-            }
-
-            $ga->next();
-          }
-
+          
+          // ----- PRE VIEW ACTION [EDIT]
+          $REX_ACTION = rex_execPreViewAction($RE_MODUL_ID[$I_ID], $this->function, $REX_ACTION);
           // ----- / PRE VIEW ACTION
+          
+          // ****************** SPEICHERN FALLS NOETIG
+          foreach($REX['VARIABLES'] as $obj)
+          {
+            $obj->setACValues($artDataSql, $REX_ACTION);
+          }
 
           $slice_content .= $this->editSlice($artDataSql, $RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID], $RE_MODUL_ID[$I_ID]);
         }
