@@ -66,6 +66,9 @@ category_deleted  =  Kategorija je izbrisana !
 category_doesnt_exist  =  Ne postoji kategroija!
 cant_delete_startarticle = Ne možete izbrisati po&#269;etnu stranicu.
 
+# redaxo\include\pages\dashboard
+dashboard = Dashboard
+
 # redaxo\include\pages\content.inc.php
 block_updated = Blok je izmenjen!
 block_added = Block je dodat

@@ -70,20 +70,23 @@ class rex_login_sql extends rex_sql
            strpos($this->getValue("rights"), "#csr[") !== false;
   }
 
-  function hasMountpoints()
-  {
-    return strpos($this->getValue("rights"), "#mp[") !== false;
-  }
-  
   function getMountpoints()
   {
-  		preg_match_all('|\#mp\[([0-9]+)\]+|U', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
+  		preg_match_all('|\#csw\[([0-9]+)\]+|U', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
   		return $return[1];
+  }
+  
+  function hasMountpoints()
+  {
+  	if($this->isValueOf('rights', 'csw[0]') || $this->isValueOf('rights', 'admin[]'))
+  		return FALSE;
+  	if(count($this->getMountpoints())>0)
+  		return TRUE;
   }
   
   function hasDashboard()
   {
-  	return $this->hasMountpoints();
+  		return $this->isValueOf('rights', 'dashboard[]');
   }
 }
 

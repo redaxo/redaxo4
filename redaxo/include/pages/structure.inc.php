@@ -421,7 +421,6 @@ echo '
 <!-- *** OUTPUT CATEGORIES - END *** -->
 ';
 
-
 // --------------------------------------------- ARTIKEL LISTE
 
 echo '
@@ -429,7 +428,7 @@ echo '
 
 // --------------------- READ TEMPLATES
 
-if ($category_id > -1)
+if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
 {
   $TEMPLATES = rex_sql::factory();
   $TEMPLATES->setQuery('select * from '.$REX['TABLE_PREFIX'].'template where active=1 order by name');

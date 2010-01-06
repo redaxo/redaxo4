@@ -81,6 +81,9 @@ category_deleted  =  Kategorie smazána!
 category_doesnt_exist  =  Kategorie neexistuje!
 cant_delete_startarticle = Poèáteèní polo¾ku nelze smazat!
 
+# redaxo\include\pages\dashboard
+dashboard = Dashboard
+
 # redaxo\include\pages\content.inc.php
 move_slice_up = Posunout nahoru
 move_slice_down = Posunout dolù

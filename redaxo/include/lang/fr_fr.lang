@@ -82,6 +82,9 @@ category_deleted  =  La catégorie a été effacé!
 category_doesnt_exist  =  La catégorie n'existe pas!
 cant_delete_sitestartarticle = L'article de démarrage ne peut être effacé!
 
+# redaxo\include\pages\dashboard
+dashboard = Dashboard
+
 # redaxo\include\pages\content.inc.php
 move_slice_up = Déplacer vers le haut
 move_slice_down = Déplacer vers le bas

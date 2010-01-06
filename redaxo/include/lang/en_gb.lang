@@ -83,6 +83,9 @@ category_doesnt_exist  =  Category doesn't exist!
 cant_delete_startarticle = Start-article can not be deleted!
 cant_delete_notfoundarticle = Not-Found-article can not be deleted
 
+# redaxo\include\pages\dashboard
+dashboard = Dashboard
+
 # redaxo\include\pages\content.inc.php
 move_slice_up = move up
 move_slice_down = move down

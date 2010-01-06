@@ -99,25 +99,7 @@ if ($rootCats = OOCategory::getRootCategories())
 }
 
 
-// zugriff auf mount_points
-$sel_mp = new rex_select;
-$sel_mp->setMultiple(1);
-$sel_mp->setStyle('class="rex-form-select"');
-$sel_mp->setSize(20);
-$sel_mp->setName('userperm_mp[]');
-$sel_mp->setId('userperm-mp');
-$cat_ids = array();
-if ($rootCats = OOCategory::getRootCategories())
-{
-  foreach( $rootCats as $rootCat) {
-    add_cat_options( $sel_mp, $rootCat, $cat_ids);
-  }
-}
-
-
-
 $userperm_cat = rex_request('userperm_cat', 'array');
-$userperm_mp = rex_request('userperm_mp', 'array');
 $allmcats = rex_request('allmcats', 'int');
 $userperm_cat_read = rex_request('userperm_cat_read', 'array');
 
@@ -350,10 +332,6 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $perm .= '#csw['. $ccat .']';
   }
 
-  // userperm_mp
-  foreach($userperm_mp as $_perm)
-    $perm .= '#mp['. $_perm .']';
-   
   foreach($userperm_cat_read as $_perm)
     $perm .= '#csr['. $_perm .']';
 
@@ -478,15 +456,6 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
       $perm .= '#csw['. $ccat .']';
     }
       
-    // userperm_mp
-    foreach($userperm_mp as $ccat)
-    {echo "dfgh";
-      $perm .= '#mp['. $ccat .']';
-    }
-    
-    
-    
-    
     foreach($userperm_cat_read as $_perm)
       $perm .= '#csr['. $_perm .']';
 
@@ -538,10 +507,6 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     // userperm_cat
     foreach($userperm_cat as $_perm)
       $sel_cat->setSelected($_perm);
-    
-    // userperm_mp
-    foreach($userperm_mp as $_perm)
-      $sel_mp->setSelected($_perm);
       
     // userperm_media
     foreach($userperm_media as $_perm)
@@ -626,10 +591,6 @@ if ($FUNC_ADD != "" || $user_id > 0)
       foreach ( $cat_ids as $cat_id)
         if ($sql->hasPerm('csw['.$cat_id.']')) $sel_cat->setSelected($cat_id);
       
-      // mount points
-      foreach ( $cat_ids as $cat_id)
-        if ($sql->hasPerm('mp['.$cat_id.']')) $sel_mp->setSelected($cat_id);
-        
       // media categories
       foreach ( $mediacat_ids as $cat_id)
         if ($sql->hasPerm('media['.$cat_id.']')) $sel_media->setSelected( $cat_id);
@@ -825,19 +786,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
 				</div>
 
 				
-				<div class="rex-form-row" id="cats_mcats_perms">
-					<p class="rex-form-col-a rex-form-select">
-						<label for="userperm-cat">'.$I18N->msg('mount_points').'</label>
-						' .$sel_mp->get() .'
-						<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-					</p>
-					<p class="rex-form-col-b rex-form-select">
-					</p>
-				</div>
-				
-				
-				
-        <div class="rex-form-row">
+				<div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-module">'.$I18N->msg('modules').'</label>
             '.$sel_module->get().'

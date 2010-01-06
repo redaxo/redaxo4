@@ -72,6 +72,9 @@ category_deleted  =  Kategori silindi!
 category_doesnt_exist  =  Kategori mevcut deðil!
 cant_delete_startarticle = Baþlangýç yazýsý silinemez.
 
+# redaxo\include\pages\dashboard
+dashboard = Dashboard
+
 # redaxo\include\pages\content.inc.php
 block_updated = Dilim güncellendi
 block_added = Dilim eklendi
