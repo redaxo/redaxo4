@@ -163,10 +163,10 @@ class rex_article_editor extends rex_article
           }
           
           // ----- PRE VIEW ACTION [EDIT]
-          $REX_ACTION = rex_execPreViewAction($RE_MODUL_ID[$I_ID], $this->function, $REX_ACTION);
+          $REX_ACTION = rex_execPreViewAction($RE_MODUL_ID[$I_ID], 'edit', $REX_ACTION);
           // ----- / PRE VIEW ACTION
           
-          // ****************** SPEICHERN FALLS NOETIG
+          // ****************** Action Werte in SQL-Objekt uebernehmen
           foreach($REX['VARIABLES'] as $obj)
           {
             $obj->setACValues($artDataSql, $REX_ACTION);
@@ -332,26 +332,25 @@ class rex_article_editor extends rex_article
       $slice_content = rex_warning($I18N->msg('module_doesnt_exist'));
     }else
     {
-      $dummysql = rex_sql::factory();
+      $initDataSql = rex_sql::factory();
 
-      // Den Dummy mit allen Feldern aus rex_article_slice füllen
-      $slice_fields = rex_sql::factory();
-      $slice_fields->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'article_slice LIMIT 1');
-      foreach($slice_fields->getFieldnames() as $fieldname)
+      $REX_ACTION = array();
+      foreach ($REX['VARIABLES'] as $obj)
       {
-        switch($fieldname)
-        {
-          case 'clang'        : $def_value = $this->clang; break;
-          case 'ctype'        : $def_value = $this->ctype; break;
-          case 'modultyp_id'  : $def_value = $module_id; break;
-          case 'article_id'   : $def_value = $this->article_id; break;
-          case 'id'           : $def_value = 0; break;
-          default             : $def_value = '';
-        }
-        $dummysql->setValue($REX['TABLE_PREFIX']. 'article_slice.'. $fieldname, $def_value);
+        $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
       }
-
-      $moduleInput = $this->replaceVars($dummysql, $MOD->getValue("eingabe"));
+      
+      // ----- PRE VIEW ACTION [ADD]
+      $REX_ACTION = rex_execPreViewAction($module_id, 'add', $REX_ACTION);
+      // ----- / PRE VIEW ACTION
+      
+      // ****************** Action Werte in Sql-Objekt uebernehmen
+      foreach($REX['VARIABLES'] as $obj)
+      {
+        $obj->setACValues($initDataSql, $REX_ACTION);
+      }
+      
+      $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("eingabe"));
       
       $slice_content = '
         <a name="addslice"></a>

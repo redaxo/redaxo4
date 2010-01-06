@@ -173,10 +173,10 @@ if ($function == "add" or $function == "edit")
       $legend = $I18N->msg('action_create');
     }
 
-    // PreView action macht nur beim edit Sinn da,
+    // PreView action macht nur bei add und edit Sinn da,
     // - beim Delete kommt keine View
-    // - beim Add sind noch keine Werte vorhanden, welche man verarbeiten könnte
     $options = array(
+      1 => $ASTATUS[0] .' - '.$I18N->msg('action_event_add'),
       2 => $ASTATUS[1] .' - '.$I18N->msg('action_event_edit')
     );
 
