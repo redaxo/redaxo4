@@ -10,18 +10,23 @@ angehandelt.
 Version 4.3 (2009-xx-xx)
 
   Neu:
+  * Actions: PreView koennen auch bei ADD verwendet werden (z.b. default Werte Eingabefelder) [Markus.Staab]
   * Metainfo: Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
   * Metainfo: Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
   * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
     - neue Funktion OOMediaCategory::getChildrenById($category_id)
   * Import/Export optimiert [Markus.Staab]
-    - Basierend auf einem Patch von http://blog.webvariants.de/groessere-datenbanken-in-redaxo-exportieren
+    - Basierend auf einem Patch von webvariants.de
     - importe/exporte koennen jetzt optional zusätzlich eine php Datei enthalten, die vorm/nach dem export ausgeführt um ggf. anpassungen vorzunehmen
   * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]
-  * Image-Resize: Neuer Grayscale Filter [Andreas.Eberhard]
+  * Image-Resize: 
+    - Neuer Grayscale Filter [Andreas.Eberhard]
+    - Neuer Modus Fit, um Bilder in eine Rechteckfläche einzupassen [jeandeluxe, Jan.Kristinus]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
   * rex_article umgebaut und vereinfacht [Markus.Staab]
-  * Neue Klassen:
+  * neue Page:
+    - Dashboard [Jan.Kristinus]
+  * neue Klassen:
     - rex_mediacategory_select [Markus.Staab]
   * neue Extension Points:
     - ART_CONTENT_UPDATED [Jan.Kristinus]
