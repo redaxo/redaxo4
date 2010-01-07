@@ -10,7 +10,7 @@
 
 class rex_login_sql extends rex_sql
 {
-  function isValueOf($feld, $prop)
+  /*public*/ function isValueOf($feld, $prop)
   {
     if ($prop == '')
     {
@@ -25,22 +25,22 @@ class rex_login_sql extends rex_sql
     }
   }
 
-  function getUserLogin()
+  /*public*/ function getUserLogin()
   {
     return $this->getValue('login');
   }
 
-  function isAdmin()
+  /*public*/ function isAdmin()
   {
     return $this->isValueOf('rights', 'admin[]');
   }
 
-  function hasPerm($perm)
+  /*public*/ function hasPerm($perm)
   {
     return $this->isValueOf('rights', $perm);
   }
 
-  function hasCategoryPerm($category_id)
+  /*public*/ function hasCategoryPerm($category_id)
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'csw[0]') ||
@@ -48,14 +48,14 @@ class rex_login_sql extends rex_sql
            $this->isValueOf('rights', 'csw[' . $category_id . ']');
   }
   
-	function hasMediaCategoryPerm($category_id)
+	/*public*/ function hasMediaCategoryPerm($category_id)
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'media[0]') ||
            $this->isValueOf('rights', 'media[' . $category_id . ']');
   }
   
-	function hasMediaPerm()
+	/*public*/ function hasMediaPerm()
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'media[0]') ||
@@ -63,20 +63,20 @@ class rex_login_sql extends rex_sql
            $this->isValueOf('rights', 'mediapool[]');
   }
   
-  function hasStructurePerm()
+  /*public*/ function hasStructurePerm()
   {
     return $this->isValueOf('rights', 'admin[]') || 
            strpos($this->getValue("rights"), "#csw[") !== false ||
            strpos($this->getValue("rights"), "#csr[") !== false;
   }
 
-  function getMountpoints()
+  /*public*/ function getMountpoints()
   {
   		preg_match_all('|\#csw\[([0-9]+)\]+|U', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
   		return $return[1];
   }
   
-  function hasMountpoints()
+  /*public*/ function hasMountpoints()
   {
   	if($this->isValueOf('rights', 'csw[0]') || $this->isValueOf('rights', 'admin[]'))
   		return FALSE;
@@ -84,7 +84,7 @@ class rex_login_sql extends rex_sql
   		return TRUE;
   }
   
-  function hasDashboard()
+  /*public*/ function hasDashboard()
   {
   		return $this->isValueOf('rights', 'dashboard[]');
   }
@@ -107,7 +107,7 @@ class rex_login
   var $cache;
   var $login_status;
 
-  function rex_login()
+  /*public*/ function rex_login()
   {
     $this->DB = 1;
     $this->logout = false;
@@ -123,7 +123,7 @@ class rex_login
    * Setzt, ob die Ergebnisse der Login-Abfrage
    * pro Seitenaufruf gecached werden sollen
    */
-  function setCache($status = true)
+  /*public*/ function setCache($status = true)
   {
     $this->cache = $status;
   }
@@ -131,7 +131,7 @@ class rex_login
   /**
    * Setzt die Id der zu verwendenden SQL Connection
    */
-  function setSqlDb($DB)
+  /*public*/ function setSqlDb($DB)
   {
     $this->DB = $DB;
   }
@@ -140,7 +140,7 @@ class rex_login
    * Setzt eine eindeutige System Id, damit mehrere
    * Sessions auf der gleichen Domain unterschieden werden können
    */
-  function setSysID($system_id)
+  /*public*/ function setSysID($system_id)
   {
     $this->system_id = $system_id;
   }
@@ -148,7 +148,7 @@ class rex_login
   /**
    * Setzt das Session Timeout
    */
-  function setSessiontime($session_duration)
+  /*public*/ function setSessiontime($session_duration)
   {
     $this->session_duration = $session_duration;
   }
@@ -156,7 +156,7 @@ class rex_login
   /**
    * Setzt den Login und das Password
    */
-  function setLogin($usr_login, $usr_psw)
+  /*public*/ function setLogin($usr_login, $usr_psw)
   {
     $this->usr_login = $usr_login;
     $this->usr_psw = $this->encryptPassword($usr_psw);
@@ -165,7 +165,7 @@ class rex_login
   /**
    * Markiert die aktuelle Session als ausgeloggt
    */
-  function setLogout($logout)
+  /*public*/ function setLogout($logout)
   {
     $this->logout = $logout;
   }
@@ -173,7 +173,7 @@ class rex_login
   /**
    * Prüft, ob die aktuelle Session ausgeloggt ist
    */
-  function isLoggedOut()
+  /*public*/ function isLoggedOut()
   {
     return $this->logout;
   }
@@ -184,7 +184,7 @@ class rex_login
    * Dieser wird benutzt, um einen bereits eingeloggten User
    * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
    */
-  function setUserquery($user_query)
+  /*public*/ function setUserquery($user_query)
   {
     $this->user_query = $user_query;
   }
@@ -195,7 +195,7 @@ class rex_login
    * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
    * Hier wird das eingegebene Password und der Login eingesetzt.
    */
-  function setLoginquery($login_query)
+  /*public*/ function setLoginquery($login_query)
   {
     $this->login_query = $login_query;
   }
@@ -203,7 +203,7 @@ class rex_login
   /**
    * Setzt den Namen der Spalte, der die User-Id enthält
    */
-  function setUserID($uid)
+  /*public*/ function setUserID($uid)
   {
     $this->uid = $uid;
   }
@@ -211,7 +211,7 @@ class rex_login
   /**
    * Setzt einen Meldungstext
    */
-  function setMessage($message)
+  /*public*/ function setMessage($message)
   {
     $this->message = $message;
   }
@@ -222,7 +222,7 @@ class rex_login
    *
    * Gibt true zurück bei erfolg, sonst false
    */
-  function checkLogin()
+  /*public*/ function checkLogin()
   {
     global $REX, $I18N;
 
@@ -334,7 +334,7 @@ class rex_login
   /**
    * Gibt einen Benutzer-Spezifischen Wert zurück
    */
-  function getValue($value, $default = NULL)
+  /*public*/ function getValue($value, $default = NULL)
   {
   	if($this->USER)
     	return $this->USER->getValue($value);
@@ -345,7 +345,7 @@ class rex_login
   /**
    * Setzt eine Password-Funktion
    */
-  function setPasswordFunction($pswfunc)
+  /*public*/ function setPasswordFunction($pswfunc)
   {
     $this->passwordfunction = $pswfunc;
   }
@@ -353,7 +353,7 @@ class rex_login
   /**
    * Verschlüsselt den übergebnen String, falls eine Password-Funktion gesetzt ist.
    */
-  function encryptPassword($psw)
+  /*protected*/ function encryptPassword($psw)
   {
     if ($this->passwordfunction == "")
       return $psw;
@@ -364,7 +364,7 @@ class rex_login
   /**
    * Setzte eine Session-Variable
    */
-  function setSessionVar($varname, $value)
+  /*public*/ function setSessionVar($varname, $value)
   {
     $_SESSION[$this->system_id][$varname] = $value;
   }
@@ -372,7 +372,7 @@ class rex_login
   /**
    * Gibt den Wert einer Session-Variable zurück
    */
-  function getSessionVar($varname, $default = '')
+  /*public*/ function getSessionVar($varname, $default = '')
   {
     if (isset ($_SESSION[$this->system_id][$varname]))
       return $_SESSION[$this->system_id][$varname];
@@ -383,7 +383,7 @@ class rex_login
   /*
    * Session fixation
    */
-  function sessionFixation()
+  /*public*/ function sessionFixation()
   {
     // 1. parameter ist erst seit php5.1 verfügbar
     if (version_compare(phpversion(), '5.1.0', '>=') == 1)
@@ -401,7 +401,7 @@ class rex_backend_login extends rex_login
 {
   var $tableName;
 
-  function rex_backend_login($tableName)
+  /*public*/ function rex_backend_login($tableName)
   {
     global $REX;
 
@@ -416,7 +416,7 @@ class rex_backend_login extends rex_login
     $this->tableName = $tableName;
   }
 
-  function checkLogin()
+  /*public*/ function checkLogin()
   {
     global $REX;
 
@@ -460,7 +460,7 @@ class rex_backend_login extends rex_login
     return $check;
   }
   
-  function getLanguage()
+  /*public*/ function getLanguage()
 	{
 	  global $REX;
 	  
@@ -474,7 +474,7 @@ class rex_backend_login extends rex_login
     return $REX['LANG'];
 	}
 
-	function getStartpage()
+	/*public*/ function getStartpage()
 	{
 	  global $REX;
 	  
