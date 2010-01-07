@@ -22,6 +22,7 @@ Version 4.3 (2009-xx-xx)
   * Image-Resize: 
     - Neuer Grayscale Filter [Andreas.Eberhard]
     - Neuer Modus Fit, um Bilder in eine Rechteckfläche einzupassen [jeandeluxe, Jan.Kristinus]
+  * System Page: Artikel verknuepfungen ueber REX_MEDIA_BUTTON waehlbar [Markus.Staab]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
   * rex_article umgebaut und vereinfacht [Markus.Staab]
   * neue Page:
