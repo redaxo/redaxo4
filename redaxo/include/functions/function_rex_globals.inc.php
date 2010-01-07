@@ -274,6 +274,11 @@ function _rex_cast_var($var, $vartype, $default, $mode)
   return $var;
 }
 
+/**
+ * Ermittelt die HTTP-Methode mit der das aktuelle Request aufgerufen wurde.
+ * 
+ * @return String Die ermittelte HTTP-Methode in lowercase (head,get,post,put,delete)
+ */
 function rex_request_method()
 {
   return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
