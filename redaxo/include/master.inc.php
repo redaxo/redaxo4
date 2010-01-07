@@ -127,15 +127,15 @@ $REX['PERM'][] = 'dashboard[]';
 // ----- optionen
 $REX['EXTPERM'] = array();
 $REX['EXTPERM'][] = 'advancedMode[]';
+$REX['EXTPERM'][] = 'accesskeys[]';
 $REX['EXTPERM'][] = 'moveSlice[]';
-$REX['EXTPERM'][] = 'copyContent[]';
 $REX['EXTPERM'][] = 'moveArticle[]';
-$REX['EXTPERM'][] = 'copyArticle[]';
 $REX['EXTPERM'][] = 'moveCategory[]';
+$REX['EXTPERM'][] = 'copyArticle[]';
+$REX['EXTPERM'][] = 'copyContent[]';
 $REX['EXTPERM'][] = 'publishArticle[]';
 $REX['EXTPERM'][] = 'publishCategory[]';
 $REX['EXTPERM'][] = 'article2startpage[]';
-$REX['EXTPERM'][] = 'accesskeys[]';
 
 // ----- extras
 $REX['EXTRAPERM'] = array();
