@@ -34,7 +34,7 @@ if ($num_clang>1)
 		    
     $val = rex_translate($val);
 
-		if (!$REX['USER']->hasPerm('admin[]') && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
+		if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
 		{
 			echo '<span class="rex-strike">'. $val .'</span>';
 

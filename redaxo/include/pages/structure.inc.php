@@ -62,7 +62,7 @@ elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX
     $function = 'edit';
   }
 }elseif ($function == 'status' && $edit_id != ''
-        && ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
+        && ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
   list($success, $message) = rex_categoryStatus($edit_id, $clang);
@@ -91,7 +91,7 @@ elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX['USER']->has
 // --------------------------------------------- ARTIKEL FUNKTIONEN
 
 if ($function == 'status_article' && $article_id != ''
-    && ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
+    && ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- ARTICLE STATUS
   list($success, $message) = rex_articleStatus($article_id, $clang);
@@ -297,7 +297,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-    if ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishCategory[]'))
+    if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishCategory[]'))
     {
       $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
@@ -605,7 +605,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
                       <td class="'. $article_class .'"><span class="rex-strike">'. $article_status .'</span></td>';
       }else
       {
-        if ($REX['USER']->hasPerm('admin[]') || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
+        if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
             $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
 
         if (!$REX['USER']->hasPerm('editContentOnly[]'))

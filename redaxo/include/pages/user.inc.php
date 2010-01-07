@@ -560,7 +560,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
     if ($sql->getRows()==1)
     {
       // ----- EINLESEN DER PERMS
-      if ($sql->hasPerm('admin[]')) $adminchecked = 'checked="checked"';
+      if ($sql->isAdmin()) $adminchecked = 'checked="checked"';
       else $adminchecked = '';
 
       if ($sql->hasPerm('csw[0]')) $allcatschecked = 'checked="checked"';

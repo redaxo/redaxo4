@@ -4,7 +4,7 @@ if ($REX["REDAXO"]
 	&& 
 		$REX['USER'] 
 		&& 
-		($REX['USER']->isAdmin("rights","admin[]") || $REX['USER']->isValueOf("rights","community[admin]") || $REX['USER']->isValueOf("rights","community[setup]"))
+		($REX['USER']->isAdmin() || $REX['USER']->hasPerm("community[admin]") || $REX['USER']->hasPerm("community[setup]"))
 )
 {
 

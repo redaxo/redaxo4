@@ -12,7 +12,7 @@ $KATPATH = '|'; // Standard für path Eintragungen in DB
 if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 
 $KATPERM = false;
-if ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->hasPerm('admin[]')) $KATPERM = true;
+if ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->isAdmin()) $KATPERM = true;
 
 $KAT = rex_sql::factory();
 // $KAT->debugsql = true;
