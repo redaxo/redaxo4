@@ -15,7 +15,7 @@ class rex_var_link extends rex_var
 {
   // --------------------------------- Actions
 
-  function getACRequestValues($REX_ACTION)
+  /*public*/ function getACRequestValues($REX_ACTION)
   {
     $values     = rex_request('LINK', 'array');
     $listvalues = rex_request('LINKLIST', 'array');
@@ -30,7 +30,7 @@ class rex_var_link extends rex_var
     return $REX_ACTION;
   }
 
-  function getACDatabaseValues($REX_ACTION, & $sql)
+  /*public*/ function getACDatabaseValues($REX_ACTION, & $sql)
   {
     for ($i = 1; $i < 11; $i++)
     {
@@ -41,7 +41,7 @@ class rex_var_link extends rex_var
     return $REX_ACTION;
   }
 
-  function setACValues(& $sql, $REX_ACTION, $escape = false)
+  /*public*/ function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     global $REX;
 
@@ -54,12 +54,12 @@ class rex_var_link extends rex_var
 
   // --------------------------------- Output
 
-  function getBEOutput(& $sql, $content)
+  /*public*/ function getBEOutput(& $sql, $content)
   {
     return $this->getOutput($sql, $content);
   }
 
-  function getBEInput(& $sql, $content)
+  /*public*/ function getBEInput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
     $content = $this->matchLinkButton($sql, $content);
@@ -68,7 +68,7 @@ class rex_var_link extends rex_var
     return $content;
   }
 
-  function getOutput(& $sql, $content)
+  /*private*/ function getOutput(& $sql, $content)
   {
     $content = $this->matchLinkList($sql, $content);
     $content = $this->matchLink($sql, $content);
@@ -77,10 +77,7 @@ class rex_var_link extends rex_var
     return $content;
   }
 
-  /**
-   * @see rex_var::handleDefaultParam
-   */
-  function handleDefaultParam($varname, $args, $name, $value)
+  /*protected*/ function handleDefaultParam($varname, $args, $name, $value)
   {
     switch($name)
     {
@@ -95,7 +92,7 @@ class rex_var_link extends rex_var
   /**
    * Button für die Eingabe
    */
-  function matchLinkButton(& $sql, $content)
+  /*private*/ function matchLinkButton(& $sql, $content)
   {
   	global $REX;
 
@@ -132,7 +129,7 @@ class rex_var_link extends rex_var
   /**
    * Button für die Eingabe
    */
-  function matchLinkListButton(& $sql, $content)
+  /*private*/ function matchLinkListButton(& $sql, $content)
   {
     $var = 'REX_LINKLIST_BUTTON';
     $matches = $this->getVarParams($content, $var);
@@ -157,7 +154,7 @@ class rex_var_link extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  function matchLink(& $sql, $content)
+  /*private*/ function matchLink(& $sql, $content)
   {
     $var = 'REX_LINK';
     $matches = $this->getVarParams($content, $var);
@@ -183,7 +180,7 @@ class rex_var_link extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  function matchLinkId(& $sql, $content)
+  /*private*/ function matchLinkId(& $sql, $content)
   {
     $var = 'REX_LINK_ID';
     $matches = $this->getVarParams($content, $var);
@@ -206,7 +203,7 @@ class rex_var_link extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  function matchLinkList(& $sql, $content)
+  /*private*/ function matchLinkList(& $sql, $content)
   {
     $var = 'REX_LINKLIST';
     $matches = $this->getVarParams($content, $var);
@@ -227,7 +224,7 @@ class rex_var_link extends rex_var
   }
   
   // TODO: passenden namen finden
-  function _getLinkButton($name, $linkId, $article_id, $category = '')
+  /*public static*/ function _getLinkButton($name, $linkId, $article_id, $category = '')
   {
     $field = rex_var_link::getLinkButton($linkId, $article_id, $category);
     return str_replace('LINK['. $linkId .']', $name, $field);
@@ -236,7 +233,7 @@ class rex_var_link extends rex_var
   /**
    * Gibt das Button Template zurück
    */
-  function getLinkButton($id, $article_id, $category = '')
+  /*public static*/ function getLinkButton($id, $article_id, $category = '')
   {
     global $REX, $I18N;
 
@@ -276,7 +273,7 @@ class rex_var_link extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  function getLinklistButton($id, $value, $category = '')
+  /*public static*/ function getLinklistButton($id, $value, $category = '')
   {
     global $REX, $I18N;
 

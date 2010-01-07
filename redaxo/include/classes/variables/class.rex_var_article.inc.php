@@ -18,20 +18,17 @@ class rex_var_article extends rex_var
 {
   // --------------------------------- Output
 
-  function getTemplate($content)
+  /*public*/ function getTemplate($content)
   {
     return $this->matchArticle($content, true);
   }
 
-  function getBEOutput(& $sql, $content)
+  /*public*/ function getBEOutput(& $sql, $content)
   {
     return $this->matchArticle($content);
   }
 
-  /**
-   * @see rex_var::handleDefaultParam
-   */
-  function handleDefaultParam($varname, $args, $name, $value)
+  /*protected*/ function handleDefaultParam($varname, $args, $name, $value)
   {
     switch($name)
     {
@@ -51,9 +48,9 @@ class rex_var_article extends rex_var
   }
   
   /**
-   * Wert für die Ausgabe
+   * Werte für die Ausgabe
    */
-  function matchArticle($content, $replaceInTemplate = false)
+  /*private*/ function matchArticle($content, $replaceInTemplate = false)
   {
   	global $REX;
 

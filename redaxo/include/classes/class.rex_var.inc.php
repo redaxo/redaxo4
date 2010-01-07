@@ -13,39 +13,46 @@ class rex_var
 
   /**
    * Actionmethode:
-   * Zum füllen des sql aus dem $REX_ACTION Array
+   * 
+   * Füllt des sql-Objekt aus dem $REX_ACTION Array
    */
-  function setACValues(& $sql, $REX_ACTION, $escape = false)
+  /*public*/ function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     // nichts tun
   }
 
   /**
    * Actionmethode:
-   * Zum füllen des $REX_ACTION Arrays aus den Input Formularwerten
+   * 
+   * Füllt des $REX_ACTION Array aus den Input Formularwerten (Request Werten)
+   * 
    * @return REX_ACTION Array
    */
-  function getACRequestValues($REX_ACTION)
+  /*public*/ function getACRequestValues($REX_ACTION)
   {
     return $REX_ACTION;
   }
 
   /**
    * Actionmethode:
-   * Zum füllen des $REX_ACTION Arrays aus der Datenbank (rex_sql)
+   * 
+   * Füllt des $REX_ACTION Arrays aus der Datenbank (rex_sql)
+   * 
    * @return REX_ACTION Array
    */
-  function getACDatabaseValues($REX_ACTION, & $sql)
+  /*public*/ function getACDatabaseValues($REX_ACTION, & $sql)
   {
     return $REX_ACTION;
   }
 
   /**
    * Actionmethode:
-   * Ersetzen der Werte in dem Aktionsscript
-   * @return output String
+   * 
+   * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem REX_ACTION Array
+   * 
+   * @return String Der geparste String
    */
-  function getACOutput($REX_ACTION, $content)
+  /*public*/ function getACOutput($REX_ACTION, $content)
   {
     $sql = rex_sql::factory();
     $this->setACValues($sql, $REX_ACTION);
@@ -55,42 +62,43 @@ class rex_var
   // --------------------------------- Ouput
 
   /**
-   * Ausgabe eines Modules fürs Frontend
-   * sql Objekt mit der passenden Slice
+   * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem sql Objekt.
+   * Die Darstellung erfolgt dabei im Frontend.
    *
    * FE = Frontend
    */
-  function getFEOutput(& $sql, $content)
+  /*public*/ function getFEOutput(& $sql, $content)
   {
     return $this->getBEOutput($sql, $content);
   }
-
+  
   /**
-   * Ausgabe eines Modules im Backend bei der Ausgabe
-   * sql Objekt mit der passenden Slice
+   * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem sql Objekt.
+   * Die Darstellung erfolgt dabei zur Modul-Eingabe im Backend.
    *
    * BE = Backend
    */
-  function getBEOutput(& $sql, $content)
+  /*public*/ function getBEOutput(& $sql, $content)
   {
     return $content;
   }
 
   /**
-   * Ausgabe eines Modules im Backend bei der Eingabe
-   * sql Objekt mit der passenden Slice
-   *
+   * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem sql Objekt.
+   * Die Darstellung erfolgt dabei zur Modul-Ausgabe im Backend.
+   * 
    * BE = Backend
    */
-  function getBEInput(& $sql, $content)
+  /*public*/ function getBEInput(& $sql, $content)
   {
     return $this->getBEOutput($sql, $content);
   }
 
   /**
-   * Ausgabe eines Templates
+   * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem sql Objekt.
+   * Die Darstellung erfolgt dabei im Frontend.
    */
-  function getTemplate($content)
+  /*public*/ function getTemplate($content)
   {
   	return $content;
   }
@@ -98,7 +106,7 @@ class rex_var
   /**
    * Wandelt PHP Code in Einfache Textausgaben um
    */
-  function stripPHP($content)
+  /*protected*/ function stripPHP($content)
   {
     $content = str_replace('<?', '&lt;?', $content);
     $content = str_replace('?>', '?&gt;', $content);
@@ -110,7 +118,7 @@ class rex_var
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
    * Spalten unterschiedlicher Tabellen enthält.
    */
-  function getValue(& $sql, $value)
+  /*protected*/ function getValue(& $sql, $value)
   {
     global $REX;
     return $sql->getValue($REX['TABLE_PREFIX'] . 'article_slice.' . $value);
@@ -120,7 +128,7 @@ class rex_var
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
    * Spalten unterschiedlicher Tabellen enthält.
    */
-  function setValue(& $sql, $fieldname, $value, $escape = false)
+  /*protected*/ function setValue(& $sql, $fieldname, $value, $escape = false)
   {
     global $REX;
 
@@ -133,7 +141,7 @@ class rex_var
   /**
    * Callback um nicht explizit gehandelte OutputParameter zu behandeln
    */
-  function handleDefaultParam($varname, $args, $name, $value)
+  /*protected*/ function handleDefaultParam($varname, $args, $name, $value)
   {
     switch($name)
     {
@@ -152,7 +160,7 @@ class rex_var
   /**
    * Parameter aus args auf die Ausgabe eines Widgets anwenden
    */
-  function handleGlobalWidgetParams($varname, $args, $value)
+  /*protected*/ function handleGlobalWidgetParams($varname, $args, $value)
   {
     return $value;
   }
@@ -160,7 +168,7 @@ class rex_var
   /**
    * Parameter aus args auf den Wert einer Variablen anwenden
    */
-  function handleGlobalVarParams($varname, $args, $value)
+  /*protected*/ function handleGlobalVarParams($varname, $args, $value)
   {
     if(isset($args['callback']))
     {
@@ -190,7 +198,7 @@ class rex_var
    * Parameter aus args zur Laufzeit auf den Wert einer Variablen anwenden.
    * Wichtig für Variablen, die Variable ausgaben haben.
    */
-  function handleGlobalVarParamsSerialized($varname, $args, $value)
+  /*protected*/ function handleGlobalVarParamsSerialized($varname, $args, $value)
   {
     $varname = str_replace('"', '\"', $varname);
     $args = str_replace('"', '\"', serialize($args));
@@ -199,10 +207,8 @@ class rex_var
 
   /**
    * Findet die Parameter der Variable $varname innerhalb des Strings $content.
-   *
-   * @access protected
    */
-  function getVarParams($content, $varname)
+  /*protected*/ function getVarParams($content, $varname)
   {
     $result = array ();
 
@@ -230,7 +236,7 @@ class rex_var
    * Durchsucht den String $content nach Variablen mit dem Namen $varname.
    * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurück.
    */
-  function matchVar($content, $varname)
+  /*protected*/ function matchVar($content, $varname)
   {
     $result = array ();
 
@@ -245,9 +251,13 @@ class rex_var
     return $result;
   }
   
-  
-  
-  function extractArg($name, $args, $default = null)
+  /**
+   * Extrahiert das Argument $name aus dem Array $args.
+   * Wenn das Argument nicht gefunden werden kann, wird $default zurueckgegeben.
+   * 
+   * @return String Wert des Arguments zu $name oder $default wenn nicht vorhanden
+   */
+  /*protected*/ function extractArg($name, $args, $default = null)
   {
   	$val = $default;
   	if(isset($args[$name]))
@@ -262,24 +272,38 @@ class rex_var
    * Trennt einen String an Leerzeichen auf.
    * Abschnitte die in "" oder '' stehen, werden als ganzes behandelt und
    * darin befindliche Leerzeichen nicht getrennt.
-   * @access protected
    */
-  function splitString($string)
+  /*protected*/ function splitString($string)
   {
     return rex_split_string($string);
   }
 
-  function isAddEvent()
+  /**
+   * Prueft ob es sich bei dem aktuellen event um ein ADD-Event handelt.
+   * 
+   * @return boolean True wenn es sich um ein ADD-Event handelt, sonst FALSE 
+   */
+  /*public static*/ function isAddEvent()
   {
     return rex_request('function', 'string') == 'add';
   }
 
-  function isEditEvent()
+  /**
+   * Prueft ob es sich bei dem aktuellen event um ein EDIT-Event handelt.
+   * 
+   * @return boolean True wenn es sich um ein EDIT-Event handelt, sonst FALSE 
+   */
+  /*public static*/ function isEditEvent()
   {
     return rex_request('function', 'string') == 'edit';
   }
 
-  function isDeleteEvent()
+  /**
+   * Prueft ob es sich bei dem aktuellen event um ein DELETE-Event handelt.
+   * 
+   * @return boolean True wenn es sich um ein DELETE-Event handelt, sonst FALSE 
+   */
+  /*public static*/ function isDeleteEvent()
   {
     return rex_request('function', 'string') == 'delete';
   }
