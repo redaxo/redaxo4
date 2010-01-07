@@ -53,7 +53,7 @@ if($REX["REDAXO"])
   		
     	if($table["status"] == 1)
     	{
-    		if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights",$table_perm)) )
+    		if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
     			$REX['ADDON']['editme']['SUBPAGES'][] = array( $table["label"] , $table["name"]);
     	}
     }

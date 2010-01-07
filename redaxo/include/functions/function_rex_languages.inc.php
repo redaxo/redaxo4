@@ -9,7 +9,7 @@
 // rechte einbauen
 // admin[]
 // clang[xx], clang[0]
-// $REX['USER']->isValueOf("rights","csw[0]")
+// $REX['USER']->hasPerm("csw[0]")
 
 reset($REX['CLANG']);
 $num_clang = count($REX['CLANG']);

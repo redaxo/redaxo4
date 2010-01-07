@@ -29,9 +29,9 @@ if ($REX["REDAXO"] && $REX['USER'])
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , '&Uuml;bersicht');
 	
 	// Feste Subpages
-	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","community[users]")) 
+	if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("community[users]")) 
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('user' , 'User Verwaltung');
-	if ($REX['USER']->isAdmin() || $REX['USER']->isValueOf("rights","community[admin]")) 
+	if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("community[admin]")) 
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('user_fields' , 'User Felder erweitern');
 	
 	if($REX["REDAXO"])

@@ -146,7 +146,7 @@ function rex_version_header($params)
   $return .= '<ul class="rex-display-inline">';
   $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.$I18N->msg("version").':</label> '.$s->get().'</li>';
 
-  if($REX["USER"]->isValueOf("rights","version[only_working_version]"))
+  if($REX["USER"]->hasPerm("version[only_working_version]"))
 	{
 		if($rex_version_article[$params["article_id"]]>0)
 		{
