@@ -61,7 +61,7 @@ class rex_xform_lang_textarea extends rex_xform_abstract
 
 		$script = '
 			<script type="text/javascript" charset="utf-8">
-			$(function () {
+			jQuery(function($) {
 			        var tabContainers = $(\'#form_p_'.$this->getId().' div.tabs > p.tab\');
 			        
 			        $(\'#form_p_'.$this->getId().' div.tabs .navi-tab a\').click(function () {
