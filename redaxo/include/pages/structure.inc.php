@@ -17,8 +17,24 @@ $function    = rex_request('function',    'string');
 $info = '';
 $warning = '';
 
+
+
+
+
+// --------------------------------------------- Mountpoints
+
+$mountpoints = $REX["USER"]->getMountpoints();
+if(count($mountpoints)==1 && $category_id == 0)
+{
+  // Nur ein Mointpoint -> Sprung in die Kategory
+  $category_id = current($mountpoints);
+}
+  
+// --------------------------------------------- Rechte prŸfen
 require $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
 require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
+
+
 
 
 // --------------------------------------------- TITLE
@@ -280,11 +296,35 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 		));
 }
 
+
+
+
+
 // --------------------- KATEGORIE LIST
 
-$KAT = rex_sql::factory();
-// $KAT->debugsql = true;
-$KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
+if(count($mountpoints)>0 && $category_id == 0)
+{
+	$re_id = "";
+	foreach($mountpoints as $mp)
+	{
+		if ($re_id != '')
+		  $re_id .= ' OR ';
+	  $re_id .= 'id='. $mp;
+	}
+	$re_id = '('.$re_id.') AND ';
+	
+  $KAT = rex_sql::factory();
+  // $KAT->debugsql = true;
+  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE '.$re_id.' startpage=1 AND clang='. $clang .' ORDER BY catname');
+}else
+{
+	$KAT = rex_sql::factory();
+	// $KAT->debugsql = true;
+	$KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
+}
+
+
+
 
 for ($i = 0; $i < $KAT->getRows(); $i++)
 {
