@@ -116,22 +116,18 @@
 	width: 406px;
 }
 .xform div.formlangtextarea .tabs ul {
-	margin-bottom: 0px;
+	margin: 0px;
 }
 .xform div.formlangtextarea .tabs li {
 	display: inline;
 	margin-right: 5px;
 	padding: 0px 10px 0 0;
-	background: none;
-	background-image: url(/layout/css/bg_navi_sub2.gif);
-	background-position: 100% 0%;
-	background-repeat: no-repeat;
 }
 .xform div.formlangtextarea .tabs li a {
-	color: #627D89;
+	color: #2C8EC0;
 }
 .xform div.formlangtextarea .tabs li a:hover, 
 .xform div.formlangtextarea .tabs li a.active {
-	color: #125283;
+	color: #14568A;
 	text-decoration: underline;
 }
