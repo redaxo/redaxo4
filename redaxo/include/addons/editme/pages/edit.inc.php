@@ -18,7 +18,7 @@ foreach($tables as $table)
 	 
 	if($subpage == $table['label'])
 	{
-		echo '<br /><table cellpadding="5" class="rex-table"><tr><td><b>'.$table["name"].'</b> - '.$table["description"].'</td></tr></table><br />';
+		echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["name"].'</b> - '.$table["description"].'</td></tr></table><br />';
 		break; // Wenn Tabelle gefunden - abbrechen
 	}
 

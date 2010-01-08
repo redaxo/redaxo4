@@ -44,7 +44,7 @@ else
 
     if ($SKAT->getRows()==1)
     {
-      if ($KATPERM || $REX['USER']->hasPerm('csw['.$catid.']') || $REX['USER']->hasPerm('csr['.$catid.']'))
+      if ($KATPERM || $REX['USER']->hasCategoryPerm($catid))
       {
         $KATout .= '<li>: <a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
         $KATPATH .= $KPATH[$ii]."|";

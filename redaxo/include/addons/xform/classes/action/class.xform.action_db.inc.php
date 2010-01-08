@@ -56,6 +56,7 @@ class rex_xform_action_db extends rex_xform_action_abstract
 			$flag = "insert";
 			$id = $sql->getLastId();
 			
+			$this->params["main_id"] = $id;
 			$this->elements_email["ID"] = $id;
 			// $this->elements_sql["ID"] = $id;
 			if ($id == 0)

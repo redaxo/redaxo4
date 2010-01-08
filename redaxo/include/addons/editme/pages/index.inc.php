@@ -24,15 +24,27 @@ switch($subpage)
   	require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
     break;
 	case '':
-	  $subpage = 'tables';
-	  require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
-		break;
+	  if($REX['USER']->isAdmin())
+	  {
+	    $subpage = 'tables';
+      require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+	    break;
+	  }else
+	  {
+	  	if(count($tables)>0)
+		    foreach($tables as $t)
+		    {
+		  	  $subpage = $t["label"];
+		  	  break;
+		    }
+	  }
   default:
   {
   	$table = "";
-  	foreach($tables as $t)
-  		if($t["label"] == $subpage)
-  		  $table = $subpage;
+    if(count($tables)>0)
+	  	foreach($tables as $t)
+	  		if($t["label"] == $subpage)
+	  		  $table = $subpage;
   	
 		if($table == "")
 		{

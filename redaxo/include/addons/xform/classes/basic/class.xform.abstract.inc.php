@@ -70,7 +70,7 @@ class rex_xform_abstract
 
 
 	// FormularParameter ins Objekt legen
-	function loadParams(&$params, $elements = array(), &$obj = "", &$email_elements, &$sql_elements)
+	function loadParams(&$params, $elements, &$obj, &$email_elements, &$sql_elements)
 	{
 		// parameter des Formuarmoduls werden übergeben
 		$this->params = &$params;
