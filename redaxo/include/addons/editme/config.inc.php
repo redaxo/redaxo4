@@ -9,20 +9,19 @@
  * @version svn:$Id$
  */
 
-if($REX["REDAXO"])
+if($REX["REDAXO"] && !$REX['SETUP'])
 {
 
 	// Sprachdateien anhaengen
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
 
-
 	// $REX['ADDON']['rxid']["editme"] = '';
 	// $REX['ADDON']['page']["editme"] = "editme";
 	$REX['ADDON']['name']["editme"] = $I18N->msg("editme");
-	
+	$REX['ADDON']['perm']["editme"] = 'em[]';
 
 	// Credits
-	$REX['ADDON']['version']["editme"] = '0.5';
+	$REX['ADDON']['version']["editme"] = '0.9';
 	$REX['ADDON']['author']["editme"] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage']["editme"] = 'forum.redaxo.de';
 
@@ -31,7 +30,7 @@ if($REX["REDAXO"])
 	// $REX['PERM'][] = 'em[2]';
 
 	// Fuer Benutzervewaltung
-	// $REX['EXTPERM'][] = 'em[]';
+	$REX['PERM'][] = 'em[]';
 
 	// Linke Navigation
 
