@@ -136,12 +136,12 @@ if (opener != null)
 
 function newPoolWindow(link) 
 {
-    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 760,600,',status=yes,resizable=yes');
+    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');
 }
 
 function newLinkMapWindow(link) 
 {
-    newWindow( 'linkmappopup', link, 760,600,',status=yes,resizable=yes');
+    newWindow( 'linkmappopup', link, 800,600,',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
