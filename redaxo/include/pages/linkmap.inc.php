@@ -115,6 +115,19 @@ rex_title('Linkmap', $navi_path);
 			<div class="rex-area-content">
 			<?php
 			$roots = OOCategory::getRootCategories();
+			
+			$mountpoints = $REX["USER"]->getMountpoints();
+			if(count($mountpoints)>0)
+			{
+				$roots = array();
+				foreach($mountpoints as $mp)
+				{
+					if(OOCategory::getCategoryById($mp))
+						$roots[] = OOCategory::getCategoryById($mp);
+				}
+				
+			}
+			
 			echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
 			?>
 			</div>
@@ -126,7 +139,7 @@ rex_title('Linkmap', $navi_path);
 			<ul>
 			<?php
 			$articles = null;
-			if($isRoot)
+			if($isRoot && count($mountpoints)>0)
 				$articles = OOArticle::getRootArticles();
 			else if($category)
 				$articles = $category->getArticles();

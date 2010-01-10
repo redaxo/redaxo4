@@ -40,12 +40,36 @@ class rex_login_sql extends rex_sql
     return $this->isValueOf('rights', $perm);
   }
 
-  /*public*/ function hasCategoryPerm($category_id)
+  /*public*/ function hasCategoryPerm($category_id,$rw = TRUE)
   {
-  	// $this->isValueOf('rights', 'csr[' . $category_id . ']') ||
-    return $this->isAdmin() ||
-           $this->isValueOf('rights', 'csw[0]') ||
-           $this->isValueOf('rights', 'csw[' . $category_id . ']');
+  	
+  	// 1. Volle Rechte auf direkte Kategorie, csw
+  	// 2. Leserechte, bei Kategorien "zwischen" main und eigener navi, aber nicht sichtbar, csr
+  	// 3. Volle Rechte, wenn Kategorie unterhalb eine vollen Rechte Kat
+  	
+  	if(	$this->isAdmin() || 
+  			$this->hasPerm('csw[0]') || 
+  			$this->hasPerm('csw[' . $category_id . ']')
+  		)
+  		return TRUE;
+  	
+    if($c = OOCategory::getCategoryById($category_id))
+    {
+	    $p = explode("|",$c->getPath());
+      foreach($p as $k)
+      {
+        if($this->hasPerm('csw[' . $k . ']'))
+          return TRUE;	
+	    }
+    }
+
+    if(!$rw)
+  	{
+   		 if( $this->hasPerm('csr[' . $category_id . ']') )
+   		 	return TRUE;
+  	}    
+    
+    return FALSE;
   }
   
 	/*public*/ function hasMediaCategoryPerm($category_id)

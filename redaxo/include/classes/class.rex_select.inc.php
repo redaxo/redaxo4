@@ -379,7 +379,7 @@ class rex_category_select extends rex_select
     global $REX;
 
     if(!$this->check_perms ||
-        $this->check_perms && $REX['USER']->hasCategoryPerm($cat->getId()))
+        $this->check_perms && $REX['USER']->hasCategoryPerm($cat->getId(),FALSE))
     {
       $cid = $cat->getId();
       $cname = $cat->getName();
@@ -410,6 +410,41 @@ class rex_category_select extends rex_select
     
     return parent::get();
   }
+  
+  /*private*/ function _outGroup($re_id, $level = 0)
+  {
+		global $REX;
+  	if ($level > 100)
+    {
+      // nur mal so zu sicherheit .. man weiss nie ;)
+      echo "select->_outGroup overflow ($groupname)";
+      exit;
+    }
+
+    $ausgabe = '';
+    $group = $this->_getGroup($re_id);
+    foreach ($group as $option)
+    {
+      $name = $option[0];
+      $value = $option[1];
+      $id = $option[2];
+      if($id==0 || !$this->check_perms || ($this->check_perms && $REX['USER']->hasCategoryPerm($option[2],TRUE)))
+      {
+          $ausgabe .= $this->_outOption($name, $value, $level);
+      }elseif(($this->check_perms && $REX['USER']->hasCategoryPerm($option[2],FALSE)))
+      {
+      	$level--;
+      }
+      
+      $subgroup = $this->_getGroup($id, true);
+      if ($subgroup !== false)
+      {
+        $ausgabe .= $this->_outGroup($id, $level +1);
+      }
+    }
+    return $ausgabe;
+  }
+  
 }
 
 ################ Class MediaKategorie Select
