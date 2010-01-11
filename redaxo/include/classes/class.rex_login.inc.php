@@ -10,7 +10,7 @@
 
 class rex_login_sql extends rex_sql
 {
-  /*public*/ function isValueOf($feld, $prop)
+  /*protected*/ function isValueOf($feld, $prop)
   {
     if ($prop == '')
     {

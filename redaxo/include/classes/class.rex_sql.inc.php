@@ -281,7 +281,7 @@ class rex_sql
    * @param $feld Spaltenname des zu prüfenden Feldes
    * @param $prop Wert, der enthalten sein soll
    */
-  /*public*/ function isValueOf($feld, $prop)
+  /*protected*/ function isValueOf($feld, $prop)
   {
     if ($prop == "")
     {
