@@ -341,6 +341,10 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     {
       $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
+    else
+    {
+      $kat_status = '<span class="rex-strike '. $status_class .'">'. $kat_status .'</span>';
+    }
 
     if (isset ($edit_id) && $edit_id == $i_category_id && $function == 'edit_cat')
     {
@@ -431,7 +435,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           <td>'.htmlspecialchars($KAT->getValue("catprior")).'</td>
           <td><span class="rex-strike">'. $I18N->msg('change') .'</span></td>
           <td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
-          <td>'. $kat_status .'</td>
+          <td><span class="rex-strike '. $status_class .'">'. $kat_status .'</span></td>
         </tr>';
   }
 
@@ -642,11 +646,13 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       if ($sql->getValue('startpage') == 1)
       {
         $add_extra = '<td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
-                      <td class="'. $article_class .'"><span class="rex-strike">'. $article_status .'</span></td>';
+                      <td><span class="rex-strike '. $article_class .'">'. $article_status .'</span></td>';
       }else
       {
         if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
-            $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
+          $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
+        else            
+          $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
         if (!$REX['USER']->hasPerm('editContentOnly[]'))
         	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
@@ -689,7 +695,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
               <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>
-              <td class="'. $art_status_class .'"><span class="rex-strike">'. $art_status .'</span></td>
+              <td><span class="rex-strike '. $art_status_class .'">'. $art_status .'</span></td>
             </tr>
             ';
     }
