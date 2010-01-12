@@ -227,7 +227,7 @@ if ($subpage == "detail")
           <span class="rex-form-read" id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
         </p>
       </div>';
-      $imgn = '../files/'. $encoded_fname .'" width="'. $rfwidth;
+      $imgn = '../files/'. $fname .'" width="'. $rfwidth;
 
       if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
       {
@@ -702,8 +702,9 @@ if ($subpage == '')
 
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="../files/'.$encoded_file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
-        if ($thumbsresize) $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        if ($thumbsresize) 
+          $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
       }
     }
 
@@ -724,13 +725,13 @@ if ($subpage == '')
       }
 
     } elseif ($opener_input_field == 'TINY'){
-        $opener_link .= "<a href=\"javascript:insertLink('".$encoded_file_name."');\">".$I18N->msg('pool_link_get')."</a>";
+        $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
     } elseif ($opener_input_field != '')
     {
-      $opener_link = "<a href=\"javascript:selectMedia('".$encoded_file_name."');\">".$I18N->msg('pool_file_get')."</a>";
+      $opener_link = "<a href=\"javascript:selectMedia('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = "<a href=\"javascript:selectMedialist('".$encoded_file_name."');\">".$I18N->msg('pool_file_get')."</a>";
+        $opener_link = "<a href=\"javascript:selectMedialist('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
       }
     }
 
