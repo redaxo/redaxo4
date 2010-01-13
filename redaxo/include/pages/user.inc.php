@@ -836,9 +836,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $("#allcats").click(function() {
       catsChecked();
     });
-    function catsChecked() {
+    function catsChecked(animate) {
       var c_checked = $("#allcats").is(":checked");
       var m_checked = $("#allmcats").is(":checked");
+      animate = typeof(animate) == "undefined" ? true : animate;
 
       if(c_checked)
         $("#userperm-cat").attr("disabled", "disabled");
@@ -850,10 +851,20 @@ if ($FUNC_ADD != "" || $user_id > 0)
       else
         $("#userperm-media").attr("disabled", "");
 
-      if(c_checked && m_checked)
-        $("#cats_mcats_perms").slideUp("slow");
+      if(animate)
+      {
+        if(c_checked && m_checked)
+          $("#cats_mcats_perms").slideUp("slow");
+        else
+          $("#cats_mcats_perms").slideDown("slow");
+      }
       else
-        $("#cats_mcats_perms").slideDown("slow");
+      {
+        if(c_checked && m_checked)
+          $("#cats_mcats_perms").hide();
+        else
+          $("#cats_mcats_perms").show();
+      }
     };
 
     // init behaviour
@@ -863,9 +874,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       $("#cats_mcats_box").hide();
       $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").css("display", "none");
     };
-    if($("#allcats").is(":checked") && $("#allmcats").is(":checked")) {
-      $("#cats_mcats_perms").hide();
-    };
+    catsChecked(false);
   });
 
   //--></script>';
