@@ -868,13 +868,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
     };
 
     // init behaviour
+    catsChecked(false);
     if($("#useradmin").is(":checked")) {
       $("#userperm-module").attr("disabled", "disabled");
       $("#cats_mcats_perms").hide();
       $("#cats_mcats_box").hide();
       $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").css("display", "none");
     };
-    catsChecked(false);
   });
 
   //--></script>';
