@@ -325,6 +325,9 @@ class rex_form
       if(is_string($value))
       {
         $value = stripslashes($postValue);
+      }else
+      {
+        $value = $postValue;
       }
     }
 
