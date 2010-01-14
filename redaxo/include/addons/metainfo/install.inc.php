@@ -18,6 +18,9 @@ rex_a62_metainfo_cleanup(array('force' => true));
 $uninstall = $REX['INCLUDE_PATH'] . '/addons/metainfo/uninstall.sql';
 rex_install_dump($uninstall);
 
+// TODO:
+// - Update von alten Version einfliessen lassen
+
 if ($error != '')
   $REX['ADDON']['installmsg']['metainfo'] = $error;
 else

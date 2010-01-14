@@ -25,18 +25,18 @@ CREATE TABLE `%TABLE_PREFIX%62_type` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM ;
 
-INSERT INTO %TABLE_PREFIX%62_type VALUES (1,  'text', 'varchar', 2048);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (1,  'text', 'text', 0);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (2,  'textarea', 'text', 0);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (3,  'select', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (4,  'radio', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (5,  'checkbox', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (10, 'date', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (13, 'time', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (11, 'datetime', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (12, 'legend', 'varchar', 2048);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (6,  'REX_MEDIA_BUTTON', 'varchar', 2048);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (3,  'select', 'text', 0);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (4,  'radio', 'varchar', 255);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (5,  'checkbox', 'varchar', 255);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (10, 'date', 'text', 0);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (13, 'time', 'text', 0);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (11, 'datetime', 'text', 0);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (12, 'legend', 'text', 0);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (6,  'REX_MEDIA_BUTTON', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (7,  'REX_MEDIALIST_BUTTON', 'text', 0);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (8,  'REX_LINK_BUTTON', 'varchar', 2048);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (8,  'REX_LINK_BUTTON', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (9,  'REX_LINKLIST_BUTTON', 'text', 0);
 
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('1','translate:pool_file_description','med_description','1','','2','','','','','admin','1189343866','admin','1189344596');
@@ -49,8 +49,8 @@ INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('7','translate:metadata_image','ar
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('8','translate:teaser','art_teaser','6','','5','','','','','admin','1189345182','admin','1189345182');
 INSERT INTO `%TABLE_PREFIX%62_params` VALUES ('9','translate:header_article_type','art_type_id','7','size=1','3','','Standard|Zugriff für alle','','','admin','1191963797','admin','1191964038');
 
-ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_from` VARCHAR(255);
-ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_to` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_from` TEXT;
+ALTER TABLE `%TABLE_PREFIX%article` ADD `art_online_to` TEXT;
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_description` TEXT;
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_keywords` TEXT;
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_file` VARCHAR(255);
@@ -58,4 +58,4 @@ ALTER TABLE `%TABLE_PREFIX%article` ADD `art_teaser` VARCHAR(255);
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_type_id` VARCHAR(255);
 
 ALTER TABLE `%TABLE_PREFIX%file` ADD `med_description` TEXT;
-ALTER TABLE `%TABLE_PREFIX%file` ADD `med_copyright` VARCHAR(255);
+ALTER TABLE `%TABLE_PREFIX%file` ADD `med_copyright` TEXT;
