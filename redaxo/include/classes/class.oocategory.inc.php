@@ -202,12 +202,15 @@ class OOCategory extends OORedaxo
    */
   /*public*/ function getPathAsArray()
   {
-  	$p = explode("|",$this->_path);
+  	$p = explode('|',$this->_path);
   	foreach($p as $k => $v)
-  		if($v == "")
+  	{
+  		if($v == '')
   			unset($p[$k]);
   		else
   		  $p[$k] = (int) $v;
+  	}
+  	
     return array_values($p);
   }
   
