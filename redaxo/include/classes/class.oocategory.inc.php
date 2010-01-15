@@ -247,7 +247,8 @@ class OOCategory extends OORedaxo
   }
   
   /*
-   * Static Method: Returns boolean if is category
+   * Static Method:
+   * Returns boolean if is category
    */
   /*public*/ function isValid($category)
   {
@@ -255,15 +256,21 @@ class OOCategory extends OORedaxo
   }
   
   /*
-   * Static Method: Returns boolean if is category
+   * Static Method:
+   * Returns an array containing all templates which are available for the given category_id.
+   * if the category_id is non-positive all templates in the system are returned.
+   * if the category_id is invalid an empty array is returned.
+   * 
    */
-  /*public static*/ function getTemplates($category_id)
+  /*public static*/ function getTemplates($category_id, $ignore_inactive = true)
   {
     global $REX;
 
+    $ignore_inactive = $ignore_inactive ? 1 : 0;
+    
     $templates = array();
     $t_sql = rex_sql::factory();
-    $t_sql->setQuery('select id,name,attributes from '.$REX['TABLE_PREFIX'].'template where active=1 order by name');
+    $t_sql->setQuery('select id,name,attributes from '.$REX['TABLE_PREFIX'].'template where active='. $ignore_inactive .' order by name');
 
     if($category_id < 1)
     {
@@ -281,18 +288,27 @@ class OOCategory extends OORedaxo
 	    	foreach($t_sql->getArray() as $t)
 	    	{
 	    		$categories = rex_getAttributes("categories", $t["attributes"]);
-	    		foreach($path as $p)
+	    		// template ist nicht kategoriespefisch -> includen
+	    		if(!is_array($categories) || $categories["all"] == 1)
 	    		{
-	    			if(in_array($p,$categories) or $categories["all"] == 1)
-	    			{
-	    				$templates[$t["id"]] = $t['name'];
-	    				break;
-	    			}
+            $templates[$t["id"]] = $t['name'];
+	    		}
+	    		else
+	    		{
+	    		  // template ist auf kategorien beschraenkt..
+	    		  // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
+  	    		foreach($path as $p)
+  	    		{
+  	    			if(in_array($p,$categories))
+  	    			{
+  	    				$templates[$t["id"]] = $t['name'];
+  	    				break;
+  	    			}
+  	    		}
 	    		}
 	    	}
     	}
     }
     return $templates;
   }
-
 }
