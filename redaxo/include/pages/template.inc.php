@@ -97,7 +97,7 @@ if ($function == "add" or $function == "edit")
     {
       $categories["all"] = 0;
     }
-        
+    
     $modules = rex_post("modules", "array");
     // leerer eintrag = 0
     if(count($modules) == 0)
@@ -196,23 +196,24 @@ if ($function == "add" or $function == "edit")
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
-		$cat_select = new rex_select;
-		$cat_select->setMultiple(1);
+		$cat_select = new rex_category_select(false, false, false, false);
+		$cat_select->setMultiple(true);
 		$cat_select->setStyle('class="rex-form-select"');
 		$cat_select->setSize(10);
 		$cat_select->setName('categories[]');
 		$cat_select->setId('categories');
-		if ($rootCats = OOCategory::getRootCategories())
-		{
-		  foreach( $rootCats as $rootCat) {
-		    rex_category_select::add_cat_options( $cat_select, $rootCat, $cat_ids);
-		  }
-		}
-    $cat_select->resetSelected();
-    if(isset($categories) && count($categories)>0)
+		
+		if(count($categories)>0)
+    {
       foreach($categories as $c => $cc)
-        if("$c" != "all") 
+      {
+        // string cast notwenig, weil (0 != "all") => false 
+        if("$c" != "all")
+        { 
           $cat_select->setSelected($cc);
+        }
+      }
+    }
 		
 		
 		
@@ -228,9 +229,15 @@ if ($function == "add" or $function == "edit")
         $modul_select->setId('modules_'.$i.'_select');
         $modul_select->resetSelected();
         if(isset($modules[$i]) && count($modules[$i])>0)
+        {
           foreach($modules[$i] as $j => $jj)
-            if("$j" != 'all') 
+          {
+            if($j != 'all')
+            { 
               $modul_select->setSelected($jj);
+            }
+          }
+        }
 
         $ctypes_out .= '
         <div class="rex-form-row">
