@@ -196,6 +196,21 @@ class OOCategory extends OORedaxo
     return $this->_path;
   }
   
+  /*
+   * Accessor Method:
+   * returns the path ids of the category as an array
+   */
+  /*public*/ function getPathAsArray()
+  {
+  	$p = explode("|",$this->_path);
+  	foreach($p as $k => $v)
+  		if($v == "")
+  			unset($p[$k]);
+  		else
+  		  $p[$k] = (int) $v;
+    return array_values($p);
+  }
+  
   /*public static*/ function & _getCategoryObject($category, $clang = false)
   {
     if (is_object($category))
@@ -238,4 +253,46 @@ class OOCategory extends OORedaxo
   {
     return is_object($category) && is_a($category, 'oocategory');
   }
+  
+  /*
+   * Static Method: Returns boolean if is category
+   */
+  /*public static*/ function getTemplates($category_id)
+  {
+    global $REX;
+
+    $templates = array();
+    $t_sql = rex_sql::factory();
+    $t_sql->setQuery('select id,name,attributes from '.$REX['TABLE_PREFIX'].'template where active=1 order by name');
+
+    if($category_id < 1)
+    {
+    	// Alle Templates
+    	foreach($t_sql->getArray() as $t)
+    	{
+    		$templates[$t["id"]] = $t['name'];
+    	}
+    }else
+    {
+    	if($c = OOCategory::getCategoryById($category_id))
+    	{
+    		$path = $c->getPathAsArray();
+    		$path[] = $category_id;
+	    	foreach($t_sql->getArray() as $t)
+	    	{
+	    		$categories = rex_getAttributes("categories", $t["attributes"]);
+	    		foreach($path as $p)
+	    		{
+	    			if(in_array($p,$categories) or $categories["all"] == 1)
+	    			{
+	    				$templates[$t["id"]] = $t['name'];
+	    				break;
+	    			}
+	    		}
+	    	}
+    	}
+    }
+    return $templates;
+  }
+
 }

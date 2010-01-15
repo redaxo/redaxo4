@@ -161,7 +161,24 @@ class OOArticle extends OORedaxo
         
       return $this->_path;
   }
-
+  
+  /**
+   * Accessor Method:
+   * returns the path ids of the category/article as an array
+   */
+  /*public*/ function getPathAsArray()
+  {
+    $p = $this->_path;
+    if($this->isStartArticle())
+      $p = $this->_path.$this->_id .'|';
+  	foreach($p as $k => $v)
+  		if($v == "")
+  			unset($p[$k]);
+  		else
+  		  $p[$k] = (int) $v;
+    return array_values($p);
+  }
+  
   /*
    * Static Method: Returns boolean if is article
    */
@@ -186,4 +203,5 @@ class OOArticle extends OORedaxo
   {
   	return parent::hasValue($value, array('art_'));
   }
+  
 }

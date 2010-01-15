@@ -398,6 +398,23 @@ class rex_category_select extends rex_select
       }
     }
   }
+
+  /*public static*/ function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
+	{
+	  if (empty($cat))
+	  {
+	    return;
+	  }
+	  $cat_ids[] = $cat->getId();
+	  $select->addOption($cat->getName(),$cat->getId(), $cat->getId(),$cat->getParentId());
+	  $childs = $cat->getChildren();
+	  if (is_array($childs))
+	  {
+	    foreach ( $childs as $child) {
+	      rex_category_select::add_cat_options( $select, $child, $cat_ids, $cat->getName());
+	    }
+	  }
+	}
   
   /*public*/ function get()
   {
