@@ -55,8 +55,7 @@ class rex_login_sql extends rex_sql
   	
     if($c = OOCategory::getCategoryById($category_id))
     {
-	    $p = explode("|",$c->getPath());
-      foreach($p as $k)
+      foreach($c->getPathAsArray() as $k)
       {
         if($this->hasPerm('csw[' . $k . ']'))
           return TRUE;	
