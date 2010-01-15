@@ -94,7 +94,7 @@ $cat_ids = array();
 if ($rootCats = OOCategory::getRootCategories())
 {
   foreach( $rootCats as $rootCat) {
-    add_cat_options( $sel_cat, $rootCat, $cat_ids);
+    rex_category_select::add_cat_options( $sel_cat, $rootCat, $cat_ids);
   }
 }
 
@@ -102,24 +102,6 @@ if ($rootCats = OOCategory::getRootCategories())
 $userperm_cat = rex_request('userperm_cat', 'array');
 $allmcats = rex_request('allmcats', 'int');
 $userperm_cat_read = rex_request('userperm_cat_read', 'array');
-
-
-function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '')
-{
-  if (empty($cat))
-  {
-    return;
-  }
-  $cat_ids[] = $cat->getId();
-  $select->addOption($cat->getName(),$cat->getId(), $cat->getId(),$cat->getParentId());
-  $childs = $cat->getChildren();
-  if (is_array($childs))
-  {
-    foreach ( $childs as $child) {
-      add_cat_options( $select, $child, $cat_ids, $cat->getName());
-    }
-  }
-}
 
 
 // zugriff auf mediacategorien
@@ -150,7 +132,7 @@ function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName 
   if (is_array($childs))
   {
     foreach ( $childs as $child) {
-      add_cat_options( $select, $child, $mediacat_ids, $mediacat->getName());
+      rex_category_select::add_cat_options( $select, $child, $mediacat_ids, $mediacat->getName());
     }
   }
 }
