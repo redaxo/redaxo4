@@ -104,14 +104,21 @@ class rex_login_sql extends rex_sql
   /*public*/ function hasMountpoints()
   {
   	if($this->isValueOf('rights', 'csw[0]') || $this->isValueOf('rights', 'admin[]'))
-  		return FALSE;
+  		return false;
   	if(count($this->getMountpoints())>0)
-  		return TRUE;
+  		return true;
+    return false;
   }
   
   /*public*/ function hasDashboard()
   {
   		return $this->isValueOf('rights', 'dashboard[]');
+  }
+  
+  /*public*/ function permAsArray($perm)
+  {
+    preg_match_all('|\#'. $perm .'\[([^\]]*)\]+|', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
+    return $return[1];
   }
 }
 
