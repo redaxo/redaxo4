@@ -93,24 +93,24 @@ if ($function == "add" or $function == "edit")
 
     $categories = rex_post("categories", "array");
     // leerer eintrag = 0
-    if(count($categories) == 0)
-      $categories["all"] = 0;
-    
-    foreach($categories as $k => $c)
+    if(count($categories) == 0 || !isset($categories["all"]) || $categories["all"] != 1)
     {
-      if(!isset($categories["all"]) || $categories["all"] != 1)
-        $categories["all"] = 0;
+      $categories["all"] = 0;
     }
         
     $modules = rex_post("modules", "array");
     // leerer eintrag = 0
     if(count($modules) == 0)
+    {
       $modules[1]["all"] = 0;
+    }
     
     foreach($modules as $k => $module)
     {
       if(!isset($module["all"]) ||$module["all"] != 1)
+      {
         $modules[$k]["all"] = 0;
+      }
     }
 
     $TPL = rex_sql::factory();
