@@ -544,23 +544,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
       // media categories
       foreach ($sql->permAsArray('media') as $cat_id)
         $sel_media->setSelected($cat_id);
+        
+      foreach ($sql->permAsArray('module') as $module_id)
+        $sel_module->setSelected($module_id);
 
-      $sqlmodule->reset();
-      for ($i=0;$i<$sqlmodule->getRows();$i++)
-      {
-        $name = 'module['.$sqlmodule->getValue('id').']';
-        if ($sql->hasPerm($name)) $sel_module->setSelected($sqlmodule->getValue('id'));
-        $sqlmodule->next();
-      }
-
-      $sqlsprachen->reset();
-      for ($i=0;$i<$sqlsprachen->getRows();$i++)
-      {
-        $name = 'clang['.$sqlsprachen->getValue('id').']';
-        if ($sql->hasPerm($name)) $sel_sprachen->setSelected($sqlsprachen->getValue('id'));
-        $sqlsprachen->next();
-      }
-
+      foreach ($sql->permAsArray('clang') as $uclang_id)
+        $sel_sprachen->setSelected($uclang_id);
+        
 			foreach($langs as $k => $v)
 			{
 				if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
