@@ -171,11 +171,15 @@ class OOArticle extends OORedaxo
     $p = $this->_path;
     if($this->isStartArticle())
       $p = $this->_path.$this->_id .'|';
+      
   	foreach($p as $k => $v)
+  	{
   		if($v == "")
   			unset($p[$k]);
   		else
   		  $p[$k] = (int) $v;
+  	}
+  	
     return array_values($p);
   }
   
