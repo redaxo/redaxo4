@@ -91,45 +91,20 @@ $sel_cat->setSize(20);
 $sel_cat->setName('userperm_cat[]');
 $sel_cat->setId('userperm-cat');
 
-
 $userperm_cat = rex_request('userperm_cat', 'array');
 $allmcats = rex_request('allmcats', 'int');
 $userperm_cat_read = rex_request('userperm_cat_read', 'array');
 
 
 // zugriff auf mediacategorien
-$sel_media = new rex_select;
+$sel_media = new rex_mediacategory_select(false);
 $sel_media->setMultiple(1);
 $sel_media->setStyle('class="rex-form-select"');
 $sel_media->setSize(20);
 $sel_media->setName('userperm_media[]');
 $sel_media->setId('userperm-media');
-$mediacat_ids = array();
-if ($rootCats = OOMediaCategory::getRootCategories())
-{
-  foreach ( $rootCats as $rootCat) {
-    add_mediacat_options( $sel_media, $rootCat, $mediacat_ids);
-  }
-}
+
 $userperm_media = rex_request('userperm_media', 'array');
-
-function add_mediacat_options( &$select, &$mediacat, &$mediacat_ids, $groupName = '')
-{
-  if (empty($mediacat))
-  {
-      return;
-  }
-  $mediacat_ids[] = $mediacat->getId();
-  $select->addOption($mediacat->getName(),$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
-  $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
-    foreach ( $childs as $child) {
-      rex_category_select::add_cat_options( $select, $child, $mediacat_ids, $mediacat->getName());
-    }
-  }
-}
-
 
 // zugriff auf sprachen
 $sel_sprachen = new rex_select;
@@ -563,12 +538,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
 
       // categories
-      foreach ( $cat_ids as $cat_id)
-        if ($sql->hasPerm('csw['.$cat_id.']')) $sel_cat->setSelected($cat_id);
+      foreach ($sql->permAsArray('csw') as $cat_id)
+        $sel_cat->setSelected($cat_id);
       
       // media categories
-      foreach ( $mediacat_ids as $cat_id)
-        if ($sql->hasPerm('media['.$cat_id.']')) $sel_media->setSelected( $cat_id);
+      foreach ($sql->permAsArray('media') as $cat_id)
+        $sel_media->setSelected($cat_id);
 
       $sqlmodule->reset();
       for ($i=0;$i<$sqlmodule->getRows();$i++)
