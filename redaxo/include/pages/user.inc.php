@@ -84,19 +84,12 @@ $allcats = rex_request('allcats', 'int');
 
 
 // zugriff auf categorien
-$sel_cat = new rex_select;
+$sel_cat = new rex_category_select(false, false, false, false);
 $sel_cat->setMultiple(1);
 $sel_cat->setStyle('class="rex-form-select"');
 $sel_cat->setSize(20);
 $sel_cat->setName('userperm_cat[]');
 $sel_cat->setId('userperm-cat');
-$cat_ids = array();
-if ($rootCats = OOCategory::getRootCategories())
-{
-  foreach( $rootCats as $rootCat) {
-    rex_category_select::add_cat_options( $sel_cat, $rootCat, $cat_ids);
-  }
-}
 
 
 $userperm_cat = rex_request('userperm_cat', 'array');
