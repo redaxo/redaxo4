@@ -38,6 +38,8 @@ function rex_addCategory($category_id, $data)
     }
   }
 
+  $templates = OOCategory::getTemplates($category_id);
+
   if(isset($data['catprior']))
   {
     if($data['catprior'] <= 0)
@@ -61,6 +63,15 @@ function rex_addCategory($category_id, $data)
     $template_id = $REX['DEFAULT_TEMPLATE_ID'];
     if(isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '')
       $template_id = $startpageTemplates[$key];
+
+    // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+    // oder leer setzen.
+    if(!isset($templates[$template_id]))
+    {
+      $template_id = 0;
+    	if(count($templates)>0)
+    	 $template_id = key($templates);
+    }
 
     $AART->setTable($REX['TABLE_PREFIX'].'article');
     if (!isset ($id))
@@ -412,6 +423,17 @@ function rex_addArticle($data)
       $data['prior'] = 1;
   }
 
+  $templates = OOCategory::getTemplates($data['category_id']);
+  
+  // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+  // oder leer setzen.
+  if(!isset($templates[$data['template_id']]))
+  {
+    $data['template_id'] = 0;
+    if(count($templates)>0)
+     $data['template_id'] = key($templates);
+  }
+  
   $message = $I18N->msg('article_added');
 
   $AART = rex_sql::factory();
@@ -491,6 +513,17 @@ function rex_editArticle($article_id, $clang, $data)
   if(!is_array($data))
     trigger_error('Expecting $data to be an array!', E_USER_ERROR);
 
+  $templates = OOCategory::getTemplates($data['category_id']);
+  
+  // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+  // oder leer setzen.
+  if(!isset($templates[$data['template_id']]))
+  {
+    $data['template_id'] = 0;
+    if(count($templates)>0)
+     $data['template_id'] = key($templates);
+  }
+    
   // Artikel mit alten Daten selektieren
   $thisArt = rex_sql::factory();
   $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
