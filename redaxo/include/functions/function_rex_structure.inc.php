@@ -38,8 +38,6 @@ function rex_addCategory($category_id, $data)
     }
   }
 
-  $templates = OOCategory::getTemplates($category_id);
-
   if(isset($data['catprior']))
   {
     if($data['catprior'] <= 0)
@@ -56,6 +54,8 @@ function rex_addCategory($category_id, $data)
     $data['status'] = 0;
   }
 
+  // Alle Templates der Kategorie
+  $templates = OOCategory::getTemplates($category_id);
   // Kategorie in allen Sprachen anlegen
   $AART = rex_sql::factory();
   foreach($REX['CLANG'] as $key => $val)
