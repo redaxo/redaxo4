@@ -349,7 +349,7 @@ if ($function == "add" or $function == "edit")
         
          <div id="rex-form-template-categories">
         	<fieldset class="rex-form-col-1">
-   			<legend>'.$I18N->msg("categories").'</legend>
+   			<legend>'.$I18N->msg("template_categories").'</legend>
             <div class="rex-form-wrapper">
 
               	<div class="rex-form-row">
@@ -358,13 +358,13 @@ if ($function == "add" or $function == "edit")
 				        if(!isset($categories['all']) || $categories['all'] == 1)
 				          echo ' checked="checked" ';
 				        echo ' value="1" />
-				          <label for="allcategories">'.$I18N->msg("categories_available_all").'</label> 
+				          <label for="allcategories">'.$I18N->msg("template_categories_all").'</label> 
 				        </p>
 				        </div>
 
               	<div class="rex-form-row" id="p_categories">
 		        		<p class="rex-form-col-a rex-form-select">
-				          <label for="categories_select">'.$I18N->msg("categories_available").'</label> 
+				          <label for="categories_select">'.$I18N->msg("template_categories_custom").'</label> 
 				          '.$cat_select->get().'
 				          <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
 				        </p>
