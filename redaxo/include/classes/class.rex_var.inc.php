@@ -152,6 +152,8 @@ class rex_var
       case 'ifempty' :
       case 'instead' :
       case 'callback':
+      // beliebige custom params zulassen
+      default:
       $args[$name] = (string) $value;
     }
     return $args;
