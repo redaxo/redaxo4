@@ -349,8 +349,8 @@ if ($function == "add" or $function == "edit")
         
          <div id="rex-form-template-categories">
         	<fieldset class="rex-form-col-1">
-   			<legend>'.$I18N->msg("template_categories").'</legend>
-            <div class="rex-form-wrapper">
+   			    <legend>'.$I18N->msg("template_categories").'</legend>
+              <div class="rex-form-wrapper">
 
               	<div class="rex-form-row">
               	<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
@@ -368,8 +368,8 @@ if ($function == "add" or $function == "edit")
 				          '.$cat_select->get().'
 				          <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
 				        </p>
-				        </div>
-	        </div>
+				      </div>
+            </div>
         	</fieldset>
 				</div>        
         
