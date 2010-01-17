@@ -12,29 +12,33 @@
 
 $error = '';
 
-// "agk_skin" Plugin mitinstallieren
-//$addonname = 'be_style';
-//$pluginname = 'agk_skin';
-//
-//$ADDONS    = rex_read_addons_folder();
-//$PLUGINS   = array();
-//foreach($ADDONS as $_addon)
-//  $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
-//
-//$addonManager = new rex_pluginManager($PLUGINS, $addonname);
-//$addonManager->install($pluginname);
-//
-//// plugin installieren
-//if(($instErr = $addonManager->install('agk_skin')) !== true)
-//{
-//  $error = $instErr;
-//}
-//
-//// plugin aktivieren
-//if ($error == '' && ($actErr = $addonManager->activate('agk_skin')) !== true)
-//{
-//  $error = $actErr;
-//}
+if($error == '')
+{
+  if (version_compare(PHP_VERSION, '4.3.0', '<'))
+  {
+    $error = 'This plugin requires at least PHP Version 4.3.0';
+  }
+}
+
+if($error == '')
+{
+  if (!extension_loaded('xml'))
+  {
+    $error = 'Missing required PHP-Extension "xml"';
+  }
+  elseif (!extension_loaded('xmlreader'))
+  {
+    $error = 'Missing required PHP-Extension "xmlreader"';
+  }
+}
+
+if($error == '')
+{
+  $file = dirname(__FILE__). '/cache';
+
+  if(($state = rex_is_writable($file)) !== true)
+    $error = $state;
+}
 
 if ($error != '')
   $REX['ADDON']['installmsg']['rss_reader'] = $error;
