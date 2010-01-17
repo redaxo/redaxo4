@@ -122,7 +122,6 @@ $REX['ACKEY']['LOGOUT'] = 'l';
 
 // ----- allgemein
 $REX['PERM'] = array();
-$REX['PERM'][] = 'dashboard[]';
 
 // ----- optionen
 $REX['EXTPERM'] = array();
