@@ -84,9 +84,6 @@ category_doesnt_exist  =  Kategorie existiert nicht!
 cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
 cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
 
-# redaxo\include\pages\dashboard
-dashboard = Dashboard
-
 # redaxo\include\pages\content.inc.php
 move_slice_up = Nach oben verschieben
 move_slice_down = Nach unten verschieben
