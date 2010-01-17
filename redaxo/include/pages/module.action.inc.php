@@ -81,16 +81,16 @@ if ($function == 'delete')
   }
 }
 
-if ($function == "add" or $function == "edit")
+if ($function == "add" || $function == "edit")
 {
   $name           = rex_post('name','string');
   $previewaction  = rex_post('previewaction','string');
   $presaveaction  = rex_post('presaveaction','string');
   $postsaveaction = rex_post('postsaveaction','string');
 
-  $previewstatus = 0;
-  $presavestatus = 0;
-  $postsavestatus = 0;
+  $previewstatus  = 255;
+  $presavestatus  = 255;
+  $postsavestatus = 255;
 
   if ($save == "1")
   {
@@ -200,18 +200,27 @@ if ($function == "add" or $function == "edit")
     $sel_postsave_status->setName('postsavestatus[]');
     $sel_postsave_status->setId('postsavestatus');
 		$sel_postsave_status->setStyle('class="rex-form-select"');
-
+		
+		$allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
+    {
       if (($previewstatus & $var) == $var)
         $sel_preview_status->setSelected($var);
+    }
 
+		$allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
+    {
       if (($presavestatus & $var) == $var)
         $sel_presave_status->setSelected($var);
+    }
 
+		$allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
+    {
       if (($postsavestatus & $var) == $var)
         $sel_postsave_status->setSelected($var);
+    }
 
     $btn_update = '';
     if ($function != 'add')
@@ -259,11 +268,17 @@ if ($function == "add" or $function == "edit")
 			        </div>
 			         
 			        <div class="rex-form-row">
-			         	<p class="rex-form-col-a rex-form-select">
-			         		<label for="previestatus">' . $I18N->msg('action_event') . '</label>
-			         		' . $sel_preview_status->get() . '
-			         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
-			         	</p>
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                  <input class="rex-form-checkbox" id="preview_allevents" type="checkbox" name="preview_allevents" '. $allPreviewChecked .' />
+                  <label for="preview_allevents">'.$I18N->msg("action_event_all").'</label> 
+                </p>
+                <div id="preview_events">
+                  <p class="rex-form-col-a rex-form-select">
+  			         		<label for="previestatus">' . $I18N->msg('action_event') . '</label>
+  			         		' . $sel_preview_status->get() . '
+  			         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
+  			         	</p>
+			         	</div>
 			        </div>
 			        
               <div class="rex-clearer"></div>
@@ -282,11 +297,17 @@ if ($function == "add" or $function == "edit")
 			        </div>
 			         
 			        <div class="rex-form-row">
-			         	<p class="rex-form-col-a rex-form-select">
-			            <label for="presavestatus">' . $I18N->msg('action_event') . '</label>
-      			      ' . $sel_presave_status->get() . '
-      			      <span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
-      			    </p>
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                  <input class="rex-form-checkbox" id="presave_allevents" type="checkbox" name="presave_allevents" '. $allPresaveChecked .' />
+                  <label for="presave_allevents">'.$I18N->msg("action_event_all").'</label> 
+                </p>
+                <div id="presave_events">
+			            <p class="rex-form-col-a rex-form-select">
+  			            <label for="presavestatus">' . $I18N->msg('action_event') . '</label>
+        			      ' . $sel_presave_status->get() . '
+        			      <span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
+      			      </p>
+      			    </div>
       			  </div>
       			  
               <div class="rex-clearer"></div>
@@ -306,11 +327,17 @@ if ($function == "add" or $function == "edit")
 			        </div>
 			         
 			        <div class="rex-form-row">
-			         	<p class="rex-form-col-a rex-form-select">
-			         		<label for="postsavestatus">' . $I18N->msg('action_event') . '</label>
-			         		' . $sel_postsave_status->get() . '
-			         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
-			         	</p>
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                  <input class="rex-form-checkbox" id="postsave_allevents" type="checkbox" name="postsave_allevents" '. $allPostsaveChecked .' />
+                  <label for="postsave_allevents">'.$I18N->msg("action_event_all").'</label> 
+                </p>
+                <div id="postsave_events">
+			            <p class="rex-form-col-a rex-form-select">
+			         		  <label for="postsavestatus">' . $I18N->msg('action_event') . '</label>
+  			         		' . $sel_postsave_status->get() . '
+	  		         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
+		  	         	</p>
+		  	        </div>
 			        </div>
 			        
               <div class="rex-clearer"></div>
@@ -328,7 +355,29 @@ if ($function == "add" or $function == "edit")
 			    	</div>
           </fieldset>
         </form>
-      </div>';
+      </div>
+      
+      <script type="text/javascript">
+      <!--
+
+      jQuery(function($) {
+        var eventTypes = "#preview #presave #postsave";
+        
+        $(eventTypes.split(" ")).each(function() {
+          var eventType = this;
+          $(eventType+ "_allevents").click(function() {
+            $(eventType+"_events").slideToggle("slow");
+          });
+          
+          if($(eventType+"_allevents").is(":checked")) {
+            $(eventType+"_events").hide();
+          }
+        });
+      });
+            
+      -->
+      </script>
+      ';
 
     $OUT = false;
   }

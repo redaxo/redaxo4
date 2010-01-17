@@ -190,6 +190,7 @@ action_name = Aktionsname
 save_action_and_quit = Aktion speichern
 save_action_and_continue = Aktion übernehmen
 action_functions = Funktionen
+action_event_all = Für alle Events aktiviert
 action_event_edit = Beim Bearbeiten des Moduls
 action_event_delete = Beim Löschen des Moduls
 action_event_add = Beim Hinzufügen des Moduls
