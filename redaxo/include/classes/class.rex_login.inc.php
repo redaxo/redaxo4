@@ -109,11 +109,6 @@ class rex_login_sql extends rex_sql
     return false;
   }
   
-  /*public*/ function hasDashboard()
-  {
-  		return $this->isValueOf('rights', 'dashboard[]');
-  }
-  
   /*public*/ function permAsArray($perm)
   {
     preg_match_all('|\#'. $perm .'\[([^\]]*)\]+|', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
