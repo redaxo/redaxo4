@@ -10,6 +10,9 @@ angehandelt.
 Version 4.3 (2009-xx-xx)
 
   Neu:
+  * jQuery update auf 1.4 [Markus.Staab]
+  * Templates können auf Kategorien eingeschraenkt werden [Jan.Kristinus]
+  * Rootkategorien koennen pro Benutzer definiert werden (Mountpoints) [Jan.Kristinus]
   * Actions: PreView koennen auch bei ADD verwendet werden (z.b. default Werte Eingabefelder) [Markus.Staab]
   * Metainfo: Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
   * Metainfo: Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
