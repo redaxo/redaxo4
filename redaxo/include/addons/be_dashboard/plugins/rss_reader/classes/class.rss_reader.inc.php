@@ -23,9 +23,11 @@ class rex_rssReader extends SimplePie
 {
   function rex_rssReader($feed_url = null, $cache_location = null, $cache_duration = null)
   {
+    global $REX;
+    
     if($cache_location == null)
     {
-      $cache_location = dirname(__FILE__). '/../cache';
+      $cache_location = $REX['INCLUDE_PATH'] .'/generated/files/';
     }
     
     parent::SimplePie($feed_url, $cache_location, $cache_duration);

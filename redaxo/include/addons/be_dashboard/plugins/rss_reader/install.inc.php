@@ -32,14 +32,6 @@ if($error == '')
   }
 }
 
-if($error == '')
-{
-  $file = dirname(__FILE__). '/cache';
-
-  if(($state = rex_is_writable($file)) !== true)
-    $error = $state;
-}
-
 if ($error != '')
   $REX['ADDON']['installmsg']['rss_reader'] = $error;
 else
