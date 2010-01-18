@@ -1,6 +1,6 @@
 <?php 
 
-require_once dirname(__FILE__) .'/../lib/simplepie.inc.php';
+require_once dirname(__FILE__) .'/../libs/simplepie.inc.php';
 
 /**
  * There are two ways that you can create a new rssReader object. The first
