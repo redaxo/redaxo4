@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * REDAXO Version Checker Addon
+ * 
+ * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ * 
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
 function rex_a657_get_latest_version()
 {
   $updateUrl = 'http://www.redaxo.de/517-0-latest-redaxo-version-de.html';

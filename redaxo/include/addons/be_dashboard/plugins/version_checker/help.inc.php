@@ -11,9 +11,9 @@
  */
 
 ?>
-<h3>Backend Dashboard Addon</h3>
+<h3>REDAXO Version Checker Addon</h3>
 
 <p>
-Dieses Addon praesentiert den Benutzern im Backend eine Startseite die im Stil eines Dashboards aufgebaut ist.
-Addons koennen inhalte in das Dashboard einbringen und weiterhin koennen Plugins weitere Datenquellen darstellen.
+Dieses Addon prueft, ob die aktuell installierte REDAXO Version aktuell ist.
+Die Informationen werden über eine Dashboard-Komponente bereitgestellt.
 </p>
