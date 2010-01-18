@@ -28,7 +28,9 @@ $REX['PERM'][] = 'be_dashboard[]';
 
 if($REX["REDAXO"])
 {
-  $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+  $I18N->appendFile(dirname(__FILE__). '/lang/');
+    
+  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/functions/function_dashboard.inc.php';
 //  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/extensions/function_extensions.inc.php';
 //  
 //  rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
