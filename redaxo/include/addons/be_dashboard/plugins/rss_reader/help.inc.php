@@ -15,4 +15,5 @@
 
 <p>
 Dieses Addon liest RSS-Feeds von versch. Seiten ein und stellt diese im Backend dar.
+Die Informationen werden über eine Dashboard-Komponente bereitgestellt.
 </p>
