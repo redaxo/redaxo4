@@ -33,7 +33,7 @@ structure = Struktur
 statistics = Statistiken
 profile = Mein Profil
 logout = abmelden
-navigation_basis = Basis Navigation
+navigation_system = System Navigation
 navigation_addons = AddOns
 
 # redaxo/include/classes/class.login.inc.php
@@ -606,6 +606,14 @@ credits_summary = Auflistung aller verwendeten AddOns/PlugIns
 profile_myprofile = Mein Benutzerprofil bearbeiten
 profile_title = Mein Profil
 profile_save = Profil speichern
+user_psw_updated = Passwort wurde aktuallisiert
+user_psw_error = Bitte das alte Passwort und das neue Passwort zweimal eingeben
+profile_changepsw = Passwort ändern
+old_password = Altes Psw.
+new_password = Neues Psw.
+new_password_repeat = Neues Psw. wdh.
+profile_save_psw = Passwort speichern
+
 
 # redaxo\include\pages\linkmap.inc.php
 linkmap = Linkmap
