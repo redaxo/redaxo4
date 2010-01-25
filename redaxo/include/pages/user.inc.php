@@ -538,17 +538,17 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
 
       // categories
-      foreach ($sql->permAsArray('csw') as $cat_id)
+      foreach ($sql->getPermAsArray('csw') as $cat_id)
         $sel_cat->setSelected($cat_id);
       
       // media categories
-      foreach ($sql->permAsArray('media') as $cat_id)
+      foreach ($sql->getPermAsArray('media') as $cat_id)
         $sel_media->setSelected($cat_id);
         
-      foreach ($sql->permAsArray('module') as $module_id)
+      foreach ($sql->getPermAsArray('module') as $module_id)
         $sel_module->setSelected($module_id);
 
-      foreach ($sql->permAsArray('clang') as $uclang_id)
+      foreach ($sql->getPermAsArray('clang') as $uclang_id)
         $sel_sprachen->setSelected($uclang_id);
         
 			foreach($langs as $k => $v)

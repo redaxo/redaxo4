@@ -109,10 +109,16 @@ class rex_login_sql extends rex_sql
     return false;
   }
   
-  /*public*/ function permAsArray($perm)
+  /*public*/ function getPermAsArray($perm)
   {
-    preg_match_all('|\#'. $perm .'\[([^\]]*)\]+|', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
+    preg_match_all('|#'. preg_quote($perm, '|') .'\[([^\]]*)\]+|', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
     return $return[1];
+  }
+  
+  /*public*/ function removePerm($perm)
+  {
+    $rights = preg_replace('|#'. preg_quote($perm, '|') .'\[([^\]]*)\]+|' , '', $this->getValue("rights"));
+    return $rights;
   }
 }
 

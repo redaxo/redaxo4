@@ -79,8 +79,8 @@ if (rex_post('upd_profile_button', 'string'))
   if(!isset($langs[$userperm_be_sprache])) 
     $userperm_be_sprache = "default";
   $userperm_be_sprache_selected = $userperm_be_sprache;
-	
-  $rights = preg_replace('@#be_lang\[([^\]]*)\]@' , '', $REX['LOGIN']->getValue("rights"));
+  
+  $rights = $REX['USER']->removePerm('be_lang');
   $rights .= 'be_lang['.$userperm_be_sprache.']#';
   $updateuser->setValue('rights',$rights);
 	
