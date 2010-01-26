@@ -162,7 +162,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
     if(count($naviList) == 0)
       continue;
       
-    $headline = $topic == 'system' ? $I18N->msg('navigation_basis') : $I18N->msg('navigation_addons');
+    $headline = $topic == 'system' ? $I18N->msg('navigation_system') : $I18N->msg('navigation_addons');
     
     echo '<dt>'. $headline .'</dt><dd>';
     echo '<ul id="rex-navi-'. $topic .'">';
