@@ -54,7 +54,7 @@ class rex_admin_stats_component extends rex_admin_info_component
     $content .= 'Aktionen '. $stats['total_actions'].'<br />';
     $content .= 'Benutzer '. $stats['total_users'].'<br />';
     $content .= '<br />';
-    $content .= 'letzte Änderung '. $stats['last_update'];
+    $content .= 'letzte Änderung '. rex_formatter::format($stats['last_update'], 'strftime', 'datetime');
     
     $this->setContent($content);
   }
