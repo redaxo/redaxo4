@@ -23,15 +23,25 @@ if($REX["REDAXO"])
   $I18N->appendFile(dirname(__FILE__). '/lang/');
   
   require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
-  require_once dirname(__FILE__) .'/extensions/extension_reader.inc.php';
-  require_once dirname(__FILE__) .'/extensions/extension_reader.inc.php';
+  require_once dirname(__FILE__) .'/functions/function.reader.inc.php';
 
   // TODO isAvailable check funktioniert nicht!
   if(true || OOAddon::isAvailable('be_dashboard'))
   {
-    require_once dirname(__FILE__) .'/extensions/extension_dashboard.inc.php';
+    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     
-    rex_register_extension('DASHBOARD_COMPONENT', 'rex_a656_dashboard_feeds');
+    $feeds = array(
+      'http://www.redaxo.de/261-0-news-rss-feed.html'
+    );
+
+    $content = $params['subject'];
+    foreach($feeds as $feedUrl)
+    {
+      rex_register_extension(
+        'DASHBOARD_COMPONENT',
+        array(new rex_rss_reader_component($feedUrl), 'registerAsExtension')
+      );
+    }
   }
   
 //  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/extensions/function_extensions.inc.php';

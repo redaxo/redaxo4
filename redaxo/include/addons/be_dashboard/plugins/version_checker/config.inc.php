@@ -22,14 +22,14 @@ if($REX["REDAXO"])
 {
   $I18N->appendFile(dirname(__FILE__). '/lang/');
   
-  require_once dirname(__FILE__) .'/extensions/extension_version_check.inc.php';
+  require_once dirname(__FILE__) .'/functions/function.version_check.inc.php';
   
   // TODO isAvailable check funktioniert nicht!
   if(true || OOAddon::isAvailable('be_dashboard'))
   {
-    require_once dirname(__FILE__) .'/extensions/extension_dashboard.inc.php';
+    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     
-    rex_register_extension('DASHBOARD_NOTIFICATION', 'rex_a657_dashboard_notification');
+    rex_register_extension('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
   }
   
 //  

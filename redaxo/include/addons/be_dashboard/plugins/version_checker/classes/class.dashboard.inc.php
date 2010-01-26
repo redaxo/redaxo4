@@ -10,9 +10,11 @@
  * @version svn:$Id$
  */
 
-function rex_a657_dashboard_notification($params)
+class rex_version_checker_notification extends rex_dashboard_notification
 {
-  $notice = rex_a657_check_version();
-  return $params['subject']. rex_a655_notification_wrapper($notice); 
+  function rex_version_checker_notification()
+  {
+    parent::rex_dashboard_notification();
+    $this->setMessage(rex_a657_check_version());
+  }
 }
-
