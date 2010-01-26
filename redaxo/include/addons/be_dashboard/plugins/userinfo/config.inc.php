@@ -21,8 +21,7 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 if($REX["REDAXO"])
 {
-  require_once dirname(__FILE__) .'/functions/function_administrator.inc.php';
-  require_once dirname(__FILE__) .'/functions/function_user.inc.php';
+  require_once dirname(__FILE__) .'/functions/function_userinfo.inc.php';
 
   // TODO isAvailable check funktioniert nicht!
   if(true || OOAddon::isAvailable('be_dashboard'))

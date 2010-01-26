@@ -10,14 +10,6 @@
  * @version svn:$Id$
  */
 
-// zuletzt bearbeitete module
-// zuletzt bearbeitete templates
-// zuletzt bearbeitete artikel (metainfos, content, status, version-addon)
-// zuletzt bearbeitete medien
-// zuletzt bearbeitete editMe Datenmodelle
-// zuletzt gelaufene cronjobs
-// statistik
-
 function rex_a659_statistics()
 {
   global $REX;

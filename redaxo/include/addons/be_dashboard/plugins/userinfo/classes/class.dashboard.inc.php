@@ -10,6 +10,9 @@
  * @version svn:$Id$
  */
 
+// zuletzt bearbeitete artikel (metainfos, content, status, version-addon)
+// zuletzt bearbeitete editMe datensätze
+
 /*abstract*/ class rex_user_info_component extends rex_dashboard_component
 {
   function rex_user_info_component($title)
@@ -17,6 +20,14 @@
     parent::rex_dashboard_component($title);
   }
 }
+
+// zuletzt bearbeitete module
+// zuletzt bearbeitete templates
+// zuletzt bearbeitete artikel (metainfos, content, status, version-addon)
+// zuletzt bearbeitete medien
+// zuletzt bearbeitete editMe Datenmodelle
+// zuletzt gelaufene cronjobs
+// statistik
 
 /*abstract*/ class rex_admin_info_component extends rex_dashboard_component
 {
