@@ -10,11 +10,41 @@
  * @version svn:$Id$
  */
 
-class rex_version_checker_notification extends rex_dashboard_notification
+/*abstract*/ class rex_user_info_component extends rex_dashboard_component
 {
-  function rex_version_checker_notification()
+  function rex_user_info_component($title)
   {
-    parent::rex_dashboard_notification();
-    $this->setMessage(rex_a657_check_version());
+    parent::rex_dashboard_component($title);
+  }
+}
+
+/*abstract*/ class rex_admin_info_component extends rex_dashboard_component
+{
+  function rex_admin_info_component($title)
+  {
+    parent::rex_dashboard_component($title);
+  }
+}
+
+class rex_admin_stats_component extends rex_admin_info_component
+{
+  function rex_admin_stats_component()
+  {
+    parent::rex_admin_info_component('stats');
+    
+    $stats = rex_a659_statistics();
+    
+    $content = '';
+    $content .= 'Artikel '. $stats['total_articles'] .'<br />';
+    $content .= 'Blöcke '. $stats['total_slices'].'<br />';
+    $content .= 'Sprachen '. $stats['total_clangs'].'<br />';
+    $content .= 'Templates '. $stats['total_templates'].'<br />';
+    $content .= 'Module '. $stats['total_modules'].'<br />';
+    $content .= 'Aktionen '. $stats['total_actions'].'<br />';
+    $content .= 'Benutzer '. $stats['total_users'].'<br />';
+    $content .= '<br />';
+    $content .= 'letzte Änderung '. $stats['last_update'];
+    
+    $this->setContent($content);
   }
 }

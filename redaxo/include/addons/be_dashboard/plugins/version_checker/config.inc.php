@@ -22,7 +22,7 @@ if($REX["REDAXO"])
 {
   $I18N->appendFile(dirname(__FILE__). '/lang/');
   
-  require_once dirname(__FILE__) .'/functions/function.version_check.inc.php';
+  require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
   
   // TODO isAvailable check funktioniert nicht!
   if(true || OOAddon::isAvailable('be_dashboard'))

@@ -23,7 +23,7 @@ if($REX["REDAXO"])
   $I18N->appendFile(dirname(__FILE__). '/lang/');
   
   require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
-  require_once dirname(__FILE__) .'/functions/function.reader.inc.php';
+  require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
 
   // TODO isAvailable check funktioniert nicht!
   if(true || OOAddon::isAvailable('be_dashboard'))
