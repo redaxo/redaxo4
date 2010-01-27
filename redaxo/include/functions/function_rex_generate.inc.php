@@ -481,7 +481,6 @@ function rex_deleteCacheMedia($media_id)
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $media_id . '.media');
-  @unlink($cachePath . 'names.mnamelist');
   rex_deleteCacheMediaLists();
 }
 
@@ -498,7 +497,6 @@ function rex_deleteCacheMediaCategory($category_id)
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mcat');
-  @unlink($cachePath . 'catnames.mcnamelist');
   rex_deleteCacheMediaCategoryLists();
 }
 
@@ -516,6 +514,7 @@ function rex_deleteCacheMediaLists()
   if(is_array($glob))
   	foreach ($glob as $file)
     	@unlink($file);
+  @unlink($cachePath . 'names.mnamelist');
 }
 
 /**
@@ -531,6 +530,7 @@ function rex_deleteCacheMediaList($category_id)
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mlist');
+  @unlink($cachePath . 'names.mnamelist');
 }
 
 /**
@@ -544,8 +544,10 @@ function rex_deleteCacheMediaCategoryLists()
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   $glob = glob($cachePath . '*.mclist');
-  foreach ($glob as $file)
-    @unlink($file);
+  if (is_array($glob))
+    foreach ($glob as $file)
+      @unlink($file);
+  @unlink($cachePath . 'catnames.mcnamelist');
 }
 
 /**
@@ -561,6 +563,7 @@ function rex_deleteCacheMediaCategoryList($category_id)
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mclist');
+  @unlink($cachePath . 'catnames.mcnamelist');
 }
 
 /**
