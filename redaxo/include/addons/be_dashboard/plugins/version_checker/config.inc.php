@@ -24,8 +24,7 @@ if($REX["REDAXO"])
   
   require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
   
-  // TODO isAvailable check funktioniert nicht!
-  if(true || OOAddon::isAvailable('be_dashboard'))
+  if(rex_request('page', 'string') == 'be_dashboard')
   {
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     
