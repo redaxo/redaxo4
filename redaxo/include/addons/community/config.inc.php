@@ -4,9 +4,12 @@ $mypage = "community"; // only for this file
 
 // ********** Allgemeine AddOn Config
 $REX['ADDON']['rxid'][$mypage] = '5';
+
 $REX['ADDON']['page'][$mypage] = "$mypage";     // pagename/foldername
 $REX['ADDON']['name'][$mypage] = "Community";   // name
 $REX['ADDON']['perm'][$mypage] = "community[]"; // benoetigt mindest permission
+$REX['ADDON']['navigation'][$mypage] = array('type'=>'community');
+
 $REX['ADDON']['version'][$mypage] = '1.5';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
@@ -25,7 +28,7 @@ if ($REX["REDAXO"] && $REX['USER'])
 	$REX['EXTRAPERM'][] = "community[users]";
 	include $REX["INCLUDE_PATH"]."/addons/community/functions/functions.userconfig.inc.php";
 	
-	// $REX['ADDON'][$mypage]['SUBPAGES'] = array();
+	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , '&Uuml;bersicht');
 	
 	// Feste Subpages

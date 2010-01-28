@@ -36,10 +36,10 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 
 	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
 	
-	$REX['ADDON']['editme']['SUBPAGES'] = array();
+	$REX['ADDON']['editme']['subpages'] = array();
 	
 	if ($REX['USER'] && ($REX['USER']->isAdmin()))
-  		$REX['ADDON']['editme']['SUBPAGES'][] = array( '' , $I18N->msg("em_overview"));
+  		$REX['ADDON']['editme']['subpages'][] = array( '' , $I18N->msg("em_overview"));
 	
   if($tables = rex_em_getTables())
   {
@@ -53,9 +53,26 @@ if($REX["REDAXO"] && !$REX['SETUP'])
     	if($table["status"] == 1)
     	{
     		if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
-    			$REX['ADDON']['editme']['SUBPAGES'][] = array( $table["label"] , $table["name"]);
+    		{
+    			$REX['ADDON']['editme']['subpages'][] = array( $table["label"] , $table["name"]);
+    		}
     	}
     }
+    function rex_editme_navigation(&$params){
+
+      if($tables = rex_em_getTables())
+	  {
+	    foreach($tables as $table)
+		{
+		  $item = array();
+    	  $item['title'] = $table['name'];
+    	  $item['href'] = 'index.php?page=editme&subpage='.$table['label'];
+    	  $params['navigation']->addElement('editme', $item);
+		}
+	  }
+    }
+    
+    rex_register_extension('NAVI_PREPARED', 'rex_editme_navigation');
   }
   
   function rex_editme_assets($params){
@@ -65,6 +82,10 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	}
 	  
   rex_register_extension('PAGE_HEADER', 'rex_editme_assets');
+  
+  
+  
+  
   
   
   

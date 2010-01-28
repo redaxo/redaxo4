@@ -11,12 +11,12 @@
 // Parameter
 $Basedir = dirname(__FILE__);
 
+// Include Header and Navigation
+require $REX['INCLUDE_PATH'].'/layout/top.php';
+
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
-
-// Include Header and Navigation
-require $REX['INCLUDE_PATH'].'/layout/top.php';
 
 rex_title('Metainformationen erweitern', $REX['ADDON'][$page]['SUBPAGES']);
 
