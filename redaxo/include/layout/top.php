@@ -11,7 +11,7 @@ $popups_arr = array('linkmap', 'mediapool');
 $page_title = $REX['SERVERNAME'];
 
 if(!isset($page_name))
-  $page_name = $REX["PAGES"][strtolower($REX["PAGE"])][0];
+  $page_name = $REX["PAGES"][strtolower($REX["PAGE"])]['title'];
   
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
@@ -90,112 +90,153 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
   <div id="rex-navi-main">
 <?php
 
+class rex_be_navigation
+{
+	
+	var $navi = array();
+	var $extras = array('onclick', 'onmouseover', 'title', 'href');
+	
+	function addElement($type, $params = array())
+	{
+		if(!isset($this->navi[$type]))
+		  $this->navi[$type] = array();
+		$this->navi[$type][] = $params;
+	}
+
+	function getNavigation()
+	{
+		global $REX,$I18N;
+		$echo = '<dl class="rex-navi">';
+		foreach($this->navi as $type => $m)
+		{
+			$headline = $I18N->msg('navigation_'.$type);
+	    $echo .= '<dt>'. $headline .'</dt><dd>';
+	    $echo .= $this->_getNavigation($m, 0, $type);
+			$echo .= '</dd>' . "\n";
+		}
+  	$echo .= '</dl>';
+		return $echo;
+		
+	}
+	
+	private function _getNavigation($m, $level = 0, $type = "")
+	{
+			$level++;
+			if($type != "")
+				$id = 'rex-navi-'. $type;
+			else
+			  $id = 'rex-navi-level-'.$level;
+			
+	    $echo = '<ul id="'.$id.'">';
+			$first = TRUE;
+	    foreach($m as $item)
+			{
+				// echo '<pre>'; var_dump($item); echo '</pre>';
+				if(!isset($item['class']))
+				  $item['class'] = "";
+        if($first)
+          $item['class'] .= ' rex-navi-first';
+      	$first = FALSE;
+        if(isset($item['active']) && $item['active'])
+      	  $item['class'] .= ' rex-active';
+      	$item['class'] = $item['class'] != '' ? ' class="'.$item['class'].'"' : '';
+
+      	if(!isset($item['extra']))
+				  $item['extra'] = "";
+        
+				if(isset($item['id']))
+				  $item['id'] = 'id="'.$item['id'].'"';
+				else
+				  $item['id'] = '';
+	  
+      	$tags = '';
+      	foreach($item as $tag => $value)
+        	if(in_array($tag,$this->extras))
+        	  $tags .= ' '. $tag .'="'. $value .'"';
+      
+        	  // echo "<br />**".$tags;
+        	  
+        $echo .= '<li'. $item['class'] .' '. $item['id'] .'><a'. $item['class'] . $tags . $item['extra'] .'>'. @$item['title'] .'</a>';
+        if(isset($item['subpages']) && is_array($item['subpages']))
+        {
+  	      $echo .= $this->_getNavigation($item['subpages'], $level);
+        }
+        $echo .= '</li>';
+			}
+
+			$echo .= '</ul>';
+		
+			return $echo;
+	}
+	
+	function factory()
+	{
+		$r = new rex_be_navigation();
+		return $r;
+	}
+	
+}
+
+
+
+
+
+
+
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
-  
-  $navi_system = array();
-  $navi_addons = array();
-  foreach($REX['USER']->pages as $pageKey => $pageArr)
+
+	$n = rex_be_navigation::factory();
+	
+	foreach($REX['USER']->pages as $p => $pageArr)
   {
-    $pageKey = strtolower($pageKey);
-    if(!in_array($pageKey, array("credits","profile","content","linkmap")))
+		$p = strtolower($p);
+    if(!in_array($p, array("credits","profile","content","linkmap")))
     {
-      $item = array();
-      
-      $item['page'] = $pageKey;
-      $item['id'] = 'rex-navi-page-'.$pageKey;
-      $item['class'] = '';
-      if($pageKey == $REX["PAGE"]) 
-        $item['class'] = 'rex-active';
-
-      if($pageArr[1] != 1)
-      {
-        // ***** Basis
-        $item['href'] = 'index.php?page='.$pageKey;
+      $item = $pageArr;
+      $item['page'] = $p;
+      $item['id'] = 'rex-navi-page-'.$p;
+      if($p == $REX["PAGE"]) 
+        $item['active'] = TRUE;
+      if(!isset($item['type']))
+        $item['type'] = 'addons';
+      if(!isset($item['href']))
+        $item['href'] = 'index.php?page='.$p;
+      /*
+       if(isset ($REX['ACKEY']['ADDON'][$page]))
+        $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);
+      else 
+        $item['extra'] = rex_accesskey($pageArr['title'], $accesskey++);
+      */
         
-        if(isset($REX['PAGES'][$pageKey]['SUBPAGES']))
-        {
-        	$item['subpages'] = $REX['PAGES'][$pageKey]['SUBPAGES'];
-        }        
-        
-        $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
-        $item['tabindex'] = rex_tabindex(false);
-        
-        if(isset($pageArr['NAVI']) && is_array($pageArr['NAVI']))
-        	foreach($pageArr['NAVI'] as $k => $v)
-        		$item[$k] = $v;
-        
-        $navi_system[$pageArr[0]] = $item;
-
-      }else
-      {
-        // ***** AddOn
-        if(isset ($REX['ADDON']['link'][$pageKey]) && $REX['ADDON']['link'][$pageKey] != "") 
-          $item['href'] = $REX['ADDON']['link'][$pageKey];
-        else 
-          $item['href'] = 'index.php?page='.$pageKey;
-          
-        if(isset ($REX['ACKEY']['ADDON'][$pageKey]))
-          $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$pageKey]);
-        else 
-          $item['extra'] = rex_accesskey($pageArr[0], $accesskey++);
-
-        $item['subpages'] = array();
-        if(isset($REX['ADDON'][$pageKey]['SUBPAGES']))
-        	$item['subpages'] = $REX['ADDON'][$pageKey]['SUBPAGES'];
-
-        $item['tabindex'] = rex_tabindex(false);
-
-        if(isset($pageArr['NAVI']) && is_array($pageArr['NAVI']))
-        	foreach($pageArr['NAVI'] as $k => $v)
-        		$item[$k] = $v;
-
-        $navi_addons[$pageArr[0]] = $item;
-      }
+      $item['tabindex'] = rex_tabindex(false);
+      $n->addElement($item['type'], $item);
     }
   }
+	
+  // ----- EXTENSION POINT
+  rex_register_extension_point( 'NAVI_PREPARED', '', array("navigation"=>&$n));
   
-  echo '<dl class="rex-navi">';
-  
-  foreach(array('system' => $navi_system, 'addon' => $navi_addons) as $topic => $naviList)
-  {
-    if(count($naviList) == 0)
-      continue;
-      
-    $headline = $topic == 'system' ? $I18N->msg('navigation_system') : $I18N->msg('navigation_addons');
-    
-    echo '<dt>'. $headline .'</dt><dd>';
-    echo '<ul id="rex-navi-'. $topic .'">';
-    
-    $first = TRUE;
-    foreach($naviList as $pageTitle => $item)
-    {
-      if($first)
-        $item['class'] .= ' rex-navi-first';
-        
-      $class = $item['class'] != '' ? ' class="'. $item['class'] .'"' : '';
-      unset($item['class']);
-      $extra = $item['extra'];
-      unset($item['extra']);
-      $id = $item['id'];
-      unset($item['id']);
-      $p = $item['page'];
-      unset($item['page']);
+	echo $n->getNavigation();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+      // ***** Subnavi
+      /*
       $subpages = array();
       if(isset($item['subpages']))
         $subpages = $item['subpages'];
       unset($item['subpages']);
       
-      
-      $tags = '';
-      foreach($item as $tag => $value)
-        $tags .= ' '. $tag .'="'. $value .'"';
-      
-      echo '<li'. $class .' id="'. $id .'"><a'. $class . $tags . $extra .'>'. $pageTitle .'</a>';
-
-			// ***** Subnavi
       if(count($subpages)>0)
       {
+      	
       	echo '<ul class="rex-navi-level-2">';
 	      $subfirst = TRUE;
 	      $subpage = rex_request("subpage","string");
@@ -218,14 +259,9 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 	      }
 	      echo '</ul>';
       }
+      */
       // ***** Subnavi
       
-      echo '</li>';
-      $first = false;
-    }
-    echo '</ul></dd>' . "\n";
-  }
-  echo '</dl>';
 }
 
 ?>
