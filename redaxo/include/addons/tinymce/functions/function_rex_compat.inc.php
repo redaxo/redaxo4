@@ -161,11 +161,14 @@ if (!function_exists('file_get_contents'))
 	function file_get_contents($filename)
 	{
 		$fp = fopen($filename, 'r');
-		if (!$fp)
+		if ($fp)
 		{
-			return false;
+  		$cont = fread($fp, filesize($filename));
+  		fclose($fp);
+  		return $cont;
 		}
-		return fread($fp, filesize($filename));
+		
+		return false;
 	}
 } // end function_exists
 
@@ -183,10 +186,7 @@ if (!function_exists('file_put_contents'))
 			fclose($fp);
 			return true;
 		}
-		else
-		{
-		return false;
-		}
+	  return false;
 	}
 } // end function_exists
 ?>
