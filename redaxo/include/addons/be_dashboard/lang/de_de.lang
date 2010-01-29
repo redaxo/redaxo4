@@ -1,4 +1,4 @@
 # addon: be_dashboard de_de
 dashboard = Dashboard
 dashboard_notifications = Wichtige Meldungen
-dashboard_component_lastupdate = letzte Änderung
+dashboard_component_lastupdate = zuletzt aktualisiert am
