@@ -73,10 +73,6 @@ class rex_stats_component extends rex_dashboard_component
     $content .= $I18N->msg('userinfo_component_stats_users');
     $content .= '<br />';
     
-    $content .= '<br />';
-    $content .= $I18N->msg('userinfo_component_stats_last_update');
-    $content .= ' '. rex_formatter::format($stats['last_update'], 'strftime', 'datetime');
-    
     $this->setContent($content);
   }
 }

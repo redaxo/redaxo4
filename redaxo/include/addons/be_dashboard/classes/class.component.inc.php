@@ -34,18 +34,31 @@
   /*public*/ function getContent()
   {
     return $this->content;
+  }
+   
+  /*public*/ function getLastUpdate()
+  {
+    // todo
+    return mktime();
   } 
   
   /*public*/ function get()
   {
+    global $I18N;
+    
     $this->prepare();
     
     $content = $this->getContent();
+    
     if($content)
     {
+      $update = $I18N->msg('dashboard_component_lastupdate');
+      $update .= ' '. rex_formatter::format($this->getLastUpdate(), 'strftime', 'datetime');
+      
       return '<div class="rex-dashboard-component">
                 <h3>'. $this->getTitle() .'</h3>
                 '. $content .'
+                <span class="rex-dashboard-component-updatedate">'. $update .'</span>
               </div>';
     }
     

@@ -7,7 +7,6 @@ userinfo_component_stats_templates = Templates
 userinfo_component_stats_modules = Module
 userinfo_component_stats_actions = Aktionen
 userinfo_component_stats_users = Benutzer
-userinfo_component_stats_last_update = letzte Änderung
 
 userinfo_component_articles_title = Zuletzt bearbeitete Artikel
 
