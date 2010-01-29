@@ -9,20 +9,8 @@
  * @version svn:$Id$
  */
 
-$folder = $REX['INCLUDE_PATH'].'/addons/cronjob/logs/';
-$years = array ();
-$hdl = opendir($folder);
-while (($file = readdir($hdl)) !== false)
-{
-  if (substr($file,0,1) != '.' && is_dir($folder.$file.'/.'))
-  {
-    $years[] = $file;
-  }
-}
-closedir($hdl);
-
-// Sortiere Array
-sort($years);
+$folder = REX_LOG_FOLDER;
+$years = rex_a630_log_years($folder);
 
 $year_sel = new rex_select();
 $year_sel->setSize(1);
@@ -38,7 +26,7 @@ $month_sel->setAttribute('class','rex-form-select');
 $month_sel->setAttribute('onchange','this.form.submit();');
 $month_sel->setStyle('width: 100px');
 
-$log = rex_request('log','array',array());
+$log = rex_request('log', 'array', array());
 if(!isset($log['year']) || !$log['year'])
   $log['year'] = date('Y');
 if(!isset($log['month']) || !$log['month'])
@@ -48,7 +36,7 @@ $max_year = 0;
 $year_exists = false;
 foreach($years as $i => $year)
 {
-  $files[$year] = glob($folder.$year.'/'.$year.'-*.log');
+  $files[$year] = rex_a630_log_files($folder, $year);
   if (empty($files[$year]))
   {
     unset($years[$i]);
@@ -56,9 +44,12 @@ foreach($years as $i => $year)
   }
   else
   {
-    $max_year = $year;
+    if ($year > $max_year)
+      $max_year = $year;
+      
     if ($year == $log['year'])
       $year_exists = true;
+      
     $year_sel->addOption($year, $year);
   }
 }
