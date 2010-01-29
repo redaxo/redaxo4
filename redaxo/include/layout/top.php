@@ -119,7 +119,7 @@ class rex_be_navigation
 		
 	}
 	
-	private function _getNavigation($m, $level = 0, $type = "")
+	/*private*/ function _getNavigation($m, $level = 0, $type = "")
 	{
 			$level++;
 			if($type != "")
