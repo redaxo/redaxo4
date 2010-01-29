@@ -41,6 +41,7 @@ if($REX["REDAXO"])
       'rex_modules_component',
       'rex_actions_component',
       'rex_users_component',
+      'rex_media_component',
     );
     
     foreach($adminComponents as $compClass)

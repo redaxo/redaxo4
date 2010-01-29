@@ -9,6 +9,11 @@
     $this->message = '';
   }
   
+  /*protected*/ function prepare()
+  {
+    // override in subclasses to retrieve and set message
+  }
+  
   /*public*/ function setMessage($message)
   {
     $this->message = $message;
@@ -21,7 +26,15 @@
   
   /*public*/ function get()
   {
-    return '<li>'. $this->getMessage() .'</li>';
+    $this->prepare();
+    
+    $message = $this->getMessage();
+    
+    if($message)
+    {
+      return '<li>'. $message .'</li>';
+    }
+    return '';
   }
   
   /*public*/ function registerAsExtension($params)

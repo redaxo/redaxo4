@@ -99,3 +99,13 @@ function rex_a659_latest_users($limit = A659_DEFAULT_LIMIT)
   $users = $sql->getArray('SELECT user_id, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'user ORDER BY updatedate DESC LIMIT '.$limit);
   return $users;
 }
+
+function rex_a659_latest_media($limit = A659_DEFAULT_LIMIT)
+{
+  global $REX;
+  
+  $sql = rex_sql::factory();
+//  $sql->debugsql = true;
+  $users = $sql->getArray('SELECT file_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'file ORDER BY updatedate DESC LIMIT '.$limit);
+  return $users;
+}

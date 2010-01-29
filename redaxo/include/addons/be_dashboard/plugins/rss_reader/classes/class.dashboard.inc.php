@@ -12,17 +12,26 @@
 
 class rex_rss_reader_component extends rex_dashboard_component
 {
+  var $feedUrl;
   function rex_rss_reader_component($feedUrl)
+  {
+    $this->feedUrl = $feedUrl;
+    
+    parent::rex_dashboard_component();
+  }
+  
+  /*protected*/ function prepare()
   {
     global $I18N;
     
-    $feed = new rex_rssReader($feedUrl);
+    $feed = new rex_rssReader($this->feedUrl);
     $encoding = $feed->get_encoding();
     
     $title = rex_a656_convert($feed->get_title(), $encoding);
     $title = $I18N->msg('rss_feed') .': ' . $title;
-    $content = rex_a656_rss_teaser($feedUrl);
+    $content = rex_a656_rss_teaser($this->feedUrl);
     
-    parent::rex_dashboard_component($title, $content);
+    $this->setTitle($title);
+    $this->setContent($content);
   }
 }

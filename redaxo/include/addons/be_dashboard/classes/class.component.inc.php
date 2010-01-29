@@ -5,10 +5,20 @@
   var $title;
   var $content;
   
-  function rex_dashboard_component($title, $content = '')
+  function rex_dashboard_component($title = '', $content = '')
   {
     $this->title = $title;
     $this->content = $content;
+  }
+  
+  /*protected*/ function prepare()
+  {
+    // override in subclasses to retrieve and set content/title
+  }
+  
+  /*public*/ function setTitle($title)
+  {
+    $this->title = $title;
   }
   
   /*public*/ function getTitle()
@@ -28,10 +38,18 @@
   
   /*public*/ function get()
   {
-    return '<div class="rex-dashboard-component">
-              <h3>'. $this->getTitle() .'</h3>
-              '. $this->getContent() .'
-            </div>';
+    $this->prepare();
+    
+    $content = $this->getContent();
+    if($content)
+    {
+      return '<div class="rex-dashboard-component">
+                <h3>'. $this->getTitle() .'</h3>
+                '. $content .'
+              </div>';
+    }
+    
+    return '';
   }
   
   /*public*/ function registerAsExtension($params)

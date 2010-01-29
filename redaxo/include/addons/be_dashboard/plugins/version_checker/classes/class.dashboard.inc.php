@@ -15,6 +15,10 @@ class rex_version_checker_notification extends rex_dashboard_notification
   function rex_version_checker_notification()
   {
     parent::rex_dashboard_notification();
+  }
+  
+  /*protected*/ function prepare()
+  {
     $this->setMessage(rex_a657_check_version());
   }
 }
