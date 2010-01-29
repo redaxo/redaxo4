@@ -38,3 +38,5 @@ cronjob_status_success = Status wurde geändert!
 cronjob_status_error = Fehler beim Ändern des Status!
 
 cronjob_no_log_files = Keine Log-Dateien vorhanden.
+
+cronjob_dashboard_component_title = Zuletzt ausgeführte Cronjobs

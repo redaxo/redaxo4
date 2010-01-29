@@ -13,7 +13,7 @@ if($REX["REDAXO"])
 {
 
   // Sprachdateien anhaengen
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/cronjob/lang/');
+	$I18N->appendFile(dirname(__FILE__) .'/lang/');
 	
 	$REX['ADDON']['rxid']["cronjob"] = '630';
   $REX['ADDON']['name']["cronjob"] = $I18N->msg("cronjob_title");
@@ -28,16 +28,29 @@ if($REX["REDAXO"])
 	$REX['ADDON']['cronjob']['SUBPAGES'] = array(array('',$I18N->msg("cronjob_title")), array('log','Log'));
 	
 	$EP = 'PAGE_CHECKED';
+
 	
+  if(rex_request('page', 'string') == 'be_dashboard')
+  {
+    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
+    
+    rex_register_extension (
+      'DASHBOARD_COMPONENT',
+      array(new rex_cronjob_component(), 'registerAsExtension')
+    );
+  }
 } else
 {
   $EP = 'ADDONS_INCLUDED';
 }
 
-require_once $REX['INCLUDE_PATH'].'/addons/cronjob/classes/class.rex_a630_cronjob.inc.php';
+define('REX_LOG_FOLDER', $REX['INCLUDE_PATH'].'/addons/cronjob/logs/');
+
+require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob.inc.php';
+require_once dirname(__FILE__) .'/functions/function_cronjob.inc.php';
 
 // --- DYN
-$REX["ADDON"]["nexttime"]["cronjob"] = "0";
+$REX["ADDON"]["nexttime"]["cronjob"] = "1264789128";
 // --- /DYN
 
 if (isset($REX["ADDON"]["nexttime"]["cronjob"]) 
