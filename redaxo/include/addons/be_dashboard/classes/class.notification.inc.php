@@ -3,10 +3,20 @@
 /*abstract*/ class rex_dashboard_notification
 {
   var $message;
+  var $funcCache;
+  var $cacheBackend;
   
-  function rex_dashboard_notification()
+  function rex_dashboard_notification($cache_options = array())
   {
+    if(!isset($cache_options['lifetime']))
+    {
+      // default cache lifetime in seconds
+      $cache_options['lifetime'] = 60;
+    }
+    
     $this->message = '';
+    $this->cacheBackend = new rex_file_cache($cache_options);
+    $this->funcCache = new rex_function_cache($this->cacheBackend);
   }
   
   /*protected*/ function prepare()
@@ -25,6 +35,16 @@
   } 
   
   /*public*/ function get()
+  {
+    $callable = array($this, '_get');
+    $content = $this->funcCache->call($callable);
+    $cachekey = $this->funcCache->computeCacheKey($callable);
+    $cachestamp = $this->cacheBackend->getLastModified($cachekey);
+    $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
+    return strtr($content, array('%%cachetime%%' => $cachetime));
+  }
+  
+  /*public*/ function _get()
   {
     $this->prepare();
     

@@ -17,7 +17,10 @@ class rex_rss_reader_component extends rex_dashboard_component
   {
     $this->feedUrl = $feedUrl;
     
-    parent::rex_dashboard_component();
+    // default cache lifetime in seconds
+    $cache_options['lifetime'] = 3600;
+    
+    parent::rex_dashboard_component('', '', $cache_options);
   }
   
   /*protected*/ function prepare()

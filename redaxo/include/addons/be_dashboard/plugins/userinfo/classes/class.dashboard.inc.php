@@ -21,7 +21,14 @@ class rex_stats_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_stats_title'));
+    // default cache lifetime in seconds
+    $cache_options['lifetime'] = 1800;
+    
+    parent::rex_dashboard_component(
+      $I18N->msg('userinfo_component_stats_title'),
+      '',
+      $cache_options
+    );
   }
   
   /*protected*/ function prepare()

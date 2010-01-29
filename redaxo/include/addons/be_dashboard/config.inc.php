@@ -31,6 +31,9 @@ if($REX["REDAXO"])
 {
   $I18N->appendFile(dirname(__FILE__). '/lang/');
     
+  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/classes/class.rex_cache.inc.php';
+  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/classes/cache/class.rex_cache_file.inc.php';
+  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/classes/cache/class.rex_cache_function.inc.php';
   require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/classes/class.component.inc.php';
   require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/classes/class.notification.inc.php';
 //  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/extensions/function_extensions.inc.php';

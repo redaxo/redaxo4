@@ -4,11 +4,21 @@
 {
   var $title;
   var $content;
+  var $funcCache;
+  var $cacheBackend;
   
-  function rex_dashboard_component($title = '', $content = '')
+  function rex_dashboard_component($title = '', $content = '', $cache_options = array())
   {
+    if(!isset($cache_options['lifetime']))
+    {
+      // default cache lifetime in seconds
+      $cache_options['lifetime'] = 60;
+    }
+    
     $this->title = $title;
     $this->content = $content;
+    $this->cacheBackend = new rex_file_cache($cache_options);
+    $this->funcCache = new rex_function_cache($this->cacheBackend);
   }
   
   /*protected*/ function prepare()
@@ -36,29 +46,32 @@
     return $this->content;
   }
    
-  /*public*/ function getLastUpdate()
-  {
-    // todo
-    return mktime();
-  } 
-  
   /*public*/ function get()
+  {
+    $callable = array($this, '_get');
+    $content = $this->funcCache->call($callable);
+    $cachekey = $this->funcCache->computeCacheKey($callable);
+    $cachestamp = $this->cacheBackend->getLastModified($cachekey);
+    $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
+    return strtr($content, array('%%cachetime%%' => $cachetime));
+  }
+  
+  /*public*/ function _get()
   {
     global $I18N;
     
     $this->prepare();
-    
     $content = $this->getContent();
     
     if($content)
     {
-      $update = $I18N->msg('dashboard_component_lastupdate');
-      $update .= ' '. rex_formatter::format($this->getLastUpdate(), 'strftime', 'datetime');
-      
       return '<div class="rex-dashboard-component">
                 <h3>'. $this->getTitle() .'</h3>
                 '. $content .'
-                <span class="rex-dashboard-component-updatedate">'. $update .'</span>
+                <span class="rex-dashboard-component-updatedate">
+                  '. $I18N->msg('dashboard_component_lastupdate') .'
+                  %%cachetime%%
+                </span>
               </div>';
     }
     
