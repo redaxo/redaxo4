@@ -145,6 +145,7 @@ class rex_file_cache extends rex_cache
     }
 
     $result = true;
+    // TODO PHP4 Compat!
     foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $file)
     {
       if (REX_CACHE_CLEAN_ALL == $mode || !$this->isValid($file))
