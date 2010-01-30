@@ -2,3 +2,4 @@
 dashboard = Dashboard
 dashboard_notifications = Wichtige Meldungen
 dashboard_component_lastupdate = zuletzt aktualisiert am
+dashboard_component_save_config = Einstellungen speichern

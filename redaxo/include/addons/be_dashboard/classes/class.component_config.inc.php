@@ -42,21 +42,26 @@
   }
   
   /**
-   * Extrahiert aus den POST-Daten die Formular-Werte.
-   * Mithilfe von getInputName() koennen die Daten gefunden werden.
-   * 
+   * Stellt aus den Daten des POSTs die Einstellungen der Komponente her. 
    */
   /*protected*/ function getFormValues()
   {
       trigger_error('The getFormValues method has to be overridden by a subclass!', E_USER_ERROR);
   }
   
+  /**
+   * Laedt die Einstellungen der Komponente.
+   * Falls noch keine Einstellungen hinterlegt sind, wird $defaultSettings als Einstellungen geladen.  
+   */
   /*protected*/ function load($defaultSettings)
   {
     $cacheKey = get_class($this);
     return unserialize($this->settingsCache->get($cacheKey, serialize($defaultSettings)));
   }
   
+  /**
+   * Persistiert die Einstellungen
+   */
   /*protected*/ function persist()
   {
     $this->settings = $this->getFormValues();
@@ -67,17 +72,26 @@
     $this->settingsCache->set($cacheKey, serialize($this->settings), 10000);
   }
   
+  /**
+   * Erstellt den Namen fuer ein Input-Element zur benutzung in getForm()
+   */
   /*protected*/ function getInputName($key)
   {
     return 'component_'. $this->id .'_'. $key;
   }
   
+  /**
+   * Gibt zurück, ob die Einstellungen geaendert worden.
+   */
   /*public*/ function changed()
   {
     $btnName = $this->getInputName('save_btn');
     return rex_post($btnName, 'boolean');
   }
   
+  /**
+   * Gibt die Konfiguration in HTML-Form zurueck
+   */
   /*public*/ function get()
   {
     global $REX, $I18N;
