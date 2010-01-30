@@ -108,6 +108,7 @@ class rex_articles_component extends rex_dashboard_component
       {
         $content .= '<li>';
         $content .= '<a href="index.php?page=content&article_id='. $article['id'] .'&mode=edit&clang='. $article['clang'] .'">'. $article['name'] .'</a>';
+        $content .= ' ['. $article['updateuser'] .']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -147,6 +148,7 @@ class rex_templates_component extends rex_dashboard_component
       {
         $content .= '<li>';
         $content .= '<a href="index.php?page=template&function=edit&template_id='. $template['id'] .'">'. $template['name'] .'</a>';
+        $content .= ' ['. $template['updateuser'] .']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -186,6 +188,7 @@ class rex_modules_component extends rex_dashboard_component
       {
         $content .= '<li>';
         $content .= '<a href="index.php?page=module&function=edit&modul_id='. $module['id'] .'">'. $module['name'] .'</a>';
+        $content .= ' ['. $module['updateuser'] .']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -225,6 +228,7 @@ class rex_actions_component extends rex_dashboard_component
       {
         $content .= '<li>';
         $content .= '<a href="index.php?page=module&subpage=actions&function=edit&action_id='. $action['id'] .'">'. $action['name'] .'</a>';
+        $content .= ' ['. $action['updateuser'] .']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -264,6 +268,7 @@ class rex_users_component extends rex_dashboard_component
       {
         $content .= '<li>';
         $content .= '<a href="index.php?page=user&user_id='. $user['user_id'] .'">'. $user['name'] .'</a>';
+        $content .= ' ['. $user['updateuser'] .']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -304,6 +309,7 @@ class rex_media_component extends rex_dashboard_component
         $url = 'index.php?page=mediapool&subpage=detail&file_id='. $medium['file_id'];
         $content .= '<li>';
         $content .= '<a href="'. $url .'" onclick="newPoolWindow(this.href); return false;">'. $medium['filename'] .'</a>';
+        $content .= ' ['. $medium['updateuser'] .']';
         $content .= '</li>';
       }
       $content .= '</ul>';
