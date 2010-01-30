@@ -20,32 +20,81 @@ function rex_a659_statistics()
   
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'article WHERE clang=0 ORDER BY updatedate desc');
-  $stats['total_articles'] = $result[0]['count'];
-  $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'article WHERE clang=0 ORDER BY updatedate DESC LIMIT 1');
+  if(count($result) > 0)
+  {
+    $stats['total_articles'] = $result[0]['count'];
+    $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  }
+  else
+  {
+    $stats['total_articles'] = 0;
+  }
   
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'article_slice ORDER BY updatedate DESC');
-  $stats['total_slices'] = $result[0]['count'];
-  $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'article_slice ORDER BY updatedate DESC LIMIT 1');
+  if(count($result) > 0)
+  {
+    $stats['total_slices'] = $result[0]['count'];
+    $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  }
+  else
+  {
+    $stats['total_slices'] = 0;
+  }
   
   $result = $sql->getArray('SELECT COUNT(*) as count FROM '. $REX['TABLE_PREFIX'] .'clang');
-  $stats['total_clangs'] = $result[0]['count'];
+  if(count($result) > 0)
+  {
+    $stats['total_clangs'] = $result[0]['count'];
+  }
+  else
+  {
+    $stats['total_clangs'] = 0;
+  }
   
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'template ORDER BY updatedate DESC');
-  $stats['total_templates'] = $result[0]['count'];
-  $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'template ORDER BY updatedate DESC LIMIT 1');
+  if(count($result) > 0)
+  {
+    $stats['total_templates'] = $result[0]['count'];
+    $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  }
+  else
+  {
+    $stats['total_templates'] = 0;
+  }
   
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'module ORDER BY updatedate DESC');
-  $stats['total_modules'] = $result[0]['count'];
-  $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'module ORDER BY updatedate DESC LIMIT 1');
+  if(count($result) > 0)
+  {
+    $stats['total_modules'] = $result[0]['count'];
+    $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  }
+  else
+  {
+    $stats['total_modules'] = 0;
+  }
   
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'action ORDER BY updatedate DESC');
-  $stats['total_actions'] = $result[0]['count'];
-  $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'action ORDER BY updatedate DESC LIMIT 1');
+  if(count($result) > 0)
+  {
+    $stats['total_actions'] = $result[0]['count'];
+    $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  }
+  else
+  {
+    $stats['total_actions'] = 0;
+  }
   
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'user ORDER BY updatedate DESC');
-  $stats['total_users'] = $result[0]['count'];
-  $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'user ORDER BY updatedate DESC LIMIT 1');
+  if(count($result) > 0)
+  {
+    $stats['total_users'] = $result[0]['count'];
+    $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
+  }
+  else
+  {
+    $stats['total_users'] = 0;
+  }
   
   return $stats;
 }
