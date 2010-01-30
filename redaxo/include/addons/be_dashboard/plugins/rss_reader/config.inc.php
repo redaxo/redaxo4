@@ -22,7 +22,10 @@ if($REX["REDAXO"])
 {
   $I18N->appendFile(dirname(__FILE__). '/lang/');
   
+  $oldReporting = error_reporting(0);
   require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
+  error_reporting($oldReporting);
+  
   require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
 
   if(rex_request('page', 'string') == 'be_dashboard')
@@ -33,7 +36,6 @@ if($REX["REDAXO"])
       'http://www.redaxo.de/261-0-news-rss-feed.html'
     );
 
-    $content = $params['subject'];
     foreach($feeds as $feedUrl)
     {
       rex_register_extension(
