@@ -116,23 +116,28 @@ class rex_a630_cronjob
     global $REX;
     $year = date('Y');
     $month = date('m');
+    
     $dir = $REX['INCLUDE_PATH'].'/addons/cronjob/logs/'.$year;
-    $file = $dir.'/'.$year.'-'.$month.'.log';
     if (!is_dir($dir))
     {
       mkdir($dir);
       chmod($dir, $REX['DIRPERM']);
     }
+    
     $content = '';
+    $file = $dir.'/'.$year.'-'.$month.'.log';
     if (file_exists($file))
       $content = rex_get_file_contents($file);
-    $newline = date('Y-m-d H:i:s  ');
+      
+    $newline = rex_formatter::format(time(), 'strftime', 'datetime');
     if ($success)
       $newline .= 'SUCCESS  ';
     else
       $newline .= ' ERROR   ';
+      
     $newline .= $name;
     $content = $newline."\n".$content;
+    
     rex_put_file_contents($file, $content);
   }
   
