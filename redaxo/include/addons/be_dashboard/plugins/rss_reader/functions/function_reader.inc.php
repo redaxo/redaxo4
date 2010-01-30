@@ -22,7 +22,7 @@ function rex_a656_rss_teaser($feedUrl)
   foreach ($feed->get_items(0, 10) as $item) {
     $s .= '
         <li>
-            <a href="'. $item->get_permalink() .'">
+            <a href="'. $item->get_permalink() .'" onclick="window.open(this.href); return false;">
               <span>'. rex_a656_convert($item->get_date('d.m.Y H:i'), $encoding) .'</span>
               '. rex_a656_convert($item->get_title(), $encoding) .
             '</a>
