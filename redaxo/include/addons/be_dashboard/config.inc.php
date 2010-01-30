@@ -32,6 +32,7 @@ if($REX["REDAXO"])
   require_once dirname(__FILE__) .'/classes/cache/class.rex_cache_file.inc.php';
   require_once dirname(__FILE__) .'/classes/cache/class.rex_cache_function.inc.php';
   require_once dirname(__FILE__) .'/classes/class.component_base.inc.php';
+  require_once dirname(__FILE__) .'/classes/class.component_config.inc.php';
   require_once dirname(__FILE__) .'/classes/class.component.inc.php';
   require_once dirname(__FILE__) .'/classes/class.notification.inc.php';
 }

@@ -12,6 +12,14 @@
 
 $error = '';
 
+if($error == '')
+{
+  $file = dirname(__FILE__) .'/settings';
+
+  if(($state = rex_is_writable($file)) !== true)
+    $error = $state;
+}
+
 if ($error != '')
   $REX['ADDON']['installmsg']['be_dashboard'] = $error;
 else

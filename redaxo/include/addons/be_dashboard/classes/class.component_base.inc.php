@@ -12,13 +12,12 @@
 
 /*abstract*/ class rex_dashboard_component_base
 {
+  var $config;
   var $funcCache;
-  var $cacheBackend;
   
   function rex_dashboard_component_base($cache_options = array())
   {
-    $this->cacheBackend = new rex_file_cache($cache_options);
-    $this->funcCache = new rex_function_cache($this->cacheBackend);
+    $this->funcCache = new rex_function_cache(new rex_file_cache($cache_options));
   }
   
   /*protected*/ function prepare()
@@ -33,23 +32,45 @@
     return true;
   }
 
+  /*public*/ function setConfig(/*rex_dashboard_component_config*/ $config)
+  {
+    $this->config = $config;
+  }
+  
   /*public*/ function get()
   {
     if($this->checkPermission())
     {
       $callable = array($this, '_get');
-      $content = $this->funcCache->call($callable);
       $cachekey = $this->funcCache->computeCacheKey($callable);
-      $cachestamp = $this->cacheBackend->getLastModified($cachekey);
+      $cacheBackend = $this->funcCache->getCache(); 
+      
+      $configForm = '';
+      if($this->config)
+      {
+        $configForm = $this->config ? $this->config->get() : '';
+        
+        if($this->config->changed())
+          $cacheBackend->remove($cachekey);
+      }
+      
+      $content = $this->funcCache->call($callable);
+      
+      $cachestamp = $cacheBackend->getLastModified($cachekey);
+      if(!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
       $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
-      return strtr($content, array('%%cachetime%%' => $cachetime));
+      
+      $content = strtr($content, array('%%cachetime%%' => $cachetime));
+      $content = strtr($content, array('%%config%%' => $configForm));
+      
+      return $content;
     }
     return '';
   }
   
   /*public abstract*/ function _get()
   {
-    trigger_error('The _get method have to be overridden by a subclass!', E_USER_ERROR);
+    trigger_error('The _get method has to be overridden by a subclass!', E_USER_ERROR);
   }
   
   /*public*/ function registerAsExtension($params)

@@ -61,6 +61,7 @@
     {
       return '<div class="rex-dashboard-component">
                 <h3>'. htmlspecialchars($this->getTitle()) .'</h3>
+                %%config%%
                 '. $content .'
                 <span class="rex-dashboard-component-updatedate">
                   '. $I18N->msg('dashboard_component_lastupdate') .'
