@@ -14,12 +14,14 @@ function rex_a656_rss_teaser($feedUrl)
 {
   $feed = new rex_rssReader($feedUrl);
   $encoding = $feed->get_encoding();
+  $title = rex_a656_convert($feed->get_title(), $encoding);
   
   $s = '';
   $s .= '<div class="rex-rss-feed">
+           <h3>'. htmlspecialchars($title) .'</h3>
            <ul>';
   
-  foreach ($feed->get_items(0, 10) as $item) {
+  foreach ($feed->get_items(0, 4) as $item) {
     $s .= '
         <li>
             <a href="'. $item->get_permalink() .'" onclick="window.open(this.href); return false;">

@@ -31,18 +31,11 @@ if($REX["REDAXO"])
   if(rex_request('page', 'string') == 'be_dashboard')
   {
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
-    
-    $feeds = array(
-      'http://www.redaxo.de/261-0-news-rss-feed.html'
-    );
 
-    foreach($feeds as $feedUrl)
-    {
-      rex_register_extension(
-        'DASHBOARD_COMPONENT',
-        array(new rex_rss_reader_component($feedUrl), 'registerAsExtension')
-      );
-    }
+    rex_register_extension(
+      'DASHBOARD_COMPONENT',
+      array(new rex_rss_reader_component(), 'registerAsExtension')
+    );
   }
   
 //  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/extensions/function_extensions.inc.php';

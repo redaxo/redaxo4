@@ -12,29 +12,58 @@
 
 class rex_rss_reader_component extends rex_dashboard_component
 {
-  var $feedUrl;
-  function rex_rss_reader_component($feedUrl)
+  function rex_rss_reader_component()
   {
-    $this->feedUrl = $feedUrl;
-    
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 3600;
     
     parent::rex_dashboard_component('', '', $cache_options);
+    $this->setConfig(new rex_rss_reader_component_config());
   }
   
   /*protected*/ function prepare()
   {
     global $I18N;
     
-    $feed = new rex_rssReader($this->feedUrl);
-    $encoding = $feed->get_encoding();
+    $content = '';
+    foreach($this->config->getFeedUrls() as $feedUrl)
+    {
+      $content .= rex_a656_rss_teaser($feedUrl);
+    }
     
-    $title = rex_a656_convert($feed->get_title(), $encoding);
-    $title = $I18N->msg('rss_feed') .': ' . $title;
-    $content = rex_a656_rss_teaser($this->feedUrl);
-    
-    $this->setTitle($title);
+    $this->setTitle($I18N->msg('rss_reader_component_title'));
     $this->setContent($content);
   }
+}
+
+class rex_rss_reader_component_config extends rex_dashboard_component_config
+{
+  function rex_rss_reader_component_config()
+  {
+    $defaultSettings = array(
+      'feeds' => array('http://www.redaxo.de/261-0-news-rss-feed.html'),
+    );
+    parent::rex_dashboard_component_config($defaultSettings);
+  }
+  
+  function getFeedUrls()
+  {
+    return $this->settings['feeds'];
+  }
+  
+  /*protected*/ function getFormValues()
+  {
+    $settings = array(
+      'feeds' => explode("\n", rex_post($this->getInputName('feedUrls'), 'string')),
+    );
+    
+    return $settings;
+  }
+  
+  /*protected*/ function getForm()
+  {
+    $name = $this->getInputName('feedUrls');
+    return '<textarea cols="80" rows="4" name="'. $name .'">'. implode("\n", $this->getFeedUrls()) .'</textarea>';
+  }
+  
 }
