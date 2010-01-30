@@ -126,6 +126,13 @@ class rex_templates_component extends rex_dashboard_component
     parent::rex_dashboard_component($I18N->msg('userinfo_component_templates_title'));
   }
   
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    
+    return $REX['USER']->isAdmin();
+  }
+
   /*protected*/ function prepare()
   {
     global $I18N;
@@ -156,6 +163,13 @@ class rex_modules_component extends rex_dashboard_component
     global $I18N;
     
     parent::rex_dashboard_component($I18N->msg('userinfo_component_modules_title'));
+  }
+  
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    
+    return $REX['USER']->isAdmin();
   }
   
   /*protected*/ function prepare()
@@ -190,6 +204,13 @@ class rex_actions_component extends rex_dashboard_component
     parent::rex_dashboard_component($I18N->msg('userinfo_component_actions_title'));
   }
   
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    
+    return $REX['USER']->isAdmin();
+  }
+  
   /*protected*/ function prepare()
   {
     global $I18N;
@@ -222,6 +243,13 @@ class rex_users_component extends rex_dashboard_component
     parent::rex_dashboard_component($I18N->msg('userinfo_component_users_title'));
   }
   
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    
+    return $REX['USER']->isAdmin();
+  }
+    
   /*protected*/ function prepare()
   {
     global $I18N;
@@ -254,6 +282,13 @@ class rex_media_component extends rex_dashboard_component
     parent::rex_dashboard_component($I18N->msg('userinfo_component_media_title'));
   }
   
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    
+    return $REX['USER']->hasMediaPerm();
+  }
+
   /*protected*/ function prepare()
   {
     global $I18N;
