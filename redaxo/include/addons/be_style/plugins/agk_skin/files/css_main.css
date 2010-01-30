@@ -712,6 +712,12 @@ div.rex-content-body {
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;
 }
+
+body div#rex-form-content-metamode, 
+body div.rex-form-content-editmode-edit-slice {
+	outline: 0;
+}
+
 p.rex-button a, 
 input.submit,
 div.rex-form input.rex-form-submit {
