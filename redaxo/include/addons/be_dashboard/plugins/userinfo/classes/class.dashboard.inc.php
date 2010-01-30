@@ -109,8 +109,8 @@ class rex_articles_component extends rex_dashboard_component
         $updatedate = rex_formatter::format($article['updatedate'], 'strftime', 'datetime');
         
         $content .= '<li>';
-        $content .= '<a href="index.php?page=content&article_id='. $article['id'] .'&mode=edit&clang='. $article['clang'] .'">'. $article['name'] .'</a>';
-        $content .= ' ['. $I18N->msg('userinfo_component_userinfo', $article['updateuser'], $updatedate). ']';
+        $content .= '<a href="index.php?page=content&article_id='. $article['id'] .'&mode=edit&clang='. $article['clang'] .'">'. htmlspecialchars($article['name']) .'</a>';
+        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $article['updateuser'], $updatedate)). ']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -151,8 +151,8 @@ class rex_templates_component extends rex_dashboard_component
         $updatedate = rex_formatter::format($template['updatedate'], 'strftime', 'datetime');
         
         $content .= '<li>';
-        $content .= '<a href="index.php?page=template&function=edit&template_id='. $template['id'] .'">'. $template['name'] .'</a>';
-        $content .= ' ['. $I18N->msg('userinfo_component_userinfo', $template['updateuser'], $updatedate). ']';
+        $content .= '<a href="index.php?page=template&function=edit&template_id='. $template['id'] .'">'. htmlspecialchars($template['name']) .'</a>';
+        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $template['updateuser'], $updatedate)). ']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -193,8 +193,8 @@ class rex_modules_component extends rex_dashboard_component
         $updatedate = rex_formatter::format($module['updatedate'], 'strftime', 'datetime');
         
         $content .= '<li>';
-        $content .= '<a href="index.php?page=module&function=edit&modul_id='. $module['id'] .'">'. $module['name'] .'</a>';
-        $content .= ' ['. $I18N->msg('userinfo_component_userinfo', $module['updateuser'], $updatedate). ']';
+        $content .= '<a href="index.php?page=module&function=edit&modul_id='. $module['id'] .'">'. htmlspecialchars($module['name']) .'</a>';
+        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $module['updateuser'], $updatedate)). ']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -235,8 +235,8 @@ class rex_actions_component extends rex_dashboard_component
         $updatedate = rex_formatter::format($action['updatedate'], 'strftime', 'datetime');
 
         $content .= '<li>';
-        $content .= '<a href="index.php?page=module&subpage=actions&function=edit&action_id='. $action['id'] .'">'. $action['name'] .'</a>';
-        $content .= ' ['. $I18N->msg('userinfo_component_userinfo', $action['updateuser'], $updatedate). ']';
+        $content .= '<a href="index.php?page=module&subpage=actions&function=edit&action_id='. $action['id'] .'">'. htmlspecialchars($action['name']) .'</a>';
+        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $action['updateuser'], $updatedate)). ']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -277,8 +277,8 @@ class rex_users_component extends rex_dashboard_component
         $updatedate = rex_formatter::format($user['updatedate'], 'strftime', 'datetime');
         
         $content .= '<li>';
-        $content .= '<a href="index.php?page=user&user_id='. $user['user_id'] .'">'. $user['name'] .'</a>';
-        $content .= ' ['. $I18N->msg('userinfo_component_userinfo', $user['updateuser'], $updatedate). ']';
+        $content .= '<a href="index.php?page=user&user_id='. $user['user_id'] .'">'. htmlspecialchars($user['name']) .'</a>';
+        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $user['updateuser'], $updatedate)). ']';
         $content .= '</li>';
       }
       $content .= '</ul>';
@@ -320,8 +320,8 @@ class rex_media_component extends rex_dashboard_component
         $updatedate = rex_formatter::format($medium['updatedate'], 'strftime', 'datetime');
         
         $content .= '<li>';
-        $content .= '<a href="'. $url .'" onclick="newPoolWindow(this.href); return false;">'. $medium['filename'] .'</a>';
-        $content .= ' ['. $I18N->msg('userinfo_component_userinfo', $medium['updateuser'], $updatedate). ']';
+        $content .= '<a href="'. $url .'" onclick="newPoolWindow(this.href); return false;">'. htmlspecialchars($medium['filename']) .'</a>';
+        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $medium['updateuser'], $updatedate)). ']';
         $content .= '</li>';
       }
       $content .= '</ul>';
