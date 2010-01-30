@@ -17,26 +17,33 @@ $error = '';
 
 // "agk_skin" Plugin mitinstallieren
 $addonname = 'be_style';
-$pluginname = 'agk_skin';
+$plugins = array('agk_skin');
 
 $ADDONS    = rex_read_addons_folder();
 $PLUGINS   = array();
 foreach($ADDONS as $_addon)
   $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
 
-$addonManager = new rex_pluginManager($PLUGINS, $addonname);
-$addonManager->install($pluginname);
+$pluginManager = new rex_pluginManager($PLUGINS, $addonname);
 
-// plugin installieren
-if(($instErr = $addonManager->install('agk_skin')) !== true)
+foreach($plugins as $pluginname)
 {
-  $error = $instErr;
-}
-
-// plugin aktivieren
-if ($error == '' && ($actErr = $addonManager->activate('agk_skin')) !== true)
-{
-  $error = $actErr;
+  // plugin installieren
+  if(($instErr = $pluginManager->install($pluginname)) !== true)
+  {
+    $error = $instErr;
+  }
+  
+  // plugin aktivieren
+  if ($error == '' && ($actErr = $pluginManager->activate($pluginname)) !== true)
+  {
+    $error = $actErr;
+  }
+  
+  if($error != '')
+  {
+    break;
+  }
 }
 
 if ($error != '')
