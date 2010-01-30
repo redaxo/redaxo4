@@ -1,10 +1,8 @@
 <?php
 
-/*abstract*/ class rex_dashboard_notification
+/*abstract*/ class rex_dashboard_notification extends rex_dashboard_component_base
 {
   var $message;
-  var $funcCache;
-  var $cacheBackend;
   
   function rex_dashboard_notification($cache_options = array())
   {
@@ -15,13 +13,7 @@
     }
     
     $this->message = '';
-    $this->cacheBackend = new rex_file_cache($cache_options);
-    $this->funcCache = new rex_function_cache($this->cacheBackend);
-  }
-  
-  /*protected*/ function prepare()
-  {
-    // override in subclasses to retrieve and set message
+    parent::rex_dashboard_component_base($cache_options);
   }
   
   /*public*/ function setMessage($message)
@@ -33,16 +25,6 @@
   {
     return $this->message;
   } 
-  
-  /*public*/ function get()
-  {
-    $callable = array($this, '_get');
-    $content = $this->funcCache->call($callable);
-    $cachekey = $this->funcCache->computeCacheKey($callable);
-    $cachestamp = $this->cacheBackend->getLastModified($cachekey);
-    $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
-    return strtr($content, array('%%cachetime%%' => $cachetime));
-  }
   
   /*public*/ function _get()
   {
@@ -57,12 +39,6 @@
     return '';
   }
   
-  /*public*/ function registerAsExtension($params)
-  {
-    $params['subject'][] = $this;
-    return $params['subject'];
-  }
-   
   /*
    * Static Method: Returns boolean if is notification
    */

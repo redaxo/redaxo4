@@ -1,11 +1,9 @@
 <?php
 
-/*abstract*/ class rex_dashboard_component
+/*abstract*/ class rex_dashboard_component extends rex_dashboard_component_base
 {
   var $title;
   var $content;
-  var $funcCache;
-  var $cacheBackend;
   
   function rex_dashboard_component($title = '', $content = '', $cache_options = array())
   {
@@ -17,14 +15,10 @@
     
     $this->title = $title;
     $this->content = $content;
-    $this->cacheBackend = new rex_file_cache($cache_options);
-    $this->funcCache = new rex_function_cache($this->cacheBackend);
+    
+    parent::rex_dashboard_component_base($cache_options);
   }
-  
-  /*protected*/ function prepare()
-  {
-    // override in subclasses to retrieve and set content/title
-  }
+
   
   /*public*/ function setTitle($title)
   {
@@ -46,16 +40,6 @@
     return $this->content;
   }
    
-  /*public*/ function get()
-  {
-    $callable = array($this, '_get');
-    $content = $this->funcCache->call($callable);
-    $cachekey = $this->funcCache->computeCacheKey($callable);
-    $cachestamp = $this->cacheBackend->getLastModified($cachekey);
-    $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
-    return strtr($content, array('%%cachetime%%' => $cachetime));
-  }
-  
   /*public*/ function _get()
   {
     global $I18N;
@@ -76,12 +60,6 @@
     }
     
     return '';
-  }
-  
-  /*public*/ function registerAsExtension($params)
-  {
-    $params['subject'][] = $this;
-    return $params['subject'];
   }
   
   /*
