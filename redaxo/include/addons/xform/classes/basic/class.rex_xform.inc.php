@@ -594,9 +594,9 @@ class rex_xform
 	
 		?>
 
-		<ul class="xform">
+		<ul>
 		<li>Value - Typen
-			<ul class="xform">
+			<ul>
 			<?php
 
 			if (!class_exists('rex_xform_abstract')) 
@@ -632,7 +632,7 @@ class rex_xform
 			if ($pos>0) echo '</ul></li>';
 		?></ul></li>
 		<li>Validate - Typen
-			<ul class="xform">
+			<ul>
 			<?php
 		
 			if (!class_exists('rex_xform_validate_abstract')) 
@@ -670,7 +670,7 @@ class rex_xform
 		?></ul></li>
 		
 		<li>Action - Typen
-			<ul class="xform">
+			<ul>
 			<?php
 			
 			if (!class_exists('rex_xform_action_abstract')) 
