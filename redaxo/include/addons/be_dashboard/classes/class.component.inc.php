@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Backenddashboard Addon
+ * 
+ * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ * 
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
 /*abstract*/ class rex_dashboard_component extends rex_dashboard_component_base
 {
   var $title;
