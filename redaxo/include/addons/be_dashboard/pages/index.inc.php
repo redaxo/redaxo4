@@ -29,9 +29,12 @@ if(count($dashboard_notifications) > 0)
   }
   unset($dashboard_notifications);
   
-  $component = new rex_dashboard_component($I18N->msg('dashboard_notifications'));
-  $component->setContent('<ul>'. $content .'</ul>');
-  echo $component->get();
+  if($content != '')
+  {
+    $component = new rex_dashboard_component($I18N->msg('dashboard_notifications'));
+    $component->setContent('<ul>'. $content .'</ul>');
+    echo $component->get();
+  }
 }
 
 // ----- EXTENSION POINT
