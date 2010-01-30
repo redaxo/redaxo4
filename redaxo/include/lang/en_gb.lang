@@ -32,7 +32,7 @@ content = Article
 structure = Structure
 statistics = Statistics
 logout = Logout
-navigation_system = System Navigation
+navigation_system = Mainmenu
 navigation_addons = AddOns
 
 # redaxo/include/classes/class.login.inc.php
