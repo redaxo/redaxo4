@@ -25,7 +25,7 @@ if($REX["REDAXO"])
   
   if(!defined('A659_DEFAULT_LIMIT'))
   {
-    define('A659_DEFAULT_LIMIT', 5);
+    define('A659_DEFAULT_LIMIT', 7);
   }
   
   require_once dirname(__FILE__) .'/functions/function_userinfo.inc.php';
