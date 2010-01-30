@@ -1,4 +1,4 @@
-lang = Deutsch
+ Nlang = Deutsch
 htmllang = de
 htmlcharset = iso-8859-1
 yes = ja
@@ -33,7 +33,7 @@ structure = Struktur
 statistics = Statistiken
 profile = Mein Profil
 logout = abmelden
-navigation_system = System Navigation
+navigation_system = Hauptmenu
 navigation_addons = AddOns
 
 # redaxo/include/classes/class.login.inc.php
