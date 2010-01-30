@@ -1,5 +1,10 @@
 <?php
 
+define('REX_A1_IMPORT_ARCHIVE', 1);
+define('REX_A1_IMPORT_DB', 2);
+define('REX_A1_IMPORT_EVENT_PRE', 3);
+define('REX_A1_IMPORT_EVENT_POST', 4);
+
 // Da diese Funktion im Setup direkt eingebunden wird
 // hier das I18N Objekt ggf. erstellen
 if ($REX['REDAXO'] && !isset($I18N))
