@@ -73,6 +73,9 @@ div.rex-form div.rex-form-row p {
 	float: left;
 	width: 100%;
 }
+div.rex-form div.rex-form-row p.rex-form-widget {
+	width: 155px;
+}
 
 /*	Label */
 /*	Bspl. p.rex-form-label - Content : Metamode */
@@ -493,6 +496,9 @@ div#rex-form-system-setup legend {
 div#rex-form-system-setup div.rex-form-row {
 	border-bottom-width: 0;
 }
+div.rex-form div.rex-form-row p.rex-form-widget {
+	width: 195px;
+}
 div#rex-form-system-setup div.rex-form-row label {
 	width: 190px;
 	padding-left: 0;
@@ -504,6 +510,9 @@ div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-te
 div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p select,
 div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p textarea {
 	width: 40%;
+}
+div#rex-form-system-setup div.rex-widget input {
+	width: 95px;
 }
  
 /*	Submit */
