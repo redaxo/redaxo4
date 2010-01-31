@@ -685,6 +685,7 @@ if ($article->getRows() == 1)
       echo '
     	  <div class="rex-form" id="rex-form-content-metamode">
           <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+          	<div class="rex-form-section">
             <fieldset class="rex-form-col-1">
               <legend><span>' . $I18N->msg('general') . '</span></legend>
 
@@ -729,10 +730,13 @@ if ($article->getRows() == 1)
         'id' => $article_id,
         'clang' => $clang
       ));
+      
+      echo '</div>';
 
       // ------------------------------------------------------------- SONSTIGES START
       if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('article2startpage[]') || $REX['USER']->hasPerm('moveArticle[]') || $REX['USER']->hasPerm('copyArticle[]') || ($REX['USER']->hasPerm('copyContent[]') && count($REX['CLANG']) > 1))
       {
+				echo '<div class="rex-form-section">';
 
 				// --------------------------------------------------- ZUM STARTARTICLE MACHEN START
 				if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('article2startpage[]'))
@@ -930,7 +934,8 @@ if ($article->getRows() == 1)
 
         }
         // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE
-
+				
+				echo '</div>'; // ENDE <div class="rex-form-section">
       }
       // ------------------------------------------------------------- SONSTIGES ENDE
 
