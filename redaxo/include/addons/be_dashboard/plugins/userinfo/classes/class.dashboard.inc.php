@@ -38,49 +38,70 @@ class rex_stats_component extends rex_dashboard_component
     $stats = rex_a659_statistics();
     
     $content = '';
-    $content .= '<span>';
-    $content .= $stats['total_articles'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_articles');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_articles'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $content .= '<span>';
-    $content .= $stats['total_slices'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_slices');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_slices'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $content .= '<span>';
-    $content .= $stats['total_clangs'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_clangs');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_clangs'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $content .= '<span>';
-    $content .= $stats['total_templates'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_templates');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_templates'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $content .= '<span>';
-    $content .= $stats['total_modules'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_modules');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_modules'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $content .= '<span>';
-    $content .= $stats['total_actions'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_actions');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_actions'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $content .= '<span>';
-    $content .= $stats['total_users'];
-    $content .= '</span>';
+    $content .= '<tr>';
+    $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_users');
-    $content .= '<br />';
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_users'];
+    $content .= '</td>';
+    $content .= '</tr>';
     
-    $this->setContent($content);
+    $this->setContent('<table class="rex-table rex-dashboard-table"><colgroup><col width="120" /><col width="*" /></colgroup><tbody>'.$content.'</tbody></table>');
   }
 }
 
@@ -103,17 +124,34 @@ class rex_articles_component extends rex_dashboard_component
     
     if(count($articles) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<table class="rex-table rex-dashboard-table">
+      							<colgroup>
+      								<col width="*" />
+      								<col width="120" />
+      								<col width="150" />
+      							</colgroup>
+      							
+      							<thead>
+      								<tr>
+      									<th>'.$I18N->msg('userinfo_component_stats_article').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
+      								</tr>
+      							</thead>
+      							<tbody>';
+      							
       foreach($articles as $article)
       {
         $updatedate = rex_formatter::format($article['updatedate'], 'strftime', 'datetime');
         
-        $content .= '<li>';
-        $content .= '<a href="index.php?page=content&article_id='. $article['id'] .'&mode=edit&clang='. $article['clang'] .'">'. htmlspecialchars($article['name']) .'</a>';
-        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $article['updateuser'], $updatedate)). ']';
-        $content .= '</li>';
+        $content .= '<tr>';
+        $content .= '<td><a href="index.php?page=content&article_id='. $article['id'] .'&mode=edit&clang='. $article['clang'] .'">'. htmlspecialchars($article['name']) .'</a></td>';
+        $content .= '<td>'. htmlspecialchars($article['updateuser']).'</td>';
+        $content .= '<td>'.$updatedate.'</td>';
+        $content .= '</tr>';
       }
-      $content .= '</ul>';
+      $content .= '</tbody>';
+      $content .= '</table>';
     }
     
     $this->setContent($content);
@@ -145,17 +183,34 @@ class rex_templates_component extends rex_dashboard_component
     $content = '';
     if(count($templates) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<table class="rex-table rex-dashboard-table">
+      							<colgroup>
+      								<col width="*" />
+      								<col width="120" />
+      								<col width="150" />
+      							</colgroup>
+      							
+      							<thead>
+      								<tr>
+      									<th>'.$I18N->msg('userinfo_component_stats_template').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
+      								</tr>
+      							</thead>
+      							<tbody>';
+      							
       foreach($templates as $template)
       {
         $updatedate = rex_formatter::format($template['updatedate'], 'strftime', 'datetime');
         
-        $content .= '<li>';
-        $content .= '<a href="index.php?page=template&function=edit&template_id='. $template['id'] .'">'. htmlspecialchars($template['name']) .'</a>';
-        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $template['updateuser'], $updatedate)). ']';
-        $content .= '</li>';
+        $content .= '<tr>';
+        $content .= '<td><a href="index.php?page=template&function=edit&template_id='. $template['id'] .'">'. htmlspecialchars($template['name']) .'</a></td>';
+        $content .= '<td>'. htmlspecialchars($template['updateuser']).'</td>';
+        $content .= '<td>'.$updatedate.'</td>';
+        $content .= '</tr>';
       }
-      $content .= '</ul>';
+      $content .= '</tbody>';
+      $content .= '</table>';
     }
           
     $this->setContent($content);
@@ -187,17 +242,34 @@ class rex_modules_component extends rex_dashboard_component
     $content = '';
     if(count($modules) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<table class="rex-table rex-dashboard-table">
+      							<colgroup>
+      								<col width="*" />
+      								<col width="120" />
+      								<col width="150" />
+      							</colgroup>
+      							
+      							<thead>
+      								<tr>
+      									<th>'.$I18N->msg('userinfo_component_stats_module').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
+      								</tr>
+      							</thead>
+      							<tbody>';
+      							
       foreach($modules as $module)
       {
         $updatedate = rex_formatter::format($module['updatedate'], 'strftime', 'datetime');
         
-        $content .= '<li>';
-        $content .= '<a href="index.php?page=module&function=edit&modul_id='. $module['id'] .'">'. htmlspecialchars($module['name']) .'</a>';
-        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $module['updateuser'], $updatedate)). ']';
-        $content .= '</li>';
+        $content .= '<tr>';
+        $content .= '<td><a href="index.php?page=module&function=edit&modul_id='. $module['id'] .'">'. htmlspecialchars($module['name']) .'</a></td>';
+        $content .= '<td>'. htmlspecialchars($module['updateuser']).'</td>';
+        $content .= '<td>'.$updatedate.'</td>';
+        $content .= '</tr>';
       }
-      $content .= '</ul>';
+      $content .= '</tbody>';
+      $content .= '</table>';
     }
           
     $this->setContent($content);
@@ -229,17 +301,34 @@ class rex_actions_component extends rex_dashboard_component
     $content = '';
     if(count($actions) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<table class="rex-table rex-dashboard-table">
+      							<colgroup>
+      								<col width="*" />
+      								<col width="120" />
+      								<col width="150" />
+      							</colgroup>
+      							
+      							<thead>
+      								<tr>
+      									<th>'.$I18N->msg('userinfo_component_stats_action').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
+      								</tr>
+      							</thead>
+      							<tbody>';
+      							
       foreach($actions as $action)
       {
         $updatedate = rex_formatter::format($action['updatedate'], 'strftime', 'datetime');
-
-        $content .= '<li>';
-        $content .= '<a href="index.php?page=module&subpage=actions&function=edit&action_id='. $action['id'] .'">'. htmlspecialchars($action['name']) .'</a>';
-        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $action['updateuser'], $updatedate)). ']';
-        $content .= '</li>';
+        
+        $content .= '<tr>';
+        $content .= '<td><a href="index.php?page=module&subpage=actions&function=edit&action_id='. $action['id'] .'">'. htmlspecialchars($action['name']) .'</a></td>';
+        $content .= '<td>'. htmlspecialchars($action['updateuser']).'</td>';
+        $content .= '<td>'.$updatedate.'</td>';
+        $content .= '</tr>';
       }
-      $content .= '</ul>';
+      $content .= '</tbody>';
+      $content .= '</table>';
     }
           
     $this->setContent($content);
@@ -271,17 +360,34 @@ class rex_users_component extends rex_dashboard_component
     $content = '';
     if(count($users) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<table class="rex-table rex-dashboard-table">
+      							<colgroup>
+      								<col width="*" />
+      								<col width="120" />
+      								<col width="150" />
+      							</colgroup>
+      							
+      							<thead>
+      								<tr>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
+      								</tr>
+      							</thead>
+      							<tbody>';
+      							
       foreach($users as $user)
       {
         $updatedate = rex_formatter::format($user['updatedate'], 'strftime', 'datetime');
         
-        $content .= '<li>';
-        $content .= '<a href="index.php?page=user&user_id='. $user['user_id'] .'">'. htmlspecialchars($user['name']) .'</a>';
-        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $user['updateuser'], $updatedate)). ']';
-        $content .= '</li>';
+        $content .= '<tr>';
+        $content .= '<td><a href="index.php?page=user&user_id='. $user['user_id'] .'">'. htmlspecialchars($user['name']) .'</a></td>';
+        $content .= '<td>'. htmlspecialchars($user['updateuser']).'</td>';
+        $content .= '<td>'.$updatedate.'</td>';
+        $content .= '</tr>';
       }
-      $content .= '</ul>';
+      $content .= '</tbody>';
+      $content .= '</table>';
     }
           
     $this->setContent($content);
@@ -313,18 +419,34 @@ class rex_media_component extends rex_dashboard_component
     $content = '';
     if(count($media) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<table class="rex-table rex-dashboard-table">
+      							<colgroup>
+      								<col width="*" />
+      								<col width="120" />
+      								<col width="150" />
+      							</colgroup>
+      							
+      							<thead>
+      								<tr>
+      									<th>'.$I18N->msg('userinfo_component_stats_medium').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
+      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
+      								</tr>
+      							</thead>
+      							<tbody>';
       foreach($media as $medium)
       {
         $url = 'index.php?page=mediapool&subpage=detail&file_id='. $medium['file_id'];
         $updatedate = rex_formatter::format($medium['updatedate'], 'strftime', 'datetime');
         
-        $content .= '<li>';
-        $content .= '<a href="'. $url .'" onclick="newPoolWindow(this.href); return false;">'. htmlspecialchars($medium['filename']) .'</a>';
-        $content .= ' ['. htmlspecialchars($I18N->msg('userinfo_component_userinfo', $medium['updateuser'], $updatedate)). ']';
-        $content .= '</li>';
+        $content .= '<tr>';
+        $content .= '<td><a href="'. $url .'" onclick="newPoolWindow(this.href); return false;">'. htmlspecialchars($medium['filename']) .'</a></td>';
+        $content .= '<td>'. htmlspecialchars($medium['updateuser']).'</td>';
+        $content .= '<td>'.$updatedate.'</td>';
+        $content .= '</tr>';
       }
-      $content .= '</ul>';
+      $content .= '</tbody>';
+      $content .= '</table>';
     }
           
     $this->setContent($content);
