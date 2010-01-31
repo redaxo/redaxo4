@@ -122,6 +122,7 @@ div.rex-content-header,
 div.rex-form, 
 div.rex-area-footer, 
 div.rex-addon-footer, 
+div.rex-dashboard-content h3, 
 table.rex-table th, 
 table.rex-table tr td.rex-colored, 
 table.rex-table tr.rex-table-row-activ td {
@@ -140,6 +141,7 @@ div.rex-content-cols,
 div.rex-form div.rex-form-wrapper,
 div.rex-widget p.rex-widget-field input,
 div.rex-widget p.rex-widget-field select, 
+div.rex-dashboard-content, 
 table.rex-table {
 	background-color: #EFF9F9;
 }
@@ -595,6 +597,13 @@ div.rex-addon-col-b {
 }
 
 
+/*	Table **********************************************************************
+*******************************************************************************/
+table.rex-dashboard-table th, 
+table.rex-dashboard-table td {
+	border-left-width: 0;
+}
+
 /*	Formulare ******************************************************************
 *******************************************************************************/
 /*	Struktur : Metainfo 
@@ -650,34 +659,19 @@ input.rex-form-text {
 
 body div.rex-form, 
 body table.rex-table, 
-body#rex-page-addon table.rex-table, 
 body#rex-page-linkmap div#rex-linkmap, 
-body#rex-page-login div.rex-form, 
-body#rex-page-mediapool div.rex-form, 
-body#rex-page-mediapool div#rex-mediapool-detail-wrapper, 
-body#rex-page-mediapool table.rex-table, 
-body#rex-page-module div.rex-form, 
-body#rex-page-module table.rex-table, 
-body#rex-page-profile div.rex-form, 
-body#rex-page-specials div.rex-form, 
-body#rex-page-structure div.rex-form, 
-body#rex-page-structure table.rex-table, 
-body#rex-page-template div.rex-form, 
-body#rex-page-template table.rex-table,
-body#rex-page-user div.rex-form, 
-body#rex-page-user table.rex-table, 
 body#rex-page-import-export div.rex-area-col-a, 
 body#rex-page-import-export div.rex-area-col-b, 
 div.rex-area, 
 div.rex-addon-output, 
-div.rex-addon-output-v2 div.rex-form, 
-div.rex-addon-output-v2 table.rex-table, 
 div.rex-content-header, 
 div.rex-content-body,
 div.rex-info-block, 
 div.rex-message, 
 div.rex-message-block, 
 div.rex-toolbar, 
+div.rex-dashboard-component, 
+div.rex-dashboard-notification, 
 div.rex-form input.rex-form-submit, 
 input.submit,
 p.rex-button a {
@@ -689,13 +683,13 @@ p.rex-button a {
 	outline: 1px solid #CBCBCB;
 }
 
-body#rex-page-mediapool div#rex-mediapool-detail-wrapper div.rex-form, 
-body#rex-page-mediapool div.rex-form table.rex-table, 
-body#rex-page-module div.rex-form table.rex-table, 
-body#rex-page-structure div.rex-form table.rex-table, 
-div.rex-addon-output div.rex-area, 
-div.rex-content-editmode div.rex-message, 
-div#rex-output div.rex-toolbar div.rex-form {
+body div.rex-form table.rex-table, 
+body div.rex-table div.rex-form,
+body div.rex-area table.rex-table,  
+body div.rex-area div.rex-form, 
+body div.rex-addon-output table.rex-table,  
+body div.rex-addon-output div.rex-form, 
+body table.rex-dashboard-table {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;
@@ -714,6 +708,7 @@ div.rex-content-body {
 }
 
 body div#rex-form-content-metamode, 
+body div.rex-form-content-editmode-add-slice, 
 body div.rex-form-content-editmode-edit-slice {
 	outline: 0;
 }
