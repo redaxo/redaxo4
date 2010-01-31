@@ -429,6 +429,50 @@ body#rex-page-import-export div.rex-area-content p.rex-tx1 {
 
 
 
+/*	System Addon : Dashboard ***************************************************
+*******************************************************************************/
+.rex-dashboard-section {
+	float: left;
+	width: 100%;
+}
+.rex-dashboard-content {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	background-color: #F0EFEB;
+}
+.rex-dashboard-content h3 {
+	padding: 9px 5px;
+	background-color: #D7D6D3;
+}
+.rex-dashboard-content p, 
+.rex-dashboard-content dl, 
+.rex-dashboard-content ol, 
+.rex-dashboard-content ul, 
+.rex-dashboard-content table {
+	margin-bottom: 10px;
+}
+.rex-dashboard-content p {
+	margin: 0 5px;
+}
+.rex-dashboard-content ul {
+	margin-left: 20px;
+}
+.rex-dashboard-content li {
+	margin-bottom: 5px;
+}
+/*
+.rex-dashboard-columns {
+	float: left;
+	width: 100%;
+}
+.rex-dashboard-column {
+	float: left;
+	width: 49.9%;
+}
+.rex-dashboard-column-1 .rex-dashboard-content {
+	margin-right: 20px;
+}
+*/
 
 /*	Toolbar ********************************************************************
 *******************************************************************************/
