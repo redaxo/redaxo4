@@ -14,7 +14,7 @@ include $REX["INCLUDE_PATH"]."/layout/top.php";
 
 rex_title($I18N->msg('dashboard'), '');
 
-echo '<div id="rex-form-dashboard">';
+echo '<div id="rex-dashboard">';
 
 // ----- EXTENSION POINT
 $dashboard_notifications = array();
@@ -34,20 +34,25 @@ if(count($dashboard_notifications) > 0)
   
   if($content != '')
   {
+  	echo '<div class="rex-dashboard-section rex-dashboard-notifications">';
     $component = new rex_dashboard_component($I18N->msg('dashboard_notifications'));
     $component->setContent('<ul>'. $content .'</ul>');
-    echo $component->get();
+    echo '<div class="rex-dashboard-notification">'.$component->get().'</div>';
+    echo '</div>';
   }
 }
 
 // ----- EXTENSION POINT
 $dashboard_components = array();
 $dashboard_components = rex_register_extension_point('DASHBOARD_COMPONENT', $dashboard_components);
+
+echo '<div class="rex-dashboard-section rex-dashboard-components">';
+
 foreach($dashboard_components as $component)
 {
   if(rex_dashboard_component::isValid($component))
   {
-    echo $component->get();
+    echo '<div class="rex-dashboard-component">'.$component->get().'</div>';
   }
 }
 unset($dashboard_components);
