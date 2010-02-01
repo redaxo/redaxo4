@@ -18,7 +18,8 @@ class rex_cronjob_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('cronjob_dashboard_component_title'));
+    parent::rex_dashboard_component('cronjob');
+    $this->setTitle($I18N->msg('cronjob_dashboard_component_title'));
   }
   
   /*protected*/ function prepare()

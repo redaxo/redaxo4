@@ -15,7 +15,7 @@
   var $title;
   var $content;
   
-  function rex_dashboard_component($title = '', $content = '', $cache_options = array())
+  function rex_dashboard_component($id, $cache_options = array())
   {
     if(!isset($cache_options['lifetime']))
     {
@@ -23,10 +23,10 @@
       $cache_options['lifetime'] = 60;
     }
     
-    $this->title = $title;
-    $this->content = $content;
+    $this->title = '';
+    $this->content = '';
     
-    parent::rex_dashboard_component_base($cache_options);
+    parent::rex_dashboard_component_base($id, $cache_options);
   }
 
   
@@ -59,15 +59,16 @@
     
     if($content)
     {
-      return '
-      					<div class="rex-dashboard-content">
-                <h3>'. htmlspecialchars($this->getTitle()) .'</h3>
+    	return '<div class="rex-dashboard-content">
+                <h3>'. htmlspecialchars($this->getTitle()) .'%%actionbar%%</h3>
                 %%config%%
-                '. $content .'
-                <p class="rex-dashboard-component-updatedate">
-                  '. $I18N->msg('dashboard_component_lastupdate') .'
-                  %%cachetime%%
-                </p>
+                <div class="rex-dashboard-component-content">
+                  '. $content .'
+                  <p class="rex-dashboard-component-updatedate">
+                    '. $I18N->msg('dashboard_component_lastupdate') .'
+                    %%cachetime%%
+                  </p>
+                </div>
               </div>';
     }
     

@@ -24,11 +24,8 @@ class rex_stats_component extends rex_dashboard_component
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 1800;
     
-    parent::rex_dashboard_component(
-      $I18N->msg('userinfo_component_stats_title'),
-      '',
-      $cache_options
-    );
+    parent::rex_dashboard_component('userinfo_stats', $cache_options);
+    $this->setTitle($I18N->msg('userinfo_component_stats_title'));
   }
   
   /*protected*/ function prepare()
@@ -111,7 +108,8 @@ class rex_articles_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_articles_title'));
+    parent::rex_dashboard_component('userinfo_articles');
+    $this->setTitle($I18N->msg('userinfo_component_articles_title'));
   }
   
   /*protected*/ function prepare()
@@ -164,7 +162,8 @@ class rex_templates_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_templates_title'));
+    parent::rex_dashboard_component('userinfo_templates');
+    $this->setTitle($I18N->msg('userinfo_component_templates_title'));
   }
   
   /*public*/ function checkPermission()
@@ -223,7 +222,8 @@ class rex_modules_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_modules_title'));
+    parent::rex_dashboard_component('userinfo_modules');
+    $this->setTitle($I18N->msg('userinfo_component_modules_title'));
   }
   
   /*public*/ function checkPermission()
@@ -282,7 +282,8 @@ class rex_actions_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_actions_title'));
+    parent::rex_dashboard_component('userinfo_actions');
+    $this->setTitle($I18N->msg('userinfo_component_actions_title'));
   }
   
   /*public*/ function checkPermission()
@@ -341,7 +342,8 @@ class rex_users_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_users_title'));
+    parent::rex_dashboard_component('userinfo_users');
+    $this->setTitle($I18N->msg('userinfo_component_users_title'));
   }
   
   /*public*/ function checkPermission()
@@ -400,7 +402,8 @@ class rex_media_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component($I18N->msg('userinfo_component_media_title'));
+    parent::rex_dashboard_component('userinfo_media');
+    $this->setTitle($I18N->msg('userinfo_component_media_title'));
   }
   
   /*public*/ function checkPermission()

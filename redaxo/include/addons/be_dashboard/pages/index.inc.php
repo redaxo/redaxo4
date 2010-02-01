@@ -35,7 +35,8 @@ if(count($dashboard_notifications) > 0)
   if($content != '')
   {
   	echo '<div class="rex-dashboard-section rex-dashboard-notifications">';
-    $component = new rex_dashboard_component($I18N->msg('dashboard_notifications'));
+    $component = new rex_dashboard_component('notifications');
+    $component->setTitle($I18N->msg('dashboard_notifications'));
     $component->setContent('<ul>'. $content .'</ul>');
     echo '<div class="rex-dashboard-notification">'.$component->get().'</div>';
     echo '</div>';

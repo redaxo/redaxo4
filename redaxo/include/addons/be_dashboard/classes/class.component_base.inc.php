@@ -12,11 +12,16 @@
 
 /*abstract*/ class rex_dashboard_component_base
 {
+  var $id;
   var $config;
   var $funcCache;
   
-  function rex_dashboard_component_base($cache_options = array())
+  function rex_dashboard_component_base($id, $cache_options = array())
   {
+    // TODO cache temporaer deaktiviert, raus damit!
+    $cache_options['lifetime'] = 0;
+    
+    $this->id = $id;
     $this->funcCache = new rex_function_cache(new rex_file_cache($cache_options));
   }
   
@@ -60,12 +65,49 @@
       if(!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
       $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
       
+      $content = strtr($content, array('%%actionbar%%' => $this->getActionBar()));
       $content = strtr($content, array('%%cachetime%%' => $cachetime));
       $content = strtr($content, array('%%config%%' => $configForm));
       
       return $content;
     }
     return '';
+  }
+  
+  /*protected*/ function getActions()
+  {
+    $actions = array();
+    $actions[] = 'refresh';
+    
+    if($this->config)
+      $actions[] ='settings';
+      
+    $actions[] = 'toggleView';
+    
+    return $actions;
+  }
+  
+  /*public*/ function getActionBar()
+  {
+    $content = '';
+    
+    $content .= '<ul>';
+    foreach($this->getActions() as $action)
+    {
+      $content .= '<li>';
+      $content .= '<a href="#" onclick="component'. ucfirst($action) .'Action(jQuery(this).closest(\'div.rex-dashboard-component\'));">';
+      $content .= $action;
+      $content .= '</a>';
+      $content .= '</li>';
+    }
+    $content .= '</ul>';
+    
+    $content = '<div class="rex-dashboard-action-bar">
+                    '. $content .'
+                </div>';
+    
+    return $content;
+    
   }
   
   /*public abstract*/ function _get()

@@ -106,13 +106,15 @@
     {
       $btnName = $this->getInputName('save_btn');
       
-      $content = '<form action="index.php" method="post">
-                    <input type="hidden" name="page" value="'. $REX['PAGE'] .'" />
-                    '. $content .'
-                    <p>
-                      <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. $I18N->msg('dashboard_component_save_config') .'" />
-                    </p>
-                  </form>';
+      $content = '<div class="rex-dashboard-component-config">
+                    <form action="index.php" method="post">
+                      <input type="hidden" name="page" value="'. $REX['PAGE'] .'" />
+                      '. $content .'
+                      <p>
+                        <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. $I18N->msg('dashboard_component_save_config') .'" />
+                      </p>
+                    </form>
+                  </div>';
     }
     
     return $content;

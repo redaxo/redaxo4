@@ -17,7 +17,7 @@ class rex_rss_reader_component extends rex_dashboard_component
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 3600;
     
-    parent::rex_dashboard_component('', '', $cache_options);
+    parent::rex_dashboard_component('rss_reader', $cache_options);
     $this->setConfig(new rex_rss_reader_component_config());
   }
   

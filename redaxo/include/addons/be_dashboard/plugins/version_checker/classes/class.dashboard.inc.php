@@ -17,7 +17,7 @@ class rex_version_checker_notification extends rex_dashboard_notification
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 3600;
     
-    parent::rex_dashboard_notification($cache_options);
+    parent::rex_dashboard_notification('version_checker', $cache_options);
   }
   
   /*public*/ function checkPermission()
