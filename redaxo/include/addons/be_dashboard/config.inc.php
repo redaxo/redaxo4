@@ -35,4 +35,7 @@ if($REX["REDAXO"])
   require_once dirname(__FILE__) .'/classes/class.component_config.inc.php';
   require_once dirname(__FILE__) .'/classes/class.component.inc.php';
   require_once dirname(__FILE__) .'/classes/class.notification.inc.php';
+  
+  require_once dirname(__FILE__) .'/functions/function_dashboard.inc.php';
+  rex_register_extension('PAGE_HEADER', 'rex_a655_add_assets');
 }
