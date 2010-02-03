@@ -20,16 +20,15 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 if($REX["REDAXO"])
 {
-  $I18N->appendFile(dirname(__FILE__). '/lang/');
-  
-  $oldReporting = error_reporting(0);
-  require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
-  error_reporting($oldReporting);
-  
-  require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
-
   if(rex_request('page', 'string') == 'be_dashboard')
   {
+    $I18N->appendFile(dirname(__FILE__). '/lang/');
+    
+    $oldReporting = error_reporting(0);
+    require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
+    error_reporting($oldReporting);
+    
+    require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
 
     rex_register_extension(
