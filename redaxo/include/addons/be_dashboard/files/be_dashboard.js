@@ -1,14 +1,14 @@
-function componentRefreshAction(component)
+function componentRefresh(component)
 {
 }
 
-function componentSettingsAction(component)
+function componentToggleSettings(component)
 {
   var config = jQuery(".rex-dashboard-component-config", component);
   config.slideToggle("slow");
 }
 
-function componentToggleViewAction(component)
+function componentToggleView(component)
 {
   var content = jQuery(".rex-dashboard-component-content", component);
   

@@ -80,7 +80,7 @@
     $actions[] = 'refresh';
     
     if($this->config)
-      $actions[] ='settings';
+      $actions[] ='toggleSettings';
       
     $actions[] = 'toggleView';
     
@@ -95,7 +95,7 @@
     foreach($this->getActions() as $action)
     {
       $content .= '<li>';
-      $content .= '<a href="#" onclick="component'. ucfirst($action) .'Action(jQuery(this).closest(\'div.rex-dashboard-component\'));">';
+      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(jQuery(this).closest(\'div.rex-dashboard-component\'));">';
       $content .= $action;
       $content .= '</a>';
       $content .= '</li>';
