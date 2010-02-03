@@ -97,6 +97,9 @@
       $actions[] ='toggleSettings';
       
     $actions[] = 'toggleView';
+
+    // ----- EXTENSION POINT
+    $actions = rex_register_extension_point('DASHBOARD_COMPONENT_ACTIONS', $actions);
     
     return $actions;
   }
@@ -109,7 +112,7 @@
     foreach($this->getActions() as $action)
     {
       $content .= '<li>';
-      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(jQuery(this).closest(\'div.rex-dashboard-component\')); return false;">';
+      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(jQuery(\'#'. $this->getId() .'\')); return false;">';
       $content .= $action;
       $content .= '</a>';
       $content .= '</li>';
