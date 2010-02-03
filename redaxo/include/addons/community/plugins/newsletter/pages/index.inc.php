@@ -6,162 +6,242 @@
 */
 
 $error = "";
-$mail_reply = rex_request("mail_reply","string");
-$mail_subject = rex_request("mail_subject","string");
-$mail_nlid = rex_request("mail_nlid","string");
-if ($mail_nlid == "") 
-  $mail_nlid = date("YmdHi");
-$test_email = rex_request("test_email","string");
-$test_name = rex_request("test_name","string");
-$test_firstname = rex_request("test_firstname","string");
+
+
+
 $method = rex_request("method","string");
 $method_all = rex_request("method_all","string","");
 
-$mail_aid = rex_request("mail_aid","int");
-$mail_name = "";
-if($mail_aid > 0 && $m = OOArticle::getArticleById($mail_aid))
-	$mail_name = $m->getName();
+// -------- E-Mail Typ / ob REDAXO oder XFORM
 
-$info = "";
-$error = "";
+$nl_id = rex_request("nl_id","string");
+if ($nl_id == "") 
+  $nl_id = date("YmdHi");
+  
+$nl_type = rex_request("nl_type","string");
+if($nl_type != "xform")
+  $nl_type = "redaxo";
 
-// ********************************************************* ALLE MAILS
+
+// -------- REDAXO artikel
+
+$redaxo_nl_article_id = rex_request("redaxo_nl_article_id","int");
+$redaxo_nl_article_name = "";
+if($redaxo_nl_article_id > 0 && $m = OOArticle::getArticleById($redaxo_nl_article_id))
+	$redaxo_nl_article_name = $m->getName();
+else
+	$redaxo_nl_article_id = 0;	
+$redaxo_nl_from_email = rex_request("redaxo_nl_from_email","string");
+$redaxo_nl_from_name = rex_request("redaxo_nl_from_name","string");
+$redaxo_nl_subject = rex_request("redaxo_nl_subject","string");
 
 
-if ($method_all == "all")
+// -------- xform email template
+
+$xform_nl_tpl = "";
+$xform_nl_tpl_tmp = rex_request("xform_nl_tpl","string");
+$xform_nl_sql = new rex_sql;
+$xform_nl_sql->setQuery("select * from rex_xform_email_template");
+$xform_nl_tpls = $xform_nl_sql->getArray();
+
+$xform_nl_select = new rex_select;
+$xform_nl_select->setName("xform_nl_tpl");
+foreach($xform_nl_tpls as $tpl)
 {
-	if (
-		$mail_reply != "" and 
-		$mail_subject != "" and 
-		$mail_nlid != "" and 
-		$mail_aid > 0
-	)
+	$xform_nl_select->addOption($tpl["name"],$tpl["name"]);
+	if($xform_nl_tpl_tmp == $tpl["name"])
 	{
-		// ----- Mail an alle versenden
-		// $mail_reply
-		// $mail_subject
-		// $mail_aid
+		$xform_nl_tpl = $tpl;
+		$xform_nl_select->setSelected($tpl["name"]);	
+	}
+}
+
+
+// -------- Testuser ID
+
+$test_user_id = rex_request("test_user_id","int",0);
+$test_user = array();
+$gu = new rex_sql();
+$gu->setQuery('select * from rex_com_user where id='.$test_user_id);
+$test_users = $gu->getArray();
+
+if(count($test_users)!=1)
+  $test_user_id = 0;
+else
+  $test_user = $test_users[0];
+
+
+
+
+
+
+$info = array();
+$error = array();
+
+$send = FALSE;
+
+// -------------------------------- Prüfen der Daten
+
+if($method != "")
+{
+	if($nl_type == "xform")	
+	{
+		// xform
+		if($xform_nl_tpl != "")
+		{
+			$nl_from_email = $xform_nl_tpl['mail_from'];
+			$nl_from_name = $xform_nl_tpl['mail_from_name'];
+			$nl_subject = $xform_nl_tpl['subject'];
+			$nl_body_text = $xform_nl_tpl['body'];
+			$nl_body_html = "";
+			$send = TRUE;
+		}else
+		{
+			$error[] = "Leider gibt es dieses Template nicht";
+		}
+	
+	}else
+	{
+		// redaxo
+		$nl_from_email = $redaxo_nl_from_email;
+		$nl_from_name = $redaxo_nl_from_name;
+		$nl_subject = $redaxo_nl_subject;
+
+		if($nl_from_email == "" || $nl_from_name == "" || $nl_subject == "" || $redaxo_nl_article_id == 0)
+		{
+			$error[] = "Bitte prüfen Sie ob alle Infos eingetragen sind";
+		}else
+		{
+					
+			$tmp_redaxo = $REX['REDAXO'];
 		
-		// ----- Info
-		$info = "Newsletter wurde komplett versandt!";
+			 // ***** HTML VERSION KOMPLETT
+			$REX['REDAXO'] = true;
+			$REX_ARTICLE = new rex_article($redaxo_nl_article_id,0);
+			$REX_ARTICLE->getContentAsQuery(TRUE);
+			$REX['ADDON']['NEWSLETTER_TEXT'] = FALSE;
+			$nl_body_html = $REX_ARTICLE->getArticleTemplate();
 		
-		// ----- eMails auslesen und versenden
+			// ***** TEXT VERSION
+			$REX['REDAXO'] = true;
+			$REX_ARTICLE = new rex_article($redaxo_nl_article_id,0);
+			$REX_ARTICLE->getContentAsQuery(TRUE);
+			$REX['ADDON']['NEWSLETTER_TEXT'] = TRUE; // FILTERN VERSION KOMPLETT
+			$nl_body_text = $REX_ARTICLE->getArticle();
+			$nl_body_text = str_replace("<br />","<br />",$nl_body_text);
+			$nl_body_text = str_replace("<p>","\n\n</p>",$nl_body_text);
+			$nl_body_text = str_replace("<ul>","\n\n</ul>",$nl_body_text);
+			$nl_body_text = preg_replace("#(\<)(.*)(\>)#imsU", "",  $nl_body_text);
+			$nl_body_text = html_entity_decode($nl_body_text);
+		
+			$REX['REDAXO'] = $tmp_redaxo;
+		
+			$send = TRUE;
+		}
+	
+	}
+
+}
+
+
+
+
+
+// ---------- Testversand
+
+if($method == "start" && $method_all != "all" && count($error) == 0 && $send)
+{
+	if($test_user_id == 0)
+	{
+		$error[] = "User existiert nicht";
+	}else
+	{
+		if(rex_newsletter_sendmail($test_user, $nl_from_email, $nl_from_name, $nl_subject, $nl_body_text, $nl_body_html))
+		{
+			$info[] = "Testmail wurde rausgeschickt. <br />Bitte überprüfen Sie ob die E-Mail ankommt und alles passt und schicken dann den kompletten Newsletter raus.";
+		}else
+		{
+			$error[] = "Testmail ist fehlgeschlagen!";
+		}
+	
+	}
+}
+
+
+
+
+
+// ---------- Versand an alle
+if($method == "start" && $method_all == "all" && count($error) == 0 && $send)
+{
 		$nl = new rex_sql;
 		// $nl->debugsql = 1;
-		$nl->setQuery('select * from rex_com_user where newsletter_last_id<>"'.$mail_nlid.'" and email <>"" and newsletter=1 LIMIT 50');
+		$nl->setQuery('select * from rex_com_user where newsletter_last_id<>"'.$nl_id.'" and email<>"" and newsletter=1 LIMIT 50');
 		
 		if($nl->getRows()>0)
 		{
-			$info = "".date("H:i:s")."h Bitte noch nicht abbrechen. Automatischer Reload. Es werden noch weitere E-Mails versendet";
+			$i = "".date("H:i:s")."h Bitte noch nicht abbrechen. Automatischer Reload. Es werden noch weitere E-Mails versendet";
 			?><script>
 			function win_reload(){ window.location.reload(); }
 			setTimeout("win_reload()",5000); // Millisekunden 1000 = 1 Sek * 80
 			</script><?php
-			$info .= "<br />An folgende E-Mails wurde der Newsletter versendet: ";
-		}
-		
-		$up = new rex_sql;
-		
-		foreach($up->getArray() as $userinfo)
-		{
-		
-			$info .= ", ".$userinfo["email"];
+			$i .= "<br />An folgende E-Mails wurde der Newsletter versendet: ";
 
-			// ----- email miz mail_nlid aktualisieren
-			$up->setQuery('update rex_com_user set newsletter_last_id="'.$mail_nlid.'" where id='.$userinfo["id"]);
+			$up = new rex_sql;
+			foreach($nl->getArray() as $userinfo)
+			{
+				$i .= ", ".$userinfo["email"];
+				$up->setQuery('update rex_com_user set newsletter_last_id="'.$nl_id.'" where id='.$userinfo["id"]);
+				$r = rex_newsletter_sendmail($userinfo, $nl_from_email, $nl_from_name, $nl_subject, $nl_body_text, $nl_body_html);
+				$nl->next();	
+			}
 
-			rex_newsletter_sendmail($userinfo,$mail_aid, $mail_reply, $mail_subject, $to_code);
-
-			$nl->next();	
-		}
-
-
-	}else
-	{
-		$error = "Bitte geben Sie alle Daten ein!";
-	}
-
-
-
-
-// ********************************************************* TESTMAIL
-
-}else if ($method == "start")
-{
-	// ----- Testmail verschicken
-
-	if (
-		$mail_reply != "" and 
-		$mail_subject != "" and 
-		$mail_aid > 0 and 
-		$test_email != "" and 
-		$test_name != "" and 
-		$test_firstname != ""
-	)
-	{
-		
-		$userinfo = array();
-		$userinfo["email"] = $test_email;
-		$userinfo["name"] = $test_name;
-		$userinfo["firstname"] = $test_firstname;
-
-		if(rex_newsletter_sendmail($userinfo,$mail_aid, $mail_reply, $mail_subject))
-		{
-			$info = "Testmail wurde versandt!";
+			$info[] = $i;
 		}else
 		{
-			$error = "Testmail ist fehlgeschlagen!";
-			$method = "";
+			$info[] = "Alle eMails wurden verschickt";
 		}
-	}else
-	{
-		$method = "";
-		$error = "Bitte geben Sie alle Daten ein!";		
-	}
+
 }
 
-if ($error != "")
-	echo rex_warning($error);		
-
-if ($info != "")
-	echo rex_info($info);
 
 
+
+
+// ---------- Fehlermeldungen
+
+if (count($error)>0)
+	foreach($error as $e)
+		echo rex_warning($e);		
+
+if (count($info)>0)
+	foreach($info as $i)
+		echo rex_info($i);
 
 ?>
 
+
+
 <table class="rex-table" cellpadding="5" cellspacing="1">
+
 	<form action="index.php" method="get" name="REX_FORM">
 	<input type="hidden" name="page" value="community" />
 	<input type="hidden" name="subpage" value="plugin.newsletter" />
 	<input type="hidden" name="method" value="start" />
-	<tr>
-		<th class="rex-icon">&nbsp;</th>
-		<th colspan="2" style="font-size:12px;">
-			<ul style="margin-left:20px;">
-			<li>Artikel in REDAXO erstellen</li>
-			<li>###email### / ###firstname### / ###name### als Platzhaler erlaubt</li>
-			<li>Testmail schicken</li>
-			<li>Wenn Testmail ok, dann Newsletter abschicken</li>
-			</ul>
-		</th>
-	</tr>
-</table><br />
 
-<table class="rex-table" cellpadding="5" cellspacing="1">
 	<tr>
 		<th class="rex-icon">&nbsp;</th>
-		<th colspan="2"><b>Newsletterdaten:</b></th>
+		<th colspan="2"><b>Newslettertyp auswaehlen:</b></th>
 	</tr>
 	<tr>
-		<td class="rex-icon">&nbsp;</td>
-		<td width="200">Newsletterartikel:</td>
+		<td class="rex-icon"><input type="radio" name="nl_type" id="nl_type_redaxo" value="article" <?php if($nl_type != "xform") echo 'checked="checked"'; ?> /></td>
+		<td width="200"><label for="nl_type_redaxo">REDAXO Artikel:</label></td>
 		<td>
 			<div class="rex-wdgt">
 			<div class="rex-wdgt-lnk">
 			<p>
-				<input type="hidden" name="mail_aid" id="LINK_1" value="<?php echo $mail_aid; ?>" />
-				<input type="text" size="30" name="mail_name" value="<?php echo stripslashes(htmlspecialchars($mail_name)); ?>" id="LINK_1_NAME" readonly="readonly" />
+				<input type="hidden" name="redaxo_nl_article_id" id="LINK_1" value="<?php echo $redaxo_nl_article_id; ?>" />
+				<input type="text" size="30" name="redaxo_nl_article_name" value="<?php echo stripslashes(htmlspecialchars($redaxo_nl_article_name)); ?>" id="LINK_1_NAME" readonly="readonly" />
 				<a href="#" onclick="openLinkMap('LINK_1', '&clang=0');return false;" tabindex="23"><img src="media/file_open.gif" width="16" height="16" alt="Open Linkmap" title="Open Linkmap" /></a>
 				<a href="#" onclick="deleteREXLink(1);return false;" tabindex="24"><img src="media/file_del.gif" width="16" height="16" title="Remove Selection" alt="Remove Selection" /></a>
 			</p>
@@ -169,41 +249,54 @@ if ($info != "")
 			</div>
 		</td>
 	</tr>
+
 	<tr>
 		<td class=rex-icon>&nbsp;</td>
-		<td>Absendeadresse:</td>
-		<td><input type="text" size="30" name="mail_reply" value="<?php echo stripslashes(htmlspecialchars($mail_reply)); ?>" class="inp100" /></td>
+		<td>Absende-eMail:</td>
+		<td><input type="text" size="30" name="redaxo_nl_from_email" value="<?php echo stripslashes(htmlspecialchars($redaxo_nl_from_email)); ?>" class="inp100" /></td>
 	</tr>
 	<tr>
 		<td class=rex-icon>&nbsp;</td>
-		<td>Betreff/Subject:<br>(Auch Platzhalter m&ouml;glich)</td>
-		<td><input type="text" size="30" name="mail_subject" value="<?php echo stripslashes(htmlspecialchars($mail_subject)); ?>" class="inp100" /></td>
+		<td>Absende-Name:</td>
+		<td><input type="text" size="30" name="redaxo_nl_from_name" value="<?php echo stripslashes(htmlspecialchars($redaxo_nl_from_name)); ?>" class="inp100" /></td>
 	</tr>
+	<tr>
+		<td class=rex-icon>&nbsp;</td>
+		<td>Betreff/Subject:</td>
+		<td><input type="text" size="30" name="redaxo_nl_subject" value="<?php echo stripslashes(htmlspecialchars($redaxo_nl_subject)); ?>" />
+		<br />[ Auch Platzhalter m&ouml;glich z.B. ###email### ]
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="rex-icon"><input type="radio" name="nl_type" id="nl_type_xform" value="xform" <?php if($nl_type == "xform") echo 'checked="checked"'; ?> /></td>
+		<td width="200"><label for="nl_type_xform">XForm E-Mail Template:</label></td>
+		<td><?php echo $xform_nl_select->get(); ?></td>
+	</tr>
+
+	<tr>
+		<th class="rex-icon">&nbsp;</th>
+		<th colspan="2"><b>Newsletterempfaenger:</b></th>
+	</tr>
+
 	<tr>
 		<td class=rex-icon>&nbsp;</td>
 		<td>NewsletterID:</td>
-		<td><input type="text" size="30" name="mail_nlid" value="<?php echo stripslashes(htmlspecialchars($mail_nlid)); ?>" class="inp100" /></td>
+		<td><input type="text" size="30" name="nl_id" value="<?php echo stripslashes(htmlspecialchars($nl_id)); ?>" class="inp100" />
+		 <br />[ wird nur an User geschickt, die diese ID noch nicht gesetzt haben
+		 <br />Diese Newsletter ID wird bei jedem Versand an den entsprechenden User gesetzt ]</td>
 	</tr>
+	
 	<tr>
 		<th class=rex-icon>&nbsp;</th>
 		<th colspan=2><b>Daten f&uuml;r Testmail eingeben:</b></th>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td>E-Mail:</td>
-		<td><input type="text" size="30" name="test_email" value="<?php echo stripslashes(htmlspecialchars($test_email)); ?>" class="inp100" /></td>
+		<td>Testuser ID:</td>
+		<td><input type="text" size="30" name="test_user_id" value="<?php echo stripslashes(htmlspecialchars($test_user_id)); ?>" /></td>
 	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>Name:</td>
-		<td><input type="text" size="30" name="test_name" value="<?php echo stripslashes(htmlspecialchars($test_name)); ?>" class="inp100" /></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>Vorname:</td>
-		<td><input type="text" size="30" name="test_firstname" value="<?php echo stripslashes(htmlspecialchars($test_firstname)); ?>" class="inp100" /></td>
-	</tr>
-	<?php if ($method == "start") { ?>
+	<?php if ($method == "start" && count($error) == 0) { ?>
 	<tr>
 		<td>&nbsp;</td>
 		<td>Testmail ok ? Dann H&auml;kchen setzen <br>und Newsletter wird abgeschickt.</td>
