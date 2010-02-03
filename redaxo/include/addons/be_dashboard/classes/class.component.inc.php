@@ -69,7 +69,8 @@
                     %%cachetime%%
                   </p>
                 </div>
-              </div>';
+              </div>
+              <script type="text/javascript">componentInit("'. $this->getId() .'")</script>';
     }
     
     return '';

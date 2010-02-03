@@ -112,7 +112,7 @@
     foreach($this->getActions() as $action)
     {
       $content .= '<li>';
-      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(jQuery(\'#'. $this->getId() .'\')); return false;">';
+      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;">';
       $content .= $action;
       $content .= '</a>';
       $content .= '</li>';
