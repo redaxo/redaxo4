@@ -59,7 +59,7 @@
     
     if($content)
     {
-    	return '<div class="rex-dashboard-content">
+    	return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
                 <h3>'. htmlspecialchars($this->getTitle()) .'%%actionbar%%</h3>
                 %%config%%
                 <div class="rex-dashboard-component-content">

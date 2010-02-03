@@ -55,8 +55,17 @@
       {
         $configForm = $this->config ? $this->config->get() : '';
         
+        // config changed -> remove cache to reflect changes
         if($this->config->changed())
+        {
           $cacheBackend->remove($cachekey);
+        }
+      }
+
+      // refresh clicked in actionbar
+      if(rex_get('refresh', 'string') == $this->getId())
+      {
+        $cacheBackend->remove($cachekey);
       }
       
       $content = $this->funcCache->call($callable);
@@ -72,6 +81,11 @@
       return $content;
     }
     return '';
+  }
+  
+  /*protected*/ function getId()
+  {
+    return 'component_'. $this->id;
   }
   
   /*protected*/ function getActions()
@@ -95,7 +109,7 @@
     foreach($this->getActions() as $action)
     {
       $content .= '<li>';
-      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(jQuery(this).closest(\'div.rex-dashboard-component\'));">';
+      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(jQuery(this).closest(\'div.rex-dashboard-component\')); return false;">';
       $content .= $action;
       $content .= '</a>';
       $content .= '</li>';
