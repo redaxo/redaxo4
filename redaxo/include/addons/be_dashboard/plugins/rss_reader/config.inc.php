@@ -36,9 +36,4 @@ if($REX["REDAXO"])
       array(new rex_rss_reader_component(), 'registerAsExtension')
     );
   }
-  
-//  require_once $REX['INCLUDE_PATH'].'/addons/'. $mypage .'/extensions/function_extensions.inc.php';
-//  
-//  rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
-//  rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
 }

@@ -20,18 +20,13 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 if($REX["REDAXO"])
 {
-  $I18N->appendFile(dirname(__FILE__). '/lang/');
-  
-  require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
-  
   if(rex_request('page', 'string') == 'be_dashboard')
   {
+    $I18N->appendFile(dirname(__FILE__). '/lang/');
+    
+    require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     
     rex_register_extension('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
   }
-  
-//  
-//  rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
-//  rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
 }

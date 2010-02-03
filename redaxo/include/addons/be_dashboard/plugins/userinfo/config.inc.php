@@ -21,17 +21,16 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 if($REX["REDAXO"])
 {
-  $I18N->appendFile(dirname(__FILE__). '/lang/');
-  
-  if(!defined('A659_DEFAULT_LIMIT'))
-  {
-    define('A659_DEFAULT_LIMIT', 7);
-  }
-  
-  require_once dirname(__FILE__) .'/functions/function_userinfo.inc.php';
-
   if(rex_request('page', 'string') == 'be_dashboard')
   {
+    $I18N->appendFile(dirname(__FILE__). '/lang/');
+    
+    if(!defined('A659_DEFAULT_LIMIT'))
+    {
+      define('A659_DEFAULT_LIMIT', 7);
+    }
+    
+    require_once dirname(__FILE__) .'/functions/function_userinfo.inc.php';
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     
     $adminComponents = array(
@@ -52,8 +51,4 @@ if($REX["REDAXO"])
       );
     }
   }
-  
-      //  
-//  rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
-//  rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
 }
