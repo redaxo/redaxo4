@@ -13,6 +13,7 @@
 /*abstract*/ class rex_dashboard_component extends rex_dashboard_component_base
 {
   var $title;
+  var $titleUrl;
   var $content;
   
   function rex_dashboard_component($id, $cache_options = array())
@@ -24,6 +25,7 @@
     }
     
     $this->title = '';
+    $this->titleUrl = '';
     $this->content = '';
     
     parent::rex_dashboard_component_base($id, $cache_options);
@@ -38,6 +40,16 @@
   /*public*/ function getTitle()
   {
     return $this->title;
+  }
+  
+  /*public*/ function setTitleUrl($titleUrl)
+  {
+    $this->titleUrl = $titleUrl;
+  }
+  
+  /*public*/ function getTitleUrl()
+  {
+    return $this->titleUrl;
   }
   
   /*public*/ function setContent($content)
@@ -55,12 +67,19 @@
     global $I18N;
     
     $this->prepare();
-    $content = $this->getContent();
+    $content = $this->content;
     
     if($content)
     {
+      $title = htmlspecialchars($this->title);
+      
+      if($this->titleUrl != '')
+      {
+        $title = '<a href="'. $this->titleUrl .'">'. $title .'</a>';
+      }
+      
     	return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
-                <h3>'. htmlspecialchars($this->getTitle()) .'%%actionbar%%</h3>
+                <h3>'. $title .'%%actionbar%%</h3>
                 %%config%%
                 <div class="rex-dashboard-component-content">
                   '. $content .'
