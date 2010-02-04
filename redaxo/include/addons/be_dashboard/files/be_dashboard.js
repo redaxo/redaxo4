@@ -1,6 +1,6 @@
 function componentInit(componentId)
 {
-  if(getCookie(componentId) == "false")
+  if(getCookie(componentId+"_state") == "minimized")
   {
     jQuery("#"+ componentId +" .rex-dashboard-component-content").hide();
   }
@@ -29,16 +29,16 @@ function componentToggleView(componentId)
 {
   var component = jQuery("#"+componentId);
   var content = jQuery(".rex-dashboard-component-content", component);
-  var isHidden = content.is(":hidden");
+  var wasHidden = content.is(":hidden");
   
-  if(!isHidden)
+  if(!wasHidden)
   {
     var config = jQuery(".rex-dashboard-component-config", component);
     config.hide("slow");
   }
   content.slideToggle("slow");
  
-  setCookie(componentId, (isHidden ? "true":"false"), "never") ;
+  setCookie(componentId+"_state", (wasHidden ? "maximized":"minimized"), "never") ;
 }
 
 function setCookie (name, value, expires, path, domain, secure) {
