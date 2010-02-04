@@ -25,6 +25,7 @@ class rex_rss_reader_component extends rex_dashboard_component
   {
     global $I18N;
     
+    
     $content = '';
     foreach($this->config->getFeedUrls() as $feedUrl)
     {
@@ -41,20 +42,20 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
   function rex_rss_reader_component_config()
   {
     $defaultSettings = array(
-      'feeds' => array('http://www.redaxo.de/261-0-news-rss-feed.html'),
+      'urls' => array('http://www.redaxo.de/261-0-news-rss-feed.html'),
     );
     parent::rex_dashboard_component_config($defaultSettings);
   }
   
   function getFeedUrls()
   {
-    return $this->settings['feeds'];
+    return $this->settings['urls'];
   }
   
   /*protected*/ function getFormValues()
   {
     $settings = array(
-      'feeds' => explode("\n", rex_post($this->getInputName('feedUrls'), 'string')),
+      'urls' => explode("\n", rex_post($this->getInputName('feedUrls'), 'string')),
     );
     
     return $settings;
