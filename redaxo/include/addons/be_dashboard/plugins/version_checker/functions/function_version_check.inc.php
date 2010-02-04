@@ -12,7 +12,7 @@
 
 function rex_a657_get_latest_version()
 {
-  $updateUrl = 'http://www.redaxo.de/517-0-latest-redaxo-version-de.html';
+  $updateUrl = 'http://www.redaxo.de/de/latestversion';
   
   return preg_replace('/[^0-9\.]/', '', rex_get_file_contents($updateUrl));
 }
