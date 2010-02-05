@@ -333,6 +333,15 @@ class rex_sql
   }
 
   /**
+   * Gibt den Wert der aktuellen Zeile im ResultSet zurueck und
+   * bewegt den internen Zeiger auf die naechste Zeile 
+   */
+  /*public*/ function getRow($fetch_type = MYSQL_ASSOC)
+  {
+    return mysql_fetch_array($this->result, $fetch_type);
+  }
+  
+  /**
    * Prüft, ob eine Spalte im Resultset vorhanden ist
    * @param $value Name der Spalte
    */
@@ -646,13 +655,12 @@ class rex_sql
       }
     }
 
-
     $data = array();
-
     while ($row = @ mysql_fetch_array($this->result, $fetch_type))
     {
       $data[] = $row;
     }
+    mysql_free_result($this->result);
 
     return $data;
   }
