@@ -522,7 +522,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
     if($params['id'] != '')
     {
       $s = '';
-      $OOArt = OOArticle::getArticleById($params['id']);
+      $OOArt = OOArticle::getArticleById($params['id'], $params['clang']);
       
       // Alle Metafelder des Pfades sind erlaubt
       foreach(explode('|', $OOArt->getPath()) as $pathElement)
@@ -542,7 +542,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
     
     if($params['id'] != '')
     {
-      $OOCat = OOCategory::getCategoryById($params['id']);
+      $OOCat = OOCategory::getCategoryById($params['id'], $params['clang']);
       
       // Alle Metafelder des Pfades sind erlaubt
       foreach(explode('|', $OOCat->getPath()) as $pathElement)
@@ -555,7 +555,6 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       
       // Auch die Kategorie selbst kann Metafelder haben
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
-      
     }
     
     $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
@@ -567,14 +566,17 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       if($activeItem->getValue('category_id') != '')
       {
         $s = '';
-        $OOCat = OOMediaCategory::getCategoryById($activeItem->getValue('category_id'));
-        
-        // Alle Metafelder des Pfades sind erlaubt
-        foreach(explode('|', $OOCat->getPath()) as $pathElement)
+        if($activeItem->getValue('category_id') != 0)
         {
-          if($pathElement != '')
+          $OOCat = OOMediaCategory::getCategoryById($activeItem->getValue('category_id'));
+          
+          // Alle Metafelder des Pfades sind erlaubt
+          foreach(explode('|', $OOCat->getPath()) as $pathElement)
           {
-            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+            if($pathElement != '')
+            {
+              $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+            }
           }
         }
         
