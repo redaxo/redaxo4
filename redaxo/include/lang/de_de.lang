@@ -360,6 +360,7 @@ clang_delete = Sprache löschen
 clang_caption = Liste der verfügbaren Sprachen
 clang_summary = Auflistung aller Sprachen
 clang_function = Funktionen
+clang_no_left = Die maximale Anzahl an Sprachen ist erreicht!
 version = Version
 host = Host
 database = Datenbank

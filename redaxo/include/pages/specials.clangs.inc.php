@@ -72,9 +72,16 @@ $sel->setName('clang_id');
 $sel->setStyle('class="rex-form-select"');
 $sel->setId('rex-form-clang-id');
 $sel->setSize(1);
-foreach (array_diff(range(0, 14), array_keys($REX['CLANG'])) as $clang)
+$remaingClangs = array_diff(range(0, $REX['MAXCLANGS']-1), array_keys($REX['CLANG']));
+foreach ($remaingClangs as $clang)
 {
   $sel->addOption($clang, $clang);
+}
+
+// no remaing clang-ids
+if(empty($remaingClangs))
+{
+  $warning = $I18N->msg('clang_no_left');
 }
 
 if ($info != '')

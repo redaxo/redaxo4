@@ -82,8 +82,11 @@ $REX['PSWFUNC'] = "";
 // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['RELOGINDELAY'] = 5;
 
-// maximal erlaubte versuche
+// maximal erlaubte login versuche
 $REX['MAXLOGINS'] = 50;
+
+// maximal erlaubte anzahl an sprachen
+$REX['MAXCLANGS'] = 15;
 
 // Page auf die nach dem Login weitergeleitet wird
 $REX['START_PAGE'] = 'structure';
