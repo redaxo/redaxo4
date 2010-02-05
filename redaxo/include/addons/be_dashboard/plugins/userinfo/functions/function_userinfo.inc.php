@@ -106,7 +106,31 @@ function rex_a659_latest_articles($limit = A659_DEFAULT_LIMIT)
   
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
-  $articles = $sql->getArray('SELECT id, clang, startpage, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'article GROUP BY id ORDER BY updatedate DESC LIMIT '.$limit);
+  $sql->setQuery('SELECT id, re_id, clang, startpage, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'article GROUP BY id ORDER BY updatedate DESC LIMIT 50');
+  
+  $i = 0;
+  $articles = array();
+  while($sql->hasNext())
+  {
+    $article = $sql->getRow();
+    $catId = $article['startpage'] == 1 ? $article['id'] : $article['re_id'];
+    
+    if($REX['USER']->hasCategoryPerm($catId))
+    {
+      $i++;
+      $articles[] = $article;
+    }
+    
+    if($i >= $limit)
+    {
+      break;
+    }
+    
+    $sql->next();
+  }
+  $sql->freeResult();
+  
+  
   return $articles;
 }
 
