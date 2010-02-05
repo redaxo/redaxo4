@@ -34,6 +34,7 @@ Version 4.3 (2009-xx-xx)
     - rex_mediacategory_select [Markus.Staab]
   * neue Extension Points:
     - ART_CONTENT_UPDATED [Jan.Kristinus]
+    - ART_TO_STARTPAGE [Dave.Holloway]
   * neue Extension Point Parameter:
     - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
   * neue Addons:

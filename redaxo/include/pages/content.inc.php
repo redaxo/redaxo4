@@ -373,7 +373,12 @@ if ($article->getRows() == 1)
       {
         if (rex_article2startpage($article_id))
         {
+          // ----- EXTENSION POINT
           $info = $I18N->msg('content_tostartarticle_ok');
+          $info = rex_register_extension_point('ART_TO_STARTPAGE', $info, array (
+            'id' => $article_id,
+            'clang' => $clang
+          ));
           header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
