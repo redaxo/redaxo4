@@ -54,6 +54,17 @@ if($REX["REDAXO"] && !$REX['SETUP'])
         if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
         {
           $REX['ADDON']['editme']['subpages'][] = array( $table["label"] , $table["name"]);
+          
+          // include dashbord-components
+          if(rex_request('page', 'string') == 'be_dashboard')
+          {
+            require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
+            
+            rex_register_extension (
+              'DASHBOARD_COMPONENT',
+              array(new rex_editme_component($table["label"]), 'registerAsExtension')
+            );
+          }  
         }
       }
     }
