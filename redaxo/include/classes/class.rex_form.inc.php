@@ -313,6 +313,25 @@ class rex_form
     $this->elements[$this->fieldset][] =& $element;
     return $element;
   }
+  
+  /*private*/ function stripslashes($value)
+  {
+    if (is_array($value))
+    {
+      foreach($value as $k => $v)
+      {
+        $value[$k] = $this->stripslashes($v);
+      }
+    }
+    else if (is_string($value))
+    {
+      return stripslashes($value);
+    }
+    else 
+    {
+      trigger_error('Unexpected parameter type "'. gettype($value) .'"!', E_USER_ERROR);
+    }
+  }
 
   /*protected*/ function &createElement($tag, $name, $value, $attributes = array())
   {
@@ -322,13 +341,7 @@ class rex_form
     $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
     if($postValue !== null)
     {
-      if(is_string($value))
-      {
-        $value = stripslashes($postValue);
-      }else
-      {
-        $value = $postValue;
-      }
+      $value = $this->stripslashes($postValue);
     }
 
     // Wert aus der DB nehmen, falls keiner extern und keiner im POST angegeben
