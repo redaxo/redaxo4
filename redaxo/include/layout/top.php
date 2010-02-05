@@ -215,8 +215,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
   }
 	
   // ----- EXTENSION POINT
-  rex_register_extension_point( 'NAVI_PREPARED', '', array("navigation"=>&$n));
-  
+  $n = rex_register_extension_point( 'NAVI_PREPARED', $n);
 	echo $n->getNavigation();
 	
 	
