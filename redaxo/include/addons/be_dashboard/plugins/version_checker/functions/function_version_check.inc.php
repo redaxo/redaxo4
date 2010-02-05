@@ -14,7 +14,13 @@ function rex_a657_get_latest_version()
 {
   $updateUrl = 'http://www.redaxo.de/de/latestversion';
   
-  return preg_replace('/[^0-9\.]/', '', rex_get_file_contents($updateUrl));
+  $latestVersion = @rex_get_file_contents($updateUrl);
+  
+  if($latestVersion != '')
+  {
+    return preg_replace('/[^0-9\.]/', '', $latestVersion);
+  }
+  return false;
 }
 
 function rex_a657_check_version()
@@ -22,12 +28,13 @@ function rex_a657_check_version()
   global $I18N, $REX;
   
   $latestVersion = rex_a657_get_latest_version();
-  $rexVersion = $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'];
+  if(!$latestVersion) return false;
   
+  $rexVersion = $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'];
   if(version_compare($rexVersion, $latestVersion, '>'))
   {
     // Dev version
-    $notice = rex_warning($I18N->msg('vchecker_dev_version'));
+    $notice = rex_warning($I18N->msg('vchecker_dev_version', $rexVersion));
   }
   else if (version_compare($rexVersion, $latestVersion, '<'))
   {

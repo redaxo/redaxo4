@@ -29,6 +29,17 @@ class rex_version_checker_notification extends rex_dashboard_notification
   
   /*protected*/ function prepare()
   {
-    $this->setMessage(rex_a657_check_version());
+    global $I18N;
+    
+    $versionCheck = rex_a657_check_version();
+    
+    if($versionCheck)
+    {
+      $this->setMessage($versionCheck);
+    }
+    else
+    {
+      $this->setMessage(rex_warning('Version-Checker: '. $I18N->msg('vchecker_connection_error')));
+    }
   }
 }
