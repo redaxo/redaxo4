@@ -378,6 +378,15 @@ function rex_article2startpage($neu_id){
     rex_deleteCacheArticle($gid);
   }
 
+  foreach($REX['CLANG'] as $clang => $clang_name)
+  {
+    rex_register_extension_point('ART_TO_STARTPAGE', '', array (
+      'id' => $neu_id,
+      'id_old' => $alt_id,
+      'clang' => $clang,
+    ));
+  }
+          
   return true;
 }
 
