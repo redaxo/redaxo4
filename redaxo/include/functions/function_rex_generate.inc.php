@@ -1063,15 +1063,15 @@ function rex_addCLang($id, $name)
   $file = $REX['INCLUDE_PATH']."/clang.inc.php";
   rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
   
-  $add = rex_sql::factory();
-  $add->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
-  $fields = $add->getFieldnames();
+  $firstLang = rex_sql::factory();
+  $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
+  $fields = $firstLang->getFieldnames();
 
-  $adda = rex_sql::factory();
-  // $adda->debugsql = 1;
-  for ($i = 0; $i < $add->getRows(); $i ++)
+  $newLang = rex_sql::factory();
+  // $newLang->debugsql = 1;
+  while($firstLang->hasNext())
   {
-    $adda->setTable($REX['TABLE_PREFIX']."article");
+    $newLang->setTable($REX['TABLE_PREFIX']."article");
 
     foreach($fields as $key => $value)
     {
@@ -1079,20 +1079,21 @@ function rex_addCLang($id, $name)
         echo ''; // nix passiert
       else
         if ($value == 'clang')
-          $adda->setValue('clang', $id);
+          $newLang->setValue('clang', $id);
         else
           if ($value == 'status')
-            $adda->setValue('status', '0'); // Alle neuen Artikel offline
+            $newLang->setValue('status', '0'); // Alle neuen Artikel offline
       else
-        $adda->setValue($value, $add->escape($add->getValue($value)));
+        $newLang->setValue($value, $firstLang->escape($firstLang->getValue($value)));
     }
 
-    $adda->insert();
-    $add->next();
+    $newLang->insert();
+    $firstLang->next();
   }
+  $firstLang->freeResult();
 
-  $add = rex_sql::factory();
-  $add->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
+  $newLang = rex_sql::factory();
+  $newLang->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
