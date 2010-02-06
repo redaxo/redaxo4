@@ -1,5 +1,8 @@
 <?php
 
+// TODO paginierung entfernen
+// TODO fehlende lang strings ergaenzen
+
 /**
  * Userinfo Addon
  * 
@@ -115,45 +118,35 @@ class rex_articles_component extends rex_dashboard_component
   
   /*protected*/ function prepare()
   {
-    global $I18N;
+    global $REX, $I18N;
     
-    $articles = rex_a659_latest_articles();
+    $limit = A659_DEFAULT_LIMIT;
     
-    $content = '';
+    // TODO Permcheck im SQL
+    $list = rex_list::factory('SELECT id, re_id, clang, startpage, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'article GROUP BY id ORDER BY updatedate DESC', $limit);
+    $list->setCaption($I18N->msg('structure_articles_caption'));
+    $list->addTableAttribute('summary', $I18N->msg('structure_articles_summary'));
+    $list->addTableColumnGroup(array(40, '*', 120, 150));
     
-    if(count($articles) > 0)
-    {
-      $content .= '<table class="rex-table rex-dashboard-table">
-      							<colgroup>
-      								<col width="*" />
-      								<col width="120" />
-      								<col width="150" />
-      							</colgroup>
-      							
-      							<thead>
-      								<tr>
-      									<th>'.$I18N->msg('userinfo_component_stats_article').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
-      								</tr>
-      							</thead>
-      							<tbody>';
-      							
-      foreach($articles as $article)
-      {
-        $updatedate = rex_formatter::format($article['updatedate'], 'strftime', 'datetime');
-        
-        $content .= '<tr>';
-        $content .= '<td><a href="index.php?page=content&article_id='. $article['id'] .'&mode=edit&clang='. $article['clang'] .'">'. htmlspecialchars($article['name']) .'</a></td>';
-        $content .= '<td>'. htmlspecialchars($article['updateuser']).'</td>';
-        $content .= '<td>'.$updatedate.'</td>';
-        $content .= '</tr>';
-      }
-      $content .= '</tbody>';
-      $content .= '</table>';
-    }
+    $list->removeColumn('id');
+    $list->removeColumn('re_id');
+    $list->removeColumn('clang');
+    $list->removeColumn('startpage');
+    $editParams = array('page' => 'content', 'mode' => 'edit', 'article_id' => '###id###', 'clang' => '###clang###');
+  
+    $thIcon = '';
+    $tdIcon = '<span class="rex-i-element rex-i-article"><span class="rex-i-element-text">###name###</span></span>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, $editParams);
+  
+    $list->setColumnLabel('name', $I18N->msg('header_article_name'));
+    $list->setColumnParams('name', $editParams);
+  
+    $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
+    $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
+    $list->setColumnFormat('updatedate', 'strftime', 'datetime');
     
-    $this->setContent($content);
+    $this->setContent($list->get());
   }
 }
 
@@ -177,44 +170,35 @@ class rex_templates_component extends rex_dashboard_component
 
   /*protected*/ function prepare()
   {
-    global $I18N;
+    global $REX, $I18N;
     
-    $templates = rex_a659_latest_templates();
+    $limit = A659_DEFAULT_LIMIT;
+      
+    $list = rex_list::factory('SELECT id, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'template ORDER BY updatedate DESC', $limit);
+    $list->setCaption($I18N->msg('header_template_caption'));
+    $list->addTableAttribute('summary', $I18N->msg('header_template_summary'));
+    $list->addTableColumnGroup(array(40, '*', 120, 150));
     
-    $content = '';
-    if(count($templates) > 0)
-    {
-      $content .= '<table class="rex-table rex-dashboard-table">
-      							<colgroup>
-      								<col width="*" />
-      								<col width="120" />
-      								<col width="150" />
-      							</colgroup>
-      							
-      							<thead>
-      								<tr>
-      									<th>'.$I18N->msg('userinfo_component_stats_template').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
-      								</tr>
-      							</thead>
-      							<tbody>';
-      							
-      foreach($templates as $template)
-      {
-        $updatedate = rex_formatter::format($template['updatedate'], 'strftime', 'datetime');
-        
-        $content .= '<tr>';
-        $content .= '<td><a href="index.php?page=template&function=edit&template_id='. $template['id'] .'">'. htmlspecialchars($template['name']) .'</a></td>';
-        $content .= '<td>'. htmlspecialchars($template['updateuser']).'</td>';
-        $content .= '<td>'.$updatedate.'</td>';
-        $content .= '</tr>';
-      }
-      $content .= '</tbody>';
-      $content .= '</table>';
-    }
-          
-    $this->setContent($content);
+    $addParams  = array('page' => 'template', 'function' => 'add');
+    $editParams = array('page' => 'template', 'function' => 'edit', 'template_id' => '###id###');
+  
+    $tdIcon = '<span class="rex-i-element rex-i-template"><span class="rex-i-element-text">###name###</span></span>';
+    $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl($addParams) .'"><span class="rex-i-element-text">'.$I18N->msg('create_template').'</span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, $editParams);
+  
+    $list->removeColumn('id');
+  
+    $list->setColumnLabel('name', $I18N->msg('header_template_description'));
+    $list->setColumnParams('name', $editParams);
+    
+    $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
+    $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
+    $list->setColumnFormat('updatedate', 'strftime', 'datetime');
+  
+    $list->setNoRowsMessage($I18N->msg('templates_not_found'));
+
+    $this->setContent($list->get());
   }
 }
 
@@ -238,44 +222,34 @@ class rex_modules_component extends rex_dashboard_component
   
   /*protected*/ function prepare()
   {
-    global $I18N;
+    global $REX, $I18N;
     
-    $modules = rex_a659_latest_modules();
+    $limit = A659_DEFAULT_LIMIT;
     
-    $content = '';
-    if(count($modules) > 0)
-    {
-      $content .= '<table class="rex-table rex-dashboard-table">
-      							<colgroup>
-      								<col width="*" />
-      								<col width="120" />
-      								<col width="150" />
-      							</colgroup>
-      							
-      							<thead>
-      								<tr>
-      									<th>'.$I18N->msg('userinfo_component_stats_module').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
-      								</tr>
-      							</thead>
-      							<tbody>';
-      							
-      foreach($modules as $module)
-      {
-        $updatedate = rex_formatter::format($module['updatedate'], 'strftime', 'datetime');
-        
-        $content .= '<tr>';
-        $content .= '<td><a href="index.php?page=module&function=edit&modul_id='. $module['id'] .'">'. htmlspecialchars($module['name']) .'</a></td>';
-        $content .= '<td>'. htmlspecialchars($module['updateuser']).'</td>';
-        $content .= '<td>'.$updatedate.'</td>';
-        $content .= '</tr>';
-      }
-      $content .= '</tbody>';
-      $content .= '</table>';
-    }
-          
-    $this->setContent($content);
+    $list = rex_list::factory('SELECT id, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'module ORDER BY updatedate DESC', $limit);
+    $list->setCaption($I18N->msg('module_caption'));
+    $list->addTableAttribute('summary', $I18N->msg('module_summary'));
+    $list->addTableColumnGroup(array(40, '*', 120, 150));
+    
+    $list->removeColumn('id');
+    $addParams  = array('page' => 'module', 'function' => 'add');
+    $editParams = array('page' => 'module', 'function' => 'edit', 'modul_id' => '###id###');
+  
+    $tdIcon = '<span class="rex-i-element rex-i-module"><span class="rex-i-element-text">###name###</span></span>';
+    $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl($addParams) .'"><span class="rex-i-element-text">'.$I18N->msg('create_module').'</span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, $editParams);
+  
+    $list->setColumnLabel('name', $I18N->msg('module_description'));
+    $list->setColumnParams('name', $editParams);
+  
+    $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
+    $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
+    $list->setColumnFormat('updatedate', 'strftime', 'datetime');
+    
+    $list->setNoRowsMessage($I18N->msg('modules_not_found'));
+
+    $this->setContent($list->get());
   }
 }
 
@@ -299,44 +273,34 @@ class rex_actions_component extends rex_dashboard_component
   
   /*protected*/ function prepare()
   {
-    global $I18N;
+    global $REX, $I18N;
     
-    $actions = rex_a659_latest_actions();
+    $limit = A659_DEFAULT_LIMIT;
     
-    $content = '';
-    if(count($actions) > 0)
-    {
-      $content .= '<table class="rex-table rex-dashboard-table">
-      							<colgroup>
-      								<col width="*" />
-      								<col width="120" />
-      								<col width="150" />
-      							</colgroup>
-      							
-      							<thead>
-      								<tr>
-      									<th>'.$I18N->msg('userinfo_component_stats_action').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
-      								</tr>
-      							</thead>
-      							<tbody>';
-      							
-      foreach($actions as $action)
-      {
-        $updatedate = rex_formatter::format($action['updatedate'], 'strftime', 'datetime');
-        
-        $content .= '<tr>';
-        $content .= '<td><a href="index.php?page=module&subpage=actions&function=edit&action_id='. $action['id'] .'">'. htmlspecialchars($action['name']) .'</a></td>';
-        $content .= '<td>'. htmlspecialchars($action['updateuser']).'</td>';
-        $content .= '<td>'.$updatedate.'</td>';
-        $content .= '</tr>';
-      }
-      $content .= '</tbody>';
-      $content .= '</table>';
-    }
-          
-    $this->setContent($content);
+    $list = rex_list::factory('SELECT id, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'action ORDER BY updatedate DESC', $limit);
+    $list->setCaption($I18N->msg('action_caption'));
+    $list->addTableAttribute('summary', $I18N->msg('action_summary'));
+    $list->addTableColumnGroup(array(40, '*', 120, 150));
+    
+    $list->removeColumn('id');
+    $addParams  = array('page' => 'module', 'subpage' => 'actions', 'function' => 'add');
+    $editParams = array('page' => 'module', 'subpage' => 'actions', 'function' => 'edit', 'action_id' => '###id###');
+    
+    $tdIcon = '<span class="rex-i-element rex-i-action"><span class="rex-i-element-text">###name###</span></span>';
+    $thIcon = '<a class="rex-i-element rex-i-action-add" href="'. $list->getUrl($addParams) .'"><span class="rex-i-element-text">'.$I18N->msg('action_create').'</span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, $editParams);
+  
+    $list->setColumnLabel('name', $I18N->msg('action_name'));
+    $list->setColumnParams('name', $editParams);
+  
+    $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
+    $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
+    $list->setColumnFormat('updatedate', 'strftime', 'datetime');
+    
+    $list->setNoRowsMessage($I18N->msg('actions_not_found'));
+
+    $this->setContent($list->get());
   }
 }
 
@@ -360,44 +324,32 @@ class rex_users_component extends rex_dashboard_component
     
   /*protected*/ function prepare()
   {
-    global $I18N;
+    global $REX, $I18N;
     
-    $users = rex_a659_latest_users();
+    $limit = A659_DEFAULT_LIMIT;
     
-    $content = '';
-    if(count($users) > 0)
-    {
-      $content .= '<table class="rex-table rex-dashboard-table">
-      							<colgroup>
-      								<col width="*" />
-      								<col width="120" />
-      								<col width="150" />
-      							</colgroup>
-      							
-      							<thead>
-      								<tr>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
-      								</tr>
-      							</thead>
-      							<tbody>';
-      							
-      foreach($users as $user)
-      {
-        $updatedate = rex_formatter::format($user['updatedate'], 'strftime', 'datetime');
-        
-        $content .= '<tr>';
-        $content .= '<td><a href="index.php?page=user&user_id='. $user['user_id'] .'">'. htmlspecialchars($user['name']) .'</a></td>';
-        $content .= '<td>'. htmlspecialchars($user['updateuser']).'</td>';
-        $content .= '<td>'.$updatedate.'</td>';
-        $content .= '</tr>';
-      }
-      $content .= '</tbody>';
-      $content .= '</table>';
-    }
-          
-    $this->setContent($content);
+    $list = rex_list::factory('SELECT user_id, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'user ORDER BY updatedate DESC', $limit);
+    $list->setCaption($I18N->msg('user_caption'));
+    $list->addTableAttribute('summary', $I18N->msg('user_summary'));
+    $list->addTableColumnGroup(array(40, '*', 120, 150));
+    
+    $list->removeColumn('user_id');
+    $addParams  = array('page' => 'user', 'FUNC_ADD' => '1');
+    $editParams = array('page' => 'user', 'function' => 'edit', 'user_id' => '###user_id###');
+    
+    $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
+    $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl($addParams) .'"><span class="rex-i-element-text">'.$I18N->msg('create_user').'</span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, $editParams);
+  
+    $list->setColumnLabel('name', $I18N->msg('name'));
+    $list->setColumnParams('name', $editParams);
+  
+    $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
+    $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
+    $list->setColumnFormat('updatedate', 'strftime', 'datetime');
+    
+    $this->setContent($list->get());
   }
 }
 
@@ -421,43 +373,29 @@ class rex_media_component extends rex_dashboard_component
 
   /*protected*/ function prepare()
   {
-    global $I18N;
+    global $REX, $I18N;
     
-    $media = rex_a659_latest_media();
+    $limit = A659_DEFAULT_LIMIT;
+      
+    $list = rex_list::factory('SELECT category_id, file_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'file ORDER BY updatedate DESC', $limit);
+    $list->setCaption($I18N->msg('pool_file_caption'));
+    $list->addTableAttribute('summary', $I18N->msg('pool_file_summary'));
+    $list->addTableColumnGroup(array('*', 120, 150));
+  
+    $list->removeColumn('category_id');
+    $list->removeColumn('file_id');
+    $editParams = array('page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###file_id###');
     
-    $content = '';
-    if(count($media) > 0)
-    {
-      $content .= '<table class="rex-table rex-dashboard-table">
-      							<colgroup>
-      								<col width="*" />
-      								<col width="120" />
-      								<col width="150" />
-      							</colgroup>
-      							
-      							<thead>
-      								<tr>
-      									<th>'.$I18N->msg('userinfo_component_stats_medium').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_user').'</th>
-      									<th>'.$I18N->msg('userinfo_component_stats_date').'</th>
-      								</tr>
-      							</thead>
-      							<tbody>';
-      foreach($media as $medium)
-      {
-        $url = 'index.php?page=mediapool&subpage=detail&file_id='. $medium['file_id'];
-        $updatedate = rex_formatter::format($medium['updatedate'], 'strftime', 'datetime');
-        
-        $content .= '<tr>';
-        $content .= '<td><a href="'. $url .'" onclick="newPoolWindow(this.href); return false;">'. htmlspecialchars($medium['filename']) .'</a></td>';
-        $content .= '<td>'. htmlspecialchars($medium['updateuser']).'</td>';
-        $content .= '<td>'.$updatedate.'</td>';
-        $content .= '</tr>';
-      }
-      $content .= '</tbody>';
-      $content .= '</table>';
-    }
-          
-    $this->setContent($content);
+    $list->setColumnLabel('filename', $I18N->msg('pool_file_info'));
+    $list->setColumnParams('filename', $editParams);
+    $list->addLinkAttribute('filename','onclick', 'newPoolWindow(this.href); return false;');
+    
+    $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
+    $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
+    $list->setColumnFormat('updatedate', 'strftime', 'datetime');
+  
+    $list->setNoRowsMessage($I18N->msg('templates_not_found'));
+
+    $this->setContent($list->get());
   }
 }
