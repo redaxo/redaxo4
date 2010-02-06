@@ -44,9 +44,9 @@ function componentToggleView(componentId)
 function setCookie (name, value, expires, path, domain, secure) {
   if(typeof expires != undefined && expires == "never")
   {
-    // never expire means expires in 365 days
+    // never expire means expires in 3000 days
     expires = new Date();
-    expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 365));
+    expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
     expires = expires.toGMTString();
   }
   
