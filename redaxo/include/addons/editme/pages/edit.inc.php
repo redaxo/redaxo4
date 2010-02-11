@@ -138,9 +138,7 @@ if($show_list)
 	$list = rex_list::factory($sql,30);
 	$list->setColumnFormat('id', 'Id');
 
-	$list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));
-	// $list->setColumnParams("login", array("table_id"=>"###id###","func"=>"edit"));
-	// $list->removeColumn("id");
+	$list->setColumnParams("id", array("data_id"=>"###id###","func"=>"edit","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));
 	
 	foreach($fields as $field)
   {
