@@ -35,6 +35,22 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 	{
 		return "unique -> prüft ob unique, beispiel: validate|unique|dbfeldname|Dieser Name existiert schon|[table]";
 	}
+	
+  function getDefinitions()
+  {
+    return array(
+            'type' => 'validate',
+            'name' => 'unique',
+            'values' => array(
+                    array( 'type' => 'getlabel',    'name' => 'Label' ),
+                      array( 'type' => 'text',      'name' => 'Fehlermeldung'),
+                      array( 'type' => 'text',      'name' => 'Tabelle [opt]'),
+            ),
+            'description' => 'Hiermit geprŸft, ob ein Wert bereits vorhanden ist.',
+      );
+  
+  }
+	
 }
 
 ?>
