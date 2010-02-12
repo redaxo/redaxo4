@@ -247,7 +247,7 @@ class rex_var_media extends rex_var
    */
   /*public static*/ function getMediaButton($id, $category = '', $args = array())
   {
-    global $I18N;
+    global $REX, $I18N;
 
     $open_params = '';
     if ($category != '')
@@ -264,6 +264,10 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
       $wdgtClass .= ' rex-widget-preview';
+			if ($REX['ADDON']['image_resize']['old_syntax'])
+			{
+	      $wdgtClass .= ' rex-widget-resize-old';
+			}
     }
 
     $media = '
@@ -292,7 +296,7 @@ class rex_var_media extends rex_var
    */
   /*public static*/ function getMedialistButton($id, $value, $category = '', $args = array())
   {
-    global $I18N;
+    global $REX, $I18N;
 
     $open_params = '';
     if ($category != '')
@@ -309,6 +313,10 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
       $wdgtClass .= ' rex-widget-preview';
+			if ($REX['ADDON']['image_resize']['old_syntax'])
+			{
+	      $wdgtClass .= ' rex-widget-resize-old';
+			}
     }
 
     $options = '';
