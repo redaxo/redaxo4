@@ -1,3 +1,44 @@
 .rex-dashboard-component-config {
   display: none;
 }
+
+
+
+.rex-dashboard-section {
+	float: left;
+	width: 100%;
+}
+
+.rex-dashboard-column {
+}
+
+.rex-dashboard-component {
+	margin-bottom: 10px;
+	background-color: #F0EFEB;
+}
+.rex-dashboard-column h3 {
+	padding: 9px 5px;
+	background-color: #D7D6D3;
+}
+.rex-dashboard-component-navi {
+	margin: -2em 10px 0 0;
+	text-align: right;
+}
+.rex-dashboard-component-navi li {
+	display: inline;
+}
+.rex-dashboard-component-content {
+	padding: 2em 10px 1em 10px;
+}
+
+.rex-dashboard-1col {
+}
+
+.rex-dashboard-2col .rex-dashboard-column {
+	float: left;
+	width: 380px;
+	margin-left: 10px;
+}
+.rex-dashboard-2col .rex-dashboard-column-first {
+	margin-left: 0;
+}
