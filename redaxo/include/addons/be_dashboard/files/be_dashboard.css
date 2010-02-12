@@ -5,6 +5,7 @@
 
 
 .rex-dashboard-section {
+	clear: both;
 	float: left;
 	width: 100%;
 }
@@ -35,10 +36,28 @@
 }
 
 .rex-dashboard-2col .rex-dashboard-column {
-	float: left;
+	float: right;
 	width: 380px;
-	margin-left: 10px;
 }
 .rex-dashboard-2col .rex-dashboard-column-first {
-	margin-left: 0;
+	float: left;
+}
+
+
+
+
+
+
+
+.rex-dashboard-component {
+	background-color: #EFF9F9;
+}
+.rex-dashboard-column h3 {
+	background-color: #DFE9E9;
+}
+.rex-dashboard-component-navi {
+	margin-top: -21px;
+}
+.rex-dashboard-2col .rex-dashboard-column {
+	width: 367px;
 }
