@@ -25,37 +25,30 @@ if($REX["REDAXO"] && !$REX['SETUP'])
   $REX['ADDON']['author']["editme"] = 'Jan Kristinus';
   $REX['ADDON']['supportpage']["editme"] = 'forum.redaxo.de';
 
-  // *************
-  // $REX['PERM'][] = 'em[1]';
-  // $REX['PERM'][] = 'em[2]';
+	// Fuer Benutzervewaltung
+	$REX['PERM'][] = 'em[]';
 
-  // Fuer Benutzervewaltung
-  $REX['PERM'][] = 'em[]';
+	// Linke Navigation
 
-  // Linke Navigation
-
-  include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
-
-  $REX['ADDON']['editme']['subpages'] = array();
-
-  if ($REX['USER'] && ($REX['USER']->isAdmin()))
-  $REX['ADDON']['editme']['subpages'][] = array( '' , $I18N->msg("em_overview"));
-
-  if($tables = rex_em_getTables())
+	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
+	
+	$REX['ADDON']['editme']['subpages'] = array();
+	$REX['ADDON']['navigation']['editme'] = array('active_when'=>array('page'=>'editme','subpage'=>''));
+	
+	if ($REX['USER'] && ($REX['USER']->isAdmin()))
+  		$REX['ADDON']['editme']['subpages'][] = array( '' , $I18N->msg("em_overview"));
+	
+  $REX['ADDON']['editme']['tables'] = rex_em_getTables();
+  		
+  if(count($REX['ADDON']['editme']['tables']))
   {
-    foreach($tables as $table)
+    foreach($REX['ADDON']['editme']['tables'] as $table)
     {
-      // Recht um das AddOn ueberhaupt einsehen zu koennen
-      $table_perm = 'em['.$table["label"].']';
-      $REX['EXTPERM'][] = $table_perm;
-
-      if($table["status"] == 1)
-      {
-        if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
-        {
-          $REX['ADDON']['editme']['subpages'][] = array( $table["label"] , $table["name"]);
-          
-          // include dashbord-components
+  		// Recht um das AddOn ueberhaupt einsehen zu koennen
+  		$table_perm = 'em['.$table["label"].']';
+  		$REX['EXTPERM'][] = $table_perm;
+  		
+  		// include dashbord-components
           if(rex_request('page', 'string') == 'be_dashboard')
           {
             require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
@@ -64,35 +57,35 @@ if($REX["REDAXO"] && !$REX['SETUP'])
               'DASHBOARD_COMPONENT',
               array(new rex_editme_component($table["label"]), 'registerAsExtension')
             );
-          }  
-        }
-      }
+          }
     }
+   
     
     function rex_editme_navigation($params)
     {
-      if($tables = rex_em_getTables())
+      global $REX;
+	    foreach($REX['ADDON']['editme']['tables'] as $table)
       {
-        foreach($tables as $table)
-        {
-          $item = array();
-          $item['title'] = $table['name'];
-          $item['href'] = 'index.php?page=editme&subpage='.$table['label'];
-          $params['subject']->addElement('editme', $item);
-        }
+        $table_perm = 'em['.$table["label"].']';
+    	  if($table["status"] == 1 && $REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
+    	  {
+       	  $item = array();
+    	    $item['title'] = $table['name'];
+    	    $item['href'] = 'index.php?page=editme&subpage='.$table['label'];
+    	    $item['active_when'] = array('page'=>'editme', 'subpage' => $table['label']);
+    	    $params['subject']->addElement('editme', $item);
+    	  }
       }
-      
       return $params['subject'];
     }
-
     rex_register_extension('NAVI_PREPARED', 'rex_editme_navigation');
+    
   }
 
   function rex_editme_assets($params){
-    // $params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../files/addons/editme/em.css" media="screen, projection, print" />';
-    $params['subject'] .= "\n  ".'<script src="../files/addons/editme/em.js" type="text/javascript"></script>';
-    return $params['subject'];
-  }
-   
+  	$params['subject'] .= "\n  ".'<script src="../files/addons/editme/em.js" type="text/javascript"></script>';
+		return $params['subject'];
+	}
   rex_register_extension('PAGE_HEADER', 'rex_editme_assets');
+   
 }

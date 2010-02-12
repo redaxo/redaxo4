@@ -169,6 +169,50 @@ class rex_be_navigation
 			return $echo;
 	}
 	
+	function setActiveElements()
+	{
+		// echo '<pre>';var_dump($this->navi); echo '</pre>';
+	  foreach($this->navi as $type => $p)
+		{
+			// echo "<br /><h1>$type</h1>";
+			foreach($p as $mn => $item)
+			{
+				if(isset($item["active_when"]))
+				{
+					$this->navi[$type][$mn]["active"] = $this->_getStatus($item["active_when"]);
+				}
+
+				// echo "<br />$mn - ".$item["title"];
+				if(isset($item["subpages"]))
+			  {
+			  	foreach($item["subpages"] as $sn => $sitem)
+					{
+						// echo "<br />".$sn." ".$sitem["title"];
+					  if(isset($sitem["active_when"]))
+					  {
+					  	// echo '<pre>';var_dump($sitem["active_when"]); echo '</pre>';
+					  	$this->navi[$type][$mn]["subpages"][$sn]["active"] = $this->_getStatus($sitem["active_when"]);
+					  }
+					}
+			  }
+			}
+		  // echo "<hr/>";
+		}
+	}
+	
+	function _getStatus($a)
+	{
+		foreach($a as $k => $v)
+		{
+			if(rex_request($k) != $v)
+			{
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+	
+	
 	function factory()
 	{
 		$r = new rex_be_navigation();
@@ -196,8 +240,6 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
       $item = $pageArr;
       $item['page'] = $p;
       $item['id'] = 'rex-navi-page-'.$p;
-      if($p == $REX["PAGE"]) 
-        $item['active'] = TRUE;
       if(!isset($item['type']))
         $item['type'] = 'addons';
       if(!isset($item['href']))
@@ -216,7 +258,8 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 	
   // ----- EXTENSION POINT
   $n = rex_register_extension_point( 'NAVI_PREPARED', $n);
-	echo $n->getNavigation();
+  $n->setActiveElements();
+  echo $n->getNavigation();
 	
 	
 	
