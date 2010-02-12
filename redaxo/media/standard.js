@@ -574,7 +574,13 @@ jQuery(function($){
       value = $("select :selected", this).text();
 
     var div = $(".rex-media-preview", this);
-    var url = '../index.php?rex_resize=246a__'+ value;
+    
+    var url;
+    if($(this).hasClass("rex-widget-resize-old"))
+    	url = '../index.php?rex_resize=246a__'+ value;
+    else
+    	url = '../index.php?rex_resize_type=rex_preview&rex_resize='+ value;
+    
     if(value && value.length != 0 && 
       (
         value.substr(-3) == "png" ||
