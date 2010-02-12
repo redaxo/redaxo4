@@ -410,6 +410,13 @@ div.rex-widget-medialist p.rex-widget-icons img {
 	margin-bottom: 2px;
 }
 
+div.rex-media-preview {
+	clear: both;
+	
+}
+div.rex-media-preview img {
+	margin: 10px 10px 10px 0;
+}
 
 
 /*	System Addon : Import / Export *********************************************
