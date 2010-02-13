@@ -37,6 +37,9 @@
     parent::rex_dashboard_component_base($id, $cache_options);
   }
   
+  /**
+   * Setzt den Titel der Komponente
+   */
   /*public*/ function setTitle($title)
   {
     $this->title = $title;
@@ -47,6 +50,9 @@
     return $this->title;
   }
   
+  /**
+   * Setzt die Url auf die der Titel der Komponente zeigen soll
+   */
   /*public*/ function setTitleUrl($titleUrl)
   {
     $this->titleUrl = $titleUrl;
@@ -57,6 +63,9 @@
     return $this->titleUrl;
   }
   
+  /**
+   * Setzt den Inhalt der Komponente
+   */
   /*public*/ function setContent($content)
   {
     $this->content = $content;
@@ -85,6 +94,9 @@
     return $this->format;
   }
   
+  /**
+   * Setzt den Titel des Blockes in dem die Komponente angezeigt werden soll
+   */
   /*public*/ function setBlock($block)
   {
     $this->block = $block;
