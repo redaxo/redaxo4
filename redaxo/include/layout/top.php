@@ -16,16 +16,16 @@ if(!isset($page_name))
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
+$css_body = array();
 $body_id = str_replace('_', '-', $REX["PAGE"]);
-$bodyAttr = 'id="rex-page-'. $body_id .'"';
 
 if (in_array($body_id, $popups_arr))
-  $bodyAttr .= ' class="rex-popup"';
+  $css_body["class"] = array('rex-popup'.$body_id);
 
-if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
+$css_body["id"] = array('rex-page-'.$body_id);
+$css_body["onunload"] = array('closeAll();');
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg('htmllang'); ?>" lang="<?php echo $I18N->msg('htmllang'); ?>">
 <head>
   <title><?php echo htmlspecialchars($page_title) ?></title>
@@ -58,11 +58,22 @@ if ($REX["PAGE_NO_NAVI"]) $bodyAttr .= ' onunload="closeAll();"';
   //-->
   </script>
 <?php
-  // ----- EXTENSION POINT
-  echo rex_register_extension_point('PAGE_HEADER', '');
+
+// ----- EXTENSION POINT
+echo rex_register_extension_point('PAGE_HEADER', '' );
+$css_body = rex_register_extension_point('PAGE_BODY_CSS', $css_body );
+
+$body = "";
+foreach($css_body as $k => $v){
+	$body .= $k.'="';
+	if(is_array($v))
+		$body .= implode(" ",$v);
+	$body .= '" ';
+}  
+
 ?>
 </head>
-<body <?php echo $bodyAttr; ?> onunload="closeAll();">
+<body <?php echo $body; ?>>
 <div id="rex-website">
 <div id="rex-header">
 
