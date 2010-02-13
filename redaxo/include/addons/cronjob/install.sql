@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%630_cronjobs` (
   `interval` varchar(255) default NULL,
   `interval_sec` int(11) default NULL,
   `lasttime` int(11) default 0,
-  `environment` tinyint(1) NOT NULL,
+  `environment` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `createdate` int(11) NOT NULL,
   `createuser` varchar(255) NOT NULL,

@@ -16,7 +16,7 @@ cronjob_examples = Beispiele
 cronjob_type = Typ
 cronjob_type_phpcode = PHP-Code
 cronjob_type_phpcallback = PHP-Callback
-cronjob_type_httprequest = HTTP-Aufruf
+cronjob_type_urlrequest = URL-Aufruf
 cronjob_type_extension = Extension
 
 cronjob_interval = Intervall
@@ -36,6 +36,8 @@ cronjob_status_activated = Aktiviert
 cronjob_status_deactivated = Deaktiviert
 cronjob_status_success = Status wurde geändert!
 cronjob_status_error = Fehler beim Ändern des Status!
+
+cronjob_error_no_name = Es muss ein Name eingegeben werden!
 
 cronjob_no_log_files = Keine Log-Dateien vorhanden.
 

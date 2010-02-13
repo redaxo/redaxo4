@@ -20,7 +20,8 @@ function rex_a1_cronjob($params)
   $params['subject']['rex_a1_export'] = array(
     'translate:im_export_database_export',
     'rex_a1_export_db',
-    array($file.$ext)
+    array($file.$ext),
+    'backend'
   );
   
   return $params['subject'];

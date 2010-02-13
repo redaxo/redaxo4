@@ -11,12 +11,12 @@
 
 class rex_a630_form extends rex_form
 {
-  function rex_a630_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  /*protected*/ function rex_a630_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
   }
   
-  function &addIntervalField($name, $value = null, $attributes = array())
+  /*public*/ function &addIntervalField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_a630_form_interval_element';
     $attributes['class'] = 'rex-form-text rex-form-select';
@@ -24,7 +24,17 @@ class rex_a630_form extends rex_form
     return $field;
   }
   
-  function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
+  /*protected*/ function validate()
+  {
+    global $I18N;
+    $el =& $this->getElement($this->getFieldsetName(),'name');
+    if ($el->getValue() == '') {
+      return $I18N->Msg('cronjob_error_no_name');
+    }
+    return true;
+  }
+  
+  /*protected*/ function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
     global $REX;
 
@@ -55,22 +65,18 @@ class rex_a630_form extends rex_form
     return $fieldValue;
   }
   
-  function save() 
+  /*protected*/ function save() 
   {
     $return = parent::save();
-    rex_a630_cronjob::saveNextTime();
+    rex_a630_manager::saveNextTime();
     return $return;
   }
 }
 
 class rex_a630_form_interval_element extends rex_form_element
 {
-  function rex_a630_form_interval_element($tag, &$table, $attributes = array(), $separateEnding = false)
-  {
-    parent::rex_form_element($tag, $table, $attributes, $separateEnding);
-  }
   
-  function formatElement()
+  /*public*/ function formatElement()
   {
     global $I18N;
     $name = $this->getAttribute('name').'[]';
