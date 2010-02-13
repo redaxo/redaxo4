@@ -23,6 +23,13 @@
 	float: left;
 }
 
+.rex-dashboard-hl1 {
+	margin-bottom: 1em;
+	padding-top: 1em;
+	color: #14568A;
+	font-size: 1.6em;	
+	font-weight: normal;
+}
 
 .rex-dashboard-component {
 	margin-bottom: 10px;
@@ -43,9 +50,12 @@
 .rex-dashboard-component-content {
 	padding-top: 10px;
 }
+.rex-dashboard-component-content ul {
+	margin-left: 22px;
+}
 .rex-dashboard-components .rex-dashboard-component-content {
 	padding-top: 20px;
-	padding-left: 10px;
+	padding-left: 5px;
 	padding-bottom: 10px;
 }
 .rex-dashboard-component-footer {
@@ -65,7 +75,7 @@
 
 
 .rex-dashboard-component-content table.rex-table {
-	margin: -10px -10px 0 -10px;
+	margin: -10px -10px 0 -5px;
 }
 .rex-dashboard-1col .rex-dashboard-component-content table.rex-table {
 	width: 770px;
@@ -75,33 +85,40 @@
 }
 
 
+.rex-dashboard-component-content .rex-toolbar {
+	margin: -10px 0 0 -5px;
+}
 
 
-.rex-dashboard-2col .rex-dashboard-column {
+
+
+
+
+.be-style-agb-skin .rex-dashboard-2col .rex-dashboard-column {
 	width: 367px;
 }
 
-.rex-dashboard-component {
+.be-style-agb-skin .rex-dashboard-component {
 	background-color: #EFF9F9;
 }
-.rex-dashboard-component h3.rex-hl2 {
+.be-style-agb-skin .rex-dashboard-component h3.rex-hl2 {
 	background-color: #DFE9E9;
 }
-.rex-dashboard-component-navi {
+.be-style-agb-skin .rex-dashboard-component-navi {
 	margin-top: -22px;
 }
-.rex-dashboard-component-footer {
+.be-style-agb-skin .rex-dashboard-component-footer {
 	background-color: #DFE9E9;
 }
-.rex-dashboard-1col .rex-dashboard-component-content table.rex-table {
+.be-style-agb-skin .rex-dashboard-1col .rex-dashboard-component-content table.rex-table {
 	width: 744px;
 }
-.rex-dashboard-2col .rex-dashboard-component-content table.rex-table {
+.be-style-agb-skin .rex-dashboard-2col .rex-dashboard-component-content table.rex-table {
 	width: 366px;
 }
 
 
-div.rex-dashboard-component {
+.be-style-agb-skin div.rex-dashboard-component {
 	border: 0;
 	-moz-outline-radius-bottomleft: 4px;
 	-moz-outline-radius-bottomright: 4px;
@@ -110,8 +127,9 @@ div.rex-dashboard-component {
 	outline: 1px solid #CBCBCB;
 }
 
-.rex-dashboard-component-content .rex-message, 
-.rex-dashboard-component-content .rex-table {
+.be-style-agb-skin .rex-dashboard-component-content .rex-message, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-table, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-toolbar {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;

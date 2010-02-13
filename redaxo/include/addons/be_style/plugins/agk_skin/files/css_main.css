@@ -34,7 +34,7 @@ div.rex-content-header ul li a {
 /*	Blau - Dunkel */
 div#rex-title h1, 
 div#rex-navi-page ul li a.rex-active, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active, 
 div#rex-clang ul li a.rex-active, 
 div.rex-content-header ul li a.rex-active {
 	color: #14568A;
@@ -59,7 +59,7 @@ body,
 input, 
 textarea, 
 select, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	font-family: Arial, Verdana, sans-serif;
 }
 
@@ -78,7 +78,7 @@ div#rex-navi-main dt {
 	font-size: 1.333em;
 }
 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	font-size: 1em;
 }
 
@@ -170,10 +170,10 @@ table.rex-table tr.rex-metainfo-cat-b td {
 /*	Background Image ***********************************************************
 *******************************************************************************/
 div.rex-content-header, 
-div#rex-navi-paginate ul li.rex-navi-paginate-prev, 
-div#rex-navi-paginate ul li.rex-navi-paginate-message, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev, 
+div.rex-navi-paginate ul li.rex-navi-paginate-message, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	background-image: none;
 }
 body {
@@ -216,12 +216,12 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 }
 
 /*	Button - Pfeil links */ 
-div#rex-navi-paginate ul li.rex-navi-paginate-prev a {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a {
 	background-image: url(icon_left.gif);
 }
 
 /*	Button - Pfeil rechts */ 
-div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
 	background-image: url(icon_right.gif);
 }
 
@@ -252,7 +252,7 @@ div.rex-widget p.rex-widget-icons a.rex-icon-file-view {
 
 
 /*	Trenner - Grau */ 
-div#rex-navi-paginate ul li, 
+div.rex-navi-paginate ul li, 
 div.rex-navi-slice ul li a.rex-tx3 {
 	background-image: url(pipe_grey.gif);
 	background-position: 0px 2px;
@@ -540,28 +540,28 @@ div.rex-content-header ul.rex-navi-content {
 /*	Paginate *******************************************************************
 *******************************************************************************/
 
-div#rex-navi-paginate ul li {
+div.rex-navi-paginate ul li {
 	margin-right: 10px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-page {
+div.rex-navi-paginate ul li.rex-navi-paginate-page {
 	margin-right: 0;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-next {
+div.rex-navi-paginate ul li.rex-navi-paginate-next {
 	padding-left: 10px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-message {
+div.rex-navi-paginate ul li.rex-navi-paginate-message {
 	padding-top: 3px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-prev a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
 	width: 18px;
 	height: 18px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-prev a span, 
-div#rex-navi-paginate ul li.rex-navi-paginate-next a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a span, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a span {
 	display: none;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	padding: 3px 10px 2px 10px;
 	font-weight: bold;
 }

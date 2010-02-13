@@ -188,27 +188,27 @@ div.rex-content-header ul li.rex-navi-first a {
 
 /*	Paginate *******************************************************************
 *******************************************************************************/
-div#rex-navi-paginate ul li {
+div.rex-navi-paginate ul li {
 	display: block;
 	float: left;
 	margin-right: 5px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-message {
+div.rex-navi-paginate ul li.rex-navi-paginate-message {
 	padding-top: 2px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-prev a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-next a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	display: block;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-prev a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
 	width: 24px;
 	height: 13px;
 	text-indent: -1000em;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	padding: 1px 4px 2px 4px;
 }
 

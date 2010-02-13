@@ -185,7 +185,7 @@ select {
 	font-family: Verdana, Arial, sans-serif;
 }
 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	font-family: Monospace, Courier, ;
 }
 
@@ -200,7 +200,7 @@ div#rex-title h1 {
 .rex-hl4, 
 .rex-tx2, 
 .rex-tx3, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	font-size: 1.2em;
 }
 
@@ -277,7 +277,7 @@ div#rex-output div#rex-navi-page ul li a.rex-active,
 div.rex-title-row ul li a.rex-active,
 div.rex-content-header ul li a.rex-active,
 div.rex-content-header ul li span, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active {
 	color: #32353A;
 }
 
@@ -530,18 +530,18 @@ div#rex-navi-footer ul li.rex-navi-first {
 
 
 /*	Paginate */
-div#rex-navi-paginate ul li.rex-navi-paginate-prev a {
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a {
 	background-image: url(../media/back.gif);
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-next a {
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
 	background-image: url(../media/forward.gif);
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-page a, 
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	background-image: url(../media/list_pages.gif);
 	background-position: 100% -50px;
 }
-div#rex-navi-paginate ul li.rex-navi-paginate-page a span {
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 	background-position: 0 0;
 }
 
