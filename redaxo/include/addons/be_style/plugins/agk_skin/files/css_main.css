@@ -225,6 +225,31 @@ div#rex-navi-paginate ul li.rex-navi-paginate-next a {
 	background-image: url(icon_right.gif);
 }
 
+div.rex-widget p.rex-widget-icons a.rex-icon-file-add {
+	background-image: url(file_add.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-bottom {
+	background-image: url(file_bottom.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-delete {
+	background-image: url(file_del.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-down {
+	background-image: url(file_down.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-open {
+	background-image: url(file_open.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-top {
+	background-image: url(file_top.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-up {
+	background-image: url(file_up.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-view {
+	background-image: url(file_view.gif);
+}
+
 
 /*	Trenner - Grau */ 
 div#rex-navi-paginate ul li, 
@@ -632,6 +657,25 @@ div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-date {
 div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
 	width: 65px;
 }
+
+
+div#rex-form-system-setup div.rex-widget input {
+	width: 90px;
+}
+
+
+
+/*	Widget *********************************************************************
+*******************************************************************************/
+div.rex-widget p.rex-widget-icons {
+	padding-top: 0;
+}
+div.rex-widget p.rex-widget-icons a {
+	width: 18px;
+	height: 18px;
+}
+
+
 /*	Extras *********************************************************************
 *******************************************************************************/
 div#rex-redaxo-link {
@@ -683,6 +727,8 @@ body div.rex-form table.rex-table,
 body div.rex-table div.rex-form,
 body div.rex-area table.rex-table,  
 body div.rex-area div.rex-form, 
+body div.rex-toolbar table.rex-table,  
+body div.rex-toolbar div.rex-form, 
 body div.rex-addon-output table.rex-table,  
 body div.rex-addon-output div.rex-form {
 	border: 0;
@@ -785,3 +831,18 @@ body.rex-layout-liquid div#rex-wrapper {
 tr.rex-metainfo-cat {
 	display: none;
 }
+
+
+/*
+body div#rex-footer,
+	body div#rex-website,
+	html body#rex-page-structure,
+	html body#rex-page-content{ background:url(none) #f3f3f3; }
+	
+	body div#rex-navi-main{ float:right }
+	
+	body div#rex-navi-logout ul.rex-logout li{ background:#333; padding:10px; }
+	
+	body div#rex-website div#rex-footer,
+	body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margin:0px; }
+*/
