@@ -14,8 +14,6 @@ include $REX["INCLUDE_PATH"]."/layout/top.php";
 
 rex_title($I18N->msg('dashboard'), '');
 
-echo '<div id="rex-dashboard">';
-
 // ----- EXTENSION POINT
 $dashboard_notifications = array();
 $dashboard_notifications = rex_register_extension_point('DASHBOARD_NOTIFICATION', $dashboard_notifications);
