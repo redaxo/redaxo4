@@ -11,6 +11,7 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_time.inc.php";
 // ----------------- REDAXO INCLUDES
 // ----- FUNCTIONS
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_globals.inc.php';
+include_once $REX['INCLUDE_PATH'].'/functions/function_rex_ajax.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_client_cache.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_url.inc.php';
 include_once $REX['INCLUDE_PATH'].'/functions/function_rex_extension.inc.php';
