@@ -15,7 +15,9 @@
   var $title;
   var $titleUrl;
   var $content;
+  
   var $format;
+  var $block;
   
   function rex_dashboard_component($id, $cache_options = array())
   {
@@ -28,7 +30,9 @@
     $this->title = '';
     $this->titleUrl = '';
     $this->content = '';
+    
     $this->format = 'half';
+    $this->block = 'main';
     
     parent::rex_dashboard_component_base($id, $cache_options);
   }
@@ -68,7 +72,8 @@
    */
   /*public*/ function setFormat($format)
   {
-    if($format != 'full' && $format != 'half')
+    $formats = array('full', 'half');
+    if(!in_array($format, $formats))
     {
       trigger_error('Unexpected format "'. $format .'"!', E_USER_ERROR);
     }
@@ -78,6 +83,16 @@
   /*public*/ function getFormat()
   {
     return $this->format;
+  }
+  
+  /*public*/ function setBlock($block)
+  {
+    $this->block = $block;
+  }
+  
+  /*public*/ function getBlock()
+  {
+    return $this->block;
   }
   
   /*public*/ function _get()
