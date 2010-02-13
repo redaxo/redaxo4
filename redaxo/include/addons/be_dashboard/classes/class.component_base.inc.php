@@ -113,6 +113,8 @@
   
   /*public*/ function getActionBar()
   {
+    global $I18N;
+    
     $content = '';
     
     $content .= '<ul class="rex-dashboard-component-navi">';
@@ -122,10 +124,11 @@
       $class = 'rex-i-'. $laction;
       $id = $this->getId(). '-'. $laction;
       $onclick = 'component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;';
+      $title = $I18N->msg('dashboard_component_action_'. $laction);
       
       $content .= '<li>';
-      $content .= '<a class="'.$class.'" href="#" onclick="'.$onclick.'" id="'.$id.'">';
-      $content .= '<span>'. $action .'</span>';
+      $content .= '<a class="'.$class.'" href="#" onclick="'.$onclick.'" id="'.$id.'" title="'.$title.'">';
+      $content .= '<span>'.$title.'</span>';
       $content .= '</a>';
       $content .= '</li>';
     }

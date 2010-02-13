@@ -3,3 +3,7 @@ dashboard = Dashboard
 dashboard_notifications = Wichtige Meldungen
 dashboard_component_lastupdate = zuletzt aktualisiert am
 dashboard_component_save_config = Einstellungen speichern
+
+dashboard_component_action_refresh = Komponente aktualisieren
+dashboard_component_action_togglesettings = Einstellungen bearbeiten
+dashboard_component_action_toggleview = Details einblenden
