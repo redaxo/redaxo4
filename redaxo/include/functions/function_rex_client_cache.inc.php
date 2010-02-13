@@ -66,8 +66,9 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
     $lastModified = $REX_ARTICLE->getValue('updatedate');
     $etag .= $REX_ARTICLE->getValue('pid');
     
-    if($REX_ARTICLE->getArticleId() == $REX['NOTFOUND_ARTICLE_ID'] &&
-       $REX_ARTICLE->getArticleId() != $REX['START_ARTICLE_ID'])
+    $art_id = $REX_ARTICLE->getArticleId();
+    if($art_id == $REX['NOTFOUND_ARTICLE_ID'] &&
+       $art_id != $REX['START_ARTICLE_ID'])
     {
       header("HTTP/1.0 404 Not Found");
     }
