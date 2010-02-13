@@ -596,6 +596,9 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 .rex-i-module-add {
 	background-image: url(../media/modul_plus.gif);
 }
+.rex-i-refresh {
+	background-image: url(../media/refresh.gif);
+}
 .rex-i-template {
 	background-image: url(../media/template.gif);
 }
