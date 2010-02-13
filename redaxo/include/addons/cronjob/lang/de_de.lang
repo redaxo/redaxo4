@@ -10,6 +10,10 @@ cronjob_really_delete = Cronjob wirklich löschen?
 cronjob_delete_success = Cronjob erfolgreich gelöscht!
 cronjob_delete_error = Fehler beim Löschen des Cronjobs!
 
+cronjob_execute = Ausführen
+cronjob_execute_success = Cronjob erfolgreich ausgeführt!
+cronjob_execute_error = Fehler beim Ausführen des Cronjobs!
+
 cronjob_name = Name
 cronjob_examples = Beispiele
 
@@ -27,7 +31,6 @@ cronjob_interval_month = Monat(e)
 cronjob_interval_year = Jahr(e)
 
 cronjob_environment = Umgebung
-cronjob_environment_both = egal
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 

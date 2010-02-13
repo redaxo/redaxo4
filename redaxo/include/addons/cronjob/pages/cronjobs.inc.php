@@ -40,6 +40,24 @@ if ($func == 'delete')
   $func = '';
 }
 
+if ($func == 'execute')
+{
+  $sql = rex_sql::factory();
+  //$sql->debugsql = true;
+  $sql->setQuery("SELECT name, type, content FROM ".$table." WHERE id = ".$oid);
+  $success = false;
+  if ($sql->getRows() == 1) {
+    $cronjob = rex_a630_cronjob::factory($sql->getValue('type'), $sql->getValue('name'));
+    if (is_object($cronjob) && $cronjob->execute($sql->getValue('content')))
+      $success = true;
+  }
+  if ($success)
+    echo rex_info($I18N->msg('cronjob_execute_success'));
+  else
+    echo rex_warning($I18N->msg('cronjob_execute_error'));
+  $func = '';
+}
+
 if ($func == '') 
 {
   echo '<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=cronjob&amp;func=add><b>+ '.$I18N->msg('cronjob_add').'</b></a></td></tr></table><br />';
@@ -102,6 +120,19 @@ if ($func == '')
   $list->addColumn('delete',$I18N->msg('cronjob_delete'),-1,array("<th>&nbsp;</th>",'<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
   $list->addLinkAttribute('delete','onclick',"return confirm('".$I18N->msg('cronjob_really_delete')."');");
+  
+  $list->addColumn('execute',$I18N->msg('cronjob_execute'),-1,array("<th>&nbsp;</th>",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
+  $list->setColumnFormat('execute', 'custom', 
+    create_function( 
+      '$params', 
+      'global $I18N;
+       $list = $params["list"]; 
+       if (strpos($list->getValue("environment"),"|1|") !== false)
+         return $list->getColumnLink("execute",$I18N->msg("cronjob_execute"));
+       return "";' 
+    ) 
+  );
   
   $list->show();
   
