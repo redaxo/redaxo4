@@ -41,7 +41,12 @@
 	margin-left: 10px;
 }
 .rex-dashboard-component-content {
-	padding: 20px 10px 1em 10px;
+	padding-top: 10px;
+}
+.rex-dashboard-components .rex-dashboard-component-content {
+	padding-top: 20px;
+	padding-left: 10px;
+	padding-bottom: 10px;
 }
 .rex-dashboard-component-footer {
 	padding: 5px 10px 5px 0;
@@ -51,6 +56,13 @@
 	font-style: italic;
 	text-align: right;
 }
+
+
+
+.rex-dashboard-component .rex-message {
+	margin-bottom: 0;
+}
+
 
 .rex-dashboard-component-content table.rex-table {
 	margin: -10px -10px 0 -10px;
@@ -98,6 +110,7 @@ div.rex-dashboard-component {
 	outline: 1px solid #CBCBCB;
 }
 
+.rex-dashboard-component-content .rex-message, 
 .rex-dashboard-component-content .rex-table {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
