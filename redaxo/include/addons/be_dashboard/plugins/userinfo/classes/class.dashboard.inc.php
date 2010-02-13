@@ -40,6 +40,7 @@ class rex_stats_component extends rex_dashboard_component
     
     $content = '';
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_articles');
     $content .= '</th>';
@@ -49,6 +50,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_slices');
     $content .= '</th>';
@@ -58,6 +60,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_clangs');
     $content .= '</th>';
@@ -67,6 +70,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_templates');
     $content .= '</th>';
@@ -76,6 +80,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_modules');
     $content .= '</th>';
@@ -85,6 +90,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_actions');
     $content .= '</th>';
@@ -94,6 +100,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
+//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_users');
     $content .= '</th>';
@@ -102,7 +109,7 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</td>';
     $content .= '</tr>';
     
-    $this->setContent('<table class="rex-table rex-dashboard-table"><colgroup><col width="120" /><col width="*" /></colgroup><tbody>'.$content.'</tbody></table>');
+    $this->setContent('<table class="rex-table rex-dashboard-table"><colgroup><!--<col width="40" />--><col width="120" /><col width="*" /></colgroup><tbody>'.$content.'</tbody></table>');
   }
 }
 
@@ -187,7 +194,7 @@ class rex_media_component extends rex_dashboard_component
     $editParams = array('page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###file_id###');
     
     $thIcon = '';
-    $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###name###</span></span>';
+    $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###filename###</span></span>';
     $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
     $list->setColumnParams($thIcon, $editParams);
     $list->addLinkAttribute($thIcon, 'onclick', 'newPoolWindow(this.href); return false;');
