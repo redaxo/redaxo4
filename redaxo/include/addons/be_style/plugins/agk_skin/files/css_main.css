@@ -300,6 +300,9 @@ a.rex-back {
 .rex-i-clang-add {
 	background-image: url(clang_plus.gif);
 }
+.rex-i-media {
+	background-image: url(file_view.gif);
+}
 .rex-i-metainfo {
 	background-image: url(metainfo.gif);
 }
