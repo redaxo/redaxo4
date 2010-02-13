@@ -113,7 +113,7 @@
     {
       $content .= '<li>';
       $content .= '<a href="#" onclick="component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;">';
-      $content .= $action;
+      $content .= '<span>'. $action .'</span>';
       $content .= '</a>';
       $content .= '</li>';
     }
