@@ -18,9 +18,6 @@
   
   function rex_dashboard_component_base($id, $cache_options = array())
   {
-    // TODO cache temporaer deaktiviert, raus damit!
-    $cache_options['lifetime'] = 0;
-    
     $this->id = $id;
     $this->funcCache = new rex_function_cache(new rex_file_cache($cache_options));
   }
@@ -77,6 +74,16 @@
       $content = strtr($content, array('%%actionbar%%' => $this->getActionBar()));
       $content = strtr($content, array('%%cachetime%%' => $cachetime));
       $content = strtr($content, array('%%config%%' => $configForm));
+      
+      // refresh clicked in actionbar
+      if(rex_get('ajax-get', 'string') == $this->getId())
+      {
+        // clear output-buffer
+        while(@ob_end_clean());
+        
+        rex_send_resource($content);
+        exit();
+      }
       
       return $content;
     }

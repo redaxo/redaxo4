@@ -11,18 +11,38 @@ function componentRefresh(componentId)
 	var component = jQuery("#"+ componentId);
 	// inicate loading with animated image
 	var link = jQuery("a.rex-i-refresh", component);
-	link.removeClass("rex-i-refresh").addClass("rex-i-refresh-ani");
 	
-	// TODO: AJAX Reload
-	// start reload
+	// prepare url
   var url =window.location.href; 
   url = url.replace(/#/, ''); // strip anchor
   url = url.replace(/&refresh=[^&]*/, ''); // strip remaining refresh-parameter 
-  url = url+'&refresh=' + componentId; // add current refresh parameter
-  url = url +'#'+ componentId; // add anchor to get back to the current component
-  
+  url = url+'&refresh=' + componentId; // add refresh parameter so we get a up-to-date copy
+  url = url+'&ajax-get=' + componentId; // get content in ajax form
+//  url = url +'#'+ componentId; // add anchor to get back to the current component
+	
+	jQuery.ajax({
+	  'url': url,
+    beforeSend: function(request){
+      // Handle the beforeSend event
+      link.removeClass("rex-i-refresh").addClass("rex-i-refresh-ani");
+    },
+    complete: function(request, textStatus){
+      // Handle the complete event
+      link.removeClass("rex-i-refresh-ani").addClass("rex-i-refresh");
+    },
+    error: function(request, textStatus, errorThrown){
+      // Handle the error event
+      link.removeClass("rex-i-refresh-ani").addClass("rex-i-refresh");
+    },
+    success: function(data){
+   	  // Handle succesfull request
+      link.removeClass("rex-i-refresh-ani").addClass("rex-i-refresh");
+      component.parent().html(data);
+    }
+	});
+	
   // use replace, so browser will not save the redirect in the history
-  window.location.replace(url);
+  // window.location.replace(url);
 }
 
 function componentToggleSettings(componentId)
