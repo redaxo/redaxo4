@@ -32,9 +32,11 @@ class rex_a630_manager
       $type     = $sql->getValue('type');
       $interval = $sql->getValue('interval_sec');
 
-      $cronjob = rex_a630_cronjob::factory($type, $name);
-      if (is_object($cronjob)) {
-        if ($cronjob->execute($content)) {
+      $cronjob = rex_a630_cronjob::factory($type, $name, $content);
+      if (is_object($cronjob)) 
+      {
+        if ($cronjob->execute()) 
+        {
           $nexttime = time() + $interval - (time() % $interval);
           $sql->setQuery('
             UPDATE  '.$REX['TABLE_PREFIX'].'630_cronjobs 
@@ -59,12 +61,26 @@ class rex_a630_manager
       WHERE   status=1
     ');
     if ($sql->getRows() != 0)
-      $nexttime = min(1,$sql->getValue('nexttime'));
-    if ($nexttime != $REX["ADDON"]["nexttime"]["cronjob"]) {
+      $nexttime = max(1,$sql->getValue('nexttime'));
+    if ($nexttime != $REX["ADDON"]["nexttime"]["cronjob"]) 
+    {
       $content = '$REX["ADDON"]["nexttime"]["cronjob"] = "'.addslashes($nexttime).'";';
       $file = $REX['INCLUDE_PATH'].'/addons/cronjob/config.inc.php';
       return (boolean)rex_replace_dynamic_contents($file, $content);
     }
     return false;
+  }
+  
+  /*public static*/ function registerExtension($params)
+  {
+    $class = $params['class'];
+    
+    $params['subject'][$class] = array();
+    $params['subject'][$class][] = $params['name'];
+    
+    if (isset($params['environment']))
+      $params['subject'][$class][] = $params['environment'];
+    
+    return $params['subject'];
   }
 }

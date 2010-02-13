@@ -12,38 +12,68 @@
 /*abstract*/ class rex_a630_cronjob
 {
   /*private*/ var $name;
+  /*private*/ var $content;
   /*private*/ var $success;
   
-  /*protected*/ function rex_a630_cronjob($name) {
+  /*protected*/ function rex_a630_cronjob($name, $content = null) 
+  {
+    if (empty($name))
+      $name = '[no name]';
+    
     $this->name = $name;
+    $this->content = $content;
   }
   
-  /*public*/ function factory($type, $name) {
+  /*public*/ function factory($type, $name, $content) 
+  {
     if (!in_array($type,range(1,4)))
       return null;
     
-    $classes = array(
-      1 => 'rex_a630_cronjob_phpcode',
-      2 => 'rex_a630_cronjob_phpcallback',
-      3 => 'rex_a630_cronjob_urlrequest',
-      4 => 'rex_a630_cronjob_extension',
-    );
-    return new $classes[$type]($name);
+    $class = null;
+    if ($type != 4)
+    {
+      $classes = array(
+        1 => 'rex_a630_cronjob_phpcode',
+        2 => 'rex_a630_cronjob_phpcallback',
+        3 => 'rex_a630_cronjob_urlrequest'
+      );
+      $class = $classes[$type];
+    }
+    else
+      $class = $content;
+    
+    if (!class_exists($class))
+      return null;
+    
+    return new $class($name, $content);
+  }
+  
+  /*public*/ function getContent()
+  {
+    return $this->content;
+  }
+  
+  /*public*/ function getName() 
+  {
+    return $this->name;
   }
    
-  /*public*/ function execute($content)
+  /*public*/ function execute()
   {
-    $this->success = $this->_execute($content);
+    $this->success = $this->_execute();
     $this->log();
     return $this->success;
   }
   
-  /*abstract protected*/ function _execute($content) {}
+  /*abstract protected*/ function _execute() 
+  {
+    trigger_error('The _execute method has to be overridden by a subclass!', E_USER_ERROR);
+  }
   
   /*private*/ function log()
   {
     global $REX;
-    $name = $this->name;
+    $name = $this->getName();
     $success = $this->success;
     $year = date('Y');
     $month = date('m');

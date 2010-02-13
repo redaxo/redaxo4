@@ -11,9 +11,9 @@
 
 class rex_a630_cronjob_phpcallback extends rex_a630_cronjob
 { 
-  /*protected*/ function _execute($content)
+  /*protected*/ function _execute()
   {
-    if (preg_match('/^(?:(.*?)\:\:)?(.*?)(?:\((.*?)\))?\;?$/', $content, $matches))
+    if (preg_match('/^(?:(.*?)\:\:)?(.*?)(?:\((.*?)\))?\;?$/', $this->getContent(), $matches))
     {
       $callback = $matches[2];
       if ($matches[1] != '')

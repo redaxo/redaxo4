@@ -46,8 +46,9 @@ if ($func == 'execute')
   //$sql->debugsql = true;
   $sql->setQuery("SELECT name, type, content FROM ".$table." WHERE id = ".$oid);
   $success = false;
-  if ($sql->getRows() == 1) {
-    $cronjob = rex_a630_cronjob::factory($sql->getValue('type'), $sql->getValue('name'));
+  if ($sql->getRows() == 1) 
+  {
+    $cronjob = rex_a630_cronjob::factory($sql->getValue('type'), $sql->getValue('name'), $sql->getValue('content'));
     if (is_object($cronjob) && $cronjob->execute($sql->getValue('content')))
       $success = true;
   }
@@ -148,6 +149,7 @@ if ($func == '')
   
   $field =& $form->addTextField('name');
   $field->setLabel($I18N->msg('cronjob_name'));
+  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-name');
   
   $field =& $form->addIntervalField('interval');
   $field->setLabel($I18N->msg('cronjob_interval'));
@@ -175,7 +177,8 @@ if ($func == '')
   $field->setLabel($I18N->msg('cronjob_type_phpcode'));
   $field->setAttribute('rows',20);
   $class = '';
-  if ($type != 1) {
+  if ($type != 1) 
+  {
     $class = ' rex-a630-hidden';
     $field->setValue('');
   }
@@ -184,7 +187,8 @@ if ($func == '')
   $field =& $form->addTextField('content');
   $field->setLabel($I18N->msg('cronjob_type_phpcallback'));
   $class = '';
-  if ($type != 2) {
+  if ($type != 2) 
+  {
     $class = ' rex-a630-hidden';
     $field->setValue('');
   }
@@ -194,7 +198,8 @@ if ($func == '')
   $field =& $form->addTextField('content');
   $field->setLabel('URL');
   $class = '';
-  if ($type != 3) {
+  if ($type != 3) 
+  {
     $class = ' rex-a630-hidden';
     $field->setValue('http://');
   }
@@ -218,13 +223,13 @@ if ($func == '')
     {
       $select->addOption(rex_translate($values[0]),$extension);
       $disabled = array();
-      if (isset($values[3])) 
+      if (isset($values[1])) 
       {
-        if (!is_array($values[3]))
-          $values[3] = array($values[3]);
-        if (!in_array('frontend',$values[3]))
+        if (!is_array($values[1]))
+          $values[1] = array($values[1]);
+        if (!in_array('frontend',$values[1]))
           $disabled[] = 0;
-        if (!in_array('backend',$values[3]))
+        if (!in_array('backend',$values[1]))
           $disabled[] = 1;
         if (count($disabled) > 0)
           $js = '
@@ -233,7 +238,6 @@ if ($func == '')
 ';
       }
     }
-    $select->addOption('test','test');
   }
   
   $field =& $form->addSelectField('environment');
@@ -280,6 +284,7 @@ if ($func == '')
           $('.rex-a630-environment option').attr('disabled','');
       });
       $('select.rex-a630-type-4').change(function(){
+        $('input.rex-a630-name').val($('select.rex-a630-type-4 option:selected').text());
         $('.rex-a630-environment option').attr('disabled','');<?php echo $js; ?>
       });
       if ($('.rex-a630-type-select option:eq(3)').is(':selected'))

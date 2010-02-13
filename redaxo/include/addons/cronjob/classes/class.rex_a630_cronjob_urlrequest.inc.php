@@ -11,9 +11,9 @@
 
 class rex_a630_cronjob_urlrequest extends rex_a630_cronjob
 { 
-  /*protected*/ function _execute($content)
+  /*protected*/ function _execute()
   {
-    if($fh = fopen($content,"r")){ 
+    if($fh = fopen($this->getContent(),"r")){ 
       while (!feof($fh)){ 
          fgets($fh); 
       } 

@@ -24,6 +24,16 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('import', $I18N->msg('im_export_import'));
  	}
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('', $I18N->msg('im_export_export'));
+	
+	rex_register_extension(
+	  'REX_CRONJOB_EXTENSIONS',
+	  array('rex_a630_manager','registerExtension'),
+	  array(
+	    'class' => 'rex_a1_cronjob', 
+	    'name' => 'translate:im_export_database_export',
+	    'environment' => 'backend'
+	  )
+  );
+  
+  require_once dirname(__FILE__).'/classes/class.cronjob.inc.php';
 }
-
-require_once dirname(__FILE__) .'/functions/function_cronjob.inc.php';

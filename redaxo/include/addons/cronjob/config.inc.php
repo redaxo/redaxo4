@@ -51,7 +51,6 @@ require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob.inc.php';
 require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_phpcode.inc.php';
 require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_phpcallback.inc.php';
 require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_urlrequest.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_extension.inc.php';
 require_once dirname(__FILE__) .'/functions/function_cronjob.inc.php';
 
 // --- DYN
