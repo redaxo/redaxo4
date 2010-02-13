@@ -8,7 +8,14 @@ function componentInit(componentId)
   
 function componentRefresh(componentId)
 {
-  var url = window.location.href; 
+	var component = jQuery("#"+ componentId);
+	// inicate loading with animated image
+	var link = jQuery("a.rex-i-refresh", component);
+	link.removeClass("rex-i-refresh").addClass("rex-i-refresh-ani");
+	
+	// TODO: AJAX Reload
+	// start reload
+  var url =window.location.href; 
   url = url.replace(/#/, ''); // strip anchor
   url = url.replace(/&refresh=[^&]*/, ''); // strip remaining refresh-parameter 
   url = url+'&refresh=' + componentId; // add current refresh parameter
