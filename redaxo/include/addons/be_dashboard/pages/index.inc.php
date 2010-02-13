@@ -79,8 +79,12 @@ foreach($components as $format => $componentBlocks)
     if($format == 'full')
     {
       echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-components">
-              <div class="rex-dashboard-column rex-dashboard-column-first">
-                <h2 class="rex-dashboard-hl1">'. $block .'</h2>';
+              <div class="rex-dashboard-column rex-dashboard-column-first">';
+      
+      if($block != '')
+      {
+          echo '<h2 class="rex-dashboard-hl1">'. $block .'</h2>';
+      }
       
       foreach($componentBlock as $component)
       {
@@ -95,8 +99,12 @@ foreach($components as $format => $componentBlocks)
       $numComponents = count($componentBlock);
       $componentsPerCol = ceil($numComponents / 2);
       
-      echo '<div class="rex-dashboard-section rex-dashboard-2col rex-dashboard-components">
-              <h2 class="rex-dashboard-hl1">'. $block .'</h2>';
+      echo '<div class="rex-dashboard-section rex-dashboard-2col rex-dashboard-components">';
+      
+      if($block != '')
+      {
+          echo '<h2 class="rex-dashboard-hl1">'. $block .'</h2>';
+      }
       
       // show first column
       $i = 0;

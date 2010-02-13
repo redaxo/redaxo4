@@ -32,7 +32,7 @@
     $this->content = '';
     
     $this->format = 'half';
-    $this->block = 'main';
+    $this->block = '';
     
     parent::rex_dashboard_component_base($id, $cache_options);
   }

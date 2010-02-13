@@ -29,7 +29,7 @@ class rex_stats_component extends rex_dashboard_component
     
     parent::rex_dashboard_component('userinfo_stats', $cache_options);
     $this->setTitle($I18N->msg('userinfo_component_stats_title'));
-    $this->setBlock('footer');
+    $this->setBlock($I18N->msg('userinfo_block_stats'));
   }
   
   /*protected*/ function prepare()
@@ -115,7 +115,7 @@ class rex_articles_component extends rex_dashboard_component
     parent::rex_dashboard_component('userinfo_articles');
     $this->setTitle($I18N->msg('userinfo_component_articles_title'));
     $this->setTitleUrl('index.php?page=structure');
-    $this->setBlock('latest_infos');
+    $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
   /*protected*/ function prepare()
@@ -161,7 +161,7 @@ class rex_templates_component extends rex_dashboard_component
     parent::rex_dashboard_component('userinfo_templates');
     $this->setTitle($I18N->msg('userinfo_component_templates_title'));
     $this->setTitleUrl('index.php?page=template');
-    $this->setBlock('latest_infos');
+    $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
   /*public*/ function checkPermission()
@@ -214,7 +214,7 @@ class rex_modules_component extends rex_dashboard_component
     parent::rex_dashboard_component('userinfo_modules');
     $this->setTitle($I18N->msg('userinfo_component_modules_title'));
     $this->setTitleUrl('index.php?page=module');
-    $this->setBlock('latest_infos');
+    $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
   /*public*/ function checkPermission()
@@ -266,7 +266,7 @@ class rex_actions_component extends rex_dashboard_component
     parent::rex_dashboard_component('userinfo_actions');
     $this->setTitle($I18N->msg('userinfo_component_actions_title'));
     $this->setTitleUrl('index.php?page=module&amp;subpage=actions');
-    $this->setBlock('latest_infos');
+    $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
   /*public*/ function checkPermission()
@@ -318,7 +318,7 @@ class rex_users_component extends rex_dashboard_component
     parent::rex_dashboard_component('userinfo_users');
     $this->setTitle($I18N->msg('userinfo_component_users_title'));
     $this->setTitleUrl('index.php?page=user');
-    $this->setBlock('latest_infos');
+    $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
   /*public*/ function checkPermission()
@@ -368,7 +368,7 @@ class rex_media_component extends rex_dashboard_component
     parent::rex_dashboard_component('userinfo_media');
     $this->setTitle($I18N->msg('userinfo_component_media_title'));
     $this->setTitleUrl('javascript:openMediaPool();');
-    $this->setBlock('latest_infos');
+    $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
   /*public*/ function checkPermission()

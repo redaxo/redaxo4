@@ -20,7 +20,7 @@ class rex_editme_component extends rex_dashboard_component
 //    $this->setTitle($I18N->msg('cronjob_dashboard_component_title'));
     $this->setTitle($tableName);
     $this->setTitleUrl('index.php?page=editme&amp;subpage='. $tableName);
-    $this->setBlock('editme');
+    $this->setBlock($I18N->msg('editme'));
   }
   
   /*protected*/ function prepare()

@@ -39,3 +39,6 @@ userinfo_component_users_title = Zuletzt bearbeitete Benutzer
 userinfo_component_actions_title = Zuletzt bearbeitete Aktionen
 
 userinfo_component_media_title = Zuletzt bearbeitete Medien
+
+userinfo_block_stats = Statistiken
+userinfo_block_latest_infos = Zuletzt bearbeitet
