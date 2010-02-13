@@ -190,10 +190,11 @@ class rex_media_component extends rex_dashboard_component
     $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###name###</span></span>';
     $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
     $list->setColumnParams($thIcon, $editParams);
+    $list->addLinkAttribute($thIcon, 'onclick', 'newPoolWindow(this.href); return false;');
     
     $list->setColumnLabel('filename', $I18N->msg('pool_file_info'));
     $list->setColumnParams('filename', $editParams);
-    $list->addLinkAttribute('filename','onclick', 'newPoolWindow(this.href); return false;');
+    $list->addLinkAttribute('filename', 'onclick', 'newPoolWindow(this.href); return false;');
     
     $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
     $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
