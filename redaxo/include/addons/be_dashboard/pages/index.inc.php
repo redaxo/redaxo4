@@ -34,12 +34,15 @@ if(count($dashboard_notifications) > 0)
   
   if($content != '')
   {
-  	echo '<div class="rex-dashboard-section rex-dashboard-notifications">';
     $component = new rex_dashboard_component('notifications');
     $component->setTitle($I18N->msg('dashboard_notifications'));
-    $component->setContent('<ul>'. $content .'</ul>');
-    echo '<div class="rex-dashboard-notification">'.$component->get().'</div>';
-    echo '</div>';
+    $component->setContent($content);
+    
+  	echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
+  	        <div class="rex-dashboard-column rex-dashboard-column-first">
+              '.$component->get().'
+            </div>
+          </div>';
   }
 }
 
@@ -47,17 +50,60 @@ if(count($dashboard_notifications) > 0)
 $dashboard_components = array();
 $dashboard_components = rex_register_extension_point('DASHBOARD_COMPONENT', $dashboard_components);
 
-echo '<div class="rex-dashboard-section rex-dashboard-components">';
+// ------------ show fullsize components
+echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-components">
+        <div class="rex-dashboard-column rex-dashboard-column-first">';
 
-foreach($dashboard_components as $component)
+foreach($dashboard_components as $index => $component)
+{
+  if(rex_dashboard_component::isValid($component) && $component->getFormat() == 'full')
+  {
+    echo $component->get();
+    unset($dashboard_components[$index]);
+  }
+}
+			
+echo '  </div>
+      </div>';
+// /----------- show fullsize components
+
+// ------------ show halfsize components (remaing components)
+$numComponents = count($dashboard_components);
+$componentsPerCol = ceil($numComponents / 2);
+
+echo '<div class="rex-dashboard-section rex-dashboard-2col rex-dashboard-components">';
+
+// show first column
+$i = 0;
+echo '  <div class="rex-dashboard-column rex-dashboard-column-first">';
+foreach($dashboard_components as $index => $component)
 {
   if(rex_dashboard_component::isValid($component))
   {
-    echo '<div class="rex-dashboard-component">'.$component->get().'</div>';
+    echo $component->get();
+    unset($dashboard_components[$index]);
+    
+    $i++;
+    if($i == $componentsPerCol) break;
   }
 }
-unset($dashboard_components);
-			
 echo '</div>';
+// /show first column
+
+// show second column
+echo '<div class="rex-dashboard-column">';
+foreach($dashboard_components as $index => $component)
+{
+  if(rex_dashboard_component::isValid($component))
+  {
+    echo $component->get();
+    unset($dashboard_components[$index]);
+  }
+}
+echo '</div>';
+// /show second column
+
+echo '</div>';
+// ----------- /show halfsize components (remaing components)
 
 include $REX["INCLUDE_PATH"]."/layout/bottom.php";

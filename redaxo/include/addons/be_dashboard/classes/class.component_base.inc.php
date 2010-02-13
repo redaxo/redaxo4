@@ -108,7 +108,7 @@
   {
     $content = '';
     
-    $content .= '<ul>';
+    $content .= '<ul class="rex-dashboard-component-navi">';
     foreach($this->getActions() as $action)
     {
       $content .= '<li>';

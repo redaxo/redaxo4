@@ -44,7 +44,7 @@
     
     if($message)
     {
-      return '<li>'. $message .'</li>';
+      return $message;
     }
     return '';
   }

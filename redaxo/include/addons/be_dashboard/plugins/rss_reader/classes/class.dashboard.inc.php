@@ -19,6 +19,7 @@ class rex_rss_reader_component extends rex_dashboard_component
     
     parent::rex_dashboard_component('rss_reader', $cache_options);
     $this->setConfig(new rex_rss_reader_component_config());
+    $this->setFormat('full');
   }
   
   /*protected*/ function prepare()

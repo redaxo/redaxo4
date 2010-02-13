@@ -15,6 +15,7 @@
   var $title;
   var $titleUrl;
   var $content;
+  var $format;
   
   function rex_dashboard_component($id, $cache_options = array())
   {
@@ -27,10 +28,10 @@
     $this->title = '';
     $this->titleUrl = '';
     $this->content = '';
+    $this->format = 'half';
     
     parent::rex_dashboard_component_base($id, $cache_options);
   }
-
   
   /*public*/ function setTitle($title)
   {
@@ -61,7 +62,24 @@
   {
     return $this->content;
   }
-   
+
+  /**
+   * Setzt das Format der Komponente. Gueltige Formate sind "full" und "half"
+   */
+  /*public*/ function setFormat($format)
+  {
+    if($format != 'full' && $format != 'half')
+    {
+      trigger_error('Unexpected format "'. $format .'"!', E_USER_ERROR);
+    }
+    $this->format = $format;
+  }
+  
+  /*public*/ function getFormat()
+  {
+    return $this->format;
+  }
+  
   /*public*/ function _get()
   {
     global $I18N;
@@ -79,11 +97,14 @@
       }
       
     	return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
-                <h3>'. $title .'%%actionbar%%</h3>
+                <h3 class="rex-hl2">'. $title .'</h3>
+                %%actionbar%%
                 %%config%%
                 <div class="rex-dashboard-component-content">
                   '. $content .'
-                  <p class="rex-dashboard-component-updatedate">
+                </div>
+                <div class="rex-dashboard-component-footer">
+                  <p>
                     '. $I18N->msg('dashboard_component_lastupdate') .'
                     %%cachetime%%
                   </p>
