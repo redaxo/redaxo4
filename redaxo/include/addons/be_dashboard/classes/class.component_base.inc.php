@@ -112,7 +112,7 @@
     foreach($this->getActions() as $action)
     {
       $content .= '<li>';
-      $content .= '<a href="#" onclick="component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;">';
+      $content .= '<a class="rex-i-'.strtolower($action).'" href="#" onclick="component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;">';
       $content .= '<span>'. $action .'</span>';
       $content .= '</a>';
       $content .= '</li>';
