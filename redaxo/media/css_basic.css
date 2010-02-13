@@ -599,6 +599,9 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 .rex-i-refresh {
 	background-image: url(../media/refresh.gif);
 }
+.rex-i-refresh-ani {
+	background-image: url(../media/refresh_ani.gif);
+}
 .rex-i-slice {
 	background-image: url(../media/slice.gif);
 }
