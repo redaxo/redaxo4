@@ -259,9 +259,11 @@ class rex_var_link extends rex_var
   			<input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="'. $article_id .'" />
   			<input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
 		  </p>
-      <p class="rex-widget-icons">
-       	<a href="#" class="rex-icon-file-open" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" alt="'. $I18N->msg('var_link_open') .'" title="'. $I18N->msg('var_link_open') .'" /></a>
- 	  		<a href="#" class="rex-icon-file-delete" onclick="deleteREXLink(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_link_delete') .'" alt="'. $I18N->msg('var_link_delete') .'" /></a>
+       <p class="rex-widget-icons rex-widget-1col">
+       	<span class="rex-widget-column rex-widget-column-first">
+  	     	<a href="#" class="rex-icon-file-open" onclick="openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');return false;" title="'. $I18N->msg('var_link_open') .'"'. rex_tabindex() .'></a>
+ 	  			<a href="#" class="rex-icon-file-delete" onclick="deleteREXLink(' . $id . ');return false;" title="'. $I18N->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
+	 	  	</span>
  		  </p>
  		</div>
  	</div>
@@ -304,14 +306,18 @@ class rex_var_link extends rex_var
           ' . $options . '
         </select>
       </p>
-      <p class="rex-widget-icons">
-        <a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;"'. rex_tabindex() .'><img src="media/file_top.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_top') .'" alt="'. $I18N->msg('var_linklist_move_top') .'" /></a>
-        <a href="#" class="rex-icon-file-open" onclick="openREXLinklist(' . $id . ', \'' . $open_params . '\');return false;"'. rex_tabindex() .'><img src="media/file_open.gif" width="16" height="16" title="'. $I18N->msg('var_link_open') .'" alt="'. $I18N->msg('var_link_open') .'" /></a><br />
-        <a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;"'. rex_tabindex() .'><img src="media/file_up.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_up') .'" alt="'. $I18N->msg('var_linklist_move_up') .'" /></a>
-   		  <a href="#" class="rex-icon-file-delete" onclick="deleteREXLinklist(' . $id . ');return false;"'. rex_tabindex() .'><img src="media/file_del.gif" width="16" height="16" title="'. $I18N->msg('var_link_delete') .'" alt="'. $I18N->msg('var_link_delete') .'" /></a><br />
-        <a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;"'. rex_tabindex() .'><img src="media/file_down.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_down') .'" alt="'. $I18N->msg('var_linklist_move_down') .'" /></a><br />
-        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;"'. rex_tabindex() .'><img src="media/file_bottom.gif" width="16" height="16" title="'. $I18N->msg('var_linklist_move_bottom') .'" alt="'. $I18N->msg('var_linklist_move_bottom') .'" /></a>
-      </p>
+       <p class="rex-widget-icons rex-widget-2col">
+       	<span class="rex-widget-column rex-widget-column-first">
+					<a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="'. $I18N->msg('var_linklist_move_top') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="'. $I18N->msg('var_linklist_move_up') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. $I18N->msg('var_linklist_move_down') .'"'. rex_tabindex() .'></a>
+	        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. $I18N->msg('var_linklist_move_bottom') .'"'. rex_tabindex() .'></a>
+       	</span>
+       	<span class="rex-widget-column">
+					<a href="#" class="rex-icon-file-open" onclick="openREXLinklist(' . $id . ', \'' . $open_params . '\');return false;" title="'. $I18N->msg('var_link_open') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-delete" onclick="deleteREXLinklist(' . $id . ');return false;" title="'. $I18N->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
+        </span>
+ 	    </p>
     </div>
   </div>
  	<div class="rex-clearer"></div>
