@@ -315,6 +315,9 @@ a.rex-back {
 .rex-i-refresh {
 	background-image: url(icon_refresh.gif);
 }
+.rex-i-slice {
+	background-image: url(slice.gif);
+}
 .rex-i-template {
 	background-image: url(template.gif);
 }
