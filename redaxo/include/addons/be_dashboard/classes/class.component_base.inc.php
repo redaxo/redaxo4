@@ -118,8 +118,13 @@
     $content .= '<ul class="rex-dashboard-component-navi">';
     foreach($this->getActions() as $action)
     {
+      $laction = strtolower($action);
+      $class = 'rex-i-'. $laction;
+      $id = $this->getId(). '-'. $laction;
+      $onclick = 'component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;';
+      
       $content .= '<li>';
-      $content .= '<a class="rex-i-'.strtolower($action).'" href="#" onclick="component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;">';
+      $content .= '<a class="'.$class.'" href="#" onclick="'.$onclick.'" id="'.$id.'">';
       $content .= '<span>'. $action .'</span>';
       $content .= '</a>';
       $content .= '</li>';
