@@ -180,7 +180,7 @@ class rex_media_component extends rex_dashboard_component
     $list = rex_list::factory('SELECT category_id, file_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'file ORDER BY updatedate DESC', $limit);
     $list->setCaption($I18N->msg('pool_file_caption'));
     $list->addTableAttribute('summary', $I18N->msg('pool_file_summary'));
-    $list->addTableColumnGroup(array('*', 120, 150));
+    $list->addTableColumnGroup(array(40, '*', 120, 150));
   
     $list->removeColumn('category_id');
     $list->removeColumn('file_id');
