@@ -26,7 +26,7 @@
 .rex-dashboard-hl1 {
 	margin-bottom: 1em;
 	padding-top: 1em;
-	color: #14568A;
+	color: #32353A;
 	font-size: 1.6em;	
 	font-weight: normal;
 }
@@ -43,15 +43,15 @@
 .rex-dashboard-action-bar {
 	position: absolute;
 	top: 8px;
-	right: 0;
+	right: 5px;
 }
 .rex-dashboard-component-navi {
-	margin: 0 10px 0 0;
+	margin: 0 0 0 0;
 }
 .rex-dashboard-component-navi li {
 	display: block;
 	float: left;
-	margin-left: 10px;
+	margin-left: 5px;
 }
 .rex-dashboard-component-navi li a {
 	display: block;
@@ -88,7 +88,7 @@
 
 
 .rex-dashboard-component-content table.rex-table {
-	margin: -10px -10px 0 -5px;
+	margin: -10px -10px -10px -5px;
 }
 .rex-dashboard-1col .rex-dashboard-component-content table.rex-table {
 	width: 770px;
@@ -99,7 +99,11 @@
 
 
 .rex-dashboard-component-content .rex-toolbar {
-	margin: -10px 0 0 -5px;
+	margin: -10px 0 11px -5px;
+}
+.rex-dashboard-component-content .rex-toolbar-content {
+	margin-left: 0px;
+	border-left: 0;
 }
 
 
@@ -111,6 +115,10 @@
 	width: 367px;
 }
 
+
+.be-style-agb-skin .rex-dashboard-hl1 {
+	color: #14568A;
+}
 .be-style-agb-skin .rex-dashboard-component {
 	background-color: #EFF9F9;
 }
