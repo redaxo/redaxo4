@@ -599,11 +599,20 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 .rex-i-refresh {
 	background-image: url(../media/refresh.gif);
 }
+.rex-i-slice {
+	background-image: url(../media/slice.gif);
+}
 .rex-i-template {
 	background-image: url(../media/template.gif);
 }
 .rex-i-template-add {
 	background-image: url(../media/template_plus.gif);
+}
+.rex-i-togglesettings {
+	background-image: url(../media/file_add.gif);
+}
+.rex-i-toggleview {
+	background-image: url(../media/file_add.gif);
 }
 .rex-i-user {
 	background-image: url(../media/user.gif);
