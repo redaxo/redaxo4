@@ -125,7 +125,6 @@ div.rex-content-header,
 div.rex-form, 
 div.rex-area-footer, 
 div.rex-addon-footer, 
-div.rex-dashboard-content h3, 
 table.rex-table th, 
 table.rex-table tr td.rex-colored, 
 table.rex-table tr.rex-table-row-activ td {
@@ -144,7 +143,6 @@ div.rex-content-cols,
 div.rex-form div.rex-form-wrapper,
 div.rex-widget p.rex-widget-field input,
 div.rex-widget p.rex-widget-field select, 
-div.rex-dashboard-content, 
 table.rex-table {
 	background-color: #EFF9F9;
 }
@@ -602,10 +600,7 @@ div.rex-addon-col-b {
 
 /*	Table **********************************************************************
 *******************************************************************************/
-table.rex-dashboard-table th, 
-table.rex-dashboard-table td {
-	border-left-width: 0;
-}
+
 
 /*	Formulare ******************************************************************
 *******************************************************************************/
@@ -673,8 +668,6 @@ div.rex-info-block,
 div.rex-message, 
 div.rex-message-block, 
 div.rex-toolbar, 
-div.rex-dashboard-component, 
-div.rex-dashboard-notification, 
 div.rex-form input.rex-form-submit, 
 input.submit,
 p.rex-button a {
@@ -691,8 +684,7 @@ body div.rex-table div.rex-form,
 body div.rex-area table.rex-table,  
 body div.rex-area div.rex-form, 
 body div.rex-addon-output table.rex-table,  
-body div.rex-addon-output div.rex-form, 
-body table.rex-dashboard-table {
+body div.rex-addon-output div.rex-form {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;
