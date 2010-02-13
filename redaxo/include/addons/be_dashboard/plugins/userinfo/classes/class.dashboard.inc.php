@@ -186,6 +186,11 @@ class rex_media_component extends rex_dashboard_component
     $list->removeColumn('file_id');
     $editParams = array('page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###file_id###');
     
+    $thIcon = '';
+    $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###name###</span></span>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, $editParams);
+    
     $list->setColumnLabel('filename', $I18N->msg('pool_file_info'));
     $list->setColumnParams('filename', $editParams);
     $list->addLinkAttribute('filename','onclick', 'newPoolWindow(this.href); return false;');
