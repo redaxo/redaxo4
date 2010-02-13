@@ -312,11 +312,20 @@ a.rex-back {
 .rex-i-module-add {
 	background-image: url(module_plus.gif);
 }
+.rex-i-refresh {
+	background-image: url(icon_refresh.gif);
+}
 .rex-i-template {
 	background-image: url(template.gif);
 }
 .rex-i-template-add {
 	background-image: url(template_plus.gif);
+}
+.rex-i-togglesettings {
+	background-image: url(file_add.gif);
+}
+.rex-i-toggleview {
+	background-image: url(file_add.gif);
 }
 .rex-i-user {
 	background-image: url(user.gif);
