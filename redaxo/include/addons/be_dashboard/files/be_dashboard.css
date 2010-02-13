@@ -32,6 +32,7 @@
 }
 
 .rex-dashboard-component {
+	position: relative;
 	margin-bottom: 10px;
 	background-color: #F0EFEB;
 }
@@ -39,22 +40,34 @@
 	padding: 9px 5px;
 	background-color: #D7D6D3;
 }
+.rex-dashboard-action-bar {
+	position: absolute;
+	top: 8px;
+	right: 0;
+}
 .rex-dashboard-component-navi {
-	margin: -19px 10px 0 0;
-	text-align: right;
+	margin: 0 10px 0 0;
 }
 .rex-dashboard-component-navi li {
-	display: inline;
+	display: block;
+	float: left;
 	margin-left: 10px;
 }
+.rex-dashboard-component-navi li a {
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+.rex-dashboard-component-navi li a span {
+	display: none;
+}
 .rex-dashboard-component-content {
-	padding-top: 10px;
 }
 .rex-dashboard-component-content ul {
 	margin-left: 22px;
 }
 .rex-dashboard-components .rex-dashboard-component-content {
-	padding-top: 20px;
+	padding-top: 10px;
 	padding-left: 5px;
 	padding-bottom: 10px;
 }
@@ -103,9 +116,6 @@
 }
 .be-style-agb-skin .rex-dashboard-component h3.rex-hl2 {
 	background-color: #DFE9E9;
-}
-.be-style-agb-skin .rex-dashboard-component-navi {
-	margin-top: -22px;
 }
 .be-style-agb-skin .rex-dashboard-component-footer {
 	background-color: #DFE9E9;
