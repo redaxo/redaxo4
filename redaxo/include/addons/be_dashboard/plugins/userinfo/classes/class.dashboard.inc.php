@@ -132,7 +132,7 @@ class rex_articles_component extends rex_dashboard_component
     $limit = A659_DEFAULT_LIMIT;
     
     // TODO Permcheck im SQL
-    $list = rex_list::factory('SELECT id, re_id, clang, startpage, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'article GROUP BY id ORDER BY updatedate DESC', $limit);
+    $list = rex_list::factory('SELECT id, re_id, clang, startpage, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'article GROUP BY id ORDER BY updatedate DESC LIMIT '. $limit);
     $list->setCaption($I18N->msg('userinfo_component_articles_caption'));
     $list->addTableAttribute('summary', $I18N->msg('userinfo_component_articles_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));
@@ -184,7 +184,7 @@ class rex_media_component extends rex_dashboard_component
     
     $limit = A659_DEFAULT_LIMIT;
       
-    $list = rex_list::factory('SELECT category_id, file_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'file ORDER BY updatedate DESC', $limit);
+    $list = rex_list::factory('SELECT category_id, file_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'file ORDER BY updatedate DESC LIMIT '.$limit);
     $list->setCaption($I18N->msg('pool_file_caption'));
     $list->addTableAttribute('summary', $I18N->msg('pool_file_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));

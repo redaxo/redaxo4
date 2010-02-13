@@ -689,13 +689,14 @@ class rex_list
     {
       $sortType = $this->getSortType();
 
-      if(strpos(strtoupper($query), 'ORDER BY') === false)
+      if(strpos(strtoupper($query), ' ORDER BY ') === false)
         $query .= ' ORDER BY '. $sortColumn .' '. $sortType;
       else
         $query = preg_replace('/ORDER\sBY\s[^ ]*\s(asc|desc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
     }
 
-    $query .= ' LIMIT '. $startRow .','. $rowsPerPage;
+    if(strpos(strtoupper($query), ' LIMIT ') === false)
+      $query .= ' LIMIT '. $startRow .','. $rowsPerPage;
 
     return $query;
   }
