@@ -835,7 +835,7 @@ class rex_list
     $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
     $s .= '</ul>'. "\n";
 
-    return '<div id="rex-navi-paginate" class="rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
+    return '<div class="rex-navi-paginate rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
   }
 
   /**
