@@ -29,7 +29,19 @@ class rex_rss_reader_component extends rex_dashboard_component
     $content = '';
     foreach($this->config->getFeedUrls() as $feedUrl)
     {
-      $content .= rex_a656_rss_teaser($feedUrl);
+      if($feedUrl != '')
+      {
+        $content .= rex_a656_rss_teaser($feedUrl);
+      }
+    }
+    
+    if($content == '')
+    {
+      $content .= $I18N->msg('rss_reader_component_noconfig');
+      $content .= ' ';
+      $content .= '<a href="#" onclick="componentToggleSettings(\''. $this->getId() .'\'); return false;">';
+      $content .= $I18N->msg('rss_reader_component_opensettings');
+      $content .= '</a>';
     }
     
     $this->setTitle($I18N->msg('rss_reader_component_title'));
