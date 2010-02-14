@@ -41,10 +41,12 @@
   
   /*public*/ function get()
   {
+    global $REX;
+    
     if($this->checkPermission())
     {
       $callable = array($this, '_get');
-      $cachekey = $this->funcCache->computeCacheKey($callable);
+      $cachekey = $this->funcCache->computeCacheKey($callable, array($REX['USER']));
       $cacheBackend = $this->funcCache->getCache(); 
       
       $configForm = '';
@@ -65,7 +67,7 @@
         $cacheBackend->remove($cachekey);
       }
       
-      $content = $this->funcCache->call($callable);
+      $content = $this->funcCache->call($callable, array($REX['USER']));
       
       $cachestamp = $cacheBackend->getLastModified($cachekey);
       if(!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden

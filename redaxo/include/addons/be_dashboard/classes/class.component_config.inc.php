@@ -55,8 +55,14 @@
    */
   /*protected*/ function load($defaultSettings)
   {
-    $cacheKey = get_class($this);
-    return unserialize($this->settingsCache->get($cacheKey, serialize($defaultSettings)));
+    return unserialize($this->settingsCache->get($this->getCacheKey(), serialize($defaultSettings)));
+  }
+  
+  /*private*/ function getCacheKey()
+  {
+    global $REX;
+    
+    return get_class($this) . $REX['USER']->getUserLogin();
   }
   
   /**
@@ -66,10 +72,8 @@
   {
     $this->settings = $this->getFormValues();
     
-    $cacheKey = get_class($this);
-    
     // cache-lifetime ~ 300 jahre
-    $this->settingsCache->set($cacheKey, serialize($this->settings), 10000);
+    $this->settingsCache->set($this->getCacheKey(), serialize($this->settings), 10000);
   }
   
   /**
