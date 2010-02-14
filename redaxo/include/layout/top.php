@@ -16,14 +16,14 @@ if(!isset($page_name))
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
-$css_body = array();
+$body_attr = array();
 $body_id = str_replace('_', '-', $REX["PAGE"]);
 
 if (in_array($body_id, $popups_arr))
-  $css_body["class"] = array('rex-popup'.$body_id);
+  $body_attr["class"] = array('rex-popup'.$body_id);
 
-$css_body["id"] = array('rex-page-'.$body_id);
-$css_body["onunload"] = array('closeAll();');
+$body_attr["id"] = array('rex-page-'.$body_id);
+$body_attr["onunload"] = array('closeAll();');
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg('htmllang'); ?>" lang="<?php echo $I18N->msg('htmllang'); ?>">
@@ -61,10 +61,10 @@ $css_body["onunload"] = array('closeAll();');
 
 // ----- EXTENSION POINT
 echo rex_register_extension_point('PAGE_HEADER', '' );
-$css_body = rex_register_extension_point('PAGE_BODY_CSS', $css_body );
+$body_attr = rex_register_extension_point('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
-foreach($css_body as $k => $v){
+foreach($body_attr as $k => $v){
 	$body .= $k.'="';
 	if(is_array($v))
 		$body .= implode(" ",$v);

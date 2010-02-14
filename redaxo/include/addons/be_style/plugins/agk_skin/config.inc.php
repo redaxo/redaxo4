@@ -43,6 +43,6 @@ if($REX["REDAXO"])
 	  return $params["subject"];
 	}
   
-	rex_register_extension('PAGE_BODY_CSS', 'rex_be_style_agk_skin_css_body');
+	rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_agk_skin_css_body');
 
 }
