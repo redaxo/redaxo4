@@ -124,38 +124,38 @@ if ($REX['SETUP'])
 // ----- Prepare Core Pages
 if($REX['USER'])
 {
-	$REX['PAGES']["profile"] = array('title'=>$I18N->msg("profile"), 'type'=>'system');
-	$REX['PAGES']["credits"] = array('title'=>$I18N->msg("credits"), 'type'=>'system');
+	$REX['PAGES']['profile'] = array('title'=>$I18N->msg('profile'), 'type'=>'system');
+	$REX['PAGES']['credits'] = array('title'=>$I18N->msg('credits'), 'type'=>'system');
 
 	if ($REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm())
 	{
-		$REX['PAGES']["structure"] = array('title'=>$I18N->msg("structure"), 'type'=>'system', 'active_when' => array("page"=>"structure"));
+		$REX['PAGES']['structure'] = array('title'=>$I18N->msg('structure'), 'type'=>'system', 'active_when' => array('page'=>'structure'));
 		if($REX['USER']->hasMediaPerm())
-			$REX['PAGES']["mediapool"] = array('title'=>$I18N->msg("mediapool"), 'hide_navi'=>TRUE, 'href' =>'#', 'onclick' => 'openMediaPool()', 'class' => 'rex-popup', 'type'=>'system');
-		$REX['PAGES']["linkmap"] = array('title'=>$I18N->msg("linkmap"), 'hide_navi'=>TRUE, 'type'=>'system');
-		$REX['PAGES']["content"] = array('title'=>$I18N->msg("content"), 'type'=>'system');
+			$REX['PAGES']['mediapool'] = array('title'=>$I18N->msg('mediapool'), 'hide_navi'=>TRUE, 'href' =>'#', 'onclick' => 'openMediaPool()', 'class' => 'rex-popup', 'type'=>'system');
+		$REX['PAGES']['linkmap'] = array('title'=>$I18N->msg('linkmap'), 'hide_navi'=>TRUE, 'type'=>'system');
+		$REX['PAGES']['content'] = array('title'=>$I18N->msg('content'), 'type'=>'system');
 	}elseif($REX['USER']->hasMediaPerm())
 	{
-		$REX['PAGES']["mediapool"] = array('title'=>$I18N->msg("mediapool"), 'hide_navi'=>TRUE, 'href' =>'#', 'onclick' => 'openMediaPool()', 'class' => ' rex-popup', 'type'=>'system');
+		$REX['PAGES']['mediapool'] = array('title'=>$I18N->msg('mediapool'), 'hide_navi'=>TRUE, 'href' =>'#', 'onclick' => 'openMediaPool()', 'class' => 'rex-popup', 'type'=>'system');
 	}
 
 	if ($REX['USER']->isAdmin())
 	{
-	  $REX['PAGES']["template"] = array('title'=>$I18N->msg("template"), 'type'=>'system', 'active_when' => array("page"=>"template"));
-	  $REX['PAGES']["module"] = array('title'=>$I18N->msg("modules"), 'type'=>'system', 'active_when' => array("page"=>"module"),
+	  $REX['PAGES']['template'] = array('title'=>$I18N->msg('template'), 'type'=>'system', 'active_when' => array('page'=>'template'));
+	  $REX['PAGES']['module'] = array('title'=>$I18N->msg('modules'), 'type'=>'system', 'active_when' => array('page'=>'module'),
 		  'subpages'=>
 		    array(
-		  	  array('page' => '', 'title'=>$I18N->msg("modules"), 'href'=>'index.php?page=module&subpage=', 'active_when' => array("page"=>"module", "subpage" => '')),
-		  		array('page' => 'actions', 'title'=>$I18N->msg("actions"), 'href'=>'index.php?page=module&subpage=actions', 'active_when' => array("page"=>"module", "subpage" => 'actions'))
+		  	  array('page' => '', 'title'=>$I18N->msg('modules'), 'href'=>'index.php?page=module&subpage=', 'active_when' => array('page'=>'module', 'subpage' => '')),
+		  		array('page' => 'actions', 'title'=>$I18N->msg('actions'), 'href'=>'index.php?page=module&subpage=actions', 'active_when' => array('page'=>'module', 'subpage' => 'actions'))
 		  	)
 		);
-	  $REX['PAGES']["user"] = array('title'=>$I18N->msg("user"), 'type'=>'system', 'active_when' => array("page"=>"user"));
-	  $REX['PAGES']["addon"] = array('title'=>$I18N->msg("addon"), 'type'=>'system', 'active_when' => array("page"=>"addon"));
-	  $REX['PAGES']["specials"] = array('title'=>$I18N->msg("specials"), 'type'=>'system', 'active_when' => array("page"=>"specials"),
+	  $REX['PAGES']['user'] = array('title'=>$I18N->msg('user'), 'type'=>'system', 'active_when' => array('page'=>'user'));
+	  $REX['PAGES']['addon'] = array('title'=>$I18N->msg('addon'), 'type'=>'system', 'active_when' => array('page'=>'addon'));
+	  $REX['PAGES']['specials'] = array('title'=>$I18N->msg('specials'), 'type'=>'system', 'active_when' => array('page'=>'specials'),
 	    'subpages'=>
 	  		array(
-	  			array('title'=>$I18N->msg("main_preferences"), 'href'=>'index.php?page=specials&subpage=', 'active_when' => array("page"=>"specials", "subpage" => '')),
-	  			array('title'=>$I18N->msg("languages"), 'href'=>'index.php?page=specials&subpage=lang', 'active_when' => array("page"=>"specials", "subpage" => 'lang'))
+	  			array('title'=>$I18N->msg('main_preferences'), 'href'=>'index.php?page=specials&subpage=', 'active_when' => array('page'=>'specials', 'subpage' => '')),
+	  			array('title'=>$I18N->msg('languages'), 'href'=>'index.php?page=specials&subpage=lang', 'active_when' => array('page'=>'specials', 'subpage' => 'lang'))
 	  		)
 	  );
 	}
@@ -183,7 +183,7 @@ if($REX['USER'])
 			if(isset ($REX['ADDON']['name'][$apage]))
 			  $apage_arr['title'] = $REX['ADDON']['name'][$apage];
 			  
-			if(isset ($REX['ADDON']['link'][$apage]) && $REX['ADDON']['link'][$apage] != "")
+			if(isset ($REX['ADDON']['link'][$apage]) && $REX['ADDON']['link'][$apage] != '')
 			  $apage_arr['href'] = $REX['ADDON']['link'][$apage];
 			else
 			  $apage_arr['href'] = 'index.php?page='.$apage;
@@ -234,7 +234,7 @@ if($REX['USER'])
 
 	// --- page herausfinden
 	$REX['PAGE'] = trim(rex_request('page', 'string'));
-	if($rex_user_login != "") 
+	if($rex_user_login != '') 
 		$REX['PAGE'] = $REX['LOGIN']->getStartpage();
 	if(!isset($REX['PAGES'][$REX['PAGE']]))
 	{
@@ -244,22 +244,22 @@ if($REX['USER'])
 			$REX['PAGE'] = $REX['START_PAGE'];
 			if(!isset($REX['PAGES'][$REX['PAGE']]))
 			{
-				$REX['PAGE'] = "profile";
+				$REX['PAGE'] = 'profile';
 			}
 		}
 	}
 	 
 	// --- login ok -> redirect
-	if ($rex_user_login != "")
+	if ($rex_user_login != '')
 	{
 		header('Location: index.php?page='. $REX['PAGE']);
 		exit();
 	}
 }
 
-$REX["PAGE_NO_NAVI"] = FALSE;
+$REX['PAGE_NO_NAVI'] = FALSE;
 if(isset($REX['PAGES'][$REX['PAGE']]['hide_navi']) && $REX['PAGES'][$REX['PAGE']]['hide_navi']) 
-	$REX["PAGE_NO_NAVI"] = TRUE;
+	$REX['PAGE_NO_NAVI'] = TRUE;
 
 
 // ----- EXTENSION POINT
@@ -267,7 +267,7 @@ if(isset($REX['PAGES'][$REX['PAGE']]['hide_navi']) && $REX['PAGES'][$REX['PAGE']
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
 
-if(isset($REX['PAGES'][$REX['PAGE']]['PATH']) && $REX['PAGES'][$REX['PAGE']]['PATH'] != "")
+if(isset($REX['PAGES'][$REX['PAGE']]['PATH']) && $REX['PAGES'][$REX['PAGE']]['PATH'] != '')
 {
 	// If page has a new/overwritten path
 	require $REX['PAGES'][$REX['PAGE']]['PATH'];
