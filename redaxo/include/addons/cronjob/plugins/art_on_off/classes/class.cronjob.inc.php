@@ -39,8 +39,7 @@ class rex_a630_cronjob_art_on_off extends rex_a630_cronjob
     $rows = $sql->getRows();
     for($i = 0; $i < $rows; $i++)
     {
-      $status = ($sql->getValue('status') + 1) % 2;
-      rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
+      rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'));
       $sql->next();
     }
     return true;
