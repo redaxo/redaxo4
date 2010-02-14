@@ -62,7 +62,7 @@
   {
     global $REX;
     
-    return get_class($this) .'_'. $REX['USER']->getUserLogin();
+    return get_class($this) .'_uid'. $REX['USER']->getValue('user_id');
   }
   
   /**
