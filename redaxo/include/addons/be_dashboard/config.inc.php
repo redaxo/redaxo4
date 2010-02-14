@@ -18,7 +18,7 @@ $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Dashboard';
 $REX['ADDON']['perm'][$mypage] = 'be_dashboard[]';
 $REX['ADDON']['version'][$mypage] = '1.3';
-//$REX['ADDON']['navigation'][$mypage] = array('type'=>'system');
+$REX['ADDON']['navigation'][$mypage] = array('type'=>'system');
 $REX['ADDON']['author'][$mypage] = 'Markus Staab';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
