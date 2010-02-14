@@ -141,7 +141,6 @@
                 </div>';
     
     return $content;
-    
   }
   
   /*public abstract*/ function _get()
