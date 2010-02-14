@@ -115,6 +115,35 @@ class rex_login_sql extends rex_sql
     return $return[1];
   }
   
+  /**
+   * Gibt eine SQL Where Bedingung zurück, die eine Abfrage auf die rex_article Tabelle so
+   * begrenzt, sodas nur Datensätze zurückgegeben werden auf die der User rechte hat.
+   */
+  /*public*/ function getCategoryPermAsSql()
+  {
+    global $REX;
+    
+    $whereCond = '';
+    
+    if( $this->isAdmin() || 
+        $this->hasPerm('csw[0]'))
+    {
+      // vollzugriff ueberall
+      $whereCond = '1=1';
+    }
+    else
+    {
+      $whereCond = '1=0';
+      $categoryPerms = $REX['USER']->getPermAsArray('csw');
+      foreach($categoryPerms as $catPerm)
+      {
+        $whereCond .= ' OR path LIKE "%|'. $catPerm .'|%"';
+      }
+    }
+
+    return '('. $whereCond .')';
+  }
+  
   /*public*/ function removePerm($perm)
   {
     $rights = preg_replace('|#'. preg_quote($perm, '|') .'\[([^\]]*)\]+|' , '', $this->getValue("rights"));
