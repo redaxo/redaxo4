@@ -49,7 +49,7 @@ if ($func == 'execute')
   if ($sql->getRows() == 1) 
   {
     $cronjob = rex_a630_cronjob::factory($sql->getValue('type'), $sql->getValue('name'), $sql->getValue('content'));
-    if (is_object($cronjob) && $cronjob->execute($sql->getValue('content')))
+    if (is_object($cronjob) && $cronjob->execute())
       $success = true;
   }
   if ($success)

@@ -82,7 +82,7 @@ class rex_a630_form_interval_element extends rex_form_element
     $name = $this->getAttribute('name').'[]';
     $value = explode('|',htmlspecialchars($this->getValue()));
     if (count($value) != 4)
-      $value = array(null,1,'w');
+      $value = array(null,1,'d');
     
     $select = new rex_select();
     $select->setAttribute('class','rex-form-select rex-a630-interval');

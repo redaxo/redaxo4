@@ -33,17 +33,14 @@ class rex_a630_manager
       $interval = $sql->getValue('interval_sec');
 
       $cronjob = rex_a630_cronjob::factory($type, $name, $content);
-      if (is_object($cronjob)) 
+      if (is_object($cronjob) && $cronjob->execute()) 
       {
-        if ($cronjob->execute()) 
-        {
-          $nexttime = time() + $interval - (time() % $interval);
-          $sql->setQuery('
-            UPDATE  '.$REX['TABLE_PREFIX'].'630_cronjobs 
-            SET     nexttime='.$nexttime.' 
-            WHERE   id='.$id
-          );
-        }
+        $nexttime = time() + $interval - (time() % $interval);
+        $sql->setQuery('
+          UPDATE  '.$REX['TABLE_PREFIX'].'630_cronjobs 
+          SET     nexttime='.$nexttime.' 
+          WHERE   id='.$id
+        );
       }
     }
     rex_a630_manager::saveNextTime();
@@ -60,7 +57,7 @@ class rex_a630_manager
       FROM    '.$REX['TABLE_PREFIX'].'630_cronjobs 
       WHERE   status=1
     ');
-    if ($sql->getRows() != 0)
+    if ($sql->getRows() != 0 && $sql->getValue('nexttime') !== null)
       $nexttime = max(1,$sql->getValue('nexttime'));
     if ($nexttime != $REX["ADDON"]["nexttime"]["cronjob"]) 
     {

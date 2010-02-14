@@ -25,27 +25,22 @@ class rex_cronjob_component extends rex_dashboard_component
   
   /*protected*/ function prepare()
   {
-    global $I18N;
+    $messages = rex_a630_log::getNewestMessages(10);
     
-    $folder = REX_LOG_FOLDER;
-    $years = rex_a630_log_years($folder);
-    
-    if(count($years) > 0)
+    $content = '';
+    if(count($messages) > 0)
     {
-      $messages = rex_a630_log_messages($folder, $years[0], 10);
-      
-      $content = '';
-      if(count($messages) > 0)
+      $content .= '<ul>';
+      foreach($messages as $message)
       {
-        $content .= '<ul>';
-        foreach($messages as $message)
-        {
-          $content .= '<li>'. $message .'</li>';
-        }
-        $content .= '</ul>';
+        $style = '';
+        if (strpos($message, ' ERROR ') !== false)
+          $style = ' style="font-weight:bold; color:red;"';
+        $content .= '<li><pre'.$style.'>'. $message .'</pre></li>';
       }
-      
-      $this->setContent($content);
+      $content .= '</ul>';
     }
+    
+    $this->setContent($content);
   }
 }

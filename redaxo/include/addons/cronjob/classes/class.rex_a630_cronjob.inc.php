@@ -73,35 +73,19 @@
   /*private*/ function log()
   {
     global $REX;
-    $name = $this->getName();
-    $success = $this->success;
     $year = date('Y');
     $month = date('m');
-    
-    $dir = $REX['INCLUDE_PATH'].'/addons/cronjob/logs/'.$year;
-    if (!is_dir($dir))
-    {
-      mkdir($dir);
-      chmod($dir, $REX['DIRPERM']);
-    }
-    
-    $content = '';
-    $file = $dir.'/'.$year.'-'.$month.'.log';
-    if (file_exists($file))
-      $content = rex_get_file_contents($file);
     
     // Im Frontend ist die Klasse rex_formatter nicht verfuegbar.
     // Falls die Klasse hier manuell eingebunden wird,
     // als Format nicht 'datetime' verwenden, da im Frontend kein I18N-Objekt verfuegbar ist
     $newline = date('Y-m-d H:i');
-    if ($success)
+    if ($this->success)
       $newline .= '  SUCCESS  ';
     else
       $newline .= '   ERROR   ';
+    $newline .= $this->getName();
       
-    $newline .= $name;
-    $content = $newline."\n".$content;
-    
-    rex_put_file_contents($file, $content);
+    return rex_a630_log::saveLog($newline, $month, $year);
   }
 }
