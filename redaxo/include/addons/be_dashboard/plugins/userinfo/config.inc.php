@@ -33,17 +33,13 @@ if($REX["REDAXO"])
     require_once dirname(__FILE__) .'/functions/function_userinfo.inc.php';
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     
-    $adminComponents = array(
+    $components = array(
       'rex_articles_component',
-//      'rex_templates_component',
-//      'rex_modules_component',
-//      'rex_actions_component',
-//      'rex_users_component',
       'rex_media_component',
       'rex_stats_component',
     );
     
-    foreach($adminComponents as $compClass)
+    foreach($components as $compClass)
     {
       rex_register_extension (
         'DASHBOARD_COMPONENT',
