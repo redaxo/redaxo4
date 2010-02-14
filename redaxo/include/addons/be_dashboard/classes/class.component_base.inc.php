@@ -46,7 +46,7 @@
     if($this->checkPermission())
     {
       $callable = array($this, '_get');
-      $cachekey = $this->funcCache->computeCacheKey($callable, array($REX['USER']));
+      $cachekey = $this->funcCache->computeCacheKey($callable, array($REX['USER']->getUserLogin()));
       $cacheBackend = $this->funcCache->getCache(); 
       
       $configForm = '';
@@ -67,7 +67,7 @@
         $cacheBackend->remove($cachekey);
       }
       
-      $content = $this->funcCache->call($callable, array($REX['USER']));
+      $content = $this->funcCache->call($callable, array($REX['USER']->getUserLogin()));
       
       $cachestamp = $cacheBackend->getLastModified($cachekey);
       if(!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
