@@ -125,14 +125,25 @@ class rex_articles_component extends rex_dashboard_component
     $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    return $REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm();
+  }
+  
   /*protected*/ function prepare()
   {
     global $REX, $I18N;
     
     $limit = A659_DEFAULT_LIMIT;
     
-    // TODO Permcheck im SQL
-    $list = rex_list::factory('SELECT id, re_id, clang, startpage, name, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'article GROUP BY id ORDER BY updatedate DESC LIMIT '. $limit);
+    $qry = 'SELECT id, re_id, clang, startpage, name, updateuser, updatedate 
+            FROM '. $REX['TABLE_PREFIX'] .'article
+            WHERE '. $REX['USER']->getCategoryPermAsSql() .'
+            GROUP BY id
+            ORDER BY updatedate DESC
+            LIMIT '. $limit;
+    $list = rex_list::factory($qry);
     $list->setCaption($I18N->msg('userinfo_component_articles_caption'));
     $list->addTableAttribute('summary', $I18N->msg('userinfo_component_articles_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));

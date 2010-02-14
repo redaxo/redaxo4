@@ -23,7 +23,7 @@ if(count($dashboard_notifications) > 0)
   $content = '';
   foreach($dashboard_notifications as $notification)
   {
-    if(rex_dashboard_notification::isValid($notification))
+    if(rex_dashboard_notification::isValid($notification) && $notification->checkPermission())
     {
       $content .= $notification->get();
     }
@@ -52,7 +52,7 @@ $dashboard_components = rex_register_extension_point('DASHBOARD_COMPONENT', $das
 $components = array();
 foreach($dashboard_components as $index => $component)
 {
-  if(rex_dashboard_component::isValid($component))
+  if(rex_dashboard_component::isValid($component) && $component->checkPermission())
   {
     $block  = $component->getBlock();
     $format = $component->getFormat();
