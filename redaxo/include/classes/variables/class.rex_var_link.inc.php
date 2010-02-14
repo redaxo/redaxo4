@@ -6,6 +6,9 @@
  * REX_LINK_ID,
  * REX_LINKLIST_BUTTON,
  * REX_LINKLIST
+ * 
+ * Attribute:
+ *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  *
  * @package redaxo4
  * @version svn:$Id$

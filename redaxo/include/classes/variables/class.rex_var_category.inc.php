@@ -5,6 +5,11 @@
  * REX_CATEGORY[field=xzy]
  * REX_CATEGORY[field=xzy id=3]
  * REX_CATEGORY[field=xzy id=3 clang=2]
+ * 
+ * Attribute:
+ *   - field    => Feld der Kategorie, das ausgegeben werden soll
+ *   - clang    => ClangId der Kategorie
+ *   
  *
  * @package redaxo4
  * @version svn:$Id$

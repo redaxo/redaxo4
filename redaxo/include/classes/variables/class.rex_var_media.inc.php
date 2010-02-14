@@ -9,6 +9,12 @@
  * REX_MEDIALIST[1],
  * REX_MEDIA_BUTTON[1],
  * REX_MEDIALIST_BUTTON[1]
+ * 
+ * Attribute:
+ *   - category  => Kategorie in die beim oeffnen des Medienpools gesprungen werden soll
+ *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
+ *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
+ *   - mimetype  => Mimetype des Bildes ausgeben
  *
  * Alle Variablen die mit REX_FILE beginnnen sind als deprecated anzusehen!
  * @package redaxo4

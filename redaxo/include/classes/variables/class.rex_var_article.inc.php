@@ -9,6 +9,11 @@
  * REX_ARTICLE[field='id']
  * REX_ARTICLE[field='description' id=3]
  * REX_ARTICLE[field='description' id=3 clang=2]
+ * 
+ * Attribute:
+ *   - clang     => ClangId des Artikels festlegen
+ *   - ctype     => Spalte des Artikels festlegen
+ *   - field     => Nur dieses Feld des Artikels ausgeben
  *
  * @package redaxo4
  * @version svn:$Id$
