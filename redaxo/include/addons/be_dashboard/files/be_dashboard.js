@@ -40,12 +40,29 @@ function componentRefresh(componentId) {
 	});
 }
 
-function componentToggleSettings(componentId) {
+function componentToggleSettings(componentId,newState) {
 	var component = jQuery("#" + componentId);
 	var config = jQuery(".rex-dashboard-component-config", component);
 	var link = jQuery("#" + componentId + "-togglesettings");
-	link.rexToggleClass("rex-i-togglesettings", "rex-i-togglesettings-off");
-	config.slideToggle("slow");
+	
+	if(typeof newState != "undefined")
+	{
+		if(newState == "hide")
+		{
+			link.removeClass("rex-i-togglesettings-off").addClass("rex-i-togglesettings");
+			config.hide("slow");
+		}
+		else
+		{
+			link.removeClass("rex-i-togglesettings").addClass("rex-i-togglesettings-off");
+			config.show("slow");
+		}
+	}
+	else
+	{
+		link.rexToggleClass("rex-i-togglesettings", "rex-i-togglesettings-off");
+		config.slideToggle("slow");
+	}
 }
 
 function componentToggleView(componentId) {
@@ -54,8 +71,7 @@ function componentToggleView(componentId) {
 	var wasHidden = content.is(":hidden");
 
 	if (!wasHidden) {
-		var config = jQuery(".rex-dashboard-component-config", component);
-		config.hide("slow");
+		componentToggleSettings(componentId, "hide");
 	}
 	content.slideToggle("slow");
 
