@@ -29,6 +29,3 @@ require $REX['INCLUDE_PATH'].'/addons/cronjob/pages/'.$subpage.'.inc.php';
 echo "\n  </div>";
 
 require $REX['INCLUDE_PATH'].'/layout/bottom.php';
-
-if ($func == 'test')
-  rex_a630_cronjob::log('JO', true);

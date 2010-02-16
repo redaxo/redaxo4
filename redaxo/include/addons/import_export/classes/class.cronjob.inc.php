@@ -1,6 +1,6 @@
 <?php
 
-class rex_a1_cronjob extends rex_a630_cronjob
+class rex_a1_cronjob extends rex_cronjob
 { 
   /*protected*/ function _execute()
   {

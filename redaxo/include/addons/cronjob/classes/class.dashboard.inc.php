@@ -25,7 +25,7 @@ class rex_cronjob_component extends rex_dashboard_component
   
   /*protected*/ function prepare()
   {
-    $messages = rex_a630_log::getNewestMessages(10);
+    $messages = rex_cronjob_log::getNewestMessages(10);
     
     $content = '';
     if(count($messages) > 0)

@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-class rex_a630_manager
+class rex_cronjob_manager
 { 
   /*public static*/ function checkCronjobs()
   {
@@ -32,8 +32,8 @@ class rex_a630_manager
       $type     = $sql->getValue('type');
       $interval = $sql->getValue('interval_sec');
 
-      $cronjob = rex_a630_cronjob::factory($type, $name, $content);
-      if (is_object($cronjob) && $cronjob->execute()) 
+      $cronjob = rex_cronjob::factory($type, $name, $content);
+      if (rex_cronjob::isValid($cronjob) && $cronjob->execute()) 
       {
         $nexttime = time() + $interval - (time() % $interval);
         $sql->setQuery('
@@ -43,7 +43,7 @@ class rex_a630_manager
         );
       }
     }
-    rex_a630_manager::saveNextTime();
+    rex_cronjob_manager::saveNextTime();
   }
   
   /*public static*/ function saveNextTime()

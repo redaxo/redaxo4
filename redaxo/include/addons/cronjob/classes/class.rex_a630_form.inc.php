@@ -68,7 +68,7 @@ class rex_a630_form extends rex_form
   /*protected*/ function save() 
   {
     $return = parent::save();
-    rex_a630_manager::saveNextTime();
+    rex_cronjob_manager::saveNextTime();
     return $return;
   }
 }

@@ -22,7 +22,7 @@ if ($func == 'setstatus')
     echo rex_info($I18N->msg('cronjob_status_success'));
   else
     echo rex_warning($I18N->msg('cronjob_status_error'));
-  rex_a630_manager::saveNextTime();
+  rex_cronjob_manager::saveNextTime();
   $func = '';
 }
 
@@ -36,7 +36,7 @@ if ($func == 'delete')
     echo rex_info($I18N->msg('cronjob_delete_success'));
   else
     echo rex_warning($I18N->msg('cronjob_delete_error'));
-  rex_a630_manager::saveNextTime();
+  rex_cronjob_manager::saveNextTime();
   $func = '';
 }
 
@@ -48,8 +48,8 @@ if ($func == 'execute')
   $success = false;
   if ($sql->getRows() == 1) 
   {
-    $cronjob = rex_a630_cronjob::factory($sql->getValue('type'), $sql->getValue('name'), $sql->getValue('content'));
-    if (is_object($cronjob) && $cronjob->execute())
+    $cronjob = rex_cronjob::factory($sql->getValue('type'), $sql->getValue('name'), $sql->getValue('content'));
+    if (rex_cronjob::isValid($cronjob) && $cronjob->execute())
       $success = true;
   }
   if ($success)

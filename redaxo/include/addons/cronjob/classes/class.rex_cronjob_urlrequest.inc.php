@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-class rex_a630_cronjob_urlrequest extends rex_a630_cronjob
+class rex_cronjob_urlrequest extends rex_cronjob
 { 
   /*protected*/ function _execute()
   {

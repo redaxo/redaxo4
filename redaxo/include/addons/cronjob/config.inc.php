@@ -44,14 +44,14 @@ if($REX["REDAXO"])
   $EP = 'ADDONS_INCLUDED';
 }
 
-define('REX_LOG_FOLDER', $REX['INCLUDE_PATH'].'/addons/cronjob/logs/');
+define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'].'/addons/cronjob/logs/');
 
-require_once dirname(__FILE__) .'/classes/class.rex_a630_manager.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_phpcode.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_phpcallback.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_a630_cronjob_urlrequest.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_a630_log.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob_manager.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob_phpcode.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob_phpcallback.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob_urlrequest.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob_log.inc.php';
 
 // --- DYN
 $REX["ADDON"]["nexttime"]["cronjob"] = "0";
@@ -68,5 +68,5 @@ function rex_a630_extension($params)
 {
   global $REX;
   if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))
-    rex_a630_manager::checkCronjobs();
+    rex_cronjob_manager::checkCronjobs();
 }

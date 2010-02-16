@@ -36,9 +36,9 @@ if($REX["REDAXO"])
   
   rex_register_extension(
 	  'REX_CRONJOB_EXTENSIONS',
-	  array('rex_a630_manager','registerExtension'),
+	  array('rex_cronjob_manager','registerExtension'),
 	  array(
-	    'class' => 'rex_a630_cronjob_article_status', 
+	    'class' => 'rex_cronjob_article_status', 
 	    'name' => 'translate:cronjob_article_status'
 	  )
   );

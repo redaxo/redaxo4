@@ -29,7 +29,7 @@ if(!isset($log['year']) || !$log['year'])
 if(!isset($log['month']) || !$log['month'])
   $log['month'] = date('m');
   
-$array = rex_a630_log::getYearMonthArray();
+$array = rex_cronjob_log::getYearMonthArray();
 
 if (empty($array))
   echo $I18N->msg('cronjob_no_log_files');
@@ -75,7 +75,7 @@ else
   echo ' - ';
   $month_sel->show();
   
-  $content = rex_a630_log::getLogOfMonth($log['month'], $log['year']);
+  $content = rex_cronjob_log::getLogOfMonth($log['month'], $log['year']);
   $content = preg_replace('/^(.*?ERROR.*?)$/m','<strong style="color:red">$1</strong>',$content);
   
   echo '

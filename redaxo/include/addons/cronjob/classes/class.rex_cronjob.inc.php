@@ -9,13 +9,13 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_a630_cronjob
+/*abstract*/ class rex_cronjob
 {
   /*private*/ var $name;
   /*private*/ var $content;
   /*private*/ var $success;
   
-  /*protected*/ function rex_a630_cronjob($name, $content = null) 
+  /*protected*/ function rex_cronjob($name, $content = null) 
   {
     if (empty($name))
       $name = '[no name]';
@@ -33,9 +33,9 @@
     if ($type != 4)
     {
       $classes = array(
-        1 => 'rex_a630_cronjob_phpcode',
-        2 => 'rex_a630_cronjob_phpcallback',
-        3 => 'rex_a630_cronjob_urlrequest'
+        1 => 'rex_cronjob_phpcode',
+        2 => 'rex_cronjob_phpcallback',
+        3 => 'rex_cronjob_urlrequest'
       );
       $class = $classes[$type];
     }
@@ -86,6 +86,11 @@
       $newline .= '   ERROR   ';
     $newline .= $this->getName();
       
-    return rex_a630_log::saveLog($newline, $month, $year);
+    return rex_cronjob_log::saveLog($newline, $month, $year);
+  }
+  
+  /*public static*/ function isValid($cronjob)
+  {
+    return is_object($cronjob) && is_a($cronjob, 'rex_cronjob');
   }
 }
