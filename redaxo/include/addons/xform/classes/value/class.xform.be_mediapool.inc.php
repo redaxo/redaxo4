@@ -24,23 +24,37 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 		if (isset($warning["el_" . $this->getId()])) 
 			$wc = $warning["el_" . $this->getId()];
 
-		$form_output[] = '
-			<div class="xform-element formbe_mediapool formlabel-'.$this->label.'">
-				<label class="text ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
-				<div class="rex-widget">
-					<div class="rex-widget-media">
-						<p class="rex-widget-field">
-							<input type="text" class="text '.$wc.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="REX_MEDIA_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->value)) . '" />
-						</p>
-						<p class="rex-widget-icons">
-							<a onclick="openREXMedia('.$i.',\'\');return false;" class="rex-icon-file-open" href="#"><img width="16" height="16" alt="Medium auswählen" title="Medium auswählen" src="media/file_open.gif"/></a>
-							<a onclick="addREXMedia('.$i.');return false;" class="rex-icon-file-add" href="#"><img width="16" height="16" alt="Neues Medium hinzufügen" title="Neues Medium hinzufügen" src="media/file_add.gif"/></a>
-							<a onclick="deleteREXMedia('.$i.');return false;" class="rex-icon-file-delete" href="#"><img width="16" height="16" alt="Ausgewähltes Medium löschen" title="Ausgewähltes Medium löschen" src="media/file_del.gif"/></a>
-						</p>
-					</div>
-				</div>
-			</div>';
-			
+			$form_output[] = '
+		<div class="xform-element formbe_mediapool formlabel-'.$this->label.'">
+        <label class="text ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+        
+			<div class="rex-widget">
+		      <div class="rex-widget-media">
+		        <p class="rex-widget-field">
+		          <input type="text" class="text '.$wc.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="REX_MEDIA_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->value)) . '" />
+		        </p>
+		        <p class="rex-widget-icons rex-widget-1col">
+		          <span class="rex-widget-column rex-widget-column-first">
+		            <a href="#" class="rex-icon-file-open" onclick="openREXMedia('.$i.',\'\');return false;" title="Medium auswŠhlen"></a>
+		            <a href="#" class="rex-icon-file-add" onclick="addREXMedia('.$i.');return false;" title="Neues Medium hinzufŸgen"></a>
+		            <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia('.$i.');return false;" title="AusgewŠhltes Medium lšschen"></a>
+		            <a href="#" class="rex-icon-file-view" onclick="viewREXMedia('.$i.');return false;" title="Medium auswŠhlen"></a>
+		          </span>
+		        </p>
+		        <div class="rex-media-preview"></div>
+		      </div>
+		    </div>
+		    <div class="rex-clearer"></div>
+    </div>
+  ';		
+		
+		
+		
+		
+		
+		
+		
+		
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
 
 		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
@@ -58,9 +72,9 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 						'type' => 'value',
 						'name' => 'be_mediapool',
 						'values' => array(
-             	array( 'type' => 'label',   'name' => 'Label' ),
-              array( 'type' => 'text',    'name' => 'Bezeichnung'),
-              array( 'type' => 'text', 		'name' => 'Defaultwert'),
+             	array( 'type' => 'name',   'label' => 'Name' ),
+              array( 'type' => 'text',    'label' => 'Bezeichnung'),
+              array( 'type' => 'text', 		'label' => 'Defaultwert'),
 						),
 						'description' => 'Mediafeld, welches eine Datei aus dem Medienpool holt',
 						'dbtype' => 'text'

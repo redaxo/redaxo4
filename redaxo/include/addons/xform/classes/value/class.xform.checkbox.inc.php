@@ -6,9 +6,9 @@ class rex_xform_checkbox extends rex_xform_abstract
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{
 		if (!isset($this->elements[3]) || $this->elements[3]=="") $this->elements[3] = 1;
-	
+
 		$checked = "";
-		
+
 		if ((isset($this->elements[3]) && $this->value == $this->elements[3]) || ($send == 0 && isset($this->elements[4]) && $this->elements[4]==1))
 		{
 			$checked = ' checked="checked"';
@@ -17,7 +17,7 @@ class rex_xform_checkbox extends rex_xform_abstract
 
 		$wc = "";
 		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()];
-		
+
 		$form_output[] = '
 			<p class="formcheckbox">
 				<input type="checkbox" class="checkbox '.$wc.'" 
@@ -27,38 +27,39 @@ class rex_xform_checkbox extends rex_xform_abstract
 			</p>';
 
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") 
-		  $sql_elements[$this->elements[1]] = $this->value;
+		if (!isset($this->elements[5]) || $this->elements[5] != "no_db")
+		{
+			$sql_elements[$this->elements[1]] = $this->value;
+		}
 
 	}
-	
+
 	function getDescription()
 	{
 		return "checkbox -> Beispiel: checkbox|check_design|Bezeichnung|Value|1/0|[no_db]";
 	}
-	
-	function getDefinitions()
-  {
 
-    return array(
+	function getDefinitions()
+	{
+
+		return array(
             'type' => 'value',
             'name' => 'checkbox',
             'values' => array(
-              array( 'type' => 'label',   'name' => 'Feld' ),
-              array( 'type' => 'text',    'name' => 'Bezeichnung'),
-              array( 'type' => 'text',    'name' => 'Wert wenn angeklickt', 'default' => 1),
-              array( 'type' => 'boolean', 'name' => 'Defaulstatus',         'default' => 1),
-              array( 'type' => 'no_db',   'name' => 'Datenbank',  'default' => 1),
-            ),
+		array( 'type' => 'name',   'label' => 'Name' ),
+		array( 'type' => 'text',    'label' => 'Bezeichnung'),
+		array( 'type' => 'text',    'label' => 'Wert wenn angeklickt', 'default' => 1),
+		array( 'type' => 'boolean', 'label' => 'Defaultstatus',         'default' => 1),
+		array( 'type' => 'no_db',   'label' => 'Datenbank',  'default' => 1),
+		),
             'description' => 'Ein Selectfeld mit festen Definitionen.',
             'dbtype' => 'varchar(255)'
-      );
-      
-  
-  }
-	
-	
-	
+            );
+
+	}
+
+
+
 }
 
 ?>

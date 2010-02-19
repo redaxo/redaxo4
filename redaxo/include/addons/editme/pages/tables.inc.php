@@ -21,10 +21,6 @@ if($func == "update")
 	$func = "";
 }
 
-
-
-
-
 // ********************************************* FORMULAR
 if($func == "add" || $func == "edit")
 {
@@ -34,12 +30,12 @@ if($func == "add" || $func == "edit")
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
-	$xform->setActionField("showtext",array("","Vielen Dank fŸr die Eintragung"));
+	$xform->setActionField("showtext",array("","Vielen Dank fuer die Eintragung"));
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
 	if($func == "edit")
 	{
-    $xform->setValueField("showvalue",array("label","Label"));
+    	$xform->setValueField("showvalue",array("name","Tabellenname"));
 		$xform->setHiddenField("table_id",$table_id);
 		$xform->setActionField("db",array($table,"id=$table_id"));
 		$xform->setObjectparams("main_id",$table_id);
@@ -47,14 +43,14 @@ if($func == "add" || $func == "edit")
 		$xform->setGetdata(true); // Datein vorher auslesen
 	}elseif($func == "add")
 	{
-    $xform->setValueField("text",array("label","Label"));
-    $xform->setValidateField("notEmpty",array("label","Bitte tragen Sie das Label ein"));
-    $xform->setValidateField("preg_match",array("label","/[a-z_]*/i","Bitte tragen Sie beim Label nur Buchstaben ein"));
-    $xform->setValidateField("customfunction",array("label","rex_em_checkLabelInTable","","Dieses Label ist bereits vorhanden"));
+	    $xform->setValueField("text",array("name","Tabellenname"));
+	    $xform->setValidateField("notEmpty",array("name","Bitte tragen Sie den Tabellenname ein"));
+	    $xform->setValidateField("preg_match",array("name","/[a-z_]*/i","Bitte tragen Sie beim Tabellenname nur Buchstaben ein"));
+	    $xform->setValidateField("customfunction",array("name","rex_em_checkLabelInTable","","Dieser Tabellenname ist bereits vorhanden"));
 		$xform->setActionField("db",array($table));
 	}
 	
-	$xform->setValueField("text",array("name","Name"));
+	$xform->setValueField("text",array("label","Label"));
 	$xform->setValueField("textarea",array("description","Beschreibung"));
 	$xform->setValueField("checkbox",array("status","Aktiv"));
 	$xform->setValueField("validate",array("empty","name","Bitte den Namen eingeben"));
@@ -84,15 +80,19 @@ if($func == "add" || $func == "edit")
 
 
 
-// ********************************************* L…SCHEN
+// ********************************************* LOESCHEN
 if($func == "delete"){
+
+	// TODO:
+	// querloeschen - bei be_em_relation, muss die zieltabelle auch bearbeitet werden + die relationentabelle auch geloescht werden
+
 	$query = "delete from $table where id='".$table_id."' ";
 	$delsql = new rex_sql;
 	// $delsql->debugsql=1;
 	$delsql->setQuery($query);
-  $query = "delete from $table_field where table_id='".$table_id."' ";
+	$query = "delete from $table_field where table_id='".$table_id."' ";
 	$delsql->setQuery($query);
-  
+	
 	$func = "";
 	echo rex_info($bezeichner." wurde gel&ouml;scht");
 }
@@ -119,10 +119,10 @@ if($show_list){
 	// $list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit"));
 	$list->removeColumn("id");
 	
-	$list->setColumnParams("label", array("table_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("name", array("table_id"=>"###id###","func"=>"edit"));
 	
 	$list->addColumn('Felder_editieren','Felder editieren');
-	$list->setColumnParams("Felder_editieren", array("subpage"=>"field","table_id"=>"###id###"));
+	$list->setColumnParams("Felder_editieren", array("subpage"=>"field","table_name"=>"###name###"));
 
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
 	$list->setColumnParams("l&ouml;schen", array("table_id"=>"###id###","func"=>"delete"));

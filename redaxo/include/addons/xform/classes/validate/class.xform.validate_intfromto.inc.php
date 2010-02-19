@@ -41,12 +41,12 @@ class rex_xform_validate_intfromto extends rex_xform_validate_abstract
 						'type' => 'validate',
 						'name' => 'intfromto',
 						'values' => array(
-             	array( 'type' => 'getlabel',   	'name' => 'Label' ),
-              array( 'type' => 'text',    		'name' => 'Von'),
-              array( 'type' => 'text',    		'name' => 'Bis'),
-              array( 'type' => 'text',    		'name' => 'Fehlermeldung'),
+             	array( 'type' => 'getName',   	'label' => 'Name' ),
+              array( 'type' => 'text',    		'label' => 'Von'),
+              array( 'type' => 'text',    		'label' => 'Bis'),
+              array( 'type' => 'text',    		'label' => 'Fehlermeldung'),
               ),
-						'description' => 'Hiermit wird ein Label ŸberprŸft ob es zwischen zwei Zahlen ist',
+						'description' => 'Hiermit wird ein Name Ÿberprueft ob es zwischen zwei Zahlen ist',
 			);
 	}
 	

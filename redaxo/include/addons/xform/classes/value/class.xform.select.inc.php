@@ -91,12 +91,12 @@ class rex_xform_select extends rex_xform_abstract
             'type' => 'value',
             'name' => 'select',
             'values' => array(
-              array( 'type' => 'label',   'name' => 'Feld' ),
-              array( 'type' => 'text',    'name' => 'Bezeichnung'),
-              array( 'type' => 'text',  	'name' => 'Selektdefinition',   'example' => 'Frau=w;Herr=m'),
-              array( 'type' => 'no_db',   'name' => 'Datenbank',          'default' => 1),
-              array( 'type' => 'text',    'name' => 'Defaultwert'),
-              // array( 'type' => 'boolean', 'name' => 'Mehrfachselektion',  'default' => 0),
+              array( 'type' => 'name',   'label' => 'Feld' ),
+              array( 'type' => 'text',    'label' => 'Bezeichnung'),
+              array( 'type' => 'text',  	'label' => 'Selektdefinition',   'example' => 'Frau=w;Herr=m'),
+              array( 'type' => 'no_db',   'label' => 'Datenbank',          'default' => 1),
+              array( 'type' => 'text',    'label' => 'Defaultwert'),
+              // array( 'type' => 'boolean', 'label' => 'Mehrfachselektion',  'default' => 0),
             ),
             'description' => 'Ein Selektfeld mit festen Definitionen',
             'dbtype' => 'text'

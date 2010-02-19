@@ -23,37 +23,32 @@ switch($subpage)
   case 'field':
   	require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
     break;
-	case '':
-	  if($REX['USER']->isAdmin())
-	  {
-	    $subpage = 'tables';
-      require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
-	    break;
-	  }else
-	  {
-	  	if(count($tables)>0)
-		    foreach($tables as $t)
-		    {
-		  	  $subpage = $t["label"];
-		  	  break;
-		    }
-	  }
+
   default:
   {
   	$table = "";
     if(count($tables)>0)
+    {
 	  	foreach($tables as $t)
-	  		if($t["label"] == $subpage)
+	  	{
+	  		if($t["name"] == $subpage)
+	  		{
 	  		  $table = $subpage;
+	  		}
+  		}
+  	}
   	
-		if($table == "")
-		{
-			$subpage = "tables";
-			require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
-	  }else
-	  {
-			require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
-	  }
+	if($table == "" && $REX['USER'] && $REX['USER']->isAdmin())
+	{
+		$subpage = "tables";
+		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+	}elseif($table == "")
+	{
+		echo "-";
+	}else
+	{
+		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
+	}
   }
 }
 

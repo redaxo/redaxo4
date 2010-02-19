@@ -104,7 +104,20 @@
 }
 
 
+/*  --------------------------------------- Fieldset / Legend */
 
+.xform fieldset legend{
+  padding:0px 10px;
+  border:1px solid #333;
+  background-color:#fff;
+}
+
+.xform fieldset {
+  padding-top:15px;
+}
+
+
+/*  --------------------------------------- Form Lang-textarea */
 
 .xform div.formlangtextarea p {
 	float: none;
@@ -131,3 +144,16 @@
 	color: #14568A;
 	text-decoration: underline;
 }
+
+/*  --------------------------------------- REX-Widgets */
+
+.xform div.rex-widget-media input{
+  background-color:#f90;
+  width:200px;
+}
+
+.xform div.rex-widget-medialist select{
+  background-color:#f90;
+  width:244px;
+}
+

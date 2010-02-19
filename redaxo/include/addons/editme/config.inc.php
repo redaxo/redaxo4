@@ -15,8 +15,6 @@ if($REX["REDAXO"] && !$REX['SETUP'])
   // Sprachdateien anhaengen
   $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
 
-  // $REX['ADDON']['rxid']["editme"] = '';
-  // $REX['ADDON']['page']["editme"] = "editme";
   $REX['ADDON']['name']["editme"] = $I18N->msg("editme");
   $REX['ADDON']['perm']["editme"] = 'em[]';
 
@@ -33,10 +31,12 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
 	
 	$REX['ADDON']['editme']['subpages'] = array();
-	$REX['ADDON']['navigation']['editme'] = array('active_when'=>array('page'=>'editme','subpage'=>''));
+ 	$REX['ADDON']['navigation']['editme'] = array('active_when'=>array('page'=>'editme','subpage'=>''));
 	
+/*
 	if ($REX['USER'] && ($REX['USER']->isAdmin()))
   		$REX['ADDON']['editme']['subpages'][] = array( '' , $I18N->msg("em_overview"));
+*/
 	
   $REX['ADDON']['editme']['tables'] = rex_em_getTables();
   		
@@ -45,7 +45,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
     foreach($REX['ADDON']['editme']['tables'] as $table)
     {
   		// Recht um das AddOn ueberhaupt einsehen zu koennen
-  		$table_perm = 'em['.$table["label"].']';
+  		$table_perm = 'em['.$table["name"].']';
   		$REX['EXTPERM'][] = $table_perm;
   		
   		// include dashbord-components
@@ -55,7 +55,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
             
             rex_register_extension (
               'DASHBOARD_COMPONENT',
-              array(new rex_editme_component($table["label"]), 'registerAsExtension')
+              array(new rex_editme_component($table["name"]), 'registerAsExtension')
             );
           }
     }
@@ -66,13 +66,13 @@ if($REX["REDAXO"] && !$REX['SETUP'])
       global $REX;
 	    foreach($REX['ADDON']['editme']['tables'] as $table)
       {
-        $table_perm = 'em['.$table["label"].']';
+        $table_perm = 'em['.$table["name"].']';
     	  if($table["status"] == 1 && $REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
     	  {
        	  $item = array();
-    	    $item['title'] = $table['name'];
-    	    $item['href'] = 'index.php?page=editme&subpage='.$table['label'];
-    	    $item['active_when'] = array('page'=>'editme', 'subpage' => $table['label']);
+    	    $item['title'] = $table['label'];
+    	    $item['href'] = 'index.php?page=editme&subpage='.$table['name'];
+    	    $item['active_when'] = array('page'=>'editme', 'subpage' => $table['name']);
     	    $params['subject']->addElement('editme', $item);
     	  }
       }

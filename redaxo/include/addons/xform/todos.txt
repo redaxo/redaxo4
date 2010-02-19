@@ -1,0 +1,12 @@
+Todos:
+
+- jquery integrieren 
+- komplexere relationen einbauen
+- weitere xform Ÿbernehmen
+
+___ value
+- getLabel -> getName umbauen
+- ->id ->getId etc.. 
+
+___ validate
+- deprecated xaElements .. entfernen

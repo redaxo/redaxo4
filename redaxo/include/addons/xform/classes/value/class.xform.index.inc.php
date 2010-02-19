@@ -27,7 +27,7 @@ class rex_xform_index extends rex_xform_abstract
 	    
 	  	foreach($this->obj as $o)
 	    {
-	    	  if(in_array($o->getLabel(),$index_labels))
+	    	  if(in_array($o->getName(),$index_labels))
            $this->value .= $o->getvalue();
 	    }
 	    
@@ -37,9 +37,9 @@ class rex_xform_index extends rex_xform_abstract
 	    	$this->value = call_user_func($fnc, $this->value);
 	    }
 	    
-	  	$this->element_values["email"][$this->getLabel()] = $this->value;
+	  	$this->element_values["email"][$this->getName()] = $this->value;
 	    if (!isset($this->elements[3]) || $this->elements[3] != "no_db") 
-	      $this->element_values["sql"][$this->getLabel()] = $this->value;
+	      $this->element_values["sql"][$this->getName()] = $this->value;
 
   	}
   }
@@ -50,10 +50,10 @@ class rex_xform_index extends rex_xform_abstract
             'type' => 'value',
             'name' => 'index',
             'values' => array(
-              array( 'type' => 'label',   'name' => 'Feld' ),
-              array( 'type' => 'labels',  'name' => 'Labels, kommasepariert'),
-              array( 'type' => 'no_db',   'name' => 'Datenbank',  'default' => 1),
-              array( 'type' => 'select',  'name' => 'Opt. Codierfunktion', 'default' => '0', 'definition' => 'Keine Funktion=;md5=md5;sha=sha' ),
+              array( 'type' => 'name',   'label' => 'Feld' ),
+              array( 'type' => 'names',  'label' => 'Names, kommasepariert'),
+              array( 'type' => 'no_db',   'label' => 'Datenbank',  'default' => 1),
+              array( 'type' => 'select',  'label' => 'Opt. Codierfunktion', 'default' => '0', 'definition' => 'Keine Funktion=;md5=md5;sha=sha' ),
             ),
             'description' => 'Erstellt einen Index Ÿber Felder/Labels, die man selbst festlegen kann.',
             'dbtype' => 'text'

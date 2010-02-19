@@ -1,0 +1,18 @@
+
+- subtitle navi einbauen
+-- tables
+-- einzelne tabellen, bei klick zum felder editieren
+
+- die moeglichkeit schaffen, artverwandte "values" zu Šndern.. z.b. von Text -> Textarea
+- text/textarea mit size und height etc
+
+- objekte zum auslesen schaffen
+
+- in tableverwaltung anzahl der ergebnisse festlegen kšnnen
+
+- suche in edit.inc. einbauen - system Ÿberlegen wie man das in der verwaltung definieren kšnnte
+
+- relation erweitern.. jede relation automatisch in verknpŸfungstabellen speichern
+-- popup aufrufen und nur in datensaetzen arbeiten die zu einem anderen gehoeren.. 
+
+- aufteilung value/validate/action verbessern. ansicht der felder verbessern .. 

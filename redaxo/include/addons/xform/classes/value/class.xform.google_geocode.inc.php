@@ -35,11 +35,11 @@ class rex_xform_google_geocode extends rex_xform_abstract
 
 		foreach($this->obj as $o)
 		{
-			if($o->getLabel() == $label_lng)
+			if($o->getName() == $label_lng)
 				$label_lng_id = $o->getId();
-			if($o->getLabel() == $label_lat)
+			if($o->getName() == $label_lat)
 				$label_lat_id = $o->getId();
-			if(in_array($o->getLabel(),$address))
+			if(in_array($o->getName(),$address))
 				$label_ids[] = $o->getId();
 		}
 
@@ -354,15 +354,15 @@ class rex_xform_google_geocode extends rex_xform_abstract
             'type' => 'value',
             'name' => 'google_geocode',
             'values' => array(
-              array( 'type' => 'label',   'name' => 'Label' ),
-              array( 'type' => 'getlabel','name' => '"lng"-Label'),
-              array( 'type' => 'getlabel','name' => '"lat"-Label'),
-              array( 'type' => 'text',    'name' => 'GoogleMapKey'),
-              array( 'type' => 'getlabels','name' => 'Labels Positionsfindung'),
-              array( 'type' => 'text',     'name' => 'Bezeichnung'),
-              array( 'type' => 'text',     'name' => 'Map-Breite'),
-              array( 'type' => 'text',     'name' => 'Map-H&ouml;he'),
-              array( 'type' => 'boolean', 'name' => 'Resizeable',         'default' => 1),
+              array( 'type' => 'name',   'label' => 'Name' ),
+              array( 'type' => 'getName','label' => '"lng"-name'),
+              array( 'type' => 'getName','label' => '"lat"-name'),
+              array( 'type' => 'text',    'label' => 'GoogleMapKey'),
+              array( 'type' => 'getNames','label' => 'Names Positionsfindung'),
+              array( 'type' => 'text',     'label' => 'Bezeichnung'),
+              array( 'type' => 'text',     'label' => 'Map-Breite'),
+              array( 'type' => 'text',     'label' => 'Map-H&ouml;he'),
+              array( 'type' => 'boolean', 'label' => 'Resizeable',         'default' => 1),
             ),
             'description' => 'GoogeMap Positionierung',
             'dbtype' => 'text'

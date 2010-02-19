@@ -31,9 +31,9 @@ class rex_xform_validate_size extends rex_xform_validate_abstract
 						'type' => 'validate',
 						'name' => 'size',
 						'values' => array(
-             	array( 'type' => 'getlabel',   	'name' => 'Label' ),
-              array( 'type' => 'text',    		'name' => 'Anzahl der Stellen'),
-              array( 'type' => 'text',    		'name' => 'Fehlermeldung'),
+             	array( 'type' => 'getName',   	'label' => 'Name' ),
+              array( 'type' => 'text',    		'label' => 'Anzahl der Stellen'),
+              array( 'type' => 'text',    		'label' => 'Fehlermeldung'),
               ),
 						'description' => 'Hiermit wird ein Label ŸberprŸft ob es eine bestimmte Anzahl von Zeichen hat',
 			);

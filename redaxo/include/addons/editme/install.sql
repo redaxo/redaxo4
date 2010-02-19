@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `rex_em_field` (
   `id` int(11) NOT NULL auto_increment,
-  `table_id` int(11) NOT NULL,
+  `table_name` varchar(255) NOT NULL,
   `type_name` varchar(255) NOT NULL,
   `type_id` varchar(255) NOT NULL,
   `prio` varchar(255) NOT NULL,

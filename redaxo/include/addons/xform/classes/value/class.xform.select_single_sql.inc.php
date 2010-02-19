@@ -23,7 +23,7 @@ class rex_xform_select_single_sql extends rex_xform_abstract
 
 		foreach($teams->getArray() as $t)
 		{
-			if($this->elements[6] == "")
+			if(!isset($this->elements[6]) || $this->elements[6] == "")
 				$v = $t['name'];
 			else
 				$v = $t[$this->elements[6]];

@@ -6,13 +6,13 @@ class rex_xform_abstract
 	var $params = array(); // allgemeine parameter der
 	var $obj;
 	var $elements = array(); // lokale elemente
-  var $element_values = array(); // Werte aller Value Objekte
-	
+	var $element_values = array(); // Werte aller Value Objekte
+
 
 	var $id;
 	var $value;
-  var $label;
-  var $keys = array();
+	var $name;
+	var $keys = array();
 
 	// Position im Formular. Unique ID
 	function setId($id)
@@ -24,7 +24,7 @@ class rex_xform_abstract
 	{
 		$this->aid = $aid;
 	}
-	
+
 	function setValue($value)
 	{
 		$this->value=$value;
@@ -47,9 +47,9 @@ class rex_xform_abstract
 
 	function getValueFromKey($v = "")
 	{
-	
-		if($v == "") 
-			$v = $this->getValue();
+
+		if($v == "")
+		$v = $this->getValue();
 			
 		if(is_array($v))
 		{
@@ -57,9 +57,9 @@ class rex_xform_abstract
 		}else
 		{
 			if(isset($this->keys[$v]))
-				return $this->keys[$v];
-			else 
-				return $v; 
+			return $this->keys[$v];
+			else
+			return $v;
 		}
 	}
 
@@ -70,27 +70,27 @@ class rex_xform_abstract
 
 
 	// FormularParameter ins Objekt legen
-	function loadParams(&$params, $elements, &$obj, &$email_elements, &$sql_elements)
+	function loadParams(&$params, $elements = array(), &$obj, &$email_elements, &$sql_elements)
 	{
 		// parameter des Formuarmoduls werden Ã¼bergeben
 		$this->params = &$params;
 		// die entsprechende passende Zeile wird als array | Ã¼bergeben
 		$this->elements = &$elements;
 		$this->obj = &$obj;
-		$this->setLabel($this->elements[1]);
-    $this->element_values["email"] = &$email_elements;
-    $this->element_values["sql"] = &$sql_elements;
-    
+		$this->setName($this->elements[1]);
+		$this->element_values["email"] = &$email_elements;
+		$this->element_values["sql"] = &$sql_elements;
+
 	}
 
-	function setLabel($label)
+	function setName($name)
 	{
-		$this->label = $label;
+		$this->name = $name;
 	}
 
-	function getLabel()
+	function getName()
 	{
-		return $this->label;
+		return $this->name;
 	}
 
 
@@ -103,16 +103,16 @@ class rex_xform_abstract
 	// Aufruf des Objektes mit den verschiedenen Zeigern
 	function enterObject($email_elements,$sql_elements,$warning,$form_output,$send = 0)
 	{
-		
+
 		// fuer email verschicken
 		// $email_elements["feldname"] = "feldwert";
-		
+
 		// Zum Schreiben oder Aktualisieren des Eintrages
 		// $sql_elements["feldname"] = "feldwert";
 
 		// alle formulareintraeg
 		// $form_elements
-		
+
 		// $warning["el_".$this->id] = "Warenkorb ist nicht vorhanden";
 
 		// Formular ausgabe
@@ -120,40 +120,40 @@ class rex_xform_abstract
 
 		// $send == 1 - formular wurde schonmal abgeschickt
 	}
-	
+
 	/* ******************************************************** AKTIONEN **************** */
-	
+
 	// Wird direkt nach bei der Objekterzeugung ausgefŸhrt
 	function init()
 	{
-	
+
 	}
 
-  function preValidateAction()
-  {
-  
-  }
-	
-  function postValidateAction()
-  {
-  
-  }
+	function preValidateAction()
+	{
 
-  function postFormAction()
-  {
-  
-  }
-  
+	}
+
+	function postValidateAction()
+	{
+
+	}
+
+	function postFormAction()
+	{
+
+	}
+
 	// Aufruf nachdem E-Mail oder Datenbankeintrag vorgenommen wurde
 	function postAction(&$email_elements,&$sql_elements)
 	{
 		/*
-		unset($_SESSION["wk"]);
-		ob_end_flush();
-		ob_end_flush();
-		header("Location:".rex_getUrl(28));
-		exit;
-		*/
+		 unset($_SESSION["wk"]);
+		 ob_end_flush();
+		 ob_end_flush();
+		 header("Location:".rex_getUrl(28));
+		 exit;
+		 */
 	}
 
 	// nachdem update oder insert sql ausgefÃ¼hrt wurde
@@ -163,35 +163,35 @@ class rex_xform_abstract
 		if ($flag=="insert")
 		{
 			// $id = $sql->getLastId();
-			
+				
 		}
 	}
 
 	/* ******************************************************** / AKTIONEN **************** */
-	
-	
-	
+
+
+
 	// DB-feld Bezeichnung zurückgeben
 	function getDatabasefieldname()
 	{
-		if (isset($this->elements[1])) 
-		  return $this->elements[1];
+		if (isset($this->elements[1]))
+		return $this->elements[1];
 	}
-	
 
-	
+
+
 	//Id zurückgeben
 	function getId()
 	{
 		return $this->id;
 	}
-	
+
 	//Element mit Nummer $nr zurückgeben
 	function getElement($nr)
 	{
 		return $this->elements[$nr];
 	}
-	
+
 	function getDescription()
 	{
 		return "Es existiert keine Klassenbeschreibung";
@@ -199,21 +199,21 @@ class rex_xform_abstract
 
 	function getLongDescription()
 	{
-		return "Es existiert keine ausführliche Klassenbeschreibung";
+		return "Es existiert keine ausfuehrliche Klassenbeschreibung";
 	}
 
 	function getDefinitions()
 	{
 		return array();
 	}
-	
+
 	// ************** FÜR DATENBANKEN
-	
+
 	function getDBFieldType()
 	{
 		return FALSE;
 	}
-	
-	
+
+
 
 }

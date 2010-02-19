@@ -14,11 +14,11 @@ foreach($tables as $table)
 {
 	$name = $table['name'];
 	$id = $table['id'];
-	$table["tablename"] = 'rex_em_data_'.$table['label'];
-	 
-	if($subpage == $table['label'])
+	$table["tablename"] = 'rex_em_data_'.$table['name'];
+
+	if($subpage == $table['name'])
 	{
-		echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["name"].'</b> - '.$table["description"].'</td></tr></table><br />';
+		echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["label"].'</b> - '.$table["description"].'</td></tr></table><br />';
 		break; // Wenn Tabelle gefunden - abbrechen
 	}
 
@@ -42,7 +42,7 @@ if($rex_em_opener_field != "")
 
 
 
-// ********************************************* L…SCHEN
+// ********************************************* LOESCHEN
 if($func == "delete")
 {
   $query = 'delete from '.$table["tablename"].' where id='.$data_id;
@@ -59,7 +59,7 @@ if($func == "delete")
 
 
 // ********************************************* FORMULAR
-$fields = rex_em_getFields($table['id']);
+$fields = rex_em_getFields($table['name']);
 if($func == "add" || $func == "edit")
 {
 	
@@ -130,8 +130,7 @@ if($func == "add" || $func == "edit")
 if($show_list)
 {
 	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'&func=add&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).'"><b>+ anlegen</b></a></td></tr></table><br />';
-		 
-	$fields = rex_em_getFields($table['id']);
+
 
 	$sql = "select * from ".$table["tablename"];
 
@@ -139,15 +138,20 @@ if($show_list)
 	$list->setColumnFormat('id', 'Id');
 
 	$list->setColumnParams("id", array("data_id"=>"###id###","func"=>"edit","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));
+	// $list->setColumnParams("login", array("table_id"=>"###id###","func"=>"edit"));
+	// $list->removeColumn("id");
 	
+	$fields = rex_em_getFields($table['name']);
 	foreach($fields as $field)
-  {
-  	if($field["type_id"] == "value")
-  	{
-  		if($field["list_hidden"] == 1)
-        $list->removeColumn($field["f1"]);
+    {
+  	  if($field["type_id"] == "value")
+ 	  {
+        if($field["list_hidden"] == 1)
+        {
+          $list->removeColumn($field["f1"]);
+        }
+	  }
   	}
-  }
 	
 	$list->addColumn('editieren','editieren');
 	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit","rex_em_opener_field"=>$rex_em_opener_field,"rex_em_opener_fieldname"=>$rex_em_opener_fieldname));

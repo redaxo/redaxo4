@@ -31,14 +31,14 @@ class rex_xform_validate_notEmpty extends rex_xform_validate_abstract
 	function getDefinitions()
 	{
 		return array(
-						'type' => 'validate',
-						'name' => 'notEmpty',
-						'values' => array(
-             	array( 'type' => 'getlabel',   'name' => 'Label' ),
-              array( 'type' => 'text',    'name' => 'Fehlermeldung'),
-						),
-						'description' => 'Hiermit wird ein Label ŸberprŸft ob es gesetzt ist',
-			);
+					'type' => 'validate',
+					'name' => 'notEmpty',
+					'values' => array(
+						array( 'type' => 'getName',   'label' => 'Name' ),
+						array( 'type' => 'text',    'label' => 'Fehlermeldung'),
+					),
+					'description' => 'Hiermit wird ein Label ŸberprŸft ob es gesetzt ist',
+				);
 	
 	}
 	
