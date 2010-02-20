@@ -1,6 +1,6 @@
 <?php
 
-class rex_img_cmp_abstract
+class rex_effect_abstract
 {
 
 	var $params = array(); // lokale parameter

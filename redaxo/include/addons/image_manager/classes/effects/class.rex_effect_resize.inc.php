@@ -1,6 +1,6 @@
 <?php
 
-class rex_img_cmp_resize extends rex_img_cmp_abstract{
+class rex_effect_resize extends rex_effect_abstract{
 
 
 	function execute()

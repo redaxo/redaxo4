@@ -7,7 +7,7 @@
  * nach einem Bild mit dem Dateinamen "brand.*" und verwendet den 1. Treffer
  */
 
-class rex_img_cmp_brand extends rex_img_cmp_abstract{
+class rex_effect_brand extends rex_effect_abstract{
 
 	
 	function execute()

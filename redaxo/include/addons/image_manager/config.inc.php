@@ -31,31 +31,31 @@ $REX['ADDON']['image_manager']['jpg_quality'] = 85;
 // --- /DYN
 
 include_once ($REX['INCLUDE_PATH'].'/addons/image_manager/classes/class.rex_img_type.inc.php');
-include_once ($REX['INCLUDE_PATH'].'/addons/image_manager/classes/class.rex_img_cmp_abstract.inc.php');
+include_once ($REX['INCLUDE_PATH'].'/addons/image_manager/classes/class.rex_effect_abstract.inc.php');
 
-
-if ($REX['REDAXO'])
-{
-  if(!function_exists('rex_image_manager_ep_mediaupdated'))
-  {
-  	rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
-  	function rex_img_type_ep_mediaupdated($params){
-  		rex_img_type::deleteCache($params["filename"]);
-  	}
-  }
-}
-
+//--- handle image request
 $rex_img_type = rex_get('rex_img_type', 'string');
 $rex_img_file = rex_get('rex_img_file', 'string');
 
-if($rex_img_type != "" && $rex_img_file != "")
+if($rex_img_type != '' && $rex_img_file != '')
 {
 	rex_img_type::createFromType($rex_img_type,$rex_img_file);
 }
 
+
 if($REX['REDAXO'])
 {
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+  // delete thumbnails on mediapool changes
+  if(!function_exists('rex_image_manager_ep_mediaupdated'))
+  {
+    rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
+    function rex_img_type_ep_mediaupdated($params){
+      rex_img_type::deleteCache($params["filename"]);
+    }
+  }
+  
+  // handle backend pages
+  $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 	$REX['ADDON']['navigation'][$mypage]['subpages'] = array (
   	array ('href' => 'index.php?page=image_manager', 'active_when' => array("page"=>"image_manager","subpage"=>""), 'title' => $I18N->msg('iresize_subpage_desc')),
   	array ('href' => 'index.php?page=image_manager&subpage=settings', 'active_when' => array("page"=>"image_manager","subpage"=>"settings"), 'title' => $I18N->msg('iresize_subpage_config')),

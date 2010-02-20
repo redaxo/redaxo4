@@ -1,7 +1,7 @@
 <?php
 
 
-class rex_img_cmp_filter_greyscale extends rex_img_cmp_abstract{
+class rex_effect_filter_greyscale extends rex_effect_abstract{
 
 	
 	function execute()

@@ -70,21 +70,21 @@ class rex_img_type {
 		}
 
 		$set = array(
-		array('component' => 'resize', 'params' => array( 'height' => 200, 'width' => 200, 'style' => 'fit') ),
-		//    array('component' => 'resize', 'params' => array( 'width' => 200, 'height' => 100) ),
-		//    array('component' => 'resize', 'params' => array( 'size' => 200, 'style' => 'auto') ),
-		//    array('component' => 'filter_blur', 'params' => array( 'amount' => '80', 'radius' => 8, 'threshold' => 3) ),
-		//    array('component' => 'filter_sharpen', 'params' => array( 'amount' => '80', 'radius' => 8, 'threshold' => 3) ),
-		//    array('component' => 'branding', 'params' => array( 'brandimage' => 'logo.gif', ) ),
-		array('component' => 'filter_greyscale', 'params' => array() ),
-		//    array('component' => 'filter_sepia', 'params' => array() ),
+//		array('effect' => 'resize', 'params' => array( 'height' => 200, 'width' => 200, 'style' => 'fit') ),
+//		    array('effect' => 'resize', 'params' => array( 'width' => 200, 'height' => 100) ),
+//		    array('effect' => 'resize', 'params' => array( 'size' => 200, 'style' => 'auto') ),
+//		    array('effect' => 'filter_blur', 'params' => array( 'amount' => '80', 'radius' => 8, 'threshold' => 3) ),
+//		    array('effect' => 'filter_sharpen', 'params' => array( 'amount' => '80', 'radius' => 8, 'threshold' => 3) ),
+		    array('effect' => 'brand', 'params' => array( 'brandimage' => 'logo.gif', ) ),
+//		array('effect' => 'filter_greyscale', 'params' => array() ),
+		//    array('effect' => 'filter_sepia', 'params' => array() ),
 
 		);
 
 		foreach($set as $cmp)
 		{
-			$cl = 'rex_img_cmp_'.$cmp['component'];
-			require_once ($REX['INCLUDE_PATH'].'/addons/image_manager/components/class.'.$cl.'.inc.php');
+			$cl = 'rex_effect_'.$cmp['effect'];
+			require_once ($REX['INCLUDE_PATH'].'/addons/image_manager/classes/effects/class.'.$cl.'.inc.php');
 			$c = new $cl;
 			// var_dump($cmp['params']);
 			$c->setParams($this->img,$cmp['params']);
