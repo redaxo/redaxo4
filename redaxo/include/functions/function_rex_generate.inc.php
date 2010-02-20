@@ -471,16 +471,16 @@ function rex_generateLists($re_id, $clang = null)
 /**
  * Löscht die gecachte Medium-Datei.
  *
- * @param $media_id Medium-Id
+ * @param $filename Dateiname
  * 
  * @return void
  */
-function rex_deleteCacheMedia($media_id)
+function rex_deleteCacheMedia($filename)
 {
   global $REX;
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
-  @unlink($cachePath . $media_id . '.media');
+  @unlink($cachePath . $filename . '.media');
   rex_deleteCacheMediaLists();
 }
 
@@ -510,11 +510,16 @@ function rex_deleteCacheMediaLists()
   global $REX;
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  
   $glob = glob($cachePath . '*.mlist');
   if(is_array($glob))
   	foreach ($glob as $file)
     	@unlink($file);
-  @unlink($cachePath . 'names.mnamelist');
+  
+  $glob = glob($cachePath . '*.mextlist');
+  if(is_array($glob))
+  	foreach ($glob as $file)
+    	@unlink($file);
 }
 
 /**
@@ -530,7 +535,6 @@ function rex_deleteCacheMediaList($category_id)
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mlist');
-  @unlink($cachePath . 'names.mnamelist');
 }
 
 /**
@@ -547,7 +551,6 @@ function rex_deleteCacheMediaCategoryLists()
   if (is_array($glob))
     foreach ($glob as $file)
       @unlink($file);
-  @unlink($cachePath . 'catnames.mcnamelist');
 }
 
 /**
@@ -563,21 +566,20 @@ function rex_deleteCacheMediaCategoryList($category_id)
   
   $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mclist');
-  @unlink($cachePath . 'catnames.mcnamelist');
 }
 
 /**
  * Generiert den Cache des Mediums.
  * 
- * @param $media_id Id des zu generierenden Mediums
+ * @param $filename Dateiname des zu generierenden Mediums
  * 
  * @return TRUE bei Erfolg, sonst FALSE
  */
-function rex_generateMedia($media_id)
+function rex_generateMedia($filename)
 {
   global $REX;
   
-  $query = 'SELECT * FROM ' . OOMedia :: _getTableName() . ' WHERE file_id = '.$media_id;
+  $query = 'SELECT * FROM ' . OOMedia :: _getTableName() . ' WHERE filename = "'.$filename.'"';
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
@@ -588,11 +590,11 @@ function rex_generateMedia($media_id)
   $content = '<?php'."\n";
   foreach($sql->getFieldNames() as $fieldName)
   {
-    $content .= '$REX[\'MEDIA\'][\'ID\']['. $media_id .'][\''. $fieldName .'\'] = \''. rex_addslashes($sql->getValue($fieldName),'\\\'') .'\';'."\n";
+    $content .= '$REX[\'MEDIA\'][\'FILENAME\'][\''. $filename .'\'][\''. $fieldName .'\'] = \''. rex_addslashes($sql->getValue($fieldName),'\\\'') .'\';'."\n";
   }
   $content .= '?>';
   
-  $media_file = $REX['INCLUDE_PATH']."/generated/files/$media_id.media";
+  $media_file = $REX['INCLUDE_PATH']."/generated/files/$filename.media";
   if (rex_put_file_contents($media_file, $content))
     return true;
   
@@ -643,14 +645,14 @@ function rex_generateMediaList($category_id)
 {
   global $REX;
   
-  $query = 'SELECT file_id FROM ' . OOMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
+  $query = 'SELECT filename FROM ' . OOMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
   $sql = rex_sql::factory();
   $sql->setQuery($query);
   
   $content = '<?php'."\n";
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
-    $content .= '$REX[\'MEDIA\'][\'MEDIA_CAT_ID\']['. $category_id .']['. $i .'] = \''. $sql->getValue('file_id') .'\';'."\n";
+    $content .= '$REX[\'MEDIA\'][\'MEDIA_CAT_ID\']['. $category_id .']['. $i .'] = \''. $sql->getValue('filename') .'\';'."\n";
     $sql->next();
   }
   $content .= '?>';
@@ -694,62 +696,6 @@ function rex_generateMediaCategoryList($category_id)
 }
 
 /**
- * Generiert eine Zuordnungsliste: Medium-Name - Medium-Id
- * 
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_generateMediaNameList()
-{
-  global $REX;
-  
-  $query = 'SELECT file_id, filename FROM ' . OOMedia :: _getTableName();
-  $sql = rex_sql::factory();
-  $sql->setQuery($query);
-  
-  $content = '<?php'."\n";
-  for ($i = 0; $i < $sql->getRows(); $i++)
-  {
-    $content .= '$REX[\'MEDIA\'][\'NAME\'][\''. $sql->getValue('filename') .'\'] = \''. $sql->getValue('file_id') .'\';'."\n";
-    $sql->next();
-  }
-  $content .= '?>';
-  
-  $list_file = $REX['INCLUDE_PATH']."/generated/files/names.mnamelist";
-  if (rex_put_file_contents($list_file, $content))
-    return true;
-  
-  return false;
-}
-
-/**
- * Generiert eine Zuordnungsliste: Mediakategorie-Name - Mediakategorie-Id
- * 
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_generateMediaCategoryNameList()
-{
-  global $REX;
-  
-  $query = 'SELECT id, name FROM ' . OOMediaCategory :: _getTableName();
-  $sql = rex_sql::factory();
-  $sql->setQuery($query);
-  
-  $content = '<?php'."\n";
-  for ($i = 0; $i < $sql->getRows(); $i++)
-  {
-    $content .= '$REX[\'MEDIA\'][\'CAT_NAME\'][\''. rex_addslashes($sql->getValue($name),'\\\'') .'\'] = \''. $sql->getValue('id') .'\';'."\n";
-    $sql->next();
-  }
-  $content .= '?>';
-  
-  $list_file = $REX['INCLUDE_PATH']."/generated/files/catnames.mcnamelist";
-  if (rex_put_file_contents($list_file, $content))
-    return true;
-  
-  return false;
-}
-
-/**
  * Generiert eine Liste mit allen Media einer Dateiendung
  * 
  * @param $extension Dateiendung der zu generierenden Liste
@@ -760,14 +706,14 @@ function rex_generateMediaExtensionList($extension)
 {
   global $REX;
   
-  $query = 'SELECT file_id FROM ' . OOMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
+  $query = 'SELECT filename FROM ' . OOMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
   $sql = rex_sql::factory();
   $sql->setQuery($query);
   
   $content = '<?php'."\n";
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
-    $content .= '$REX[\'MEDIA\'][\'EXTENSION\'][\''. $extension .'\']['. $i .'] = \''. $sql->getValue('file_id') .'\';'."\n";
+    $content .= '$REX[\'MEDIA\'][\'EXTENSION\'][\''. $extension .'\']['. $i .'] = \''. $sql->getValue('filename') .'\';'."\n";
     $sql->next();
   }
   $content .= '?>';

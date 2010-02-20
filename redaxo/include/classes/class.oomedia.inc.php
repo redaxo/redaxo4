@@ -67,40 +67,12 @@ class OOMedia
     if ($id==0)
       return null;
 
-    $media_path = $REX['INCLUDE_PATH'].'/generated/files/'.$id.'.media';
-    if (!file_exists($media_path))
-		{
-			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
-    	rex_generateMedia($id);
-		}
-
-    if (file_exists($media_path))
+    $sql = rex_sql::factory();
+    // $sql->debugsql = true;
+    $sql->setQuery('SELECT filename FROM ' . OOMedia :: _getTableName() . ' WHERE file_id='.$id);
+    if ($sql->getRows() == 1)
     {
-      require_once ($media_path);
-      $aliasMap = array(
-        'file_id' => 'id',
-        're_file_id' => 'parent_id',
-        'category_id' => 'cat_id',
-        'filename' => 'name',
-        'originalname' => 'orgname',
-        'filetype' => 'type',
-        'filesize' => 'size'
-      );
-      
-      $media = new OOMedia();
-      foreach($REX['MEDIA']['ID'][$id] as $key => $value)
-      {
-        if(in_array($key, array_keys($aliasMap)))
-          $var_name = '_'. $aliasMap[$key];
-        else
-          $var_name = '_'. $key;
-  
-        $media->$var_name = $value;
-      }
-      $media->_cat = null;
-      $media->_cat_name = null;
-  
-      return $media;
+      return OOMedia :: getMediaByFileName($sql->getValue('filename'));
     }
     
     return NULL;
@@ -139,8 +111,8 @@ class OOMedia
       
       if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension])) 
       {
-        foreach($REX['MEDIA']['EXTENSION'][$extension] as $id)
-          $media[] = & OOMedia :: getMediaById($id);
+        foreach($REX['MEDIA']['EXTENSION'][$extension] as $filename)
+          $media[] = & OOMedia :: getMediaByFileName($filename);
       }
     }
 
@@ -154,22 +126,46 @@ class OOMedia
   {
     global $REX;
     
-    $namelist_path = $REX['INCLUDE_PATH'].'/generated/files/names.mnamelist';
-    if (!file_exists($namelist_path))
+    if ($name == '')
+      return null;
+    
+    $media_path = $REX['INCLUDE_PATH'].'/generated/files/'.$name.'.media';
+    if (!file_exists($media_path))
 		{
 			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
-    	rex_generateMediaNameList();
+    	rex_generateMedia($name);
 		}
 
-    if (file_exists($namelist_path))
+    if (file_exists($media_path))
     {
-      require_once ($namelist_path);
+      require_once ($media_path);
+      $aliasMap = array(
+        'file_id' => 'id',
+        're_file_id' => 'parent_id',
+        'category_id' => 'cat_id',
+        'filename' => 'name',
+        'originalname' => 'orgname',
+        'filetype' => 'type',
+        'filesize' => 'size'
+      );
       
-      if (isset($REX['MEDIA']['NAME'][$name]))
-        return OOMedia :: getMediaById($REX['MEDIA']['NAME'][$name]);
+      $media = new OOMedia();
+      foreach($REX['MEDIA']['FILENAME'][$name] as $key => $value)
+      {
+        if(in_array($key, array_keys($aliasMap)))
+          $var_name = '_'. $aliasMap[$key];
+        else
+          $var_name = '_'. $key;
+  
+        $media->$var_name = $value;
+      }
+      $media->_cat = null;
+      $media->_cat_name = null;
+  
+      return $media;
     }
-
-    return null;
+    
+    return NULL;
   }
 
   /**
@@ -794,7 +790,7 @@ class OOMedia
       $sql->setWhere('file_id='.$this->getId() . ' LIMIT 1');
       $success = $sql->update();
       if ($success)
-        rex_deleteCacheMedia($this->getId());
+        rex_deleteCacheMedia($this->getFileName());
       return $success;
     }
     else
@@ -833,7 +829,7 @@ class OOMedia
         unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
       }
       
-      rex_deleteCacheMedia($this->getId());
+      rex_deleteCacheMedia($this->getFileName());
   
       return $sql->getError();
     }

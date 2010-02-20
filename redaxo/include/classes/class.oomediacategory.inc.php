@@ -86,31 +86,6 @@ class OOMediaCategory
     
     return null;
   }
-  
-  /**
-   * @access public
-   */
-  function getCategoryByName($name)
-  {
-    global $REX;
-    
-    $namelist_path = $REX['INCLUDE_PATH'].'/generated/files/catnames.mcnamelist';
-    if (!file_exists($namelist_path))
-		{
-			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
-    	rex_generateMediaCategoryNameList();
-		}
-
-    if (file_exists($namelist_path))
-    {
-      require_once ($namelist_path);
-      
-      if (isset($REX['MEDIA']['CAT_NAME'][$name]))
-        return OOMediaCategory :: getCategoryById($REX['MEDIA']['CAT_NAME'][$name]);
-    }
-
-    return null;
-  }
 
   /**
    * @access public
@@ -344,8 +319,8 @@ class OOMediaCategory
         
         if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id])) 
         {
-          foreach($REX['MEDIA']['MEDIA_CAT_ID'][$id] as $media_id)
-            $this->_files[] = & OOMedia :: getMediaById($media_id);
+          foreach($REX['MEDIA']['MEDIA_CAT_ID'][$id] as $filename)
+            $this->_files[] = & OOMedia :: getMediaByFileName($filename);
         }
       }
     }
@@ -506,6 +481,24 @@ class OOMediaCategory
     rex_deleteCacheMediaList($this->getId());
     
     return !$sql->hasError() || $sql->getRows() != 1;
+  }
+  
+  /**
+   * @access public
+   * @deprecated 20.02.2010
+   */
+  function getCategoryByName($name)
+  {
+    global $REX;
+    
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT id FROM '. OOMediaCategory :: _getTableName() .'WHERE name="'. $name .'"');
+    if ($sql->getRows() == 1)
+    {
+      return OOMediaCategory :: getCategoryById($sql->getValue('id'));
+    }
+
+    return null;
   }
 
   /**

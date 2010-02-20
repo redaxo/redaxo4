@@ -448,20 +448,20 @@ if ($subpage == "detail")
 if($PERMALL && $media_method == 'updatecat_selectedmedia')
 {
   $selectedmedia = rex_post('selectedmedia','array');
-  if($selectedmedia[0]>0){
+  if($selectedmedia[0]!=''){
 
-    foreach($selectedmedia as $file_id){
+    foreach($selectedmedia as $file_name){
 
       $db = rex_sql::factory();
       // $db->debugsql = true;
       $db->setTable($REX['TABLE_PREFIX'].'file');
-      $db->setWhere('file_id='.$file_id);
+      $db->setWhere('filename="'.$file_name.'"');
       $db->setValue('category_id',$rex_file_category);
       $db->addGlobalUpdateFields();
       if($db->update())
       {
         $info = $I18N->msg('pool_selectedmedia_moved');
-        rex_deleteCacheMedia($file_id);
+        rex_deleteCacheMedia($file_name);
       }
       else
       {
@@ -478,18 +478,17 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 if($PERMALL && $media_method == 'delete_selectedmedia')
 {
 	$selectedmedia = rex_post("selectedmedia","array");
-  if(count($selectedmedia)>0)
+  if(count($selectedmedia)!=0)
   {
   	
   	$warning = array();
   	$info = array();
   	
-    foreach($selectedmedia as $file_id)
+    foreach($selectedmedia as $file_name)
     {
-			$media = OOMedia::getMediaById($file_id);
+			$media = OOMedia::getMediaByFileName($file_name);
 			if ($media)
 			{
-			 $file_name = $media->getFileName();
 			 if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
 			 {
 			   $articleUsesMedia = $media->isInUse();
@@ -758,7 +757,7 @@ if ($subpage == '')
     $ilink = 'index.php?page=mediapool&amp;subpage=detail&amp;file_id='.$file_id.'&amp;rex_file_category='.$rex_file_category. $arg_url;
 
     $add_td = '<td></td>';
-    if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="'.$file_id.'" /></td>';
+    if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="'.$file_name.'" /></td>';
 
     echo '<tr>
             '. $add_td .'

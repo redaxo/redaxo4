@@ -238,7 +238,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
 	$FILESQL->addGlobalUpdateFields();
 	$FILESQL->update();
   
-  rex_deleteCacheMedia($FILEINFOS["file_id"]);
+  rex_deleteCacheMedia($FILEINFOS["filename"]);
 
 
 /*
