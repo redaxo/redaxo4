@@ -30,7 +30,7 @@ if($REX["REDAXO"])
 	$EP = 'PAGE_CHECKED';
 
 	
-  if(rex_request('page', 'string') == 'be_dashboard')
+  if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')
   {
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     

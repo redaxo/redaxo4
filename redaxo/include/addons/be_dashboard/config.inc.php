@@ -24,7 +24,8 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 $REX['PERM'][] = 'be_dashboard[]';
 
-if($REX["REDAXO"])
+// im backend und eingeloggt?
+if($REX["REDAXO"] && $REX["USER"])
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {

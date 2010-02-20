@@ -19,7 +19,8 @@ $REX['ADDON']['version'][$mypage] = '1.3';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
-if($REX["REDAXO"])
+// im backend und eingeloggt?
+if($REX["REDAXO"] && $REX["USER"])
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {
