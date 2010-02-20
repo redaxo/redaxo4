@@ -486,6 +486,7 @@ class OOMediaCategory
   /**
    * @access public
    * @deprecated 20.02.2010
+   * Stattdessen getCategoryById() nutzen
    */
   function getCategoryByName($name)
   {

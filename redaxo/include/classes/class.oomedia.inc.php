@@ -59,28 +59,6 @@ class OOMedia
   /**
    * @access public
    */
-  function getMediaById($id)
-  {
-    global $REX;
-    
-    $id = (int) $id;
-    if ($id==0)
-      return null;
-
-    $sql = rex_sql::factory();
-    // $sql->debugsql = true;
-    $sql->setQuery('SELECT filename FROM ' . OOMedia :: _getTableName() . ' WHERE file_id='.$id);
-    if ($sql->getRows() == 1)
-    {
-      return OOMedia :: getMediaByFileName($sql->getValue('filename'));
-    }
-    
-    return NULL;
-  }
-
-  /**
-   * @access public
-   */
   function getMediaByName($filename)
   {
     return OOMedia :: getMediaByFileName($filename);
@@ -951,5 +929,29 @@ class OOMedia
     {
       return $this->getValue('med'. $value);
     }
+  }
+  
+  /**
+   * @access public
+   * @deprecated 20.02.2010
+   * Stattdessen getMediaByFileName() nutzen
+   */
+  function getMediaById($id)
+  {
+    global $REX;
+    
+    $id = (int) $id;
+    if ($id==0)
+      return null;
+
+    $sql = rex_sql::factory();
+    // $sql->debugsql = true;
+    $sql->setQuery('SELECT filename FROM ' . OOMedia :: _getTableName() . ' WHERE file_id='.$id);
+    if ($sql->getRows() == 1)
+    {
+      return OOMedia :: getMediaByFileName($sql->getValue('filename'));
+    }
+    
+    return NULL;
   }
 }

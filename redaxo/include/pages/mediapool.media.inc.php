@@ -91,6 +91,7 @@ $cat_out = rex_register_extension_point('MEDIA_LIST_TOOLBAR', $cat_out,
 
 if ($subpage=='detail' && rex_post('btn_delete', 'string'))
 {
+  // TODO: getMediaById() deprecated, daher getMediaByFileName() nutzen
   $media = OOMedia::getMediaById($file_id);
 
   if ($media)
