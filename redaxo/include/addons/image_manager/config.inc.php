@@ -30,16 +30,27 @@ $REX['ADDON']['image_manager']['max_resizepixel'] = 1500;
 $REX['ADDON']['image_manager']['jpg_quality'] = 85;
 // --- /DYN
 
-include_once ($REX['INCLUDE_PATH'].'/addons/image_manager/classes/class.rex_img_type.inc.php');
-include_once ($REX['INCLUDE_PATH'].'/addons/image_manager/classes/class.rex_effect_abstract.inc.php');
+require_once (dirname(__FILE__). '/classes/class.rex_image.inc.php');
+require_once (dirname(__FILE__). '/classes/class.rex_image_cacher.inc.php');
+require_once (dirname(__FILE__). '/classes/class.rex_image_manager.inc.php');
+require_once (dirname(__FILE__). '/classes/class.rex_effect_abstract.inc.php');
 
 //--- handle image request
-$rex_img_type = rex_get('rex_img_type', 'string');
 $rex_img_file = rex_get('rex_img_file', 'string');
+$rex_img_type = rex_get('rex_img_type', 'string');
 
-if($rex_img_type != '' && $rex_img_file != '')
+if($rex_img_file != '' && $rex_img_type != '')
 {
-	rex_img_type::createFromType($rex_img_type,$rex_img_file);
+  $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
+  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+  
+  $image         = new rex_image($imagepath);
+  $image_cacher  = new rex_image_cacher($cachepath);
+	$image_manager = new rex_image_manager($image_cacher);
+	
+	$image = $image_manager->applyEffects($image, $rex_img_type);
+	$image_manager->sendImage($image, $rex_img_type);
+	exit();
 }
 
 
@@ -49,8 +60,8 @@ if($REX['REDAXO'])
   if(!function_exists('rex_image_manager_ep_mediaupdated'))
   {
     rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
-    function rex_img_type_ep_mediaupdated($params){
-      rex_img_type::deleteCache($params["filename"]);
+    function rex_image_manager_ep_mediaupdated($params){
+      rex_managed_image::deleteCache($params["filename"]);
     }
   }
   
