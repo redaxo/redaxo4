@@ -251,7 +251,7 @@ class OOCategory extends OORedaxo
   
   /*
    * Static Method:
-   * Returns boolean if is category
+   * Returns True if the given category is a valid OOCategory
    */
   /*public*/ function isValid($category)
   {
