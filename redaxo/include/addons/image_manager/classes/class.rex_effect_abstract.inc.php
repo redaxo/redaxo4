@@ -2,24 +2,30 @@
 
 class rex_effect_abstract
 {
-
-	var $params = array(); // lokale parameter
-	var $img = array(); // img mit parametern
+	var $image = array(); // rex_image_abstract
+	var $params = array(); // effekt parameter
 	
-	function setParams(&$img,$params)
+	function setImage($image)
 	{
-		$this->img = &$img;
+    if(!rex_image::isValid($image))
+    {
+      trigger_error('Given image is not a valid rex_image_abstract', E_USER_ERROR);
+    }
+		$this->image = $image;
+	}
+		
+	function setParams($params)
+	{
 		$this->params = $params;
 	}	
 	
 	function execute()
 	{
-		
+	  // exectute effect on $this->img
 	}
 	
 	function getParams()
 	{
-
+	  // returns an array of parameters which are required for the effect
 	}
-	
 }

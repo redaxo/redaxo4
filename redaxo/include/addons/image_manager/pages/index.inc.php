@@ -21,7 +21,7 @@ $msg = '';
 
 if ($subpage == 'clear_cache')
 {
-  $c = rex_thumbnail::deleteCache();
+  $c = rex_image_cacher::deleteCache();
   $msg = $I18N->msg('iresize_cache_files_removed', $c);
 }
 
