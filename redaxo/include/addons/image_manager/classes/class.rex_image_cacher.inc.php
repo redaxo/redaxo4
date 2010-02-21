@@ -9,7 +9,6 @@ class rex_image_cacher
 	{
 		global $REX;
 		
-		$this->image = $image;
 		$this->cache_path = $cache_path;
 		$this->cache_file = false;
 	}
@@ -60,19 +59,21 @@ class rex_image_cacher
 	  // caching gifs doesn't work
 	  if($image->getFormat() == 'GIF' && !$image->hasGifSupport())
 	  {
-	    $image->send($lastModified, $this->cache_file);
+	    $image->send($lastModified);
 	  }
-	  
-	  // save image to file
-	  if(!$this->isCached($image, $cacheParams))
+	  else
 	  {
-	    $image->prepare();
-	    $image->save($this->cache_file);
+  	  // save image to file
+  	  if(!$this->isCached($image, $cacheParams))
+  	  {
+  	    $image->prepare();
+  	    $image->save($this->cache_file);
+  	  }
+  	  
+  	  // send file
+      $image->sendHeader();
+      readfile($this->cache_file);
 	  }
-	  
-	  // send file
-    $image->sendHeader();
-    readfile($this->cache_file);
 	}
 	
   /*

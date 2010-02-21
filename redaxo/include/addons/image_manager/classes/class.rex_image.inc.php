@@ -38,41 +38,49 @@ class rex_image {
 	
 	/*public*/ function prepare()
 	{
-    // ----- gif support ?
-    $this->gifsupport = function_exists('imagegif');
-
-    // ----- detect image format
-    $this->img['src'] = false;
-    if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
-    {
-      // --- JPEG
-      $this->img['format'] = 'JPEG';
-      $this->img['src'] = @imagecreatefromjpeg($this->img["filepath"]);
-    }elseif ($this->img['format'] == 'PNG')
-    {
-      // --- PNG
-      $this->img['src'] = @imagecreatefrompng($this->img["filepath"]);
-    }elseif ($this->img['format'] == 'GIF')
-    {
-      // --- GIF
-      if ($this->gifsupport)
-      $this->img['src'] = @imagecreatefromgif($this->img["filepath"]);
-    }elseif ($this->img['format'] == 'WBMP')
-    {
-      // --- WBMP
-      $this->img['src'] = @imagecreatefromwbmp($this->img["filepath"]);
-    }
-
-    // ggf error image senden
-    if (!$this->img['src'])
-    {
-      $this->sendError();
-      exit();
-    }else
-    {
-      $this->img['width'] = imagesx($this->img['src']);
-      $this->img['height'] = imagesy($this->img['src']);
-    }	  
+	  if(!isset($this->img['src']))
+	  {
+      // ----- gif support ?
+      $this->gifsupport = function_exists('imagegif');
+  
+      // ----- detect image format
+      $this->img['src'] = false;
+      if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
+      {
+        // --- JPEG
+        $this->img['format'] = 'JPEG';
+        $this->img['src'] = @imagecreatefromjpeg($this->img["filepath"]);
+      }elseif ($this->img['format'] == 'PNG')
+      {
+        // --- PNG
+        $this->img['src'] = @imagecreatefrompng($this->img["filepath"]);
+      }elseif ($this->img['format'] == 'GIF')
+      {
+        // --- GIF
+        if ($this->gifsupport)
+        $this->img['src'] = @imagecreatefromgif($this->img["filepath"]);
+      }elseif ($this->img['format'] == 'WBMP')
+      {
+        // --- WBMP
+        $this->img['src'] = @imagecreatefromwbmp($this->img["filepath"]);
+      }
+  
+      // ggf error image senden
+      if (!$this->img['src'])
+      {
+        $this->sendError();
+        exit();
+      }else
+      {
+        $this->refreshDimensions();
+      }
+	  }
+	}
+	
+	/*public*/ function refreshDimensions()
+	{
+    $this->img['width'] = imagesx($this->img['src']);
+    $this->img['height'] = imagesy($this->img['src']);
 	}
 
 	/*public*/ function hasGifSupport()
@@ -80,7 +88,7 @@ class rex_image {
 	  return $this->gifsupport;
 	}
 
-	/*public*/ function getImage()
+	/*public*/ function &getImage()
 	{
 		return $this->img['src'];
 	}
@@ -123,7 +131,7 @@ class rex_image {
   /*public*/ function send($lastModified = null)
 	{
 	  ob_start();
-    $res = $this->_sendImage();
+    $res = $this->_sendImage(null, $lastModified);
     $content = ob_get_clean();
     
     if(!$res)
@@ -138,7 +146,7 @@ class rex_image {
     header('Content-Type: image/' . $this->img['format']);
 	}
 	
-	/*protected*/ function _sendImage($saveToFileName = null)
+	/*protected*/ function _sendImage($saveToFileName = null, $lastModified = null)
 	{
     $file = $this->img["filepath"];
     
@@ -161,7 +169,7 @@ class rex_image {
 
     if(!$sendfile)
       return FALSE;
-
+      
     // output image
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
@@ -179,6 +187,8 @@ class rex_image {
     {
       imagewbmp($this->img['src'], $saveToFileName);
     }
+    
+    return TRUE;
 	}
 
 	/*protected*/ function sendError($message, $file = null)
