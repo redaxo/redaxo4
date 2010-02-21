@@ -1,14 +1,16 @@
 <?php
 
 
-class rex_effect_filter_greyscale extends rex_effect_abstract{
-
-	
+class rex_effect_filter_greyscale extends rex_effect_abstract
+{
 	function execute()
 	{
-		
-     $src_x = ceil(imagesx($this->img["src"]));
-     $src_y = ceil(imagesy($this->img["src"]));
+     $gdimage =& $this->image->getImage();
+     $w = $this->image->getWidth();
+     $h = $this->image->getHeight();
+     
+     $src_x = ceil($w);
+     $src_y = ceil($h);
      $dst_x = $src_x;
      $dst_y = $src_y;
 
@@ -20,7 +22,7 @@ class rex_effect_filter_greyscale extends rex_effect_abstract{
 
      $dst_im = ImageCreateTrueColor($dst_x, $dst_y);
 
-     ImageCopyResampled( $dst_im, $this->img["src"], 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y );
+     ImageCopyResampled( $dst_im, $gdimage, 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y );
 
      for ($c=0;$c<256;$c++)
      {
@@ -40,8 +42,7 @@ class rex_effect_filter_greyscale extends rex_effect_abstract{
         }
      }
 
-     $this->img["src"] = $dst_im;
-		
+     $gdimage = $dst_im;
 	}
 	
 	function getParams()

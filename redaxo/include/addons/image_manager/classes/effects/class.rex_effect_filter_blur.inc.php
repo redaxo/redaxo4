@@ -19,7 +19,6 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 
 	function execute()
 	{
-		
 		// Attempt to calibrate the parameters to Photoshop:
 		if ($this->params["amount"] > 500) 
 			$this->params["amount"] = 500;
@@ -34,10 +33,12 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 	    return;
 		}
 	
-		$w = imagesx($this->img["src"]);
-		$h = imagesy($this->img["src"]);
-		$imgCanvas = $this->img["src"];
-		$imgCanvas2 = $this->img["src"];
+		$gdimage =& $this->image->getImage();
+		$w = $this->image->getWidth();
+		$h = $this->image->getHeight();
+		
+		$imgCanvas = $gdimage;
+		$imgCanvas2 = $gdimage;
 		$imgBlur = imagecreatetruecolor($w, $h);
 	
 		// Gaussian blur matrix:
@@ -84,13 +85,12 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 	
 	      if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew))
 	      {
-	        $pixCol = ImageColorAllocate($this->img["src"], $rNew, $gNew, $bNew);
-	        ImageSetPixel($this->img["src"], $x, $y, $pixCol);
+	        $pixCol = ImageColorAllocate($gdimage, $rNew, $gNew, $bNew);
+	        ImageSetPixel($gdimage, $x, $y, $pixCol);
 	      }
 	    }
 	  }
-	  $this->img["src"] = $imgBlur;
-	
+	  $gdimage = $imgBlur;
 	}
 	
 	

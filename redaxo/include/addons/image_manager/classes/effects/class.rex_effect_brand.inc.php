@@ -42,8 +42,8 @@ class rex_effect_brand extends rex_effect_abstract{
   
     $brand = new rex_image($brandimage);
     $brand->prepare();
-    $gdbrand = $brand->getImage();
-    $gdimage = $this->image->getImage();
+    $gdbrand =& $brand->getImage();
+    $gdimage =& $this->image->getImage();
     
     $image_width = $this->image->getWidth();
     $image_height = $this->image->getHeight();

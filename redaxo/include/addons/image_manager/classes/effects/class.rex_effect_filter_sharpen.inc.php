@@ -31,15 +31,16 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 		  $this->params['threshold'] = 255;
 			
 		$this->params['radius'] = abs(round($this->params['radius']));     // Only integers make sense.
+		
 		if ($this->params['radius'] == 0) {
 			return; 
-			imagedestroy($this->img['src']); 
-			break;        }
-			$w = imagesx($this->img['src']); 
-			$h = imagesy($this->img['src']);
+	  }
+      $gdimage =& $this->image->getImage();
+      $w = $this->image->getWidth();
+      $h = $this->image->getHeight();
+      
 			$imgCanvas = imagecreatetruecolor($w, $h);
 			$imgBlur = imagecreatetruecolor($w, $h);
-
 
 			// Gaussian blur matrix:
 			//
@@ -56,7 +57,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 				array( 2, 4, 2 ),
 				array( 1, 2, 1 )
 				);
-				imagecopy ($imgBlur, $this->img['src'], 0, 0, 0, 0, $w, $h);
+				imagecopy ($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h);
 				imageconvolution($imgBlur, $matrix, 16, 0);
 			}
 			else {
@@ -64,9 +65,9 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 				// Move copies of the image around one pixel at the time and merge them with weight
 				// according to the matrix. The same matrix is simply repeated for higher radii.
 				for ($i = 0; $i < $this->params['radius']; $i++)    {
-					imagecopy ($imgBlur, $this->img['src'], 0, 0, 1, 0, $w - 1, $h); // left
-					imagecopymerge ($imgBlur, $this->img['src'], 1, 0, 0, 0, $w, $h, 50); // right
-					imagecopymerge ($imgBlur, $this->img['src'], 0, 0, 0, 0, $w, $h, 50); // center
+					imagecopy ($imgBlur, $gdimage, 0, 0, 1, 0, $w - 1, $h); // left
+					imagecopymerge ($imgBlur, $gdimage, 1, 0, 0, 0, $w, $h, 50); // right
+					imagecopymerge ($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h, 50); // center
 					imagecopy ($imgCanvas, $imgBlur, 0, 0, 0, 0, $w, $h);
 
 					imagecopymerge ($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 33.33333 ); // up
@@ -80,7 +81,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 				for ($x = 0; $x < $w-1; $x++)    { // each row
 					for ($y = 0; $y < $h; $y++)    { // each pixel
 							
-						$rgbOrig = ImageColorAt($this->img['src'], $x, $y);
+						$rgbOrig = ImageColorAt($gdimage, $x, $y);
 						$rOrig = (($rgbOrig >> 16) & 0xFF);
 						$gOrig = (($rgbOrig >> 8) & 0xFF);
 						$bOrig = ($rgbOrig & 0xFF);
@@ -106,8 +107,8 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 							
 							
 						if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
-							$pixCol = ImageColorAllocate($this->img['src'], $rNew, $gNew, $bNew);
-							ImageSetPixel($this->img['src'], $x, $y, $pixCol);
+							$pixCol = ImageColorAllocate($gdimage, $rNew, $gNew, $bNew);
+							ImageSetPixel($gdimage, $x, $y, $pixCol);
 						}
 					}
 				}
@@ -115,7 +116,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 			else{
 				for ($x = 0; $x < $w; $x++)    { // each row
 					for ($y = 0; $y < $h; $y++)    { // each pixel
-						$rgbOrig = ImageColorAt($this->img['src'], $x, $y);
+						$rgbOrig = ImageColorAt($gdimage, $x, $y);
 						$rOrig = (($rgbOrig >> 16) & 0xFF);
 						$gOrig = (($rgbOrig >> 8) & 0xFF);
 						$bOrig = ($rgbOrig & 0xFF);
@@ -136,13 +137,12 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 						if($bNew>255){$bNew=255;}
 						elseif($bNew<0){$bNew=0;}
 						$rgbNew = ($rNew << 16) + ($gNew <<8) + $bNew;
-						ImageSetPixel($this->img['src'], $x, $y, $rgbNew);
+						ImageSetPixel($gdimage, $x, $y, $rgbNew);
 					}
 				}
 			}
 			imagedestroy($imgCanvas);
 			imagedestroy($imgBlur);
-
 	}
 
 	function getParams()
