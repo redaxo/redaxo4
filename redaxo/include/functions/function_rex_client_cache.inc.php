@@ -40,16 +40,29 @@ function rex_send_file($file, $contentType, $environment = 'backend')
 }
 
 /**
- * Sendet einen rex_article zum Client,
+ * Sendet eine ressource zum Client,
  * fügt ggf. HTTP1.1 cache headers hinzu
  * 
- * @param $content string Inhalt des Artikels
+ * @param $content string Inhalt der Ressource
  * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
  */
-function rex_send_resource($content, $sendcharset = TRUE)
+function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
 {
   global $REX;
-  rex_send_article(null, $content, $REX['REDAXO'] ? 'backend' : 'frontend', $sendcharset);
+  
+  if(!$etag)
+  {
+    $etag = md5($content);
+  }
+  if(!$lastModified)
+  {
+    $lastModified = time();
+  }
+  
+  rex_send_content($content, $lastModified, $etag, $REX['REDAXO'] ? 'backend' : 'frontend', $sendcharset);
+  
+//  rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
+  
 }
 
 /**
