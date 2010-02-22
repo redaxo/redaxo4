@@ -25,6 +25,20 @@ if(empty($metaTable))
 $Basedir = dirname(__FILE__);
 $field_id = rex_request('field_id', 'int');
 
+//------------------------------> Feld loeschen
+if ($func == 'delete')
+{
+  $field_id = rex_request('field_id', 'int', 0);
+  if ($field_id != 0)
+  {
+    if (a62_delete_field($field_id))
+      echo rex_info($I18N->msg('minfo_field_successfull_deleted'));
+    else
+      echo rex_warning($I18N->msg('minfo_field_error_deleted'));
+  }
+  $func = '';
+}
+
 //------------------------------> Eintragsliste
 if ($func == '')
 {
@@ -36,13 +50,17 @@ if ($func == '')
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'field_id' => '###field_id###'));
 
   $list->removeColumn('field_id');
-  $list->addTableColumnGroup(array(40, '*'));
+  $list->addTableColumnGroup(array(40, '*', 100));
 
   $list->setColumnLabel('field_id', $I18N->msg('minfo_field_label_id'));
   $list->setColumnLayout('field_id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', $I18N->msg('minfo_field_label_name'));
   $list->setColumnParams('name', array('func' => 'edit', 'field_id' => '###field_id###'));
+  
+  $list->addColumn('delete',$I18N->msg('delete'),-1,array("<th>&nbsp;</th>",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->setColumnParams('delete', array('func' => 'delete', 'field_id' => '###field_id###'));
+  $list->addLinkAttribute('delete','onclick',"return confirm('".$I18N->msg('delete')." ?');");
 
   $list->setNoRowsMessage($I18N->msg('minfo_metainfos_not_found'));
 

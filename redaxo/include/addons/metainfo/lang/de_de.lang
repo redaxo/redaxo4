@@ -43,6 +43,8 @@ minfo_field_error_invalid_length = Die angegebene Feldlänge ist ungültig!
 minfo_field_error_invalid_name = Der angegebene Spaltenname ist ungütig!
 minfo_field_error_invalid_fieldid = Die angegebene Feld-Id ist ungütig!
 minfo_field_error_invalid_typeid = Die angegebene Type-Id ist ungütig!
+minfo_field_error_deleted = Feld wurde nicht gelöscht!
+minfo_field_successfull_deleted = Feld erfolgreich gelöscht!
 minfo_field_successfull_saved = Daten erfolgreich gespeichert!
 
 minfo_edit_metadata = Metadaten bearbeiten
