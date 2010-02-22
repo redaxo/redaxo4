@@ -139,7 +139,7 @@ rex_title('Linkmap', $navi_path);
 			<ul>
 			<?php
 			$articles = null;
-			if($isRoot && count($mountpoints)>0)
+			if($isRoot && count($mountpoints)==0)
 				$articles = OOArticle::getRootArticles();
 			else if($category)
 				$articles = $category->getArticles();
