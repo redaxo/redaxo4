@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `rex_em_field` (
   `f7` text NOT NULL,
   `f8` text NOT NULL,
   `f9` text NOT NULL,
+  `search` TINYINT NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -23,5 +24,18 @@ CREATE TABLE IF NOT EXISTS `rex_em_table` (
   `label` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `list_amount` TINYINT NOT NULL DEFAULT '50',
+  `prio` TINYINT NOT NULL,
+  `search` TINYINT NOT NULL,
+  `hidden` TINYINT NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `rex_em_relation` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `source_table` VARCHAR( 255 ) NOT NULL ,
+  `source_name` VARCHAR( 255 ) NOT NULL ,
+  `source_id` INT NOT NULL ,
+  `target_table` VARCHAR( 255 ) NOT NULL ,
+  `target_id` INT NOT NULL
+) ENGINE = MYISAM ;

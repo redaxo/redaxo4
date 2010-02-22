@@ -114,10 +114,7 @@ foreach($types['action'] as $k => $v)
 
 
 // ********************************************* FORMULAR
-if(
-($func == "add" || $func == "edit" )  &&
-isset($types[$type_id][$type_name])
-)
+if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name]) )
 {
 
 	$xform = new rex_xform;
@@ -204,7 +201,7 @@ isset($types[$type_id][$type_name])
 		}
 
 	}
-
+	
 	$xform->setActionField("showtext",array("","<p>Vielen Dank für die Eintragung</p>"));
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
@@ -223,6 +220,7 @@ isset($types[$type_id][$type_name])
 	if($type_id == "value")
 	{
 		$xform->setValueField("checkbox",array("list_hidden","In Liste verstecken",1,"0"));
+    $xform->setValueField("checkbox",array("search","Als Suchfeld aufnehmen"));
 	}else	if($type_id == "validate")
 	{
 		$xform->setValueField("hidden",array("list_hidden",1));

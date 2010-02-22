@@ -10,8 +10,7 @@ class rex_xform_google_geocode extends rex_xform_abstract
 		$label_lng_id = 0;
 
 		$label_lat = $this->elements[3];
-		$label_lat_value = 0;
-
+    $label_lat_id = "";
 
 		$google_key = "xxx";	
 		if($this->elements[4] != "")
@@ -31,6 +30,10 @@ class rex_xform_google_geocode extends rex_xform_abstract
 		if ($this->elements[9] != "")			
 			$mapresize = $this->elements[9];
 		
+		$label = "";
+    if(isset($this->elements[6]))
+			$label = $this->elements[6];
+			
 		$label_ids = array();
 
 		foreach($this->obj as $o)
@@ -317,8 +320,8 @@ class rex_xform_google_geocode extends rex_xform_abstract
 		$form_output[] = '
 	<script type="text/javascript">
 	//<![CDATA[
-	var rex_geoOptions'.$this->id.' = { id: '.$this->id.', lat: "el_'.$label_lat_id.'", lng: "el_'.$label_lng_id.'", '.$vv.' htdocspath : "'.$REX['HTDOCS_PATH'].'", resizable_map: '.$mapresize.' };
-	rex_geocoder'.$this->id.' = new rexGmap_GeoCoder(rex_geoOptions'.$this->id.');
+	var rex_geoOptions'.$this->getId().' = { id: '.$this->getId().', lat: "el_'.$label_lat_id.'", lng: "el_'.$label_lng_id.'", '.$vv.' htdocspath : "'.$REX['HTDOCS_PATH'].'", resizable_map: '.$mapresize.' };
+	rex_geocoder'.$this->getId().' = new rexGmap_GeoCoder(rex_geoOptions'.$this->getId().');
 	//]]>
 	</script>	
 		';
@@ -326,13 +329,13 @@ class rex_xform_google_geocode extends rex_xform_abstract
 		
 		
 		$output = '
-			<div class="xform-element form_google_geocode formlabel-'.$this->label.'">
-				<label class="text '.$wc.'" for="el_'.$this->id.'_lat" >'.$this->elements[6].'</label>
+			<div class="xform-element form_google_geocode formlabel-'.$this->getName().'">
+				<label class="text '.$wc.'" for="el_'.$this->getId().'_lat" >'.$label.'</label>
 				<p class="form_google_geocode">';
 		if ($vv != "")
-			$output .= '<a href="#" id="rex_getGGeo'.$this->id.'">Geodaten holen</a> | ';	
-		$output .= '<a href="#" id="rex_deleteGGeo'.$this->id.'">Geodaten nullen</a></p>
-				<div class="form_google_geocode_map" id="map_canvas'.$this->id.'" style="width:'.$mapwidth.'px; height:'.$mapheight.'px">Google Map</div>
+			$output .= '<a href="#" id="rex_getGGeo'.$this->getId().'">Geodaten holen</a> | ';	
+		$output .= '<a href="#" id="rex_deleteGGeo'.$this->getId().'">Geodaten nullen</a></p>
+				<div class="form_google_geocode_map" id="map_canvas'.$this->getId().'" style="width:'.$mapwidth.'px; height:'.$mapheight.'px">Google Map</div>
 			</div>';
 			
 		$form_output[] = $output;

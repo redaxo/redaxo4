@@ -68,7 +68,6 @@ class rex_xform_abstract
 		$this->keys = array();
 	}
 
-
 	// FormularParameter ins Objekt legen
 	function loadParams(&$params, $elements = array(), &$obj, &$email_elements, &$sql_elements)
 	{
@@ -80,7 +79,6 @@ class rex_xform_abstract
 		$this->setName($this->elements[1]);
 		$this->element_values["email"] = &$email_elements;
 		$this->element_values["sql"] = &$sql_elements;
-
 	}
 
 	function setName($name)
@@ -92,7 +90,6 @@ class rex_xform_abstract
 	{
 		return $this->name;
 	}
-
 
 	function setObjects(&$obj)
 	{
@@ -121,9 +118,6 @@ class rex_xform_abstract
 		// $send == 1 - formular wurde schonmal abgeschickt
 	}
 
-	/* ******************************************************** AKTIONEN **************** */
-
-	// Wird direkt nach bei der Objekterzeugung ausgefŸhrt
 	function init()
 	{
 
@@ -144,49 +138,32 @@ class rex_xform_abstract
 
 	}
 
-	// Aufruf nachdem E-Mail oder Datenbankeintrag vorgenommen wurde
 	function postAction(&$email_elements,&$sql_elements)
 	{
-		/*
-		 unset($_SESSION["wk"]);
-		 ob_end_flush();
-		 ob_end_flush();
-		 header("Location:".rex_getUrl(28));
-		 exit;
-		 */
+
 	}
 
-	// nachdem update oder insert sql ausgefÃ¼hrt wurde
 	function postSQLAction($sql,$flag="insert")
 	{
-		// Zeiger auf sql Objekt
 		if ($flag=="insert")
 		{
 			// $id = $sql->getLastId();
-				
 		}
 	}
 
-	/* ******************************************************** / AKTIONEN **************** */
-
-
-
-	// DB-feld Bezeichnung zurückgeben
 	function getDatabasefieldname()
 	{
 		if (isset($this->elements[1]))
-		return $this->elements[1];
+		{
+			return $this->elements[1];
+		}
 	}
 
-
-
-	//Id zurückgeben
 	function getId()
 	{
 		return $this->id;
 	}
 
-	//Element mit Nummer $nr zurückgeben
 	function getElement($nr)
 	{
 		return $this->elements[$nr];
@@ -207,13 +184,9 @@ class rex_xform_abstract
 		return array();
 	}
 
-	// ************** FÜR DATENBANKEN
-
 	function getDBFieldType()
 	{
 		return FALSE;
 	}
-
-
 
 }

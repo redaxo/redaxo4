@@ -18,9 +18,9 @@ class rex_xform
 
 		// $REX['ADDON']['xform']['classpaths']['value'][0]
 
-		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/'.'class.xform.abstract.inc.php');
-		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/'.'class.xform.action_abstract.inc.php');
-		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/'.'class.xform.validate_abstract.inc.php');
+		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/'.'class.xform.value.abstract.inc.php');
+		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/'.'class.xform.action.abstract.inc.php');
+		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/'.'class.xform.validate.abstract.inc.php');
 
 		$this->objparams = array();
 		$this->objparams['object_path'] = $REX["INCLUDE_PATH"]."/addons/xform/classes/";
@@ -84,8 +84,8 @@ class rex_xform
 
 		if(!is_array($this->objparams["form_elements"]))
 		{
-		$this->objparams["form_elements"] = array();
-}
+			$this->objparams["form_elements"] = array();
+		}
 
 		$form_elements_tmp = array ();
 		$form_elements_tmp = explode("\n", $this->objparams['form_data']); // Die Definitionen
@@ -93,41 +93,29 @@ class rex_xform
 		// leere Zeilen aus $this->objparams["form_elements"] entfernen
 		foreach($form_elements_tmp as $form_element)
 		{
-		if(trim($form_element)!="") $this->objparams["form_elements"][] = $form_element;
-}
+			if(trim($form_element)!="")
+			{
+				$this->objparams["form_elements"][] = explode("|", trim($form_element));
+			}
+		}
 	}
-
 
 	function setValueField($type = "",$values = array())
 	{
-		$t = "$type|";
-		foreach($values as $value)
-		{
-			$t .= "$value|";
-		}
-		$this->objparams["form_elements"][] = $t;
+		$values = array_merge(array($type),$values);
+		$this->objparams["form_elements"][] = $values;
 	}
-
 
 	function setValidateField($type = "",$values = array())
 	{
-		$t = "validate|$type|";
-		foreach($values as $value)
-		{
-			$t .= "$value|";
-		}
-		$this->objparams["form_elements"][] = $t;
+		$values = array_merge(array("validate",$type),$values);
+    $this->objparams["form_elements"][] = $values;
 	}
-
 
 	function setActionField($type = "",$values = array())
 	{
-		$t = "action|$type|";
-		foreach($values as $value)
-		{
-			$t .= "$value|";
-		}
-		$this->objparams["form_elements"][] = $t;
+    $values = array_merge(array("action",$type),$values);
+    $this->objparams["form_elements"][] = $values;
 	}
 
 	function setRedaxoVars($aid = "",$clang = "",$params = array())
@@ -136,12 +124,12 @@ class rex_xform
 
 		if ($clang == "")
 		{
-		$clang = $REX["CUR_CLANG"];
+			$clang = $REX["CUR_CLANG"];
 		}
 		if ($aid == "")
 		{
-		$aid = $REX["ARTICLE_ID"];
-}
+			$aid = $REX["ARTICLE_ID"];
+		}
 
 		// deprecated
 		$this->setObjectparams("article_id",$aid);
@@ -167,24 +155,24 @@ class rex_xform
 	{
 		if (!$refresh && isset($this->objparams[$k]))
 		{
-		$this->objparams[$k] .= $v;
+			$this->objparams[$k] .= $v;
 		}else
 		{
-		$this->objparams[$k] = $v;
-}
+			$this->objparams[$k] = $v;
+		}
 
 		if($k != "form_name")
 		{
-		return;
-}
+			return;
+		}
 
 		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"]))
-{
-		$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
-}		else
-{
-		$this->objparams["send"] = 0;
-}
+		{
+			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
+		}		else
+		{
+			$this->objparams["send"] = 0;
+		}
 
 	}
 
@@ -212,11 +200,11 @@ class rex_xform
 		// *************************************************** ABGESCHICKT PARAMENTER
 		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"]))
 		{
-		$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
+			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
 		}else
 		{
-		$this->objparams["send"] = 0;
-}
+			$this->objparams["send"] = 0;
+		}
 
 
 
@@ -226,7 +214,7 @@ class rex_xform
 		$rows = count($this->objparams["form_elements"]);
 		for ($i = 0; $i < $rows; $i++)
 		{
-			$element = explode("|", trim($this->objparams["form_elements"][$i]));
+			$element = $this->objparams["form_elements"][$i];
 			if($element[0] != "validate" && $element[0] != "action")
 			{
 				foreach($REX['ADDON']['xform']['classpaths']['value'] as $value_path)
@@ -241,11 +229,11 @@ class rex_xform
 
 						if (isset($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]))
 						{
-						$obj[$i]->setValue($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]);
+							$obj[$i]->setValue($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]);
 						}else
 						{
-						$obj[$i]->setValue("");
-}
+							$obj[$i]->setValue("");
+						}
 
 						$obj[$i]->setObjects($obj);
 
@@ -283,7 +271,7 @@ class rex_xform
 		{
 			for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
 			{
-				$element = explode("|", $this->objparams["form_elements"][$i]);
+				$element = $this->objparams["form_elements"][$i];
 				if (($element[0]!="validate" && $element[0]!="action") and $element[1] != "")
 				{
 					$_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i] = @addslashes($SQLOBJ->getValue($element[1]));
@@ -308,7 +296,7 @@ class rex_xform
 
 		for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
 		{
-			$element = explode("|", trim($this->objparams["form_elements"][$i]));
+			$element = $this->objparams["form_elements"][$i];
 			if($element[0] == "validate")
 			{
 				foreach($REX['ADDON']['xform']['classpaths']['validate'] as $validate_path)
@@ -353,7 +341,7 @@ class rex_xform
 
 		for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
 		{
-			$element = explode("|", $this->objparams["form_elements"][$i]);
+			$element = $this->objparams["form_elements"][$i];
 			for($t = 0; $t < count($element); $t++)
 			{
 				$element[$t] = trim($element[$t]);
@@ -400,7 +388,7 @@ class rex_xform
 
 		for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
 		{
-			$element = explode("|", trim($this->objparams["form_elements"][$i]));
+			$element = $this->objparams["form_elements"][$i];
 			if($element[0]=="action")
 			{
 				$this->objparams["actions"][] = array(
@@ -473,14 +461,14 @@ class rex_xform
 					$action->execute();
 				}
 			}
-				
+
 			// PostActions
 			foreach($obj as $value_object)
 			{
 				$value_object->postAction($email_elements, $sql_elements);
 			}
-				
-				
+
+
 		}
 
 
@@ -508,9 +496,9 @@ class rex_xform
 			if($this->objparams["form_anchor"] != "")
 			$this->objparams["output"] .= '#'.$this->objparams["form_anchor"];
 			$this->objparams["output"] .= '" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
-				
+
 			$this->objparams["output"] .= '<p style="display:none;">';
-				
+
 			// deprecated
 			if($this->objparams["article_id"]>0)
 			$this->objparams["output"] .= '<input type="hidden" name="article_id" value="'.htmlspecialchars($this->objparams["article_id"]).'" />';
@@ -521,7 +509,7 @@ class rex_xform
 			foreach($this->objparams["form_hiddenfields"] as $k => $v)
 			$this->objparams["output"] .= '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'" />';
 			$this->objparams["output"] .= '</p>';
-				
+
 			$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 			if ($this->objparams["unique_error"] != '' || $hasWarnings || $hasWarningMessages)
 			{
@@ -556,7 +544,7 @@ class rex_xform
 
 			$this->objparams["output"] .= '</form>
 			'.$this->objparams["form_wrap"][1];
-				
+
 		}
 
 		return $this->objparams["output"];
@@ -622,7 +610,7 @@ class rex_xform
   <?php
 
   if (!class_exists('rex_xform_abstract'))
-  require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.abstract.inc.php');
+  require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.value.abstract.inc.php');
    
   foreach($REX['ADDON']['xform']['classpaths']['value'] as $pos => $value_path)
   {
@@ -659,7 +647,7 @@ class rex_xform
   <?php
 
   if (!class_exists('rex_xform_validate_abstract'))
-  require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate_abstract.inc.php');
+  require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate.abstract.inc.php');
 
   foreach($REX['ADDON']['xform']['classpaths']['validate'] as $pos => $validate_path)
   {
@@ -668,7 +656,7 @@ class rex_xform
   	{
   		while($Datei = readdir($Verzeichniszeiger))
   		{
-  			if (preg_match("/^(class.xform.validate)/", $Datei) && !preg_match("/^(class.xform.validate_abstract)/", $Datei))
+  			if (preg_match("/^(class.xform.validate)/", $Datei) && !preg_match("/^(class.xform.validate.abstract)/", $Datei))
   			{
   				if(!is_dir($Datei))
   				{
@@ -698,7 +686,7 @@ class rex_xform
   <?php
    
   if (!class_exists('rex_xform_action_abstract'))
-  require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action_abstract.inc.php');
+  require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action.abstract.inc.php');
 
   foreach($REX['ADDON']['xform']['classpaths']['action'] as $pos => $action_path)
   {
@@ -707,7 +695,7 @@ class rex_xform
   	{
   		while($Datei = readdir($Verzeichniszeiger))
   		{
-  			if (preg_match("/^(class.xform.action)/", $Datei) && !preg_match("/^(class.xform.action_abstract)/", $Datei))
+  			if (preg_match("/^(class.xform.action)/", $Datei) && !preg_match("/^(class.xform.action.abstract)/", $Datei))
   			{
   				if(!is_dir($Datei))
   				{
@@ -747,7 +735,7 @@ class rex_xform
 		// Value
 
 		if (!class_exists('rex_xform_abstract'))
-		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.abstract.inc.php');
+		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.value.abstract.inc.php');
 			
 		foreach($REX['ADDON']['xform']['classpaths']['value'] as $pos => $value_path)
 		{
@@ -781,7 +769,7 @@ class rex_xform
 		// Validate
 
 		if (!class_exists('rex_xform_validate_abstract'))
-		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate_abstract.inc.php');
+		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate.abstract.inc.php');
 
 		foreach($REX['ADDON']['xform']['classpaths']['validate'] as $pos => $validate_path)
 		{
@@ -790,7 +778,7 @@ class rex_xform
 			{
 				while($Datei = readdir($Verzeichniszeiger))
 				{
-					if (preg_match("/^(class.xform.validate)/", $Datei) && !preg_match("/^(class.xform.validate_abstract)/", $Datei))
+					if (preg_match("/^(class.xform.validate)/", $Datei) && !preg_match("/^(class.xform.validate.abstract)/", $Datei))
 					{
 						if(!is_dir($Datei))
 						{
@@ -816,7 +804,7 @@ class rex_xform
 		// Action
 
 		if (!class_exists('rex_xform_action_abstract'))
-		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action_abstract.inc.php');
+		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action.abstract.inc.php');
 
 		foreach($REX['ADDON']['xform']['classpaths']['action'] as $pos => $action_path)
 		{
@@ -825,7 +813,7 @@ class rex_xform
 			{
 				while($Datei = readdir($Verzeichniszeiger))
 				{
-					if (preg_match("/^(class.xform.action)/", $Datei) && !preg_match("/^(class.xform.action_abstract)/", $Datei))
+					if (preg_match("/^(class.xform.action)/", $Datei) && !preg_match("/^(class.xform.action.abstract)/", $Datei))
 					{
 						if(!is_dir($Datei))
 						{

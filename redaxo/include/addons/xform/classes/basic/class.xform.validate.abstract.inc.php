@@ -7,18 +7,12 @@ class rex_xform_validate_abstract
 	var $elements;
   var $obj_array;
 	
-	// deprecated
-	var $xaObjects = array();
-	var $xaElements = array();
 	var $Objects; // die verschiedenen Value Objekte
 	
 	function loadParams(&$params, &$elements)
 	{
 		$this->params = &$params;
 	  $this->elements = $elements;
-
-	  // deprecated
-		$this->xaElements = $elements;
 	}
 	
 	function setObjects($Objects)
@@ -36,9 +30,6 @@ class rex_xform_validate_abstract
 				{
 					$this->obj_array[] = &$Object;
 					$tmp_FoundObject = true;
-					
-					// deprecated
-					$this->xaObjects[] = &$Object;
 					break;
 				}
 			}

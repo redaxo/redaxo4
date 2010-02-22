@@ -10,11 +10,14 @@ class rex_xform_datestamp extends rex_xform_abstract
 		{
 			$format = $this->elements[2];
 		}
-
-		$set = (int) $this->elements[4]; // 0 = immer setzen, 1 = nur wenn leer / create
-		if($set != 1)
+  
+		 // 0 = immer setzen, 1 = nur wenn leer / create
+		if(!isset($this->elements[4]) || $this->elements[4] != 1)
 		{
 			$set = 0;
+		}else
+		{
+		  $set = 1;
 		}
 
 		if($this->getValue() == "" || $set == 0)

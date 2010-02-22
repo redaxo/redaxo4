@@ -33,9 +33,11 @@ if($func == "add" || $func == "edit")
 	$xform->setActionField("showtext",array("","Vielen Dank fuer die Eintragung"));
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
-	if($func == "edit")
+  $xform->setValueField("text",array("prio","Priorit&auml;t"));
+	
+  if($func == "edit")
 	{
-    	$xform->setValueField("showvalue",array("name","Tabellenname"));
+    $xform->setValueField("showvalue",array("name","Tabellenname"));
 		$xform->setHiddenField("table_id",$table_id);
 		$xform->setActionField("db",array($table,"id=$table_id"));
 		$xform->setObjectparams("main_id",$table_id);
@@ -50,11 +52,18 @@ if($func == "add" || $func == "edit")
 		$xform->setActionField("db",array($table));
 	}
 	
-	$xform->setValueField("text",array("label","Label"));
+  $xform->setValueField("text",array("label","Label"));
 	$xform->setValueField("textarea",array("description","Beschreibung"));
 	$xform->setValueField("checkbox",array("status","Aktiv"));
-	$xform->setValueField("validate",array("empty","name","Bitte den Namen eingeben"));
-	$form = $xform->getForm();
+  // $xform->setValueField("fieldset",array("fs-list","Liste"));
+  $xform->setValueField("text",array("list_amount","Datens&auml;tze pro Seite"));
+  $xform->setValueField("checkbox",array("search","Suche aktiv"));
+  $xform->setValidateField("type",array("list_amount","int","Bitte geben Sie eine Zahl f&uuml;r die Datens&auml;tze pro Seite ein"));
+
+  $xform->setValueField("checkbox",array("hidden","In Navigation versteckt"));
+  
+  $xform->setValidateField("empty",array("name","Bitte den Namen eingeben"));
+  $form = $xform->getForm();
 	
   if($xform->objparams["form_show"])
   {	
@@ -111,7 +120,7 @@ if($show_list){
 		
 		</td></tr></table><br />";
 	
-	$sql = "select * from $table order by name";
+	$sql = "select * from $table order by prio,name";
 
 	$list = rex_list::factory($sql,30);
 	$list->setColumnFormat('id', 'Id');

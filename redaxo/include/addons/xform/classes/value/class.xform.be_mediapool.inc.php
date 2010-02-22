@@ -14,8 +14,6 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 		
 		$i = $REX["xform_classes_be_mediapool"];
 		
-		$this->label = $this->elements[1];
-
 		if ($this->value == "" && !$send)
 			if (isset($this->elements[3])) 
 				$this->value = $this->elements[3];
@@ -25,8 +23,8 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 			$wc = $warning["el_" . $this->getId()];
 
 			$form_output[] = '
-		<div class="xform-element formbe_mediapool formlabel-'.$this->label.'">
-        <label class="text ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+		<div class="xform-element formbe_mediapool formlabel-'.$this->getName().'">
+        <label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->elements[2] . '</label>
         
 			<div class="rex-widget">
 		      <div class="rex-widget-media">

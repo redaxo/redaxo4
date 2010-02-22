@@ -8,22 +8,22 @@ class rex_xform_validate_intfromto extends rex_xform_validate_abstract
 		if($send=="1")
 		{
 		
-			$from = (int) $this->xaElements[3];
-			$to = (int) $this->xaElements[4];
+			$from = (int) $this->elements[3];
+			$to = (int) $this->elements[4];
 		
-			foreach($this->xaObjects as $xoObject)
+			foreach($this->obj_array as $Object)
 			{
 				// echo '<p>Wert wird überprüft:';
 				// echo "val: id:".$xoObject->getId()." value:".$xoObject->getValue()." 
 				// elements:".print_r($xoObject->elements);
 				// echo '</p>';
-				$value = $xoObject->getValue();
+				$value = $Object->getValue();
 				$value_int = (int) $value;
 				
 				if("$value" != "$value_int" || $value_int<$from || $value_int>$to)
 				{
-					$warning["el_" . $xoObject->getId()] = $this->params["error_class"];
-					$warning_messages[] = $this->xaElements[5];
+					$warning["el_" . $Object->getId()] = $this->params["error_class"];
+					$warning_messages[] = $this->elements[5];
 				}
 			}
 		}

@@ -4,9 +4,12 @@ Todos:
 - komplexere relationen einbauen
 - weitere xform Ÿbernehmen
 
-___ value
+Dummy ausbauen
+
+xform value
+  - submit / Ÿbernehmen (form weiterhin anzeigen)
+  
+___ unschšne dinge verbessern
 - getLabel -> getName umbauen
 - ->id ->getId etc.. 
-
-___ validate
-- deprecated xaElements .. entfernen
+  

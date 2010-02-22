@@ -9,23 +9,23 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 		{
 		
 			$table = $this->params["main_table"];
-			if(isset($this->xaElements[4]) && $this->xaElements[4] != "")
-				$table = $this->xaElements[4];
+			if(isset($this->elements[4]) && $this->elements[4] != "")
+				$table = $this->elements[4];
 				
-			foreach($this->xaObjects as $xoObject)
+			foreach($this->obj_array as $Object)
 			{
 			
-				$sql = 'select '.$this->xaElements[2].' from '.$table.' WHERE '.$this->xaElements[2].'="'.$xoObject->getValue().'" LIMIT 1';
+				$sql = 'select '.$this->elements[2].' from '.$table.' WHERE '.$this->elements[2].'="'.$Object->getValue().'" LIMIT 1';
 				if($this->params["main_where"] != "")
-					$sql = 'select '.$this->xaElements[2].' from '.$table.' WHERE '.$this->xaElements[2].'="'.$xoObject->getValue().'" AND !('.$this->params["main_where"].') LIMIT 1';
+					$sql = 'select '.$this->elements[2].' from '.$table.' WHERE '.$this->elements[2].'="'.$Object->getValue().'" AND !('.$this->params["main_where"].') LIMIT 1';
 
 				$cd = rex_sql::factory();
 				// $cd->debugsql = 1;
 				$cd->setQuery($sql);
 				if ($cd->getRows()>0)
 				{
-					$warning["el_" . $xoObject->getId()] = $this->params["error_class"];
-					$warning_messages[] = $this->xaElements[3];
+					$warning["el_" . $Object->getId()] = $this->params["error_class"];
+					$warning_messages[] = $this->elements[3];
 				}
 			}
 		}

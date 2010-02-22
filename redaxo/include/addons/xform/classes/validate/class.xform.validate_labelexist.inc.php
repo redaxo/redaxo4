@@ -9,19 +9,19 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 		{
 		
 			// optional, ein oder mehrere felder müssen ausgefüllt sein
-			if(!isset($this->xaElements[3]) || $this->xaElements[3] == "")
+			if(!isset($this->elements[3]) || $this->elements[3] == "")
 				$minamount = 1;
 			else
-				$minamount = (int) $this->xaElements[3];
+				$minamount = (int) $this->elements[3];
 
-			if(!isset($this->xaElements[4]) || $this->xaElements[4] == "")
+			if(!isset($this->elements[4]) || $this->elements[4] == "")
 				$maxamount = 1000;
 			else
-				$maxamount = (int) $this->xaElements[4];
+				$maxamount = (int) $this->elements[4];
 
 
 			// labels auslesen
-			$fields = explode(",",$this->xaElements[2]);
+			$fields = explode(",",$this->elements[2]);
 			
 			$value = 0;
 			foreach($this->Objects as $o)
@@ -32,7 +32,7 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 
 			if ($value < $minamount || $value > $maxamount)
 			{
-				$warning_messages[] = $this->xaElements[5];
+				$warning_messages[] = $this->elements[5];
 				
 				foreach($this->Objects as $o)
 				{

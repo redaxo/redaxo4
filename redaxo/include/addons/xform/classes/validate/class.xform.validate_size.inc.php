@@ -9,13 +9,13 @@ class rex_xform_validate_size extends rex_xform_validate_abstract
 		{	
 			
 			// Wenn leer, dann alles ok
-			if($this->xaObjects[0]->getValue() == "")
+			if($this->obj_array[0]->getValue() == "")
 				return;
 			
-			if(strlen($this->xaObjects[0]->getValue())!=$this->xaElements[3])
+			if(strlen($this->obj_array[0]->getValue())!=$this->elements[3])
 			{
-				$warning["el_".$this->xaObjects[0]->getId()]=$this->params["error_class"];
-				$warning_messages[] = $this->xaElements[4];
+				$warning["el_".$this->obj_array[0]->getId()]=$this->params["error_class"];
+				$warning_messages[] = $this->elements[4];
 			}
 		}
 	}

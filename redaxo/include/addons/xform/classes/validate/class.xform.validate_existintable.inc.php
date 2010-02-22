@@ -7,16 +7,16 @@ class rex_xform_validate_existintable extends rex_xform_validate_abstract
 	{
 		if($send=="1")
 		{
-			foreach($this->xaObjects as $xoObject)
+			foreach($this->obj_array as $Object)
 			{
-				$sql = 'select '.$this->xaElements[2].' from '.$this->xaElements[3].' WHERE '.$this->xaElements[4].'="'.$xoObject->getValue().'" LIMIT 2';
+				$sql = 'select '.$this->elements[2].' from '.$this->elements[3].' WHERE '.$this->elements[4].'="'.$Object->getValue().'" LIMIT 2';
 				$cd = rex_sql::factory();
 				// $cd->debugsql = 1;
 				$cd->setQuery($sql);
 				if ($cd->getRows()!=1)
 				{
-					$warning["el_" . $xoObject->getId()] = $this->params["error_class"];
-					$warning_messages[] = $this->xaElements[5];
+					$warning["el_" . $Object->getId()] = $this->params["error_class"];
+					$warning_messages[] = $this->elements[5];
 				}
 			}
 		}

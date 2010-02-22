@@ -110,7 +110,7 @@ function rex_em_generateAll()
 function rex_em_getTables()
 {
 	$tb = rex_sql::factory();
-	$tb->setQuery('select * from rex_em_table');
+	$tb->setQuery('select * from rex_em_table order by prio,name');
 	return $tb->getArray();
 }
 

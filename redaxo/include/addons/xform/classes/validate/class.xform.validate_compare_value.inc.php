@@ -7,15 +7,15 @@ class rex_xform_validate_compare_value extends rex_xform_validate_abstract
 	{
 		if($send=="1")
 		{
-			$field = $this->xaElements[2];
+			$field = $this->elements[2];
 			$value = -1;
 			foreach($this->Objects as $o)
 			{
 				if ($o->getDatabasefieldname() == $field) $value = $o->getValue();
 			}
-			if ($value === -1 || strtolower($value) != strtolower($this->xaElements[3]))
+			if ($value === -1 || strtolower($value) != strtolower($this->elements[3]))
 			{
-					$warning_messages[] = $this->xaElements[4];
+					$warning_messages[] = $this->elements[4];
 			}
 		}
 	}

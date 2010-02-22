@@ -49,7 +49,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
       $REX['EXTPERM'][] = $table_perm;
 
       // include dashbord-components
-      if($REX["USER"] && rex_request('page', 'string') == 'be_dashboard')
+      if($REX["USER"] && rex_request('page', 'string') == 'be_dashboard' && $table["hidden"] != 1)
       {
         require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
 
@@ -58,6 +58,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
         array(new rex_editme_component($table["name"]), 'registerAsExtension')
         );
       }
+      
     }
      
 
@@ -67,7 +68,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
       foreach($REX['ADDON']['editme']['tables'] as $table)
       {
         $table_perm = 'em['.$table["name"].']';
-        if($table["status"] == 1 && $REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
+        if($table["status"] == 1 && $table["hidden"] != 1 && $REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm)) )
         {
        	  $item = array();
        	  $item['title'] = $table['label'];

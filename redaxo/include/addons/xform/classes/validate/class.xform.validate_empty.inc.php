@@ -7,17 +7,17 @@ class rex_xform_validate_empty extends rex_xform_validate_abstract
 	{
 		if($send=="1")
 		{
-			foreach($this->xaObjects as $xoObject)
+			foreach($this->obj_array as $Object)
 			{
 				// echo '<p>Wert wird überprüft:';
 				// echo "val: id:".$xoObject->getId()." value:".$xoObject->getValue()." elements:".print_r($xoObject->elements);
 				// echo '</p>';
 			
-				if($xoObject->getValue() == "")
+				if($Object->getValue() == "")
 				{
-					$warning["el_" . $xoObject->getId()] = $this->params["error_class"];
-					if (!isset($this->xaElements[3])) $this->xaElements[3] = "";
-					$warning_messages[] = $this->xaElements[3];
+					$warning["el_" . $Object->getId()] = $this->params["error_class"];
+					if (!isset($this->elements[3])) $this->elements[3] = "";
+					$warning_messages[] = $this->elements[3];
 				}
 			}
 		}

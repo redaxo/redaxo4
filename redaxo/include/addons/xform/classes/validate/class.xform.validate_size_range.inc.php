@@ -9,20 +9,20 @@ class rex_xform_validate_size_range extends rex_xform_validate_abstract
 		{		
 			
 			// Wenn leer, dann alles ok
-			if($this->xaObjects[0]->getValue() == "")
+			if($this->obj_array[0]->getValue() == "")
 				return;
 			
 			$w = FALSE;
 			
 			$minsize = -1;
-			if($this->xaElements[3] != "")
-				$minsize = (int) $this->xaElements[3];
+			if($this->elements[3] != "")
+				$minsize = (int) $this->elements[3];
 
 			$maxsize = -1;
-			if($this->xaElements[4] != "")
-				$maxsize = (int) $this->xaElements[4];
+			if($this->elements[4] != "")
+				$maxsize = (int) $this->elements[4];
 				
-			$size = strlen($this->xaObjects[0]->getValue());
+			$size = strlen($this->obj_array[0]->getValue());
 			
 			if($minsize > -1 && $minsize > $size)
 				$w = TRUE;
@@ -32,8 +32,8 @@ class rex_xform_validate_size_range extends rex_xform_validate_abstract
 				
 			if($w)
 			{
-				$warning["el_".$this->xaObjects[0]->getId()]=$this->params["error_class"];
-				$warning_messages[] = $this->xaElements[5];
+				$warning["el_".$this->obj_array[0]->getId()]=$this->params["error_class"];
+				$warning_messages[] = $this->elements[5];
 			}
 		}
 	}

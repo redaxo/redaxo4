@@ -26,42 +26,41 @@ class rex_xform_select extends rex_xform_abstract
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{
 	
-		$this->label = $this->elements[1];
 		$multiple = FALSE;
 		if(isset($this->elements[6]) && $this->elements[6]==1)
 			$multiple = TRUE;
 	
 		$SEL = new rex_select();
-		$SEL->setId("el_" . $this->id);
+		$SEL->setId("el_" . $this->getId());
 		if($multiple)
 		{
-			$SEL->setName("FORM[" . $this->params["form_name"] . "][el_" . $this->id . "][]");
+			$SEL->setName("FORM[" . $this->params["form_name"] . "][el_" . $this->getId() . "][]");
 			$SEL->setSize(5);
 			$SEL->setMultiple(1);
-			if(!is_array($this->value))
+			if(!is_array($this->getValue()))
 				$this->value = array();
 		}else
 		{
-			$SEL->setName("FORM[" . $this->params["form_name"] . "][el_" . $this->id . "]");
+			$SEL->setName("FORM[" . $this->params["form_name"] . "][el_" . $this->getId() . "]");
 			$SEL->setSize(1);
-			$this->value = stripslashes($this->value);	}
+			$this->value = stripslashes($this->getValue());	}
 
 		foreach($this->getKeys() as $k => $v)
 		{
 			$SEL->addOption($v, $k);
 		}
 
-		if ($this->value == "" && !$send)
+		if ($this->getValue() == "" && !$send)
 		{
 			if (isset($this->elements[5])) $SEL->setSelected($this->elements[5]);
 		}else
 		{
-			if (is_array($this->value))
+			if (is_array($this->getValue()))
 			{
 				foreach($this->value as $val) $SEL->setSelected($val);
 			}else
 			{
-				$SEL->setSelected($this->value);
+				$SEL->setSelected($this->getValue());
 			}
 		}
 
@@ -70,13 +69,13 @@ class rex_xform_select extends rex_xform_abstract
 		$SEL->setStyle(' class="select ' . $wc . '"');
 
 		$form_output[] = ' 
-			<p class="formselect formlabel-'.$this->label.'">
+			<p class="formselect formlabel-'.$this->getName().'">
 			<label class="select ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>' . 
 			$SEL->get() . '
 			</p>';
 
-		$email_elements[$this->elements[1]] = $this->value;
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		$email_elements[$this->elements[1]] = $this->getValue();
+		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->getValue();
 
 	}
 	

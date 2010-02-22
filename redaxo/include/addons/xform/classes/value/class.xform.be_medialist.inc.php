@@ -8,9 +8,6 @@ class rex_xform_be_medialist extends rex_xform_abstract
 		
 		global $I18N;
 		
-		$this->label = $this->elements[1];
-		
-		
 		if (!isset($tmp_medialist)) $tmp_medialist = 0;
 		$tmp_medialist++;
 		
@@ -31,7 +28,7 @@ class rex_xform_be_medialist extends rex_xform_abstract
 		$ausgabe .= '
 		<div class="rex-widget">
       <div class="rex-widget-medialist">
-        <input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="REX_MEDIALIST_'.$tmp_medialist.'" value="'.htmlspecialchars(stripslashes($this->value)) . '" />
+        <input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="REX_MEDIALIST_'.$tmp_medialist.'" value="'.htmlspecialchars(stripslashes($this->getValue())) . '" />
         <p class="rex-widget-field">
           <select name="MEDIALIST_SELECT['.$tmp_medialist.']" id="REX_MEDIALIST_SELECT_'.$tmp_medialist.'" size="8">
           ' . $options . '
@@ -82,7 +79,7 @@ class rex_xform_be_medialist extends rex_xform_abstract
 		
 		
 		$form_output[] = '
-			<div class="xform-element formbe_medialist formlabel-'.$this->label.'">
+			<div class="xform-element formbe_medialist formlabel-'.$this->getName().'">
 			
 				<label class="text ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
 				

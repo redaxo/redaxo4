@@ -6,7 +6,6 @@ class rex_xform_uniqueform extends rex_xform_abstract
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{	
 	
-		$this->label = $this->elements[1];
 		$table = $this->elements[2];
 	
 		// ***** ERSTER AUFRUF -> key erstellen
@@ -17,7 +16,7 @@ class rex_xform_uniqueform extends rex_xform_abstract
 		}else
 		{
 			// in tabelle nachsehen ob formcode vorhanden
-			$sql = 'select '.$this->label.' from '.$table.' WHERE '.$this->label.'="'.$this->value.'" LIMIT 1';
+			$sql = 'select '.$this->getName().' from '.$table.' WHERE '.$this->getName().'="'.$this->getValue().'" LIMIT 1';
 			$cd = rex_sql::factory();
 			if ($this->params["debug"]) $cd->debugsql = true;
 			$cd->setQuery($sql);
@@ -29,10 +28,10 @@ class rex_xform_uniqueform extends rex_xform_abstract
 	
 		}
 	
-		$form_output[] = '<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" value="'.htmlspecialchars(stripslashes($this->value)).'" />';
+		$form_output[] = '<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />';
 
-		$email_elements[$this->label] = stripslashes($this->value);
-		$sql_elements[$this->label] = stripslashes($this->value);
+		$email_elements[$this->getName()] = stripslashes($this->getValue());
+		$sql_elements[$this->getName()] = stripslashes($this->getValue());
 	
 		return;
 	

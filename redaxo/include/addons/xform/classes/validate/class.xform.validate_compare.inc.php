@@ -9,8 +9,8 @@ class rex_xform_validate_compare extends rex_xform_validate_abstract
 	{
 		if($send=="1")
 		{
-			$field_1 = $this->xaElements[2];
-			$field_2 = $this->xaElements[3];
+			$field_1 = $this->elements[2];
+			$field_2 = $this->elements[3];
 			foreach($this->Objects as $o)
 			{
 				if ($o->getDatabasefieldname() == $field_1)
@@ -28,7 +28,7 @@ class rex_xform_validate_compare extends rex_xform_validate_abstract
 			{
 				$warning["el_" . $id_1] = $this->params["error_class"];
 				$warning["el_" . $id_2] = $this->params["error_class"];
-				$warning_messages[] = $this->xaElements[4];
+				$warning_messages[] = $this->elements[4];
 			}
 		}
 	}
