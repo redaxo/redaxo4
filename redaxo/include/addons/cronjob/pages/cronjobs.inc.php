@@ -66,6 +66,8 @@ if ($func == '')
   
   $list = rex_list::factory($query, 30, 'cronjobs', false);
   
+  $list->addTableColumnGroup(array(40,'*',90,130,60,60,60));
+  
   $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.$I18N->msg('cronjob_add').'</span></a>';
   $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'.$I18N->msg('edit').'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
@@ -105,9 +107,9 @@ if ($func == '')
     ) 
   );
   
-  $list->setColumnLabel('status',$I18N->msg('cronjob_status'));
+  $list->setColumnLabel('status',$I18N->msg('cronjob_status_function'));
   $list->setColumnParams('status', array('func'=>'setstatus', 'oldstatus'=>'###status###', 'oid'=>'###id###'));
-  $list->setColumnLayout('status',array('<th>###VALUE###</th>','<td style="text-align:center;">###VALUE###</td>'));
+  $list->setColumnLayout('status',array('<th colspan="3">###VALUE###</th>','<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnFormat('status', 'custom', 
     create_function( 
       '$params', 
@@ -121,11 +123,11 @@ if ($func == '')
     ) 
   );
   
-  $list->addColumn('delete',$I18N->msg('cronjob_delete'),-1,array("<th>&nbsp;</th>",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->addColumn('delete',$I18N->msg('cronjob_delete'),-1,array("",'<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
   $list->addLinkAttribute('delete','onclick',"return confirm('".$I18N->msg('cronjob_really_delete')."');");
   
-  $list->addColumn('execute',$I18N->msg('cronjob_execute'),-1,array("<th>&nbsp;</th>",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->addColumn('execute',$I18N->msg('cronjob_execute'),-1,array("",'<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
   $list->setColumnFormat('execute', 'custom', 
     create_function( 
