@@ -13,7 +13,8 @@ class rex_select
 	var $attributes;
   var $options;
   var $option_selected;
-
+  var $disabled;
+  
   ################ Konstruktor
   /*public*/ function rex_select()
   {
@@ -28,6 +29,7 @@ class rex_select
     $this->setName('standard');
     $this->setSize('5');
     $this->setMultiple(false);
+    $this->setDisabled(false);
   }
 
   /*public*/ function setAttribute($name, $value)
@@ -62,12 +64,18 @@ class rex_select
   ############### multiple felder ?
   /*public*/ function setMultiple($multiple)
   {
-  	if($multiple)
-  		$this->setAttribute('multiple', 'multiple');
-  	else
-  		$this->delAttribute('multiple');
+    if($multiple)
+      $this->setAttribute('multiple', 'multiple');
+    else
+      $this->delAttribute('multiple');
   }
-
+  
+  ############### disabled ?
+  /*public*/ function setDisabled($d = TRUE)
+  {
+    $this->disabled = $d;
+  }
+  
   ################ select name
   /*public*/ function setName($name)
   {
@@ -228,6 +236,11 @@ class rex_select
   		$attr .= ' '. $name .'="'. $value .'"';
   	}
 
+  	if($this->disabled)
+  	{
+  	  $attr .= ' disabled';
+  	}
+  	
     $ausgabe = "\n";
 		$ausgabe .= '<select'.$attr.'>'."\n";
 

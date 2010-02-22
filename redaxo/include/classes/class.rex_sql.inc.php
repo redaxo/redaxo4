@@ -660,7 +660,6 @@ class rex_sql
     {
       $data[] = $row;
     }
-    mysql_free_result($this->result);
 
     return $data;
   }
