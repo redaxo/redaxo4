@@ -61,16 +61,14 @@ if ($func == 'execute')
 
 if ($func == '') 
 {
-  echo '
-    <div class="rex-toolbar">
-      <div class="rex-toolbar-content">
-        <a href="index.php?page=cronjob&amp;func=add" style="font-weight:bold;">+ '.$I18N->msg('cronjob_add').'</a>
-      </div>
-    </div>';
 
   $query = 'SELECT id, name, `interval`, environment, status FROM '.$table.' ORDER BY name';
   
   $list = rex_list::factory($query, 30, 'cronjobs', false);
+  
+  $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.$I18N->msg('cronjob_add').'</span></a>';
+  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'.$I18N->msg('edit').'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
   
   $list->removeColumn('id');
   
