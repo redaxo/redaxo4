@@ -13,7 +13,7 @@
 $mypage = 'image_manager';
 
 /* Addon Parameter */
-$REX['ADDON']['rxid'][$mypage] = '';
+$REX['ADDON']['rxid'][$mypage] = '679';
 $REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'image_manager';
 $REX['ADDON']['perm'][$mypage] = 'image_manager[]';
