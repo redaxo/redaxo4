@@ -300,6 +300,26 @@ a.rex-back {
 .rex-i-clang-add {
 	background-image: url(clang_plus.gif);
 }
+.rex-i-cronjob {
+	/*	TODO */
+	background-image: url(icon_cronjob.gif);
+	background-image: url(document.gif);
+}
+.rex-i-cronjob-add {
+	/*	TODO */
+	background-image: url(icon_cronjob_add.gif);
+	background-image: url(document_plus.gif);
+}
+.rex-i-generic {
+	/*	TODO */
+	background-image: url(icon_generic.gif);
+	background-image: url(document.gif);
+}
+.rex-i-generic-add {
+	/*	TODO */
+	background-image: url(icon_generic_add.gif);
+	background-image: url(document_plus.gif);
+}
 .rex-i-media {
 	background-image: url(file_view.gif);
 }
@@ -323,7 +343,8 @@ a.rex-back {
 }
 .rex-i-refresh-err {
   /*TODO Image indicating refresh error -> ajax error, backport to default skin */
-  background-image: url(template.gif);
+  background-image: url(icon_refresh_err.gif);
+  background-image: url(file_add.gif);
 }
 .rex-i-slice {
 	background-image: url(slice.gif);
@@ -336,18 +357,22 @@ a.rex-back {
 }
 .rex-i-togglesettings {
   /*TODO better image, backport to default skin */
-  	background-image: url(file_add.gif);
+ 	background-image: url(icon_togglesettings.gif);
+  background-image: url(file_add.gif);
 }
 .rex-i-togglesettings-off {
   /*TODO better image, backport to default skin */
-  	background-image: url(file_del.gif);
+ 	background-image: url(icon_togglesettings_off.gif);
+  background-image: url(file_del.gif);
 }
 .rex-i-toggleview {
-	background-image: url(file_del.gif);
+ 	background-image: url(icon_toggleview.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-toggleview-off {
   /*TODO backport to default skin */
-	background-image: url(file_add.gif);
+ 	background-image: url(icon_toggleview_off.gif);
+	background-image: url(file_del.gif);
 }
 .rex-i-user {
 	background-image: url(user.gif);
