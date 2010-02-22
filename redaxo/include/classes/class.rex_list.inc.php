@@ -692,7 +692,7 @@ class rex_list
       if(strpos(strtoupper($query), ' ORDER BY ') === false)
         $query .= ' ORDER BY '. $sortColumn .' '. $sortType;
       else
-        $query = preg_replace('/ORDER\sBY\s[^ ]*\s(asc|desc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
+        $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
     }
 
     if(strpos(strtoupper($query), ' LIMIT ') === false)
