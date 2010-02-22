@@ -61,7 +61,12 @@ if ($func == 'execute')
 
 if ($func == '') 
 {
-  echo '<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page=cronjob&amp;func=add><b>+ '.$I18N->msg('cronjob_add').'</b></a></td></tr></table><br />';
+  echo '
+    <div class="rex-toolbar">
+      <div class="rex-toolbar-content">
+        <a href="index.php?page=cronjob&amp;func=add" style="font-weight:bold;">+ '.$I18N->msg('cronjob_add').'</a>
+      </div>
+    </div>';
 
   $query = 'SELECT id, name, `interval`, environment, status FROM '.$table.' ORDER BY name';
   

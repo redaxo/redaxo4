@@ -30,13 +30,13 @@ class rex_cronjob_component extends rex_dashboard_component
     $content = '';
     if(count($messages) > 0)
     {
-      $content .= '<ul>';
+      $content .= '<ul style="font-family: Courier, Monospace; white-space: pre;">';
       foreach($messages as $message)
       {
         $style = '';
         if (strpos($message, ' ERROR ') !== false)
           $style = ' style="font-weight:bold; color:red;"';
-        $content .= '<li><pre'.$style.'>'. $message .'</pre></li>';
+        $content .= '<li'.$style.'>'. $message .'</li>';
       }
       $content .= '</ul>';
     }

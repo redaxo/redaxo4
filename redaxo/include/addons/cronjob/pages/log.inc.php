@@ -53,7 +53,7 @@ else
       foreach($months as $month)
       {
         $j++;
-        $month_sel->addOption($month, $month);
+        $month_sel->addOption(strftime('%B',mktime(0,0,0,$month)), $month);
         if ($month == $log['month'] || (!$monthSelected && $j == $countMonths))
         {
           $month_sel->setSelected($month);
@@ -65,23 +65,33 @@ else
   }
   
   echo '
-    <form action="index.php" method="get">
-      <fieldset>
-        <input type="hidden" name="page" value="cronjob" />
-        <input type="hidden" name="subpage" value="log" />
-  ';
-  
-  $year_sel->show();
-  echo ' - ';
-  $month_sel->show();
+    <div class="rex-toolbar rex-toolbar-has-form">
+      <div class="rex-toolbar-content">
+        <div class="rex-form">
+          <form action="index.php" method="get">
+            <fieldset>
+              <input type="hidden" name="page" value="cronjob" />
+              <input type="hidden" name="subpage" value="log" />
+              <label for="" style="font-weight: bold">'.$I18N->msg('cronjob_log_year').':</label>
+              '.$year_sel->get().' - 
+              <label for="" style="font-weight: bold">'.$I18N->msg('cronjob_log_month').':</label>
+              '.$month_sel->get().'
+              <noscript>
+                <input type="submit" value="'.$I18N->msg('cronjob_log_ok').'" />
+              </noscript>
+            </fieldset>
+          </form>
+        </div>
+        <div class="rex-clearer"></div>
+      </div>
+    </div>';
   
   $content = rex_cronjob_log::getLogOfMonth($log['month'], $log['year']);
   $content = preg_replace('/^(.*?ERROR.*?)$/m','<strong style="color:red">$1</strong>',$content);
   
   echo '
-      </fieldset>
-    </form>
-    <br />
-    <pre>'.$content.'</pre>
+    <table cellpadding=5 class="rex-table">
+      <tr><td style="font-family: Courier, Monospace; white-space: pre;">'.$content.'</td></tr>
+    </table>
   ';
 }

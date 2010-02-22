@@ -20,7 +20,7 @@ if($REX["REDAXO"])
   $REX['ADDON']['perm']["cronjob"] = 'admin[]';
   
   // Credits
-  $REX['ADDON']['version']["cronjob"] = '0.1';
+  $REX['ADDON']['version']["cronjob"] = '1.0';
   $REX['ADDON']['author']["cronjob"] = 'Gregor Harlan';
   $REX['ADDON']['supportpage']["cronjob"] = 'forum.redaxo.de';
 	
