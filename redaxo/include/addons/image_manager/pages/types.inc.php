@@ -34,7 +34,7 @@ if ($func == '')
        $list = $params["list"];
        $edit = $list->getColumnLink("'. $funcs .'","'. $I18N->msg('imanager_effects_edit') .'", array("subpage" => "effects")); 
        $del = $list->getColumnLink("'. $funcs .'","'. $I18N->msg('imanager_type_delete') .'", array("func" => "delete"));
-       return $edit . $del;'
+       return $edit ." ". $del;'
     )
   );
 //       '<a href="">'.$I18N->msg('imanager_effect_edit'). '</a> <a href="">'.$I18N->msg('imanager_effect_delete'). '</a>';

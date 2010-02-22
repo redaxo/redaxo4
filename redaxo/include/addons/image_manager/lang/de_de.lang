@@ -2,7 +2,7 @@
 
 imanager_subpage_desc = Erklärung
 imanager_subpage_config = Konfiguration
-imanager_subpage_types = Einstellungstypen
+imanager_subpage_types = Bildtypen bearbeiten
 imanager_subpage_clear_cache = Resize-Cache löschen
 
 imanager_cache_files_removed = {0} Cache-Dateien gelöscht
@@ -19,7 +19,7 @@ imanager_jpg_quality = JPG/JPEG Ausgabe-Qualität
 
 imanager_id = ID
 imanager_name = Name
-imanager_edittype = Einstellungstyp bearbeiten
+imanager_edittype = Bildtypen bearbeiten
 imanager_settings = Einstellungen
 
 imanager_yes = Ja
@@ -31,9 +31,11 @@ imanager_error_settings = Bitte geben Sie Inhalte bei Einstellungen ein.
 
 imanager_type_create = Bildtyp erstellen
 imanager_type_edit = Bildtyp bearbeiten
+imanager_type_delete = Bildtyp löschen
 imanager_type_name = Name
 imanager_type_description = Beschreibung
 
+imanager_effects_edit = Effekte bearbeiten 
 imanager_effect_create = Effekt erstellen
 imanager_effect_edit = Effekt bearbeiten 
 imanager_effect_name = Effekt
