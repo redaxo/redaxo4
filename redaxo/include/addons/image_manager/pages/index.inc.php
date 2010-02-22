@@ -31,14 +31,9 @@ rex_title('Image Manager', $REX['ADDON']['navigation']['image_manager']['subpage
 switch($subpage)
 {
   case 'types' :
-  {
-    break;
-  }
-
+  case 'effects' :
   case 'settings' :
-  {
     break;
-  }
 
   default:
   {
