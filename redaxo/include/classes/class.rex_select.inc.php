@@ -13,7 +13,6 @@ class rex_select
 	var $attributes;
   var $options;
   var $option_selected;
-  var $disabled;
   
   ################ Konstruktor
   /*public*/ function rex_select()
@@ -62,7 +61,7 @@ class rex_select
   }
 
   ############### multiple felder ?
-  /*public*/ function setMultiple($multiple)
+  /*public*/ function setMultiple($multiple = true)
   {
     if($multiple)
       $this->setAttribute('multiple', 'multiple');
@@ -71,9 +70,12 @@ class rex_select
   }
   
   ############### disabled ?
-  /*public*/ function setDisabled($d = TRUE)
+  /*public*/ function setDisabled($disabled = true)
   {
-    $this->disabled = $d;
+    if($disabled)
+      $this->setAttribute('disabled', 'disabled');
+    else
+      $this->delAttribute('disabled');
   }
   
   ################ select name
@@ -143,9 +145,9 @@ class rex_select
   /**
    * Fügt eine Option hinzu
    */
-  /*public*/ function addOption($name, $value, $id = 0, $re_id = 0)
+  /*public*/ function addOption($name, $value, $id = 0, $re_id = 0, $attributes = array())
   {
-    $this->options[$re_id][] = array ($name, $value, $id);
+    $this->options[$re_id][] = array ($name, $value, $id, $attributes);
   }
 
   /**
@@ -157,6 +159,7 @@ class rex_select
    * 2.    Id
    * 3.    Re_Id
    * 4.    Selected
+   * 5.    Attributes
    */
   /*public*/ function addOptions($options, $useOnlyValues = false)
   {
@@ -168,12 +171,15 @@ class rex_select
       foreach ($options as $key => $option)
       {
       	$option = (array) $option;
+      	$attributes = array();
+      	if (isset($option[5]) && is_array($option[5]))
+      	  $attributes = $option[5];
         if ($grouped)
         {
-          $this->addOption($option[0], $option[1], $option[2], $option[3]);
-          if(isset($option[4]))
+          $this->addOption($option[0], $option[1], $option[2], $option[3], $attributes);
+          if(isset($option[4]) && $option[4])
           {
-          	$this->setSelected($option[4]);
+          	$this->setSelected($option[1]);
           }
         }
         else
@@ -235,11 +241,6 @@ class rex_select
   	{
   		$attr .= ' '. $name .'="'. $value .'"';
   	}
-
-  	if($this->disabled)
-  	{
-  	  $attr .= ' disabled';
-  	}
   	
     $ausgabe = "\n";
 		$ausgabe .= '<select'.$attr.'>'."\n";
@@ -274,7 +275,10 @@ class rex_select
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      $ausgabe .= $this->_outOption($name, $value, $level);
+      $attributes = array();
+      if (isset($option[3]) && is_array($option[3]))
+        $attributes = $option[3];
+      $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
 
       $subgroup = $this->_getGroup($id, true);
       if ($subgroup !== false)
@@ -285,20 +289,23 @@ class rex_select
     return $ausgabe;
   }
 
-  /*private*/ function _outOption($name, $value, $level = 0)
+  /*private*/ function _outOption($name, $value, $level = 0, $attributes = array())
   {
     $name = htmlspecialchars($name);
     $value = htmlspecialchars($value);
 
-    $bsps = '';
-    for ($i = 0; $i < $level; $i ++)
-      $bsps .= '&nbsp;&nbsp;&nbsp;';
+    $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
+    
+    if ($this->option_selected !== null && in_array($value, $this->option_selected))
+      $attributes['selected'] = 'selected';
+    
+    $attr = '';
+  	foreach($attributes as $n => $v)
+  	{
+  		$attr .= ' '. $n .'="'. $v .'"';
+  	}
 
-    $selected = '';
-    if ($this->option_selected !== null)
-      $selected = in_array($value, $this->option_selected) ? ' selected="selected"' : '';
-
-    return '    <option value="'.$value.'"'.$selected.'>'.$bsps.$name.'</option>'."\n";
+    return '    <option value="'.$value.'"'.$attr.'>'.$bsps.$name.'</option>'."\n";
   }
 
   /*private*/ function _getGroup($re_id, $ignore_main_group = false)
