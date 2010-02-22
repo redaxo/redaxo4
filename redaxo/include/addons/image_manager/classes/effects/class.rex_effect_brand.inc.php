@@ -3,7 +3,7 @@
 /**
  * Branded ein Bild mit einem Wasserzeichen
  *
- * Der Filter sucht im Verzeichnis addons/image_resize/media/
+ * Der Filter sucht im Verzeichnis addons/image_manager/media/
  * nach einem Bild mit dem Dateinamen "brand.*" und verwendet den 1. Treffer
  */
 

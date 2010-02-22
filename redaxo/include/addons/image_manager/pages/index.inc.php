@@ -22,10 +22,10 @@ $msg = '';
 if ($subpage == 'clear_cache')
 {
   $c = rex_image_cacher::deleteCache();
-  $msg = $I18N->msg('iresize_cache_files_removed', $c);
+  $msg = $I18N->msg('imanager_cache_files_removed', $c);
 }
 
-rex_title('Image Resize', $REX['ADDON']['navigation']['image_resize']['subpages']);
+rex_title('Image Manager', $REX['ADDON']['navigation']['image_manager']['subpages']);
 
 // Include Current Page
 switch($subpage)
@@ -49,5 +49,5 @@ switch($subpage)
   }
 }
 
-require $REX['INCLUDE_PATH'] . '/addons/image_resize/pages/'.$subpage.'.inc.php';
+require dirname(__FILE__) .'/'.$subpage.'.inc.php';
 require $REX['INCLUDE_PATH'] . '/layout/bottom.php';

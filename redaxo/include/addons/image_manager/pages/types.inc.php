@@ -11,9 +11,9 @@ if ($func == '')
 	$list = new a469_listTypes($query,20);
 
 	$list->removeColumn('id');	
-	$list->setColumnLabel('id',$I18N->msg('iresize_id'));
-	$list->setColumnLabel('name',$I18N->msg('iresize_name'));
-	$list->setColumnLabel('settings',$I18N->msg('iresize_settings'));
+	$list->setColumnLabel('id',$I18N->msg('imanager_id'));
+	$list->setColumnLabel('name',$I18N->msg('imanager_name'));
+	$list->setColumnLabel('settings',$I18N->msg('imanager_settings'));
 	
 	$imgHeader = '<a href="'. $list->getUrl(array('func' => 'add')) .'"><img src="media/metainfo_plus.gif" alt="" title="" /></a>';
 	$list->addColumn(	$imgHeader, 
@@ -42,13 +42,13 @@ if ($func == '')
 } 
 elseif ($func == 'edit' || $func == 'add')
 {
-	$form = new a469_formTypes($REX['TABLE_PREFIX'].'469_types',$I18N->msg('iresize_edittype'),"id=".$id,"post",false);
+	$form = new a469_formTypes($REX['TABLE_PREFIX'].'469_types',$I18N->msg('imanager_edittype'),"id=".$id,"post",false);
 
 	$field = &$form->addTextField('name');
-	$field->setLabel($I18N->msg('iresize_name'));
+	$field->setLabel($I18N->msg('imanager_name'));
 
 	$field = &$form->addTextareaField('settings');
-	$field->setLabel($I18N->msg('iresize_settings'));
+	$field->setLabel($I18N->msg('imanager_settings'));
 
 	
 	if($func == 'edit')
