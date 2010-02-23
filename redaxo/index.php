@@ -145,8 +145,8 @@ if($REX['USER'])
     $REX['PAGES']['module'] = array('title'=>$I18N->msg('modules'), 'type'=>'system', 'active_when' => array('page'=>'module'), 'core'=>TRUE,
       'subpages'=>
         array(
-          array('page' => '', 'title'=>$I18N->msg('modules'), 'href'=>'index.php?page=module&subpage=', 'active_when' => array('page'=>'module', 'subpage' => '')),
-          array('page' => 'actions', 'title'=>$I18N->msg('actions'), 'href'=>'index.php?page=module&subpage=actions', 'active_when' => array('page'=>'module', 'subpage' => 'actions'))
+          array('page' => '', 'title'=>$I18N->msg('modules'), 'href'=>'index.php?page=module&amp;subpage=', 'active_when' => array('page'=>'module', 'subpage' => '')),
+          array('page' => 'actions', 'title'=>$I18N->msg('actions'), 'href'=>'index.php?page=module&amp;subpage=actions', 'active_when' => array('page'=>'module', 'subpage' => 'actions'))
         )
     );
     $REX['PAGES']['user'] = array('title'=>$I18N->msg('user'), 'type'=>'system', 'active_when' => array('page'=>'user'), 'core'=>TRUE);
@@ -154,8 +154,8 @@ if($REX['USER'])
     $REX['PAGES']['specials'] = array('title'=>$I18N->msg('specials'), 'type'=>'system', 'active_when' => array('page'=>'specials'), 'core'=>TRUE,
       'subpages'=>
         array(
-          array('title'=>$I18N->msg('main_preferences'), 'href'=>'index.php?page=specials&subpage=', 'active_when' => array('page'=>'specials', 'subpage' => '')),
-          array('title'=>$I18N->msg('languages'), 'href'=>'index.php?page=specials&subpage=lang', 'active_when' => array('page'=>'specials', 'subpage' => 'lang'))
+          array('title'=>$I18N->msg('main_preferences'), 'href'=>'index.php?page=specials&amp;subpage=', 'active_when' => array('page'=>'specials', 'subpage' => '')),
+          array('title'=>$I18N->msg('languages'), 'href'=>'index.php?page=specials&amp;subpage=lang', 'active_when' => array('page'=>'specials', 'subpage' => 'lang'))
         )
     );
   }
@@ -196,7 +196,7 @@ if($REX['USER'])
         
       if (current($REX['ADDON']['status']) == 1 && $apage_arr['title'] != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
       {
-        // wegen REX Version < 4.2 - alter Stil "SUBPAGES"
+        // wegen REX Version <= 4.2 - alter Stil "SUBPAGES"
         if(isset($REX['ADDON'][$apage]['SUBPAGES']))
         {
           $sp = array();
@@ -207,12 +207,12 @@ if($REX['USER'])
              $sp[] = array(
               'title'=>$s[1], 
               'active_when' => array('page' => $apage, 'subpage' => $s[0]), 
-              'href'=>'index.php?page='.$apage.'&subpage='.$s[0]);
+              'href'=>'index.php?page='.$apage.'&amp;subpage='.$s[0]);
            }
           }
           $apage_arr['subpages'] = $sp;
          }
-         // *** ENDE wegen <4.2
+         // *** ENDE wegen <=4.2
          
         if(isset($REX['ADDON']['navigation'][$apage]))
           $apage_arr = array_merge($apage_arr,$REX['ADDON']['navigation'][$apage]);
