@@ -102,8 +102,11 @@ $sel_template->setId('rex-form-default-template-id');
 $sel_template->setSize(1);
 $sel_template->setSelected($REX['DEFAULT_TEMPLATE_ID']);
 
-$sel_template->addOption($I18N->msg('option_no_template'), 0);
-$sel_template->addSqlOptions('SELECT name, id FROM '.$REX['TABLE_PREFIX'].'template WHERE active=1');
+$templates = OOCategory::getTemplates(0);
+if (empty($templates))
+  $sel_template->addOption($I18N->msg('option_no_template'), 0);
+else
+  $sel_template->addArrayOptions($templates);
 
 $sel_lang = new rex_select();
 $sel_lang->setStyle('class="rex-form-select"');

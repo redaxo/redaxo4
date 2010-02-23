@@ -277,10 +277,12 @@ class OOCategory extends OORedaxo
 
     if($category_id < 1)
     {
-    	// Alle Templates
+    	// Alle globalen Templates
     	foreach($t_sql->getArray() as $t)
     	{
-    		$templates[$t["id"]] = $t['name'];
+        $categories = rex_getAttributes("categories", $t["attributes"]);
+        if ($categories["all"] == 1)
+    		  $templates[$t["id"]] = $t['name'];
     	}
     }else
     {
@@ -291,7 +293,7 @@ class OOCategory extends OORedaxo
 	    	foreach($t_sql->getArray() as $t)
 	    	{
 	    		$categories = rex_getAttributes("categories", $t["attributes"]);
-	    		// template ist nicht kategoriespefisch -> includen
+	    		// template ist nicht kategoriespezifisch -> includen
 	    		if(!is_array($categories) || $categories["all"] == 1)
 	    		{
             $templates[$t["id"]] = $t['name'];
