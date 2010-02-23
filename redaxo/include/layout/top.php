@@ -159,6 +159,9 @@ class rex_be_navigation
 				  $item['id'] = 'id="'.$item['id'].'"';
 				else
 				  $item['id'] = '';
+				  
+				if (isset($item['href']))
+				  $item['href'] = str_replace('&', '&amp;', $item['href']);
 	  
       	$tags = '';
       	foreach($item as $tag => $value)
