@@ -32,7 +32,13 @@ if(!isset($log['month']) || !$log['month'])
 $array = rex_cronjob_log::getYearMonthArray();
 
 if (empty($array))
-  echo $I18N->msg('cronjob_no_log_files');
+  echo '
+    <div class="rex-toolbar">
+      <div class="rex-toolbar-content">
+        <strong>'.$I18N->msg('cronjob_no_log_files').'</strong>
+        <div class="rex-clearer"></div>
+      </div>
+    </div>';
 else
 {
   $countYears = count($array);

@@ -23,25 +23,28 @@ class rex_cronjob_article_status extends rex_cronjob
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery('
-      SELECT field_id 
-      FROM '.$REX['TABLE_PREFIX'].'62_params 
-      WHERE name="'.$from['field'].'" OR name="'.$to['field'].'"
+      SELECT  field_id 
+      FROM    '.$REX['TABLE_PREFIX'].'62_params 
+      WHERE   name="'.$from['field'].'" OR name="'.$to['field'].'"
     ');
     if ($sql->getRows() != 2)
       return false;
     
+    $time = time();
     $sql->setQuery('
-      SELECT id, clang, status 
-      FROM '.$REX['TABLE_PREFIX'].'article 
+      SELECT  id, clang, status 
+      FROM    '.$REX['TABLE_PREFIX'].'article 
       WHERE 
-        ('.$from['field'].' > 0 
-        AND '.$from['field'].' < '.time().' 
-        AND status IN ('.implode(',',$from['before']).')
-        AND ('.$to['field'].' > '.time().' OR '.$to['field'].' = 0 OR '.$to['field'].' = ""))
+        (     '.$from['field'].' > 0 
+        AND   '.$from['field'].' < '.$time.' 
+        AND   status IN ('.implode(',',$from['before']).')
+        AND   ('.$to['field'].' > '.$time.' OR '.$to['field'].' = 0 OR '.$to['field'].' = "")
+        )
       OR 
-        ('.$to['field'].' > 0 
-        AND '.$to['field'].' < '.time().' 
-        AND status IN ('.implode(',',$to['before']).'))
+        (     '.$to['field'].' > 0 
+        AND   '.$to['field'].' < '.$time.' 
+        AND   status IN ('.implode(',',$to['before']).')
+        )
     ');
     $rows = $sql->getRows();
     for($i = 0; $i < $rows; $i++)
