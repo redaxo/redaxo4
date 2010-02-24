@@ -339,7 +339,17 @@ class rex_form
       trigger_error('Unexpected parameter type "'. gettype($value) .'"!', E_USER_ERROR);
     }
   }
-
+  
+  /*public*/ function &createInput($inputType, $name, $value = null, $attributes = array())
+  {
+    $tag        = rex_form::getInputTagName($inputType);
+    $className  = rex_form::getInputClassName($inputType);
+    $attributes = rex_form::getInputAttributes($inputType);
+    $attributes['internal::fieldClass'] = $className;
+    $element =& $this->createElement($tag, $name, $value, $attributes);
+    return $element;
+  }
+  
   /*protected*/ function &createElement($tag, $name, $value, $attributes = array())
   {
     $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
@@ -424,6 +434,78 @@ class rex_form
       $url = $this->getUrl($url, false);
 
     $this->applyUrl = $url;
+  }
+
+  // --------- Static Methods
+
+  /*public static*/ function getInputClassName($inputType)
+  {
+    $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('form' => $this, 'inputType' => $inputType));
+    
+    if($className)
+    {
+      return $className;
+    }
+    
+    switch($inputType)
+    {
+      case 'control'   : $className = 'rex_form_control_element'; break;
+      case 'checkbox'  : $className = 'rex_form_checkbox_element'; break;
+      case 'radio'     : $className = 'rex_form_radio_element'; break;
+      case 'select'    : $className = 'rex_form_select_element'; break;
+      case 'media'     : $className = 'rex_form_widget_media_element'; break;
+      case 'medialist' : $className = 'rex_form_widget_medialist_element'; break;
+      case 'link'      : $className = 'rex_form_widget_linkmap_element'; break;
+      case 'linklist'  : $className = 'rex_form_widget_linklist_element'; break;
+      case 'hidden'    : 
+      case 'readonly'  : 
+      case 'readonlytext' : 
+      case 'text'      : 
+      case 'textarea'  :
+      default          : $className = 'rex_form_element'; break;
+    }
+    return $className;
+  }
+  
+  /*public static*/ function getInputTagName($inputType)
+  {
+    $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('form' => $this, 'inputType' => $inputType));
+    
+    if($inputTag)
+    {
+      return $inputTag;
+    }
+    
+    switch($inputType)
+    {
+      case 'checkbox'  :
+      case 'hidden'    :
+      case 'radio'     :
+      case 'text'      : return 'input';
+      case 'textarea'  : return $inputType;
+      default          : $inputTag = ''; break;
+    }
+    return $inputTag;
+  }
+
+  /*public static*/ function getInputAttributes($inputType)
+  {
+    $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('form' => $this, 'inputType' => $inputType));
+    
+    if($inputAttr)
+    {
+      return $inputAttr;
+    }
+    
+    switch($inputType)
+    {
+      case 'checkbox'  :
+      case 'hidden'    :
+      case 'radio'     :
+      case 'text'      : return array('type' => $inputType);
+      default          : $inputAttr = array(); break;
+    }
+    return $inputAttr;
   }
 
   // --------- Form Methods
