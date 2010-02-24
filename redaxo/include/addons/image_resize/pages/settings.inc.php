@@ -6,7 +6,6 @@
  * @author office[at]vscope[dot]at Wolfgang Hutteger
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
- * @author dh[at]daveholloway[dot]co[dot]uk Dave Holloway
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -20,7 +19,6 @@ $max_filters = rex_request('max_filters', 'int');
 $max_resizekb = rex_request('max_resizekb', 'int');
 $max_resizepixel = rex_request('max_resizepixel', 'int');
 $jpg_quality = rex_request('jpg_quality', 'int');
-$old_syntax = rex_request('old_syntax', 'int');
 
 $config_file = $REX['INCLUDE_PATH'].'/addons/image_resize/config.inc.php';
 
@@ -34,14 +32,12 @@ if ($func == 'update')
 	$REX['ADDON']['image_resize']['max_resizekb'] = $max_resizekb;
 	$REX['ADDON']['image_resize']['max_resizepixel'] = $max_resizepixel;
 	$REX['ADDON']['image_resize']['jpg_quality'] = $jpg_quality;
-	$REX['ADDON']['image_resize']['old_syntax'] = $old_syntax;
 
 	$content = '$REX[\'ADDON\'][\'image_resize\'][\'max_cachefiles\'] = '.$max_cachefiles.';
 $REX[\'ADDON\'][\'image_resize\'][\'max_filters\'] = '.$max_filters.';
 $REX[\'ADDON\'][\'image_resize\'][\'max_resizekb\'] = '.$max_resizekb.';
 $REX[\'ADDON\'][\'image_resize\'][\'max_resizepixel\'] = '.$max_resizepixel.';
 $REX[\'ADDON\'][\'image_resize\'][\'jpg_quality\'] = '.$jpg_quality.';
-$REX[\'ADDON\'][\'image_resize\'][\'old_syntax\'] = '.$old_syntax.';
 ';
 
   if(rex_replace_dynamic_contents($config_file, $content) !== false)
@@ -104,22 +100,6 @@ echo '
 					<input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_resize']['jpg_quality']).'" />
 				</p>
 			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="old_syntax">'. $I18N->msg('iresize_old_syntax') .'</label>
-					';					
-					$sel = new rex_select;
-					$sel->addOption($I18N->msg('iresize_no'),0);
-					$sel->addOption($I18N->msg('iresize_yes'),1);
-					$sel->setName('old_syntax');
-					$sel->setSelected($REX['ADDON']['image_resize']['old_syntax']);
-					$sel->setSize(1);
-					$sel->show();
-echo '
-				</p>
-			</div>
-			
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-submit">
 					<input type="submit" class="rex-form-submit" name="sendit" value="'.$I18N->msg('update').'" />

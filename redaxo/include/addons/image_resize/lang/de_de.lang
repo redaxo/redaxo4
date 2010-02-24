@@ -2,7 +2,6 @@
 
 iresize_subpage_desc = Erklärung
 iresize_subpage_config = Konfiguration
-iresize_subpage_types = Einstellungstypen
 iresize_subpage_clear_cache = Resize-Cache löschen
 
 iresize_cache_files_removed = {0} Cache-Dateien gelöscht
@@ -16,15 +15,3 @@ iresize_max_filters = Maximale Anzahl von Filtern, die auf eine Datei gleichzeit
 iresize_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über Image-Resize umgewandelt werden darf
 iresize_max_resizepx = Maximale Größe einer Datei in Pixel, die über Image-Resize umgewandelt werden darf
 iresize_jpg_quality = JPG/JPEG Ausgabe-Qualität
-iresize_old_syntax = Alte URL-Syntax erlauben? (z.B. index.php?rex_resize=100w__file.jpg)
-
-iresize_id = ID
-iresize_name = Name
-iresize_edittype = Einstellungstyp bearbeiten
-iresize_settings = Einstellungen
-
-iresize_yes = Ja
-iresize_no = Nein
-
-iresize_error_name = Bitte geben Sie einen Namen ein.
-iresize_error_settings = Bitte geben Sie Inhalte bei Einstellungen ein.

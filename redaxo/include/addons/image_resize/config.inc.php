@@ -10,8 +10,6 @@
  *
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
- * 
- * @author dh[at]daveholloway[dot]co[dot]uk Dave Holloway
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -37,14 +35,10 @@ $REX['ADDON']['image_resize']['default_filters'] = array();
 $REX['ADDON']['image_resize']['max_cachefiles'] = 5;
 $REX['ADDON']['image_resize']['max_filters'] = 5;
 $REX['ADDON']['image_resize']['max_resizekb'] = 1000;
-$REX['ADDON']['image_resize']['max_resizepixel'] = 1500;
-$REX['ADDON']['image_resize']['jpg_quality'] = 85;
-$REX['ADDON']['image_resize']['old_syntax'] = 1;
+$REX['ADDON']['image_resize']['max_resizepixel'] = 500;
+$REX['ADDON']['image_resize']['jpg_quality'] = 75;
 // --- /DYN
 
-include_once ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.a469.inc.php');
-include_once ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.a469_listTypes.inc.php');
-include_once ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.a469_formTypes.inc.php');
 include_once ($REX['INCLUDE_PATH'].'/addons/image_resize/classes/class.thumbnail.inc.php');
 
 require_once $REX['INCLUDE_PATH'].'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
@@ -64,21 +58,6 @@ if ($REX['REDAXO'])
 
 // Resize Script
 $rex_resize = rex_get('rex_resize', 'string');
-$rex_resize_type = rex_get('rex_resize_type', 'string');
-
-if ($rex_resize != '' && $rex_resize_type == '' && 	$REX['ADDON']['image_resize']['old_syntax']==0)
-{
-	trigger_error('image_resize: old parameters not allowed');
-	die();
-}
-
-
-if ($rex_resize_type != '' && $rex_resize != '')
-{
-	$settings = a469::getSettingsByName($rex_resize_type);
-	$rex_resize = a469::initSettings($settings);
-}
-
 if ($rex_resize != '')
 {
 	rex_thumbnail::createFromUrl($rex_resize);
@@ -90,7 +69,6 @@ if($REX['REDAXO'])
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array (
   	array ('', $I18N->msg('iresize_subpage_desc')),
   	array ('settings', $I18N->msg('iresize_subpage_config')),
-		array ('types', $I18N->msg('iresize_subpage_types')),		
   	array ('clear_cache', $I18N->msg('iresize_subpage_clear_cache')),
 	);
 }

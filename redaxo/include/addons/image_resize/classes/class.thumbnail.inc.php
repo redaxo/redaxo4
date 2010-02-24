@@ -71,9 +71,6 @@ class rex_thumbnail
       $this->img['width_offset_thumb'] = 0;
       $this->img['height_offset_thumb'] = 0;
 
-      $this->img['width_thumb'] = 0;
-      $this->img['height_thumb'] = 0;
-      
       // --- default quality jpeg
       $this->img['quality'] = $REX['ADDON']['image_resize']['jpg_quality'];
       $this->filters = array();
@@ -140,38 +137,6 @@ class rex_thumbnail
     }
   }
 
-  
-  /**
-   * Bild in Rechteck-FlŠche einpassen
-   *
-   * @param $width int Breite der Rechteck-FlŠche
-   * @param $height int Hoehe der Rechteck-FlŠche
-   */
-  function size_fit($width, $height)
-  {
-    if (!$height)
-    {
-      $height = $width;
-    }
-   
-    $img_ratio  = $this->img['width'] / $this->img['height'];
-    $resize_ratio = $width / $height;
-    if ($img_ratio >= $resize_ratio)
-    {
-      // --- width
-      $this->img['width_thumb']  = (int) $width;
-      $this->img['height_thumb'] = (int) ($this->img['width_thumb'] / $this->img['width'] * $this->img['height']);
-    }
-    else
-    {
-      // --- height
-      $this->img['height_thumb'] = (int) $height;
-      $this->img['width_thumb']  = (int) ($this->img['height_thumb'] / $this->img['height'] * $this->img['width']);
-    }
-  } 
-  
-  
-  
   function jpeg_quality($quality = 85)
   {
     // --- jpeg quality
@@ -442,7 +407,7 @@ class rex_thumbnail
 		$rex_resize = str_replace("/","",$rex_resize);
 		  
     // get params
-    preg_match('@([0-9]+)([awhcf])__(([0-9]+)h__)?((\-?[0-9]+)o__)?(.*)@', $rex_resize, $resize);
+    preg_match('@([0-9]+)([awhc])__(([0-9]+)h__)?((\-?[0-9]+)o__)?(.*)@', $rex_resize, $resize);
     
 	  $size = $resize[1];
 	  $mode = $resize[2];
@@ -508,9 +473,9 @@ class rex_thumbnail
 		}
 
 		// ----- check mode
-	  if (($mode != 'w') && ($mode != 'h') && ($mode != 'a') && ($mode != 'c') && ($mode != 'f'))
+	  if (($mode != 'w') && ($mode != 'h') && ($mode != 'a') && ($mode != 'c'))
 	  {
-	    print 'Error wrong mode - only h,w,a,c,f';
+	    print 'Error wrong mode - only h,w,a,c';
 	    exit;
 	  }
 
@@ -555,11 +520,6 @@ class rex_thumbnail
 	    $thumb->size_auto($size);
 	  }
 
-	  if ($mode == 'f')
-    {
-      $thumb->size_fit($size, $height);
-    }
-	  
 	  // Add Default Filters
 	  $rex_filter = array_merge($rex_filter,$REX['ADDON']['image_resize']['default_filters']);
 

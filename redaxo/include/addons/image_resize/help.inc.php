@@ -26,8 +26,7 @@
 w = width       (Skalieren in der Breite)<br />
 h = height      (Skalieren in der Höhe)<br />
 c = crop        (Bildausschnitt herausschneiden)<br />
-a = automatic   (Skalieren anhand der längsten Seite des Bildes)<br />
-f = fit					(Skalieren anhand der kuerzesten Seite des Bildes)
+a = automatic   (Skalieren anhand der längsten Seite des Bildes)
 </p>
 
 <h3>Filter/Effekte:</h3>
@@ -53,14 +52,6 @@ Skaliere das Bild anhand der längsten Seite, diese auf eine Länge von 200px. Die
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200a__imagefile</b>
 
 <br /><br />
-Skaliere das Bild anhand der kuerzesten Seite, diese auf eine Länge von 200px. Die Proportionen des Bildes werden beibehalten.<br />
-<b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200f__imagefile</b>
-
-<br /><br />
-Skaliere das Bild anhand der Breite auf maximal 200px oder Anhand der Hoehe von 100px. Die Proportionen des Bildes werden beibehalten.<br />
-<b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200f__100h__imagefile</b>
-
-<br /><br />
 Skaliere das Bild auf eine Breite von 100px und eine Höhe von 200px. Ggf. wird das Bild dadurch verzehrt..<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=100w__200h__imagefile</b>
 
@@ -79,10 +70,5 @@ Schneide aus dem Bild, ausgehend vom Zentrum um 150px nach links verschoben, ein
 <br /><br />
 Wende die Filter blur und sepia auf das Bild an. Zugleich wird das Bild an der längsten Seite auf 200px länge skaliert. Die Proportionen des Bildes werden beibehalten.<br />
 <b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize=200a__imagefile&amp;rex_filter[]=blur&amp;rex_filter[]=sepia</b>
-
-<br /><br />
-Sofern man Einstellungstypen verwendet, werden die Resizefunktionen ausschliesslich über einen resize_type gesetzt.<br />
-<b><?php echo $REX["FRONTEND_FILE"]; ?>?rex_resize_type=beispiel&amp;rex_resize=imagefile</b>
-
 
 </p>
