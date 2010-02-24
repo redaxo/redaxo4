@@ -100,20 +100,20 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 
 		return array(
 			array(
-				'title' => $I18N->msg('amount'),
-				'label' => 'amount',
+				'label' => $I18N->msg('amount'),
+				'name' => 'amount',
 				'type'	=> 'int',
 				'default' => '80'
 			),
 			array(
-				'title' => $I18N->msg('radius'),
-				'label' => 'radius',
+				'label' => $I18N->msg('radius'),
+				'name' => 'radius',
 				'type'	=> 'int',
 				'default' => '8'
 			),
 			array(
-				'title' => $I18N->msg('threshold'),
-				'label' => 'threshold',
+				'label' => $I18N->msg('threshold'),
+				'name' => 'threshold',
 				'type'	=> 'int',
 				'default' => '3'
 			)

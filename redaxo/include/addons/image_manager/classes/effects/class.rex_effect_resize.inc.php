@@ -99,20 +99,20 @@ class rex_effect_resize extends rex_effect_abstract
 
 		return array(
   		array(
-        'title'=>$I18N->msg('width'),
+        'label'=>$I18N->msg('width'),
         'name' => 'width',
         'type' => 'int'
       ),
       array(
-        'title'=>$I18N->msg('height'),
+        'label'=>$I18N->msg('height'),
         'name' => 'height',
         'type' => 'int'
       ),
       array(
-        'title' => $I18N->msg('style'),
+        'label' => $I18N->msg('style'),
         'name' => 'style',
         'type'  => 'select',
-        'type_params' => array('fit','warp'),
+        'options' => array('fit','warp'),
         'default' => 'fit'
       ),
     );

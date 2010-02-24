@@ -4,6 +4,10 @@ $id = rex_request('id','int');
 $type_id = rex_request('type_id','int');
 $func = rex_request('func','string');
 
+require_once (dirname(__FILE__). '/../functions/function_rex_effects.inc.php');
+require_once (dirname(__FILE__). '/../classes/class.rex_form_effect_parameters.inc.php');
+
+
 // TODO
 if($type_id == 0)
 {
@@ -14,10 +18,12 @@ echo '<div class="rex-addon-output-v2">';
 if ($func == '')
 {	
 	$query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects';
+	
 	$list = rex_list::factory($query);
-//  $list->setCaption($I18N->msg('module_caption'));
-//  $list->addTableAttribute('summary', $I18N->msg('module_summary'));
-//  $list->addTableColumnGroup(array(40, 40, '*', 153));
+  $list->setNoRowsMessage($I18N->msg('imanager_effect_no_effects'));
+  $list->setCaption($I18N->msg('imanager_effect_caption'));
+  $list->addTableAttribute('summary', $I18N->msg('imanager_effect_summary'));
+  $list->addTableColumnGroup(array(40, 100, '*', 130, 130));
 	
 	$list->removeColumn('parameters');	
 	$list->setColumnLabel('effect',$I18N->msg('imanager_type_name'));
@@ -38,6 +44,9 @@ if ($func == '')
 } 
 elseif ($func == 'edit' || $func == 'add')
 {
+
+  $effectNames = rex_imanager_supportedEffectNames();
+  
   if($func == 'edit')
   {
     $formLabel = $I18N->msg('imanager_effect_edit');
@@ -49,14 +58,38 @@ elseif ($func == 'edit' || $func == 'add')
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_type_effects',$formLabel,'id='.$id);
 
 	// effect name als SELECT
-	$field =& $form->addTextField('name');
+	$field =& $form->addSelectField('name');
 	$field->setLabel($I18N->msg('imanager_effect_name'));
+	$select =& $field->getSelect();
+	$select->addOptions($effectNames, true);
+	$select->setSize(1);
+	
+  $script = '
+  <script type="text/javascript">
+  <!--
 
-	$field =& $form->addTextareaField('description');
-	$field->setLabel($I18N->msg('imanager_effect_parameters'));
+  (function($) {
+    var currentShown = null;
+    $("#'. $field->getAttribute('id') .'").change(function(){
+      if(currentShown) currentShown.hide();
+      
+      var effectParamsId = "#rex-effect-rex_effect_"+ jQuery(this).val();
+      currentShown = $(effectParamsId);
+      currentShown.show();
+    }).change();
+  })(jQuery);
+  </script>';
+	
+	$attributes = array();
+  $attributes['internal::fieldClass'] = 'rex_imanager_effect_parameters';
+  $field =& $form->addField('', 'parameters', null, $attributes, true);
+	$field->setSuffix($script);
+	
+//	$I18N->msg('imanager_effect_parameters')
 
 	if($func == 'edit')
 	{
+		$form->addParam('type_id', $type_id);
 		$form->addParam('id', $id);
 	}	
 	$form->show();

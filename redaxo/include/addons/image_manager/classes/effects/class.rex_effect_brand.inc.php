@@ -88,34 +88,34 @@ class rex_effect_brand extends rex_effect_abstract{
 
 		return array(
 			array(
-				'title' => $I18N->msg('image'),
-				'label' => 'brandimage',
+				'label' => $I18N->msg('image'),
+				'name' => 'brandimage',
 				'type'	=> 'media',
 				'default' => ''
 			),
 			array(
-				'title' => $I18N->msg('hpos'),
-				'label' => 'hpos',
+				'label' => $I18N->msg('hpos'),
+				'name' => 'hpos',
 				'type'	=> 'select',
-				'type_params'	=> array('right','center','left'),
+				'options'	=> array('right','center','left'),
 				'default' => 'right'
 			),
 			array(
-				'title' => $I18N->msg('vpos'),
-				'label' => 'vpos',
+				'label' => $I18N->msg('vpos'),
+				'name' => 'vpos',
 				'type'	=> 'select',
-				'type_params'	=> array('top','center','bottom'),
+				'options'	=> array('top','center','bottom'),
 				'default' => 'bottom'
 			),
 			array(
-				'title' => $I18N->msg('padding_x'),
-				'label' => 'padding_x',
+				'label' => $I18N->msg('padding_x'),
+				'name' => 'padding_x',
 				'type'	=> 'int',
 				'default' => '-10'
 			),
 			array(
-				'title' => $I18N->msg('padding_y'),
-				'label' => 'padding_y',
+				'label' => $I18N->msg('padding_y'),
+				'name' => 'padding_y',
 				'type'	=> 'int',
 				'default' => '-10'
 			),
