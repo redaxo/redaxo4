@@ -35,6 +35,7 @@ cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 
 cronjob_status_function = Status/Funktion
+cronjob_status = Status
 cronjob_status_activated = aktiviert
 cronjob_status_deactivated = deaktiviert
 cronjob_status_success = Status wurde geändert!
