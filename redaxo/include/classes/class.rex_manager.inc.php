@@ -336,7 +336,7 @@ class rex_addonManager extends rex_baseManager
     if(in_array($addonName, $REX['SYSTEM_ADDONS']))
       return $I18N->msg('addon_systemaddon_delete_not_allowed');
       
-    parent::delete($addonName);
+    return parent::delete($addonName);
   }
   
   /*protected*/ function includeConfig($addonName, $configFile)
