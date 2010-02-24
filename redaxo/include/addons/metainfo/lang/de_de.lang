@@ -31,6 +31,10 @@ minfo_field_after_prior = Nach dem Feld "{0}"
 minfo_field_params_notice_3 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_4 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_5 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_6 = Beispiel:<br /> category=1
+minfo_field_params_notice_7 = Beispiel:<br /> category=1
+minfo_field_params_notice_8 = Beispiel:<br /> category=1
+minfo_field_params_notice_9 = Beispiel:<br /> category=1
 
 minfo_field_attributes_notice = Beispiel:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
 

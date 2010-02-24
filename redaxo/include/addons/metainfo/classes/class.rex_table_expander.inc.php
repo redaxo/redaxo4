@@ -28,7 +28,7 @@ class rex_a62_tableExpander extends rex_form
 
     // ----- EXTENSION POINT
     // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-    $typeFields = rex_register_extension_point( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX));
+    $typeFields = rex_register_extension_point( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX, REX_A62_FIELD_REX_MEDIA_BUTTON, REX_A62_FIELD_REX_MEDIALIST_BUTTON, REX_A62_FIELD_REX_LINK_BUTTON, REX_A62_FIELD_REX_LINKLIST_BUTTON));
 
     $field =& $this->addReadOnlyField('prefix', $this->metaPrefix);
     $field->setLabel($I18N->msg('minfo_field_label_prefix'));
