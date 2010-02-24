@@ -4,6 +4,7 @@ class rex_input_medialistbutton extends rex_input
 {
   var $buttonId;
   var $categoryId;
+  var $args = array();
   
   function rex_input_medialistbutton()
   {
@@ -22,14 +23,20 @@ class rex_input_medialistbutton extends rex_input
     $this->categoryId = $categoryId;
   }
   
+  function setTypes($types)
+  {
+    $this->args['types'] = $types;
+  }
+  
   function getHtml()
   {
     $buttonId = $this->buttonId;
     $categoryId = $this->categoryId;
     $value = htmlspecialchars($this->value);
     $name = $this->attributes['name'];
+    $args = $this->args;
     
-    $field = rex_var_media::getMediaListButton($buttonId, $value, $categoryId);
+    $field = rex_var_media::getMediaListButton($buttonId, $value, $categoryId, $args);
     $field = str_replace('MEDIALIST['. $buttonId .']', $name, $field);
     
     return $field;
