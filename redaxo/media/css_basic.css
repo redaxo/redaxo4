@@ -584,6 +584,36 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 .rex-i-clang-add {
 	background-image: url(../media/flag_plus.gif);
 }
+.rex-i-cronjob {
+	/*	TODO */
+	background-image: url(../media/icon_cronjob.gif);
+	background-image: url(../media/document.gif);
+}
+.rex-i-cronjob-add {
+	/*	TODO */
+	background-image: url(../media/icon_cronjob_add.gif);
+	background-image: url(../media/document_plus.gif);
+}
+.rex-i-generic {
+	/*	TODO */
+	background-image: url(../media/icon_generic.gif);
+	background-image: url(../media/document.gif);
+}
+.rex-i-generic-add {
+	/*	TODO */
+	background-image: url(../media/icon_generic_add.gif);
+	background-image: url(../media/file_add.gif);
+}
+.rex-i-generic-close {
+	/*	TODO */
+	background-image: url(../media/icon_generic_close.gif);
+	background-image: url(../media/file_del.gif);
+}
+.rex-i-generic-open {
+	/*	TODO */
+	background-image: url(../media/icon_generic_open.gif);
+	background-image: url(../media/file_add.gif);
+}
 .rex-i-media {
 	background-image: url(../media/file_view.gif);
 }
@@ -605,6 +635,11 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 .rex-i-refresh-ani {
 	background-image: url(../media/refresh_ani.gif);
 }
+.rex-i-refresh-err {
+  /*	TODO */
+  background-image: url(../media/icon_refresh_err.gif);
+  background-image: url(../media/file_add.gif);
+}
 .rex-i-slice {
 	background-image: url(../media/slice.gif);
 }
@@ -615,10 +650,22 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 	background-image: url(../media/template_plus.gif);
 }
 .rex-i-togglesettings {
+  /*TODO better image, backport to default skin */
 	background-image: url(../media/file_add.gif);
 }
+.rex-i-togglesettings-off {
+  /*TODO better image, backport to default skin */
+ 	background-image: url(../media/icon_togglesettings_off.gif);
+  background-image: url(../media/file_del.gif);
+}
 .rex-i-toggleview {
+  /*TODO better image, backport to default skin */
 	background-image: url(../media/file_add.gif);
+}
+.rex-i-toggleview-off {
+  /*TODO backport to default skin */
+ 	background-image: url(../media/icon_toggleview_off.gif);
+	background-image: url(../media/file_del.gif);
 }
 .rex-i-user {
 	background-image: url(../media/user.gif);

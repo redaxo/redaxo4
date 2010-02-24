@@ -159,8 +159,15 @@ p.rex-button-add {
 
 /*  Kategorietabelle Metainfo Button */
 div#rex-form-structure-category p.rex-button-add {
-  display: inline;
-  margin: 0 5px;
+  display: block;
+  float: right;
+  margin: 3px 5px 0 5px;
+}
+div#rex-form-structure-category p.rex-button-add a {
+  display: block;
+  width: 16px;
+  height: 16px;
+  text-indent: -1000em;
 }
 
 /*	Table **********************************************************************
