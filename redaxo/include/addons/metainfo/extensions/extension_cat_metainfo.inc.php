@@ -49,14 +49,14 @@ function rex_a62_metainfo_button($params)
   function rex_metainfo_toggle()
   {
   	jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
-		img = jQuery("img#rex-metainfo-icon");
-		if(img.attr("src") == "media/file_add.gif")
-			img.attr("src","media/file_del.gif");
+		metacat = jQuery("#rex-i-meta-category");
+		if(metacat.attr("class") == "rex-i-generic-open")
+			metacat.attr("class","rex-i-generic-close");
 		else 
-			img.attr("src","media/file_add.gif");
+			metacat.attr("class","rex-i-generic-open");
   }
 
-  //--></script><a class="rex-button-add" href="javascript:rex_metainfo_toggle();"><img src="media/file_add.gif" id="rex-metainfo-icon" alt="'. $I18N->msg('minfo_edit_metadata') .'" title="'. $I18N->msg('minfo_edit_metadata') .'" /></a></p>';
+  //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. $I18N->msg('minfo_edit_metadata') .'</a></p>';
 
 	   return $params['subject'] . $return;
   }
