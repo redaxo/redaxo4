@@ -270,10 +270,6 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
       $wdgtClass .= ' rex-widget-preview';
-			if ($REX['ADDON']['image_resize']['old_syntax'])
-			{
-	      $wdgtClass .= ' rex-widget-resize-old';
-			}
     }
 
     $media = '
@@ -321,10 +317,6 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
     {
       $wdgtClass .= ' rex-widget-preview';
-			if ($REX['ADDON']['image_resize']['old_syntax'])
-			{
-	      $wdgtClass .= ' rex-widget-resize-old';
-			}
     }
 
     $options = '';

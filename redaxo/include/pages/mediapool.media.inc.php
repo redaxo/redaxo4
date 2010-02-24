@@ -235,16 +235,7 @@ if ($subpage == "detail")
         $imgn = 'media/mime-error.gif';
       }else if ($thumbs && $thumbsresize && $rfwidth>199)
       {
-      	if ($REX['ADDON']['image_resize']['old_syntax'])
-      	{
-      		// Alte Resize Syntax
-	        $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
-	      }
-	      else
-	      {
-      		// Neue Resize Syntax
-	        $imgn = '../index.php?rex_resize_type=rex_mediapool&rex_resize='. $encoded_fname;
-	      }
+        $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
       }
 
       $add_image = '<div class="rex-mediapool-detail-image">
@@ -714,16 +705,7 @@ if ($subpage == '')
         $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($thumbsresize)
         {
-					if ($REX['ADDON']['image_resize']['old_syntax'])
-					{
-						// Alte Resize Syntax
-	          $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
-					}
-					else
-					{
-						// Neue Resize Syntax
-	          $thumbnail = '<img src="../index.php?rex_resize_type=rex_mediapool&rex_resize='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
-					}
+          $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
         }
       }
     }
