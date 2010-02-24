@@ -161,7 +161,7 @@ p.rex-button-add {
 div#rex-form-structure-category p.rex-button-add {
   display: block;
   float: right;
-  margin: 3px 5px 0 5px;
+  margin: 3px 5px 0 0;
 }
 div#rex-form-structure-category p.rex-button-add a {
   display: block;
