@@ -18,7 +18,7 @@ class rex_input_linkbutton extends rex_input
     $this->setAttribute('id', 'LINK_'. $buttonId);
   }
   
-  function setMediaCategoryId($categoryId)
+  function setCategoryId($categoryId)
   {
     $this->categoryId = $categoryId;
   }
@@ -33,5 +33,14 @@ class rex_input_linkbutton extends rex_input
     $field = rex_var_link::_getLinkButton($name, $buttonId, $value, $categoryId);
     
     return $field;
+  }
+  
+  /**
+   * @deprecated 24.02.2010
+   * Stattdessen setCategoryId() nutzen
+   */
+  function setMediaCategoryId($categoryId)
+  {
+    $this->setCategoryId($categoryId);
   }
 }

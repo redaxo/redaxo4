@@ -290,9 +290,15 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         $tag = 'div';
         $tag_attr = ' class="rex-form-widget"';
+        
+        $category = '';
+        $paramArray = rex_split_string($params);
+        if(isset($paramArray['category']))
+          $category = $paramArray['category'];
 
         $rexInput = rex_input::factory('mediabutton');
         $rexInput->setButtonId($media_id);
+        $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($dbvalues_esc[0]);
         $id = $rexInput->getAttribute('id');
@@ -305,10 +311,16 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         $tag = 'div';
         $tag_attr = ' class="rex-form-widget"';
+        
+        $category = '';
+        $paramArray = rex_split_string($params);
+        if(isset($paramArray['category']))
+          $category = $paramArray['category'];
 
         $name .= '[]';
         $rexInput = rex_input::factory('medialistbutton');
         $rexInput->setButtonId($mlist_id);
+        $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue(implode(',', $dbvalues_esc));
         $id = $rexInput->getAttribute('id');
@@ -323,7 +335,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-widget"';
 
         $category = '';
-        if($activeItem)
+        $paramArray = rex_split_string($params);
+        if(isset($paramArray['category']))
+          $category = $paramArray['category'];
+        else if($activeItem)
           $category = $activeItem->getValue('category_id');
 
         $rexInput = rex_input::factory('linkbutton');
@@ -343,7 +358,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-widget"';
 
         $category = '';
-        if($activeItem)
+        $paramArray = rex_split_string($params);
+        if(isset($paramArray['category']))
+          $category = $paramArray['category'];
+        else if($activeItem)
           $category = $activeItem->getValue('category_id');
 
         $name .= '[]';
