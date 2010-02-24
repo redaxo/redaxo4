@@ -31,6 +31,9 @@ $REX['ADDON']['image_manager']['max_resizepixel'] = 1500;
 $REX['ADDON']['image_manager']['jpg_quality'] = 85;
 // --- /DYN
 
+$REX['ADDON']['image_manager']['classpaths']['effects'] = array();
+$REX['ADDON']['image_manager']['classpaths']['effects'][] = dirname(__FILE__). '/classes/effects/';
+
 require_once (dirname(__FILE__). '/classes/class.rex_image.inc.php');
 require_once (dirname(__FILE__). '/classes/class.rex_image_cacher.inc.php');
 require_once (dirname(__FILE__). '/classes/class.rex_image_manager.inc.php');
