@@ -343,7 +343,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
         $rexInput = rex_input::factory('linkbutton');
         $rexInput->setButtonId($link_id);
-        $rexInput->setMediaCategoryId($category);
+        $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($dbvalues_esc[0]);
         $id = $rexInput->getAttribute('id');
@@ -367,7 +367,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $name .= '[]';
         $rexInput = rex_input::factory('linklistbutton');
         $rexInput->setButtonId($llist_id);
-        $rexInput->setMediaCategoryId($category);
+        $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue(implode(',',$dbvalues));
         $id = $rexInput->getAttribute('id');
