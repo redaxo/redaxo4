@@ -276,6 +276,18 @@ a.rex-back {
 
 
 
+
+
+/*  Kategorietabelle Metainfo Button */
+div#rex-form-structure-category p.rex-button-add {
+  margin-top: 2px;
+}
+div#rex-form-structure-category p.rex-button-add a {
+  width: 18px;
+  height: 18px;
+}
+
+
 .rex-i-action {
 	background-image: url(action.gif);
 }
@@ -318,7 +330,17 @@ a.rex-back {
 .rex-i-generic-add {
 	/*	TODO */
 	background-image: url(icon_generic_add.gif);
-	background-image: url(document_plus.gif);
+	background-image: url(file_add.gif);
+}
+.rex-i-generic-close {
+	/*	TODO */
+	background-image: url(icon_generic_close.gif);
+	background-image: url(file_del.gif);
+}
+.rex-i-generic-open {
+	/*	TODO */
+	background-image: url(icon_generic_open.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-media {
 	background-image: url(file_view.gif);
@@ -366,6 +388,7 @@ a.rex-back {
   background-image: url(file_del.gif);
 }
 .rex-i-toggleview {
+  /*TODO */
  	background-image: url(icon_toggleview.gif);
 	background-image: url(file_add.gif);
 }
@@ -781,12 +804,16 @@ p.rex-button a {
 
 body div.rex-form table.rex-table, 
 body div.rex-table div.rex-form,
-body div.rex-area table.rex-table,  
 body div.rex-area div.rex-form, 
-body div.rex-toolbar table.rex-table,  
+body div.rex-area table.rex-table, 
+body div.rex-content-header div.rex-form,
+body div.rex-content-header table.rex-table, 
+body div.rex-content-body div.rex-form,
+body div.rex-content-body table.rex-table, 
 body div.rex-toolbar div.rex-form, 
-body div.rex-addon-output table.rex-table,  
-body div.rex-addon-output div.rex-form {
+body div.rex-toolbar table.rex-table,  
+body div.rex-addon-output div.rex-form,  
+body div.rex-addon-output table.rex-table {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;
