@@ -144,11 +144,11 @@ if ($func == '')
   
 } elseif ($func == 'edit' || $func == 'add') 
 {
-  require_once $REX['INCLUDE_PATH'].'/addons/cronjob/classes/class.rex_a630_form.inc.php';
+  require_once $REX['INCLUDE_PATH'].'/addons/cronjob/classes/class.rex_cronjob_form.inc.php';
   
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
   
-  $form = rex_form::factory($table, $fieldset, 'id = '.$oid, 'post', false, 'rex_a630_form');
+  $form = rex_form::factory($table, $fieldset, 'id = '.$oid, 'post', false, 'rex_cronjob_form');
   $form->addParam('oid', $oid);
   $form->addParam('list','cronjobs');
   

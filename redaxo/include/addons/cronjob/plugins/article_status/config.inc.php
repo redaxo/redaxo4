@@ -13,9 +13,9 @@ if($REX["REDAXO"])
 {
 
   // Sprachdateien anhaengen
-	$I18N->appendFile(dirname(__FILE__) .'/lang/');
-	
-	$REX['ADDON']['rxid']["article_status"] = '630';
+  $I18N->appendFile(dirname(__FILE__) .'/lang/');
+  
+  $REX['ADDON']['rxid']["article_status"] = '630';
   
   // Credits
   $REX['ADDON']['version']["article_status"] = '1.0';
@@ -35,12 +35,12 @@ if($REX["REDAXO"])
   );
   
   rex_register_extension(
-	  'REX_CRONJOB_EXTENSIONS',
-	  array('rex_cronjob_manager','registerExtension'),
-	  array(
-	    'class' => 'rex_cronjob_article_status', 
-	    'name' => 'translate:cronjob_article_status'
-	  )
+    'REX_CRONJOB_EXTENSIONS',
+    array('rex_cronjob_manager','registerExtension'),
+    array(
+      'class' => 'rex_cronjob_article_status', 
+      'name' => 'translate:cronjob_article_status'
+    )
   );
   
   require_once dirname(__FILE__).'/classes/class.cronjob.inc.php';

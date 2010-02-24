@@ -13,9 +13,9 @@ if($REX["REDAXO"])
 {
 
   // Sprachdateien anhaengen
-	$I18N->appendFile(dirname(__FILE__) .'/lang/');
-	
-	$REX['ADDON']['rxid']["cronjob"] = '630';
+  $I18N->appendFile(dirname(__FILE__) .'/lang/');
+  
+  $REX['ADDON']['rxid']["cronjob"] = '630';
   $REX['ADDON']['name']["cronjob"] = $I18N->msg("cronjob_title");
   $REX['ADDON']['perm']["cronjob"] = 'admin[]';
   
@@ -23,13 +23,13 @@ if($REX["REDAXO"])
   $REX['ADDON']['version']["cronjob"] = '1.0';
   $REX['ADDON']['author']["cronjob"] = 'Gregor Harlan';
   $REX['ADDON']['supportpage']["cronjob"] = 'forum.redaxo.de';
-	
-	// Subpages
-	$REX['ADDON']['cronjob']['SUBPAGES'] = array(array('',$I18N->msg("cronjob_title")), array('log','Log'));
-	
-	$EP = 'PAGE_CHECKED';
+  
+  // Subpages
+  $REX['ADDON']['cronjob']['SUBPAGES'] = array(array('',$I18N->msg("cronjob_title")), array('log','Log'));
+  
+  $EP = 'PAGE_CHECKED';
 
-	
+  
   if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')
   {
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';

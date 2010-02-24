@@ -9,16 +9,16 @@
  * @version svn:$Id$
  */
 
-class rex_a630_form extends rex_form
+class rex_cronjob_form extends rex_form
 {
-  /*protected*/ function rex_a630_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  /*protected*/ function rex_cronjob_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
   }
   
   /*public*/ function &addIntervalField($name, $value = null, $attributes = array())
   {
-    $attributes['internal::fieldClass'] = 'rex_a630_form_interval_element';
+    $attributes['internal::fieldClass'] = 'rex_cronjob_form_interval_element';
     $attributes['class'] = 'rex-form-text rex-form-select';
     $field =& $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -73,7 +73,7 @@ class rex_a630_form extends rex_form
   }
 }
 
-class rex_a630_form_interval_element extends rex_form_element
+class rex_cronjob_form_interval_element extends rex_form_element
 {
   
   /*public*/ function formatElement()
