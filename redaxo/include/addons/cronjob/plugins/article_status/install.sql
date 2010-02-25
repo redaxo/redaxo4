@@ -7,4 +7,8 @@ INSERT
     `interval` = '|1|d|', 
     `interval_sec` = 86400, 
     `environment` = '|0|1|',
-    `status` = 0;
+    `status` = 0,
+    `createdate` = '%TIME%',
+    `createuser` = '%USER%',
+    `updatedate` = '%TIME%',
+    `updateuser` = '%USER%';
