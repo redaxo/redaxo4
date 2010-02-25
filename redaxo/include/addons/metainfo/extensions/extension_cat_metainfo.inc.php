@@ -50,10 +50,16 @@ function rex_a62_metainfo_button($params)
   {
   	jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
 		metacat = jQuery("#rex-i-meta-category");
-		if(metacat.attr("class") == "rex-i-generic-open")
-			metacat.attr("class","rex-i-generic-close");
+		if(metacat.hasClass("rex-i-generic-open"))
+		{
+			metacat.removeClass("rex-i-generic-open");
+			metacat.addClass("rex-i-generic-close");
+		}
 		else 
-			metacat.attr("class","rex-i-generic-open");
+		{
+			metacat.removeClass("rex-i-generic-close");
+			metacat.addClass("rex-i-generic-open");
+		}
   }
 
   //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. $I18N->msg('minfo_edit_metadata') .'</a></p>';
