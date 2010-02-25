@@ -42,6 +42,7 @@ Version 4.3 (2010-xx-xx)
   * neue Extension Points:
     - ART_CONTENT_UPDATED [Jan.Kristinus]
     - ART_TO_STARTPAGE [Dave.Holloway]
+    - REX_FORM_SAVED [Gregor.Harlan]
   * neue Extension Point Parameter:
     - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
   * neue Addons:

@@ -814,12 +814,17 @@ class rex_form
     if($this->isEditMode())
     {
       $sql->setWhere($this->whereCondition);
-      return $sql->update();
+      $saved = $sql->update();
     }
     else
     {
-      return $sql->insert();
+      $saved = $sql->insert();
     }
+    
+    if ($saved)
+      rex_register_extension_point('REX_FORM_SAVED', '', array('form' => $this));
+    
+    return $saved;
   }
 
   /*protected*/ function delete()
