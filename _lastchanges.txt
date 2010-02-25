@@ -14,8 +14,11 @@ Version 4.3 (2010-xx-xx)
   * Templates können auf Kategorien eingeschraenkt werden [Jan.Kristinus]
   * Rootkategorien koennen pro Benutzer definiert werden (Mountpoints) [Jan.Kristinus]
   * Actions: PreView koennen auch bei ADD verwendet werden (z.b. default Werte Eingabefelder) [Markus.Staab]
-  * Metainfo: Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
-  * Metainfo: Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
+  * Metainfo: 
+    - Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
+    - Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
+    - Bei REX_MEDIA_BUTTON und REX_MEDIALIST_BUTTON kann man Parameter category und types angeben,
+      bei REX_LINK_BUTTON und REX_LINKLIST_BUTTON Parameter category [Gregor.Harlan]
   * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
     - neue Funktion OOMediaCategory::getChildrenById($category_id)
   * Import/Export optimiert [Markus.Staab]
@@ -30,7 +33,10 @@ Version 4.3 (2010-xx-xx)
     - Default Template ueber Selectbox waehlbar [Gregor.Harlan]
   * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
   * rex_article umgebaut und vereinfacht [Markus.Staab]
-  * rex_form: Linklist integriert [Gregor.Harlan]
+  * rex_form: 
+    - Linklist integriert [Gregor.Harlan]
+    - Bei MediaFields und LinkmapFields kann man eine Kategorie festlegen, 
+      MediaFields können auf Typen eingeschränkt werden [Gregor.Harlan]
   * neue Klassen:
     - rex_mediacategory_select [Markus.Staab]
   * neue Extension Points:
@@ -39,7 +45,7 @@ Version 4.3 (2010-xx-xx)
   * neue Extension Point Parameter:
     - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
   * neue Addons:
-    - Dashboard [Jan.Kristinus]
+    - Dashboard [Markus.Staab, Jan.Kristinus]
     - Cronjob [Gregor.Harlan]
   
   Bugfixes:
