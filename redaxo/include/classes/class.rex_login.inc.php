@@ -82,7 +82,7 @@ class rex_login_sql extends rex_sql
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'media[0]') ||
-           $this->isValueOf('rights', 'media[') OR 
+           strpos($this->getValue('rights'), '#media[') !== false || 
            $this->isValueOf('rights', 'mediapool[]');
   }
   
