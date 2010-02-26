@@ -156,13 +156,16 @@ if ($subpage=="detail" && rex_post('btn_update', 'string')){
       $FILEINFOS["filename"] = $gf->getValue('filename');
       
       $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX['USER']->getValue("login"));
-      $info = $return['msg'];
 
       if($return["ok"] == 1)
       {
+        $info = $return['msg'];
         // ----- EXTENSION POINT
          // rex_register_extension_point('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] ));
          rex_register_extension_point('MEDIA_UPDATED','', $return);
+      }else
+      {
+        $warning = $return['msg'];
       }
     }else
     {
