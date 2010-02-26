@@ -149,6 +149,38 @@ function selectMedialist(filename)
   ?>
 }
 
+function selectMediaListArray(files)
+{
+  <?php
+    if (substr($opener_input_field,0,14) == 'REX_MEDIALIST_')
+    {
+      $id = substr($opener_input_field,14,strlen($opener_input_field));
+      echo 'var medialist = "REX_MEDIALIST_SELECT_'. $id .'";
+
+            var source = opener.document.getElementById(medialist);
+            var sourcelength = source.options.length;
+
+            var files = getObjArray(files);
+            
+            for(var i = 0; i < files.length; i++)
+            {
+              if (files[i].checked)
+              {
+                option = opener.document.createElement("OPTION");
+                option.text = files[i].value;
+                option.value = files[i].value;
+
+                source.options.add(option, sourcelength);
+                sourcelength++;
+              }
+            }
+
+            opener.writeREXMedialist('. $id .');';
+
+    }
+  ?>
+}
+
 function insertImage(src,alt)
 {
   window.opener.insertImage('files/' + src, alt);

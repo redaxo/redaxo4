@@ -445,6 +445,7 @@ pool_import_target_info = Ziel-Kategorie für den Import auswählen
 pool_selectedmedia = Ausgewählte Medien:
 pool_delete_selectedmedia = löschen
 pool_changecat_selectedmedia = in Kategorie verschieben
+pool_get_selectedmedia = übernehmen
 pool_selectedmedia_error = Keine Medien ausgewählt
 pool_selectedmedia_moved = Selektierte Medien sind verschoben worden
 pool_select_all = Alle

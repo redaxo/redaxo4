@@ -440,7 +440,7 @@ if ($subpage == "detail")
 if($PERMALL && $media_method == 'updatecat_selectedmedia')
 {
   $selectedmedia = rex_post('selectedmedia','array');
-  if($selectedmedia[0]!=''){
+  if(isset($selectedmedia[0]) && $selectedmedia[0]!=''){
 
     foreach($selectedmedia as $file_name){
 
@@ -472,7 +472,6 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 	$selectedmedia = rex_post("selectedmedia","array");
   if(count($selectedmedia)!=0)
   {
-  	
   	$warning = array();
   	$info = array();
   	
@@ -518,6 +517,10 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 			 $warning[] = $I18N->msg('pool_file_not_found');
 			}
     }
+  }
+  else
+  {
+    $warning = $I18N->msg('pool_selectedmedia_error');
   }
 }
 
@@ -591,7 +594,7 @@ if ($subpage == '')
 
 
 
-  // ----- move and delete selected items
+  // ----- move, delete and get selected items
   if($PERMALL)
   {
     $add_input = '';
@@ -606,6 +609,10 @@ if ($subpage == '')
         <input class="rex-form-submit rex-form-submit-2" type="submit" value="'. $I18N->msg('pool_changecat_selectedmedia') .'" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';" />';
     }
     $add_input .= '<input class="rex-form-submit rex-form-submit-2" type="submit" value="'.$I18N->msg('pool_delete_selectedmedia').'"'. rex_accesskey($I18N->msg('pool_delete_selectedmedia'), $REX['ACKEY']['DELETE']) .' onclick="if(confirm(\''.$I18N->msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
+    if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
+    {
+      $add_input .= '<input class="rex-form-submit rex-form-submit-2" type="submit" value="'.$I18N->msg('pool_get_selectedmedia').'" onclick="selectMediaListArray(\'selectedmedia[]\');return false;" />';
+    }
 
     echo '
       <tfoot>
