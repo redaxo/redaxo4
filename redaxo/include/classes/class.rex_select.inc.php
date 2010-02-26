@@ -294,7 +294,9 @@ class rex_select
     $name = htmlspecialchars($name);
     $value = htmlspecialchars($value);
 
-    $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
+    $bsps = '';
+    if ($level > 0)
+      $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
     
     if ($this->option_selected !== null && in_array($value, $this->option_selected))
       $attributes['selected'] = 'selected';
