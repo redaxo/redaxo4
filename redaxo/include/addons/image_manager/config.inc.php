@@ -72,9 +72,9 @@ if($REX['REDAXO'])
   // handle backend pages
   $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 	$REX['ADDON']['navigation'][$mypage]['subpages'] = array (
-  	array ('href' => 'index.php?page=image_manager', 'active_when' => array("page"=>"image_manager","subpage"=>""), 'title' => $I18N->msg('imanager_subpage_desc')),
-  	array ('href' => 'index.php?page=image_manager&subpage=settings', 'active_when' => array("page"=>"image_manager","subpage"=>"settings"), 'title' => $I18N->msg('imanager_subpage_config')),
-		array ('href' => 'index.php?page=image_manager&subpage=types', 'active_when' => array("page"=>"image_manager","subpage"=>"types"), 'title' => $I18N->msg('imanager_subpage_types')),		
-  	array ('href' => 'index.php?page=image_manager&subpage=clear_cache', 'active_when' => array("page"=>"image_manager","subpage"=>"clear_cache"), 'title' => $I18N->msg('imanager_subpage_clear_cache')),
+  	array ('href' => 'index.php?page=image_manager', 'active_when' => array('page'=>'image_manager','subpage'=>''), 'title' => $I18N->msg('imanager_subpage_desc')),
+  	array ('href' => 'index.php?page=image_manager&subpage=settings', 'active_when' => array('page'=>'image_manager','subpage'=>'settings'), 'title' => $I18N->msg('imanager_subpage_config')),
+		array ('href' => 'index.php?page=image_manager&subpage=types', 'active_when' => array('page'=>'image_manager','subpage'=>'types'), 'title' => $I18N->msg('imanager_subpage_types')),		
+  	array ('href' => 'index.php?page=image_manager&subpage=clear_cache', 'active_when' => array('page'=>'image_manager','subpage'=>'clear_cache'), 'title' => $I18N->msg('imanager_subpage_clear_cache')),
 	);
 }
