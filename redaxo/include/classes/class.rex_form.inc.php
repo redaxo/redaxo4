@@ -129,8 +129,8 @@ class rex_form
 //      $resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false), false);
 
     $abortElement = null;
-//    if($abortLabel != '')
-//      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
+    if($abortLabel != '')
+      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
 
     if($saveElement || $applyElement || $deleteElement || $resetElement || $abortElement)
       $this->addControlField($saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
@@ -181,6 +181,16 @@ class rex_form
     return $element;
   }
 
+  /*public*/ function &addContainerField($name, $value = null, $attributes = array())
+  {
+    if(!isset($attributes['class']))
+      $attributes['class'] = 'rex-form-element-container';
+    $attributes['internal::fieldClass'] = 'rex_form_element_container';
+    
+    $field =& $this->addField('', $name, $value, $attributes, true);
+    return $field;
+  }
+  
   /*public*/ function &addInputField($type, $name, $value = null, $attributes = array(), $addElement = true)
   {
     $attributes['type'] = $type;
@@ -344,9 +354,11 @@ class rex_form
   {
     $tag        = rex_form::getInputTagName($inputType);
     $className  = rex_form::getInputClassName($inputType);
-    $attributes = rex_form::getInputAttributes($inputType);
+    $attributes = array_merge($attributes, rex_form::getInputAttributes($inputType));
     $attributes['internal::fieldClass'] = $className;
+    
     $element =& $this->createElement($tag, $name, $value, $attributes);
+    
     return $element;
   }
   
@@ -362,7 +374,7 @@ class rex_form
     }
 
     // Wert aus der DB nehmen, falls keiner extern und keiner im POST angegeben
-    if($value === null && $this->sql->getRows() == 1)
+    if($value === null && $this->sql->getRows() == 1 && $this->sql->hasValue($name))
     {
       $value = $this->sql->getValue($name);
     }
@@ -404,7 +416,7 @@ class rex_form
       $internal_attr = array();
       unset($attributes['internal::noNameAttribute']);
     }
-
+    
     // 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
     // 2. Array: Eigenschaften, via Parameter
     // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
@@ -589,6 +601,23 @@ class rex_form
     }
     return $fieldsetElements;
   }
+  
+  /*protected*/ function getSaveElements()
+  {
+    $fieldsetElements = array();
+    foreach($this->elements as $fieldsetName => $fieldsetElementsArray)
+    {
+      $fieldsetElements[$fieldsetName] = array();
+      
+      foreach($fieldsetElementsArray as $element)
+      {
+        if($this->isFooterElement($element)) continue;
+
+        $fieldsetElements[$fieldsetName][] = $element;
+      }
+    }
+    return $fieldsetElements;
+  }
 
   /*protected*/ function &getControlElement()
   {
@@ -744,7 +773,7 @@ class rex_form
    */
   /*protected*/ function processPostValues()
   {
-    foreach($this->getFieldsetElements() as $fieldsetName => $fieldsetElements)
+    foreach($this->getSaveElements() as $fieldsetName => $fieldsetElements)
     {
       foreach($fieldsetElements as $element)
       {
@@ -790,7 +819,7 @@ class rex_form
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
 
-    foreach($this->getFieldsetElements() as $fieldsetName => $fieldsetElements)
+    foreach($this->getSaveElements() as $fieldsetName => $fieldsetElements)
     {
       foreach($fieldsetElements as $element)
       {
@@ -801,7 +830,7 @@ class rex_form
         }
         
         $fieldName = $element->getFieldName();
-        $fieldValue = $element->getValue();
+        $fieldValue = $element->getSaveValue();
         
         // Callback, um die Values vor dem Speichern noch beeinflussen zu können
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
@@ -855,7 +884,7 @@ class rex_form
     {
       $paramString = $name .'='. $value .'&';
     }
-
+    
     if($this->debug)
     {
       echo 'redirect to: '. $this->applyUrl . $paramString;
@@ -1049,6 +1078,11 @@ class rex_form_element
     $this->value = $value;
   }
 
+  function getSaveValue()
+  {
+    return $this->getValue();
+  }
+  
   function getValue()
   {
     return $this->value;
@@ -1639,6 +1673,96 @@ class rex_form_radio_element extends rex_form_options_element
   }
 }
 
+class rex_form_element_container extends rex_form_element
+{
+  var $fields;
+  
+  // 1. Parameter nicht genutzt, muss aber hier stehen,
+  // wg einheitlicher Konstrukturparameter
+  function rex_form_element_container($tag = '', &$table, $attributes = array())
+  {
+    parent::rex_form_element('', $table, $attributes);
+    $this->fields = array();
+  }
+  
+  function &addField($type, $name, $value = null, $attributes = array())
+  {
+    return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
+  }
+  
+  function &addGroupedField($group, $type, $name, $value = null, $attributes = array())
+  {
+    $field =& $this->table->createInput($type, $name, $value, $attributes = array());
+    
+    if(!isset($this->fields[$group]))
+    {
+      $this->fields[$group] = array();
+    }
+    
+    $this->fields[$group][] = $field;
+    return $field;
+  }
+  
+  function prepareInnerFields()
+  {
+    $values = unserialize($this->getValue());
+    
+    foreach($this->fields as $group => $groupFields)
+    {
+      foreach($groupFields as $field)
+      {
+        if(isset($values[$group][$field->getFieldName()]))
+        {
+          $field->setValue($values[$group][$field->getFieldName()]);   
+        } 
+      }
+    }
+  }
+  
+  function formatElement()
+  {
+    $this->prepareInnerFields();
+    
+    $attr = '';
+    // Folgende attribute filtern:
+    // - name: der container selbst ist kein feld, daher hat er keinen namen
+    // - id:   eine id vergeben wir automatisiert pro gruppe
+    $attributeFilter = array('id', 'name');
+    foreach($this->getAttributes() as $attributeName => $attributeValue)
+    {
+      if(in_array($attributeName, $attributeFilter)) continue;
+      
+      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+    }
+    
+    $format = '';
+    foreach($this->fields as $group => $groupFields)
+    {
+      $format .= '<div id="rex-'. $group .'"'. $attr .'>';
+      foreach($groupFields as $field)
+      {
+          $format .= $field->get();
+      }
+      $format .= '</div>';
+    }
+     
+    return $format;
+  }
+
+  function getSaveValue()
+  {
+    $value = array();
+    foreach($this->fields as $group => $groupFields)
+    {
+      foreach($groupFields as $field)
+      {
+        $value[$group][$field->getFieldName()] = $field->getSaveValue();
+      }
+    }
+    return serialize($value);
+  }
+}
+
 class rex_form_widget_media_element extends rex_form_element
 {
   var $category_id = 0;
@@ -1655,7 +1779,7 @@ class rex_form_widget_media_element extends rex_form_element
   {
     $this->category_id = $category_id;
   }
-  
+
   function setTypes($types)
   {
     $this->args['types'] = $types;
@@ -1691,7 +1815,7 @@ class rex_form_widget_medialist_element extends rex_form_element
   {
     $this->category_id = $category_id;
   }
-  
+
   function setTypes($types)
   {
     $this->args['types'] = $types;
