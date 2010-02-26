@@ -88,33 +88,33 @@ class rex_effect_brand extends rex_effect_abstract{
 
 		return array(
 			array(
-				'label' => $I18N->msg('image'),
+				'label' => $I18N->msg('imanager_effect_brand_image'),
 				'name' => 'brandimage',
 				'type'	=> 'media',
 				'default' => ''
 			),
 			array(
-				'label' => $I18N->msg('hpos'),
+				'label' => $I18N->msg('imanager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
 				'options'	=> array('right','center','left'),
 				'default' => 'right'
 			),
 			array(
-				'label' => $I18N->msg('vpos'),
+				'label' => $I18N->msg('imanager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
 				'options'	=> array('top','center','bottom'),
 				'default' => 'bottom'
 			),
 			array(
-				'label' => $I18N->msg('padding_x'),
+				'label' => $I18N->msg('imanager_effect_brand_padding_x'),
 				'name' => 'padding_x',
 				'type'	=> 'int',
 				'default' => '-10'
 			),
 			array(
-				'label' => $I18N->msg('padding_y'),
+				'label' => $I18N->msg('imanager_effect_brand_padding_y'),
 				'name' => 'padding_y',
 				'type'	=> 'int',
 				'default' => '-10'

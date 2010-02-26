@@ -49,3 +49,21 @@ imanager_effect_edit = Effekt bearbeiten
 imanager_effect_name = Effekt
 imanager_effect_parameters = Parameter
 imanager_effect_functions = Funktionen
+
+imanager_effect_brand_image = Bild
+imanager_effect_brand_hpos = horizontale Ausrichtung
+imanager_effect_brand_vpos = vertikale Ausrichtung
+imanager_effect_brand_padding_x = horizontaler Abstand zum Rand
+imanager_effect_brand_padding_y = vertikaler Abstand zum Rand 
+
+imanager_effect_blur_amount = Unschärfegrad
+imanager_effect_blur_radius = Größe der Unschärfematrix
+imanager_effect_blur_threshold = Grenzwert
+
+imanager_effect_sharpen_amount = Schärfegrad
+imanager_effect_sharpen_radius = Größe der Schärfematrix
+imanager_effect_sharpen_threshold = Grenzwert
+
+imanager_effect_resize_width = Zielbreite
+imanager_effect_resize_height = Zielhöhe
+imanager_effect_resize_style = Modus

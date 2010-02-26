@@ -6,7 +6,6 @@ $type_id = rex_request('type_id','int');
 $func = rex_request('func','string');
 
 require_once (dirname(__FILE__). '/../functions/function_rex_effects.inc.php');
-require_once (dirname(__FILE__). '/../classes/class.rex_form_effect_parameters.inc.php');
 
 $info = '';
 $warning = '';
