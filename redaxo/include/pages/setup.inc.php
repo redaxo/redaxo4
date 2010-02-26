@@ -339,16 +339,16 @@ if ($checkmodus == 2 && $send == 1)
   $dbname                    = str_replace("\'", "'", rex_post('dbname', 'string'));
   $redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
 
-  $cont = ereg_replace("(REX\['SERVER'\].?\=.?\")[^\"]*", "\\1".$serveraddress, $cont);
-  $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?\")[^\"]*", "\\1".$serverbezeichnung, $cont);
-  $cont = ereg_replace("(REX\['LANG'\].?\=.?\")[^\"]*", "\\1".$lang, $cont);
-  $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("YmdHis"), $cont);
-  $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*", "\\1".$error_email, $cont);
-  $cont = ereg_replace("(REX\['PSWFUNC'\].?\=.?\")[^\"]*", "\\1".$psw_func, $cont);
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*", "\\1".$mysql_host, $cont);
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_login, $cont);
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*", "\\1".$redaxo_db_user_pass, $cont);
-  $cont = ereg_replace("(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*", "\\1".$dbname, $cont);
+  $cont = preg_replace("@(REX\['SERVER'\].?\=.?\")[^\"]*@", '${1}'.$serveraddress, $cont);
+  $cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?\")[^\"]*@", '${1}'.$serverbezeichnung, $cont);
+  $cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
+  $cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
+  $cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
+  $cont = preg_replace("@(REX\['PSWFUNC'\].?\=.?\")[^\"]*@", '${1}'.$psw_func, $cont);
+  $cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
+  $cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
+  $cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
+  $cont = preg_replace("@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*@", '${1}'.$dbname, $cont);
 
   if(rex_put_file_contents($master_file, $cont) === false)
   {
@@ -916,7 +916,7 @@ if ($checkmodus == 5)
 {
   $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
   $cont = rex_get_file_contents($master_file);
-  $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1false', $cont);
+  $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1false', $cont);
 
   if(rex_put_file_contents($master_file, $cont))
   {

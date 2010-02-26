@@ -15,7 +15,7 @@ if ($func == 'setup')
 
   $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
   $cont = rex_get_file_contents($master_file);
-  $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
+  $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1true', $cont);
   // echo nl2br(htmlspecialchars($cont));
   if (rex_put_file_contents($master_file, $cont) !== false)
   {
@@ -54,7 +54,7 @@ elseif ($func == 'updateinfos')
     $warning .= $I18N->msg('settings_invalid_sitestart_article')."<br />";
   }else
   {
-  	$cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_startartikel), $cont);
+    $cont = preg_replace("@(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_startartikel), $cont);
     $REX['START_ARTICLE_ID'] = $neu_startartikel;
   }
   
@@ -63,7 +63,7 @@ elseif ($func == 'updateinfos')
     $warning .= $I18N->msg('settings_invalid_notfound_article')."<br />";
   }else
   {
-	  $cont = ereg_replace("(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_notfoundartikel), $cont);
+	  $cont = preg_replace("@(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_notfoundartikel), $cont);
     $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
   }
   
@@ -74,15 +74,15 @@ elseif ($func == 'updateinfos')
     $warning .= $I18N->msg('settings_invalid_default_template')."<br />";
   }else
 	{
-	  $cont = ereg_replace("(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*", "\\1".strtolower($neu_defaulttemplateid), $cont);
+	  $cont = preg_replace("@(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_defaulttemplateid), $cont);
     $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
 	}
 
-  $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", "\\1\"".strtolower($neu_error_emailaddress)."\"", $cont);
-  $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", "\\1\"".$neu_lang."\"", $cont);
-  $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVER)."\"", $cont);
-  $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", "\\1\"". ($neu_SERVERNAME)."\"", $cont);
-  $cont = ereg_replace("(REX\['MOD_REWRITE'\].?\=.?)[^;]*","\\1".strtolower($neu_modrewrite),$cont);
+  $cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?)[^;]*@", '$1"'.strtolower($neu_error_emailaddress).'"', $cont);
+  $cont = preg_replace("@(REX\['LANG'\].?\=.?)[^;]*@", '$1"'.$neu_lang.'"', $cont);
+  $cont = preg_replace("@(REX\['SERVER'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVER).'"', $cont);
+  $cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVERNAME).'"', $cont);
+  $cont = preg_replace("@(REX\['MOD_REWRITE'\].?\=.?)[^;]*@",'$1'.strtolower($neu_modrewrite),$cont);
 
   rex_put_file_contents($master_file, $cont);
   $info = $I18N->msg('info_updated');
