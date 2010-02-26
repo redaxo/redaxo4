@@ -1,7 +1,35 @@
 <?php
 $Basedir = dirname(__FILE__);
-$id = rex_request('id','int');
+
+$type_id = rex_request('type_id','int');
 $func = rex_request('func','string');
+
+$info = '';
+$warning = '';
+
+if($func == 'delete' && $type_id > 0)
+{
+  $sql = rex_sql::factory();
+//  $sql->debugsql = true;
+  $sql->setTable($REX['TABLE_PREFIX'].'679_types');
+  $sql->setWhere('id='. $type_id . ' LIMIT 1');
+  
+  if($sql->delete())
+  {
+     $info = $I18N->msg('imanager_type_deleted') ;
+  }
+  else
+  {
+    $warning = $sql->getErrro();
+  }
+  $func = '';
+}
+
+if ($info != '')
+  echo rex_info($info);
+
+if ($warning != '')
+  echo rex_warning($warning);
 
 echo '<div class="rex-addon-output-v2">';
 if ($func == '')
@@ -15,19 +43,20 @@ if ($func == '')
   $list->addTableColumnGroup(array(40, 100, '*', 130, 130));
 	
 	$list->removeColumn('id');	
+	$list->removeColumn('system');	
 	$list->setColumnLabel('name',$I18N->msg('imanager_type_name'));
-  $list->setColumnParams('name', array('func' => 'edit', 'id' => '###id###'));
+  $list->setColumnParams('name', array('func' => 'edit', 'type_id' => '###id###'));
 	$list->setColumnLabel('description',$I18N->msg('imanager_type_description'));
 
 	// icon column
   $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('imanager_type_create') .'</span></a>';
   $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
-  $list->setColumnParams($thIcon, array('func' => 'edit', 'id' => '###id###'));
+  $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => '###id###'));
   
   // functions column spans 2 data-columns
-  $funcs = $I18N->msg('imanager_type_effect_functions');
-  $list->addColumn($funcs, $I18N->msg('imanager_effects_edit'), -1, array('<th colspan="2">###VALUE###</th>','<td>###VALUE###</td>'));
+  $funcs = $I18N->msg('imanager_type_functions');
+  $list->addColumn($funcs, $I18N->msg('imanager_type_effekts_edit'), -1, array('<th colspan="2">###VALUE###</th>','<td>###VALUE###</td>'));
   $list->setColumnParams($funcs, array('type_id' => '###id###', 'subpage' => 'effects'));
   
   $delete = 'deleteCol';
@@ -38,7 +67,8 @@ if ($func == '')
 	$list->show();
 	
 } 
-elseif ($func == 'edit' || $func == 'add')
+elseif ($func == 'add' ||
+        $func == 'edit' && $type_id > 0)
 {
   if($func == 'edit')
   {
@@ -49,7 +79,7 @@ elseif ($func == 'edit' || $func == 'add')
     $formLabel = $I18N->msg('imanager_type_create');
   }
   
-	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_types',$formLabel,'id='.$id);
+	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_types',$formLabel,'id='.$type_id);
 
 	$field =& $form->addTextField('name');
 	$field->setLabel($I18N->msg('imanager_type_name'));
@@ -59,7 +89,7 @@ elseif ($func == 'edit' || $func == 'add')
 
 	if($func == 'edit')
 	{
-		$form->addParam('id', $id);
+		$form->addParam('type_id', $type_id);
 	}
 	
 	$form->show();
