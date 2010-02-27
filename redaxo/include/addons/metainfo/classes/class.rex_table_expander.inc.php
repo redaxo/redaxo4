@@ -107,6 +107,8 @@ class rex_a62_tableExpander extends rex_form
     $field =& $this->addField('', 'restrictions', $value = null, $attributes);
     $field->setLabel($I18N->msg('minfo_field_label_restrictions'));
     $field->setAttribute('size', 10);
+    
+    parent::init();
   }
 
   /*public*/ function getFieldsetName()
