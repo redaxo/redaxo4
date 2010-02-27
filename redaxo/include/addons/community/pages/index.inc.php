@@ -1,8 +1,8 @@
 <?php
 
-$page = 'community';
-
 include $REX["INCLUDE_PATH"]."/layout/top.php";
+
+$page = 'community';
 
 rex_title("Community", $REX['ADDON'][$page]['SUBPAGES']);
 
