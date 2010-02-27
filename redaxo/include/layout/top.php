@@ -133,18 +133,18 @@ class rex_be_navigation
 	/*private*/ function _getNavigation($m, $level = 0, $type = "")
 	{
 			$level++;
-			if($type != "")
-				$id = 'rex-navi-'. $type;
-			else
-			  $id = 'rex-navi-level-'.$level;
+			$id = '';
+			if($type != '')
+				$id = ' id="rex-navi-'. $type .'"';
+		  $class = ' class="rex-navi-level-'. $level .'"';
 			
-	    $echo = '<ul id="'.$id.'">';
+	    $echo = '<ul'. $id . $class .'>';
 			$first = TRUE;
 	    foreach($m as $item)
 			{
 				// echo '<pre>'; var_dump($item); echo '</pre>';
 				if(!isset($item['class']))
-				  $item['class'] = "";
+				  $item['class'] = '';
         if($first)
           $item['class'] .= ' rex-navi-first';
       	$first = FALSE;
@@ -153,7 +153,7 @@ class rex_be_navigation
       	$item['class'] = $item['class'] != '' ? ' class="'.$item['class'].'"' : '';
 
       	if(!isset($item['extra']))
-				  $item['extra'] = "";
+				  $item['extra'] = '';
         
 				if(isset($item['id']))
 				  $item['id'] = 'id="'.$item['id'].'"';
