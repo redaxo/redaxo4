@@ -107,7 +107,6 @@ elseif ($func == 'add' ||
   }
   
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_types',$formLabel,'id='.$type_id);
-  rex_register_extension('REX_FORM_'.strtoupper($form->getName()).'_SAVE', 'rex_imanager_handle_type_change'); 
 	
 	$field =& $form->addTextField('name');
 	$field->setLabel($I18N->msg('imanager_type_name'));
