@@ -9,8 +9,8 @@
 // *************************************** CONFIG
 
 $thumbs = true;
-$thumbsresize = true;
-if (!OOAddon::isAvailable('image_resize')) $thumbsresize = false;
+$image_manager = OOAddon::isAvailable('image_manager');
+$image_resize = OOAddon::isAvailable('image_resize');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
@@ -232,18 +232,27 @@ if ($subpage == "detail")
         </p>
       </div>';
       $imgn = '../files/'. $fname .'" width="'. $rfwidth;
+      $img_max = '../files/'. $fname;
 
       if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
       {
         $imgn = 'media/mime-error.gif';
-      }else if ($thumbs && $thumbsresize && $rfwidth>199)
+      }else if ($thumbs && $rfwidth>199)
       {
-        $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
+        if ($image_manager)
+        {
+          $imgn = '../index.php?rex_img_type=rex_mediapool_detail&amp;rex_img_file='. $encoded_fname;
+          $img_max = '../index.php?rex_img_type=rex_mediapool_maximized&amp;rex_img_file='. $encoded_fname;
+        }
+        else if($image_resize)
+          $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
       }
 
       $add_image = '<div class="rex-mediapool-detail-image">
           <p class="rex-me1">
-            <img src="'. $imgn .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />
+            <a href="'. $img_max .'">
+              <img src="'. $imgn .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />
+            </a>
           </p>
           </div>';
      $style_width = ' style="width:64.9%; border-right: 1px solid #FFF;"';
@@ -713,7 +722,10 @@ if ($subpage == '')
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
         $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
-        if ($thumbsresize)
+        if ($image_manager)
+        {
+          $thumbnail = '<img src="../index.php?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+        }else if($image_resize)
         {
           $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
         }

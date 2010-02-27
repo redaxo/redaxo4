@@ -567,19 +567,30 @@ jQuery(function($){
   
   // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
   function rexShowMediaPreview() {
-    var value;
+    var value, img_type;
     if($(this).hasClass("rex-widget-media"))
+    {
       value = $("input[type=text]", this).val();
-    else
+      img_type = "rex_mediabutton_preview";
+    }else
+    {
       value = $("select :selected", this).text();
+      img_type = "rex_medialistbutton_preview";
+    }
 
     var div = $(".rex-media-preview", this);
     
     var url;
-    if($(this).hasClass("rex-widget-resize-old"))
+    var width = 0;
+    if($(this).hasClass("rex-widget-preview-image-manager"))
+    	url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
+    else if($(this).hasClass("rex-widget-preview-image-resize"))
     	url = '../index.php?rex_resize=246a__'+ value;
     else
-    	url = '../index.php?rex_resize_type=rex_preview&rex_resize='+ value;
+    {
+      url = '../files/'+ value;
+      width = 246;
+    }
     
     if(value && value.length != 0 && 
       (
@@ -598,12 +609,10 @@ jQuery(function($){
           img = $('img', div);
       }
       img.attr('src', url);
+      if (width != 0)
+        img.attr('width', width);
       
-      // warten bis der layer komplett ausgeblendet ist
-      if(div.css('height') == 'auto')
-      {
-	    div.fadeIn("normal");
-      }
+      div.slideDown("fast");
     }
     else
     {

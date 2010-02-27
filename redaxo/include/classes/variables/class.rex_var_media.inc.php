@@ -267,9 +267,13 @@ class rex_var_media extends rex_var
     }
 
     $wdgtClass = 'rex-widget-media';
-    if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
+    if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
+      if(OOAddon::isAvailable('image_manager'))
+        $wdgtClass .= ' rex-widget-preview-image-manager';
+      else if(OOAddon::isAvailable('image_resize'))
+        $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
     $media = '
@@ -314,9 +318,13 @@ class rex_var_media extends rex_var
     }
 
     $wdgtClass = 'rex-widget-medialist';
-    if(isset($args['preview']) && $args['preview'] && OOAddon::isAvailable('image_resize'))
+    if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
+      if(OOAddon::isAvailable('image_manager'))
+        $wdgtClass .= ' rex-widget-preview-image-manager';
+      else if(OOAddon::isAvailable('image_resize'))
+        $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
     $options = '';
