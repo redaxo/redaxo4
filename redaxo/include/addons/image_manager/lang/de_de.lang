@@ -51,6 +51,7 @@ imanager_effect_edit = Effekt bearbeiten
 imanager_effect_name = Effekt
 imanager_effect_parameters = Parameter
 imanager_effect_functions = Funktionen
+imanager_effect_deleted = Effekt gelöscht
 
 imanager_effect_brand_image = Bild
 imanager_effect_brand_hpos = horizontale Ausrichtung

@@ -70,7 +70,7 @@ if ($func == '')
   
   $delete = 'deleteCol';
   $list->addColumn($delete, $I18N->msg('imanager_effect_delete'), -1, array('','<td>###VALUE###</td>'));
-  $list->setColumnParams($delete, array('effect_id' => '###id###', 'func' => 'delete'));
+  $list->setColumnParams($delete, array('type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete'));
   $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
   	
 	$list->show();
