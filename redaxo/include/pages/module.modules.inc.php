@@ -46,8 +46,15 @@ elseif ($function_action == 'delete')
   $action = rex_sql::factory();
   $action->setTable($REX['TABLE_PREFIX'].'module_action');
   $action->setWhere('id='. $iaction_id . ' LIMIT 1');
-
-  $info = $action->delete($I18N->msg('action_deleted_from_modul'));
+  
+  if($action->delete())
+  {
+     $info = $I18N->msg('action_deleted_from_modul') ;
+  }
+  else
+  {
+    $warning = $action->getErrro();
+  }
 }
 
 
