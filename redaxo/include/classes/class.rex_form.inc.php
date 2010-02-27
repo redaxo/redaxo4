@@ -96,44 +96,49 @@ class rex_form
   {
     global $I18N;
 
-    $saveLabel = $I18N->msg('form_save');
-    $applyLabel = $I18N->msg('form_apply');
-    $deleteLabel = $I18N->msg('form_delete');
-    $resetLabel = $I18N->msg('form_reset');
-    $abortLabel = $I18N->msg('form_abort');
-
     $func = rex_request('func', 'string');
 
     $this->addParam('page', rex_request('page', 'string'));
     $this->addParam('subpage', rex_request('subpage', 'string'));
     $this->addParam('func', $func);
     $this->addParam('list', rex_request('list', 'string'));
-
-    $saveElement = null;
-    if($saveLabel != '')
-      $saveElement = $this->addInputField('submit', 'save', $saveLabel, array('internal::useArraySyntax' => false), false);
-
-    $applyElement = null;
-    $deleteElement = null;
-    if($func == 'edit')
+    
+    $controlFields = array();
+    $controlFields['save'] = $I18N->msg('form_save');
+    $controlFields['apply']  = $func == 'edit' ? $I18N->msg('form_apply') : '';
+    $controlFields['delete'] = $func == 'edit' ? $I18N->msg('form_delete') : '';
+    $controlFields['reset'] = '';//$I18N->msg('form_reset');
+    $controlFields['abort'] = $I18N->msg('form_abort');
+    
+    // ----- EXTENSION POINT
+    $controlFields = rex_register_extension_point('REX_FORM_CONTROL_FIElDS', $controlFields, array('form' => $this));
+    
+    $controlElements = array();
+    foreach($controlFields as $name => $label)
     {
-      if($applyLabel != '')
-        $applyElement = $this->addInputField('submit', 'apply', $applyLabel, array('internal::useArraySyntax' => false), false);
-
-      if($deleteLabel != '')
-        $deleteElement = $this->addInputField('submit', 'delete', $deleteLabel, array('internal::useArraySyntax' => false), false);
+      if($label)
+      {
+        $controlElements[$name] = $this->addInputField(
+          'submit',
+          $name,
+          $label,
+          array('internal::useArraySyntax' => false),
+          false
+        );
+      }
+      else
+      {
+        $controlElements[$name] = null;
+      }
     }
-
-    $resetElement = null;
-//    if($resetLabel != '')
-//      $resetElement = $this->addInputField('submit', 'reset', $resetLabel, array('internal::useArraySyntax' => false), false);
-
-    $abortElement = null;
-    if($abortLabel != '')
-      $abortElement = $this->addInputField('submit', 'abort', $abortLabel, array('internal::useArraySyntax' => false), false);
-
-    if($saveElement || $applyElement || $deleteElement || $resetElement || $abortElement)
-      $this->addControlField($saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
+    
+    $this->addControlField(
+      $controlElements['save'],
+      $controlElements['apply'],
+      $controlElements['delete'],
+      $controlElements['reset'],
+      $controlElements['abort']
+    );
   }
 
   /**
@@ -452,6 +457,7 @@ class rex_form
 
   /*public static*/ function getInputClassName($inputType)
   {
+    // ----- EXTENSION POINT
     $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('form' => $this, 'inputType' => $inputType));
     
     if($className)
@@ -481,6 +487,7 @@ class rex_form
   
   /*public static*/ function getInputTagName($inputType)
   {
+    // ----- EXTENSION POINT
     $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('form' => $this, 'inputType' => $inputType));
     
     if($inputTag)
@@ -502,6 +509,7 @@ class rex_form
 
   /*public static*/ function getInputAttributes($inputType)
   {
+    // ----- EXTENSION POINT
     $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('form' => $this, 'inputType' => $inputType));
     
     if($inputAttr)
@@ -631,7 +639,8 @@ class rex_form
         }
       }
     }
-    return null;
+    $noElement = null;
+    return $noElement;
   }
 
   /*protected*/ function &getElement($fieldsetName, $elementName)
@@ -690,6 +699,11 @@ class rex_form
       $message .= "\n". $this->message;
     }
     return $message;
+  }
+  
+  /*public*/ function getSql()
+  {
+    return $this->sql;
   }
 
   /**
@@ -806,15 +820,6 @@ class rex_form
    */
   /*protected*/ function save()
   {
-    // trigger extensions point
-    // Entscheiden zwischen UPDATE <-> CREATE via editMode möglich
-    // Falls die Extension FALSE zurückgibt, nicht speicher,
-    // um hier die Möglichkeit offen zu haben eigene Validierungen/Speichermechanismen zu implementieren
-    if(rex_register_extension_point('REX_FORM_'.strtoupper($this->getName()).'_SAVE', '', array ('form' => $this)) === false)
-    {
-      return;
-    }
-
     $sql = rex_sql::getInstance();
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
@@ -850,6 +855,7 @@ class rex_form
       $saved = $sql->insert();
     }
     
+    // ----- EXTENSION POINT
     if ($saved)
       rex_register_extension_point('REX_FORM_SAVED', '', array('form' => $this));
     
