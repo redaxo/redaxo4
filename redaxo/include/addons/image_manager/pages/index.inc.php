@@ -12,6 +12,9 @@
  * @version svn:$Id$
  */
 
+require_once (dirname(__FILE__). '/../functions/function_rex_effects.inc.php');
+require_once (dirname(__FILE__). '/../functions/function_rex_extensions.inc.php');
+
 require $REX['INCLUDE_PATH'] . '/layout/top.php';
 
 $page = rex_request('page', 'string');

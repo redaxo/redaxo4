@@ -39,6 +39,7 @@ imanager_type_name = Name
 imanager_type_description = Beschreibung
 imanager_type_functions = Funktionen
 imanager_type_cache_delete = Cache löschen
+imanager_type_system = System Bildtyp
 
 imanager_effect_caption = Liste der angelegten Effekte
 imanager_effect_summary = Auflistung aller angelegten Effekte

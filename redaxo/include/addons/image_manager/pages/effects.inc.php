@@ -5,11 +5,18 @@ $effect_id = rex_request('effect_id','int');
 $type_id = rex_request('type_id','int');
 $func = rex_request('func','string');
 
-require_once (dirname(__FILE__). '/../functions/function_rex_effects.inc.php');
-
 $info = '';
 $warning = '';
 
+//-------------- delete cache on effect changes or deletion
+if((rex_post('func') != '' || $func == 'delete')
+   && $type_id > 0)
+{
+  $counter = rex_imanager_deleteCacheByType($type_id);
+//  $info = $I18N->msg('imanager_cache_files_removed', $counter);
+}
+
+//-------------- delete effect
 if($func == 'delete' && $effect_id > 0)
 {
   $sql = rex_sql::factory();

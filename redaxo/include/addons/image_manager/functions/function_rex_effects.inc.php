@@ -48,3 +48,22 @@ function rex_imanager_effectClass($effectFile)
       basename($effectFile)
     );
 }
+
+function rex_imanager_deleteCacheByType($type_id)
+{
+  global $REX;
+  
+  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'].'679_types' . ' WHERE id='. $type_id;
+  $sql = rex_sql::factory();
+//  $sql->debugsql = true;
+  $sql->setQuery($qry);
+  
+  $counter = 0;
+  while($sql->hasNext())
+  {
+    $counter += rex_image_cacher::deleteCache(null, $sql->getValue('name'));
+    $sql->next();
+  }
+  
+  return $counter;
+}
