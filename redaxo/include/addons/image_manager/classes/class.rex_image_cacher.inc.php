@@ -3,14 +3,12 @@
 class rex_image_cacher
 {
 	var $cache_path;
-	var $cache_file;
 
 	function rex_image_cacher($cache_path)
 	{
 		global $REX;
 		
 		$this->cache_path = $cache_path;
-		$this->cache_file = false;
 	}
 	
 	/*public*/ function isCached(/*rex_image*/ $image, $cacheParams)
@@ -20,13 +18,13 @@ class rex_image_cacher
       trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
     }
     
-    $this->cache_file = $this->cache_path .'image_manager__'. md5(serialize($cacheParams)) .'_'. $image->getFileName();
+    $cache_file = $this->getCacheFile($image, $cacheParams);
     
     // ----- check for cache file
-    if (file_exists($this->cache_file))
+    if (file_exists($cache_file))
     {
       // time of cache
-      $cachetime = filectime($this->cache_file);
+      $cachetime = filectime($cache_file);
       $imagepath = $image->getFilePath();
 
       // file exists?
@@ -48,6 +46,20 @@ class rex_image_cacher
     
     return false;
   }
+  
+  /*public*/ function getCacheFile(/*rex_image*/ $image, $cacheParams)
+  {
+    return $this->_getCacheFile($image->getFileName(), $cacheParams);
+  }
+  
+  /*protected*/ function _getCacheFile($filename, $cacheParams)
+  {
+    if(!is_string($cacheParams))
+    {
+      $cacheParams = md5(serialize($cacheParams));
+    }
+    return $this->cache_path .'image_manager__'. $cacheParams .'_'. $filename;
+  }
 	
   /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams, $lastModified = null)
 	{
@@ -63,16 +75,18 @@ class rex_image_cacher
 	  }
 	  else
 	  {
+	    $cache_file = $this->getCacheFile($image, $cacheParams);
+	    
   	  // save image to file
   	  if(!$this->isCached($image, $cacheParams))
   	  {
   	    $image->prepare();
-  	    $image->save($this->cache_file);
+  	    $image->save($cache_file);
   	  }
   	  
   	  // send file
       $image->sendHeader();
-      readfile($this->cache_file);
+      readfile($cache_file);
 	  }
 	}
 	
@@ -92,9 +106,19 @@ class rex_image_cacher
 	 * 
 	 * @param $filename
 	 */
-	function deleteCache($filename = '')
+	function deleteCache($filename = null, $cacheParams = null)
 	{
 		global $REX;
+		
+		if(!$filename)
+		{
+		  $filename = '*';
+		}
+		
+		if(!$cacheParams)
+		{
+		  $cacheParams = '*';
+		}
 
 		$folders = array();
 		$folders[] = $REX['INCLUDE_PATH'] . '/generated/files/';
@@ -103,17 +127,14 @@ class rex_image_cacher
 		$counter = 0;
 		foreach($folders as $folder)
 		{
-			$glob = glob($folder .'image_manager__*');
+			$glob = glob($folder .'image_manager__'. $cacheParams . '_'. $filename);
 			if($glob)
 			{
-				foreach ($glob as $var)
+				foreach ($glob as $file)
 				{
-					if ($filename == '' || $filename != '' && $filename == substr($var,strlen($filename) * -1))
+					if(unlink($file))
 					{
-						if(unlink($var))
-						{
-  						$counter++;
-						}
+						$counter++;
 					}
 				}
 			}
