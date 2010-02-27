@@ -7,6 +7,7 @@ $func = rex_request('func','string');
 $info = '';
 $warning = '';
 
+//-------------- delete type
 if($func == 'delete' && $type_id > 0)
 {
   $sql = rex_sql::factory();
@@ -25,6 +26,27 @@ if($func == 'delete' && $type_id > 0)
   $func = '';
 }
 
+//-------------- delete cache by type-id
+if($func == 'delete_cache' && $type_id > 0)
+{
+  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'].'679_types' . ' WHERE id='. $type_id;
+  $sql = rex_sql::factory();
+//  $sql->debugsql = true;
+  $sql->setQuery($qry);
+  
+  $counter = 0;
+  while($sql->hasNext())
+  {
+    $counter += rex_image_cacher::deleteCache(null, $sql->getValue('name'));
+    $sql->next();
+  }
+  
+  $info = $I18N->msg('imanager_cache_files_removed', $counter);
+  
+  $func = '';
+}
+
+//-------------- output messages
 if ($info != '')
   echo rex_info($info);
 
@@ -40,7 +62,7 @@ if ($func == '')
 	$list->setNoRowsMessage($I18N->msg('imanager_type_no_types'));
   $list->setCaption($I18N->msg('imanager_type_caption'));
   $list->addTableAttribute('summary', $I18N->msg('imanager_type_summary'));
-  $list->addTableColumnGroup(array(40, 100, '*', 130, 130));
+  $list->addTableColumnGroup(array(40, 100, '*', 130, 130, 130));
 	
 	$list->removeColumn('id');	
 	$list->removeColumn('system');	
@@ -56,10 +78,15 @@ if ($func == '')
   
   // functions column spans 2 data-columns
   $funcs = $I18N->msg('imanager_type_functions');
-  $list->addColumn($funcs, $I18N->msg('imanager_type_effekts_edit'), -1, array('<th colspan="2">###VALUE###</th>','<td>###VALUE###</td>'));
+  $list->addColumn($funcs, $I18N->msg('imanager_type_effekts_edit'), -1, array('<th colspan="3">###VALUE###</th>','<td>###VALUE###</td>'));
   $list->setColumnParams($funcs, array('type_id' => '###id###', 'subpage' => 'effects'));
   
-  $delete = 'deleteCol';
+  $delete = 'deleteCache';
+  $list->addColumn($delete, $I18N->msg('imanager_type_cache_delete'), -1, array('','<td>###VALUE###</td>'));
+  $list->setColumnParams($delete, array('type_id' => '###id###', 'func' => 'delete_cache'));
+  $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.$I18N->msg('imanager_type_cache_delete').' ?\')');
+  
+  $delete = 'deleteType';
   $list->addColumn($delete, $I18N->msg('imanager_type_delete'), -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams($delete, array('type_id' => '###id###', 'func' => 'delete'));
   $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
@@ -80,7 +107,8 @@ elseif ($func == 'add' ||
   }
   
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_types',$formLabel,'id='.$type_id);
-
+  rex_register_extension('REX_FORM_'.strtoupper($form->getName()).'_SAVE', 'rex_imanager_handle_type_change'); 
+	
 	$field =& $form->addTextField('name');
 	$field->setLabel($I18N->msg('imanager_type_name'));
 
