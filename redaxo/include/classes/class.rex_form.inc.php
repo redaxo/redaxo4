@@ -39,18 +39,14 @@ class rex_form
     $this->addFieldset($fieldset);
     $this->whereCondition = $whereCondition;
     $this->divId = 'rex-addon-editmode';
-
-    // --------- Load Env
-    if($REX['REDAXO'])
-      $this->loadBackendConfig();
-
     $this->setMessage('');
 
     $this->sql = rex_sql::factory();
     $this->sql->debugsql =& $this->debug;
-    $this->debug = $debug;
+    $this->debug =& $debug;
     $this->sql->setQuery('SELECT * FROM '. $tableName .' WHERE '. $this->whereCondition .' LIMIT 2');
 
+    // --------- validate where-condition and determine editMode 
     $numRows = $this->sql->getRows();
     if($numRows == 0)
     {
@@ -66,6 +62,10 @@ class rex_form
     {
       trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
     }
+    
+    // --------- Load Env
+    if($REX['REDAXO'])
+      $this->loadBackendConfig();
   }
 
   /*public*/ function init()
