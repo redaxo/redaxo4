@@ -11,14 +11,18 @@ class rex_effect_resize extends rex_effect_abstract
 		$this->params['styles'] = array('fit','warp');
 		if(!isset($this->params['style']) || !in_array($this->params['style'],$this->params['styles']))
 		{
-			$this->params['style'] = 'warp';
+			$this->params['style'] = 'fit';
 		}
 
 		if($this->params['style'] == 'fit')
 		{
-			if (!isset($this->params['height']))
+			if (!empty($this->params['height']))
 			{
 				$this->params['height'] = $this->params['width'];
+			}
+			else if (!empty($this->params['height']))
+			{
+				$this->params['width'] = $this->params['height'];
 			}
 			 
 			$img_ratio  = $w / $h;
