@@ -71,6 +71,7 @@ class rex_image_cacher
 	  // caching gifs doesn't work
 	  if($image->getFormat() == 'GIF' && !$image->hasGifSupport())
 	  {
+	    $image->prepare();
 	    $image->send($lastModified);
 	  }
 	  else
