@@ -7,7 +7,7 @@
  * nach einem Bild mit dem Dateinamen "brand.*" und verwendet den 1. Treffer
  */
 
-class rex_effect_brand extends rex_effect_abstract{
+class rex_effect_insert_image extends rex_effect_abstract{
 
 	
 	function execute()
@@ -119,8 +119,8 @@ class rex_effect_brand extends rex_effect_abstract{
 				'type'	=> 'int',
 				'default' => '-10'
 			),
-			);
-		
+			/*TODO: Optionaler Bildtyp für das ausgewählte Bild*/
+		);
 	}
 
 }
