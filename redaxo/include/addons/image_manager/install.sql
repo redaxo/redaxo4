@@ -7,15 +7,22 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%679_types` (
   PRIMARY KEY (`id`)
 ) TYPE=MyISAM;
 
+INSERT INTO `%TABLE_PREFIX%679_types` (`id`, `status`, `name`, `description`) VALUES
+(1, 1, 'rex_mediapool_detail', 'Zur Darstellung von Bildern in der Detailansicht im Medienpool'),
+(2, 1, 'rex_mediapool_maximized', 'Zur Darstellung von Bildern im Medienpool wenn maximiert'),
+(3, 1, 'rex_mediapool_preview', 'Zur Darstellung der Vorschaubilder im Medienpool');
+
 DROP TABLE IF EXISTS `%TABLE_PREFIX%679_type_effects`;
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%679_type_effects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_id` int(11) NOT NULL,
   `effect` varchar(255) NOT NULL,
   `parameters` text NOT NULL,
+  `prior` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) TYPE=MyISAM;
 
-INSERT INTO `%TABLE_PREFIX%679_types` (`id`, `status`, `name`, `description`) VALUES(1, 1, 'rex_mediapool_detail', 'Zur Darstellung von Bildern in der Detailansicht im Medienpool');
-INSERT INTO `%TABLE_PREFIX%679_types` (`id`, `status`, `name`, `description`) VALUES(2, 1, 'rex_mediapool_maximized', 'Zur Darstellung von Bildern im Medienpool wenn maximiert');
-INSERT INTO `%TABLE_PREFIX%679_types` (`id`, `status`, `name`, `description`) VALUES(3, 1, 'rex_mediapool_preview', 'Zur Darstellung der Vorschaubilder im Medienpool');
+INSERT INTO `%TABLE_PREFIX%679_type_effects` (`id`, `type_id`, `effect`, `parameters`, `prior`) VALUES
+(1, 1, 'resize', 'a:4:{s:16:"rex_effect_brand";a:5:{s:27:"rex_effect_brand_brandimage";s:0:"";s:21:"rex_effect_brand_hpos";s:5:"right";s:21:"rex_effect_brand_vpos";s:6:"bottom";s:26:"rex_effect_brand_padding_x";s:3:"-10";s:26:"rex_effect_brand_padding_y";s:3:"-10";}s:22:"rex_effect_filter_blur";a:3:{s:29:"rex_effect_filter_blur_amount";s:2:"80";s:29:"rex_effect_filter_blur_radius";s:1:"8";s:32:"rex_effect_filter_blur_threshold";s:1:"3";}s:25:"rex_effect_filter_sharpen";a:3:{s:32:"rex_effect_filter_sharpen_amount";s:2:"80";s:32:"rex_effect_filter_sharpen_radius";s:3:"0.5";s:35:"rex_effect_filter_sharpen_threshold";s:1:"3";}s:17:"rex_effect_resize";a:3:{s:23:"rex_effect_resize_width";s:3:"200";s:24:"rex_effect_resize_height";s:0:"";s:23:"rex_effect_resize_style";s:3:"fit";}}', 0),
+(2, 2, 'resize', 'a:4:{s:16:"rex_effect_brand";a:5:{s:27:"rex_effect_brand_brandimage";s:0:"";s:21:"rex_effect_brand_hpos";s:5:"right";s:21:"rex_effect_brand_vpos";s:6:"bottom";s:26:"rex_effect_brand_padding_x";s:3:"-10";s:26:"rex_effect_brand_padding_y";s:3:"-10";}s:22:"rex_effect_filter_blur";a:3:{s:29:"rex_effect_filter_blur_amount";s:2:"80";s:29:"rex_effect_filter_blur_radius";s:1:"8";s:32:"rex_effect_filter_blur_threshold";s:1:"3";}s:25:"rex_effect_filter_sharpen";a:3:{s:32:"rex_effect_filter_sharpen_amount";s:2:"80";s:32:"rex_effect_filter_sharpen_radius";s:3:"0.5";s:35:"rex_effect_filter_sharpen_threshold";s:1:"3";}s:17:"rex_effect_resize";a:3:{s:23:"rex_effect_resize_width";s:3:"600";s:24:"rex_effect_resize_height";s:0:"";s:23:"rex_effect_resize_style";s:3:"fit";}}', 0),
+(3, 3, 'resize', 'a:4:{s:16:"rex_effect_brand";a:5:{s:27:"rex_effect_brand_brandimage";s:0:"";s:21:"rex_effect_brand_hpos";s:5:"right";s:21:"rex_effect_brand_vpos";s:6:"bottom";s:26:"rex_effect_brand_padding_x";s:3:"-10";s:26:"rex_effect_brand_padding_y";s:3:"-10";}s:22:"rex_effect_filter_blur";a:3:{s:29:"rex_effect_filter_blur_amount";s:2:"80";s:29:"rex_effect_filter_blur_radius";s:1:"8";s:32:"rex_effect_filter_blur_threshold";s:1:"3";}s:25:"rex_effect_filter_sharpen";a:3:{s:32:"rex_effect_filter_sharpen_amount";s:2:"80";s:32:"rex_effect_filter_sharpen_radius";s:3:"0.5";s:35:"rex_effect_filter_sharpen_threshold";s:1:"3";}s:17:"rex_effect_resize";a:3:{s:23:"rex_effect_resize_width";s:2:"80";s:24:"rex_effect_resize_height";s:0:"";s:23:"rex_effect_resize_style";s:3:"fit";}}', 0);
