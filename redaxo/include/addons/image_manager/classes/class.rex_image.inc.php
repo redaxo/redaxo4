@@ -58,7 +58,7 @@ class rex_image {
       {
         // --- GIF
         if ($this->gifsupport)
-        $this->img['src'] = @imagecreatefromgif($this->img["filepath"]);
+          $this->img['src'] = @imagecreatefromgif($this->img["filepath"]);
       }elseif ($this->img['format'] == 'WBMP')
       {
         // --- WBMP
@@ -68,7 +68,7 @@ class rex_image {
       // ggf error image senden
       if (!$this->img['src'])
       {
-        $this->sendError();
+        $this->sendError('Unable to create gdressource from file "'.$this->img["filepath"].'"!');
         exit();
       }else
       {
@@ -197,7 +197,7 @@ class rex_image {
 	  // alle anderen ein ErrorImage
 	  if($message != '' && rex_hasBackendSession())
 	  {
-	    echo 'Error:'. $message;
+	    echo 'Error: '. $message;
 	    exit();
 	  }
 	  else
