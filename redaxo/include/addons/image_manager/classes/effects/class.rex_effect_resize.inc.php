@@ -18,11 +18,11 @@ class rex_effect_resize extends rex_effect_abstract
 		{
 			if (!empty($this->params['height']))
 			{
-				$this->params['height'] = $this->params['width'];
-			}
-			else if (!empty($this->params['height']))
-			{
 				$this->params['width'] = $this->params['height'];
+			}
+			else if (!empty($this->params['width']))
+			{
+				$this->params['height'] = $this->params['width'];
 			}
 			 
 			$img_ratio  = $w / $h;
