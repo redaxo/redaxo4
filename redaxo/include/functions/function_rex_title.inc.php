@@ -117,9 +117,9 @@ function rex_get_subtitle($subline, $attr = '')
       {
         continue;
       }
-
-      $link = $subpage[0];
-      $label = $subpage[1];
+      
+      $link = !empty($subpage['href']) ? $subpage['href'] : $subpage[0];
+      $label = !empty($subpage['title']) ? $subpage['title'] : $subpage[1];
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
       // Berechtigung prüfen
