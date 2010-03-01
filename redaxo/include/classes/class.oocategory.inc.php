@@ -281,7 +281,7 @@ class OOCategory extends OORedaxo
     	foreach($t_sql->getArray() as $t)
     	{
         $categories = rex_getAttributes("categories", $t["attributes"]);
-        if ($categories["all"] == 1)
+        if (!is_array($categories) || $categories["all"] == 1)
     		  $templates[$t["id"]] = $t['name'];
     	}
     }else
