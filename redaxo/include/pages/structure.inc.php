@@ -655,13 +655,15 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
         $add_extra = '<td>'. $article_delete .'</td>
                       <td>'. $article_status .'</td>';
       }
+      
+      $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
 
       echo '<tr>
               <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'</span></a></td>
               '. $add_td .'
               <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
-              <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')] .'</td>
+              <td>'. $tmpl .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
               '. $add_extra .'
@@ -678,13 +680,14 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
 
       $art_status = $artStatusTypes[$sql->getValue('status')][0];
       $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
-
+      $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
+      
       echo '<tr>
               <td class="rex-icon"><span class="rex-i-element '.$class.'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'"</span></span></td>
               '. $add_td .'
               <td>'. htmlspecialchars($sql->getValue('name')).'</td>
               <td>'. htmlspecialchars($sql->getValue('prior')).'</td>
-              <td>'. $TEMPLATE_NAME[$sql->getValue('template_id')].'</td>
+              <td>'. $tmpl .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
               <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
               <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>
