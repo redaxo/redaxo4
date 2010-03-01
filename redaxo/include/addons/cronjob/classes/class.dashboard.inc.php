@@ -36,7 +36,7 @@ class rex_cronjob_component extends rex_dashboard_component
         $style = '';
         if (strpos($message, ' ERROR ') !== false)
           $style = ' style="font-weight:bold; color:red;"';
-        $content .= '<li'.$style.'>'. $message .'</li>';
+        $content .= '<li'. $style .'>'. $message .'</li>';
       }
       $content .= '</ul>';
     }

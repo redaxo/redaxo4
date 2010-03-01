@@ -21,7 +21,7 @@ class rex_cronjob_log
     {
       while (($file = readdir($hdl)) !== false)
       {
-        if (substr($file,0,1) != '.' && is_dir($folder.$file.'/.'))
+        if (substr($file, 0, 1) != '.' && is_dir($folder . $file .'/.'))
         {
           $years[] = $file;
         }
@@ -39,7 +39,7 @@ class rex_cronjob_log
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $months = array();
-    foreach(glob($folder.$year.'/'.$year.'-*.log') as $file)
+    foreach(glob($folder . $year .'/'. $year .'-*.log') as $file)
     {
       $month = substr($file, -6, 2);
       $months[] = $month;
@@ -61,7 +61,7 @@ class rex_cronjob_log
   
   /*public static*/ function getLogOfMonth($month, $year)
   {
-    $file = REX_CRONJOB_LOG_FOLDER.$year.'/'.$year.'-'.$month.'.log';
+    $file = REX_CRONJOB_LOG_FOLDER . $year .'/'. $year .'-'. $month .'.log';
     return rex_get_file_contents($file);
   }
   
@@ -74,9 +74,12 @@ class rex_cronjob_log
       $months = array_reverse($months,true);
       foreach($months as $month)
       {
-        $lines = explode("\n",rex_cronjob_log::getLogOfMonth($month, $year));
-        for($i = count($messages); $i < $limit; $i++)
+        $lines = explode("\n", trim(rex_cronjob_log::getLogOfMonth($month, $year)));
+        
+        $end = min($limit - count($messages), count($lines));
+        for($i = 0; $i < $end; $i++)
           $messages[] = $lines[$i];
+        
         if (count($messages) >= $limit)
           break 2;
       }
@@ -84,11 +87,26 @@ class rex_cronjob_log
     return $messages;
   }
   
-  /*public static*/ function saveLog($newline, $month, $year)
+  /*public static*/ function save($name, $success)
   {
     global $REX;
     
-    $dir = REX_CRONJOB_LOG_FOLDER.$year;
+    $year = date('Y');
+    $month = date('m');
+    
+    // Im Frontend ist die Klasse rex_formatter nicht verfuegbar.
+    // Falls die Klasse hier manuell eingebunden wird,
+    // als Format nicht 'datetime' verwenden, da im Frontend kein I18N-Objekt verfuegbar ist
+    $newline = date('Y-m-d H:i');
+    
+    if ($success)
+      $newline .= '  SUCCESS  ';
+    else
+      $newline .= '   ERROR   ';
+      
+    $newline .= $name;
+    
+    $dir = REX_CRONJOB_LOG_FOLDER . $year;
     if (!is_dir($dir))
     {
       mkdir($dir);
@@ -96,11 +114,11 @@ class rex_cronjob_log
     }
     
     $content = '';
-    $file = $dir.'/'.$year.'-'.$month.'.log';
+    $file = $dir .'/'. $year .'-'. $month .'.log';
     if (file_exists($file))
       $content = rex_get_file_contents($file);
     
-    $content = $newline."\n".$content;
+    $content = $newline ."\n". $content;
     
     return rex_put_file_contents($file, $content);
   }

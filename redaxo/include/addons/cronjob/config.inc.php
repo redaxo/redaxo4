@@ -9,23 +9,23 @@
  * @version svn:$Id$
  */
 
-if($REX["REDAXO"])
+if($REX['REDAXO'])
 {
 
   // Sprachdateien anhaengen
   $I18N->appendFile(dirname(__FILE__) .'/lang/');
   
-  $REX['ADDON']['rxid']["cronjob"] = '630';
-  $REX['ADDON']['name']["cronjob"] = $I18N->msg("cronjob_title");
-  $REX['ADDON']['perm']["cronjob"] = 'admin[]';
+  $REX['ADDON']['rxid']['cronjob'] = '630';
+  $REX['ADDON']['name']['cronjob'] = $I18N->msg('cronjob_title');
+  $REX['ADDON']['perm']['cronjob'] = 'admin[]';
   
   // Credits
-  $REX['ADDON']['version']["cronjob"] = '1.0';
-  $REX['ADDON']['author']["cronjob"] = 'Gregor Harlan';
-  $REX['ADDON']['supportpage']["cronjob"] = 'forum.redaxo.de';
+  $REX['ADDON']['version']['cronjob'] = '1.0';
+  $REX['ADDON']['author']['cronjob'] = 'Gregor Harlan';
+  $REX['ADDON']['supportpage']['cronjob'] = 'forum.redaxo.de';
   
   // Subpages
-  $REX['ADDON']['cronjob']['SUBPAGES'] = array(array('',$I18N->msg("cronjob_title")), array('log','Log'));
+  $REX['ADDON']['cronjob']['SUBPAGES'] = array(array('',$I18N->msg('cronjob_title')), array('log','Log'));
   
   $EP = 'PAGE_CHECKED';
 
@@ -47,19 +47,19 @@ if($REX["REDAXO"])
 define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'].'/addons/cronjob/logs/');
 
 require_once dirname(__FILE__) .'/classes/class.rex_cronjob_manager.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob_phpcode.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob_phpcallback.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob_urlrequest.inc.php';
 require_once dirname(__FILE__) .'/classes/class.rex_cronjob_log.inc.php';
+require_once dirname(__FILE__) .'/classes/class.rex_cronjob.inc.php';
+require_once dirname(__FILE__) .'/classes/cronjobs/class.rex_cronjob_phpcode.inc.php';
+require_once dirname(__FILE__) .'/classes/cronjobs/class.rex_cronjob_phpcallback.inc.php';
+require_once dirname(__FILE__) .'/classes/cronjobs/class.rex_cronjob_urlrequest.inc.php';
 
 // --- DYN
-$REX["ADDON"]["nexttime"]["cronjob"] = "0";
+$REX['ADDON']['nexttime']['cronjob'] = "0";
 // --- /DYN
 
-if (isset($REX["ADDON"]["nexttime"]["cronjob"]) 
-  && $REX["ADDON"]["nexttime"]["cronjob"] != 0 
-  && time() >= $REX["ADDON"]["nexttime"]["cronjob"])
+if (isset($REX['ADDON']['nexttime']['cronjob']) 
+  && $REX['ADDON']['nexttime']['cronjob'] != 0 
+  && time() >= $REX['ADDON']['nexttime']['cronjob'])
 {
   rex_register_extension($EP, 'rex_a630_extension');
 }
@@ -68,5 +68,5 @@ function rex_a630_extension($params)
 {
   global $REX;
   if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))
-    rex_cronjob_manager::checkCronjobs();
+    rex_cronjob_manager::check();
 }

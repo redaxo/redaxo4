@@ -14,7 +14,7 @@ class rex_cronjob_article_status extends rex_cronjob
   /*protected*/ function _execute()
   {
     global $REX;
-    $config = OOPlugin::getProperty('cronjob','article_status','config');
+    $config = OOPlugin::getProperty('cronjob', 'article_status', 'config');
     $from = $config['from'];
     $to   = $config['to'];
     $from['before'] = (array) $from['before'];
@@ -24,8 +24,8 @@ class rex_cronjob_article_status extends rex_cronjob
     // $sql->debugsql = true;
     $sql->setQuery('
       SELECT  field_id 
-      FROM    '.$REX['TABLE_PREFIX'].'62_params 
-      WHERE   name="'.$from['field'].'" OR name="'.$to['field'].'"
+      FROM    '. $REX['TABLE_PREFIX'] .'62_params 
+      WHERE   name="'. $from['field'] .'" OR name="'. $to['field'] .'"
     ');
     if ($sql->getRows() != 2)
       return false;
@@ -33,17 +33,17 @@ class rex_cronjob_article_status extends rex_cronjob
     $time = time();
     $sql->setQuery('
       SELECT  id, clang, status 
-      FROM    '.$REX['TABLE_PREFIX'].'article 
+      FROM    '. $REX['TABLE_PREFIX'] .'article 
       WHERE 
-        (     '.$from['field'].' > 0 
-        AND   '.$from['field'].' < '.$time.' 
-        AND   status IN ('.implode(',',$from['before']).')
-        AND   ('.$to['field'].' > '.$time.' OR '.$to['field'].' = 0 OR '.$to['field'].' = "")
+        (     '. $from['field'] .' > 0 
+        AND   '. $from['field'] .' < '. $time .' 
+        AND   status IN ('. implode(',', $from['before']) .')
+        AND   ('. $to['field'] .' > '. $time .' OR '. $to['field'] .' = 0 OR '. $to['field'] .' = "")
         )
       OR 
-        (     '.$to['field'].' > 0 
-        AND   '.$to['field'].' < '.$time.' 
-        AND   status IN ('.implode(',',$to['before']).')
+        (     '. $to['field'] .' > 0 
+        AND   '. $to['field'] .' < '. $time .' 
+        AND   status IN ('. implode(',', $to['before']) .')
         )
     ');
     $rows = $sql->getRows();

@@ -27,11 +27,11 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 	
 	if(OOAddon::isAvailable('cronjob'))
 	{
-    require_once dirname(__FILE__).'/classes/class.cronjob.inc.php';
+    require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
     
   	rex_register_extension(
   	  'REX_CRONJOB_EXTENSIONS',
-  	  array('rex_cronjob_manager','registerExtension'),
+  	  array('rex_cronjob_manager', 'registerExtension'),
   	  array(
   	    'class' => 'rex_a1_cronjob', 
   	    'name' => 'translate:im_export_database_export',

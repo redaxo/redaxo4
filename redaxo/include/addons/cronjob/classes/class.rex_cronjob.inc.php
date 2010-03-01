@@ -26,7 +26,7 @@
   
   /*public*/ function factory($type, $name, $content) 
   {
-    if (!in_array($type,range(1,4)))
+    if ($type < 1 || $type > 4)
       return null;
     
     $class = null;
@@ -71,26 +71,12 @@
   }
   
   /*private*/ function log()
-  {
-    global $REX;
-    $year = date('Y');
-    $month = date('m');
-    
-    // Im Frontend ist die Klasse rex_formatter nicht verfuegbar.
-    // Falls die Klasse hier manuell eingebunden wird,
-    // als Format nicht 'datetime' verwenden, da im Frontend kein I18N-Objekt verfuegbar ist
-    $newline = date('Y-m-d H:i');
-    if ($this->success)
-      $newline .= '  SUCCESS  ';
-    else
-      $newline .= '   ERROR   ';
-    $newline .= $this->getName();
-      
-    return rex_cronjob_log::saveLog($newline, $month, $year);
+  {   
+    return rex_cronjob_log::save($this->getName(), $this->success);
   }
   
   /*public static*/ function isValid($cronjob)
   {
-    return is_object($cronjob) && is_a($cronjob, 'rex_cronjob');
+    return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
   }
 }

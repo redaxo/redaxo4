@@ -14,9 +14,9 @@ if ($func == 'setstatus')
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setTable($table);
-  $sql->setWhere('id = '.$oid);
-  $status = (rex_request('oldstatus','int') +1) % 2;
-  $sql->setValue('status',$status);
+  $sql->setWhere('id = '. $oid);
+  $status = (rex_request('oldstatus', 'int') +1) % 2;
+  $sql->setValue('status', $status);
   $sql->addGlobalUpdateFields();
   if ($sql->update())
     echo rex_info($I18N->msg('cronjob_status_success'));
@@ -31,7 +31,7 @@ if ($func == 'delete')
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setTable($table);
-  $sql->setWhere('id = '.$oid);
+  $sql->setWhere('id = '. $oid);
   if ($sql->delete())
     echo rex_info($I18N->msg('cronjob_delete_success'));
   else
@@ -44,13 +44,15 @@ if ($func == 'execute')
 {
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
-  $sql->setQuery("SELECT name, type, content FROM ".$table." WHERE id = ".$oid);
+  $sql->setQuery('SELECT name, type, content FROM '. $table .' WHERE id = '. $oid);
   $success = false;
   if ($sql->getRows() == 1) 
   {
-    $cronjob = rex_cronjob::factory($sql->getValue('type'), $sql->getValue('name'), $sql->getValue('content'));
-    if (rex_cronjob::isValid($cronjob) && $cronjob->execute())
-      $success = true;
+    $type = $sql->getValue('type');
+    $name = $sql->getValue('name');
+    $content = $sql->getValue('content');
+    
+    $success = rex_cronjob_manager::createAndExecute($type, $name, $content);
   }
   if ($success)
     echo rex_info($I18N->msg('cronjob_execute_success'));
@@ -68,16 +70,16 @@ if ($func == '')
   
   $list->addTableColumnGroup(array(40,'*',90,130,60,60,60));
   
-  $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.$I18N->msg('cronjob_add').'</span></a>';
-  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'.$I18N->msg('edit').'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('cronjob_add') .'</span></a>';
+  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('edit') .'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
   
   $list->removeColumn('id');
   
-  $list->setColumnLabel('name',$I18N->msg('cronjob_name'));
-  $list->setColumnParams('name',array('func'=>'edit', 'oid'=>'###id###'));
+  $list->setColumnLabel('name', $I18N->msg('cronjob_name'));
+  $list->setColumnParams('name', array('func'=>'edit', 'oid'=>'###id###'));
   
-  $list->setColumnLabel('interval',$I18N->msg('cronjob_interval'));
+  $list->setColumnLabel('interval', $I18N->msg('cronjob_interval'));
   $list->setColumnFormat('interval', 'custom', 
     create_function( 
       '$params', 
@@ -91,7 +93,7 @@ if ($func == '')
     ) 
   );
   
-  $list->setColumnLabel('environment',$I18N->msg('cronjob_environment'));
+  $list->setColumnLabel('environment', $I18N->msg('cronjob_environment'));
   $list->setColumnFormat('environment', 'custom', 
     create_function( 
       '$params', 
@@ -107,9 +109,9 @@ if ($func == '')
     ) 
   );
   
-  $list->setColumnLabel('status',$I18N->msg('cronjob_status_function'));
+  $list->setColumnLabel('status', $I18N->msg('cronjob_status_function'));
   $list->setColumnParams('status', array('func'=>'setstatus', 'oldstatus'=>'###status###', 'oid'=>'###id###'));
-  $list->setColumnLayout('status',array('<th colspan="3">###VALUE###</th>','<td style="text-align:center;">###VALUE###</td>'));
+  $list->setColumnLayout('status', array('<th colspan="3">###VALUE###</th>','<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnFormat('status', 'custom', 
     create_function( 
       '$params', 
@@ -123,11 +125,11 @@ if ($func == '')
     ) 
   );
   
-  $list->addColumn('delete',$I18N->msg('cronjob_delete'),-1,array("",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->addColumn('delete', $I18N->msg('cronjob_delete'), -1, array("",'<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
-  $list->addLinkAttribute('delete','onclick',"return confirm('".$I18N->msg('cronjob_really_delete')."');");
+  $list->addLinkAttribute('delete', 'onclick', "return confirm('". $I18N->msg('cronjob_really_delete') ."');");
   
-  $list->addColumn('execute',$I18N->msg('cronjob_execute'),-1,array("",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->addColumn('execute', $I18N->msg('cronjob_execute'), -1, array("",'<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
   $list->setColumnFormat('execute', 'custom', 
     create_function( 
@@ -148,7 +150,7 @@ if ($func == '')
   
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
   
-  $form = rex_form::factory($table, $fieldset, 'id = '.$oid, 'post', false, 'rex_cronjob_form');
+  $form = rex_form::factory($table, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
   $form->addParam('oid', $oid);
   $form->addParam('list','cronjobs');
   
@@ -161,7 +163,7 @@ if ($func == '')
   
   $field =& $form->addSelectField('type');
   $field->setLabel($I18N->msg('cronjob_type'));
-  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-type-select');
+  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type-select');
   $select =& $field->getSelect();
   $select->setSize(1);
   $select->addOption($I18N->msg('cronjob_type_phpcode'),1);
@@ -180,14 +182,14 @@ if ($func == '')
     
   $field =& $form->addTextAreaField('content');
   $field->setLabel($I18N->msg('cronjob_type_phpcode'));
-  $field->setAttribute('rows',20);
+  $field->setAttribute('rows', 20);
   $class = '';
   if ($type != 1) 
   {
     $class = ' rex-a630-hidden';
     $field->setValue('');
   }
-  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-type rex-a630-type-1'.$class);
+  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-1'.$class);
   
   $field =& $form->addTextField('content');
   $field->setLabel($I18N->msg('cronjob_type_phpcallback'));
@@ -197,7 +199,7 @@ if ($func == '')
     $class = ' rex-a630-hidden';
     $field->setValue('');
   }
-  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-type rex-a630-type-2'.$class);
+  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-2'.$class);
   $field->setNotice($I18N->msg('cronjob_examples').': foo(), foo(1, \'string\'), foo::bar()');
   
   $field =& $form->addTextField('content');
@@ -208,7 +210,7 @@ if ($func == '')
     $class = ' rex-a630-hidden';
     $field->setValue('http://');
   }
-  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-type rex-a630-type-3'.$class);
+  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-3'.$class);
   if ($func == 'add')
     $field->setValue('http://');
   
@@ -221,7 +223,7 @@ if ($func == '')
     if ($type != 4) {
       $class = ' rex-a630-hidden';
     }
-    $field->setAttribute('class',$field->getAttribute('class').' rex-a630-type rex-a630-type-4'.$class);
+    $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-4'.$class);
     $select =& $field->getSelect();
     $select->setSize(1);
     foreach ($extensions as $extension => $values) 
@@ -232,14 +234,14 @@ if ($func == '')
       {
         if (!is_array($values[1]))
           $values[1] = array($values[1]);
-        if (!in_array('frontend',$values[1]))
+        if (!in_array('frontend', $values[1]))
           $disabled[] = 0;
-        if (!in_array('backend',$values[1]))
+        if (!in_array('backend', $values[1]))
           $disabled[] = 1;
         if (count($disabled) > 0)
           $js = '
-        if ($("select.rex-a630-type-4 option:selected").val() == "'.$extension.'")
-          $(".rex-a630-environment option[value=\''.implode('\'], .rex-a630-environment option[value=\'',$disabled).'\']").attr("disabled","disabled").attr("selected","");
+        if ($("select.rex-a630-type-4 option:selected").val() == "'. $extension .'")
+          $(".rex-a630-environment option[value=\''. implode('\'], .rex-a630-environment option[value=\'', $disabled) .'\']").attr("disabled","disabled").attr("selected","");
 ';
       }
     }
@@ -247,8 +249,8 @@ if ($func == '')
   
   $field =& $form->addSelectField('environment');
   $field->setLabel($I18N->msg('cronjob_environment'));
-  $field->setAttribute('multiple','multiple');
-  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-environment');
+  $field->setAttribute('multiple', 'multiple');
+  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-environment');
   $select =& $field->getSelect();
   $select->setSize(2);
   $select->addOption($I18N->msg('cronjob_environment_frontend'),0);

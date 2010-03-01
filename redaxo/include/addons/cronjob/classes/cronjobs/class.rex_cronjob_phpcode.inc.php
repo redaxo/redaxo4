@@ -13,7 +13,7 @@ class rex_cronjob_phpcode extends rex_cronjob
 { 
   /*protected*/ function _execute()
   {
-    $code = preg_replace('/^\<\?(?:php)?/','',$this->getContent());
+    $code = preg_replace('/^\<\?(?:php)?/', '', $this->getContent());
     $success = eval($code) !== false;
     return $success;
   }

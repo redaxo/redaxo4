@@ -13,7 +13,7 @@ class rex_cronjob_phpcallback extends rex_cronjob
 { 
   /*protected*/ function _execute()
   {
-    if (preg_match('/^(?:(.*?)\:\:)?(.*?)(?:\((.*?)\))?\;?$/', $this->getContent(), $matches))
+    if (preg_match('/^\s*(?:(.*?)\:\:)?(.*?)(?:\((.*?)\))?\;?\s*$/', $this->getContent(), $matches))
     {
       $callback = $matches[2];
       if ($matches[1] != '')
@@ -25,14 +25,14 @@ class rex_cronjob_phpcallback extends rex_cronjob
       $params = array();
       if($matches[3] != '') 
       {
-        $params = explode(',',$matches[3]);
+        $params = explode(',', $matches[3]);
         foreach($params as $i => $param)
         {
-          $param = preg_replace('/^(\\\'|\")?(.*?)\\1$/','$2',trim($param));
+          $param = preg_replace('/^(\\\'|\")?(.*?)\\1$/', '$2', trim($param));
           $params[$i] = $param;
         }
       }
-      return call_user_func_array($callback,$params) !== false;
+      return call_user_func_array($callback, $params) !== false;
     }
     return false;
   }

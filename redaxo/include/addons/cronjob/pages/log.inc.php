@@ -12,15 +12,17 @@
 $year_sel = new rex_select();
 $year_sel->setSize(1);
 $year_sel->setName('log[year]');
-$year_sel->setAttribute('class','rex-form-select');
-$year_sel->setAttribute('onchange','this.form.submit();');
+$year_sel->setId('log_year');
+$year_sel->setAttribute('class', 'rex-form-select');
+$year_sel->setAttribute('onchange', 'this.form.submit();');
 $year_sel->setStyle('width: 100px');
 
 $month_sel = new rex_select();
 $month_sel->setSize(1);
 $month_sel->setName('log[month]');
-$month_sel->setAttribute('class','rex-form-select');
-$month_sel->setAttribute('onchange','this.form.submit();');
+$month_sel->setId('log_month');
+$month_sel->setAttribute('class', 'rex-form-select');
+$month_sel->setAttribute('onchange', 'this.form.submit();');
 $month_sel->setStyle('width: 100px');
 
 $log = rex_request('log', 'array', array());
@@ -35,7 +37,7 @@ if (empty($array))
   echo '
     <div class="rex-toolbar">
       <div class="rex-toolbar-content">
-        <strong>'.$I18N->msg('cronjob_no_log_files').'</strong>
+        <strong>'. $I18N->msg('cronjob_no_log_files') .'</strong>
         <div class="rex-clearer"></div>
       </div>
     </div>';
@@ -78,12 +80,14 @@ else
             <fieldset>
               <input type="hidden" name="page" value="cronjob" />
               <input type="hidden" name="subpage" value="log" />
-              <label for="" style="font-weight: bold">'.$I18N->msg('cronjob_log_year').':</label>
-              '.$year_sel->get().' - 
-              <label for="" style="font-weight: bold">'.$I18N->msg('cronjob_log_month').':</label>
-              '.$month_sel->get().'
+              <label for="log_year" style="font-weight: bold">'. $I18N->msg('cronjob_log_year') .':</label>
+              '. $year_sel->get() .' - 
+              <label for="log_month" style="font-weight: bold">'. $I18N->msg('cronjob_log_month') .':</label>
+              '. $month_sel->get() .'
               <noscript>
-                <input type="submit" value="'.$I18N->msg('cronjob_log_ok').'" />
+                <p style="display:inline;margin-left:5px">
+                  <input type="submit" class="rex-form-submit" value="'. $I18N->msg('cronjob_log_ok') .'" />
+                <p>
               </noscript>
             </fieldset>
           </form>
@@ -93,11 +97,11 @@ else
     </div>';
   
   $content = rex_cronjob_log::getLogOfMonth($log['month'], $log['year']);
-  $content = preg_replace('/^(.*?ERROR.*?)$/m','<strong style="color:red">$1</strong>',$content);
+  $content = preg_replace('/^(.*?ERROR.*?)$/m','<strong style="color:red">$1</strong>', $content);
   
   echo '
-    <table cellpadding=5 class="rex-table">
-      <tr><td style="font-family: Courier, Monospace; white-space: pre;">'.$content.'</td></tr>
+    <table cellpadding="5" class="rex-table">
+      <tr><td style="font-family: Courier, Monospace; white-space: pre;">'. $content .'</td></tr>
     </table>
   ';
 }
