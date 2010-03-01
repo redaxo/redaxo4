@@ -25,6 +25,7 @@ if($REX["REDAXO"] && $REX["USER"])
   {
     $I18N->appendFile(dirname(__FILE__). '/lang/');
     
+    // warnings/notices der externen lib verhindern 
     $oldReporting = error_reporting(0);
     require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
     error_reporting($oldReporting);

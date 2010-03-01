@@ -32,6 +32,17 @@ if($error == '')
   }
 }
 
+if($error == '')
+{
+  require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
+  
+  $url = 'www.redaxo.de';
+  if(!rex_a656_http_health_check($url))
+  {
+    $error = 'The server was unable to connect to "'. $url .'". Make sure the server has access to the internet.';
+  }
+}
+
 if ($error != '')
   $REX['ADDON']['installmsg']['rss_reader'] = $error;
 else
