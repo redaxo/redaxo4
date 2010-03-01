@@ -12,7 +12,8 @@ CREATE TABLE `rex_62_params` (
   `type` int(10) unsigned DEFAULT NULL,
   `default` varchar(255) NOT NULL,
   `params` text,
-  `validate` varchar(255) DEFAULT NULL,
+  `validate` text,
+  `restrictions` text,
   `createuser` varchar(255) NOT NULL,
   `createdate` int(11) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
@@ -24,16 +25,16 @@ CREATE TABLE `rex_62_params` (
 LOCK TABLES `rex_62_params` WRITE;
 /*!40000 ALTER TABLE `rex_62_params` DISABLE KEYS */;
 INSERT INTO `rex_62_params` VALUES 
-  (1,'translate:pool_file_description','med_description',1,'',2,'','','','admin',1189343866,'admin',1189344596),
-  (2,'translate:pool_file_copyright','med_copyright',2,'',1,'','','','admin',1189343877,'admin',1189344617),
-  (3,'translate:online_from','art_online_from',1,'',10,'','','','admin',1189344934,'admin',1189344934),
-  (4,'translate:online_to','art_online_to',2,'',10,'','','','admin',1189344947,'admin',1189344947),
-  (5,'translate:description','art_description',3,'',2,'','','','admin',1189345025,'admin',1189345025),
-  (6,'translate:keywords','art_keywords',4,'',2,'','','','admin',1189345068,'admin',1189345068),
-  (7,'translate:metadata_image','art_file',7,'',6,'','','','admin',1189345109,'admin',1237995585),
-  (8,'translate:teaser','art_teaser',5,'',5,'','','','admin',1189345182,'admin',1189345182),
-  (9,'translate:header_article_type','art_type_id',6,'size=1',3,'','Standard|Zugriff für alle','','admin',1191963797,'admin',1191964038),
-  (10,'Zugriffsrechte','',1,'',3,'','0:Alle|-1:Nur nicht Eingeloggte|1:Nur Eingeloggte|2:Nur Moderatoren und Admins|3:Nur Admins','','admin',1237383022,'',0);
+  (1,'translate:pool_file_description','med_description',1,'',2,'','','','','admin',1189343866,'admin',1189344596),
+  (2,'translate:pool_file_copyright','med_copyright',2,'',1,'','','','','admin',1189343877,'admin',1189344617),
+  (3,'translate:online_from','art_online_from',1,'',10,'','','','','admin',1189344934,'admin',1189344934),
+  (4,'translate:online_to','art_online_to',2,'',10,'','','','','admin',1189344947,'admin',1189344947),
+  (5,'translate:description','art_description',3,'',2,'','','','','admin',1189345025,'admin',1189345025),
+  (6,'translate:keywords','art_keywords',4,'',2,'','','','','admin',1189345068,'admin',1189345068),
+  (7,'translate:metadata_image','art_file',7,'',6,'','','','','admin',1189345109,'admin',1237995585),
+  (8,'translate:teaser','art_teaser',5,'',5,'','','','','admin',1189345182,'admin',1189345182),
+  (9,'translate:header_article_type','art_type_id',6,'size=1',3,'','Standard|Zugriff für alle','','','admin',1191963797,'admin',1191964038),
+  (10,'Zugriffsrechte','',1,'',3,'','0:Alle|-1:Nur nicht Eingeloggte|1:Nur Eingeloggte|2:Nur Moderatoren und Admins|3:Nur Admins','','','admin',1237383022,'',0);
 /*!40000 ALTER TABLE `rex_62_params` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,9 +58,9 @@ INSERT INTO `rex_62_type` VALUES
   (10,'date','varchar',255),
   (11,'datetime','varchar',255),
   (6,'REX_MEDIA_BUTTON','varchar',255),
-  (7,'REX_MEDIALIST_BUTTON','varchar',255),
+  (7,'REX_MEDIALIST_BUTTON','text',0),
   (8,'REX_LINK_BUTTON','varchar',255),
-  (9,'REX_LINKLIST_BUTTON','varchar',255),
+  (9,'REX_LINKLIST_BUTTON','text',0),
   (12,'legend','varchar',255);
 /*!40000 ALTER TABLE `rex_62_type` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -78,7 +79,7 @@ CREATE TABLE `rex_action` (
   `createdate` int(11) NOT NULL DEFAULT '0',
   `updateuser` varchar(255) NOT NULL,
   `updatedate` int(11) NOT NULL DEFAULT '0',
-  `revision` int(11) DEFAULT NULL,
+  `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `rex_article`;
@@ -100,9 +101,7 @@ CREATE TABLE `rex_article` (
   `clang` int(11) NOT NULL DEFAULT '0',
   `createuser` varchar(255) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
-  `label` varchar(255) NOT NULL,
-  `url` text NOT NULL,
-  `revision` int(11) DEFAULT NULL,
+  `revision` int(11) NOT NULL DEFAULT '0',
   `art_online_from` varchar(255) DEFAULT NULL,
   `art_online_to` varchar(255) DEFAULT NULL,
   `art_description` text,
@@ -110,31 +109,35 @@ CREATE TABLE `rex_article` (
   `art_file` varchar(255) DEFAULT NULL,
   `art_teaser` varchar(255) DEFAULT NULL,
   `art_type_id` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`pid`)
+  PRIMARY KEY (`pid`),
+  UNIQUE KEY `find_articles` (`id`,`clang`),
+  KEY `id` (`id`),
+  KEY `clang` (`clang`),
+  KEY `re_id` (`re_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `rex_article` WRITE;
 /*!40000 ALTER TABLE `rex_article` DISABLE KEYS */;
 INSERT INTO `rex_article` VALUES 
-  (1,1,0,'Home','Home',1,'',1,1,'|',1,1192226202,1192234473,1,0,'admin','admin','','',0,'','','','','','',''),
-  (2,2,0,'Team','Team',2,'',1,1,'|',1,1192226377,1237974083,1,0,'admin','admin','','',0,'','','','','','',''),
-  (3,3,0,'System','System',3,'',1,1,'|',1,1174487175,1181732593,1,0,'admin','admin','','',0,'','','','','','',''),
-  (4,4,0,'Erste Schritte','Erste Schritte',4,'',1,1,'|',1,1174487184,1237973283,1,0,'admin','admin','','',0,'','','','','','',''),
-  (5,5,0,'FAQ','FAQ',5,'',1,1,'|',1,1237372127,1237970781,1,0,'admin','admin','','',0,'','','','','','',''),
-  (6,6,0,'Kontakt / Impressum','Kontakt / Impressum',6,'',1,1,'|',1,1174487203,1237976151,1,0,'admin','admin','','',0,'','','','','','',''),
-  (8,8,3,'Was ist REDAXO','Was ist REDAXO',1,'',1,1,'|3|',1,1174488327,1237975038,1,0,'admin','admin','','',0,'','','','','','',''),
-  (9,9,3,'Für wen ist REDAXO','Für wen ist REDAXO',2,'',1,1,'|3|',1,1174488348,1237975175,1,0,'admin','admin','','',0,'','','','','','',''),
-  (10,10,3,'Features','Features',3,'',1,1,'|3|',1,1174489132,1237975465,1,0,'admin','admin','','',0,'','','','','','',''),
-  (11,11,3,'Screenshots','Screenshots',4,'',1,1,'|3|',1,1174489141,1237383922,1,0,'admin','admin','','',0,'','','','','','',''),
-  (12,12,4,'Doku','Doku',2,'',1,1,'|4|',1,1174489168,1237973900,1,0,'admin','admin','','',0,'','','','','','',''),
-  (13,13,4,'Wiki','Wiki',3,'',1,1,'|4|',1,1174489174,1237973233,1,0,'admin','admin','','',0,'','','','','','',''),
-  (14,14,4,'Forum','Forum',4,'',1,1,'|4|',1,1174489181,1237973953,1,0,'admin','admin','','',0,'','','','','','',''),
-  (15,15,5,'Was ist das Besondere an REDAXO?','FAQ',0,'',0,2,'|5|',1,1174489216,1237975651,1,0,'admin','admin','','',0,'','','','','','',''),
-  (16,16,4,'REDAXO','REDAXO',1,'',1,1,'|4|',1,1179325162,1237973876,1,0,'admin','admin','','',0,'','','','','','',''),
-  (17,17,5,'Was sollte einen dazu bewegen, REDAXO zu nutzen?','FAQ',0,'',0,3,'|5|',1,1189527244,1237970781,1,0,'admin','admin','','',0,'','','','','','',''),
-  (18,18,5,'Wann wird der Einsatz von REDAXO empfohlen?','FAQ',0,'',0,4,'|5|',1,1189527313,1237975927,1,0,'admin','admin','','',0,'','','','','','',''),
-  (19,19,5,'Wie viele Internetpräsentationen wurden bereits mit REDAXO erstellt?','FAQ',0,'',0,5,'|5|',1,1189527360,1237976010,1,0,'admin','admin','','',0,'','','','','','',''),
-  (20,20,5,'Welche Kenntnisse brauche ich, um mit REDAXO arbeiten zu können?','FAQ',0,'',0,6,'|5|',1,1189527486,1237973721,1,0,'admin','admin','','',0,'','','','','','','');
+  (1,1,0,'Home','Home',1,'',1,1,'|',1,1192226202,1192234473,1,0,'admin','admin',0,'','','','','','',''),
+  (2,2,0,'Team','Team',2,'',1,1,'|',1,1192226377,1237974083,1,0,'admin','admin',0,'','','','','','',''),
+  (3,3,0,'System','System',3,'',1,1,'|',1,1174487175,1181732593,1,0,'admin','admin',0,'','','','','','',''),
+  (4,4,0,'Erste Schritte','Erste Schritte',4,'',1,1,'|',1,1174487184,1237973283,1,0,'admin','admin',0,'','','','','','',''),
+  (5,5,0,'FAQ','FAQ',5,'',1,1,'|',1,1237372127,1237970781,1,0,'admin','admin',0,'','','','','','',''),
+  (6,6,0,'Kontakt / Impressum','Kontakt / Impressum',6,'',1,1,'|',1,1174487203,1237976151,1,0,'admin','admin',0,'','','','','','',''),
+  (8,8,3,'Was ist REDAXO','Was ist REDAXO',1,'',1,1,'|3|',1,1174488327,1237975038,1,0,'admin','admin',0,'','','','','','',''),
+  (9,9,3,'Für wen ist REDAXO','Für wen ist REDAXO',2,'',1,1,'|3|',1,1174488348,1237975175,1,0,'admin','admin',0,'','','','','','',''),
+  (10,10,3,'Features','Features',3,'',1,1,'|3|',1,1174489132,1237975465,1,0,'admin','admin',0,'','','','','','',''),
+  (11,11,3,'Screenshots','Screenshots',4,'',1,1,'|3|',1,1174489141,1237383922,1,0,'admin','admin',0,'','','','','','',''),
+  (12,12,4,'Doku','Doku',2,'',1,1,'|4|',1,1174489168,1237973900,1,0,'admin','admin',0,'','','','','','',''),
+  (13,13,4,'Wiki','Wiki',3,'',1,1,'|4|',1,1174489174,1237973233,1,0,'admin','admin',0,'','','','','','',''),
+  (14,14,4,'Forum','Forum',4,'',1,1,'|4|',1,1174489181,1237973953,1,0,'admin','admin',0,'','','','','','',''),
+  (15,15,5,'Was ist das Besondere an REDAXO?','FAQ',0,'',0,2,'|5|',1,1174489216,1237975651,1,0,'admin','admin',0,'','','','','','',''),
+  (16,16,4,'REDAXO','REDAXO',1,'',1,1,'|4|',1,1179325162,1237973876,1,0,'admin','admin',0,'','','','','','',''),
+  (17,17,5,'Was sollte einen dazu bewegen, REDAXO zu nutzen?','FAQ',0,'',0,3,'|5|',1,1189527244,1237970781,1,0,'admin','admin',0,'','','','','','',''),
+  (18,18,5,'Wann wird der Einsatz von REDAXO empfohlen?','FAQ',0,'',0,4,'|5|',1,1189527313,1237975927,1,0,'admin','admin',0,'','','','','','',''),
+  (19,19,5,'Wie viele Internetpräsentationen wurden bereits mit REDAXO erstellt?','FAQ',0,'',0,5,'|5|',1,1189527360,1237976010,1,0,'admin','admin',0,'','','','','','',''),
+  (20,20,5,'Welche Kenntnisse brauche ich, um mit REDAXO arbeiten zu können?','FAQ',0,'',0,6,'|5|',1,1189527486,1237973721,1,0,'admin','admin',0,'','','','','','','');
 /*!40000 ALTER TABLE `rex_article` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,8 +216,13 @@ CREATE TABLE `rex_article_slice` (
   `createuser` varchar(255) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
   `next_article_slice_id` int(11) DEFAULT NULL,
-  `revision` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`re_article_slice_id`,`article_id`,`modultyp_id`)
+  `revision` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`re_article_slice_id`,`article_id`,`modultyp_id`),
+  KEY `id` (`id`),
+  KEY `clang` (`clang`),
+  KEY `re_article_slice_id` (`re_article_slice_id`),
+  KEY `article_id` (`article_id`),
+  KEY `find_slices` (`clang`,`article_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `rex_article_slice` WRITE;
@@ -270,7 +278,7 @@ DROP TABLE IF EXISTS `rex_clang`;
 CREATE TABLE `rex_clang` (
   `id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
-  `revision` int(11) DEFAULT NULL,
+  `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -298,10 +306,12 @@ CREATE TABLE `rex_file` (
   `updatedate` int(11) NOT NULL DEFAULT '0',
   `createuser` varchar(255) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
-  `revision` int(11) DEFAULT NULL,
+  `revision` int(11) NOT NULL DEFAULT '0',
   `med_description` text,
   `med_copyright` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`file_id`)
+  PRIMARY KEY (`file_id`),
+  KEY `re_file_id` (`re_file_id`),
+  KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `rex_file` WRITE;
@@ -362,8 +372,9 @@ CREATE TABLE `rex_file_category` (
   `createuser` varchar(255) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
   `attributes` text NOT NULL,
-  `revision` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`name`)
+  `revision` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `re_id` (`re_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `rex_file_category` WRITE;
@@ -391,8 +402,9 @@ CREATE TABLE `rex_module` (
   `createdate` int(11) NOT NULL DEFAULT '0',
   `updatedate` int(11) NOT NULL DEFAULT '0',
   `attributes` text NOT NULL,
-  `revision` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`category_id`)
+  `revision` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `rex_module` WRITE;
@@ -413,7 +425,7 @@ CREATE TABLE `rex_module_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `module_id` int(11) NOT NULL DEFAULT '0',
   `action_id` int(11) NOT NULL DEFAULT '0',
-  `revision` int(11) DEFAULT NULL,
+  `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `rex_template`;
@@ -428,15 +440,16 @@ CREATE TABLE `rex_template` (
   `createdate` int(11) NOT NULL DEFAULT '0',
   `updatedate` int(11) NOT NULL DEFAULT '0',
   `attributes` text NOT NULL,
+  `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `rex_template` WRITE;
 /*!40000 ALTER TABLE `rex_template` DISABLE KEYS */;
 INSERT INTO `rex_template` VALUES 
-  (1,'','default','<?php\r\n\r\n\r\n// ------ DESCRIPTION/KEYWORDS\r\n$OOStartArticle = OOArticle::getArticleById($REX[\'START_ARTICLE_ID\'], $REX[\'CUR_CLANG\']);\r\n$meta_beschreibung = $OOStartArticle->getValue(\"art_description\");\r\n$meta_suchbegriffe = $OOStartArticle->getValue(\"art_keywords\");\r\n\r\nif($this->getValue(\"art_description\") != \"\")\r\n	$meta_beschreibung = $this->getValue(\"art_description\");\r\n	\r\nif($this->getValue(\"art_keywords\") != \"\")\r\n	$meta_suchbegriffe = $this->getValue(\"art_keywords\");\r\n\r\n\r\n?><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\r\n	\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"de\" lang=\"de\">\r\n<head>\r\n	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\r\n	<title><?php print $REX[\'SERVERNAME\'].\' | \'.$this->getValue(\"name\"); ?></title>\r\n	<meta name=\"keywords\" content=\"<?php print htmlspecialchars($meta_suchbegriffe); ?>\" />\r\n	<meta name=\"description\" content=\"<?php print htmlspecialchars($meta_beschreibung); ?>\" />\r\n\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/main.css\" media=\"screen\" />\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/navigation.css\" media=\"screen\" />\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/content.css\" media=\"screen\" />\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/default.css\" media=\"screen\" />\r\n\r\n\r\n</head>\r\n\r\n<body class=\"mainPage\">\r\n	<div>\r\n		<a name=\"top\" id=\"top\"></a>\r\n	</div>\r\n\r\n	<div id=\"site-content\">\r\n		<div id=\"column\">\r\n			\r\n			<div id=\"header\">\r\n				<div id=\"logo\">\r\n					<a href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>index.php\" title=\"Zur&uuml;ck zur Startseite\">REDAXO Demo</a>\r\n				</div>\r\n			</div>\r\n			\r\n			<div id=\"content\">\r\n\r\n				<div id=\"main-content\">\r\n\r\n					<div id=\"nav\">\r\n						REX_TEMPLATE[2]\r\n						<p class=\"copy\">&copy; by <a href=\"http://www.redaxo.de\">REDAXO</a></p>\r\n					</div>\r\n\r\n					<div id=\"main\">\r\n						<div id=\"main-block\">\r\n							<div id=\"main-teaser\">\r\n								Slogan: Einfach, flexibel, sinnvoll\r\n							</div>\r\n\r\n							<div id=\"main-content-block\">\r\n								REX_TEMPLATE[3]\r\n								REX_ARTICLE[]\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<br class=\"clear\" />\r\n\r\n				</div>\r\n\r\n			</div>\r\n\r\n			<div id=\"footer\">\r\n				<p class=\"floatRight\"><a href=\"http://www.redaxo.de\">REDAXO CMS</a> - SIMPLE DEMO | XHTML 1.0 Strict | pictures by <a href=\"http://www.photocase.com\">photocase.com</a></p>\r\n				<br class=\"clear\" />\r\n			</div>\r\n\r\n		</div>\r\n	</div>\r\n<div style=\"display:none;\">Eigene Templates sind besser - REDAXO</div>\r\n</body>\r\n</html>\r\n',1,'admin','admin',1239286105,1239286105,'a:2:{s:7:\"modules\";a:1:{i:1;a:1:{s:3:\"all\";s:1:\"1\";}}s:5:\"ctype\";a:0:{}}'),
-  (3,'','Navigation: Breadcrumb','<?php\r\n\r\n// ---------- BREADCRUMB\r\n\r\n// Beginne in der Wurzelkategorie\r\n// 1 Ebene Tief\r\n// Nicht aufklappen (hier egal da nur 1 Ebene)\r\n// Offline ausblenden \r\n\r\n$category_id = 0;\r\n$includeCurrent = TRUE;\r\n\r\n// navigation generator erstellen\r\n$nav = rex_navigation::factory();\r\n\r\necho \'<div id=\"breadcrumb\">\';\r\nif ($REX[\'CUR_CLANG\'] == 1)\r\n{\r\n  echo \'<p>You are here:</p>\'. $nav->getBreadcrumb(\'Startpage\', $includeCurrent, $category_id);\r\n}\r\nelse\r\n{\r\n  echo \'<p>Sie befinden sich hier:</p>\'. $nav->getBreadcrumb(\'Startseite\', $includeCurrent, $category_id);\r\n}\r\necho \'</div>\';\r\n?>',0,'admin','admin',1237380161,1237380161,'a:2:{s:7:\"modules\";a:1:{i:1;a:1:{s:3:\"all\";s:1:\"1\";}}s:5:\"ctype\";a:0:{}}'),
-  (2,'','Navigation: Links','<?php\r\n\r\n// navigation generator erstellen\r\n$nav = rex_navigation::factory();\r\n\r\n// ---------- HEAD NAVI\r\n\r\n// Beginne in der Wurzelkategorie\r\n// 1 Ebene Tief\r\n// Nicht aufklappen (hier egal da nur 1 Ebene)\r\n// Offline ausblenden\r\n\r\n$category_id = 0;\r\n$depth = 3;\r\n$open = FALSE;\r\n$ignore_offlines = TRUE;\r\n\r\necho $nav->get($category_id, $depth, $open, $ignore_offlines);\r\n\r\n?>',0,'admin','admin',1237373552,1237373552,'a:2:{s:7:\"modules\";a:1:{i:1;a:1:{s:3:\"all\";s:1:\"1\";}}s:5:\"ctype\";a:0:{}}');
+  (1,'','default','<?php\r\n\r\n\r\n// ------ DESCRIPTION/KEYWORDS\r\n$OOStartArticle = OOArticle::getArticleById($REX[\'START_ARTICLE_ID\'], $REX[\'CUR_CLANG\']);\r\n$meta_beschreibung = $OOStartArticle->getValue(\"art_description\");\r\n$meta_suchbegriffe = $OOStartArticle->getValue(\"art_keywords\");\r\n\r\nif($this->getValue(\"art_description\") != \"\")\r\n	$meta_beschreibung = $this->getValue(\"art_description\");\r\n	\r\nif($this->getValue(\"art_keywords\") != \"\")\r\n	$meta_suchbegriffe = $this->getValue(\"art_keywords\");\r\n\r\n\r\n?><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\r\n	\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"de\" lang=\"de\">\r\n<head>\r\n	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\r\n	<title><?php print $REX[\'SERVERNAME\'].\' | \'.$this->getValue(\"name\"); ?></title>\r\n	<meta name=\"keywords\" content=\"<?php print htmlspecialchars($meta_suchbegriffe); ?>\" />\r\n	<meta name=\"description\" content=\"<?php print htmlspecialchars($meta_beschreibung); ?>\" />\r\n\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/main.css\" media=\"screen\" />\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/navigation.css\" media=\"screen\" />\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/content.css\" media=\"screen\" />\r\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>files/default.css\" media=\"screen\" />\r\n\r\n\r\n</head>\r\n\r\n<body class=\"mainPage\">\r\n	<div>\r\n		<a name=\"top\" id=\"top\"></a>\r\n	</div>\r\n\r\n	<div id=\"site-content\">\r\n		<div id=\"column\">\r\n			\r\n			<div id=\"header\">\r\n				<div id=\"logo\">\r\n					<a href=\"<?php echo $REX[\'HTDOCS_PATH\'] ?>index.php\" title=\"Zur&uuml;ck zur Startseite\">REDAXO Demo</a>\r\n				</div>\r\n			</div>\r\n			\r\n			<div id=\"content\">\r\n\r\n				<div id=\"main-content\">\r\n\r\n					<div id=\"nav\">\r\n						REX_TEMPLATE[2]\r\n						<p class=\"copy\">&copy; by <a href=\"http://www.redaxo.de\">REDAXO</a></p>\r\n					</div>\r\n\r\n					<div id=\"main\">\r\n						<div id=\"main-block\">\r\n							<div id=\"main-teaser\">\r\n								Slogan: Einfach, flexibel, sinnvoll\r\n							</div>\r\n\r\n							<div id=\"main-content-block\">\r\n								REX_TEMPLATE[3]\r\n								REX_ARTICLE[]\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<br class=\"clear\" />\r\n\r\n				</div>\r\n\r\n			</div>\r\n\r\n			<div id=\"footer\">\r\n				<p class=\"floatRight\"><a href=\"http://www.redaxo.de\">REDAXO CMS</a> - SIMPLE DEMO | XHTML 1.0 Strict | pictures by <a href=\"http://www.photocase.com\">photocase.com</a></p>\r\n				<br class=\"clear\" />\r\n			</div>\r\n\r\n		</div>\r\n	</div>\r\n<div style=\"display:none;\">Eigene Templates sind besser - REDAXO</div>\r\n</body>\r\n</html>\r\n',1,'admin','admin',1239286105,1239286105,'a:2:{s:7:\"modules\";a:1:{i:1;a:1:{s:3:\"all\";s:1:\"1\";}}s:5:\"ctype\";a:0:{}}',0),
+  (3,'','Navigation: Breadcrumb','<?php\r\n\r\n// ---------- BREADCRUMB\r\n\r\n// Beginne in der Wurzelkategorie\r\n// 1 Ebene Tief\r\n// Nicht aufklappen (hier egal da nur 1 Ebene)\r\n// Offline ausblenden \r\n\r\n$category_id = 0;\r\n$includeCurrent = TRUE;\r\n\r\n// navigation generator erstellen\r\n$nav = rex_navigation::factory();\r\n\r\necho \'<div id=\"breadcrumb\">\';\r\nif ($REX[\'CUR_CLANG\'] == 1)\r\n{\r\n  echo \'<p>You are here:</p>\'. $nav->getBreadcrumb(\'Startpage\', $includeCurrent, $category_id);\r\n}\r\nelse\r\n{\r\n  echo \'<p>Sie befinden sich hier:</p>\'. $nav->getBreadcrumb(\'Startseite\', $includeCurrent, $category_id);\r\n}\r\necho \'</div>\';\r\n?>',0,'admin','admin',1237380161,1237380161,'a:2:{s:7:\"modules\";a:1:{i:1;a:1:{s:3:\"all\";s:1:\"1\";}}s:5:\"ctype\";a:0:{}}',0),
+  (2,'','Navigation: Links','<?php\r\n\r\n// navigation generator erstellen\r\n$nav = rex_navigation::factory();\r\n\r\n// ---------- HEAD NAVI\r\n\r\n// Beginne in der Wurzelkategorie\r\n// 1 Ebene Tief\r\n// Nicht aufklappen (hier egal da nur 1 Ebene)\r\n// Offline ausblenden\r\n\r\n$category_id = 0;\r\n$depth = 3;\r\n$open = FALSE;\r\n$ignore_offlines = TRUE;\r\n\r\necho $nav->get($category_id, $depth, $open, $ignore_offlines);\r\n\r\n?>',0,'admin','admin',1237373552,1237373552,'a:2:{s:7:\"modules\";a:1:{i:1;a:1:{s:3:\"all\";s:1:\"1\";}}s:5:\"ctype\";a:0:{}}',0);
 /*!40000 ALTER TABLE `rex_template` ENABLE KEYS */;
 UNLOCK TABLES;
 
