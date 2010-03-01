@@ -14,6 +14,8 @@ include $REX["INCLUDE_PATH"]."/layout/top.php";
 
 rex_title($I18N->msg('dashboard'), '');
 
+$contentFound = false;
+
 // ----- EXTENSION POINT
 $dashboard_notifications = array();
 $dashboard_notifications = rex_register_extension_point('DASHBOARD_NOTIFICATION', $dashboard_notifications);
@@ -32,6 +34,8 @@ if(count($dashboard_notifications) > 0)
   
   if($content != '')
   {
+    $contentFound = true;
+    
     $component = new rex_dashboard_component('notifications');
     $component->setTitle($I18N->msg('dashboard_notifications'));
     $component->setContent($content);
@@ -88,7 +92,12 @@ foreach($components as $format => $componentBlocks)
       
       foreach($componentBlock as $component)
       {
-        echo $component->get();
+        $cnt =& $component->get();
+        if($cnt != '')
+        {
+          echo $cnt;
+          $contentFound = true;
+        }
       }
       
       echo '  </div>
@@ -111,7 +120,12 @@ foreach($components as $format => $componentBlocks)
       echo '  <div class="rex-dashboard-column rex-dashboard-column-first">';
       foreach($componentBlock as $index => $component)
       {
-        echo $component->get();
+        $cnt =& $component->get();
+        if($cnt != '')
+        {
+          echo $cnt;
+          $contentFound = true;
+        }
         unset($componentBlock[$index]);
         
         $i++;
@@ -124,7 +138,12 @@ foreach($components as $format => $componentBlocks)
       echo '<div class="rex-dashboard-column">';
       foreach($componentBlock as $index => $component)
       {
-        echo $component->get();
+        $cnt =& $component->get();
+        if($cnt != '')
+        {
+          echo $cnt;
+          $contentFound = true;
+        }
         unset($componentBlock[$index]);
       }
       echo '</div>';
@@ -134,6 +153,11 @@ foreach($components as $format => $componentBlocks)
     }
   }
   unset($components[$format][$block]);
+}
+
+if(!$contentFound)
+{
+  echo rex_warning($I18N->msg('dashboard_no_content'));
 }
 
 include $REX["INCLUDE_PATH"]."/layout/bottom.php";
