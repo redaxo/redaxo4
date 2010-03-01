@@ -16,9 +16,12 @@ $update->setQuery("ALTER TABLE `rex_module_action` CHANGE `revision` `revision` 
 $update->setQuery("ALTER TABLE `rex_user` CHANGE `revision` `revision` INT( 11 ) NOT NULL DEFAULT '0';");
 $update->setQuery("ALTER TABLE `rex_template` CHANGE `revision` `revision` INT( 11 ) NOT NULL DEFAULT '0';");
 
+$update->setQuery("ALTER TABLE `rex_article` DROP `label`, DROP `url`");
+
 $update->setQuery("UPDATE `rex_article` SET `revision` = 0;");
 $update->setQuery("UPDATE `rex_article_slice` SET `revision` = 0;");
 
+// add indizies
 $update->setQuery("ALTER TABLE rex_article ADD INDEX `id` (`id`), ADD INDEX `clang` (`clang`), ADD UNIQUE INDEX `find_articles` (`id`, `clang`), ADD INDEX `re_id` (`re_id`);");
 $update->setQuery("ALTER TABLE rex_article_slice ADD INDEX `id` (`id`), ADD INDEX `clang` (`clang`), ADD INDEX `re_article_slice_id` (`re_article_slice_id`), ADD INDEX `article_id` (`article_id`), ADD INDEX `find_slices` (`clang`, `article_id`);");
 $update->setQuery("ALTER TABLE rex_file ADD INDEX `re_file_id` (`re_file_id`), ADD INDEX `category_id` (`category_id`);");
@@ -26,11 +29,11 @@ $update->setQuery("ALTER TABLE rex_file_category DROP PRIMARY KEY, ADD PRIMARY K
 $update->setQuery("ALTER TABLE rex_module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);");
 $update->setQuery("ALTER TABLE rex_user ADD UNIQUE INDEX `login` (`login`(50));");
 
-
 $update->setQuery("ALTER TABLE rex_62_type ADD UNIQUE INDEX `login` (`login`(50));");
-
 $update->setQuery("UPDATE rex_62_type set dbtype='text', dblength='0' where label='REX_MEDIALIST_BUTTON' or label='REX_LINKLIST_BUTTON'");
 
+$update->setQuery("ALTER TABLE `rex_62_params` CHANGE `validate` `validate` TEXT DEFAULT NULL");
+$update->setQuery("ALTER TABLE `rex_62_params` ADD `restrictions` TEXT NULL AFTER `validate`");
 // $update->setQuery("");
 
 ?>
