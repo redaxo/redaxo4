@@ -88,7 +88,7 @@ if($REX['REDAXO'])
 		  'href' => 'index.php?page=image_manager&subpage=types',
 		  'active_when' => array(
 		    'page'=>'image_manager',
-		    'subpage'=>'types'),
+		    'subpage'=>array('types','effects')),
 		  'title' => $I18N->msg('imanager_subpage_types')),		
   	array (
   	  'href' => 'index.php?page=image_manager&subpage=clear_cache',

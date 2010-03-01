@@ -366,7 +366,8 @@ class rex_be_navigation
   {
     foreach($a as $k => $v)
     {
-      if(rex_request($k) != $v)
+      $v = (array)  $v;
+      if(!in_array(rex_request($k), $v))
       {
         return FALSE;
       }
