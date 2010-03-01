@@ -9,5 +9,22 @@
  * @version svn:$Id$
  */
 
-$REX['ADDON']['install']['editme'] = 1;
-// $REX['ADDON']['installmsg']['editme'] = "Leider konnte nichts installiert werden da. ***** ";
+$error = '';
+if (!OOAddon::isAvailable('xform'))
+{
+  // Installation nicht erfolgreich
+  $error = 'AddOn "XForm" ist nicht installiert und aktiviert.';
+
+}elseif(OOAddon::getVersion('xform') < '1.5')
+{
+  $error = 'Das AddOn "XForm" muss mindestens in der Version 1.5 vorhanden sein.';
+}
+
+if($error == '')
+{
+  $REX['ADDON']['install']['editme'] = 1;
+}
+else
+{
+   $REX['ADDON']['installmsg']['editme'] = $error;
+}
