@@ -458,7 +458,7 @@ class rex_article_base
   }
 
   // ---- Artikelweite globale variablen werden ersetzt
-  /*protected*/ function replaceCommonVars($content)
+  /*public*/ function replaceCommonVars($content, $template_id = null)
   {
     global $REX;
 
@@ -478,6 +478,9 @@ class rex_article_base
         $user_login = '';
       }
     }
+    
+    if (!$template_id)
+      $template_id = $this->getTemplateId();
 
     static $search = array(
        'REX_ARTICLE_ID',
@@ -492,7 +495,7 @@ class rex_article_base
        $this->article_id,
        $this->category_id,
        $this->clang,
-       $this->getTemplateId(),
+       $template_id,
        $user_id,
        $user_login
     );
