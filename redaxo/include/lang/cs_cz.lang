@@ -645,7 +645,7 @@ var_medialist_move_bottom  = Vybrané médium pøesunout nakonec
 # redaxo\include\classes\variables\class.rex_var_link.inc.php
 var_link_open = Vybrat link
 var_link_new = Vlo¾it nový link
-var_link_remove = Smazat vybraný link
+var_link_delete = Smazat vybraný link
 var_linklist_move_top = Vybraný link pøesunout na zaèátek
 var_linklist_move_up = Vybraný link pøesunout nahoru
 var_linklist_move_down = Vybraný link pøesunout dolù

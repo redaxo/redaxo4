@@ -658,7 +658,7 @@ var_medialist_move_bottom  = Ausgewähltes Medium an das Ende verschieben
 # redaxo\include\classes\variables\class.rex_var_link.inc.php
 var_link_open = Link auswählen
 var_link_new = Neuen Link hinzufügen
-var_link_remove = Ausgewählten Link löschen
+var_link_delete = Ausgewählten Link löschen
 var_linklist_move_top = Ausgewählten Link an den Anfang verschieben
 var_linklist_move_up = Ausgewählten Link nach oben verschieben
 var_linklist_move_down = Ausgewählten Link nach unten verschieben
