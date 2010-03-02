@@ -52,11 +52,10 @@ function rex_a659_statistics()
     $stats['total_clangs'] = 0;
   }
   
-  $result = $sql->getArray('SELECT COUNT(*) as count FROM '. $REX['TABLE_PREFIX'] .'template');
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'template GROUP BY revision ORDER BY updatedate DESC LIMIT 1');
   if(count($result) > 0)
   {
     $stats['total_templates'] = $result[0]['count'];
-	  $result = $sql->getArray('SELECT updatedate FROM '. $REX['TABLE_PREFIX'] .'template ORDER BY updatedate DESC LIMIT 1');
     $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
   }
   else
