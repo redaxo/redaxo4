@@ -17,7 +17,7 @@ $func    = rex_request('func', 'string');
 $oid     = rex_request('oid', 'string');
 $table   = $REX['TABLE_PREFIX'].'630_cronjobs';
 
-rex_title($I18N->msg("cronjob_title"), $REX['ADDON']['cronjob']['SUBPAGES']);
+rex_title($I18N->msg("cronjob_title"), $REX['ADDON']['navigation']['cronjob']['subpages']);
 
 echo "\n  <div class=\"rex-addon-output-v2\">\n  ";
 

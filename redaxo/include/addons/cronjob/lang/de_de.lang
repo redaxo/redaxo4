@@ -43,6 +43,7 @@ cronjob_status_error = Fehler beim Ändern des Status!
 
 cronjob_error_no_name = Es muss ein Name eingegeben werden!
 
+cronjob_log = Log
 cronjob_log_year = Jahr
 cronjob_log_month = Monat
 cronjob_log_ok = OK

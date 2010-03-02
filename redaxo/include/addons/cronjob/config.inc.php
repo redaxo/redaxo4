@@ -25,7 +25,20 @@ if($REX['REDAXO'])
   $REX['ADDON']['supportpage']['cronjob'] = 'forum.redaxo.de';
   
   // Subpages
-  $REX['ADDON']['cronjob']['SUBPAGES'] = array(array('',$I18N->msg('cronjob_title')), array('log','Log'));
+  $REX['ADDON']['navigation']['cronjob']['subpages'] = array(
+    array(
+      'href' => 'index.php?page=cronjob',
+      'active_when' => array(
+        'page'=>'cronjob',
+        'subpage'=>''),
+      'title' => $I18N->msg('cronjob_title')), 
+    array(
+      'href' => 'index.php?page=cronjob&subpage=log',
+      'active_when' => array(
+        'page'=>'cronjob',
+        'subpage'=>'log'),
+      'title' => $I18N->msg('cronjob_log'))
+  );
   
   $EP = 'PAGE_CHECKED';
 
