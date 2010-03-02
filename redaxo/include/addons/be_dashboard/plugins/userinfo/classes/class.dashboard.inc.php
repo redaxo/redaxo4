@@ -218,8 +218,6 @@ class rex_media_component extends rex_dashboard_component
     $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
     $list->setColumnFormat('updatedate', 'strftime', 'datetime');
   
-    $list->setNoRowsMessage($I18N->msg('templates_not_found'));
-
     $this->setContent($list->get());
   }
 }
