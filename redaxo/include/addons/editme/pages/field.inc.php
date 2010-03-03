@@ -27,7 +27,7 @@ if($tb->getRows()==0)
 	echo '<br />
 	 <table cellpadding="5" class="rex-table">
 	 <tr>
-	   <td><a href="index.php?page='.$page.'&amp;subpage="><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td>
+	   <td><a href="index.php?page='.$page.'&amp;subpage="><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td>
 	 </tr>
 	 </table>';
 	$func = "nothing";
@@ -236,7 +236,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 		echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 		echo $form;
 		echo '</div></div>';
-		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;table_name='.$table_name.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;table_name='.$table_name.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
 		$func = "";
 	}else
 	{

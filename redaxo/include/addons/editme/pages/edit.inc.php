@@ -144,7 +144,7 @@ if($func == "add" || $func == "edit")
 		echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
 		echo $form;
 		echo '</div></div>';
-		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
 		$show_list = FALSE;
 	}else
 	{

@@ -4,6 +4,7 @@ editme_choosenadd_description = Bitte wählen Sie Feld aus, welches Sie bei Ihrer
 
 em_overview = Übersicht
 em_generate = Tabellen generieren
+em_back_to_overview = Zurück zur Übersicht
 
 editme_addfield = Feld hinzufügen
 editme_editfield = Feld bearbeiten
