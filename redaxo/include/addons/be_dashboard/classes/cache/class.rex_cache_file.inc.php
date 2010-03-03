@@ -274,8 +274,10 @@ class rex_file_cache extends rex_cache
 
     if (!is_dir(dirname($path)))
     {
+      // STM: Keep PHP4 compat
+      // mkdir(dirname($path), 0777, true);
       // create directory structure if needed
-      mkdir(dirname($path), 0777, true);
+      mkdir(dirname($path), 0777);
     }
 
     $tmpFile = tempnam(dirname($path), basename($path));
