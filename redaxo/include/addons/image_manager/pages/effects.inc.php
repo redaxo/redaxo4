@@ -56,6 +56,9 @@ if ($func == '')
 	$list->removeColumn('type_id');	
 	$list->removeColumn('parameters');	
 	$list->setColumnLabel('effect',$I18N->msg('imanager_type_name'));
+	
+	// TODO Prio Spalte um Reihenfolge der Filter festzulegen
+	$list->removeColumn('prior');	
 
 	// icon column
   $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('imanager_create_type') .'</span></a>';
