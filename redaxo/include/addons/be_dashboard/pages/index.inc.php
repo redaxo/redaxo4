@@ -16,36 +16,17 @@ rex_title($I18N->msg('dashboard'), '');
 
 $contentFound = false;
 
-// ----- EXTENSION POINT
-$dashboard_notifications = array();
-$dashboard_notifications = rex_register_extension_point('DASHBOARD_NOTIFICATION', $dashboard_notifications);
-
-if(count($dashboard_notifications) > 0)
+$component = new rex_notification_component();
+$content   =& $component->get();
+if($content != '')
 {
-  $content = '';
-  foreach($dashboard_notifications as $notification)
-  {
-    if(rex_dashboard_notification::isValid($notification) && $notification->checkPermission())
-    {
-      $content .= $notification->get();
-    }
-  }
-  unset($dashboard_notifications);
+  $contentFound = true;
   
-  if($content != '')
-  {
-    $contentFound = true;
-    
-    $component = new rex_dashboard_component('notifications');
-    $component->setTitle($I18N->msg('dashboard_notifications'));
-    $component->setContent($content);
-    
-  	echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
-  	        <div class="rex-dashboard-column rex-dashboard-column-first">
-              '.$component->get().'
-            </div>
-          </div>';
-  }
+	echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
+	        <div class="rex-dashboard-column rex-dashboard-column-first">
+            '.$content.'
+          </div>
+        </div>';
 }
 
 // ----- EXTENSION POINT
