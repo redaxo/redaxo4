@@ -390,12 +390,12 @@ div#rex-form-structure-category p.rex-button-add a {
 .rex-i-toggleview {
   /*TODO */
  	background-image: url(icon_toggleview.gif);
-	background-image: url(file_add.gif);
+	background-image: url(file_del.gif);
 }
 .rex-i-toggleview-off {
   /*TODO backport to default skin */
  	background-image: url(icon_toggleview_off.gif);
-	background-image: url(file_del.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-user {
 	background-image: url(user.gif);
