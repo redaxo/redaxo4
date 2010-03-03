@@ -134,6 +134,11 @@ class rex_list
 
     // --------- Load Data
     $this->sql->setQuery($this->prepareQuery($query));
+    if($this->sql->hasError())
+    {
+      echo rex_warning($this->sql->getError());
+      return;
+    }
 
     foreach($this->sql->getFieldnames() as $columnName)
       $this->columnNames[] = $columnName;
