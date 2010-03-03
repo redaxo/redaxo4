@@ -292,19 +292,17 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-widget"';
         
         $paramArray = rex_split_string($params);
-        $category = '';
-        if(isset($paramArray['category']))
-          $category = $paramArray['category'];
-        $types = '';
-        if(isset($paramArray['types']))
-          $types = $paramArray['types'];
 
         $rexInput = rex_input::factory('mediabutton');
         $rexInput->setButtonId($media_id);
-        $rexInput->setCategoryId($category);
-        $rexInput->setTypes($types);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($dbvalues_esc[0]);
+
+        if(isset($paramArray['category']))
+          $rexInput->setCategoryId($paramArray['category']);
+        if(isset($paramArray['types']))
+          $rexInput->setTypes($paramArray['types']);
+
         $id = $rexInput->getAttribute('id');
         $field = $rexInput->getHtml();
         
@@ -317,20 +315,18 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-widget"';
         
         $paramArray = rex_split_string($params);
-        $category = '';
-        if(isset($paramArray['category']))
-          $category = $paramArray['category'];
-        $types = '';
-        if(isset($paramArray['types']))
-          $types = $paramArray['types'];
 
         $name .= '[]';
         $rexInput = rex_input::factory('medialistbutton');
         $rexInput->setButtonId($mlist_id);
-        $rexInput->setCategoryId($category);
-        $rexInput->setTypes($types);
         $rexInput->setAttribute('name', $name);
-        $rexInput->setValue(implode(',', $dbvalues_esc));
+        $rexInput->setValue($dbvalues_esc[0]);
+
+        if(isset($paramArray['category']))
+          $rexInput->setCategoryId($paramArray['category']);
+        if(isset($paramArray['types']))
+          $rexInput->setTypes($paramArray['types']);
+
         $id = $rexInput->getAttribute('id');
         $field = $rexInput->getHtml();
         
@@ -706,6 +702,7 @@ function rex_a62_media_is_in_use($params)
       default :
         trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);
     }
+    $sql->next();
   }
 
   $query .= "\n" .'UNION'. "\n";
