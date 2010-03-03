@@ -682,7 +682,7 @@ if ($subpage == '')
 
     // Eine titel Spalte schätzen
     $alt = '';
-    foreach(array('title', 'med_description') as $col)
+    foreach(array('title') as $col)
     {
       if($files->hasValue($col) && $files->getValue($col) != '')
       {
