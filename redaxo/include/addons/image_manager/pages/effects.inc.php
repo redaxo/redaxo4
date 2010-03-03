@@ -119,7 +119,8 @@ elseif ($func == 'add' && $type_id > 0 ||
       currentShown.show();
     }).change();
   })(jQuery);
-  </script>';
+  
+  //--></script>';
 	
   $fieldContainer =& $form->addContainerField('parameters');
   $fieldContainer->setAttribute('style', 'display: none');
