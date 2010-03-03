@@ -49,3 +49,28 @@ function rex_a657_check_version()
   
   return $notice;
 }
+
+function rex_a657_check_connectivity($url, $port = 80, $timeout = 3)
+{
+  $fp = @fsockopen($url, $port);
+  if (!$fp) {
+    // unable to open socket
+    return false;
+  }
+  else
+  {
+    fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
+    stream_set_timeout($fp, $timeout);
+    $res = fread($fp, 100);
+
+    $info = stream_get_meta_data($fp);
+    fclose($fp);
+
+    if ($info['timed_out']) {
+      // connection timeout
+      return false;
+    }
+  }
+  
+  return true;
+}
