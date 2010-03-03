@@ -680,10 +680,12 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
 function rex_a62_media_is_in_use($params)
 {
+  global $REX;
+  
   $query = $params['subject'];
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT `name`, `type` FROM `rex_62_params` WHERE `type` IN(6,7)');
+  $sql->setQuery('SELECT `name`, `type` FROM `'. $REX['TABLE_PREFIX'] .'62_params` WHERE `type` IN(6,7)');
 
   $rows = $sql->getRows();
   if($rows == 0)
@@ -707,7 +709,7 @@ function rex_a62_media_is_in_use($params)
   }
 
   $query .= "\n" .'UNION'. "\n";
-  $query .='SELECT DISTINCT id, clang FROM rex_article WHERE '. implode(' OR ', $where);
+  $query .='SELECT DISTINCT id, clang FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. implode(' OR ', $where);
 
   return $query;
 }

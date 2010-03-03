@@ -68,7 +68,7 @@ elseif ($func == 'updateinfos')
   }
   
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM rex_template WHERE id='. $neu_defaulttemplateid .' AND active=1');
+  $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'template WHERE id='. $neu_defaulttemplateid .' AND active=1');
   if($sql->getRows() != 1 && $neu_defaulttemplateid != 0)
   {
     $warning .= $I18N->msg('settings_invalid_default_template')."<br />";
