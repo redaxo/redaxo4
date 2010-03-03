@@ -13,8 +13,6 @@
 // rex_request();
 
 $func = rex_request('func', 'string');
-$max_cachefiles = rex_request('max_cachefiles', 'int');
-$max_filters = rex_request('max_filters', 'int');
 $max_resizekb = rex_request('max_resizekb', 'int');
 $max_resizepixel = rex_request('max_resizepixel', 'int');
 $jpg_quality = rex_request('jpg_quality', 'int');
@@ -27,14 +25,11 @@ if ($func == 'update')
   if($jpg_quality > 100) $jpg_quality = 100;
   else if ($jpg_quality < 0) $jpg_quality = 0;
 
-	$REX['ADDON']['image_manager']['max_cachefiles'] = $max_cachefiles;
-	$REX['ADDON']['image_manager']['max_filters'] = $max_filters;
 	$REX['ADDON']['image_manager']['max_resizekb'] = $max_resizekb;
 	$REX['ADDON']['image_manager']['max_resizepixel'] = $max_resizepixel;
 	$REX['ADDON']['image_manager']['jpg_quality'] = $jpg_quality;
 
-	$content = '$REX[\'ADDON\'][\'image_manager\'][\'max_cachefiles\'] = '.$max_cachefiles.';
-$REX[\'ADDON\'][\'image_manager\'][\'max_filters\'] = '.$max_filters.';
+	$content = '
 $REX[\'ADDON\'][\'image_manager\'][\'max_resizekb\'] = '.$max_resizekb.';
 $REX[\'ADDON\'][\'image_manager\'][\'max_resizepixel\'] = '.$max_resizepixel.';
 $REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = '.$jpg_quality.';
@@ -65,20 +60,6 @@ echo '
 			<input type="hidden" name="page" value="image_manager" />
 			<input type="hidden" name="subpage" value="settings" />
 			<input type="hidden" name="func" value="update" />
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_cachefiles">'. $I18N->msg('imanager_max_cache_files') .'</label>
-					<input class="rex-form-text" type="text" id="max_cachefiles" name="max_cachefiles" value="'. htmlspecialchars($REX['ADDON']['image_manager']['max_cachefiles']).'" />
-				</p>
-			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_filters">'. $I18N->msg('imanager_max_filters') .'</label>
-					<input class="rex-form-text" type="text" id="max_filters" name="max_filters" value="'. htmlspecialchars($REX['ADDON']['image_manager']['max_filters']).'" />
-				</p>
-			</div>
 			
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-text">

@@ -24,8 +24,6 @@ $REX['PERM'][] = 'image_manager[]';
 
 
 // --- DYN
-$REX['ADDON']['image_manager']['max_cachefiles'] = 5;
-$REX['ADDON']['image_manager']['max_filters'] = 5;
 $REX['ADDON']['image_manager']['max_resizekb'] = 1000;
 $REX['ADDON']['image_manager']['max_resizepixel'] = 1500;
 $REX['ADDON']['image_manager']['jpg_quality'] = 85;
@@ -78,18 +76,18 @@ if($REX['REDAXO'])
   	    'page'=>'image_manager',
   	    'subpage'=>''),
   	  'title' => $I18N->msg('imanager_subpage_desc')),
-  	array (
-  	  'href' => 'index.php?page=image_manager&subpage=settings',
-  	  'active_when' => array(
-  	    'page'=>'image_manager',
-  	    'subpage'=>'settings'),
-  	  'title' => $I18N->msg('imanager_subpage_config')),
 		array (
 		  'href' => 'index.php?page=image_manager&subpage=types',
 		  'active_when' => array(
 		    'page'=>'image_manager',
 		    'subpage'=>array('types','effects')),
 		  'title' => $I18N->msg('imanager_subpage_types')),		
+  	array (
+  	  'href' => 'index.php?page=image_manager&subpage=settings',
+  	  'active_when' => array(
+  	    'page'=>'image_manager',
+  	    'subpage'=>'settings'),
+  	  'title' => $I18N->msg('imanager_subpage_config')),
   	array (
   	  'href' => 'index.php?page=image_manager&subpage=clear_cache',
   	  'active_when' => array(
