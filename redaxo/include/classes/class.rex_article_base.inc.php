@@ -435,6 +435,9 @@ class rex_article_base
           {
             // Slice normal parsen
             $tmp = $var->getBEInput($sql,$content);
+            // Werte wieder zuruecksetzen, damit die naechsten Slices wieder
+            // die Werte aus der DB verwenden
+            $sql->flushValues();
           }
         }else
         {
