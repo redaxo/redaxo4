@@ -17,7 +17,7 @@ Version 4.3 (2010-xx-xx)
   * Metainfo: 
     - Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
     - Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhardt]
-    - Bei REX_MEDIA_BUTTON und REX_MEDIALIST_BUTTON kann man Parameter category und types angeben,
+    - Bei REX_MEDIA_BUTTON und REX_MEDIALIST_BUTTON kann man Parameter category, types und preview angeben,
       bei REX_LINK_BUTTON und REX_LINKLIST_BUTTON Parameter category [Gregor.Harlan]
   * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
     - neue Funktion OOMediaCategory::getChildrenById($category_id)
