@@ -15,7 +15,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
 		global $REX;
 		
     // -------------------------------------- CONFIG
-    $brandimage = $this->params['brandimage'];
+    $brandimage = $REX['MEDIAFOLDER'] .'/'. $this->params['brandimage'];
     if(!file_exists($brandimage))
       $brandimage = dirname(__FILE__). '/../../media/brand.gif';
       
