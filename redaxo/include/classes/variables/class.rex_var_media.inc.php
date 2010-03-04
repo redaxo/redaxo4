@@ -287,7 +287,7 @@ class rex_var_media extends rex_var
 						<a href="#" class="rex-icon-file-open" onclick="openREXMedia(' . $id . ',\'' . $open_params . '\');return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
 						<a href="#" class="rex-icon-file-add" onclick="addREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_new') .'"'. rex_tabindex() .'></a>
 						<a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_remove') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-view" onclick="viewREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="rex-icon-file-view" onclick="viewREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_view') .'"'. rex_tabindex() .'></a>
 					</span>
         </p>
         <div class="rex-media-preview"></div>
@@ -360,7 +360,7 @@ class rex_var_media extends rex_var
 						<a href="#" class="rex-icon-file-open" onclick="openREXMedialist(' . $id . ',\'' . $open_params . '\');return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
 						<a href="#" class="rex-icon-file-add" onclick="addREXMedialist('. $id .');return false;" title="'. $I18N->msg('var_media_new') .'"'. rex_tabindex() .'></a>
 						<a href="#" class="rex-icon-file-delete" onclick="deleteREXMedialist(' . $id . ');return false;" title="'. $I18N->msg('var_media_remove') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-view" onclick="viewREXMedialist(' . $id . ');return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="rex-icon-file-view" onclick="viewREXMedialist(' . $id . ');return false;" title="'. $I18N->msg('var_media_view') .'"'. rex_tabindex() .'></a>
 					</span>
         </p>
        	<div class="rex-media-preview"></div>
