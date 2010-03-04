@@ -172,7 +172,8 @@ class rex_article_editor extends rex_article
             $obj->setACValues($artDataSql, $REX_ACTION);
           }
 
-          $slice_content .= $this->editSlice($artDataSql, $RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID], $RE_MODUL_ID[$I_ID]);
+          $slice_content .= $this->editSlice($RE_CONTS[$I_ID],$RE_MODUL_IN[$I_ID],$RE_CONTS_CTYPE[$I_ID], $RE_MODUL_ID[$I_ID]);
+          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
         else
         {
@@ -424,7 +425,7 @@ class rex_article_editor extends rex_article
   }
 
   // ----- EDIT Slice
-  /*public*/ function editSlice(&$sql, $RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
+  /*public*/ function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
   {
     global $REX, $I18N;
 
@@ -476,7 +477,6 @@ class rex_article_editor extends rex_article
          //-->
       </script>';
 
-    $slice_content = $this->replaceVars($sql, $slice_content);
     return $slice_content;
   }
 }
