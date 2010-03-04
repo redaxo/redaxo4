@@ -1790,6 +1790,11 @@ class rex_form_widget_media_element extends rex_form_element
   {
     $this->args['types'] = $types;
   }
+  
+  function setPreview($preview = true)
+  {
+    $this->args['preview'] = $preview;
+  }
 
   function formatElement()
   {
@@ -1825,6 +1830,11 @@ class rex_form_widget_medialist_element extends rex_form_element
   function setTypes($types)
   {
     $this->args['types'] = $types;
+  }
+  
+  function setPreview($preview = true)
+  {
+    $this->args['preview'] = $preview;
   }
 
   function formatElement()

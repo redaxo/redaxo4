@@ -28,6 +28,11 @@ class rex_input_mediabutton extends rex_input
     $this->args['types'] = $types;
   }
   
+  function setPreview($preview = true)
+  {
+    $this->args['preview'] = $preview;
+  }
+  
   function getHtml()
   {
     $buttonId = $this->buttonId;

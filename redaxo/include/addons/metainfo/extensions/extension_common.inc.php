@@ -302,6 +302,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $rexInput->setCategoryId($paramArray['category']);
         if(isset($paramArray['types']))
           $rexInput->setTypes($paramArray['types']);
+        if(isset($paramArray['preview']))
+          $rexInput->setPreview($paramArray['preview']);
 
         $id = $rexInput->getAttribute('id');
         $field = $rexInput->getHtml();
@@ -326,6 +328,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $rexInput->setCategoryId($paramArray['category']);
         if(isset($paramArray['types']))
           $rexInput->setTypes($paramArray['types']);
+        if(isset($paramArray['preview']))
+          $rexInput->setPreview($paramArray['preview']);
 
         $id = $rexInput->getAttribute('id');
         $field = $rexInput->getHtml();
