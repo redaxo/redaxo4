@@ -412,6 +412,7 @@ class rex_article_base
 
     $tmp = '';
     $sliceId = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+    $flushValues = false;
 
     foreach($REX['VARIABLES'] as $var)
     {
@@ -429,7 +430,7 @@ class rex_article_base
             // damit die nächsten Slices wieder die Werte aus der DB verwenden
             $var->setACValues($sql,$REX['ACTION']);
             $tmp = $var->getBEInput($sql,$content);
-            $sql->flushValues();
+            $flushValues = true;
           }
           else
           {
@@ -437,7 +438,7 @@ class rex_article_base
             $tmp = $var->getBEInput($sql,$content);
             // Werte wieder zuruecksetzen, damit die naechsten Slices wieder
             // die Werte aus der DB verwenden
-            $sql->flushValues();
+            $flushValues = true;
           }
         }else
         {
@@ -456,6 +457,9 @@ class rex_article_base
         $content = $tmp;
       }
     }
+    
+    if ($flushValues)
+      $sql->flushValues();
 
     return $content;
   }
