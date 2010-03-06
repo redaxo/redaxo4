@@ -84,6 +84,7 @@ class rex_effect_resize extends rex_effect_abstract
 		}
 		else if ($image->getFormat() == 'GIF')
 		{
+		  $gdimage =& $image->getImage();
 			$colorTransparent = imagecolortransparent($gdimage);
 			imagepalettecopy($gdimage, $des);
 			if($colorTransparent>0)
