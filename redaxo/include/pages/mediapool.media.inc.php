@@ -231,21 +231,21 @@ if ($subpage == "detail")
           <span class="rex-form-read" id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
         </p>
       </div>';
-      $imgn = '../files/'. $fname .'" width="'. $rfwidth;
-      $img_max = '../files/'. $fname;
+      $imgn = $REX['HTDOCS_PATH'] .'files/'. $fname .'" width="'. $rfwidth;
+      $img_max = $REX['HTDOCS_PATH'] .'files/'. $fname;
 
-      if (!file_exists($REX['INCLUDE_PATH'].'/../../files/'. $fname))
+      if (!file_exists($REX['MEDIAFOLDER'] .'/'. $fname))
       {
         $imgn = 'media/mime-error.gif';
-      }else if ($thumbs && $rfwidth>199)
+      }else if ($thumbs)
       {
         if ($image_manager)
         {
-          $imgn = '../index.php?rex_img_type=rex_mediapool_detail&amp;rex_img_file='. $encoded_fname;
-          $img_max = '../index.php?rex_img_type=rex_mediapool_maximized&amp;rex_img_file='. $encoded_fname;
+          $imgn = $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_detail&amp;rex_img_file='. $encoded_fname;
+          $img_max = $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_maximized&amp;rex_img_file='. $encoded_fname;
         }
-        else if($image_resize)
-          $imgn = '../index.php?rex_resize=200a__'. $encoded_fname;
+        else if($image_resize && $rfwidth>199)
+          $imgn = $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_resize=200a__'. $encoded_fname;
       }
 
       $add_image = '<div class="rex-mediapool-detail-image">
@@ -721,13 +721,13 @@ if ($subpage == '')
 
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="../files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] .'files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
-          $thumbnail = '<img src="../index.php?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+          $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
         }else if($image_resize)
         {
-          $thumbnail = '<img src="../index.php?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+          $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
         }
       }
     }
