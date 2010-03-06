@@ -69,7 +69,7 @@ class rex_article_editor extends rex_article
       {
         $msg = '';
 
-        if($this->slice_id == $RE_CONTS[$I_ID])
+        if($this->function == 'edit' && $this->slice_id == $RE_CONTS[$I_ID])
         {
           if($this->warning != '')
           {
@@ -353,8 +353,19 @@ class rex_article_editor extends rex_article
       
       $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("eingabe"));
       
+      $msg = '';
+      if($this->warning != '')
+      {
+        $msg .= rex_warning($this->warning);
+      }
+      if($this->info != '')
+      {
+        $msg .= rex_info($this->info);
+      }
+      
       $slice_content = '
         <a name="addslice"></a>
+        '. $msg .'
         <div class="rex-form rex-form-content-editmode-add-slice">
         <form action="index.php#slice'. $I_ID .'" method="post" id="REX_FORM" enctype="multipart/form-data">
           <fieldset class="rex-form-col-1">
@@ -407,18 +418,6 @@ class rex_article_editor extends rex_article
            //-->
         </script>';
 
-      // Beim Add hier die Meldung ausgeben
-      if($this->slice_id == 0)
-      {
-        if($this->warning != '')
-        {
-          echo rex_warning($this->warning);
-        }
-        if($this->info != '')
-        {
-          echo rex_info($this->info);
-        }
-      }
     }
     
     return $slice_content;
