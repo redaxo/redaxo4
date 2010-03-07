@@ -13,6 +13,7 @@ Version 4.3 (2010-xx-xx)
   * jQuery update auf 1.4.2 [Markus.Staab]
   * Templates können auf Kategorien eingeschraenkt werden [Jan.Kristinus]
   * Rootkategorien koennen pro Benutzer definiert werden (Mountpoints) [Jan.Kristinus]
+  * Artikel können in Kategorien umgewandelt werden, leere Kategorien in Artikel [Gregor.Harlan]
   * Actions: PreView koennen auch bei ADD verwendet werden (z.b. default Werte Eingabefelder) [Markus.Staab]
   * Metainfo: 
     - Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
@@ -44,6 +45,8 @@ Version 4.3 (2010-xx-xx)
   * neue Extension Points:
     - ART_CONTENT_UPDATED [Jan.Kristinus]
     - ART_TO_STARTPAGE [Dave.Holloway]
+    - ART_TO_CAT [Gregor.Harlan]
+    - CAT_TO_ART [Gregor.Harlan]
     - REX_FORM_SAVED [Gregor.Harlan]
   * neue Extension Point Parameter:
     - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]

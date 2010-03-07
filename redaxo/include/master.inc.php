@@ -138,6 +138,8 @@ $REX['EXTPERM'][] = 'copyContent[]';
 $REX['EXTPERM'][] = 'publishArticle[]';
 $REX['EXTPERM'][] = 'publishCategory[]';
 $REX['EXTPERM'][] = 'article2startpage[]';
+$REX['EXTPERM'][] = 'article2category[]';
+$REX['EXTPERM'][] = 'category2article[]';
 
 // ----- extras
 $REX['EXTRAPERM'] = array();

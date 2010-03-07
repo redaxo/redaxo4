@@ -391,6 +391,104 @@ function rex_article2startpage($neu_id){
 }
 
 /**
+ * Konvertiert einen Artikel in eine Kategorie
+ *
+ * @param int $art_id  Artikel ID des Artikels, der in eine Kategorie umgewandelt werden soll
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
+ */
+function rex_article2category($art_id){
+
+  global $REX;
+  
+  $sql = rex_sql::factory();
+
+  // LANG SCHLEIFE
+  foreach($REX['CLANG'] as $clang => $clang_name)
+  {
+    // artikel
+    $sql->setQuery('select re_id, name from '.$REX['TABLE_PREFIX']."article where id=$art_id and startpage=0 and clang=$clang");
+    
+    if (!isset($re_id))
+      $re_id = $sql->getValue('re_id');
+
+    // artikel updaten
+    $sql->setTable($REX['TABLE_PREFIX']."article");
+    $sql->setWhere("id=$art_id and clang=". $clang);
+    $sql->setValue('startpage', 1);
+    $sql->setValue('catname', $sql->getValue('name'));
+    $sql->setValue('catprior', 100);
+    $sql->update();
+    
+    rex_newCatPrio($re_id, $clang, 0, 100);
+  }
+
+  rex_deleteCacheArticleLists($re_id);
+  rex_deleteCacheArticle($art_id);
+
+  foreach($REX['CLANG'] as $clang => $clang_name)
+  {
+    rex_register_extension_point('ART_TO_CAT', '', array (
+      'id' => $art_id,
+      'clang' => $clang,
+    ));
+  }
+          
+  return true;
+}
+
+/**
+ * Konvertiert eine Kategorie in einen Artikel
+ *
+ * @param int $art_id  Artikel ID der Kategorie, die in einen Artikel umgewandelt werden soll
+ * 
+ * @return boolean TRUE bei Erfolg, sonst FALSE
+ */
+function rex_category2article($art_id){
+
+  global $REX;
+  
+  $sql = rex_sql::factory();
+  
+  // Kategorie muss leer sein
+  $sql->setQuery('SELECT pid FROM '. $REX['TABLE_PREFIX'] .'article WHERE re_id='. $art_id .' LIMIT 1');
+  if ($sql->getRows() != 0)
+    return false;
+
+  // LANG SCHLEIFE
+  foreach($REX['CLANG'] as $clang => $clang_name)
+  {
+    // artikel
+    $sql->setQuery('select re_id, name from '.$REX['TABLE_PREFIX']."article where id=$art_id and startpage=1 and clang=$clang");
+    
+    if (!isset($re_id))
+      $re_id = $sql->getValue('re_id');
+
+    // artikel updaten
+    $sql->setTable($REX['TABLE_PREFIX']."article");
+    $sql->setWhere("id=$art_id and clang=". $clang);
+    $sql->setValue('startpage', 0);
+    $sql->setValue('prior', 100);
+    $sql->update();
+    
+    rex_newArtPrio($re_id, $clang, 0, 100);
+  }
+
+  rex_deleteCacheArticleLists($re_id);
+  rex_deleteCacheArticle($art_id);
+
+  foreach($REX['CLANG'] as $clang => $clang_name)
+  {
+    rex_register_extension_point('CAT_TO_ART', '', array (
+      'id' => $art_id,
+      'clang' => $clang,
+    ));
+  }
+          
+  return true;
+}
+
+/**
  * Kopiert eine Kategorie in eine andere
  *
  * @param int $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
