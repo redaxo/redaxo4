@@ -84,6 +84,9 @@ class rex_var_link extends rex_var
   {
     switch($name)
     {
+      case '0' : 
+        $args['id'] = (int) $value; 
+        break;
       case '1' :
       case 'category' :
         $args['category'] = (int) $value;
