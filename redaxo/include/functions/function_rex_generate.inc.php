@@ -675,7 +675,7 @@ function rex_generateMediaCategoryList($category_id)
 {
   global $REX;
   
-  $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id;
+  $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY name';
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
