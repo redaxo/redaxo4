@@ -11,7 +11,7 @@
 
 class rex_cronjob_urlrequest extends rex_cronjob
 { 
-  /*protected*/ function _execute()
+  /*public*/ function execute()
   {
     if($fh = fopen($this->getContent(), "r")){ 
       while (!feof($fh)){ 

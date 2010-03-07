@@ -33,7 +33,7 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
   	  'REX_CRONJOB_EXTENSIONS',
   	  array('rex_cronjob_manager', 'registerExtension'),
   	  array(
-  	    'class' => 'rex_a1_cronjob', 
+  	    'class' => 'rex_cronjob_export', 
   	    'name' => 'translate:im_export_database_export',
   	    'environment' => 'backend'
   	  )

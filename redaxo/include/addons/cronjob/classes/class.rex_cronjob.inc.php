@@ -13,7 +13,6 @@
 {
   /*private*/ var $name;
   /*private*/ var $content;
-  /*private*/ var $success;
   
   /*protected*/ function rex_cronjob($name, $content = null) 
   {
@@ -57,22 +56,10 @@
   {
     return $this->name;
   }
-   
-  /*public*/ function execute()
-  {
-    $this->success = $this->_execute();
-    $this->log();
-    return $this->success;
-  }
   
-  /*abstract protected*/ function _execute() 
+  /*abstract public*/ function execute() 
   {
     trigger_error('The _execute method has to be overridden by a subclass!', E_USER_ERROR);
-  }
-  
-  /*private*/ function log()
-  {   
-    return rex_cronjob_log::save($this->getName(), $this->success);
   }
   
   /*public static*/ function isValid($cronjob)

@@ -1,8 +1,8 @@
 <?php
 
-class rex_a1_cronjob extends rex_cronjob
+class rex_cronjob_export extends rex_cronjob
 { 
-  /*protected*/ function _execute()
+  /*public*/ function execute()
   {
     global $REX;
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';

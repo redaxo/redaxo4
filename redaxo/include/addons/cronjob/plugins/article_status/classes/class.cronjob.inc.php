@@ -11,7 +11,7 @@
  
 class rex_cronjob_article_status extends rex_cronjob
 {
-  /*protected*/ function _execute()
+  /*public*/ function execute()
   {
     global $REX;
     $config = OOPlugin::getProperty('cronjob', 'article_status', 'config');

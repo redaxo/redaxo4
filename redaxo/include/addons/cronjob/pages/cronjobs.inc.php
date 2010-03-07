@@ -52,7 +52,8 @@ if ($func == 'execute')
     $name = $sql->getValue('name');
     $content = $sql->getValue('content');
     
-    $success = rex_cronjob_manager::createAndExecute($type, $name, $content);
+    $cronjob = rex_cronjob::factory($type, $name, $content);
+    $success = rex_cronjob_manager::tryExecute($cronjob, $name);
   }
   if ($success)
     echo rex_info($I18N->msg('cronjob_execute_success'));

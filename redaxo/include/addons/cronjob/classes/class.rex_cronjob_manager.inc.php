@@ -32,7 +32,8 @@ class rex_cronjob_manager
       $type     = $sql->getValue('type');
       $interval = $sql->getValue('interval_sec');
 
-      rex_cronjob_manager::createAndExecute($type, $name, $content);
+      $cronjob = rex_cronjob::factory($type, $name, $content);
+      rex_cronjob_manager::tryExecute($cronjob, $name);
       
       $time = time();
       $timezone_diff = mktime(0,0,0,1,1,1970);
@@ -46,15 +47,20 @@ class rex_cronjob_manager
     rex_cronjob_manager::saveNextTime();
   }
   
-  /*public static*/ function createAndExecute($type, $name, $content)
+  /*public static*/ function tryExecute($cronjob, $name = null)
   {
-    $cronjob = rex_cronjob::factory($type, $name, $content);
+    $success = rex_cronjob::isValid($cronjob);
     
-    if (rex_cronjob::isValid($cronjob))
-      return $cronjob->execute();
+    if ($success) 
+    {
+      $name = $cronjob->getName();
+      $success = $cronjob->execute();
+    }
     
-    rex_cronjob_log::save($name, false);
-    return false;
+    if ($name)
+      rex_cronjob_log::save($name, $success);
+    
+    return $success;
   }
   
   /*public static*/ function saveNextTime()

@@ -11,7 +11,7 @@
 
 class rex_cronjob_phpcallback extends rex_cronjob
 { 
-  /*protected*/ function _execute()
+  /*public*/ function execute()
   {
     if (preg_match('/^\s*(?:(.*?)\:\:)?(.*?)(?:\((.*?)\))?\;?\s*$/', $this->getContent(), $matches))
     {
