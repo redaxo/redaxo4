@@ -37,6 +37,8 @@ Version 4.3 (2010-xx-xx)
     - Linklist integriert [Gregor.Harlan]
     - Bei MediaFields und LinkmapFields kann man eine Kategorie festlegen, 
       MediaFields können auf Typen eingeschränkt werden [Gregor.Harlan]
+  * neue rexVars:
+    - REX_CONFIG[field=...] für $REX['SERVER'] etc. [Gregor.Harlan]
   * neue Klassen:
     - rex_mediacategory_select [Markus.Staab]
   * neue Extension Points:
