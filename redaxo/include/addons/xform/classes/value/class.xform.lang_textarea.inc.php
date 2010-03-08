@@ -94,9 +94,9 @@ class rex_xform_lang_textarea extends rex_xform_abstract
             'type' => 'value',
             'name' => 'lang_textarea',
             'values' => array(
-              array( 'type' => 'label',   'name' => 'Feld' ),
-              array( 'type' => 'text',    'name' => 'Bezeichnung'),
-              array( 'type' => 'no_db',   'name' => 'Datenbank',  'default' => 1),
+              array( 'type' => 'name',   'label' => 'Feld' ),
+              array( 'type' => 'text',    'label' => 'Bezeichnung'),
+              array( 'type' => 'no_db',   'label' => 'Datenbank',  'default' => 1),
             ),
             'description' => 'Ein mehrzeiliges mehrsprachiges Textfeld als Eingabe',
             'dbtype' => 'text'
