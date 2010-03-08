@@ -11,6 +11,7 @@ rex_title($I18N->msg('addon'), '');
 $addonname  = rex_request('addonname', 'string');
 $pluginname = rex_request('pluginname', 'string');
 $subpage    = rex_request('subpage', 'string');
+$info       = stripslashes(rex_request('info', 'string'));
 
 // -------------- READ CONFIG
 $ADDONS    = rex_read_addons_folder();
@@ -25,7 +26,6 @@ else
   $pluginname = '';
   
 $warning = '';
-$info = '';
 
 if($pluginname != '')
 {
@@ -90,6 +90,8 @@ if ($addonname != '')
   $uninstall  = rex_get('uninstall', 'int', -1);
   $delete     = rex_get('delete', 'int', -1);
   
+  $redirect = false;
+  
   // ----------------- ADDON INSTALL
   if ($install == 1)
   {
@@ -113,11 +115,13 @@ if ($addonname != '')
       if(($warning = $addonManager->activate($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_activated", $pluginname);
+        $redirect = true;
       }
     }
     else if (($warning = $addonManager->activate($addonname)) === true)
     {
       $info = $I18N->msg("addon_activated", $addonname);
+      $redirect = true;
     }
   }
   // ----------------- ADDON DEACTIVATE
@@ -128,11 +132,13 @@ if ($addonname != '')
       if (($warning = $addonManager->deactivate($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_deactivated", $pluginname);
+        $redirect = true;
       }
     }
     else if (($warning = $addonManager->deactivate($addonname)) === true)
     {
       $info = $I18N->msg("addon_deactivated", $addonname);
+      $redirect = true;
     }
   }
   // ----------------- ADDON UNINSTALL
@@ -143,11 +149,13 @@ if ($addonname != '')
       if (($warning = $addonManager->uninstall($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_uninstalled", $pluginname);
+        $redirect = true;
       }
     }
     else if (($warning = $addonManager->uninstall($addonname)) === true)
     {
       $info = $I18N->msg("addon_uninstalled", $addonname);
+      $redirect = true;
     }
   }
   // ----------------- ADDON DELETE
@@ -158,16 +166,20 @@ if ($addonname != '')
       if (($warning = $addonManager->delete($pluginname)) === true)
       {
         $info = $I18N->msg("plugin_deleted", $pluginname);
-        $addonkey = array_search($addonname, $PLUGINS);
-        unset($PLUGINS[$addonkey]);
+        $redirect = true;
       }
     }
     else if (($warning = $addonManager->delete($addonname)) === true)
     {
       $info = $I18N->msg("addon_deleted", $addonname);
-      $addonkey = array_search($addonname, $ADDONS);
-      unset($ADDONS[$addonkey]);
+      $redirect = true;
     }
+  }
+  
+  if ($redirect)
+  {
+    header('Location: index.php?page=addon&info='. $info);
+    exit;
   }
 }
 
