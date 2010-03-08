@@ -645,7 +645,7 @@ function rex_generateMediaList($category_id)
 {
   global $REX;
   
-  $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
+  $query = 'SELECT filename FROM ' . OOMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
   $sql = rex_sql::factory();
   $sql->setQuery($query);
   
@@ -675,7 +675,7 @@ function rex_generateMediaCategoryList($category_id)
 {
   global $REX;
   
-  $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY name';
+  $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . OOMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
