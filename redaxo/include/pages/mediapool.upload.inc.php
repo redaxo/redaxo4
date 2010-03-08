@@ -45,6 +45,7 @@ if ($media_method == 'add_file')
         if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
         {
           $js = "selectMedialist('".$file_name."');";
+          $js .= 'location.href = "index.php?page=mediapool&info='.urlencode($I18N->msg('pool_file_added')).'";';
         }
         else
         {
