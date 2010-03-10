@@ -254,6 +254,7 @@ class rex_be_navigation
   
   var $navi = array();
   var $extras = array('onclick', 'onmouseover', 'title', 'href');
+  var $headlines = array();
   
   function addElement($type, $params = array())
   {
@@ -268,7 +269,7 @@ class rex_be_navigation
     $echo = '<dl class="rex-navi">';
     foreach($this->navi as $type => $m)
     {
-      $headline = $I18N->msg('navigation_'.$type);
+      $headline = $this->getHeadline($type);
       $echo .= '<dt>'. $headline .'</dt><dd>';
       $echo .= $this->_getNavigation($m, 0, $type);
       $echo .= '</dd>' . "\n";
@@ -375,6 +376,20 @@ class rex_be_navigation
     return TRUE;
   }
   
+  function setHeadline($type, $headline)
+  {
+    $this->headlines[$type] = rex_translate($headline);
+  }
+  
+  function getHeadline($type)
+  {
+    global $I18N;
+
+    if (isset($this->headlines[$type]))
+      return $this->headlines[$type];
+
+    return $I18N->msg('navigation_'.$type);
+  }
   
   function factory()
   {
