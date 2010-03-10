@@ -49,7 +49,7 @@ class rex_cronjob_article_status extends rex_cronjob
     $rows = $sql->getRows();
     for($i = 0; $i < $rows; $i++)
     {
-      if (in_array($sql->getValue('status'), $from['status']))
+      if (in_array($sql->getValue('status'), $from['before']))
         $status = $from['after'];
       else
         $status = $to['after'];
