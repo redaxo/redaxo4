@@ -1475,18 +1475,15 @@ class rex_form_select_element extends rex_form_element
   function formatElement()
   {
     $multipleSelect = false;
-    
-    if ($this->select->hasAttribute('multiple'))
-      $multipleSelect = true;
 
     // Hier die Attribute des Elements an den Select weitergeben, damit diese angezeigt werden
     foreach($this->getAttributes() as $attributeName => $attributeValue)
     {
-      if ($attributeName == 'multiple')
-        $multipleSelect = true;
-
       $this->select->setAttribute($attributeName, $attributeValue);
     }
+    
+    if ($this->select->hasAttribute('multiple'))
+      $multipleSelect = true;
     
     if ($multipleSelect)
     {
