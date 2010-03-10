@@ -45,7 +45,7 @@ class rex_var_config extends rex_var
 
       $varname = '$REX[\''. addslashes($field) .'\']';
       $tpl = '<?php
-      if(isset('. $varname .') && '. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname) .');
+      if(isset('. $varname .')) echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname) .');
       ?>';
       
       if($tpl != '')
