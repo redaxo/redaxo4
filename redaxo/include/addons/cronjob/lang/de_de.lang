@@ -18,10 +18,17 @@ cronjob_name = Name
 cronjob_examples = Beispiele
 
 cronjob_type = Typ
+cronjob_type_not_found = Cronjob kann nicht bearbeitet werden, da der Typ "{0}" unbekannt ist!
 cronjob_type_phpcode = PHP-Code
 cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-Aufruf
-cronjob_type_extension = Extension
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = POST-Parameter
+cronjob_type_urlrequest_httpauth = HTTP-Authentifizierung
+cronjob_type_urlrequest_user = Benutzer
+cronjob_type_urlrequest_password = Passwort
+cronjob_type_parameters = Typspezifische Parameter
+cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
 
 cronjob_interval = Intervall
 cronjob_interval_hour = Stunde(n)

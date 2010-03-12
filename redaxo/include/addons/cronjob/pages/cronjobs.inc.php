@@ -44,16 +44,16 @@ if ($func == 'execute')
 {
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
-  $sql->setQuery('SELECT name, type, content FROM '. $table .' WHERE id = '. $oid);
+  $sql->setQuery('SELECT name, type, parameters FROM '. $table .' WHERE id = '. $oid);
   $success = false;
   if ($sql->getRows() == 1) 
   {
-    $type = $sql->getValue('type');
-    $name = $sql->getValue('name');
-    $content = $sql->getValue('content');
+    $type   = $sql->getValue('type');
+    $name   = $sql->getValue('name');
+    $params = $sql->getValue('parameters');
     
-    $cronjob = rex_cronjob::factory($type, $name, $content);
-    $success = rex_cronjob_manager::tryExecute($cronjob, $name);
+    $cronjob = rex_cronjob::factory($type);
+    $success = rex_cronjob_manager::tryExecute($name, $cronjob, $params);
   }
   if ($success)
     echo rex_info($I18N->msg('cronjob_execute_success'));
@@ -67,7 +67,7 @@ if ($func == '')
 
   $query = 'SELECT id, name, `interval`, environment, status FROM '.$table.' ORDER BY name';
   
-  $list = rex_list::factory($query, 30, 'cronjobs', false);
+  $list = rex_list::factory($query, 30);
   
   $list->addTableColumnGroup(array(40,'*',90,130,60,60,60));
   
@@ -153,112 +153,51 @@ if ($func == '')
   
   $form = rex_form::factory($table, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
   $form->addParam('oid', $oid);
-  $form->addParam('list','cronjobs');
+  $form->setApplyUrl('index.php?page=cronjob');
+  
+  $field =& $form->addSelectField('type');
+  $field->setLabel($I18N->msg('cronjob_type'));
+  $select =& $field->getSelect();
+  $select->setSize(1);
+  $typeFieldId = $field->getAttribute('id');
+  $types = rex_cronjob_manager::getTypes();
+  $cronjobs = array();
+  foreach($types as $class)
+  {
+    $cronjob = rex_cronjob::factory($class);
+    if (rex_cronjob::isValid($cronjob))
+    {
+      $cronjobs[$class] = $cronjob;
+      $select->addOption($cronjob->getName(), $class);
+    }
+  }
+  if ($func == 'add')
+    $select->setSelected('rex_cronjob_phpcode');
+  $activeType = $field->getValue();
+  if ($func != 'add' && !in_array($activeType, $types)) 
+  {
+    header('Location: index.php?page=cronjob&'.rex_request('list', 'string').'_warning='.$I18N->msg('cronjob_type_not_found',$activeType));
+    exit;
+  }
   
   $field =& $form->addTextField('name');
   $field->setLabel($I18N->msg('cronjob_name'));
-  $field->setAttribute('class',$field->getAttribute('class').' rex-a630-name');
+  $nameFieldId = $field->getAttribute('id');
   
   $field =& $form->addIntervalField('interval');
   $field->setLabel($I18N->msg('cronjob_interval'));
   
-  $field =& $form->addSelectField('type');
-  $field->setLabel($I18N->msg('cronjob_type'));
-  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type-select');
-  $select =& $field->getSelect();
-  $select->setSize(1);
-  $select->addOption($I18N->msg('cronjob_type_phpcode'),1);
-  $select->addOption($I18N->msg('cronjob_type_phpcallback'),2);
-  $select->addOption($I18N->msg('cronjob_type_urlrequest'),3);
-  $extensions = rex_register_extension_point('REX_CRONJOB_EXTENSIONS', array());
-  if (!empty($extensions)) 
-  {
-    $select->addOption($I18N->msg('cronjob_type_extension'),4);
-  }
-  if ($func == 'add')
-    $select->setSelected(1);
-  $type = $field->getValue();
-  if ($type == 0 || $type == '')
-    $type = 1;
-    
-  $field =& $form->addTextAreaField('content');
-  $field->setLabel($I18N->msg('cronjob_type_phpcode'));
-  $field->setAttribute('rows', 20);
-  $class = '';
-  if ($type != 1) 
-  {
-    $class = ' rex-a630-hidden';
-    $field->setValue('');
-  }
-  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-1'.$class);
-  
-  $field =& $form->addTextField('content');
-  $field->setLabel($I18N->msg('cronjob_type_phpcallback'));
-  $class = '';
-  if ($type != 2) 
-  {
-    $class = ' rex-a630-hidden';
-    $field->setValue('');
-  }
-  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-2'.$class);
-  $field->setNotice($I18N->msg('cronjob_examples').': foo(), foo(1, \'string\'), foo::bar()');
-  
-  $field =& $form->addTextField('content');
-  $field->setLabel('URL');
-  $class = '';
-  if ($type != 3) 
-  {
-    $class = ' rex-a630-hidden';
-    $field->setValue('http://');
-  }
-  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-3'.$class);
-  if ($func == 'add')
-    $field->setValue('http://');
-  
-  $js = '';  
-  if (!empty($extensions)) 
-  {
-    $field =& $form->addSelectField('content');
-    $field->setLabel($I18N->msg('cronjob_type_extension'));
-    $class = '';
-    if ($type != 4) {
-      $class = ' rex-a630-hidden';
-    }
-    $field->setAttribute('class', $field->getAttribute('class').' rex-a630-type rex-a630-type-4'.$class);
-    $select =& $field->getSelect();
-    $select->setSize(1);
-    foreach ($extensions as $extension => $values) 
-    {
-      $select->addOption(rex_translate($values[0]),$extension);
-      $disabled = array();
-      if (isset($values[1])) 
-      {
-        if (!is_array($values[1]))
-          $values[1] = array($values[1]);
-        if (!in_array('frontend', $values[1]))
-          $disabled[] = 0;
-        if (!in_array('backend', $values[1]))
-          $disabled[] = 1;
-        if (count($disabled) > 0)
-          $js = '
-        if ($("select.rex-a630-type-4 option:selected").val() == "'. $extension .'")
-          $(".rex-a630-environment option[value=\''. implode('\'], .rex-a630-environment option[value=\'', $disabled) .'\']").attr("disabled","disabled").attr("selected","");
-';
-      }
-    }
-  }
-  
   $field =& $form->addSelectField('environment');
   $field->setLabel($I18N->msg('cronjob_environment'));
   $field->setAttribute('multiple', 'multiple');
-  $field->setAttribute('class', $field->getAttribute('class').' rex-a630-environment');
+  $envFieldId = $field->getAttribute('id');
   $select =& $field->getSelect();
   $select->setSize(2);
   $select->addOption($I18N->msg('cronjob_environment_frontend'),0);
   $select->addOption($I18N->msg('cronjob_environment_backend'),1);
   if ($func == 'add')
     $select->setSelected(array(0,1));
-    
+   
   $field =& $form->addSelectField('status');
   $field->setLabel($I18N->msg('cronjob_status'));
   $select =& $field->getSelect();
@@ -268,6 +207,124 @@ if ($func == '')
   if ($func == 'add')
     $select->setSelected(1);
   
+  $form->addFieldset($I18N->msg('cronjob_type_parameters')); 
+  
+  $fieldContainer =& $form->addContainerField('parameters');
+  $fieldContainer->setAttribute('style', 'display: none');
+  $fieldContainer->setMultiple(false);
+  $fieldContainer->setActive($activeType);
+  
+  $env_js = '';
+  $visible = array();
+  foreach ($cronjobs as $group => $cronjob)
+  {
+    $disabled = array();
+    $envs = (array) $cronjob->getEnvironments();
+    if (!in_array('frontend', $envs))
+      $disabled[] = 0;
+    if (!in_array('backend', $envs))
+      $disabled[] = 1;
+    if (count($disabled) > 0)
+      $env_js .= '
+        if ($("#'. $typeFieldId .' option:selected").val() == "'. $group .'")
+          $("#'. $envFieldId .' option[value=\''. implode('\'], #'. $envFieldId .' option[value=\'', $disabled) .'\']").attr("disabled","disabled").attr("selected","");
+';
+  
+    $params = $cronjob->getParams();
+    
+    if (!is_array($params) || empty($params)) {
+      $field =& $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $I18N->msg('cronjob_type_no_parameters'));
+      $field->setLabel('&nbsp;');
+    } else {
+      foreach($params as $param)
+      {
+        $type = $param['type'];
+        $name = $group .'_'. $param['name'];
+        $value = isset($param['default']) ? $param['default'] : null;
+        $attributes = isset($param['attributes']) ? $param['attributes'] : array();
+        switch($param['type'])
+        {
+          case 'text' :
+          case 'textarea' :
+          case 'media' :
+          case 'medialist' :
+          case 'link' :
+          case 'linklist' :
+            {
+              $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+              $field->setLabel($param['label']);
+              if (isset($param['notice']))
+                $field->setNotice($param['notice']);
+              break;
+            }
+          case 'select' :
+            {
+              $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+              $field->setLabel($param['label']);
+              $select =& $field->getSelect();
+              $select->addArrayOptions($param['options']);
+              if (isset($param['notice']))
+                $field->setNotice($param['notice']);
+              break;
+            }
+          case 'checkbox' :
+          case 'radio' :
+            {
+              $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+              $field->addArrayOptions($param['options']);
+              if (isset($param['notice']))
+                $field->setNotice($param['notice']);
+              break;
+            }
+          default:var_dump($param);
+        }
+        if (isset($param['visible_if']) && is_array($param['visible_if']))
+        {
+          foreach($param['visible_if'] as $key => $value)
+          {
+            $key = $group .'_'. $key;
+            if (!isset($visible[$key]))
+              $visible[$key] = array();
+            if (!isset($visible[$key][$value]))
+              $visible[$key][$value] = array();
+            $visible[$key][$value][] = $field->getAttribute('id');
+          }
+        }
+      }
+    }
+  }
+  $visible_js = '';
+  if(!empty($visible))
+  {
+    foreach($fieldContainer->getFields() as $group => $fieldElements)
+    {
+      foreach($fieldElements as $field)
+      {
+        $name = $field->getFieldName();
+        if(isset($visible[$name]))
+        {
+          foreach($visible[$name] as $value => $fieldIds)
+          {
+            $visible_js .= '
+            var first2 = 1;
+            $("#'.$field->getAttribute('id').'_'.$value.'").change(function(){
+              var checkbox = $(this);
+              $("#'.implode(',#',$fieldIds).'").each(function(){
+                if ($(checkbox).is(":checked"))
+                  $(this).parent().parent().slideDown();
+                else if(first2 == 1)
+                  $(this).parent().parent().hide();
+                else
+                  $(this).parent().parent().slideUp();
+              });
+              first2 = 0;
+            }).change();';
+          }
+        }
+      }
+    }
+  }
+  
   $form->show();
 
 ?>
@@ -275,28 +332,20 @@ if ($func == '')
   <script type="text/javascript">
   // <![CDATA[
     jQuery(function($){
-      var names = new Array(5);
-      names[1] = $('textarea.rex-a630-type-1').attr('name');
-      names[2] = $('input.rex-a630-type-2').attr('name');
-      names[3] = $('input.rex-a630-type-3').attr('name');
-      names[4] = $('select.rex-a630-type-4').attr('name');
-      $('.rex-a630-hidden').parent().hide().children('input, textarea, select').attr('name','');
-      $('.rex-a630-type-select select').change(function(){
-        var key = $(this).children('option:selected').val();
-        $('.rex-a630-type').addClass('rex-a630-hidden');
-        $('.rex-a630-type-'+key).removeClass('rex-a630-hidden').parent().show().children('input, textarea, select').attr('name',names[key]);
-        $('.rex-a630-hidden').parent().hide().children('input, textarea, select').attr('name','');
-        if (key == 4)
-          $('select.rex-a630-type-4').change();
-        else
-          $('.rex-a630-environment option').attr('disabled','');
-      });
-      $('select.rex-a630-type-4').change(function(){
-        $('input.rex-a630-name').val($('select.rex-a630-type-4 option:selected').text());
-        $('.rex-a630-environment option').attr('disabled','');<?php echo $js; ?>
-      });
-      if ($('.rex-a630-type-select option:eq(3)').is(':selected'))
-        $('select.rex-a630-type-4').change();
+      var currentShown = null;
+      $("#<?php echo $typeFieldId ?>").change(function(){
+        if(currentShown) currentShown.hide();
+        var typeId = "#rex-"+ $(this).val();
+        currentShown = $(typeId);
+        currentShown.show();
+      }).change();
+      var first1 = <?php echo $func=='add' ? 0 : 1; ?>;
+      $('#<?php echo $typeFieldId ?>').change(function(){
+        if (first1 == 0)
+          $('input#<?php echo $nameFieldId ?>').val($('#<?php echo $typeFieldId ?> option:selected').text());
+        $('#<?php echo $envFieldId ?> option').attr('disabled','');<?php echo $env_js; ?>
+        first1 = 0;
+      }).change();<?php echo $visible_js."\n"; ?>
     });
   // ]]>
   </script>

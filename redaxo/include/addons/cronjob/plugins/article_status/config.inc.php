@@ -22,27 +22,24 @@ if($REX['REDAXO'])
   $REX['ADDON']['author']['article_status'] = 'Gregor Harlan';
   $REX['ADDON']['supportpage']['article_status'] = 'forum.redaxo.de';
   
-  // Config
-  $REX['ADDON']['config']['article_status']['from'] = array(
-    'field' => 'art_online_from',
-    'before' => 0,
-    'after' => 1
-  );
-  $REX['ADDON']['config']['article_status']['to'] = array(
-    'field' => 'art_online_to',
-    'before' => 1,
-    'after' => 0
-  );
-  
-  rex_register_extension(
-    'REX_CRONJOB_EXTENSIONS',
-    array('rex_cronjob_manager', 'registerExtension'),
-    array(
-      'class' => 'rex_cronjob_article_status', 
-      'name' => 'translate:cronjob_article_status'
-    )
-  );
-  
-  require_once dirname(__FILE__).'/classes/class.cronjob.inc.php';
-
 }
+
+// Config
+$REX['ADDON']['config']['article_status']['from'] = array(
+  'field' => 'art_online_from',
+  'before' => 0,
+  'after' => 1
+);
+$REX['ADDON']['config']['article_status']['to'] = array(
+  'field' => 'art_online_to',
+  'before' => 1,
+  'after' => 0
+);
+
+rex_register_extension(
+  'REX_CRONJOB_TYPES',
+  array('rex_cronjob_manager', 'registerExtension'),
+  array('class' => 'rex_cronjob_article_status')
+);
+
+require_once dirname(__FILE__).'/classes/class.cronjob.inc.php';

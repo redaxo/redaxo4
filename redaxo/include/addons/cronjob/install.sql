@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%630_cronjobs` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
-  `type` tinyint(1) default NULL,
-  `content` text default NULL,
+  `type` varchar(255) default NULL,
+  `parameters` text default NULL,
   `interval` varchar(255) default NULL,
   `interval_sec` int(11) default NULL,
   `nexttime` int(11) default 0,

@@ -18,7 +18,7 @@ class rex_cronjob_manager
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery('
-      SELECT    id, name, type, content, interval_sec 
+      SELECT    id, name, type, parameters, interval_sec 
       FROM      '. $REX['TABLE_PREFIX'] .'630_cronjobs 
       WHERE     status=1 AND environment LIKE "%|'. $environment .'|%" AND nexttime <= '. time() .' 
       ORDER BY  nexttime ASC, interval_sec DESC 
@@ -28,12 +28,12 @@ class rex_cronjob_manager
     {
       $id       = $sql->getValue('id');
       $name     = $sql->getValue('name');
-      $content  = $sql->getValue('content');
       $type     = $sql->getValue('type');
+      $params   = $sql->getValue('parameters');
       $interval = $sql->getValue('interval_sec');
 
-      $cronjob = rex_cronjob::factory($type, $name, $content);
-      rex_cronjob_manager::tryExecute($cronjob, $name);
+      $cronjob = rex_cronjob::factory($type);
+      rex_cronjob_manager::tryExecute($name, $cronjob, $params);
       
       $time = time();
       $timezone_diff = mktime(0,0,0,1,1,1970);
@@ -47,18 +47,18 @@ class rex_cronjob_manager
     rex_cronjob_manager::saveNextTime();
   }
   
-  /*public static*/ function tryExecute($cronjob, $name = null)
+  /*public static*/ function tryExecute($name, $cronjob, $params = array())
   {
     $success = rex_cronjob::isValid($cronjob);
     
     if ($success) 
     {
-      $name = $cronjob->getName();
+      foreach(unserialize($params) as $key => $value)
+        $cronjob->setParam(str_replace($cronjob->getType().'_', '', $key), $value);
       $success = $cronjob->execute();
     }
     
-    if ($name)
-      rex_cronjob_log::save($name, $success);
+    rex_cronjob_log::save($name, $success);
     
     return $success;
   }
@@ -85,15 +85,22 @@ class rex_cronjob_manager
     return false;
   }
   
+  /*public static*/ function getTypes()
+  {
+    $types = array();
+    $types[] = 'rex_cronjob_phpcode';
+    $types[] = 'rex_cronjob_phpcallback';
+    $types[] = 'rex_cronjob_urlrequest';
+    
+    // ----- EXTENSION POINT
+    $types = rex_register_extension_point('REX_CRONJOB_TYPES', $types);
+
+    return $types;
+  }
+  
   /*public static*/ function registerExtension($params)
   {
-    $class = $params['class'];
-    
-    $params['subject'][$class] = array();
-    $params['subject'][$class][] = $params['name'];
-    
-    if (isset($params['environment']))
-      $params['subject'][$class][] = $params['environment'];
+    $params['subject'][] = $params['class'];
     
     return $params['subject'];
   }

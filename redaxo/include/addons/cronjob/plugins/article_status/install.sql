@@ -2,8 +2,8 @@ INSERT
   INTO `%TABLE_PREFIX%630_cronjobs` 
   SET 
     `name` = 'Artikel-Status', 
-    `type` = 4, 
-    `content` = 'rex_cronjob_article_status', 
+    `type` = 'rex_cronjob_article_status', 
+    `parameters` = 'a:0:{}', 
     `interval` = '|1|d|', 
     `interval_sec` = 86400, 
     `environment` = '|0|1|',

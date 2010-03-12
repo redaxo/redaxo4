@@ -11,9 +11,12 @@
 
 class rex_cronjob_form extends rex_form
 {
+  /*private*/ var $mainFieldset;
+  
   /*protected*/ function rex_cronjob_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
+    $this->mainFieldset = $fieldset;
   }
   
   /*public*/ function &addIntervalField($name, $value = null, $attributes = array())
@@ -27,9 +30,9 @@ class rex_cronjob_form extends rex_form
   /*protected*/ function validate()
   {
     global $I18N;
-    $el =& $this->getElement($this->getFieldsetName(),'name');
+    $el =& $this->getElement($this->mainFieldset,'name');
     if ($el->getValue() == '') {
-      return $I18N->Msg('cronjob_error_no_name');
+      return $I18N->msg('cronjob_error_no_name');
     }
     return true;
   }

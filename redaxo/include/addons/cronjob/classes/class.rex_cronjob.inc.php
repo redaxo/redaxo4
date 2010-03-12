@@ -11,58 +11,63 @@
 
 /*abstract*/ class rex_cronjob
 {
-  /*private*/ var $name;
-  /*private*/ var $content;
+  /*private*/ var $params = array();
   
-  /*protected*/ function rex_cronjob($name, $content = null) 
+  /*final public*/ function factory($class) 
   {
-    if (empty($name))
-      $name = '[no name]';
-    
-    $this->name = $name;
-    $this->content = $content;
-  }
-  
-  /*public*/ function factory($type, $name, $content) 
-  {
-    if ($type < 1 || $type > 4)
-      return null;
-    
-    $class = null;
-    if ($type != 4)
-    {
-      $classes = array(
-        1 => 'rex_cronjob_phpcode',
-        2 => 'rex_cronjob_phpcallback',
-        3 => 'rex_cronjob_urlrequest'
-      );
-      $class = $classes[$type];
-    }
-    else
-      $class = $content;
-    
     if (!class_exists($class))
       return null;
     
-    return new $class($name, $content);
+    return new $class();
   }
   
-  /*public*/ function getContent()
+  /*public*/ function setParam($key, $value)
+	{
+		$this->params[$key] = $value;
+	}
+  
+  /*public*/ function setParams($params)
+	{
+		$this->params = $params;
+	}
+	
+	/*public*/ function getParam($key)
+	{
+	  if(isset($this->params[$key]))
+	    return $this->params[$key];
+	    
+	  return null;
+	}
+  
+  /*abstract public*/ function execute() 
   {
-    return $this->content;
+    trigger_error('The execute method has to be overridden by a subclass!', E_USER_ERROR);
   }
   
   /*public*/ function getName() 
   {
-    return $this->name;
+    // returns the name of the cronjob
+    return $this->getType();
   }
   
-  /*abstract public*/ function execute() 
+  /*final public*/ function getType()
   {
-    trigger_error('The _execute method has to be overridden by a subclass!', E_USER_ERROR);
+    return get_class($this);
   }
   
-  /*public static*/ function isValid($cronjob)
+  /*public*/ function getEnvironments() 
+  {
+    // returns an array of environments in which the cronjob is available
+    return array('frontend', 'backend');
+  }
+  
+  /*public*/ function getParams()
+  {
+    // returns an array of parameters which are required for the cronjob
+    return array();
+  }
+  
+  /*final public static*/ function isValid($cronjob)
   {
     return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
   }
