@@ -14,20 +14,17 @@ $error = '';
 
 if($error == '')
 {
-  if(!ini_get('allow_url_fopen'))
-  {
-    $error = 'PHP Configuration "allow_url_fopen" have to be enabled in php.ini';
-  }
-}
-
-if($error == '')
-{
   require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
   
-  $url = 'www.redaxo.de';
-  if(!rex_a657_check_connectivity($url))
+  $url = 'http://www.redaxo.de';
+  if(!rex_a657_open_http_socket($url, $errno, $errstr, 5))
   {
-    $error = 'The server was unable to connect to "'. $url .'". Make sure the server has access to the internet.';
+    $error .= 'The server was unable to connect to "'. $url .'".';
+    $error .= 'Make sure the server has access to the internet.';
+    if($error != '' || $errstr != '')
+    {
+      $error .= '(error '. $errno .'; '. $errstr .')';
+    }
   }
 }
 

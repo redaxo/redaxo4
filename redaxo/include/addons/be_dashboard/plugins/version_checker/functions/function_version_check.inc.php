@@ -14,8 +14,7 @@ function rex_a657_get_latest_version()
 {
   $updateUrl = 'http://www.redaxo.de/de/latestversion';
   
-  $latestVersion = @rex_get_file_contents($updateUrl);
-  
+  $latestVersion = rex_a657_open_http_socket($updateUrl, $errno, $errstr, 15);
   if($latestVersion != '')
   {
     return preg_replace('/[^0-9\.]/', '', $latestVersion);
@@ -50,27 +49,39 @@ function rex_a657_check_version()
   return $notice;
 }
 
-function rex_a657_check_connectivity($url, $port = 80, $timeout = 3)
+function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
 {
-  $fp = @fsockopen($url, $port);
-  if (!$fp) {
-    // unable to open socket
-    return false;
+  $buf = '';
+  $parts = parse_url($url);
+  $port = isset($parts['port']) ? $parts['port'] : 80;
+  
+  // use timeout for opening connection
+  $fp = fsockopen($parts['host'], $port, $errno, $errstr, $timeout);
+  if ($fp) {
+      // allow write/read timeouts
+      stream_set_timeout($fp, $timeout);
+      
+      $out = "GET / HTTP/1.1\r\n";
+      $out .= "Host: ". $parts['host'] ."\r\n";
+      $out .= "Connection: Close\r\n\r\n";
+      fwrite($fp, $out);
+      
+      // check write timeout
+      $info = stream_get_meta_data($fp);
+      if ($info['timed_out']) {
+         return false;
+      }
+      
+      while (!feof($fp))
+      {
+        $buf .= fgets($fp, 512);
+      }
+      fclose($fp);
   }
   else
   {
-    fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
-    stream_set_timeout($fp, $timeout);
-    $res = fread($fp, 100);
-
-    $info = stream_get_meta_data($fp);
-    fclose($fp);
-
-    if ($info['timed_out']) {
-      // connection timeout
-      return false;
-    }
+    return false;
   }
   
-  return true;
+  return $buf;
 }
