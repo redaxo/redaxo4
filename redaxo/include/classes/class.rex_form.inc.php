@@ -344,6 +344,7 @@ class rex_form
       {
         $value[$k] = $this->stripslashes($v);
       }
+      return $value;
     }
     else if (is_string($value))
     {
@@ -359,7 +360,7 @@ class rex_form
   {
     $tag        = rex_form::getInputTagName($inputType);
     $className  = rex_form::getInputClassName($inputType);
-    $attributes = array_merge($attributes, rex_form::getInputAttributes($inputType));
+    $attributes = array_merge(rex_form::getInputAttributes($inputType), $attributes);
     $attributes['internal::fieldClass'] = $className;
     
     $element =& $this->createElement($tag, $name, $value, $attributes);
@@ -382,6 +383,11 @@ class rex_form
     if($value === null && $this->sql->getRows() == 1 && $this->sql->hasValue($name))
     {
       $value = $this->sql->getValue($name);
+    }
+    
+    if (is_array($value))
+    {
+      $value = '|' . implode('|', $value) . '|';
     }
 
     if(!isset($attributes['internal::useArraySyntax']))
@@ -500,8 +506,10 @@ class rex_form
       case 'checkbox'  :
       case 'hidden'    :
       case 'radio'     :
+      case 'readonlytext' :
       case 'text'      : return 'input';
       case 'textarea'  : return $inputType;
+      case 'readonly'  : return 'span';
       default          : $inputTag = ''; break;
     }
     return $inputTag;
@@ -522,7 +530,30 @@ class rex_form
       case 'checkbox'  :
       case 'hidden'    :
       case 'radio'     :
-      case 'text'      : return array('type' => $inputType);
+      case 'text'      : 
+        return array(
+          'type' => $inputType, 
+          'class' => 'rex-form-'.$inputType
+        );
+      case 'textarea'  : 
+        return array(
+          'internal::fieldSeparateEnding' => true, 
+          'class' => 'rex-form-textarea', 
+          'cols' => 50, 
+          'rows' => 6
+        );
+      case 'readonly'  : 
+        return array(
+          'internal::fieldSeparateEnding' => true, 
+          'internal::noNameAttribute' => true, 
+          'class' => 'rex-form-read'
+        );
+      case 'readonlytext'  : 
+        return array(
+          'type' => 'text',
+          'readonly' => 'readonly', 
+          'class' => 'rex-form-read'
+        );
       default          : $inputAttr = array(); break;
     }
     return $inputAttr;
@@ -1563,6 +1594,17 @@ class rex_form_options_element extends rex_form_element
       }
     }
   }
+  
+  function addArrayOptions($options, $use_keys = true)
+  {
+  	foreach($options as $key => $value)
+  	{
+      if(!$use_keys)
+        $key = $value;
+
+      $this->addOption($value, $key);
+  	}
+  }
 
   function addSqlOptions($qry)
   {
@@ -1683,6 +1725,8 @@ class rex_form_radio_element extends rex_form_options_element
 class rex_form_element_container extends rex_form_element
 {
   var $fields;
+  var $multiple;
+  var $active;
   
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
@@ -1690,6 +1734,17 @@ class rex_form_element_container extends rex_form_element
   {
     parent::rex_form_element('', $table, $attributes);
     $this->fields = array();
+    $this->multiple = true;
+  }
+  
+  function setMultiple($multiple = true)
+  {
+    $this->multiple = $multiple;
+  }
+  
+  function setActive($group)
+  {
+    $this->active = $group;
   }
   
   function &addField($type, $name, $value = null, $attributes = array())
@@ -1699,7 +1754,7 @@ class rex_form_element_container extends rex_form_element
   
   function &addGroupedField($group, $type, $name, $value = null, $attributes = array())
   {
-    $field =& $this->table->createInput($type, $name, $value, $attributes = array());
+    $field =& $this->table->createInput($type, $name, $value, $attributes);
     
     if(!isset($this->fields[$group]))
     {
@@ -1710,18 +1765,36 @@ class rex_form_element_container extends rex_form_element
     return $field;
   }
   
+  function getFields()
+  {
+    return $this->fields;
+  }
+  
   function prepareInnerFields()
   {
     $values = unserialize($this->getValue());
     
-    foreach($this->fields as $group => $groupFields)
+    if($this->multiple)
     {
-      foreach($groupFields as $field)
+      foreach($this->fields as $group => $groupFields)
       {
-        if(isset($values[$group][$field->getFieldName()]))
+        foreach($groupFields as $field)
         {
-          $field->setValue($values[$group][$field->getFieldName()]);   
-        } 
+          if(isset($values[$group][$field->getFieldName()]))
+          {
+            $field->setValue($values[$group][$field->getFieldName()]);   
+          } 
+        }
+      }
+    }
+    elseif(isset($this->active) && isset($this->fields[$this->active]))
+    {
+      foreach($this->fields[$this->active] as $field)
+      {
+        if(isset($values[$field->getFieldName()]))
+        {
+          $field->setValue($values[$field->getFieldName()]);  
+        }
       }
     }
   }
@@ -1759,11 +1832,29 @@ class rex_form_element_container extends rex_form_element
   function getSaveValue()
   {
     $value = array();
-    foreach($this->fields as $group => $groupFields)
+    if($this->multiple)
     {
-      foreach($groupFields as $field)
+      foreach($this->fields as $group => $groupFields)
       {
-        $value[$group][$field->getFieldName()] = $field->getSaveValue();
+        foreach($groupFields as $field)
+        {
+          // read-only-fields nicht speichern
+          if(strpos($field->getAttribute('class'), 'rex-form-read') === false)
+          {
+            $value[$group][$field->getFieldName()] = $field->getSaveValue();
+          }
+        }
+      }
+    }
+    elseif(isset($this->active) && isset($this->fields[$this->active]))
+    {
+      foreach($this->fields[$this->active] as $field)
+      {
+        // read-only-fields nicht speichern
+        if(strpos($field->getAttribute('class'), 'rex-form-read') === false)
+        {
+          $value[$field->getFieldName()] = $field->getSaveValue();
+        }
       }
     }
     return serialize($value);
