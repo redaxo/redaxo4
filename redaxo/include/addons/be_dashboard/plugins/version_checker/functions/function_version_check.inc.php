@@ -15,10 +15,11 @@ function rex_a657_get_latest_version()
   $updateUrl = 'http://www.redaxo.de/de/latestversion';
   
   $latestVersion = rex_a657_open_http_socket($updateUrl, $errno, $errstr, 15);
-  if($latestVersion != '')
+  if($latestVersion !== false)
   {
     return preg_replace('/[^0-9\.]/', '', $latestVersion);
   }
+  
   return false;
 }
 
@@ -57,26 +58,62 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
   
   // use timeout for opening connection
   $fp = fsockopen($parts['host'], $port, $errno, $errstr, $timeout);
-  if ($fp) {
-      // allow write/read timeouts
-      stream_set_timeout($fp, $timeout);
+  if ($fp)
+  {
+    // allow write/read timeouts
+    stream_set_timeout($fp, $timeout);
+    
+    $out  = "";
+    $out .= "GET ". $parts['path'] ." HTTP/1.1\r\n";
+    $out .= "Host: ". $parts['host'] ."\r\n";
+    $out .= "Connection: Close\r\n\r\n";
+    
+    fwrite($fp, $out);
+    
+    // check write timeout
+    $info = stream_get_meta_data($fp);
+    if ($info['timed_out']) {
+       return false;
+    }
+
+    $httpHead = '';
+    while (!feof($fp))
+    {
+      $buf .= fgets($fp, 512);
       
-      $out = "GET / HTTP/1.1\r\n";
-      $out .= "Host: ". $parts['host'] ."\r\n";
-      $out .= "Connection: Close\r\n\r\n";
-      fwrite($fp, $out);
-      
-      // check write timeout
-      $info = stream_get_meta_data($fp);
-      if ($info['timed_out']) {
-         return false;
-      }
-      
-      while (!feof($fp))
+      if($httpHead == '' && ($headEnd = strpos($buf, "\r\n\r\n")) !== false)
       {
-        $buf .= fgets($fp, 512);
+        $httpHead = substr($buf, 0, $headEnd); // extract http header
+        $buf = substr($buf, $headEnd+4); // trim buf to contain only http data
       }
-      fclose($fp);
+    }
+    fclose($fp);
+    
+    $chunked = false;
+    foreach(explode("\r\n", $httpHead) as $headPart)
+    {
+      $headPart = strtolower($headPart);
+      if(strpos($headPart, 'http') !== false)
+      {
+        $mainHeader = explode(' ', $headPart);
+        
+        if($mainHeader[1] !== '200')
+        {
+          $errno  = $mainHeader[1];
+          $errstr = $mainHeader[2];
+          return false;
+        }
+      }
+      else if(strpos($headPart, 'transfer-encoding: chunked') !== false)
+      {
+        $chunked = true;
+      }
+    }
+    
+    if($chunked)
+    {
+      $buf = unchunkHttp11($buf);
+    }
   }
   else
   {
@@ -84,4 +121,18 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
   }
   
   return $buf;
+}
+
+function unchunkHttp11($data) {
+    $fp = 0;
+    $outData = '';
+    while ($fp < strlen($data)) {
+        $rawnum = substr($data, $fp, strpos(substr($data, $fp), "\r\n") + 2);
+        $num = hexdec(trim($rawnum));
+        $fp += strlen($rawnum);
+        $chunk = substr($data, $fp, $num);
+        $outData .= $chunk;
+        $fp += strlen($chunk);
+    }
+    return $outData;
 }
