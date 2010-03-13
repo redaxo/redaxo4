@@ -61,7 +61,7 @@ if ($func == '')
 	$list->setNoRowsMessage($I18N->msg('imanager_type_no_types'));
   $list->setCaption($I18N->msg('imanager_type_caption'));
   $list->addTableAttribute('summary', $I18N->msg('imanager_type_summary'));
-  $list->addTableColumnGroup(array(40, 100, '*', 130, 130, 130));
+  $list->addTableColumnGroup(array(40, 100, '*', 120, 120, 120));
   
 	$list->removeColumn('id');	
 	$list->removeColumn('status');	

@@ -1,0 +1,15 @@
+001268579221001268492821a:2:{s:6:"result";s:807:"<div class="rex-dashboard-component" id="component_notifications">
+                <h3 class="rex-hl2">Wichtige Meldungen</h3>
+                %%actionbar%%
+                %%config%%
+                <div class="rex-dashboard-component-content">
+                  <div class="rex-message"><div class="rex-warning"><p><span>Sie verwenden eine REDAXO Entwicklerversion (4.3.0). Diese wird nicht für Produktivsysteme empfohlen!</span></p></div></div>
+                </div>
+                <div class="rex-dashboard-component-footer">
+                  <p>
+                    zuletzt aktualisiert am
+                    %%cachetime%%
+                  </p>
+                </div>
+              </div>
+              <script type="text/javascript">componentInit("component_notifications")</script>";s:6:"output";s:0:"";}

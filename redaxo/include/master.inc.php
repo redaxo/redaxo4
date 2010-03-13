@@ -14,16 +14,16 @@ if (!$REX['GG'])
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
-$REX['SERVER'] = "redaxo.de";
-$REX['SERVERNAME'] = "REDAXO";
+$REX['SETUP'] = false;
+$REX['SERVER'] = "redaxo.de1";
+$REX['SERVERNAME'] = "REDAXO2";
 $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "3";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20100101100101";
+$REX['INSTNAME'] = "rex20100301195617";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -46,7 +46,7 @@ $REX['LANG'] = "de_de";
 
 // activate frontend mod_rewrite support for url-rewriting
 // Boolean: true/false
-$REX['MOD_REWRITE'] = false;
+$REX['MOD_REWRITE'] = true;
 
 // activate gzip output support
 // reduces amount of data need to be send to the client, but increases cpu load of the server

@@ -39,8 +39,8 @@ imanager_type_functions = Funktionen
 imanager_type_cache_delete = Cache löschen
 imanager_type_system = System Bildtyp
 
-imanager_effect_caption = Liste der angelegten Effekte
-imanager_effect_summary = Auflistung aller angelegten Effekte
+imanager_effect_caption = Liste der angelegten Effekte des Bildtyps "{0}"
+imanager_effect_summary = Auflistung aller angelegten Effekte des Bildtyps "{0}"
 imanager_effect_no_effects = Keine Effekte vorhanden
 imanager_effect_create = Effekt erstellen
 imanager_effect_edit = Effekte bearbeiten
