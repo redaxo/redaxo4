@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-function rex_a656_rss_teaser($feedUrl)
+function rex_a656_rss_teaser($feedUrl, $numItems = 5)
 {
   $feed = new rex_rssReader($feedUrl);
   $encoding = $feed->get_encoding();
@@ -21,7 +21,7 @@ function rex_a656_rss_teaser($feedUrl)
            <h3>'. htmlspecialchars($title) .'</h3>
            <ul>';
 
-  foreach ($feed->get_items(0, 4) as $item) {
+  foreach ($feed->get_items(0, $numItems) as $item) {
     $s .= '
         <li>
             <a href="'. $item->get_permalink() .'" onclick="window.open(this.href); return false;">
