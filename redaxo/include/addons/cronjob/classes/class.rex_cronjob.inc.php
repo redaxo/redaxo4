@@ -31,12 +31,12 @@
 		$this->params = $params;
 	}
 	
-	/*public*/ function getParam($key)
+	/*public*/ function getParam($key, $default = null)
 	{
 	  if(isset($this->params[$key]))
 	    return $this->params[$key];
 	    
-	  return null;
+	  return $default;
 	}
   
   /*abstract public*/ function execute() 
