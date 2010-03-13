@@ -26,10 +26,6 @@ if($error == '')
   {
     $error = 'Missing required PHP-Extension "xml"';
   }
-  elseif (!extension_loaded('xmlreader'))
-  {
-    $error = 'Missing required PHP-Extension "xmlreader"';
-  }
 }
 
 if ($error != '')
