@@ -50,10 +50,10 @@ if ($func == 'execute')
   {
     $type   = $sql->getValue('type');
     $name   = $sql->getValue('name');
-    $params = $sql->getValue('parameters');
+    $params = unserialize($sql->getValue('parameters'));
     
     $cronjob = rex_cronjob::factory($type);
-    $success = rex_cronjob_manager::tryExecute($name, $cronjob, $params);
+    $success = rex_cronjob_manager::tryExecute($cronjob, $name, $params);
   }
   if ($success)
     echo rex_info($I18N->msg('cronjob_execute_success'));

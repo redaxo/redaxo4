@@ -29,11 +29,11 @@ class rex_cronjob_manager
       $id       = $sql->getValue('id');
       $name     = $sql->getValue('name');
       $type     = $sql->getValue('type');
-      $params   = $sql->getValue('parameters');
+      $params   = unserialize($sql->getValue('parameters'));
       $interval = $sql->getValue('interval_sec');
 
       $cronjob = rex_cronjob::factory($type);
-      rex_cronjob_manager::tryExecute($name, $cronjob, $params);
+      rex_cronjob_manager::tryExecute($cronjob, $name, $params);
       
       $time = time();
       $timezone_diff = mktime(0,0,0,1,1,1970);
@@ -47,16 +47,27 @@ class rex_cronjob_manager
     rex_cronjob_manager::saveNextTime();
   }
   
-  /*public static*/ function tryExecute($name, $cronjob, $params = array())
+  /*public static*/ function tryExecute($cronjob, $name = '', $params = array())
   {
-    $success = rex_cronjob::isValid($cronjob);
+    global $REX;
     
-    if ($success) 
+    $success = rex_cronjob::isValid($cronjob);
+    if($success) 
     {
-      foreach(unserialize($params) as $key => $value)
-        $cronjob->setParam(str_replace($cronjob->getType().'_', '', $key), $value);
+      $type = $cronjob->getType();
+      foreach($params as $key => $value)
+        $cronjob->setParam(str_replace($type.'_', '', $key), $value);
       $success = $cronjob->execute();
+      if(!$name)
+      {
+        if($REX['REDAXO'])
+          $name = $cronjob->getName();
+        else
+          $name = $type;
+      }
     }
+    if (!$name)
+      $name = '[no name]';
     
     rex_cronjob_log::save($name, $success);
     
