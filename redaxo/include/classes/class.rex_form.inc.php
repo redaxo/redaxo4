@@ -45,7 +45,13 @@ class rex_form
     $this->sql->debugsql =& $this->debug;
     $this->debug =& $debug;
     $this->sql->setQuery('SELECT * FROM '. $tableName .' WHERE '. $this->whereCondition .' LIMIT 2');
-
+    
+    if($this->sql->hasError())
+    {
+      echo rex_warning($this->sql->getError());
+      return;
+    }
+    
     // --------- validate where-condition and determine editMode 
     $numRows = $this->sql->getRows();
     if($numRows == 0)
