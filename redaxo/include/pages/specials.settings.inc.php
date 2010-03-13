@@ -84,15 +84,20 @@ elseif ($func == 'updateinfos')
   $cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVERNAME).'"', $cont);
   $cont = preg_replace("@(REX\['MOD_REWRITE'\].?\=.?)[^;]*@",'$1'.strtolower($neu_modrewrite),$cont);
 
-  rex_put_file_contents($master_file, $cont);
-  $info = $I18N->msg('info_updated');
-
-  // Zuweisungen für Wiederanzeige
-  $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-  // FŸr die Wiederanzeige Slashes strippen
-  $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
-  $REX['SERVER'] = stripslashes($neu_SERVER);
-  $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
+  if($warning == '')
+  {
+    if(rex_put_file_contents($master_file, $cont) > 0)
+    {
+      $info = $I18N->msg('info_updated');
+    
+      // Zuweisungen für Wiederanzeige
+      $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
+      // FŸr die Wiederanzeige Slashes strippen
+      $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
+      $REX['SERVER'] = stripslashes($neu_SERVER);
+      $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
+    }
+  }
 }
 
 $sel_template = new rex_select();
