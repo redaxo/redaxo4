@@ -760,13 +760,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
         $("#userperm-module").attr("disabled", "disabled");
         $("#cats_mcats_perms").slideUp("slow");
         $("#cats_mcats_box").slideUp("slow");
-        $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").css("display", "none");
+        $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").attr("disabled", "disabled");
       }
       else
       {
         $("#userperm-module").attr("disabled", "");
         $("#cats_mcats_box").slideDown("slow");
-        $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").css("display", "block");
+        $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").attr("disabled", "");
         catsChecked();
       }
     });
@@ -813,7 +813,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       $("#userperm-module").attr("disabled", "disabled");
       $("#cats_mcats_perms").hide();
       $("#cats_mcats_box").hide();
-      $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").css("display", "none");
+      $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").attr("disabled", "disabled");
     };
   });
 
