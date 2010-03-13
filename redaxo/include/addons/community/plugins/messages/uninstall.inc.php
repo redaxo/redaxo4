@@ -12,11 +12,11 @@ $sql->setQuery('SHOW TABLE STATUS LIKE "rex_com_message"');
 
 if ($sql->getRows() == 1)
 {
-	$REX['ADDON']['plugins']['community']['messages']['install'] = 1;
-	$REX['ADDON']['plugins']['community']['messages']['installmsg'] = 'Tabelle "rex_com_message" konnte nicht gelöscht werden';
+	$REX['ADDON']['install']['messages'] = 1;
+	$REX['ADDON']['installmsg']['messages'] = 'Tabelle "rex_com_message" konnte nicht gelöscht werden';
 }else
 {
-	$REX['ADDON']['plugins']['community']['messages']['install'] = 0;
+	$REX['ADDON']['install']['messages'] = 0;
 }
 
 ?>

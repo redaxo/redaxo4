@@ -12,11 +12,11 @@ $sql->setQuery('SHOW TABLE STATUS LIKE "rex_com_board"');
 
 if ($sql->getRows() == 1)
 {
-	$REX['ADDON']['plugins']['community']['board']['install'] = 1;
-	$REX['ADDON']['plugins']['community']['board']['installmsg'] = 'Tabelle "rex_com_board" konnte nicht gelöscht werden';
+	$REX['ADDON']['install']['board'] = true;
+	$REX['ADDON']['installmsg']['board'] = 'Tabelle "rex_com_board" konnte nicht gelöscht werden';
 }else
 {
-	$REX['ADDON']['plugins']['community']['board']['install'] = 0;
+	$REX['ADDON']['install']['board'] = false;
 }
 
 ?>

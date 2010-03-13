@@ -6,8 +6,8 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
-$REX['ADDON']['plugins']['community']['dummy']['install'] = 1;
- // $REX['ADDON']['plugins']['community']['dummy']['installmsg'] = 'Fehler!';
+$REX['ADDON']['install']['dummy'] = 1;
+ // $REX['ADDON']['installmsg']['dummy'] = 'Fehler!';
 
 
 ?>

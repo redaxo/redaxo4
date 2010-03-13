@@ -12,11 +12,11 @@ $sql->setQuery('SHOW TABLE STATUS LIKE "rex_com_contact"');
 
 if ($sql->getRows() == 1)
 {
-	$REX['ADDON']['plugins']['community']['contacts']['install'] = 1;
-	$REX['ADDON']['plugins']['community']['contacts']['installmsg'] = 'Tabelle "rex_com_contact" konnte nicht gelöscht werden';
+	$REX['ADDON']['install']['contacts'] = 1;
+	$REX['ADDON']['installmsg']['contacts'] = 'Tabelle "rex_com_contact" konnte nicht gelöscht werden';
 }else
 {
-	$REX['ADDON']['plugins']['community']['contacts']['install'] = 0;
+	$REX['ADDON']['install']['contacts'] = 0;
 }
 
 ?>

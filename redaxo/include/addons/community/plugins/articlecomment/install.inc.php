@@ -6,6 +6,6 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
-$REX['ADDON']['plugins']['community']['articlecomment']['install'] = 1;
+$REX['ADDON']['install']['articlecomment'] = 1;
 
 ?>

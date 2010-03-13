@@ -12,11 +12,11 @@ $sql->setQuery('SHOW TABLE STATUS LIKE "rex_com_comment"');
 
 if ($sql->getRows() == 1)
 {
-	$REX['ADDON']['plugins']['community']['articlecomment']['install'] = 1;
-	$REX['ADDON']['plugins']['community']['articlecomment']['installmsg'] = 'Tabelle "rex_com_comment" konnte nicht gelöscht werden';
+	$REX['ADDON']['install']['articlecomment'] = 1;
+	$REX['ADDON']['installmsg']['articlecomment'] = 'Tabelle "rex_com_comment" konnte nicht gelöscht werden';
 }else
 {
-	$REX['ADDON']['plugins']['community']['articlecomment']['install'] = 0;
+	$REX['ADDON']['install']['articlecomment'] = 0;
 }
 
 ?>
