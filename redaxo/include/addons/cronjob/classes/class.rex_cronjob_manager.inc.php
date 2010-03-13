@@ -104,7 +104,7 @@ class rex_cronjob_manager
     $types[] = 'rex_cronjob_urlrequest';
     
     // ----- EXTENSION POINT
-    $types = rex_register_extension_point('REX_CRONJOB_TYPES', $types);
+    $types = rex_register_extension_point('CRONJOB_TYPES', $types);
 
     return $types;
   }

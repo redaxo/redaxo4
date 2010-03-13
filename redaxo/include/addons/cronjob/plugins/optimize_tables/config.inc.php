@@ -25,7 +25,7 @@ if($REX['REDAXO'])
 }
 
 rex_register_extension(
-  'REX_CRONJOB_TYPES',
+  'CRONJOB_TYPES',
   array('rex_cronjob_manager', 'registerExtension'),
   array('class' => 'rex_cronjob_optimize_tables')
 );

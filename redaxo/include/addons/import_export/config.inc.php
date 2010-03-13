@@ -30,7 +30,7 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
     require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
     
   	rex_register_extension(
-  	  'REX_CRONJOB_TYPES',
+  	  'CRONJOB_TYPES',
   	  array('rex_cronjob_manager', 'registerExtension'),
   	  array('class' => 'rex_cronjob_export')
     );
