@@ -198,8 +198,9 @@ class rex_article_base
     $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
     $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {
-    if($this->getSlice){
-      while(list($k, $v) = each($RE_CONTS))
+    if($this->getSlice)
+    {
+      foreach($RE_CONTS as $k => $v)
       	$I_ID = $k;
     }
     
