@@ -207,22 +207,22 @@ div#rex-navi-main ul li ul li a {
 
 /*	Button - Pfeil oben */
 div.rex-navi-slice ul li a.rex-slice-move-up {
-	background-image: url(icon_up.gif);
+	background-image: url(up.gif);
 }
 
 /*	Button - Pfeil unten */ 
 div.rex-navi-slice ul li a.rex-slice-move-down {
-	background-image: url(icon_down.gif);
+	background-image: url(down.gif);
 }
 
 /*	Button - Pfeil links */ 
 div.rex-navi-paginate ul li.rex-navi-paginate-prev a {
-	background-image: url(icon_left.gif);
+	background-image: url(left.gif);
 }
 
 /*	Button - Pfeil rechts */ 
 div.rex-navi-paginate ul li.rex-navi-paginate-next a {
-	background-image: url(icon_right.gif);
+	background-image: url(right.gif);
 }
 
 div.rex-widget p.rex-widget-icons a.rex-icon-file-add {
@@ -313,37 +313,34 @@ div#rex-form-structure-category p.rex-button-add a {
 	background-image: url(clang_plus.gif);
 }
 .rex-i-cronjob {
-	/*	TODO */
-	background-image: url(icon_cronjob.gif);
-	background-image: url(document.gif);
+	background-image: url(cronjob.gif);
 }
 .rex-i-cronjob-add {
-	/*	TODO */
-	background-image: url(icon_cronjob_add.gif);
-	background-image: url(document_plus.gif);
+	background-image: url(cronjob_add.gif);
 }
 .rex-i-generic {
-	/*	TODO */
-	background-image: url(icon_generic.gif);
-	background-image: url(document.gif);
+	background-image: url(generic.gif);
 }
 .rex-i-generic-add {
-	/*	TODO */
-	background-image: url(icon_generic_add.gif);
-	background-image: url(file_add.gif);
+	background-image: url(generic_add.gif);
+}
+.rex-i-generic-delete {
+	background-image: url(generic_del.gif);
 }
 .rex-i-generic-close {
-	/*	TODO */
-	background-image: url(icon_generic_close.gif);
-	background-image: url(file_del.gif);
+	background-image: url(generic_close.gif);
 }
 .rex-i-generic-open {
-	/*	TODO */
-	background-image: url(icon_generic_open.gif);
-	background-image: url(file_add.gif);
+	background-image: url(generic_open.gif);
+}
+.rex-i-list {
+	background-image: url(list.gif);
+}
+.rex-i-media-add {
+	background-image: url(media_add.gif);
 }
 .rex-i-media {
-	background-image: url(file_view.gif);
+	background-image: url(media.gif);
 }
 .rex-i-metainfo {
 	background-image: url(metainfo.gif);
@@ -358,15 +355,13 @@ div#rex-form-structure-category p.rex-button-add a {
 	background-image: url(module_plus.gif);
 }
 .rex-i-refresh {
-	background-image: url(icon_refresh.gif);
+	background-image: url(refresh.gif);
 }
 .rex-i-refresh-ani {
-	background-image: url(icon_refresh_ani.gif);
+	background-image: url(refresh_ani.gif);
 }
 .rex-i-refresh-err {
-  /*TODO Image indicating refresh error -> ajax error, backport to default skin */
-  background-image: url(icon_refresh_err.gif);
-  background-image: url(file_add.gif);
+  background-image: url(refresh_err.gif);
 }
 .rex-i-slice {
 	background-image: url(slice.gif);
@@ -378,24 +373,16 @@ div#rex-form-structure-category p.rex-button-add a {
 	background-image: url(template_plus.gif);
 }
 .rex-i-togglesettings {
-  /*TODO better image, backport to default skin */
- 	background-image: url(icon_togglesettings.gif);
-  background-image: url(file_add.gif);
+ 	background-image: url(togglesettings.gif);
 }
 .rex-i-togglesettings-off {
-  /*TODO better image, backport to default skin */
- 	background-image: url(icon_togglesettings_off.gif);
-  background-image: url(file_del.gif);
+ 	background-image: url(togglesettings_off.gif);
 }
 .rex-i-toggleview {
-  /*TODO */
- 	background-image: url(icon_toggleview.gif);
-	background-image: url(file_del.gif);
+ 	background-image: url(toggleview.gif);
 }
 .rex-i-toggleview-off {
-  /*TODO backport to default skin */
- 	background-image: url(icon_toggleview_off.gif);
-	background-image: url(file_add.gif);
+ 	background-image: url(toggleview_off.gif);
 }
 .rex-i-user {
 	background-image: url(user.gif);
@@ -783,6 +770,7 @@ body table.rex-table,
 body#rex-page-linkmap div#rex-linkmap, 
 body#rex-page-import-export div.rex-area-col-a, 
 body#rex-page-import-export div.rex-area-col-b, 
+#rex-mediapool-detail-wrapper, 
 div.rex-area, 
 div.rex-addon-output, 
 div.rex-content-header, 
@@ -813,7 +801,8 @@ body div.rex-content-body table.rex-table,
 body div.rex-toolbar div.rex-form, 
 body div.rex-toolbar table.rex-table,  
 body div.rex-addon-output div.rex-form,  
-body div.rex-addon-output table.rex-table {
+body div.rex-addon-output table.rex-table, 
+body #rex-mediapool-detail-wrapper div.rex-form  {
 	border: 0;
 	-moz-outline-radius-bottomleft: 0;
 	-moz-outline-radius-bottomright: 0;
@@ -916,16 +905,14 @@ tr.rex-metainfo-cat {
 }
 
 
+
 /*
 body div#rex-footer,
-	body div#rex-website,
-	html body#rex-page-structure,
-	html body#rex-page-content{ background:url(none) #f3f3f3; }
-	
-	body div#rex-navi-main{ float:right }
-	
-	body div#rex-navi-logout ul.rex-logout li{ background:#333; padding:10px; }
-	
-	body div#rex-website div#rex-footer,
-	body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margin:0px; }
+body div#rex-website,
+html body#rex-page-structure,
+html body#rex-page-content{ background:url(none) #f3f3f3; }
+body div#rex-navi-main{ float:right }
+body div#rex-navi-logout ul.rex-logout li{ background:#333; padding:10px; }
+body div#rex-website div#rex-footer,
+body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margin:0px; }
 */
