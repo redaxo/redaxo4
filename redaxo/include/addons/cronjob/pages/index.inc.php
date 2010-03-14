@@ -14,8 +14,7 @@ require $REX['INCLUDE_PATH'] .'/layout/top.php';
 $page    = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func    = rex_request('func', 'string');
-$oid     = rex_request('oid', 'string');
-$table   = $REX['TABLE_PREFIX'].'630_cronjobs';
+$oid     = rex_request('oid', 'int');
 
 rex_title($I18N->msg("cronjob_title"), $REX['ADDON']['navigation']['cronjob']['subpages']);
 

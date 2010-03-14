@@ -11,61 +11,40 @@
 
 if ($func == 'setstatus')
 {
-  $sql = rex_sql::factory();
-  //$sql->debugsql = true;
-  $sql->setTable($table);
-  $sql->setWhere('id = '. $oid);
+  $name = rex_cronjob_manager_sql::getName($oid);
   $status = (rex_request('oldstatus', 'int') +1) % 2;
-  $sql->setValue('status', $status);
-  $sql->addGlobalUpdateFields();
-  if ($sql->update())
-    echo rex_info($I18N->msg('cronjob_status_success'));
+  $msg = $status == 1 ? 'cronjob_status_activate' : 'cronjob_status_deactivate';
+  if (rex_cronjob_manager_sql::setStatus($oid, $status))
+    echo rex_info($I18N->msg($msg .'_success', $name));
   else
-    echo rex_warning($I18N->msg('cronjob_status_error'));
-  rex_cronjob_manager::saveNextTime();
+    echo rex_warning($I18N->msg($msg .'_error', $name));
   $func = '';
 }
 
 if ($func == 'delete')
 {
-  $sql = rex_sql::factory();
-  //$sql->debugsql = true;
-  $sql->setTable($table);
-  $sql->setWhere('id = '. $oid);
-  if ($sql->delete())
-    echo rex_info($I18N->msg('cronjob_delete_success'));
+  $name = rex_cronjob_manager_sql::getName($oid);
+  if (rex_cronjob_manager_sql::delete($oid))
+    echo rex_info($I18N->msg('cronjob_delete_success', $name));
   else
-    echo rex_warning($I18N->msg('cronjob_delete_error'));
-  rex_cronjob_manager::saveNextTime();
+    echo rex_warning($I18N->msg('cronjob_delete_error', $name));
   $func = '';
 }
 
 if ($func == 'execute')
 {
-  $sql = rex_sql::factory();
-  //$sql->debugsql = true;
-  $sql->setQuery('SELECT name, type, parameters FROM '. $table .' WHERE id = '. $oid);
-  $success = false;
-  if ($sql->getRows() == 1) 
-  {
-    $type   = $sql->getValue('type');
-    $name   = $sql->getValue('name');
-    $params = unserialize($sql->getValue('parameters'));
-    
-    $cronjob = rex_cronjob::factory($type);
-    $success = rex_cronjob_manager::tryExecute($cronjob, $name, $params);
-  }
-  if ($success)
-    echo rex_info($I18N->msg('cronjob_execute_success'));
+  $name = rex_cronjob_manager_sql::getName($oid);
+  if (rex_cronjob_manager_sql::tryExecute($oid))
+    echo rex_info($I18N->msg('cronjob_execute_success', $name));
   else
-    echo rex_warning($I18N->msg('cronjob_execute_error'));
+    echo rex_warning($I18N->msg('cronjob_execute_error', $name));
   $func = '';
 }
 
 if ($func == '') 
 {
 
-  $query = 'SELECT id, name, `interval`, environment, status FROM '.$table.' ORDER BY name';
+  $query = 'SELECT id, name, `interval`, environment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
   
   $list = rex_list::factory($query, 30);
   
@@ -151,7 +130,7 @@ if ($func == '')
   
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
   
-  $form = rex_form::factory($table, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
+  $form = rex_form::factory(REX_CRONJOB_TABLE, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
   $form->addParam('oid', $oid);
   $form->setApplyUrl('index.php?page=cronjob');
   
@@ -174,15 +153,16 @@ if ($func == '')
   if ($func == 'add')
     $select->setSelected('rex_cronjob_phpcode');
   $activeType = $field->getValue();
-  if ($func != 'add' && !in_array($activeType, $types)) 
-  {
-    header('Location: index.php?page=cronjob&'.rex_request('list', 'string').'_warning='.$I18N->msg('cronjob_type_not_found',$activeType));
-    exit;
-  }
   
   $field =& $form->addTextField('name');
   $field->setLabel($I18N->msg('cronjob_name'));
   $nameFieldId = $field->getAttribute('id');
+  
+  if ($func != 'add' && !in_array($activeType, $types)) 
+  {
+    header('Location: index.php?page=cronjob&'.rex_request('list', 'string').'_warning='.$I18N->msg('cronjob_type_not_found',$field->getValue(), $activeType));
+    exit;
+  }
   
   $field =& $form->addIntervalField('interval');
   $field->setLabel($I18N->msg('cronjob_interval'));

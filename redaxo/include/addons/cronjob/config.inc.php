@@ -57,7 +57,8 @@ if($REX['REDAXO'])
   $EP = 'ADDONS_INCLUDED';
 }
 
-define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'].'/addons/cronjob/logs/');
+define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/');
+define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
 
 require_once dirname(__FILE__) .'/classes/class.rex_cronjob_manager.inc.php';
 require_once dirname(__FILE__) .'/classes/class.rex_cronjob_log.inc.php';
