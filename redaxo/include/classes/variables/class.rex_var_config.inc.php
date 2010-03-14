@@ -34,20 +34,20 @@ class rex_var_config extends rex_var
 
     $var = 'REX_CONFIG';
     $matches = $this->getVarParams($content, $var);
-    
+
     foreach ($matches as $match)
     {
     	list ($param_str, $args)   = $match;
       list ($field, $args)       = $this->extractArg('field', $args, '');
-      
-      $field = strtoupper($field);
-      $tpl = '';
 
-      $varname = '$REX[\''. addslashes($field) .'\']';
+      $tpl = '';
+      $varname1 = '$REX[\''. addslashes($field) .'\']';
+      $varname2 = '$REX[\''. addslashes(strtoupper($field)) .'\']';
       $tpl = '<?php
-      if(isset('. $varname .')) echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname) .');
+      if(isset('. $varname1 .')) echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname1) .');
+      elseif(isset('. $varname2 .')) echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname2) .');
       ?>';
-      
+
       if($tpl != '')
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }
