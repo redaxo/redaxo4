@@ -611,7 +611,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     $ins->insert();
 
     // id holen und als re setzen und weitermachen..
-    rex_copyContent($from_id, $to_id, $from_clang, $to_clang, $gc->getValue("id"),$revision);
+    rex_copyContent($from_id, $to_id, $from_clang, $to_clang, $gc->getValue("id"), $revision);
     return true;
   }
 
@@ -687,8 +687,14 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue("clang", $clang);
         $art_sql->insert();
 
-        // ArticleSlices kopieren
-        rex_copyContent($id, $new_id, $clang, $clang);
+        $revisions = rex_sql::factory();
+        $revisions->setQuery("select revision from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='0' and article_id='$id' and clang='$clang'");
+        for($i = 0; $i < $revisions->getRows(); $i++)
+        {
+          // ArticleSlices kopieren
+          rex_copyContent($id, $new_id, $clang, $clang, 0, $revisions->getValue('revision'));
+          $revisions->next();
+        }
 
         // Prios neu berechnen
         rex_newArtPrio($to_cat_id, $clang, 1, 0);

@@ -434,7 +434,7 @@ if ($article->getRows() == 1)
         $clang_a = rex_post('clang_a', 'rex-clang-id');
         $clang_b = rex_post('clang_b', 'rex-clang-id');
         
-        if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b))
+        if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
           $info = $I18N->msg('content_contentcopy');
         else
           $warning = $I18N->msg('content_errorcopy');
