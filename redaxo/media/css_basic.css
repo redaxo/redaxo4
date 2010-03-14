@@ -586,32 +586,37 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 }
 .rex-i-cronjob {
 	/*	TODO */
-	background-image: url(../media/icon_cronjob.gif);
+	background-image: url(../media/cronjob.gif);
 	background-image: url(../media/document.gif);
 }
 .rex-i-cronjob-add {
 	/*	TODO */
-	background-image: url(../media/icon_cronjob_add.gif);
+	background-image: url(../media/cronjob_add.gif);
 	background-image: url(../media/document_plus.gif);
 }
 .rex-i-generic {
 	/*	TODO */
-	background-image: url(../media/icon_generic.gif);
+	background-image: url(../media/generic.gif);
 	background-image: url(../media/document.gif);
 }
 .rex-i-generic-add {
 	/*	TODO */
-	background-image: url(../media/icon_generic_add.gif);
+	background-image: url(../media/generic_add.gif);
 	background-image: url(../media/file_add.gif);
+}
+.rex-i-generic-delete {
+	/*	TODO */
+	background-image: url(../media/generic_delete.gif);
+	background-image: url(../media/file_del.gif);
 }
 .rex-i-generic-close {
 	/*	TODO */
-	background-image: url(../media/icon_generic_close.gif);
+	background-image: url(../media/generic_close.gif);
 	background-image: url(../media/file_del.gif);
 }
 .rex-i-generic-open {
 	/*	TODO */
-	background-image: url(../media/icon_generic_open.gif);
+	background-image: url(../media/generic_open.gif);
 	background-image: url(../media/file_add.gif);
 }
 .rex-i-media {
@@ -637,7 +642,7 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 }
 .rex-i-refresh-err {
   /*	TODO */
-  background-image: url(../media/icon_refresh_err.gif);
+  background-image: url(../media/refresh_err.gif);
   background-image: url(../media/file_add.gif);
 }
 .rex-i-slice {
@@ -655,7 +660,7 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 }
 .rex-i-togglesettings-off {
   /*TODO better image, backport to default skin */
- 	background-image: url(../media/icon_togglesettings_off.gif);
+ 	background-image: url(../media/togglesettings_off.gif);
   background-image: url(../media/file_del.gif);
 }
 .rex-i-toggleview {
@@ -664,7 +669,7 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 }
 .rex-i-toggleview-off {
   /*TODO backport to default skin */
- 	background-image: url(../media/icon_toggleview_off.gif);
+ 	background-image: url(../media/toggleview_off.gif);
 	background-image: url(../media/file_del.gif);
 }
 .rex-i-user {
