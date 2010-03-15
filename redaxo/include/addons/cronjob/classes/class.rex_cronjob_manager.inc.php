@@ -16,10 +16,10 @@
     global $REX;
     $environment = (int)$REX['REDAXO'];
     $query = '
-      SELECT    id, name, type, parameters, interval_sec 
+      SELECT    id, name, type, parameters, `interval`
       FROM      '. REX_CRONJOB_TABLE .' 
       WHERE     status=1 AND environment LIKE "%|'. $environment .'|%" AND nexttime <= '. time() .' 
-      ORDER BY  nexttime ASC, interval_sec DESC 
+      ORDER BY  nexttime ASC
       LIMIT     1
     ';
     rex_cronjob_manager_sql::tryExecute($query);
@@ -96,6 +96,7 @@
   }
 }
 
+
 /*final*/ class rex_cronjob_manager_sql
 {
   /*public static*/ function getName($id)
@@ -138,12 +139,12 @@
   /*public static*/ function tryExecute($query_or_id, $log = true)
   {
     global $REX;
-    $environment = (int)$REX['REDAXO'];
     $sql = rex_cronjob_manager_sql::_getSqlInstance();
     if (is_int($query_or_id))
     {
+      $environment = (int)$REX['REDAXO'];
       $sql->setQuery('
-        SELECT    id, name, type, parameters, interval_sec 
+        SELECT    id, name, type, parameters, `interval` 
         FROM      '. REX_CRONJOB_TABLE .' 
         WHERE     id='. $query_or_id .' AND environment LIKE "%|'. $environment .'|%" 
         LIMIT     1
@@ -160,14 +161,15 @@
       $name     = $sql->getValue('name');
       $type     = $sql->getValue('type');
       $params   = unserialize($sql->getValue('parameters'));
-      $interval = $sql->getValue('interval_sec');
+      $interval = $sql->getValue('interval');
 
       $cronjob = rex_cronjob::factory($type);
       $success = rex_cronjob_manager::tryExecute($cronjob, $name, $params, $log);
 
-      $time = time();
+      /*$time = time();
       $timezone_diff = mktime(0,0,0,1,1,1970);
-      $nexttime = $time + $interval - (($time - $timezone_diff) % $interval);
+      $nexttime = $time + $interval - (($time - $timezone_diff) % $interval);*/
+      $nexttime = rex_cronjob_manager_sql::_calculateNextTime($interval);
       rex_cronjob_manager_sql::setNextTime($id, $nexttime);
     }
     rex_cronjob_manager::saveNextTime();
@@ -206,5 +208,23 @@
       // $sql->debugsql = true;
     }
     return $sql;
+  }
+  
+  /*private static*/ function _calculateNextTime($interval)
+  {
+    $interval = explode('|', trim($interval, '|'));
+    if (is_array($interval) && isset($interval[0]) && isset($interval[1]))
+    {
+      $date = getdate();
+      switch($interval[1])
+      {
+        case 'h': return mktime($date['hours'] + $interval[0], 0, 0);
+        case 'd': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0]);
+        case 'w': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0] * 7 - $date['wday']);
+        case 'm': return mktime(0, 0, 0, $date['mon'] + $interval[0], 1);
+        case 'y': return mktime(0, 0, 0, 1, 1, $date['year'] + $interval[0]);
+      } 
+    }
+    return null;
   }
 }

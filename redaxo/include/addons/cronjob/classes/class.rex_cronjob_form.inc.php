@@ -37,7 +37,7 @@ class rex_cronjob_form extends rex_form
     return true;
   }
   
-  /*protected*/ function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
+  /*protected/ function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
   {
     global $REX;
 
@@ -66,7 +66,7 @@ class rex_cronjob_form extends rex_form
     }
 
     return $fieldValue;
-  }
+  }*/
   
   /*protected*/ function save() 
   {

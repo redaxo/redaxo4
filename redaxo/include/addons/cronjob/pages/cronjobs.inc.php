@@ -305,6 +305,8 @@ if ($func == '')
     }
   }
   
+  $form->addHiddenField('nexttime', 0);
+  
   $form->show();
 
 ?>
