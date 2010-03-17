@@ -112,7 +112,19 @@ if($func == "delete"){
 
 // ********************************************* LISTE
 if($show_list){
+  
+  // formatting func fuer status col
+	function rex_em_status_col($params)
+	{
+    global $I18N;
+    $list = $params["list"];
+    
+    return $list->getValue("status") == 1 ?
+      $I18N->msg("editme_tbl_active") :
+      $I18N->msg("editme_tbl_inactive"); 
+	}
 	
+  
 	echo "<table cellpadding=5 class=rex-table><tr><td>
 		<a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a>
 		 | 
@@ -123,19 +135,23 @@ if($show_list){
 	$sql = "select * from $table order by prio,name";
 
 	$list = rex_list::factory($sql,30);
-	$list->setColumnFormat('id', 'Id');
 
 	// $list->setColumnParams("id", array("table_id"=>"###id###","func"=>"edit"));
 	$list->removeColumn("id");
+	$list->removeColumn("list_amount");
+	$list->removeColumn("search");
+	$list->removeColumn("hidden");
+//	$list->removeColumn("label");
+//	$list->removeColumn("prio");
 	
+  $list->setColumnFormat('status', 'custom', 'rex_em_status_col');
 	$list->setColumnParams("name", array("table_id"=>"###id###","func"=>"edit"));
 	
-	$list->addColumn('Felder_editieren','Felder editieren');
-	$list->setColumnParams("Felder_editieren", array("subpage"=>"field","table_name"=>"###name###"));
+	$list->addColumn('Felder editieren','Felder editieren');
+	$list->setColumnParams("Felder editieren", array("subpage"=>"field","table_name"=>"###name###"));
 
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
 	$list->setColumnParams("l&ouml;schen", array("table_id"=>"###id###","func"=>"delete"));
 
 	echo $list->get();
-
 }

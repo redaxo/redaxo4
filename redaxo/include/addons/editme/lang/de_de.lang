@@ -9,4 +9,7 @@ em_back_to_overview = Zurück zur Übersicht
 editme_addfield = Feld hinzufügen
 editme_editfield = Feld bearbeiten
 
+editme_tbl_active = aktiv
+editme_tbl_inactive = inaktiv
+
 navigation_editme = Tabellenverwaltung
