@@ -100,12 +100,12 @@
   /*protected*/ function getActions()
   {
     $actions = array();
-    $actions[] = 'refresh';
+    $actions[] = array('name' => 'refresh', 'class' => 'rex-i-refresh');
     
     if($this->config)
-      $actions[] ='toggleSettings';
+      $actions[] = array('name' => 'toggleSettings', 'class' => 'rex-i-togglesettings');
       
-    $actions[] = 'toggleView';
+    $actions[] = array('name' => 'toggleView', 'class' => 'rex-i-toggleview-off');
 
     // ----- EXTENSION POINT
     $actions = rex_register_extension_point('DASHBOARD_COMPONENT_ACTIONS', $actions);
@@ -122,10 +122,10 @@
     $content .= '<ul class="rex-dashboard-component-navi">';
     foreach($this->getActions() as $action)
     {
-      $laction = strtolower($action);
-      $class = 'rex-i-'. $laction;
+      $laction = strtolower($action['name']);
+      $class = $action['class'];
       $id = $this->getId(). '-'. $laction;
-      $onclick = 'component'. ucfirst($action) .'(\''. $this->getId() .'\'); return false;';
+      $onclick = 'component'. ucfirst($action['name']) .'(\''. $this->getId() .'\'); return false;';
       $title = $I18N->msg('dashboard_component_action_'. $laction);
       
       $content .= '<li>';
