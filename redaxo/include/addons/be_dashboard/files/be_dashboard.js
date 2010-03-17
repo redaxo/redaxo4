@@ -12,9 +12,9 @@ function componentRefresh(componentId) {
 	// prepare url
 	var url = window.location.href;
 	// add refresh parameter so we get a up-to-date copy
-	url = url + '&refresh=' + componentId;
+	url += '&refresh=' + componentId;
 	// get content for ajax usage
-	url = url + '&ajax-get=' + componentId;
+	url += '&ajax-get=' + componentId;
 
 	loadingFn = function() {
 		// indicate loading with animated image
