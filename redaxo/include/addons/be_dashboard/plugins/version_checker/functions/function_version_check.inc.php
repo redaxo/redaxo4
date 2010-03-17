@@ -55,6 +55,7 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
   $buf = '';
   $parts = parse_url($url);
   $port = isset($parts['port']) ? $parts['port'] : 80;
+  $path = isset($parts['path']) ? $parts['path'] : '/';
   
   // use timeout for opening connection
   $fp = fsockopen($parts['host'], $port, $errno, $errstr, $timeout);
@@ -64,7 +65,7 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
     stream_set_timeout($fp, $timeout);
     
     $out  = "";
-    $out .= "GET ". $parts['path'] ." HTTP/1.1\r\n";
+    $out .= "GET ". $path ." HTTP/1.1\r\n";
     $out .= "Host: ". $parts['host'] ."\r\n";
     $out .= "Connection: Close\r\n\r\n";
     
