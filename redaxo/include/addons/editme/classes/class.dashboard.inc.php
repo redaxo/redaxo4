@@ -17,7 +17,7 @@ class rex_editme_component extends rex_dashboard_component
     global $I18N;
     
     parent::rex_dashboard_component('editme_'. $tableName);
-//    $this->setTitle($I18N->msg('cronjob_dashboard_component_title'));
+    
     $this->setTitle($tableName);
     $this->setTitleUrl('index.php?page=editme&amp;subpage='. $tableName);
     $this->setBlock($I18N->msg('editme'));
