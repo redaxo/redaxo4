@@ -692,7 +692,7 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 
 .rex-table tr.rex-info,
 .rex-table tr.rex-warning {
-	background: none;
+	background-image: none;
 }
 .rex-table tr.rex-warning {
 	font-weight: bold;
