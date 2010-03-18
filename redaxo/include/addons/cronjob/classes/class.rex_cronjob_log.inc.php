@@ -65,7 +65,13 @@ class rex_cronjob_log
     return rex_get_file_contents($file);
   }
   
-  /*public static*/ function getNewestMessages($limit = 10)
+  /*public static*/ function getListOfMonth($month, $year)
+  {
+    $lines = explode("\n", trim(rex_cronjob_log::getLogOfMonth($month, $year)));
+    return rex_cronjob_log::_getList($lines);
+  }
+  
+  /*public static*/ function getListOfNewestMessages($limit = 10)
   {
     $array = array_reverse(rex_cronjob_log::getYearMonthArray(),true);
     $messages = array();
@@ -84,7 +90,7 @@ class rex_cronjob_log
           break 2;
       }
     }
-    return $messages;
+    return rex_cronjob_log::_getList($messages);
   }
   
   /*public static*/ function save($name, $success)
@@ -121,5 +127,50 @@ class rex_cronjob_log
     $content = $newline ."\n". $content;
     
     return rex_put_file_contents($file, $content);
+  }
+  
+  /*private static*/ function _getList($lines)
+  {
+    global $REX, $I18N;
+    $list = '
+      <table summary="Auflistung der zuletzt bearbeiteten Artikel" class="rex-table">
+        <caption>Liste der zuletzt bearbeiteten Artikel</caption>
+        <colgroup>
+          <col width="40" />
+          <col width="140" />
+          <col width="*" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="rex-icon"></th>
+            <th>'.$I18N->msg('cronjob_log_date').'</th>
+            <th>'.$I18N->msg('cronjob_name').'</th>
+          </tr>
+        </thead>
+        <tbody>';
+    if (!is_array($lines) || count($lines) == 0)
+    {
+      $list .= '
+          <tr><td colspan="3">'.$I18N->msg('cronjob_log_no_data').'</td></tr>';
+    }
+    else
+    {
+      foreach($lines as $line)
+      {
+        list($date, $status, $name) = explode('  ', $line, 3);
+        $date = rex_formatter :: format(strtotime($date), 'strftime', 'datetime');
+        $class = trim($status) == 'ERROR' ? 'rex-warning' : 'rex-info';
+        $list .= '
+          <tr class="'. $class .'">
+            <td class="rex-icon"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $name .'</span></span></td>
+            <td>'. $date .'</td>
+            <td>'. $name .'</td>
+          </tr>';
+      }
+    }
+    $list .= '
+        </tbody>
+      </table>';
+    return $list;
   }
 }

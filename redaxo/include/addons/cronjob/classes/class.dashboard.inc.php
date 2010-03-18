@@ -25,22 +25,6 @@ class rex_cronjob_component extends rex_dashboard_component
   
   /*protected*/ function prepare()
   {
-    $messages = rex_cronjob_log::getNewestMessages(10);
-    
-    $content = '';
-    if(count($messages) > 0)
-    {
-      $content .= '<ul style="font-family: Courier, Monospace; white-space: pre;">';
-      foreach($messages as $message)
-      {
-        $style = '';
-        if (strpos($message, ' ERROR ') !== false)
-          $style = ' style="font-weight:bold; color:red;"';
-        $content .= '<li'. $style .'>'. $message .'</li>';
-      }
-      $content .= '</ul>';
-    }
-    
-    $this->setContent($content);
+    $this->setContent(rex_cronjob_log :: getListOfNewestMessages(10));
   }
 }

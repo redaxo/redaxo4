@@ -96,12 +96,5 @@ else
       </div>
     </div>';
   
-  $content = rex_cronjob_log::getLogOfMonth($log['month'], $log['year']);
-  $content = preg_replace('/^(.*?ERROR.*?)$/m','<strong style="color:red">$1</strong>', $content);
-  
-  echo '
-    <table cellpadding="5" class="rex-table">
-      <tr><td style="font-family: Courier, Monospace; white-space: pre;">'. $content .'</td></tr>
-    </table>
-  ';
+  echo rex_cronjob_log::getListOfMonth($log['month'], $log['year']);
 }

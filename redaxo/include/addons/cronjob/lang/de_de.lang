@@ -53,9 +53,11 @@ cronjob_status_deactivate_error = Cronjob "{0}" konnte nicht deaktiviert werden!
 cronjob_error_no_name = Es muss ein Name eingegeben werden!
 
 cronjob_log = Log
+cronjob_log_date = Datum
 cronjob_log_year = Jahr
 cronjob_log_month = Monat
 cronjob_log_ok = OK
 cronjob_no_log_files = Keine Log-Dateien vorhanden.
+cronjob_log_no_data = Keine Daten vorhanden.
 
 cronjob_dashboard_component_title = Zuletzt ausgeführte Cronjobs
