@@ -689,6 +689,15 @@ div.rex-navi-slice ul li a.rex-slice-move-down {
 }
 
 
+
+.rex-table tr.rex-info,
+.rex-table tr.rex-warning {
+	background: none;
+}
+.rex-table tr.rex-warning {
+	font-weight: bold;
+}
+
 /*	Border Color ***************************************************************
 *******************************************************************************/
 div#rex-footer {
