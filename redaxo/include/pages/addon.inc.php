@@ -310,7 +310,7 @@ if ($subpage == '')
         if (OOPlugin::isInstalled($addon, $plugin))
         {
           $install = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
-          $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("plugin_uninstall_question", $addon)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
+          $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg("plugin_uninstall_question", $plugin)).'\');">'.$I18N->msg("addon_uninstall").'</a>';
         }
         else
         {
