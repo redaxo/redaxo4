@@ -33,8 +33,11 @@
     if($success) 
     {
       $type = $cronjob->getType();
-      foreach($params as $key => $value)
-        $cronjob->setParam(str_replace($type.'_', '', $key), $value);
+      if (is_array($params))
+      {
+        foreach($params as $key => $value)
+          $cronjob->setParam(str_replace($type.'_', '', $key), $value);
+      }
       $success = $cronjob->execute();
       if($log && !$name)
       {

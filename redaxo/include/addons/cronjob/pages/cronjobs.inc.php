@@ -44,7 +44,7 @@ if ($func == 'execute')
 if ($func == '') 
 {
 
-  $query = 'SELECT id, name, `interval`, environment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
+  $query = 'SELECT id, name, type, `interval`, environment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
   
   $list = rex_list::factory($query, 30);
   
@@ -55,6 +55,7 @@ if ($func == '')
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
   
   $list->removeColumn('id');
+  $list->removeColumn('type');
   
   $list->setColumnLabel('name', $I18N->msg('cronjob_name'));
   $list->setColumnParams('name', array('func'=>'edit', 'oid'=>'###id###'));
@@ -116,9 +117,9 @@ if ($func == '')
       '$params', 
       'global $I18N;
        $list = $params["list"]; 
-       if (strpos($list->getValue("environment"),"|1|") !== false)
+       if (strpos($list->getValue("environment"),"|1|") !== false && class_exists($list->getValue("type")))
          return $list->getColumnLink("execute",$I18N->msg("cronjob_execute"));
-       return "";' 
+       return "<span class=\"rex-strike\">".$I18N->msg("cronjob_execute")."</span>";' 
     ) 
   );
   
