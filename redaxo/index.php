@@ -230,8 +230,8 @@ if($REX['USER'])
 
   // --- page herausfinden
   $REX['PAGE'] = trim(rex_request('page', 'string'));
-  if($rex_user_login != '') 
-    $REX['PAGE'] = $REX['LOGIN']->getStartpage();
+    
+  // --- invalide page, neue page bestimmen und diese in neuem request dann verarbeiten
   if(!isset($REX['PAGES'][$REX['PAGE']]))
   {
     $REX['PAGE'] = $REX['LOGIN']->getStartpage();
@@ -243,11 +243,7 @@ if($REX['USER'])
         $REX['PAGE'] = 'profile';
       }
     }
-  }
-   
-  // --- login ok -> redirect
-  if ($rex_user_login != '')
-  {
+    
     header('Location: index.php?page='. $REX['PAGE']);
     exit();
   }
