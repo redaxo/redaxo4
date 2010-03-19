@@ -67,12 +67,17 @@ class rex_cronjob_log
   
   /*public static*/ function getListOfMonth($month, $year)
   {
+    global $I18N;
     $lines = explode("\n", trim(rex_cronjob_log::getLogOfMonth($month, $year)));
-    return rex_cronjob_log::_getList($lines);
+    $monthName = rex_formatter::format(mktime(0,0,0,$month,1,1), 'strftime', '%B');
+    $caption = $I18N->msg('cronjob_log_caption_1', $monthName, $year);
+    $summary = $I18N->msg('cronjob_log_summary_1', $monthName, $year);
+    return rex_cronjob_log::_getList($lines, $caption, $summary);
   }
   
   /*public static*/ function getListOfNewestMessages($limit = 10)
   {
+    global $I18N;
     $array = array_reverse(rex_cronjob_log::getYearMonthArray(),true);
     $messages = array();
     foreach($array as $year => $months)
@@ -90,7 +95,9 @@ class rex_cronjob_log
           break 2;
       }
     }
-    return rex_cronjob_log::_getList($messages);
+    $caption = $I18N->msg('cronjob_log_caption_2');
+    $summary = $I18N->msg('cronjob_log_summary_2');
+    return rex_cronjob_log::_getList($messages, $caption, $summary);
   }
   
   /*public static*/ function save($name, $success)
@@ -129,12 +136,18 @@ class rex_cronjob_log
     return rex_put_file_contents($file, $content);
   }
   
-  /*private static*/ function _getList($lines)
+  /*private static*/ function _getList($lines, $caption = '', $summary = '')
   {
     global $REX, $I18N;
+    $table_attr = '';
+    if (!empty($summary))
+      $table_attr .= ' summary="'. $summary .'"';
+    $table_head = '';
+    if (!empty($caption))
+      $table_head .= '<caption>'. $caption .'</caption>';
     $list = '
-      <table summary="Auflistung der zuletzt bearbeiteten Artikel" class="rex-table">
-        <caption>Liste der zuletzt bearbeiteten Artikel</caption>
+      <table class="rex-table"'. $table_attr .'>
+        '. $table_head .'
         <colgroup>
           <col width="40" />
           <col width="140" />

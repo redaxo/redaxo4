@@ -48,6 +48,10 @@ if ($func == '')
   
   $list = rex_list::factory($query, 30);
   
+  $list->setNoRowsMessage($I18N->msg('cronjob_no_cronjobs'));
+  $list->setCaption($I18N->msg('cronjob_caption'));
+  $list->addTableAttribute('summary', $I18N->msg('cronjob_summary'));
+  
   $list->addTableColumnGroup(array(40,'*',90,130,60,60,60));
   
   $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('cronjob_add') .'</span></a>';
