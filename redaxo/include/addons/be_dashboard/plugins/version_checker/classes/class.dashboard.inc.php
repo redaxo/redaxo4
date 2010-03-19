@@ -15,7 +15,7 @@ class rex_version_checker_notification extends rex_dashboard_notification
   function rex_version_checker_notification()
   {
     // default cache lifetime in seconds
-    $cache_options['lifetime'] = 1;
+    $cache_options['lifetime'] = 3600;
     
     parent::rex_dashboard_notification('version_checker', $cache_options);
   }
@@ -42,76 +42,4 @@ class rex_version_checker_notification extends rex_dashboard_notification
       $this->setMessage(rex_warning('Version-Checker: '. $I18N->msg('vchecker_connection_error')));
     }
   }
-}
-
-
-
-
-class rex_version_checker_notification2 extends rex_dashboard_notification
-{
-function rex_version_checker_notification2()
-{
-// default cache lifetime in seconds
-$cache_options['lifetime'] = 1;
-
-parent::rex_dashboard_notification('version_checker', $cache_options);
-}
-
-/*public*/ function checkPermission()
-{
-global $REX;
-
-return $REX['USER']->isAdmin();
-}
-
-/*protected*/ function prepare()
-{
-$this->setMessage(rex_warning('Noch eine Warnung!'));
-}
-}
-
-class rex_version_checker_notification3 extends rex_dashboard_notification
-{
-function rex_version_checker_notification3()
-{
-// default cache lifetime in seconds
-$cache_options['lifetime'] = 1;
-
-parent::rex_dashboard_notification('version_checker', $cache_options);
-}
-
-/*public*/ function checkPermission()
-{
-global $REX;
-
-return $REX['USER']->isAdmin();
-}
-
-/*protected*/ function prepare()
-{
-$this->setMessage(rex_info('Und eine Info!'));
-}
-}
-
-class rex_version_checker_notification4 extends rex_dashboard_notification
-{
-function rex_version_checker_notification4()
-{
-// default cache lifetime in seconds
-$cache_options['lifetime'] = 1;
-
-parent::rex_dashboard_notification('version_checker', $cache_options);
-}
-
-/*public*/ function checkPermission()
-{
-global $REX;
-
-return $REX['USER']->isAdmin();
-}
-
-/*protected*/ function prepare()
-{
-$this->setMessage(rex_warning_block('Hier mal ein rex_warning_block()<br />Zweite Zeile'));
-}
 }
