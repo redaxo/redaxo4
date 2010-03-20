@@ -51,7 +51,7 @@ function rex_title($head, $subtitle = '')
 {
 	global $article_id, $category_id, $page;
 
-  if($subtitle == '')
+  if(empty($subtitle))
   {
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
   }
@@ -92,7 +92,7 @@ function rex_title($head, $subtitle = '')
 /**
  * Helper function, die den Subtitle generiert
  */
-function rex_get_subtitle($subline, $attr = '')
+function rex_get_subtitle($subline)
 {
   global $REX;
 
@@ -123,13 +123,23 @@ function rex_get_subtitle($subline, $attr = '')
       if(!empty($subpage['href']))
       {
         $href = $subpage['href'];
+        unset($subpage['href']);
       }
       else
       {
         $link = $subpage[0];
       }
       
-      $label = !empty($subpage['title']) ? $subpage['title'] : $subpage[1];
+      if(!empty($subpage['title']))
+      {
+        $label = $subpage['title'];
+        unset($subpage['title']);
+      }
+      else
+      {
+        $label = $subpage[1];
+      }
+      
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
       // Berechtigung prüfen
@@ -155,7 +165,7 @@ function rex_get_subtitle($subline, $attr = '')
       {
         $href = str_replace('&', '&amp;', $href);
         $active = false;
-        if (!empty($subpage['active_when']) && is_array($subpage['active_when']))
+        if (isset($subpage['active_when']) && is_array($subpage['active_when']))
         {
           $active = true;
           foreach($subpage['active_when'] as $k => $v)
@@ -164,11 +174,20 @@ function rex_get_subtitle($subline, $attr = '')
             if(!in_array(rex_request($k), $v))
               $active = false;
           }
+          unset($subpage['active_when']);
         }
         
         $class = '';
         if ($active)
           $class = ' class="rex-active"';
+
+        // restliche attribute direkt in den link-tag schreiben
+        foreach($subpage as $attr_name => $attr_value)
+        {
+          if(is_int($attr_name)) continue;
+          
+          $attr .= $attr_name .'="'. $attr_value .'" ';
+        }
         
         $format = '<a href="%s"%s'. rex_tabindex() .'%s>%s</a>';
         $subtitle[] = sprintf($format, $href, $attr, $class, $label);
@@ -183,6 +202,14 @@ function rex_get_subtitle($subline, $attr = '')
 
         $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
 
+        // restliche attribute direkt in den link-tag schreiben
+        foreach($subpage as $attr_name => $attr_value)
+        {
+          if(is_int($attr_name)) continue;
+          
+          $attr .= $attr_name .'="'. $attr_value .'" ';
+        }
+        
         // Auf der aktiven Seite den Link nicht anzeigen
         if ($active)
         {
