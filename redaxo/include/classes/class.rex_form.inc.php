@@ -6,6 +6,8 @@
  * @version svn:$Id$
  */
 
+define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
+
 class rex_form
 {
   var $name;
@@ -20,6 +22,7 @@ class rex_form
   var $debug;
   var $applyUrl;
   var $message;
+  var $errorMessages;
   var $warning;
   var $divId;
 
@@ -317,6 +320,11 @@ class rex_form
     return $field;
   }
 
+  /*public*/ function addErrorMessage($errorCode, $errorMessage)
+  {
+    $this->errorMessages[$errorCode] = $errorMessage;
+  }
+  
   /*public*/ function addParam($name, $value)
   {
     $this->params[$name] = $value;
@@ -852,8 +860,8 @@ class rex_form
    * 
    * Übernimmt die Werte aus den FormElementen in die Datenbank.
    *
-   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler oder
-   * einen String mit einer Fehlermeldung.
+   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
+   * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
    */
   /*protected*/ function save()
   {
@@ -894,8 +902,10 @@ class rex_form
     
     // ----- EXTENSION POINT
     if ($saved)
-      rex_register_extension_point('REX_FORM_SAVED', '', array('form' => $this));
-    
+      $saved = rex_register_extension_point('REX_FORM_SAVED', $sql, array('form' => $this));
+    else
+      $saved = $sql->getErrno();
+      
     return $saved;
   }
 
@@ -956,11 +966,15 @@ class rex_form
         // Nachricht in der Liste anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
           $this->redirect($I18N->msg('form_saved'));
+        elseif(is_int($result) && isset($this->errorMessages[$result]))
+          // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes) 
+          $this->setWarning($this->errorMessages[$result]);
         elseif(is_string($result) && $result != '')
           // Falls ein Fehler auftritt, das Formular wieder anzeigen mit der Meldung
           $this->setWarning($result);
         else
-          $this->setWarning($I18N->msg('form_save_error'));
+           // Allgemeine Fehlermeldung
+        $this->setWarning($I18N->msg('form_save_error'));
       }
       elseif($controlElement->applied())
       {
@@ -970,9 +984,14 @@ class rex_form
         // Nachricht im Formular anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
           $this->setMessage($I18N->msg('form_applied'));
+        elseif(is_int($result) && isset($this->errorMessages[$result]))
+          // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes) 
+          $this->setWarning($this->errorMessages[$result]);
         elseif(is_string($result) && $result != '')
+          // Fehlermeldung wurde direkt zurückgegeben -> anzeigen
           $this->setWarning($result);
         else
+           // Allgemeine Fehlermeldung
           $this->setWarning($I18N->msg('form_save_error'));
       }
       elseif($controlElement->deleted())
