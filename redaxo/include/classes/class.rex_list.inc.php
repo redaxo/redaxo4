@@ -715,7 +715,7 @@ class rex_list
   {
     if(!$this->rows)
     {
-      $sql = rex_sql::getInstance();
+      $sql = rex_sql::factory();
       $sql->debugsql = $this->debug;
       $sql->setQuery($this->query);
       $this->rows = $sql->getRows();

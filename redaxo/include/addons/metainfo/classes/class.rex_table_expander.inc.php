@@ -120,7 +120,7 @@ class rex_a62_tableExpander extends rex_form
   /*protected*/ function delete()
   {
   	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
-    $sql = rex_sql::getInstance();
+    $sql = rex_sql::factory();
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
     $sql->setWhere($this->whereCondition);

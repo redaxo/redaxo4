@@ -631,7 +631,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   global $REX;
 
-  $article = rex_sql::getInstance();
+  $article = rex_sql::factory();
 //  $article->debugsql = true;
   $article->setTable($REX['TABLE_PREFIX']. 'article');
   $article->setWhere('id='. $params['id'] .' AND clang='. $params['clang']);
@@ -666,7 +666,7 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
   global $REX;
 
-  $media = rex_sql::getInstance();
+  $media = rex_sql::factory();
 //  $media->debugsql = true;
   $media->setTable($REX['TABLE_PREFIX']. 'file');
   $media->setWhere('file_id='. $params['file_id']);
@@ -701,7 +701,7 @@ function rex_a62_media_is_in_use($params)
         $where[] = $sql->getValue('name') .'="'. $filename .'"';
         break;
       case '7':
-        $where[] = $sql->getValue('name') .' LIKE "%|'. $filename .'"|%';
+        $where[] = $sql->getValue('name') .' LIKE "%|'. $filename .'|%"';
         break;
       default :
         trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);

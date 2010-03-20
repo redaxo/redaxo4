@@ -27,12 +27,11 @@ function a62_add_field_type($label, $dbtype, $dblength)
     return $I18N->msg('minfo_field_error_invalid_length');
 
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX']. '62_type WHERE label="'. addslashes($label) .'" LIMIT 1';
-  $sql = rex_sql::getInstance();
+  $sql = rex_sql::factory();
   $sql->setQuery($qry);
   if($sql->getRows() != 0)
     return $I18N->msg('minfo_field_error_unique_type');
 
-  $sql = rex_sql::getInstance();
   $sql->setTable($REX['TABLE_PREFIX']. '62_type');
   $sql->setValue('label', $label);
   $sql->setValue('dbtype', $dbtype);
@@ -57,7 +56,7 @@ function a62_delete_field_type($field_type_id)
   if(!is_int($field_type_id) || empty($field_type_id))
     return $I18N->msg('minfo_field_error_invalid_typeid');
 
-  $sql = rex_sql::getInstance();
+  $sql = rex_sql::factory();
   $sql->setTable($REX['TABLE_PREFIX']. '62_type');
   $sql->setWhere('id='. $field_type_id);
 
@@ -83,7 +82,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
 
   // TypeId korrekt?
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_type WHERE id='. $type .' LIMIT 2';
-  $sql = rex_sql::getInstance();
+  $sql = rex_sql::factory();
   $typeInfos = $sql->getArray($qry);
 
   if($sql->getRows() != 1)
@@ -93,18 +92,15 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   $fieldDbLength = $typeInfos[0]['dblength'];
 
   // Spalte existiert schon?
-  $sql = rex_sql::getInstance();
   $sql->setQuery('SELECT * FROM '. $metaTable . ' LIMIT 1');
   if(in_array($name, $sql->getFieldnames()))
     return $I18N->msg('minfo_field_error_unique_name');
 
   // Spalte extiert laut a62_params?
-  $sql = rex_sql::getInstance();
   $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX']. '62_params WHERE name="'. addslashes($name) .'" LIMIT 1');
   if($sql->getRows() != 0)
     return $I18N->msg('minfo_field_error_unique_name');
 
-  $sql = rex_sql::getInstance();
   $sql->setTable($REX['TABLE_PREFIX']. '62_params');
   $sql->setValue('title', $title);
   $sql->setValue('name', $name);
@@ -147,7 +143,7 @@ function a62_delete_field($fieldIdOrName)
     trigger_error('MetaInfos: Unexpected type for $fieldIdOrName!', E_USER_ERROR);
   }
   // Feld existiert?
-  $sql = rex_sql::getInstance();
+  $sql = rex_sql::factory();
   $fieldInfos = $sql->getArray($fieldQry);
 
   if($sql->getRows() != 1)
@@ -160,12 +156,10 @@ function a62_delete_field($fieldIdOrName)
   $metaTable = a62_meta_table($prefix);
 
   // Spalte existiert?
-  $sql = rex_sql::getInstance();
   $sql->setQuery('SELECT * FROM '. $metaTable . ' LIMIT 1');
   if(!in_array($name, $sql->getFieldnames()))
     return $I18N->msg('minfo_field_error_invalid_name');
 
-  $sql = rex_sql::getInstance();
   $sql->setTable($REX['TABLE_PREFIX']. '62_params');
   $sql->setWhere('field_id='. $field_id);
 

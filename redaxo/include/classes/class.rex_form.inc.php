@@ -865,7 +865,7 @@ class rex_form
    */
   /*protected*/ function save()
   {
-    $sql = rex_sql::getInstance();
+    $sql = rex_sql::factory();
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
 
@@ -912,7 +912,7 @@ class rex_form
 
   /*protected*/ function delete()
   {
-    $deleteSql = rex_sql::getInstance();
+    $deleteSql = rex_sql::factory();
     $deleteSql->debugsql =& $this->debug;
     $deleteSql->setTable($this->tableName);
     $deleteSql->setWhere($this->whereCondition);
