@@ -29,7 +29,7 @@ function componentRefresh(componentId) {
 	successFn = function(data) {
 		// stop indicator
 		link.removeClass("rex-i-refresh-ani").removeClass("rex-i-refresh-err").addClass("rex-i-refresh");
-		component.parent().html(data);
+		component.replaceWith(data);
 	};
 
 	jQuery.ajax( {
