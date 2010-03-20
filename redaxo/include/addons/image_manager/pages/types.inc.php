@@ -119,6 +119,8 @@ elseif ($func == 'add' ||
   
   rex_register_extension('REX_FORM_CONTROL_FIElDS', 'rex_imanager_handle_form_control_fields');
   $form = rex_form::factory($REX['TABLE_PREFIX'].'679_types',$formLabel,'id='.$type_id);
+  
+  $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, $I18N->msg('imanager_error_type_name_not_unique'));
 	
 	$field =& $form->addTextField('name');
 	$field->setLabel($I18N->msg('imanager_type_name'));

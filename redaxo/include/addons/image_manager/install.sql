@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%679_types` (
   `status` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) TYPE=MyISAM;
 
 INSERT INTO `%TABLE_PREFIX%679_types` (`id`, `status`, `name`, `description`) VALUES
