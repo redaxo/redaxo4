@@ -103,6 +103,7 @@ function rex_get_subtitle($subline)
 
   $subtitle_str = $subline;
   $subtitle = $subline;
+  $attr = '';
   $cur_subpage = rex_request('subpage', 'string');
   $cur_page    = rex_request('page', 'string');
 
