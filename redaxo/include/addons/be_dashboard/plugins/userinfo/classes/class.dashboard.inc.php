@@ -101,7 +101,19 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</td>';
     $content .= '</tr>';
     
-    $this->setContent('<table class="rex-table rex-dashboard-table"><colgroup><!--<col width="40" />--><col width="120" /><col width="*" /></colgroup><tbody>'.$content.'</tbody></table>');
+    $this->setContent(
+      '<table class="rex-table rex-dashboard-table">
+        <colgroup>
+          <col width="100" />
+          <col width="*" />
+          <col width="100" />
+          <col width="*" />
+        </colgroup>
+        <tbody>
+          '.$content.'
+        </tbody>
+      </table>'
+    );
   }
 }
 
