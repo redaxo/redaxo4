@@ -23,6 +23,13 @@ class rex_cronjob_component extends rex_dashboard_component
     $this->setTitleUrl('index.php?page=cronjob');
   }
   
+  /*public*/ function checkPermission()
+  {
+    global $REX;
+    
+    return $REX['USER']->isAdmin();
+  }
+  
   /*protected*/ function prepare()
   {
     $this->setContent(rex_cronjob_log :: getListOfNewestMessages(10));
