@@ -55,7 +55,7 @@ if ($warning != '')
 echo '<div class="rex-addon-output-v2">';
 if ($func == '' && $type_id > 0)
 {
-  echo rex_content_block($I18N->msg('imanager_effect_header', htmlspecialchars($typeName)));
+  echo rex_content_block($I18N->msg('imanager_effect_list_header', htmlspecialchars($typeName)));
   
   $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id;
 	
@@ -74,7 +74,7 @@ if ($func == '' && $type_id > 0)
 	$list->removeColumn('prior');	
 
 	// icon column
-  $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. htmlspecialchars($I18N->msg('imanager_create_type')) .'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. htmlspecialchars($I18N->msg('imanager_effect_create')) .'</span></a>';
   $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));
@@ -99,11 +99,11 @@ elseif ($func == 'add' && $type_id > 0 ||
   
   if($func == 'edit')
   {
-    $formLabel = $I18N->msg('imanager_effect_edit', htmlspecialchars($typeName));
+    $formLabel = $I18N->msg('imanager_effect_edit_header', htmlspecialchars($typeName));
   }
   else if ($func == 'add')
   {
-    $formLabel = $I18N->msg('imanager_effect_create', htmlspecialchars($typeName));
+    $formLabel = $I18N->msg('imanager_effect_create_header', htmlspecialchars($typeName));
   }
   
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_type_effects',$formLabel,'id='.$effect_id);
