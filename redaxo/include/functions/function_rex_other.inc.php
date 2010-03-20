@@ -205,19 +205,18 @@ function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
 
 function rex_message_block($message, $cssClass, $sorround_tag)
 {
-  $return = '';
-  
-  $return = '<div class="rex-message-block"><'. $sorround_tag .' class="'. $cssClass .'">';
-  
-  $return .= '<div class="rex-message-content">';
-    
-  $return .= $message;
-  
-  $return .= '</div>';
-    
-  $return .= '</'. $sorround_tag .'></div>';
-  
-  return $return;
+  return '<div class="rex-message-block">
+            <'. $sorround_tag .' class="'. $cssClass .'">
+              <div class="rex-message-content">
+                '. $message .'
+              </div>
+            </'. $sorround_tag .'>
+          </div>';
+}
+
+function rex_content_block($content)
+{
+  return '<div class="rex-content-block">'. $content .'</div>';
 }
 
 function rex_accesskey($title, $key)
