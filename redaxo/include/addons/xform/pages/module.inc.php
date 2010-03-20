@@ -5,7 +5,7 @@
 	$searchtext = '$xform = new rex_xform';
 	
 	$gm = rex_sql::factory();
-	$gm->setQuery('select * from rex_module where ausgabe LIKE "%'.$searchtext.'%"');
+	$gm->setQuery('select * from '.$REX['TABLE_PREFIX'].'module where ausgabe LIKE "%'.$searchtext.'%"');
 	
 	$module_id = 0;
 	$module_name = "";

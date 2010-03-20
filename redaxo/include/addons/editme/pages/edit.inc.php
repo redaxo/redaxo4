@@ -18,7 +18,7 @@ foreach($tables as $table)
 {
 	$name = $table['name'];
 	$id = $table['id'];
-	$table["tablename"] = 'rex_em_data_'.$table['name'];
+	$table["tablename"] = $REX['TABLE_PREFIX'].'em_data_'.$table['name'];
 	if($subpage == $table['name'])
 	{
 		echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["label"].'</b> - '.$table["description"];

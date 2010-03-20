@@ -1,2 +1,2 @@
-DROP TABLE `rex_em_field`;
-DROP TABLE `rex_em_table`;
+DROP TABLE `%TABLE_PREFIX%em_field`;
+DROP TABLE `%TABLE_PREFIX%em_table`;

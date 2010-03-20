@@ -10,7 +10,7 @@
 // Tabelle anlegen Redaxo 4.0.x
 
 $sql = rex_sql::factory();
-$sql->setQuery("CREATE TABLE IF NOT EXISTS `rex_xform_email_template` (
+$sql->setQuery('CREATE TABLE IF NOT EXISTS `'.$REX['TABLE_PREFIX'].'xform_email_template` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `mail_from` varchar(255) NOT NULL default '',
@@ -19,7 +19,7 @@ $sql->setQuery("CREATE TABLE IF NOT EXISTS `rex_xform_email_template` (
   `body` text NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 ;
-");
+');
 
 // evtl. Fehler beim Anlegen?
 if ($sql->hasError())

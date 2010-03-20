@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `rex_em_field` (
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_field` (
   `id` int(11) NOT NULL auto_increment,
   `table_name` varchar(255) NOT NULL,
   `type_name` varchar(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `rex_em_field` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `rex_em_table` (
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_table` (
   `id` int(11) NOT NULL auto_increment,
   `status` tinyint(4) NOT NULL,
   `label` varchar(255) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `rex_em_table` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `rex_em_relation` (
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_relation` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `source_table` VARCHAR( 255 ) NOT NULL ,
   `source_name` VARCHAR( 255 ) NOT NULL ,

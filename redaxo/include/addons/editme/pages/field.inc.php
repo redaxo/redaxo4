@@ -20,7 +20,7 @@ $TYPE = array('value'=>"Werte",'validate'=>"Validierung/Überprüfung",'action'=>"
 
 $tb = new rex_sql();
 // $tb->debugsql = 1;
-$tb->setQuery('select * from rex_em_table where name="'.$table_name.'"');
+$tb->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_table where name="'.$table_name.'"');
 if($tb->getRows()==0)
 {
 	echo rex_warning('Diese Tabelle existiert nicht!');

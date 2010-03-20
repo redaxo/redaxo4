@@ -10,7 +10,7 @@ class rex_xform_action_db2email extends rex_xform_action_abstract
 
 		$gt = rex_sql::factory();
 		if ($this->params["debug"]) $gt->debugsql = true;
-		$gt->setQuery('select * from rex_xform_email_template where name="'.$this->action["elements"][2].'"');
+		$gt->setQuery('select * from '.$REX['TABLE_PREFIX'].'xform_email_template where name="'.$this->action["elements"][2].'"');
 		if ($gt->getRows()==1)
 		{
 			

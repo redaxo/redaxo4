@@ -3,7 +3,7 @@
 
 $SF = true;
 
-$table = "rex_xform_email_template";
+$table = $REX['TABLE_PREFIX']."xform_email_template";
 $bezeichner = $I18N->msg("email_template");
 $csuchfelder = array("name","mail_from","mail_subject","body");
 
@@ -23,7 +23,7 @@ if($func == "add" || $func == "edit")
 	
 	echo '<div class="rex-addon-output-v2">';
 
-	$form = new rex_form("rex_xform_email_template", 'Template', 'id='. $template_id);
+	$form = new rex_form($REX['TABLE_PREFIX']."xform_email_template", 'Template', 'id='. $template_id);
 	if($func == 'edit')
 		$form->addParam('template_id', $template_id);
 		

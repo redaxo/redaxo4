@@ -62,7 +62,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 		if($this->params["main_id"] > 0 && $send == 0)
     {
 		  $vs = rex_sql::factory();
-    	$vs->setQuery('select target_id as id from rex_em_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$this->params["main_id"].'"');
+    	$vs->setQuery('select target_id as id from '.$REX['TABLE_PREFIX'].'em_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$this->params["main_id"].'"');
     	$v = $vs->getArray();
     	$values = array();
       if(count($v)>0) foreach($v as $w) { $values[$w["id"]] = $w["id"]; };
@@ -100,7 +100,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 
 		// Values prŸfen
 
-		$sql = 'select id,'.$this->be_em["target_field"].' from rex_em_data_'.$this->be_em["target_table"];
+		$sql = 'select id,'.$this->be_em["target_field"].' from '.$REX['TABLE_PREFIX'].'em_data_'.$this->be_em["target_table"];
 		$value_names = array();
 		if(count($this->getValue())>0)
 		{
@@ -148,7 +148,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 		$sss = rex_sql::factory();
 		$sss->debugsql = $this->params["debug"];
 		// $sss->debugsql = 1;
-		$sss->setQuery('select * from rex_em_data_'.$this->be_em["target_table"].' order by '.$this->be_em["target_field"]);
+		$sss->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_data_'.$this->be_em["target_table"].' order by '.$this->be_em["target_field"]);
 
 		$SEL = new rex_select();
 		$SEL->setName('FORM[' . $this->params["form_name"] . '][el_' . $this->id . '][]');
@@ -198,6 +198,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 	 */
 	function postAction(&$email_elements, &$sql_elements)
 	{
+    global $REX;
 
 		$source_id = -1;
 		if (isset($email_elements["ID"]) && $email_elements["ID"] > 0)
@@ -230,7 +231,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 		// ----- Datensaetze aus der Relationstabelle lšschen
 		$d = rex_sql::factory();
 		// $d->debugsql = 1;
-		$d->setQuery('delete from rex_em_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$source_id.'"');
+		$d->setQuery('delete from '.$REX['TABLE_PREFIX'].'em_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$source_id.'"');
 
 		// ----- Datensaetze in die Relationstabelle eintragen
 		if(count($values)>0)
@@ -240,7 +241,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 			// $i->debugsql = 1;
 			foreach($values as $v)
 			{
-				$i->setTable('rex_em_relation');
+				$i->setTable($REX['TABLE_PREFIX'].'em_relation');
 				$i->setValue('source_table', $this->be_em["source_table"]);
 				$i->setValue('source_name', $this->getName());
 				$i->setValue('source_id', $source_id);
