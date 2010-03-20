@@ -42,7 +42,7 @@ foreach($dashboard_components as $index => $component)
     $block  = $component->getBlock();
     $format = $component->getFormat();
     
-    if($block == '')
+    if($block == '' && $format == 'half')
     {
       $block = $I18N->msg('dashboard_component_block_misc');
     }
