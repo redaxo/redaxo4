@@ -42,6 +42,11 @@ foreach($dashboard_components as $index => $component)
     $block  = $component->getBlock();
     $format = $component->getFormat();
     
+    if($block == '')
+    {
+      $block = $I18N->msg('dashboard_component_block_misc');
+    }
+
     if(!isset($components[$format]))
     {
       $components[$format] = array();

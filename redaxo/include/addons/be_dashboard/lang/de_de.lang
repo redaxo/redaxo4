@@ -8,3 +8,5 @@ dashboard_component_save_config = Einstellungen speichern
 dashboard_component_action_refresh = Komponente aktualisieren
 dashboard_component_action_togglesettings = Einstellungen bearbeiten
 dashboard_component_action_toggleview = Details einblenden
+
+dashboard_component_block_misc = Sonstiges
