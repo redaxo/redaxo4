@@ -66,8 +66,17 @@
       {
         $cacheBackend->remove($cachekey);
       }
-      
+
+      // prueft ob inhalte des callables gecacht vorliegen
       $content = $this->funcCache->call($callable, array($REX['USER']->getUserLogin()));
+
+      // wenn gecachter inhalt leer ist, vom cache entfernen und nochmals checken
+      // damit leere komponenten sofort angezeigt werden, wenn neue inhalte verfuegbar sind
+      if($content == '')
+      {
+        $cacheBackend->remove($cachekey);
+        $content = $this->funcCache->call($callable, array($REX['USER']->getUserLogin()));
+      }
       
       $cachestamp = $cacheBackend->getLastModified($cachekey);
       if(!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
