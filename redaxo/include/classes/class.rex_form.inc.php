@@ -900,9 +900,10 @@ class rex_form
       $saved = $sql->insert();
     }
     
+    
     // ----- EXTENSION POINT
     if ($saved)
-      $saved = rex_register_extension_point('REX_FORM_SAVED', $sql, array('form' => $this));
+      $saved = rex_register_extension_point('REX_FORM_SAVED', $saved, array('form' => $this, 'sql' => $sql));
     else
       $saved = $sql->getErrno();
       
