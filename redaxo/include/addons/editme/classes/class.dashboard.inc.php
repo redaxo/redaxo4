@@ -16,7 +16,7 @@ class rex_editme_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component('editme_'. $tableName);
+    parent::rex_dashboard_component('editme-'. $tableName);
     
     $this->setTitle($tableName);
     $this->setTitleUrl('index.php?page=editme&amp;subpage='. $tableName);

@@ -94,7 +94,7 @@
   
   /*protected*/ function getId()
   {
-    return 'component_'. $this->id;
+    return 'rex-component-'. $this->id;
   }
   
   /*protected*/ function getActions()

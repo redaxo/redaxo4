@@ -27,7 +27,7 @@ class rex_stats_component extends rex_dashboard_component
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 1800;
     
-    parent::rex_dashboard_component('userinfo_stats', $cache_options);
+    parent::rex_dashboard_component('userinfo-stats', $cache_options);
     $this->setTitle($I18N->msg('userinfo_component_stats_title'));
     $this->setBlock($I18N->msg('userinfo_block_stats'));
   }
@@ -119,7 +119,7 @@ class rex_articles_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component('userinfo_articles');
+    parent::rex_dashboard_component('userinfo-articles');
     $this->setTitle($I18N->msg('userinfo_component_articles_title'));
     $this->setTitleUrl('index.php?page=structure');
     $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
@@ -176,7 +176,7 @@ class rex_media_component extends rex_dashboard_component
   {
     global $I18N;
     
-    parent::rex_dashboard_component('userinfo_media');
+    parent::rex_dashboard_component('userinfo-media');
     $this->setTitle($I18N->msg('userinfo_component_media_title'));
     $this->setTitleUrl('javascript:openMediaPool();');
     $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
