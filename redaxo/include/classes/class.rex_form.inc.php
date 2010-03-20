@@ -1367,7 +1367,7 @@ class rex_form_element
 
     $s .= $this->getSuffix();
 
-    return $this->wrapContent($s);
+    return $s;
   }
 
   function get()
@@ -1375,9 +1375,9 @@ class rex_form_element
     $s = '';
     $s .= $this->getHeader();
 
-    $s .= '    <div class="rex-form-row">'. "\n";
-    $s .= $this->_get();
-    $s .= '    </div>'. "\n";
+    $s .= '<div class="rex-form-row">
+             '. $this->wrapContent($this->_get()) .'
+           </div>'. "\n";
 
     $s .= $this->getFooter();
     return $s;
