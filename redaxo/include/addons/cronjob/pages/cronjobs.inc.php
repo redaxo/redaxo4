@@ -102,7 +102,9 @@ if ($func == '')
       '$params', 
       'global $I18N;
        $list = $params["list"]; 
-       if ($list->getValue("status") == 1) 
+       if (!class_exists($list->getValue("type")))
+         $str = $I18N->msg("cronjob_status_invalid");
+       elseif ($list->getValue("status") == 1) 
          $str = $list->getColumnLink("status","<span class=\"rex-online\">".$I18N->msg("cronjob_status_activated")."</span>"); 
        else 
          $str = $list->getColumnLink("status","<span class=\"rex-offline\">".$I18N->msg("cronjob_status_deactivated")."</span>"); 

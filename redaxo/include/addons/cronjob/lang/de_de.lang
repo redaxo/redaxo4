@@ -22,7 +22,7 @@ cronjob_name = Name
 cronjob_examples = Beispiele
 
 cronjob_type = Typ
-cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da der Typ "{1}" unbekannt ist!
+cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn/PlugIn aktiviert ist!
 cronjob_type_phpcode = PHP-Code
 cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-Aufruf
@@ -49,6 +49,7 @@ cronjob_status_function = Status/Funktion
 cronjob_status = Status
 cronjob_status_activated = aktiviert
 cronjob_status_deactivated = deaktiviert
+cronjob_status_invalid = invalid
 cronjob_status_activate_success = Cronjob "{0}" wurde aktiviert!
 cronjob_status_activate_error = Cronjob "{0}" konnte nicht aktiviert werden!
 cronjob_status_deactivate_success = Cronjob "{0}" wurde deaktiviert!
