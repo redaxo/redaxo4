@@ -35,13 +35,4 @@ class rex_input_linklistbutton extends rex_input
     
     return $field;
   }
-  
-  /**
-   * @deprecated 24.02.2010
-   * Stattdessen setCategoryId() nutzen
-   */
-  function setMediaCategoryId($categoryId)
-  {
-    $this->setCategoryId($categoryId);
-  }
 }
