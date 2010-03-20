@@ -67,7 +67,7 @@ edit_block = Block bearbeiten
 # redaxo/include/classes/class.form.inc.php
 submit_data  =  Daten absenden
 file_doesnt_exist  =  Die Datei existiert nicht.
-choose_another_one  =  Bitte wählen sie eine andere.
+choose_another_one  =  Bitte wählen Sie eine andere.
 
 # redaxo/include/classes/class.mail_decode.inc.php
 download  =  Download
@@ -516,7 +516,7 @@ setup_034 = Datenbank einrichten
 setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [{0}Vorsicht{1} - Alte Seite wird komplett gelöscht!]
 setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
 setup_037 = Vorhandenen Export einspielen [Demo einspielen]:
-setup_03701 = Bitte wählen sie einen Export aus!
+setup_03701 = Bitte wählen Sie einen Export aus!
 setup_03702 = Export-Dateien konnten nicht gefunden werden!
 setup_03703 = Import/Export AddOn wurde nicht gefunden!
 setup_038 = Datenbank aktualisieren von REDAXO 4.x [vorher sichern!]
@@ -543,7 +543,7 @@ setup_encryption = Passwortverschlüsselung
 setup_no_encryption = keine Verschlüsselung
 setup_psw_encryption = mit Verschlüsselung (sha1)
 setup_security_msg = Der Ordner redaxo/include ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
-setup_no_js_security_msg = Prüfen sie, ob Dateien aus dem Ordner redaxo/include direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
+setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/include direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
 setup_create_db = Datenbank anlegen?
 
 # redaxo\include\pages\addon.inc.php
