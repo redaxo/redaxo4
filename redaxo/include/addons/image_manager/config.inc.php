@@ -90,6 +90,7 @@ if($REX['REDAXO'])
   	  'title' => $I18N->msg('imanager_subpage_config')),
   	array (
   	  'href' => 'index.php?page=image_manager&subpage=clear_cache',
+  	  'onclick' => 'return confirm(\''.$I18N->msg('imanager_type_cache_delete').' ?\')',
   	  'active_when' => array(
   	    'page'=>'image_manager',
   	    'subpage'=>'clear_cache'),
