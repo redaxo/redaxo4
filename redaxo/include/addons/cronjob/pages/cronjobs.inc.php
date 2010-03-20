@@ -293,18 +293,18 @@ if ($func == '')
           foreach($visible[$name] as $value => $fieldIds)
           {
             $visible_js .= '
-            var first2 = 1;
+            var first = 1;
             $("#'.$field->getAttribute('id').'_'.$value.'").change(function(){
               var checkbox = $(this);
               $("#'.implode(',#',$fieldIds).'").each(function(){
                 if ($(checkbox).is(":checked"))
                   $(this).parent().parent().slideDown();
-                else if(first2 == 1)
+                else if(first == 1)
                   $(this).parent().parent().hide();
                 else
                   $(this).parent().parent().slideUp();
               });
-              first2 = 0;
+              first = 0;
             }).change();';
           }
         }
@@ -328,12 +328,8 @@ if ($func == '')
         currentShown = $(typeId);
         currentShown.show();
       }).change();
-      var first1 = <?php echo $func=='add' ? 0 : 1; ?>;
       $('#<?php echo $typeFieldId ?>').change(function(){
-        if (first1 == 0)
-          $('input#<?php echo $nameFieldId ?>').val($('#<?php echo $typeFieldId ?> option:selected').text());
         $('#<?php echo $envFieldId ?> option').attr('disabled','');<?php echo $env_js; ?>
-        first1 = 0;
       }).change();<?php echo $visible_js."\n"; ?>
     });
   // ]]>

@@ -55,7 +55,7 @@ cronjob_status_activate_error = Cronjob "{0}" konnte nicht aktiviert werden!
 cronjob_status_deactivate_success = Cronjob "{0}" wurde deaktiviert!
 cronjob_status_deactivate_error = Cronjob "{0}" konnte nicht deaktiviert werden!
 
-cronjob_error_no_name = Es muss ein Name eingegeben werden!
+cronjob_error_no_name = Geben Sie einen Namen ein!
 
 cronjob_log = Log
 cronjob_log_date = Datum
