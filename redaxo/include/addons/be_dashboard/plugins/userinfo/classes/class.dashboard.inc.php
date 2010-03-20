@@ -1,8 +1,5 @@
 <?php
 
-// TODO paginierung entfernen
-// TODO fehlende lang strings ergaenzen
-
 /**
  * Userinfo Addon
  * 
@@ -39,38 +36,15 @@ class rex_stats_component extends rex_dashboard_component
     $stats = rex_a659_statistics();
     
     $content = '';
-    $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
-    $content .= '<th>';
-    $content .= $I18N->msg('userinfo_component_stats_articles');
-    $content .= '</th>';
-    $content .= '<td>';
-    $content .= $stats['total_articles'];
-    $content .= '</td>';
-    $content .= '</tr>';
     
     $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
-    $content .= '<th>';
-    $content .= $I18N->msg('userinfo_component_stats_slices');
-    $content .= '</th>';
-    $content .= '<td>';
-    $content .= $stats['total_slices'];
-    $content .= '</td>';
-    $content .= '</tr>';
-    
-    $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_clangs');
     $content .= '</th>';
     $content .= '<td>';
     $content .= $stats['total_clangs'];
     $content .= '</td>';
-    $content .= '</tr>';
     
-    $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_templates');
     $content .= '</th>';
@@ -80,7 +54,13 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
+    $content .= '<th>';
+    $content .= $I18N->msg('userinfo_component_stats_categories');
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_categories'];
+    $content .= '</td>';
+    
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_modules');
     $content .= '</th>';
@@ -90,7 +70,13 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
+    $content .= '<th>';
+    $content .= $I18N->msg('userinfo_component_stats_articles');
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_articles'];
+    $content .= '</td>';
+    
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_actions');
     $content .= '</th>';
@@ -100,7 +86,13 @@ class rex_stats_component extends rex_dashboard_component
     $content .= '</tr>';
     
     $content .= '<tr>';
-//    $content .= '<td class="rex-icon"><span class="rex-i-element rex-i-media"></span></td>';
+    $content .= '<th>';
+    $content .= $I18N->msg('userinfo_component_stats_slices');
+    $content .= '</th>';
+    $content .= '<td>';
+    $content .= $stats['total_slices'];
+    $content .= '</td>';
+    
     $content .= '<th>';
     $content .= $I18N->msg('userinfo_component_stats_users');
     $content .= '</th>';
