@@ -37,13 +37,13 @@ class rex_cronjob_phpcallback extends rex_cronjob
     return false;
   }
   
-  /*public*/ function getName()
+  /*public*/ function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_type_phpcallback');
   }
   
-  /*public*/ function getParams()
+  /*public*/ function getParamFields()
 	{
 		global $I18N;
 

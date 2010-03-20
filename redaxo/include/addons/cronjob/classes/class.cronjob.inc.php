@@ -38,15 +38,20 @@
 	    
 	  return $default;
 	}
+	
+	/*public*/ function getParams()
+	{
+	  return $this->params;
+	}
   
   /*abstract public*/ function execute() 
   {
     trigger_error('The execute method has to be overridden by a subclass!', E_USER_ERROR);
   }
   
-  /*public*/ function getName() 
+  /*public*/ function getTypeName() 
   {
-    // returns the name of the cronjob
+    // returns the name of the cronjob type
     return $this->getType();
   }
   
@@ -61,7 +66,7 @@
     return array('frontend', 'backend');
   }
   
-  /*public*/ function getParams()
+  /*public*/ function getParamFields()
   {
     // returns an array of parameters which are required for the cronjob
     return array();

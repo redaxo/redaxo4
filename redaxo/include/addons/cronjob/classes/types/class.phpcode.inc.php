@@ -18,13 +18,13 @@ class rex_cronjob_phpcode extends rex_cronjob
     return $success;
   }
   
-  /*public*/ function getName()
+  /*public*/ function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_type_phpcode');
   }
   
-  /*public*/ function getParams()
+  /*public*/ function getParamFields()
 	{
 		global $I18N;
 

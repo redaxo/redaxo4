@@ -42,7 +42,7 @@
       if($log && !$name)
       {
         if($REX['REDAXO'])
-          $name = $cronjob->getName();
+          $name = $cronjob->getTypeName();
         else
           $name = $type;
       }
@@ -169,9 +169,6 @@
       $cronjob = rex_cronjob::factory($type);
       $success = rex_cronjob_manager::tryExecute($cronjob, $name, $params, $log);
 
-      /*$time = time();
-      $timezone_diff = mktime(0,0,0,1,1,1970);
-      $nexttime = $time + $interval - (($time - $timezone_diff) % $interval);*/
       $nexttime = rex_cronjob_manager_sql::_calculateNextTime($interval);
       rex_cronjob_manager_sql::setNextTime($id, $nexttime);
     }

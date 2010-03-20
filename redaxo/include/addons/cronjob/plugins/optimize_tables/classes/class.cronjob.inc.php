@@ -24,7 +24,7 @@ class rex_cronjob_optimize_tables extends rex_cronjob
     return false;
   }
   
-  /*public*/ function getName()
+  /*public*/ function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_optimize_tables');

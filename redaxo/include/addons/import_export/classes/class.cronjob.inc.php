@@ -20,7 +20,7 @@ class rex_cronjob_export extends rex_cronjob
     return rex_a1_export_db($file . $ext);
   }
   
-  /*public*/ function getName()
+  /*public*/ function getTypeName()
   {
     global $I18N;
     return $I18N->msg('im_export_database_export');

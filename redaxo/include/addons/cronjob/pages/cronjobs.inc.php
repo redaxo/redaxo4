@@ -133,7 +133,7 @@ if ($func == '')
   
 } elseif ($func == 'edit' || $func == 'add') 
 {
-  require_once $REX['INCLUDE_PATH'].'/addons/cronjob/classes/class.rex_cronjob_form.inc.php';
+  require_once $REX['INCLUDE_PATH'].'/addons/cronjob/classes/class.form.inc.php';
   
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
   
@@ -154,7 +154,7 @@ if ($func == '')
     if (rex_cronjob::isValid($cronjob))
     {
       $cronjobs[$class] = $cronjob;
-      $select->addOption($cronjob->getName(), $class);
+      $select->addOption($cronjob->getTypeName(), $class);
     }
   }
   if ($func == 'add')
@@ -217,7 +217,7 @@ if ($func == '')
           $("#'. $envFieldId .' option[value=\''. implode('\'], #'. $envFieldId .' option[value=\'', $disabled) .'\']").attr("disabled","disabled").attr("selected","");
 ';
   
-    $params = $cronjob->getParams();
+    $params = $cronjob->getParamFields();
     
     if (!is_array($params) || empty($params)) {
       $field =& $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $I18N->msg('cronjob_type_no_parameters'));

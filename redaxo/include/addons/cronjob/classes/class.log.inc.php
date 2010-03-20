@@ -107,9 +107,9 @@ class rex_cronjob_log
     $year = date('Y');
     $month = date('m');
     
-    // Im Frontend ist die Klasse rex_formatter nicht verfuegbar.
-    // Falls die Klasse hier manuell eingebunden wird,
-    // als Format nicht 'datetime' verwenden, da im Frontend kein I18N-Objekt verfuegbar ist
+    // in den Log-Dateien festes Datumsformat verwenden
+    // wird bei der Ausgabe entsprechend der lokalen Einstellungen umgewandelt
+    // rex_formatter nicht verwenden, da im Frontend nicht verfuegbar
     $newline = date('Y-m-d H:i');
     
     if ($success)
@@ -156,15 +156,15 @@ class rex_cronjob_log
         <thead>
           <tr>
             <th class="rex-icon"></th>
-            <th>'.$I18N->msg('cronjob_log_date').'</th>
-            <th>'.$I18N->msg('cronjob_name').'</th>
+            <th>'. $I18N->msg('cronjob_log_date') .'</th>
+            <th>'. $I18N->msg('cronjob_name') .'</th>
           </tr>
         </thead>
         <tbody>';
     if (!is_array($lines) || count($lines) == 0)
     {
       $list .= '
-          <tr><td colspan="3">'.$I18N->msg('cronjob_log_no_data').'</td></tr>';
+          <tr><td colspan="3">'. $I18N->msg('cronjob_log_no_data') .'</td></tr>';
     }
     else
     {

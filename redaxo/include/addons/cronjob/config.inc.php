@@ -60,12 +60,12 @@ if($REX['REDAXO'])
 define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/');
 define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
 
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob_manager.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob_log.inc.php';
-require_once dirname(__FILE__) .'/classes/class.rex_cronjob.inc.php';
-require_once dirname(__FILE__) .'/classes/types/class.rex_cronjob_phpcode.inc.php';
-require_once dirname(__FILE__) .'/classes/types/class.rex_cronjob_phpcallback.inc.php';
-require_once dirname(__FILE__) .'/classes/types/class.rex_cronjob_urlrequest.inc.php';
+require_once dirname(__FILE__) .'/classes/class.manager.inc.php';
+require_once dirname(__FILE__) .'/classes/class.log.inc.php';
+require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
+require_once dirname(__FILE__) .'/classes/types/class.phpcode.inc.php';
+require_once dirname(__FILE__) .'/classes/types/class.phpcallback.inc.php';
+require_once dirname(__FILE__) .'/classes/types/class.urlrequest.inc.php';
 
 // --- DYN
 $REX['ADDON']['nexttime']['cronjob'] = "0";
