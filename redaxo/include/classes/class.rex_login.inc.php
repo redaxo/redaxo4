@@ -109,6 +109,21 @@ class rex_login_sql extends rex_sql
     return false;
   }
   
+  /*public*/ function getClangPerm()
+  {
+    global $REX;
+    if($this->isValueOf('rights', 'admin[]'))
+      return array_keys($REX['CLANG']);
+    preg_match_all('|\#clang\[([0-9]*)\]+|U', $this->getValue("rights"), $result, PREG_PATTERN_ORDER);
+    $clangs = array();
+    foreach($result[1] as $clang_id)
+    {
+      if(isset($REX['CLANG'][$clang_id]))
+        $clangs[] = $clang_id;
+    }
+    return $clangs;
+  }
+
   /*public*/ function getPermAsArray($perm)
   {
     preg_match_all('|#'. preg_quote($perm, '|') .'\[([^\]]*)\]+|', $this->getValue("rights"), $return, PREG_PATTERN_ORDER);
