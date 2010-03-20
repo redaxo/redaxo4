@@ -1345,19 +1345,19 @@ class rex_form_element
     }
     return '';
   }
-
+  
+  function wrapContent($content)
+  {
+    return
+       '<p class="rex-form-col-a '. $this->formatClass() .'">
+         '. $content .'
+        </p>'. "\n";
+  }
+  
   function _get()
   {
     $s = '';
-		$class = ' class="rex-form-col-a';
-		$formatClass = $this->formatClass();
-		
-		if ($formatClass != '')
-			$class .= ' '.$formatClass;
-			
-		$class .= '"';
-		    
-    $s .= '        <p'.$class.'>'. "\n";
+    
     $s .= $this->getPrefix();
     
     $s .= $this->formatLabel();
@@ -1365,9 +1365,8 @@ class rex_form_element
     $s .= $this->formatNotice();
 
     $s .= $this->getSuffix();
-    $s .= '        </p>'. "\n";
 
-    return $s;
+    return $this->wrapContent($s);
   }
 
   function get()
@@ -1850,8 +1849,17 @@ class rex_form_element_container extends rex_form_element
       }
       $format .= '</div>';
     }
-     
     return $format;
+  }
+    
+  function get()
+  {
+    $s = '';
+    $s .= $this->getHeader();
+    $s .= $this->_get();
+    $s .= $this->getFooter();
+    
+    return $s;
   }
 
   function getSaveValue()
