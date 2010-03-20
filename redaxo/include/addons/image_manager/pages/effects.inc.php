@@ -50,11 +50,14 @@ if ($info != '')
 
 if ($warning != '')
   echo rex_warning($warning);
+
   
 echo '<div class="rex-addon-output-v2">';
 if ($func == '' && $type_id > 0)
-{	
-	$query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id;
+{
+  echo rex_content_block($I18N->msg('imanager_effect_header', htmlspecialchars($typeName)));
+  
+  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id;
 	
 	$list = rex_list::factory($query);
   $list->setNoRowsMessage(htmlspecialchars($I18N->msg('imanager_effect_no_effects')));
@@ -96,11 +99,11 @@ elseif ($func == 'add' && $type_id > 0 ||
   
   if($func == 'edit')
   {
-    $formLabel = $I18N->msg('imanager_effect_edit');
+    $formLabel = $I18N->msg('imanager_effect_edit', htmlspecialchars($typeName));
   }
   else if ($func == 'add')
   {
-    $formLabel = $I18N->msg('imanager_effect_create');
+    $formLabel = $I18N->msg('imanager_effect_create', htmlspecialchars($typeName));
   }
   
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_type_effects',$formLabel,'id='.$effect_id);
