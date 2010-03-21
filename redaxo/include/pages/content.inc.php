@@ -167,9 +167,7 @@ if ($article->getRows() == 1)
         // ------------- MODUL IST VORHANDEN
 
         // ----- RECHTE AM MODUL ?
-        if(
-        		!rex_template::hasModule($template_attributes,$ctype,$module_id)
-        	)
+        if($function != 'delete' && !rex_template::hasModule($template_attributes,$ctype,$module_id))
         {
           $global_warning = $I18N->msg('no_rights_to_this_function');
           $slice_id = '';
