@@ -8,16 +8,19 @@ class rex_cronjob_export extends rex_cronjob
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
     
-    $file = getImportDir() .'/rex_'. $REX['VERSION'] .'_'. date("Ymd");
+    $file = 'rex_'. $REX['VERSION'] .'_'. date("Ymd");
+    $dir = getImportDir() .'/';
     $ext = '.sql';
-    if (file_exists($file . $ext))
+    if (file_exists($dir . $file . $ext))
     {
       $i = 1;
-      while (file_exists($file .'_'. $i . $ext)) $i++;
+      while (file_exists($dir . $file .'_'. $i . $ext)) $i++;
       $file = $file .'_'. $i;
     }
-    
-    return rex_a1_export_db($file . $ext);
+
+    if (rex_a1_export_db($dir . $file . $ext))
+      return array(true, $file . $ext . ' created');
+    return false;
   }
   
   /*public*/ function getTypeName()

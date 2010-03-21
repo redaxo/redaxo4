@@ -23,12 +23,24 @@ class rex_cronjob_article_status extends rex_cronjob
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery('
-      SELECT  field_id 
+      SELECT  name 
       FROM    '. $REX['TABLE_PREFIX'] .'62_params 
       WHERE   name="'. $from['field'] .'" OR name="'. $to['field'] .'"
     ');
-    if ($sql->getRows() != 2)
-      return false;
+    $rows = $sql->getRows();
+    if ($rows < 2)
+    {
+      if ($rows == 0)
+      {
+        $msg = 'Metainfo fields "'. $from['field'] .'" and "'. $to['field'] .'" not found';
+      }
+      else
+      {
+        $field = $sql->getValue('name') == $from['field'] ? $to['field'] : $from['field'];
+        $msg = 'Metainfo field "'. $field .'" not found';
+      }
+      return array(false, $msg);
+    }
     
     $time = time();
     $sql->setQuery('
@@ -57,7 +69,7 @@ class rex_cronjob_article_status extends rex_cronjob
       rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
-    return true;
+    return array(true, 'Updated articles: '. $rows);
   }
   
   /*public*/ function getTypeName()

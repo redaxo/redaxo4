@@ -154,7 +154,7 @@ class rex_cronjob_log
         <colgroup>
           <col width="40" />
           <col width="140" />
-          <col width="*" />
+          <col width="160" />
           <col width="*" />
         </colgroup>
         <thead>
