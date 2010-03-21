@@ -31,7 +31,11 @@ if($REX["REDAXO"] && !$REX['SETUP'])
   include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
 
   $REX['ADDON']['editme']['subpages'] = array();
- 	$REX['ADDON']['navigation']['editme'] = array('active_when'=>array('page'=>'editme'));
+ 	$REX['ADDON']['navigation']['editme'] = array(
+ 	  'active_when' => array(
+ 	    'page'=>'editme',
+ 	    'subpage'=>array('','field'))
+ 	);
 
  	/*
  	 if ($REX['USER'] && ($REX['USER']->isAdmin()))
