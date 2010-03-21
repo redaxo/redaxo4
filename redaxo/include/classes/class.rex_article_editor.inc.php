@@ -69,7 +69,7 @@ class rex_article_editor extends rex_article
       {
         $msg = '';
 
-        if($this->function == 'edit' && $this->slice_id == $RE_CONTS[$I_ID])
+        if($this->function != 'add' && $this->slice_id == $RE_CONTS[$I_ID])
         {
           if($this->warning != '')
           {
