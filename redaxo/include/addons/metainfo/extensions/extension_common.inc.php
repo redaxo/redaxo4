@@ -122,14 +122,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
           {
-            if(strpos($value_group, ':') !== false)
+            if(strpos($value_group, ':') !== false && strpos($value_group, 'translate:') !== 0)
             {
-              $temp = explode(':', $value_group);
-              $values[$temp[0]] = $temp[1];
+              $temp = explode(':', $value_group, 2);
+              $values[$temp[0]] = rex_translate($temp[1]);
             }
             else
             {
-              $values[$value_group] = $value_group;
+              $values[$value_group] = rex_translate($value_group);
             }
           }
         }
@@ -222,14 +222,14 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
           {
-            if(strpos($value_group, ':') !== false)
+            if(strpos($value_group, ':') !== false && strpos($value_group, 'translate:') !== 0)
             {
-              $temp = explode(':', $value_group);
-              $values[$temp[0]] = $temp[1];
+              $temp = explode(':', $value_group, 2);
+              $values[$temp[0]] = rex_translate($temp[1]);
             }
             else
             {
-              $values[$value_group] = $value_group;
+              $values[$value_group] = rex_translate($value_group);
             }
           }
           $select->addOptions($values);
