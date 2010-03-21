@@ -66,7 +66,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
       fclose($fp);
       $lines = explode("\r\n", $content);
       $parts = explode(' ', $lines[0], 3);
-      $success = $parts[1] < 300;
+      $success = $parts[1] >= 200 && $parts[1] < 300;
       return array($success, $parts[1] .' '. $parts[2]);
     }
     return array(false, $errno .' '. $errstr);
