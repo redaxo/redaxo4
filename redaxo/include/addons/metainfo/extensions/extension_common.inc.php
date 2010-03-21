@@ -122,7 +122,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
           {
-            if(strpos($value_group, ':') !== false)
+            // check ob key:value paar
+            // und der wert beginnt nicht mit "translate:"
+            if(strpos($value_group, ':') !== false &&
+               strpos($value_group, 'translate:') !== 0)
             {
               $temp = explode(':', $value_group, 2);
               $values[$temp[0]] = rex_translate($temp[1]);
@@ -222,7 +225,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $value_groups = explode('|', $params);
           foreach($value_groups as $value_group)
           {
-            if(strpos($value_group, ':') !== false)
+            // check ob key:value paar
+            // und der wert beginnt nicht mit "translate:"
+            if(strpos($value_group, ':') !== false &&
+               strpos($value_group, 'translate:') !== 0)
             {
               $temp = explode(':', $value_group, 2);
               $values[$temp[0]] = rex_translate($temp[1]);
