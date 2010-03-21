@@ -16,7 +16,7 @@
   /*final public*/ function factory($class) 
   {
     if (!class_exists($class))
-      return null;
+      return $class;
     
     return new $class();
   }

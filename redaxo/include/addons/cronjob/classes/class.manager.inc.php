@@ -29,8 +29,16 @@
   {
     global $REX;
     
+    $message = '';
     $success = rex_cronjob::isValid($cronjob);
-    if($success) 
+    if(!$success)
+    {
+      if (is_object($cronjob))
+        $message = 'Invalid cronjob class "'. getClass($cronjob) .'"';
+      else
+        $message = 'Class "'. $cronjob .'" not found';
+    }
+    else
     {
       $type = $cronjob->getType();
       if (is_array($params))
@@ -39,6 +47,16 @@
           $cronjob->setParam(str_replace($type.'_', '', $key), $value);
       }
       $success = $cronjob->execute();
+      if (is_array($success))
+      {
+        if (isset($success[1]))
+          $message = $success[1];
+        $success = $success[0];
+      }
+      if ($message == '' && !$success)
+      {
+        $message = 'Unknown error';
+      }
       if($log && !$name)
       {
         if($REX['REDAXO'])
@@ -52,7 +70,7 @@
     {
       if (!$name)
         $name = '[no name]';
-      rex_cronjob_log::save($name, $success);
+      rex_cronjob_log::save($name, $success, $message);
     }
     
     return $success;

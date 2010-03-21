@@ -35,7 +35,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
     if ($parts['scheme'] == 'https')
       $sockhost = 'ssl://'. $sockhost;
 
-    if ($fp = @fsockopen($sockhost, $parts['port']))
+    if ($fp = @fsockopen($sockhost, $parts['port'], $errno, $errstr))
     {
       $method = 'GET';
       $out_add = '';
@@ -64,9 +64,12 @@ class rex_cronjob_urlrequest extends rex_cronjob
         $content .= fgets($fp);
       }
       fclose($fp);
-      return strpos($content, 'HTTP/1.1 4') === false && strpos($content, 'HTTP/1.1 5') === false;
+      $lines = explode("\r\n", $content);
+      $parts = explode(' ', $lines[0], 3);
+      $success = $parts[1] < 300;
+      return array($success, $parts[1] .' '. $parts[2]);
     }
-    return false;
+    return array(false, $errno .' '. $errstr);
   }
   
   /*public*/ function getTypeName()

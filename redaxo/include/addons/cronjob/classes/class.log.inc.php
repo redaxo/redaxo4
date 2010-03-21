@@ -100,7 +100,7 @@ class rex_cronjob_log
     return rex_cronjob_log::_getList($messages, $caption, $summary);
   }
   
-  /*public static*/ function save($name, $success)
+  /*public static*/ function save($name, $success, $message = '')
   {
     global $REX;
     
@@ -113,11 +113,14 @@ class rex_cronjob_log
     $newline = date('Y-m-d H:i');
     
     if ($success)
-      $newline .= '  SUCCESS  ';
+      $newline .= ' | SUCCESS | ';
     else
-      $newline .= '   ERROR   ';
+      $newline .= ' |  ERROR  | ';
       
     $newline .= $name;
+    
+    if ($message)
+      $newline .= ' | '. $message;
     
     $dir = REX_CRONJOB_LOG_FOLDER . $year;
     if (!is_dir($dir))
@@ -152,32 +155,40 @@ class rex_cronjob_log
           <col width="40" />
           <col width="140" />
           <col width="*" />
+          <col width="*" />
         </colgroup>
         <thead>
           <tr>
             <th class="rex-icon"></th>
             <th>'. $I18N->msg('cronjob_log_date') .'</th>
             <th>'. $I18N->msg('cronjob_name') .'</th>
+            <th>'. $I18N->msg('cronjob_log_message') .'</th>
           </tr>
         </thead>
         <tbody>';
     if (!is_array($lines) || count($lines) == 0)
     {
       $list .= '
-          <tr><td colspan="3">'. $I18N->msg('cronjob_log_no_data') .'</td></tr>';
+          <tr><td colspan="4">'. $I18N->msg('cronjob_log_no_data') .'</td></tr>';
     }
     else
     {
       foreach($lines as $line)
       {
-        list($date, $status, $name) = explode('  ', $line, 3);
-        $date = rex_formatter :: format(strtotime($date), 'strftime', 'datetime');
-        $class = trim($status) == 'ERROR' ? 'rex-warning' : 'rex-info';
+        $data = explode(' | ', $line, 4);
+        for ($i = 0; $i < 4; $i++)
+        {
+          if (!isset($data[$i]))
+            $data[$i] = '';
+        }
+        $data[0] = rex_formatter :: format(strtotime($data[0]), 'strftime', 'datetime');
+        $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
         $list .= '
           <tr class="'. $class .'">
-            <td class="rex-icon"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $name .'</span></span></td>
-            <td>'. $date .'</td>
-            <td>'. $name .'</td>
+            <td class="rex-icon"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $data[2] .'</span></span></td>
+            <td>'. $data[0] .'</td>
+            <td>'. $data[2] .'</td>
+            <td>'. $data[3] .'</td>
           </tr>';
       }
     }

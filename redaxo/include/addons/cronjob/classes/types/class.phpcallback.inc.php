@@ -20,10 +20,14 @@ class rex_cronjob_phpcallback extends rex_cronjob
       {
         $callback = array($matches[1], $callback);
       }
-      if(!is_callable($callback))
-        return false;
+      if (!is_callable($callback))
+      {
+        if (is_array($callback))
+          $callback = $callback[0] .'::'. $callback[1] .'()';
+        return array(false, $callback ."isn't callable");
+      }
       $params = array();
-      if($matches[3] != '') 
+      if ($matches[3] != '') 
       {
         $params = explode(',', $matches[3]);
         foreach($params as $i => $param)
@@ -32,9 +36,11 @@ class rex_cronjob_phpcallback extends rex_cronjob
           $params[$i] = $param;
         }
       }
-      return call_user_func_array($callback, $params) !== false;
+      if (call_user_func_array($callback, $params) !== false)
+        return true;
+      return array(false, 'Error in callback');
     }
-    return false;
+    return array(false, 'Syntax error in callback');
   }
   
   /*public*/ function getTypeName()
