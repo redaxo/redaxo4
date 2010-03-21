@@ -27,28 +27,25 @@ switch($subpage)
   default:
   {
   	$table = "";
-    if(is_array($tables))
-    {
-	  	foreach($tables as $t)
-	  	{
-	  		if($t["name"] == $subpage)
-	  		{
-	  		  $table = $subpage;
-	  		}
+  	foreach($tables as $t)
+  	{
+  		if($t["name"] == $subpage)
+  		{
+  		  $table = $subpage;
   		}
-  	}
+		}
   	
-	if($table == "" && $REX['USER'] && $REX['USER']->isAdmin())
-	{
-		$subpage = "tables";
-		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
-	}elseif($table == "")
-	{
-		echo "-";
-	}else
-	{
-		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
-	}
+  	if($table == "" && $REX['USER'] && $REX['USER']->isAdmin())
+  	{
+  		$subpage = "tables";
+  		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+  	}elseif($table == "")
+  	{
+  		echo "-";
+  	}else
+  	{
+  		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
+  	}
   }
 }
 

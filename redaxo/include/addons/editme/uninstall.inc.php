@@ -16,7 +16,7 @@ $tables = rex_em_getTables();
 $sql = rex_sql::factory();
 foreach($tables as $table)
 {
-  $sql->setQuery('DROP TABLE IF EXISTS `'. $REX['TABLE_PREFIX'].'em_data_'. $table['name'] .'`;');
+  $sql->setQuery('DROP TABLE IF EXISTS `'. rex_em_getTableName($table['name']) .'`;');
   
   if($sql->hasError())
   {

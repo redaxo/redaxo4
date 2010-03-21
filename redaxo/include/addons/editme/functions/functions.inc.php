@@ -53,7 +53,7 @@ function rex_em_generateAll()
 	foreach($tables as $table)
 	{
 		$name = $table['name'];
-		$tablename = $REX['TABLE_PREFIX'].'em_data_'.$table['name'];
+		$tablename = rex_em_getTableName($table['name']);
 		$fields = rex_em_getFields($table['name']);
 			
 		// ********** Table schon vorhanden ?, wenn nein, dann anlegen
@@ -117,6 +117,16 @@ function rex_em_getTables()
 	$tb = rex_sql::factory();
 	$tb->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_table order by prio,name');
 	return $tb->getArray();
+}
+
+/**
+ * Returns the database tablename from the internal table name
+ */
+function rex_em_getTableName($internalTableName)
+{
+  global $REX;
+  
+  return $REX['TABLE_PREFIX'].'em_data_'.$internalTableName;  
 }
 
 function rex_em_getFields($table_name)
