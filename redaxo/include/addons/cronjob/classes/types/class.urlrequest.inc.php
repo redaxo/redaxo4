@@ -31,8 +31,11 @@ class rex_cronjob_urlrequest extends rex_cronjob
       $parts['path'] = '/';
     if (isset($parts['query']))
       $parts['path'] .= '?'. $parts['query'];
+    $sockhost = $parts['host'];
+    if ($parts['scheme'] == 'https')
+      $sockhost = 'ssl://'. $sockhost;
 
-    if ($fp = fsockopen($parts['host'], $parts['port']))
+    if ($fp = @fsockopen($sockhost, $parts['port']))
     {
       $method = 'GET';
       $out_add = '';
