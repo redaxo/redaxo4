@@ -73,7 +73,7 @@
       rex_cronjob_log::save($name, $success, $message);
     }
     
-    return array($success, $message);
+    return array($success, htmlspecialchars($message));
   }
   
   /*public static*/ function saveNextTime()

@@ -15,7 +15,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
   {
     $parts = parse_url($this->getParam('url'));
     if (!isset($parts['host']))
-      return false;
+      return array(false, 'Invalid URL');
     if (!isset($parts['scheme']))
       $parts['scheme'] = 'http';
     if (!isset($parts['port']))
@@ -24,7 +24,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
       {
         case 'http' : $parts['port'] = 80;  break;
         case 'https': $parts['port'] = 443; break;
-        default: return false;
+        default: return array(false, 'Unknown port');
       }
     }
     if (!isset($parts['path']))
@@ -64,10 +64,32 @@ class rex_cronjob_urlrequest extends rex_cronjob
         $content .= fgets($fp);
       }
       fclose($fp);
+
+      if (stripos($content, 'HTTP/') !== 0)
+        return array(false, 'Unknown response');
+
       $lines = explode("\r\n", $content);
       $parts = explode(' ', $lines[0], 3);
+      $parts[1] = (int) $parts[1];
       $success = $parts[1] >= 200 && $parts[1] < 300;
-      return array($success, $parts[1] .' '. $parts[2]);
+      $message = $parts[1] .' '. $parts[2];
+      if (in_array($parts[1], array(301, 302, 303, 307))
+        && $this->getParam('redirect', true) 
+        && preg_match('/Location: ([^\s]*)/', $content, $matches)
+        && isset($matches[1]))
+      {
+        // nur eine Umleitung zulassen
+        $this->setParam('redirect', false);
+        $this->setParam('url', $matches[1]);
+        // rekursiv erneut ausfuehren
+        $return = (array) $this->execute();
+        $success = $return[0];
+        if (isset($return[1]))
+          $message .= ' -> '. $return[1];
+        else
+          $message .= ' -> Unknown error';
+      }
+      return array($success, $message);
     }
     return array(false, $errno .' '. $errstr);
   }
