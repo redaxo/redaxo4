@@ -106,8 +106,8 @@ if ($REX['SETUP'])
     $REX['PAGES']['login'] = array('title'=>'login', 'hide_navi'=>TRUE, 'type'=>'system', 'core'=>TRUE);
     $REX['PAGE'] = 'login';
     
-    $REX['USER'] = NULL;
-    $REX['LOGIN'] = NULL;
+    $REX['USER'] = null;
+    $REX['LOGIN'] = null;
   }
   else
   {    
@@ -131,12 +131,12 @@ if($REX['USER'])
   {
     $REX['PAGES']['structure'] = array('title'=>$I18N->msg('structure'), 'type'=>'system', 'active_when' => array('page'=>'structure'), 'core'=>TRUE);
     if($REX['USER']->hasMediaPerm())
-      $REX['PAGES']['mediapool'] = array('title'=>$I18N->msg('mediapool'), 'hide_navi'=>TRUE, 'href' =>'#', 'onclick' => 'openMediaPool()', 'class' => 'rex-popup', 'type'=>'system', 'core'=>TRUE);
+      $REX['PAGES']['mediapool'] = array('title'=>$I18N->msg('mediapool'), 'hide_navi'=>TRUE, 'onclick' => 'openMediaPool(); return false;', 'class' => 'rex-popup', 'type'=>'system', 'core'=>TRUE);
     $REX['PAGES']['linkmap'] = array('title'=>$I18N->msg('linkmap'), 'hide_navi'=>TRUE, 'type'=>'system', 'core'=>TRUE);
     $REX['PAGES']['content'] = array('title'=>$I18N->msg('content'), 'type'=>'system', 'core'=>TRUE);
   }elseif($REX['USER']->hasMediaPerm())
   {
-    $REX['PAGES']['mediapool'] = array('title'=>$I18N->msg('mediapool'), 'hide_navi'=>TRUE, 'href' =>'#', 'onclick' => 'openMediaPool()', 'class' => 'rex-popup', 'type'=>'system', 'core'=>TRUE);
+    $REX['PAGES']['mediapool'] = array('title'=>$I18N->msg('mediapool'), 'hide_navi'=>TRUE, 'onclick' => 'openMediaPool(); return false;', 'class' => 'rex-popup', 'type'=>'system', 'core'=>TRUE);
   }
 
   if ($REX['USER']->isAdmin())
