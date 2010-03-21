@@ -8,4 +8,4 @@ CREATE TABLE `rex_com_contact` (
   `accepted` tinyint(4) NOT NULL default '0',
   `create_datetime` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);

@@ -16,4 +16,4 @@ CREATE TABLE `rex_com_board` (
   `status` int(1) NOT NULL default '0',
   `file_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`message_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);

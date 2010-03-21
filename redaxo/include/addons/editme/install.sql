@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_field` (
   `f9` text NOT NULL,
   `search` TINYINT NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_table` (
   `id` int(11) NOT NULL auto_increment,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_table` (
   `search` TINYINT NOT NULL,
   `hidden` TINYINT NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_relation` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -38,4 +38,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_relation` (
   `source_id` INT NOT NULL ,
   `target_table` VARCHAR( 255 ) NOT NULL ,
   `target_id` INT NOT NULL
-) ENGINE = MYISAM ;
+);

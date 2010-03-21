@@ -7,4 +7,4 @@ CREATE TABLE `rex_com_guestbook` (
   `text` longtext NOT NULL,
   `create_datetime` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);

@@ -18,8 +18,7 @@ $sql->setQuery('CREATE TABLE IF NOT EXISTS `'.$REX['TABLE_PREFIX'].'xform_email_
   `subject` varchar(255) NOT NULL default "",
   `body` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
-');
+);');
 
 // evtl. Fehler beim Anlegen?
 if ($sql->hasError())

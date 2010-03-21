@@ -20,7 +20,7 @@ CREATE TABLE `rex_62_params` (
   `updatedate` int(11) NOT NULL,
   PRIMARY KEY (`field_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=11;
 
 LOCK TABLES `rex_62_params` WRITE;
 /*!40000 ALTER TABLE `rex_62_params` DISABLE KEYS */;
@@ -45,7 +45,7 @@ CREATE TABLE `rex_62_type` (
   `dbtype` varchar(255) NOT NULL,
   `dblength` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=13;
 
 LOCK TABLES `rex_62_type` WRITE;
 /*!40000 ALTER TABLE `rex_62_type` DISABLE KEYS */;
@@ -73,7 +73,7 @@ CREATE TABLE `rex_679_type_effects` (
   `parameters` text NOT NULL,
   `prior` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=7;
 
 LOCK TABLES `rex_679_type_effects` WRITE;
 /*!40000 ALTER TABLE `rex_679_type_effects` DISABLE KEYS */;
@@ -94,7 +94,7 @@ CREATE TABLE `rex_679_types` (
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=7;
 
 LOCK TABLES `rex_679_types` WRITE;
 /*!40000 ALTER TABLE `rex_679_types` DISABLE KEYS */;
@@ -124,7 +124,8 @@ CREATE TABLE `rex_action` (
   `updatedate` int(11) NOT NULL DEFAULT '0',
   `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
+
 DROP TABLE IF EXISTS `rex_article`;
 CREATE TABLE `rex_article` (
   `pid` int(11) NOT NULL AUTO_INCREMENT,
@@ -157,7 +158,7 @@ CREATE TABLE `rex_article` (
   KEY `id` (`id`),
   KEY `clang` (`clang`),
   KEY `re_id` (`re_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=21;
 
 LOCK TABLES `rex_article` WRITE;
 /*!40000 ALTER TABLE `rex_article` DISABLE KEYS */;
@@ -266,7 +267,7 @@ CREATE TABLE `rex_article_slice` (
   KEY `re_article_slice_id` (`re_article_slice_id`),
   KEY `article_id` (`article_id`),
   KEY `find_slices` (`clang`,`article_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=55;
 
 LOCK TABLES `rex_article_slice` WRITE;
 /*!40000 ALTER TABLE `rex_article_slice` DISABLE KEYS */;
@@ -323,7 +324,7 @@ CREATE TABLE `rex_clang` (
   `name` varchar(255) NOT NULL,
   `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 LOCK TABLES `rex_clang` WRITE;
 /*!40000 ALTER TABLE `rex_clang` DISABLE KEYS */;
@@ -355,7 +356,7 @@ CREATE TABLE `rex_file` (
   PRIMARY KEY (`file_id`),
   KEY `re_file_id` (`re_file_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=49;
 
 LOCK TABLES `rex_file` WRITE;
 /*!40000 ALTER TABLE `rex_file` DISABLE KEYS */;
@@ -418,7 +419,7 @@ CREATE TABLE `rex_file_category` (
   `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `re_id` (`re_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=8;
 
 LOCK TABLES `rex_file_category` WRITE;
 /*!40000 ALTER TABLE `rex_file_category` DISABLE KEYS */;
@@ -448,7 +449,7 @@ CREATE TABLE `rex_module` (
   `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=10;
 
 LOCK TABLES `rex_module` WRITE;
 /*!40000 ALTER TABLE `rex_module` DISABLE KEYS */;
@@ -470,7 +471,8 @@ CREATE TABLE `rex_module_action` (
   `action_id` int(11) NOT NULL DEFAULT '0',
   `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
+
 DROP TABLE IF EXISTS `rex_template`;
 CREATE TABLE `rex_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -485,7 +487,7 @@ CREATE TABLE `rex_template` (
   `attributes` text NOT NULL,
   `revision` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+)AUTO_INCREMENT=4;
 
 LOCK TABLES `rex_template` WRITE;
 /*!40000 ALTER TABLE `rex_template` DISABLE KEYS */;

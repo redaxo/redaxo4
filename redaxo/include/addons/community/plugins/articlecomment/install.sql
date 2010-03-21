@@ -8,4 +8,4 @@ CREATE TABLE `rex_com_comment` (
 `status` tinyint(4) NOT NULL default '0',
 `create_datetime` INT NOT NULL ,
 PRIMARY KEY ( `id` )
-) ENGINE=MYISAM DEFAULT CHARSET=latin1;
+);

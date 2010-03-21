@@ -11,4 +11,4 @@ CREATE TABLE `rex_com_message` (
   `create_datetime` int(11) NOT NULL default '0',
   `deleted` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);

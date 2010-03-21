@@ -13,7 +13,7 @@ CREATE TABLE `rex_com_user` (
   `activation_key` varchar(255) NOT NULL default '',
   `gender` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 DROP TABLE IF EXISTS `rex_com_user_field`;
 
@@ -32,7 +32,7 @@ CREATE TABLE `rex_com_user_field` (
   `defaultvalue` varchar(255) NOT NULL default '',
   `unique` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 
 INSERT INTO `rex_com_user_field` VALUES (1, 10, 'Login', 'login', 2, '', '', '', 1, 1, 1, '', 1);
 INSERT INTO `rex_com_user_field` VALUES (2, 20, 'Passwort', 'password', 2, '', '', '', 0, 1, 0, '', 0);

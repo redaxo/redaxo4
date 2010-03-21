@@ -10,7 +10,7 @@ $ins->setQuery("CREATE TABLE IF NOT EXISTS `rex_com_comment` (
   `status` tinyint(4) NOT NULL default '0',
   `create_datetime` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+)");
 
 $REX['ADDON']['install']['comments'] = 1;
 

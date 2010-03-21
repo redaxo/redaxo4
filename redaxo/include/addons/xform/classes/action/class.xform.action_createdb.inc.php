@@ -23,7 +23,7 @@ class rex_xform_action_createdb extends rex_xform_action_abstract
     
     if(!$table_exists)
     {
-    	$sql->setQuery('CREATE TABLE `'.$table.'` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE = MYISAM ;');
+    	$sql->setQuery('CREATE TABLE `'.$table.'` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY);');
     }
     
     // Welche Felder sind vorhanden ?
