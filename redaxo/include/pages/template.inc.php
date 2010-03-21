@@ -189,6 +189,7 @@ if ($function == "add" or $function == "edit")
     // Module ...
     $modul_select = new rex_select();
     $modul_select->setMultiple(TRUE);
+    $modul_select->setStyle('class="rex-form-select"');
     $modul_select->setSize(10);
     $m_sql = rex_sql::factory();
     $m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
@@ -207,8 +208,8 @@ if ($function == "add" or $function == "edit")
     {
       foreach($categories as $c => $cc)
       {
-        // string cast notwenig, weil (0 != "all") => false 
-        if("$c" != "all")
+        // typsicherer vergleich, weil (0 != "all") => false 
+        if($c !== "all")
         { 
           $cat_select->setSelected($cc);
         }
@@ -232,7 +233,8 @@ if ($function == "add" or $function == "edit")
         {
           foreach($modules[$i] as $j => $jj)
           {
-            if($j != 'all')
+            // typsicherer vergleich, weil (0 != "all") => false
+            if($j !== 'all')
             { 
               $modul_select->setSelected($jj);
             }
