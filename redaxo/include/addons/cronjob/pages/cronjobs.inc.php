@@ -34,10 +34,14 @@ if ($func == 'delete')
 if ($func == 'execute')
 {
   $name = rex_cronjob_manager_sql::getName($oid);
-  if (rex_cronjob_manager_sql::tryExecute($oid))
-    echo rex_info($I18N->msg('cronjob_execute_success', $name));
+  $return = (array)rex_cronjob_manager_sql::tryExecute($oid);
+  $msg = '';
+  if (isset($return[1]) && !empty($return[1]))
+    $msg = '<br />'. $I18N->msg('cronjob_log_message') .': '. $return[1];
+  if ($return[0])
+    echo rex_info($I18N->msg('cronjob_execute_success', $name) . $msg);
   else
-    echo rex_warning($I18N->msg('cronjob_execute_error', $name));
+    echo rex_warning($I18N->msg('cronjob_execute_error', $name) . $msg);
   $func = '';
 }
 

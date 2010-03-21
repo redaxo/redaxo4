@@ -34,7 +34,7 @@
     if(!$success)
     {
       if (is_object($cronjob))
-        $message = 'Invalid cronjob class "'. getClass($cronjob) .'"';
+        $message = 'Invalid cronjob class "'. get_class($cronjob) .'"';
       else
         $message = 'Class "'. $cronjob .'" not found';
     }
@@ -73,7 +73,7 @@
       rex_cronjob_log::save($name, $success, $message);
     }
     
-    return $success;
+    return array($success, $message);
   }
   
   /*public static*/ function saveNextTime()
@@ -197,7 +197,7 @@
     {
       $sql->setQuery($query_or_id);
     }
-    $success = false;
+    $return = array(false, 'Cronjob not found in database');
     if ($sql->getRows() == 1)
     {
       $id       = $sql->getValue('id');
@@ -207,13 +207,13 @@
       $interval = $sql->getValue('interval');
 
       $cronjob = rex_cronjob::factory($type);
-      $success = rex_cronjob_manager::tryExecute($cronjob, $name, $params, $log);
+      $return = rex_cronjob_manager::tryExecute($cronjob, $name, $params, $log);
 
       $nexttime = rex_cronjob_manager_sql::_calculateNextTime($interval);
       rex_cronjob_manager_sql::setNextTime($id, $nexttime);
     }
     rex_cronjob_manager::saveNextTime();
-    return $success;
+    return $return;
   }
   
   /*public static*/ function setNextTime($id, $nexttime)
