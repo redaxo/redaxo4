@@ -185,7 +185,7 @@ class rex_cronjob_log
         $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
         $list .= '
           <tr class="'. $class .'">
-            <td class="rex-icon"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $data[2] .'</span></span></td>
+            <td class="rex-icon"><a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;name='. $data[2] .'" title="'. $I18N->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span></a></td>
             <td>'. $data[0] .'</td>
             <td>'. $data[2] .'</td>
             <td>'. $data[3] .'</td>

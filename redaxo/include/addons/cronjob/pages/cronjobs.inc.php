@@ -41,12 +41,31 @@ if ($func == 'execute')
   $func = '';
 }
 
+if ($func == 'edit')
+{
+  $name = rex_request('name', 'string');
+  if ($name)
+  {
+    $oid = rex_cronjob_manager_sql::getId(stripslashes(rex_request('name', 'string')));
+    if ($oid === false)
+    {
+      echo rex_warning($I18N->msg('cronjob_not_found', $name));
+      $func = '';
+    }
+    elseif (is_array($oid))
+    {
+      echo rex_warning($I18N->msg('cronjob_not_distinct', $name));
+      $func = '';
+    }
+  }
+}
+
 if ($func == '') 
 {
 
   $query = 'SELECT id, name, type, `interval`, environment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
   
-  $list = rex_list::factory($query, 30);
+  $list = rex_list::factory($query, 30, 'cronjobs');
   
   $list->setNoRowsMessage($I18N->msg('cronjob_no_cronjobs'));
   $list->setCaption($I18N->msg('cronjob_caption'));
@@ -55,7 +74,7 @@ if ($func == '')
   $list->addTableColumnGroup(array(40,'*',90,130,60,60,60));
   
   $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('cronjob_add') .'</span></a>';
-  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('edit') .'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
   
   $list->removeColumn('id');
@@ -140,6 +159,7 @@ if ($func == '')
   $form = rex_form::factory(REX_CRONJOB_TABLE, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
   $form->addParam('oid', $oid);
   $form->setApplyUrl('index.php?page=cronjob');
+  $form->setEditMode($func == 'edit');
   
   $field =& $form->addSelectField('type');
   $field->setLabel($I18N->msg('cronjob_type'));

@@ -133,6 +133,28 @@
       return $sql->getValue('name');
     return null;
   }
+  
+  /*public static*/ function getId($name)
+  {
+    $sql = rex_cronjob_manager_sql::_getSqlInstance();
+    $sql->setQuery('
+      SELECT  id 
+      FROM    '. REX_CRONJOB_TABLE .' 
+      WHERE   name="'. $name .'" 
+    ');
+    $rows = $sql->getRows();
+    if($rows == 0)
+      return false;
+    if ($rows == 1)
+      return $sql->getValue('id');
+    $ids = array();
+    while($sql->hasNext())
+    {
+      $ids[] = $sql->getValue('id');
+      $sql->next();
+    }
+    return $ids;
+  }
 
   /*public static*/ function setStatus($id, $status)
   {
