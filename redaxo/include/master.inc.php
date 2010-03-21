@@ -46,7 +46,7 @@ $REX['LANG'] = "de_de";
 
 // activate frontend mod_rewrite support for url-rewriting
 // Boolean: true/false
-$REX['MOD_REWRITE'] = true;
+$REX['MOD_REWRITE'] = false;
 
 // activate gzip output support
 // reduces amount of data need to be send to the client, but increases cpu load of the server
