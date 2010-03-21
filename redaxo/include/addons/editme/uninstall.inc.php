@@ -9,5 +9,27 @@
  * @version svn:$Id$
  */
 
-$REX['ADDON']['install']['editme'] = 0;
-// ERRMSG IN CASE: $REX['ADDON']['installmsg']['editme'] = "Leider konnte nichts installiert werden da.";
+$error = '';
+
+$tables = rex_em_getTables();
+
+$sql = rex_sql::factory();
+foreach($tables as $table)
+{
+  $sql->setQuery('DROP TABLE IF EXISTS `'. $REX['TABLE_PREFIX'].'em_data_'. $table['name'] .'`;');
+  
+  if($sql->hasError())
+  {
+    $error .= 'MySQL Error '. $sql->getErrno() .': '. $sql->getError();
+    break;
+  }
+}
+
+if($error == '')
+{
+  $REX['ADDON']['install']['editme'] = 0;
+}
+else
+{
+   $REX['ADDON']['installmsg']['editme'] = $error;
+}
