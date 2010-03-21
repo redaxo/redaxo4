@@ -27,7 +27,7 @@ switch($subpage)
   default:
   {
   	$table = "";
-    if(count($tables)>0)
+    if(is_array($tables))
     {
 	  	foreach($tables as $t)
 	  	{
