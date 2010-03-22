@@ -9,9 +9,31 @@
  * @version svn:$Id$
  */
 
-/*final*/ class rex_cronjob_manager
-{ 
-  /*public static*/ function check()
+class rex_cronjob_manager
+{
+  /*private*/ var $message = '';
+  
+  /*public*/ function factory()
+  {
+    return new rex_cronjob_manager;
+  }
+  
+  /*public*/ function setMessage($message)
+  {
+    $this->message = $message;
+  }
+  
+  /*public*/ function getMessage()
+  {
+    return $this->message;
+  }
+  
+  /*public*/ function hasMessage()
+  {
+    return !empty($this->message);
+  }
+  
+  /*public*/ function check()
   {
     global $REX;
     $environment = (int)$REX['REDAXO'];
@@ -22,10 +44,11 @@
       ORDER BY  nexttime ASC
       LIMIT     1
     ';
-    rex_cronjob_manager_sql::tryExecute($query);
+    $sql_manager = rex_cronjob_manager_sql::factory($this);
+    $sql_manager->tryExecute($query);
   }
   
-  /*public static*/ function tryExecute($cronjob, $name = '', $params = array(), $log = true)
+  /*public*/ function tryExecute($cronjob, $name = '', $params = array(), $log = true)
   {
     global $REX;
     
@@ -47,12 +70,7 @@
           $cronjob->setParam(str_replace($type.'_', '', $key), $value);
       }
       $success = $cronjob->execute();
-      if (is_array($success))
-      {
-        if (isset($success[1]))
-          $message = $success[1];
-        $success = $success[0];
-      }
+      $message = $cronjob->getMessage();
       if ($message == '' && !$success)
       {
         $message = 'Unknown error';
@@ -73,20 +91,26 @@
       rex_cronjob_log::save($name, $success, $message);
     }
     
-    return array($success, htmlspecialchars($message));
+    $this->setMessage(htmlspecialchars($message));
+    
+    return $success;
   }
   
-  /*public static*/ function saveNextTime()
+  /*public*/ function saveNextTime($nexttime = null)
   {
     global $REX;
-    $nexttime = rex_cronjob_manager_sql::getMinNextTime();
+    if ($nexttime === null)
+    {
+      $sql_manager = rex_cronjob_manager_sql::factory($this);
+      $nexttime = $sql_manager->getMinNextTime();
+    }
     if ($nexttime === null)
       $nexttime = 0;
     else
       $nexttime = max(1, $nexttime);
     if ($nexttime != $REX['ADDON']['nexttime']['cronjob']) 
     {
-      $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'.addslashes($nexttime).'";';
+      $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
       $file = $REX['INCLUDE_PATH'] .'/addons/cronjob/config.inc.php';
       if (rex_replace_dynamic_contents($file, $content))
       {
@@ -118,75 +142,103 @@
 }
 
 
-/*final*/ class rex_cronjob_manager_sql
+class rex_cronjob_manager_sql
 {
-  /*public static*/ function getName($id)
+  /*private*/ var $sql;
+  /*private*/ var $manager;
+  
+  /*private*/ function rex_cronjob_manager_sql(/*rex_cronjob_manager*/ $manager = null)
   {
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
-    $sql->setQuery('
+    $this->sql = rex_sql::factory();
+    // $this->sql->debugsql = true;
+    if (is_a($manager, 'rex_cronjob_manager'))
+      $this->manager = $manager;
+    else
+      $this->manager = rex_cronjob_manager::factory();
+  }
+
+  /*public*/ function factory(/*rex_cronjob_manager*/ $manager = null)
+  {
+    return new rex_cronjob_manager_sql($manager);
+  }
+  
+  /*public*/ function setMessage($message)
+  {
+    $this->manager->setMessage($message);
+  }
+  
+  /*public*/ function getMessage()
+  {
+    return $this->manager->getMessage();
+  }
+  
+  /*public*/ function hasMessage()
+  {
+    return $this->manager->hasMessage();
+  }
+
+  /*public*/ function getName($id)
+  {
+    $this->sql->setQuery('
       SELECT  name 
       FROM    '. REX_CRONJOB_TABLE .' 
       WHERE   id='. $id .' 
       LIMIT   1
     ');
-    if($sql->getRows() == 1)
-      return $sql->getValue('name');
+    if($this->sql->getRows() == 1)
+      return $this->sql->getValue('name');
     return null;
   }
   
-  /*public static*/ function getId($name)
+  /*public*/ function getId($name)
   {
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
-    $sql->setQuery('
+    $this->sql->setQuery('
       SELECT  id 
       FROM    '. REX_CRONJOB_TABLE .' 
       WHERE   name="'. $name .'" 
     ');
-    $rows = $sql->getRows();
+    $rows = $this->sql->getRows();
     if($rows == 0)
       return false;
     if ($rows == 1)
-      return $sql->getValue('id');
+      return $this->sql->getValue('id');
     $ids = array();
-    while($sql->hasNext())
+    while($this->sql->hasNext())
     {
-      $ids[] = $sql->getValue('id');
-      $sql->next();
+      $ids[] = $this->sql->getValue('id');
+      $this->sql->next();
     }
     return $ids;
   }
 
-  /*public static*/ function setStatus($id, $status)
+  /*public*/ function setStatus($id, $status)
   {
     global $REX;
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
-    $sql->setTable(REX_CRONJOB_TABLE);
-    $sql->setWhere('id = '. $id);
-    $sql->setValue('status', $status);
-    $sql->addGlobalUpdateFields();
-    $success = $sql->update();
-    rex_cronjob_manager::saveNextTime();
+    $this->sql->setTable(REX_CRONJOB_TABLE);
+    $this->sql->setWhere('id = '. $id);
+    $this->sql->setValue('status', $status);
+    $this->sql->addGlobalUpdateFields();
+    $success = $this->sql->update();
+    $this->manager->saveNextTime($this->getMinNextTime());
     return $success;
   }
   
-  /*public static*/ function delete($id)
+  /*public*/ function delete($id)
   {
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
-    $sql->setTable(REX_CRONJOB_TABLE);
-    $sql->setWhere('id = '. $id);
-    $success = $sql->delete();
-    rex_cronjob_manager::saveNextTime();
+    $this->sql->setTable(REX_CRONJOB_TABLE);
+    $this->sql->setWhere('id = '. $id);
+    $success = $this->sql->delete();
+    $this->manager->saveNextTime($this->getMinNextTime());
     return $success;
   }
   
-  /*public static*/ function tryExecute($query_or_id, $log = true)
+  /*public*/ function tryExecute($query_or_id, $log = true)
   {
     global $REX;
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
     if (is_int($query_or_id))
     {
       $environment = (int)$REX['REDAXO'];
-      $sql->setQuery('
+      $this->sql->setQuery('
         SELECT    id, name, type, parameters, `interval` 
         FROM      '. REX_CRONJOB_TABLE .' 
         WHERE     id='. $query_or_id .' AND environment LIKE "%|'. $environment .'|%" 
@@ -195,62 +247,53 @@
     }
     else
     {
-      $sql->setQuery($query_or_id);
+      $this->sql->setQuery($query_or_id);
     }
-    $return = array(false, 'Cronjob not found in database');
-    if ($sql->getRows() == 1)
+    if ($this->sql->getRows() != 1)
     {
-      $id       = $sql->getValue('id');
-      $name     = $sql->getValue('name');
-      $type     = $sql->getValue('type');
-      $params   = unserialize($sql->getValue('parameters'));
-      $interval = $sql->getValue('interval');
+      $success = false;
+      $this->manager->setMessage('Cronjob not found in database');
+    }
+    else
+    {
+      $id       = $this->sql->getValue('id');
+      $name     = $this->sql->getValue('name');
+      $type     = $this->sql->getValue('type');
+      $params   = unserialize($this->sql->getValue('parameters'));
+      $interval = $this->sql->getValue('interval');
 
       $cronjob = rex_cronjob::factory($type);
-      $return = rex_cronjob_manager::tryExecute($cronjob, $name, $params, $log);
+      $success = $this->manager->tryExecute($cronjob, $name, $params, $log);
 
-      $nexttime = rex_cronjob_manager_sql::_calculateNextTime($interval);
-      rex_cronjob_manager_sql::setNextTime($id, $nexttime);
+      $nexttime = $this->_calculateNextTime($interval);
+      $this->setNextTime($id, $nexttime);
     }
-    rex_cronjob_manager::saveNextTime();
-    return $return;
+    $this->manager->saveNextTime($this->getMinNextTime());
+    return $success;
   }
   
-  /*public static*/ function setNextTime($id, $nexttime)
+  /*public*/ function setNextTime($id, $nexttime)
   {
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
-    return $sql->setQuery('
+    return $this->sql->setQuery('
       UPDATE  '. REX_CRONJOB_TABLE .' 
       SET     nexttime='. $nexttime .' 
       WHERE   id='. $id
     );
   }
   
-  /*public static*/ function getMinNextTime()
+  /*public*/ function getMinNextTime()
   {
-    $sql = rex_cronjob_manager_sql::_getSqlInstance();
-    $sql->setQuery('
+    $this->sql->setQuery('
       SELECT  MIN(nexttime) AS nexttime
       FROM    '. REX_CRONJOB_TABLE .' 
       WHERE   status=1
     ');
-    if($sql->getRows() == 1)
-      return $sql->getValue('nexttime');
+    if($this->sql->getRows() == 1)
+      return $this->sql->getValue('nexttime');
     return null;
   }
   
-  /*private static*/ function _getSqlInstance()
-  {
-    static $sql = null;
-    if (!$sql)
-    {
-      $sql = rex_sql::factory();
-      // $sql->debugsql = true;
-    }
-    return $sql;
-  }
-  
-  /*private static*/ function _calculateNextTime($interval)
+  /*private*/ function _calculateNextTime($interval)
   {
     $interval = explode('|', trim($interval, '|'));
     if (is_array($interval) && isset($interval[0]) && isset($interval[1]))

@@ -82,5 +82,8 @@ function rex_a630_extension($params)
 {
   global $REX;
   if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))
-    rex_cronjob_manager::check();
+  {
+    $manager = rex_cronjob_manager::factory();
+    $manager->check();
+  }
 }

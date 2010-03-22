@@ -39,7 +39,8 @@ class rex_cronjob_article_status extends rex_cronjob
         $field = $sql->getValue('name') == $from['field'] ? $to['field'] : $from['field'];
         $msg = 'Metainfo field "'. $field .'" not found';
       }
-      return array(false, $msg);
+      $this->setMessage($msg);
+      return false;
     }
     
     $time = time();
@@ -69,7 +70,8 @@ class rex_cronjob_article_status extends rex_cronjob
       rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
-    return array(true, 'Updated articles: '. $rows);
+    $this->setMessage('Updated articles: '. $rows);
+    return true;
   }
   
   /*public*/ function getTypeName()

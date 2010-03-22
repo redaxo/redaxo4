@@ -16,7 +16,8 @@ class rex_cronjob_phpcode extends rex_cronjob
     $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
     if (@eval($code) !== false)
       return true;
-    return array(false, 'Error in PHP code');
+    $this->setMessage('Error in PHP code');
+    return false;
   }
   
   /*public*/ function getTypeName()

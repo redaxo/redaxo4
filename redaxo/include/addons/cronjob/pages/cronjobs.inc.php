@@ -11,10 +11,11 @@
 
 if ($func == 'setstatus')
 {
-  $name = rex_cronjob_manager_sql::getName($oid);
+  $manager = rex_cronjob_manager_sql::factory();
+  $name = $manager->getName($oid);
   $status = (rex_request('oldstatus', 'int') +1) % 2;
   $msg = $status == 1 ? 'cronjob_status_activate' : 'cronjob_status_deactivate';
-  if (rex_cronjob_manager_sql::setStatus($oid, $status))
+  if ($manager->setStatus($oid, $status))
     echo rex_info($I18N->msg($msg .'_success', $name));
   else
     echo rex_warning($I18N->msg($msg .'_error', $name));
@@ -23,8 +24,9 @@ if ($func == 'setstatus')
 
 if ($func == 'delete')
 {
-  $name = rex_cronjob_manager_sql::getName($oid);
-  if (rex_cronjob_manager_sql::delete($oid))
+  $manager = rex_cronjob_manager_sql::factory();
+  $name = $manager->getName($oid);
+  if ($manager->delete($oid))
     echo rex_info($I18N->msg('cronjob_delete_success', $name));
   else
     echo rex_warning($I18N->msg('cronjob_delete_error', $name));
@@ -33,12 +35,13 @@ if ($func == 'delete')
 
 if ($func == 'execute')
 {
-  $name = rex_cronjob_manager_sql::getName($oid);
-  $return = (array)rex_cronjob_manager_sql::tryExecute($oid);
+  $manager = rex_cronjob_manager_sql::factory();
+  $name = $manager->getName($oid);
+  $success = $manager->tryExecute($oid);
   $msg = '';
-  if (isset($return[1]) && !empty($return[1]))
-    $msg = '<br />'. $I18N->msg('cronjob_log_message') .': '. $return[1];
-  if ($return[0])
+  if ($manager->hasMessage())
+    $msg = '<br />'. $I18N->msg('cronjob_log_message') .': '. $manager->getMessage();
+  if ($success)
     echo rex_info($I18N->msg('cronjob_execute_success', $name) . $msg);
   else
     echo rex_warning($I18N->msg('cronjob_execute_error', $name) . $msg);
@@ -50,7 +53,8 @@ if ($func == 'edit')
   $name = rex_request('name', 'string');
   if ($name)
   {
-    $oid = rex_cronjob_manager_sql::getId(stripslashes(rex_request('name', 'string')));
+    $manager = rex_cronjob_manager_sql::factory();
+    $oid = $manager->getId(stripslashes(rex_request('name', 'string')));
     if ($oid === false)
     {
       echo rex_warning($I18N->msg('cronjob_not_found', $name));

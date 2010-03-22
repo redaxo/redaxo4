@@ -15,7 +15,10 @@ class rex_cronjob_urlrequest extends rex_cronjob
   {
     $parts = parse_url($this->getParam('url'));
     if (!isset($parts['host']))
-      return array(false, 'Invalid URL');
+    {
+      $this->setMessage('Invalid URL');
+      return false;
+    }
     if (!isset($parts['scheme']))
       $parts['scheme'] = 'http';
     if (!isset($parts['port']))
@@ -24,7 +27,9 @@ class rex_cronjob_urlrequest extends rex_cronjob
       {
         case 'http' : $parts['port'] = 80;  break;
         case 'https': $parts['port'] = 443; break;
-        default: return array(false, 'Unknown port');
+        default: 
+          $this->setMessage('Unknown port');
+          return false;
       }
     }
     if (!isset($parts['path']))
@@ -66,7 +71,10 @@ class rex_cronjob_urlrequest extends rex_cronjob
       fclose($fp);
 
       if (stripos($content, 'HTTP/') !== 0)
-        return array(false, 'Unknown response');
+      {
+        $this->setMessage('Unknown response');
+        return false;
+      }
 
       $lines = explode("\r\n", $content);
       $parts = explode(' ', $lines[0], 3);
@@ -78,20 +86,21 @@ class rex_cronjob_urlrequest extends rex_cronjob
         && preg_match('/Location: ([^\s]*)/', $content, $matches)
         && isset($matches[1]))
       {
-        // nur eine Umleitung zulassen
+        // maximal eine Umleitung zulassen
         $this->setParam('redirect', false);
         $this->setParam('url', $matches[1]);
         // rekursiv erneut ausfuehren
-        $return = (array) $this->execute();
-        $success = $return[0];
-        if (isset($return[1]))
-          $message .= ' -> '. $return[1];
+        $success = $this->execute();
+        if ($this->hasMessage())
+          $message .= ' -> '. $this->getMessage();
         else
           $message .= ' -> Unknown error';
       }
-      return array($success, $message);
+      $this->setMessage($message);
+      return $success;
     }
-    return array(false, $errno .' '. $errstr);
+    $this->setMessage($errno .' '. $errstr);
+    return false;
   }
   
   /*public*/ function getTypeName()

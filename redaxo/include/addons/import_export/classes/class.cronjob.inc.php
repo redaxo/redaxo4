@@ -19,7 +19,10 @@ class rex_cronjob_export extends rex_cronjob
     }
 
     if (rex_a1_export_db($dir . $file . $ext))
-      return array(true, $file . $ext . ' created');
+    {
+      $this->setMessage($file . $ext . ' created');
+      return true;
+    }
     return false;
   }
   

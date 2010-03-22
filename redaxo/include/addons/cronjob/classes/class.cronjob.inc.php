@@ -12,6 +12,7 @@
 /*abstract*/ class rex_cronjob
 {
   /*private*/ var $params = array();
+  /*private*/ var $message = '';
   
   /*final public*/ function factory($class) 
   {
@@ -43,6 +44,21 @@
 	{
 	  return $this->params;
 	}
+	
+	/*public*/ function setMessage($message)
+  {
+    $this->message = $message;
+  }
+  
+  /*public*/ function getMessage()
+  {
+    return $this->message;
+  }
+  
+  /*public*/ function hasMessage()
+  {
+    return !empty($this->message);
+  }
   
   /*abstract public*/ function execute() 
   {
