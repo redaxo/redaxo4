@@ -100,7 +100,7 @@ class rex_cronjob_log
     return rex_cronjob_log::_getList($messages, $caption, $summary);
   }
   
-  /*public static*/ function save($name, $success, $message = '')
+  /*public static*/ function save($name, $success, $message = '', $id = null)
   {
     global $REX;
     
@@ -116,8 +116,13 @@ class rex_cronjob_log
       $newline .= ' | SUCCESS | ';
     else
       $newline .= ' |  ERROR  | ';
+    
+    if (!$id)
+      $id = '--';
+    else
+      $id = str_pad($id, 2, ' ', STR_PAD_LEFT);
       
-    $newline .= $name;
+    $newline .= $id .' | '. $name;
     
     if ($message)
       $newline .= ' | '. str_replace(array("\r\n", "\n"), ' | ', trim(strip_tags($message)));
@@ -175,21 +180,26 @@ class rex_cronjob_log
     {
       foreach($lines as $line)
       {
-        $data = explode(' | ', $line, 4);
-        for ($i = 0; $i < 4; $i++)
+        $data = explode(' | ', $line, 5);
+        for ($i = 0; $i < 5; $i++)
         {
           if (!isset($data[$i]))
             $data[$i] = '';
         }
         $data[0] = rex_formatter :: format(strtotime($data[0]), 'strftime', 'datetime');
         $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
-        $data[3] = str_replace(' | ', '<br />', htmlspecialchars($data[3]));
+        $data[4] = str_replace(' | ', '<br />', htmlspecialchars($data[4]));
+        if ($data[2] == '--')
+          $format = '%s';
+        else
+          $format = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'" title="'. $I18N->msg('cronjob_edit') .'">%s</a>';
+
         $list .= '
           <tr class="'. $class .'">
-            <td class="rex-icon"><a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;name='. $data[2] .'" title="'. $I18N->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span></a></td>
+            <td class="rex-icon">'. sprintf($format, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span>') .'</td>
             <td>'. $data[0] .'</td>
-            <td>'. htmlspecialchars($data[2]) .'</td>
-            <td>'. $data[3] .'</td>
+            <td>'. htmlspecialchars($data[3]) .'</td>
+            <td>'. $data[4] .'</td>
           </tr>';
       }
     }

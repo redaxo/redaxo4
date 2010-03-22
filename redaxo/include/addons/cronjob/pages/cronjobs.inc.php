@@ -48,26 +48,6 @@ if ($func == 'execute')
   $func = '';
 }
 
-if ($func == 'edit')
-{
-  $name = rex_request('name', 'string');
-  if ($name)
-  {
-    $manager = rex_cronjob_manager_sql::factory();
-    $oid = $manager->getId(stripslashes(rex_request('name', 'string')));
-    if ($oid === false)
-    {
-      echo rex_warning($I18N->msg('cronjob_not_found', $name));
-      $func = '';
-    }
-    elseif (is_array($oid))
-    {
-      echo rex_warning($I18N->msg('cronjob_not_distinct', $name));
-      $func = '';
-    }
-  }
-}
-
 if ($func == '') 
 {
 

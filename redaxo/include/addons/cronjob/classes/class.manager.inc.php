@@ -48,7 +48,7 @@ class rex_cronjob_manager
     $sql_manager->tryExecute($query);
   }
   
-  /*public*/ function tryExecute($cronjob, $name = '', $params = array(), $log = true)
+  /*public*/ function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
     global $REX;
     
@@ -88,7 +88,7 @@ class rex_cronjob_manager
     {
       if (!$name)
         $name = '[no name]';
-      rex_cronjob_log::save($name, $success, $message);
+      rex_cronjob_log::save($name, $success, $message, $id);
     }
     
     $this->setMessage(htmlspecialchars($message));
@@ -189,27 +189,6 @@ class rex_cronjob_manager_sql
       return $this->sql->getValue('name');
     return null;
   }
-  
-  /*public*/ function getId($name)
-  {
-    $this->sql->setQuery('
-      SELECT  id 
-      FROM    '. REX_CRONJOB_TABLE .' 
-      WHERE   name="'. $name .'" 
-    ');
-    $rows = $this->sql->getRows();
-    if($rows == 0)
-      return false;
-    if ($rows == 1)
-      return $this->sql->getValue('id');
-    $ids = array();
-    while($this->sql->hasNext())
-    {
-      $ids[] = $this->sql->getValue('id');
-      $this->sql->next();
-    }
-    return $ids;
-  }
 
   /*public*/ function setStatus($id, $status)
   {
@@ -263,7 +242,7 @@ class rex_cronjob_manager_sql
       $interval = $this->sql->getValue('interval');
 
       $cronjob = rex_cronjob::factory($type);
-      $success = $this->manager->tryExecute($cronjob, $name, $params, $log);
+      $success = $this->manager->tryExecute($cronjob, $name, $params, $log, $id);
 
       $nexttime = $this->_calculateNextTime($interval);
       $this->setNextTime($id, $nexttime);
