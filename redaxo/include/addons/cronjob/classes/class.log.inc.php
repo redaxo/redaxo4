@@ -190,13 +190,17 @@ class rex_cronjob_log
         $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
         $data[4] = str_replace(' | ', '<br />', htmlspecialchars($data[4]));
         if ($data[2] == '--')
-          $format = '%s';
+        {
+          $icon = '<span class="rex-i-element rex-i-cronjob" title="'. $I18N->msg('cronjob_not_editable') .'"><span class="rex-i-element-text">'. $I18N->msg('cronjob_not_editable') .'</span></span>';
+        }
         else
-          $format = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'" title="'. $I18N->msg('cronjob_edit') .'">%s</a>';
+        {
+          $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'&amp;name='. htmlspecialchars($data[3]) .'" title="'. $I18N->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span></a>';
+        }
 
         $list .= '
           <tr class="'. $class .'">
-            <td class="rex-icon">'. sprintf($format, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span>') .'</td>
+            <td class="rex-icon">'. $icon .'</td>
             <td>'. $data[0] .'</td>
             <td>'. htmlspecialchars($data[3]) .'</td>
             <td>'. $data[4] .'</td>

@@ -3,7 +3,7 @@
 cronjob_title = Cronjobs
 
 cronjob_add = Cronjob hinzufügen
-cronjob_edit = Cronjob bearbeiten
+cronjob_edit = Cronjob editieren
 
 cronjob_summary = Auflistung aller angelegten Cronjobs
 cronjob_caption = Liste der angelegten Cronjobs
@@ -58,7 +58,7 @@ cronjob_status_deactivate_error = Cronjob "{0}" konnte nicht deaktiviert werden!
 cronjob_error_no_name = Geben Sie einen Namen ein!
 
 cronjob_not_found = Cronjob "{0}" nicht gefunden!
-cronjob_not_distinct = Der Cronjob-Name "{0}" ist nicht eindeutig!
+cronjob_not_editable = Cronjob ist nicht editierbar!
 
 cronjob_log = Log
 cronjob_log_date = Datum

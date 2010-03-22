@@ -175,7 +175,11 @@ if ($func == '')
   
   if ($func != 'add' && !in_array($activeType, $types)) 
   {
-    header('Location: index.php?page=cronjob&'.rex_request('list', 'string').'_warning='.$I18N->msg('cronjob_type_not_found',$field->getValue(), $activeType));
+    if (!$activeType && !$field->getValue())
+      $warning = $I18N->msg('cronjob_not_found', rex_request('name', 'string', '[no name]'));
+    else
+      $warning = $I18N->msg('cronjob_type_not_found', $field->getValue(), $activeType);
+    header('Location: index.php?page=cronjob&'. rex_request('list', 'string') .'_warning='. $warning);
     exit;
   }
   
