@@ -120,7 +120,7 @@ class rex_cronjob_log
     $newline .= $name;
     
     if ($message)
-      $newline .= ' | '. $message;
+      $newline .= ' | '. str_replace(array("\r\n", "\n"), ' | ', trim(strip_tags($message)));
     
     $dir = REX_CRONJOB_LOG_FOLDER . $year;
     if (!is_dir($dir))
@@ -183,12 +183,13 @@ class rex_cronjob_log
         }
         $data[0] = rex_formatter :: format(strtotime($data[0]), 'strftime', 'datetime');
         $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
+        $data[3] = str_replace(' | ', '<br />', htmlspecialchars($data[3]));
         $list .= '
           <tr class="'. $class .'">
             <td class="rex-icon"><a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;name='. $data[2] .'" title="'. $I18N->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span></a></td>
             <td>'. $data[0] .'</td>
             <td>'. htmlspecialchars($data[2]) .'</td>
-            <td>'. htmlspecialchars($data[3]) .'</td>
+            <td>'. $data[3] .'</td>
           </tr>';
       }
     }

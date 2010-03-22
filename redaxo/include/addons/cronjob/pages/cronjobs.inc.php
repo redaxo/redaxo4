@@ -40,7 +40,7 @@ if ($func == 'execute')
   $success = $manager->tryExecute($oid);
   $msg = '';
   if ($manager->hasMessage())
-    $msg = '<br />'. $I18N->msg('cronjob_log_message') .': '. $manager->getMessage();
+    $msg = '<br />'. $I18N->msg('cronjob_log_message') .': <br />'. nl2br($manager->getMessage());
   if ($success)
     echo rex_info($I18N->msg('cronjob_execute_success', $name) . $msg);
   else

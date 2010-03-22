@@ -14,9 +14,20 @@ class rex_cronjob_phpcode extends rex_cronjob
   /*public*/ function execute()
   {
     $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
-    if (@eval($code) !== false)
+    $is = ini_set('display_errors', true);
+    ob_start();
+    $return = eval($code);
+    $output = ob_get_contents();
+    ob_end_clean();
+    ini_set('display_errors', $is);
+    if ($output)
+    {
+      $output = str_replace(array("\r\n\r\n", "\n\n"), "\n", trim(strip_tags($output)));
+      $output = str_replace('in '. __FILE__ ."(19) : eval()'d code ", '', $output);
+      $this->setMessage($output);
+    }
+    if ($return !== false)
       return true;
-    $this->setMessage('Error in PHP code');
     return false;
   }
   
