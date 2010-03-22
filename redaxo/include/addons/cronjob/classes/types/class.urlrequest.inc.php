@@ -21,6 +21,11 @@ class rex_cronjob_urlrequest extends rex_cronjob
     }
     if (!isset($parts['scheme']))
       $parts['scheme'] = 'http';
+    if (!in_array($parts['scheme'], array('http', 'https')))
+    {
+      $this->setMessage('Unsupported protocol');
+      return false;
+    }
     if (!isset($parts['port']))
     {
       switch($parts['scheme'])
