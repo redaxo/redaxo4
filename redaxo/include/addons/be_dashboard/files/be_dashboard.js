@@ -11,6 +11,14 @@ function componentRefresh(componentId) {
 
 	// prepare url
 	var url = window.location.href;
+	
+	// search for the # in the url
+	if(url.indexOf('#') >= 0)
+	{
+		// strip anchor from the url
+		url = url.substr(0, url.indexOf('#'));
+	}
+	
 	// add refresh parameter so we get a up-to-date copy
 	url += '&refresh=' + componentId;
 	// get content for ajax usage
