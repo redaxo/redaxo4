@@ -577,6 +577,9 @@ function rex_hasBackendSession()
   if(!isset($_SESSION))
     return false;
     
+  if(!isset($REX))
+    return false;
+    
   if(!isset($REX['INSTNAME']))
     return false;
     
