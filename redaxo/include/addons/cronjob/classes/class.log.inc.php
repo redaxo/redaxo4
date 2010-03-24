@@ -195,7 +195,7 @@ class rex_cronjob_log
         }
         else
         {
-          $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'&amp;name='. htmlspecialchars($data[3]) .'" title="'. $I18N->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span></a>';
+          $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'" title="'. $I18N->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span></a>';
         }
 
         $list .= '
