@@ -70,7 +70,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
       // Fallback - wenn nichts da, dann vielleicht im Datensatz selbst.
       // Nur nštig wenn man Daten aus anderen Tabellen importiert hat und
       // man die Datenstruktur angleichen mšchte.
-      if(trim($this->getValue()) != "") { $values = explode(",",$this->getValue()); }
+      if(trim($this->getValue()) != "") { $values = array_merge($values, explode(",",$this->getValue())); }
 
       // Neue Daten speichern
       $this->setValue($values);

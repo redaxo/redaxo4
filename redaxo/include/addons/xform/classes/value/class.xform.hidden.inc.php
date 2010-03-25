@@ -5,19 +5,19 @@ class rex_xform_hidden extends rex_xform_abstract
 
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{
-		if (isset($this->elements[3]) && $this->elements[3]=="REQUEST" && isset($_REQUEST[$this->elements[1]]))
+		if (isset($this->elements[3]) && $this->elements[3]=="REQUEST" && isset($_REQUEST[$this->getName()]))
 		{
-			$this->value = $_REQUEST[$this->elements[1]];
-			$form_output[] = '<p style="display:hidden;"><input type="hidden" name="'.$this->elements[1].'" value="'.$this->value.'" /></p>';
+			$this->setValue($_REQUEST[$this->getName()]);
+			$form_output[] = '<p style="display:hidden;"><input type="hidden" name="'.$this->getName().'" value="'.$this->getValue().'" /></p>';
 		}else
 		{
-			$this->value = $this->elements[2];
-			$email_elements[$this->elements[1]] = $this->value;
+			$this->setValue($this->elements[2]);
+			$email_elements[$this->getName()] = $this->getValue();
 		}
 
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
+		$email_elements[$this->getName()] = stripslashes($this->getValue());
 		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
-			$sql_elements[$this->elements[1]] = $this->value;
+			$sql_elements[$this->getName()] = $this->getValue();
 	}
 	
 	function getDescription()
