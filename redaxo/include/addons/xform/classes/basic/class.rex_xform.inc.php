@@ -513,19 +513,33 @@ class rex_xform
 			$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 			if ($this->objparams["unique_error"] != '' || $hasWarnings || $hasWarningMessages)
 			{
-				$this->objparams["output"] .= '<ul class="' . $this->objparams["error_class"] . '">';
+				$warningListOut = '';
 				if($hasWarningMessages)
-				{
-					if ($this->objparams["Error-occured"] != "")
-					$this->objparams["output"] .= '<li>'. $this->objparams["Error-occured"] .'</li>';
+				{					
 					foreach($this->objparams["warning_messages"] as $k => $v)
-					$this->objparams["output"] .= '<li>'. $v .'</li>';
+					{
+						$warningListOut .= '<li>'. $v .'</li>';
+					}
 				}
 				if($this->objparams["unique_error"] != '')
 				{
-					$this->objparams["output"] .= '<li>'. preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) .'</li>';
+					$warningListOut .= '<li>'. preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) .'</li>';
 				}
-				$this->objparams["output"] .= '</ul>';
+				
+				if ($warningListOut != '')
+				{
+					if ($this->objparams["Error-occured"] != "")
+					{
+						$this->objparams["output"] .= '<dl class="' . $this->objparams["error_class"] . '">';
+						$this->objparams["output"] .= '<dt>'. $this->objparams["Error-occured"] .'</dt>';
+						$this->objparams["output"] .= '<dd><ul>'. $warningListOut .'</ul></dd>';
+						$this->objparams["output"] .= '</dl>';
+					}
+					else
+					{
+						$this->objparams["output"] .= '<ul class="' . $this->objparams["error_class"] . '">'. $warningListOut .'</ul>';
+					}
+				}
 			}
 
 			foreach ($form_output as $v)
