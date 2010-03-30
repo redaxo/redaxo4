@@ -118,6 +118,7 @@ if($method != "")
 			 // ***** HTML VERSION KOMPLETT
 			$REX['REDAXO'] = true;
 			$REX_ARTICLE = new rex_article($redaxo_nl_article_id,0);
+			$REX_ARTICLE->setEval(TRUE);
 			$REX_ARTICLE->getContentAsQuery(TRUE);
 			$REX['ADDON']['NEWSLETTER_TEXT'] = FALSE;
 			$nl_body_html = $REX_ARTICLE->getArticleTemplate();
@@ -125,9 +126,10 @@ if($method != "")
 			// ***** TEXT VERSION
 			$REX['REDAXO'] = true;
 			$REX_ARTICLE = new rex_article($redaxo_nl_article_id,0);
+			$REX_ARTICLE->setEval(TRUE);
 			$REX_ARTICLE->getContentAsQuery(TRUE);
 			$REX['ADDON']['NEWSLETTER_TEXT'] = TRUE; // FILTERN VERSION KOMPLETT
-			$nl_body_text = $REX_ARTICLE->getArticle();
+			$nl_body_text = $REX_ARTICLE->getArticleTemplate(); // Vielleicht auf artikel umbauen
 			$nl_body_text = str_replace("<br />","<br />",$nl_body_text);
 			$nl_body_text = str_replace("<p>","\n\n</p>",$nl_body_text);
 			$nl_body_text = str_replace("<ul>","\n\n</ul>",$nl_body_text);
