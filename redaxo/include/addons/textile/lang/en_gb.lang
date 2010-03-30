@@ -29,6 +29,9 @@ textile_link_internal = Link (intern): to "contact"
 textile_link_internal_anchor = Link (intern) with anchor: "to contact"
 textile_link_external = Link (extern): "to REDAXO documentation"
 textile_link_external_anchor = Link (extern) with anchor: "to partners"
+textile_link_attr_title = Link with title-Attribute: "Image(click for zoom)"
+textile_link_attr_rel = Link with rel-Attribute: "Image{shadowbox}"
+textile_link_attr_title_rel = Link with title and rel-Attribute: "Image(click for shadowbox){shadowbox}"
 textile_link_anchor = Define anchor
 textile_link_anchor_text = To contact 
 

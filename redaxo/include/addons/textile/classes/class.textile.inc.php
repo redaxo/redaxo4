@@ -745,7 +745,9 @@ class Textile
       "              # start
       (' . $this->c . ')       # $atts
       ([^"]+?)           # $text
-      (?:\(([^)]+?)\)(?="))?     # $title
+      (?:\(([^)]+)\))? # $title
+      \s?
+      (?:\{([^)]+)\}(?="))? # $URLrel
       ":
       ('.$this->urlch.'+?)     # $url
       (\/)?            # $slash
@@ -757,10 +759,11 @@ class Textile
 // -------------------------------------------------------------
   function fLink($m)
   {
-    list(, $pre, $atts, $text, $title, $url, $slash, $post, $tail) = $m;
+    list(, $pre, $atts, $text, $title, $URLrel, $url, $slash, $post, $tail) = $m;
 
     $atts = $this->pba($atts);
     $atts .= ($title != '') ? ' title="' . $this->encode_html($title) . '"' : '';
+    $atts .= ($URLrel != '') ? ' rel="' . $URLrel . '" ' : '';
 
     if (!$this->noimage)
       $text = $this->image($text);

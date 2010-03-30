@@ -29,6 +29,9 @@ textile_link_internal = Lien (interne): vers "Mentions légales"
 textile_link_internal_anchor = Lien (interne) avec ancre: "vers nos conditions générales"
 textile_link_external = Lien (externe): "vers la documentation REDAXO"
 textile_link_external_anchor = Lien (externe) avec ancre: "vers nos partenaires"
+textile_link_attr_title = Link mit title-Attribut: "Bild(Klick für Zoom)"
+textile_link_attr_rel = Link mit rel-Attribut: "Bild{shadowbox}"
+textile_link_attr_title_rel = Link mit title und rel-Attribut: "Bild(Klick für Shadowbox){shadowbox}"
 textile_link_anchor = définir ancre
 textile_link_anchor_text = Ici les mentions légales
 

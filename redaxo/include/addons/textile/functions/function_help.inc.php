@@ -162,6 +162,12 @@ function rex_a79_help_links()
         array ($I18N->msg('textile_link_external') .':http://doku.redaxo.de'),
         array ($I18N->msg('textile_link_external_anchor') .':http://www..redaxo.de#news'),
       ),
+    'links_attributes' =>
+      array(
+        array ($I18N->msg('textile_link_attr_title') .':files/test.jpg'),
+        array ($I18N->msg('textile_link_attr_rel') .':files/test.jpg'),
+        array ($I18N->msg('textile_link_attr_title_rel') .':files/test.jpg'),
+      ),
     'anchor' =>
       array(
         array ($I18N->msg('textile_link_anchor') .":\n\np(#Impressum). ". $I18N->msg('textile_link_anchor_text')),
