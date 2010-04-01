@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_table` (
   `prio` TINYINT NOT NULL,
   `search` TINYINT NOT NULL,
   `hidden` TINYINT NOT NULL,
+  `export` TINYINT NOT NULL,
   PRIMARY KEY  (`id`)
 );
 

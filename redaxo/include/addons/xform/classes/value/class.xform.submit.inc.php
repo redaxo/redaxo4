@@ -3,7 +3,7 @@
 class rex_xform_submit extends rex_xform_abstract
 {
 
-	function perAction()
+	function preAction()
 	{
 		$this->params["submit_btn_show"] = FALSE; // ist referenz auf alle parameter.
 	}

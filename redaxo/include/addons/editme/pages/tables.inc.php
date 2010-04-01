@@ -61,6 +61,7 @@ if($func == "add" || $func == "edit")
   $xform->setValidateField("type",array("list_amount","int","Bitte geben Sie eine Zahl f&uuml;r die Datens&auml;tze pro Seite ein"));
 
   $xform->setValueField("checkbox",array("hidden","In Navigation versteckt"));
+  $xform->setValueField("checkbox",array("export","Export der Daten erlauben"));
   
   $xform->setValidateField("empty",array("name","Bitte den Namen eingeben"));
   $form = $xform->getForm();
@@ -140,7 +141,8 @@ if($show_list){
 	$list->removeColumn("id");
 	$list->removeColumn("list_amount");
 	$list->removeColumn("search");
-	$list->removeColumn("hidden");
+  $list->removeColumn("hidden");
+  $list->removeColumn("export");
 //	$list->removeColumn("label");
 //	$list->removeColumn("prio");
 	

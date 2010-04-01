@@ -24,7 +24,7 @@ foreach($tables as $table)
 		echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["label"].'</b> - '.$table["description"];
 		if($rex_em_opener_info != "")
 		{
-		  echo ' - Opener-Info: '.$rex_em_opener_info;
+			echo ' - Opener-Info: '.$rex_em_opener_info;
 		}
 		echo '</td></tr></table><br />';
 		break; // Wenn Tabelle gefunden - abbrechen
@@ -52,6 +52,12 @@ if(count($rex_em_set)>0) {
 	}
 };
 $em_url = $em_url_filter.$em_url_set;
+
+$em_rex_list = "";
+$em_rex_list .= '&amp;list='.urlencode(rex_request('list','string'));
+$em_rex_list .= '&amp;sort='.urlencode(rex_request('sort','string'));
+$em_rex_list .= '&amp;sorttype='.urlencode(rex_request('sorttype','string'));
+$em_rex_list .= '&amp;start='.urlencode(rex_request('start','string'));
 
 
 
@@ -93,12 +99,19 @@ if($func == "add" || $func == "edit")
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
+
+	// Speichern der Felder fŸr Popup und spezifische Zuweisungen
 	$xform->setHiddenField("rex_em_opener_field",$rex_em_opener_field);
 	$xform->setHiddenField("rex_em_opener_fieldname",$rex_em_opener_fieldname);
-
 	if(count($rex_em_filter)>0) { foreach($rex_em_filter as $k => $v) { $xform->setHiddenField('rex_em_filter['.$k.']',$v); } };
 	if(count($rex_em_set)>0) { foreach($rex_em_set as $k => $v) { $xform->setHiddenField('rex_em_set['.$k.']',$v); } };
 
+	// Speichern der Felder fŸr die rex_list
+	$xform->setHiddenField('list',rex_request('list','string'));
+	$xform->setHiddenField('sort',rex_request('sort','string'));
+	$xform->setHiddenField('sorttype',rex_request('sorttype','string'));
+	$xform->setHiddenField('start',rex_request('start','string'));
+	 
 	foreach($fields as $field)
 	{
 		$type_name = $field["type_name"];
@@ -139,12 +152,16 @@ if($func == "add" || $func == "edit")
 	if($xform->objparams["form_show"])
 	{
 		if($func == "edit")
-		echo '<div class="rex-area"><h3 class="rex-hl2">Daten editieren</h3><div class="rex-area-content">';
-		else
-		echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
+		{
+			echo '<div class="rex-area"><h3 class="rex-hl2">Daten editieren</h3><div class="rex-area-content">';
+
+		}else
+		{
+			echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
+		}
 		echo $form;
 		echo '</div></div>';
-		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
+		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.$em_rex_list.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
 		$show_list = FALSE;
 	}else
 	{
@@ -163,12 +180,11 @@ if($func == "add" || $func == "edit")
 // ********************************************* LIST
 if($show_list)
 {
-	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'&func=add&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.'"><b>+ anlegen</b></a></td></tr></table><br />';
+	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'&func=add&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.$em_rex_list.'"><b>+ anlegen</b></a></td></tr></table><br />';
 
 	// ----- SUCHE
 	if($table["search"]==1)
 	{
-
 		/*
 		 $xform = new rex_xform;
 		 // $xform->setDebug(TRUE);
@@ -192,13 +208,14 @@ if($show_list)
 
 		 $form = $xform->getForm();
 
-		 $form = "Suchformular noch einbauen";
-		 echo '<div class="rex-area"><h3 class="rex-hl2">TODO: Suche</h3><div class="rex-area-content">';
-		 echo $form;
-		 echo '</div></div>';
-		 */
+		$form = "Suchformular noch einbauen";
+		echo '<div class="rex-area"><h3 class="rex-hl2">TODO: Suche</h3><div class="rex-area-content">';
+		echo $form;
+		echo '</div></div>';
+     */
 
 	}
+
 
 	// ---------- SQL AUFBAUEN
 	$sql = "select * from ".$table["tablename"];
@@ -219,15 +236,18 @@ if($show_list)
 	}
 
 	// ---------- LISTE AUSGEBEN
+	if(!isset($table["list_amount"]) || $table["list_amount"]<1)
+	$table["list_amount"] = 30;
+
 	$list = rex_list::factory($sql,$table["list_amount"]);
 	$list->setColumnFormat('id', 'Id');
 
 	if(count($rex_em_filter)>0) { foreach($rex_em_filter as $k => $v) { $list->addParam('rex_em_filter['.$k.']',$v); } }
 	if(count($rex_em_set)>0) { foreach($rex_em_set as $k => $v) { $list->addParam('rex_em_set['.$k.']',$v); } }
-  if($rex_em_opener_field >-1) { $list->addParam("rex_em_opener_field",$rex_em_opener_field); };
-  if($rex_em_opener_fieldname != "") { $list->addParam("rex_em_opener_fieldname",$rex_em_opener_fieldname); };
-  if($rex_em_opener_info != "") { $list->addParam("rex_em_opener_info",$rex_em_opener_info); };
-  
+	if($rex_em_opener_field >-1) { $list->addParam("rex_em_opener_field",$rex_em_opener_field); };
+	if($rex_em_opener_fieldname != "") { $list->addParam("rex_em_opener_fieldname",$rex_em_opener_fieldname); };
+	if($rex_em_opener_info != "") { $list->addParam("rex_em_opener_info",$rex_em_opener_info); };
+
 	$list->setColumnParams("id", array("data_id"=>"###id###", "func"=>"edit" ));
 
 	$fields = rex_em_getFields($table['name']);
@@ -240,13 +260,13 @@ if($show_list)
 				$list->removeColumn($field["f1"]);
 			}else
 			{
-        $list->setColumnSortable($field["f1"]);
+				$list->setColumnSortable($field["f1"]);
 			}
 		}
 	}
 
 	$list->addColumn('editieren','editieren');
-	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit"));
+	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit","start"=>rex_request("start","string")));
 
 	$list->addColumn('l&ouml;schen','l&ouml;schen');
 	$list->setColumnParams("l&ouml;schen", array("data_id"=>"###id###","func"=>"delete"));
