@@ -29,7 +29,7 @@
  * Breadcrump:
  * 
  * $nav = rex_navigation::factory();
- * $nav->showBreadcrump(true);
+ * $nav->showBreadcrumb(true);
  */
 
 class rex_navigation
@@ -252,77 +252,76 @@ class rex_navigation
 class rex_be_navigation
 {
   
-  var $navi = array();
-  var $extras = array('onclick', 'onmouseover', 'title', 'href');
+  // alt
   var $headlines = array();
   
-  function addElement($type, $params = array())
+  // neu
+  var $pages;
+  
+  function addPage(/*rex_be_page*/ &$pageObj)
   {
-    if(!isset($this->navi[$type]))
-      $this->navi[$type] = array();
-    $this->navi[$type][] = $params;
+    if(!isset($this->pages[$pageObj->getBlock()]))
+      $this->pages[$pageObj->getBlock()] = array();
+      
+    $this->pages[$pageObj->getBlock()][] = $pageObj;
   }
-
+  
   function getNavigation()
   {
     global $REX,$I18N;
-    $echo = '<dl class="rex-navi">';
-    foreach($this->navi as $type => $m)
+    $s = '<dl class="rex-navi">';
+    foreach($this->pages as $block => $blockPages)
     {
-      $headline = $this->getHeadline($type);
-      $echo .= '<dt>'. $headline .'</dt><dd>';
-      $echo .= $this->_getNavigation($m, 0, $type);
-      $echo .= '</dd>' . "\n";
+      $headline = $this->getHeadline($block);
+      $s .= '<dt>'. $headline .'</dt><dd>';
+      $s .= $this->_getNavigation($blockPages, 0, $block);
+      $s .= '</dd>' . "\n";
     }
-    $echo .= '</dl>';
-    return $echo;
+    $s .= '</dl>';
+    return $s;
     
   }
   
-  /*private*/ function _getNavigation($m, $level = 0, $type = "")
+  /*private*/ function _getNavigation($blockPages, $level = 0, $block = '')
   {
       $level++;
       $id = '';
-      if($type != '')
-        $id = ' id="rex-navi-'. $type .'"';
+      if($block != '')
+        $id = ' id="rex-navi-'. $block .'"';
       $class = ' class="rex-navi-level-'. $level .'"';
       
       $echo = '<ul'. $id . $class .'>';
       $first = TRUE;
-      foreach($m as $item)
+      foreach($blockPages as $pageObj)
       {
-        // echo '<pre>'; var_dump($item); echo '</pre>';
-        if(!isset($item['class']))
-          $item['class'] = '';
         if($first)
-          $item['class'] .= ' rex-navi-first';
-        $first = FALSE;
-        if(isset($item['active']) && $item['active'])
-          $item['class'] .= ' rex-active';
-        $item['class'] = $item['class'] != '' ? ' class="'.$item['class'].'"' : '';
-
-        if(!isset($item['extra']))
-          $item['extra'] = '';
-        
-        if(isset($item['id']))
-          $item['id'] = 'id="'.$item['id'].'"';
-        else
-          $item['id'] = '';
-          
-        if (isset($item['href']))
-          $item['href'] = str_replace('&', '&amp;', $item['href']);
-    
-        $tags = '';
-        foreach($item as $tag => $value)
-          if(in_array($tag,$this->extras))
-            $tags .= ' '. $tag .'="'. $value .'"';
-      
-            // echo "<br />**".$tags;
-            
-        $echo .= '<li'. $item['class'] .' '. $item['id'] .'><a'. $item['class'] . $tags . $item['extra'] .'>'. @$item['title'] .'</a>';
-        if(isset($item['subpages']) && is_array($item['subpages']))
         {
-          $echo .= $this->_getNavigation($item['subpages'], $level);
+          $first = FALSE;
+          $pageObj->setItemAttr('class', $pageObj->getItemAttr('class'). ' rex-navi-first');
+        }
+
+        $pageObj->setLinkAttr('class', $pageObj->getItemAttr('class').' '. $pageObj->getLinkAttr('class'));
+          
+        $itemAttr = '';
+        foreach($pageObj->getItemAttr(null) as $name => $value)
+        {
+          $itemAttr .= $name .'="'. trim($value) .'" ';
+        }
+        
+        $linkAttr = '';
+        foreach($pageObj->getLinkAttr(null) as $name => $value)
+        {
+          $linkAttr .= $name .'="'. trim($value) .'" ';
+        }
+        
+        $href = str_replace('&', '&amp;', $pageObj->getHref());
+    
+            
+        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $pageObj->getTitle() .'</a>';
+        $subpages = $pageObj->getSubPages();
+        if(is_array($subpages) && count($subpages) > 0)
+        {
+          $echo .= $this->_getNavigation($subpages, $level);
         }
         $echo .= '</li>';
       }
@@ -335,36 +334,38 @@ class rex_be_navigation
   function setActiveElements()
   {
     // echo '<pre>';var_dump($this->navi); echo '</pre>';
-    foreach($this->navi as $type => $p)
+    foreach($this->pages as $block => $blockPages)
+//    foreach($this->navi as $type => $p)
     {
       // echo "<br /><h1>$type</h1>";
-      foreach($p as $mn => $item)
+      foreach($blockPages as $mn => $pageObj)
       {
-        if(isset($item["active_when"]))
+        $condition = $pageObj->getActivateCondition();
+        if($this->_getStatus($condition))
         {
-          $this->navi[$type][$mn]["active"] = $this->_getStatus($item["active_when"]);
+          $pageObj->setLinkAttr('class', $pageObj->getLinkAttr('class').' rex-active');
         }
 
-        // echo "<br />$mn - ".$item["title"];
-        if(isset($item["subpages"]))
+        $subpages =& $pageObj->getSubPages();
+        foreach($subpages as $sn => $subpageObj)
         {
-          foreach($item["subpages"] as $sn => $sitem)
+          $condition = $subpageObj->getActivateCondition();
+          if($this->_getStatus($condition))
           {
-            // echo "<br />".$sn." ".$sitem["title"];
-            if(isset($sitem["active_when"]))
-            {
-              // echo '<pre>';var_dump($sitem["active_when"]); echo '</pre>';
-              $this->navi[$type][$mn]["subpages"][$sn]["active"] = $this->_getStatus($sitem["active_when"]);
-            }
+            $subpageObj->setLinkAttr('class', $subpageObj->getLinkAttr('class').' rex-active');
           }
         }
       }
-      // echo "<hr/>";
     }
   }
   
   function _getStatus($a)
   {
+    if(empty($a))
+    {
+      return false;
+    }
+    
     foreach($a as $k => $v)
     {
       $v = (array)  $v;
@@ -395,5 +396,264 @@ class rex_be_navigation
   {
     $r = new rex_be_navigation();
     return $r;
+  }
+  
+  /*public static*/ function getSetupPage()
+  {
+    $page = new rex_be_page($I18N->msg('setup'), 'system');
+    $page->setIsCorePage(true);
+    return $page;
+  }
+  
+  /*public static*/ function getLoginPage()
+  {
+    $page = new rex_be_page('login', 'system');
+    $page->setIsCorePage(true);
+    $page->setHasNavigation(false);
+    return $page;
+  }
+  
+  /*public static*/ function getLoggedInPages($rexUser)
+  {
+    global $I18N;
+    
+    $pages = array();
+    
+    $pages['profile'] = new rex_be_main_page($I18N->msg('profile'), 'system');
+    $pages['profile']->setIsCorePage(true);
+    
+    $pages['credits'] = new rex_be_main_page($I18N->msg('credits'), 'system');
+    $pages['credits']->setIsCorePage(true);
+    
+    if ($rexUser->isAdmin() || $rexUser->hasStructurePerm())
+    {
+      $pages['structure'] = new rex_be_main_page($I18N->msg('structure'), 'system', array('page' => 'structure'));
+      $pages['structure']->setIsCorePage(true);
+      
+      if($rexUser->hasMediaPerm())
+      {
+        $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool()');
+        $pages['mediapool']->setIsCorePage(true);
+      }
+      
+      $pages['linkmap'] = new rex_be_popup_page($I18N->msg('linkmap'), 'system');
+      $pages['linkmap']->setIsCorePage(true);
+      
+      $pages['content'] = new rex_be_main_page($I18N->msg('content'), 'system');
+      $pages['content']->setIsCorePage(true);
+      
+    }elseif($rexUser->hasMediaPerm())
+    {
+      $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool()');
+      $pages['mediapool']->setIsCorePage(true);
+    }
+    
+    if ($rexUser->isAdmin())
+    {
+      $pages['template'] = new rex_be_main_page($I18N->msg('template'), 'system', array('page'=>'template'));
+      $pages['template']->setIsCorePage(true);
+      
+      $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
+      $modules->setIsCorePage(true);
+      $modules->setHref('index.php?page=module&subpage=');
+      
+      $actions = new rex_be_page($I18N->msg('actions'), array('page'=>'module', 'subpage' => 'actions'));
+      $actions->setIsCorePage(true);
+      $actions->setHref('index.php?page=module&subpage=actions');
+      
+      $pages['module'] = new rex_be_main_page($I18N->msg('modules'), 'system', array('page'=>'module'));
+      $pages['module']->setIsCorePage(true);
+      $pages['module']->addSubPage($modules);
+      $pages['module']->addSubPage($actions);
+      
+      $pages['user'] = new rex_be_main_page($I18N->msg('user'), 'system', array('page'=>'user'));
+      $pages['user']->setIsCorePage(true);
+      
+      $pages['addon'] = new rex_be_main_page($I18N->msg('addon'), 'system', array('page'=>'addon'));
+      $pages['addon']->setIsCorePage(true);
+
+      $settings = new rex_be_page($I18N->msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
+      $settings->setIsCorePage(true);
+      $settings->setHref('index.php?page=specials&subpage=');
+      
+      $languages = new rex_be_page($I18N->msg('languages'), array('page'=>'specials', 'subpage' => 'lang'));
+      $languages->setIsCorePage(true);
+      $languages->setHref('index.php?page=specials&subpage=lang');
+      
+      $pages['addon'] = new rex_be_main_page($I18N->msg('addon'), 'system', array('page'=>'addon'));
+      $pages['addon']->setIsCorePage(true);
+      $pages['addon']->addSubPage($settings);
+      $pages['addon']->addSubPage($languages);
+    }
+    
+    return $pages;    
+  }
+}
+
+class rex_be_page
+{
+  var $pageName;
+  var $title;
+  
+  var $href;
+  var $linkAttr;
+  var $itemAttr;
+  
+  var $subPages;
+  
+  var $isCorePage;
+  var $hasNavigation;
+  var $activateCondition;
+  
+  function rex_be_page($title, $activateCondition = array())
+  {
+    $this->title = $title;
+    $this->subPages = array();
+    $this->itemAttr = array();
+    $this->linkAttr = array();
+    
+    $this->setIsCorePage(false);
+    $this->setHasNavigation(true);
+    $this->activateCondition = $activateCondition;
+  }
+  
+  function setPageName($pageName)
+  {
+    $this->pageName = $pageName;
+  }
+  
+  function getPageName()
+  {
+    return $this->pageName;
+  }
+  
+  function getItemAttr($name, $default = '')
+  {
+    // return all attributes if null is passed as name
+    if($name === null)
+    {
+      return $this->itemAttr;
+    }
+    
+    return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
+  }
+  
+  function setItemAttr($name, $value)
+  {
+    $this->itemAttr[$name] = $value;
+  }
+  
+  function getLinkAttr($name, $default = '')
+  {
+    // return all attributes if null is passed as name
+    if($name === null)
+    {
+      return $this->linkAttr;
+    }
+    
+    return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
+  }
+  
+  function setLinkAttr($name, $value)
+  {
+    $this->linkAttr[$name] = $value;
+  }
+  
+  function setHref($href)
+  {
+    $this->href = $href;
+  }
+  
+  function getHref()
+  {
+    return $this->href;
+  }
+  
+  function setIsCorePage($isCorePage)
+  {
+    $this->isCorePage = $isCorePage;
+  }
+  
+  function setHasNavigation($hasNavigation)
+  {
+    $this->hasNavigation = $hasNavigation;
+  }
+  
+  function addSubPage(/*rex_be_subpage*/ $subpage)
+  {
+    $this->subPages[] = $subpage;
+  }
+  
+  function &getSubPages()
+  {
+    return $this->subPages;
+  }
+  
+  function getTitle()
+  {
+    return $this->title;
+  }
+  
+  function getActivateCondition()
+  {
+    return $this->activateCondition;
+  }
+  
+  function isCorePage()
+  {
+    return $this->isCorePage;  
+  }
+  
+  function hasNavigation()
+  {
+    return $this->hasNavigation;
+  }
+}
+  
+class rex_be_main_page extends rex_be_page
+{
+  var $block;
+  
+  function rex_be_main_page($title, $block, $activateCondition = array())
+  {
+    parent::rex_be_page($title, $activateCondition);
+    $this->setBlock($block);
+  }
+  
+  function setBlock($block)
+  {
+    $this->block = $block;
+  }
+  
+  function getBlock()
+  {
+    return $this->block;
+  }
+  
+  function _set($key, $value)
+  {
+    if(!is_string($key))
+      return;
+      
+    $setter = array($this, 'set'. ucfirst($key));
+    if(is_callable($setter))
+    {
+      call_user_func($setter, $value);
+    }
+  }
+}
+
+class rex_be_popup_page extends rex_be_main_page
+{
+  var $onclick;
+  
+  function rex_be_popup_page($title, $block, $onclick = '', $activateCondition = array())
+  {
+    parent::rex_be_main_page($title, $block, $activateCondition);
+    
+    $this->setHasNavigation(false);
+    $this->onclick = $onclick;
+    $this->setItemAttr('class', 'rex-popup');
+    $this->setLinkAttr('class', 'rex-popup');
   }
 }

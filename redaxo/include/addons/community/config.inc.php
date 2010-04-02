@@ -8,7 +8,7 @@ $REX['ADDON']['rxid'][$mypage] = '5';
 $REX['ADDON']['page'][$mypage] = "$mypage";     // pagename/foldername
 $REX['ADDON']['name'][$mypage] = "Community";   // name
 $REX['ADDON']['perm'][$mypage] = "community[]"; // benoetigt mindest permission
-$REX['ADDON']['navigation'][$mypage] = array('type'=>'community');
+$REX['ADDON']['navigation'][$mypage] = array('block'=>'community');
 
 $REX['ADDON']['version'][$mypage] = '1.5';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
