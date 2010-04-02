@@ -48,12 +48,13 @@ ext_config = Konfiguration (JavaScript)
 
 button_save_settings = Konfiguration speichern
 msg_settings_saved = Konfiguration gespeichert
+msg_settings_error = Fehler beim speichern der Konfiguration!
 
 title_css_wysiwyg = CSS f&uuml;r WYSIWYG-Editor und Vorschau
 tynymce_css_wysiwyg = ...
 button_save_css = CSS speichern
 msg_css_saved = CSS-Datei gespeichert, evtl. muss der Browser-Cache gel&ouml;scht werden.
-msg_css_error = Fehler beim speichern der CSS-Datei
+msg_css_error = Fehler beim speichern der CSS-Datei!
 
 title_tipps_class = Verwendung der Klasse rexTinyMCEEditor
 tipps_class_01 = Mit der PHP-Klasse rexTinyMCEEditor kann der TinyMCE nach den eigenen Vorstellungen konfiguriert werden.<br />Hierzu am besten die <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfiguration</a> speichern und als Grundlage das <strong>Erweiterte Input-Modul</strong> von den <a href="index.php?page=tinymce">Beispiel-Modulen</a> verwenden.<br /><br />

@@ -186,6 +186,6 @@ if (!function_exists('file_put_contents'))
 			fclose($fp);
 			return true;
 		}
-	  return false;
+		return false;
 	}
 } // end function_exists

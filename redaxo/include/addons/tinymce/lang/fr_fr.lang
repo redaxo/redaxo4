@@ -46,6 +46,7 @@ ext_config = Konfiguration (JavaScript)
 
 button_save_settings = Enregistrer configuration
 msg_settings_saved = Configuration enregistrée
+msg_settings_error = Fehler beim speichern der Konfiguration!
 
 title_css_wysiwyg = CSS pour prévisualistation de l'editeur WYSIWYG
 tynymce_css_wysiwyg = ...

@@ -199,12 +199,14 @@ if (!function_exists('a52_tinymce_mediaadded'))
 	{
 		global $REX;
 
+		// Status Tinymce, Hinzufügen und Hinzufügen+Übernehmen
+		$_SESSION['a52_tinymce'] = 'true';
+		$_SESSION['a52_save'] = $_POST['save'];
+		$_SESSION['a52_saveand-exit'] = $_POST['saveand-exit'];
+
 		// Dateinamen für Outputfilter merken!
-//		$REX['a52_media_added_filename'] = $params['filename'];
-		$_POST['saveand-exit'] = false;
-//		$_GET['saveand-exit'] = false;
-//		$_REQUEST['saveand-exit'] = false;
 		$_SESSION['a52_media_added_filename'] = $params['filename'];
+		$_SESSION['a52_media_added_title'] = $params['title'];
 	}
 } // End function_exists
 
@@ -232,14 +234,16 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 		{
 			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/mediapool.js"></script>';
 			// Medium hinzufügen und übernehmen, Fenster schliessen
-			if (isset($_SESSION['a52_media_added_filename'])) {
+			if (isset($_SESSION['a52_saveand-exit']) and ($_SESSION['a52_saveand-exit'] <> '')) 
+			{
 				$scriptoutput .= $n . '<script type="text/javascript">';
 				$scriptoutput .= $n . '//<![CDATA[';
-				$scriptoutput .= $n . '	selectMedia("'.$_SESSION['a52_media_added_filename'].'")';
-				$scriptoutput .= $n . '	//tinyMCEPopup.close();';
+				$scriptoutput .= $n . '	selectMedia("'.$_SESSION['a52_media_added_filename'].'", "'.$_SESSION['a52_media_added_title'].'")';
 				$scriptoutput .= $n . '//]]>';
 				$scriptoutput .= $n . '</script>';
+				unset($_SESSION['a52_saveand-exit']);
 				unset($_SESSION['a52_media_added_filename']);
+				unset($_SESSION['a52_media_added_title']);
 			}
 		}
 

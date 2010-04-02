@@ -13,7 +13,7 @@
   - abschliessende ?> entfernt  
   
   TODO:
-  * Fehlermeldung bei schreibfehler Konfiguration/CSS
+  * Anpassung an Redaxo 4.1 (kopieren der Files)
   * Security-Patch, siehe http://blog.webvariants.de/security-fix-fuer-redaxos-tinymce-addon  
   * evtl. Syntaxhighlighter
   

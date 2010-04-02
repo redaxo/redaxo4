@@ -61,8 +61,14 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'extconfig\'] = "
 
 		//$filename = dirname( __FILE__) . '/../config.inc.php';
 		$filename = $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/config.inc.php';
-		rex_replace_dynamic_contents($filename, $rxa_tinymce['config_content']);
-		echo rex_info($I18N_A52->msg('msg_settings_saved'));
+		if (rex_replace_dynamic_contents($filename, $rxa_tinymce['config_content']))
+		{
+			echo rex_info($I18N_A52->msg('msg_settings_saved'));
+		}
+		else		
+		{
+			echo rex_warning($I18N_A52->msg('msg_settings_error'));
+		}
 	}
 
 	$rxa_tinymce['tinymce_langs'] = str_replace('.js', '', implode(',', a52_readFolderFiles($rxa_tinymce['fe_path'] . '/tiny_mce/langs')));
