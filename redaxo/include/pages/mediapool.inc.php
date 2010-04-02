@@ -116,7 +116,7 @@ if ($warning != '')
 <script type="text/javascript">
 <!--
 
-function selectMedia(filename)
+function selectMedia(filename, alt)
 {
   <?php
   if ($opener_input_field != '')
