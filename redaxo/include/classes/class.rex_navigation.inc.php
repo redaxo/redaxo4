@@ -400,6 +400,8 @@ class rex_be_navigation
   
   /*public static*/ function getSetupPage()
   {
+    global $I18N;
+      
     $page = new rex_be_page($I18N->msg('setup'), 'system');
     $page->setIsCorePage(true);
     return $page;
