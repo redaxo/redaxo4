@@ -1,4 +1,4 @@
-<!--
+
 function insertLink(link,name)
 {
 	var win = tinyMCEPopup.getWindowArg("window");
@@ -6,4 +6,3 @@ function insertLink(link,name)
 	win.document.getElementById("title").value = name;
 	tinyMCEPopup.close();
 }
-//-->

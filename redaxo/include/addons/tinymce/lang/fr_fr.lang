@@ -9,7 +9,7 @@ menu_information = ?
 title_simple_sample = Simple module Input (entrée) et Output (sortie)
 txt_simple_sample = Un champ de texte peut être transformé en Editeur WYSIWYG par l'application de l'attribut <strong>class="tinyMCEEditor"</strong>.<br />Plusieurs champs de texte par Module sont autorisés. La taille de l'editeur WYSIWYG sera définie par la taille du champ de texte. L'affichage du button sera automatiquement généré par la <a href="index.php?page=tinymce&amp;subpage=settings">Configuration Addon/a>.
 title_extended_sample = Module Input (entrée) étendu
-txt_extended_sample = Vous pouvez également créer un editeur WYSIWYG par la classe PHP<strong>rexTinyMCEEditor</strong>.<br />Il est alors possible de reutiliser les configurations personnalisées pour le TinyMCE. La classe génére un Init-Javascript avec les valeurs standard qui peut être étendu ou modifié par des paramètres personnalisés.<br /><br /><a href="./include/addons/tinymce/img/standardconfig.php" onclick="window.open(this.href); return false;">Afficher Configuration standard</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Documentation TinyMCE-Configuration</a><br /><br />Ici vous trouverez des exemples de <strong>tous</strong> les paramètres pour l'Input (entrée) d'un module.<br />Le contenu de la variable REDAXO (<strong>$tiny->content = $wysiwigvalue;</strong>) doit être attribué à la variable <strong>content</strong> Le numéro de la variable REDAXO doit être attribué à la variable <strong>id</strong> (par ex. pour REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Pour plus d'informations <a href="index.php?page=tinymce&amp;subpage=tipps">Conseils &raquo;</a>
+txt_extended_sample = Vous pouvez également créer un editeur WYSIWYG par la classe PHP<strong>rexTinyMCEEditor</strong>.<br />Il est alors possible de reutiliser les configurations personnalisées pour le TinyMCE. La classe génére un Init-Javascript avec les valeurs standard qui peut être étendu ou modifié par des paramètres personnalisés.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Afficher Configuration standard</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Documentation TinyMCE-Configuration</a><br /><br />Ici vous trouverez des exemples de <strong>tous</strong> les paramètres pour l'Input (entrée) d'un module.<br />Le contenu de la variable REDAXO (<strong>$tiny->content = $wysiwigvalue;</strong>) doit être attribué à la variable <strong>content</strong> Le numéro de la variable REDAXO doit être attribué à la variable <strong>id</strong> (par ex. pour REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Pour plus d'informations <a href="index.php?page=tinymce&amp;subpage=tipps">Conseils &raquo;</a>
 title_input = <strong>Modul INPUT (entrée)</strong><br /><br />
 title_output = <strong>Modul OUTPUT (sortie) (pour tous)</strong><br /><br />
 
@@ -41,10 +41,9 @@ skin_o2k7 = o2k7
 skin_o2k7_silver = o2k7 Argent
 skin_o2k7_black = o2k7 Noir
 
-title_buttons = Fonctions supplémentaires (Boutons supplémentaires + plugins)
-tinymce_btn_emoticons = Emoticons
-tinymce_btn_media = Fichiers média
-tinymce_btn_highlight = Syntax-Highlight
+title_ext_config = Zus&auml;tzliche TinyMCE Konfiguration
+ext_config = Konfiguration (JavaScript)
+
 button_save_settings = Enregistrer configuration
 msg_settings_saved = Configuration enregistrée
 

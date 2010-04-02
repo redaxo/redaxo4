@@ -9,7 +9,7 @@ menu_information = ?
 title_simple_sample = Jednoduchý modul vstupu a výstupu
 txt_simple_sample = Textové pole mù¾e být pøemìnìno ve WYSIWYG-Editoru zadáním atributu <strong>class="tinyMCEEditor"</strong>.<br />Více textových polí pro vstup modulù je mo¾ný. Velikost  WYSIWYG-Editoru je urèena velikostí textového pole. Zobrazení tlaèítek bude automaticky pøevzato z <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfigurace</a>.
 title_extended_sample = Roz¹íøený vstup modulu
-txt_extended_sample = Existuje té¾ mo¾nost vytvoøit WYSIWYG-Editor pøes PHP tøídu <strong>rexTinyMCEEditor</strong>.<br />To umo¾òuje pøevzít konfiguraci pro TinyMCE. Tøída vytvoøí  Init-Javascript se standartními hodnotami, které mohou být pøes vlastní parametry roz¹íøeny nebo zmìnìny.<br /><br /><a href="./include/addons/tinymce/img/standardconfig.php" onclick="window.open(this.href); return false;">ukázat standartní konfiguraci</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Dokumentace TinyMCE-Konfigurace</a><br /><br />Zde jsou jako pøíklad znázornìny <strong>v¹echny</strong> mo¾nosti parametrù pro vstupní modul.<br /> Variable <strong>content</strong> musí mít pøidìlen obsah REDAXO-Variable (<strong>$tiny->content = $wysiwigvalue;</strong>)<br /><strong>Id</strong> .Promìnné musí mít pøidìleno èíslo REDAXO promìnné (napø. u REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Dal¹í informace na <a href="index.php?page=tinymce&amp;subpage=tipps">Tipy a triky &raquo;</a>
+txt_extended_sample = Existuje té¾ mo¾nost vytvoøit WYSIWYG-Editor pøes PHP tøídu <strong>rexTinyMCEEditor</strong>.<br />To umo¾òuje pøevzít konfiguraci pro TinyMCE. Tøída vytvoøí  Init-Javascript se standartními hodnotami, které mohou být pøes vlastní parametry roz¹íøeny nebo zmìnìny.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">ukázat standartní konfiguraci</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Dokumentace TinyMCE-Konfigurace</a><br /><br />Zde jsou jako pøíklad znázornìny <strong>v¹echny</strong> mo¾nosti parametrù pro vstupní modul.<br /> Variable <strong>content</strong> musí mít pøidìlen obsah REDAXO-Variable (<strong>$tiny->content = $wysiwigvalue;</strong>)<br /><strong>Id</strong> .Promìnné musí mít pøidìleno èíslo REDAXO promìnné (napø. u REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Dal¹í informace na <a href="index.php?page=tinymce&amp;subpage=tipps">Tipy a triky &raquo;</a>
 title_input = <strong>Modul INPUT</strong><br /><br />
 title_output = <strong>Modul OUTPUT (pro v¹echny)</strong><br /><br />
 
@@ -41,10 +41,9 @@ skin_o2k7 = o2k7
 skin_o2k7_silver = o2k7 Støíbrný
 skin_o2k7_black = o2k7 Èerný
 
-title_buttons = Dal¹í funkce (dodateèná tlaèítka + pluginy)
-tinymce_btn_emoticons = Emotikony
-tinymce_btn_media = Media soubory
-tinymce_btn_highlight = Syntax zvýraznìní
+title_ext_config = Zus&auml;tzliche TinyMCE Konfiguration
+ext_config = Konfiguration (JavaScript)
+
 button_save_settings = Ulo¾it konfiguraci
 msg_settings_saved = Konfigurace ulo¾ena
 

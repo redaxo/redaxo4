@@ -143,11 +143,11 @@ var ImageDialog = {
 
 		if (!nl.alt.value){
 			nl.alt.value = '';
-		}
-
+		}		
+		
 		tinymce.extend(args, {
-			'ismap': 'ismap',
 			src : nl.src.value,
+			'ismap': 'ismap',
 			width : nl.width.value,
 			height : nl.height.value,
 			alt : nl.alt.value,
@@ -419,7 +419,7 @@ var ImageDialog = {
 			}
 
 			// Merge
-			dom.get('style').value = dom.serializeStyle(dom.parseStyle(img.style.cssText));
+			dom.get('style').value = dom.serializeStyle(dom.parseStyle(img.style.cssText), 'img');
 		}
 	},
 

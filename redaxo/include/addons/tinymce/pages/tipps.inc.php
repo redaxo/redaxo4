@@ -39,8 +39,8 @@ $tinymce_tipp4 = '';
 
 <div class="rex-addon-output">
 
-  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_class'); ?></h2>
-  <div class="rex-addon-content">
+	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_class'); ?></h2>
+	<div class="rex-addon-content">
 
 <?php
 	echo '<p class="form-text">';
@@ -56,14 +56,14 @@ $tinymce_tipp4 = '';
 	echo $I18N_A52->msg('tipps_class_07');
 	echo '</p>';
 ?>
-  </div>
+	</div>
 
 </div>
 
 <div class="rex-addon-output">
 
-  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_media'); ?></h2>
-  <div class="rex-addon-content">
+	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_media'); ?></h2>
+	<div class="rex-addon-content">
 <?php
 	echo '<p class="form-text">';
 	echo $I18N_A52->msg('tipps_media_01');
@@ -76,14 +76,15 @@ $tinymce_tipp4 = '';
 	echo '</p>';
 	rex_highlight_string($tinymce_tipp3);
 ?>
-  </div>
+	</div>
 
 </div>
 
+<!--
 <div class="rex-addon-output">
 
-  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_syntax'); ?></h2>
-  <div class="rex-addon-content">
+	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_syntax'); ?></h2>
+	<div class="rex-addon-content">
 <?php
 	echo '<p class="form-text">';
 	echo $I18N_A52->msg('tipps_syntax_01');
@@ -92,9 +93,10 @@ $tinymce_tipp4 = '';
 	echo '</p>';
 	//rex_highlight_string($tinymce_tipp4);
 ?>
-  </div>
+	</div>
 
 </div>
+-->
 
 <?php
 	// Tabelle bei REDAXO 3.2.x ausgeben
@@ -104,4 +106,3 @@ $tinymce_tipp4 = '';
 		echo '</tr>';
 		echo '</table>';
 	}
-?>

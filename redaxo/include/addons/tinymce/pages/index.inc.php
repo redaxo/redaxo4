@@ -39,8 +39,6 @@
 	// Include der angeforderten Seite
 	$subpage = rex_request('subpage', 'string');
 
-	include(dirname( __FILE__).'/htaccesstest.inc.php');
-
 	switch($subpage) {
 		case 'settings':
 			include (dirname( __FILE__).'/settings.inc.php');
@@ -70,4 +68,3 @@
 	require $REX['INCLUDE_PATH'] .'/layout/bottom.php';
 
 	return;
-?>

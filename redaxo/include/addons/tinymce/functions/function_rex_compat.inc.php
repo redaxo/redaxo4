@@ -163,9 +163,9 @@ if (!function_exists('file_get_contents'))
 		$fp = fopen($filename, 'r');
 		if ($fp)
 		{
-  		$cont = fread($fp, filesize($filename));
-  		fclose($fp);
-  		return $cont;
+			$cont = fread($fp, filesize($filename));
+			fclose($fp);
+			return $cont;
 		}
 		
 		return false;
@@ -189,4 +189,3 @@ if (!function_exists('file_put_contents'))
 	  return false;
 	}
 } // end function_exists
-?>

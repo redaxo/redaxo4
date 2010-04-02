@@ -16,6 +16,5 @@
 
 	// Schreibberechtigung für Konfigurationsetzen
 	@chmod(dirname( __FILE__) . '/config.inc.php', 0755);
-	
+
 	$REX['ADDON']['install']['tinymce'] = 1;
-?>

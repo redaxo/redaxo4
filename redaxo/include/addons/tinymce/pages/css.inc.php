@@ -17,12 +17,13 @@
 	$rxa_tinymce['get_func'] = rex_request('func', 'string');
 	$rxa_tinymce['get_tinymcecss'] = rex_request('tinymcecss', 'string');
 
+	$filename = $rxa_tinymce['fe_path'] . '/content.css';
+	
 	// CSS speichern
 	if ($rxa_tinymce['get_func'] == 'update')
 	{
-		@chmod(dirname(__FILE__) . '/config.inc.php', 0755);
+		@chmod($filename, 0755);
 
-		$filename = $rxa_tinymce['fe_path'] . '/content.css';
 		$rxa_tinymce['get_tinymcecss'] = stripslashes($rxa_tinymce['get_tinymcecss']);
 		if (file_put_contents($filename, $rxa_tinymce['get_tinymcecss']))
 		{
@@ -45,7 +46,7 @@
 
 <div class="rex-addon-output">
 
-	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_css_wysiwyg'); ?></h2>
+	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_css_wysiwyg'); ?><br />[ <?php echo $filename; ?> ]</h2>
 
 	<div class="rex-area">
 	<div class="rex-form">
@@ -57,26 +58,26 @@
 		<input type="hidden" name="subpage" value="css" />
 		<input type="hidden" name="func" value="update" />
 <?php
-	$filename = $rxa_tinymce['fe_path'] . '/content.css';
 	if(is_readable($filename))
 	{
 		$csstext = htmlspecialchars(file_get_contents($filename));
 	}
 ?>
-	  <div class="rex-form-row">
+		<div class="rex-form-row">
 			<p class="rex-form-textarea">
 				<label for="tinymcecss">CSS</label>
 				<textarea class="rex-form-textarea" name="tinymcecss" id="tinymcecss" cols="80" rows="20"><?php echo htmlspecialchars($csstext); ?></textarea>
 			</p>
 		</div>
 
-  	<div class="rex-form-row">
+		<div class="rex-form-row">
 			<p class="rex-form-submit">
 				<input class="rex-form-submit" type="submit" value="<?php echo $I18N_A52->msg('button_save_css'); ?>" />
 			</p>
 		</div>
 
-    </fieldset>
+		</div>
+		</fieldset>
 		</form>
 
 	</div> <!-- END rex-form -->
@@ -92,4 +93,3 @@
 		echo '</tr>';
 		echo '</table>';
 	}
-?>

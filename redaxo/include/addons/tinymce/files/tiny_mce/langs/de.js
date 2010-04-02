@@ -58,7 +58,7 @@ nonbreaking_desc:"Gesch\u00FCtztes Leerzeichen einf\u00FCgen"
 },
 iespell:{
 iespell_desc:"Rechtschreibpr\u00FCfung",
-download:"ieSpell konnte nicht gefunden werden. Wollen Sie es installieren?"
+download:"iSpell konnte nicht gefunden werden. Wollen Sie es installieren?"
 },
 advhr:{
 advhr_desc:"Trennlinie"
@@ -101,12 +101,12 @@ table:{
 desc:"Tabelle erstellen/bearbeiten",
 row_before_desc:"Zeile oberhalb einf\u00FCgen",
 row_after_desc:"Zeile unterhalb einf\u00FCgen",
-delete_row_desc:"Zeile entfernen",
+delete_row_desc:"Zeile l\u00F6schen",
 col_before_desc:"Spalte links einf\u00FCgen",
 col_after_desc:"Spalte rechts einf\u00FCgen",
 delete_col_desc:"Spalte l\u00F6schen",
-split_cells_desc:"Vereinte Zellen trennen",
-merge_cells_desc:"Zellen vereinen",
+split_cells_desc:"Verbundene Zellen trennen",
+merge_cells_desc:"Zellen verbinden",
 row_desc:"Eigenschaften der Zeile",
 cell_desc:"Eigenschaften der Zelle",
 props_desc:"Eigenschaften der Tabelle",
@@ -114,14 +114,16 @@ paste_row_before_desc:"Zeile oberhalb aus der Zwischenablage einf\u00FCgen",
 paste_row_after_desc:"Zeile unterhalb aus der Zwischenablage einf\u00FCgen",
 cut_row_desc:"Zeile ausschneiden",
 copy_row_desc:"Zeile kopieren",
-del:"Tabelle entfernen",
+del:"Tabelle l\u00F6schen",
 row:"Zeile",
 col:"Spalte",
 cell:"Zelle",
 cellprops_delta_width:"150"
 },
 autosave:{
-unload_msg:"Ihre \u00C4nderungen werden verloren gehen, wenn Sie die Seite verlassen."
+unload_msg:"Ihre \u00C4nderungen werden verloren gehen, wenn Sie die Seite verlassen.",
+restore_content:"Automatisch gespeicherten Content wiederherstellen.",
+warning_message:"Wenn Sie den Content wiederherstellen, gehen die aktuellen Daten im Editor verloren.\n\nSind sie sicher, dass Sie den Content wiederherstellen m\u00F6chten?"
 },
 fullscreen:{
 desc:"Vollbildschirm"
@@ -134,10 +136,10 @@ fullpage:{
 desc:"Dokument-Eigenschaften"
 },
 template:{
-desc:"Vorgefertigten Vorlageninhalt einf\u00FCgen"
+desc:"Vorgefertigter Vorlageninhalt einf\u00FCgen"
 },
 visualchars:{
-desc:"Sichtbarkeit der Steuerzeichen an/aus."
+desc:"Sichtbarkeit der Steuerzeichen an/aus"
 },
 spellchecker:{
 desc:"Rechtschreibpr\u00FCfung an/aus",
@@ -151,5 +153,17 @@ no_sug:"Keine Vorschl\u00E4ge",
 no_mpell:"Keine Rechtschreibfehler gefunden."
 },
 pagebreak:{
-desc:"Seitenumbruch Einf\u00FCgen."
+desc:"Seitenumbruch einf\u00FCgen"
+},
+advlist:{
+types:"Typen",
+def:"Default",
+lower_alpha:"Kleinbuchstaben alpha",
+lower_greek:"Kleinbuchstaben greek",
+lower_roman:"Kleinbuchstaben roman",
+upper_alpha:"Gro\u00DFbuchstaben alpha",
+upper_roman:"Gro\u00DFbuchstaben roman",
+circle:"Kreis",
+disc:"Disk",
+square:"Kasten"
 }}});

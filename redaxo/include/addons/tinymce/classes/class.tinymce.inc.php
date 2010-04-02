@@ -16,10 +16,9 @@
 
 class rexTinyMCEEditor
 {
-	var $tinyversion = '1.5';
 	
 	var $default_buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
-	var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image';
+	var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media';
 	var $default_buttons3 = 'undo,redo,|,tablecontrols,visualaid';
 	var $default_plugins  = 'advhr,advimage,advlink,contextmenu,fullscreen,inlinepopups,paste,preview,redaxo,safari,visualchars';
 
@@ -49,12 +48,14 @@ class rexTinyMCEEditor
 		global $REX;
 		global $rxa_tinymce;
 		$n = "\n";
-		
+
 		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on')
 		{
 			echo $n . '<script type="text/javascript">';
+			echo $n . '//<![CDATA[';
 			echo $n . $this->getConfiguration();
 			echo $n . 'tinyMCE.init(tinyMCEInitArray' . $this->id . ');';
+			echo $n . '//]]>';
 			echo $n . '</script>';
 		}
 		echo $n . '<textarea name="VALUE[' . $this->id . ']" id="tinyMCEValue' . $this->id . '" style="width:' . $this->width . 'px;height:' . $this->height . 'px;" cols="50" rows="10">';
@@ -90,28 +91,14 @@ class rexTinyMCEEditor
 		if (($this->buttons2 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] <> 'simple'))
 		{
 			$this->buttons2 = $this->default_buttons2;
-			if ($REX['ADDON'][$rxa_tinymce['name']]['emoticons'] == 'on') // Emoticons-Button ausgewählt
-			{
-				$this->buttons2 .= ',emotions';
-				$plugins .= ',emotions';
-			}
-			if ($REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on') // Medaia-Button ausgewählt
-			{
-				$this->buttons2 .= ',media';
-				$plugins .= ',media';
-			}
-			if ($REX['ADDON'][$rxa_tinymce['name']]['highlight'] == 'on') // Syntaxhighlight-Button ausgewählt
-			{
-				$this->buttons2 .= ',syntaxhighlighter';
-				$plugins .= ',syntaxhighlighter';
-			}
+			$plugins .= ',emotions,media';
 		}
 		if (($this->buttons3 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced'))
 		{
 			$this->buttons3 = $this->default_buttons3;
 			$plugins .= ',table';
 		}
-		
+
 		// Skin aus Konfiguration
 		$va = explode('_', $REX['ADDON'][$rxa_tinymce['name']]['skin']);
 		if (count($va)>=1)
@@ -487,7 +474,8 @@ EOD;
 
 		$configout .= $n . '  plugins : \'' . $plugins . '\',';
 
-		$configout .= $n . '  content_css : \'' . $rxa_tinymce['fe_path'] . '/content.css\',';
+		$splitURL = split('files/', dirname($_SERVER['REQUEST_URI']));
+		$configout .= $n . '  content_css : \'' . str_replace('redaxo', '', $splitURL[0]) . 'files/addons/' . $rxa_tinymce['name'] . '/content.css\',';
 
 		if ($this->validxhtml == true or $this->validxhtml == 1)
 		{
@@ -518,12 +506,21 @@ EOD;
 		$configout .= $n . '  skin : \'' . $skin . '\',';
 		$configout .= $n . '  skin_variant : \'' . $skin_variant . '\',';
 
+		// individuelle Konfiguration
+		if (trim($REX['ADDON'][$rxa_tinymce['name']]['extconfig'])<>'')
+		{
+			$configout .= $n . stripslashes($REX['ADDON'][$rxa_tinymce['name']]['extconfig']) . $n;
+		}	
+		
+		// Evtl. wurde der Klasse eine zusätzliche Konfiguration mitgegeben
 		$configout .= $n . $this->configuration;
 
 		// evtl. vorhandenes letztes Kommma entfernen
 		$configout = trim($configout);
 		if ($configout[strlen($configout)-1] == ',')
+		{
 			$configout[strlen($configout)-1] = ' ';
+		}
 
 		// abschliessende Klammer
 		$configout .= $n . '}';
@@ -532,4 +529,3 @@ EOD;
 	}
 
 } // End class rexTinyMCEEditor
-?>

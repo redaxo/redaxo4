@@ -9,7 +9,7 @@ menu_information = Links/Changelog
 title_simple_sample = Simple Input/Output Module
 txt_simple_sample = A textarea can be converted into a WYSIWYG Editor by giving it the HTML-Attribute <strong>class="tinyMCEEditor"</strong><br />It is possible to use several editors at once. The size of the WYSIWYG-Editor is defined by the size of the textarea. The appearance of the buttons can be set from the <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Configuration</a> page.
 title_extended_sample = Advanced Input Module
-txt_extended_sample = It is also possible to generate a WYSIWYG Editor using the <strong>rexTinyMCEEditor</strong> PHP Class. <br />Using the class it is possible to set your own configuration for TinyMCE. The class generates the Init-Javascript with standard settings that can be changed using the passed parameters. <br /><br /><a href="./include/addons/tinymce/img/standardconfig.php" onclick="window.open(this.href); return false;">Show the standard configuration.</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">TinyMCE-Configuration Documentation</a><br /><br />As an example, here are <strong>all</strong> possible parameters for the Input-Module.<br />The <strong>content</strong> The correct REDAXO-Variable must be assigned to the <strong>content</strong> variable. (<strong>$tiny->content = $wysiwigvalue;</strong>)<br />The variable <strong>id</strong> has to be set to the REDAXO-Variable Number (e.g. REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />More info here: <a href="index.php?page=tinymce&amp;subpage=tipps">Tips und Tricks &raquo;</a>
+txt_extended_sample = It is also possible to generate a WYSIWYG Editor using the <strong>rexTinyMCEEditor</strong> PHP Class. <br />Using the class it is possible to set your own configuration for TinyMCE. The class generates the Init-Javascript with standard settings that can be changed using the passed parameters. <br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Show the standard configuration.</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">TinyMCE-Configuration Documentation</a><br /><br />As an example, here are <strong>all</strong> possible parameters for the Input-Module.<br />The <strong>content</strong> The correct REDAXO-Variable must be assigned to the <strong>content</strong> variable. (<strong>$tiny->content = $wysiwigvalue;</strong>)<br />The variable <strong>id</strong> has to be set to the REDAXO-Variable Number (e.g. REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />More info here: <a href="index.php?page=tinymce&amp;subpage=tipps">Tips und Tricks &raquo;</a>
 title_input = <strong>Module INPUT</strong><br />
 title_output = <strong>Module OUTPUT (for all modules)</strong><br />
 
@@ -43,10 +43,9 @@ skin_o2k7 = o2k7
 skin_o2k7_silver = o2k7 Silver
 skin_o2k7_black = o2k7 Black
 
-title_buttons = More features (extra buttons and plugins)
-tinymce_btn_emoticons = Emoticons
-tinymce_btn_media = Media-Files
-tinymce_btn_highlight = SyntaxHighlighter
+title_ext_config = Additional TinyMCE Configuration
+ext_config = Configuration (JavaScript)
+
 button_save_settings = Save configuration
 msg_settings_saved = Configuration saved
 
@@ -60,7 +59,7 @@ title_tipps_class = Class rexTinyMCEEditor usage:
 tipps_class_01 = Using the PHP Class rexTinyMCEEditor, you can configure TinyMCE to your own preference.<br />Have a look here: <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Configuration</a> (Use the <strong>Advanced Input-Module</strong> from the <a href="index.php?page=tinymce">Example Modules</a> page.<br /><br />
 tipps_class_02 = The class always generates a standard-configuration with the settings from the Addon-Configuration page. These can be changed using the <strong>configuration</strong> variable. Note: If you use plugins, you may have to change/extend this variable.
 tipps_class_03 = <br /><br /><strong>Example:</strong>
-tipps_class_04 = <br /><strong><a href="./include/addons/tinymce/img/standardconfig.php" onclick="window.open(this.href); return false;">Show standard configuration</a></strong><br />
+tipps_class_04 = <br /><strong><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Show standard configuration</a></strong><br />
 tipps_class_05 = <br /><strong><a href="./include/addons/tinymce/examples/minimal-input.txt" onclick="window.open(this.href); return false;">Input Module</a></strong> (minimal Configuration, standard settings)<br />
 tipps_class_06 = <br /><strong><a href="./include/addons/tinymce/examples/extended-input.txt" onclick="window.open(this.href); return false;">Advanced Input Module</a></strong> (to be used as a basis for your own configurations)<br />
 tipps_class_07 = <br />More information can be found on the <a href="http://tinymce.moxiecode.com/" onclick="window.open(this.href); return false;">TinyMCE Website</a> or in the  <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index" onclick="window.open(this.href); return false;">TinyMCE Documentation</a>.

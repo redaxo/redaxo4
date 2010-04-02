@@ -12,8 +12,8 @@ var EmotionsDialog = {
 			src : tinyMCEPopup.getWindowArg('plugin_url') + '/img/' + file,
 			alt : ed.getLang(title),
 			title : ed.getLang(title),
-			width: 18,
-			height: 18,
+			width : 18,
+			height : 18,
 			border : 0
 		}));
 

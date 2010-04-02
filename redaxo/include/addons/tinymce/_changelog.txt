@@ -1,5 +1,22 @@
 <h3>Changelog:</h3>
 
+<strong>Version 1.6 (2010-03-29)</strong>
+  - Update TinyMCE auf Version 3.3.2
+  - Bugfix: Init-Script wird jetzt über die index.php ausgeliefert, tiny_mce_init.php entfällt da oft
+    Rechteprobleme auftraten
+  - Bugfix: korrekter Pfad für content.css, Anzeige Dateiname bei CSS-Editor
+  - Addon-Konfiguration angepasst, neuer Parameter für individuelle tiny Konfiguration
+    Optionen für Smileys, Media und Syntaxhighlighter entfernt
+  - Smileys und Media in Standardbuttons aufgenommen
+  - Syntaxhighlighter entfernt  
+  - JavaScript-Sourcen entfernt
+  - abschliessende ?> entfernt  
+  
+  TODO:
+  * Fehlermeldung bei schreibfehler Konfiguration/CSS
+  * Security-Patch, siehe http://blog.webvariants.de/security-fix-fuer-redaxos-tinymce-addon  
+  * evtl. Syntaxhighlighter
+  
 <strong>Version 1.5 (2009-03-25)</strong>
   - Addon komplett ueberarbeitet
   - Update TinyMCE auf Version 3.2.2.1

@@ -119,11 +119,11 @@ function checkPrefix(n) {
 	if (/^\s*www\./i.test(n.value) && confirm(tinyMCEPopup.getLang('advlink_dlg.is_external')))
 		n.value = 'http://' + n.value;
 		
-			Angabe=Number(n.value);
-			if(!isNaN(Angabe))
-			{
-				n.value = 'redaxo://' + n.value;
-			}
+	Angabe=Number(n.value);
+	if(!isNaN(Angabe))
+	{
+		n.value = 'redaxo://' + n.value;
+	}
 }
 
 function setFormValue(name, value) {
@@ -360,7 +360,7 @@ function setAttrib(elm, attrib, value) {
 
 	// Clean up the style
 	if (attrib == 'style')
-		value = dom.serializeStyle(dom.parseStyle(value));
+		value = dom.serializeStyle(dom.parseStyle(value), 'a');
 
 	dom.setAttrib(elm, attrib, value);
 }

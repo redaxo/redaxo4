@@ -22,7 +22,7 @@
 	$REX['ADDON']['page'][$rxa_tinymce['name']] = $rxa_tinymce['name'];
 	$REX['ADDON']['name'][$rxa_tinymce['name']] = 'TinyMCE';
 	$REX['ADDON']['perm'][$rxa_tinymce['name']] = 'tiny_mce[]';
-	$REX['ADDON']['version'][$rxa_tinymce['name']] = '1.5';
+	$REX['ADDON']['version'][$rxa_tinymce['name']] = '1.6';
 	$REX['ADDON']['author'][$rxa_tinymce['name']] = 'Andreas Eberhard, Markus Staab, Dave Holloway';
 	$REX['ADDON']['supportpage'][$rxa_tinymce['name']] = 'forum.redaxo.de';
 
@@ -30,23 +30,13 @@
 
 	// REDAXO-Version
 	$rxa_tinymce['rexversion'] = isset($REX['VERSION']) ? $REX['VERSION'] . $REX['SUBVERSION'] : '';
-$rxa_tinymce['rexversion'] = '42';
 
 	// Versions-Spezifische Variablen/Konstanten
 	$rxa_tinymce['medienpool'] = ($rxa_tinymce['rexversion'] > '41') ? 'mediapool' : 'medienpool';
-   $rxa_tinymce['linkmap'] = 'linkmap';
+	$rxa_tinymce['linkmap'] = 'linkmap';
 
-	if (!isset($REX['HTDOCS_PATH']))
-	{
-		$REX['HTDOCS_PATH'] = '../';
-		$REX['INCLUDE_PATH'] = realpath($REX['HTDOCS_PATH'] . 'redaxo/include');
-	}
-	$rxa_tinymce['fe_path'] = ($rxa_tinymce['rexversion'] < '42')
-		? $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name']
-		: $REX['HTDOCS_PATH'] . 'files' . '/addons/' . $rxa_tinymce['name'];
-
-	$rxa_tinymce['document_base'] = str_replace($_SERVER["DOCUMENT_ROOT"], '', str_replace("\\", "/", dirname(dirname(__FILE__))));
-//echo $rxa_tinymce['fe_path'];
+	// Pfad für HTML-Ausgabe
+	$rxa_tinymce['fe_path'] = $REX['HTDOCS_PATH'] . 'files/addons/' . $rxa_tinymce['name'];
 
 
 
@@ -62,22 +52,15 @@ $REX['ADDON'][$rxa_tinymce['name']]['background'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = 'on';
 $REX['ADDON'][$rxa_tinymce['name']]['theme'] = 'default';
 $REX['ADDON'][$rxa_tinymce['name']]['skin'] = 'default';
-$REX['ADDON'][$rxa_tinymce['name']]['emoticons'] = 'on';
-$REX['ADDON'][$rxa_tinymce['name']]['media'] = 'on';
-$REX['ADDON'][$rxa_tinymce['name']]['highlight'] = '';
+$REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
+";
 // --- /DYN
 // -----------------------------------------------------------------------------
 
 
 
-	// Wenn nicht von REDAXO aufgerufen dann return
-	// Wird benötigt für den JavaScript Aufruf
-	//   <script type="text/javascript" src="../files/addons/tinymce/tiny_mce_init.php?clang=0&amp;version=41" id="TinyMCEInit"></script>
-	if (!isset($REX['REDAXO']))
-		return;
-
 	// Nur im Backend
-	if ($REX['REDAXO'])
+	if (isset($REX['REDAXO']) && $REX['REDAXO'])
 	{
 		// rexTinyMCEEditor-Klasse
 		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/classes/class.tinymce.inc.php';
@@ -87,6 +70,18 @@ $REX['ADDON'][$rxa_tinymce['name']]['highlight'] = '';
 
 		// Kompatibilitäts-Funktionen
 		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_compat.inc.php';
+
+		// Request-Variablen
+		$rxa_tinymce['get_page'] = rex_request('page', 'string');
+		$rxa_tinymce['get_tinymce'] = rex_request('tinymce', 'string');
+		$rxa_tinymce['get_tinymceinit'] = rex_request('tinymceinit', 'string');
+
+		// TinyMCE-Init-Javascript ausliefern
+		if ($rxa_tinymce['get_tinymceinit'] == 'true')
+		{
+			a52_tinymce_output_init();
+			exit;
+		}
 
 		// Im Backend Sprachobjekt anlegen
 		$I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/lang/');
@@ -99,10 +94,6 @@ $REX['ADDON'][$rxa_tinymce['name']]['highlight'] = '';
 			array('tipps', $I18N_A52->msg('menu_tipps')),
 			array('info', $I18N_A52->msg('menu_information')),
 		);
-
-		// Request-Variablen
-		$rxa_tinymce['get_page'] = rex_request('page', 'string');
-		$rxa_tinymce['get_tinymce'] = rex_request('tinymce', 'string');
 
 		// ausgewählte Seiten laut Konfiguration
 		$rxa_tinymce['includepages'] = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$rxa_tinymce['name']]['pages'])));
@@ -128,4 +119,3 @@ $REX['ADDON'][$rxa_tinymce['name']]['highlight'] = '';
 		}
 
 	} // Ende nur im Backend
-?>

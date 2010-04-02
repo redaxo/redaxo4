@@ -1,8 +1,11 @@
 /**
- * $Id: editor_plugin_src.js 1056 2009-03-13 12:47:03Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -12,17 +15,17 @@
 
 			t.editor = ed;
 
-			// Force absolute CSS urls
+			// Force absolute CSS urls	
 			tinymce.each(css, function(u, k) {
 				css[k] = ed.documentBaseURI.toAbsolute(u);
 			});
 
 			ed.addCommand('mcePreview', function() {
 				ed.windowManager.open({
+					maximizable : true,
 					file : ed.getParam("plugin_preview_pageurl", url + "/preview.html"),
 					width : parseInt(ed.getParam("plugin_preview_width", "550")),
 					height : parseInt(ed.getParam("plugin_preview_height", "600")),
-					maximizable : true,
 					resizable : "yes",
 					scrollbars : "yes",
 					popup_css : css ? css.join(',') : ed.baseURI.toAbsolute("themes/" + ed.settings.theme + "/skins/" + ed.settings.skin + "/content.css"),

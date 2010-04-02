@@ -14,8 +14,6 @@
  * @version svn:$Id$
  */
 
-	//$rxa_tinymce['name'] = 'tinymce';
-
 /**
  * Returns the content of the given folder
  */
@@ -77,7 +75,7 @@ if (!function_exists('a52_tinymce_opf'))
 		global $REX;
 		global $rxa_tinymce;
 		global $clang;
-		
+
 		$content = $params['subject'];
 			
 		if ( !strstr($content, '</head>')) {
@@ -103,20 +101,92 @@ if (!function_exists('a52_tinymce_opf'))
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
 		// Script für Media
-		if (isset($REX['ADDON'][$rxa_tinymce['name']]['media']) and $REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on')
-		{
-			$script = $rxa_tinymce['fe_path'] . '/tiny_mce/plugins/media/js/rexembed.js';
-			$script = str_replace('\\', '/', $script);
-			$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
-		}
+		$script = $rxa_tinymce['fe_path'] . '/tiny_mce/plugins/media/js/rexembed.js';
+		$script = str_replace('\\', '/', $script);
+		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
 		// TinyMCE-InitScript
-		$script = $rxa_tinymce['fe_path'] . '/tiny_mce_init.php?clang=' . $clang . '&amp;version=' . $rxa_tinymce['rexversion'];
+		$script = $REX['HTDOCS_PATH'] . 'redaxo/index.php?tinymceinit=true';
 		$script = str_replace('\\', '/', $script);
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '" id="TinyMCEInit"></script>' . $n . $n;
 
 		$content = str_replace('</head>', $cssLink . '</head>', $content);
 		return $content;
+	}
+} // End function_exists
+
+/**
+ * Extension-Point für Medienpool Button "Hinzufügen und übernehmen"
+ */
+if (!function_exists('a52_tinymce_output_init'))
+{
+	function a52_tinymce_output_init()
+	{
+		global $REX;
+		global $rxa_tinymce;
+		$clang = 0;
+
+		header('Content-type: application/javascript');
+
+		if (isset($_GET['clang']) and trim($_GET['clang']) <> '' and strlen($_GET['clang']) == 1)
+			$clang = $_GET['clang'];
+			
+?>
+
+function rexCustomFileBrowser(field_name, url, type, win)
+{
+	if (type == 'image' || type == 'media')
+	{
+		nameurl = url.replace('files/', '');
+		if (nameurl != '') {
+			nameurl = "&subpage=detail&file_name="+nameurl;
+		}
+		cmsURL = "index.php?page=<?php echo $rxa_tinymce['medienpool']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+nameurl;
+		popupTitle = 'Medienpool';
+	}
+	if (type == 'file')
+	{
+		idurl = url.replace('redaxo://', '');
+		if (idurl != '') {
+			idurl = "&category_id="+idurl;
+		}
+		cmsURL = "index.php?page=<?php echo $rxa_tinymce['linkmap']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+idurl;
+		popupTitle = 'Linkmap';
+	}
+
+	tinyMCE.activeEditor.windowManager.open({
+		file : cmsURL,
+		title : popupTitle,
+		width : 760,  // Your dimensions may differ - toy around with them!
+		height : 600,
+		resizable : "yes",
+		inline : "yes",  // This parameter only has an effect if you use the inlinepopups plugin!
+		close_previous : "no"
+	}, {
+		window : win,
+		typeid : type,
+		input : field_name
+	});
+
+	return false;
+}
+
+<?php			
+/*
+// wird evtl. noch mal benötigt
+function rexCustomURLConverter(url, node, on_save) {
+	if (url.substr(0,6) == 'files/')
+	{
+		url = '../' + url;
+	}
+	// Return new URL
+	return url;
+}
+*/		
+
+		$tiny = new rexTinyMCEEditor();
+		echo $tiny->getConfiguration();
+		echo "\n\n" . 'tinyMCE.init(tinyMCEInitArray);' . "\n";
 	}
 } // End function_exists
 
@@ -164,10 +234,10 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 			// Medium hinzufügen und übernehmen, Fenster schliessen
 			if (isset($_SESSION['a52_media_added_filename'])) {
 				$scriptoutput .= $n . '<script type="text/javascript">';
-				$scriptoutput .= $n . '<!--';
+				$scriptoutput .= $n . '//<![CDATA[';
 				$scriptoutput .= $n . '	selectMedia("'.$_SESSION['a52_media_added_filename'].'")';
 				$scriptoutput .= $n . '	//tinyMCEPopup.close();';
-				$scriptoutput .= $n . '//-->';
+				$scriptoutput .= $n . '//]]>';
 				$scriptoutput .= $n . '</script>';
 				unset($_SESSION['a52_media_added_filename']);
 			}
@@ -273,4 +343,3 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 		return $content;
 	}
 } // End function_exists
-?>

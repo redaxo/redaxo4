@@ -13,10 +13,6 @@
  * @package redaxo4
  * @version svn:$Id$
  */
-?>
-
-<?php
-//	$rxa_tinymce['name'] = 'tinymce';
 	
 	$rxa_tinymce['get_func'] = rex_request('func', 'string');
 
@@ -38,9 +34,7 @@
 		$rxa_tinymce['get_validxhtml'] = rex_request('validxhtml', 'string');
 		$rxa_tinymce['get_theme'] = rex_request('theme', 'string');
 		$rxa_tinymce['get_skin'] = rex_request('skin', 'string');
-		$rxa_tinymce['get_emoticons'] = rex_request('emoticons', 'string');
-		$rxa_tinymce['get_media'] = rex_request('media', 'string');
-		$rxa_tinymce['get_highlight'] = rex_request('highlight', 'string');
+		$rxa_tinymce['get_extconfig'] = rex_request('extconfig', 'string');
 
 		$REX['ADDON'][$rxa_tinymce['name']]['active'] = $rxa_tinymce['get_active'];
 		$REX['ADDON'][$rxa_tinymce['name']]['lang'] = $rxa_tinymce['get_lang'];
@@ -50,9 +44,7 @@
 		$REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = $rxa_tinymce['get_validxhtml'];
 		$REX['ADDON'][$rxa_tinymce['name']]['theme'] = $rxa_tinymce['get_theme'];
 		$REX['ADDON'][$rxa_tinymce['name']]['skin'] = $rxa_tinymce['get_skin'];
-		$REX['ADDON'][$rxa_tinymce['name']]['emoticons'] = $rxa_tinymce['get_emoticons'];
-		$REX['ADDON'][$rxa_tinymce['name']]['media'] = $rxa_tinymce['get_media'];
-		$REX['ADDON'][$rxa_tinymce['name']]['highlight'] = $rxa_tinymce['get_highlight'];
+		$REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = $rxa_tinymce['get_extconfig'];
 
 		$rxa_tinymce['config_content'] = '
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'active\'] = \'' . $rxa_tinymce['get_active'] . '\';
@@ -63,9 +55,8 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'background\'] = \'' . $rxa_tinymce['ge
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'validxhtml\'] = \'' . $rxa_tinymce['get_validxhtml'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'theme\'] = \'' . $rxa_tinymce['get_theme'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'skin\'] = \'' . $rxa_tinymce['get_skin'] . '\';
-$REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'emoticons\'] = \'' . $rxa_tinymce['get_emoticons'] . '\';
-$REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'media\'] = \'' . $rxa_tinymce['get_media'] . '\';
-$REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'highlight\'] = \'' . $rxa_tinymce['get_highlight'] . '\';
+$REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'extconfig\'] = "
+'. trim($rxa_tinymce['get_extconfig']) . '";
 		';
 
 		//$filename = dirname( __FILE__) . '/../config.inc.php';
@@ -197,24 +188,12 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'highlight\'] = \'' . $rxa_tinymce['get
 			</div>
 
 			<div class="rex-form-row">
-				<h5 class="rex-form-headline"><?php echo $I18N_A52->msg('title_buttons'); ?></h5>
+				<h5 class="rex-form-headline"><?php echo $I18N_A52->msg('title_ext_config'); ?></h5>
 			</div>
 			<div class="rex-form-row">	
-				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-					<input class="rex-form-checkbox" type="checkbox" id="tinymce_btn_emoticons" name="emoticons" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['emoticons'] == 'on') echo 'checked="checked"'; ?> />
-					<label for="tinymce_btn_emoticons"><img class="icon" src="./include/addons/tinymce/img/emoticons.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_emoticons'); ?></label>
-				</p>
-			</div>
-			<div class="rex-form-row">	
-				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-					<input class="rex-form-checkbox" type="checkbox" id="tinymce_btn_media" name="media" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['media'] == 'on') echo 'checked="checked"'; ?> />
-					<label for="tinymce_btn_media"><img class="icon" src="./include/addons/tinymce/img/media.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_media'); ?></label>
-				</p>
-			</div>
-			<div class="rex-form-row">	
-				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-					<input class="rex-form-checkbox" type="checkbox" id="tinymce_btn_highlight" name="highlight" maxlength="2" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['highlight'] == 'on') echo 'checked="checked"'; ?> />
-					<label for="tinymce_btn_highlight"><img class="icon" src="./include/addons/tinymce/img/syntaxhighlighter.gif" alt="" width="20" height="20" /><?php echo $I18N_A52->msg('tinymce_btn_highlight'); ?></label>
+				<p class="rex-form-textarea">
+					<label for="extconfig"><?php echo $I18N_A52->msg('ext_config'); ?></label>
+					<textarea class="rex-form-textarea" name="extconfig" id="extconfig" cols="80" rows="15"><?php echo htmlspecialchars(stripslashes($REX['ADDON'][$rxa_tinymce['name']]['extconfig'])); ?></textarea>
 				</p>
 			</div>
 			<div class="rex-form-row">
@@ -239,4 +218,3 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'highlight\'] = \'' . $rxa_tinymce['get
 		echo '</tr>';
 		echo '</table>';
 	}
-?>

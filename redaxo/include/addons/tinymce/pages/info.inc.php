@@ -25,9 +25,9 @@
 
 <div class="rex-addon-output">
 
-  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tinymcelinks'); ?></h2>
-  <div class="rex-addon-content">
-    <p class="rex-tx1">
+	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tinymcelinks'); ?></h2>
+	<div class="rex-addon-content">
+		<p class="rex-tx1">
 <?php
 	$file = dirname( __FILE__) . '/../lang/help.' . $REX['LANG'] . '.lang';
 	if(is_readable($file))
@@ -42,13 +42,13 @@
 		}
 	}
 ?>
-    </p>
-  </div>
+		</p>
+	</div>
 </div>
 
 <div class="rex-addon-output">
-  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_changelog'); ?></h2>
-  <div class="rex-addon-content">
+	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_changelog'); ?></h2>
+	<div class="rex-addon-content">
 <?php
 	$file = dirname( __FILE__) .'/../_changelog.txt';
 	if(is_readable($file))
@@ -63,7 +63,7 @@
 		}
 	}
 ?>
-  </div>
+	</div>
 </div>
 
 <?php
@@ -74,4 +74,3 @@
 		echo '</tr>';
 		echo '</table>';
 	}
-?>
