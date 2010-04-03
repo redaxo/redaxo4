@@ -435,7 +435,7 @@ class rex_be_navigation
       
       if($rexUser->hasMediaPerm())
       {
-        $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool()');
+        $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool(); return false;');
         $pages['mediapool']->setIsCorePage(true);
       }
       
@@ -447,7 +447,7 @@ class rex_be_navigation
       
     }elseif($rexUser->hasMediaPerm())
     {
-      $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool()');
+      $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool(); return false;');
       $pages['mediapool']->setIsCorePage(true);
     }
     
@@ -648,8 +648,6 @@ class rex_be_main_page extends rex_be_page
 
 class rex_be_popup_page extends rex_be_main_page
 {
-  var $onclick;
-  
   function rex_be_popup_page($title, $block, $onclick = '', $activateCondition = array())
   {
     parent::rex_be_main_page($title, $block, $activateCondition);
@@ -658,5 +656,6 @@ class rex_be_popup_page extends rex_be_main_page
     $this->onclick = $onclick;
     $this->setItemAttr('class', 'rex-popup');
     $this->setLinkAttr('class', 'rex-popup');
+    $this->setLinkAttr('onclick', $onclick);
   }
 }
