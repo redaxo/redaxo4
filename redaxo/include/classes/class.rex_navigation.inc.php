@@ -45,6 +45,7 @@ class rex_navigation
 
 	/*private*/ function rex_navigation()
 	{
+	  // nichts zu tun
 	}
 
   /*public*/ function factory()
@@ -226,7 +227,7 @@ class rex_navigation
 			$liClass   = $liClass   == '' ? '' : ' class="'. ltrim($liClass) .'"';
 			$linkClass = $linkClass == '' ? '' : ' class="'. ltrim($linkClass) .'"';
 			  
-      $return .= '<li id="rex-article-'. $nav->getId() .'"'. $liClass .'>';
+      $return .= '<li class="rex-article-'. $nav->getId() .'"'. $liClass .'>';
 			$return .= '<a'. $linkClass .' href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
 
 			$depth++;
