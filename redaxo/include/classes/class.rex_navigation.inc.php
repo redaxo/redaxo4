@@ -252,11 +252,7 @@ class rex_navigation
 
 class rex_be_navigation
 {
-  
-  // alt
   var $headlines = array();
-  
-  // neu
   var $pages;
   
   function addPage(/*rex_be_page*/ &$pageObj)
@@ -611,6 +607,14 @@ class rex_be_page
   {
     return $this->hasNavigation;
   }
+  
+  /*
+   * Static Method: Returns True when the given be_page is valid
+   */
+  /*public static*/ function isValid($be_page)
+  {
+    return is_object($be_page) && is_a($be_page, 'rex_be_page');
+  }
 }
   
 class rex_be_main_page extends rex_be_page
@@ -643,6 +647,14 @@ class rex_be_main_page extends rex_be_page
     {
       call_user_func($setter, $value);
     }
+  }
+  
+  /*
+   * Static Method: Returns True when the given be_main_page is valid
+   */
+  /*public static*/ function isValid($be_main_page)
+  {
+    return is_object($be_main_page) && is_a($be_main_page, 'rex_be_main_page');
   }
 }
 
