@@ -14,7 +14,32 @@
  * @version svn:$Id$
  */
 
+	// Addon-Konfiguration
+	include dirname( __FILE__) . '/config.inc.php';
+
 	// Schreibberechtigung für Konfigurationsetzen
 	@chmod(dirname( __FILE__) . '/config.inc.php', 0755);
 
-	$REX['ADDON']['install']['tinymce'] = 1;
+	// Install ok
+	$REX['ADDON']['install'][$rxa_tinymce['name']] = 1;
+	
+	// REDAXO 4.0, 4.1 - Dateien in Ordner files/addons/ kopieren
+	if (($rxa_tinymce['rexversion'] == '40') or ($rxa_tinymce['rexversion'] == '41'))
+	{
+		$source_dir = $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/files';
+		$dest_dir = $REX['MEDIAFOLDER'] . '/addons/' . $rxa_tinymce['name'];
+		$start_dir = $REX['MEDIAFOLDER'] . '/addons';
+		
+		if (is_dir($source_dir))
+		{
+			if (!is_dir($start_dir))
+			{
+				mkdir($start_dir);
+			}
+			if(!rex_copyDir($source_dir, $dest_dir , $start_dir))
+			{
+				$REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$source_dir.' konnte nicht nach '.$dest_dir.' kopiert werden!';
+				$REX['ADDON']['install'][$rxa_tinymce['name']] = 0;
+			}
+		}
+	}

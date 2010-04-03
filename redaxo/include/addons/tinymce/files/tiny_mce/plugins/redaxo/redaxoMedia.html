@@ -24,16 +24,16 @@
 		<div id="general_panel" class="panel current">
 			<table border="0" cellpadding="4" cellspacing="0">
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoMedia_dlg_media}</label></td>
+                        <td><label for="src">{#redaxo.redaxoMedia_dlg_media}</label></td>
                         <td nowrap="nowrap">
                             <input id="src" name="src" type="text" value="" class="mceFocus redaxoMediaInput" />
                         </td>
                         <td id="srcbrowsercontainer">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoMedia_dlg_filetitle}</label></td>
+                        <td><label for="alt">{#redaxo.redaxoMedia_dlg_filetitle}</label></td>
                         <td nowrap="nowrap">
-                            <input id="title" name="title" type="text" value="" class="redaxoMediaInput" />
+                            <input id="alt" name="alt" type="text" value="" class="redaxoMediaInput" />
                         </td>
                         <td>&nbsp;</td>
                     </tr>
@@ -49,19 +49,19 @@
 		<div id="advanced_panel" class="panel">
 			<table border="0" cellpadding="4" cellspacing="0">
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoMedia_dlg_class}</label></td>
+                        <td><label for="class">{#redaxo.redaxoMedia_dlg_class}</label></td>
                         <td nowrap="nowrap">
                             <input id="class" name="class" type="text" value="" class="redaxoMediaInput" />
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoMedia_dlg_id}</label></td>
+                        <td><label for="id">{#redaxo.redaxoMedia_dlg_id}</label></td>
                         <td nowrap="nowrap">
                             <input id="id" name="id" type="text" value="" class="redaxoMediaInput" />
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoMedia_dlg_rel}</label></td>
+                        <td><label for="rel">{#redaxo.redaxoMedia_dlg_rel}</label></td>
                         <td nowrap="nowrap">
                             <input id="rel" name="rel" type="text" value="" class="redaxoMediaInput" />
                         </td>
@@ -71,13 +71,8 @@
 	</div>
 
 	<div class="mceActionPanel">
-		<div style="float: left">
-			<input type="submit" id="insert" name="insert" value="{#insert}" />
-		</div>
-
-		<div style="float: right">
-			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
-		</div>
+		<input type="submit" id="insert" name="insert" value="{#insert}" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>
 
 </form>

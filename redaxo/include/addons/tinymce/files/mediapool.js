@@ -6,7 +6,9 @@ function selectMedia(filename, alt)
 	win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = 'files/' + filename;
 	if (alt) {
 		win.document.getElementById("alt").value = alt;
-		win.document.getElementById("title").value = alt;
+		if (win.document.getElementById("title")) {
+			win.document.getElementById("title").value = alt;
+		}	
 	}	
 	if (type == 'image') {
 		if (win.ImageDialog.getImageData) win.ImageDialog.getImageData();

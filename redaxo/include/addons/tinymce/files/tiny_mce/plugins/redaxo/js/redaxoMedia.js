@@ -1,1 +1,130 @@
-eval(function(p,a,c,k,e,r){e=function(c){return(c<62?'':e(parseInt(c/62)))+((c=c%62)>35?String.fromCharCode(c+29):c.toString(36))};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[2-9k-zB-V]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('2 y={K:9(f){4.resizeToInnerSize();k.getElementById(\'srcbrowsercontainer\').innerHTML=getBrowserHTML(\'srcfilebrowser\',\'t\',\'L\',\'L\');2 c=k.r[0];2 b=4.z;2 a=b.u.M();2 e=\'\';2 d=\'\';2 h=\'\';2 i=\'\';2 j=\'\';2 g=\'N\';a=b.5.O(a,\'A\');7(a!=B&&a.C==\'A\')g=\'D\';c.N.v=4.getLang(g,\'Insert\',w);7(g==\'D\'){e=b.5.8(a,\'l\');d=b.5.8(a,\'m\');P=b.5.8(a,\'s\');7(P!=\'\'){c.E.F=w}h=b.5.8(a,\'n\');i=b.5.8(a,\'o\');j=b.5.8(a,\'p\')}q(\'t\',e);q(\'m\',d);q(\'n\',h);q(\'o\',i);q(\'p\',j)},D:9(){2 c=k.r[0];2 b=4.z;2 a,e,d;2 a=b.u.M();a=b.5.O(a,"A");4.G("mceBeginUndoLevel");7(a!=B&&a.C==\'A\'){3(a,\'l\',6(\'t\'));3(a,\'m\',6(\'m\'));3(a,\'n\',6(\'n\'));3(a,\'o\',6(\'o\'));3(a,\'p\',6(\'p\'));7(c.E.F==w){3(a,\'s\',\'Q.R(S.l); x H;\')}I{3(a,\'s\',\'\')}}I{4.G("CreateLink",H,"#T#",{skip_undo:1});e=tinymce.grep(b.5.U("a"),9(f){x b.5.8(f,\'l\')==\'#T#\'});for(d=0;d<e.V;d++){a=e[d];3(a,\'l\',6(\'t\'));3(a,\'m\',6(\'m\'));3(a,\'n\',6(\'n\'));3(a,\'o\',6(\'o\'));3(a,\'p\',6(\'p\'));7(c.E.F==w){3(a,\'s\',\'Q.R(S.l); x H;\')}I{3(a,\'s\',\'\')}}}7(a.childNodes.V!=1||a.firstChild.C!=\'IMG\'){b.focus();b.u.U(a);b.u.collapse(0);4.storeSelection()}4.G("mceEndUndoLevel");4.close()}};9 q(f,c){k.r[0].J[f].v=c}9 6(f){x k.r[0].J[f].v}9 3(f,c,b){2 a=k.r[0];2 e=a.J[c.toLowerCase()];2 d=4.z.5;7(typeof(b)=="undefined"||b==B){b="";7(e)b=e.v}7(c==\'style\')b=d.serializeStyle(d.parseStyle(b));d.3(f,c,b)}4.requireLangPack();4.onInit.add(y.K,y);',[],58,'||var|setAttrib|tinyMCEPopup|dom|getFormValue|if|getAttrib|function|||||||||||document|href|title|id|class|rel|setFormValue|forms|onclick|src|selection|value|true|return|redaxoEmailDialog|editor||null|nodeName|update|newwin|checked|execCommand|false|else|elements|init|media|getNode|insert|getParent|wnewwin|window|open|this|mce_temp_url|select|length'.split('|'),0,{}))
+/**
+ * @author Andreas Eberhard
+ * http://andreaseberhard.de - http://projekte.andreaseberhard.de/tinyredaxo
+ */
+
+var redaxoEmailDialog = {
+
+	init : function(ed) {
+
+		tinyMCEPopup.resizeToInnerSize();
+
+		document.getElementById('srcbrowsercontainer').innerHTML = getBrowserHTML('srcfilebrowser','src','media','media');
+
+		var formObj = document.forms[0];
+		var inst = tinyMCEPopup.editor;
+		var elm = inst.selection.getNode();
+		var wsrc = '';
+		var walt = '';
+		var wid = '';
+		var wclass = '';
+		var wrel = '';
+		var action = 'insert';
+
+		elm = inst.dom.getParent(elm, 'A');
+		if (elm != null && elm.nodeName == 'A')
+			action = 'update';
+
+		formObj.insert.value = tinyMCEPopup.getLang(action, 'Insert', true);
+
+		if (action == 'update') {
+			wsrc = inst.dom.getAttrib(elm, 'href');
+			walt = inst.dom.getAttrib(elm, 'alt');
+			wnewwin = inst.dom.getAttrib(elm, 'onclick');
+			if (wnewwin != '' ) {
+				formObj.newwin.checked = true;
+			}
+			wid = inst.dom.getAttrib(elm, 'id');
+			wclass = inst.dom.getAttrib(elm, 'class');
+			wrel = inst.dom.getAttrib(elm, 'rel');
+		}
+
+		setFormValue('src', wsrc);
+		setFormValue('alt', walt);
+		setFormValue('id', wid);
+		setFormValue('class', wclass);
+		setFormValue('rel', wrel);
+
+	},
+
+	update : function() {
+	
+		var formObj = document.forms[0];
+		var inst = tinyMCEPopup.editor;
+		var elm, elementArray, i;
+
+		var elm = inst.selection.getNode();
+		elm = inst.dom.getParent(elm, "A");
+
+		tinyMCEPopup.execCommand("mceBeginUndoLevel");
+
+		if (elm != null && elm.nodeName == 'A') {
+			setAttrib(elm, 'href', getFormValue('src'));
+			setAttrib(elm, 'alt', getFormValue('alt'));
+			setAttrib(elm, 'id', getFormValue('id'));
+			setAttrib(elm, 'class', getFormValue('class'));
+			setAttrib(elm, 'rel', getFormValue('rel'));
+			if (formObj.newwin.checked == true) {
+				setAttrib(elm, 'onclick', 'window.open(this.href); return false;');
+			} else {
+				setAttrib(elm, 'onclick', '');
+			}
+		} else {
+			tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
+			elementArray = tinymce.grep(inst.dom.select("a"), function(n) {return inst.dom.getAttrib(n, 'href') == '#mce_temp_url#';});
+			for (i=0; i<elementArray.length; i++) {
+				elm = elementArray[i];
+				setAttrib(elm, 'href', getFormValue('src'));
+				setAttrib(elm, 'alt', getFormValue('alt'));
+				setAttrib(elm, 'id', getFormValue('id'));
+				setAttrib(elm, 'class', getFormValue('class'));
+				setAttrib(elm, 'rel', getFormValue('rel'));
+				if (formObj.newwin.checked == true) {
+					setAttrib(elm, 'onclick', 'window.open(this.href); return false;');
+				} else {
+					setAttrib(elm, 'onclick', '');
+				}
+			}
+		}
+
+		// Don't move caret if selection was image
+		if (elm.childNodes.length != 1 || elm.firstChild.nodeName != 'IMG') {
+			inst.focus();
+			inst.selection.select(elm);
+			inst.selection.collapse(0);
+			tinyMCEPopup.storeSelection();
+		}
+
+		tinyMCEPopup.execCommand("mceEndUndoLevel");
+		tinyMCEPopup.close();
+	}
+};
+
+function setFormValue(name, value) {
+	document.forms[0].elements[name].value = value;
+}
+function getFormValue(name) {
+	return document.forms[0].elements[name].value;
+}
+
+function setAttrib(elm, attrib, value) {
+	var formObj = document.forms[0];
+	var valueElm = formObj.elements[attrib.toLowerCase()];
+	var dom = tinyMCEPopup.editor.dom;
+
+	if (typeof(value) == "undefined" || value == null) {
+		value = "";
+
+		if (valueElm)
+			value = valueElm.value;
+	}
+
+	// Clean up the style
+	if (attrib == 'style')
+		value = dom.serializeStyle(dom.parseStyle(value));
+
+	dom.setAttrib(elm, attrib, value);
+}
+
+tinyMCEPopup.requireLangPack();
+tinyMCEPopup.onInit.add(redaxoEmailDialog.init, redaxoEmailDialog);

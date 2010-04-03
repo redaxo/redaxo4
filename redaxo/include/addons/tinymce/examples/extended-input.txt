@@ -37,7 +37,7 @@ $mytinyconfig =<<<EOD
 	skin_variant : 'silver'
 EOD;
 
-  // eigene Konfiguration übernehmen
+  // eigene Konfiguration uebernehmen
   $tiny->configuration = $mytinyconfig;
 
   // WYSIWYG-Content zuordnen

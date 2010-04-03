@@ -24,7 +24,7 @@
 		<div id="general_panel" class="panel current">
 			<table border="0" cellpadding="4" cellspacing="0">
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoEmail_dlg_email}</label></td>
+                        <td><label for="email">{#redaxo.redaxoEmail_dlg_email}</label></td>
                         <td nowrap="nowrap">
                             <input id="email" name="email" type="text" value="" class="mceFocus redaxoEmailInput" />
                         </td>
@@ -34,19 +34,19 @@
 		<div id="advanced_panel" class="panel">
 			<table border="0" cellpadding="4" cellspacing="0">
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoEmail_dlg_class}</label></td>
+                        <td><label for="class">{#redaxo.redaxoEmail_dlg_class}</label></td>
                         <td nowrap="nowrap">
                             <input id="class" name="class" type="text" value="" class="redaxoEmailInput" />
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoEmail_dlg_id}</label></td>
+                        <td><label for="id">{#redaxo.redaxoEmail_dlg_id}</label></td>
                         <td nowrap="nowrap">
                             <input id="id" name="id" type="text" value="" class="redaxoEmailInput" />
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="width">{#redaxo.redaxoEmail_dlg_rel}</label></td>
+                        <td><label for="rel">{#redaxo.redaxoEmail_dlg_rel}</label></td>
                         <td nowrap="nowrap">
                             <input id="rel" name="rel" type="text" value="" class="redaxoEmailInput" />
                         </td>
@@ -56,13 +56,8 @@
 	</div>
 
 	<div class="mceActionPanel">
-		<div style="float: left">
-			<input type="submit" id="insert" name="insert" value="{#insert}" />
-		</div>
-
-		<div style="float: right">
-			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
-		</div>
+		<input type="submit" id="insert" name="insert" value="{#insert}" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>
 
 </form>

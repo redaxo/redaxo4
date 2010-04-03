@@ -133,6 +133,9 @@ if (!function_exists('a52_tinymce_output_init'))
 			
 ?>
 
+/**
+ * Callback-Funktion für das oeffnen der Linkmap bzw. Medienpool
+ */ 
 function rexCustomFileBrowser(field_name, url, type, win)
 {
 	if (type == 'image' || type == 'media')
@@ -171,6 +174,9 @@ function rexCustomFileBrowser(field_name, url, type, win)
 	return false;
 }
 
+/**
+ * Standard TinyMCE-Konfiguration und tinyMCE.init()
+ */ 
 <?php			
 /*
 // wird evtl. noch mal benötigt
@@ -201,8 +207,12 @@ if (!function_exists('a52_tinymce_mediaadded'))
 
 		// Status Tinymce, Hinzufügen und Hinzufügen+Übernehmen
 		$_SESSION['a52_tinymce'] = 'true';
-		$_SESSION['a52_save'] = $_POST['save'];
-		$_SESSION['a52_saveand-exit'] = $_POST['saveand-exit'];
+		$_SESSION['a52_save'] = '';
+		if (isset($_POST['save'])) 
+			$_SESSION['a52_save'] = $_POST['save'];
+		$_SESSION['a52_saveand-exit'] = '';
+		if (isset($_POST['saveand-exit'])) 
+			$_SESSION['a52_saveand-exit'] = $_POST['saveand-exit'];
 
 		// Dateinamen für Outputfilter merken!
 		$_SESSION['a52_media_added_filename'] = $params['filename'];
