@@ -483,7 +483,7 @@ class rex_be_navigation
       $languages->setIsCorePage(true);
       $languages->setHref('index.php?page=specials&subpage=lang');
       
-      $pages['specials'] = new rex_be_main_page($I18N->msg('addon'), 'system', array('page'=>'specials'));
+      $pages['specials'] = new rex_be_main_page($I18N->msg('specials'), 'system', array('page'=>'specials'));
       $pages['specials']->setIsCorePage(true);
       $pages['specials']->addSubPage($settings);
       $pages['specials']->addSubPage($languages);
