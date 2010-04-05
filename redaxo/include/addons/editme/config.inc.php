@@ -54,9 +54,9 @@ if($REX["REDAXO"] && !$REX['SETUP'])
         }
         
         // include page
-        $be_page = new rex_be_main_page($table['label'], 'editme', array('page'=>'editme', 'subpage' => $table['name']));
+        $be_page = new rex_be_page($table['label'], array('page'=>'editme', 'subpage' => $table['name']));
         $be_page->setHref('index.php?page=editme&subpage='.$table['name']);
-        $subpages[] = $be_page;
+        $subpages[] = new rex_be_main_page('editme', $be_page);
       }
     }
   }

@@ -154,8 +154,9 @@ if($REX['USER'])
       else
         $href = 'index.php?page='.$apage;
       
-      $addonPage = new rex_be_main_page($title, 'addons', array('page' => $apage));
+      $addonPage = new rex_be_page($title, array('page' => $apage));
       $addonPage->setHref($href);
+      $mainAddonPage = new rex_be_main_page('addons', $addonPage);
       
       $perm = '';
       if(isset ($REX['ADDON']['perm'][$apage]))
@@ -185,7 +186,8 @@ if($REX['USER'])
              }
              else if(rex_be_main_page::isValid($s))
              {
-               $REX['PAGES'][$apage.'_'.$s->getTitle()] = $s;
+               $p = $s->getPage();
+               $REX['PAGES'][$apage.'_'.$p->getTitle()] = $s;
              }
              else if(rex_be_page::isValid($s))
              {
@@ -200,11 +202,11 @@ if($REX['USER'])
         {
           foreach($REX['ADDON']['navigation'][$apage] as $key => $value)
           {
-            $addonPage->_set($key, $value);
+            $mainAddonPage->_set($key, $value);
           }
         }
           
-        $REX['PAGES'][$apage] = $addonPage;
+        $REX['PAGES'][$apage] = $mainAddonPage;
       }
       next($REX['ADDON']['status']);
     }
@@ -237,12 +239,12 @@ if($REX['USER'])
   }
 }
 
-$REX['PAGE_NO_NAVI'] = !$REX['PAGES'][$REX['PAGE']]->hasNavigation();
+$page = $REX['PAGES'][$REX['PAGE']]->getPage();
+$REX['PAGE_NO_NAVI'] = !$page->hasNavigation();
 
 
 // ----- EXTENSION POINT
 // page variable validated
-// TODO Remove, obsolete
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
 
@@ -253,7 +255,7 @@ rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $RE
 
 }else
 */
-if($REX['PAGES'][$REX['PAGE']]->isCorePage())
+if($page->isCorePage())
 {
   // Core Page
   require $REX['INCLUDE_PATH'].'/layout/top.php';

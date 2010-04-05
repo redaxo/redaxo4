@@ -255,12 +255,12 @@ class rex_be_navigation
   var $headlines = array();
   var $pages;
   
-  function addPage(/*rex_be_page*/ &$pageObj)
+  function addPage(/*rex_be_main_page*/ &$mainPage)
   {
-    if(!isset($this->pages[$pageObj->getBlock()]))
-      $this->pages[$pageObj->getBlock()] = array();
+    if(!isset($this->pages[$mainPage->getBlock()]))
+      $this->pages[$mainPage->getBlock()] = array();
       
-    $this->pages[$pageObj->getBlock()][] = $pageObj;
+    $this->pages[$mainPage->getBlock()][] = $mainPage;
   }
   
   function getNavigation()
@@ -290,33 +290,35 @@ class rex_be_navigation
       
       $echo = '<ul'. $id . $class .'>';
       $first = TRUE;
-      foreach($blockPages as $pageObj)
+      foreach($blockPages as $pageContainer)
       {
+        $page = $pageContainer->getPage();
+        
         if($first)
         {
           $first = FALSE;
-          $pageObj->setItemAttr('class', $pageObj->getItemAttr('class'). ' rex-navi-first');
+          $page->setItemAttr('class', $page->getItemAttr('class'). ' rex-navi-first');
         }
 
-        $pageObj->setLinkAttr('class', $pageObj->getItemAttr('class').' '. $pageObj->getLinkAttr('class'));
+        $page->setLinkAttr('class', $page->getItemAttr('class').' '. $page->getLinkAttr('class'));
           
         $itemAttr = '';
-        foreach($pageObj->getItemAttr(null) as $name => $value)
+        foreach($page->getItemAttr(null) as $name => $value)
         {
           $itemAttr .= $name .'="'. trim($value) .'" ';
         }
         
         $linkAttr = '';
-        foreach($pageObj->getLinkAttr(null) as $name => $value)
+        foreach($page->getLinkAttr(null) as $name => $value)
         {
           $linkAttr .= $name .'="'. trim($value) .'" ';
         }
         
-        $href = str_replace('&', '&amp;', $pageObj->getHref());
+        $href = str_replace('&', '&amp;', $page->getHref());
     
             
-        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $pageObj->getTitle() .'</a>';
-        $subpages = $pageObj->getSubPages();
+        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
+        $subpages = $page->getSubPages();
         if(is_array($subpages) && count($subpages) > 0)
         {
           $echo .= $this->_getNavigation($subpages, $level);
@@ -336,21 +338,22 @@ class rex_be_navigation
 //    foreach($this->navi as $type => $p)
     {
       // echo "<br /><h1>$type</h1>";
-      foreach($blockPages as $mn => $pageObj)
+      foreach($blockPages as $mn => $pageContainer)
       {
-        $condition = $pageObj->getActivateCondition();
+        $page = $pageContainer->getPage();
+        $condition = $page->getActivateCondition();
         if($this->_getStatus($condition))
         {
-          $pageObj->setLinkAttr('class', $pageObj->getLinkAttr('class').' rex-active');
+          $page->setLinkAttr('class', $page->getLinkAttr('class').' rex-active');
         }
 
-        $subpages =& $pageObj->getSubPages();
-        foreach($subpages as $sn => $subpageObj)
+        $subpages =& $page->getSubPages();
+        foreach($subpages as $sn => $subpage)
         {
-          $condition = $subpageObj->getActivateCondition();
+          $condition = $subpage->getActivateCondition();
           if($this->_getStatus($condition))
           {
-            $subpageObj->setLinkAttr('class', $subpageObj->getLinkAttr('class').' rex-active');
+            $subpage->setLinkAttr('class', $subpage->getLinkAttr('class').' rex-active');
           }
         }
       }
@@ -419,39 +422,47 @@ class rex_be_navigation
     
     $pages = array();
     
-    $pages['profile'] = new rex_be_main_page($I18N->msg('profile'), 'system');
-    $pages['profile']->setIsCorePage(true);
+    $profile = new rex_be_page($I18N->msg('profile'));
+    $profile->setIsCorePage(true);
+    $pages['profile'] = $profile;
     
-    $pages['credits'] = new rex_be_main_page($I18N->msg('credits'), 'system');
-    $pages['credits']->setIsCorePage(true);
+    $credits = new rex_be_page($I18N->msg('credits'));
+    $credits->setIsCorePage(true);
+    $pages['credits'] = $credits;
     
     if ($rexUser->isAdmin() || $rexUser->hasStructurePerm())
     {
-      $pages['structure'] = new rex_be_main_page($I18N->msg('structure'), 'system', array('page' => 'structure'));
-      $pages['structure']->setIsCorePage(true);
+      $structure = new rex_be_page($I18N->msg('structure'), array('page' => 'structure'));
+      $structure->setIsCorePage(true);
+      $pages['structure'] = new rex_be_main_page('system', $structure); 
       
       if($rexUser->hasMediaPerm())
       {
-        $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool(); return false;');
-        $pages['mediapool']->setIsCorePage(true);
+        $mpool = new rex_be_popup_page($I18N->msg('mediapool'), 'openMediaPool(); return false;');
+        $mpool->setIsCorePage(true);
+        $pages['mediapool'] = new rex_be_main_page('system', $mpool); 
       }
       
-      $pages['linkmap'] = new rex_be_popup_page($I18N->msg('linkmap'), 'system');
-      $pages['linkmap']->setIsCorePage(true);
+      $linkmap = new rex_be_popup_page($I18N->msg('linkmap'));
+      $linkmap->setIsCorePage(true);
+      $pages['linkmap'] = $linkmap;
       
-      $pages['content'] = new rex_be_main_page($I18N->msg('content'), 'system');
-      $pages['content']->setIsCorePage(true);
+      $content = new rex_be_page($I18N->msg('content'));
+      $content->setIsCorePage(true);
+      $pages['content'] = $content;
       
     }elseif($rexUser->hasMediaPerm())
     {
-      $pages['mediapool'] = new rex_be_popup_page($I18N->msg('mediapool'), 'system', 'openMediaPool(); return false;');
-      $pages['mediapool']->setIsCorePage(true);
+        $mpool = new rex_be_popup_page($I18N->msg('mediapool'), 'openMediaPool(); return false;');
+        $mpool->setIsCorePage(true);
+        $pages['mediapool'] = new rex_be_main_page('system', $mpool); 
     }
     
     if ($rexUser->isAdmin())
     {
-      $pages['template'] = new rex_be_main_page($I18N->msg('template'), 'system', array('page'=>'template'));
-      $pages['template']->setIsCorePage(true);
+      $template = new rex_be_page($I18N->msg('template'), array('page'=>'template'));
+      $template->setIsCorePage(true);
+      $pages['template'] = new rex_be_main_page('system', $template);
       
       $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
       $modules->setIsCorePage(true);
@@ -461,16 +472,19 @@ class rex_be_navigation
       $actions->setIsCorePage(true);
       $actions->setHref('index.php?page=module&subpage=actions');
       
-      $pages['module'] = new rex_be_main_page($I18N->msg('modules'), 'system', array('page'=>'module'));
-      $pages['module']->setIsCorePage(true);
-      $pages['module']->addSubPage($modules);
-      $pages['module']->addSubPage($actions);
+      $mainModules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
+      $mainModules->setIsCorePage(true);
+      $mainModules->addSubPage($modules);
+      $mainModules->addSubPage($actions);
+      $pages['module'] = new rex_be_main_page('system', $mainModules);
       
-      $pages['user'] = new rex_be_main_page($I18N->msg('user'), 'system', array('page'=>'user'));
-      $pages['user']->setIsCorePage(true);
+      $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
+      $user->setIsCorePage(true);
+      $pages['user'] = new rex_be_main_page('system', $user);
       
-      $pages['addon'] = new rex_be_main_page($I18N->msg('addon'), 'system', array('page'=>'addon'));
-      $pages['addon']->setIsCorePage(true);
+      $addon = new rex_be_page($I18N->msg('addon'), array('page'=>'addon'));
+      $addon->setIsCorePage(true);
+      $pages['addon'] = new rex_be_main_page('system', $addon);
 
       $settings = new rex_be_page($I18N->msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
       $settings->setIsCorePage(true);
@@ -480,17 +494,18 @@ class rex_be_navigation
       $languages->setIsCorePage(true);
       $languages->setHref('index.php?page=specials&subpage=lang');
       
-      $pages['specials'] = new rex_be_main_page($I18N->msg('specials'), 'system', array('page'=>'specials'));
-      $pages['specials']->setIsCorePage(true);
-      $pages['specials']->addSubPage($settings);
-      $pages['specials']->addSubPage($languages);
+      $specials = new rex_be_page($I18N->msg('specials'), array('page'=>'specials'));
+      $specials->setIsCorePage(true);
+      $specials->addSubPage($settings);
+      $specials->addSubPage($languages);
+      $pages['specials'] = new rex_be_main_page('system', $specials);
     }
     
     return $pages;    
   }
 }
 
-class rex_be_page
+class rex_be_page extends rex_be_page_container
 {
   var $pageName;
   var $title;
@@ -517,6 +532,11 @@ class rex_be_page
     $this->hasNavigation = true;
     $this->activateCondition = $activateCondition;
     $this->requiredPermissions = array();
+  }
+  
+  function getPage()
+  {
+    return $this;
   }
   
   function setPageName($pageName)
@@ -636,15 +656,24 @@ class rex_be_page
     return is_object($be_page) && is_a($be_page, 'rex_be_page');
   }
 }
-  
-class rex_be_main_page extends rex_be_page
+
+class rex_be_page_container
+{
+  function getPage()
+  {
+    trigger_error('this methode have to be overriden by subclass!', E_USER_ERROR);
+  }
+}
+
+class rex_be_main_page extends rex_be_page_container
 {
   var $block;
+  var $page;
   
-  function rex_be_main_page($title, $block, $activateCondition = array())
+  function rex_be_main_page($block, /*rex_be_page*/ $page)
   {
-    parent::rex_be_page($title, $activateCondition);
-    $this->setBlock($block);
+    $this->block = $block;
+    $this->page = $page;
   }
   
   function setBlock($block)
@@ -657,12 +686,17 @@ class rex_be_main_page extends rex_be_page
     return $this->block;
   }
   
+  function getPage()
+  {
+    return $this->page;
+  }
+  
   function _set($key, $value)
   {
     if(!is_string($key))
       return;
       
-    $setter = array($this, 'set'. ucfirst($key));
+    $setter = array($this->page, 'set'. ucfirst($key));
     if(is_callable($setter))
     {
       call_user_func($setter, $value);
@@ -678,11 +712,11 @@ class rex_be_main_page extends rex_be_page
   }
 }
 
-class rex_be_popup_page extends rex_be_main_page
+class rex_be_popup_page extends rex_be_page
 {
-  function rex_be_popup_page($title, $block, $onclick = '', $activateCondition = array())
+  function rex_be_popup_page($title, $onclick = '', $activateCondition = array())
   {
-    parent::rex_be_main_page($title, $block, $activateCondition);
+    parent::rex_be_page($title, $activateCondition);
     
     $this->setHasNavigation(false);
     $this->onclick = $onclick;
