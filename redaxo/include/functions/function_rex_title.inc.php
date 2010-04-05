@@ -55,9 +55,20 @@ function rex_title($head, $subtitle = '')
   {
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
   }
+  else if(is_array($subtitle) && rex_be_page::isValid($subtitle[0]))
+  {
+    $nav = rex_be_navigation::factory();
+    foreach($subtitle as $pageObj)
+    {
+      $pageObj->setBlock('page');
+      $nav->addPage($pageObj);
+    }
+    $subtitle = '<div class="rex-title-row rex-title-row-sub rex-navi-page">'.$nav->getNavigation().'</div>';
+  }
   else
   {
-	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
+    // REDAXO <= 4.2 compat
+	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';    
   }
 
   // ----- EXTENSION POINT

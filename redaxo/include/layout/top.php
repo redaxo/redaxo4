@@ -108,6 +108,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 	foreach($REX['USER']->pages as $p => $pageObj)
   {
 		$p = strtolower($p);
+		// TODO check against class name rex_be_main_page!
     if(!in_array($p, array("credits","profile","content","linkmap")))
     {
       $pageObj->setPageName($p);
@@ -130,11 +131,8 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
     }
   }
 	
-  // ----- EXTENSION POINT
-  $n = rex_register_extension_point( 'NAVI_PREPARED', $n);
   $n->setActiveElements();
   echo $n->getNavigation();
-	
 }
 
 ?>

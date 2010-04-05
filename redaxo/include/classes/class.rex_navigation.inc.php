@@ -270,6 +270,7 @@ class rex_be_navigation
     foreach($this->pages as $block => $blockPages)
     {
       $headline = $this->getHeadline($block);
+      
       $s .= '<dt>'. $headline .'</dt><dd>';
       $s .= $this->_getNavigation($blockPages, 0, $block);
       $s .= '</dd>' . "\n";
@@ -412,7 +413,7 @@ class rex_be_navigation
     return $page;
   }
   
-  /*public static*/ function getLoggedInPages($rexUser)
+  /*public static*/ function getLoggedInPages(/*rex_login_sql*/ $rexUser)
   {
     global $I18N;
     
@@ -503,6 +504,7 @@ class rex_be_page
   var $isCorePage;
   var $hasNavigation;
   var $activateCondition;
+  var $requiredPermissions;
   
   function rex_be_page($title, $activateCondition = array())
   {
@@ -511,9 +513,10 @@ class rex_be_page
     $this->itemAttr = array();
     $this->linkAttr = array();
     
-    $this->setIsCorePage(false);
-    $this->setHasNavigation(true);
+    $this->isCorePage = false;
+    $this->hasNavigation = true;
     $this->activateCondition = $activateCondition;
+    $this->requiredPermissions = array();
   }
   
   function setPageName($pageName)
@@ -606,6 +609,23 @@ class rex_be_page
   function hasNavigation()
   {
     return $this->hasNavigation;
+  }
+  
+  function setRequiredPermissions(/*array*/ $perm)
+  {
+    $this->requiredPermissions = $perm;
+  }
+  
+  function checkPermission(/*rex_login_sql*/ $rexUser)
+  {
+    foreach($this->requiredPermissions as $perm)
+    {
+      if(!$rexUser->hasPerm($perm))
+      {
+        return false;
+      }
+    }
+    return true;
   }
   
   /*

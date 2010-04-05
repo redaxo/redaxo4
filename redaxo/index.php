@@ -166,18 +166,35 @@ if($REX['USER'])
         // wegen REX Version <= 4.2 - alter Stil "SUBPAGES"
         if(isset($REX['ADDON'][$apage]['SUBPAGES']))
         {
-          foreach($REX['ADDON'][$apage]['SUBPAGES'] as $s)
-          {
-             if(isset($REX['ADDON'][$apage]['SUBPAGES']))
+          $REX['ADDON']['subpages'][$apage] = $REX['ADDON'][$apage]['SUBPAGES'];
+          unset($REX['ADDON'][$apage]['SUBPAGES']);
+        }
+        // *** ENDE wegen <=4.2
+        
+        // add be_page's as subpages
+        if(isset($REX['ADDON']['subpages'][$apage]) &&
+           is_array($REX['ADDON']['subpages'][$apage]))
+        {
+           foreach($REX['ADDON']['subpages'][$apage] as $s)
+           {
+             if(is_array($s))
              {
                $subPage = new rex_be_page($s[1], array('page' => $apage, 'subpage' => $s[0]));
                $subPage->setHref('index.php?page='.$apage.'&subpage='.$s[0]);
                $addonPage->addSubPage($subPage);
              }
-          }
-         }
-         // *** ENDE wegen <=4.2
-
+             else if(rex_be_main_page::isValid($s))
+             {
+               $REX['PAGES'][$apage.'_'.$s->getTitle()] = $s;
+             }
+             else if(rex_be_page::isValid($s))
+             {
+               $addonPage->addSubPage($s);
+             }
+           }
+        }
+        
+        // navigation to add attributes to the addon-root page
         if(isset($REX['ADDON']['navigation'][$apage]) &&
            is_array($REX['ADDON']['navigation'][$apage]))
         {
