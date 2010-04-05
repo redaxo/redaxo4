@@ -696,10 +696,20 @@ class rex_be_main_page extends rex_be_page_container
     if(!is_string($key))
       return;
       
-    $setter = array($this->page, 'set'. ucfirst($key));
+    // check current object for a possible setter
+    $setter = array($this, 'set'. ucfirst($key));
     if(is_callable($setter))
     {
       call_user_func($setter, $value);
+    }
+    else
+    {
+      // no setter found, delegate to page object
+      $setter = array($this->page, 'set'. ucfirst($key));
+      if(is_callable($setter))
+      {
+        call_user_func($setter, $value);
+      }
     }
   }
   
