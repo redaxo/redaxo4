@@ -163,6 +163,22 @@ if (!function_exists('rex_replace_dynamic_contents'))
 } // End function_exists
 
 /**
+ * für REDAXO 4.0.x
+ */
+if (!function_exists('rex_highlight_string'))
+{
+	function rex_highlight_string($string, $return = false)
+	{
+	  $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
+	  if($return)
+	  {
+		return $s;
+	  }
+	  echo $s;  
+	}
+} // End function_exists
+
+/**
  * für REDAXO 4.1.x
  */
 if (!function_exists('rex_copyDir'))
@@ -239,7 +255,7 @@ if (!function_exists('rex_copyDir'))
 } // End function_exists
 
 /**
- * für REDAXO 4.1.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_deleteDir'))
 {

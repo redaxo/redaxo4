@@ -10,10 +10,11 @@
   - Addon-Konfiguration angepasst, neuer Parameter für individuelle Tiny Konfiguration
     Optionen für Smileys, Media und Syntaxhighlighter entfernt
   - Smileys und Media in Standardbuttons aufgenommen
+  - Anpassung redaxo-Plugin für Tiny  
   - Syntaxhighlighter entfernt  
   - JavaScript-Sourcen entfernt
   - abschliessende ?> entfernt  
-  - Anpassung für REDAXO 4.1.x
+  - Anpassung für REDAXO 4.1.x, 4.0.x, 3.2.3
   
   TODO:
   * Security-Patch, siehe http://blog.webvariants.de/security-fix-fuer-redaxos-tinymce-addon  

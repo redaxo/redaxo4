@@ -23,8 +23,8 @@
 	// Install ok
 	$REX['ADDON']['install'][$rxa_tinymce['name']] = 1;
 	
-	// REDAXO 4.0, 4.1 - Dateien in Ordner files/addons/ kopieren
-	if (($rxa_tinymce['rexversion'] == '40') or ($rxa_tinymce['rexversion'] == '41'))
+	// REDAXO 3.2.3, 4.0.x, 4.1.x - Dateien in Ordner files/addons/ kopieren
+	if (($rxa_tinymce['rexversion'] == '32') or ($rxa_tinymce['rexversion'] == '40') or ($rxa_tinymce['rexversion'] == '41'))
 	{
 		$source_dir = $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/files';
 		$dest_dir = $REX['MEDIAFOLDER'] . '/addons/' . $rxa_tinymce['name'];

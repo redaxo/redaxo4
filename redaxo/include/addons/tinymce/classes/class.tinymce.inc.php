@@ -16,7 +16,7 @@
 
 class rexTinyMCEEditor
 {
-	
+
 	var $default_buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
 	var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media';
 	var $default_buttons3 = 'undo,redo,|,tablecontrols,visualaid';
@@ -419,7 +419,7 @@ EOD;
 
 		$configout = '';
 
-		$configout = 'tinyMCEInitArray' . $this->id . ' = {';
+		$configout .= 'tinyMCEInitArray' . $this->id . ' = {';
 
 		$configout .= $n . '  language: \'' . $REX['ADDON'][$rxa_tinymce['name']]['lang'] . '\',';
 

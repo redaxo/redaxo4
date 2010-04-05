@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>{#redaxo.redaxoMedia_dlg_title}</title>
+	<title>{#redaxo.redaxoMedia_dlg_dlgtitle}</title>
 	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script type="text/javascript" src="../../utils/form_utils.js"></script>
@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<form onsubmit="redaxoEmailDialog.update();return false;" action="#">
+<form onsubmit="redaxoMediaDialog.update();return false;" action="#">
 
 	<div class="tabs">
 		<ul>
@@ -23,50 +23,50 @@
 	<div class="panel_wrapper">
 		<div id="general_panel" class="panel current">
 			<table border="0" cellpadding="4" cellspacing="0">
-                    <tr>
-                        <td><label for="src">{#redaxo.redaxoMedia_dlg_media}</label></td>
-                        <td nowrap="nowrap">
-                            <input id="src" name="src" type="text" value="" class="mceFocus redaxoMediaInput" />
-                        </td>
-                        <td id="srcbrowsercontainer">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td><label for="alt">{#redaxo.redaxoMedia_dlg_filetitle}</label></td>
-                        <td nowrap="nowrap">
-                            <input id="alt" name="alt" type="text" value="" class="redaxoMediaInput" />
-                        </td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td colspan="2">
-									<input type="checkbox" id="newwin" name="newwin" class="radio" />
-									<label id="newwinlabel" for="newwin">{#redaxo.redaxoMedia_dlg_newwin}</label>
-								</td>
-                    </tr>
-            </table>
+				<tr>
+					<td><label for="src">{#redaxo.redaxoMedia_dlg_media}</label></td>
+					<td nowrap="nowrap">
+						<input id="src" name="src" type="text" value="" class="mceFocus redaxoMediaInput" />
+					</td>
+					<td id="srcbrowsercontainer">&nbsp;</td>
+				</tr>
+				<tr>
+					<td><label for="title">{#redaxo.redaxoMedia_dlg_title}</label></td>
+					<td nowrap="nowrap">
+						<input id="title" name="title" type="text" value="" class="redaxoMediaInput" />
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td colspan="2">
+						<input type="checkbox" id="newwin" name="newwin" class="radio" />
+						<label id="newwinlabel" for="newwin">{#redaxo.redaxoMedia_dlg_newwin}</label>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<div id="advanced_panel" class="panel">
 			<table border="0" cellpadding="4" cellspacing="0">
-                    <tr>
-                        <td><label for="class">{#redaxo.redaxoMedia_dlg_class}</label></td>
-                        <td nowrap="nowrap">
-                            <input id="class" name="class" type="text" value="" class="redaxoMediaInput" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="id">{#redaxo.redaxoMedia_dlg_id}</label></td>
-                        <td nowrap="nowrap">
-                            <input id="id" name="id" type="text" value="" class="redaxoMediaInput" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="rel">{#redaxo.redaxoMedia_dlg_rel}</label></td>
-                        <td nowrap="nowrap">
-                            <input id="rel" name="rel" type="text" value="" class="redaxoMediaInput" />
-                        </td>
-                    </tr>
-            </table>
+				<tr>
+					<td><label for="class">{#redaxo.redaxoMedia_dlg_class}</label></td>
+					<td nowrap="nowrap">
+						<input id="class" name="class" type="text" value="" class="redaxoMediaInput" />
+					</td>
+				</tr>
+				<tr>
+					<td><label for="id">{#redaxo.redaxoMedia_dlg_id}</label></td>
+					<td nowrap="nowrap">
+						<input id="id" name="id" type="text" value="" class="redaxoMediaInput" />
+					</td>
+				</tr>
+				<tr>
+					<td><label for="rel">{#redaxo.redaxoMedia_dlg_rel}</label></td>
+					<td nowrap="nowrap">
+						<input id="rel" name="rel" type="text" value="" class="redaxoMediaInput" />
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 
