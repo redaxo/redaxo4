@@ -1,65 +1,61 @@
 /**
  * @author Andreas Eberhard
- * http://andreaseberhard.de - http://projekte.andreaseberhard.de/tinysyntax
+ * http://andreaseberhard.de - http://projekte.andreaseberhard.de/tinyredaxo
  */
-
-var syntaxhighlighterDialog = {
+ 
+var redaxoEmailDialog = {
 
 	init : function(ed) {
-
-		function isSyntaxHighlighter(n) {
-			if (n.className.indexOf('brush:') >= 0) {
-				return true;
-			}
-			return false;
-		};
-
+	
 		tinyMCEPopup.resizeToInnerSize();
 
 		var formObj = document.forms[0];
 		var inst = tinyMCEPopup.editor;
 		var elm = inst.selection.getNode();
+		var wemail = '';
+		var wtitle = '';
+		var wid = '';
+		var wclass = '';
+		var wrel = '';
 		var action = 'insert';
-		var wcode = '';
 
-		if (elm != null && elm.nodeName == 'PRE' && isSyntaxHighlighter(elm))
+		elm = inst.dom.getParent(elm, 'A');
+		if (elm != null && elm.nodeName == 'A')
 			action = 'update';
-
+		
 		formObj.insert.value = tinyMCEPopup.getLang(action, 'Insert', true);
 
 		if (action == 'update') {
-			inst.focus();
-			inst.selection.select(elm);
-			wcode = inst.selection.getContent({format : 'text'});
+			var href = inst.dom.getAttrib(elm, 'href');
+			if (href.indexOf('mailto:') >= 0) {
+				wemail = href.substring(7);
+			}
+			wtitle = inst.dom.getAttrib(elm, 'title');
+			wid = inst.dom.getAttrib(elm, 'id');
+			wclass = inst.dom.getAttrib(elm, 'class');
+			wrel = inst.dom.getAttrib(elm, 'rel');
 		}
 
-		setFormValue('code', wcode );
+		setFormValue('email', wemail);
+		setFormValue('title', wtitle);
+		setFormValue('id', wid);
+		setFormValue('class', wclass);
+		setFormValue('rel', wrel);
 
 	},
 
 	update : function() {
 		var inst = tinyMCEPopup.editor;
 		var elm, elementArray, i;
-		var f = document.forms[0];
-
+		
 		var elm = inst.selection.getNode();
 		elm = inst.dom.getParent(elm, "A");
 
 		tinyMCEPopup.execCommand("mceBeginUndoLevel");
-		
-		alert(getFormValue('code'));
-		
-		h = '<pre class="brush:php;">';
-		//h += getFormValue('code');
-		h += f.code.value;
-		h += '</pre>';
-		
-		inst.execCommand("mceInsertContent", false, h);
-		
-		
-/*
+
 		if (elm != null && elm.nodeName == 'A') {
 			setAttrib(elm, 'href', 'mailto:' + getFormValue('email'));
+			setAttrib(elm, 'title', getFormValue('title'));
 			setAttrib(elm, 'id', getFormValue('id'));
 			setAttrib(elm, 'class', getFormValue('class'));
 			setAttrib(elm, 'rel', getFormValue('rel'));
@@ -69,6 +65,7 @@ var syntaxhighlighterDialog = {
 			for (i=0; i<elementArray.length; i++) {
 				elm = elementArray[i];
 				setAttrib(elm, 'href', 'mailto:' + getFormValue('email'));
+				setAttrib(elm, 'title', getFormValue('title'));
 				setAttrib(elm, 'id', getFormValue('id'));
 				setAttrib(elm, 'class', getFormValue('class'));
 				setAttrib(elm, 'rel', getFormValue('rel'));
@@ -82,7 +79,7 @@ var syntaxhighlighterDialog = {
 			inst.selection.collapse(0);
 			tinyMCEPopup.storeSelection();
 		}
-*/
+	
 		tinyMCEPopup.execCommand("mceEndUndoLevel");
 		tinyMCEPopup.close();
 	}
@@ -115,4 +112,4 @@ function setAttrib(elm, attrib, value) {
 }
 
 tinyMCEPopup.requireLangPack();
-tinyMCEPopup.onInit.add(syntaxhighlighterDialog.init, syntaxhighlighterDialog);
+tinyMCEPopup.onInit.add(redaxoEmailDialog.init, redaxoEmailDialog);
