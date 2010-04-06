@@ -223,11 +223,10 @@ class rex_navigation
         $linkClass .= ' '. $this->linkclasses[$depth];
 
 
-      
-			$liClass   = $liClass   == '' ? '' : ' class="'. ltrim($liClass) .'"';
+
 			$linkClass = $linkClass == '' ? '' : ' class="'. ltrim($linkClass) .'"';
 			  
-      $return .= '<li class="rex-article-'. $nav->getId() .'"'. $liClass .'>';
+      $return .= '<li class="rex-article-'. $nav->getId() . $liClass .'">';
 			$return .= '<a'. $linkClass .' href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
 
 			$depth++;
