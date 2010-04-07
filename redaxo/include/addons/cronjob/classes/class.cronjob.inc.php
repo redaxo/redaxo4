@@ -27,9 +27,12 @@
 		$this->params[$key] = $value;
 	}
   
-  /*public*/ function setParams($params)
+  /*public*/ function setParams(/*array*/ $params)
 	{
-		$this->params = $params;
+	  if (!is_array($params))
+      trigger_error('$params must be an array!', E_USER_ERROR);
+    else
+  		$this->params = $params;
 	}
 	
 	/*public*/ function getParam($key, $default = null)

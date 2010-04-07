@@ -14,7 +14,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
   /*public*/ function execute()
   {
     $parts = parse_url($this->getParam('url'));
-    if (!isset($parts['host']))
+    if (!is_array($parts) || !isset($parts['host']))
     {
       $this->setMessage('Invalid URL');
       return false;
