@@ -296,10 +296,10 @@ class rex_be_navigation
         if($first)
         {
           $first = FALSE;
-          $page->setItemAttr('class', $page->getItemAttr('class'). ' rex-navi-first');
+          $page->addItemClass('rex-navi-first');
         }
 
-        $page->setLinkAttr('class', $page->getItemAttr('class').' '. $page->getLinkAttr('class'));
+        $page->addLinkClass($page->getItemAttr('class'));
           
         $itemAttr = '';
         foreach($page->getItemAttr(null) as $name => $value)
@@ -343,7 +343,7 @@ class rex_be_navigation
         $condition = $page->getActivateCondition();
         if($this->_getStatus($condition))
         {
-          $page->setLinkAttr('class', $page->getLinkAttr('class').' rex-active');
+          $page->addItemClass('rex-active');
         }
 
         $subpages =& $page->getSubPages();
@@ -352,7 +352,7 @@ class rex_be_navigation
           $condition = $subpage->getActivateCondition();
           if($this->_getStatus($condition))
           {
-            $subpage->setLinkAttr('class', $subpage->getLinkAttr('class').' rex-active');
+            $subpage->addItemClass('rex-active');
           }
         }
       }
@@ -564,6 +564,11 @@ class rex_be_page extends rex_be_page_container
     $this->itemAttr[$name] = $value;
   }
   
+  function addItemClass($class)
+  {
+    $this->setItemAttr('class', ltrim($this->getItemAttr('class').' '. $class));
+  }
+  
   function getLinkAttr($name, $default = '')
   {
     // return all attributes if null is passed as name
@@ -578,6 +583,11 @@ class rex_be_page extends rex_be_page_container
   function setLinkAttr($name, $value)
   {
     $this->linkAttr[$name] = $value;
+  }
+  
+  function addLinkClass($class)
+  {
+    $this->setLinkAttr('class', ltrim($this->getLinkAttr('class').' '. $class));
   }
   
   function setHref($href)
@@ -729,8 +739,8 @@ class rex_be_popup_page extends rex_be_page
     
     $this->setHasNavigation(false);
     $this->onclick = $onclick;
-    $this->setItemAttr('class', 'rex-popup');
-    $this->setLinkAttr('class', 'rex-popup');
+    $this->addItemClass('rex-popup');
+    $this->addLinkClass('rex-popup');
     $this->setLinkAttr('onclick', $onclick);
   }
 }
