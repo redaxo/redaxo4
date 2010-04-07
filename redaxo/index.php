@@ -133,82 +133,54 @@ include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
 // ----- Prepare AddOn Pages
 if($REX['USER'])
 {
-  if (is_array($REX['ADDON']['status']))
-    reset($REX['ADDON']['status']);
-
-  $onlineAddons = array_filter(array_values($REX['ADDON']['status']));
-  if(count($onlineAddons) > 0)
+  foreach(OOAddon::getAvailableAddons() as $addonName)
   {
-    for ($i = 0; $i < count($REX['ADDON']['status']); $i++)
+    $title = OOAddon::getProperty($addonName, 'name', '');
+    $href  = OOAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
+    $perm  = OOAddon::getProperty($addonName, 'perm', '');
+    
+    $addonPage = new rex_be_page($title, array('page' => $addonName));
+    $addonPage->setHref($href);
+    $mainAddonPage = new rex_be_main_page('addons', $addonPage);
+    
+    if($title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
     {
-      $apage = key($REX['ADDON']['status']);
-      
-      $title = '';
-      $href = '';
-      
-      if(isset($REX['ADDON']['name'][$apage]))
-        $title = $REX['ADDON']['name'][$apage];
-        
-      if(isset($REX['ADDON']['link'][$apage]) && $REX['ADDON']['link'][$apage] != '')
-        $href = $REX['ADDON']['link'][$apage];
-      else
-        $href = 'index.php?page='.$apage;
-      
-      $addonPage = new rex_be_page($title, array('page' => $apage));
-      $addonPage->setHref($href);
-      $mainAddonPage = new rex_be_main_page('addons', $addonPage);
-      
-      $perm = '';
-      if(isset ($REX['ADDON']['perm'][$apage]))
-        $perm = $REX['ADDON']['perm'][$apage];
-        
-      if (current($REX['ADDON']['status']) == 1 && $title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
+      // wegen REX Version <= 4.2 - alter Stil "SUBPAGES"
+      // TODO: Ist das wirklich alter STIL?!
+      if(isset($REX['ADDON'][$addonName]['SUBPAGES']))
       {
-        // wegen REX Version <= 4.2 - alter Stil "SUBPAGES"
-        if(isset($REX['ADDON'][$apage]['SUBPAGES']))
-        {
-          $REX['ADDON']['subpages'][$apage] = $REX['ADDON'][$apage]['SUBPAGES'];
-          unset($REX['ADDON'][$apage]['SUBPAGES']);
-        }
-        // *** ENDE wegen <=4.2
-        
-        // add be_page's as subpages
-        if(isset($REX['ADDON']['subpages'][$apage]) &&
-           is_array($REX['ADDON']['subpages'][$apage]))
-        {
-           foreach($REX['ADDON']['subpages'][$apage] as $s)
-           {
-             if(is_array($s))
-             {
-               $subPage = new rex_be_page($s[1], array('page' => $apage, 'subpage' => $s[0]));
-               $subPage->setHref('index.php?page='.$apage.'&subpage='.$s[0]);
-               $addonPage->addSubPage($subPage);
-             }
-             else if(rex_be_main_page::isValid($s))
-             {
-               $p = $s->getPage();
-               $REX['PAGES'][$apage.'_'.$p->getTitle()] = $s;
-             }
-             else if(rex_be_page::isValid($s))
-             {
-               $addonPage->addSubPage($s);
-             }
-           }
-        }
-        
-        // navigation to add attributes to the addon-root page
-        if(isset($REX['ADDON']['navigation'][$apage]) &&
-           is_array($REX['ADDON']['navigation'][$apage]))
-        {
-          foreach($REX['ADDON']['navigation'][$apage] as $key => $value)
-          {
-            $mainAddonPage->_set($key, $value);
-          }
-        }
-          
-        $REX['PAGES'][$apage] = $mainAddonPage;
+        $REX['ADDON']['subpages'][$addonName] = $REX['ADDON'][$addonName]['SUBPAGES'];
+        unset($REX['ADDON'][$addonName]['SUBPAGES']);
       }
-      next($REX['ADDON']['status']);
+      // *** ENDE wegen <=4.2
+      
+      // add be_page's as subpages
+      foreach(OOAddon::getProperty($addonName, 'subpages', array()) as $s)
+      {
+        if(is_array($s))
+        {
+          $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
+          $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
+          $addonPage->addSubPage($subPage);
+        }
+        else if(rex_be_main_page::isValid($s))
+        {
+          $p = $s->getPage();
+          $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
+        }
+        else if(rex_be_page::isValid($s))
+        {
+          $addonPage->addSubPage($s);
+        }
+      }
+      
+      // navigation to add attributes to the addon-root page
+      foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
+      {
+        $mainAddonPage->_set($key, $value);
+      }
+        
+      $REX['PAGES'][$addonName] = $mainAddonPage;
     }
   }
 }
