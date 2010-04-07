@@ -504,6 +504,22 @@ class rex_be_navigation
   }
 }
 
+class rex_be_page_container
+{
+  function getPage()
+  {
+    trigger_error('this methode have to be overriden by subclass!', E_USER_ERROR);
+  }
+  
+  /*
+   * Static Method: Returns True when the given be_main_page is valid
+   */
+  /*public static*/ function isValid($be_page_container)
+  {
+    return is_object($be_page_container) && is_a($be_page_container, 'rex_be_page_container');
+  }
+}
+
 class rex_be_page extends rex_be_page_container
 {
   var $pageName;
@@ -663,14 +679,6 @@ class rex_be_page extends rex_be_page_container
   /*public static*/ function isValid($be_page)
   {
     return is_object($be_page) && is_a($be_page, 'rex_be_page');
-  }
-}
-
-class rex_be_page_container
-{
-  function getPage()
-  {
-    trigger_error('this methode have to be overriden by subclass!', E_USER_ERROR);
   }
 }
 

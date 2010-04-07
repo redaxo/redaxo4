@@ -109,9 +109,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 	foreach($REX['USER']->pages as $p => $pageObj)
   {
 		$p = strtolower($p);
-		// TODO check against class name rex_be_main_page!
     if(rex_be_main_page::isValid($pageObj))
-//    if(!in_array($p, array("credits","profile","content","linkmap")))
     {
       $page = $pageObj->getPage();
       $page->setItemAttr('id', 'rex-navi-page-'.$p);

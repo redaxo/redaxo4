@@ -55,12 +55,11 @@ function rex_title($head, $subtitle = '')
   {
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
   }
-  else if(is_array($subtitle) && rex_be_page::isValid($subtitle[0]))
+  else if(is_array($subtitle) && rex_be_page_container::isValid($subtitle[0]))
   {
     $nav = rex_be_navigation::factory();
     foreach($subtitle as $pageObj)
     {
-      $pageObj->setBlock('page');
       $nav->addPage($pageObj);
     }
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-navi-page">'.$nav->getNavigation().'</div>';
