@@ -16,28 +16,32 @@ class rex_effect_resize extends rex_effect_abstract
 
 		if($this->params['style'] == 'fit')
 		{
-			if (!empty($this->params['height']))
+		
+			if (!empty($this->params['height']) && !empty($this->params['width']))
 			{
-				$this->params['width'] = $this->params['height'];
+				$img_ratio  = $w / $h;
+				$resize_ratio = $this->params['width'] / $this->params['height'];
+				
+				if ($img_ratio >= $resize_ratio)
+				{
+					// --- width
+					$this->params['height'] = (int) ($this->params['width'] / $w * $h);
+				}else
+				{
+					// --- height
+					$this->params['width']  = (int) ($this->params['height'] / $h * $w);
+				}
 			}
-			else if (!empty($this->params['width']))
+			elseif (!empty($this->params['height']))
 			{
-				$this->params['height'] = $this->params['width'];
+				$img_factor  = $h / $this->params['height'];
+				$this->params['width'] = (int) ($w / $img_factor);
 			}
-			 
-			$img_ratio  = $w / $h;
-			$resize_ratio = $this->params['width'] / $this->params['height'];
-			
-			if ($img_ratio >= $resize_ratio)
+			elseif (!empty($this->params['width']))
 			{
-				// --- width
-				$this->params['height'] = (int) ($this->params['width'] / $w * $h);
-			}else
-			{
-				// --- height
-				$this->params['width']  = (int) ($this->params['height'] / $h * $w);
+				$img_factor  = $w / $this->params['width'];
+				$this->params['height'] = (int) ($h / $img_factor);
 			}
-
 		}
 
 		// Originalbild selbst sehr klein und wuerde via resize vergroessert
