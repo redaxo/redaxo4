@@ -154,6 +154,10 @@ elseif ($func == 'add' && $type_id > 0 ||
     {
       $name = $effectClass.'_'.$param['name'];
       $value = isset($param['default']) ? $param['default'] : null;
+      $attributes = array();
+      if (isset($param['attributes']))
+        $attributes = $param['attributes'];
+
       switch($param['type'])
       {
         case 'int' :
@@ -161,23 +165,25 @@ elseif ($func == 'add' && $type_id > 0 ||
         case 'string' :
           {
             $type = 'text';
-            $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes = array());
+            $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             break;
           }
         case 'select' :
           {
             $type = $param['type'];
-            $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes = array());
+            $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             $select =& $field->getSelect();
+            if (!isset($attributes['multiple']))
+              $select->setSize(1);
             $select->addOptions($param['options'], true);
             break;
           }
         case 'media' :
           {
             $type = $param['type'];
-            $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes = array());
+            $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             break;
           }
