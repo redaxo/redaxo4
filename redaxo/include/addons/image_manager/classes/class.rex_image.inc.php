@@ -32,7 +32,7 @@ class rex_image {
     $this->img = array();
     $this->img['file'] = basename($filepath);
     $this->img['filepath'] = $filepath;
-    $this->img['quality'] = 80;
+    $this->img['quality'] = $REX['ADDON']['image_manager']['jpg_quality'];
     $this->img['format'] = strtoupper(OOMedia::_getExtension($this->img['filepath']));
 	}
 	
