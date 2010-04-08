@@ -279,6 +279,26 @@ class rex_var_media extends rex_var
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
+    $open_class   = 'rex-icon-file-open rex-icon-file-open-inactive';
+    $add_class    = 'rex-icon-file-add rex-icon-file-add-inactive';
+    $delete_class = 'rex-icon-file-delete rex-icon-file-delete-inactive';
+    $view_class   = 'rex-icon-file-view rex-icon-file-view-inactive';
+    $open_func    = '';
+    $add_func     = '';
+    $delete_func  = '';
+    $view_func    = '';
+    if ($REX['USER']->hasMediaPerm())
+    {
+      $open_class   = 'rex-icon-file-open';
+      $add_class    = 'rex-icon-file-add';
+      $delete_class = 'rex-icon-file-delete';
+      $view_class   = 'rex-icon-file-view';
+      $open_func    = 'openREXMedia(' . $id . ',\'' . $open_params . '\');';
+      $add_func     = 'addREXMedia(' . $id . ');';
+      $delete_func  = 'deleteREXMedia(' . $id . ');';
+      $view_func    = 'viewREXMedia(' . $id . ');';
+    }
+
     $media = '
     <div class="rex-widget">
       <div class="'. $wdgtClass .'">
@@ -287,10 +307,10 @@ class rex_var_media extends rex_var
         </p>
         <p class="rex-widget-icons rex-widget-1col">
         	<span class="rex-widget-column rex-widget-column-first">
-						<a href="#" class="rex-icon-file-open" onclick="openREXMedia(' . $id . ',\'' . $open_params . '\');return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-add" onclick="addREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_new') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_remove') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-view" onclick="viewREXMedia(' . $id . ');return false;" title="'. $I18N->msg('var_media_view') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $add_class .'" onclick="'. $add_func .'return false;" title="'. $I18N->msg('var_media_new') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $I18N->msg('var_media_remove') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $view_class .'" onclick="'. $view_func .'return false;" title="'. $I18N->msg('var_media_view') .'"'. rex_tabindex() .'></a>
 					</span>
         </p>
         <div class="rex-media-preview"></div>
@@ -343,6 +363,26 @@ class rex_var_media extends rex_var
       }
     }
 
+    $open_class   = 'rex-icon-file-open rex-icon-file-open-inactive';
+    $add_class    = 'rex-icon-file-add rex-icon-file-add-inactive';
+    $delete_class = 'rex-icon-file-delete rex-icon-file-delete-inactive';
+    $view_class   = 'rex-icon-file-view rex-icon-file-view-inactive';
+    $open_func    = '';
+    $add_func     = '';
+    $delete_func  = '';
+    $view_func    = '';
+    if ($REX['USER']->hasMediaPerm())
+    {
+      $open_class   = 'rex-icon-file-open';
+      $add_class    = 'rex-icon-file-add';
+      $delete_class = 'rex-icon-file-delete';
+      $view_class   = 'rex-icon-file-view';
+      $open_func    = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
+      $add_func     = 'addREXMedialist('. $id .');';
+      $delete_func  = 'deleteREXMedialist(' . $id . ');';
+      $view_func    = 'viewREXMedialist(' . $id . ');';
+    }
+
     $media = '
     <div class="rex-widget">
       <div class="'. $wdgtClass .'">
@@ -360,10 +400,10 @@ class rex_var_media extends rex_var
 						<a href="#" class="rex-icon-file-bottom" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="'. $I18N->msg('var_medialist_move_bottom') .'"'. rex_tabindex() .'></a>
 					</span>
         	<span class="rex-widget-column">
-						<a href="#" class="rex-icon-file-open" onclick="openREXMedialist(' . $id . ',\'' . $open_params . '\');return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-add" onclick="addREXMedialist('. $id .');return false;" title="'. $I18N->msg('var_media_new') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-delete" onclick="deleteREXMedialist(' . $id . ');return false;" title="'. $I18N->msg('var_media_remove') .'"'. rex_tabindex() .'></a>
-						<a href="#" class="rex-icon-file-view" onclick="viewREXMedialist(' . $id . ');return false;" title="'. $I18N->msg('var_media_view') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $I18N->msg('var_media_open') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $add_class .'" onclick="'. $add_func .'return false;" title="'. $I18N->msg('var_media_new') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $I18N->msg('var_media_remove') .'"'. rex_tabindex() .'></a>
+						<a href="#" class="'. $view_class .'" onclick="'. $view_func .'return false;" title="'. $I18N->msg('var_media_view') .'"'. rex_tabindex() .'></a>
 					</span>
         </p>
        	<div class="rex-media-preview"></div>
