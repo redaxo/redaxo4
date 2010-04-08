@@ -112,7 +112,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
     if(rex_be_main_page::isValid($pageObj))
     {
       $page = $pageObj->getPage();
-      $page->setItemAttr('id', 'rex-navi-page-'.$p);
+      $page->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
       
       if(!$pageObj->getBlock())
         $pageObj->setBlock('addons');
