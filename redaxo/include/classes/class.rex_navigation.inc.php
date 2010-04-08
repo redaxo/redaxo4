@@ -314,9 +314,8 @@ class rex_be_navigation
         }
         
         $href = str_replace('&', '&amp;', $page->getHref());
-    
-            
         $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
+        
         $subpages = $page->getSubPages();
         if(is_array($subpages) && count($subpages) > 0)
         {
@@ -522,7 +521,6 @@ class rex_be_page_container
 
 class rex_be_page extends rex_be_page_container
 {
-  var $pageName;
   var $title;
   
   var $href;
@@ -552,16 +550,6 @@ class rex_be_page extends rex_be_page_container
   function getPage()
   {
     return $this;
-  }
-  
-  function setPageName($pageName)
-  {
-    $this->pageName = $pageName;
-  }
-  
-  function getPageName()
-  {
-    return $this->pageName;
   }
   
   function getItemAttr($name, $default = '')
