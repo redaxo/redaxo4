@@ -9,30 +9,32 @@
  * @version svn:$Id$
  */
 
+$mypage = 'editme';
+
 if($REX["REDAXO"] && !$REX['SETUP'])
 {
   // Sprachdateien anhaengen
   $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
 
-  $REX['ADDON']['name']["editme"] = $I18N->msg("editme");
-  $REX['ADDON']['perm']["editme"] = 'em[]';
+  $REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
+  $REX['ADDON']['perm'][$mypage] = 'em[]';
 
   // Credits
-  $REX['ADDON']['version']["editme"] = '0.9';
-  $REX['ADDON']['author']["editme"] = 'Jan Kristinus';
-  $REX['ADDON']['supportpage']["editme"] = 'forum.redaxo.de';
+  $REX['ADDON']['version'][$mypage] = '0.9';
+  $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
+  $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
   // Fuer Benutzervewaltung
   $REX['PERM'][] = 'em[]';
 
   include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
 
-  $REX['ADDON']['tables']['editme'] = rex_em_getTables();
+  $REX['ADDON']['tables'][$mypage] = rex_em_getTables();
 
   $subpages = array();
-  if(is_array($REX['ADDON']['tables']['editme']))
+  if(is_array($REX['ADDON']['tables'][$mypage]))
   {
-    foreach($REX['ADDON']['tables']['editme'] as $table)
+    foreach($REX['ADDON']['tables'][$mypage] as $table)
     {
       // Recht um das AddOn ueberhaupt einsehen zu koennen
       $table_perm = 'em['.$table["name"].']';
@@ -54,13 +56,13 @@ if($REX["REDAXO"] && !$REX['SETUP'])
         }
         
         // include page
-        $be_page = new rex_be_page($table['label'], array('page'=>'editme', 'subpage' => $table['name']));
+        $be_page = new rex_be_page($table['label'], array('page'=>$mypage, 'subpage' => $table['name']));
         $be_page->setHref('index.php?page=editme&subpage='.$table['name']);
-        $subpages[] = new rex_be_main_page('editme', $be_page);
+        $subpages[] = new rex_be_main_page($mypage, $be_page);
       }
     }
   }
-  $REX['ADDON']['subpages']['editme'] = $subpages;
+  $REX['ADDON']['subpages'][$mypage] = $subpages;
   
 
   function rex_editme_assets($params){
