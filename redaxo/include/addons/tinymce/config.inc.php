@@ -111,7 +111,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 		// Outputfilter für Medienpool und Linkmap
 		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
 		{
-			if ((($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap'])) and (($rxa_tinymce['get_tinymce'] == 'true') or ($_SESSION['a52_tinymce'] == 'true')))
+			if ((($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap'])) and (($rxa_tinymce['get_tinymce'] == 'true') or (isset($_SESSION['a52_tinymce']) and $_SESSION['a52_tinymce'] == 'true')))
 			{
 				rex_register_extension('MEDIA_ADDED', 'a52_tinymce_mediaadded');
 				rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf_media_linkmap');
