@@ -78,7 +78,7 @@ class rexTinyMCEEditor
 			{
 				$this->address .= 's';
 			}
-			$this->address .= '://' . $_SERVER['HTTP_HOST'] . str_replace('redaxo', '', $splitURL[0]);
+			$this->address .= '://' . $_SERVER['HTTP_HOST'] . ((substr($splitURL[0], -7) == '/redaxo') ? substr($splitURL[0], 0, strlen($splitURL[0])-6) : $splitURL[0]);
 		}
 
 		// evtl. Standard-Buttons vorbelegen
