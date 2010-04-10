@@ -282,14 +282,12 @@ $REX['PAGE_NO_NAVI'] = !$page->hasNavigation();
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
 
-/*if(isset($REX['PAGES'][$REX['PAGE']]['PATH']) && $REX['PAGES'][$REX['PAGE']]['PATH'] != '')
+if($page->hasPath())
 {
   // If page has a new/overwritten path
-  require $REX['PAGES'][$REX['PAGE']]['PATH'];
+  require $page->getPath();
 
-}else
-*/
-if($page->isCorePage())
+}else if($page->isCorePage())
 {
   // Core Page
   require $REX['INCLUDE_PATH'].'/layout/top.php';

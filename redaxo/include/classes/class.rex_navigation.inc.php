@@ -552,6 +552,7 @@ class rex_be_page extends rex_be_page_container
   var $hasNavigation;
   var $activateCondition;
   var $requiredPermissions;
+  var $path;
   
   function rex_be_page($title, $activateCondition = array())
   {
@@ -683,6 +684,21 @@ class rex_be_page extends rex_be_page_container
       }
     }
     return true;
+  }
+  
+  function setPath($path)
+  {
+    $this->path = $path;
+  }
+  
+  function hasPath()
+  {
+    return !empty($this->path);
+  }
+  
+  function getPath()
+  {
+    return $this->path;
   }
   
   /*
