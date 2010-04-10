@@ -225,14 +225,18 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     }
   }
 
-  $RETURN["ok"] = 0;
+  // Aus BC gruenden hier mit int 1/0
+  $RETURN["ok"] = $updated ? 1 : 0;
   if(!isset($RETURN["msg"]))
   {
     $RETURN["msg"] = $I18N->msg('pool_file_infos_updated');
+    $RETURN["ok"] = 1;
+  }
+  if($RETURN['ok'] == 1)
+  {
     $RETURN["filename"] = $FILEINFOS["filename"];
     $RETURN["filetype"] = $FILEINFOS["filetype"];
     $RETURN["file_id"] = $FILEINFOS["file_id"];
-    $RETURN["ok"] = 1;
   }
   
 	$FILESQL->addGlobalUpdateFields();
