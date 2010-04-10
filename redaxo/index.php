@@ -193,7 +193,7 @@ if($REX['USER'])
       
       if($title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
       {
-        // add addon-be_page's
+        // add plugin-be_page's to addon
         foreach(OOPlugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
         {
           if(is_array($s))
