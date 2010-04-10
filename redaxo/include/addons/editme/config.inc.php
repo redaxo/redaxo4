@@ -23,6 +23,12 @@ if($REX["REDAXO"] && !$REX['SETUP'])
   $REX['ADDON']['version'][$mypage] = '0.9';
   $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
   $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+  $REX['ADDON']['navigation'][$mypage] = array(
+    // rootPage nur aktivieren wenn sie direkt ausgewaehlt ist
+    // da alle pages main-pages und daher separate oberpunkte sind
+    'activateCondition' => array('page' => $mypage, 'subpage' => ''),
+  ); 
+  
 
   // Fuer Benutzervewaltung
   $REX['PERM'][] = 'em[]';

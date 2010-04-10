@@ -641,6 +641,11 @@ class rex_be_page extends rex_be_page_container
     return $this->title;
   }
   
+  function setActivateCondition($activateCondition)
+  {
+    $this->activateCondition = $activateCondition;
+  }
+  
   function getActivateCondition()
   {
     return $this->activateCondition;
