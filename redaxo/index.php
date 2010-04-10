@@ -139,12 +139,15 @@ if($REX['USER'])
     $href  = OOAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
     $perm  = OOAddon::getProperty($addonName, 'perm', '');
     
-    $addonPage = new rex_be_page($title, array('page' => $addonName));
-    $addonPage->setHref($href);
-    $mainAddonPage = new rex_be_main_page('addons', $addonPage);
-    
-    if($title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
+    if($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin())
     {
+      if ($title != '')
+      {
+        $addonPage = new rex_be_page($title, array('page' => $addonName));
+        $addonPage->setHref($href);
+        $mainAddonPage = new rex_be_main_page('addons', $addonPage);
+      }
+      
       // wegen REX Version = 4.2 - alter Stil "SUBPAGES"
       if(isset($REX['ADDON'][$addonName]['SUBPAGES']))
       {
@@ -155,7 +158,7 @@ if($REX['USER'])
       // adds be_page's
       foreach(OOAddon::getProperty($addonName, 'pages', array()) as $s)
       {
-        if(is_array($s))
+        if(is_array($s) && $title != '')
         {
           $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
           $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
@@ -166,7 +169,7 @@ if($REX['USER'])
           $p = $s->getPage();
           $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
         }
-        else if(rex_be_page::isValid($s))
+        else if(rex_be_page::isValid($s) && $title != '')
         {
           $addonPage->addSubPage($s);
         }
@@ -177,8 +180,11 @@ if($REX['USER'])
       {
         $mainAddonPage->_set($key, $value);
       }
-        
-      $REX['PAGES'][$addonName] = $mainAddonPage;
+      
+      if ($title != '')
+      {
+        $REX['PAGES'][$addonName] = $mainAddonPage;
+      }
     }
     
     // handle plugins
@@ -188,15 +194,18 @@ if($REX['USER'])
       $href  = OOPlugin::getProperty($addonName, $pluginName, 'link',  'index.php?page='. $addonName . '&subpage='. $pluginName);
       $perm  = OOPlugin::getProperty($addonName, $pluginName, 'perm', '');
       
-      $pluginPage = new rex_be_page($title, array('page' => $addonName, 'subpage' => $pluginName));
-      $pluginPage->setHref($href);
-      
-      if($title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
+      if($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin())
       {
+        if($title != '')
+        {
+          $pluginPage = new rex_be_page($title, array('page' => $addonName, 'subpage' => $pluginName));
+          $pluginPage->setHref($href);
+        }
+        
         // add plugin-be_page's to addon
         foreach(OOPlugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
         {
-          if(is_array($s))
+          if(is_array($s) && $title != '')
           {
             $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
             $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
@@ -207,28 +216,31 @@ if($REX['USER'])
             $p = $s->getPage();
             $REX['PAGES'][$addonName.'_'.$pluginName.'_'.$p->getTitle()] = $s;
           }
-          else if(rex_be_page::isValid($s))
+          else if(rex_be_page::isValid($s) && $title != '')
           {
             $addonPage->addSubPage($s);
           }
         }
         
-        // "navigation" adds attributes to the plugin-root page
-        $navProperties = OOPlugin::getProperty($addonName, $pluginName, 'navigation', array());
-        // if there are some navigation attributes set, create a main page and apply attributes to it
-        if(count($navProperties) > 0)
+        if($title != '')
         {
-          $mainPluginPage = new rex_be_main_page($addonName, $pluginPage);
-          foreach($navProperties as $key => $value)
+          // "navigation" adds attributes to the plugin-root page
+          $navProperties = OOPlugin::getProperty($addonName, $pluginName, 'navigation', array());
+          // if there are some navigation attributes set, create a main page and apply attributes to it
+          if(count($navProperties) > 0)
           {
-            $mainPluginPage->_set($key, $value);
+            $mainPluginPage = new rex_be_main_page($addonName, $pluginPage);
+            foreach($navProperties as $key => $value)
+            {
+              $mainPluginPage->_set($key, $value);
+            }
+            $REX['PAGES'][$addonName.'_'.$pluginName] = $mainPluginPage;
           }
-          $REX['PAGES'][$addonName.'_'.$pluginName] = $mainPluginPage;
-        }
-        // if no navigation attributes can be found, we add the pluginPage as subPage of the addon
-        else
-        {
-          $addonPage->addSubPage($pluginPage);
+          // if no navigation attributes can be found, we add the pluginPage as subPage of the addon
+          else
+          {
+            $addonPage->addSubPage($pluginPage);
+          }
         }
       }
     }
