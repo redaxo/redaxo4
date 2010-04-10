@@ -254,6 +254,19 @@ class rex_be_navigation
   var $headlines = array();
   var $pages;
   
+  /*public*/ function factory()
+  {
+    static $class = null;
+
+    if(!$class)
+    {
+      // ----- EXTENSION POINT
+      $class = rex_register_extension_point('REX_BE_NAVI_CLASSNAME', 'rex_be_navigation');
+    }
+
+    return new $class();
+  }
+  
   function addPage(/*rex_be_main_page*/ &$mainPage)
   {
     $blockName = 'default';
@@ -401,12 +414,6 @@ class rex_be_navigation
       return $this->headlines[$type];
 
     return $I18N->msg('navigation_'.$type);
-  }
-  
-  function factory()
-  {
-    $r = new rex_be_navigation();
-    return $r;
   }
   
   /*public static*/ function getSetupPage()
