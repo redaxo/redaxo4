@@ -11,37 +11,41 @@
 
 if($REX['REDAXO'])
 {
+  $mypage = 'cronjob';
 
   // Sprachdateien anhaengen
   $I18N->appendFile(dirname(__FILE__) .'/lang/');
   
-  $REX['ADDON']['rxid']['cronjob'] = '630';
-  $REX['ADDON']['name']['cronjob'] = $I18N->msg('cronjob_title');
-  $REX['ADDON']['perm']['cronjob'] = 'admin[]';
+  $REX['ADDON']['rxid'][$mypage] = '630';
+  $REX['ADDON']['name'][$mypage] = $I18N->msg('cronjob_title');
+  $REX['ADDON']['perm'][$mypage] = 'admin[]';
   
   // Credits
-  $REX['ADDON']['version']['cronjob'] = '1.0';
-  $REX['ADDON']['author']['cronjob'] = 'Gregor Harlan';
-  $REX['ADDON']['supportpage']['cronjob'] = 'forum.redaxo.de';
+  $REX['ADDON']['version'][$mypage] = '1.0';
+  $REX['ADDON']['author'][$mypage] = 'Gregor Harlan';
+  $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+  
+  $rootPage = new rex_be_page($I18N->msg('cronjob_title'), array(
+      'page'=>$mypage,
+      'subpage'=> ''
+    )
+  );
+  $rootPage->setHref('index.php?page=cronjob');
+  
+  $logPage = new rex_be_page($I18N->msg('cronjob_log'), array(
+      'page'=>$mypage,
+      'subpage'=>'log'
+    )
+  );
+  $logPage->setHref('index.php?page=cronjob&subpage=log');
+  
   
   // Subpages
-  $REX['ADDON']['navigation']['cronjob']['subpages'] = array(
-    array(
-      'href' => 'index.php?page=cronjob',
-      'active_when' => array(
-        'page'=>'cronjob',
-        'subpage'=>''),
-      'title' => $I18N->msg('cronjob_title')), 
-    array(
-      'href' => 'index.php?page=cronjob&subpage=log',
-      'active_when' => array(
-        'page'=>'cronjob',
-        'subpage'=>'log'),
-      'title' => $I18N->msg('cronjob_log'))
+  $REX['ADDON']['subpages'][$mypage] = array(
+    $rootPage, $logPage
   );
   
   $EP = 'PAGE_CHECKED';
-
   
   if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')
   {
@@ -71,9 +75,9 @@ require_once dirname(__FILE__) .'/classes/types/class.urlrequest.inc.php';
 $REX['ADDON']['nexttime']['cronjob'] = "0";
 // --- /DYN
 
-if (isset($REX['ADDON']['nexttime']['cronjob']) 
-  && $REX['ADDON']['nexttime']['cronjob'] != 0 
-  && time() >= $REX['ADDON']['nexttime']['cronjob'])
+if (isset($REX['ADDON']['nexttime'][$mypage]) 
+  && $REX['ADDON']['nexttime'][$mypage] != 0 
+  && time() >= $REX['ADDON']['nexttime'][$mypage])
 {
   rex_register_extension($EP, 'rex_a630_extension');
 }

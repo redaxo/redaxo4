@@ -69,31 +69,37 @@ if($REX['REDAXO'])
   
   // handle backend pages
   $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
-	$REX['ADDON']['navigation'][$mypage]['subpages'] = array (
-  	array (
-  	  'href' => 'index.php?page=image_manager',
-  	  'active_when' => array(
-  	    'page'=>'image_manager',
-  	    'subpage'=>''),
-  	  'title' => $I18N->msg('imanager_subpage_desc')),
-		array (
-		  'href' => 'index.php?page=image_manager&subpage=types',
-		  'active_when' => array(
-		    'page'=>'image_manager',
-		    'subpage'=>array('types','effects')),
-		  'title' => $I18N->msg('imanager_subpage_types')),		
-  	array (
-  	  'href' => 'index.php?page=image_manager&subpage=settings',
-  	  'active_when' => array(
-  	    'page'=>'image_manager',
-  	    'subpage'=>'settings'),
-  	  'title' => $I18N->msg('imanager_subpage_config')),
-  	array (
-  	  'href' => 'index.php?page=image_manager&subpage=clear_cache',
-  	  'onclick' => 'return confirm(\''.$I18N->msg('imanager_type_cache_delete').' ?\')',
-  	  'active_when' => array(
-  	    'page'=>'image_manager',
-  	    'subpage'=>'clear_cache'),
-  	  'title' => $I18N->msg('imanager_subpage_clear_cache')),
+  
+  $descPage = new rex_be_page($I18N->msg('imanager_subpage_desc'), array(
+      'page'=>'image_manager',
+      'subpage'=>''
+    )
+  ); 
+  $descPage->setHref('index.php?page=image_manager');
+  
+  $confPage = new rex_be_page($I18N->msg('imanager_subpage_types'), array(
+      'page'=>'image_manager',
+      'subpage'=>array('types','effects')
+    )
+  ); 
+  $confPage->setHref('index.php?page=image_manager&subpage=types');
+  
+  $settingsPage = new rex_be_page($I18N->msg('imanager_subpage_config'), array(
+      'page'=>'image_manager',
+      'subpage'=>'settings'
+    )
+  ); 
+  $settingsPage->setHref('index.php?page=image_manager&subpage=settings');
+  
+  $ccPage = new rex_be_page($I18N->msg('imanager_subpage_clear_cache'), array(
+      'page'=>'image_manager',
+      'subpage'=>'clear_cache'
+    )
+  ); 
+  $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
+  $ccPage->setLinkAttr('onclick', 'return confirm(\''.$I18N->msg('imanager_type_cache_delete').' ?\')');
+  
+	$REX['ADDON']['subpages'][$mypage] = array (
+	  $descPage, $confPage, $settingsPage, $ccPage
 	);
 }

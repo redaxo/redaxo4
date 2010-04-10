@@ -256,10 +256,18 @@ class rex_be_navigation
   
   function addPage(/*rex_be_main_page*/ &$mainPage)
   {
-    if(!isset($this->pages[$mainPage->getBlock()]))
-      $this->pages[$mainPage->getBlock()] = array();
+    $blockName = 'default';
+    if(rex_be_main_page::isValid($mainPage))
+    {
+      $blockName = $mainPage->getBlock();
+    }
+    
+    if(!isset($this->pages[$blockName]))
+    {
+      $this->pages[$blockName] = array();
+    }
       
-    $this->pages[$mainPage->getBlock()][] = $mainPage;
+    $this->pages[$blockName][] = $mainPage;
   }
   
   function getNavigation()
@@ -268,7 +276,11 @@ class rex_be_navigation
     $s = '<dl class="rex-navi">';
     foreach($this->pages as $block => $blockPages)
     {
-      $headline = $this->getHeadline($block);
+      $headline = '';
+      if($block != 'default')
+      {
+        $headline = $this->getHeadline($block);
+      }
       
       $s .= '<dt>'. $headline .'</dt><dd>';
       $s .= $this->_getNavigation($blockPages, 0, $block);
