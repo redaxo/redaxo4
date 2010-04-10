@@ -145,17 +145,15 @@ if($REX['USER'])
     
     if($title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
     {
-      // wegen REX Version <= 4.2 - alter Stil "SUBPAGES"
-      // TODO: Ist das wirklich alter STIL?!
+      // wegen REX Version = 4.2 - alter Stil "SUBPAGES"
       if(isset($REX['ADDON'][$addonName]['SUBPAGES']))
       {
-        $REX['ADDON']['subpages'][$addonName] = $REX['ADDON'][$addonName]['SUBPAGES'];
-        unset($REX['ADDON'][$addonName]['SUBPAGES']);
+        $REX['ADDON']['pages'][$addonName] = $REX['ADDON'][$addonName]['SUBPAGES'];
       }
       // *** ENDE wegen <=4.2
       
-      // "subpages" adds be_page's
-      foreach(OOAddon::getProperty($addonName, 'subpages', array()) as $s)
+      // adds be_page's
+      foreach(OOAddon::getProperty($addonName, 'pages', array()) as $s)
       {
         if(is_array($s))
         {
@@ -195,8 +193,8 @@ if($REX['USER'])
       
       if($title != '' && ($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin()))
       {
-        // "subpages" adds addon-be_page's
-        foreach(OOPlugin::getProperty($addonName, $pluginName, 'subpages', array()) as $s)
+        // add addon-be_page's
+        foreach(OOPlugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
         {
           if(is_array($s))
           {

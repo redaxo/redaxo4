@@ -68,7 +68,7 @@ if ($REX['REDAXO'])
 
   rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
 
-	$REX['ADDON'][$mypage]['SUBPAGES'] = array(
+	$REX['ADDON']['pages'][$mypage] = array(
 	  array('', $I18N->msg('article')),
 	  array('categories', $I18N->msg('categories')),
 	  array('media', $I18N->msg('media')),

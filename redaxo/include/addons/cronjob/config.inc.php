@@ -41,7 +41,7 @@ if($REX['REDAXO'])
   
   
   // Subpages
-  $REX['ADDON']['subpages'][$mypage] = array(
+  $REX['ADDON']['pages'][$mypage] = array(
     $rootPage, $logPage
   );
   

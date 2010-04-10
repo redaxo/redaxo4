@@ -18,7 +18,7 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-rex_title('Metainformationen erweitern', $REX['ADDON'][$page]['SUBPAGES']);
+rex_title('Metainformationen erweitern', $REX['ADDON']['pages'][$page]);
 
 echo '<div class="rex-addon-output-v2">';
 

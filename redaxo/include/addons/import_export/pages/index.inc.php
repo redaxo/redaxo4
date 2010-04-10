@@ -24,7 +24,7 @@ $subpage = rex_request('subpage', 'string');
 
 require $REX['INCLUDE_PATH']."/layout/top.php";
 
-rex_title($I18N->msg("im_export_importexport"), $REX['ADDON']['import_export']['SUBPAGES']);
+rex_title($I18N->msg("im_export_importexport"), $REX['ADDON']['pages']['import_export']);
 
 if($subpage == "import" && ($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin()))
   require $REX['INCLUDE_PATH'] . '/addons/import_export/pages/import.inc.php';

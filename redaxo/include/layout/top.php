@@ -10,9 +10,11 @@ $popups_arr = array('linkmap', 'mediapool');
 
 $page_title = $REX['SERVERNAME'];
 
-$page = $REX['PAGES'][$REX['PAGE']]->getPage();
 if(!isset($page_name))
-  $page_name = $page->getTitle();
+{
+  $curPage = $REX['PAGES'][$REX['PAGE']]->getPage();
+  $page_name = $curPage->getTitle();
+}
   
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
@@ -106,19 +108,19 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
 	$n = rex_be_navigation::factory();
 	
-	foreach($REX['USER']->pages as $p => $pageObj)
+	foreach($REX['USER']->pages as $p => $pageContainer)
   {
 		$p = strtolower($p);
-    if(rex_be_main_page::isValid($pageObj))
+    if(rex_be_main_page::isValid($pageContainer))
     {
-      $page = $pageObj->getPage();
-      $page->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
+      $pageObj = $pageContainer->getPage();
+      $pageObj->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
       
-      if(!$pageObj->getBlock())
-        $pageObj->setBlock('addons');
+      if(!$pageContainer->getBlock())
+        $pageContainer->setBlock('addons');
         
-      if(!$page->getHref())
-        $page->setHref('index.php?page='.$p);
+      if(!$pageObj->getHref())
+        $pageObj->setHref('index.php?page='.$p);
       /*
        if(isset ($REX['ACKEY']['ADDON'][$page]))
         $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);
@@ -126,8 +128,8 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
         $item['extra'] = rex_accesskey($pageArr['title'], $accesskey++);
       */
         
-      $page->setLinkAttr('tabindex', rex_tabindex(false));
-      $n->addPage($pageObj);
+      $pageObj->setLinkAttr('tabindex', rex_tabindex(false));
+      $n->addPage($pageContainer);
     }
   }
 	

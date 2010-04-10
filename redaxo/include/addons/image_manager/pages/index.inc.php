@@ -28,7 +28,7 @@ if ($subpage == 'clear_cache')
   $msg = $I18N->msg('imanager_cache_files_removed', $c);
 }
 
-rex_title('Image Manager', $REX['ADDON']['subpages']['image_manager']);
+rex_title('Image Manager', $REX['ADDON']['pages']['image_manager']);
 
 // Include Current Page
 switch($subpage)

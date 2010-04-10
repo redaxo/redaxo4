@@ -99,7 +99,7 @@ if($REX['REDAXO'])
   $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
   $ccPage->setLinkAttr('onclick', 'return confirm(\''.$I18N->msg('imanager_type_cache_delete').' ?\')');
   
-	$REX['ADDON']['subpages'][$mypage] = array (
+	$REX['ADDON']['pages'][$mypage] = array (
 	  $descPage, $confPage, $settingsPage, $ccPage
 	);
 }

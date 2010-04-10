@@ -14,7 +14,7 @@ require $REX['INCLUDE_PATH'].'/layout/top.php';
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 
-rex_title($I18N->msg("editme"),$REX['ADDON']['subpages'][$page]);
+rex_title($I18N->msg("editme"),$REX['ADDON']['pages'][$page]);
 
 $tables = rex_em_getTables();
 

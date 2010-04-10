@@ -62,7 +62,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
       }
     }
   }
-  $REX['ADDON']['subpages'][$mypage] = $subpages;
+  $REX['ADDON']['pages'][$mypage] = $subpages;
   
 
   function rex_editme_assets($params){
