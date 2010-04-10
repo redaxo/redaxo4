@@ -19,7 +19,6 @@ $mypage = 'image_resize';
 
 /* Addon Parameter */
 $REX['ADDON']['rxid'][$mypage] = '469';
-$REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Image Resize';
 $REX['ADDON']['perm'][$mypage] = 'image_resize[]';
 $REX['ADDON']['version'][$mypage] = '1.3';

@@ -14,7 +14,6 @@ $mypage = 'be_dashboard';
 
 /* Addon Parameter */
 $REX['ADDON']['rxid'][$mypage] = '655';
-$REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'Dashboard';
 $REX['ADDON']['perm'][$mypage] = 'be_dashboard[]';
 $REX['ADDON']['version'][$mypage] = '1.3';

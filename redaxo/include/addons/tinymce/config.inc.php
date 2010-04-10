@@ -19,7 +19,6 @@
 
 	// Addon Settings
 	$REX['ADDON']['rxid'][$rxa_tinymce['name']] = '52';
-	$REX['ADDON']['page'][$rxa_tinymce['name']] = $rxa_tinymce['name'];
 	$REX['ADDON']['name'][$rxa_tinymce['name']] = 'TinyMCE';
 	$REX['ADDON']['perm'][$rxa_tinymce['name']] = 'tiny_mce[]';
 	$REX['ADDON']['version'][$rxa_tinymce['name']] = '1.6';

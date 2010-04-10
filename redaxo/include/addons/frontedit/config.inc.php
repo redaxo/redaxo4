@@ -16,7 +16,6 @@
 
 $mypage = "frontedit";
 $REX['ADDON']['rxid'][$mypage] = '';
-// $REX['ADDON']['page'][$mypage] = $mypage;
 // $REX['ADDON']['name'][$mypage] = 'Frontedit';
 // $REX['ADDON']['perm'][$mypage] = 'frontedit[]';
 $REX['ADDON']['version'][$mypage] = '0.2';

@@ -13,7 +13,6 @@ $mypage = 'be_search';
 
 /* Addon Parameter */
 $REX['ADDON']['rxid'][$mypage] = '256';
-$REX['ADDON']['page'][$mypage] = $mypage;
 //$REX['ADDON']['name'][$mypage] = 'Backend Search';
 //$REX['ADDON']['perm'][$mypage] = 'be_search[]';
 $REX['ADDON']['version'][$mypage] = '1.3';

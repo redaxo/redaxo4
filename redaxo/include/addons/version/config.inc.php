@@ -11,7 +11,6 @@
 
 $mypage = "version";
 $REX['ADDON']['rxid'][$mypage] = '461';
-// $REX['ADDON']['page'][$mypage] = $mypage;
 // $REX['ADDON']['name'][$mypage] = 'Version';
 // $REX['ADDON']['perm'][$mypage] = 'version[]';
 $REX['ADDON']['version'][$mypage] = '0.2';

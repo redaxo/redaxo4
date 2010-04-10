@@ -9,7 +9,6 @@
 $mypage = 'xform';
 
 /* Addon Parameter */
-$REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'XForm';
 $REX['ADDON']['perm'][$mypage] = 'xform[]';
 $REX['ADDON']['version'][$mypage] = '1.5';

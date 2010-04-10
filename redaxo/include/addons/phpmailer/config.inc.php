@@ -12,7 +12,6 @@
 $mypage = 'phpmailer';
 
 $REX['ADDON']['rxid'][$mypage] = '93';
-$REX['ADDON']['page'][$mypage] = $mypage;
 $REX['ADDON']['name'][$mypage] = 'PHPMailer';
 $REX['ADDON']['perm'][$mypage] = 'phpmailer[]';
 $REX['ADDON']['version'][$mypage] = "1.3";
