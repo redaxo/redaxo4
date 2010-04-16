@@ -1,1 +1,1 @@
-// Ordner für abgelegte Dateien von REDAXO
+// Ordner für abgelegte Dateien von redaxo

@@ -2,14 +2,20 @@
 
 class rex_effect_resize extends rex_effect_abstract
 {
+  var $options;
+  
+  function rex_effect_resize()
+  {
+    $this->options = array('fit','warp');
+  }
+  
 	function execute()
 	{
     $gdimage =& $this->image->getImage();
     $w = $this->image->getWidth();
     $h = $this->image->getHeight();
 
-		$this->params['styles'] = array('fit','warp');
-		if(!isset($this->params['style']) || !in_array($this->params['style'],$this->params['styles']))
+		if(!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
 		{
 			$this->params['style'] = 'fit';
 		}
@@ -121,7 +127,7 @@ class rex_effect_resize extends rex_effect_abstract
         'label' => $I18N->msg('imanager_effect_resize_style'),
         'name' => 'style',
         'type'  => 'select',
-        'options' => array('fit','warp'),
+        'options' => $this->options,
         'default' => 'fit'
       ),
     );

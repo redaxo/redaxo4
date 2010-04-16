@@ -16,7 +16,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
   // Sprachdateien anhaengen
   $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
 
-  $REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
+//  $REX['ADDON']['name'][$mypage] = $I18N-s>msg("editme");
   $REX['ADDON']['perm'][$mypage] = 'em[]';
 
   // Credits
