@@ -266,6 +266,7 @@ if($REX['USER'])
       $REX['PAGE'] = $REX['START_PAGE'];
       if(!isset($REX['PAGES'][$REX['PAGE']]))
       {
+        // --- fallback auf "profile"; diese page hat jeder user
         $REX['PAGE'] = 'profile';
       }
     }
