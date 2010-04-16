@@ -37,19 +37,54 @@ class rex_effect_crop extends rex_effect_abstract
     $offset_height = 0;
     if(empty($this->params['offset'])) $this->params['offset'] = 0;
 
-    // Es muss an der Breite beschnitten werden
-    if ($width_ratio > $height_ratio)
+    if($position == 'top_left')
     {
-      $offset_width = (int) (round(($w - $this->params['width'] * $height_ratio) / 2) + $this->params['offset']);
-      $w            = (int) round($this->params['width'] * $height_ratio);
+      // TODO
     }
-    // es muss an der Höhe beschnitten werden
-    elseif ($width_ratio < $height_ratio)
+    else if($position == 'top_center')
     {
-      $offset_height = (int) (round(($h - $this->params['height'] * $width_ratio) / 2) + $this->params['offset']);
-      $h             = (int) round($this->params['height'] * $width_ratio);
+      // TODO
     }
-		
+    else if($position == 'top_right')
+    {
+      // TODO
+    }
+    else if($position == 'middle_left')
+    {
+      // TODO
+    }
+    else if($position == 'middle_center')
+    {
+      // Es muss an der Breite beschnitten werden
+      if ($width_ratio > $height_ratio)
+      {
+        $offset_width = (int) (round(($w - $this->params['width'] * $height_ratio) / 2) + $this->params['offset']);
+        $w            = (int) round($this->params['width'] * $height_ratio);
+      }
+      // es muss an der Höhe beschnitten werden
+      elseif ($width_ratio < $height_ratio)
+      {
+        $offset_height = (int) (round(($h - $this->params['height'] * $width_ratio) / 2) + $this->params['offset']);
+        $h             = (int) round($this->params['height'] * $width_ratio);
+      }
+    }
+    else if($position == 'middle_right')
+    {
+      // TODO
+    }
+    else if($position == 'bottom_left')
+    {
+      // TODO
+    }
+    else if($position == 'bottom_center')
+    {
+      // TODO
+    }
+    else if($position == 'bottom_right')
+    {
+      // TODO
+    }
+    
 		if (function_exists('ImageCreateTrueColor'))
 		{
 			$des = @ImageCreateTrueColor($this->params['width'], $this->params['height']);
