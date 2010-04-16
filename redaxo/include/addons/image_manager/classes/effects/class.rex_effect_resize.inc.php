@@ -50,6 +50,7 @@ class rex_effect_resize extends rex_effect_abstract
 			}
 		}
 
+		// TODO prüfen!
 		// Originalbild selbst sehr klein und wuerde via resize vergroessert
 		// => Das Originalbild ausliefern
 		if(!isset($this->params["width"]))
@@ -61,6 +62,8 @@ class rex_effect_resize extends rex_effect_abstract
 		{
 			$this->params["height"] = $h;
 		}
+		
+		// TODO allow_enlarge check
 
 		if (function_exists('ImageCreateTrueColor'))
 		{
@@ -128,7 +131,14 @@ class rex_effect_resize extends rex_effect_abstract
         'name' => 'style',
         'type'  => 'select',
         'options' => $this->options,
-        'default' => 'fit'
+        'default' => 'fit',
+      ),
+      array(
+        'label'=>$I18N->msg('imanager_effect_resize_allow_enlarge'),
+        'name' => 'allow_enlarge',
+        'type' => 'select',
+        'options' => array($I18N->msg('yes'), $I18N->msg('no')),
+        'default' => $I18N->msg('no'),
       ),
     );
 	}
