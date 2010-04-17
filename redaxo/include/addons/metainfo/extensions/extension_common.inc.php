@@ -547,7 +547,6 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   if(isset($params['activeItem']))
     $activeItem = $params['activeItem'];
     
-  // TODO: Metainfo Felder sind beim Add vorhanden und ggf. dann in der Kategorie nicht mehr editierbar
   $restrictionsCondition = '';
   if($prefix == 'art_')
   {
@@ -593,30 +592,33 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   }
   else if($prefix == 'med_')
   {
+    $catId = rex_session('media[rex_file_category]', 'int');
     if($activeItem)
     {
-      if($activeItem->getValue('category_id') != '')
+      $catId = $activeItem->getValue('category_id');
+    }
+      
+    if($catId !== '')
+    {
+      $s = '';
+      if($catId != 0)
       {
-        $s = '';
-        if($activeItem->getValue('category_id') != 0)
+        $OOCat = OOMediaCategory::getCategoryById($catId);
+        
+        // Alle Metafelder des Pfades sind erlaubt
+        foreach(explode('|', $OOCat->getPath()) as $pathElement)
         {
-          $OOCat = OOMediaCategory::getCategoryById($activeItem->getValue('category_id'));
-          
-          // Alle Metafelder des Pfades sind erlaubt
-          foreach(explode('|', $OOCat->getPath()) as $pathElement)
+          if($pathElement != '')
           {
-            if($pathElement != '')
-            {
-              $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
-            }
+            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
           }
         }
-        
-        // Auch die Kategorie selbst kann Metafelder haben
-        $s .= ' OR `p`.`restrictions` LIKE "%|'. $activeItem->getValue('category_id') .'|%"';
-        
-        $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
       }
+      
+      // Auch die Kategorie selbst kann Metafelder haben
+      $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
+      
+      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
     }
   }
   

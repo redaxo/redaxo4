@@ -335,6 +335,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   $cats_sel->setName('rex_file_category');
   $cats_sel->setId('rex_file_category');
   $cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
+  $cats_sel->setAttribute('onchange', 'this.form.submit()');
   $cats_sel->setSelected($rex_file_category);
 
   if (isset($warning) and $warning != "")
