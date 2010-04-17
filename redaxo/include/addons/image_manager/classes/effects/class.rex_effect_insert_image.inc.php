@@ -2,9 +2,6 @@
 
 /**
  * Branded ein Bild mit einem Wasserzeichen
- *
- * Der Filter sucht im Verzeichnis addons/image_manager/media/
- * nach einem Bild mit dem Dateinamen "brand.*" und verwendet den 1. Treffer
  */
 
 class rex_effect_insert_image extends rex_effect_abstract{
