@@ -23,6 +23,7 @@ class rex_effect_crop extends rex_effect_abstract
 		{
 			$this->params['position'] = 'middle_center';
 		}
+		$position = explode('_', $this->params['position']);
 		
 		if(empty($this->params['width']) || $this->params['width'] < 0 || 
 		   empty($this->params['height']) || $this->params['height'] < 0)
@@ -30,61 +31,48 @@ class rex_effect_crop extends rex_effect_abstract
 		  return;
 		}
 		
-    $width_ratio = $w / $this->params['width'];
-    $height_ratio = $h / $this->params['height'];
-    
     $offset_width = 0;
     $offset_height = 0;
-    if(empty($this->params['offset'])) $this->params['offset'] = 0;
-
-    if($position == 'top_left')
+    if(empty($this->params['offset_width'])) $this->params['offset_width'] = 0;
+    if(empty($this->params['offset_height'])) $this->params['offset_height'] = 0;
+    
+    // vertical position
+    if($position[0] == 'top')
     {
-      // TODO
+      $offset_height += $this->params['offset_height'];
     }
-    else if($position == 'top_center')
+    else if($position[0] == 'middle')
     {
-      // TODO
+      $offset_height = (int) (($h - $this->params['height']) / 2) + $this->params['offset_height'];
     }
-    else if($position == 'top_right')
+    else if($position[0] == 'bottom')
     {
-      // TODO
+      $offset_height = (int) (($h - $this->params['height'])) + $this->params['offset_height'];
     }
-    else if($position == 'middle_left')
+    else
     {
-      // TODO
-    }
-    else if($position == 'middle_center')
-    {
-      // Es muss an der Breite beschnitten werden
-      if ($width_ratio > $height_ratio)
-      {
-        $offset_width = (int) (round(($w - $this->params['width'] * $height_ratio) / 2) + $this->params['offset']);
-        $w            = (int) round($this->params['width'] * $height_ratio);
-      }
-      // es muss an der Höhe beschnitten werden
-      elseif ($width_ratio < $height_ratio)
-      {
-        $offset_height = (int) (round(($h - $this->params['height'] * $width_ratio) / 2) + $this->params['offset']);
-        $h             = (int) round($this->params['height'] * $width_ratio);
-      }
-    }
-    else if($position == 'middle_right')
-    {
-      // TODO
-    }
-    else if($position == 'bottom_left')
-    {
-      // TODO
-    }
-    else if($position == 'bottom_center')
-    {
-      // TODO
-    }
-    else if($position == 'bottom_right')
-    {
-      // TODO
+      trigger_error('Unexpected vertical position "'. $position[0] .'"', E_USER_ERROR);
     }
     
+    // horizontal position
+    if($position[1] == 'left')
+    {
+      $offset_width += $this->params['offset_height'];
+    }
+    else if($position[1] == 'center')
+    {
+      $offset_width   = (int) (($w - $this->params['width']) / 2) + $this->params['offset_width'];
+    }
+    else if($position[1] == 'right')
+    {
+      $offset_width   = (int) ($w - $this->params['width']) + $this->params['offset_width'];
+    }
+    else
+    {
+      trigger_error('Unexpected horizontal position "'. $position[1] .'"', E_USER_ERROR);
+    }
+    
+    // create cropped image
 		if (function_exists('ImageCreateTrueColor'))
 		{
 			$des = @ImageCreateTrueColor($this->params['width'], $this->params['height']);
@@ -97,10 +85,10 @@ class rex_effect_crop extends rex_effect_abstract
 		{
 			return;
 		}
-
+		
 		// Transparenz erhalten
 		$this->keepTransparent($des);
-    imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $w, $h);
+    imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
 		
 		$gdimage = $des;
 		$this->image->refreshDimensions();
@@ -147,8 +135,13 @@ class rex_effect_crop extends rex_effect_abstract
         'type' => 'int'
       ),
       array(
-        'label'=>$I18N->msg('imanager_effect_crop_offset'),
-        'name' => 'offset',
+        'label'=>$I18N->msg('imanager_effect_crop_offset_width'),
+        'name' => 'offset_width',
+        'type' => 'int'
+      ),
+      array(
+        'label'=>$I18N->msg('imanager_effect_crop_offset_height'),
+        'name' => 'offset_height',
         'type' => 'int'
       ),
       array(
