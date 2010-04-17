@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert. 
+ * 
+ * @author staabm
+ */
 class rex_effect_crop extends rex_effect_abstract
 {
   var $options;
@@ -19,17 +24,25 @@ class rex_effect_crop extends rex_effect_abstract
     $w = $this->image->getWidth();
     $h = $this->image->getHeight();
 
+		if(empty($this->params['width']) || $this->params['width'] < 0 || 
+		   empty($this->params['height']) || $this->params['height'] < 0)
+		{
+		  return;
+		}
+		
+		// das original-bild ist kleiner als das zu croppende format 
+		if($this->params['width'] > $w || 
+		   $this->params['height'] > $h)
+		{
+		  return;
+		}
+		
 		if(empty($this->params['position']) || !in_array($this->params['position'],$this->options))
 		{
 			$this->params['position'] = 'middle_center';
 		}
 		$position = explode('_', $this->params['position']);
 		
-		if(empty($this->params['width']) || $this->params['width'] < 0 || 
-		   empty($this->params['height']) || $this->params['height'] < 0)
-		{
-		  return;
-		}
 		
     $offset_width = 0;
     $offset_height = 0;
