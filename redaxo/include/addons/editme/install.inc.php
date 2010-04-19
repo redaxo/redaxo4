@@ -15,9 +15,9 @@ if (!OOAddon::isAvailable('xform'))
   // Installation nicht erfolgreich
   $error = 'AddOn "XForm" ist nicht installiert und aktiviert.';
 
-}elseif(OOAddon::getVersion('xform') < '1.5')
+}elseif(OOAddon::getVersion('xform') < '1.7')
 {
-  $error = 'Das AddOn "XForm" muss mindestens in der Version 1.5 vorhanden sein.';
+  $error = 'Das AddOn "XForm" muss mindestens in der Version 1.7 vorhanden sein.';
 }
 
 if($error == '')

@@ -11,7 +11,7 @@ $mypage = 'xform';
 /* Addon Parameter */
 $REX['ADDON']['name'][$mypage] = 'XForm';
 $REX['ADDON']['perm'][$mypage] = 'xform[]';
-$REX['ADDON']['version'][$mypage] = '1.5';
+$REX['ADDON']['version'][$mypage] = '1.7';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = 'xform[]';
