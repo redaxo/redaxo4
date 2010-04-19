@@ -149,6 +149,10 @@ if($show_list){
   $list->setColumnFormat('status', 'custom', 'rex_em_status_col');
 	$list->setColumnParams("name", array("table_id"=>"###id###","func"=>"edit"));
 	
+	$list->addColumn('CSV Importieren','CSV Importieren');
+	$list->setColumnParams("CSV Importieren", array("subpage"=>"import","table_name"=>"###name###"));
+
+
 	$list->addColumn('Felder editieren','Felder editieren');
 	$list->setColumnParams("Felder editieren", array("subpage"=>"field","table_name"=>"###name###"));
 

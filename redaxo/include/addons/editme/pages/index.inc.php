@@ -14,13 +14,17 @@ require $REX['INCLUDE_PATH'].'/layout/top.php';
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 
-rex_title($I18N->msg("editme"),$REX['ADDON']['pages'][$page]);
+rex_title($I18N->msg("editme"),array());
 
 $tables = rex_em_getTables();
 
 switch($subpage)
 {
   case 'field':
+  	require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+    break;
+
+  case 'import':
   	require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
     break;
 
