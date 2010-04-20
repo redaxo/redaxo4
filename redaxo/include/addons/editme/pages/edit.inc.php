@@ -233,9 +233,7 @@ if($show_list)
 
 		$fields = rex_em_getFields($table['name']);
 		$field_names = array();
-		foreach($fields as $field){ if($field["type_id"] == "value") { $field_names[] = $field["f1"]; } }
-
-		foreach($field_names as $f)	{ $search_field_select->addOption($f,$f); }
+		foreach($fields as $field){ if($field["type_id"] == "value") { $search_field_select->addOption($field["f2"].' ['.$field["f1"].']',$field["f1"]); } }
 		foreach($rex_em_searchfields as $cs) { $search_field_select->setSelected($cs); }
 
 		$suchform = '<table width=770 cellpadding=5 cellspacing=1 border=0 bgcolor=#ffffff class="rex-table">';
