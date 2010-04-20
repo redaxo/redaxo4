@@ -228,17 +228,26 @@ div.rex-navi-paginate ul li.rex-navi-paginate-next a {
 div.rex-widget p.rex-widget-icons a.rex-icon-file-add {
 	background-image: url(file_add.gif);
 }
+div.rex-widget p.rex-widget-icons a.rex-icon-file-add-inactive {
+	background-image: url(file_add_inactive.gif);
+}
 div.rex-widget p.rex-widget-icons a.rex-icon-file-bottom {
 	background-image: url(file_bottom.gif);
 }
 div.rex-widget p.rex-widget-icons a.rex-icon-file-delete {
 	background-image: url(file_del.gif);
 }
+div.rex-widget p.rex-widget-icons a.rex-icon-file-delete-inactive {
+	background-image: url(file_del_inactive.gif);
+}
 div.rex-widget p.rex-widget-icons a.rex-icon-file-down {
 	background-image: url(file_down.gif);
 }
 div.rex-widget p.rex-widget-icons a.rex-icon-file-open {
 	background-image: url(file_open.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-open-inactive {
+	background-image: url(file_open_inactive.gif);
 }
 div.rex-widget p.rex-widget-icons a.rex-icon-file-top {
 	background-image: url(file_top.gif);
@@ -248,6 +257,9 @@ div.rex-widget p.rex-widget-icons a.rex-icon-file-up {
 }
 div.rex-widget p.rex-widget-icons a.rex-icon-file-view {
 	background-image: url(file_view.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-view-inactive {
+	background-image: url(file_view_inactive.gif);
 }
 
 
