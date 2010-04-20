@@ -356,6 +356,17 @@ div.rex-form-content-editmode-edit-slice div.rex-form-row p.rex-form-col-b input
 	margin-left: 0;
 }
 
+div.rex-form-content-editmode-add-slice div.rex-form-row label, 
+div.rex-form-content-editmode-add-slice div.rex-form-row p.rex-form-label, 
+div.rex-form-content-editmode-edit-slice div.rex-form-row label, 
+div.rex-form-content-editmode-edit-slice div.rex-form-row p.rex-form-label {
+	clear: none;
+	display: inline;
+	float: none;
+	width: auto;
+	padding: 0;
+}
+
 
 
 /*	Content : Metamode *********************************************************

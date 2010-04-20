@@ -99,14 +99,17 @@ div#rex-navi-logout ul li.rex-navi-first span {
 
 /*	Navi unter Titel ***********************************************************
 *******************************************************************************/
-div#rex-navi-page ul li {
+div#rex-navi-page ul li, 
+#rex-title .rex-navi ul li {
 	display: inline;
 	font-weight: bold;
 }
-div#rex-navi-page ul li a {
-	padding: 0 5px;
+div#rex-navi-page ul li a, 
+#rex-title .rex-navi ul li a {
+	padding: 0 5px 0 6px;
 }
-div#rex-navi-page ul li.rex-navi-first a {
+div#rex-navi-page ul li.rex-navi-first a, 
+#rex-title .rex-navi ul li.rex-navi-first a {
 	padding-left: 0;
 }
 
