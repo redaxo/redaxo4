@@ -5,12 +5,17 @@
   </release>
   <release name="default">
     <addons>
+      <addon name="be_dashboard"></addon>
+      <addon name="image_resize"></addon>
       <addon name="phpmailer"></addon>
       <addon name="be_style"></addon>
       <addon name="textile"></addon>
       <addon name="url_rewrite"></addon>
       <addon name="version"></addon>
       <addon name="tinymce"></addon>
+      <addon name="editme"></addon>
+      <addon name="xform"></addon>
+      <addon name="cronjob"></addon>
     </addons>
   </release>
   <release name="community">

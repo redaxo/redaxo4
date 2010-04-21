@@ -11,6 +11,7 @@
 
 $error = '';
 
+/*
 $tables = rex_em_getTables();
 
 $sql = rex_sql::factory();
@@ -24,6 +25,7 @@ foreach($tables as $table)
     break;
   }
 }
+*/
 
 if($error == '')
 {

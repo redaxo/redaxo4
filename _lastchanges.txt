@@ -10,6 +10,7 @@ angehandelt.
 Version 4.3 (2010-xx-xx)
 
   Neu:
+  * Neues Systemaddon "image_manager". Ersetzt in Zukunft das "image_resize"-AddOn und erlaubt flexiblere Arbeiten mit Bildern [Markus.Staab,Gregor.Harlan,Jan.Kristinus]
   * jQuery update auf 1.4.2 [Markus.Staab]
   * Templates können auf Kategorien eingeschraenkt werden [Jan.Kristinus]
   * Rootkategorien koennen pro Benutzer definiert werden (Mountpoints) [Jan.Kristinus]
