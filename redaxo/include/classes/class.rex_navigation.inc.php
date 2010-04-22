@@ -316,7 +316,7 @@ class rex_be_navigation
       $first = TRUE;
       foreach($blockPages as $pageContainer)
       {
-        $page = $pageContainer->getPage();
+        $page =& $pageContainer->getPage();
         
         if($first)
         {
@@ -363,7 +363,7 @@ class rex_be_navigation
       // echo "<br /><h1>$type</h1>";
       foreach($blockPages as $mn => $pageContainer)
       {
-        $page = $pageContainer->getPage();
+        $page =& $pageContainer->getPage();
         $condition = $page->getActivateCondition();
         if($this->_getStatus($condition))
         {
@@ -567,7 +567,7 @@ class rex_be_page extends rex_be_page_container
     $this->requiredPermissions = array();
   }
   
-  function getPage()
+  function &getPage()
   {
     return $this;
   }
@@ -731,7 +731,7 @@ class rex_be_main_page extends rex_be_page_container
     return $this->block;
   }
   
-  function getPage()
+  function &getPage()
   {
     return $this->page;
   }
