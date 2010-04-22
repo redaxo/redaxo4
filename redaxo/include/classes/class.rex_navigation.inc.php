@@ -341,7 +341,7 @@ class rex_be_navigation
         $href = str_replace('&', '&amp;', $page->getHref());
         $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
         
-        $subpages = $page->getSubPages();
+        $subpages =& $page->getSubPages();
         if(is_array($subpages) && count($subpages) > 0)
         {
           $echo .= $this->_getNavigation($subpages, $level);
@@ -742,7 +742,7 @@ class rex_be_main_page extends rex_be_page_container
       return;
       
     // check current object for a possible setter
-    $setter = array($this, 'set'. ucfirst($key));
+    $setter = array(&$this, 'set'. ucfirst($key));
     if(is_callable($setter))
     {
       call_user_func($setter, $value);
@@ -750,7 +750,7 @@ class rex_be_main_page extends rex_be_page_container
     else
     {
       // no setter found, delegate to page object
-      $setter = array($this->page, 'set'. ucfirst($key));
+      $setter = array(&$this->page, 'set'. ucfirst($key));
       if(is_callable($setter))
       {
         call_user_func($setter, $value);
