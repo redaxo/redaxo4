@@ -46,3 +46,15 @@ $myid = (int)a724_getTableId(\'TABELLENNAME\', $myurl);
 <?php rex_highlight_string($module); ?>
 
 <p>Ein Beispiel des Addons findet sich auf <a href="http://www.elbepark.info/de/shops-und-mehr/elbeparkfinder.html">www.elbepark.info</a>. Alle hier verlinkten Mieter sind in einer Tabelle vorhanden und verweisen auf <strong>denselben</strong> Redaxo Artikel.</p>
+
+
+
+<h3 class="rex-hl4">Voraussetzungen</h3>
+
+<p>Das AddOn benötigt die Redaxo SVN Version (Rev 1821) und die Url-Rewrite-Fullnames Klasse. Mit der Version 4.3b5 funktioniert es nicht, da in der fullnames Klasse der EP noch nicht dabei ist</p>
+
+
+
+<h3 class="rex-hl4">Todo</h3>
+
+<p>Marketing Urls cachen</p>
