@@ -226,7 +226,7 @@ class myUrlRewriter extends rexUrlRewriter
     $url = $REXPATH[$id][$clang].$urlparams;
 
     $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
-    $baseDir = str_replace("\", '', $baseDir)); // windows
+    $baseDir = str_replace('\\', '', $baseDir); // windows
     if (substr($baseDir, -1) !="/" ) 
       $baseDir .= "/";
 
