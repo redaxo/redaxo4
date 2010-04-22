@@ -23,7 +23,7 @@ if($REX['REDAXO'])
 	/* Addon Parameter */
 	$REX['ADDON']['rxid'][$mypage] = '724';
 	$REX['ADDON']['name'][$mypage] = $I18N->msg('a724_addon_name');
-	$REX['ADDON']['perm'][$mypage] = 'admin[]';
+	$REX['ADDON']['perm'][$mypage] = $mypage.'[]';
 	$REX['ADDON']['version'][$mypage] = '0.0';
 	$REX['ADDON']['author'][$mypage] = 'Kai Kristinus, Thomas Blum';
 	$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
