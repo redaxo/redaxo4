@@ -160,13 +160,27 @@ class myUrlRewriter extends rexUrlRewriter
       
       }elseif($article_id == -1)
       {
-      	
-        // Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
-        
-      	if(rex_request("article_id","int",0)>0)
-        	$article_id = $REX['ARTICLE_ID'];
-        else
-			    $article_id = $REX['NOTFOUND_ARTICLE_ID'];
+				// ----- EXTENSION POINT
+				$article_info = rex_register_extension_point('URL_REWRITE_ARTICLE_ID_NOT_FOUND', '' );
+				if (isset($article_info['article_id']) && $article_info['article_id'] > -1)
+				{
+					$article_id = $article_info['article_id'];
+
+					if (isset($article_info['clang']) && $article_info['clang'] > -1)
+					{
+						$clang = $article_info['clang'];
+					}
+				}
+				
+				// Nochmals abfragen wegen EP
+				if($article_id == -1)
+	      {
+					// Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
+					if(rex_request('article_id', 'int', 0) > 0)
+						$article_id = $REX['ARTICLE_ID'];
+					else
+						$article_id = $REX['NOTFOUND_ARTICLE_ID'];
+				}
       }
       
       $this->setArticleId($article_id,$clang);
