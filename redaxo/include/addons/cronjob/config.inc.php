@@ -9,9 +9,10 @@
  * @version svn:$Id$
  */
 
+$mypage = 'cronjob';
+
 if($REX['REDAXO'])
 {
-  $mypage = 'cronjob';
 
   // Sprachdateien anhaengen
   $I18N->appendFile(dirname(__FILE__) .'/lang/');
