@@ -5,6 +5,7 @@ class rex_cronjob_export extends rex_cronjob
   /*public*/ function execute()
   {
     global $REX;
+    
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
     
@@ -30,10 +31,5 @@ class rex_cronjob_export extends rex_cronjob
   {
     global $I18N;
     return $I18N->msg('im_export_database_export');
-  }
-  
-  /*public*/ function getEnvironments()
-  {
-    return array('backend');
   }
 }

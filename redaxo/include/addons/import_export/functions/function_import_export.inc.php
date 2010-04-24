@@ -276,6 +276,10 @@ function rex_a1_export_db($filename)
     return false;
   }
   
+  // Im Frontend gibts kein I18N
+  if(!is_object($I18N))
+    $I18N = rex_create_lang($REX['LANG']);
+  
   $sql        = rex_sql::factory();
   $tables     = rex_sql::showTables(1, $REX['TABLE_PREFIX']);
   

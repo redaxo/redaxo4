@@ -23,15 +23,15 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 		$REX['ADDON']['pages'][$mypage][] = array ('import', $I18N->msg('im_export_import'));
  	}
 	$REX['ADDON']['pages'][$mypage][] = array ('', $I18N->msg('im_export_export'));
-	
-	if(OOAddon::isAvailable('cronjob'))
-	{
-    require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
-    
-  	rex_register_extension(
-  	  'CRONJOB_TYPES',
-  	  array('rex_cronjob_manager', 'registerExtension'),
-  	  array('class' => 'rex_cronjob_export')
-    );
-	}
+}
+
+if(OOAddon::isAvailable('cronjob'))
+{
+  require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
+  
+	rex_register_extension(
+	  'CRONJOB_TYPES',
+	  array('rex_cronjob_manager', 'registerExtension'),
+	  array('class' => 'rex_cronjob_export')
+  );
 }
