@@ -37,8 +37,13 @@ class rex_cronjob_phpcallback extends rex_cronjob
           $params[$i] = $param;
         }
       }
-      if (call_user_func_array($callback, $params) !== false)
+      $return = call_user_func_array($callback, $params);
+      if ($return !== false)
+      {
+        if (is_string($return))
+          $this->setMessage($return);
         return true;
+      }
       $this->setMessage('Error in callback');
       return false;
     }
