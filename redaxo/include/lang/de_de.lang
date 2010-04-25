@@ -35,6 +35,7 @@ profile = Mein Profil
 logout = abmelden
 navigation_system = Hauptmenu
 navigation_addons = AddOns
+subnavigation = Unternavigation von {0}
 
 # redaxo/include/classes/class.login.inc.php
 login_name  =  Benutzername

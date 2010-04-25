@@ -49,7 +49,7 @@
  */
 function rex_title($head, $subtitle = '')
 {
-	global $article_id, $category_id, $page;
+	global $article_id, $category_id, $page, $I18N;
 
   if(empty($subtitle))
   {
@@ -58,6 +58,7 @@ function rex_title($head, $subtitle = '')
   else if(is_array($subtitle) && rex_be_page_container::isValid($subtitle[0]))
   {
     $nav = rex_be_navigation::factory();
+    $nav->setHeadline('default', $I18N->msg('subnavigation', $head));
     foreach($subtitle as $pageObj)
     {
       $nav->addPage($pageObj);

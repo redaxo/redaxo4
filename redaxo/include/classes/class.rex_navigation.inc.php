@@ -267,7 +267,7 @@ class rex_be_navigation
     return new $class();
   }
   
-  function addPage(/*rex_be_main_page*/ &$mainPage)
+  /*public*/ function addPage(/*rex_be_page_container*/ &$mainPage)
   {
     $blockName = 'default';
     if(rex_be_main_page::isValid($mainPage))
@@ -283,17 +283,13 @@ class rex_be_navigation
     $this->pages[$blockName][] = $mainPage;
   }
   
-  function getNavigation()
+  /*public*/ function getNavigation()
   {
     global $REX,$I18N;
     $s = '<dl class="rex-navi">';
     foreach($this->pages as $block => $blockPages)
     {
-      $headline = '';
-      if($block != 'default')
-      {
-        $headline = $this->getHeadline($block);
-      }
+      $headline = $this->getHeadline($block);
       
       $s .= '<dt>'. $headline .'</dt><dd>';
       $s .= $this->_getNavigation($blockPages, 0, $block);
@@ -354,7 +350,7 @@ class rex_be_navigation
       return $echo;
   }
   
-  function setActiveElements()
+  /*public*/ function setActiveElements()
   {
     // echo '<pre>';var_dump($this->navi); echo '</pre>';
     foreach($this->pages as $block => $blockPages)
@@ -383,7 +379,7 @@ class rex_be_navigation
     }
   }
   
-  function _getStatus($a)
+  /*private*/ function _getStatus($a)
   {
     if(empty($a))
     {
@@ -401,19 +397,22 @@ class rex_be_navigation
     return TRUE;
   }
   
-  function setHeadline($type, $headline)
+  /*public*/ function setHeadline($block, $headline)
   {
-    $this->headlines[$type] = rex_translate($headline);
+    $this->headlines[$block] = $headline;
   }
   
-  function getHeadline($type)
+  /*public*/ function getHeadline($block)
   {
     global $I18N;
 
-    if (isset($this->headlines[$type]))
-      return $this->headlines[$type];
+    if (isset($this->headlines[$block]))
+      return $this->headlines[$block];
 
-    return $I18N->msg('navigation_'.$type);
+    if ($block != 'default')
+      return $I18N->msg('navigation_'.$block);
+    
+    return '';
   }
   
   /*public static*/ function getSetupPage()
