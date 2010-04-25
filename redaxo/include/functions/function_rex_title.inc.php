@@ -128,28 +128,9 @@ function rex_get_subtitle($subline)
       {
         continue;
       }
-      
-      $link = '';
-      $href = '';
-      if(!empty($subpage['href']))
-      {
-        $href = $subpage['href'];
-        unset($subpage['href']);
-      }
-      else
-      {
-        $link = $subpage[0];
-      }
-      
-      if(!empty($subpage['title']))
-      {
-        $label = $subpage['title'];
-        unset($subpage['title']);
-      }
-      else
-      {
-        $label = $subpage[1];
-      }
+
+      $link = $subpage[0];
+      $label = $subpage[1];
       
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
@@ -172,73 +153,39 @@ function rex_get_subtitle($subline)
         }
       }
 
-      if ($href != '') 
+      // Falls im Link parameter enthalten sind, diese Abschneiden
+      if (($pos = strpos($link, '&')) !== false)
       {
-        $href = str_replace('&', '&amp;', $href);
-        $active = false;
-        if (isset($subpage['active_when']) && is_array($subpage['active_when']))
-        {
-          $active = true;
-          foreach($subpage['active_when'] as $k => $v)
-          {
-            $v = (array)  $v;
-            if(!in_array(rex_request($k), $v))
-              $active = false;
-          }
-          unset($subpage['active_when']);
-        }
-        
-        $class = '';
-        if ($active)
-          $class = ' class="rex-active"';
+        $link = substr($link, 0, $pos);
+      }
 
-        // restliche attribute direkt in den link-tag schreiben
-        foreach($subpage as $attr_name => $attr_value)
-        {
-          if(is_int($attr_name)) continue;
-          
-          $attr .= $attr_name .'="'. $attr_value .'" ';
-        }
+      $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
+
+      // restliche attribute direkt in den link-tag schreiben
+      foreach($subpage as $attr_name => $attr_value)
+      {
+        if(is_int($attr_name)) continue;
         
-        $format = '<a href="%s"%s'. rex_tabindex() .'%s>%s</a>';
-        $subtitle[] = sprintf($format, $href, $attr, $class, $label);
+        $attr .= $attr_name .'="'. $attr_value .'" ';
+      }
+      
+      // Auf der aktiven Seite den Link nicht anzeigen
+      if ($active)
+      {
+        // $format = '%s';
+        // $subtitle[] = sprintf($format, $label);
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-active">%s</a>';
+        $subtitle[] = sprintf($format, $link, $params, $attr, $label);
+      }
+      elseif ($link == '')
+      {
+        $format = '<a href="?page='. $cur_page .'%s"%s'. rex_tabindex() .'>%s</a>';
+        $subtitle[] = sprintf($format, $params, $attr, $label);
       }
       else
       {
-        // Falls im Link parameter enthalten sind, diese Abschneiden
-        if (($pos = strpos($link, '&')) !== false)
-        {
-          $link = substr($link, 0, $pos);
-        }
-
-        $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
-
-        // restliche attribute direkt in den link-tag schreiben
-        foreach($subpage as $attr_name => $attr_value)
-        {
-          if(is_int($attr_name)) continue;
-          
-          $attr .= $attr_name .'="'. $attr_value .'" ';
-        }
-        
-        // Auf der aktiven Seite den Link nicht anzeigen
-        if ($active)
-        {
-          // $format = '%s';
-          // $subtitle[] = sprintf($format, $label);
-          $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-active">%s</a>';
-          $subtitle[] = sprintf($format, $link, $params, $attr, $label);
-        }
-        elseif ($link == '')
-        {
-          $format = '<a href="?page='. $cur_page .'%s"%s'. rex_tabindex() .'>%s</a>';
-          $subtitle[] = sprintf($format, $params, $attr, $label);
-        }
-        else
-        {
-          $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .'>%s</a>';
-          $subtitle[] = sprintf($format, $link, $params, $attr, $label);
-        }
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .'>%s</a>';
+        $subtitle[] = sprintf($format, $link, $params, $attr, $label);
       }
     }
 
