@@ -10,7 +10,7 @@ class rex_effect_resize extends rex_effect_abstract
 
 	function rex_effect_resize()
 	{
-		$this->options = array('fit','warp','minimum');
+		$this->options = array('longest','shortest','warp');
 	}
 
 	function execute()
@@ -21,16 +21,16 @@ class rex_effect_resize extends rex_effect_abstract
 
 		if(!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
 		{
-			$this->params['style'] = 'fit';
+			$this->params['style'] = 'longest';
 		}
 
-		if($this->params['style'] == 'fit')
+		if($this->params['style'] == 'longest')
 		{
-		  $this->resizeFit($w, $h);
+		  $this->resizeLongest($w, $h);
 		}
-		else if($this->params['style'] == 'minimum') 
+		else if($this->params['style'] == 'shortest') 
 		{
-		  $this->resizeMinimum($w, $h);
+		  $this->resizeShortest($w, $h);
 		}
 		else
 		{
@@ -71,7 +71,7 @@ class rex_effect_resize extends rex_effect_abstract
 		$this->image->refreshDimensions();
 	}
 	
-	function resizeFit($w, $h)
+	function resizeLongest($w, $h)
 	{
     if (!empty($this->params['height']) && !empty($this->params['width']))
     {
@@ -100,7 +100,7 @@ class rex_effect_resize extends rex_effect_abstract
     }
 	}
 	
-	function resizeMinimum($w, $h)
+	function resizeShortest($w, $h)
 	{
     if (!empty($this->params['height']) && !empty($this->params['width']))
     {
