@@ -143,6 +143,7 @@ class rex_image {
 	
 	/*public*/ function sendHeader()
 	{
+    header('Content-Disposition: inline; filename="'. $this->img['file'] .'"');
     header('Content-Type: image/' . $this->img['format']);
 	}
 	
