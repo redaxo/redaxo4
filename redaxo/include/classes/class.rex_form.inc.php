@@ -935,7 +935,16 @@ class rex_form
     $deleteSql->debugsql =& $this->debug;
     $deleteSql->setTable($this->tableName);
     $deleteSql->setWhere($this->whereCondition);
-    return $deleteSql->delete();
+    
+    $deleted = $deleteSql->delete();
+    
+    // ----- EXTENSION POINT
+    if ($deleted)
+      $deleted = rex_register_extension_point('REX_FORM_DELETED', $deleted, array('form' => $this, 'sql' => $deleteSql));
+    else
+      $deleted = $sql->getErrno();
+      
+    return $deleted;
   }
 
   /*protected*/ function redirect($listMessage = '', $listWarning = '', $params = array())
