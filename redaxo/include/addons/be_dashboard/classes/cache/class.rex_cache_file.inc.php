@@ -232,12 +232,14 @@ class rex_file_cache extends rex_cache
     }
 
     @flock($fp, LOCK_SH);
-    $data[REX_CACHE_FILE_READ_TIMEOUT] = intval(@stream_get_contents($fp, 12, 0));
+    $data[REX_CACHE_FILE_READ_TIMEOUT] = intval(@fread($fp, 12));
+//    $data[REX_CACHE_FILE_READ_TIMEOUT] = intval(@stream_get_contents($fp, 12, 0));
     if ($type != REX_CACHE_FILE_READ_TIMEOUT && time() < $data[REX_CACHE_FILE_READ_TIMEOUT])
     {
       if ($type & REX_CACHE_FILE_READ_LAST_MODIFIED)
       {
-        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@stream_get_contents($fp, 12, 12));
+        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@fread($fp, 12, 12));
+//        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@stream_get_contents($fp, 12, 12));
       }
       if ($type & REX_CACHE_FILE_READ_DATA)
       {
