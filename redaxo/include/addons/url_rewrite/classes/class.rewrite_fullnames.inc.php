@@ -90,7 +90,7 @@ class myUrlRewriter extends rexUrlRewriter
       if(($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
   
-      if ($path == '')
+      if (($path == '') || ($path == $REX['FRONTEND_FILE']))
       {
         $this->setArticleId($REX['START_ARTICLE_ID']);
         return true;
