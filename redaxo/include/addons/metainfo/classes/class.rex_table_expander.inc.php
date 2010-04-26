@@ -285,16 +285,11 @@ class rex_a62_tableExpander extends rex_form
     if($newPrio == $oldPrio)
       return;
 
-    if ($newPrio < $oldPrio)
-      $addsql = 'desc';
-    else
-      $addsql = 'asc';
-
     rex_organize_priorities(
       $this->tableName,
       'prior',
       'name LIKE "'. $this->metaPrefix .'%"',
-      'prior, updatedate '. $addsql, 
+      'prior, updatedate desc', 
       'field_id'
     );
   }
