@@ -22,6 +22,10 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%679_type_effects` (
   `effect` varchar(255) NOT NULL,
   `parameters` text NOT NULL,
   `prior` int(11) NOT NULL,
+  `updatedate` int(11) NOT NULL,
+  `updateuser` varchar(255) NOT NULL,
+  `createdate` int(11) NOT NULL,
+  `createuser` varchar(255) NOT NULL,  
   PRIMARY KEY (`id`)
 ) TYPE=MyISAM;
 
