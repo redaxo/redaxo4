@@ -942,7 +942,7 @@ class rex_form
     if ($deleted)
       $deleted = rex_register_extension_point('REX_FORM_DELETED', $deleted, array('form' => $this, 'sql' => $deleteSql));
     else
-      $deleted = $sql->getErrno();
+      $deleted = $deleteSql->getErrno();
       
     return $deleted;
   }
