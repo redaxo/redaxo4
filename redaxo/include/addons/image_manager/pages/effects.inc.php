@@ -57,21 +57,23 @@ if ($func == '' && $type_id > 0)
 {
   echo rex_content_block($I18N->msg('imanager_effect_list_header', htmlspecialchars($typeName)));
   
-  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id;
+  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id .' ORDER BY prior';
 	
 	$list = rex_list::factory($query);
   $list->setNoRowsMessage(htmlspecialchars($I18N->msg('imanager_effect_no_effects')));
   $list->setCaption(htmlspecialchars($I18N->msg('imanager_effect_caption', $typeName)));
   $list->addTableAttribute('summary', htmlspecialchars($I18N->msg('imanager_effect_summary', $typeName)));
-  $list->addTableColumnGroup(array(40, '*', 130, 130));
+  $list->addTableColumnGroup(array(40, '*', 40, 130, 130));
 	
 	$list->removeColumn('id');	
 	$list->removeColumn('type_id');	
 	$list->removeColumn('parameters');	
+	$list->removeColumn('updatedate');	
+	$list->removeColumn('updateuser');	
+	$list->removeColumn('createdate');	
+	$list->removeColumn('createuser');	
 	$list->setColumnLabel('effect',htmlspecialchars($I18N->msg('imanager_type_name')));
-	
-	// TODO Prio Spalte um Reihenfolge der Filter festzulegen
-	$list->removeColumn('prior');	
+	$list->setColumnLabel('prior',htmlspecialchars($I18N->msg('imanager_type_prior')));	
 
 	// icon column
   $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. htmlspecialchars($I18N->msg('imanager_effect_create')) .'</span></a>';
@@ -94,7 +96,6 @@ if ($func == '' && $type_id > 0)
 elseif ($func == 'add' && $type_id > 0 ||
         $func == 'edit' && $effect_id > 0 && $type_id > 0)
 {
-
   $effectNames = rex_imanager_supportedEffectNames();
   
   if($func == 'edit')
@@ -108,7 +109,7 @@ elseif ($func == 'add' && $type_id > 0 ||
   
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_type_effects',$formLabel,'id='.$effect_id);
 	
-	// image_type_id for reference for saving into the db
+	// image_type_id for reference to save into the db
   $form->addHiddenField('type_id', $type_id);
 
 	// effect name als SELECT
@@ -117,8 +118,8 @@ elseif ($func == 'add' && $type_id > 0 ||
 	$select =& $field->getSelect();
 	$select->addOptions($effectNames, true);
 	$select->setSize(1);
-	
-  $script = '
+  
+	$script = '
   <script type="text/javascript">
   <!--
 
@@ -135,7 +136,14 @@ elseif ($func == 'add' && $type_id > 0 ||
   
   //--></script>';
 	
-  $fieldContainer =& $form->addContainerField('parameters');
+  // effect prio
+  $field =& $form->addPrioField('prior');
+  $field->setLabel($I18N->msg('imanager_effect_prior'));
+  $field->setLabelField('effect');
+  $field->setWhereCondition('type_id = '. $type_id);
+  
+  // effect parameters
+	$fieldContainer =& $form->addContainerField('parameters');
   $fieldContainer->setAttribute('style', 'display: none');
 	$fieldContainer->setSuffix($script);
 	
@@ -187,7 +195,10 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field->setLabel($param['label']);
             break;
           }
-        default:var_dump($param);
+        default:
+          {
+            trigger_error('Unexpected param type "'. $param['type'] .'"');
+          }
       }
     }
   }

@@ -69,6 +69,8 @@ edit_block = Block bearbeiten
 submit_data  =  Daten absenden
 file_doesnt_exist  =  Die Datei existiert nicht.
 choose_another_one  =  Bitte wählen Sie eine andere.
+form_field_first_prior = Am Anfang
+form_field_after_prior = Nach dem Feld "{0}"
 
 # redaxo/include/classes/class.mail_decode.inc.php
 download  =  Download

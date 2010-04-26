@@ -45,8 +45,8 @@ class rex_form
     $this->setMessage('');
 
     $this->sql = rex_sql::factory();
-    $this->sql->debugsql =& $this->debug;
     $this->debug =& $debug;
+    $this->sql->debugsql =& $this->debug;
     $this->sql->setQuery('SELECT * FROM '. $tableName .' WHERE '. $this->whereCondition .' LIMIT 2');
     
     if($this->sql->hasError())
@@ -64,7 +64,7 @@ class rex_form
     }
     elseif($numRows == 1)
     {
-      // Kein Datensatz gefunden => Mode: Edit
+      // Ein Datensatz gefunden => Mode: Edit
       $this->setEditMode(true);
     }
     else
@@ -285,6 +285,15 @@ class rex_form
     $field =& $this->addField('', $name, $value, $attributes, true);
     return $field;
   }
+  
+  /*public*/ function &addPrioField($name, $value = null, $attributes = array())
+  {
+    if(!isset($attributes['class']))
+    	$attributes['class'] = 'rex-form-select';
+    $attributes['internal::fieldClass'] = 'rex_form_prio_element';
+    $field =& $this->addField('', $name, $value, $attributes, true);
+    return $field;
+  }
 
   /*public*/ function &addMediaField($name, $value = null, $attributes = array())
   {
@@ -333,6 +342,11 @@ class rex_form
   /*public*/ function getParams()
   {
     return $this->params;
+  }
+  
+  /*public*/ function getWhereCondition()
+  {
+    return $this->whereCondition;
   }
 
   /*public*/ function getParam($name, $default = null)
@@ -711,6 +725,11 @@ class rex_form
     return $result;
   }
 
+  /*public*/ function getTableName()
+  {
+    return $this->tableName;
+  }
+  
   /*public*/ function getName()
   {
     return $this->name;
@@ -1131,7 +1150,7 @@ class rex_form_element
     $this->setFooter('');
     $this->setPrefix('');
     $this->setSuffix('');
-    $this->setFieldName('');
+    $this->fieldName = '';
   }
 
   // --------- Attribute setter/getters
@@ -1527,7 +1546,7 @@ class rex_form_select_element extends rex_form_element
     parent::rex_form_element('', $table, $attributes);
 
     $this->select = new rex_select();
-    $this->setSeparator('|');
+    $this->separator = '|';
   }
 
   function formatElement()
@@ -1582,6 +1601,107 @@ class rex_form_select_element extends rex_form_element
     }
   }
 }
+
+/**
+ * Feld zum behandeln einer Prioritaetsspalte.
+ * Es wird vorrausgesetzt, dass ein Feld namens "updatedate" in der Tabelle vorhanden ist.
+ */
+class rex_form_prio_element extends rex_form_select_element
+{
+  var $labelField;
+  var $whereCondition;
+  var $primaryKey;
+  var $firstOptionMsg;
+  var $optionMsg;
+  
+  // 1. Parameter nicht genutzt, muss aber hier stehen,
+  // wg einheitlicher Konstrukturparameter
+  function rex_form_prio_element($tag = '', &$table, $attributes = array())
+  {
+    parent::rex_form_select_element('', $table, $attributes);
+    
+    $this->labelField = '';
+    $this->whereCondition = '';
+    $this->primaryKey = 'id';
+    $this->firstOptionMsg = 'form_field_first_prior';
+    $this->optionMsg = 'form_field_after_prior';
+    $this->select->setSize(1);
+    
+    rex_register_extension('REX_FORM_SAVED', array($this, 'organizePriorities'));
+  }
+  
+  /**
+   * Setzt die Datenbankspalte, die das Label für die zu priorisierenden Elemente darstellt
+   * @param $labelField String
+   */
+  function setLabelField($labelField)
+  {
+    $this->labelField = $labelField;
+  }
+  
+  function setWhereCondition($whereCondition)
+  {
+    $this->whereCondition = $whereCondition;
+  }
+  
+  function setPrimaryKey($primaryKey)
+  {
+    $this->primaryKey = $primaryKey;
+  }
+   
+  function formatElement()
+  {
+    global $I18N;
+    
+    $name = $this->getFieldName();
+    
+    $qry = 'SELECT '. $this->labelField .','. $name .' FROM '. $this->table->getTableName() . ' WHERE 1=1';
+    if($this->whereCondition != '')
+    {
+      $qry .= ' AND ('. $this->whereCondition .')';
+    }
+    
+    // Im Edit Mode das Feld selbst nicht als Position einfügen
+    if($this->table->isEditMode())
+    {
+      $sql = $this->table->getSql();
+      $qry .= ' AND ('. $name .'!='. $this->getValue() .')';
+    }
+    
+    $qry .=' ORDER BY '. $name;
+    $sql = rex_sql::factory();
+    $sql->setQuery($qry);
+    
+    $this->select->addOption($I18N->msg($this->firstOptionMsg), 1);
+    while($sql->hasNext())
+    {
+      $this->select->addOption(
+        $I18N->msg($this->optionMsg, $sql->getValue($this->labelField)),
+        $sql->getValue($name)+1
+      );
+      $sql->next();
+    }
+    
+    return parent::formatElement();
+  }
+  
+  function organizePriorities($params)
+  {
+    if($params['form'] == $this->table)
+    {
+      $name = $this->getFieldName();
+      
+      rex_organize_priorities(
+        $this->table->getTableName(),
+        $name,
+        $this->whereCondition,
+        $name.', updatedate desc',
+        $this->primaryKey
+      );
+    }
+  }
+}
+
 
 class rex_form_options_element extends rex_form_element
 {
