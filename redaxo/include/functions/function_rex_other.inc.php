@@ -396,6 +396,23 @@ function rex_replace_dynamic_contents($path, $content)
  */
 function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
 {
+//  // Datenbankvariable initialisieren
+//  $qry = 'SET @count='. ($startBy - 1);
+//  $sql = rex_sql::getInstance();
+//  $sql->setQuery($qry);
+//
+//  // Spalte updaten
+//  $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
+//
+//  if($whereCondition != '')
+//    $qry .= ' WHERE '. $whereCondition;
+//
+//  if($orderBy != '')
+//    $qry .= ' ORDER BY '. $orderBy;
+//
+//  $sql = rex_sql::getInstance();
+//  $sql->setQuery($qry);
+  
   $gu = rex_sql::factory();
   $qry = 'select * from '.$tableName;
   if($whereCondition != '')
