@@ -37,7 +37,8 @@ class rex_thumbnail
     // ----- detect image format
     $this->img['format'] = strtoupper(OOMedia::_getExtension($imgfile));
     $this->img['src'] = false;
-    if (strpos($imgfile, 'cache/') !== false)
+    
+    if (strpos($imgfile, 'cache/') === false)
     {
       if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
       {
