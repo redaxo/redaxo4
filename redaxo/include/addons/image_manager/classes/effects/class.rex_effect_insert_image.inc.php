@@ -13,7 +13,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
 		
     // -------------------------------------- CONFIG
     $brandimage = $REX['MEDIAFOLDER'] .'/'. $this->params['brandimage'];
-    if(!file_exists($brandimage))
+    if(!file_exists($brandimage) || !is_file($brandimage))
       $brandimage = dirname(__FILE__). '/../../media/brand.gif';
       
     // Abstand vom Rand
@@ -28,23 +28,22 @@ class rex_effect_insert_image extends rex_effect_abstract{
     // horizontale ausrichtung: left/center/right
     $hpos = 'right';
     if(isset($this->params['hpos']))
-      $hpos = $this->params['hpos'];
+      $hpos = (string) $this->params['hpos'];
       
     // vertikale ausrichtung:   top/center/bottom
     $vpos = 'bottom';
     if(isset($this->params['vpos']))
-      $vpos = $this->params['vpos'];
+      $vpos = (string) $this->params['vpos'];
     
     // -------------------------------------- /CONFIG
-  
     $brand = new rex_image($brandimage);
     $brand->prepare();
     $gdbrand =& $brand->getImage();
     $gdimage =& $this->image->getImage();
     
-    $image_width = $this->image->getWidth();
+    $image_width  = $this->image->getWidth();
     $image_height = $this->image->getHeight();
-    $brand_width = $brand->getWidth();
+    $brand_width  = $brand->getWidth();
     $brand_height = $brand->getHeight();
     
     switch($hpos)
