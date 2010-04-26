@@ -147,7 +147,7 @@ class rex_cronjob_manager_sql
   /*private*/ var $sql;
   /*private*/ var $manager;
   
-  /*private*/ function rex_cronjob_manager_sql(/*rex_cronjob_manager*/ &$manager = null)
+  /*private*/ function rex_cronjob_manager_sql(/*rex_cronjob_manager*/ $manager = null)
   {
     $this->sql = rex_sql::factory();
     // $this->sql->debugsql = true;
@@ -157,7 +157,7 @@ class rex_cronjob_manager_sql
       $this->manager = rex_cronjob_manager::factory();
   }
 
-  /*public*/ function factory(/*rex_cronjob_manager*/ &$manager = null)
+  /*public*/ function factory(/*rex_cronjob_manager*/ $manager = null)
   {
     return new rex_cronjob_manager_sql($manager);
   }
