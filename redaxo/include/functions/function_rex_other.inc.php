@@ -393,6 +393,12 @@ function rex_replace_dynamic_contents($path, $content)
 /**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
+ * 
+ * @param $tableName String Name der Datenbanktabelle
+ * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
+ * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets 
+ * @param $orderBy Sortierung des ResultSets 
+ * @param $id_field Name des Primaerschluessels der Tabelle
  */
 function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
 {
@@ -413,12 +419,13 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
 //  $sql = rex_sql::getInstance();
 //  $sql->setQuery($qry);
   
-  $gu = rex_sql::factory();
   $qry = 'select * from '.$tableName;
   if($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
   if($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
+    
+  $gu = rex_sql::factory();
   $gr = rex_sql::factory();
   $gr->setQuery($qry);
   for ($i = 0; $i < $gr->getRows(); $i ++)
@@ -426,7 +433,6 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
       $gu->setQuery('update '.$tableName.' set '.$priorColumnName.'='.($i+1).' where '.$id_field.'='.$gr->getValue($id_field));
       $gr->next();
   }
-	return;
 }
 
 function rex_lang_is_utf8()
