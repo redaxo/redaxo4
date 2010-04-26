@@ -69,8 +69,8 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	rex_register_extension('PAGE_HEADER', 'rex_editme_assets');
 }
 
-rex_register_extension('ADDONS_INCLUDED', 'rex_com_xform_add');
-function rex_com_xform_add($params){
+rex_register_extension('ADDONS_INCLUDED', 'rex_em_xform_add');
+function rex_em_xform_add($params){
 	global $REX;
 	$REX['ADDON']['xform']['classpaths']['action'][] = $REX["INCLUDE_PATH"]."/addons/editme/xform/action/";
 	$REX['ADDON']['xform']['classpaths']['value'][] = $REX["INCLUDE_PATH"]."/addons/editme/xform/value/";
