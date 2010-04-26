@@ -26,64 +26,15 @@ class rex_effect_resize extends rex_effect_abstract
 
 		if($this->params['style'] == 'fit')
 		{
-
-			if (!empty($this->params['height']) && !empty($this->params['width']))
-			{
-				$img_ratio  = $w / $h;
-				$resize_ratio = $this->params['width'] / $this->params['height'];
-
-				if ($img_ratio >= $resize_ratio)
-				{
-					// --- width
-					$this->params['height'] = (int) ($this->params['width'] / $w * $h);
-				}else
-				{
-					// --- height
-					$this->params['width']  = (int) ($this->params['height'] / $h * $w);
-				}
-			}
-			elseif (!empty($this->params['height']))
-			{
-				$img_factor  = $h / $this->params['height'];
-				$this->params['width'] = (int) ($w / $img_factor);
-			}
-			elseif (!empty($this->params['width']))
-			{
-				$img_factor  = $w / $this->params['width'];
-				$this->params['height'] = (int) ($h / $img_factor);
-			}
+		  $this->resizeFit($w, $h);
 		}
-
-		// @ WHEEZ - Neuer Modus 'minimum'
-
-		if($this->params['style'] == 'minimum')
+		else if($this->params['style'] == 'minimum') 
 		{
-
-			if (!empty($this->params['height']) && !empty($this->params['width']))
-			{
-				$img_ratio  = $w / $h;
-				$resize_ratio = $this->params['width'] / $this->params['height'];
-
-				if ($img_ratio < $resize_ratio)
-				{
-					// --- width
-					$this->params['height'] = (int) ($this->params['width'] / $w * $h);
-				}else
-				{
-					// --- height
-					$this->params['width']  = (int) ($this->params['height'] / $h * $w);
-				}
-			}
-			elseif (!empty($this->params['height']))
-			{
-				$img_factor  = $h / $this->params['height'];
-				$this->params['width'] = (int) ($w / $img_factor);
-			}
-			elseif (!empty($this->params['width']))
-			{
-				$img_factor  = $w / $this->params['width'];
-				$this->params['height'] = (int) ($h / $img_factor);
-			}
+		  $this->resizeMinimum($w, $h);
+		}
+		else
+		{
+		  // warp => nichts tun
 		}
 
 		// TODO prŸfen!
@@ -118,6 +69,64 @@ class rex_effect_resize extends rex_effect_abstract
 
 		$gdimage = $des;
 		$this->image->refreshDimensions();
+	}
+	
+	function resizeFit($w, $h)
+	{
+    if (!empty($this->params['height']) && !empty($this->params['width']))
+    {
+      $img_ratio  = $w / $h;
+      $resize_ratio = $this->params['width'] / $this->params['height'];
+      
+      if ($img_ratio >= $resize_ratio)
+      {
+        // --- width
+        $this->params['height'] = ceil ($this->params['width'] / $w * $h);
+      }else
+      {
+        // --- height
+        $this->params['width']  = ceil ($this->params['height'] / $h * $w);
+      }
+    }
+    elseif (!empty($this->params['height']))
+    {
+      $img_factor  = $h / $this->params['height'];
+      $this->params['width'] = ceil ($w / $img_factor);
+    }
+    elseif (!empty($this->params['width']))
+    {
+      $img_factor  = $w / $this->params['width'];
+      $this->params['height'] = ceil ($h / $img_factor);
+    }
+	}
+	
+	function resizeMinimum($w, $h)
+	{
+    if (!empty($this->params['height']) && !empty($this->params['width']))
+    {
+      $img_ratio  = $w / $h;
+      $resize_ratio = $this->params['width'] / $this->params['height'];
+
+      if ($img_ratio < $resize_ratio)
+      {
+        // --- width
+        $this->params['height'] = ceil ($this->params['width'] / $w * $h);
+      }else
+      {
+        // --- height
+        $this->params['width']  = ceil ($this->params['height'] / $h * $w);
+      }
+    }
+    elseif (!empty($this->params['height']))
+    {
+      $img_factor  = $h / $this->params['height'];
+      $this->params['width'] = ceil ($w / $img_factor);
+    }
+    elseif (!empty($this->params['width']))
+    {
+      $img_factor  = $w / $this->params['width'];
+      $this->params['height'] = ceil ($h / $img_factor);
+    }
 	}
 
 
