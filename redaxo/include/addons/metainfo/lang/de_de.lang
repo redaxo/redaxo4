@@ -53,3 +53,12 @@ minfo_field_successfull_deleted = Feld erfolgreich gelöscht!
 minfo_field_successfull_saved = Daten erfolgreich gespeichert!
 
 minfo_edit_metadata = Metadaten bearbeiten
+
+# bc: labels aus dem core
+online_from = Online vom
+online_to = bis zum
+description = Beschreibung
+keywords = Suchbegriffe
+header_article_type = Artikeltyp
+metadata_image = Metafile/Bild
+teaser = Teaser
