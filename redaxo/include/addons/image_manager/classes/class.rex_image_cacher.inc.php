@@ -47,6 +47,20 @@ class rex_image_cacher
     return false;
   }
   
+  /**
+   * Returns a rex_image instance representing the cached image.
+   * This Method requires a already cached file.
+   * 
+   * Use rex_image_manager::getImageCache() if the cache should be created if needed.
+   */
+  /*public*/ function getCachedImage($filename, $cacheParams)
+  {
+    $cacheFile = $this->_getCacheFile($filename, $cacheParams);
+    $rex_image = new rex_image($cacheFile);
+    $rex_image->prepare();
+    return $rex_image;
+  }
+  
   /*public*/ function getCacheFile(/*rex_image*/ $image, $cacheParams)
   {
     return $this->_getCacheFile($image->getFileName(), $cacheParams);
@@ -76,18 +90,18 @@ class rex_image_cacher
 //	  }
 //	  else
 //	  {
-	    $cache_file = $this->getCacheFile($image, $cacheParams);
+	    $cacheFile = $this->getCacheFile($image, $cacheParams);
 	    
   	  // save image to file
   	  if(!$this->isCached($image, $cacheParams))
   	  {
   	    $image->prepare();
-  	    $image->save($cache_file);
+  	    $image->save($cacheFile);
   	  }
   	  
   	  // send file
       $image->sendHeader();
-      readfile($cache_file);
+      readfile($cacheFile);
 //	  }
 	}
 	
