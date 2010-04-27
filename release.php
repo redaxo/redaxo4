@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 // TODO be_style + agk Skin defaul installed
 // TODO addons.inc, plugins.inc entsprechend
 // TODO nur sprache XY ins release
@@ -437,10 +439,25 @@ function copyFolderStructure($structure, $dest)
       {
         copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
 
-        if(substr($dir, -5) == '.lang' && substr($dir, -9) != 'utf8.lang')
+        // create iso lang from utf8 if required
+        if(substr($dir, -10) == '_utf8.lang')
         {
-          echo '> convert file '. $path .'/'. $dir .' to utf-8'."\n";
-          buildUtf8LangFile( $dest .'/'. $path.'/'.$dir,$dir);
+          $isoLang = substr($dir, 0, -10).'.lang';
+          if(!file_exists($isoLang))
+          {
+            echo '> convert file '. $path .'/'. $dir .' to iso'."\n";
+            buildIsoLangFile( $dest .'/'. $path.'/'.$dir, $dir);
+          }
+        }
+        // create utf8 lang from iso if required
+        else if (substr($dir, -5) == '.lang')
+        {
+          $utfLang = substr($dir, 0, -5).'_utf8.lang';
+          if(!file_exists($utfLang))
+          {
+            echo '> convert file '. $path .'/'. $dir .' to utf-8'."\n";
+            buildUtf8LangFile( $dest .'/'. $path.'/'.$dir, $dir);
+          }
         }
       }
       elseif(is_dir($path.'/'.$dir))
@@ -451,13 +468,46 @@ function copyFolderStructure($structure, $dest)
   }
 }
 
-function buildUtf8LangFile($langFile, $lang)
+function langCharset($lang)
 {
 	$charset_from = 'iso-8859-1';
 	
 	// Wenn neue Sprachdateien mit anderen charsets, dann hier fest einbrennen
-  if($lang == "cs_cz.lang")
-	  $charset_from = "iso-8859-2";
+  if(substr($lang, 0, 5) == 'cs_cz')
+	  $charset_from = 'iso-8859-2';
+	else if (substr($lang, 0, 5) == 'sr_sr')
+	  $charset_from = 'iso-8859-5';
+	else if (substr($lang, 0, 5) == 'tr_tr')
+	  $charset_from = 'iso-8859-9';
+	  
+	return $charset_from;
+}
+
+function buildIsoLangFile($langFile, $lang)
+{
+  $charset_to = langCharset($lang);
+	
+  $content = '';
+  if($hdl = fopen($langFile, 'r'))
+  {
+    $content = fread($hdl, filesize($langFile));
+    fclose($hdl);
+
+    // Charset auf UTF-8 ändern
+    $content = preg_replace('/^htmlcharset = (.*)$/m', 'htmlcharset = '. $charset_to, $content);
+  }
+
+  $isoFile = str_replace('_utf8.lang', '.lang', $langFile);
+  if($hdl = fopen($isoFile, 'w+'))
+  {
+    fwrite($hdl, iconv('UTF-8', $charset_to, $content));
+    fclose($hdl);
+  }
+}
+
+function buildUtf8LangFile($langFile, $lang)
+{
+  $charset_from = langCharset($lang);
 	
   $content = '';
   if($hdl = fopen($langFile, 'r'))
