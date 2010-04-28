@@ -612,7 +612,11 @@ class OOMedia
    */
   function isInUse()
   {
-    global $REX;
+    global $REX, $I18N;
+    
+    // Im Frontend gibts kein I18N
+    if(!is_object($I18N))
+      $I18N = rex_create_lang($REX['LANG']);
 
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
@@ -628,7 +632,7 @@ class OOMedia
     for ($i = 1; $i < 11; $i++)
     {
       $files[] = 'file'.$i.'="'.$filename.'"';
-      $filelists[] = '(filelist'.$i.' LIKE "'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.'" ) ';
+      $filelists[] = '(filelist'.$i.' = "'.$filename.'" OR filelist'.$i.' LIKE "'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.'" ) ';
     }
 
     $where = '';
@@ -637,6 +641,7 @@ class OOMedia
     $where .= implode(' OR ', $values);
     $query = 'SELECT DISTINCT article_id, clang FROM '.$REX['TABLE_PREFIX'].'article_slice WHERE '. $where;
 
+    // deprecated since REX 4.3
     // ----- EXTENSION POINT
     $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
       array(
@@ -645,11 +650,34 @@ class OOMedia
       )
     );
 
+    $warning = array();
     $res = $sql->getArray($query);
     if($sql->getRows() > 0)
-      return $res;
+    {
+      $warning[0] = $I18N->msg('pool_file_in_use_articles').'<br /><ul>';
+      foreach($res as $art_arr)
+      {
+        $aid = $art_arr['article_id'];
+        $clang = $art_arr['clang'];
+        $ooa = OOArticle::getArticleById($aid, $clang);
+        $name = $ooa->getName();
+        $warning[0] .='<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
+      }
+      $warning[0] .= '</ul>';
+    }
 
-    return FALSE;
+    // ----- EXTENSION POINT
+    $warning = rex_register_extension_point('OOMEDIA_IS_IN_USE', $warning,
+      array(
+        'filename' => $this->getFileName(),
+        'media' => $this,
+      )
+    );
+
+    if (!empty($warning))
+      return $warning;
+
+    return false;
   }
 
   /**

@@ -99,8 +99,8 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
     $file_name = $media->getFileName();
     if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
     {
-      $articleUsesMedia = $media->isInUse();
-      if($articleUsesMedia === false)
+      $uses = $media->isInUse();
+      if($uses === false)
       {
         if($media->delete() !== FALSE)
         {
@@ -113,18 +113,12 @@ if ($subpage=='detail' && rex_post('btn_delete', 'string'))
       }else
       {
         $warning = array();
-        $warning[] = $I18N->msg('pool_file_delete_error_1', $file_name).' '.
-                     $I18N->msg('pool_file_delete_error_2').'<br />';
-        $warning[] = '<ul>';
-        foreach($articleUsesMedia as $art_arr)
+        $warning[] = '<strong>'.$I18N->msg('pool_file_delete_error_1', $file_name).' '.
+                     $I18N->msg('pool_file_delete_error_2').'</strong><br />';
+        foreach($uses as $use)
         {
-          $aid = $art_arr['article_id'];
-          $clang = $art_arr['clang'];
-          $ooa = OOArticle::getArticleById($aid, $clang);
-          $name = $ooa->getName();
-          $warning[] ='<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
+          $warning[] = $use;
         }
-        $warning[] = '</ul>';
         $subpage = '';
 
       }
@@ -494,8 +488,8 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 			{
 			 if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
 			 {
-			   $articleUsesMedia = $media->isInUse();
-			   if($articleUsesMedia === false)
+			   $uses = $media->isInUse();
+			   if($uses === false)
 			   {
 			     if($media->delete() !== FALSE)
 			     {
@@ -507,17 +501,12 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 			     $subpage = "";
 			   }else
 			   {
-			   	 $tmp = $I18N->msg('pool_file_delete_error_1', $file_name).' '.$I18N->msg('pool_file_delete_error_2').'<br />';
-			     $tmp .= '<ul>';
-			     foreach($articleUsesMedia as $art_arr)
-			     {
-			       $aid = $art_arr['article_id'];
-			       $clang = $art_arr['clang'];
-			       $ooa = OOArticle::getArticleById($aid, $clang);
-			       $name = $ooa->getName();
-			       $tmp .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
-			     }
-			     $tmp .= '</ul>';
+			   	 $tmp = '<strong>'.$I18N->msg('pool_file_delete_error_1', $file_name).' '.
+			   	        $I18N->msg('pool_file_delete_error_2').'</strong><br />';
+			   	 foreach($uses as $use)
+           {
+  			     $tmp .= '<br />'.$use;
+  			   }
 					 $warning[] = $tmp;
 			   }
 			 }else

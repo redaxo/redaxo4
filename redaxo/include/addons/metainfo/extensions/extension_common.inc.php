@@ -8,7 +8,7 @@
  * @version svn:$Id$
  */
 
-rex_register_extension('OOMEDIA_IS_IN_USE_QUERY', 'rex_a62_media_is_in_use');
+rex_register_extension('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
@@ -688,28 +688,36 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
 function rex_a62_media_is_in_use($params)
 {
-  global $REX;
+  global $REX, $I18N;
   
-  $query = $params['subject'];
+  $warning = $params['subject'];
 
   $sql = rex_sql::factory();
   $sql->setQuery('SELECT `name`, `type` FROM `'. $REX['TABLE_PREFIX'] .'62_params` WHERE `type` IN(6,7)');
 
   $rows = $sql->getRows();
   if($rows == 0)
-    return $query;
+    return $warning;
 
-  $where = array();
+  $where = array(
+    'articles' => array(),
+    'media' => array()
+  );
   $filename = addslashes($params['filename']);
   for($i = 0; $i < $rows; $i++)
   {
+    $name = $sql->getValue('name');
+    if (a62_meta_prefix($name) == 'med_')
+      $key = 'media';
+    else
+      $key = 'articles';
     switch ($sql->getValue('type'))
     {
       case '6':
-        $where[] = $sql->getValue('name') .'="'. $filename .'"';
+        $where[$key][] = $name .'="'. $filename .'"';
         break;
       case '7':
-        $where[] = $sql->getValue('name') .' LIKE "%|'. $filename .'|%"';
+        $where[$key][] = '('. $name .' = "'. $filename .'" OR '. $name .' LIKE "%,'. $filename .'" OR '. $name .' LIKE "%,'. $filename .',%" OR '. $name .' LIKE "'. $filename .',%")';
         break;
       default :
         trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);
@@ -717,8 +725,57 @@ function rex_a62_media_is_in_use($params)
     $sql->next();
   }
 
-  $query .= "\n" .'UNION'. "\n";
-  $query .='SELECT DISTINCT id, clang FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. implode(' OR ', $where);
+  $articles = '';
+  $categories = '';
+  if (!empty($where['articles']))
+  {
+    $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. implode(' OR ', $where['articles']));
+    if ($sql->getRows() > 0)
+    {
+      foreach($sql->getArray() as $art_arr)
+      {
+        $aid = $art_arr['id'];
+        $clang = $art_arr['clang'];
+        $re_id = $art_arr['re_id'];
+        $name = $art_arr['startpage'] ? $art_arr['catname'] : $art_arr['name'];
+        if ($art_arr['startpage'])
+        {
+          $categories .= '<li><a href="javascript:openPage(\'index.php?page=structure&amp;edit_id='. $aid .'&amp;function=edit_cat&amp;category_id='.$re_id.'&amp;clang='. $clang .'\')">'. $art_arr['catname'] .'</a></li>';
+        }
+        else
+        {
+          $articles .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=meta&amp;clang='. $clang .'\')">'. $art_arr['name'] .'</a></li>';
+        }
+      }
+      if ($articles != '')
+      {
+        $warning[] = $I18N->msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
+      }
+      if ($categories != '')
+      {
+        $warning[] = $I18N->msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
+      }
+    }
+  }
+  $media = '';
+  if (!empty($where['media']))
+  {
+    $sql->setQuery('SELECT file_id, filename, category_id FROM '. $REX['TABLE_PREFIX'] .'file WHERE '. implode(' OR ', $where['media']));
+    if ($sql->getRows() > 0)
+    {
+      foreach($sql->getArray() as $med_arr)
+      {
+        $id = $med_arr['file_id'];
+        $filename = $med_arr['filename'];
+        $cat_id = $med_arr['category_id'];
+        $media .= '<li><a href="index.php?page=mediapool&amp;subpage=detail&amp;file_id='. $id .'&amp;rex_file_category='.$cat_id.'">'. $filename .'</a></li>';
+      }
+      if ($media != '')
+      {
+        $warning[] = $I18N->msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
+      }
+    }
+  }
 
-  return $query;
+  return $warning;
 }

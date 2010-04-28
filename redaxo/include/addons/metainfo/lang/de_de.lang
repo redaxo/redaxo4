@@ -54,6 +54,10 @@ minfo_field_successfull_saved = Daten erfolgreich gespeichert!
 
 minfo_edit_metadata = Metadaten bearbeiten
 
+minfo_media_in_use_art = Artikel (Metadaten)
+minfo_media_in_use_cat = Kategorien (Metadaten)
+minfo_media_in_use_med = Medien (Metadaten)
+
 # bc: labels aus dem core
 online_from = Online vom
 online_to = bis zum
