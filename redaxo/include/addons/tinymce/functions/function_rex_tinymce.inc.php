@@ -138,6 +138,10 @@ if (!function_exists('a52_tinymce_output_init'))
  */ 
 function rexCustomFileBrowser(field_name, url, type, win)
 {
+	//alert("Field_Name: " + field_name + "\nURL: " + url + "\nType: " + type + "\nWin: " + win); // debug/testing
+	var cmsURL = window.location.toString();
+	var urlbase = cmsURL.split("index.php");
+
 	if (type == 'image' || type == 'media')
 	{
 		nameurl = url.replace('files/', '');
@@ -156,6 +160,7 @@ function rexCustomFileBrowser(field_name, url, type, win)
 		cmsURL = "index.php?page=<?php echo $rxa_tinymce['linkmap']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+idurl;
 		popupTitle = 'Linkmap';
 	}
+	cmsURL = urlbase[0] + cmsURL;
 
 	tinyMCE.activeEditor.windowManager.open({
 		file : cmsURL,

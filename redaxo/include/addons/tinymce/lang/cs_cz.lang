@@ -30,6 +30,9 @@ tinymce_background = Seznam oddìlen èárkami<br />zde zadat hex hodnoty barev bez
 title_validxhtml = Validovaný XHTML-Code 
 tinymce_validxhtml = Validovaný XHTML-Code (evtl. problémy s výkonem)
 
+title_inlinepopups = Use inline-popups
+tinymce_inlinepopups = (Lightbox-Style)
+
 title_theme = Vybrat motiv
 theme_simple = Jednoduchý
 theme_default = Standartní

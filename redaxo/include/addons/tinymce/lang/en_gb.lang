@@ -32,6 +32,9 @@ tinymce_background = Comma-separated list<br />Hex-Values for the colours withou
 title_validxhtml = Generate valid XHTML
 tinymce_validxhtml = (might cause problems slowdowns.)
 
+title_inlinepopups = Use inline-popups
+tinymce_inlinepopups = (Lightbox-Style)
+
 title_theme = Choose theme
 theme_simple = Simple
 theme_default = Standard

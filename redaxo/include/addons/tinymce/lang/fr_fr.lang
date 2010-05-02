@@ -30,6 +30,9 @@ tinymce_background = Liste, séparé par virgules<br />Indiquer ici les valeurs He
 title_validxhtml = Générer Code-XHTML valide
 tinymce_validxhtml = Générer Code-XHTML-valide (éventuellement problèmes de performance)
 
+title_inlinepopups = Use inline-popups
+tinymce_inlinepopups = (Lightbox-Style)
+
 title_theme = Choisir thème
 theme_simple = Simple
 theme_default = Standard

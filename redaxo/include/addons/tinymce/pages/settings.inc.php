@@ -32,6 +32,7 @@
 		$rxa_tinymce['get_foreground'] = rex_request('foreground', 'string');
 		$rxa_tinymce['get_background'] = rex_request('background', 'string');
 		$rxa_tinymce['get_validxhtml'] = rex_request('validxhtml', 'string');
+		$rxa_tinymce['get_inlinepopups'] = rex_request('inlinepopups', 'string');
 		$rxa_tinymce['get_theme'] = rex_request('theme', 'string');
 		$rxa_tinymce['get_skin'] = rex_request('skin', 'string');
 		$rxa_tinymce['get_extconfig'] = rex_request('extconfig', 'string');
@@ -42,6 +43,7 @@
 		$REX['ADDON'][$rxa_tinymce['name']]['foreground'] = $rxa_tinymce['get_foreground'];
 		$REX['ADDON'][$rxa_tinymce['name']]['background'] = $rxa_tinymce['get_background'];
 		$REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = $rxa_tinymce['get_validxhtml'];
+		$REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] = $rxa_tinymce['get_inlinepopups'];
 		$REX['ADDON'][$rxa_tinymce['name']]['theme'] = $rxa_tinymce['get_theme'];
 		$REX['ADDON'][$rxa_tinymce['name']]['skin'] = $rxa_tinymce['get_skin'];
 		$REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = $rxa_tinymce['get_extconfig'];
@@ -53,13 +55,13 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'pages\'] = \'' . $rxa_tinymce['get_pag
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'foreground\'] = \'' . $rxa_tinymce['get_foreground'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'background\'] = \'' . $rxa_tinymce['get_background'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'validxhtml\'] = \'' . $rxa_tinymce['get_validxhtml'] . '\';
+$REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'inlinepopups\'] = \'' . $rxa_tinymce['get_inlinepopups'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'theme\'] = \'' . $rxa_tinymce['get_theme'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'skin\'] = \'' . $rxa_tinymce['get_skin'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'extconfig\'] = "
 '. trim($rxa_tinymce['get_extconfig']) . '";
 		';
 
-		//$filename = dirname( __FILE__) . '/../config.inc.php';
 		$filename = $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/config.inc.php';
 		if (rex_replace_dynamic_contents($filename, $rxa_tinymce['config_content']))
 		{
@@ -139,6 +141,14 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'extconfig\'] = "
 					<input class="rex-form-checkbox" type="checkbox" id="tinymce_validxhtml" name="validxhtml" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] == 'on') echo 'checked="checked"'; ?> />
 					<label for="tinymce_validxhtml"><?php echo $I18N_A52->msg('title_validxhtml'); ?></label>
 					<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_validxhtml'); ?></span>
+				</p>
+			</div>
+
+			<div class="rex-form-row">
+				<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+					<input class="rex-form-checkbox" type="checkbox" id="tinymce_inlinepopups" name="inlinepopups" <?php if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') echo 'checked="checked"'; ?> />
+					<label for="tinymce_inlinepopups"><?php echo $I18N_A52->msg('title_inlinepopups'); ?></label>
+					<span class="rex-form-notice"><?php echo $I18N_A52->msg('tinymce_inlinepopups'); ?></span>
 				</p>
 			</div>
 

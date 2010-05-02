@@ -32,6 +32,9 @@ tinymce_background = Liste durch Kommas getrennt<br />hier die Hex-Werte f&uuml;
 title_validxhtml = Validen XHTML-Code ausgeben
 tinymce_validxhtml = (evtl. Probleme mit der Performance)
 
+title_inlinepopups = Inline-Popups statt normaler Popups verwenden
+tinymce_inlinepopups = (im Lightbox-Stil mit Abdunkelung der Seite)
+
 title_theme = Theme ausw&auml;hlen
 theme_simple = Einfach
 theme_default = Standard

@@ -20,7 +20,7 @@ class rexTinyMCEEditor
 	var $default_buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
 	var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media';
 	var $default_buttons3 = 'undo,redo,|,tablecontrols,visualaid';
-	var $default_plugins  = 'advhr,advimage,advlink,contextmenu,fullscreen,inlinepopups,paste,preview,redaxo,safari,visualchars';
+	var $default_plugins  = 'advhr,advimage,advlink,contextmenu,fullscreen,paste,preview,redaxo,safari,visualchars';
 
 	var $id = '';
 	var $content;
@@ -83,6 +83,10 @@ class rexTinyMCEEditor
 
 		// evtl. Standard-Buttons vorbelegen
 		$plugins = $this->default_plugins;
+		if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') // Inline-Popups ausgewählt
+		{
+			$plugins .= ',inlinepopups';
+		}
 		
 		if ($this->buttons1 === false)
 		{
@@ -91,7 +95,7 @@ class rexTinyMCEEditor
 		if (($this->buttons2 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] <> 'simple'))
 		{
 			$this->buttons2 = $this->default_buttons2;
-			$plugins .= ',emotions,media';
+			//$plugins .= ',emotions,media';
 		}
 		if (($this->buttons3 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced'))
 		{
