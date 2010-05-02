@@ -21,8 +21,8 @@ if ($eventType == REX_A1_IMPORT_EVENT_PRE)
   
   $update->setQuery("ALTER TABLE `". $REX['TABLE_PREFIX'] ."article` DROP `label`, DROP `url`");
   
-  $update->setQuery("UPDATE `". $REX['TABLE_PREFIX'] ."article` SET `revision` = 0;");
-  $update->setQuery("UPDATE `". $REX['TABLE_PREFIX'] ."article_slice` SET `revision` = 0;");
+  $update->setQuery("UPDATE `". $REX['TABLE_PREFIX'] ."article` SET `revision` = 0 WHERE `revision` IS NULL;");
+  $update->setQuery("UPDATE `". $REX['TABLE_PREFIX'] ."article_slice` SET `revision` = 0 WHERE `revision` IS NULL;");
   
   // add indizies
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."article ADD INDEX `id` (`id`), ADD INDEX `clang` (`clang`), ADD UNIQUE INDEX `find_articles` (`id`, `clang`), ADD INDEX `re_id` (`re_id`);");
