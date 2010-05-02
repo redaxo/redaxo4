@@ -50,7 +50,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['foreground'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['background'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = 'on';
 $REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] = 'on';
-$REX['ADDON'][$rxa_tinymce['name']]['theme'] = 'advanced';
+$REX['ADDON'][$rxa_tinymce['name']]['theme'] = 'default';
 $REX['ADDON'][$rxa_tinymce['name']]['skin'] = 'default';
 $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 ";
