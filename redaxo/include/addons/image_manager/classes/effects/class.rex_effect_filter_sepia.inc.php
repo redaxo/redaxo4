@@ -1,62 +1,27 @@
 <?php
 
-
 class rex_effect_filter_sepia extends rex_effect_abstract{
-
 
 	function execute()
 	{
-    $gdimage =& $this->image->getImage();
-    $w = $this->image->getWidth();
-    $h = $this->image->getHeight();
-     
-	  $src_x = ceil( $w );
-		$src_y = ceil( $h );
-		$dst_x = $src_x;
-		$dst_y = $src_y;
-		$dst_im = ImageCreateTrueColor( $dst_x, $dst_y );
+		$img =& $this->image->getImage();
 
-		// Benötigt PHP > 4.3.2
-		if(function_exists('imageantialias'))
-		  imageantialias( $dst_im, TRUE );
-
-		ImageCopyResampled( $dst_im, $gdimage, 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y );
-		// Change style of image pixelwise
-		for( $y = 0; $y < $dst_y; $y++ )
+		if (!($t = imagecolorstotal($img)))
 		{
-			for( $x = 0; $x < $dst_x; $x++ )
-			{
-				$col = ImageColorAt( $dst_im, $x, $y );
-				$r = ($col & 0xFF0000) >> 16;
-				$g = ($col & 0x00FF00) >> 8;
-				$b = $col & 0x0000FF;
-				$grey = (min($r,$g,$b) + max($r,$g,$b)) / 2;
-				// Boost  colors
-				$boost = 1.2;
-				$boostborder = 250;
-				for( $i = 0; $i < 25; $i++ )
-				{
-					if( $grey > $boostborder )
-					{
-						$grey = $grey * $boost;
-						break;
-					}
-					$boost -= .01;
-					$boostborder -= 10;
-				}
-				// Set sepia palette
-				$r = $grey * 1.01;
-				$g = $grey * 0.98;
-				$b = $grey * 0.90;
-				// Correct max values
-				$r = min($r, 255);
-				$g = min($g, 255);
-				$b = min($b, 255);
-				$col = ImageColorAllocate( $dst_im, $r, $g, $b );
-				ImageSetPixel( $dst_im, $x, $y, $col );
-			}
+			$t = 256;
+			imagetruecolortopalette($img, true, $t);
 		}
-		$gdimage = $dst_im;
+		$total = imagecolorstotal( $img );
+		for ( $i = 0; $i < $total; $i++ ) {
+			$index = imagecolorsforindex( $img, $i );
+			$red = ( $index["red"] * 0.393 + $index["green"] * 0.769 + $index["blue"] * 0.189 );
+			$green = ( $index["red"] * 0.349 + $index["green"] * 0.686 + $index["blue"] * 0.168 );
+			$blue = ( $index["red"] * 0.272 + $index["green"] * 0.534 + $index["blue"] * 0.131 );
+			if ($red > 255) { $red = 255; }
+			if ($green > 255) { $green = 255; }
+			if ($blue > 255) { $blue = 255; }
+			imagecolorset( $img, $i, $red, $green, $blue );
+		}
 
 	}
 
@@ -66,7 +31,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 
 		return array(
 
-				);
+		);
 
 	}
 
