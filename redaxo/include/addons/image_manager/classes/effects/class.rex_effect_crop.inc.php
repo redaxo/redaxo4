@@ -70,7 +70,7 @@ class rex_effect_crop extends rex_effect_abstract
     // horizontal position
     if($position[1] == 'left')
     {
-      $offset_width += $this->params['offset_height'];
+      $offset_width += $this->params['offset_width'];
     }
     else if($position[1] == 'center')
     {
