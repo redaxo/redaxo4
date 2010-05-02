@@ -486,6 +486,9 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 
 function rex_a1_import_skript($filename, $importType, $eventType)
 {
+  // damit $REX im Skript verfuegbar ist
+  global $REX;
+
   if(file_exists($filename))
   {
     require($filename);
