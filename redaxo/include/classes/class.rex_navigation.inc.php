@@ -287,13 +287,16 @@ class rex_be_navigation
   {
     global $REX,$I18N;
     $s = '<dl class="rex-navi">';
-    foreach($this->pages as $block => $blockPages)
+    if(is_array($this->pages))
     {
-      $headline = $this->getHeadline($block);
-      
-      $s .= '<dt>'. $headline .'</dt><dd>';
-      $s .= $this->_getNavigation($blockPages, 0, $block);
-      $s .= '</dd>' . "\n";
+	    foreach($this->pages as $block => $blockPages)
+	    {
+	      $headline = $this->getHeadline($block);
+	      
+	      $s .= '<dt>'. $headline .'</dt><dd>';
+	      $s .= $this->_getNavigation($blockPages, 0, $block);
+	      $s .= '</dd>' . "\n";
+	    }
     }
     $s .= '</dl>';
     return $s;
@@ -352,30 +355,29 @@ class rex_be_navigation
   
   /*public*/ function setActiveElements()
   {
-    // echo '<pre>';var_dump($this->navi); echo '</pre>';
-    foreach($this->pages as $block => $blockPages)
-//    foreach($this->navi as $type => $p)
+    if(is_array($this->pages))
     {
-      // echo "<br /><h1>$type</h1>";
-      foreach($blockPages as $mn => $pageContainer)
-      {
-        $page =& $pageContainer->getPage();
-        $condition = $page->getActivateCondition();
-        if($this->_getStatus($condition))
-        {
-          $page->addItemClass('rex-active');
-        }
-
-        $subpages =& $page->getSubPages();
-        foreach($subpages as $sn => $subpage)
-        {
-          $condition = $subpage->getActivateCondition();
-          if($this->_getStatus($condition))
-          {
-            $subpage->addItemClass('rex-active');
-          }
-        }
-      }
+	    foreach($this->pages as $block => $blockPages)
+	    {
+	      foreach($blockPages as $mn => $pageContainer)
+	      {
+	        $page =& $pageContainer->getPage();
+	        $condition = $page->getActivateCondition();
+	        if($this->_getStatus($condition))
+	        {
+	          $page->addItemClass('rex-active');
+	        }
+	        $subpages =& $page->getSubPages();
+	        foreach($subpages as $sn => $subpage)
+	        {
+	          $condition = $subpage->getActivateCondition();
+	          if($this->_getStatus($condition))
+	          {
+	            $subpage->addItemClass('rex-active');
+	          }
+	        }
+	      }
+	    }
     }
   }
   
