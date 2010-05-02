@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%em_table` (
   `label` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `list_amount` TINYINT NOT NULL DEFAULT '50',
+  `list_amount` TINYINT UNSIGNED NOT NULL DEFAULT '50',
   `prio` TINYINT NOT NULL,
   `search` TINYINT NOT NULL,
   `hidden` TINYINT NOT NULL,
