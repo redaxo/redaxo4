@@ -69,7 +69,7 @@ function a62_delete_field_type($field_type_id)
 /**
  * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an
  */
-function a62_add_field($title, $name, $prior, $attributes, $type, $default, $params = null, $validate = null)
+function a62_add_field($title, $name, $prior, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
 {
   global $REX, $I18N;
 
@@ -110,6 +110,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   $sql->setValue('default', $default);
   $sql->setValue('params', $params);
   $sql->setValue('validate', $validate);
+  $sql->setValue('restrictions', $restrictions);
   $sql->addGlobalUpdateFields();
   $sql->addGlobalCreateFields();
 
