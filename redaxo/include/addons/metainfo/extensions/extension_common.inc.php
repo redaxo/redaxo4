@@ -564,7 +564,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
         }
       }
       
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL'. $s .')';
     }
   }
   else if($prefix == 'cat_')
@@ -588,7 +588,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
     }
     
-    $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL'. $s .')';
   }
   else if($prefix == 'med_')
   {
@@ -618,7 +618,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       // Auch die Kategorie selbst kann Metafelder haben
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
       
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL'. $s .')';
     }
   }
   
