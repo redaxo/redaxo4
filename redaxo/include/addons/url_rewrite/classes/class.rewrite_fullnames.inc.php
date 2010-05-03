@@ -252,9 +252,9 @@ if ($REX['REDAXO'])
   $extensionPoints = array(
     'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
     'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
-    'ART_TO_STARTPAGE',
-    /*'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',*/
-    'ALL_GENERATED');
+    'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTPAGE',
+    'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
+    'ALL_GENERATED', 'ART_META_UPDATED');
 
   foreach($extensionPoints as $extensionPoint)
   {
@@ -297,9 +297,15 @@ function rex_rewriter_generate_pathnames($params)
     case 'CAT_UPDATED':
     case 'ART_ADDED':
     case 'ART_UPDATED':
+    case 'ART_TO_CAT':
+    case 'CAT_TO_ART':
+    case 'ART_META_UPDATED':
       $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
       break;
     // ------- alles aktualisieren
+    case 'CLANG_ADDED':
+    case 'CLANG_UPDATED':
+    case 'CLANG_DELETED':
     case 'ART_TO_STARTPAGE':
     case 'ALL_GENERATED':
     default:
