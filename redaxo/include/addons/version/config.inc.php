@@ -143,6 +143,11 @@ function rex_version_header($params)
   $s->setSize('1');
   $s->setAttribute('onchange', 'this.form.submit();');
 
+  if($REX['USER']->hasPerm('version[only_working_version]'))
+  {
+    $s->setDisabled();
+  }
+   
   $return .= '<ul class="rex-display-inline">';
   $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.$I18N->msg('version').':</label> '.$s->get().'</li>';
 
@@ -150,16 +155,16 @@ function rex_version_header($params)
 	{
 		if($rex_version_article[$params['article_id']]>0)
 		{
-		  $return .= '<li><a href="/'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.$I18N->msg("version_preview").'</a></li>';
-			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N->msg('version_copy_live_to_workingversion').'</a></li>';
+      $return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$I18N->msg('version_copy_from_liveversion').'</a></li>';
+			$return .= '<li><a href="/'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.$I18N->msg("version_preview").'</a></li>';
 		}
 	}else
 	{
 		if($rex_version_article[$params['article_id']]>0)
 		{
-		  $return .= '<li><a href="../'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.$I18N->msg("version_preview").'</a></li>';
 			if(!$working_version_empty)
 			  $return .= '<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.$I18N->msg('version_working_to_live').'</a></li>';
+      $return .= '<li><a href="../'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.$I18N->msg("version_preview").'</a></li>';
 		}else
 		{
 			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work" onclick="return confirm(\''.$I18N->msg('version_confirm_copy_live_to_workingversion').'\');">'.$I18N->msg('version_copy_live_to_workingversion').'</a></li>';
