@@ -24,6 +24,16 @@ class rex_effect_resize extends rex_effect_abstract
 			$this->params['style'] = 'longest';
 		}
 
+    // relatives resizen
+    if(substr(trim($this->params['width']), -1) === '%')
+    {
+      $this->params['width'] = $w * (rtrim($this->params['width'], '%') / 100);     
+    }
+    if(substr(trim($this->params['height']), -1) === '%')
+    {
+      $this->params['height'] = $h * (rtrim($this->params['height'], '%') / 100);     
+    }
+    
 		if($this->params['style'] == 'longest')
 		{
 		  $this->resizeLongest($w, $h);
