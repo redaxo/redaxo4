@@ -123,7 +123,7 @@ class OOMediaCategory
       if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id])) 
       {
         foreach($REX['MEDIA']['RE_CAT_ID'][$id] as $cat_id)
-          $catlist[] = & OOMediaCategory :: getCategoryById($cat_id);
+          $catlist[] = OOMediaCategory :: getCategoryById($cat_id);
       }
     }
     
