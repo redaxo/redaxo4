@@ -17,10 +17,6 @@ $media_method = rex_request('media_method', 'string');
 $info         = rex_request('info', 'string');
 $warning      = rex_request('warning', 'string');
 
-// ----- opener_input_field setzen
-$opener_input_field = rex_request('opener_input_field', 'string', rex_session('media[opener_input_field]', 'string'));
-rex_set_session('media[opener_input_field]', $opener_input_field);
-$opener_link = rex_request('opener_link', 'string');
 
 // -------------- Additional Args
 $arg_url = '';
@@ -29,6 +25,16 @@ foreach(rex_request('args', 'array') as $arg_name => $arg_value)
 {
   $arg_url .= '&amp;args['. urlencode($arg_name) .']='. urlencode($arg_value);
   $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. $arg_value .'" />'. "\n";
+}
+
+// ----- opener_input_field setzen
+$opener_link = rex_request('opener_link', 'string');
+$opener_input_field = rex_request('opener_input_field', 'string', '');
+
+if($opener_input_field != "")
+{
+  $arg_url .= '&amp;opener_input_field='.urlencode($opener_input_field);
+  $arg_fields .= '<input type="hidden" name="opener_input_field" value="'. htmlspecialchars($opener_input_field) .'" />'. "\n";
 }
 
 // -------------- CatId in Session speichern
