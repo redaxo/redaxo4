@@ -7,10 +7,42 @@
 class rex_effect_resize extends rex_effect_abstract
 {
 	var $options;
+	var $script;
 
 	function rex_effect_resize()
 	{
-		$this->options = array('longest','shortest','warp');
+		$this->options = array(
+		  'longest',
+		  'shortest',
+		  'warp'
+		);
+
+		$randId = get_class($this). rand();
+		$this->script = '
+		  <span id="'. $randId .'"></span>
+      <script type="text/javascript">
+      <!--
+      
+        (function($) {
+          $(function() {
+            var $domAnchor   = $("#'. $randId .'");
+            var $select      = $domAnchor.prev("select");
+            var $heightInput = $domAnchor.closest("div").prev();
+            
+            $select.change(function(){
+              if(jQuery(this).val() == "warp")
+              {
+                $heightInput.show();
+              }
+              else
+              {
+                $heightInput.hide();
+              }
+            }).change();
+          });
+        })(jQuery);
+      
+      //--></script>';
 	}
 
 	function execute()
@@ -27,11 +59,11 @@ class rex_effect_resize extends rex_effect_abstract
     // relatives resizen
     if(substr(trim($this->params['width']), -1) === '%')
     {
-      $this->params['width'] = $w * (rtrim($this->params['width'], '%') / 100);     
+      $this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));     
     }
     if(substr(trim($this->params['height']), -1) === '%')
     {
-      $this->params['height'] = $h * (rtrim($this->params['height'], '%') / 100);     
+      $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
     }
     
 		if($this->params['style'] == 'longest')
@@ -172,7 +204,7 @@ class rex_effect_resize extends rex_effect_abstract
 		array(
         'label'=>$I18N->msg('imanager_effect_resize_width'),
         'name' => 'width',
-        'type' => 'int'
+        'type' => 'int',
         ),
         array(
         'label'=>$I18N->msg('imanager_effect_resize_height'),
@@ -185,6 +217,7 @@ class rex_effect_resize extends rex_effect_abstract
         'type'  => 'select',
         'options' => $this->options,
         'default' => 'fit',
+        'suffix' => $this->script
         ),
         /*
          array(
