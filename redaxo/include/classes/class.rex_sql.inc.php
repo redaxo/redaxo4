@@ -798,6 +798,7 @@ class rex_sql
     $qry = 'SHOW TABLES';
     if($tablePrefix != null)
     {
+      $tablePrefix = str_replace('_', '\_', $tablePrefix);
     	$qry .= ' LIKE "'.$tablePrefix.'%"';    	
     }
 
