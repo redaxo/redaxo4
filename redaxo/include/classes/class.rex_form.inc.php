@@ -874,6 +874,23 @@ class rex_form
     }
   }
   
+  /*
+   * Static Method:
+   * Returns True if the given form is a valid rex_form
+   */
+  /*public*/ function isValid($form)
+  {
+    return is_object($form) && is_a($form, 'rex_form');
+  }
+  
+  /*public*/ function equals($form)
+  {
+    return 
+      rex_form::isValid($form) && 
+      $this->getTableName() == $form->getTableName() &&
+      $this->getWhereCondition() == $form->getWhereCondition();
+  }
+  
   /**
    * Speichert das Formular.
    * 
@@ -1696,7 +1713,7 @@ class rex_form_prio_element extends rex_form_select_element
   
   function organizePriorities($params)
   {
-    if($params['form'] == $this->table)
+    if($this->table->equals($params['form']))
     {
       $name = $this->getFieldName();
       
