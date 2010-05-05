@@ -164,7 +164,7 @@ LOCK TABLES `rex_article` WRITE;
 /*!40000 ALTER TABLE `rex_article` DISABLE KEYS */;
 INSERT INTO `rex_article` VALUES 
   (1,1,0,'Home','Home',1,'',1,1,'|',1,1192226202,1192234473,1,0,'admin','admin',0,'','','','','','',''),
-  (2,2,0,'Team','Team',2,'',1,1,'|',1,1192226377,1237974083,1,0,'admin','admin',0,'','','','','','',''),
+  (2,2,0,'Team','Team',2,'',1,1,'|',1,1192226377,1273067553,1,0,'admin','admin',0,'','','','','','',''),
   (3,3,0,'System','System',3,'',1,1,'|',1,1174487175,1181732593,1,0,'admin','admin',0,'','','','','','',''),
   (4,4,0,'Erste Schritte','Erste Schritte',4,'',1,1,'|',1,1174487184,1237973283,1,0,'admin','admin',0,'','','','','','',''),
   (5,5,0,'FAQ','FAQ',5,'',1,1,'|',1,1237372127,1237970781,1,0,'admin','admin',0,'','','','','','',''),
@@ -314,7 +314,7 @@ INSERT INTO `rex_article_slice` VALUES
   (50,0,1,0,'FAQ','h1','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',20,1,1189527486,1189527486,'admin','admin',0,0),
   (51,0,1,50,'Welche Kenntnisse brauche ich, um mit REDAXO arbeiten zu können?','h2','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',20,1,1189527486,1237973713,'admin','admin',0,0),
   (52,0,1,51,'REDAXO basiert auf PHP und Mysql. Kenntnisse in dieser Sprache und im Umgang mit der Datenbank sind zwar zu empfehlen, aber nicht unbedingt erforderlich. Anhand der Demo-Versionen kann man bereits eigene Webseiten erstellen und dabei lernen, das System zu nutzen.\r\n\r\n\"zurück\":?article_id=5','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',20,3,1189527486,1237973721,'admin','admin',0,0),
-  (54,0,1,0,'Screenshots','h1','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',11,1,1192189506,0,'admin','',0,0);
+  (54,0,1,0,'Screenshots','h1','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',11,1,1192189506,0,'admin','',0,0), (55,0,1,7,'Gregor Harlan\r\n\"www.meyerharlan.de\":http://meyerharlan.de','Gregor Harlan','','','','','','','l','','','','','','','','','','','','gregor.gif','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',2,2,1273065503,1273067553,'admin','admin','',0);
 /*!40000 ALTER TABLE `rex_article_slice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,7 +401,8 @@ INSERT INTO `rex_file` VALUES
   (41,0,7,'','image/png','screenshot_kategorie_edit.png','screenshot_kategorie_edit.png',80826,980,650,'Kategorieansicht: Kategorienamen editieren',1192189180,1237382144,'admin','admin',0,'',''),
   (42,0,7,'','image/png','screenshot_medienpool.png','screenshot_medienpool.png',116370,980,650,'Medienpool zur Verwaltung von Dateien/Bildern',1192189189,1237382405,'admin','admin',0,'',''),
   (44,0,7,'','image/png','screenshot_module.png','screenshot_module.png',96277,980,650,'Modulansicht',1192189197,1237382426,'admin','admin',0,'',''),
-  (48,0,4,'','image/gif','sandra.gif','sandra.gif',1154,79,79,'',1192282192,1192282192,'admin','admin',0,'','');
+  (48,0,4,'','image/gif','sandra.gif','sandra.gif',1154,79,79,'Sandra',1192282192,1192282192,'admin','admin',0,'',''),
+  (49,0,4,'','image/gif','gregor.gif','gregor.gif',2590,79,79,'Gregor',1273067539,1273067539,'admin','admin',0,'','');;
 /*!40000 ALTER TABLE `rex_file` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -28,6 +28,12 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
 		Kernentwickler<br />
     REDAXO, <a href="http://www.redaxo.de" onclick="window.open(this.href); return false;">www.redaxo.de</a>
 	</p>
+	
+	<p class="rex-tx1">
+		<b>Gregor Harlan</b>, gregor.harlan@redaxo.de<br />
+		Kernentwickler<br />
+    meyerharlan, <a href="http://meyerharlan.de" onclick="window.open(this.href); return false;">www.meyerharlan.de</a>
+	</p>
 
 	<p class="rex-tx1">
 		<b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
