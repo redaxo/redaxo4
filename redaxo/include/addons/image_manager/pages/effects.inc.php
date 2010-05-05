@@ -200,7 +200,7 @@ elseif ($func == 'add' && $type_id > 0 ||
           }
         default:
           {
-            trigger_error('Unexpected param type "'. $param['type'] .'"');
+            trigger_error('Unexpected param type "'. $param['type'] .'"', E_USER_ERROR);
           }
       }
     }
