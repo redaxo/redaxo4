@@ -176,6 +176,8 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             if(!empty($param['notice'])) $field->setNotice($param['notice']);
+            if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
+            if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
             break;
           }
         case 'select' :
@@ -184,6 +186,9 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             if(!empty($param['notice'])) $field->setNotice($param['notice']);
+            if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
+            if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+            
             $select =& $field->getSelect();
             if (!isset($attributes['multiple']))
               $select->setSize(1);
@@ -196,6 +201,8 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             if(!empty($param['notice'])) $field->setNotice($param['notice']);
+            if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
+            if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
             break;
           }
         default:
