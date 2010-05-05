@@ -175,6 +175,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $type = 'text';
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
+            if(!empty($param['notice'])) $field->setNotice($param['notice']);
             break;
           }
         case 'select' :
@@ -182,6 +183,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $type = $param['type'];
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
+            if(!empty($param['notice'])) $field->setNotice($param['notice']);
             $select =& $field->getSelect();
             if (!isset($attributes['multiple']))
               $select->setSize(1);
@@ -193,6 +195,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $type = $param['type'];
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
+            if(!empty($param['notice'])) $field->setNotice($param['notice']);
             break;
           }
         default:
