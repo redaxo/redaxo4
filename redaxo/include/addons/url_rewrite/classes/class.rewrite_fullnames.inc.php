@@ -63,8 +63,8 @@ class myUrlRewriter extends rexUrlRewriter
   {
     global $REX, $REXPATH;
 
-		$article_id = -1;
-		$clang = $REX["CUR_CLANG"];
+    $article_id = -1;
+    $clang = $REX["CUR_CLANG"];
 
     if(!file_exists(FULLNAMES_PATHLIST))
        rex_rewriter_generate_pathnames(array());
@@ -75,6 +75,10 @@ class myUrlRewriter extends rexUrlRewriter
     if(!$REX['REDAXO'])
     {
       $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
+
+      // ANDERE DIR_SEP ALS "/" ERSETZEN (WIN BACKSLASHES)
+      $script_path = str_replace(DIRECTORY_SEPARATOR, '/', $script_path);
+
       $length = strlen($script_path);
       $path = substr($_SERVER['REQUEST_URI'], $length);
       
@@ -226,7 +230,8 @@ class myUrlRewriter extends rexUrlRewriter
     $url = $REXPATH[$id][$clang].$urlparams;
 
     $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
-    $baseDir = str_replace('\\', '', $baseDir); // windows
+    // ANDERE DIR_SEP ALS "/" ERSETZEN (WIN BACKSLASHES)
+    $baseDir = str_replace(DIRECTORY_SEPARATOR, '/', $baseDir);
     if (substr($baseDir, -1) !="/" ) 
       $baseDir .= "/";
 
