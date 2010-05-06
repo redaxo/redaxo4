@@ -11,27 +11,32 @@
 
 $error = '';
 
-/*
-$tables = rex_em_getTables();
+$pre = $REX['TABLE_PREFIX'].'em_data_';
+$prelen = strlen($pre);
 
 $sql = rex_sql::factory();
+$sql->setQuery("show tables;");
+$tables = $sql->getArray();
+
 foreach($tables as $table)
 {
-  $sql->setQuery('DROP TABLE IF EXISTS `'. rex_em_getTableName($table['name']) .'`;');
-  
-  if($sql->hasError())
-  {
-    $error .= 'MySQL Error '. $sql->getErrno() .': '. $sql->getError();
-    break;
-  }
+	$tablename = current($table);
+	if(substr($tablename,0,$prelen)==$pre)
+	{
+		$sql->setQuery('DROP TABLE IF EXISTS `'. $tablename .'`;');
+		if($sql->hasError())
+		{
+			$error .= 'MySQL Error '. $sql->getErrno() .': '. $sql->getError();
+			break;
+		}
+	}
 }
-*/
 
 if($error == '')
 {
-  $REX['ADDON']['install']['editme'] = 0;
+	$REX['ADDON']['install']['editme'] = 0;
 }
 else
 {
-   $REX['ADDON']['installmsg']['editme'] = $error;
+	$REX['ADDON']['installmsg']['editme'] = $error;
 }
