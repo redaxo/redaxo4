@@ -498,6 +498,22 @@ div.rex-toolbar-has-form div.rex-toolbar-content {
 
 
 
+/*	Contentblock ***************************************************************
+*******************************************************************************/
+div.rex-content-block {
+	position: relative;
+	margin-bottom: 10px;
+}
+div.rex-content-block-content {
+	padding: 10px 5px;
+}
+div.rex-content-block-has-form div.rex-content-block-content {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+
+
 /*	Icons **********************************************************************
 *******************************************************************************/
 .rex-i-element {

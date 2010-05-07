@@ -374,6 +374,7 @@ div.rex-content-header,
 div.rex-content-cols, 
 div.rex-form div.rex-form-wrapper,
 div.rex-toolbar, 
+div.rex-content-block, 
 div.rex-widget p.rex-widget-field input,
 div.rex-widget p.rex-widget-field select, 
 table.rex-table {
@@ -760,7 +761,8 @@ div.rex-form-content-editmode legend span,
 div.rex-form-content-editmode-add-slice legend, 
 div.rex-form-content-editmode-add-slice legend span, 
 div.rex-form-content-editmode-edit-slice legend, 
-div.rex-form-content-editmode-edit-slice legend span {
+div.rex-form-content-editmode-edit-slice legend span, 
+div.rex-title-row-sub dl.rex-navi dt {
 	display: inline !important;
 	position: absolute !important;
 	left: -1000px !important;

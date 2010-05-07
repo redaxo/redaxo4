@@ -122,6 +122,11 @@ div#rex-output div#rex-navi-page ul {
 	padding-left: 5px;
 }
 
+.rex-title-row-sub dl dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
 /*	Pfad ***********************************************************************
 *******************************************************************************/
 ul#rex-navi-path li {
