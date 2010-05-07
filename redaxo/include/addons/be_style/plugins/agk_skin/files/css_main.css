@@ -120,6 +120,7 @@ div#rex-navi-main ul li ul li a {
 }
 
 div.rex-toolbar, 
+div.rex-content-block, 
 div.rex-content-header, 
 .rex-hl2, 
 div.rex-form, 
@@ -791,6 +792,7 @@ div.rex-info-block,
 div.rex-message, 
 div.rex-message-block, 
 div.rex-toolbar, 
+div.rex-content-block, 
 div.rex-form input.rex-form-submit, 
 input.submit,
 p.rex-button a {
@@ -812,6 +814,8 @@ body div.rex-content-body div.rex-form,
 body div.rex-content-body table.rex-table, 
 body div.rex-toolbar div.rex-form, 
 body div.rex-toolbar table.rex-table,  
+body div.rex-content-block div.rex-form, 
+body div.rex-content-block table.rex-table,  
 body div.rex-addon-output div.rex-form,  
 body div.rex-addon-output table.rex-table, 
 body #rex-mediapool-detail-wrapper div.rex-form  {
