@@ -201,24 +201,24 @@ class rex_effect_resize extends rex_effect_abstract
 		global $REX,$I18N;
 
 		return array(
-		array(
+		  array(
         'label'=>$I18N->msg('imanager_effect_resize_width'),
         'name' => 'width',
         'type' => 'int',
-        ),
-        array(
+      ),
+      array(
         'label'=>$I18N->msg('imanager_effect_resize_height'),
         'name' => 'height',
         'type' => 'int'
-        ),
-        array(
+      ),
+      array(
         'label' => $I18N->msg('imanager_effect_resize_style'),
         'name' => 'style',
         'type'  => 'select',
         'options' => $this->options,
         'default' => 'fit',
         'suffix' => $this->script
-        ),
+      ),
         /*
          array(
          'label'=>$I18N->msg('imanager_effect_resize_allow_enlarge'),
@@ -228,6 +228,6 @@ class rex_effect_resize extends rex_effect_abstract
          'default' => $I18N->msg('no'),
          ),
          */
-        );
+    );
 	}
 }
