@@ -3,6 +3,10 @@
 	float: left;
 	width: 100%;
 }
+ul.xform {
+	float: none;
+	width: auto;
+}
 .xform fieldset {
 	clear: both;
 	padding: .5em;
@@ -80,6 +84,7 @@
 }
 
 .xform .formtable table {
+	clear: both;
 	margin-left: 145px;
 }
 .xform .formtable table td {
