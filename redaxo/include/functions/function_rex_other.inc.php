@@ -216,7 +216,7 @@ function rex_message_block($message, $cssClass, $sorround_tag)
 
 function rex_content_block($content)
 {
-  return '<div class="rex-content-block">'. $content .'</div>';
+  return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
 }
 
 function rex_accesskey($title, $key)
