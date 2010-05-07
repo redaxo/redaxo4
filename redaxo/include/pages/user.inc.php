@@ -282,8 +282,8 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $perm .= '#csw['. $ccat .']';
   }
 
-  foreach($userperm_cat_read as $_perm)
-    $perm .= '#csr['. $_perm .']';
+  /*foreach($userperm_cat_read as $_perm)
+    $perm .= '#csr['. $_perm .']';*/
 
   // userperm_media
   foreach($userperm_media as $_perm)
@@ -406,8 +406,8 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
       $perm .= '#csw['. $ccat .']';
     }
       
-    foreach($userperm_cat_read as $_perm)
-      $perm .= '#csr['. $_perm .']';
+    /*foreach($userperm_cat_read as $_perm)
+      $perm .= '#csr['. $_perm .']';*/
 
     // userperm_media
     foreach($userperm_media as $_perm)

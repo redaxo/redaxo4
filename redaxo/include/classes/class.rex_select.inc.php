@@ -361,6 +361,8 @@ class rex_category_select extends rex_select
   
   /*protected*/ function addCatOptions()
   {
+    global $REX;
+
     if($this->add_homepage)
       $this->addOption('Homepage', 0);
       
@@ -372,7 +374,7 @@ class rex_category_select extends rex_select
         {
           if($rootCat = OOCategory::getCategoryById($rootId, $this->clang))
           {
-            $this->addCatOption($rootCat);
+            $this->addCatOption($rootCat, 0);
           }
         }
       }
@@ -380,23 +382,36 @@ class rex_category_select extends rex_select
       {
         if($rootCat = OOCategory::getCategoryById($this->rootId, $this->clang))
         {
-          $this->addCatOption($rootCat);
+          $this->addCatOption($rootCat, 0);
         }
       }
     }
     else
     {
-      if ($rootCats = OOCategory :: getRootCategories($this->ignore_offlines, $this->clang))
+      if(!$this->check_perms || $REX['USER']->isAdmin() || $REX['USER']->hasPerm('csw[0]'))
       {
-        foreach ($rootCats as $rootCat)
+        if($rootCats = OOCategory :: getRootCategories($this->ignore_offlines, $this->clang))
         {
-          $this->addCatOption($rootCat);
+          foreach($rootCats as $rootCat)
+          {
+            $this->addCatOption($rootCat);
+          }
+        }
+      }
+      elseif($REX['USER']->hasMountpoints())
+      {
+        $mountpoints = $REX['USER']->getMountpoints();
+        foreach($mountpoints as $id)
+        {
+          $cat = OOCategory::getCategoryById($id, $this->clang);
+          if ($cat && !$REX['USER']->hasCategoryPerm($cat->getParentId()))
+            $this->addCatOption($cat, 0);
         }
       }
     }
   }
   
-  /*protected*/ function addCatOption(/*OOCategory*/ $cat)
+  /*protected*/ function addCatOption(/*OOCategory*/ $cat, $group = null)
   {
     global $REX;
 
@@ -409,7 +424,10 @@ class rex_category_select extends rex_select
       if($REX['USER']->hasPerm('advancedMode[]'))
         $cname .= ' ['. $cid .']';
       
-      $this->addOption($cname, $cid, $cid, $cat->getParentId());
+      if($group === null)
+        $group = $cat->getParentId();
+      
+      $this->addOption($cname, $cid, $cid, $group);
       $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
       if (is_array($childs))
       {

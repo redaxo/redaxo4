@@ -40,7 +40,7 @@ class rex_login_sql extends rex_sql
     return $this->isValueOf('rights', $perm);
   }
 
-  /*public*/ function hasCategoryPerm($category_id,$rw = TRUE)
+  /*public*/ function hasCategoryPerm($category_id, $depricatedSecondParam = null)
   {
   	
   	// 1. Volle Rechte auf direkte Kategorie, csw
@@ -62,11 +62,11 @@ class rex_login_sql extends rex_sql
 	    }
     }
 
-    if(!$rw)
+    /*if(!$rw)
   	{
    		 if( $this->hasPerm('csr[' . $category_id . ']') )
    		 	return TRUE;
-  	}    
+  	} */   
     
     return FALSE;
   }
@@ -89,8 +89,8 @@ class rex_login_sql extends rex_sql
   /*public*/ function hasStructurePerm()
   {
     return $this->isValueOf('rights', 'admin[]') || 
-           strpos($this->getValue("rights"), "#csw[") !== false ||
-           strpos($this->getValue("rights"), "#csr[") !== false;
+           strpos($this->getValue("rights"), "#csw[") !== false /*||
+           strpos($this->getValue("rights"), "#csr[") !== false*/;
   }
 
   /*public*/ function getMountpoints()

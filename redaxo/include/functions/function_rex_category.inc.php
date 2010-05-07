@@ -57,7 +57,7 @@ else
     }
   }
 
-  if ($KATPERM || $REX['USER']->hasPerm('csw['. $category_id .']') || $REX['USER']->hasPerm('csr['. $category_id .']'))
+  if ($KATPERM || $REX['USER']->hasPerm('csw['. $category_id .']') /*|| $REX['USER']->hasPerm('csr['. $category_id .']')*/)
   {
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($KAT->getValue('catname')));
 

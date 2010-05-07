@@ -407,7 +407,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     }
 
   }
-  elseif ($REX['USER']->hasPerm('csr['. $i_category_id .']') || $REX['USER']->hasPerm('csw['. $i_category_id .']'))
+  elseif (/*$REX['USER']->hasPerm('csr['. $i_category_id .']') ||*/ $REX['USER']->hasPerm('csw['. $i_category_id .']'))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
