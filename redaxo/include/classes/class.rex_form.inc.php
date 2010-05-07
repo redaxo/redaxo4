@@ -1934,7 +1934,7 @@ class rex_form_element_container extends rex_form_element
       $this->fields[$group] = array();
     }
     
-    $this->fields[$group][] = $field;
+    $this->fields[$group][] =& $field;
     return $field;
   }
   
