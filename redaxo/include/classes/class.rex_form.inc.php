@@ -676,11 +676,12 @@ class rex_form
     {
       $fieldsetElements[$fieldsetName] = array();
       
-      foreach($fieldsetElementsArray as $element)
+      foreach($fieldsetElementsArray as $key => $element)
       {
         if($this->isFooterElement($element)) continue;
 
-        $fieldsetElements[$fieldsetName][] = $element;
+        // PHP4 compat notation
+        $fieldsetElements[$fieldsetName][] =& $this->elements[$fieldsetName][$key];
       }
     }
     return $fieldsetElements;
@@ -851,9 +852,10 @@ class rex_form
    */
   /*protected*/ function processPostValues()
   {
-    foreach($this->getSaveElements() as $fieldsetName => $fieldsetElements)
+    $saveElements =& $this->getSaveElements();
+    foreach($saveElements as $fieldsetName => $fieldsetElements)
     {
-      foreach($fieldsetElements as $element)
+      foreach($fieldsetElements as $key => $element)
       {
         // read-only-fields nicht speichern
         if(strpos($element->getAttribute('class'), 'rex-form-read') !== false)
@@ -869,7 +871,8 @@ class rex_form
           
         // Den POST-Wert als Value in das Feld speichern
         // Da generell alles von REDAXO escaped wird, hier slashes entfernen
-        $element->setValue(stripslashes($fieldValue));
+        // PHP4 compat notation
+        $saveElements[$fieldsetName][$key]->setValue(stripslashes($fieldValue));
       }
     }
   }
@@ -1946,27 +1949,28 @@ class rex_form_element_container extends rex_form_element
   function prepareInnerFields()
   {
     $values = unserialize($this->getValue());
-    
     if($this->multiple)
     {
       foreach($this->fields as $group => $groupFields)
       {
-        foreach($groupFields as $field)
+        foreach($groupFields as $key => $field)
         {
           if(isset($values[$group][$field->getFieldName()]))
           {
-            $field->setValue($values[$group][$field->getFieldName()]);   
+            // PHP4 compat notation
+            $this->fields[$group][$key]->setValue($values[$group][$field->getFieldName()]);   
           } 
         }
       }
     }
     elseif(isset($this->active) && isset($this->fields[$this->active]))
     {
-      foreach($this->fields[$this->active] as $field)
+      foreach($this->fields[$this->active] as $key => $field)
       {
         if(isset($values[$field->getFieldName()]))
         {
-          $field->setValue($values[$field->getFieldName()]);  
+          // PHP4 compat notation
+          $this->fields[$key]->setValue($values[$field->getFieldName()]);  
         }
       }
     }
