@@ -378,6 +378,9 @@ function rex_article2startpage($neu_id){
     rex_deleteCacheArticle($gid);
   }
 
+  $users = rex_sql::factory();
+  $users->setQuery('UPDATE '. $REX['TABLE_PREFIX'] .'user SET rights = REPLACE(rights, "#csw['. $alt_id .']#", "#csw['. $neu_id .']#")');
+
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
     rex_register_extension_point('ART_TO_STARTPAGE', '', array (

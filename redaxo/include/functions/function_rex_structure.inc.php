@@ -297,6 +297,9 @@ function rex_deleteCategoryReorganized($category_id)
           $thisCat->next();
         }
 
+        $users = rex_sql::factory();
+        $users->setQuery('UPDATE '. $REX['TABLE_PREFIX'] .'user SET rights = REPLACE(rights, "#csw['. $category_id .']#", "#")');
+
       }else
       {
         $return['message'] = $I18N->msg('category_could_not_be_deleted').' '.$I18N->msg('category_still_contains_articles');
