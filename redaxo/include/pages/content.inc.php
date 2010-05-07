@@ -391,6 +391,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: ARTICLE2CATEGORY
     if (rex_post('article2category', 'boolean'))
     {
+      // article2category und category2article verwenden das gleiche Recht: article2category
       if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('article2category[]'))
       {
         if (rex_article2category($article_id))
@@ -415,6 +416,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: CATEGORY2ARTICLE
     if (rex_post('category2article', 'boolean'))
     {
+      // article2category und category2article verwenden das gleiche Recht: article2category
       if ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('article2category[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id'))))
       {
         if (rex_category2article($article_id))
@@ -838,7 +840,7 @@ if ($article->getRows() == 1)
 			// --------------------------------------------------- IN KATEGORIE UMWANDELN END
 
       // --------------------------------------------------- IN ARTIKEL UMWANDELN START
-			if ($isStartpage && ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('article2category[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id')))))
+			if ($isStartpage && ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('category2article[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id')))))
 			{
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT pid FROM '. $REX['TABLE_PREFIX'] .'article WHERE re_id='. $article_id .' LIMIT 1');
