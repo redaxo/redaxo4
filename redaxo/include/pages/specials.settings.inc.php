@@ -260,8 +260,8 @@ echo '
 										<span class="rex-form-read" id="rex_include_path" title="'. $REX['INCLUDE_PATH'] .'">&quot;';
 										
 										$tmp = $REX['INCLUDE_PATH'];
-										if (strlen($REX['INCLUDE_PATH'])>24)
-											$tmp = substr($tmp,0,8)."..".substr($tmp,strlen($tmp)-14);
+										if (strlen($REX['INCLUDE_PATH'])>21)
+											$tmp = substr($tmp,0,8)."..".substr($tmp,strlen($tmp)-13);
 										
 										echo $tmp;
 
