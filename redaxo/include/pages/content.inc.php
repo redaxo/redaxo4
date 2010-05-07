@@ -415,7 +415,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: CATEGORY2ARTICLE
     if (rex_post('category2article', 'boolean'))
     {
-      if ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('category2article[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id'))))
+      if ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('article2category[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id'))))
       {
         if (rex_category2article($article_id))
         {
@@ -838,7 +838,7 @@ if ($article->getRows() == 1)
 			// --------------------------------------------------- IN KATEGORIE UMWANDELN END
 
       // --------------------------------------------------- IN ARTIKEL UMWANDELN START
-			if ($isStartpage && ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('category2article[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id')))))
+			if ($isStartpage && ($REX['USER']->isAdmin() || ($REX['USER']->hasPerm('article2category[]') && $REX['USER']->hasCategoryPerm($article->getValue('re_id')))))
 			{
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT pid FROM '. $REX['TABLE_PREFIX'] .'article WHERE re_id='. $article_id .' LIMIT 1');
