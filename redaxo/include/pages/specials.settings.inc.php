@@ -141,10 +141,6 @@ if ($warning != '')
 if ($info != '')
   echo rex_info($info);
 
-$sql_version = rex_sql::factory();
-$sql_version->setQuery("SELECT VERSION();");
-$mysql_version = $sql_version->getArray();
-  
 echo '
 	<div class="rex-form" id="rex-form-system-setup">
   	<form action="index.php" method="post">
@@ -171,7 +167,7 @@ echo '
             PHP: '.phpversion().'</p>
             
             <h4 class="rex-hl3">'.$I18N->msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.$mysql_version[0]["VERSION()"].'<br />'.$I18N->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$I18N->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
+            <p class="rex-tx1">MySQL: '.$REX['MYSQL_VERSION'].'<br />'.$I18N->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$I18N->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
 						
 					</div>
 				</div>
