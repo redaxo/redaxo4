@@ -17,21 +17,23 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
 
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
-	$REX['ADDON']['perm'][$mypage] = 'em[]';
 
 	// Credits
 	$REX['ADDON']['version'][$mypage] = '1.0';
 	$REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 	$REX['ADDON']['navigation'][$mypage] = array(
-	// rootPage nur aktivieren wenn sie direkt ausgewaehlt ist
-	// da alle pages main-pages und daher separate oberpunkte sind
-    'activateCondition' => array('page' => $mypage, 'subpage' => ''),
+	  // rootPage nur aktivieren wenn sie direkt ausgewaehlt ist
+	  // da alle pages main-pages und daher separate oberpunkte sind
+      'activateCondition' => array('page' => $mypage, 'subpage' => ''),
+      'hidden' => FALSE
 	);
-
-	// Fuer Benutzervewaltung
-	$REX['PERM'][] = 'em[]';
-
+  
+	if($REX['USER'] && !$REX['USER']->isAdmin())
+    {
+      $REX['ADDON']['navigation'][$mypage]['hidden'] = TRUE;
+    }
+	
 	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
 
 	$REX['ADDON']['tables'][$mypage] = rex_em_getTables();

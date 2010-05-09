@@ -291,11 +291,14 @@ class rex_be_navigation
     {
 	    foreach($this->pages as $block => $blockPages)
 	    {
-	      $headline = $this->getHeadline($block);
-	      
-	      $s .= '<dt>'. $headline .'</dt><dd>';
-	      $s .= $this->_getNavigation($blockPages, 0, $block);
-	      $s .= '</dd>' . "\n";
+	      $n = $this->_getNavigation($blockPages, 0, $block);
+       	  if($n != "")
+          {
+	        $headline = $this->getHeadline($block);
+	        $s .= '<dt>'. $headline .'</dt><dd>';
+	        $s .= $n;
+	        $s .= '</dd>' . "\n";
+          }
 	    }
     }
     $s .= '</dl>';
@@ -311,45 +314,52 @@ class rex_be_navigation
         $id = ' id="rex-navi-'. $block .'"';
       $class = ' class="rex-navi-level-'. $level .'"';
       
-      $echo = '<ul'. $id . $class .'>';
+      $echo = '';
       $first = TRUE;
       foreach($blockPages as $pageContainer)
       {
         $page =& $pageContainer->getPage();
         
-        if($first)
+        if(!$page->getHidden())
         {
-          $first = FALSE;
-          $page->addItemClass('rex-navi-first');
+	        if($first)
+	        {
+	          $first = FALSE;
+	          $page->addItemClass('rex-navi-first');
+	        }
+	
+	        $page->addLinkClass($page->getItemAttr('class'));
+	          
+	        $itemAttr = '';
+	        foreach($page->getItemAttr(null) as $name => $value)
+	        {
+	          $itemAttr .= $name .'="'. trim($value) .'" ';
+	        }
+	        
+	        $linkAttr = '';
+	        foreach($page->getLinkAttr(null) as $name => $value)
+	        {
+	          $linkAttr .= $name .'="'. trim($value) .'" ';
+	        }
+	        
+	        $href = str_replace('&', '&amp;', $page->getHref());
+	        
+	        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
+	        
+	        $subpages =& $page->getSubPages();
+	        if(is_array($subpages) && count($subpages) > 0)
+	        {
+	          $echo .= $this->_getNavigation($subpages, $level);
+	        }
+	        $echo .= '</li>';
         }
-
-        $page->addLinkClass($page->getItemAttr('class'));
-          
-        $itemAttr = '';
-        foreach($page->getItemAttr(null) as $name => $value)
-        {
-          $itemAttr .= $name .'="'. trim($value) .'" ';
-        }
-        
-        $linkAttr = '';
-        foreach($page->getLinkAttr(null) as $name => $value)
-        {
-          $linkAttr .= $name .'="'. trim($value) .'" ';
-        }
-        
-        $href = str_replace('&', '&amp;', $page->getHref());
-        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
-        
-        $subpages =& $page->getSubPages();
-        if(is_array($subpages) && count($subpages) > 0)
-        {
-          $echo .= $this->_getNavigation($subpages, $level);
-        }
-        $echo .= '</li>';
       }
 
-      $echo .= '</ul>';
-    
+      if($echo != "")
+      {
+        $echo = '<ul'. $id . $class .'>'.$echo.'</ul>';
+      }
+          
       return $echo;
   }
   
@@ -555,7 +565,7 @@ class rex_be_page extends rex_be_page_container
   var $requiredPermissions;
   var $path;
   
-  function rex_be_page($title, $activateCondition = array())
+  function rex_be_page($title, $activateCondition = array(), $hidden = FALSE)
   {
     $this->title = $title;
     $this->subPages = array();
@@ -566,6 +576,7 @@ class rex_be_page extends rex_be_page_container
     $this->hasNavigation = true;
     $this->activateCondition = $activateCondition;
     $this->requiredPermissions = array();
+    $this->hidden = $hidden;
   }
   
   function &getPage()
@@ -623,6 +634,16 @@ class rex_be_page extends rex_be_page_container
   function getHref()
   {
     return $this->href;
+  }
+
+  function setHidden($hidden = TRUE)
+  {
+    $this->hidden = $hidden;
+  }
+  
+  function getHidden()
+  {
+    return $this->hidden;
   }
   
   function setIsCorePage($isCorePage)
