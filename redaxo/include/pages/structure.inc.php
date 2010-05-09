@@ -306,7 +306,7 @@ $KAT = rex_sql::factory();
 if(count($mountpoints)>0 && $category_id == 0)
 {
 	$re_id = 'id='. implode(' OR id=', $mountpoints);
-  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
+  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 }else
 {
 	$KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
