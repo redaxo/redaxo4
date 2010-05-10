@@ -30,31 +30,16 @@ if (!get_magic_quotes_gpc())
 	if (is_array($_GET))
 	{
 	    addSlashesOnArray($_GET);
-	    
-		while(list($Akey,$AVal)=each($_GET))
-		{
-			$$Akey = $AVal;
-		}
 	}
 	
 	if (is_array($_POST))
 	{
 	    addSlashesOnArray($_POST);
-	    
-		while(list($Akey,$AVal)=each($_POST))
-		{
-			$$Akey = $AVal;
-		}
 	}
 	
 	if (is_array($_REQUEST))
 	{
 	    addSlashesOnArray($_REQUEST);
-	    
-		while(list($Akey,$AVal)=each($_REQUEST))
-		{
-			$$Akey = $AVal;
-		}
 	}
 	
 }
