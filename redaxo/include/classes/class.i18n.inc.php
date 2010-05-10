@@ -48,6 +48,16 @@ class i18n
   function appendFile($searchPath)
   {
     $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
+    return $this->appendFileName($filename);
+  }
+  
+  /**
+   * Fuegt die angegebene Datei $filename diese dem Sprachkatalog an
+   *  
+   * @param $filename Datei die hinzugefügt werden soll
+   */
+  function appendFileName($filename)
+  {
     if (is_readable($filename))
     {
       $handle = fopen($filename, "r");
