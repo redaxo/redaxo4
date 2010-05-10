@@ -25,7 +25,7 @@ content = Artikel
 structure = Struktur
 profile = Mein Profil
 logout = abmelden
-navigation_system = Hauptmenu
+navigation_system = Hauptmenü
 navigation_addons = AddOns
 subnavigation = Unternavigation von {0}
 
