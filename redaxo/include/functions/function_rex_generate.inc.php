@@ -365,6 +365,23 @@ function _rex_deleteArticle($id)
   {
     $re_id = $ART->getValue('re_id');
     $return['state'] = true;
+    
+    $return = rex_register_extension_point('ART_PRE_DELETED', $return, array (
+                    "id"          => $id,
+                    "re_id"       => $re_id,
+                    'name'        => $ART->getValue('name'),
+                    'status'      => $ART->getValue('status'),
+                    'prior'       => $ART->getValue('prior'),
+                    'path'        => $ART->getValue('path'),
+                    'template_id' => $ART->getValue('template_id')
+                )
+            );
+
+    if(!$return["state"])
+    {
+      return $return;
+    }
+    
     if ($ART->getValue('startpage') == 1)
     {
     	$return['message'] = $I18N->msg('category_deleted');

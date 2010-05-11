@@ -49,6 +49,7 @@ Version 4.3 (2010-xx-xx)
     - ART_TO_CAT [Gregor.Harlan]
     - CAT_TO_ART [Gregor.Harlan]
     - REX_FORM_SAVED [Gregor.Harlan]
+    - ART_PRE_DELETED [Jan.Kristinus]
   * neue Extension Point Parameter:
     - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
   * neue Addons:
