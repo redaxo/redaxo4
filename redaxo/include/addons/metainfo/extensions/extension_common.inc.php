@@ -44,6 +44,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dblength      = $sqlFields->getValue('dblength');
     $restrictions  = $sqlFields->getValue('restrictions');
     
+    $attr .= rex_tabindex();
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {
@@ -77,7 +78,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       $label = htmlspecialchars($name);
 
     $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
-    $attr .= rex_tabindex();
     $labelIt = true;
 
     $field = '';
@@ -89,6 +89,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-text"';
         
         $rexInput = rex_input::factory($typeLabel);
+        $rexInput->addAttributes($attrArray);
         $rexInput->setAttribute('id', $id);
         $rexInput->setAttribute('name', $name);
         if($dblength > 0)
@@ -192,7 +193,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $select->setSelected($dbvalues);
 
 				$multiple = FALSE;
-        foreach(rex_split_string($attr) as $attr_name => $attr_value)
+        foreach($attrArray as $attr_name => $attr_value)
         {
           if(empty($attr_name)) continue;
 
@@ -258,6 +259,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $inputValue['minute'] = date('i', $dbvalues[0]);
 
         $rexInput = rex_input::factory($typeLabel);
+        $rexInput->addAttributes($attrArray);
         $rexInput->setAttribute('id', $id);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($inputValue);
@@ -272,6 +274,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = ' class="rex-form-textarea"';
         
         $rexInput = rex_input::factory($typeLabel);
+        $rexInput->addAttributes($attrArray);
         $rexInput->setAttribute('id', $id);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($dbvalues[0]);
@@ -285,7 +288,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = '';
         $labelIt = false;
         
-        $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'">'. $label .'</legend><div class="rex-form-wrapper">';
+        $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'"'. $attr .'">'. $label .'</legend><div class="rex-form-wrapper">';
         break;
       }
       case 'REX_MEDIA_BUTTON':
@@ -296,6 +299,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $paramArray = rex_split_string($params);
 
         $rexInput = rex_input::factory('mediabutton');
+        $rexInput->addAttributes($attrArray);
         $rexInput->setButtonId($media_id);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($dbvalues[0]);
@@ -322,6 +326,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
         $name .= '[]';
         $rexInput = rex_input::factory('medialistbutton');
+        $rexInput->addAttributes($attrArray);
         $rexInput->setButtonId($mlist_id);
         $rexInput->setAttribute('name', $name);
         $rexInput->setValue($dbvalues[0]);
@@ -352,6 +357,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $category = $activeItem->getValue('category_id');
 
         $rexInput = rex_input::factory('linkbutton');
+        $rexInput->addAttributes($attrArray);
         $rexInput->setButtonId($link_id);
         $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
@@ -376,6 +382,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
         $name .= '[]';
         $rexInput = rex_input::factory('linklistbutton');
+        $rexInput->addAttributes($attrArray);
         $rexInput->setButtonId($llist_id);
         $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
