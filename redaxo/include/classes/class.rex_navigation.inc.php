@@ -371,33 +371,36 @@ class rex_be_navigation
 	    {
 	      foreach($blockPages as $mn => $pageContainer)
 	      {
+//          $page =& $this->pages[$block][$mn]->getPage();
 	        $page =& $pageContainer->getPage();
 	        $condition = $page->getActivateCondition();
-	        if($this->_getStatus($condition))
+	        // check main pages
+	        if($this->checkActivateCondition($condition))
 	        {
 	          $page->addItemClass('rex-active');
-	        }
-	        $subpages =& $page->getSubPages();
-	        foreach($subpages as $sn => $subpage)
-	        {
-	          $condition = $subpage->getActivateCondition();
-	          if($this->_getStatus($condition))
-	          {
-	            $subpage->addItemClass('rex-active');
-	          }
+	          
+	          // check for subpages
+  	        $subpages =& $page->getSubPages();
+  	        foreach($subpages as $sn => $subpage)
+  	        {
+  	          $condition = $subpage->getActivateCondition();
+  	          if($this->checkActivateCondition($condition))
+  	          {
+  	            $subpage->addItemClass('rex-active');
+  	          }
+  	        }
 	        }
 	      }
 	    }
     }
   }
   
-  /*private*/ function _getStatus($a)
+  /*private*/ function checkActivateCondition($a)
   {
     if(empty($a))
     {
       return false;
     }
-    
     foreach($a as $k => $v)
     {
       $v = (array)  $v;
@@ -500,7 +503,7 @@ class rex_be_navigation
       $actions->setIsCorePage(true);
       $actions->setHref('index.php?page=module&subpage=actions');
       
-      $mainModules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
+      $mainModules = new rex_be_page($I18N->msg('modules'), array('page'=>'module'));
       $mainModules->setIsCorePage(true);
       $mainModules->addSubPage($modules);
       $mainModules->addSubPage($actions);
@@ -522,11 +525,11 @@ class rex_be_navigation
       $languages->setIsCorePage(true);
       $languages->setHref('index.php?page=specials&subpage=lang');
       
-      $specials = new rex_be_page($I18N->msg('specials'), array('page'=>'specials'));
-      $specials->setIsCorePage(true);
-      $specials->addSubPage($settings);
-      $specials->addSubPage($languages);
-      $pages['specials'] = new rex_be_main_page('system', $specials);
+      $mainSpecials = new rex_be_page($I18N->msg('specials'), array('page'=>'specials'));
+      $mainSpecials->setIsCorePage(true);
+      $mainSpecials->addSubPage($settings);
+      $mainSpecials->addSubPage($languages);
+      $pages['specials'] = new rex_be_main_page('system', $mainSpecials);
     }
     
     return $pages;    
