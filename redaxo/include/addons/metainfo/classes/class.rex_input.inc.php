@@ -52,6 +52,14 @@
     return isset($this->attributes[$name]);
   }
 
+  /*public*/ function addAttributes($attributes)
+  {
+    foreach($attributes as $name => $value)
+    {
+      $this->setAttribute($name, $value);
+    }
+  }
+  
   /*public*/ function setAttributes($attributes)
   {
     $this->attributes = array();
