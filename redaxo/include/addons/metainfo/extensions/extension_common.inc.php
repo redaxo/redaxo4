@@ -54,8 +54,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       unset($attrArray['perm']);
     }
     
-    $dbvalues = array(htmlspecialchars($sqlFields->getValue('default')));
-    $dbvalues_esc = $dbvalues;
+    $dbvalues = array($sqlFields->getValue('default'));
     if($activeItem)
     {
       $itemValue = $activeItem->getValue($name);
@@ -70,8 +69,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         // Neue Notation mit | als Trenner
         $dbvalues = explode('|', $activeItem->getValue($name));
       }
-
-      $dbvalues_esc = array_map('htmlspecialchars', $dbvalues);
     }
 
     if($title != '')
@@ -96,7 +93,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput->setAttribute('name', $name);
         if($dblength > 0)
           $rexInput->setAttribute('maxlength', $dblength);
-        $rexInput->setValue($dbvalues_esc[0]);
+        $rexInput->setValue($dbvalues[0]);
         $field = $rexInput->getHtml();
         break;
       }
@@ -152,7 +149,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         foreach($values as $key => $value)
         {
           $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
-          $key = htmlspecialchars($key);
 
           // wenn man keine Werte angibt (Boolean Chkbox/Radio)
           // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
@@ -160,18 +156,18 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
             $key = 'true';
 
           $selected = '';
-          if(in_array($key, $dbvalues_esc))
+          if(in_array($key, $dbvalues))
             $selected = ' checked="checked"';
 
           if($oneValue)
           {
             $tag_attr = ' class="rex-form-col-a rex-form-'. $class_s .'"';
-            $field .= '<input class="rex-form-'.$class_s.'" type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+            $field .= '<input class="rex-form-'.$class_s.'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
           }
           else
           {
             $field .= '<p class="rex-form-'. $class_s .' rex-form-label-right">'."\n";
-            $field .= '<input class="rex-form-'. $class_s .'" type="'. $typeLabel .'" name="'. $name .'" value="'. $key .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+            $field .= '<input class="rex-form-'. $class_s .'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
             $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
             $field .= '</p>'."\n";
           }
@@ -250,16 +246,16 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         $tag_attr = ' class="rex-form-select-date"';
         
-        $active = $dbvalues_esc[0] != 0;
-        if($dbvalues_esc[0] == '')
-          $dbvalues_esc[0] = time();
+        $active = $dbvalues[0] != 0;
+        if($dbvalues[0] == '')
+          $dbvalues[0] = time();
           
         $inputValue = array();
-        $inputValue['year'] = date('Y', $dbvalues_esc[0]);
-        $inputValue['month'] = date('m', $dbvalues_esc[0]);
-        $inputValue['day'] = date('j', $dbvalues_esc[0]);
-        $inputValue['hour'] = date('G', $dbvalues_esc[0]);
-        $inputValue['minute'] = date('i', $dbvalues_esc[0]);
+        $inputValue['year'] = date('Y', $dbvalues[0]);
+        $inputValue['month'] = date('m', $dbvalues[0]);
+        $inputValue['day'] = date('j', $dbvalues[0]);
+        $inputValue['hour'] = date('G', $dbvalues[0]);
+        $inputValue['minute'] = date('i', $dbvalues[0]);
 
         $rexInput = rex_input::factory($typeLabel);
         $rexInput->setAttribute('id', $id);
@@ -278,7 +274,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput = rex_input::factory($typeLabel);
         $rexInput->setAttribute('id', $id);
         $rexInput->setAttribute('name', $name);
-        $rexInput->setValue($dbvalues_esc[0]);
+        $rexInput->setValue($dbvalues[0]);
         $field = $rexInput->getHtml();
         
         break;
@@ -302,7 +298,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput = rex_input::factory('mediabutton');
         $rexInput->setButtonId($media_id);
         $rexInput->setAttribute('name', $name);
-        $rexInput->setValue($dbvalues_esc[0]);
+        $rexInput->setValue($dbvalues[0]);
 
         if(isset($paramArray['category']))
           $rexInput->setCategoryId($paramArray['category']);
@@ -328,7 +324,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput = rex_input::factory('medialistbutton');
         $rexInput->setButtonId($mlist_id);
         $rexInput->setAttribute('name', $name);
-        $rexInput->setValue($dbvalues_esc[0]);
+        $rexInput->setValue($dbvalues[0]);
 
         if(isset($paramArray['category']))
           $rexInput->setCategoryId($paramArray['category']);
@@ -359,7 +355,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput->setButtonId($link_id);
         $rexInput->setCategoryId($category);
         $rexInput->setAttribute('name', $name);
-        $rexInput->setValue($dbvalues_esc[0]);
+        $rexInput->setValue($dbvalues[0]);
         $id = $rexInput->getAttribute('id');
         $field = $rexInput->getHtml();
         
@@ -402,7 +398,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
               $id,
               $label,
               $labelIt,
-              'values' => $dbvalues_esc,
+              'values' => $dbvalues,
               'rawvalues' => $dbvalues,
               'type' => $typeLabel,
               'sql' => $sqlFields)
