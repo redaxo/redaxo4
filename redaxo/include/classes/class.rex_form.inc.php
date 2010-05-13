@@ -8,6 +8,15 @@
 
 define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
 
+/**
+ * rex_form repraesentiert ein Formular in REDAXO.
+ * Diese Klasse kann in Frontend u. Backend eingesetzt werden.
+ * 
+ * Nach erzeugen eines Formulars mit der factory()-Methode muss dieses mit verschiedenen Input-Feldern bestueckt werden.
+ * Dies geschieht Mittels der add*Field(...) Methoden.
+ * 
+ * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden. 
+ */
 class rex_form
 {
   var $name;
@@ -25,7 +34,10 @@ class rex_form
   var $errorMessages;
   var $warning;
   var $divId;
-
+  
+  /**
+   * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+   */
   /*protected*/ function rex_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     global $REX;
@@ -77,11 +89,17 @@ class rex_form
       $this->loadBackendConfig();
   }
 
+  /**
+   * Initialisiert das Formular
+   */
   /*public*/ function init()
   {
     // nichts tun
   }
 
+  /**
+   * Methode zum erstellen von rex_form Instanzen
+   */
   /*public*/ function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
@@ -101,6 +119,9 @@ class rex_form
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 
+  /**
+   * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
+   */
   /*protected*/ function loadBackendConfig()
   {
     global $I18N;
@@ -151,7 +172,7 @@ class rex_form
   }
 
   /**
-   * Gibt eine Urls zurück
+   * Gibt eine Formular-Url zurück
    */
   /*public*/ function getUrl($params = array(), $escape = true)
   {
@@ -175,6 +196,10 @@ class rex_form
 
   // --------- Sections
 
+  /**
+   * Fuegt dem Formular ein Fieldset hinzu.
+   * Dieses dient dazu ein Formular in mehrere Abschnitte zu gliedern.
+   */
   /*public*/ function addFieldset($fieldset)
   {
     $this->fieldset = $fieldset;
@@ -182,6 +207,9 @@ class rex_form
 
   // --------- Fields
 
+  /**
+   * Fuegt dem Formular ein Input-Feld hinzu
+   */
   /*public*/ function &addField($tag, $name, $value = null, $attributes = array(), $addElement = true)
   {
     $element =& $this->createElement($tag, $name, $value, $attributes);
@@ -195,6 +223,11 @@ class rex_form
     return $element;
   }
 
+  /**
+   * Fuegt dem Formular ein Container-Feld hinzu.
+   * 
+   * Ein Container-Feld wiederrum kann weitere Felder enthalten.
+   */
   /*public*/ function &addContainerField($name, $value = null, $attributes = array())
   {
     if(!isset($attributes['class']))
@@ -205,6 +238,9 @@ class rex_form
     return $field;
   }
   
+  /**
+   * Fuegt dem Formular ein Input-Feld mit dem Type $type hinzu. 
+   */
   /*public*/ function &addInputField($type, $name, $value = null, $attributes = array(), $addElement = true)
   {
     $attributes['type'] = $type;
@@ -212,6 +248,9 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Text-Feld hinzu
+   */
   /*public*/ function &addTextField($name, $value = null, $attributes = array())
   {
     if(!isset($attributes['class']))
@@ -220,6 +259,10 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Read-Only-Text-Feld hinzu.
+   * Dazu wird ein input-Element verwendet.
+   */
   /*public*/ function &addReadOnlyTextField($name, $value = null, $attributes = array())
   {
     $attributes['readonly'] = 'readonly';
@@ -229,6 +272,10 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Read-Only-Feld hinzu.
+   * Dazu wird ein span-Element verwendet.
+   */
   /*public*/ function &addReadOnlyField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldSeparateEnding'] = true;
@@ -239,12 +286,19 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Fomular ein Hidden-Feld hinzu.
+   */
   /*public*/ function &addHiddenField($name, $value = null, $attributes = array())
   {
     $field =& $this->addInputField('hidden', $name, $value, $attributes, true);
     return $field;
   }
 
+  /**
+   * Fuegt dem Fomular ein Checkbox-Feld hinzu.
+   * Dies ermoeglicht die Mehrfach-Selektion aus einer vorgegeben Auswahl an Werten. 
+   */
   /*public*/ function &addCheckboxField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
@@ -254,6 +308,10 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Radio-Feld hinzu.
+   * Dies ermoeglicht eine Einfache-Selektion aus einer vorgegeben Auswahl an Werten. 
+   */
   /*public*/ function &addRadioField($name, $value = null, $attributes = array())
   {
     if(!isset($attributes['class']))
@@ -263,6 +321,9 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Textarea-Feld hinzu.
+   */
   /*public*/ function &addTextAreaField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldSeparateEnding'] = true;
@@ -277,6 +338,9 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Select/Auswahl-Feld hinzu.
+   */
   /*public*/ function &addSelectField($name, $value = null, $attributes = array())
   {
     if(!isset($attributes['class']))
@@ -286,6 +350,9 @@ class rex_form
     return $field;
   }
   
+  /**
+   * Fuegt dem Formular ein Feld hinzu mitdem die Prioritaet von Datensaetzen verwaltet werden kann.
+   */
   /*public*/ function &addPrioField($name, $value = null, $attributes = array())
   {
     if(!isset($attributes['class']))
@@ -295,6 +362,10 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
+   * Es kann nur ein Element aus dem Medienpool eingefuegt werden.
+   */
   /*public*/ function &addMediaField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
@@ -302,6 +373,10 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
+   * Damit koennen mehrere Elemente aus dem Medienpool eingefuegt werden.
+   */
   /*public*/ function &addMedialistField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
@@ -309,6 +384,10 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
+   * Es kann nur ein Element aus der Struktur eingefuegt werden.
+   */
   /*public*/ function &addLinkmapField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
@@ -316,6 +395,10 @@ class rex_form
     return $field;
   }
   
+  /**
+   * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
+   * Damit koennen mehrere Elemente aus der Struktur eingefuegt werden.
+   */
   /*public*/ function &addLinklistField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
@@ -323,32 +406,53 @@ class rex_form
     return $field;
   }
 
+  /**
+   * Fuegt dem Fomualar ein Control-Feld hinzu.
+   * Damit koennen versch. Aktionen mit dem Fomular durchgefuert werden.
+   */
   /*public*/ function &addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
   {
     $field =& $this->addElement(new rex_form_control_element($this, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement));
     return $field;
   }
 
+  /**
+   * Fuegt dem Formular eine Fehlermeldung hinzu.
+   */
   /*public*/ function addErrorMessage($errorCode, $errorMessage)
   {
     $this->errorMessages[$errorCode] = $errorMessage;
   }
   
+  /**
+   * Fuegt dem Formular einen Parameter hinzu.
+   * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
+   */
   /*public*/ function addParam($name, $value)
   {
     $this->params[$name] = $value;
   }
 
+  /**
+   * Gibt alle Parameter des Fomulars zurueck.
+   */
   /*public*/ function getParams()
   {
     return $this->params;
   }
   
+  /**
+   * Gibt die Where-Bedingung des Formulars zurueck
+   */
   /*public*/ function getWhereCondition()
   {
     return $this->whereCondition;
   }
 
+  /**
+   * Gibt den Wert des Parameters $name zurueck,
+   * oder $default kein Parameter mit dem Namen exisitiert.
+   */
   /*public*/ function getParam($name, $default = null)
   {
     if(isset($this->params[$name]))
@@ -358,12 +462,18 @@ class rex_form
     return $default;
   }
 
-  /*public*/ function &addElement(&$element)
+  /**
+   * Allgemeine Bootleneck-Methode um Elemente in das Formular einzufuegen.
+   */
+  /*protected*/ function &addElement(&$element)
   {
     $this->elements[$this->fieldset][] =& $element;
     return $element;
   }
   
+  /**
+   * Entfernt rekursiv die slashes von $value.
+   */
   /*private*/ function stripslashes($value)
   {
     if (is_array($value))
@@ -384,6 +494,9 @@ class rex_form
     }
   }
   
+  /**
+   * Erstellt ein Input-Element anhand des Strings $inputType 
+   */
   /*public*/ function &createInput($inputType, $name, $value = null, $attributes = array())
   {
     $tag        = rex_form::getInputTagName($inputType);
@@ -396,6 +509,9 @@ class rex_form
     return $element;
   }
   
+  /**
+   * Erstellt ein Input-Element anhand von $tag
+   */
   /*protected*/ function &createElement($tag, $name, $value, $attributes = array())
   {
     $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
@@ -466,6 +582,9 @@ class rex_form
     return $element;
   }
 
+  /**
+   * Wechselt den Modus des Formulars
+   */
   /*public*/ function setEditMode($isEditMode)
   {
     if($isEditMode)
@@ -474,11 +593,17 @@ class rex_form
       $this->mode = 'add';
   }
 
+  /**
+   * Prueft ob sich das Formular im Edit-Modus befindet.
+   */
   /*public*/ function isEditMode()
   {
     return $this->mode == 'edit';
   }
 
+  /**
+   * Setzt die Url die bei der apply-action genutzt wird.
+   */
   /*public*/ function setApplyUrl($url)
   {
     if(is_array($url))
