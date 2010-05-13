@@ -63,6 +63,7 @@ function rex_title($head, $subtitle = '')
     {
       $nav->addPage($pageObj);
     }
+    $nav->setActiveElements();
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-navi-page">'.$nav->getNavigation().'</div>';
   }
   else

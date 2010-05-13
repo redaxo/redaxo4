@@ -291,14 +291,15 @@ class rex_be_navigation
     {
 	    foreach($this->pages as $block => $blockPages)
 	    {
-	      $n = $this->_getNavigation($blockPages, 0, $block);
-       	  if($n != "")
-          {
+        // PHP4 compat notation
+	      $n = $this->_getNavigation($this->pages[$block], 0, $block);
+     	  if($n != "")
+        {
 	        $headline = $this->getHeadline($block);
 	        $s .= '<dt>'. $headline .'</dt><dd>';
 	        $s .= $n;
 	        $s .= '</dd>' . "\n";
-          }
+        }
 	    }
     }
     $s .= '</dl>';
@@ -306,7 +307,7 @@ class rex_be_navigation
     
   }
   
-  /*private*/ function _getNavigation($blockPages, $level = 0, $block = '')
+  /*private*/ function _getNavigation(&$blockPages, $level = 0, $block = '')
   {
       $level++;
       $id = '';
@@ -316,9 +317,10 @@ class rex_be_navigation
       
       $echo = '';
       $first = TRUE;
-      foreach($blockPages as $pageContainer)
+      foreach($blockPages as $key => $pageContainer)
       {
-        $page =& $pageContainer->getPage();
+        // PHP4 compat notation
+        $page =& $blockPages[$key]->getPage();
         
         if(!$page->getHidden())
         {
@@ -327,7 +329,6 @@ class rex_be_navigation
 	          $first = FALSE;
 	          $page->addItemClass('rex-navi-first');
 	        }
-	
 	        $page->addLinkClass($page->getItemAttr('class'));
 	          
 	        $itemAttr = '';
@@ -371,10 +372,11 @@ class rex_be_navigation
 	    {
 	      foreach($blockPages as $mn => $pageContainer)
 	      {
-//          $page =& $this->pages[$block][$mn]->getPage();
-	        $page =& $pageContainer->getPage();
-	        $condition = $page->getActivateCondition();
+          // PHP4 compat notation
+	        $page =& $this->pages[$block][$mn]->getPage();
+	        
 	        // check main pages
+	        $condition = $page->getActivateCondition();
 	        if($this->checkActivateCondition($condition))
 	        {
 	          $page->addItemClass('rex-active');
@@ -383,10 +385,11 @@ class rex_be_navigation
   	        $subpages =& $page->getSubPages();
   	        foreach($subpages as $sn => $subpage)
   	        {
-  	          $condition = $subpage->getActivateCondition();
+              // PHP4 compat notation
+  	          $condition = $subpages[$sn]->getActivateCondition();
   	          if($this->checkActivateCondition($condition))
   	          {
-  	            $subpage->addItemClass('rex-active');
+  	            $subpages[$sn]->addItemClass('rex-active');
   	          }
   	        }
 	        }
