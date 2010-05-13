@@ -288,6 +288,9 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $tag_attr = '';
         $labelIt = false;
         
+        // tabindex entfernen, macht bei einer legend wenig sinn
+        $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
+        
         $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'"'. $attr .'">'. $label .'</legend><div class="rex-form-wrapper">';
         break;
       }
