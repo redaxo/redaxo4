@@ -64,6 +64,79 @@ class rex_article_editor extends rex_article
 
       }
 
+      
+      // ----- Slicemenue
+      
+      $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
+      $listElements = array();
+      
+      if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
+      {
+        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $I18N->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+      	$listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx2" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+
+        if ($REX['USER']->hasPerm('moveSlice[]'))
+        {
+          $moveUp = $I18N->msg('move_slice_up');
+          $moveDown = $I18N->msg('move_slice_down');
+          // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
+          // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
+          $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+          $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+        }
+
+      }else
+      {
+        $listElements[] = ''. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span>';
+      	
+      }
+
+      // ----- EXTENSION POINT
+      $listElements = rex_register_extension_point(
+        'ART_SLICE_MENU',
+        $listElements,
+        array(
+          'article_id' => $this->article_id,
+          'clang' => $this->clang,
+          'ctype' => $RE_CONTS_CTYPE[$I_ID],
+          'module_id' => $RE_MODUL_ID[$I_ID],
+          'slice_id' => $RE_CONTS[$I_ID],
+          'perm' => ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
+        )
+      );
+
+      $mne = "";
+
+      if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
+        $mne .= '<div class="rex-content-editmode-module-name rex-form-content-editmode-edit-slice">';
+      else
+        $mne .= '<div class="rex-content-editmode-module-name">';
+
+      $mne .= '
+              <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
+              <div class="rex-navi-slice">
+                <ul>
+            ';
+
+      $listElementFlag = true;
+      foreach($listElements as $listElement)
+      {
+        $class = '';
+        if ($listElementFlag)
+        {
+          $class = ' class="rex-navi-first"';
+          if(count($listElements) == 1)
+          {
+            $class = ' class="rex-navi-first rex-navi-onlyone"';
+          }
+          $listElementFlag = false;
+        }
+        $mne  .= '<li'.$class.'>'. $listElement .'</li>';
+      }
+
+      $mne .= '</ul></div></div>';
+
+      
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
       if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
       {
@@ -81,62 +154,7 @@ class rex_article_editor extends rex_article
           }
         }
 
-        $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
-        $listElements = array();
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $I18N->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx2" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-        if ($REX['USER']->hasPerm('moveSlice[]'))
-        {
-          $moveUp = $I18N->msg('move_slice_up');
-          $moveDown = $I18N->msg('move_slice_down');
-          // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
-          // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
-          $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-          $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-        }
-
-        // ----- EXTENSION POINT
-        $listElements = rex_register_extension_point(
-          'ART_SLICE_MENU',
-          $listElements,
-          array(
-            'article_id' => $this->article_id,
-            'clang' => $this->clang,
-            'ctype' => $RE_CONTS_CTYPE[$I_ID],
-            'module_id' => $RE_MODUL_ID[$I_ID],
-            'slice_id' => $RE_CONTS[$I_ID]
-          )
-        );
-
-        $mne = $msg;
-
-
-        if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
-          $mne .= '<div class="rex-content-editmode-module-name rex-form-content-editmode-edit-slice">';
-        else
-          $mne .= '<div class="rex-content-editmode-module-name">';
-
-        $mne .= '
-                <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
-                <div class="rex-navi-slice">
-                  <ul>
-              ';
-
-        $listElementFlag = true;
-        foreach($listElements as $listElement)
-        {
-          $class = '';
-          if ($listElementFlag)
-          {
-            $class = ' class="rex-navi-first"';
-            $listElementFlag = false;
-          }
-          $mne  .= '<li'.$class.'>'. $listElement .'</li>';
-        }
-
-        $mne .= '</ul></div></div>';
-
-        $slice_content .= $mne;
+        $slice_content .= $msg.$mne;
         if($this->function=="edit" && $this->slice_id == $RE_CONTS[$I_ID])
         {
           // **************** Aktueller Slice
@@ -194,6 +212,7 @@ class rex_article_editor extends rex_article
       }else
       {
         // ----- hat keine rechte an diesem modul
+        /*
         $mne = '
            <div class="rex-content-editmode-module-name">
             <h3 class="rex-hl4" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</h3>
@@ -203,8 +222,22 @@ class rex_article_editor extends rex_article
               </ul>
             </div>
           </div>';
+        */
+        
+        $slice_content .= $mne;
+        
+        // Modulinhalt ausgeben
+        $slice_content .= '
+                <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
+                <div class="rex-content-editmode-slice-output">
+                  <div class="rex-content-editmode-slice-output-2">
+                    '. $RE_MODUL_OUT[$I_ID] .'
+                  </div>
+                </div>
+                <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
+                ';
 
-        $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
+        // $slice_content .= $mne. $RE_MODUL_OUT[$I_ID];
         $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
 
