@@ -87,7 +87,7 @@ class rex_article_editor extends rex_article
 
       }else
       {
-        $listElements[] = ''. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span>';
+        $listElements[] = '<b class="rex-tx2">'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></b>';
       	
       }
 
@@ -212,18 +212,7 @@ class rex_article_editor extends rex_article
       }else
       {
         // ----- hat keine rechte an diesem modul
-        /*
-        $mne = '
-           <div class="rex-content-editmode-module-name">
-            <h3 class="rex-hl4" id="slice'. $RE_CONTS[$I_ID] .'">'. $RE_MODUL_NAME[$I_ID] .'</h3>
-            <div class="rex-navi-slice">
-              <ul>
-                <li>'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></li>
-              </ul>
-            </div>
-          </div>';
-        */
-        
+       
         $slice_content .= $mne;
         
         // Modulinhalt ausgeben
