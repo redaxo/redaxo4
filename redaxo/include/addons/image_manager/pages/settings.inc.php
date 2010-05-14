@@ -48,12 +48,13 @@ echo '
 
 <div class="rex-addon-output">
 
-<h2 class="rex-hl2">'. $I18N->msg('imanager_subpage_config') .'</h2>
 
-<div class="rex-area">
+
   <div class="rex-form">
 	
-  <form action="index.php" method="post">
+<h2 class="rex-hl2">'. $I18N->msg('imanager_subpage_config') .'</h2>
+  
+<form action="index.php" method="post">
 
 		<fieldset class="rex-form-col-1">
       <div class="rex-form-wrapper">
@@ -91,7 +92,7 @@ echo '
 			</fieldset>
   </form>
   </div>
-</div>
+
 
 </div>
   ';

@@ -12,9 +12,9 @@ class rex_effect_resize extends rex_effect_abstract
 	function rex_effect_resize()
 	{
 		$this->options = array(
-		  'longest',
-		  'shortest',
-		  'warp'
+		  'maximum',
+		  'minimum',
+		  'exact'
 		);
 
 		$randId = get_class($this). rand();
@@ -32,11 +32,11 @@ class rex_effect_resize extends rex_effect_abstract
             $select.change(function(){
               if(jQuery(this).val() == "warp")
               {
-                $heightInput.show();
+                // $heightInput.show();
               }
               else
               {
-                $heightInput.hide();
+                // $heightInput.hide();
               }
             }).change();
           });
@@ -53,7 +53,7 @@ class rex_effect_resize extends rex_effect_abstract
 
 		if(!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
 		{
-			$this->params['style'] = 'longest';
+			$this->params['style'] = 'maximum';
 		}
 
     // relatives resizen
@@ -65,23 +65,31 @@ class rex_effect_resize extends rex_effect_abstract
     {
       $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
     }
+
+
     
-		if($this->params['style'] == 'longest')
+    
+    
+    
+		if($this->params['style'] == 'maximum')
 		{
-		  $this->resizeLongest($w, $h);
-		}
-		else if($this->params['style'] == 'shortest') 
+		  $this->resizeMax($w, $h);
+		}else if($this->params['style'] == 'minimum') 
 		{
-		  $this->resizeShortest($w, $h);
-		}
-		else
+		  $this->resizeMin($w, $h);
+		}else
 		{
 		  // warp => nichts tun
 		}
 
-		// TODO prŸfen!
-		// Originalbild selbst sehr klein und wuerde via resize vergroessert
-		// => Das Originalbild ausliefern
+		// ----- not enlarge image
+    if($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == "not_enlarge")
+    {
+    	$this->params['width'] = $w;
+    	$this->params['height'] = $h;
+    	return;
+    }
+    
 		if(!isset($this->params["width"]))
 		{
 			$this->params["width"] = $w;
@@ -113,7 +121,7 @@ class rex_effect_resize extends rex_effect_abstract
 		$this->image->refreshDimensions();
 	}
 	
-	function resizeLongest($w, $h)
+	function resizeMax($w, $h)
 	{
     if (!empty($this->params['height']) && !empty($this->params['width']))
     {
@@ -142,7 +150,7 @@ class rex_effect_resize extends rex_effect_abstract
     }
 	}
 	
-	function resizeShortest($w, $h)
+	function resizeMin($w, $h)
 	{
     if (!empty($this->params['height']) && !empty($this->params['width']))
     {
@@ -219,15 +227,13 @@ class rex_effect_resize extends rex_effect_abstract
         'default' => 'fit',
         'suffix' => $this->script
       ),
-        /*
-         array(
-         'label'=>$I18N->msg('imanager_effect_resize_allow_enlarge'),
+      array(
+         'label'=>$I18N->msg('imanager_effect_resize_imgtosmall'),
          'name' => 'allow_enlarge',
          'type' => 'select',
-         'options' => array($I18N->msg('yes'), $I18N->msg('no')),
-         'default' => $I18N->msg('no'),
+         'options' => array('enlarge', 'not_enlarge'),
+         'default' => 'enlarge',
          ),
-         */
     );
 	}
 }

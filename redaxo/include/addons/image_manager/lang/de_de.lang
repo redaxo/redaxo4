@@ -72,7 +72,7 @@ imanager_effect_sharpen_threshold = Grenzwert
 imanager_effect_resize_width = Zielbreite
 imanager_effect_resize_height = Zielhöhe
 imanager_effect_resize_style = Modus
-imanager_effect_resize_allow_enlarge = Vergrößern zulassen
+imanager_effect_resize_imgtosmall = Wenn Bild zu klein
 
 imanager_effect_crop_width = Zielbreite
 imanager_effect_crop_height = Zielhöhe

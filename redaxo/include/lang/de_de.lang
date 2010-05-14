@@ -274,6 +274,9 @@ user_summary = Auflistung aller angelegten Benutzer
 user_status = User ist aktiv
 backend_language = Backendsprache
 startpage = Startseite
+update = aktualisieren
+add = hinzufügen
+
 
 # redaxo\include\pages\special.inc.php
 info_updated = Informationen wurden aktualisiert!
