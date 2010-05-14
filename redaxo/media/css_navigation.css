@@ -231,8 +231,9 @@ div.rex-navi-slice ul li {
 div.rex-navi-slice ul li.rex-navi-first {
 	padding-left: 10px;
 }
-div.rex-navi-slice ul li a {
-	margin-right: 5px;
+div.rex-navi-slice ul li a, 
+div.rex-navi-slice ul li.rex-navi-onlyone {
+	padding-right: 5px;
 }
 div.rex-navi-slice ul li a.rex-slice-move-up, 
 div.rex-navi-slice ul li a.rex-slice-move-down {
