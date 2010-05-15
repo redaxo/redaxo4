@@ -49,7 +49,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['pages'] = 'content, metainfo';
 $REX['ADDON'][$rxa_tinymce['name']]['foreground'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['background'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = 'on';
-$REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] = 'on';
+$REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['theme'] = 'default';
 $REX['ADDON'][$rxa_tinymce['name']]['skin'] = 'default';
 $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
@@ -111,6 +111,11 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 		// Outputfilter für Medienpool und Linkmap
 		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
 		{
+			$rxa_tinymce['get_inputfield'] = rex_request('opener_input_field', 'string');
+			if (strstr($rxa_tinymce['get_inputfield'], 'REX_MEDIA_') or strstr($rxa_tinymce['get_inputfield'], 'LINK_'))
+			{
+				$_SESSION['a52_tinymce'] = false;
+			}		
 			if ((($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap'])) and (($rxa_tinymce['get_tinymce'] == 'true') or (isset($_SESSION['a52_tinymce']) and $_SESSION['a52_tinymce'] == 'true')))
 			{
 				rex_register_extension('MEDIA_ADDED', 'a52_tinymce_mediaadded');
