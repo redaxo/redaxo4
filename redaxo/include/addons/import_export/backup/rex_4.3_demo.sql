@@ -13,7 +13,7 @@ CREATE TABLE `rex_62_params` (
   `default` varchar(255) NOT NULL,
   `params` text,
   `validate` text,
-  `restrictions` text,
+  `restrictions` text NOT NULL,
   `createuser` varchar(255) NOT NULL,
   `createdate` int(11) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
