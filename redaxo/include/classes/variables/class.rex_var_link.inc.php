@@ -275,7 +275,7 @@ class rex_var_link extends rex_var
 		<div class="rex-widget-link">
       <p class="rex-widget-field">
   			<input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="'. $article_id .'" />
-  			<input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . $art_name . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
+  			<input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
 		  </p>
        <p class="rex-widget-icons rex-widget-1col">
        	<span class="rex-widget-column rex-widget-column-first">
@@ -310,7 +310,7 @@ class rex_var_link extends rex_var
         if ($link != '')
         {
 		  		if($article = OOArticle::getArticleById($link))
-          	$options .= '<option value="' . $link . '">' . $article->getName() . '</option>';
+          	$options .= '<option value="' . $link . '">' . htmlspecialchars($article->getName()) . '</option>';
         }
       }
     }
