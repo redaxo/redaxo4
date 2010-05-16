@@ -163,6 +163,7 @@ $sel_startpage->setSize(1);
 $sel_startpage->setName("userperm_startpage");
 $sel_startpage->setId("userperm-startpage");
 $sel_startpage->addOption("default","");
+
 $startpages = array();
 $startpages['structure'] = array($I18N->msg('structure'),'');
 $startpages['profile'] = array($I18N->msg('profile'),'');
@@ -173,6 +174,7 @@ foreach($REX['ADDON']['status'] as $k => $v)
 		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
 	}
 }
+
 foreach($startpages as $k => $v)
 {
   $sel_startpage->addOption($v[0],$k);
@@ -296,13 +298,21 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   // userperm_be_sprache
 	foreach($langs as $k => $v)
 	{
-		if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
+		if($userperm_be_sprache == $k)
+		{
+		  $perm .= '#be_lang['.$userperm_be_sprache.']';
+		  break;
+		}
 	}
 
 	// userperm_startpage
 	foreach($startpages as $k => $v)
 	{
-	  if($userperm_startpage == $k) $perm .= '#startpage['.$userperm_startpage.']';
+	  if($userperm_startpage == $k)
+	  {
+	    $perm .= '#startpage['.$userperm_startpage.']';
+	    break;
+	  }
 	}
 
   // userperm_module
