@@ -37,6 +37,15 @@ class rex_login_sql extends rex_sql
 
   /*public*/ function hasPerm($perm)
   {
+    // check ob echtes recht geprueft wird, oder nur ein shorthand fuer complexe checks gegeben wurde
+    if(strpos($perm, '[') === false)
+    {
+      $callable = array($this, $perm);
+      if(is_callable($callable))
+      {
+        return call_user_func($callable); 
+      }
+    }
     return $this->isValueOf('rights', $perm);
   }
 
