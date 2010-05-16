@@ -10,6 +10,11 @@
 
 class rex_login_sql extends rex_sql
 {
+  function rex_login_sql($DBID = 1)
+  {
+    parent::rex_sql($DBID);
+  }
+  
   /*protected*/ function isValueOf($feld, $prop)
   {
     if ($prop == '')
