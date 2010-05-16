@@ -154,25 +154,28 @@ if($REX['USER'])
           $REX['ADDON']['pages'][$addonName] = $REX['ADDON'][$addonName]['SUBPAGES'];
         }
         // *** ENDE wegen <=4.2
+      }
       
-        // adds be_page's
-        foreach(OOAddon::getProperty($addonName, 'pages', array()) as $s)
+      // adds be_page's
+      foreach(OOAddon::getProperty($addonName, 'pages', array()) as $s)
+      {
+        if(is_array($s) && $addonPage)
         {
-          if(is_array($s) && $addonPage)
-          {
-           $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
-            $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
-            $addonPage->addSubPage($subPage);
-          }else if(rex_be_main_page::isValid($s))
-          {
-            $p = $s->getPage();
-            $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
-          }else if(rex_be_page::isValid($s) && $addonPage)
-          {
-            $addonPage->addSubPage($s);
-          }
+         $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
+          $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
+          $addonPage->addSubPage($subPage);
+        }else if(rex_be_main_page::isValid($s))
+        {
+          $p = $s->getPage();
+          $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
+        }else if(rex_be_page::isValid($s) && $addonPage)
+        {
+          $addonPage->addSubPage($s);
         }
-      
+      }
+        
+      if ($addonPage) 
+      {
         $mainAddonPage = new rex_be_main_page('addons', $addonPage);
         
         // "navigation" adds attributes to the addon-root page
