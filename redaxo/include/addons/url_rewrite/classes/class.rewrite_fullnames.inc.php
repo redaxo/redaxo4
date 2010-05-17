@@ -314,6 +314,7 @@ function rex_rewriter_generate_pathnames($params)
     case 'ART_TO_STARTPAGE':
     case 'ALL_GENERATED':
     default:
+      $REXPATH = array();
       $where = '1=1';
 			break;
   }
