@@ -149,7 +149,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 					$v["value"] = "";
 					$xform->setValueField("text",array("f".$i,"Name",$v["value"]));
 					$xform->setValidateField("notEmpty",array("f".$i,"Bitte tragen Sie den Namen ein"));
-					$xform->setValidateField("preg_match",array("f".$i,"/[a-z\-]*/i",'Bitte tragen Sie beim Namen nur Buchstaben und "-" ein'));
+					$xform->setValidateField("preg_match",array("f".$i,"/(([a-z])+([a-z0-9\_])*)/",'Bitte tragen Sie beim Namen nur Buchstaben und "_" ein'));
 					$xform->setValidateField("customfunction",array("f".$i,"rex_em_checkField",$table_name,"Dieser Name ist bereits vorhanden"));
 				}
 				break;

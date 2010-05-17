@@ -15,9 +15,8 @@ class rex_xform_validate_preg_match extends rex_xform_validate_abstract
 				 
 				preg_match($pm, $Object->getValue(), $matches);
 
-				if(count($matches) != 1 || current($matches) == $Object->getValue())
+				if(count($matches) > 0 && current($matches) == $Object->getValue())
 				{
-
 
 				}else
 				{

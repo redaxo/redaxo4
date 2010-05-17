@@ -85,7 +85,7 @@ if($func == "delete")
 	// $delsql->debugsql=1;
 	$delsql->setQuery($query);
 	$func = "";
-	echo rex_info("Datensatz wurde gel&ouml;scht");
+	echo rex_info($I18N->msg("em_datadeleted"));
 	$func = "";
 }
 
@@ -142,6 +142,8 @@ if($func == "add" || $func == "edit")
 	// $xform->setActionField("showtext",array("","Vielen Dank fr die Eintragung"));
 	$xform->setObjectparams("main_table",$table["tablename"]); // für db speicherungen und unique abfragen
 
+	$xform->setObjectparams("submit_btn_label",$I18N->msg('em_submit'));
+	
 	if($func == "edit")
 	{
 		$xform->setHiddenField("data_id",$data_id);
@@ -177,18 +179,18 @@ if($func == "add" || $func == "edit")
 		{
 			if($func == "edit")
 			{
-				echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+				echo rex_info($I18N->msg("em_thankyouforupdate"));
 			}elseif($func == "add"){
-				echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+				echo rex_info($I18N->msg("em_thankyouforentry"));
 			}
 		}
 
 		if($func == "edit")
 		{
-			echo '<div class="rex-area"><h3 class="rex-hl2">Daten editieren</h3><div class="rex-area-content">';
+			echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("em_editdata").'</h3><div class="rex-area-content">';
 		}else
 		{
-			echo '<div class="rex-area"><h3 class="rex-hl2">Datensatz anlegen</h3><div class="rex-area-content">';
+			echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("em_adddata").'</h3><div class="rex-area-content">';
 		}
 		echo $form;
 		echo '</div></div>';
@@ -198,9 +200,9 @@ if($func == "add" || $func == "edit")
 	{
 		if($func == "edit")
 		{
-			echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+			echo rex_info($I18N->msg("em_thankyouforupdate"));
 		}elseif($func == "add"){
-			echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+			echo rex_info($I18N->msg("em_thankyouforentry"));
 		}
 	}
 
@@ -213,7 +215,7 @@ if($func == "add" || $func == "edit")
 // ********************************************* LIST
 if($show_list)
 {
-	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'&func=add&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.$em_rex_list.'"><b>+ anlegen</b></a></td></tr></table><br />';
+	echo '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&subpage='.$subpage.'&func=add&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.$em_rex_list.'"><b>+ '.$I18N->msg("em_add").'</b></a></td><td style="text-align:right;"><a href=""><b>'.$I18N->msg('em_export').'</b></a></td></tr></table><br />';
 
 	// ----- SUCHE
 	if($table["search"]==1)
@@ -257,14 +259,14 @@ if($show_list)
 
 		$suchform .= '<input type="hidden" name="rex_em_search" value="1" />';
 		$suchform .= '<tr>
-			<th>Suchbegriff</th>
-			<th>Tabellenfelder &uuml;ber die gesucht wird</th>
+			<th>'.$I18N->msg('em_searchtext').'</th>
+			<th>'.$I18N->msg('em_searchfields').'</th>
 			<th>&nbsp;</th>
 			</tr>';	
 		$suchform .= '<tr>
 			<td class="grey" valign="top"><input type="text" name="rex_em_searchtext" value="'.htmlspecialchars(stripslashes($rex_em_searchtext)).'" style="width:100%;" /></td>
 			<td class="grey" valign="top">'.$search_field_select->get().'</td>
-			<td class="grey" valign="top"><input type="submit" name="send" value="suchen"  class="inp100" /></td>
+			<td class="grey" valign="top"><input type="submit" name="send" value="'.$I18N->msg('em_search').'"  class="inp100" /></td>
 			</tr>';
 		$suchform .= '</form>';
 		$suchform .= '</table><br />';
@@ -345,11 +347,11 @@ if($show_list)
 		}
 	}
 
-	$list->addColumn('editieren','editieren');
-	$list->setColumnParams("editieren", array("data_id"=>"###id###","func"=>"edit","start"=>rex_request("start","string")));
+	$list->addColumn($I18N->msg('em_edit'),$I18N->msg('em_edit'));
+	$list->setColumnParams($I18N->msg('em_edit'), array("data_id"=>"###id###","func"=>"edit","start"=>rex_request("start","string")));
 
-	$list->addColumn('l&ouml;schen','l&ouml;schen');
-	$list->setColumnParams("l&ouml;schen", array("data_id"=>"###id###","func"=>"delete"));
+	$list->addColumn($I18N->msg('em_delete'),"- ".$I18N->msg('em_delete'));
+	$list->setColumnParams($I18N->msg('em_delete'), array("data_id"=>"###id###","func"=>"delete"));
 
 	// if($rex_em_opener_field){ $list->addColumn('&uuml;bernehmen','<a href="javascript:em_setData('.$rex_em_opener_field.',###id###,\'###'.$rex_em_opener_fieldname.'###\')">&uuml;bernehmen</a>',-1,"asdasd"); }
 

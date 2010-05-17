@@ -18,11 +18,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 		if($this->be_em["relation_type"] > 2)	{ $this->be_em["relation_type"] = 0; }
 		$this->be_em["eoption"] = (int) $this->elements[6]; // "Leer" Option
 		if($this->be_em["eoption"] != 1) { $this->be_em["eoption"] = 0; }
-    $disabled = FALSE;
-		
-    
-    
-    
+		$disabled = FALSE;
     
     if($this->be_em["relation_type"] == 2)
     {
@@ -60,8 +56,9 @@ class rex_xform_be_em_relation extends rex_xform_abstract
     
     // ---------- Datensatz existiert bereits, Values aus verknŸpfungstabelle holen
 		if($this->params["main_id"] > 0 && $send == 0)
-    {
-		  $vs = rex_sql::factory();
+		{
+		$vs = rex_sql::factory();
+		$sss->debugsql = $this->params["debug"];
     	$vs->setQuery('select target_id as id from '.$REX['TABLE_PREFIX'].'em_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$this->params["main_id"].'"');
     	$v = $vs->getArray();
     	$values = array();
@@ -120,6 +117,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 			}
 			$values = array();
 			$vs = rex_sql::factory();
+			$sss->debugsql = $this->params["debug"];
 			$vs->setQuery($sql);
 			foreach($vs->getArray() as $v)
 			{
@@ -147,7 +145,6 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 		// ----- SELECT BOX
 		$sss = rex_sql::factory();
 		$sss->debugsql = $this->params["debug"];
-		// $sss->debugsql = 1;
 		$sss->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_data_'.$this->be_em["target_table"].' order by '.$this->be_em["target_field"]);
 
 		$SEL = new rex_select();
@@ -230,7 +227,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 
 		// ----- Datensaetze aus der Relationstabelle lšschen
 		$d = rex_sql::factory();
-		// $d->debugsql = 1;
+		$sss->debugsql = $this->params["debug"];
 		$d->setQuery('delete from '.$REX['TABLE_PREFIX'].'em_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$source_id.'"');
 
 		// ----- Datensaetze in die Relationstabelle eintragen
@@ -238,7 +235,7 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 		{
 
 			$i = rex_sql::factory();
-			// $i->debugsql = 1;
+			$sss->debugsql = $this->params["debug"];
 			foreach($values as $v)
 			{
 				$i->setTable($REX['TABLE_PREFIX'].'em_relation');
@@ -270,15 +267,14 @@ class rex_xform_be_em_relation extends rex_xform_abstract
 						'type' => 'value',
 						'name' => 'be_em_relation',
 						'values' => array(
-		array( 'type' => 'name',		'label' => 'Name' ),
-		array( 'type' => 'text',		'label' => 'Bezeichnung'),
-		array( 'type' => 'table',		'label' => 'Ziel Tabelle'),
-		array( 'type' => 'table.field',	'label' => 'Ziel Tabellenfeld zur Anzeige'),
-		array( 'type' => 'select',    'label' => 'Mehrfachauswahl', 'default' => '', 'definition' => 'single=0;multiple=1;popup=2' ),
-		array( 'type' => 'boolean',		'label' => 'Mit "Leer-Option"' ),
-    array( 'type' => 'text',    'label' => 'Fehlermeldung wenn "Leer-Option" nicht aktiviert ist.'),
-		
-		),
+							array( 'type' => 'name',		'label' => 'Name' ),
+							array( 'type' => 'text',		'label' => 'Bezeichnung'),
+							array( 'type' => 'table',		'label' => 'Ziel Tabelle'),
+							array( 'type' => 'table.field',	'label' => 'Ziel Tabellenfeld zur Anzeige'),
+							array( 'type' => 'select',    'label' => 'Mehrfachauswahl', 'default' => '', 'definition' => 'single=0;multiple=1;popup=2' ),
+							array( 'type' => 'boolean',		'label' => 'Mit "Leer-Option"' ),
+					    array( 'type' => 'text',    'label' => 'Fehlermeldung wenn "Leer-Option" nicht aktiviert ist.'),
+						),
 						'description' => 'Hiermit kann man Verkn&uuml;pfungen zu anderen Tabellen setzen',
 						'dbtype' => 'text'
 						);

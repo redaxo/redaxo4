@@ -7,7 +7,25 @@
  *
  * @package redaxo4
  * @version svn:$Id$
+ * 
+ * 
+ * TODO:
+ * - translate bei den Eingabefeldern setzen
+ * - export einbauen, sollte direkt auch als import gehen
+ * - import umbauen so dass, wenn Id gesetzt ist, Datensaetze ersetzt werden
+ * - wenn medien im medienpool geloescht werden Ÿber EP auch prŸfen ob in EM etwas vorhanden ist
+ * - Einfaches OOF fŸr EM bauen, Datensaetze, Listen, Relationen, Export und Import
+ * - Lšsung finden um spezifische Feldtypen definieren zu kšnnen, INT, VARCHAR, FLOAT etc.
+ * - onDelete bei Feldern einbauen
+ * - Mehrsprachige Felder besser einbauen
+ * - weitere XForm-Klassen umbauen fŸr EM.
+ * - Caching einbauen
+ * - Generate All immer nach €nderungen bei Tabellen + Feldern
+ * - Ÿbersetzung vervollstŠndigen
+ * 
  */
+
+
 
 $mypage = 'editme';
 
@@ -19,7 +37,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
 
 	// Credits
-	$REX['ADDON']['version'][$mypage] = '1.0';
+	$REX['ADDON']['version'][$mypage] = '0.8';
 	$REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 	$REX['ADDON']['navigation'][$mypage] = array(

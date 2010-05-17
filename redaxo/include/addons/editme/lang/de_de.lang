@@ -13,3 +13,21 @@ editme_tbl_active = aktiv
 editme_tbl_inactive = inaktiv
 
 navigation_editme = Tabellenverwaltung
+
+em_submit = abschicken
+
+
+
+# edit.inc.php
+em_thankyouforupdate = Vielen Dank für die Aktualisierung.
+em_thankyouforentry = Vielen Dank für den Eintrag.
+em_editdata = Daten editieren 
+em_adddata = Datensatz anlegen
+em_searchtext = Suchbegriff
+em_searchfields = Tabellenfelder über die gesucht wird
+em_add = hinzufügen
+em_edit = editieren
+em_delete = löschen
+em_search = suchen
+em_export = export
+em_datadeleted = Datensatz wurde gelöscht

@@ -47,7 +47,7 @@ if($func == "add" || $func == "edit")
 	{
 	    $xform->setValueField("text",array("name","Tabellenname"));
 	    $xform->setValidateField("notEmpty",array("name","Bitte tragen Sie den Tabellenname ein"));
-	    $xform->setValidateField("preg_match",array("name","/[a-z_]*/i","Bitte tragen Sie beim Tabellenname nur Buchstaben ein"));
+	    $xform->setValidateField("preg_match",array("name","/([a-z\_])*/","Bitte tragen Sie beim Tabellenname nur Buchstaben ein"));
 	    $xform->setValidateField("customfunction",array("name","rex_em_checkLabelInTable","","Dieser Tabellenname ist bereits vorhanden"));
 		$xform->setActionField("db",array($table));
 	}
