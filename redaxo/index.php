@@ -139,10 +139,11 @@ if($REX['USER'])
     $href  = OOAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
     $perm  = OOAddon::getProperty($addonName, 'perm', '');
     
+    $addonPage = null;
+    $mainAddonPage = null;
+
     if($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin())
     {
-      $addonPage = null;
-      $mainAddonPage = null;
       if ($title != '')
       {
         $addonPage = new rex_be_page($title, array('page' => $addonName));
@@ -172,18 +173,6 @@ if($REX['USER'])
         {
           $addonPage->addSubPage($s);
         }
-      }
-        
-      if ($addonPage) 
-      {
-        $mainAddonPage = new rex_be_main_page('addons', $addonPage);
-        
-        // "navigation" adds attributes to the addon-root page
-        foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
-        {
-          $mainAddonPage->_set($key, $value);
-        }
-        $REX['PAGES'][$addonName] = $mainAddonPage;
       }
     }
     
@@ -244,6 +233,18 @@ if($REX['USER'])
           }
         }
       }
+    }
+
+    if ($addonPage) 
+    {
+      $mainAddonPage = new rex_be_main_page('addons', $addonPage);
+      
+      // "navigation" adds attributes to the addon-root page
+      foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
+      {
+        $mainAddonPage->_set($key, $value);
+      }
+      $REX['PAGES'][$addonName] = $mainAddonPage;
     }
   }
 }
