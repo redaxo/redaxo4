@@ -14,7 +14,7 @@ if($func == "add_csv")
 
 	if($table_name == "")
 	{
-		echo rex_warning('Es wurde keine Tabelle angegeben.');
+		echo rex_warning($I18N->msg("em_notableselected"));
 	}elseif($f['name'] != "")
 	{
 		// Datei wurde hochgeladen
@@ -51,7 +51,7 @@ if($func == "add_csv")
 				{
 					if(!in_array($f,$table_fields))
 					{
-						$error[] = '´'.$f.'´ wurde nicht gefunden.';
+						$error[] = $I18N->msg("em_spezfieldnotfound",'´'.$f.'´');
 					}else
 					{
 						unset($table_fields_left[$f]);
@@ -88,13 +88,13 @@ if($func == "add_csv")
 		
 		if(count($error) == 0)
 		{
-			echo rex_info('CSV Datei wurde importiert.');
+			echo rex_info($I18N->msg("em_csvfileimported"));
 		}else
 		{
 			foreach($error as $e) 
 				echo rex_warning($e);
 			
-			$t = "Bitte eines der folgenden restlichen Felder verwenden: ";
+			$t = $I18N->msg("em_useoneofthefollowing").": ";
 			foreach($table_fields_left as $f)
 			{
 				$t .= $f.', ';
@@ -104,7 +104,7 @@ if($func == "add_csv")
 			
 	}else
 	{
-		echo rex_warning('Es wurde keine Datei hochgeladen.');
+		echo rex_warning($I18N->msg("em_nofileuploaded"));
 	}
 
 	/*
@@ -122,13 +122,13 @@ if($func == "add_csv")
 
 ?>
 
-<h1>Tabelle: <?php echo $table.' ['.$table_name.']'; ?></h1>
+<h1><?php echo $I18N->msg("em_table"); ?>: <?php echo $table.' ['.$table_name.']'; ?></h1>
 <p>&nbsp;</p>
 
 <div class="rex-form" id="rex-form-mediapool-other">
  <form action="index.php" method="post" enctype="multipart/form-data">
    <fieldset class="rex-form-col-1">
-     <legend>CSV Datei auswaehlen</legend>
+     <legend><?php echo $I18N->msg("em_choosecsvfile"); ?></legend>
 
      <div class="rex-form-wrapper">
        <input type="hidden" name="page" value="editme" />
@@ -138,14 +138,14 @@ if($func == "add_csv")
 
        <div class="rex-form-row">
            <p class="rex-form-file">
-             <label for="file_new">Datei</label>
+             <label for="file_new"><?php echo $I18N->msg("em_file"); ?></label>
              <input class="rex-form-file" type="file" id="file_new" name="file_new" size="30" />
            </p>
        </div>
 
        <div class="rex-form-row">
          <p class="rex-form-submit">
-          <input class="rex-form-submit" type="submit" name="save" value="Hinzuf&uuml;gen" title="Hinzuf&uuml;gen" />
+          <input class="rex-form-submit" type="submit" name="save" value="<?php echo $I18N->msg("em_add"); ?>" title="<?php echo $I18N->msg("em_add"); ?>" />
          </p>
        </div>
 

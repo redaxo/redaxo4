@@ -4,7 +4,7 @@
 
 $table = $REX['TABLE_PREFIX'].'em_field';
 
-$bezeichner = "Tabellenfeld";
+$bezeichner = $I18N->msg("em_tablefield");
 
 $func = rex_request("func","string","list");
 $page = rex_request("page","string","");
@@ -16,14 +16,14 @@ $field_id = rex_request("field_id","int");
 $show_list = TRUE;
 
 
-$TYPE = array('value'=>"Werte",'validate'=>"Validierung/Überprüfung",'action'=>"Aktionen");
+$TYPE = array('value' => $I18N->msg("em_values"), 'validate' => $I18N->msg("em_validates"), 'action' => $I18N->msg("em_actios"));
 
 $tb = new rex_sql();
 // $tb->debugsql = 1;
 $tb->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_table where name="'.$table_name.'"');
 if($tb->getRows()==0)
 {
-	echo rex_warning('Diese Tabelle existiert nicht!');
+	echo rex_warning($I18N->msg("em_tablenotexists"));
 	echo '<br />
 	 <table cellpadding="5" class="rex-table">
 	 <tr>
@@ -35,7 +35,7 @@ if($tb->getRows()==0)
 }else
 {
 	$table_name = $tb->getValue("name");
-	echo '<br /><table cellpadding="5" class="rex-table"><tr><td>Tabelle: <b>'.$tb->getValue("label").'</b> - '.$tb->getValue("description").'</td></tr></table><br />';
+	echo '<br /><table cellpadding="5" class="rex-table"><tr><td>'.$I18N->msg("em_table").': <b>'.$tb->getValue("label").'</b> - '.$tb->getValue("description").'</td></tr></table><br />';
 }
 
 
@@ -52,10 +52,10 @@ if($func == "choosenadd")
 	?>
 
 <div class="rex-addon-output">
-<h2 class="rex-hl2"><?php echo $I18N->msg('editme_choosenadd'); ?></h2>
+<h2 class="rex-hl2"><?php echo $I18N->msg('em_choosenadd'); ?></h2>
 
 <div class="rex-addon-content">
-<p class="rex-tx1"><?php echo $I18N->msg('editme_choosenadd_description'); ?></p>
+<p class="rex-tx1"><?php echo $I18N->msg('em_choosenadd_description'); ?></p>
 </div>
 </div>
 
@@ -148,14 +148,14 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 					if(!isset($v["value"]))
 					$v["value"] = "";
 					$xform->setValueField("text",array("f".$i,"Name",$v["value"]));
-					$xform->setValidateField("notEmpty",array("f".$i,"Bitte tragen Sie den Namen ein"));
-					$xform->setValidateField("preg_match",array("f".$i,"/(([a-z])+([a-z0-9\_])*)/",'Bitte tragen Sie beim Namen nur Buchstaben und "_" ein'));
-					$xform->setValidateField("customfunction",array("f".$i,"rex_em_checkField",$table_name,"Dieser Name ist bereits vorhanden"));
+					$xform->setValidateField("notEmpty",array("f".$i,$I18N->msg("em_validatenamenotempty")));
+					$xform->setValidateField("preg_match",array("f".$i,"/(([a-z])+([a-z0-9\_])*)/",$I18N->msg("em_validatenamepregmatch")));
+					$xform->setValidateField("customfunction",array("f".$i,"rex_em_checkField",$table_name,$I18N->msg("em_validatenamecheck")));
 				}
 				break;
 
 			case("no_db"):
-				$xform->setValueField("checkbox",array("f".$i,"Nicht in Datenbank speichern",1,0));
+				$xform->setValueField("checkbox",array("f".$i,$I18N->msg("em_donotsaveindb"),1,0));
 				break;
 
 			case("boolean"):
@@ -202,7 +202,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 
 	}
 	
-	$xform->setActionField("showtext",array("","<p>Vielen Dank für die Eintragung</p>"));
+	$xform->setActionField("showtext",array("",'<p>'.$I18N->msg("em_thankyouforentry").'</p>'));
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
 	if($func == "edit")
@@ -219,8 +219,8 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 
 	if($type_id == "value")
 	{
-		$xform->setValueField("checkbox",array("list_hidden","In Liste verstecken",1,"0"));
-    $xform->setValueField("checkbox",array("search","Als Suchfeld aufnehmen"));
+		$xform->setValueField("checkbox",array("list_hidden",$I18N->msg("em_hideinlist"),1,"0"));
+    $xform->setValueField("checkbox",array("search",$I18N->msg("em_useassearchfieldalidatenamenotempty")));
 	}else	if($type_id == "validate")
 	{
 		$xform->setValueField("hidden",array("list_hidden",1));
@@ -231,9 +231,9 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	if($xform->objparams["form_show"])
 	{
 		if($func == "add")
-		echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+		echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("em_addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 		else
-		echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editme_editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+		echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("em_editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 		echo $form;
 		echo '</div></div>';
 		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;table_name='.$table_name.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
@@ -241,9 +241,9 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	}else
 	{
 		if($func == "edit")
-		echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+		echo rex_info($I18N->msg("em_thankyouforupdate"));
 		elseif($func == "add")
-		echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+		echo rex_info($I18N->msg("em_thankyouforentry"));
 		$func = "list";
 	}
 }
@@ -267,10 +267,10 @@ if($func == "delete"){
 		$query = 'delete from '.$table.' where table_name="'.$table_name.'" and id='.$field_id;
 		$delsql->setQuery($query);
 
-		echo rex_info($bezeichner." wurde gel&ouml;scht");
+		echo rex_info($I18N->msg("em_tablefielddeleted"));
 	}else
 	{
-		echo rex_warning($bezeichner." wurde nicht gefunden");
+		echo rex_warning($I18N->msg("em_tablefieldnotfound"));
 	}
 
 	$func = "list";
@@ -283,7 +283,7 @@ if($func == "delete"){
 // ********************************************* LIST
 if($func == "list"){
 
-	echo '<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page='.$page.'&subpage='.$subpage.'&table_name='.$table_name.'&func=choosenadd><b>+ '.$bezeichner.' anlegen</b></a></td></tr></table><br />';
+	echo '<table cellpadding=5 class=rex-table><tr><td><a href=index.php?page='.$page.'&subpage='.$subpage.'&table_name='.$table_name.'&func=choosenadd><b>+ '.$I18N->msg("em_addtablefield").'</b></a></td></tr></table><br />';
 
 	$sql = 'select * from '.$table.' where table_name="'.$table_name.'" order by prio';
 	$list = rex_list::factory($sql,30);
@@ -301,11 +301,11 @@ if($func == "list"){
 		$list->removeColumn('f'.$i);
 	}
 
-	$list->addColumn('editieren','Feld editieren');
+	$list->addColumn($I18N->msg("em_edit"),$I18N->msg("em_editfield"));
 	$list->setColumnParams("editieren", array("field_id"=>"###id###","func"=>"edit",'type_name'=>'###type_name###','type_id'=>'###type_id###',));
 
-	$list->addColumn('l&ouml;schen','l&ouml;schen');
-	$list->setColumnParams("l&ouml;schen", array("field_id"=>"###id###","func"=>"delete"));
+	$list->addColumn($I18N->msg("em_delete"),$I18N->msg("em_delete"));
+	$list->setColumnParams($I18N->msg("em_delete"), array("field_id"=>"###id###","func"=>"delete"));
 
 	echo $list->get();
 

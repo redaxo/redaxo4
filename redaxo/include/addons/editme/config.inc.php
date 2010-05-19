@@ -15,13 +15,13 @@
  * - import umbauen so dass, wenn Id gesetzt ist, Datensaetze ersetzt werden
  * - wenn medien im medienpool geloescht werden über EP auch prüfen ob in EM etwas vorhanden ist
  * - Einfaches OOF für EM bauen, Datensaetze, Listen, Relationen, Export und Import
- * - Lösung finden um spezifische Feldtypen definieren zu können, INT, VARCHAR, FLOAT etc.
- * - onDelete bei Feldern einbauen
- * - Mehrsprachige Felder besser einbauen
- * - weitere XForm-Klassen umbauen für EM.
  * - Caching einbauen
+ * - Lösung finden um einfach spezifische Feldtypen definieren zu können, INT, VARCHAR, FLOAT etc.
+ * - onDelete bei Feldern einbauen
+ * - Mehrsprachige Felder besser einbauen, XForm erweitern
+ * - weitere XForm-Klassen umbauen für EM.
  * - Generate All immer nach Änderungen bei Tabellen + Feldern
- * - übersetzung vervollständigen
+ * - übersetzung vervollständigen, nur noch tables.inc.php und englisch
  * 
  */
 

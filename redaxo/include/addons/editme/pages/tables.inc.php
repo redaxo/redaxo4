@@ -121,8 +121,8 @@ if($show_list){
     $list = $params["list"];
     
     return $list->getValue("status") == 1 ?
-      $I18N->msg("editme_tbl_active") :
-      $I18N->msg("editme_tbl_inactive"); 
+      $I18N->msg("em_tbl_active") :
+      $I18N->msg("em_tbl_inactive"); 
 	}
 	
   
@@ -143,21 +143,20 @@ if($show_list){
 	$list->removeColumn("search");
   $list->removeColumn("hidden");
   $list->removeColumn("export");
-//	$list->removeColumn("label");
-//	$list->removeColumn("prio");
+  // $list->removeColumn("label");
+  // $list->removeColumn("prio");
 	
   $list->setColumnFormat('status', 'custom', 'rex_em_status_col');
 	$list->setColumnParams("name", array("table_id"=>"###id###","func"=>"edit"));
 	
-	$list->addColumn('CSV Importieren','CSV Importieren');
-	$list->setColumnParams("CSV Importieren", array("subpage"=>"import","table_name"=>"###name###"));
+	$list->addColumn($I18N->msg("em_importcsv"),$I18N->msg("em_importcsv"));
+	$list->setColumnParams($I18N->msg("em_importcsv"), array("subpage"=>"import","table_name"=>"###name###"));
 
+	$list->addColumn($I18N->msg("em_edit"),$I18N->msg("em_editfield"));
+	$list->setColumnParams($I18N->msg("em_edit"), array("subpage"=>"field","table_name"=>"###name###"));
 
-	$list->addColumn('Felder editieren','Felder editieren');
-	$list->setColumnParams("Felder editieren", array("subpage"=>"field","table_name"=>"###name###"));
-
-	$list->addColumn('l&ouml;schen','l&ouml;schen');
-	$list->setColumnParams("l&ouml;schen", array("table_id"=>"###id###","func"=>"delete"));
+	$list->addColumn($I18N->msg("em_delete"),$I18N->msg("em_delete"));
+	$list->setColumnParams($I18N->msg("em_delete"), array("table_id"=>"###id###","func"=>"delete"));
 
 	echo $list->get();
 }

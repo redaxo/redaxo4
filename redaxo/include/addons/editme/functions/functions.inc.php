@@ -8,7 +8,7 @@
 
 function rex_em_checkField($l,$v,$p)
 {
-  global $REX;
+	global $REX;
 	$q = 'select * from '.$REX['TABLE_PREFIX'].'em_field where table_name='.$p.' and '.$l.'="'.$v.'" LIMIT 1';
 	$c = rex_sql::factory();
 	// $c->debugsql = 1;
@@ -25,7 +25,7 @@ function rex_em_checkField($l,$v,$p)
 
 function rex_em_checkLabelInTable($l,$v,$p)
 {
-  global $REX;
+	global $REX;
 	$q = 'select * from '.$REX['TABLE_PREFIX'].'em_table where '.$l.'="'.$v.'" LIMIT 1';
 	$c = rex_sql::factory();
 	// $c->debugsql = 1;
@@ -44,7 +44,7 @@ function rex_em_checkLabelInTable($l,$v,$p)
 
 function rex_em_generateAll()
 {
-  global $REX;
+	global $REX;
 
 	$types = rex_xform::getTypeArray();
 
@@ -60,7 +60,7 @@ function rex_em_generateAll()
 		$c = rex_sql::factory();
 		// $c->debugsql = 1;
 		$c->setQuery('CREATE TABLE IF NOT EXISTS `'.$tablename.'` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY )');
-		 
+			
 		// Felder merken, erstellen und eventuell loeschen
 		$c->setQuery('SHOW COLUMNS FROM `'.$tablename.'`');
 		$saved_columns = $c->getArray();
@@ -110,10 +110,9 @@ function rex_em_generateAll()
 	}
 }
 
-
 function rex_em_getTables()
 {
-  global $REX;
+	global $REX;
 	$tb = rex_sql::factory();
 	$tb->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_table order by prio,name');
 	return $tb->getArray();
@@ -124,14 +123,13 @@ function rex_em_getTables()
  */
 function rex_em_getTableName($internalTableName)
 {
-  global $REX;
-  
-  return $REX['TABLE_PREFIX'].'em_data_'.$internalTableName;  
+	global $REX;
+	return $REX['TABLE_PREFIX'].'em_data_'.$internalTableName;
 }
 
 function rex_em_getFields($table_name)
 {
-  global $REX;
+	global $REX;
 	$tb = rex_sql::factory();
 	$tb->setQuery('select * from '.$REX['TABLE_PREFIX'].'em_field where table_name="'.$table_name.'" order by prio');
 	return $tb->getArray();

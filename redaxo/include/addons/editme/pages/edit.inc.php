@@ -27,7 +27,7 @@ foreach($tables as $table)
 		echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["label"].'</b> - '.$table["description"];
 		if($rex_em_opener_info != "")
 		{
-			echo ' - Opener-Info: '.$rex_em_opener_info;
+			echo ' - '.$I18N->msg("em_openerinfo").': '.$rex_em_opener_info;
 		}
 		echo '</td></tr></table><br />';
 		break; // Wenn Tabelle gefunden - abbrechen
