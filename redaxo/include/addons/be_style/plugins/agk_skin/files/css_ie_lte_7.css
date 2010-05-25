@@ -9,7 +9,8 @@ div#rex-navi-main dd {
   zoom: 1;
 }
 div#rex-footer {
-  position: absolute;
+  clear:both;
+  float:none;
 }
 
 div.rex-area-col-b, 
