@@ -63,12 +63,25 @@ class rex_a62_tableExpander extends rex_form
     $field->setLabel($I18N->msg('minfo_field_label_title'));
     $field->setNotice($I18N->msg('minfo_field_notice_title'));
 
+	  $gq = new rex_sql;
+		$gq->setQuery('SELECT dbtype,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
+		$textFields = array();
+		foreach($gq->getArray() as $f) 
+		{
+		  if($f["dbtype"] == "text")
+		  {
+		  $textFields[$f['id']] = $f['id'];
+		  }
+		}
+    
     $field =& $this->addSelectField('type');
     $field->setLabel($I18N->msg('minfo_field_label_type'));
-    $field->setAttribute('onchange', 'checkConditionalFields(this, new Array('. implode(',', $typeFields) .'));');
+    $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array('. implode(',', $typeFields) .'), new Array('. implode(',', $textFields) .'));');
     $select =& $field->getSelect();
     $select->setSize(1);
 
+    $changeTypeFieldId = $field->getAttribute('id');
+    
     $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
     $select->addSqlOptions($qry);
 
@@ -83,8 +96,7 @@ class rex_a62_tableExpander extends rex_form
     $notices .= '
     <script type="text/javascript">
       var needle = new getObj("'. $field->getAttribute('id') .'");
-
-      checkConditionalFields(needle.obj, new Array('. implode(',', $typeFields) .'));
+      meta_checkConditionalFields(needle.obj, new Array('. implode(',', $typeFields) .'), new Array('. implode(',', $textFields) .'));
     </script>';
 
     $field =& $this->addTextAreaField('params');
@@ -98,9 +110,6 @@ class rex_a62_tableExpander extends rex_form
 
     $field =& $this->addTextField('default');
     $field->setLabel($I18N->msg('minfo_field_label_default'));
-
-//    $field =& $this->addTextAreaField('validate');
-//    $field->setLabel($I18N->msg('minfo_field_label_validate'));
 
     $attributes = array();
     $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';

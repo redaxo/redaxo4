@@ -27,7 +27,7 @@ CREATE TABLE `%TABLE_PREFIX%62_type` (
 
 INSERT INTO %TABLE_PREFIX%62_type VALUES (1,  'text', 'text', 0);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (2,  'textarea', 'text', 0);
-INSERT INTO %TABLE_PREFIX%62_type VALUES (3,  'select', 'text', 0);
+INSERT INTO %TABLE_PREFIX%62_type VALUES (3,  'select', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (4,  'radio', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (5,  'checkbox', 'varchar', 255);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (10, 'date', 'text', 0);

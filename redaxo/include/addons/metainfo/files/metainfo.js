@@ -1,6 +1,6 @@
 var visibleNotice;
 
-function checkConditionalFields(selectEl, activeIds) {
+function meta_checkConditionalFields(selectEl, activeIds, textIds) {
   var toggle = false;
 
   for ( var i = 0; i < activeIds.length; i++) {
@@ -25,7 +25,25 @@ function checkConditionalFields(selectEl, activeIds) {
       toggleElement(visibleNotice, 'none');
     }
   }
+  
+  var show = 1;
+  for ( var i = 0; i < textIds.length; i++) {
+    if (selectEl.value == textIds[i]) {
+      show = 0;
+      break;
+    }
+  }
+  
+  jQuery(function($) {
+    if (show == 1) {
+      $("#rex_62_params_Feld_bearbeiten_erstellen_default").parent().show();
+    }else {
+      $("#rex_62_params_Feld_bearbeiten_erstellen_default").parent().hide();
+    } 
+  });
+  
 };
+
 
 jQuery( function($) {
   function disableSelect(chkbox) {
@@ -47,3 +65,6 @@ jQuery( function($) {
     disableSelect(this);
   });
 });
+
+
+
