@@ -149,6 +149,8 @@ class rex_image {
 	
 	/*protected*/ function _sendImage($saveToFileName = null, $lastModified = null)
 	{
+		global $REX;
+		
     $file = $this->img["filepath"];
     
     if(!$lastModified)
@@ -189,6 +191,9 @@ class rex_image {
       imagewbmp($this->img['src'], $saveToFileName);
     }
     
+    if ($saveToFileName)
+      @chmod($saveToFileName, $REX['FILEPERM']);
+      
     return TRUE;
 	}
 
