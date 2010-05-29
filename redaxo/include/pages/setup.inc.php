@@ -175,7 +175,6 @@ function rex_setup_setUtf8()
           reset($columns);
           $privalue = $r[$pri];
           $uv = new rex_sql();
-          $uv->debugsql = 1;
           $uv->setTable($table);
           $uv->setWhere($pri.'= "'.$privalue.'"');
           foreach($columns as $key => $column) {
