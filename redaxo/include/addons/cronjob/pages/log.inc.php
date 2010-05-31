@@ -61,7 +61,7 @@ else
       foreach($months as $month)
       {
         $j++;
-        $month_sel->addOption(strftime('%B',mktime(0,0,0,$month)), $month);
+        $month_sel->addOption(strftime('%B',mktime(0,0,0,$month,2)), $month);
         if ($month == $log['month'] || (!$monthSelected && $j == $countMonths))
         {
           $month_sel->setSelected($month);
