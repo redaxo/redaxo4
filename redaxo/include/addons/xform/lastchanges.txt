@@ -6,9 +6,8 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
-v1.4.2
-
-* "Call-time pass-by-reference" entfernt (jan)
+1.7.1
+  email validierung angepasst [jan]
 
 
 
