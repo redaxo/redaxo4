@@ -489,17 +489,22 @@ class OOMediaCategory
    * Stattdessen getCategoryById() nutzen
    */
   function getCategoryByName($name)
-  {
-    global $REX;
-    
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT id FROM '. OOMediaCategory :: _getTableName() .'WHERE name="'. $name .'"');
-    if ($sql->getRows() == 1)
+  { 
+    $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE name = "' . $name . '"';
+    $sql = new rex_sql();
+    //$sql->debugsql = true;
+    $result = $sql->getArray($query);
+
+    $media = array ();
+    if (is_array($result))
     {
-      return OOMediaCategory :: getCategoryById($sql->getValue('id'));
+      foreach ($result as $line)
+      {
+        $media[] = OOMediaCategory :: getCategoryById($line['id']);
+      }
     }
 
-    return null;
+    return $media;
   }
 
   /**
