@@ -180,7 +180,10 @@ class rex_image {
     }
     elseif ($this->img['format'] == 'PNG')
     {
-      imagepng($this->img['src'], $saveToFileName);
+    	if(isset($saveToFileName))
+    	  imagepng($this->img['src'], $saveToFileName);
+    	else
+        imagepng($this->img['src']);
     }
     elseif ($this->img['format'] == 'GIF')
     {

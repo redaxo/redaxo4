@@ -7,12 +7,13 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.3.1 (2010-05-xx)
+Version 4.3.1 (2010-06-08)
   Anpassungen
   * fixed: OOMediaCategory::getCategoryByName() funktionierte nicht mehr
   * chmod im addon image_manager bei cachespeicherung gesetzt
   * im setup beim update von 4.2 auf 4.3 und utf8 debugmeldung entfernt
-
+  * image_manager - effekte-generierungsbug behoben
+  
 Version 4.3 (2010-05-26)
 
   Neu:
