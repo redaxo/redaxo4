@@ -168,6 +168,7 @@ function rexCustomFileBrowser(field_name, url, type, win)
 		width : 760,  // Your dimensions may differ - toy around with them!
 		height : 600,
 		resizable : "yes",
+		scrollbars : "yes",
 		inline : "yes",  // This parameter only has an effect if you use the inlinepopups plugin!
 		close_previous : "no"
 	}, {
