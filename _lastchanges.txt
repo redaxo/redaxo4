@@ -9,6 +9,8 @@ angehandelt.
 
 Version 4.3.1 (2010-06-08)
   Anpassungen
+  * tinymce: scrollbar eingebaut
+  * fixed: Fehlermeldung bei bestimmten Cronjobtypen.
   * fixed: OOMediaCategory::getCategoryByName() funktionierte nicht mehr
   * chmod im addon image_manager bei cachespeicherung gesetzt
   * im setup beim update von 4.2 auf 4.3 und utf8 debugmeldung entfernt
