@@ -2095,7 +2095,7 @@ class rex_form_element_container extends rex_form_element
         if(isset($values[$field->getFieldName()]))
         {
           // PHP4 compat notation
-          $this->fields[$key]->setValue($values[$field->getFieldName()]);  
+          $this->fields[$this->active][$key]->setValue($values[$field->getFieldName()]);  
         }
       }
     }
