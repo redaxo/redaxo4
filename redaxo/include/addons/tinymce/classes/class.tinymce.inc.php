@@ -72,7 +72,7 @@ class rexTinyMCEEditor
 		// Basis-Adresse
 		if ($this->address == '')
 		{
-			$splitURL = split('files/', dirname($_SERVER['REQUEST_URI']));
+			$splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
 			$this->address = 'http';
 			if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
 			{
@@ -478,7 +478,7 @@ EOD;
 
 		$configout .= $n . '  plugins : \'' . $plugins . '\',';
 
-		$splitURL = split('files/', dirname($_SERVER['REQUEST_URI']));
+		$splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
 		$configout .= $n . '  content_css : \'' . str_replace('redaxo', '', $splitURL[0]) . 'files/addons/' . $rxa_tinymce['name'] . '/content.css\',';
 
 		if ($this->validxhtml == true or $this->validxhtml == 1)
