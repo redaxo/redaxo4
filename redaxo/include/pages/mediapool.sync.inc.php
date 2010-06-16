@@ -55,14 +55,14 @@ if($PERMALL)
           $info = $I18N->msg('pool_sync_files_synced');
         }else
         {
-        echo "¤$%&/(";
+
         }
       }
       // diff count neu berechnen, da (hoffentlich) diff files in die db geladen wurden
       $diff_count = count($diff_files);
     }else
     {
-      echo "fghjk8ujm";
+ 
     }
   }elseif(rex_post('save', 'boolean'))
   {

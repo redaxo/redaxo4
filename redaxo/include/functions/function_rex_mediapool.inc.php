@@ -377,12 +377,25 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
                 </div>';
   }
 
+  $arg_fields = '';
+  foreach(rex_request('args', 'array') as $arg_name => $arg_value)
+  {
+    $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. $arg_value .'" />'. "\n";
+  }
+  
+  $arg_fields = '';
+  $opener_input_field = rex_request('opener_input_field','string');
+  if ($opener_input_field != '')
+  {
+    $arg_fields .= '<input type="hidden" name="opener_input_field" value="'. htmlspecialchars($opener_input_field) .'" />'. "\n";
+  }
+  
   $add_submit = '';
-  if (rex_session('media[opener_input_field]') != '')
+  if($close_form)
   {
     $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
   }
-
+  
   $s .= '
       <div class="rex-form" id="rex-form-mediapool-other">
         <form action="index.php" method="post" enctype="multipart/form-data">
@@ -392,6 +405,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
               <input type="hidden" name="page" value="mediapool" />
               <input type="hidden" name="media_method" value="add_file" />
               <input type="hidden" name="subpage" value="'. $subpage .'" />
+              '.$arg_fields.'
               
               <div class="rex-form-row">
                 <p class="rex-form-text">

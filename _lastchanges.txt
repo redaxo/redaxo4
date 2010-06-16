@@ -7,9 +7,10 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.3.1 (2010-06-08)
+Version 4.3.1 (2010-06-16)
   Anpassungen
-  * tinymce: scrollbar eingebaut
+  * Medienpool: Datei übernehmen war hin und wieder verschwunden
+  * tinymce: scrollbar eingebaut, split -> explode
   * fixed: Fehlermeldung bei bestimmten Cronjobtypen.
   * fixed: OOMediaCategory::getCategoryByName() funktionierte nicht mehr
   * chmod im addon image_manager bei cachespeicherung gesetzt

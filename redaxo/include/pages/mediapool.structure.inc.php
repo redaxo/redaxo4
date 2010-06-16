@@ -67,7 +67,7 @@ if ($PERMALL)
     }
   }
 
-  $link = 'index.php?page=mediapool&amp;subpage=categories&amp;cat_id=';
+  $link = 'index.php?page=mediapool'.$arg_url.'&amp;subpage=categories&amp;cat_id=';
 
   $textpath = '<li> : <a href="'.$link.'0">Start</a></li>';
   $cat_id = rex_request('cat_id', 'int');
