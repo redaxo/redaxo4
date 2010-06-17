@@ -91,6 +91,14 @@ $REX['MAXCLANGS'] = 15;
 // Page auf die nach dem Login weitergeleitet wird
 $REX['START_PAGE'] = 'structure';
 
+// Zeitzone setzen
+$REX['TIMEZONE'] = 'Europe/Berlin';
+
+if(function_exists("date_default_timezone_set"))
+{
+  date_default_timezone_set($REX['TIMEZONE']);
+}
+
 // ----------------- OTHER STUFF
 $REX['SYSTEM_ADDONS'] = array('import_export', 'metainfo', 'be_search', 'image_manager');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
