@@ -1,3 +1,4 @@
+<IfModule mod_rewrite.c>
 RewriteEngine On
 
 ### In case ModRewrite doesnt work - remove following comment and try again
@@ -19,3 +20,5 @@ RewriteRule ^([0-9]*)- index.php?article_id=$1&%{QUERY_STRING}
 
 ### In case you want to secure all files via your own addon remove comment
 # RewriteRule ^files/(.*) /index.php?rex_media=$1&%{QUERY_STRING} [NC]
+
+</IfModule>
