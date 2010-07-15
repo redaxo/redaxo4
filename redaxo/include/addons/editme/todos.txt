@@ -1,5 +1,25 @@
 
 
+
+
+
+lastchanges
+
+0.9
+  - sortierung bei Datensaetzen nun auch mit ID mšglich
+
+
+
+
+0.8
+
+
+
+
+
+
+
+
 - subtitle navi einbauen
 -- tables
 -- einzelne tabellen, bei klick zum felder editieren
@@ -23,3 +43,10 @@ rex_em_opemener_info einbauen
 rex_em_filter
 
 rex_em_set
+
+englische Ÿbersetzung
+
+css style anpassen.
+  - ul liste oben anpassen *extras ...
+  
+

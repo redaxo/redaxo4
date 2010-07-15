@@ -331,7 +331,8 @@ if($show_list)
 	if(count($rex_em_searchfields)>0) { foreach($rex_em_searchfields as $k => $v) { $list->addParam('rex_em_searchfields['.$k.']',$v); } }
 
 	$list->setColumnParams("id", array("data_id"=>"###id###", "func"=>"edit" ));
-
+  $list->setColumnSortable("id");
+	
 	$fields = rex_em_getFields($table['name']);
 	foreach($fields as $field)
 	{

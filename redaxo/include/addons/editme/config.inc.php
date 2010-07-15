@@ -37,7 +37,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
 
 	// Credits
-	$REX['ADDON']['version'][$mypage] = '0.8';
+	$REX['ADDON']['version'][$mypage] = '0.9';
 	$REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 	$REX['ADDON']['navigation'][$mypage] = array(
