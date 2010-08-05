@@ -787,7 +787,6 @@ class rex_xform
 
 		foreach($REX['ADDON']['xform']['classpaths']['validate'] as $pos => $validate_path)
 		{
-			if ($pos==1) echo '<li><b>Extras</b><ul>';
 			if($Verzeichniszeiger = opendir($validate_path))
 			{
 				while($Datei = readdir($Verzeichniszeiger))
@@ -822,7 +821,6 @@ class rex_xform
 
 		foreach($REX['ADDON']['xform']['classpaths']['action'] as $pos => $action_path)
 		{
-			if ($pos==1) echo '<li><b>Extras</b><ul>';
 			if($Verzeichniszeiger = opendir($action_path))
 			{
 				while($Datei = readdir($Verzeichniszeiger))
