@@ -150,53 +150,45 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	return $addonErr;
 }
 
-/**
- * DB komplett auf UTF8 setzen (charset/collation) und dabei Daten konvertieren
- * http://forum.redaxo.de/ftopic15019.html
- */
 function rex_setup_setUtf8()
 {
   global $REX;
-  $prefix  = $REX['TABLE_PREFIX'];
-  $dbase   = $REX['DB']['1']['NAME'];
-  $charset = ' CHARACTER SET utf8 COLLATE utf8_general_ci';
-
   $gt = new rex_sql();
-  $gt->setQuery('SHOW TABLES LIKE \''.$prefix.'%\';');
-
-  foreach($gt->getArray() as $t)
-  {
-    $table = $t['Tables_in_'.$dbase.' ('.$prefix.'%)'];
-
+  $gt->setQuery("show tables");
+  foreach($gt->getArray() as $t) {
+    $table = $t["Tables_in_".$REX['DB']['1']['NAME']];
     $gc = new rex_sql();
-    $gc->setQuery('SHOW FULL COLUMNS FROM '.$table);
-
-    foreach($gc->getArray() as $c)
-    {
-      $field     = $c['Field'];
-      $type      = $c['Type'];
-      $collation = $c['Collation'];
-      $null      = $c['Null'] == 'YES' ? ' NULL' : ' NOT NULL';
-      $default   = $c['Default'] == '' ? '' : ' DEFAULT \''.$c['Default'].'\'';
-      $binary    = substr($collation,-4,4) == '_bin' ? ' BINARY' : '';
-
-      if($collation != '' && substr($collation,0,4) != 'utf8')
-      {
-        $qry1  = 'ALTER TABLE `'.$table.'` MODIFY COLUMN `'.$field.'` BLOB;';
-
-        $qry2  = 'ALTER TABLE `'.$table.'` MODIFY COLUMN `'.$field.'` '.$type.$binary.$charset.$null.$default.';';
-
-        $cc = new rex_sql();
-        $cc->setQuery($qry1);
-        $cc->setQuery($qry2);
-        unset($cc);
+    $gc->setQuery("show columns from $table");
+    if(substr($table,0,strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX']) {
+      $columns = Array();
+      $pri = "";
+      foreach($gc->getArray() as $c) {
+        $columns[] = $c["Field"];
+        if ($pri == "" && $c["Key"] == "PRI") {
+          $pri = $c["Field"];
+        }
+      }
+      if ($pri != "") {
+        $gr = new rex_sql();
+        $gr->setQuery("select * from $table");
+        foreach($gr->getArray() as $r) {
+          reset($columns);
+          $privalue = $r[$pri];
+          $uv = new rex_sql();
+          $uv->setTable($table);
+          $uv->setWhere($pri.'= "'.$privalue.'"');
+          foreach($columns as $key => $column) {
+            if ($pri!=$column) {
+              $value = $r[$column];
+              $newvalue = utf8_decode($value);
+              $uv->setValue($column,addslashes($newvalue));
+            }
+          }
+          $uv->update();
+        }
       }
     }
-    $gc->setQuery('ALTER TABLE `'.$table.'` '.$charset.';');
-    unset($gc);
   }
-  $gt->setQuery('ALTER DATABASE `'.$dbase.'` '.$charset.';');
-  unset($gt);
 }
 
 
