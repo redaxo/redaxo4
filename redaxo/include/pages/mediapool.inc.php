@@ -16,12 +16,13 @@ $func         = rex_request('func', 'string');
 $media_method = rex_request('media_method', 'string');
 $info         = rex_request('info', 'string');
 $warning      = rex_request('warning', 'string');
+$args         = rex_request('args', 'array');
 
 
 // -------------- Additional Args
 $arg_url = '';
 $arg_fields = '';
-foreach(rex_request('args', 'array') as $arg_name => $arg_value)
+foreach($args as $arg_name => $arg_value)
 {
   $arg_url .= '&amp;args['. urlencode($arg_name) .']='. urlencode($arg_value);
   $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. htmlspecialchars($arg_value) .'" />'. "\n";
