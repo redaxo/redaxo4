@@ -11,6 +11,7 @@ Version 4.3.2 (2010-xx-xx)
 
   Anpassungen
   * Cronjobzeitspeicherung nun vor der Aktion, so dass der Prozess nicht mehrmals ausgeführt wird.
+  * PHPMailer auf Versin 5.1 gebracht .. Dadurch nur noch mit php5 lauffähig
   
   Bugfixes
   * Typeinschränkung bei REX_MEDIA_BUTTONs funktionierte nicht
