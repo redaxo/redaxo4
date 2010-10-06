@@ -14,6 +14,7 @@ Version 4.3.2 (2010-xx-xx)
   * PHPMailer auf Versin 5.1 gebracht .. Dadurch nur noch mit php5 lauffähig
   
   Bugfixes
+  * Umleitungsfehler bei Backend-Benutzer ohne Rechten
   * OOArticle::getPathAsArray() funktionierte nicht
   * Typeinschränkung bei REX_MEDIA_BUTTONs funktionierte nicht
   * Cronjob-Plugin "Artikel-Status" funktionierte nicht im Frontend
