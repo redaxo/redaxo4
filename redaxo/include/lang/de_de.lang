@@ -233,7 +233,7 @@ delete_template = Template löschen
 header_template_caption = Liste der verfügbaren Templates
 header_template_summary = Auflistung aller Templates
 modules_available = Nur folgende Module sind verfügbar
-modules_available_all = Alle Module verfügbar 
+modules_available_all = Alle Module verfügbar
 
 # redaxo\include\functions\function_rex_category.inc.php
 article = Artikel
@@ -442,11 +442,16 @@ setup_033 = Bitte richten Sie die Datenbank erneut ein.
 setup_034 = Datenbank einrichten
 setup_035 = Datenbank einrichten und alte überschreiben falls vorhanden [{0}Vorsicht{1} - Alte Seite wird komplett gelöscht!]
 setup_036 = Datenbank existiert schon [Weiter ohne Datenbankimport]
-setup_037 = Vorhandenen Export einspielen [Demo einspielen]:
+setup_037 = REDAXO 4.3 Export einspielen [Demo einspielen]:
 setup_03701 = Bitte wählen Sie einen Export aus!
 setup_03702 = Export-Dateien konnten nicht gefunden werden!
 setup_03703 = Import/Export AddOn wurde nicht gefunden!
-setup_038 = Datenbank aktualisieren von REDAXO 4.x [vorher sichern!]
+setup_038 = REDAXO 4.x Export einspielen [User müssen neu angelegt werden!].
+setup_03801 = Keine Export Datei ausgewählt.
+setup_03802 = Datei konnte nicht hochgeladen werden.
+setup_03803 = Sie haben keine Schreibrechte in
+setup_03804 = Temporäre SQL Datei konnte nicht gelesen werden.
+setup_03805 = Temporäre SQL Datei konnte nicht geschrieben werden.
 setup_039 = Weiter zu Schritt 4
 setup_step4 = Setup: Schritt 4 von 5
 setup_040 = Bitte geben Sie das Administratorlogin ein!

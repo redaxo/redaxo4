@@ -76,8 +76,11 @@ function rex_a1_import_db($filename)
     // charset entfernen
     $charset = $matches[1];
     $conts = trim(str_replace('## charset '. $charset, '', $conts));
-    
-    if($I18N->msg('htmlcharset') != $charset)
+    if($I18N->msg('htmlcharset') == 'utf-8' AND $charset != 'utf-8')
+    {
+      $conts = utf8_encode($conts);
+    }
+    elseif($I18N->msg('htmlcharset') != $charset)
     {
       $return['message'] = $I18N->msg('im_export_no_valid_charset').'. '.$I18N->msg('htmlcharset').' != '.$charset;
       return $return;
@@ -120,6 +123,17 @@ function rex_a1_import_db($filename)
 
   $sql   = rex_sql::factory();
   foreach ($lines as $line) {
+    $line['query'] = trim($line['query']);
+    
+    if(rex_lang_is_utf8() AND strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
+    {
+      $line['query'] .= ' DEFAULT CHARSET=utf8';
+    }
+    elseif(!rex_lang_is_utf8() AND strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
+    {
+      $line['query'] .= ' DEFAULT CHARSET=latin1';
+    }
+
     $sql->setQuery($line['query']);
 
     if($sql->hasError())
@@ -161,7 +175,13 @@ function rex_a1_import_db($filename)
        lasttrydate int(11) NOT NULL DEFAULT 0,
        session_id varchar(255) NOT NULL,
        PRIMARY KEY(user_id)
-     ) TYPE=MyISAM;';
+     ) TYPE=MyISAM';
+     
+    if(rex_lang_is_utf8())
+      $create_user_table .= ' DEFAULT CHARSET=utf8';
+    else
+      $create_user_table .= ' DEFAULT CHARSET=latin1';
+    
     $db = rex_sql::factory();
     $db->setQuery($create_user_table);
     $error = $db->getError();

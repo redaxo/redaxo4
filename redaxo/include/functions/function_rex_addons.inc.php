@@ -79,6 +79,17 @@ function rex_install_prepare_query($qry)
   $qry = str_replace('%TABLE_PREFIX%', $REX['TABLE_PREFIX'], $qry);
   $qry = str_replace('%TEMP_PREFIX%', $REX['TEMP_PREFIX'], $qry);
 
+  $qry = trim($qry);
+  
+  if(rex_lang_is_utf8() AND strpos($qry, 'CREATE TABLE') === 0 AND !strpos($qry, 'DEFAULT CHARSET'))
+  {
+    $qry .= ' DEFAULT CHARSET=utf8';
+  }
+  elseif(!rex_lang_is_utf8() AND strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
+  {
+    $qry .= ' DEFAULT CHARSET=latin1';
+  }
+
   return $qry;
 }
 

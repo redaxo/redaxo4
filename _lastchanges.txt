@@ -9,9 +9,15 @@ angehandelt.
 
 Version 4.3.2 (2010-xx-xx)
 
+  Neu
+  * Update 4.x -> 4.3 durch Upload einer Exportdatei
+  
   Anpassungen
   * Cronjobzeitspeicherung nun vor der Aktion, so dass der Prozess nicht mehrmals ausgeführt wird.
   * PHPMailer auf Versin 5.1 gebracht .. Dadurch nur noch mit php5 lauffähig
+  * Addoninstallation: SQL-Dateien der Addons werden mit dem entsprechenden Defaultcharset (utf8 oder latin1) versehen
+  * Import/Export-Addon: importierte SQL-Dateien werden mit dem entsprechenden Defaultcharset (utf8 oder latin1) versehen
+  * Installation: die Datenbanktabellen werden mit dem entsprechenden Defaultcharset (utf8 oder latin1) installiert
   
   Bugfixes
   * Metadaten Strings / Textfelder - Bug bei Sonderzeichen "|"
