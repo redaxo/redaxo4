@@ -1,0 +1,6 @@
+drwxrwxrwx    3 0        0             176 Feb 09 01:24 .
+drwxrwxrwx    7 0        0             192 Feb 09 01:24 ..
+-rwxrwxrwx    1 0        0            2802 Feb 09 01:24 config.inc.php
+-rwxrwxrwx    1 0        0            1170 Feb 09 01:24 install.inc.php
+drwxrwxrwx    2 0        0              80 Feb 09 01:24 pages
+-rwxrwxrwx    1 0        0             151 Feb 09 01:24 uninstall.inc.php

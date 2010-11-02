@@ -1,0 +1,33 @@
+
+
+
+TODOS
+
+- Gesperrte Felder bei Data.. id,createtime,updatetime,rexuser
+- createtime
+- updatetime
+- rexuser
+
+
+Blockierte tabellen
+
+- rex_com_field
+- rex_com_table
+- rex_com_relation
+
+
+Felder installierbar machen über XFORM irgendwas mit Fehlermeldung
+
+
+	// ---------- feste felder
+	/*
+	$REX["ADDON"]["community"]["ff"] = array();
+	$REX["ADDON"]["community"]["ff"][] = "id";
+	$REX["ADDON"]["community"]["ff"][] = "login";
+	$REX["ADDON"]["community"]["ff"][] = "password";
+	$REX["ADDON"]["community"]["ff"][] = "email";
+	$REX["ADDON"]["community"]["ff"][] = "status";
+	$REX["ADDON"]["community"]["ff"][] = "name";
+	$REX["ADDON"]["community"]["ff"][] = "firstname";
+	$REX["ADDON"]["community"]["ff"][] = "activation_key";
+	*/
