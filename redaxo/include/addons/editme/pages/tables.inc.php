@@ -44,7 +44,7 @@ if($func == "add" || $func == "edit")
 		$xform->setActionField("db",array($table,"id=$table_id"));
 		$xform->setObjectparams("main_id",$table_id);
 		$xform->setObjectparams("main_where","id=$table_id");
-		$xform->setGetdata(true); // Datein vorher auslesen
+		$xform->setObjectparams('getdata',true); // Datein vorher auslesen
 	}elseif($func == "add")
 	{
 		$xform->setValueField("text",array("table_name","Name"));
