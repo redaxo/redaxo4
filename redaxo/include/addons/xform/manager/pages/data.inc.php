@@ -284,6 +284,9 @@ if($func == "add" || $func == "edit")
     }
     echo $form;
     echo '</div></div>';
+    
+    echo rex_register_extension_point('EM_DATA_FORM', '', array("form" => $form, "func" => $func, "this" => $this));
+    
     echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?'.$link_vars.'&rex_em_opener_field='.$rex_em_opener_field.'&rex_em_opener_fieldname='.htmlspecialchars($rex_em_opener_fieldname).$em_url.$em_rex_list.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
     $show_list = FALSE;
   }else
