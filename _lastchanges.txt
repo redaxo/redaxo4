@@ -20,6 +20,7 @@ Version 4.3.2 (2010-xx-xx)
   * Installation: die Datenbanktabellen werden mit dem entsprechenden Defaultcharset (utf8 oder latin1) installiert
   
   Bugfixes
+  * Benutzer mit Mountpoints: fehlerhafter Pfad bei neuen Kategorien/Artikeln
   * Metadaten Strings / Textfelder - Bug bei Sonderzeichen "|"
   * rex_title(): fehlerhafte Verarbeitung von $subpages Attributen
   * Umleitungsfehler bei Backend-Benutzer ohne Rechten
