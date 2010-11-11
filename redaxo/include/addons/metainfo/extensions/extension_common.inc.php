@@ -569,10 +569,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
           $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
         }
       }
-      
-      if($OOArt->getPath() == '|')
-        $s .= ' OR `p`.`restrictions` LIKE "%|0|%"';
-      
+
       $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
     }
   }
