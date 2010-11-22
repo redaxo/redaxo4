@@ -85,7 +85,7 @@ class rex_xform_select_sql extends rex_xform_abstract
 
 		$this->value = implode(",",$this->value);
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[5]) || $this->elements[8] != "no_db") 
+		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") 
 			$sql_elements[$this->elements[1]] = $this->value;
 		
 	}
