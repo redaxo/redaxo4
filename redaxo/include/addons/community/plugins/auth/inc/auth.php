@@ -79,9 +79,10 @@ if (
 				
 			}
 			
-			$rex_com_auth_use_jump_url = TRUE;
 		}
 
+    $rex_com_auth_use_jump_url = TRUE;
+	
 	}else
 	{
 		if($REX['ADDON']['editme']['plugin_auth']['stay_active'] == "1" && $sk != '')
@@ -161,7 +162,11 @@ if($REX['ADDON']['editme']['plugin_auth']['stay_active'] == "1")
 
 }
 
-if (isset($jump_aid) && $article = OOArticle::getArticleById($jump_aid))
+if (
+      (isset($jump_aid) && $article = OOArticle::getArticleById($jump_aid))
+      ||
+      ($rex_com_auth_use_jump_url && $rex_com_auth_login_jump != "")
+   )
 {
 	ob_end_clean();
 	if($rex_com_auth_use_jump_url && $rex_com_auth_login_jump != "")
