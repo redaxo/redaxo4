@@ -23,6 +23,8 @@ $REX['ADDON']['xform']['classpaths']['action'] = array($REX['INCLUDE_PATH'].'/ad
 $REX['ADDON']['xform']['classpaths']['action'][] = $REX["INCLUDE_PATH"]."/addons/xform/manager/classes/action/";
 $REX['ADDON']['xform']['classpaths']['value'][] = $REX["INCLUDE_PATH"]."/addons/xform/manager/classes/value/";
 
+include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_radio.inc.php');
+
 // Basis Klasse rex_xform
 include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_xform.inc.php');
 include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_xform_emailtemplate.inc.php');

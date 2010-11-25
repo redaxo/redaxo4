@@ -1,10 +1,8 @@
 <?php
 
-// Dateiname: class.xform.radio.inc.php
-
-class rex_xform_radio extends rex_xform_abstract
+class rex_xform_radio_sql extends rex_xform_abstract
 {
-	
+
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{
 
@@ -13,16 +11,20 @@ class rex_xform_radio extends rex_xform_abstract
 		
 		$SEL->setName($this->getFormFieldname());
 
+		$sql = $this->elements[3];
 
-		$options = explode(";",$this->elements[3]);
+		$teams = rex_sql::factory();
+		$teams->debugsql = $this->params["debug"];
+		$teams->setQuery($sql);
 
-		foreach($options as $option)
+		$sqlnames = array();
+
+		foreach($teams->getArray() as $t)
 		{
-			$t = explode("=",$option);
-			$v = $t[0];
-			$k = $t[1];
+			$v = $t['name'];
+			$k = $t['id'];
 			$SEL->addOption($v, $k);
-			$sqlnames[$k] = $t[0];
+			$sqlnames[$k] = $t['name'];
 		}
 
 		$wc = "";
@@ -60,11 +62,16 @@ class rex_xform_radio extends rex_xform_abstract
 		$email_elements[$this->elements[1]] = stripslashes($this->value);
 		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") 
 			$sql_elements[$this->elements[1]] = $this->value;
-
+		
 	}
 	
 	function getDescription()
 	{
-		return "radio -> Beispiel: radio|gender|Geschlecht *|Frau=w;Herr=m|[no_db]|defaultwert";
+		return "radio_sql -> Beispiel: select_sql|label|Bezeichnung:|select id,name from table order by name|[defaultvalue]|[no_db]|";
 	}
+	
+
+	
 }
+
+?>
