@@ -26,6 +26,10 @@ class rex_image_manager
     if(!$this->image_cacher->isCached($image, $type))
     {
       $set = $this->effectsFromType($type);
+
+      // REGISTER EXTENSION POINT
+      $set   = rex_register_extension_point('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type));
+
   		$image->prepare();
   
   		// execute effects on image
