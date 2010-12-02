@@ -36,7 +36,7 @@ class rex_xform
 
 		$this->objparams["main_where"] = ""; // z.B. id=12
 		$this->objparams["main_id"] = -1; // unique ID des Datensatzen: z.B. 12
-		$this->objparams["main_table"] = ""; // fÃ¼r db speicherungen und unique abfragen
+		$this->objparams["main_table"] = ""; // fŸr db speicherungen und unique abfragen
 
 		$this->objparams["error_class"] = 'form_warning'; // CSS Klasse fuer die Fehlermedlungen.
 		$this->objparams["WRAP_BLOCK_START"] = '<div class="element">';
@@ -66,7 +66,7 @@ class rex_xform
 		$this->objparams["Error-Code-InsertQueryError"] = "ErrorCode - InsertQueryError";
 		$this->objparams["warning"] = array ();
 		$this->objparams["warning_messages"] = array ();
-			
+
 		$this->objparams["first_fieldset"] = true; //
 		$this->objparams["getdata"] = FALSE; // Daten vorab aus der DB holen
 
@@ -123,8 +123,8 @@ class rex_xform
 
 	function setActionField($type = "",$values = array())
 	{
-    	$values = array_merge(array("action",$type),$values);
-    	$this->objparams["form_elements"][] = $values;
+		$values = array_merge(array("action",$type),$values);
+		$this->objparams["form_elements"][] = $values;
 	}
 
 	function setRedaxoVars($aid = "",$clang = "",$params = array())
@@ -173,7 +173,7 @@ class rex_xform
 		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"]))
 		{
 			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
-		}		else
+		}else
 		{
 			$this->objparams["send"] = 0;
 		}
@@ -182,9 +182,11 @@ class rex_xform
 
 	function getObjectparams($k)
 	{
-		if(!isset($this->objparams[$k])) 
+		if(!isset($this->objparams[$k]))
+		{
 			return FALSE;
-		
+		}
+
 		return $this->objparams[$k];
 	}
 
@@ -362,13 +364,13 @@ class rex_xform
 		if ($this->objparams['form_type'] == "0" || $this->objparams['form_type'] == "2")
 		{
 			$this->objparams["actions"][] = array(
-				"type" => "db",
-				"elements" => array(
-					"action", 
-					"db", 
-					$this->objparams["main_table"], // Db Name
-					$this->objparams["main_where"], // Where
-				),
+        "type" => "db",
+        "elements" => array(
+          "action", 
+          "db", 
+			$this->objparams["main_table"], // Db Name
+			$this->objparams["main_where"], // Where
+			),
 			);
 		}
 
@@ -378,8 +380,8 @@ class rex_xform
 			if($element[0]=="action")
 			{
 				$this->objparams["actions"][] = array(
-					"type" => trim($element[1]),
-					"elements" => $element,
+          "type" => trim($element[1]),
+          "elements" => $element,
 				);
 			}
 		}
@@ -387,30 +389,30 @@ class rex_xform
 		if ($this->objparams['form_type'] == "1" || $this->objparams['form_type'] == "2")
 		{
 			$this->objparams["actions"][] = array(
-				"type" => "email",
-				"elements" => array(
-					"action",
-					"email",
-					$this->objparams["mail_from"],
-					$this->objparams["mail_to"],
-					$this->objparams["mail_subject"],
-					$this->objparams["mail_body"],
-				),
+        "type" => "email",
+        "elements" => array(
+          "action",
+          "email",
+			$this->objparams["mail_from"],
+			$this->objparams["mail_to"],
+			$this->objparams["mail_subject"],
+			$this->objparams["mail_body"],
+			),
 			);
 		}
 
 		if ($this->objparams["answertext"]!="")
 		{
 			$this->objparams["actions"][] = array(
-				"type" => "showtext",
-				"elements" => array(
-						"action",
-						"email",
-						$this->objparams["answertext"],
-						'<div class="rex-message"><div class="rex-info"><p>',
-						'</p></div></div>',
-						'0' // nicht als HTML interpretieren
-				),
+        "type" => "showtext",
+        "elements" => array(
+            "action",
+            "email",
+			$this->objparams["answertext"],
+            '<div class="rex-message"><div class="rex-info"><p>',
+            '</p></div></div>',
+            '0' // nicht als HTML interpretieren
+			),
 			);
 		}
 
@@ -419,11 +421,11 @@ class rex_xform
 		$hasWarnings = count($this->objparams["warning"]) != 0;
 		$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 
-		// ----- Actionen ausfÃ¼hren
+		// ----- Actionen ausfŸhren
 		if ($this->objparams["send"] == 1 && !$hasWarnings && !$hasWarningMessages)
 		{
 			$this->objparams["form_show"] = FALSE;
-			
+
 			$i=-1;
 			if (count($this->objparams["actions"]))
 			{
@@ -482,29 +484,17 @@ class rex_xform
 			// ----- Formular wieder anzeigen
 
 			$this->objparams["output"] .= $this->objparams["form_wrap"][0].'<form action="'.$this->objparams["form_action"];
-			if($this->objparams["form_anchor"] != "")
-			$this->objparams["output"] .= '#'.$this->objparams["form_anchor"];
+			if($this->objparams["form_anchor"] != ""){ $this->objparams["output"] .= '#'.$this->objparams["form_anchor"]; }
 			$this->objparams["output"] .= '" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
-
-			$this->objparams["output"] .= '<p style="display:none;">';
-
-			// deprecated
-			if($this->objparams["article_id"]>0)
-			$this->objparams["output"] .= '<input type="hidden" name="article_id" value="'.htmlspecialchars($this->objparams["article_id"]).'" />';
-			if($this->objparams["clang"]>0)
-			$this->objparams["output"] .= '<input type="hidden" name="clang" value="'.htmlspecialchars($this->objparams["clang"]).'" />';
-
+			$this->objparams["output"] .= '<fieldset>';
 			$this->objparams["output"] .= '<input type="hidden" name="FORM[' . $this->objparams["form_name"] . '][' . $this->objparams["form_name"] . 'send]" value="1" />';
-			foreach($this->objparams["form_hiddenfields"] as $k => $v)
-			$this->objparams["output"] .= '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'" />';
-			$this->objparams["output"] .= '</p>';
 
 			$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 			if ($this->objparams["unique_error"] != '' || $hasWarnings || $hasWarningMessages)
 			{
 				$warningListOut = '';
 				if($hasWarningMessages)
-				{					
+				{
 					foreach($this->objparams["warning_messages"] as $k => $v)
 					{
 						$warningListOut .= '<li>'. $v .'</li>';
@@ -514,7 +504,7 @@ class rex_xform
 				{
 					$warningListOut .= '<li>'. preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) .'</li>';
 				}
-				
+
 				if ($warningListOut != '')
 				{
 					if ($this->objparams["Error-occured"] != "")
@@ -523,8 +513,7 @@ class rex_xform
 						$this->objparams["output"] .= '<dt>'. $this->objparams["Error-occured"] .'</dt>';
 						$this->objparams["output"] .= '<dd><ul>'. $warningListOut .'</ul></dd>';
 						$this->objparams["output"] .= '</dl>';
-					}
-					else
+					}else
 					{
 						$this->objparams["output"] .= '<ul class="' . $this->objparams["error_class"] . '">'. $warningListOut .'</ul>';
 					}
@@ -532,21 +521,25 @@ class rex_xform
 			}
 
 			foreach ($this->objparams["form_output"] as $v)
+			{
 				$this->objparams["output"] .= $v;
+			}
 
 			if ($this->objparams["submit_btn_show"])
 			{
 				$this->objparams["output"] .= '
-					<p class="formsubmit">
-						<input type="submit" name="FORM['.$this->objparams["form_name"].']['.$this->objparams["form_name"].'submit]" value="'.$this->objparams["submit_btn_label"].'" class="submit" />
-					</p>';
+          <p class="formsubmit">
+            <input type="submit" name="FORM['.$this->objparams["form_name"].']['.$this->objparams["form_name"].'submit]" value="'.$this->objparams["submit_btn_label"].'" class="submit" />
+          </p>';
 			}
 
-			if(!$this->objparams["first_fieldset"])
-			$this->objparams["output"] .= '</fieldset>';
+			foreach($this->objparams["form_hiddenfields"] as $k => $v)
+			{
+				$this->objparams["output"] .= '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'" />';
+			}
 
-			$this->objparams["output"] .= '</form>
-			'.$this->objparams["form_wrap"][1];
+			$this->objparams["output"] .= '</fieldset>';
+			$this->objparams["output"] .= '</form>'.$this->objparams["form_wrap"][1];
 
 		}
 
@@ -563,41 +556,49 @@ class rex_xform
 	function includeClass($type_id, $class)
 	{
 		global $REX;
-		
+
 		$classname = 'rex_xform_'.$type_id.'_'.$class;
 		$filename  = 'class.xform.'.$type_id.'.'.$class.'.inc.php';
 		switch($type_id)
 		{
 			case('value'):
 				if (!class_exists('rex_xform_abstract'))
+				{
 					require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.value.abstract.inc.php');
+				}
 				$filename  = 'class.xform.'.$class.'.inc.php';
 				$classname = 'rex_xform_'.$class;
 				break;
 			case('validate'):
 				if (!class_exists('rex_xform_validate_abstract'))
+				{
 					require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate.abstract.inc.php');
+				}
 				break;
 			case('action'):
 				if (!class_exists('rex_xform_action_abstract'))
+				{
 					require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action.abstract.inc.php');
+				}
 				break;
 			default:
 				return FALSE;
 		}
 
 		if (class_exists($classname))
-			return $classname;
+		return $classname;
 
 		foreach($REX['ADDON']['xform']['classpaths'][$type_id] as $path)
 		{
-			@include_once($path.$filename);			
-			
+			@include_once($path.$filename);
+
 			if (class_exists($classname))
+			{
 				return $classname;
+			}
 		}
 		return FALSE;
-	
+
 	}
 
 	function getTypes()
@@ -782,7 +783,7 @@ class rex_xform
 
 		if (!class_exists('rex_xform_abstract'))
 		require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.value.abstract.inc.php');
-			
+
 		foreach($REX['ADDON']['xform']['classpaths']['value'] as $pos => $value_path)
 		{
 			if($Verzeichniszeiger = opendir($value_path))

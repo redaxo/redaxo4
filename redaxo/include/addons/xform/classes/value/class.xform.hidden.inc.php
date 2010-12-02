@@ -9,8 +9,8 @@ class rex_xform_hidden extends rex_xform_abstract
 		if (isset($this->elements[3]) && $this->elements[3]=="REQUEST" && isset($_REQUEST[$this->getName()]))
 		{
 			$this->setValue(stripslashes(rex_request($this->getName())));
-			$form_output[$this->getId()] = "\n".'<p style="display:none;" id="'.$this->getHTMLId().'"><input type="hidden" name="'.$this->getName().'" value="'.htmlspecialchars($this->getValue()).'" /></p>';
-
+			$form_output[$this->getId()] = "\n".'<input type="hidden" name="'.$this->getName().'" id="'.$this->getHTMLId().'" value="'.htmlspecialchars($this->getValue()).'" />';
+      
 		}else
 		{
 			$this->setValue($this->elements[2]);
