@@ -13,7 +13,7 @@ class rex_xform_com_auth_form_password extends rex_xform_abstract
 		$form_output[] .= '
 		<p class="formpassword form-com-auth-password formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
 			<label class="password " for="el_'.$this->getId().'" >'.$l_label.'</label>
-			<input type="password" class="password " name="'.$REX['ADDON']['editme']['plugin_auth']['request']['psw'].'" id="el_'.$this->getId().'" value="" />
+			<input type="password" class="password " name="rex_com_auth_password" id="el_'.$this->getId().'" value="" />
 		</p>
 		';
 
