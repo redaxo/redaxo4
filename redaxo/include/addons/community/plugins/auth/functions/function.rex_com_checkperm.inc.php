@@ -23,7 +23,7 @@ function rex_com_checkperm(&$obj)
 	global $REX;
 
 	// Authentifizierung ist ausgeschaltet
-	if($REX['ADDON']['editme']['plugin_auth']['auth_active'] != "1")
+	if($REX['ADDON']['community']['plugin_auth']['auth_active'] != "1")
 		return TRUE;
 
 	// echo "<br />*".$obj->getValue('art_com_permtype');
