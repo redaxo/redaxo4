@@ -15,22 +15,22 @@ $warning = '';
 if(rex_request("func","string")=="update")
 {
 
-	$REX['ADDON']['editme']['plugin_auth']['auth_active'] = rex_request("auth_active","int");
-	$REX['ADDON']['editme']['plugin_auth']['stay_active'] = rex_request("stay_active","int");
-	$REX['ADDON']['editme']['plugin_auth']['article_login_ok'] = rex_request("article_login_ok","int");;
-	$REX['ADDON']['editme']['plugin_auth']['article_login_failed'] = rex_request("article_login_failed","int");;
-	$REX['ADDON']['editme']['plugin_auth']['article_logout'] = rex_request("article_logout","int");;
-	$REX['ADDON']['editme']['plugin_auth']['article_withoutperm'] = rex_request("article_withoutperm","int");;
+	$REX['ADDON']['community']['plugin_auth']['auth_active'] = rex_request("auth_active","int");
+	$REX['ADDON']['community']['plugin_auth']['stay_active'] = rex_request("stay_active","int");
+	$REX['ADDON']['community']['plugin_auth']['article_login_ok'] = rex_request("article_login_ok","int");;
+	$REX['ADDON']['community']['plugin_auth']['article_login_failed'] = rex_request("article_login_failed","int");;
+	$REX['ADDON']['community']['plugin_auth']['article_logout'] = rex_request("article_logout","int");;
+	$REX['ADDON']['community']['plugin_auth']['article_withoutperm'] = rex_request("article_withoutperm","int");;
 
 	$config_file = $REX['INCLUDE_PATH'].'/addons/community/plugins/auth/config.inc.php';
 
 	$content = '
-$REX[\'ADDON\'][\'editme\'][\'plugin_auth\'][\'auth_active\'] = "'.$REX['ADDON']['editme']['plugin_auth']['auth_active'].'";
-$REX[\'ADDON\'][\'editme\'][\'plugin_auth\'][\'stay_active\'] = "'.$REX['ADDON']['editme']['plugin_auth']['stay_active'].'";
-$REX[\'ADDON\'][\'editme\'][\'plugin_auth\'][\'article_login_ok\'] = '.$REX['ADDON']['editme']['plugin_auth']['article_login_ok'].';
-$REX[\'ADDON\'][\'editme\'][\'plugin_auth\'][\'article_login_failed\'] = '.$REX['ADDON']['editme']['plugin_auth']['article_login_failed'].';
-$REX[\'ADDON\'][\'editme\'][\'plugin_auth\'][\'article_logout\'] = '.$REX['ADDON']['editme']['plugin_auth']['article_logout'].';
-$REX[\'ADDON\'][\'editme\'][\'plugin_auth\'][\'article_withoutperm\'] = '.$REX['ADDON']['editme']['plugin_auth']['article_withoutperm'].';
+$REX[\'ADDON\'][\'community\'][\'plugin_auth\'][\'auth_active\'] = "'.$REX['ADDON']['community']['plugin_auth']['auth_active'].'";
+$REX[\'ADDON\'][\'community\'][\'plugin_auth\'][\'stay_active\'] = "'.$REX['ADDON']['community']['plugin_auth']['stay_active'].'";
+$REX[\'ADDON\'][\'community\'][\'plugin_auth\'][\'article_login_ok\'] = '.$REX['ADDON']['community']['plugin_auth']['article_login_ok'].';
+$REX[\'ADDON\'][\'community\'][\'plugin_auth\'][\'article_login_failed\'] = '.$REX['ADDON']['community']['plugin_auth']['article_login_failed'].';
+$REX[\'ADDON\'][\'community\'][\'plugin_auth\'][\'article_logout\'] = '.$REX['ADDON']['community']['plugin_auth']['article_logout'].';
+$REX[\'ADDON\'][\'community\'][\'plugin_auth\'][\'article_withoutperm\'] = '.$REX['ADDON']['community']['plugin_auth']['article_withoutperm'].';
 ';
 
 	if(rex_replace_dynamic_contents($config_file, $content) !== false)
@@ -113,7 +113,7 @@ gespeichert werden.</p>
 									<p class="rex-form-col-a rex-form-checkbox">
 										<label for="rex-form-auth">Authentifizierung aktiviert</label>
 										<input class="rex-form-text" type="checkbox" id="rex-form-auth" name="auth_active" value="1" ';
-								if($REX['ADDON']['editme']['plugin_auth']['auth_active']=="1") echo 'checked="checked"';
+								if($REX['ADDON']['community']['plugin_auth']['auth_active']=="1") echo 'checked="checked"';
 								echo ' />
 									</p>
 								</div>
@@ -122,7 +122,7 @@ gespeichert werden.</p>
 									<p class="rex-form-col-a rex-form-checkbox">
 										<label for="rex-form-stay">"Angemeldet bleiben" aktiviert</label>
 										<input class="rex-form-text" type="checkbox" id="rex-form-stay" name="stay_active" value="1" ';
-								if($REX['ADDON']['editme']['plugin_auth']['stay_active']=="1") echo 'checked="checked"';
+								if($REX['ADDON']['community']['plugin_auth']['stay_active']=="1") echo 'checked="checked"';
 								echo ' />
 									</p>
 								</div>
@@ -140,28 +140,28 @@ gespeichert werden.</p>
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
 										<label for="rex-form-article_login_ok">Sprung zu diesem Artikel wenn erfolgreich eingeloggt</label>
-										'. rex_var_link::_getLinkButton('article_login_ok', 1, stripslashes($REX['ADDON']['editme']['plugin_auth']['article_login_ok'])) .'
+										'. rex_var_link::_getLinkButton('article_login_ok', 1, stripslashes($REX['ADDON']['community']['plugin_auth']['article_login_ok'])) .'
 									</p>
 								</div>
 							
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
 										<label for="rex-form-article_login_failed">Sprung zu diesem Artikel wenn nicht erfolgreich eingeloggt</label>
-                    					'. rex_var_link::_getLinkButton('article_login_failed', 2, stripslashes($REX['ADDON']['editme']['plugin_auth']['article_login_failed'])) .'
+                    					'. rex_var_link::_getLinkButton('article_login_failed', 2, stripslashes($REX['ADDON']['community']['plugin_auth']['article_login_failed'])) .'
 									</p>
 								</div>
 								
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
 										<label for="rex-form-article_logout">Sprung zu diesem Artikel nach dem Ausloggen</label>
-                    					'. rex_var_link::_getLinkButton('article_logout', 3, stripslashes($REX['ADDON']['editme']['plugin_auth']['article_logout'])) .'
+                    					'. rex_var_link::_getLinkButton('article_logout', 3, stripslashes($REX['ADDON']['community']['plugin_auth']['article_logout'])) .'
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
 										<label for="rex-form-article_logout">Sprung zu diesem Artikel wenn auf gesperrtem Artikel zugriffen wird</label>
-                    					'. rex_var_link::_getLinkButton('article_withoutperm', 4, stripslashes($REX['ADDON']['editme']['plugin_auth']['article_withoutperm'])) .'
+                    					'. rex_var_link::_getLinkButton('article_withoutperm', 4, stripslashes($REX['ADDON']['community']['plugin_auth']['article_withoutperm'])) .'
 									</p>
 								</div>
 							
