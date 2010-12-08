@@ -71,3 +71,5 @@ require_once dirname(__FILE__).'/extensions/extension_common.inc.php';
 rex_register_extension('URL_REWRITE_ARTICLE_ID_NOT_FOUND', 'a724_frau_schultze');
 
 require_once dirname(__FILE__).'/functions/function_url_table.inc.php';
+
+rex_register_extension('ALL_GENERATED', 'a724_generatePathnamesFromTable');
