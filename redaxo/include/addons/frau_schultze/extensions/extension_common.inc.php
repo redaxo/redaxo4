@@ -95,6 +95,10 @@ if (!function_exists('a724_frau_schultze'))
 
 		if (substr($myurl, 0, 1) == '/')
 			$myurl = substr($myurl, 1);
+		
+		// Am Ende ein Slash, dann entfernen
+		if (substr($myurl, -1) == '/')
+			$myurl = substr($myurl, 0, -1);
 
 		$my_sql = new rex_sql();
 //		$my_sql->debugsql = true;
