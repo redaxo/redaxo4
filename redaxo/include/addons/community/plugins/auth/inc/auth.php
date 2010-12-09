@@ -15,6 +15,18 @@ $rex_com_auth_session_duration = 7200; // 3000s Session timeout
 // rex_com_auth_stay
 // rex_com_auth_jump
 
+$rex_com_auth_login_query = array();
+$rex_com_auth_login_request = array();
+$rex_com_auth_login = TRUE;
+
+foreach($REX['ADDON']['community']['plugin_auth']['rex_com_auth_login_definition'] as $v)
+{
+  $replacekey = '###REPLACE_'.$v['field'].'###';
+  $rex_com_auth_login_request[$replacekey] = rex_request($v['request'],$v['type']);
+  $rex_com_auth_login_query[] = '`'.$v['field'].'`'.$v['compare'].'"'.$replacekey.'"';
+  if(!isset($_REQUEST[$v['request']])) $rex_com_auth_login = FALSE;
+}
+$rex_com_auth_login_query = 'select * from rex_com_user where '.implode(' and ', $rex_com_auth_login_query).' and status>0';
 
 // ----------- COM_USER init
 
@@ -60,19 +72,14 @@ if (rex_request("rex_com_auth_logout","int") == 1)
 
 // ---------------------------------------------- LOGIN
 
-}elseif (
-			rex_request("rex_com_auth_name","string") != "" 
-			&& 
-			isset($_REQUEST['rex_com_auth_password']) 
-			&& 
-			$REX['COM_USER']->checkQuery(
-				'select * from rex_com_user where login="USER_LOGIN" and password="USER_PSW" and status>0', 
-				array(
-					'USER_LOGIN' => rex_request("rex_com_auth_name","string"),
-					'USER_PSW' => rex_request("rex_com_auth_password","string")
-				)
-			)
-		)
+	}elseif (
+      $rex_com_auth_login 
+      && 
+      $REX['COM_USER']->checkQuery(
+        $rex_com_auth_login_query, 
+        $rex_com_auth_login_request
+      )
+    )
 {
 
 	// echo "login";

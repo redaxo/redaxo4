@@ -26,6 +26,11 @@ $REX['ADDON']['community']['xform_path']['value'][] = $REX["INCLUDE_PATH"]."/add
 $REX['ADDON']['community']['xform_path']['validate'][] = $REX["INCLUDE_PATH"]."/addons/community/plugins/auth/xform/validate/";
 $REX['ADDON']['community']['xform_path']['action'][] = $REX["INCLUDE_PATH"]."/addons/community/plugins/auth/xform/action/";
 
+$REX['ADDON']['community']['plugin_auth']['rex_com_auth_login_definition'] = array();
+$REX['ADDON']['community']['plugin_auth']['rex_com_auth_login_definition'][] = array('field' => 'login', 'compare' => '=', 'request' => 'rex_com_auth_name', 'type' => 'string');
+// $REX['ADDON']['community']['plugin_auth']['rex_com_auth_login_definition'][] = array('field' => 'email', 'compare' => '=', 'request' => 'rex_com_auth_name', 'type' => 'string');
+$REX['ADDON']['community']['plugin_auth']['rex_com_auth_login_definition'][] = array('field' => 'password', 'compare' => '=', 'request' => 'rex_com_auth_password', 'type' => 'string');
+
 if ($REX["REDAXO"])
 {
 	if ($REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("community[auth]")))
