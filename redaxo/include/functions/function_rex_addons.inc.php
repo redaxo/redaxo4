@@ -85,7 +85,7 @@ function rex_install_prepare_query($qry)
   {
     $qry .= ' DEFAULT CHARSET=utf8';
   }
-  elseif(!rex_lang_is_utf8() AND strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
+  elseif(!rex_lang_is_utf8() AND strpos($qry, 'CREATE TABLE') === 0 AND !strpos($qry, 'DEFAULT CHARSET'))
   {
     $qry .= ' DEFAULT CHARSET=latin1';
   }
