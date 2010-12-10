@@ -64,7 +64,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
       case 'top':
         $dstY = 0;
         break;
-      case 'center':
+      case 'middle':
         $dstY = (int)(($image_height - $brand_height) / 2);
         break;
       case 'bottom':
@@ -93,15 +93,15 @@ class rex_effect_insert_image extends rex_effect_abstract{
 				'label' => $I18N->msg('imanager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
-				'options'	=> array('right','center','left'),
-				'default' => 'right'
+				'options'	=> array('left','center','right'),
+				'default' => 'left'
 			),
 			array(
 				'label' => $I18N->msg('imanager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
-				'options'	=> array('top','center','bottom'),
-				'default' => 'bottom'
+				'options'	=> array('top','middle','bottom'),
+				'default' => 'top'
 			),
 			array(
 				'label' => $I18N->msg('imanager_effect_brand_padding_x'),

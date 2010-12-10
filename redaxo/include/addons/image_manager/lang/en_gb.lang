@@ -83,3 +83,14 @@ imanager_effect_crop_position = position
 imanager_effect_flip = direction
 
 imanager_error_type_name_not_unique = an imagetype with this name already exists!
+
+im_fx_mirror_height = refl. height (50 / 10%)
+im_fx_mirror_background_color = background
+im_fx_mirror_background_r = background R (0-255)
+im_fx_mirror_background_g = background G (0-255)
+im_fx_mirror_background_b = background B (0-255)
+
+im_fx_workspace_pos = Position
+
+form_field_first_prior = first position
+form_field_after_prior = after "{0}"
