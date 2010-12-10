@@ -32,7 +32,7 @@ class rex_xform_action_db_query extends rex_xform_action_abstract
 		// SQL Objekt mit Werten füllen
 		foreach($this->elements_sql as $key => $value)
 		{
-			$query = str_replace('###'.$key.'###',addslashes($value),$query);
+			$query = str_replace('###'.$key.'###',mysql_real_escape_string($value),$query);
 		}
 
 		$sql->setQuery($query);

@@ -49,7 +49,7 @@ class rex_xform_action_db extends rex_xform_action_abstract
 		foreach($this->elements_sql as $key => $value)
 		{
 			$sql->setValue($key, $value);
-			if ($where != "") $where = str_replace('###'.$key.'###',addslashes($value),$where);
+			if ($where != "") $where = str_replace('###'.$key.'###',mysql_real_escape_string($value),$where);
 		}
 			
 		if ($where != "")
