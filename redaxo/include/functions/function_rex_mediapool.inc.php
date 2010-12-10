@@ -196,8 +196,13 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     $ffiletype = $_FILES['file_new']['type'];
     $ffilesize = $_FILES['file_new']['size'];
 
-    if ($ffiletype == $FILEINFOS["filetype"] || OOMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
+    $p_new = pathinfo($_FILES['file_new']['name']);
+    $p_old = pathinfo($FILEINFOS["filename"]);
+    
+    // if ($ffiletype == $FILEINFOS["filetype"] || OOMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
+    if($p_new['extension'] == $p_old['extension'])
     {
+
       if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]) ||
           copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
       {
@@ -303,11 +308,17 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
     $filesize = filesize($abs_file);
   }
 
+  if(empty($filetype) && function_exists('finfo_open'))
+  {
+	  $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+	  $filetype = finfo_file($finfo, $abs_file);
+  }
+  
   if(empty($filetype) && function_exists('mime_content_type'))
   {
     $filetype = mime_content_type($abs_file);
   }
-
+  
   $FILE = array();
   $FILE['name'] = $physical_filename;
   $FILE['size'] = $filesize;
