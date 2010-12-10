@@ -209,7 +209,7 @@ function rex_setup_dropREXtables()
   $dt = new rex_sql();
   foreach($rt->getArray() as $t)
   {
-    $table = $t['Tables_in_'.$REX['DB']['1']['NAME'].' ('.$REX['TABLE_PREFIX'].'%)']; '<pre>'.var_export($var,true).'</pre><hr/>';
+    $table = $t['Tables_in_'.$REX['DB']['1']['NAME'].' ('.$REX['TABLE_PREFIX'].'%)'];
     $dt->setQuery('DROP TABLE `'.$table.'`');
     $err_msg .= $dt->hasError() ? rex_formated_sqlerror($dt) : '';
 }
