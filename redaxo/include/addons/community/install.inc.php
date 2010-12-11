@@ -98,6 +98,13 @@ $fields[11]['f1'] = 'activation_key';
 $fields[11]['f2'] = 'Aktivierungsschlüssel'; 
 $fields[11]['search'] = '1';
 
+$fields[12] = $fields[1];
+$fields[12]['prio'] = 510; 
+$fields[12]['list_hidden'] = 0; 
+$fields[12]['f1'] = 'session_key'; 
+$fields[12]['f2'] = 'Session Key'; 
+$fields[121]['search'] = '1';
+
 if (OOAddon::isAvailable('xform') != 1 || OOAddon::isAvailable('phpmailer') != 1)
 {
 	// Installation nicht erfolgreich
