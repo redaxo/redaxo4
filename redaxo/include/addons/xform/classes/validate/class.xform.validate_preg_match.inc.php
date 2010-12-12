@@ -20,7 +20,7 @@ class rex_xform_validate_preg_match extends rex_xform_validate_abstract
 					$warning[$Object->getId()] = $this->params["error_class"];
 					$warning_messages[] = $this->getElement(4);
 				}
-				 
+					
 			}
 		}
 	}
@@ -29,5 +29,21 @@ class rex_xform_validate_preg_match extends rex_xform_validate_abstract
 	{
 		return "preg_match -> prüft über preg_match, beispiel: validate|preg_match|label|/[a-z]/i|warning_message ";
 	}
+
+	function getDefinitions()
+	{
+		return array(
+          'type' => 'validate',
+          'name' => 'preg_match',
+          'values' => array(
+											array( 'type' => 'label',   'label' => 'Name' ),
+											array( 'type' => 'text',    'label' => 'preg_match z.B. /[a-z]/i'),
+											array( 'type' => 'text',    'label' => 'Fehlermeldung'),
+										),
+          'description' => 'Hiermit wird ein Label anhand eines preg_match überprüft',
+		);
+
+	}
+
 }
 ?>
