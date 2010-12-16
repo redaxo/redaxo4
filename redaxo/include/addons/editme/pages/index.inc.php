@@ -37,16 +37,18 @@ switch($subpage)
   		{
   		  $table = $subpage;
   		}
-	}
+    }
   	
   	if($table == "" && $REX['USER'] && $REX['USER']->isAdmin())
   	{
   		$subpage = "tables";
   		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
-  	}elseif($table == "")
+  	}
+  	elseif($table == "")
   	{
   		echo "-";
-  	}else
+  	}
+  	else
   	{
   		require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
   	}
