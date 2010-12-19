@@ -190,13 +190,31 @@ if($func == "delete" && $data_id != "")
   $delete = TRUE;
   if(rex_register_extension_point('EM_DATA_DELETE', $delete, array("id"=>$data_id,"value"=>$data)))
   {
-    $query = 'delete from '.$table["table_name"].' where id='.$data_id;
-    if($table['hierarchic'])
-      $query = 'delete from '.$table["table_name"].' where `'.$this->type.'_lft`>='.$data[$this->type.'_lft'].' AND  `'.$this->type.'_rgt`<='.$data[$this->type.'_rgt'];
+    #$query = 'delete from '.$table["table_name"].' where id='.$data_id;
+    #if($table['hierarchic'])
+    // delete ...
+    $query = 'delete from '.$table["table_name"].' where `'.$this->type.'_lft`>='.$data[$this->type.'_lft'].' AND  `'.$this->type.'_rgt`<='.$data[$this->type.'_rgt'];
 
     $delsql = new rex_sql;
     // $delsql->debugsql=1;
     $delsql->setQuery($query);
+    
+    // ... and move
+    $moveby = intval($data[$this->type.'_rgt'] - $data[$this->type.'_lft'] + 1);
+    $delsql->setQuery('
+      UPDATE '.$table["table_name"].'
+      SET
+        `'.$this->type.'_lft` = `'.$this->type.'_lft` - '.$moveby.'
+      WHERE `'.$this->type.'_lft`>'.$data[$this->type.'_rgt']
+    );
+    
+    $delsql->setQuery('
+      UPDATE '.$table["table_name"].'
+      SET
+        `'.$this->type.'_rgt` = `'.$this->type.'_rgt` - '.$moveby.'
+      WHERE `'.$this->type.'_rgt`>'.$data[$this->type.'_rgt']
+    );
+    
     echo rex_info($I18N->msg("datadeleted"));
     $func = "";
 
@@ -255,73 +273,6 @@ if($func == "add" || $func == "edit")
     }
   }
   
-  /*if($table['hierarchic'] AND $func == 'add' AND $xform->objparams["send"])
-  {
-    $parent = rex_request($this->type.'_parent', 'int', 1);
-    
-    $sql = new rex_sql;
-    $sql->setTable($table['table_name']);
-    
-    // select lft and rgt
-    $sql->setWhere('id = '.$parent);
-    
-    if(!$sql->select('id,'.$this->type.'_rgt,'.$this->type.'_level'))
-      return false; // error
-    
-    $id = $sql->getValue('id');
-    $rgt = $sql->getValue($this->type.'_rgt');
-    $level = $sql->getValue($this->type.'_level');
-    
-    // update rgt
-    $sql->setQuery(
-      sprintf('
-        UPDATE `%s`
-        SET '.$this->type.'_rgt = '.$this->type.'_rgt + 2
-        WHERE '.$this->type.'_rgt >= %d',
-        $table['table_name'],
-        $rgt
-      )
-    );
-    
-    // update lft
-    $sql->setQuery(
-      sprintf('
-        UPDATE `%s`
-        SET '.$this->type.'_lft = '.$this->type.'_lft + 2
-        WHERE '.$this->type.'_lft > %d',
-        $table['table_name'],
-        $rgt
-      )
-    );
-    
-    // new data
-    $xform->setValueField($this->type.'_lft', $rgt);
-    $xform->setValueField($this->type.'_rgt', $rgt + 1);
-    $xform->setValueField($this->type.'_parent', $parent);
-    $xform->setValueField($this->type.'_level', $level + 1);
-  }*/
-
-  // ***** START
-  // Textblock gibt den formalarblock als text aus, um diesen in das xform modul einsetzen zu können.
-  /*
-  $text_block = '';
-  foreach($fields as $field)
-  { $values = array();
-    for($i=1;$i<10;$i++){ $values[] = $field["f".$i]; } 
-    if($field["type_id"] == "value")
-    {
-      $text_block .= "\n".'$xform->setValueField("'.$field["type_name"].'",array("'.implode('","',$values).'"));';
-    }elseif($field["type_id"] == "validate")
-    {
-      $text_block .= "\n".'$xform->setValidateField("'.$field["type_name"].'",array("'.implode('","',$values).'"));';
-    }elseif($field["type_id"] == "action")
-    {
-      $text_block .= "\n".'$xform->setActionField("'.$field["type_name"].'",array("'.implode('","',$values).'"));';
-    }
-    // $text_block .= "\n".$field["type_name"].'|'.implode("|",$values);
-  }
-  echo '<pre>'.$text_block.'</pre>';
-  */
   // ***** ENDE
 
   $xform->setObjectparams("main_table",$table["table_name"]); // für db speicherungen und unique abfragen
@@ -340,8 +291,8 @@ if($func == "add" || $func == "edit")
   }
   elseif($func == "add")
   {
-    if($table['hierarchic'])
-      $xform->setActionField("nestedset",array($table["table_name"]));
+    #if($table['hierarchic'])
+    $xform->setActionField("nestedset",array($table["table_name"]));
     
     $xform->setActionField("db",array($table["table_name"]));
   }
@@ -499,8 +450,8 @@ if($show_list)
   // ---------- SQL AUFBAUEN
   $sql = "select * from ".$table["table_name"].' WHERE 1';
   
-  if($table['hierarchic'])
-    $sql .= ' AND `'.$this->type.'_level` > 0 ORDER BY `'.$this->type.'_lft`';
+  #if($table['hierarchic'])
+  $sql .= ' AND `'.$this->type.'_level` > 0 ORDER BY `'.$this->type.'_lft`';
   
   if(count($rex_em_filter)>0)
   {

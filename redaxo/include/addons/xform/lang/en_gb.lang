@@ -8,6 +8,7 @@ xform_email_from = E-Mail from [info@redaxo.de]
 xform_email_from_name = E-Mail name [REDAXO Mailer]
 xform_subject = Subject
 xform_body = Body
+xform_body_html = Body (Html)
 
 xform_add_email_template = Add E-Mail template
 
