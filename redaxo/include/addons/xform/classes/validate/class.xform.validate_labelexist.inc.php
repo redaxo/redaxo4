@@ -24,7 +24,7 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 			$fields = explode(",",$this->getElement(2));
 			
 			$value = 0;
-			foreach($this->Objects as $o)
+			foreach($this->obj as $o)
 			{
 				if (in_array($o->getDatabasefieldname(),$fields) && $o->getValue() != "") 
 					$value++;
@@ -34,7 +34,7 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 			{
 				$warning_messages[] = $this->getElement(5);
 				
-				foreach($this->Objects as $o)
+				foreach($this->obj as $o)
 				{
 					if (in_array($o->getDatabasefieldname(),$fields))
 					{

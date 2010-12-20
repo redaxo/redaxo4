@@ -21,6 +21,7 @@ $sql->setQuery('CREATE TABLE IF NOT EXISTS `'.$REX['TABLE_PREFIX'].'xform_email_
 );');
 
 $sql->setQuery('ALTER TABLE `'.$REX['TABLE_PREFIX'].'xform_email_template` ADD `body_html` TEXT NOT NULL AFTER `body`;');
+$sql->setQuery('ALTER TABLE `'.$REX['TABLE_PREFIX'].'xform_email_template` ADD `attachments` TEXT NOT NULL AFTER `body_html`;');
 
 // evtl. Fehler beim Anlegen?
 if ($sql->hasError())

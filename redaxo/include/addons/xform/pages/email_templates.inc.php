@@ -26,6 +26,8 @@ if($func == "add" || $func == "edit")
 
 	echo '<div class="rex-addon-output">';
 
+	
+	
 	$form = new rex_form($REX['TABLE_PREFIX']."xform_email_template", 'Template', 'id='. $template_id);
 	if($func == 'edit')
 		$form->addParam('template_id', $template_id);
@@ -48,7 +50,12 @@ if($func == "add" || $func == "edit")
 	$field = &$form->addTextareaField('body_html');
 	$field->setLabel($I18N->msg("xform_body_html"));
 	
+  $field = &$form->addMedialistField('attachments');
+	$field->setLabel($I18N->msg("xform_attachments"));
+  
 	$form->show();
+	
+	
 	
   echo '</div>';
 }
@@ -102,9 +109,8 @@ if($func == "")
 	$list->setColumnLabel('subject', $I18N->msg('xform_header_template_subject'));
 	
 	$list->removeColumn('body','id');
-	$list->removeColumn('body_html','id');
-	
-	
+  $list->removeColumn('body_html','id');
+  $list->removeColumn('attachments','id');
 	
 	$list->addColumn($I18N->msg('xform_header_template_functions'), $I18N->msg('xform_delete_template'));
 	$list->setColumnParams($I18N->msg('xform_header_template_functions'), array('page'=>$page, 'subpage'=>$subpage, 'func' => 'delete', 'template_id' => '###id###'));

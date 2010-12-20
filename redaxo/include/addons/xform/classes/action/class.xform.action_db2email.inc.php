@@ -35,12 +35,27 @@ class rex_xform_action_db2email extends rex_xform_action_abstract
 		
 			$etpl['mail_to'] = $mail_to;
 			$etpl['mail_to_name'] = $mail_to;
+			
+			if($etpl['attachments'] != "")
+			{
+				$f = explode(",",$etpl['attachments']);
+				$etpl['attachments'] = array();
+				foreach($f as $v)
+				{
+					$etpl['attachments'][] = array("name"=>$v,"path"=>$REX["INCLUDE_PATH"].'/../../files/'.$v);
+				}
+				
+			}else
+			{
+				$etpl['attachments'] = array();
+			}
+			
 			if(!rex_xform_emailtemplate::sendMail($etpl))
 			{
 				echo "Fehler beim E-Mail Versand";
 				return FALSE;
 			}
-			
+
 			return TRUE;
 		
 		}

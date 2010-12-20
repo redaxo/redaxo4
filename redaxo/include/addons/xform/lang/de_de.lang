@@ -9,6 +9,7 @@ xform_email_from_name = E-Mail-Name [z.b. REDAXO Server]
 xform_subject = Betreff
 xform_body = Body
 xform_body_html = Body (Html)
+xform_attachments = Anhänge
 
 xform_add_email_template = E-Mail Template hinzufügen
 

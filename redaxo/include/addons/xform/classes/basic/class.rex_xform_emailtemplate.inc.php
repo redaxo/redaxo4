@@ -15,7 +15,7 @@ class rex_xform_emailtemplate
 		}
 		return FALSE;
 	}
-	
+
 	function replaceVars($template,$er = array())
 	{
 		global $REX;
@@ -42,7 +42,7 @@ class rex_xform_emailtemplate
 		$str = str_replace("\r","",$str);
 		return $str;
 	}
-	
+
 	function sendMail($template)
 	{
 		$mail = new rex_mailer();
@@ -56,8 +56,17 @@ class rex_xform_emailtemplate
 		}else {
 			$mail->Body = strip_tags($template["body"]);
 		}
+
+		if(is_array($template["attachments"]))
+		{
+			foreach($template["attachments"] as $f)
+			{
+				$mail->AddAttachment($f["path"], $f["name"]);
+			}
+		}
+
 		return $mail->Send();
-	
+
 	}
-	
+
 }

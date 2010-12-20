@@ -11,12 +11,13 @@ class rex_xform_validate_customfunction extends rex_xform_validate_abstract
 			$l = $this->getElement(2);
 			$f = $this->getElement(3);
 			$p = $this->getElement(4);
+			$o = $this->obj;
 			
 			foreach($this->obj_array as $Object)
 			{
 				if(function_exists($f))
 				{
-					if($f($l,$Object->getValue(),$p))
+					if($f($l,$Object->getValue(),$p,$o))
 					{
 						$warning[$Object->getId()] = $this->params["error_class"];
 						$warning_messages[$Object->getId()] = $this->getElement(5);
