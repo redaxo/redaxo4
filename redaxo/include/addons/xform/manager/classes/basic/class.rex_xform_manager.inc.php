@@ -171,7 +171,6 @@ class rex_xform_manager
 		  `description` text NOT NULL,
 		  `list_amount` INT UNSIGNED NOT NULL DEFAULT \'50\',
 		  `prio` varchar(255) NOT NULL,
-		  `hierarchic` TINYINT NOT NULL,
 		  `search` TINYINT NOT NULL,
 		  `hidden` TINYINT NOT NULL,
 		  `export` TINYINT NOT NULL,
@@ -341,15 +340,7 @@ class rex_xform_manager
 			// ********** Table schon vorhanden ?, wenn nein, dann anlegen
 			$c = rex_sql::factory();
 			// $c->debugsql = 1;
-			$c->setQuery('CREATE TABLE IF NOT EXISTS `'.$table["table_name"].'` (
-        `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        `'.$this->type.'_lft` INT NULL,
-        `'.$this->type.'_rgt` INT NULL,
-        `'.$this->type.'_parent` INT NULL,
-        `'.$this->type.'_level` INT NULL
-      )');
-      
-      $c->setQuery('REPLACE INTO `'.$table["table_name"].'` (id,`'.$this->type.'_lft`,`'.$this->type.'_rgt`,`'.$this->type.'_parent`,`'.$this->type.'_level`) VALUES (1, 0, 1, 0, 0)');
+			$c->setQuery('CREATE TABLE IF NOT EXISTS `'.$table["table_name"].'` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY )');
 				
 			// Felder merken, erstellen und eventuell loeschen
 			$c->setQuery('SHOW COLUMNS FROM `'.$table["table_name"].'`');
@@ -393,7 +384,7 @@ class rex_xform_manager
 			// Loeschen von Spalten ohne Zuweisung
 			foreach($saved_columns as $uu => $vv)
 			{
-				if(!in_array($vv["Field"], array('id', $this->type.'_rgt', $this->type.'_lft', $this->type.'_parent', $this->type.'_level')))
+				if ($vv["Field"] != "id")
 				{
 					$c->setQuery('ALTER TABLE `'.$table["table_name"].'` DROP `'.$vv["Field"].'` ');
 				}

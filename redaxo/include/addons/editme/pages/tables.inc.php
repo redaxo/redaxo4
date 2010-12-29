@@ -45,8 +45,7 @@ if($func == "add" || $func == "edit")
 		$xform->setObjectparams("main_id",$table_id);
 		$xform->setObjectparams("main_where","id=$table_id");
 		$xform->setObjectparams('getdata',true); // Datein vorher auslesen
-	}
-	elseif($func == "add")
+	}elseif($func == "add")
 	{
 		$xform->setValueField("text",array("table_name","Name"));
 	    $xform->setValidateField("notEmpty",array("table_name","Bitte tragen Sie den Tabellenname ein"));
@@ -59,7 +58,6 @@ if($func == "add" || $func == "edit")
 	$xform->setValueField("text",array("name","Bezeichnung"));
 	$xform->setValueField("textarea",array("description","Beschreibung"));
 	$xform->setValueField("checkbox",array("status","Aktiv"));
-	$xform->setValueField("checkbox",array("hierarchic","Hierarchische Tabelle"));
 	// $xform->setValueField("fieldset",array("fs-list","Liste"));
 	$xform->setValueField("text",array("list_amount","Datens&auml;tze pro Seite"));
 	$xform->setValueField("checkbox",array("search","Suche aktiv"));
@@ -80,36 +78,9 @@ if($func == "add" || $func == "edit")
 			echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
 		echo $form;
 		echo '</div></div>';
-		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>
-<script type="text/javascript">
-// <![CDATA[
-jQuery(document).ready(function()
-{
-  if(jQuery("#xform-formular-hierarchic input").is(":checked"))
-  {
-    jQuery("#xform-formular-list_amount").hide();
-    jQuery("#xform-formular-list_amount input").val(4294967295);
-  }
-  
-  jQuery("#xform-formular-hierarchic input").change(function()
-  {
-    if(jQuery("#xform-formular-hierarchic input").is(":checked"))
-    {
-      jQuery("#xform-formular-list_amount").hide();
-      jQuery("#xform-formular-list_amount input").val(4294967295);
-    }
-    else
-    {
-      jQuery("#xform-formular-list_amount input").val("");
-      jQuery("#xform-formular-list_amount").show();
-    }
-  });
-});
-// ]]>
-</script>';
+		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
 		$show_list = FALSE;
-	}
-	else
+	}else
 	{
 		if($func == "edit")
 			echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");

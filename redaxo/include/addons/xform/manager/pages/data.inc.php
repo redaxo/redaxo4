@@ -72,65 +72,11 @@ if($data_id != "")
   {
     $data_id = "";
   }
+  
+
 }
 
-if($func == 'moveup' OR $func == 'movedown')
-{
-  if($func == 'moveup')
-  {
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT MAX('.$this->type.'_rgt) as '.$this->type.'_rgt FROM `'.$table['table_name'].'`');
-    $maxrgt = $sql->getValue($this->type.'_rgt');
-    $sql->flush();
-    $sql->setQuery('
-      SELECT id,'.$this->type.'_lft,'.$this->type.'_rgt
-      FROM `'.$table['table_name'].'`
-      WHERE '.$this->type.'_rgt = '.($data[$this->type.'_lft'] - 1).'
-      AND '.$this->type.'_level = '.$data[$this->type.'_level'].'
-    ');
-    
-    if($sql->getRows())
-    {
-      $qry1 = 'UPDATE `'.$table['table_name'].'` SET '.$this->type.'_lft = '.$this->type.'_lft + '.($data[$this->type.'_rgt']-$data[$this->type.'_lft']+1).' - '.$maxrgt.', '.$this->type.'_rgt = '.$this->type.'_rgt + '.($data[$this->type.'_rgt']-$data[$this->type.'_lft']+1).' - '.$maxrgt.' WHERE '.$this->type.'_lft >= '.$sql->getValue($this->type.'_lft').' AND '.$this->type.'_rgt <= '.$sql->getValue($this->type.'_rgt');
-      $qry2 = 'UPDATE `'.$table['table_name'].'` SET '.$this->type.'_lft = '.$this->type.'_lft - '.($sql->getValue($this->type.'_rgt')-$sql->getValue($this->type.'_lft')+1).', '.$this->type.'_rgt = '.$this->type.'_rgt - '.($sql->getValue($this->type.'_rgt')-$sql->getValue($this->type.'_lft')+1).' WHERE '.$this->type.'_lft >= '.$data[$this->type.'_lft'].' AND '.$this->type.'_rgt <= '.$data[$this->type.'_rgt'].' AND '.$this->type.'_level > 0';
-      $qry3 = 'UPDATE `'.$table['table_name'].'` SET '.$this->type.'_lft = '.$this->type.'_lft + '.$maxrgt.', '.$this->type.'_rgt = '.$this->type.'_rgt + '.$maxrgt.' WHERE '.$this->type.'_lft < 0';
-      
-      $sql->flush();
-      $sql->setQuery($qry1);
-      $sql->setQuery($qry2);
-      $sql->setQuery($qry3);
-    }
-  }
-  
-  if($func == 'movedown')
-  {
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT ('.$this->type.'_rgt) as '.$this->type.'_rgt FROM `'.$table['table_name'].'`');
-    $maxrgt = $sql->getValue($this->type.'_rgt');
-    $sql->flush();
-    $sql->setQuery('
-      SELECT id,'.$this->type.'_lft,'.$this->type.'_rgt
-      FROM `'.$table['table_name'].'`
-      WHERE '.$this->type.'_lft = '.($data[$this->type.'_rgt'] + 1).'
-      AND '.$this->type.'_level = '.$data[$this->type.'_level'].'
-    ');
-    
-    if($sql->getRows())
-    {
-      $qry1 = 'UPDATE `'.$table['table_name'].'` SET '.$this->type.'_lft = '.$this->type.'_lft - '.($data[$this->type.'_rgt']-$data[$this->type.'_lft']+1).' - '.$maxrgt.', '.$this->type.'_rgt = '.$this->type.'_rgt - '.($data[$this->type.'_rgt']-$data[$this->type.'_lft']+1).' - '.$maxrgt.' WHERE '.$this->type.'_lft >= '.$sql->getValue($this->type.'_lft').' AND '.$this->type.'_rgt <= '.$sql->getValue($this->type.'_rgt');
-      $qry2 = 'UPDATE `'.$table['table_name'].'` SET '.$this->type.'_lft = '.$this->type.'_lft + '.($sql->getValue($this->type.'_rgt')-$sql->getValue($this->type.'_lft')+1).', '.$this->type.'_rgt = '.$this->type.'_rgt + '.($sql->getValue($this->type.'_rgt')-$sql->getValue($this->type.'_lft')+1).' WHERE '.$this->type.'_lft >= '.$data[$this->type.'_lft'].' AND '.$this->type.'_rgt <= '.$data[$this->type.'_rgt'].' AND '.$this->type.'_level > 0';
-      $qry3 = 'UPDATE `'.$table['table_name'].'` SET '.$this->type.'_lft = '.$this->type.'_lft + '.$maxrgt.', '.$this->type.'_rgt = '.$this->type.'_rgt + '.$maxrgt.' WHERE '.$this->type.'_lft < 0';
-      
-      $sql->flush();
-      $sql->setQuery($qry1);
-      $sql->setQuery($qry2);
-      $sql->setQuery($qry3);
-    }
-  }
-  
-  header('Location: http://'.$_SERVER['HTTP_HOST'].substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/')).'/index.php?&page=editme&subpage='.$table['table_name']);
-  exit;
-}
+
 
 
 // ********************************** Searchfields / Searchtext
@@ -190,31 +136,10 @@ if($func == "delete" && $data_id != "")
   $delete = TRUE;
   if(rex_register_extension_point('EM_DATA_DELETE', $delete, array("id"=>$data_id,"value"=>$data)))
   {
-    #$query = 'delete from '.$table["table_name"].' where id='.$data_id;
-    #if($table['hierarchic'])
-    // delete ...
-    $query = 'delete from '.$table["table_name"].' where `'.$this->type.'_lft`>='.$data[$this->type.'_lft'].' AND  `'.$this->type.'_rgt`<='.$data[$this->type.'_rgt'];
-
+    $query = 'delete from '.$table["table_name"].' where id='.$data_id;
     $delsql = new rex_sql;
     // $delsql->debugsql=1;
     $delsql->setQuery($query);
-    
-    // ... and move
-    $moveby = intval($data[$this->type.'_rgt'] - $data[$this->type.'_lft'] + 1);
-    $delsql->setQuery('
-      UPDATE '.$table["table_name"].'
-      SET
-        `'.$this->type.'_lft` = `'.$this->type.'_lft` - '.$moveby.'
-      WHERE `'.$this->type.'_lft`>'.$data[$this->type.'_rgt']
-    );
-    
-    $delsql->setQuery('
-      UPDATE '.$table["table_name"].'
-      SET
-        `'.$this->type.'_rgt` = `'.$this->type.'_rgt` - '.$moveby.'
-      WHERE `'.$this->type.'_rgt`>'.$data[$this->type.'_rgt']
-    );
-    
     echo rex_info($I18N->msg("datadeleted"));
     $func = "";
 
@@ -222,6 +147,7 @@ if($func == "delete" && $data_id != "")
   }
   
 }
+
 
 
 // ********************************************* FORMULAR
@@ -253,7 +179,6 @@ if($func == "add" || $func == "edit")
   $xform->setHiddenField('sort',rex_request('sort','string'));
   $xform->setHiddenField('sorttype',rex_request('sorttype','string'));
   $xform->setHiddenField('start',rex_request('start','string'));
-  $xform->setHiddenField($this->type.'_parent',rex_request($this->type.'_parent','int',1));
 
   foreach($fields as $field)
   {
@@ -272,8 +197,6 @@ if($func == "add" || $func == "edit")
       $xform->setActionField($field["type_name"],$values);
     }
   }
-  
-  // ***** ENDE
 
   $xform->setObjectparams("main_table",$table["table_name"]); // für db speicherungen und unique abfragen
   $xform->setObjectparams("submit_btn_label",$I18N->msg('submit'));
@@ -288,12 +211,8 @@ if($func == "add" || $func == "edit")
     $xform->setObjectparams("main_where","id=$data_id");
     $xform->setObjectparams("getdata",TRUE);
 
-  }
-  elseif($func == "add")
+  }elseif($func == "add")
   {
-    #if($table['hierarchic'])
-    $xform->setActionField("nestedset",array($table["table_name"]));
-    
     $xform->setActionField("db",array($table["table_name"]));
   }
 
@@ -445,17 +364,13 @@ if($show_list)
   }
 
   $where = false;
-  $sqlwhere = '';
 
   // ---------- SQL AUFBAUEN
-  $sql = "select * from ".$table["table_name"].' WHERE 1';
-  
-  #if($table['hierarchic'])
-  $sql .= ' AND `'.$this->type.'_level` > 0 ORDER BY `'.$this->type.'_lft`';
-  
+  $sql = "select * from ".$table["table_name"];
   if(count($rex_em_filter)>0)
   {
     $where = true;
+    $sql .= ' where ';
     $sql_filter = '';
     foreach($rex_em_filter as $k => $v)
     {
@@ -465,28 +380,24 @@ if($show_list)
       }
       $sql_filter .= '`'.$k.'`="'.$v.'"';
     }
-    $sqlwhere .= $sql_filter;
+    $sql .= $sql_filter;
     // echo $sql;
   }
 
   if($rex_em_search == 1)
   {
-    if(is_array($rex_em_searchfields) && count($rex_em_searchfields)>0 && $rex_em_searchtext != "")
-    {
+    if(is_array($rex_em_searchfields) && count($rex_em_searchfields)>0 && $rex_em_searchtext != ""){
       if(!$where)
+      $sql .= ' WHERE ';
         
-      $sqlwhere .= '(';
+      $sql .= '(';
       foreach($rex_em_searchfields as $cs){
-        $sqlwhere .= " `".$cs."` LIKE  '%".$rex_em_searchtext."%' OR ";
+        $sql .= " `".$cs."` LIKE  '%".$rex_em_searchtext."%' OR ";
       }
-      $sqlwhere = substr($sqlwhere, 0, strlen($sql)-3 );
-      $sqlwhere .= ")";
-      $where = true;
+      $sql = substr($sql, 0, strlen($sql)-3 );
+      $sql .= ")";
     }
   }
-  
-  if($where)
-    $sql = str_replace('1', $sqlwhere, $sql);
 
 
 
@@ -510,12 +421,6 @@ if($show_list)
 
   $list = rex_list::factory($sql,$table["list_amount"]);
   $list->setColumnFormat('id', 'Id');
-  $list->setColumnLayout('id', array('<th>###VALUE###</th>', '<td style="padding-left:###'.$this->type.'_level###em">###VALUE###</td>'));
-
-  $list->removeColumn($this->type.'_lft');
-  $list->removeColumn($this->type.'_rgt');
-  $list->removeColumn($this->type.'_parent');
-  $list->removeColumn($this->type.'_level');
 
   foreach($this->getLinkVars() as $k => $v)
   {
@@ -547,34 +452,17 @@ if($show_list)
       }else
       {
         $list->setColumnSortable($field["f1"]);
-        $list->setColumnLayout($field["f1"], array('<th>###VALUE###</th>', '<td style="padding-left:###'.$this->type.'_level###em">###VALUE###</td>'));
-
       }
     }
   }
 
   $list->addColumn($I18N->msg('edit'),$I18N->msg('edit'));
-  $list->setColumnParams($I18N->msg('edit'), array('data_id'=>'###id###','func'=>'edit','start'=>rex_request('start','string')));
+  $list->setColumnParams($I18N->msg('edit'), array("data_id"=>"###id###","func"=>"edit","start"=>rex_request("start","string")));
 
-  $list->addColumn($I18N->msg('delete'),'- '.$I18N->msg('delete'));
-  $list->setColumnParams($I18N->msg('delete'), array('data_id'=>'###id###','func'=>'delete'));
-  $list->setColumnLayout($I18N->msg('delete'), array('<th>###VALUE###</th>', '<td onclick="return confirm(\'Wirklich löschen?\');">###VALUE###</td>'));
-  if($table['hierarchic'])
-  {
-    $list->setColumnLayout($I18N->msg('delete'), array('<th>###VALUE###</th>', '<td onclick="return confirm(\'Sollen dieser Datensatz und alle untergeordneten Datensätze wirklich gelöscht werden?\');">###VALUE###</td>'));
-    
-    #$list->setColumnLayout('name', array('<th>###VALUE###</th>', '<td class="level-###'.$this->type.'level###" style="padding-left:###'.$this->type.'level###em">###VALUE###</td>'));
-    
-    $list->addColumn('&#9650;','&#9650;');
-    $list->setColumnParams('&#9650;', array('data_id'=>'###id###','func'=>'moveup'));
-    
-    $list->addColumn('&#9660;','&#9660;');
-    $list->setColumnParams('&#9660;', array('data_id'=>'###id###','func'=>'movedown'));
-    
-    $list->addColumn($I18N->msg('add'),'+ '.$I18N->msg('add'));
-    $list->setColumnParams($I18N->msg('add'), array('data_id'=>'###id###','func'=>'add',$this->type.'_parent'=>'###id###'));
-  }
-// if($rex_em_opener_field){ $list->addColumn('&uuml;bernehmen','<a href="javascript:em_setData('.$rex_em_opener_field.',###id###,\'###'.$rex_em_opener_fieldname.'###\')">&uuml;bernehmen</a>',-1,"asdasd"); }
+  $list->addColumn($I18N->msg('delete'),"- ".$I18N->msg('delete'));
+  $list->setColumnParams($I18N->msg('delete'), array("data_id"=>"###id###","func"=>"delete"));
+
+  // if($rex_em_opener_field){ $list->addColumn('&uuml;bernehmen','<a href="javascript:em_setData('.$rex_em_opener_field.',###id###,\'###'.$rex_em_opener_fieldname.'###\')">&uuml;bernehmen</a>',-1,"asdasd"); }
 
   $list = rex_register_extension_point('EM_DATA_LIST', $list, array());
 
