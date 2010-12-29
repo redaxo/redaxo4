@@ -104,7 +104,7 @@ class rex_xform_mediafile extends rex_xform_abstract
    			';
 		}
 
-		if ($send && $this->elements[5]==1)
+		if ($send && $this->elements[5]==1 && $this->value == "")
 		{
 			$warning["el_" . $this->id] = $this->params["error_class"];
 			$this->params["warning_messages"][] = $this->elements[6];
