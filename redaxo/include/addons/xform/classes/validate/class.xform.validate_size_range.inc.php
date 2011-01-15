@@ -50,7 +50,7 @@ class rex_xform_validate_size_range extends rex_xform_validate_abstract
 					'type' => 'validate',
 					'name' => 'size_range',
 					'values' => array(
-						array( 'type' => 'getName', 'label' => 'Name' ),
+						array( 'type' => 'select_name', 'label' => 'Name' ),
 						array( 'type' => 'text', 'label' => 'Minimale Anzahl der Zeichen (opt)'),
 						array( 'type' => 'text', 'label' => 'Maximale Anzahl der Zeichen (opt)'),
 						array( 'type' => 'text', 'label' => 'Fehlermeldung'),

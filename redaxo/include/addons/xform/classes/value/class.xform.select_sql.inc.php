@@ -38,7 +38,7 @@ class rex_xform_select_sql extends rex_xform_abstract
 		$sqlnames = array();
 
 		// mit --- keine auswahl ---
-		if (!$multiple && $this->elements[6] == 1)
+		if (!$multiple && $this->getElement(6) == 1)
 			$SEL->addOption($this->elements[7], "0");
 
 		foreach($teams->getArray() as $t)

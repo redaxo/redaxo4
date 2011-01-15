@@ -31,7 +31,7 @@ class rex_xform_validate_size extends rex_xform_validate_abstract
 						'type' => 'validate',
 						'name' => 'size',
 						'values' => array(
-							array( 'type' => 'getName', 'label' => 'Name' ),
+							array( 'type' => 'select_name', 'label' => 'Name' ),
 							array( 'type' => 'text', 'label' => 'Anzahl der Zeichen'),
 							array( 'type' => 'text', 'label' => 'Fehlermeldung'),
 						),

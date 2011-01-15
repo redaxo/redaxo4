@@ -14,19 +14,10 @@ $table_id = rex_request("table_id","int");
 
 $show_list = TRUE;
 
-if($func == "update")
-{
-	$t = new rex_xform_manager();
-	$t->setType('em');
-	$t->generateAll();
-	echo rex_info("Tabelle und Felder wurden erstellt und/oder aktualisiert");
-	$func = "";
-}
-
 // ********************************************* FORMULAR
 if($func == "add" || $func == "edit")
 {
-	
+
 	$xform = new rex_xform;
 	// $xform->setDebug(TRUE);
 	$xform->setHiddenField("page",$page);
@@ -35,11 +26,11 @@ if($func == "add" || $func == "edit")
 	$xform->setActionField("showtext",array("","Vielen Dank fuer die Eintragung"));
 	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
-  $xform->setValueField("text",array("prio","Priorit&auml;t"));
-	
-  if($func == "edit")
+	$xform->setValueField("text",array("prio","Priorit&auml;t"));
+
+	if($func == "edit")
 	{
-    	$xform->setValueField("showvalue",array("table_name","Name"));
+		$xform->setValueField("showvalue",array("table_name","Name"));
 		$xform->setHiddenField("table_id",$table_id);
 		$xform->setActionField("db",array($table,"id=$table_id"));
 		$xform->setObjectparams("main_id",$table_id);
@@ -48,13 +39,13 @@ if($func == "add" || $func == "edit")
 	}elseif($func == "add")
 	{
 		$xform->setValueField("text",array("table_name","Name"));
-	    $xform->setValidateField("notEmpty",array("table_name","Bitte tragen Sie den Tabellenname ein"));
-	    $xform->setValidateField("preg_match",array("table_name","/([a-z\_])*/","Bitte tragen Sie beim Tabellenname nur Buchstaben ein"));
-	    $xform->setValidateField("customfunction",array("table_name","rex_xform_manage_checkLabelInTable","","Dieser Tabellenname ist bereits vorhanden"));
+		$xform->setValidateField("notEmpty",array("table_name","Bitte tragen Sie den Tabellenname ein"));
+		$xform->setValidateField("preg_match",array("table_name","/([a-z\_])*/","Bitte tragen Sie beim Tabellenname nur Buchstaben ein"));
+		$xform->setValidateField("customfunction",array("table_name","rex_xform_manage_checkLabelInTable","","Dieser Tabellenname ist bereits vorhanden"));
 		$xform->setActionField("wrapper_value",array('table_name','rex_em_data_###value###'));
 		$xform->setActionField("db",array($table));
 	}
-	
+
 	$xform->setValueField("text",array("name","Bezeichnung"));
 	$xform->setValueField("textarea",array("description","Beschreibung"));
 	$xform->setValueField("checkbox",array("status","Aktiv"));
@@ -62,32 +53,34 @@ if($func == "add" || $func == "edit")
 	$xform->setValueField("text",array("list_amount","Datens&auml;tze pro Seite"));
 	$xform->setValueField("checkbox",array("search","Suche aktiv"));
 	$xform->setValidateField("type",array("list_amount","int","Bitte geben Sie eine Zahl f&uuml;r die Datens&auml;tze pro Seite ein"));
-	
+
 	$xform->setValueField("checkbox",array("hidden","In Navigation versteckt"));
 	$xform->setValueField("checkbox",array("export","Export der Daten erlauben"));
 	$xform->setValueField("checkbox",array("import","Import von Daten erlauben"));
-  
+
 	$xform->setValidateField("empty",array("name","Bitte den Namen eingeben"));
 	$form = $xform->getForm();
-	
+
 	if($xform->objparams["form_show"])
-	{	
-		if($func == "edit")
-			echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle editieren</h3><div class="rex-area-content">';
-		else
-			echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
+	{
+		if($func == "edit") {
+		echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle editieren</h3><div class="rex-area-content">';
+		}else {
+		echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
+		}
 		echo $form;
 		echo '</div></div>';
 		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
 		$show_list = FALSE;
 	}else
 	{
-		if($func == "edit")
-			echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
-		elseif($func == "add")
-			echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+		if($func == "edit") {
+		echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+		}elseif($func == "add") {
+		echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+		}
 	}
-	
+
 }
 
 
@@ -107,7 +100,7 @@ if($func == "delete")
 	$delsql->setQuery($query);
 	$query = "delete from $table_field where table_id='".$table_id."' ";
 	$delsql->setQuery($query);
-	
+
 	$func = "";
 	echo rex_info($bezeichner." wurde gel&ouml;scht");
 }
@@ -118,25 +111,19 @@ if($func == "delete")
 
 // ********************************************* LISTE
 if($show_list){
-  
-  // formatting func fuer status col
+
+	// formatting func fuer status col
 	function rex_em_status_col($params)
 	{
-    global $I18N;
-    $list = $params["list"];
-    
-    return $list->getValue("status") == 1 ?
-      $I18N->msg("em_tbl_active") :
-      $I18N->msg("em_tbl_inactive"); 
+		global $I18N;
+		$list = $params["list"];
+		return $list->getValue("status") == 1 ? $I18N->msg("em_tbl_active") : $I18N->msg("em_tbl_inactive");
 	}
-  
-	echo "<table cellpadding=5 class=rex-table><tr><td>
-		<a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a>
-		 | 
-		<a href=index.php?page=".$page."&subpage=".$subpage."&func=update><b>Tabellen und Felder updaten</b></a>
-		
-		</td></tr></table><br />";
-	
+
+	echo "<table cellpadding=5 class=rex-table><tr>
+	   <td><a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a></td>
+	   </tr></table><br />";
+
 	$sql = "select * from $table order by prio,table_name";
 
 	$list = rex_list::factory($sql,30);
@@ -150,11 +137,11 @@ if($show_list){
 	// $list->removeColumn("label");
 	// $list->removeColumn("prio");
 	$list->removeColumn("description");
-	
-	
+
+
 	$list->setColumnFormat('status', 'custom', 'rex_em_status_col');
 	$list->setColumnParams("name", array("table_id"=>"###id###","func"=>"edit"));
-	
+
 	$list->addColumn($I18N->msg("em_importcsv"),$I18N->msg("em_importcsv"));
 	$list->setColumnParams($I18N->msg("em_importcsv"), array("subpage"=>"import","table_name"=>"###table_name###"));
 

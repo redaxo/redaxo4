@@ -33,7 +33,7 @@ class rex_xform_validate_customfunction extends rex_xform_validate_abstract
   
 	function getDescription()
 	{
-		return "customfunction -> prüft über customfunc, beispiel: validate|customfunction|label|functionname|weitere_parameter|warning_message";
+		return "customfunction -> prüft über customfunction, beispiel: validate|customfunction|label|functionname|weitere_parameter|warning_message";
 	}
   
 	function getDefinitions()

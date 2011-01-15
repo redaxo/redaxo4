@@ -41,7 +41,7 @@ class rex_xform_validate_intfromto extends rex_xform_validate_abstract
 						'type' => 'validate',
 						'name' => 'intfromto',
 						'values' => array(
-							array( 'type' => 'getName',   	'label' => 'Name' ),
+							array( 'type' => 'select_name', 'label' => 'Name' ),
 							array( 'type' => 'text',    		'label' => 'Von'),
 							array( 'type' => 'text',    		'label' => 'Bis'),
 							array( 'type' => 'text',    		'label' => 'Fehlermeldung'),

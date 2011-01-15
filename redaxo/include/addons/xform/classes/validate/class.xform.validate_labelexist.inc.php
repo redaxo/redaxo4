@@ -24,7 +24,7 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 			$fields = explode(",",$this->getElement(2));
 			
 			$value = 0;
-			foreach($this->obj as $o)
+			foreach($this->obj_array as $o)
 			{
 				if (in_array($o->getDatabasefieldname(),$fields) && $o->getValue() != "") 
 					$value++;
@@ -34,7 +34,7 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 			{
 				$warning_messages[] = $this->getElement(5);
 				
-				foreach($this->obj as $o)
+				foreach($this->obj_array as $o)
 				{
 					if (in_array($o->getDatabasefieldname(),$fields))
 					{
@@ -50,3 +50,5 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 		return "labelexist -> mindestens ein feld muss ausgefüllt sein, example: validate|labelexist|label,label2,label3|[minlabels]|[maximallabels]|Fehlermeldung";
 	}
 }
+
+?>

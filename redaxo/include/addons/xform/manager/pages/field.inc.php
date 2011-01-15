@@ -70,8 +70,6 @@ echo '</td></tr></table><br />';
 $table["fields"] = $this->getTableFields($table["table_name"]);
 
 
-
-
 // ********************************************* CHOOSE FIELD
 $types = rex_xform::getTypeArray();
 if($func == "choosenadd")
@@ -236,11 +234,18 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 				$xform->setValueField("textarea",array("f".$i,$v['label']));
 				break;
 
+      case("select_name"):
+        $sql = 'select f1 as id,concat(f2," [",f1,"]") as name 
+                from rex_'.$this->getType().'_field 
+                where table_name="'.$table["table_name"].'" and type_id="value" 
+                order by f1'; //  |[defaultvalue]|[no_db]|1/0 Leeroption|Leeroptionstext|1/0 Multiple Feld
+				$xform->setValueField("select_sql",array("f".$i,$v['label'],$sql));
+				break;
+				
 				// Todo:
 			case("table.field"):
-				// Todo: Einen Namen aus denanderen FEdern ziehen und als selectbox anbieten
-			case("select_name"):
-				// Todo: Mehrere Namen aus denanderen Federn ziehen und als multiselectbox anbieten
+				// Todo: Einen Namen aus den anderen Feldern ziehen und als selectbox anbieten
+				// Todo: Mehrere Namen aus denanderen Feldern ziehen und als multiselectbox anbieten
 			case("select_names"):
 				// Todo:
 			default:
@@ -250,7 +255,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	}
 	
 	$xform->setActionField("showtext",array("",'<p>'.$I18N->msg("thankyouforentry").'</p>'));
-	$xform->setObjectparams("main_table",'rex_'.$this->getType().'_field'); // für db speicherungen und unique abfragen
+	$xform->setObjectparams("main_table",'rex_'.$this->getType().'_field'); // fï¿½r db speicherungen und unique abfragen
 
 	if($func == "edit")
 	{
@@ -290,9 +295,11 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	{
 		if($func == "edit")
 		{
+      $this->generateAll();
 			echo rex_info($I18N->msg("thankyouforupdate"));
 		}elseif($func == "add")
 		{
+      $this->generateAll();
 			echo rex_info($I18N->msg("thankyouforentry"));
 		}
 		$func = "list";
@@ -323,22 +330,6 @@ if($func == "delete"){
 	}
 	$func = "list";
 }
-
-
-
-
-
-
-
-
-// ********************************************* CREATE/UPDATE FIELDS
-if($func == "updatetable")
-{
-	$this->generateAll();
-	echo rex_info($I18N->msg("tablesupdated"));
-	$func = "list";
-}
-
 
 
 
@@ -380,7 +371,6 @@ if($func == "list"){
 
 	echo '<table cellpadding=5 class=rex-table>
 	<tr><td><a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=choosenadd><b>+ '.$I18N->msg("addtablefield").'</b></td>
-	<td style="text-align:right;"><a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=updatetable><b>o '.$I18N->msg("updatetable").'</b></a></td></tr>
 	</table><br />';
 
 	$sql = 'select * from rex_'.$this->getType().'_field where table_name="'.$table["table_name"].'" order by prio';

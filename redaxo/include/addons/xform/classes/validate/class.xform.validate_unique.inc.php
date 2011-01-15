@@ -42,7 +42,7 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 						'type' => 'validate',
 						'name' => 'unique',
 						'values' => array(
-             				array( 'type' => 'getName',   	'label' => 'Name' ),
+             				array( 'type' => 'select_name',   	'label' => 'Name' ),
               				array( 'type' => 'text',    	'label' => 'Fehlermeldung'),
               				array( 'type' => 'text',    	'label' => 'Tabelle [opt]'),
 						),

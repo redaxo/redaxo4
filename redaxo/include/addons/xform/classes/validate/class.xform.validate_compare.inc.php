@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 class rex_xform_validate_compare extends rex_xform_validate_abstract 
 {
@@ -9,7 +9,7 @@ class rex_xform_validate_compare extends rex_xform_validate_abstract
 		{
 			$field_1 = $this->getElement(2);
 			$field_2 = $this->getElement(3);
-			foreach($this->obj as $o)
+			foreach($this->obj_array as $o)
 			{
 				if ($o->getDatabasefieldname() == $field_1)
 				{
@@ -34,7 +34,7 @@ class rex_xform_validate_compare extends rex_xform_validate_abstract
 	
 	function getDescription()
 	{
-		return "compare -> pr¸ft ob leer, beispiel: validate|compare|label1|label2|warning_message ";
+		return "compare -> pr√ºft ob leer, beispiel: validate|compare|label1|label2|warning_message ";
 	}
 
 	function getDefinitions()

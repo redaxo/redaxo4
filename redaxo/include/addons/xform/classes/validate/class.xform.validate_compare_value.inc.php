@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 class rex_xform_validate_compare_value extends rex_xform_validate_abstract 
 {
@@ -18,8 +18,8 @@ class rex_xform_validate_compare_value extends rex_xform_validate_abstract
 			}
 			if ($value === -1 || strtolower($value) != strtolower($this->elements[3]))
 			{
-				$warning[] = $this->getElement(4);
-				$warning_messages[] = $this->getElement(4);
+				$warning[$Object->getId()] = $this->getElement(4);
+				$warning_messages[$Object->getId()] = $this->getElement(4);
 			}
 		}
 	}

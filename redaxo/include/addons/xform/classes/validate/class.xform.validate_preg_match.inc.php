@@ -18,7 +18,7 @@ class rex_xform_validate_preg_match extends rex_xform_validate_abstract
 				}else
 				{
 					$warning[$Object->getId()] = $this->params["error_class"];
-					$warning_messages[] = $this->getElement(4);
+					$warning_messages[$Object->getId()] = $this->getElement(4);
 				}
 					
 			}
@@ -36,7 +36,7 @@ class rex_xform_validate_preg_match extends rex_xform_validate_abstract
           'type' => 'validate',
           'name' => 'preg_match',
           'values' => array(
-											array( 'type' => 'label',   'label' => 'Name' ),
+											array( 'type' => 'select_name',   'label' => 'Name' ),
 											array( 'type' => 'text',    'label' => 'preg_match z.B. /[a-z]/i'),
 											array( 'type' => 'text',    'label' => 'Fehlermeldung'),
 										),

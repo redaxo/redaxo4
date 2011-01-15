@@ -7,74 +7,97 @@ class rex_xform_validate_type extends rex_xform_validate_abstract
 	{
 		if($send=="1")
 		{
-			$Object=$this->obj_array[0];
-			
-			// Wenn Feld leer ist - auch ok
-			if($this->getElement(5) == 1 && $Object->getValue() == "")
-				return;
-			
-			$w = FALSE;
-			
-			switch(trim($this->elements[3]))
+
+			$Object = $this->obj_array[0];
+
+			$error = FALSE;
+
+			switch(trim($this->getElement(3)))
 			{
+
 				case "int":
-					$xsRegEx_int = "/^[0-9]+$/i";
-					if(preg_match($xsRegEx_int, $Object->getValue())==0)
-						$w = TRUE;
+					$xsRegEx_int = "/^\-?[0-9]+$/i";
+					if(preg_match($xsRegEx_int, $Object->getValue())==0){ $error = TRUE; }
+					elseif($Object->getValue() < -2147483648) { $error = TRUE; }
+					elseif($Object->getValue() > 2147483648) { $error = TRUE; }
 					break;
+
 				case "float":
-					$xsRegEx_float = "/^([0-9]+|([0-9]+\.[0-9]+))$/i";
-					if(preg_match($xsRegEx_float, $Object->getValue())==0)
-						$w = TRUE;
+					$float = $this->getDefaultTypeValue("float");
+					if($this->getElement(4) != "") { $float = $this->getElement(4); }
+					$float = explode(",",$float);
+					$float_0 = (int) $float[0];
+					$float_1 = (int) $float[1];
+					$xsRegEx_float = '/^([0-9]{0,'.$float_0.'}|([0-9]{1,'.$float_0.'}\.[0-9]{1,'.$float_1.'}))$/i';
+					if(preg_match($xsRegEx_float, $Object->getValue())==0) { $error = TRUE; }
 					break;
-				case "numeric":
-					if(!is_numeric($Object->getValue()))
-						$w = TRUE;
-					break;
-				case "string":	
-						break;
-				case "email":	
+
+				case "email":
 					$xsRegEx_email = "/^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,6}$/i";
-					if(preg_match($xsRegEx_email, $Object->getValue())==0)
-						$w = TRUE;
+					// "/^[\w.+-]{2,}\@[\w.-]{2,}\.[a-z]{2,6}$/";
+					if(preg_match($xsRegEx_email, $Object->getValue())==0) { $error = TRUE; }
 					break;
+
 				case "url":
 					$xsRegEx_url = '/^(?:http:\/\/)[a-zA-Z0-9][a-zA-Z0-9._-]*\.(?:[a-zA-Z0-9][a-zA-Z0-9._-]*\.)*[a-zA-Z]{2,5}(?:\/[^\\/\:\*\?\"<>\|]*)*(?:\/[a-zA-Z0-9_%,\.\=\?\-#&]*)*$'."/'";
-					if(preg_match($xsRegEx_url, $Object->getValue())==0)
-						$w = TRUE;
+					if(preg_match($xsRegEx_url, $Object->getValue())==0) { $error = TRUE; }
 					break;
-				case "date":
-					$xsRegEx_datum = "/^([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{2,4})$/i";
-					if(preg_match($xsRegEx_datum, $Object->getValue())==0)
-						$w = TRUE;
+
+				case "varchar":
+					$char = $this->getDefaultTypeValue("varchar");
+					if($this->getElement(4) != "") { $char = (int) $this->getElement(4); }
+					if(strlen($Object->getValue()) > $char) { $error = TRUE; }
+
+				case "text":
 					break;
-				case "":
-					break;
-				default:			
+
+				default:
 					echo "Type ".$this->elements[3]." nicht definiert";
-					$w = TRUE;
+					$error = TRUE;
 					break;
 			}
-			
-			if ($w)
-			{ 
-					$warning[$Object->getId()]=$this->params["error_class"];
-					$warning_messages[$Object->getId()] = $this->getElement(4);
-			
-			}
+
+			if ($error)
+			{
+				$warning[$Object->getId()]=$this->params["error_class"];
+				$warning_messages[$Object->getId()] = $this->getElement(5);
 					
+			}
+
 		}
 	}
-	
-	
+
+	function getDefaultTypeValue($type)
+	{
+		switch($type)
+		{
+			case("varchar"): return '255';
+			case("float"): return '7,2';
+		}
+		return '';
+	}
+
 	function getDescription()
 	{
-		return "type -> prüft auf typ,beispiel: validate|type|label|int(oder string,float,email,url,date)|Fehlermeldung|[1= Feld darf auch leer sein]";
+		return "type -> prüft auf typ,beispiel: validate|type|label|int(oder float,email,url,varchar,text)|opt.extras|Fehlermeldung|";
 	}
-	
-	function getLongDescription()
+
+	function getDefinitions()
 	{
-		return "Hiermit lassen sich verschiedenste Typen prüfen. von int/float/numeric/string/email/url bis zu date. mit dem letzen optionalen Parameter kann man definieren ob ein leerer Wert akzeptiert wird.";
+		return array(
+            'type' => 'validate',
+            'name' => 'type',
+            'values' => array(
+		array( 'type' => 'select_name',    'label' => 'Name' ),
+		array( 'type' => 'select',  'label' => 'Feldtyp', 'definition' => 'int=int;float=float;email=email;varchar=varchar;text=text', 'default'=>'text'),
+		array( 'type' => 'text',    'label' => 'Extra (varchar(x=255) float(x=9,2)'),
+		array( 'type' => 'text',    'label' => 'Fehlermeldung'),
+		),
+            'description' => 'Mit dieser Definition wird das Feld nach entsprechendem Typ geprüft und in der Datenbank festgelegt',
+            'dbtype' => 'text'
+            );
 	}
-	
+
+
+
 }
