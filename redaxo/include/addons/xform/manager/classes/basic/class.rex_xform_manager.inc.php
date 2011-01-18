@@ -14,7 +14,6 @@ if (!function_exists('rex_xform_manager_checkField'))
 	}
 }
 
-
 if (!class_exists('rex_xform_manager'))
 {
 	class rex_xform_manager
@@ -41,9 +40,6 @@ if (!class_exists('rex_xform_manager'))
 			return $this->type;
 		}
 
-
-		// ----- Seitenausgabe
-
 		function setLinkVars($linkvars)
 		{
 			$this->linkvars = $linkvars;
@@ -54,31 +50,17 @@ if (!class_exists('rex_xform_manager'))
 			return $this->linkvars;
 		}
 
-
 		function getDataPage()
 		{
-			// TODO
 			global $REX,$I18N;
 			include $REX["INCLUDE_PATH"]."/addons/xform/manager/pages/data.inc.php";
 		}
 
-
 		function getFieldPage()
 		{
-			// TODO
 			global $REX,$I18N;
 			include $REX["INCLUDE_PATH"]."/addons/xform/manager/pages/field.inc.php";
 		}
-
-
-
-
-
-
-
-
-
-		// ----- Allgemeine Methoden
 
 		function setFilterTable($table)
 		{
@@ -88,9 +70,12 @@ if (!class_exists('rex_xform_manager'))
 		function getFilterTables()
 		{
 			if(isset($this->filterTables) && is_array($this->filterTables))
-			return $this->filterTables;
-			else
-			return array();
+			{
+				return $this->filterTables;
+			}else
+			{
+				return array();
+			}
 		}
 
 		function getTables()
@@ -106,16 +91,15 @@ if (!class_exists('rex_xform_manager'))
 			}
 
 			if($where != "")
-			$where = ' where '.$where;
+			{
+				$where = ' where '.$where;
+			}
 
 			$tb = rex_sql::factory();
 			// $tb->debugsql = 1;
 			$tb->setQuery('select * from rex_'.$this->getType().'_table '.$where.' order by prio,name');
 			return $tb->getArray();
 		}
-
-
-		// ----- Felder
 
 		function getTableFields($table, $type="")
 		{
@@ -153,67 +137,63 @@ if (!class_exists('rex_xform_manager'))
 
 			if($mifix == "") { return FALSE; }
 
-
-			$c = new rex_sql();
-
-			if($withdrop)
-			$c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_table`;');
-
+			$c = rex_sql::factory();
+      $c->debugsql = 1;
+			
+			if($withdrop) { $c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_table`;'); }
 			$c->setQuery('CREATE TABLE IF NOT EXISTS `rex_'.$mifix.'_table` (
-		  `id` int(11) NOT NULL auto_increment,
-		  `status` tinyint(4) NOT NULL,
-		  `table_name` varchar(255) NOT NULL,
-		  `name` varchar(255) NOT NULL,
-		  `description` text NOT NULL,
-		  `list_amount` INT UNSIGNED NOT NULL DEFAULT \'50\',
-		  `prio` varchar(255) NOT NULL,
-		  `search` TINYINT NOT NULL,
-		  `hidden` TINYINT NOT NULL,
-		  `export` TINYINT NOT NULL,
-		  `import` TINYINT NOT NULL,
-		  PRIMARY KEY  (`id`)
-		);');
+			  `id` int(11) NOT NULL auto_increment,
+			  `status` tinyint(4) NOT NULL,
+			  `table_name` varchar(255) NOT NULL,
+			  `name` varchar(255) NOT NULL,
+			  `description` text NOT NULL,
+			  `list_amount` INT UNSIGNED NOT NULL DEFAULT \'50\',
+			  `prio` varchar(255) NOT NULL,
+			  `search` TINYINT NOT NULL,
+			  `hidden` TINYINT NOT NULL,
+			  `export` TINYINT NOT NULL,
+			  `import` TINYINT NOT NULL,
+			  PRIMARY KEY  (`id`)
+			);');
 
-			if($withdrop) {
-				$c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_field`;');
-			}
-
+			if($withdrop) { $c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_field`;'); }
 			$c->setQuery('CREATE TABLE IF NOT EXISTS `rex_'.$mifix.'_field` (
-		  `id` int(11) NOT NULL auto_increment, 
-		  `table_name` varchar(255) NOT NULL,
-		  `prio` varchar(255) NOT NULL,
-		  `type_id` varchar(255) NOT NULL,
-		  `type_name` varchar(255) NOT NULL,
-		  `f1` text NOT NULL,
-		  `f2` text NOT NULL,
-		  `f3` text NOT NULL,
-		  `f4` text NOT NULL,
-		  `f5` text NOT NULL,
-		  `f6` text NOT NULL,
-		  `f7` text NOT NULL,
-		  `f8` text NOT NULL,
-		  `f9` text NOT NULL,
-		  `list_hidden` TINYINT NOT NULL,
-		  `search` TINYINT NOT NULL,
-		  PRIMARY KEY  (`id`)
-		);');
+			  `id` int(11) NOT NULL auto_increment, 
+			  `table_name` varchar(255) NOT NULL,
+			  `prio` varchar(255) NOT NULL,
+			  `type_id` varchar(255) NOT NULL,
+			  `type_name` varchar(255) NOT NULL,
+			  `f1` text NOT NULL,
+			  `f2` text NOT NULL,
+			  `f3` text NOT NULL,
+			  `f4` text NOT NULL,
+			  `f5` text NOT NULL,
+			  `f6` text NOT NULL,
+			  `f7` text NOT NULL,
+			  `f8` text NOT NULL,
+			  `f9` text NOT NULL,
+			  `list_hidden` TINYINT NOT NULL,
+			  `search` TINYINT NOT NULL,
+			  PRIMARY KEY  (`id`)
+			);');
 
-			if($withdrop)
-			{
-				$c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_relation`;');
-			}
+			if($withdrop) { $c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_relation`;'); }
 
 			$c->setQuery('CREATE TABLE IF NOT EXISTS `rex_'.$mifix.'_relation` (
-		  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-		  `source_table` VARCHAR( 255 ) NOT NULL ,
-		  `source_name` VARCHAR( 255 ) NOT NULL ,
-		  `source_id` INT NOT NULL ,
-		  `target_table` VARCHAR( 255 ) NOT NULL ,
-		  `target_id` INT NOT NULL
-		);');
+			  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+			  `source_table` VARCHAR( 255 ) NOT NULL ,
+			  `source_name` VARCHAR( 255 ) NOT NULL ,
+			  `source_id` INT NOT NULL ,
+			  `target_table` VARCHAR( 255 ) NOT NULL ,
+			  `target_id` INT NOT NULL
+			);');
 
-			// *** TODO:Prüfen ob Tabellen vorhanden sind
-			// Eventuell nur ALTER verwenden ob Tabellen auf den akgtuellen Stand zu bringen
+			// Version 2.2 und höher
+
+			$c->setQuery('ALTER TABLE `rex_'.$mifix.'_table` CHANGE `prio` `prio` VARCHAR( 255 ) NOT NULL;');
+			$c->setQuery('ALTER TABLE `rex_'.$mifix.'_table` CHANGE `label` `table_name` VARCHAR( 255 ) NOT NULL;');
+			$c->setQuery('ALTER TABLE `rex_'.$mifix.'_table` CHANGE `list_amount` `list_amount` INT( 11 ) UNSIGNED NOT NULL DEFAULT 50;');
+			$c->setQuery('ALTER TABLE `rex_'.$mifix.'_table` ADD `import` TINYINT( 4 ) NOT NULL AFTER `export`;');
 
 			return TRUE;
 
@@ -234,35 +214,19 @@ if (!class_exists('rex_xform_manager'))
 			$c->setTable('rex_'.$mifix.'_table');
 
 			$params["table_name"] = $data_table;
-			if(!isset($params["status"]))
-			$params["status"] = 1;
+			if(!isset($params["status"])) { $params["status"] = 1; }
+			if(!isset($params["name"])) { $params["name"] = 'Tabelle "'.$data_table.'"'; }
+			if(!isset($params["prio"])) { $params["prio"] = 100; }
+			if(!isset($params["search"])) { $params["search"] = 0; }
+			if(!isset($params["hidden"])) { $params["hidden"] = 0; }
+			if(!isset($params["export"])) { $params["export"] = 0; }
 
-			if(!isset($params["name"]))
-			$params["name"] = 'Tabelle "'.$data_table.'"';
-
-			if(!isset($params["prio"]))
-			$params["prio"] = 100;
-
-			if(!isset($params["search"]))
-			$params["search"] = 0;
-
-			if(!isset($params["hidden"]))
-			$params["hidden"] = 0;
-
-			if(!isset($params["export"]))
-			$params["export"] = 0;
-
-			foreach($params as $k => $v)
-			{
-				$c->setValue($k, $v);
-			}
-
+			foreach($params as $k => $v) { $c->setValue($k, $v); }
 			$c->insert();
 
 			return TRUE;
 
 		}
-
 
 		function generateAll()
 		{
@@ -271,11 +235,9 @@ if (!class_exists('rex_xform_manager'))
 			$types = rex_xform::getTypeArray();
 			foreach($this->getTables() as $table)
 			{
-
 				$c = rex_sql::factory();
-				$c->debugsql = 1;
 				$c->setQuery('CREATE TABLE IF NOT EXISTS `'.$table["table_name"].'` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY )');
-					
+
 				$c->setQuery('SHOW COLUMNS FROM `'.$table["table_name"].'`');
 				$current_columns = array();
 				foreach($c->getArray() as $field) { if($field["Field"] != "id") { $current_columns[$field["Field"]] = $field["Type"]; } }
@@ -300,7 +262,6 @@ if (!class_exists('rex_xform_manager'))
 				}
 
 				$c = rex_sql::factory();
-				$c->debugsql = 1;
 				foreach($new_columns as $field => $type)
 				{
 					if(!array_key_exists($field,$current_columns))

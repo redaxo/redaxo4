@@ -1,6 +1,6 @@
 <?php
 
-class rex_xform_validate_notempty extends rex_xform_validate_abstract 
+class rex_xform_validate_notEmpty extends rex_xform_validate_abstract 
 {
 
 	function enterObject(&$warning, $send, &$warning_messages)
@@ -27,7 +27,7 @@ class rex_xform_validate_notempty extends rex_xform_validate_abstract
 	{
 		return array(
 					'type' => 'validate',
-					'name' => 'notempty',
+					'name' => 'notEmpty',
 					'values' => array(
 						array( 'type' => 'select_name',	'label' => 'Name' ),
 						array( 'type' => 'text',		'label' => 'Fehlermeldung'),
