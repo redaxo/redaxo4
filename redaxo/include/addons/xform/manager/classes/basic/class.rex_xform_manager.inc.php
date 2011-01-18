@@ -138,7 +138,7 @@ if (!class_exists('rex_xform_manager'))
 			if($mifix == "") { return FALSE; }
 
 			$c = rex_sql::factory();
-      $c->debugsql = 1;
+      // $c->debugsql = 1;
 			
 			if($withdrop) { $c->setQuery('DROP TABLE IF EXISTS `rex_'.$mifix.'_table`;'); }
 			$c->setQuery('CREATE TABLE IF NOT EXISTS `rex_'.$mifix.'_table` (

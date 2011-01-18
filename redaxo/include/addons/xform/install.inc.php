@@ -1,13 +1,10 @@
 <?php
 
 /**
- * XO-Form 
+ * XO-Form
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
-
-
-// Tabelle anlegen Redaxo 4.0.x
 
 $sql = rex_sql::factory();
 $sql->setQuery('CREATE TABLE IF NOT EXISTS `'.$REX['TABLE_PREFIX'].'xform_email_template` (
@@ -23,7 +20,7 @@ $sql->setQuery('CREATE TABLE IF NOT EXISTS `'.$REX['TABLE_PREFIX'].'xform_email_
 $sql->setQuery('ALTER TABLE `'.$REX['TABLE_PREFIX'].'xform_email_template` ADD `body_html` TEXT NOT NULL AFTER `body`;');
 $sql->setQuery('ALTER TABLE `'.$REX['TABLE_PREFIX'].'xform_email_template` ADD `attachments` TEXT NOT NULL AFTER `body_html`;');
 
-// evtl. Fehler beim Anlegen?
+/*
 if ($sql->hasError())
 {
 	$msg = 'MySQL-Error: '.$sql->getErrno().'<br />';
@@ -32,11 +29,13 @@ if ($sql->hasError())
 	// Evtl Ausgabe einer Meldung
 	$REX['ADDON']['install']['xform'] = 0;
 	$REX['ADDON']['installmsg']['xform'] = $msg;
-	
+
 }else
 {
-	// Installation erfolgreich
-		$REX['ADDON']['install']['xform'] = 1;
+	$REX['ADDON']['install']['xform'] = 1;
 }
+*/
+
+$REX['ADDON']['install']['xform'] = 1;
 
 ?>
