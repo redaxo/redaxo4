@@ -129,10 +129,14 @@ class rex_image {
     rex_send_resource($content, false, $lastModified);
 	}
 	
-	/*public*/ function sendHeader()
+	/*public*/ function sendHeader($params = array())
 	{
     header('Content-Disposition: inline; filename="'. $this->img['file'] .'"');
     header('Content-Type: image/' . $this->img['format']);
+    if(isset($params["Content-Length"]))
+    {
+      header('Content-Length: ' . $params["Content-Length"]);
+    }
 	}
 	
 	/*protected*/ function _sendImage($saveToFileName = null, $lastModified = null)
@@ -220,7 +224,7 @@ class rex_image {
 		if(!$sendfile)
 	   	return FALSE;
 
-    $this->sendHeader();
+    $this->sendHeader(array("Content-Length" => filesize($file)));
     
 		// error image nicht cachen
 		header('Cache-Control: false');
