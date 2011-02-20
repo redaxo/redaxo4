@@ -255,7 +255,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	}
 	
 	$xform->setActionField("showtext",array("",'<p>'.$I18N->msg("thankyouforentry").'</p>'));
-	$xform->setObjectparams("main_table",'rex_'.$this->getType().'_field'); // f�r db speicherungen und unique abfragen
+	$xform->setObjectparams("main_table",'rex_'.$this->getType().'_field');
 
 	if($func == "edit")
 	{

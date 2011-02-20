@@ -7,12 +7,12 @@ class rex_xform_action_email extends rex_xform_action_abstract
 	{
 
 		$mail_from = $this->action["elements"][2];
+    $mail_replyto = $mail_from;
 		$mail_to = $this->action["elements"][3];
 		$mail_subject = $this->action["elements"][4];
 		$mail_body = $this->action["elements"][5];
-
-		foreach ($this->elements_email as $search => $replace)
-		{
+		
+		foreach ($this->elements_email as $search => $replace) {
 			$mail_body = str_replace('###'. $search .'###', $replace, $mail_body);
 		}
 
@@ -21,6 +21,7 @@ class rex_xform_action_email extends rex_xform_action_abstract
 		$mail->WordWrap = 80;
 		$mail->FromName = $mail_from;
 		$mail->From = $mail_from;
+		$mail->AddReplyTo($mail_replyto, $mail_replyto);
 		$mail->Subject = $mail_subject;
 		$mail->Body = nl2br($mail_body);
 		$mail->AltBody = strip_tags($mail_body);

@@ -52,7 +52,7 @@ if($func == "add" || $func == "edit")
 	// $xform->setValueField("fieldset",array("fs-list","Liste"));
 	$xform->setValueField("text",array("list_amount","Datens&auml;tze pro Seite"));
 	$xform->setValueField("checkbox",array("search","Suche aktiv"));
-	$xform->setValidateField("type",array("list_amount","int","Bitte geben Sie eine Zahl f&uuml;r die Datens&auml;tze pro Seite ein"));
+	$xform->setValidateField("type",array("list_amount","int","","Bitte geben Sie eine Zahl f&uuml;r die Datens&auml;tze pro Seite ein"));
 
 	$xform->setValueField("checkbox",array("hidden","In Navigation versteckt"));
 	$xform->setValueField("checkbox",array("export","Export der Daten erlauben"));
@@ -133,7 +133,8 @@ if($show_list){
 	$list->removeColumn("list_amount");
 	$list->removeColumn("search");
 	$list->removeColumn("hidden");
-	$list->removeColumn("export");
+  $list->removeColumn("export");
+  $list->removeColumn("import");
 	// $list->removeColumn("label");
 	// $list->removeColumn("prio");
 	$list->removeColumn("description");
