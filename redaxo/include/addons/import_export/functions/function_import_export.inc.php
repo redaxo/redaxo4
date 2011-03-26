@@ -19,7 +19,7 @@ if ($REX['REDAXO'] && !isset($I18N))
  *
  * @param string Pfad + Dateinamen zur SQL-Datei
  *
- * @return array Gibt ein Assoc. Array zurück.
+ * @return array Gibt ein Assoc. Array zurÃ¼ck.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
  *               'message' => Evtl. Status/Fehlermeldung
  */
@@ -42,7 +42,7 @@ function rex_a1_import_db($filename)
 
   $conts = rex_get_file_contents($filename);
 
-  // Versionsstempel prüfen
+  // Versionsstempel prÃ¼fen
   // ## Redaxo Database Dump Version x.x
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
   if($version === false)
@@ -53,7 +53,7 @@ function rex_a1_import_db($filename)
   // Versionsstempel entfernen
   $conts = trim(str_replace('## Redaxo Database Dump Version '.$REX['VERSION'], '', $conts));
 
-  // Prefix prüfen
+  // Prefix prÃ¼fen
   // ## Prefix xxx_
   if(preg_match('/^## Prefix ([a-zA-Z0-9\_]*)/', $conts, $matches) && isset($matches[1]))
   {
@@ -69,7 +69,7 @@ function rex_a1_import_db($filename)
   }
 
 
-  // Charset prüfen
+  // Charset prÃ¼fen
   // ## charset xxx_
   if(preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
   {
@@ -92,7 +92,7 @@ function rex_a1_import_db($filename)
   // Prefix im export mit dem der installation angleichen
   if($REX['TABLE_PREFIX'] != $prefix)
   {
-    // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
+    // Hier case-insensitiv ersetzen, damit alle mÃ¶glich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
     // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
     $conts = preg_replace('/(TABLES? `?)' . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
     $conts = preg_replace('/(INTO `?)'  . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
@@ -151,7 +151,7 @@ function rex_a1_import_db($filename)
   $msg .= $I18N->msg('im_export_database_imported').'. '.$I18N->msg('im_export_entry_count', count($lines)).'<br />';
   unset($lines);
 
-  // prüfen, ob eine user tabelle angelegt wurde
+  // prÃ¼fen, ob eine user tabelle angelegt wurde
   $tables = rex_sql::showTables();
   $user_table_found = in_array($REX['TABLE_PREFIX'].'user', $tables);
 
@@ -175,7 +175,7 @@ function rex_a1_import_db($filename)
        lasttrydate int(11) NOT NULL DEFAULT 0,
        session_id varchar(255) NOT NULL,
        PRIMARY KEY(user_id)
-     ) TYPE=MyISAM';
+     ) ENGINE=MyISAM';
      
     if(rex_lang_is_utf8())
       $create_user_table .= ' DEFAULT CHARSET=utf8';
@@ -187,7 +187,7 @@ function rex_a1_import_db($filename)
     $error = $db->getError();
     if($error != '')
     {
-      // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
+      // evtl vorhergehende meldungen lÃ¶schen, damit nur der fehler angezeigt wird
       $msg = '';
       $msg .= $error;
     }
@@ -222,7 +222,7 @@ function rex_a1_import_db($filename)
  *
  * @param string Pfad + Dateinamen zum Tar-Archiv
  *
- * @return array Gibt ein Assoc. Array zurück.
+ * @return array Gibt ein Assoc. Array zurÃ¼ck.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
  *               'message' => Evtl. Status/Fehlermeldung
  */
@@ -309,7 +309,7 @@ function rex_a1_export_db($filename)
   // ----- EXTENSION POINT
   rex_register_extension_point('A1_BEFORE_DB_EXPORT');
   
-  // Versionsstempel hinzufügen
+  // Versionsstempel hinzufÃ¼gen
   fwrite($fp, '## Redaxo Database Dump Version '.$REX['VERSION'].$nl);
   fwrite($fp, '## Prefix '.$REX['TABLE_PREFIX'].$nl);
   fwrite($fp, '## charset '.$I18N->msg('htmlcharset').$nl.$nl);
@@ -467,7 +467,7 @@ function rex_a1_export_files($folders)
 }
 
 /**
- * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu
+ * FÃ¼gt einem Tar-Archiv ein Ordner von Dateien hinzu
  * @access protected
  */
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
@@ -478,7 +478,7 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   $isMediafolder = realpath($path.$dir) == $REX['MEDIAFOLDER'];
   while (false !== ($file = readdir($handle)))
   {
-    // Alles exportieren, außer ... 
+    // Alles exportieren, auÃŸer ... 
     // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)
     // - svn infos
     // - tmp prefix Dateien
