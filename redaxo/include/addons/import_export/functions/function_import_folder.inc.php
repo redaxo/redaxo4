@@ -6,11 +6,12 @@ function getImportDir() {
     return $REX['INCLUDE_PATH'].'/addons/import_export/backup';
 }
 
+// PATCH http://www.redaxo.org/de/forum/bugs-f31/sortierung-nach-datum-broken-t16162.html
 function readImportFolder($fileprefix)
 {
-    $folder = '';
-
-  usort($folder = readFilteredFolder( getImportDir(), $fileprefix), 'compareFiles');
+  $folder = '';
+  $folder = readFilteredFolder( getImportDir(), $fileprefix);
+  usort($folder, 'compareFiles');
 
   return $folder;
 }
