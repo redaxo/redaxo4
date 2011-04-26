@@ -492,6 +492,7 @@ class rex_mediacategory_select extends rex_select
 {
   var $check_perms;
   var $rootId;
+  var $perm_categories = array();
   
   /*public*/ function rex_mediacategory_select($check_perms = true)
   {
@@ -552,13 +553,20 @@ class rex_mediacategory_select extends rex_select
     if(!$this->check_perms ||
         $this->check_perms && $REX['USER']->hasMediaCategoryPerm($mediacat->getId()))
     {
+    }
       $mid = $mediacat->getId();
       $mname = $mediacat->getName();
       
       if($REX['USER']->hasPerm('advancedMode[]'))
         $mname .= ' ['. $mid .']';
         
+    if(!$this->check_perms || $this->check_perms && $REX['USER']->hasMediaCategoryPerm($mediacat->getId()))
+    {
       $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
+    	$this->perm_categories[$mid] = $mid;
+    }else
+      $this->addOption("", $mid, $mid, $mediacat->getParentId());
+      
       $childs = $mediacat->getChildren();
       if (is_array($childs))
       {
@@ -567,8 +575,9 @@ class rex_mediacategory_select extends rex_select
           $this->addCatOption($child);
         }
       }
-    }
   }
+  
+
   
   /*public*/ function get()
   {
@@ -581,4 +590,65 @@ class rex_mediacategory_select extends rex_select
     
     return parent::get();
   }
+  
+  function getMediaCategories()
+  {
+  	return $this->perm_categories;
+  }
+  
+  /*private*/ function _outGroup($re_id, $level = 0)
+  {
+
+    if ($level > 100)
+    {
+      // nur mal so zu sicherheit .. man weiss nie ;)
+      echo "select->_outGroup overflow ($groupname)";
+      exit;
+    }
+
+    $ausgabe = '';
+    $group = $this->_getGroup($re_id);
+    foreach ($group as $option)
+    {
+      $name = $option[0];
+      $value = $option[1];
+      $id = $option[2];
+      $attributes = array();
+      if (isset($option[3]) && is_array($option[3]))
+        $attributes = $option[3];
+      $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
+
+      $subgroup = $this->_getGroup($id, true);
+      if ($subgroup !== false)
+      {
+        $ausgabe .= $this->_outGroup($id, $level +1);
+      }
+    }
+    return $ausgabe;
+  }
+
+  /*private*/ function _outOption($name, $value, $level = 0, $attributes = array())
+  {
+    $name = htmlspecialchars($name);
+    $value = htmlspecialchars($value);
+
+    $bsps = '';
+    if ($level > 0)
+      $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
+    
+    if ($this->option_selected !== null && in_array($value, $this->option_selected))
+      $attributes['selected'] = 'selected';
+    
+    $attr = '';
+  	foreach($attributes as $n => $v)
+  	{
+  		$attr .= ' '. $n .'="'. $v .'"';
+  	}
+	if($name == "") return;
+    return '    <option value="'.$value.'"'.$attr.'>'.$bsps.$name.'</option>'."\n";
+  }
+  
+
+  
+  
 }

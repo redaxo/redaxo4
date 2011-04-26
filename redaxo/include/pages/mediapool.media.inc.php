@@ -19,14 +19,34 @@ $db = rex_sql::factory();
 $file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
 
 // ***** select bauen
-$sel_media = new rex_mediacategory_select($check_perm = false);
+$sel_media = new rex_mediacategory_select(true);
 $sel_media->setId("rex_file_category");
 $sel_media->setName("rex_file_category");
 $sel_media->setSize(1);
 $sel_media->setStyle('class="rex-form-select"');
 $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
-$sel_media->addOption($I18N->msg('pool_kats_no'),"0");
+$selected_media = $sel_media->get();
+
+if(count($sel_media->getMediaCategories()) == 0)
+{
+	$sel_media->addOption($I18N->msg('pool_kats_no'),"0");
+}elseif(!in_array($rex_file_category,$sel_media->getMediaCategories()))
+{
+	$rex_file_category = current ($sel_media->getMediaCategories());
+	// echo current ($sel_media->getMediaCategories());
+	$sel_media = new rex_mediacategory_select(true);
+	$sel_media->setId("rex_file_category");
+	$sel_media->setName("rex_file_category");
+	$sel_media->setSize(1);
+	$sel_media->setStyle('class="rex-form-select"');
+	$sel_media->setSelected($rex_file_category);
+	$sel_media->setAttribute('onchange', 'this.form.submit();');
+	$selected_media = $sel_media->get();
+	$sel_media->setSelected($rex_file_category);
+	$selected_media = $sel_media->get();
+}
+
 
 // ----- EXTENSION POINT
 echo rex_register_extension_point('PAGE_MEDIAPOOL_HEADER', '',
@@ -50,7 +70,7 @@ $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
                     <div class="rex-form-row">
                       <p class="rex-form-select">
                         <label for="rex_file_category">'. $I18N->msg('pool_kats') .'</label>
-                        '. $sel_media->get();
+                        '. $selected_media;
 
 if ($subpage=='detail')
 {

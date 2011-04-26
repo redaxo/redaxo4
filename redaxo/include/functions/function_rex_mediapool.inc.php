@@ -196,13 +196,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     $ffiletype = $_FILES['file_new']['type'];
     $ffilesize = $_FILES['file_new']['size'];
 
-    $p_new = pathinfo($_FILES['file_new']['name']);
-    $p_old = pathinfo($FILEINFOS["filename"]);
-    
-    // if ($ffiletype == $FILEINFOS["filetype"] || OOMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
-    if($p_new['extension'] == $p_old['extension'])
+    if ($ffiletype == $FILEINFOS["filetype"] || OOMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     {
-
       if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]) ||
           copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
       {
@@ -308,17 +303,11 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
     $filesize = filesize($abs_file);
   }
 
-  if(empty($filetype) && function_exists('finfo_open'))
-  {
-	  $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-	  $filetype = finfo_file($finfo, $abs_file);
-  }
-  
   if(empty($filetype) && function_exists('mime_content_type'))
   {
     $filetype = mime_content_type($abs_file);
   }
-  
+
   $FILE = array();
   $FILE['name'] = $physical_filename;
   $FILE['size'] = $filesize;
@@ -345,9 +334,29 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   $cats_sel->setSize(1);
   $cats_sel->setName('rex_file_category');
   $cats_sel->setId('rex_file_category');
-  $cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
   $cats_sel->setAttribute('onchange', 'this.form.submit()');
   $cats_sel->setSelected($rex_file_category);
+  $selected_categories = $cats_sel->get();
+
+	if(count($cats_sel->getMediaCategories()) == 0)
+	{
+		$cats_sel->addOption($I18N->msg('pool_kats_no'),"0");
+	}elseif(!in_array($rex_file_category,$cats_sel->getMediaCategories()))
+	{
+		$rex_file_category = current ($cats_sel->getMediaCategories());
+		$cats_sel = new rex_mediacategory_select();
+		$cats_sel->setStyle('class="rex-form-select"');
+		$cats_sel->setSize(1);
+		$cats_sel->setName('rex_file_category');
+		$cats_sel->setId('rex_file_category');
+		$cats_sel->setAttribute('onchange', 'this.form.submit()');
+		$cats_sel->setSelected($rex_file_category);
+		$selected_categories = $cats_sel->get();
+	}
+
+
+
+
 
   if (isset($warning) and $warning != "")
   {
@@ -402,7 +411,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   }
   
   $add_submit = '';
-  if($close_form && $opener_input_field != '')
+  if($close_form)
   {
     $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
   }
@@ -428,7 +437,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
               <div class="rex-form-row">
                 <p class="rex-form-select">
                   <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>
-                  '.$cats_sel->get().'
+                  '.$selected_categories.'
                 </p>
               </div>
 
