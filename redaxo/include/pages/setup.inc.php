@@ -178,7 +178,7 @@ function rex_setup_setDBcharset($charset='')
   if($charset!='')
   {
     $ad = new rex_sql();
-    $ad->setQuery('ALTER DATABASE `'.$REX['DB']['1']['NAME'].'` DEFAULT CHARACTER SET '.$charset.' COLLATE utf8_general_ci');
+    $ad->setQuery('ALTER DATABASE `'.$REX['DB']['1']['NAME'].'` DEFAULT CHARACTER SET '.$charset);
     $err_msg .= $ad->hasError() ? rex_formated_sqlerror($ad) : '';
     unset($ad);
   }
@@ -606,9 +606,6 @@ function rex_setup_dropREXtables()
     if ($dbanlegen == 4)
     {
       // ----- vorhandenen seite updaten
-      #if (rex_lang_is_utf8())
-      {
-        /* patch start*/
         $info_msg = '';
 
         // import uploaded 4.x dump
@@ -623,7 +620,14 @@ function rex_setup_dropREXtables()
           $info_msg .= rex_setup_dropREXtables();
 
           // set database default charset
-          $info_msg .= rex_setup_setDBcharset('UTF8');
+        if (rex_lang_is_utf8())
+        {
+          $info_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
+        }
+        else
+        {
+          $info_msg .= rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
+        }
 
           // create temp sql dump from upload
           $tmp_sql = getImportDir().'/temp.sql';
@@ -655,18 +659,7 @@ function rex_setup_dropREXtables()
           if($err_msg == '')
           $err_msg .= rex_setup_import($REX['INCLUDE_PATH'].'/install/update4_x_to_4_3.sql');
         }
-        /* patch end*/
       }
-      /*else
-      {
-        $import_sql = $REX['INCLUDE_PATH'].'/install/update4_x_to_4_3.sql';
-        if($err_msg == '')
-        $err_msg .= rex_setup_import($import_sql);
-
-        if($err_msg == '')
-        $err_msg .= rex_setup_addons();
-      }*/
-    }
     elseif ($dbanlegen == 3)
     {
       // ----- vorhandenen Export importieren
