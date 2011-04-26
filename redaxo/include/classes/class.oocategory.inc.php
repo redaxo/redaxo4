@@ -129,7 +129,14 @@ class OOCategory extends OORedaxo
     if ($clang === false)
       $clang = $this->_clang;
 
+    if($this->_re_id>0)
+    {
     return OOCategory :: getCategoryById($this->_re_id, $clang);
+  }
+    else
+    {
+      return null;
+    }
   }
 
   /*
