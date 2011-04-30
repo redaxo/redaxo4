@@ -6,8 +6,11 @@
  * @version svn:$Id$
  */
 
-// Für größere Exports den Speicher für PHP erhöhen.
-@ini_set('memory_limit', '64M');
+// FÃ¼r grÃ¶ÃŸere Exports den Speicher fÃ¼r PHP erhÃ¶hen.
+if(rex_ini_get('memory_limit') < 67108864)
+{
+  @ini_set('memory_limit', '64M');
+}
 
 // ------- Addon Includes
 include_once $REX['INCLUDE_PATH'].'/addons/import_export/classes/class.tar.inc.php';
@@ -40,8 +43,8 @@ if ($impname != '')
 
 if ($exportfilename == '')
   $exportfilename = strtolower($_SERVER['HTTP_HOST']).'_rex'.$REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'].'_'.$REX['LANG'].'_'.date("d.m.Y_H\hi");
-  
-  
+
+
 if ($function == 'export')
 {
   // ------------------------------ FUNC EXPORT
@@ -69,7 +72,7 @@ if ($function == 'export')
       while (file_exists($export_path.$filename.'_'.$i.$ext)) $i++;
       $filename = $filename.'_'.$i;
     }
-    
+
     if ($exporttype == 'sql')
     {
       // ------------------------------ FUNC EXPORT SQL
@@ -131,17 +134,17 @@ if ($warning != '')
 ?>
 
 <div class="rex-area">
-  
+
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_export'); ?></h3>
-  
+
     <div class="rex-area-content">
       <p class="rex-tx1"><?php echo $I18N->msg('im_export_intro_export') ?></p>
-      
+
       <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
           <legend><?php echo $I18N->msg('im_export_export'); ?></legend>
-          
+
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="import_export" />
             <input type="hidden" name="function" value="export" />
@@ -169,7 +172,7 @@ else
                 <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
                 <label for="exporttype_files"><?php echo $I18N->msg('im_export_file_export'); ?></label>
               </p>
-              
+
               <div class="rex-form-checkboxes">
                 <div class="rex-form-checkboxes-wrapper">
 <?php

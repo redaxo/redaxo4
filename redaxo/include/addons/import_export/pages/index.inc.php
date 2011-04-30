@@ -7,8 +7,11 @@
  * @version svn:$Id$
  */
 
-// Für größere Exports den Speicher für PHP erhöhen.
-@ini_set('memory_limit', '64M');
+// FÃ¼r grÃ¶ÃŸere Exports den Speicher fÃ¼r PHP erhÃ¶hen.
+if(rex_ini_get('memory_limit') < 67108864)
+{
+  @ini_set('memory_limit', '64M');
+}
 
 // ------- Addon Includes
 include_once $REX['INCLUDE_PATH'].'/addons/import_export/classes/class.tar.inc.php';
