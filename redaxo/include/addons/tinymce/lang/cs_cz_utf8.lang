@@ -1,0 +1,65 @@
+title = TinyMCE - JavaScript WYSIWYG Editor
+
+menu_module = Příklad modulu
+menu_settings = Konfigurace
+menu_css = CSS Editovat
+menu_tipps = Tipy a triky
+menu_information = ?
+
+title_simple_sample = Jednoduchý modul vstupu a výstupu
+txt_simple_sample = Textové pole může být přeměněno ve WYSIWYG-Editoru zadáním atributu <strong>class="tinyMCEEditor"</strong>.<br />Více textových polí pro vstup modulů je možný. Velikost  WYSIWYG-Editoru je určena velikostí textového pole. Zobrazení tlačítek bude automaticky převzato z <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfigurace</a>.
+title_extended_sample = Rozšířený vstup modulu
+txt_extended_sample = Existuje též možnost vytvořit WYSIWYG-Editor přes PHP třídu <strong>rexTinyMCEEditor</strong>.<br />To umožňuje převzít konfiguraci pro TinyMCE. Třída vytvoří  Init-Javascript se standartními hodnotami, které mohou být přes vlastní parametry rozšířeny nebo změněny.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">ukázat standartní konfiguraci</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Dokumentace TinyMCE-Konfigurace</a><br /><br />Zde jsou jako příklad znázorněny <strong>všechny</strong> možnosti parametrů pro vstupní modul.<br /> Variable <strong>content</strong> musí mít přidělen obsah REDAXO-Variable (<strong>$tiny->content = $wysiwigvalue;</strong>)<br /><strong>Id</strong> .Proměnné musí mít přiděleno číslo REDAXO proměnné (např. u REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Další informace na <a href="index.php?page=tinymce&amp;subpage=tipps">Tipy a triky &raquo;</a>
+title_input = <strong>Modul INPUT</strong><br /><br />
+title_output = <strong>Modul OUTPUT (pro všechny)</strong><br /><br />
+
+title_active = TinyMCE aktivovat/deaktivovat
+tinymce_active = TinyMCE aktivován
+
+title_language = Zvolit standartní jazyk
+tinymce_langs = Aktivní jazyky: {0}
+
+title_pages = Vybrat stránky do kterých má být integrován TinyMCE-Editor 
+tinymce_pages = Seznam oddělen čárkami<br />Příklad: zadat <em>tinymce</em> v případě že Backend-URL zní např. index.php?page=<em>tinymce</em> 
+title_foreground = Zvolit barvy textu
+tinymce_foreground = Seznam oddělen čárkami<br />zde zadat hex hodnoty barev bez # např.: CC0000,009900,000099<br />První barva bude uložena jako standartní.
+
+title_background = Zvolit barvy podkladu
+tinymce_background = Seznam oddělen čárkami<br />zde zadat hex hodnoty barev bez # např.: CC0000,009900,000099<br />První barva bude uložena jako standartní.
+
+title_validxhtml = Validovaný XHTML-Code 
+tinymce_validxhtml = Validovaný XHTML-Code (evtl. problémy s výkonem)
+
+title_inlinepopups = Use inline-popups
+tinymce_inlinepopups = (Lightbox-Style)
+
+title_theme = Vybrat motiv
+theme_simple = Jednoduchý
+theme_default = Standartní
+theme_advanced = Rozšířený
+
+title_skin = Vybrat Skin 
+skin_standard = Standartní
+skin_o2k7 = o2k7
+skin_o2k7_silver = o2k7 Stříbrný
+skin_o2k7_black = o2k7 Černý
+
+title_ext_config = Zus&auml;tzliche TinyMCE Konfiguration
+ext_config = Konfiguration (JavaScript)
+
+button_save_settings = Uložit konfiguraci
+msg_settings_saved = Konfigurace uložena
+msg_settings_error = Fehler beim speichern der Konfiguration!
+
+title_css_wysiwyg = CSS pro WYSIWYG-Editor a Ukázku
+tynymce_css_wysiwyg = ...
+button_save_css = CSS uložit
+msg_css_saved = CSS-soubor uložen, eventuelně musí být smazán Browser-Cache.
+msg_css_error = Chyba při ukládání CSS souboru.
+
+title_tipps_tricks = Tipy a triky
+
+title_tinymcelinks = TinyMCE Links
+title_changelog = Changelog
+
+info_htaccess = Pozor! Není možný přístup na požadované podadresáře plug-inu!<br /><br />Prosíme zkontrolujte následující soubory:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1}<br /><br />Oba tyto soubory požadují soubor .htaccess. Buď není soubor k dipozici, soubory pro bezpečnost obsahu se na vašem serveru nejmenují .htaccess a nebo jsou špatně nastavena práva.<br /><br />U verze REDAXO Version 3.2.x prosíme vložte do souboru redaxo/include/.htaccess následující: AuthName "Zugriff auf IncludeDateien" (Úvozovky!)
