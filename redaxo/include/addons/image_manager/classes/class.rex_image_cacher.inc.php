@@ -77,6 +77,8 @@ class rex_image_cacher
 	
   /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams, $lastModified = null)
 	{
+    global $REX;
+
     if(!rex_image::isValid($image))
     {
       trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
@@ -99,9 +101,15 @@ class rex_image_cacher
   	    $image->save($cacheFile);
   	  }
   	  
+    $tmp = $REX['USE_GZIP'];
+    $REX['USE_GZIP'] = 'false';
+    
   	  // send file
-      $image->sendHeader(array("Content-Length" => filesize($cacheFile)));
-      readfile($cacheFile);
+    $image->sendHeader();
+    $format = $image->getFormat() == 'JPG' ? 'jpeg' : strtolower($image->getFormat());
+    rex_send_file($cacheFile,'image/'.$format,'frontend');
+    
+    $REX['USE_GZIP'] = $tmp;
 //	  }
 	}
 	
