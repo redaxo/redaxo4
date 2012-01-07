@@ -730,13 +730,13 @@ if ($subpage == '')
 
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] .'files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="'. $REX['HTDOCS_PATH'] .'files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
-          $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+          $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
         }else if($image_resize)
         {
-          $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+          $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
         }
       }
     }
