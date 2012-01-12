@@ -13,7 +13,7 @@ phpini_settings = PHP.ini Einstellungen
 datetimeformat = %Y-%b-%d %H:%M
 ctrl = multiselect using CTRL
 
-# Sprachspezifische Sonderzeichen für Url-Umschreibung
+# Sprachspezifische Sonderzeichen fï¿½r Url-Umschreibung
 special_chars = &
 special_chars_rewrite = and
 
@@ -101,9 +101,9 @@ preview = Preview
 edit_mode = Edit mode
 metadata = Metadata/Others
 article_cannot_be_moved = Article cannot be moved.
-start_article_has_to_stay_in_category = Start-article has to stay in it's category!
+start_article_has_to_stay_in_category = Start-article has to stay in its category!
 article_copied = Article copied.
-file = File {0] not found.
+file = File {0} not found.
 moving_file_error = Moving file '{0}' failed.
 metadata_updated = Metadata updated
 online_from = Online from
