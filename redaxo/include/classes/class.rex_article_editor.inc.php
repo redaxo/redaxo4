@@ -114,7 +114,7 @@ class rex_article_editor extends rex_article
         $mne .= '<div class="rex-content-editmode-module-name">';
 
       $mne .= '
-              <h3 class="rex-hl4">'. htmlspecialchars($RE_MODUL_NAME[$I_ID]) .'</h3>
+              <h3 class="rex-hl4">'. htmlspecialchars(rex_translate($RE_MODUL_NAME[$I_ID])) .'</h3>
               <div class="rex-navi-slice">
                 <ul>
             ';
@@ -162,8 +162,8 @@ class rex_article_editor extends rex_article
 
           $REX_ACTION = array ();
 
-          // nach klick auf den übernehmen button,
-          // die POST werte übernehmen
+          // nach klick auf den Ã¼bernehmen button,
+          // die POST werte Ã¼bernehmen
           if(rex_request_method() == 'post' && rex_var::isEditEvent())
           {
             foreach ($REX['VARIABLES'] as $obj)
