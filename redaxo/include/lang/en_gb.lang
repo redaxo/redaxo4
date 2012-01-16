@@ -328,7 +328,7 @@ links_ok = All links valid.
 links_not_ok = Following links are invalid:
 info_updated = Information updated!
 delete_cache = Delete cache
-delete_cache_description = Templates and languages files will be created, article case will be deleted. The cache of the respective article will be recreated on front-end call of the article.
+delete_cache_description = Templates and languages files will be created, article cache will be deleted. The cache of the respective article will be recreated on front-end call of the article.
 delete_cache_message = Cache deleted
 specials_features = Features
 specials_settings = Settings
@@ -478,7 +478,7 @@ pool_upload = Fileupload
 # redaxo/include/pages
 recommended = recommended
 setup = Setup
-setup_text = You can initiat the setup process here. This is only for emergency and not required on normal conditions.
+setup_text = You can initiate the setup process here. This is only for emergency and not required on normal conditions.
 setup_error1 = Setup activated. Please click {0}>continue<{1} and execute setup.
 setup_error2 = Error. master.inc.php is not writeable. Please insert \"\$REX[SETUP] = true;\" in master.inc.php
 setup_005 = {0}Welcome to Redaxo setup.{1}
@@ -488,7 +488,7 @@ setup_step1 = Setup: Step 1 of 5
 setup_010 = The PHP version of the server is too old ({0}), please update (minimum required: 4.3.2, newest recommended)
 setup_010_1 = The PHP-Extension <strong>{0}</strong> could not be found!
 setup_011 = {0}error{1} | Required system addons missing
-setup_012 = {0}error{1} | Directory {2} is not write- or executeable!
+setup_012 = {0}error{1} | Directory {2} is not write- or executable!
 setup_014 = {0}error{1} | File {2} is not writeable!
 setup_015 = {0}error{1} | The file / directory {2} doesn't exist, please create it.
 setup_016 = {0}PHP version check | Permission check{1}
@@ -523,9 +523,9 @@ setup_037 = Import REDAXO 4.3 export [Import Demo]:
 setup_03701 = Please choose and export!
 setup_03702 = Export files not found!
 setup_03703 = Import/Export AddOn not found!
-setup_038 = Import REDAXO 4.x export [all user have to be created again!]
+setup_038 = Import REDAXO 4.x export [all users have to be created again!]
 setup_03801 = No export file chosen.
-setup_03802 = Fiele could not be exported.
+setup_03802 = File could not be exported.
 setup_03803 = No permissions to write.
 setup_03804 = Temporary SQL file could not be read.
 setup_03805 = Temporary SQL file could not be written. [save first!]
@@ -542,7 +542,7 @@ setup_047 = Password
 setup_048 = Don't create users
 setup_049 = Proceed to step 5
 setup_step5 = Setup: step 5 of 5
-setup_050 = The config file master.inc.php is not writeable. Please modify the file manually, e.g. by FTP-upload.
+setup_050 = The config file master.inc.php is not writable. Please modify the file manually, e.g. by FTP-upload.
 setup_051 = {0}You did it - Welcome to Redaxo!{1}
 setup_052 = {0}Please see:{1}<ul{2}><li>1. Login{3} with the created user-account{4}</li><li>2. Import a demo using [if logged in]: Import/export and import each a filebase and database</li></ul>
 setup_053 = Have fun and success<br />The REDAXO team
@@ -566,7 +566,7 @@ addon_config_not_found = Config file not found (config.inc.php)!
 addon_no_install = AddOn "{0}" <strong>not</strong> installed because:
 addon_no_uninstall = AddOn "{0}" <strong>not</strong> uninstalled because:
 addon_no_reason = No reason.
-addon_no_activation = AddOn "{0}" <strong>not</strong> actived since it is not installed yet!
+addon_no_activation = AddOn "{0}" <strong>not</strong> activated since it is not installed yet!
 addon_installed = AddOn "{0}" installed
 addon_activated = AddOn "{0}" activated
 addon_deactivated =  AddOn "{0}" deactivated
@@ -624,7 +624,7 @@ linkmap = Linkmap
 lmap_title = Linkmap
 lmap_categories = Categories
 lmap_articles = Articles
-lmap_has_no_template = has not templates
+lmap_has_no_template = has no templates
 
 # redaxo\include\classes\class.rex_list.inc.php
 list_first = first page
@@ -632,7 +632,7 @@ list_previous = previous page
 list_add = Add new entry
 list_next = next page
 list_last = last page
-list_rows_found = {0} eintries found
+list_rows_found = {0} entries found
 list_no_rows = No data available
 
 # redaxo\include\classes\class.rex_form.inc.php
@@ -646,7 +646,7 @@ form_save_error = Save data failed!
 form_applied = Data have been saved!
 form_deleted = Data has been deleted!
 form_delete_error = Delete has failed!
-form_resetted = Data has been reseted!
+form_resetted = Data has been reset!
 
 # redaxo\include\classes\variables\class.rex_var_media.inc.php
 var_media_open = Choose media
