@@ -47,6 +47,22 @@ minfo_field_error_invalid_length = This field length is not valid!
 minfo_field_error_invalid_name = This column name is not valid!
 minfo_field_error_invalid_fieldid = This field-id is not valid!
 minfo_field_error_invalid_typeid = This type-id is not valid!
+minfo_field_error_deleted = Field has not been deleted!
+minfo_field_successfull_deleted = Field has been successfully deleted!
 minfo_field_successfull_saved = Field has been successfully saved!
 
 minfo_edit_metadata = edit metainfo
+
+minfo_media_in_use_art = Article (metadata)
+minfo_media_in_use_cat = Categories (metadata)
+minfo_media_in_use_med = Media (metadata)
+
+# bc: labels aus dem core
+online_from = Online from
+online_to = til
+description = Description
+keywords = Keywords
+header_article_type = Article type
+metadata_image = Metafile/Image
+teaser = Teaser
+pool_file_copyright = Copyright
