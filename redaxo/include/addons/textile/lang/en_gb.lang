@@ -3,8 +3,8 @@ textile_example_for = Example
 textile_code_for_module_input = Sourcecode for module input
 textile_code_for_module_output = Sourcecode for module output
 textile_module_intro_moduleoutput = Please use the following sourcecode for a module output
-textile_module_intro_help = Please use the following function call to see all informations/instructions in the <b>input module</b><br />
-textile_module_rights = <b>Please note:</b><br />The instruction will only be shown when the option <strong>textile[help]</strong> is selected in the userprofile.
+textile_module_intro_help = Please insert the following function call to see a listing of all informations/instructions in the <b>module's input</b><br />
+textile_module_rights = <b>Please note:</b><br />The instructions will only be shown, if the option <strong>textile[help]</strong> is selected in the user's profile.
 
 textile_instructions = Instructions 
 
@@ -21,10 +21,10 @@ textile_text_cite = cite
 textile_text_source_author = Source/Author
 textile_text_strike = strike
 textile_text_insert = insert
-textile_text_sup = sup
-textile_text_sub = sub
+textile_text_sup = sup (superscript)
+textile_text_sub = sub (subscript)
 
-textile_links = Links/anchor
+textile_links = Links/anchors
 textile_link_internal = Link (intern): to "contact"
 textile_link_internal_anchor = Link (intern) with anchor: "to contact"
 textile_link_external = Link (extern): "to REDAXO documentation"
@@ -40,7 +40,7 @@ textile_footnote_text = AJAX
 textile_footnote_note = Asynchronous JavaScript and XML
 
 textile_lists = Lists
-textile_numeric_list = Numeric list
-textile_enum_list = Numbered liste
+textile_numeric_list = Numbered (ordered) list
+textile_enum_list = Unordered list
 
 textile_tables = Tables
