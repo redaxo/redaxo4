@@ -8,10 +8,10 @@ iresize_cache_files_removed = {0} cache files deleted
 
 iresize_config_saved = Configuration saved
 iresize_config_not_saved = Configuration could not be saved
-iresize_config_not_writable = Configuration file "{0}" ist not writeable
+iresize_config_not_writable = Configuration file "{0}" is not writable
 
-iresize_max_cache_files = Maximum allowed cache files / image
-iresize_max_filters = Maximum allowed filters per file
-iresize_max_resizekb = Maximum size of file to be resized
-iresize_max_resizepx = Maximum width in pixel
+iresize_max_cache_files = Maximum number of allowed cache files per image
+iresize_max_filters = Maximum number of allowed filters per file
+iresize_max_resizekb = Maximum file size of image to be resized
+iresize_max_resizepx = Maximum image width in pixel
 iresize_jpg_quality = JPG/JPEG quality
