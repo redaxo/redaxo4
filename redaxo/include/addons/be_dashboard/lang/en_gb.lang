@@ -1,0 +1,12 @@
+# addon: be_dashboard en_gb
+dashboard = Dashboard
+dashboard_no_content = There are currently no addons or plugins installed, that provide content for the dashboard.
+dashboard_notifications = Important notices
+dashboard_component_lastupdate = last update
+dashboard_component_save_config = Save settings
+
+dashboard_component_action_refresh = Update component
+dashboard_component_action_togglesettings = Edit settings
+dashboard_component_action_toggleview = Show details
+
+dashboard_component_block_misc = Other

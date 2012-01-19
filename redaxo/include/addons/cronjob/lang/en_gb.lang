@@ -1,0 +1,77 @@
+# addon:cronjob en_gb
+
+cronjob_title = Cronjobs
+
+cronjob_add = Add cronjob
+cronjob_edit = Edit cronjob
+
+cronjob_summary = List of all available cronjobs
+cronjob_caption = List of available cronjobs
+cronjob_no_cronjobs = No cronjobs available
+
+cronjob_delete = Delete
+cronjob_really_delete = Really delete the cronjob?
+cronjob_delete_success = Cronjob "{0}" was successfully deleted!
+cronjob_delete_error = Cronjob "{0}" couldn't be deleted!
+
+cronjob_execute = Execute
+cronjob_execute_success = Cronjob "{0}" successfully executed!
+cronjob_execute_error = Cronjob "{0}" was not successfully executed!
+
+cronjob_name = Name
+cronjob_examples = Examples
+
+cronjob_type = Type
+cronjob_type_not_found = Cronjob "{0}" cannot be edited, because the class "{1}" was not found. Please check, if the associated AddOn/PlugIn is activated!
+cronjob_type_phpcode = PHP-Code
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = URL-Request
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = POST-Parameter
+cronjob_type_urlrequest_httpauth = HTTP-authentication
+cronjob_type_urlrequest_user = User
+cronjob_type_urlrequest_password = Password
+cronjob_type_parameters = Type specific parameters
+cronjob_type_no_parameters = No further parameters required for this type!
+
+cronjob_interval = Interval
+cronjob_interval_hour = hour(s)
+cronjob_interval_day = day(s)
+cronjob_interval_week = week(s)
+cronjob_interval_month = month(s)
+cronjob_interval_year = year(s)
+
+cronjob_environment = Environment
+cronjob_environment_frontend = Frontend
+cronjob_environment_backend = Backend
+
+cronjob_status_function = Status/Function
+cronjob_status = Status
+cronjob_status_activated = activated
+cronjob_status_deactivated = deactivated
+cronjob_status_invalid = invalid
+cronjob_status_activate_success = Cronjob "{0}" was activated!
+cronjob_status_activate_error = Cronjob "{0}" could not be activated!
+cronjob_status_deactivate_success = Cronjob "{0}" was deactivated!
+cronjob_status_deactivate_error = Cronjob "{0}" could not be deactivated!
+
+cronjob_error_no_name = Enter a name!
+
+cronjob_not_found = Cronjob not found!
+cronjob_not_editable = Cronjob is not editable!
+
+cronjob_log = Log
+cronjob_log_date = date
+cronjob_log_year = year
+cronjob_log_month = month
+cronjob_log_ok = OK
+cronjob_no_log_files = No log files available.
+cronjob_log_no_data = No data available.
+cronjob_log_summary_1 = Summary of executed cronjobs in {0} {1}
+cronjob_log_summary_2 = Summary of past executed cronjobs
+cronjob_log_caption_1 = List of executed cronjobs in {0} {1}
+cronjob_log_caption_2 = List of past executed cronjobs
+cronjob_log_message = Message
+
+cronjob_dashboard_block = Protocol
+cronjob_dashboard_component_title = Past executed cronjobs
