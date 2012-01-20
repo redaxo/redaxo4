@@ -81,7 +81,7 @@ class rex_form
     }
     else
     {
-      trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
+      trigger_error('rex_form: Die gegebene Where-Bedingung fï¿½hrt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
     }
     
     // --------- Load Env
@@ -172,7 +172,7 @@ class rex_form
   }
 
   /**
-   * Gibt eine Formular-Url zurück
+   * Gibt eine Formular-Url zurï¿½ck
    */
   /*public*/ function getUrl($params = array(), $escape = true)
   {
@@ -516,7 +516,7 @@ class rex_form
   {
     $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
 
-    // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
+    // Evtl postwerte wieder ï¿½bernehmen (auch externe Werte ï¿½berschreiben)
     $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
     if($postValue !== null)
     {
@@ -572,9 +572,9 @@ class rex_form
       unset($attributes['internal::noNameAttribute']);
     }
     
-    // 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
+    // 1. Array: Eigenschaften, die via Parameter ï¿½berschrieben werden kï¿½nnen/dï¿½rfen
     // 2. Array: Eigenschaften, via Parameter
-    // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
+    // 3. Array: Eigenschaften, die hier fest definiert sind / nicht verï¿½nderbar via Parameter
     $attributes = array_merge(array('id' => $id), $attributes, $internal_attr);
     $element = new $class($tag, $this, $attributes, $separateEnding);
     $element->setFieldName($fieldName);
@@ -959,7 +959,7 @@ class rex_form
 
   /**
    * Validiert die Eingaben.
-   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler oder
+   * Gibt true zurï¿½ck wenn alles ok war, false bei einem allgemeinen Fehler oder
    * einen String mit einer Fehlermeldung.
    *
    * Eingaben sind via
@@ -973,7 +973,7 @@ class rex_form
   }
 
   /**
-   * Übernimmt die POST-Werte in die FormElemente.  
+   * ï¿½bernimmt die POST-Werte in die FormElemente.  
    */
   /*protected*/ function processPostValues()
   {
@@ -983,6 +983,7 @@ class rex_form
       foreach($fieldsetElements as $key => $element)
       {
         // read-only-fields nicht speichern
+        if(is_object($element) === false) continue;
         if(strpos($element->getAttribute('class'), 'rex-form-read') !== false)
         {
           continue;
@@ -1022,9 +1023,9 @@ class rex_form
   /**
    * Speichert das Formular.
    * 
-   * Übernimmt die Werte aus den FormElementen in die Datenbank.
+   * ï¿½bernimmt die Werte aus den FormElementen in die Datenbank.
    *
-   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
+   * Gibt true zurï¿½ck wenn alles ok war, false bei einem allgemeinen Fehler,
    * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
    */
   /*protected*/ function save()
@@ -1038,6 +1039,7 @@ class rex_form
       foreach($fieldsetElements as $element)
       {
         // read-only-fields nicht speichern
+        if(is_object($element) === false) continue;
         if(strpos($element->getAttribute('class'), 'rex-form-read') !== false)
         {
           continue;
@@ -1046,7 +1048,7 @@ class rex_form
         $fieldName = $element->getFieldName();
         $fieldValue = $element->getSaveValue();
         
-        // Callback, um die Values vor dem Speichern noch beeinflussen zu können
+        // Callback, um die Values vor dem Speichern noch beeinflussen zu kï¿½nnen
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
         
         // Den POST-Wert in die DB speichern (inkl. slashes)
@@ -1162,7 +1164,7 @@ class rex_form
           // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes) 
           $this->setWarning($this->errorMessages[$result]);
         elseif(is_string($result) && $result != '')
-          // Fehlermeldung wurde direkt zurückgegeben -> anzeigen
+          // Fehlermeldung wurde direkt zurï¿½ckgegeben -> anzeigen
           $this->setWarning($result);
         else
            // Allgemeine Fehlermeldung
@@ -1193,7 +1195,7 @@ class rex_form
       }
     }
 
-    // Parameter dem Formular hinzufügen
+    // Parameter dem Formular hinzufï¿½gen
     foreach($this->getParams() as $name => $value)
     {
       $this->addHiddenField($name, $value, array('internal::useArraySyntax' => 'none'));
@@ -1226,7 +1228,7 @@ class rex_form
       $s .= '      <legend>'. htmlspecialchars($fieldsetName) .'</legend>'. "\n";
       $s .= '      <div class="rex-form-wrapper">'. "\n";
 
-      // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
+      // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfï¿½gen
       if($i == 0 && $addHeaders)
       {
         foreach($this->getHeaderElements() as $element)
@@ -1242,8 +1244,12 @@ class rex_form
       foreach($fieldsetElements as $element)
       {
         // Callback
-        $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
-        $s .= $element->get();
+        if(is_object($element) === true) {
+          $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
+          $s .= $element->get();
+        } else {
+          $s .= $element;
+        }
       }
 
       // Die FooterElemente nur innerhalb des letzten Fieldsets
@@ -1276,7 +1282,7 @@ class rex_form
 }
 
 // Stellt ein Element im Formular dar
-// Nur für internes Handling!
+// Nur fï¿½r internes Handling!
 class rex_form_element
 {
   var $value;
@@ -1785,7 +1791,7 @@ class rex_form_prio_element extends rex_form_select_element
   }
   
   /**
-   * Setzt die Datenbankspalte, die das Label für die zu priorisierenden Elemente darstellt
+   * Setzt die Datenbankspalte, die das Label fï¿½r die zu priorisierenden Elemente darstellt
    * @param $labelField String
    */
   function setLabelField($labelField)
@@ -1815,7 +1821,7 @@ class rex_form_prio_element extends rex_form_select_element
       $qry .= ' AND ('. $this->whereCondition .')';
     }
     
-    // Im Edit Mode das Feld selbst nicht als Position einfügen
+    // Im Edit Mode das Feld selbst nicht als Position einfï¿½gen
     if($this->table->isEditMode())
     {
       $sql = $this->table->getSql();
