@@ -447,7 +447,7 @@ class OOMediaCategory
    */
   function delete($recurse = false)
   {
-    // Rekursiv löschen?
+    // Rekursiv lÃ¶schen?
     if(!$recurse && $this->hasChildren())
     {
       return false;
@@ -462,7 +462,7 @@ class OOMediaCategory
       }
     }
     
-    // Alle Dateien löschen
+    // Alle Dateien lÃ¶schen
     if ($this->hasMedia())
     {
       $files = $this->getMedia();

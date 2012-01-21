@@ -129,7 +129,7 @@ function rex_a62_metainfo_form($params)
 
   $result = _rex_a62_metainfo_form('cat_', $params, '_rex_a62_metainfo_cat_handleSave');
 
-  // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
+  // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurÃ¼ckgeben
   if($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
     return $params['subject'];
   else

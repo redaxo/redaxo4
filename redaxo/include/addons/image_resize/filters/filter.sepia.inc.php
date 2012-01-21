@@ -8,7 +8,7 @@ function image_resize_sepia(&$src_im, $quality = 60 )
 	$dst_y = $src_y;
 	$dst_im = ImageCreateTrueColor( $dst_x, $dst_y );
 
-	// Benötigt PHP > 4.3.2
+	// BenÃ¶tigt PHP > 4.3.2
 	if(function_exists('imageantialias'))
 	imageantialias( $dst_im, TRUE );
 

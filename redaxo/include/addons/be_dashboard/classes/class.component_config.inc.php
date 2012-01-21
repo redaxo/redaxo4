@@ -31,7 +31,7 @@
   }
   
   /**
-   * Gibt die HTML Input Elemente zurück, die das Konfigurationsformular darstellen.
+   * Gibt die HTML Input Elemente zurÃ¼ck, die das Konfigurationsformular darstellen.
    * 
    * Jedes Formular-Element muss einen Namen tragen der mittels getInputName() generiert wurden,
    * damit zwischen den Komponenten keine Kkollissionen auftreten.
@@ -85,7 +85,7 @@
   }
   
   /**
-   * Gibt zurück, ob die Einstellungen geaendert worden.
+   * Gibt zurÃ¼ck, ob die Einstellungen geaendert worden.
    */
   /*public*/ function changed()
   {

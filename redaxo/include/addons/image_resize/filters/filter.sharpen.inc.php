@@ -6,7 +6,7 @@ function image_resize_sharpen(&$img, $amount = 80, $radius = 0.5, $threshold = 3
 ////  
 ////                  Unsharp Mask for PHP - version 2.1.1  
 ////  
-////    Unsharp mask algorithm by Torstein Hønsi 2003-07.  
+////    Unsharp mask algorithm by Torstein HÃ¶nsi 2003-07.  
 ////             thoensi_at_netcom_dot_no.  
 ////               Please leave this notice.  
 ////  

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Basisklasse für Addons/Plugins
+ * Basisklasse fÃ¼r Addons/Plugins
  * 
  * @package redaxo4
  * @version svn:$Id$
@@ -70,11 +70,11 @@
   }
   
   /**
-   * Prüft ob das rex-Addon verfügbar ist, also installiert und aktiviert.
+   * PrÃ¼ft ob das rex-Addon verfÃ¼gbar ist, also installiert und aktiviert.
    * 
    * @param string|array $addon Name des Addons
    * 
-   * @return boolean TRUE, wenn das rex-Addon verfügbar ist, sonst FALSE
+   * @return boolean TRUE, wenn das rex-Addon verfÃ¼gbar ist, sonst FALSE
    */
   /*public static*/ function isAvailable($addon)
   {
@@ -82,7 +82,7 @@
   }
 
   /**
-   * Prüft ob das rex-Addon aktiviert ist.
+   * PrÃ¼ft ob das rex-Addon aktiviert ist.
    * 
    * @param string|array $addon Name des Addons
    * 
@@ -94,7 +94,7 @@
   }
   
   /**
-   * Prüft ob das rex-Addon installiert ist.
+   * PrÃ¼ft ob das rex-Addon installiert ist.
    * 
    * @param string|array $addon Name des Addons
    * 
@@ -106,10 +106,10 @@
   }
 
   /**
-   * Gibt die Version des rex-Addons zurück.
+   * Gibt die Version des rex-Addons zurÃ¼ck.
    * 
    * @param string|array $addon Name des Addons
-   * @param mixed $default Rückgabewert, falls keine Version gefunden wurde
+   * @param mixed $default RÃ¼ckgabewert, falls keine Version gefunden wurde
    * 
    * @return string Versionsnummer des Addons
    */
@@ -119,10 +119,10 @@
   }
 
   /**
-   * Gibt den Autor des rex-Addons zurück.
+   * Gibt den Autor des rex-Addons zurÃ¼ck.
    * 
    * @param string|array $addon Name des Addons
-   * @param mixed $default Rückgabewert, falls kein Autor gefunden wurde
+   * @param mixed $default RÃ¼ckgabewert, falls kein Autor gefunden wurde
    * 
    * @return string Autor des Addons
    */
@@ -132,10 +132,10 @@
   }
 
   /**
-   * Gibt die Support-Adresse des rex-Addons zurück.
+   * Gibt die Support-Adresse des rex-Addons zurÃ¼ck.
    * 
    * @param string|array $addon Name des Addons
-   * @param mixed $default Rückgabewert, falls keine Support-Adresse gefunden wurde
+   * @param mixed $default RÃ¼ckgabewert, falls keine Support-Adresse gefunden wurde
    * 
    * @return string Versionsnummer des Addons
    */
@@ -164,11 +164,11 @@
   }
 
   /**
-   * Gibt eine Eigenschaft des rex-Addons zurück.
+   * Gibt eine Eigenschaft des rex-Addons zurÃ¼ck.
    * 
    * @param string|array $addon Name des Addons
    * @param string $property Name der Eigenschaft 
-   * @param mixed $default Rückgabewert, falls die Eigenschaft nicht gefunden wurde
+   * @param mixed $default RÃ¼ckgabewert, falls die Eigenschaft nicht gefunden wurde
    * 
    * @return string Wert der Eigenschaft des Addons
    */

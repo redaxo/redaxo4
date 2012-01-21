@@ -141,8 +141,8 @@ function buildRelease($name = null, $version = null)
     }
     
     // Ordner die wir nicht mitkopiert haben anlegen
-    // Der generated Ordner enthält sehr viele Daten,
-    // das kopieren würde sehr lange dauern und ist unnötig
+    // Der generated Ordner enthÃ¤lt sehr viele Daten,
+    // das kopieren wÃ¼rde sehr lange dauern und ist unnÃ¶tig
     mkdir($dest .'/files');
     mkdir($dest .'/redaxo/include/generated');
     mkdir($dest .'/redaxo/include/generated/articles');
@@ -493,7 +493,7 @@ function buildIsoLangFile($langFile, $lang)
     $content = fread($hdl, filesize($langFile));
     fclose($hdl);
 
-    // Charset auf UTF-8 ändern
+    // Charset auf UTF-8 Ã¤ndern
     $content = preg_replace('/^htmlcharset = (.*)$/m', 'htmlcharset = '. $charset_to, $content);
   }
 
@@ -515,7 +515,7 @@ function buildUtf8LangFile($langFile, $lang)
     $content = fread($hdl, filesize($langFile));
     fclose($hdl);
 
-    // Charset auf UTF-8 ändern
+    // Charset auf UTF-8 Ã¤ndern
     $content = preg_replace('/^htmlcharset = (.*)$/m', 'htmlcharset = utf-8', $content);
   }
 

@@ -19,6 +19,6 @@ Kategorien und Medien im Backend.
 
 <p>
 Die Suchergebnisse beziehen sich immer auf die aktuell
-ausgewählte Kategorie und deren Unterkategorien. Ausserdem werden
-die Berechtigungen berücksichtigt
+ausgewÃ¤hlte Kategorie und deren Unterkategorien. Ausserdem werden
+die Berechtigungen berÃ¼cksichtigt
 </p>

@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-// ----- ob caching start für output filter
+// ----- ob caching start fÃ¼r output filter
 ob_start();
 ob_implicit_flush(0);
 
@@ -26,7 +26,7 @@ unset($REX);
 
 // Flag ob Inhalte mit Redaxo aufgerufen oder
 // von der Webseite aus
-// Kann wichtig für die Darstellung sein
+// Kann wichtig fÃ¼r die Darstellung sein
 // Sollte immer false bleiben
 
 $REX['REDAXO'] = false;
@@ -65,7 +65,7 @@ if($REX['SETUP'])
 	$REX['STATS'] = 0;
 }
 
-// ----- caching end für output filter
+// ----- caching end fÃ¼r output filter
 $CONTENT = ob_get_contents();
 ob_end_clean();
 

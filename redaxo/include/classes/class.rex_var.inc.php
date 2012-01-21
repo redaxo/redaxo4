@@ -2,7 +2,7 @@
 
 
 /**
- * Abtrackte Basisklasse für REX_VARS
+ * Abtrackte Basisklasse fÃ¼r REX_VARS
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -14,7 +14,7 @@ class rex_var
   /**
    * Actionmethode:
    * 
-   * Füllt des sql-Objekt aus dem $REX_ACTION Array
+   * FÃ¼llt des sql-Objekt aus dem $REX_ACTION Array
    */
   /*public*/ function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
@@ -24,7 +24,7 @@ class rex_var
   /**
    * Actionmethode:
    * 
-   * Füllt des $REX_ACTION Array aus den Input Formularwerten (Request Werten)
+   * FÃ¼llt des $REX_ACTION Array aus den Input Formularwerten (Request Werten)
    * 
    * @return REX_ACTION Array
    */
@@ -36,7 +36,7 @@ class rex_var
   /**
    * Actionmethode:
    * 
-   * Füllt des $REX_ACTION Arrays aus der Datenbank (rex_sql)
+   * FÃ¼llt des $REX_ACTION Arrays aus der Datenbank (rex_sql)
    * 
    * @return REX_ACTION Array
    */
@@ -116,7 +116,7 @@ class rex_var
   /**
    * GetValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
-   * Spalten unterschiedlicher Tabellen enthält.
+   * Spalten unterschiedlicher Tabellen enthÃ¤lt.
    */
   /*protected*/ function getValue(& $sql, $value)
   {
@@ -126,7 +126,7 @@ class rex_var
   /**
    * setValue Wrapper, da hier immer auf die gleiche Tabelle gearbeitet wird und
    * mit MySQL 3.x mit Tabellenprefix angegeben werden muss, da der SQL gleichnamige
-   * Spalten unterschiedlicher Tabellen enthält.
+   * Spalten unterschiedlicher Tabellen enthÃ¤lt.
    */
   /*protected*/ function setValue(& $sql, $fieldname, $value, $escape = false)
   {
@@ -198,7 +198,7 @@ class rex_var
   
   /**
    * Parameter aus args zur Laufzeit auf den Wert einer Variablen anwenden.
-   * Wichtig für Variablen, die Variable ausgaben haben.
+   * Wichtig fÃ¼r Variablen, die Variable ausgaben haben.
    */
   /*protected*/ function handleGlobalVarParamsSerialized($varname, $args, $value)
   {
@@ -236,7 +236,7 @@ class rex_var
 
   /**
    * Durchsucht den String $content nach Variablen mit dem Namen $varname.
-   * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurück.
+   * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurÃ¼ck.
    */
   /*protected*/ function matchVar($content, $varname)
   {

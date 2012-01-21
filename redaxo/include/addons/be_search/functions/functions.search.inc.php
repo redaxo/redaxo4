@@ -47,7 +47,7 @@ function rex_a256_extensions_handler($params)
 }
 
 /**
- * Fügt die benötigen Stylesheets ein
+ * FÃ¼gt die benÃ¶tigen Stylesheets ein
  * 
  * @param $params Extension-Point Parameter
  */

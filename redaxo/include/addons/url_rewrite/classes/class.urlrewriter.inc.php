@@ -15,7 +15,7 @@ class rexUrlRewriter
     // nichts tun
   }
 
-  // Parameter aus der URL für das Script verarbeiten
+  // Parameter aus der URL fï¿½r das Script verarbeiten
   function prepare()
   {
     // nichts tun

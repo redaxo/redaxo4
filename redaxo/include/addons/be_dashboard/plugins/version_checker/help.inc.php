@@ -15,5 +15,5 @@
 
 <p>
 Dieses Addon prueft, ob die aktuell installierte REDAXO Version aktuell ist.
-Die Informationen werden über eine Dashboard-Komponente bereitgestellt.
+Die Informationen werden Ã¼ber eine Dashboard-Komponente bereitgestellt.
 </p>

@@ -114,7 +114,7 @@ class rex_effect_workspace extends rex_effect_abstract
 			imagealphablending($workspace, true);
 		}else
 		{
-			// und mit Hintergrundfarbe füllen
+			// und mit Hintergrundfarbe fÃ¼llen
 			imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]));
 		}
 	

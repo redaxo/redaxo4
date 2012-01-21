@@ -9,13 +9,13 @@
 
 <strong>Beschreibung:</strong>
 
-Dieses Addon ermöglicht es eigene URL Rewrites zu erstellen.
+Dieses Addon ermÃ¶glicht es eigene URL Rewrites zu erstellen.
 
-Diese können via Server ausgewertet (apache mod_rewrite) 
+Diese kÃ¶nnen via Server ausgewertet (apache mod_rewrite) 
 oder auch selbst via PHP interpretiert werden.
 
-D.h. Es kann auch ein Rewriting der URL durchgeführt werden,
-ohne das der Server etwaige Module dafür bereitstellen muss.
+D.h. Es kann auch ein Rewriting der URL durchgefÃ¼hrt werden,
+ohne das der Server etwaige Module dafÃ¼r bereitstellen muss.
 
 <strong>Download:</strong>
 
@@ -27,7 +27,7 @@ ohne das der Server etwaige Module dafür bereitstellen muss.
 Die verschiedenen Rewriter Klassen funktionieren nur mit 
 bestimmten Serverkonfigurationen. Um z.b. den Rewriter 
 <em>class.rewrite_fullnames</em> oder <em>class.rewrite_mod_rewrite</em>
-verwenden zu können, muss der Apache Server mit 
+verwenden zu kÃ¶nnen, muss der Apache Server mit 
 dem Modul "mod_rewrite" konfiguriert werden. Wenn Sie dazu 
 Fragen haben, sollten sie sich mit Ihrem Provider in verbindung setzen.
 
@@ -45,12 +45,12 @@ werden, wenn der Server <em>nicht</em> mit dem Modul "mod_rewrite" ausgestattet 
 
 - Im Redaxo AddOn Manager das Plugin aktivieren
 
-- Im Header des Templates die Zeile &lt;base href="http://www.example.org/" /&gt; hinzufügen
+- Im Header des Templates die Zeile &lt;base href="http://www.example.org/" /&gt; hinzufÃ¼gen
    <em>Url unter der dein Frontend erreichbar ist!Der Base-Href muss am Anfang des HEAD stehen!</em>
 
 - In der Datei "redaxo/include/addons/config.inc.php" die Zeile
   <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_simple.inc.php';</em>
-	Mit dem gewünschen Rewriter ersetzen, <strong>z.B:</strong>
+	Mit dem gewÃ¼nschen Rewriter ersetzen, <strong>z.B:</strong>
   <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullname.inc.php';</em>
   
 - /.htaccess Datei anpassen (Beispielkonfigurationen befinden sich in dem jeweiligen Rewriter)
@@ -69,7 +69,7 @@ werden, wenn der Server <em>nicht</em> mit dem Modul "mod_rewrite" ausgestattet 
 
 <strong>Credits:</strong>
 
-Vielen dank an alle die Bugs gemeldet oder Verbesserungsvorschläge gegeben haben.
+Vielen dank an alle die Bugs gemeldet oder VerbesserungsvorschlÃ¤ge gegeben haben.
     
 <strong>Besonderen Dank geht an:</strong>
 

@@ -2,7 +2,7 @@
 
 /**
  * Direkter Aufruf, um zu testen, ob der Ordner redaxo/include
- * erreichbar ist. Dies darf aus Sicherheitsgr¸nden nicht mˆglich sein!
+ * erreichbar ist. Dies darf aus SicherheitsgrÂ¸nden nicht mË†glich sein!
  */
 if (!isset($REX))
 {
@@ -57,8 +57,8 @@ function rex_setup_import($import_sql, $import_archiv = null)
   {
     if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
     {
-      // Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php übernommen
-      // wird und auch in der danach includeten function verfügbar ist
+      // Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php Ã¼bernommen
+      // wird und auch in der danach includeten function verfÃ¼gbar ist
       global $I18N_IM_EXPORT;
 
       $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/import_export/lang/');
@@ -110,7 +110,7 @@ function rex_setup_is_writable($items)
   return $res;
 }
 
-// -------------------------- System AddOns pr¸fen
+// -------------------------- System AddOns prÂ¸fen
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
   global $REX, $I18N;
@@ -589,7 +589,7 @@ function rex_setup_dropREXtables()
     $err_msg = '';
     $dbanlegen = rex_post('dbanlegen', 'int', '');
 
-    // -------------------------- Benötigte Tabellen prüfen
+    // -------------------------- BenÃ¶tigte Tabellen prÃ¼fen
     $requiredTables = array (
     $REX['TABLE_PREFIX'] .'action',
     $REX['TABLE_PREFIX'] .'article',
@@ -676,7 +676,7 @@ function rex_setup_dropREXtables()
 
         // Nur hier zuerst die Addons installieren
         // Da sonst Daten aus dem eingespielten Export
-        // ‹berschrieben w¸rden
+        // â€¹berschrieben wÂ¸rden
         if($err_msg == '')
         $err_msg .= rex_setup_addons(true, false);
         if($err_msg == '')
@@ -690,7 +690,7 @@ function rex_setup_dropREXtables()
     }
     elseif ($dbanlegen == 1)
     {
-      // ----- volle Datenbank, alte DB löschen / drop
+      // ----- volle Datenbank, alte DB lÃ¶schen / drop
       if(rex_lang_is_utf8())
         rex_setup_setDBcharset();
       
@@ -722,7 +722,7 @@ function rex_setup_dropREXtables()
 
     if($err_msg == "" && $dbanlegen !== '')
     {
-      // Prüfen, welche Tabellen bereits vorhanden sind
+      // PrÃ¼fen, welche Tabellen bereits vorhanden sind
       $existingTables = array();
       foreach(rex_sql::showTables() as $tblname)
       {

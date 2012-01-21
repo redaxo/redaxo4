@@ -64,7 +64,7 @@ elseif ($function == "dbimport")
       $state = rex_a1_import_db($file_temp);
       $info = $state['message'];
 
-      // temp datei löschen
+      // temp datei lÃ¶schen
       if ($impname == "")
       {
         @ unlink($file_temp);
@@ -108,7 +108,7 @@ elseif ($function == "fileimport")
 				$warning = $return['message'];
 			}
 
-      // temp datei löschen
+      // temp datei lÃ¶schen
       if ($impname == "")
       {
         @ unlink($file_temp);

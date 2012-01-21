@@ -143,7 +143,7 @@ class rex_select
 
   ################ optionen hinzufuegen
   /**
-   * Fügt eine Option hinzu
+   * FÃ¼gt eine Option hinzu
    */
   /*public*/ function addOption($name, $value, $id = 0, $re_id = 0, $attributes = array())
   {
@@ -151,7 +151,7 @@ class rex_select
   }
 
   /**
-   * Fügt ein Array von Optionen hinzu, dass eine mehrdimensionale Struktur hat.
+   * FÃ¼gt ein Array von Optionen hinzu, dass eine mehrdimensionale Struktur hat.
    *
    * Dim   Wert
    * 0.    Name
@@ -201,8 +201,8 @@ class rex_select
   }
 
   /**
-   * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
-   * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
+   * FÃ¼gt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
+   * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values Ã¼berschrieben
    */
   /*public*/ function addArrayOptions($options, $use_keys = true)
   {
@@ -216,7 +216,7 @@ class rex_select
   }
 
   /**
-   * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
+   * FÃ¼gt Optionen anhand der Ãœbergeben SQL-Select-Abfrage hinzu.
    */
   /*public*/ function addSqlOptions($qry)
   {
@@ -225,7 +225,7 @@ class rex_select
   }
 
   /**
-   * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
+   * FÃ¼gt Optionen anhand der Ãœbergeben DBSQL-Select-Abfrage hinzu.
    */
   /*public*/ function addDBSqlOptions($qry)
   {

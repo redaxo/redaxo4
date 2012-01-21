@@ -17,5 +17,5 @@
 <h3>Backend Style Addon</h3>
 
 <p>
-Addon zum verändern der Optik des Backends
+Addon zum verï¿½ndern der Optik des Backends
 </p>

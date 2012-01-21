@@ -115,7 +115,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
 				'type'	=> 'int',
 				'default' => '-10'
 			),
-			/*TODO: Optionaler Bildtyp für das ausgewählte Bild*/
+			/*TODO: Optionaler Bildtyp fÃ¼r das ausgewÃ¤hlte Bild*/
 		);
 	}
 

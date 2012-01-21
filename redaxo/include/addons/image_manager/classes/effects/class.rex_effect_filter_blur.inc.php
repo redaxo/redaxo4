@@ -1,14 +1,14 @@
 <?php
 
-// Übernommen von cerdmann.com
-// Unsharp mask algorithm by Torstein Hønsi 2003 (thoensi_at_netcom_dot_no)
+// Ãœbernommen von cerdmann.com
+// Unsharp mask algorithm by Torstein HÃ¸nsi 2003 (thoensi_at_netcom_dot_no)
 // Christoph Erdmann: changed it a little, cause i could not reproduce the darker blurred image, now it is up to 15% faster with same results
 
 ////////////////////////////////////////////////////////////////////////////////////////////////  
 ////  
 ////                  Unsharp Mask for PHP - version 2.1.1  
 ////  
-////    Unsharp mask algorithm by Torstein Hønsi 2003-07.  
+////    Unsharp mask algorithm by Torstein HÃ¸nsi 2003-07.  
 ////             thoensi_at_netcom_dot_no.  
 ////               Please leave this notice.  
 ////  

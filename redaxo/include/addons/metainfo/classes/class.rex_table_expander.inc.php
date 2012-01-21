@@ -41,7 +41,7 @@ class rex_a62_tableExpander extends rex_form
     $select =& $field->getSelect();
     $select->setSize(1);
     $select->addOption($I18N->msg('minfo_field_first_prior'), 1);
-    // Im Edit Mode das Feld selbst nicht als Position einfügen
+    // Im Edit Mode das Feld selbst nicht als Position einfï¿½gen
     $qry = 'SELECT name,prior FROM '. $this->tableName .' WHERE `name` LIKE "'. $this->metaPrefix .'%"';
     if($this->isEditMode())
     {
@@ -138,7 +138,7 @@ class rex_a62_tableExpander extends rex_form
     
     if(($result = parent::delete()) === true)
     {
-      // Prios neu setzen, damit keine lücken entstehen
+      // Prios neu setzen, damit keine lï¿½cken entstehen
       $this->organizePriorities(1,2);
       return $this->tableManager->deleteColumn($columnName);
     }
@@ -200,7 +200,7 @@ class rex_a62_tableExpander extends rex_form
     if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
       return $I18N->msg('minfo_field_error_chars_name');
 
-    // Prüfen ob schon eine Spalte mit dem Namen existiert (nur beim add nötig)
+    // Prï¿½fen ob schon eine Spalte mit dem Namen existiert (nur beim add nï¿½tig)
     if(!$this->isEditMode())
     {
       $sql = rex_sql::factory();
@@ -219,10 +219,10 @@ class rex_a62_tableExpander extends rex_form
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
 
     // Den alten Wert aus der DB holen
-    // Dies muss hier geschehen, da in parent::save() die Werte für die DB mit den
-    // POST werten überschrieben werden!
+    // Dies muss hier geschehen, da in parent::save() die Werte fï¿½r die DB mit den
+    // POST werten ï¿½berschrieben werden!
     $fieldOldName = '';
-    $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig läuft...
+    $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig lï¿½uft...
     $fieldOldDefault = '';
     if($this->sql->getRows() == 1)
     {
@@ -248,13 +248,13 @@ class rex_a62_tableExpander extends rex_form
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
       
-      // TEXT Spalten dürfen in MySQL keine Defaultwerte haben
+      // TEXT Spalten dï¿½rfen in MySQL keine Defaultwerte haben
       if($fieldDbType == 'text')
         $fieldDefault = null;
 
       if($this->isEditMode())
       {
-        // Spalte in der Tabelle verändern
+        // Spalte in der Tabelle verï¿½ndern
         $tmRes = $this->tableManager->editColumn($fieldOldName, $fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
       else
@@ -276,7 +276,7 @@ class rex_a62_tableExpander extends rex_form
           return $upd->update();
         }
         
-        // Default werte haben schon zuvor gepasst, daher true zurückgeben
+        // Default werte haben schon zuvor gepasst, daher true zurï¿½ckgeben
         return true;
       }
     }

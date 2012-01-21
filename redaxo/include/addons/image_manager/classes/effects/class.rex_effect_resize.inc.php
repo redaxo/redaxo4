@@ -1,7 +1,7 @@
 <?php
 
 // Todo:
-// - Vergrš§ern erlauben oder nicht. aber eher als Modul einsetzen, also
+// - VergrÅ¡Â§ern erlauben oder nicht. aber eher als Modul einsetzen, also
 // fit
 
 class rex_effect_resize extends rex_effect_abstract

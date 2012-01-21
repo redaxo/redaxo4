@@ -199,7 +199,7 @@ for ($i=0;$i<$sqlmodule->getRows();$i++)
 $userperm_module = rex_request('userperm_module', 'array');
 
 
-// extrarechte - von den addons übergeben
+// extrarechte - von den addons Ã¼bergeben
 $sel_extra = new rex_select;
 $sel_extra->setMultiple(1);
 $sel_extra->setStyle('class="rex-form-select"');
@@ -276,7 +276,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
     if ($gp->getRows()==1)
     {
-      // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
+      // Alle Eltern-Kategorien im Pfad bis zu ausgewÃ¤hlten, mit
       // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
       foreach (explode('|',$gp->getValue('path')) as $a)
         if ($a!='')$userperm_cat_read[$a] = $a;
@@ -332,7 +332,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
 } elseif ($FUNC_DELETE != '')
 {
-  // man kann sich selbst nicht löschen..
+  // man kann sich selbst nicht lÃ¶schen..
   if ($REX['USER']->getValue("user_id") != $user_id)
   {
     $deleteuser = rex_sql::factory();
@@ -408,7 +408,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
       $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
       if ($gp->getRows()==1)
       {
-        // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
+        // Alle Eltern-Kategorien im Pfad bis zu ausgewÃ¤hlten, mit
         // Lesendem zugriff versehen, damit man an die aktuelle Kategorie drann kommt
         foreach (explode('|',$gp->getValue('path')) as $a)
           if ($a!='')$userperm_cat_read[$a] = $a;

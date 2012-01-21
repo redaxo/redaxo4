@@ -114,7 +114,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
 }
 
 /**
- * Löscht einen Slice
+ * LÃ¶scht einen Slice
  * 
  * @param int    $slice_id  Id des Slices
  * 
@@ -146,13 +146,13 @@ function rex_deleteSlice($slice_id)
 }
 
 /**
- * Führt alle pre-view Aktionen eines Moduls aus
+ * FÃ¼hrt alle pre-view Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum modifizieren der initialwerte
  * 
- * @return array Das gefüllte REX_ACTION-Array
+ * @return array Das gefÃ¼llte REX_ACTION-Array
  */
 function rex_execPreViewAction($module_id, $function, $REX_ACTION)
 {
@@ -181,13 +181,13 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Führt alle pre-save Aktionen eines Moduls aus
+ * FÃ¼hrt alle pre-save Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum speichern des Status
  * 
- * @return array Ein Array welches eine Meldung sowie das gefüllte REX_ACTION-Array beinhaltet
+ * @return array Ein Array welches eine Meldung sowie das gefÃ¼llte REX_ACTION-Array beinhaltet
  */
 function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 {
@@ -220,7 +220,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Führt alle post-save Aktionen eines Moduls aus
+ * FÃ¼hrt alle post-save Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
@@ -242,7 +242,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
     $REX_ACTION['MSG'] = '';
     $iaction = $ga->getValue('postsave');
 
-    // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
+    // ***************** WERTE ERSETZEN UND POSTACTION AUSFÃœHREN
     foreach ($REX['VARIABLES'] as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
@@ -259,7 +259,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Übersetzt den Modus in das dazugehörige Bitwort
+ * Ãœbersetzt den Modus in das dazugehÃ¶rige Bitwort
  * 
  * @param string $function   Funktion/Modus der Aktion
  * 
@@ -674,12 +674,12 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue('path', $path);
         $art_sql->setValue('catname', $art_sql->escape($catname));
         $art_sql->setValue('catprior', 0);
-        $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
+        $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfÃ¼gen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
         $art_sql->setValue('startpage', 0);
         $art_sql->addGlobalCreateFields();
 
-        // schon gesetzte Felder nicht wieder überschreiben
+        // schon gesetzte Felder nicht wieder Ã¼berschreiben
         $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
 
         foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
@@ -713,10 +713,10 @@ function rex_copyArticle($id, $to_cat_id)
     }
   }
 
-  // Caches des Artikels löschen, in allen Sprachen
+  // Caches des Artikels lÃ¶schen, in allen Sprachen
   rex_deleteCacheArticle($id);
 
-  // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+  // Caches der Kategorien lÃ¶schen, da sich derin befindliche Artikel geÃ¤ndert haben
   rex_deleteCacheArticle($to_cat_id);
 
   return $new_id;
@@ -777,7 +777,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->setValue('re_id', $re_id);
         $art_sql->setValue('path', $path);
         $art_sql->setValue('catname', $art_sql->escape($catname));
-        // Artikel als letzten Artikel in die neue Kat einfügen
+        // Artikel als letzten Artikel in die neue Kat einfÃ¼gen
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen
         $art_sql->setValue('status', '0');
@@ -801,10 +801,10 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
     }
   }
 
-  // Caches des Artikels löschen, in allen Sprachen
+  // Caches des Artikels lÃ¶schen, in allen Sprachen
   rex_deleteCacheArticle($id);
 
-  // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+  // Caches der Kategorien lÃ¶schen, da sich derin befindliche Artikel geÃ¤ndert haben
   rex_deleteCacheArticle($from_cat_id);
   rex_deleteCacheArticle($to_cat_id);
 

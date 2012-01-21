@@ -11,7 +11,7 @@
  */
 
 // zuletzt bearbeitete artikel (version-addon)
-// zuletzt bearbeitete editMe datens‰tze
+// zuletzt bearbeitete editMe datens√§tze
 // zuletzt bearbeitete editMe Datenmodelle
 // zuletzt gelaufene cronjobs
 

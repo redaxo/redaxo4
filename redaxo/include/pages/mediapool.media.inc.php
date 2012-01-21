@@ -669,7 +669,7 @@ if ($subpage == '')
 
     $encoded_file_name = urlencode($file_name);
 
-    // Eine titel Spalte sch‰tzen
+    // Eine titel Spalte sch√§tzen
     $alt = '';
     foreach(array('title') as $col)
     {
@@ -680,7 +680,7 @@ if ($subpage == '')
       }
     }
 
-    // Eine beschreibende Spalte sch‰tzen
+    // Eine beschreibende Spalte sch√§tzen
     $desc = '';
     foreach(array('med_description') as $col)
     {

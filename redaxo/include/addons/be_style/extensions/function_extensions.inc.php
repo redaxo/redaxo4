@@ -18,7 +18,7 @@ function rex_be_add_page($params)
 }
 
 /**
- * Fügt die benötigen Stylesheets ein
+ * FÃ¼gt die benÃ¶tigen Stylesheets ein
  * 
  * @param $params Extension-Point Parameter
  */

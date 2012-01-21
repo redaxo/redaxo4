@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse zum prüfen ob Plugins installiert/aktiviert sind
+ * Klasse zum prÃ¼en ob Plugins installiert/aktiviert sind
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -81,11 +81,11 @@ class OOPlugin extends rex_addon
   }
   
   /**
-   * Gibt ein Array aller verfügbaren Plugins zurück.
+   * Gibt ein Array aller verfÃ¼baren Plugins zurÃ¼ck.
    * 
    * @param string $addon Name des Addons
    * 
-   * @return array Array aller verfügbaren Plugins
+   * @return array Array aller verfÃ¼baren Plugins
    */
   /*public static*/ function getAvailablePlugins($addon)
   {
@@ -103,7 +103,7 @@ class OOPlugin extends rex_addon
   
 
   /**
-   * Gibt ein Array aller installierten Plugins zurück.
+   * Gibt ein Array aller installierten Plugins zurÃ¼ck.
    * 
    * @param string $addon Name des Addons
    * 
@@ -124,7 +124,7 @@ class OOPlugin extends rex_addon
   }
 
   /**
-   * Gibt ein Array aller registrierten Plugins zurück.
+   * Gibt ein Array aller registrierten Plugins zurÃ¼ck.
    * Ein Plugin ist registriert, wenn es dem System bekannt ist (plugins.inc.php).
    * 
    * @param string $addon Name des Addons

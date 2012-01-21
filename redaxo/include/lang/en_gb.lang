@@ -13,7 +13,7 @@ phpini_settings = PHP.ini Einstellungen
 datetimeformat = %Y-%b-%d %H:%M
 ctrl = multiselect using CTRL
 
-# Sprachspezifische Sonderzeichen f�r Url-Umschreibung
+# Sprachspezifische Sonderzeichen f?r Url-Umschreibung
 special_chars = &
 special_chars_rewrite = and
 

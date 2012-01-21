@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Fügt die benötigen Assets ein
+ * FÃ¼gt die benÃ¶tigen Assets ein
  * 
  * @param $params Extension-Point Parameter
  */

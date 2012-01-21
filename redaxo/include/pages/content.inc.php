@@ -57,7 +57,7 @@ if ($article->getRows() == 1)
   // ----- ctype holen
   $template_attributes = $article->getValue('template_attributes');
 
-  // F�r Artikel ohne Template
+  // Für Artikel ohne Template
   if($template_attributes === null)
   	$template_attributes = '';
 
@@ -196,10 +196,10 @@ if ($article->getRows() == 1)
           list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
           // ----- / PRE SAVE ACTION
 
-          // Statusspeicherung f�r die rex_article Klasse
+          // Statusspeicherung für die rex_article Klasse
           $REX['ACTION'] = $REX_ACTION;
 
-          // Werte werden aus den REX_ACTIONS �bernommen wenn SAVE=true
+          // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
           if (!$REX_ACTION['SAVE'])
           {
             // ----- DONT SAVE/UPDATE SLICE
@@ -303,9 +303,9 @@ if ($article->getRows() == 1)
             $info .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
             // ----- / POST SAVE ACTION
 
-            // Update Button wurde gedr�ckt?
+            // Update Button wurde gedrückt?
             // TODO: Workaround, da IE keine Button Namen beim
-            // dr�cken der Entertaste �bermittelt
+            // drücken der Entertaste übermittelt
             if (rex_post('btn_save', 'string'))
             {
               $function = '';
