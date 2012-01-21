@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function rex_linkmap_url($local = array(),$globals = array())
 {

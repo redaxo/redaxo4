@@ -2,10 +2,10 @@
 
 /**
  * REX_CONFIG[field=xzy]
- * 
+ *
  * Attribute:
  *   - field    => Feld, das ausgegeben werden soll
- *   
+ *
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -24,20 +24,20 @@ class rex_var_config extends rex_var
   {
     return $this->matchConfig($content);
   }
-  
+
   /**
    * Werte für die Ausgabe
    */
   /*private*/ function matchConfig($content)
   {
-  	global $REX;
+    global $REX;
 
     $var = 'REX_CONFIG';
     $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)
     {
-    	list ($param_str, $args)   = $match;
+      list ($param_str, $args)   = $match;
       list ($field, $args)       = $this->extractArg('field', $args, '');
 
       $tpl = '';

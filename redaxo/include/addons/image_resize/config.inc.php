@@ -45,13 +45,13 @@ rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
 
 if ($REX['REDAXO'])
 {
-	// Bei Update Cache loeschen
+  // Bei Update Cache loeschen
   if(!function_exists('rex_image_ep_mediaupdated'))
   {
-  	rex_register_extension('MEDIA_UPDATED', 'rex_image_ep_mediaupdated');
-  	function rex_image_ep_mediaupdated($params){
-  		rex_thumbnail::deleteCache($params["filename"]);
-  	}
+    rex_register_extension('MEDIA_UPDATED', 'rex_image_ep_mediaupdated');
+    function rex_image_ep_mediaupdated($params){
+      rex_thumbnail::deleteCache($params["filename"]);
+    }
   }
 }
 
@@ -59,15 +59,15 @@ if ($REX['REDAXO'])
 $rex_resize = rex_get('rex_resize', 'string');
 if ($rex_resize != '')
 {
-	rex_thumbnail::createFromUrl($rex_resize);
+  rex_thumbnail::createFromUrl($rex_resize);
 }
 
 if($REX['REDAXO'])
 {
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
-	$REX['ADDON'][$mypage]['SUBPAGES'] = array (
-  	array ('', $I18N->msg('iresize_subpage_desc')),
-  	array ('settings', $I18N->msg('iresize_subpage_config')),
-  	array ('clear_cache', $I18N->msg('iresize_subpage_clear_cache')),
-	);
+  $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+  $REX['ADDON'][$mypage]['SUBPAGES'] = array (
+    array ('', $I18N->msg('iresize_subpage_desc')),
+    array ('settings', $I18N->msg('iresize_subpage_config')),
+    array ('clear_cache', $I18N->msg('iresize_subpage_clear_cache')),
+  );
 }

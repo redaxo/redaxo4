@@ -25,7 +25,7 @@ if ($function == "delete")
     LEFT JOIN " . $REX['TABLE_PREFIX'] . "template ON " . $REX['TABLE_PREFIX'] . "article.template_id=" . $REX['TABLE_PREFIX'] . "template.id
     WHERE " . $REX['TABLE_PREFIX'] . "article.template_id='$template_id' LIMIT 0,10");
 
-  if ($del->getRows() > 0  || $REX['DEFAULT_TEMPLATE_ID'] == $template_id) 
+  if ($del->getRows() > 0  || $REX['DEFAULT_TEMPLATE_ID'] == $template_id)
   {
     $warning = $I18N->msg("cant_delete_template_because_its_in_use", 'ID = '.$template_id);
 
@@ -97,14 +97,14 @@ if ($function == "add" or $function == "edit")
     {
       $categories["all"] = 0;
     }
-    
+
     $modules = rex_post("modules", "array");
     // leerer eintrag = 0
     if(count($modules) == 0)
     {
       $modules[1]["all"] = 0;
     }
-    
+
     foreach($modules as $k => $module)
     {
       if(!isset($module["all"]) ||$module["all"] != 1)
@@ -124,7 +124,7 @@ if ($function == "add" or $function == "edit")
     $TPL->setValue("attributes", addslashes($attributes));
     $TPL->addGlobalCreateFields();
 
-    if ($function == "add") 
+    if ($function == "add")
     {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
       $attributes = rex_setAttributes("modules", $modules, $attributes);
@@ -145,7 +145,7 @@ if ($function == "add" or $function == "edit")
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
       $attributes = rex_setAttributes("modules", $modules, $attributes);
       $attributes = rex_setAttributes("categories", $categories, $attributes);
-      
+
       $TPL->setWhere("id='$template_id'");
       $TPL->setValue("attributes", addslashes($attributes));
       $TPL->addGlobalUpdateFields();
@@ -176,13 +176,13 @@ if ($function == "add" or $function == "edit")
     $ctypes = rex_getAttributes("ctype", $attributes);
     $modules = rex_getAttributes("modules", $attributes);
     $categories = rex_getAttributes("categories", $attributes);
-    
+
     if(!is_array($modules))
       $modules = array();
 
     if(!is_array($categories))
-    	$categories = array();
-      
+      $categories = array();
+
     // modules[ctype_id][module_id];
     // modules[ctype_id]['all'];
 
@@ -197,34 +197,34 @@ if ($function == "add" or $function == "edit")
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
-		$cat_select = new rex_category_select(false, false, false, false);
-		$cat_select->setMultiple(true);
-		$cat_select->setStyle('class="rex-form-select"');
-		$cat_select->setSize(10);
-		$cat_select->setName('categories[]');
-		$cat_select->setId('categories');
-		
-		if(count($categories)>0)
+    $cat_select = new rex_category_select(false, false, false, false);
+    $cat_select->setMultiple(true);
+    $cat_select->setStyle('class="rex-form-select"');
+    $cat_select->setSize(10);
+    $cat_select->setName('categories[]');
+    $cat_select->setId('categories');
+
+    if(count($categories)>0)
     {
       foreach($categories as $c => $cc)
       {
-        // typsicherer vergleich, weil (0 != "all") => false 
+        // typsicherer vergleich, weil (0 != "all") => false
         if($c !== "all")
-        { 
+        {
           $cat_select->setSelected($cc);
         }
       }
     }
-		
-		
-		
-      
+
+
+
+
     $ctypes_out = '';
     $i = 1;
     $ctypes[] = ""; // Extra, fŸr Neue Spalte
-    
+
     if (is_array($ctypes)) {
-      foreach ($ctypes as $id => $name) 
+      foreach ($ctypes as $id => $name)
       {
         $modul_select->setName('modules['.$i.'][]');
         $modul_select->setId('modules_'.$i.'_select');
@@ -235,7 +235,7 @@ if ($function == "add" or $function == "edit")
           {
             // typsicherer vergleich, weil (0 != "all") => false
             if($j !== 'all')
-            { 
+            {
               $modul_select->setSelected($jj);
             }
           }
@@ -244,7 +244,7 @@ if ($function == "add" or $function == "edit")
         $ctypes_out .= '
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-          <label for="ctype'.$i.'">ID=' . $i . '</label> 
+          <label for="ctype'.$i.'">ID=' . $i . '</label>
           <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />
         </p>
         <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
@@ -252,10 +252,10 @@ if ($function == "add" or $function == "edit")
         if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
           $ctypes_out .= ' checked="checked" ';
         $ctypes_out .= ' value="1" />
-          <label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label> 
+          <label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label>
         </p>
         <p class="rex-form-col-a rex-form-select" id="p_modules'.$i.'">
-          <label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label> 
+          <label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label>
           '.$modul_select->get().'
           <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
         </p>
@@ -270,7 +270,7 @@ if ($function == "add" or $function == "edit")
       <!--
       jQuery(function($) {
     ';
-    
+
     for($j=1;$j<=$i;$j++)
     {
       $ctypes_out .= '
@@ -278,7 +278,7 @@ if ($function == "add" or $function == "edit")
         $("#allmodules'.$j.'").click(function() {
           $("#p_modules'.$j.'").slideToggle("slow");
         });
-        
+
         if($("#allmodules'.$j.'").is(":checked")) {
           $("#p_modules'.$j.'").hide();
         }
@@ -309,14 +309,14 @@ if ($function == "add" or $function == "edit")
               <input type="hidden" name="function" value="' . $function . '" />
               <input type="hidden" name="save" value="ja" />
               <input type="hidden" name="template_id" value="' . $template_id . '" />
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="ltemplatename">' . $I18N->msg("template_name") . '</label>
                   <input class="rex-form-text" type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
                 </p>
               </div>
-      
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
@@ -324,15 +324,15 @@ if ($function == "add" or $function == "edit")
                 </p>
               </div>
 
-              
-              
+
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-textarea">
                   <label for="content">' . $I18N->msg("header_template") . '</label>
                   <textarea class="rex-form-textarea" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
                 </p>
               </div>
-              
+
               <div class="rex-clearer"></div>
             </div>
         </fieldset>
@@ -348,33 +348,33 @@ if ($function == "add" or $function == "edit")
         </fieldset>
         </div>
 
-        
+
          <div id="rex-form-template-categories">
-        	<fieldset class="rex-form-col-1">
-   			    <legend>'.$I18N->msg("template_categories").'</legend>
+          <fieldset class="rex-form-col-1">
+            <legend>'.$I18N->msg("template_categories").'</legend>
               <div class="rex-form-wrapper">
 
-              	<div class="rex-form-row">
-              	<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-				          <input class="rex-form-checkbox" id="allcategories" type="checkbox" name="categories[all]" ';
-				        if(!isset($categories['all']) || $categories['all'] == 1)
-				          echo ' checked="checked" ';
-				        echo ' value="1" />
-				          <label for="allcategories">'.$I18N->msg("template_categories_all").'</label> 
-				        </p>
-				        </div>
+                <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                  <input class="rex-form-checkbox" id="allcategories" type="checkbox" name="categories[all]" ';
+                if(!isset($categories['all']) || $categories['all'] == 1)
+                  echo ' checked="checked" ';
+                echo ' value="1" />
+                  <label for="allcategories">'.$I18N->msg("template_categories_all").'</label>
+                </p>
+                </div>
 
-              	<div class="rex-form-row" id="p_categories">
-		        		<p class="rex-form-col-a rex-form-select">
-				          <label for="categories_select">'.$I18N->msg("template_categories_custom").'</label> 
-				          '.$cat_select->get().'
-				          <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-				        </p>
-				      </div>
+                <div class="rex-form-row" id="p_categories">
+                <p class="rex-form-col-a rex-form-select">
+                  <label for="categories_select">'.$I18N->msg("template_categories_custom").'</label>
+                  '.$cat_select->get().'
+                  <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+                </p>
+              </div>
             </div>
-        	</fieldset>
-				</div>        
-        
+          </fieldset>
+        </div>
+
         <fieldset class="rex-form-col-1">
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
@@ -398,21 +398,21 @@ if ($function == "add" or $function == "edit")
           $("#rex-form-template-ctype").slideToggle("slow");
           $("#rex-form-template-categories").slideToggle("slow");
         });
-        
+
         if($("#active").is(":not(:checked)")) {
           $("#rex-form-template-ctype").hide();
           $("#rex-form-template-categories").hide();
-  			}
-        
+        }
+
         $("#allcategories").click(function() {
           $("#p_categories").slideToggle("slow");
         });
 
         if($("#allcategories").is(":checked")) {
           $("#p_categories").hide();
-  			}
-        
-        
+        }
+
+
       });
 
       //--></script>';

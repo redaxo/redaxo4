@@ -6,7 +6,7 @@
  * @author <a href="http://www.vscope.at">www.vscope.at</a>
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -48,7 +48,7 @@ function rex_resize_wysiwyg_output($params)
           else
           {
             $newsrc = $REX['HTDOCS_PATH'] . 'files/' . $src[2];
-          }          
+          }
           $newimage = str_replace(array($src[1], 'ismap="ismap" '), array($newsrc, ''), $var);
           $content = str_replace($var, $newimage, $content);
         }

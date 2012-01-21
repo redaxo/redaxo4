@@ -27,7 +27,7 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_DATETIME',             11);
   define('REX_A62_FIELD_LEGEND',               12);
   define('REX_A62_FIELD_TIME',                 13);
-  
+
   define('REX_A62_FIELD_COUNT',                13);
 }
 
@@ -47,7 +47,7 @@ $REX['ADDON']['metaTables'][$mypage] = array(
 if ($REX['REDAXO'])
 {
   $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang');
-  
+
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage .'/classes/class.rex_input.inc.php';
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_text.inc.php';
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_textarea.inc.php';
@@ -59,7 +59,7 @@ if ($REX['REDAXO'])
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_time.inc.php';
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_datetime.inc.php';
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_select.inc.php';
-  
+
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_restrictions_element.php';
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php';
   require_once $REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php';
@@ -67,10 +67,10 @@ if ($REX['REDAXO'])
 
   rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
 
-	$REX['ADDON']['pages'][$mypage] = array(
-	  array('', $I18N->msg('article')),
-	  array('categories', $I18N->msg('categories')),
-	  array('media', $I18N->msg('media')),
-	);
+  $REX['ADDON']['pages'][$mypage] = array(
+    array('', $I18N->msg('article')),
+    array('categories', $I18N->msg('categories')),
+    array('media', $I18N->msg('media')),
+  );
 
 }

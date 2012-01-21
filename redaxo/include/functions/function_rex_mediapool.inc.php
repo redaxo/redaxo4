@@ -72,10 +72,10 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   $gc = rex_sql::factory();
   $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
-	if ($gc->getRows() != 1)
-	{
-  	$rex_file_category = 0;
-	}
+  if ($gc->getRows() != 1)
+  {
+    $rex_file_category = 0;
+  }
 
   $isFileUpload = isset($FILE['tmp_name']);
   if ($isFileUpload) $doSubindexing = TRUE;
@@ -117,7 +117,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     if($FILETYPE == '' && isset($size['mime']))
       $FILETYPE = $size['mime'];
-      
+
     $FILESQL = rex_sql::factory();
     $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
     $FILESQL->setValue('filetype',$FILETYPE);
@@ -138,7 +138,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $FILESQL->insert();
 
     $message .= $I18N->msg("pool_file_added");
-    
+
     rex_deleteCacheMediaList($rex_file_category);
   }
 
@@ -178,8 +178,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
 
   global $REX,$I18N;
 
-	$RETURN = array();
-  
+  $RETURN = array();
+
   $FILESQL = rex_sql::factory();
   // $FILESQL->debugsql = 1;
   $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
@@ -198,7 +198,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
 
     $p_new = pathinfo($_FILES['file_new']['name']);
     $p_old = pathinfo($FILEINFOS["filename"]);
-    
+
     // if ($ffiletype == $FILEINFOS["filetype"] || OOMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if($p_new['extension'] == $p_old['extension'])
     {
@@ -207,8 +207,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
           copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
       {
         $RETURN["msg"] = $I18N->msg('pool_file_changed');
-				$FILEINFOS["filetype"] = $ffiletype;
-				$FILEINFOS["filesize"] = $ffilesize;
+        $FILEINFOS["filetype"] = $ffiletype;
+        $FILEINFOS["filesize"] = $ffilesize;
 
         $FILESQL->setValue('filetype',$FILEINFOS["filetype"]);
         // $FILESQL->setValue('originalname',$ffilename);
@@ -243,10 +243,10 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     $RETURN["filetype"] = $FILEINFOS["filetype"];
     $RETURN["file_id"] = $FILEINFOS["file_id"];
   }
-  
-	$FILESQL->addGlobalUpdateFields();
-	$FILESQL->update();
-  
+
+  $FILESQL->addGlobalUpdateFields();
+  $FILESQL->update();
+
   rex_deleteCacheMedia($FILEINFOS["filename"]);
 
 
@@ -260,7 +260,7 @@ $RETURN['filename'] = $NFILENAME;
 $RETURN['old_filename'] = $FILENAME;
 */
 
-	return $RETURN;
+  return $RETURN;
 
 
 }
@@ -310,15 +310,15 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
 
   if(empty($filetype) && function_exists('finfo_open'))
   {
-	  $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-	  $filetype = finfo_file($finfo, $abs_file);
+    $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+    $filetype = finfo_file($finfo, $abs_file);
   }
-  
+
   if(empty($filetype) && function_exists('mime_content_type'))
   {
     $filetype = mime_content_type($abs_file);
   }
-  
+
   $FILE = array();
   $FILE['name'] = $physical_filename;
   $FILE['size'] = $filesize;
@@ -354,7 +354,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $s .= rex_warning($warning);
     $warning = "";
   }
-  
+
   if (isset($info) and $info != "")
   {
     $s .= rex_info($info);
@@ -393,20 +393,20 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   {
     $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. $arg_value .'" />'. "\n";
   }
-  
+
   $arg_fields = '';
   $opener_input_field = rex_request('opener_input_field','string');
   if ($opener_input_field != '')
   {
     $arg_fields .= '<input type="hidden" name="opener_input_field" value="'. htmlspecialchars($opener_input_field) .'" />'. "\n";
   }
-  
+
   $add_submit = '';
   if($close_form && $opener_input_field != '')
   {
     $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
   }
-  
+
   $s .= '
       <div class="rex-form" id="rex-form-mediapool-other">
         <form action="index.php" method="post" enctype="multipart/form-data">
@@ -417,14 +417,14 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
               <input type="hidden" name="media_method" value="add_file" />
               <input type="hidden" name="subpage" value="'. $subpage .'" />
               '.$arg_fields.'
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-text">
                   <label for="ftitle">'.$I18N->msg('pool_file_title').'</label>
                   <input class="rex-form-text" type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars(stripslashes($ftitle)).'" />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-select">
                   <label for="rex_file_category">'.$I18N->msg('pool_file_category').'</label>

@@ -5,7 +5,7 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
+
 $popups_arr = array('linkmap', 'mediapool');
 
 $page_title = $REX['SERVERNAME'];
@@ -15,7 +15,7 @@ if(!isset($page_name))
   $curPage = $REX['PAGES'][$REX['PAGE']]->getPage();
   $page_name = $curPage->getTitle();
 }
-  
+
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
@@ -36,16 +36,16 @@ $body_attr["onunload"] = array('closeAll();');
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
   <link rel="stylesheet" type="text/css" href="media/css_import.css" media="screen, projection, print" />
   <!--[if lte IE 7]>
-		<link rel="stylesheet" href="media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-			
-	<!--[if IE 7]>
-		<link rel="stylesheet" href="media/css_ie_7.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-	
-	<!--[if lte IE 6]>
-		<link rel="stylesheet" href="media/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
+    <link rel="stylesheet" href="media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
+  <![endif]-->
+
+  <!--[if IE 7]>
+    <link rel="stylesheet" href="media/css_ie_7.css" type="text/css" media="screen, projection, print" />
+  <![endif]-->
+
+  <!--[if lte IE 6]>
+    <link rel="stylesheet" href="media/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
+  <![endif]-->
 
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="media/jquery.min.js" type="text/javascript"></script>
@@ -71,11 +71,11 @@ $body_attr = rex_register_extension_point('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
 foreach($body_attr as $k => $v){
-	$body .= $k.'="';
-	if(is_array($v))
-		$body .= implode(" ",$v);
-	$body .= '" ';
-}  
+  $body .= $k.'="';
+  if(is_array($v))
+    $body .= implode(" ",$v);
+  $body .= '" ';
+}
 
 ?>
 </head>
@@ -88,7 +88,7 @@ foreach($body_attr as $k => $v){
 </div>
 
 <div id="rex-navi-logout"><?php
-  
+
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
@@ -101,7 +101,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   echo '<p class="rex-logout">&nbsp;</p>';
 }
-  
+
 ?></div>
 
   <div id="rex-navi-main">
@@ -109,33 +109,33 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
-	$n = rex_be_navigation::factory();
-	
-	foreach($REX['USER']->pages as $p => $pageContainer)
+  $n = rex_be_navigation::factory();
+
+  foreach($REX['USER']->pages as $p => $pageContainer)
   {
-		$p = strtolower($p);
+    $p = strtolower($p);
     if(rex_be_main_page::isValid($pageContainer))
     {
       $pageObj =& $pageContainer->getPage();
       $pageObj->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
-      
+
       if(!$pageContainer->getBlock())
         $pageContainer->setBlock('addons');
-        
+
       if(!$pageObj->getHref())
         $pageObj->setHref('index.php?page='.$p);
       /*
        if(isset ($REX['ACKEY']['ADDON'][$page]))
         $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);
-      else 
+      else
         $item['extra'] = rex_accesskey($pageArr['title'], $accesskey++);
       */
-        
+
       $pageObj->setLinkAttr('tabindex', rex_tabindex(false));
       $n->addPage($pageContainer);
     }
   }
-	
+
   $n->setActiveElements();
   echo $n->getNavigation();
 }

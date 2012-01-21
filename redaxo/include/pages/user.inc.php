@@ -136,22 +136,22 @@ $langpath = $REX['INCLUDE_PATH'].'/lang';
 $langs = array();
 if ($handle = opendir($langpath))
 {
-	while (false !== ($file = readdir($handle)))
+  while (false !== ($file = readdir($handle)))
   {
-		if (substr($file,-5) == '.lang')
+    if (substr($file,-5) == '.lang')
     {
-			$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
-			$I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
+      $locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
+      $I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
       $i_htmlcharset = $I18N_T->msg('htmlcharset');
       if ($cur_htmlcharset == $i_htmlcharset)
       {
-      	$sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
-      	$langs[$locale] = $I18N_T->msg('lang');
+        $sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
+        $langs[$locale] = $I18N_T->msg('lang');
       }
-		}
-	}
-	closedir($handle);
-	unset($I18N_T);
+    }
+  }
+  closedir($handle);
+  unset($I18N_T);
 }
 $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 
@@ -169,10 +169,10 @@ $startpages['structure'] = array($I18N->msg('structure'),'');
 $startpages['profile'] = array($I18N->msg('profile'),'');
 foreach($REX['ADDON']['status'] as $k => $v)
 {
-	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k])) 
-	{
-		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
-	}
+  if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
+  {
+    $startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
+  }
 }
 
 foreach($startpages as $k => $v)
@@ -296,24 +296,24 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $perm .= '#clang['.$_perm.']';
 
   // userperm_be_sprache
-	foreach($langs as $k => $v)
-	{
-		if($userperm_be_sprache == $k)
-		{
-		  $perm .= '#be_lang['.$userperm_be_sprache.']';
-		  break;
-		}
-	}
+  foreach($langs as $k => $v)
+  {
+    if($userperm_be_sprache == $k)
+    {
+      $perm .= '#be_lang['.$userperm_be_sprache.']';
+      break;
+    }
+  }
 
-	// userperm_startpage
-	foreach($startpages as $k => $v)
-	{
-	  if($userperm_startpage == $k)
-	  {
-	    $perm .= '#startpage['.$userperm_startpage.']';
-	    break;
-	  }
-	}
+  // userperm_startpage
+  foreach($startpages as $k => $v)
+  {
+    if($userperm_startpage == $k)
+    {
+      $perm .= '#startpage['.$userperm_startpage.']';
+      break;
+    }
+  }
 
   // userperm_module
   foreach($userperm_module as $_perm)
@@ -384,16 +384,16 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
       $perm .= '#clang['.$_perm.']';
 
     // userperm be sprache
-	  foreach($langs as $k => $v)
-	  {
-	    if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
-	  }
+    foreach($langs as $k => $v)
+    {
+      if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
+    }
 
     // userperm startpage
-	  foreach($startpages as $k => $v)
-	  {
-	    if($userperm_startpage == $k) $perm .= '#startpage['.$userperm_startpage.']';
-	  }
+    foreach($startpages as $k => $v)
+    {
+      if($userperm_startpage == $k) $perm .= '#startpage['.$userperm_startpage.']';
+    }
 
 
 
@@ -415,7 +415,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
       }
       $perm .= '#csw['. $ccat .']';
     }
-      
+
     /*foreach($userperm_cat_read as $_perm)
       $perm .= '#csr['. $_perm .']';*/
 
@@ -456,18 +456,18 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     foreach($userperm_sprachen as $_perm)
       $sel_sprachen->setSelected($_perm);
 
-		// userperm_be_sprache
+    // userperm_be_sprache
     if ($userperm_be_sprache == '') $userperm_be_sprache = 'default';
     $sel_be_sprache->setSelected($userperm_be_sprache);
 
-		// userperm_be_sprache
+    // userperm_be_sprache
     if ($userperm_startpage == '') $userperm_startpage = 'default';
     $sel_startpage->setSelected($userperm_startpage);
 
     // userperm_cat
     foreach($userperm_cat as $_perm)
       $sel_cat->setSelected($_perm);
-      
+
     // userperm_media
     foreach($userperm_media as $_perm)
       $sel_media->setSelected($_perm);
@@ -508,10 +508,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $form_label = $I18N->msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
-						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
-					</div>';
-		$add_user_class = ' rex-form-read';
+            <p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
+            <p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
+          </div>';
+    $add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>';
 
     $sql = new rex_login_sql;
@@ -550,28 +550,28 @@ if ($FUNC_ADD != "" || $user_id > 0)
       // categories
       foreach ($sql->getPermAsArray('csw') as $cat_id)
         $sel_cat->setSelected($cat_id);
-      
+
       // media categories
       foreach ($sql->getPermAsArray('media') as $cat_id)
         $sel_media->setSelected($cat_id);
-        
+
       foreach ($sql->getPermAsArray('module') as $module_id)
         $sel_module->setSelected($module_id);
 
       foreach ($sql->getPermAsArray('clang') as $uclang_id)
         $sel_sprachen->setSelected($uclang_id);
-        
-			foreach($langs as $k => $v)
-			{
-				if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
-			}
-			$sel_be_sprache->setSelected($userperm_be_sprache);
 
-			foreach($startpages as $k => $v)
-			{
-				if ($sql->hasPerm('startpage['.$k.']')) $userperm_startpage = $k;
-			}
-			$sel_startpage->setSelected($userperm_startpage);
+      foreach($langs as $k => $v)
+      {
+        if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
+      }
+      $sel_be_sprache->setSelected($userperm_be_sprache);
+
+      foreach($startpages as $k => $v)
+      {
+        if ($sql->hasPerm('startpage['.$k.']')) $userperm_startpage = $k;
+      }
+      $sel_startpage->setSelected($userperm_startpage);
 
 
       $userpsw = $sql->getValue($REX['TABLE_PREFIX'].'user.psw');
@@ -606,10 +606,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
         $add_login_reset_chkbox = '
         <div class="rex-message">
         <p class="rex-warning rex-form-checkbox rex-form-label-right">
-        	<span>
-	          <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
-  	        <label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
-  	      </span>
+          <span>
+            <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
+            <label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
+          </span>
         </p>
         </div>';
       }
@@ -622,13 +622,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $form_label = $I18N->msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-submit">
-						<input type="submit" class="rex-form-submit" name="function" value="'.$I18N->msg("add_user").'" '. rex_accesskey($I18N->msg('add_user'), $REX['ACKEY']['SAVE']) .' />
-						</p>
-					</div>';
+            <p class="rex-form-submit">
+            <input type="submit" class="rex-form-submit" name="function" value="'.$I18N->msg("add_user").'" '. rex_accesskey($I18N->msg('add_user'), $REX['ACKEY']['SAVE']) .' />
+            </p>
+          </div>';
     $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
     $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
-		$add_user_class = ' rex-form-text';
+    $add_user_class = ' rex-form-text';
     $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
 
@@ -639,11 +639,11 @@ if ($FUNC_ADD != "" || $user_id > 0)
       <legend>'.$form_label.'</legend>
 
       <div class="rex-form-wrapper">
-	      <input type="hidden" name="page" value="user" />
-      	<input type="hidden" name="save" value="1" />
-      	'. $add_hidden .'
+        <input type="hidden" name="page" value="user" />
+        <input type="hidden" name="save" value="1" />
+        '. $add_hidden .'
 
-      	'. $add_login_reset_chkbox .'
+        '. $add_login_reset_chkbox .'
 
         <div class="rex-form-row">
           <p class="rex-form-col-a'.$add_user_class.'">
@@ -655,7 +655,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
             '. ($REX['PSWFUNC']!='' ? '<span class="rex-form-notice">'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
           </p>
-		    </div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-text">
@@ -666,7 +666,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <label for="userdesc">'.$I18N->msg('description').'</label>
             <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
           </p>
-    		</div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
@@ -677,7 +677,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
             '. $add_status_chkbox .'
             <label for="userstatus">'.$I18N->msg('user_status').'</label>
           </p>
-    		</div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
@@ -689,14 +689,14 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <label for="userperm-mylang">'.$I18N->msg('backend_language').'</label>
             '.$sel_be_sprache->get().'
           </p>
-		    </div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-startpage">'.$I18N->msg('startpage').'</label>
             '. $sel_startpage->get() .'
           </p>
-		    </div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
@@ -709,34 +709,34 @@ if ($FUNC_ADD != "" || $user_id > 0)
             '. $sel_ext->get() .'
             <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
           </p>
-		    </div>
+        </div>
 
-				<div class="rex-form-row" id="cats_mcats_box">
-					<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-						<input class="rex-form-checkbox" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
-						<label for="allcats">'.$I18N->msg('all_categories').'</label>
-					</p>
-					<p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
-						<input class="rex-form-checkbox" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
-						<label for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
-					</p>
-				</div>
+        <div class="rex-form-row" id="cats_mcats_box">
+          <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+            <input class="rex-form-checkbox" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
+            <label for="allcats">'.$I18N->msg('all_categories').'</label>
+          </p>
+          <p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
+            <input class="rex-form-checkbox" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
+            <label for="allmcats">'.$I18N->msg('all_mediafolder').'</label>
+          </p>
+        </div>
 
-				<div class="rex-form-row" id="cats_mcats_perms">
-					<p class="rex-form-col-a rex-form-select">
-						<label for="userperm-cat">'.$I18N->msg('categories').'</label>
-						' .$sel_cat->get() .'
-						<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-					</p>
-					<p class="rex-form-col-b rex-form-select">
-						<label for="userperm-media">'.$I18N->msg('mediafolder').'</label>
-						'. $sel_media->get() .'
-						<span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-					</p>
-				</div>
+        <div class="rex-form-row" id="cats_mcats_perms">
+          <p class="rex-form-col-a rex-form-select">
+            <label for="userperm-cat">'.$I18N->msg('categories').'</label>
+            ' .$sel_cat->get() .'
+            <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+          </p>
+          <p class="rex-form-col-b rex-form-select">
+            <label for="userperm-media">'.$I18N->msg('mediafolder').'</label>
+            '. $sel_media->get() .'
+            <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+          </p>
+        </div>
 
-				
-				<div class="rex-form-row">
+
+        <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-module">'.$I18N->msg('modules').'</label>
             '.$sel_module->get().'
@@ -747,14 +747,14 @@ if ($FUNC_ADD != "" || $user_id > 0)
             '. $sel_extra->get() .'
             <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
           </p>
-		    </div>
+        </div>
 
-		    
-		    
-		    
+
+
+
       '. $add_submit .'
-			        
-      	<div class="rex-clearer"></div>
+
+        <div class="rex-clearer"></div>
       </div>
     </fieldset>
   </form>

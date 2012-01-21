@@ -10,10 +10,10 @@
 function rex_addons_folder($addon = null)
 {
   global $REX;
-  
+
   if(!is_null($addon))
     return $REX['INCLUDE_PATH'] .DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR. $addon .DIRECTORY_SEPARATOR;
-  
+
   return $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR;
 }
 
@@ -80,7 +80,7 @@ function rex_install_prepare_query($qry)
   $qry = str_replace('%TEMP_PREFIX%', $REX['TEMP_PREFIX'], $qry);
 
   $qry = trim($qry);
-  
+
   if(rex_lang_is_utf8() AND strpos($qry, 'CREATE TABLE') === 0 AND !strpos($qry, 'DEFAULT CHARSET'))
   {
     $qry .= ' DEFAULT CHARSET=utf8';

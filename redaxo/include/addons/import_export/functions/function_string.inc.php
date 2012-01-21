@@ -2,7 +2,7 @@
 
 /**
  * Returns true if $string starts with $start
- * 
+ *
  * @param $string String Searchstring
  * @param $start String Prefix to search for
  * @author Markus Staab <staab@public-4u.de>
@@ -17,7 +17,7 @@ if (!function_exists('startsWith'))
 
 /**
  * Returns true if $string ends with $end
- * 
+ *
  * @param $string String Searchstring
  * @param $start String Suffix to search for
  * @author Markus Staab <staab@public-4u.de>
@@ -32,7 +32,7 @@ if (!function_exists('endsWith'))
 
 /**
  * Returns the truncated $string
- * 
+ *
  * @param $string String Searchstring
  * @param $start String Suffix to search for
  * @author Markus Staab <staab@public-4u.de>
@@ -208,7 +208,7 @@ if (!function_exists('PMA_splitSqlFile'))
 }
 /**
  * Reads a file and split all statements in it.
- * 
+ *
  * @param $file String Path to the SQL-dump-file
  * @author Markus Staab <staab@public-4u.de>
  */

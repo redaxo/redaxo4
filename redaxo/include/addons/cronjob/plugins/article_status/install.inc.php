@@ -23,5 +23,5 @@ if ($sql->getRows() == 0)
   $sql->addGlobalUpdateFields();
   $sql->insert();
 }
- 
+
 $REX['ADDON']['install']['article_status'] = 1;

@@ -693,9 +693,9 @@ function rex_setup_dropREXtables()
       // ----- volle Datenbank, alte DB löschen / drop
       if(rex_lang_is_utf8())
         rex_setup_setDBcharset();
-      
+
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
-      
+
       $db = rex_sql::factory();
       foreach($requiredTables as $table)
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
@@ -711,9 +711,9 @@ function rex_setup_dropREXtables()
       // ----- leere Datenbank neu einrichten
       if(rex_lang_is_utf8())
         rex_setup_setDBcharset();
-      
+
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
-      
+
       if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
 
@@ -858,7 +858,7 @@ function rex_setup_dropREXtables()
         <input class="rex-form-radio" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked[4] .' />
         <label for="dbanlegen_4">'.$I18N->msg('setup_038').'</label>
       </p>
-      
+
       <p class="rex-form-col-a rex-form-select rex-form-radio-select">
         <input style="margin-left:25px;" onclick="checkInput(\'dbanlegen_4\')" class="rex-form-file" type="file" id="importdbfile" name="FORM[importfile]" size="18" />
       </p>

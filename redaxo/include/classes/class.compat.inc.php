@@ -12,7 +12,7 @@
 // Für < R3.3
 class sql extends rex_sql
 {
-	var $select;
+  var $select;
 
   function sql($DBID = 1)
   {
@@ -37,7 +37,7 @@ class sql extends rex_sql
    */
   function nextValue()
   {
-  	$this->next();
+    $this->next();
   }
 
   /**
@@ -78,56 +78,56 @@ class select extends rex_select
   ################ set multiple
   function multiple($mul)
   {
-  	$this->setMultiple($mul);
+    $this->setMultiple($mul);
   }
 
   ################ select extra
   function set_selectextra($extra)
   {
-  	foreach(rex_var::splitString($extra) as $name => $value)
-  	{
-  		$this->setAttribute($name, $value);
-  	}
+    foreach(rex_var::splitString($extra) as $name => $value)
+    {
+      $this->setAttribute($name, $value);
+    }
   }
 
   function out()
   {
-  	return $this->get();
+    return $this->get();
   }
 
   function set_name($name)
   {
-  	$this->setName($name);
+    $this->setName($name);
   }
 
   function set_id($id)
   {
-  	$this->setId($id);
+    $this->setId($id);
   }
 
   function set_size($size)
   {
-  	$this->setSize($size);
+    $this->setSize($size);
   }
 
   function set_selected($selected)
   {
-  	$this->setSelected($selected);
+    $this->setSelected($selected);
   }
 
   function reset_selected()
   {
-  	$this->resetSelected();
+    $this->resetSelected();
   }
 
   function set_style($style)
   {
-  	$this->setStyle($style);
+    $this->setStyle($style);
   }
 
   function add_option($name, $value, $id = 0, $re_id = 0)
   {
-  	$this->addOption($name, $value, $id, $re_id);
+    $this->addOption($name, $value, $id, $re_id);
   }
 }
 
@@ -188,7 +188,7 @@ function rex_parseArticleName($name)
 // Für < R4.2
 function rex_medienpool_filename($FILENAME, $doSubindexing = true)
 {
-  return rex_mediapool_filename($FILENAME, $doSubindexing);  
+  return rex_mediapool_filename($FILENAME, $doSubindexing);
 }
 
 function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = TRUE)
@@ -198,7 +198,7 @@ function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlo
 
 function rex_medienpool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
-  return rex_mediapool_updateMedia($FILE, $FILEINFOS, $userlogin);  
+  return rex_mediapool_updateMedia($FILE, $FILEINFOS, $userlogin);
 }
 
 function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null, $doSubindexing = FALSE)
@@ -239,7 +239,7 @@ function rex_medienpool_Syncform($rex_file_category)
  * @param $mediacat
  * @param $mediacat_ids
  * @param $groupName
- * 
+ *
  * @deprecated since REDAXO 4.3
  * @see rex_mediacategory_select
  */
@@ -272,7 +272,7 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
  * @param $mediacat
  * @param $mediacat_ids
  * @param $groupName
- * 
+ *
  * @deprecated since REDAXO 4.3
  * @see rex_mediacategory_select
  */

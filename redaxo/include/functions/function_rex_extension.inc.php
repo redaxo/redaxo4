@@ -122,10 +122,10 @@ function rex_call_func($function, $params, $parseParamsAsArray = true)
   $func = '';
 
   if (is_callable($function))
- 	{
- 	  $func = $function;
- 	}
- 	elseif (is_string($function) && strlen($function) > 0)
+  {
+    $func = $function;
+  }
+  elseif (is_string($function) && strlen($function) > 0)
   {
     // static class method
     if (strpos($function, '::') !== false)
@@ -159,14 +159,14 @@ function rex_call_func($function, $params, $parseParamsAsArray = true)
     trigger_error('rexCallFunc: Using of an unexpected function var "'.$function.'"!');
   }
 
-	if($parseParamsAsArray === true)
-	{
-		// Alle Parameter als ein Array übergeben
-		// funktion($params);
-	  return call_user_func($func, $params);
-	}
-	// Jeder index im Array ist ein Parameter
-	// funktion($params[0], $params[1], $params[2],...);
+  if($parseParamsAsArray === true)
+  {
+    // Alle Parameter als ein Array übergeben
+    // funktion($params);
+    return call_user_func($func, $params);
+  }
+  // Jeder index im Array ist ein Parameter
+  // funktion($params[0], $params[1], $params[2],...);
   return call_user_func_array($func, $params);
 }
 

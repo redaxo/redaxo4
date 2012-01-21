@@ -20,10 +20,10 @@
       <p id="rex-scripttime"><!--DYN--><?php echo rex_showScriptTime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?><!--/DYN--></p>
     </div>
   </div>
-  
+
   <div id="rex-extra"></div>
   <div id="rex-redaxo-link"><p><a href="./" title="Wohin verlinke ich?">Wohin verlinke ich?</a></p></div>
-  
+
   </div><!-- END #rex-website -->
    </body>
 </html>

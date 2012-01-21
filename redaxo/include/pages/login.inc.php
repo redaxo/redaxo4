@@ -38,23 +38,23 @@ echo '
   <fieldset class="rex-form-col-1">
     <legend>Login</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
-    
+
     <div class="rex-form-wrapper">
-    
-    	<div class="rex-form-row">
-		    <p class="rex-form-col-a rex-form-text">
-    			<label for="rex-form-login">'.$I18N->msg('login_name').':</label>
-      		<input type="text" value="'.stripslashes(htmlspecialchars($rex_user_login)).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
-    		</p>
-    	</div>
-    	<div class="rex-form-row">
-		    <p class="rex-form-col-a rex-form-password">
-      		<label for="REX_UPSW">'.$I18N->msg('password').':</label>
-      		<input class="rex-form-password" type="password" name="rex_user_psw" id="REX_UPSW"'. rex_tabindex() .' />
-	    		<input class="rex-form-submit" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
-	    	</p>
-	    </div>
-	  </div>
+
+      <div class="rex-form-row">
+        <p class="rex-form-col-a rex-form-text">
+          <label for="rex-form-login">'.$I18N->msg('login_name').':</label>
+          <input type="text" value="'.stripslashes(htmlspecialchars($rex_user_login)).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
+        </p>
+      </div>
+      <div class="rex-form-row">
+        <p class="rex-form-col-a rex-form-password">
+          <label for="REX_UPSW">'.$I18N->msg('password').':</label>
+          <input class="rex-form-password" type="password" name="rex_user_psw" id="REX_UPSW"'. rex_tabindex() .' />
+          <input class="rex-form-submit" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
+        </p>
+      </div>
+    </div>
   </fieldset>
 </form>
 </div>

@@ -159,19 +159,19 @@ function array_insert($array, $index, $value)
 function rex_message($message, $cssClass, $sorround_tag)
 {
   $return = '';
-  
+
   $return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
-  
+
   if ($sorround_tag != 'p')
     $return .= '<p>';
-    
+
   $return .= '<span>'. $message .'</span>';
-  
+
   if ($sorround_tag != 'p')
     $return .= '</p>';
-    
+
   $return .= '</'. $sorround_tag .'></div>';
-  
+
   return $return;
 }
 
@@ -261,7 +261,7 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
 
     if(!$I18N)
       $I18N = rex_create_lang($REX['LANG']);
-      
+
     if(!$I18N)
       trigger_error('Unable to create language "'. $REX['LANG'] .'"', E_USER_ERROR);
 
@@ -352,7 +352,7 @@ function rex_split_string($string)
 
       $var_name = $variable[0];
       $var_value = $variable[1];
-      
+
       if ($var_value == $spacer)
       {
         $var_value = array_shift($quoted);
@@ -393,11 +393,11 @@ function rex_replace_dynamic_contents($path, $content)
 /**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
- * 
+ *
  * @param $tableName String Name der Datenbanktabelle
  * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
- * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets 
- * @param $orderBy Sortierung des ResultSets 
+ * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets
+ * @param $orderBy Sortierung des ResultSets
  * @param $id_field Name des Primaerschluessels der Tabelle
  */
 function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
@@ -418,13 +418,13 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
 //
 //  $sql = rex_sql::getInstance();
 //  $sql->setQuery($qry);
-  
+
   $qry = 'select * from '.$tableName;
   if($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
   if($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
-    
+
   $gu = rex_sql::factory();
   $gr = rex_sql::factory();
   $gr->setQuery($qry);
@@ -475,7 +475,7 @@ function rex_highlight_string($string, $return = false)
   {
     return $s;
   }
-  echo $s;  
+  echo $s;
 }
 
 function rex_highlight_file($filename, $return = false)
@@ -485,7 +485,7 @@ function rex_highlight_file($filename, $return = false)
   {
     return $s;
   }
-  echo $s;  
+  echo $s;
 }
 
 // make objectcloning work for php4

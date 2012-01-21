@@ -13,7 +13,7 @@ class rex_var
 
   /**
    * Actionmethode:
-   * 
+   *
    * Füllt des sql-Objekt aus dem $REX_ACTION Array
    */
   /*public*/ function setACValues(& $sql, $REX_ACTION, $escape = false)
@@ -23,9 +23,9 @@ class rex_var
 
   /**
    * Actionmethode:
-   * 
+   *
    * Füllt des $REX_ACTION Array aus den Input Formularwerten (Request Werten)
-   * 
+   *
    * @return REX_ACTION Array
    */
   /*public*/ function getACRequestValues($REX_ACTION)
@@ -35,9 +35,9 @@ class rex_var
 
   /**
    * Actionmethode:
-   * 
+   *
    * Füllt des $REX_ACTION Arrays aus der Datenbank (rex_sql)
-   * 
+   *
    * @return REX_ACTION Array
    */
   /*public*/ function getACDatabaseValues($REX_ACTION, & $sql)
@@ -47,9 +47,9 @@ class rex_var
 
   /**
    * Actionmethode:
-   * 
+   *
    * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem REX_ACTION Array
-   * 
+   *
    * @return String Der geparste String
    */
   /*public*/ function getACOutput($REX_ACTION, $content)
@@ -71,7 +71,7 @@ class rex_var
   {
     return $this->getBEOutput($sql, $content);
   }
-  
+
   /**
    * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem sql Objekt.
    * Die Darstellung erfolgt dabei zur Modul-Eingabe im Backend.
@@ -86,7 +86,7 @@ class rex_var
   /**
    * Ersetzt im String $content alle vorkommenden REX-Variablen mit den Werten aus dem sql Objekt.
    * Die Darstellung erfolgt dabei zur Modul-Ausgabe im Backend.
-   * 
+   *
    * BE = Backend
    */
   /*public*/ function getBEInput(& $sql, $content)
@@ -100,7 +100,7 @@ class rex_var
    */
   /*public*/ function getTemplate($content)
   {
-  	return $content;
+    return $content;
   }
 
   /**
@@ -146,8 +146,8 @@ class rex_var
     switch($name)
     {
       case '0'       : $name = 'id';
-    	case 'id'      :
-    	case 'prefix'  :
+      case 'id'      :
+      case 'prefix'  :
       case 'suffix'  :
       case 'ifempty' :
       case 'instead' :
@@ -183,10 +183,10 @@ class rex_var
 
     if(isset($args['instead']) && $value != '')
       $value = $args['instead'];
-    
+
     if(isset($args['ifempty']) && $value == '')
       $value = $args['ifempty'];
-      
+
     if($value != '' && isset($args['prefix']))
       $prefix = $args['prefix'];
 
@@ -195,7 +195,7 @@ class rex_var
 
     return $prefix . $value . $suffix;
   }
-  
+
   /**
    * Parameter aus args zur Laufzeit auf den Wert einer Variablen anwenden.
    * Wichtig für Variablen, die Variable ausgaben haben.
@@ -215,22 +215,22 @@ class rex_var
     $result = array ();
 
     $match = $this->matchVar($content, $varname);
-    
+
     foreach ($match as $param_str)
     {
-    	$args = array();
-    	$params = $this->splitString($param_str);
-    	foreach ($params as $name => $value)
-    	{
+      $args = array();
+      $params = $this->splitString($param_str);
+      foreach ($params as $name => $value)
+      {
         $args = $this->handleDefaultParam($varname, $args, $name, $value);
-    	}
-      
+      }
+
       $result[] = array (
         $param_str,
         $args
       );
     }
-    
+
     return $result;
   }
 
@@ -249,25 +249,25 @@ class rex_var
         $result[] = $match;
       }
     }
-    
+
     return $result;
   }
-  
+
   /**
    * Extrahiert das Argument $name aus dem Array $args.
    * Wenn das Argument nicht gefunden werden kann, wird $default zurueckgegeben.
-   * 
+   *
    * @return String Wert des Arguments zu $name oder $default wenn nicht vorhanden
    */
   /*protected*/ function extractArg($name, $args, $default = null)
   {
-  	$val = $default;
-  	if(isset($args[$name]))
-  	{
-  		$val = $args[$name];
-  		unset($args[$name]);
-  	}
-  	return array($val, $args);
+    $val = $default;
+    if(isset($args[$name]))
+    {
+      $val = $args[$name];
+      unset($args[$name]);
+    }
+    return array($val, $args);
   }
 
   /**
@@ -282,8 +282,8 @@ class rex_var
 
   /**
    * Prueft ob es sich bei dem aktuellen event um ein ADD-Event handelt.
-   * 
-   * @return boolean True wenn es sich um ein ADD-Event handelt, sonst FALSE 
+   *
+   * @return boolean True wenn es sich um ein ADD-Event handelt, sonst FALSE
    */
   /*public static*/ function isAddEvent()
   {
@@ -292,8 +292,8 @@ class rex_var
 
   /**
    * Prueft ob es sich bei dem aktuellen event um ein EDIT-Event handelt.
-   * 
-   * @return boolean True wenn es sich um ein EDIT-Event handelt, sonst FALSE 
+   *
+   * @return boolean True wenn es sich um ein EDIT-Event handelt, sonst FALSE
    */
   /*public static*/ function isEditEvent()
   {
@@ -302,8 +302,8 @@ class rex_var
 
   /**
    * Prueft ob es sich bei dem aktuellen event um ein DELETE-Event handelt.
-   * 
-   * @return boolean True wenn es sich um ein DELETE-Event handelt, sonst FALSE 
+   *
+   * @return boolean True wenn es sich um ein DELETE-Event handelt, sonst FALSE
    */
   /*public static*/ function isDeleteEvent()
   {

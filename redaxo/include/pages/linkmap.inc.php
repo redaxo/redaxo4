@@ -41,23 +41,23 @@ if ($opener_input_field != '' && $opener_input_field_name == '')
   $opener_input_field_name = $opener_input_field.'_NAME';
 }
 if($opener_input_field=="TINY"){
-	$func_body .= 'window.opener.insertLink(link,name);
-	               self.close();';
-} 
+  $func_body .= 'window.opener.insertLink(link,name);
+                 self.close();';
+}
 else if (substr($opener_input_field,0,13)=="REX_LINKLIST_")
 {
 $id = substr($opener_input_field,13,strlen($opener_input_field));
 $func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
                var linkid = link.replace("redaxo://","");
-			   var source = opener.document.getElementById(linklist);
-			   var sourcelength = source.options.length;
+         var source = opener.document.getElementById(linklist);
+         var sourcelength = source.options.length;
 
                option = opener.document.createElement("OPTION");
                option.text = name;
                option.value = linkid;
-			   
-			   source.options.add(option, sourcelength);
-			   opener.writeREXLinklist('. $id .');';
+
+         source.options.add(option, sourcelength);
+         opener.writeREXLinklist('. $id .');';
 }
 else {
 $func_body .= 'var linkid = link.replace("redaxo://","");
@@ -109,55 +109,55 @@ rex_title('Linkmap', $navi_path);
 
 
 <div id="rex-linkmap">
-	<div class="rex-area-col-2">
-		<div class="rex-area-col-a">
-			<h3 class="rex-hl2"><?php echo $I18N->msg('lmap_categories'); ?></h3>
-			<div class="rex-area-content">
-			<?php
-			$roots = OOCategory::getRootCategories();
-			
-			$mountpoints = $REX["USER"]->getMountpoints();
-			if(count($mountpoints)>0)
-			{
-				$roots = array();
-				foreach($mountpoints as $mp)
-				{
-					if(OOCategory::getCategoryById($mp))
-						$roots[] = OOCategory::getCategoryById($mp);
-				}
-				
-			}
-			
-			echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
-			?>
-			</div>
-		</div>
-		
-		<div class="rex-area-col-b">
-			<h3 class="rex-hl2"><?php echo $I18N->msg('lmap_articles'); ?></h3>
-			<div class="rex-area-content">
-			<ul>
-			<?php
-			$articles = null;
-			if($isRoot && count($mountpoints)==0)
-				$articles = OOArticle::getRootArticles();
-			else if($category)
-				$articles = $category->getArticles();
-	
-			if ($articles)
-			{
-				foreach($articles as $article)
-				{
-					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
-					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
-	
-					echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
-					echo '</li>'. "\n";
-				}
-			}
-			?>
-			</ul>
-			</div>
-		</div>
+  <div class="rex-area-col-2">
+    <div class="rex-area-col-a">
+      <h3 class="rex-hl2"><?php echo $I18N->msg('lmap_categories'); ?></h3>
+      <div class="rex-area-content">
+      <?php
+      $roots = OOCategory::getRootCategories();
+
+      $mountpoints = $REX["USER"]->getMountpoints();
+      if(count($mountpoints)>0)
+      {
+        $roots = array();
+        foreach($mountpoints as $mp)
+        {
+          if(OOCategory::getCategoryById($mp))
+            $roots[] = OOCategory::getCategoryById($mp);
+        }
+
+      }
+
+      echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
+      ?>
+      </div>
+    </div>
+
+    <div class="rex-area-col-b">
+      <h3 class="rex-hl2"><?php echo $I18N->msg('lmap_articles'); ?></h3>
+      <div class="rex-area-content">
+      <ul>
+      <?php
+      $articles = null;
+      if($isRoot && count($mountpoints)==0)
+        $articles = OOArticle::getRootArticles();
+      else if($category)
+        $articles = $category->getArticles();
+
+      if ($articles)
+      {
+        foreach($articles as $article)
+        {
+          $liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
+          $url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
+
+          echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
+          echo '</li>'. "\n";
+        }
+      }
+      ?>
+      </ul>
+      </div>
+    </div>
   </div>
 </div>

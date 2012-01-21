@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPMailer language file.  
+ * PHPMailer language file.
  * Traditional Chinese Version
  * @author liqwei <liqwei@liqwei.com>
  */

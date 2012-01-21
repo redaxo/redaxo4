@@ -168,7 +168,7 @@ function selectMediaListArray(files)
             var sourcelength = source.options.length;
 
             var files = getObjArray(files);
-            
+
             for(var i = 0; i < files.length; i++)
             {
               if (files[i].checked)

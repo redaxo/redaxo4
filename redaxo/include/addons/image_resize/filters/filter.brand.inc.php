@@ -14,17 +14,17 @@ function image_resize_brand(& $src_im)
   $brand = new rex_thumbnail($brandImage);
 
   // -------------------------------------- CONFIG
-  
+
   // Abstand vom Rand
   $paddX = -10;
   $paddY = -10;
   // horizontale ausrichtung: left/center/right
-  $hpos = 'right'; 
+  $hpos = 'right';
   // vertikale ausrichtung:   top/center/bottom
   $vpos = 'bottom';
-  
+
   // -------------------------------------- /CONFIG
-  
+
   switch($hpos)
   {
     case 'left':
@@ -38,7 +38,7 @@ function image_resize_brand(& $src_im)
       break;
     default: trigger_error('Unexpected value for "hpos"!', E_USER_ERROR);
   }
-  
+
   switch($vpos)
   {
     case 'top':
@@ -52,7 +52,7 @@ function image_resize_brand(& $src_im)
       break;
     default: trigger_error('Unexpected value for "vpos"!', E_USER_ERROR);
   }
-  
+
   imagealphablending($src_im, true);
   imagecopy($src_im, $brand->getImage(), $dstX + $paddX, $dstY + $paddY, 0, 0, $brand->getImageWidth(), $brand->getImageHeight());
 

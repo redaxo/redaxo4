@@ -63,17 +63,17 @@ class rex_a62_tableExpander extends rex_form
     $field->setLabel($I18N->msg('minfo_field_label_title'));
     $field->setNotice($I18N->msg('minfo_field_notice_title'));
 
-	  $gq = new rex_sql;
-		$gq->setQuery('SELECT dbtype,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
-		$textFields = array();
-		foreach($gq->getArray() as $f) 
-		{
-		  if($f["dbtype"] == "text")
-		  {
-		  $textFields[$f['id']] = $f['id'];
-		  }
-		}
-    
+    $gq = new rex_sql;
+    $gq->setQuery('SELECT dbtype,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
+    $textFields = array();
+    foreach($gq->getArray() as $f)
+    {
+      if($f["dbtype"] == "text")
+      {
+      $textFields[$f['id']] = $f['id'];
+      }
+    }
+
     $field =& $this->addSelectField('type');
     $field->setLabel($I18N->msg('minfo_field_label_type'));
     $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array('. implode(',', $typeFields) .'), new Array('. implode(',', $textFields) .'));');
@@ -81,7 +81,7 @@ class rex_a62_tableExpander extends rex_form
     $select->setSize(1);
 
     $changeTypeFieldId = $field->getAttribute('id');
-    
+
     $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
     $select->addSqlOptions($qry);
 
@@ -116,7 +116,7 @@ class rex_a62_tableExpander extends rex_form
     $field =& $this->addField('', 'restrictions', $value = null, $attributes);
     $field->setLabel($I18N->msg('minfo_field_label_restrictions'));
     $field->setAttribute('size', 10);
-    
+
     parent::init();
   }
 
@@ -128,21 +128,21 @@ class rex_a62_tableExpander extends rex_form
 
   /*protected*/ function delete()
   {
-  	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
+    // Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
     $sql = rex_sql::factory();
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
     $sql->setWhere($this->whereCondition);
     $sql->select('name');
     $columnName = $sql->getValue('name');
-    
+
     if(($result = parent::delete()) === true)
     {
       // Prios neu setzen, damit keine l�cken entstehen
       $this->organizePriorities(1,2);
       return $this->tableManager->deleteColumn($columnName);
     }
-    
+
     return $result;
   }
 
@@ -155,7 +155,7 @@ class rex_a62_tableExpander extends rex_form
       // Den Namen mit Prefix speichern
       return $this->addPrefix($fieldValue);
     }
-    
+
     return parent::preSave($fieldsetName, $fieldName, $fieldValue, $saveSql);
   }
 
@@ -247,7 +247,7 @@ class rex_a62_tableExpander extends rex_form
       $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. $REX['TABLE_PREFIX'] .'62_type` WHERE id='. $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
-      
+
       // TEXT Spalten d�rfen in MySQL keine Defaultwerte haben
       if($fieldDbType == 'text')
         $fieldDefault = null;
@@ -262,7 +262,7 @@ class rex_a62_tableExpander extends rex_form
         // Spalte in der Tabelle anlegen
         $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
-      
+
       if($tmRes)
       {
         // DefaultWerte setzen
@@ -275,7 +275,7 @@ class rex_a62_tableExpander extends rex_form
           $upd->setValue($fieldName, addSlashes($fieldDefault));
           return $upd->update();
         }
-        
+
         // Default werte haben schon zuvor gepasst, daher true zur�ckgeben
         return true;
       }
@@ -283,7 +283,7 @@ class rex_a62_tableExpander extends rex_form
 
     return false;
   }
-  
+
   /*public*/ function getPrefix()
   {
     return $this->metaPrefix;
@@ -298,7 +298,7 @@ class rex_a62_tableExpander extends rex_form
       $this->tableName,
       'prior',
       'name LIKE "'. $this->metaPrefix .'%"',
-      'prior, updatedate desc', 
+      'prior, updatedate desc',
       'field_id'
     );
   }

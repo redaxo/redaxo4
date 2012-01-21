@@ -2,10 +2,10 @@
 
 /**
  * PHPMailer Addon
- *  
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
- * 
+ *
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -44,7 +44,7 @@ for(\$i = 0; \$i < \$sql->getRows(); \$i++)
     // Clear all addresses and attachments for next loop
     \$mail->ClearAddresses();
     \$mail->ClearAttachments();
-    
+
     \$sql->next();
 }
 
@@ -54,8 +54,8 @@ EOD;
 
 ?>
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $I18N->msg('phpmailer_example_headline'); ?></h2>
-	<div class="rex-addon-content">
-	  <?php rex_highlight_string($mdl_ex); ?>
-	</div>
+  <h2 class="rex-hl2"><?php echo $I18N->msg('phpmailer_example_headline'); ?></h2>
+  <div class="rex-addon-content">
+    <?php rex_highlight_string($mdl_ex); ?>
+  </div>
 </div>

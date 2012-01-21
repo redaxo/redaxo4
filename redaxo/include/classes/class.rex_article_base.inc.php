@@ -201,9 +201,9 @@ class rex_article_base
     if($this->getSlice)
     {
       foreach($RE_CONTS as $k => $v)
-      	$I_ID = $k;
+        $I_ID = $k;
     }
-    
+
     return $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
   }
 
@@ -218,7 +218,7 @@ class rex_article_base
     {
       return $I18N->msg('no_article_available');
     }
-    
+
     $sliceLimit = '';
     if ($this->getSlice) {
       $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
@@ -238,7 +238,7 @@ class rex_article_base
             WHERE
               ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' AND
               ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' AND
-              ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND 
+              ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND
               ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
               ". $sliceLimit ."
               ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
@@ -458,7 +458,7 @@ class rex_article_base
         $content = $tmp;
       }
     }
-    
+
     if ($flushValues)
       $sql->flushValues();
 
@@ -486,7 +486,7 @@ class rex_article_base
         $user_login = '';
       }
     }
-    
+
     if (!$template_id)
       $template_id = $this->getTemplateId();
 

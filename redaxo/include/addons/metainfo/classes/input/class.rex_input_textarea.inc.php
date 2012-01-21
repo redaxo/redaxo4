@@ -9,7 +9,7 @@ class rex_input_textarea extends rex_input
     $this->setAttribute('cols', '50');
     $this->setAttribute('rows', '6');
   }
-  
+
   function getHtml()
   {
     $value = htmlspecialchars($this->value);

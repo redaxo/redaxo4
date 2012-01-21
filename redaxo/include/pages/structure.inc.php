@@ -29,7 +29,7 @@ if(count($mountpoints)==1 && $category_id == 0)
   // Nur ein Mointpoint -> Sprung in die Kategory
   $category_id = current($mountpoints);
 }
-  
+
 // --------------------------------------------- Rechte prŸfen
 require $REX['INCLUDE_PATH'].'/functions/function_rex_category.inc.php';
 require $REX['INCLUDE_PATH'].'/functions/function_rex_content.inc.php';
@@ -208,7 +208,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
   $legend = $I18N->msg('add_category');
   if ($function == 'edit_cat')
     $legend = $I18N->msg('edit_category');
-    
+
   echo '
   <div class="rex-form" id="rex-form-structure-category">
   <form action="index.php" method="post">
@@ -255,10 +255,10 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
     echo '<td class="rex-small">-</td>';
   }
 
-	echo '<td><a href="index.php?page=structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
-	echo '<td>&nbsp;</td>';
-	echo '<td colspan="3">&nbsp;</td>';
-	echo '</tr>';
+  echo '<td><a href="index.php?page=structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
+  echo '<td>&nbsp;</td>';
+  echo '<td colspan="3">&nbsp;</td>';
+  echo '</tr>';
 
 }
 
@@ -308,7 +308,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
       'id' => $category_id,
       'clang' => $clang,
       'data_colspan' => ($data_colspan+1),
-		));
+    ));
 }
 
 
@@ -350,9 +350,9 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       ));
       $add_buttons = '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
 
-		  $class = 'rex-table-row-activ';
- 		 	if($meta_buttons != "")
-    		$class .= ' rex-has-metainfo';
+      $class = 'rex-table-row-activ';
+      if($meta_buttons != "")
+        $class .= ' rex-has-metainfo';
 
       echo '
         <tr class="'. $class .'">
@@ -364,15 +364,15 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         </tr>';
 
       // ----- EXTENSION POINT
-  		echo rex_register_extension_point('CAT_FORM_EDIT', '', array (
-      	'id' => $edit_id,
-      	'clang' => $clang,
+      echo rex_register_extension_point('CAT_FORM_EDIT', '', array (
+        'id' => $edit_id,
+        'clang' => $clang,
         'category' => $KAT,
-      	'catname' => $KAT->getValue('catname'),
-      	'catprior' => $KAT->getValue('catprior'),
-      	'data_colspan' => ($data_colspan+1),
-		  ));
-		  
+        'catname' => $KAT->getValue('catname'),
+        'catprior' => $KAT->getValue('catprior'),
+        'data_colspan' => ($data_colspan+1),
+      ));
+
     }
     else
     {
@@ -383,15 +383,15 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
-    
-			if (!$REX['USER']->hasPerm('editContentOnly[]'))
-			{
-				$category_delete = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
-			}
-			else
-			{
-				$category_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
-			}
+
+      if (!$REX['USER']->hasPerm('editContentOnly[]'))
+      {
+        $category_delete = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+      }
+      else
+      {
+        $category_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
+      }
 
       echo '
         <tr>
@@ -462,7 +462,7 @@ echo '
 
 if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
 {
-  
+
   $template_select = new rex_select;
   $template_select->setName('template_id');
   $template_select->setId('rex-form-template');
@@ -471,17 +471,17 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   $templates = OOCategory::getTemplates($category_id);
   if(count($templates)>0)
   {
-  	foreach($templates as $t_id => $t_name)
-	  {
-	  	$template_select->addOption(rex_translate($t_name, null, false), $t_id);
-	    $TEMPLATE_NAME[$t_id] = rex_translate($t_name);
-	  }
+    foreach($templates as $t_id => $t_name)
+    {
+      $template_select->addOption(rex_translate($t_name, null, false), $t_id);
+      $TEMPLATE_NAME[$t_id] = rex_translate($t_name);
+    }
   }else
   {
     $template_select->addOption($I18N->msg('option_no_template'), '0');
     $TEMPLATE_NAME[0] = $I18N->msg('template_default_name');
   }
-  
+
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
   if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
@@ -501,7 +501,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     $legend = $I18N->msg('article_add');
     if ($function == 'edit_art')
       $legend = $I18N->msg('article_edit');
-    
+
     echo '
     <div class="rex-form" id="rex-form-structure-article">
     <form action="index.php" method="post">
@@ -566,7 +566,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     if($REX['DEFAULT_TEMPLATE_ID'] > 0 && isset($TEMPLATE_NAME[$REX['DEFAULT_TEMPLATE_ID']]))
     {
       $template_select->setSelected($REX['DEFAULT_TEMPLATE_ID']);
-    
+
     }else
     {
       // template_id vom Startartikel erben
@@ -643,18 +643,18 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       {
         if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
           $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
-        else            
+        else
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
         if (!$REX['USER']->hasPerm('editContentOnly[]'))
-        	$article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+          $article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
         else
-        	$article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
+          $article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
 
         $add_extra = '<td>'. $article_delete .'</td>
                       <td>'. $article_status .'</td>';
       }
-      
+
       $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
 
       echo '<tr>
@@ -680,7 +680,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       $art_status = $artStatusTypes[$sql->getValue('status')][0];
       $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
       $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
-      
+
       echo '<tr>
               <td class="rex-icon"><span class="rex-i-element '.$class.'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'"</span></span></td>
               '. $add_td .'

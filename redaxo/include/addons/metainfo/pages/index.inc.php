@@ -37,7 +37,7 @@ switch($subpage)
   }
   default:
   {
-	  $prefix = 'art_';
+    $prefix = 'art_';
   }
 }
 

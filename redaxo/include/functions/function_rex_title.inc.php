@@ -49,7 +49,7 @@
  */
 function rex_title($head, $subtitle = '')
 {
-	global $article_id, $category_id, $page, $I18N;
+  global $article_id, $category_id, $page, $I18N;
 
   if(empty($subtitle))
   {
@@ -69,7 +69,7 @@ function rex_title($head, $subtitle = '')
   else
   {
     // REDAXO <= 4.2 compat
-	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';    
+    $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
   }
 
   // ----- EXTENSION POINT
@@ -82,10 +82,10 @@ function rex_title($head, $subtitle = '')
   );
 
   print '
-	<div id="rex-title">
-  		<div class="rex-title-row"><h1>'.$head.'</h1></div>
-  		'.$subtitle.'
-	</div>';
+  <div id="rex-title">
+      <div class="rex-title-row"><h1>'.$head.'</h1></div>
+      '.$subtitle.'
+  </div>';
 
   rex_register_extension_point('PAGE_TITLE_SHOWN', $subtitle,
     array(
@@ -97,8 +97,8 @@ function rex_title($head, $subtitle = '')
 
   print '
 <!-- *** OUTPUT OF CONTENT - START *** -->
-	<div id="rex-output">
-	';
+  <div id="rex-output">
+  ';
 }
 
 /**
@@ -133,7 +133,7 @@ function rex_get_subtitle($subline)
 
       $link = $subpage[0];
       $label = $subpage[1];
-      
+
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
       // Berechtigung prüfen
@@ -176,8 +176,8 @@ function rex_get_subtitle($subline)
           }
           $attr .= ' '.$attr_name .'="'. $attr_value .'"';
         }
-      } 
-      
+      }
+
       // Auf der aktiven Seite den Link nicht anzeigen
       if ($active)
       {
@@ -205,11 +205,11 @@ function rex_get_subtitle($subline)
       $i = 1;
       foreach($subtitle as $part)
       {
-	      if($i == 1) 
-					$items .= '<li class="rex-navi-first">'. $part .'</li>';
-				else 
-	        $items .= '<li>'. $part .'</li>';
-					
+        if($i == 1)
+          $items .= '<li class="rex-navi-first">'. $part .'</li>';
+        else
+          $items .= '<li>'. $part .'</li>';
+
         $i++;
       }
       $subtitle_str = '

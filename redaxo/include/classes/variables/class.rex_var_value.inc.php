@@ -106,7 +106,7 @@ class rex_var_value extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id > 0 && $id < 21)
       {
         $replace = $this->getValue($sql, 'value' . $id);

@@ -6,39 +6,39 @@
 
 function image_resize_blur(&$img, $amount = 80, $radius = 8, $threshold = 3)
 {
-	
-////////////////////////////////////////////////////////////////////////////////////////////////  
-////  
-////                  Unsharp Mask for PHP - version 2.1.1  
-////  
-////    Unsharp mask algorithm by Torstein Hönsi 2003-07.  
-////             thoensi_at_netcom_dot_no.  
-////               Please leave this notice.  
-////  
-///////////////////////////////////////////////////////////////////////////////////////////////  
-	
-	// Attempt to calibrate the parameters to Photoshop:
-	if ($amount > 500) $amount = 500;
-	$amount = $amount * 0.016;
-	if ($radius > 50) $radius = 50;
-	$radius = $radius * 2;
-	if ($threshold > 255) $threshold = 255;
-	$radius = abs(round($radius)); // Only integers make sense.
-	if ($radius == 0)
-	{
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////
+////                  Unsharp Mask for PHP - version 2.1.1
+////
+////    Unsharp mask algorithm by Torstein Hönsi 2003-07.
+////             thoensi_at_netcom_dot_no.
+////               Please leave this notice.
+////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Attempt to calibrate the parameters to Photoshop:
+  if ($amount > 500) $amount = 500;
+  $amount = $amount * 0.016;
+  if ($radius > 50) $radius = 50;
+  $radius = $radius * 2;
+  if ($threshold > 255) $threshold = 255;
+  $radius = abs(round($radius)); // Only integers make sense.
+  if ($radius == 0)
+  {
     return $img;
-	}
+  }
 
-	$w = imagesx($img);
-	$h = imagesy($img);
-	$imgCanvas = $img;
-	$imgCanvas2 = $img;
-	$imgBlur = imagecreatetruecolor($w, $h);
+  $w = imagesx($img);
+  $h = imagesy($img);
+  $imgCanvas = $img;
+  $imgCanvas2 = $img;
+  $imgBlur = imagecreatetruecolor($w, $h);
 
-	// Gaussian blur matrix:
-	//  1 2 1
-	//  2 4 2
-	//  1 2 1
+  // Gaussian blur matrix:
+  //  1 2 1
+  //  2 4 2
+  //  1 2 1
 
   // Move copies of the image around one pixel at the time and merge them with weight
   // according to the matrix. The same matrix is simply repeated for higher radii.

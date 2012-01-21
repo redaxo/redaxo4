@@ -10,7 +10,7 @@
  */
 
 class rex_cronjob_phpcallback extends rex_cronjob
-{ 
+{
   /*public*/ function execute()
   {
     if (preg_match('/^\s*(?:(\w*?)\:\:)?(\w*?)(?:\((.*?)\))?\;?\s*$/', $this->getParam('callback'), $matches))
@@ -28,7 +28,7 @@ class rex_cronjob_phpcallback extends rex_cronjob
         return false;
       }
       $params = array();
-      if ($matches[3] != '') 
+      if ($matches[3] != '')
       {
         $params = explode(',', $matches[3]);
         foreach($params as $i => $param)
@@ -50,24 +50,24 @@ class rex_cronjob_phpcallback extends rex_cronjob
     $this->setMessage('Syntax error in callback');
     return false;
   }
-  
+
   /*public*/ function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_type_phpcallback');
   }
-  
-  /*public*/ function getParamFields()
-	{
-		global $I18N;
 
-		return array(
-  		array(
+  /*public*/ function getParamFields()
+  {
+    global $I18N;
+
+    return array(
+      array(
         'label' => $I18N->msg('cronjob_type_phpcallback'),
         'name'  => 'callback',
         'type'  => 'text',
         'notice' => $I18N->msg('cronjob_examples') .': foo(), foo(1, \'string\'), foo::bar()'
       )
     );
-	}
+  }
 }

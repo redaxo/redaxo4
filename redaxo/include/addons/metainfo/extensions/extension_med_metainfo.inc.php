@@ -3,7 +3,7 @@
 /**
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -20,7 +20,7 @@ rex_register_extension('MEDIA_UPDATED', 'rex_a62_metainfo_form');
 function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
 {
   $s = '';
-  
+
   if($typeLabel != 'legend')
     $s .= '<div class="rex-form-row">';
 
@@ -34,7 +34,7 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
 
   if($tag != '')
     $s .='</'.$tag.'>'. "\n";
-	
+
   if($typeLabel != 'legend')
     $s .= '</div>';
 

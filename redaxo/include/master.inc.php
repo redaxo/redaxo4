@@ -8,8 +8,8 @@
 
 // -----------------
 
-if (!$REX['GG']) 
-	$REX['GG'] = false;
+if (!$REX['GG'])
+  $REX['GG'] = false;
 
 // ----------------- SERVER VARS
 

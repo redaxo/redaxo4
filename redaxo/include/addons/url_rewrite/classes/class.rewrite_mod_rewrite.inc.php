@@ -9,7 +9,7 @@
 
 /**
  * URL Mod Rewrite Anleitung:
- * 
+ *
  *   .htaccess file in das root verzeichnis:
  *     RewriteEngine On
  *     # RewriteBase /
@@ -20,12 +20,12 @@ class myUrlRewriter extends rexUrlRewriter
   // Url neu schreiben
   function rewrite($params)
   {
-  	// Url wurde von einer anderen Extension bereits gesetzt
-  	if($params['subject'] != '')
-  	{
-  		return $params['subject'];
-  	}
-  	
+    // Url wurde von einer anderen Extension bereits gesetzt
+    if($params['subject'] != '')
+    {
+      return $params['subject'];
+    }
+
     $params['params'] = $params['params'] == '' ? '' : '?'. $params['params'];
     return $params['id'].'-'.$params['clang'].'-'.$params['name'].'.htm'.$params['params'];
   }

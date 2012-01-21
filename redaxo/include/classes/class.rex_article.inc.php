@@ -105,7 +105,7 @@ class rex_article extends rex_article_base
     {
       return parent::getArticle($curctype);
     }
-    
+
     global $REX;
 
     $this->ctype = $curctype;

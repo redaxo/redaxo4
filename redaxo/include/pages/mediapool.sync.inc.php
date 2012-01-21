@@ -41,7 +41,7 @@ if($PERMALL)
   {
     $sync_files = rex_post('sync_files', 'array');
     $ftitle     = rex_post('ftitle', 'string');
-    
+
     if($diff_count > 0)
     {
       foreach($sync_files as $file)
@@ -62,11 +62,11 @@ if($PERMALL)
       $diff_count = count($diff_files);
     }else
     {
- 
+
     }
   }elseif(rex_post('save', 'boolean'))
   {
-  	$warning = $I18N->msg('pool_file_not_found');
+    $warning = $I18N->msg('pool_file_not_found');
   }
 
   echo rex_mediapool_Syncform($rex_file_category);

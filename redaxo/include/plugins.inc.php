@@ -5,8 +5,8 @@
  * @package redaxo4
  * @version svn:$Id$
  */
-  
-  
+
+
 // ----------------- DONT EDIT BELOW THIS
 // --- DYN
 $REX['ADDON']['plugins']['be_style']['install']['agk_skin'] = '1';

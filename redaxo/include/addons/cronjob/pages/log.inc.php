@@ -30,7 +30,7 @@ if(!isset($log['year']) || !$log['year'])
   $log['year'] = date('Y');
 if(!isset($log['month']) || !$log['month'])
   $log['month'] = date('m');
-  
+
 $array = rex_cronjob_log::getYearMonthArray();
 
 if (empty($array))
@@ -71,7 +71,7 @@ else
       }
     }
   }
-  
+
   echo '
     <div class="rex-toolbar rex-toolbar-has-form">
       <div class="rex-toolbar-content">
@@ -81,7 +81,7 @@ else
               <input type="hidden" name="page" value="cronjob" />
               <input type="hidden" name="subpage" value="log" />
               <label for="log_year" style="font-weight: bold">'. $I18N->msg('cronjob_log_year') .':</label>
-              '. $year_sel->get() .' - 
+              '. $year_sel->get() .' -
               <label for="log_month" style="font-weight: bold">'. $I18N->msg('cronjob_log_month') .':</label>
               '. $month_sel->get() .'
               <noscript>
@@ -95,6 +95,6 @@ else
         <div class="rex-clearer"></div>
       </div>
     </div>';
-  
+
   echo rex_cronjob_log::getListOfMonth($log['month'], $log['year']);
 }

@@ -45,8 +45,8 @@ include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
 
 if($REX['SETUP'])
 {
-	header('Location:redaxo/');
-	exit();
+  header('Location:redaxo/');
+  exit();
 }
 
 $REX['ARTICLE'] = new rex_article;
@@ -54,15 +54,15 @@ $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
 if($REX['SETUP'])
 {
-	header('Location: redaxo/index.php');
-	exit();
+  header('Location: redaxo/index.php');
+  exit();
 }elseif ($REX["ARTICLE"]->setArticleId($REX['ARTICLE_ID']))
 {
-	echo $REX["ARTICLE"]->getArticleTemplate();
+  echo $REX["ARTICLE"]->getArticleTemplate();
 }else
 {
-	echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
-	$REX['STATS'] = 0;
+  echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
+  $REX['STATS'] = 0;
 }
 
 // ----- caching end für output filter

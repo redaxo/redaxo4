@@ -8,5 +8,5 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
+
 $REX['ADDON']['install']['cronjob'] = 0;

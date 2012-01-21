@@ -4,7 +4,7 @@
  * Textile Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -30,6 +30,6 @@ if ($REX['REDAXO'])
   require_once $REX['INCLUDE_PATH'].'/addons/textile/functions/function_help.inc.php';
 
   $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
-  
+
   rex_register_extension('PAGE_HEADER', 'rex_a79_css_add');
 }

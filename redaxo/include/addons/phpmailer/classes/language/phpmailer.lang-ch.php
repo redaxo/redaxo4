@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPMailer language file.  
+ * PHPMailer language file.
  * Chinese Version
  * By LiuXin: www.80x86.cn/blog/
  */

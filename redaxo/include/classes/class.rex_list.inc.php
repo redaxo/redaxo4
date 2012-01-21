@@ -324,7 +324,7 @@ class rex_list
   {
     $this->columnLayout[$columnHead] = $columnLayout;
   }
-  
+
   /**
    * Gibt das Layout einer Spalte zurück
    *
@@ -649,10 +649,10 @@ class rex_list
     {
       if(is_array($value))
       {
-      	foreach($value as $v)
-      	{
+        foreach($value as $v)
+        {
           $paramString .= '&'. $name .'='. $v;
-      	}
+        }
       }else
       {
         $paramString .= '&'. $name .'='. $value;

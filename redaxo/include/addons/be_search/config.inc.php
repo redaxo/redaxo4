@@ -34,6 +34,6 @@ if ($REX['REDAXO'])
 
   // Include Functions
   require_once $REX['INCLUDE_PATH'].'/addons/be_search/functions/functions.search.inc.php';
-  
+
   rex_register_extension('PAGE_CHECKED', 'rex_a256_extensions_handler');
 }

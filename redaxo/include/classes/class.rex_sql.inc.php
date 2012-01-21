@@ -170,7 +170,7 @@ class rex_sql
 
     return $this->setQuery($qry);
   }
-  
+
   /**
    * Setzt Debugmodus an/aus
    *
@@ -178,9 +178,9 @@ class rex_sql
    */
   /*public*/ function setDebug($debug = TRUE)
   {
-	  $this->debugsql = $debug;
+    $this->debugsql = $debug;
   }
-  
+
   /**
    * Setzt eine Abfrage (SQL) ab
    *
@@ -311,8 +311,8 @@ class rex_sql
    */
   /*public*/ function getValue($feldname, $row = null)
   {
-  	if(isset($this->values[$feldname]))
-  		return $this->values[$feldname];
+    if(isset($this->values[$feldname]))
+      return $this->values[$feldname];
 
     $_row = $this->counter;
     if (is_int($row))
@@ -337,13 +337,13 @@ class rex_sql
 
   /**
    * Gibt den Wert der aktuellen Zeile im ResultSet zurueck und
-   * bewegt den internen Zeiger auf die naechste Zeile 
+   * bewegt den internen Zeiger auf die naechste Zeile
    */
   /*public*/ function getRow($fetch_type = MYSQL_ASSOC)
   {
     return mysql_fetch_array($this->result, $fetch_type);
   }
-  
+
   /**
    * Prüft, ob eine Spalte im Resultset vorhanden ist
    * @param $value Name der Spalte
@@ -378,7 +378,7 @@ class rex_sql
   /**
    * Gibt die Zeilennummer zurück, auf der sich gerade der
    * interne Zähler befindet
-   * 
+   *
    * @deprecated since version 4.3.0
    */
   /*public*/ function getCounter()
@@ -441,7 +441,7 @@ class rex_sql
   {
     return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
   }
-  
+
   /**
    * Setzt eine Update-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten und WHERE Parametern ab
@@ -579,7 +579,7 @@ class rex_sql
   {
     $this->counter++;
   }
-  
+
   /*
    * Prüft ob das Resultset weitere Datensätze enthält
    */
@@ -603,7 +603,7 @@ class rex_sql
   {
     $this->counter = ($this->rows - 1);
   }
-  
+
   /**
    * Gibt die letzte InsertId zurück
    */
@@ -768,13 +768,13 @@ class rex_sql
     }
     return $value;
   }
-  
+
   /**
-   * Erstellt das CREATE TABLE Statement um die Tabelle $table 
+   * Erstellt das CREATE TABLE Statement um die Tabelle $table
    * der Datenbankverbindung $DBID zu erstellen.
-   * 
+   *
    * @param $table string Name der Tabelle
-   * @param $DBID int Id der Datenbankverbindung 
+   * @param $DBID int Id der Datenbankverbindung
    * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
    */
   /*public static*/ function showCreateTable($table, $DBID=1)
@@ -782,15 +782,15 @@ class rex_sql
     $sql = rex_sql::factory($DBID);
     $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
     $create = $create['Create Table'];
-    return $create;  	
+    return $create;
   }
 
   /**
    * Sucht alle Tabellen der Datenbankverbindung $DBID.
    * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
-   * 
-   * @param $DBID int Id der Datenbankverbindung 
-   * @param $tablePrefix string Zu suchender Tabellennamen-Prefix 
+   *
+   * @param $DBID int Id der Datenbankverbindung
+   * @param $tablePrefix string Zu suchender Tabellennamen-Prefix
    * @return array Ein Array von Tabellennamen
    */
   /*public static*/ function showTables($DBID=1, $tablePrefix=null)
@@ -799,21 +799,21 @@ class rex_sql
     if($tablePrefix != null)
     {
       $tablePrefix = str_replace('_', '\_', $tablePrefix);
-    	$qry .= ' LIKE "'.$tablePrefix.'%"';    	
+      $qry .= ' LIKE "'.$tablePrefix.'%"';
     }
 
     $sql = rex_sql::factory($DBID);
     $tables = $sql->getArray($qry);
     $tables = array_map('reset', $tables);
-    
+
     return $tables;
   }
 
   /**
    * Sucht Spalteninformationen der Tabelle $table der Datenbankverbindung $DBID.
-   * 
+   *
    * @param $table string Name der Tabelle
-   * @param $DBID int Id der Datenbankverbindung 
+   * @param $DBID int Id der Datenbankverbindung
    * @return array Ein Array das die Metadaten enthält
    */
   /*public*/ function showColumns($table, $DBID=1)
@@ -840,7 +840,7 @@ class rex_sql
 
   /**
    * Gibt die Serverversion zurück.
-   * 
+   *
    * Die Versionsinformation ist erst bekannt,
    * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
    */
@@ -849,7 +849,7 @@ class rex_sql
     global $REX;
     return $REX['MYSQL_VERSION'];
   }
-  
+
   /*public static*/ function factory($DBID=1, $class=null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
@@ -862,18 +862,18 @@ class rex_sql
         )
       );
     }
-    
+
     return new $class($DBID);
   }
 
   /**
    * Gibt ein SQL Singelton Objekt zurück
-   * 
+   *
    * @deprecated since 4.3.0
    */
   /*public*/ function getInstance($DBID=1, $deprecatedSecondParam = null)
   {
-  	return rex_sql::factory($DBID);
+    return rex_sql::factory($DBID);
   }
 
   /**
@@ -938,8 +938,8 @@ class rex_sql
       return;
     }
 
-    if(!$REX['DB'][$DBID]['PERSISTENT'] && 
-       isset($REX['DB'][$DBID]['IDENTIFIER']) && 
+    if(!$REX['DB'][$DBID]['PERSISTENT'] &&
+       isset($REX['DB'][$DBID]['IDENTIFIER']) &&
        is_resource($REX['DB'][$DBID]['IDENTIFIER']))
     {
       $db = rex_sql::factory($DBID);

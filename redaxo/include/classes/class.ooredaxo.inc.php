@@ -67,11 +67,11 @@
     // gleicher BC code nochmals in article::getValue
     foreach(array('_', 'art_', 'cat_') as $prefix)
     {
-    	$val = $prefix . $value;
-    	if(isset($this->$val))
-    	{
-    	  return $this->$val;
-    	}
+      $val = $prefix . $value;
+      if(isset($this->$val))
+      {
+        return $this->$val;
+      }
     }
     return null;
   }
@@ -79,7 +79,7 @@
   /*public*/ function hasValue($value, $prefixes = array())
   {
     static $values = null;
-        
+
     if(!$values)
     {
       $values = OORedaxo :: getClassVars();
@@ -88,7 +88,7 @@
     {
       if (in_array($prefix . $value, $values))
       {
-      	return true;
+        return true;
       }
     }
     return false;
@@ -326,7 +326,7 @@
    */
   /*public*/ function hasTemplate()
   {
-	return $this->_template_id > 0;
+  return $this->_template_id > 0;
   }
 
   /*
@@ -396,22 +396,22 @@
 
     return $return;
   }
-  
+
   /*
    * Object Function:
    * Checks if $anObj is in the parent tree of the object
    */
   /*public*/ function inParentTree($anObj)
   {
-  	$tree = $this->getParentTree();
-  	foreach($tree as $treeObj)
-  	{
-  		if($treeObj == $anObj)
-  		{
-  			return true;
-  		}
-  	}
-  	return false;
+    $tree = $this->getParentTree();
+    foreach($tree as $treeObj)
+    {
+      if($treeObj == $anObj)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

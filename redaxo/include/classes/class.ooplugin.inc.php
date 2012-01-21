@@ -43,7 +43,7 @@ class OOPlugin extends rex_addon
   {
     return parent::getSupportPage(array($addon, $plugin), $default);
   }
-  
+
   /**
    * @override
    * @see redaxo/include/classes/rex_addon#getVersion($addon, $default)
@@ -52,7 +52,7 @@ class OOPlugin extends rex_addon
   {
     return parent::getVersion(array($addon, $plugin), $default);
   }
-  
+
   /**
    * @override
    * @see redaxo/include/classes/rex_addon#getAuthor($addon, $default)
@@ -61,7 +61,7 @@ class OOPlugin extends rex_addon
   {
     return parent::getAuthor(array($addon, $plugin), $default);
   }
-  
+
   /**
    * @override
    * @see redaxo/include/classes/rex_addon#getProperty($addon, $property, $default)
@@ -70,7 +70,7 @@ class OOPlugin extends rex_addon
   {
     return parent::getProperty(array($addon, $plugin), $property, $default);
   }
-  
+
   /**
    * @override
    * @see redaxo/include/classes/rex_addon#setProperty($addon, $property, $value)
@@ -79,12 +79,12 @@ class OOPlugin extends rex_addon
   {
     return parent::setProperty(array($addon, $plugin), $property, $value);
   }
-  
+
   /**
    * Gibt ein Array aller verfübaren Plugins zurück.
-   * 
+   *
    * @param string $addon Name des Addons
-   * 
+   *
    * @return array Array aller verfübaren Plugins
    */
   /*public static*/ function getAvailablePlugins($addon)
@@ -100,13 +100,13 @@ class OOPlugin extends rex_addon
 
     return $avail;
   }
-  
+
 
   /**
    * Gibt ein Array aller installierten Plugins zurück.
-   * 
+   *
    * @param string $addon Name des Addons
-   * 
+   *
    * @return array Array aller registrierten Plugins
    */
   /*public static*/ function getInstalledPlugins($addon)
@@ -126,9 +126,9 @@ class OOPlugin extends rex_addon
   /**
    * Gibt ein Array aller registrierten Plugins zurück.
    * Ein Plugin ist registriert, wenn es dem System bekannt ist (plugins.inc.php).
-   * 
+   *
    * @param string $addon Name des Addons
-   * 
+   *
    * @return array Array aller registrierten Plugins
    */
   /*public static*/ function getRegisteredPlugins($addon)
@@ -143,7 +143,7 @@ class OOPlugin extends rex_addon
     {
       $plugins = array_keys($REX['ADDON']['plugins'][$addon]['install']);
     }
-    
+
     return $plugins;
   }
 }

@@ -18,13 +18,13 @@ $ADDONS    = rex_read_addons_folder();
 $PLUGINS   = array();
 foreach($ADDONS as $_addon)
   $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
-  
+
 $addonname  = array_search($addonname, $ADDONS) !== false ? $addonname : '';
 if($addonname != '')
   $pluginname = array_search($pluginname, $PLUGINS[$addonname]) !== false ? $pluginname : '';
 else
   $pluginname = '';
-  
+
 $warning = '';
 
 if($pluginname != '')
@@ -55,16 +55,16 @@ if ($subpage == 'help' && $addonname != '')
     $supportPage = OOAddon::getSupportPage($addonname);
   }
   $helpfile .= DIRECTORY_SEPARATOR.'help.inc.php';
-  
+
   $credits = '';
   $credits .= $I18N->msg("credits_name") .': <span>'. htmlspecialchars($addonname) .'</span><br />';
   if($version) $credits .= $I18N->msg("credits_version") .': <span>'. $version .'</span><br />';
   if($author) $credits .= $I18N->msg("credits_author") .': <span>'. htmlspecialchars($author) .'</span><br />';
   if($supportPage) $credits .= $I18N->msg("credits_supportpage") .': <span><a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a></span><br />';
-  
+
   echo '<div class="rex-area">
-  			<h3 class="rex-hl2">'.$I18N->msg("addon_help").' '.$addonname.'</h3>
-	  		<div class="rex-area-content">';
+        <h3 class="rex-hl2">'.$I18N->msg("addon_help").' '.$addonname.'</h3>
+        <div class="rex-area-content">';
   if (!is_file($helpfile))
   {
     echo '<p>'. $I18N->msg("addon_no_help_file") .'</p>';
@@ -76,10 +76,10 @@ if ($subpage == 'help' && $addonname != '')
   echo '<br />
         <p id="rex-addon-credits">'. $credits .'</p>
         </div>
-  			<div class="rex-area-footer">
-  				<p><a href="JavaScript:history.back();">'.$I18N->msg("addon_back").'</a></p>
-  			</div>
-  		</div>';
+        <div class="rex-area-footer">
+          <p><a href="JavaScript:history.back();">'.$I18N->msg("addon_back").'</a></p>
+        </div>
+      </div>';
 }
 
 // ----------------- FUNCTIONS
@@ -89,9 +89,9 @@ if ($addonname != '')
   $activate   = rex_get('activate', 'int', -1);
   $uninstall  = rex_get('uninstall', 'int', -1);
   $delete     = rex_get('delete', 'int', -1);
-  
+
   $redirect = false;
-  
+
   // ----------------- ADDON INSTALL
   if ($install == 1)
   {
@@ -175,7 +175,7 @@ if ($addonname != '')
       $redirect = true;
     }
   }
-  
+
   if ($redirect)
   {
     header('Location: index.php?page=addon&info='. $info);
@@ -211,7 +211,7 @@ if ($subpage == '')
       }
     }
   }
-  
+
   if ($info != '')
     echo rex_info($info);
 
@@ -226,14 +226,14 @@ if ($subpage == '')
       <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
       <caption>'.$I18N->msg("addon_caption").'</caption>
       <colgroup>
-      	<col width="40" />
+        <col width="40" />
         <col width="*"/>
         <col width="130" />
         <col width="130" />
         <col width="130" />
         <col width="153" />
       </colgroup>
-  	  <thead>
+      <thead>
         <tr>
           <th class="rex-icon rex-col-a">&nbsp;</th>
           <th class="rex-col-b">'.$I18N->msg("addon_hname").'</th>
@@ -241,21 +241,21 @@ if ($subpage == '')
           <th class="rex-col-d">'.$I18N->msg("addon_hactive").'</th>
           <th class="rex-col-e" colspan="2">'.$I18N->msg("addon_hdelete").'</th>
         </tr>
-  	  </thead>
-  	  <tbody>';
+      </thead>
+      <tbody>';
 
   foreach ($ADDONS as $addon)
   {
     $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
-    
-  	if (OOAddon::isSystemAddon($addon))
-  	{
-  		$delete = $I18N->msg("addon_systemaddon");
-  	}
+
+    if (OOAddon::isSystemAddon($addon))
+    {
+      $delete = $I18N->msg("addon_systemaddon");
+    }
     else
-  	{
-  		$delete = '<a href="'. $addonurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $addon)).'\');">'.$I18N->msg("addon_delete").'</a>';
-  	}
+    {
+      $delete = '<a href="'. $addonurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('addon_delete_question', $addon)).'\');">'.$I18N->msg("addon_delete").'</a>';
+    }
 
     if (OOAddon::isInstalled($addon))
     {
@@ -304,9 +304,9 @@ if ($subpage == '')
       foreach($PLUGINS[$addon] as $plugin)
       {
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
-        
+
         $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('plugin_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
-        
+
         if (OOPlugin::isInstalled($addon, $plugin))
         {
           $install = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_reinstall").'</a>';
@@ -317,7 +317,7 @@ if ($subpage == '')
           $install = $I18N->msg("addon_no").' - <a href="'. $pluginurl .'install=1">'.$I18N->msg("addon_install").'</a>';
           $uninstall = $I18N->msg("addon_notinstalled");
         }
-    
+
         if (OOPlugin::isActivated($addon, $plugin))
         {
           $status = $I18N->msg("addon_yes").' - <a href="'. $pluginurl .'activate=0">'.$I18N->msg("addon_deactivate").'</a>';
@@ -330,7 +330,7 @@ if ($subpage == '')
         {
           $status = $I18N->msg("addon_notinstalled");
         }
-        
+
         echo '
             <tr class="rex-plugin">
               <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-text">'. htmlspecialchars($plugin) .'</span></span></td>
@@ -345,5 +345,5 @@ if ($subpage == '')
   }
 
   echo '</tbody>
-  		</table>';
+      </table>';
 }

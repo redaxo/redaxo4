@@ -9,10 +9,10 @@
 
 /**
  * Erstellt eine neue Kategorie
- * 
+ *
  * @param int   $category_id KategorieId in der die neue Kategorie erstellt werden soll
  * @param array $data        Array mit den Daten der Kategorie
- * 
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_addCategory($category_id, $data)
@@ -69,8 +69,8 @@ function rex_addCategory($category_id, $data)
     if(!isset($templates[$template_id]))
     {
       $template_id = 0;
-    	if(count($templates)>0)
-    	 $template_id = key($templates);
+      if(count($templates)>0)
+       $template_id = key($templates);
     }
 
     $AART->setTable($REX['TABLE_PREFIX'].'article');
@@ -92,7 +92,7 @@ function rex_addCategory($category_id, $data)
     $AART->setValue('status', $data['status']);
     $AART->addGlobalUpdateFields();
     $AART->addGlobalCreateFields();
-    
+
     if($AART->insert())
     {
       // ----- PRIOR
@@ -100,7 +100,7 @@ function rex_addCategory($category_id, $data)
       {
         rex_newCatPrio($category_id, $key, 0, $data['catprior']);
       }
-      
+
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
       $message = rex_register_extension_point('CAT_ADDED', $message,
@@ -117,7 +117,7 @@ function rex_addCategory($category_id, $data)
           'data' => $data,
         )
       );
-      
+
       $message = $I18N->msg("category_added_and_startarticle_created");
       $success = true;
     }
@@ -126,17 +126,17 @@ function rex_addCategory($category_id, $data)
       $message = $AART->getError();
     }
   }
-  
+
   return array($success, $message);
 }
 
 /**
  * Bearbeitet einer Kategorie
- * 
+ *
  * @param int   $category_id Id der Kategorie die verändert werden soll
  * @param int   $clang       Id der Sprache
- * @param array $data        Array mit den Daten der Kategorie 
- * 
+ * @param array $data        Array mit den Daten der Kategorie
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_editCategory($category_id, $clang, $data)
@@ -206,7 +206,7 @@ function rex_editCategory($category_id, $clang, $data)
     $message = $I18N->msg('category_updated');
 
     rex_deleteCacheArticle($category_id, $clang);
-    
+
     // ----- EXTENSION POINT
     // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
     $message = rex_register_extension_point('CAT_UPDATED', $message,
@@ -216,14 +216,14 @@ function rex_editCategory($category_id, $clang, $data)
         'category' => clone($EKAT),
         'category_old' => clone($thisCat),
         'article' => clone($EKAT),
-        
+
         're_id' => $thisCat->getValue('re_id'),
         'clang' => $clang,
         'name' => $thisCat->getValue('catname'),
         'prior' => $thisCat->getValue('catprior'),
         'path' => $thisCat->getValue('path'),
         'status' => $thisCat->getValue('status'),
-        
+
         'data' => $data,
       )
     );
@@ -240,19 +240,19 @@ function rex_editCategory($category_id, $clang, $data)
 
 /**
  * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien
- * 
+ *
  * @param int $category_id Id der Kategorie die gelöscht werden soll
- * 
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_deleteCategoryReorganized($category_id)
 {
   global $REX, $I18N;
 
-	$return = array();
+  $return = array();
   $return['state'] = FALSE;
   $return['message'] = '';
-  
+
   $clang = 0;
 
   $thisCat = rex_sql::factory();
@@ -272,17 +272,17 @@ function rex_deleteCategoryReorganized($category_id)
       {
         $thisCat = rex_sql::factory();
         $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id);
-        
+
         $re_id = $thisCat->getValue('re_id');
         $return = rex_deleteArticle($category_id);
-        
+
         while($thisCat->hasNext())
         {
           $_clang = $thisCat->getValue('clang');
-          
+
           // ----- PRIOR
           rex_newCatPrio($re_id, $_clang, 0, 1);
-          
+
           // ----- EXTENSION POINT
           $return = rex_register_extension_point('CAT_DELETED', $return, array (
             'id'     => $category_id,
@@ -293,7 +293,7 @@ function rex_deleteCategoryReorganized($category_id)
             'path'   => $thisCat->getValue('path'),
             'status' => $thisCat->getValue('status'),
           ));
-          
+
           $thisCat->next();
         }
 
@@ -318,11 +318,11 @@ function rex_deleteCategoryReorganized($category_id)
 
 /**
  * Ändert den Status der Kategorie
- * 
+ *
  * @param int       $category_id   Id der Kategorie die gelöscht werden soll
  * @param int       $clang         Id der Sprache
  * @param int|null  $status        Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
- * 
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_categoryStatus($category_id, $clang, $status = null)
@@ -379,7 +379,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
 
 /**
  * Gibt alle Stati zurück, die für eine Kategorie gültig sind
- * 
+ *
  * @return array Array von Stati
  */
 function rex_categoryStatusTypes()
@@ -405,9 +405,9 @@ function rex_categoryStatusTypes()
 
 /**
  * Erstellt einen neuen Artikel
- * 
+ *
  * @param array $data Array mit den Daten des Artikels
- * 
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_addArticle($data)
@@ -427,7 +427,7 @@ function rex_addArticle($data)
   }
 
   $templates = OOCategory::getTemplates($data['category_id']);
-  
+
   // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
   // oder leer setzen.
   if(!isset($templates[$data['template_id']]))
@@ -436,7 +436,7 @@ function rex_addArticle($data)
     if(count($templates)>0)
      $data['template_id'] = key($templates);
   }
-  
+
   $message = $I18N->msg('article_added');
 
   $AART = rex_sql::factory();
@@ -444,11 +444,11 @@ function rex_addArticle($data)
   {
     // ------- Kategorienamen holen
     $category = OOCategory::getCategoryById($data['category_id'], $key);
-  
+
     $category_name = '';
     if($category)
       $category_name = addslashes($category->getName());
-      
+
     $AART->setTable($REX['TABLE_PREFIX'].'article');
     if (!isset ($id) or !$id)
       $id = $AART->setNewId('id');
@@ -477,7 +477,7 @@ function rex_addArticle($data)
       $success = false;
       $message = $AART->getError();
     }
-    
+
     // ----- EXTENSION POINT
     $message = rex_register_extension_point('ART_ADDED', $message,
       array (
@@ -499,11 +499,11 @@ function rex_addArticle($data)
 
 /**
  * Bearbeitet einen Artikel
- * 
+ *
  * @param int   $article_id  Id des Artikels der verändert werden soll
  * @param int   $clang       Id der Sprache
- * @param array $data        Array mit den Daten des Artikels 
- * 
+ * @param array $data        Array mit den Daten des Artikels
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_editArticle($article_id, $clang, $data)
@@ -517,7 +517,7 @@ function rex_editArticle($article_id, $clang, $data)
     trigger_error('Expecting $data to be an array!', E_USER_ERROR);
 
   $templates = OOCategory::getTemplates($data['category_id']);
-  
+
   // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
   // oder leer setzen.
   if(!isset($templates[$data['template_id']]))
@@ -526,7 +526,7 @@ function rex_editArticle($article_id, $clang, $data)
     if(count($templates)>0)
      $data['template_id'] = key($templates);
   }
-    
+
   // Artikel mit alten Daten selektieren
   $thisArt = rex_sql::factory();
   $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
@@ -548,18 +548,18 @@ function rex_editArticle($article_id, $clang, $data)
   if($EA->update())
   {
     $message = $I18N->msg('article_updated');
-    
+
     // ----- PRIOR
     rex_newArtPrio($data['category_id'], $clang, $data['prior'], $thisArt->getValue('prior'));
     rex_deleteCacheArticle($article_id, $clang);
-        
+
     // ----- EXTENSION POINT
     $message = rex_register_extension_point('ART_UPDATED', $message,
       array (
         'id' => $article_id,
 
-				'article' => clone($EA),
-				'article_old' => clone($thisArt),
+        'article' => clone($EA),
+        'article_old' => clone($thisArt),
 
         'status' => $thisArt->getValue('status'),
         'name' => $data['name'],
@@ -568,7 +568,7 @@ function rex_editArticle($article_id, $clang, $data)
         'prior' => $data['prior'],
         'path' => $data['path'],
         'template_id' => $data['template_id'],
-        
+
         'data' => $data,
       )
     );
@@ -585,9 +585,9 @@ function rex_editArticle($article_id, $clang, $data)
 
 /**
  * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel
- * 
+ *
  * @param int $article_id Id des Artikels die gelöscht werden soll
- * 
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_deleteArticleReorganized($article_id)
@@ -610,7 +610,7 @@ function rex_deleteArticleReorganized($article_id)
     {
       // ----- PRIOR
       rex_newArtPrio($Art->getValue("re_id"), $clang, 0, 1);
-      
+
       // ----- EXTENSION POINT
       $return = rex_register_extension_point('ART_DELETED', $return,
         array (
@@ -624,7 +624,7 @@ function rex_deleteArticleReorganized($article_id)
           'template_id' => $Art->getValue('template_id'),
         )
       );
-      
+
       $Art->next();
     }
   }
@@ -633,11 +633,11 @@ function rex_deleteArticleReorganized($article_id)
 
 /**
  * Ändert den Status des Artikels
- * 
+ *
  * @param int       $article_id Id des Artikels die gelöscht werden soll
  * @param int       $clang      Id der Sprache
  * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
- * 
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_articleStatus($article_id, $clang, $status = null)
@@ -702,7 +702,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
 
 /**
  * Gibt alle Stati zurück, die für einen Artikel gültig sind
- * 
+ *
  * @return array Array von Stati
  */
 function rex_articleStatusTypes()

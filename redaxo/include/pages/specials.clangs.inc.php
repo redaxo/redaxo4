@@ -40,7 +40,7 @@ if ($add_clang_save)
       $info = $I18N->msg('clang_created');
       rex_addCLang($clang_id, stripslashes($clang_name));
       unset ($clang_id);
-   	  $func = '';
+      $func = '';
     }
     else
     {
@@ -94,7 +94,7 @@ if ($warning != '')
 echo '
       <div class="rex-form" id="rex-form-system-language">
       <form action="index.php#clang" method="post">
-		';
+    ';
 
 if ($func == 'addclang' || $func == 'editclang')
 {
@@ -144,16 +144,16 @@ if ($func == 'addclang')
 }
 foreach ($REX['CLANG'] as $lang_id => $lang)
 {
-  
-  $add_td = '';      
+
+  $add_td = '';
   $add_td = '<td class="rex-small">'.$lang_id.'</td>';
-  
+
   $delLink = $I18N->msg('clang_delete');
   if($lang_id == 0)
    $delLink = '<span class="rex-strike">'. $delLink .'</span>';
   else
     $delLink = '<a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $delLink .'</a>';
-    
+
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
   {
@@ -169,7 +169,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   else
   {
     $editLink = 'index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang';
-    
+
     echo '
           <tr>
             <td class="rex-small"><a class="rex-i-element rex-i-clang" href="'. $editLink .'"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></a></td>

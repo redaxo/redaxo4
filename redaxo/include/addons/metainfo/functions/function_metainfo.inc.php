@@ -199,17 +199,17 @@ function a62_meta_table($prefix)
 
 /**
  * Bindet ggf extensions ein
- * 
+ *
  * @param $params
  */
 function a62_extensions_handler($params)
 {
   global $REX;
-  
+
   $page = $params['subject'];
   $mode = rex_request('mode', 'string');
   $mypage = 'metainfo';
-  
+
   // additional javascripts
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
@@ -217,7 +217,7 @@ function a62_extensions_handler($params)
       create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="../files/addons/'. $mypage .'/metainfo.js" type="text/javascript"></script>\';')
     );
   }
-  
+
   // include extensions
   if ($page == 'content' && $mode == 'meta')
   {

@@ -8,5 +8,5 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
+
 $REX['ADDON']['install']['article_status'] = 0;

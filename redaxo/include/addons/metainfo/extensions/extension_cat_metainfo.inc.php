@@ -3,7 +3,7 @@
 /**
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -18,14 +18,14 @@ rex_register_extension('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {
-	global $REX, $I18N;
-	
+  global $REX, $I18N;
+
   $s = '';
-	$restrictionsCondition = '';
-	if(isset($params['id']) && $params['id'] != '')
-	{
+  $restrictionsCondition = '';
+  if(isset($params['id']) && $params['id'] != '')
+  {
     $OOCat = OOCategory::getCategoryById($params['id']);
-    
+
     // Alle Metafelder des Pfades sind erlaubt
     foreach(explode('|', $OOCat->getPath()) as $pathElement)
     {
@@ -34,37 +34,37 @@ function rex_a62_metainfo_button($params)
         $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
       }
     }
-    
+
     // Auch die Kategorie selbst kann Metafelder haben
     $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
-	}
+  }
   $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
 
-	
-	$fields = _rex_a62_metainfo_sqlfields('cat_', $restrictionsCondition);
-	if ($fields->getRows() >= 1)
+
+  $fields = _rex_a62_metainfo_sqlfields('cat_', $restrictionsCondition);
+  if ($fields->getRows() >= 1)
   {
-  	$return = '<p class="rex-button-add"><script type="text/javascript"><!--
+    $return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
   function rex_metainfo_toggle()
   {
-  	jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
-		metacat = jQuery("#rex-i-meta-category");
-		if(metacat.hasClass("rex-i-generic-open"))
-		{
-			metacat.removeClass("rex-i-generic-open");
-			metacat.addClass("rex-i-generic-close");
-		}
-		else 
-		{
-			metacat.removeClass("rex-i-generic-close");
-			metacat.addClass("rex-i-generic-open");
-		}
+    jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
+    metacat = jQuery("#rex-i-meta-category");
+    if(metacat.hasClass("rex-i-generic-open"))
+    {
+      metacat.removeClass("rex-i-generic-open");
+      metacat.addClass("rex-i-generic-close");
+    }
+    else
+    {
+      metacat.removeClass("rex-i-generic-close");
+      metacat.addClass("rex-i-generic-open");
+    }
   }
 
   //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. $I18N->msg('minfo_edit_metadata') .'</a></p>';
 
-	   return $params['subject'] . $return;
+     return $params['subject'] . $return;
   }
 
   return $params['subject'];
@@ -82,32 +82,32 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   $class_tr = '';
   if ($REX['USER']->hasPerm('advancedMode[]'))
     $add_td = '<td></td>';
-  
+
   $element = $field;
   if ($labelIt)
   {
     $element = '
-  	   <'.$tag.$tag_attr.'>
-  	     <label for="'. $id .'">'. $label .'</label>
-  	     '.$field.'
-  	   </'.$tag.'>';
+       <'.$tag.$tag_attr.'>
+         <label for="'. $id .'">'. $label .'</label>
+         '.$field.'
+       </'.$tag.'>';
   }
-  
+
   if ($typeLabel == 'legend')
   {
-  	$element = '<p class="rex-form-legend">'. $label .'</p>';
+    $element = '<p class="rex-form-legend">'. $label .'</p>';
     $class_td = ' class="rex-colored"';
     $class_tr .= ' rex-metainfo-cat-b';
   }
-  
+
   $s = '
   <tr class="rex-table-row-activ rex-metainfo-cat'. $class_tr .'" style="display:none;">
-  	<td></td>
-  	'.$add_td.'
-  	<td colspan="5"'.$class_td.'>
-   	  <div class="rex-form-row">
-  	    '.$element.'
-  	  </div>
+    <td></td>
+    '.$add_td.'
+    <td colspan="5"'.$class_td.'>
+      <div class="rex-form-row">
+        '.$element.'
+      </div>
     </td>
   </tr>';
 

@@ -1,16 +1,16 @@
-<?php 
+<?php
 
 /*abstract*/ class rex_input
 {
   var $value;
   var $attributes;
-  
+
   /*public*/ function rex_input()
   {
     $this->value = '';
     $this->attributes = array();
   }
-  
+
   /**
    * Setzt den Value des Input-Feldes
    */
@@ -26,7 +26,7 @@
   {
     return $this->value;
   }
-  
+
   /**
    * Setzt ein HTML-Attribut des Input-Feldes
    */
@@ -68,7 +68,7 @@
   }
 
   /**
-   * Fuegt dem Input-Feld die Attribute $attributes hinzu 
+   * Fuegt dem Input-Feld die Attribute $attributes hinzu
    */
   /*public*/ function addAttributes($attributes)
   {
@@ -77,7 +77,7 @@
       $this->setAttribute($name, $value);
     }
   }
-  
+
   /**
    * Setzt die Attribute des Input-Feldes auf $attributes.
    * Alle vorher vorhanden Attribute werden geloescht/ueberschrieben.
@@ -85,7 +85,7 @@
   /*public*/ function setAttributes($attributes)
   {
     $this->attributes = array();
-    
+
     foreach($attributes as $name => $value)
     {
       $this->setAttribute($name, $value);
@@ -99,7 +99,7 @@
   {
     return $this->attributes;
   }
-  
+
   /**
    * Gibt alle Attribute in String-Form zurueck
    */
@@ -112,7 +112,7 @@
     }
     return $attr;
   }
-  
+
   /**
    * Gibt die HTML-Representation des Input-Feldes zurueck.
    * Diese beeinhaltet alle Attribute und den Wert des Feldes.
@@ -121,33 +121,33 @@
   {
     // nichts tun
   }
-  
+
   /**
    * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen
    */
   /*public static*/ function factory($inputType)
   {
-    
+
     switch($inputType)
     {
-      case 'text': 
-      case 'textarea': 
-      case 'select': 
-      case 'categoryselect': 
-      case 'mediacategoryselect': 
-      case 'radio': 
-      case 'checkbox': 
-      case 'date': 
-      case 'time': 
-      case 'datetime': 
-      case 'mediabutton': 
-      case 'medialistbutton': 
-      case 'linkbutton': 
-      case 'linklistbutton': 
+      case 'text':
+      case 'textarea':
+      case 'select':
+      case 'categoryselect':
+      case 'mediacategoryselect':
+      case 'radio':
+      case 'checkbox':
+      case 'date':
+      case 'time':
+      case 'datetime':
+      case 'mediabutton':
+      case 'medialistbutton':
+      case 'linkbutton':
+      case 'linklistbutton':
       {
         $class = 'rex_input_'. $inputType;
-        return new $class(); 
-      } 
+        return new $class();
+      }
     }
     return null;
   }

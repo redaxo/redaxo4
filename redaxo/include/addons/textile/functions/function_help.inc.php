@@ -3,7 +3,7 @@
  * Textile Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -15,7 +15,7 @@ function rex_a79_help_overview()
   // check perms
   if(!$REX['USER']->hasPerm('textile[help]'))
   {
-  	return;
+    return;
   }
 
   $formats = rex_a79_help_overview_formats();
@@ -55,7 +55,7 @@ function rex_a79_help_overview()
 
         $code = '';
         if(isset($_format[1]))
-        	$code = $_format[1];
+          $code = $_format[1];
 
         if($code == '')
           $code = $desc;

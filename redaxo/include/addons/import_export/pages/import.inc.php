@@ -95,18 +95,18 @@ elseif ($function == "fileimport")
     {
       $file_temp = getImportDir().'/'.$impname;
     }
-    
+
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $return = rex_a1_import_files($file_temp);
-			if($return['state'])
-			{
-      	$info = $return['message'];
-			}
-			else
-			{
-				$warning = $return['message'];
-			}
+      if($return['state'])
+      {
+        $info = $return['message'];
+      }
+      else
+      {
+        $warning = $return['message'];
+      }
 
       // temp datei löschen
       if ($impname == "")
@@ -134,22 +134,22 @@ if ($warning != '')
 
 <div class="rex-area">
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_import'); ?></h3>
-    
+
     <div class="rex-area-content">
       <p class="rex-tx1"><?php echo $I18N->msg('im_export_intro_import') ?></p>
-      
+
       <div class="rex-form" id="rex-form-import-data">
         <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N->msg('im_export_proceed_db_import') ?>')">
 
           <fieldset class="rex-form-col-1">
-          
+
             <legend><?php echo $I18N->msg('im_export_database'); ?></legend>
-						           
+
             <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="import_export" />
-  						<input type="hidden" name="subpage" value="import" /> 
+              <input type="hidden" name="subpage" value="import" />
               <input type="hidden" name="function" value="dbimport" />
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-file">
                   <label for="importdbfile"><?php echo $I18N->msg('im_export_database'); ?></label>
@@ -165,7 +165,7 @@ if ($warning != '')
           </fieldset>
         </form>
       </div>
-      
+
       <table class="rex-table" summary="<?php echo $I18N->msg('im_export_export_db_summary'); ?>">
         <caption><?php echo $I18N->msg('im_export_export_db_caption'); ?></caption>
         <colgroup>
@@ -209,12 +209,12 @@ if ($warning != '')
         <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo $I18N->msg('im_export_proceed_file_import') ?>')" >
           <fieldset class="rex-form-col-1">
             <legend><?php echo $I18N->msg('im_export_files'); ?></legend>
-            
+
             <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="import_export" />
               <input type="hidden" name="subpage" value="import" />
               <input type="hidden" name="function" value="fileimport" />
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-file">
                   <label for="importtarfile"><?php echo $I18N->msg('im_export_files'); ?></label>
@@ -268,7 +268,7 @@ if ($warning != '')
         </tbody>
       </table>
     </div>
-  
- 
+
+
   <div class="rex-clearer"></div>
 </div><!-- END rex-area -->

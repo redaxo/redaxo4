@@ -3,7 +3,7 @@
 /**
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -29,10 +29,10 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
 
   if($tag != '')
     $s .='</'.$tag.'>'. "\n";
-	
+
   if($typeLabel != 'legend')
     $s .= '</div>';
-	
+
   return $s;
 }
 

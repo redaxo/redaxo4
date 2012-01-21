@@ -8,7 +8,7 @@ class rex_input_text extends rex_input
     $this->setAttribute('class', 'rex-form-text');
     $this->setAttribute('type', 'text');
   }
-  
+
   function getHtml()
   {
     $value = htmlspecialchars($this->value);

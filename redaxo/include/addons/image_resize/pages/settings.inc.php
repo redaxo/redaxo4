@@ -27,13 +27,13 @@ if ($func == 'update')
   if($jpg_quality > 100) $jpg_quality = 100;
   else if ($jpg_quality < 0) $jpg_quality = 0;
 
-	$REX['ADDON']['image_resize']['max_cachefiles'] = $max_cachefiles;
-	$REX['ADDON']['image_resize']['max_filters'] = $max_filters;
-	$REX['ADDON']['image_resize']['max_resizekb'] = $max_resizekb;
-	$REX['ADDON']['image_resize']['max_resizepixel'] = $max_resizepixel;
-	$REX['ADDON']['image_resize']['jpg_quality'] = $jpg_quality;
+  $REX['ADDON']['image_resize']['max_cachefiles'] = $max_cachefiles;
+  $REX['ADDON']['image_resize']['max_filters'] = $max_filters;
+  $REX['ADDON']['image_resize']['max_resizekb'] = $max_resizekb;
+  $REX['ADDON']['image_resize']['max_resizepixel'] = $max_resizepixel;
+  $REX['ADDON']['image_resize']['jpg_quality'] = $jpg_quality;
 
-	$content = '$REX[\'ADDON\'][\'image_resize\'][\'max_cachefiles\'] = '.$max_cachefiles.';
+  $content = '$REX[\'ADDON\'][\'image_resize\'][\'max_cachefiles\'] = '.$max_cachefiles.';
 $REX[\'ADDON\'][\'image_resize\'][\'max_filters\'] = '.$max_filters.';
 $REX[\'ADDON\'][\'image_resize\'][\'max_resizekb\'] = '.$max_resizekb.';
 $REX[\'ADDON\'][\'image_resize\'][\'max_resizepixel\'] = '.$max_resizepixel.';
@@ -57,56 +57,56 @@ echo '
 
 <div class="rex-area">
   <div class="rex-form">
-	
+
   <form action="index.php" method="post">
 
-		<fieldset class="rex-form-col-1">
+    <fieldset class="rex-form-col-1">
       <div class="rex-form-wrapper">
-			<input type="hidden" name="page" value="image_resize" />
-			<input type="hidden" name="subpage" value="settings" />
-			<input type="hidden" name="func" value="update" />
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_cachefiles">'. $I18N->msg('iresize_max_cache_files') .'</label>
-					<input class="rex-form-text" type="text" id="max_cachefiles" name="max_cachefiles" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_cachefiles']).'" />
-				</p>
-			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_filters">'. $I18N->msg('iresize_max_filters') .'</label>
-					<input class="rex-form-text" type="text" id="max_filters" name="max_filters" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_filters']).'" />
-				</p>
-			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_resizekb">'. $I18N->msg('iresize_max_resizekb') .'</label>
-					<input class="rex-form-text" type="text" id="max_resizekb" name="max_resizekb" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizekb']).'" />
-				</p>
-			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_resizepixel">'. $I18N->msg('iresize_max_resizepx') .'</label>
-					<input class="rex-form-text" type="text" id="max_resizepixel" name="max_resizepixel" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizepixel']).'" />
-				</p>
-			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="jpg_quality">'. $I18N->msg('iresize_jpg_quality') .' [0-100]</label>
-					<input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_resize']['jpg_quality']).'" />
-				</p>
-			</div>
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-submit">
-					<input type="submit" class="rex-form-submit" name="sendit" value="'.$I18N->msg('update').'" />
-				</p>
-			</div>
-		</div>
-			</fieldset>
+      <input type="hidden" name="page" value="image_resize" />
+      <input type="hidden" name="subpage" value="settings" />
+      <input type="hidden" name="func" value="update" />
+
+      <div class="rex-form-row rex-form-element-v2">
+        <p class="rex-form-text">
+          <label for="max_cachefiles">'. $I18N->msg('iresize_max_cache_files') .'</label>
+          <input class="rex-form-text" type="text" id="max_cachefiles" name="max_cachefiles" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_cachefiles']).'" />
+        </p>
+      </div>
+
+      <div class="rex-form-row rex-form-element-v2">
+        <p class="rex-form-text">
+          <label for="max_filters">'. $I18N->msg('iresize_max_filters') .'</label>
+          <input class="rex-form-text" type="text" id="max_filters" name="max_filters" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_filters']).'" />
+        </p>
+      </div>
+
+      <div class="rex-form-row rex-form-element-v2">
+        <p class="rex-form-text">
+          <label for="max_resizekb">'. $I18N->msg('iresize_max_resizekb') .'</label>
+          <input class="rex-form-text" type="text" id="max_resizekb" name="max_resizekb" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizekb']).'" />
+        </p>
+      </div>
+
+      <div class="rex-form-row rex-form-element-v2">
+        <p class="rex-form-text">
+          <label for="max_resizepixel">'. $I18N->msg('iresize_max_resizepx') .'</label>
+          <input class="rex-form-text" type="text" id="max_resizepixel" name="max_resizepixel" value="'. htmlspecialchars($REX['ADDON']['image_resize']['max_resizepixel']).'" />
+        </p>
+      </div>
+
+      <div class="rex-form-row rex-form-element-v2">
+        <p class="rex-form-text">
+          <label for="jpg_quality">'. $I18N->msg('iresize_jpg_quality') .' [0-100]</label>
+          <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_resize']['jpg_quality']).'" />
+        </p>
+      </div>
+      <div class="rex-form-row rex-form-element-v2">
+        <p class="rex-form-submit">
+          <input type="submit" class="rex-form-submit" name="sendit" value="'.$I18N->msg('update').'" />
+        </p>
+      </div>
+    </div>
+      </fieldset>
   </form>
   </div>
 </div>

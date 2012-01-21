@@ -8,7 +8,7 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
+
 require $REX['INCLUDE_PATH'] .'/layout/top.php';
 
 $page    = rex_request('page', 'string');

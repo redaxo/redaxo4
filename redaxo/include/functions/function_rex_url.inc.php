@@ -26,16 +26,16 @@ function rex_parse_article_name($name)
     $firstCall = false;
   }
 
-  return 
+  return
     // + durch - ersetzen
     str_replace('+','-',
         // ggf uebrige zeichen url-codieren
         urlencode(
           // mehrfach hintereinander auftretende spaces auf eines reduzieren
           preg_replace('/ {2,}/',' ',
-            // alle sonderzeichen raus 
+            // alle sonderzeichen raus
             preg_replace('/[^a-zA-Z_\-0-9 ]/', '',
-              // sprachspezifische zeichen umschreiben 
+              // sprachspezifische zeichen umschreiben
               str_replace($search, $replace, $name)
             )
           )

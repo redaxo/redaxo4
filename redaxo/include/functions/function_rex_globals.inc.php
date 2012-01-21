@@ -1,14 +1,14 @@
 <?php
 /**
- * Getter Funktionen zum Handling von Superglobalen Variablen 
- * 
+ * Getter Funktionen zum Handling von Superglobalen Variablen
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
 
 /**
  * Gibt die Superglobale variable $varname des Array $_GET zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_get($varname, $vartype = '', $default = '')
@@ -18,7 +18,7 @@ function rex_get($varname, $vartype = '', $default = '')
 
 /**
  * Gibt die Superglobale variable $varname des Array $_POST zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_post($varname, $vartype = '', $default = '')
@@ -28,7 +28,7 @@ function rex_post($varname, $vartype = '', $default = '')
 
 /**
  * Gibt die Superglobale variable $varname des Array $_REQUEST zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_request($varname, $vartype = '', $default = '')
@@ -38,7 +38,7 @@ function rex_request($varname, $vartype = '', $default = '')
 
 /**
  * Gibt die Superglobale variable $varname des Array $_SERVER zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_server($varname, $vartype = '', $default = '')
@@ -48,7 +48,7 @@ function rex_server($varname, $vartype = '', $default = '')
 
 /**
  * Gibt die Superglobale variable $varname des Array $_SESSION zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_session($varname, $vartype = '', $default = '')
@@ -59,7 +59,7 @@ function rex_session($varname, $vartype = '', $default = '')
   {
     return _rex_cast_var($_SESSION[$varname][$REX['INSTNAME']], $vartype, $default, 'found');
   }
-  
+
   if($default === '')
   {
     return _rex_cast_var($default, $vartype, $default, 'default');
@@ -69,7 +69,7 @@ function rex_session($varname, $vartype = '', $default = '')
 
 /**
  * Setzt den Wert einer Session Variable.
- * 
+ *
  * Variablen werden Instanzabhängig gespeichert.
  */
 function rex_set_session($varname, $value)
@@ -81,7 +81,7 @@ function rex_set_session($varname, $value)
 
 /**
  * L鰏cht den Wert einer Session Variable.
- * 
+ *
  * Variablen werden Instanzabhängig gelöscht.
  */
 function rex_unset_session($varname)
@@ -93,7 +93,7 @@ function rex_unset_session($varname)
 
 /**
  * Gibt die Superglobale variable $varname des Array $_COOKIE zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_cookie($varname, $vartype = '', $default = '')
@@ -103,7 +103,7 @@ function rex_cookie($varname, $vartype = '', $default = '')
 
 /**
  * Gibt die Superglobale variable $varname des Array $_FILES zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_files($varname, $vartype = '', $default = '')
@@ -113,7 +113,7 @@ function rex_files($varname, $vartype = '', $default = '')
 
 /**
  * Gibt die Superglobale variable $varname des Array $_ENV zurück und castet dessen Wert ggf.
- * 
+ *
  * Falls die Variable nicht vorhanden ist, wird $default zurückgegeben
  */
 function rex_env($varname, $vartype = '', $default = '')
@@ -123,12 +123,12 @@ function rex_env($varname, $vartype = '', $default = '')
 
 /**
  * Durchsucht das Array $haystack nach dem Schlüssel $needle.
- *  
- * Falls ein Wert gefunden wurde wird dieser nach 
+ *
+ * Falls ein Wert gefunden wurde wird dieser nach
  * $vartype gecastet und anschließend zurückgegeben.
- * 
+ *
  * Falls die Suche erfolglos endet, wird $default zurückgegeben
- * 
+ *
  * @access private
  */
 function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
@@ -138,13 +138,13 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
     trigger_error('Array expected for $haystack in _rex_array_key_cast()!', E_USER_ERROR);
     exit();
   }
-  
+
   if(!is_scalar($needle))
   {
     trigger_error('Scalar expected for $needle in _rex_array_key_cast()!', E_USER_ERROR);
     exit();
   }
-  
+
   if(array_key_exists($needle, $haystack))
   {
     return _rex_cast_var($haystack[$needle], $vartype, $default, 'found');
@@ -159,7 +159,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
 
 /**
  * Castet die Variable $var zum Typ $vartype
- * 
+ *
  * Mögliche PHP-Typen sind:
  *  - bool (auch boolean)
  *  - int (auch integer)
@@ -170,7 +170,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - object
  *  - array
  *  - '' (nicht casten)
- *  
+ *
  * Mögliche REDAXO-Typen sind:
  *  - rex-article-id
  *  - rex-category-id
@@ -183,19 +183,19 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - rex-media-id
  *  - rex-mediacategory-id
  *  - rex-user-id
- * 
+ *
  * @access private
  */
 function _rex_cast_var($var, $vartype, $default, $mode)
 {
   global $REX;
-  
+
   if(!is_string($vartype))
   {
     trigger_error('String expected for $vartype in _rex_cast_var()!', E_USER_ERROR);
-    exit(); 
+    exit();
   }
-  
+
   switch($vartype)
   {
     // ---------------- REDAXO types
@@ -204,7 +204,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       if($mode == 'found')
       {
         if(!OOArticle::isValid(OOArticle::getArticleById($var)))
-          $var = (int) $default; 
+          $var = (int) $default;
       }
       break;
     case 'rex-category-id':
@@ -213,7 +213,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       {
         if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
           $var = (int) $default;
-      } 
+      }
       break;
     case 'rex-clang-id':
       $var = (int) $var;
@@ -234,49 +234,49 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       // erstmal keine weitere validierung
       $var = (int) $var;
       break;
-      
+
     // ---------------- PHP types
     case 'bool'   :
     case 'boolean':
       $var = (boolean) $var;
-      break; 
-    case 'int'    : 
+      break;
+    case 'int'    :
     case 'integer':
       $var = (int)     $var;
-      break; 
+      break;
     case 'double' :
       $var = (double)  $var;
-      break; 
+      break;
     case 'float'  :
     case 'real'   :
       $var = (float)   $var;
-      break; 
+      break;
     case 'string' :
       $var = (string)  $var;
-      break; 
+      break;
     case 'object' :
       $var = (object)  $var;
-      break; 
+      break;
     case 'array'  :
       if(empty($var))
         $var = array();
-      else 
+      else
         $var = (array) $var;
       break;
 
     // kein Cast, nichts tun
     case ''       : break;
-    
+
     // Evtl Typo im vartype, deshalb hier fehlermeldung!
-    default: trigger_error('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!', E_USER_ERROR); exit(); 
+    default: trigger_error('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!', E_USER_ERROR); exit();
   }
-  
+
   return $var;
 }
 
 /**
  * Ermittelt die HTTP-Methode mit der das aktuelle Request aufgerufen wurde.
- * 
+ *
  * @return String Die ermittelte HTTP-Methode in lowercase (head,get,post,put,delete)
  */
 function rex_request_method()

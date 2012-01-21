@@ -20,11 +20,11 @@ class rex_tar extends tar
   {
     parent::tar();
   }
-  
+
   // Open a TAR file
   function openTAR($filename) {
     // call constructor to omit warnings instead of unset vars..
-    
+
     $this->rex_tar();
     // Clear any values from previous tar archives
     unset($this->filename);

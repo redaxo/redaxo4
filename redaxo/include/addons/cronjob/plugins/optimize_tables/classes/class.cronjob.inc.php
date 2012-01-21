@@ -8,7 +8,7 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
+
 class rex_cronjob_optimize_tables extends rex_cronjob
 {
   /*public*/ function execute()
@@ -23,7 +23,7 @@ class rex_cronjob_optimize_tables extends rex_cronjob
     }
     return false;
   }
-  
+
   /*public*/ function getTypeName()
   {
     global $I18N;

@@ -29,12 +29,12 @@ class OOCategory extends OORedaxo
   /*public static*/ function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
-    
+
     $cat_parent_id = (int) $cat_parent_id;
 
     if(!is_int($cat_parent_id))
       return array();
-    
+
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
@@ -44,8 +44,8 @@ class OOCategory extends OORedaxo
 
     if (!file_exists($categorylist))
     {
-    	include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
-    	rex_generateLists($cat_parent_id);
+      include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
+      rex_generateLists($cat_parent_id);
     }
 
     if (file_exists($categorylist))
@@ -202,25 +202,25 @@ class OOCategory extends OORedaxo
   {
     return $this->_path;
   }
-  
+
   /*
    * Accessor Method:
    * returns the path ids of the category as an array
    */
   /*public*/ function getPathAsArray()
   {
-  	$p = explode('|',$this->_path);
-  	foreach($p as $k => $v)
-  	{
-  		if($v == '')
-  			unset($p[$k]);
-  		else
-  		  $p[$k] = (int) $v;
-  	}
-  	
+    $p = explode('|',$this->_path);
+    foreach($p as $k => $v)
+    {
+      if($v == '')
+        unset($p[$k]);
+      else
+        $p[$k] = (int) $v;
+    }
+
     return array_values($p);
   }
-  
+
   /*public static*/ function & _getCategoryObject($category, $clang = false)
   {
     if (is_object($category))
@@ -255,7 +255,7 @@ class OOCategory extends OORedaxo
   {
     return parent::hasValue($value, array('cat_'));
   }
-  
+
   /*
    * Static Method:
    * Returns True if the given category is a valid OOCategory
@@ -264,62 +264,62 @@ class OOCategory extends OORedaxo
   {
     return is_object($category) && is_a($category, 'oocategory');
   }
-  
+
   /*
    * Static Method:
    * Returns an array containing all templates which are available for the given category_id.
    * if the category_id is non-positive all templates in the system are returned.
    * if the category_id is invalid an empty array is returned.
-   * 
+   *
    */
   /*public static*/ function getTemplates($category_id, $ignore_inactive = true)
   {
     global $REX;
 
     $ignore_inactive = $ignore_inactive ? 1 : 0;
-    
+
     $templates = array();
     $t_sql = rex_sql::factory();
     $t_sql->setQuery('select id,name,attributes from '.$REX['TABLE_PREFIX'].'template where active='. $ignore_inactive .' order by name');
 
     if($category_id < 1)
     {
-    	// Alle globalen Templates
-    	foreach($t_sql->getArray() as $t)
-    	{
+      // Alle globalen Templates
+      foreach($t_sql->getArray() as $t)
+      {
         $categories = rex_getAttributes("categories", $t["attributes"]);
         if (!is_array($categories) || $categories["all"] == 1)
-    		  $templates[$t["id"]] = $t['name'];
-    	}
+          $templates[$t["id"]] = $t['name'];
+      }
     }else
     {
-    	if($c = OOCategory::getCategoryById($category_id))
-    	{
-    		$path = $c->getPathAsArray();
-    		$path[] = $category_id;
-	    	foreach($t_sql->getArray() as $t)
-	    	{
-	    		$categories = rex_getAttributes("categories", $t["attributes"]);
-	    		// template ist nicht kategoriespezifisch -> includen
-	    		if(!is_array($categories) || $categories["all"] == 1)
-	    		{
+      if($c = OOCategory::getCategoryById($category_id))
+      {
+        $path = $c->getPathAsArray();
+        $path[] = $category_id;
+        foreach($t_sql->getArray() as $t)
+        {
+          $categories = rex_getAttributes("categories", $t["attributes"]);
+          // template ist nicht kategoriespezifisch -> includen
+          if(!is_array($categories) || $categories["all"] == 1)
+          {
             $templates[$t["id"]] = $t['name'];
-	    		}
-	    		else
-	    		{
-	    		  // template ist auf kategorien beschraenkt..
-	    		  // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
-  	    		foreach($path as $p)
-  	    		{
-  	    			if(in_array($p,$categories))
-  	    			{
-  	    				$templates[$t["id"]] = $t['name'];
-  	    				break;
-  	    			}
-  	    		}
-	    		}
-	    	}
-    	}
+          }
+          else
+          {
+            // template ist auf kategorien beschraenkt..
+            // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
+            foreach($path as $p)
+            {
+              if(in_array($p,$categories))
+              {
+                $templates[$t["id"]] = $t['name'];
+                break;
+              }
+            }
+          }
+        }
+      }
     }
     return $templates;
   }
