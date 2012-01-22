@@ -2,7 +2,7 @@
 
 /**
  * Direkter Aufruf, um zu testen, ob der Ordner redaxo/include
- * erreichbar ist. Dies darf aus Sicherheitsgr¸nden nicht mˆglich sein!
+ * erreichbar ist. Dies darf aus Sicherheitsgründen nicht möglich sein!
  */
 if (!isset($REX))
 {
@@ -110,7 +110,7 @@ function rex_setup_is_writable($items)
   return $res;
 }
 
-// -------------------------- System AddOns pr¸fen
+// -------------------------- System AddOns prüfen
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
   global $REX, $I18N;
@@ -676,7 +676,7 @@ function rex_setup_dropREXtables()
 
         // Nur hier zuerst die Addons installieren
         // Da sonst Daten aus dem eingespielten Export
-        // ‹berschrieben w¸rden
+        // ‹berschrieben würden
         if($err_msg == '')
         $err_msg .= rex_setup_addons(true, false);
         if($err_msg == '')
