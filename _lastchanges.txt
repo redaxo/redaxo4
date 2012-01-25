@@ -26,6 +26,7 @@ Version 4.3.3 (2012-xx-xx)
   * Setup: DB wurde bei ISO setup fälschlicherweise auf UTF8 gesetzt
   * OOCategory::getParent() unnötige query bei root cat entfernt
   * SQL TYPE/ENGINE: Anpassungen an MySQL 5.x
+  * redaxo://X Ersetzungen waren teilweise veraltet im Cache
 
 
 Version 4.3.2 (2010-xx-xx)

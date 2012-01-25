@@ -350,7 +350,7 @@ class rex_article_base
     $articleContent = $this->postArticle($articleContent, $LCTSL_ID, $module_id);
 
     // -------------------------- schreibe content
-    if ($this->eval === FALSE) echo $this->replaceLinks($articleContent);
+    if ($this->eval === FALSE) echo $articleContent;
     else eval("?>".$articleContent);
 
     // ----- end: article caching
@@ -389,6 +389,8 @@ class rex_article_base
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
+
+      $CONTENT = $this->replaceLinks($CONTENT);
     }
     else
     {
@@ -513,31 +515,13 @@ class rex_article_base
 
   /*protected*/ function replaceLinks($content)
   {
-    // Hier beachten, dass man auch ein Zeichen nach dem jeweiligen Link mitmatched,
-    // damit beim ersetzen von z.b. redaxo://11 nicht auch innerhalb von redaxo://112
-    // ersetzt wird
-    // siehe dazu: http://forum.redaxo.de/ftopic7563.html
-
-    // -- preg match redaxo://[ARTICLEID]-[CLANG] --
-    preg_match_all('@redaxo://([0-9]*)\-([0-9]*)(.){1}/?@im',$content,$matches,PREG_SET_ORDER);
-    foreach($matches as $match)
-    {
-      if(empty($match)) continue;
-
-      $url = rex_getURL($match[1], $match[2]);
-      $content = str_replace($match[0],$url.$match[3],$content);
-    }
-
-    // -- preg match redaxo://[ARTICLEID] --
-    preg_match_all('@redaxo://([0-9]*)(.){1}/?@im',$content,$matches,PREG_SET_ORDER);
-    foreach($matches as $match)
-    {
-      if(empty($match)) continue;
-
-      $url = rex_getURL($match[1], $this->clang);
-      $content = str_replace($match[0],$url.$match[2],$content);
-    }
-
-    return $content;
+    return preg_replace_callback(
+      '@redaxo://(\d+)(?:-(\d+))?/?@i',
+      create_function(
+        '$matches',
+        'return rex_getUrl($matches[1], isset($matches[2]) ? $matches[2] : '. (integer) $this->clang .');'
+      ),
+      $content
+    );
   }
 }
