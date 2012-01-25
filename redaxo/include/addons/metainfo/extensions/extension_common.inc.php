@@ -644,6 +644,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
 function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 {
   if($_SERVER['REQUEST_METHOD'] != 'POST') return $params;
+  if($sqlFields->rows == 0) return $params;
 
   global $REX;
 
