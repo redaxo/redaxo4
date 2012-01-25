@@ -7,6 +7,27 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.3.3 (2012-xx-xx)
+
+  Neu
+  * In der Kategorieansicht des Medienpools werden immer nur die Bilder geladen,
+    die gerade im Browserfenster sichtbar sind. Weitere Bilder werden beim scrollen
+    on demand nachgeladen
+
+  Anpassungen
+  * Textile: update auf Version 2.2.0
+  * Import/export: aussagekräftigerer default Dateiname für DB dumps
+
+  Bugfixes
+  * ImageManager: korrekte header um caching durch UA zu ermöglichen
+  * ImageManager: korrekter ImageType header bei JPG
+  * Import/export: memory limit erhöht
+  * Import/export: korrekte Sortierung der vorhandenen Exporte nach Datum
+  * Setup: DB wurde bei ISO setup fälschlicherweise auf UTF8 gesetzt
+  * OOCategory::getParent() unnötige query bei root cat entfernt
+  * SQL TYPE/ENGINE: Anpassungen an MySQL 5.x
+
+
 Version 4.3.2 (2010-xx-xx)
 
   Neu
