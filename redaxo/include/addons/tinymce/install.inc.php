@@ -17,7 +17,7 @@
   // Addon-Konfiguration
   include dirname( __FILE__) . '/config.inc.php';
 
-  // Schreibberechtigung f�r Konfigurationsetzen
+  // Schreibberechtigung für Konfigurationsetzen
   @chmod(dirname( __FILE__) . '/config.inc.php', 0755);
 
   // Install ok

@@ -34,7 +34,7 @@
   $rxa_tinymce['medienpool'] = ($rxa_tinymce['rexversion'] > '41') ? 'mediapool' : 'medienpool';
   $rxa_tinymce['linkmap'] = 'linkmap';
 
-  // Pfad f�r HTML-Ausgabe
+  // Pfad für HTML-Ausgabe
   $rxa_tinymce['fe_path'] = $REX['HTDOCS_PATH'] . 'files/addons/' . $rxa_tinymce['name'];
 
 
@@ -65,10 +65,10 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
     // rexTinyMCEEditor-Klasse
     include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/classes/class.tinymce.inc.php';
 
-    // Funktionen f�r TinyMCE
+    // Funktionen für TinyMCE
     include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_tinymce.inc.php';
 
-    // Kompatibilit�ts-Funktionen
+    // Kompatibilitäts-Funktionen
     include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_compat.inc.php';
 
     // Request-Variablen
@@ -86,7 +86,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
     // Im Backend Sprachobjekt anlegen
     $I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/lang/');
 
-    // Addon-Subnavigation f�r das REDAXO-Menue
+    // Addon-Subnavigation für das REDAXO-Menue
     $REX['ADDON'][$rxa_tinymce['name']]['SUBPAGES'] = array (
       array('', $I18N_A52->msg('menu_module')),
       array('settings', $I18N_A52->msg('menu_settings')),
@@ -95,20 +95,20 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
       array('info', $I18N_A52->msg('menu_information')),
     );
 
-    // ausgew�hlte Seiten laut Konfiguration
+    // ausgewählte Seiten laut Konfiguration
     $rxa_tinymce['includepages'] = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$rxa_tinymce['name']]['pages'])));
     if (!in_array('content', $rxa_tinymce['includepages'])) // Bei 'content' immer!
     {
       $rxa_tinymce['includepages'][] = 'content';
     }
 
-    // TinyMCE ins Backend integrieren, nur in ausgew�hlten Seiten laut Konfiguration
+    // TinyMCE ins Backend integrieren, nur in ausgewählten Seiten laut Konfiguration
     if(($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
     {
       rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf');
     }
 
-    // Outputfilter f�r Medienpool und Linkmap
+    // Outputfilter für Medienpool und Linkmap
     if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
     {
       $rxa_tinymce['get_inputfield'] = rex_request('opener_input_field', 'string');
