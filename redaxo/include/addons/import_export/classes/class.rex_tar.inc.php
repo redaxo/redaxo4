@@ -4,7 +4,7 @@
 /**
  * REDAXO Tar Klasse
  *
- * Diese Subklasse fixed ein paar Bugs gegen�ber der
+ * Diese Subklasse fixed ein paar Bugs gegenüber der
  * original Implementierung und erhoeht die Performanz
  *
  * @author	Markus Staab

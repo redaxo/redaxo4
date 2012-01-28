@@ -130,7 +130,7 @@ class rex_thumbnail
       $this->img['width_offset_thumb'] = (int) (round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2) + $offset);
       $this->img['width']              = (int) round($this->img['width_thumb'] * $height_ratio);
     }
-    // es muss an der H�he beschnitten werden
+    // es muss an der Höhe beschnitten werden
     elseif ($width_ratio < $height_ratio)
     {
       $this->img['height_offset_thumb'] = (int) (round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2) + $offset);
