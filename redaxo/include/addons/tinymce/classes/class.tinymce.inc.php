@@ -83,7 +83,7 @@ class rexTinyMCEEditor
 
     // evtl. Standard-Buttons vorbelegen
     $plugins = $this->default_plugins;
-    if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') // Inline-Popups ausgew�hlt
+    if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') // Inline-Popups ausgewählt
     {
       $plugins .= ',inlinepopups';
     }
@@ -152,7 +152,7 @@ class rexTinyMCEEditor
       $this->validxhtml = false;
     }
 
-    // extendet_valid_elements-Parameter falls kein XHTML ausgew�hlt wurde
+    // extendet_valid_elements-Parameter falls kein XHTML ausgewählt wurde
     // wird fuer das IMG-Tag benoetigt
 $extended_valid_elements =<<<EOD
 extended_valid_elements : ""
@@ -162,7 +162,7 @@ extended_valid_elements : ""
   +"|onmouseup|src|style|title|usemap|vspace|width],",
 EOD;
 
-    // valid_elements-Parameter f�r validen XHTML-Code
+    // valid_elements-Parameter für validen XHTML-Code
 $valid_elements =<<<EOD
 valid_elements : ""
 +"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
@@ -516,7 +516,7 @@ EOD;
       $configout .= $n . stripslashes($REX['ADDON'][$rxa_tinymce['name']]['extconfig']) . $n;
     }
 
-    // Evtl. wurde der Klasse eine zus�tzliche Konfiguration mitgegeben
+    // Evtl. wurde der Klasse eine zusätzliche Konfiguration mitgegeben
     $configout .= $n . $this->configuration;
 
     // evtl. vorhandenes letztes Kommma entfernen

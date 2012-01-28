@@ -24,14 +24,14 @@ if (!isset($REX['DIRPERM']))
 }
 
 /**
- * F�r Kompatibilit�t mit Modulen REDAXO 3.1.x / 4.x mit TinyMCE 2
+ * Für Kompatibilität mit Modulen REDAXO 3.1.x / 4.x mit TinyMCE 2
  */
 class rexTiny2Editor extends rexTinyMCEEditor
 {
 }
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_info'))
 {
@@ -42,7 +42,7 @@ if (!function_exists('rex_info'))
 } // End function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_request'))
 {
@@ -53,7 +53,7 @@ if (!function_exists('rex_request'))
 } // End function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('_rex_array_key_cast'))
 {
@@ -82,7 +82,7 @@ if (!function_exists('_rex_array_key_cast'))
 } // End function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('_rex_cast_var'))
 {
@@ -119,7 +119,7 @@ if (!function_exists('_rex_cast_var'))
 } // end function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_put_file_contents'))
 {
@@ -135,7 +135,7 @@ if (!function_exists('rex_put_file_contents'))
 } // end function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_get_file_contents'))
 {
@@ -146,7 +146,7 @@ if (!function_exists('rex_get_file_contents'))
 } // end function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_replace_dynamic_contents'))
 {
@@ -163,7 +163,7 @@ if (!function_exists('rex_replace_dynamic_contents'))
 } // End function_exists
 
 /**
- * f�r REDAXO 4.0.x
+ * für REDAXO 4.0.x
  */
 if (!function_exists('rex_highlight_string'))
 {
@@ -179,7 +179,7 @@ if (!function_exists('rex_highlight_string'))
 } // End function_exists
 
 /**
- * f�r REDAXO 4.1.x
+ * für REDAXO 4.1.x
  */
 if (!function_exists('rex_copyDir'))
 {
@@ -255,7 +255,7 @@ if (!function_exists('rex_copyDir'))
 } // End function_exists
 
 /**
- * f�r REDAXO 3.2.x
+ * für REDAXO 3.2.x
  */
 if (!function_exists('rex_deleteDir'))
 {
@@ -268,7 +268,7 @@ if (!function_exists('rex_deleteDir'))
 
     if (file_exists($file))
     {
-    // Fehler unterdr�cken, falls keine Berechtigung
+    // Fehler unterdrücken, falls keine Berechtigung
     if (@ is_dir($file))
     {
       $handle = opendir($file);
@@ -300,10 +300,10 @@ if (!function_exists('rex_deleteDir'))
       }
 
 
-      // Ordner auch l�schen?
+      // Ordner auch löschen?
       if ($delete_folders)
       {
-      // Fehler unterdr�cken, falls keine Berechtigung
+      // Fehler unterdrücken, falls keine Berechtigung
       if (!@ rmdir($file))
       {
         if($debug)
@@ -315,8 +315,8 @@ if (!function_exists('rex_deleteDir'))
     }
     else
     {
-      // Datei l�schen
-      // Fehler unterdr�cken, falls keine Berechtigung
+      // Datei löschen
+      // Fehler unterdrücken, falls keine Berechtigung
       if (!@ unlink($file))
       {
       if($debug)
@@ -339,7 +339,7 @@ if (!function_exists('rex_deleteDir'))
 } // end function_exists
 
 /**
- * Workaround f�r PHP4
+ * Workaround für PHP4
  */
 if (!function_exists('file_get_contents'))
 {
@@ -358,7 +358,7 @@ if (!function_exists('file_get_contents'))
 } // end function_exists
 
 /**
- * Workaround f�r PHP4
+ * Workaround für PHP4
  */
 if (!function_exists('file_put_contents'))
 {

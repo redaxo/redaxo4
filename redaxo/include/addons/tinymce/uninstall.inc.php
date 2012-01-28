@@ -28,7 +28,7 @@
     {
       if(!rex_deleteDir($addon_filesdir, true))
       {
-        $REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$addon_filesdir.' konnte nicht gel�scht werden!';
+        $REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$addon_filesdir.' konnte nicht gel&ouml;scht werden!';
         $REX['ADDON']['install'][$rxa_tinymce['name']] = 1;
       }
     }
