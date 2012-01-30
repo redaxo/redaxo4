@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Funktionensammlung fÃ¼r den Medienpool
+ * Funktionensammlung für den Medienpool
  *
  * @package redaxo4
  * @version svn:$Id$
  */
 
 /**
- * Erstellt einen Filename der eindeutig ist fÃ¼r den Medienpool
+ * Erstellt einen Filename der eindeutig ist für den Medienpool
  * @param $FILENAME Dateiname
  */
 function rex_mediapool_filename($FILENAME, $doSubindexing = true)
@@ -17,7 +17,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
   // ----- neuer filename und extension holen
   $NFILENAME = strtolower($FILENAME);
-  $NFILENAME = str_replace(array('Ã¤','Ã¶', 'Ã¼', 'ÃŸ'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
+  $NFILENAME = str_replace(array('ä','ö', 'ü', 'ß'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
   $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\+]/','_',$NFILENAME);
   if (strrpos($NFILENAME,'.') != '')
   {
@@ -30,7 +30,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   }
 
   // ---- ext checken - alle scriptendungen rausfiltern
-  if (in_array($NFILE_EXT,$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS']))
+  if (in_array($NFILE_EXT,$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS']) || substr($NFILENAME,0,1)=='.')
   {
     $NFILE_NAME .= $NFILE_EXT;
     $NFILE_EXT = '.txt';
@@ -57,7 +57,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 /**
  * Holt ein upgeloadetes File und legt es in den Medienpool
  * Dabei wird kontrolliert ob das File schon vorhanden ist und es
- * wird eventuell angepasst, weiterhin werden die Fileinformationen Ã¼bergeben
+ * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
  *
  * @param $FILE
  * @param $rex_file_category
@@ -167,7 +167,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 /**
  * Holt ein upgeloadetes File und legt es in den Medienpool
  * Dabei wird kontrolliert ob das File schon vorhanden ist und es
- * wird eventuell angepasst, weiterhin werden die Fileinformationen Ã¼bergeben
+ * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
  *
  * @param $FILE
  * @param $rex_file_category

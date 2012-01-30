@@ -13,7 +13,8 @@ if($PERMALL)
     while(($file = readdir($handle)) !== false)
     {
       if(!is_file($REX['MEDIAFOLDER'] .'/'. $file)) continue;
-
+      if(substr($file,0,1)=='.') continue; // ignore any system file matching ".*"
+      
       // Tempfiles nicht synchronisieren
       if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
       {
@@ -46,7 +47,7 @@ if($PERMALL)
     {
       foreach($sync_files as $file)
       {
-        // hier mit is_int, wg kompatibilit√§t zu PHP < 4.2.0
+        // hier mit is_int, wg kompatibilit‰t zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
         if(rex_mediapool_syncFile($file,$rex_file_category,$ftitle,'',''))
