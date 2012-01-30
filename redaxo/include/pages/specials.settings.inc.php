@@ -37,9 +37,9 @@ elseif ($func == 'updateinfos')
   $neu_defaulttemplateid  = rex_post('neu_defaulttemplateid', 'int');
   $neu_lang               = rex_post('neu_lang', 'string');
   // ' darf nichtg escaped werden, da in der Datei der Schlüssel nur zwischen " steht
-  $neu_error_emailaddress = str_replace("\'", "'", rex_post('neu_error_emailaddress', 'string'));
-  $neu_SERVER             = str_replace("\'", "'", rex_post('neu_SERVER', 'string'));
-  $neu_SERVERNAME         = str_replace("\'", "'", rex_post('neu_SERVERNAME', 'string'));
+  $neu_error_emailaddress = str_replace("\\'", "'", rex_post('neu_error_emailaddress', 'string'));
+  $neu_SERVER             = str_replace("\\'", "'", rex_post('neu_SERVER', 'string'));
+  $neu_SERVERNAME         = str_replace("\\'", "'", rex_post('neu_SERVERNAME', 'string'));
   $neu_modrewrite         = rex_post('neu_modrewrite', 'string');
 
   $startArt = OOArticle::getArticleById($neu_startartikel);
@@ -78,11 +78,26 @@ elseif ($func == 'updateinfos')
     $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
   }
 
-  $cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?)[^;]*@", '$1"'.strtolower($neu_error_emailaddress).'"', $cont);
-  $cont = preg_replace("@(REX\['LANG'\].?\=.?)[^;]*@", '$1"'.$neu_lang.'"', $cont);
-  $cont = preg_replace("@(REX\['SERVER'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVER).'"', $cont);
-  $cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVERNAME).'"', $cont);
-  $cont = preg_replace("@(REX\['MOD_REWRITE'\].?\=.?)[^;]*@",'$1'.strtolower($neu_modrewrite),$cont);
+  $search = array('\\"', "'", '$');
+  $destroy = array('"', "\\'", '\\$');
+  $replace = array(
+    'search' => array(
+      "@(REX\['ERROR_EMAIL'\].?\=.?).*$@m",
+      "@(REX\['LANG'\].?\=.?).*$@m",
+      "@(REX\['SERVER'\].?\=.?).*$@m",
+      "@(REX\['SERVERNAME'\].?\=.?).*$@m",
+      "@(REX\['MOD_REWRITE'\].?\=.?).*$@m"
+    ),
+    'replace' => array(
+      "$1'".str_replace($search, $destroy, strtolower($neu_error_emailaddress))."';",
+      "$1'".str_replace($search, $destroy, $neu_lang)."';",
+      "$1'".str_replace($search, $destroy, $neu_SERVER)."';",
+      "$1'".str_replace($search, $destroy, $neu_SERVERNAME)."';",
+      '$1'.strtolower(str_replace($search, $destroy, $neu_modrewrite)).';'
+    )
+  );
+
+  $cont = preg_replace($replace['search'], $replace['replace'], $cont);
 
   if($warning == '')
   {
