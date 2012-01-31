@@ -285,9 +285,9 @@ function rex_setup_dropREXtables()
     $license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
 
     if(strpos($REX['LANG'], 'utf') !== false)
-    echo utf8_encode($license);
-    else
     echo $license;
+    else
+    echo utf8_decode($license);
 
     echo '</div>
         </div>
