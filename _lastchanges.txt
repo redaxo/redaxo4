@@ -15,7 +15,6 @@ Version 4.3.3 (2012-xx-xx)
     on demand nachgeladen
 
   Anpassungen
-  * Textile: update auf Version 2.2.0
   * Import/export: aussagekräftigerer default Dateiname für DB dumps
 
   Bugfixes
