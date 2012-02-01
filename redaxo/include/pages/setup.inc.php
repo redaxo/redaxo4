@@ -292,7 +292,7 @@ function rex_setup_dropREXtables()
     echo '</div>
         </div>
         <div class="rex-area-footer">
-          <p class="rex-algn-rght"><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg("setup_006").'</a></p>
+          <p class="rex-algn-rght"><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.urlencode($lang).'"'. rex_tabindex() .'>&raquo; '.$I18N->msg("setup_006").'</a></p>
         </div>';
 
     $checkmodus = 0;
@@ -364,11 +364,11 @@ function rex_setup_dropREXtables()
     echo $I18N->msg('setup_016_1', ' class="rex-ul1"', '<span class="rex-ok">', '</span>');
     echo '<div class="rex-message"><p class="rex-warning" id="security_warning" style="display: none;"><span>'. $I18N->msg('setup_security_msg') .'</span></p></div>
           <noscript><div class="rex-message"><p class="rex-warning"><span>'. $I18N->msg('setup_no_js_security_msg') .'</span></p></div></noscript>
-          <iframe src="include/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
+          <iframe src="include/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.urlencode($lang).'" style="display: none;"></iframe>
        </div>
        <div class="rex-area-footer">
          <p id="nextstep" class="rex-algn-rght">
-           <a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a>
+           <a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.urlencode($lang).'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a>
          </p>
        </div>';
 
@@ -385,7 +385,7 @@ function rex_setup_dropREXtables()
         </div>
         <div class="rex-area-footer">
           <p class="rex-algn-rght">
-            <a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a>
+            <a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.urlencode($lang).'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a>
           </p>
         </div>';
   }
@@ -397,27 +397,49 @@ function rex_setup_dropREXtables()
     $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
     $cont = rex_get_file_contents($master_file);
 
-    // Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
-    $serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
-    $serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
-    $error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
-    $psw_func                  = str_replace("\'", "'", rex_post('psw_func', 'string'));
-    $mysql_host                = str_replace("\'", "'", rex_post('mysql_host', 'string'));
-    $redaxo_db_user_login      = str_replace("\'", "'", rex_post('redaxo_db_user_login', 'string'));
-    $redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
-    $dbname                    = str_replace("\'", "'", rex_post('dbname', 'string'));
+    // slashes entfernen
+    $serveraddress             = stripslashes(rex_post('serveraddress', 'string'));
+    $serverbezeichnung         = stripslashes(rex_post('serverbezeichnung', 'string'));
+    $error_email               = stripslashes(rex_post('error_email', 'string'));
+    $psw_func                  = stripslashes(rex_post('psw_func', 'string'));
+    $mysql_host                = stripslashes(rex_post('mysql_host', 'string'));
+    $redaxo_db_user_login      = stripslashes(rex_post('redaxo_db_user_login', 'string'));
+    $redaxo_db_user_pass       = stripslashes(rex_post('redaxo_db_user_pass', 'string'));
+    $dbname                    = stripslashes(rex_post('dbname', 'string'));
     $redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
+    
+    // einfache anführungszeichen und dollarzeichen maskieren
+    $search = array("'", '$');
+    $destroy = array("\\'", '\\$');
 
-    $cont = preg_replace("@(REX\['SERVER'\].?\=.?\")[^\"]*@", '${1}'.$serveraddress, $cont);
-    $cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?\")[^\"]*@", '${1}'.$serverbezeichnung, $cont);
-    $cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
-    $cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
-    $cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
-    $cont = preg_replace("@(REX\['PSWFUNC'\].?\=.?\")[^\"]*@", '${1}'.$psw_func, $cont);
-    $cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
-    $cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
-    $cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
-    $cont = preg_replace("@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*@", '${1}'.$dbname, $cont);
+    $replace = array(
+      'search' => array(
+        "@(REX\['SERVER'\].?\=.?).*$@m",
+        "@(REX\['SERVERNAME'\].?\=.?).*$@m",
+        "@(REX\['LANG'\].?\=.?).*$@m",
+        "@(REX\['INSTNAME'\].?\=.?).*$@m",
+        "@(REX\['ERROR_EMAIL'\].?\=.?).*$@m",
+        "@(REX\['PSWFUNC'\].?\=.?).*$@m",
+        "@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?).*$@m",
+        "@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?).*$@m",
+        "@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?).*$@m",
+        "@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?).*$@m"
+      ),
+      'replace' => array(
+        "$1'".str_replace($search, $destroy, $serveraddress)."';",
+        "$1'".str_replace($search, $destroy, $serverbezeichnung)."';",
+        "$1'".str_replace($search, $destroy, $lang)."';",
+        "$1'rex".date('YmdHis')."';",
+        "$1'".str_replace($search, $destroy, $error_email)."';",
+        "$1'".str_replace($search, $destroy, $psw_func)."';",
+        "$1'".str_replace($search, $destroy, $mysql_host)."';",
+        "$1'".str_replace($search, $destroy, $redaxo_db_user_login)."';",
+        "$1'".str_replace($search, $destroy, $redaxo_db_user_pass)."';",
+        "$1'".str_replace($search, $destroy, $dbname)."';"
+      )
+    );
+
+    $cont = preg_replace($replace['search'], $replace['replace'], $cont);
 
     if(rex_put_file_contents($master_file, $cont) === false)
     {
@@ -468,7 +490,7 @@ function rex_setup_dropREXtables()
           <input type="hidden" name="page" value="setup" />
           <input type="hidden" name="checkmodus" value="2" />
           <input type="hidden" name="send" value="1" />
-          <input type="hidden" name="lang" value="'.$lang.'" />';
+          <input type="hidden" name="lang" value="'.htmlspecialchars($lang).'" />';
 
     if (isset ($err_msg) and $err_msg != '') {
       echo rex_warning($err_msg);
@@ -492,21 +514,21 @@ function rex_setup_dropREXtables()
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="serveraddress">'.$I18N->msg("setup_024").'</label>
-                  <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.htmlspecialchars($serveraddress).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
-                  <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.htmlspecialchars($serverbezeichnung).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="error_email">'.$I18N->msg("setup_026").'</label>
-                  <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.htmlspecialchars($error_email).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
@@ -527,28 +549,28 @@ function rex_setup_dropREXtables()
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="dbname">'.$I18N->msg("setup_027").'</label>
-                  <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" value="'.htmlspecialchars($dbname).'" id="dbname" name="dbname"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="mysql_host">MySQL Host</label>
-                  <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.htmlspecialchars($mysql_host).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="redaxo_db_user_login">Login</label>
-                  <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.htmlspecialchars($redaxo_db_user_login).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
-                  <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
+                  <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.htmlspecialchars($redaxo_db_user_pass).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
@@ -756,7 +778,7 @@ function rex_setup_dropREXtables()
           <input type="hidden" name="page" value="setup" />
           <input type="hidden" name="checkmodus" value="3" />
           <input type="hidden" name="send" value="1" />
-          <input type="hidden" name="lang" value="'.$lang.'" />
+          <input type="hidden" name="lang" value="'.htmlspecialchars($lang).'" />
 
           <legend>'.$I18N->msg('setup_030_headline').'</legend>
             <div class="rex-form-wrapper">
@@ -976,7 +998,7 @@ function rex_setup_dropREXtables()
         <input type="hidden" name="page" value="setup" />
         <input type="hidden" name="checkmodus" value="4" />
         <input type="hidden" name="send" value="1" />
-        <input type="hidden" name="lang" value="'.$lang.'" />
+        <input type="hidden" name="lang" value="'.htmlspecialchars($lang).'" />
         <legend>'.$I18N->msg("setup_045").'</legend>
         <div class="rex-form-wrapper">
         ';
@@ -991,13 +1013,13 @@ function rex_setup_dropREXtables()
       <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
           <label for="redaxo_user_login">'.$I18N->msg("setup_046").':</label>
-          <input class="rex-form-text" type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login"'. rex_tabindex() .'/>
+          <input class="rex-form-text" type="text" value="'.htmlspecialchars($redaxo_user_login).'" id="redaxo_user_login" name="redaxo_user_login"'. rex_tabindex() .'/>
         </p>
       </div>
       <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
           <label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
-          <input class="rex-form-text" type="password" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
+          <input class="rex-form-text" type="password" value="'.htmlspecialchars($redaxo_user_pass).'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
         </p>
       </div>';
 

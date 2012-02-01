@@ -98,7 +98,7 @@ elseif ($func == 'updateinfos')
   );
 
   $cont = preg_replace($replace['search'], $replace['replace'], $cont);
-
+  
   if($warning == '')
   {
     if(rex_put_file_contents($master_file, $cont) > 0)
@@ -182,7 +182,7 @@ echo '
             PHP: '.phpversion().'</p>
 
             <h4 class="rex-hl3">'.$I18N->msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.$REX['MYSQL_VERSION'].'<br />'.$I18N->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$I18N->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
+            <p class="rex-tx1">MySQL: '.$REX['MYSQL_VERSION'].'<br />'.$I18N->msg("name").': '.htmlspecialchars($REX['DB']['1']['NAME']).'<br />'.$I18N->msg("host").': '.htmlspecialchars($REX['DB']['1']['HOST']).'</p>
 
           </div>
         </div>
@@ -234,14 +234,14 @@ echo '
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-read">
                     <label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-                    <span class="rex-form-read" id="rex-form-db-host">&quot;'.$REX['DB']['1']['HOST'].'&quot;</span>
+                    <span class="rex-form-read" id="rex-form-db-host">&quot;'.htmlspecialchars($REX['DB']['1']['HOST']).'&quot;</span>
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-text">
                     <label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-                    <span id="rex-form-db-login">&quot;'.$REX['DB']['1']['LOGIN'].'&quot;</span>
+                    <span id="rex-form-db-login">&quot;'.htmlspecialchars($REX['DB']['1']['LOGIN']).'&quot;</span>
                   </p>
                 </div>
 
@@ -272,7 +272,7 @@ echo '
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-read">
                     <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
-                    <span class="rex-form-read" id="rex_include_path" title="'. $REX['INCLUDE_PATH'] .'">&quot;';
+                    <span class="rex-form-read" id="rex_include_path" title="'. htmlspecialchars($REX['INCLUDE_PATH']) .'">&quot;';
 
                     $tmp = $REX['INCLUDE_PATH'];
                     if (strlen($REX['INCLUDE_PATH'])>21)
