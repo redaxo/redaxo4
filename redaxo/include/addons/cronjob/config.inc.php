@@ -22,7 +22,7 @@ if($REX['REDAXO'])
   $REX['ADDON']['perm'][$mypage] = 'admin[]';
 
   // Credits
-  $REX['ADDON']['version'][$mypage] = '1.0';
+  $REX['ADDON']['version'][$mypage] = '1.1';
   $REX['ADDON']['author'][$mypage] = 'Gregor Harlan';
   $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
