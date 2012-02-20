@@ -407,7 +407,7 @@ function rex_setup_dropREXtables()
     $redaxo_db_user_pass       = stripslashes(rex_post('redaxo_db_user_pass', 'string'));
     $dbname                    = stripslashes(rex_post('dbname', 'string'));
     $redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
-    
+
     // einfache anführungszeichen und dollarzeichen maskieren
     $search = array("'", '$');
     $destroy = array("\\'", '\\$');
@@ -708,7 +708,7 @@ function rex_setup_dropREXtables()
     elseif ($dbanlegen == 2)
     {
       // ----- db schon vorhanden, nichts tun
-      $err_msg .= rex_setup_addons(true, false);
+      $err_msg .= rex_setup_addons(false, false);
     }
     elseif ($dbanlegen == 1)
     {
