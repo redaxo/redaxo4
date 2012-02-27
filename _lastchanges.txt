@@ -7,7 +7,15 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.3.3 (2012-xx-xx)
+Version 4.3.4 (2012-xx-xx)
+
+  Bugfixes
+  * Setup: Bei Auswahl von "Datenbank existiert schon" werden die Addons nicht mehr deinstalliert
+  * Medienpool: Beim Sync wird die PHP-Konstante FILEINFO_MIME_TYPE nur noch verwendet, wenn verfügbar
+  * Cronjob: Passwort für HTTP-Auth wurde nicht gespeichert
+
+
+Version 4.3.3 (2012-02-01)
 
   Neu
   * In der Kategorieansicht des Medienpools werden immer nur die Bilder geladen,
@@ -28,7 +36,7 @@ Version 4.3.3 (2012-xx-xx)
   * redaxo://X Ersetzungen waren teilweise veraltet im Cache
 
 
-Version 4.3.2 (2010-xx-xx)
+Version 4.3.2 (2010-12-12)
 
   Neu
   * Update 4.x -> 4.3 durch Upload einer Exportdatei
