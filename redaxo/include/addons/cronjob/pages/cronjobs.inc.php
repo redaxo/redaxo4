@@ -293,6 +293,7 @@ if ($func == '')
     }
   }
   $visible_js = '';
+  unset($field);
   if(!empty($visible))
   {
     foreach($fieldContainer->getFields() as $group => $fieldElements)
