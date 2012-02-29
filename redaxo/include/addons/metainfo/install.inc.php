@@ -11,15 +11,62 @@
 
 $error = '';
 
-require_once ($REX['INCLUDE_PATH'] . '/addons/metainfo/extensions/extension_cleanup.inc.php');
-rex_a62_metainfo_cleanup(array('force' => true));
+$result = rex_install_dump($REX['INCLUDE_PATH'] . '/addons/metainfo/_install.sql');
+if($result !== true)
+{
+  $error = $result;
+}
+else
+{
+  require_once $REX['INCLUDE_PATH'].'/addons/metainfo/classes/class.rex_table_manager.inc.php';
 
-// uninstall ausführen, damit die db clean ist vorm neuen install
-$uninstall = $REX['INCLUDE_PATH'] . '/addons/metainfo/uninstall.sql';
-rex_install_dump($uninstall);
+  $tablePrefixes = array('article' => array('art_', 'cat_'), 'file' => array('med_'));
+  $columns = array('article' => array(), 'file' => array());
+  foreach($tablePrefixes as $table => $prefixes)
+  {
+    foreach(rex_sql::showColumns($REX['TABLE_PREFIX'] .$table) as $column)
+    {
+      $column = $column['name'];
+      $prefix = substr($column, 0, 4);
+      if(in_array(substr($column, 0, 4), $prefixes))
+      {
+        $columns[$table][$column] = true;
+      }
+    }
+  }
 
-// TODO:
-// - Update von alten Version einfliessen lassen
+  $sql = rex_sql::factory();
+  $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM '. $REX['TABLE_PREFIX'] .'62_params p, '. $REX['TABLE_PREFIX'] .'62_type t WHERE p.type = t.id');
+  $rows = $sql->getRows();
+  $managers = array(
+    'article' => new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'article'),
+    'file' => new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'file')
+  );
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $column = $sql->getValue('name');
+    if (substr($column, 0, 4) == 'med_')
+      $table = 'file';
+    else
+      $table = 'article';
+
+    if(isset($columns[$table][$column]))
+      $managers[$table]->editColumn($column, $column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+    else
+      $managers[$table]->addColumn($column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+
+    unset($columns[$table][$column]);
+    $sql->next();
+  }
+
+  foreach($columns as $table => $tableColumns)
+  {
+    foreach($tableColumns as $column => $v)
+    {
+      $managers[$table]->deleteColumn($column);
+    }
+  }
+}
 
 if ($error != '')
   $REX['ADDON']['installmsg']['metainfo'] = $error;
