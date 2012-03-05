@@ -835,6 +835,7 @@ class OOMedia
         unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
       }
 
+      require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
       rex_deleteCacheMedia($this->getFileName());
 
       return $sql->getError();
