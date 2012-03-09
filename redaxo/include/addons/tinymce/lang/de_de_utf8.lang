@@ -1,0 +1,66 @@
+# Addon: TinyMCE
+#---------------
+
+# Addon-Eintrag und Addon-Titel
+tinymce_menu_link = TinyMCE Editor
+tinymce_title = TinyMCE WYSIWYG Editor <span style="font-size:10px;">(Version 2.0)</span>
+
+# Versionen
+tinymce_version = 2.0
+tinymce_tiny_versinfo = TinyMCE jQuery package 3.4.9, <a href="http://www.tinymce.com/" onclick="window.open(this.href); return false;">http://www.tinymce.com/</a>
+
+# Menüeinträge
+tinymce_menu_info = Erklärung
+tinymce_menu_settings = Konfiguration
+tinymce_menu_profiles = Editor-Profile
+tinymce_menu_css = CSS für TinyMCE
+
+# Konfiguration
+tinymce_config_title = TinyMCE-Konfiguration
+tinymce_active_be = Backend aktiv
+tinymce_active_fe = Frontend aktiv
+tinymce_config_excludecats = Bei folgenden Pages (Backend) bzw. Kategorien (Frontend) nicht ausführen
+tinymce_config_excludeids = Bei folgenden Subpages (Backend) bzw. Seiten (Frontend) nicht ausführen
+tinymce_config_csv = <em>(kommaseparierte Liste)</em>
+
+# Profil-Verwaltung
+tinymce_listtitle = Editor-Profile
+tinymce_listsummary = In dieser Tabelle sind alle definierten Editor-Profile enthalten
+tinymce_addentry = Editor-Profil erstellen
+tinymce_name = Name
+tinymce_description = Beschreibung
+tinymce_configuration = TinyMCE-Konfiguration
+tinymce_func = Funktionen
+tinymce_delentry = löschen
+tinymce_back = Zurück zur Übersicht
+tinymce_fieldset = Editor-Profil bearbeiten
+
+# CSS-Verwaltung
+tinymce_css_title = CSS für TinyMCE
+tinymce_css_text = CSS für Editor und Vorschau
+tinymce_css_infotitle = Hinweis
+tinymce_css_info = Die hier angegebenen CSS-Anweisungen können bei der Konfiguration über folgenden Parameter eingefügt werden:<br /><strong>content_css : 'index.php?tinymcecss=true'</strong><br /><br />Die Darstellung des TinyMCE-Editors und der TinyMCE-Vorschau können dadurch beeinflusst werden. Weitere Informationen finden sich in der TinyMCE-Dokumentation.
+
+# Fehler und Info-Meldungen
+tinymce_error_notwriteable = Konfigurationsdatei "{0}" ist nicht beschreibbar!
+tinymce_config_saved = Konfiguration wurde aktualisiert!
+tinymce_config_not_saved = Konfiguration konnte nicht gespeichert werden!
+tinymce_profile_deleted = Editor-Profil wurde gelöscht!
+tinymce_profile_notdeleted = Editor-Profil mit ID=2 (default) darf nicht gelöscht werden!
+tinymce_profiles_nodata = Keine Editor-Profile vorhanden!
+tinymce_profiles_noname = Kein Name angegeben!
+tinymce_profiles_nameinvalid = Name enthält ungültige Zeichen (nur a-z und 0-9 erlaubt)!
+tinymce_profiles_nodesc = Keine Beschreibung angegeben!
+tinymce_profiles_noconfig = Keine TinyMCE-Konfiguration angegeben!
+tinymce_css_saved = CSS wurde aktualisiert!
+tinymce_css_not_saved = CSS konnte nicht gespeichert werden!
+
+# Erklärung / Hilfe / Module
+tinymce_shorthelp = Das Addon bindet den WYSIWYG-Editor TinyMCE im Backend und bei Bedarf auch im Frontend ein.
+tinymce_longhelp = <br />Abhängig von der <a href="index.php?page=tinymce&amp;subpage=settings">Konfiguration</a> des TinyMCE-Addons wird automatisch im Backend und im Frontend<br />der TinyMCE-WYSIWYG-Editor für Textareas eingebunden.<br /><br />Textareas mit der Klasse <em>tinyMCEEditor</em> werden automatisch von einem normalen Texteingabefeld<br />in einen WYSIWYG-Editor umgewandelt.<br />z.B.: &lt;textarea <strong>class="tinyMCEEditor"</strong>&gt;&lt;/textarea&gt;<br /><br />Im Backend können verschiedene <a href="index.php?page=tinymce&amp;subpage=profiles">Editor-Profile</a> mit unterschiedlichen Konfigurationseinstellungen für den TinyMCE-Editor angelegt werden. Diese Editor-Profile können durch anhängen des Profil-Namens an die Klasse angewendet werden.<br />z.B.: &lt;textarea <strong>class="tinyMCEEditor-simple"</strong>&gt;&lt;/textarea&gt;
+tinymce_nodel_notice = <strong>HINWEIS:</strong><br />Der Eintrag mit der <strong>ID=2</strong> und Name <strong>default</strong> darf nicht gelöscht werden!
+
+tinymce_title_module_input = Code-Beispiel für Moduleingabe
+tinymce_help_module_input = Um eine Textarea in einen WYSIWYG-Editor mit TinyMCE zu verwandeln reicht es der Textarea die Klasse <strong>tinyMCEEditor</strong> zuzuweisen.<br />Durch anhängen eines bestehenden <a href="index.php?page=tinymce&amp;subpage=profiles">Editor-Profil-Namens</a> an die Klasse kann der TinyMCE für jede Textarea individuell angepasst werden.<br />z.B.: &lt;textarea <strong>class="tinyMCEEditor-simple"</strong>&gt;&lt;/textarea&gt;
+tinymce_title_module_output = Code-Beispiel für Modulausgabe
+tinymce_help_module_output = Für die Ausgabe ist es ausreichend im Output-Modul die Variable <strong>REX_HTML_VALUE[1]</strong> anzugeben.<br />Hier ein Beispiel mit einer IF-Abfrage um eine leere Ausgabe zu vermeiden.

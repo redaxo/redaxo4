@@ -1,50 +1,36 @@
 <?php
+
 /**
  * TinyMCE Addon
  *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @author andreas[dot]eberhard[at]redaxo[dot]de Andreas Eberhard
- * @author <a href="http://rex.andreaseberhard.de">rex.andreaseberhad.de</a>
- *
- * @author Dave Holloway
- * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
+ * @author andreaseberhard[at]gmail[dot]com Andreas Eberhard
+ * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
  *
  * @package redaxo4
  * @version svn:$Id$
  */
-?>
 
-<?php
-  $filename = dirname( __FILE__) . '/lang/help.' . $REX['LANG'] . '.lang';
-  if(is_readable($filename))
+$mypage = 'tinymce';
+
+if (isset($I18N) && is_object($I18N))
+{
+  if ($REX['VERSION'] . $REX['SUBVERSION'] < '42')
   {
-    if (strstr($REX['LANG'], 'utf8'))
-    {
-      echo nl2br(utf8_encode(file_get_contents($filename)));
-    }
-    else
-    {
-      echo nl2br(file_get_contents($filename));
-    }
+    $I18N->locale = $REX['LANG'];
+    $I18N->filename = $REX['INCLUDE_PATH'] . '/addons/tinymce/lang/'. $REX['LANG'] . ".lang";
+    $I18N->loadTexts();
   }
+  else
+  {
+    $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/tinymce/lang/');
+  }
+}
 ?>
 
+<h3><?php echo $I18N->msg('tinymce_title'); ?></h3>
 <br />
-
-<?php
-  $filename = dirname( __FILE__) . '/_changelog.txt';
-  if(is_readable($filename))
-  {
-    if (strstr($REX['LANG'], 'utf8'))
-    {
-      echo str_replace('  - ', '&nbsp;&nbsp;-&nbsp;', nl2br(utf8_encode(file_get_contents($filename))));
-    }
-    else
-    {
-      echo str_replace('  - ', '&nbsp;&nbsp;-&nbsp;', nl2br(file_get_contents($filename)));
-    }
-  }
-?>
-
+<p>
+<?php echo $I18N->msg('tinymce_tiny_versinfo'); ?>
 <br /><br />
+<?php echo $I18N->msg('tinymce_shorthelp'); ?>
+</p>

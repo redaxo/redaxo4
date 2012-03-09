@@ -1,95 +1,119 @@
 <?php
+
 /**
  * TinyMCE Addon
  *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @author andreas[dot]eberhard[at]redaxo[dot]de Andreas Eberhard
- * @author <a href="http://rex.andreaseberhard.de">rex.andreaseberhad.de</a>
- *
- * @author Dave Holloway
- * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
+ * @author andreaseberhard[at]gmail[dot]com Andreas Eberhard
+ * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
  *
  * @package redaxo4
  * @version svn:$Id$
  */
 
-  $rxa_tinymce['get_func'] = rex_request('func', 'string');
-  $rxa_tinymce['get_tinymcecss'] = rex_request('tinymcecss', 'string');
+unset($_SESSION['tinymce']);
 
-  $filename = $rxa_tinymce['fe_path'] . '/content.css';
+$table = $REX['TABLE_PREFIX'] . 'tinymce_profiles';
+$page = rex_request('page', 'string');
+$subpage = rex_request('subpage', 'string');
+$func = rex_request('func', 'string');
+$css = rex_request('css', 'string');
 
-  // CSS speichern
-  if ($rxa_tinymce['get_func'] == 'update')
+// Update
+if ($func == 'update')
+{
+  $sqlu = new rex_sql();
+  $sqlu->debugsql=0;
+  
+  $query = 'SELECT configuration FROM '.$table.' WHERE id = 1 AND ptype = 1 ';
+  $sql = new rex_sql;
+  $sql->debugsql=0;
+  $sql->setQuery($query);
+  if ($sql->getRows() > 0)
   {
-    @chmod($filename, 0755);
-
-    $rxa_tinymce['get_tinymcecss'] = stripslashes($rxa_tinymce['get_tinymcecss']);
-    if (file_put_contents($filename, $rxa_tinymce['get_tinymcecss']))
+    $sqlu->setTable($table);
+    $sqlu->setValue('id', '1');
+    $sqlu->setValue('configuration', $css);
+    $sqlu->setWhere('id = 1 AND ptype = 1');
+    if($sqlu->update())
     {
-      echo rex_info($I18N_A52->msg('msg_css_saved'));
+      echo rex_info($I18N->msg('tinymce_css_saved'));
     }
     else
     {
-      echo rex_warning($I18N_A52->msg('msg_css_error'));
+      echo rex_warning($I18N->msg('tinymce_css_not_saved'));
     }
   }
-
-  // Tabelle bei REDAXO 3.2.x ausgeben
-  if ($rxa_tinymce['rexversion'] == '32')
+  else
   {
-    echo '<table border="0" cellpadding="5" cellspacing="1" width="770">';
-    echo '<tr>';
-    echo '<td class="grey">';
+    $sqlu->setTable($table);
+    $sqlu->setValue('id', '1');
+    $sqlu->setValue('name', 'css');
+    $sqlu->setValue('ptype', '1');
+    $sqlu->setValue('description', 'CSS fuer den TinyMCE');
+    $sqlu->setValue('configuration', $css);
+    if($sqlu->insert())
+    {
+      echo rex_info($I18N->msg('tinymce_css_saved'));
+    }
+    else
+    {
+      echo rex_warning($I18N->msg('tinymce_css_not_saved'));
+    }
+  }
+}
+
+// CSS aus Tabelle bereitstellen
+  $query = 'SELECT configuration FROM '.$table.' WHERE id = 1 AND ptype = 1 ';
+  $sql = new rex_sql;
+  $sql->debugsql=0;
+  $sql->setQuery($query);
+  if ($sql->getRows() > 0)
+  {
+    $css = $sql->getValue('configuration');
   }
 ?>
 
 <div class="rex-addon-output">
+<div class="rex-form">
+  <h2 class="rex-hl2"><?php echo $I18N->msg('tinymce_css_title'); ?></h2>
 
-  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_css_wysiwyg'); ?><br />[ <?php echo $filename; ?> ]</h2>
+  <form action="index.php" method="post">
+  <fieldset class="rex-form-col-1">
 
-  <div class="rex-area">
-  <div class="rex-form">
-
-    <form action="index.php" method="post">
-    <fieldset>
-    <div class="rex-form-wrapper">
-    <input type="hidden" name="page" value="tinymce" />
-    <input type="hidden" name="subpage" value="css" />
+  <div class="rex-form-wrapper">
+    <input type="hidden" name="page" value="<?php echo $page; ?>" />
+    <input type="hidden" name="subpage" value="<?php echo $subpage; ?>" />
     <input type="hidden" name="func" value="update" />
-<?php
-  if(is_readable($filename))
-  {
-    $csstext = htmlspecialchars(file_get_contents($filename));
-  }
-?>
-    <div class="rex-form-row">
-      <p class="rex-form-textarea">
-        <label for="tinymcecss">CSS</label>
-        <textarea class="rex-form-textarea" name="tinymcecss" id="tinymcecss" cols="80" rows="20"><?php echo htmlspecialchars($csstext); ?></textarea>
+
+    <div class="rex-form-row rex-form-element-v1">
+      <p class="rex-form-text">
+        <label for="css"><?php echo $I18N->msg('tinymce_css_text'); ?></label>
+        <textarea class="rex-form-text" id="css" name="css" cols="50" rows="12" style="width:550px;height:300px;font-family:'Courier New';"><?php echo $css; ?></textarea>
       </p>
     </div>
 
-    <div class="rex-form-row">
+    <div class="rex-form-row rex-form-element-v1">
       <p class="rex-form-submit">
-        <input class="rex-form-submit" type="submit" value="<?php echo $I18N_A52->msg('button_save_css'); ?>" />
+        <input type="submit" class="rex-form-submit" name="sendit" value="<?php echo $I18N->msg('update'); ?>" />
       </p>
     </div>
 
-    </div>
-    </fieldset>
-    </form>
+  </div>
 
-  </div> <!-- END rex-form -->
-  </div> <!-- END rex-area -->
+  </fieldset>
+  </form>
 
-</div> <!-- END rex-addon-output -->
+</div>
+</div>
 
-<?php
-  // Tabelle bei REDAXO 3.2.x ausgeben
-  if ($rxa_tinymce['rexversion'] == '32')
-  {
-    echo '</td>';
-    echo '</tr>';
-    echo '</table>';
-  }
+<div class="rex-addon-output">
+
+  <h2 class="rex-hl2"><?php echo $I18N->msg('tinymce_css_infotitle'); ?></h2>
+
+  <div class="rex-addon-content">
+    <p class="rex-tx1">
+    <?php echo $I18N->msg('tinymce_css_info'); ?>
+    </p>
+  </div>
+
+</div>

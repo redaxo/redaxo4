@@ -1,6 +1,8 @@
 /**
  * @author Andreas Eberhard
  * http://andreaseberhard.de - http://projekte.andreaseberhard.de/tinyredaxo
+ *
+ * pack script with http://dean.edwards.name/packer/ - shrink variables
  */
 
 (function() {
@@ -139,8 +141,8 @@
 				longname : 'REDAXO email and filelink',
 				author : 'Andreas Eberhard',
 				authorurl : 'http://andreaseberhard.de',
-				infourl : 'http://projekte.andreaseberhard.de/tinyredaxo',
-				version : "1.0"
+				infourl : 'http://rex.andreaseberhard.de/addons/tinymce.html',
+				version : "3.4.9"
 			};
 		}
 	});
