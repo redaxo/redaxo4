@@ -407,12 +407,22 @@ class rex_form
   }
 
   /**
-   * Fuegt dem Fomualar ein Control-Feld hinzu.
+   * Fuegt dem Formular ein Control-Feld hinzu.
    * Damit koennen versch. Aktionen mit dem Fomular durchgefuert werden.
    */
   /*public*/ function &addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
   {
     $field =& $this->addElement(new rex_form_control_element($this, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement));
+    return $field;
+  }
+
+  /**
+   * Fuegt dem Formular beliebiges HTML zu.
+   * @param string $html HTML code
+   */
+  /*public*/ function &addRawField($html)
+  {
+    $field =& $this->addElement(new rex_form_raw_element($html));
     return $field;
   }
 
@@ -729,6 +739,11 @@ class rex_form
     return is_object($element) && is_a($element, 'rex_form_control_element');
   }
 
+  /*protected*/ function isRawElement($element)
+  {
+    return is_object($element) && is_a($element, 'rex_form_raw_element');
+  }
+
   /*protected*/ function getHeaderElements()
   {
     $headerElements = array();
@@ -804,6 +819,7 @@ class rex_form
       foreach($fieldsetElementsArray as $key => $element)
       {
         if($this->isFooterElement($element)) continue;
+        if($this->isRawElement($element)) continue;
 
         // PHP4 compat notation
         $fieldsetElements[$fieldsetName][] =& $this->elements[$fieldsetName][$key];
@@ -2306,5 +2322,33 @@ class rex_form_widget_linklist_element extends rex_form_element
 
     $widget_counter++;
     return $html;
+  }
+}
+
+/**
+ * class implements storage of raw html(string) as rex_form object
+ */
+class rex_form_raw_element extends rex_form_element
+{
+  var $html;
+
+  function rex_form_raw_element($html = '')
+  {
+    $this->html = $html;
+  }
+
+  function formatElement()
+  {
+    return $this->html;
+  }
+
+  function get()
+  {
+    return $this->html;
+  }
+
+  function wrapContent()
+  {
+    return $this->html;
   }
 }
