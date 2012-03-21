@@ -25,7 +25,7 @@ $list->show();
 
 Beispiel für Custom Callbacks mit Parametern:
 
-function abc($params)
+function my_callback($params)
 {
   // $params['subject']  ist das SQL Objekt der aktuellen Zeile
   // $params['params']   sind die Parameter die du selbst angibst
@@ -33,12 +33,7 @@ function abc($params)
   return $xyz; // Rückgabewert = Wert der in der liste erscheint - kein htmlspechialchars!
 }
 
-$list->setColumnFormat('id', 'custom',
-  array(
-    'abc',
-    array('xy' => 'abc', '123' => '45')
-  )
-);
+$list->setColumnFormat('id', 'custom', 'my_callback', array('foo' => 'bar', '123' => '456'));
 
 */
 
