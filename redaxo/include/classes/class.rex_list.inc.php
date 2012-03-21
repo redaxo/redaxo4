@@ -408,10 +408,11 @@ class rex_list
    * @param $columnName Name der Spalte
    * @param $format_type Formatierungstyp
    * @param $format Zu verwendentes Format
+   * @param $params Custom params für callback func bei format_type 'custom'
    */
-  function setColumnFormat($columnName, $format_type, $format = '')
+  function setColumnFormat($columnName, $format_type, $format = '', $params=array())
   {
-    $this->columnFormates[$columnName] = array($format_type, $format);
+    $this->columnFormates[$columnName] = array($format_type, $format, $params);
   }
 
   /**
@@ -925,14 +926,15 @@ class rex_list
    *
    * @return string
    */
-  function formatValue($value, $format, $escape)
+  function formatValue($value, $format, $escape, $field=null)
   {
     if(is_array($format))
     {
       // Callbackfunktion -> Parameterliste aufbauen
       if($this->isCustomFormat($format))
       {
-        $format[1] = array($format[1], array('list' => $this, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
+        $format[2] = isset($format[2]) ? $format[2] : array();
+        $format[1] = array($format[1], array('list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params'=>$format[2]));
       }
 
       $value = rex_formatter::format($value, $format[0], $format[1]);
@@ -1085,12 +1087,12 @@ class rex_list
           {
             // Nur hier sind Variablen erlaubt
             $columnName = $columnName[0];
-            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false);
+            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
           }
           // Spalten aus dem ResultSet
           else
           {
-            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true);
+            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true, $columnName);
           }
 
           if(!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName))
