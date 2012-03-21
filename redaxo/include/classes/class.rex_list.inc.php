@@ -925,14 +925,14 @@ class rex_list
    *
    * @return string
    */
-  function formatValue($value, $format, $escape)
+  function formatValue($value, $format, $escape, $field=null)
   {
     if(is_array($format))
     {
       // Callbackfunktion -> Parameterliste aufbauen
       if($this->isCustomFormat($format))
       {
-        $format[1] = array($format[1], array('list' => $this, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
+        $format[1] = array($format[1], array('list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
       }
 
       $value = rex_formatter::format($value, $format[0], $format[1]);
@@ -1085,12 +1085,12 @@ class rex_list
           {
             // Nur hier sind Variablen erlaubt
             $columnName = $columnName[0];
-            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false);
+            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
           }
           // Spalten aus dem ResultSet
           else
           {
-            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true);
+            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true, $columnName);
           }
 
           if(!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName))
