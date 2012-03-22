@@ -200,7 +200,7 @@ class rex_formatter
       }
     }
     // Url formatierung
-    return '<a href="mailto:'.$value.$format['params'].'"'.$format['attr'].'>'.$value.'</a>';
+    return '<a href="mailto:'.htmlspecialchars($value.$format['params']).'"'.$format['attr'].'>'.$value.'</a>';
   }
 
   function _formatUrl($value, $format)
@@ -234,7 +234,7 @@ class rex_formatter
       $value = 'http://'.$value;
     }
 
-    return '<a href="'.$value.$format['params'].'"'.$format['attr'].'>'.$value.'</a>';
+    return '<a href="'.htmlspecialchars($value.$format['params']).'"'.$format['attr'].'>'.$value.'</a>';
   }
 
   function _formatTruncate($value, $format)
