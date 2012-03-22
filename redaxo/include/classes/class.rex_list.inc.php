@@ -936,8 +936,14 @@ class rex_list
     }
 
     // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-    if($escape && !$this->isCustomFormat($format) && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
+    if($escape &&
+       !$this->isCustomFormat($format) &&
+       $format[0] != 'rexmedia' &&
+       $format[0] != 'rexurl' &&
+       $format[0] != 'email' &&
+       $format[0] != 'url') {
       $value = htmlspecialchars($value);
+    }
 
     return $value;
   }
