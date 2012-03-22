@@ -11,18 +11,7 @@
 function rex_a79_textile($code)
 {
   $textile = rex_a79_textile_instance();
-
-  if(rex_lang_is_utf8())
-  {
-    return $textile->TextileThis($code);
-  }
-  else
-  {
-    // TEXITLE LIB 2.2 WON'T WORK WITH ISO INPUT
-    $code = utf8_encode($code);
-    $code = $textile->TextileThis($code);
-    return utf8_decode($code);
-  }
+  return $textile->TextileThis($code);
 }
 
 function rex_a79_textile_instance()
