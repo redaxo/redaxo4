@@ -98,8 +98,8 @@ if ($article->getRows() == 1)
   // ----- Request Parameter
   $mode     = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
-  $warning  = rex_request('warning', 'string');
-  $info     = rex_request('info', 'string');
+  $warning  = htmlspecialchars(rex_request('warning', 'string'));
+  $info     = htmlspecialchars(rex_request('info', 'string'));
 
   // ----- mode defs
   if ($mode != 'meta')

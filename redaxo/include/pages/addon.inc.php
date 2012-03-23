@@ -11,7 +11,7 @@ rex_title($I18N->msg('addon'), '');
 $addonname  = rex_request('addonname', 'string');
 $pluginname = rex_request('pluginname', 'string');
 $subpage    = rex_request('subpage', 'string');
-$info       = stripslashes(rex_request('info', 'string'));
+$info       = htmlspecialchars(stripslashes(rex_request('info', 'string')));
 
 // -------------- READ CONFIG
 $ADDONS    = rex_read_addons_folder();

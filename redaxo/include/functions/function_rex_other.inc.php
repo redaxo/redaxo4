@@ -165,7 +165,7 @@ function rex_message($message, $cssClass, $sorround_tag)
   if ($sorround_tag != 'p')
     $return .= '<p>';
 
-  $return .= '<span>'. htmlspecialchars($message) .'</span>';
+  $return .= '<span>'. $message .'</span>';
 
   if ($sorround_tag != 'p')
     $return .= '</p>';

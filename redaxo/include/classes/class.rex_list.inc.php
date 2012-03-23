@@ -188,7 +188,7 @@ class rex_list
    */
   function getMessage()
   {
-    return stripslashes(rex_request($this->getName().'_msg', 'string'));
+    return htmlspecialchars(stripslashes(rex_request($this->getName().'_msg', 'string')));
   }
 
   /**
@@ -198,7 +198,7 @@ class rex_list
    */
   function getWarning()
   {
-    return stripslashes(rex_request($this->getName().'_warning', 'string'));
+    return htmlspecialchars(stripslashes(rex_request($this->getName().'_warning', 'string')));
   }
 
   /**
