@@ -5,7 +5,7 @@
  * @package redaxo4
  * @version svn:$Id$
  */
-//error_reporting(E_ALL);
+
 // ----- caching start für output filter
 ob_start();
 ob_implicit_flush(0);
