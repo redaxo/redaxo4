@@ -17,8 +17,8 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 
   function execute()
   {
-	// sharpen only jpgs
-	if (!in_array(strtolower($this->image->img['format']), array('jpg', 'jpeg'))) {
+	// do not sharpen gifs, results in black image
+	if (strtolower($this->image->img['format']) == 'gif') {
 		return;
 	}
     // Attempt to calibrate the parameters to Photoshop:
