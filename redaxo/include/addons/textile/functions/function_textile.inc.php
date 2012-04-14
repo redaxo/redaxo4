@@ -21,6 +21,7 @@ function rex_a79_textile_instance()
   if($instance === null)
   {
     $instance = new Textile();
+    $instance->url_schemes[] = 'redaxo';
   }
 
   return $instance;
