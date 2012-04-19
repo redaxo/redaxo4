@@ -21,7 +21,7 @@ class rex_cronjob_log
     {
       while (($file = readdir($hdl)) !== false)
       {
-        if (substr($file, 0, 1) != '.' && is_dir($folder . $file .'/.'))
+        if (substr($file, 0, 1) != '.' && is_dir($folder . $file))
         {
           $years[] = $file;
         }
