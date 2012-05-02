@@ -2,10 +2,10 @@
 
 /**
  * PHPMailer Addon
- *
+ *  
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- *
+ * 
+ * 
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -22,7 +22,7 @@ class rex_mailer extends PHPMailer
       $this->ConfirmReadingTo = '';
       $this->Mailer           = 'sendmail';
       $this->Host             = 'localhost';
-      $this->CharSet          = 'iso-8859-1';
+      $this->CharSet          = 'utf-8';
       $this->WordWrap         = 120;
       $this->Encoding         = '8bit';
       $this->Priority         = 3;
