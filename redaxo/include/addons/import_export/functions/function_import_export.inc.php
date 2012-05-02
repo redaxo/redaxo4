@@ -384,15 +384,8 @@ function rex_a1_export_db($filename)
                 $record[] = sprintf('%.10F', (double) $column);
                 break;
               case 'string':
-                $recordwork = $sql->escape($column, "'");
-                if (substr($recordwork, 0, 1) <> "'")
-                {
-                  $recordwork = "'".$recordwork."'";
-                }
-                $record[] = $recordwork;
-                break;
               default:
-                $record[] = $sql->escape($column, "'");
+                $record[] = $sql->escape($column, "'", true);
                 break;
             }
           }

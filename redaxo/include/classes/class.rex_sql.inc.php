@@ -756,13 +756,13 @@ class rex_sql
    * Escaped den übergeben Wert für den DB Query
    *
    * @param $value den zu escapenden Wert
-   * @param [$delimiter] Delimiter der verwendet wird, wenn es sich bei $value
-   * um einen String handelt
+   * @param $delimiter Delimiter der verwendet wird, wenn es sich bei $value um einen String handelt
+   * @param $force Escapen erzwingen, unabhängig davon es ein nummerischer Wert ist
    */
-  /*public*/ function escape($value, $delimiter = '')
+  /*public*/ function escape($value, $delimiter = '', $force = false)
   {
     // Quote if not a number or a numeric string
-    if (!is_numeric($value))
+    if ($force || !is_numeric($value))
     {
       $value = $delimiter . mysql_real_escape_string($value, $this->identifier) . $delimiter;
     }
