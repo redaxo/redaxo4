@@ -328,19 +328,19 @@ function rex_a1_export_db($filename)
 
       $fields = $sql->getArray("SHOW FIELDS FROM `$table`");
 
-      foreach ($fields as $field)
+      foreach ($fields as $idx => $field)
       {
         if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
         {
-          $field = 'int';
+          $fields[$idx] = 'int';
         }
         elseif (preg_match('#^(float|double|decimal)#', $field['Type']))
         {
-          $field = 'double';
+          $fields[$idx] = 'double';
         }
         elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type']))
         {
-          $field = 'string';
+          $fields[$idx] = 'string';
         }
         // else ?
       }
@@ -384,6 +384,13 @@ function rex_a1_export_db($filename)
                 $record[] = sprintf('%.10F', (double) $column);
                 break;
               case 'string':
+                $recordwork = $sql->escape($column, "'");
+                if (substr($recordwork, 0, 1) <> "'")
+                {
+                  $recordwork = "'".$recordwork."'";
+                }
+                $record[] = $recordwork;
+                break;
               default:
                 $record[] = $sql->escape($column, "'");
                 break;
