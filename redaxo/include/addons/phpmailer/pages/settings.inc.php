@@ -39,30 +39,23 @@ if (rex_post('btn_save', 'string') != '')
   {
     $message  = $I18N->msg('phpmailer_config_saved_error');
 
-    if($file_content = rex_get_file_contents($file))
+    $content = "
+\$this->From             = '". $from ."';
+\$this->FromName         = '". $fromname ."';
+\$this->ConfirmReadingTo = '". $confirmto ."';
+\$this->Mailer           = '". $mailer ."';
+\$this->Host             = '". $host ."';
+\$this->CharSet          = '". $charset ."';
+\$this->WordWrap         = ". $wordwrap .";
+\$this->Encoding         = '". $encoding ."';
+\$this->Priority         = ". $priority .";
+\$this->SMTPAuth         = ". $smtpauth .";
+\$this->Username         = '". $Username ."';
+\$this->Password         = '". $Password."';";
+
+    if(rex_replace_dynamic_contents($file, $content) !== false)
     {
-      $template =
-      "// --- DYN
-      \$this->From             = '". $from ."';
-      \$this->FromName         = '". $fromname ."';
-      \$this->ConfirmReadingTo = '". $confirmto ."';
-      \$this->Mailer           = '". $mailer ."';
-      \$this->Host             = '". $host ."';
-      \$this->CharSet          = '". $charset ."';
-      \$this->WordWrap         = ". $wordwrap .";
-      \$this->Encoding         = '". $encoding ."';
-      \$this->Priority         = ". $priority .";
-      \$this->SMTPAuth         = ". $smtpauth .";
-      \$this->Username         = '". $Username ."';
-      \$this->Password         = '". $Password."';
-      // --- /DYN";
-
-      $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
-
-      if(rex_put_file_contents($file, $file_content) !== false)
-      {
-        $message = $I18N->msg('phpmailer_config_saved_successful');
-      }
+      $message = $I18N->msg('phpmailer_config_saved_successful');
     }
   }
 }

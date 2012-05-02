@@ -2,10 +2,10 @@
 
 /**
  * PHPMailer Addon
- *  
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
- * 
+ *
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -16,20 +16,20 @@ class rex_mailer extends PHPMailer
   {
     global $REX;
 
-    // --- DYN
-      $this->From             = 'from@example.com';
-      $this->FromName         = 'Mailer';
-      $this->ConfirmReadingTo = '';
-      $this->Mailer           = 'sendmail';
-      $this->Host             = 'localhost';
-      $this->CharSet          = 'utf-8';
-      $this->WordWrap         = 120;
-      $this->Encoding         = '8bit';
-      $this->Priority         = 3;
-      $this->SMTPAuth         = false;
-      $this->Username         = '';
-      $this->Password         = '';
-      // --- /DYN
+// --- DYN
+$this->From             = 'from@example.com';
+$this->FromName         = 'Mailer';
+$this->ConfirmReadingTo = '';
+$this->Mailer           = 'sendmail';
+$this->Host             = 'localhost';
+$this->CharSet          = 'utf-8';
+$this->WordWrap         = 120;
+$this->Encoding         = '8bit';
+$this->Priority         = 3;
+$this->SMTPAuth         = false;
+$this->Username         = '';
+$this->Password         = '';
+// --- /DYN
 
     $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
   }
