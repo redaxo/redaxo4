@@ -115,7 +115,6 @@ function rex_get_subtitle($subline)
 
   $subtitle_str = $subline;
   $subtitle = $subline;
-  $attr = '';
   $cur_subpage = rex_request('subpage', 'string');
   $cur_page    = rex_request('page', 'string');
 
@@ -164,6 +163,7 @@ function rex_get_subtitle($subline)
       $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
 
       // restliche attribute direkt in den link-tag schreiben
+      $attr = '';
       $add_class = '';
       if(!empty($subpage[4]) && is_array($subpage[4]))
       {
