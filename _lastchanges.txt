@@ -16,6 +16,7 @@ Version 4.3.4 (2012-xx-xx)
   Bugfixes
   * Setup: Bei Auswahl von "Datenbank existiert schon" werden die Addons nicht mehr deinstalliert
   * Medienpool: Beim Sync wird die PHP-Konstante FILEINFO_MIME_TYPE nur noch verwendet, wenn verfügbar
+  * Medienpool: Damit man nur die Medienkategorien angezeigt bekommen, zu denen man entsprechende die Rechte hat.
   * Cronjob: Passwort für HTTP-Auth wurde nicht gespeichert
   * rex_message(): escapen der message
   * OOMedia::delete() im frontend möglich
