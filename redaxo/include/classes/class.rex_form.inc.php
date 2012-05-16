@@ -315,7 +315,7 @@ class rex_form
   /*public*/ function &addRadioField($name, $value = null, $attributes = array())
   {
     if(!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-radio';
+      $attributes['class'] = 'rex-form-radio rex-form-label-right';
     $attributes['internal::fieldClass'] = 'rex_form_radio_element';
     $field =& $this->addField('radio', $name, $value, $attributes);
     return $field;
