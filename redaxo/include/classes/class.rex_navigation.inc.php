@@ -29,7 +29,7 @@
  * Breadcrump:
  *
  * $nav = rex_navigation::factory();
- * $nav->showBreadcrumb(true);
+ * $nav->showBreadcrumb('', true);
  */
 
 class rex_navigation
@@ -144,9 +144,9 @@ class rex_navigation
   /**
    * @see getBreadcrumb()
    */
-  /*public*/ function showBreadcrumb($includeCurrent = FALSE, $category_id = 0)
+  /*public*/ function showBreadcrumb($startPageLabel, $includeCurrent = FALSE, $category_id = 0)
   {
-    echo $this->getBreadcrumb($includeCurrent, $category_id);
+    echo $this->getBreadcrumb($startPageLabel, $includeCurrent, $category_id);
   }
 
   /*public*/ function setClasses($classes)
