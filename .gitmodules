@@ -1,0 +1,3 @@
+[submodule "redaxo/include/addons/tinymce"]
+  path = redaxo/include/addons/tinymce
+  url = https://github.com/aeberhard/tinymce.git
