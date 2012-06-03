@@ -16,10 +16,17 @@ Version 4.3.4 (2012-xx-xx)
   Bugfixes
   * Setup: Bei Auswahl von "Datenbank existiert schon" werden die Addons nicht mehr deinstalliert
   * Medienpool: Beim Sync wird die PHP-Konstante FILEINFO_MIME_TYPE nur noch verwendet, wenn verfügbar
+  * Medienpool: fix ImageOnDemand script @ Safari
+  * Metainfo & ImageManager: DB Daten erhalten bei reinstall
+  * ImageManager: kein sharpen bei GIFs
   * Cronjob: Passwort für HTTP-Auth wurde nicht gespeichert
   * rex_message(): escapen der message
   * OOMedia::delete() im frontend möglich
-  * Metainfo & ImageManager: DB Daten erhalten bei reinstall
+  * rex_navigation: Funktionsparameter StartPageLabel fehlte
+  * rex_form: CSS für checkboxes & radiobuttons
+  * rex_title: fix in der Verarbeitung von Attributen
+
+  Anpassungen:
 
 
 Version 4.3.3 (2012-02-01)
