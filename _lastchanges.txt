@@ -10,7 +10,7 @@ angehandelt.
 Version 4.3.4 (2012-xx-xx)
 
   Neu
-  * Update Textile Klasse von 2.0 -> 2.3
+  * Update Textile Klasse von 2.0 -> 2.4
   * rex_form Methode addRawField($html) um beliebiges HTML in einem rex_form Formular einzufügen
 
   Bugfixes
