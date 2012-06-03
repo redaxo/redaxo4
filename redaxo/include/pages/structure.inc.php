@@ -287,7 +287,10 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
     $add_td = '<td class="rex-small">-</td>';
   }
 
-  $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
+  $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', '', array(
+    'id' => $category_id,
+    'clang' => $clang,
+  ));
   $add_buttons = '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
 
   $class = 'rex-table-row-activ';
