@@ -83,6 +83,15 @@ function buildRelease($name = null, $version = null)
     './redaxo/include/addons',
     './'. $cfg_path
   );
+  // Addons die vorinstalliert sein sollen
+  $preinstallAddons = array(
+    'be_style',
+    'agk_skin',
+    );
+  // Plugins die vorinstalliert sein sollen
+  $preinstallPlugins = array(
+    'be_style' => 'agk_skin',
+    );
 
   if (!$name)
   {
@@ -117,11 +126,11 @@ function buildRelease($name = null, $version = null)
     else
       mkdir($dest);
 
-    echo '>>> BUILD REDAXO release '. $name .'..'."\n";
-    echo '> read files'."\n";
+    echo '>>> BUILD REDAXO release '. $name .'..'.PHP_EOL;
+    echo PHP_EOL.'> read files'.PHP_EOL;
 
     // Ordner und Dateien auslesen
-    echo '> copy files'."\n";
+    echo PHP_EOL.'> copy files'.PHP_EOL;
     $structure = readFolderStructure('.',
       array_merge(
         $systemFiles,
@@ -130,10 +139,10 @@ function buildRelease($name = null, $version = null)
     );
     copyFolderStructure($structure, $dest);
 
-    echo '> copy addons'."\n";
+    echo PHP_EOL.'> copy addons'.PHP_EOL;
     foreach(array_merge($releaseConfig['addons'], $systemAddons) as $addon)
     {
-      echo '>> '.$addon."\n";
+      echo PHP_EOL.'>> '.$addon.PHP_EOL;
       $structure = readFolderStructure(
         './redaxo/include/addons/'. $addon,
         $systemFiles
@@ -144,13 +153,23 @@ function buildRelease($name = null, $version = null)
     // Ordner die wir nicht mitkopiert haben anlegen
     // Der generated Ordner enthält sehr viele Daten,
     // das kopieren würde sehr lange dauern und ist unnötig
-    mkdir($dest .'/files');
-    mkdir($dest .'/redaxo/include/generated');
-    mkdir($dest .'/redaxo/include/generated/articles');
-    mkdir($dest .'/redaxo/include/generated/templates');
-    mkdir($dest .'/redaxo/include/generated/files');
+    $manual_dirs = array(
+      $dest .'/files',
+      $dest .'/redaxo/include/generated',
+      $dest .'/redaxo/include/generated/articles',
+      $dest .'/redaxo/include/generated/templates',
+      $dest .'/redaxo/include/generated/files',
+      $dest .'/files/addons',
+      $dest .'/files/addons/be_style',
+      $dest .'/files/addons/be_style/plugins',
+      $dest .'/files/addons/be_style/plugins/agk_skin',
+    );
+    foreach ($manual_dirs as $dir) {
+      if(!file_exists($dir))
+        mkdir($dir);
+    }
 
-    echo '> fix master.inc.php'."\n";
+    echo PHP_EOL.'> fix master.inc.php'.PHP_EOL;
 
     // master.inc.php anpassen
     $master = $dest.'/redaxo/include/master.inc.php';
@@ -195,7 +214,7 @@ function buildRelease($name = null, $version = null)
     if (fwrite($h, $cont, strlen($cont)) > 0)
       fclose($h);
 
-    echo '> fix functions.inc.php'."\n";
+    echo PHP_EOL.'> fix functions.inc.php'.PHP_EOL;
 
     // functions.inc.php anpassen
     $functions = $dest.'/redaxo/include/functions.inc.php';
@@ -203,7 +222,7 @@ function buildRelease($name = null, $version = null)
     $cont = fread($h, filesize($functions));
     fclose($h);
 
-    echo '>> activate compatibility API'."\n";
+    echo PHP_EOL.'>> activate compatibility API'.PHP_EOL;
 
     // compat klasse aktivieren
     $cont = str_replace(
@@ -223,24 +242,74 @@ function buildRelease($name = null, $version = null)
     if (fwrite($h, $cont, strlen($cont)) > 0)
       fclose($h);
 
-    echo '> fix addons.inc.php'."\n";
 
-    // addons.inc.php anpassen
+    // addons.inc.php anpassen / Addons vorinstallieren
+    ////////////////////////////////////////////////////////////////////////////
+    echo PHP_EOL.'> fix addons.inc.php'.PHP_EOL;
+
     $addons = $dest.'/redaxo/include/addons.inc.php';
     $h = fopen($addons, 'r');
     $cont = fread($h, filesize($addons));
     fclose($h);
 
-    // Addons installieren
-    $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN\n\n// --- /DYN", $cont);
+    $preinstall = PHP_EOL;
+    foreach($preinstallAddons as $addon)
+    {
+      $preinstall .= '
+  $REX[\'ADDON\'][\'install\'][\''.$addon.'\'] = \'1\';
+  $REX[\'ADDON\'][\'status\'][\''.$addon.'\']  = \'1\';
+      '.PHP_EOL;
+
+      // addon files kopieren
+      echo PHP_EOL.'>> Copy '.$addon.' files..'.PHP_EOL;
+      copy_r(
+        dirname(__FILE__).'/redaxo/include/addons/'.$addon.'/files',
+        dirname(__FILE__).'/'.$dest .'/files/addons/'.$addon
+        );
+    }
+
+    $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN".$preinstall."// --- /DYN", $cont);
 
     $h = fopen($addons, 'w+');
     if (fwrite($h, $cont, strlen($cont)) > 0)
       fclose($h);
 
-    echo '>>> BUILD "'. $name .'" Finished'."\n\n";
+
+    // plugins.inc.php anpassen / Plugins vorinstallieren
+    ////////////////////////////////////////////////////////////////////////////
+    echo PHP_EOL.'> fix plugins.inc.php'.PHP_EOL;
+
+    $plugins = $dest.'/redaxo/include/plugins.inc.php';
+    $h = fopen($plugins, 'r');
+    $cont = fread($h, filesize($plugins));
+    fclose($h);
+
+    $preinstall = PHP_EOL;
+    foreach($preinstallPlugins as $addon => $plugin)
+    {
+      $preinstall .= '
+  $REX[\'ADDON\'][\'plugins\'][\''.$addon.'\'][\'install\'][\''.$plugin.'\'] = \'1\';
+  $REX[\'ADDON\'][\'plugins\'][\''.$addon.'\'][\'status\'][\''.$plugin.'\']  = \'1\';
+      '.PHP_EOL;
+
+      // plugin files kopieren
+      echo PHP_EOL.'>> Copy '.$plugin.' files..'.PHP_EOL;
+      copy_r(
+        dirname(__FILE__).'/redaxo/include/addons/'.$addon.'/plugins/'.$plugin.'/files',
+        dirname(__FILE__).'/'.$dest .'/files/addons/'.$addon.'/plugins/'.$plugin
+        );
+    }
+
+    $cont = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", "// --- DYN".$preinstall."// --- /DYN", $cont);
+
+    $h = fopen($plugins, 'w+');
+    if (fwrite($h, $cont, strlen($cont)) > 0)
+      fclose($h);
+
+
+    echo PHP_EOL.'>>> BUILD "'. $name .'" Finished'."\n\n";
   }
-  echo '> FINISHED'."\n";
+  echo PHP_EOL.'> FINISHED'.PHP_EOL;
 }
 
 /**
@@ -446,7 +515,7 @@ function copyFolderStructure($structure, $dest)
           $isoLang = substr($dir, 0, -10).'.lang';
           if(!file_exists($isoLang))
           {
-            echo '> convert file '. $path .'/'. $dir .' to iso'."\n";
+            echo '> convert file '. $path .'/'. $dir .' to iso'.PHP_EOL;
             buildIsoLangFile( $dest .'/'. $path.'/'.$dir, $dir);
           }
         }
@@ -456,14 +525,15 @@ function copyFolderStructure($structure, $dest)
           $utfLang = substr($dir, 0, -5).'_utf8.lang';
           if(!file_exists($utfLang))
           {
-            echo '> convert file '. $path .'/'. $dir .' to utf-8'."\n";
+            echo '> convert file '. $path .'/'. $dir .' to utf-8'.PHP_EOL;
             buildUtf8LangFile( $dest .'/'. $path.'/'.$dir, $dir);
           }
         }
       }
       elseif(is_dir($path.'/'.$dir))
       {
-        mkdir($dest .'/'. $path.'/'.$dir);
+        if(!file_exists($dest .'/'. $path.'/'.$dir))
+          mkdir($dest .'/'. $path.'/'.$dir);
       }
     }
   }
@@ -580,3 +650,38 @@ function getSystemAddons()
   require $master;
   return $REX['SYSTEM_ADDONS'];
 }
+
+function copy_r( $path, $dest )
+    {
+        if( is_dir($path) )
+        {
+            @mkdir( $dest );
+            $objects = scandir($path);
+            if( sizeof($objects) > 0 )
+            {
+                foreach( $objects as $file )
+                {
+                    if( $file == "." || $file == ".." )
+                        continue;
+                    // go on
+                    if( is_dir( $path.DIRECTORY_SEPARATOR.$file ) )
+                    {
+                        copy_r( $path.DIRECTORY_SEPARATOR.$file, $dest.DIRECTORY_SEPARATOR.$file );
+                    }
+                    else
+                    {
+                        copy( $path.DIRECTORY_SEPARATOR.$file, $dest.DIRECTORY_SEPARATOR.$file );
+                    }
+                }
+            }
+            return true;
+        }
+        elseif( is_file($path) )
+        {
+            return copy($path, $dest);
+        }
+        else
+        {
+            return false;
+        }
+    }
