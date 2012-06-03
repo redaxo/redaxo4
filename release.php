@@ -67,17 +67,17 @@ function buildRelease($name = null, $version = null)
     '.settings',
     '.svn',
     '.project',
-    '.DS_Store'
+    '.DS_Store',
+    '.git'
   );
   // Dateien/Verzeichnisse die nur in bestimmten Ordnern nicht kopiert werden sollen
   $ignoreFiles = array(
     './.gitignore',
     './release.php',
     './release.xml',
-    './db-schema.png',
-    './db-schema.xml',
+    './_db_schema.png',
+    './_db_schema.mwb',
     './test',
-    './files',
     './bin',
     './redaxo/include/generated',
     './redaxo/include/addons',
