@@ -173,13 +173,13 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
           if($oneValue)
           {
-            $tag_attr = ' class="rex-form-col-a rex-form-'. $class_s .'"';
-            $field .= '<input class="rex-form-'.$class_s . $classAdd .'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attrStr . $selected .' />'."\n";
+            $tag_attr = ' class="rex-form-col-a rex-form-'. $class_s . $classAdd .'"';
+            $field .= '<input class="rex-form-'.$class_s .'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attrStr . $selected .' />'."\n";
           }
           else
           {
-            $field .= '<p class="rex-form-'. $class_s .' rex-form-label-right">'."\n";
-            $field .= '<input class="rex-form-'. $class_s . $classAdd .'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attrStr . $selected .' />'."\n";
+            $field .= '<p class="rex-form-'. $class_s .' rex-form-label-right'. $classAdd .'">'."\n";
+            $field .= '<input class="rex-form-'. $class_s .'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attrStr . $selected .' />'."\n";
             $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
             $field .= '</p>'."\n";
           }
