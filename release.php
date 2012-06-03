@@ -86,7 +86,6 @@ function buildRelease($name = null, $version = null)
   // Addons die vorinstalliert sein sollen
   $preinstallAddons = array(
     'be_style',
-    'agk_skin',
     );
   // Plugins die vorinstalliert sein sollen
   $preinstallPlugins = array(
