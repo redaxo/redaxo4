@@ -72,6 +72,7 @@ function buildRelease($name = null, $version = null)
   );
   // Dateien/Verzeichnisse die nur in bestimmten Ordnern nicht kopiert werden sollen
   $ignoreFiles = array(
+    './.gitmodules',
     './.gitignore',
     './release.php',
     './release.xml',
