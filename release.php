@@ -82,7 +82,9 @@ function buildRelease($name = null, $version = null)
     './bin',
     './redaxo/include/generated',
     './redaxo/include/addons',
-    './'. $cfg_path
+    './'. $cfg_path,
+    './coding_standards.php',
+    './lang_scan.php',
   );
   // Addons die vorinstalliert sein sollen
   $preinstallAddons = array(
