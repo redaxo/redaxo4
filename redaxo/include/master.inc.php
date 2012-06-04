@@ -74,7 +74,7 @@ $REX['TABLE_PREFIX']  = 'rex_';
 $REX['TEMP_PREFIX']   = 'tmp_';
 
 // Frontenddatei
-$REX['FRONTEND_FILE']	= 'index.php';
+$REX['FRONTEND_FILE']  = 'index.php';
 
 // Passwortverschlüsselung, z.B: md5 / mcrypt ...
 $REX['PSWFUNC'] = "";

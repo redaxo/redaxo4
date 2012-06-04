@@ -11,16 +11,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *   * Redistributions of source code must retain the above copyright notice, this list of
+ *     conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *   * Redistributions in binary form must reproduce the above copyright notice, this list
+ *     of conditions and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *   * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *     to endorse or promote products derived from this software without specific prior
+ *     written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -12371,8 +12371,8 @@ class SimplePie_Net_IPv6
    * function expects an valid IPv6 address and expands the '::' to
    * the required zeros.
    *
-   * Example:	 FF01::101	->	FF01:0:0:0:0:0:0:101
-   *			 ::1		->	0:0:0:0:0:0:0:1
+   * Example:   FF01::101  ->  FF01:0:0:0:0:0:0:101
+   *       ::1    ->  0:0:0:0:0:0:0:1
    *
    * @access public
    * @static
@@ -12432,20 +12432,20 @@ class SimplePie_Net_IPv6
       else if ($c1 === -1)
       {
         $fill = str_repeat('0:', 7 - $c2);
-        $uip =	str_replace('::', $fill, $uip);
+        $uip =  str_replace('::', $fill, $uip);
       }
       // xxx::
       else if ($c2 === -1)
       {
         $fill = str_repeat(':0', 7 - $c1);
-        $uip =	str_replace('::', $fill, $uip);
+        $uip =  str_replace('::', $fill, $uip);
       }
       // xxx::xxx
       else
       {
         $fill = str_repeat(':0:', 6 - $c2 - $c1);
-        $uip =	str_replace('::', $fill, $uip);
-        $uip =	str_replace('::', ':', $uip);
+        $uip =  str_replace('::', $fill, $uip);
+        $uip =  str_replace('::', ':', $uip);
       }
     }
     return $uip;
@@ -12457,8 +12457,8 @@ class SimplePie_Net_IPv6
    * RFC 2373 allows you to note the last two parts of an IPv6 address as
    * an IPv4 compatible address
    *
-   * Example:	 0:0:0:0:0:0:13.1.68.3
-   *			 0:0:0:0:0:FFFF:129.144.52.38
+   * Example:   0:0:0:0:0:0:13.1.68.3
+   *       0:0:0:0:0:FFFF:129.144.52.38
    *
    * @access public
    * @static

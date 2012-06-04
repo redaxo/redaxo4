@@ -98,7 +98,7 @@ class rex_effect_mirror extends rex_effect_abstract
 
     return array(
       array(
-        'label'=>$I18N->msg('im_fx_mirror_height'),		// Length in Pixel or Prozent
+        'label'=>$I18N->msg('im_fx_mirror_height'),    // Length in Pixel or Prozent
         'name' => 'height',
         'type' => 'int',
       ),

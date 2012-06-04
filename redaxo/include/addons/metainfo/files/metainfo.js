@@ -25,7 +25,7 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
       toggleElement(visibleNotice, 'none');
     }
   }
-  
+
   var show = 1;
   for ( var i = 0; i < textIds.length; i++) {
     if (selectEl.value == textIds[i]) {
@@ -33,15 +33,15 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
       break;
     }
   }
-  
+
   jQuery(function($) {
     if (show == 1) {
       $("#rex_62_params_Feld_bearbeiten_erstellen_default").parent().show();
     }else {
       $("#rex_62_params_Feld_bearbeiten_erstellen_default").parent().hide();
-    } 
+    }
   });
-  
+
 };
 
 
@@ -65,6 +65,3 @@ jQuery( function($) {
     disableSelect(this);
   });
 });
-
-
-
