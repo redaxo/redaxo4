@@ -1058,6 +1058,8 @@ function rex_addCLang($id, $name)
   $newLang = rex_sql::factory();
   $newLang->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
 
+  rex_generateAll();
+
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
 
