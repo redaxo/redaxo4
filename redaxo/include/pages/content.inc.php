@@ -245,7 +245,26 @@ if ($article->getRows() == 1)
               {
                 $newsql->addGlobalUpdateFields();
                 if ($newsql->update())
+                {
                   $info = $action_message . $I18N->msg('block_updated');
+                  
+                  // ----- EXTENSION POINT
+                  $info = rex_register_extension_point('SLICE_UPDATED', $info,
+                    array(
+                      'article_id' => $article_id,
+                      'clang' => $clang,
+                      'function' => $function,
+                      'mode' => $mode,
+                      'slice_id' => $slice_id,
+                      'page' => 'content',
+                      'ctype' => $ctype,
+                      'category_id' => $category_id,
+                      'module_id' => $module_id, 
+                      'article_revision' => &$article_revision,
+                      'slice_revision' => &$slice_revision,
+                    )
+                  );
+                }
                 else
                   $warning = $action_message . $newsql->getError();
 
@@ -261,6 +280,24 @@ if ($article->getRows() == 1)
                   {
                     $info = $action_message . $I18N->msg('block_added');
                     $slice_id = $last_id;
+                    
+                    
+                    // ----- EXTENSION POINT
+                    $info = rex_register_extension_point('SLICE_ADDED', $info,
+                      array(
+                        'article_id' => $article_id,
+                        'clang' => $clang,
+                        'function' => $function,
+                        'mode' => $mode,
+                        'slice_id' => $slice_id,
+                        'page' => 'content',
+                        'ctype' => $ctype,
+                        'category_id' => $category_id,
+                        'module_id' => $module_id, 
+                        'article_revision' => &$article_revision,
+                        'slice_revision' => &$slice_revision,
+                      )
+                    );
                   }
                   $function = "";
                 }
@@ -276,6 +313,23 @@ if ($article->getRows() == 1)
               if(rex_deleteSlice($slice_id))
               {
                 $global_info = $I18N->msg('block_deleted');
+                  
+                // ----- EXTENSION POINT
+                $global_info = rex_register_extension_point('SLICE_DELETED', $global_info,
+                  array(
+                    'article_id' => $article_id,
+                    'clang' => $clang,
+                    'function' => $function,
+                    'mode' => $mode,
+                    'slice_id' => $slice_id,
+                    'page' => 'content',
+                    'ctype' => $ctype,
+                    'category_id' => $category_id,
+                    'module_id' => $module_id, 
+                    'article_revision' => &$article_revision,
+                    'slice_revision' => &$slice_revision,
+                  )
+                );
               }
               else
               {
