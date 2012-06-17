@@ -19,6 +19,7 @@ Version 4.3.4 (2012-xx-xx)
   * Medienpool: fix ImageOnDemand script @ Safari
   * Metainfo & ImageManager: DB Daten erhalten bei reinstall
   * ImageManager: kein sharpen bei GIFs
+  * ImageManager: fix Bildausgabe (keine Anzeige, "enthält Fehler..") im Zusammenhang mit UTF8-BOM files
   * Cronjob: Passwort für HTTP-Auth wurde nicht gespeichert
   * rex_message(): escapen der message
   * OOMedia::delete() im frontend möglich
