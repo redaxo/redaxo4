@@ -131,6 +131,9 @@ class rex_image {
 
   /*public*/ function sendHeader($params = array())
   {
+    while(ob_get_level()) {
+      ob_end_clean();
+    }
     header('Content-Disposition: inline; filename="'. $this->img['file'] .'"');
     header('Content-Type: image/' . $this->img['format']);
     if(isset($params["Content-Length"]))
