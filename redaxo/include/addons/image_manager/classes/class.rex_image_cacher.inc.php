@@ -85,13 +85,13 @@ class rex_image_cacher
     }
 
     // caching gifs doesn't work
-//    if($image->getFormat() == 'GIF' && !$image->hasGifSupport())
-//    {
-//      $image->prepare();
-//      $image->send($lastModified);
-//    }
-//    else
-//    {
+//	  if($image->getFormat() == 'GIF' && !$image->hasGifSupport())
+//	  {
+//	    $image->prepare();
+//	    $image->send($lastModified);
+//	  }
+//	  else
+//	  {
       $cacheFile = $this->getCacheFile($image, $cacheParams);
 
       // save image to file
@@ -110,7 +110,7 @@ class rex_image_cacher
     rex_send_file($cacheFile,'image/'.$format,'frontend');
 
     $REX['USE_GZIP'] = $tmp;
-//    }
+//	  }
   }
 
   /*

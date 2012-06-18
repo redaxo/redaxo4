@@ -61,7 +61,7 @@ class rex_login_sql extends rex_sql
     // 2. Leserechte, bei Kategorien "zwischen" main und eigener navi, aber nicht sichtbar, csr
     // 3. Volle Rechte, wenn Kategorie unterhalb eine vollen Rechte Kat
 
-    if(  $this->isAdmin() ||
+    if(	$this->isAdmin() ||
         $this->hasPerm('csw[0]') ||
         $this->hasPerm('csw[' . $category_id . ']')
       )

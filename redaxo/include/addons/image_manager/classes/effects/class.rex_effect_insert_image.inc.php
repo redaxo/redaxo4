@@ -86,33 +86,33 @@ class rex_effect_insert_image extends rex_effect_abstract{
       array(
         'label' => $I18N->msg('imanager_effect_brand_image'),
         'name' => 'brandimage',
-        'type'  => 'media',
+        'type'	=> 'media',
         'default' => ''
       ),
       array(
         'label' => $I18N->msg('imanager_effect_brand_hpos'),
         'name' => 'hpos',
-        'type'  => 'select',
-        'options'  => array('left','center','right'),
+        'type'	=> 'select',
+        'options'	=> array('left','center','right'),
         'default' => 'left'
       ),
       array(
         'label' => $I18N->msg('imanager_effect_brand_vpos'),
         'name' => 'vpos',
-        'type'  => 'select',
-        'options'  => array('top','middle','bottom'),
+        'type'	=> 'select',
+        'options'	=> array('top','middle','bottom'),
         'default' => 'top'
       ),
       array(
         'label' => $I18N->msg('imanager_effect_brand_padding_x'),
         'name' => 'padding_x',
-        'type'  => 'int',
+        'type'	=> 'int',
         'default' => '-10'
       ),
       array(
         'label' => $I18N->msg('imanager_effect_brand_padding_y'),
         'name' => 'padding_y',
-        'type'  => 'int',
+        'type'	=> 'int',
         'default' => '-10'
       ),
       /*TODO: Optionaler Bildtyp für das ausgewählte Bild*/

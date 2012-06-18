@@ -98,7 +98,7 @@ elseif ($func == 'updateinfos')
   );
 
   $cont = preg_replace($replace['search'], $replace['replace'], $cont);
-
+  
   if($warning == '')
   {
     if(rex_put_file_contents($master_file, $cont) > 0)

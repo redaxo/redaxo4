@@ -63,7 +63,7 @@ $cat_out .= '
 
 if ($subpage!='detail')
 {
-  $cat_out .= '      <noscript>
+  $cat_out .= '			<noscript>
                       <div class="rex-form-row">
                         <p class="rex-form-submit">
                           <input class="rex-form-submit" type="submit" value="'. $I18N->msg('pool_search') .'" />

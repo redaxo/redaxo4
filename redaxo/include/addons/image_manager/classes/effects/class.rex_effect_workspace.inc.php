@@ -206,15 +206,15 @@ class rex_effect_workspace extends rex_effect_abstract
       array(
         'label' => $I18N->msg('imanager_effect_brand_hpos'),
         'name' => 'hpos',
-        'type'  => 'select',
-        'options'  => array('left','center','right'),
+        'type'	=> 'select',
+        'options'	=> array('left','center','right'),
         'default' => 'left'
       ),
       array(
         'label' => $I18N->msg('imanager_effect_brand_vpos'),
         'name' => 'vpos',
-        'type'  => 'select',
-        'options'  => array('top','middle','bottom'),
+        'type'	=> 'select',
+        'options'	=> array('top','middle','bottom'),
         'default' => 'top'
       ),
       array(

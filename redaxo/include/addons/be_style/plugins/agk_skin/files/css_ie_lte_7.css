@@ -2,9 +2,9 @@
  * CSS Datei des Backends
  * @package redaxo4
  * @version svn:$Id$
- */
-
-div#rex-footer,
+ */ 
+ 
+div#rex-footer, 
 div#rex-navi-main dd {
   zoom: 1;
 }
@@ -13,7 +13,7 @@ div#rex-footer {
   float:none;
 }
 
-div.rex-area-col-b,
+div.rex-area-col-b, 
 div.rex-addon-col-b {
-  width: 49.9%;
+	width: 49.9%;
 }
