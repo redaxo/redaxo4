@@ -1,10 +1,14 @@
 #!/usr/bin/php
 <?php
 
+// modified coding_standards script, only checks line endings and encoding
+
 if (PHP_SAPI !== 'cli') {
   echo 'error: this script may only be run from CLI', PHP_EOL;
   exit(1);
 }
+
+stream_set_blocking(STDIN, 0);
 
 // https://github.com/symfony/symfony/blob/f53297681a7149f2a809da12ea3a8b8cfd4d3025/src/Symfony/Component/Console/Output/StreamOutput.php#L103-112
 $hasColorSupport = getenv('ANSICON') !== false || DIRECTORY_SEPARATOR != '\\' && function_exists('posix_isatty') && @posix_isatty(STDOUT);
@@ -19,7 +23,6 @@ if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check'))) {
   echo 'Usage:
   php ', $argv[0], ' <mode> [options]
   php ', $argv[0], ' <mode> <path> [options]
-  php ', $argv[0], ' <mode> core [options]
   php ', $argv[0], ' <mode> package <package> [options]
 
   <mode>     "check" or "fix"
@@ -30,46 +33,6 @@ if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check'))) {
     --hide-process: Don\'t show current checking file path', PHP_EOL, PHP_EOL;
 
   exit(1);
-}
-
-$fix = $argv[1] == 'fix';
-
-$dir = __DIR__;
-$file = null;
-if (isset($argv[2]) && $argv[2][0] !== '-') {
-  if ($argv[2] == 'core') {
-    $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'core';
-    if (!is_dir($dir)) {
-      echo 'ERROR: Core directory does not exist!', PHP_EOL, PHP_EOL;
-      exit(1);
-    }
-  } elseif ($argv[2] == 'package') {
-    if (!isset($argv[3]) || $argv[3][0] === '-') {
-      echo 'ERROR: Missing package id!', PHP_EOL, PHP_EOL;
-      exit(1);
-    }
-    $package = $argv[3];
-    if (strpos($package, '/') === false) {
-      $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $package;
-    } else {
-      list($addon, $plugin) = explode('/', $package, 2);
-      $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $addon . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin;
-    }
-    if (!is_dir($dir)) {
-      echo 'ERROR: Package "', $package, '" does not exist!', PHP_EOL, PHP_EOL;
-      exit(1);
-    }
-  } else {
-    if (is_dir($argv[2])) {
-      $dir = $argv[2];
-    } elseif (is_file($argv[2])) {
-      $file = $argv[2];
-      $dir = null;
-    } else {
-      echo 'ERROR: Directory or file "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
-      exit(1);
-    }
-  }
 }
 
 class rex_coding_standards_fixer
@@ -138,7 +101,7 @@ class rex_coding_standards_fixer
       $this->addFixable('fix line endings to LF');
     }
 
-    if (strpos($this->content, "\t") !== false) {
+    /*if (strpos($this->content, "\t") !== false) {
       $this->content = str_replace("\t", '  ', $this->content);
       $this->addFixable('convert tabs to spaces');
     }
@@ -156,27 +119,61 @@ class rex_coding_standards_fixer
     if (preg_match("/\n{2,}$/", $this->content)) {
       $this->content = rtrim($this->content, "\n") . "\n";
       $this->addFixable('remove multiple newlines at end of file');
-    }
+    }*/
   }
 }
 
+$fix = $argv[1] == 'fix';
+
+$dir = dirname(Phar::running(false)) ?: __DIR__;
+$files = null;
+if (isset($argv[2]) && $argv[2][0] !== '-') {
+  if ($argv[2] == 'package') {
+    if (!isset($argv[3]) || $argv[3][0] === '-') {
+      echo 'ERROR: Missing package id!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+    $package = $argv[3];
+    if (strpos($package, '/') === false) {
+      $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $package;
+    } else {
+      list($addon, $plugin) = explode('/', $package, 2);
+      $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $addon . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin;
+    }
+    if (!is_dir($dir)) {
+      echo 'ERROR: Package "', $package, '" does not exist!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+  } else {
+    if (is_dir($argv[2])) {
+      $dir = realpath($argv[2]);
+    } elseif (is_file($argv[2])) {
+      $file = realpath($argv[2]);
+      $files = array($file => $file);
+      $dir = dirname($file);
+    } else {
+      echo 'ERROR: Directory or file "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+  }
+} elseif ($input = file('php://stdin', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
+  $files = array_flip(array_map('realpath', array_filter($input, 'file_exists')));
+}
+
+if (!is_array($files)) {
+  $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::CURRENT_AS_SELF | RecursiveDirectoryIterator::SKIP_DOTS));
+}
 
 $hideProcess = in_array('--hide-process', $argv);
-$textExtensions = array('css', 'gitignore', 'gitmodules', 'htaccess', 'html', 'js', 'json', 'php', 'textile', 'tpl', 'txt', 'yml');
+$textExtensions = array('css', 'gitignore', 'htaccess', 'html', 'js', 'json', /*'lang',*/ 'markdown', 'md', 'php', /*'sql',*/ 'textile', 'tpl', 'txt', 'yml');
 $countFiles = 0;
 $countFixable = 0;
 $countNonFixable = 0;
-if ($dir) {
-  $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-} else {
-  $file = realpath($file);
-  $files = array($file => new SplFileInfo($file));
-}
-foreach ($files as $path => $file) {
-  /* @var $file SplFileInfo */
-  $subPath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', $path);
-  $fileExt = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
-  if (!in_array($fileExt, $textExtensions)) {
+
+foreach ($files as $path => $_n) {
+  $subPath = str_replace($dir . DIRECTORY_SEPARATOR, '', $path);
+  $fileExt = pathinfo($path, PATHINFO_EXTENSION);
+  if (!in_array($fileExt, $textExtensions) || strpos(DIRECTORY_SEPARATOR . $subPath, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR) !== false) {
     continue;
   }
 
