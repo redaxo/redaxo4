@@ -624,7 +624,7 @@ class OOMedia
     $values = array();
     for ($i = 1; $i < 21; $i++)
     {
-      $values[] = 'value'.$i.' LIKE "%'.$filename.'%"';
+      $values[] = 'value'.$i.' LIKE "%'.str_replace('_','\_',$filename).'%"';
     }
 
     $files = array();
@@ -632,7 +632,7 @@ class OOMedia
     for ($i = 1; $i < 11; $i++)
     {
       $files[] = 'file'.$i.'="'.$filename.'"';
-      $filelists[] = '(filelist'.$i.' = "'.$filename.'" OR filelist'.$i.' LIKE "'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.'" ) ';
+      $filelists[] = 'FIND_IN_SET("'.$filename.'",filelist'.$i.')';
     }
 
     $where = '';
@@ -640,15 +640,6 @@ class OOMedia
     $where .= implode(' OR ', $filelists) .' OR ';
     $where .= implode(' OR ', $values);
     $query = 'SELECT DISTINCT article_id, clang FROM '.$REX['TABLE_PREFIX'].'article_slice WHERE '. $where;
-
-    // deprecated since REX 4.3
-    // ----- EXTENSION POINT
-    $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
-      array(
-        'filename' => $this->getFileName(),
-        'media' => $this,
-      )
-    );
 
     $warning = array();
     $res = $sql->getArray($query);
