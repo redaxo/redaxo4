@@ -624,7 +624,7 @@ class OOMedia
     $values = array();
     for ($i = 1; $i < 21; $i++)
     {
-      $values[] = 'value'.$i.' LIKE "%'.str_replace('_','\_',$filename).'%"';
+      $values[] = 'value'.$i.' REGEXP "(^|[^[:alnum:]+_-])'. $filename .'"';
     }
 
     $files = array();
