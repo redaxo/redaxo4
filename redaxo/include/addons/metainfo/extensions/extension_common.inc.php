@@ -736,7 +736,7 @@ function rex_a62_media_is_in_use($params)
         $where[$key][] = $name .'="'. $filename .'"';
         break;
       case '7':
-        $where[$key][] = '('. $name .' = "'. $filename .'" OR '. $name .' LIKE "%,'. $filename .'" OR '. $name .' LIKE "%,'. $filename .',%" OR '. $name .' LIKE "'. $filename .',%")';
+        $where[$key][] = 'FIND_IN_SET("'.$filename.'", '.$name.')';
         break;
       default :
         trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);
