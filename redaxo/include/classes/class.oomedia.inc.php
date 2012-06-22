@@ -624,6 +624,9 @@ class OOMedia
     $values = array();
     for ($i = 1; $i < 21; $i++)
     {
+      // check if valueX contains $filename,
+      // but take care that other files that end with $filename are not matched
+      // example: "abc.jpg" should not be matched for $filename="bc.jpg"
       $values[] = 'value'.$i.' REGEXP "(^|[^[:alnum:]+_-])'. $filename .'"';
     }
 
