@@ -11,7 +11,9 @@ Version 4.3.4 (2012-xx-xx)
 
   Neu
   * Update Textile Klasse von 2.0 -> 2.4
+  * Update TinyMCE Addon -> 2.1
   * rex_form Methode addRawField($html) um beliebiges HTML in einem rex_form Formular einzufügen
+  * Extension Points: SLICE_ADDED, SLICE_UPDATED, SLICE_DELETED
 
   Bugfixes
   * Setup: Bei Auswahl von "Datenbank existiert schon" werden die Addons nicht mehr deinstalliert
@@ -27,8 +29,6 @@ Version 4.3.4 (2012-xx-xx)
   * rex_form: CSS für checkboxes & radiobuttons
   * rex_title: fix in der Verarbeitung von Attributen
   * Löschen von Medien: Dateien mit "_" im Namen wurden falsch interpretiert.
-
-  Anpassungen:
 
 
 Version 4.3.3 (2012-02-01)
