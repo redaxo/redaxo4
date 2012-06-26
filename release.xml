@@ -3,7 +3,6 @@
   <release name="default">
     <addons>
       <addon name="be_dashboard"></addon>
-      <addon name="image_resize"></addon>
       <addon name="image_manager"></addon>
       <addon name="import_export"></addon>
       <addon name="phpmailer"></addon>
