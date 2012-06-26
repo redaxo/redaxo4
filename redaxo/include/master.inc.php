@@ -18,12 +18,12 @@ $REX['SETUP'] = true;
 $REX['SERVER'] = "redaxo.org";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
-$REX['SUBVERSION'] = "3";
-$REX['MINORVERSION'] = "3";
+$REX['SUBVERSION'] = "4";
+$REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20120130100101";
+$REX['INSTNAME'] = "rex20120626100101";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -107,7 +107,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_3_0";
+$REX['DB']['1']['NAME'] = "redaxo_4_4_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary

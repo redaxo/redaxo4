@@ -7,13 +7,14 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.3.4 (2012-xx-xx)
+Version 4.4.0 (2012-06-26)
 
   Neu
   * Update Textile Klasse von 2.0 -> 2.4
   * Update TinyMCE Addon -> 2.1
   * rex_form Methode addRawField($html) um beliebiges HTML in einem rex_form Formular einzufügen
   * Extension Points: SLICE_ADDED, SLICE_UPDATED, SLICE_DELETED
+  * AddOn: image_resize entfernt, da seit 4.3 deprecated. Ist unter redaxo.org noch verfügbar
 
   Bugfixes
   * Setup: Bei Auswahl von "Datenbank existiert schon" werden die Addons nicht mehr deinstalliert
