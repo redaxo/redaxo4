@@ -679,7 +679,7 @@ function rex_setup_dropREXtables()
 
           // apply 4.3 patches to database
           if($err_msg == '')
-          $err_msg .= rex_setup_import($REX['INCLUDE_PATH'].'/install/update4_x_to_4_3.sql');
+          $err_msg .= rex_setup_import($REX['INCLUDE_PATH'].'/install/update4_x_to_4_4.sql');
         }
       }
     elseif ($dbanlegen == 3)
@@ -716,7 +716,7 @@ function rex_setup_dropREXtables()
       if(rex_lang_is_utf8())
         rex_setup_setDBcharset();
 
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_4.sql';
 
       $db = rex_sql::factory();
       foreach($requiredTables as $table)
@@ -734,7 +734,7 @@ function rex_setup_dropREXtables()
       if(rex_lang_is_utf8())
         rex_setup_setDBcharset();
 
-      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
+      $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_4.sql';
 
       if($err_msg == '')
       $err_msg .= rex_setup_import($import_sql);
