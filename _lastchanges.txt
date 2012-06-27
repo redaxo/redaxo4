@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.4.0 (2012-06-26)
+Version 4.4.0 (2012-06-27)
 
   Neu
   * Update Textile Klasse von 2.0 -> 2.4
@@ -30,6 +30,7 @@ Version 4.4.0 (2012-06-26)
   * rex_form: CSS für checkboxes & radiobuttons
   * rex_title: fix in der Verarbeitung von Attributen
   * Löschen von Medien: Dateien mit "_" im Namen wurden falsch interpretiert.
+  * Nur die erste DB-Verbindung wurde auf UTF-8 gesetzt
 
 
 Version 4.3.3 (2012-02-01)

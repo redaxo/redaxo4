@@ -31,32 +31,6 @@ class rex_sql
     $this->debugsql = false;
     $this->selectDB($DBID);
 
-    if($REX['MYSQL_VERSION'] == '')
-    {
-      // ggf. Strict Mode abschalten
-      $this->setQuery('SET SQL_MODE=""');
-
-      // MySQL Version bestimmen
-      $res = $this->getArray('SELECT VERSION() as VERSION');
-      if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
-      {
-        $REX['MYSQL_VERSION'] = $matches[1];
-      }
-      else
-      {
-        exit('Could not identifiy MySQL Version!');
-      }
-
-      // connection auf UTF8 trimmen
-      if (rex_lang_is_utf8())
-      {
-        if(function_exists('mysql_set_charset') AND version_compare($REX['MYSQL_VERSION'], '5.0.7', '>='))
-          mysql_set_charset('utf8', $this->identifier);
-        else
-          $this->setQuery('SET NAMES utf8');
-      }
-    }
-
     $this->flush();
   }
 
@@ -79,7 +53,38 @@ class rex_sql
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
     }
-    $REX['DB'][$DBID]['IDENTIFIER'] = $this->identifier;
+
+    if (!isset($REX['DB'][$DBID]['IDENTIFIER']) || $REX['DB'][$DBID]['IDENTIFIER'] != $this->identifier)
+    {
+      $REX['DB'][$DBID]['IDENTIFIER'] = $this->identifier;
+
+      // ggf. Strict Mode abschalten
+      $this->setQuery('SET SQL_MODE=""');
+
+      // MySQL Version bestimmen
+      $res = $this->getArray('SELECT VERSION() as VERSION');
+      if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
+      {
+        $version = $matches[1];
+        if ($DBID == 1)
+        {
+          $REX['MYSQL_VERSION'] = $version;
+        }
+      }
+      else
+      {
+        exit('Could not identifiy MySQL Version!');
+      }
+
+      // connection auf UTF8 trimmen
+      if (rex_lang_is_utf8())
+      {
+        if(function_exists('mysql_set_charset') AND version_compare($version, '5.0.7', '>='))
+          mysql_set_charset('utf8', $this->identifier);
+        else
+          $this->setQuery('SET NAMES utf8');
+      }
+    }
   }
 
   /**
