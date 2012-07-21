@@ -713,8 +713,14 @@ class rex_list
     {
       $sql = rex_sql::factory();
       $sql->debugsql = $this->debug;
-      $sql->setQuery($this->query);
-      $this->rows = $sql->getRows();
+      if(strpos(strtoupper($this->query), ' SQL_CALC_FOUND_ROWS ') !== false)
+      {
+        $sql->setQuery('SELECT FOUND_ROWS()');
+        $this->rows = $sql->getValue('FOUND_ROWS()');
+      } else {
+        $sql->setQuery($this->query);
+        $this->rows = $sql->getRows();
+      }
     }
 
     return $this->rows;
