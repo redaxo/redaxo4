@@ -234,7 +234,7 @@ class rex_list
 
   function addParam($name, $value)
   {
-    $this->params[$name] = $value;
+    $this->params[$name] = urlencode($value);
   }
 
   function getParams()
@@ -647,11 +647,11 @@ class rex_list
       {
         foreach($value as $v)
         {
-          $paramString .= '&'. $name .'='. urlencode($v);
+          $paramString .= '&'. $name .'='. $v;
         }
       }else
       {
-        $paramString .= '&'. $name .'='. urlencode($value);
+        $paramString .= '&'. $name .'='. $value;
       }
     }
     return str_replace('&', '&amp;', 'index.php?list='. $this->getName() . $paramString);
