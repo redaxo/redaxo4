@@ -647,11 +647,11 @@ class rex_list
       {
         foreach($value as $v)
         {
-          $paramString .= '&'. $name .'='. $v;
+          $paramString .= '&'. $name .'='. urlencode($v);
         }
       }else
       {
-        $paramString .= '&'. $name .'='. $value;
+        $paramString .= '&'. $name .'='. urlencode($value);
       }
     }
     return str_replace('&', '&amp;', 'index.php?list='. $this->getName() . $paramString);
