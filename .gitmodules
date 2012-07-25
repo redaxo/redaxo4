@@ -1,6 +1,0 @@
-[submodule "redaxo/include/addons/tinymce"]
-  path = redaxo/include/addons/tinymce
-  url = https://github.com/aeberhard/tinymce.git
-[submodule "redaxo/include/addons/xform"]
-	path = redaxo/include/addons/xform
-	url = https://github.com/dergel/redaxo4_xform.git

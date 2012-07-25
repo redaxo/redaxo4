@@ -1,5 +1,7 @@
-/.settings
-/.buildpath
-/.project
-/files/*
-/redaxo/include/generated/*
+.idea/*
+atlassian*.xml
+.settings
+.buildpath
+.project
+files/*
+redaxo/include/generated/*
