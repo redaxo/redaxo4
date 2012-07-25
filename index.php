@@ -38,29 +38,25 @@ $REX['GG'] = true;
 
 // setzte pfad und includiere klassen und funktionen
 $REX['HTDOCS_PATH'] = './';
-include './redaxo/include/master.inc.php';
+require './redaxo/include/master.inc.php';
 
 // ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
+require_once $REX['INCLUDE_PATH'] . '/addons.inc.php';
 
-if($REX['SETUP'])
-{
-  header('Location:redaxo/');
+if ($REX['SETUP']) {
+        header('Location:redaxo/');
   exit();
 }
 
 $REX['ARTICLE'] = new rex_article;
 $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
-if($REX['SETUP'])
-{
+if ($REX['SETUP']) {
   header('Location: redaxo/index.php');
   exit();
-}elseif ($REX["ARTICLE"]->setArticleId($REX['ARTICLE_ID']))
-{
+} elseif ($REX["ARTICLE"]->setArticleId($REX['ARTICLE_ID'])) {
   echo $REX["ARTICLE"]->getArticleTemplate();
-}else
-{
+} else {
   echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
   $REX['STATS'] = 0;
 }
