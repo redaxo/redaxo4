@@ -127,8 +127,13 @@ class rex_list
     // --------- Pagination Attributes
     $this->rowsPerPage = $rowsPerPage;
 
-    // --------- Load Data
+    // --------- Load Data, Row-Count
     $this->sql->setQuery($this->prepareQuery($query));
+    $sql = rex_sql::factory();
+    $sql->debugsql = $this->debug;
+    $sql->setQuery('SELECT FOUND_ROWS() as rows');
+    $this->rows = $sql->getValue('rows');
+
     if($this->sql->hasError())
     {
       echo rex_warning($this->sql->getError());
@@ -685,6 +690,9 @@ class rex_list
     $rowsPerPage = $this->getRowsPerPage();
     $startRow = $this->getStartRow();
 
+    // prepare query for fast rowcount calculation
+    $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+
     $sortColumn = $this->getSortColumn();
     if($sortColumn != '')
     {
@@ -709,14 +717,6 @@ class rex_list
    */
   function getRows()
   {
-    if(!$this->rows)
-    {
-      $sql = rex_sql::factory();
-      $sql->debugsql = $this->debug;
-      $sql->setQuery($this->query);
-      $this->rows = $sql->getRows();
-    }
-
     return $this->rows;
   }
 
