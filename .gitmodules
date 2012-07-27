@@ -1,0 +1,3 @@
+[submodule "redaxo/include/addons/rexseo"]
+	path = redaxo/include/addons/rexseo
+	url = git@github.com:gn2netwerk/rexseo.git
