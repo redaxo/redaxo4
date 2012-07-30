@@ -34,3 +34,6 @@
 [submodule "redaxo/include/addons/be_style/plugins/rex_codemirror"]
 	path = redaxo/include/addons/be_style/plugins/rex_codemirror
 	url = git://github.com/jdlx/rex_codemirror.git
+[submodule "redaxo/include/addons/metainfo/plugins/metafix"]
+	path = redaxo/include/addons/metainfo/plugins/metafix
+	url = git://github.com/jdlx/metafix.git
