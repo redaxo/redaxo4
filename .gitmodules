@@ -1,3 +1,6 @@
 [submodule "redaxo/include/addons/rexseo"]
 	path = redaxo/include/addons/rexseo
 	url = git@github.com:gn2netwerk/rexseo.git
+[submodule "redaxo/include/addons/phpmailer"]
+	path = redaxo/include/addons/phpmailer
+	url = git@github.com:gn2netwerk/redaxo4_phpmailer.git
