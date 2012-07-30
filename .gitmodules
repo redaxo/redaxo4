@@ -10,3 +10,6 @@
 [submodule "redaxo/include/addons/markitup"]
 	path = redaxo/include/addons/markitup
 	url = git://github.com/gn2netwerk/markitup.git
+[submodule "redaxo/include/addons/__firephp"]
+	path = redaxo/include/addons/__firephp
+	url = git://github.com/jdlx/__firephp.git
