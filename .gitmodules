@@ -4,3 +4,6 @@
 [submodule "redaxo/include/addons/phpmailer"]
 	path = redaxo/include/addons/phpmailer
 	url = git@github.com:gn2netwerk/redaxo4_phpmailer.git
+[submodule "redaxo/include/addons/image_manager"]
+	path = redaxo/include/addons/image_manager
+	url = git://github.com/jdlx/image_manager_ep.git
