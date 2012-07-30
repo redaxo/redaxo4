@@ -7,3 +7,6 @@
 [submodule "redaxo/include/addons/image_manager"]
 	path = redaxo/include/addons/image_manager
 	url = git://github.com/jdlx/image_manager_ep.git
+[submodule "redaxo/include/addons/markitup"]
+	path = redaxo/include/addons/markitup
+	url = git://github.com/gn2netwerk/markitup.git
