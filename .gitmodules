@@ -16,3 +16,6 @@
 [submodule "redaxo/include/addons/dev_panel"]
 	path = redaxo/include/addons/dev_panel
 	url = git://github.com/jdlx/dev_panel.git
+[submodule "redaxo/include/addons/rex_multiupload"]
+	path = redaxo/include/addons/rex_multiupload
+	url = git://github.com/nightstomp/redaxo_multiupload.git
