@@ -28,3 +28,6 @@
 [submodule "redaxo/include/addons/rexsearch"]
 	path = redaxo/include/addons/rexsearch
 	url = git://github.com/xong/rexsearch.git
+[submodule "redaxo/include/addons/be_style/plugins/jquery_ui"]
+	path = redaxo/include/addons/be_style/plugins/jquery_ui
+	url = git://github.com/joachimdoerr/jquery_ui_be_style_plugin.git
