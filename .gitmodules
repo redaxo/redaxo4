@@ -25,3 +25,6 @@
 [submodule "redaxo/include/addons/developer"]
 	path = redaxo/include/addons/developer
 	url = git://github.com/gharlan/redaxo_developer.git
+[submodule "redaxo/include/addons/rexsearch"]
+	path = redaxo/include/addons/rexsearch
+	url = git://github.com/xong/rexsearch.git
