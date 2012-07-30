@@ -22,3 +22,6 @@
 [submodule "redaxo/include/addons/xoutputfilter"]
 	path = redaxo/include/addons/xoutputfilter
 	url = git://github.com/aeberhard/xoutputfilter.git
+[submodule "redaxo/include/addons/developer"]
+	path = redaxo/include/addons/developer
+	url = git://github.com/gharlan/redaxo_developer.git
