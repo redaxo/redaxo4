@@ -19,3 +19,6 @@
 [submodule "redaxo/include/addons/rex_multiupload"]
 	path = redaxo/include/addons/rex_multiupload
 	url = git://github.com/nightstomp/redaxo_multiupload.git
+[submodule "redaxo/include/addons/xoutputfilter"]
+	path = redaxo/include/addons/xoutputfilter
+	url = git://github.com/aeberhard/xoutputfilter.git
