@@ -13,3 +13,6 @@
 [submodule "redaxo/include/addons/__firephp"]
 	path = redaxo/include/addons/__firephp
 	url = git://github.com/jdlx/__firephp.git
+[submodule "redaxo/include/addons/dev_panel"]
+	path = redaxo/include/addons/dev_panel
+	url = git://github.com/jdlx/dev_panel.git
