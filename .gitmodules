@@ -1,0 +1,39 @@
+[submodule "redaxo/include/addons/rexseo"]
+	path = redaxo/include/addons/rexseo
+	url = git@github.com:gn2netwerk/rexseo.git
+[submodule "redaxo/include/addons/phpmailer"]
+	path = redaxo/include/addons/phpmailer
+	url = git@github.com:gn2netwerk/redaxo4_phpmailer.git
+[submodule "redaxo/include/addons/image_manager"]
+	path = redaxo/include/addons/image_manager
+	url = git://github.com/jdlx/image_manager_ep.git
+[submodule "redaxo/include/addons/markitup"]
+	path = redaxo/include/addons/markitup
+	url = git://github.com/gn2netwerk/markitup.git
+[submodule "redaxo/include/addons/__firephp"]
+	path = redaxo/include/addons/__firephp
+	url = git://github.com/jdlx/__firephp.git
+[submodule "redaxo/include/addons/dev_panel"]
+	path = redaxo/include/addons/dev_panel
+	url = git://github.com/jdlx/dev_panel.git
+[submodule "redaxo/include/addons/rex_multiupload"]
+	path = redaxo/include/addons/rex_multiupload
+	url = git://github.com/nightstomp/redaxo_multiupload.git
+[submodule "redaxo/include/addons/xoutputfilter"]
+	path = redaxo/include/addons/xoutputfilter
+	url = git://github.com/aeberhard/xoutputfilter.git
+[submodule "redaxo/include/addons/developer"]
+	path = redaxo/include/addons/developer
+	url = git://github.com/gharlan/redaxo_developer.git
+[submodule "redaxo/include/addons/rexsearch"]
+	path = redaxo/include/addons/rexsearch
+	url = git://github.com/xong/rexsearch.git
+[submodule "redaxo/include/addons/be_style/plugins/jquery_ui"]
+	path = redaxo/include/addons/be_style/plugins/jquery_ui
+	url = git://github.com/joachimdoerr/jquery_ui_be_style_plugin.git
+[submodule "redaxo/include/addons/be_style/plugins/rex_codemirror"]
+	path = redaxo/include/addons/be_style/plugins/rex_codemirror
+	url = git://github.com/jdlx/rex_codemirror.git
+[submodule "redaxo/include/addons/metainfo/plugins/metafix"]
+	path = redaxo/include/addons/metainfo/plugins/metafix
+	url = git://github.com/jdlx/metafix.git

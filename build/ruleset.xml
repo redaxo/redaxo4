@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ruleset name="REX4Modified">
+    <description>REX4Modified Coding Standards</description>
+    <rule ref="Zend" />
+    <rule ref="PEAR.Commenting.ClassComment"/>
+    <rule ref="PEAR.Commenting.FileComment"/>
+    <rule ref="PEAR.Commenting.FunctionComment"/>
+    <rule ref="PEAR.Commenting.InlineComment"/>
+    <rule ref="PEAR">
+        <exclude name="PEAR.WhiteSpace.ScopeIndent"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120" />
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="2"/>
+        </properties>
+    </rule>
+</ruleset>
