@@ -37,3 +37,6 @@
 [submodule "redaxo/include/addons/be_style/plugins/rex_codemirror"]
 	path = redaxo/include/addons/be_style/plugins/rex_codemirror
 	url = git@github.com:jdlx/rex_codemirror.git
+[submodule "redaxo/include/addons/xform"]
+	path = redaxo/include/addons/xform
+	url = git://github.com/jdlx/redaxo4_xform.git
