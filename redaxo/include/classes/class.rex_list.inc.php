@@ -662,7 +662,7 @@ class rex_list
    * @see #replaceVariable, #replaceVariables
    * @return string
    */
-  public function getParsedUrl($params = array())
+  function getParsedUrl($params = array())
   {
     $params = array_merge($this->getParams(), $params);
 
