@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -641,17 +641,13 @@ class rex_list
     }
 
     $paramString = '';
-    foreach($params as $name => $value)
-    {
-      if(is_array($value))
-      {
-        foreach($value as $v)
-        {
-          $paramString .= '&'. $name .'='. urlencode($v);
+    foreach ($params as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          $paramString .= '&' . $name . '=' . urlencode($v);
         }
-      }else
-      {
-        $paramString .= '&'. $name .'='. urlencode($value);
+      } else {
+        $paramString .= '&' . $name . '=' . urlencode($value);
       }
     }
     return str_replace('&', '&amp;', 'index.php?list='. $this->getName() . $paramString);
@@ -666,9 +662,29 @@ class rex_list
    * @see #replaceVariable, #replaceVariables
    * @return string
    */
-  function getParsedUrl($params = array())
+  public function getParsedUrl($params = array())
   {
-    return $this->replaceVariables($this->getUrl($params));
+    $params = array_merge($this->getParams(), $params);
+
+    if (!isset($params['sort'])) {
+      $sortColumn = $this->getSortColumn();
+      if ($sortColumn != null) {
+        $params['sort'] = $sortColumn;
+        $params['sorttype'] = $this->getSortType();
+      }
+    }
+
+    $paramString = '';
+    foreach ($params as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($v));
+        }
+      } else {
+        $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($value));
+      }
+    }
+    return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
   }
 
   // ---------------------- Pagination

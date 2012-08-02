@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * Klasse zum erstellen von Listen
@@ -182,7 +182,7 @@ class rex_form
     $paramString = '';
     foreach($params as $name => $value)
     {
-      $paramString .= $name .'='. $value .'&';
+      $paramString .= $name .'='. urlencode($value) .'&';
     }
 
     $url = 'index.php?'. $paramString;
