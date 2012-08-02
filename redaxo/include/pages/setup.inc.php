@@ -642,14 +642,14 @@ function rex_setup_dropREXtables()
           $info_msg .= rex_setup_dropREXtables();
 
           // set database default charset
-        if (rex_lang_is_utf8())
-        {
-          $info_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
-        }
-        else
-        {
-          $info_msg .= rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
-        }
+          if (rex_lang_is_utf8())
+          {
+            $info_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
+          }
+          else
+          {
+            $info_msg .= rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
+          }
 
           // create temp sql dump from upload
           $tmp_sql = getImportDir().'/temp.sql';
@@ -685,6 +685,17 @@ function rex_setup_dropREXtables()
     elseif ($dbanlegen == 3)
     {
       // ----- vorhandenen Export importieren
+
+      // set database default charset
+      if (rex_lang_is_utf8())
+      {
+        $err_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
+      }
+      else
+      {
+        $err_msg .= rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
+      }
+
       $import_name = rex_post('import_name', 'string');
 
       if($import_name == '')
@@ -713,8 +724,11 @@ function rex_setup_dropREXtables()
     elseif ($dbanlegen == 1)
     {
       // ----- volle Datenbank, alte DB löschen / drop
-      if(rex_lang_is_utf8())
-        rex_setup_setDBcharset();
+      if(rex_lang_is_utf8()){
+        rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
+      }else{
+        rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
+      }
 
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_4.sql';
 
@@ -731,8 +745,11 @@ function rex_setup_dropREXtables()
     elseif ($dbanlegen == 0)
     {
       // ----- leere Datenbank neu einrichten
-      if(rex_lang_is_utf8())
-        rex_setup_setDBcharset();
+      if(rex_lang_is_utf8()){
+        rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
+      }else{
+        rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
+      }
 
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_4.sql';
 
