@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);

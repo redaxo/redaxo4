@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * Klasse zum erstellen von Listen
