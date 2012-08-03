@@ -15,8 +15,8 @@ if (!$REX['GG'])
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX['SETUP'] = true;
-$REX['SERVER'] = "redaxo.org";
-$REX['SERVERNAME'] = "REDAXO";
+$REX['SERVER'] = 'http://'.$_SERVER['HTTP_HOST'].'/';
+$REX['SERVERNAME'] = $_SERVER['HTTP_HOST'];
 $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "4";
 $REX['MINORVERSION'] = "1";
@@ -54,11 +54,11 @@ $REX['USE_GZIP'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate e-tag support
 // tag content with a cache key to improve usage of client cache
-$REX['USE_ETAG'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_ETAG'] = "frontend"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_LAST_MODIFIED'] = "frontend"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate md5 checksum support
 // allow client to validate content integrity
@@ -77,7 +77,7 @@ $REX['TEMP_PREFIX']   = 'tmp_';
 $REX['FRONTEND_FILE']	= 'index.php';
 
 // Passwortverschlüsselung, z.B: md5 / mcrypt ...
-$REX['PSWFUNC'] = "";
+$REX['PSWFUNC'] = "sha1";
 
 // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['RELOGINDELAY'] = 5;
