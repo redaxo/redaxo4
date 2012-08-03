@@ -319,6 +319,11 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
     $filetype = mime_content_type($abs_file);
   }
 
+  if(empty($filetype))
+  {
+  	$filetype = 'application/octet-stream';
+  }
+
   $FILE = array();
   $FILE['name'] = $physical_filename;
   $FILE['size'] = $filesize;
