@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.4.1 (2012-XX-XX)
+Version 4.4.1 (2012-08-03)
 
   Bugfixes
   * Medienpool-Popup öffnete sich im Chrome im Hintergrund
