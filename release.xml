@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <releases>
-  <release name="default">
+  <release name="gn2_build">
     <addons>
       <addon name="__firephp"></addon>
       <addon name="be_search"></addon>
