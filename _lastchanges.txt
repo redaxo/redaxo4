@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.4.1 (2012-XX-XX)
+Version 4.4.1 (2012-08-03)
 
   Bugfixes
   * Medienpool-Popup öffnete sich im Chrome im Hintergrund
@@ -15,7 +15,8 @@ Version 4.4.1 (2012-XX-XX)
   * be_search: teilweise war eine falsche Kategorie in der Schnellnavigation selektiert
   * utf8 Setup: setzen des DB charset auf utf8 in jedem mode
   * utf8 Demo: charset Angaben korrigiert auf utf8
-
+  * XSS behoben - wenn eingeloggt und Admin: http://www.redaxo.org/de/download/sicherheitshinweise/
+  * Mediasync: sofern kein Mimetype erkannt wird, wird nun application/octet-stream gesetzt
 
 Version 4.4.0 (2012-06-27)
 
