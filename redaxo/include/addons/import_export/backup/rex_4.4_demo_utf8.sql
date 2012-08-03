@@ -20,7 +20,7 @@ CREATE TABLE `rex_62_params` (
   `updatedate` int(11) NOT NULL,
   PRIMARY KEY  (`field_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_62_params` WRITE;
 /*!40000 ALTER TABLE `rex_62_params` DISABLE KEYS */;
@@ -45,7 +45,7 @@ CREATE TABLE `rex_62_type` (
   `dbtype` varchar(255) NOT NULL,
   `dblength` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_62_type` WRITE;
 /*!40000 ALTER TABLE `rex_62_type` DISABLE KEYS */;
@@ -77,7 +77,7 @@ CREATE TABLE `rex_679_type_effects` (
   `createdate` int(11) NOT NULL,
   `createuser` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_679_type_effects` WRITE;
 /*!40000 ALTER TABLE `rex_679_type_effects` DISABLE KEYS */;
@@ -98,7 +98,7 @@ CREATE TABLE `rex_679_types` (
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_679_types` WRITE;
 /*!40000 ALTER TABLE `rex_679_types` DISABLE KEYS */;
@@ -128,7 +128,7 @@ CREATE TABLE `rex_action` (
   `updatedate` int(11) NOT NULL default '0',
   `revision` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 DROP TABLE IF EXISTS `rex_article`;
 CREATE TABLE `rex_article` (
   `pid` int(11) NOT NULL auto_increment,
@@ -161,7 +161,7 @@ CREATE TABLE `rex_article` (
   KEY `id` (`id`),
   KEY `clang` (`clang`),
   KEY `re_id` (`re_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_article` WRITE;
 /*!40000 ALTER TABLE `rex_article` DISABLE KEYS */;
@@ -270,7 +270,7 @@ CREATE TABLE `rex_article_slice` (
   KEY `re_article_slice_id` (`re_article_slice_id`),
   KEY `article_id` (`article_id`),
   KEY `find_slices` (`clang`,`article_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_article_slice` WRITE;
 /*!40000 ALTER TABLE `rex_article_slice` DISABLE KEYS */;
@@ -327,7 +327,7 @@ CREATE TABLE `rex_clang` (
   `name` varchar(255) NOT NULL,
   `revision` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_clang` WRITE;
 /*!40000 ALTER TABLE `rex_clang` DISABLE KEYS */;
@@ -359,11 +359,11 @@ CREATE TABLE `rex_file` (
   PRIMARY KEY  (`file_id`),
   KEY `re_file_id` (`re_file_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_file` WRITE;
 /*!40000 ALTER TABLE `rex_file` DISABLE KEYS */;
-INSERT INTO `rex_file` VALUES 
+INSERT INTO `rex_file` VALUES
   (1,0,1,'','text/css','main.css','main.css',3869,0,0,'main.css',1174923001,1174923001,'admin','admin',0,'Grundraster Layout',''),
   (2,0,1,'','text/css','navigation.css','navigation.css',3970,0,0,'navigation.css',1174923036,1174923036,'admin','admin',0,'Navigationselemente',''),
   (3,0,1,'','text/css','content.css','/Applications/MAMP/tmp/php/phpFvKVpk',4724,0,0,'content.css',1174923063,1192194986,'admin','admin',0,'Inhaltselemente global',''),
@@ -453,7 +453,7 @@ CREATE TABLE `rex_module` (
   `revision` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_module` WRITE;
 /*!40000 ALTER TABLE `rex_module` DISABLE KEYS */;
@@ -475,7 +475,7 @@ CREATE TABLE `rex_module_action` (
   `action_id` int(11) NOT NULL default '0',
   `revision` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 DROP TABLE IF EXISTS `rex_template`;
 CREATE TABLE `rex_template` (
   `id` int(11) NOT NULL auto_increment,
@@ -490,7 +490,7 @@ CREATE TABLE `rex_template` (
   `attributes` text NOT NULL,
   `revision` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_template` WRITE;
 /*!40000 ALTER TABLE `rex_template` DISABLE KEYS */;

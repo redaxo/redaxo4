@@ -12,6 +12,9 @@ Version 4.4.1 (2012-XX-XX)
   Bugfixes
   * Medienpool-Popup öffnete sich im Chrome im Hintergrund
   * Beim Tippen in durch JS hinzugefügten Inputs wurden die Accesskeys ausgelöst
+  * be_search: teilweise war eine falsche Kategorie in der Schnellnavigation selektiert
+  * utf8 Setup: setzen des DB charset auf utf8 in jedem mode
+  * utf8 Demo: charset Angaben korrigiert auf utf8
 
 
 Version 4.4.0 (2012-06-27)
