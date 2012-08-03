@@ -6,3 +6,4 @@ atlassian*.xml
 .project
 files/*
 redaxo/include/generated/*
+/release/
