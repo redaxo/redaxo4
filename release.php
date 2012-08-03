@@ -130,7 +130,7 @@ function buildRelease($name = null, $version = null)
   foreach($releaseConfigs as $releaseConfig)
   {
     $path = $cfg_path;
-    $name = $systemName .'_'. $releaseConfig['name'].'_'.date('d.m.Y_H\hi');
+    $name = $systemName .'_'. $releaseConfig['name'].'_'.date('dmY');
 
     if(substr($path, -1) != '/')
       $path .= '/';
