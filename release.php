@@ -95,6 +95,17 @@ function buildRelease($name = null, $version = null)
     'be_style' => 'agk_skin',
     );
 
+  // USE ONLY THESE LANGS
+  $use_lang = array(
+    'de_de',
+    'en_gb',
+    'da_dk',
+    );
+
+
+
+  // MAIN
+  //////////////////////////////////////////////////////////////////////////////
   if (!$name)
   {
     $name = 'redaxo';
@@ -139,7 +150,7 @@ function buildRelease($name = null, $version = null)
         $ignoreFiles
       )
     );
-    copyFolderStructure($structure, $dest);
+    copyFolderStructure($structure, $dest, $use_lang);
 
     echo PHP_EOL.'> copy addons'.PHP_EOL;
     foreach(array_merge($releaseConfig['addons'], $systemAddons) as $addon)
@@ -149,7 +160,7 @@ function buildRelease($name = null, $version = null)
         './redaxo/include/addons/'. $addon,
         $systemFiles
       );
-      copyFolderStructure($structure, $dest);
+      copyFolderStructure($structure, $dest, $use_lang);
     }
 
     // Ordner die wir nicht mitkopiert haben anlegen
@@ -488,7 +499,7 @@ function sortFolderStructure($path1, $path2)
   return strlen($path1) > strlen($path2) ? 1 : -1;
 }
 
-function copyFolderStructure($structure, $dest)
+function copyFolderStructure($structure, $dest, $use_lang)
 {
   // Ordner/Dateien kopieren
   foreach($structure as $path => $content)
@@ -509,26 +520,33 @@ function copyFolderStructure($structure, $dest)
     {
       if(is_file($path.'/'.$dir))
       {
-        copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
-
-        // create iso lang from utf8 if required
-        if(substr($dir, -10) == '_utf8.lang')
+        if(substr($dir, -5) == '.lang' && !in_array(substr($dir,0,5),$use_lang))
         {
-          $isoLang = substr($dir, 0, -10).'.lang';
-          if(!file_exists($isoLang))
-          {
-            echo '> convert file '. $path .'/'. $dir .' to iso'.PHP_EOL;
-            buildIsoLangFile( $dest .'/'. $path.'/'.$dir, $dir);
-          }
+         echo '> skipping lang file '.$dir.PHP_EOL;
         }
-        // create utf8 lang from iso if required
-        else if (substr($dir, -5) == '.lang')
+        else
         {
-          $utfLang = substr($dir, 0, -5).'_utf8.lang';
-          if(!file_exists($utfLang))
+          copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
+
+          // create iso lang from utf8 if required
+          if(substr($dir, -10) == '_utf8.lang')
           {
-            echo '> convert file '. $path .'/'. $dir .' to utf-8'.PHP_EOL;
-            buildUtf8LangFile( $dest .'/'. $path.'/'.$dir, $dir);
+            $isoLang = substr($dir, 0, -10).'.lang';
+            if(!file_exists($isoLang))
+            {
+              echo '> convert file '. $path .'/'. $dir .' to iso'.PHP_EOL;
+              buildIsoLangFile( $dest .'/'. $path.'/'.$dir, $dir);
+            }
+          }
+          // create utf8 lang from iso if required
+          else if (substr($dir, -5) == '.lang')
+          {
+            $utfLang = substr($dir, 0, -5).'_utf8.lang';
+            if(!file_exists($utfLang))
+            {
+              echo '> convert file '. $path .'/'. $dir .' to utf-8'.PHP_EOL;
+              buildUtf8LangFile( $dest .'/'. $path.'/'.$dir, $dir);
+            }
           }
         }
       }
