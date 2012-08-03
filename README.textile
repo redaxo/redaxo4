@@ -1,0 +1,33 @@
+h2. Bugfix and beyond..™
+
+Aktuelle REX Version (4.4.1) mit Addons die man typischerweise will/braucht, plus dem ein oder anderen tweak..
+
+h2. Addons/Plugins
+
+* "*__firephp*":https://github.com/jdlx/__firephp (jdlx)
+* be_style
+** "*harvesthq_chosen*":https://github.com/jdlx/harvesthq_chosen  (jdlx)
+** "*jquery_ui*":https://github.com/joachimdoerr/jquery_ui_be_style_plugin (joachimdoerr)
+* "*developer*":https://github.com/gharlan/redaxo_developer (gharlan)
+* "*dev_panel*":https://github.com/jdlx/dev_panel (jdlx)
+* -image_manager- -> "*image_manager EP*":https://github.com/jdlx/image_manager_ep (jdlx fork - compat zu orig. plus EPs)
+* "*markitup*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
+* metainfo
+** "*metafix*":https://github.com/jdlx/metafix (jdlx)
+* -url_rewrite- -> "*rexseo*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
+* "*rex_multiupload*":https://github.com/nightstomp/redaxo_multiupload  (nightstomp)
+* "*rexsearch*":https://github.com/xong/rexsearch  (xong)
+* "*xform*":https://github.com/jdlx/redaxo4_xform (jdlx fork - compat zu dergel, aber evtl. kleinere tweaks)
+** "*column_edit*":https://github.com/jdlx/column_edit (jdlx)
+* "*xoutputfilter*":https://github.com/aeberhard/xoutputfilter (aeberhard)
+
+
+h2. Tweaks
+
+* "*master.inc.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/include/master.inc.php
+** *SERVER*: -redaxo.org-  -> http:// _[HTTP_HOST]_ /
+** *SERVERNAME*: -REDAXO- -> _[HTTP_HOST]_
+** *ERROR_EMAIL*: -info@redaxo.org-  -> info@ _[HTTP_HOST]_
+** *USE_ETAG*:  -false- -> frontend
+** *USE_LAST_MODIFIED*: -false- -> frontend
+** *PSWFUNC*: "" -> sha1
