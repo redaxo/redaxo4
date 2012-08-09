@@ -5,7 +5,6 @@
  * @package redaxo4
  * @version svn:$Id$
  */
-
 // ----- caching start für output filter
 ob_start();
 ob_implicit_flush(0);
@@ -281,8 +280,26 @@ if($REX['USER'])
       }
     }
 
-    header('Location: index.php?page='. $REX['PAGE']);
+    if(!$_SESSION['REDIRECT_REDAXO_AFTER_LOGIN']){
+      header('Location: index.php?page='. $REX['PAGE']);
+      
+    } else {
+      
+      if($_SESSION['REDIRECT_REDAXO_AFTER_LOGIN']) {
+        $redirect_to_url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'].$_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'];
+        unset($_SESSION['REDIRECT_REDAXO_AFTER_LOGIN']);
+        header('Location:  ' . $redirect_to_url);
+      }
+    }
     exit();
+  }
+} else {
+  if(!$REX['USER'] && !isset($_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'])){
+    if(!isset($_GET['rex_logout'])){
+      $_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'] = strip_tags($_SERVER['REQUEST_URI']);
+    } else {
+      $_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'] = false;
+    }
   }
 }
 
