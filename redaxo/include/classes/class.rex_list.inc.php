@@ -128,7 +128,13 @@ class rex_list
     $this->rowsPerPage = $rowsPerPage;
 
     // --------- Load Data
+    $this->sql->setQuery($this->prepareQuery1($query));
+    $sql = rex_sql::factory();
+    $sql->debugsql = $this->debug;
+    $sql->setQuery('SELECT FOUND_ROWS() as rows');
+    $this->rows = $sql->getValue('rows');
     $this->sql->setQuery($this->prepareQuery($query));
+    
     if($this->sql->hasError())
     {
       echo rex_warning($this->sql->getError());
@@ -701,6 +707,9 @@ class rex_list
     $rowsPerPage = $this->getRowsPerPage();
     $startRow = $this->getStartRow();
 
+    // prepare query for fast rowcount calculation
+    $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+
     $sortColumn = $this->getSortColumn();
     if($sortColumn != '')
     {
@@ -719,19 +728,45 @@ class rex_list
   }
 
   /**
+   * Prepariert das SQL Statement vorm anzeigen der Liste (LIMIT 0,1)
+   *
+   * @param $query SQL Statement
+   *
+   * @return string
+   */
+  function prepareQuery1($query)
+  {
+
+    $rowsPerPage = 1;
+    $startRow = 0;
+
+    // prepare query for fast rowcount calculation
+    $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+
+    $sortColumn = $this->getSortColumn();
+    if($sortColumn != '')
+    {
+      $sortType = $this->getSortType();
+
+      if(strpos(strtoupper($query), ' ORDER BY ') === false)
+        $query .= ' ORDER BY '. $sortColumn .' '. $sortType;
+      else
+        $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
+    }
+
+    if(strpos(strtoupper($query), ' LIMIT ') === false)
+      $query .= ' LIMIT '. $startRow .','. $rowsPerPage;
+    
+    return $query;
+  }
+
+  /**
    * Gibt die Anzahl der Zeilen zurück, welche vom ursprüngliche SQL Statement betroffen werden
    *
    * @return int
    */
   function getRows()
   {
-    if(!$this->rows)
-    {
-      $sql = rex_sql::factory();
-      $sql->debugsql = $this->debug;
-      $sql->setQuery($this->query);
-      $this->rows = $sql->getRows();
-    }
 
     return $this->rows;
   }
