@@ -61,4 +61,4 @@ foreach($REX['VARIABLES'] as $key => $value)
 }
 
 // ----- EXTRA CLASSES
-// include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';
