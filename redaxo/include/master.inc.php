@@ -104,10 +104,10 @@ $REX['SYSTEM_ADDONS'] = array('import_export', 'metainfo', 'be_search', 'image_m
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- DB1
-$REX['DB']['1']['HOST'] = "localhost";
-$REX['DB']['1']['LOGIN'] = "root";
+$REX['DB']['1']['HOST'] = "mysql5.".$_SERVER['HTTP_HOST'];
+$REX['DB']['1']['LOGIN'] = "db000000";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_4_0";
+$REX['DB']['1']['NAME'] = "db000000";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
