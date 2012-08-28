@@ -280,25 +280,40 @@ if($REX['USER'])
       }
     }
 
-    if(!$_SESSION['REDIRECT_REDAXO_AFTER_LOGIN']){
+    if(!rex_session('LOGIN_REDIRECT','boolean'))
+    {
       header('Location: index.php?page='. $REX['PAGE']);
-      
-    } else {
-      
-      if($_SESSION['REDIRECT_REDAXO_AFTER_LOGIN']) {
-        $redirect_to_url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'].$_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'];
-        unset($_SESSION['REDIRECT_REDAXO_AFTER_LOGIN']);
-        header('Location:  ' . $redirect_to_url);
+    }
+    else
+    {
+      $whitelist = array('page', 'subpage', 'article_id', 'category_id', 'clang');
+      $request   = rex_session('LOGIN_REDIRECT');
+      $location  = 'index.php?';
+
+      foreach($whitelist as $key) {
+        if(isset($request[$key])) {
+          $location .= $key.'='.$request[$key].'&';
+        }
       }
+      $location = rtrim($location,'&?');
+
+      rex_unset_session('LOGIN_REDIRECT');
+      header('Location:  '.$location);
     }
     exit();
   }
-} else {
-  if(!$REX['USER'] && !isset($_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'])){
-    if(!isset($_GET['rex_logout'])){
-      $_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'] = strip_tags($_SERVER['REQUEST_URI']);
-    } else {
-      $_SESSION['REDIRECT_REDAXO_AFTER_LOGIN'] = false;
+}
+else
+{
+  if(!$REX['USER'])
+  {
+    if(rex_get('rex_logout', 'int') === 1)
+    {
+      rex_unset_session('LOGIN_REDIRECT');
+    }
+    elseif(!rex_request('rex_user_login','boolean'))
+    {
+      rex_set_session('LOGIN_REDIRECT', $_REQUEST);
     }
   }
 }
