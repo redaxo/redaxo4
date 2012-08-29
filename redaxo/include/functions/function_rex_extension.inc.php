@@ -6,6 +6,10 @@
  * @version svn:$Id$
  */
 
+define('REX_EXTENSION_EARLY', -1);
+define('REX_EXTENSION_NORMAL', 0);
+define('REX_EXTENSION_LATE', 1);
+
 /**
  * Definiert einen Extension Point
  *
@@ -29,29 +33,35 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
   if (isset ($REX['EXTENSIONS'][$extensionPoint]) && is_array($REX['EXTENSIONS'][$extensionPoint]))
   {
     $params['subject'] = $subject;
-    if ($read_only)
+    foreach (array(REX_EXTENSION_EARLY, REX_EXTENSION_NORMAL, REX_EXTENSION_LATE) as $level)
     {
-      foreach ($REX['EXTENSIONS'][$extensionPoint] as $ext)
+      if (isset($REX['EXTENSIONS'][$extensionPoint][$level]) && is_array($REX['EXTENSIONS'][$extensionPoint][$level]))
       {
-        $func = $ext[0];
-        $local_params = array_merge($params, $ext[1]);
-        rex_call_func($func, $local_params);
-      }
-    }
-    else
-    {
-      foreach ($REX['EXTENSIONS'][$extensionPoint] as $ext)
-      {
-        $func = $ext[0];
-        $local_params = array_merge($params, $ext[1]);
-        $temp = rex_call_func($func, $local_params);
-        // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-        // damit $params['subject'] nicht verfälscht wird
-        // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-        if($temp !== null)
+        if ($read_only)
         {
-          $result = $temp;
-          $params['subject'] = $result;
+          foreach ($REX['EXTENSIONS'][$extensionPoint][$level] as $ext)
+          {
+            $func = $ext[0];
+            $local_params = array_merge($params, $ext[1]);
+            rex_call_func($func, $local_params);
+          }
+        }
+        else
+        {
+          foreach ($REX['EXTENSIONS'][$extensionPoint][$level] as $ext)
+          {
+            $func = $ext[0];
+            $local_params = array_merge($params, $ext[1]);
+            $temp = rex_call_func($func, $local_params);
+            // Rückgabewert nur auswerten wenn auch einer vorhanden ist
+            // damit $params['subject'] nicht verfälscht wird
+            // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
+            if($temp !== null)
+            {
+              $result = $temp;
+              $params['subject'] = $result;
+            }
+          }
         }
       }
     }
@@ -64,14 +74,15 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
  *
  * @param $extension Name des ExtensionPoints
  * @param $function Name der Callback-Funktion
- * @param [$params] Array von zusätzlichen Parametern
+ * @param $params Array von zusätzlichen Parametern
+ * @param $level Ausführungslevel (REX_EXTENSION_EARLY, REX_EXTENSION_NORMAL oder REX_EXTENSION_LATE)
  */
-function rex_register_extension($extensionPoint, $callable, $params = array())
+function rex_register_extension($extensionPoint, $callable, $params = array(), $level = REX_EXTENSION_NORMAL)
 {
   global $REX;
 
   if(!is_array($params)) $params = array();
-  $REX['EXTENSIONS'][$extensionPoint][] = array($callable, $params);
+  $REX['EXTENSIONS'][$extensionPoint][(int) $level][] = array($callable, $params);
 }
 
 /**
