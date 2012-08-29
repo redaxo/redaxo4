@@ -74,18 +74,12 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
  *
  * @param $extension Name des ExtensionPoints
  * @param $function Name der Callback-Funktion
- * @param $level Ausführungslevel (REX_EXTENSION_EARLY, REX_EXTENSION_NORMAL oder REX_EXTENSION_LATE)
  * @param $params Array von zusätzlichen Parametern
+ * @param $level Ausführungslevel (REX_EXTENSION_EARLY, REX_EXTENSION_NORMAL oder REX_EXTENSION_LATE)
  */
-function rex_register_extension($extensionPoint, $callable, $level = REX_EXTENSION_NORMAL, $params = array())
+function rex_register_extension($extensionPoint, $callable, $params = array(), $level = REX_EXTENSION_NORMAL)
 {
   global $REX;
-
-  // compat
-  if (is_array($level)) {
-    $params = $level;
-    $level = REX_EXTENSION_NORMAL;
-  }
 
   if(!is_array($params)) $params = array();
   $REX['EXTENSIONS'][$extensionPoint][(int) $level][] = array($callable, $params);
