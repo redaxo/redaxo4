@@ -445,7 +445,7 @@ class rex_thumbnail
       else
       {
         // image file not exists
-        print 'Error: Imagefile does not exist - '. $imagefile;
+        print 'Error: Imagefile does not exist - '. htmlspecialchars($imagefile);
         exit;
       }
       // cache is newer? - show cache
@@ -462,7 +462,7 @@ class rex_thumbnail
     // ----- check params
     if (!file_exists($imagepath))
     {
-      print 'Error: Imagefile does not exist - '. $imagefile;
+      print 'Error: Imagefile does not exist - '. htmlspecialchars($imagefile);
       exit;
     }
 
@@ -470,7 +470,7 @@ class rex_thumbnail
     $max_file_size = $REX['ADDON']['image_resize']['max_resizekb']*1024;
     if (filesize($imagepath)>$max_file_size)
     {
-      print 'Error: Imagefile is to big. Only files < '.$REX['ADDON']['image_resize']['max_resizekb'].'kb are allowed. - '. $imagefile;
+      print 'Error: Imagefile is to big. Only files < '.$REX['ADDON']['image_resize']['max_resizekb'].'kb are allowed. - '. htmlspecialchars($imagefile);
       exit;
     }
 

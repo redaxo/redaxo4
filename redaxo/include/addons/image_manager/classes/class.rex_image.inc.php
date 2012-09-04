@@ -201,7 +201,7 @@ class rex_image {
     // alle anderen ein ErrorImage
     if($message != '' && rex_hasBackendSession())
     {
-      echo 'Error: '. $message;
+      echo 'Error: '. htmlspecialchars($message);
       exit();
     }
     else
