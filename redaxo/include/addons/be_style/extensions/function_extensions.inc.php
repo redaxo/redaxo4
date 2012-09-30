@@ -27,7 +27,8 @@ function rex_be_style_css_add($params)
   $addon = "be_style";
   foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
   {
-    if (file_exists('../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css')) {
+    if (file_exists('../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css'))
+    {
       $params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
     }
   }
