@@ -98,7 +98,7 @@ elseif ($func == 'updateinfos')
   );
 
   $cont = preg_replace($replace['search'], $replace['replace'], $cont);
-  
+
   if($warning == '')
   {
     if(rex_put_file_contents($master_file, $cont) > 0)
@@ -179,6 +179,7 @@ echo '
             <h4 class="rex-hl3">'.$I18N->msg("version").'</h4>
             <p class="rex-tx1">
             REDAXO: '.$REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'].'<br />
+            RELEASE: <a href="https://github.com/gn2netwerk/redaxo4/commit/'.$REX['RELEASE'].'" target="_blank">'.$REX['RELEASE'].'</a><br />
             PHP: '.phpversion().'</p>
 
             <h4 class="rex-hl3">'.$I18N->msg("database").'</h4>

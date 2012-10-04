@@ -24,6 +24,7 @@ $REX['ERROR_EMAIL'] = "info@".$_SERVER['HTTP_HOST'];
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20120626100101";
+$REX['RELEASE'] = '';
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
