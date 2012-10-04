@@ -5,8 +5,7 @@ Aktuelle REX Version (4.4.1) mit Addons die man typischerweise will/braucht, plu
 h2. Download
 
 Releases werden alle 3 Stunden frisch erstellt und können als ZIP heruntergeladen werden: "release.zip":http://rexdev.de/rex_package/release.zip
-
-_Hinweis: Die releases haben keine eigene Versionsnummer, aber tragen das Erstellungsdatum als UNIX timestamp in @$REX['INSTNAME']@_
+_Die Version des Releases wird in der zusätzliche Variable $REX['RELEASE'] gespeichert und entspricht dem hash des zugrundeliegenden commits - im backend unter "System" wird dieser angezeigt und ist mit dem commit bei Github verlinkt._
 
 h2. Addons/Plugins
 
@@ -38,3 +37,6 @@ h2. Tweaks
 ** *USE_ETAG*:  -false- -> frontend
 ** *USE_LAST_MODIFIED*: -false- -> frontend
 ** *PSWFUNC*: "" -> sha1
+** *RELEASE*: "" -> hash des GIT commits
+* "*specials.settings.inc.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/include/pages/specials.settings.inc.php
+** Anzeige von @$REX['RELEASE']@ mit Verlinkung zum commit auf Github
