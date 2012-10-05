@@ -49,3 +49,6 @@
 [submodule "redaxo/include/addons/mysql_tools"]
 	path = redaxo/include/addons/mysql_tools
 	url = git://github.com/jdlx/mysql_tools.git
+[submodule "redaxo/include/addons/slice_onoff"]
+	path = redaxo/include/addons/slice_onoff
+	url = git://github.com/jdlx/slice_onoff.git
