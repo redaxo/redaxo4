@@ -20,6 +20,7 @@ h2. Addons/Plugins
 * "*markitup*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
 * metainfo
 ** "*metafix*":https://github.com/jdlx/metafix (jdlx)
+* "*mysql_tools*":https://github.com/jdlx/mysql_tools  (jdlx)
 * -url_rewrite- -> "*rexseo*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
 * "*rex_multiupload*":https://github.com/nightstomp/redaxo_multiupload  (nightstomp)
 * "*rexsearch*":https://github.com/xong/rexsearch  (xong)

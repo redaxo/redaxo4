@@ -43,3 +43,6 @@
 [submodule "redaxo/include/addons/be_style/plugins/harvesthq_chosen"]
 	path = redaxo/include/addons/be_style/plugins/harvesthq_chosen
 	url = git://github.com/jdlx/harvesthq_chosen.git
+[submodule "redaxo/include/addons/be_style/plugins/mysql_tools"]
+	path = redaxo/include/addons/mysql_tools
+	url = git://github.com/jdlx/mysql_tools.git
