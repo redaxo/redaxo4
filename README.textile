@@ -24,7 +24,6 @@ h2. Addons/Plugins
 * -url_rewrite- -> "*rexseo*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
 * "*rex_multiupload*":https://github.com/nightstomp/redaxo_multiupload  (nightstomp)
 * "*rexsearch*":https://github.com/xong/rexsearch  (xong)
-* "*slice_onoff*":https://github.com/jdlx/slice_onoff  (Fabian Michael)
 * "*xform*":https://github.com/jdlx/redaxo4_xform (jdlx fork - compat zu dergel, aber evtl. kleinere tweaks)
 ** "*column_edit*":https://github.com/jdlx/column_edit (jdlx)
 * "*xoutputfilter*":https://github.com/aeberhard/xoutputfilter (aeberhard)
