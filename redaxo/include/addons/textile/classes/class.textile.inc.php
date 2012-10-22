@@ -5,7 +5,13 @@
  *
  *		  $textile = new Textile;
  *		  echo $textile->TextileThis($string);
+ *
  */
+
+/*
+$HeadURL$
+$LastChangedRevision$
+*/
 
 /*
 
@@ -14,7 +20,7 @@ T E X T I L E
 
 A Humane Web Text Generator
 
-Version 2.4.0
+Version 2.4.1
 
 Copyright (c) 2003-2004, Dean Allen <dean@textism.com>
 All rights reserved.
@@ -377,8 +383,8 @@ class Textile
 	var $hu = '';
 	var $max_span_depth = 5;
 
-	var $ver = '2.4.0';
-	var $rev = '$Rev: 3359 $';
+	var $ver = '2.4.1';
+	var $rev = '$Rev$';
 
 	var $doc_root;
 
@@ -523,7 +529,6 @@ class Textile
 			return $text;
 		} else {
 			if(!$strict) {
-				$text = $this->prePadLists($text);
 				$text = $this->cleanWhiteSpace($text);
 			}
 
@@ -564,7 +569,6 @@ class Textile
 
 		// escape any raw html
 		$text = $this->encode_html($text, 0);
-		$text = $this->prePadLists($text);
 		$text = $this->cleanWhiteSpace($text);
 
 		if($lite) {
@@ -799,7 +803,6 @@ class Textile
 
 			$cells = array();
 			$cellctr = 0;
-			$row = strtr( $row, array( "\n" => '<br />' ) );
 			foreach(explode("|", $row) as $cell) {
 				$ctyp = "d";
 				if (preg_match("/^_/", $cell)) $ctyp = "h";
@@ -808,7 +811,10 @@ class Textile
 					$cell = $cmtch[2];
 				} else $catts = '';
 
-				$cell = $this->graf($cell);
+				if (!$this->lite) {
+					$cell = $this->redcloth_lists($cell);
+					$cell = $this->lists($cell);
+				}
 
 				if ($cellctr>0) // Ignore first 'cell': it precedes the opening pipe
 					$cells[] = $this->doTagBr("t$ctyp", "\t\t\t<t$ctyp$catts>$cell</t$ctyp>");
@@ -872,24 +878,6 @@ class Textile
 		return implode("\n", $out);
 	}
 
-// -------------------------------------------------------------
-	function prePadLists($text)
-	{
-		$list_item       = "[#*;:]+(?:_|[\d]+)?$this->lc[ .].*\n";
-		$non_blank_lines = ".+\n";
-		$text = preg_replace_callback(
-			"/^(?:$list_item)(?:$non_blank_lines)*\n/m",
-			array(&$this, "fPrePadLists"),
-			$text."\n\n"
-		);
-		return $text;
-	}
-
-// -------------------------------------------------------------
-	function fPrePadLists($m)
-	{
-		return "\n".$m[0];
-	}
 
 // -------------------------------------------------------------
 	function lists($text)
@@ -1415,8 +1403,6 @@ class Textile
 			$_ = join( ' ', $_ );
 			return $_;
 		}
-
-		return '';
 	}
 
 
@@ -2013,8 +1999,6 @@ class Textile
 	function textile_popup_help($name, $helpvar, $windowW, $windowH)
 	{
 		return ' <a target="_blank" href="http://www.textpattern.com/help/?item=' . $helpvar . '" onclick="window.open(this.href, \'popupwindow\', \'width=' . $windowW . ',height=' . $windowH . ',scrollbars,resizable\'); return false;">' . $name . '</a><br />';
-
-		return $out;
 	}
 
 // -------------------------------------------------------------
@@ -2054,3 +2038,4 @@ class Textile
 
 
 } // end class
+

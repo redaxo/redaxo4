@@ -472,7 +472,6 @@ class rex_list
    *
    * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
-   * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
    *
    * @return boolean
    */
