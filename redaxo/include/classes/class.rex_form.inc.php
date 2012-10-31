@@ -1066,7 +1066,14 @@ class rex_form
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
 
         // Den POST-Wert in die DB speichern (inkl. slashes)
-        $sql->setValue($fieldName, addslashes($fieldValue));
+        if ($fieldValue === NULL)
+        {
+          $sql->setValue($fieldName, NULL);
+        }
+        else
+        {
+          $sql->setValue($fieldName, addslashes($fieldValue));
+        }
       }
     }
 
@@ -1307,6 +1314,7 @@ class rex_form_element
   var $prefix;
   var $suffix;
   var $notice;
+  var $defaultSaveValue = '';
 
   function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
   {
@@ -1325,14 +1333,24 @@ class rex_form_element
 
   // --------- Attribute setter/getters
 
-  function setValue($value)
+  /**
+   * Set default save value
+   * @param mixed $value
+   */
+  function setDefaultSaveValue($value = '')
+  {
+    $this->defaultSaveValue = $value;
+  }
+
+function setValue($value)
   {
     $this->value = $value;
   }
 
   function getSaveValue()
   {
-    return $this->getValue();
+    $value = $this->getValue();
+    return $value ? $value : $this->defaultSaveValue;
   }
 
   function getValue()
