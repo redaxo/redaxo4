@@ -46,3 +46,6 @@
 [submodule "redaxo/include/addons/mysql_tools"]
 	path = redaxo/include/addons/mysql_tools
 	url = git://github.com/jdlx/mysql_tools.git
+[submodule "redaxo/include/addons/slice_status"]
+	path = redaxo/include/addons/slice_status
+	url = git://github.com/RexDude/slice_status.git
