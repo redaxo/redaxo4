@@ -498,7 +498,7 @@ function rex_mediapool_isAllowedMediaType($filename=false, $args=array())
   if(in_array($file_ext,$blacklist)) {
     return false;
   }
-  if(!in_array($file_ext,$whitelist)) {
+  if(count($whitelist)>0 && !in_array($file_ext,$whitelist)) {
     return false;
   }
   return true;
