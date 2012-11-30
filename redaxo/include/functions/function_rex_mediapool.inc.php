@@ -481,3 +481,61 @@ function rex_mediapool_Syncform($rex_file_category)
 
   return rex_mediapool_Mediaform($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false, false);
 }
+
+/**
+ * CHECK IF MEDIATYPE(EXTENSION) IS ALLOWED FOR UPLOAD
+ */
+function rex_mediapool_isAllowedMediaType($filename=false, $args=array())
+{
+  if(!$filename){
+    return false;
+  }
+
+  $blacklist = rex_mediapool_getMediaTypeBlacklist();
+  $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
+  $file_ext  = rex_mediapool_getFileExtension($filename);
+
+  if(in_array($file_ext,$blacklist)) {
+    return false;
+  }
+  if(!in_array($file_ext,$whitelist)) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * GET FILENAME EXTENSION
+ */
+function rex_mediapool_getFileExtension($filename)
+{
+  return substr($filename,strrpos($filename,'.'),strlen($filename)-strrpos($filename,'.'));
+}
+
+/**
+ * GET WHITELIST OF MEDIATYPES(EXTENSIONS) GIVEN VIA MEDIA WIDGET "types" PARAM
+ */
+function rex_mediapool_getMediaTypeWhitelist($args=array())
+{
+  $blacklist = rex_mediapool_getMediaTypeBlacklist();
+
+  $whitelist = array();
+  if(isset($args['types'])) {
+    foreach(explode(',',$args['types']) as $ext) {
+      $ext = '.'.ltrim($ext,'.');
+      if(!in_array($ext, $blacklist)) { // whitelist cannot override any blacklist entry from master
+        $whitelist[] = $ext;
+      }
+    }
+  }
+  return $whitelist;
+}
+
+/**
+ * RETURN GLOBAL MEDIATYPE BLACKLIST FROM MASTER.INC
+ */
+function rex_mediapool_getMediaTypeBlacklist()
+{
+  global $REX;
+  return $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'];
+}
