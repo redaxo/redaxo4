@@ -485,15 +485,16 @@ function rex_mediapool_Syncform($rex_file_category)
 /**
  * CHECK IF MEDIATYPE(EXTENSION) IS ALLOWED FOR UPLOAD
  */
-function rex_mediapool_isAllowedMediaType($filename=false, $args=array())
+function rex_mediapool_isAllowedMediaType($filename, $args=array())
 {
-  if(!$filename){
+  $file_ext = '.'.OOMedia::_getExtension($filename);
+
+  if($filename === '' || strpos($file_ext,' ') !== false || $file_ext === '.') {
     return false;
   }
 
   $blacklist = rex_mediapool_getMediaTypeBlacklist();
   $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
-  $file_ext  = rex_mediapool_getFileExtension($filename);
 
   if(in_array($file_ext,$blacklist)) {
     return false;
@@ -502,14 +503,6 @@ function rex_mediapool_isAllowedMediaType($filename=false, $args=array())
     return false;
   }
   return true;
-}
-
-/**
- * GET FILENAME EXTENSION
- */
-function rex_mediapool_getFileExtension($filename)
-{
-  return substr($filename,strrpos($filename,'.'),strlen($filename)-strrpos($filename,'.'));
 }
 
 /**

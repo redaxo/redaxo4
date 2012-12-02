@@ -11,7 +11,7 @@ if ($media_method == 'add_file')
     {
       if(!rex_mediapool_isAllowedMediaType($_FILES['file_new']['name'],rex_post('args','array')))
       {
-        $warning = $I18N->msg('pool_file_mediatype_not_allowed').' '.rex_mediapool_getFileExtension($_FILES['file_new']['name']);
+        $warning = $I18N->msg('pool_file_mediatype_not_allowed').' .'.OOMedia::_getExtension($_FILES['file_new']['name']);
         $whitelist = rex_mediapool_getMediaTypeWhitelist(rex_post('args','array'));
         $info = count($whitelist)>0
               ? $I18N->msg('pool_file_allowed_mediatypes').' '.rtrim(implode(', ',$whitelist),', ')
