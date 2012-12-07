@@ -296,7 +296,7 @@ class rex_var_media extends rex_var
       $open_func    = 'openREXMedia(' . $id . ',\'' . $open_params . '\');';
       $add_func     = 'addREXMedia(' . $id . ',\'' . $open_params . '\');';
       $delete_func  = 'deleteREXMedia(' . $id . ');';
-      $view_func    = 'viewREXMedia(' . $id . ');';
+      $view_func    = 'viewREXMedia(' . $id . ',\'' . $open_params . '\');';
     }
 
     $media = '
@@ -380,7 +380,7 @@ class rex_var_media extends rex_var
       $open_func    = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
       $add_func     = 'addREXMedialist('. $id . ',\'' . $open_params . '\');';
       $delete_func  = 'deleteREXMedialist(' . $id . ');';
-      $view_func    = 'viewREXMedialist(' . $id . ');';
+      $view_func    = 'viewREXMedialist(' . $id . ',\'' . $open_params . '\');';
     }
 
     $media = '
