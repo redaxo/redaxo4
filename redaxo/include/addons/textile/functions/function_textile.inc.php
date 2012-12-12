@@ -8,19 +8,21 @@
  * @version svn:$Id$
  */
 
-function rex_a79_textile($code)
+function rex_a79_textile($code, $restricted=false, $doctype='xhtml')
 {
-  $textile = rex_a79_textile_instance();
-  return $textile->TextileThis($code);
+  $textile = rex_a79_textile_instance($doctype);
+  return $restricted==false
+       ? $textile->TextileThis($code)
+       : $textile->TextileRestricted($code);
 }
 
-function rex_a79_textile_instance()
+function rex_a79_textile_instance($doctype)
 {
   static $instance = null;
 
   if($instance === null)
   {
-    $instance = new Textile();
+    $instance = new Textile($doctype);
     $instance->unrestricted_url_schemes[] = 'redaxo';
   }
 
