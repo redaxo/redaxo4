@@ -18,13 +18,13 @@ function rex_a79_textile($code, $restricted=false, $doctype='xhtml')
 
 function rex_a79_textile_instance($doctype='xhtml')
 {
-  static $instance = null;
+  static $instance = array('xhtml' => null, 'html5' => null);
 
-  if($instance === null)
+  if($instance[$doctype] === null)
   {
-    $instance = new Textile($doctype);
-    $instance->unrestricted_url_schemes[] = 'redaxo';
+    $instance[$doctype] = new Textile($doctype);
+    $instance[$doctype]->unrestricted_url_schemes[] = 'redaxo';
   }
 
-  return $instance;
+  return $instance[$doctype];
 }
