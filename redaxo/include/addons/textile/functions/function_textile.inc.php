@@ -18,9 +18,9 @@ function rex_a79_textile($code, $restricted=false, $doctype='xhtml')
 
 function rex_a79_textile_instance($doctype='xhtml')
 {
-  static $instance = array('xhtml' => null, 'html5' => null);
+  static $instance = array();
 
-  if($instance[$doctype] === null)
+  if(!isset($instance[$doctype]))
   {
     $instance[$doctype] = new Textile($doctype);
     $instance[$doctype]->unrestricted_url_schemes[] = 'redaxo';
