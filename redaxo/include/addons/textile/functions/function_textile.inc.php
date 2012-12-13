@@ -16,7 +16,7 @@ function rex_a79_textile($code, $restricted=false, $doctype='xhtml')
        : $textile->TextileRestricted($code);
 }
 
-function rex_a79_textile_instance($doctype)
+function rex_a79_textile_instance($doctype='xhtml')
 {
   static $instance = null;
 
