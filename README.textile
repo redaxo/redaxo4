@@ -32,7 +32,7 @@ h2. Addons/Plugins
 
 h2. Tweaks
 
-* "*master.inc.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/include/master.inc.php
+* redaxo/include/"*master.inc.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/include/master.inc.php
 ** *SERVER*: -redaxo.org-  -> http:// _[HTTP_HOST]_ /
 ** *SERVERNAME*: -REDAXO- -> _[HTTP_HOST]_
 ** *ERROR_EMAIL*: -info@redaxo.org-  -> info@ _[HTTP_HOST]_
@@ -40,5 +40,7 @@ h2. Tweaks
 ** *USE_LAST_MODIFIED*: -false- -> frontend
 ** *PSWFUNC*: "" -> sha1
 ** *RELEASE*: "" -> hash des GIT commits
-* "*specials.settings.inc.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/include/pages/specials.settings.inc.php
+* redaxo/include/pages/"*specials.settings.inc.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/include/pages/specials.settings.inc.php
 ** Anzeige von @$REX['RELEASE']@ mit Verlinkung zum commit auf Github
+* redaxo/"*index.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/index.inc.php
+** "re-Login patch":https://github.com/redaxo/redaxo4/pull/51 : ruft - wenn man wg. abgelaufener Session ins login geworfen wird - wieder die vorher aufgerufene page auf.
