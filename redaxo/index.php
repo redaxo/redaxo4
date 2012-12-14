@@ -286,17 +286,7 @@ if($REX['USER'])
     }
     else
     {
-      $whitelist = array('page', 'subpage', 'article_id', 'category_id', 'clang');
-      $request   = rex_session('LOGIN_REDIRECT');
-      $location  = 'index.php?';
-
-      foreach($whitelist as $key) {
-        if(isset($request[$key])) {
-          $location .= $key.'='.$request[$key].'&';
-        }
-      }
-      $location = rtrim($location,'&?');
-
+      $location = rex_session('LOGIN_REDIRECT');
       rex_unset_session('LOGIN_REDIRECT');
       header('Location:  '.$location);
     }
@@ -313,7 +303,21 @@ else
     }
     elseif(!rex_request('rex_user_login','boolean'))
     {
-      rex_set_session('LOGIN_REDIRECT', $_REQUEST);
+      $whitelist = array('page', 'subpage', 'article_id', 'category_id', 'clang');
+      $request   = $_REQUEST;
+      $location  = 'index.php?';
+
+      foreach($whitelist as $key) {
+        if(isset($request[$key])) {
+          if($key=='page' && ($request[$key]=='mediapool' || $request[$key]=='linkmap')){
+            $location = 'index.php?page='. $REX['PAGE'];
+            break;
+          }
+          $location .= $key.'='.$request[$key].'&';
+        }
+      }
+
+      rex_set_session('LOGIN_REDIRECT', rtrim($location,'&'));
     }
   }
 }
