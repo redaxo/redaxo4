@@ -12,6 +12,8 @@
 
 class rex_mailer extends PHPMailer
 {
+  public $AdminBcc = '';
+
   function rex_mailer()
   {
     global $REX;
@@ -20,6 +22,7 @@ class rex_mailer extends PHPMailer
 $this->From             = 'from@example.com';
 $this->FromName         = 'Mailer';
 $this->ConfirmReadingTo = '';
+$this->AdminBcc         = '';
 $this->Mailer           = 'sendmail';
 $this->Host             = 'localhost';
 $this->CharSet          = 'utf-8';
@@ -32,6 +35,10 @@ $this->Password         = '';
 // --- /DYN
 
     $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
+
+    if($this->AdminBcc !== ''){
+      parent::AddBCC($this->AdminBcc);
+    }
   }
 
   function SetLanguage($lang_type, $lang_path = null)
