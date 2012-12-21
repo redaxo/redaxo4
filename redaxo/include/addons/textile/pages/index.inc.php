@@ -22,9 +22,13 @@ if(OOAddon::isAvailable("textile"))
 {
   if(REX_IS_VALUE[1])
   {
-    $textile = htmlspecialchars_decode(\'REX_VALUE[1]\');
-    $textile = str_replace("<br />","",$textile);
+    $textile = htmlspecialchars_decode(\'REX_VALUE[1]\', ENT_QUOTES);
+    $textile = str_replace(\'<br />\',\'\',$textile);
     echo rex_a79_textile($textile);
+
+    // options:
+    // rex_a79_textile($textile, true)             -> Textile restricted mode
+    // rex_a79_textile($textile, false, \'html5\') -> doctype html5
   }
 }
 else
