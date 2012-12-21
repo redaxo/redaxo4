@@ -14,7 +14,7 @@ if($PERMALL)
     {
       if(!is_file($REX['MEDIAFOLDER'] .'/'. $file)) continue;
       if(substr($file,0,1)=='.') continue; // ignore any system file matching ".*"
-      
+
       // Tempfiles nicht synchronisieren
       if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
       {
@@ -45,15 +45,20 @@ if($PERMALL)
 
     if($diff_count > 0)
     {
+      $info = array();
       foreach($sync_files as $file)
       {
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
-        if(rex_mediapool_syncFile($file,$rex_file_category,$ftitle,'',''))
+        $sync_result = rex_mediapool_syncFile($file,$rex_file_category,$ftitle,'','',false,false);
+        if($sync_result['ok'] == 1)
         {
           unset($diff_files[$key]);
-          $info = $I18N->msg('pool_sync_files_synced');
+          $info[0] = $I18N->msg('pool_sync_files_synced');
+          if($sync_result['filename'] != $sync_result['old_filename']){
+            $info[] = $I18N->msg("pool_file_renamed",$sync_result['old_filename'],$sync_result['filename']);
+          }
         }else
         {
 

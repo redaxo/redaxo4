@@ -151,7 +151,7 @@ content_nottostartarticle = Cannot make this article start-article.
 content_tostartarticle_failed = Error. Article not changed to start-article.
 content_tostartarticle_ok = Article was changed to start-article.
 content_article = article content
-content_toarticle_ok = 
+content_toarticle_ok =
 move_category = to
 category_moved = Category moved
 content_types = Columns
@@ -451,6 +451,7 @@ pool_file_delete_error_2 = It is used by following articles
 pool_file_changed = File exchanged!
 pool_file_added = File added!
 pool_file_movefailed = Upload failed.
+pool_file_renamed = Original filename <code>{0}</code> has been changed: <code>{1}</code>
 pool_img_width = Width
 pool_img_height = Height
 pool_import_list = Media-Import
@@ -595,7 +596,7 @@ plugin_plugins_installed = PlugIns are installed
 plugin_deactivated = PlugIn deactivated
 plugin_activated = PlugIn activated
 plugin_no_install = PlugIn has not been installed
-plugin_no_reason = 
+plugin_no_reason =
 plugin_installed = PlugIn has been installed
 
 # redaxo\include\pages\credits.inc.php
