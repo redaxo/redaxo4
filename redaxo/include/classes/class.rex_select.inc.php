@@ -291,7 +291,7 @@ class rex_select
         $attributes = array();
         if (isset($option[3]) && is_array($option[3]))
           $attributes = $option[3];
-        $ausgabe .= $this->outOption($name, $value, $level, $attributes);
+        $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
       }
 
       $subgroup = $this->_getGroup($id, true);
