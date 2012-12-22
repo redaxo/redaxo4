@@ -436,7 +436,7 @@ class rex_list
   function setColumnSortable($columnName, $direction = 'asc')
   {
     $this->setColumnOption($columnName, REX_LIST_OPT_SORT, true);
-    $this->setColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, $direction);
+    $this->setColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, strtolower($direction));
   }
 
   /**
