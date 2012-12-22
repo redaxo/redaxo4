@@ -2,6 +2,7 @@
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
+define('REX_LIST_OPT_SORT_DIRECTION', 1);
 
 /**
  * Klasse zum erstellen von Listen
@@ -430,10 +431,12 @@ class rex_list
    * Markiert eine Spalte als sortierbar
    *
    * @param $columnName Name der Spalte
+   * @param $direction Startsortierrichtung der Spalte [ASC|DESC]
    */
-  function setColumnSortable($columnName)
+  function setColumnSortable($columnName, $direction = 'asc')
   {
     $this->setColumnOption($columnName, REX_LIST_OPT_SORT, true);
+    $this->setColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, $direction);
   }
 
   /**
@@ -1071,7 +1074,11 @@ class rex_list
       $columnHead = $this->getColumnLabel($columnName);
       if($this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
       {
+        if($this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION)==='asc'){
+          $columnSortType = $columnName == $sortColumn && $sortType == 'asc' ? 'desc' : 'asc';
+        }else{
         $columnSortType = $columnName == $sortColumn && $sortType == 'desc' ? 'asc' : 'desc';
+        }
         $columnHead = '<a href="'. $this->getUrl(array('start' => $this->getStartRow(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
       }
 
