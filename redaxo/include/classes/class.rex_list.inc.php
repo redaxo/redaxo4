@@ -646,10 +646,10 @@ class rex_list
     foreach ($params as $name => $value) {
       if (is_array($value)) {
         foreach ($value as $v) {
-          $paramString .= '&' . $name . '=' . urlencode($v);
+          $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($v));
         }
       } else {
-        $paramString .= '&' . $name . '=' . urlencode($value);
+        $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($value));
       }
     }
     return str_replace('&', '&amp;', 'index.php?list='. $this->getName() . $paramString);
