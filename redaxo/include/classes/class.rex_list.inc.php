@@ -810,7 +810,7 @@ class rex_list
   {
     if(rex_request('list', 'string') == $this->getName())
     {
-      $sortType = rex_request('sorttype','string');
+      $sortType = strtolower(rex_request('sorttype','string'));
 
       if(in_array($sortType, array('asc', 'desc')))
         return $sortType;
