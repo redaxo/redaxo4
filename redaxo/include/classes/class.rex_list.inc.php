@@ -1074,11 +1074,12 @@ class rex_list
       $columnHead = $this->getColumnLabel($columnName);
       if($this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
       {
-        if($this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION)==='asc'){
-          $columnSortType = $columnName == $sortColumn && $sortType == 'asc' ? 'desc' : 'asc';
-        }else{
-        $columnSortType = $columnName == $sortColumn && $sortType == 'desc' ? 'asc' : 'desc';
+        if ($columnName == $sortColumn) {
+          $columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
+        } else {
+          $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
         }
+
         $columnHead = '<a href="'. $this->getUrl(array('start' => $this->getStartRow(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
       }
 
