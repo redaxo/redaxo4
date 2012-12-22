@@ -22,7 +22,17 @@ class rex_var_value extends rex_var
     $values = rex_request('VALUE', 'array');
     for ($i = 1; $i < 21; $i++)
     {
-      $value = isset($values[$i]) ? stripslashes($values[$i]) : '';
+      $value = '';
+      if(isset($values[$i])){
+        if(is_array($values[$i])) {
+          foreach($values[$i] as $k => $v){
+            $values[$i][$k] = stripslashes($values[$i][$k]);
+          }
+          $value = json_encode($values[$i]);
+        } else {
+          $value = stripslashes($values[$i]);
+        }
+      }
 
       $REX_ACTION['VALUE'][$i] = $value;
     }
