@@ -28,7 +28,7 @@ class rex_var_value extends rex_var
           foreach($values[$i] as $k => $v){
             $values[$i][$k] = stripslashes($values[$i][$k]);
           }
-          $value = json_encode($values[$i]);
+          $value = serialize($values[$i]);
         } else {
           $value = stripslashes($values[$i]);
         }
