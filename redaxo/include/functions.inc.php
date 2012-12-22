@@ -62,3 +62,12 @@ foreach($REX['VARIABLES'] as $key => $value)
 
 // ----- EXTRA CLASSES
 // include_once $REX['INCLUDE_PATH'].'/classes/class.compat.inc.php';
+
+// json_encode() for PHP < 5.2 - http://pear.php.net/package/Services_JSON/
+if (!function_exists('json_encode')){
+  require_once ($REX['INCLUDE_PATH'].'/classes/vendor/pear/Services_JSON-1.0.3/JSON.php');
+  function json_encode($content){
+    $json = new Services_JSON;
+    return $json->encode($content);
+  }
+}
