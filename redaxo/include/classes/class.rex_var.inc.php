@@ -309,4 +309,13 @@ class rex_var
   {
     return rex_request('function', 'string') == 'delete';
   }
+
+
+  /*public static*/ function toArray($value)
+  {
+    $value = unserialize(htmlspecialchars_decode($value));
+    return is_array($value) ? $value : null;
+  }
+
+
 }
