@@ -268,7 +268,7 @@ class rex_select
     echo $this->get();
   }
 
-  /*private*/ function _outGroup($re_id, $level = 0, $optgroups = false)
+  /*protected*/ function _outGroup($re_id, $level = 0, $optgroups = false)
   {
 
     if ($level > 100)
@@ -469,7 +469,7 @@ class rex_category_select extends rex_select
     return parent::get();
   }
 
-  /*private*/ function _outGroup($re_id, $level = 0)
+  /*protected*/ function _outGroup($re_id, $level = 0, $optgroups = false)
   {
     global $REX;
     if ($level > 100)
