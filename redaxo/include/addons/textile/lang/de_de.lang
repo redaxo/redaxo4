@@ -33,7 +33,7 @@ textile_link_attr_title = Link mit title-Attribut: "Bild(Klick für Zoom)"
 textile_link_attr_rel = Link mit rel-Attribut: "Bild{shadowbox}"
 textile_link_attr_title_rel = Link mit title und rel-Attribut: "Bild(Klick für Shadowbox){shadowbox}"
 textile_link_anchor = Anker definieren
-textile_link_anchor_text = Hier steht das Impressum 
+textile_link_anchor_text = Hier steht das Impressum
 
 textile_footnotes = Fußnoten
 textile_footnote_text = AJAX
@@ -44,3 +44,5 @@ textile_numeric_list = Nummerierte-Liste
 textile_enum_list = Aufzählungs-Liste
 
 textile_tables = Tabellen
+
+textile_install_phpversion = Dieses Addon benötigt PHP {0} oder höher
