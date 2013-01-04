@@ -39,6 +39,13 @@ class rex_cronjob_form extends rex_form
 
   /*protected*/ function save()
   {
+    if ($this->isEditMode()) {
+      $nexttime =& $this->getElement($this->mainFieldset, 'nexttime');
+      if ($nexttime->getValue() != 0) {
+        $interval =& $this->getElement($this->mainFieldset, 'interval');
+        $nexttime->setValue(rex_cronjob_manager_sql::calculateNextTime($interval->getValue()));
+      }
+    }
     $return = parent::save();
     $manager = rex_cronjob_manager::factory();
     $manager->saveNextTime();
