@@ -21,7 +21,6 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = 'textile[]';
 $REX['EXTPERM'][] = 'textile[help]';
 
-define('txt_has_unicode', rex_lang_is_utf8());
 require_once($REX['INCLUDE_PATH']. '/addons/textile/vendor/classTextile.php');
 require_once $REX['INCLUDE_PATH']. '/addons/textile/functions/function_textile.inc.php';
 
