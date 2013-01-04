@@ -242,7 +242,7 @@ class rex_cronjob_manager_sql
       $params   = unserialize($this->sql->getValue('parameters'));
       $interval = $this->sql->getValue('interval');
 
-      $nexttime = $this->_calculateNextTime($interval);
+      $nexttime = rex_cronjob_manager_sql::calculateNextTime($interval);
       $this->setNextTime($id, $nexttime);
 
       $this->manager->saveNextTime($this->getMinNextTime());
@@ -274,7 +274,7 @@ class rex_cronjob_manager_sql
     return null;
   }
 
-  /*private*/ function _calculateNextTime($interval)
+  /*static public*/ function calculateNextTime($interval)
   {
     $interval = explode('|', trim($interval, '|'));
     if (is_array($interval) && isset($interval[0]) && isset($interval[1]))
