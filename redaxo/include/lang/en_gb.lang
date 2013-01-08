@@ -567,6 +567,7 @@ addon_config_not_found = Config file not found (config.inc.php)!
 addon_no_install = AddOn "{0}" <strong>not</strong> installed because:
 addon_no_uninstall = AddOn "{0}" <strong>not</strong> uninstalled because:
 addon_no_reason = No reason.
+addon_name_mismatch = The name of the addon directory is wrong!<br />Rename addon directory to "{0}" and repeat installation.
 addon_no_activation = AddOn "{0}" <strong>not</strong> activated since it is not installed yet!
 addon_installed = AddOn "{0}" installed
 addon_activated = AddOn "{0}" activated

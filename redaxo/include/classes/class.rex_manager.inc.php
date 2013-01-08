@@ -54,7 +54,17 @@
           $state = $this->I18N('no_install', $addonName).'<br />';
           if ($instmsg == '')
           {
-            $state .= $this->I18N('no_reason');
+	        // check if there is a mismatch between addon name and addon directory name
+            $lastInstalledAddonName = $this->getLastInstalledAddonName();
+            
+            if ($lastInstalledAddonName != $addonName)
+            {
+              $state .= $this->I18N('name_mismatch', $lastInstalledAddonName);
+            }
+            else
+            {
+              $state .= $this->I18N('no_reason');
+            }
           }
           else
           {
@@ -312,6 +322,18 @@
   /*protected*/ function mediaFolder($addonName)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
+  }
+
+  /**
+   * Gibt den Namen des zuletzt installierten Addons aus
+   */
+  /*public*/ function getLastInstalledAddonName()
+  {
+    global $REX;
+
+	end($REX['ADDON']['install']);
+
+    return key($REX['ADDON']['install']);
   }
 }
 
