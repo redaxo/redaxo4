@@ -54,7 +54,7 @@
           $state = $this->I18N('no_install', $addonName).'<br />';
           if ($instmsg == '')
           {
-	        // check if there is a mismatch between addon name and addon directory name
+            // check if there is a mismatch between addon name and addon directory name
             $lastInstalledAddonName = $this->getLastInstalledAddonName();
             
             if ($lastInstalledAddonName != $addonName)
@@ -331,7 +331,7 @@
   {
     global $REX;
 
-	end($REX['ADDON']['install']);
+    end($REX['ADDON']['install']);
 
     return key($REX['ADDON']['install']);
   }
