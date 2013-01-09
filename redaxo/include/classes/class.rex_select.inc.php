@@ -464,6 +464,7 @@ class rex_category_select extends rex_select
     if(!$loaded)
     {
       $this->addCatOptions();
+      $loaded = true;
     }
 
     return parent::get();
@@ -595,6 +596,7 @@ class rex_mediacategory_select extends rex_select
     if(!$loaded)
     {
       $this->addCatOptions();
+      $loaded = true;
     }
 
     return parent::get();
