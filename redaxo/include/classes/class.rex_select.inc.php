@@ -355,6 +355,7 @@ class rex_category_select extends rex_select
   /*private*/ var $clang;
   /*private*/ var $check_perms;
   /*private*/ var $rootId;
+  /*private*/ var $loaded;
 
   /*public*/ function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
@@ -363,6 +364,7 @@ class rex_category_select extends rex_select
     $this->check_perms = $check_perms;
     $this->add_homepage = $add_homepage;
     $this->rootId = null;
+    $this->loaded = false;
 
     parent::rex_select();
   }
@@ -459,12 +461,10 @@ class rex_category_select extends rex_select
 
   /*public*/ function get()
   {
-    static $loaded = false;
-
-    if(!$loaded)
+    if(!$this->loaded)
     {
       $this->addCatOptions();
-      $loaded = true;
+      $this->loaded = true;
     }
 
     return parent::get();
@@ -511,11 +511,13 @@ class rex_mediacategory_select extends rex_select
 {
   var $check_perms;
   var $rootId;
+  /*private*/ var $loaded;
 
   /*public*/ function rex_mediacategory_select($check_perms = true)
   {
     $this->check_perms = $check_perms;
     $this->rootId = null;
+    $this->loaded = false;
 
     parent::rex_select();
   }
@@ -591,12 +593,10 @@ class rex_mediacategory_select extends rex_select
 
   /*public*/ function get()
   {
-    static $loaded = false;
-
-    if(!$loaded)
+    if(!$this->loaded)
     {
       $this->addCatOptions();
-      $loaded = true;
+      $this->loaded = true;
     }
 
     return parent::get();
