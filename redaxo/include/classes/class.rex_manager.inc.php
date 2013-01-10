@@ -334,9 +334,16 @@
   /*public*/ function getLastInstalledAddonName($rexAddonBeforeInstall)
   {
     global $REX;
-
-    $diff = array_diff_key($REX['ADDON']['install'], $rexAddonBeforeInstall);
-    $key = key($diff);
+    
+    if (isset($REX['ADDON']['installmsg']))
+    {
+      $key = key($REX['ADDON']['installmsg']);
+    }
+    else
+    {
+      $diff = array_diff_key($REX['ADDON']['install'], $rexAddonBeforeInstall);
+      $key = key($diff);
+    }
 
     if ($key != NULL)
     {
