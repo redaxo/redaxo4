@@ -43,8 +43,12 @@
     {
       if (is_readable($install_file))
       {
+        // save state of $REX variable for later use with getLastInstalledAddonName()
+        $rexAddonBeforeInstall = $REX['ADDON']['install'];
+        
+        // include install file
         $this->includeInstaller($addonName, $install_file);
-
+        
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
@@ -55,9 +59,9 @@
           if ($instmsg == '')
           {
             // check if there is a mismatch between addon name and addon directory name
-            $lastInstalledAddonName = $this->getLastInstalledAddonName();
+            $lastInstalledAddonName = $this->getLastInstalledAddonName($rexAddonBeforeInstall);
             
-            if ($lastInstalledAddonName != $addonName)
+            if ($lastInstalledAddonName != '' && $lastInstalledAddonName != $addonName)
             {
               $state .= $this->I18N('name_mismatch', $lastInstalledAddonName);
             }
@@ -327,13 +331,21 @@
   /**
    * Gibt den Namen des zuletzt installierten Addons aus
    */
-  /*public*/ function getLastInstalledAddonName()
+  /*public*/ function getLastInstalledAddonName($rexAddonBeforeInstall)
   {
     global $REX;
 
-    end($REX['ADDON']['install']);
+    $diff = array_diff_key($REX['ADDON']['install'], $rexAddonBeforeInstall);
+    $key = key($diff);
 
-    return key($REX['ADDON']['install']);
+    if ($key != NULL)
+    {
+      return $key;
+    }
+    else
+    {
+      return '';
+    }
   }
 }
 
