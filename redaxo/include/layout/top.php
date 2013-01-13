@@ -53,11 +53,6 @@ $body_attr["onunload"] = array('closeAll();');
   <script type="text/javascript">
   <!--
   var redaxo = true;
-
-  // jQuery is now removed from the $ namespace
-  // to use the $ shorthand, use (function($){ ... })(jQuery);
-  // and for the onload handler: jQuery(function($){ ... });
-  jQuery.noConflict();
   //-->
   </script>
 <?php
