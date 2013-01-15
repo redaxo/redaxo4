@@ -591,6 +591,17 @@ class OOMedia
    */
   function _isImage($filename)
   {
+    $imageExtensions = self::getImageExtensions();
+
+    return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
+  }
+
+  /**
+   * @access public
+   * @static
+   */
+  function getImageExtensions()
+  {
     static $imageExtensions;
 
     if (!isset ($imageExtensions))
@@ -604,7 +615,10 @@ class OOMedia
       );
     }
 
-    return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
+    // EXTENSION POINT "OOMEDIA_IMAGE_EXTENSIONS"
+    $imageExtensions = rex_register_extension_point('OOMEDIA_IMAGE_EXTENSIONS',$imageExtensions);
+
+    return $imageExtensions;
   }
 
   /**
