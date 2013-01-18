@@ -14,6 +14,7 @@ h2. Addons/Plugins
 ** "*harvesthq_chosen*":https://github.com/jdlx/harvesthq_chosen  (jdlx)
 ** "*jquery_ui*":https://github.com/joachimdoerr/jquery_ui_be_style_plugin (joachimdoerr)
 ** "*rex_codemirror*":https://github.com/jdlx/rex_codemirror (jdlx)
+** "*rex_select2*":https://github.com/jdlx/rex_select2 (jdlx)
 * "*developer*":https://github.com/gharlan/redaxo_developer (gharlan)
 * "*dev_panel*":https://github.com/jdlx/dev_panel (jdlx)
 * -image_manager- -> "*image_manager EP*":https://github.com/jdlx/image_manager_ep (jdlx fork - compat zu orig. plus EPs)
