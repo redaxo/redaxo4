@@ -776,7 +776,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       {
         $("#userperm-module").attr("disabled", "");
         $("#cats_mcats_box").slideDown("slow");
-        $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").attr("disabled", "");
+        $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").attr("disabled", false);
         catsChecked();
       }
     });
@@ -794,12 +794,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
       if(c_checked)
         $("#userperm-cat").attr("disabled", "disabled");
       else
-        $("#userperm-cat").attr("disabled", "");
+        $("#userperm-cat").attr("disabled", false);
 
       if(m_checked)
         $("#userperm-media").attr("disabled", "disabled");
       else
-        $("#userperm-media").attr("disabled", "");
+        $("#userperm-media").attr("disabled", false);
 
       if(animate)
       {
