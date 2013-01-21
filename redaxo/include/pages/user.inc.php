@@ -774,7 +774,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
       else
       {
-        $("#userperm-module").attr("disabled", "");
+        $("#userperm-module").attr("disabled", false);
         $("#cats_mcats_box").slideDown("slow");
         $("#userperm-extra").find("option[value=\'editContentOnly\[\]\']").attr("disabled", false);
         catsChecked();
