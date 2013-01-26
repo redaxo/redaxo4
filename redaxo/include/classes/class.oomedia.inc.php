@@ -613,10 +613,10 @@ class OOMedia
         'png',
         'bmp'
       );
-    }
 
-    // EXTENSION POINT "OOMEDIA_IMAGE_EXTENSIONS"
-    $imageExtensions = rex_register_extension_point('OOMEDIA_IMAGE_EXTENSIONS',$imageExtensions);
+      // EXTENSION POINT "OOMEDIA_IMAGE_EXTENSIONS"
+      $imageExtensions = rex_register_extension_point('OOMEDIA_IMAGE_EXTENSIONS',$imageExtensions);
+    }
 
     return $imageExtensions;
   }
