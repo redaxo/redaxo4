@@ -594,7 +594,7 @@ jQuery(function($){
 
     ext = value.split('.').pop();
 
-    if(value && value.length != 0 && $.inArray(ext, imageExtensions))
+    if(value && value.length != 0 && $.inArray(ext, rex_imageExtensions))
     {
       // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
       var img = $('img', div);
