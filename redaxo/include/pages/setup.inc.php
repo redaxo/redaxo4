@@ -303,7 +303,7 @@ function rex_setup_dropREXtables()
   if ($checkmodus == 1)
   {
     // -------------------------- VERSIONSCHECK
-    if (version_compare(phpversion(), '4.3.2', '<') == 1)
+    if (version_compare(phpversion(), '5.3.0', '<'))
     {
       $MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
     }
