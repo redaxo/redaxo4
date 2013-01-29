@@ -88,6 +88,7 @@ if($PERMALL)
 
   if($diff_count > 0)
   {
+    sort($diff_files);
     foreach($diff_files as $file)
     {
       echo '<div class="rex-form-row">
