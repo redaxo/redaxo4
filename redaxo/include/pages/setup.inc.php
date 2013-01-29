@@ -326,7 +326,7 @@ function rex_setup_dropREXtables()
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'templates',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'files',
     $REX['MEDIAFOLDER'],
-    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
+    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'.redaxo',
     getImportDir()
     );
 
