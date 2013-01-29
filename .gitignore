@@ -1,5 +1,3 @@
-/.settings
-/.buildpath
-/.project
 /files/*
 /redaxo/include/generated/*
+/redaxo/include/addons/cronjob/logs/*
