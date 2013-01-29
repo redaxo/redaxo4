@@ -17,7 +17,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  /*public static*/ function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
+  static /*public*/ function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
   {
     global $REX;
 
@@ -53,7 +53,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return the site wide start article
    */
-  /*public static*/ function getSiteStartArticle($clang = FALSE)
+  static /*public*/ function getSiteStartArticle($clang = FALSE)
   {
     global $REX;
 
@@ -67,7 +67,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return start article for a certain category
    */
-  /*public static*/ function getCategoryStartArticle($a_category_id, $clang = FALSE)
+  static /*public*/ function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
     global $REX;
 
@@ -81,7 +81,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of articles for a certain category
    */
-  /*public static*/ function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
+  static /*public*/ function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
   {
     global $REX;
 
@@ -127,7 +127,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of top-level articles
    */
-  /*public static*/ function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
+  static /*public*/ function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
     return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
@@ -175,7 +175,7 @@ class OOArticle extends OORedaxo
   /*
    * Static Method: Returns True when the given article is a valid OOArticle
    */
-  /*public static*/ function isValid($article)
+  static /*public*/ function isValid($article)
   {
     return is_object($article) && is_a($article, 'ooarticle');
   }
@@ -194,7 +194,7 @@ class OOArticle extends OORedaxo
 
   /*public*/ function hasValue($value)
   {
-    return parent::hasValue($value, array('art_'));
+    return parent::hasValueWithPrefixes($value, array('art_'));
   }
 
 }

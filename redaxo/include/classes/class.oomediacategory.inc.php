@@ -45,7 +45,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getCategoryById($id)
+  static function getCategoryById($id)
   {
     global $REX;
 
@@ -90,7 +90,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getRootCategories()
+  static function getRootCategories()
   {
     return OOMediaCategory :: getChildrenById(0);
   }
@@ -98,7 +98,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getChildrenById($id)
+  static function getChildrenById($id)
   {
     global $REX;
 
@@ -371,7 +371,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function isValid($mediaCat)
+  static function isValid($mediaCat)
   {
     return is_object($mediaCat) && is_a($mediaCat, 'oomediacategory');
   }
@@ -403,7 +403,7 @@ class OOMediaCategory
   /**
    * @access protected
    */
-  function _getTableName()
+  static function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'] . 'file_category';
@@ -488,7 +488,7 @@ class OOMediaCategory
    * @deprecated 20.02.2010
    * Stattdessen getCategoryById() nutzen
    */
-  function getCategoryByName($name)
+  static function getCategoryByName($name)
   {
     $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE name = "' . $name . '"';
     $sql = new rex_sql();

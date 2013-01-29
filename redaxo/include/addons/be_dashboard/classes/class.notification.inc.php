@@ -52,7 +52,7 @@
   /*
    * Static Method: Returns boolean if is notification
    */
-  /*public static*/ function isValid($notification)
+  static /*public*/ function isValid($notification)
   {
     return is_object($notification) && is_a($notification, 'rex_dashboard_notification');
   }

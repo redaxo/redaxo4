@@ -100,7 +100,7 @@ class rex_form
   /**
    * Methode zum erstellen von rex_form Instanzen
    */
-  /*public*/ function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
+  static /*public*/ function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
@@ -624,7 +624,7 @@ class rex_form
 
   // --------- Static Methods
 
-  /*public static*/ function getInputClassName($inputType)
+  /*public*/ function getInputClassName($inputType)
   {
     // ----- EXTENSION POINT
     $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('form' => $this, 'inputType' => $inputType));
@@ -654,7 +654,7 @@ class rex_form
     return $className;
   }
 
-  /*public static*/ function getInputTagName($inputType)
+  /*public*/ function getInputTagName($inputType)
   {
     // ----- EXTENSION POINT
     $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('form' => $this, 'inputType' => $inputType));
@@ -678,7 +678,7 @@ class rex_form
     return $inputTag;
   }
 
-  /*public static*/ function getInputAttributes($inputType)
+  /*public*/ function getInputAttributes($inputType)
   {
     // ----- EXTENSION POINT
     $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('form' => $this, 'inputType' => $inputType));
@@ -1022,7 +1022,7 @@ class rex_form
    * Static Method:
    * Returns True if the given form is a valid rex_form
    */
-  /*public*/ function isValid($form)
+  static /*public*/ function isValid($form)
   {
     return is_object($form) && is_a($form, 'rex_form');
   }
@@ -1433,12 +1433,12 @@ function setValue($value)
     return $this->footer;
   }
 
-  function _normalizeId($id)
+  static function _normalizeId($id)
   {
     return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
   }
 
-  function _normalizeName($name)
+  static function _normalizeName($name)
   {
     return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i','_', $name);
   }
@@ -2365,7 +2365,7 @@ class rex_form_raw_element extends rex_form_element
     return $this->html;
   }
 
-  function wrapContent()
+  function wrapContent($content)
   {
     return $this->html;
   }

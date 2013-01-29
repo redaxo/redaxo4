@@ -45,10 +45,10 @@
       {
         // save state of $REX variable for later use with getLastInstalledAddonName()
         $rexAddonBeforeInstall = $REX['ADDON']['install'];
-        
+
         // include install file
         $this->includeInstaller($addonName, $install_file);
-        
+
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
@@ -60,7 +60,7 @@
           {
             // check if there is a mismatch between addon name and addon directory name
             $lastInstalledAddonName = $this->getLastInstalledAddonName($rexAddonBeforeInstall);
-            
+
             if ($lastInstalledAddonName != '' && $lastInstalledAddonName != $addonName)
             {
               $state .= $this->I18N('name_mismatch', $lastInstalledAddonName);
@@ -334,7 +334,7 @@
   /*public*/ function getLastInstalledAddonName($rexAddonBeforeInstall)
   {
     global $REX;
-    
+
     if (isset($REX['ADDON']['installmsg']))
     {
       $key = key($REX['ADDON']['installmsg']);
@@ -446,7 +446,7 @@ class rex_pluginManager extends rex_baseManager
    * @param $pluginName Name des Plugins
    * @param $includeFile Datei die eingebunden und umgewandelt werden soll
    */
-  /*public static*/ function addon2plugin($addonName, $pluginName, $includeFile)
+  static /*public*/ function addon2plugin($addonName, $pluginName, $includeFile)
   {
     global $REX, $I18N; // Nötig damit im Addon verfügbar
 

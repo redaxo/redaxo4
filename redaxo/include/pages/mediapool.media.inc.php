@@ -694,7 +694,7 @@ if ($subpage == '')
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!OOMedia::fileExists($file_name))
+    if (!file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$file_name))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }

@@ -146,7 +146,7 @@
   /*
    * Static Method: Returns boolean if is notification
    */
-  /*public static*/ function isValid($component)
+  static /*public*/ function isValid($component)
   {
     return is_object($component) && is_a($component, 'rex_dashboard_component');
   }

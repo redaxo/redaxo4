@@ -254,7 +254,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das Button Template zurück
    */
-  /*public static*/ function getMediaButton($id, $category = '', $args = array())
+  static /*public*/ function getMediaButton($id, $category = '', $args = array())
   {
     global $REX, $I18N;
 
@@ -325,7 +325,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  /*public static*/ function getMedialistButton($id, $value, $category = '', $args = array())
+  static /*public*/ function getMedialistButton($id, $value, $category = '', $args = array())
   {
     global $REX, $I18N;
 

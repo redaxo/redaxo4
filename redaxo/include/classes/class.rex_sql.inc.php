@@ -93,16 +93,8 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  /*protected static*/ function getQueryDBID($qry = null)
+  static /*protected*/ function getQueryDBID($qry)
   {
-    if(!$qry)
-    {
-      if(isset($this)) // Nur bei angelegtem Object
-        $qry = $this->query;
-      else
-        return null;
-    }
-
     $qry = trim($qry);
 
     if(preg_match('/\(DB([1-9]){1}\)/i', $qry, $matches))
@@ -117,7 +109,7 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  /*protected static*/ function stripQueryDBID(&$qry)
+  static /*protected*/ function stripQueryDBID(&$qry)
   {
     $qry = trim($qry);
 
@@ -141,16 +133,8 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  /*protected*/ function getQueryType($qry = null)
+  static /*protected*/ function getQueryType($qry)
   {
-    if(!$qry)
-    {
-      if(isset($this)) // Nur bei angelegtem Object
-        $qry = $this->query;
-      else
-        return null;
-    }
-
     $qry = trim($qry);
     // DBID aus dem Query herausschneiden, falls vorhanden
     rex_sql::stripQueryDBID($qry);
@@ -204,7 +188,7 @@ class rex_sql
 
     if ($this->result)
     {
-      if (($qryType = $this->getQueryType()) !== false)
+      if (($qryType = $this->getQueryType($this->query)) !== false)
       {
         switch ($qryType)
         {
@@ -782,7 +766,7 @@ class rex_sql
    * @param $DBID int Id der Datenbankverbindung
    * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
    */
-  /*public static*/ function showCreateTable($table, $DBID=1)
+  static /*public*/ function showCreateTable($table, $DBID=1)
   {
     $sql = rex_sql::factory($DBID);
     $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
@@ -798,7 +782,7 @@ class rex_sql
    * @param $tablePrefix string Zu suchender Tabellennamen-Prefix
    * @return array Ein Array von Tabellennamen
    */
-  /*public static*/ function showTables($DBID=1, $tablePrefix=null)
+  static /*public*/ function showTables($DBID=1, $tablePrefix=null)
   {
     $qry = 'SHOW TABLES';
     if($tablePrefix != null)
@@ -849,13 +833,13 @@ class rex_sql
    * Die Versionsinformation ist erst bekannt,
    * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
    */
-  /*public static*/ function getServerVersion()
+  static /*public*/ function getServerVersion()
   {
     global $REX;
     return $REX['MYSQL_VERSION'];
   }
 
-  /*public static*/ function factory($DBID=1, $class=null)
+  static /*public*/ function factory($DBID=1, $class=null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
@@ -876,7 +860,7 @@ class rex_sql
    *
    * @deprecated since 4.3.0
    */
-  /*public*/ function getInstance($DBID=1, $deprecatedSecondParam = null)
+  static /*public*/ function getInstance($DBID=1, $deprecatedSecondParam = null)
   {
     return rex_sql::factory($DBID);
   }
@@ -894,7 +878,7 @@ class rex_sql
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
-  /*public static*/ function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
+  static /*public*/ function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
     global $I18N;
 
@@ -930,7 +914,7 @@ class rex_sql
   /**
    * Schließt die Verbindung zum DB Server
    */
-  /*public static*/ function disconnect($DBID=1)
+  static /*public*/ function disconnect($DBID=1)
   {
     global $REX;
 
@@ -974,7 +958,7 @@ class rex_sql
     $this->setValue('createuser', $user);
   }
 
-  /*public*/ function isValid($object)
+  static /*public*/ function isValid($object)
   {
     return is_object($object) && is_a($object, 'rex_sql');
   }

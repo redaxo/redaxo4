@@ -59,7 +59,7 @@ class OOMedia
   /**
    * @access public
    */
-  function getMediaByName($filename)
+  static function getMediaByName($filename)
   {
     return OOMedia :: getMediaByFileName($filename);
   }
@@ -70,7 +70,7 @@ class OOMedia
    * @example OOMedia::getMediaByExtension('css');
    * @example OOMedia::getMediaByExtension('gif');
    */
-  function getMediaByExtension($extension)
+  static function getMediaByExtension($extension)
   {
     global $REX;
 
@@ -100,7 +100,7 @@ class OOMedia
   /**
    * @access public
    */
-  function getMediaByFileName($name)
+  static function getMediaByFileName($name)
   {
     global $REX;
 
@@ -307,7 +307,7 @@ class OOMedia
   /**
    * @access protected
    */
-  function _getFormattedSize($size)
+  static function _getFormattedSize($size)
   {
 
     // Setup some common file size measurements.
@@ -572,7 +572,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function isValid($media)
+  static function isValid($media)
   {
     return is_object($media) && is_a($media, 'oomedia');
   }
@@ -589,7 +589,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function _isImage($filename)
+  static function _isImage($filename)
   {
     static $imageExtensions;
 
@@ -730,7 +730,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function _getExtension($filename)
+  static function _getExtension($filename)
   {
     return substr(strrchr($filename, "."), 1);
   }
@@ -760,7 +760,7 @@ class OOMedia
   /**
    * @access protected
    */
-  function _getTableName()
+  static function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'].'file';
@@ -850,7 +850,7 @@ class OOMedia
   }
 
   // allowed filetypes
-  function getDocTypes()
+  static function getDocTypes()
   {
     static $docTypes = array (
       'bmp',
@@ -884,13 +884,13 @@ class OOMedia
     return $docTypes;
   }
 
-  function isDocType($type)
+  static function isDocType($type)
   {
     return in_array($type, OOMedia :: getDocTypes());
   }
 
   // allowed image upload types
-  function getImageTypes()
+  static function getImageTypes()
   {
     static $imageTypes = array (
       'image/gif',
@@ -904,12 +904,12 @@ class OOMedia
     return $imageTypes;
   }
 
-  function isImageType($type)
+  static function isImageType($type)
   {
     return in_array($type, OOMedia :: getImageTypes());
   }
 
-  function compareImageTypes($type1, $type2)
+  static function compareImageTypes($type1, $type2)
   {
     static $jpg = array (
       'image/jpg',
@@ -959,7 +959,7 @@ class OOMedia
    * @deprecated 20.02.2010
    * Stattdessen getMediaByFileName() nutzen
    */
-  function getMediaById($id)
+  static function getMediaById($id)
   {
     global $REX;
 
