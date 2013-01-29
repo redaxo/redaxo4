@@ -167,7 +167,10 @@ div#rex-form-structure-category p.rex-button-add a {
   display: block;
   width: 16px;
   height: 16px;
-  text-indent: -1000em;
+  text-indent: 0em;
+  line-height: 0;
+  font-size: 0;
+  color: transparent;
 }
 
 /*	Table **********************************************************************
