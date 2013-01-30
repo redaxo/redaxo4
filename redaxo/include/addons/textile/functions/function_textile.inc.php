@@ -24,19 +24,6 @@ function rex_a79_textile_instance($doctype='xhtml')
   {
     $instance[$doctype] = new Textile($doctype);
     $instance[$doctype]->unrestricted_url_schemes[] = 'redaxo';
-
-    if (!rex_lang_is_utf8())
-    {
-      $instance[$doctype]->regex_snippets = array(
-        'acr' => 'A-Z0-9',
-        'abr' => 'A-Z',
-        'nab' => 'a-z',
-        'wrd' => '\w',
-        'mod' => '',
-        'cur' => '',
-      );
-      $instance[$doctype]->urlch = '[\w"$\-_.+!*\'(),";\/?:@=&%#{}|\\^~\[\]`]';
-    }
   }
 
   return $instance[$doctype];

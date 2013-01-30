@@ -1,0 +1,11 @@
+version = Version
+
+version_liveversion = Live-version
+version_workingversion = Arbejds-version
+version_working_to_live = frigiv som Live-version
+version_preview = Preview
+version_copy_live_to_workingversion = Kopier til Arbejds-version
+version_copy_from_liveversion = Få Live-version
+version_info_working_version_to_live = Arbejds-versionen er nu live
+version_info_live_version_to_working = Live-versionen er blevet kopieret til Arbejds-version
+version_warning_working_version_to_live = Arbejds-versionen kann ikke kopieres, fordi den er tom

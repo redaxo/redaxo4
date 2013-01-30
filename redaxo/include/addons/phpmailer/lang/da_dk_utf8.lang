@@ -1,0 +1,27 @@
+# addon:phpmailer da_dk
+
+phpmailer_title = PHPMailer
+phpmailer_configuration = Konfiguration
+phpmailer_example = Eksempel
+phpmailer_example_headline = Eksempel:
+phpmailer_config_settings = Indstillinger
+phpmailer_sender_name = Sender (navn)
+phpmailer_sender_email = Sender (e-mail)
+phpmailer_confirm = Bekræftelse (e-mail)
+phpmailer_mailertype = Mailertype
+phpmailer_host = Host
+phpmailer_charset = Tegnsæt
+phpmailer_wordwrap = WordWrap
+phpmailer_encoding = Tegnkodning 
+phpmailer_priority = Prioritet
+phpmailer_save = Gem
+phpmailer_reset = Nulstil
+phpmailer_reset_info = Nulstil info?
+phpmailer_Username = SMTP brugernavn
+phpmailer_Password = SMTP adgangskode
+phpmailer_SMTPAuth = SMTP autentificering 
+phpmailer_config_saved_error = Konfiguration kunne ikke gemmes
+phpmailer_config_saved_successful = Konfiguration gemt
+phpmailer_high = Høj
+phpmailer_normal = Normal
+phpmailer_low = Lav

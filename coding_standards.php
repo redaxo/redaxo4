@@ -165,7 +165,7 @@ if (!is_array($files)) {
 }
 
 $hideProcess = in_array('--hide-process', $argv);
-$textExtensions = array('css', 'gitignore', 'htaccess', 'html', 'js', 'json', /*'lang',*/ 'markdown', 'md', 'php', /*'sql',*/ 'textile', 'tpl', 'txt', 'yml');
+$textExtensions = array('css', 'gitignore', 'htaccess', 'html', 'js', 'json', 'lang', 'markdown', 'md', 'php', /*'sql',*/ 'textile', 'tpl', 'txt', 'yml');
 $countFiles = 0;
 $countFixable = 0;
 $countNonFixable = 0;

@@ -42,7 +42,7 @@ $REX['START_CLANG_ID'] = 0;
 $REX['DEFAULT_TEMPLATE_ID'] = 0;
 
 // default language
-$REX['LANG'] = "de_de";
+$REX['LANG'] = 'de_de_utf8';
 
 // activate frontend mod_rewrite support for url-rewriting
 // Boolean: true/false
