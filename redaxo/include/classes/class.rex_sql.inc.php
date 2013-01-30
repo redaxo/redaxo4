@@ -805,7 +805,7 @@ class rex_sql
    * @param $DBID int Id der Datenbankverbindung
    * @return array Ein Array das die Metadaten enthält
    */
-  /*public*/ function showColumns($table, $DBID=1)
+  static /*public*/ function showColumns($table, $DBID=1)
   {
     $sql = rex_sql::factory($DBID);
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
