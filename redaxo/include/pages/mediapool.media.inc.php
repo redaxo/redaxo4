@@ -691,7 +691,7 @@ if ($subpage == '')
       }
     }
     if($desc != '')
-      $desc .= '<br />';
+      $desc = '<span style="font-weight: normal;">' . $desc . '</span><br /><br />';
 
     // wenn datei fehlt
     if (!file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$file_name))
