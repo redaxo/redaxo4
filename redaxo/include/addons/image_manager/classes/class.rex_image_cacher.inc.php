@@ -129,7 +129,7 @@ class rex_image_cacher
    *
    * @param $filename
    */
-  function deleteCache($filename = null, $cacheParams = null)
+  static function deleteCache($filename = null, $cacheParams = null)
   {
     global $REX;
 
