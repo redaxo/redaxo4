@@ -23,7 +23,7 @@ $body_attr = array();
 $body_id = str_replace('_', '-', $REX["PAGE"]);
 
 if (in_array($body_id, $popups_arr))
-  $body_attr["class"] = array('rex-popup'.$body_id);
+  $body_attr["class"] = array('rex-popup rex-popup'.$body_id);
 
 $body_attr["id"] = array('rex-page-'.$body_id);
 $body_attr["onunload"] = array('closeAll();');

@@ -686,12 +686,10 @@ if ($subpage == '')
     {
       if($files->hasValue($col) && $files->getValue($col) != '')
       {
-        $desc = htmlspecialchars($files->getValue($col));
+        $desc = '<p class="rex-tx1">' . htmlspecialchars($files->getValue($col)) . '</p>';
         break;
       }
     }
-    if($desc != '')
-      $desc .= '<br />';
 
     // wenn datei fehlt
     if (!file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$file_name))
@@ -760,8 +758,8 @@ if ($subpage == '')
                 <p class="rex-tx4">
                   <a href="'.$ilink.'">'.htmlspecialchars($file_title).'</a>
                 </p>
-                <p class="rex-tx4">
                   '. $desc .'
+                <p class="rex-tx4">
                   <span class="rex-suffix">'.htmlspecialchars($file_name).' ['.$file_size.']</span>
                 </p>
                 <p class="rex-tx1">
