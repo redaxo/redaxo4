@@ -501,6 +501,7 @@ setup_headline1 = PHP version check | Permission check
 setup_step2 = Setup: Step 2 of 5
 setup_020 = {0}include/master.inc.php{1} was not written!
 setup_021 = Connection to database could not be established!
+setup_021_1 = The MySQL version of the server is too old ({0}), please update (minimum required: 5.0)
 setup_022 = Error. Specified database not openable!
 setup_023 = Generate 'include/master.inc.php'
 setup_024 = Server domain [optional]

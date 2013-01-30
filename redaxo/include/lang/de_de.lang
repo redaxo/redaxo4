@@ -424,6 +424,7 @@ setup_headline1 = PHP-Versionscheck | Rechteüberprüfung
 setup_step2 = Setup: Schritt 2 von 5
 setup_020 = {0}include/master.inc.php{1} konnte nicht geschrieben werden.
 setup_021 = Es konnte keine Verbindung zur Datenbank hergestellt werden!
+setup_021_1 = Die MySQL-Version ist veraltet ({0}), bitte aktualisieren Sie auf eine höhere Version (mindestens 5.0)
 setup_022 = Die angegebene Datenbank konnte nicht geöffnet werden!
 setup_023 = Schreiben der 'include/master.inc.php'
 setup_024 = Serverdomain [optional]

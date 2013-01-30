@@ -885,19 +885,28 @@ class rex_sql
     {
       $err_msg = $I18N->msg('setup_021');
     }
-    elseif (!@ mysql_select_db($dbname, $link))
+    else
     {
-      if($createDb)
+      $result = mysql_query('SELECT VERSION() AS version', $link);
+      $result = mysql_fetch_array($result, MYSQL_ASSOC);
+      if (version_compare($result['version'], '5.0', '<'))
       {
-        mysql_query('CREATE DATABASE `'. $dbname .'`', $link);
-        if(mysql_error($link) != '')
+        $err_msg = $I18N->msg('setup_021_1', $result['version']);
+      }
+      elseif (!@ mysql_select_db($dbname, $link))
+      {
+        if($createDb)
+        {
+          mysql_query('CREATE DATABASE `'. $dbname .'`', $link);
+          if(mysql_error($link) != '')
+          {
+            $err_msg = $I18N->msg('setup_022');
+          }
+        }
+        else
         {
           $err_msg = $I18N->msg('setup_022');
         }
-      }
-      else
-      {
-        $err_msg = $I18N->msg('setup_022');
       }
     }
 
