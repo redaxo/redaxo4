@@ -44,5 +44,3 @@ textile_numeric_list = Nummerierte-Liste
 textile_enum_list = Aufzählungs-Liste
 
 textile_tables = Tabellen
-
-textile_install_phpversion = Dieses Addon benötigt PHP {0} oder höher
