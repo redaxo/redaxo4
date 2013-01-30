@@ -24,7 +24,7 @@ $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20120626100101";
-$REX['SESSION_DURATION'] = 3000;
+$REX['SESSION_DURATION'] = 7200;
 
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
