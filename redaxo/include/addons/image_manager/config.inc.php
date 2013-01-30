@@ -77,7 +77,7 @@ if(!function_exists('image_manager_init')){
       exit();
     }
   }
-}d
+}
 
 
 if($REX['REDAXO'])
