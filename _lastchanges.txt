@@ -7,6 +7,29 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.5.0 (2013-XX-XX)
+
+  Neu
+  * Mindestvoraussetzungen: PHP 5.3, MySQL 5
+  * Nur noch UTF-8
+  * Update jQuery -> 1.9, ohne noConflict
+  * Update textile -> 2.5
+  * Favicon im Backend
+  * Standard-Session-Dauer im Backend auf zwei Stunden erhöht
+  * Bei Addoninstallation wird der Ordnername gecheckt
+  * Drei Laufzeitlevels für EPs: EARLY, NORMAL, LATE
+  * Medienpool: Bei automatischer Umbenennung wird diese als Info angezeigt
+  * REX_VARs: Arrays sind nutzbar ohne Actions, z. B. bei multiselects
+  * rex_form: Beliebige Defaultwerte sind möglich, auch NULL
+  * rex_list: Spaltensortierung beliebig einstellbar
+  * rex_select: Optgroups möglich
+  * phpmailer: Globale BCC-Adresse einstellbar
+  * textile: Neue Parameter $restricted und $doctype
+
+  Bugfixes:
+  * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt
+
+
 Version 4.4.1 (2012-08-03)
 
   Bugfixes
@@ -17,6 +40,7 @@ Version 4.4.1 (2012-08-03)
   * utf8 Demo: charset Angaben korrigiert auf utf8
   * XSS behoben - wenn eingeloggt und Admin: http://www.redaxo.org/de/download/sicherheitshinweise/
   * Mediasync: sofern kein Mimetype erkannt wird, wird nun application/octet-stream gesetzt
+
 
 Version 4.4.0 (2012-06-27)
 

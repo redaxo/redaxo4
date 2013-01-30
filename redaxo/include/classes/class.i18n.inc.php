@@ -20,11 +20,11 @@ class i18n
    * the locale must of the common form, eg. de_de, en_us or just plain en, de.
    * the searchpath is where the language files are located
    */
-  function i18n($locale = "de_de_utf8", $searchpath)
+  function i18n($locale = "de_de", $searchpath)
   {
     $this->searchpath = $searchpath;
     $this->text = array ();
-    $this->locale = $locale;
+    $this->locale = substr($locale, -5) == '_utf8' ? substr($locale, 0, -5) : $locale;
     $this->locales = array ();
     $this->text_loaded = FALSE;
   }
@@ -47,7 +47,10 @@ class i18n
    */
   function appendFile($searchPath)
   {
-    $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
+    $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . "_utf8.lang";
+    if (!file_exists($filename)) {
+      $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
+    }
     return $this->appendFileName($filename);
   }
 
@@ -188,7 +191,7 @@ class i18n
  * @param $setlocale TRUE, wenn die locale für die Umgebung gesetzt werden soll, sonst FALSE
  * @return unknown_type
  */
-function rex_create_lang($locale = "de_de_utf8", $searchpath = '', $setlocale = TRUE)
+function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 {
   global $REX;
 

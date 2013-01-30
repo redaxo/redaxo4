@@ -56,7 +56,7 @@ if ($REX['SETUP'])
   {
     while (false !== ($file = readdir($handle)))
     {
-      if (substr($file,-9) == 'utf8.lang')
+      if (substr($file,-5) == '.lang')
       {
         $locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
         $REX['LANGUAGES'][] = $locale;
@@ -67,7 +67,7 @@ if ($REX['SETUP'])
   }
   closedir($handle);
   if($REX['LANG'] == '')
-    $REX['LANG'] = 'de_de_utf8';
+    $REX['LANG'] = 'de_de';
 
   $I18N = rex_create_lang($REX['LANG']);
 
