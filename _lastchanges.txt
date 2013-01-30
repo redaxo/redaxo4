@@ -12,7 +12,7 @@ Version 4.5.0 (2013-XX-XX)
   Neu
   * Mindestvoraussetzungen: PHP 5.3, MySQL 5
   * Nur noch UTF-8
-  * Update jQuery -> 1.9, ohne noConflict
+  * Update jQuery -> 1.8
   * Update textile -> 2.5
   * Favicon im Backend
   * Standard-Session-Dauer im Backend auf zwei Stunden erhöht
