@@ -300,7 +300,7 @@ class rex_article_editor extends rex_article
     // ----- add module im edit mode
     if ($this->mode == "edit")
     {
-      $form_url = 'index.php';
+      $form_url = 'index.php#addslice';
 
       if($this->function=="add" && $this->slice_id == $LCTSL_ID)
       {
