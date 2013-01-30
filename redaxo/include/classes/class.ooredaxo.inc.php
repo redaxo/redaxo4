@@ -76,7 +76,7 @@
     return null;
   }
 
-  /*public*/ function hasValue($value, $prefixes = array())
+  protected function hasValueWithPrefixes($value, $prefixes = array())
   {
     static $values = null;
 
@@ -98,7 +98,7 @@
    * CLASS Function:
    * Returns an Array containing article field names
    */
-  /*public static*/ function getClassVars()
+  static /*public*/ function getClassVars()
   {
     static $vars = array ();
 
@@ -142,7 +142,7 @@
   * CLASS Function:
   * Converts Genernated Array to OOBase Format Array
   */
-  /*public static*/ function convertGeneratedArray($generatedArray, $clang)
+  static /*public*/ function convertGeneratedArray($generatedArray, $clang)
   {
     $OORedaxoArray['id'] = $generatedArray['article_id'][$clang];
     $OORedaxoArray['clang'] = $clang;

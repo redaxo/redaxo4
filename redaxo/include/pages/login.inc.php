@@ -36,7 +36,7 @@ echo '
 <div class="rex-form rex-form-login">
 <form action="index.php" method="post" id="loginformular">
   <fieldset class="rex-form-col-1">
-    <legend>Login</legend>
+    <legend>' . $I18N->msg('login_welcome') . '</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
 
     <div class="rex-form-wrapper">

@@ -90,7 +90,7 @@ class rex_image_manager
    * in respect to $rex_img_type.
    * If the result is not cached, the cache will be created.
    */
-  /*public static*/ function getImageCache($rex_img_file, $rex_img_type)
+  static /*public*/ function getImageCache($rex_img_file, $rex_img_type)
   {
     global $REX;
 

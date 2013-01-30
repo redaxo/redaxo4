@@ -139,6 +139,10 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $message .= $I18N->msg("pool_file_added");
 
+    if($NFILENAME!=$FILENAME){
+      $message .= '<br />'.$I18N->msg("pool_file_renamed",$FILENAME,$NFILENAME);
+    }
+
     rex_deleteCacheMediaList($rex_file_category);
   }
 
@@ -292,7 +296,7 @@ $RETURN['old_filename'] = $FILENAME;
  * @param $filesize
  * @param $filetype
  */
-function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null, $doSubindexing = FALSE)
+function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null, $doSubindexing = FALSE, $return_bool = true)
 {
   global $REX;
 
@@ -333,7 +337,12 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
   $FILEINFOS['title'] = $title;
 
   $RETURN = rex_mediapool_saveMedia($FILE, $category_id, $FILEINFOS, NULL, FALSE);
+
+  if($return_bool){
   return $RETURN['ok'] == 1;
+  } else {
+    return $RETURN;
+  }
 }
 
 /**
@@ -360,10 +369,15 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $warning = "";
   }
 
-  if (isset($info) and $info != "")
+  if(is_array($info))
+  {
+    if(count($info)>0)
+      $s .= rex_info_block(implode('<br />', $info));
+    $info = '';
+  }else if($info != '')
   {
     $s .= rex_info($info);
-    $info = "";
+    $info = '';
   }
 
   if (!isset($ftitle)) $ftitle = '';
@@ -399,7 +413,6 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. $arg_value .'" />'. "\n";
   }
 
-  $arg_fields = '';
   $opener_input_field = rex_request('opener_input_field','string');
   if ($opener_input_field != '')
   {

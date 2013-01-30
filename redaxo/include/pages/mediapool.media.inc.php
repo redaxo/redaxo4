@@ -642,7 +642,7 @@ if ($subpage == '')
     }
     $where .= ' AND ('. implode(' OR ', $types) .')';
   }
-  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."file f WHERE ". $where ." ORDER BY f.updatedate desc";
+  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."file f WHERE ". $where ." ORDER BY f.updatedate desc, f.file_id desc";
 
   // ----- EXTENSION POINT
   $qry = rex_register_extension_point('MEDIA_LIST_QUERY', $qry,
@@ -686,15 +686,13 @@ if ($subpage == '')
     {
       if($files->hasValue($col) && $files->getValue($col) != '')
       {
-        $desc = htmlspecialchars($files->getValue($col));
+        $desc = '<p class="rex-tx1">' . htmlspecialchars($files->getValue($col)) . '</p>';
         break;
       }
     }
-    if($desc != '')
-      $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!OOMedia::fileExists($file_name))
+    if (!file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$file_name))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
@@ -760,8 +758,8 @@ if ($subpage == '')
                 <p class="rex-tx4">
                   <a href="'.$ilink.'">'.htmlspecialchars($file_title).'</a>
                 </p>
-                <p class="rex-tx4">
                   '. $desc .'
+                <p class="rex-tx4">
                   <span class="rex-suffix">'.htmlspecialchars($file_name).' ['.$file_size.']</span>
                 </p>
                 <p class="rex-tx1">

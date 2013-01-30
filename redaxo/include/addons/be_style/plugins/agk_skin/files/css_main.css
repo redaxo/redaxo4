@@ -88,6 +88,9 @@ div#rex-title h1 {
 	line-height: 1.1;
 }
 
+.rex-popupmediapool td p.rex-tx1 {
+  line-height: 1.4;
+}
 
 /*	Background Color ***********************************************************
 *******************************************************************************/
@@ -743,7 +746,11 @@ div#rex-form-system-setup div.rex-widget input {
 }
 
 
-
+/*	Mediapool ******************************************************************
+*******************************************************************************/
+.rex-popupmediapool td p.rex-tx1:last-child {
+  margin-bottom: 0px;
+}
 /*	Widget *********************************************************************
 *******************************************************************************/
 div.rex-widget p.rex-widget-icons {
@@ -862,10 +869,6 @@ div#rex-form-mediapool-selectcategory {
 *******************************************************************************/
 body.rex-popup div#rex-navi-logout {
 	margin-bottom: 2px;
-}
-body.rex-popup div#rex-title h1 {
-	padding-bottom: 5px;
-	text-align: right;
 }
 body.rex-popup div#rex-output {
 	margin-top: 12px;

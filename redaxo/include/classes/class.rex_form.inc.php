@@ -100,7 +100,7 @@ class rex_form
   /**
    * Methode zum erstellen von rex_form Instanzen
    */
-  /*public*/ function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
+  static /*public*/ function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
@@ -624,7 +624,7 @@ class rex_form
 
   // --------- Static Methods
 
-  /*public static*/ function getInputClassName($inputType)
+  /*public*/ function getInputClassName($inputType)
   {
     // ----- EXTENSION POINT
     $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('form' => $this, 'inputType' => $inputType));
@@ -654,7 +654,7 @@ class rex_form
     return $className;
   }
 
-  /*public static*/ function getInputTagName($inputType)
+  /*public*/ function getInputTagName($inputType)
   {
     // ----- EXTENSION POINT
     $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('form' => $this, 'inputType' => $inputType));
@@ -678,7 +678,7 @@ class rex_form
     return $inputTag;
   }
 
-  /*public static*/ function getInputAttributes($inputType)
+  /*public*/ function getInputAttributes($inputType)
   {
     // ----- EXTENSION POINT
     $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('form' => $this, 'inputType' => $inputType));
@@ -1022,7 +1022,7 @@ class rex_form
    * Static Method:
    * Returns True if the given form is a valid rex_form
    */
-  /*public*/ function isValid($form)
+  static /*public*/ function isValid($form)
   {
     return is_object($form) && is_a($form, 'rex_form');
   }
@@ -1066,7 +1066,14 @@ class rex_form
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
 
         // Den POST-Wert in die DB speichern (inkl. slashes)
-        $sql->setValue($fieldName, addslashes($fieldValue));
+        if ($fieldValue === NULL)
+        {
+          $sql->setValue($fieldName, NULL);
+        }
+        else
+        {
+          $sql->setValue($fieldName, addslashes($fieldValue));
+        }
       }
     }
 
@@ -1307,6 +1314,7 @@ class rex_form_element
   var $prefix;
   var $suffix;
   var $notice;
+  var $defaultSaveValue = '';
 
   function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
   {
@@ -1325,14 +1333,24 @@ class rex_form_element
 
   // --------- Attribute setter/getters
 
-  function setValue($value)
+  /**
+   * Set default save value
+   * @param mixed $value
+   */
+  function setDefaultSaveValue($value = '')
+  {
+    $this->defaultSaveValue = $value;
+  }
+
+function setValue($value)
   {
     $this->value = $value;
   }
 
   function getSaveValue()
   {
-    return $this->getValue();
+    $value = $this->getValue();
+    return $value ? $value : $this->defaultSaveValue;
   }
 
   function getValue()
@@ -1415,12 +1433,12 @@ class rex_form_element
     return $this->footer;
   }
 
-  function _normalizeId($id)
+  static function _normalizeId($id)
   {
     return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
   }
 
-  function _normalizeName($name)
+  static function _normalizeName($name)
   {
     return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i','_', $name);
   }
@@ -2347,7 +2365,7 @@ class rex_form_raw_element extends rex_form_element
     return $this->html;
   }
 
-  function wrapContent()
+  function wrapContent($content)
   {
     return $this->html;
   }

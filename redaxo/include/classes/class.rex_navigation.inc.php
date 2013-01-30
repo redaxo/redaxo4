@@ -48,7 +48,7 @@ class rex_navigation
     // nichts zu tun
   }
 
-  /*public*/ function factory()
+  static /*public*/ function factory()
   {
     static $class = null;
 
@@ -254,7 +254,7 @@ class rex_be_navigation
   var $headlines = array();
   var $pages;
 
-  /*public*/ function factory()
+  static /*public*/ function factory()
   {
     static $class = null;
 
@@ -435,7 +435,7 @@ class rex_be_navigation
     return '';
   }
 
-  /*public static*/ function getSetupPage()
+  static /*public*/ function getSetupPage()
   {
     global $I18N;
 
@@ -444,7 +444,7 @@ class rex_be_navigation
     return $page;
   }
 
-  /*public static*/ function getLoginPage()
+  static /*public*/ function getLoginPage()
   {
     $page = new rex_be_page('login', 'system');
     $page->setIsCorePage(true);
@@ -452,7 +452,7 @@ class rex_be_navigation
     return $page;
   }
 
-  /*public static*/ function getLoggedInPages(/*rex_login_sql*/ $rexUser)
+  static /*public*/ function getLoggedInPages(/*rex_login_sql*/ $rexUser)
   {
     global $I18N;
 
@@ -549,7 +549,7 @@ class rex_be_page_container
   /*
    * Static Method: Returns True when the given be_main_page is valid
    */
-  /*public static*/ function isValid($be_page_container)
+  static /*public*/ function isValid($be_page_container)
   {
     return is_object($be_page_container) && is_a($be_page_container, 'rex_be_page_container');
   }
@@ -737,7 +737,7 @@ class rex_be_page extends rex_be_page_container
   /*
    * Static Method: Returns True when the given be_page is valid
    */
-  /*public static*/ function isValid($be_page)
+  static /*public*/ function isValid($be_page)
   {
     return is_object($be_page) && is_a($be_page, 'rex_be_page');
   }
@@ -794,7 +794,7 @@ class rex_be_main_page extends rex_be_page_container
   /*
    * Static Method: Returns True when the given be_main_page is valid
    */
-  /*public static*/ function isValid($be_main_page)
+  static /*public*/ function isValid($be_main_page)
   {
     return is_object($be_main_page) && is_a($be_main_page, 'rex_be_main_page');
   }

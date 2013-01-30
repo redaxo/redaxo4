@@ -1,0 +1,50 @@
+# addon:import/export cs_cz
+im_export_importexport = Im-/Export
+im_export_file_deleted = Soubor byl smazán
+im_export_no_import_file_chosen_or_wrong_version = Nevybrána data k importu nebo špatná verze
+im_export_no_valid_import_file = Toto není správný soubor pro import
+im_export_no_valid_charset = Nevyhovující sada znaků
+im_export_database_imported = Databanka úspěšně importována
+im_export_entry_count = ({0} Položek)
+im_export_file_could_not_be_uploaded = Soubory nemůžou být nahrány
+im_export_you_have_no_write_permission_in = Nemáte právo zapisovat do této složky {0}.
+im_export_no_import_file_chosen = Nevybrán soubor k importu.
+im_export_problem_when_extracting = Vznikly problémy při rozbalování souboru.
+im_export_create_dirs_manually = Vytvořte prosím následující složku manuálně a nastavte správně práva pro přepis (přes ftp).
+im_export_file_imported = Soubor byl úspěšně importován.
+im_export_import = Import
+im_export_export = Export
+im_export_db_import = Import
+im_export_db_export = Export
+im_export_filename_updated = Vaše jméno souboru bylo změněno, neboť obsahovalo nepovolené znaky.
+im_export_please_choose_folder = Prosím zvolte seznam z kterého má být exportováno!
+im_export_intro_import = Prosíme pamatujte pri importování databáze<b>že původní databáze</b> bude smazána. Prosíme uložte/exportujte předem pokud si nejste jisti.
+im_export_database = Import databáze
+im_export_filename = Jméno souboru
+im_export_filesize = Velikost souboru
+im_export_delete = Smazat
+im_export_files = Export souborů
+im_export_intro_export = Zde si můžete uložit Vaše současné údaje a soubory. Aby jste získali plnohodnotný backup musíte <b>exportovat databáze A data</b>. Pokud chcete Vaši zálohu znovu použít pak je vhodné uložit backup přímo na server a v případě potřeby znovu importovat. 
+im_export_database_export = Export databáze
+im_export_file_export = Export souboru
+im_export_save_on_server = Uložit na server
+im_export_download_as_file = Nahrát jako soubor
+im_export_createdate = Vytvořeno dne
+
+im_export_import_file = Importovat soubor
+im_export_delete_file = Soubor smazat
+im_export_download_file = Stáhnout soubor
+
+im_export_file_could_not_be_generated  = Soubor nemůže být vytvořen
+im_export_file_generated_in  = Soubor byl uložen v
+
+im_export_proceed_db_import = Následující soubory (Kategorie, šablony, Moduly,...) budou smazány. Pokračovat?
+im_export_proceed_file_import = Následující soubory budou smazány. Pokračovat?
+
+im_export_export_db_caption = Export databáze
+im_export_export_file_caption = Export souborů
+
+im_export_export_db_summary = Tabulka dostupných exportů databází
+im_export_export_file_summary = Tabulka dostupných exportů souborů
+
+im_export_function = Funkce

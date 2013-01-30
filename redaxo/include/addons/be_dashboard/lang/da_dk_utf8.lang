@@ -1,0 +1,12 @@
+# addon: be_dashboard da_dk
+dashboard = Dashboard
+dashboard_no_content = Der er i øjeblikket ingen addons eller plugins installeret, som giver indhold til dashboard.
+dashboard_notifications = Vigtige meddelelser
+dashboard_component_lastupdate = sidst opdateret
+dashboard_component_save_config = Gem indstillinger
+
+dashboard_component_action_refresh = Opdater komponenten
+dashboard_component_action_togglesettings = Rediger indstillinger
+dashboard_component_action_toggleview = Vis detaljer
+
+dashboard_component_block_misc = Andet

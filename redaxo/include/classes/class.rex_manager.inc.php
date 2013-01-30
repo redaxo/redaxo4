@@ -43,6 +43,10 @@
     {
       if (is_readable($install_file))
       {
+        // save state of $REX variable for later use with getLastInstalledAddonName()
+        $rexAddonBeforeInstall = $REX['ADDON']['install'];
+
+        // include install file
         $this->includeInstaller($addonName, $install_file);
 
         // Wurde das "install" Flag gesetzt?
@@ -54,7 +58,17 @@
           $state = $this->I18N('no_install', $addonName).'<br />';
           if ($instmsg == '')
           {
-            $state .= $this->I18N('no_reason');
+            // check if there is a mismatch between addon name and addon directory name
+            $lastInstalledAddonName = $this->getLastInstalledAddonName($rexAddonBeforeInstall);
+
+            if ($lastInstalledAddonName != '' && $lastInstalledAddonName != $addonName)
+            {
+              $state .= $this->I18N('name_mismatch', $lastInstalledAddonName);
+            }
+            else
+            {
+              $state .= $this->I18N('no_reason');
+            }
           }
           else
           {
@@ -313,6 +327,33 @@
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
+
+  /**
+   * Gibt den Namen des zuletzt installierten Addons aus
+   */
+  /*public*/ function getLastInstalledAddonName($rexAddonBeforeInstall)
+  {
+    global $REX;
+
+    if (isset($REX['ADDON']['installmsg']))
+    {
+      $key = key($REX['ADDON']['installmsg']);
+    }
+    else
+    {
+      $diff = array_diff_key($REX['ADDON']['install'], $rexAddonBeforeInstall);
+      $key = key($diff);
+    }
+
+    if ($key != NULL)
+    {
+      return $key;
+    }
+    else
+    {
+      return '';
+    }
+  }
 }
 
 /**
@@ -405,7 +446,7 @@ class rex_pluginManager extends rex_baseManager
    * @param $pluginName Name des Plugins
    * @param $includeFile Datei die eingebunden und umgewandelt werden soll
    */
-  /*public static*/ function addon2plugin($addonName, $pluginName, $includeFile)
+  static /*public*/ function addon2plugin($addonName, $pluginName, $includeFile)
   {
     global $REX, $I18N; // Nötig damit im Addon verfügbar
 

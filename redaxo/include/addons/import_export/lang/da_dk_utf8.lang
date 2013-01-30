@@ -1,0 +1,51 @@
+# addon:import/export da_dk
+
+im_export_importexport = Import/Eksport
+im_export_file_deleted = Filen er blevet slettet
+im_export_no_import_file_chosen_or_wrong_version = Ingen importfil valgt eller versionen er forkert
+im_export_no_valid_import_file = Ikke en gyldig importfil
+im_export_no_valid_charset = Ingen gyldig tegnsæt
+im_export_database_imported = Database importeret
+im_export_entry_count = ({0} entries)
+im_export_file_could_not_be_uploaded = Filen kunne ikke uploades.
+im_export_you_have_no_write_permission_in = Ingen tilladelser til denne mappe {0}.
+im_export_no_import_file_chosen = Ingen importfil valgt.
+im_export_problem_when_extracting = Der opstod problemer under udpakning.
+im_export_create_dirs_manually = Venligst opret de følgende mapper manuelt (via FTP).
+im_export_file_imported = Filen blev importeret.
+im_export_import = Import
+im_export_export = Eksport
+im_export_db_import = Import
+im_export_db_export = Eksport
+im_export_filename_updated = Filnavn opdateret pga. ikke tilladte tegn. Klik igen for at eksportere.
+im_export_please_choose_folder = Vælg mapper der skal eksporteres
+im_export_intro_import = OBS! Vær forsigtig, når du importerer en database. <b>Den aktuelle database vil blive slettet</b>.
+im_export_database = Databaseimport
+im_export_filename = Filnavn
+im_export_filesize = Filstørrelse
+im_export_delete = Slet
+im_export_files = Filimport
+im_export_intro_export = For at lave en backup af hele hjemmesiden bedes om en backup af databasen og filerne.
+im_export_database_export = Databaseeksport
+im_export_file_export = Fileksport
+im_export_save_on_server = Gem på server
+im_export_download_as_file = Download som fil
+im_export_createdate = Oprettelsesdato
+
+im_export_import_file = Import fil
+im_export_delete_file = Delete fil
+im_export_download_file = Download file
+
+im_export_file_could_not_be_generated  = Filen kunne ikke blive genereret.
+im_export_file_generated_in  = Filen er blevet genereret i
+
+im_export_proceed_db_import = Aktuelle data (artikler, skabeloner, moduler, ...) vil blive slettet. Er di sikker på det?
+im_export_proceed_file_import = Aktuelle filer vil blive slettet. Er du sikker på det?
+
+im_export_export_db_caption = Databaseeksport
+im_export_export_file_caption = Fileksport
+
+im_export_export_db_summary = Oversigt over alle databaseeksport
+im_export_export_file_summary = Oversigt over alle fileksport
+
+im_export_function = Funktion

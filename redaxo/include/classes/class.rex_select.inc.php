@@ -13,6 +13,7 @@ class rex_select
   var $attributes;
   var $options;
   var $option_selected;
+  var $optgroups = false;
 
   ################ Konstruktor
   /*public*/ function rex_select()
@@ -141,7 +142,16 @@ class rex_select
     $this->option_selected = array ();
   }
 
-  ################ optionen hinzufuegen
+  /*public*/ function useOptgroups($optgroups = true)
+  {
+    $this->optgroups = $optgroups;
+  }
+
+  /*public*/ function addOptgroup($name, $id)
+  {
+    $this->options[0][] = array($name, null, $id, array());
+  }
+
   /**
    * Fügt eine Option hinzu
    */
@@ -246,7 +256,7 @@ class rex_select
     $ausgabe .= '<select'.$attr.'>'."\n";
 
     if (is_array($this->options))
-      $ausgabe .= $this->_outGroup(0);
+      $ausgabe .= $this->_outGroup(0, $this->optgroups ? -1 : 0, $this->optgroups);
 
     $ausgabe .= '</select>'. "\n";
     return $ausgabe;
@@ -258,7 +268,7 @@ class rex_select
     echo $this->get();
   }
 
-  /*private*/ function _outGroup($re_id, $level = 0)
+  /*protected*/ function _outGroup($re_id, $level = 0, $optgroups = false)
   {
 
     if ($level > 100)
@@ -275,15 +285,23 @@ class rex_select
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      $attributes = array();
-      if (isset($option[3]) && is_array($option[3]))
-        $attributes = $option[3];
-      $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
+      if ($optgroups) {
+        $ausgabe .= '  <optgroup label="' . $name . '">' . "\n";
+      } else {
+        $attributes = array();
+        if (isset($option[3]) && is_array($option[3]))
+          $attributes = $option[3];
+        $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
+      }
 
       $subgroup = $this->_getGroup($id, true);
       if ($subgroup !== false)
       {
         $ausgabe .= $this->_outGroup($id, $level +1);
+      }
+
+      if ($optgroups) {
+        $ausgabe .= '  </optgroup>' . "\n";
       }
     }
     return $ausgabe;
@@ -337,6 +355,7 @@ class rex_category_select extends rex_select
   /*private*/ var $clang;
   /*private*/ var $check_perms;
   /*private*/ var $rootId;
+  /*private*/ var $loaded;
 
   /*public*/ function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
@@ -345,6 +364,7 @@ class rex_category_select extends rex_select
     $this->check_perms = $check_perms;
     $this->add_homepage = $add_homepage;
     $this->rootId = null;
+    $this->loaded = false;
 
     parent::rex_select();
   }
@@ -441,17 +461,16 @@ class rex_category_select extends rex_select
 
   /*public*/ function get()
   {
-    static $loaded = false;
-
-    if(!$loaded)
+    if(!$this->loaded)
     {
       $this->addCatOptions();
+      $this->loaded = true;
     }
 
     return parent::get();
   }
 
-  /*private*/ function _outGroup($re_id, $level = 0)
+  /*protected*/ function _outGroup($re_id, $level = 0, $optgroups = false)
   {
     global $REX;
     if ($level > 100)
@@ -492,11 +511,13 @@ class rex_mediacategory_select extends rex_select
 {
   var $check_perms;
   var $rootId;
+  /*private*/ var $loaded;
 
   /*public*/ function rex_mediacategory_select($check_perms = true)
   {
     $this->check_perms = $check_perms;
     $this->rootId = null;
+    $this->loaded = false;
 
     parent::rex_select();
   }
@@ -572,11 +593,10 @@ class rex_mediacategory_select extends rex_select
 
   /*public*/ function get()
   {
-    static $loaded = false;
-
-    if(!$loaded)
+    if(!$this->loaded)
     {
       $this->addCatOptions();
+      $this->loaded = true;
     }
 
     return parent::get();

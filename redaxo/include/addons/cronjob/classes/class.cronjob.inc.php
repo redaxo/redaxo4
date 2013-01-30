@@ -14,7 +14,7 @@
   /*private*/ var $params = array();
   /*private*/ var $message = '';
 
-  /*final public*/ function factory($class)
+  static /*final public*/ function factory($class)
   {
     if (!class_exists($class))
       return $class;
@@ -91,7 +91,7 @@
     return array();
   }
 
-  /*final public static*/ function isValid($cronjob)
+  static /*final public*/ function isValid($cronjob)
   {
     return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
   }

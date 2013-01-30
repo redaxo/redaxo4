@@ -18,13 +18,13 @@ $REX['SETUP'] = true;
 $REX['SERVER'] = "redaxo.org";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
-$REX['SUBVERSION'] = "4";
-$REX['MINORVERSION'] = "1";
+$REX['SUBVERSION'] = "5";
+$REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20120626100101";
-$REX['SESSION_DURATION'] = 3000;
+$REX['SESSION_DURATION'] = 7200;
 
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
@@ -42,7 +42,7 @@ $REX['START_CLANG_ID'] = 0;
 $REX['DEFAULT_TEMPLATE_ID'] = 0;
 
 // default language
-$REX['LANG'] = "de_de";
+$REX['LANG'] = 'de_de_utf8';
 
 // activate frontend mod_rewrite support for url-rewriting
 // Boolean: true/false
@@ -107,7 +107,7 @@ $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_4_0";
+$REX['DB']['1']['NAME'] = "redaxo_4_5_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary

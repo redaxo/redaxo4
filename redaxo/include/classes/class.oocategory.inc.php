@@ -17,7 +17,7 @@ class OOCategory extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  /*public static*/ function getCategoryById($category_id, $clang = false)
+  static /*public*/ function getCategoryById($category_id, $clang = false)
   {
     return OOArticle :: getArticleById($category_id, $clang, true);
   }
@@ -26,7 +26,7 @@ class OOCategory extends OORedaxo
    * CLASS Function:
    * Return all Children by id
    */
-  /*public static*/ function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
+  static /*public*/ function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
 
@@ -93,7 +93,7 @@ class OOCategory extends OORedaxo
    * all categories with status 0 will be
    * excempt from this list!
    */
-  /*public static*/ function getRootCategories($ignore_offlines = false, $clang = false)
+  static /*public*/ function getRootCategories($ignore_offlines = false, $clang = false)
   {
     global $REX;
 
@@ -221,7 +221,7 @@ class OOCategory extends OORedaxo
     return array_values($p);
   }
 
-  /*public static*/ function & _getCategoryObject($category, $clang = false)
+  static /*public*/ function & _getCategoryObject($category, $clang = false)
   {
     if (is_object($category))
     {
@@ -253,14 +253,14 @@ class OOCategory extends OORedaxo
 
   /*public*/ function hasValue($value)
   {
-    return parent::hasValue($value, array('cat_'));
+    return parent::hasValueWithPrefixes($value, array('cat_'));
   }
 
   /*
    * Static Method:
    * Returns True if the given category is a valid OOCategory
    */
-  /*public*/ function isValid($category)
+  static /*public*/ function isValid($category)
   {
     return is_object($category) && is_a($category, 'oocategory');
   }
@@ -272,7 +272,7 @@ class OOCategory extends OORedaxo
    * if the category_id is invalid an empty array is returned.
    *
    */
-  /*public static*/ function getTemplates($category_id, $ignore_inactive = true)
+  static /*public*/ function getTemplates($category_id, $ignore_inactive = true)
   {
     global $REX;
 

@@ -1,0 +1,77 @@
+# addon:cronjob da_dk
+
+cronjob_title = Cronjobs
+
+cronjob_add = Tilføj cronjob
+cronjob_edit = Rediger cronjob
+
+cronjob_summary = Liste over alle tilgængelige cronjobs
+cronjob_caption = Liste over alle cronjobs
+cronjob_no_cronjobs = Ingen cronjobs
+
+cronjob_delete = Slet
+cronjob_really_delete = Virkelig slette cronjob?
+cronjob_delete_success = Cronjob "{0}" blev slettet!
+cronjob_delete_error = Cronjob "{0}" kunne ikke slettes!
+
+cronjob_execute = Udfør
+cronjob_execute_success = Cronjob "{0}" udført med succes!
+cronjob_execute_error = Cronjob "{0}" blev ikke udført med succes!
+
+cronjob_name = Navn
+cronjob_examples = Eksempler
+
+cronjob_type = Type
+cronjob_type_not_found = Cronjob "{0}" kan ikke redigeres, fordi klassen "{1}" blev ikke fundet. Tjek venligst, hvis den tilknyttede AddOn/PlugIn er aktiveret!
+cronjob_type_phpcode = PHP-kode
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = URL-Request
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = POST-Parameter
+cronjob_type_urlrequest_httpauth = HTTP-autentificering
+cronjob_type_urlrequest_user = Bruger
+cronjob_type_urlrequest_password = Adgangskode
+cronjob_type_parameters = Type specifikke parametre
+cronjob_type_no_parameters = Ingen yderligere parametre, der kræves for denne type!
+
+cronjob_interval = Interval
+cronjob_interval_hour = time(r)
+cronjob_interval_day = dag(e)
+cronjob_interval_week = uge(r)
+cronjob_interval_month = måned(er)
+cronjob_interval_year = år
+
+cronjob_environment = Miljø
+cronjob_environment_frontend = Frontend
+cronjob_environment_backend = Backend
+
+cronjob_status_function = Status/Funktion
+cronjob_status = Status
+cronjob_status_activated = aktiveret
+cronjob_status_deactivated = deaktiveret
+cronjob_status_invalid = ugyldig
+cronjob_status_activate_success = Cronjob "{0}" blev aktiveret!
+cronjob_status_activate_error = Cronjob "{0}" kunne ikke aktiveres!
+cronjob_status_deactivate_success = Cronjob "{0}" blev deaktiveret!
+cronjob_status_deactivate_error = Cronjob "{0}" kunne ikke deaktiveres!
+
+cronjob_error_no_name = Indtast et navn!
+
+cronjob_not_found = Cronjob ikke fundet!
+cronjob_not_editable = Cronjob kan ikke redigeres!
+
+cronjob_log = Log
+cronjob_log_date = dato
+cronjob_log_year = år
+cronjob_log_month = måned
+cronjob_log_ok = OK
+cronjob_no_log_files = Ingen log-filder tilgængelige.
+cronjob_log_no_data = Ingen data tilgængelige.
+cronjob_log_summary_1 = Oversigt over udførte cronjobs i {0} {1}
+cronjob_log_summary_2 = Oversigt over sidst udførte cronjobs
+cronjob_log_caption_1 = Liste over udførte cronjobs i {0} {1}
+cronjob_log_caption_2 = Liste over sidst udførte cronjobs
+cronjob_log_message = Besked
+
+cronjob_dashboard_block = Protokol
+cronjob_dashboard_component_title = Sidst udførte cronjobs

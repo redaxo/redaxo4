@@ -1,0 +1,46 @@
+textile_example_for = Eksempel
+
+textile_code_for_module_input = Kildekode til modulets indgave (input)
+textile_code_for_module_output = Kildekode til modulets udgave (output)
+textile_module_intro_moduleoutput = Venligst brug nedestående kildekode til <b>modulets output</b>
+textile_module_intro_help = Venligst brug følgende funktionsopkald for at se en liste over alle informationer/instruktioner i <b>modulets indgave (input)</b><br />
+textile_module_rights = <b>Bemærk venligst:</b><br />De udførlige informationer kan kun vises, hvis rettigheden <strong>textile[help]</strong> er valgt i brugerprofilen.
+
+textile_instructions = Instruktioner
+
+textile_input = Indgave (Input)
+textile_preview = Preview
+
+textile_headlines = Overskrifter
+textile_headline = Overskrift
+
+textile_text_formatting = Textformatering
+textile_text_italic = kursiv
+textile_text_bold = fed
+textile_text_cite = cite
+textile_text_source_author = Kilde/Forfatter
+textile_text_strike = strege ud
+textile_text_insert = insæt
+textile_text_sup = sup (hævet skrift)
+textile_text_sub = sub (sænket skrift)
+
+textile_links = Links/anchor
+textile_link_internal = Link (intern): til "kontakt"
+textile_link_internal_anchor = Link (intern) med anker: "til kontakt"
+textile_link_external = Link (extern): "til REDAXO documentation"
+textile_link_external_anchor = Link (extern) med anker: "til partnere"
+textile_link_attr_title = Link med title-attributet: "Billede(klik for zoom)"
+textile_link_attr_rel = Link med rel-attributet: "Billede{shadowbox}"
+textile_link_attr_title_rel = Link med title- og rel-attributet: "Billede(klik for shadowbox){shadowbox}"
+textile_link_anchor = Definer anker
+textile_link_anchor_text = Til kontakt
+
+textile_footnotes = Fodnoter
+textile_footnote_text = AJAX
+textile_footnote_note = Asynchronous JavaScript and XML
+
+textile_lists = Lister
+textile_numeric_list = Nummereret liste
+textile_enum_list = punktopstilling
+
+textile_tables = Tabeller

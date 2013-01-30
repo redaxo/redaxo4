@@ -125,13 +125,9 @@ function rex_a1_import_db($filename)
   foreach ($lines as $line) {
     $line['query'] = trim($line['query']);
 
-    if(rex_lang_is_utf8() AND strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
+    if(strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
     {
       $line['query'] .= ' DEFAULT CHARSET=utf8';
-    }
-    elseif(!rex_lang_is_utf8() AND strpos($line['query'], 'CREATE TABLE') === 0 AND !strpos($line['query'], 'DEFAULT CHARSET'))
-    {
-      $line['query'] .= ' DEFAULT CHARSET=latin1';
     }
 
     $sql->setQuery($line['query']);
@@ -175,12 +171,7 @@ function rex_a1_import_db($filename)
        lasttrydate int(11) NOT NULL DEFAULT 0,
        session_id varchar(255) NOT NULL,
        PRIMARY KEY(user_id)
-     ) ENGINE=MyISAM';
-
-    if(rex_lang_is_utf8())
-      $create_user_table .= ' DEFAULT CHARSET=utf8';
-    else
-      $create_user_table .= ' DEFAULT CHARSET=latin1';
+     ) ENGINE=MyISAM DEFAULT CHARSET=utf8';
 
     $db = rex_sql::factory();
     $db->setQuery($create_user_table);
