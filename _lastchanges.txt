@@ -28,6 +28,7 @@ Version 4.5.0 (2013-XX-XX)
 
   Bugfixes:
   * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt
+  * Image Manager: Probleme mit Transparenz bei PNGs beseitigt
 
 
 Version 4.4.1 (2012-08-03)
