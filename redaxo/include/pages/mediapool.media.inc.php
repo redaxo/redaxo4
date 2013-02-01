@@ -203,7 +203,7 @@ if ($subpage == "detail")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if($size = @getimagesize($REX['HTDOCS_PATH'].'/'.$REX['MEDIA_DIR'].'/'.$fname))
+      if($size = @getimagesize($REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$fname))
       {
         $fwidth = $size[0];
         $fheight = $size[1];
