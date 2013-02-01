@@ -19,6 +19,9 @@
  * $nav = rex_navigation::factory();
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
  * $nav->setLinkClasses(array('alev1', 'alev2', 'alev3'));
+ * $nav->addCallback("myFunc",1);
+ * $nav->addCallback("myClass::myMethod",1);
+ * $nav->addFilter("status",1,"==");
  * echo $nav->get(0,2,TRUE,TRUE);
  *
  * Sitemap:
@@ -77,7 +80,7 @@ class rex_navigation
     $this->open = $open;
 
     if($ignore_offlines) {
-      $this->setFilter("status",1,"=");
+      $this->addFilter("status",1,"==");
     }
 
     return $this->_getNavigation($category_id);
@@ -162,12 +165,28 @@ class rex_navigation
     $this->linkclasses = $classes;
   }
 
-  /*public*/ function setFilter($metafield = "id", $value = "1", $type = "=", $depth = "")
+  /**
+   * Fügt einen Filter hinzu
+   *
+   * @param $metafield Datenbankfeld der Kategorie
+   * @param $value Wert für den Vergleich
+   * @param $type Art des Vergleichs =/</..
+   * @param $depth "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+   */
+
+  /*public*/ function addFilter($metafield = "id", $value = "1", $type = "=", $depth = "")
   {
     $this->filter[] = array("metafield" => $metafield, "value" => $value, "type" => $type, "depth" => $depth);
   }
 
-  /*public*/ function setCallback($callback = "", $depth = "")
+  /**
+   * Fügt einen Callback hinzu
+   *
+   * @param $callback z.B. myFunc oder myClass::myMethod
+   * @param $depth "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+   */
+
+  /*public*/ function addCallback($callback = "", $depth = "")
   {
     if($callback != "") {
       $this->callback[] = array("callback" => $callback, "depth" => $depth);
@@ -195,7 +214,7 @@ class rex_navigation
     return FALSE;
   }
 
-  /*private*/ function _checkCategory($category, $depth) {
+  /*private*/ function _checkFilter($category, $depth) {
 
     foreach($this->filter as $f) {
     
@@ -206,12 +225,41 @@ class rex_navigation
   
         switch($f["type"]) {
   
+          case("<>"):
           case("!="):
             if($mf == $va) {
               return false;
             }          
             break;
+
+          case(">"):
+            if($mf <= $va) {
+              return false;
+            }
+            break;
+          
+          case("<"):
+            if($mf >= $va) {
+              return false;
+            }
+            break;
+          
+          case("=>"):
+          case(">="):
+            if($mf < $va) {
+              return false;
+            }
+            break;
+          
+          case("=<"):
+          case("<="):
+            if($mf > $va) {
+              return false;
+            }
+            break;
   
+          case("="):
+          case("=="):
           default: 
             // =
             if($mf != $va) {
@@ -220,11 +268,25 @@ class rex_navigation
         }
       }
     }
+    return true;
+  }
     
-    // Todo: Callback check
+  /*private*/ function _checkCallbacks($category, $depth) {
+
+    foreach($this->callback as $c) {
+
+      if($c["depth"] == "" || $c["depth"] == $depth) {
+
+        if (!call_user_func( $c["callback"], $category, $depth)) {
+          return false;
+
+        }
+      }
+    }
 
     return true;
   }
+
 
   /*protected*/ function _getNavigation($category_id, $depth = 1)
   {
@@ -240,10 +302,10 @@ class rex_navigation
     $lis = array();
     foreach($nav_obj as $nav) {
 
-      if($this->_checkCategory($nav, $depth)) {
-      
-        $liClass = array();
-        $linkClass = array();
+      $liClass = array();
+      $linkClass = array();
+
+      if($this->_checkFilter($nav, $depth) && $this->_checkCallbacks($nav, $depth)) {
   
         $liClass[] = 'rex-article-'. $nav->getId();
   
