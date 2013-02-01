@@ -591,20 +591,8 @@ class OOMedia
    */
   static function _isImage($filename)
   {
-    static $imageExtensions;
-
-    if (!isset ($imageExtensions))
-    {
-      $imageExtensions = array (
-        'gif',
-        'jpeg',
-        'jpg',
-        'png',
-        'bmp'
-      );
-    }
-
-    return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
+    global $REX;
+    return in_array(OOMedia :: _getExtension($filename), $REX['MEDIAPOOL']['IMAGE_EXTENSIONS']);
   }
 
   /**
@@ -852,36 +840,8 @@ class OOMedia
   // allowed filetypes
   static function getDocTypes()
   {
-    static $docTypes = array (
-      'bmp',
-      'css',
-      'doc',
-      'docx',
-      'eps',
-      'gif',
-      'gz',
-      'jpg',
-      'mov',
-      'mp3',
-      'ogg',
-      'pdf',
-      'png',
-      'ppt',
-      'pptx',
-      'pps',
-      'ppsx',
-      'rar',
-      'rtf',
-      'swf',
-      'tar',
-      'tif',
-      'txt',
-      'wma',
-      'xls',
-      'xlsx',
-      'zip'
-    );
-    return $docTypes;
+    global $REX;
+    return $REX['MEDIAPOOL']['ALLOWED_DOCTYPES'];
   }
 
   static function isDocType($type)
@@ -892,16 +852,8 @@ class OOMedia
   // allowed image upload types
   static function getImageTypes()
   {
-    static $imageTypes = array (
-      'image/gif',
-      'image/jpg',
-      'image/jpeg',
-      'image/png',
-      'image/x-png',
-      'image/pjpeg',
-      'image/bmp'
-    );
-    return $imageTypes;
+    global $REX;
+    return $REX['MEDIAPOOL']['IMAGE_TYPES'];
   }
 
   static function isImageType($type)
