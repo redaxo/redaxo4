@@ -14,16 +14,16 @@ if (!$REX['GG'])
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
-$REX['SERVER'] = "redaxo.org";
-$REX['SERVERNAME'] = "REDAXO";
-$REX['VERSION'] = "4";
-$REX['SUBVERSION'] = "4";
-$REX['MINORVERSION'] = "1";
-$REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
-$REX['FILEPERM'] = octdec(664); // oktaler wert
-$REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20120626100101";
+$REX['SETUP']            = true;
+$REX['SERVER']           = "redaxo.org";
+$REX['SERVERNAME']       = "REDAXO";
+$REX['VERSION']          = "4";
+$REX['SUBVERSION']       = "4";
+$REX['MINORVERSION']     = "1";
+$REX['ERROR_EMAIL']      = "jan.kristinus@yakamara.de";
+$REX['FILEPERM']         = octdec(664); // oktaler wert
+$REX['DIRPERM']          = octdec(775); // oktaler wert
+$REX['INSTNAME']         = "rex20120626100101";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -100,31 +100,35 @@ if(function_exists("date_default_timezone_set"))
 }
 
 // ----------------- OTHER STUFF
-$REX['SYSTEM_ADDONS'] = array('import_export', 'metainfo', 'be_search', 'image_manager');
+$REX['SYSTEM_ADDONS']                   = array('import_export', 'metainfo', 'be_search', 'image_manager');
+
+// ----------------- MEDIA RELATED
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
-$REX['MEDIAPOOL']['IMAGE_EXTENSIONS'] = array('gif','jpeg','jpg','png','bmp');
+$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']   = array('gif','jpeg','jpg','png','bmp');
+$REX['MEDIAPOOL']['IMAGE_TYPES']        = array('image/gif','image/jpg','image/jpeg','image/png','image/x-png','image/pjpeg','image/bmp');
+$REX['MEDIAPOOL']['ALLOWED_DOCTYPES']   = array('bmp','css','doc','docx','eps','gif','gz','jpg','mov','mp3','ogg','pdf','png','ppt','pptx','pps','ppsx','rar','rtf','swf','tar','tif','txt','wma','xls','xlsx','zip');
 
 // ----------------- DB1
-$REX['DB']['1']['HOST'] = "localhost";
-$REX['DB']['1']['LOGIN'] = "root";
-$REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_4_0";
+$REX['DB']['1']['HOST']       = "localhost";
+$REX['DB']['1']['LOGIN']      = "root";
+$REX['DB']['1']['PSW']        = "";
+$REX['DB']['1']['NAME']       = "redaxo_4_4_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
-$REX['DB']['2']['HOST'] = "";
-$REX['DB']['2']['LOGIN'] = "";
-$REX['DB']['2']['PSW'] = "";
-$REX['DB']['2']['NAME'] = "";
+$REX['DB']['2']['HOST']       = "";
+$REX['DB']['2']['LOGIN']      = "";
+$REX['DB']['2']['PSW']        = "";
+$REX['DB']['2']['NAME']       = "";
 $REX['DB']['2']['PERSISTENT'] = false;
 
 // ----------------- Accesskeys
-$REX['ACKEY']['SAVE'] = 's';
-$REX['ACKEY']['APPLY'] = 'x';
+$REX['ACKEY']['SAVE']   = 's';
+$REX['ACKEY']['APPLY']  = 'x';
 $REX['ACKEY']['DELETE'] = 'd';
-$REX['ACKEY']['ADD'] = 'a';
+$REX['ACKEY']['ADD']    = 'a';
 // Wenn 2 Add Aktionen auf einer Seite sind (z.b. Struktur)
-$REX['ACKEY']['ADD_2'] = 'y';
+$REX['ACKEY']['ADD_2']  = 'y';
 $REX['ACKEY']['LOGOUT'] = 'l';
 
 // ------ Accesskeys for Addons
