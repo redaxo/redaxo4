@@ -42,7 +42,7 @@ class rex_navigation
   var $path = array();
   var $classes = array();
   var $filter = array();
-  var $callback = array();
+  var $callbacks = array();
 
   var $current_article_id = -1; // Aktueller Artikel
   var $current_category_id = -1; // Aktuelle Katgorie
@@ -189,7 +189,7 @@ class rex_navigation
   /*public*/ function addCallback($callback = "", $depth = "")
   {
     if($callback != "") {
-      $this->callback[] = array("callback" => $callback, "depth" => $depth);
+      $this->callbacks[] = array("callback" => $callback, "depth" => $depth);
     }
   }
 
@@ -271,16 +271,28 @@ class rex_navigation
     return true;
   }
     
-  /*private*/ function _checkCallbacks($category, $depth) {
+  /*private*/ function _checkCallbacks($category, $depth, &$li, &$a) {
 
-    foreach($this->callback as $c) {
+    foreach($this->callbacks as $c) {
 
       if($c["depth"] == "" || $c["depth"] == $depth) {
 
-        if (!call_user_func( $c["callback"], $category, $depth)) {
-          return false;
-
+        if (!is_array($c["callback"])) {
+          $c["callback"] = explode("::",$c["callback"]);
         }
+        
+        if(count($c["callback"]) == 1) {
+          $f = $c["callback"][0];
+
+        } else {
+          $f = $c["callback"][0].'::'.$c["callback"][1];
+          
+        }
+
+        if ( !$f($category, $depth, $li, $a ) ) {
+          return false;
+        }
+
       }
     }
 
@@ -302,36 +314,49 @@ class rex_navigation
     $lis = array();
     foreach($nav_obj as $nav) {
 
-      $liClass = array();
-      $linkClass = array();
+      $li = array();
+      $a = array();
+      $li["class"] = array();
+      $a["class"] = array();
+      $a["href"] = array($nav->getUrl());
 
-      if($this->_checkFilter($nav, $depth) && $this->_checkCallbacks($nav, $depth)) {
+      if($this->_checkFilter($nav, $depth) && $this->_checkCallbacks($nav, $depth, $li, $a)) {
   
-        $liClass[] = 'rex-article-'. $nav->getId();
+        $li["class"][] = 'rex-article-'. $nav->getId();
   
         // classes abhaengig vom pfad
         if($nav->getId() == $this->current_category_id) {
-          $liClass[] = 'rex-current';
-          $linkClass[] = 'rex-current';
+          $li["class"][] = 'rex-current';
+          $a["class"][] = 'rex-current';
           
         } elseif (in_array($nav->getId(),$this->path)) {
-          $liClass[] = 'rex-active';
-          $linkClass[] = 'rex-active';
+          $li["class"][] = 'rex-active';
+          $a["class"][] = 'rex-active';
   
         } else {
-          $liClass[] = 'rex-normal';
+          $li["class"][] = 'rex-normal';
         }
   
         if(isset($this->linkclasses[($depth-1)])) {
-          $linkClass[] = $this->linkclasses[($depth-1)];
+          $a["class"][] = $this->linkclasses[($depth-1)];
         }
   
         if(isset($this->classes[($depth-1)])) {
-          $liClass[] = $this->classes[($depth-1)];
+          $li["class"][] = $this->classes[($depth-1)];
         }
   
-        $l = '<li class="'. implode(" ",$liClass) .'">';
-        $l .= '<a class="'. implode(" ",$linkClass) .'" href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
+        $li_attr = array();
+        foreach($li as $attr => $v) {
+          $li_attr[] = $attr.'="'.implode(" ",$v).'"';
+        }
+
+        $a_attr = array();
+        foreach($a as $attr => $v) {
+          $a_attr[] = $attr.'="'.implode(" ",$v).'"';
+        }
+  
+        $l = '<li '. implode(" ", $li_attr) .'>';
+        $l .= '<a '. implode(" ", $a_attr) .'>'.htmlspecialchars($nav->getName()).'</a>';
   
         $depth++;
         if(($this->open ||
