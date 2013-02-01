@@ -360,7 +360,7 @@
    */
   /*protected*/ function getMediaAddonFolder() {
     global $REX;
-    $lastSlashPos = strrpos($REX['MEDIAFOLDER'], '/');
+    $lastSlashPos = strrpos($REX['MEDIAFOLDER'], DIRECTORY_SEPARATOR);
     return substr($REX['MEDIAFOLDER'], 0, $lastSlashPos + 1) . $REX['MEDIA_ADDON_DIR'];
   }
 }

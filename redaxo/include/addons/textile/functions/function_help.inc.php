@@ -148,8 +148,7 @@ function rex_a79_help_formats()
 
 function rex_a79_help_links()
 {
-  global $I18N;
-  global $REX;
+  global $REX, $I18N;
 
   return array($I18N->msg('textile_links'),
     array(
