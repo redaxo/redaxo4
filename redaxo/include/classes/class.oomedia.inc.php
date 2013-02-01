@@ -253,7 +253,7 @@ class OOMedia
   function getPath()
   {
     global $REX;
-    return $REX['HTDOCS_PATH'].'files';
+    return $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'];
   }
 
   /**
@@ -492,7 +492,7 @@ class OOMedia
       else
       {
         // Bild 1:1 anzeigen
-        $path .= 'files/';
+        $path .= $REX['MEDIA_DIR'].'/';
         $file = $this->getFileName();
       }
     }
