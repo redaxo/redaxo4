@@ -591,34 +591,9 @@ class OOMedia
    */
   function _isImage($filename)
   {
-    $imageExtensions = self::getImageExtensions();
+    global $REX;
 
-    return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
-  }
-
-  /**
-   * @access public
-   * @static
-   */
-  function getImageExtensions()
-  {
-    static $imageExtensions;
-
-    if (!isset ($imageExtensions))
-    {
-      $imageExtensions = array (
-        'gif',
-        'jpeg',
-        'jpg',
-        'png',
-        'bmp'
-      );
-
-      // EXTENSION POINT "OOMEDIA_IMAGE_EXTENSIONS"
-      $imageExtensions = rex_register_extension_point('OOMEDIA_IMAGE_EXTENSIONS',$imageExtensions);
-    }
-
-    return $imageExtensions;
+    return in_array(OOMedia :: _getExtension($filename), $REX['IMAGE_EXTENSIONS']);
   }
 
   /**

@@ -28,8 +28,6 @@ if (in_array($body_id, $popups_arr))
 $body_attr["id"] = array('rex-page-'.$body_id);
 $body_attr["onunload"] = array('closeAll();');
 
-$rex_imageExtensions = '["'.implode('","',OOMedia::getImageExtensions()).'"]';
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg('htmllang'); ?>" lang="<?php echo $I18N->msg('htmllang'); ?>">
 <head>
@@ -55,7 +53,7 @@ $rex_imageExtensions = '["'.implode('","',OOMedia::getImageExtensions()).'"]';
   <script type="text/javascript">
   <!--
   var redaxo = true;
-  var rex_imageExtensions = <?php echo $rex_imageExtensions ?>;
+  var rex_imageExtensions = <?php echo '["'.implode('","',$REX['IMAGE_EXTENSIONS']).'"]' ?>;
 
   // jQuery is now removed from the $ namespace
   // to use the $ shorthand, use (function($){ ... })(jQuery);

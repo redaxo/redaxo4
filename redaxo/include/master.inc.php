@@ -102,6 +102,7 @@ if(function_exists("date_default_timezone_set"))
 // ----------------- OTHER STUFF
 $REX['SYSTEM_ADDONS'] = array('import_export', 'metainfo', 'be_search', 'image_manager');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
+$REX['IMAGE_EXTENSIONS'] = array('gif','jpeg','jpg','png','bmp');
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";
