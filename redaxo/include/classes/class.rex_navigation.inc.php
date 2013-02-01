@@ -36,9 +36,10 @@ class rex_navigation
 {
   var $depth; // Wieviele Ebene tief, ab der Startebene
   var $open; // alles aufgeklappt, z.b. Sitemap
-  var $ignore_offlines;
   var $path = array();
   var $classes = array();
+  var $filter = array();
+  var $callback = array();
 
   var $current_article_id = -1; // Aktueller Artikel
   var $current_category_id = -1; // Aktuelle Katgorie
@@ -52,8 +53,7 @@ class rex_navigation
   {
     static $class = null;
 
-    if(!$class)
-    {
+    if(!$class) {
       // ----- EXTENSION POINT
       $class = rex_register_extension_point('REX_NAVI_CLASSNAME', 'rex_navigation');
     }
@@ -69,15 +69,18 @@ class rex_navigation
    * @param $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
    * @param $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
    */
-  /*public*/ function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
+  /*public*/ function get($category_id = 0,$max_depth = 3,$open = FALSE, $ignore_offlines = FALSE)
   {
     if(!$this->_setActivePath()) return FALSE;
 
-    $this->depth = $depth;
+    $this->max_depth = $max_depth;
     $this->open = $open;
-    $this->ignore_offlines = $ignore_offlines;
 
-    return $this->_getNavigation($category_id,$this->ignore_offlines);
+    if($ignore_offlines) {
+      $this->setFilter("status",1,"=");
+    }
+
+    return $this->_getNavigation($category_id);
   }
 
   /**
@@ -159,6 +162,18 @@ class rex_navigation
     $this->linkclasses = $classes;
   }
 
+  /*public*/ function setFilter($metafield = "id", $value = "1", $type = "=", $depth = "")
+  {
+    $this->filter[] = array("metafield" => $metafield, "value" => $value, "type" => $type, "depth" => $depth);
+  }
+
+  /*public*/ function setCallback($callback = "", $depth = "")
+  {
+    if($callback != "") {
+      $this->callback[] = array("callback" => $callback, "depth" => $depth);
+    }
+  }
+
   /*private*/ function _setActivePath()
   {
     global $REX;
@@ -180,72 +195,105 @@ class rex_navigation
     return FALSE;
   }
 
-  /*protected*/ function _getNavigation($category_id,$ignore_offlines = TRUE)
+  /*private*/ function _checkCategory($category, $depth) {
+
+    foreach($this->filter as $f) {
+    
+      if($f["depth"] == "" || $f["depth"] == $depth) {
+
+        $mf = $category->getValue($f["metafield"]);
+        $va = $f["value"];
+  
+        switch($f["type"]) {
+  
+          case("!="):
+            if($mf == $va) {
+              return false;
+            }          
+            break;
+  
+          default: 
+            // =
+            if($mf != $va) {
+              return false;
+            }
+        }
+      }
+    }
+    
+    // Todo: Callback check
+
+    return true;
+  }
+
+  /*protected*/ function _getNavigation($category_id, $depth = 1)
   {
-    static $depth = 0;
 
-    if($category_id < 1)
-      $nav_obj = OOCategory::getRootCategories($ignore_offlines);
-    else
-      $nav_obj = OOCategory::getChildrenById($category_id, $ignore_offlines);
+    if($category_id < 1) {
+      $nav_obj = OOCategory::getRootCategories();
 
-    $return = "";
+    }else {
+      $nav_obj = OOCategory::getChildrenById($category_id);
 
-    if(count($nav_obj)>0)
-      $return .= '<ul class="rex-navi'. ($depth+1) .'">';
-
-    foreach($nav_obj as $nav)
-    {
-      $liClass = '';
-      $linkClass = '';
-
-      // classes abhaengig vom pfad
-      if($nav->getId() == $this->current_category_id)
-      {
-        $liClass .= ' rex-current';
-        $linkClass .= ' rex-current';
-      }
-      elseif (in_array($nav->getId(),$this->path))
-      {
-        $liClass .= ' rex-active';
-        $linkClass .= ' rex-active';
-      }
-      else
-      {
-        $liClass .= ' rex-normal';
-      }
-
-      // classes abhaengig vom level
-      if(isset($this->classes[$depth]))
-        $liClass .= ' '. $this->classes[$depth];
-
-      if(isset($this->linkclasses[$depth]))
-        $linkClass .= ' '. $this->linkclasses[$depth];
-
-
-
-      $linkClass = $linkClass == '' ? '' : ' class="'. ltrim($linkClass) .'"';
-
-      $return .= '<li class="rex-article-'. $nav->getId() . $liClass .'">';
-      $return .= '<a'. $linkClass .' href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
-
-      $depth++;
-      if(($this->open ||
-          $nav->getId() == $this->current_category_id ||
-          in_array($nav->getId(),$this->path))
-         && ($this->depth > $depth || $this->depth < 0))
-      {
-        $return .= $this->_getNavigation($nav->getId(),$ignore_offlines);
-      }
-      $depth--;
-
-      $return .= '</li>';
     }
 
-    if(count($nav_obj)>0)
-      $return .= '</ul>';
+    $lis = array();
+    foreach($nav_obj as $nav) {
 
-    return $return;
+      if($this->_checkCategory($nav, $depth)) {
+      
+        $liClass = array();
+        $linkClass = array();
+  
+        $liClass[] = 'rex-article-'. $nav->getId();
+  
+        // classes abhaengig vom pfad
+        if($nav->getId() == $this->current_category_id) {
+          $liClass[] = 'rex-current';
+          $linkClass[] = 'rex-current';
+          
+        } elseif (in_array($nav->getId(),$this->path)) {
+          $liClass[] = 'rex-active';
+          $linkClass[] = 'rex-active';
+  
+        } else {
+          $liClass[] = 'rex-normal';
+        }
+  
+        if(isset($this->linkclasses[($depth-1)])) {
+          $linkClass[] = $this->linkclasses[($depth-1)];
+        }
+  
+        if(isset($this->classes[($depth-1)])) {
+          $liClass[] = $this->classes[($depth-1)];
+        }
+  
+        $l = '<li class="'. implode(" ",$liClass) .'">';
+        $l .= '<a class="'. implode(" ",$linkClass) .'" href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
+  
+        $depth++;
+        if(($this->open ||
+            $nav->getId() == $this->current_category_id ||
+            in_array($nav->getId(),$this->path))
+           && ($this->max_depth > $depth || $this->max_depth < 0)) {
+          $l .= $this->_getNavigation($nav->getId(), $depth);
+        }
+        $depth--;
+  
+        $l .= '</li>';
+        
+        $lis[] = $l;
+      
+      }
+
+    }
+
+    if(count($lis) > 0) {
+      return '<ul class="rex-navi'.$depth.' rex-navi-depth-'. $depth .' rex-navi-has-'.count($lis).'-elements">'.implode("",$lis).'</ul>';
+
+    }
+
+    return "";
   }
 }
 
