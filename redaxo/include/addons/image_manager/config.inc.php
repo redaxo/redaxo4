@@ -41,7 +41,7 @@ $rex_img_type = rex_get('rex_img_type', 'string');
 if($rex_img_file != '' && $rex_img_type != '')
 {
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
-  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+  $cachepath = $REX['GENERATED_PATH'].'/files/';
 
   $image         = new rex_image($imagepath);
   $image_cacher  = new rex_image_cacher($cachepath);
