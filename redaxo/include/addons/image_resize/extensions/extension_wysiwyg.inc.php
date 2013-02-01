@@ -37,17 +37,17 @@ function rex_resize_wysiwyg_output($params)
       }
       if ($width)
       {
-        preg_match('/src="(.*files\/(.*))"/imsU', $var, $src);
-        if (file_exists($REX['HTDOCS_PATH'] . 'files/' . $src[2]))
+        preg_match('/src="(.*'.preg_quote($REX['MEDIA_DIR'],'/').'\/(.*))"/imsU', $var, $src);
+        if (file_exists($REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/' . $src[2]))
         {
-          $realsize = getimagesize($REX['HTDOCS_PATH'] . 'files/' . $src[2]);
+          $realsize = getimagesize($REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/' . $src[2]);
           if (($realsize[0] != $width[1]) || ($realsize[1] != $height[1]))
           {
             $newsrc = $REX["FRONTEND_FILE"].'?rex_resize=' . $width[1] . 'w__' . $height[1] . 'h__' . $src[2];
           }
           else
           {
-            $newsrc = $REX['HTDOCS_PATH'] . 'files/' . $src[2];
+            $newsrc = $REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/' . $src[2];
           }
           $newimage = str_replace(array($src[1], 'ismap="ismap" '), array($newsrc, ''), $var);
           $content = str_replace($var, $newimage, $content);
