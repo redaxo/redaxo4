@@ -593,7 +593,7 @@ class OOMedia
   {
     global $REX;
 
-    return in_array(OOMedia :: _getExtension($filename), $REX['IMAGE_EXTENSIONS']);
+    return in_array(OOMedia :: _getExtension($filename), $REX['MEDIAPOOL']['IMAGE_EXTENSIONS']);
   }
 
   /**
