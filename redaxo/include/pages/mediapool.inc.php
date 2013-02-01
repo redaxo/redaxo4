@@ -190,13 +190,13 @@ function selectMediaListArray(files)
 
 function insertImage(src,alt)
 {
-  window.opener.insertImage('files/' + src, alt);
+  window.opener.insertImage('<?php echo $REX['MEDIA_DIR']; ?>/' + src, alt);
   self.close();
 }
 
 function insertLink(src)
 {
-  window.opener.insertFileLink('files/' + src);
+  window.opener.insertFileLink('<?php echo $REX['MEDIA_DIR']; ?>/' + src);
   self.close();
 }
 

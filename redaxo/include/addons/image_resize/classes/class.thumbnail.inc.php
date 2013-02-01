@@ -356,7 +356,7 @@ class rex_thumbnail
 
     $folders = array();
     $folders[] = $REX['GENERATED_PATH'] . '/files/';
-    $folders[] = $REX['HTDOCS_PATH'] . 'files/';
+    $folders[] = $REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/';
 
     $c = 0;
     foreach($folders as $folder)
@@ -429,7 +429,7 @@ class rex_thumbnail
       $filters = md5($filters);
 
     $cachepath = $REX['GENERATED_PATH'].'/files/image_resize__'.$filters.$rex_resize;
-    $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
+    $imagepath = $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$imagefile;
 
     // ----- check for cache file
     if (file_exists($cachepath))

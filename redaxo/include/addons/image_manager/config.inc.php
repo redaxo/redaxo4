@@ -40,7 +40,7 @@ $rex_img_type = rex_get('rex_img_type', 'string');
 
 if($rex_img_file != '' && $rex_img_type != '')
 {
-  $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
+  $imagepath = $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$rex_img_file;
   $cachepath = $REX['GENERATED_PATH'].'/files/';
 
   $image         = new rex_image($imagepath);

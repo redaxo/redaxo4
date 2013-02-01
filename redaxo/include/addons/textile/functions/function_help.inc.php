@@ -149,6 +149,7 @@ function rex_a79_help_formats()
 function rex_a79_help_links()
 {
   global $I18N;
+  global $REX;
 
   return array($I18N->msg('textile_links'),
     array(
@@ -164,9 +165,9 @@ function rex_a79_help_links()
       ),
     'links_attributes' =>
       array(
-        array ($I18N->msg('textile_link_attr_title') .':files/test.jpg'),
-        array ($I18N->msg('textile_link_attr_rel') .':files/test.jpg'),
-        array ($I18N->msg('textile_link_attr_title_rel') .':files/test.jpg'),
+        array ($I18N->msg('textile_link_attr_title') .':'.$REX['MEDIA_DIR'].'/test.jpg'),
+        array ($I18N->msg('textile_link_attr_rel') .':'.$REX['MEDIA_DIR'].'/test.jpg'),
+        array ($I18N->msg('textile_link_attr_title_rel') .':'.$REX['MEDIA_DIR'].'/test.jpg'),
       ),
     'anchor' =>
       array(
