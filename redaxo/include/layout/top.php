@@ -54,6 +54,7 @@ $body_attr["onunload"] = array('closeAll();');
   <script type="text/javascript">
   <!--
   var redaxo = true;
+  var rex_imageExtensions = <?php echo '["'.implode('","',$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']).'"]' ?>;
 
   // jQuery is now removed from the $ namespace
   // to use the $ shorthand, use (function($){ ... })(jQuery);

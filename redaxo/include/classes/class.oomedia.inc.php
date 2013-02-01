@@ -591,20 +591,9 @@ class OOMedia
    */
   static function _isImage($filename)
   {
-    static $imageExtensions;
+    global $REX;
 
-    if (!isset ($imageExtensions))
-    {
-      $imageExtensions = array (
-        'gif',
-        'jpeg',
-        'jpg',
-        'png',
-        'bmp'
-      );
-    }
-
-    return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
+    return in_array(OOMedia :: _getExtension($filename), $REX['MEDIAPOOL']['IMAGE_EXTENSIONS']);
   }
 
   /**
