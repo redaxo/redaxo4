@@ -66,7 +66,8 @@ $REX['USE_MD5'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
 // versch. Pfade
 $REX['BACKEND_DIR'] = 'redaxo';
-$REX['MEDIA_DIR'] = 'files'; 
+$REX['MEDIA_DIR'] = 'files';
+$REX['MEDIA_ADDON_DIR'] = 'files/addons';
 
 $REX['INCLUDE_PATH']  = realpath($REX['HTDOCS_PATH'].$REX['BACKEND_DIR'].'/include');
 $REX['GENERATED_PATH']  = realpath($REX['HTDOCS_PATH'].$REX['BACKEND_DIR'].'/include/generated');
