@@ -214,7 +214,7 @@ function a62_extensions_handler($params)
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
     rex_register_extension('PAGE_HEADER',
-      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="../files/addons/'. $mypage .'/metainfo.js" type="text/javascript"></script>\';')
+      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="../'.$REX['MEDIA_ADDON_DIR'].'/'. $mypage .'/metainfo.js" type="text/javascript"></script>\';')
     );
   }
 

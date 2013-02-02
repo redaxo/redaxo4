@@ -203,7 +203,7 @@ if ($subpage == "detail")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if($size = @getimagesize($REX['HTDOCS_PATH'].'/files/'.$fname))
+      if($size = @getimagesize($REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$fname))
       {
         $fwidth = $size[0];
         $fheight = $size[1];
@@ -225,8 +225,8 @@ if ($subpage == "detail")
           <span class="rex-form-read" id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
         </p>
       </div>';
-      $imgn = $REX['HTDOCS_PATH'] .'files/'. $fname .'" width="'. $rfwidth;
-      $img_max = $REX['HTDOCS_PATH'] .'files/'. $fname;
+      $imgn = $REX['HTDOCS_PATH'] .$REX['MEDIA_DIR'].'/'. $fname .'" width="'. $rfwidth;
+      $img_max = $REX['HTDOCS_PATH'] .$REX['MEDIA_DIR'].'/'. $fname;
 
       if (!file_exists($REX['MEDIAFOLDER'] .'/'. $fname))
       {
@@ -336,7 +336,7 @@ if ($subpage == "detail")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="flink">'. $I18N->msg('pool_filename') .'</label>
-                      <span class="rex-form-read"><a href="../files/'. $encoded_fname .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
+                      <span class="rex-form-read"><a href="../'.$REX['MEDIA_DIR'].'/'. $encoded_fname .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
                     </p>
                   </div>
 
@@ -408,7 +408,7 @@ if ($subpage == "detail")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                         <label for="flink">'. $I18N->msg('pool_filename') .'</label>
-                        <a class="rex-form-read" href="../files/'. $encoded_fname .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
+                        <a class="rex-form-read" href="../'.$REX['MEDIA_DIR'].'/'. $encoded_fname .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
                     </p>
                   </div>
                   <div class="rex-form-row">
@@ -708,7 +708,7 @@ if ($subpage == '')
 
       if (OOMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="'. $REX['HTDOCS_PATH'] .'files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="'. $REX['HTDOCS_PATH'] .$REX['MEDIA_DIR'].'/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
           $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';

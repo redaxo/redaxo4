@@ -38,7 +38,7 @@ class OOCategory extends OORedaxo
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    $categorylist = $REX['INCLUDE_PATH']."/generated/articles/".$cat_parent_id.".".$clang.".clist";
+    $categorylist = $REX['GENERATED_PATH']."/articles/".$cat_parent_id.".".$clang.".clist";
 
     $catlist = array ();
 

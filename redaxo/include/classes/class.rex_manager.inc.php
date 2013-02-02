@@ -420,7 +420,7 @@ class rex_addonManager extends rex_baseManager
   /*protected*/ function mediaFolder($addonName)
   {
     global $REX;
-    return $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR .$addonName;
+    return $REX['FRONTEND_PATH'] . DIRECTORY_SEPARATOR . $REX['MEDIA_ADDON_DIR'] . DIRECTORY_SEPARATOR . $addonName;
   }
 }
 
@@ -526,6 +526,6 @@ class rex_pluginManager extends rex_baseManager
   /*protected*/ function mediaFolder($pluginName)
   {
     global $REX;
-    return $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;
+    return $REX['FRONTEND_PATH'] . DIRECTORY_SEPARATOR . $REX['MEDIA_ADDON_DIR'] . DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;
   }
 }

@@ -51,8 +51,8 @@ if(!function_exists('image_manager_init')){
   {
     global $REX, $rex_img_file, $rex_img_type;
   
-    $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
-    $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+    $imagepath = $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$rex_img_file;
+    $cachepath = $REX['GENERATED_PATH'].'/files/';
   
     // REGISTER EXTENSION POINT
     $subject = array('rex_img_type' => $rex_img_type,

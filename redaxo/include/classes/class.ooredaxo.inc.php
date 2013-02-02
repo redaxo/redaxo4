@@ -108,7 +108,7 @@
 
       $vars = array();
 
-      $file = $REX['INCLUDE_PATH']. '/generated/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
+      $file = $REX['GENERATED_PATH']. '/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
       if($REX['GG'] && file_exists($file))
       {
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
