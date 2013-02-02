@@ -563,7 +563,7 @@ if ($subpage == '')
   }
 
   if(!empty($args['types']))
-    echo rex_info($I18N->msg('pool_file_filter', $args['types']));
+    echo rex_info($I18N->msg('pool_file_filter', '<code>'.$args['types'].'</code>'));
 
   //deletefilelist und cat change
   echo '<div class="rex-form" id="rex-form-mediapool-media">
