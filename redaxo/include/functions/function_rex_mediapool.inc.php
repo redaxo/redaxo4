@@ -497,7 +497,11 @@ function rex_mediapool_Syncform($rex_file_category)
 }
 
 /**
- * CHECK IF MEDIATYPE(EXTENSION) IS ALLOWED FOR UPLOAD
+ * check if mediatpye(extension) is allowed for upload
+ *
+ * @param   string  $filename
+ * @param   array   $args
+ * @return  bool
  */
 function rex_mediapool_isAllowedMediaType($filename, $args=array())
 {
@@ -520,7 +524,10 @@ function rex_mediapool_isAllowedMediaType($filename, $args=array())
 }
 
 /**
- * GET WHITELIST OF MEDIATYPES(EXTENSIONS) GIVEN VIA MEDIA WIDGET "types" PARAM
+ * get whitelist of mediatypes(extensions) given via media widget "types" param
+ *
+ * @param   array  $args  widget params
+ * @return  array         whitelisted extensions
  */
 function rex_mediapool_getMediaTypeWhitelist($args=array())
 {
@@ -539,7 +546,9 @@ function rex_mediapool_getMediaTypeWhitelist($args=array())
 }
 
 /**
- * RETURN GLOBAL MEDIATYPE BLACKLIST FROM MASTER.INC
+ * return global mediatype blacklist from master.inc
+ *
+ * @return  array  blacklisted mediatype extensions
  */
 function rex_mediapool_getMediaTypeBlacklist()
 {
