@@ -149,6 +149,8 @@ if ($func == '')
   $form->setApplyUrl('index.php?page=cronjob');
   $form->setEditMode($func == 'edit');
 
+  $form->addHiddenField('nexttime');
+
   $field =& $form->addSelectField('type');
   $field->setLabel($I18N->msg('cronjob_type'));
   $select =& $field->getSelect();
@@ -324,8 +326,6 @@ if ($func == '')
       }
     }
   }
-
-  $form->addHiddenField('nexttime', 0);
 
   $form->show();
 

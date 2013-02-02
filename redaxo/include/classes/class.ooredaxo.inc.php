@@ -76,7 +76,7 @@
     return null;
   }
 
-  /*public*/ function hasValue($value, $prefixes = array())
+  protected function hasValueWithPrefixes($value, $prefixes = array())
   {
     static $values = null;
 
@@ -98,7 +98,7 @@
    * CLASS Function:
    * Returns an Array containing article field names
    */
-  /*public static*/ function getClassVars()
+  static /*public*/ function getClassVars()
   {
     static $vars = array ();
 
@@ -108,7 +108,7 @@
 
       $vars = array();
 
-      $file = $REX['INCLUDE_PATH']. '/generated/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
+      $file = $REX['GENERATED_PATH']. '/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
       if($REX['GG'] && file_exists($file))
       {
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
@@ -142,7 +142,7 @@
   * CLASS Function:
   * Converts Genernated Array to OOBase Format Array
   */
-  /*public static*/ function convertGeneratedArray($generatedArray, $clang)
+  static /*public*/ function convertGeneratedArray($generatedArray, $clang)
   {
     $OORedaxoArray['id'] = $generatedArray['article_id'][$clang];
     $OORedaxoArray['clang'] = $clang;

@@ -230,7 +230,7 @@ class rex_var_link extends rex_var
   }
 
   // TODO: passenden namen finden
-  /*public static*/ function _getLinkButton($name, $linkId, $article_id, $category = '')
+  static /*public*/ function _getLinkButton($name, $linkId, $article_id, $category = '')
   {
     $field = rex_var_link::getLinkButton($linkId, $article_id, $category);
     return str_replace('LINK['. $linkId .']', $name, $field);
@@ -239,7 +239,7 @@ class rex_var_link extends rex_var
   /**
    * Gibt das Button Template zurück
    */
-  /*public static*/ function getLinkButton($id, $article_id, $category = '')
+  static /*public*/ function getLinkButton($id, $article_id, $category = '')
   {
     global $REX, $I18N;
 
@@ -293,7 +293,7 @@ class rex_var_link extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  /*public static*/ function getLinklistButton($id, $value, $category = '')
+  static /*public*/ function getLinklistButton($id, $value, $category = '')
   {
     global $REX, $I18N;
 

@@ -12,7 +12,8 @@ class rex_form_restrictons_element extends rex_form_select_element
 
     parent::rex_form_select_element('', $table, $attributes);
 
-    $this->chkbox_element = new rex_form_checkbox_element('', $dummy = null);
+    $dummy = null;
+    $this->chkbox_element = new rex_form_checkbox_element('', $dummy);
     $this->chkbox_element->setAttribute('name', 'enable_restrictions');
     $this->chkbox_element->setAttribute('id', 'enable_restrictions_chkbx');
     $this->chkbox_element->addOption($I18N->msg('minfo_field_label_no_restrictions'), '');

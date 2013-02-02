@@ -45,7 +45,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getCategoryById($id)
+  static function getCategoryById($id)
   {
     global $REX;
 
@@ -53,7 +53,7 @@ class OOMediaCategory
     if (!is_numeric($id))
       return null;
 
-    $cat_path = $REX['INCLUDE_PATH'].'/generated/files/'.$id.'.mcat';
+    $cat_path = $REX['GENERATED_PATH'].'/files/'.$id.'.mcat';
     if (!file_exists($cat_path))
     {
       require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
@@ -90,7 +90,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getRootCategories()
+  static function getRootCategories()
   {
     return OOMediaCategory :: getChildrenById(0);
   }
@@ -98,7 +98,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function getChildrenById($id)
+  static function getChildrenById($id)
   {
     global $REX;
 
@@ -109,7 +109,7 @@ class OOMediaCategory
 
     $catlist = array();
 
-    $catlist_path = $REX['INCLUDE_PATH'].'/generated/files/'.$id.'.mclist';
+    $catlist_path = $REX['GENERATED_PATH'].'/files/'.$id.'.mclist';
     if (!file_exists($catlist_path))
     {
       require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
@@ -306,7 +306,7 @@ class OOMediaCategory
       $this->_files = array();
       $id = $this->getId();
 
-      $list_path = $REX['INCLUDE_PATH'].'/generated/files/'.$id.'.mlist';
+      $list_path = $REX['GENERATED_PATH'].'/files/'.$id.'.mlist';
       if (!file_exists($list_path))
       {
         require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
@@ -371,7 +371,7 @@ class OOMediaCategory
   /**
    * @access public
    */
-  function isValid($mediaCat)
+  static function isValid($mediaCat)
   {
     return is_object($mediaCat) && is_a($mediaCat, 'oomediacategory');
   }
@@ -403,7 +403,7 @@ class OOMediaCategory
   /**
    * @access protected
    */
-  function _getTableName()
+  static function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'] . 'file_category';
@@ -488,7 +488,7 @@ class OOMediaCategory
    * @deprecated 20.02.2010
    * Stattdessen getCategoryById() nutzen
    */
-  function getCategoryByName($name)
+  static function getCategoryByName($name)
   {
     $query = 'SELECT id FROM ' . OOMediaCategory :: _getTableName() . ' WHERE name = "' . $name . '"';
     $sql = new rex_sql();

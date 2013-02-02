@@ -24,7 +24,7 @@ class i18n
   {
     $this->searchpath = $searchpath;
     $this->text = array ();
-    $this->locale = $locale;
+    $this->locale = substr($locale, -5) == '_utf8' ? substr($locale, 0, -5) : $locale;
     $this->locales = array ();
     $this->text_loaded = FALSE;
   }
@@ -47,7 +47,10 @@ class i18n
    */
   function appendFile($searchPath)
   {
-    $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
+    $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . "_utf8.lang";
+    if (!file_exists($filename)) {
+      $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
+    }
     return $this->appendFileName($filename);
   }
 

@@ -24,7 +24,7 @@ class rex_article_editor extends rex_article
 
     if($this->mode=="edit")
     {
-      $form_url = 'index.php';
+      $form_url = 'index.php#addslice';
 
       // ----- add select box einbauen
       if($this->function=="add" && $this->slice_id == $I_ID)
@@ -300,7 +300,7 @@ class rex_article_editor extends rex_article
     // ----- add module im edit mode
     if ($this->mode == "edit")
     {
-      $form_url = 'index.php';
+      $form_url = 'index.php#addslice';
 
       if($this->function=="add" && $this->slice_id == $LCTSL_ID)
       {
@@ -387,7 +387,7 @@ class rex_article_editor extends rex_article
       }
 
       $slice_content = '
-        <a name="addslice"></a>
+        <a id="addslice"></a>
         '. $msg .'
         <div class="rex-form rex-form-content-editmode-add-slice">
         <form action="index.php#slice'. $I_ID .'" method="post" id="REX_FORM" enctype="multipart/form-data">

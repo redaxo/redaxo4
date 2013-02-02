@@ -26,6 +26,10 @@ class rex_image_manager
     if(!$this->image_cacher->isCached($image, $type))
     {
       $set = $this->effectsFromType($type);
+
+      // REGISTER EXTENSION POINT
+      $set   = rex_register_extension_point('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type));
+
       $image->prepare();
 
       // execute effects on image
@@ -90,12 +94,12 @@ class rex_image_manager
    * in respect to $rex_img_type.
    * If the result is not cached, the cache will be created.
    */
-  /*public static*/ function getImageCache($rex_img_file, $rex_img_type)
+  static /*public*/ function getImageCache($rex_img_file, $rex_img_type)
   {
     global $REX;
 
-    $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
-    $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+    $imagepath = $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$rex_img_file;
+    $cachepath = $REX['GENERATED_PATH'].'/files/';
 
     $image         = new rex_image($imagepath);
     $image_cacher  = new rex_image_cacher($cachepath);

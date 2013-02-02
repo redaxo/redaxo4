@@ -23,7 +23,7 @@ $body_attr = array();
 $body_id = str_replace('_', '-', $REX["PAGE"]);
 
 if (in_array($body_id, $popups_arr))
-  $body_attr["class"] = array('rex-popup'.$body_id);
+  $body_attr["class"] = array('rex-popup rex-popup'.$body_id);
 
 $body_attr["id"] = array('rex-page-'.$body_id);
 $body_attr["onunload"] = array('closeAll();');
@@ -34,6 +34,7 @@ $body_attr["onunload"] = array('closeAll();');
   <title><?php echo htmlspecialchars($page_title) ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg('htmlcharset'); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
+  <link rel="shortcut icon" href="media/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="media/css_import.css" media="screen, projection, print" />
   <!--[if lte IE 7]>
     <link rel="stylesheet" href="media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
@@ -53,6 +54,7 @@ $body_attr["onunload"] = array('closeAll();');
   <script type="text/javascript">
   <!--
   var redaxo = true;
+  var rex_imageExtensions = <?php echo '["'.implode('","',$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']).'"]' ?>;
 
   // jQuery is now removed from the $ namespace
   // to use the $ shorthand, use (function($){ ... })(jQuery);

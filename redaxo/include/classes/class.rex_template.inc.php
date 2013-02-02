@@ -48,18 +48,18 @@ class rex_template
     return $file;
   }
 
-  /*public*/ function getFilePath($template_id)
+  static /*public*/ function getFilePath($template_id)
   {
     if($template_id<1) return FALSE;
 
     return rex_template::getTemplatesDir() .'/' . $template_id . '.template';
   }
 
-  /*public*/ function getTemplatesDir()
+  static /*public*/ function getTemplatesDir()
   {
     global $REX;
 
-    return $REX['INCLUDE_PATH'] . '/generated/templates';
+    return $REX['GENERATED_PATH'] . '/templates';
   }
 
   /*public*/ function getTemplate()
@@ -90,7 +90,7 @@ class rex_template
     return @unlink($file);
   }
 
-  /*public static*/ function hasModule($template_attributes,$ctype,$module_id)
+  static /*public*/ function hasModule($template_attributes,$ctype,$module_id)
   {
     $template_modules = rex_getAttributes('modules', $template_attributes, array ());
     if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)

@@ -13,7 +13,7 @@ class rex_cronjob_manager
 {
   /*private*/ var $message = '';
 
-  /*public*/ function factory()
+  static /*public*/ function factory()
   {
     return new rex_cronjob_manager;
   }
@@ -121,7 +121,7 @@ class rex_cronjob_manager
     return false;
   }
 
-  /*public static*/ function getTypes()
+  static /*public*/ function getTypes()
   {
     $types = array();
     $types[] = 'rex_cronjob_phpcode';
@@ -134,7 +134,7 @@ class rex_cronjob_manager
     return $types;
   }
 
-  /*public static*/ function registerExtension($params)
+  static /*public*/ function registerExtension($params)
   {
     $params['subject'][] = $params['class'];
     return $params['subject'];
@@ -157,7 +157,7 @@ class rex_cronjob_manager_sql
       $this->manager = rex_cronjob_manager::factory();
   }
 
-  /*public*/ function factory(/*rex_cronjob_manager*/ $manager = null)
+  static /*public*/ function factory(/*rex_cronjob_manager*/ $manager = null)
   {
     return new rex_cronjob_manager_sql($manager);
   }
@@ -242,7 +242,7 @@ class rex_cronjob_manager_sql
       $params   = unserialize($this->sql->getValue('parameters'));
       $interval = $this->sql->getValue('interval');
 
-      $nexttime = $this->_calculateNextTime($interval);
+      $nexttime = rex_cronjob_manager_sql::calculateNextTime($interval);
       $this->setNextTime($id, $nexttime);
 
       $this->manager->saveNextTime($this->getMinNextTime());
@@ -274,7 +274,7 @@ class rex_cronjob_manager_sql
     return null;
   }
 
-  /*private*/ function _calculateNextTime($interval)
+  static /*public*/ function calculateNextTime($interval)
   {
     $interval = explode('|', trim($interval, '|'));
     if (is_array($interval) && isset($interval[0]) && isset($interval[1]))

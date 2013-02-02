@@ -170,7 +170,7 @@ class rex_var
   /**
    * Parameter aus args auf den Wert einer Variablen anwenden
    */
-  /*protected*/ function handleGlobalVarParams($varname, $args, $value)
+  static /*protected*/ function handleGlobalVarParams($varname, $args, $value)
   {
     if(isset($args['callback']))
     {
@@ -285,7 +285,7 @@ class rex_var
    *
    * @return boolean True wenn es sich um ein ADD-Event handelt, sonst FALSE
    */
-  /*public static*/ function isAddEvent()
+  static /*public*/ function isAddEvent()
   {
     return rex_request('function', 'string') == 'add';
   }
@@ -295,7 +295,7 @@ class rex_var
    *
    * @return boolean True wenn es sich um ein EDIT-Event handelt, sonst FALSE
    */
-  /*public static*/ function isEditEvent()
+  static /*public*/ function isEditEvent()
   {
     return rex_request('function', 'string') == 'edit';
   }
@@ -305,8 +305,17 @@ class rex_var
    *
    * @return boolean True wenn es sich um ein DELETE-Event handelt, sonst FALSE
    */
-  /*public static*/ function isDeleteEvent()
+  static /*public*/ function isDeleteEvent()
   {
     return rex_request('function', 'string') == 'delete';
   }
+
+
+  static /*public*/ function toArray($value)
+  {
+    $value = unserialize(htmlspecialchars_decode($value));
+    return is_array($value) ? $value : null;
+  }
+
+
 }

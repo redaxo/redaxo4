@@ -75,7 +75,7 @@ class OOArticleSlice
    * Return an ArticleSlice by its id
    * Returns an OOArticleSlice object
    */
-  /*public static*/ function getArticleSliceById($an_id, $clang = false, $revision = 0)
+  static /*public*/ function getArticleSliceById($an_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -93,7 +93,7 @@ class OOArticleSlice
    * getNextSlice() function.
    * Returns an OOArticleSlice object
    */
-  /*public static*/ function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
+  static /*public*/ function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -118,7 +118,7 @@ class OOArticleSlice
    * CLASS Function:
    * Returns the first slice of the given ctype of an article
    */
-  /*public static*/ function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
+  static /*public*/ function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -146,7 +146,7 @@ class OOArticleSlice
    * clang or revision.
    * Returns an array of OOArticleSlice objects
    */
-  /*public static*/ function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
+  static /*public*/ function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -162,7 +162,7 @@ class OOArticleSlice
    * module type.
    * Returns an array of OOArticleSlice objects
    */
-  /*public static*/ function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
+  static /*public*/ function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -205,7 +205,7 @@ class OOArticleSlice
     return @$art->replaceLinks( $art->getArticle() );
   }
 
-  /*protected static*/ function _getSliceWhere($where, $table = null, $fields = null, $default = null)
+  static /*protected*/ function _getSliceWhere($where, $table = null, $fields = null, $default = null)
   {
     global $REX;
 

@@ -1,50 +1,50 @@
 # addon:import/export cs_cz
 im_export_importexport = Im-/Export
-im_export_file_deleted = Soubor byl smazán
-im_export_no_import_file_chosen_or_wrong_version = Nevybrána data k importu nebo ¹patná verze
-im_export_no_valid_import_file = Toto není správnı soubor pro import
-im_export_no_valid_charset = Nevyhovující sada znakù
-im_export_database_imported = Databanka úspì¹nì importována
-im_export_entry_count = ({0} Polo¾ek)
-im_export_file_could_not_be_uploaded = Soubory nemù¾ou bıt nahrány
-im_export_you_have_no_write_permission_in = Nemáte právo zapisovat do této slo¾ky {0}.
-im_export_no_import_file_chosen = Nevybrán soubor k importu.
-im_export_problem_when_extracting = Vznikly problémy pøi rozbalování souboru.
-im_export_create_dirs_manually = Vytvoøte prosím následující slo¾ku manuálnì a nastavte správnì práva pro pøepis (pøes ftp).
-im_export_file_imported = Soubor byl úspì¹nì importován.
+im_export_file_deleted = Soubor byl smazÃ¡n
+im_export_no_import_file_chosen_or_wrong_version = NevybrÃ¡na data k importu nebo Å¡patnÃ¡ verze
+im_export_no_valid_import_file = Toto nenÃ­ sprÃ¡vnÃ½ soubor pro import
+im_export_no_valid_charset = NevyhovujÃ­cÃ­ sada znakÅ¯
+im_export_database_imported = Databanka ÃºspÄ›Å¡nÄ› importovÃ¡na
+im_export_entry_count = ({0} PoloÅ¾ek)
+im_export_file_could_not_be_uploaded = Soubory nemÅ¯Å¾ou bÃ½t nahrÃ¡ny
+im_export_you_have_no_write_permission_in = NemÃ¡te prÃ¡vo zapisovat do tÃ©to sloÅ¾ky {0}.
+im_export_no_import_file_chosen = NevybrÃ¡n soubor k importu.
+im_export_problem_when_extracting = Vznikly problÃ©my pÅ™i rozbalovÃ¡nÃ­ souboru.
+im_export_create_dirs_manually = VytvoÅ™te prosÃ­m nÃ¡sledujÃ­cÃ­ sloÅ¾ku manuÃ¡lnÄ› a nastavte sprÃ¡vnÄ› prÃ¡va pro pÅ™epis (pÅ™es ftp).
+im_export_file_imported = Soubor byl ÃºspÄ›Å¡nÄ› importovÃ¡n.
 im_export_import = Import
 im_export_export = Export
 im_export_db_import = Import
 im_export_db_export = Export
-im_export_filename_updated = Va¹e jméno souboru bylo zmìnìno, nebo» obsahovalo nepovolené znaky.
-im_export_please_choose_folder = Prosím zvolte seznam z kterého má bıt exportováno!
-im_export_intro_import = Prosíme pamatujte pri importování databáze<b>¾e pùvodní databáze</b> bude smazána. Prosíme ulo¾te/exportujte pøedem pokud si nejste jisti.
-im_export_database = Import databáze
-im_export_filename = Jméno souboru
+im_export_filename_updated = VaÅ¡e jmÃ©no souboru bylo zmÄ›nÄ›no, neboÅ¥ obsahovalo nepovolenÃ© znaky.
+im_export_please_choose_folder = ProsÃ­m zvolte seznam z kterÃ©ho mÃ¡ bÃ½t exportovÃ¡no!
+im_export_intro_import = ProsÃ­me pamatujte pri importovÃ¡nÃ­ databÃ¡ze<b>Å¾e pÅ¯vodnÃ­ databÃ¡ze</b> bude smazÃ¡na. ProsÃ­me uloÅ¾te/exportujte pÅ™edem pokud si nejste jisti.
+im_export_database = Import databÃ¡ze
+im_export_filename = JmÃ©no souboru
 im_export_filesize = Velikost souboru
 im_export_delete = Smazat
-im_export_files = Export souborù
-im_export_intro_export = Zde si mù¾ete ulo¾it Va¹e souèasné údaje a soubory. Aby jste získali plnohodnotnı backup musíte <b>exportovat databáze A data</b>. Pokud chcete Va¹i zálohu znovu pou¾ít pak je vhodné ulo¾it backup pøímo na server a v pøípadì potøeby znovu importovat. 
-im_export_database_export = Export databáze
+im_export_files = Export souborÅ¯
+im_export_intro_export = Zde si mÅ¯Å¾ete uloÅ¾it VaÅ¡e souÄasnÃ© Ãºdaje a soubory. Aby jste zÃ­skali plnohodnotnÃ½ backup musÃ­te <b>exportovat databÃ¡ze A data</b>. Pokud chcete VaÅ¡i zÃ¡lohu znovu pouÅ¾Ã­t pak je vhodnÃ© uloÅ¾it backup pÅ™Ã­mo na server a v pÅ™Ã­padÄ› potÅ™eby znovu importovat. 
+im_export_database_export = Export databÃ¡ze
 im_export_file_export = Export souboru
-im_export_save_on_server = Ulo¾it na server
-im_export_download_as_file = Nahrát jako soubor
-im_export_createdate = Vytvoøeno dne
+im_export_save_on_server = UloÅ¾it na server
+im_export_download_as_file = NahrÃ¡t jako soubor
+im_export_createdate = VytvoÅ™eno dne
 
 im_export_import_file = Importovat soubor
 im_export_delete_file = Soubor smazat
-im_export_download_file = Stáhnout soubor
+im_export_download_file = StÃ¡hnout soubor
 
-im_export_file_could_not_be_generated  = Soubor nemù¾e bıt vytvoøen
-im_export_file_generated_in  = Soubor byl ulo¾en v
+im_export_file_could_not_be_generated  = Soubor nemÅ¯Å¾e bÃ½t vytvoÅ™en
+im_export_file_generated_in  = Soubor byl uloÅ¾en v
 
-im_export_proceed_db_import = Následující soubory (Kategorie, ¹ablony, Moduly,...) budou smazány. Pokraèovat?
-im_export_proceed_file_import = Následující soubory budou smazány. Pokraèovat?
+im_export_proceed_db_import = NÃ¡sledujÃ­cÃ­ soubory (Kategorie, Å¡ablony, Moduly,...) budou smazÃ¡ny. PokraÄovat?
+im_export_proceed_file_import = NÃ¡sledujÃ­cÃ­ soubory budou smazÃ¡ny. PokraÄovat?
 
-im_export_export_db_caption = Export databáze
-im_export_export_file_caption = Export souborù
+im_export_export_db_caption = Export databÃ¡ze
+im_export_export_file_caption = Export souborÅ¯
 
-im_export_export_db_summary = Tabulka dostupnıch exportù databází
-im_export_export_file_summary = Tabulka dostupnıch exportù souborù
+im_export_export_db_summary = Tabulka dostupnÃ½ch exportÅ¯ databÃ¡zÃ­
+im_export_export_file_summary = Tabulka dostupnÃ½ch exportÅ¯ souborÅ¯
 
 im_export_function = Funkce

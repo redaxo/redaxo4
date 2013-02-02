@@ -239,7 +239,7 @@ class rex_image {
   /*
    * Static Method: Returns True, if the given image is a valid rex_image
    */
-  /*public static*/ function isValid($image)
+  static /*public*/ function isValid($image)
   {
     return is_object($image) && is_a($image, 'rex_image');
   }
