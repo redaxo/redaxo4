@@ -217,19 +217,19 @@ class rex_navigation
   /*private*/ function _checkFilter($category, $depth) {
 
     foreach($this->filter as $f) {
-    
+
       if($f["depth"] == "" || $f["depth"] == $depth) {
 
         $mf = $category->getValue($f["metafield"]);
         $va = $f["value"];
-  
+
         switch($f["type"]) {
-  
+
           case("<>"):
           case("!="):
             if($mf == $va) {
               return false;
-            }          
+            }
             break;
 
           case(">"):
@@ -237,30 +237,30 @@ class rex_navigation
               return false;
             }
             break;
-          
+
           case("<"):
             if($mf >= $va) {
               return false;
             }
             break;
-          
+
           case("=>"):
           case(">="):
             if($mf < $va) {
               return false;
             }
             break;
-          
+
           case("=<"):
           case("<="):
             if($mf > $va) {
               return false;
             }
             break;
-  
+
           case("="):
           case("=="):
-          default: 
+          default:
             // =
             if($mf != $va) {
               return false;
@@ -270,26 +270,32 @@ class rex_navigation
     }
     return true;
   }
-    
+
   /*private*/ function _checkCallbacks($category, $depth, &$li, &$a) {
 
     foreach($this->callbacks as $c) {
 
       if($c["depth"] == "" || $c["depth"] == $depth) {
 
-        if (!is_array($c["callback"])) {
-          $c["callback"] = explode("::",$c["callback"]);
+        $callback = $c['callback'];
+        if (is_string($callback)) {
+          $callback = explode('::', $callback, 2);
+          if (count($callback) < 2) {
+            $callback = $callback[0];
+          }
         }
-        
-        if(count($c["callback"]) == 1) {
-          $f = $c["callback"][0];
-
+        if (is_array($callback) && count($callback) > 1) {
+          list($class, $method) = $callback;
+          if (is_object($class)) {
+            $result = $class->$method($category, $depth, $li, $a);
+          } else {
+            $result = $class::$method($category, $depth, $li, $a);
+          }
         } else {
-          $f = $c["callback"][0].'::'.$c["callback"][1];
-          
+          $result = $callback($category, $depth, $li, $a);
         }
 
-        if ( !$f($category, $depth, $li, $a ) ) {
+        if (!$result) {
           return false;
         }
 
@@ -321,30 +327,30 @@ class rex_navigation
       $a["href"] = array($nav->getUrl());
 
       if($this->_checkFilter($nav, $depth) && $this->_checkCallbacks($nav, $depth, $li, $a)) {
-  
+
         $li["class"][] = 'rex-article-'. $nav->getId();
-  
+
         // classes abhaengig vom pfad
         if($nav->getId() == $this->current_category_id) {
           $li["class"][] = 'rex-current';
           $a["class"][] = 'rex-current';
-          
+
         } elseif (in_array($nav->getId(),$this->path)) {
           $li["class"][] = 'rex-active';
           $a["class"][] = 'rex-active';
-  
+
         } else {
           $li["class"][] = 'rex-normal';
         }
-  
+
         if(isset($this->linkclasses[($depth-1)])) {
           $a["class"][] = $this->linkclasses[($depth-1)];
         }
-  
+
         if(isset($this->classes[($depth-1)])) {
           $li["class"][] = $this->classes[($depth-1)];
         }
-  
+
         $li_attr = array();
         foreach($li as $attr => $v) {
           $li_attr[] = $attr.'="'.implode(" ",$v).'"';
@@ -354,10 +360,10 @@ class rex_navigation
         foreach($a as $attr => $v) {
           $a_attr[] = $attr.'="'.implode(" ",$v).'"';
         }
-  
+
         $l = '<li '. implode(" ", $li_attr) .'>';
         $l .= '<a '. implode(" ", $a_attr) .'>'.htmlspecialchars($nav->getName()).'</a>';
-  
+
         $depth++;
         if(($this->open ||
             $nav->getId() == $this->current_category_id ||
@@ -366,11 +372,11 @@ class rex_navigation
           $l .= $this->_getNavigation($nav->getId(), $depth);
         }
         $depth--;
-  
+
         $l .= '</li>';
-        
+
         $lis[] = $l;
-      
+
       }
 
     }
